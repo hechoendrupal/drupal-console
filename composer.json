@@ -1,5 +1,5 @@
 {
-  "name":"Drupal App Console",
+  "name":"DrupalAppConsole",
   "description":"The Symfony app console for Drupal",
   "version":"@dev",
   "keywords":[], 
