@@ -1,0 +1,14 @@
+{
+  "license": "MIT",
+  "require": {
+    "php": ">=5.3.3",
+    "symfony/console": "2.3.*"
+  },
+  "autoload": {
+    "psr-0": { "": "lib" }
+  },
+  "target-dir": "Drupal/AppConsole",
+  
+  
+
+}
