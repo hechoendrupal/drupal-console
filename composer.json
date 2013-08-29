@@ -6,9 +6,5 @@
   },
   "autoload": {
     "psr-0": { "": "lib" }
-  },
-  "target-dir": "Drupal/AppConsole",
-  
-  
-
+  }
 }
