@@ -1,4 +1,8 @@
 {
+  "name":"Drupal App Console",
+  "description":"The Symfony app console for Drupal",
+  "version":"@dev",
+  "keywords":[], 
   "license": "MIT",
   "require": {
     "php": ">=5.3.3",
