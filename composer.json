@@ -1,5 +1,5 @@
 {
-  "name":"dmouse/DrupalAppConsole",
+  "name":"dmouse/drupal-app-console",
   "description":"The Symfony app console for Drupal",
   "version":"@dev",
   "keywords":[], 
