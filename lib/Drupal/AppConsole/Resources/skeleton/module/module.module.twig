@@ -1,0 +1,14 @@
+<?php
+
+function {{ module }}_menu() {
+  $items = array();
+  
+  $items['/admin/config/{{ module }}'] = array(
+    'title':'{{ module }} Settings Form',
+    'description': '{{module }} settings form',
+    'route_name':'{{module}}_settings_form'
+  );
+
+  return $items;
+}
+

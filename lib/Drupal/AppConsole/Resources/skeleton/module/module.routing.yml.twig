@@ -1,0 +1,6 @@
+{{ module }}_settings_form:
+  pattern: '/admin/config/{{ module }}'
+  defaults:
+    _form: '\Drupal\{{ module }}\Form\{{ Module }}SettingsForm'
+  requirements:
+    _permission: 'administer settings'
