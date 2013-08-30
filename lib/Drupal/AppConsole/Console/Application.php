@@ -9,11 +9,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Drupal\AppConsole\Command;
+use Drupal\AppConsole\Command\TestCommand;
+
 
 class Application extends BaseApplication{
 
   protected $kernel;
-  private $commandsRegistered = false;
 
   public function __construct(DrupalKernel $kernel){
     $this->kernel = $kernel;
@@ -22,7 +24,6 @@ class Application extends BaseApplication{
     parent::__construct('Drupal', 'Drupal Core - 8.x/ '. $env );
 
     $this->getDefinition()->addOption(new InputOption('--shell', '-s', InputOption::VALUE_NONE, 'Launch the shell.'));
-    $this->getDefinition()->addOption(new InputOption('--process-isolation', null, InputOption::VALUE_NONE, 'Launch commands from shell as a separate process.'));
     $this->getDefinition()->addOption(new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'The Environment name.', $env ) );
     $this->getDefinition()->addOption(new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.'));
 
@@ -31,13 +32,11 @@ class Application extends BaseApplication{
   public function getKernel(){
     return $this->kernel;
   }
-  public function doRun(InputInterface $input, OutputInterface $output){
-    $this->kernel->boot();
 
-    if (!$this->commandsRegistered) {
-      $this->registerCommands();
-      $this->commandsRegistered = true;
-    }
+  public function doRun(InputInterface $input, OutputInterface $output){
+
+    $this->kernel->boot();
+    $this->kernel->serialize();
 
     $container = $this->kernel->getContainer();
 
@@ -60,8 +59,11 @@ class Application extends BaseApplication{
     return parent::doRun($input, $output);
   }
 
-  protected function registerCommands(){
-
+  public function getDefaultCommands() {
+    $commands = parent::getDefaultCommands();
+    $commands[] = new \Drupal\AppConsole\Command\ModuleGenerate();
+    $commands[] = new \Drupal\AppConsole\Command\Sample();
+    return $commands;
   }
 
 }

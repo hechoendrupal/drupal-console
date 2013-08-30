@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Console;
+namespace Drupal\AppConsole\Console;
 
 use Symfony\Component\Console\Shell as BaseShell;
 
@@ -19,8 +19,8 @@ class Shell extends BaseShell
     protected function getHeader()
     {
         return <<<EOF
-<info>
-;
+<fg=blue>
+                       ;
                        ft
                       LWii
                       i#i;G
@@ -70,7 +70,7 @@ class Shell extends BaseShell
               j,;;;;;;;;;iLKWKDf;;;;
                  t,;;;;;;;;;;;;;;f
                    D;,,;;;;,,;j
-</info>
+</fg=blue>
 EOF
         .parent::getHeader();
     }
