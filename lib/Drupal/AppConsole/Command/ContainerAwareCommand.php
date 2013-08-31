@@ -26,6 +26,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
      * @var ContainerInterface|null
      */
     private $container;
+    private $service;
 
     /**
      * @return ContainerInterface
@@ -39,11 +40,27 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         return $this->container;
     }
 
+    protected function getServiceProviders(){
+        if (null === $this->services) {
+            $this->service = $this->getApplication()->getKernel()->getServiceProviders();
+        }
+
+        return $this->service;
+    }
+
     /**
      * {@inheritdoc}
      */
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setService( $service = null)
+    {
+        $this->service = $service;
     }
 }

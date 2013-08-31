@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Sample extends ContainerAwareCommand {
 
     protected function configure() {
-        $this->setName("wawa")
+        $this->setName("services:debug")
              ->setDescription("The wawa command")
              ->setDefinition(array(
                 new InputOption('flag', 'f', InputOption::VALUE_NONE, 'Raise a flag'),
@@ -27,7 +27,7 @@ EOT
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
-        //...
+        print_r($this->getContainer());
     }
 
 }
