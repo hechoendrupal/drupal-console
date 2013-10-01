@@ -12,12 +12,15 @@ use Symfony\Component\Filesystem\Filesystem;
 use Drupal\AppConsole\Command;
 use Drupal\AppConsole\Command\TestCommand;
 
-
-class Application extends BaseApplication{
+class Application extends BaseApplication {
 
   protected $kernel;
 
-  public function __construct(DrupalKernel $kernel){
+  /**
+   * Create a new application extended from \Symfony\Component\Console\Application
+   * @param DrupalKernel $kernel
+   */
+  public function __construct(DrupalKernel $kernel) {
     $this->kernel = $kernel;
     $env = 'prod';
 
@@ -29,15 +32,22 @@ class Application extends BaseApplication{
 
   }
 
+  /**
+   * Return a Drupal Kernel
+   * @return DrupalKernel return a Drupal Kernel
+   */
   public function getKernel(){
     return $this->kernel;
   }
 
-  public function doRun(InputInterface $input, OutputInterface $output){
-
+  /**
+   * Run
+   * @param  InputInterface  $input  [description]
+   * @param  OutputInterface $output [description]
+   * @return [type]                  [description]
+   */
+  public function doRun(InputInterface $input, OutputInterface $output) {
     $this->kernel->boot();
-    $this->kernel->serialize();
-
     $container = $this->kernel->getContainer();
 
     foreach ($this->all() as $command) {
@@ -59,10 +69,13 @@ class Application extends BaseApplication{
     return parent::doRun($input, $output);
   }
 
+  /**
+   * Register all commands
+   * @return [type] [description]
+   */
   public function getDefaultCommands() {
     $commands = parent::getDefaultCommands();
-    $commands[] = new \Drupal\AppConsole\Command\ModuleGenerate();
-    $commands[] = new \Drupal\AppConsole\Command\Sample();
+    $commands[] = new \Drupal\AppConsole\Command\GeneratorModuleCommand();
     $commands[] = new \Drupal\AppConsole\Command\ServicesCommand();
     return $commands;
   }

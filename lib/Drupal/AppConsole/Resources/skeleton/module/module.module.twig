@@ -1,14 +1,20 @@
 <?php
 
-function {{ module }}_menu() {
-  $items = array();
-  
-  $items['/admin/config/{{ module }}'] = array(
-    'title':'{{ module }} Settings Form',
-    'description': '{{module }} settings form',
-    'route_name':'{{module}}_settings_form'
-  );
+/**
+ * @file
+ * Contains hooks {{module}}
+ */
 
-  return $items;
+/**
+ * Implements hook_help().
+ */
+
+function {{module}}_help($path, $arg) {
+
+  switch ($path) {
+    case 'admin/help#{{module}}':
+      $output = '{{ description }}';
+      return $output;
+    break;
+  }
 }
-

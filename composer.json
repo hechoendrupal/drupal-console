@@ -8,6 +8,7 @@
     "php": ">=5.3.3",
     "symfony/console": "2.3.*"
   },
+  "bin":["bin/console"],
   "autoload": {
     "psr-0": { "": "lib" }
   }

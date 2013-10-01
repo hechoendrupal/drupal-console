@@ -1,0 +1,19 @@
+<?php
+
+namespace Drupal\{{module}}\Controller;
+
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+
+class DefaultController implements ContainerInjectionInterface {
+
+  /**
+   * helloAction
+   * @param  string $name Get
+   * @return [type]       [description]
+   */
+  public function helloAction($name) {
+    return "Hello" . $name . "!";
+  }
+
+}

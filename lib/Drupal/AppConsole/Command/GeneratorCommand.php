@@ -9,13 +9,11 @@
  * file that was distributed with this source code.
  */
 
-//namespace Sensio\Bundle\GeneratorBundle\Command;
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-
 use Drupal\AppConsole\Command\ContainerAwareCommand;
-use Drupal\AppConsole\Command\DialogHelper;
+use Drupal\AppConsole\Command\Helper\DialogHelper;
 use Drupal\AppConsole\Command\Generator;
 
 /**
@@ -35,7 +33,7 @@ abstract class GeneratorCommand extends ContainerAwareCommand
 
     protected abstract function createGenerator();
 
-    protected function getGenerator(BundleInterface $bundle = null)
+    protected function getGenerator()
     {
         if (null === $this->generator) {
             $this->generator = $this->createGenerator();
@@ -45,21 +43,11 @@ abstract class GeneratorCommand extends ContainerAwareCommand
         return $this->generator;
     }
 
-    protected function getSkeletonDirs(BundleInterface $bundle = null)
+    protected function getSkeletonDirs()
     {
         $skeletonDirs = array();
-
-        if (isset($bundle) && is_dir($dir = $bundle->getPath().'/Resources/SensioGeneratorBundle/skeleton')) {
-            $skeletonDirs[] = $dir;
-        }
-
-        if (is_dir($dir = $this->getContainer()->get('kernel')->getRootdir().'/Resources/SensioGeneratorBundle/skeleton')) {
-            $skeletonDirs[] = $dir;
-        }
-
         $skeletonDirs[] = __DIR__.'/../Resources/skeleton';
         $skeletonDirs[] = __DIR__.'/../Resources';
-
         return $skeletonDirs;
     }
 

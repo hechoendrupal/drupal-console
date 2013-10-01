@@ -1,6 +1,7 @@
-{{ module }}_settings_form:
-  pattern: '/admin/config/{{ module }}'
+{{ module }}_hello:
+  pattern: '/{{module}}/hello/{name}'
   defaults:
-    _form: '\Drupal\{{ module }}\Form\{{ Module }}SettingsForm'
+    _controller: '\Drupal\{{ module }}\Controller\DefaultController::helloAction'
+    _title: '{{module}} say hello!'
   requirements:
-    _permission: 'administer settings'
+    _permission: 'access content'
