@@ -1,4 +1,5 @@
 <?php
+
 namespace Drupal\AppConsole\Command;
 
 use Drupal\AppConsole\Command\GeneratorCommand;
@@ -17,15 +18,13 @@ class GeneratorModuleCommand extends GeneratorCommand {
     /**
      * Set the command options
      */
-    protected function configure(){
+    protected function configure() {
         $this
             ->setDefinition(array(
                 new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
-                new InputOption('controller','',InputOption::VALUE_NONE, 'Generate controller'),
-                new InputOption('form','',InputOption::VALUE_NONE, 'Generate form'),
-                new InputOption('settings','',InputOption::VALUE_NONE, 'Generate settings file'),
-                new InputOption('plugin','',InputOption::VALUE_NONE, 'Generate plugin block'),
-                new InputOption('services','',InputOption::VALUE_NONE, 'Generate services file'),
+                new InputOption('description','',InputOption::VALUE_OPTIONAL, 'Description module'),
+                new InputOption('package','',InputOption::VALUE_OPTIONAL, 'Package'),
+                new InputOption('routing', '', InputOption::VALUE_NONE, 'Generate routing file'),
                 new InputOption('structure', '', InputOption::VALUE_NONE, 'Whether to generate the whole directory structure'),
             ))
             ->setDescription('Generate a module')
@@ -42,21 +41,24 @@ class GeneratorModuleCommand extends GeneratorCommand {
     protected function execute(InputInterface $input, OutputInterface $output) {
 
         $dialog = $this->getDialogHelper();
+        $dir = DRUPAL_ROOT . "/modules";
 
         if ($input->isInteractive()) {
-          if (!$dialog->askConfirmation($output, $dialog->getQuestion('Do you confirm generation', 'yes', '?'), true)) {
-            $output->writeln('<error>Command aborted</error>');
-            return 1;
-          }
+            if (!$dialog->askConfirmation($output, $dialog->getQuestion('Do you confirm generation', 'yes', '?'), true)) {
+                $output->writeln('<error>Command aborted</error>');
+                return 1;
+            }
         }
 
         $module = Validators::validateModuleName($input->getOption('module'));
+
+        $description = $input->getOption('description');
+        $package = $input->getOption('package');
+        $routing = $input->getOption('routing');
         $structure =  $input->getOption('structure');
 
-        $dir = DRUPAL_ROOT . "/modules";
-
         $generator = $this->getGenerator();
-        $generator->generate($module, $dir, $structure);
+        $generator->generate($module, $dir, $description, $package, $routing, $structure);
 
         $dialog->writeGeneratorSummary($output, $errors);
       }
@@ -82,34 +84,66 @@ class GeneratorModuleCommand extends GeneratorCommand {
           $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
         }
 
-        if ($module == null ){
+        /**
+         * Module name
+         * @var
+         */
+        if ($module == null ) {
+            $module = $dialog->askAndValidate(
+                $output,
+                $dialog->getQuestion('Module name',
+                $input->getOption('module')),
+                array(
+                    'Drupal\AppConsole\Command\Validators',
+                    'validateModuleName'
+                ),
+                false,
+                $input->getOption('module')
+            );
 
-          $module = $dialog->askAndValidate(
-            $output,
-            $dialog->getQuestion('Module name',
-            $input->getOption('module')),
-            array(
-              'Drupal\AppConsole\Command\Validators',
-              'validateModuleName'
-            ),
-            false,
-            $input->getOption('module')
-          );
-
-          $input->setOption('module', $module);
+            $input->setOption('module', $module);
         }
 
-        $controller = $input->getOption('controller');
-        if (!$structure && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate controller', 'yes', '?'), true)) {
-          $controller = true;
+        /**
+         * Module description
+         * @var
+         */
+        $description = $input->getOption('description');
+        if (!$description) {
+            $description = $dialog->ask($output, $dialog->getQuestion('Description', 'My Awesome Module'));
         }
-        $input->setOption('controller', $controller);
+        $input->setOption('description', $description);
 
+        /**
+         * Module package
+         * @var
+         */
+        $package = $input->getOption('package');
+        if (!$package) {
+            $package = $dialog->ask($output, $dialog->getQuestion('Package','Other'));
+        }
+        $input->setOption('package', $package);
+
+        /**
+         * Generate routing
+         * @var [type]
+         */
+        $routing = $input->getOption('routing');
+        if (!$routing && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate a routing file', 'yes', '?'), true)) {
+            $routing = true;
+        }
+        $input->setOption('routing', $routing);
+
+        /**
+         * Generate Structure
+         * @var boolean
+         */
         $structure = $input->getOption('structure');
         if (!$structure && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate the whole directory structure', 'no', '?'), false)) {
-          $structure = true;
+            $structure = true;
         }
         $input->setOption('structure', $structure);
+
     }
 
     /**

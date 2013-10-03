@@ -1,3 +1,4 @@
+{% if controller is defined %}
 {{ module }}_hello:
   pattern: '/{{module}}/hello/{name}'
   defaults:
@@ -5,3 +6,4 @@
     _title: '{{module}} say hello!'
   requirements:
     _permission: 'access content'
+{% endif %}

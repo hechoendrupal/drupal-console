@@ -10,7 +10,7 @@ class ModuleGenerator extends Generator {
 
   public function __construct() {}
 
-  public function generate($module, $dir, $settings, $controller, $form, $plugin, $services, $structure) {
+  public function generate($module, $dir, $description, $package, $routing, $structure) {
 
         $dir .= '/' . $module;
         if (file_exists($dir)) {
@@ -30,42 +30,33 @@ class ModuleGenerator extends Generator {
         $parameters = array(
             'module' => $module,
             'type'    => 'module',
-            'description'    => 'wawawa cupi cupi',
-            'package' => 'Sample',
-            'settings' => $settings,
-            'controller' => $controller,
-            'form' => $form,
-            'plugin' => $plugin,
-            'services' => $services
+            'description'    => $description,
+            'package' => $package,
         );
 
         $this->renderFile('module/module.info.yml.twig', $dir.'/'.$module.'.info.yml', $parameters);
         $this->renderFile('module/module.module.twig', $dir.'/'.$module.'.module', $parameters);
-        $this->renderFile('module/module.routing.yml.twig', $dir.'/'.$module.'.routing.yml', $parameters);
 
+        if ($routing){
+            $this->renderFile('module/module.routing.yml.twig', $dir.'/'.$module.'.routing.yml', $parameters);    
+        }
+        
         if ($settings) {
             $this->renderFile('module/module.settings.yml.twig', $dir.'/config/'.$module.'.settings.yml',$parameters);
         }
 
-        if ($controller) {
-            $this->renderFile('module/module.DefaultController.php.twig', $dir.'/lib/Drupal/'.$module.'/Controller/DefaultController.php',$parameters);
-        }
-
-        if ($form) {
-            $this->renderFile('module/module.Form.php.twig', $dir.'/lib/Drupal/'.$module.'/Form/FormSettings.php',$parameters);
-        }
-
-        if ($plugin) {
-            $this->renderFile('module/module.Block.php.twig', $dir.'/lib/Drupal/'.$module.'/Plugin/Block/DefaultController.php',$parameters);
-        }
-
-        if ($services) {
-            $this->renderFile('module/services.php.twig', $dir.'/lib/Drupal/'.$module.'/Servoces/'.ucfirst($module).'.php',$parameters);
-            $this->renderFile('module/module.services.yml.twig', $dir.'/'.$module.'.services.yml', $parameters);
-        }
-
         if ($structure) {
-            drupal_mkdir($dir.'/templates/');
+            drupal_mkdir($dir.'/templates');
+            drupal_mkdir($dir.'/config');
+            drupal_mkdir($dir.'/tests');
+            drupal_mkdir($dir.'/lib');
+            drupal_mkdir($dir.'/lib/Drupal');
+            drupal_mkdir($dir.'/lib/Drupal/'.$module);
+            drupal_mkdir($dir.'/lib/Drupal/'.$module.'/Controller');
+            drupal_mkdir($dir.'/lib/Drupal/'.$module.'/Form');
+            drupal_mkdir($dir.'/lib/Drupal/'.$module.'/Plugin');
+            drupal_mkdir($dir.'/lib/Drupal/'.$module.'/Plugin/Block');
+            drupal_mkdir($dir.'/lib/Drupal/'.$module.'/Tests');
         }
     }
 }

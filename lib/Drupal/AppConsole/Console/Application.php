@@ -76,6 +76,7 @@ class Application extends BaseApplication {
   public function getDefaultCommands() {
     $commands = parent::getDefaultCommands();
     $commands[] = new \Drupal\AppConsole\Command\GeneratorModuleCommand();
+    $commands[] = new \Drupal\AppConsole\Command\GeneratorControllerCommand();
     $commands[] = new \Drupal\AppConsole\Command\ServicesCommand();
     return $commands;
   }
