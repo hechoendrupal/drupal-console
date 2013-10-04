@@ -10,8 +10,7 @@ The DrupalAppConsole not is a competition of Drush it’s your new best friend.
 ```bash
 $ cd path/to/drupal/8
 $ curl -sS https://getcomposer.org/installer | php
-$ composer.phar require dmouse/drupal-app-console
-Please provide a version constraint for the dmouse/drupal-app-console requirement: dev-master
+$ php composer.phar require dmouse/drupal-app-console:dev-master
 $ cp core/vendor/dmouse/drupal-app-console/bin/console . # This step is provisional
 ```
 
