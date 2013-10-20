@@ -55,7 +55,7 @@ $ ./bin/console generate:controller
 
   Welcome to the Drupal controller generator  
                                               
-Enter your module: : slang
+Enter your module: : module_name
 Enter the controller name [DefaultControler]: FrontController
 Enter your service: : twig
 Enter your service: : database
