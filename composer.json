@@ -1,14 +1,30 @@
 {
-  "name":"dmouse/drupal-app-console",
+  "name":"hechoendrupal/drupal-app-console",
   "description":"The Symfony app console for Drupal",
   "version":"@dev",
-  "keywords":[], 
+  "keywords":["Drupal","Console","Development"],
+  "type":"console",
   "license": "MIT",
+  "authors": [
+    {
+      "name":      "David Flores",
+      "email":     "dmousex@gmail.com",
+      "homepage":  "http://dmouse.net"
+    },
+    {
+      "name":      "Jesus Manuel Olivas",
+      "email":     "jesus.olivas@gmail.com",
+      "homepage":  "http://jmolivas.com"
+    }
+  ],
   "require": {
     "php": ">=5.3.3",
     "symfony/console": "2.3.*"
   },
   "bin":["bin/console"],
+  "config": {
+    "bin-dir": "bin/"
+  },
   "autoload": {
     "psr-0": { "": "lib" }
   }

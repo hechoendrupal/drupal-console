@@ -1,24 +1,22 @@
 #!/usr/bin/env php
 <?php
 
-set_time_limit(0);
-
-require_once __DIR__.'/core/includes/bootstrap.inc';
-
 use Drupal\AppConsole\Console\Application;
+use Drupal\Core\DrupalKernel;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Debug\Debug;
 
+set_time_limit(0);
+require_once __DIR__.'/../core/includes/bootstrap.inc';
 drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
 
 $input = new ArgvInput();
 $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
 $debug = getenv('DRUPAL_DEBUG') !== '0' && !$input->hasParameterOption(array('--no-debug', '')) && $env !== 'prod';
-
 if ($debug) {
   Debug::enable();
 }
 
-$kernel = new Drupal\Core\DrupalKernel($env, drupal_classloader(), !$debug);
+$kernel = new DrupalKernel($env, drupal_classloader(), !$debug);
 $application = new Application($kernel);
 $application->run($input);
