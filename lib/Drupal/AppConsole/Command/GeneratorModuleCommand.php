@@ -110,9 +110,11 @@ class GeneratorModuleCommand extends GeneratorCommand {
          */
         $description = $input->getOption('description');
         if (!$description) {
-            $description = $dialog->ask($output, $dialog->getQuestion('Description', 'My Awesome Module'));
+            $description = $dialog->ask($output, $dialog->getQuestion('Description', 'My Awesome Module'), 'My Awesome Module');
         }
         $input->setOption('description', $description);
+
+        echo "Description : ", $description;
 
         /**
          * Module package
@@ -120,7 +122,7 @@ class GeneratorModuleCommand extends GeneratorCommand {
          */
         $package = $input->getOption('package');
         if (!$package) {
-            $package = $dialog->ask($output, $dialog->getQuestion('Package','Other'));
+            $package = $dialog->ask($output, $dialog->getQuestion('Package', 'Other'), 'Other');
         }
         $input->setOption('package', $package);
 
