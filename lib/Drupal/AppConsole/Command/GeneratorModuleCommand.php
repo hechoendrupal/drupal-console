@@ -114,8 +114,6 @@ class GeneratorModuleCommand extends GeneratorCommand {
         }
         $input->setOption('description', $description);
 
-        echo "Description : ", $description;
-
         /**
          * Module package
          * @var
