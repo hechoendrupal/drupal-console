@@ -10,15 +10,15 @@ The DrupalAppConsole not is a competition of Drush it’s your new best friend.
 ```bash
 $ cd path/to/drupal/8
 $ curl -sS https://getcomposer.org/installer | php
-$ php composer.phar require hechoendrupal/drupal-app-console:dev-master
-$ cp core/vendor/hechoendrupal/drupal-app-console/bin/console . # This step is provisional
+$ COMPOSER_BIN_DIR=bin php composer.phar require hechoendrupal/drupal-app-console:dev-master
+$ ./bin/console --help
 ```
 
 ### Usage
 
 #### Generate module structure
 ```bash
-$ ./console generate:module
+$ ./bin/console generate:module
                                           
   Welcome to the Drupal module generator  
                                           
@@ -47,4 +47,22 @@ modules/module_name/
 └── module_name.routing.yml
 
 11 directories, 3 files
+```
+
+#### Generate controller structure
+```bash
+$ ./bin/console generate:controller
+
+  Welcome to the Drupal controller generator  
+                                              
+Enter your module: : slang
+Enter the controller name [DefaultControler]: FrontController
+Enter your service: : twig
+Enter your service: : database
+Enter your service: : config.factory
+Enter your service: : config.context
+Enter your service: : 
+Update routing file? [yes]? 
+
+$ cat modules/module_name/lib/Drupal/module_name/Controller/FrontController.php
 ```
