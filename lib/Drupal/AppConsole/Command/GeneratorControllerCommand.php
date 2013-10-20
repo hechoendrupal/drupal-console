@@ -10,12 +10,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Command\Helper\DialogHelper;
-use Drupal\AppConsole\Generator\ModuleGenerator;
+use Drupal\AppConsole\Generator\ControllerGenerator;
+use Drupal\AppConsole\Command\Validators;
 
 class GeneratorControllerCommand extends GeneratorCommand {
 
   protected function configure() {
-
 
     $this
       ->setDefinition(array(
@@ -36,17 +36,99 @@ class GeneratorControllerCommand extends GeneratorCommand {
    * @return [type]                  [description]
    */
   protected function execute(InputInterface $input, OutputInterface $output) {
+    $dialog = $this->getDialogHelper();
 
-    $mod = array();
-    $modules = system_rebuild_module_data();
-    foreach ($modules as $filename => $module) {
-      if ( !preg_match('/core/',$module->uri) ){
+    $module = $input->getOption('module');
+    $services = $input->getOption('services');
+    $update_routing = $input->getOption('routing');
+    $name = $input->getOption('name');
 
-        array_push($mod, array($filename=>$module->uri));
-      }
+    $map_service = array();
+    foreach ($services as $service) {
+      $class = get_class($this->getContainer()->get($service));
+      $map_service[$service] = array(
+        'name'  => $service,
+        'machine_name' => str_replace('.', '_', $service),
+        'class' => $class,
+        'short' => end(explode('\\',$class))
+      );
     }
 
-    print_r($mod);
+    $generator = $this->getGenerator();
+    $generator->generate($module, $name, $controller, $map_service);
+
+    if ($update_routing) {
+      echo "update";
+    }
+
+    $dialog->writeGeneratorSummary($output, $errors);
+  }
+
+  /**
+   * [interact description]
+   * @param  InputInterface  $input  [description]
+   * @param  OutputInterface $output [description]
+   * @return [type]                  [description]
+   */
+  protected function interact(InputInterface $input, OutputInterface $output) {
+
+    $dialog = $this->getDialogHelper();
+    $dialog->writeSection($output, 'Welcome to the Drupal controller generator');
+
+    $d = $this->getHelperSet()->get('dialog');
+
+    // Module name
+    $modules = $this->getModules();
+    $module = $d->askAndValidate(
+      $output,
+      $dialog->getQuestion('Enter your module: '),
+      function($module) use ($modules){
+        return Validators::validateModuleExist($module, $modules);
+      },
+      false,
+      '',
+      $modules
+    );
+    $input->setOption('module', $module);
+
+    // Module name
+    $name = $this->getName();
+    $name = $dialog->ask($output, $dialog->getQuestion('Enter the controller name','DefaultControler'));
+    $input->setOption('name', $name);
+
+    // Services
+    $service_collection = array();
+    $services = $this->getServices();
+    while(true){
+      $service = $d->askAndValidate(
+        $output,
+        $dialog->getQuestion('Enter your service: '),
+        function($service) use ($services){
+          return Validators::validateServiceExist($service, $services);
+        },
+        false,
+        null,
+        $services
+      );
+
+      if ($service == null) {
+        break;
+      }
+      array_push($service_collection, $service);
+    }
+    $input->setOption('services', $service_collection);
+
+    // Routing
+    /**
+     * Generate routing
+     * @var [type]
+     */
+    $routing = $input->getOption('routing');
+    if (!$routing && $dialog->askConfirmation($output, $dialog->getQuestion('Update routing file?', 'yes', '?'), true)) {
+        $routing = true;
+    }
+    $input->setOption('routing', $routing);
+
   }
 
   /**
@@ -54,7 +136,8 @@ class GeneratorControllerCommand extends GeneratorCommand {
     * @return [type] Drupal Filesystem
     */
   protected function createGenerator() {
-    return new ModuleGenerator();
+    return new ControllerGenerator();
   }
 
 }
+
