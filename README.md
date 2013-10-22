@@ -1,7 +1,7 @@
 Drupal App Console | The symfony console in Drupal
 ==============
 
-This project is an idea of [Jesus Manuel Olivas](https://twitter.com/jmolivas) & [David Flores](https://twitter.com/dmouse),  Drupal 8 has changed a lot the way we develop websites, the idea of this project is to provide similar functionality as the Symfony console, providing the tools to automate the creation of modules using the terminal to automatically generate the directory structure for controllers, forms, services and required files.
+Drupal 8 has changed a lot the way we develop websites, the idea of this project is to provide similar functionality as the Symfony console, providing a scaffolding tool to automate the creation of modules using the terminal to automatically generate the directory structure for controllers, forms, services and required files.
 
 The DrupalAppConsole not is a competition of Drush it’s your new best friend.
 
