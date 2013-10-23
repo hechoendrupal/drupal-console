@@ -1,0 +1,65 @@
+<?php
+
+namespace Drupal\{{module}}\Form;
+
+
+{% if services is defined %}
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+{% set params = '' %}
+{% for service in services %}use {{ service.class }};
+{% set params = params ~ service.short ~ ' $' ~ service.machine_name %}
+{% if loop.last == false %}
+{% set params = params ~ ', '%}
+{% endif %}
+{% endfor %}
+{% endif %}
+
+class {{ name }} extends FormBase {% if services is defined%}implements ContainerInjectionInterface {% endif %}{
+
+{% if services is defined %}
+{% for service in services %}
+  protected ${{service.machine_name}};
+{% endfor %}
+
+  public function __constructor({{params}}) {
+{% for service in services %}
+    $this->{{service.machine_name}} = ${{service.machine_name}};
+{% endfor %}
+  }
+
+  public static function create(ContainerInterface $container){
+    return new static(
+{% for service in services %}
+      $container->get('{{service.name}}'){% if loop.last == false %},{% endif %}
+{% endfor %}
+    );
+  }
+  {% endif %}
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getFormID() {
+    return '';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(array $form, array &$form_state) {
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateForm(array &$form, array &$form_state) {
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitForm(array &$form, array &$form_state) {
+  }
+}
