@@ -115,6 +115,9 @@ class GeneratorControllerCommand extends GeneratorCommand {
         break;
       }
       array_push($service_collection, $service);
+      $service_key = array_search($service, $services, true);
+      if ($service_key >= 0)
+        unset($services[$service_key]);
     }
     $input->setOption('services', $service_collection);
 
