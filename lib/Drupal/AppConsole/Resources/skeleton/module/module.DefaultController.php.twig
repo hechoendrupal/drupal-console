@@ -31,7 +31,7 @@ class {{ name }} {% if services is defined%}implements ContainerInjectionInterfa
   public static function create(ContainerInterface $container){
     return new static(
 {% for service in services %}
-      $container->get('{{service.name}}'),
+      $container->get('{{service.name}}'){% if loop.last == false %},{% endif %}
 {% endfor %}
     );
   }
@@ -43,6 +43,6 @@ class {{ name }} {% if services is defined%}implements ContainerInjectionInterfa
    * @return [type]       [description]
    */
   public function helloAction($name) {
-    return "Hello" . $name . "!";
+    return "Hello " . $name . "!";
   }
 }
