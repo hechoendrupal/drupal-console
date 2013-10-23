@@ -8,7 +8,7 @@ The DrupalAppConsole not is a competition of Drush it’s your new best friend.
 ### Steps for install:
 
 ```bash
-$ cd path/to/drupal/8
+$ cd path/to/drupal8.dev
 $ curl -sS https://getcomposer.org/installer | php
 $ COMPOSER_BIN_DIR=bin php composer.phar require hechoendrupal/drupal-app-console:dev-master
 $ ./bin/console --help
@@ -66,3 +66,8 @@ Update routing file? [yes]?
 
 $ cat modules/module_name/lib/Drupal/module_name/Controller/FrontController.php
 ```
+
+
+#### Next Step
+* Enable module
+* Open Browser and load `http://drupal8.dev/module_name/hello/Drupal`
