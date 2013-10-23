@@ -93,7 +93,7 @@ class GeneratorControllerCommand extends GeneratorCommand {
 
     // Module name
     $name = $this->getName();
-    $name = $dialog->ask($output, $dialog->getQuestion('Enter the controller name', 'DefaultControler'), 'DefaultControler');
+    $name = $dialog->ask($output, $dialog->getQuestion('Enter the controller name', 'DefaultController'), 'DefaultController');
     $input->setOption('name', $name);
 
     // Services
