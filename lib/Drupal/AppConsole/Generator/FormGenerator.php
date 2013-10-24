@@ -27,7 +27,7 @@ class FormGenerator extends Generator {
       $parameters
     );
 
-    $this->renderFile('module/module.routing.yml.twig', DRUPAL_ROOT.'/modules/'.$module.'/'.$module.'.routing.yml', $parameters);
+    $this->renderFile('module/module.routing.yml.twig', DRUPAL_ROOT.'/modules/'.$module.'/'.$module.'.routing.yml', $parameters, FILE_APPEND);
 
   }
 
