@@ -67,7 +67,9 @@ Update routing file? [yes]?
 $ cat modules/module_name/lib/Drupal/module_name/Controller/FrontController.php
 ```
 
-
 #### Next Step
 * Enable module
 * Open Browser and load `http://drupal8.dev/module_name/hello/Drupal`
+
+#### Video
+[How to install & use youtube video no audio](http://www.youtube.com/watch?v=NkHT2KctR-Y)
