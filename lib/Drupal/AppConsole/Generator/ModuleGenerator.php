@@ -6,8 +6,6 @@ use Symfony\Component\DependencyInjection\Container;
 
 class ModuleGenerator extends Generator {
 
-  private $filesystem;
-
   public function __construct() {}
 
   public function generate($module, $dir, $description, $core, $package, $routing, $structure) {
@@ -26,7 +24,6 @@ class ModuleGenerator extends Generator {
             }
         }
 
-        $basename = substr($bundle, 0, -6);
         $parameters = array(
             'module' => $module,
             'type'    => 'module',
