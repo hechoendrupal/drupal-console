@@ -23,6 +23,7 @@ class GeneratorModuleCommand extends GeneratorCommand {
             ->setDefinition(array(
                 new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
                 new InputOption('description','',InputOption::VALUE_OPTIONAL, 'Description module'),
+                new InputOption('core','',InputOption::VALUE_OPTIONAL, 'Core version'),
                 new InputOption('package','',InputOption::VALUE_OPTIONAL, 'Package'),
                 new InputOption('routing', '', InputOption::VALUE_NONE, 'Generate routing file'),
                 new InputOption('structure', '', InputOption::VALUE_NONE, 'Whether to generate the whole directory structure'),
@@ -53,12 +54,13 @@ class GeneratorModuleCommand extends GeneratorCommand {
         $module = Validators::validateModuleName($input->getOption('module'));
 
         $description = $input->getOption('description');
+        $core = $input->getOption('core');
         $package = $input->getOption('package');
         $routing = $input->getOption('routing');
         $structure =  $input->getOption('structure');
 
         $generator = $this->getGenerator();
-        $generator->generate($module, $dir, $description, $package, $routing, $structure);
+        $generator->generate($module, $dir, $description, $core, $package, $routing, $structure);
 
         $dialog->writeGeneratorSummary($output, $errors);
       }
@@ -113,6 +115,13 @@ class GeneratorModuleCommand extends GeneratorCommand {
             $description = $dialog->ask($output, $dialog->getQuestion('Description', 'My Awesome Module'), 'My Awesome Module');
         }
         $input->setOption('description', $description);
+
+        /** @var $other String */
+        $other = $input->getOption('package');
+        if (!$other) {
+            $other = $dialog->ask($output, $dialog->getQuestion('Core', '8.x'), '8.x');
+        }
+        $input->setOption('core', '8.x');
 
         /**
          * Module package

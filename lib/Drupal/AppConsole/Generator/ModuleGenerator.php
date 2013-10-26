@@ -10,7 +10,7 @@ class ModuleGenerator extends Generator {
 
   public function __construct() {}
 
-  public function generate($module, $dir, $description, $package, $routing, $structure) {
+  public function generate($module, $dir, $description, $core, $package, $routing, $structure) {
 
         $dir .= '/' . $module;
         if (file_exists($dir)) {
@@ -30,6 +30,7 @@ class ModuleGenerator extends Generator {
         $parameters = array(
             'module' => $module,
             'type'    => 'module',
+            'core'    => $core,
             'description'    => $description,
             'package' => $package,
         );
