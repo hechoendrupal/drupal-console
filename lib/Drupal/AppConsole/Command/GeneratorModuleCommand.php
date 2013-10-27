@@ -26,6 +26,7 @@ class GeneratorModuleCommand extends GeneratorCommand {
                 new InputOption('core','',InputOption::VALUE_OPTIONAL, 'Core version'),
                 new InputOption('package','',InputOption::VALUE_OPTIONAL, 'Package'),
                 new InputOption('routing', '', InputOption::VALUE_NONE, 'Generate routing file'),
+                new InputOption('setting', '', InputOption::VALUE_NONE, 'Generate settings file'),
                 new InputOption('structure', '', InputOption::VALUE_NONE, 'Whether to generate the whole directory structure'),
             ))
             ->setDescription('Generate a module')
@@ -57,10 +58,11 @@ class GeneratorModuleCommand extends GeneratorCommand {
         $core = $input->getOption('core');
         $package = $input->getOption('package');
         $routing = $input->getOption('routing');
+        $setting = $input->getOption('setting');
         $structure =  $input->getOption('structure');
 
         $generator = $this->getGenerator();
-        $generator->generate($module, $dir, $description, $core, $package, $routing, $structure);
+        $generator->generate($module, $dir, $description, $core, $package, $routing, $setting, $structure);
 
         $dialog->writeGeneratorSummary($output, $errors);
       }
@@ -75,9 +77,6 @@ class GeneratorModuleCommand extends GeneratorCommand {
         $dialog = $this->getDialogHelper();
         $dialog->writeSection($output, 'Welcome to the Drupal module generator');
 
-        /**
-         * module interactive option
-         */
         $module = null;
 
         try {
@@ -86,10 +85,6 @@ class GeneratorModuleCommand extends GeneratorCommand {
           $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
         }
 
-        /**
-         * Module name
-         * @var
-         */
         if ($module == null ) {
             $module = $dialog->askAndValidate(
                 $output,
@@ -106,49 +101,38 @@ class GeneratorModuleCommand extends GeneratorCommand {
             $input->setOption('module', $module);
         }
 
-        /**
-         * Module description
-         * @var
-         */
         $description = $input->getOption('description');
         if (!$description) {
             $description = $dialog->ask($output, $dialog->getQuestion('Description', 'My Awesome Module'), 'My Awesome Module');
         }
         $input->setOption('description', $description);
 
-        /** @var $other String */
         $other = $input->getOption('package');
         if (!$other) {
             $other = $dialog->ask($output, $dialog->getQuestion('Core', '8.x'), '8.x');
         }
         $input->setOption('core', '8.x');
 
-        /**
-         * Module package
-         * @var
-         */
         $package = $input->getOption('package');
         if (!$package) {
             $package = $dialog->ask($output, $dialog->getQuestion('Package', 'Other'), 'Other');
         }
         $input->setOption('package', $package);
 
-        /**
-         * Generate routing
-         * @var [type]
-         */
         $routing = $input->getOption('routing');
-        if (!$routing && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate a routing file', 'yes', '?'), true)) {
+        if (!$routing && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate a routing file', 'no', '?'), false)) {
             $routing = true;
         }
         $input->setOption('routing', $routing);
 
-        /**
-         * Generate Structure
-         * @var boolean
-         */
+        $setting = $input->getOption('setting');
+        if (!$setting && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate a setting file', 'no', '?'), false)) {
+            $setting = true;
+        }
+        $input->setOption('setting', $setting);
+
         $structure = $input->getOption('structure');
-        if (!$structure && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate the whole directory structure', 'no', '?'), false)) {
+        if (!$structure && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate the whole directory structure', 'yes', '?'), true)) {
             $structure = true;
         }
         $input->setOption('structure', $structure);

@@ -8,7 +8,7 @@ class ModuleGenerator extends Generator {
 
   public function __construct() {}
 
-  public function generate($module, $dir, $description, $core, $package, $routing, $structure) {
+  public function generate($module, $dir, $description, $core, $package, $routing, $setting, $structure) {
 
         $dir .= '/' . $module;
         if (file_exists($dir)) {
@@ -39,7 +39,7 @@ class ModuleGenerator extends Generator {
             $this->renderFile('module/module.routing.yml.twig', $dir.'/'.$module.'.routing.yml', $parameters);
         }
 
-        if ($settings) {
+        if ($setting) {
             $this->renderFile('module/module.settings.yml.twig', $dir.'/config/'.$module.'.settings.yml',$parameters);
         }
 
