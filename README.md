@@ -1,14 +1,14 @@
 Drupal App Console | The symfony console in Drupal
 ==============
 
-This project is an idea of [Jesus Manuel Olivas](https://twitter.com/jmolivas) & [David Flores](https://twitter.com/dmouse),  Drupal 8 has changed a lot the way we develop websites, the idea of this project is to provide similar functionality as the Symfony console, providing the tools to automate the creation of modules using the terminal to automatically generate the directory structure for controllers, forms, services and required files.
+Drupal 8 has changed a lot the way we develop websites, the idea of this project is to provide similar functionality as the Symfony console, providing a scaffolding tool to automate the creation of modules using the terminal to automatically generate the directory structure for controllers, forms, services and required files.
 
 The DrupalAppConsole not is a competition of Drush it’s your new best friend.
 
 ### Steps for install:
 
 ```bash
-$ cd path/to/drupal/8
+$ cd path/to/drupal8.dev
 $ curl -sS https://getcomposer.org/installer | php
 $ COMPOSER_BIN_DIR=bin php composer.phar require hechoendrupal/drupal-app-console:dev-master
 $ ./bin/console --help
@@ -66,3 +66,10 @@ Update routing file? [yes]?
 
 $ cat modules/module_name/lib/Drupal/module_name/Controller/FrontController.php
 ```
+
+#### Next Step
+* Enable module
+* Open Browser and load `http://drupal8.dev/module_name/hello/Drupal`
+
+#### Video
+[How to install & use youtube video no audio](http://www.youtube.com/watch?v=NkHT2KctR-Y)

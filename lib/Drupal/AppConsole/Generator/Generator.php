@@ -45,12 +45,11 @@ class Generator
         return $twig->render($template, $parameters);
     }
 
-    protected function renderFile($template, $target, $parameters)
+    protected function renderFile($template, $target, $parameters, $flag=null)
     {
         if (!is_dir(dirname($target))) {
             mkdir(dirname($target), 0777, true);
         }
-
-        return file_put_contents($target, $this->render($template, $parameters));
+        return file_put_contents($target, $this->render($template, $parameters), $flag);
     }
 }

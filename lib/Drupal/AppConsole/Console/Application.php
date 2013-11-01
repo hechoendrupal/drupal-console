@@ -24,7 +24,7 @@ class Application extends BaseApplication {
     $this->kernel = $kernel;
     $env = 'prod';
 
-    parent::__construct('Drupal', 'Drupal Core - 8.x/ '. $env );
+    parent::__construct('Drupal', 'Drupal App Console - 8.x/ '. $env );
 
     $this->getDefinition()->addOption(new InputOption('--shell', '-s', InputOption::VALUE_NONE, 'Launch the shell.'));
     $this->getDefinition()->addOption(new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'The Environment name.', $env ) );
@@ -77,6 +77,7 @@ class Application extends BaseApplication {
     $commands = parent::getDefaultCommands();
     $commands[] = new \Drupal\AppConsole\Command\GeneratorModuleCommand();
     $commands[] = new \Drupal\AppConsole\Command\GeneratorControllerCommand();
+    $commands[] = new \Drupal\AppConsole\Command\GeneratorFormCommand();
     $commands[] = new \Drupal\AppConsole\Command\ServicesCommand();
     return $commands;
   }

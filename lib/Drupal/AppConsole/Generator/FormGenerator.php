@@ -4,7 +4,7 @@ namespace Drupal\AppConsole\Generator;
 
 use Symfony\Component\DependencyInjection\Container;
 
-class ControllerGenerator extends Generator {
+class FormGenerator extends Generator {
 
   private $filesystem;
 
@@ -13,7 +13,7 @@ class ControllerGenerator extends Generator {
   public function generate($module, $name, $controller, $services ) {
     $path = DRUPAL_ROOT . '/' . drupal_get_path('module', $module);
 
-    $path_controller = $path . '/lib/Drupal/' . $module . '/Controller';
+    $path_controller = $path . '/lib/Drupal/' . $module . '/Form';
 
     $parameters = array(
       'name' => $name,
@@ -22,7 +22,7 @@ class ControllerGenerator extends Generator {
     );
 
     $this->renderFile(
-      'module/module.DefaultController.php.twig',
+      'module/module.DefaultForm.php.twig',
       $path_controller . '/'. $name .'.php',
       $parameters
     );

@@ -1,6 +1,6 @@
-{% if controller is defined %}
+{% if name is defined %}
 {{ module }}_hello:
-  pattern: '/{{module}}/hello/{name}'
+  path: '/{{module}}/hello/{name}'
   defaults:
     _controller: '\Drupal\{{ module }}\Controller\DefaultController::helloAction'
     _title: '{{module}} say hello!'

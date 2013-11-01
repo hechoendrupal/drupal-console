@@ -10,23 +10,23 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Command\Helper\DialogHelper;
-use Drupal\AppConsole\Generator\ControllerGenerator;
+use Drupal\AppConsole\Generator\FormGenerator;
 use Drupal\AppConsole\Command\Validators;
 
-class GeneratorControllerCommand extends GeneratorCommand {
+class GeneratorFormCommand extends GeneratorCommand {
 
   protected function configure() {
 
     $this
       ->setDefinition(array(
         new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
-        new InputOption('name','',InputOption::VALUE_OPTIONAL, 'Controller name'),
+        new InputOption('name','',InputOption::VALUE_OPTIONAL, 'Form name'),
         new InputOption('services','',InputOption::VALUE_OPTIONAL, 'Load services'),
         new InputOption('routing', '', InputOption::VALUE_NONE, 'Update routing'),
       ))
-      ->setDescription('Generate controller')
-      ->setHelp('The <info>generate:controller</info> command helps you generate a new controller.')
-      ->setName('generate:controller');
+      ->setDescription('Generate form')
+      ->setHelp('The <info>generate:form</info> command helps you generate a new form.')
+      ->setName('generate:form');
   }
 
   /**
@@ -73,7 +73,7 @@ class GeneratorControllerCommand extends GeneratorCommand {
   protected function interact(InputInterface $input, OutputInterface $output) {
 
     $dialog = $this->getDialogHelper();
-    $dialog->writeSection($output, 'Welcome to the Drupal controller generator');
+    $dialog->writeSection($output, 'Welcome to the Drupal form generator');
 
     $d = $this->getHelperSet()->get('dialog');
 
@@ -93,7 +93,7 @@ class GeneratorControllerCommand extends GeneratorCommand {
 
     // Module name
     $name = $this->getName();
-    $name = $dialog->ask($output, $dialog->getQuestion('Enter the controller name', 'DefaultController'), 'DefaultController');
+    $name = $dialog->ask($output, $dialog->getQuestion('Enter the form name', 'DefaultForm'), 'DefaultForm');
     $input->setOption('name', $name);
 
     // Services
@@ -139,7 +139,7 @@ class GeneratorControllerCommand extends GeneratorCommand {
     * @return [type] Drupal Filesystem
     */
   protected function createGenerator() {
-    return new ControllerGenerator();
+    return new FormGenerator();
   }
 
 }
