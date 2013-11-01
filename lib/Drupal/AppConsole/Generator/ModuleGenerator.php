@@ -6,11 +6,9 @@ use Symfony\Component\DependencyInjection\Container;
 
 class ModuleGenerator extends Generator {
 
-  private $filesystem;
-
   public function __construct() {}
 
-  public function generate($module, $dir, $description, $package, $routing, $structure) {
+  public function generate($module, $dir, $description, $core, $package, $routing, $setting, $structure) {
 
         $dir .= '/' . $module;
         if (file_exists($dir)) {
@@ -26,10 +24,10 @@ class ModuleGenerator extends Generator {
             }
         }
 
-        $basename = substr($bundle, 0, -6);
         $parameters = array(
             'module' => $module,
             'type'    => 'module',
+            'core'    => $core,
             'description'    => $description,
             'package' => $package,
         );
@@ -41,7 +39,7 @@ class ModuleGenerator extends Generator {
             $this->renderFile('module/module.routing.yml.twig', $dir.'/'.$module.'.routing.yml', $parameters);
         }
 
-        if ($settings) {
+        if ($setting) {
             $this->renderFile('module/module.settings.yml.twig', $dir.'/config/'.$module.'.settings.yml',$parameters);
         }
 
