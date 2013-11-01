@@ -106,7 +106,7 @@ class GeneratorFormCommand extends GeneratorCommand {
     // TODO: Create a method for this job
     if ($dialog->askConfirmation(
       $output,
-      $dialog->getQuestion('Do you like asdd service?', 'yes', '?'),
+      $dialog->getQuestion('Do you like add service?', 'yes', '?'),
       true
     )) {
       $service_collection = array();
