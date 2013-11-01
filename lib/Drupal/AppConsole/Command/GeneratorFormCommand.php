@@ -22,6 +22,8 @@ class GeneratorFormCommand extends GeneratorCommand {
         new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
         new InputOption('name','',InputOption::VALUE_OPTIONAL, 'Form name'),
         new InputOption('services','',InputOption::VALUE_OPTIONAL, 'Load services'),
+        new InputOption('inputs','',InputOption::VALUE_OPTIONAL, 'Create a inputs in a form'),
+        new InputOption('config_file','',InputOption::VALUE_OPTIONAL,'Create a config file'),
         new InputOption('routing', '', InputOption::VALUE_NONE, 'Update routing'),
       ))
       ->setDescription('Generate form')
@@ -41,7 +43,14 @@ class GeneratorFormCommand extends GeneratorCommand {
     $module = $input->getOption('module');
     $services = $input->getOption('services');
     $update_routing = $input->getOption('routing');
-    $name = $input->getOption('name');
+    $class_name = $input->getOption('name');
+
+    // if exist form generate config file
+    $inputs = $input->getOption('inputs');
+    if ($inputs)
+      $generate_config = $input->getOption('config_file');
+    else
+      $generate_config = false;
 
     $map_service = array();
     foreach ($services as $service) {
@@ -55,13 +64,10 @@ class GeneratorFormCommand extends GeneratorCommand {
     }
 
     $generator = $this->getGenerator();
-    $generator->generate($module, $name, $controller, $map_service);
-
-    if ($update_routing) {
-      echo "update";
-    }
+    $generator->generate($module, $class_name, $map_service, $inputs, $generate_config, $update_routing);
 
     $dialog->writeGeneratorSummary($output, $errors);
+
   }
 
   /**
@@ -81,7 +87,7 @@ class GeneratorFormCommand extends GeneratorCommand {
     $modules = $this->getModules();
     $module = $d->askAndValidate(
       $output,
-      $dialog->getQuestion('Enter your module: '),
+      $dialog->getQuestion('Enter your module '),
       function($module) use ($modules){
         return Validators::validateModuleExist($module, $modules);
       },
@@ -91,41 +97,125 @@ class GeneratorFormCommand extends GeneratorCommand {
     );
     $input->setOption('module', $module);
 
-    // Module name
+    // Controller name
     $name = $this->getName();
     $name = $dialog->ask($output, $dialog->getQuestion('Enter the form name', 'DefaultForm'), 'DefaultForm');
     $input->setOption('name', $name);
 
-    // Services
-    $service_collection = array();
-    $services = $this->getServices();
-    while(true){
-      $service = $d->askAndValidate(
-        $output,
-        $dialog->getQuestion('Enter your service: '),
-        function($service) use ($services){
-          return Validators::validateServiceExist($service, $services);
-        },
-        false,
-        null,
-        $services
-      );
+    // Add services
+    // TODO: Create a method for this job
+    if ($dialog->askConfirmation(
+      $output,
+      $dialog->getQuestion('Do you like add service?', 'yes', '?'),
+      true
+    )) {
+      $service_collection = array();
+      $services = $this->getServices();
+      while(true){
+        $service = $d->askAndValidate(
+          $output,
+          $dialog->getQuestion(' Enter your service'),
+          function($service) use ($services){
+            return Validators::validateServiceExist($service, $services);
+          },
+          false,
+          null,
+          $services
+        );
 
-      if ($service == null) {
-        break;
+        if ($service == null) {
+          break;
+        }
+        array_push($service_collection, $service);
+        $service_key = array_search($service, $services, true);
+        if ($service_key >= 0)
+          unset($services[$service_key]);
       }
-      array_push($service_collection, $service);
-      $service_key = array_search($service, $services, true);
-      if ($service_key >= 0)
-        unset($services[$service_key]);
+      $input->setOption('services', $service_collection);
     }
-    $input->setOption('services', $service_collection);
+
+    // Form fields
+    // TODO: Create a method for this job
+    if ($dialog->askConfirmation(
+      $output,
+      $dialog->getQuestion('Do you like generate a form structure?', 'yes', '?'),
+      true
+    )) {
+      $input_types = array(
+        'text',
+        'password',
+        'submit',
+        'color',
+        'date',
+        'datetime',
+        'datetime-local',
+        'email',
+        'month',
+        'number',
+        'range',
+        'search',
+        'tel',
+        'time',
+        'url',
+        'week');
+      $inputs = array();
+      while(true){
+
+        // Label for input
+        $input_label = $dialog->ask(
+          $output,
+          $dialog->getQuestion(' Input label','',':'),
+          null
+        );
+
+        // break if is blank
+        if ($input_label == null) {
+          break;
+        }
+
+        // Machine name
+        $input_machine_name = preg_replace('/(?<=\\w)(?=[A-Z])/',"_$1", $input_label);
+        $input_machine_name = preg_replace('@[^a-z0-9_]+@','_',strtolower($input_machine_name));
+
+        $input_name = $dialog->ask(
+          $output,
+          $dialog->getQuestion('  Input machine name', $input_machine_name, ':'),
+          $input_machine_name
+        );
+
+        // Type input
+        // TODO: validate
+        $input_type = $d->askAndValidate(
+          $output,
+          $dialog->getQuestion('  Type'),
+          function($input) use ($input_types){
+            return $input;
+          },
+          false,
+          null,
+          $input_types
+        );
+
+        array_push($inputs, array(
+          'name'  => $input_name,
+          'type'  => $input_type,
+          'label' => $input_label
+        ));
+      }
+      $input->setOption('inputs', $inputs);
+
+      // Generate config file
+      if ($dialog->askConfirmation(
+        $output,
+        $dialog->getQuestion(' Do you like generate config file?', 'yes', '?'),
+        true
+      )) {
+       $input->setOption('config_file',true);
+      }
+
+    }
 
     // Routing
-    /**
-     * Generate routing
-     * @var [type]
-     */
     $routing = $input->getOption('routing');
     if (!$routing && $dialog->askConfirmation($output, $dialog->getQuestion('Update routing file?', 'yes', '?'), true)) {
         $routing = true;
@@ -143,4 +233,3 @@ class GeneratorFormCommand extends GeneratorCommand {
   }
 
 }
-

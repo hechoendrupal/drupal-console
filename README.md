@@ -67,6 +67,33 @@ Update routing file? [yes]?
 $ cat modules/module_name/lib/Drupal/module_name/Controller/FrontController.php
 ```
 
+#### Generate form structure
+```bash
+
+  Welcome to the Drupal form generator  
+                                        
+Enter your module : module_name
+Enter the form name [DefaultForm]: 
+Do you like asdd service? [yes]? 
+ Enter your service: twig
+ Enter your service: config.factory
+ Enter your service: 
+Do you like generate a form structure? [yes]? 
+ Input label: User
+  Input machine name [user]: 
+  Type: text
+ Input label: Password
+  Input machine name [password]: 
+  Type: password
+ Input label: Send
+  Input machine name [send]: 
+  Type: submit
+ Input label: 
+ Do you like generate config file? [yes]? 
+Update routing file? [yes]? 
+
+```
+
 #### Next Step
 * Enable module
 * Open Browser and load `http://drupal8.dev/module_name/hello/Drupal`
