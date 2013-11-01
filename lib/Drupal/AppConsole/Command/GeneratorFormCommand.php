@@ -106,7 +106,7 @@ class GeneratorFormCommand extends GeneratorCommand {
     // TODO: Create a method for this job
     if ($dialog->askConfirmation(
       $output,
-      $dialog->getQuestion('Do you like add service?', 'yes', '?'),
+      $dialog->getQuestion('Do you like add service(s)?', 'yes', '?'),
       true
     )) {
       $service_collection = array();
@@ -114,7 +114,7 @@ class GeneratorFormCommand extends GeneratorCommand {
       while(true){
         $service = $d->askAndValidate(
           $output,
-          $dialog->getQuestion(' Enter your service'),
+          $dialog->getQuestion('Enter your service (optional): '),
           function($service) use ($services){
             return Validators::validateServiceExist($service, $services);
           },

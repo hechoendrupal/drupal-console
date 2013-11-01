@@ -57,10 +57,6 @@ class GeneratorControllerCommand extends GeneratorCommand {
     $generator = $this->getGenerator();
     $generator->generate($module, $name, $controller, $map_service);
 
-    if ($update_routing) {
-      echo "update";
-    }
-
     $dialog->writeGeneratorSummary($output, $errors);
   }
 
@@ -97,29 +93,36 @@ class GeneratorControllerCommand extends GeneratorCommand {
     $input->setOption('name', $name);
 
     // Services
-    $service_collection = array();
-    $services = $this->getServices();
-    while(true){
-      $service = $d->askAndValidate(
-        $output,
-        $dialog->getQuestion('Enter your service: '),
-        function($service) use ($services){
-          return Validators::validateServiceExist($service, $services);
-        },
-        false,
-        null,
-        $services
-      );
+      // TODO: Create a method for this job
+      if ($dialog->askConfirmation(
+          $output,
+          $dialog->getQuestion('Do you like add service(s)?', 'yes', '?'),
+          true
+      )) {
+        $service_collection = array();
+        $services = $this->getServices();
+        while(true){
+          $service = $d->askAndValidate(
+            $output,
+            $dialog->getQuestion(' Enter your service (optional): '),
+            function($service) use ($services){
+              return Validators::validateServiceExist($service, $services);
+            },
+            false,
+            null,
+            $services
+          );
 
-      if ($service == null) {
-        break;
+          if ($service == null) {
+            break;
+          }
+          array_push($service_collection, $service);
+          $service_key = array_search($service, $services, true);
+          if ($service_key >= 0)
+            unset($services[$service_key]);
+        }
+        $input->setOption('services', $service_collection);
       }
-      array_push($service_collection, $service);
-      $service_key = array_search($service, $services, true);
-      if ($service_key >= 0)
-        unset($services[$service_key]);
-    }
-    $input->setOption('services', $service_collection);
 
     // Routing
     /**
