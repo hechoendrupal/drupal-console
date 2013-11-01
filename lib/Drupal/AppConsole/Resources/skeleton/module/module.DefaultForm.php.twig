@@ -2,7 +2,6 @@
 
 namespace Drupal\{{module}}\Form;
 
-
 {% if services is defined %}
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormBase;
@@ -32,7 +31,8 @@ class {{ name }} extends FormBase {% if services is defined%}implements Containe
   public static function create(ContainerInterface $container){
     return new static(
 {% for service in services %}
-      $container->get('{{service.name}}'){% if loop.last == false %},{% endif %}
+      $container->get('{{service.name}}'){% if loop.last == false %},
+{% endif %}
 {% endfor %}
     );
   }
@@ -42,24 +42,35 @@ class {{ name }} extends FormBase {% if services is defined%}implements Containe
    * {@inheritdoc}
    */
   public function getFormID() {
-    return '';
+    return '{{ name | lower }}_form';
   }
 
   /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, array &$form_state) {
+
+  {% for input in inputs %}
+  $form['{{ input.name }}'] = array(
+      '#type' => '{{ input.type }}',
+      '#title' => t('{{ input.label }}'),
+      '#description' => t(''),
+    );
+  {% endfor %}
+   return parent::buildForm($form, $form_state);
   }
 
   /**
    * {@inheritdoc}
    */
   public function validateForm(array &$form, array &$form_state) {
+    return parent::buildForm($form, $form_state);
   }
 
   /**
    * {@inheritdoc}
    */
   public function submitForm(array &$form, array &$form_state) {
+    {# TODO: save form_state #}
   }
 }
