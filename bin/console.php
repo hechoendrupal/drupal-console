@@ -12,7 +12,7 @@ use Drupal\AppConsole\Command\GeneratorFormCommand;
 use Drupal\AppConsole\Command\ServicesCommand;
 
 set_time_limit(0);
-require_once __DIR__ . '/../core/includes/bootstrap.inc';
+require_once __DIR__ . '/../../../../includes/bootstrap.inc';
 drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
 
 $input = new ArgvInput();
