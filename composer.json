@@ -52,7 +52,7 @@
         "symfony/dependency-injection": "2.3.*",
         "hechoendrupal/drupal": "8.0.0"
     },
-    "bin": ["bin/console", "bin/console.php"],
+    "bin": ["bin/console"],
     "config": {
         "bin-dir": "bin/"
     },
