@@ -4,4 +4,11 @@ Thumbs.db
 
 # IDEs
 .idea/
+.buildpath
+.project
+.settings/
+
+#Composer
+vendor
+bin/phpunit
 
