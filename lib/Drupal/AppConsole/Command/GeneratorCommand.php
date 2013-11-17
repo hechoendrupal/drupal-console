@@ -54,8 +54,8 @@ abstract class GeneratorCommand extends ContainerAwareCommand
     protected function getDialogHelper()
     {
         $dialog = $this->getHelperSet()->get('dialog');
-        if (!$dialog || get_class($dialog) !== 'Drupal\AppConsole\Command\DialogHelper') {
-            $this->getHelperSet()->set($dialog = new DialogHelper());
+        if (!$dialog || get_class($dialog) !== 'Drupal\AppConsole\Command\Helper\DialogHelper') {
+            $this->getHelperSet()->set(new DialogHelper(), 'dialog');
         }
 
         return $dialog;
