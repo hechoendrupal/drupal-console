@@ -10,6 +10,8 @@ use Drupal\AppConsole\Command\GeneratorModuleCommand;
 use Drupal\AppConsole\Command\GeneratorControllerCommand;
 use Drupal\AppConsole\Command\GeneratorFormCommand;
 use Drupal\AppConsole\Command\ServicesCommand;
+use Drupal\AppConsole\Command\Helper\DialogHelper;
+use Symfony\Component\Console\Helper\FormatterHelper;
 
 set_time_limit(0);
 require_once __DIR__ . '/../../../../includes/bootstrap.inc';
@@ -27,6 +29,8 @@ $application = new Application($kernel);
 
 $helperSet = new HelperSet();
 $helperSet->set(new ShellHelper(new Shell($application)), 'shell');
+$helperSet->set(new DialogHelper(), 'dialog');
+$helperSet->set(new FormatterHelper(), 'formatter');
 
 $application->setHelperSet($helperSet);
 $application->addCommands(array(
