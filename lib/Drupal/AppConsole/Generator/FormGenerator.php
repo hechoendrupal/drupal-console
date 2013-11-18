@@ -22,7 +22,7 @@ class FormGenerator extends Generator {
     );
 
     $this->renderFile(
-      'module/module.DefaultForm.php.twig',
+      'module/form-DefaultForm.php.twig',
       $path_controller . '/'. $class_name .'.php',
       $parameters
     );
@@ -31,7 +31,7 @@ class FormGenerator extends Generator {
       $this->renderFile('module/module.config.yml.twig', $path .'/config/'. strtolower($class_name).'_config.yml', $parameters, FILE_APPEND);
 
     if ($update_routing)
-      $this->renderFile('module/module.routing.yml.twig', $path .'/'. $module.'.routing.yml', $parameters, FILE_APPEND);
+      $this->renderFile('module/form-routing.yml.twig', $path .'/'. $module.'.routing.yml', $parameters, FILE_APPEND);
   }
 
 }
