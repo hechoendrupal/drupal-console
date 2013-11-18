@@ -36,7 +36,7 @@ class ModuleGenerator extends Generator {
         $this->renderFile('module/module.module.twig', $dir.'/'.$module.'.module', $parameters);
 
         if ($routing){
-            $this->renderFile('module/module.routing.yml.twig', $dir.'/'.$module.'.routing.yml', $parameters);
+            $this->renderFile('module/controller-routing.yml.twig', $dir.'/'.$module.'.routing.yml', $parameters);
         }
 
         if ($setting) {
