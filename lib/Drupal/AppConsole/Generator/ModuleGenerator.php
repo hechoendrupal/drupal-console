@@ -8,7 +8,7 @@ class ModuleGenerator extends Generator {
 
   public function __construct() {}
 
-  public function generate($module, $dir, $description, $core, $package, $routing, $setting, $structure) {
+  public function generate($module, $dir, $description, $core, $package, $controller, $setting, $structure) {
 
         $dir .= '/' . $module;
         if (file_exists($dir)) {
@@ -35,12 +35,20 @@ class ModuleGenerator extends Generator {
         $this->renderFile('module/module.info.yml.twig', $dir.'/'.$module.'.info.yml', $parameters);
         $this->renderFile('module/module.module.twig', $dir.'/'.$module.'.module', $parameters);
 
-        if ($routing){
-            $this->renderFile('module/module.routing.yml.twig', $dir.'/'.$module.'.routing.yml', $parameters);
-        }
-
         if ($setting) {
             $this->renderFile('module/module.settings.yml.twig', $dir.'/config/'.$module.'.settings.yml',$parameters);
+        }
+
+        if ($controller){
+          $name = 'DefaultController';
+          $parameters['name'] = $name;
+          $this->renderFile(
+              'module/module.DefaultController.php.twig',
+              $dir.'/lib/Drupal/'.$module.'/Controller/'. $name .'.php',
+              $parameters
+          );
+
+          $this->renderFile('module/controller-routing.yml.twig', $dir.'/'.$module.'.routing.yml', $parameters);
         }
 
         if ($structure) {
