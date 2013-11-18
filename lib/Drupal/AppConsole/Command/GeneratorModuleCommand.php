@@ -25,7 +25,7 @@ class GeneratorModuleCommand extends GeneratorCommand {
                 new InputOption('description','',InputOption::VALUE_OPTIONAL, 'Description module'),
                 new InputOption('core','',InputOption::VALUE_OPTIONAL, 'Core version'),
                 new InputOption('package','',InputOption::VALUE_OPTIONAL, 'Package'),
-                new InputOption('routing', '', InputOption::VALUE_NONE, 'Generate routing file'),
+                new InputOption('controller', '', InputOption::VALUE_NONE, 'Generate controller'),
                 new InputOption('setting', '', InputOption::VALUE_NONE, 'Generate settings file'),
                 new InputOption('structure', '', InputOption::VALUE_NONE, 'Whether to generate the whole directory structure'),
             ))
@@ -57,12 +57,12 @@ class GeneratorModuleCommand extends GeneratorCommand {
         $description = $input->getOption('description');
         $core = $input->getOption('core');
         $package = $input->getOption('package');
-        $routing = $input->getOption('routing');
+        $controller = $input->getOption('controller');
         $setting = $input->getOption('setting');
         $structure =  $input->getOption('structure');
 
         $generator = $this->getGenerator();
-        $generator->generate($module, $dir, $description, $core, $package, $routing, $setting, $structure);
+        $generator->generate($module, $dir, $description, $core, $package, $controller, $setting, $structure);
 
         $dialog->writeGeneratorSummary($output, $errors);
       }
@@ -119,11 +119,11 @@ class GeneratorModuleCommand extends GeneratorCommand {
         }
         $input->setOption('package', $package);
 
-        $routing = $input->getOption('routing');
-        if (!$routing && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate a routing file', 'no', '?'), false)) {
-            $routing = true;
+        $controller = $input->getOption('controller');
+        if (!$controller && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate a Controller', 'no', '?'), false)) {
+            $controller = true;
         }
-        $input->setOption('routing', $routing);
+        $input->setOption('controller', $controller);
 
         $setting = $input->getOption('setting');
         if (!$setting && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate a setting file', 'no', '?'), false)) {

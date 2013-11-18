@@ -2,6 +2,7 @@
 
 namespace Drupal\{{module}}\Controller;
 
+use Drupal\Core\Controller\ControllerBase;
 
 {% if services is defined %}
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -15,7 +16,7 @@ use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 {% endfor %}
 {% endif %}
 
-class {{ name }} {% if services is defined%}implements ContainerInjectionInterface {% endif %}{
+class {{ name }} extends ControllerBase {% if services is defined%}implements ContainerInjectionInterface {% endif %}{
 
 {% if services is defined %}
 {% for service in services %}
