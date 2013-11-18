@@ -22,7 +22,7 @@ class FormGenerator extends Generator {
     );
 
     $this->renderFile(
-      'module/form-DefaultForm.php.twig',
+      'module/module.DefaultForm.php.twig',
       $path_controller . '/'. $class_name .'.php',
       $parameters
     );
