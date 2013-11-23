@@ -44,21 +44,21 @@ class KernelHelper extends Helper {
    * @param string $environment
    */
   public function setEnvironment($environment) {
-  	$this->environment = $environment;
+    $this->environment = $environment;
   }
 
   /**
    * @param boolean $debug
    */
   public function setDebug($debug) {
-  	$this->debug = $debug;
+    $this->debug = $debug;
   }
 
   /**
    * @return void
    */
   public function bootKernel() {
-  	$this->getKernel()->boot();
+    $this->getKernel()->boot();
   }
 
   /**
@@ -75,6 +75,9 @@ class KernelHelper extends Helper {
     });
   }
 
+  /**
+   *
+   */
   public function getEventDispatcher() {
     $this->getKernel()->getContainer()->get('event_dispatcher');
   }
