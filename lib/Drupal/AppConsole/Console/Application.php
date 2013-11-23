@@ -30,9 +30,9 @@ class Application extends BaseApplication {
     $this->getDefinition()->addOption(
       new InputOption('--shell', '-s', InputOption::VALUE_NONE, 'Launch the shell.')
     );
-    /**$this->getDefinition()->addOption(
+    $this->getDefinition()->addOption(
       new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'The Environment name.', $env)
-    );**/
+    );
     $this->getDefinition()->addOption(
       new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.')
     );
@@ -58,8 +58,8 @@ class Application extends BaseApplication {
   }
 
   protected function bootstrapDrupal(InputInterface $input) {
-  	$drupalBoostrap = $this->getHelperSet()->get('bootstrap');
-  	$drupalBoostrap->bootstrap($input->getParameterOption(array('--bootstrap-file', '-b')));
+    $drupalBoostrap = $this->getHelperSet()->get('bootstrap');
+    $drupalBoostrap->bootstrap($input->getParameterOption(array('--bootstrap-file', '-b')));
   }
 
   protected function initDebug(InputInterface $input) {
