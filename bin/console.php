@@ -15,7 +15,11 @@ use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Finder\Finder;
 
-require __DIR__ . '/../vendor/autoload.php';
+if (file_exists(__DIR__ . '/../../../core/vendor/autoload.php')) {
+  require __DIR__ . '/../../../core/vendor/autoload.php';
+} else {
+  require __DIR__ . '/../vendor/autoload.php';
+}
 set_time_limit(0);
 
 $application = new Application();

@@ -30,17 +30,19 @@ class BootstrapFinderHelper extends Helper {
     $filesFound = 0;
 
     while ($filesFound === 0) {
-      $path = $currentPath . $relativePath;
+      $path = $currentPath . $relativePath . 'core/includes';
       $output->writeln("Searching in <info>$path</info>");
 
-      $iterator = $this->finder
-                       ->files()
-                       ->name('bootstrap.inc')
-                       ->in($path);
+      try {
 
-      $filesFound = $iterator->count();
+        $iterator = $this->finder
+                         ->files()
+                         ->name('bootstrap.inc')
+                         ->in($path);
 
-      if ($filesFound === 0) {
+        $filesFound = $iterator->count();
+
+      } catch (InvalidArgumentException $e) {
         $relativePath .= '../';
 
         if (realpath($currentPath . $relativePath) === '/') {
