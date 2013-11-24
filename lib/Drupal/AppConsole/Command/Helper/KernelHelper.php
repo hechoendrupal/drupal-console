@@ -76,10 +76,10 @@ class KernelHelper extends Helper {
   }
 
   /**
-   *
+   * @return Symfony\Component\EventDispatcher\EventDispatcherInterface
    */
   public function getEventDispatcher() {
-    $this->getKernel()->getContainer()->get('event_dispatcher');
+    return $this->getKernel()->getContainer()->get('event_dispatcher');
   }
 
   /**

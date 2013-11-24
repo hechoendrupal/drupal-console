@@ -23,7 +23,7 @@ class Application extends BaseApplication {
       new InputOption(
         '--bootstrap-file',
         '-b',
-        InputOption::VALUE_REQUIRED,
+        InputOption::VALUE_OPTIONAL,
         'Path to Drupal bootstrap file (core/includes/boostrap.inc).'
       )
     );
@@ -31,7 +31,7 @@ class Application extends BaseApplication {
       new InputOption('--shell', '-s', InputOption::VALUE_NONE, 'Launch the shell.')
     );
     $this->getDefinition()->addOption(
-      new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'The Environment name.', $env)
+      new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, 'The Environment name.', $env)
     );
     $this->getDefinition()->addOption(
       new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.')
@@ -45,7 +45,7 @@ class Application extends BaseApplication {
    * @return int
    */
   public function doRun(InputInterface $input, OutputInterface $output) {
-    $this->bootstrapDrupal($input);
+    $this->bootstrapDrupal($input, $output);
     $this->initDebug($input);
     $this->doKernelConfiguration();
     if (true === $input->hasParameterOption(array('--shell', '-s'))) {
@@ -57,9 +57,15 @@ class Application extends BaseApplication {
     return parent::doRun($input, $output);
   }
 
-  protected function bootstrapDrupal(InputInterface $input) {
+  protected function bootstrapDrupal(InputInterface $input, OutputInterface $output) {
     $drupalBoostrap = $this->getHelperSet()->get('bootstrap');
-    $drupalBoostrap->bootstrap($input->getParameterOption(array('--bootstrap-file', '-b')));
+
+    $bootstrapFile = $input->getParameterOption(array('--bootstrap-file', '-b'));
+    if (!$bootstrapFile) {
+        $bootstrapFile = $this->getHelperSet()->get('finder')->findBootstrapFile($output);
+    }
+
+    $drupalBoostrap->bootstrap($bootstrapFile);
   }
 
   protected function initDebug(InputInterface $input) {
