@@ -16,7 +16,7 @@ class ModuleGenerator extends Generator {
                 throw new \RuntimeException(sprintf('Unable to generate the bundle as the target directory "%s" exists but is a file.', realpath($dir)));
             }
             $files = scandir($dir);
-            if ($files != array('.', '..')) {
+            if ($files != array('.', '..') && !$skip_root) {
                 throw new \RuntimeException(sprintf('Unable to generate the bundle as the target directory "%s" is not empty.', realpath($dir)));
             }
             if (!is_writable($dir)) {
