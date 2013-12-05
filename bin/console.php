@@ -15,7 +15,8 @@ use Symfony\Component\Console\Helper\FormatterHelper;
 
 set_time_limit(0);
 require_once __DIR__ . '/../../../../includes/bootstrap.inc';
-drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
+
+drupal_bootstrap(DRUPAL_BOOTSTRAP_CONFIGURATION);
 
 $input = new ArgvInput();
 $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
