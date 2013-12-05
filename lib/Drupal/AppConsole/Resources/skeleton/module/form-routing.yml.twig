@@ -1,9 +1,10 @@
-{% if name is defined %}
-    {{ module }}_hello:
-    path: '/{{module}}/hello/{name}'
-    defaults:
-    _controller: '\Drupal\{{ module }}\Controller\DefaultController::helloAction'
-    _title: '{{module}} say hello!'
-    requirements:
-    _permission: 'access content'
+
+{% if class_name is defined %}
+{{ module_name }}_{{ class_name | lower }}_form:
+  path: '/{{ module_name }}/settings'
+  defaults:
+    _form: '\Drupal\{{ module_name }}\Form\{{ class_name }}'
+    _title: '{{ module_name }} Form'
+  requirements:
+    _permission: 'access administration pages'
 {% endif %}

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\{{module}}\Form;
+namespace Drupal\{{module_name}}\Form;
 
 {% if services is defined %}
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -15,14 +15,18 @@ use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 {% endfor %}
 {% endif %}
 
-class {{ name }} extends FormBase {% if services is defined%}implements ContainerInjectionInterface {% endif %}{
+
+class {{ class_name }} extends {% if generate_config is defined %} ConfigFormBase {% else %} FormBase {% endif %} implements FormInterface{% if services is defined %}, ContainerInjectionInterface {% endif %}{
 
 {% if services is defined %}
 {% for service in services %}
   protected ${{service.machine_name}};
 {% endfor %}
 
-  public function __constructor({{params}}) {
+  public function __constructor( {% if generate_config %}ConfigFactory $config_factory, ContextInterface $context, {% endif%} {{ params }}) {
+    {% if generate_config %}
+    parent::__construct($config_factory, $context);
+    {% endif %}
 {% for service in services %}
     $this->{{service.machine_name}} = ${{service.machine_name}};
 {% endfor %}
@@ -42,19 +46,20 @@ class {{ name }} extends FormBase {% if services is defined%}implements Containe
    * {@inheritdoc}
    */
   public function getFormID() {
-    return '{{ name | lower }}_form';
+    return '{{ class_name | lower }}_form';
   }
 
   /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, array &$form_state) {
-
+    $config = $this->configFactory->get('{{ class_name | lower }}_config');
   {% for input in inputs %}
   $form['{{ input.name }}'] = array(
       '#type' => '{{ input.type }}',
       '#title' => t('{{ input.label }}'),
       '#description' => t(''),
+      '#default_value' => $config->get('{{ input.name }}')
     );
   {% endfor %}
    return parent::buildForm($form, $form_state);
@@ -71,6 +76,13 @@ class {{ name }} extends FormBase {% if services is defined%}implements Containe
    * {@inheritdoc}
    */
   public function submitForm(array &$form, array &$form_state) {
-    {# TODO: save form_state #}
+    parent::submitForm($form, $form_state);
+
+    $this->configFactory->get('{{ class_name | lower }}_config')
+    {% for input in inputs %}
+      ->set('{{ input.name }}', $form_state['values']['{{ input.name }}'])
+    {% endfor %}
+    ->save();
   }
+
 }

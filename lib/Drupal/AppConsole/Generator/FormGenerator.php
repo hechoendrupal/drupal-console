@@ -15,10 +15,11 @@ class FormGenerator extends Generator {
     $path_controller = $path . '/lib/Drupal/' . $module . '/Form';
 
     $parameters = array(
-      'name' => $class_name,
+      'class_name' => $class_name,
       'services' => $services,
       'inputs' => $inputs,
-      'module' => $module
+      'module_name' => $module,
+      'generate_config' => $generate_config
     );
 
     $this->renderFile(
