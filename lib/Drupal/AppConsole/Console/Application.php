@@ -7,6 +7,7 @@ use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class Application extends BaseApplication {
 
@@ -45,7 +46,11 @@ class Application extends BaseApplication {
    */
   public function doRun(InputInterface $input, OutputInterface $output) {
     $this->kernel->boot();
+
     $container = $this->kernel->getContainer();
+    $request = Request::createFromGlobals();
+    $container->set('request', $request);
+    drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
 
     foreach ($this->all() as $command) {
       if ($command instanceof ContainerAwareInterface) {
