@@ -49,13 +49,6 @@ class GeneratorFormCommand extends GeneratorCommand {
     $inputs = $input->getOption('inputs');
     if ($inputs){
       $generate_config = $input->getOption('config_file');
-      // need config.factory services
-      if ($generate_config){
-        //check if config.factory not is in services array
-        if (!in_array('config.factory',$services)){
-          $services[] = 'config.factory';
-        }
-      }
     }
     else{
       $generate_config = false;

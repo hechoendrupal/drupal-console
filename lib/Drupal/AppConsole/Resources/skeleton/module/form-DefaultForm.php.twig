@@ -4,8 +4,8 @@ namespace Drupal\{{module_name}}\Form;
 
 {% if services is defined %}
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Form\FormBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Form\FormInterface;
 {% set params = '' %}
 {% for service in services %}use {{ service.class }};
 {% set params = params ~ service.short ~ ' $' ~ service.machine_name %}
@@ -14,9 +14,9 @@ use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 {% endif %}
 {% endfor %}
 {% endif %}
+use Drupal\Core\Form\{% if generate_config is defined %}ConfigFormBase{% else %}FormBase{% endif %};
 
-
-class {{ class_name }} extends {% if generate_config is defined %} ConfigFormBase {% else %} FormBase {% endif %} implements FormInterface{% if services is defined %}, ContainerInjectionInterface {% endif %}{
+class {{ class_name }} extends {% if generate_config is defined %}ConfigFormBase{% else %}FormBase {% endif %} implements FormInterface{% if services is defined %}, ContainerInjectionInterface {% endif %}{
 
 {% if services is defined %}
 {% for service in services %}
@@ -27,13 +27,17 @@ class {{ class_name }} extends {% if generate_config is defined %} ConfigFormBas
     {% if generate_config %}
     parent::__construct($config_factory, $context);
     {% endif %}
-{% for service in services %}
+    {% for service in services %}
     $this->{{service.machine_name}} = ${{service.machine_name}};
-{% endfor %}
+    {% endfor %}
   }
 
   public static function create(ContainerInterface $container){
     return new static(
+      {% if generate_config %}
+      $container->get('config.factory'),
+      $container->get('config.context.free'),
+      {% endif%}
 {% for service in services %}
       $container->get('{{service.name}}'){% if loop.last == false %},
 {% endif %}
