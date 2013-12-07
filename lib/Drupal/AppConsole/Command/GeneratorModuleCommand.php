@@ -102,7 +102,7 @@ class GeneratorModuleCommand extends GeneratorCommand {
             $input->setOption('module', $module);
         }
 
-        if (!$input->getOption('skip-root'))
+        if (!$input->getOption('skip-root')){
             $description = $input->getOption('description');
             if (!$description) {
                 $description = $dialog->ask($output, $dialog->getQuestion('Description', 'My Awesome Module'), 'My Awesome Module');
