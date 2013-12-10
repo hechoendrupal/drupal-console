@@ -145,22 +145,14 @@ class GeneratorFormCommand extends GeneratorCommand {
       true
     )) {
       $input_types = array(
-        'text',
-        'password',
-        'submit',
+        'textfield',
         'color',
         'date',
         'datetime',
-        'datetime-local',
         'email',
-        'month',
         'number',
         'range',
-        'search',
-        'tel',
-        'time',
-        'url',
-        'week');
+        'tel');
       $inputs = array();
       while(true){
 
