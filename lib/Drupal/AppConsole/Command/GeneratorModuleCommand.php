@@ -28,6 +28,7 @@ class GeneratorModuleCommand extends GeneratorCommand {
                 new InputOption('controller', '', InputOption::VALUE_NONE, 'Generate controller'),
                 new InputOption('setting', '', InputOption::VALUE_NONE, 'Generate settings file'),
                 new InputOption('structure', '', InputOption::VALUE_NONE, 'Whether to generate the whole directory structure'),
+                new InputOption('skip-root', '', InputOption::VALUE_NONE, 'Generate structure on module existent'),
             ))
             ->setDescription('Generate a module')
             ->setHelp('The <info>generate:module</info> command helps you generates new modules.')
@@ -62,7 +63,7 @@ class GeneratorModuleCommand extends GeneratorCommand {
         $structure =  $input->getOption('structure');
 
         $generator = $this->getGenerator();
-        $generator->generate($module, $dir, $description, $core, $package, $controller, $setting, $structure);
+        $generator->generate($module, $dir, $description, $core, $package, $controller, $setting, $structure, $skip_root);
 
         $dialog->writeGeneratorSummary($output, $errors);
       }
@@ -101,23 +102,25 @@ class GeneratorModuleCommand extends GeneratorCommand {
             $input->setOption('module', $module);
         }
 
-        $description = $input->getOption('description');
-        if (!$description) {
-            $description = $dialog->ask($output, $dialog->getQuestion('Description', 'My Awesome Module'), 'My Awesome Module');
-        }
-        $input->setOption('description', $description);
+        if (!$input->getOption('skip-root')){
+            $description = $input->getOption('description');
+            if (!$description) {
+                $description = $dialog->ask($output, $dialog->getQuestion('Description', 'My Awesome Module'), 'My Awesome Module');
+            }
+            $input->setOption('description', $description);
 
-        $other = $input->getOption('package');
+            $package = $input->getOption('package');
+            if (!$package) {
+                $package = $dialog->ask($output, $dialog->getQuestion('Package', 'Other'), 'Other');
+            }
+            $input->setOption('package', $package);
+        }
+
+        $other = $input->getOption('core');
         if (!$other) {
             $other = $dialog->ask($output, $dialog->getQuestion('Core', '8.x'), '8.x');
         }
         $input->setOption('core', '8.x');
-
-        $package = $input->getOption('package');
-        if (!$package) {
-            $package = $dialog->ask($output, $dialog->getQuestion('Package', 'Other'), 'Other');
-        }
-        $input->setOption('package', $package);
 
         $controller = $input->getOption('controller');
         if (!$controller && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate a Controller', 'no', '?'), false)) {

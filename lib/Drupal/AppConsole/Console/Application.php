@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Debug\Debug;
 
+
 class Application extends BaseApplication {
 
   /**
@@ -65,7 +66,7 @@ class Application extends BaseApplication {
         $bootstrapFile = $this->getHelperSet()->get('finder')->findBootstrapFile($output);
     }
 
-    $drupalBoostrap->bootstrap($bootstrapFile);
+    $drupalBoostrap->bootstrapConfiguration($bootstrapFile);
   }
 
   protected function initDebug(InputInterface $input) {
