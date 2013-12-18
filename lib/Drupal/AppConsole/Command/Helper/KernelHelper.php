@@ -3,6 +3,7 @@ namespace Drupal\AppConsole\Command\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Drupal\Core\DrupalKernel;
 
 class KernelHelper extends Helper {
@@ -59,6 +60,12 @@ class KernelHelper extends Helper {
    */
   public function bootKernel() {
     $this->getKernel()->boot();
+
+    $container = $this->getKernel()->getContainer();
+    $request = Request::createFromGlobals();
+    $container->set('request', $request);
+
+    $this->getHelperSet()->get('bootstrap')->bootstrapFull();
   }
 
   /**
