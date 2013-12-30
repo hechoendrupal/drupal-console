@@ -23,7 +23,7 @@ class {{ class_name }} extends {% if generate_config is defined %} ConfigFormBas
   protected ${{service.machine_name}};
 {% endfor %}
 
-  public function __constructor( {% if generate_config %}ConfigFactory $config_factory, ContextInterface $context, {% endif%} {{ params }}) {
+  public function __construct( {% if generate_config %}ConfigFactory $config_factory, ContextInterface $context, {% endif%} {{ params }}) {
     {% if generate_config %}
     parent::__construct($config_factory, $context);
     {% endif %}
