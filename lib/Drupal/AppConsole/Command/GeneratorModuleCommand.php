@@ -22,6 +22,7 @@ class GeneratorModuleCommand extends GeneratorCommand {
         $this
             ->setDefinition(array(
                 new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
+                new InputOption('module-path','',InputOption::VALUE_REQUIRED, 'The path of the module'),
                 new InputOption('description','',InputOption::VALUE_OPTIONAL, 'Description module'),
                 new InputOption('core','',InputOption::VALUE_OPTIONAL, 'Core version'),
                 new InputOption('package','',InputOption::VALUE_OPTIONAL, 'Package'),
@@ -44,7 +45,6 @@ class GeneratorModuleCommand extends GeneratorCommand {
     protected function execute(InputInterface $input, OutputInterface $output) {
 
         $dialog = $this->getDialogHelper();
-        $dir = DRUPAL_ROOT . "/modules";
 
         if ($input->isInteractive()) {
             if (!$dialog->askConfirmation($output, $dialog->getQuestion('Do you confirm generation', 'yes', '?'), true)) {
@@ -54,7 +54,7 @@ class GeneratorModuleCommand extends GeneratorCommand {
         }
 
         $module = Validators::validateModuleName($input->getOption('module'));
-
+        $module_path = Validators::validateModulePath($input->getOption('module-path'));
         $description = $input->getOption('description');
         $core = $input->getOption('core');
         $package = $input->getOption('package');
@@ -63,7 +63,7 @@ class GeneratorModuleCommand extends GeneratorCommand {
         $structure =  $input->getOption('structure');
 
         $generator = $this->getGenerator();
-        $generator->generate($module, $dir, $description, $core, $package, $controller, $setting, $structure, $skip_root);
+        $generator->generate($module, $module_path, $description, $core, $package, $controller, $setting, $structure, $skip_root);
 
         $dialog->writeGeneratorSummary($output, $errors);
       }
@@ -79,6 +79,7 @@ class GeneratorModuleCommand extends GeneratorCommand {
         $dialog->writeSection($output, 'Welcome to the Drupal module generator');
 
         $module = null;
+        $module_path = null;
 
         try {
           $namespace = $input->getOption('module') ? Validators::validateModuleName($input->getOption('module')) : null;
@@ -101,6 +102,13 @@ class GeneratorModuleCommand extends GeneratorCommand {
 
             $input->setOption('module', $module);
         }
+
+        $module_path_default = DRUPAL_ROOT . "/modules";
+        $module_path = $input->getOption('module-path');
+        if (!$module_path) {
+           $module_path = $dialog->ask($output, $dialog->getQuestion('Module Path', $module_path_default), $module_path_default);
+        }
+        $input->setOption('module-path', $module_path);
 
         if (!$input->getOption('skip-root')){
             $description = $input->getOption('description');
