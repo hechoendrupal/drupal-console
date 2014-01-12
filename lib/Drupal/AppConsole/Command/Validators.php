@@ -9,6 +9,13 @@ class Validators {
     return $module;
   }
 
+  // TODO: validate module name
+  public static function validateModulePath($module_path){
+    if(!is_dir($module_path)) {
+      throw new \InvalidArgumentException(sprintf('Module path "%s" is invalid. You need to provide a valid path.', $module_path));
+    }
+  }
+
   /**
    * Validate if module name exist
    * @param  [type] $module  Module name
