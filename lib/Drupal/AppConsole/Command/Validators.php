@@ -14,6 +14,7 @@ class Validators {
     if(!is_dir($module_path)) {
       throw new \InvalidArgumentException(sprintf('Module path "%s" is invalid. You need to provide a valid path.', $module_path));
     }
+    return $module_path;
   }
 
   /**
