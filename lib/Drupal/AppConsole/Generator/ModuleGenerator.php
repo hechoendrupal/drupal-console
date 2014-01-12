@@ -8,7 +8,7 @@ class ModuleGenerator extends Generator {
 
   public function __construct() {}
 
-  public function generate($module, $dir, $description, $core, $package, $controller, $setting, $structure, $skip_root) {
+  public function generate($module, $dir, $description, $core, $package, $controller, $tests, $setting, $structure, $skip_root) {
 
         $dir .= '/' . $module;
         if (file_exists($dir)) {
@@ -77,6 +77,14 @@ class ModuleGenerator extends Generator {
           );
 
           $this->renderFile('module/controller-routing.yml.twig', $dir.'/'.$module.'.routing.yml', $parameters);
+        }
+
+        if ($tests){
+          $this->renderFile(
+              'module/module.tests.twig',
+              $dir.'/lib/Drupal/'.$module.'/Tests/'. $module .'Test.php',
+              $parameters
+          );
         }
 
         if ($structure) {
