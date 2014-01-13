@@ -23,6 +23,7 @@ class GeneratorControllerCommand extends GeneratorCommand {
         new InputOption('name','',InputOption::VALUE_OPTIONAL, 'Controller name'),
         new InputOption('services','',InputOption::VALUE_OPTIONAL, 'Load services'),
         new InputOption('routing', '', InputOption::VALUE_NONE, 'Update routing'),
+        new InputOption('test', '', InputOption::VALUE_NONE, 'Generate test'),
       ))
       ->setDescription('Generate controller')
       ->setHelp('The <info>generate:controller</info> command helps you generate a new controller.')
@@ -42,6 +43,7 @@ class GeneratorControllerCommand extends GeneratorCommand {
     $services = $input->getOption('services');
     $update_routing = $input->getOption('routing');
     $name = $input->getOption('name');
+    $test = $input->getOption('test');
 
     $map_service = array();
     foreach ($services as $service) {
@@ -55,7 +57,8 @@ class GeneratorControllerCommand extends GeneratorCommand {
     }
 
     $generator = $this->getGenerator();
-    $generator->generate($module, $name, $controller, $map_service);
+
+    $generator->generate($module, $name, $controller, $map_service, $test);
 
     $dialog->writeGeneratorSummary($output, $errors);
   }
@@ -91,6 +94,13 @@ class GeneratorControllerCommand extends GeneratorCommand {
     $name = $this->getName();
     $name = $dialog->ask($output, $dialog->getQuestion('Enter the controller name', 'DefaultController'), 'DefaultController');
     $input->setOption('name', $name);
+
+    // Test
+    $test = $input->getOption('test');
+    if (!$test && $dialog->askConfirmation($output, $dialog->getQuestion('Generate Test Unit?', 'yes', '?'), TRUE)) {
+        $test = true;
+    }
+    $input->setOption('test', $test);
 
     // Services
       // TODO: Create a method for this job
