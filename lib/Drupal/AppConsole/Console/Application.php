@@ -1,40 +1,41 @@
 <?php
 namespace Drupal\AppConsole\Console;
 
-use Drupal\Core\DrupalKernel;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Debug\Debug;
+
 
 class Application extends BaseApplication {
-
-  /**
-   * @var DrupalKernel
-   */
-  protected $kernel;
 
   /**
    * Create a new application extended from \Symfony\Component\Console\Application
    *
    * @param DrupalKernel $kernel
    */
-  public function __construct(DrupalKernel $kernel) {
-    $this->kernel = $kernel;
+  public function __construct() {
     $env = 'prod';
 
     parent::__construct('Drupal', 'Drupal App Console - 8.x/ ' . $env);
 
     $this->getDefinition()->addOption(
-        new InputOption('--shell', '-s', InputOption::VALUE_NONE, 'Launch the shell.')
+      new InputOption(
+        '--bootstrap-file',
+        '-b',
+        InputOption::VALUE_OPTIONAL,
+        'Path to Drupal bootstrap file (core/includes/boostrap.inc).'
+      )
     );
     $this->getDefinition()->addOption(
-        new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'The Environment name.', $env)
+      new InputOption('--shell', '-s', InputOption::VALUE_NONE, 'Launch the shell.')
     );
     $this->getDefinition()->addOption(
-        new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.')
+      new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, 'The Environment name.', $env)
+    );
+    $this->getDefinition()->addOption(
+      new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.')
     );
   }
 
@@ -45,30 +46,56 @@ class Application extends BaseApplication {
    * @return int
    */
   public function doRun(InputInterface $input, OutputInterface $output) {
-    $this->kernel->boot();
-
-    $container = $this->kernel->getContainer();
-    $request = Request::createFromGlobals();
-    $container->set('request', $request);
-    drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
-
-    foreach ($this->all() as $command) {
-      if ($command instanceof ContainerAwareInterface) {
-        $command->setContainer($container);
-      }
-    }
-
-    $this->setDispatcher($container->get('event_dispatcher'));
-
+    $this->bootstrapDrupal($input, $output);
+    $this->initDebug($input);
+    $this->doKernelConfiguration();
     if (true === $input->hasParameterOption(array('--shell', '-s'))) {
-
-      $shell = $this->getHelperSet()->get('shell')->getShell();
-      $shell->setProcessIsolation($input->hasParameterOption(array('--process-isolation')));
-      $shell->run();
+      $this->runShell($input);
 
       return 0;
     }
 
     return parent::doRun($input, $output);
+  }
+
+  protected function bootstrapDrupal(InputInterface $input, OutputInterface $output) {
+    $drupalBoostrap = $this->getHelperSet()->get('bootstrap');
+
+    $bootstrapFile = $input->getParameterOption(array('--bootstrap-file', '-b'));
+    if (!$bootstrapFile) {
+        $bootstrapFile = $this->getHelperSet()->get('finder')->findBootstrapFile($output);
+    }
+
+    $drupalBoostrap->bootstrapConfiguration($bootstrapFile);
+  }
+
+  protected function initDebug(InputInterface $input) {
+    $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
+
+    $debug = getenv('DRUPAL_DEBUG') !== '0'
+        && !$input->hasParameterOption(array('--no-debug', ''))
+        && $env !== 'prod';
+
+    if ($debug) {
+      Debug::enable();
+    }
+
+    $kernelHelper = $this->getHelperSet()->get('kernel');
+    $kernelHelper->setDebug($debug);
+    $kernelHelper->setEnvironment($env);
+  }
+
+  protected function doKernelConfiguration() {
+    $kernelHelper = $this->getHelperSet()->get('kernel');
+    $kernelHelper->bootKernel();
+    $kernelHelper->initCommands($this->all());
+
+    $this->setDispatcher($kernelHelper->getEventDispatcher());
+  }
+
+  protected function runShell(InputInterface $input) {
+    $shell = $this->getHelperSet()->get('shell')->getShell();
+    $shell->setProcessIsolation($input->hasParameterOption(array('--process-isolation')));
+    $shell->run();
   }
 }
