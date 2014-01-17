@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * @file
+ * Tests for {{module}}.module.
+ */
+
+namespace Drupal\{{module}}\Tests;
+
+use Drupal\simpletest\WebTestBase;
+
+/**
+ * Provides automated tests for the {{module}} module.
+ */
+class {{name}}Test extends WebTestBase {
+
+  public static function getInfo() {
+    return array(
+      'name' => "{{module}} {{name}}'s controller functionality",
+      'description' => 'Test Unit for module {{module}} and controller {{name}}.',
+      'group' => 'Other',
+    );
+  }
+
+  function setUp() {
+    parent::setUp();
+  }
+
+  /**
+   * Tests {{module}} functionality.
+   */
+  function test{{name}}() {
+    //Check that the basic functions of module {{module}}.
+    $this->assertEqual(TRUE, TRUE, 'Test Unit Generated via App Console.');
+  }
+
+}
