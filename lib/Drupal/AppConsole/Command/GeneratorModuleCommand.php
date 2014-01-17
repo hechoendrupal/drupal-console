@@ -27,6 +27,7 @@ class GeneratorModuleCommand extends GeneratorCommand {
                 new InputOption('core','',InputOption::VALUE_OPTIONAL, 'Core version'),
                 new InputOption('package','',InputOption::VALUE_OPTIONAL, 'Package'),
                 new InputOption('controller', '', InputOption::VALUE_NONE, 'Generate controller'),
+                new InputOption('tests', '', InputOption::VALUE_NONE, 'Generate tests'),
                 new InputOption('setting', '', InputOption::VALUE_NONE, 'Generate settings file'),
                 new InputOption('structure', '', InputOption::VALUE_NONE, 'Whether to generate the whole directory structure'),
                 new InputOption('skip-root', '', InputOption::VALUE_NONE, 'Generate structure on module existent'),
@@ -59,11 +60,12 @@ class GeneratorModuleCommand extends GeneratorCommand {
         $core = $input->getOption('core');
         $package = $input->getOption('package');
         $controller = $input->getOption('controller');
+        $tests = $input->getOption('tests');
         $setting = $input->getOption('setting');
         $structure =  $input->getOption('structure');
 
         $generator = $this->getGenerator();
-        $generator->generate($module, $module_path, $description, $core, $package, $controller, $setting, $structure, $skip_root);
+        $generator->generate($module, $module_path, $description, $core, $package, $controller, $tests, $setting, $structure, $skip_root);
 
         $dialog->writeGeneratorSummary($output, $errors);
       }
@@ -135,6 +137,13 @@ class GeneratorModuleCommand extends GeneratorCommand {
             $controller = true;
         }
         $input->setOption('controller', $controller);
+
+        $tests = $input->getOption('tests');
+        if (!$tests && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate Test', 'yes', '?'), TRUE)) {
+            $tests = TRUE;
+        }
+        $input->setOption('tests', $tests);
+
 
         $setting = $input->getOption('setting');
         if (!$setting && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate a setting file', 'no', '?'), false)) {
