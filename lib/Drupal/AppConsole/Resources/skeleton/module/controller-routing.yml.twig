@@ -2,8 +2,8 @@
 {{ module }}_hello:
   path: '/{{module}}/hello/{name}'
   defaults:
-    _content: '\Drupal\{{ module }}\Controller\DefaultController::helloAction'
-    _title: '{{module}} say hello!'
+    _content: '\Drupal\{{ module }}\Controller\{{ module }}::helloAction'
+    _title: '{{module}} Title'
   requirements:
     _permission: 'access content'
 {% endif %}
