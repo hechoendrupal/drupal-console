@@ -1,42 +1,38 @@
 <?php
-use Drupal\AppConsole\Console\Application;
 use Drupal\Core\DrupalKernel;
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Debug\Debug;
-use Symfony\Component\Console\Helper\HelperSet;
-use Drupal\AppConsole\Command\Helper\ShellHelper;
 use Drupal\AppConsole\Console\Shell;
+use Drupal\AppConsole\Console\Application;
+use Drupal\AppConsole\Command\Helper\ShellHelper;
+use Drupal\AppConsole\Command\Helper\DialogHelper;
+use Drupal\AppConsole\Command\Helper\KernelHelper;
+use Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper;
+use Drupal\AppConsole\Command\Helper\BootstrapFinderHelper;
 use Drupal\AppConsole\Command\GeneratorModuleCommand;
 use Drupal\AppConsole\Command\GeneratorControllerCommand;
 use Drupal\AppConsole\Command\GeneratorFormCommand;
 use Drupal\AppConsole\Command\ServicesCommand;
-use Drupal\AppConsole\Command\Helper\DialogHelper;
+use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\FormatterHelper;
+use Symfony\Component\Finder\Finder;
 
 set_time_limit(0);
-require_once __DIR__ . '/../../../../includes/bootstrap.inc';
-drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
 
-$input = new ArgvInput();
-$env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
-$debug = getenv('DRUPAL_DEBUG') !== '0' && !$input->hasParameterOption(array('--no-debug', '')) && $env !== 'prod';
-if ($debug) {
-    Debug::enable();
-}
+$application = new Application();
 
-$kernel = new DrupalKernel($env, drupal_classloader(), !$debug);
-$application = new Application($kernel);
+$application->setHelperSet(new HelperSet(array(
+  'bootstrap' => new DrupalBootstrapHelper(),
+  'finder' => new BootstrapFinderHelper(new Finder()),
+  'kernel' => new KernelHelper(),
+  'shell' => new ShellHelper(new Shell($application)),
+  'dialog' => new DialogHelper(),
+  'formatter' => new FormatterHelper(),
+)));
 
-$helperSet = new HelperSet();
-$helperSet->set(new ShellHelper(new Shell($application)), 'shell');
-$helperSet->set(new DialogHelper(), 'dialog');
-$helperSet->set(new FormatterHelper(), 'formatter');
-
-$application->setHelperSet($helperSet);
 $application->addCommands(array(
-    new GeneratorModuleCommand(),
-    new GeneratorControllerCommand(),
-    new GeneratorFormCommand(),
-    new ServicesCommand(),
+  new GeneratorModuleCommand(),
+  new GeneratorControllerCommand(),
+  new GeneratorFormCommand(),
+  new ServicesCommand(),
 ));
-$application->run($input);
+
+$application->run();

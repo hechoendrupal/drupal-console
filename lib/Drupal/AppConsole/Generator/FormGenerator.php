@@ -15,14 +15,15 @@ class FormGenerator extends Generator {
     $path_controller = $path . '/lib/Drupal/' . $module . '/Form';
 
     $parameters = array(
-      'name' => $class_name,
+      'class_name' => $class_name,
       'services' => $services,
       'inputs' => $inputs,
-      'module' => $module
+      'module_name' => $module,
+      'generate_config' => $generate_config
     );
 
     $this->renderFile(
-      'module/module.DefaultForm.php.twig',
+      'module/form-DefaultForm.php.twig',
       $path_controller . '/'. $class_name .'.php',
       $parameters
     );
@@ -31,7 +32,7 @@ class FormGenerator extends Generator {
       $this->renderFile('module/module.config.yml.twig', $path .'/config/'. strtolower($class_name).'_config.yml', $parameters, FILE_APPEND);
 
     if ($update_routing)
-      $this->renderFile('module/controller-routing.yml.twig', $path .'/'. $module.'.routing.yml', $parameters, FILE_APPEND);
+      $this->renderFile('module/form-routing.yml.twig', $path .'/'. $module.'.routing.yml', $parameters, FILE_APPEND);
   }
 
 }

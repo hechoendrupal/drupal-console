@@ -32,17 +32,17 @@
                         "Drupal\\Core": "core/lib/",
                         "Drupal\\Component": "core/lib/",
                         "Drupal\\Driver": "drivers/lib/"
-                    },
-                    "files": [
-                        "core/lib/Drupal.php"
-                    ]
+                    }
                 }
             }
         }
     ],
+    "type": "drupal-module",
     "require": {
         "php": ">=5.3.3",
-        "symfony/console": "2.3.*"
+        "symfony/console": "2.3.*",
+        "symfony/finder": "2.3.*",
+        "composer/installers": "~1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.27",
@@ -57,7 +57,6 @@
         "bin-dir": "bin/"
     },
     "autoload": {
-        "psr-0": {"Drupal": "lib"}
+        "psr-0": {"Drupal\\AppConsole": "lib"}
     }
 }
-
