@@ -8,7 +8,10 @@ Thumbs.db
 .project
 .settings/
 
-#Composer
+# Composer
 vendor
 bin/phpunit
 
+# Binaries
+box.phar
+console.phar

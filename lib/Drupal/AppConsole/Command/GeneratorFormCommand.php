@@ -47,12 +47,15 @@ class GeneratorFormCommand extends GeneratorCommand {
 
     // if exist form generate config file
     $inputs = $input->getOption('inputs');
-    if ($inputs)
+    if ($inputs){
       $generate_config = $input->getOption('config_file');
-    else
+    }
+    else{
       $generate_config = false;
+    }
 
     $map_service = array();
+
     foreach ($services as $service) {
       $class = get_class($this->getContainer()->get($service));
       $map_service[$service] = array(
@@ -142,22 +145,14 @@ class GeneratorFormCommand extends GeneratorCommand {
       true
     )) {
       $input_types = array(
-        'text',
-        'password',
-        'submit',
+        'textfield',
         'color',
         'date',
         'datetime',
-        'datetime-local',
         'email',
-        'month',
         'number',
         'range',
-        'search',
-        'tel',
-        'time',
-        'url',
-        'week');
+        'tel');
       $inputs = array();
       while(true){
 

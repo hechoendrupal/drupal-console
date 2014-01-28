@@ -7,12 +7,23 @@ The DrupalAppConsole not is a competition of Drush it’s your new best friend.
 
 ### Steps for install:
 
+There are two options to install the console. The first one is using Composer and install the project as a module.
+
 ```bash
 $ cd path/to/drupal8.dev
 $ curl -sS https://getcomposer.org/installer | php
-$ COMPOSER_BIN_DIR=bin php composer.phar require hechoendrupal/drupal-app-console:dev-master
+$ COMPOSER_BIN_DIR=bin php composer.phar require --dev hechoendrupal/drupal-app-console:dev-master
 $ ./bin/console --help
 ```
+
+The second one is packing this module as a `.phar` file. Clone this repo as a separate project and run the following commands.
+
+```bash
+$ curl -s http://box-project.org/installer.php | php
+$ box.phar build -v
+```
+
+Copy `console.phar` to the root of your Drupal project and instead of `./bin/console` use `php console.phar`.
 
 ### Usage
 

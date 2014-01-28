@@ -22,12 +22,15 @@ class GeneratorModuleCommand extends GeneratorCommand {
         $this
             ->setDefinition(array(
                 new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
+                new InputOption('module-path','',InputOption::VALUE_REQUIRED, 'The path of the module'),
                 new InputOption('description','',InputOption::VALUE_OPTIONAL, 'Description module'),
                 new InputOption('core','',InputOption::VALUE_OPTIONAL, 'Core version'),
                 new InputOption('package','',InputOption::VALUE_OPTIONAL, 'Package'),
                 new InputOption('controller', '', InputOption::VALUE_NONE, 'Generate controller'),
+                new InputOption('tests', '', InputOption::VALUE_NONE, 'Generate tests'),
                 new InputOption('setting', '', InputOption::VALUE_NONE, 'Generate settings file'),
                 new InputOption('structure', '', InputOption::VALUE_NONE, 'Whether to generate the whole directory structure'),
+                new InputOption('skip-root', '', InputOption::VALUE_NONE, 'Generate structure on module existent'),
             ))
             ->setDescription('Generate a module')
             ->setHelp('The <info>generate:module</info> command helps you generates new modules.')
@@ -43,7 +46,6 @@ class GeneratorModuleCommand extends GeneratorCommand {
     protected function execute(InputInterface $input, OutputInterface $output) {
 
         $dialog = $this->getDialogHelper();
-        $dir = DRUPAL_ROOT . "/modules";
 
         if ($input->isInteractive()) {
             if (!$dialog->askConfirmation($output, $dialog->getQuestion('Do you confirm generation', 'yes', '?'), true)) {
@@ -53,16 +55,17 @@ class GeneratorModuleCommand extends GeneratorCommand {
         }
 
         $module = Validators::validateModuleName($input->getOption('module'));
-
+        $module_path = Validators::validateModulePath($input->getOption('module-path'));
         $description = $input->getOption('description');
         $core = $input->getOption('core');
         $package = $input->getOption('package');
         $controller = $input->getOption('controller');
+        $tests = $input->getOption('tests');
         $setting = $input->getOption('setting');
         $structure =  $input->getOption('structure');
 
         $generator = $this->getGenerator();
-        $generator->generate($module, $dir, $description, $core, $package, $controller, $setting, $structure);
+        $generator->generate($module, $module_path, $description, $core, $package, $controller, $tests, $setting, $structure, $skip_root);
 
         $dialog->writeGeneratorSummary($output, $errors);
       }
@@ -78,6 +81,7 @@ class GeneratorModuleCommand extends GeneratorCommand {
         $dialog->writeSection($output, 'Welcome to the Drupal module generator');
 
         $module = null;
+        $module_path = null;
 
         try {
           $namespace = $input->getOption('module') ? Validators::validateModuleName($input->getOption('module')) : null;
@@ -101,29 +105,45 @@ class GeneratorModuleCommand extends GeneratorCommand {
             $input->setOption('module', $module);
         }
 
-        $description = $input->getOption('description');
-        if (!$description) {
-            $description = $dialog->ask($output, $dialog->getQuestion('Description', 'My Awesome Module'), 'My Awesome Module');
+        $module_path_default = DRUPAL_ROOT . "/modules";
+        $module_path = $input->getOption('module-path');
+        if (!$module_path) {
+           $module_path = $dialog->ask($output, $dialog->getQuestion('Module Path', $module_path_default), $module_path_default);
         }
-        $input->setOption('description', $description);
+        $input->setOption('module-path', $module_path);
 
-        $other = $input->getOption('package');
+        if (!$input->getOption('skip-root')){
+            $description = $input->getOption('description');
+            if (!$description) {
+                $description = $dialog->ask($output, $dialog->getQuestion('Description', 'My Awesome Module'), 'My Awesome Module');
+            }
+            $input->setOption('description', $description);
+
+            $package = $input->getOption('package');
+            if (!$package) {
+                $package = $dialog->ask($output, $dialog->getQuestion('Package', 'Other'), 'Other');
+            }
+            $input->setOption('package', $package);
+        }
+
+        $other = $input->getOption('core');
         if (!$other) {
             $other = $dialog->ask($output, $dialog->getQuestion('Core', '8.x'), '8.x');
         }
         $input->setOption('core', '8.x');
-
-        $package = $input->getOption('package');
-        if (!$package) {
-            $package = $dialog->ask($output, $dialog->getQuestion('Package', 'Other'), 'Other');
-        }
-        $input->setOption('package', $package);
 
         $controller = $input->getOption('controller');
         if (!$controller && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate a Controller', 'no', '?'), false)) {
             $controller = true;
         }
         $input->setOption('controller', $controller);
+
+        $tests = $input->getOption('tests');
+        if (!$tests && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate Test', 'yes', '?'), TRUE)) {
+            $tests = TRUE;
+        }
+        $input->setOption('tests', $tests);
+
 
         $setting = $input->getOption('setting');
         if (!$setting && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate a setting file', 'no', '?'), false)) {

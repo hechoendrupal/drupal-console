@@ -23,7 +23,7 @@ class {{ name }} extends ControllerBase {% if services is defined%}implements Co
   protected ${{service.machine_name}};
 {% endfor %}
 
-  public function __constructor({{params}}) {
+  public function __construct({{params}}) {
 {% for service in services %}
     $this->{{service.machine_name}} = ${{service.machine_name}};
 {% endfor %}

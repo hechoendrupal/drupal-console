@@ -10,7 +10,9 @@ class ControllerGenerator extends Generator {
 
   public function __construct() {}
 
-  public function generate($module, $name, $controller, $services) {
+
+  public function generate($module, $name, $controller, $services, $test ) {
+
     $path = DRUPAL_ROOT . '/' . drupal_get_path('module', $module);
 
     $path_controller = $path . '/lib/Drupal/' . $module . '/Controller';
@@ -29,6 +31,13 @@ class ControllerGenerator extends Generator {
 
     $this->renderFile('module/controller-routing.yml.twig', DRUPAL_ROOT.'/modules/'.$module.'/'.$module.'.routing.yml', $parameters, FILE_APPEND);
 
+    if ($test){
+      $this->renderFile(
+          'module/module.test.twig',
+          $path . '/lib/Drupal/' . $module . '/Tests/' . $name . 'Test.php',
+          $parameters
+      );
+    }
   }
 
 }
