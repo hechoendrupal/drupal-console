@@ -10,7 +10,9 @@ class ControllerGenerator extends Generator {
 
   public function __construct() {}
 
+
   public function generate($module, $name, $controller, $services, $test ) {
+
     $path = DRUPAL_ROOT . '/' . drupal_get_path('module', $module);
 
     $path_controller = $path . '/lib/Drupal/' . $module . '/Controller';
@@ -22,7 +24,7 @@ class ControllerGenerator extends Generator {
     );
 
     $this->renderFile(
-      'module/module.DefaultController.php.twig',
+      'module/module.'. $name .'Controller.php.twig',
       $path_controller . '/'. $name .'.php',
       $parameters
     );
