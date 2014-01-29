@@ -71,8 +71,8 @@ class ModuleGenerator extends Generator {
           $name = 'DefaultController';
           $parameters['name'] = $name;
           $this->renderFile(
-              'module/module.DefaultController.php.twig',
-              $dir.'/lib/Drupal/'.$module.'/Controller/'. $name .'.php',
+              'module/module.controller.php.twig',
+              $dir.'/lib/Drupal/'.$module.'/Controller/'.$name.'.php',
               $parameters
           );
 
