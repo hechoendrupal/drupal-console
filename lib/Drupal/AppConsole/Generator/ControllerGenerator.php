@@ -24,7 +24,7 @@ class ControllerGenerator extends Generator {
     );
 
     $this->renderFile(
-      'module/module.'. $name .'Controller.php.twig',
+      'module/module.controller.php.twig',
       $path_controller . '/'. $name .'.php',
       $parameters
     );
