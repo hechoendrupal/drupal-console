@@ -14,15 +14,14 @@ namespace Drupal\AppConsole\Command;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Drupal\AppConsole\Command\ContainerAwareCommand;
 use Drupal\AppConsole\Command\Helper\DialogHelper;
-use Drupal\AppConsole\Command\Generator;
+use Drupal\AppConsole\Generator\Generator;
 
 /**
  * Base class for generator commands.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-abstract class GeneratorCommand extends ContainerAwareCommand
-{
+abstract class GeneratorCommand extends ContainerAwareCommand {
     private $generator;
 
     // only useful for unit tests
@@ -37,7 +36,7 @@ abstract class GeneratorCommand extends ContainerAwareCommand
     {
         if (null === $this->generator) {
             $this->generator = $this->createGenerator();
-            $this->generator->setSkeletonDirs($this->getSkeletonDirs($bundle));
+            $this->generator->setSkeletonDirs($this->getSkeletonDirs());
         }
 
         return $this->generator;
