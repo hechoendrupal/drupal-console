@@ -19,6 +19,10 @@ class DrupalBootstrapHelper extends Helper {
     \drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
   }
 
+  public function getDrupalRoot(){
+    return DRUPAL_ROOT;
+  }
+
   /**
    * @see \Symfony\Component\Console\Helper\HelperInterface::getName()
    */
