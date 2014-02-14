@@ -37,7 +37,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     // modules collection
     $modules = array();
     //get all modules
-    $all_modules = system_rebuild_module_data();
+    $all_modules = \system_rebuild_module_data();
 
     // Filter modules
     foreach ($all_modules as $name => $filename) {

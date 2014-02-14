@@ -16,6 +16,7 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase {
   protected function getContainer(){
 
     $container = new Container();
+    $container->set('twig', new \Twig_Environment());
     return $container;
   }
 
@@ -29,10 +30,17 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase {
       ->getMock()
     ;
 
+    $drupal_common = $this
+      ->getMockBuilder('Drupal\AppConsole\Command\Helper\DrupalCommonHelper')
+      ->setMethods(['getDrupalGetPath'])
+      ->getMock()
+    ;
+
     return new HelperSet([
       'formatter' => new FormatterHelper(),
       'bootstrap' => $bootstrap,
       'dialog' => $dialog,
+      'drupal_common' => $drupal_common
     ]);
   }
 
