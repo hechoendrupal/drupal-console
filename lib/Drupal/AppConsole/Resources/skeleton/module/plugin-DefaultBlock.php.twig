@@ -1,0 +1,87 @@
+<?php
+/**
+ *@file
+ * Contains \Drupal\{{module}}\Plugin\Block\{{name.class}}.
+ */
+
+namespace Drupal\{{module}}\Plugin\Block;
+
+use Drupal\block\BlockBase;
+use Drupal\block\BlockPluginInterface;
+{% if services is not empty %}
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+{% for service in services %}
+use {{ service.class }};
+{% endfor %}
+{% set dependencies = true %}
+{% else %}
+{% set dependencies = false %}
+{% endif %}
+
+/**
+ * Provides a '{{name.class}}' block.
+ *
+ * @Block(
+ *  id = "{{ name.underscore }}",
+ *  admin_label = @Translation("{{description}}")
+ * )
+ */
+class {{ name.class }} extends BlockBase implements BlockPluginInterface{% if dependencies %}, ContainerFactoryPluginInterface{% endif %} {
+
+{% if dependencies %}
+{% for service in services %}
+  /**
+   * @var  {{ service.class }}
+   */
+  protected ${{ service.machine_name }};
+
+{% endfor %}
+  /**
+   * Construct.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param array $plugin_definition
+   *   The plugin implementation definition.
+{% for service in services %}
+   * @param {{ service.short }} ${{service.machine_name}}
+   * TODO: Set a message
+{% endfor %}
+   */
+  public function __construct(array $configuration, $plugin_id, array $plugin_definition{{args}}) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+
+{% for service in services %}
+    $this->{{service.machine_name}} = ${{service.machine_name}};
+{% endfor %}
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, array $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+{% for service in services %}
+      $container->get('{{ service.name }}'){% if not loop.last %},
+{% endif %}
+{% endfor %}
+    );
+  }
+{% endif %}
+
+  /**
+   * {@inheritdoc}
+   */
+  public function build() {
+    return [
+      '#markup' => '{{ description }}',
+    ];
+  }
+
+}

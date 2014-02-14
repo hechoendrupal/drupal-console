@@ -33,6 +33,7 @@ class Validators {
     if (!in_array($module, array_values($modules))) {
       throw new \InvalidArgumentException(sprintf('Module "%s" is invalid. You can use first generate:module command.', $module));
     }
+
     return $module;
   }
 
@@ -49,7 +50,7 @@ class Validators {
     }
 
     if (!in_array($service, array_values($services))) {
-      throw new \InvalidArgumentException(sprintf('Service "%s" is invalid.\n %s', $service, $services));
+      throw new \InvalidArgumentException(sprintf("Service \"%s\" is invalid.", $service));
     }
 
     return $service;
