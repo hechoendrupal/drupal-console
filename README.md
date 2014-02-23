@@ -1,9 +1,11 @@
-Drupal App Console | The symfony console in Drupal
+Drupal 8 Console scaffolding module generator
 ==============
 
-Drupal 8 has changed a lot the way we develop websites, the idea of this project is to provide similar functionality as the Symfony console, providing a scaffolding tool to automate the creation of modules using the terminal to automatically generate the directory structure for controllers, forms, services and required files.
+Every modern framework nowadays provides a scaffolding tool code generator for speeding up the process of starting a new project and avoid the repetitive tasks.
 
-The DrupalAppConsole not is a competition of Drush it’s your new best friend.
+The purpose of this project is to leverage the Symfony Console Component to provide a CLI tool to automate the creation of drupal 8 modules by generating the directory structure for a module, routing, controllers, forms, services, plugins and required configuration files.
+
+It supports adding services using Dependency Injection on class generation.
 
 ### Steps for install:
 
