@@ -15,3 +15,6 @@ bin/phpunit
 # Binaries
 box.phar
 console.phar
+
+#Test
+phpunit.xml
