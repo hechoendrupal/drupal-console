@@ -28,10 +28,7 @@ class {{ class_name }} extends {% if generate_config is defined %}ConfigFormBase
   protected ${{service.machine_name}};
 {% endfor %}
 
-  public function __construct( {% if generate_config %}ConfigFactory $config_factory{% endif%} {% if services is not empty %},{%endif%} {{ params }}) {
-    {% if generate_config %}
-    parent::__construct($config_factory);
-    {% endif %}
+  public function __construct({% if services is not empty %},{%endif%} {{ params }}) {
     {% for service in services %}
     $this->{{service.machine_name}} = ${{service.machine_name}};
     {% endfor %}
@@ -39,10 +36,6 @@ class {{ class_name }} extends {% if generate_config is defined %}ConfigFormBase
 
   public static function create(ContainerInterface $container){
     return new static(
-      {% if generate_config %}
-      $container->get('config.factory')
-      {% if services is not empty%},{%endif%}
-      {% endif%}
 {% for service in services %}
       $container->get('{{service.name}}'){% if loop.last == false %},
 {% endif %}
@@ -62,7 +55,7 @@ class {{ class_name }} extends {% if generate_config is defined %}ConfigFormBase
    * {@inheritdoc}
    */
   public function buildForm(array $form, array &$form_state) {
-    $config = $this->configFactory->get('{{module_name}}.{{ class_name | lower }}_config');
+    $config = $this->config('{{module_name}}.{{ class_name | lower }}_config');
   {% for input in inputs %}
   $form['{{ input.name }}'] = array(
       '#type' => '{{ input.type }}',
@@ -87,7 +80,7 @@ class {{ class_name }} extends {% if generate_config is defined %}ConfigFormBase
   public function submitForm(array &$form, array &$form_state) {
     parent::submitForm($form, $form_state);
 
-    $this->configFactory->get('{{module_name}}.{{ class_name | lower }}_config')
+    $this->config('{{module_name}}.{{ class_name | lower }}_config')
     {% for input in inputs %}
       ->set('{{ input.name }}', $form_state['values']['{{ input.name }}'])
     {% endfor %}
