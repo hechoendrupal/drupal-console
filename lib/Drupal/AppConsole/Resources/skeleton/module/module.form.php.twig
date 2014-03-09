@@ -21,7 +21,7 @@ use Drupal\Core\Config\ConfigFactory;
 {% endif %}
 use Drupal\Core\Form\{% if generate_config is defined %}ConfigFormBase{% else %}FormBase{% endif %};
 
-class {{ class_name }} extends {% if generate_config is defined %}ConfigFormBase{% else %}FormBase {% endif %} implements FormInterface{% if services is defined %} {% endif %}{
+class {{ class_name }} extends {% if generate_config is defined %}ConfigFormBase{% else %}FormBase {% endif %} {% if services is defined %} {% endif %}{
 
 {% if services is defined %}
 {% for service in services %}
