@@ -34,7 +34,7 @@ class {{ class_name }} extends {% if generate_config is defined %}ConfigFormBase
     {% endfor %}
   }
 
-  public static function create(ContainerInterface $container){
+  public static function create(ContainerInterface $container) {
     return new static(
 {% for service in services %}
       $container->get('{{service.name}}'){% if loop.last == false %},
