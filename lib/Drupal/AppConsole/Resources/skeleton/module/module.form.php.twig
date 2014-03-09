@@ -71,7 +71,7 @@ class {{ class_name }} extends {% if generate_config is defined %}ConfigFormBase
    * {@inheritdoc}
    */
   public function validateForm(array &$form, array &$form_state) {
-    return parent::buildForm($form, $form_state);
+    return parent::validateForm($form, $form_state);
   }
 
   /**
