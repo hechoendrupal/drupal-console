@@ -10,6 +10,7 @@ namespace Drupal\{{module_name}}\Form;
 {% if services is defined %}
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormInterface;
+use Drupal\Core\Config\ConfigFactory;
 {% set params = '' %}
 {% for service in services %}use {{ service.class }};
 {% set params = params ~ service.short ~ ' $' ~ service.machine_name %}
