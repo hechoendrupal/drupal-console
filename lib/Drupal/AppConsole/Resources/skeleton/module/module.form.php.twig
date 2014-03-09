@@ -59,8 +59,8 @@ class {{ class_name }} extends {% if generate_config is defined %}ConfigFormBase
   {% for input in inputs %}
   $form['{{ input.name }}'] = array(
       '#type' => '{{ input.type }}',
-      '#title' => t('{{ input.label }}'),
-      '#description' => t(''),
+      '#title' => $this->t('{{ input.label }}'),
+      '#description' => $this->t(''),
       '#default_value' => $config->get('{{ input.name }}')
     );
   {% endfor %}
