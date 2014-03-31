@@ -8,6 +8,7 @@ use Drupal\AppConsole\Command\Helper\KernelHelper;
 use Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper;
 use Drupal\AppConsole\Command\Helper\BootstrapFinderHelper;
 use Drupal\AppConsole\Command\Helper\DrupalCommonHelper;
+use Drupal\AppConsole\Command\Helper\RegisterCommands;
 use Drupal\AppConsole\Command\GeneratorModuleCommand;
 use Drupal\AppConsole\Command\GeneratorControllerCommand;
 use Drupal\AppConsole\Command\GeneratorFormCommand;
@@ -29,6 +30,7 @@ $application->setHelperSet(new HelperSet(array(
   'dialog' => new DialogHelper(),
   'formatter' => new FormatterHelper(),
   'drupal_common' => new DrupalCommonHelper(),
+  'register_commands' => new RegisterCommands($application),
 )));
 
 $application->addCommands(array(
