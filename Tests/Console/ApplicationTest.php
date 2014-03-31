@@ -91,7 +91,7 @@ class ApplicationTest extends TestCase {
     $this->expectsThatKernelHelperIsRegistered();
     $this->expectsThatKernelHelperIsRetrievedToGetDrupalKernelConfigured();
     $this->expectsThatKernelHelperIsCalledToConfigureDrupalKernel();
-    $this->expextsThatRegisterCommandsIsCalled();
+    $this->expectsThatRegisterCommandsIsCalled();
     $this->expectsThatDrupalConsoleRegisterCommands();
 
     $application = new Application();
@@ -107,7 +107,7 @@ class ApplicationTest extends TestCase {
     $this->expectsThatKernelHelperIsRegistered();
     $this->expectsThatKernelHelperIsRetrievedToGetDrupalKernelConfigured();
     $this->expectsThatKernelHelperIsCalledToConfigureDrupalKernel();
-    $this->expextsThatRegisterCommandsIsCalled();
+    $this->expectsThatRegisterCommandsIsCalled();
     $this->expectsThatDrupalConsoleRegisterCommands();
 
     $this->expectsThatShellHelperIsRegistered();
@@ -128,7 +128,7 @@ class ApplicationTest extends TestCase {
     $this->expectsThatKernelHelperIsRegistered();
     $this->expectsThatKernelHelperIsRetrievedToGetDrupalKernelConfigured();
     $this->expectsThatKernelHelperIsCalledToConfigureDrupalKernel();
-    $this->expextsThatRegisterCommandsIsCalled();
+    $this->expectsThatRegisterCommandsIsCalled();
     $this->expectsThatDrupalConsoleRegisterCommands();
 
     $this->expectsThatDrupalCommandIsRun();
