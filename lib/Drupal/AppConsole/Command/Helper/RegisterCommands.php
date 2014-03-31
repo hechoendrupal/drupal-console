@@ -19,11 +19,11 @@ class RegisterCommands extends Helper {
 
   protected $namespaces;
 
-	public function __construct(Application $console){
+	public function __construct(Application $console) {
 		$this->console = $console;
 	}
 
-  protected function getKernel(){
+  protected function getKernel() {
     if (!isset($this->kernel)){
       $kernelHelper = $this->getHelperSet()->get('kernel');
       $this->kernel = $kernelHelper->getKernel();
@@ -37,7 +37,7 @@ class RegisterCommands extends Helper {
     }
   }
 
-  protected function getModuleList(){
+  protected function getModuleList() {
     // Get Container
     $this->getContainer();
     // Get Module handler
@@ -47,7 +47,7 @@ class RegisterCommands extends Helper {
     }
   }
 
-  protected function getNamespaces(){
+  protected function getNamespaces() {
     $this->getContainer();
     // Get Transversal, namespaces
     if (!isset($this->namespaces)){
