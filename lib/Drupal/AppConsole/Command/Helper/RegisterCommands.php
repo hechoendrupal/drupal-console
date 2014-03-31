@@ -11,29 +11,60 @@ class RegisterCommands extends Helper {
 
 	protected $console;
 
+  protected $container;
+
+  protected $kernel;
+
+  protected $modules;
+
+  protected $namespaces;
+
 	public function __construct(Application $console){
 		$this->console = $console;
 	}
 
+  protected function getKernel(){
+    if (!isset($this->kernel)){
+      $kernelHelper = $this->getHelperSet()->get('kernel');
+      $this->kernel = $kernelHelper->getKernel();
+    }
+  }
 
-	public function register(){
-		// Get Container
-    $kernelHelper = $this->getHelperSet()->get('kernel');
-    $kernel = $kernelHelper->getKernel();
-    $container = $kernel->getContainer();
+  protected function getContainer() {
+    $this->getKernel();
+    if(!isset($this->container)){
+      $this->container = $this->kernel->getContainer();
+    }
+  }
 
+  protected function getModuleList(){
+    // Get Container
+    $this->getContainer();
     // Get Module handler
-    $module_handler = $container->get('module_handler');
-    $modules = $module_handler->getModuleDirectories();
+    if (!isset($this->modules)){
+      $module_handler = $this->container->get('module_handler');
+      $this->modules = $module_handler->getModuleDirectories();
+    }
+  }
 
+  protected function getNamespaces(){
+    $this->getContainer();
     // Get Transversal, namespaces
-    $namespaces = $container->get('container.namespaces');
-    $namespaces = $namespaces->getArrayCopy();
+    if (!isset($this->namespaces)){
+      $namespaces = $this->container->get('container.namespaces');
+      $this->namespaces = $namespaces->getArrayCopy();
+    }
+  }
+
+	public function register() {
+		
+    $this->getModuleList();
+    $this->getNamespaces();
 
     $finder = new Finder();
-    foreach ($modules as $module => $directory) {
+    foreach ($this->modules as $module => $directory) {
 
-      $place = $namespaces['Drupal\\'.$module];
+      $place = $this->namespaces['Drupal\\'.$module];
       $dir = $place. '/Drupal/' . $module . '/Command';
       $prefix = 'Drupal\\'.$module . '\\Command';
 
