@@ -181,7 +181,7 @@ class ApplicationTest extends TestCase {
                  ->will($this->returnValue($this->eventDispatcher));
   }
 
-  protected function expextsThatRegisterCommandsIsCalled(){
+  protected function expectsThatRegisterCommandsIsCalled(){
     $this->helperSet->expects($this->at(5))
                     ->method('get')
                     ->with('register_commands')
