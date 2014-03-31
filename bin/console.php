@@ -17,7 +17,6 @@ use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Finder\Finder;
 
-
 set_time_limit(0);
 
 $application = new Application();
