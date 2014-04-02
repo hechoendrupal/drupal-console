@@ -39,9 +39,9 @@
     ],
     "type": "drupal-module",
     "require": {
-        "php": ">=5.3.3",
-        "symfony/console": "2.3.*",
-        "symfony/finder": "2.3.*",
+        "php": ">=5.4.2",
+        "symfony/console": "2.4.*",
+        "symfony/finder": "2.4.*",
         "twig/twig": "1.15.*",
         "composer/installers": "~1.0"
     },
