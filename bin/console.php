@@ -8,6 +8,7 @@ use Drupal\AppConsole\Command\Helper\KernelHelper;
 use Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper;
 use Drupal\AppConsole\Command\Helper\BootstrapFinderHelper;
 use Drupal\AppConsole\Command\Helper\DrupalCommonHelper;
+use Drupal\AppConsole\Command\Helper\RegisterCommands;
 use Drupal\AppConsole\Command\GeneratorModuleCommand;
 use Drupal\AppConsole\Command\GeneratorControllerCommand;
 use Drupal\AppConsole\Command\GeneratorFormCommand;
@@ -15,7 +16,6 @@ use Drupal\AppConsole\Command\GeneratorPluginBlockCommand;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Finder\Finder;
-
 
 set_time_limit(0);
 
@@ -29,6 +29,7 @@ $application->setHelperSet(new HelperSet(array(
   'dialog' => new DialogHelper(),
   'formatter' => new FormatterHelper(),
   'drupal_common' => new DrupalCommonHelper(),
+  'register_commands' => new RegisterCommands($application),
 )));
 
 $application->addCommands(array(

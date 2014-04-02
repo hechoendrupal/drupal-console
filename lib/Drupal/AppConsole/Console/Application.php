@@ -6,9 +6,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Debug\Debug;
+use Symfony\Component\Finder\Finder;
 
 
 class Application extends BaseApplication {
+ 
+  private $commandsRegistered = false;
 
   /**
    * Create a new application extended from \Symfony\Component\Console\Application
@@ -49,6 +52,12 @@ class Application extends BaseApplication {
     $this->bootstrapDrupal($input, $output);
     $this->initDebug($input);
     $this->doKernelConfiguration();
+
+    if (!$this->commandsRegistered) {
+      $this->registerCommands();
+      $this->commandsRegistered = true;
+    }
+
     if (true === $input->hasParameterOption(array('--shell', '-s'))) {
       $this->runShell($input);
 
@@ -97,5 +106,10 @@ class Application extends BaseApplication {
     $shell = $this->getHelperSet()->get('shell')->getShell();
     $shell->setProcessIsolation($input->hasParameterOption(array('--process-isolation')));
     $shell->run();
+  }
+
+  protected function registerCommands() {
+    $rc = $this->getHelperSet()->get('register_commands');
+    $rc->register();
   }
 }
