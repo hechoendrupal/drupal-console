@@ -80,6 +80,9 @@ class ApplicationTest extends TestCase {
     $this->command = $this->getMockBuilder('Drupal\AppConsole\Command\GeneratorModuleCommand')
                           ->disableOriginalConstructor()
                           ->getMock();
+    $this->register_commands = $this->getMockBuilder('Drupal\AppConsole\Command\Helper\RegisterCommands')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
   }
 
   public function testCanRunApplication() {
@@ -88,6 +91,8 @@ class ApplicationTest extends TestCase {
     $this->expectsThatKernelHelperIsRegistered();
     $this->expectsThatKernelHelperIsRetrievedToGetDrupalKernelConfigured();
     $this->expectsThatKernelHelperIsCalledToConfigureDrupalKernel();
+    $this->expectsThatRegisterCommandsIsCalled();
+    $this->expectsThatDrupalConsoleRegisterCommands();
 
     $application = new Application();
     $application->setAutoExit(false);
@@ -102,6 +107,8 @@ class ApplicationTest extends TestCase {
     $this->expectsThatKernelHelperIsRegistered();
     $this->expectsThatKernelHelperIsRetrievedToGetDrupalKernelConfigured();
     $this->expectsThatKernelHelperIsCalledToConfigureDrupalKernel();
+    $this->expectsThatRegisterCommandsIsCalled();
+    $this->expectsThatDrupalConsoleRegisterCommands();
 
     $this->expectsThatShellHelperIsRegistered();
     $this->expectsThatShellHelperGetsShell();
@@ -121,6 +128,8 @@ class ApplicationTest extends TestCase {
     $this->expectsThatKernelHelperIsRegistered();
     $this->expectsThatKernelHelperIsRetrievedToGetDrupalKernelConfigured();
     $this->expectsThatKernelHelperIsCalledToConfigureDrupalKernel();
+    $this->expectsThatRegisterCommandsIsCalled();
+    $this->expectsThatDrupalConsoleRegisterCommands();
 
     $this->expectsThatDrupalCommandIsRun();
     $this->expectsThatInputFirstArgumentIsGenerateModuleCommand();
@@ -172,8 +181,15 @@ class ApplicationTest extends TestCase {
                  ->will($this->returnValue($this->eventDispatcher));
   }
 
-  protected function expectsThatShellHelperIsRegistered() {
+  protected function expectsThatRegisterCommandsIsCalled(){
     $this->helperSet->expects($this->at(5))
+                    ->method('get')
+                    ->with('register_commands')
+                    ->will($this->returnValue($this->register_commands));
+  }
+
+  protected function expectsThatShellHelperIsRegistered() {
+    $this->helperSet->expects($this->at(6))
                     ->method('get')
                     ->with('shell')
                     ->will($this->returnValue($this->shellHelper));
@@ -190,6 +206,11 @@ class ApplicationTest extends TestCase {
                 ->method('setProcessIsolation');
     $this->shell->expects($this->once())
                 ->method('run');
+  }
+
+  protected function expectsThatDrupalConsoleRegisterCommands(){
+    $this->register_commands->expects($this->once())
+                            ->method('register');
   }
 
   protected function expectsThatInpuHasShellParameters() {
