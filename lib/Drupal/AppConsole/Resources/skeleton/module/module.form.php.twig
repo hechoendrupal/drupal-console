@@ -7,10 +7,11 @@
 
 namespace Drupal\{{module_name}}\Form;
 
-{% if services is defined %}
+use Drupal\Core\Form\ConfigFormBase;
+
+{% if services is not empty %}
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Form\FormInterface;
-use Drupal\Core\Config\ConfigFactory;
+use Drupal\Core\Config\ConfigFactoryInterface;
 {% set params = '' %}
 {% for service in services %}use {{ service.class }};
 {% set params = params ~ service.short ~ ' $' ~ service.machine_name %}
@@ -19,16 +20,18 @@ use Drupal\Core\Config\ConfigFactory;
 {% endif %}
 {% endfor %}
 {% endif %}
-use Drupal\Core\Form\{% if generate_config is defined %}ConfigFormBase{% else %}FormBase{% endif %};
 
-class {{ class_name }} extends {% if generate_config is defined %}ConfigFormBase{% else %}FormBase {% endif %} {% if services is defined %} {% endif %}{
 
-{% if services is defined %}
+class {{ class_name }} extends ConfigFormBase
+{
+
+{% if services is not empty %}
 {% for service in services %}
   protected ${{service.machine_name}};
 {% endfor %}
 
-  public function __construct({% if services is not empty %},{%endif%} {{ params }}) {
+  public function __construct(ConfigFactoryInterface $config_factory, {{ params }}) {
+    $this->configFactory = $config_factory;
     {% for service in services %}
     $this->{{service.machine_name}} = ${{service.machine_name}};
     {% endfor %}
@@ -36,13 +39,14 @@ class {{ class_name }} extends {% if generate_config is defined %}ConfigFormBase
 
   public static function create(ContainerInterface $container) {
     return new static(
+      $container->get('config.factory'),
 {% for service in services %}
       $container->get('{{service.name}}'){% if loop.last == false %},
 {% endif %}
 {% endfor %}
     );
   }
-  {% endif %}
+{% endif %}
 
   /**
    * {@inheritdoc}

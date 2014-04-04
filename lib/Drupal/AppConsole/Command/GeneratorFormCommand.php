@@ -23,7 +23,6 @@ class GeneratorFormCommand extends GeneratorCommand {
         new InputOption('name','',InputOption::VALUE_OPTIONAL, 'Form name'),
         new InputOption('services','',InputOption::VALUE_OPTIONAL, 'Load services'),
         new InputOption('inputs','',InputOption::VALUE_OPTIONAL, 'Create a inputs in a form'),
-        new InputOption('config_file','',InputOption::VALUE_OPTIONAL,'Create a config file'),
         new InputOption('routing', '', InputOption::VALUE_NONE, 'Update routing'),
       ))
       ->setDescription('Generate form')
@@ -47,27 +46,23 @@ class GeneratorFormCommand extends GeneratorCommand {
 
     // if exist form generate config file
     $inputs = $input->getOption('inputs');
-    if ($inputs){
-      $generate_config = $input->getOption('config_file');
-    }
-    else{
-      $generate_config = false;
-    }
 
     $map_service = array();
 
-    foreach ($services as $service) {
-      $class = get_class($this->getContainer()->get($service));
-      $map_service[$service] = array(
-        'name'  => $service,
-        'machine_name' => str_replace('.', '_', $service),
-        'class' => $class,
-        'short' => end(explode('\\',$class))
-      );
+    if (!empty($services)) {
+        foreach ($services as $service) {
+            $class = get_class($this->getContainer()->get($service));
+            $map_service[$service] = array(
+                'name' => $service,
+                'machine_name' => str_replace('.', '_', $service),
+                'class' => $class,
+                'short' => end(explode('\\', $class))
+            );
+        }
     }
 
     $generator = $this->getGenerator();
-    $generator->generate($module, $class_name, $map_service, $inputs, $generate_config, $update_routing);
+    $generator->generate($module, $class_name, $map_service, $inputs, $update_routing);
 
     $dialog->writeGeneratorSummary($output, $errors);
 
@@ -125,7 +120,6 @@ class GeneratorFormCommand extends GeneratorCommand {
           null,
           $services
         );
-
         if ($service == null) {
           break;
         }
@@ -198,15 +192,6 @@ class GeneratorFormCommand extends GeneratorCommand {
         ));
       }
       $input->setOption('inputs', $inputs);
-
-      // Generate config file
-      if ($dialog->askConfirmation(
-        $output,
-        $dialog->getQuestion(' Do you like generate config file?', 'yes', '?'),
-        true
-      )) {
-       $input->setOption('config_file',true);
-      }
 
     }
 
