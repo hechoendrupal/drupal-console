@@ -14,7 +14,7 @@ There are two options to install the console. The first one is using Composer an
 ```bash
 $ cd path/to/drupal8.dev
 $ curl -sS https://getcomposer.org/installer | php
-$ COMPOSER_BIN_DIR=bin php composer.phar require --dev hechoendrupal/drupal-app-console:dev-master
+$ COMPOSER_BIN_DIR=bin php composer.phar require --dev drupal/console:dev-master
 $ ./bin/console --help
 ```
 
