@@ -1,6 +1,6 @@
 {
-    "name": "hechoendrupal/drupal-app-console",
-    "description": "The Symfony app console for Drupal",
+    "name": "drupal/console",
+    "description": "Drupal 8 Console scaffolding module generator",
     "version": "@dev",
     "keywords": ["Drupal", "Console", "Development"],
     "type": "library",
