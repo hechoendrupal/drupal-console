@@ -23,7 +23,6 @@ class GeneratorFormCommand extends GeneratorCommand {
         new InputOption('name','',InputOption::VALUE_OPTIONAL, 'Form name'),
         new InputOption('services','',InputOption::VALUE_OPTIONAL, 'Load services'),
         new InputOption('inputs','',InputOption::VALUE_OPTIONAL, 'Create a inputs in a form'),
-//        new InputOption('config_file','',InputOption::VALUE_OPTIONAL,'Create a config file'),
         new InputOption('routing', '', InputOption::VALUE_NONE, 'Update routing'),
       ))
       ->setDescription('Generate form')
