@@ -43,7 +43,7 @@ class {{ name }} extends ControllerBase {% if services is defined%}implements Co
    * @param  string $name Get
    * @return [type]       [description]
    */
-  public function helloAction($name) {
+  public function hello($name) {
     return "Hello " . $name . "!";
   }
 }
