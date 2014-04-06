@@ -4,7 +4,7 @@ namespace Drupal\{{module}}\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 
-{% if services is defined %}
+{% if services is not empty %}
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 {% set params = '' %}
@@ -16,9 +16,9 @@ use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 {% endfor %}
 {% endif %}
 
-class {{ name }} extends ControllerBase {% if services is defined%}implements ContainerInjectionInterface {% endif %}{
+class {{ name }} extends ControllerBase {% if services is not empty %}implements ContainerInjectionInterface {% endif %}{
 
-{% if services is defined %}
+{% if services is not empty %}
 {% for service in services %}
   protected ${{service.machine_name}};
 {% endfor %}
@@ -36,7 +36,7 @@ class {{ name }} extends ControllerBase {% if services is defined%}implements Co
 {% endfor %}
     );
   }
-  {% endif %}
+{% endif %}
 
   /**
    * helloAction
