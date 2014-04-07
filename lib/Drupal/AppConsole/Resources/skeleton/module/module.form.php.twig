@@ -8,7 +8,6 @@
 namespace Drupal\{{module_name}}\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
-
 {% if services is not empty %}
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -20,8 +19,6 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 {% endif %}
 {% endfor %}
 {% endif %}
-
-
 class {{ class_name }} extends ConfigFormBase
 {
 
