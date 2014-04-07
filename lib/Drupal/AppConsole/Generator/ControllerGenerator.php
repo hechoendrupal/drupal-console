@@ -10,7 +10,6 @@ class ControllerGenerator extends Generator {
 
   public function __construct() {}
 
-
   public function generate($module, $name, $controller, $services, $test ) {
 
     $path = DRUPAL_ROOT . '/' . drupal_get_path('module', $module);
