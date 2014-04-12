@@ -65,7 +65,7 @@ class GeneratorPluginBlockCommand extends GeneratorCommand{
 
     $this
       ->getGenerator()
-      ->generate($module,$name, $description, $map_service)
+      ->generate($module, $name, $description, $map_service)
     ;
   }
 
