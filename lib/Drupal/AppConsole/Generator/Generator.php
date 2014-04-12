@@ -39,6 +39,8 @@ class Generator {
       'autoescape'       => false,
     ));
 
+    $twig->addFunction($this->getServiceAsParamater());
+
     return $twig->render($template, $parameters);
   }
 
@@ -55,5 +57,16 @@ class Generator {
    */
   public function camelCaseToUnderscore($camelcase){
     return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $camelcase));
+  }
+
+  public function getServiceAsParamater() {
+      $servicesAsParameters = new \Twig_SimpleFunction('servicesAsParameters', function ($services) {
+        $parameters = [];
+        foreach ($services as $service) {
+          $parameters[] = sprintf('%s $%s', $service['short'], $service['machine_name']);
+        }
+        return $parameters;
+      });
+      return $servicesAsParameters;
   }
 }
