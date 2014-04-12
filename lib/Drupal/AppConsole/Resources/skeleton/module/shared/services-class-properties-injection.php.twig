@@ -1,4 +1,4 @@
 {% for service in services %}
-        $container->get('{{service.name}}'){% if loop.last == false %},{{"\n"}}{% endif %}
+    $container->get('{{service.name}}'){% if loop.last == false %},{{"\n"}}{% endif %}
 {% endfor %}
 {{"\n"}}
