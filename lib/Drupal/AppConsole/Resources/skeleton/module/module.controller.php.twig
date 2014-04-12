@@ -3,47 +3,34 @@
 namespace Drupal\{{module}}\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-
-{% if services is defined %}
-use Symfony\Component\DependencyInjection\ContainerInterface;
+{% if services is defined and services is not empty %}
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
-{% set params = '' %}
-{% for service in services %}use {{ service.class }};
-{% set params = params ~ service.short ~ ' $' ~ service.machine_name %}
-{% if loop.last == false %}
-{% set params = params ~ ', '%}
-{% endif %}
-{% endfor %}
+{% include 'skeleton/module/shared/services-use-operator.php.twig' %}
 {% endif %}
 
-class {{ name }} extends ControllerBase {% if services is defined%}implements ContainerInjectionInterface {% endif %}{
+class {{ name }} extends ControllerBase {% if services is defined and services is not empty %}implements ContainerInjectionInterface {% endif %}{{"\n"}}{
+{% if services is defined and services is not empty %}
+{% include 'skeleton/module/shared/services-class-properties-declaration.php.twig' %}
 
-{% if services is defined %}
-{% for service in services %}
-  protected ${{service.machine_name}};
-{% endfor %}
-
-  public function __construct({{params}}) {
-{% for service in services %}
-    $this->{{service.machine_name}} = ${{service.machine_name}};
-{% endfor %}
+  public function __construct({{ servicesAsParameters(services)|join(', ') }})
+  {
+{% include 'skeleton/module/shared/services-class-properties-initialization.php.twig' %}
   }
 
-  public static function create(ContainerInterface $container){
+  public static function create(ContainerInterface $container)
+  {
     return new static(
-{% for service in services %}
-      $container->get('{{service.name}}'){% if loop.last == false %},{% endif %}
-{% endfor %}
+{% include 'skeleton/module/shared/services-class-properties-injection.php.twig' %}
     );
   }
-  {% endif %}
+{% endif %}
 
   /**
-   * helloAction
-   * @param  string $name Get
-   * @return [type]       [description]
+   * hello
+   * @param  string $name
+   * @return string
    */
-  public function helloAction($name) {
+  public function hello($name) {
     return "Hello " . $name . "!";
   }
 }

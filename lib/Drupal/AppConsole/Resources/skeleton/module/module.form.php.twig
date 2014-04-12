@@ -8,42 +8,29 @@
 namespace Drupal\{{module_name}}\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
-
 {% if services is not empty %}
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
-{% set params = '' %}
-{% for service in services %}use {{ service.class }};
-{% set params = params ~ service.short ~ ' $' ~ service.machine_name %}
-{% if loop.last == false %}
-{% set params = params ~ ', '%}
+{% include 'skeleton/module/shared/services-use-operator.php.twig' %}
 {% endif %}
-{% endfor %}
-{% endif %}
-
 
 class {{ class_name }} extends ConfigFormBase
 {
-
 {% if services is not empty %}
-{% for service in services %}
-  protected ${{service.machine_name}};
-{% endfor %}
+{% include 'skeleton/module/shared/services-class-properties-declaration.php.twig' %}
 
-  public function __construct(ConfigFactoryInterface $config_factory, {{ params }}) {
-    $this->configFactory = $config_factory;
-    {% for service in services %}
-    $this->{{service.machine_name}} = ${{service.machine_name}};
-    {% endfor %}
+  public function __construct(
+    ConfigFactoryInterface $config_factory,
+    {{ servicesAsParameters(services)|join(', \n') }}
+  )
+  {
+    parent::__construct($config_factory);
+{% include 'skeleton/module/shared/services-class-properties-initialization.php.twig' %}
   }
 
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('config.factory'),
-{% for service in services %}
-      $container->get('{{service.name}}'){% if loop.last == false %},
-{% endif %}
-{% endfor %}
+        $container->get('config.factory'),
+{% include 'skeleton/module/shared/services-class-properties-injection.php.twig' %}
     );
   }
 {% endif %}
@@ -51,14 +38,16 @@ class {{ class_name }} extends ConfigFormBase
   /**
    * {@inheritdoc}
    */
-  public function getFormID() {
+  public function getFormID()
+  {
     return '{{ class_name | lower }}_form';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, array &$form_state) {
+  public function buildForm(array $form, array &$form_state)
+  {
     $config = $this->config('{{module_name}}.{{ class_name | lower }}_config');
   {% for input in inputs %}
   $form['{{ input.name }}'] = array(
@@ -68,20 +57,22 @@ class {{ class_name }} extends ConfigFormBase
       '#default_value' => $config->get('{{ input.name }}')
     );
   {% endfor %}
-   return parent::buildForm($form, $form_state);
+  return parent::buildForm($form, $form_state);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function validateForm(array &$form, array &$form_state) {
+  public function validateForm(array &$form, array &$form_state)
+  {
     return parent::validateForm($form, $form_state);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, array &$form_state) {
+  public function submitForm(array &$form, array &$form_state)
+  {
     parent::submitForm($form, $form_state);
 
     $this->config('{{module_name}}.{{ class_name | lower }}_config')
@@ -90,5 +81,4 @@ class {{ class_name }} extends ConfigFormBase
     {% endfor %}
     ->save();
   }
-
 }
