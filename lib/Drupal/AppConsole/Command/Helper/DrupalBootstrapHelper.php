@@ -15,8 +15,13 @@ class DrupalBootstrapHelper extends Helper {
       \drupal_bootstrap(DRUPAL_BOOTSTRAP_CONFIGURATION);
   }
 
+  // ToDo: Evaluate delete this function, becuase was replaced by bootstrapCode
   public function bootstrapFull() {
     \drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
+  }
+
+    public function bootstrapCode() {
+    \drupal_bootstrap(DRUPAL_BOOTSTRAP_CODE);
   }
 
   public function getDrupalRoot(){
