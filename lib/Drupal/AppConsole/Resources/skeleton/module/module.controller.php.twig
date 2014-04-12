@@ -3,13 +3,13 @@
 namespace Drupal\{{module}}\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-{% if services is not empty %}
+{% if services is defined and services is not empty %}
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 {% include 'skeleton/module/shared/services-use-operator.php.twig' %}
 {% endif %}
 
-class {{ name }} extends ControllerBase {% if services is not empty %}implements ContainerInjectionInterface {% endif %}{{"\n"}}{
-{% if services is not empty %}
+class {{ name }} extends ControllerBase {% if services is defined and services is not empty %}implements ContainerInjectionInterface {% endif %}{{"\n"}}{
+{% if services is defined and services is not empty %}
 {% include 'skeleton/module/shared/services-class-properties-declaration.php.twig' %}
 
   public function __construct({{ servicesAsParameters(services)|join(', ') }})
