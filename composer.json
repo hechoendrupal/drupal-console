@@ -17,41 +17,20 @@
             "homepage":  "http://jmolivas.com"
         }
     ],
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "hechoendrupal/drupal",
-                "version": "8.0.0",
-                "dist": {
-                    "url": "https://github.com/drupal/drupal/archive/8.x.zip",
-                    "type": "zip"
-                },
-                "autoload": {
-                    "psr-0": {
-                        "Drupal\\Core": "core/lib/",
-                        "Drupal\\Component": "core/lib/",
-                        "Drupal\\Driver": "drivers/lib/"
-                    }
-                }
-            }
-        }
-    ],
     "type": "drupal-module",
     "require": {
         "php": ">=5.4.2",
         "symfony/console": "2.4.*",
         "symfony/finder": "2.4.*",
+        "symfony/dependency-injection": "2.4.*",
         "twig/twig": "1.15.*",
         "composer/installers": "~1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.27",
         "whatthejeff/nyancat-phpunit-resultprinter": "v1.1.0",
-        "symfony/config": "2.3.*",
-        "symfony/http-kernel": "2.3.*",
-        "symfony/dependency-injection": "2.3.*",
-        "hechoendrupal/drupal": "8.0.0"
+        "symfony/config": "2.4.*",
+        "symfony/http-kernel": "2.4.*"
     },
     "bin": ["bin/console"],
     "config": {
