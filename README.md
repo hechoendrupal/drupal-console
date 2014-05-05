@@ -1,4 +1,4 @@
-Drupal 8 Console scaffolding module generator [![Build Status](https://travis-ci.org/egulias/DrupalAppConsole.svg?branch=travis-integration)](https://travis-ci.org/egulias/DrupalAppConsole)
+Drupal 8 Console scaffolding module generator [![Build Status](https://travis-ci.org/hechoendrupal/DrupalAppConsole.svg?branch=master)](https://travis-ci.org/egulias/DrupalAppConsole)
 ==============
 
 Every modern framework nowadays provides a scaffolding tool code generator for speeding up the process of starting a new project and avoid the repetitive tasks.
