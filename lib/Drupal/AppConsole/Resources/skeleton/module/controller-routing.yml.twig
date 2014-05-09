@@ -1,6 +1,6 @@
 
 {% if name is defined %}
-{{ module }}_hello:
+{{ module }}.hello:
   path: '/{{module}}/hello/{name}'
   defaults:
     _content: '\Drupal\{{ module }}\Controller\{{ name }}::hello'
