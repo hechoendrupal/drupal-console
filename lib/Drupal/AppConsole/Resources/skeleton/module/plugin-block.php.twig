@@ -7,7 +7,6 @@
 namespace Drupal\{{module}}\Plugin\Block;
 
 use Drupal\block\BlockBase;
-use Drupal\block\BlockPluginInterface;
 {% if services is not empty %}
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 {% include 'skeleton/module/shared/services-use-operator.php.twig' %}
@@ -21,7 +20,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
  *  admin_label = @Translation("{{description}}")
  * )
  */
-class {{ name.class }} extends BlockBase implements BlockPluginInterface{% if services is not empty %}, ContainerFactoryPluginInterface{% endif %} {{"\n"}}{
+class {{ name.class }} extends BlockBase {% if services is not empty %}implements ContainerFactoryPluginInterface{% endif %} {{"\n"}}{
 {% if services is not empty %}
 {% include 'skeleton/module/shared/services-class-properties-declaration.php.twig' %}
   /**
