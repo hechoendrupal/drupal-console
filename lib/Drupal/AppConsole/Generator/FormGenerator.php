@@ -12,7 +12,7 @@ class FormGenerator extends Generator {
 
     $path = DRUPAL_ROOT . '/' . drupal_get_path('module', $module);
 
-    $path_controller = $path . '/lib/Drupal/' . $module . '/Form';
+    $path_form = $path . '/src/Form';
 
     $parameters = array(
       'class_name' => $class_name,
@@ -23,7 +23,7 @@ class FormGenerator extends Generator {
 
     $this->renderFile(
       'module/module.form.php.twig',
-      $path_controller . '/'. $class_name .'.php',
+      $path_form . '/'. $class_name .'.php',
       $parameters
     );
 

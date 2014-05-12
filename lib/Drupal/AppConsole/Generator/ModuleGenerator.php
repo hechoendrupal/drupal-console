@@ -74,7 +74,7 @@ class ModuleGenerator extends Generator {
       $parameters['name'] = $name;
       $this->renderFile(
           'module/module.controller.php.twig',
-          $dir.'/lib/Drupal/'.$module.'/Controller/'.$name.'.php',
+          $dir.'/src/Controller/'.$name.'.php',
           $parameters
       );
 
@@ -84,23 +84,20 @@ class ModuleGenerator extends Generator {
     if ($tests){
       $this->renderFile(
         'module/module.tests.twig',
-        $dir.'/lib/Drupal/'.$module.'/Tests/'. $module .'Test.php',
+        $dir.'/src/Tests/'. $module .'Test.php',
         $parameters
       );
     }
 
     if ($structure) {
       drupal_mkdir($dir.'/templates');
-      drupal_mkdir($dir.'/config');
-      drupal_mkdir($dir.'/tests');
-      drupal_mkdir($dir.'/lib');
-      drupal_mkdir($dir.'/lib/Drupal');
-      drupal_mkdir($dir.'/lib/Drupal/'.$module);
-      drupal_mkdir($dir.'/lib/Drupal/'.$module.'/Controller');
-      drupal_mkdir($dir.'/lib/Drupal/'.$module.'/Form');
-      drupal_mkdir($dir.'/lib/Drupal/'.$module.'/Plugin');
-      drupal_mkdir($dir.'/lib/Drupal/'.$module.'/Plugin/Block');
-      drupal_mkdir($dir.'/lib/Drupal/'.$module.'/Tests');
+      drupal_mkdir($dir.'/src');
+      drupal_mkdir($dir.'/src/Controller');
+      drupal_mkdir($dir.'/src/Form');
+      drupal_mkdir($dir.'/src/Plugin');
+      drupal_mkdir($dir.'/src/Plugin/Block');
+      drupal_mkdir($dir.'/src/Tests');
+
     }
   }
 }
