@@ -14,7 +14,7 @@ class ControllerGenerator extends Generator {
 
     $path = DRUPAL_ROOT . '/' . drupal_get_path('module', $module);
 
-    $path_controller = $path . '/lib/Drupal/' . $module . '/Controller';
+    $path_controller = $path . '/src/Controller';
 
     $parameters = array(
       'name' => $name,
@@ -33,7 +33,7 @@ class ControllerGenerator extends Generator {
     if ($test){
       $this->renderFile(
           'module/module.test.twig',
-          $path . '/lib/Drupal/' . $module . '/Tests/' . $name . 'Test.php',
+          $path . '/src/Tests/' . $name . 'Test.php',
           $parameters
       );
     }
