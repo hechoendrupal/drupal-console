@@ -9,12 +9,13 @@ Thumbs.db
 .settings/
 
 # Composer
-vendor
-bin/phpunit
+/vendor
+/bin/phpunit
+/composer.lock
 
 # Binaries
-box.phar
-console.phar
+/box.phar
+/console.phar
 
 #Test
-phpunit.xml
+/phpunit.xml
