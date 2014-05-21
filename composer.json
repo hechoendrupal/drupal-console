@@ -3,7 +3,7 @@
     "description": "Drupal 8 Console scaffolding module generator",
     "version": "@dev",
     "keywords": ["Drupal", "Console", "Development"],
-    "type": "library",
+    "type": "drupal-module",
     "license": "MIT",
     "authors": [
         {
@@ -17,17 +17,17 @@
             "homepage":  "http://jmolivas.com"
         }
     ],
-    "type": "drupal-module",
     "require": {
         "php": ">=5.4.2",
         "symfony/console": "2.4.*",
         "symfony/finder": "2.4.*",
         "symfony/dependency-injection": "2.4.*",
         "twig/twig": "1.15.*",
-        "composer/installers": "~1.0"
+        "composer/installers": "~1.0",
+        "egulias/listeners-debug": "1.0.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.7.27",
+        "phpunit/phpunit": "4.0.*",
         "whatthejeff/nyancat-phpunit-resultprinter": "v1.1.0",
         "symfony/config": "2.4.*",
         "symfony/http-kernel": "2.4.*"
