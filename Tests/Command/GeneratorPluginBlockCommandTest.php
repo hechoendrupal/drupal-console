@@ -90,11 +90,8 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest {
     return $command;
   }
 
-  /**
-   * getGenerator [description]
-   * @return [type] [description]
-   */
-  public function getGenerator(){
+  private function getGenerator(){
+
     return $this
       ->getMockBuilder('Drupal\AppConsole\Generator\PluginBlockGenerator')
       ->disableOriginalConstructor()

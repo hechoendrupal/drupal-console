@@ -2,12 +2,11 @@
 
 namespace Drupal\AppConsole\Test\Console;
 
-use PHPUnit_Framework_TestCase as TestCase;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Input\ArrayInput;
 use Drupal\AppConsole\Console\Application;
 
-class ApplicationTest extends TestCase {
+class ApplicationTest extends \PHPUnit_Framework_TestCase {
 
   /**
    * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
