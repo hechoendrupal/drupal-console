@@ -2,7 +2,6 @@
 namespace Drupal\AppConsole\Command\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
-use Drupal\Core\DrupalKernel;
 
 class DrupalBootstrapHelper extends Helper {
 
