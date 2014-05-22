@@ -10,7 +10,7 @@ use Drupal\AppConsole\Command\Helper\DialogHelper;
 abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase {
 
   /**
-   * @return Symfony\Component\DependencyInjection\Container Drupal container
+   * @return \Symfony\Component\DependencyInjection\Container Drupal container
    */
   protected function getContainer(){
 

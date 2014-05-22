@@ -102,7 +102,7 @@ class GeneratorModuleCommandTest extends GenerateCommandTest {
     return $command;
   }
 
-  protected function getGenerator(){
+  private function getGenerator(){
 
     return $this
       ->getMockBuilder('Drupal\AppConsole\Generator\ModuleGenerator')
