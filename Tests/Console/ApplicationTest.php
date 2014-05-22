@@ -59,6 +59,11 @@ class ApplicationTest extends TestCase {
    */
   protected $register_commands;
 
+  /**
+   * @var \Symfony\Component\Console\Input\ArgvInput
+   */
+  protected $input;
+
   protected function setUp() {
     $this->dispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')
                              ->getMock();
