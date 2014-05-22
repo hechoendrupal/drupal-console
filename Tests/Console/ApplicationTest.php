@@ -54,6 +54,11 @@ class ApplicationTest extends TestCase {
    */
   protected $command;
 
+  /**
+   * @var \Drupal\AppConsole\Command\Helper\RegisterCommandsHelper
+   */
+  protected $register_commands;
+
   protected function setUp() {
     $this->dispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')
                              ->getMock();
@@ -80,7 +85,7 @@ class ApplicationTest extends TestCase {
     $this->command = $this->getMockBuilder('Drupal\AppConsole\Command\GeneratorModuleCommand')
                           ->disableOriginalConstructor()
                           ->getMock();
-    $this->register_commands = $this->getMockBuilder('Drupal\AppConsole\Command\Helper\RegisterCommands')
+    $this->register_commands = $this->getMockBuilder('Drupal\AppConsole\Command\Helper\RegisterCommandsHelper')
                                     ->disableOriginalConstructor()
                                     ->getMock();
   }

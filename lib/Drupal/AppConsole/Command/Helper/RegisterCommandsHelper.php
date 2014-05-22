@@ -5,7 +5,7 @@ use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Console\Application;
 
-class RegisterCommands extends Helper {
+class RegisterCommandsHelper extends Helper {
 
   protected $console;
   protected $container;
