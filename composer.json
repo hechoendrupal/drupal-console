@@ -3,7 +3,7 @@
     "description": "Drupal 8 Console scaffolding module generator",
     "version": "@dev",
     "keywords": ["Drupal", "Console", "Development"],
-    "type": "library",
+    "type": "module",
     "license": "MIT",
     "authors": [
         {
