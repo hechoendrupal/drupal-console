@@ -70,7 +70,6 @@ class KernelHelper extends Helper {
   }
 
   /**
-   *
    * @param array $commands
    */
   public function initCommands(array $commands) {

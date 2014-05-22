@@ -50,7 +50,7 @@ class RegisterCommands extends Helper {
     }
   }
 
-	public function register() {
+  public function register() {
 		
     $this->getModuleList();
     $this->getNamespaces();
@@ -93,12 +93,10 @@ class RegisterCommands extends Helper {
           }
         }
       }
-
     }
+  }
 
-	}	
-
-	/**
+  /**
    * @see \Symfony\Component\Console\Helper\HelperInterface::getName()
    */
   public function getName() {

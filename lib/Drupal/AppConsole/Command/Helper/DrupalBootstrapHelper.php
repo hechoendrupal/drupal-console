@@ -13,7 +13,7 @@ class DrupalBootstrapHelper extends Helper {
       \drupal_bootstrap(DRUPAL_BOOTSTRAP_CONFIGURATION);
   }
 
-    public function bootstrapCode() {
+  public function bootstrapCode() {
     \drupal_bootstrap(DRUPAL_BOOTSTRAP_CODE);
   }
 
