@@ -24,10 +24,7 @@ class GeneratorFormCommand extends GeneratorCommand {
   }
 
   /**
-   * Execute method
-   * @param  InputInterface  $input  [description]
-   * @param  OutputInterface $output [description]
-   * @return [type]                  [description]
+   * {@inheritdoc}
    */
   protected function execute(InputInterface $input, OutputInterface $output) {
     $dialog = $this->getDialogHelper();
@@ -62,10 +59,7 @@ class GeneratorFormCommand extends GeneratorCommand {
   }
 
   /**
-   * [interact description]
-   * @param  InputInterface  $input  [description]
-   * @param  OutputInterface $output [description]
-   * @return [type]                  [description]
+   * {@inheritdoc}
    */
   protected function interact(InputInterface $input, OutputInterface $output) {
 
@@ -198,8 +192,7 @@ class GeneratorFormCommand extends GeneratorCommand {
   }
 
   /**
-    * Get a filesystem
-    * @return [type] Drupal Filesystem
+    * @return FormGenerator
     */
   protected function createGenerator() {
     return new FormGenerator();
