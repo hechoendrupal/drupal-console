@@ -7,7 +7,6 @@
 namespace Drupal\AppConsole\Test\Command;
 
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\AppConsole\Command\GeneratorModuleCommand;
 
 class GeneratorPluginBlockCommandTest extends GenerateCommandTest {
 

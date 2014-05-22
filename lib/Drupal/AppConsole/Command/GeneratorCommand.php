@@ -11,8 +11,6 @@
 
 namespace Drupal\AppConsole\Command;
 
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Drupal\AppConsole\Command\ContainerAwareCommand;
 use Drupal\AppConsole\Command\Helper\DialogHelper;
 use Drupal\AppConsole\Generator\Generator;
 
