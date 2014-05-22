@@ -14,7 +14,7 @@ use Drupal\AppConsole\Generator\ModuleGenerator;
 class GeneratorModuleCommand extends GeneratorCommand {
 
   /**
-   * @see Command
+   * {@inheritdoc}
    */
   protected function configure() {
     $this->setDefinition([
@@ -70,10 +70,7 @@ class GeneratorModuleCommand extends GeneratorCommand {
   }
 
   /**
-   * [interact description]
-   * @param  InputInterface  $input  [description]
-   * @param  OutputInterface $output [description]
-   * @return void
+   * {@inheritdoc}
    */
   protected function interact(InputInterface $input, OutputInterface $output) {
     $dialog = $this->getDialogHelper();
@@ -153,7 +150,6 @@ class GeneratorModuleCommand extends GeneratorCommand {
       $structure = true;
     }
     $input->setOption('structure', $structure);
-
   }
 
   /**
