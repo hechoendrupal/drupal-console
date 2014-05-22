@@ -27,10 +27,7 @@ class GeneratorPluginBlockCommand extends GeneratorCommand{
   }
 
   /**
-   *
-   * @param  InputInterface  $input  [description]
-   * @param  OutputInterface $output [description]
-   * @return [type]                  [description]
+   * {@inheritdoc}
    */
   protected function execute(InputInterface $input, OutputInterface $output) {
 
