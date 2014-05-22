@@ -4,11 +4,6 @@ namespace Drupal\AppConsole\Console;
 
 use Symfony\Component\Console\Shell as BaseShell;
 
-/**
- * Shell.
- *
- * @author Fabien Potencier <fabien@symfony.com>
- */
 class Shell extends BaseShell
 {
     /**

@@ -14,11 +14,6 @@ namespace Drupal\AppConsole\Command;
 use Drupal\AppConsole\Command\Helper\DialogHelper;
 use Drupal\AppConsole\Generator\Generator;
 
-/**
- * Base class for generator commands.
- *
- * @author Fabien Potencier <fabien@symfony.com>
- */
 abstract class GeneratorCommand extends ContainerAwareCommand {
     private $generator;
 
