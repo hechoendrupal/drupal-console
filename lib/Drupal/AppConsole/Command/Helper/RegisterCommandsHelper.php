@@ -96,7 +96,7 @@ class RegisterCommandsHelper extends Helper {
 
   protected function getNamespaces() {
     $this->getContainer();
-    // Get Transversal, namespaces
+    // Get Traversal, namespaces
     if (!isset($this->namespaces)){
       $namespaces = $this->container->get('container.namespaces');
       $this->namespaces = $namespaces->getArrayCopy();

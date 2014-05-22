@@ -9,8 +9,8 @@ class DrupalBootstrapHelper extends Helper {
    * @param string $pathToBootstrapFile
    */
   public function bootstrapConfiguration($pathToBootstrapFile) {
-      require_once $pathToBootstrapFile;
-      \drupal_bootstrap(DRUPAL_BOOTSTRAP_CONFIGURATION);
+    require_once $pathToBootstrapFile;
+    \drupal_bootstrap(DRUPAL_BOOTSTRAP_CONFIGURATION);
   }
 
   public function bootstrapCode() {

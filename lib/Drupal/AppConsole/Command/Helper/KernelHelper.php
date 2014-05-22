@@ -35,7 +35,7 @@ class KernelHelper extends Helper {
    */
   public function getKernel() {
     if (!$this->kernel) {
-      $this->kernel = new DrupalKernel($this->environment, drupal_classloader(), !$this->debug);
+      $this->kernel = new DrupalKernel($this->environment, \drupal_classloader(), !$this->debug);
     }
 
     return $this->kernel;
