@@ -7,7 +7,6 @@
 namespace Drupal\AppConsole\Command\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\Console\Helper\HelperInterface;
 
 class DrupalCommonHelper extends Helper implements HelperInterface{
