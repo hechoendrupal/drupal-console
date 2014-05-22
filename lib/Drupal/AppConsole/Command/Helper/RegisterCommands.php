@@ -17,13 +17,6 @@ class RegisterCommands extends Helper {
     $this->console = $console;
   }
 
-  protected function getKernel() {
-    if (!isset($this->kernel)){
-      $kernelHelper = $this->getHelperSet()->get('kernel');
-      $this->kernel = $kernelHelper->getKernel();
-    }
-  }
-
   public function register() {
 
     $this->getModuleList();
@@ -75,6 +68,13 @@ class RegisterCommands extends Helper {
    */
   public function getName() {
     return 'register_commands';
+  }
+
+  protected function getKernel() {
+    if (!isset($this->kernel)){
+      $kernelHelper = $this->getHelperSet()->get('kernel');
+      $this->kernel = $kernelHelper->getKernel();
+    }
   }
 
   protected function getContainer() {
