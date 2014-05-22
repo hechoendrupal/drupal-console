@@ -13,8 +13,6 @@ class Application extends BaseApplication {
 
   /**
    * Create a new application extended from \Symfony\Component\Console\Application
-   *
-   * @param DrupalKernel $kernel
    */
   public function __construct() {
     $env = 'prod';
