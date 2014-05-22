@@ -11,11 +11,6 @@
 
 namespace Drupal\AppConsole\Generator;
 
-/**
- * Generator is the base class for all generators.
- *
- * @author Fabien Potencier <fabien@symfony.com>
- */
 class Generator {
   private $skeletonDirs;
 

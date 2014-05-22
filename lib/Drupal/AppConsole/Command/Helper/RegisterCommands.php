@@ -2,26 +2,20 @@
 namespace Drupal\AppConsole\Command\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Console\Application;
 
 class RegisterCommands extends Helper {
 
-	protected $console;
-
+  protected $console;
   protected $container;
-
   protected $kernel;
-
   protected $modules;
-
   protected $namespaces;
 
-	public function __construct(Application $console) {
-		$this->console = $console;
-	}
+  public function __construct(Application $console) {
+    $this->console = $console;
+  }
 
   protected function getKernel() {
     if (!isset($this->kernel)){
