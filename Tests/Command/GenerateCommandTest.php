@@ -20,6 +20,7 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase {
   }
 
   protected function getHelperSet($input){
+
     $dialog = new DialogHelper();
     $dialog->setInputStream($this->getInputStream($input));
 
