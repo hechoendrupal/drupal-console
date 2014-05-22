@@ -24,6 +24,59 @@ class RegisterCommands extends Helper {
     }
   }
 
+  public function register() {
+
+    $this->getModuleList();
+    $this->getNamespaces();
+
+    $finder = new Finder();
+    foreach ($this->modules as $module => $directory) {
+
+      $place = $this->namespaces['Drupal\\'.$module];
+      $dir = $place. '/Drupal/' . $module . '/Command';
+      $prefix = 'Drupal\\'.$module . '\\Command';
+
+      if (!is_dir($dir)) {
+        continue;
+      }
+
+      $finder->files()
+        ->name('*Command.php')
+        ->in($dir)
+        ->depth('< 2')
+      ;
+
+      foreach ($finder as $file) {
+        $ns = $prefix;
+
+        if ($relativePath = $file->getRelativePath()) {
+          $ns .= '\\'.strtr($relativePath, '/', '\\');
+        }
+
+        $class = $ns.'\\'.$file->getBasename('.php');
+
+        if (class_exists($class)){
+          $r = new \ReflectionClass($class);
+          // if is a valid command
+          if ($r->isSubclassOf('Symfony\\Component\\Console\\Command\\Command')
+            && !$r->isAbstract()
+            && !$r->getConstructor()->getNumberOfRequiredParameters()) {
+
+            // Register command
+            $this->console->add($r->newInstance());
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * @see \Symfony\Component\Console\Helper\HelperInterface::getName()
+   */
+  public function getName() {
+    return 'register_commands';
+  }
+
   protected function getContainer() {
     $this->getKernel();
     if(!isset($this->container)){
@@ -48,59 +101,6 @@ class RegisterCommands extends Helper {
       $namespaces = $this->container->get('container.namespaces');
       $this->namespaces = $namespaces->getArrayCopy();
     }
-  }
-
-  public function register() {
-		
-    $this->getModuleList();
-    $this->getNamespaces();
-
-    $finder = new Finder();
-    foreach ($this->modules as $module => $directory) {
-
-      $place = $this->namespaces['Drupal\\'.$module];
-      $dir = $place. '/Drupal/' . $module . '/Command';
-      $prefix = 'Drupal\\'.$module . '\\Command';
-
-      if (!is_dir($dir)) {
-        continue;
-      }
-      
-      $finder->files()
-        ->name('*Command.php')
-        ->in($dir)
-        ->depth('< 2')
-      ;
-
-      foreach ($finder as $file) {
-        $ns = $prefix;
-        
-        if ($relativePath = $file->getRelativePath()) {
-          $ns .= '\\'.strtr($relativePath, '/', '\\');
-        }
-        
-        $class = $ns.'\\'.$file->getBasename('.php');
-
-        if (class_exists($class)){
-          $r = new \ReflectionClass($class);
-          // if is a valid command
-          if ($r->isSubclassOf('Symfony\\Component\\Console\\Command\\Command') 
-            && !$r->isAbstract() 
-            && !$r->getConstructor()->getNumberOfRequiredParameters()) {
-
-            // Register command
-            $this->console->add($r->newInstance());
-          }
-        }
-      }
-    }
-  }
-
-  /**
-   * @see \Symfony\Component\Console\Helper\HelperInterface::getName()
-   */
-  public function getName() {
-      return 'register_commands';
   }
 
 }
