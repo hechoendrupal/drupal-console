@@ -1,17 +1,10 @@
 <?php
 namespace Drupal\AppConsole\Command;
 
-use Drupal\AppConsole\Command\GeneratorCommand;
-use Drupal\AppConsole\Command\ContainerAwareCommand;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\AppConsole\Command\Helper\DialogHelper;
 use Drupal\AppConsole\Generator\FormGenerator;
-use Drupal\AppConsole\Command\Validators;
 
 class GeneratorFormCommand extends GeneratorCommand {
 
@@ -31,10 +24,7 @@ class GeneratorFormCommand extends GeneratorCommand {
   }
 
   /**
-   * Execute method
-   * @param  InputInterface  $input  [description]
-   * @param  OutputInterface $output [description]
-   * @return [type]                  [description]
+   * {@inheritdoc}
    */
   protected function execute(InputInterface $input, OutputInterface $output) {
     $dialog = $this->getDialogHelper();
@@ -69,10 +59,7 @@ class GeneratorFormCommand extends GeneratorCommand {
   }
 
   /**
-   * [interact description]
-   * @param  InputInterface  $input  [description]
-   * @param  OutputInterface $output [description]
-   * @return [type]                  [description]
+   * {@inheritdoc}
    */
   protected function interact(InputInterface $input, OutputInterface $output) {
 
@@ -205,8 +192,7 @@ class GeneratorFormCommand extends GeneratorCommand {
   }
 
   /**
-    * Get a filesystem
-    * @return [type] Drupal Filesystem
+    * @return FormGenerator
     */
   protected function createGenerator() {
     return new FormGenerator();

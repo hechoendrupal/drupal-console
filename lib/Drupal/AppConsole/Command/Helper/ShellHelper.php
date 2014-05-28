@@ -19,7 +19,7 @@ class ShellHelper extends Helper {
   }
 
   /**
-   * @see \Symfony\Component\Console\Helper\HelperInterface::getName()
+   * {@inheritdoc}
    */
   public function getName() {
 

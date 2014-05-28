@@ -6,8 +6,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Debug\Debug;
-use Symfony\Component\Finder\Finder;
-
 
 class Application extends BaseApplication {
  
@@ -15,8 +13,6 @@ class Application extends BaseApplication {
 
   /**
    * Create a new application extended from \Symfony\Component\Console\Application
-   *
-   * @param DrupalKernel $kernel
    */
   public function __construct() {
     $env = 'prod';

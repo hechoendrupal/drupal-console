@@ -6,20 +6,15 @@
 
 namespace Drupal\AppConsole\Command;
 
-use Drupal\AppConsole\Command\ContainerAwareCommand;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\AppConsole\Command\Helper\DialogHelper;
 use Drupal\AppConsole\Generator\ModuleGenerator;
 
 class GeneratorModuleCommand extends GeneratorCommand {
 
   /**
-   * @see Command
+   * {@inheritdoc}
    */
   protected function configure() {
     $this->setDefinition([
@@ -40,10 +35,7 @@ class GeneratorModuleCommand extends GeneratorCommand {
   }
 
   /**
-   *
-   * @param  InputInterface  $input  [description]
-   * @param  OutputInterface $output [description]
-   * @return [type]                  [description]
+   * {@inheritdoc}
    */
   protected function execute(InputInterface $input, OutputInterface $output) {
 
@@ -78,10 +70,7 @@ class GeneratorModuleCommand extends GeneratorCommand {
   }
 
   /**
-   * [interact description]
-   * @param  InputInterface  $input  [description]
-   * @param  OutputInterface $output [description]
-   * @return [type]                  [description]
+   * {@inheritdoc}
    */
   protected function interact(InputInterface $input, OutputInterface $output) {
     $dialog = $this->getDialogHelper();
@@ -161,12 +150,10 @@ class GeneratorModuleCommand extends GeneratorCommand {
       $structure = true;
     }
     $input->setOption('structure', $structure);
-
   }
 
   /**
-  * Get a filesystem
-  * @return [type] Drupal Filesystem
+  * @return ModuleGenerator
   */
   protected function createGenerator() {
     return new ModuleGenerator();

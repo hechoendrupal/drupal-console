@@ -2,12 +2,11 @@
 
 namespace Drupal\AppConsole\Test\Console;
 
-use \PHPUnit_Framework_TestCase as TestCase;
-use \Symfony\Component\Console\Output\NullOutput;
-use \Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Input\ArrayInput;
 use Drupal\AppConsole\Console\Application;
 
-class ApplicationTest extends TestCase {
+class ApplicationTest extends \PHPUnit_Framework_TestCase {
 
   /**
    * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
@@ -54,6 +53,16 @@ class ApplicationTest extends TestCase {
    */
   protected $command;
 
+  /**
+   * @var \Drupal\AppConsole\Command\Helper\RegisterCommandsHelper
+   */
+  protected $register_commands;
+
+  /**
+   * @var \Symfony\Component\Console\Input\ArgvInput
+   */
+  protected $input;
+
   protected function setUp() {
     $this->dispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')
                              ->getMock();
@@ -80,7 +89,7 @@ class ApplicationTest extends TestCase {
     $this->command = $this->getMockBuilder('Drupal\AppConsole\Command\GeneratorModuleCommand')
                           ->disableOriginalConstructor()
                           ->getMock();
-    $this->register_commands = $this->getMockBuilder('Drupal\AppConsole\Command\Helper\RegisterCommands')
+    $this->register_commands = $this->getMockBuilder('Drupal\AppConsole\Command\Helper\RegisterCommandsHelper')
                                     ->disableOriginalConstructor()
                                     ->getMock();
   }

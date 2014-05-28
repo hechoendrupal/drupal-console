@@ -56,6 +56,4 @@ class Validators {
     return $service;
   }
 
-
-
 }
