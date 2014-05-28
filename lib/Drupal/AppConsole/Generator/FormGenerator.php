@@ -2,8 +2,6 @@
 
 namespace Drupal\AppConsole\Generator;
 
-use Symfony\Component\DependencyInjection\Container;
-
 class FormGenerator extends Generator {
 
   public function __construct() {}

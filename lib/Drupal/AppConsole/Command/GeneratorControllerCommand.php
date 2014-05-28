@@ -1,17 +1,10 @@
 <?php
 namespace Drupal\AppConsole\Command;
 
-use Drupal\AppConsole\Command\GeneratorCommand;
-use Drupal\AppConsole\Command\ContainerAwareCommand;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\AppConsole\Command\Helper\DialogHelper;
 use Drupal\AppConsole\Generator\ControllerGenerator;
-use Drupal\AppConsole\Command\Validators;
 
 class GeneratorControllerCommand extends GeneratorCommand {
 
@@ -31,12 +24,11 @@ class GeneratorControllerCommand extends GeneratorCommand {
   }
 
   /**
-   * Execute method
-   * @param  InputInterface  $input  [description]
-   * @param  OutputInterface $output [description]
-   * @return [type]                  [description]
+   * {@inheritdoc}
    */
   protected function execute(InputInterface $input, OutputInterface $output) {
+
+    /** @var \Drupal\AppConsole\Command\Helper\DialogHelper $dialog */
     $dialog = $this->getDialogHelper();
 
     $module = $input->getOption('module');
@@ -64,13 +56,11 @@ class GeneratorControllerCommand extends GeneratorCommand {
   }
 
   /**
-   * [interact description]
-   * @param  InputInterface  $input  [description]
-   * @param  OutputInterface $output [description]
-   * @return [type]                  [description]
+   * {@inheritdoc}
    */
   protected function interact(InputInterface $input, OutputInterface $output) {
 
+    /** @var \Drupal\AppConsole\Command\Helper\DialogHelper $dialog */
     $dialog = $this->getDialogHelper();
     $dialog->writeSection($output, 'Welcome to the Drupal controller generator');
 
@@ -103,36 +93,36 @@ class GeneratorControllerCommand extends GeneratorCommand {
     $input->setOption('test', $test);
 
     // Services
-      // TODO: Create a method for this job
-      if ($dialog->askConfirmation(
+    // TODO: Create a method for this job
+    if ($dialog->askConfirmation(
+        $output,
+        $dialog->getQuestion('Do you like add service(s)?', 'yes', '?'),
+        true
+    )) {
+      $service_collection = array();
+      $services = $this->getServices();
+      while(true){
+        $service = $d->askAndValidate(
           $output,
-          $dialog->getQuestion('Do you like add service(s)?', 'yes', '?'),
-          true
-      )) {
-        $service_collection = array();
-        $services = $this->getServices();
-        while(true){
-          $service = $d->askAndValidate(
-            $output,
-            $dialog->getQuestion(' Enter your service (optional): '),
-            function($service) use ($services){
-              return Validators::validateServiceExist($service, $services);
-            },
-            false,
-            null,
-            $services
-          );
+          $dialog->getQuestion(' Enter your service (optional): '),
+          function($service) use ($services){
+            return Validators::validateServiceExist($service, $services);
+          },
+          false,
+          null,
+          $services
+        );
 
-          if ($service == null) {
-            break;
-          }
-          array_push($service_collection, $service);
-          $service_key = array_search($service, $services, true);
-          if ($service_key >= 0)
-            unset($services[$service_key]);
+        if ($service == null) {
+          break;
         }
-        $input->setOption('services', $service_collection);
+        array_push($service_collection, $service);
+        $service_key = array_search($service, $services, true);
+        if ($service_key >= 0)
+          unset($services[$service_key]);
       }
+      $input->setOption('services', $service_collection);
+    }
 
     // Routing
     /**
@@ -148,8 +138,7 @@ class GeneratorControllerCommand extends GeneratorCommand {
   }
 
   /**
-    * Get a filesystem
-    * @return [type] Drupal Filesystem
+    * @return ControllerGenerator
     */
   protected function createGenerator() {
     return new ControllerGenerator();

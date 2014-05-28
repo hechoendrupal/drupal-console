@@ -7,7 +7,6 @@
 namespace Drupal\AppConsole\Test\Command;
 
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\AppConsole\Command\GeneratorModuleCommand;
 
 class GeneratorPluginBlockCommandTest extends GenerateCommandTest {
 
@@ -91,11 +90,8 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest {
     return $command;
   }
 
-  /**
-   * getGenerator [description]
-   * @return [type] [description]
-   */
-  public function getGenerator(){
+  private function getGenerator(){
+
     return $this
       ->getMockBuilder('Drupal\AppConsole\Generator\PluginBlockGenerator')
       ->disableOriginalConstructor()

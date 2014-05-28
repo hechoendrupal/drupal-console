@@ -6,8 +6,6 @@
 
 namespace Drupal\AppConsole\Generator;
 
-use Symfony\Component\DependencyInjection\Container;
-
 class ModuleGenerator extends Generator {
 
   public function generate($module, $dir, $description, $core, $package, $controller, $tests, $setting, $structure, $skip_root){
@@ -97,7 +95,6 @@ class ModuleGenerator extends Generator {
       drupal_mkdir($dir.'/src/Plugin');
       drupal_mkdir($dir.'/src/Plugin/Block');
       drupal_mkdir($dir.'/src/Tests');
-
     }
   }
 }

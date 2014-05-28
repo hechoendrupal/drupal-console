@@ -7,7 +7,6 @@
 namespace Drupal\AppConsole\Test\Command;
 
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\AppConsole\Command\GeneratorModuleCommand;
 
 class GeneratorModuleCommandTest extends GenerateCommandTest {
 
@@ -32,20 +31,17 @@ class GeneratorModuleCommandTest extends GenerateCommandTest {
     $cmd->execute($options);
   }
 
-  /**
-   * data provider
-   */
   public function getInteractiveData(){
     $dir = sys_get_temp_dir();
 
     return [
-      //case one basic options
+      // case one basic options
       [
         [],
         ['foo', $dir, 'My Awesome Module', '8.x', 'Other', false, true, false, true, false],
         "foo\n$dir\n"
       ],
-      //case two skip-root
+      // case two skip-root
       [
         ['--skip-root'=> true,'--module-path'=> $dir,'--description'=>'My old module','--package'=>'Other'],
         ['foo', $dir, "My old module", '8.x', 'Other', false, true, false, true, true],
@@ -74,9 +70,10 @@ class GeneratorModuleCommandTest extends GenerateCommandTest {
   }
 
   public function getNoInteractiveData(){
+
     $dir = sys_get_temp_dir();
     return [
-      //case one
+      // case one
       [
         ['--module'=>'bar','--module-path'=>$dir, '--description'=>'My Awesome Module','--core'=>'8.x','--package'=>'Other', '--controller'=>true,'--tests'=>true,'--setting'=>true,'--structure'=>true],
         ['bar', $dir, "My Awesome Module", '8.x', 'Other', true, true, true, true, false],
@@ -88,8 +85,9 @@ class GeneratorModuleCommandTest extends GenerateCommandTest {
     ];
   }
 
-
   protected function getCommand($generator, $input){
+
+    /** @var \Drupal\AppConsole\Command\GeneratorModuleCommand $command */
     $command = $this
       ->getMockBuilder('Drupal\AppConsole\Command\GeneratorModuleCommand')
       ->setMethods(null)
@@ -103,7 +101,7 @@ class GeneratorModuleCommandTest extends GenerateCommandTest {
     return $command;
   }
 
-  protected function getGenerator(){
+  private function getGenerator(){
 
     return $this
       ->getMockBuilder('Drupal\AppConsole\Generator\ModuleGenerator')

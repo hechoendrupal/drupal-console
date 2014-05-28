@@ -1,7 +1,8 @@
-Drupal 8 Console scaffolding module generator [![Build Status](https://travis-ci.org/hechoendrupal/DrupalAppConsole.svg?branch=master)](https://travis-ci.org/egulias/DrupalAppConsole)
-==============
+Drupal 8 Console scaffolding module generator
+=============================================
+[![Build Status](https://travis-ci.org/hechoendrupal/DrupalAppConsole.svg?branch=master)](https://travis-ci.org/hechoendrupal/DrupalAppConsole)
 
-Every modern framework nowadays provides a scaffolding tool code generator for speeding up the process of starting a new project and avoid the repetitive tasks.
+Every modern framework nowadays provides a scaffolding tool code generator for speeding up the process of starting a new project and avoid early repetitive tasks.
 
 The purpose of this project is to leverage the Symfony Console Component to provide a CLI tool to automate the creation of drupal 8 modules by generating the directory structure for a module, routing, controllers, forms, services, plugins and required configuration files.
 

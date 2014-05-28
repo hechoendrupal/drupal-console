@@ -35,7 +35,7 @@ class KernelHelper extends Helper {
    */
   public function getKernel() {
     if (!$this->kernel) {
-      $this->kernel = new DrupalKernel($this->environment, drupal_classloader(), !$this->debug);
+      $this->kernel = new DrupalKernel($this->environment, \drupal_classloader(), !$this->debug);
     }
 
     return $this->kernel;
@@ -70,7 +70,6 @@ class KernelHelper extends Helper {
   }
 
   /**
-   *
    * @param array $commands
    */
   public function initCommands(array $commands) {
@@ -84,7 +83,7 @@ class KernelHelper extends Helper {
   }
 
   /**
-   * @return Symfony\Component\EventDispatcher\EventDispatcherInterface
+   * @return \Symfony\Component\EventDispatcher\EventDispatcherInterface
    */
   public function getEventDispatcher() {
     return $this->getKernel()->getContainer()->get('event_dispatcher');

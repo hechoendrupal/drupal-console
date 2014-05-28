@@ -1,12 +1,9 @@
 <?php
 namespace Drupal\AppConsole\Command\Helper;
 
-use \Symfony\Component\Console\Output\OutputInterface;
-use \Symfony\Component\Console\Helper\ProgressHelper;
-use \Symfony\Component\Console\Helper\Helper;
-use \Symfony\Component\Finder\Finder;
-use \InvalidArgumentException;
-use \SplFileInfo;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\Helper;
+use Symfony\Component\Finder\Finder;
 
 class BootstrapFinderHelper extends Helper {
 
@@ -42,12 +39,12 @@ class BootstrapFinderHelper extends Helper {
 
         $filesFound = $iterator->count();
 
-      } catch (InvalidArgumentException $e) {
+      } catch (\InvalidArgumentException $e) {
         $relativePath .= '../';
 
         if (realpath($currentPath . $relativePath) === '/') {
 
-          throw new InvalidArgumentException('Cannot find Drupal boostrap file.');
+          throw new \InvalidArgumentException('Cannot find Drupal bootstrap file.');
         }
       }
     }

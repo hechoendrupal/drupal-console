@@ -6,12 +6,11 @@ use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Console\Helper\HelperSet;
 use Drupal\AppConsole\Command\Helper\DialogHelper;
-use Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper;
 
 abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase {
 
   /**
-   * @return Symfony\Component\DependencyInjection\Container Drupal container
+   * @return \Symfony\Component\DependencyInjection\Container Drupal container
    */
   protected function getContainer(){
 
@@ -21,6 +20,7 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase {
   }
 
   protected function getHelperSet($input){
+
     $dialog = new DialogHelper();
     $dialog->setInputStream($this->getInputStream($input));
 

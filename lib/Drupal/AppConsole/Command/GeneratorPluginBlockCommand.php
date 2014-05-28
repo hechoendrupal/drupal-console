@@ -6,11 +6,9 @@
 
 namespace Drupal\AppConsole\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\AppConsole\Command\Validators;
 use Drupal\AppConsole\Generator\PluginBlockGenerator;
 
 class GeneratorPluginBlockCommand extends GeneratorCommand{
@@ -29,10 +27,7 @@ class GeneratorPluginBlockCommand extends GeneratorCommand{
   }
 
   /**
-   *
-   * @param  InputInterface  $input  [description]
-   * @param  OutputInterface $output [description]
-   * @return [type]                  [description]
+   * {@inheritdoc}
    */
   protected function execute(InputInterface $input, OutputInterface $output) {
 
