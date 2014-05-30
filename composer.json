@@ -1,7 +1,6 @@
 {
     "name": "drupal/console",
     "description": "Drupal 8 Console scaffolding module generator",
-    "version": "@dev",
     "keywords": ["Drupal", "Console", "Development"],
     "type": "module",
     "license": "MIT",
