@@ -1,7 +1,6 @@
 {
     "name": "drupal/console",
     "description": "Drupal 8 Console scaffolding module generator",
-    "version": "@dev",
     "keywords": ["Drupal", "Console", "Development"],
     "type": "drupal-module",
     "license": "MIT",
@@ -17,9 +16,8 @@
             "homepage":  "http://jmolivas.com"
         },
         {
-            "name":      "Luis Cordova",
-            "email":     "cordoval@gmail.com",
-            "homepage":  "http://craftitonline.com"
+            "name":      "Drupal Console Contributors",
+            "homepage":  "https://github.com/hechoendrupal/DrupalAppConsole/graphs/contributors"
         }
     ],
     "require": {
