@@ -64,6 +64,7 @@ class KernelHelper extends Helper {
     $container = $this->getKernel()->getContainer();
     $request = Request::createFromGlobals();
     $container->set('request', $request);
+    $container->get('request_stack')->push($request);
 
     // Load Drupal Bootstrap Code: load code for subsystems and modules.
     $this->getHelperSet()->get('bootstrap')->bootstrapCode();
