@@ -12,14 +12,34 @@ It supports adding services using Dependency Injection on class generation.
 
 There are two options to install the console. The first one is using Composer and install the project as a module.
 
+Optionally you can install componser inside Drupal Installation.
 ```bash
 $ cd path/to/drupal8.dev
 $ curl -sS https://getcomposer.org/installer | php
+```
+
+Instructions to install Drupal Console if you are using a local version of Composer
+```
 $ COMPOSER_BIN_DIR=bin php composer.phar require --dev drupal/console:dev-master
 $ ./bin/console --help
 ```
 
-The second one is packing this module as a `.phar` file. Clone this repo as a separate project and run the following commands.
+Instructions to install Drupal Console if you are using a globally.
+```
+$ COMPOSER_BIN_DIR=bin composer require --dev drupal/console:dev-master
+$ ./bin/console --help
+```
+
+###  Generate a command for Drupal Console (optional)
+
+To create a package for Drupal Console as a `.phar` file, you have to  clone this repo as a separate project and run the following commands.
+
+```
+$ COMPOSER_BIN_DIR=bin composer require --dev drupal/console:dev-master
+$ ./bin/console --help
+```
+
+In both versions of installer is required to use the the Composer variable *COMPOSER_BIN_DIR* to indicate where will be located the binary files of packages required by Drupal Console.
 
 ```bash
 $ curl -s http://box-project.org/installer.php | php
