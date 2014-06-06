@@ -19,7 +19,7 @@ $ COMPOSER_BIN_DIR=bin php composer.phar require --dev drupal/console:dev-master
 $ ./bin/console --help
 ```
 
-### Create a Drupal Console as Command (optional)
+###  Generate a command for Drupal Console (optional)
 
 To create a package for Drupal Console as a `.phar` file, you have to  clone this repo as a separate project and run the following commands.
 
