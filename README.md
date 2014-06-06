@@ -26,7 +26,7 @@ $ ./bin/console --help
 
 Instructions to install Drupal Console if you are using a globally.
 ```
-$ COMPOSER_BIN_DIR=bin php composer.phar require --dev drupal/console:dev-master
+$ COMPOSER_BIN_DIR=bin composer require --dev drupal/console:dev-master
 $ ./bin/console --help
 ```
 
