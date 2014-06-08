@@ -1,23 +1,34 @@
 <?php
+/**
+ *@file
+ * Contains \Drupal\AppConsole\Command\Helper\RegisterCommandsHelper
+ */
 namespace Drupal\AppConsole\Command\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Console\Application;
 
-class RegisterCommandsHelper extends Helper {
+class RegisterCommandsHelper extends Helper
+{
 
+  /**
+   * @var \Symfony\Component\Console\Application.
+   */
   protected $console;
+
   protected $container;
   protected $kernel;
   protected $modules;
   protected $namespaces;
 
-  public function __construct(Application $console) {
+  public function __construct(Application $console)
+  {
     $this->console = $console;
   }
 
-  public function register() {
+  public function register()
+  {
 
     $this->getModuleList();
     $this->getNamespaces();
@@ -66,25 +77,29 @@ class RegisterCommandsHelper extends Helper {
   /**
    * @see \Symfony\Component\Console\Helper\HelperInterface::getName()
    */
-  public function getName() {
+  public function getName()
+  {
     return 'register_commands';
   }
 
-  protected function getKernel() {
+  protected function getKernel()
+  {
     if (!isset($this->kernel)){
       $kernelHelper = $this->getHelperSet()->get('kernel');
       $this->kernel = $kernelHelper->getKernel();
     }
   }
 
-  protected function getContainer() {
+  protected function getContainer()
+  {
     $this->getKernel();
     if(!isset($this->container)){
       $this->container = $this->kernel->getContainer();
     }
   }
 
-  protected function getModuleList() {
+  protected function getModuleList()
+  {
     // Get Container
     $this->getContainer();
     // Get Module handler
@@ -94,7 +109,8 @@ class RegisterCommandsHelper extends Helper {
     }
   }
 
-  protected function getNamespaces() {
+  protected function getNamespaces()
+  {
     $this->getContainer();
     // Get Traversal, namespaces
     if (!isset($this->namespaces)){
@@ -102,5 +118,4 @@ class RegisterCommandsHelper extends Helper {
       $this->namespaces = $namespaces->getArrayCopy();
     }
   }
-
 }
