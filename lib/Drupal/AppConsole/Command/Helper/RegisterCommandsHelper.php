@@ -36,11 +36,19 @@ class RegisterCommandsHelper extends Helper
     $finder = new Finder();
     foreach ($this->modules as $module => $directory) {
 
-      $place = $this->namespaces['Drupal\\'.$module];
-      $dir = $place. '/Drupal/' . $module . '/Command';
-      $prefix = 'Drupal\\'.$module . '\\Command';
+      $place   = $this->namespaces['Drupal\\'.$module];
+      $cmd_dir = '/Command';
+      $prefix  = 'Drupal\\'.$module.'\\Command';
 
-      if (!is_dir($dir)) {
+      // psr-0
+      if (is_dir($place[0].$cmd_dir)) {
+        $dir = $place[0].$cmd_dir;
+      }
+      //psr-4
+      else if (is_dir($place[1].$cmd_dir)) {
+        $dir = $place[1].$cmd_dir;
+      }
+      else {
         continue;
       }
 
@@ -56,18 +64,17 @@ class RegisterCommandsHelper extends Helper
         if ($relativePath = $file->getRelativePath()) {
           $ns .= '\\'.strtr($relativePath, '/', '\\');
         }
-
         $class = $ns.'\\'.$file->getBasename('.php');
 
-        if (class_exists($class)){
-          $r = new \ReflectionClass($class);
+        if (class_exists($class)) {
+          $cmd = new \ReflectionClass($class);
           // if is a valid command
-          if ($r->isSubclassOf('Symfony\\Component\\Console\\Command\\Command')
-            && !$r->isAbstract()
-            && !$r->getConstructor()->getNumberOfRequiredParameters()) {
+          if ($cmd->isSubclassOf('Symfony\\Component\\Console\\Command\\Command')
+            && !$cmd->isAbstract()
+            && !$cmd->getConstructor()->getNumberOfRequiredParameters()) {
 
             // Register command
-            $this->console->add($r->newInstance());
+            $this->console->add($cmd->newInstance());
           }
         }
       }
