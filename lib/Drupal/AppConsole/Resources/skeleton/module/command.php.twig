@@ -1,0 +1,53 @@
+<?php
+/**
+ * @file
+ * Contains \Drupal\{{module_name}}\Command\{{ name.class }}.
+ */
+
+namespace Drupal\{{module_name}}\Command;
+
+{% if container is not empty %}
+use Drupal\AppConsole\Command\ContainerAwareCommand;
+{% else %}
+use Symfony\Component\Console\Command\Command;
+{% endif %}
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+
+class {{ name.class }} extends {% if container is not empty %}ContainerAwareCommand {% else %}Command {% endif %}
+
+{
+  /**
+   * {@inheritdoc}
+   */
+  protected function configure()
+  {
+    $this
+      ->setName('{{ command }}')
+      ->setDescription('Greet someone')
+      ->addArgument('name', InputArgument::OPTIONAL, 'Who do you want to greet?')
+      ->addOption('yell', null, InputOption::VALUE_NONE, 'If set, the task will yell in uppercase letters')
+    ;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function execute(InputInterface $input, OutputInterface $output)
+  {
+    $name = $input->getArgument('name');
+    if ($name) {
+      $text = 'Hello '.$name;
+    } else {
+      $text = 'Hello';
+    }
+
+    if ($input->getOption('yell')) {
+      $text = strtoupper($text);
+    }
+
+    $output->writeln($text);
+  }
+}
