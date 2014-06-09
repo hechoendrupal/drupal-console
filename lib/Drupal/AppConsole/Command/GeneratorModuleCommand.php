@@ -10,6 +10,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Generator\ModuleGenerator;
+use Drupal\AppConsole\Utils\Utils;
+
 
 class GeneratorModuleCommand extends GeneratorCommand {
 
@@ -19,6 +21,7 @@ class GeneratorModuleCommand extends GeneratorCommand {
   protected function configure() {
     $this->setDefinition([
       new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
+      new InputOption('machine-name','',InputOption::VALUE_REQUIRED, 'The machine name (lowercase and underscore only)'),
       new InputOption('module-path','',InputOption::VALUE_REQUIRED, 'The path of the module'),
       new InputOption('description','',InputOption::VALUE_OPTIONAL, 'Description module'),
       new InputOption('core','',InputOption::VALUE_OPTIONAL, 'Core version'),
