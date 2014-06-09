@@ -7,5 +7,13 @@
 /box.phar
 /console.phar
 
-#Test
+# Test
 /phpunit.xml
+
+# IDEs
+.idea
+/nbproject
+
+# OS
+.DS_Store
+Thumbs.db
