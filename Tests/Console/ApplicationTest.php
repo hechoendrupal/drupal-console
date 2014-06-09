@@ -87,7 +87,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
                         ->disableOriginalConstructor()
                         ->getMock();
     $this->command = $this->getMockBuilder('Drupal\AppConsole\Command\GeneratorModuleCommand')
-                          ->disableOriginalConstructor()
+                          //->disableOriginalConstructor()
+                          ->setMethods(null)
                           ->getMock();
     $this->register_commands = $this->getMockBuilder('Drupal\AppConsole\Command\Helper\RegisterCommandsHelper')
                                     ->disableOriginalConstructor()
@@ -240,6 +241,10 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
     $this->command->expects($this->any())
                   ->method('getAliases')
                   ->will($this->returnValue(array()));
+
+    $this->command->expects($this->any())
+                  ->method('getDescription')
+                  ->will($this->returnValue('Generate module command'));
 
     $this->command->expects($this->any())
                   ->method('getName')
