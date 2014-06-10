@@ -35,6 +35,7 @@ class Generator {
     ));
 
     $twig->addFunction($this->getServiceAsParamater());
+    $twig->addFunction($this->getServiceAsParamaterKeys());
 
     return $twig->render($template, $parameters);
   }
@@ -64,4 +65,16 @@ class Generator {
       });
       return $servicesAsParameters;
   }
+
+  public function getServiceAsParamaterKeys() {
+    $servicesAsParametersKeys = new \Twig_SimpleFunction('servicesAsParametersKeys', function ($services) {
+      $parameters = [];
+      foreach ($services as $service) {
+        $parameters[] = sprintf('"@%s"', $service['name']);
+      }
+      return $parameters;
+    });
+    return $servicesAsParametersKeys;
+  }
+
 }
