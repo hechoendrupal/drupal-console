@@ -15,6 +15,7 @@ use Drupal\AppConsole\Command\GeneratorFormCommand;
 use Drupal\AppConsole\Command\GeneratorPluginBlockCommand;
 use Drupal\AppConsole\Command\GeneratorCommandCommand;
 use Drupal\AppConsole\Command\DrushCommand;
+use Drupal\AppConsole\Command\GeneratorServiceCommand;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Finder\Finder;
@@ -34,13 +35,14 @@ $application->setHelperSet(new HelperSet(array(
   'register_commands' => new RegisterCommandsHelper($application),
 )));
 
-$application->addCommands(array(
+$application->addCommands([
   new GeneratorModuleCommand(),
   new GeneratorControllerCommand(),
   new GeneratorFormCommand(),
   new GeneratorPluginBlockCommand(),
   new GeneratorCommandCommand(),
   new DrushCommand(),
-));
+  new GeneratorServiceCommand(),
+]);
 
 $application->run();
