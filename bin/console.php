@@ -45,5 +45,4 @@ $application->addCommands([
   new GeneratorServiceCommand(),
 ]);
 
-
 $application->run();
