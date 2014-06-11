@@ -13,7 +13,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Generator\ServiceGenerator;
 use Drupal\AppConsole\Command\Validators;
 
-class GeneratorServiceCommand extends GeneratorCommand {
+class GeneratorServiceCommand extends GeneratorCommand
+{
 
   protected function configure() {
     $this
@@ -146,5 +147,4 @@ class GeneratorServiceCommand extends GeneratorCommand {
   protected function createGenerator() {
     return new ServiceGenerator();
   }
-
 }
