@@ -28,12 +28,6 @@ class GeneratorServiceCommand extends GeneratorCommand {
       ->setName('generate:service');
   }
 
-  /**
-   *
-   * @param  InputInterface  $input  [description]
-   * @param  OutputInterface $output [description]
-   * @return [type]                  [description]
-   */
   protected function execute(InputInterface $input, OutputInterface $output) {
 
     $dialog = $this->getDialogHelper();
