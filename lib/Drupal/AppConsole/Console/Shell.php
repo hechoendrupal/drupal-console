@@ -15,56 +15,31 @@ class Shell extends BaseShell
     {
         return <<<EOF
 <fg=blue>
-                       ;
-                       ft
-                      LWii
-                      i#i;G
-                     tWWiiif
-                    t##fiiii,
-                   t##Eiiiiii;G
-                 jE##DDiiiiiiiiiij
-                ;W###DDiiiiiiiiii;f
-             #t######Diiiiiiiiiiiiiij
-            tf######Djiiiiiiiiiiiiiiij
-           ;#######DLiiiiiiiiiiiiiiiii,
-         jj######KDLiiiiiiiiiiiiiiiiiii;L
-         j######EDjiiiiiiiiiiiiiiiiiiiii;
-        t#####KDDiiiiiiiiiiiiiiiiiiiiiiii,
-       i#####EDDiiiiiiiiiiiiiiiiiiiiiiiiii;
-      fW###DDDiiiiiiiiiiiiiiiiiiiiiiiiiiii;f
-      ;DKDDDjiiiiiiiiiiiiiiiiiiiiiiiiiiiii;,
-     ;jDDDjiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii;;;
-     iijtiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii;;,
-    tiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii;;;;j
-    ;iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii;;;;,
-    iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii;;;;;
-   Liiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii;;;;;;
-   jiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii;;;;;;L
-   iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii;;;;;;;f
-   iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii;;;;;;;;t
-   ,iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii;;;;;;;;;,
-   ,iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii;;;;;;;;;,
-   ,iiiiiiiiiiiit#######Eiiiiiiiiii;;;;;;GKi;;,
-   iiiiiiiiiiii############iiiiiii;;;;;######;i
-   tiiiiiiiiii##############iiiii;;;;;#######;i
-   GiiiiiiiiiL###############Ei;;;;;K########;D
-    iiiiiiiii#################E;;;;W#########;
-    iiiiiiiiL################################;
-    ,iiiiiiiE################################,
-    GiiiiiiiK#################G;;;f##########i
-     ;iiiiiif###############W;;;;;;;########K
-     ;iiiiiii##############t;;;;;;;;;#######;
-      ;iiiiiit###########i;;;L####;;;i#####i
-       ;;iiiiiK########E;;;;j##KW#W;;;;####t
-       t;;;;;;;;;fGDf;;;;;;##;;;;;#j;;;;i;,
-        i;;;;;;;;;;;;;;;;;;D;;;;;;L;;;;;;,G
-         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;,
-          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;,j
-           j;;;;;;;;;;i##f;;;;;;;L##;;,
-             t;;;;;;;;;i##########;;,
-              j,;;;;;;;;;iLKWKDf;;;;
-                 t,;;;;;;;;;;;;;;f
-                   D;,,;;;;,,;j
+                    /`                       
+                    +o/`                     
+                   -oooo/.                   
+                  .+oooooo/-                 
+                ./oooooo+//::`               
+            `.:+ooooo/-`                     
+         .:+ooooooo+.     `...`              
+      ./+ooooooooo/    ./oooooo+-            
+    -+ooooooooooo+`   -oooooooooo/    `      
+  `/ooooooooooooo/    +ooooooooooo.   .+.    
+ `+oooooooooooooo+    /ooooooooooo.   -oo/`  
+ +oooooooooooooooo-   `/oooooooo+.    +ooo+` 
+:oooooooooooooooo+/`    `-////:.    `+ooooo+`
++oooooooooooo+:.`                 `:+ooooooo:
+ooooooooooo/`                  .:+oooooooooo+
+ooooooooo+`      `.-::--`       :oooooooooooo
+/ooooooo/      -+oooooooo+:`     -oooooooooo+
+.oooooo+`    `+oooooooooooo+.     /ooooooooo-
+ :ooooo:     /oooooooooooooo+`    .oooooooo/ 
+  /oooo-     +ooooooooooooooo.    `ooooooo/  
+   :ooo:     :oooooooooooooo+     .oooooo:   
+    `/oo`     :oooooooooooo+`     /oooo/.    
+      ./+`     .:+ooooooo/-      :ooo/.      
+        `-`       `.....       `/o/-`        
+                             `-:.`
 </fg=blue>
 EOF
         .parent::getHeader();
