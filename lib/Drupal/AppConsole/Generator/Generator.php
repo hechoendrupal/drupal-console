@@ -11,6 +11,8 @@
 
 namespace Drupal\AppConsole\Generator;
 
+use Drupal\AppConsole\Utils\Utils;
+
 class Generator {
   private $skeletonDirs;
 
@@ -47,8 +49,8 @@ class Generator {
     return file_put_contents($target, $this->render($template, $parameters), $flag);
   }
 
-  public function camelCaseToUnderscore($camelcase){
-    return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $camelcase));
+  public function camelCaseToUnderscore($camel_case){
+    return Utils::camelCaseToUnderscore($camel_case);
   }
 
   public function getServiceAsParamater() {
