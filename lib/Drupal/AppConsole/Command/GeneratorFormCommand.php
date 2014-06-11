@@ -163,12 +163,12 @@ class GeneratorFormCommand extends GeneratorCommand {
         // TODO: validate
         $input_type = $d->askAndValidate(
           $output,
-          $dialog->getQuestion('  Type'),
+          $dialog->getQuestion('  Type', 'textfield',':'),
           function($input) use ($input_types){
             return $input;
           },
           false,
-          null,
+          'textfield',
           $input_types
         );
 
