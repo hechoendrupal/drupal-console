@@ -13,9 +13,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Generator\ServiceGenerator;
 use Drupal\AppConsole\Command\Validators;
 
-class GeneratorServiceCommand extends GeneratorCommand {
+class GeneratorServiceCommand extends GeneratorCommand
+{
 
-  protected function configure() {
+  protected function configure()
+  {
     $this
       ->setDefinition(array(
         new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
@@ -28,14 +30,8 @@ class GeneratorServiceCommand extends GeneratorCommand {
       ->setName('generate:service');
   }
 
-  /**
-   *
-   * @param  InputInterface  $input  [description]
-   * @param  OutputInterface $output [description]
-   * @return [type]                  [description]
-   */
-  protected function execute(InputInterface $input, OutputInterface $output) {
-
+  protected function execute(InputInterface $input, OutputInterface $output)
+  {
     $dialog = $this->getDialogHelper();
 
     if ($input->isInteractive()) {
@@ -54,22 +50,22 @@ class GeneratorServiceCommand extends GeneratorCommand {
     if (!empty($services)){
       foreach ($services as $service) {
         $class = get_class($this->getContainer()->get($service));
-        $map_service[$service] = array(
+        $map_service[$service] = [
           'name'  => $service,
           'machine_name' => str_replace('.', '_', $service),
           'class' => $class,
           'short' => end(explode('\\',$class))
-        );
+        ];
       }
     }
 
     $this
       ->getGenerator()
-      ->generate($module, $service_name, $class_name, $map_service)
-    ;
+      ->generate($module, $service_name, $class_name, $map_service);
   }
 
-  protected function interact(InputInterface $input, OutputInterface $output) {
+  protected function interact(InputInterface $input, OutputInterface $output)
+  {
     $dialog = $this->getDialogHelper();
     $dialog->writeSection($output, 'Welcome to the Drupal service generator');
 
@@ -97,15 +93,22 @@ class GeneratorServiceCommand extends GeneratorCommand {
     // --service_name option
     $service_name = $input->getOption('service_name');
     if (!$service_name){
-      $service_name = $dialog->ask($output, $dialog->getQuestion('Enter the service name', $module.'.default'), $module.'.default');
+      $service_name = $dialog->ask(
+        $output,
+        $dialog->getQuestion('Enter the service name', $module.'.default'),
+        $module.'.default'
+      );
     }
     $input->setOption('service_name', $service_name);
 
     // --class option
     $class_name = $input->getOption('class_name');
     if (!$class_name){
-      $class_name = $dialog->ask($output, $dialog->getQuestion('Enter the Class name', 'DefaultService'), 'DefaultService');
-      $input->setOption('class_name', $class_name);
+      $class_name = $dialog->ask(
+        $output,
+        $dialog->getQuestion('Enter the Class name', 'DefaultService'),
+        'DefaultService'
+      );
     }
     $input->setOption('class_name', $class_name);
 
@@ -152,5 +155,4 @@ class GeneratorServiceCommand extends GeneratorCommand {
   protected function createGenerator() {
     return new ServiceGenerator();
   }
-
 }
