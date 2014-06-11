@@ -5,6 +5,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Generator\FormGenerator;
+use Drupal\AppConsole\Utils\Utils;
 
 class GeneratorFormCommand extends GeneratorCommand {
 
@@ -150,8 +151,7 @@ class GeneratorFormCommand extends GeneratorCommand {
         }
 
         // Machine name
-        $input_machine_name = preg_replace('/(?<=\\w)(?=[A-Z])/',"_$1", $input_label);
-        $input_machine_name = preg_replace('@[^a-z0-9_]+@','_',strtolower($input_machine_name));
+        $input_machine_name = Utils::createMachineName($input_label);
 
         $input_name = $dialog->ask(
           $output,
