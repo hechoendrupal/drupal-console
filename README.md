@@ -8,6 +8,23 @@ The purpose of this project is to leverage the Symfony Console Component to prov
 
 It supports adding services using Dependency Injection on class generation.
 
+#### What is out of the box?
+* Generates module and info files.
+* Generates PSR-4 compliant directory structure for a module.
+* Register routes on YML files and map to controller and form PHP Classes.
+* Create classes adding namespaces, uses and also the extend and implements keywords when required.
+* Support adding services using Dependency Injection on class generation.
+
+#### Who will benefit of using it?
+* **Module Maintainers & Developers**  
+  Create & Migrate contributed modules to Drupal 8.
+
+* **Drupal Trainers & Consultors**  
+  Train developers on Drupal 8.
+
+* **Drupal Shops**  
+  Reduce module development time for Drupal 8.
+
 ### Steps for install:
 
 There are two options to install the console. The first one is using Composer and install the project as a module.
@@ -78,4 +95,3 @@ $ ./bin/console generate:plugin:block
 #### Videos
 [Introducing the Drupal 8 Console scaffolding module generator](https://www.youtube.com/watch?v=lzjcj-_xlAg)  
 [How to install & use youtube video no audio](http://www.youtube.com/watch?v=NkHT2KctR-Y)
-
