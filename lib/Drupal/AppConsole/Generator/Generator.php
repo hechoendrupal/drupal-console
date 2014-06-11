@@ -47,10 +47,6 @@ class Generator {
     return file_put_contents($target, $this->render($template, $parameters), $flag);
   }
 
-  /**
-   * camelCaseToUnderscore [description]
-   * @return [type] [description]
-   */
   public function camelCaseToUnderscore($camelcase){
     return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $camelcase));
   }
