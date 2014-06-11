@@ -54,7 +54,7 @@ class {{ class_name }} extends ConfigFormBase
       '#type' => '{{ input.type }}',
       '#title' => $this->t('{{ input.label }}'),
       '#description' => $this->t(''),
-      '#default_value' => $config->get('{{ input.name }}')
+      '#default_value' => $config->get('{{ input.name }}'),
     );
   {% endfor %}
   return parent::buildForm($form, $form_state);
