@@ -9,11 +9,11 @@ namespace Drupal\AppConsole\Generator;
 class ServiceGenerator extends Generator {
 
   /**
-   * Generator Plugin Block
+   * Generator Service
    * @param  string $module       Module name
    * @param  string $service_name Service name
    * @param  string $class_name   Class name
-   * @param  array  $services     list of services
+   * @param  array  $services     List of services
    */
   public function generate($module, $service_name, $class_name, $services) {
 
@@ -37,10 +37,9 @@ class ServiceGenerator extends Generator {
         'underscore' => $this->camelCaseToUnderscore($class_name)
       ],
       'services'    => $services,
-      'args'   => $args
+      'args'   => $args,
+      'file_exists' => file_exists($module_path.'/'.$module.'.services.yml'),
     ];
-
-    $parameters['file_exists'] = file_exists($module_path.'/'.$module.'.services.yml');
 
     $this->renderFile(
       'module/services.yml.twig',
