@@ -76,6 +76,6 @@ $ ./bin/console generate:plugin:block
 ```
 
 #### Videos
-[Introducing the Drupal 8 Console scaffolding module generator](https://www.youtube.com/watch?v=lzjcj-_xlAg)
+[Introducing the Drupal 8 Console scaffolding module generator](https://www.youtube.com/watch?v=lzjcj-_xlAg)  
 [How to install & use youtube video no audio](http://www.youtube.com/watch?v=NkHT2KctR-Y)
 
