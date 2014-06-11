@@ -50,12 +50,12 @@ class {{ class_name }} extends ConfigFormBase
   {
     $config = $this->config('{{module_name}}.{{ class_name | lower }}_config');
   {% for input in inputs %}
-  $form['{{ input.name }}'] = array(
+  $form['{{ input.name }}'] = [
       '#type' => '{{ input.type }}',
       '#title' => $this->t('{{ input.label }}'),
       '#description' => $this->t(''),
       '#default_value' => $config->get('{{ input.name }}'),
-    );
+    ];
   {% endfor %}
   return parent::buildForm($form, $form_state);
   }
