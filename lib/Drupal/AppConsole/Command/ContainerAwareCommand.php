@@ -55,4 +55,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     return $this->getContainer()->getServiceIds();
   }
 
+  public function getValidator(){
+    return $this->getContainer()->get('console.validators');
+  }
 }
