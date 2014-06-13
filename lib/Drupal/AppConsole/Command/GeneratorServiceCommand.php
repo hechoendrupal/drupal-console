@@ -73,17 +73,15 @@ class GeneratorServiceCommand extends GeneratorCommand
     // --module option
     $module = $input->getOption('module');
     if (!$module){
-      // Module names
-      $modules = $this->getModules();
       $module = $helper_set->askAndValidate(
         $output,
         $dialog->getQuestion('Enter your module',''),
-        function($module) use ($modules){
-          return $this->getValidator()->validateModuleExist($module, $modules);
+        function($module){
+          return $this->validateModuleExist($module);
         },
         false,
         '',
-        $modules
+        $this->getModules()
       );
     }
 
@@ -118,20 +116,19 @@ class GeneratorServiceCommand extends GeneratorCommand
       true
     )) {
       $service_collection = array();
-      $services = $this->getServices();
       $output->writeln([
         '',
         'You can add some services, type the name or use keyup and keydown',
         'This is optional, press <info>enter</info> to <info>continue</info>',
         ''
       ]);
-
+      $services = $this->getServices();
       while(true){
         $service = $helper_set->askAndValidate(
           $output,
           $dialog->getQuestion(' Enter your service',''),
           function($service) use ($services){
-            return $this->getValidator()->validateServiceExist($service, $services);
+            return $this->validateServiceExist($service, $services);
           },
           false,
           null,
