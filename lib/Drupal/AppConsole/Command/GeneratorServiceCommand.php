@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Generator\ServiceGenerator;
-use Drupal\AppConsole\Command\Validators;
 
 class GeneratorServiceCommand extends GeneratorCommand
 {
@@ -80,7 +79,7 @@ class GeneratorServiceCommand extends GeneratorCommand
         $output,
         $dialog->getQuestion('Enter your module',''),
         function($module) use ($modules){
-          return Validators::validateModuleExist($module, $modules);
+          return $this->getValidator()->validateModuleExist($module, $modules);
         },
         false,
         '',
@@ -132,7 +131,7 @@ class GeneratorServiceCommand extends GeneratorCommand
           $output,
           $dialog->getQuestion(' Enter your service',''),
           function($service) use ($services){
-            return Validators::validateServiceExist($service, $services);
+            return $this->getValidator()->validateServiceExist($service, $services);
           },
           false,
           null,
