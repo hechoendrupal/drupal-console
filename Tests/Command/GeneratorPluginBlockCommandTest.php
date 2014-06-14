@@ -46,32 +46,32 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest {
       // case base
       [
         [],
-        ['Foo','FooBlock',[]],
-        "Foo\nFooBlock\nno"
+        ['Foo','FooBlock','My Awesome Block',[]],
+        "Foo\nFooBlock\n\nno"
       ],
       //case two services
       [
         [],
-        ['Foo','FooBlock',['twig'=>['name'=>'twig','machine_name'=>'twig','class'=>'Twig_Environment','short'=>'Twig_Environment']]],
-        "Foo\nFooBlock\nyes\ntwig\n"
+        ['Foo','FooBlock','My Awesome Block',['twig'=>['name'=>'twig','machine_name'=>'twig','class'=>'Twig_Environment','short'=>'Twig_Environment']]],
+        "Foo\nFooBlock\n\nyes\ntwig\n"
       ],
       // case three module name in arguments
       [
         ['--module'=>'Foo'],
-        ['Foo','FooBlock',['twig'=>['name'=>'twig','machine_name'=>'twig','class'=>'Twig_Environment','short'=>'Twig_Environment']]],
-        "FooBlock\nyes\ntwig\n"
+        ['Foo','FooBlock','My Awesome Block',['twig'=>['name'=>'twig','machine_name'=>'twig','class'=>'Twig_Environment','short'=>'Twig_Environment']]],
+        "FooBlock\n\nyes\ntwig\n"
       ],
       //case four default values and not services
       [
         ['--module'=>'Foo'],
-        ['Foo','DefaultBlock',[]],
-        "\nno\n"
+        ['Foo','DefaultBlock','My Awesome Block',[]],
+        "\n\nno\n"
       ],
       // case five default values and clean services
       [
         ['--module'=>'Foo'],
-        ['Foo','DefaultBlock',[]],
-        "\nyes\n\n"
+        ['Foo','DefaultBlock','My Awesome Block',[]],
+        "\n\nyes\n\n"
       ]
 
     ];
