@@ -38,13 +38,13 @@ $ curl -sS https://getcomposer.org/installer | php
 
 Instructions to install Drupal Console if you are using a local version of Composer
 ```
-$ COMPOSER_BIN_DIR=bin php composer.phar require --dev drupal/console:~0.1
+$ COMPOSER_BIN_DIR=bin php composer.phar require --dev drupal/console:dev-master
 $ ./bin/console --help
 ```
 
 Instructions to install Drupal Console if you are using composer globally.
 ```
-$ COMPOSER_BIN_DIR=bin composer require --dev drupal/console:~0.1
+$ COMPOSER_BIN_DIR=bin composer require --dev drupal/console:dev-master
 $ ./bin/console --help
 ```
 
