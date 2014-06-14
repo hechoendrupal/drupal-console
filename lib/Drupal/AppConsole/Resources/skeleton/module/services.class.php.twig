@@ -1,0 +1,24 @@
+<?php
+/**
+ * @file
+ * Contains \Drupal\{{module}}\{{ name.class }}.
+ */
+
+namespace Drupal\{{module}};
+
+{% if services is not empty %}
+{{ include ('skeleton/module/shared/services-use-operator.php.twig', {useContainerInterface: false}) }}
+{% endif %}
+
+class {{ name.class }}
+{
+
+{% if services is not empty %}
+{% include 'skeleton/module/shared/services-class-properties-declaration.php.twig' %}
+{% endif %}
+
+  public function __construct({{ servicesAsParameters(services)|join(', ') }})
+  {
+{% include 'skeleton/module/shared/services-class-properties-initialization.php.twig' %}
+  }
+}
