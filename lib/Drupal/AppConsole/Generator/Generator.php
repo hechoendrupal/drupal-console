@@ -11,6 +11,8 @@
 
 namespace Drupal\AppConsole\Generator;
 
+use Drupal\AppConsole\Utils\Utils;
+
 class Generator {
   private $skeletonDirs;
 
@@ -35,6 +37,7 @@ class Generator {
     ));
 
     $twig->addFunction($this->getServiceAsParamater());
+    $twig->addFunction($this->getServiceAsParamaterKeys());
 
     return $twig->render($template, $parameters);
   }
@@ -46,12 +49,8 @@ class Generator {
     return file_put_contents($target, $this->render($template, $parameters), $flag);
   }
 
-  /**
-   * camelCaseToUnderscore [description]
-   * @return [type] [description]
-   */
-  public function camelCaseToUnderscore($camelcase){
-    return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $camelcase));
+  public function camelCaseToUnderscore($camel_case){
+    return Utils::camelCaseToUnderscore($camel_case);
   }
 
   public function getServiceAsParamater() {
@@ -64,4 +63,16 @@ class Generator {
       });
       return $servicesAsParameters;
   }
+
+  public function getServiceAsParamaterKeys() {
+    $servicesAsParametersKeys = new \Twig_SimpleFunction('servicesAsParametersKeys', function ($services) {
+      $parameters = [];
+      foreach ($services as $service) {
+        $parameters[] = sprintf('"@%s"', $service['name']);
+      }
+      return $parameters;
+    });
+    return $servicesAsParametersKeys;
+  }
+
 }

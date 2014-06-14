@@ -26,7 +26,11 @@ class ControllerGenerator extends Generator {
       $parameters
     );
 
-    $this->renderFile('module/controller-routing.yml.twig', DRUPAL_ROOT.'/modules/'.$module.'/'.$module.'.routing.yml', $parameters, FILE_APPEND);
+    $this->renderFile('module/controller-routing.yml.twig',
+        DRUPAL_ROOT.'/modules/'.$module.'/'.$module.'.routing.yml',
+        $parameters,
+        FILE_APPEND
+    );
 
     if ($test){
       $this->renderFile(
