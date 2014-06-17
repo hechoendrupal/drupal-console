@@ -51,8 +51,8 @@ class GeneratorModuleCommand extends GeneratorCommand {
       }
     }
 
-    $module = Validators::validateModuleName($input->getOption('module'));
-    $module_path = Validators::validateModulePath($input->getOption('module-path'));
+    $module = $this->validateModuleName($input->getOption('module'));
+    $module_path = $this->validateModulePath($input->getOption('module-path'));
     $description = $input->getOption('description');
     $core = $input->getOption('core');
     $package = $input->getOption('package');
@@ -80,7 +80,7 @@ class GeneratorModuleCommand extends GeneratorCommand {
     $dialog->writeSection($output, 'Welcome to the Drupal module generator');
 
     try {
-      $namespace = $input->getOption('module') ? Validators::validateModuleName($input->getOption('module')) : null;
+      $namespace = $input->getOption('module') ? $this->validateModuleName($input->getOption('module')) : null;
     }catch (\Exception $error){
       $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
     }
