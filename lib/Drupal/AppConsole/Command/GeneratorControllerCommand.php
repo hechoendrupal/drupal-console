@@ -70,9 +70,9 @@ class GeneratorControllerCommand extends GeneratorCommand {
     $modules = $this->getModules();
     $module = $d->askAndValidate(
       $output,
-      $dialog->getQuestion('Enter your module: '),
-      function($module) use ($modules){
-        return Validators::validateModuleExist($module, $modules);
+      $dialog->getQuestion('Enter your module: ', ''),
+      function($module){
+        return $this->validateModuleExist($module);
       },
       false,
       '',
@@ -104,9 +104,9 @@ class GeneratorControllerCommand extends GeneratorCommand {
       while(true){
         $service = $d->askAndValidate(
           $output,
-          $dialog->getQuestion(' Enter your service (optional): '),
+          $dialog->getQuestion(' Enter your service (optional): ', ''),
           function($service) use ($services){
-            return Validators::validateServiceExist($service, $services);
+            return $this->validateServiceExist($service, $services);
           },
           false,
           null,
