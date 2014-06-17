@@ -9,9 +9,7 @@
          processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="false"
-         printerFile="vendor/whatthejeff/nyancat-phpunit-resultprinter/src/NyanCat/PHPUnit/ResultPrinter.php"
-         printerClass="NyanCat\PHPunit\ResultPrinter"
-         bootstrap="vendor/autoload.php">
+         bootstrap="autoload.php.dist">
 
     <testsuites>
        <testsuite name="Drupal\AppConsole Test Suite">

@@ -49,11 +49,12 @@ class GeneratorPluginBlockCommand extends GeneratorCommand{
     if (!empty($services)){
       foreach ($services as $service) {
         $class = get_class($this->getContainer()->get($service));
+        $separated_class = explode('\\',$class); 
         $map_service[$service] = array(
           'name'  => $service,
           'machine_name' => str_replace('.', '_', $service),
           'class' => $class,
-          'short' => end(explode('\\',$class))
+          'short' => end($separated_class),
         );
       }
     }
