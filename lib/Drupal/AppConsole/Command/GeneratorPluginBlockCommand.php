@@ -79,7 +79,7 @@ class GeneratorPluginBlockCommand extends GeneratorCommand{
         $output,
         $dialog->getQuestion('Enter your module',''),
         function($module) use ($modules){
-          return Validators::validateModuleExist($module, $modules);
+          return $this->validateModuleExist($module);
         },
         false,
         '',
@@ -123,7 +123,7 @@ class GeneratorPluginBlockCommand extends GeneratorCommand{
           $output,
           $dialog->getQuestion(' Enter your service',''),
           function($service) use ($services){
-            return Validators::validateServiceExist($service, $services);
+            return $this->validateServiceExist($service, $services);
           },
           false,
           null,

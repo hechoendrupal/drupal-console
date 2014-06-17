@@ -68,6 +68,14 @@ class KernelHelper extends Helper {
 
     // Load Drupal Bootstrap Code: load code for subsystems and modules.
     $this->getHelperSet()->get('bootstrap')->bootstrapCode();
+    
+    // Register Validator Service manually
+    // TODO load from file console.services.yml move to a Helper or another class
+    $container->set(
+      'console.validators',
+      new \Drupal\AppConsole\Command\Validators()
+    );
+
   }
 
   /**

@@ -73,8 +73,8 @@ class GeneratorCommandCommand extends GeneratorCommand
       $module = $helper_set->askAndValidate(
         $output,
         $dialog->getQuestion('Enter your module',''),
-        function($module) use ($modules){
-          return Validators::validateModuleExist($module, $modules);
+        function($module){
+          return $this->validateModuleExist($module);
         },
         false,
         '',
