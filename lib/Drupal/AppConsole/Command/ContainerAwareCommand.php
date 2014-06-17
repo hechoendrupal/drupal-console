@@ -69,7 +69,11 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     return $this->services;
   }
 
-  private function getValidator()
+
+  /**
+   * @return \Drupal\AppConsole\Command\Validators
+   */
+  public function getValidator()
   {
     return $this->getContainer()->get('console.validators');
   }
@@ -86,4 +90,11 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     return $this->getValidator()->validateServiceExist($service_name, $services);
   }
 
+  public function validateModuleName($module_name){
+    return $this->getValidator()->validateModuleName($module_name);
+  }
+
+  public function validateModulePath($module_path){
+    return $this->getValidator()->validateModulePath($module_path);
+  }
 }
