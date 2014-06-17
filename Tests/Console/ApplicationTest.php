@@ -87,7 +87,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
                         ->disableOriginalConstructor()
                         ->getMock();
     $this->command = $this->getMockBuilder('Drupal\AppConsole\Command\GeneratorModuleCommand')
-                          //->disableOriginalConstructor()
                           ->setMethods(null)
                           ->getMock();
     $this->register_commands = $this->getMockBuilder('Drupal\AppConsole\Command\Helper\RegisterCommandsHelper')
