@@ -6,6 +6,7 @@ use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Console\Helper\HelperSet;
 use Drupal\AppConsole\Command\Helper\DialogHelper;
+use Drupal\AppConsole\Command\Validators;
 
 abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase {
 
@@ -16,6 +17,7 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase {
 
     $container = new Container();
     $container->set('twig', new \Twig_Environment());
+    $container->set('console.validators', new Validators());
     return $container;
   }
 
