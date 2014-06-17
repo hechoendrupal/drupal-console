@@ -74,8 +74,8 @@ class GeneratorFormCommand extends GeneratorCommand {
     $module = $d->askAndValidate(
       $output,
       $dialog->getQuestion('Enter your module '),
-      function($module) use ($modules){
-        return Validators::validateModuleExist($module, $modules);
+      function($module){
+        return $this->validateModuleExist($module);
       },
       false,
       '',
@@ -102,7 +102,7 @@ class GeneratorFormCommand extends GeneratorCommand {
           $output,
           $dialog->getQuestion('Enter your service (optional): '),
           function($service) use ($services){
-            return Validators::validateServiceExist($service, $services);
+            return $this->validateServiceExist($service, $services);
           },
           false,
           null,

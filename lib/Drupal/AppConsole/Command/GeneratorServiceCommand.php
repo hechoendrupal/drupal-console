@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Generator\ServiceGenerator;
-use Drupal\AppConsole\Command\Validators;
 
 class GeneratorServiceCommand extends GeneratorCommand
 {
@@ -74,17 +73,15 @@ class GeneratorServiceCommand extends GeneratorCommand
     // --module option
     $module = $input->getOption('module');
     if (!$module){
-      // Module names
-      $modules = $this->getModules();
       $module = $helper_set->askAndValidate(
         $output,
         $dialog->getQuestion('Enter your module',''),
-        function($module) use ($modules){
-          return Validators::validateModuleExist($module, $modules);
+        function($module){
+          return $this->validateModuleExist($module);
         },
         false,
         '',
-        $modules
+        $this->getModules()
       );
     }
 
@@ -119,20 +116,19 @@ class GeneratorServiceCommand extends GeneratorCommand
       true
     )) {
       $service_collection = array();
-      $services = $this->getServices();
       $output->writeln([
         '',
         'You can add some services, type the name or use keyup and keydown',
         'This is optional, press <info>enter</info> to <info>continue</info>',
         ''
       ]);
-
+      $services = $this->getServices();
       while(true){
         $service = $helper_set->askAndValidate(
           $output,
           $dialog->getQuestion(' Enter your service',''),
           function($service) use ($services){
-            return Validators::validateServiceExist($service, $services);
+            return $this->validateServiceExist($service, $services);
           },
           false,
           null,

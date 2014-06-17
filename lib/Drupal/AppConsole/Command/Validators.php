@@ -6,19 +6,29 @@
 
 namespace Drupal\AppConsole\Command;
 
-class Validators {
+class Validators
+{
+
+  function __construct()
+  {
+  }
 
   // TODO: validate module name
-  public static function validateModuleName($module){
+  public function validateModuleName($module)
+  {
     if (!empty($module))
       return $module;
     else
       throw new \InvalidArgumentException(sprintf('Module name "%s" is invalid.', $module));
   }
 
-  public static function validateModulePath($module_path){
+  public function validateModulePath($module_path)
+  {
     if(!is_dir($module_path)) {
-      throw new \InvalidArgumentException(sprintf('Module path "%s" is invalid. You need to provide a valid path.', $module_path));
+      throw new \InvalidArgumentException(sprintf(
+        'Module path "%s" is invalid. You need to provide a valid path.',
+        $module_path)
+      );
     }
     return $module_path;
   }
@@ -29,9 +39,13 @@ class Validators {
    * @param  array  $modules List of modules
    * @return string          Module name
    */
-  static function validateModuleExist($module, $modules) {
+  public function validateModuleExist($module, $modules)
+  {
     if (!in_array($module, array_values($modules))) {
-      throw new \InvalidArgumentException(sprintf('Module "%s" is invalid. You can use first generate:module command.', $module));
+      throw new \InvalidArgumentException(sprintf(
+        'Module "%s" is invalid. You can use first generate:module command.',
+        $module)
+      );
     }
 
     return $module;
@@ -39,12 +53,12 @@ class Validators {
 
   /**
    * Validate if service name exist
-   * @param  string $service  [description]
-   * @param  array  $services [description]
-   * @return string           [description]
+   * @param  string $service  Service name
+   * @param  array  $services Array of services
+   * @return string
    */
-  static function validateServiceExist($service, $services) {
-
+  public function validateServiceExist($service, $services)
+  {
     if ($service == ''){
       return null;
     }
@@ -55,5 +69,4 @@ class Validators {
 
     return $service;
   }
-
 }

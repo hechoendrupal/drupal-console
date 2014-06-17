@@ -6,14 +6,20 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
-abstract class ContainerAwareCommand extends Command implements ContainerAwareInterface {
+abstract class ContainerAwareCommand extends Command implements ContainerAwareInterface
+{
 
   private $container;
+
+  private $modules;
+
+  private $services;
 
   /**
    * @return ContainerInterface
    */
-  protected function getContainer() {
+  protected function getContainer()
+  {
     if (null === $this->container) {
       $this->container = $this->getApplication()->getKernel()->getContainer();
     }
@@ -24,7 +30,8 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
   /**
    * {@inheritdoc}
    */
-  public function setContainer(ContainerInterface $container = null) {
+  public function setContainer(ContainerInterface $container = null)
+  {
     $this->container = $container;
   }
 
@@ -33,26 +40,61 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
    * @param  boolean $core Return core modules
    * @return array list of modules
    */
-  public function getModules($core = false) {
-    // modules collection
-    $modules = array();
-    //get all modules
-    $all_modules = \system_rebuild_module_data();
+  public function getModules($core = false)
+  {
+    if (null === $this->modules) {
+      $this->modules = [];
+      //get all modules
+      $all_modules = \system_rebuild_module_data();
 
-    // Filter modules
-    foreach ($all_modules as $name => $filename) {
-      if ( !preg_match('/^core/',$filename->uri) && !$core){
-        array_push($modules, $name);
-      }
-      else if ($core){
-        array_push($modules, $name);
+      // Filter modules
+      foreach ($all_modules as $name => $filename) {
+        if (!preg_match('/^core/', $filename->uri) && !$core) {
+          array_push($this->modules, $name);
+        } else if ($core) {
+          array_push($this->modules, $name);
+        }
       }
     }
-    return $modules;
+    return $this->modules;
   }
 
-  public function getServices() {
-    return $this->getContainer()->getServiceIds();
+  public function getServices()
+  {
+    if (null === $this->services) {
+      $this->services = [];
+      $this->services = $this->getContainer()->getServiceIds();
+    }
+
+    return $this->services;
   }
 
+
+  /**
+   * @return \Drupal\AppConsole\Command\Validators
+   */
+  public function getValidator()
+  {
+    return $this->getContainer()->get('console.validators');
+  }
+
+  public function validateModuleExist($module_name)
+  {
+    return $this->getValidator()->validateModuleExist($module_name, $this->getModules());
+  }
+
+  public function validateServiceExist($service_name, $services = null)
+  {
+    if (!$services)
+      $services = $this->getServices();
+    return $this->getValidator()->validateServiceExist($service_name, $services);
+  }
+
+  public function validateModuleName($module_name){
+    return $this->getValidator()->validateModuleName($module_name);
+  }
+
+  public function validateModulePath($module_path){
+    return $this->getValidator()->validateModulePath($module_path);
+  }
 }
