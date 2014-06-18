@@ -14,7 +14,8 @@ namespace Drupal\AppConsole\Command;
 use Drupal\AppConsole\Command\Helper\DialogHelper;
 use Drupal\AppConsole\Generator\Generator;
 
-abstract class GeneratorCommand extends ContainerAwareCommand {
+abstract class GeneratorCommand extends ContainerAwareCommand
+{
     private $generator;
 
     // only useful for unit tests
@@ -23,7 +24,7 @@ abstract class GeneratorCommand extends ContainerAwareCommand {
         $this->generator = $generator;
     }
 
-    protected abstract function createGenerator();
+    abstract protected function createGenerator();
 
     protected function getGenerator()
     {
@@ -40,6 +41,7 @@ abstract class GeneratorCommand extends ContainerAwareCommand {
         $skeletonDirs = array();
         $skeletonDirs[] = __DIR__.'/../Resources/skeleton';
         $skeletonDirs[] = __DIR__.'/../Resources';
+
         return $skeletonDirs;
     }
 

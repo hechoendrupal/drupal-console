@@ -6,10 +6,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Generator\ControllerGenerator;
 
-class GeneratorControllerCommand extends GeneratorCommand {
-
-  protected function configure() {
-
+class GeneratorControllerCommand extends GeneratorCommand
+{
+  protected function configure()
+  {
     $this
       ->setDefinition(array(
         new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
@@ -26,8 +26,8 @@ class GeneratorControllerCommand extends GeneratorCommand {
   /**
    * {@inheritdoc}
    */
-  protected function execute(InputInterface $input, OutputInterface $output) {
-
+  protected function execute(InputInterface $input, OutputInterface $output)
+  {
     /** @var \Drupal\AppConsole\Command\Helper\DialogHelper $dialog */
     $dialog = $this->getDialogHelper();
 
@@ -58,8 +58,8 @@ class GeneratorControllerCommand extends GeneratorCommand {
   /**
    * {@inheritdoc}
    */
-  protected function interact(InputInterface $input, OutputInterface $output) {
-
+  protected function interact(InputInterface $input, OutputInterface $output)
+  {
     /** @var \Drupal\AppConsole\Command\Helper\DialogHelper $dialog */
     $dialog = $this->getDialogHelper();
     $dialog->writeSection($output, 'Welcome to the Drupal controller generator');
@@ -71,7 +71,7 @@ class GeneratorControllerCommand extends GeneratorCommand {
     $module = $d->askAndValidate(
       $output,
       $dialog->getQuestion('Enter your module: ', ''),
-      function($module){
+      function ($module) {
         return $this->validateModuleExist($module);
       },
       false,
@@ -101,11 +101,11 @@ class GeneratorControllerCommand extends GeneratorCommand {
     )) {
       $service_collection = array();
       $services = $this->getServices();
-      while(true){
+      while (true) {
         $service = $d->askAndValidate(
           $output,
           $dialog->getQuestion(' Enter your service (optional): ', ''),
-          function($service) use ($services){
+          function ($service) use ($services) {
             return $this->validateServiceExist($service, $services);
           },
           false,
@@ -140,9 +140,9 @@ class GeneratorControllerCommand extends GeneratorCommand {
   /**
     * @return ControllerGenerator
     */
-  protected function createGenerator() {
+  protected function createGenerator()
+  {
     return new ControllerGenerator();
   }
 
 }
-

@@ -2,12 +2,12 @@
 
 namespace Drupal\AppConsole\Generator;
 
-class FormGenerator extends Generator {
-
+class FormGenerator extends Generator
+{
   public function __construct() {}
 
-    public function generate($module, $class_name, $services, $inputs, $update_routing) {
-
+    public function generate($module, $class_name, $services, $inputs, $update_routing)
+    {
     $path = DRUPAL_ROOT . '/' . drupal_get_path('module', $module);
 
     $path_form = $path . '/src/Form';

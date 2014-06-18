@@ -8,13 +8,13 @@ namespace Drupal\AppConsole\Test\Command;
 
 use Symfony\Component\Console\Tester\CommandTester;
 
-class GeneratorPluginBlockCommandTest extends GenerateCommandTest {
-
+class GeneratorPluginBlockCommandTest extends GenerateCommandTest
+{
   /**
    * @dataProvider getDataInteractive
    */
-  public function testInteractiveCommand($options, $expected, $input){
-
+  public function testInteractiveCommand($options, $expected, $input)
+  {
     list($module, $name, $services) = $expected;
 
     $generator = $this->getGenerator();
@@ -40,8 +40,8 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest {
     $cmd->execute($options);
   }
 
-  public function getDataInteractive(){
-
+  public function getDataInteractive()
+  {
     return[
       // case base
       [
@@ -77,7 +77,8 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest {
     ];
   }
 
-  public function getCommand($generator, $input){
+  public function getCommand($generator, $input)
+  {
     $command = $this->getMockBuilder('Drupal\AppConsole\Command\GeneratorPluginBlockCommand')
       ->setMethods(['getModules','getServices'])
       ->getMock()
@@ -90,8 +91,8 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest {
     return $command;
   }
 
-  private function getGenerator(){
-
+  private function getGenerator()
+  {
     return $this
       ->getMockBuilder('Drupal\AppConsole\Generator\PluginBlockGenerator')
       ->disableOriginalConstructor()
