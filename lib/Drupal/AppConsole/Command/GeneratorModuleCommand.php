@@ -91,10 +91,10 @@ class GeneratorModuleCommand extends GeneratorCommand {
         $output,
         $dialog->getQuestion('Module name',
         $input->getOption('module')),
-        array(
-          'Drupal\AppConsole\Command\Validators',
+        [
+          $this,
           'validateModuleName'
-        ),
+        ],
         false,
         $input->getOption('module')
       );
