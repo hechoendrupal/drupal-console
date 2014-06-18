@@ -5,8 +5,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Finder\Finder;
 
-class BootstrapFinderHelper extends Helper {
-
+class BootstrapFinderHelper extends Helper
+{
   /**
    * @var Finder
    */
@@ -15,11 +15,13 @@ class BootstrapFinderHelper extends Helper {
   /**
    * @param Finder $finder
    */
-  public function __construct(Finder $finder) {
+  public function __construct(Finder $finder)
+  {
     $this->finder = $finder;
   }
 
-  public function findBootstrapFile(OutputInterface $output) {
+  public function findBootstrapFile(OutputInterface $output)
+  {
     $output->writeln('<info>Finding bootstrap.inc file...</info>');
 
     $currentPath = getcwd() . '/';
@@ -58,8 +60,8 @@ class BootstrapFinderHelper extends Helper {
     return $bootstrapRealPath;
   }
 
-  public function getName() {
-
+  public function getName()
+  {
     return 'finder';
   }
 }

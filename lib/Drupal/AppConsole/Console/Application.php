@@ -7,14 +7,15 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Debug\Debug;
 
-class Application extends BaseApplication {
- 
+class Application extends BaseApplication
+{
   private $commandsRegistered = false;
 
   /**
    * Create a new application extended from \Symfony\Component\Console\Application
    */
-  public function __construct() {
+  public function __construct()
+  {
     $env = 'prod';
 
     parent::__construct('Drupal', 'Drupal App Console - 8.x/ ' . $env);
@@ -44,7 +45,8 @@ class Application extends BaseApplication {
    * @param  OutputInterface $output
    * @return int
    */
-  public function doRun(InputInterface $input, OutputInterface $output) {
+  public function doRun(InputInterface $input, OutputInterface $output)
+  {
     $this->bootstrapDrupal($input, $output);
     $this->initDebug($input);
     $this->doKernelConfiguration();
@@ -63,7 +65,8 @@ class Application extends BaseApplication {
     return parent::doRun($input, $output);
   }
 
-  protected function bootstrapDrupal(InputInterface $input, OutputInterface $output) {
+  protected function bootstrapDrupal(InputInterface $input, OutputInterface $output)
+  {
     $drupalBoostrap = $this->getHelperSet()->get('bootstrap');
 
     $bootstrapFile = $input->getParameterOption(array('--bootstrap-file', '-b'));
@@ -74,7 +77,8 @@ class Application extends BaseApplication {
     $drupalBoostrap->bootstrapConfiguration($bootstrapFile);
   }
 
-  protected function initDebug(InputInterface $input) {
+  protected function initDebug(InputInterface $input)
+  {
     $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
 
     $debug = getenv('DRUPAL_DEBUG') !== '0'
@@ -90,7 +94,8 @@ class Application extends BaseApplication {
     $kernelHelper->setEnvironment($env);
   }
 
-  protected function doKernelConfiguration() {
+  protected function doKernelConfiguration()
+  {
     $kernelHelper = $this->getHelperSet()->get('kernel');
     $kernelHelper->bootKernel();
     $kernelHelper->initCommands($this->all());
@@ -98,13 +103,15 @@ class Application extends BaseApplication {
     $this->setDispatcher($kernelHelper->getEventDispatcher());
   }
 
-  protected function runShell(InputInterface $input) {
+  protected function runShell(InputInterface $input)
+  {
     $shell = $this->getHelperSet()->get('shell')->getShell();
     $shell->setProcessIsolation($input->hasParameterOption(array('--process-isolation')));
     $shell->run();
   }
 
-  protected function registerCommands() {
+  protected function registerCommands()
+  {
     $rc = $this->getHelperSet()->get('register_commands');
     $rc->register();
   }

@@ -6,7 +6,6 @@
 
 namespace Drupal\AppConsole\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -36,6 +35,7 @@ class GeneratorServiceCommand extends GeneratorCommand
     if ($input->isInteractive()) {
       if (!$dialog->askConfirmation($output, $dialog->getQuestion('Do you confirm generation', 'yes', '?'), true)) {
         $output->writeln('<error>Command aborted</error>');
+
         return 1;
       }
     }
@@ -46,7 +46,7 @@ class GeneratorServiceCommand extends GeneratorCommand
     $services = $input->getOption('services');
 
     $map_service = [];
-    if (!empty($services)){
+    if (!empty($services)) {
       foreach ($services as $service) {
         $class = get_class($this->getContainer()->get($service));
         $map_service[$service] = [
@@ -72,11 +72,11 @@ class GeneratorServiceCommand extends GeneratorCommand
 
     // --module option
     $module = $input->getOption('module');
-    if (!$module){
+    if (!$module) {
       $module = $helper_set->askAndValidate(
         $output,
         $dialog->getQuestion('Enter your module',''),
-        function($module){
+        function ($module) {
           return $this->validateModuleExist($module);
         },
         false,
@@ -89,7 +89,7 @@ class GeneratorServiceCommand extends GeneratorCommand
 
     // --service_name option
     $service_name = $input->getOption('service_name');
-    if (!$service_name){
+    if (!$service_name) {
       $service_name = $dialog->ask(
         $output,
         $dialog->getQuestion('Enter the service name', $module.'.default'),
@@ -100,7 +100,7 @@ class GeneratorServiceCommand extends GeneratorCommand
 
     // --class option
     $class_name = $input->getOption('class_name');
-    if (!$class_name){
+    if (!$class_name) {
       $class_name = $dialog->ask(
         $output,
         $dialog->getQuestion('Enter the Class name', 'DefaultService'),
@@ -123,11 +123,11 @@ class GeneratorServiceCommand extends GeneratorCommand
         ''
       ]);
       $services = $this->getServices();
-      while(true){
+      while (true) {
         $service = $helper_set->askAndValidate(
           $output,
           $dialog->getQuestion(' Enter your service',''),
-          function($service) use ($services){
+          function ($service) use ($services) {
             return $this->validateServiceExist($service, $services);
           },
           false,
@@ -148,7 +148,8 @@ class GeneratorServiceCommand extends GeneratorCommand
 
   }
 
-  protected function createGenerator() {
+  protected function createGenerator()
+  {
     return new ServiceGenerator();
   }
 }

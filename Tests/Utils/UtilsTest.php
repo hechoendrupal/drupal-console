@@ -23,7 +23,7 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-   * Random strings and their equivalent machine-name 
+   * Random strings and their equivalent machine-name
    */
   public function getDataNames()
   {

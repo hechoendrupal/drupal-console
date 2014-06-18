@@ -6,8 +6,8 @@
 
 namespace Drupal\AppConsole\Generator;
 
-class PluginBlockGenerator extends Generator {
-
+class PluginBlockGenerator extends Generator
+{
   /**
    * Generator Plugin Block
    * @param  string $module   Module name
@@ -15,8 +15,8 @@ class PluginBlockGenerator extends Generator {
    * @param  string $description
    * @param  array  $services list of services
    */
-  public function generate($module, $class_name, $description, $services) {
-
+  public function generate($module, $class_name, $description, $services)
+  {
     $path = DRUPAL_ROOT . '/' . drupal_get_path('module', $module);
     $path_plugin = $path . '/src/Plugin/Block';
 

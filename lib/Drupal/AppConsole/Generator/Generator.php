@@ -13,7 +13,8 @@ namespace Drupal\AppConsole\Generator;
 
 use Drupal\AppConsole\Utils\Utils;
 
-class Generator {
+class Generator
+{
   private $skeletonDirs;
 
   /**
@@ -24,11 +25,13 @@ class Generator {
    *
    * @param array $skeletonDirs An array of skeleton dirs
    */
-  public function setSkeletonDirs($skeletonDirs) {
+  public function setSkeletonDirs($skeletonDirs)
+  {
     $this->skeletonDirs = is_array($skeletonDirs) ? $skeletonDirs : array($skeletonDirs);
   }
 
-  protected function render($template, $parameters) {
+  protected function render($template, $parameters)
+  {
     $twig = new \Twig_Environment(new \Twig_Loader_Filesystem($this->skeletonDirs), array(
       'debug'            => true,
       'cache'            => false,
@@ -42,36 +45,45 @@ class Generator {
     return $twig->render($template, $parameters);
   }
 
-  protected function renderFile($template, $target, $parameters, $flag=null) {
+  protected function renderFile($template, $target, $parameters, $flag=null)
+  {
     if (!is_dir(dirname($target))) {
         mkdir(dirname($target), 0777, true);
     }
+
     return file_put_contents($target, $this->render($template, $parameters), $flag);
   }
 
-  public function camelCaseToUnderscore($camel_case){
+  public function camelCaseToUnderscore($camel_case)
+  {
     return Utils::camelCaseToUnderscore($camel_case);
   }
 
-  public function getServiceAsParamater() {
+  public function getServiceAsParamater()
+  {
       $servicesAsParameters = new \Twig_SimpleFunction('servicesAsParameters', function ($services) {
         $parameters = [];
         foreach ($services as $service) {
           $parameters[] = sprintf('%s $%s', $service['short'], $service['machine_name']);
         }
+
         return $parameters;
       });
+
       return $servicesAsParameters;
   }
 
-  public function getServiceAsParamaterKeys() {
+  public function getServiceAsParamaterKeys()
+  {
     $servicesAsParametersKeys = new \Twig_SimpleFunction('servicesAsParametersKeys', function ($services) {
       $parameters = [];
       foreach ($services as $service) {
         $parameters[] = sprintf('"@%s"', $service['name']);
       }
+
       return $parameters;
     });
+
     return $servicesAsParametersKeys;
   }
 

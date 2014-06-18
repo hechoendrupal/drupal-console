@@ -9,8 +9,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 
-class ServicesCommand extends ContainerAwareCommand {
-
+class ServicesCommand extends ContainerAwareCommand
+{
    /**
      * @var ContainerBuilder|null
      */
@@ -89,12 +89,13 @@ EOF
             return;
         }
 
-        if ($input->getOption('modules')){
+        if ($input->getOption('modules')) {
             $modules = $this->getContainer()->getParameter('container.modules');
 
             asort($modules);
 
             $this->outputParameters($output,$modules);
+
             return;
         }
 
@@ -200,12 +201,12 @@ EOF
             }
         }
         $format = '%-'.$maxName.'s ';
-        $format .= implode("", array_map(function($length) { return "%-{$length}s "; }, $maxTags));
+        $format .= implode("", array_map(function ($length) { return "%-{$length}s "; }, $maxTags));
         $format .= '%-'.$maxScope.'s %s';
 
         // the title field needs extra space to make up for comment tags
         $format1 = '%-'.($maxName + 19).'s ';
-        $format1 .= implode("", array_map(function($length) { return '%-'.($length + 19).'s '; }, $maxTags));
+        $format1 .= implode("", array_map(function ($length) { return '%-'.($length + 19).'s '; }, $maxTags));
         $format1 .= '%-'.($maxScope + 19).'s %s';
 
         $tags = array();
@@ -281,7 +282,7 @@ EOF
                 $output->writeln('<comment>Tags</comment>');
                 foreach ($tags as $tagName => $tagData) {
                     foreach ($tagData as $singleTagData) {
-                        $output->writeln(sprintf('    - %-30s (%s)', $tagName, implode(', ', array_map(function($key, $value) {
+                        $output->writeln(sprintf('    - %-30s (%s)', $tagName, implode(', ', array_map(function ($key, $value) {
                             return sprintf('<info>%s</info>: %s', $key, $value);
                         }, array_keys($singleTagData), array_values($singleTagData)))));
                     }
@@ -363,6 +364,7 @@ EOF
     protected function getContainerBuilder()
     {
         $parameters  = $this->getContainer()->getParameterBag()->all();
+
         return new ContainerBuilder(new ParameterBag($parameters));
     }
 

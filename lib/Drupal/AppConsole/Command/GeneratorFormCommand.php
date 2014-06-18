@@ -7,10 +7,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Generator\FormGenerator;
 use Drupal\AppConsole\Utils\Utils;
 
-class GeneratorFormCommand extends GeneratorCommand {
-
-  protected function configure() {
-
+class GeneratorFormCommand extends GeneratorCommand
+{
+  protected function configure()
+  {
     $this
       ->setDefinition(array(
         new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
@@ -27,7 +27,8 @@ class GeneratorFormCommand extends GeneratorCommand {
   /**
    * {@inheritdoc}
    */
-  protected function execute(InputInterface $input, OutputInterface $output) {
+  protected function execute(InputInterface $input, OutputInterface $output)
+  {
     $dialog = $this->getDialogHelper();
 
     $module = $input->getOption('module');
@@ -62,8 +63,8 @@ class GeneratorFormCommand extends GeneratorCommand {
   /**
    * {@inheritdoc}
    */
-  protected function interact(InputInterface $input, OutputInterface $output) {
-
+  protected function interact(InputInterface $input, OutputInterface $output)
+  {
     $dialog = $this->getDialogHelper();
     $dialog->writeSection($output, 'Welcome to the Drupal form generator');
 
@@ -74,7 +75,7 @@ class GeneratorFormCommand extends GeneratorCommand {
     $module = $d->askAndValidate(
       $output,
       $dialog->getQuestion('Enter your module '),
-      function($module){
+      function ($module) {
         return $this->validateModuleExist($module);
       },
       false,
@@ -97,11 +98,11 @@ class GeneratorFormCommand extends GeneratorCommand {
     )) {
       $service_collection = array();
       $services = $this->getServices();
-      while(true){
+      while (true) {
         $service = $d->askAndValidate(
           $output,
           $dialog->getQuestion('Enter your service (optional): '),
-          function($service) use ($services){
+          function ($service) use ($services) {
             return $this->validateServiceExist($service, $services);
           },
           false,
@@ -136,7 +137,7 @@ class GeneratorFormCommand extends GeneratorCommand {
         'range',
         'tel');
       $inputs = array();
-      while(true){
+      while (true) {
 
         // Label for input
         $input_label = $dialog->ask(
@@ -164,7 +165,7 @@ class GeneratorFormCommand extends GeneratorCommand {
         $input_type = $d->askAndValidate(
           $output,
           $dialog->getQuestion('  Type', 'textfield',':'),
-          function($input) use ($input_types){
+          function ($input) use ($input_types) {
             return $input;
           },
           false,
@@ -194,7 +195,8 @@ class GeneratorFormCommand extends GeneratorCommand {
   /**
     * @return FormGenerator
     */
-  protected function createGenerator() {
+  protected function createGenerator()
+  {
     return new FormGenerator();
   }
 
