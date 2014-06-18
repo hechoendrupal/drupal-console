@@ -9,7 +9,6 @@ namespace Drupal\AppConsole\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DrushCommand extends Command
@@ -42,10 +41,9 @@ EOT
       $c_args = preg_replace('/[^a-z0-9-= ]/i', '', $args);
     }
 
-    if (`which drush`){
+    if (`which drush`) {
       system('drush'.$c_args);
-    }
-    else {
+    } else {
       $output->write("<error>Drush command not found.</error>");
     }
   }

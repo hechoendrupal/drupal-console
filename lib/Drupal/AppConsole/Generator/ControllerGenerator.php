@@ -2,14 +2,14 @@
 
 namespace Drupal\AppConsole\Generator;
 
-class ControllerGenerator extends Generator {
-
+class ControllerGenerator extends Generator
+{
   private $filesystem;
 
   public function __construct() {}
 
-  public function generate($module, $name, $controller, $services, $test ) {
-
+  public function generate($module, $name, $controller, $services, $test)
+  {
     $path = DRUPAL_ROOT . '/' . drupal_get_path('module', $module);
 
     $path_controller = $path . '/src/Controller';
@@ -32,7 +32,7 @@ class ControllerGenerator extends Generator {
         FILE_APPEND
     );
 
-    if ($test){
+    if ($test) {
       $this->renderFile(
           'module/module.test.twig',
           $path . '/src/Tests/' . $name . 'Test.php',

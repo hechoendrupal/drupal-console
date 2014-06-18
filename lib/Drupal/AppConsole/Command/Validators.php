@@ -9,7 +9,7 @@ namespace Drupal\AppConsole\Command;
 class Validators
 {
 
-  function __construct()
+  public function __construct()
   {
   }
 
@@ -24,12 +24,13 @@ class Validators
 
   public function validateModulePath($module_path)
   {
-    if(!is_dir($module_path)) {
+    if (!is_dir($module_path)) {
       throw new \InvalidArgumentException(sprintf(
         'Module path "%s" is invalid. You need to provide a valid path.',
         $module_path)
       );
     }
+
     return $module_path;
   }
 
@@ -59,7 +60,7 @@ class Validators
    */
   public function validateServiceExist($service, $services)
   {
-    if ($service == ''){
+    if ($service == '') {
       return null;
     }
 

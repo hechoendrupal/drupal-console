@@ -40,6 +40,7 @@ class GeneratorCommandCommand extends GeneratorCommand
     if ($input->isInteractive()) {
       if (!$dialog->askConfirmation($output, $dialog->getQuestion('Do you confirm generation', 'yes', '?'), true)) {
         $output->writeln('<error>Command aborted</error>');
+
         return 1;
       }
     }
@@ -67,13 +68,13 @@ class GeneratorCommandCommand extends GeneratorCommand
 
     // --module option
     $module = $input->getOption('module');
-    if (!$module){
+    if (!$module) {
       // Module names
       $modules = $this->getModules();
       $module = $helper_set->askAndValidate(
         $output,
         $dialog->getQuestion('Enter your module',''),
-        function($module){
+        function ($module) {
           return $this->validateModuleExist($module);
         },
         false,
@@ -85,7 +86,7 @@ class GeneratorCommandCommand extends GeneratorCommand
 
     // --command
     $command = $input->getOption('command');
-    if (!$command){
+    if (!$command) {
       $command = $dialog->ask($output,
       $dialog->getQuestion('Enter the command name', $module.':default'), $module.':default');
       $input->setOption('command', $command);
@@ -94,7 +95,7 @@ class GeneratorCommandCommand extends GeneratorCommand
 
     // --name option
     $name = $input->getOption('name');
-    if (!$name){
+    if (!$name) {
       $name = $dialog->ask($output,
       $dialog->getQuestion('Enter the class command name', 'DefaultCommand'), 'DefaultCommand');
       $input->setOption('name', $name);

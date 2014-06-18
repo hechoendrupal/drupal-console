@@ -47,8 +47,7 @@ class RegisterCommandsHelper extends Helper
       //psr-4
       else if (is_dir($place[1].$cmd_dir)) {
         $dir = $place[1].$cmd_dir;
-      }
-      else {
+      } else {
         continue;
       }
 
@@ -91,7 +90,7 @@ class RegisterCommandsHelper extends Helper
 
   protected function getKernel()
   {
-    if (!isset($this->kernel)){
+    if (!isset($this->kernel)) {
       $kernelHelper = $this->getHelperSet()->get('kernel');
       $this->kernel = $kernelHelper->getKernel();
     }
@@ -100,7 +99,7 @@ class RegisterCommandsHelper extends Helper
   protected function getContainer()
   {
     $this->getKernel();
-    if(!isset($this->container)){
+    if (!isset($this->container)) {
       $this->container = $this->kernel->getContainer();
     }
   }
@@ -110,7 +109,7 @@ class RegisterCommandsHelper extends Helper
     // Get Container
     $this->getContainer();
     // Get Module handler
-    if (!isset($this->modules)){
+    if (!isset($this->modules)) {
       $module_handler = $this->container->get('module_handler');
       $this->modules = $module_handler->getModuleDirectories();
     }
@@ -120,7 +119,7 @@ class RegisterCommandsHelper extends Helper
   {
     $this->getContainer();
     // Get Traversal, namespaces
-    if (!isset($this->namespaces)){
+    if (!isset($this->namespaces)) {
       $namespaces = $this->container->get('container.namespaces');
       $this->namespaces = $namespaces->getArrayCopy();
     }
