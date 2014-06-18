@@ -8,13 +8,13 @@ namespace Drupal\AppConsole\Test\Command;
 
 use Symfony\Component\Console\Tester\CommandTester;
 
-class GeneratorModuleCommandTest extends GenerateCommandTest {
-
+class GeneratorModuleCommandTest extends GenerateCommandTest
+{
   /**
    * @dataProvider getInteractiveData
    */
-  public function testInteractive($options, $expected, $input){
-
+  public function testInteractive($options, $expected, $input)
+  {
     list($module, $dir, $description, $core, $package, $controller, $tests, $setting, $structure, $skip_root) = $expected;
 
     $generator = $this->getGenerator();
@@ -31,7 +31,8 @@ class GeneratorModuleCommandTest extends GenerateCommandTest {
     $cmd->execute($options);
   }
 
-  public function getInteractiveData(){
+  public function getInteractiveData()
+  {
     $dir = sys_get_temp_dir();
 
     return [
@@ -53,8 +54,8 @@ class GeneratorModuleCommandTest extends GenerateCommandTest {
   /**
    * @dataProvider  getNoInteractiveData
    */
-  public function testNoInteractive($options, $expected){
-
+  public function testNoInteractive($options, $expected)
+  {
     list($module, $dir, $description, $core, $package, $controller, $tests, $setting, $structure, $skip_root) = $expected;
 
     $generator = $this->getGenerator();
@@ -69,9 +70,10 @@ class GeneratorModuleCommandTest extends GenerateCommandTest {
     $cmd->execute($options,['interactive' => false]);
   }
 
-  public function getNoInteractiveData(){
-
+  public function getNoInteractiveData()
+  {
     $dir = sys_get_temp_dir();
+
     return [
       // case one
       [
@@ -85,8 +87,8 @@ class GeneratorModuleCommandTest extends GenerateCommandTest {
     ];
   }
 
-  protected function getCommand($generator, $input){
-
+  protected function getCommand($generator, $input)
+  {
     /** @var \Drupal\AppConsole\Command\GeneratorModuleCommand $command */
     $command = $this
       ->getMockBuilder('Drupal\AppConsole\Command\GeneratorModuleCommand')
@@ -101,8 +103,8 @@ class GeneratorModuleCommandTest extends GenerateCommandTest {
     return $command;
   }
 
-  private function getGenerator(){
-
+  private function getGenerator()
+  {
     return $this
       ->getMockBuilder('Drupal\AppConsole\Generator\ModuleGenerator')
       ->disableOriginalConstructor()

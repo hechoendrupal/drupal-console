@@ -10,15 +10,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Generator\ModuleGenerator;
-use Drupal\AppConsole\Utils\Utils;
 
-
-class GeneratorModuleCommand extends GeneratorCommand {
-
+class GeneratorModuleCommand extends GeneratorCommand
+{
   /**
    * {@inheritdoc}
    */
-  protected function configure() {
+  protected function configure()
+  {
     $this->setDefinition([
       new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
       new InputOption('machine-name','',InputOption::VALUE_REQUIRED, 'The machine name (lowercase and underscore only)'),
@@ -40,13 +39,14 @@ class GeneratorModuleCommand extends GeneratorCommand {
   /**
    * {@inheritdoc}
    */
-  protected function execute(InputInterface $input, OutputInterface $output) {
-
+  protected function execute(InputInterface $input, OutputInterface $output)
+  {
     $dialog = $this->getDialogHelper();
 
     if ($input->isInteractive()) {
       if (!$dialog->askConfirmation($output, $dialog->getQuestion('Do you confirm generation', 'yes', '?'), true)) {
         $output->writeln('<error>Command aborted</error>');
+
         return 1;
       }
     }
@@ -75,13 +75,14 @@ class GeneratorModuleCommand extends GeneratorCommand {
   /**
    * {@inheritdoc}
    */
-  protected function interact(InputInterface $input, OutputInterface $output) {
+  protected function interact(InputInterface $input, OutputInterface $output)
+  {
     $dialog = $this->getDialogHelper();
     $dialog->writeSection($output, 'Welcome to the Drupal module generator');
 
     try {
       $namespace = $input->getOption('module') ? $this->validateModuleName($input->getOption('module')) : null;
-    }catch (\Exception $error){
+    } catch (\Exception $error) {
       $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
     }
 
@@ -110,7 +111,7 @@ class GeneratorModuleCommand extends GeneratorCommand {
     }
     $input->setOption('module-path', $module_path);
 
-    if (!$input->getOption('skip-root')){
+    if (!$input->getOption('skip-root')) {
       $description = $input->getOption('description');
       if (!$description) {
           $description = $dialog->ask($output, $dialog->getQuestion('Description', 'My Awesome Module'), 'My Awesome Module');
@@ -158,7 +159,8 @@ class GeneratorModuleCommand extends GeneratorCommand {
   /**
   * @return ModuleGenerator
   */
-  protected function createGenerator() {
+  protected function createGenerator()
+  {
     return new ModuleGenerator();
   }
 }

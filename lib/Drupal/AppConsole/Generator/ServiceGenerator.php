@@ -6,8 +6,8 @@
 
 namespace Drupal\AppConsole\Generator;
 
-class ServiceGenerator extends Generator {
-
+class ServiceGenerator extends Generator
+{
   /**
    * Generator Service
    * @param  string $module       Module name
@@ -15,8 +15,8 @@ class ServiceGenerator extends Generator {
    * @param  string $class_name   Class name
    * @param  array  $services     List of services
    */
-  public function generate($module, $service_name, $class_name, $services) {
-
+  public function generate($module, $service_name, $class_name, $services)
+  {
     $module_path = DRUPAL_ROOT . '/' . drupal_get_path('module', $module);
 
     // set syntax for arguments

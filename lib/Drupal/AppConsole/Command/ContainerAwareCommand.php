@@ -51,11 +51,12 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
       foreach ($all_modules as $name => $filename) {
         if (!preg_match('/^core/', $filename->uri) && !$core) {
           array_push($this->modules, $name);
-        } else if ($core) {
+        } elseif ($core) {
           array_push($this->modules, $name);
         }
       }
     }
+
     return $this->modules;
   }
 
@@ -68,7 +69,6 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
     return $this->services;
   }
-
 
   /**
    * @return \Drupal\AppConsole\Command\Validators
@@ -87,14 +87,17 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
   {
     if (!$services)
       $services = $this->getServices();
+
     return $this->getValidator()->validateServiceExist($service_name, $services);
   }
 
-  public function validateModuleName($module_name){
+  public function validateModuleName($module_name)
+  {
     return $this->getValidator()->validateModuleName($module_name);
   }
 
-  public function validateModulePath($module_path){
+  public function validateModulePath($module_path)
+  {
     return $this->getValidator()->validateModulePath($module_path);
   }
 }

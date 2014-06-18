@@ -6,10 +6,10 @@
 
 namespace Drupal\AppConsole\Generator;
 
-class ModuleGenerator extends Generator {
-
-  public function generate($module, $dir, $description, $core, $package, $controller, $tests, $setting, $structure, $skip_root){
-
+class ModuleGenerator extends Generator
+{
+  public function generate($module, $dir, $description, $core, $package, $controller, $tests, $setting, $structure, $skip_root)
+  {
     $dir .= '/' . $module;
     if (file_exists($dir)) {
       if (!is_dir($dir)) {
@@ -57,8 +57,7 @@ class ModuleGenerator extends Generator {
       }
       $this->renderFile('module/module.info.yml.twig', $dir.'/'.$module.'.info.yml', $parameters);
       unlink($dot_info);
-    }
-    else {
+    } else {
       $this->renderFile('module/module.info.yml.twig', $dir.'/'.$module.'.info.yml', $parameters);
       $this->renderFile('module/module.module.twig', $dir.'/'.$module.'.module', $parameters);
     }
@@ -67,7 +66,7 @@ class ModuleGenerator extends Generator {
       $this->renderFile('module/module.settings.yml.twig', $dir.'/config/'.$module.'.settings.yml',$parameters);
     }
 
-    if ($controller){
+    if ($controller) {
       $name = 'DefaultController';
       $parameters['name'] = $name;
       $this->renderFile(
@@ -79,7 +78,7 @@ class ModuleGenerator extends Generator {
       $this->renderFile('module/controller-routing.yml.twig', $dir.'/'.$module.'.routing.yml', $parameters);
     }
 
-    if ($tests){
+    if ($tests) {
       $this->renderFile(
         'module/module.tests.twig',
         $dir.'/src/Tests/'. $module .'Test.php',
