@@ -16,6 +16,7 @@ use Drupal\AppConsole\Command\GeneratorPluginBlockCommand;
 use Drupal\AppConsole\Command\GeneratorCommandCommand;
 use Drupal\AppConsole\Command\DrushCommand;
 use Drupal\AppConsole\Command\GeneratorServiceCommand;
+use Drupal\AppConsole\Command\GeneratorPluginImageEffectCommand;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Finder\Finder;
@@ -43,6 +44,7 @@ $application->addCommands([
   new GeneratorCommandCommand(),
   new DrushCommand(),
   new GeneratorServiceCommand(),
+  new GeneratorPluginImageEffectCommand(),
 ]);
 
 $application->run();
