@@ -51,7 +51,7 @@ class Utils
    */
   public static function camelCaseToUnderscore($camel_case)
   {
-    return strtolower(preg_replace(REGEX_CAMEL_CASE_UNDER, '$1_$2', $camel_case));
+    return strtolower(preg_replace(self::REGEX_CAMEL_CASE_UNDER, '$1_$2', $camel_case));
   }
 
 }
