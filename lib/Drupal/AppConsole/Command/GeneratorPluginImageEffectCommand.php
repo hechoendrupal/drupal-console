@@ -20,9 +20,9 @@ class GeneratorPluginImageEffectCommand extends GeneratorCommand
       ->setDefinition(array(
         new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
         new InputOption('class-name','',InputOption::VALUE_REQUIRED, 'Plugin name'),
-        new InputOption('plugin-label','',InputOption::VALUE_OPTIONAL, 'Label'),
-        new InputOption('plugin-id','',InputOption::VALUE_OPTIONAL, 'Plugin ID'),
-        new InputOption('description','',InputOption::VALUE_OPTIONAL, 'Description'),
+        new InputOption('plugin-label','',InputOption::VALUE_OPTIONAL, 'Plugin Label'),
+        new InputOption('plugin-id','',InputOption::VALUE_OPTIONAL, 'Plugin id'),
+        new InputOption('description','',InputOption::VALUE_OPTIONAL, 'Plugin Description'),
       ))
     ->setDescription('Generate image effect plugin')
     ->setHelp('The <info>generate:plugin:imageeffect</info> command helps you generate a new image effect plugin.')
@@ -85,20 +85,29 @@ class GeneratorPluginImageEffectCommand extends GeneratorCommand
     // --class-name option
     $class_name = $input->getOption('class-name');
     if (!$class_name) {
-      $class_name = $dialog->ask($output, $dialog->getQuestion('Enter the plugin name', 'DefaultImageEffect'), 'DefaultImageEffect');
+      $class_name = $dialog->ask(
+        $output,
+        $dialog->getQuestion('Enter the plugin name', 'DefaultImageEffect'), 'DefaultImageEffect'
+      );
     }
     $input->setOption('class-name', $class_name);
+
+    $machine_name = Utils::camelCaseToUnderscore($class_name);
 
     // --plugin label option
     $plugin_label = $input->getOption('plugin-label');
     if (!$plugin_label) {
-      $plugin_label = $dialog->ask($output, $dialog->getQuestion('Enter the plugin label', $name), $name);
+      $plugin_label = $dialog->ask(
+        $output,
+        $dialog->getQuestion('Enter the plugin label', $machine_name),
+        $machine_name
+      );
     }
     $input->setOption('plugin-label', $plugin_label);
 
     // --name option
     $plugin_id = $input->getOption('plugin-id');
-    $machine_name = Utils::camelCaseToUnderscore($class_name);
+
     if (!$plugin_id) {
       $plugin_id = $dialog->ask($output, $dialog->getQuestion('Enter the plugin id', $machine_name), $machine_name);
     }
@@ -117,5 +126,4 @@ class GeneratorPluginImageEffectCommand extends GeneratorCommand
   {
     return new PluginImageEffectGenerator();
   }
-
 }

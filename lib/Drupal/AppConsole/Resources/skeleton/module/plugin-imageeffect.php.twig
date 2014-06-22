@@ -24,8 +24,7 @@ class {{ class.name }} extends ImageEffectBase {
    * {@inheritdoc}
    */
   public function applyEffect(ImageInterface $image) {
-    // Implement Image Effect here
+    // Implement Image Effect
     return imagefilter($image->getToolkit()->getResource());
   }
-
 }
