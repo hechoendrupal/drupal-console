@@ -9,10 +9,15 @@ namespace Drupal\AppConsole\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\AppConsole\Command\Helper\ServicesTrait;
+use Drupal\AppConsole\Command\Helper\ModuleTrait;
 use Drupal\AppConsole\Generator\ControllerGenerator;
 
 class GeneratorControllerCommand extends GeneratorCommand
 {
+  use ModuleTrait;
+  use ServicesTrait;
+
   protected function configure()
   {
     $this
@@ -40,21 +45,9 @@ class GeneratorControllerCommand extends GeneratorCommand
     $test = $input->getOption('test');
     $services = $input->getOption('services');
     $update_routing = $input->getOption('routing');
-    $name = $input->getOption('name');
-    $test = $input->getOption('test');
 
-    $map_service = array();
-    foreach ($services as $service) {
-      $class = get_class($this->getContainer()->get($service));
-      $map_service[$service] = array(
-        'name'  => $service,
-        'machine_name' => str_replace('.', '_', $service),
-        'class' => $class,
-        'short' => end(explode('\\',$class))
-      );
-    }
-
-    $generator = $this->getGenerator();
+    // @see use Drupal\AppConsole\Command\Helper\ServicesTrait::buildServices
+    $build_services = $this->buildServices($services);
 
     $this->getGenerator()
       ->generate($module, $class_name, $build_services, $test);
