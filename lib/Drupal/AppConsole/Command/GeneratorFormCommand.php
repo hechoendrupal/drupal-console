@@ -95,41 +95,12 @@ class GeneratorFormCommand extends GeneratorCommand
     }
     $input->setOption('module', $module);
 
-    // Controller name
-    $name = $this->getName();
-    $name = $dialog->ask($output, $dialog->getQuestion('Enter the form name', 'DefaultForm'), 'DefaultForm');
-    $input->setOption('name', $name);
-
-    // Add services
-    // TODO: Create a method for this job
-    if ($dialog->askConfirmation(
-      $output,
-      $dialog->getQuestion('Do you like add service(s)?', 'yes', '?'),
-      true
-    )) {
-      $service_collection = array();
-      $services = $this->getServices();
-      while (true) {
-        $service = $d->askAndValidate(
-          $output,
-          $dialog->getQuestion('Enter your service (optional): '),
-          function ($service) use ($services) {
-            return $this->validateServiceExist($service, $services);
-          },
-          false,
-          null,
-          $services
-        );
-        if ($service == null) {
-          break;
-        }
-        array_push($service_collection, $service);
-        $service_key = array_search($service, $services, true);
-        if ($service_key >= 0)
-          unset($services[$service_key]);
-      }
-      $input->setOption('services', $service_collection);
+    // --class-name option
+    $class_name = $input->getOption('class-name');
+    if (!$class_name) {
+      ;$name = $dialog->ask($output, $dialog->getQuestion('Enter the form name', 'DefaultForm'), 'DefaultForm');
     }
+    $input->setOption('class-name', $name);
 
     // Form fields
     // TODO: Create a method for this job
@@ -192,7 +163,13 @@ class GeneratorFormCommand extends GeneratorCommand
       }
       $input->setOption('inputs', $inputs);
 
+    // --inputs option
+    $inputs = $input->getOption('inputs');
+    if (!$inputs) {
+      // see more in \Drupal\AppConsole\Command\Helper\FormTrait
+      $inputs = $this->formQuestion($input, $output, $dialog);  
     }
+    $input->setOption('inputs', $inputs);
 
     // --routing option
     $routing = $input->getOption('routing');
