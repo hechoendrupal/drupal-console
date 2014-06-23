@@ -9,34 +9,36 @@ namespace Drupal\AppConsole\Generator;
 class ControllerGenerator extends Generator
 {
 
-  public function generate($module, $name, $services, $test)
+  public function generate($module, $class_name, $test, $services, $update_routing)
   {
     $path = DRUPAL_ROOT.'/'.drupal_get_path('module', $module);
 
     $path_controller = $path.'/src/Controller';
 
     $parameters = array(
-      'name' => $name,
+      'name' => $class_name,
       'services' => $services,
       'module' => $module
     );
 
     $this->renderFile(
       'module/module.controller.php.twig',
-      $path_controller.'/'.$name.'.php',
+      $path_controller.'/'.$class_name.'.php',
       $parameters
     );
 
-    $this->renderFile('module/controller-routing.yml.twig',
-      DRUPAL_ROOT.'/modules/'.$module.'/'.$module.'.routing.yml',
-      $parameters,
-      FILE_APPEND
-    );
+    if ($update_routing) {
+      $this->renderFile('module/controller-routing.yml.twig',
+        DRUPAL_ROOT.'/modules/'.$module.'/'.$module.'.routing.yml',
+        $parameters,
+        FILE_APPEND
+      );
+    }
 
     if ($test) {
       $this->renderFile(
         'module/module.test.twig',
-        $path.'/src/Tests/'.$name.'Test.php',
+        $path.'/src/Tests/'.$class_name.'Test.php',
         $parameters
       );
     }

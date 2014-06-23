@@ -39,6 +39,13 @@ class GeneratorControllerCommand extends GeneratorCommand
   protected function execute(InputInterface $input, OutputInterface $output)
   {
     $dialog = $this->getDialogHelper();
+    if ($input->isInteractive()) {
+      if (!$dialog->askConfirmation($output, $dialog->getQuestion('Do you confirm generation', 'yes', '?'), true)) {
+        $output->writeln('<error>Command aborted</error>');
+
+        return 1;
+      }
+    }
 
     $module = $input->getOption('module');
     $class_name = $input->getOption('class-name');
@@ -50,7 +57,7 @@ class GeneratorControllerCommand extends GeneratorCommand
     $build_services = $this->buildServices($services);
 
     $this->getGenerator()
-      ->generate($module, $class_name, $build_services, $test);
+      ->generate($module, $class_name, $test, $build_services, $update_routing);
 
     $errors = '';
     $dialog->writeGeneratorSummary($output, $errors);
@@ -77,8 +84,8 @@ class GeneratorControllerCommand extends GeneratorCommand
     if (!$class_name) {
       $name = $dialog->ask(
         $output,
-        $dialog->getQuestion('Enter the form name', 'DefaultForm'),
-        'DefaultForm'
+        $dialog->getQuestion('Enter the controller name', 'DefaultController'),
+        'DefaultController'
       );
     }
     $input->setOption('class-name', $name);
