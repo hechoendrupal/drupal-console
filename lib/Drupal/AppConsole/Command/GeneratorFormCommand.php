@@ -10,13 +10,16 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Command\Helper\ServicesTrait;
+use Drupal\AppConsole\Command\Helper\ModuleTrait;
 use Drupal\AppConsole\Command\Helper\FormTrait;
 use Drupal\AppConsole\Generator\FormGenerator;
 
 class GeneratorFormCommand extends GeneratorCommand
 {
-  use FormTrait;
+
+  use ModuleTrait;
   use ServicesTrait;
+  use FormTrait;
 
   protected function configure()
   {
@@ -67,17 +70,8 @@ class GeneratorFormCommand extends GeneratorCommand
     // --module option
     $module = $input->getOption('module');
     if (!$module) {
-      $modules = $this->getModules();
-      $module = $dialog->askAndValidate(
-        $output,
-        $dialog->getQuestion('Enter your module'),
-        function ($module) {
-          return $this->validateModuleExist($module);
-        },
-        false,
-        '',
-        $modules
-      );
+      // @see Drupal\AppConsole\Command\Helper\ModuleTrait::moduleQuestion
+      $module = $this->moduleQuestion($input, $output, $dialog);
     }
     $input->setOption('module', $module);
 
