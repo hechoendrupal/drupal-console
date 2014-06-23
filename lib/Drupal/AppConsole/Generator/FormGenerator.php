@@ -1,13 +1,23 @@
 <?php
-
+/**
+ * @file
+ * Containt Drupal\AppConsole\Generator\FormGenerator.
+ */
 namespace Drupal\AppConsole\Generator;
+
+use Drupal\AppConsole\Utils\Utils;
 
 class FormGenerator extends Generator
 {
-  public function __construct() {}
-
-    public function generate($module, $class_name, $services, $inputs, $update_routing)
-    {
+  /**
+   * @param  $module
+   * @param  $class_name
+   * @param  $services
+   * @param  $inputs
+   * @param  $update_routing
+   */
+  public function generate($module, $class_name, $services, $inputs, $update_routing)
+  {
     $path = DRUPAL_ROOT . '/' . drupal_get_path('module', $module);
 
     $path_form = $path . '/src/Form';
@@ -17,6 +27,7 @@ class FormGenerator extends Generator
       'services' => $services,
       'inputs' => $inputs,
       'module_name' => $module,
+      'form_id' => Utils::camelCaseToMachineName($class_name),
     );
 
     $this->renderFile(
@@ -25,8 +36,8 @@ class FormGenerator extends Generator
       $parameters
     );
 
-    if ($update_routing)
+    if ($update_routing) {
       $this->renderFile('module/form-routing.yml.twig', $path .'/'. $module.'.routing.yml', $parameters, FILE_APPEND);
+    }
   }
-
 }
