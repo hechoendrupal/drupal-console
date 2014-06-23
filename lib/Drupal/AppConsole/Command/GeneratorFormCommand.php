@@ -56,6 +56,7 @@ class GeneratorFormCommand extends GeneratorCommand
       ->getGenerator()
       ->generate($module, $class_name, $build_services, $inputs, $update_routing);
 
+    $errors = '';
     $dialog->writeGeneratorSummary($output, $errors);
   }
 
