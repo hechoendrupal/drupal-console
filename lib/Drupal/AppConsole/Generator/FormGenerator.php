@@ -2,6 +2,8 @@
 
 namespace Drupal\AppConsole\Generator;
 
+use Drupal\AppConsole\Utils\Utils;
+
 class FormGenerator extends Generator
 {
   public function __construct() {}
@@ -17,6 +19,7 @@ class FormGenerator extends Generator
       'services' => $services,
       'inputs' => $inputs,
       'module_name' => $module,
+      'form_id' => Utils::camelCaseToMachineName($class_name),
     );
 
     $this->renderFile(
