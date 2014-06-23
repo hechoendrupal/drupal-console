@@ -26,16 +26,6 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
     ;
 
     $command = $this->getCommand($generator,$input);
-    $command->expects($this->any())
-      ->method('getModules')
-      ->will($this->returnValue(['Foo']));
-    ;
-
-    $command->expects($this->any())
-      ->method('getServices')
-      ->will($this->returnValue(['twig','database']));
-    ;
-
     $cmd = new CommandTester($command);
     $cmd->execute($options);
   }
@@ -46,34 +36,33 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
       // case base
       [
         [],
-        ['Foo','FooBlock','My Awesome Block',[]],
-        "Foo\nFooBlock\n\nno\n"
+        ['Foo', 'FooBlock', 'Foo label', 'foo_id',[]],
+        "Foo\nFooBlock\nFoo label\nfoo_id\nno\n"
       ],
       //case two services
       [
         [],
-        ['Foo','FooBlock','My Awesome Block',['twig'=>['name'=>'twig','machine_name'=>'twig','class'=>'Twig_Environment','short'=>'Twig_Environment']]],
-        "Foo\nFooBlock\n\nyes\ntwig\n"
+        ['Foo','FooBlock', 'Foo label', 'foo_id',['twig'=>['name'=>'twig','machine_name'=>'twig','class'=>'Twig_Environment','short'=>'Twig_Environment']]],
+        "Foo\nFooBlock\nFoo label\nfoo_id\nyes\ntwig\n"
       ],
       // case three module name in arguments
       [
         ['--module'=>'Foo'],
-        ['Foo','FooBlock','My Awesome Block',['twig'=>['name'=>'twig','machine_name'=>'twig','class'=>'Twig_Environment','short'=>'Twig_Environment']]],
-        "FooBlock\n\nyes\ntwig\n"
+        ['Foo','FooBlock', 'Foo label', 'foo_id',['twig'=>['name'=>'twig','machine_name'=>'twig','class'=>'Twig_Environment','short'=>'Twig_Environment']]],
+        "FooBlock\nFoo label\nfoo_id\nyes\ntwig\n"
       ],
       //case four default values and not services
       [
         ['--module'=>'Foo'],
-        ['Foo','DefaultBlock','My Awesome Block',[]],
-        "\n\nno\n"
+        ['Foo','DefaultBlock', 'Foo label', 'foo_id',[]],
+        "\nFoo label\nfoo_id\nno\n"
       ],
       // case five default values and clean services
       [
         ['--module'=>'Foo'],
-        ['Foo','DefaultBlock','My Awesome Block',[]],
-        "\n\nyes\n\n"
+        ['Foo','DefaultBlock', 'Foo label', 'foo_id', []],
+        "\nFoo label\nfoo_id\nyes\n\n"
       ]
-
     ];
   }
 
@@ -82,6 +71,16 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
     $command = $this->getMockBuilder('Drupal\AppConsole\Command\GeneratorPluginBlockCommand')
       ->setMethods(['getModules','getServices'])
       ->getMock()
+    ;
+
+    $command->expects($this->any())
+      ->method('getModules')
+      ->will($this->returnValue(['Foo']));
+    ;
+
+    $command->expects($this->any())
+      ->method('getServices')
+      ->will($this->returnValue(['twig','database']));
     ;
 
     $command->setGenerator($generator);
