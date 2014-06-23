@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Command\Helper\ServicesTrait;
 use Drupal\AppConsole\Command\Helper\FormTrait;
 use Drupal\AppConsole\Generator\FormGenerator;
-use Drupal\AppConsole\Utils\Utils;
 
 class GeneratorFormCommand extends GeneratorCommand
 {
@@ -96,15 +95,15 @@ class GeneratorFormCommand extends GeneratorCommand
     $inputs = $input->getOption('inputs');
     if (!$inputs) {
       // see more in \Drupal\AppConsole\Command\Helper\FormTrait
-      $inputs = $this->formQuestion($input, $output, $dialog);  
+      $inputs = $this->formQuestion($input, $output, $dialog);
     }
     $input->setOption('inputs', $inputs);
 
     // --routing option
     $routing = $input->getOption('routing');
     if (!$routing && $dialog->askConfirmation(
-      $output, 
-      $dialog->getQuestion('Update routing file?', 'yes', '?'), 
+      $output,
+      $dialog->getQuestion('Update routing file?', 'yes', '?'),
       true)
     ) {
         $routing = true;

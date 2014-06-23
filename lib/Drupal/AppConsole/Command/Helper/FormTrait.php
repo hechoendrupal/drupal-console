@@ -10,8 +10,8 @@ use Drupal\AppConsole\Utils\Utils;
 
 trait FormTrait
 {
-	public function formQuestion($input, $output, $dialog)
-	{
+    public function formQuestion($input, $output, $dialog)
+    {
     if ($dialog->askConfirmation(
       $output,
       $dialog->getQuestion('Do you like generate a form structure?', 'yes', '?'),
@@ -70,7 +70,7 @@ trait FormTrait
           'label' => $input_label
         ));
       }
-      
+
       return $inputs;
     }
   }
