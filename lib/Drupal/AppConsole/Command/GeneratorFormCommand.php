@@ -48,24 +48,11 @@ class GeneratorFormCommand extends GeneratorCommand
 
     // if exist form generate config file
     $inputs = $input->getOption('inputs');
+    $build_services = $this->buildServices($services);
 
-    $map_service = array();
-
-    if (!empty($services)) {
-        foreach ($services as $service) {
-            $class = get_class($this->getContainer()->get($service));
-            $map_service[$service] = array(
-                'name' => $service,
-                'machine_name' => str_replace('.', '_', $service),
-                'class' => $class,
-                'short' => end(explode('\\', $class))
-            );
-        }
-    }
-    $input->setOption('class-name', $name);
-
-    $generator = $this->getGenerator();
-    $generator->generate($module, $class_name, $map_service, $inputs, $update_routing);
+    $this
+      ->getGenerator()
+      ->generate($module, $class_name, $build_services, $inputs, $update_routing);
 
     $dialog->writeGeneratorSummary($output, $errors);
   }
@@ -102,66 +89,8 @@ class GeneratorFormCommand extends GeneratorCommand
     }
     $input->setOption('class-name', $name);
 
-    // Form fields
-    // TODO: Create a method for this job
-    if ($dialog->askConfirmation(
-      $output,
-      $dialog->getQuestion('Do you like generate a form structure?', 'yes', '?'),
-      true
-    )) {
-      $input_types = array(
-        'textfield',
-        'color',
-        'date',
-        'datetime',
-        'email',
-        'number',
-        'range',
-        'tel');
-      $inputs = array();
-      while (true) {
-
-        // Label for input
-        $input_label = $dialog->ask(
-          $output,
-          $dialog->getQuestion(' Input label','',':'),
-          null
-        );
-
-        // break if is blank
-        if ($input_label == null) {
-          break;
-        }
-
-        // Machine name
-        $input_machine_name = Utils::createMachineName($input_label);
-
-        $input_name = $dialog->ask(
-          $output,
-          $dialog->getQuestion('  Input machine name', $input_machine_name, ':'),
-          $input_machine_name
-        );
-
-        // Type input
-        // TODO: validate
-        $input_type = $d->askAndValidate(
-          $output,
-          $dialog->getQuestion('  Type', 'textfield',':'),
-          function ($input) use ($input_types) {
-            return $input;
-          },
-          false,
-          'textfield',
-          $input_types
-        );
-
-        array_push($inputs, array(
-          'name'  => $input_name,
-          'type'  => $input_type,
-          'label' => $input_label
-        ));
-      }
-      $input->setOption('inputs', $inputs);
+    $services_collection = $this->servicesQuestion($input, $output, $dialog);
+    $input->setOption('services', $services_collection);
 
     // --inputs option
     $inputs = $input->getOption('inputs');
