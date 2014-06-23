@@ -1,6 +1,6 @@
 <?php
 /**
- *@file
+ * @file
  * Contains \Drupal\AppConsole\Command\GeneratorServiceCommand.
  */
 
@@ -9,25 +9,35 @@ namespace Drupal\AppConsole\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\AppConsole\Command\Helper\ServicesTrait;
+use Drupal\AppConsole\Command\Helper\ModuleTrait;
 use Drupal\AppConsole\Generator\ServiceGenerator;
 
 class GeneratorServiceCommand extends GeneratorCommand
 {
+  use ServicesTrait;
+  use ModuleTrait;
 
+  /**
+   * {@inheritdoc}
+   */
   protected function configure()
   {
     $this
       ->setDefinition(array(
-        new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
-        new InputOption('service_name','',InputOption::VALUE_OPTIONAL, 'Service name'),
-        new InputOption('class_name','',InputOption::VALUE_OPTIONAL, 'Class name'),
-        new InputOption('services','',InputOption::VALUE_OPTIONAL, 'Load services'),
+        new InputOption('module',null,InputOption::VALUE_REQUIRED, 'The name of the module'),
+        new InputOption('service-name',null,InputOption::VALUE_OPTIONAL, 'Service name'),
+        new InputOption('class-name',null,InputOption::VALUE_OPTIONAL, 'Class name'),
+        new InputOption('services',null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Load services'),
       ))
       ->setDescription('Generate service')
       ->setHelp('The <info>generate:service</info> command helps you generate a new service.')
       ->setName('generate:service');
   }
 
+  /**
+   * {@inheritdoc}
+   */
   protected function execute(InputInterface $input, OutputInterface $output)
   {
     $dialog = $this->getDialogHelper();
@@ -35,60 +45,44 @@ class GeneratorServiceCommand extends GeneratorCommand
     if ($input->isInteractive()) {
       if (!$dialog->askConfirmation($output, $dialog->getQuestion('Do you confirm generation', 'yes', '?'), true)) {
         $output->writeln('<error>Command aborted</error>');
-
         return 1;
       }
     }
 
     $module = $input->getOption('module');
-    $service_name = $input->getOption('service_name');
-    $class_name = $input->getOption('class_name');
+    $service_name = $input->getOption('service-name');
+    $class_name = $input->getOption('class-name');
     $services = $input->getOption('services');
 
-    $map_service = [];
-    if (!empty($services)) {
-      foreach ($services as $service) {
-        $class = get_class($this->getContainer()->get($service));
-        $map_service[$service] = [
-          'name'  => $service,
-          'machine_name' => str_replace('.', '_', $service),
-          'class' => $class,
-          'short' => end(explode('\\',$class))
-        ];
-      }
-    }
+    // @see Drupal\AppConsole\Command\Helper\ServicesTrait::buildServices
+    $build_services = $this->buildServices($services);
 
     $this
       ->getGenerator()
-      ->generate($module, $service_name, $class_name, $map_service);
+      ->generate($module, $service_name, $class_name, $build_services);
+
+    $errors = [];
+    $dialog->writeGeneratorSummary($output, $errors);
   }
 
+  /**
+   * {@inheritdoc}
+   */
   protected function interact(InputInterface $input, OutputInterface $output)
   {
     $dialog = $this->getDialogHelper();
     $dialog->writeSection($output, 'Welcome to the Drupal service generator');
 
-    $helper_set = $this->getHelperSet()->get('dialog');
-
     // --module option
     $module = $input->getOption('module');
     if (!$module) {
-      $module = $helper_set->askAndValidate(
-        $output,
-        $dialog->getQuestion('Enter your module',''),
-        function ($module) {
-          return $this->validateModuleExist($module);
-        },
-        false,
-        '',
-        $this->getModules()
-      );
+      // @see Drupal\AppConsole\Command\Helper\ModuleTrait::moduleQuestion
+      $module = $this->moduleQuestion($input, $output, $dialog);
     }
-
     $input->setOption('module', $module);
 
-    // --service_name option
-    $service_name = $input->getOption('service_name');
+    // --service-name option
+    $service_name = $input->getOption('service-name');
     if (!$service_name) {
       $service_name = $dialog->ask(
         $output,
@@ -96,10 +90,10 @@ class GeneratorServiceCommand extends GeneratorCommand
         $module.'.default'
       );
     }
-    $input->setOption('service_name', $service_name);
+    $input->setOption('service-name', $service_name);
 
-    // --class option
-    $class_name = $input->getOption('class_name');
+    // --class-name option
+    $class_name = $input->getOption('class-name');
     if (!$class_name) {
       $class_name = $dialog->ask(
         $output,
@@ -107,45 +101,15 @@ class GeneratorServiceCommand extends GeneratorCommand
         'DefaultService'
       );
     }
-    $input->setOption('class_name', $class_name);
+    $input->setOption('class-name', $class_name);
 
     // --services option
-    if ($dialog->askConfirmation(
-      $output,
-      $dialog->getQuestion('Do you like add service(s)', 'yes', '?'),
-      true
-    )) {
-      $service_collection = array();
-      $output->writeln([
-        '',
-        'You can add some services, type the name or use keyup and keydown',
-        'This is optional, press <info>enter</info> to <info>continue</info>',
-        ''
-      ]);
-      $services = $this->getServices();
-      while (true) {
-        $service = $helper_set->askAndValidate(
-          $output,
-          $dialog->getQuestion(' Enter your service',''),
-          function ($service) use ($services) {
-            return $this->validateServiceExist($service, $services);
-          },
-          false,
-          null,
-          $services
-        );
-
-        if ($service == null) {
-          break;
-        }
-        array_push($service_collection, $service);
-        $service_key = array_search($service, $services, true);
-        if ($service_key >= 0)
-          unset($services[$service_key]);
-      }
-      $input->setOption('services', $service_collection);
+    $services = $input->getOption('services');
+    if (!$services) {
+      // @see Drupal\AppConsole\Command\Helper\ServicesTrait::servicesQuestion
+      $services = $this->servicesQuestion($input, $output, $dialog);
     }
-
+    $input->setOption('services', $services);
   }
 
   protected function createGenerator()
