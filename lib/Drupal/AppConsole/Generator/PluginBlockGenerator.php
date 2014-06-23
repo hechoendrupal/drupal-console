@@ -1,6 +1,6 @@
 <?php
 /**
- *@file
+ * @file
  * Contains \Drupal\AppConsole\Generator\PluginBlockGenerator.
  */
 
@@ -10,15 +10,17 @@ class PluginBlockGenerator extends Generator
 {
   /**
    * Generator Plugin Block
-   * @param  string $module   Module name
-   * @param  string $class_name     class name for plugin block
-   * @param  string $description
-   * @param  array  $services list of services
+   * @param  $module
+   * @param  $class_name
+   * @param  $plugin_label
+   * @param  $plugin_id
+   * @param  $description
+   * @param  $build_services
    */
-  public function generate($module, $class_name, $description, $services)
+  public function generate($module, $class_name, $plugin_label, $plugin_id, $services)
   {
-    $path = DRUPAL_ROOT . '/' . drupal_get_path('module', $module);
-    $path_plugin = $path . '/src/Plugin/Block';
+    $path = DRUPAL_ROOT.'/'.drupal_get_path('module', $module);
+    $path_plugin = $path.'/src/Plugin/Block';
 
     // set syntax for arguments
     $args = ', ';
@@ -32,18 +34,19 @@ class PluginBlockGenerator extends Generator
 
     $parameters = [
       'module'   => $module,
-      'name'     => [
-        'class'      => $class_name,
+      'class'     => [
+        'name'      => $class_name,
         'underscore' => $this->camelCaseToUnderscore($class_name)
       ],
-      'description' => $description,
+      'plugin_label' => $plugin_label,
+      'plugin_id' => $plugin_id,
       'services'    => $services,
       'args'   => $args
     ];
 
     $this->renderFile(
       'module/plugin-block.php.twig',
-      $path_plugin . '/'. $class_name .'.php',
+      $path_plugin.'/'.$class_name.'.php',
       $parameters
     );
   }

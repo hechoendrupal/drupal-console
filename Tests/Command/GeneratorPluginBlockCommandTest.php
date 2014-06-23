@@ -1,6 +1,6 @@
 <?php
 /**
- *@file
+ * @file
  * Contains \Drupal\AppConsole\Test\Command\GeneratorModuleCommandTest.
  */
 

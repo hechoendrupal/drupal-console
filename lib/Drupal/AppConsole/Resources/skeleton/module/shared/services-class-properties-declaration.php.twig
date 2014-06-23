@@ -1,6 +1,7 @@
 {% for service in services %}
   /**
-  * @var {{ service.class }}
-  */
+   * @var {{ service.class }}
+   */
   protected ${{service.machine_name}};
+  
 {% endfor %}

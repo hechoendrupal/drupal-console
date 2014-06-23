@@ -1,6 +1,6 @@
 <?php
 /**
- *@file
+ * @file
  * Contains \Drupal\AppConsole\Command\GeneratorPluginBlockCommand.
  */
 
@@ -9,17 +9,24 @@ namespace Drupal\AppConsole\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\AppConsole\Utils\Utils;
 use Drupal\AppConsole\Generator\PluginBlockGenerator;
+use Drupal\AppConsole\Command\Helper\ServicesTrait;
+use Drupal\AppConsole\Command\Helper\ModuleTrait;
 
 class GeneratorPluginBlockCommand extends GeneratorCommand
 {
+  use ServicesTrait;
+  use ModuleTrait;
+
   protected function configure()
   {
     $this
       ->setDefinition(array(
         new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
-        new InputOption('name','',InputOption::VALUE_OPTIONAL, 'Block name'),
-        new InputOption('description','',InputOption::VALUE_OPTIONAL, 'Description block'),
+        new InputOption('class-name','',InputOption::VALUE_OPTIONAL, 'Plugin block class'),
+        new InputOption('plugin-label','',InputOption::VALUE_OPTIONAL, 'Plugin Label'),
+        new InputOption('plugin-id','',InputOption::VALUE_OPTIONAL, 'Plugin id'),
         new InputOption('services','',InputOption::VALUE_OPTIONAL, 'Load services'),
       ))
     ->setDescription('Generate plugin block')
@@ -37,33 +44,22 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
     if ($input->isInteractive()) {
       if (!$dialog->askConfirmation($output, $dialog->getQuestion('Do you confirm generation', 'yes', '?'), true)) {
         $output->writeln('<error>Command aborted</error>');
-
         return 1;
       }
     }
 
     $module = $input->getOption('module');
-    $name = $input->getOption('name');
-    $description = $input->getOption('description');
+    $class_name = $input->getOption('class-name');
+    $plugin_label = $input->getOption('plugin-label');
+    $plugin_id = $input->getOption('plugin-id');
     $services = $input->getOption('services');
 
-    $map_service = [];
-    if (!empty($services)) {
-      foreach ($services as $service) {
-        $class = get_class($this->getContainer()->get($service));
-        $separated_class = explode('\\',$class);
-        $map_service[$service] = array(
-          'name'  => $service,
-          'machine_name' => str_replace('.', '_', $service),
-          'class' => $class,
-          'short' => end($separated_class),
-        );
-      }
-    }
+    // @see use Drupal\AppConsole\Command\Helper\ServicesTrait::buildServices
+    $build_services = $this->buildServices($services);
 
     $this
       ->getGenerator()
-      ->generate($module, $name, $description, $map_service)
+      ->generate($module, $class_name, $plugin_label, $plugin_id, $build_services)
     ;
   }
 
@@ -72,79 +68,53 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
     $dialog = $this->getDialogHelper();
     $dialog->writeSection($output, 'Welcome to the Drupal Plugin Block generator');
 
-    $helper_set = $this->getHelperSet()->get('dialog');
-
     // --module option
     $module = $input->getOption('module');
     if (!$module) {
-      // Module names
-      $modules = $this->getModules();
-      $module = $helper_set->askAndValidate(
-        $output,
-        $dialog->getQuestion('Enter your module',''),
-        function ($module) use ($modules) {
-          return $this->validateModuleExist($module);
-        },
-        false,
-        '',
-        $modules
-      );
+      // @see Drupal\AppConsole\Command\Helper\ModuleTrait::moduleQuestion
+      $module = $this->moduleQuestion($input, $output, $dialog);
     }
-
     $input->setOption('module', $module);
 
-    // --name option
-    $name = $input->getOption('name');
-    if (!$name) {
-      $name = $dialog->ask($output, $dialog->getQuestion('Enter the controller name', 'DefaultBlock'), 'DefaultBlock');
-      $input->setOption('name', $name);
+    // --class-name option
+    $class_name = $input->getOption('class-name');
+    if (!$class_name) {
+      $class_name = $dialog->ask(
+        $output,
+        $dialog->getQuestion('Enter the plugin block name', 'DefaultBlock'),
+        'DefaultBlock'
+      );
     }
-    $input->setOption('name', $name);
+    $input->setOption('class-name', $class_name);
 
-    $description = $input->getOption('description');
-    if (!$description) {
-      $description = $dialog->ask($output, $dialog->getQuestion('Description', 'My Awesome Block'), 'My Awesome Block');
+    $machine_name = Utils::camelCaseToUnderscore($class_name);
+
+    // --plugin-label option
+    $plugin_label = $input->getOption('plugin-label');
+    if (!$plugin_label) {
+      $plugin_label = $dialog->ask(
+        $output,
+        $dialog->getQuestion('Enter the plugin label', $machine_name),
+        $machine_name
+      );
     }
-    $input->setOption('description', $description);
+    $input->setOption('plugin-label', $plugin_label);
+
+    // --plugin-id option
+    $plugin_id = $input->getOption('plugin-id');
+    if (!$plugin_id) {
+      $plugin_id = $dialog->ask(
+        $output,
+        $dialog->getQuestion('Enter the plugin id',$machine_name),
+        $machine_name
+      );
+    }
+    $input->setOption('plugin-id', $plugin_id);
 
     // --services option
-    if ($dialog->askConfirmation(
-      $output,
-      $dialog->getQuestion('Do you like add service(s)', 'yes', '?'),
-      true
-    )) {
-      $service_collection = array();
-      $services = $this->getServices();
-      $output->writeln([
-        '',
-        'You can add some services, type the name or use keyup and keydown',
-        'This is optional, press <info>enter</info> to <info>continue</info>',
-        ''
-      ]);
-
-      while (true) {
-        $service = $helper_set->askAndValidate(
-          $output,
-          $dialog->getQuestion(' Enter your service',''),
-          function ($service) use ($services) {
-            return $this->validateServiceExist($service, $services);
-          },
-          false,
-          null,
-          $services
-        );
-
-        if ($service == null) {
-          break;
-        }
-        array_push($service_collection, $service);
-        $service_key = array_search($service, $services, true);
-        if ($service_key >= 0)
-          unset($services[$service_key]);
-      }
-      $input->setOption('services', $service_collection);
-    }
-
+    // @see use Drupal\AppConsole\Command\Helper\ServicesTrait::servicesQuestion
+    $services_collection = $this->servicesQuestion($input, $output, $dialog);
+    $input->setOption('services', $services_collection);
   }
 
   protected function createGenerator()
