@@ -28,7 +28,7 @@ class GeneratorServiceCommand extends GeneratorCommand
         new InputOption('module',null,InputOption::VALUE_REQUIRED, 'The name of the module'),
         new InputOption('service-name',null,InputOption::VALUE_OPTIONAL, 'Service name'),
         new InputOption('class-name',null,InputOption::VALUE_OPTIONAL, 'Class name'),
-        new InputOption('services',null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Load services'),
+        new InputOption('services',null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Load services'),
       ))
       ->setDescription('Generate service')
       ->setHelp('The <info>generate:service</info> command helps you generate a new service.')
