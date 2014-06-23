@@ -8,10 +8,14 @@ namespace Drupal\AppConsole\Command\Helper;
 
 trait ServicesTrait
 {
-
-    public function servicesQuestion($input, $output, $dialog)
-    {
-        if ($dialog->askConfirmation(
+  /**
+   * @param  $input
+   * @param  $output
+   * @param  $dialog
+   */
+  public function servicesQuestion($input, $output, $dialog)
+  {
+    if ($dialog->askConfirmation(
       $output,
       $dialog->getQuestion('Do you like add service(s)', 'yes', '?'),
       true
@@ -52,16 +56,14 @@ trait ServicesTrait
     }
 
     return null;
-    }
+  }
 
-    /**
-     *
-     * @param  Array $services
-     * @return Array
-     */
-    public function buildServices($services)
-    {
-        $build_service = [];
+  /**
+   * @param  Array $services
+   * @return Array
+   */
+  public function buildServices($services)
+  {
     if (!empty($services)) {
       foreach ($services as $service) {
         $class = get_class($this->getContainer()->get($service));
