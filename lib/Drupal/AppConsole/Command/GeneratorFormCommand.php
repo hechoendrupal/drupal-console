@@ -1,20 +1,30 @@
 <?php
+/**
+ * @file
+ * Containt Drupal\AppConsole\Command\GeneratorFormCommand.
+ */
+
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\AppConsole\Command\Helper\ServicesTrait;
+use Drupal\AppConsole\Command\Helper\FormTrait;
 use Drupal\AppConsole\Generator\FormGenerator;
 use Drupal\AppConsole\Utils\Utils;
 
 class GeneratorFormCommand extends GeneratorCommand
 {
+  use FormTrait;
+  use ServicesTrait;
+
   protected function configure()
   {
     $this
       ->setDefinition(array(
         new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
-        new InputOption('name','',InputOption::VALUE_OPTIONAL, 'Form name'),
+        new InputOption('class-name','',InputOption::VALUE_OPTIONAL, 'Form name'),
         new InputOption('services','',InputOption::VALUE_OPTIONAL, 'Load services'),
         new InputOption('inputs','',InputOption::VALUE_OPTIONAL, 'Create a inputs in a form'),
         new InputOption('routing', '', InputOption::VALUE_NONE, 'Update routing'),
@@ -34,7 +44,7 @@ class GeneratorFormCommand extends GeneratorCommand
     $module = $input->getOption('module');
     $services = $input->getOption('services');
     $update_routing = $input->getOption('routing');
-    $class_name = $input->getOption('name');
+    $class_name = $input->getOption('class-name');
 
     // if exist form generate config file
     $inputs = $input->getOption('inputs');
@@ -52,12 +62,12 @@ class GeneratorFormCommand extends GeneratorCommand
             );
         }
     }
+    $input->setOption('class-name', $name);
 
     $generator = $this->getGenerator();
     $generator->generate($module, $class_name, $map_service, $inputs, $update_routing);
 
     $dialog->writeGeneratorSummary($output, $errors);
-
   }
 
   /**
@@ -68,20 +78,21 @@ class GeneratorFormCommand extends GeneratorCommand
     $dialog = $this->getDialogHelper();
     $dialog->writeSection($output, 'Welcome to the Drupal form generator');
 
-    $d = $this->getHelperSet()->get('dialog');
-
-    // Module name
-    $modules = $this->getModules();
-    $module = $d->askAndValidate(
-      $output,
-      $dialog->getQuestion('Enter your module '),
-      function ($module) {
-        return $this->validateModuleExist($module);
-      },
-      false,
-      '',
-      $modules
-    );
+    // --module option
+    $module = $input->getOption('module');
+    if (!$module) {
+      $modules = $this->getModules();
+      $module = $dialog->askAndValidate(
+        $output,
+        $dialog->getQuestion('Enter your module'),
+        function ($module) {
+          return $this->validateModuleExist($module);
+        },
+        false,
+        '',
+        $modules
+      );
+    }
     $input->setOption('module', $module);
 
     // Controller name
@@ -183,21 +194,23 @@ class GeneratorFormCommand extends GeneratorCommand
 
     }
 
-    // Routing
+    // --routing option
     $routing = $input->getOption('routing');
-    if (!$routing && $dialog->askConfirmation($output, $dialog->getQuestion('Update routing file?', 'yes', '?'), true)) {
+    if (!$routing && $dialog->askConfirmation(
+      $output, 
+      $dialog->getQuestion('Update routing file?', 'yes', '?'), 
+      true)
+    ) {
         $routing = true;
     }
     $input->setOption('routing', $routing);
-
   }
 
   /**
-    * @return FormGenerator
-    */
+   * @return \Drupal\AppConsole\Generator\FormGenerator.
+   */
   protected function createGenerator()
   {
     return new FormGenerator();
   }
-
 }
