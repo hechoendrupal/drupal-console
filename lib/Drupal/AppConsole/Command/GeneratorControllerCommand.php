@@ -1,4 +1,9 @@
 <?php
+/**
+ * @file
+ * Containt Drupal\AppConsole\Command\GeneratorControllerCommand.
+ */
+
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,7 +18,7 @@ class GeneratorControllerCommand extends GeneratorCommand
     $this
       ->setDefinition(array(
         new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
-        new InputOption('name','',InputOption::VALUE_OPTIONAL, 'Controller name'),
+        new InputOption('class-name','',InputOption::VALUE_OPTIONAL, 'Controller name'),
         new InputOption('services','',InputOption::VALUE_OPTIONAL, 'Load services'),
         new InputOption('routing', '', InputOption::VALUE_NONE, 'Update routing'),
         new InputOption('test', '', InputOption::VALUE_NONE, 'Generate test'),
@@ -28,10 +33,11 @@ class GeneratorControllerCommand extends GeneratorCommand
    */
   protected function execute(InputInterface $input, OutputInterface $output)
   {
-    /** @var \Drupal\AppConsole\Command\Helper\DialogHelper $dialog */
     $dialog = $this->getDialogHelper();
 
     $module = $input->getOption('module');
+    $class_name = $input->getOption('class-name');
+    $test = $input->getOption('test');
     $services = $input->getOption('services');
     $update_routing = $input->getOption('routing');
     $name = $input->getOption('name');
@@ -50,8 +56,10 @@ class GeneratorControllerCommand extends GeneratorCommand
 
     $generator = $this->getGenerator();
 
-    $generator->generate($module, $name, $controller, $map_service, $test);
+    $this->getGenerator()
+      ->generate($module, $class_name, $build_services, $test);
 
+    $errors = '';
     $dialog->writeGeneratorSummary($output, $errors);
   }
 
@@ -60,89 +68,61 @@ class GeneratorControllerCommand extends GeneratorCommand
    */
   protected function interact(InputInterface $input, OutputInterface $output)
   {
-    /** @var \Drupal\AppConsole\Command\Helper\DialogHelper $dialog */
     $dialog = $this->getDialogHelper();
     $dialog->writeSection($output, 'Welcome to the Drupal controller generator');
 
-    $d = $this->getHelperSet()->get('dialog');
-
-    // Module name
-    $modules = $this->getModules();
-    $module = $d->askAndValidate(
-      $output,
-      $dialog->getQuestion('Enter your module: ', ''),
-      function ($module) {
-        return $this->validateModuleExist($module);
-      },
-      false,
-      '',
-      $modules
-    );
+    // --module option
+    $module = $input->getOption('module');
+    if (!$module) {
+      // @see Drupal\AppConsole\Command\Helper\ModuleTrait::moduleQuestion
+      $module = $this->moduleQuestion($input, $output, $dialog);
+    }
     $input->setOption('module', $module);
 
-    // Module name
-    $name = $this->getName();
-    $name = $dialog->ask($output, $dialog->getQuestion('Enter the controller name', 'DefaultController'), 'DefaultController');
-    $input->setOption('name', $name);
+    // --class-name option
+    $class_name = $input->getOption('class-name');
+    if (!$class_name) {
+      $name = $dialog->ask(
+        $output,
+        $dialog->getQuestion('Enter the form name', 'DefaultForm'),
+        'DefaultForm'
+      );
+    }
+    $input->setOption('class-name', $name);
 
-    // Test
+    // --test option
     $test = $input->getOption('test');
-    if (!$test && $dialog->askConfirmation($output, $dialog->getQuestion('Generate Test Unit?', 'yes', '?'), TRUE)) {
-        $test = true;
+    if (!$test && $dialog->askConfirmation(
+      $output,
+      $dialog->getQuestion('Generate Test Unit?', 'yes', '?'),
+      TRUE
+    )) {
+      $test = true;
     }
     $input->setOption('test', $test);
 
-    // Services
-    // TODO: Create a method for this job
-    if ($dialog->askConfirmation(
-        $output,
-        $dialog->getQuestion('Do you like add service(s)?', 'yes', '?'),
-        true
-    )) {
-      $service_collection = array();
-      $services = $this->getServices();
-      while (true) {
-        $service = $d->askAndValidate(
-          $output,
-          $dialog->getQuestion(' Enter your service (optional): ', ''),
-          function ($service) use ($services) {
-            return $this->validateServiceExist($service, $services);
-          },
-          false,
-          null,
-          $services
-        );
+    // --services option
+    // @see use Drupal\AppConsole\Command\Helper\ServicesTrait::servicesQuestion
+    $services_collection = $this->servicesQuestion($input, $output, $dialog);
+    $input->setOption('services', $services_collection);
 
-        if ($service == null) {
-          break;
-        }
-        array_push($service_collection, $service);
-        $service_key = array_search($service, $services, true);
-        if ($service_key >= 0)
-          unset($services[$service_key]);
-      }
-      $input->setOption('services', $service_collection);
-    }
-
-    // Routing
-    /**
-     * Generate routing
-     * @var [type]
-     */
+    // --routing option
     $routing = $input->getOption('routing');
-    if (!$routing && $dialog->askConfirmation($output, $dialog->getQuestion('Update routing file?', 'yes', '?'), true)) {
-        $routing = true;
+    if (!$routing && $dialog->askConfirmation(
+      $output,
+      $dialog->getQuestion('Update routing file?', 'yes', '?'),
+      true
+    )) {
+      $routing = true;
     }
     $input->setOption('routing', $routing);
-
   }
 
   /**
-    * @return ControllerGenerator
-    */
+   * @return \Drupal\AppConsole\Generator\ControllerGenerator
+   */
   protected function createGenerator()
   {
     return new ControllerGenerator();
   }
-
 }

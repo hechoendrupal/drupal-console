@@ -1,18 +1,19 @@
 <?php
+/**
+ * @file
+ * Containt Drupal\AppConsole\Generator\ControllerGenerator.
+ */
 
 namespace Drupal\AppConsole\Generator;
 
 class ControllerGenerator extends Generator
 {
-  private $filesystem;
 
-  public function __construct() {}
-
-  public function generate($module, $name, $controller, $services, $test)
+  public function generate($module, $name, $services, $test)
   {
-    $path = DRUPAL_ROOT . '/' . drupal_get_path('module', $module);
+    $path = DRUPAL_ROOT.'/'.drupal_get_path('module', $module);
 
-    $path_controller = $path . '/src/Controller';
+    $path_controller = $path.'/src/Controller';
 
     $parameters = array(
       'name' => $name,
@@ -22,21 +23,21 @@ class ControllerGenerator extends Generator
 
     $this->renderFile(
       'module/module.controller.php.twig',
-      $path_controller . '/'. $name .'.php',
+      $path_controller.'/'.$name.'.php',
       $parameters
     );
 
     $this->renderFile('module/controller-routing.yml.twig',
-        DRUPAL_ROOT.'/modules/'.$module.'/'.$module.'.routing.yml',
-        $parameters,
-        FILE_APPEND
+      DRUPAL_ROOT.'/modules/'.$module.'/'.$module.'.routing.yml',
+      $parameters,
+      FILE_APPEND
     );
 
     if ($test) {
       $this->renderFile(
-          'module/module.test.twig',
-          $path . '/src/Tests/' . $name . 'Test.php',
-          $parameters
+        'module/module.test.twig',
+        $path.'/src/Tests/'.$name.'Test.php',
+        $parameters
       );
     }
   }
