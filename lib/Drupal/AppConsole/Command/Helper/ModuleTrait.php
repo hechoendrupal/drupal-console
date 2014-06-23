@@ -17,7 +17,7 @@ trait ModuleTrait
 
     return $dialog->askAndValidate(
       $output,
-      $dialog->getQuestion('Enter your module'),
+      $dialog->getQuestion('Enter your module',''),
       function ($module) {
         return $this->validateModuleExist($module);
       },

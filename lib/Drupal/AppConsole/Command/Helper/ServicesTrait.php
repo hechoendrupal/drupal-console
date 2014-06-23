@@ -65,6 +65,7 @@ trait ServicesTrait
   public function buildServices($services)
   {
     if (!empty($services)) {
+      $build_service = [];
       foreach ($services as $service) {
         $class = get_class($this->getContainer()->get($service));
         $build_service[$service] = [
@@ -74,8 +75,8 @@ trait ServicesTrait
           'short' => end(explode('\\', $class))
           ];
       }
+      return $build_service;
     }
-
-    return $build_service;
-    }
+    return null;
+  }
 }
