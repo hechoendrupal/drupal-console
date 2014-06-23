@@ -68,11 +68,12 @@ trait ServicesTrait
       $build_service = [];
       foreach ($services as $service) {
         $class = get_class($this->getContainer()->get($service));
+        $explode_class = explode('\\', $class);
         $build_service[$service] = [
           'name' => $service,
           'machine_name' => str_replace('.', '_', $service),
           'class' => $class,
-          'short' => end(explode('\\', $class))
+          'short' => end($explode_class),
           ];
       }
       return $build_service;
