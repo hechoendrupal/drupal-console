@@ -1,7 +1,7 @@
 <?php
 /**
  *@file
- * Contains \Drupal\{{module}}\Plugin\Block\{{name.class}}.php
+ * Contains \Drupal\{{module}}\Plugin\Block\{{class.name}}.php
  */
 
 namespace Drupal\{{module}}\Plugin\Block;
@@ -13,14 +13,14 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 {% endif %}
 
 /**
- * Provides a '{{name.class}}' block.
+ * Provides a '{{class.name}}' block.
  *
  * @Block(
- *  id = "{{ name.underscore }}",
- *  admin_label = @Translation("{{description}}")
+ *  id = "{{plugin_id}}",
+ *  admin_label = @Translation("{{plugin_label}}")
  * )
  */
-class {{ name.class }} extends BlockBase {% if services is not empty %}implements ContainerFactoryPluginInterface{% endif %} {{"\n"}}{
+class {{class.name}} extends BlockBase {% if services is not empty %}implements ContainerFactoryPluginInterface{% endif %} {{"\n"}}{
 {% if services is not empty %}
 {% include 'skeleton/module/shared/services-class-properties-declaration.php.twig' %}
   /**
@@ -38,7 +38,7 @@ class {{ name.class }} extends BlockBase {% if services is not empty %}implement
         $plugin_id,
         $plugin_definition,
         {{ servicesAsParameters(services)|join(', \n\t') }}
-    ) {
+  ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 {% include 'skeleton/module/shared/services-class-properties-initialization.php.twig' %}
   }
@@ -63,7 +63,7 @@ class {{ name.class }} extends BlockBase {% if services is not empty %}implement
   public function build()
   {
     return [
-      '#markup' => '{{ description }}',
+      '#markup' => '{{plugin_label}}',
     ];
   }
 }
