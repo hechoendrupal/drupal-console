@@ -9,9 +9,9 @@ namespace Drupal\AppConsole\Command\Helper;
 trait ServicesTrait
 {
 
-	public function servicesQuestion($input, $output, $dialog)
-	{
-		if ($dialog->askConfirmation(
+    public function servicesQuestion($input, $output, $dialog)
+    {
+        if ($dialog->askConfirmation(
       $output,
       $dialog->getQuestion('Do you like add service(s)', 'yes', '?'),
       true
@@ -47,20 +47,21 @@ trait ServicesTrait
         if ($service_key >= 0)
           unset($services[$service_key]);
       }
-      
+
       return $service_collection;
     }
-    return null;
-	}
 
-	/**
-	 * 
-	 * @param  Array $services
-	 * @return Array  
-	 */
-	public function buildServices($services)
-	{
-		$build_service = [];
+    return null;
+    }
+
+    /**
+     *
+     * @param  Array $services
+     * @return Array
+     */
+    public function buildServices($services)
+    {
+        $build_service = [];
     if (!empty($services)) {
       foreach ($services as $service) {
         $class = get_class($this->getContainer()->get($service));
@@ -69,9 +70,10 @@ trait ServicesTrait
           'machine_name' => str_replace('.', '_', $service),
           'class' => $class,
           'short' => end(explode('\\', $class))
-      	];
+          ];
       }
     }
+
     return $build_service;
-	}
+    }
 }
