@@ -92,13 +92,15 @@ class GeneratorFormCommand extends GeneratorCommand
     }
     $input->setOption('class-name', $name);
 
+    // --services option
+    // @see use Drupal\AppConsole\Command\Helper\ServicesTrait::servicesQuestion
     $services_collection = $this->servicesQuestion($input, $output, $dialog);
     $input->setOption('services', $services_collection);
 
     // --inputs option
     $inputs = $input->getOption('inputs');
     if (!$inputs) {
-      // see more in \Drupal\AppConsole\Command\Helper\FormTrait
+      // @see \Drupal\AppConsole\Command\Helper\FormTrait::formQuestion
       $inputs = $this->formQuestion($input, $output, $dialog);
     }
     $input->setOption('inputs', $inputs);
