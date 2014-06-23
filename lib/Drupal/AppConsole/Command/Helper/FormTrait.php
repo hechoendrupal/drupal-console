@@ -78,5 +78,6 @@ trait FormTrait
 
       return $inputs;
     }
+    return null;
   }
 }
