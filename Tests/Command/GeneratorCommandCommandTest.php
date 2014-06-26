@@ -66,11 +66,6 @@ class GeneratorCommandCommandTest extends GenerateCommandTest
       ->will($this->returnValue(['foo']));
     ;
 
-    $command->expects($this->any())
-      ->method('getServices')
-      ->will($this->returnValue(['twig','database']));
-    ;
-
     $command->setContainer($this->getContainer());
     $command->setHelperSet($this->getHelperSet($input));
     $command->setGenerator($generator);
