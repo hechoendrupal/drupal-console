@@ -1,6 +1,6 @@
 <?php
 /**
- *@file
+ * @file
  * Contains \Drupal\AppConsole\Command\GeneratorPluginImageEffectCommand.
  */
 
@@ -10,10 +10,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Generator\PluginImageEffectGenerator;
+use Drupal\AppConsole\Command\Helper\ModuleTrait;
 use Drupal\AppConsole\Utils\Utils;
 
 class GeneratorPluginImageEffectCommand extends GeneratorCommand
 {
+  use ModuleTrait;
+
   protected function configure()
   {
     $this
@@ -39,7 +42,6 @@ class GeneratorPluginImageEffectCommand extends GeneratorCommand
     if ($input->isInteractive()) {
       if (!$dialog->askConfirmation($output, $dialog->getQuestion('Do you confirm generation', 'yes', '?'), true)) {
         $output->writeln('<error>Command aborted</error>');
-
         return 1;
       }
     }
@@ -61,25 +63,12 @@ class GeneratorPluginImageEffectCommand extends GeneratorCommand
     $dialog = $this->getDialogHelper();
     $dialog->writeSection($output, 'Welcome to the Drupal Image Effect Plugin generator');
 
-    $helper_set = $this->getHelperSet()->get('dialog');
-
     // --module option
     $module = $input->getOption('module');
     if (!$module) {
-      // Module names
-      $modules = $this->getModules();
-      $module = $helper_set->askAndValidate(
-        $output,
-        $dialog->getQuestion('Enter your module',''),
-        function ($module) use ($modules) {
-          return $this->validateModuleExist($module);
-        },
-        false,
-        '',
-        $modules
-      );
+      // @see Drupal\AppConsole\Command\Helper\ModuleTrait::moduleQuestion
+      $module = $this->moduleQuestion($input, $output, $dialog);
     }
-
     $input->setOption('module', $module);
 
     // --class-name option
@@ -87,7 +76,8 @@ class GeneratorPluginImageEffectCommand extends GeneratorCommand
     if (!$class_name) {
       $class_name = $dialog->ask(
         $output,
-        $dialog->getQuestion('Enter the plugin name', 'DefaultImageEffect'), 'DefaultImageEffect'
+        $dialog->getQuestion('Enter the plugin name', 'DefaultImageEffect'),
+        'DefaultImageEffect'
       );
     }
     $input->setOption('class-name', $class_name);
@@ -109,17 +99,22 @@ class GeneratorPluginImageEffectCommand extends GeneratorCommand
     $plugin_id = $input->getOption('plugin-id');
 
     if (!$plugin_id) {
-      $plugin_id = $dialog->ask($output, $dialog->getQuestion('Enter the plugin id', $machine_name), $machine_name);
+      $plugin_id = $dialog->ask($output,
+        $dialog->getQuestion('Enter the plugin id', $machine_name),
+        $machine_name
+      );
     }
     $input->setOption('plugin-id', $plugin_id);
 
     // --description option
     $description = $input->getOption('description');
     if (!$description) {
-      $description = $dialog->ask($output, $dialog->getQuestion('Description', 'My Image Effect'), 'My Image Effect');
+      $description = $dialog->ask($output,
+        $dialog->getQuestion('Description', 'My Image Effect'),
+        'My Image Effect'
+      );
     }
     $input->setOption('description', $description);
-
   }
 
   protected function createGenerator()
