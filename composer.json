@@ -40,6 +40,6 @@
         "bin-dir": "bin/"
     },
     "autoload": {
-        "psr-0": {"Drupal\\AppConsole": "lib"}
+        "psr-4": {"Drupal\\AppConsole\\": "src"}
     }
 }
