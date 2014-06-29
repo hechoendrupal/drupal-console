@@ -12,12 +12,12 @@ use Drupal\simpletest\WebTestBase;
 /**
  * Provides automated tests for the {{module}} module.
  */
-class {{name}}Test extends WebTestBase {
+class {{class_name}}Test extends WebTestBase {
 
   public static function getInfo() {
     return array(
-      'name' => "{{module}} {{name}}'s controller functionality",
-      'description' => 'Test Unit for module {{module}} and controller {{name}}.',
+      'name' => "{{module}} {{class_name}}'s controller functionality",
+      'description' => 'Test Unit for module {{module}} and controller {{class_name}}.',
       'group' => 'Other',
     );
   }
@@ -29,7 +29,7 @@ class {{name}}Test extends WebTestBase {
   /**
    * Tests {{module}} functionality.
    */
-  function test{{name}}() {
+  function test{{class_name}}() {
     //Check that the basic functions of module {{module}}.
     $this->assertEqual(TRUE, TRUE, 'Test Unit Generated via App Console.');
   }

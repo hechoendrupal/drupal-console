@@ -1,9 +1,10 @@
-{% if name is defined %}
-{{ module }}.hello:
-  path: '/{{module}}/hello/{name}'
+{% if class_name is defined %}
+{{ module }}.{{ method_name }}:
+  path: '{{ route }}'
   defaults:
-    _content: '\Drupal\{{ module }}\Controller\{{ name }}::hello'
+    _content: '\Drupal\{{ module }}\Controller\{{ class_name }}::{{ method_name }}'
     _title: '{{module}} Title'
   requirements:
     _permission: 'access content'
 {% endif %}
+

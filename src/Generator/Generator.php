@@ -41,6 +41,7 @@ class Generator
 
     $twig->addFunction($this->getServiceAsParamater());
     $twig->addFunction($this->getServiceAsParamaterKeys());
+    $twig->addFunction($this->getArgumentsFromRoute());
 
     return $twig->render($template, $parameters);
   }
@@ -87,4 +88,20 @@ class Generator
     return $servicesAsParametersKeys;
   }
 
+  public function getArgumentsFromRoute()
+  {
+    $argumentsFromRoute = new \Twig_SimpleFunction('argumentsFromRoute', function ($route){
+      $parameters = [];
+      $parameters = array_filter(explode("/", $route), function($value){
+        return (strpos($value, "}") > 0) ? : false;
+      });
+      $parameters = array_map(function ($value){
+        return "$".substr($value, 1, -1);
+      }, $parameters);
+
+      return $parameters;
+    });
+
+    return $argumentsFromRoute;
+  }
 }
