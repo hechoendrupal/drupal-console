@@ -41,6 +41,7 @@ class Generator
 
     $twig->addFunction($this->getServiceAsParamater());
     $twig->addFunction($this->getServiceAsParamaterKeys());
+    $twig->addFunction($this->getArgumentsFromRoute());
 
     return $twig->render($template, $parameters);
   }
@@ -57,6 +58,11 @@ class Generator
   public function camelCaseToUnderscore($camel_case)
   {
     return Utils::camelCaseToUnderscore($camel_case);
+  }
+
+  public function extractArgumentsFromRoute($route)
+  {
+    return Utils::extractArgumentsFromRoute($route);
   }
 
   public function getServiceAsParamater()
@@ -87,4 +93,20 @@ class Generator
     return $servicesAsParametersKeys;
   }
 
+  public function getArgumentsFromRoute()
+  {
+    $argumentsFromRoute = new \Twig_SimpleFunction('argumentsFromRoute', function ($route){
+      $parameters = [];
+      $parameters = array_filter(explode("/", $route), function($value){
+        return (strpos($value, "}") > 0) ? : false;
+      });
+      $parameters = array_map(function ($value){
+        return "$".substr($value, 1, -1);
+      }, $parameters);
+
+      return $parameters;
+    });
+
+    return $argumentsFromRoute;
+  }
 }
