@@ -107,7 +107,8 @@ class GeneratorControllerCommand extends GeneratorCommand
       if (!$route) {
         $route = $dialog->ask(
           $output,
-          $dialog->getQuestion('Enter the route path')
+          $dialog->getQuestion('Enter the route path', $method_name.'/index'),
+          $method_name.'/index'
         );
       }
     }
