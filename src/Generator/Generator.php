@@ -60,11 +60,6 @@ class Generator
     return Utils::camelCaseToUnderscore($camel_case);
   }
 
-  public function extractArgumentsFromRoute($route)
-  {
-    return Utils::extractArgumentsFromRoute($route);
-  }
-
   public function getServiceAsParamater()
   {
       $servicesAsParameters = new \Twig_SimpleFunction('servicesAsParameters', function ($services) {
