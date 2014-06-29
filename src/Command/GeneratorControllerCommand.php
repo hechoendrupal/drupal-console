@@ -24,8 +24,9 @@ class GeneratorControllerCommand extends GeneratorCommand
       ->setDefinition(array(
         new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
         new InputOption('class-name','',InputOption::VALUE_OPTIONAL, 'Controller name'),
+        new InputOption('method-name','',InputOption::VALUE_OPTIONAL, 'The method name'),
+        new InputOption('route','',InputOption::VALUE_OPTIONAL, 'The route path'),
         new InputOption('services','',InputOption::VALUE_OPTIONAL, 'Load services'),
-        new InputOption('routing', '', InputOption::VALUE_NONE, 'Update routing'),
         new InputOption('test', '', InputOption::VALUE_NONE, 'Generate test'),
       ))
       ->setDescription('Generate controller')
@@ -49,15 +50,16 @@ class GeneratorControllerCommand extends GeneratorCommand
 
     $module = $input->getOption('module');
     $class_name = $input->getOption('class-name');
+    $method_name = $input->getOption('method-name');
+    $route = $input->getOption('route');
     $test = $input->getOption('test');
     $services = $input->getOption('services');
-    $update_routing = $input->getOption('routing');
 
     // @see use Drupal\AppConsole\Command\Helper\ServicesTrait::buildServices
     $build_services = $this->buildServices($services);
 
     $this->getGenerator()
-      ->generate($module, $class_name, $test, $build_services, $update_routing);
+      ->generate($module, $class_name, $method_name, $route, $test, $build_services);
 
     $errors = '';
     $dialog->writeGeneratorSummary($output, $errors);
@@ -82,13 +84,39 @@ class GeneratorControllerCommand extends GeneratorCommand
     // --class-name option
     $class_name = $input->getOption('class-name');
     if (!$class_name) {
-      $name = $dialog->ask(
+      $class_name = $dialog->ask(
         $output,
         $dialog->getQuestion('Enter the controller name', 'DefaultController'),
         'DefaultController'
       );
     }
-    $input->setOption('class-name', $name);
+    $input->setOption('class-name', $class_name);
+
+    // --method-name option & --route option
+    if($class_name != 'DefaultController'){
+      $method_name = $input->getOption('method-name');
+      if (!$method_name) {
+        $method_name = $dialog->ask(
+          $output,
+          $dialog->getQuestion('Enter the method name', 'index'),
+          'index'
+        );
+      }
+
+      $route = $input->getOption('route');
+      if (!$route) {
+        $route = $dialog->ask(
+          $output,
+          $dialog->getQuestion('Enter the route path')
+        );
+      }
+    }
+    else{
+      $method_name = 'hello';
+      $route = '/hello/{name}';
+    }
+    $input->setOption('method-name', $method_name);
+    $input->setOption('route', $route);
 
     // --test option
     $test = $input->getOption('test');
@@ -105,17 +133,6 @@ class GeneratorControllerCommand extends GeneratorCommand
     // @see use Drupal\AppConsole\Command\Helper\ServicesTrait::servicesQuestion
     $services_collection = $this->servicesQuestion($input, $output, $dialog);
     $input->setOption('services', $services_collection);
-
-    // --routing option
-    $routing = $input->getOption('routing');
-    if (!$routing && $dialog->askConfirmation(
-      $output,
-      $dialog->getQuestion('Update routing file?', 'yes', '?'),
-      true
-    )) {
-      $routing = true;
-    }
-    $input->setOption('routing', $routing);
   }
 
   /**
