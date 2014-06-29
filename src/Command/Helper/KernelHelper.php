@@ -1,4 +1,9 @@
 <?php
+/**
+ * @file
+ * Contains Drupal\AppConsole\Command\Helper\KernelHelper.
+ */
+
 namespace Drupal\AppConsole\Command\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
@@ -64,10 +69,14 @@ class KernelHelper extends Helper
    */
   public function bootKernel()
   {
-    $this->getKernel()->boot();
+    $request = Request::createFromGlobals();
+    $site_path = DrupalKernel::findSitePath($request, FALSE);
+
+    $this->getKernel();
+    $this->kernel->setSitePath($site_path);
+    $this->kernel->boot();
 
     $container = $this->getKernel()->getContainer();
-    $request = Request::createFromGlobals();
     $container->set('request', $request);
     $container->get('request_stack')->push($request);
 
@@ -89,7 +98,6 @@ class KernelHelper extends Helper
   public function initCommands(array $commands)
   {
     $container = $this->getKernel()->getContainer();
-
     array_walk($commands, function ($command) use ($container) {
       if ($command instanceof ContainerAwareInterface) {
         $command->setContainer($container);
