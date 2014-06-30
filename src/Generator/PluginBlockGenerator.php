@@ -14,8 +14,7 @@ class PluginBlockGenerator extends Generator
    * @param  $class_name
    * @param  $plugin_label
    * @param  $plugin_id
-   * @param  $description
-   * @param  $build_services
+   * @param  $services
    */
   public function generate($module, $class_name, $plugin_label, $plugin_id, $services)
   {
