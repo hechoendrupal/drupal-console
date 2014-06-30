@@ -39,15 +39,11 @@ class RegisterCommandsHelper extends Helper
       $place   = $this->namespaces['Drupal\\'.$module];
       $cmd_dir = '/Command';
       $prefix  = 'Drupal\\'.$module.'\\Command';
-
-      // psr-0
-      if (is_dir($place[0].$cmd_dir)) {
-        $dir = $place[0].$cmd_dir;
+      
+      if (is_dir($place.$cmd_dir)) {
+        $dir = $place.$cmd_dir;
       }
-      //psr-4
-      else if (is_dir($place[1].$cmd_dir)) {
-        $dir = $place[1].$cmd_dir;
-      } else {
+      else {
         continue;
       }
 
