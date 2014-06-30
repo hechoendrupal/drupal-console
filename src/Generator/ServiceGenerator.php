@@ -26,7 +26,6 @@ class ServiceGenerator extends Generator
         'underscore' => $this->camelCaseToUnderscore($class_name)
       ],
       'services'    => $services,
-      'args'   => $args,
       'file_exists' => file_exists($this->getModulePath($module).'/'.$module.'.services.yml'),
     ];
 
