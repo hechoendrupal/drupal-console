@@ -18,8 +18,6 @@ class PluginImageEffectGenerator extends Generator
    */
   public function generate($module, $class_name, $plugin_label, $plugin_id, $description)
   {
-    $path = DRUPAL_ROOT . '/' . drupal_get_path('module', $module);
-    $path_plugin = $path . '/src/Plugin/ImageEffect';
 
     $parameters = [
       'module'   => $module,
