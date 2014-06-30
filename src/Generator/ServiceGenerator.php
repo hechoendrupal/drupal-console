@@ -37,19 +37,19 @@ class ServiceGenerator extends Generator
       ],
       'services'    => $services,
       'args'   => $args,
-      'file_exists' => file_exists($module_path.'/'.$module.'.services.yml'),
+      'file_exists' => file_exists($this->getModulePath($module).'/'.$module.'.services.yml'),
     ];
 
     $this->renderFile(
       'module/services.yml.twig',
-      $module_path.'/'.$module.'.services.yml',
+      $this->getModulePath($module).'/'.$module.'.services.yml',
       $parameters,
       FILE_APPEND
     );
 
     $this->renderFile(
       'module/services.class.php.twig',
-      $module_path.'/src/'. $class_name .'.php',
+      $this->getModulePath($module).'/src/'. $class_name .'.php',
       $parameters
     );
 
