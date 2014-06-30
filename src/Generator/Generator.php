@@ -91,7 +91,6 @@ class Generator
   public function getArgumentsFromRoute()
   {
     $argumentsFromRoute = new \Twig_SimpleFunction('argumentsFromRoute', function ($route){
-      $parameters = [];
       $parameters = array_filter(explode("/", $route), function($value){
         return (strpos($value, "}") > 0) ? : false;
       });
