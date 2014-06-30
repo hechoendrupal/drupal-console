@@ -29,7 +29,7 @@ class CommandGenerator extends Generator
 
     $this->renderFile(
       'module/command.php.twig',
-      $path_plugin . '/'. $class_name .'.php',
+      $this->getCommandPath($module).'/'.$class_name.'.php',
       $parameters
     );
   }
