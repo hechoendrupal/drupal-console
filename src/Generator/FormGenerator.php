@@ -34,7 +34,7 @@ class FormGenerator extends Generator
     );
 
     if ($update_routing) {
-      $this->renderFile('module/form-routing.yml.twig', $path .'/'. $module.'.routing.yml', $parameters, FILE_APPEND);
+      $this->renderFile('module/form-routing.yml.twig', $this->getModulePath($module) .'/'. $module.'.routing.yml', $parameters, FILE_APPEND);
     }
   }
 }
