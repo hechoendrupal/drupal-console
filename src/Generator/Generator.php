@@ -81,6 +81,11 @@ class Generator
     return $this->getModulePath($module_name).'/src/Tests';
   }
 
+  public function getFormPath($module_name)
+  {
+    return $this->getModulePath($module_name).'/src/Form';
+  }
+
   public function getServicesAsParameters()
   {
     $servicesAsParameters = new \Twig_SimpleFunction('servicesAsParameters', function ($services) {
