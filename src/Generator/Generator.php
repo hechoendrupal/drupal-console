@@ -39,7 +39,7 @@ class Generator
       'autoescape'       => false,
     ));
 
-    $twig->addFunction($this->getServiceAsParamater());
+    $twig->addFunction($this->getServicesAsParameters());
     $twig->addFunction($this->getServiceAsParamaterKeys());
     $twig->addFunction($this->getArgumentsFromRoute());
 
@@ -60,7 +60,7 @@ class Generator
     return Utils::camelCaseToUnderscore($camel_case);
   }
 
-  public function getServiceAsParamater()
+  public function getServicesAsParameters()
   {
       $servicesAsParameters = new \Twig_SimpleFunction('servicesAsParameters', function ($services) {
         $parameters = [];
