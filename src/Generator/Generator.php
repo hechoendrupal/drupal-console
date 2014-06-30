@@ -17,6 +17,8 @@ class Generator
 {
   private $skeletonDirs;
 
+  private $module_path;
+
   /**
    * Sets an array of directories to look for templates.
    *
