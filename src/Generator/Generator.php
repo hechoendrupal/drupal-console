@@ -40,7 +40,7 @@ class Generator
     ));
 
     $twig->addFunction($this->getServicesAsParameters());
-    $twig->addFunction($this->getServiceAsParamaterKeys());
+    $twig->addFunction($this->getServicesAsParametersKeys());
     $twig->addFunction($this->getArgumentsFromRoute());
 
     return $twig->render($template, $parameters);
@@ -74,7 +74,7 @@ class Generator
       return $servicesAsParameters;
   }
 
-  public function getServiceAsParamaterKeys()
+  public function getServicesAsParametersKeys()
   {
     $servicesAsParametersKeys = new \Twig_SimpleFunction('servicesAsParametersKeys', function ($services) {
       $parameters = [];
