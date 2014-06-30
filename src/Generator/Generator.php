@@ -19,8 +19,6 @@ class Generator
 
   private $module_path;
 
-  const PLUGIN_BLOCK = 'Block';
-
   /**
    * Sets an array of directories to look for templates.
    *
