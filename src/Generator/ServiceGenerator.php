@@ -18,16 +18,6 @@ class ServiceGenerator extends Generator
   public function generate($module, $service_name, $class_name, $services)
   {
 
-    // set syntax for arguments
-    $args = ', ';
-    $i = 0;
-    foreach ($services as $service) {
-      $args .= $service['short'] . ' $' . $service['machine_name'];
-      if ( ++$i != count($services)) {
-        $args .= ', ';
-      }
-    }
-
     $parameters = [
       'module'   => $module,
       'service_name'     => $service_name,
