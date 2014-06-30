@@ -18,15 +18,6 @@ class PluginBlockGenerator extends Generator
    */
   public function generate($module, $class_name, $plugin_label, $plugin_id, $services)
   {
-    // set syntax for arguments
-    $args = ', ';
-    $i = 0;
-    foreach ($services as $service) {
-      $args .= $service['short'] . ' $' . $service['machine_name'];
-      if ( ++$i != count($services)) {
-        $args .= ', ';
-      }
-    }
 
     $parameters = [
       'module'   => $module,
