@@ -13,7 +13,7 @@ class PluginImageEffectGenerator extends Generator
    * @param  string $module         Module name
    * @param  string $class_name     Plugin Class name
    * @param  string $plugin_label   Plugin label
-   * @param  string $plugin_id      Plugin di
+   * @param  string $plugin_id      Plugin id
    * @param  string $description    Plugin description
    */
   public function generate($module, $class_name, $plugin_label, $plugin_id, $description)
