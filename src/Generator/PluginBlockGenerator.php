@@ -14,23 +14,10 @@ class PluginBlockGenerator extends Generator
    * @param  $class_name
    * @param  $plugin_label
    * @param  $plugin_id
-   * @param  $description
-   * @param  $build_services
+   * @param  $services
    */
   public function generate($module, $class_name, $plugin_label, $plugin_id, $services)
   {
-    $path = DRUPAL_ROOT.'/'.drupal_get_path('module', $module);
-    $path_plugin = $path.'/src/Plugin/Block';
-
-    // set syntax for arguments
-    $args = ', ';
-    $i = 0;
-    foreach ($services as $service) {
-      $args .= $service['short'] . ' $' . $service['machine_name'];
-      if ( ++$i != count($services)) {
-        $args .= ', ';
-      }
-    }
 
     $parameters = [
       'module'   => $module,
@@ -41,14 +28,12 @@ class PluginBlockGenerator extends Generator
       'plugin_label' => $plugin_label,
       'plugin_id' => $plugin_id,
       'services'    => $services,
-      'args'   => $args
     ];
 
     $this->renderFile(
       'module/plugin-block.php.twig',
-      $path_plugin.'/'.$class_name.'.php',
+      $this->getPluginPath($module, 'Block').'/'.$class_name.'.php',
       $parameters
     );
   }
-
 }

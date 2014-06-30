@@ -17,17 +17,6 @@ class ServiceGenerator extends Generator
    */
   public function generate($module, $service_name, $class_name, $services)
   {
-    $module_path = DRUPAL_ROOT . '/' . drupal_get_path('module', $module);
-
-    // set syntax for arguments
-    $args = ', ';
-    $i = 0;
-    foreach ($services as $service) {
-      $args .= $service['short'] . ' $' . $service['machine_name'];
-      if ( ++$i != count($services)) {
-        $args .= ', ';
-      }
-    }
 
     $parameters = [
       'module'   => $module,
@@ -37,20 +26,19 @@ class ServiceGenerator extends Generator
         'underscore' => $this->camelCaseToUnderscore($class_name)
       ],
       'services'    => $services,
-      'args'   => $args,
-      'file_exists' => file_exists($module_path.'/'.$module.'.services.yml'),
+      'file_exists' => file_exists($this->getModulePath($module).'/'.$module.'.services.yml'),
     ];
 
     $this->renderFile(
       'module/services.yml.twig',
-      $module_path.'/'.$module.'.services.yml',
+      $this->getModulePath($module).'/'.$module.'.services.yml',
       $parameters,
       FILE_APPEND
     );
 
     $this->renderFile(
       'module/services.class.php.twig',
-      $module_path.'/src/'. $class_name .'.php',
+      $this->getModulePath($module).'/src/'. $class_name .'.php',
       $parameters
     );
 

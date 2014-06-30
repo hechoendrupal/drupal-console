@@ -11,9 +11,6 @@ class ControllerGenerator extends Generator
 
   public function generate($module, $class_name, $method_name, $route, $test, $services)
   {
-    $path = DRUPAL_ROOT.'/'.drupal_get_path('module', $module);
-
-    $path_controller = $path.'/src/Controller';
 
     $parameters = array(
       'class_name' => $class_name,
@@ -25,13 +22,13 @@ class ControllerGenerator extends Generator
 
     $this->renderFile(
       'module/module.controller.php.twig',
-      $path_controller.'/'.$class_name.'.php',
+      $this->getControllerPath($module).'/'.$class_name.'.php',
       $parameters
     );
 
     $this->renderFile(
       'module/controller-routing.yml.twig',
-      $path.'/'.$module.'.routing.yml',
+      $this->getModulePath($module).'/'.$module.'.routing.yml',
       $parameters,
       FILE_APPEND
     );
@@ -39,10 +36,9 @@ class ControllerGenerator extends Generator
     if ($test) {
       $this->renderFile(
         'module/module.test.twig',
-        $path.'/src/Tests/'.$class_name.'Test.php',
+        $this->getTestPath($module).'/'.$class_name.'Test.php',
         $parameters
       );
     }
   }
-
 }
