@@ -28,7 +28,6 @@ class PluginBlockGenerator extends Generator
       'plugin_label' => $plugin_label,
       'plugin_id' => $plugin_id,
       'services'    => $services,
-      'args'   => $args
     ];
 
     $this->renderFile(
