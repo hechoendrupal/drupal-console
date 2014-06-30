@@ -5,8 +5,6 @@
  */
 namespace Drupal\AppConsole\Generator;
 
-use Drupal\AppConsole\Utils\Utils;
-
 class FormGenerator extends Generator
 {
   /**
@@ -24,7 +22,7 @@ class FormGenerator extends Generator
       'services' => $services,
       'inputs' => $inputs,
       'module_name' => $module,
-      'form_id' => Utils::camelCaseToMachineName($class_name),
+      'form_id' => $this->camelCaseToMachineName($class_name),
     );
 
     $this->renderFile(
