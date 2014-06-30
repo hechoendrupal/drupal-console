@@ -13,13 +13,11 @@ class PluginImageEffectGenerator extends Generator
    * @param  string $module         Module name
    * @param  string $class_name     Plugin Class name
    * @param  string $plugin_label   Plugin label
-   * @param  string $plugin_id      Plugin di
+   * @param  string $plugin_id      Plugin id
    * @param  string $description    Plugin description
    */
   public function generate($module, $class_name, $plugin_label, $plugin_id, $description)
   {
-    $path = DRUPAL_ROOT . '/' . drupal_get_path('module', $module);
-    $path_plugin = $path . '/src/Plugin/ImageEffect';
 
     $parameters = [
       'module'   => $module,
@@ -33,7 +31,7 @@ class PluginImageEffectGenerator extends Generator
 
     $this->renderFile(
       'module/plugin-imageeffect.php.twig',
-      $path_plugin . '/'. $class_name .'.php',
+      $this->getPluginPath($module, 'ImageEffect').'/'.$class_name.'.php',
       $parameters
     );
   }

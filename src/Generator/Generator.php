@@ -17,6 +17,8 @@ class Generator
 {
   private $skeletonDirs;
 
+  private $module_path;
+
   /**
    * Sets an array of directories to look for templates.
    *
@@ -39,8 +41,8 @@ class Generator
       'autoescape'       => false,
     ));
 
-    $twig->addFunction($this->getServiceAsParamater());
-    $twig->addFunction($this->getServiceAsParamaterKeys());
+    $twig->addFunction($this->getServicesAsParameters());
+    $twig->addFunction($this->getServicesAsParametersKeys());
     $twig->addFunction($this->getArgumentsFromRoute());
 
     return $twig->render($template, $parameters);
@@ -60,21 +62,60 @@ class Generator
     return Utils::camelCaseToUnderscore($camel_case);
   }
 
-  public function getServiceAsParamater()
+  public function camelCaseToMachineName($camel_case)
   {
-      $servicesAsParameters = new \Twig_SimpleFunction('servicesAsParameters', function ($services) {
-        $parameters = [];
-        foreach ($services as $service) {
-          $parameters[] = sprintf('%s $%s', $service['short'], $service['machine_name']);
-        }
-
-        return $parameters;
-      });
-
-      return $servicesAsParameters;
+    return Utils::camelCaseToMachineName($camel_case);
   }
 
-  public function getServiceAsParamaterKeys()
+  public function getModulePath($module_name)
+  {
+    if (!$this->module_path) {
+        $this->module_path = DRUPAL_ROOT.'/'.drupal_get_path('module', $module_name);
+    }
+
+    return $this->module_path;
+  }
+
+  public function getControllerPath($module_name)
+  {
+    return $this->getModulePath($module_name).'/src/Controller';
+  }
+
+  public function getTestPath($module_name)
+  {
+    return $this->getModulePath($module_name).'/src/Tests';
+  }
+
+  public function getFormPath($module_name)
+  {
+    return $this->getModulePath($module_name).'/src/Form';
+  }
+
+  public function getPluginPath($module_name, $plugin_type)
+  {
+    return $this->getModulePath($module_name).'/src/Plugin/'.$plugin_type;
+  }
+
+  public function getCommandPath($module_name)
+  {
+    return $this->getModulePath($module_name).'/src/Command';
+  }
+
+  public function getServicesAsParameters()
+  {
+    $servicesAsParameters = new \Twig_SimpleFunction('servicesAsParameters', function ($services) {
+      $parameters = [];
+      foreach ($services as $service) {
+          $parameters[] = sprintf('%s $%s', $service['short'], $service['machine_name']);
+      }
+
+      return $parameters;
+    });
+
+    return $servicesAsParameters;
+  }
+
+  public function getServicesAsParametersKeys()
   {
     $servicesAsParametersKeys = new \Twig_SimpleFunction('servicesAsParametersKeys', function ($services) {
       $parameters = [];
@@ -90,12 +131,11 @@ class Generator
 
   public function getArgumentsFromRoute()
   {
-    $argumentsFromRoute = new \Twig_SimpleFunction('argumentsFromRoute', function ($route){
-      $parameters = [];
-      $parameters = array_filter(explode("/", $route), function($value){
+    $argumentsFromRoute = new \Twig_SimpleFunction('argumentsFromRoute', function ($route) {
+      $parameters = array_filter(explode("/", $route), function ($value) {
         return (strpos($value, "}") > 0) ? : false;
       });
-      $parameters = array_map(function ($value){
+      $parameters = array_map(function ($value) {
         return "$".substr($value, 1, -1);
       }, $parameters);
 
