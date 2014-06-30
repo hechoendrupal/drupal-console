@@ -18,9 +18,6 @@ class PluginBlockGenerator extends Generator
    */
   public function generate($module, $class_name, $plugin_label, $plugin_id, $services)
   {
-    $path = DRUPAL_ROOT.'/'.drupal_get_path('module', $module);
-    $path_plugin = $path.'/src/Plugin/Block';
-
     // set syntax for arguments
     $args = ', ';
     $i = 0;
