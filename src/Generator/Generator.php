@@ -62,18 +62,37 @@ class Generator
     return Utils::camelCaseToUnderscore($camel_case);
   }
 
+  public function getModulePath($module_name)
+  {
+    if (!$this->module_path) {
+        $this->module_path = DRUPAL_ROOT.'/'.drupal_get_path('module', $module_name);
+    }
+
+    return $this->module_path;
+  }
+
+  public function getControllerPath($module_name)
+  {
+    return $this->getModulePath($module_name).'/src/Controller';
+  }
+
+  public function getTestPath($module_name)
+  {
+    return $this->getModulePath($module_name).'/src/Tests';
+  }
+
   public function getServicesAsParameters()
   {
-      $servicesAsParameters = new \Twig_SimpleFunction('servicesAsParameters', function ($services) {
-        $parameters = [];
-        foreach ($services as $service) {
+    $servicesAsParameters = new \Twig_SimpleFunction('servicesAsParameters', function ($services) {
+      $parameters = [];
+      foreach ($services as $service) {
           $parameters[] = sprintf('%s $%s', $service['short'], $service['machine_name']);
-        }
+      }
 
-        return $parameters;
-      });
+      return $parameters;
+    });
 
-      return $servicesAsParameters;
+    return $servicesAsParameters;
   }
 
   public function getServicesAsParametersKeys()
@@ -92,11 +111,11 @@ class Generator
 
   public function getArgumentsFromRoute()
   {
-    $argumentsFromRoute = new \Twig_SimpleFunction('argumentsFromRoute', function ($route){
-      $parameters = array_filter(explode("/", $route), function($value){
+    $argumentsFromRoute = new \Twig_SimpleFunction('argumentsFromRoute', function ($route) {
+      $parameters = array_filter(explode("/", $route), function ($value) {
         return (strpos($value, "}") > 0) ? : false;
       });
-      $parameters = array_map(function ($value){
+      $parameters = array_map(function ($value) {
         return "$".substr($value, 1, -1);
       }, $parameters);
 
