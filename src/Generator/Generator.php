@@ -62,6 +62,11 @@ class Generator
     return Utils::camelCaseToUnderscore($camel_case);
   }
 
+  public function camelCaseToMachineName($camel_case)
+  {
+    return Utils::camelCaseToMachineName($camel_case);
+  }
+
   public function getModulePath($module_name)
   {
     if (!$this->module_path) {
