@@ -31,7 +31,7 @@ class PluginImageEffectGenerator extends Generator
 
     $this->renderFile(
       'module/plugin-imageeffect.php.twig',
-      $path_plugin . '/'. $class_name .'.php',
+      $this->getPluginPath($module, 'ImageEffect').'/'.$class_name.'.php',
       $parameters
     );
   }
