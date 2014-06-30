@@ -18,9 +18,6 @@ class FormGenerator extends Generator
    */
   public function generate($module, $class_name, $services, $inputs, $update_routing)
   {
-    $path = DRUPAL_ROOT . '/' . drupal_get_path('module', $module);
-
-    $path_form = $path . '/src/Form';
 
     $parameters = array(
       'class_name' => $class_name,
