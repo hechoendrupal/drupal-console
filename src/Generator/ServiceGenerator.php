@@ -17,7 +17,6 @@ class ServiceGenerator extends Generator
    */
   public function generate($module, $service_name, $class_name, $services)
   {
-    $module_path = DRUPAL_ROOT . '/' . drupal_get_path('module', $module);
 
     // set syntax for arguments
     $args = ', ';
