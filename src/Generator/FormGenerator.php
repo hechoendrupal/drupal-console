@@ -29,7 +29,7 @@ class FormGenerator extends Generator
 
     $this->renderFile(
       'module/module.form.php.twig',
-      $path_form . '/'. $class_name .'.php',
+      $this->getFormPath($module).'/'.$class_name.'.php',
       $parameters
     );
 
