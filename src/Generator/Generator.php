@@ -19,6 +19,8 @@ class Generator
 
   private $module_path;
 
+  const PLUGIN_BLOCK = 'Block';
+
   /**
    * Sets an array of directories to look for templates.
    *
@@ -89,6 +91,11 @@ class Generator
   public function getFormPath($module_name)
   {
     return $this->getModulePath($module_name).'/src/Form';
+  }
+
+  public function getPluginPath($module_name)
+  {
+    return $this->getModulePath($module_name).'/src/Plugin';
   }
 
   public function getServicesAsParameters()
