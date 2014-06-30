@@ -17,8 +17,6 @@ class CommandGenerator extends Generator
    */
   public function generate($module, $command, $class_name, $container)
   {
-    $path = DRUPAL_ROOT . '/' . drupal_get_path('module', $module);
-    $path_plugin = $path . '/src/Command';
 
     $parameters = [
       'module_name' => $module,
