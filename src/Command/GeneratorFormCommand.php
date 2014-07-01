@@ -81,13 +81,13 @@ class GeneratorFormCommand extends GeneratorCommand
     // --class-name option
     $class_name = $input->getOption('class-name');
     if (!$class_name) {
-      $name = $dialog->ask(
+      $class_name = $dialog->ask(
         $output,
         $dialog->getQuestion('Enter the form name', 'DefaultForm'),
         'DefaultForm'
       );
     }
-    $input->setOption('class-name', $name);
+    $input->setOption('class-name', $class_name);
 
     // --form-id option
     $form_id = $input->getOption('form-id');
