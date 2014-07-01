@@ -12,17 +12,17 @@ class FormGenerator extends Generator
    * @param  $class_name
    * @param  $services
    * @param  $inputs
+   * @param  $form_id
    * @param  $update_routing
    */
-  public function generate($module, $class_name, $services, $inputs, $update_routing)
+  public function generate($module, $class_name, $services, $inputs, $update_routing, $form_id)
   {
-
     $parameters = array(
       'class_name' => $class_name,
       'services' => $services,
       'inputs' => $inputs,
       'module_name' => $module,
-      'form_id' => $this->camelCaseToMachineName($class_name),
+      'form_id' => $form_id
     );
 
     $this->renderFile(
