@@ -7,7 +7,7 @@
 
 namespace Drupal\AppConsole\Utils;
 
-class Utils
+class StringUtils
 {
 
   // This REGEX captures all uppercase letters after the first character
