@@ -86,7 +86,7 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
     }
     $input->setOption('class-name', $class_name);
 
-    $machine_name = Utils::camelCaseToUnderscore($class_name);
+    $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
 
     // --plugin-label option
     $plugin_label = $input->getOption('plugin-label');
