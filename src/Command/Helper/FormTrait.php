@@ -6,8 +6,6 @@
 
 namespace Drupal\AppConsole\Command\Helper;
 
-use Drupal\AppConsole\Utils\Utils;
-
 trait FormTrait
 {
   /**
