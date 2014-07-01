@@ -1,17 +1,25 @@
 <?php
 namespace Drupal\AppConsole\Test\Utils;
 
-use \Drupal\AppConsole\Utils\Utils;
+use \Drupal\AppConsole\Utils\StringUtils;
 
-class UtilsTest extends \PHPUnit_Framework_TestCase
+class StringUtilsTest extends \PHPUnit_Framework_TestCase
 {
+
+  /* @var StringUtils */
+  protected $stringUtil;
+
+  protected function setUp()
+  {
+    $this->stringUtil = new StringUtils();
+  }
 
   /**
    * @dataProvider getDataNames
    */
   public function testCreateMachineName($input, $machine_name)
   {
-     $this->assertEquals(Utils::createMachineName($input), $machine_name);
+     $this->assertEquals($this->stringUtil->createMachineName($input), $machine_name);
   }
 
   /**
@@ -19,7 +27,7 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
    */
   public function testCamelCaseToMachineName($camel_case, $machine_name)
   {
-     $this->assertEquals(Utils::camelCaseToMachineName($camel_case), $machine_name);
+     $this->assertEquals($this->stringUtil->camelCaseToMachineName($camel_case), $machine_name);
   }
 
   /**

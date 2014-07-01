@@ -11,8 +11,6 @@
 
 namespace Drupal\AppConsole\Generator;
 
-use Drupal\AppConsole\Utils\Utils;
-
 class Generator
 {
   private $skeletonDirs;
@@ -55,16 +53,6 @@ class Generator
     }
 
     return file_put_contents($target, $this->render($template, $parameters), $flag);
-  }
-
-  public function camelCaseToUnderscore($camel_case)
-  {
-    return Utils::camelCaseToUnderscore($camel_case);
-  }
-
-  public function camelCaseToMachineName($camel_case)
-  {
-    return Utils::camelCaseToMachineName($camel_case);
   }
 
   public function getModulePath($module_name)
@@ -132,12 +120,12 @@ class Generator
   public function getArgumentsFromRoute()
   {
     $argumentsFromRoute = new \Twig_SimpleFunction('argumentsFromRoute', function ($route) {
-      $parameters = array_filter(explode("/", $route), function ($value) {
-        return (strpos($value, "}") > 0) ? : false;
-      });
+
+      preg_match_all('/{(.*?)}/', $route, $parameters);
+
       $parameters = array_map(function ($value) {
-        return "$".substr($value, 1, -1);
-      }, $parameters);
+        return "$".$value;
+      }, $parameters[1]);
 
       return $parameters;
     });

@@ -21,9 +21,7 @@ class PluginImageEffectGenerator extends Generator
 
     $parameters = [
       'module'   => $module,
-      'class'     => [
-        'name'      => $class_name,
-      ],
+      'class_name' => $class_name,
       'plugin_label' => $plugin_label,
       'plugin_id' => $plugin_id,
       'description' => $description,

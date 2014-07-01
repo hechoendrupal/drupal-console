@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \Drupal\{{module}}\{{ name.class }}.
+ * Contains \Drupal\{{module}}\{{ class_name }}.
  */
 
 namespace Drupal\{{module}};
@@ -10,7 +10,7 @@ namespace Drupal\{{module}};
 {{ include ('skeleton/module/shared/services-use-operator.php.twig', {useContainerInterface: false}) }}
 {% endif %}
 
-class {{ name.class }}
+class {{ class_name }}
 {
 
 {% if services is not empty %}

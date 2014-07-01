@@ -88,6 +88,12 @@ class KernelHelper extends Helper
       'console.validators',
       new \Drupal\AppConsole\Utils\Validators()
     );
+
+    // Register StringUtils Service manually
+    $container->set(
+      'console.string_utils',
+      new \Drupal\AppConsole\Utils\StringUtils()
+    );
   }
 
   /**

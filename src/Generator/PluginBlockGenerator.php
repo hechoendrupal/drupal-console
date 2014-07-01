@@ -21,10 +21,7 @@ class PluginBlockGenerator extends Generator
 
     $parameters = [
       'module'   => $module,
-      'class'     => [
-        'name'      => $class_name,
-        'underscore' => $this->camelCaseToUnderscore($class_name)
-      ],
+      'class_name' => $class_name,
       'plugin_label' => $plugin_label,
       'plugin_id' => $plugin_id,
       'services'    => $services,
