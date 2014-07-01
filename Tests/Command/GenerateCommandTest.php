@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Console\Helper\HelperSet;
 use Drupal\AppConsole\Command\Helper\DialogHelper;
 use Drupal\AppConsole\Utils\Validators;
+use Drupal\AppConsole\Utils\StringUtils;
 
 abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
 {
