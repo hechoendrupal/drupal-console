@@ -9,7 +9,6 @@ namespace Drupal\AppConsole\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\AppConsole\Utils\Utils;
 use Drupal\AppConsole\Generator\PluginBlockGenerator;
 use Drupal\AppConsole\Command\Helper\ServicesTrait;
 use Drupal\AppConsole\Command\Helper\ModuleTrait;
