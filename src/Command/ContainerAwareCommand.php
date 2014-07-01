@@ -71,7 +71,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
   }
 
   /**
-   * @return \Drupal\AppConsole\Command\Validators
+   * @return \Drupal\AppConsole\Utils\Validators
    */
   public function getValidator()
   {
