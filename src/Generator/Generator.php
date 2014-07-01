@@ -120,12 +120,12 @@ class Generator
   public function getArgumentsFromRoute()
   {
     $argumentsFromRoute = new \Twig_SimpleFunction('argumentsFromRoute', function ($route) {
-      $parameters = array_filter(explode("/", $route), function ($value) {
-        return (strpos($value, "}") > 0) ? : false;
-      });
+
+      preg_match_all('/{(.*?)}/', $route, $parameters);
+
       $parameters = array_map(function ($value) {
-        return "$".substr($value, 1, -1);
-      }, $parameters);
+        return "$".$value;
+      }, $parameters[1]);
 
       return $parameters;
     });
