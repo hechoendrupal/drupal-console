@@ -20,11 +20,8 @@ class ServiceGenerator extends Generator
 
     $parameters = [
       'module'   => $module,
-      'service_name'     => $service_name,
-      'name'     => [
-        'class'      => $class_name,
-        'underscore' => $this->camelCaseToUnderscore($class_name)
-      ],
+      'service_name' => $service_name,
+      'class_name' => $class_name,
       'services'    => $services,
       'file_exists' => file_exists($this->getModulePath($module).'/'.$module.'.services.yml'),
     ];
@@ -43,5 +40,4 @@ class ServiceGenerator extends Generator
     );
 
   }
-
 }
