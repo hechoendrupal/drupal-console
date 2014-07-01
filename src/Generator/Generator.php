@@ -11,8 +11,6 @@
 
 namespace Drupal\AppConsole\Generator;
 
-use Drupal\AppConsole\Utils\Utils;
-
 class Generator
 {
   private $skeletonDirs;
