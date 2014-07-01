@@ -55,16 +55,6 @@ class Generator
     return file_put_contents($target, $this->render($template, $parameters), $flag);
   }
 
-  public function camelCaseToUnderscore($camel_case)
-  {
-    return Utils::camelCaseToUnderscore($camel_case);
-  }
-
-  public function camelCaseToMachineName($camel_case)
-  {
-    return Utils::camelCaseToMachineName($camel_case);
-  }
-
   public function getModulePath($module_name)
   {
     if (!$this->module_path) {
