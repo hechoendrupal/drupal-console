@@ -19,6 +19,7 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
     $container = new Container();
     $container->set('twig', new \Twig_Environment());
     $container->set('console.validators', new Validators());
+    $container->set('console.string_utils', new StringUtils());
 
     return $container;
   }
