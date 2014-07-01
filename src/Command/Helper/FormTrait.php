@@ -6,8 +6,6 @@
 
 namespace Drupal\AppConsole\Command\Helper;
 
-use Drupal\AppConsole\Utils\Utils;
-
 trait FormTrait
 {
   /**
@@ -48,7 +46,7 @@ trait FormTrait
         }
 
         // Machine name
-        $input_machine_name = Utils::createMachineName($input_label);
+        $input_machine_name = $this->getStringUtils()->createMachineName($input_label);
 
         $input_name = $dialog->ask(
           $output,

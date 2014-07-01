@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Generator\PluginImageEffectGenerator;
 use Drupal\AppConsole\Command\Helper\ModuleTrait;
-use Drupal\AppConsole\Utils\Utils;
 
 class GeneratorPluginImageEffectCommand extends GeneratorCommand
 {
@@ -82,7 +81,7 @@ class GeneratorPluginImageEffectCommand extends GeneratorCommand
     }
     $input->setOption('class-name', $class_name);
 
-    $machine_name = Utils::camelCaseToUnderscore($class_name);
+    $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
 
     // --plugin label option
     $plugin_label = $input->getOption('plugin-label');

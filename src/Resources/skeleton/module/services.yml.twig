@@ -3,6 +3,6 @@
 services:
 {% endif %}
   {{ service_name | lower }}:
-    class: Drupal\{{module}}\{{ name.class }}
+    class: Drupal\{{module}}\{{ class_name }}
     arguments: [{{ servicesAsParametersKeys(services)|join(', ') }}]
 {% endif %}

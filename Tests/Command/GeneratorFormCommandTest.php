@@ -15,13 +15,13 @@ class GeneratorFormCommandTest extends GenerateCommandTest
    */
   public function testInteractive($options, $expected, $input)
   {
-    list($module, $class_name, $services, $inputs, $routing_update) = $expected;
+    list($module, $class_name, $form_id, $services, $inputs, $routing_update) = $expected;
 
     $generator = $this->getGenerator();
     $generator
       ->expects($this->once())
       ->method('generate')
-      ->with($module, $class_name, $services, $inputs, $routing_update)
+      ->with($module, $class_name, $form_id, $services, $inputs, $routing_update)
     ;
 
     $command = $this->getCommand($generator,$input);
@@ -54,18 +54,18 @@ class GeneratorFormCommandTest extends GenerateCommandTest
         // Inline options
         [],
         // Expected options
-        ['foo', 'DefaultForm', $services, $inputs, true],
+        ['foo', 'DefaultForm', 'default_form' , $services, $inputs, true],
         // User input options
-        "foo\nDefaultForm\nyes\ntwig\n\nyes\nBar\nbar\ntextfield\n",
+        "foo\nDefaultForm\ndefault_form\nyes\ntwig\n\nyes\nBar\nbar\ntextfield\n",
       ],
       // case two
       [
         // Inline options
         ['--module'=>'foo'],
         // Expected options
-        ['foo', 'DefaultForm', null, null, true],
+        ['foo', 'DefaultForm', 'default_form', null, null, true],
         // User input options
-        "DefaultForm\nno\nno\n",
+        "DefaultForm\ndefault_form\nno\nno\n",
       ],
     ];
   }
