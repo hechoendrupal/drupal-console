@@ -10,6 +10,10 @@ namespace Drupal\AppConsole\Utils;
 class StringUtils
 {
 
+  public function __construct()
+  {
+  }
+
   // This REGEX captures all uppercase letters after the first character
   const REGEX_UPPER_CASE_LETTERS = '/(?<=\\w)(?=[A-Z])/';
   // This REGEX captures non alphanumeric characters and non underscores
