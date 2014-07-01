@@ -27,6 +27,7 @@ class GeneratorFormCommand extends GeneratorCommand
       ->setDefinition(array(
         new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
         new InputOption('class-name','',InputOption::VALUE_OPTIONAL, 'Form name'),
+        new InputOption('form-id','',InputOption::VALUE_OPTIONAL, 'Form id'),
         new InputOption('services','',InputOption::VALUE_OPTIONAL, 'Load services'),
         new InputOption('inputs','',InputOption::VALUE_OPTIONAL, 'Create a inputs in a form'),
         new InputOption('routing', '', InputOption::VALUE_NONE, 'Update routing'),
@@ -47,6 +48,7 @@ class GeneratorFormCommand extends GeneratorCommand
     $services = $input->getOption('services');
     $update_routing = $input->getOption('routing');
     $class_name = $input->getOption('class-name');
+    $form_id = $input->getOption('form-id');
 
     // if exist form generate config file
     $inputs = $input->getOption('inputs');
@@ -54,7 +56,7 @@ class GeneratorFormCommand extends GeneratorCommand
 
     $this
       ->getGenerator()
-      ->generate($module, $class_name, $build_services, $inputs, $update_routing);
+      ->generate($module, $class_name, $build_services, $inputs, $update_routing, $form_id);
 
     $errors = '';
     $dialog->writeGeneratorSummary($output, $errors);
@@ -86,6 +88,18 @@ class GeneratorFormCommand extends GeneratorCommand
       );
     }
     $input->setOption('class-name', $name);
+
+    // --form-id option
+    $form_id = $input->getOption('form-id');
+    if (!$form_id) {
+      $form_id = $this->getStringUtils()->camelCaseToMachineName($class_name);
+      $form_id = $dialog->ask(
+        $output,
+        $dialog->getQuestion('Enter the form id', $form_id),
+        $form_id
+      );
+    }
+    $input->setOption('form-id', $form_id);
 
     // --services option
     // @see use Drupal\AppConsole\Command\Helper\ServicesTrait::servicesQuestion
