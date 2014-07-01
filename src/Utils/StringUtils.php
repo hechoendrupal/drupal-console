@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Utils\Utils
+ * Contains \Drupal\AppConsole\Utils\StringUtils
  * Utility functions
  */
 
