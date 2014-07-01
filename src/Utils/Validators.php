@@ -1,10 +1,10 @@
 <?php
 /**
  *@file
- * Contains \Drupal\AppConsole\Command\Validators.
+ * Contains \Drupal\AppConsole\Utils\Validators.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\AppConsole\Utils;
 
 class Validators
 {
@@ -38,7 +38,7 @@ class Validators
    * Validate if module name exist
    * @param  string $module  Module name
    * @param  array  $modules List of modules
-   * @return string          Module name
+   * @return string
    */
   public function validateModuleExist($module, $modules)
   {
