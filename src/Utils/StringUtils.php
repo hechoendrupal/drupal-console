@@ -26,7 +26,7 @@ class StringUtils
    * @param String  $name         User input
    * @return String $machine_name User input in machine-name format
    */
-  public static function createMachineName($name)
+  public function createMachineName($name)
   {
     $machine_name = preg_replace(self::REGEX_MACHINE_NAME_CHARS,'_',strtolower($name));
     $machine_name = trim($machine_name, '_');
@@ -39,7 +39,7 @@ class StringUtils
    *  @param  String $name          User input
    *  @return String $machine_name  User input in machine-name format
    */
-  public static function camelCaseToMachineName($name)
+  public function camelCaseToMachineName($name)
   {
     $machine_name = preg_replace(self::REGEX_UPPER_CASE_LETTERS,"_$1", $name);
     $machine_name = preg_replace(self::REGEX_MACHINE_NAME_CHARS,'_',strtolower($machine_name));
@@ -53,7 +53,7 @@ class StringUtils
    *  @param  String $camel_case  User input
    *  @return String
    */
-  public static function camelCaseToUnderscore($camel_case)
+  public function camelCaseToUnderscore($camel_case)
   {
     return strtolower(preg_replace(self::REGEX_CAMEL_CASE_UNDER, '$1_$2', $camel_case));
   }
