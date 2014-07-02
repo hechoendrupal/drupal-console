@@ -110,14 +110,14 @@ class GeneratorControllerCommand extends GeneratorCommand
       if (!$route) {
         $route = $dialog->ask(
           $output,
-          $dialog->getQuestion('Enter the route path', $method_name.'/index'),
-          $method_name.'/index'
+          $dialog->getQuestion('Enter the route path', $module.'/'.$method_name),
+          $module.'/'.$method_name
         );
       }
     }
     else{
       $method_name = 'hello';
-      $route = '/hello/{name}';
+      $route = $module.'/hello/{name}';
     }
     $input->setOption('method-name', $method_name);
     $input->setOption('route', $route);
