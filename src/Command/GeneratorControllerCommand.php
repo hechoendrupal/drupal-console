@@ -58,8 +58,11 @@ class GeneratorControllerCommand extends GeneratorCommand
     // @see use Drupal\AppConsole\Command\Helper\ServicesTrait::buildServices
     $build_services = $this->buildServices($services);
 
+    //Controller machine name
+    $class_machine_name = $this->getStringUtils()->camelCaseToMachineName($class_name);
+
     $this->getGenerator()
-      ->generate($module, $class_name, $method_name, $route, $test, $build_services);
+      ->generate($module, $class_name, $method_name, $route, $test, $build_services, $class_machine_name);
 
     $errors = '';
     $dialog->writeGeneratorSummary($output, $errors);
