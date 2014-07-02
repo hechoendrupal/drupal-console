@@ -1,5 +1,5 @@
 {% if class_name is defined %}
-{{ module }}.{{ method_name }}:
+{{ module }}.{{ class_machine_name }}_{{ method_name }}:
   path: '{{ route }}'
   defaults:
     _content: '\Drupal\{{ module }}\Controller\{{ class_name }}::{{ method_name }}'
