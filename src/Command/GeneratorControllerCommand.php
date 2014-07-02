@@ -58,8 +58,11 @@ class GeneratorControllerCommand extends GeneratorCommand
     // @see use Drupal\AppConsole\Command\Helper\ServicesTrait::buildServices
     $build_services = $this->buildServices($services);
 
+    //Controller machine name
+    $class_machine_name = $this->getStringUtils()->camelCaseToMachineName($class_name);
+
     $this->getGenerator()
-      ->generate($module, $class_name, $method_name, $route, $test, $build_services);
+      ->generate($module, $class_name, $method_name, $route, $test, $build_services, $class_machine_name);
 
     $errors = '';
     $dialog->writeGeneratorSummary($output, $errors);
@@ -107,14 +110,14 @@ class GeneratorControllerCommand extends GeneratorCommand
       if (!$route) {
         $route = $dialog->ask(
           $output,
-          $dialog->getQuestion('Enter the route path', $method_name.'/index'),
-          $method_name.'/index'
+          $dialog->getQuestion('Enter the route path', $module.'/'.$method_name),
+          $module.'/'.$method_name
         );
       }
     }
     else{
       $method_name = 'hello';
-      $route = '/hello/{name}';
+      $route = $module.'/hello/{name}';
     }
     $input->setOption('method-name', $method_name);
     $input->setOption('route', $route);
