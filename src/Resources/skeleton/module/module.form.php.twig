@@ -40,7 +40,7 @@ class {{ class_name }} extends ConfigFormBase
    */
   public function getFormID()
   {
-    return '{{form_id}}_form';
+    return '{{form_id}}';
   }
 
   /**
@@ -48,7 +48,7 @@ class {{ class_name }} extends ConfigFormBase
    */
   public function buildForm(array $form, array &$form_state)
   {
-    $config = $this->config('{{module_name}}.{{ class_name | lower }}_config');
+    $config = $this->config('{{module_name}}.{{form_id}}_config');
   {% for input in inputs %}
   $form['{{ input.name }}'] = [
       '#type' => '{{ input.type }}',
@@ -75,7 +75,7 @@ class {{ class_name }} extends ConfigFormBase
   {
     parent::submitForm($form, $form_state);
 
-    $this->config('{{module_name}}.{{ class_name | lower }}_config')
+    $this->config('{{module_name}}.{{form_id}}_config')
     {% for input in inputs %}
       ->set('{{ input.name }}', $form_state['values']['{{ input.name }}'])
     {% endfor %}
