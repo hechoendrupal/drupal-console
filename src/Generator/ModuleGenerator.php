@@ -67,11 +67,20 @@ class ModuleGenerator extends Generator
     }
 
     if ($controller) {
-      $name = 'DefaultController';
-      $parameters['name'] = $name;
+      $class_name = 'DefaultController';
+      //Controller machine name
+      $class_machine_name = 'default_controller';
+      $parameters = array(
+        'class_name' => $class_name,
+        // 'services' => $services,
+        'module' => $module,
+        'method_name' => 'defaultPage',
+        'class_machine_name' => $class_machine_name,
+        'route' => $module . '/default-page',
+      );
       $this->renderFile(
           'module/module.controller.php.twig',
-          $dir.'/src/Controller/'.$name.'.php',
+          $dir. '/src/Controller/'.$class_name.'.php',
           $parameters
       );
 
@@ -88,12 +97,18 @@ class ModuleGenerator extends Generator
 
     if ($structure) {
       drupal_mkdir($dir.'/templates');
-      drupal_mkdir($dir.'/src');
-      drupal_mkdir($dir.'/src/Controller');
+      if (!file_exists($dir.'/src')) {
+        drupal_mkdir($dir.'/src');
+      }
+      if (!file_exists($dir.'/src/Controller')) {
+        drupal_mkdir($dir.'/src/Controller');
+      }
       drupal_mkdir($dir.'/src/Form');
       drupal_mkdir($dir.'/src/Plugin');
       drupal_mkdir($dir.'/src/Plugin/Block');
-      drupal_mkdir($dir.'/src/Tests');
+      if (!file_exists($dir.'/src/Tests')) {
+        drupal_mkdir($dir.'/src/Tests');
+      }
     }
   }
 }
