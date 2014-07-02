@@ -92,12 +92,12 @@ class Generator
   public function getServicesAsParameters()
   {
     $servicesAsParameters = new \Twig_SimpleFunction('servicesAsParameters', function ($services) {
-      $parameters = [];
+      $returnValues = [];
       foreach ($services as $service) {
-          $parameters[] = sprintf('%s $%s', $service['short'], $service['machine_name']);
+        $returnValues[] = sprintf('%s $%s', $service['short'], $service['machine_name']);
       }
 
-      return $parameters;
+      return $returnValues;
     });
 
     return $servicesAsParameters;
@@ -106,12 +106,12 @@ class Generator
   public function getServicesAsParametersKeys()
   {
     $servicesAsParametersKeys = new \Twig_SimpleFunction('servicesAsParametersKeys', function ($services) {
-      $parameters = [];
+      $returnValues = [];
       foreach ($services as $service) {
-        $parameters[] = sprintf('"@%s"', $service['name']);
+        $returnValues[] = sprintf('"@%s"', $service['name']);
       }
 
-      return $parameters;
+      return $returnValues;
     });
 
     return $servicesAsParametersKeys;
@@ -121,13 +121,13 @@ class Generator
   {
     $argumentsFromRoute = new \Twig_SimpleFunction('argumentsFromRoute', function ($route) {
 
-      preg_match_all('/{(.*?)}/', $route, $parameters);
+      preg_match_all('/{(.*?)}/', $route, $returnValues);
 
-      $parameters = array_map(function ($value) {
-        return "$".$value;
-      }, $parameters[1]);
+      $returnValues = array_map(function ($value) {
+        return sprintf('$%s', $value);
+      }, $returnValues[1]);
 
-      return $parameters;
+      return $returnValues;
     });
 
     return $argumentsFromRoute;
