@@ -17,6 +17,7 @@ class ControllerGenerator extends Generator
       'services' => $services,
       'module' => $module,
       'method_name' => $method_name,
+      'class_machine_name' => $class_machine_name,
       'route' => $route,
     );
 
