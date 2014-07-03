@@ -71,12 +71,11 @@ class ModuleGenerator extends Generator
 
     if ($controller) {
       $class_name = 'DefaultController';
-      $class_machine_name = 'default_controller';
       $parameters = array(
         'class_name' => $class_name,
         'module' => $module,
         'method_name' => 'hello',
-        'class_machine_name' => $class_machine_name,
+        'class_machine_name' => 'default_controller',
         'route' => $module . '/hello/{name}',
       );
       $this->renderFile(
