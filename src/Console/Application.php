@@ -115,4 +115,9 @@ class Application extends BaseApplication
     $rc = $this->getHelperSet()->get('register_commands');
     $rc->register();
   }
+
+  public function getKernel()
+  {
+    return $this->getHelperSet()->get('kernel')->getKernel();
+  }
 }
