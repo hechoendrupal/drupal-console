@@ -107,7 +107,7 @@ class GeneratorServiceCommand extends GeneratorCommand
     $services = $input->getOption('services');
     if (!$services) {
       // @see Drupal\AppConsole\Command\Helper\ServicesTrait::servicesQuestion
-      $services = $this->servicesQuestion($input, $output, $dialog);
+      $services = $this->servicesQuestion($output, $dialog);
     }
     $input->setOption('services', $services);
   }
