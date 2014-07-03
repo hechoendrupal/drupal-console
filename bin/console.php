@@ -20,6 +20,7 @@ use Drupal\AppConsole\Command\GeneratorPluginImageEffectCommand;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Console\Helper\TableHelper;
 
 set_time_limit(0);
 
