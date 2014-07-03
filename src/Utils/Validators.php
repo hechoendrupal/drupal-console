@@ -13,7 +13,6 @@ class Validators
   {
   }
 
-  // TODO: validate module name
   public function validateModuleName($module)
   {
     if (!empty($module))

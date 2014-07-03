@@ -55,7 +55,6 @@ trait FormTrait
         );
 
         // Type input
-        // TODO: validate
         $input_type = $dialog->askAndValidate(
           $output,
           $dialog->getQuestion('  Type', 'textfield',':'),
