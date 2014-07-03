@@ -97,18 +97,10 @@ class ModuleGenerator extends Generator
     }
 
     if ($structure) {
-      drupal_mkdir($dir.'/templates');
-      if (!file_exists($dir.'/src')) {
-        drupal_mkdir($dir.'/src');
-      }
-      if (!file_exists($dir.'/src/Controller')) {
-        drupal_mkdir($dir.'/src/Controller');
-      }
-      drupal_mkdir($dir.'/src/Form');
-      drupal_mkdir($dir.'/src/Plugin');
-      drupal_mkdir($dir.'/src/Plugin/Block');
-      if (!file_exists($dir.'/src/Tests')) {
-        drupal_mkdir($dir.'/src/Tests');
+      foreach ($this->defaultDirectoryStructure as $directory) {
+        if (!file_exists($dir.'/'.$directory)) {
+          drupal_mkdir($dir.'/'.$directory);
+        }
       }
     }
   }
