@@ -15,7 +15,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
   private $services;
 
-  private $routes;
+  private $route_provider;
 
   /**
    * @return ContainerInterface
