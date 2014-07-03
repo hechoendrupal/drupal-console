@@ -68,15 +68,13 @@ class ModuleGenerator extends Generator
 
     if ($controller) {
       $class_name = 'DefaultController';
-      //Controller machine name
       $class_machine_name = 'default_controller';
       $parameters = array(
         'class_name' => $class_name,
-        // 'services' => $services,
         'module' => $module,
-        'method_name' => 'defaultPage',
+        'method_name' => 'hello',
         'class_machine_name' => $class_machine_name,
-        'route' => $module . '/default-page',
+        'route' => $module . '/hello/{name}',
       );
       $this->renderFile(
           'module/module.controller.php.twig',
