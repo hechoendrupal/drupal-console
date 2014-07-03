@@ -15,6 +15,8 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
   private $services;
 
+  private $routes;
+
   /**
    * @return ContainerInterface
    */
@@ -68,6 +70,17 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     }
 
     return $this->services;
+  }
+
+  public function getRoutes()
+  {
+    if (null === $this->routes) {
+      $this->routes = [];
+      $routeProvider = $this->getContainer()->get('router.route_provider');
+      $this->routes  = $routeProvider->getAllRoutes();
+    }
+
+    return $this->routes;
   }
 
   /**
