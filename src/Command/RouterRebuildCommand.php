@@ -16,7 +16,7 @@ class RouterRebuildCommand extends ContainerAwareCommand
   {
     $this
       ->setName('router:rebuild')
-      ->setDescription('Displays current routes for an application')
+      ->setDescription('Rebuild routes')
     ;
   }
 
