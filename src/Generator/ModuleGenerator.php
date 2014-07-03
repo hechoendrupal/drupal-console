@@ -8,6 +8,9 @@ namespace Drupal\AppConsole\Generator;
 
 class ModuleGenerator extends Generator
 {
+
+  private $defaultDirectoryStructure = ['src', 'src/Controller', 'src/Form', 'src/Plugin', 'src/Tests', 'templates' ];
+
   public function generate($module, $dir, $description, $core, $package, $controller, $tests, $setting, $structure, $skip_root)
   {
     $dir .= '/' . $module;
