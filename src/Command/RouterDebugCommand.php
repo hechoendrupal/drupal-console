@@ -24,8 +24,7 @@ class RouterDebugCommand extends ContainerAwareCommand
 
   protected function execute(InputInterface $input, OutputInterface $output)
   {
-    $routeProvider = $this->getContainer()->get('router.route_provider');
-    $routes = $routeProvider->getAllRoutes();
+    $routes = $this->getRoutes();
 
     $table = $this->getHelperSet()->get('table');
     $table->setHeaders(['Name', 'Path']);
