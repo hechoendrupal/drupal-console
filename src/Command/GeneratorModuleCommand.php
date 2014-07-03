@@ -81,7 +81,7 @@ class GeneratorModuleCommand extends GeneratorCommand
     $dialog->writeSection($output, 'Welcome to the Drupal module generator');
 
     try {
-      $namespace = $input->getOption('module') ? $this->validateModuleName($input->getOption('module')) : null;
+      $module = $input->getOption('module') ? $this->validateModuleName($input->getOption('module')) : null;
     } catch (\Exception $error) {
       $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
     }
