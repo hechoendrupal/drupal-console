@@ -67,7 +67,7 @@ class GeneratorModuleCommand extends GeneratorCommand
 
     $errors = [];
 
-    $runner = $dialog->getRunner($output, $errors);
+    $dialog->getRunner($output, $errors);
 
     $dialog->writeGeneratorSummary($output, $errors);
   }
