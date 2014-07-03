@@ -86,7 +86,6 @@ class GeneratorModuleCommand extends GeneratorCommand
       $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
     }
 
-    $module = $input->getOption('module');
     if (!$module) {
       $module = $dialog->askAndValidate(
         $output,
