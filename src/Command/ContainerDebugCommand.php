@@ -25,7 +25,7 @@ class ContainerDebugCommand extends ContainerAwareCommand
   protected function execute(InputInterface $input, OutputInterface $output)
   {
     // skip services
-    // service declaration at core/core.services.yml arguments are not properly set
+    // service declaration at core/core.services.yml file, arguments are not properly set, must be
     // arguments: ['@controller_resolver', '@entity.manager', '@form_builder', NULL]
     $skip[] = 'controller.entityform';
     // scope: request declaration make it fails on container->get($id)
