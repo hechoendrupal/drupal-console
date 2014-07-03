@@ -55,7 +55,6 @@ class RouterDebugCommand extends ContainerAwareCommand
     $table->setHeaders(['Route name', 'Options']);
     $table->setlayout($table::LAYOUT_COMPACT);
 
-    $rows = [];
     foreach ($routes as $name => $route) {
       $table->addRow(['<info>'.$name.'</info>']);
       $table->addRow([' <comment>+ Pattern</comment>', $route->getPath()]);
