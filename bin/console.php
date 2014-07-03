@@ -35,6 +35,7 @@ $application->setHelperSet(new HelperSet(array(
   'formatter' => new FormatterHelper(),
   'drupal_common' => new DrupalCommonHelper(),
   'register_commands' => new RegisterCommandsHelper($application),
+  'table' => new TableHelper(),
 )));
 
 $application->addCommands([
