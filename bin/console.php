@@ -21,7 +21,8 @@ use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Console\Helper\TableHelper;
-use \Drupal\AppConsole\Command\ContainerDebugCommand;
+use Drupal\AppConsole\Command\ContainerDebugCommand;
+use Drupal\AppConsole\Command\RouterDebugCommand;
 
 set_time_limit(0);
 
@@ -49,6 +50,7 @@ $application->addCommands([
   new GeneratorServiceCommand(),
   new GeneratorPluginImageEffectCommand(),
   new ContainerDebugCommand(),
+  new RouterDebugCommand(),
 ]);
 
 $application->run();
