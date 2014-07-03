@@ -35,11 +35,10 @@ class RegisterCommandsHelper extends Helper
 
     $finder = new Finder();
     foreach ($this->modules as $module => $directory) {
-
       $place   = $this->namespaces['Drupal\\'.$module];
       $cmd_dir = '/Command';
       $prefix  = 'Drupal\\'.$module.'\\Command';
-      
+
       if (is_dir($place.$cmd_dir)) {
         $dir = $place.$cmd_dir;
       }
