@@ -72,6 +72,17 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     return $this->services;
   }
 
+  public function getRoutes()
+  {
+    if (null === $this->routes) {
+      $this->routes = [];
+      $routeProvider = $this->getContainer()->get('router.route_provider');
+      $this->routes  = $routeProvider->getAllRoutes();
+    }
+
+    return $this->routes;
+  }
+
   /**
    * @return \Drupal\AppConsole\Utils\Validators
    */
