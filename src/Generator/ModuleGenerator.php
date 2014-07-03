@@ -78,7 +78,7 @@ class ModuleGenerator extends Generator
       );
       $this->renderFile(
           'module/module.controller.php.twig',
-          $dir. '/src/Controller/'.$class_name.'.php',
+          $dir.'/src/Controller/'.$class_name.'.php',
           $parameters
       );
 
