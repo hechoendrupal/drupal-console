@@ -9,7 +9,6 @@ namespace Drupal\AppConsole\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\TableHelper;
 
 class RouterDebugCommand extends ContainerAwareCommand
 {
@@ -27,6 +26,7 @@ class RouterDebugCommand extends ContainerAwareCommand
   {
     $route_name = $input->getArgument('route-name');
     $table = $this->getHelperSet()->get('table');
+    $table->setlayout($table::LAYOUT_COMPACT);
     if ($route_name) {
       $this->getRouteByNames($route_name, $output, $table);
     }
@@ -41,6 +41,7 @@ class RouterDebugCommand extends ContainerAwareCommand
     $routes  = $rp->getAllRoutes();
 
     $table->setHeaders(['Name', 'Path']);
+    $table->setlayout($table::LAYOUT_COMPACT);
     foreach ($routes as $route_name => $route) {
       $table->addRow([$route_name, $route->getPath()]);
     }
@@ -52,7 +53,7 @@ class RouterDebugCommand extends ContainerAwareCommand
     $rp = $this->getRouteProvider();
     $routes = $rp->getRoutesByNames($route_name);
     $table->setHeaders(['Route name', 'Options']);
-    $table->setlayout(TableHelper::LAYOUT_BORDERLESS);
+    $table->setlayout($table::LAYOUT_COMPACT);
 
     $rows = [];
     foreach ($routes as $name => $route) {
