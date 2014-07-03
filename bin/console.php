@@ -20,6 +20,8 @@ use Drupal\AppConsole\Command\GeneratorPluginImageEffectCommand;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Console\Helper\TableHelper;
+use \Drupal\AppConsole\Command\ContainerDebugCommand;
 
 set_time_limit(0);
 
@@ -34,6 +36,7 @@ $application->setHelperSet(new HelperSet(array(
   'formatter' => new FormatterHelper(),
   'drupal_common' => new DrupalCommonHelper(),
   'register_commands' => new RegisterCommandsHelper($application),
+  'table' => new TableHelper(),
 )));
 
 $application->addCommands([
@@ -45,6 +48,7 @@ $application->addCommands([
   new DrushCommand(),
   new GeneratorServiceCommand(),
   new GeneratorPluginImageEffectCommand(),
+  new ContainerDebugCommand(),
 ]);
 
 $application->run();
