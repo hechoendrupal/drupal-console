@@ -8,6 +8,9 @@ namespace Drupal\AppConsole\Generator;
 
 class ModuleGenerator extends Generator
 {
+
+  private $defaultDirectoryStructure = ['src', 'src/Controller', 'src/Form', 'src/Plugin', 'src/Tests', 'templates' ];
+
   public function generate($module, $dir, $description, $core, $package, $controller, $tests, $setting, $structure, $skip_root)
   {
     $dir .= '/' . $module;
@@ -68,12 +71,11 @@ class ModuleGenerator extends Generator
 
     if ($controller) {
       $class_name = 'DefaultController';
-      $class_machine_name = 'default_controller';
       $parameters = array(
         'class_name' => $class_name,
         'module' => $module,
         'method_name' => 'hello',
-        'class_machine_name' => $class_machine_name,
+        'class_machine_name' => 'default_controller',
         'route' => $module . '/hello/{name}',
       );
       $this->renderFile(
@@ -94,18 +96,10 @@ class ModuleGenerator extends Generator
     }
 
     if ($structure) {
-      drupal_mkdir($dir.'/templates');
-      if (!file_exists($dir.'/src')) {
-        drupal_mkdir($dir.'/src');
-      }
-      if (!file_exists($dir.'/src/Controller')) {
-        drupal_mkdir($dir.'/src/Controller');
-      }
-      drupal_mkdir($dir.'/src/Form');
-      drupal_mkdir($dir.'/src/Plugin');
-      drupal_mkdir($dir.'/src/Plugin/Block');
-      if (!file_exists($dir.'/src/Tests')) {
-        drupal_mkdir($dir.'/src/Tests');
+      foreach ($this->defaultDirectoryStructure as $directory) {
+        if (!file_exists($dir.'/'.$directory)) {
+          drupal_mkdir($dir.'/'.$directory);
+        }
       }
     }
   }
