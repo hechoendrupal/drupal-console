@@ -124,9 +124,9 @@ class GeneratorModuleCommand extends GeneratorCommand
       $input->setOption('package', $package);
     }
 
-    $other = $input->getOption('core');
-    if (!$other) {
-      $other = $dialog->ask($output, $dialog->getQuestion('Core', '8.x'), '8.x');
+    $core = $input->getOption('core');
+    if (!$core) {
+      $core = $dialog->ask($output, $dialog->getQuestion('Core', '8.x'), '8.x');
     }
     $input->setOption('core', '8.x');
 
