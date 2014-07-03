@@ -135,7 +135,7 @@ class GeneratorControllerCommand extends GeneratorCommand
 
     // --services option
     // @see use Drupal\AppConsole\Command\Helper\ServicesTrait::servicesQuestion
-    $services_collection = $this->servicesQuestion($input, $output, $dialog);
+    $services_collection = $this->servicesQuestion($output, $dialog);
     $input->setOption('services', $services_collection);
   }
 
