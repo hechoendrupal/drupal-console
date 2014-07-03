@@ -48,6 +48,7 @@ $application->addCommands([
   new DrushCommand(),
   new GeneratorServiceCommand(),
   new GeneratorPluginImageEffectCommand(),
+  new ContainerDebugCommand(),
 ]);
 
 $application->run();
