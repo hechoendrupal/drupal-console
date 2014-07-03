@@ -128,7 +128,7 @@ class GeneratorModuleCommand extends GeneratorCommand
     if (!$core) {
       $core = $dialog->ask($output, $dialog->getQuestion('Core', '8.x'), '8.x');
     }
-    $input->setOption('core', '8.x');
+    $input->setOption('core', $core);
 
     $controller = $input->getOption('controller');
     if (!$controller && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate a Controller', 'no', '?'), false)) {
