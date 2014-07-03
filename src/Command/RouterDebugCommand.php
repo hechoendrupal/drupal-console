@@ -53,7 +53,7 @@ class RouterDebugCommand extends ContainerAwareCommand
     $rp = $this->getRouteProvider();
     $routes = $rp->getRoutesByNames($route_name);
     $table->setHeaders(['Route name', 'Options']);
-    $table->setlayout(TableHelper::LAYOUT_BORDERLESS);
+    $table->setlayout($table::LAYOUT_COMPACT);
 
     $rows = [];
     foreach ($routes as $name => $route) {
