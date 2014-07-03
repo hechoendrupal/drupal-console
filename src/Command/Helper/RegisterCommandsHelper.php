@@ -107,6 +107,7 @@ class RegisterCommandsHelper extends Helper
     if (!isset($this->modules)) {
       $module_handler = $this->container->get('module_handler');
       $this->modules = $module_handler->getModuleDirectories();
+      $this->modules += ['AppConsole' => dirname(dirname(dirname(__DIR__)))];
     }
   }
 
@@ -117,6 +118,7 @@ class RegisterCommandsHelper extends Helper
     if (!isset($this->namespaces)) {
       $namespaces = $this->container->get('container.namespaces');
       $this->namespaces = $namespaces->getArrayCopy();
+      $this->namespaces += ['Drupal\\AppConsole' => dirname(dirname(__DIR__))];
     }
   }
 }
