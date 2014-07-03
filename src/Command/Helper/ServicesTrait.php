@@ -9,11 +9,10 @@ namespace Drupal\AppConsole\Command\Helper;
 trait ServicesTrait
 {
   /**
-   * @param  $input
    * @param  $output
    * @param  $dialog
    */
-  public function servicesQuestion($input, $output, $dialog)
+  public function servicesQuestion($output, $dialog)
   {
     if ($dialog->askConfirmation(
       $output,
