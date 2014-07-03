@@ -26,6 +26,7 @@ class RouterDebugCommand extends ContainerAwareCommand
   {
     $route_name = $input->getArgument('route-name');
     $table = $this->getHelperSet()->get('table');
+    $table->setlayout($table::LAYOUT_COMPACT);
     if ($route_name) {
       $this->getRouteByNames($route_name, $output, $table);
     }
@@ -40,6 +41,7 @@ class RouterDebugCommand extends ContainerAwareCommand
     $routes  = $rp->getAllRoutes();
 
     $table->setHeaders(['Name', 'Path']);
+    $table->setlayout($table::LAYOUT_COMPACT);
     foreach ($routes as $route_name => $route) {
       $table->addRow([$route_name, $route->getPath()]);
     }
