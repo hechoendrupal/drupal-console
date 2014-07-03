@@ -9,11 +9,10 @@ namespace Drupal\AppConsole\Command\Helper;
 trait FormTrait
 {
   /**
-   * @param  $input
    * @param  $output
    * @param  $dialog
    */
-  public function formQuestion($input, $output, $dialog)
+  public function formQuestion($output, $dialog)
   {
     if ($dialog->askConfirmation(
       $output,
