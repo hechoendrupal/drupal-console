@@ -67,7 +67,7 @@ class GeneratorModuleCommand extends GeneratorCommand
 
     $errors = [];
 
-    $runner = $dialog->getRunner($output, $errors);
+    $dialog->getRunner($output, $errors);
 
     $dialog->writeGeneratorSummary($output, $errors);
   }
@@ -81,12 +81,11 @@ class GeneratorModuleCommand extends GeneratorCommand
     $dialog->writeSection($output, 'Welcome to the Drupal module generator');
 
     try {
-      $namespace = $input->getOption('module') ? $this->validateModuleName($input->getOption('module')) : null;
+      $module = $input->getOption('module') ? $this->validateModuleName($input->getOption('module')) : null;
     } catch (\Exception $error) {
       $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
     }
 
-    $module = $input->getOption('module');
     if (!$module) {
       $module = $dialog->askAndValidate(
         $output,
@@ -125,11 +124,11 @@ class GeneratorModuleCommand extends GeneratorCommand
       $input->setOption('package', $package);
     }
 
-    $other = $input->getOption('core');
-    if (!$other) {
-      $other = $dialog->ask($output, $dialog->getQuestion('Core', '8.x'), '8.x');
+    $core = $input->getOption('core');
+    if (!$core) {
+      $core = $dialog->ask($output, $dialog->getQuestion('Core', '8.x'), '8.x');
     }
-    $input->setOption('core', '8.x');
+    $input->setOption('core', $core);
 
     $controller = $input->getOption('controller');
     if (!$controller && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate a Controller', 'no', '?'), false)) {
