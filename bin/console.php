@@ -50,6 +50,7 @@ $application->addCommands([
   new GeneratorServiceCommand(),
   new GeneratorPluginImageEffectCommand(),
   new ContainerDebugCommand(),
+  new RouterDebugCommand(),
 ]);
 
 $application->run();
