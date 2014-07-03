@@ -21,6 +21,7 @@ use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Console\Helper\TableHelper;
+use \Drupal\AppConsole\Command\ContainerDebugCommand;
 
 set_time_limit(0);
 
