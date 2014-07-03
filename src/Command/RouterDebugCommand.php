@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\ContainerDebugCommand.
+ * Contains \Drupal\AppConsole\Command\RouterDebugCommand.
  */
 
 namespace Drupal\AppConsole\Command;
