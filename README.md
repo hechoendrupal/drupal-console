@@ -88,7 +88,7 @@ $ ./bin/console generate:command
 ```bash
 $ ./bin/console generate:service
 ```
-#### Plugin-Block generator
+#### Plugin Block generator
 ```bash
 $ ./bin/console generate:plugin:block
 ```
