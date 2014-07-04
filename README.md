@@ -48,24 +48,6 @@ $ COMPOSER_BIN_DIR=bin composer require --dev drupal/console:~0.1
 $ ./bin/console --help
 ```
 
-###  Generate a command for Drupal Console (optional)
-
-To create a package for Drupal Console as a `.phar` file, you have to  clone this repo as a separate project and run the following commands.
-
-```
-$ COMPOSER_BIN_DIR=bin composer require --dev drupal/console:dev-master
-$ ./bin/console --help
-```
-
-In both versions of installer is required to use the the Composer variable *COMPOSER_BIN_DIR* to indicate where will be located the binary files of packages required by Drupal Console.
-
-```bash
-$ curl -s http://box-project.org/installer.php | php
-$ box.phar build -v
-```
-
-Copy `console.phar` to the root of your Drupal project and instead of `./bin/console` use `php console.phar`.
-
 ### Usage
 
 #### Module generator
