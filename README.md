@@ -28,15 +28,18 @@ It supports adding services using Dependency Injection on class generation.
 
 ### Steps for install:
 
-There are two options to install the console. The first one is using Composer and install the project as a module.
+You need to download composer first:  
 
-Optionally you can install componser inside Drupal Installation.
+Run this in your terminal to get the latest Composer version:
 ```bash
-$ cd path/to/drupal8.dev
-$ curl -sS https://getcomposer.org/installer | php
+curl -sS https://getcomposer.org/installer | php
+```
+Or if you don't have curl:
+```bash
+php -r "readfile('https://getcomposer.org/installer');" | php
 ```
 
-Instructions to install Drupal Console if you are using a local version of Composer
+Instructions to install Drupal Console if you are using composer inside Drupal Installation.
 ```
 $ COMPOSER_BIN_DIR=bin php composer.phar require --dev drupal/console:~0.1
 $ ./bin/console --help
