@@ -11,7 +11,7 @@ trait ModuleTrait
   /**
    * @return string
    */
-  public function moduleQuestion($input, $output, $dialog)
+  public function moduleQuestion($output, $dialog)
   {
     $modules = $this->getModules();
 

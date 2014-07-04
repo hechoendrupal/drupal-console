@@ -71,7 +71,7 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
     $module = $input->getOption('module');
     if (!$module) {
       // @see Drupal\AppConsole\Command\Helper\ModuleTrait::moduleQuestion
-      $module = $this->moduleQuestion($input, $output, $dialog);
+      $module = $this->moduleQuestion($output, $dialog);
     }
     $input->setOption('module', $module);
 
