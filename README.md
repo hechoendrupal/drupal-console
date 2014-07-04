@@ -92,6 +92,22 @@ $ ./bin/console generate:service
 ```bash
 $ ./bin/console generate:plugin:block
 ```
+#### Plugin Image Effect generator
+```bash
+$ ./bin/console generate:plugin:imageeffect
+```
+#### Container Debug
+```bash
+$ ./bin/console container:debug
+```
+#### Router Debug
+```bash
+$ ./bin/console router:debug
+```
+#### Router Rebuild
+```bash
+$ ./bin/console router:rebuild
+```
 
 #### Videos
 [Introducing the Drupal 8 Console scaffolding module generator](https://www.youtube.com/watch?v=lzjcj-_xlAg)  
