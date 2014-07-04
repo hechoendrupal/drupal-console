@@ -11,11 +11,14 @@ use Drupal\Core\Routing\RouteMatchInterface;
  * Implements hook_help().
  */
 
-function {{module}}_help($path, $arg)
+function {{module}}_help($route_name, RouteMatchInterface $route_match)
 {
-  switch ($path) {
-    case 'admin/help#{{module}}':
-      $output = '{{ description }}';
+  switch ($route_name) {
+    // Main module help for the {{ module }} module.
+    case 'help.page.{{ module }}':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('{{ description }}') . '</p>';
       return $output;
     break;
   }
