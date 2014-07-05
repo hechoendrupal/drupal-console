@@ -92,8 +92,13 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
     /** @var \Drupal\AppConsole\Command\GeneratorModuleCommand $command */
     $command = $this
       ->getMockBuilder('Drupal\AppConsole\Command\GeneratorModuleCommand')
-      ->setMethods(null)
+      ->setMethods(['validateModule'])
       ->getMock()
+    ;
+
+    $command->expects($this->any())
+      ->method('validateModule')
+      ->will($this->returnValue('foo'));
     ;
 
     $command->setContainer($this->getContainer());
