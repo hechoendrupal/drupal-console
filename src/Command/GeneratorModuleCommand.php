@@ -89,14 +89,13 @@ class GeneratorModuleCommand extends GeneratorCommand
     if (!$module) {
       $module = $dialog->askAndValidate(
         $output,
-        $dialog->getQuestion('Module name',
-        $input->getOption('module')),
-        [
-          $this,
-          'validateModuleName'
-        ],
+        $dialog->getQuestion('Module name',''),
+        function ($module) {
+          return $this->validateModule($module);
+        },
         false,
-        $input->getOption('module')
+        null,
+        null
       );
       $input->setOption('module', $module);
     }
