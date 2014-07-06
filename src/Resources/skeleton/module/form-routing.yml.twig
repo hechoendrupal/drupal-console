@@ -1,0 +1,10 @@
+{% if class_name is defined %}
+{{ module_name }}.{{form_id}}:
+  path: '/{{ module_name }}/settings/{{ class_name }}'
+  defaults:
+    _form: '\Drupal\{{ module_name }}\Form\{{ class_name }}'
+    _title: '{{ module_name }} {{ class_name }} Form'
+  requirements:
+    _permission: 'access administration pages'
+{% endif %}
+

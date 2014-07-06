@@ -1,0 +1,30 @@
+<?php
+/**
+ *@file
+ * Contains \Drupal\{{module}}\Plugin\ImageEffect\{{class_name}}.php
+ */
+
+namespace Drupal\{{module}}\Plugin\ImageEffect;
+
+use Drupal\Core\Image\ImageInterface;
+use Drupal\image\ImageEffectBase;
+
+/**
+ * Provides a '{{class_name}}' image effect.
+ *
+ * @ImageEffect(
+ *  id = "{{plugin_id}}",
+ *  label = @Translation("{{plugin_label}}"),
+ *  description = @Translation("{{description}}")
+ * )
+ */
+class {{ class_name }} extends ImageEffectBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function applyEffect(ImageInterface $image) {
+    // Implement Image Effect
+    return imagefilter($image->getToolkit()->getResource());
+  }
+}

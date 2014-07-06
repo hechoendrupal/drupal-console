@@ -1,115 +1,99 @@
 Drupal 8 Console scaffolding module generator
-==============
+=============================================
+[![Build Status](https://travis-ci.org/hechoendrupal/DrupalAppConsole.svg?branch=master)](https://travis-ci.org/hechoendrupal/DrupalAppConsole)
+[![Latest Stable Version](https://poser.pugx.org/drupal/console/v/stable.svg)](https://packagist.org/packages/drupal/console) [![Total Downloads](https://poser.pugx.org/drupal/console/downloads.svg)](https://packagist.org/packages/drupal/console) [![Latest Unstable Version](https://poser.pugx.org/drupal/console/v/unstable.svg)](https://packagist.org/packages/drupal/console)[![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
 
-Every modern framework nowadays provides a scaffolding tool code generator for speeding up the process of starting a new project and avoid the repetitive tasks.
+Every modern framework nowadays provides a scaffolding tool code generator for speeding up the process of starting a new project and avoid early repetitive tasks.
 
 The purpose of this project is to leverage the Symfony Console Component to provide a CLI tool to automate the creation of drupal 8 modules by generating the directory structure for a module, routing, controllers, forms, services, plugins and required configuration files.
 
 It supports adding services using Dependency Injection on class generation.
 
+#### What is out of the box?
+* Generates module and info files.
+* Generates PSR-4 compliant directory structure for a module.
+* Register routes on YML files and map to controller and form PHP Classes.
+* Create classes adding namespaces, uses and also the extend and implements keywords when required.
+* Support adding services using Dependency Injection on class generation.
+
+#### Who will benefit of using it?
+* **Module Maintainers & Developers**  
+  Create & Migrate contributed modules to Drupal 8.
+
+* **Drupal Trainers & Consultors**  
+  Train developers on Drupal 8.
+
+* **Drupal Shops**  
+  Reduce module development time for Drupal 8.
+
 ### Steps for install:
 
-There are two options to install the console. The first one is using Composer and install the project as a module.
+You need to download composer first:  
 
+Run this in your terminal to get the latest Composer version:
 ```bash
-$ cd path/to/drupal8.dev
-$ curl -sS https://getcomposer.org/installer | php
-$ COMPOSER_BIN_DIR=bin php composer.phar require --dev drupal/console:dev-master
+curl -sS https://getcomposer.org/installer | php
+```
+Or if you don't have curl:
+```bash
+php -r "readfile('https://getcomposer.org/installer');" | php
+```
+
+Instructions to install Drupal Console if you are using composer inside Drupal Installation.
+```
+$ COMPOSER_BIN_DIR=bin php composer.phar require --dev drupal/console:~0.1
 $ ./bin/console --help
 ```
 
-The second one is packing this module as a `.phar` file. Clone this repo as a separate project and run the following commands.
-
-```bash
-$ curl -s http://box-project.org/installer.php | php
-$ box.phar build -v
+Instructions to install Drupal Console if you are using composer globally.
 ```
-
-Copy `console.phar` to the root of your Drupal project and instead of `./bin/console` use `php console.phar`.
+$ COMPOSER_BIN_DIR=bin composer require --dev drupal/console:~0.1
+$ ./bin/console --help
+```
 
 ### Usage
 
-#### Generate module structure
+#### Module generator
 ```bash
 $ ./bin/console generate:module
-                                          
-  Welcome to the Drupal module generator  
-                                          
-Module name: module_name
-Description [My Awesome Module]: My awesome module 
-Package [Other]: My Package
-Do you want to generate a routing file [yes]? yes
-Do you want to generate the whole directory structure [no]? yes
-Do you confirm generation [yes]? 
-
-$ tree modules/module_name/
-modules/module_name/
-├── config
-├── lib
-│   └── Drupal
-│       └── module_name
-│           ├── Controller
-│           ├── Form
-│           ├── Plugin
-│           │   └── Block
-│           └── Tests
-├── templates
-├── tests
-├── module_name.info.yml
-├── module_name.module
-└── module_name.routing.yml
-
-11 directories, 3 files
 ```
-
-#### Generate controller structure
+#### Controller generator
 ```bash
 $ ./bin/console generate:controller
-
-  Welcome to the Drupal controller generator  
-                                              
-Enter your module: : module_name
-Enter the controller name [DefaultControler]: FrontController
-Enter your service: : twig
-Enter your service: : database
-Enter your service: : config.factory
-Enter your service: : config.context
-Enter your service: : 
-Update routing file? [yes]? 
-
-$ cat modules/module_name/lib/Drupal/module_name/Controller/FrontController.php
 ```
-
-#### Generate form structure
+#### Form generator
 ```bash
-
-  Welcome to the Drupal form generator  
-                                        
-Enter your module : module_name
-Enter the form name [DefaultForm]: 
-Do you like asdd service? [yes]? 
- Enter your service: twig
- Enter your service: config.factory
- Enter your service: 
-Do you like generate a form structure? [yes]? 
- Input label: User
-  Input machine name [user]: 
-  Type: text
- Input label: Password
-  Input machine name [password]: 
-  Type: password
- Input label: Send
-  Input machine name [send]: 
-  Type: submit
- Input label: 
- Do you like generate config file? [yes]? 
-Update routing file? [yes]? 
-
+$ ./bin/console generate:form
+```
+#### Command generator
+```bash
+$ ./bin/console generate:command
+```
+#### Service generator
+```bash
+$ ./bin/console generate:service
+```
+#### Plugin Block generator
+```bash
+$ ./bin/console generate:plugin:block
+```
+#### Plugin Image Effect generator
+```bash
+$ ./bin/console generate:plugin:imageeffect
+```
+#### Container Debug
+```bash
+$ ./bin/console container:debug
+```
+#### Router Debug
+```bash
+$ ./bin/console router:debug
+```
+#### Router Rebuild
+```bash
+$ ./bin/console router:rebuild
 ```
 
-#### Next Step
-* Enable module
-* Open Browser and load `http://drupal8.dev/module_name/hello/Drupal`
-
-#### Video
+#### Videos
+[Introducing the Drupal 8 Console scaffolding module generator](https://www.youtube.com/watch?v=lzjcj-_xlAg)  
 [How to install & use youtube video no audio](http://www.youtube.com/watch?v=NkHT2KctR-Y)

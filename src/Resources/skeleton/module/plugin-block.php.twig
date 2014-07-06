@@ -1,0 +1,69 @@
+<?php
+/**
+ *@file
+ * Contains \Drupal\{{module}}\Plugin\Block\{{class_name}}.php
+ */
+
+namespace Drupal\{{module}}\Plugin\Block;
+
+use Drupal\block\BlockBase;
+{% if services is not empty %}
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+{% include 'skeleton/module/shared/services-use-operator.php.twig' %}
+{% endif %}
+
+/**
+ * Provides a '{{class_name}}' block.
+ *
+ * @Block(
+ *  id = "{{plugin_id}}",
+ *  admin_label = @Translation("{{plugin_label}}")
+ * )
+ */
+class {{class_name}} extends BlockBase {% if services is not empty %}implements ContainerFactoryPluginInterface{% endif %} {{"\n"}}{
+{% if services is not empty %}
+{% include 'skeleton/module/shared/services-class-properties-declaration.php.twig' %}
+  /**
+   * Construct.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param string $plugin_definition
+   *   The plugin implementation definition.
+   */
+  public function __construct(
+        array $configuration,
+        $plugin_id,
+        $plugin_definition,
+        {{ servicesAsParameters(services)|join(', \n\t') }}
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+{% include 'skeleton/module/shared/services-class-properties-initialization.php.twig' %}
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)
+  {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+{% include 'skeleton/module/shared/services-class-properties-injection.php.twig' %}
+    );
+  }
+{% endif %}
+
+  /**
+   * {@inheritdoc}
+   */
+  public function build()
+  {
+    return [
+      '#markup' => '{{plugin_label}}',
+    ];
+  }
+}
