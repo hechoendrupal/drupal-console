@@ -1,9 +1,8 @@
 {
     "name": "drupal/console",
     "description": "Drupal 8 Console scaffolding module generator",
-    "version": "@dev",
     "keywords": ["Drupal", "Console", "Development"],
-    "type": "library",
+    "type": "drupal-module",
     "license": "MIT",
     "authors": [
         {
@@ -15,49 +14,32 @@
             "name":      "Jesus Manuel Olivas",
             "email":     "jesus.olivas@gmail.com",
             "homepage":  "http://jmolivas.com"
-        }
-    ],
-    "repositories": [
+        },
         {
-            "type": "package",
-            "package": {
-                "name": "hechoendrupal/drupal",
-                "version": "8.0.0",
-                "dist": {
-                    "url": "https://github.com/drupal/drupal/archive/8.x.zip",
-                    "type": "zip"
-                },
-                "autoload": {
-                    "psr-0": {
-                        "Drupal\\Core": "core/lib/",
-                        "Drupal\\Component": "core/lib/",
-                        "Drupal\\Driver": "drivers/lib/"
-                    }
-                }
-            }
+            "name":      "Drupal Console Contributors",
+            "homepage":  "https://github.com/hechoendrupal/DrupalAppConsole/graphs/contributors"
         }
     ],
-    "type": "drupal-module",
     "require": {
         "php": ">=5.4.2",
-        "symfony/console": "2.4.*",
-        "symfony/finder": "2.4.*",
-        "twig/twig": "1.15.*",
+        "symfony/console": "~2.4",
+        "symfony/finder": "~2.4",
+        "symfony/dependency-injection": "~2.4",
+        "twig/twig": "~1.15",
         "composer/installers": "~1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.7.27",
-        "whatthejeff/nyancat-phpunit-resultprinter": "v1.1.0",
-        "symfony/config": "2.3.*",
-        "symfony/http-kernel": "2.3.*",
-        "symfony/dependency-injection": "2.3.*",
-        "hechoendrupal/drupal": "8.0.0"
+        "phpunit/phpunit": "4.1.*",
+        "drupal/drupal": "8.x-dev@dev",
+        "symfony/config": "~2.4",
+        "symfony/http-kernel": "~2.4"
     },
+    "minimum-stability": "dev",
     "bin": ["bin/console"],
     "config": {
         "bin-dir": "bin/"
     },
     "autoload": {
-        "psr-0": {"Drupal\\AppConsole": "lib"}
+        "psr-4": {"Drupal\\AppConsole\\": "src"}
     }
 }

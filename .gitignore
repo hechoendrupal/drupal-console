@@ -1,20 +1,11 @@
-# OS
-.DS_Store
-Thumbs.db
-
-# IDEs
-.idea/
-.buildpath
-.project
-.settings/
-
 # Composer
-vendor
-bin/phpunit
+/vendor
+/bin/phpunit
+/composer.lock
 
 # Binaries
-box.phar
-console.phar
+/box.phar
+/console.phar
 
-#Test
-phpunit.xml
+# Test
+/phpunit.xml

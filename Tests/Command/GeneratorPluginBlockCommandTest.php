@@ -1,21 +1,20 @@
 <?php
 /**
- *@file
+ * @file
  * Contains \Drupal\AppConsole\Test\Command\GeneratorModuleCommandTest.
  */
 
 namespace Drupal\AppConsole\Test\Command;
 
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\AppConsole\Command\GeneratorModuleCommand;
 
-class GeneratorPluginBlockCommandTest extends GenerateCommandTest {
-
+class GeneratorPluginBlockCommandTest extends GenerateCommandTest
+{
   /**
    * @dataProvider getDataInteractive
    */
-  public function testInteractiveCommand($options, $expected, $input){
-
+  public function testInteractiveCommand($options, $expected, $input)
+  {
     list($module, $name, $services) = $expected;
 
     $generator = $this->getGenerator();
@@ -27,6 +26,53 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest {
     ;
 
     $command = $this->getCommand($generator,$input);
+    $cmd = new CommandTester($command);
+    $cmd->execute($options);
+  }
+
+  public function getDataInteractive()
+  {
+    return[
+      // case base
+      [
+        [],
+        ['Foo', 'FooBlock', 'Foo label', 'foo_id',[]],
+        "Foo\nFooBlock\nFoo label\nfoo_id\nno\n"
+      ],
+      //case two services
+      [
+        [],
+        ['Foo','FooBlock', 'Foo label', 'foo_id',['twig'=>['name'=>'twig','machine_name'=>'twig','class'=>'Twig_Environment','short'=>'Twig_Environment']]],
+        "Foo\nFooBlock\nFoo label\nfoo_id\nyes\ntwig\n"
+      ],
+      // case three module name in arguments
+      [
+        ['--module'=>'Foo'],
+        ['Foo','FooBlock', 'Foo label', 'foo_id',['twig'=>['name'=>'twig','machine_name'=>'twig','class'=>'Twig_Environment','short'=>'Twig_Environment']]],
+        "FooBlock\nFoo label\nfoo_id\nyes\ntwig\n"
+      ],
+      //case four default values and not services
+      [
+        ['--module'=>'Foo'],
+        ['Foo','DefaultBlock', 'Foo label', 'foo_id',[]],
+        "\nFoo label\nfoo_id\nno\n"
+      ],
+      // case five default values and clean services
+      [
+        ['--module'=>'Foo'],
+        ['Foo','DefaultBlock', 'Foo label', 'foo_id', []],
+        "\nFoo label\nfoo_id\nyes\n\n"
+      ]
+    ];
+  }
+
+  public function getCommand($generator, $input)
+  {
+    $command = $this->getMockBuilder('Drupal\AppConsole\Command\GeneratorPluginBlockCommand')
+      ->setMethods(['getModules','getServices'])
+      ->getMock()
+    ;
+
     $command->expects($this->any())
       ->method('getModules')
       ->will($this->returnValue(['Foo']));
@@ -37,53 +83,6 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest {
       ->will($this->returnValue(['twig','database']));
     ;
 
-    $cmd = new CommandTester($command);
-    $cmd->execute($options);
-  }
-
-  public function getDataInteractive(){
-
-    return[
-      // case base
-      [
-        [],
-        ['Foo','FooBlock',[]],
-        "Foo\nFooBlock\nno"
-      ],
-      //case two services
-      [
-        [],
-        ['Foo','FooBlock',['twig'=>['name'=>'twig','machine_name'=>'twig','class'=>'Twig_Environment','short'=>'Twig_Environment']]],
-        "Foo\nFooBlock\nyes\ntwig\n"
-      ],
-      // case three module name in arguments
-      [
-        ['--module'=>'Foo'],
-        ['Foo','FooBlock',['twig'=>['name'=>'twig','machine_name'=>'twig','class'=>'Twig_Environment','short'=>'Twig_Environment']]],
-        "FooBlock\nyes\ntwig\n"
-      ],
-      //case four default values and not services
-      [
-        ['--module'=>'Foo'],
-        ['Foo','DefaultBlock',[]],
-        "\nno\n"
-      ],
-      // case five default values and clean services
-      [
-        ['--module'=>'Foo'],
-        ['Foo','DefaultBlock',[]],
-        "\nyes\n\n"
-      ]
-
-    ];
-  }
-
-  public function getCommand($generator, $input){
-    $command = $this->getMockBuilder('Drupal\AppConsole\Command\GeneratorPluginBlockCommand')
-      ->setMethods(['getModules','getServices'])
-      ->getMock()
-    ;
-
     $command->setGenerator($generator);
     $command->setContainer($this->getContainer());
     $command->setHelperSet($this->getHelperSet($input));
@@ -91,11 +90,8 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest {
     return $command;
   }
 
-  /**
-   * getGenerator [description]
-   * @return [type] [description]
-   */
-  public function getGenerator(){
+  private function getGenerator()
+  {
     return $this
       ->getMockBuilder('Drupal\AppConsole\Generator\PluginBlockGenerator')
       ->disableOriginalConstructor()
