@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains {{module}}.module
+ * Contains {{machine_name}}.module
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
@@ -11,11 +11,11 @@ use Drupal\Core\Routing\RouteMatchInterface;
  * Implements hook_help().
  */
 
-function {{module}}_help($route_name, RouteMatchInterface $route_match)
+function {{machine_name}}_help($route_name, RouteMatchInterface $route_match)
 {
   switch ($route_name) {
-    // Main module help for the {{ module }} module.
-    case 'help.page.{{ module }}':
+    // Main module help for the {{ machine_name }} module.
+    case 'help.page.{{ machine_name }}':
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
       $output .= '<p>' . t('{{ description }}') . '</p>';
@@ -29,7 +29,7 @@ function {{module}}_help($route_name, RouteMatchInterface $route_match)
  * Implements hook_theme().
  */
 
-function {{module}}_theme()
+function {{machine_name}}_theme()
 {
   $theme = [];
 
