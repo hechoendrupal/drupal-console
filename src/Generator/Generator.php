@@ -69,9 +69,9 @@ class Generator
     return $this->getModulePath($module_name).'/src/Controller';
   }
 
-  public function getTestPath($module_name)
+  public function getTestPath($module_name, $test_type)
   {
-    return $this->getModulePath($module_name).'/src/Tests';
+    return $this->getModulePath($module_name).'/Tests/' .$test_type;
   }
 
   public function getFormPath($module_name)
