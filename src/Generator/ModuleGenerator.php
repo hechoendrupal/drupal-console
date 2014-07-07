@@ -11,9 +11,9 @@ class ModuleGenerator extends Generator
 
   private $defaultDirectoryStructure = ['Tests', 'src', 'src/Controller', 'src/Form', 'src/Plugin', 'templates'];
 
-  public function generate($module, $dir, $description, $core, $package, $controller, $tests, $structure )
+  public function generate($module, $machine_name, $dir, $description, $core, $package, $controller, $tests, $structure )
   {
-    $dir .= '/' . $module;
+    $dir .= '/' . $machine_name;
     if (file_exists($dir)) {
       if (!is_dir($dir)) {
         throw new \RuntimeException(sprintf('Unable to generate the bundle as the target directory "%s" exists but is a file.', realpath($dir)));
@@ -29,6 +29,7 @@ class ModuleGenerator extends Generator
 
     $parameters = array(
       'module' => $module,
+      'machine_name' => $machine_name,
       'type'    => 'module',
       'core'    => $core,
       'description'    => $description,
@@ -37,13 +38,13 @@ class ModuleGenerator extends Generator
 
     $this->renderFile(
       'module/info.yml.twig',
-      $dir.'/'.$module.'.info.yml',
+      $dir.'/'.$machine_name.'.info.yml',
       $parameters
     );
 
     $this->renderFile(
       'module/module.twig',
-      $dir.'/'.$module.'.module',
+      $dir.'/'.$machine_name.'.module',
       $parameters
     );
 
@@ -51,10 +52,10 @@ class ModuleGenerator extends Generator
       $class_name = 'DefaultController';
       $parameters = array(
         'class_name' => $class_name,
-        'module' => $module,
+        'module' => $machine_name,
         'method_name' => 'hello',
         'class_machine_name' => 'default_controller',
-        'route' => $module . '/hello/{name}',
+        'route' => $machine_name . '/hello/{name}',
       );
 
       $this->renderFile(
@@ -65,7 +66,7 @@ class ModuleGenerator extends Generator
 
       $this->renderFile(
         'module/routing-controller.yml.twig',
-        $dir.'/'.$module.'.routing.yml',
+        $dir.'/'.$machine_name.'.routing.yml',
         $parameters
       );
     }
