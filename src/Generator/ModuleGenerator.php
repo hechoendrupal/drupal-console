@@ -69,14 +69,14 @@ class ModuleGenerator extends Generator
         $dir.'/'.$machine_name.'.routing.yml',
         $parameters
       );
-    }
 
-    if ($tests) {
-      $this->renderFile(
-        'module/Tests/Controller/controller.php.twig',
-        $dir.'/Tests/Controller/'. $class_name .'Test.php',
-        $parameters
-      );
+      if ($tests) {
+        $this->renderFile(
+            'module/Tests/Controller/controller.php.twig',
+            $dir.'/Tests/Controller/'. $class_name .'Test.php',
+            $parameters
+        );
+      }
     }
 
     if ($structure) {
