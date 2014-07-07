@@ -34,7 +34,7 @@ class {{ class_name }} extends ControllerBase {% if services is defined and serv
 {% if class_name == "DefaultController" %}
     return "Hello ".$name." !";
 {% else %}
-    return "Implements {{method_name}}";
+    return "Implements method {{method_name}}";
 {% endif %}
   }
 }
