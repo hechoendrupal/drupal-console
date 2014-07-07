@@ -1,0 +1,61 @@
+<?php
+/**
+ * @file
+ * Contains Drupal\{{ module }}\Entity\{{ entity|capitalize }}.
+ */
+
+namespace Drupal\{{ module }}\Entity;
+
+use Drupal\Core\Config\Entity\ConfigEntityBase;
+use Drupal\{{ module }}\{{ entity|capitalize }}Interface;
+
+/**
+ * Defines the {{ entity|capitalize }} entity.
+ *
+ * @ConfigEntityType(
+ *   id = "{{ entity }}",
+ *   label = @Translation("{{ entity|capitalize }}"),
+ *   controllers = {
+ *     "list_builder" = "Drupal\{{ module }}\Controller\{{ entity|capitalize }}ListBuilder",
+ *     "form" = {
+ *       "add" = "Drupal\{{ module }}\Form\{{ entity|capitalize }}Form",
+ *       "edit" = "Drupal\{{ module }}\Form\{{ entity|capitalize }}Form",
+ *       "delete" = "Drupal\{{ module }}\Form\{{ entity|capitalize }}DeleteForm"
+ *     }
+ *   },
+ *   config_prefix = "{{ entity }}",
+ *   admin_permission = "administer site configuration",
+ *   entity_keys = {
+ *     "id" = "id",
+ *     "label" = "label",
+ *     "uuid" = "uuid"
+ *   },
+ *   links = {
+ *     "edit-form" = "{{ entity }}.edit",
+ *     "delete-form" = "{{ entity }}.delete"
+ *   }
+ * )
+ */
+class {{ entity|capitalize }} extends ConfigEntityBase implements {{ entity|capitalize }}Interface
+{
+  /**
+   * The {{ entity|capitalize }} ID.
+   *
+   * @var string
+   */
+  public $id;
+  /**
+   * The {{ entity|capitalize }} UUID.
+   *
+   * @var string
+   */
+  public $uuid;
+  /**
+   * The {{ entity|capitalize }} label.
+   *
+   * @var string
+   */
+  public $label;
+  // Your specific configuration property get/set methods go here,
+  // implementing the interface.
+}
