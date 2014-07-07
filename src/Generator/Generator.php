@@ -89,6 +89,16 @@ class Generator
     return $this->getModulePath($module_name).'/src/Command';
   }
 
+  public function getSourcePath($module_name)
+  {
+    return $this->getModulePath($module_name).'/src';
+  }
+
+  public function getEntityPath($module_name)
+  {
+    return $this->getModulePath($module_name).'/src/Entity';
+  }
+
   public function getServicesAsParameters()
   {
     $servicesAsParameters = new \Twig_SimpleFunction('servicesAsParameters', function ($services) {
