@@ -34,7 +34,7 @@ class ServiceGenerator extends Generator
     );
 
     $this->renderFile(
-      'module/services.class.php.twig',
+      'module/services.php.twig',
       $this->getModulePath($module).'/src/'. $class_name .'.php',
       $parameters
     );

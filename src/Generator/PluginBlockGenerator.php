@@ -28,7 +28,7 @@ class PluginBlockGenerator extends Generator
     ];
 
     $this->renderFile(
-      'module/plugin-block.php.twig',
+      'module/Plugin/Block/block.php.twig',
       $this->getPluginPath($module, 'Block').'/'.$class_name.'.php',
       $parameters
     );
