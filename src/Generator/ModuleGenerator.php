@@ -11,7 +11,7 @@ class ModuleGenerator extends Generator
 
   private $defaultDirectoryStructure = ['Tests', 'src', 'src/Controller', 'src/Form', 'src/Plugin', 'templates'];
 
-  public function generate($module, $dir, $description, $core, $package, $controller, $tests, $setting, $structure, $skip_root)
+  public function generate($module, $dir, $description, $core, $package, $controller, $tests, $structure )
   {
     $dir .= '/' . $module;
     if (file_exists($dir)) {
@@ -19,7 +19,7 @@ class ModuleGenerator extends Generator
         throw new \RuntimeException(sprintf('Unable to generate the bundle as the target directory "%s" exists but is a file.', realpath($dir)));
       }
       $files = scandir($dir);
-      if ($files != array('.', '..') && !$skip_root) {
+      if ($files != array('.', '..')) {
         throw new \RuntimeException(sprintf('Unable to generate the bundle as the target directory "%s" is not empty.', realpath($dir)));
       }
       if (!is_writable($dir)) {
