@@ -22,13 +22,13 @@ class ControllerGenerator extends Generator
     );
 
     $this->renderFile(
-      'module/module.controller.php.twig',
+      'module/Controller/controller.php.twig',
       $this->getControllerPath($module).'/'.$class_name.'.php',
       $parameters
     );
 
     $this->renderFile(
-      'module/controller-routing.yml.twig',
+      'module/routing-controller.yml.twig',
       $this->getModulePath($module).'/'.$module.'.routing.yml',
       $parameters,
       FILE_APPEND
@@ -37,7 +37,7 @@ class ControllerGenerator extends Generator
     if ($test) {
       $this->renderFile(
         'module/module.test.twig',
-        $this->getTestPath($module).'/'.$class_name.'Test.php',
+        $this->getTestPath($module, 'Controller').'/'.$class_name.'Test.php',
         $parameters
       );
     }
