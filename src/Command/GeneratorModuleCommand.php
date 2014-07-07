@@ -49,7 +49,7 @@ class GeneratorModuleCommand extends GeneratorCommand
       }
     }
 
-    $module = $this->validateModuleName($input->getOption('module'));
+    $module = $this->validateModule($input->getOption('module'));
     $module_path = $this->validateModulePath($input->getOption('module-path'));
     $description = $input->getOption('description');
     $core = $input->getOption('core');
@@ -57,9 +57,10 @@ class GeneratorModuleCommand extends GeneratorCommand
     $controller = $input->getOption('controller');
     $tests = $input->getOption('tests');
     $structure =  $input->getOption('structure');
+    $machine_name =  $input->getOption('machine-name');
 
     $generator = $this->getGenerator();
-    $generator->generate($module, $module_path, $description, $core, $package, $controller, $tests, $structure);
+    $generator->generate($module, $machine_name, $module_path, $description, $core, $package, $controller, $tests, $structure);
 
     $errors = [];
 
@@ -82,18 +83,30 @@ class GeneratorModuleCommand extends GeneratorCommand
       $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
     }
 
+    try {
+      $machine_name = $input->getOption('machine-name') ? $this->validateModule($input->getOption('machine-name')) : null;
+    } catch (\Exception $error) {
+      $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
+    }
+
     if (!$module) {
-      $module = $dialog->askAndValidate(
+      $module = $dialog->ask($output, $dialog->getQuestion('Module name', ''));
+    }
+    $input->setOption('module', $module);
+
+    if (!$machine_name) {
+      $machine_name = $this->getStringUtils()->createMachineName($module);
+      $machine_name = $dialog->askAndValidate(
         $output,
-        $dialog->getQuestion('Module name',''),
-        function ($module) {
-          return $this->validateModule($module);
+        $dialog->getQuestion('Module machine name', $machine_name),
+        function ($machine_name) {
+          return $this->validateModule($machine_name);
         },
         false,
-        null,
+        $machine_name,
         null
       );
-      $input->setOption('module', $module);
+      $input->setOption('machine-name', $machine_name);
     }
 
     $drupalBoostrap = $this->getHelperSet()->get('bootstrap');
