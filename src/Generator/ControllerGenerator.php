@@ -22,7 +22,7 @@ class ControllerGenerator extends Generator
     );
 
     $this->renderFile(
-      'module/Controller/controller.php.twig',
+      'module/src/Controller/controller.php.twig',
       $this->getControllerPath($module).'/'.$class_name.'.php',
       $parameters
     );

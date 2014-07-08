@@ -44,31 +44,31 @@ class EntityGenerator extends Generator
     );
 
     $this->renderFile(
-      'module/interface-entity.php.twig',
+      'module/src/interface-entity.php.twig',
       $this->getSourcePath($module).'/'.ucwords($entity).'Interface.php',
       $parameters
     );
 
     $this->renderFile(
-      'module/Entity/entity.php.twig',
+      'module/src/Entity/entity.php.twig',
       $this->getEntityPath($module).'/'.ucwords($entity).'.php',
       $parameters
     );
 
     $this->renderFile(
-      'module/Form/entity.php.twig',
+      'module/src/Form/entity.php.twig',
       $this->getFormPath($module).'/'.ucwords($entity).'Form.php',
       $parameters
     );
 
     $this->renderFile(
-      'module/Form/entity-delete.php.twig',
+      'module/src/Form/entity-delete.php.twig',
       $this->getFormPath($module).'/'.ucwords($entity).'DeleteForm.php',
       $parameters
     );
 
     $this->renderFile(
-      'module/Controller/entity-listbuilder.php.twig',
+      'module/src/Controller/entity-listbuilder.php.twig',
       $this->getControllerPath($module).'/'.ucwords($entity).'ListBuilder.php',
       $parameters
     );
