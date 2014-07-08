@@ -36,7 +36,7 @@ class ControllerGenerator extends Generator
 
     if ($test) {
       $this->renderFile(
-        'module/module.test.twig',
+          'module/Tests/Controller/controller.php.twig',
         $this->getTestPath($module, 'Controller').'/'.$class_name.'Test.php',
         $parameters
       );
