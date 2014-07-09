@@ -1,6 +1,6 @@
-{{ module }}.{{ entity }}.*:
+{{ module }}.{{ entity_name }}.*:
   type: config_entity
-  label: '{{ entity|capitalize }} config'
+  label: '{{ entity_class }} config'
   mapping:
     id:
       type: string
@@ -10,4 +10,3 @@
       label: 'Label'
     uuid:
       type: string
-
