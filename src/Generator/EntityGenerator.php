@@ -129,23 +129,23 @@ class EntityGenerator extends Generator
       );
     
       $this->renderFile(
-          'module/src/Entity/Form/content-entity-settingsForm.php.twig',
-          $this->getEntityPath($module).'/Form/'.ucwords($entity).'SettingsForm.php',
-          $parameters
-      );
-/*
-      $this->renderFile(
-          'module/src/Entity/Form/content-entity-form.php.twig',
-          $this->getEntityPath($module).'/Form/'.ucwords($entity).'Form.php',
+          'module/src/Form/content-entity-settingsForm.php.twig',
+          $this->getFormPath($module).'/'.ucwords($entity).'SettingsForm.php',
           $parameters
       );
       
       $this->renderFile(
-          'module/src/Entity/Form/content-entity-deleteForm.php.twig',
-          $this->getEntityPath($module).'/Form/'.ucwords($entity).'deleteForm.php',
+          'module/src/Form/content-entity-form.php.twig',
+          $this->getFormPath($module).'/'.ucwords($entity).'Form.php',
           $parameters
       );
- */     
+      
+      $this->renderFile(
+          'module/src/Form/content-entity-deleteForm.php.twig',
+          $this->getFormPath($module).'/'.ucwords($entity).'deleteForm.php',
+          $parameters
+      );
+      
     }
         
   }

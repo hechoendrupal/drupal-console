@@ -1,17 +1,17 @@
 {{ entity }}.settings_tab:
-  route_name: {{ entity }}.settings
+  route_name: {{ module }}.{{ entity }}.settings
   title: 'Settings'
-  base_route: {{ entity }}.settings
-{{ entity }}.view:
-  route_name:{{ entity }}.view
-  base_route: {{ entity }}.view
+  base_route: {{ module }}.{{ entity }}.settings
+{{ module }}.{{ entity }}.view:
+  route_name: {{ module }}.{{ entity }}.view
+  base_route: {{ module }}.{{ entity }}.view
   title: 'View'
 {{ entity }}.edit:
-  route_name: {{ entity }}.edit
-  base_route: {{ entity }}.view
+  route_name: {{ module }}.{{ entity }}.edit
+  base_route: {{ module }}.{{ entity }}.view
   title: Edit
 {{ entity }}.delete_confirm:
-  route_name:  {{ entity }}.delete
-  base_route:  {{ entity }}.view
+  route_name:  {{ module }}.{{ entity }}.delete
+  base_route:  {{ module }}.{{ entity }}.view
   title: Delete
   weight: 10

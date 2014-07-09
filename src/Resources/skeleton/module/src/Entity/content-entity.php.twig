@@ -35,14 +35,14 @@ use Drupal\user\UserInterface;
  *   admin_permission = "administer {{ entity|capitalize }} entity",
  *   fieldable = TRUE,
  *   entity_keys = {
- *     "id" = "id{{ entity|capitalize }}",
+ *     "id" = "id",
  *     "label" = "name",
  *     "uuid" = "uuid"
  *   },
  *   links = {
- *     "edit-form" = "{{ entity|capitalize }}.edit",
- *     "admin-form" = "{{ entity|capitalize }}.settings",
- *     "delete-form" = "{{ entity|capitalize }}.delete"
+ *     "edit-form" = "{{ module }}.{{ entity|capitalize }}.edit",
+ *     "admin-form" = "{{ module }}.{{ entity|capitalize }}.settings",
+ *     "delete-form" = "{{ module }}.{{ entity|capitalize }}.delete"
  *   }
  * )
  */
