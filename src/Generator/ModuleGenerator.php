@@ -82,7 +82,7 @@ class ModuleGenerator extends Generator
     if ($structure) {
       foreach ($this->defaultDirectoryStructure as $directory) {
         if (!file_exists($dir.'/'.$directory)) {
-          drupal_mkdir($dir.'/'.$directory);
+          mkdir($dir.'/'.$directory);
         }
       }
     }
