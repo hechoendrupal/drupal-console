@@ -23,12 +23,13 @@ class GeneratorEntityCommand extends GeneratorCommand
   {
     $this
         ->setDefinition(array(
-            new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
-            new InputOption('entity','',InputOption::VALUE_REQUIRED, 'The name of the entity')
+          new InputOption('module',null,InputOption::VALUE_REQUIRED, 'The name of the module'),
+          new InputOption('entity-class',null,InputOption::VALUE_REQUIRED, 'The entity class name'),
+          new InputOption('entity-name',null,InputOption::VALUE_REQUIRED, 'The name of the entity'),
         ))
-        ->setName('generate:entity')
-        ->setDescription('Generate entity')
-        ->setHelp('The <info>generate:entity</info> command helps you generate a new entity.');
+        ->setName('generate:entity:config')
+        ->setDescription('Generate entity configuration')
+        ->setHelp('The <info>generate:entity:config</info> command helps you generate a new entity.');
   }
 
   protected function execute(InputInterface $input, OutputInterface $output)
@@ -36,11 +37,12 @@ class GeneratorEntityCommand extends GeneratorCommand
     $dialog = $this->getDialogHelper();
 
     $module = $input->getOption('module');
-    $entity = $input->getOption('entity');
+    $entity_class = $input->getOption('entity-class');
+    $entity_name = $input->getOption('entity-name');
 
     $this
       ->getGenerator()
-      ->generate($module, $entity);
+      ->generate($module, $entity_name, $entity_class);
 
     $errors = [];
     $dialog->writeGeneratorSummary($output, $errors);
@@ -54,6 +56,7 @@ class GeneratorEntityCommand extends GeneratorCommand
   {
     $dialog = $this->getDialogHelper();
     $dialog->writeSection($output, 'Welcome to the Drupal entity generator');
+    $utils = $this->getStringUtils();
 
     // --module option
     $module = $input->getOption('module');
@@ -63,16 +66,31 @@ class GeneratorEntityCommand extends GeneratorCommand
     }
     $input->setOption('module', $module);
 
-    // --entity option
-    $entity = $input->getOption('entity');
-    if (!$entity) {
-        $entity = $dialog->ask(
-          $output,
-          $dialog->getQuestion('Enter the entity name', '')
+    // --entity-class option
+    $entity_class = $input->getOption('entity-class');
+    if (!$entity_class) {
+      $entity_class = $dialog->ask(
+        $output,
+        $dialog->getQuestion('Enter the entity class name', 'DefaultEntity'),
+        'DefaultEntity',
+        null
       );
     }
-    $input->setOption('entity', $entity);
+    $input->setOption('entity-class', $entity_class);
 
+    $machine_name = $utils->camelCaseToMachineName($entity_class);
+
+    // --entity-name option
+    $entity_name = $input->getOption('entity-name');
+    if (!$entity_name) {
+        $entity_name = $dialog->ask(
+          $output,
+          $dialog->getQuestion('Enter the entity name', $machine_name),
+          $machine_name,
+          null
+      );
+    }
+    $input->setOption('entity-name', $entity_name);
   }
 
 

@@ -1,29 +1,29 @@
 <?php
 /**
  * @file
- * Contains Drupal\{{ module }}\Entity\{{ entity|capitalize }}.
+ * Contains Drupal\{{ module }}\Entity\{{ entity_class }}.
  */
 
 namespace Drupal\{{ module }}\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
-use Drupal\{{ module }}\{{ entity|capitalize }}Interface;
+use Drupal\{{ module }}\{{ entity_class }}Interface;
 
 /**
- * Defines the {{ entity|capitalize }} entity.
+ * Defines the {{ entity_class }} entity.
  *
  * @ConfigEntityType(
- *   id = "{{ entity }}",
- *   label = @Translation("{{ entity|capitalize }}"),
+ *   id = "{{ entity_name }}",
+ *   label = @Translation("{{ entity_class }}"),
  *   controllers = {
- *     "list_builder" = "Drupal\{{ module }}\Controller\{{ entity|capitalize }}ListBuilder",
+ *     "list_builder" = "Drupal\{{ module }}\Controller\{{ entity_class }}ListBuilder",
  *     "form" = {
- *       "add" = "Drupal\{{ module }}\Form\{{ entity|capitalize }}Form",
- *       "edit" = "Drupal\{{ module }}\Form\{{ entity|capitalize }}Form",
- *       "delete" = "Drupal\{{ module }}\Form\{{ entity|capitalize }}DeleteForm"
+ *       "add" = "Drupal\{{ module }}\Form\{{ entity_class }}Form",
+ *       "edit" = "Drupal\{{ module }}\Form\{{ entity_class }}Form",
+ *       "delete" = "Drupal\{{ module }}\Form\{{ entity_class }}DeleteForm"
  *     }
  *   },
- *   config_prefix = "{{ entity }}",
+ *   config_prefix = "{{ entity_name }}",
  *   admin_permission = "administer site configuration",
  *   entity_keys = {
  *     "id" = "id",
@@ -31,31 +31,32 @@ use Drupal\{{ module }}\{{ entity|capitalize }}Interface;
  *     "uuid" = "uuid"
  *   },
  *   links = {
- *     "edit-form" = "{{ entity }}.edit",
- *     "delete-form" = "{{ entity }}.delete"
+ *     "edit-form" = "{{ entity_name }}.edit",
+ *     "delete-form" = "{{ entity_name }}.delete"
  *   }
  * )
  */
-class {{ entity|capitalize }} extends ConfigEntityBase implements {{ entity|capitalize }}Interface
+class {{ entity_class }} extends ConfigEntityBase implements {{ entity_class }}Interface
 {
   /**
-   * The {{ entity|capitalize }} ID.
+   * The {{ entity_class }} ID.
    *
    * @var string
    */
   public $id;
   /**
-   * The {{ entity|capitalize }} UUID.
+   * The {{ entity_class }} UUID.
    *
    * @var string
    */
   public $uuid;
   /**
-   * The {{ entity|capitalize }} label.
+   * The {{ entity_class }} label.
    *
    * @var string
    */
   public $label;
-  // Your specific configuration property get/set methods go here,
+
+  // TODO: Your specific configuration property get/set methods go here,
   // implementing the interface.
 }
