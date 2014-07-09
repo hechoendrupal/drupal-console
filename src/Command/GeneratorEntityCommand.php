@@ -74,24 +74,14 @@ class GeneratorEntityCommand extends GeneratorCommand
       );
     }
     $input->setOption('entity', $entity);
-
-    // --entity option
-    $entity = $input->getOption('entity');
-    if (!$entity) {
-    	$entity = $dialog->ask(
-    			$output,
-    			$dialog->getQuestion('Enter the entity name', '')
-    	);
-    }
-    $input->setOption('entity', $entity);
-    
+ 
     // --class option
     $class = $input->getOption('class');
     if (!$class) {
-    	$class = $dialog->askConfirmation(
+    	$class = $dialog->ask(
     			$output,
-    			$dialog->getQuestion('Enter the class of the entity', 'ConfigEntityType', '?'),
-    			true
+    			$dialog->getQuestion('Enter the class of the entity', 'ConfigEntityType'),
+    	        $class
     	);
     }
     $input->setOption('class', $class);    

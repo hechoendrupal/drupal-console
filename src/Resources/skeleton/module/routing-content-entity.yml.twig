@@ -1,0 +1,47 @@
+{{ entity }}.view:
+  path: '/entity/{{ entity }}'
+  defaults:
+    _entity_view: '{{ entity }}'
+    _title: '{{ entity }} Content'
+  requirements:
+    _entity_access: '{{ entity }}.view'
+
+{{ entity }}.list:
+  path: '/admin/config/system/{{ entity }}'
+  defaults:
+    _entity_list: '{{ entity }}'
+    _title: '{{ entity }} List'
+  requirements:
+    _permission: 'administer site configuration'
+
+{{ entity }}.add:
+  path: '/admin/config/system/{{ entity }}/add'
+  defaults:
+    _entity_form: {{ entity }}.add
+    _title: 'Add {{ entity }}'
+  requirements:
+    _entity_create_access: '{{ entity }}'
+
+{{ entity }}.edit:
+  path: '/admin/config/system/{{ entity }}/{{ '{'~entity~'}' }}'
+  defaults:
+    _entity_form: {{ entity }}.edit
+    _title: 'Edit {{ entity }}'
+  requirements:
+    _entity_access: '{{ entity }}.edit'
+    
+{{ entity }}.delete:
+  path: '/admin/config/system/{{ entity }}/{{ '{'~entity~'}' }}/delete'
+  defaults:
+    _entity_form: {{ entity }}.delete
+    _title: 'Delete {{ entity }}'
+  requirements:
+    _entity_access: '{{ entity }}.delete'
+    
+{{ entity }}.settings:
+  path: 'admin/structure/entities/manage/{{ entity }}'
+  defaults:
+   _form: '\Drupal\{{ entity }}\Form\{{ entity }}SettingsForm'
+   _title: '{{ entity }} Settings'
+  requirements:
+    _permission: 'administer {{ entity }} entity'
