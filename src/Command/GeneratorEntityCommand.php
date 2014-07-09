@@ -99,4 +99,3 @@ class GeneratorEntityCommand extends GeneratorCommand
     return new EntityGenerator();
   }
 }
-
