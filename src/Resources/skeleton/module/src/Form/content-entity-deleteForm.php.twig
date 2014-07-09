@@ -7,11 +7,11 @@
 
 namespace Drupal\{{module}}\Form;
 
-use Drupal\Core\Entity\{{ entity|capitalize }}EntityConfirmFormBase;
+use Drupal\Core\Entity\ContentEntityConfirmFormBase;
 use Drupal\Core\Url;
 
 /**
- * Provides a form for deleting a content_entity_example entity.
+ * Provides a form for deleting a {{ entity|capitalize }} entity.
  *
  * @ingroup {{module}}
  */
@@ -46,7 +46,7 @@ class {{ entity|capitalize }}DeleteForm extends ContentEntityConfirmFormBase {
     $this->entity->delete();
 
     watchdog('content', '@type: deleted %title.', array('@type' => $this->entity->bundle(), '%title' => $this->entity->label()));
-    $form_state['redirect_route']['route_name'] = '{{module}}.{{ entity|capitalize }}_list';
+    $form_state['redirect_route']['route_name'] = '{{module}}.{{ entity|capitalize }}.list';
   }
 
 }

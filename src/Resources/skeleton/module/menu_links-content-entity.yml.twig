@@ -1,10 +1,10 @@
-{{ entity }}.list:
+{{ module }}.{{ entity }}.list:
   title: '{{ entity }}: Listing'
-  route_name: {{ entity }}.list
+  route_name: {{ module }}.{{ entity }}.list
   description: 'List {{ entity }}'
   weight: 10
-{{ entity }}.admin.structure.settings:
+{{ module }}.{{ entity }}.admin.structure.settings:
   title: {{ entity }} Settings
   description: 'Configure {{ entity }} entity'
-  route_name:  {{ entity }}.settings
+  route_name:  {{ module }}.{{ entity }}.settings
   parent: system.admin_structure
