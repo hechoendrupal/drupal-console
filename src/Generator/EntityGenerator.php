@@ -103,6 +103,12 @@ class EntityGenerator extends Generator
           $parameters,
           FILE_APPEND
       );
+      
+      $this->renderFile(
+          'module/src/interface-content-entity.php.twig',
+          $this->getSourcePath($module).'/'.ucwords($entity).'Interface.php',
+          $parameters
+      );
     }
         
   }
