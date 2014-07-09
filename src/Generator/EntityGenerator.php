@@ -15,14 +15,17 @@ class EntityGenerator extends Generator
    * @param  string $class_name   Class name
    * @param  array  $services     List of services
    */
-  public function generate($module, $entity)
+  public function generate($module, $entity, $class)
   {
 
     $parameters = [
       'module' => $module,
-      'entity' => $entity
+      'entity' => $entity,
+      'class' => $class,
     ];
 
+    //switch ConfigEntityType or ContentEntityType
+    
     $this->renderFile(
       'module/config/schema/entity.schema.yml.twig',
       $this->getModulePath($module). '/config/schema/' . $entity . '.schema.yml',
