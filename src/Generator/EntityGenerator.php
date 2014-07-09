@@ -109,6 +109,43 @@ class EntityGenerator extends Generator
           $this->getSourcePath($module).'/'.ucwords($entity).'Interface.php',
           $parameters
       );
+      
+      $this->renderFile(
+          'module/src/accessController-content-entity.php.twig',
+          $this->getSourcePath($module).'/'.ucwords($entity).'AccessController.php',
+          $parameters
+      );
+      
+      $this->renderFile(
+          'module/src/Entity/content-entity.php.twig',
+          $this->getEntityPath($module).'/'.ucwords($entity).'.php',
+          $parameters
+      );
+     
+      $this->renderFile(
+          'module/src/Entity/Controller/listController-content-entity.php.twig',
+          $this->getEntityPath($module).'/Controller/'.ucwords($entity).'ListController.php',
+          $parameters
+      );
+    
+      $this->renderFile(
+          'module/src/Entity/Form/content-entity-settingsForm.php.twig',
+          $this->getEntityPath($module).'/Form/'.ucwords($entity).'SettingsForm.php',
+          $parameters
+      );
+/*
+      $this->renderFile(
+          'module/src/Entity/Form/content-entity-form.php.twig',
+          $this->getEntityPath($module).'/Form/'.ucwords($entity).'Form.php',
+          $parameters
+      );
+      
+      $this->renderFile(
+          'module/src/Entity/Form/content-entity-deleteForm.php.twig',
+          $this->getEntityPath($module).'/Form/'.ucwords($entity).'deleteForm.php',
+          $parameters
+      );
+ */     
     }
         
   }
