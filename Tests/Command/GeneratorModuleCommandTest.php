@@ -15,14 +15,14 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
    */
   public function testInteractive($options, $expected, $input)
   {
-    list($module, $dir, $description, $core, $package, $controller, $tests, $setting, $structure, $skip_root) = $expected;
+    list($module, $machine_name, $dir, $description, $core, $package, $controller, $tests, $structure) = $expected;
 
     $generator = $this->getGenerator();
 
     $generator
       ->expects($this->once())
       ->method('generate')
-      ->with($module, $dir, $description, $core, $package, $controller, $tests, $setting, $structure, $skip_root)
+      ->with($module, $machine_name, $dir, $description, $core, $package, $controller, $tests, $structure)
     ;
 
     $command = $this->getCommand($generator, $input);
@@ -39,14 +39,8 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
       // case one basic options
       [
         [],
-        ['foo', $dir, 'My Awesome Module', '8.x', 'Other', false, true, false, true, false],
-        "foo\n$dir\n"
-      ],
-      // case two skip-root
-      [
-        ['--skip-root'=> true,'--module-path'=> $dir,'--description'=>'My old module','--package'=>'Other'],
-        ['foo', $dir, "My old module", '8.x', 'Other', false, true, false, true, true],
-        "foo"
+        ['foo', 'foo', $dir, 'My Awesome Module', '8.x', 'Other', false, true, true],
+        "foo\nfoo\n$dir\n"
       ],
     ];
   }
@@ -56,14 +50,14 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
    */
   public function testNoInteractive($options, $expected)
   {
-    list($module, $dir, $description, $core, $package, $controller, $tests, $setting, $structure, $skip_root) = $expected;
+    list($module, $machine_name, $dir, $description, $core, $package, $controller, $tests, $structure) = $expected;
 
     $generator = $this->getGenerator();
 
     $generator
       ->expects($this->once())
       ->method('generate')
-      ->with($module, $dir, $description, $core, $package, $controller, $tests, $setting, $structure, $skip_root)
+      ->with($module, $machine_name, $dir, $description, $core, $package, $controller, $tests, $structure)
     ;
 
     $cmd = new CommandTester($this->getCommand($generator,''));
@@ -75,14 +69,13 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
     $dir = sys_get_temp_dir();
 
     return [
-      // case one
       [
-        ['--module'=>'bar','--module-path'=>$dir, '--description'=>'My Awesome Module','--core'=>'8.x','--package'=>'Other', '--controller'=>true,'--tests'=>true,'--setting'=>true,'--structure'=>true],
-        ['bar', $dir, "My Awesome Module", '8.x', 'Other', true, true, true, true, false],
+        ['--module'=>'foo', '--machine-name'=>'foo', '--module-path'=>$dir, '--description'=>'My Awesome Module','--core'=>'8.x','--package'=>'Other', '--controller'=>true,'--tests'=>true,'--structure'=>true],
+        ['foo', 'foo', $dir, "My Awesome Module", '8.x', 'Other', true, true, true],
       ],
       [
-        ['--module'=>'bar','--module-path'=>$dir,'--description'=>'My Awesome Module','--core'=>'8.x','--package'=>'Other', '--controller'=>true,'--tests'=>true,'--setting'=>true,'--structure'=>true,'--skip-root'=>true],
-        ['bar', $dir, "My Awesome Module", '8.x', 'Other', true, true, true, true, true],
+        ['--module'=>'foo', '--machine-name'=>'foo', '--module-path'=>$dir,'--description'=>'My Awesome Module','--core'=>'8.x','--package'=>'Other', '--controller'=>true,'--tests'=>true,'--structure'=>true],
+        ['foo', 'foo', $dir, "My Awesome Module", '8.x', 'Other', true, true, true],
       ]
     ];
   }
@@ -92,8 +85,13 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
     /** @var \Drupal\AppConsole\Command\GeneratorModuleCommand $command */
     $command = $this
       ->getMockBuilder('Drupal\AppConsole\Command\GeneratorModuleCommand')
-      ->setMethods(['validateModule'])
+      ->setMethods(['validateModuleName', 'validateModule'])
       ->getMock()
+    ;
+
+    $command->expects($this->any())
+      ->method('validateModuleName')
+      ->will($this->returnValue('foo'));
     ;
 
     $command->expects($this->any())
