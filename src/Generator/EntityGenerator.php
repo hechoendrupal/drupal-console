@@ -82,6 +82,27 @@ class EntityGenerator extends Generator
           $parameters,
           FILE_APPEND
       );
+      
+      $this->renderFile(
+          'module/menu_links-content-entity.yml.twig',
+          $this->getModulePath($module).'/'.$module.'.menu_links.yml',
+          $parameters,
+          FILE_APPEND
+      );
+      
+      $this->renderFile(
+          'module/local_tasks-content-entity.yml.twig',
+          $this->getModulePath($module).'/'.$module.'.local_tasks.yml',
+          $parameters,
+          FILE_APPEND
+      );
+
+      $this->renderFile(
+          'module/local_actions-content-entity.yml.twig',
+          $this->getModulePath($module).'/'.$module.'.local_actions.yml',
+          $parameters,
+          FILE_APPEND
+      );
     }
         
   }
