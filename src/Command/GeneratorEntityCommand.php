@@ -24,7 +24,8 @@ class GeneratorEntityCommand extends GeneratorCommand
     $this
         ->setDefinition(array(
             new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
-            new InputOption('entity','',InputOption::VALUE_REQUIRED, 'The name of the entity')
+            new InputOption('entity','',InputOption::VALUE_REQUIRED, 'The name of the entity'),
+            new InputOption('class','',InputOption::VALUE_REQUIRED, 'The class of the entity')
         ))
         ->setName('generate:entity')
         ->setDescription('Generate entity')
@@ -37,10 +38,11 @@ class GeneratorEntityCommand extends GeneratorCommand
 
     $module = $input->getOption('module');
     $entity = $input->getOption('entity');
-
+    $class = $input->getOption('class');
+    
     $this
       ->getGenerator()
-      ->generate($module, $entity);
+      ->generate($module, $entity, $class);
 
     $errors = [];
     $dialog->writeGeneratorSummary($output, $errors);
@@ -73,6 +75,26 @@ class GeneratorEntityCommand extends GeneratorCommand
     }
     $input->setOption('entity', $entity);
 
+    // --entity option
+    $entity = $input->getOption('entity');
+    if (!$entity) {
+    	$entity = $dialog->ask(
+    			$output,
+    			$dialog->getQuestion('Enter the entity name', '')
+    	);
+    }
+    $input->setOption('entity', $entity);
+    
+    // --class option
+    $class = $input->getOption('class');
+    if (!$class) {
+    	$class = $dialog->askConfirmation(
+    			$output,
+    			$dialog->getQuestion('Enter the class of the entity', 'ConfigEntityType', '?'),
+    			true
+    	);
+    }
+    $input->setOption('class', $class);    
   }
 
 
