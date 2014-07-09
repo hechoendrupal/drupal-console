@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains Drupal\{{module}}\Controller\{{ entity|capitalize }}ListBuilder.
+ * Contains Drupal\{{module}}\Controller\{{ entity_class }}ListBuilder.
  */
 
 namespace Drupal\{{module}}\Controller;
@@ -10,16 +10,16 @@ use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
 use Drupal\Core\Entity\EntityInterface;
 
 /**
- * Provides a listing of {{ entity|capitalize }}.
+ * Provides a listing of {{ entity_class }}.
  */
-class {{ entity|capitalize }}ListBuilder extends ConfigEntityListBuilder
+class {{ entity_class }}ListBuilder extends ConfigEntityListBuilder
 {
   /**
    * {@inheritdoc}
    */
   public function buildHeader()
   {
-    $header['label'] = $this->t('{{ entity|capitalize }}');
+    $header['label'] = $this->t('{{ entity_class }}');
     $header['id'] = $this->t('Machine name');
     return $header + parent::buildHeader();
   }

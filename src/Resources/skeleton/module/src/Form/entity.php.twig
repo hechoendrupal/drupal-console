@@ -1,15 +1,15 @@
 <?php
 /**
  * @file
- * Contains Drupal\{{module}}\Form\{{entity|capitalize}}Form.
+ * Contains Drupal\{{ module }}\Form\{{ entity_class }}Form.
  */
 
-namespace Drupal\{{module}}\Form;
+namespace Drupal\{{ module }}\Form;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityForm;
 
-class {{entity|capitalize}}Form extends EntityForm
+class {{ entity_class }}Form extends EntityForm
 {
 
   /**
@@ -17,28 +17,29 @@ class {{entity|capitalize}}Form extends EntityForm
    */
   public function form(array $form, array &$form_state)
   {
-
     $form = parent::form($form, $form_state);
 
-    ${{entity}} = $this->entity;
+    ${{ entity_name }} = $this->entity;
     $form['label'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Label'),
       '#maxlength' => 255,
-      '#default_value' => ${{entity}}->label(),
-      '#description' => $this->t("Label for the {{entity|capitalize}}."),
+      '#default_value' => ${{ entity_name }}->label(),
+      '#description' => $this->t("Label for the {{ entity_class }}."),
       '#required' => TRUE,
     );
 
     $form['id'] = array(
       '#type' => 'machine_name',
-      '#default_value' => ${{entity}}->id(),
+      '#default_value' => ${{ entity_name }}->id(),
       '#machine_name' => array(
-        'exists' => '{{entity}}_load',
+        'exists' => '{{ entity_name }}_load',
       ),
-      '#disabled' => !${{entity}}->isNew(),
+      '#disabled' => !${{ entity_name }}->isNew(),
     );
+
     // You will need additional form elements for your custom properties.
+
     return $form;
   }
 
@@ -47,18 +48,19 @@ class {{entity|capitalize}}Form extends EntityForm
   */
   public function save(array $form, array &$form_state)
   {
-    ${{entity}} = $this->entity;
-    $status = ${{entity}}->save();
+    ${{ entity_name }} = $this->entity;
+    $status = ${{ entity_name }}->save();
+
     if ($status) {
-      drupal_set_message($this->t('Saved the %label {{entity|capitalize}}.', array(
-        '%label' => ${{entity}}->label(),
+      drupal_set_message($this->t('Saved the %label {{ entity_class }}.', array(
+        '%label' => ${{ entity_name }}->label(),
       )));
     }
     else {
-      drupal_set_message($this->t('The %label {{entity|capitalize}} was not saved.', array(
-        '%label' => ${{entity}}->label(),
+      drupal_set_message($this->t('The %label {{ entity_class }} was not saved.', array(
+        '%label' => ${{ entity_name }}->label(),
       )));
     }
-    $form_state['redirect'] = 'admin/config/system/{{entity}}';
+    $form_state['redirect'] = 'admin/config/system/{{ entity_name }}';
   }
 }

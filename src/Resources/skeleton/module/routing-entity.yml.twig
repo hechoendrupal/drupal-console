@@ -1,29 +1,32 @@
-{{ entity }}.list:
-  path: '/admin/config/system/{{ entity }}'
+# {{ entity_class }} routing definition
+{{ entity_name }}.list:
+  path: '/admin/config/system/{{ entity_name }}'
   defaults:
-    _entity_list: '{{ entity }}'
-    _title: '{{ entity }} Configuration'
-  requirements:
-    _permission: 'administer site configuration'
-{{ entity }}.add:
-  path: '/admin/config/system/{{ entity }}/add'
-  defaults:
-    _entity_form: '{{ entity }}.add'
-    _title: 'Add {{ entity }}'
-  requirements:
-    _permission: 'administer site configuration'
-{{ entity }}.edit:
-  path: '/admin/config/system/{{ entity }}/{{ '{'~entity~'}' }}'
-  defaults:
-    _entity_form: '{{ entity }}.edit'
-    _title: 'Edit {{ entity }}'
-  requirements:
-    _permission: 'administer site configuration'
-{{ entity }}.delete:
-  path: '/admin/config/system/{{ entity }}/{{ '{'~entity~'}' }}/delete'
-  defaults:
-    _entity_form: '{{ entity }}.delete'
-    _title: 'Delete {{ entity }}'
+    _entity_list: '{{ entity_name }}'
+    _title: '{{ entity_class }} Configuration'
   requirements:
     _permission: 'administer site configuration'
 
+{{ entity_name }}.add:
+  path: '/admin/config/system/{{ entity_name }}/add'
+  defaults:
+    _entity_form: '{{ entity_name }}.add'
+    _title: 'Add {{ entity_class }}'
+  requirements:
+    _permission: 'administer site configuration'
+
+{{ entity_name }}.edit:
+  path: '/admin/config/system/{{ entity_name }}/{{ '{'~entity_name~'}' }}'
+  defaults:
+    _entity_form: '{{ entity_name }}.edit'
+    _title: 'Edit {{ entity_class }}'
+  requirements:
+    _permission: 'administer site configuration'
+
+{{ entity_name }}.delete:
+  path: '/admin/config/system/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete'
+  defaults:
+    _entity_form: '{{ entity_name }}.delete'
+    _title: 'Delete {{ entity_class }}'
+  requirements:
+    _permission: 'administer site configuration'
