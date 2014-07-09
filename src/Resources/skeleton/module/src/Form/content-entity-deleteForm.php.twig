@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * @file
+ * Contains \Drupal\{{module}}\Entity\Form\{{ entity|capitalize }}DeleteForm.
+ */
+
+namespace Drupal\{{module}}\Form;
+
+use Drupal\Core\Entity\{{ entity|capitalize }}EntityConfirmFormBase;
+use Drupal\Core\Url;
+
+/**
+ * Provides a form for deleting a content_entity_example entity.
+ *
+ * @ingroup {{module}}
+ */
+class {{ entity|capitalize }}DeleteForm extends ContentEntityConfirmFormBase {
+
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getQuestion() {
+    return t('Are you sure you want to delete entity %name?', array('%name' => $this->entity->label()));
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCancelRoute() {
+    return new Url('{{module}}.contact_list');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getConfirmText() {
+    return t('Delete');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submit(array $form, array &$form_state) {
+    $this->entity->delete();
+
+    watchdog('content', '@type: deleted %title.', array('@type' => $this->entity->bundle(), '%title' => $this->entity->label()));
+    $form_state['redirect_route']['route_name'] = '{{module}}.{{ entity|capitalize }}_list';
+  }
+
+}

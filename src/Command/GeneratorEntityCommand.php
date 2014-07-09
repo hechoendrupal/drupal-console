@@ -80,7 +80,7 @@ class GeneratorEntityCommand extends GeneratorCommand
     if (!$class) {
     	$class = $dialog->ask(
     			$output,
-    			$dialog->getQuestion('Enter the class of the entity', 'ConfigEntityType'),
+    			$dialog->getQuestion('Enter the class of the entity', 'ContentEntityType'),
     	        $class
     	);
     }
