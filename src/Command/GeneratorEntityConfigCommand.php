@@ -10,9 +10,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Command\Helper\ModuleTrait;
-use Drupal\AppConsole\Generator\EntityGenerator;
+use Drupal\AppConsole\Generator\EntityConfigGenerator;
 
-class GeneratorEntityCommand extends GeneratorCommand
+class GeneratorEntityConfigCommand extends GeneratorCommand
 {
   use ModuleTrait;
 
@@ -96,6 +96,6 @@ class GeneratorEntityCommand extends GeneratorCommand
 
   protected function createGenerator()
   {
-    return new EntityGenerator();
+    return new EntityConfigGenerator();
   }
 }
