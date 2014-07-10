@@ -1,0 +1,19 @@
+<?php
+/**
+ * @file
+ * Contains \Drupal\{{module}}\{{ entity_class }}Interface.
+ */
+
+namespace Drupal\{{module}};
+
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\user\EntityOwnerInterface;
+/**
+ * Provides an interface defining a {{ entity_class }} entity.
+ * @ingroup account
+ */
+interface {{ entity_class }}Interface extends ContentEntityInterface, EntityOwnerInterface
+{
+  // Add get/set methods for your configuration properties here.
+}
