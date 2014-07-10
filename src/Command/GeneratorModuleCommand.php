@@ -142,9 +142,14 @@ class GeneratorModuleCommand extends GeneratorCommand
     }
     $input->setOption('controller', $controller);
 
-    $tests = $input->getOption('tests');
-    if (!$tests && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate Test', 'yes', '?'), TRUE)) {
-      $tests = TRUE;
+    if ($controller){
+      $tests = $input->getOption('tests');
+      if (!$tests && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate Test', 'yes', '?'), true)) {
+        $tests = true;
+      }
+    }
+    else {
+      $tests = false;
     }
     $input->setOption('tests', $tests);
 

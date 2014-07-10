@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains Drupal\{{module}}\Form\{{ entity|capitalize }}DeleteForm.
+ * Contains Drupal\{{module}}\Form\{{ entity_class }}DeleteForm.
  */
 
 namespace Drupal\{{module}}\Form;
@@ -10,9 +10,9 @@ use Drupal\Core\Entity\EntityConfirmFormBase;
 use Drupal\Core\Url;
 
 /**
- * Builds the form to delete a {{ entity|capitalize }}.
+ * Builds the form to delete a {{ entity_class }}.
  */
-class {{ entity|capitalize }}DeleteForm extends EntityConfirmFormBase
+class {{ entity_class }}DeleteForm extends EntityConfirmFormBase
 {
 
   /**
@@ -27,7 +27,7 @@ class {{ entity|capitalize }}DeleteForm extends EntityConfirmFormBase
   */
   public function getCancelRoute()
   {
-    return new Url('{{ entity }}.list');
+    return new Url('{{ entity_name }}.list');
   }
 
   /**
