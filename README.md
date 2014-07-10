@@ -1,7 +1,7 @@
 Drupal 8 Console scaffolding module generator
 =============================================
 [![Build Status](https://travis-ci.org/hechoendrupal/DrupalAppConsole.svg?branch=master)](https://travis-ci.org/hechoendrupal/DrupalAppConsole)
-[![Latest Stable Version](https://poser.pugx.org/drupal/console/v/stable.svg)](https://packagist.org/packages/drupal/console) [![Total Downloads](https://poser.pugx.org/drupal/console/downloads.svg)](https://packagist.org/packages/drupal/console) [![Latest Unstable Version](https://poser.pugx.org/drupal/console/v/unstable.svg)](https://packagist.org/packages/drupal/console)[![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
+[![Latest Stable Version](https://poser.pugx.org/drupal/console/v/stable.svg)](https://packagist.org/packages/drupal/console) [![Total Downloads](https://poser.pugx.org/drupal/console/downloads.svg)](https://packagist.org/packages/drupal/console) [![Latest Unstable Version](https://poser.pugx.org/drupal/console/v/unstable.svg)](https://packagist.org/packages/drupal/console) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
 
 Every modern framework nowadays provides a scaffolding tool code generator for speeding up the process of starting a new project and avoid early repetitive tasks.
 
@@ -42,58 +42,33 @@ php -r "readfile('https://getcomposer.org/installer');" | php
 Instructions to install Drupal Console if you are using composer inside Drupal Installation.
 ```
 $ COMPOSER_BIN_DIR=bin php composer.phar require --dev drupal/console:~0.1
-$ ./bin/console --help
 ```
 
 Instructions to install Drupal Console if you are using composer globally.
 ```
 $ COMPOSER_BIN_DIR=bin composer require --dev drupal/console:~0.1
-$ ./bin/console --help
 ```
 
 ### Usage
+```bash
+$ ./bin/console list
+$ ./bin/console --shell
+```
 
-#### Module generator
-```bash
-$ ./bin/console generate:module
-```
-#### Controller generator
-```bash
-$ ./bin/console generate:controller
-```
-#### Form generator
-```bash
-$ ./bin/console generate:form
-```
-#### Command generator
-```bash
-$ ./bin/console generate:command
-```
-#### Service generator
-```bash
-$ ./bin/console generate:service
-```
-#### Plugin Block generator
-```bash
-$ ./bin/console generate:plugin:block
-```
-#### Plugin Image Effect generator
-```bash
-$ ./bin/console generate:plugin:imageeffect
-```
-#### Container Debug
-```bash
-$ ./bin/console container:debug
-```
-#### Router Debug
-```bash
-$ ./bin/console router:debug
-```
-#### Router Rebuild
-```bash
-$ ./bin/console router:rebuild
-```
+### Commands
+| Generators                    | Router                | Container       | Commands 
+| :-----------------------------|:----------------------|:----------------|:---------
+| generator:module              | router:debug          | container:debug | drush
+| generator:controller          | router:rebuild        |                 |
+| generator:form                |                       |                 |
+| generator:command             |                       |                 |
+| generator:plugin:block        |                       |                 |
+| generator:plugin:imageeffect  |                       |                 |
+| generator:entity:config       |                       |                 |
+| generator:service             |                       |                 |
+
 
 #### Videos
-[Introducing the Drupal 8 Console scaffolding module generator](https://www.youtube.com/watch?v=lzjcj-_xlAg)  
-[How to install & use youtube video no audio](http://www.youtube.com/watch?v=NkHT2KctR-Y)
+* [Generate a configuration entity type using the drupal 8 console](https://www.youtube.com/watch?v=x1zYfMLzFIM) 
+* [Introducing the Drupal 8 Console scaffolding module generator](https://www.youtube.com/watch?v=lzjcj-_xlAg)  
+* [How to install & use youtube video no audio](http://www.youtube.com/watch?v=NkHT2KctR-Y)

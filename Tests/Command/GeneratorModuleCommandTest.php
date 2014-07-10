@@ -39,7 +39,7 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
       // case one basic options
       [
         [],
-        ['foo', 'foo', $dir, 'My Awesome Module', '8.x', 'Other', false, true, true],
+        ['foo', 'foo', $dir, 'My Awesome Module', '8.x', 'Other', false, false, true],
         "foo\nfoo\n$dir\n"
       ],
     ];
