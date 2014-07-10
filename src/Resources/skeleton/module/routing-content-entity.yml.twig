@@ -42,7 +42,7 @@
 {{ module }}.{{ entity_name }}.settings:
   path: 'admin/structure/{{ module }}/manage/{{ entity_name }}'
   defaults:
-   _form: '\Drupal\{{ module }}\Form\{{ entity_name }}SettingsForm'
+   _form: '\Drupal\{{ module }}\Form\{{ entity_class }}SettingsForm'
    _title: '{{ entity_class }} Settings'
   requirements:
     _permission: 'administer {{ entity_class }} entity'
