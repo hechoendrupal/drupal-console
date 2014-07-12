@@ -115,7 +115,7 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
     $input->setOption('plugin-id', $plugin_id);
 
     // --services option
-    // @see use Drupal\AppConsole\Command\Helper\ServicesTrait::servicesQuestion
+    // @see Drupal\AppConsole\Command\Helper\ServicesTrait::servicesQuestion
     $services_collection = $this->servicesQuestion($output, $dialog);
     $input->setOption('services', $services_collection);
 
