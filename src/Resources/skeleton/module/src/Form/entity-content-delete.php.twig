@@ -29,7 +29,7 @@ class {{ entity_class }}DeleteForm extends ContentEntityConfirmFormBase {
    * {@inheritdoc}
    */
   public function getCancelRoute() {
-    return new Url('{{module}}.{{ entity_name }}.list');
+    return new Url('{{ entity_name }}.list');
   }
 
   /**
@@ -46,7 +46,7 @@ class {{ entity_class }}DeleteForm extends ContentEntityConfirmFormBase {
     $this->entity->delete();
 
     watchdog('content', '@type: deleted %title.', array('@type' => $this->entity->bundle(), '%title' => $this->entity->label()));
-    $form_state['redirect_route']['route_name'] = '{{module}}.{{ entity_name }}.list';
+    $form_state['redirect_route']['route_name'] = '{{ entity_name }}.list';
   }
 
 }

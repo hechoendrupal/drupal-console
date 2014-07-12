@@ -40,7 +40,7 @@ class {{ entity_class }}Form extends ContentEntityForm {
   public function submit(array $form, array &$form_state) {
     // Build the entity object from the submitted values.
     $entity = parent::submit($form, $form_state);
-    $form_state['redirect_route']['route_name'] = '{{module}}.{{ entity_name }}.list';
+    $form_state['redirect_route']['route_name'] = '{{ entity_name }}.list';
 
     return $entity;
   }

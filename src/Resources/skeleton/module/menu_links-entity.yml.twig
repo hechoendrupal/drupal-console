@@ -1,10 +1,11 @@
 # {{ entity_class }} menu items definition
-{{ module }}.{{ entity_name }}.list:
+{{ entity_name }}.list:
   title: '{{ entity_class }}: Listing'
-  route_name: {{ module }}.{{ entity_name }}.list
+  route_name: {{ entity_name }}.list
   description: 'List {{ entity_class }}'
-{{ module }}.{{ entity_name }}.admin.structure.settings:
+
+{{ entity_name }}.admin.structure.settings:
   title: {{ entity_class }} Settings
   description: 'Configure {{ entity_class }} entity'
-  route_name:  {{ module }}.{{ entity_name }}.settings
+  route_name:  {{ entity_name }}.settings
   parent: system.admin_structure
