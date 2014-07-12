@@ -98,7 +98,7 @@ class PluginBlockGeneratorTest extends GeneratorTest
       ->setMethods(['getPluginPath'])
       ->getMock();
 
-    $generator->setSkeletonDirs(__DIR__.'/../../src/Resources/skeleton');
+    $generator->setSkeletonDirs($this->getSkeletonDirs());
 
     $generator->expects($this->once())
       ->method('getPluginPath')
