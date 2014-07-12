@@ -66,4 +66,32 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
       '#markup' => '{{plugin_label}}',
     ];
   }
+
+{% if inputs %}
+  /**
+   * Overrides \Drupal\block\BlockBase::blockForm().
+   */
+  public function blockForm($form, &$form_state)
+  {
+{% for input in inputs %}
+    $form['{{ input.name }}'] = [
+      '#type' => '{{ input.type }}',
+      '#title' => $this->t('{{ input.label }}'),
+      '#description' => $this->t(''),
+      '#default_value' => $this->configuration['{{ input.name }}'],
+    ];
+{% endfor %}
+    return $form;
+  }
+
+  /**
+   * Overrides \Drupal\block\BlockBase::blockSubmit().
+   */
+  public function blockSubmit($form, &$form_state)
+  {
+{% for input in inputs %}
+    $this->configuration['{{ input.name }}'] = $form_state['values']['{{ input.name }}'];
+{% endfor %}
+  }
+{% endif %}
 }

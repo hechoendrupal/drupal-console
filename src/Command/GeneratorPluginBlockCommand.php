@@ -12,11 +12,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Generator\PluginBlockGenerator;
 use Drupal\AppConsole\Command\Helper\ServicesTrait;
 use Drupal\AppConsole\Command\Helper\ModuleTrait;
+use Drupal\AppConsole\Command\Helper\FormTrait;
 
 class GeneratorPluginBlockCommand extends GeneratorCommand
 {
   use ServicesTrait;
   use ModuleTrait;
+  use FormTrait;
 
   protected function configure()
   {
@@ -26,6 +28,7 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
         new InputOption('class-name','',InputOption::VALUE_OPTIONAL, 'Plugin block class'),
         new InputOption('plugin-label','',InputOption::VALUE_OPTIONAL, 'Plugin Label'),
         new InputOption('plugin-id','',InputOption::VALUE_OPTIONAL, 'Plugin id'),
+        new InputOption('plugin-form','',InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Plugin id'),
         new InputOption('services','',InputOption::VALUE_OPTIONAL, 'Load services'),
       ))
     ->setDescription('Generate plugin block')
@@ -52,13 +55,14 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
     $plugin_label = $input->getOption('plugin-label');
     $plugin_id = $input->getOption('plugin-id');
     $services = $input->getOption('services');
+    $inputs = $input->getOption('plugin-form');
 
     // @see use Drupal\AppConsole\Command\Helper\ServicesTrait::buildServices
     $build_services = $this->buildServices($services);
 
     $this
       ->getGenerator()
-      ->generate($module, $class_name, $plugin_label, $plugin_id, $build_services)
+      ->generate($module, $class_name, $plugin_label, $plugin_id, $build_services, $inputs)
     ;
   }
 
@@ -114,6 +118,17 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
     // @see use Drupal\AppConsole\Command\Helper\ServicesTrait::servicesQuestion
     $services_collection = $this->servicesQuestion($output, $dialog);
     $input->setOption('services', $services_collection);
+
+    $output->writeln([
+      '',
+      'You can add some input fields to create special configurations in each block',
+      'This is optional, press <info>enter</info> to <info>continue</info>',
+      ''
+    ]);
+
+    // @see Drupal\AppConsole\Command\Helper\FormTrait::formQuestion
+    $form = $this->formQuestion($output, $dialog);
+    $input->setOption('plugin-form', $form);
   }
 
   protected function createGenerator()
