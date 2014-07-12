@@ -116,6 +116,7 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
       ->setDescription(t('The UUID of the {{ entity_class }} entity.'))
       ->setReadOnly(TRUE);
 
+
     $fields['name'] = FieldDefinition::create('string')
       ->setLabel(t('Name'))
       ->setDescription(t('The name of the {{ entity_class }} entity.'))
@@ -136,6 +137,13 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
      
+    $fields['langcode'] = FieldDefinition::create('language')
+      ->setLabel(t('Language code'))
+      ->setDescription(t('The language code of {{ entity_class }} entity.'));
+
+    $fields['created'] = FieldDefinition::create('created')
+      ->setLabel(t('Created'))
+      ->setDescription(t('The time that the entity was created.'));
 
     $fields['changed'] = FieldDefinition::create('changed')
       ->setLabel(t('Changed'))
