@@ -15,14 +15,14 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
    */
   public function testInteractiveCommand($options, $expected, $input)
   {
-    list($module, $name, $services) = $expected;
+    list($module, $class_name, $plugin_label, $plugin_id, $services, $inputs) = $expected;
 
     $generator = $this->getGenerator();
 
     $generator
       ->expects($this->once())
       ->method('generate')
-      ->with($module,$name,$services)
+      ->with($module, $class_name, $plugin_label, $plugin_id, $services, $inputs)
     ;
 
     $command = $this->getCommand($generator,$input);
