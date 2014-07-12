@@ -25,71 +25,71 @@ class EntityContentGenerator extends Generator
     ];
 
     $this->renderFile(
-      'module/routing-content-entity.yml.twig',
+      'module/routing-entity-content.yml.twig',
       $this->getModulePath($module).'/'.$module.'.routing.yml',
       $parameters,
       FILE_APPEND
     );
       
     $this->renderFile(
-      'module/menu_links-content-entity.yml.twig',
+      'module/menu_links-entity.yml.twig',
       $this->getModulePath($module).'/'.$module.'.menu_links.yml',
       $parameters,
       FILE_APPEND
     );
       
     $this->renderFile(
-      'module/local_tasks-content-entity.yml.twig',
+      'module/local_tasks-entity.yml.twig',
       $this->getModulePath($module).'/'.$module.'.local_tasks.yml',
       $parameters,
       FILE_APPEND
     );
 
     $this->renderFile(
-      'module/local_actions-content-entity.yml.twig',
+      'module/local_actions-entity-content.yml.twig',
       $this->getModulePath($module).'/'.$module.'.local_actions.yml',
       $parameters,
       FILE_APPEND
     );
       
     $this->renderFile(
-      'module/src/interface-content-entity.php.twig',
+      'module/src/interface-entity-content.php.twig',
       $this->getSourcePath($module).'/'.$entity_class.'Interface.php',
       $parameters
-    );  
+    );
       
     $this->renderFile(
-      'module/src/accessController-content-entity.php.twig',
+      'module/src/accessController-entity-content.php.twig',
       $this->getSourcePath($module).'/'.$entity_class.'AccessController.php',
       $parameters
     );
       
     $this->renderFile(
-      'module/src/Entity/content-entity.php.twig',
+      'module/src/Entity/entity-content.php.twig',
       $this->getEntityPath($module).'/'.$entity_class.'.php',
       $parameters
     );
      
     $this->renderFile(
-      'module/src/Entity/Controller/listController-content-entity.php.twig',
+      'module/src/Entity/Controller/listController-entity-content.php.twig',
       $this->getEntityPath($module).'/Controller/'.$entity_class.'ListController.php',
       $parameters
     );
     
     $this->renderFile(
-      'module/src/Form/content-entity-settingsForm.php.twig',
+      'module/src/Form/entity-settings.php.twig',
       $this->getFormPath($module).'/'.$entity_class.'SettingsForm.php',
       $parameters
     );
       
     $this->renderFile(
-      'module/src/Form/content-entity-form.php.twig',
+      'module/src/Form/entity-content.php.twig',
       $this->getFormPath($module).'/'.$entity_class.'Form.php',
       $parameters
     );
       
     $this->renderFile(
-      'module/src/Form/content-entity-deleteForm.php.twig',
+      'module/src/Form/entity-content-delete.php.twig',
       $this->getFormPath($module).'/'.$entity_class.'DeleteForm.php',
       $parameters
     );

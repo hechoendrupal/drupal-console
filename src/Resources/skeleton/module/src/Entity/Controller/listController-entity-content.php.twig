@@ -33,7 +33,7 @@ class {{ entity_class }}ListController extends EntityListBuilder {
     /* @var $entity \Drupal\{{module}}\Entity\{{ entity_class }} */
     $row['id'] = $entity->id();
     $row['name'] = \Drupal::l($this->getLabel($entity),
-      '{{module}}.{{ entity_name }}.list', array(
+      '{{ entity_name }}.list', array(
         '{{module}}_{{ entity_name }}' => $entity->id(),
       ));
     return $row + parent::buildRow($entity);
