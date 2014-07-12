@@ -32,37 +32,42 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
 
   public function getDataInteractive()
   {
+    $service ['twig'] = [
+      'name'=>'twig',
+      'machine_name'=>'twig',
+      'class'=>'Twig_Environment',
+      'short'=>'Twig_Environment',
+    ];
+
+    $inputs = [
+      ['name'=>'text_field', 'type'=>'textfield', 'label'=>'Text Field']
+    ];
+
     return[
       // case base
       [
         [],
-        ['Foo', 'FooBlock', 'Foo label', 'foo_id',[]],
-        "Foo\nFooBlock\nFoo label\nfoo_id\nno\n"
+        ['Foo', 'FooBlock', 'Foo label', 'foo_id',null, []],
+        "Foo\nFooBlock\nFoo label\nfoo_id\nno\nno"
       ],
       //case two services
       [
         [],
-        ['Foo','FooBlock', 'Foo label', 'foo_id',['twig'=>['name'=>'twig','machine_name'=>'twig','class'=>'Twig_Environment','short'=>'Twig_Environment']]],
-        "Foo\nFooBlock\nFoo label\nfoo_id\nyes\ntwig\n"
+        ['Foo','FooBlock', 'Foo label', 'foo_id', $service, []],
+        "Foo\nFooBlock\nFoo label\nfoo_id\nyes\nyes\ntwig\n\nno\n"
       ],
-      // case three module name in arguments
+      // case three inputs
       [
         ['--module'=>'Foo'],
-        ['Foo','FooBlock', 'Foo label', 'foo_id',['twig'=>['name'=>'twig','machine_name'=>'twig','class'=>'Twig_Environment','short'=>'Twig_Environment']]],
-        "FooBlock\nFoo label\nfoo_id\nyes\ntwig\n"
+        ['Foo','FooBlock', 'Foo label', 'foo_id',null, $inputs],
+        "FooBlock\nFoo label\nfoo_id\nno\nyes\nText Field"
       ],
-      //case four default values and not services
+      //case four services and inputs
       [
         ['--module'=>'Foo'],
-        ['Foo','DefaultBlock', 'Foo label', 'foo_id',[]],
-        "\nFoo label\nfoo_id\nno\n"
+        ['Foo','FooBlock', 'Foo label', 'foo_id',$service, $inputs],
+        "FooBlock\nFoo label\nfoo_id\nyes\ntwig\n\nyes\nText Field"
       ],
-      // case five default values and clean services
-      [
-        ['--module'=>'Foo'],
-        ['Foo','DefaultBlock', 'Foo label', 'foo_id', []],
-        "\nFoo label\nfoo_id\nyes\n\n"
-      ]
     ];
   }
 
@@ -99,5 +104,4 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
       ->getMock()
     ;
   }
-
 }
