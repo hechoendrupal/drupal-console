@@ -29,4 +29,13 @@ abstract class GeneratorTest extends \PHPUnit_Framework_TestCase
   {
     $this->filesystem->remove($this->dir);
   }
+
+  public function getSkeletonDirs()
+  {
+    $skeletonDirs = [];
+    $skeletonDirs[] = __DIR__.'/../../src/Resources/skeleton';
+    $skeletonDirs[] = __DIR__.'/../../src/Resources';
+
+    return $skeletonDirs;
+  }
 }
