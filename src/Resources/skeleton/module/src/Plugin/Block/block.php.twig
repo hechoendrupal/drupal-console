@@ -9,7 +9,7 @@ namespace Drupal\{{module}}\Plugin\Block;
 use Drupal\block\BlockBase;
 {% if services is not empty %}
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-{% include 'module/shared/services-use-operator.php.twig' %}
+{% include 'skeleton/module/shared/services-use-operator.php.twig' %}
 {% endif %}
 
 /**
@@ -22,7 +22,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
  */
 class {{class_name}} extends BlockBase {% if services is not empty %}implements ContainerFactoryPluginInterface{% endif %} {{"\n"}}{
 {% if services is not empty %}
-{% include 'module/shared/services-class-properties-declaration.php.twig' %}
+{% include 'skeleton/module/shared/services-class-properties-declaration.php.twig' %}
   /**
    * Construct.
    *
@@ -40,7 +40,7 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
         {{ servicesAsParameters(services)|join(', \n\t') }}
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-{% include 'module/shared/services-class-properties-initialization.php.twig' %}
+{% include 'skeleton/module/shared/services-class-properties-initialization.php.twig' %}
   }
 
   /**
@@ -52,7 +52,7 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
       $configuration,
       $plugin_id,
       $plugin_definition,
-{% include 'module/shared/services-class-properties-injection.php.twig' %}
+{% include 'skeleton/module/shared/services-class-properties-injection.php.twig' %}
     );
   }
 {% endif %}
