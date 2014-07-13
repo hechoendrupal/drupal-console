@@ -77,20 +77,20 @@ class EntityContentGenerator extends Generator
     );
     
     $this->renderFile(
-      'module/src/Form/entity-settings.php.twig',
-      $this->getFormPath($module).'/'.$entity_class.'SettingsForm.php',
+      'module/src/Entity/Form/entity-settings.php.twig',
+      $this->getEntityPath($module).'/Form/'.$entity_class.'SettingsForm.php',
       $parameters
     );
       
     $this->renderFile(
-      'module/src/Form/entity-content.php.twig',
-      $this->getFormPath($module).'/'.$entity_class.'Form.php',
+      'module/src/Entity/Form/entity-content.php.twig',
+      $this->getEntityPath($module).'/Form/'.$entity_class.'Form.php',
       $parameters
     );
       
     $this->renderFile(
-      'module/src/Form/entity-content-delete.php.twig',
-      $this->getFormPath($module).'/'.$entity_class.'DeleteForm.php',
+      'module/src/Entity/Form/entity-content-delete.php.twig',
+      $this->getEntityPath($module).'/Form/'.$entity_class.'DeleteForm.php',
       $parameters
     );
   }
