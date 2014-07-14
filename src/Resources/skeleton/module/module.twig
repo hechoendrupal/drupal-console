@@ -2,17 +2,14 @@
 
 /**
  * @file
- * Contains {{machine_name}}.module
+ * Contains {{machine_name}} functions.
  */
-
 use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
  * Implements hook_help().
  */
-
-function {{machine_name}}_help($route_name, RouteMatchInterface $route_match)
-{
+function {{machine_name}}_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {
     // Main module help for the {{ machine_name }} module.
     case 'help.page.{{ machine_name }}':
@@ -24,13 +21,10 @@ function {{machine_name}}_help($route_name, RouteMatchInterface $route_match)
   }
 }
 
-
 /**
  * Implements hook_theme().
  */
-
-function {{machine_name}}_theme()
-{
+function {{machine_name}}_theme() {
   $theme = [];
 
   return $theme;
