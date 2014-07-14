@@ -23,19 +23,20 @@ class PluginBlockGeneratorTest extends GeneratorTest
     // Get generator
     $generator = $this->getGenerator();
 
+    $dir_module = $this->dir . '/' . $module;
     // Set plugin path.
     $generator->expects($this->once())
       ->method('getPluginPath')
       ->will($this->returnValue(
-          $this->dir . '/' . $module . '/src/Plugin/Block')
+          $dir_module . '/src/Plugin/Block')
       );
 
     // Generate plugin block
     $generator->generate($module, $class_name, $plugin_label, $plugin_id, $services, $inputs);
 
     $this->assertTrue(
-      file_exists($this->dir . '/src/Plugin/Block/' . $class_name .'.php'),
-      sprintf('%s has been generated', $this->dir . '/src/Plugin/Block/'.$class_name.'.php')
+      file_exists($dir_module . '/src/Plugin/Block/' . $class_name .'.php'),
+      sprintf('%s has been generated', $dir_module . '/src/Plugin/Block/'.$class_name.'.php')
     );
 
     $contains = [
@@ -64,7 +65,7 @@ class PluginBlockGeneratorTest extends GeneratorTest
       ];
     }
 
-    $content = file_get_contents($this->dir . '/src/Plugin/Block/' . $class_name .'.php');
+    $content = file_get_contents($dir_module . '/src/Plugin/Block/' . $class_name .'.php');
     foreach ($contains as $contain) {
       $this->assertContains($contain, $content);
     }
