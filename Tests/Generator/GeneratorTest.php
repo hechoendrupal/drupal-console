@@ -19,15 +19,7 @@ abstract class GeneratorTest extends \PHPUnit_Framework_TestCase
 
   public function setUpTemporalDirectory()
   {
-    $this->dir = sys_get_temp_dir() . "/module";
-
-    $this->filesystem = new Filesystem();
-    $this->filesystem->remove($this->dir);
-  }
-
-  public function tearDown()
-  {
-    $this->filesystem->remove($this->dir);
+    $this->dir = sys_get_temp_dir() . "/modules";
   }
 
   public function getSkeletonDirs()
