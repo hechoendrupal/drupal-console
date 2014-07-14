@@ -17,8 +17,21 @@ class PluginBlockGeneratorTest extends GeneratorTest
   {
     $this->setUpTemporalDirectory();
 
+    // Get parameters
     list($module, $class_name, $plugin_label, $plugin_id, $services, $inputs) = $parameters;
-    $this->getGenerator()->generate($module, $class_name, $plugin_label, $plugin_id, $services, $inputs);
+
+    // Get generator
+    $generator = $this->getGenerator();
+
+    // Set plugin path.
+    $generator->expects($this->once())
+      ->method('getPluginPath')
+      ->will($this->returnValue(
+          $this->dir . '/' . $module . '/src/Plugin/Block')
+      );
+
+    // Generate plugin block
+    $generator->generate($module, $class_name, $plugin_label, $plugin_id, $services, $inputs);
 
     $this->assertTrue(
       file_exists($this->dir . '/src/Plugin/Block/' . $class_name .'.php'),
@@ -78,16 +91,16 @@ class PluginBlockGeneratorTest extends GeneratorTest
 
     return [
       [
-        ['foo', 'FooBlock', 'Foo Block', 'foo_block', null, []]
+        ['plugin_block' . rand(), 'FooBlock', 'Foo Block', 'foo_block', null, []]
       ],
       [
-        ['foo', 'FooBlock', 'Foo Block', 'foo_block', $services, []]
+        ['plugin_block' . rand(), 'FooBlock', 'Foo Block', 'foo_block', $services, []]
       ],
       [
-        ['foo', 'FooBlock', 'Foo Block', 'foo_block', null, $inputs]
+        ['plugin_block' . rand(), 'FooBlock', 'Foo Block', 'foo_block', null, $inputs]
       ],
       [
-        ['foo', 'FooBlock', 'Foo Block', 'foo_block', $services, $inputs]
+        ['plugin_block' . rand(), 'FooBlock', 'Foo Block', 'foo_block', $services, $inputs]
       ],
     ];
   }
@@ -99,10 +112,6 @@ class PluginBlockGeneratorTest extends GeneratorTest
       ->getMock();
 
     $generator->setSkeletonDirs($this->getSkeletonDirs());
-
-    $generator->expects($this->once())
-      ->method('getPluginPath')
-      ->will($this->returnValue($this->dir . '/src/Plugin/Block'));
 
     return $generator;
   }
