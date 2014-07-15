@@ -1,0 +1,34 @@
+<?php
+
+{% block file_dockblock %}
+/**
+ * @file
+ * Contains {% block file_path %}{% endblock %}
+*/
+{% endblock %}
+
+{% block namespace_class %}{% endblock %}
+
+{% block use_class %}{% endblock %}
+{% block use_class_services %}
+{% for service in services %}
+use {{ service.class }};
+{% endfor %}
+{% endblock %}
+
+{% block class_declaration %}{% endblock %}
+{
+{% block class_properties %}
+{% for service in services %}
+
+  /**
+   * @var {{ service.class }}
+  */
+  protected ${{service.machine_name}};
+{% endfor %}
+{% endblock %}
+
+{% block class_construct %}{% endblock %}
+{% block class_create %}{% endblock %}
+{% block class_methods %}{% endblock %}
+}
