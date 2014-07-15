@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\{{module}}\Tests\{{class_name}}Test.
+ * Tests for {{module}}.module.
  */
 
 namespace Drupal\{{module}}\Tests;
@@ -14,9 +14,6 @@ use Drupal\simpletest\WebTestBase;
  */
 class {{class_name}}Test extends WebTestBase {
 
-  /**
-   * Info method.
-   */
   public static function getInfo() {
     return array(
       'name' => "{{module}} {{class_name}}'s controller functionality",
@@ -25,18 +22,15 @@ class {{class_name}}Test extends WebTestBase {
     );
   }
 
-  /**
-   * SetUp method.
-   */
-  public function setUp() {
+  function setUp() {
     parent::setUp();
   }
 
   /**
    * Tests {{module}} functionality.
    */
-  public function test{{class_name}}() {
-    // Check that the basic functions of module {{module}}.
+  function test{{class_name}}() {
+    //Check that the basic functions of module {{module}}.
     $this->assertEqual(TRUE, TRUE, 'Test Unit Generated via App Console.');
   }
 
