@@ -43,6 +43,7 @@ class Generator
     $twig->addFunction($this->getServicesAsParametersKeys());
     $twig->addFunction($this->getArgumentsFromRoute());
     $twig->addFunction($this->getServicesClassInitialization());
+    $twig->addFunction($this->getServicesClassInjection());
 
     return $twig->render($template, $parameters);
   }
@@ -153,6 +154,20 @@ class Generator
       }
 
       return implode(PHP_EOL, $returnValues);
+    });
+
+    return $returnValue;
+  }
+
+  public function getServicesClassInjection()
+  {
+    $returnValue = new \Twig_SimpleFunction('serviceClassInjection', function ($services) {
+      $returnValues = [];
+      foreach ($services as $service) {
+        $returnValues[] =  sprintf('      $container->get(\'%s\')', $service['name']);
+      }
+
+      return implode( "," .PHP_EOL, $returnValues);
     });
 
     return $returnValue;
