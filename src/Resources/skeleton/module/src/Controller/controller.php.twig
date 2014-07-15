@@ -1,30 +1,48 @@
 {% extends "base/class.php.twig" %}
 
+{% block file_path %}
+Drupal\{{module}}\Controller\{{ class_name }}.
+{% endblock %}
+
+{% block namespace_class %}
 namespace Drupal\{{module}}\Controller;
+{% endblock %}
 
+{% block use_class %}
 use Drupal\Core\Controller\ControllerBase;
-{% if services is defined and services is not empty %}
+{% if services is not empty %}
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
-{% include 'skeleton/module/shared/services-use-operator.php.twig' %}
+use Symfony\Component\DependencyInjection\ContainerInterface;
 {% endif %}
+{% endblock %}
 
-class {{ class_name }} extends ControllerBase {% if services is defined and services is not empty %}implements ContainerInjectionInterface {% endif %}{{"\n"}}{
-{% if services is defined and services is not empty %}
-{% include 'skeleton/module/shared/services-class-properties-declaration.php.twig' %}
+{% block class_declaration %}
+class {{ class_name }} extends ControllerBase {% if services is not empty %}implements ContainerInjectionInterface {% endif %}
+{% endblock %}
 
+{% block class_construct %}
+{% if services is not empty %}
   public function __construct({{ servicesAsParameters(services)|join(', ') }})
   {
-{% include 'skeleton/module/shared/services-class-properties-initialization.php.twig' %}
+{{ serviceClassInitialization(services) }}
   }
 
+{% endif %}
+{% endblock %}
+
+{% block class_create %}
+{% if services is not empty %}
   public static function create(ContainerInterface $container)
   {
     return new static(
-{% include 'skeleton/module/shared/services-class-properties-injection.php.twig' %}
+{{ serviceClassInjection(services) }}
     );
   }
-{% endif %}
 
+{% endif %}
+{% endblock %}
+
+{% block class_methods %}
   /**
    * {{method_name}}
    * @return string
@@ -33,8 +51,10 @@ class {{ class_name }} extends ControllerBase {% if services is defined and serv
   {
 {% if class_name == "DefaultController" %}
     return "Hello ".$name." !";
+{% elseif argumentsFromRoute(route) is not empty %}
+    return "Implements method {{method_name}} with parameters {{ argumentsFromRoute(route)|join(', ') }}";
 {% else %}
     return "Implements method {{method_name}}";
 {% endif %}
   }
-}
+{% endblock %}
