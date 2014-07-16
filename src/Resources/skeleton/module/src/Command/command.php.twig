@@ -1,24 +1,26 @@
-<?php
-/**
- * @file
- * Contains \Drupal\{{module_name}}\Command\{{ name.class }}.
- */
+{% extends "base/class.php.twig" %}
 
+{% block file_path %}
+Drupal\{{module_name}}\Command\{{ name.class }}.
+{% endblock %}
+
+{% block namespace_class %}
 namespace Drupal\{{module_name}}\Command;
+{% endblock %}
 
-{% if container is not empty %}
-use Drupal\AppConsole\Command\ContainerAwareCommand;
-{% else %}
+{% block use_class %}
 use Symfony\Component\Console\Command\Command;
-{% endif %}
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+{% endblock %}
 
-class {{ name.class }} extends {% if container is not empty %}ContainerAwareCommand {% else %}Command {% endif %}
+{% block class_declaration %}
+class {{ name.class }} extends Command
+{% endblock %}
 
-{
+{% block class_methods %}
   /**
    * {@inheritdoc}
    */
@@ -50,4 +52,4 @@ class {{ name.class }} extends {% if container is not empty %}ContainerAwareComm
 
     $output->writeln($text);
   }
-}
+{% endblock %}
