@@ -1,19 +1,26 @@
-<?php
-/**
- * @file
- * Contains Drupal\{{module}}\Controller\{{ entity_class }}ListBuilder.
- */
+{% extends "base/class.php.twig" %}
 
+{% block file_path %}
+Drupal\{{module}}\Controller\{{ entity_class }}ListBuilder.
+{% endblock %}
+
+{% block namespace_class %}
 namespace Drupal\{{module}}\Controller;
+{% endblock %}
 
+{% block use_class %}
 use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
 use Drupal\Core\Entity\EntityInterface;
+{% endblock %}
 
+{% block class_declaration %}
 /**
  * Provides a listing of {{ entity_class }}.
  */
 class {{ entity_class }}ListBuilder extends ConfigEntityListBuilder
-{
+{% endblock %}
+
+{% block class_methods %}
   /**
    * {@inheritdoc}
    */
@@ -34,4 +41,4 @@ class {{ entity_class }}ListBuilder extends ConfigEntityListBuilder
     // You probably want a few more properties here...
     return $row + parent::buildRow($entity);
   }
-}
+{% endblock %}
