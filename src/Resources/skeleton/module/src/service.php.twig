@@ -1,24 +1,20 @@
-<?php
-/**
- * @file
- * Contains \Drupal\{{module}}\{{ class_name }}.
- */
+{% extends "base/class.php.twig" %}
 
+{% block file_path %}
+Drupal\{{module}}\{{ class_name }}.
+{% endblock %}
+
+{% block namespace_class %}
 namespace Drupal\{{module}};
+{% endblock %}
 
-{% if services is not empty %}
-{{ include ('skeleton/module/shared/services-use-operator.php.twig', {useContainerInterface: false}) }}
-{% endif %}
-
+{% block class_declaration %}
 class {{ class_name }}
-{
+{% endblock %}
 
-{% if services is not empty %}
-{% include 'skeleton/module/shared/services-class-properties-declaration.php.twig' %}
-{% endif %}
-
+{% block class_construct %}
   public function __construct({{ servicesAsParameters(services)|join(', ') }})
   {
-{% include 'skeleton/module/shared/services-class-properties-initialization.php.twig' %}
+{{ serviceClassInitialization(services) }}
   }
-}
+{% endblock %}
