@@ -11,14 +11,17 @@
 
 {% block use_class %}{% endblock %}
 {% block use_class_services %}
+{% if service is defined %}
 {% for service in services %}
 use {{ service.class }};
 {% endfor %}
+{% endif %}
 {% endblock %}
 
 {% block class_declaration %}{% endblock %}
 {
 {% block class_properties %}
+{% if service is defined %}
 {% for service in services %}
 
   /**
@@ -26,6 +29,7 @@ use {{ service.class }};
   */
   protected ${{service.machine_name}};
 {% endfor %}
+{% endif %}
 {% endblock %}
 
 {% block class_construct %}{% endblock %}
