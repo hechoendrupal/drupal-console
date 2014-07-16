@@ -1,14 +1,19 @@
-<?php
-/**
- * @file
- * Contains Drupal\{{ module }}\Entity\{{ entity_class }}.
- */
+{% extends "base/class.php.twig" %}
 
+{% block file_path %}
+Drupal\{{ module }}\Entity\{{ entity_class }}.
+{% endblock %}
+
+{% block namespace_class %}
 namespace Drupal\{{ module }}\Entity;
+{% endblock %}
 
+{% block use_class %}
 use Drupal\Core\Config\Entity\ConfigEntityBase;
 use Drupal\{{ module }}\{{ entity_class }}Interface;
+{% endblock %}
 
+{% block class_declaration %}
 /**
  * Defines the {{ entity_class }} entity.
  *
@@ -37,7 +42,9 @@ use Drupal\{{ module }}\{{ entity_class }}Interface;
  * )
  */
 class {{ entity_class }} extends ConfigEntityBase implements {{ entity_class }}Interface
-{
+{% endblock %}
+
+{% block class_methods %}
   /**
    * The {{ entity_class }} ID.
    *
@@ -59,4 +66,4 @@ class {{ entity_class }} extends ConfigEntityBase implements {{ entity_class }}I
 
   // TODO: Your specific configuration property get/set methods go here,
   // implementing the interface.
-}
+{% endblock %}

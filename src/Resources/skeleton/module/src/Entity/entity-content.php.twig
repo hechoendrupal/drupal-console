@@ -1,17 +1,23 @@
-<?php
-/**
- * @file
- * Contains \Drupal\{{ module }}\Entity\{{ entity_class }}.
- */
+{% extends "base/class.php.twig" %}
 
+{% block file_path %}
+Drupal\{{ module }}\Entity\{{ entity_class }}.
+{% endblock %}
+
+{% block namespace_class %}
 namespace Drupal\{{ module }}\Entity;
+{% endblock %}
 
+{% block use_class %}
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Field\FieldDefinition;
 use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\{{ module }}\{{ entity_class }}Interface;
 use Drupal\user\UserInterface;
+{% endblock %}
+
+{% block class_declaration %}
 /**
  * Defines the {{ entity_class }} entity.
  *
@@ -46,8 +52,10 @@ use Drupal\user\UserInterface;
  *   }
  * )
  */
-class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}Interface {
+class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}Interface
+{% endblock %}
 
+{% block class_methods %}
   /**
    * {@inheritdoc}
    */
@@ -151,5 +159,4 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
 
     return $fields;
   }
-}
-
+{% endblock %}

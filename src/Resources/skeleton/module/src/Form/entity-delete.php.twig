@@ -1,20 +1,26 @@
-<?php
-/**
- * @file
- * Contains Drupal\{{module}}\Form\{{ entity_class }}DeleteForm.
- */
+{% extends "base/class.php.twig" %}
 
+{% block file_path %}
+Drupal\{{module}}\Form\{{ entity_class }}DeleteForm.
+{% endblock %}
+
+{% block namespace_class %}
 namespace Drupal\{{module}}\Form;
+{% endblock %}
 
+{% block use_class %}
 use Drupal\Core\Entity\EntityConfirmFormBase;
 use Drupal\Core\Url;
+{% endblock %}
 
+{% block class_declaration %}
 /**
  * Builds the form to delete a {{ entity_class }}.
  */
 class {{ entity_class }}DeleteForm extends EntityConfirmFormBase
-{
+{% endblock %}
 
+{% block class_methods %}
   /**
    * {@inheritdoc}
    */
@@ -47,4 +53,4 @@ class {{ entity_class }}DeleteForm extends EntityConfirmFormBase
     drupal_set_message($this->t('Category %label has been deleted.', array('%label' => $this->entity->label())));
     $form_state['redirect_route'] = $this->getCancelRoute();
   }
-}
+{% endblock %}
