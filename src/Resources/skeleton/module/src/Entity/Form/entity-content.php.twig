@@ -1,21 +1,28 @@
-<?php
-/**
- * @file
- * Definition of Drupal\{{module}}\Entity\Form\{{ entity_class }}Form.
- */
+{% extends "base/class.php.twig" %}
 
+{% block file_path %}
+Drupal\{{module}}\Entity\Form\{{ entity_class }}Form.
+{% endblock %}
+
+{% block namespace_class %}
 namespace Drupal\{{module}}\Entity\Form;
+{% endblock %}
 
+{% block use_class %}
 use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Language\Language;
+{% endblock %}
 
+{% block class_declaration %}
 /**
  * Form controller for the {{ entity_class }} entity edit forms.
  *
  * @ingroup {{module}}
  */
-class {{ entity_class }}Form extends ContentEntityForm {
+class {{ entity_class }}Form extends ContentEntityForm
+{% endblock %}
 
+{% block class_methods %}
   /**
    * Overrides Drupal\Core\Entity\EntityFormController::buildForm().
    */
@@ -52,4 +59,4 @@ class {{ entity_class }}Form extends ContentEntityForm {
     $entity = $this->entity;
     $entity->save();
   }
-}
+{% endblock %}
