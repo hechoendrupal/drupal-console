@@ -1,17 +1,23 @@
-<?php
-/**
- * @file
- * Contains Drupal\{{ module }}\Form\{{ entity_class }}Form.
- */
+{% extends "base/class.php.twig" %}
 
+{% block file_path %}
+Drupal\{{ module }}\Form\{{ entity_class }}Form.
+{% endblock %}
+
+{% block namespace_class %}
 namespace Drupal\{{ module }}\Form;
+{% endblock %}
 
+{% block use_class %}
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityForm;
+{% endblock %}
 
+{% block class_declaration %}
 class {{ entity_class }}Form extends EntityForm
-{
+{% endblock %}
 
+{% block class_methods %}
   /**
    * {@inheritdoc}
    */
@@ -63,4 +69,4 @@ class {{ entity_class }}Form extends EntityForm
     }
     $form_state['redirect'] = 'admin/config/system/{{ entity_name }}';
   }
-}
+{% endblock %}
