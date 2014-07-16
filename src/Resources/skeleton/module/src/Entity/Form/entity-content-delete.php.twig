@@ -1,23 +1,28 @@
-<?php
+{% extends "base/class.php.twig" %}
 
-/**
- * @file
- * Contains \Drupal\{{module}}\Entity\Form\{{ entity_class }}DeleteForm.
- */
+{% block file_path %}
+Drupal\{{module}}\Entity\Form\{{ entity_class }}DeleteForm.
+{% endblock %}
 
+{% block namespace_class %}
 namespace Drupal\{{module}}\Entity\Form;
+{% endblock %}
 
+{% block use_class %}
 use Drupal\Core\Entity\ContentEntityConfirmFormBase;
 use Drupal\Core\Url;
+{% endblock %}
 
+{% block class_declaration %}
 /**
  * Provides a form for deleting a {{ entity_class }} entity.
  *
  * @ingroup {{module}}
  */
-class {{ entity_class }}DeleteForm extends ContentEntityConfirmFormBase {
+class {{ entity_class }}DeleteForm extends ContentEntityConfirmFormBase
+{% endblock %}
 
-
+{% block class_methods %}
   /**
    * {@inheritdoc}
    */
@@ -48,5 +53,4 @@ class {{ entity_class }}DeleteForm extends ContentEntityConfirmFormBase {
     watchdog('content', '@type: deleted %title.', array('@type' => $this->entity->bundle(), '%title' => $this->entity->label()));
     $form_state['redirect_route']['route_name'] = '{{ entity_name }}.list';
   }
-
-}
+{% endblock %}
