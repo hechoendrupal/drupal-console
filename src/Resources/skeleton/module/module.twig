@@ -1,12 +1,14 @@
-<?php
+{% extends "base/file.php.twig" %}
 
-/**
- * @file
- * Contains {{machine_name}}.module
- */
+{% block file_path %}
+{{machine_name}}.module
+{% endblock %}
 
+{% block use_class %}
 use Drupal\Core\Routing\RouteMatchInterface;
+{% endblock %}
 
+{% block file_methods %}
 /**
  * Implements hook_help().
  */
@@ -24,7 +26,6 @@ function {{machine_name}}_help($route_name, RouteMatchInterface $route_match)
   }
 }
 
-
 /**
  * Implements hook_theme().
  */
@@ -35,3 +36,4 @@ function {{machine_name}}_theme()
 
   return $theme;
 }
+{% endblock %}
