@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @file
+ * Contains \Drupal\{{module}}\Entity\Controller\{{ entity_class }}ListController.
+ */
+
+namespace Drupal\{{module}}\Entity\Controller;
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityListBuilder;
+
+/**
+ * Provides a list controller for {{ entity_class }} entity.
+ *
+ * @ingroup {{ module }}
+ */
+class {{ entity_class }}ListController extends EntityListBuilder {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildHeader() {
+    $header['id'] = t('{{ entity_class }}ID');
+    $header['name'] = t('Name');
+    return $header + parent::buildHeader();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildRow(EntityInterface $entity) {
+    /* @var $entity \Drupal\{{module}}\Entity\{{ entity_class }} */
+    $row['id'] = $entity->id();
+    $row['name'] = \Drupal::l($this->getLabel($entity),
+      '{{ entity_name }}.list', array(
+        '{{module}}_{{ entity_name }}' => $entity->id(),
+      ));
+    return $row + parent::buildRow($entity);
+  }
+}
