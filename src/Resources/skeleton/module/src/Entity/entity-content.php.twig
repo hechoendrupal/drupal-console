@@ -1,0 +1,155 @@
+<?php
+/**
+ * @file
+ * Contains \Drupal\{{ module }}\Entity\{{ entity_class }}.
+ */
+
+namespace Drupal\{{ module }}\Entity;
+
+use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Field\FieldDefinition;
+use Drupal\Core\Entity\ContentEntityBase;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\{{ module }}\{{ entity_class }}Interface;
+use Drupal\user\UserInterface;
+/**
+ * Defines the {{ entity_class }} entity.
+ *
+ * @ingroup {{ module }}
+ *
+ * @ContentEntityType(
+ *   id = "{{ entity_name }}",
+ *   label = @Translation("{{ entity_class }} entity"),
+ *   controllers = {
+ *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
+ *     "list_builder" = "Drupal\{{ module }}\Entity\Controller\{{ entity_class }}ListController",
+ *
+ *     "form" = {
+ *       "add" = "Drupal\{{ module }}\Entity\Form\{{ entity_class }}Form",
+ *       "edit" = "Drupal\{{ module }}\Entity\Form\{{ entity_class }}Form",
+ *       "delete" = "Drupal\{{ module }}\Entity\Form\{{ entity_class }}DeleteForm",
+ *     },
+ *     "access" = "Drupal\{{ module }}\{{ entity_class }}AccessController",
+ *   },
+ *   base_table = "{{ entity_name }}",
+ *   admin_permission = "administer {{ entity_class }} entity",
+ *   fieldable = TRUE,
+ *   entity_keys = {
+ *     "id" = "id",
+ *     "label" = "name",
+ *     "uuid" = "uuid"
+ *   },
+ *   links = {
+ *     "edit-form" = "{{ entity_name }}.edit",
+ *     "admin-form" = "{{ entity_name }}.settings",
+ *     "delete-form" = "{{ entity_name }}.delete"
+ *   }
+ * )
+ */
+class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}Interface {
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function preCreate(EntityStorageInterface $storage_controller, array &$values) {
+    parent::preCreate($storage_controller, $values);
+    $values += array(
+      'user_id' => \Drupal::currentUser()->id(),
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCreatedTime() {
+    return $this->get('created')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getChangedTime() {
+    return $this->get('changed')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getOwner() {
+    return $this->get('user_id')->entity;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getOwnerId() {
+    return $this->get('user_id')->target_id;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setOwnerId($uid) {
+    $this->set('user_id', $uid);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setOwner(UserInterface $account) {
+    $this->set('user_id', $account->id());
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
+    $fields['id'] = FieldDefinition::create('integer')
+      ->setLabel(t('ID'))
+      ->setDescription(t('The ID of the {{ entity_class }} entity.'))
+      ->setReadOnly(TRUE);
+
+    $fields['uuid'] = FieldDefinition::create('uuid')
+      ->setLabel(t('UUID'))
+      ->setDescription(t('The UUID of the {{ entity_class }} entity.'))
+      ->setReadOnly(TRUE);
+
+
+    $fields['name'] = FieldDefinition::create('string')
+      ->setLabel(t('Name'))
+      ->setDescription(t('The name of the {{ entity_class }} entity.'))
+      ->setSettings(array(
+        'default_value' => '',
+        'max_length' => 50,
+        'text_processing' => 0,
+      ))
+      ->setDisplayOptions('view', array(
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => -4,
+      ))
+      ->setDisplayOptions('form', array(
+        'type' => 'string',
+        'weight' => -4,
+      ))
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
+     
+    $fields['langcode'] = FieldDefinition::create('language')
+      ->setLabel(t('Language code'))
+      ->setDescription(t('The language code of {{ entity_class }} entity.'));
+
+    $fields['created'] = FieldDefinition::create('created')
+      ->setLabel(t('Created'))
+      ->setDescription(t('The time that the entity was created.'));
+
+    $fields['changed'] = FieldDefinition::create('changed')
+      ->setLabel(t('Changed'))
+      ->setDescription(t('The time that the entity was last edited.'));
+
+    return $fields;
+  }
+}
+
