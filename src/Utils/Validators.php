@@ -9,16 +9,37 @@ namespace Drupal\AppConsole\Utils;
 class Validators
 {
 
+  const REGEX_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+$/';
+  const REGEX_MACHINE_NAME = '/^[a-z0-9_]+$/';
+
   public function __construct()
   {
   }
 
   public function validateModuleName($module)
   {
-    if (!empty($module))
+    if (!empty($module)) {
       return $module;
-    else
+    }
+    else {
       throw new \InvalidArgumentException(sprintf('Module name "%s" is invalid.', $module));
+    }
+  }
+
+  public function validateClassName($class_name){
+    if (preg_match(self::REGEX_CLASS_NAME, $class_name)) {
+      return $class_name;
+    } else {
+      throw new \InvalidArgumentException(sprintf('Class name "%s" is invalid.', $class_name));
+    }
+  }
+
+  public function validateMachineName($machine_name){
+    if (preg_match(self::REGEX_MACHINE_NAME, $machine_name)) {
+      return $machine_name;
+    } else {
+      throw new \InvalidArgumentException(sprintf('Machine name "%s" is invalid.', $machine_name));
+    }
   }
 
   public function validateModulePath($module_path)
