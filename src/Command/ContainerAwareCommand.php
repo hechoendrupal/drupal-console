@@ -104,6 +104,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
   public function validateModule($machine_name)
   {
+    $machine_name = $this->validateMachineName($machine_name);
     $modules = array_merge($this->getModules(true), $this->getModules());
     if (in_array($machine_name, $modules)) {
       throw new \InvalidArgumentException(sprintf('Module "%s" already exist.', $machine_name));
