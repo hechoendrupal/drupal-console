@@ -15,10 +15,12 @@ class Validators
 
   public function validateModuleName($module)
   {
-    if (!empty($module))
+    if (!empty($module)) {
       return $module;
-    else
+    }
+    else {
       throw new \InvalidArgumentException(sprintf('Module name "%s" is invalid.', $module));
+    }
   }
 
   public function validateModulePath($module_path)
