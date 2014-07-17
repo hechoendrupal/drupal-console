@@ -10,6 +10,7 @@ class Validators
 {
 
   const REGEX_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+$/';
+  const REGEX_MACHINE_NAME = '/^[a-z0-9_]+$/';
 
   public function __construct()
   {
@@ -30,6 +31,14 @@ class Validators
       return $class_name;
     } else {
       throw new \InvalidArgumentException(sprintf('Class name "%s" is invalid.', $class_name));
+    }
+  }
+
+  public function validateMachineName($machine_name){
+    if (preg_match(self::REGEX_MACHINE_NAME, $machine_name)) {
+      return $machine_name;
+    } else {
+      throw new \InvalidArgumentException(sprintf('Machine name "%s" is invalid.', $machine_name));
     }
   }
 
