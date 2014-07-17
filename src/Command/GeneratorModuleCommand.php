@@ -49,7 +49,7 @@ class GeneratorModuleCommand extends GeneratorCommand
       }
     }
 
-    $module = $this->validateModule($input->getOption('module'));
+    $module = $this->validateModuleName($input->getOption('module'));
     $module_path = $this->validateModulePath($input->getOption('module-path'));
     $description = $input->getOption('description');
     $core = $input->getOption('core');
@@ -57,7 +57,7 @@ class GeneratorModuleCommand extends GeneratorCommand
     $controller = $input->getOption('controller');
     $tests = $input->getOption('tests');
     $structure =  $input->getOption('structure');
-    $machine_name =  $input->getOption('machine-name');
+    $machine_name = $this->validateModule($input->getOption('machine-name'));
 
     $generator = $this->getGenerator();
     $generator->generate($module, $machine_name, $module_path, $description, $core, $package, $controller, $tests, $structure);
