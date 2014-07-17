@@ -121,6 +121,11 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     return $this->getValidator()->validateModulePath($module_path);
   }
 
+  public function validateClassName($class_name)
+  {
+    return $this->getValidator()->validateClassName($class_name);
+  }
+
   /**
    * @return \Drupal\AppConsole\Utils\StringUtils
    */
