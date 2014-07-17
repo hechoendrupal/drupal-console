@@ -9,6 +9,8 @@ namespace Drupal\AppConsole\Utils;
 class Validators
 {
 
+  const REGEX_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+$/';
+
   public function __construct()
   {
   }
@@ -20,6 +22,14 @@ class Validators
     }
     else {
       throw new \InvalidArgumentException(sprintf('Module name "%s" is invalid.', $module));
+    }
+  }
+
+  public function validateClassName($class_name){
+    if (preg_match(self::REGEX_CLASS_NAME, $class_name)) {
+      return $class_name;
+    } else {
+      throw new \InvalidArgumentException(sprintf('Class name "%s" is invalid.', $class_name));
     }
   }
 
