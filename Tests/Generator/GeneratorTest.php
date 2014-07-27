@@ -6,8 +6,6 @@
 
 namespace Drupal\AppConsole\Test\Generator;
 
-use Symfony\Component\Filesystem\Filesystem;
-
 abstract class GeneratorTest extends \PHPUnit_Framework_TestCase 
 {
   var $dir;
