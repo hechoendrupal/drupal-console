@@ -1,40 +1,52 @@
-<?php
+{% extends "base/class.php.twig" %}
 
-/**
- * @file
- * Contains \Drupal\{{module_name}}\Form\{{ class_name }}.
- */
+{% block file_path %}
+Drupal\{{module_name}}\Form\{{ class_name }}.
+{% endblock %}
 
+{% block namespace_class %}
 namespace Drupal\{{module_name}}\Form;
+{% endblock %}
 
+{% block use_class %}
 use Drupal\Core\Form\ConfigFormBase;
 {% if services is not empty %}
 use Drupal\Core\Config\ConfigFactoryInterface;
-{% include 'skeleton/module/shared/services-use-operator.php.twig' %}
+use Symfony\Component\DependencyInjection\ContainerInterface;
 {% endif %}
+{% endblock %}
 
+{% block class_declaration %}
 class {{ class_name }} extends ConfigFormBase
-{
-{% if services is not empty %}
-{% include 'skeleton/module/shared/services-class-properties-declaration.php.twig' %}
+{% endblock %}
 
+{% block class_construct %}
+{% if services is not empty %}
   public function __construct(
     ConfigFactoryInterface $config_factory,
-    {{ servicesAsParameters(services)|join(', \n') }}
+    {{ servicesAsParameters(services)|join(',\n    ') }}
   )
   {
     parent::__construct($config_factory);
-{% include 'skeleton/module/shared/services-class-properties-initialization.php.twig' %}
+{{ serviceClassInitialization(services) }}
   }
 
+{% endif %}
+{% endblock %}
+
+{% block class_create %}
+{% if services is not empty %}
   public static function create(ContainerInterface $container) {
     return new static(
-        $container->get('config.factory'),
-{% include 'skeleton/module/shared/services-class-properties-injection.php.twig' %}
+      $container->get('config.factory'),
+{{ serviceClassInjection(services) }}
     );
   }
-{% endif %}
 
+{% endif %}
+{% endblock %}
+
+{% block class_methods %}
   /**
    * {@inheritdoc}
    */
@@ -81,4 +93,4 @@ class {{ class_name }} extends ConfigFormBase
     {% endfor %}
     ->save();
   }
-}
+{% endblock %}

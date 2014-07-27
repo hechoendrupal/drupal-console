@@ -1,0 +1,47 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+Drupal\{{module}}\Entity\Controller\{{ entity_class }}ListController.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Entity\Controller;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityListBuilder;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides a list controller for {{ entity_class }} entity.
+ *
+ * @ingroup {{ module }}
+ */
+class {{ entity_class }}ListController extends EntityListBuilder
+{% endblock %}
+
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public function buildHeader() {
+    $header['id'] = t('{{ entity_class }}ID');
+    $header['name'] = t('Name');
+    return $header + parent::buildHeader();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildRow(EntityInterface $entity) {
+    /* @var $entity \Drupal\{{module}}\Entity\{{ entity_class }} */
+    $row['id'] = $entity->id();
+    $row['name'] = \Drupal::l($this->getLabel($entity),
+      '{{ entity_name }}.list', array(
+        '{{module}}_{{ entity_name }}' => $entity->id(),
+      ));
+    return $row + parent::buildRow($entity);
+  }
+{% endblock %}

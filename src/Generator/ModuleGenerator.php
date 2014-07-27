@@ -56,6 +56,7 @@ class ModuleGenerator extends Generator
         'method_name' => 'hello',
         'class_machine_name' => 'default_controller',
         'route' => $machine_name . '/hello/{name}',
+        'services' => []
       );
 
       $this->renderFile(

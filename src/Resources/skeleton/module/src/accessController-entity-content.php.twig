@@ -1,0 +1,56 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+Drupal\account/{{ entity_class }}AccessController.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}};
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Entity\EntityAccessController;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Access controller for the {{ entity_class }} entity.
+ *
+ * @see \Drupal\{{module}}\Entity\{{ entity_class }}.
+ */
+class {{ entity_class }}AccessController extends EntityAccessController
+{% endblock %}
+
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  protected function checkAccess(EntityInterface $entity, $operation, $langcode, AccountInterface $account) {
+
+    switch ($operation) {
+      case 'view':
+        return $account->hasPermission('view {{ entity_class }} entity');
+        break;
+
+      case 'edit':
+        return $account->hasPermission('edit {{ entity_class }} entity');
+        break;
+
+      case 'delete':
+        return $account->hasPermission('delete {{ entity_class }} entity');
+        break;
+
+    }
+
+    return TRUE;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function checkCreateAccess(AccountInterface $account, array $context, $entity_bundle = NULL) {
+    return $account->hasPermission('add {{ entity_class }} entity');
+  }
+{% endblock %}
