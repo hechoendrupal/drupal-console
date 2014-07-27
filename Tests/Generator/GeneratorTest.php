@@ -28,4 +28,9 @@ abstract class GeneratorTest extends \PHPUnit_Framework_TestCase
 
     return $skeletonDirs;
   }
+
+  public function getModulePath($module)
+  {
+    return $this->dir . '/' . $module;
+  }
 }
