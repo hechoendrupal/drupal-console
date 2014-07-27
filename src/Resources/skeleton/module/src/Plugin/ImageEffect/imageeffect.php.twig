@@ -1,14 +1,19 @@
-<?php
-/**
- *@file
- * Contains \Drupal\{{module}}\Plugin\ImageEffect\{{class_name}}.php
- */
+{% extends "base/class.php.twig" %}
 
+{% block file_path %}
+Drupal\{{module}}\Plugin\ImageEffect\{{class_name}}.
+{% endblock %}
+
+{% block namespace_class %}
 namespace Drupal\{{module}}\Plugin\ImageEffect;
+{% endblock %}
 
+{% block use_class %}
 use Drupal\Core\Image\ImageInterface;
 use Drupal\image\ImageEffectBase;
+{% endblock %}
 
+{% block class_declaration %}
 /**
  * Provides a '{{class_name}}' image effect.
  *
@@ -18,8 +23,10 @@ use Drupal\image\ImageEffectBase;
  *  description = @Translation("{{description}}")
  * )
  */
-class {{ class_name }} extends ImageEffectBase {
+class {{ class_name }} extends ImageEffectBase
+{% endblock %}
 
+{% block class_methods %}
   /**
    * {@inheritdoc}
    */
@@ -27,4 +34,4 @@ class {{ class_name }} extends ImageEffectBase {
     // Implement Image Effect
     return imagefilter($image->getToolkit()->getResource());
   }
-}
+{% endblock %}

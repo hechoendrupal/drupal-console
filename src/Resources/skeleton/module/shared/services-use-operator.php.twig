@@ -1,9 +1,0 @@
-{% if useContainerInterface is not defined %}
-{% set useContainerInterface = true %}
-{% endif %}
-{% if useContainerInterface %}
-use Symfony\Component\DependencyInjection\ContainerInterface;
-{% endif %}
-{% for service in services %}
-use {{ service.class }};
-{% endfor %}

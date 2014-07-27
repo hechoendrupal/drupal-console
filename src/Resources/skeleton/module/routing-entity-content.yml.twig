@@ -1,0 +1,48 @@
+# {{ entity_class }} routing definition
+{{ entity_name }}.view:
+  path: '/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}'
+  defaults:
+    _entity_view: '{{ entity_name }}'
+    _title: '{{ entity_class }} Content'
+  requirements:
+    _entity_access: '{{ entity_name }}.view'
+
+{{ entity_name }}.list:
+  path: '/admin/{{ entity_name }}'
+  defaults:
+    _entity_list: '{{ entity_name }}'
+    _title: '{{ entity_class }} List'
+  requirements:
+    _permission: 'view {{ entity_class }} entity'
+
+{{ entity_name }}.add:
+  path: '/admin/{{ entity_name }}/add'
+  defaults:
+    _entity_form: {{ entity_name }}.add
+    _title: 'Add {{ entity_class }}'
+  requirements:
+    _entity_create_access: '{{ entity_name }}'
+
+{{ entity_name }}.edit:
+  path: '/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit'
+  defaults:
+    _entity_form: {{ entity_name }}.edit
+    _title: 'Edit {{ entity_class }}'
+  requirements:
+    _entity_access: '{{ entity_name }}.edit'
+
+{{ entity_name }}.delete:
+  path: '/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete'
+  defaults:
+    _entity_form: {{ entity_name }}.delete
+    _title: 'Delete {{ entity_class }}'
+  requirements:
+    _entity_access: '{{ entity_name }}.delete'
+
+{{ entity_name }}.settings:
+  path: 'admin/structure/{{ entity_name }}'
+  defaults:
+   _form: '\Drupal\{{ module }}\Entity\Form\{{ entity_class }}SettingsForm'
+   _title: '{{ entity_class }} Settings'
+  requirements:
+    _permission: 'administer {{ entity_class }} entity'
