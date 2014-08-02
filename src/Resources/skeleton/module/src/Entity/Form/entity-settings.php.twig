@@ -10,6 +10,7 @@ namespace Drupal\{{module}}\Entity\Form;
 
 {% block use_class %}
 use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormStateInterface;
 {% endblock %}
 
 {% block class_declaration %}
@@ -40,7 +41,7 @@ class {{ entity_class }}SettingsForm extends FormBase
    * @param array $form_state
    *   An associative array containing the current state of the form.
    */
-  public function submitForm(array &$form, array &$form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state) {
     // Empty implementation of the abstract submit class.
   }
 
@@ -55,7 +56,7 @@ class {{ entity_class }}SettingsForm extends FormBase
    * @param array $form_state
    *   An associative array containing the current state of the form.
    */
-  public function buildForm(array $form, array &$form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state) {
     $form['{{ entity_class }}_settings']['#markup'] = 'Settings form for {{ entity_class }}. Manage field settings here.';
     return $form;
   }
