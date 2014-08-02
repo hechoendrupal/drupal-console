@@ -56,7 +56,7 @@ class {{ entity_class }}Form extends ContentEntityForm
   /**
    * Overrides Drupal\Core\Entity\EntityFormController::save().
    */
-  public function save(array $form, array &$form_state) {
+  public function save(array $form, FormStateInterface $form_state) {
     $entity = $this->entity;
     $entity->save();
   }
