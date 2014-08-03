@@ -10,6 +10,9 @@ namespace Drupal\{{module}}\Plugin\Block;
 
 {% block use_class %}
 use Drupal\block\BlockBase;
+{% if inputs %}
+use Drupal\Core\Form\FormStateInterface;
+{% endif %}
 {% if services is not empty %}
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -86,7 +89,7 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
   /**
    * Overrides \Drupal\block\BlockBase::blockForm().
    */
-  public function blockForm($form, &$form_state)
+  public function blockForm($form, FormStateInterface $form_state)
   {
 {% for input in inputs %}
     $form['{{ input.name }}'] = [
@@ -102,7 +105,7 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
   /**
    * Overrides \Drupal\block\BlockBase::blockSubmit().
    */
-  public function blockSubmit($form, &$form_state)
+  public function blockSubmit($form, FormStateInterface $form_state)
   {
 {% for input in inputs %}
     $this->configuration['{{ input.name }}'] = $form_state['values']['{{ input.name }}'];
