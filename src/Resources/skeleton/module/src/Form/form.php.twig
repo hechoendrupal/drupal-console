@@ -10,6 +10,7 @@ namespace Drupal\{{module_name}}\Form;
 
 {% block use_class %}
 use Drupal\Core\Form\ConfigFormBase;
+use Drupal\Core\Form\FormStateInterface;
 {% if services is not empty %}
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -58,7 +59,7 @@ class {{ class_name }} extends ConfigFormBase
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, array &$form_state)
+  public function buildForm(array $form, FormStateInterface $form_state)
   {
     $config = $this->config('{{module_name}}.{{form_id}}_config');
   {% for input in inputs %}
@@ -75,7 +76,7 @@ class {{ class_name }} extends ConfigFormBase
   /**
    * {@inheritdoc}
    */
-  public function validateForm(array &$form, array &$form_state)
+  public function validateForm(array &$form, FormStateInterface $form_state)
   {
     return parent::validateForm($form, $form_state);
   }
@@ -83,7 +84,7 @@ class {{ class_name }} extends ConfigFormBase
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, array &$form_state)
+  public function submitForm(array &$form, FormStateInterface $form_state)
   {
     parent::submitForm($form, $form_state);
 
