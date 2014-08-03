@@ -11,6 +11,7 @@ namespace Drupal\{{ module }}\Form;
 {% block use_class %}
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityForm;
+use Drupal\Core\Form\FormStateInterface;
 {% endblock %}
 
 {% block class_declaration %}
@@ -21,7 +22,7 @@ class {{ entity_class }}Form extends EntityForm
   /**
    * {@inheritdoc}
    */
-  public function form(array $form, array &$form_state)
+  public function form(array $form, FormStateInterface $form_state)
   {
     $form = parent::form($form, $form_state);
 
@@ -52,7 +53,7 @@ class {{ entity_class }}Form extends EntityForm
   /**
   * {@inheritdoc}
   */
-  public function save(array $form, array &$form_state)
+  public function save(array $form, FormStateInterface $form_state)
   {
     ${{ entity_name }} = $this->entity;
     $status = ${{ entity_name }}->save();
