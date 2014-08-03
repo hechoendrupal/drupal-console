@@ -5,4 +5,8 @@ php:
   - 5.6
 
 before_script:
-  - composer install
+  - composer install --dev --prefer-source
+
+after_success:
+  - ./bin/phpcs --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml /tmp/modules/*
+  - rm -r /tmp/modules
