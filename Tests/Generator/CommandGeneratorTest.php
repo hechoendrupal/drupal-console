@@ -1,9 +1,8 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: dmouse
- * Date: 7/27/14
- * Time: 12:35 PM
+ * @file
+ * Contains \Drupal\AppConsole\Test\Generator\CommandGeneratorTest.
  */
 
 namespace Drupal\AppConsole\Test\Generator;
