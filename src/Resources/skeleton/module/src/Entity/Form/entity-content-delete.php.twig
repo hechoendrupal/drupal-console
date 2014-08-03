@@ -10,6 +10,7 @@ namespace Drupal\{{module}}\Entity\Form;
 
 {% block use_class %}
 use Drupal\Core\Entity\ContentEntityConfirmFormBase;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 {% endblock %}
 
@@ -33,7 +34,7 @@ class {{ entity_class }}DeleteForm extends ContentEntityConfirmFormBase
   /**
    * {@inheritdoc}
    */
-  public function getCancelRoute() {
+  public function getCancelUrl() {
     return new Url('{{ entity_name }}.list');
   }
 
@@ -47,10 +48,10 @@ class {{ entity_class }}DeleteForm extends ContentEntityConfirmFormBase
   /**
    * {@inheritdoc}
    */
-  public function submit(array $form, array &$form_state) {
+  public function submit(array $form, FormStateInterface $form_state) {
     $this->entity->delete();
 
     watchdog('content', '@type: deleted %title.', array('@type' => $this->entity->bundle(), '%title' => $this->entity->label()));
-    $form_state['redirect_route']['route_name'] = '{{ entity_name }}.list';
+    $form_state['redirect_route'] = $this->getCancelUrl();
   }
 {% endblock %}
