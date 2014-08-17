@@ -24,25 +24,23 @@ class {{ name.class }} extends Command
   /**
    * {@inheritdoc}
    */
-  protected function configure()
-  {
+  protected function configure() {
     $this
       ->setName('{{ command }}')
       ->setDescription('Greet someone')
       ->addArgument('name', InputArgument::OPTIONAL, 'Who do you want to greet?')
-      ->addOption('yell', null, InputOption::VALUE_NONE, 'If set, the task will yell in uppercase letters')
-    ;
+      ->addOption('yell', NULL, InputOption::VALUE_NONE, 'If set, the task will yell in uppercase letters');
   }
 
   /**
    * {@inheritdoc}
    */
-  protected function execute(InputInterface $input, OutputInterface $output)
-  {
+  protected function execute(InputInterface $input, OutputInterface $output) {
     $name = $input->getArgument('name');
     if ($name) {
-      $text = 'Hello '.$name;
-    } else {
+      $text = 'Hello ' . $name;
+    }
+    else {
       $text = 'Hello';
     }
 

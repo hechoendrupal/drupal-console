@@ -30,9 +30,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "4.1.*",
-        "drupal/drupal": "8.x-dev@dev",
-        "symfony/config": "~2.4.0",
-        "symfony/http-kernel": "~2.4.0"
+        "drupal/drupal": "8.0.*@dev",
+        "drupal/coder": "dev-8.x-2.x"
     },
     "minimum-stability": "dev",
     "bin": ["bin/console"],

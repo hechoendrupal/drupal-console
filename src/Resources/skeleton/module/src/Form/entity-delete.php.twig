@@ -31,24 +31,21 @@ class {{ entity_class }}DeleteForm extends EntityConfirmFormBase
   /**
   * {@inheritdoc}
   */
-  public function getCancelRoute()
-  {
+  public function getCancelRoute() {
     return new Url('{{ entity_name }}.list');
   }
 
   /**
   * {@inheritdoc}
   */
-  public function getConfirmText()
-  {
+  public function getConfirmText() {
     return $this->t('Delete');
   }
 
   /**
   * {@inheritdoc}
   */
-  public function submit(array $form, array &$form_state)
-  {
+  public function submit(array $form, array &$form_state) {
     $this->entity->delete();
     drupal_set_message($this->t('Category %label has been deleted.', array('%label' => $this->entity->label())));
     $form_state['redirect_route'] = $this->getCancelRoute();
