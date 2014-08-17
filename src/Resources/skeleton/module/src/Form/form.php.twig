@@ -26,8 +26,7 @@ class {{ class_name }} extends ConfigFormBase
   public function __construct(
     ConfigFactoryInterface $config_factory,
     {{ servicesAsParameters(services)|join(',\n    ') }}
-  )
-  {
+  ) {
     parent::__construct($config_factory);
 {{ serviceClassInitialization(services) }}
   }
@@ -51,16 +50,14 @@ class {{ class_name }} extends ConfigFormBase
   /**
    * {@inheritdoc}
    */
-  public function getFormID()
-  {
+  public function getFormID() {
     return '{{form_id}}';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state)
-  {
+  public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('{{module_name}}.{{form_id}}_config');
   {% for input in inputs %}
   $form['{{ input.name }}'] = [
@@ -76,16 +73,14 @@ class {{ class_name }} extends ConfigFormBase
   /**
    * {@inheritdoc}
    */
-  public function validateForm(array &$form, FormStateInterface $form_state)
-  {
+  public function validateForm(array &$form, FormStateInterface $form_state) {
     return parent::validateForm($form, $form_state);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state)
-  {
+  public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
 
     $this->config('{{module_name}}.{{form_id}}_config')
