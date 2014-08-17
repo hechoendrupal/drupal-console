@@ -24,8 +24,7 @@ class {{ entity_class }}ListBuilder extends ConfigEntityListBuilder
   /**
    * {@inheritdoc}
    */
-  public function buildHeader()
-  {
+  public function buildHeader() {
     $header['label'] = $this->t('{{ entity_class }}');
     $header['id'] = $this->t('Machine name');
     return $header + parent::buildHeader();
@@ -34,8 +33,7 @@ class {{ entity_class }}ListBuilder extends ConfigEntityListBuilder
   /**
   * {@inheritdoc}
   */
-  public function buildRow(EntityInterface $entity)
-  {
+  public function buildRow(EntityInterface $entity) {
     $row['label'] = $this->getLabel($entity);
     $row['id'] = $entity->id();
     // You probably want a few more properties here...
