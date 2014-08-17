@@ -20,6 +20,10 @@ class {{class_name}}Test extends WebTestBase
 {% endblock %}
 
 {% block class_methods %}
+
+  /**
+   * {@inheritdoc}
+   */
   public static function getInfo() {
     return array(
       'name' => "{{module}} {{class_name}}'s controller functionality",
@@ -28,7 +32,10 @@ class {{class_name}}Test extends WebTestBase
     );
   }
 
-  function setUp() {
+  /**
+   * {@inheritdoc}
+   */
+  public function setUp() {
     parent::setUp();
   }
 
