@@ -22,8 +22,7 @@ class {{ class_name }} extends ControllerBase {% if services is not empty %}impl
 
 {% block class_construct %}
 {% if services is not empty %}
-  public function __construct({{ servicesAsParameters(services)|join(', ') }})
-  {
+  public function __construct({{ servicesAsParameters(services)|join(', ') }}) {
 {{ serviceClassInitialization(services) }}
   }
 
@@ -32,8 +31,7 @@ class {{ class_name }} extends ControllerBase {% if services is not empty %}impl
 
 {% block class_create %}
 {% if services is not empty %}
-  public static function create(ContainerInterface $container)
-  {
+  public static function create(ContainerInterface $container) {
     return new static(
 {{ serviceClassInjection(services) }}
     );
@@ -44,13 +42,14 @@ class {{ class_name }} extends ControllerBase {% if services is not empty %}impl
 
 {% block class_methods %}
   /**
-   * {{method_name}}
+   * {{ method_name | capitalize }}.
+   *
    * @return string
+   *   Return Hello string.
    */
-  public function {{method_name}}({{ argumentsFromRoute(route)|join(', ') }})
-  {
+  public function {{method_name}}({{ argumentsFromRoute(route)|join(', ') }}) {
 {% if class_name == "DefaultController" %}
-    return "Hello ".$name." !";
+    return "Hello " . $name . " !";
 {% elseif argumentsFromRoute(route) is not empty %}
     return "Implements method {{method_name}} with parameters {{ argumentsFromRoute(route)|join(', ') }}";
 {% else %}

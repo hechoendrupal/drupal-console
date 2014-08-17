@@ -42,56 +42,56 @@ class ModuleGeneratorTest extends GeneratorTest
     );
 
     $files = [
-      'foo/foo.info.yml',
-      'foo/foo.module',
+      $machine_name . '.info.yml',
+      $machine_name . '.module',
     ];
 
     foreach ($files as $file) {
       $this->assertTrue(
-        file_exists($this->dir . '/' . $file),
-        sprintf('%s has been generated', $this->dir . '/' .$dir)
+        file_exists($dir . '/' . $machine_name . '/' . $file),
+        sprintf('%s has been generated', $dir . '/' . $machine_name . '/' . $file)
       );
     }
 
     if ($controller) {
       $this->assertTrue(
-        file_exists($this->dir . '/foo/src/Controller/DefaultController.php'),
+        file_exists($dir . '/' .$machine_name . '/src/Controller/DefaultController.php'),
         sprintf('%s has been generated',
-          $this->dir . '/foo/src/Controller/DefaultController.php'
+          $dir . $machine_name . '/src/Controller/DefaultController.php'
         )
       );
       $this->assertTrue(
-        file_exists($this->dir . '/foo/foo.routing.yml'),
+        file_exists($dir . '/' . $machine_name . "/$machine_name.routing.yml"),
         sprintf('%s has been generated',
-          $this->dir . '/foo/foo.routing.yml'
+          $dir . '/' . $machine_name . "/$machine_name.routing.yml"
         )
       );
 
       if ($tests) {
         $this->assertTrue(
-          file_exists($this->dir . '/foo/Tests/Controller/DefaultControllerTest.php'),
+          file_exists($dir . '/' . $machine_name . '/Tests/Controller/DefaultControllerTest.php'),
           sprintf('%s has been generated',
-            $this->dir . '/foo/Tests/Controller/DefaultControllerTest.php'
+            $dir . '/' . $machine_name  . '/Tests/Controller/DefaultControllerTest.php'
           )
         );
       }
     }
 
-    $dirs = [
-      'foo',
-      'foo/src',
-      'foo/Tests',
-      'foo/templates',
-      'foo/src/Controller',
-      'foo/src/Form',
-      'foo/src/Plugin',
+    $folders = [
+      '',
+      'src',
+      'Tests',
+      'templates',
+      'src/Controller',
+      'src/Form',
+      'src/Plugin',
     ];
 
     if ($structure) {
-      foreach ($dirs as $dir) {
+      foreach ($folders as $folder) {
         $this->assertTrue(
-          is_dir($this->dir . '/' . $dir),
-          sprintf('%s has been generated', $this->dir . '/' .$dir)
+          is_dir($dir . '/' . $machine_name . '/' . $folder),
+          sprintf('%s has been generated', $dir . '/' . $machine_name . '/' . $folder)
         );
       }
     }
@@ -99,20 +99,20 @@ class ModuleGeneratorTest extends GeneratorTest
 
   public function commandData()
   {
-    $this->dir = sys_get_temp_dir() . "/module";
+    $this->setUpTemporalDirectory();
 
     return [
       [
-        ['Foo', 'foo', $this->dir, 'Description', '8.x', 'Other', true, true, true],
+        ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, false, false],
       ],
       [
-        ['Foo', 'foo', $this->dir, 'Description', '8.x', 'Other', false, true, true],
+        ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, true, true],
       ],
       [
-        ['Foo', 'foo', $this->dir, 'Description', '8.x', 'Other', false, false, true],
+        ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, false, true],
       ],
       [
-        ['Foo', 'foo', $this->dir, 'Description', '8.x', 'Other', false, false, false],
+        ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', true, true, true],
       ],
     ];
   }
