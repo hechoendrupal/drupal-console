@@ -50,9 +50,9 @@ class PluginBlockGeneratorTest extends GeneratorTest
     if ($inputs) {
       $contains += [
         'blockForm()',
-        'blockForm($form, &$form_state)',
+        'blockForm($form, FormStateInterface $form_state)',
         'blockSubmit()',
-        'blockSubmit($form, &$form_state)',
+        'blockSubmit($form, FormStateInterface $form_state)',
       ];
     }
 
