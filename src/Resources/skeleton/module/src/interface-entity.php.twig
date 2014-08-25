@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-Drupal\example\{{ entity_class }}Interface.
+Drupal\{{module}}\{{ entity_class }}Interface.
 {% endblock %}
 
 {% block namespace_class %}
@@ -14,7 +14,7 @@ use Drupal\Core\Config\Entity\ConfigEntityInterface;
 
 {% block class_declaration %}
 /**
- * Provides an interface defining a Example entity.
+ * Provides an interface defining a {{ entity_class }} entity.
  */
 interface {{ entity_class }}Interface extends ConfigEntityInterface
 {% endblock %}
