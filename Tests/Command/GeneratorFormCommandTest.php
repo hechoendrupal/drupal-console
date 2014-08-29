@@ -24,7 +24,7 @@ class GeneratorFormCommandTest extends GenerateCommandTest
       ->with($module, $class_name, $form_id, $services, $inputs, $routing_update)
     ;
 
-    $command = $this->getCommand($generator,$input);
+    $command = $this->getCommand($generator, $input);
     $cmd = new CommandTester($command);
     $cmd->execute($options);
   }
