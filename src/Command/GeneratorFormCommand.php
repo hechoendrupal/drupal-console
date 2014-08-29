@@ -14,7 +14,7 @@ use Drupal\AppConsole\Command\Helper\ModuleTrait;
 use Drupal\AppConsole\Command\Helper\FormTrait;
 use Drupal\AppConsole\Generator\FormGenerator;
 
-class GeneratorFormCommand extends GeneratorCommand
+abstract class GeneratorFormCommand extends GeneratorCommand
 {
 
   use ModuleTrait;
