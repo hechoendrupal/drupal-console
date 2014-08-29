@@ -21,6 +21,8 @@ abstract class GeneratorFormCommand extends GeneratorCommand
   use ServicesTrait;
   use FormTrait;
 
+  protected $form_type;
+
   protected function configure()
   {
     $this
