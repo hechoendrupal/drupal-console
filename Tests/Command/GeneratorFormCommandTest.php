@@ -74,7 +74,7 @@ class GeneratorFormCommandTest extends GenerateCommandTest
   {
     $command = $this
       ->getMockBuilder('Drupal\AppConsole\Command\GeneratorConfigFormBaseCommand')
-      ->setMethods(['getModules','getServices'])
+      ->setMethods(['getModules', 'getServices'])
       ->getMock()
     ;
 
@@ -85,7 +85,7 @@ class GeneratorFormCommandTest extends GenerateCommandTest
 
     $command->expects($this->any())
       ->method('getServices')
-      ->will($this->returnValue(['twig','database']));
+      ->will($this->returnValue(['twig', 'database']));
     ;
 
     $command->setContainer($this->getContainer());
