@@ -73,7 +73,7 @@ class GeneratorFormCommandTest extends GenerateCommandTest
   protected function getCommand($generator, $input)
   {
     $command = $this
-      ->getMockBuilder('Drupal\AppConsole\Command\GeneratorFormCommand')
+      ->getMockBuilder('Drupal\AppConsole\Command\GeneratorConfigFormBaseCommand')
       ->setMethods(['getModules','getServices'])
       ->getMock()
     ;
