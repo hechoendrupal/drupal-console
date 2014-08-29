@@ -60,7 +60,7 @@ $ ./bin/console --shell
 | :-----------------------------|:----------------------|:----------------|:---------
 | generator:module              | router:debug          | container:debug | drush
 | generator:controller          | router:rebuild        |                 |
-| generator:form                |                       |                 |
+| generator:form:config         |                       |                 |
 | generator:command             |                       |                 |
 | generator:plugin:block        |                       |                 |
 | generator:plugin:imageeffect  |                       |                 |
