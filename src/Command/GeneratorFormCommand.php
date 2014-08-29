@@ -14,15 +14,18 @@ use Drupal\AppConsole\Command\Helper\ModuleTrait;
 use Drupal\AppConsole\Command\Helper\FormTrait;
 use Drupal\AppConsole\Generator\FormGenerator;
 
-class GeneratorFormCommand extends GeneratorCommand
+abstract class GeneratorFormCommand extends GeneratorCommand
 {
 
   use ModuleTrait;
   use ServicesTrait;
   use FormTrait;
 
-  protected function configure()
+  protected $form_type;
+
+  protected function configure($form_type, $command_name)
   {
+    $this->form_type = $form_type;
     $this
       ->setDefinition(array(
         new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
@@ -32,9 +35,9 @@ class GeneratorFormCommand extends GeneratorCommand
         new InputOption('inputs','',InputOption::VALUE_OPTIONAL, 'Create a inputs in a form'),
         new InputOption('routing', '', InputOption::VALUE_NONE, 'Update routing'),
       ))
-      ->setDescription('Generate form')
-      ->setHelp('The <info>generate:form</info> command helps you generate a new form.')
-      ->setName('generate:form');
+      ->setDescription('Generate '. $form_type)
+      ->setHelp('The <info>'.$command_name.'</info> command helps you generate a new '. $form_type)
+      ->setName($command_name);
   }
 
   /**
