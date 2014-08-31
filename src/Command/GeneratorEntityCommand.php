@@ -62,7 +62,6 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
     $dialog->writeGeneratorSummary($output, $errors);
   }
 
-
   /**
    * {@inheritdoc}
    */
@@ -106,7 +105,6 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
     }
     $input->setOption('entity-name', $entity_name);
   }
-
 
   protected function createGenerator()
   {
