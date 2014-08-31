@@ -17,38 +17,46 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
 {
   use ModuleTrait;
 
-  protected $entity_type;
+  protected function getEntityType()
+  {
+    return $this->$entityType;
+  }
+
+  protected function getCommandName()
+  {
+    return $this->$commandName;
+  }
 
   /**
    * {@inheritdoc}
    */
-  protected function configure($entity_type, $command_name)
+  protected function configure()
   {
-    $this->entity_type = $entity_type;
+    $entityType = $this->getEntityType();
+    $commandName = $this->getCommandName();
     $this
         ->setDefinition(array(
           new InputOption('module',null,InputOption::VALUE_REQUIRED, 'The name of the module'),
           new InputOption('entity-class',null,InputOption::VALUE_REQUIRED, 'The entity class name'),
           new InputOption('entity-name',null,InputOption::VALUE_REQUIRED, 'The name of the entity'),
         ))
-        ->setName($command_name)
-        ->setDescription('Generate '.$entity_type)
-        ->setHelp('The <info>'.$command_name.'</info> command helps you generate a new '. $entity_type);
+        ->setName($commandName)
+        ->setDescription('Generate '.$entityType)
+        ->setHelp('The <info>'.$commandName.'</info> command helps you generate a new '. $entityType);
   }
 
   protected function execute(InputInterface $input, OutputInterface $output)
   {
+    $entityType = $this->getStringUtils()->camelCaseToUnderscore($this->getEntityType());
     $dialog = $this->getDialogHelper();
 
     $module = $input->getOption('module');
     $entity_class = $input->getOption('entity-class');
     $entity_name = $input->getOption('entity-name');
 
-    $entity_type = $this->getStringUtils()->camelCaseToUnderscore($this->entity_type);
-
     $this
       ->getGenerator()
-      ->generate($module, $entity_name, $entity_class, $entity_type);
+      ->generate($module, $entity_name, $entity_class, $entityType);
 
     $errors = [];
     $dialog->writeGeneratorSummary($output, $errors);
