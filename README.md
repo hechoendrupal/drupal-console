@@ -61,6 +61,8 @@ $ ./bin/console --shell
 | generator:module              | router:debug          | container:debug | drush
 | generator:controller          | router:rebuild        |                 |
 | generator:form:config         |                       |                 |
+| generator:entity:config       |                       |                 |
+| generator:entity:content      |                       |                 |
 | generator:command             |                       |                 |
 | generator:plugin:block        |                       |                 |
 | generator:plugin:imageeffect  |                       |                 |
