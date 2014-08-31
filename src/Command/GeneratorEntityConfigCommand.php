@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Contains \Drupal\AppConsole\Command\GeneratorEntityConfigCommand.
+ */
 
 namespace Drupal\AppConsole\Command;
 
