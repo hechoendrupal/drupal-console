@@ -6,13 +6,17 @@
 
 namespace Drupal\AppConsole\Command\Helper;
 
+use Symfony\Component\Console\Helper\HelperInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
 trait ServicesTrait
 {
   /**
-   * @param  $output
-   * @param  $dialog
+   * @param OutputInterface $output
+   * @param HelperInterface $dialog
+   * @return mixed
    */
-  public function servicesQuestion($output, $dialog)
+  public function servicesQuestion(OutputInterface $output, HelperInterface $dialog)
   {
     if ($dialog->askConfirmation(
       $output,
