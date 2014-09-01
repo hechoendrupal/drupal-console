@@ -24,14 +24,14 @@ abstract class GeneratorFormCommand extends GeneratorCommand
   private $formType;
   private $commandName;
 
-  protected function getFormType()
+  protected function setFormType($formType)
   {
-    return $this->$formType;
+    return $this->formType = $formType;
   }
 
-  protected function getCommandName()
+  protected function setCommandName($commandName)
   {
-    return $this->$commandName;
+    return $this->commandName = $commandName;
   }
 
   protected function configure()
