@@ -9,7 +9,7 @@ namespace Drupal\{{module}};
 {% endblock %}
 
 {% block use_class %}
-use Drupal\Core\Entity\EntityAccessController;
+use Drupal\Core\Entity\EntityAccessControlHandler;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
 {% endblock %}
@@ -20,7 +20,7 @@ use Drupal\Core\Session\AccountInterface;
  *
  * @see \Drupal\{{module}}\Entity\{{ entity_class }}.
  */
-class {{ entity_class }}AccessController extends EntityAccessController
+class {{ entity_class }}AccessController extends EntityAccessControlHandler
 {% endblock %}
 
 {% block class_methods %}
