@@ -6,12 +6,17 @@
 
 namespace Drupal\AppConsole\Command\Helper;
 
+use Symfony\Component\Console\Helper\HelperInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
 trait ModuleTrait
 {
   /**
-   * @return string
+   * @param OutputInterface $output
+   * @param HelperInterface $dialog
+   * @return mixed
    */
-  public function moduleQuestion($output, $dialog)
+  public function moduleQuestion(OutputInterface $output, HelperInterface $dialog)
   {
     $modules = $this->getModules();
 

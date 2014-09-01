@@ -6,13 +6,17 @@
 
 namespace Drupal\AppConsole\Command\Helper;
 
+use Symfony\Component\Console\Helper\HelperInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
 trait FormTrait
 {
   /**
-   * @param  $output
-   * @param  $dialog
+   * @param OutputInterface $output
+   * @param HelperInterface $dialog
+   * @return mixed
    */
-  public function formQuestion($output, $dialog)
+  public function formQuestion(OutputInterface $output, HelperInterface $dialog)
   {
     if ($dialog->askConfirmation(
       $output,
@@ -57,7 +61,7 @@ trait FormTrait
         $input_type = $dialog->askAndValidate(
           $output,
           $dialog->getQuestion('  Type', 'textfield',':'),
-          function ($input) use ($input_types) {
+          function ($input) {
             return $input;
           },
           false,
