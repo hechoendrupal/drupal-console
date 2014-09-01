@@ -8,18 +8,10 @@ namespace Drupal\AppConsole\Command;
 
 class GeneratorConfigFormBaseCommand extends GeneratorFormCommand {
 
-  protected function getFormType ()
-  {
-   return 'ConfigFormBase';
-  }
-
-  protected function getCommandName ()
-  {
-    return 'generate:form:config';
-  }
-
   protected function configure()
   {
+    $this->setFormType('ConfigFormBase');
+    $this->setCommandName('generate:form:config');
     parent::configure();
   }
 
