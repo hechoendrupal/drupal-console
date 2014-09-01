@@ -10,6 +10,8 @@ class GeneratorEntityConfigCommand extends GeneratorEntityCommand {
 
   protected function configure()
   {
+    $this->setEntityType('EntityConfig');
+    $this->setCommandName('generate:entity:config');
     parent::configure();
   }
 }
