@@ -32,21 +32,21 @@ class EntityContentGenerator extends Generator
     );
       
     $this->renderFile(
-      'module/menu_links-entity.yml.twig',
+      'module/links.menu-entity-content.yml.twig',
       $this->getModulePath($module).'/'.$module.'.links.menu.yml',
       $parameters,
       FILE_APPEND
     );
       
     $this->renderFile(
-      'module/local_tasks-entity.yml.twig',
+      'module/links.task-entity-content.yml.twig',
       $this->getModulePath($module).'/'.$module.'.links.task.yml',
       $parameters,
       FILE_APPEND
     );
 
     $this->renderFile(
-      'module/local_actions-entity-content.yml.twig',
+      'module/links.action-entity-content.yml.twig',
       $this->getModulePath($module).'/'.$module.'.links.action.yml',
       $parameters,
       FILE_APPEND
@@ -59,8 +59,8 @@ class EntityContentGenerator extends Generator
     );
       
     $this->renderFile(
-      'module/src/accessController-entity-content.php.twig',
-      $this->getSourcePath($module).'/'.$entity_class.'AccessController.php',
+      'module/src/accessControlHandler-entity-content.php.twig',
+      $this->getSourcePath($module).'/'.$entity_class.'AccessControlHandler.php',
       $parameters
     );
       
