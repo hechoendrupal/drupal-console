@@ -38,8 +38,8 @@ class EntityConfigGenerator extends Generator
     );
 
     $this->renderFile(
-      'module/local_actions-entity.yml.twig',
-      $this->getModulePath($module) . '/' . $module . '.local_actions.yml',
+      'module/links.action-entity.yml.twig',
+      $this->getModulePath($module) . '/' . $module . '.links.action.yml',
       $parameters,
       FILE_APPEND
     );
