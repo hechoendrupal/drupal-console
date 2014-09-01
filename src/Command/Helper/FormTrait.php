@@ -61,7 +61,7 @@ trait FormTrait
         $input_type = $dialog->askAndValidate(
           $output,
           $dialog->getQuestion('  Type', 'textfield',':'),
-          function ($input) use ($input_types) {
+          function ($input) {
             return $input;
           },
           false,
