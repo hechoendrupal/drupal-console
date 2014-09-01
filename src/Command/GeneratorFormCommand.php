@@ -36,8 +36,6 @@ abstract class GeneratorFormCommand extends GeneratorCommand
 
   protected function configure()
   {
-    $formType = $this->getFormType();
-    $commandName = $this->getCommandName();
     $this
       ->setDefinition(array(
         new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
@@ -47,9 +45,9 @@ abstract class GeneratorFormCommand extends GeneratorCommand
         new InputOption('inputs','',InputOption::VALUE_OPTIONAL, 'Create a inputs in a form'),
         new InputOption('routing', '', InputOption::VALUE_NONE, 'Update routing'),
       ))
-      ->setDescription('Generate '. $formType)
-      ->setHelp('The <info>'.$commandName.'</info> command helps you generate a new '. $formType)
-      ->setName($commandName);
+      ->setDescription('Generate '. $this->formType)
+      ->setHelp('The <info>'.$this->commandName.'</info> command helps you generate a new '. $this->formType)
+      ->setName($this->commandName);
   }
 
   /**
