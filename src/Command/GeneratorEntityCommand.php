@@ -16,6 +16,8 @@ use Drupal\AppConsole\Generator\EntityContentGenerator;
 abstract class GeneratorEntityCommand extends GeneratorCommand
 {
   use ModuleTrait;
+  private $entityType;
+  private $commandName;
 
   protected function getEntityType()
   {
