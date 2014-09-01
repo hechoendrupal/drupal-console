@@ -19,14 +19,20 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
   private $entityType;
   private $commandName;
 
-  protected function getEntityType()
+  /**
+   * @param $entityType
+   */
+  protected function setEntityType($entityType)
   {
-    return $this->$entityType;
+    $this->entityType = $entityType;
   }
 
-  protected function getCommandName()
+  /**
+   * @param $commandName
+   */
+  protected function setCommandName($commandName)
   {
-    return $this->$commandName;
+    $this->commandName = $commandName;
   }
 
   /**
