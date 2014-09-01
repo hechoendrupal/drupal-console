@@ -40,17 +40,16 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
    */
   protected function configure()
   {
-    $entityType = $this->getEntityType();
-    $commandName = $this->getCommandName();
+
     $this
         ->setDefinition(array(
           new InputOption('module',null,InputOption::VALUE_REQUIRED, 'The name of the module'),
           new InputOption('entity-class',null,InputOption::VALUE_REQUIRED, 'The entity class name'),
           new InputOption('entity-name',null,InputOption::VALUE_REQUIRED, 'The name of the entity'),
         ))
-        ->setName($commandName)
-        ->setDescription('Generate '.$entityType)
-        ->setHelp('The <info>'.$commandName.'</info> command helps you generate a new '. $entityType);
+        ->setName($this->commandName)
+        ->setDescription('Generate '.$this->entityType)
+        ->setHelp('The <info>'.$this->commandName.'</info> command helps you generate a new '. $this->entityType);
   }
 
   protected function execute(InputInterface $input, OutputInterface $output)
@@ -116,15 +115,9 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
 
   protected function createGenerator()
   {
-    switch ($entity_name) {
-      case 'entity_content':
-        $generator = new EntityContentGenerator;
-        break;
-      default:
-        $generator = new EntityConfigGenerator;
-        break;
-    }
+    if ('EntityContent' == $this->entityType)
+      return new EntityContentGenerator();
 
-    return $generator;
+    return new EntityConfigGenerator();
   }
 }
