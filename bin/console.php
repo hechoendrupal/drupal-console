@@ -21,7 +21,7 @@ $application = new Application();
 $application->setHelperSet(new HelperSet(array(
   'bootstrap' => new DrupalBootstrapHelper(),
   'finder' => new BootstrapFinderHelper(new Finder()),
-  'kernel' => new KernelHelper(),
+  'kernel' => new KernelHelper($class_loader),
   'shell' => new ShellHelper(new Shell($application)),
   'dialog' => new DialogHelper(),
   'formatter' => new FormatterHelper(),
