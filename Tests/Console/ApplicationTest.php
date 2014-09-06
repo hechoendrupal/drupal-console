@@ -75,6 +75,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     $this->drupalBootstrap = $this->getMockBuilder('Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper')
                                   ->getMock();
     $this->kernel = $this->getMockBuilder('Drupal\AppConsole\Command\Helper\KernelHelper')
+                         ->disableOriginalConstructor()
                          ->getMock();
     $this->eventDispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcher')
                                   ->getMock();

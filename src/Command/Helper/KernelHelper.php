@@ -13,6 +13,12 @@ use Drupal\Core\DrupalKernel;
 
 class KernelHelper extends Helper
 {
+  private $class_loader;
+
+  function __construct($class_loader){
+    $this->class_loader = $class_loader;
+  }
+
   /**
    * @var DrupalKernel
    */
@@ -42,7 +48,7 @@ class KernelHelper extends Helper
   public function getKernel()
   {
     if (!$this->kernel) {
-      $this->kernel = new DrupalKernel($this->environment, \drupal_classloader(), !$this->debug);
+      $this->kernel = new DrupalKernel($this->environment, $this->class_loader, !$this->debug);
     }
 
     return $this->kernel;
