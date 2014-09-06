@@ -14,7 +14,11 @@ use Drupal\Core\DrupalKernel;
 class KernelHelper extends Helper
 {
   private $class_loader;
-  
+
+  function __construct($class_loader){
+    $this->class_loader = $class_loader;
+  }
+
   /**
    * @var DrupalKernel
    */
