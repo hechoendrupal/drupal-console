@@ -13,6 +13,8 @@ use Drupal\Core\DrupalKernel;
 
 class KernelHelper extends Helper
 {
+  private $class_loader;
+  
   /**
    * @var DrupalKernel
    */
