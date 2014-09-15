@@ -49,6 +49,11 @@ class GeneratorModuleCommand extends GeneratorCommand
       }
     }
 
+    $module_path = $input->getOption('module-path');
+    if(!is_dir($module_path)){
+      mkdir($module_path,0755);
+    }
+
     $module = $this->validateModuleName($input->getOption('module'));
     $module_path = $this->validateModulePath($input->getOption('module-path'));
     $description = $input->getOption('description');
@@ -119,7 +124,7 @@ class GeneratorModuleCommand extends GeneratorCommand
     }
 
     $drupalBoostrap = $this->getHelperSet()->get('bootstrap');
-    $module_path_default = $drupalBoostrap->getDrupalRoot() . "/modules";
+    $module_path_default = $drupalBoostrap->getDrupalRoot() . "/modules/custom";
 
     $module_path = $input->getOption('module-path');
     if (!$module_path) {
