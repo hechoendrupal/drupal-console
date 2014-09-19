@@ -49,13 +49,8 @@ class GeneratorModuleCommand extends GeneratorCommand
       }
     }
 
-    $module_path = $input->getOption('module-path');
-    if(!is_dir($module_path)){
-      mkdir($module_path,0755);
-    }
-
     $module = $this->validateModuleName($input->getOption('module'));
-    $module_path = $this->validateModulePath($input->getOption('module-path'));
+    $module_path = $this->validateModulePath($input->getOption('module-path'), true);
     $description = $input->getOption('description');
     $core = $input->getOption('core');
     $package = $input->getOption('package');

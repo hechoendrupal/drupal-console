@@ -117,9 +117,9 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     return $this->getValidator()->validateModuleName($module_name);
   }
 
-  public function validateModulePath($module_path)
+  public function validateModulePath($module_path, $create_dir=false)
   {
-    return $this->getValidator()->validateModulePath($module_path);
+    return $this->getValidator()->validateModulePath($module_path, $create_dir);
   }
 
   public function validateClassName($class_name)
