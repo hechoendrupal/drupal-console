@@ -42,9 +42,14 @@ class Validators
     }
   }
 
-  public function validateModulePath($module_path)
+  public function validateModulePath($module_path, $create=false)
   {
     if (!is_dir($module_path)) {
+
+      if($create && mkdir($module_path,0755)){
+        return $module_path;
+      }
+
       throw new \InvalidArgumentException(sprintf(
         'Module path "%s" is invalid. You need to provide a valid path.',
         $module_path)

@@ -50,7 +50,7 @@ class GeneratorModuleCommand extends GeneratorCommand
     }
 
     $module = $this->validateModuleName($input->getOption('module'));
-    $module_path = $this->validateModulePath($input->getOption('module-path'));
+    $module_path = $this->validateModulePath($input->getOption('module-path'), true);
     $description = $input->getOption('description');
     $core = $input->getOption('core');
     $package = $input->getOption('package');
@@ -119,7 +119,7 @@ class GeneratorModuleCommand extends GeneratorCommand
     }
 
     $drupalBoostrap = $this->getHelperSet()->get('bootstrap');
-    $module_path_default = $drupalBoostrap->getDrupalRoot() . "/modules";
+    $module_path_default = $drupalBoostrap->getDrupalRoot() . "/modules/custom";
 
     $module_path = $input->getOption('module-path');
     if (!$module_path) {
