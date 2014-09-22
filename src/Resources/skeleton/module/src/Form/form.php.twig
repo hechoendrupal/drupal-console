@@ -85,7 +85,7 @@ class {{ class_name }} extends ConfigFormBase
 
     $this->config('{{module_name}}.{{form_id}}_config')
     {% for input in inputs %}
-      ->set('{{ input.name }}', $form_state->getValue(['{{ input.name }}']))
+      ->set('{{ input.name }}', $form_state->getValue('{{ input.name }}'))
     {% endfor %}
     ->save();
   }
