@@ -1,4 +1,4 @@
-Drupal 8 Console scaffolding module generator
+Drupal 8 Console
 =============================================
 [![Build Status](https://travis-ci.org/hechoendrupal/DrupalAppConsole.svg?branch=master)](https://travis-ci.org/hechoendrupal/DrupalAppConsole)
 [![Latest Stable Version](https://poser.pugx.org/drupal/console/v/stable.svg)](https://packagist.org/packages/drupal/console) [![Total Downloads](https://poser.pugx.org/drupal/console/downloads.svg)](https://packagist.org/packages/drupal/console) [![Latest Unstable Version](https://poser.pugx.org/drupal/console/v/unstable.svg)](https://packagist.org/packages/drupal/console) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
@@ -10,11 +10,18 @@ The purpose of this project is to leverage the Symfony Console Component to prov
 It supports adding services using Dependency Injection on class generation.
 
 #### What is out of the box?
-* Generates module and info files.
-* Generates PSR-4 compliant directory structure for a module.
-* Register routes on YML files and map to controller and form PHP Classes.
-* Create classes adding namespaces, uses and also the extend and implements keywords when required.
-* Support adding services using Dependency Injection on class generation.
+* Generators:
+ * Generates module and info files.
+ * Generates PSR-4 compliant directory structure for a module.
+ * Register routes on YML files and map to controller and form PHP Classes.
+ * Create classes adding namespaces, uses and also the extend and implements keywords when required.
+ * Support adding services using Dependency Injection on class generation.
+ * Listing services
+
+* Other commands:
+ * List registered services on the service container
+ * List registered routes on the routing system
+ * Rebuilt routes
 
 #### Who will benefit of using it?
 * **Module Maintainers & Developers**  
@@ -56,7 +63,7 @@ $ ./bin/console --shell
 ```
 
 ### Commands
-| Generators                    | Router                | Container       | Commands 
+| Generators                    | Router                | Container       | Commands
 | :-----------------------------|:----------------------|:----------------|:---------
 | generator:module              | router:debug          | container:debug | drush
 | generator:controller          | router:rebuild        |                 |
@@ -71,7 +78,8 @@ $ ./bin/console --shell
 
 
 #### Videos
-* [Generate a configuration entity type using the drupal 8 console](https://www.youtube.com/watch?v=x1zYfMLzFIM) 
-* [Introducing the Drupal 8 Console scaffolding module generator](https://www.youtube.com/watch?v=lzjcj-_xlAg)  
+* [Introducing the Drupal 8 Console scaffolding module generator with Jesus Manuel Olivas](http://bit.ly/acquia-console)
+* [Generate a content entity type using the drupal 8 console](https://www.youtube.com/watch?v=agcqTEr5_48)
+* [Generate a configuration entity type using the drupal 8 console](https://www.youtube.com/watch?v=x1zYfMLzFIM)
+* [Introducing the Drupal 8 Console scaffolding module generator](https://www.youtube.com/watch?v=lzjcj-_xlAg)
 * [How to install & use youtube video no audio](http://www.youtube.com/watch?v=NkHT2KctR-Y)
-* [Acquia | Introducing the Drupal 8 Console scaffolding module generator with Jesus Manuel Olivas](http://bit.ly/acquia-console)
