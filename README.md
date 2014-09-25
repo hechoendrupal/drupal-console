@@ -3,11 +3,13 @@ Drupal 8 Console
 [![Build Status](https://travis-ci.org/hechoendrupal/DrupalAppConsole.svg?branch=master)](https://travis-ci.org/hechoendrupal/DrupalAppConsole)
 [![Latest Stable Version](https://poser.pugx.org/drupal/console/v/stable.svg)](https://packagist.org/packages/drupal/console) [![Total Downloads](https://poser.pugx.org/drupal/console/downloads.svg)](https://packagist.org/packages/drupal/console) [![Latest Unstable Version](https://poser.pugx.org/drupal/console/v/unstable.svg)](https://packagist.org/packages/drupal/console) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
 
-Every modern framework nowadays provides a scaffolding tool code generator for speeding up the process of starting a new project and avoid early repetitive tasks.
+The purpose of this project is to leverage the Symfony Console Component to provide a CLI tool to automate the creation of drupal 8 modules and other recurring tasks.
 
-The purpose of this project is to leverage the Symfony Console Component to provide a CLI tool to automate the creation of drupal 8 modules by generating the directory structure for a module, routing, controllers, forms, services, plugins and required configuration files.
+As described on the Symfony documentation
+>The Console component eases the creation of beautiful and testable command line interfaces.
+The Console component allows you to create command-line commands. Your console commands can be used for any recurring task, such as cronjobs, imports, or other batch jobs.  
 
-It supports adding services using Dependency Injection on class generation.
+http://symfony.com/doc/current/components/console/introduction.html
 
 #### What is out of the box?
 * Generators:
@@ -16,7 +18,6 @@ It supports adding services using Dependency Injection on class generation.
  * Register routes on YML files and map to controller and form PHP Classes.
  * Create classes adding namespaces, uses and also the extend and implements keywords when required.
  * Support adding services using Dependency Injection on class generation.
- * Listing services
 
 * Other commands:
  * List registered services on the service container
