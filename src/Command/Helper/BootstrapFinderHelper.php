@@ -30,6 +30,7 @@ class BootstrapFinderHelper extends Helper
     $currentPath = getcwd() . '/';
     $relativePath = '';
     $filesFound = 0;
+    $iterator = false;
 
     while ($filesFound === 0) {
       $path = $currentPath . $relativePath . 'core/includes';
@@ -44,17 +45,21 @@ class BootstrapFinderHelper extends Helper
         $relativePath .= '../';
 
         if (realpath($currentPath . $relativePath) === '/') {
-          throw new \InvalidArgumentException('Cannot find Drupal bootstrap file.');
+          break;
         }
       }
     }
 
-    foreach ($iterator as $file) {
-      $bootstrapRealPath = $file->getRealpath();
-      break;
+    if ($iterator) {
+      foreach ($iterator as $file) {
+        $bootstrapRealPath = $file->getRealpath();
+        break;
+      }
+      return $bootstrapRealPath;
     }
-
-    return $bootstrapRealPath;
+    else {
+      return false;
+    }
   }
 
   public function getName()

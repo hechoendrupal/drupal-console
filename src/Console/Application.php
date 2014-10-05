@@ -11,6 +11,8 @@ class Application extends BaseApplication
 {
   private $commandsRegistered = false;
 
+  private $booted = false;
+
   /**
    * Create a new application extended from \Symfony\Component\Console\Application
    */
@@ -47,9 +49,12 @@ class Application extends BaseApplication
    */
   public function doRun(InputInterface $input, OutputInterface $output)
   {
-    $this->bootstrapDrupal($input, $output);
-    $this->initDebug($input);
-    $this->doKernelConfiguration();
+    $this->booted = $this->bootstrapDrupal($input, $output);
+
+    if ($this->booted) {
+      $this->initDebug($input);
+      $this->doKernelConfiguration();
+    }
 
     if (!$this->commandsRegistered) {
       $this->registerCommands();
@@ -67,14 +72,16 @@ class Application extends BaseApplication
 
   protected function bootstrapDrupal(InputInterface $input, OutputInterface $output)
   {
-    $drupalBoostrap = $this->getHelperSet()->get('bootstrap');
+    $drupalBootstrap = $this->getHelperSet()->get('bootstrap');
 
     $bootstrapFile = $input->getParameterOption(array('--bootstrap-file', '-b'));
     if (!$bootstrapFile) {
-        $bootstrapFile = $this->getHelperSet()->get('finder')->findBootstrapFile($output);
+      $bootstrapFile = $this->getHelperSet()->get('finder')->findBootstrapFile($output);
     }
 
-    $drupalBoostrap->bootstrapConfiguration($bootstrapFile);
+    $booted = $drupalBootstrap->bootstrapConfiguration($bootstrapFile);
+
+    return $booted;
   }
 
   protected function initDebug(InputInterface $input)
@@ -113,11 +120,11 @@ class Application extends BaseApplication
   protected function registerCommands()
   {
     $rc = $this->getHelperSet()->get('register_commands');
-    $rc->register();
+    $rc->register($drupalModules=$this->booted);
   }
 
   public function getKernel()
   {
-    return $this->getHelperSet()->get('kernel')->getKernel();
+    return $this->booted ? $this->getHelperSet()->get('kernel')->getKernel() : null;
   }
 }
