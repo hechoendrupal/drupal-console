@@ -14,6 +14,7 @@ use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Console\Helper\TableHelper;
 use Drupal\AppConsole\Utils\StringUtils;
+use Drupal\AppConsole\Utils\Validators;
 
 set_time_limit(0);
 
@@ -30,7 +31,7 @@ $application->setHelperSet(new HelperSet(array(
   'register_commands' => new RegisterCommandsHelper($application),
   'table' => new TableHelper(),
   'stringUtils' => new StringUtils(),
-  'validators' => new Drupal\AppConsole\Utils\Validators(),
+  'validators' => new Validators(),
 )));
 
 $application->run();
