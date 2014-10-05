@@ -94,6 +94,12 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     $this->register_commands = $this->getMockBuilder('Drupal\AppConsole\Command\Helper\RegisterCommandsHelper')
                                     ->disableOriginalConstructor()
                                     ->getMock();
+    $this->stringUtils = $this->getMockBuilder('Drupal\AppConsole\Utils\StringUtils')
+                          ->disableOriginalConstructor()
+                          ->getMock();
+    $this->validators  = $this->getMockBuilder('Drupal\AppConsole\Utils\Validators')
+                          ->disableOriginalConstructor()
+                          ->getMock();
   }
 
   public function testCanRunApplication()
@@ -201,10 +207,20 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
   protected function expectsThatRegisterCommandsIsCalled()
   {
+    $this->helperSet->expects($this->once())
+      ->method('get')
+      ->with('stringUtils')
+      ->will($this->returnValue($this->stringUtils));
+
+    $this->helperSet->expects($this->once())
+      ->method('get')
+      ->with('validators')
+      ->will($this->returnValue($this->validators));
+
     $this->helperSet->expects($this->at(5))
-                    ->method('get')
-                    ->with('register_commands')
-                    ->will($this->returnValue($this->register_commands));
+      ->method('get')
+      ->with('register_commands')
+      ->will($this->returnValue($this->register_commands));
   }
 
   protected function expectsThatShellHelperIsRegistered()
