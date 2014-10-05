@@ -40,6 +40,7 @@ class GeneratorModuleCommand extends GeneratorCommand
   protected function execute(InputInterface $input, OutputInterface $output)
   {
     $dialog = $this->getDialogHelper();
+    $validators = $this->getHelperSet()->get('validators');
 
     if ($input->isInteractive()) {
       if (!$dialog->askConfirmation($output, $dialog->getQuestion('Do you confirm generation', 'yes', '?'), true)) {
@@ -49,15 +50,15 @@ class GeneratorModuleCommand extends GeneratorCommand
       }
     }
 
-    $module = $this->validateModuleName($input->getOption('module'));
-    $module_path = $this->validateModulePath($input->getOption('module-path'), true);
+    $module = $validators->validateModuleName($input->getOption('module'));
+    $module_path = $validators->validateModulePath($input->getOption('module-path'), true);
     $description = $input->getOption('description');
     $core = $input->getOption('core');
     $package = $input->getOption('package');
     $controller = $input->getOption('controller');
     $tests = $input->getOption('tests');
     $structure =  $input->getOption('structure');
-    $machine_name = $this->validateModule($input->getOption('machine-name'));
+    $machine_name = $validators->validateMachineName($input->getOption('machine-name'));
 
     $generator = $this->getGenerator();
     $generator->generate($module, $machine_name, $module_path, $description, $core, $package, $controller, $tests, $structure);
@@ -74,6 +75,9 @@ class GeneratorModuleCommand extends GeneratorCommand
    */
   protected function interact(InputInterface $input, OutputInterface $output)
   {
+    $stringUtils = $this->getHelperSet()->get('stringUtils');
+    $validators = $this->getHelperSet()->get('validators');
+
     $dialog = $this->getDialogHelper();
     $dialog->writeSection($output, 'Welcome to the Drupal module generator');
 
@@ -93,8 +97,8 @@ class GeneratorModuleCommand extends GeneratorCommand
       $module = $dialog->askAndValidate(
         $output,
         $dialog->getQuestion('Module name', ''),
-        function ($module) {
-          return $this->validateModuleName($module);
+        function ($module) use ($validators){
+          return $validators->validateModuleName($module);
         },
         false,
         null,
@@ -104,12 +108,12 @@ class GeneratorModuleCommand extends GeneratorCommand
     $input->setOption('module', $module);
 
     if (!$machine_name) {
-      $machine_name = $this->getStringUtils()->createMachineName($module);
+      $machine_name = $stringUtils->createMachineName($module);
       $machine_name = $dialog->askAndValidate(
         $output,
         $dialog->getQuestion('Module machine name', $machine_name),
-        function ($machine_name) {
-          return $this->validateModule($machine_name);
+        function ($machine_name) use ($validators){
+          return $validators->validateMachineName($machine_name);
         },
         false,
         $machine_name,

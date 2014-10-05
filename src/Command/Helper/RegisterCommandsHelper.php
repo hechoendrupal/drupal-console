@@ -27,11 +27,10 @@ class RegisterCommandsHelper extends Helper
     $this->console = $console;
   }
 
-  public function register()
+  public function register($drupalModules = true)
   {
-
-    $this->getModuleList();
-    $this->getNamespaces();
+    $this->modules = $this->getModuleList($drupalModules);
+    $this->namespaces = $this->getNamespaces($drupalModules);
 
     $finder = new Finder();
     foreach ($this->modules as $module => $directory) {
@@ -99,26 +98,35 @@ class RegisterCommandsHelper extends Helper
     }
   }
 
-  protected function getModuleList()
+  protected function getModuleList($drupalModules = true)
   {
-    // Get Container
-    $this->getContainer();
     // Get Module handler
     if (!isset($this->modules)) {
-      $module_handler = $this->container->get('module_handler');
-      $this->modules = $module_handler->getModuleDirectories();
+      $this->modules = [];
+      if ($drupalModules) {
+        $this->getContainer();
+        $module_handler = $this->container->get('module_handler');
+        $this->modules = $module_handler->getModuleDirectories();
+      }
       $this->modules += ['AppConsole' => dirname(dirname(dirname(__DIR__)))];
     }
+
+    return $this->modules;
   }
 
-  protected function getNamespaces()
+  protected function getNamespaces($drupalModules = true)
   {
-    $this->getContainer();
     // Get Traversal, namespaces
     if (!isset($this->namespaces)) {
-      $namespaces = $this->container->get('container.namespaces');
-      $this->namespaces = $namespaces->getArrayCopy();
+      $this->namespaces = [];
+      if ($drupalModules) {
+        $this->getContainer();
+        $namespaces = $this->container->get('container.namespaces');
+        $this->namespaces = $namespaces->getArrayCopy();
+      }
       $this->namespaces += ['Drupal\\AppConsole' => dirname(dirname(__DIR__))];
     }
+
+    return $this->namespaces;
   }
 }
