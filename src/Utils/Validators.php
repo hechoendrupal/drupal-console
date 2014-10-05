@@ -6,7 +6,9 @@
 
 namespace Drupal\AppConsole\Utils;
 
-class Validators
+use Symfony\Component\Console\Helper\Helper;
+
+class Validators extends Helper
 {
 
   const REGEX_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+$/';
@@ -46,7 +48,7 @@ class Validators
   {
     if (!is_dir($module_path)) {
 
-      if($create && mkdir($module_path,0755)){
+      if($create && mkdir($module_path,0755, true)){
         return $module_path;
       }
 
@@ -94,5 +96,10 @@ class Validators
     }
 
     return $service;
+  }
+
+  public function getName()
+  {
+    return "validators";
   }
 }
