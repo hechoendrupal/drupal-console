@@ -25,6 +25,7 @@
         "symfony/console": "2.5.*",
         "symfony/finder": "2.5.*",
         "symfony/dependency-injection": "2.5.*",
+        "symfony/debug": "2.5.*",
         "twig/twig": "~1.15",
         "composer/installers": "~1.0"
     },
