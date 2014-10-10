@@ -49,12 +49,12 @@ php -r "readfile('https://getcomposer.org/installer');" | php
 
 Instructions to install Drupal Console if you are using composer inside Drupal Installation.
 ```
-$ COMPOSER_BIN_DIR=bin php composer.phar require --dev drupal/console:~0.1
+$ COMPOSER_BIN_DIR=bin php composer.phar require --dev drupal/console:@stable
 ```
 
 Instructions to install Drupal Console if you are using composer globally.
 ```
-$ COMPOSER_BIN_DIR=bin composer require --dev drupal/console:~0.1
+$ COMPOSER_BIN_DIR=bin composer require --dev drupal/console:@stable
 ```
 
 ### Usage
