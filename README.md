@@ -79,6 +79,7 @@ $ ./bin/console --shell
 
 
 #### Videos
+* [DrupalCon Amsterdam 2014: Drupal Lightning Talks](https://www.youtube.com/watch?v=Rk4enIuhWno&t=41m45s#t=2505)
 * [Introducing the Drupal 8 Console scaffolding module generator with Jesus Manuel Olivas](http://bit.ly/acquia-console)
 * [Generate a content entity type using the drupal 8 console](https://www.youtube.com/watch?v=agcqTEr5_48)
 * [Generate a configuration entity type using the drupal 8 console](https://www.youtube.com/watch?v=x1zYfMLzFIM)
