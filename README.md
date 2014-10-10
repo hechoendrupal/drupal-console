@@ -66,16 +66,16 @@ $ ./bin/console --shell
 ### Commands
 | Generators                    | Router                | Container       | Commands
 | :-----------------------------|:----------------------|:----------------|:---------
-| generator:module              | router:debug          | container:debug | drush
-| generator:controller          | router:rebuild        |                 |
-| generator:form:config         |                       |                 |
-| generator:entity:config       |                       |                 |
-| generator:entity:content      |                       |                 |
-| generator:command             |                       |                 |
-| generator:plugin:block        |                       |                 |
-| generator:plugin:imageeffect  |                       |                 |
-| generator:entity:config       |                       |                 |
-| generator:service             |                       |                 |
+| generate:module              | router:debug          | container:debug | drush
+| generate:controller          | router:rebuild        |                 |
+| generate:form:config         |                       |                 |
+| generate:entity:config       |                       |                 |
+| generate:entity:content      |                       |                 |
+| generate:command             |                       |                 |
+| generate:plugin:block        |                       |                 |
+| generate:plugin:imageeffect  |                       |                 |
+| generate:entity:config       |                       |                 |
+| generate:service             |                       |                 |
 
 
 #### Videos
