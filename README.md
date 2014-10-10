@@ -64,8 +64,8 @@ $ ./bin/console --shell
 ```
 
 ### Commands
-| Generators                    | Router                | Container       | Commands
-| :-----------------------------|:----------------------|:----------------|:---------
+| Generators                   | Router                | Container       | Commands
+| :----------------------------|:----------------------|:----------------|:---------
 | generate:module              | router:debug          | container:debug | drush
 | generate:controller          | router:rebuild        |                 |
 | generate:form:config         |                       |                 |
