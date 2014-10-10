@@ -59,7 +59,7 @@ class EntityContentGenerator extends Generator
     );
       
     $this->renderFile(
-      'module/src/accessControlHandler-entity-content.php.twig',
+      'module/src/accesscontrolhandler-entity-content.php.twig',
       $this->getSourcePath($module).'/'.$entity_class.'AccessControlHandler.php',
       $parameters
     );
@@ -71,7 +71,7 @@ class EntityContentGenerator extends Generator
     );
      
     $this->renderFile(
-      'module/src/Entity/Controller/listController-entity-content.php.twig',
+      'module/src/Entity/Controller/listcontroller-entity-content.php.twig',
       $this->getEntityPath($module).'/Controller/'.$entity_class.'ListController.php',
       $parameters
     );
