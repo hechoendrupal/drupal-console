@@ -11,6 +11,12 @@ The Console component allows you to create command-line commands. Your console c
 
 http://symfony.com/doc/current/components/console/introduction.html
 
+#### Project Goals:
+* Take advantage of Symfony Console Component to generate command.
+* Take advantage of Twig Component in order to render PHP, YML and other files.
+* Take advantage of OOP and modern development practices.
+* No plans to support previous versions of Drupal.
+
 #### What is out of the box?
 * Generators:
  * Generates module and info files.
