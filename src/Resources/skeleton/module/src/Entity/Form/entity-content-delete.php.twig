@@ -52,6 +52,6 @@ class {{ entity_class }}DeleteForm extends ContentEntityConfirmFormBase
     $this->entity->delete();
 
     watchdog('content', '@type: deleted %title.', array('@type' => $this->entity->bundle(), '%title' => $this->entity->label()));
-    $form_state->setRedirect('{{ entity_name }}.list');
+    $form_state->setRedirectUrl($this->getCancelUrl());
   }
 {% endblock %}
