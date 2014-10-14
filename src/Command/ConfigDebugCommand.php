@@ -54,4 +54,26 @@ class ConfigDebugCommand extends ContainerAwareCommand
     }
     $table->render($output);
   }
+
+  /**
+   * @param $output
+   * @param $table
+   * @param $configStorage
+   * @param $config_name
+   */
+  private function getConfigurationByName($output, $table, $configStorage, $config_name){
+    if ($configStorage->exists($config_name)) {
+      $table->setHeaders(['  '.$config_name]);
+      $config = $configStorage->read($config_name);
+      $configuration = json_encode($config, JSON_PRETTY_PRINT);
+      $configuration = str_replace(
+          ['{', '}', ',', '""', '"', "    "],
+          ['', '', '', '\'\'', '', '  '] ,
+          $configuration);
+      $configuration = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "", $configuration);
+
+      $table->addRow([$configuration]);
+    }
+    $table->render($output);
+  }
 }
