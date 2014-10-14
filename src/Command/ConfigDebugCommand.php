@@ -31,11 +31,15 @@ class ConfigDebugCommand extends ContainerAwareCommand
     $container = $this->getContainer();
     $configFactory = $container->get('config.factory');
 
-    $names = $configFactory->listAll();
+    $table = $this->getHelperSet()->get('table');
+    $table->setlayout($table::LAYOUT_COMPACT);
 
+    $names = $configFactory->listAll();
+    $table->setHeaders(['Name']);
     foreach ($names as $name) {
-      $output->writeln($name);
+      $table->addRow([$name]);
     }
+    $table->render($output);
 
   }
 }
