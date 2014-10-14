@@ -28,5 +28,14 @@ class ConfigDebugCommand extends ContainerAwareCommand
   protected function execute(InputInterface $input, OutputInterface $output)
   {
 
+    $container = $this->getContainer();
+    $configFactory = $container->get('config.factory');
+
+    $names = $configFactory->listAll();
+
+    foreach ($names as $name) {
+      $output->writeln($name);
+    }
+
   }
 }
