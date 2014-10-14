@@ -20,6 +20,7 @@ class ConfigDebugCommand extends ContainerAwareCommand
     $this
       ->setName('config:debug')
       ->setDescription('Show the current configuration')
+      ->addArgument('config-name', InputArgument::OPTIONAL, 'Config name')
     ;
   }
 
