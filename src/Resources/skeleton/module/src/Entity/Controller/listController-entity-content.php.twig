@@ -11,6 +11,7 @@ namespace Drupal\{{module}}\Entity\Controller;
 {% block use_class %}
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityListBuilder;
+use Drupal\Core\Url;
 {% endblock %}
 
 {% block class_declaration %}
@@ -38,10 +39,14 @@ class {{ entity_class }}ListController extends EntityListBuilder
   public function buildRow(EntityInterface $entity) {
     /* @var $entity \Drupal\{{module}}\Entity\{{ entity_class }} */
     $row['id'] = $entity->id();
-    $row['name'] = \Drupal::l($this->getLabel($entity),
-      '{{ entity_name }}.list', array(
-        '{{module}}_{{ entity_name }}' => $entity->id(),
-      ));
+    $row['name'] = \Drupal::l(
+        $this->getLabel($entity),
+        new Url(
+          '{{ entity_name }}.edit', array(
+            'bar' => $entity->id(),
+        )
+      )
+    );
     return $row + parent::buildRow($entity);
   }
 {% endblock %}
