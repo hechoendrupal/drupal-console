@@ -37,8 +37,13 @@ class ConfigDebugCommand extends ContainerAwareCommand
     $table = $this->getHelperSet()->get('table');
     $table->setlayout($table::LAYOUT_COMPACT);
 
-    $this->getAllConfigurations($output, $table, $configFactory);
-
+    if (!$config_name) {
+      $this->getAllConfigurations($output, $table, $configFactory);
+    }
+    else {
+      $configStorage = $container->get('config.storage');
+      $this->getConfigurationByName($output, $table, $configStorage, $config_name);
+    }
   }
 
   /**
