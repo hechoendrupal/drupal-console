@@ -29,6 +29,7 @@ class ConfigDebugCommand extends ContainerAwareCommand
    */
   protected function execute(InputInterface $input, OutputInterface $output)
   {
+    $config_name = $input->getArgument('config-name');
 
     $container = $this->getContainer();
     $configFactory = $container->get('config.factory');
