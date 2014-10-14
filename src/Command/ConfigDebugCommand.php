@@ -16,7 +16,10 @@ class ConfigDebugCommand extends ContainerAwareCommand
    */
   protected function configure()
   {
-
+    $this
+      ->setName('config:debug')
+      ->setDescription('Show the current configuration')
+    ;
   }
 
   /**
