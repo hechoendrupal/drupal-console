@@ -69,16 +69,12 @@ class ConfigDebugCommand extends ContainerAwareCommand
    */
   private function getConfigurationByName($output, $table, $configStorage, $config_name){
     if ($configStorage->exists($config_name)) {
-      $table->setHeaders(['  '.$config_name]);
-      $config = $configStorage->read($config_name);
-      $configuration = json_encode($config, JSON_PRETTY_PRINT);
-      $configuration = str_replace(
-          ['{', '}', ',', '""', '"', "    "],
-          ['', '', '', '\'\'', '', '  '] ,
-          $configuration);
-      $configuration = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "", $configuration);
+      $table->setHeaders([$config_name]);
 
-      $table->addRow([$configuration]);
+      $configuration = $configStorage->read($config_name);
+      $configurationEncoded = Yaml::encode($configuration);
+
+      $table->addRow([$configurationEncoded]);
     }
     $table->render($output);
   }
