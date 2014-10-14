@@ -34,12 +34,21 @@ class ConfigDebugCommand extends ContainerAwareCommand
     $table = $this->getHelperSet()->get('table');
     $table->setlayout($table::LAYOUT_COMPACT);
 
+    $this->getAllConfigurations($output, $table, $configFactory);
+
+  }
+
+  /**
+   * @param $output
+   * @param $table
+   * @param $configFactory
+     */
+  private function getAllConfigurations($output, $table, $configFactory){
     $names = $configFactory->listAll();
     $table->setHeaders(['Name']);
     foreach ($names as $name) {
       $table->addRow([$name]);
     }
     $table->render($output);
-
   }
 }
