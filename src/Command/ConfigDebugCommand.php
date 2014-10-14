@@ -47,9 +47,9 @@ class ConfigDebugCommand extends ContainerAwareCommand
   }
 
   /**
-   * @param $output
-   * @param $table
-   * @param $configFactory
+   * @param $output         OutputInterface
+   * @param $table          TableHelper
+   * @param $configFactory  ConfigFactory
      */
   private function getAllConfigurations($output, $table, $configFactory){
     $names = $configFactory->listAll();
@@ -61,10 +61,10 @@ class ConfigDebugCommand extends ContainerAwareCommand
   }
 
   /**
-   * @param $output
-   * @param $table
-   * @param $configStorage
-   * @param $config_name
+   * @param $output         OutputInterface
+   * @param $table          TableHelper
+   * @param $configStorage  ConfigStorage
+   * @param $config_name    String
    */
   private function getConfigurationByName($output, $table, $configStorage, $config_name){
     if ($configStorage->exists($config_name)) {
