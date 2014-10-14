@@ -51,7 +51,7 @@ class {{ entity_class }}DeleteForm extends ContentEntityConfirmFormBase
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->entity->delete();
 
-    watchdog('content', '@type: deleted %title.', array('@type' => $this->entity->bundle(), '%title' => $this->entity->label()));
+    \Drupal::logger('{{module}}')->notice('content @type: deleted %title.', array('@type' => $this->entity->bundle(), '%title' => $this->entity->label()));
     $form_state->setRedirectUrl($this->getCancelUrl());
   }
 {% endblock %}
