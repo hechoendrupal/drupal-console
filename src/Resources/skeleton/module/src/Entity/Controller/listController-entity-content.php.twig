@@ -43,7 +43,7 @@ class {{ entity_class }}ListController extends EntityListBuilder
         $this->getLabel($entity),
         new Url(
           '{{ entity_name }}.edit', array(
-            'bar' => $entity->id(),
+            '{{ entity_name }}' => $entity->id(),
         )
       )
     );
