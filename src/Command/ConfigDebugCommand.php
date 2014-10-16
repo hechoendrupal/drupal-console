@@ -39,8 +39,7 @@ class ConfigDebugCommand extends ContainerAwareCommand
       $this->getAllConfigurations($output, $table);
     }
     else {
-      $configStorage = $container->get('config.storage');
-      $this->getConfigurationByName($output, $table, $configStorage, $config_name);
+      $this->getConfigurationByName($output, $table, $config_name);
     }
   }
 
