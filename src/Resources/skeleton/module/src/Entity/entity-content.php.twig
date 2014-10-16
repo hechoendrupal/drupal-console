@@ -49,7 +49,8 @@ use Drupal\user\UserInterface;
  *     "edit-form" = "{{ entity_name }}.edit",
  *     "admin-form" = "{{ entity_name }}.settings",
  *     "delete-form" = "{{ entity_name }}.delete"
- *   }
+ *   },
+ *   field_ui_base_route = "{{ entity_name }}.settings"
  * )
  */
 class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}Interface
@@ -144,7 +145,7 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
       ))
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
-     
+
     $fields['langcode'] = BaseFieldDefinition::create('language')
       ->setLabel(t('Language code'))
       ->setDescription(t('The language code of {{ entity_class }} entity.'));
