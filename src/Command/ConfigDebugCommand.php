@@ -32,27 +32,23 @@ class ConfigDebugCommand extends ContainerAwareCommand
   {
     $config_name = $input->getArgument('config-name');
 
-    $container = $this->getContainer();
-    $configFactory = $container->get('config.factory');
-
     $table = $this->getHelperSet()->get('table');
     $table->setlayout($table::LAYOUT_COMPACT);
 
     if (!$config_name) {
-      $this->getAllConfigurations($output, $table, $configFactory);
+      $this->getAllConfigurations($output, $table);
     }
     else {
-      $configStorage = $container->get('config.storage');
-      $this->getConfigurationByName($output, $table, $configStorage, $config_name);
+      $this->getConfigurationByName($output, $table, $config_name);
     }
   }
 
   /**
    * @param $output         OutputInterface
    * @param $table          TableHelper
-   * @param $configFactory  ConfigFactory
-     */
-  private function getAllConfigurations($output, $table, $configFactory){
+   */
+  private function getAllConfigurations($output, $table){
+    $configFactory = $this->getConfigFactory();
     $names = $configFactory->listAll();
     $table->setHeaders(['Name']);
     foreach ($names as $name) {
@@ -64,10 +60,10 @@ class ConfigDebugCommand extends ContainerAwareCommand
   /**
    * @param $output         OutputInterface
    * @param $table          TableHelper
-   * @param $configStorage  ConfigStorage
    * @param $config_name    String
    */
-  private function getConfigurationByName($output, $table, $configStorage, $config_name){
+  private function getConfigurationByName($output, $table, $config_name){
+    $configStorage = $this->getConfigStorage();
     if ($configStorage->exists($config_name)) {
       $table->setHeaders([$config_name]);
 

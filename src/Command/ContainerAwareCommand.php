@@ -89,6 +89,14 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     return $this->getContainer()->get('console.validators');
   }
 
+  public function getConfigFactory(){
+    return $this->getContainer()->get('config.factory');
+  }
+
+  public function getConfigStorage(){
+    return $this->getContainer()->get('config.storage');
+  }
+
   public function validateModuleExist($module_name)
   {
     return $this->getValidator()->validateModuleExist($module_name, $this->getModules());
