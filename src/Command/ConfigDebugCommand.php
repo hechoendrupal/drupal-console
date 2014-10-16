@@ -61,10 +61,10 @@ class ConfigDebugCommand extends ContainerAwareCommand
   /**
    * @param $output         OutputInterface
    * @param $table          TableHelper
-   * @param $configStorage  ConfigStorage
    * @param $config_name    String
    */
-  private function getConfigurationByName($output, $table, $configStorage, $config_name){
+  private function getConfigurationByName($output, $table, $config_name){
+    $configStorage = $this->getConfigStorage();
     if ($configStorage->exists($config_name)) {
       $table->setHeaders([$config_name]);
 
