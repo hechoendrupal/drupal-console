@@ -21,16 +21,16 @@
         }
     ],
     "require": {
-        "php": ">=5.4.2",
+        "php": ">=5.4.5",
         "symfony/console": "2.5.*",
         "symfony/finder": "2.5.*",
         "symfony/dependency-injection": "2.5.*",
-        "twig/twig": "~1.15",
+        "twig/twig": "1.15.*",
         "composer/installers": "~1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "4.1.*",
-        "drupal/drupal": "8.0.*@dev",
+        "drupal/drupal": "8.0.x-dev",
         "drupal/coder": "dev-8.x-2.x"
     },
     "minimum-stability": "dev",
