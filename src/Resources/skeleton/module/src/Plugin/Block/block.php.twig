@@ -104,7 +104,7 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
 {% for input in inputs %}
-    $this->configuration['{{ input.name }}'] = $form_state['values']['{{ input.name }}'];
+    $this->configuration['{{ input.name }}'] = $form_state->getValue('{{ input.name }}');
 {% endfor %}
   }
 {% endif %}
