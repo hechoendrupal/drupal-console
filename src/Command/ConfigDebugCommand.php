@@ -32,9 +32,6 @@ class ConfigDebugCommand extends ContainerAwareCommand
   {
     $config_name = $input->getArgument('config-name');
 
-    $container = $this->getContainer();
-    $configFactory = $container->get('config.factory');
-
     $table = $this->getHelperSet()->get('table');
     $table->setlayout($table::LAYOUT_COMPACT);
 
