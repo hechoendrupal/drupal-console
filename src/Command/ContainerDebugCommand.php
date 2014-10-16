@@ -30,7 +30,6 @@ class ContainerDebugCommand extends ContainerAwareCommand
       $service = $this->getContainer()->get($serviceId);
       $class = get_class($service);
       $table->addRow([$serviceId, $class]);
-      var_dump()
     }
     $table->render($output);
   }
