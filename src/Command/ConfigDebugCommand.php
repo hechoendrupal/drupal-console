@@ -47,9 +47,9 @@ class ConfigDebugCommand extends ContainerAwareCommand
   /**
    * @param $output         OutputInterface
    * @param $table          TableHelper
-   * @param $configFactory  ConfigFactory
-     */
-  private function getAllConfigurations($output, $table, $configFactory){
+   */
+  private function getAllConfigurations($output, $table){
+    $configFactory = $this->getConfigFactory();
     $names = $configFactory->listAll();
     $table->setHeaders(['Name']);
     foreach ($names as $name) {
