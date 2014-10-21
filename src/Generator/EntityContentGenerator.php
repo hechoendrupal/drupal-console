@@ -71,6 +71,12 @@ class EntityContentGenerator extends Generator
     );
 
     $this->renderFile(
+      'module/src/Entity/entity-content-views-data.php.twig',
+      $this->getEntityPath($module).'/'.$entity_class.'ViewsData.php',
+      $parameters
+    );
+
+    $this->renderFile(
       'module/src/Entity/Controller/listcontroller-entity-content.php.twig',
       $this->getEntityPath($module).'/Controller/'.$entity_class.'ListController.php',
       $parameters
@@ -93,5 +99,25 @@ class EntityContentGenerator extends Generator
       $this->getEntityPath($module).'/Form/'.$entity_class.'DeleteForm.php',
       $parameters
     );
+
+    $this->renderFile(
+      'module/entity-content-page.php.twig',
+      $this->getModulePath($module).'/'.$entity_name.'.page.inc',
+      $parameters
+    );
+
+    $this->renderFile(
+      'module/templates/entity-html.twig',
+      $this->getTemplatePath($module).'/'.$entity_name.'.html.twig',
+      $parameters
+    );
+
+    $content = $this->renderView(
+        'module/src/Entity/entity-content.theme.php.twig',
+        $parameters
+    );
+
+    echo 'Add this to your hook_theme:' . PHP_EOL;
+    echo $content;
   }
 }
