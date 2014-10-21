@@ -112,10 +112,5 @@ class EntityContentGenerator extends Generator
       $parameters
     );
 
-    $this->insertHookTheme(
-      'module/src/Entity/entity-content.theme.php.twig',
-      $this->getModulePath($module).'/'.$module.'.module',
-      $parameters
-    );
   }
 }
