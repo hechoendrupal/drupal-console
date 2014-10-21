@@ -117,5 +117,7 @@ class EntityContentGenerator extends Generator
         $parameters
     );
 
+    echo 'Add this to your hook_theme:' . PHP_EOL;
+    echo $content;
   }
 }
