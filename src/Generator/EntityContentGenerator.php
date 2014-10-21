@@ -71,6 +71,12 @@ class EntityContentGenerator extends Generator
     );
 
     $this->renderFile(
+      'module/src/Entity/entity-content-views-data.php.twig',
+      $this->getEntityPath($module).'/'.$entity_class.'ViewsData.php',
+      $parameters
+    );
+
+    $this->renderFile(
       'module/src/Entity/Controller/listcontroller-entity-content.php.twig',
       $this->getEntityPath($module).'/Controller/'.$entity_class.'ListController.php',
       $parameters
@@ -91,6 +97,24 @@ class EntityContentGenerator extends Generator
     $this->renderFile(
       'module/src/Entity/Form/entity-content-delete.php.twig',
       $this->getEntityPath($module).'/Form/'.$entity_class.'DeleteForm.php',
+      $parameters
+    );
+
+    $this->renderFile(
+      'module/entity-content-page.php.twig',
+      $this->getModulePath($module).'/'.$entity_name.'.page.inc',
+      $parameters
+    );
+
+    $this->renderFile(
+      'module/templates/entity-html.twig',
+      $this->getTemplatePath($module).'/'.$entity_name.'.html.twig',
+      $parameters
+    );
+
+    $this->insertHookTheme(
+      'module/src/Entity/entity-content.theme.php.twig',
+      $this->getModulePath($module).'/'.$module.'.module',
       $parameters
     );
   }
