@@ -1,13 +1,18 @@
 {% extends "base/file.php.twig" %}
 
-/**
- * @file {{ entity_name }}.page.inc
+{% block file_path %}
+{{ entity_name }}.page.inc
+{% endblock %}
+
+{% block extra_info %}
  * {{ entity_class }} page callback file for the {{ entity_name }} entity.
- */
+{% endblock %}
 
+{% block use_class %}
 use Drupal\Core\Render\Element;
+{% endblock %}
 
-
+{% block file_methods %}
 /**
  * Prepares variables for {{ entity_name }} templates.
  *
@@ -28,3 +33,4 @@ function template_preprocess_{{ entity_name }}(&$variables) {
     $variables['content'][$key] = $variables['elements'][$key];
   }
 }
+{% endblock %}
