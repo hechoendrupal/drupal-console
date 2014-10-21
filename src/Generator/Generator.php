@@ -57,6 +57,20 @@ class Generator
     return file_put_contents($target, $this->render($template, $parameters), $flag);
   }
 
+  protected function insertHookTheme($template, $target, $parameters, $flag=null)
+  {
+    if (!is_dir(dirname($target))) {
+        mkdir(dirname($target), 0777, true);
+    }
+
+    $module_content = file_get_contents($target);
+    $pattern = '$theme = [];';
+    $position = strpos($module_content, $pattern) + strlen($pattern) + 1;
+    $append = substr_replace($module_content, $this->render($template, $parameters), $position, 0);
+
+    return file_put_contents($target, $append);
+  }
+
   public function getModulePath($module_name)
   {
     if (!$this->module_path) {
@@ -99,6 +113,11 @@ class Generator
   public function getEntityPath($module_name)
   {
     return $this->getModulePath($module_name).'/src/Entity';
+  }
+
+  public function getTemplatePath($module_name)
+  {
+    return $this->getModulePath($module_name).'/templates';
   }
 
   public function getServicesAsParameters()

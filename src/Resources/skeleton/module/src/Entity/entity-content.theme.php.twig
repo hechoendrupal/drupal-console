@@ -1,0 +1,7 @@
+{% block hook_theme %}
+  $theme['{{ entity_name }}'] = array(
+    'render element' => 'elements',
+    'file' => '{{ entity_name }}.page.inc',
+    'template' => '{{ entity_name }}',
+  );
+{% endblock %}

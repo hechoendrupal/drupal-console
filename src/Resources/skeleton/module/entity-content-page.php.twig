@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * @file {{ entity_name }}.page.inc
+ * {{ entity_class }} page callback file for the {{ entity_name }} entity.
+ */
+
+use Drupal\Core\Render\Element;
+
+
+/**
+ * Prepares variables for {{ entity_name }} templates.
+ *
+ * Default template: {{ entity_name }}.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing the user information and any
+ *   - attributes: HTML attributes for the containing element.
+ */
+
+function template_preprocess_{{ entity_name }}(&$variables) {
+  // Fetch {{ entity_class }} Entity Object
+  ${{ entity_name }} = $variables['elements']['#{{ entity_name }}'];
+
+  // Helpful $content variable for templates.
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
