@@ -112,5 +112,10 @@ class EntityContentGenerator extends Generator
       $parameters
     );
 
+    $content = $this->renderView(
+        'module/src/Entity/entity-content.theme.php.twig',
+        $parameters
+    );
+
   }
 }
