@@ -97,6 +97,10 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     return $this->getContainer()->get('config.storage');
   }
 
+  public function getEntityManager(){
+    return $this->getContainer()->get('entity.manager');
+  }
+
   public function validateModuleExist($module_name)
   {
     return $this->getValidator()->validateModuleExist($module_name, $this->getModules());
