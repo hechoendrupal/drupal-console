@@ -97,6 +97,10 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     return $this->getContainer()->get('config.storage');
   }
 
+  public function getEntityManager(){
+    return $this->getContainer()->get('entity.manager');
+  }
+
   public function validateModuleExist($module_name)
   {
     return $this->getValidator()->validateModuleExist($module_name, $this->getModules());
@@ -137,7 +141,13 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
   public function validateMachineName($machine_name)
   {
-    return $this->getValidator()->validateMachineName($machine_name);
+    $machine_name = $this->getValidator()->validateMachineName($machine_name);
+
+    if ($this->getEntityManager()->hasDefinition($machine_name)) {
+      throw new \InvalidArgumentException(sprintf('Machine name "%s" is duplicated.', $machine_name));
+    }
+
+    return $machine_name;
   }
 
   /**
