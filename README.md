@@ -69,22 +69,32 @@ $ ./bin/console list
 $ ./bin/console --shell
 ```
 
-### Commands
-| Generators                   | Router                | Container       | Commands
-| :----------------------------|:----------------------|:----------------|:---------
-| generate:module              | router:debug          | container:debug | drush
-| generate:controller          | router:rebuild        |                 |
-| generate:form:config         |                       |                 |
-| generate:entity:config       |                       |                 |
-| generate:entity:content      |                       |                 |
-| generate:command             |                       |                 |
-| generate:plugin:block        |                       |                 |
-| generate:plugin:imageeffect  |                       |                 |
-| generate:entity:config       |                       |                 |
-| generate:service             |                       |                 |
-
+### Available commands:
+```
+  drush                         Run drush into console
+  help                          Displays help for a command
+  list                          Lists commands
+config
+  config:debug                  Show the current configuration
+container
+  container:debug               Displays current services for an application
+generate
+  generate:command              Generate commands for the console
+  generate:controller           Generate controller
+  generate:entity:config        Generate EntityConfig
+  generate:entity:content       Generate EntityContent
+  generate:form:config          Generate ConfigFormBase
+  generate:module               Generate a module
+  generate:plugin:block         Generate plugin block
+  generate:plugin:imageeffect   Generate image effect plugin
+  generate:service              Generate service
+router
+  router:debug                  Displays current routes for an application
+  router:rebuild                Rebuild routes
+```
 
 #### Videos
+* [Config debug command](https://www.youtube.com/watch?v=J6UrS6tfryY)
 * [DrupalCon Amsterdam 2014: Drupal Lightning Talks - Drupal 8 Console skip to min 41:45](https://www.youtube.com/watch?v=Rk4enIuhWno&t=41m45s#t=2505)
 * [Introducing the Drupal 8 Console scaffolding module generator with Jesus Manuel Olivas](http://bit.ly/acquia-console)
 * [Generate a content entity type using the drupal 8 console](https://www.youtube.com/watch?v=agcqTEr5_48)
