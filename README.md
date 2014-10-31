@@ -94,6 +94,7 @@ router
 ```
 
 #### Videos
+* [Config debug command](https://www.youtube.com/watch?v=J6UrS6tfryY)
 * [DrupalCon Amsterdam 2014: Drupal Lightning Talks - Drupal 8 Console skip to min 41:45](https://www.youtube.com/watch?v=Rk4enIuhWno&t=41m45s#t=2505)
 * [Introducing the Drupal 8 Console scaffolding module generator with Jesus Manuel Olivas](http://bit.ly/acquia-console)
 * [Generate a content entity type using the drupal 8 console](https://www.youtube.com/watch?v=agcqTEr5_48)
