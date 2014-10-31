@@ -103,13 +103,18 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
     // --entity-name option
     $entity_name = $input->getOption('entity-name');
     if (!$entity_name) {
-        $entity_name = $dialog->ask(
-          $output,
-          $dialog->getQuestion('Enter the entity name', $machine_name),
-          $machine_name,
-          null
+      $entity_name = $dialog->askAndValidate(
+        $output,
+        $dialog->getQuestion('Enter the entity name', $machine_name),
+        function ($machine_name) {
+          return $this->validateMachineName($machine_name);
+        },
+        false,
+        $machine_name,
+        null
       );
     }
+
     $input->setOption('entity-name', $entity_name);
   }
 
