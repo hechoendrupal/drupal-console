@@ -44,7 +44,7 @@ trait ServicesTrait
           $services
         );
 
-        if ($service == null) {
+        if (empty($service)) {
           break;
         }
 
