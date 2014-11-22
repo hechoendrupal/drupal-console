@@ -29,6 +29,7 @@ use Drupal\user\UserInterface;
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\{{ module }}\Entity\Controller\{{ entity_class }}ListController",
+ *     "views_data" = "Drupal\{{ module }}\Entity\{{ entity_class }}ViewsData",
  *
  *     "form" = {
  *       "add" = "Drupal\{{ module }}\Entity\Form\{{ entity_class }}Form",
@@ -46,10 +47,12 @@ use Drupal\user\UserInterface;
  *     "uuid" = "uuid"
  *   },
  *   links = {
+ *     "canonical" = "{{ entity_name }}.view",
  *     "edit-form" = "{{ entity_name }}.edit",
  *     "admin-form" = "{{ entity_name }}.settings",
  *     "delete-form" = "{{ entity_name }}.delete"
- *   }
+ *   },
+ *   field_ui_base_route = "{{ entity_name }}.settings"
  * )
  */
 class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}Interface
@@ -124,6 +127,32 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
       ->setDescription(t('The UUID of the {{ entity_class }} entity.'))
       ->setReadOnly(TRUE);
 
+    $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Authored by'))
+      ->setDescription(t('The user ID of the {{ entity_class }} entity author.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'user')
+      ->setSetting('handler', 'default')
+      ->setDefaultValueCallback('Drupal\node\Entity\Node::getCurrentUserId')
+      ->setTranslatable(TRUE)
+      ->setDisplayOptions('view', array(
+        'label' => 'hidden',
+        'type' => 'author',
+        'weight' => 0,
+      ))
+      ->setDisplayOptions('form', array(
+        'type' => 'entity_reference_autocomplete',
+        'weight' => 5,
+        'settings' => array(
+          'match_operator' => 'CONTAINS',
+          'size' => '60',
+          'autocomplete_type' => 'tags',
+          'placeholder' => '',
+        ),
+      ))
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
+
 
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
@@ -144,7 +173,7 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
       ))
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
-     
+
     $fields['langcode'] = BaseFieldDefinition::create('language')
       ->setLabel(t('Language code'))
       ->setDescription(t('The language code of {{ entity_class }} entity.'));

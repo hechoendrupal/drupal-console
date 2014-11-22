@@ -57,6 +57,10 @@ class Generator
     return file_put_contents($target, $this->render($template, $parameters), $flag);
   }
 
+  protected function renderView($template,$parameters) {
+    return $this->render($template, $parameters);
+  }
+
   public function getModulePath($module_name)
   {
     if (!$this->module_path) {
@@ -99,6 +103,11 @@ class Generator
   public function getEntityPath($module_name)
   {
     return $this->getModulePath($module_name).'/src/Entity';
+  }
+
+  public function getTemplatePath($module_name)
+  {
+    return $this->getModulePath($module_name).'/templates';
   }
 
   public function getServicesAsParameters()
