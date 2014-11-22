@@ -43,8 +43,7 @@ trait FormTrait
           null
         );
 
-        // break if is blank
-        if ($input_label == null) {
+        if (empty($input_label)) {
           break;
         }
 
