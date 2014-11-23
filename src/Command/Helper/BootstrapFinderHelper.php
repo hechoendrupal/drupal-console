@@ -25,7 +25,7 @@ class BootstrapFinderHelper extends Helper
     $this->finder = $finder;
   }
 
-  public function findBootstrapFile(OutputInterface $output)
+  public function findBootstrapFile()
   {
     $currentPath = getcwd() . '/';
     $relativePath = '';
@@ -33,13 +33,14 @@ class BootstrapFinderHelper extends Helper
     $iterator = false;
 
     while ($filesFound === 0) {
-      $path = $currentPath . $relativePath . 'core/includes';
+      $path = $currentPath . $relativePath . 'core/vendor';
 
       try {
         $iterator = $this->finder
                          ->files()
-                         ->name('bootstrap.inc')
-                         ->in($path);
+                         ->name('autoload.php')
+                         ->in($path)
+                         ->depth('< 1');
         $filesFound = $iterator->count();
       } catch (\InvalidArgumentException $e) {
         $relativePath .= '../';
