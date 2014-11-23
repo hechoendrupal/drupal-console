@@ -1,0 +1,20 @@
+{
+    "alias": "console.phar",
+    "chmod": "0755",
+    "directories": [
+        "src",
+        "vendor/symfony/console",
+        "vendor/symfony/finder"
+    ],
+    "files": [
+        "bin/console.php"
+    ],
+    "map": [
+        {"src": ""},
+        {"bin": ""},
+        {"vendor/symfony/finder": ""},
+        {"vendor/symfony/console/": ""}
+    ],
+    "output": "console.phar",
+    "stub": "bin/stub.php"
+}
