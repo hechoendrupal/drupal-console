@@ -7,12 +7,10 @@
 
 namespace Drupal\AppConsole\Utils;
 
-class StringUtils
-{
+use Symfony\Component\Console\Helper\Helper;
 
-  public function __construct()
-  {
-  }
+class StringUtils extends Helper
+{
 
   // This REGEX captures all uppercase letters after the first character
   const REGEX_UPPER_CASE_LETTERS = '/(?<=\\w)(?=[A-Z])/';
@@ -56,6 +54,11 @@ class StringUtils
   public function camelCaseToUnderscore($camel_case)
   {
     return strtolower(preg_replace(self::REGEX_CAMEL_CASE_UNDER, '$1_$2', $camel_case));
+  }
+
+  public function getName()
+  {
+    return "stringUtils";
   }
 
 }

@@ -13,16 +13,17 @@ use Drupal\Core\DrupalKernel;
 
 class KernelHelper extends Helper
 {
-  private $class_loader;
-
-  function __construct($class_loader){
-    $this->class_loader = $class_loader;
-  }
+  protected $class_loader;
 
   /**
    * @var DrupalKernel
    */
   protected $kernel;
+
+  /**
+   * @var \Symfony\Component\HttpFoundation\Request
+   */
+  protected $request;
 
   /**
    * @var string
@@ -33,6 +34,11 @@ class KernelHelper extends Helper
    * @var boolean
    */
   protected $debug;
+
+  public function setClassLoader($class_loader)
+  {
+    $this->class_loader = $class_loader;
+  }
 
   /**
    * @param DrupalKernel $kernel
@@ -48,7 +54,12 @@ class KernelHelper extends Helper
   public function getKernel()
   {
     if (!$this->kernel) {
-      $this->kernel = new DrupalKernel($this->environment, $this->class_loader, !$this->debug);
+      $this->request = Request::createFromGlobals();
+      $this->kernel = DrupalKernel::createFromRequest(
+        $this->request,
+        $this->class_loader,
+        'dev'
+      );
     }
 
     return $this->kernel;
@@ -75,19 +86,12 @@ class KernelHelper extends Helper
    */
   public function bootKernel()
   {
-    $request = Request::createFromGlobals();
-    $site_path = DrupalKernel::findSitePath($request, FALSE);
+    $kernel = $this->getKernel();
+    $kernel->boot();
 
-    $this->getKernel();
-    $this->kernel->setSitePath($site_path);
-    $this->kernel->boot();
-
-    $container = $this->getKernel()->getContainer();
-    $container->set('request', $request);
-    $container->get('request_stack')->push($request);
-
-    // Load Drupal Bootstrap Code: load code for subsystems and modules.
-    $this->getHelperSet()->get('bootstrap')->bootstrapCode();
+    $container = $kernel->getContainer();
+    $container->set('request', $this->request);
+    $container->get('request_stack')->push($this->request);
 
     // Register Validator Service manually
     $container->set(

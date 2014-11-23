@@ -5,23 +5,33 @@ use Symfony\Component\Console\Helper\Helper;
 
 class DrupalBootstrapHelper extends Helper
 {
+  private $booting = false;
   /**
    * @param string $pathToBootstrapFile
    */
   public function bootstrapConfiguration($pathToBootstrapFile)
   {
-    require_once $pathToBootstrapFile;
-    \drupal_bootstrap(DRUPAL_BOOTSTRAP_CONFIGURATION);
+    if ($pathToBootstrapFile) {
+      require_once $pathToBootstrapFile;
+      \drupal_bootstrap(DRUPAL_BOOTSTRAP_CONFIGURATION);
+      $this->booting = true;
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   public function bootstrapCode()
   {
-    \drupal_bootstrap(DRUPAL_BOOTSTRAP_CODE);
+    if ($this->booting) {
+      \drupal_bootstrap(DRUPAL_BOOTSTRAP_CODE);
+    }
   }
 
   public function getDrupalRoot()
   {
-    return DRUPAL_ROOT;
+    return $this->booting ? DRUPAL_ROOT : getcwd();
   }
 
   /**
