@@ -13,11 +13,7 @@ use Drupal\Core\DrupalKernel;
 
 class KernelHelper extends Helper
 {
-  private $class_loader;
-
-  function __construct($class_loader){
-    $this->class_loader = $class_loader;
-  }
+  protected $class_loader;
 
   /**
    * @var DrupalKernel
@@ -33,6 +29,11 @@ class KernelHelper extends Helper
    * @var boolean
    */
   protected $debug;
+
+  public function setClassLoader($class_loader)
+  {
+    $this->class_loader = $class_loader;
+  }
 
   /**
    * @param DrupalKernel $kernel
