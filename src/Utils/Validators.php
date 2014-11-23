@@ -7,8 +7,9 @@
 namespace Drupal\AppConsole\Utils;
 
 use Symfony\Component\Console\Helper\Helper;
+use Symfony\Component\Console\Helper\HelperInterface;
 
-class Validators extends Helper
+class Validators extends Helper implements HelperInterface
 {
 
   const REGEX_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+$/';

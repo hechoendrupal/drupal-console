@@ -15,6 +15,6 @@ function autoload($className) {
 
 spl_autoload_register('autoload');
 
-require __DIR__ . '/core/vendor/autoload.php';
+$class_loader = require __DIR__ . '/core/vendor/autoload.php';
 require 'phar://' . __FILE__ . '/console.php';
 __HALT_COMPILER();
