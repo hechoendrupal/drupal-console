@@ -25,6 +25,5 @@ function consoleAutoload($className) {
 
 spl_autoload_register('consoleAutoload');
 
-$class_loader = require __DIR__ . '/core/vendor/autoload.php';
 require 'phar://' . __FILE__ . '/console.php';
 __HALT_COMPILER();
