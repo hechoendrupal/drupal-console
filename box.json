@@ -10,7 +10,7 @@
         "bin/console.php"
     ],
     "map": [
-        {"src": ""},
+        {"src": "Drupal/AppConsole"},
         {"bin": ""},
         {"vendor/symfony/finder": ""},
         {"vendor/symfony/console/": ""}
