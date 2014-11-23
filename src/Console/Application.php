@@ -11,6 +11,8 @@ class Application extends BaseApplication
 {
   private $commandsRegistered = false;
 
+  private $autoload = false;
+
   /**
    * Create a new application extended from \Symfony\Component\Console\Application
    */
@@ -47,9 +49,12 @@ class Application extends BaseApplication
    */
   public function doRun(InputInterface $input, OutputInterface $output)
   {
-    $this->bootstrapDrupal($input, $output);
-    $this->initDebug($input);
-    $this->doKernelConfiguration();
+    $this->autoload = $this->autoload();
+
+    if ($this->autoload) {
+      $this->initDebug($input);
+      $this->doKernelConfiguration();
+    }
 
     if (!$this->commandsRegistered) {
       $this->registerCommands();
@@ -65,16 +70,19 @@ class Application extends BaseApplication
     return parent::doRun($input, $output);
   }
 
-  protected function bootstrapDrupal(InputInterface $input, OutputInterface $output)
+  protected function autoload()
   {
-    $drupalBoostrap = $this->getHelperSet()->get('bootstrap');
+    $autoload = $this
+      ->getHelperSet()
+        ->get('finder')
+          ->findBootstrapFile();
 
-    $bootstrapFile = $input->getParameterOption(array('--bootstrap-file', '-b'));
-    if (!$bootstrapFile) {
-        $bootstrapFile = $this->getHelperSet()->get('finder')->findBootstrapFile($output);
+    if ($autoload) {
+      return require $autoload;
     }
-
-    $drupalBoostrap->bootstrapConfiguration($bootstrapFile);
+    else {
+      return false;
+    }
   }
 
   protected function initDebug(InputInterface $input)
@@ -97,6 +105,7 @@ class Application extends BaseApplication
   protected function doKernelConfiguration()
   {
     $kernelHelper = $this->getHelperSet()->get('kernel');
+    $kernelHelper->setClassLoader($this->autoload());
     $kernelHelper->bootKernel();
     $kernelHelper->initCommands($this->all());
 
@@ -113,11 +122,11 @@ class Application extends BaseApplication
   protected function registerCommands()
   {
     $rc = $this->getHelperSet()->get('register_commands');
-    $rc->register();
+    $rc->register($drupalModules=$this->autoload);
   }
 
   public function getKernel()
   {
-    return $this->getHelperSet()->get('kernel')->getKernel();
+    return $this->autoload ? $this->getHelperSet()->get('kernel')->getKernel() : null;
   }
 }
