@@ -46,8 +46,8 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
   {
     if (null === $this->modules) {
       $this->modules = [];
-      //get all modules
-      $all_modules = \system_rebuild_module_data();
+      $moduleHandler = $this->getContainer()->get('module_handler');
+      $all_modules = $moduleHandler->getModuleList();
 
       // Filter modules
       foreach ($all_modules as $name => $filename) {
