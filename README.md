@@ -1,7 +1,9 @@
-Drupal 8 Console
+Drupal Console
 =============================================
 [![Build Status](https://travis-ci.org/hechoendrupal/DrupalAppConsole.svg?branch=master)](https://travis-ci.org/hechoendrupal/DrupalAppConsole)
 [![Latest Stable Version](https://poser.pugx.org/drupal/console/v/stable.svg)](https://packagist.org/packages/drupal/console) [![Total Downloads](https://poser.pugx.org/drupal/console/downloads.svg)](https://packagist.org/packages/drupal/console) [![Latest Unstable Version](https://poser.pugx.org/drupal/console/v/unstable.svg)](https://packagist.org/packages/drupal/console) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
+
+## Supported version: 8.0.0-beta2
 
 The purpose of this project is to leverage the Symfony Console Component to provide a CLI tool to automate the creation of drupal 8 modules and other recurring tasks.
 
@@ -40,34 +42,22 @@ http://symfony.com/doc/current/components/console/introduction.html
 * **Drupal Shops**  
   Reduce module development time for Drupal 8.
 
-### Steps for install:
-
-You need to download composer first:  
-
-Run this in your terminal to get the latest Composer version:
-```bash
-curl -sS https://getcomposer.org/installer | php
+### Installation & usage
 ```
-Or if you don't have curl:
-```bash
-php -r "readfile('https://getcomposer.org/installer');" | php
-```
+//Change to Drupal 8 installation root directory
+$ cd path/to/drupal8.dev
 
-Instructions to install Drupal Console if you are using composer inside Drupal Installation.
-```
-$ COMPOSER_BIN_DIR=bin php composer.phar require --dev drupal/console:@stable
+// Run curl in your terminal:
+$ curl -LSs http://drupalconsole.com/installer | php
+
+// Or if you don't have curl:
+$ php -r "readfile('http://drupalconsole.com/installer');" | php
+
+//Use the console.phar
+$ php console.phar
 ```
 
-Instructions to install Drupal Console if you are using composer globally.
-```
-$ COMPOSER_BIN_DIR=bin composer require --dev drupal/console:@stable
-```
-
-### Usage
-```bash
-$ ./bin/console list
-$ ./bin/console --shell
-```
+![image](http://drupalconsole.com/assets/img/drupal-console-phar.gif)
 
 ### Available commands:
 ```
