@@ -134,4 +134,9 @@ class KernelHelper extends Helper
   {
       return 'kernel';
   }
+
+  public function getClassLoader(){
+    return $this->class_loader;
+  }
+
 }
