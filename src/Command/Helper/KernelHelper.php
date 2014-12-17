@@ -139,4 +139,10 @@ class KernelHelper extends Helper
     return $this->class_loader;
   }
 
+  /**
+   * @return \Symfony\Component\HttpFoundation\Request
+   */
+  public function getRequest(){
+    return $this->request;
+  }
 }
