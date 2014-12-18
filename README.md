@@ -3,7 +3,7 @@ Drupal Console
 [![Build Status](https://travis-ci.org/hechoendrupal/DrupalAppConsole.svg?branch=master)](https://travis-ci.org/hechoendrupal/DrupalAppConsole)
 [![Latest Stable Version](https://poser.pugx.org/drupal/console/v/stable.svg)](https://packagist.org/packages/drupal/console) [![Total Downloads](https://poser.pugx.org/drupal/console/downloads.svg)](https://packagist.org/packages/drupal/console) [![Latest Unstable Version](https://poser.pugx.org/drupal/console/v/unstable.svg)](https://packagist.org/packages/drupal/console) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
 
-## Supported version: 8.0.0-beta2
+## Supported version: Drupal 8.0.0-beta4
 
 The purpose of this project is to leverage the Symfony Console Component to provide a CLI tool to automate the creation of drupal 8 modules and other recurring tasks.
 
@@ -64,6 +64,8 @@ $ php console.phar
   drush                         Run drush into console
   help                          Displays help for a command
   list                          Lists commands
+cache
+  cache:rebuild                 Rebuild and clear all site caches.
 config
   config:debug                  Show the current configuration
 container
