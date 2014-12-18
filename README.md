@@ -64,6 +64,8 @@ $ php console.phar
   drush                         Run drush into console
   help                          Displays help for a command
   list                          Lists commands
+cache
+  cache:rebuild                 Rebuild and clear all site caches.
 config
   config:debug                  Show the current configuration
 container
