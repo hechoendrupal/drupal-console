@@ -49,11 +49,20 @@ class {{ class_name }} extends ControllerBase {% if services is not empty %}impl
    */
   public function {{method_name}}({{ argumentsFromRoute(route)|join(', ') }}) {
 {% if class_name == "DefaultController" %}
-    return "Hello " . $name . " !";
+    return [
+        '#type' => 'markup',
+        '#markup' => $this->t('Hello @name!', ['@name' => $name])
+    ];
 {% elseif argumentsFromRoute(route) is not empty %}
-    return "Implements method {{method_name}} with parameters {{ argumentsFromRoute(route)|join(', ') }}";
+    return [
+        '#type' => 'markup',
+        '#markup' => $this->t('Implement method: {{method_name}} with parameter(s): {{ argumentsFromRoute(route)|join(', ') }}')
+    ];
 {% else %}
-    return "Implements method {{method_name}}";
+    return [
+        '#type' => 'markup',
+        '#markup' => $this->t('Implement method: {{method_name}}')
+    ];
 {% endif %}
   }
 {% endblock %}

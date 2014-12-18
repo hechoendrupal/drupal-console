@@ -2,7 +2,7 @@
 {{ module }}.{{ class_machine_name }}_{{ method_name }}:
   path: '{{ route }}'
   defaults:
-    _content: '\Drupal\{{ module }}\Controller\{{ class_name }}::{{ method_name }}'
+    _controller: '\Drupal\{{ module }}\Controller\{{ class_name }}::{{ method_name }}'
     _title: '{{module}} Title'
   requirements:
     _permission: 'access content'
