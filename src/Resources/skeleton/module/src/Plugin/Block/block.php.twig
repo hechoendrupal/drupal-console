@@ -88,14 +88,18 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
    * Overrides \Drupal\block\BlockBase::blockForm().
    */
   public function blockForm($form, FormStateInterface $form_state) {
+    $form = parent::blockForm($form, $form_state);
+    $config = $this->getConfiguration();
+
 {% for input in inputs %}
     $form['{{ input.name }}'] = [
       '#type' => '{{ input.type }}',
       '#title' => $this->t('{{ input.label }}'),
       '#description' => $this->t(''),
-      '#default_value' => $this->configuration['{{ input.name }}'],
+      '#default_value' => isset($config['{{ input.name }}'])?$config['{{ input.name }}']:"",
     ];
 {% endfor %}
+
     return $form;
   }
 
