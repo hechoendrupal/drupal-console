@@ -20,8 +20,8 @@ trait ServicesTrait
   {
     if ($dialog->askConfirmation(
       $output,
-      $dialog->getQuestion('Do you like add service(s)', 'yes', '?'),
-      true
+      $dialog->getQuestion('Do you like add service(s)', 'no', '?'),
+      false
     )) {
       $service_collection = [];
       $output->writeln([
