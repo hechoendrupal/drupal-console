@@ -20,13 +20,13 @@ trait ServicesTrait
   {
     if ($dialog->askConfirmation(
       $output,
-      $dialog->getQuestion('Do you like add service(s)', 'yes', '?'),
-      true
+      $dialog->getQuestion('Do you like add service(s)', 'no', '?'),
+      false
     )) {
       $service_collection = [];
       $output->writeln([
         '',
-        'You can add some services, type the name or use keyup and keydown',
+        'Type the service name or use keyup and keydown',
         'This is optional, press <info>enter</info> to <info>continue</info>',
         ''
       ]);
