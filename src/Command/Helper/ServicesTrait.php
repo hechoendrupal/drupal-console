@@ -26,7 +26,7 @@ trait ServicesTrait
       $service_collection = [];
       $output->writeln([
         '',
-        'You can add some services, type the name or use keyup and keydown',
+        'Type the service name or use keyup and keydown',
         'This is optional, press <info>enter</info> to <info>continue</info>',
         ''
       ]);
