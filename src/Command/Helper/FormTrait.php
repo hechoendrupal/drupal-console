@@ -60,7 +60,13 @@ trait FormTrait
         $input_type = $dialog->askAndValidate(
           $output,
           $dialog->getQuestion('  Type', 'textfield',':'),
-          function ($input) {
+          function ($input) use ($input_types) {
+            if (!in_array($input, $input_types)) {
+              throw new \InvalidArgumentException(
+                sprintf("Field Type \"%s\" is invalid.", $input)
+              );
+            }
+
             return $input;
           },
           false,
