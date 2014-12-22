@@ -13,6 +13,8 @@ class Application extends BaseApplication
 
   private $autoload = false;
 
+  protected $booted = false;
+
   /**
    * Create a new application extended from \Symfony\Component\Console\Application
    */
@@ -20,7 +22,7 @@ class Application extends BaseApplication
   {
     $env = 'prod';
 
-    parent::__construct('Drupal', 'Drupal App Console - 8.x/ ' . $env);
+    parent::__construct('Drupal', 'Drupal Console 0.5.0 - ' . $env);
 
     $this->getDefinition()->addOption(
       new InputOption(
@@ -128,5 +130,21 @@ class Application extends BaseApplication
   public function getKernel()
   {
     return $this->autoload ? $this->getHelperSet()->get('kernel')->getKernel() : null;
+  }
+
+  /**
+   * @return boolean
+   */
+  public function isBooted()
+  {
+    return $this->booted;
+  }
+
+  /**
+   * @param boolean $booted
+   */
+  public function setBooted($booted)
+  {
+    $this->booted = $booted;
   }
 }
