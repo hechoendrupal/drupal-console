@@ -66,6 +66,6 @@ class {{ entity_class }}Form extends EntityForm
         '%label' => ${{ entity_name }}->label(),
       )));
     }
-    $form_state->setRedirect('{{ entity_name }}.list');
+    $form_state->setRedirect('entity.{{ entity_name }}.list');
   }
 {% endblock %}
