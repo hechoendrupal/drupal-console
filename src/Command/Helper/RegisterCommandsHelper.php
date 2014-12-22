@@ -7,7 +7,6 @@ namespace Drupal\AppConsole\Command\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Finder\Finder;
-//use Symfony\Component\Console\Application;
 use Drupal\AppConsole\Console\Application;
 
 class RegisterCommandsHelper extends Helper
