@@ -50,18 +50,13 @@ class {{ entity_class }} extends ConfigEntityBase implements {{ entity_class }}I
    *
    * @var string
    */
-  public $id;
-  /**
-   * The {{ entity_class }} UUID.
-   *
-   * @var string
-   */
-  public $uuid;
+  protected $id;
+
   /**
    * The {{ entity_class }} label.
    *
    * @var string
    */
-  public $label;
+  protected $label;
 
 {% endblock %}
