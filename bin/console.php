@@ -18,9 +18,27 @@ use Drupal\AppConsole\Utils\Validators;
 
 set_time_limit(0);
 
+// Try to find the Console autoloader.
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+  require __DIR__ . '/../vendor/autoload.php';
+}
+else {
+  echo 'Something goes wrong with your archive'.PHP_EOL.
+    'Try downloading again'.PHP_EOL;
+  exit(1);
+}
+
 $application = new Application();
 
-$application->setHelperSet(new HelperSet(array(
+// Try to find the Drupal autoloader.
+if (file_exists(getcwd() . '/core/vendor/autoload.php')) {
+  $class_loader = require getcwd() . '/core/vendor/autoload.php';
+  $application->setBooted(true);
+} else {
+  $class_loader = null;
+}
+
+$helpers = [
   'bootstrap' => new DrupalBootstrapHelper(),
   'finder' => new BootstrapFinderHelper(new Finder()),
   'kernel' => new KernelHelper(),
@@ -31,7 +49,9 @@ $application->setHelperSet(new HelperSet(array(
   'register_commands' => new RegisterCommandsHelper($application),
   'table' => new TableHelper(),
   'stringUtils' => new StringUtils(),
-  'validators' => new Validators(),
-)));
+  'validators' => new Validators()
+];
+
+$application->setHelperSet(new HelperSet($helpers));
 
 $application->run();
