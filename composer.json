@@ -22,16 +22,16 @@
     ],
     "require": {
         "php": ">=5.4.5",
-        "symfony/console": "2.5.*",
-        "symfony/finder": "2.5.*",
-        "symfony/dependency-injection": "2.5.*",
-        "twig/twig": "1.15.*",
-        "composer/installers": "~1.0"
+        "composer/installers": "~1.0",
+        "symfony/console": "2.6.*",
+        "symfony/finder": "2.6.*",
+        "symfony/dependency-injection": "2.6.*",
+        "twig/twig": "1.16.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.1.*",
-        "drupal/drupal": "8.0.0-beta2",
-        "drupal/coder": "dev-8.x-2.x"
+        "drupal/coder": "dev-8.x-2.x",
+        "drupal/drupal": "8.0.0-beta4",
+        "phpunit/phpunit": "4.1.*"
     },
     "minimum-stability": "dev",
     "bin": ["bin/console"],
