@@ -1,5 +1,5 @@
 # {{ entity_class }} routing definition
-{{ entity_name }}.view:
+entity.{{ entity_name }}.canonical:
   path: '/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}'
   defaults:
     _entity_view: '{{ entity_name }}'
@@ -7,7 +7,7 @@
   requirements:
     _entity_access: '{{ entity_name }}.view'
 
-{{ entity_name }}.list:
+entity.{{ entity_name }}.list:
   path: '/admin/{{ entity_name }}'
   defaults:
     _entity_list: '{{ entity_name }}'
@@ -15,7 +15,7 @@
   requirements:
     _permission: 'view {{ entity_class }} entity'
 
-{{ entity_name }}.add:
+entity.{{ entity_name }}.add_form:
   path: '/admin/{{ entity_name }}/add'
   defaults:
     _entity_form: {{ entity_name }}.add
@@ -23,7 +23,7 @@
   requirements:
     _entity_create_access: '{{ entity_name }}'
 
-{{ entity_name }}.edit:
+entity.{{ entity_name }}.edit_form:
   path: '/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit'
   defaults:
     _entity_form: {{ entity_name }}.edit
@@ -31,7 +31,7 @@
   requirements:
     _entity_access: '{{ entity_name }}.edit'
 
-{{ entity_name }}.delete:
+entity.{{ entity_name }}.delete_form:
   path: '/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete'
   defaults:
     _entity_form: {{ entity_name }}.delete
