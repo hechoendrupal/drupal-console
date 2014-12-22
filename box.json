@@ -3,20 +3,17 @@
     "chmod": "0755",
     "directories": [
         "src",
+        "vendor/composer",
         "vendor/symfony/console",
+        "vendor/symfony/dependency-injection",
         "vendor/symfony/finder",
-        "vendor/symfony/dependency-injection"
+        "vendor/twig"
     ],
     "files": [
-        "bin/console.php"
+        "bin/console.php",
+        "vendor/autoload.php"
     ],
-    "map": [
-        {"src": "Drupal/AppConsole"},
-        {"bin": ""},
-        {"vendor/symfony/finder/": ""},
-        {"vendor/symfony/console/": ""},
-        {"vendor/symfony/dependency-injection/": ""}
-    ],
+    "main": "bin/console",
     "output": "console.phar",
-    "stub": "bin/stub.php"
+    "stub": true
 }
