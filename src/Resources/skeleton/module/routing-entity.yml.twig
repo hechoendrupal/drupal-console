@@ -1,5 +1,5 @@
 # {{ entity_class }} routing definition
-{{ entity_name }}.list:
+entity.{{ entity_name }}.list:
   path: '/admin/config/system/{{ entity_name }}'
   defaults:
     _entity_list: '{{ entity_name }}'
@@ -7,7 +7,7 @@
   requirements:
     _permission: 'administer site configuration'
 
-{{ entity_name }}.add:
+entity.{{ entity_name }}.add_form:
   path: '/admin/config/system/{{ entity_name }}/add'
   defaults:
     _entity_form: '{{ entity_name }}.add'
@@ -15,7 +15,7 @@
   requirements:
     _permission: 'administer site configuration'
 
-{{ entity_name }}.edit:
+entity.{{ entity_name }}.edit_form:
   path: '/admin/config/system/{{ entity_name }}/{{ '{'~entity_name~'}' }}'
   defaults:
     _entity_form: '{{ entity_name }}.edit'
@@ -23,7 +23,7 @@
   requirements:
     _permission: 'administer site configuration'
 
-{{ entity_name }}.delete:
+entity.{{ entity_name }}.delete_form:
   path: '/admin/config/system/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete'
   defaults:
     _entity_form: '{{ entity_name }}.delete'
