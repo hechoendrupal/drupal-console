@@ -7,7 +7,8 @@ namespace Drupal\AppConsole\Command\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Console\Application;
+//use Symfony\Component\Console\Application;
+use Drupal\AppConsole\Console\Application;
 
 class RegisterCommandsHelper extends Helper
 {
@@ -66,8 +67,9 @@ class RegisterCommandsHelper extends Helper
             && !$cmd->isAbstract()
             && !$cmd->getConstructor()->getNumberOfRequiredParameters()) {
 
-            // Register command
-            $this->console->add($cmd->newInstance());
+            if ($this->console->isBooted()) {
+              $this->console->add($cmd->newInstance());
+            }
           }
         }
       }
