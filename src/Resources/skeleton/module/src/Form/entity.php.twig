@@ -39,7 +39,7 @@ class {{ entity_class }}Form extends EntityForm
       '#type' => 'machine_name',
       '#default_value' => ${{ entity_name }}->id(),
       '#machine_name' => array(
-        'exists' => '{{ entity_name }}_load',
+        'exists' => '\Drupal\{{ module }}\Entity\{{ entity_class }}::load',
       ),
       '#disabled' => !${{ entity_name }}->isNew(),
     );
