@@ -44,20 +44,20 @@ http://symfony.com/doc/current/components/console/introduction.html
 
 ### Installation & usage
 ```
-//Change to Drupal 8 installation root directory
-$ cd path/to/drupal8.dev
-
-// Run curl in your terminal:
+// Run this in your terminal to get the latest Console version:
 $ curl -LSs http://drupalconsole.com/installer | php
 
 // Or if you don't have curl:
 $ php -r "readfile('http://drupalconsole.com/installer');" | php
 
-//Use the console.phar
-$ php console.phar
+// Accessing console from anywhere on your system:
+$ mv console.phar /usr/local/bin/drupal
+
+// Use the project
+$ drupal generate:module
 ```
 
-![image](http://drupalconsole.com/assets/img/drupal-console-phar.gif)
+![image](http://drupalconsole.com/assets/img/console-global.gif)
 
 ### Available commands:
 ```
