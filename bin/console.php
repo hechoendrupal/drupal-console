@@ -22,6 +22,9 @@ set_time_limit(0);
 if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
   require __DIR__ . '/../vendor/autoload.php';
 }
+else if (file_exists(__DIR__ . '/../../../vendor/autoload.php')) {
+  require __DIR__ . '/../../../vendor/autoload.php';
+}
 else {
   echo 'Something goes wrong with your archive'.PHP_EOL.
     'Try downloading again'.PHP_EOL;
