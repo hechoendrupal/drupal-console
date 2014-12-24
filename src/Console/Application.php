@@ -22,7 +22,7 @@ class Application extends BaseApplication
   {
     $env = 'prod';
 
-    parent::__construct('Drupal', 'Drupal Console 0.5.0 - ' . $env);
+    parent::__construct('Drupal', 'Drupal Console 0.5.1 - ' . $env);
 
     $this->getDefinition()->addOption(
       new InputOption(
