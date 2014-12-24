@@ -5,6 +5,7 @@ namespace Drupal\AppConsole\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Drupal\Core\Extension\ExtensionDiscovery;
 
 abstract class ContainerAwareCommand extends Command implements ContainerAwareInterface
 {
@@ -46,13 +47,12 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
   {
     if (null === $this->modules) {
       $this->modules = [];
-      $moduleHandler = $this->getContainer()->get('module_handler');
-      $all_modules = $moduleHandler->getModuleList();
-
-      foreach ($all_modules as $name => $filename) {
-        if (!preg_match('/^core/', $filename->getPathname()) && !$core) {
+      $extensionDiscover = new ExtensionDiscovery(\Drupal::root());
+      $moduleList = $extensionDiscover->scan('module');
+      foreach ($moduleList as $name => $filename) {
+        if ($core) {
           array_push($this->modules, $name);
-        } elseif ($core) {
+        } elseif (!preg_match('/^core/', $filename->getPathname())) {
           array_push($this->modules, $name);
         }
       }
