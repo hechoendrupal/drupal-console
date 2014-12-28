@@ -7,9 +7,6 @@
 
 namespace Drupal\AppConsole\Test\Generator;
 
-
-use Drupal\AppConsole\Generator\CommandGenerator;
-
 class CommandGeneratorTest extends GeneratorTest
 {
   /**
