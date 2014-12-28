@@ -25,6 +25,7 @@ trait FormTrait
     )) {
       $input_types = [
         'textfield',
+        'textarea',
         'color',
         'date',
         'datetime',
