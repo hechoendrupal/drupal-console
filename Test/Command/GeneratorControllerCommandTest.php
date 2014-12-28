@@ -15,13 +15,13 @@ class GeneratorControllerCommandTest extends GenerateCommandTest
    */
   public function testInteractive($options, $expected, $input)
   {
-    list($module, $class_name, $method_name, $route, $test, $services) = $expected;
+    list($module, $class_name, $method_name, $route, $test, $services, $class_machine_name) = $expected;
 
     $generator = $this->getGenerator();
     $generator
       ->expects($this->once())
       ->method('generate')
-      ->with($module, $class_name, $method_name, $route, $test, null, 'foo_controller')
+      ->with($module, $class_name, $method_name, $route, $test, $services, $class_machine_name)
     ;
 
     $command = $this->getCommand($generator,$input);
@@ -46,16 +46,16 @@ class GeneratorControllerCommandTest extends GenerateCommandTest
         // Inline options
         [],
         // Expected options
-        ['foo', 'FooController', 'index', 'foo/index', true, $services],
+        ['foo', 'FooController', 'index', 'foo/index', true, $services, 'foo_controller'],
         // User input options
-        "foo\nFooController\nindex\nfoo/index\nyes\n\ntwig\nyes\n",
+        "foo\nFooController\nindex\nfoo/index\nyes\nyes\ntwig\n\nyes\n",
       ],
       // case two
       [
         // Inline options
         ['--module'=>'foo'],
         // Expected options
-        ['foo', 'FooController', 'index', 'foo/index', true, $services],
+        ['foo', 'FooController', 'index', 'foo/index', true, null, 'foo_controller'],
         // User input options
         "FooController\nindex\nfoo/index\nyes\nno\n",
       ],
@@ -64,7 +64,7 @@ class GeneratorControllerCommandTest extends GenerateCommandTest
         // Inline options
         ['--module'=>'foo'],
         // Expected options
-        ['foo', 'FooController', 'index', 'foo/index', false, $services],
+        ['foo', 'FooController', 'index', 'foo/index', false, null, 'foo_controller'],
         // User input options
         "FooController\nindex\nfoo/index\nno\nno\n",
       ],
