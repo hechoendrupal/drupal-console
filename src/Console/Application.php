@@ -124,7 +124,8 @@ class Application extends BaseApplication
   protected function registerCommands()
   {
     $rc = $this->getHelperSet()->get('register_commands');
-    $rc->register($drupalModules=$this->autoload);
+    $drupalModules = $this->autoload;
+    $rc->register($drupalModules);
   }
 
   public function getKernel()

@@ -21,7 +21,7 @@ class GeneratorControllerCommandTest extends GenerateCommandTest
     $generator
       ->expects($this->once())
       ->method('generate')
-      ->with($module, $class_name, $method_name, $route, $test, $services)
+      ->with($module, $class_name, $method_name, $route, $test, null, 'foo_controller')
     ;
 
     $command = $this->getCommand($generator,$input);
@@ -55,7 +55,7 @@ class GeneratorControllerCommandTest extends GenerateCommandTest
         // Inline options
         ['--module'=>'foo'],
         // Expected options
-        ['foo', 'FooController', 'index', 'foo/index', true, null],
+        ['foo', 'FooController', 'index', 'foo/index', true, $services],
         // User input options
         "FooController\nindex\nfoo/index\nyes\nno\n",
       ],
@@ -64,7 +64,7 @@ class GeneratorControllerCommandTest extends GenerateCommandTest
         // Inline options
         ['--module'=>'foo'],
         // Expected options
-        ['foo', 'FooController', 'index', 'foo/index', false, null],
+        ['foo', 'FooController', 'index', 'foo/index', false, $services],
         // User input options
         "FooController\nindex\nfoo/index\nno\nno\n",
       ],

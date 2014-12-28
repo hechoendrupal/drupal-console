@@ -13,7 +13,7 @@
 
     <testsuites>
        <testsuite name="Drupal\AppConsole Test Suite">
-           <directory suffix="Test.php">Tests</directory>
+           <directory suffix="Test.php">Test</directory>
        </testsuite>
     </testsuites>
 
@@ -21,7 +21,7 @@
         <whitelist>
             <directory>./</directory>
             <exclude>
-                <directory>./Tests</directory>
+                <directory>./Test</directory>
                 <directory>./vendor</directory>
             </exclude>
         </whitelist>
