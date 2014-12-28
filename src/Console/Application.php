@@ -80,7 +80,8 @@ class Application extends BaseApplication
           ->findBootstrapFile();
 
     if ($autoload) {
-      return require $autoload;
+      $autoload = require($autoload);
+      return $autoload;
     }
     else {
       return false;

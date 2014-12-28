@@ -1,13 +1,12 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: dmouse
- * Date: 7/27/14
- * Time: 2:50 PM
+ * @file
+ * Contains Drupal\AppConsole\Test\Generator\ControllerGeneratorTest.
+ * 
  */
 
 namespace Drupal\AppConsole\Test\Generator;
-
 
 class ControllerGeneratorTest extends GeneratorTest
 {
@@ -96,4 +95,4 @@ class ControllerGeneratorTest extends GeneratorTest
 
     return $generator;
   }
-} 
+}
