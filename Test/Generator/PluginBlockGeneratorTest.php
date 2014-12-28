@@ -6,8 +6,6 @@
 
 namespace Drupal\AppConsole\Test\Generator;
 
-use Drupal\AppConsole\Generator\PluginBlockGenerator;
-
 class PluginBlockGeneratorTest extends GeneratorTest
 {
   /**
