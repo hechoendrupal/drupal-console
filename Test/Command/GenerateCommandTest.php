@@ -48,8 +48,13 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
 
     $validators  = $this->getMockBuilder('Drupal\AppConsole\Utils\Validators')
       ->disableOriginalConstructor()
+      ->setMethods(['validateModuleName'])
       ->getMock()
     ;
+    
+    $validators->expects($this->any())
+      ->method('validateModuleName')
+      ->will($this->returnArgument(0));
 
     return new HelperSet([
       'formatter' => new FormatterHelper(),

@@ -141,7 +141,7 @@ class Generator
   public function getArgumentsFromRoute()
   {
     $argumentsFromRoute = new \Twig_SimpleFunction('argumentsFromRoute', function ($route) {
-
+      $returnValues = '';
       preg_match_all('/{(.*?)}/', $route, $returnValues);
 
       $returnValues = array_map(function ($value) {
