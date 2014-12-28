@@ -33,7 +33,7 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
 
   public function getInteractiveData()
   {
-    $dir = sys_get_temp_dir();
+    $dir = sys_get_temp_dir() . "/modules";
 
     return [
       // case one basic options
@@ -71,27 +71,21 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
     return [
       [
         ['--module'=>'foo', '--machine-name'=>'foo', '--module-path'=>$dir, '--description'=>'My Awesome Module','--core'=>'8.x','--package'=>'Other', '--controller'=>true,'--tests'=>true,'--structure'=>true],
-        ['foo', 'foo', $dir, "My Awesome Module", '8.x', 'Other', true, true, true],
+        ["foo", "foo", $dir, "My Awesome Module", '8.x', 'Other', true, true, true],
       ],
       [
         ['--module'=>'foo', '--machine-name'=>'foo', '--module-path'=>$dir,'--description'=>'My Awesome Module','--core'=>'8.x','--package'=>'Other', '--controller'=>true,'--tests'=>true,'--structure'=>true],
-        ['foo', 'foo', $dir, "My Awesome Module", '8.x', 'Other', true, true, true],
+        ["foo", 'foo', $dir, "My Awesome Module", '8.x', 'Other', true, true, true],
       ]
     ];
   }
 
   protected function getCommand($generator, $input)
   {
-    /** @var \Drupal\AppConsole\Command\GeneratorModuleCommand $command */
     $command = $this
       ->getMockBuilder('Drupal\AppConsole\Command\GeneratorModuleCommand')
       ->setMethods(['validateModuleName', 'validateModule'])
       ->getMock()
-    ;
-
-    $command->expects($this->any())
-      ->method('validateModuleName')
-      ->will($this->returnValue('foo'));
     ;
 
     $command->expects($this->any())

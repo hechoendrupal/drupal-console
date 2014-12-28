@@ -52,16 +52,26 @@ class GeneratorModuleCommand extends GeneratorCommand
 
     $module = $validators->validateModuleName($input->getOption('module'));
     $module_path = $validators->validateModulePath($input->getOption('module-path'), true);
+    $machine_name = $validators->validateMachineName($input->getOption('machine-name'));
     $description = $input->getOption('description');
     $core = $input->getOption('core');
     $package = $input->getOption('package');
     $controller = $input->getOption('controller');
     $tests = $input->getOption('tests');
     $structure =  $input->getOption('structure');
-    $machine_name = $validators->validateMachineName($input->getOption('machine-name'));
 
     $generator = $this->getGenerator();
-    $generator->generate($module, $machine_name, $module_path, $description, $core, $package, $controller, $tests, $structure);
+    $generator->generate(
+            $module,
+            $machine_name,
+            $module_path,
+            $description,
+            $core,
+            $package,
+            $controller,
+            $tests,
+            $structure
+    );
 
     $errors = [];
 
@@ -87,12 +97,7 @@ class GeneratorModuleCommand extends GeneratorCommand
       $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
     }
 
-    try {
-      $machine_name = $input->getOption('machine-name') ? $this->validateModule($input->getOption('machine-name')) : null;
-    } catch (\Exception $error) {
-      $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
-    }
-
+    $module = $input->getOption('module');
     if (!$module) {
       $module = $dialog->askAndValidate(
         $output,
@@ -106,6 +111,12 @@ class GeneratorModuleCommand extends GeneratorCommand
       );
     }
     $input->setOption('module', $module);
+    
+    try {
+        $machine_name = $input->getOption('machine-name') ? $this->validateModule($input->getOption('machine-name')) : null;
+    } catch (\Exception $error) {
+        $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
+    }
 
     if (!$machine_name) {
       $machine_name = $stringUtils->createMachineName($module);
