@@ -37,7 +37,7 @@ else {
 $yaml = new Parser();
 $config = $yaml->parse(file_get_contents($configFile));
 
-$application = new Application();
+$application = new Application($config);
 
 // Try to find the Drupal autoloader.
 if (file_exists(getcwd() . '/core/vendor/autoload.php')) {
