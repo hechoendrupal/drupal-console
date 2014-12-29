@@ -11,6 +11,7 @@
         "vendor/twig"
     ],
     "files": [
+        "config.yml",
         "bin/console.php",
         "vendor/autoload.php"
     ],
