@@ -18,11 +18,15 @@ class Application extends BaseApplication
   /**
    * Create a new application extended from \Symfony\Component\Console\Application
    */
-  public function __construct()
+  public function __construct($config)
   {
-    $env = 'prod';
+    $environment = $config['general']['environment'];
+    $version = $config['general']['version'];
 
-    parent::__construct('Drupal', 'Drupal Console 0.5.1 - ' . $env);
+    parent::__construct(
+      'Drupal',
+      sprintf('Drupal Console %s - %s', $version, $environment)
+    );
 
     $this->getDefinition()->addOption(
       new InputOption(
@@ -36,7 +40,7 @@ class Application extends BaseApplication
       new InputOption('--shell', '-s', InputOption::VALUE_NONE, 'Launch the shell.')
     );
     $this->getDefinition()->addOption(
-      new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, 'The Environment name.', $env)
+      new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, 'The Environment name.', $environment)
     );
     $this->getDefinition()->addOption(
       new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.')
