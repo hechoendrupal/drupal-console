@@ -15,15 +15,18 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Console\Helper\TableHelper;
 use Drupal\AppConsole\Utils\StringUtils;
 use Drupal\AppConsole\Utils\Validators;
+use Symfony\Component\Yaml\Parser;
 
 set_time_limit(0);
 
 // Try to find the Console autoloader.
 if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
   require __DIR__ . '/../vendor/autoload.php';
+  $configFile = __DIR__ . '/../config.yml';
 }
 else if (file_exists(__DIR__ . '/../../../vendor/autoload.php')) {
   require __DIR__ . '/../../../vendor/autoload.php';
+  $configFile = __DIR__ . '/../../../config.yml';
 }
 else {
   echo 'Something goes wrong with your archive'.PHP_EOL.
