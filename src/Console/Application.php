@@ -40,7 +40,7 @@ class Application extends BaseApplication
       new InputOption('--shell', '-s', InputOption::VALUE_NONE, 'Launch the shell.')
     );
     $this->getDefinition()->addOption(
-      new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, 'The Environment name.', $env)
+      new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, 'The Environment name.', $environment)
     );
     $this->getDefinition()->addOption(
       new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.')
