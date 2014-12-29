@@ -34,6 +34,9 @@ else {
   exit(1);
 }
 
+$yaml = new Parser();
+$config = $yaml->parse(file_get_contents($configFile));
+
 $application = new Application();
 
 // Try to find the Drupal autoloader.
