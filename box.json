@@ -7,9 +7,11 @@
         "vendor/symfony/console",
         "vendor/symfony/dependency-injection",
         "vendor/symfony/finder",
+        "vendor/symfony/yaml",
         "vendor/twig"
     ],
     "files": [
+        "config.yml",
         "bin/console.php",
         "vendor/autoload.php"
     ],

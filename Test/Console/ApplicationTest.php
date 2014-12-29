@@ -46,8 +46,15 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
   {
     $this->expectsThatAutoloadFinderHelperIsRegistered();
     $this->expectsThatRegisterCommandsIsCalled();
+
+    $config = [
+      'general' => [
+        'version' => '0.x.x',
+        'environment' => 'prod'
+      ]
+    ];
     
-    $application = new Application();
+    $application = new Application($config);
     $application->setAutoExit(false);
     $application->setHelperSet($this->helperSet);
 
