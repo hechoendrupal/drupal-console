@@ -85,6 +85,10 @@ router
   router:rebuild                Rebuild routes
 ```
 
+#### Supporting organizations
+[![Blink Reaction](https://www.drupal.org/files/blink-reaction-logo.png)](http://www.blinkreaction.com/)
+[![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)
+
 #### Videos
 * [Config debug command](https://www.youtube.com/watch?v=J6UrS6tfryY)
 * [DrupalCon Amsterdam 2014: Drupal Lightning Talks - Drupal 8 Console skip to min 41:45](https://www.youtube.com/watch?v=Rk4enIuhWno&t=41m45s#t=2505)
