@@ -20,7 +20,8 @@ class Application extends BaseApplication
    */
   public function __construct($config)
   {
-    $env = 'prod';
+    $environment = $config['general']['environment'];
+    $version = $config['general']['version'];
 
     parent::__construct('Drupal', 'Drupal Console 0.5.1 - ' . $env);
 
