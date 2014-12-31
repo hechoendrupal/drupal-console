@@ -96,6 +96,7 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
         null
       );
     }
+    $entity_class = $utils->removeSpaces($entity_class);
     $input->setOption('entity-class', $entity_class);
 
     $machine_name = $utils->camelCaseToMachineName($entity_class);
