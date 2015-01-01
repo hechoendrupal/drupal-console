@@ -156,4 +156,15 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
   {
     return $this->getContainer()->get('console.string_utils');
   }
+
+  protected function getDialogHelper()
+  {   
+    $dialog = $this->getHelperSet()->get('dialog');
+    if (!$dialog || get_class($dialog) !== 'Drupal\AppConsole\Command\Helper\DialogHelper') {
+      $this->getHelperSet()->set(new DialogHelper(), 'dialog');
+    }
+
+    return $dialog;
+  }
+ 
 }
