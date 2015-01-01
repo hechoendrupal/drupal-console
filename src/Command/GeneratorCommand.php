@@ -45,13 +45,4 @@ abstract class GeneratorCommand extends ContainerAwareCommand
         return $skeletonDirs;
     }
 
-    protected function getDialogHelper()
-    {
-        $dialog = $this->getHelperSet()->get('dialog');
-        if (!$dialog || get_class($dialog) !== 'Drupal\AppConsole\Command\Helper\DialogHelper') {
-            $this->getHelperSet()->set(new DialogHelper(), 'dialog');
-        }
-
-        return $dialog;
-    }
 }
