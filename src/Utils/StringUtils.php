@@ -18,8 +18,6 @@ class StringUtils extends Helper
   const REGEX_MACHINE_NAME_CHARS = '@[^a-z0-9_]+@';
   // This REGEX captures
   const REGEX_CAMEL_CASE_UNDER = '/([a-z])([A-Z])/';
-  // This REGEX remove spaces between words
-  const REGEX_REMOVE_SPACES = '[\s+]';
 
   /**
    * Replaces non alphanumeric characters with underscores
@@ -56,16 +54,6 @@ class StringUtils extends Helper
   public function camelCaseToUnderscore($camel_case)
   {
     return strtolower(preg_replace(self::REGEX_CAMEL_CASE_UNDER, '$1_$2', $camel_case));
-  }
-
-  /**
-   *  Remove spaces between words
-   *  @param  String $name  User input
-   *  @return String
-   */
-  public function removeSpaces($name)
-  {
-    return preg_replace(self::REGEX_REMOVE_SPACES, '', $name);
   }
 
   public function getName()
