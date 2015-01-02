@@ -1,0 +1,25 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+Drupal\{{ module }}\Plugin\{{ plugin_class }}Interface.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Plugin;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Config\Entity\ConfigEntityInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides an interface defining a {{ plugin_class }} plugin.
+ */
+interface {{ plugin_class }}Interface
+{% endblock %}
+
+{% block class_methods %}
+  // Add get/set methods for your configuration properties here.
+{% endblock %}
+
