@@ -1,0 +1,36 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+Drupal\{{ module }}\Annotation\{{ plugin_annotation }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Annotation;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Component\Annotation\Plugin;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * {{ plugin_annotation }} Annotation plugin.
+ *
+ * @Annotation
+ */
+class {{ plugin_annotation }} extends Plugin
+{% endblock %}
+
+{% block class_methods %}
+
+{% for attribute in attributes %}
+  /**
+   * The plugin {{ attribute.variable }}.
+   *
+   * @var {{ attribute.type }}
+   */
+   public ${{ attribute.variable }};
+
+{% endfor %}
+{% endblock %}
+
