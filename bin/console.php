@@ -33,8 +33,11 @@ else {
   exit(1);
 }
 
+// Require Console autoloader.
+require $directoryRoot . 'vendor/autoload.php';
+
 $yaml = new Parser();
-$config = $yaml->parse(file_get_contents($configFile));
+$config = $yaml->parse(file_get_contents($directoryRoot.'config.yml'));
 
 $application = new Application($config);
 
