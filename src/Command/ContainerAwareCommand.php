@@ -168,4 +168,12 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
   {
     return $this->getContainer()->get('console.string_utils');
   }
+
+  /**
+   * @param $key string
+   * @return string
+   */
+  public function trans($key){
+    return $this->translator->trans($key);
+  }
 }
