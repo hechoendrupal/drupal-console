@@ -25,7 +25,7 @@ class GeneratorPluginManagerCommand extends GeneratorCommand
       ->setDefinition(array(
         new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module.'),
       ))
-    ->setDescription('Generate a plugin manager')
+    ->setDescription('Generate a new plugin type')
     ->setHelp('The <info>generate:plugin:manager</info> command helps you generate a new plugin type.')
     ->setName('generate:plugin:manager');
   }
