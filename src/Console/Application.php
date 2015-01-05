@@ -159,4 +159,36 @@ class Application extends BaseApplication
   {
     $this->booted = $booted;
   }
+
+  /**
+   * @return mixed
+   */
+  public function getConfig()
+  {
+    return $this->config;
+  }
+
+  /**
+   * @param mixed $config
+   */
+  public function setConfig($config)
+  {
+    $this->config = $config;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getDirectoryRoot()
+  {
+    return $this->directoryRoot;
+  }
+
+  /**
+   * @param mixed $directoryRoot
+   */
+  public function setDirectoryRoot($directoryRoot)
+  {
+    $this->directoryRoot = $directoryRoot;
+  }
 }
