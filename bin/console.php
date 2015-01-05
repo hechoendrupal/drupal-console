@@ -16,17 +16,16 @@ use Symfony\Component\Console\Helper\TableHelper;
 use Drupal\AppConsole\Utils\StringUtils;
 use Drupal\AppConsole\Utils\Validators;
 use Symfony\Component\Yaml\Parser;
+use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 
 set_time_limit(0);
 
 // Try to find the Console autoloader.
 if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
-  require __DIR__ . '/../vendor/autoload.php';
-  $configFile = __DIR__ . '/../config.yml';
+  $directoryRoot = __DIR__ . '/../';
 }
 else if (file_exists(__DIR__ . '/../../../vendor/autoload.php')) {
-  require __DIR__ . '/../../../vendor/autoload.php';
-  $configFile = __DIR__ . '/../../../config.yml';
+  $directoryRoot = __DIR__ . '/../../../';
 }
 else {
   echo 'Something goes wrong with your archive'.PHP_EOL.
