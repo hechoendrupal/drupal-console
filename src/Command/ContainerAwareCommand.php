@@ -6,6 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Drupal\Core\Extension\ExtensionDiscovery;
+use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 
 abstract class ContainerAwareCommand extends Command implements ContainerAwareInterface
 {
@@ -17,6 +18,17 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
   private $services;
 
   private $route_provider;
+
+  /**
+   * @var TranslatorHelper
+   */
+  protected $translator;
+
+  function __construct($translator)
+  {
+    $this->translator = $translator;
+    parent::__construct();
+  }
 
   /**
    * @return ContainerInterface
