@@ -6,6 +6,7 @@
 
 namespace Drupal\AppConsole\Test\Command;
 
+use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class GeneratorCommandCommandTest extends GenerateCommandTest
@@ -57,7 +58,8 @@ class GeneratorCommandCommandTest extends GenerateCommandTest
   {
     $command = $this
       ->getMockBuilder('Drupal\AppConsole\Command\GeneratorCommandCommand')
-      ->setMethods(['getModules','getServices'])
+      ->setMethods(['getModules','getServices', '__construct'])
+      ->setConstructorArgs([$this->getTranslationHelper()])
       ->getMock()
     ;
 

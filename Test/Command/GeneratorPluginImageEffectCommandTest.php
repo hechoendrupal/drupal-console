@@ -57,7 +57,8 @@ class GeneratorPluginImageEffectTest extends GenerateCommandTest
   {
     $command = $this
       ->getMockBuilder('Drupal\AppConsole\Command\GeneratorPluginImageEffectCommand')
-      ->setMethods(['getModules','getServices'])
+      ->setMethods(['getModules','getServices','__construct'])
+      ->setConstructorArgs([$this->getTranslationHelper()])
       ->getMock()
     ;
 

@@ -74,7 +74,8 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
   public function getCommand($generator, $input)
   {
     $command = $this->getMockBuilder('Drupal\AppConsole\Command\GeneratorPluginBlockCommand')
-      ->setMethods(['getModules','getServices'])
+      ->setMethods(['getModules','getServices','__construct'])
+      ->setConstructorArgs([$this->getTranslationHelper()])
       ->getMock()
     ;
 
