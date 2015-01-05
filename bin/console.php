@@ -50,6 +50,9 @@ if (file_exists(getcwd() . '/core/vendor/autoload.php')) {
   $class_loader = null;
 }
 
+$translatorHelper = new TranslatorHelper();
+$translatorHelper->loadResource($config['application']['language'], $directoryRoot);
+
 $helpers = [
   'bootstrap' => new DrupalBootstrapHelper(),
   'finder' => new BootstrapFinderHelper(new Finder()),
