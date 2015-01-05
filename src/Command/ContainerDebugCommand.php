@@ -16,7 +16,7 @@ class ContainerDebugCommand extends ContainerAwareCommand
   {
     $this
       ->setName('container:debug')
-      ->setDescription('Displays current services for an application')
+      ->setDescription($this->trans('command.container.debug.description'))
     ;
   }
 
