@@ -24,12 +24,11 @@ class Application extends BaseApplication
    */
   public function __construct($config)
   {
-    $environment = $config['general']['environment'];
-    $version = $config['general']['version'];
+    $this->config = $config;
 
     parent::__construct(
-      'Drupal',
-      sprintf('Drupal Console %s - %s', $version, $environment)
+      'Drupal Console',
+      sprintf('%s (%s)', $version, $environment)
     );
 
     $this->getDefinition()->addOption(
