@@ -15,6 +15,10 @@ class Application extends BaseApplication
 
   protected $booted = false;
 
+  protected $config;
+
+  protected $directoryRoot;
+
   /**
    * Create a new application extended from \Symfony\Component\Console\Application
    */
