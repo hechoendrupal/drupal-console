@@ -40,6 +40,7 @@ $yaml = new Parser();
 $config = $yaml->parse(file_get_contents($directoryRoot.'config.yml'));
 
 $application = new Application($config);
+$application->setDirectoryRoot($directoryRoot);
 
 // Try to find the Drupal autoloader.
 if (file_exists(getcwd() . '/core/vendor/autoload.php')) {
