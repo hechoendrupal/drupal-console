@@ -64,7 +64,8 @@ $helpers = [
   'register_commands' => new RegisterCommandsHelper($application),
   'table' => new TableHelper(),
   'stringUtils' => new StringUtils(),
-  'validators' => new Validators()
+  'validators' => new Validators(),
+  'translator' => $translatorHelper
 ];
 
 $application->setHelperSet(new HelperSet($helpers));
