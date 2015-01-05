@@ -65,7 +65,8 @@ class RegisterCommandsHelper extends Helper
           if ($cmd->isSubclassOf('Symfony\\Component\\Console\\Command\\Command')
             && !$cmd->isAbstract()){
             if ($this->console->isBooted()) {
-              $this->console->add($cmd->newInstance());
+              $translator = $this->getHelperSet()->get('translator');
+              $this->console->add($cmd->newInstance($translator));
             }
           }
         }
