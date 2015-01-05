@@ -1,0 +1,4 @@
+command:
+  container:
+    debug:
+      description: Exibe serviços atuais para um aplicativo.
