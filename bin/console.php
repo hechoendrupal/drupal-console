@@ -39,6 +39,14 @@ require $directoryRoot . 'vendor/autoload.php';
 $yaml = new Parser();
 $config = $yaml->parse(file_get_contents($directoryRoot.'config.yml'));
 
+$homeDirectory = trim(getenv('HOME') ?: getenv('USERPROFILE'));
+if (file_exists($homeDirectory.'/.console/config.yml')){
+  $userConfig = $yaml->parse(file_get_contents($homeDirectory.'/.console/config.yml'));
+  unset($userConfig['application']['name']);
+  unset($userConfig['application']['version']);
+  $config = array_replace_recursive($config, $userConfig);
+}
+
 $application = new Application($config);
 $application->setDirectoryRoot($directoryRoot);
 
