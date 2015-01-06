@@ -18,13 +18,16 @@ class TranslatorHelper extends Helper
   private $translator;
 
   public function loadResource($language, $directoryRoot){
+    if (!file_exists($directoryRoot . 'config/translations/console.'.$language.'.yml')){
+      $language = 'en';
+    }
     $this->language = $language;
 
     $this->translator = new Translator($language);
     $this->translator->addLoader('yaml', new YamlFileLoader());
     $this->translator->addResource(
       'yaml',
-      $directoryRoot . 'config/translations/console.'.$this->language.'.yml',
+      $directoryRoot . 'config/translations/console.'.$language.'.yml',
       $language
     );
   }
