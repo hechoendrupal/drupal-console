@@ -116,7 +116,6 @@ class Validators extends Helper implements HelperInterface
     }
   }
 
-
   public function removeSpaces($name)
   {
     return preg_replace(self::REGEX_REMOVE_SPACES, '', $name);
