@@ -21,6 +21,7 @@ class Application extends BaseApplication
 
   /**
    * Create a new application extended from \Symfony\Component\Console\Application
+   * @param $config array
    */
   public function __construct($config)
   {
