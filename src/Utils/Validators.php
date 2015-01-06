@@ -108,10 +108,17 @@ class Validators extends Helper implements HelperInterface
    */
   public function validateSpaces($name)
   {
-    preg_match(self::REGEX_REMOVE_SPACES, $name, $match);
-    if(!empty($match)){
+    $string = $this->removeSpaces($name);
+    if ($string == $name) {
+      return $name;
+    } else {
       throw new \InvalidArgumentException(sprintf("The name \"%s\" is invalid, spaces between words not allowed.", $name));
     }
+  }
+
+
+  public function removeSpaces($name)
+  {
     return preg_replace(self::REGEX_REMOVE_SPACES, '', $name);
   }
 
