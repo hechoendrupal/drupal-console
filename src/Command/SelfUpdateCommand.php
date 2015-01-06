@@ -17,6 +17,7 @@ use Herrera\Phar\Update\Manifest;
 class SelfUpdateCommand extends Command
 {
   const DRUPAL_CONSOLE_MANIFEST = "http://drupalconsole.com/manifest.json";
+
   /**
    * {@inheritdoc}
    */
@@ -25,8 +26,7 @@ class SelfUpdateCommand extends Command
     $this
       ->setName('self-update')
       ->setDescription('Update the console')
-      ->addArgument('args', InputArgument::IS_ARRAY, 'Drush arguments.')
-      ->setHelp('This command ')
+      ->setHelp('This command allows an self-update.')
     ;
   }
 
