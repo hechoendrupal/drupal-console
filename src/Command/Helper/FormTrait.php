@@ -78,7 +78,7 @@ trait FormTrait
           $input_types
         );
 
-        $input_options = array();
+        $input_options = '';
         if(in_array($input_type, array('checkboxes', 'radios','select'))) {
           $input_options = $dialog->ask(
             $output,
@@ -88,7 +88,7 @@ trait FormTrait
         }
 
         // Prepare options as an array
-        if(!empty($input_options)) {
+        if(strlen(trim($input_options))) {
           // remove spaces in options and empty options
           $input_options = array_filter(array_map('trim', explode( ",", $input_options)));
           // Create array format for options
