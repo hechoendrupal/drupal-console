@@ -1,4 +1,5 @@
 application:
+  name: Drupal Console
   version: 0.5.2
   environment: prod
   language: en
