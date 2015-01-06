@@ -14,6 +14,8 @@ class Validators extends Helper implements HelperInterface
 
   const REGEX_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+$/';
   const REGEX_MACHINE_NAME = '/^[a-z0-9_]+$/';
+  // This REGEX remove spaces between words
+  const REGEX_REMOVE_SPACES = '/[\\s+]/';
 
   public function __construct()
   {
@@ -97,6 +99,26 @@ class Validators extends Helper implements HelperInterface
     }
 
     return $service;
+  }
+
+  /**
+   * Validates if class name have spaces between words
+   * @param string $name
+   * @return string
+   */
+  public function validateSpaces($name)
+  {
+    $string = $this->removeSpaces($name);
+    if ($string == $name) {
+      return $name;
+    } else {
+      throw new \InvalidArgumentException(sprintf("The name \"%s\" is invalid, spaces between words not allowed.", $name));
+    }
+  }
+
+  public function removeSpaces($name)
+  {
+    return preg_replace(self::REGEX_REMOVE_SPACES, '', $name);
   }
 
   public function getName()
