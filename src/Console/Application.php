@@ -32,7 +32,7 @@ class Application extends BaseApplication
     $version = $config['application']['version'];
 
     parent::__construct(
-      'Drupal Console',
+      $name,
       sprintf('%s', $version)
     );
 
