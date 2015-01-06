@@ -78,6 +78,7 @@ trait FormTrait
           $input_types
         );
 
+        $input_options = array();
         if(in_array($input_type, array('checkboxes', 'radios','select'))) {
           $input_options = $dialog->ask(
             $output,
