@@ -89,10 +89,15 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
     // --entity-class option
     $entity_class = $input->getOption('entity-class');
     if (!$entity_class) {
-      $entity_class = $dialog->ask(
+      $entity_class = 'DefaultEntity';
+      $entity_class = $dialog->askAndValidate(
         $output,
-        $dialog->getQuestion('Enter the entity class name', 'DefaultEntity'),
-        'DefaultEntity',
+        $dialog->getQuestion('Enter the entity class name', $entity_class),
+        function($entity_class){
+          return $this->validateSpaces($entity_class);
+        },
+        false,
+        $entity_class,
         null
       );
     }
