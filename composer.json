@@ -27,7 +27,8 @@
         "symfony/dependency-injection": "2.6.*",
         "symfony/finder": "2.6.*",
         "symfony/yaml": "2.6.*",
-        "twig/twig": "1.16.*"
+        "twig/twig": "1.16.*",
+        "herrera-io/phar-update": "1.*"
     },
     "require-dev": {
         "drupal/coder": "dev-8.x-2.x",
