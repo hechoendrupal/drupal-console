@@ -154,6 +154,11 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     return $this->getValidator()->validateSpaces($name);
   }
 
+  public function removeSpaces($name)
+  {
+    return $this->getValidator()->removeSpaces($name);
+  }
+
   /**
    * @return \Drupal\AppConsole\Utils\StringUtils
    */
