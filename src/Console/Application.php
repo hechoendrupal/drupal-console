@@ -27,11 +27,12 @@ class Application extends BaseApplication
   {
     $this->config = $config;
 
+    $name = $config['application']['name'];
     $environment = $config['application']['environment'];
     $version = $config['application']['version'];
 
     parent::__construct(
-      'Drupal Console',
+      $name,
       sprintf('%s (%s)', $version, $environment)
     );
 
