@@ -15,17 +15,25 @@ class Application extends BaseApplication
 
   protected $booted = false;
 
+  protected $config;
+
+  protected $directoryRoot;
+
   /**
    * Create a new application extended from \Symfony\Component\Console\Application
+   * @param $config array
    */
   public function __construct($config)
   {
-    $environment = $config['general']['environment'];
-    $version = $config['general']['version'];
+    $this->config = $config;
+
+    $name = $config['application']['name'];
+    $environment = $config['application']['environment'];
+    $version = $config['application']['version'];
 
     parent::__construct(
-      'Drupal',
-      sprintf('Drupal Console %s - %s', $version, $environment)
+      $name,
+      sprintf('%s (%s)', $version, $environment)
     );
 
     $this->getDefinition()->addOption(
@@ -152,5 +160,37 @@ class Application extends BaseApplication
   public function setBooted($booted)
   {
     $this->booted = $booted;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getConfig()
+  {
+    return $this->config;
+  }
+
+  /**
+   * @param mixed $config
+   */
+  public function setConfig($config)
+  {
+    $this->config = $config;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getDirectoryRoot()
+  {
+    return $this->directoryRoot;
+  }
+
+  /**
+   * @param mixed $directoryRoot
+   */
+  public function setDirectoryRoot($directoryRoot)
+  {
+    $this->directoryRoot = $directoryRoot;
   }
 }

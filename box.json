@@ -2,11 +2,14 @@
     "alias": "console.phar",
     "chmod": "0755",
     "directories": [
+        "config",
         "src",
         "vendor/composer",
+        "vendor/symfony/config",
         "vendor/symfony/console",
         "vendor/symfony/dependency-injection",
         "vendor/symfony/finder",
+        "vendor/symfony/translation",
         "vendor/symfony/yaml",
         "vendor/twig"
     ],
