@@ -87,7 +87,6 @@ class CacheRebuildCommand extends ContainerAwareCommand
 
   protected function getCaches()
   {
-
     if (empty($this->caches)) {
       foreach (Cache::getBins() as $name => $bin) {
         $this->caches[$name] = $bin;
@@ -96,5 +95,4 @@ class CacheRebuildCommand extends ContainerAwareCommand
 
     return $this->caches;
   }
-
 }
