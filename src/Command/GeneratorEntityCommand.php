@@ -43,13 +43,25 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
 
     $this
         ->setDefinition(array(
-          new InputOption('module',null,InputOption::VALUE_REQUIRED, 'The name of the module'),
-          new InputOption('entity-class',null,InputOption::VALUE_REQUIRED, 'The entity class name'),
-          new InputOption('entity-name',null,InputOption::VALUE_REQUIRED, 'The name of the entity'),
+          new InputOption('module',null,InputOption::VALUE_REQUIRED, $this->trans('common.options.module')),
+          new InputOption('entity-class',null,InputOption::VALUE_REQUIRED, $this->trans('command.generate.entity.options.entity-class')),
+          new InputOption('entity-name',null,InputOption::VALUE_REQUIRED, $this->trans('command.generate.entity.options.entity-name')),
         ))
         ->setName($this->commandName)
-        ->setDescription('Generate '.$this->entityType)
-        ->setHelp('The <info>'.$this->commandName.'</info> command helps you generate a new '. $this->entityType);
+        ->setDescription(
+          sprintf(
+            $this->trans('command.generate.entity.description'),
+            $this->entityType
+          )
+        )
+        ->setHelp(
+          sprintf(
+            $this->trans('command.generate.entity.help'),
+            $this->commandName,
+            $this->entityType
+          )
+        )
+    ;
   }
 
   protected function execute(InputInterface $input, OutputInterface $output)
@@ -75,7 +87,7 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
   protected function interact(InputInterface $input, OutputInterface $output)
   {
     $dialog = $this->getDialogHelper();
-    $dialog->writeSection($output, 'Welcome to the Drupal entity generator');
+    $dialog->writeSection($output,  $this->trans('command.generate.entity.welcome'));
     $utils = $this->getStringUtils();
 
     // --module option
@@ -92,7 +104,7 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
       $entity_class = 'DefaultEntity';
       $entity_class = $dialog->askAndValidate(
         $output,
-        $dialog->getQuestion('Enter the entity class name', $entity_class),
+        $dialog->getQuestion($this->trans('command.generate.entity.questions.entity-class'), $entity_class),
         function($entity_class){
           return $this->validateSpaces($entity_class);
         },
@@ -110,7 +122,7 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
     if (!$entity_name) {
       $entity_name = $dialog->askAndValidate(
         $output,
-        $dialog->getQuestion('Enter the entity name', $machine_name),
+        $dialog->getQuestion($this->trans('command.generate.entity.questions.entity-name'), $machine_name),
         function ($machine_name) {
           return $this->validateMachineName($machine_name);
         },

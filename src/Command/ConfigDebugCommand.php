@@ -20,8 +20,8 @@ class ConfigDebugCommand extends ContainerAwareCommand
   {
     $this
       ->setName('config:debug')
-      ->setDescription('Show the current configuration')
-      ->addArgument('config-name', InputArgument::OPTIONAL, 'Config name')
+      ->setDescription($this->trans('command.config.debug.description'))
+      ->addArgument('config-name', InputArgument::OPTIONAL, $this->trans('command.config.debug.arguments.config-name'))
     ;
   }
 
@@ -50,7 +50,7 @@ class ConfigDebugCommand extends ContainerAwareCommand
   private function getAllConfigurations($output, $table){
     $configFactory = $this->getConfigFactory();
     $names = $configFactory->listAll();
-    $table->setHeaders(['Name']);
+    $table->setHeaders([$this->trans('command.config.debug.arguments.config-name')]);
     foreach ($names as $name) {
       $table->addRow([$name]);
     }
