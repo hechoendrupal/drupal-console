@@ -25,7 +25,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *  id = "{{plugin_id}}",
- *  admin_label = @Translation("{{plugin_label}}")
+ *  label = @Translation("{{label}}")
  * )
  */
 class {{class_name}} extends BlockBase {% if services is not empty %}implements ContainerFactoryPluginInterface {% endif %}
@@ -79,7 +79,7 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
    */
   public function build() {
     return [
-      '#markup' => '{{plugin_label}}',
+      '#markup' => '{{label}}',
     ];
   }
 
