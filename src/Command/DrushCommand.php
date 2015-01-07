@@ -20,13 +20,9 @@ class DrushCommand extends ContainerAwareCommand
   {
     $this
       ->setName('drush')
-      ->setDescription('Run drush into console')
-      ->addArgument('args', InputArgument::IS_ARRAY, 'Drush arguments.')
-      ->setHelp(<<<EOT
-Use the interactive mode for a better experience
-./bin/console --shell
-EOT
-      )
+      ->setDescription($this->trans('command.drush.description'))
+      ->addArgument('args', InputArgument::IS_ARRAY, $this->trans('command.drush.arguments.args'))
+      ->setHelp($this->trans('command.drush.help'))
     ;
   }
 
@@ -44,7 +40,7 @@ EOT
     if (`which drush`) {
       system('drush'.$c_args);
     } else {
-      $output->write("<error>Drush command not found.</error>");
+      $output->write("<error>".$this->trans('command.drush.message.not_found')."</error>");
     }
   }
 }
