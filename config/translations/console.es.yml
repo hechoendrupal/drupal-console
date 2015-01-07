@@ -1,25 +1,25 @@
 common:
   options:
-    module: The Module name.
+    module: Nombre del módulo.
     services: Load services form the container.
     inputs: Create inputs in a form.
   questions:
-    module: Enter the module name
+    module: Escriba el nombre del módulo
     confirm: Do you confirm generation
     canceled: Command generation canceled.
     services:
-      confirm: Do you want to load services form the container
+      confirm: Deseas cargar los servicios del contenedor
       message: |
 
-        Type the service name or use keyup and keydown
-        This is optional, press <info>enter</info> to <info>continue</info>
+        Escriba el nombre del servicio o use la tecla keyup o keydown
+        Esto es opcional, presione <info>enter</info para <info>continuar</info>
       name: Enter your service
     inputs:
       confirm: Do you like generate a form structure
       label: Input label
       machine_name: Input machine name
-      type: Type
-      invalid: Field Type "%s" is invalid.
+      type: Tipo
+      invalid: El Tipo de Campo "%s" no es válido.
 command:
   cache:
     rebuild:
@@ -32,40 +32,40 @@ command:
         completed: Hecho limpiar Caché(s).
         invalid_cache: Caché "%s" en inválido.
       questions:
-        cache: Seleccione un caché.
+        cache: Seleccione una caché.
   config:
     debug:
-      description: Show the current configuration.
+      description: Muestra la configuración actual.
       arguments:
-        config-name: Configuration name.
+        config-name: Nombre de la configuración.
   container:
     debug:
       description: Muestra los servicios actuales para una aplicación.
       messages:
-        service_id: Service ID
-        class_name: Class Name
+        service_id: ID del servicio
+        class_name: Nombre de la clase
   drush:
-    description: Run drush from console.
-    help: Use the interactive mode for a better experience --shell.
+    description: Ejecutar Drush desde la consola.
+    help: Utilice el modo interactivo para una mejor experiencia --shell.
     arguments:
-      args: Drush arguments.
+      args: Argumento de Drush.
     messages:
-      not_found: Drush command not found.
+      not_found: Comando de Drush no encontrado.
   generate:
     command:
-      description: Generate commands for the console.
-      help: The <info>generate:command</info> command helps you generate a new command.
-      welcome: Welcome to the Drupal Command generator.
+      description: Genera un comando para la consola.
+      help: El comando <info>generate:command</info> le ayudará a generar un nuevo comando.
+      welcome: Bienvenido al generador de Comando de Drupal.
       options:
         module: common.options.module
         class-name: Command Class name
-        command: Command name
-        container: Access the services container
+        command: Nombre del Comando
+        container: Acceso al contenedor de servicios
       questions:
         module: common.questions.module
         class-name: Enter Command Class name.
         command: Enter Command name.
-        container: Do you need access the service container ?
+        container: Necesita acceder al contenedor de servicios ?
     controller:
       description: Generate & Register a controller
       help: The <info>generate:controller</info> command helps you generate a new controller.
