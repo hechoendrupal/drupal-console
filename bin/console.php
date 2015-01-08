@@ -22,10 +22,10 @@ set_time_limit(0);
 
 // Try to find the Console autoloader.
 if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
-  $directoryRoot = __DIR__ . '/../';
+  require __DIR__ . '/../vendor/autoload.php';
 }
 else if (file_exists(__DIR__ . '/../../../vendor/autoload.php')) {
-  $directoryRoot = __DIR__ . '/../../../';
+  require __DIR__ . '/../../../vendor/autoload.php';
 }
 else {
   echo 'Something goes wrong with your archive'.PHP_EOL.
