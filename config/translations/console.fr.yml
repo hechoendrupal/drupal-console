@@ -198,15 +198,15 @@ command:
       arguments:
         route-name: Noms de la route
       messages:
-        name: Route name. Nom de la route
-        path: Class path. Chemin classe
-        pattern: Pattern. Motif
-        defaults: Defaults. Par défaut
+        name: Nom de la route
+        path: Chemin classe
+        pattern: Motif
+        defaults: Par défaut
         options: Options
     rebuild:
-      description: Rebuild routes for an application. Reconstruire les routes pour une application
+      description: Reconstruire les routes pour une application
       arguments:
-        route-name: Route names.  Noms de la route
+        route-name: Noms de la route
       messages:
-        rebuilding: Rebuilding routes, wait a moment please. Reconstruction des routes, attendez un instant s'il vous plaît
-        completed: Done rebuilding route(s). Reconstruction de route (s) fini.
+        rebuilding: Reconstruction des routes, attendez un instant s'il vous plaît
+        completed: Reconstruction de route (s) fini.
