@@ -33,7 +33,7 @@ class Application extends BaseApplication
 
     parent::__construct(
       $name,
-      sprintf('%s (%s)', $version, $environment)
+      sprintf('%s', $version)
     );
 
     $this->getDefinition()->addOption(
