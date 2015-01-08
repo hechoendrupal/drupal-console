@@ -11,7 +11,7 @@ common:
       confirm: Do you want to load services form the container
       message: |
 
-        Type the service name or use keyup and keydown
+        Type the service name or use keyup or keydown
         This is optional, press <info>enter</info> to <info>continue</info>
       name: Enter your service
     inputs:
