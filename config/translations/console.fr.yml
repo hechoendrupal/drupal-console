@@ -196,7 +196,7 @@ command:
     debug:
       description: Affiche les routes actuelles pour une application
       arguments:
-        route-name: Route names. Noms de la route
+        route-name: Noms de la route
       messages:
         name: Route name. Nom de la route
         path: Class path. Chemin classe
