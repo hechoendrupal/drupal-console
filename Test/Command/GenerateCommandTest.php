@@ -56,6 +56,8 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
       ->method('validateModuleName')
       ->will($this->returnArgument(0));
 
+    $translator  = $this->getTranslationHelper();
+
     return new HelperSet([
       'formatter' => new FormatterHelper(),
       'bootstrap' => $bootstrap,
@@ -63,6 +65,7 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
       'drupal_common' => $drupal_common,
       'stringUtils' => $stringUtils,
       'validators' => $validators,
+      'translator' => $translator
     ]);
   }
 
@@ -73,6 +76,16 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
     rewind($stream);
 
     return $stream;
+  }
+
+  protected function getTranslationHelper()
+  {
+    return $this
+      ->getMockBuilder('Drupal\AppConsole\Command\Helper\TranslatorHelper')
+      ->disableOriginalConstructor()
+      ->setMethods(['loadResource','trans'])
+      ->getMock()
+      ;
   }
 
 }

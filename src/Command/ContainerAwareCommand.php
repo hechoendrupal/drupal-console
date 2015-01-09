@@ -6,6 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Drupal\Core\Extension\ExtensionDiscovery;
+use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 
 abstract class ContainerAwareCommand extends Command implements ContainerAwareInterface
 {
@@ -17,6 +18,17 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
   private $services;
 
   private $route_provider;
+
+  /**
+   * @var TranslatorHelper
+   */
+  protected $translator;
+
+  function __construct($translator)
+  {
+    $this->translator = $translator;
+    parent::__construct();
+  }
 
   /**
    * @return ContainerInterface
@@ -149,12 +161,30 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     return $machine_name;
   }
 
+  public function validateSpaces($name)
+  {
+    return $this->getValidator()->validateSpaces($name);
+  }
+
+  public function removeSpaces($name)
+  {
+    return $this->getValidator()->removeSpaces($name);
+  }
+
   /**
    * @return \Drupal\AppConsole\Utils\StringUtils
    */
   public function getStringUtils()
   {
     return $this->getContainer()->get('console.string_utils');
+  }
+
+  /**
+   * @param $key string
+   * @return string
+   */
+  public function trans($key){
+    return $this->translator->trans($key);
   }
 
   protected function getDialogHelper()
@@ -173,5 +203,4 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
     return $question;
   }
-
 }
