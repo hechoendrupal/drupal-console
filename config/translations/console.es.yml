@@ -83,7 +83,7 @@ command:
         method-name: Escriba nombre del método de acción
         route: Escriba el camino de la ruta
         services: common.questions.services
-        test: Usted desea generar una clase de prueba unitaria ?
+        test: Desea generar una clase de prueba unitaria ?
     entity:
       description: Generate a new "%s"
       help: The <info>"%s"</info> command helps you generate a new "%s"
