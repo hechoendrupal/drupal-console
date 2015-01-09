@@ -13,6 +13,8 @@ use Drupal\AppConsole\Generator\PluginBlockGenerator;
 use Drupal\AppConsole\Command\Helper\ServicesTrait;
 use Drupal\AppConsole\Command\Helper\ModuleTrait;
 use Drupal\AppConsole\Command\Helper\FormTrait;
+use Symfony\Component\Console\Question\ChoiceQuestion;
+use Drupal\AppConsole\Generator\PluginRestResourceGenerator;
 
 class GeneratorPluginRestResourceCommand extends GeneratorCommand
 {
@@ -24,11 +26,12 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
   {
     $this
       ->setDefinition(array(
-        new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
+        new InputOption('module','',InputOption::VALUE_REQUIRED, $this->trans('The name of the module')),
         new InputOption('class-name','',InputOption::VALUE_OPTIONAL, 'Plugin Rest Resource class'),
-        new InputOption('plugin-label','',InputOption::VALUE_OPTIONAL, 'Plugin Rest Resource Label'),
         new InputOption('plugin-id','',InputOption::VALUE_OPTIONAL, 'Plugin Rest Resource id'),
+        new InputOption('plugin-label','',InputOption::VALUE_OPTIONAL, 'Plugin Rest Resource Label'),
         new InputOption('plugin-url','',InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Plugin Rest Resource URL'),
+        new InputOption('plugin-states','',InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Plugin Rest Resource States')
       ))
     ->setDescription('Generate plugin rest resource')
     ->setHelp('The <info>generate:plugin:rest:resource</info> command helps you generate a new rest resource.')
@@ -51,17 +54,13 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
 
     $module = $input->getOption('module');
     $class_name = $input->getOption('class-name');
-    $plugin_label = $input->getOption('plugin-label');
     $plugin_id = $input->getOption('plugin-id');
-    $services = $input->getOption('services');
-    $inputs = $input->getOption('plugin-form');
+    $plugin_label = $input->getOption('plugin-label');
+    $plugin_url = $input->getOption('plugin-url');
+    $plugin_states = $input->getOption('plugin-states');
 
-    // @see use Drupal\AppConsole\Command\Helper\ServicesTrait::buildServices
-    $build_services = $this->buildServices($services);
-
-    $this
-      ->getGenerator()
-      ->generate($module, $class_name, $plugin_label, $plugin_id, $build_services, $inputs)
+    $this->getGenerator()
+         ->generate($module, $class_name, $plugin_label, $plugin_id, $plugin_url, $plugin_states)
     ;
   }
 
@@ -124,21 +123,25 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
     }
     $input->setOption('plugin-url', $plugin_url);
 
-    $output->writeln([]);
 
-    $states = $dialog->select(
-        $output,
-        'You can  select what REST State implement in your resource',
-        'GET, PUT, POST, DELETE, PATCH, HEAD, OPTIONS',
-        0,
-        false,
-        'Rest state "%s" is invalid',
-        true
-    );
+    // --plugin-states option
+    $plugin_states = $input->getOption('plugin-states');
+    if (!$plugin_states) {
+      $questionHelper  = $this->getQuestionHelper();
 
-    // @see Drupal\AppConsole\Command\Helper\FormTrait::formQuestion
-    $form = $this->formQuestion($output, $dialog);
-    $input->setOption('plugin-form', $form);
+      $question = new ChoiceQuestion(
+          'Please select what REST States implement in your resource (GET is selected by default)',
+          array('GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'),
+          '0'
+      );
+
+      $question->setMultiselect(true);
+      $plugin_states = $questionHelper->ask($input, $output, $question);
+      $output->writeln('States selected: ' . implode(', ', $plugin_states));
+
+      $input->setOption('plugin-states', $plugin_states);
+    }
+
   }
 
   protected function createGenerator()
