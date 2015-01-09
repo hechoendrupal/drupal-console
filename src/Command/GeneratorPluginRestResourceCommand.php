@@ -26,7 +26,7 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
   {
     $this
       ->setDefinition(array(
-        new InputOption('module','',InputOption::VALUE_REQUIRED, $this->trans('The name of the module')),
+        new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
         new InputOption('class-name','',InputOption::VALUE_OPTIONAL, 'Plugin Rest Resource class'),
         new InputOption('plugin-id','',InputOption::VALUE_OPTIONAL, 'Plugin Rest Resource id'),
         new InputOption('plugin-label','',InputOption::VALUE_OPTIONAL, 'Plugin Rest Resource Label'),
