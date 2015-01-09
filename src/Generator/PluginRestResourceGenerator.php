@@ -17,20 +17,20 @@ class PluginRestResourceGenerator extends Generator
    * @param  $plugin_url
    * @param  $states
    */
-  public function generate($module, $class_name, $plugin_label, $plugin_id, $plugin_url, $states)
+  public function generate($module, $class_name, $plugin_id, $plugin_label, $plugin_url, $plugin_states)
   {
     $parameters = [
-      'module'       => $module,
-      'class_name'   => $class_name,
-      'plugin_label' => $plugin_label,
-      'plugin_id'    => $plugin_id,
-      'plugin_url'     => $plugin_url,
-      'states'       => $states,
+      'module_name'   => $module,
+      'class_name'    => $class_name,
+      'plugin_label'  => $plugin_label,
+      'plugin_id'     => $plugin_id,
+      'plugin_url'    => $plugin_url,
+      'plugin_states' => $plugin_states,
     ];
 
     $this->renderFile(
       'module/src/Plugin/Rest/Resource/rest.php.twig',
-      $this->getPluginPath($module, 'rest').'/rest/resource'.$class_name.'.php',
+      $this->getPluginPath($module, 'rest').'/resource/'.$class_name.'.php',
       $parameters
     );
   }

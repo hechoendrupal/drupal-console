@@ -158,7 +158,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
   }
 
   protected function getDialogHelper()
-  {   
+  {
     $dialog = $this->getHelperSet()->get('dialog');
     if (!$dialog || get_class($dialog) !== 'Drupal\AppConsole\Command\Helper\DialogHelper') {
       $this->getHelperSet()->set(new DialogHelper(), 'dialog');
@@ -166,5 +166,12 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
     return $dialog;
   }
- 
+
+  protected function getQuestionHelper()
+  {
+    $question = $this->getHelperSet()->get('question');
+
+    return $question;
+  }
+
 }

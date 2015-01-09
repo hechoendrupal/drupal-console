@@ -33,23 +33,19 @@ use Psr\Log\LoggerInterface;
  * )
  */
 
-class {{ class_name }} extends extends ResourceBase {
-/**
+class {{ class_name }} extends ResourceBase
+{% endblock %}
+{% block class_variables %}
+  /**
    *  A curent user instance.
    *
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $currentUser;
-  /**
-   *  A instance of entity manager.
-   *
-   * @var \Drupal\Core\Entity\EntityManagerInterface
-   */
-  protected $entityManager;
 {% endblock %}
 
 {% block class_construct %}
-/**
+  /**
   * Constructs a Drupal\rest\Plugin\ResourceBase object.
   *
   * @param array $configuration
@@ -69,17 +65,15 @@ class {{ class_name }} extends extends ResourceBase {
     $plugin_definition,
     array $serializer_formats,
     LoggerInterface $logger,
-    EntityManagerInterface $entity_manager,
     AccountProxyInterface $current_user) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
 
-    $this->entityManager = $entity_manager;
     $this->currentUser = $current_user;
   }
 {% endblock %}
 
 {% block class_create %}
-/**
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -89,12 +83,42 @@ class {{ class_name }} extends extends ResourceBase {
       $plugin_definition,
       $container->getParameter('serializer.formats'),
       $container->get('logger.factory')->get('rest'),
-      $container->get('entity.manager'),
       $container->get('current_user')
     );
   }
 {% endblock %}
 
 {% block class_methods %}
+{% for state in plugin_states %}
+  /*
+   * Responds to {{ state }} requests.
+   *
+   * Returns a list of bundles for specified entity.
+   *
+   * @return \Drupal\rest\ResourceResponse
+   *   The response containing a reponse HTML.
+   *
+   * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+   */
+  public function {{ state|lower }}() {
+    $response = new ResourceResponse();
 
+    // You must to implement the logic of your REST Resource here.
+    // Use current user after pass authentication to validate access
+    /*if(!$this->currentUser->hasPermission($permission)) {
+      throw new AccessDeniedHttpException();
+    }*/
+
+    $response->setContent('<html><body><h1>Implement REST State {{ state }}!</h1></body></html>');
+    $response->setStatusCode(ResourceResponse::HTTP_OK);
+    $response->headers->set('Content-Type', 'text/html');
+
+    // prints the HTTP headers followed by the content
+    $response->send();
+
+    // Throw an exception if is required'
+    //throw new HttpException(t('Throw an exception if is required'));
+  }
+
+{% endfor %}
 {% endblock %}
