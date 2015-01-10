@@ -10,27 +10,30 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Generator\ModuleGenerator;
+use Drupal\AppConsole\Command\Helper\ConfirmationTrait;
 
 class GeneratorModuleCommand extends GeneratorCommand
 {
+  use ConfirmationTrait;
+
   /**
    * {@inheritdoc}
    */
   protected function configure()
   {
     $this->setDefinition([
-      new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
-      new InputOption('machine-name','',InputOption::VALUE_REQUIRED, 'The machine name (lowercase and underscore only)'),
-      new InputOption('module-path','',InputOption::VALUE_REQUIRED, 'The path of the module'),
-      new InputOption('description','',InputOption::VALUE_OPTIONAL, 'Description module'),
-      new InputOption('core','',InputOption::VALUE_OPTIONAL, 'Core version'),
-      new InputOption('package','',InputOption::VALUE_OPTIONAL, 'Package'),
-      new InputOption('controller', '', InputOption::VALUE_NONE, 'Generate controller'),
-      new InputOption('tests', '', InputOption::VALUE_NONE, 'Generate tests'),
-      new InputOption('structure', '', InputOption::VALUE_NONE, 'Whether to generate the whole directory structure'),
+      new InputOption('module','',InputOption::VALUE_REQUIRED, $this->trans('command.generate.module.options.module')),
+      new InputOption('machine-name','',InputOption::VALUE_REQUIRED, $this->trans('command.generate.module.options.machine-name')),
+      new InputOption('module-path','',InputOption::VALUE_REQUIRED, $this->trans('command.generate.module.options.module-path')),
+      new InputOption('description','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.module.options.description')),
+      new InputOption('core','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.module.options.core')),
+      new InputOption('package','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.module.options.package')),
+      new InputOption('controller', '', InputOption::VALUE_NONE, $this->trans('command.generate.module.options.controller')),
+      new InputOption('test', '', InputOption::VALUE_NONE, $this->trans('command.generate.module.options.test')),
+      new InputOption('structure', '', InputOption::VALUE_NONE, $this->trans('command.generate.module.options.structure')),
     ])
-    ->setDescription('Generate a module')
-    ->setHelp('The <info>generate:module</info> command helps you generates new modules.')
+    ->setDescription($this->trans('command.generate.module.description'))
+    ->setHelp($this->trans('command.generate.module.help'))
     ->setName('generate:module');
   }
 
@@ -42,12 +45,8 @@ class GeneratorModuleCommand extends GeneratorCommand
     $dialog = $this->getDialogHelper();
     $validators = $this->getHelperSet()->get('validators');
 
-    if ($input->isInteractive()) {
-      if (!$dialog->askConfirmation($output, $dialog->getQuestion('Do you confirm generation', 'yes', '?'), true)) {
-        $output->writeln('<error>Command aborted</error>');
-
-        return 1;
-      }
+    if ($this->confirmationQuestion($input, $output, $dialog)) {
+      return;
     }
 
     $module = $validators->validateModuleName($input->getOption('module'));
@@ -57,7 +56,7 @@ class GeneratorModuleCommand extends GeneratorCommand
     $core = $input->getOption('core');
     $package = $input->getOption('package');
     $controller = $input->getOption('controller');
-    $tests = $input->getOption('tests');
+    $test = $input->getOption('test');
     $structure =  $input->getOption('structure');
 
     $generator = $this->getGenerator();
@@ -69,7 +68,7 @@ class GeneratorModuleCommand extends GeneratorCommand
             $core,
             $package,
             $controller,
-            $tests,
+            $test,
             $structure
     );
 
@@ -89,7 +88,7 @@ class GeneratorModuleCommand extends GeneratorCommand
     $validators = $this->getHelperSet()->get('validators');
 
     $dialog = $this->getDialogHelper();
-    $dialog->writeSection($output, 'Welcome to the Drupal module generator');
+    $dialog->writeSection($output, $this->trans('command.generate.module.welcome'));
 
     try {
       $module = $input->getOption('module') ? $this->validateModuleName($input->getOption('module')) : null;
@@ -101,7 +100,7 @@ class GeneratorModuleCommand extends GeneratorCommand
     if (!$module) {
       $module = $dialog->askAndValidate(
         $output,
-        $dialog->getQuestion('Module name', ''),
+        $dialog->getQuestion($this->trans('command.generate.module.questions.module'), ''),
         function ($module) use ($validators){
           return $validators->validateModuleName($module);
         },
@@ -122,7 +121,7 @@ class GeneratorModuleCommand extends GeneratorCommand
       $machine_name = $stringUtils->createMachineName($module);
       $machine_name = $dialog->askAndValidate(
         $output,
-        $dialog->getQuestion('Module machine name', $machine_name),
+        $dialog->getQuestion($this->trans('command.generate.module.questions.machine-name'), $machine_name),
         function ($machine_name) use ($validators){
           return $validators->validateMachineName($machine_name);
         },
@@ -138,47 +137,47 @@ class GeneratorModuleCommand extends GeneratorCommand
 
     $module_path = $input->getOption('module-path');
     if (!$module_path) {
-      $module_path = $dialog->ask($output, $dialog->getQuestion('Module Path', $module_path_default), $module_path_default);
+      $module_path = $dialog->ask($output, $dialog->getQuestion($this->trans('command.generate.module.questions.module-path'), $module_path_default), $module_path_default);
     }
     $input->setOption('module-path', $module_path);
 
     $description = $input->getOption('description');
     if (!$description) {
-      $description = $dialog->ask($output, $dialog->getQuestion('Description', 'My Awesome Module'), 'My Awesome Module');
+      $description = $dialog->ask($output, $dialog->getQuestion($this->trans('command.generate.module.questions.description'), 'My Awesome Module'), 'My Awesome Module');
     }
     $input->setOption('description', $description);
 
     $package = $input->getOption('package');
     if (!$package) {
-      $package = $dialog->ask($output, $dialog->getQuestion('Package', 'Other'), 'Other');
+      $package = $dialog->ask($output, $dialog->getQuestion($this->trans('command.generate.module.questions.package'), 'Other'), 'Other');
     }
     $input->setOption('package', $package);
 
     $core = $input->getOption('core');
     if (!$core) {
-      $core = $dialog->ask($output, $dialog->getQuestion('Core', '8.x'), '8.x');
+      $core = $dialog->ask($output, $dialog->getQuestion($this->trans('command.generate.module.questions.core'), '8.x'), '8.x');
     }
     $input->setOption('core', $core);
 
     $controller = $input->getOption('controller');
-    if (!$controller && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate a Controller', 'no', '?'), false)) {
+    if (!$controller && $dialog->askConfirmation($output, $dialog->getQuestion($this->trans('command.generate.module.questions.controller'), 'no', '?'), false)) {
       $controller = true;
     }
     $input->setOption('controller', $controller);
 
     if ($controller){
-      $tests = $input->getOption('tests');
-      if (!$tests && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate Test', 'yes', '?'), true)) {
-        $tests = true;
+      $test = $input->getOption('test');
+      if (!$test && $dialog->askConfirmation($output, $dialog->getQuestion($this->trans('command.generate.module.questions.test'), 'yes', '?'), true)) {
+        $test = true;
       }
     }
     else {
-      $tests = false;
+      $test = false;
     }
-    $input->setOption('tests', $tests);
+    $input->setOption('test', $test);
 
     $structure = $input->getOption('structure');
-    if (!$structure && $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate the whole directory structure', 'yes', '?'), true)) {
+    if (!$structure && $dialog->askConfirmation($output, $dialog->getQuestion($this->trans('command.generate.module.questions.structure'), 'yes', '?'), true)) {
       $structure = true;
     }
     $input->setOption('structure', $structure);
