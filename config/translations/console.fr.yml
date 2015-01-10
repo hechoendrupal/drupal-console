@@ -210,3 +210,8 @@ command:
       messages:
         rebuilding: Reconstruction des routes, attendez un instant s'il vous plaît
         completed: Reconstruction de route (s) fini.
+  self-update:
+    description: Update the console to lates version.
+    help: Update the console command to the lates version.
+    messages:
+      success: The console has update to the lates version.
