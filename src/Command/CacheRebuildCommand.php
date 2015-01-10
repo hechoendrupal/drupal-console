@@ -47,7 +47,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
       $caches[$cache]->deleteAll();
     }
 
-    $output->writeln('[+] <info>'.$this->trans('command.cache.rebuild.messages.done').'</info>');
+    $output->writeln('[+] <info>'.$this->trans('command.cache.rebuild.messages.completed').'</info>');
   }
 
   protected function interact(InputInterface $input, OutputInterface $output)

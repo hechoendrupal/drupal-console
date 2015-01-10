@@ -38,16 +38,28 @@ abstract class GeneratorFormCommand extends GeneratorCommand
   {
     $this
       ->setDefinition(array(
-        new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
-        new InputOption('class-name','',InputOption::VALUE_OPTIONAL, 'Form name'),
-        new InputOption('form-id','',InputOption::VALUE_OPTIONAL, 'Form id'),
-        new InputOption('services','',InputOption::VALUE_OPTIONAL, 'Load services'),
-        new InputOption('inputs','',InputOption::VALUE_OPTIONAL, 'Create a inputs in a form'),
-        new InputOption('routing', '', InputOption::VALUE_NONE, 'Update routing'),
+        new InputOption('module','',InputOption::VALUE_REQUIRED, $this->trans('common.options.module')),
+        new InputOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.form.options.class-name')),
+        new InputOption('form-id','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.form.options.form-id')),
+        new InputOption('services','',InputOption::VALUE_OPTIONAL, $this->trans('common.options.services')),
+        new InputOption('inputs','',InputOption::VALUE_OPTIONAL, $this->trans('common.options.inputs')),
+        new InputOption('routing', '', InputOption::VALUE_NONE, $this->trans('command.generate.form.options.routing')),
       ))
-      ->setDescription('Generate '. $this->formType)
-      ->setHelp('The <info>'.$this->commandName.'</info> command helps you generate a new '. $this->formType)
-      ->setName($this->commandName);
+      ->setName($this->commandName)
+      ->setDescription(
+      sprintf(
+        $this->trans('command.generate.form.description'),
+        $this->formType
+      )
+      )
+      ->setHelp(
+        sprintf(
+          $this->trans('command.generate.form.help'),
+          $this->commandName,
+          $this->formType
+        )
+      )
+    ;
   }
 
   /**
@@ -81,7 +93,7 @@ abstract class GeneratorFormCommand extends GeneratorCommand
   protected function interact(InputInterface $input, OutputInterface $output)
   {
     $dialog = $this->getDialogHelper();
-    $dialog->writeSection($output, 'Welcome to the Drupal form generator');
+    $dialog->writeSection($output, $this->trans('command.generate.form.welcome'));
 
     // --module option
     $module = $input->getOption('module');
@@ -96,7 +108,7 @@ abstract class GeneratorFormCommand extends GeneratorCommand
     if (!$class_name) {
       $class_name = $dialog->ask(
         $output,
-        $dialog->getQuestion('Enter the form name', 'DefaultForm'),
+        $dialog->getQuestion($this->trans('command.generate.form.questions.class-name'), 'DefaultForm'),
         'DefaultForm'
       );
     }
@@ -108,7 +120,7 @@ abstract class GeneratorFormCommand extends GeneratorCommand
       $form_id = $this->getStringUtils()->camelCaseToMachineName($class_name);
       $form_id = $dialog->ask(
         $output,
-        $dialog->getQuestion('Enter the form id', $form_id),
+        $dialog->getQuestion($this->trans('command.generate.form.questions.form-id'), $form_id),
         $form_id
       );
     }
@@ -131,7 +143,7 @@ abstract class GeneratorFormCommand extends GeneratorCommand
     $routing = $input->getOption('routing');
     if (!$routing && $dialog->askConfirmation(
       $output,
-      $dialog->getQuestion('Update routing file?', 'yes', '?'),
+      $dialog->getQuestion($this->trans('command.generate.form.questions.routing'), 'yes', '?'),
       true)
     ) {
         $routing = true;

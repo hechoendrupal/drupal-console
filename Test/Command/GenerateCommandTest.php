@@ -83,7 +83,7 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
     return $this
       ->getMockBuilder('Drupal\AppConsole\Command\Helper\TranslatorHelper')
       ->disableOriginalConstructor()
-      ->setMethods(['loadResource'])
+      ->setMethods(['loadResource','trans'])
       ->getMock()
       ;
   }

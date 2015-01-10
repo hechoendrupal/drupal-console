@@ -20,7 +20,7 @@ trait FormTrait
   {
     if ($dialog->askConfirmation(
       $output,
-      $dialog->getQuestion('Do you like generate a form structure?', 'yes', '?'),
+      $dialog->getQuestion($this->trans('common.questions.inputs.confirm'), 'yes', '?'),
       true
     )) {
       $input_types = [
@@ -40,7 +40,7 @@ trait FormTrait
         // Label for input
         $input_label = $dialog->ask(
           $output,
-          $dialog->getQuestion(' Input label','',':'),
+          $dialog->getQuestion('  '.$this->trans('common.questions.inputs.label'),'',':'),
           null
         );
 
@@ -53,18 +53,18 @@ trait FormTrait
 
         $input_name = $dialog->ask(
           $output,
-          $dialog->getQuestion('  Input machine name', $input_machine_name, ':'),
+          $dialog->getQuestion('  '.$this->trans('common.questions.inputs.machine_name'), $input_machine_name, ':'),
           $input_machine_name
         );
 
         // Type input
         $input_type = $dialog->askAndValidate(
           $output,
-          $dialog->getQuestion('  Type', 'textfield',':'),
+          $dialog->getQuestion('  '.$this->trans('common.questions.inputs.type'), 'textfield',':'),
           function ($input) use ($input_types) {
             if (!in_array($input, $input_types)) {
               throw new \InvalidArgumentException(
-                sprintf("Field Type \"%s\" is invalid.", $input)
+                sprintf($this->trans('common.questions.inputs.invalid'), $input)
               );
             }
 
