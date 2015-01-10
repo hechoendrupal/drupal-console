@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Herrera\Phar\Update\Manager;
 use Herrera\Phar\Update\Manifest;
 
-class SelfUpdateCommand extends Command
+class SelfUpdateCommand extends ContainerAwareCommand
 {
   const DRUPAL_CONSOLE_MANIFEST = "http://drupalconsole.com/manifest.json";
 
@@ -25,8 +25,8 @@ class SelfUpdateCommand extends Command
   {
     $this
       ->setName('self-update')
-      ->setDescription('Update the console')
-      ->setHelp('This command allows an self-update.')
+      ->setDescription($this->trans('command.self-update.description'))
+      ->setHelp($this->trans('command.self-update.help'))
     ;
   }
 
@@ -39,7 +39,7 @@ class SelfUpdateCommand extends Command
       self::DRUPAL_CONSOLE_MANIFEST
     ));
     $manager->update($this->getApplication()->getVersion(), true);
-    $output->writeln("<info>Success update</info>");
+    $output->writeln($this->trans('command.self-update.messages.success'));
   }
-
 }
+
