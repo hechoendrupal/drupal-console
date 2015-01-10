@@ -215,3 +215,4 @@ command:
     help: Update the console command to the lates version.
     messages:
       success: The console has update to the lates version.
+
