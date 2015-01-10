@@ -67,23 +67,23 @@ command:
         command: Enter Command name.
         container: Necesita acceder al contenedor de servicios ?
     controller:
-      description: Generate & Register a controller
-      help: The <info>generate:controller</info> command helps you generate a new controller.
-      welcome: Welcome to the Drupal Controller generator.
+      description: Generar y registrar un controlador
+      help: El comando <info>generate:controller</info> le ayuda a generar un nuevo controlador.
+      welcome: Bienvenido al generador de controlador de Drupal.
       options:
         module: common.options.module
-        class-name: Controller Class name
-        method-name: The action method name
-        route: The route path
+        class-name: Nombre de la clase del controlador
+        method-name: El nombre del método de acción
+        route: El camino de la routa
         services: common.options.services
-        test: Generate a test class
+        test: Generar una clase de prueba
       questions:
         module: common.questions.module
-        class-name: Enter the Controller class name
-        method-name: Enter the action method name
-        route: Enter the route path
+        class-name: Escriba el nombre de la clase del Controlador
+        method-name: Escriba nombre del método de acción
+        route: Escriba el camino de la ruta
         services: common.questions.services
-        test: Do you want to generate a unit test class ?
+        test: Desea generar una clase de prueba unitaria ?
     entity:
       description: Generate a new "%s"
       help: The <info>"%s"</info> command helps you generate a new "%s"
