@@ -1,0 +1,217 @@
+common:
+  options:
+    module: The Module name.
+    services: Load services form the container.
+    inputs: Create inputs in a form.
+  questions:
+    module: Enter the module name
+    confirm: Do you confirm generation
+    canceled: Command generation canceled.
+    services:
+      confirm: Do you want to load services form the container
+      message: |
+
+        Type the service name or use keyup and keydown
+        This is optional, press <info>enter</info> to <info>continue</info>
+      name: Enter your service
+    inputs:
+      confirm: Do you like generate a form structure
+      label: Input label
+      machine_name: Input machine name
+      type: Type
+      invalid: Field Type "%s" is invalid.
+command:
+  cache:
+    rebuild:
+      description: Rebuild and clear all site caches.
+      options:
+        cache: Only clean a specific cache.
+      messages:
+        welcome: Welcome to the cache:rebuild command.
+        rebuild: Rebuilding cache(s), wait a moment please.
+        completed: Done cleaning cache(s).
+        invalid_cache: Cache "%s" is invalid.
+      questions:
+        cache: Select cache.
+  config:
+    debug:
+      description: Show the current configuration.
+      arguments:
+        config-name: Configuration name.
+  container:
+    debug:
+      description: Exibe serviços atuais para um aplicativo.
+      messages:
+        service_id: Service ID
+        class_name: Class Name
+  drush:
+    description: Run drush from console.
+    help: Use the interactive mode for a better experience --shell.
+    arguments:
+      args: Drush arguments.
+    messages:
+      not_found: Drush command not found.
+  generate:
+    command:
+      description: Generate commands for the console.
+      help: The <info>generate:command</info> command helps you generate a new command.
+      welcome: Welcome to the Drupal Command generator.
+      options:
+        module: common.options.module
+        class-name: Command Class name
+        command: Command name
+        container: Access the services container
+      questions:
+        module: common.questions.module
+        class-name: Enter Command Class name.
+        command: Enter Command name.
+        container: Do you need access the service container ?
+    controller:
+      description: Generate & Register a controller
+      help: The <info>generate:controller</info> command helps you generate a new controller.
+      welcome: Welcome to the Drupal Controller generator.
+      options:
+        module: common.options.module
+        class-name: Controller Class name
+        method-name: The action method name
+        route: The route path
+        services: common.options.services
+        test: Generate a test class
+      questions:
+        module: common.questions.module
+        class-name: Enter the Controller class name
+        method-name: Enter the action method name
+        route: Enter the route path
+        services: common.questions.services
+        test: Do you want to generate a unit test class ?
+    entity:
+      description: Generate a new "%s"
+      help: The <info>"%s"</info> command helps you generate a new "%s"
+      welcome: Welcome to the Drupal entity generator
+      options:
+        module: common.options.module
+        entity-class: The entity class name
+        entity-name: The name of the entity
+      questions:
+        module: common.questions.module
+        entity-class: Enter the entity class name
+        entity-name: Enter the entity name
+    form:
+      description: Generate a new "%s"
+      help: The <info>"%s"</info> command helps you generate a new "%s"
+      welcome: Welcome to the Drupal form generator
+      options:
+        module: common.options.module
+        class-name: The form class name
+        form-id: The Form id
+        services: common.options.services
+        inputs: common.options.inputs
+        routing: Update routing
+      questions:
+        module: common.questions.module
+        class-name: Enter the Form Class name
+        form-id: Enter the Form id
+        services: common.questions.services
+        inputs: common.questions.inputs
+        routing: Update routing file
+    module:
+      description: Generate a module.
+      help: The <info>generate:module</info> command helps you generates a new module.
+      welcome: Welcome to the Drupal module generator.
+      options:
+        module: The Module name
+        machine-name: The machine name (lowercase and underscore only)
+        module-path: The path of the module
+        description: Module description
+        core: Core version
+        package: Module package
+        controller: Default Controller
+        test: Generate a test class
+        structure: Generate the whole directory structure
+      questions:
+        module: Enter the new module name
+        machine-name: Enter the module machine name
+        module-path: Enter the module Path
+        description: Enter module description
+        core: Enter Drupal Core version
+        package: Enter package name
+        controller: Do you want to generate a default Controller
+        test: Do you want to generate a unit test class
+        structure: Do you want to generate the whole directory structure
+    plugin:
+      block:
+        description: Generate plugin block.
+        help: The <info>generate:plugin:block</info> command helps you generate a new Plugin block.
+        welcome: Welcome to the Drupal Plugin Block generator
+        options:
+          module: common.options.module
+          class-name: Plugin class name
+          label: Plugin label
+          plugin-id: Plugin id
+          inputs: common.options.inputs
+          services: common.options.services
+        questions:
+          module: common.questions.module
+          class-name: Enter the plugin class name
+          label: Enter the plugin label
+          plugin-id: Enter the plugin id
+          inputs: common.questions.inputs
+          services: common.questions.services
+        messages:
+          inputs: |
+
+            You can add some input fields to create special configurations in each block
+            This is optional, press <info>enter</info> to <info>continue</info>
+      imageeffect:
+        description: Generate image effect plugin.
+        help: The <info>generate:plugin:imageeffect</info> command helps you generate a new image effect plugin.
+        welcome: Welcome to the Drupal Image Effect Plugin generator
+        options:
+          module: common.options.module
+          class-name: Plugin class name
+          label: Plugin label
+          plugin-id: Plugin id
+          description: Plugin Description
+        questions:
+          module: common.questions.module
+          class-name: Enter the plugin class name
+          label: Enter the plugin label
+          plugin-id: Enter the plugin id
+          description: Enter the plugin Description
+    service:
+      description: Generate service
+      help: The <info>generate:service</info> command helps you generate a new service.
+      welcome: Welcome to the Drupal service generator
+      options:
+        module: common.options.module
+        service-name: Service name
+        class-name: Class name
+        services: common.questions.services
+      questions:
+        module: common.questions.module
+        service-name: Enter the service name
+        class-name: Enter the Class name
+        services: common.options.services
+  router:
+    debug:
+      description: Displays current routes for an application
+      arguments:
+        route-name: Route names
+      messages:
+        name: Route name
+        path: Class path
+        pattern: Pattern
+        defaults: Defaults
+        options: Options
+    rebuild:
+      description: Rebuild routes for an application
+      arguments:
+        route-name: Route names
+      messages:
+        rebuilding: Rebuilding routes, wait a moment please
+        completed: Done rebuilding route(s).
+  self-update:
+    description: Update the console to lates version.
+    help: Update the console command to the lates version.
+    messages:
+      success: The console has update to the lates version.

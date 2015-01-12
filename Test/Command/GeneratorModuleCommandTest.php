@@ -15,14 +15,14 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
    */
   public function testInteractive($options, $expected, $input)
   {
-    list($module, $machine_name, $dir, $description, $core, $package, $controller, $tests, $structure) = $expected;
+    list($module, $machine_name, $dir, $description, $core, $package, $controller, $test, $structure) = $expected;
 
     $generator = $this->getGenerator();
 
     $generator
       ->expects($this->once())
       ->method('generate')
-      ->with($module, $machine_name, $dir, $description, $core, $package, $controller, $tests, $structure)
+      ->with($module, $machine_name, $dir, $description, $core, $package, $controller, $test, $structure)
     ;
 
     $command = $this->getCommand($generator, $input);
@@ -50,14 +50,14 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
    */
   public function testNoInteractive($options, $expected)
   {
-    list($module, $machine_name, $dir, $description, $core, $package, $controller, $tests, $structure) = $expected;
+    list($module, $machine_name, $dir, $description, $core, $package, $controller, $test, $structure) = $expected;
 
     $generator = $this->getGenerator();
 
     $generator
       ->expects($this->once())
       ->method('generate')
-      ->with($module, $machine_name, $dir, $description, $core, $package, $controller, $tests, $structure)
+      ->with($module, $machine_name, $dir, $description, $core, $package, $controller, $test, $structure)
     ;
 
     $cmd = new CommandTester($this->getCommand($generator,''));
@@ -70,11 +70,11 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
 
     return [
       [
-        ['--module'=>'foo', '--machine-name'=>'foo', '--module-path'=>$dir, '--description'=>'My Awesome Module','--core'=>'8.x','--package'=>'Other', '--controller'=>true,'--tests'=>true,'--structure'=>true],
+        ['--module'=>'foo', '--machine-name'=>'foo', '--module-path'=>$dir, '--description'=>'My Awesome Module','--core'=>'8.x','--package'=>'Other', '--controller'=>true,'--test'=>true,'--structure'=>true],
         ["foo", "foo", $dir, "My Awesome Module", '8.x', 'Other', true, true, true],
       ],
       [
-        ['--module'=>'foo', '--machine-name'=>'foo', '--module-path'=>$dir,'--description'=>'My Awesome Module','--core'=>'8.x','--package'=>'Other', '--controller'=>true,'--tests'=>true,'--structure'=>true],
+        ['--module'=>'foo', '--machine-name'=>'foo', '--module-path'=>$dir,'--description'=>'My Awesome Module','--core'=>'8.x','--package'=>'Other', '--controller'=>true,'--test'=>true,'--structure'=>true],
         ["foo", 'foo', $dir, "My Awesome Module", '8.x', 'Other', true, true, true],
       ]
     ];
@@ -84,7 +84,8 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
   {
     $command = $this
       ->getMockBuilder('Drupal\AppConsole\Command\GeneratorModuleCommand')
-      ->setMethods(['validateModuleName', 'validateModule'])
+      ->setMethods(['validateModuleName', 'validateModule','__construct'])
+      ->setConstructorArgs([$this->getTranslationHelper()])
       ->getMock()
     ;
 

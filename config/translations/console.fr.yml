@@ -1,0 +1,217 @@
+common:
+  options:
+    module: Le Nom du Module.
+    services: Services de charge forment le container.
+    inputs: Créer des entrées dans un formulaire.
+  questions:
+    module: Introduire le nom du module.
+    confirm: Confirmez-vous la génération
+    canceled: Génération de commande annulée.
+    services:
+      confirm: Voulez-vous charger les services forment le container
+      message: |
+
+        Tapez le nom du service ou utiliser keyup et keydown
+        Cette option est facultative, appuyez <info>enter</info> to <info>continue</info>
+      name: Entrez votre service
+    inputs:
+      confirm: Aimez-vous générer une structure formulaire.
+      label: Label entrée
+      machine_name: Nom de la machine d'entrée.
+      type: Type
+      invalid: Type de champ "% s" n'est pas valide.
+command:
+  cache:
+    rebuild:
+      description: Reconstruire et effacer tous les caches du site.
+      options:
+        cache: Nettoyer seulement un cache spécifique.
+      messages:
+        welcome: Bienvenue sur le cache: reconstruire commande.
+        rebuild: Reconstruire cache (s), attendez un instant s'il vous plaît.
+        completed: Nettoyage cache (s) fini
+        invalid_cache: Cache "%s" n'est pas valide.
+      questions:
+        cache: Sélectionner cache.
+  config:
+    debug:
+      description: Afficher de la configuration actuelle.
+      arguments:
+        config-name: Nom de la configuration.
+  container:
+    debug:
+      description: Affiche les services actuels à une application.
+      messages:
+        service_id: Service ID
+        class_name: Nom de classe.
+  drush:
+    description: Exécutez drush à partir de la console.
+    help: Utilisez le mode interactif pour une meilleure expérience --shell.
+    arguments:
+      args: Drush arguments.
+    messages:
+      not_found: Commande Drush introuvable.
+  generate:
+    command:
+      description: Générer des commandes pour la console.
+      help: Le <info> générer: commande </ info> commande aide à générer une nouvelle commande.
+      welcome: Bienvenue sur le générateur de commande Drupal
+      options:
+        module: common.options.module
+        class-name: Nom de commande classe
+        command: Nom de la commande
+        container: Accéder au conteneur de services
+      questions:
+        module: common.questions.module
+        class-name: Entrez classe commande
+        command: Entrez nom commande.
+        container: Avez-vous besoin accéder au conteneur de services?
+    controller:
+      description: Générer et inscrire un contrôleur
+      help: Le <info> générer: contrôleur </ info> commande aide à générer un nouveau contrôleur.
+      welcome: Bienvenue au générateur contrôleur Drupal.
+      options:
+        module: common.options.module
+        class-name: Nom de la classe Controller
+        method-name: L'action nom de la méthode
+        route: Le chemin de la route
+        services: common.options.services
+        test: Générer une classe de test
+      questions:
+        module: common.questions.module
+        class-name: Entrez le nom de la classe Controller
+        method-name: Entrez l'action nom de la méthode
+        route: Entrez le chemin de la route
+        services: common.questions.services
+        test: Voulez-vous générer une classe de test unitaire?
+    entity:
+      description: Générer un nouveau "% s"
+      help: Le <info> "% s" </ info> commande aide à générer une nouvelle "% s"
+      welcome: Bienvenue sur le générateur de l'entité Drupal
+      options:
+        module: common.options.module
+        entity-class: Le nom de la classe entité
+        entity-name: Le nom de l'entité
+      questions:
+        module: common.questions.module
+        entity-class: Entrez le nom de la classe entité
+        entity-name: Entrez le nom de l'entité
+    form:
+      description: Générer un nouveau "%s"
+      help: Le <info>"%s"</info> commande aides toi à générer un nouveau "%s"
+      welcome: Bienvenue sur le générateur de formulaire Drupal
+      options:
+        module: common.options.module
+        class-name: Le nom de classe formulaire
+        form-id: Le formulaire id
+        services: common.options.services
+        inputs: common.options.inputs
+        routing: Mise à jour routage
+      questions:
+        module: common.questions.module
+        class-name: Entrez le nom du formulaire Classe
+        form-id: Entrez le formulaire id
+        services: common.questions.services
+        inputs: common.questions.inputs
+        routing: Mise à jour fichier de routage
+    module:
+      description: Générer un module. 
+      help: Le <info> générer: le module </ info> commande aide à générer un nouveau module 
+      welcome: Bienvenue sur le générateur de modules Drupal.
+      options:
+        module: Le nom du module
+        machine-name: Le nom de la machine (en minuscules et soulignent seulement)
+        module-path: Le chemin du module
+        description: Description du module
+        core: Version de core.
+        package: Paquet Module
+        controller: Contrôleur par défaut
+        test: Générer une classe de test
+        structure: Générer ensemble la structure du répertoire
+      questions:
+        module: Entrez le nom du nouveau module
+        machine-name: Entrez le nom de la machine du module
+        module-path: Entrez le chemin du module
+        description: Entrez la description du module
+        core: Entrez la version core Drupal
+        package: Entrez le nom du paquet
+        controller: Voulez-vous générer un contrôleur par défaut 
+        test: Voulez-vous générer une classe de test unitaire
+        structure: Voulez-vous pour générer ensemble la structure de répertoire
+    plugin:
+      block:
+        description: Générer bloc plugin.
+        help: Le <info> generate: plugin: bloc </ info> commande aide à générer un nouveau bloc de Plugin.
+        welcome: Bienvenue au générateur drupal block Plugin
+        options:
+          module: common.options.module
+          class-name: Nom de la classe plugin
+          label: Label plugin
+          plugin-id: Plugin id
+          inputs: common.options.inputs
+          services: common.options.services
+        questions:
+          module: common.questions.module
+          class-name: Entrez le nom de la classe plugin
+          label: Entrez le label plugin
+          plugin-id: Entrez le plugin id
+          inputs: common.questions.inputs
+          services: common.questions.services
+        messages:
+          inputs: |
+
+            Vous pouvez ajouter des champs d'entrée pour créer des configurations spéciales dans chaque bloc
+            Cette option est facultative, appuyez sur <info> Entrée </ info> à <info> continuer </ info>
+      imageeffect:
+        description: Générer l'image en effet plugin
+        help: Le <info> generate: plugin: imageeffect </ info> commande aide à générer un nouveau plugin d'effet d'image..
+        welcome: Bienvenue au Drupal image Effet Plugin générateur
+        options:
+          module: common.options.module
+          class-name: Nom de la classe plugin
+          label: Label plugin
+          plugin-id: Plugin id
+          description: Description plugin
+        questions:
+          module: common.questions.module
+          class-name: Entrez le nom de la classe plugin
+          label: Entrez le label plugin
+          plugin-id: Entrez le plugin id
+          description: Entrez la description de plugin
+    service:
+      description: Générer service
+      help: Le <info> générer: Service </ info> commande aide à générer un nouveau service.
+      welcome: Bienvenue sur le générateur de services Drupal
+      options:
+        module: common.options.module
+        service-name: Le nom du service
+        class-name: Nom de la classe
+        services: common.questions.services
+      questions:
+        module: common.questions.module
+        service-name: Entrez le nom du service
+        class-name: Entrez le nom de la classe
+        services: common.options.services
+  router:
+    debug:
+      description: Affiche les routes actuelles pour une application
+      arguments:
+        route-name: Noms de la route
+      messages:
+        name: Nom de la route
+        path: Chemin classe
+        pattern: Motif
+        defaults: Par défaut
+        options: Options
+    rebuild:
+      description: Reconstruire les routes pour une application
+      arguments:
+        route-name: Noms de la route
+      messages:
+        rebuilding: Reconstruction des routes, attendez un instant s'il vous plaît
+        completed: Reconstruction de route (s) fini.
+  self-update:
+    description: Update the console to lates version.
+    help: Update the console command to the lates version.
+    messages:
+      success: The console has update to the lates version.

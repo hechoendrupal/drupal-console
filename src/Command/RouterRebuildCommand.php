@@ -16,16 +16,16 @@ class RouterRebuildCommand extends ContainerAwareCommand
   {
     $this
       ->setName('router:rebuild')
-      ->setDescription('Rebuild routes')
+      ->setDescription($this->trans('command.router.rebuild.description'))
     ;
   }
 
   protected function execute(InputInterface $input, OutputInterface $output)
   {
-    $output->writeln('[+] <comment>Rebuilding routes, wait a moment please</comment>');
+    $output->writeln('[+] <comment>'.$this->trans('command.router.rebuild.messages.rebuilding').'</comment>');
     $container = $this->getContainer();
     $router_builder = $container->get('router.builder');
     $router_builder->rebuild();
-    $output->writeln('[+] <info>Done.</info>');
+    $output->writeln('[+] <info>'.$this->trans('command.router.rebuild.messages.completed').'</info>');
   }
 }

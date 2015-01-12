@@ -21,9 +21,9 @@ class CacheRebuildCommand extends ContainerAwareCommand
   {
     $this
       ->setName('cache:rebuild')
-      ->setDescription('Rebuild and clear all site caches.')
+      ->setDescription($this->trans('command.cache.rebuild.description'))
       ->setAliases(['cr'])
-      ->addOption('cache', null, InputOption::VALUE_NONE, 'Only clean a specific cache')
+      ->addOption('cache', null, InputOption::VALUE_NONE, $this->trans('command.cache.rebuild.options.cache'))
     ;
   }
 
@@ -31,7 +31,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
   {
     require_once DRUPAL_ROOT . '/core/includes/utility.inc';
 
-    $output->writeln('[+] <comment>Rebuilding cache, wait a moment please</comment>');
+    $output->writeln('[+] <comment>'.$this->trans('command.cache.rebuild.messages.rebuild').'</comment>');
 
     $kernelHelper = $this->getHelper('kernel');
     $classLoader = $kernelHelper->getClassLoader();
@@ -47,13 +47,13 @@ class CacheRebuildCommand extends ContainerAwareCommand
       $caches[$cache]->deleteAll();
     }
 
-    $output->writeln('[+] <info>Done.</info>');
+    $output->writeln('[+] <info>'.$this->trans('command.cache.rebuild.messages.completed').'</info>');
   }
 
   protected function interact(InputInterface $input, OutputInterface $output)
   {
     $dialog = $this->getDialogHelper();
-    $dialog->writeSection($output, 'Welcome to the Drupal clear cache command.');
+    $dialog->writeSection($output, $this->trans('command.cache.rebuild.messages.welcome'));
 
     $caches = $this->getCaches();
     $cache_keys = array_keys($caches);
@@ -64,10 +64,15 @@ class CacheRebuildCommand extends ContainerAwareCommand
     if (!$cache) {
       $cache = $dialog->askAndValidate(
         $output,
-        $dialog->getQuestion('Select cache','all'),
+        $dialog->getQuestion($this->trans('command.cache.rebuild.questions.cache'),'all'),
         function ($cache) use($cache_keys) {
           if (!in_array($cache, array_values($cache_keys))) {
-            throw new \InvalidArgumentException(sprintf('Cache "%s" is invalid.', $cache));
+            throw new \InvalidArgumentException(
+              sprintf(
+                $this->trans('command.cache.rebuild.messages.invalid_cache'),
+                $cache
+              )
+            );
           }
           return $cache;
         },
@@ -82,7 +87,6 @@ class CacheRebuildCommand extends ContainerAwareCommand
 
   protected function getCaches()
   {
-
     if (empty($this->caches)) {
       foreach (Cache::getBins() as $name => $bin) {
         $this->caches[$name] = $bin;
@@ -91,5 +95,4 @@ class CacheRebuildCommand extends ContainerAwareCommand
 
     return $this->caches;
   }
-
 }

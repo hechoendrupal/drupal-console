@@ -16,17 +16,16 @@ use Symfony\Component\Console\Helper\TableHelper;
 use Drupal\AppConsole\Utils\StringUtils;
 use Drupal\AppConsole\Utils\Validators;
 use Symfony\Component\Yaml\Parser;
+use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 
 set_time_limit(0);
 
 // Try to find the Console autoloader.
 if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
   require __DIR__ . '/../vendor/autoload.php';
-  $configFile = __DIR__ . '/../config.yml';
 }
 else if (file_exists(__DIR__ . '/../../../vendor/autoload.php')) {
   require __DIR__ . '/../../../vendor/autoload.php';
-  $configFile = __DIR__ . '/../../../config.yml';
 }
 else {
   echo 'Something goes wrong with your archive'.PHP_EOL.
@@ -34,10 +33,21 @@ else {
   exit(1);
 }
 
+$directoryRoot = __DIR__ . '/../';
+
 $yaml = new Parser();
-$config = $yaml->parse(file_get_contents($configFile));
+$config = $yaml->parse(file_get_contents($directoryRoot.'config.yml'));
+
+$homeDirectory = trim(getenv('HOME') ?: getenv('USERPROFILE'));
+if (file_exists($homeDirectory.'/.console/config.yml')){
+  $userConfig = $yaml->parse(file_get_contents($homeDirectory.'/.console/config.yml'));
+  unset($userConfig['application']['name']);
+  unset($userConfig['application']['version']);
+  $config = array_replace_recursive($config, $userConfig);
+}
 
 $application = new Application($config);
+$application->setDirectoryRoot($directoryRoot);
 
 // Try to find the Drupal autoloader.
 if (file_exists(getcwd() . '/core/vendor/autoload.php')) {
@@ -46,6 +56,9 @@ if (file_exists(getcwd() . '/core/vendor/autoload.php')) {
 } else {
   $class_loader = null;
 }
+
+$translatorHelper = new TranslatorHelper();
+$translatorHelper->loadResource($config['application']['language'], $directoryRoot);
 
 $helpers = [
   'bootstrap' => new DrupalBootstrapHelper(),
@@ -58,7 +71,8 @@ $helpers = [
   'register_commands' => new RegisterCommandsHelper($application),
   'table' => new TableHelper(),
   'stringUtils' => new StringUtils(),
-  'validators' => new Validators()
+  'validators' => new Validators(),
+  'translator' => $translatorHelper
 ];
 
 $application->setHelperSet(new HelperSet($helpers));

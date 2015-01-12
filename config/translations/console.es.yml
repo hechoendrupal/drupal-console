@@ -1,0 +1,218 @@
+common:
+  options:
+    module: Nombre del módulo.
+    services: Load services form the container.
+    inputs: Create inputs in a form.
+  questions:
+    module: Escriba el nombre del módulo
+    confirm: Do you confirm generation
+    canceled: Command generation canceled.
+    services:
+      confirm: Deseas cargar los servicios del contenedor
+      message: |
+
+        Escriba el nombre del servicio o use la tecla keyup o keydown
+        Esto es opcional, presione <info>enter</info para <info>continuar</info>
+      name: Enter your service
+    inputs:
+      confirm: Do you like generate a form structure
+      label: Input label
+      machine_name: Input machine name
+      type: Tipo
+      invalid: El Tipo de Campo "%s" no es válido.
+command:
+  cache:
+    rebuild:
+      description: Reconstruye y limpia todas las cachés del sitio.
+      options:
+        cache: Sólo limpiar un cache específico.
+      messages:
+        welcome: Bienvenido al comando cache:rebuild.
+        rebuild: Reconstruyendo caché(s), espere un momento.
+        completed: Hecho limpiar Caché(s).
+        invalid_cache: Caché "%s" en inválido.
+      questions:
+        cache: Seleccione una caché.
+  config:
+    debug:
+      description: Muestra la configuración actual.
+      arguments:
+        config-name: Nombre de la configuración.
+  container:
+    debug:
+      description: Muestra los servicios actuales para una aplicación.
+      messages:
+        service_id: ID del servicio
+        class_name: Nombre de la clase
+  drush:
+    description: Ejecutar Drush desde la consola.
+    help: Utilice el modo interactivo para una mejor experiencia --shell.
+    arguments:
+      args: Argumento de Drush.
+    messages:
+      not_found: Comando de Drush no encontrado.
+  generate:
+    command:
+      description: Genera un comando para la consola.
+      help: El comando <info>generate:command</info> le ayudará a generar un nuevo comando.
+      welcome: Bienvenido al generador de Comando de Drupal.
+      options:
+        module: common.options.module
+        class-name: Command Class name
+        command: Nombre del Comando
+        container: Acceso al contenedor de servicios
+      questions:
+        module: common.questions.module
+        class-name: Enter Command Class name.
+        command: Enter Command name.
+        container: Necesita acceder al contenedor de servicios ?
+    controller:
+      description: Generar y registrar un controlador
+      help: El comando <info>generate:controller</info> le ayuda a generar un nuevo controlador.
+      welcome: Bienvenido al generador de controlador de Drupal.
+      options:
+        module: common.options.module
+        class-name: Nombre de la clase del controlador
+        method-name: El nombre del método de acción
+        route: El camino de la routa
+        services: common.options.services
+        test: Generar una clase de prueba
+      questions:
+        module: common.questions.module
+        class-name: Escriba el nombre de la clase del Controlador
+        method-name: Escriba nombre del método de acción
+        route: Escriba el camino de la ruta
+        services: common.questions.services
+        test: Desea generar una clase de prueba unitaria ?
+    entity:
+      description: Generate a new "%s"
+      help: The <info>"%s"</info> command helps you generate a new "%s"
+      welcome: Welcome to the Drupal entity generator
+      options:
+        module: common.options.module
+        entity-class: The entity class name
+        entity-name: The name of the entity
+      questions:
+        module: common.questions.module
+        entity-class: Enter the entity class name
+        entity-name: Enter the entity name
+    form:
+      description: Generate a new "%s"
+      help: The <info>"%s"</info> command helps you generate a new "%s"
+      welcome: Welcome to the Drupal form generator
+      options:
+        module: common.options.module
+        class-name: The form class name
+        form-id: The Form id
+        services: common.options.services
+        inputs: common.options.inputs
+        routing: Update routing
+      questions:
+        module: common.questions.module
+        class-name: Enter the Form Class name
+        form-id: Enter the Form id
+        services: common.questions.services
+        inputs: common.questions.inputs
+        routing: Update routing file
+    module:
+      description: Generate a module.
+      help: The <info>generate:module</info> command helps you generates a new module.
+      welcome: Welcome to the Drupal module generator.
+      options:
+        module: The Module name
+        machine-name: The machine name (lowercase and underscore only)
+        module-path: The path of the module
+        description: Module description
+        core: Core version
+        package: Module package
+        controller: Default Controller
+        test: Generate a test class
+        structure: Generate the whole directory structure
+      questions:
+        module: Enter the new module name
+        machine-name: Enter the module machine name
+        module-path: Enter the module Path
+        description: Enter module description
+        core: Enter Drupal Core version
+        package: Enter package name
+        controller: Do you want to generate a default Controller
+        test: Do you want to generate a unit test class
+        structure: Do you want to generate the whole directory structure
+    plugin:
+      block:
+        description: Generate plugin block.
+        help: The <info>generate:plugin:block</info> command helps you generate a new Plugin block.
+        welcome: Welcome to the Drupal Plugin Block generator
+        options:
+          module: common.options.module
+          class-name: Plugin class name
+          label: Plugin label
+          plugin-id: Plugin id
+          inputs: common.options.inputs
+          services: common.options.services
+        questions:
+          module: common.questions.module
+          class-name: Enter the plugin class name
+          label: Enter the plugin label
+          plugin-id: Enter the plugin id
+          inputs: common.questions.inputs
+          services: common.questions.services
+        messages:
+          inputs: |
+
+            You can add some input fields to create special configurations in each block
+            This is optional, press <info>enter</info> to <info>continue</info>
+      imageeffect:
+        description: Generate image effect plugin.
+        help: The <info>generate:plugin:imageeffect</info> command helps you generate a new image effect plugin.
+        welcome: Welcome to the Drupal Image Effect Plugin generator
+        options:
+          module: common.options.module
+          class-name: Plugin class name
+          label: Plugin label
+          plugin-id: Plugin id
+          description: Plugin Description
+        questions:
+          module: common.questions.module
+          class-name: Enter the plugin class name
+          label: Enter the plugin label
+          plugin-id: Enter the plugin id
+          description: Enter the plugin Description
+    service:
+      description: Generate service
+      help: The <info>generate:service</info> command helps you generate a new service.
+      welcome: Welcome to the Drupal service generator
+      options:
+        module: common.options.module
+        service-name: Service name
+        class-name: Class name
+        services: common.questions.services
+      questions:
+        module: common.questions.module
+        service-name: Enter the service name
+        class-name: Enter the Class name
+        services: common.options.services
+  router:
+    debug:
+      description: Displays current routes for an application
+      arguments:
+        route-name: Route names
+      messages:
+        name: Route name
+        path: Class path
+        pattern: Pattern
+        defaults: Defaults
+        options: Options
+    rebuild:
+      description: Rebuild routes for an application
+      arguments:
+        route-name: Route names
+      messages:
+        rebuilding: Rebuilding routes, wait a moment please
+        completed: Done rebuilding route(s).
+  self-update:
+    description: Update the console to lates version.
+    help: Update the console command to the lates version.
+    messages:
+      success: The console has update to the lates version.
+
