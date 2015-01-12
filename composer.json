@@ -23,11 +23,14 @@
     "require": {
         "php": ">=5.4.5",
         "composer/installers": "~1.0",
+        "symfony/config": "2.6.*",
         "symfony/console": "2.6.*",
         "symfony/dependency-injection": "2.6.*",
         "symfony/finder": "2.6.*",
+        "symfony/translation": "2.6.*",
         "symfony/yaml": "2.6.*",
-        "twig/twig": "1.16.*"
+        "twig/twig": "1.16.*",
+        "herrera-io/phar-update": "1.*"
     },
     "require-dev": {
         "drupal/coder": "dev-8.x-2.x",

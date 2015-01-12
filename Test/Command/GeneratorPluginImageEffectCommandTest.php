@@ -44,7 +44,7 @@ class GeneratorPluginImageEffectTest extends GenerateCommandTest
       // case two
       [
         // Inline options
-        ['--module'=>'foo','--class-name'=>'FooImagePlugin','--plugin-label'=>'Foo label','--plugin-id'=>'foo_id','--description'=>'Foo Description'],
+        ['--module'=>'foo','--class-name'=>'FooImagePlugin','--label'=>'Foo label','--plugin-id'=>'foo_id','--description'=>'Foo Description'],
         // Expected options
         ['foo', 'FooImagePlugin', 'Foo label', 'foo_id', 'Foo Description'],
         // User input options
@@ -57,7 +57,8 @@ class GeneratorPluginImageEffectTest extends GenerateCommandTest
   {
     $command = $this
       ->getMockBuilder('Drupal\AppConsole\Command\GeneratorPluginImageEffectCommand')
-      ->setMethods(['getModules','getServices'])
+      ->setMethods(['getModules','getServices','__construct'])
+      ->setConstructorArgs([$this->getTranslationHelper()])
       ->getMock()
     ;
 
