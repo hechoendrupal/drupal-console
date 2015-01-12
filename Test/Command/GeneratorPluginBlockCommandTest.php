@@ -40,7 +40,7 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
     ];
 
     $inputs = [
-      ['name'=>'text_field', 'type'=>'textfield', 'label'=>'Text Field']
+      ['name'=>'text_field', 'type'=>'textfield', 'label'=>'Text Field', 'options' => '']
     ];
 
     return[
