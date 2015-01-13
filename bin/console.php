@@ -89,4 +89,19 @@ $helpers = [
 
 $application->addHelpers($helpers);
 
+$dispatcher = new EventDispatcher();
+$dispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $event) use ($translatorHelper) {
+
+  $output = $event->getOutput();
+  $command = $event->getCommand();
+
+  $welcomeMessageKey = 'command.'. str_replace(':', '.', $command->getName()). '.welcome';
+  $welcomeMessage = $translatorHelper->trans($welcomeMessageKey);
+
+  if ($welcomeMessage != $welcomeMessageKey){
+    $command->showWelcomeMessage($output, $welcomeMessage);
+  }
+});
+$application->setDispatcher($dispatcher);
+$application->setDefaultCommand('list');
 $application->run();
