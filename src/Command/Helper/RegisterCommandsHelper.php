@@ -31,7 +31,7 @@ class RegisterCommandsHelper extends Helper
   {
     $this->modules = $this->getModuleList($drupalModules);
     $this->namespaces = $this->getNamespaces($drupalModules);
-
+    $success = false;
     $finder = new Finder();
     foreach ($this->modules as $module => $directory) {
       $place   = $this->namespaces['Drupal\\'.$module];
@@ -74,11 +74,14 @@ class RegisterCommandsHelper extends Helper
               }
               $command->setModule($module);
               $this->console->add($command);
+              $success = true;
             }
           }
         }
       }
     }
+
+    return $success;
   }
 
   /**
