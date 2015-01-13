@@ -112,6 +112,11 @@ class Generator
     return $this->getModulePath($module_name).'/templates';
   }
 
+  public function getTranslationsPath($module_name)
+  {
+    return $this->getModulePath($module_name).'/config/translations';
+  }
+
   public function getServicesAsParameters()
   {
     $servicesAsParameters = new \Twig_SimpleFunction('servicesAsParameters', function ($services) {
