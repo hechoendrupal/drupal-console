@@ -49,19 +49,28 @@ if (file_exists($homeDirectory.'/.console/config.yml')){
   $config = array_replace_recursive($config, $userConfig);
 }
 
+$translatorHelper = new TranslatorHelper();
+$translatorHelper->loadResource($config['application']['language'], $directoryRoot);
+
 $application = new Application($config);
 $application->setDirectoryRoot($directoryRoot);
 
+$errorMessages = [];
+$class_loader = null;
 // Try to find the Drupal autoloader.
 if (file_exists(getcwd() . '/core/vendor/autoload.php')) {
-  $class_loader = require getcwd() . '/core/vendor/autoload.php';
-  $application->setBooted(true);
+  if (!file_exists(getcwd() . '/sites/default/settings.php')) {
+    $errorMessages[] = $translatorHelper->trans('application.site.errors.settings');
+  }
+  else {
+    $class_loader = require getcwd() . '/core/vendor/autoload.php';
+    $application->setBooted(true);
+  }
 } else {
-  $class_loader = null;
+  $errorMessages[] = $translatorHelper->trans('application.site.errors.directory');
 }
 
-$translatorHelper = new TranslatorHelper();
-$translatorHelper->loadResource($config['application']['language'], $directoryRoot);
+$application->addErrorMessages($errorMessages);
 
 $helpers = [
   'bootstrap' => new DrupalBootstrapHelper(),
