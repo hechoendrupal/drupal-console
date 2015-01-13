@@ -9,7 +9,6 @@ use Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper;
 use Drupal\AppConsole\Command\Helper\BootstrapFinderHelper;
 use Drupal\AppConsole\Command\Helper\DrupalCommonHelper;
 use Drupal\AppConsole\Command\Helper\RegisterCommandsHelper;
-use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Finder\Finder;
@@ -18,6 +17,10 @@ use Drupal\AppConsole\Utils\StringUtils;
 use Drupal\AppConsole\Utils\Validators;
 use Symfony\Component\Yaml\Parser;
 use Drupal\AppConsole\Command\Helper\TranslatorHelper;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\Console\ConsoleEvents;
+use Symfony\Component\Console\Event\ConsoleExceptionEvent;
 
 set_time_limit(0);
 
@@ -47,19 +50,28 @@ if (file_exists($homeDirectory.'/.console/config.yml')){
   $config = array_replace_recursive($config, $userConfig);
 }
 
+$translatorHelper = new TranslatorHelper();
+$translatorHelper->loadResource($config['application']['language'], $directoryRoot);
+
 $application = new Application($config);
 $application->setDirectoryRoot($directoryRoot);
 
+$errorMessages = [];
+$class_loader = null;
 // Try to find the Drupal autoloader.
 if (file_exists(getcwd() . '/core/vendor/autoload.php')) {
-  $class_loader = require getcwd() . '/core/vendor/autoload.php';
-  $application->setBooted(true);
+  if (!file_exists(getcwd() . '/sites/default/settings.php')) {
+    $errorMessages[] = $translatorHelper->trans('application.site.errors.settings');
+  }
+  else {
+    $class_loader = require getcwd() . '/core/vendor/autoload.php';
+    $application->setBooted(true);
+  }
 } else {
-  $class_loader = null;
+  $errorMessages[] = $translatorHelper->trans('application.site.errors.directory');
 }
 
-$translatorHelper = new TranslatorHelper();
-$translatorHelper->loadResource($config['application']['language'], $directoryRoot);
+$application->addErrorMessages($errorMessages);
 
 $helpers = [
   'bootstrap' => new DrupalBootstrapHelper(),
@@ -77,6 +89,21 @@ $helpers = [
   'translator' => $translatorHelper
 ];
 
-$application->setHelperSet(new HelperSet($helpers));
+$application->addHelpers($helpers);
 
+$dispatcher = new EventDispatcher();
+$dispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $event) use ($translatorHelper) {
+
+  $output = $event->getOutput();
+  $command = $event->getCommand();
+
+  $welcomeMessageKey = 'command.'. str_replace(':', '.', $command->getName()). '.welcome';
+  $welcomeMessage = $translatorHelper->trans($welcomeMessageKey);
+
+  if ($welcomeMessage != $welcomeMessageKey){
+    $command->showWelcomeMessage($output, $welcomeMessage);
+  }
+});
+$application->setDispatcher($dispatcher);
+$application->setDefaultCommand('list');
 $application->run();
