@@ -64,6 +64,9 @@ class {{ class_name }} extends ConfigFormBase
       '#type' => '{{ input.type }}',
       '#title' => $this->t('{{ input.label }}'),
       '#description' => $this->t(''),
+      {% if input.options|length %}
+      '#options' => {{ input.options }},
+      {% endif %}
       '#default_value' => $config->get('{{ input.name }}'),
     ];
   {% endfor %}

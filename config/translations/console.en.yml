@@ -19,7 +19,7 @@ common:
       confirm: Do you want to load services form the container
       message: |
 
-        Type the service name or use keyup and keydown
+        Type the service name or use keyup or keydown
         This is optional, press <info>enter</info> to <info>continue</info>
       name: Enter your service
     inputs:
@@ -218,3 +218,9 @@ command:
       messages:
         rebuilding: Rebuilding routes, wait a moment please
         completed: Done rebuilding route(s).
+  self-update:
+    description: Update the console to lates version.
+    help: Update the console command to the lates version.
+    messages:
+      success: The console has update to the lates version.
+

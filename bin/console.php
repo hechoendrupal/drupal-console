@@ -10,6 +10,7 @@ use Drupal\AppConsole\Command\Helper\BootstrapFinderHelper;
 use Drupal\AppConsole\Command\Helper\DrupalCommonHelper;
 use Drupal\AppConsole\Command\Helper\RegisterCommandsHelper;
 use Symfony\Component\Console\Helper\FormatterHelper;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Console\Helper\TableHelper;
 use Drupal\AppConsole\Utils\StringUtils;
@@ -80,6 +81,7 @@ $helpers = [
   'dialog' => new DialogHelper(),
   'formatter' => new FormatterHelper(),
   'drupal_common' => new DrupalCommonHelper(),
+  'question' => new QuestionHelper(),
   'register_commands' => new RegisterCommandsHelper($application),
   'table' => new TableHelper(),
   'stringUtils' => new StringUtils(),
