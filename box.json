@@ -5,6 +5,10 @@
         "config",
         "src",
         "vendor/composer",
+        "vendor/herrera-io",
+        "vendor/justinrainbow",
+        "vendor/kherge",
+        "vendor/seld",
         "vendor/symfony",
         "vendor/twig"
     ],
