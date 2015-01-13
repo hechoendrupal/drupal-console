@@ -72,6 +72,7 @@ class RegisterCommandsHelper extends Helper
               else {
                 $command = $cmd->newInstance();
               }
+              $command->setModule($module);
               $this->console->add($command);
             }
           }
