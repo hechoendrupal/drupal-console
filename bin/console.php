@@ -9,7 +9,6 @@ use Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper;
 use Drupal\AppConsole\Command\Helper\BootstrapFinderHelper;
 use Drupal\AppConsole\Command\Helper\DrupalCommonHelper;
 use Drupal\AppConsole\Command\Helper\RegisterCommandsHelper;
-use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Console\Helper\TableHelper;
@@ -17,6 +16,10 @@ use Drupal\AppConsole\Utils\StringUtils;
 use Drupal\AppConsole\Utils\Validators;
 use Symfony\Component\Yaml\Parser;
 use Drupal\AppConsole\Command\Helper\TranslatorHelper;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\Console\ConsoleEvents;
+use Symfony\Component\Console\Event\ConsoleExceptionEvent;
 
 set_time_limit(0);
 
