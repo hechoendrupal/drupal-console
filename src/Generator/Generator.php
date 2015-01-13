@@ -17,6 +17,8 @@ class Generator
 
   private $module_path;
 
+  private $translator;
+
   /**
    * Sets an array of directories to look for templates.
    *
@@ -180,5 +182,13 @@ class Generator
     });
 
     return $returnValue;
+  }
+
+  public function setTranslator($translator){
+    $this->translator = $translator;
+  }
+
+  public function getTranslator(){
+    return $this->translator;
   }
 }
