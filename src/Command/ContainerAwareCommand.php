@@ -20,6 +20,11 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
   private $route_provider;
 
   /**
+   * @var string
+   */
+  private $module;
+
+  /**
    * @var TranslatorHelper
    */
   protected $translator;
@@ -195,6 +200,43 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     }
 
     return $dialog;
+  }
+  /**
+   * @return TranslatorHelper
+   */
+  public function getTranslator()
+  {
+    return $this->translator;
+  }
+
+  /**
+   * @param TranslatorHelper $translator
+   */
+  public function setTranslator($translator)
+  {
+    $this->translator = $translator;
+  }
+
+  /**
+   * @return string
+   */
+  public function getModule()
+  {
+    return $this->module;
+  }
+
+  /**
+   * @param string $module
+   */
+  public function setModule($module)
+  {
+    $this->module = $module;
+  }
+
+  public function showWelcomeMessage($output, $welcomeMessage)
+  {
+    $dialog = $this->getDialogHelper();
+    $dialog->writeSection($output, $this->trans($welcomeMessage));
   }
 
   protected function getQuestionHelper()

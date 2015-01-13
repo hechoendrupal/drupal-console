@@ -31,7 +31,7 @@ class RegisterCommandsHelper extends Helper
   {
     $this->modules = $this->getModuleList($drupalModules);
     $this->namespaces = $this->getNamespaces($drupalModules);
-
+    $success = false;
     $finder = new Finder();
     foreach ($this->modules as $module => $directory) {
       $place   = $this->namespaces['Drupal\\'.$module];
@@ -67,17 +67,24 @@ class RegisterCommandsHelper extends Helper
             if ($this->console->isBooted()) {
               if ($cmd->getConstructor()->getNumberOfRequiredParameters()>0) {
                 $translator = $this->getHelperSet()->get('translator');
+                if ($module && $module != 'AppConsole') {
+                  $translator->addResourceTranslationsByModule($module);
+                }
                 $command = $cmd->newInstance($translator);
               }
               else {
                 $command = $cmd->newInstance();
               }
+              $command->setModule($module);
               $this->console->add($command);
+              $success = true;
             }
           }
         }
       }
     }
+
+    return $success;
   }
 
   /**

@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Debug\Debug;
+use Symfony\Component\Console\Input\ArrayInput;
 
 class Application extends BaseApplication
 {
@@ -18,6 +19,8 @@ class Application extends BaseApplication
   protected $config;
 
   protected $directoryRoot;
+
+  protected $errorMessages = [];
 
   /**
    * Create a new application extended from \Symfony\Component\Console\Application
@@ -63,25 +66,46 @@ class Application extends BaseApplication
    */
   public function doRun(InputInterface $input, OutputInterface $output)
   {
-    $this->autoload = $this->autoload();
 
-    if ($this->autoload) {
-      $this->initDebug($input);
-      $this->doKernelConfiguration();
+    if (!$this->errorMessages) {
+
+      $this->autoload = $this->autoload();
+
+      if ($this->autoload) {
+        $this->initDebug($input);
+        $this->doKernelConfiguration();
+      }
+
+      if (!$this->commandsRegistered) {
+        $this->commandsRegistered = $this->registerCommands();
+      }
+
+      if (true === $input->hasParameterOption(array('--shell', '-s'))) {
+        $this->runShell($input);
+
+        return 0;
+      }
     }
 
-    if (!$this->commandsRegistered) {
-      $this->registerCommands();
-      $this->commandsRegistered = true;
+    $name = $this->getCommandName($input);
+
+    if ($name != '' && !$this->has($name)) {
+      if (!$this->errorMessages) {
+        $translator = $this->getHelperSet()->get('translator');
+        $this->errorMessages[] = sprintf(
+          $translator->trans('application.console.errors.invalid-command'),
+          $name
+        );
+      }
+      $name = $this->defaultCommand;
+      $input = new ArrayInput(array('command' => $name));
     }
 
-    if (true === $input->hasParameterOption(array('--shell', '-s'))) {
-      $this->runShell($input);
+    parent::doRun($input, $output);
 
-      return 0;
+    foreach ($this->errorMessages as $errorMessage) {
+      $this->renderException(new \Exception($errorMessage), $output);
     }
-
-    return parent::doRun($input, $output);
   }
 
   protected function autoload()
@@ -123,8 +147,6 @@ class Application extends BaseApplication
     $kernelHelper->setClassLoader($this->autoload());
     $kernelHelper->bootKernel();
     $kernelHelper->initCommands($this->all());
-
-    $this->setDispatcher($kernelHelper->getEventDispatcher());
   }
 
   protected function runShell(InputInterface $input)
@@ -192,5 +214,22 @@ class Application extends BaseApplication
   public function setDirectoryRoot($directoryRoot)
   {
     $this->directoryRoot = $directoryRoot;
+  }
+
+  /**
+   * @param array $helpers
+   */
+  public function addHelpers($helpers){
+    $defaulHelperset = $this->getHelperSet();
+    foreach ($helpers as $alias => $helper) {
+      $defaulHelperset->set($helper, is_int($alias) ? null : $alias);
+    }
+  }
+
+  /**
+   * @param array $errorMessages
+   */
+  public function addErrorMessages($errorMessages){
+    $this->errorMessages = $errorMessages;
   }
 }
