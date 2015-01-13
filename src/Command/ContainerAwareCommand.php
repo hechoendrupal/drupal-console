@@ -201,6 +201,21 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
     return $dialog;
   }
+  /**
+   * @return TranslatorHelper
+   */
+  public function getTranslator()
+  {
+    return $this->translator;
+  }
+
+  /**
+   * @param TranslatorHelper $translator
+   */
+  public function setTranslator($translator)
+  {
+    $this->translator = $translator;
+  }
 
   /**
    * @return string
