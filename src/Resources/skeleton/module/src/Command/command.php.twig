@@ -14,10 +14,11 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\AppConsole\Command\ContainerAwareCommand;
 {% endblock %}
 
 {% block class_declaration %}
-class {{ name.class }} extends Command
+class {{ name.class }} extends ContainerAwareCommand
 {% endblock %}
 
 {% block class_methods %}
