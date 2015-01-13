@@ -45,6 +45,13 @@ class {{ name.class }} extends ContainerAwareCommand
       $text = 'Hello';
     }
 
+    $text = sprintf(
+      '%s, %s: %s',
+      $text,
+      'I am a new generated command for the module',
+      $this->getModule()
+    );
+
     if ($input->getOption('yell')) {
       $text = strtoupper($text);
     }
