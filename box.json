@@ -5,12 +5,7 @@
         "config",
         "src",
         "vendor/composer",
-        "vendor/symfony/config",
-        "vendor/symfony/console",
-        "vendor/symfony/dependency-injection",
-        "vendor/symfony/finder",
-        "vendor/symfony/translation",
-        "vendor/symfony/yaml",
+        "vendor/symfony",
         "vendor/twig"
     ],
     "files": [
