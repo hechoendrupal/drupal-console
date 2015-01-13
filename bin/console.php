@@ -87,6 +87,6 @@ $helpers = [
   'translator' => $translatorHelper
 ];
 
-$application->setHelperSet(new HelperSet($helpers));
+$application->addHelpers($helpers);
 
 $application->run();
