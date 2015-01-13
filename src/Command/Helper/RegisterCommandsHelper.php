@@ -67,6 +67,9 @@ class RegisterCommandsHelper extends Helper
             if ($this->console->isBooted()) {
               if ($cmd->getConstructor()->getNumberOfRequiredParameters()>0) {
                 $translator = $this->getHelperSet()->get('translator');
+                if ($module && $module != 'AppConsole') {
+                  $translator->addResourceTranslationsByModule($module);
+                }
                 $command = $cmd->newInstance($translator);
               }
               else {
