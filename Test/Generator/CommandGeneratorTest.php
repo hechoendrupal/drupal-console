@@ -56,7 +56,19 @@ class CommandGeneratorTest extends GeneratorTest
       ->getMock();
 
     $generator->setSkeletonDirs($this->getSkeletonDirs());
+    $generator->setTranslator($this->getTranslationHelper());
 
     return $generator;
   }
+
+  protected function getTranslationHelper()
+  {
+    return $this
+      ->getMockBuilder('Drupal\AppConsole\Command\Helper\TranslatorHelper')
+      ->disableOriginalConstructor()
+      ->setMethods(['loadResource','trans', 'writeTranslationsByModule'])
+      ->getMock()
+      ;
+  }
+
 }
