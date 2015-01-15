@@ -71,12 +71,6 @@ class GeneratorModuleCommand extends GeneratorCommand
             $test,
             $structure
     );
-
-    $errors = [];
-
-    $dialog->getRunner($output, $errors);
-
-    $dialog->writeGeneratorSummary($output, $errors);
   }
 
   /**
@@ -86,9 +80,7 @@ class GeneratorModuleCommand extends GeneratorCommand
   {
     $stringUtils = $this->getHelperSet()->get('stringUtils');
     $validators = $this->getHelperSet()->get('validators');
-
     $dialog = $this->getDialogHelper();
-    $dialog->writeSection($output, $this->trans('command.generate.module.welcome'));
 
     try {
       $module = $input->getOption('module') ? $this->validateModuleName($input->getOption('module')) : null;

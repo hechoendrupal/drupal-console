@@ -20,7 +20,6 @@ class GeneratorControllerCommand extends GeneratorCommand
   use ServicesTrait;
   use ConfirmationTrait;
 
-
   protected function configure()
   {
     $this
@@ -64,9 +63,6 @@ class GeneratorControllerCommand extends GeneratorCommand
 
     $this->getGenerator()
       ->generate($module, $class_name, $method_name, $route, $test, $build_services, $class_machine_name);
-
-    $errors = '';
-    $dialog->writeGeneratorSummary($output, $errors);
   }
 
   /**
@@ -75,7 +71,6 @@ class GeneratorControllerCommand extends GeneratorCommand
   protected function interact(InputInterface $input, OutputInterface $output)
   {
     $dialog = $this->getDialogHelper();
-    $dialog->writeSection($output, $this->trans('command.generate.controller.welcome'));
 
     // --module option
     $module = $input->getOption('module');
