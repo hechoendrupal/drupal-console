@@ -1,34 +1,36 @@
 application:
   console:
+    messages:
+      completed: You can now start using the generated code!
     errors:
       invalid-command: Command "%s" is not defined.
   site:
     errors:
       directory: In order to list all of the available commands, you should run this inside a drupal root directory.
       settings: In order to list all of the available commands you should install drupal first.
-common:
-  options:
-    module: The Module name.
-    services: Load services form the container.
-    inputs: Create inputs in a form.
-  questions:
-    module: Enter the module name
-    confirm: Do you confirm generation
-    canceled: Command generation canceled.
-    services:
-      confirm: Do you want to load services form the container
-      message: |
+commands:
+  common:
+    options:
+      module: The Module name.
+      services: Load services form the container.
+      inputs: Create inputs in a form.
+    questions:
+      module: Enter the module name
+      confirm: Do you confirm generation
+      canceled: Command generation canceled.
+      services:
+        confirm: Do you want to load services form the container
+        message: |
 
-        Type the service name or use keyup or keydown
-        This is optional, press <info>enter</info> to <info>continue</info>
-      name: Enter your service
-    inputs:
-      confirm: Do you like generate a form structure
-      label: Input label
-      machine_name: Input machine name
-      type: Type
-      invalid: Field Type "%s" is invalid.
-command:
+          Type the service name or use keyup or keydown
+          This is optional, press <info>enter</info> to <info>continue</info>
+        name: Enter your service
+      inputs:
+        confirm: Do you like generate a form structure
+        label: Input label
+        machine_name: Input machine name
+        type: Type
+        invalid: Field Type "%s" is invalid.
   cache:
     rebuild:
       description: Rebuild and clear all site caches.
