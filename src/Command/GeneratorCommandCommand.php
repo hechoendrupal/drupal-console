@@ -55,9 +55,6 @@ class GeneratorCommandCommand extends GeneratorCommand
       ->getGenerator()
       ->generate($module, $command, $class_name, $container)
     ;
-
-    $errors = [];
-    $dialog->writeGeneratorSummary($output, $errors);
   }
 
   /**
