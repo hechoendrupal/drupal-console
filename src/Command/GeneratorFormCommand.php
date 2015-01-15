@@ -93,7 +93,6 @@ abstract class GeneratorFormCommand extends GeneratorCommand
   protected function interact(InputInterface $input, OutputInterface $output)
   {
     $dialog = $this->getDialogHelper();
-    $dialog->writeSection($output, $this->trans('command.generate.form.welcome'));
 
     // --module option
     $module = $input->getOption('module');

@@ -71,7 +71,6 @@ class GeneratorServiceCommand extends GeneratorCommand
   protected function interact(InputInterface $input, OutputInterface $output)
   {
     $dialog = $this->getDialogHelper();
-    $dialog->writeSection($output, $this->trans('command.generate.service.welcome'));
 
     // --module option
     $module = $input->getOption('module');
