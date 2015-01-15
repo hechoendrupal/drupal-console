@@ -6,8 +6,6 @@ use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Console\Helper\HelperSet;
 use Drupal\AppConsole\Command\Helper\DialogHelper;
-use Drupal\AppConsole\Utils\Validators;
-use Drupal\AppConsole\Utils\StringUtils;
 
 abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,9 +16,6 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
   {
     $container = new Container();
     $container->set('twig', new \Twig_Environment());
-    $container->set('console.validators', new Validators());
-    $container->set('console.string_utils', new StringUtils());
-
     return $container;
   }
 
@@ -35,16 +30,15 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
       ->getMock()
     ;
 
-    $drupal_common = $this
-      ->getMockBuilder('Drupal\AppConsole\Command\Helper\DrupalCommonHelper')
-      ->setMethods(['getDrupalGetPath'])
+    $stringUtils = $this->getMockBuilder('Drupal\AppConsole\Utils\StringUtils')
+      ->disableOriginalConstructor()
+      ->setMethods(['createMachineName'])
       ->getMock()
     ;
 
-    $stringUtils = $this->getMockBuilder('Drupal\AppConsole\Utils\StringUtils')
-      ->disableOriginalConstructor()
-      ->getMock()
-    ;
+    $stringUtils->expects($this->any())
+      ->method('createMachineName')
+      ->will($this->returnArgument(0));
 
     $validators  = $this->getMockBuilder('Drupal\AppConsole\Utils\Validators')
       ->disableOriginalConstructor()
@@ -62,7 +56,6 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
       'formatter' => new FormatterHelper(),
       'bootstrap' => $bootstrap,
       'dialog' => $dialog,
-      'drupal_common' => $drupal_common,
       'stringUtils' => $stringUtils,
       'validators' => $validators,
       'translator' => $translator

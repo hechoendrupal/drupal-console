@@ -76,9 +76,6 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
     $this
       ->getGenerator()
       ->generate($module, $entity_name, $entity_class, $entityType);
-
-    $errors = [];
-    $dialog->writeGeneratorSummary($output, $errors);
   }
 
   /**
@@ -87,7 +84,6 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
   protected function interact(InputInterface $input, OutputInterface $output)
   {
     $dialog = $this->getDialogHelper();
-    $dialog->writeSection($output,  $this->trans('command.generate.entity.welcome'));
     $utils = $this->getStringUtils();
 
     // --module option

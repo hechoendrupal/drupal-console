@@ -53,7 +53,6 @@ class CacheRebuildCommand extends ContainerAwareCommand
   protected function interact(InputInterface $input, OutputInterface $output)
   {
     $dialog = $this->getDialogHelper();
-    $dialog->writeSection($output, $this->trans('command.cache.rebuild.messages.welcome'));
 
     $caches = $this->getCaches();
     $cache_keys = array_keys($caches);

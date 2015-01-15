@@ -67,7 +67,6 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
   protected function interact(InputInterface $input, OutputInterface $output)
   {
     $dialog = $this->getDialogHelper();
-    $dialog->writeSection($output, 'Welcome to the Drupal Plugin Rest Resource generator');
 
     // --module option
     $module = $input->getOption('module');

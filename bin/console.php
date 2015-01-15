@@ -3,16 +3,12 @@
 use Drupal\AppConsole\Console\Shell;
 use Drupal\AppConsole\Console\Application;
 use Drupal\AppConsole\Command\Helper\ShellHelper;
-use Drupal\AppConsole\Command\Helper\DialogHelper;
 use Drupal\AppConsole\Command\Helper\KernelHelper;
 use Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper;
 use Drupal\AppConsole\Command\Helper\BootstrapFinderHelper;
-use Drupal\AppConsole\Command\Helper\DrupalCommonHelper;
+use Drupal\AppConsole\Command\Helper\DialogHelper;
 use Drupal\AppConsole\Command\Helper\RegisterCommandsHelper;
-use Symfony\Component\Console\Helper\FormatterHelper;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Console\Helper\TableHelper;
 use Drupal\AppConsole\Utils\StringUtils;
 use Drupal\AppConsole\Utils\Validators;
 use Symfony\Component\Yaml\Parser;
@@ -20,7 +16,7 @@ use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\ConsoleEvents;
-use Symfony\Component\Console\Event\ConsoleExceptionEvent;
+use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 
 set_time_limit(0);
 
@@ -79,11 +75,7 @@ $helpers = [
   'kernel' => new KernelHelper(),
   'shell' => new ShellHelper(new Shell($application)),
   'dialog' => new DialogHelper(),
-  'formatter' => new FormatterHelper(),
-  'drupal_common' => new DrupalCommonHelper(),
-  'question' => new QuestionHelper(),
   'register_commands' => new RegisterCommandsHelper($application),
-  'table' => new TableHelper(),
   'stringUtils' => new StringUtils(),
   'validators' => new Validators(),
   'translator' => $translatorHelper
@@ -93,7 +85,6 @@ $application->addHelpers($helpers);
 
 $dispatcher = new EventDispatcher();
 $dispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $event) use ($translatorHelper) {
-
   $output = $event->getOutput();
   $command = $event->getCommand();
 
@@ -101,9 +92,21 @@ $dispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $
   $welcomeMessage = $translatorHelper->trans($welcomeMessageKey);
 
   if ($welcomeMessage != $welcomeMessageKey){
-    $command->showWelcomeMessage($output, $welcomeMessage);
+    $command->showMessage($output, $welcomeMessage);
   }
 });
+$dispatcher->addListener(ConsoleEvents::TERMINATE, function (ConsoleTerminateEvent $event) use ($translatorHelper) {
+  $output = $event->getOutput();
+  $command = $event->getCommand();
+
+  if (method_exists($command,'getMessages')) {
+    $messages = $command->getMessages();
+    foreach ($messages as $message) {
+      $command->showMessage($output, $translatorHelper->trans($message));
+    }
+  }
+});
+
 $application->setDispatcher($dispatcher);
 $application->setDefaultCommand('list');
 $application->run();
