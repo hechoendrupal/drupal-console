@@ -60,9 +60,6 @@ class GeneratorServiceCommand extends GeneratorCommand
     $this
       ->getGenerator()
       ->generate($module, $service_name, $class_name, $build_services);
-
-    $errors = [];
-    $dialog->writeGeneratorSummary($output, $errors);
   }
 
   /**

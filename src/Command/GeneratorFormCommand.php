@@ -82,9 +82,6 @@ abstract class GeneratorFormCommand extends GeneratorCommand
     $this
       ->getGenerator()
       ->generate($module, $class_name, $form_id, $build_services, $inputs, $update_routing);
-
-    $errors = '';
-    $dialog->writeGeneratorSummary($output, $errors);
   }
 
   /**

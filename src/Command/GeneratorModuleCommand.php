@@ -71,12 +71,6 @@ class GeneratorModuleCommand extends GeneratorCommand
             $test,
             $structure
     );
-
-    $errors = [];
-
-    $dialog->getRunner($output, $errors);
-
-    $dialog->writeGeneratorSummary($output, $errors);
   }
 
   /**

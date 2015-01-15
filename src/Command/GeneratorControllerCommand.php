@@ -63,9 +63,6 @@ class GeneratorControllerCommand extends GeneratorCommand
 
     $this->getGenerator()
       ->generate($module, $class_name, $method_name, $route, $test, $build_services, $class_machine_name);
-
-    $errors = '';
-    $dialog->writeGeneratorSummary($output, $errors);
   }
 
   /**
