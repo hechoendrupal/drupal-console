@@ -9,32 +9,33 @@ namespace Drupal\AppConsole\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\AppConsole\Generator\PluginBlockGenerator;
 use Drupal\AppConsole\Command\Helper\ServicesTrait;
 use Drupal\AppConsole\Command\Helper\ModuleTrait;
 use Drupal\AppConsole\Command\Helper\FormTrait;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Drupal\AppConsole\Generator\PluginRestResourceGenerator;
+use Drupal\AppConsole\Command\Helper\ConfirmationTrait;
 
 class GeneratorPluginRestResourceCommand extends GeneratorCommand
 {
   use ServicesTrait;
   use ModuleTrait;
   use FormTrait;
+  use ConfirmationTrait;
 
   protected function configure()
   {
     $this
-      ->setDefinition(array(
-        new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
-        new InputOption('class-name','',InputOption::VALUE_OPTIONAL, 'Plugin Rest Resource class'),
-        new InputOption('plugin-id','',InputOption::VALUE_OPTIONAL, 'Plugin Rest Resource id'),
-        new InputOption('plugin-label','',InputOption::VALUE_OPTIONAL, 'Plugin Rest Resource Label'),
-        new InputOption('plugin-url','',InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Plugin Rest Resource URL'),
-        new InputOption('plugin-states','',InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Plugin Rest Resource States')
-      ))
-    ->setDescription('Generate plugin rest resource')
-    ->setHelp('The <info>generate:plugin:rest:resource</info> command helps you generate a new rest resource.')
+      ->setDefinition([
+        new InputOption('module','',InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module')),
+        new InputOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.rest.resource.options.class-name')),
+        new InputOption('plugin-id','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.rest.resource.options.plugin-id')),
+        new InputOption('plugin-label','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.rest.resource.options.plugin-label')),
+        new InputOption('plugin-url','',InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, $this->trans('commands.generate.plugin.rest.resource.options.plugin-url')),
+        new InputOption('plugin-states','',InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, $this->trans('commands.generate.plugin.rest.resource.options.plugin-states'))
+      ])
+    ->setDescription($this->trans('commands.generate.plugin.rest.resource.description'))
+    ->setHelp($this->trans('commands.generate.plugin.rest.resource.help'))
     ->setName('generate:plugin:rest:resource');
   }
 
@@ -45,11 +46,9 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
   {
     $dialog = $this->getDialogHelper();
 
-    if ($input->isInteractive()) {
-      if (!$dialog->askConfirmation($output, $dialog->getQuestion('Do you confirm generation', 'yes', '?'), true)) {
-        $output->writeln('<error>Command aborted</error>');
-        return 1;
-      }
+    // @see use Drupal\AppConsole\Command\Helper\ConfirmationTrait::confirmationQuestion
+    if ($this->confirmationQuestion($input, $output, $dialog)) {
+      return;
     }
 
     $module = $input->getOption('module');
@@ -81,7 +80,7 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
     if (!$class_name) {
       $class_name = $dialog->ask(
         $output,
-        $dialog->getQuestion('Enter the plugin rest resource name', 'DefaultRestResource'),
+        $dialog->getQuestion($this->trans('commands.generate.plugin.rest.resource.questions.class-name'), 'DefaultRestResource'),
         'DefaultRestResource'
       );
     }
@@ -94,7 +93,7 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
     if (!$plugin_id) {
       $plugin_id = $dialog->ask(
         $output,
-        $dialog->getQuestion('Enter the plugin rest resource id', $machine_name),
+        $dialog->getQuestion($this->trans('commands.generate.plugin.rest.resource.questions.plugin-id'), $machine_name),
         $machine_name
       );
     }
@@ -105,7 +104,7 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
     if (!$plugin_label) {
       $plugin_label = $dialog->ask(
         $output,
-        $dialog->getQuestion('Enter the plugin rest resource label',$machine_name),
+        $dialog->getQuestion($this->trans('commands.generate.plugin.rest.resource.questions.plugin-label'),$machine_name),
         $machine_name
       );
     }
@@ -116,7 +115,7 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
     if (!$plugin_url) {
       $plugin_url = $dialog->ask(
         $output,
-        $dialog->getQuestion('Enter the plugin rest resource url',$machine_name),
+        $dialog->getQuestion($this->trans('commands.generate.plugin.rest.resource.questions.plugin-url'),$machine_name),
         $machine_name
       );
     }
@@ -129,14 +128,14 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
       $questionHelper  = $this->getQuestionHelper();
 
       $question = new ChoiceQuestion(
-          'Please select what REST States implement in your resource (GET is selected by default)',
+        $this->trans('commands.generate.plugin.rest.resource.questions.plugin-states'),
           array('GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'),
           '0'
       );
 
       $question->setMultiselect(true);
       $plugin_states = $questionHelper->ask($input, $output, $question);
-      $output->writeln('States selected: ' . implode(', ', $plugin_states));
+      $output->writeln($this->trans('commands.generate.plugin.rest.resource.messages.selected-states') . ' ' . implode(', ', $plugin_states));
 
       $input->setOption('plugin-states', $plugin_states);
     }
