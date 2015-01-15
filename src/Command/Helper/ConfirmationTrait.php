@@ -21,8 +21,8 @@ trait ConfirmationTrait
   public function confirmationQuestion(InputInterface $input, OutputInterface $output, HelperInterface $dialog)
   {
     if ($input->isInteractive()) {
-      if (!$dialog->askConfirmation($output, $dialog->getQuestion($this->trans('common.questions.confirm'), 'yes', '?'), true)) {
-        $output->writeln('<error>'.$this->trans('common.messages.canceled').'</error>');
+      if (!$dialog->askConfirmation($output, $dialog->getQuestion($this->trans('commands.common.questions.confirm'), 'yes', '?'), true)) {
+        $output->writeln('<error>'.$this->trans('commands.common.messages.canceled').'</error>');
         return true;
       }
       return false;

@@ -21,9 +21,9 @@ class CacheRebuildCommand extends ContainerAwareCommand
   {
     $this
       ->setName('cache:rebuild')
-      ->setDescription($this->trans('command.cache.rebuild.description'))
+      ->setDescription($this->trans('commands.cache.rebuild.description'))
       ->setAliases(['cr'])
-      ->addOption('cache', null, InputOption::VALUE_NONE, $this->trans('command.cache.rebuild.options.cache'))
+      ->addOption('cache', null, InputOption::VALUE_NONE, $this->trans('commands.cache.rebuild.options.cache'))
     ;
   }
 
@@ -31,7 +31,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
   {
     require_once DRUPAL_ROOT . '/core/includes/utility.inc';
 
-    $output->writeln('[+] <comment>'.$this->trans('command.cache.rebuild.messages.rebuild').'</comment>');
+    $output->writeln('[+] <comment>'.$this->trans('commands.cache.rebuild.messages.rebuild').'</comment>');
 
     $kernelHelper = $this->getHelper('kernel');
     $classLoader = $kernelHelper->getClassLoader();
@@ -47,7 +47,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
       $caches[$cache]->deleteAll();
     }
 
-    $output->writeln('[+] <info>'.$this->trans('command.cache.rebuild.messages.completed').'</info>');
+    $output->writeln('[+] <info>'.$this->trans('commands.cache.rebuild.messages.completed').'</info>');
   }
 
   protected function interact(InputInterface $input, OutputInterface $output)
@@ -63,12 +63,12 @@ class CacheRebuildCommand extends ContainerAwareCommand
     if (!$cache) {
       $cache = $dialog->askAndValidate(
         $output,
-        $dialog->getQuestion($this->trans('command.cache.rebuild.questions.cache'),'all'),
+        $dialog->getQuestion($this->trans('commands.cache.rebuild.questions.cache'),'all'),
         function ($cache) use($cache_keys) {
           if (!in_array($cache, array_values($cache_keys))) {
             throw new \InvalidArgumentException(
               sprintf(
-                $this->trans('command.cache.rebuild.messages.invalid_cache'),
+                $this->trans('commands.cache.rebuild.messages.invalid_cache'),
                 $cache
               )
             );

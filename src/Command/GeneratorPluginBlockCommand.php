@@ -26,15 +26,15 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
   {
     $this
       ->setDefinition(array(
-        new InputOption('module','',InputOption::VALUE_REQUIRED, $this->trans('common.options.module')),
-        new InputOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.plugin.block.options.class-name')),
-        new InputOption('label','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.plugin.block.options.label')),
-        new InputOption('plugin-id','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.plugin.block.options.plugin-id')),
-        new InputOption('inputs','',InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, $this->trans('common.options.inputs')),
-        new InputOption('services','',InputOption::VALUE_OPTIONAL, $this->trans('common.options.services')),
+        new InputOption('module','',InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module')),
+        new InputOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.block.options.class-name')),
+        new InputOption('label','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.block.options.label')),
+        new InputOption('plugin-id','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.block.options.plugin-id')),
+        new InputOption('inputs','',InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, $this->trans('commands.common.options.inputs')),
+        new InputOption('services','',InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.services')),
       ))
-    ->setDescription($this->trans('command.generate.plugin.block.description'))
-    ->setHelp($this->trans('command.generate.plugin.block.help'))
+    ->setDescription($this->trans('commands.generate.plugin.block.description'))
+    ->setHelp($this->trans('commands.generate.plugin.block.help'))
     ->setName('generate:plugin:block');
   }
 
@@ -83,7 +83,7 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
     if (!$class_name) {
       $class_name = $dialog->ask(
         $output,
-        $dialog->getQuestion($this->trans('command.generate.plugin.block.options.class-name'), 'DefaultBlock'),
+        $dialog->getQuestion($this->trans('commands.generate.plugin.block.options.class-name'), 'DefaultBlock'),
         'DefaultBlock'
       );
     }
@@ -96,7 +96,7 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
     if (!$label) {
       $label = $dialog->ask(
         $output,
-        $dialog->getQuestion($this->trans('command.generate.plugin.block.options.label'), $machine_name),
+        $dialog->getQuestion($this->trans('commands.generate.plugin.block.options.label'), $machine_name),
         $machine_name
       );
     }
@@ -107,7 +107,7 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
     if (!$plugin_id) {
       $plugin_id = $dialog->ask(
         $output,
-        $dialog->getQuestion($this->trans('command.generate.plugin.block.options.plugin-id'),$machine_name),
+        $dialog->getQuestion($this->trans('commands.generate.plugin.block.options.plugin-id'),$machine_name),
         $machine_name
       );
     }
@@ -118,7 +118,7 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
     $services_collection = $this->servicesQuestion($output, $dialog);
     $input->setOption('services', $services_collection);
 
-    $output->writeln($this->trans('command.generate.plugin.block.messages.inputs'));
+    $output->writeln($this->trans('commands.generate.plugin.block.messages.inputs'));
 
     // @see Drupal\AppConsole\Command\Helper\FormTrait::formQuestion
     $form = $this->formQuestion($output, $dialog);

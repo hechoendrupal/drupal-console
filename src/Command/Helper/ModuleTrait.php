@@ -22,7 +22,7 @@ trait ModuleTrait
 
     return $dialog->askAndValidate(
       $output,
-      $dialog->getQuestion($this->trans('common.questions.module'),''),
+      $dialog->getQuestion($this->trans('commands.common.questions.module'),''),
       function ($module) {
         return $this->validateModuleExist($module);
       },
