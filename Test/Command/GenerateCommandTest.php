@@ -40,10 +40,6 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
       ->method('createMachineName')
       ->will($this->returnArgument(0));
 
-//    $stringUtils->expects($this->any())
-//      ->method('camelCaseToMachineName')
-//      ->will($this->returnArgument(0));
-
     $validators  = $this->getMockBuilder('Drupal\AppConsole\Utils\Validators')
       ->disableOriginalConstructor()
       ->setMethods(['validateModuleName'])
