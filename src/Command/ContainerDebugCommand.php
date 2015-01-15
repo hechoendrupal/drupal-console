@@ -16,7 +16,7 @@ class ContainerDebugCommand extends ContainerAwareCommand
   {
     $this
       ->setName('container:debug')
-      ->setDescription($this->trans('command.container.debug.description'))
+      ->setDescription($this->trans('commands.container.debug.description'))
     ;
   }
 
@@ -26,8 +26,8 @@ class ContainerDebugCommand extends ContainerAwareCommand
     $table = $this->getHelperSet()->get('table');
     $table->setHeaders(
       [
-        $this->trans('command.container.debug.messages.service_id'),
-        $this->trans('command.container.debug.messages.class_name')
+        $this->trans('commands.container.debug.messages.service_id'),
+        $this->trans('commands.container.debug.messages.class_name')
       ]);
     $table->setlayout($table::LAYOUT_COMPACT);
     foreach ($services as $serviceId) {
