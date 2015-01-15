@@ -22,18 +22,18 @@ class GeneratorModuleCommand extends GeneratorCommand
   protected function configure()
   {
     $this->setDefinition([
-      new InputOption('module','',InputOption::VALUE_REQUIRED, $this->trans('command.generate.module.options.module')),
-      new InputOption('machine-name','',InputOption::VALUE_REQUIRED, $this->trans('command.generate.module.options.machine-name')),
-      new InputOption('module-path','',InputOption::VALUE_REQUIRED, $this->trans('command.generate.module.options.module-path')),
-      new InputOption('description','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.module.options.description')),
-      new InputOption('core','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.module.options.core')),
-      new InputOption('package','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.module.options.package')),
-      new InputOption('controller', '', InputOption::VALUE_NONE, $this->trans('command.generate.module.options.controller')),
-      new InputOption('test', '', InputOption::VALUE_NONE, $this->trans('command.generate.module.options.test')),
-      new InputOption('structure', '', InputOption::VALUE_NONE, $this->trans('command.generate.module.options.structure')),
+      new InputOption('module','',InputOption::VALUE_REQUIRED, $this->trans('commands.generate.module.options.module')),
+      new InputOption('machine-name','',InputOption::VALUE_REQUIRED, $this->trans('commands.generate.module.options.machine-name')),
+      new InputOption('module-path','',InputOption::VALUE_REQUIRED, $this->trans('commands.generate.module.options.module-path')),
+      new InputOption('description','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.module.options.description')),
+      new InputOption('core','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.module.options.core')),
+      new InputOption('package','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.module.options.package')),
+      new InputOption('controller', '', InputOption::VALUE_NONE, $this->trans('commands.generate.module.options.controller')),
+      new InputOption('test', '', InputOption::VALUE_NONE, $this->trans('commands.generate.module.options.test')),
+      new InputOption('structure', '', InputOption::VALUE_NONE, $this->trans('commands.generate.module.options.structure')),
     ])
-    ->setDescription($this->trans('command.generate.module.description'))
-    ->setHelp($this->trans('command.generate.module.help'))
+    ->setDescription($this->trans('commands.generate.module.description'))
+    ->setHelp($this->trans('commands.generate.module.help'))
     ->setName('generate:module');
   }
 
@@ -92,7 +92,7 @@ class GeneratorModuleCommand extends GeneratorCommand
     if (!$module) {
       $module = $dialog->askAndValidate(
         $output,
-        $dialog->getQuestion($this->trans('command.generate.module.questions.module'), ''),
+        $dialog->getQuestion($this->trans('commands.generate.module.questions.module'), ''),
         function ($module) use ($validators){
           return $validators->validateModuleName($module);
         },
@@ -113,7 +113,7 @@ class GeneratorModuleCommand extends GeneratorCommand
       $machine_name = $stringUtils->createMachineName($module);
       $machine_name = $dialog->askAndValidate(
         $output,
-        $dialog->getQuestion($this->trans('command.generate.module.questions.machine-name'), $machine_name),
+        $dialog->getQuestion($this->trans('commands.generate.module.questions.machine-name'), $machine_name),
         function ($machine_name) use ($validators){
           return $validators->validateMachineName($machine_name);
         },
@@ -129,37 +129,37 @@ class GeneratorModuleCommand extends GeneratorCommand
 
     $module_path = $input->getOption('module-path');
     if (!$module_path) {
-      $module_path = $dialog->ask($output, $dialog->getQuestion($this->trans('command.generate.module.questions.module-path'), $module_path_default), $module_path_default);
+      $module_path = $dialog->ask($output, $dialog->getQuestion($this->trans('commands.generate.module.questions.module-path'), $module_path_default), $module_path_default);
     }
     $input->setOption('module-path', $module_path);
 
     $description = $input->getOption('description');
     if (!$description) {
-      $description = $dialog->ask($output, $dialog->getQuestion($this->trans('command.generate.module.questions.description'), 'My Awesome Module'), 'My Awesome Module');
+      $description = $dialog->ask($output, $dialog->getQuestion($this->trans('commands.generate.module.questions.description'), 'My Awesome Module'), 'My Awesome Module');
     }
     $input->setOption('description', $description);
 
     $package = $input->getOption('package');
     if (!$package) {
-      $package = $dialog->ask($output, $dialog->getQuestion($this->trans('command.generate.module.questions.package'), 'Other'), 'Other');
+      $package = $dialog->ask($output, $dialog->getQuestion($this->trans('commands.generate.module.questions.package'), 'Other'), 'Other');
     }
     $input->setOption('package', $package);
 
     $core = $input->getOption('core');
     if (!$core) {
-      $core = $dialog->ask($output, $dialog->getQuestion($this->trans('command.generate.module.questions.core'), '8.x'), '8.x');
+      $core = $dialog->ask($output, $dialog->getQuestion($this->trans('commands.generate.module.questions.core'), '8.x'), '8.x');
     }
     $input->setOption('core', $core);
 
     $controller = $input->getOption('controller');
-    if (!$controller && $dialog->askConfirmation($output, $dialog->getQuestion($this->trans('command.generate.module.questions.controller'), 'no', '?'), false)) {
+    if (!$controller && $dialog->askConfirmation($output, $dialog->getQuestion($this->trans('commands.generate.module.questions.controller'), 'no', '?'), false)) {
       $controller = true;
     }
     $input->setOption('controller', $controller);
 
     if ($controller){
       $test = $input->getOption('test');
-      if (!$test && $dialog->askConfirmation($output, $dialog->getQuestion($this->trans('command.generate.module.questions.test'), 'yes', '?'), true)) {
+      if (!$test && $dialog->askConfirmation($output, $dialog->getQuestion($this->trans('commands.generate.module.questions.test'), 'yes', '?'), true)) {
         $test = true;
       }
     }
@@ -169,7 +169,7 @@ class GeneratorModuleCommand extends GeneratorCommand
     $input->setOption('test', $test);
 
     $structure = $input->getOption('structure');
-    if (!$structure && $dialog->askConfirmation($output, $dialog->getQuestion($this->trans('command.generate.module.questions.structure'), 'yes', '?'), true)) {
+    if (!$structure && $dialog->askConfirmation($output, $dialog->getQuestion($this->trans('commands.generate.module.questions.structure'), 'yes', '?'), true)) {
       $structure = true;
     }
     $input->setOption('structure', $structure);

@@ -22,14 +22,14 @@ class GeneratorPluginImageEffectCommand extends GeneratorCommand
   {
     $this
       ->setDefinition(array(
-        new InputOption('module','',InputOption::VALUE_REQUIRED, $this->trans('common.options.module')),
-        new InputOption('class-name','',InputOption::VALUE_REQUIRED, $this->trans('command.generate.plugin.imageeffect.options.class-name')),
-        new InputOption('label','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.plugin.imageeffect.options.label')),
-        new InputOption('plugin-id','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.plugin.imageeffect.options.plugin-id')),
-        new InputOption('description','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.plugin.imageeffect.options.description')),
+        new InputOption('module','',InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module')),
+        new InputOption('class-name','',InputOption::VALUE_REQUIRED, $this->trans('commands.generate.plugin.imageeffect.options.class-name')),
+        new InputOption('label','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.imageeffect.options.label')),
+        new InputOption('plugin-id','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.imageeffect.options.plugin-id')),
+        new InputOption('description','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.imageeffect.options.description')),
       ))
-    ->setDescription($this->trans('command.generate.plugin.imageeffect.description'))
-    ->setHelp($this->trans('command.generate.plugin.imageeffect.help'))
+    ->setDescription($this->trans('commands.generate.plugin.imageeffect.description'))
+    ->setHelp($this->trans('commands.generate.plugin.imageeffect.help'))
     ->setName('generate:plugin:imageeffect');
   }
 
@@ -74,7 +74,7 @@ class GeneratorPluginImageEffectCommand extends GeneratorCommand
     if (!$class_name) {
       $class_name = $dialog->ask(
         $output,
-        $dialog->getQuestion($this->trans('command.generate.plugin.imageeffect.questions.class-name'), 'DefaultImageEffect'),
+        $dialog->getQuestion($this->trans('commands.generate.plugin.imageeffect.questions.class-name'), 'DefaultImageEffect'),
         'DefaultImageEffect'
       );
     }
@@ -87,7 +87,7 @@ class GeneratorPluginImageEffectCommand extends GeneratorCommand
     if (!$label) {
       $label = $dialog->ask(
         $output,
-        $dialog->getQuestion( $this->trans('command.generate.plugin.imageeffect.questions.label'), $machine_name),
+        $dialog->getQuestion( $this->trans('commands.generate.plugin.imageeffect.questions.label'), $machine_name),
         $machine_name
       );
     }
@@ -98,7 +98,7 @@ class GeneratorPluginImageEffectCommand extends GeneratorCommand
 
     if (!$plugin_id) {
       $plugin_id = $dialog->ask($output,
-        $dialog->getQuestion($this->trans('command.generate.plugin.imageeffect.questions.plugin-id'), $machine_name),
+        $dialog->getQuestion($this->trans('commands.generate.plugin.imageeffect.questions.plugin-id'), $machine_name),
         $machine_name
       );
     }
@@ -108,7 +108,7 @@ class GeneratorPluginImageEffectCommand extends GeneratorCommand
     $description = $input->getOption('description');
     if (!$description) {
       $description = $dialog->ask($output,
-        $dialog->getQuestion($this->trans('command.generate.plugin.imageeffect.questions.description'), 'My Image Effect'),
+        $dialog->getQuestion($this->trans('commands.generate.plugin.imageeffect.questions.description'), 'My Image Effect'),
         'My Image Effect'
       );
     }
