@@ -3,16 +3,12 @@
 use Drupal\AppConsole\Console\Shell;
 use Drupal\AppConsole\Console\Application;
 use Drupal\AppConsole\Command\Helper\ShellHelper;
-use Drupal\AppConsole\Command\Helper\DialogHelper;
 use Drupal\AppConsole\Command\Helper\KernelHelper;
 use Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper;
 use Drupal\AppConsole\Command\Helper\BootstrapFinderHelper;
-use Drupal\AppConsole\Command\Helper\DrupalCommonHelper;
+use Drupal\AppConsole\Command\Helper\DialogHelper;
 use Drupal\AppConsole\Command\Helper\RegisterCommandsHelper;
-use Symfony\Component\Console\Helper\FormatterHelper;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Console\Helper\TableHelper;
 use Drupal\AppConsole\Utils\StringUtils;
 use Drupal\AppConsole\Utils\Validators;
 use Symfony\Component\Yaml\Parser;
