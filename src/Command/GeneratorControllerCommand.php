@@ -25,15 +25,15 @@ class GeneratorControllerCommand extends GeneratorCommand
     $this
       ->setDefinition(array(
 //        new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
-        new InputOption('module','',InputOption::VALUE_REQUIRED, $this->trans('common.options.module')),
-        new InputOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.controller.options.class-name')),
-        new InputOption('method-name','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.controller.options.method-name')),
-        new InputOption('route','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.controller.options.route')),
-        new InputOption('services','',InputOption::VALUE_OPTIONAL, $this->trans('common.options.services')),
-        new InputOption('test', '', InputOption::VALUE_NONE, $this->trans('command.generate.controller.options.test')),
+        new InputOption('module','',InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module')),
+        new InputOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.controller.options.class-name')),
+        new InputOption('method-name','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.controller.options.method-name')),
+        new InputOption('route','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.controller.options.route')),
+        new InputOption('services','',InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.services')),
+        new InputOption('test', '', InputOption::VALUE_NONE, $this->trans('commands.generate.controller.options.test')),
       ))
-      ->setDescription($this->trans('command.generate.controller.description'))
-      ->setHelp($this->trans('command.generate.controller.command.help'))
+      ->setDescription($this->trans('commands.generate.controller.description'))
+      ->setHelp($this->trans('commands.generate.controller.command.help'))
       ->setName('generate:controller');
   }
 
@@ -86,7 +86,7 @@ class GeneratorControllerCommand extends GeneratorCommand
       $class_name = 'DefaultController';
       $class_name = $dialog->askAndValidate(
         $output,
-        $dialog->getQuestion($this->trans('command.generate.controller.questions.class-name'), $class_name),
+        $dialog->getQuestion($this->trans('commands.generate.controller.questions.class-name'), $class_name),
         function ($class_name) {
           return $this->validateClassName($class_name);
         },
@@ -103,7 +103,7 @@ class GeneratorControllerCommand extends GeneratorCommand
       if (!$method_name) {
         $method_name = $dialog->ask(
           $output,
-          $dialog->getQuestion($this->trans('command.generate.controller.questions.method-name'), 'index'),
+          $dialog->getQuestion($this->trans('commands.generate.controller.questions.method-name'), 'index'),
           'index'
         );
       }
@@ -112,7 +112,7 @@ class GeneratorControllerCommand extends GeneratorCommand
       if (!$route) {
         $route = $dialog->ask(
           $output,
-          $dialog->getQuestion($this->trans('command.generate.controller.questions.route'), $module.'/'.$method_name),
+          $dialog->getQuestion($this->trans('commands.generate.controller.questions.route'), $module.'/'.$method_name),
           $module.'/'.$method_name
         );
       }
@@ -128,7 +128,7 @@ class GeneratorControllerCommand extends GeneratorCommand
     $test = $input->getOption('test');
     if (!$test && $dialog->askConfirmation(
       $output,
-      $dialog->getQuestion($this->trans('command.generate.controller.questions.test'), 'yes', '?'),
+      $dialog->getQuestion($this->trans('commands.generate.controller.questions.test'), 'yes', '?'),
       TRUE
     )) {
       $test = true;

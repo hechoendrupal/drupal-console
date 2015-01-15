@@ -43,20 +43,20 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
 
     $this
         ->setDefinition(array(
-          new InputOption('module',null,InputOption::VALUE_REQUIRED, $this->trans('common.options.module')),
-          new InputOption('entity-class',null,InputOption::VALUE_REQUIRED, $this->trans('command.generate.entity.options.entity-class')),
-          new InputOption('entity-name',null,InputOption::VALUE_REQUIRED, $this->trans('command.generate.entity.options.entity-name')),
+          new InputOption('module',null,InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module')),
+          new InputOption('entity-class',null,InputOption::VALUE_REQUIRED, $this->trans('commands.generate.entity.options.entity-class')),
+          new InputOption('entity-name',null,InputOption::VALUE_REQUIRED, $this->trans('commands.generate.entity.options.entity-name')),
         ))
         ->setName($this->commandName)
         ->setDescription(
           sprintf(
-            $this->trans('command.generate.entity.description'),
+            $this->trans('commands.generate.entity.description'),
             $this->entityType
           )
         )
         ->setHelp(
           sprintf(
-            $this->trans('command.generate.entity.help'),
+            $this->trans('commands.generate.entity.help'),
             $this->commandName,
             $this->entityType
           )
@@ -100,7 +100,7 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
       $entity_class = 'DefaultEntity';
       $entity_class = $dialog->askAndValidate(
         $output,
-        $dialog->getQuestion($this->trans('command.generate.entity.questions.entity-class'), $entity_class),
+        $dialog->getQuestion($this->trans('commands.generate.entity.questions.entity-class'), $entity_class),
         function($entity_class){
           return $this->validateSpaces($entity_class);
         },
@@ -118,7 +118,7 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
     if (!$entity_name) {
       $entity_name = $dialog->askAndValidate(
         $output,
-        $dialog->getQuestion($this->trans('command.generate.entity.questions.entity-name'), $machine_name),
+        $dialog->getQuestion($this->trans('commands.generate.entity.questions.entity-name'), $machine_name),
         function ($machine_name) {
           return $this->validateMachineName($machine_name);
         },

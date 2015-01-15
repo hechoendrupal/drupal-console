@@ -24,8 +24,8 @@ class SelfUpdateCommand extends ContainerAwareCommand
   {
     $this
       ->setName('self-update')
-      ->setDescription($this->trans('command.self-update.description'))
-      ->setHelp($this->trans('command.self-update.help'))
+      ->setDescription($this->trans('commands.self-update.description'))
+      ->setHelp($this->trans('commands.self-update.help'))
     ;
   }
 
@@ -38,7 +38,7 @@ class SelfUpdateCommand extends ContainerAwareCommand
       self::DRUPAL_CONSOLE_MANIFEST
     ));
     $manager->update($this->getApplication()->getVersion(), true);
-    $output->writeln($this->trans('command.self-update.messages.success'));
+    $output->writeln($this->trans('commands.self-update.messages.success'));
   }
 }
 
