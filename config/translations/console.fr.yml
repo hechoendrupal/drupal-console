@@ -1,26 +1,36 @@
-common:
-  options:
-    module: Le Nom du Module.
-    services: Services de charge forment le container.
-    inputs: Créer des entrées dans un formulaire.
-  questions:
-    module: Introduire le nom du module.
-    confirm: Confirmez-vous la génération
-    canceled: Génération de commande annulée.
-    services:
-      confirm: Voulez-vous charger les services forment le container
-      message: |
+application:
+  console:
+    messages:
+      completed: You can now start using the generated code!
+    errors:
+      invalid-command: Command "%s" is not defined.
+  site:
+    errors:
+      directory: In order to list all of the available commands, you should run this inside a drupal root directory.
+      settings: In order to list all of the available commands you should install drupal first.
+commands:
+  common:
+    options:
+      module: Le Nom du Module.
+      services: Services de charge forment le container.
+      inputs: Créer des entrées dans un formulaire.
+    questions:
+      module: Introduire le nom du module.
+      confirm: Confirmez-vous la génération
+      canceled: Génération de commande annulée.
+      services:
+        confirm: Voulez-vous charger les services forment le container
+        message: |
 
-        Tapez le nom du service ou utiliser keyup et keydown
-        Cette option est facultative, appuyez <info>enter</info> to <info>continue</info>
-      name: Entrez votre service
-    inputs:
-      confirm: Aimez-vous générer une structure formulaire.
-      label: Label entrée
-      machine_name: Nom de la machine d'entrée.
-      type: Type
-      invalid: Type de champ "% s" n'est pas valide.
-command:
+          Tapez le nom du service ou utiliser keyup et keydown
+          Cette option est facultative, appuyez <info>enter</info> to <info>continue</info>
+        name: Entrez votre service
+      inputs:
+        confirm: Aimez-vous générer une structure formulaire.
+        label: Label entrée
+        machine_name: Nom de la machine d'entrée.
+        type: Type
+        invalid: Type de champ "% s" n'est pas valide.
   cache:
     rebuild:
       description: Reconstruire et effacer tous les caches du site.
