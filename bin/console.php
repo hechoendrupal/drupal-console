@@ -88,7 +88,7 @@ $dispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $
   $output = $event->getOutput();
   $command = $event->getCommand();
 
-  $welcomeMessageKey = 'command.'. str_replace(':', '.', $command->getName()). '.welcome';
+  $welcomeMessageKey = 'commands.'. str_replace(':', '.', $command->getName()). '.welcome';
   $welcomeMessage = $translatorHelper->trans($welcomeMessageKey);
 
   if ($welcomeMessage != $welcomeMessageKey){
