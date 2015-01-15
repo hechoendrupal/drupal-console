@@ -16,7 +16,7 @@ use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\ConsoleEvents;
-use Symfony\Component\Console\Event\ConsoleExceptionEvent;
+use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 
 set_time_limit(0);
 
@@ -85,7 +85,6 @@ $application->addHelpers($helpers);
 
 $dispatcher = new EventDispatcher();
 $dispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $event) use ($translatorHelper) {
-
   $output = $event->getOutput();
   $command = $event->getCommand();
 
@@ -93,9 +92,21 @@ $dispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $
   $welcomeMessage = $translatorHelper->trans($welcomeMessageKey);
 
   if ($welcomeMessage != $welcomeMessageKey){
-    $command->showWelcomeMessage($output, $welcomeMessage);
+    $command->showMessage($output, $welcomeMessage);
   }
 });
+$dispatcher->addListener(ConsoleEvents::TERMINATE, function (ConsoleTerminateEvent $event) use ($translatorHelper) {
+  $output = $event->getOutput();
+  $command = $event->getCommand();
+
+  if (method_exists($command,'getMessages')) {
+    $messages = $command->getMessages();
+    foreach ($messages as $message) {
+      $command->showMessage($output, $translatorHelper->trans($message));
+    }
+  }
+});
+
 $application->setDispatcher($dispatcher);
 $application->setDefaultCommand('list');
 $application->run();
