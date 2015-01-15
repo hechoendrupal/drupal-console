@@ -87,7 +87,6 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
   protected function interact(InputInterface $input, OutputInterface $output)
   {
     $dialog = $this->getDialogHelper();
-    $dialog->writeSection($output,  $this->trans('command.generate.entity.welcome'));
     $utils = $this->getStringUtils();
 
     // --module option
