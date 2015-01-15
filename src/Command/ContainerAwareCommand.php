@@ -2,11 +2,10 @@
 
 namespace Drupal\AppConsole\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Drupal\AppConsole\Command\Command;
 use Drupal\Core\Extension\ExtensionDiscovery;
-use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 
 abstract class ContainerAwareCommand extends Command implements ContainerAwareInterface
 {
@@ -18,22 +17,6 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
   private $services;
 
   private $route_provider;
-
-  /**
-   * @var string
-   */
-  private $module;
-
-  /**
-   * @var TranslatorHelper
-   */
-  protected $translator;
-
-  function __construct($translator)
-  {
-    $this->translator = $translator;
-    parent::__construct();
-  }
 
   /**
    * @return ContainerInterface
@@ -95,14 +78,6 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     }
 
     return $this->route_provider;
-  }
-
-  /**
-   * @return \Drupal\AppConsole\Utils\Validators
-   */
-  public function getValidator()
-  {
-    return $this->getContainer()->get('console.validators');
   }
 
   public function getConfigFactory(){
@@ -176,73 +151,4 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     return $this->getValidator()->removeSpaces($name);
   }
 
-  /**
-   * @return \Drupal\AppConsole\Utils\StringUtils
-   */
-  public function getStringUtils()
-  {
-    return $this->getContainer()->get('console.string_utils');
-  }
-
-  /**
-   * @param $key string
-   * @return string
-   */
-  public function trans($key){
-    return $this->translator->trans($key);
-  }
-
-  protected function getDialogHelper()
-  {
-    $dialog = $this->getHelperSet()->get('dialog');
-    if (!$dialog || get_class($dialog) !== 'Drupal\AppConsole\Command\Helper\DialogHelper') {
-      $this->getHelperSet()->set(new DialogHelper(), 'dialog');
-    }
-
-    return $dialog;
-  }
-  /**
-   * @return TranslatorHelper
-   */
-  public function getTranslator()
-  {
-    return $this->translator;
-  }
-
-  /**
-   * @param TranslatorHelper $translator
-   */
-  public function setTranslator($translator)
-  {
-    $this->translator = $translator;
-  }
-
-  /**
-   * @return string
-   */
-  public function getModule()
-  {
-    return $this->module;
-  }
-
-  /**
-   * @param string $module
-   */
-  public function setModule($module)
-  {
-    $this->module = $module;
-  }
-
-  public function showWelcomeMessage($output, $welcomeMessage)
-  {
-    $dialog = $this->getDialogHelper();
-    $dialog->writeSection($output, $this->trans($welcomeMessage));
-  }
-
-  protected function getQuestionHelper()
-  {
-    $question = $this->getHelperSet()->get('question');
-
-    return $question;
-  }
 }
