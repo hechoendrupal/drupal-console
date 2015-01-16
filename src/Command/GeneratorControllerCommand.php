@@ -23,18 +23,16 @@ class GeneratorControllerCommand extends GeneratorCommand
   protected function configure()
   {
     $this
-      ->setDefinition(array(
-//        new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
-        new InputOption('module','',InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module')),
-        new InputOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.controller.options.class-name')),
-        new InputOption('method-name','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.controller.options.method-name')),
-        new InputOption('route','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.controller.options.route')),
-        new InputOption('services','',InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.services')),
-        new InputOption('test', '', InputOption::VALUE_NONE, $this->trans('commands.generate.controller.options.test')),
-      ))
+      ->setName('generate:controller')
       ->setDescription($this->trans('commands.generate.controller.description'))
       ->setHelp($this->trans('commands.generate.controller.command.help'))
-      ->setName('generate:controller');
+      ->addOption('module','',InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+      ->addOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.controller.options.class-name'))
+      ->addOption('method-name','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.controller.options.method-name'))
+      ->addOption('route','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.controller.options.route'))
+      ->addOption('services','',InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.services'))
+      ->addOption('test', '', InputOption::VALUE_NONE, $this->trans('commands.generate.controller.options.test'))
+    ;
   }
 
   /**

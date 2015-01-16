@@ -20,23 +20,23 @@ class GeneratorModuleCommand extends GeneratorCommand
    * {@inheritdoc}
    */
   protected function configure()
-  {
-    $this->setDefinition([
-      new InputOption('module','',InputOption::VALUE_REQUIRED, $this->trans('commands.generate.module.options.module')),
-      new InputOption('machine-name','',InputOption::VALUE_REQUIRED, $this->trans('commands.generate.module.options.machine-name')),
-      new InputOption('module-path','',InputOption::VALUE_REQUIRED, $this->trans('commands.generate.module.options.module-path')),
-      new InputOption('description','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.module.options.description')),
-      new InputOption('core','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.module.options.core')),
-      new InputOption('package','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.module.options.package')),
-      new InputOption('controller', '', InputOption::VALUE_NONE, $this->trans('commands.generate.module.options.controller')),
-      new InputOption('test', '', InputOption::VALUE_NONE, $this->trans('commands.generate.module.options.test')),
-      new InputOption('structure', '', InputOption::VALUE_NONE, $this->trans('commands.generate.module.options.structure')),
-    ])
-    ->setDescription($this->trans('commands.generate.module.description'))
-    ->setHelp($this->trans('commands.generate.module.help'))
-    ->setName('generate:module');
-  }
 
+  {
+    $this
+      ->setName('generate:module')
+      ->setDescription($this->trans('commands.generate.module.description'))
+      ->setHelp($this->trans('commands.generate.module.help'))
+      ->addOption('module','',InputOption::VALUE_REQUIRED, $this->trans('commands.generate.module.options.module'))
+      ->addOption('machine-name','',InputOption::VALUE_REQUIRED, $this->trans('commands.generate.module.options.machine-name'))
+      ->addOption('module-path','',InputOption::VALUE_REQUIRED, $this->trans('commands.generate.module.options.module-path'))
+      ->addOption('description','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.module.options.description'))
+      ->addOption('core','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.module.options.core'))
+      ->addOption('package','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.module.options.package'))
+      ->addOption('controller', '', InputOption::VALUE_NONE, $this->trans('commands.generate.module.options.controller'))
+      ->addOption('test', '', InputOption::VALUE_NONE, $this->trans('commands.generate.module.options.test'))
+      ->addOption('structure', '', InputOption::VALUE_NONE, $this->trans('commands.generate.module.options.structure'))
+    ;
+  }
   /**
    * {@inheritdoc}
    */
