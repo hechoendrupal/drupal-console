@@ -42,25 +42,19 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
   {
 
     $this
-        ->setDefinition(array(
-          new InputOption('module',null,InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module')),
-          new InputOption('entity-class',null,InputOption::VALUE_REQUIRED, $this->trans('commands.generate.entity.options.entity-class')),
-          new InputOption('entity-name',null,InputOption::VALUE_REQUIRED, $this->trans('commands.generate.entity.options.entity-name')),
-        ))
-        ->setName($this->commandName)
-        ->setDescription(
-          sprintf(
-            $this->trans('commands.generate.entity.description'),
-            $this->entityType
-          )
-        )
-        ->setHelp(
-          sprintf(
-            $this->trans('commands.generate.entity.help'),
-            $this->commandName,
-            $this->entityType
-          )
-        )
+      ->setName($this->commandName)
+      ->setDescription(sprintf(
+          $this->trans('commands.generate.entity.description'),
+          $this->entityType
+      ))
+      ->setHelp(sprintf(
+          $this->trans('commands.generate.entity.help'),
+          $this->commandName,
+          $this->entityType
+      ))
+      ->addOption('module',null,InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+      ->addOption('entity-class',null,InputOption::VALUE_REQUIRED, $this->trans('commands.generate.entity.options.entity-class'))
+      ->addOption('entity-name',null,InputOption::VALUE_REQUIRED, $this->trans('commands.generate.entity.options.entity-name'))
     ;
   }
 
