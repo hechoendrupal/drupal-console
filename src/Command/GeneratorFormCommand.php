@@ -37,28 +37,22 @@ abstract class GeneratorFormCommand extends GeneratorCommand
   protected function configure()
   {
     $this
-      ->setDefinition(array(
-        new InputOption('module','',InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module')),
-        new InputOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.form.options.class-name')),
-        new InputOption('form-id','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.form.options.form-id')),
-        new InputOption('services','',InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.services')),
-        new InputOption('inputs','',InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.inputs')),
-        new InputOption('routing', '', InputOption::VALUE_NONE, $this->trans('commands.generate.form.options.routing')),
-      ))
       ->setName($this->commandName)
-      ->setDescription(
-      sprintf(
+      ->setDescription(sprintf(
         $this->trans('commands.generate.form.description'),
         $this->formType
-      )
-      )
-      ->setHelp(
-        sprintf(
-          $this->trans('commands.generate.form.help'),
-          $this->commandName,
-          $this->formType
-        )
-      )
+      ))
+      ->setHelp(sprintf(
+        $this->trans('commands.generate.form.help'),
+        $this->commandName,
+        $this->formType
+      ))
+      ->addOption('module','',InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+      ->addOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.form.options.class-name'))
+      ->addOption('form-id','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.form.options.form-id'))
+      ->addOption('services','',InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.services'))
+      ->addOption('inputs','',InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.inputs'))
+      ->addOption('routing', '', InputOption::VALUE_NONE, $this->trans('commands.generate.form.options.routing'))
     ;
   }
 

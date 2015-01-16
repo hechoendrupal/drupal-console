@@ -26,15 +26,14 @@ class GeneratorServiceCommand extends GeneratorCommand
   protected function configure()
   {
     $this
-      ->setDefinition(array(
-        new InputOption('module',null,InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module')),
-        new InputOption('service-name',null,InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.service.options.service-name')),
-        new InputOption('class-name',null,InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.service.options.class-name')),
-        new InputOption('services',null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, $this->trans('commands.common.options.services')),
-      ))
+      ->setName('generate:service')
       ->setDescription($this->trans('commands.generate.service.description'))
       ->setHelp($this->trans('commands.generate.service.description'))
-      ->setName('generate:service');
+      ->addOption('module',null,InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+      ->addOption('service-name',null,InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.service.options.service-name'))
+      ->addOption('class-name',null,InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.service.options.class-name'))
+      ->addOption('services',null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, $this->trans('commands.common.options.services'))
+    ;
   }
 
   /**
