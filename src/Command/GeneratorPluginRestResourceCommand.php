@@ -26,17 +26,16 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
   protected function configure()
   {
     $this
-      ->setDefinition([
-        new InputOption('module','',InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module')),
-        new InputOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.rest.resource.options.class-name')),
-        new InputOption('plugin-id','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.rest.resource.options.plugin-id')),
-        new InputOption('plugin-label','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.rest.resource.options.plugin-label')),
-        new InputOption('plugin-url','',InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, $this->trans('commands.generate.plugin.rest.resource.options.plugin-url')),
-        new InputOption('plugin-states','',InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, $this->trans('commands.generate.plugin.rest.resource.options.plugin-states'))
-      ])
-    ->setDescription($this->trans('commands.generate.plugin.rest.resource.description'))
-    ->setHelp($this->trans('commands.generate.plugin.rest.resource.help'))
-    ->setName('generate:plugin:rest:resource');
+      ->setName('generate:plugin:rest:resource')
+      ->setDescription($this->trans('commands.generate.plugin.rest.resource.description'))
+      ->setHelp($this->trans('commands.generate.plugin.rest.resource.help'))
+      ->addOption('module','',InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+      ->addOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.rest.resource.options.class-name'))
+      ->addOption('plugin-id','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.rest.resource.options.plugin-id'))
+      ->addOption('plugin-label','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.rest.resource.options.plugin-label'))
+      ->addOption('plugin-url','',InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, $this->trans('commands.generate.plugin.rest.resource.options.plugin-url'))
+      ->addOption('plugin-states','',InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, $this->trans('commands.generate.plugin.rest.resource.options.plugin-states'))
+      ;
   }
 
   /**
