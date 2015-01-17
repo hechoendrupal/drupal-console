@@ -26,15 +26,14 @@ class GeneratorServiceCommand extends GeneratorCommand
   protected function configure()
   {
     $this
-      ->setDefinition(array(
-        new InputOption('module',null,InputOption::VALUE_REQUIRED, $this->trans('common.options.module')),
-        new InputOption('service-name',null,InputOption::VALUE_OPTIONAL, $this->trans('command.generate.service.options.service-name')),
-        new InputOption('class-name',null,InputOption::VALUE_OPTIONAL, $this->trans('command.generate.service.options.class-name')),
-        new InputOption('services',null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, $this->trans('common.options.services')),
-      ))
-      ->setDescription($this->trans('command.generate.service.description'))
-      ->setHelp($this->trans('command.generate.service.description'))
-      ->setName('generate:service');
+      ->setName('generate:service')
+      ->setDescription($this->trans('commands.generate.service.description'))
+      ->setHelp($this->trans('commands.generate.service.description'))
+      ->addOption('module',null,InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+      ->addOption('service-name',null,InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.service.options.service-name'))
+      ->addOption('class-name',null,InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.service.options.class-name'))
+      ->addOption('services',null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, $this->trans('commands.common.options.services'))
+    ;
   }
 
   /**
@@ -60,9 +59,6 @@ class GeneratorServiceCommand extends GeneratorCommand
     $this
       ->getGenerator()
       ->generate($module, $service_name, $class_name, $build_services);
-
-    $errors = [];
-    $dialog->writeGeneratorSummary($output, $errors);
   }
 
   /**
@@ -71,7 +67,6 @@ class GeneratorServiceCommand extends GeneratorCommand
   protected function interact(InputInterface $input, OutputInterface $output)
   {
     $dialog = $this->getDialogHelper();
-    $dialog->writeSection($output, $this->trans('command.generate.service.welcome'));
 
     // --module option
     $module = $input->getOption('module');
@@ -86,7 +81,7 @@ class GeneratorServiceCommand extends GeneratorCommand
     if (!$service_name) {
       $service_name = $dialog->ask(
         $output,
-        $dialog->getQuestion($this->trans('command.generate.service.questions.service-name'), $module.'.default'),
+        $dialog->getQuestion($this->trans('commands.generate.service.questions.service-name'), $module.'.default'),
         $module.'.default'
       );
     }
@@ -97,7 +92,7 @@ class GeneratorServiceCommand extends GeneratorCommand
     if (!$class_name) {
       $class_name = $dialog->ask(
         $output,
-        $dialog->getQuestion($this->trans('command.generate.service.questions.class-name'), 'DefaultService'),
+        $dialog->getQuestion($this->trans('commands.generate.service.questions.class-name'), 'DefaultService'),
         'DefaultService'
       );
     }

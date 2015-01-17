@@ -25,14 +25,13 @@ class GeneratorCommandCommand extends GeneratorCommand
   {
     $this
       ->setName('generate:command')
-      ->setDescription($this->trans('command.generate.command.description'))
-      ->setDefinition(array(
-        new InputOption('module','',InputOption::VALUE_REQUIRED, $this->trans('common.options.module')),
-        new InputOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.command.options.class-name')),
-        new InputOption('command','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.command.options.command')),
-        new InputOption('container', '', InputOption::VALUE_NONE, $this->trans('command.generate.command.options.container')),
-      ))
-      ->setHelp($this->trans('command.generate.command.help'));
+      ->setDescription($this->trans('commands.generate.command.description'))
+      ->setHelp($this->trans('commands.generate.command.help'))
+      ->addOption('module','',InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+      ->addOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.command.options.class-name'))
+      ->addOption('command','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.command.options.command'))
+      ->addOption('container', '', InputOption::VALUE_NONE, $this->trans('commands.generate.command.options.container'))
+      ;
   }
 
   /**
@@ -55,9 +54,6 @@ class GeneratorCommandCommand extends GeneratorCommand
       ->getGenerator()
       ->generate($module, $command, $class_name, $container)
     ;
-
-    $errors = [];
-    $dialog->writeGeneratorSummary($output, $errors);
   }
 
   /**
@@ -66,7 +62,6 @@ class GeneratorCommandCommand extends GeneratorCommand
   protected function interact(InputInterface $input, OutputInterface $output)
   {
     $dialog = $this->getDialogHelper();
-    $dialog->writeSection($output, $this->trans('command.generate.command.welcome'));
 
     // --module option
     $module = $input->getOption('module');
@@ -80,7 +75,7 @@ class GeneratorCommandCommand extends GeneratorCommand
     $command = $input->getOption('command');
     if (!$command) {
       $command = $dialog->ask($output,
-        $dialog->getQuestion($this->trans('command.generate.command.questions.command'), $module.':default'),
+        $dialog->getQuestion($this->trans('commands.generate.command.questions.command'), $module.':default'),
         $module.':default'
       );
     }
@@ -90,7 +85,7 @@ class GeneratorCommandCommand extends GeneratorCommand
     $class_name = $input->getOption('class-name');
     if (!$class_name) {
       $class_name = $dialog->ask($output,
-        $dialog->getQuestion($this->trans('command.generate.command.questions.class-name'), 'DefaultCommand'),
+        $dialog->getQuestion($this->trans('commands.generate.command.questions.class-name'), 'DefaultCommand'),
         'DefaultCommand'
       );
     }
@@ -99,7 +94,7 @@ class GeneratorCommandCommand extends GeneratorCommand
     // --container option
     $container = $input->getOption('container');
     if (!$container && $dialog->askConfirmation($output,
-        $dialog->getQuestion($this->trans('command.generate.command.questions.container'), 'yes', '?'),
+        $dialog->getQuestion($this->trans('commands.generate.command.questions.container'), 'yes', '?'),
         TRUE)
     ) {
       $container = TRUE;

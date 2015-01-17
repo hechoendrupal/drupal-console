@@ -39,7 +39,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         ->getMockBuilder('Drupal\AppConsole\Command\Helper\RegisterCommandsHelper')
         ->disableOriginalConstructor()
         ->getMock();
-
   }
 
   public function testCanRunApplication()

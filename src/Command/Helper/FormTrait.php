@@ -20,19 +20,22 @@ trait FormTrait
   {
     if ($dialog->askConfirmation(
       $output,
-      $dialog->getQuestion($this->trans('common.questions.inputs.confirm'), 'yes', '?'),
+      $dialog->getQuestion($this->trans('commands.common.questions.inputs.confirm'), 'yes', '?'),
       true
     )) {
       $input_types = [
-        'textfield',
-        'textarea',
         'color',
+        'checkboxes',
         'date',
         'datetime',
         'email',
         'number',
         'range',
-        'tel'
+        'radios',
+        'select',
+        'tel',
+        'textarea',
+        'textfield',
       ];
 
       $inputs = [];
@@ -40,7 +43,7 @@ trait FormTrait
         // Label for input
         $input_label = $dialog->ask(
           $output,
-          $dialog->getQuestion('  '.$this->trans('common.questions.inputs.label'),'',':'),
+          $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.label'),'',':'),
           null
         );
 
@@ -53,18 +56,18 @@ trait FormTrait
 
         $input_name = $dialog->ask(
           $output,
-          $dialog->getQuestion('  '.$this->trans('common.questions.inputs.machine_name'), $input_machine_name, ':'),
+          $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.machine_name'), $input_machine_name, ':'),
           $input_machine_name
         );
 
         // Type input
         $input_type = $dialog->askAndValidate(
           $output,
-          $dialog->getQuestion('  '.$this->trans('common.questions.inputs.type'), 'textfield',':'),
+          $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.type'), 'textfield',':'),
           function ($input) use ($input_types) {
             if (!in_array($input, $input_types)) {
               throw new \InvalidArgumentException(
-                sprintf($this->trans('common.questions.inputs.invalid'), $input)
+                sprintf($this->trans('commands.common.questions.inputs.invalid'), $input)
               );
             }
 
@@ -75,10 +78,28 @@ trait FormTrait
           $input_types
         );
 
+        $input_options = '';
+        if(in_array($input_type, array('checkboxes', 'radios','select'))) {
+          $input_options = $dialog->ask(
+            $output,
+            $dialog->getQuestion(' Input options separated by comma','',':'),
+            null
+          );
+        }
+
+        // Prepare options as an array
+        if(strlen(trim($input_options))) {
+          // remove spaces in options and empty options
+          $input_options = array_filter(array_map('trim', explode( ",", $input_options)));
+          // Create array format for options
+          $input_options = "array('" . implode("', '", $input_options) . "')";
+        }
+
         array_push($inputs, array(
           'name'  => $input_name,
           'type'  => $input_type,
-          'label' => $input_label
+          'label' => $input_label,
+          'options' => $input_options,
         ));
       }
 

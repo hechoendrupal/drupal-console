@@ -20,17 +20,17 @@ trait ServicesTrait
   {
     if ($dialog->askConfirmation(
       $output,
-      $dialog->getQuestion($this->trans('common.questions.services.confirm') , 'no', '?'),
+      $dialog->getQuestion($this->trans('commands.common.questions.services.confirm') , 'no', '?'),
       false
     )) {
       $service_collection = [];
-      $output->writeln($this->trans('common.questions.services.message'));
+      $output->writeln($this->trans('commands.common.questions.services.message'));
 
       $services = $this->getServices();
       while (true) {
         $service = $dialog->askAndValidate(
           $output,
-          $dialog->getQuestion($this->trans('common.questions.services.name'),''),
+          $dialog->getQuestion($this->trans('commands.common.questions.services.name'),''),
           function ($service) use ($services) {
             return $this->validateServiceExist($service, $services);
           },

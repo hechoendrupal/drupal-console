@@ -17,6 +17,8 @@ class Generator
 
   private $module_path;
 
+  private $translator;
+
   /**
    * Sets an array of directories to look for templates.
    *
@@ -110,6 +112,11 @@ class Generator
     return $this->getModulePath($module_name).'/templates';
   }
 
+  public function getTranslationsPath($module_name)
+  {
+    return $this->getModulePath($module_name).'/config/translations';
+  }
+
   public function getServicesAsParameters()
   {
     $servicesAsParameters = new \Twig_SimpleFunction('servicesAsParameters', function ($services) {
@@ -180,5 +187,13 @@ class Generator
     });
 
     return $returnValue;
+  }
+
+  public function setTranslator($translator){
+    $this->translator = $translator;
+  }
+
+  public function getTranslator(){
+    return $this->translator;
   }
 }

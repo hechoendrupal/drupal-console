@@ -8,13 +8,8 @@
         "vendor/herrera-io",
         "vendor/justinrainbow",
         "vendor/kherge",
-        "vendor/symfony/config",
-        "vendor/symfony/console",
-        "vendor/symfony/dependency-injection",
-        "vendor/symfony/finder",
-        "vendor/symfony/translation",
-        "vendor/symfony/yaml",
         "vendor/seld",
+        "vendor/symfony",
         "vendor/twig"
     ],
     "files": [
