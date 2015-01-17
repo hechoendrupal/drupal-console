@@ -6,7 +6,6 @@
 
 namespace Drupal\AppConsole\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,9 +19,9 @@ class DrushCommand extends ContainerAwareCommand
   {
     $this
       ->setName('drush')
-      ->setDescription($this->trans('command.drush.description'))
-      ->addArgument('args', InputArgument::IS_ARRAY, $this->trans('command.drush.arguments.args'))
-      ->setHelp($this->trans('command.drush.help'))
+      ->setDescription($this->trans('commands.drush.description'))
+      ->addArgument('args', InputArgument::IS_ARRAY, $this->trans('commands.drush.arguments.args'))
+      ->setHelp($this->trans('commands.drush.help'))
     ;
   }
 
@@ -40,7 +39,7 @@ class DrushCommand extends ContainerAwareCommand
     if (`which drush`) {
       system('drush'.$c_args);
     } else {
-      $output->write("<error>".$this->trans('command.drush.message.not_found')."</error>");
+      $output->write("<error>".$this->trans('commands.drush.message.not_found')."</error>");
     }
   }
 }

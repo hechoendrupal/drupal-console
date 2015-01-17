@@ -37,28 +37,22 @@ abstract class GeneratorFormCommand extends GeneratorCommand
   protected function configure()
   {
     $this
-      ->setDefinition(array(
-        new InputOption('module','',InputOption::VALUE_REQUIRED, $this->trans('common.options.module')),
-        new InputOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.form.options.class-name')),
-        new InputOption('form-id','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.form.options.form-id')),
-        new InputOption('services','',InputOption::VALUE_OPTIONAL, $this->trans('common.options.services')),
-        new InputOption('inputs','',InputOption::VALUE_OPTIONAL, $this->trans('common.options.inputs')),
-        new InputOption('routing', '', InputOption::VALUE_NONE, $this->trans('command.generate.form.options.routing')),
-      ))
       ->setName($this->commandName)
-      ->setDescription(
-      sprintf(
-        $this->trans('command.generate.form.description'),
+      ->setDescription(sprintf(
+        $this->trans('commands.generate.form.description'),
         $this->formType
-      )
-      )
-      ->setHelp(
-        sprintf(
-          $this->trans('command.generate.form.help'),
-          $this->commandName,
-          $this->formType
-        )
-      )
+      ))
+      ->setHelp(sprintf(
+        $this->trans('commands.generate.form.help'),
+        $this->commandName,
+        $this->formType
+      ))
+      ->addOption('module','',InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+      ->addOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.form.options.class-name'))
+      ->addOption('form-id','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.form.options.form-id'))
+      ->addOption('services','',InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.services'))
+      ->addOption('inputs','',InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.inputs'))
+      ->addOption('routing', '', InputOption::VALUE_NONE, $this->trans('commands.generate.form.options.routing'))
     ;
   }
 
@@ -82,9 +76,6 @@ abstract class GeneratorFormCommand extends GeneratorCommand
     $this
       ->getGenerator()
       ->generate($module, $class_name, $form_id, $build_services, $inputs, $update_routing);
-
-    $errors = '';
-    $dialog->writeGeneratorSummary($output, $errors);
   }
 
   /**
@@ -93,7 +84,6 @@ abstract class GeneratorFormCommand extends GeneratorCommand
   protected function interact(InputInterface $input, OutputInterface $output)
   {
     $dialog = $this->getDialogHelper();
-    $dialog->writeSection($output, $this->trans('command.generate.form.welcome'));
 
     // --module option
     $module = $input->getOption('module');
@@ -108,7 +98,7 @@ abstract class GeneratorFormCommand extends GeneratorCommand
     if (!$class_name) {
       $class_name = $dialog->ask(
         $output,
-        $dialog->getQuestion($this->trans('command.generate.form.questions.class-name'), 'DefaultForm'),
+        $dialog->getQuestion($this->trans('commands.generate.form.questions.class-name'), 'DefaultForm'),
         'DefaultForm'
       );
     }
@@ -120,7 +110,7 @@ abstract class GeneratorFormCommand extends GeneratorCommand
       $form_id = $this->getStringUtils()->camelCaseToMachineName($class_name);
       $form_id = $dialog->ask(
         $output,
-        $dialog->getQuestion($this->trans('command.generate.form.questions.form-id'), $form_id),
+        $dialog->getQuestion($this->trans('commands.generate.form.questions.form-id'), $form_id),
         $form_id
       );
     }
@@ -143,7 +133,7 @@ abstract class GeneratorFormCommand extends GeneratorCommand
     $routing = $input->getOption('routing');
     if (!$routing && $dialog->askConfirmation(
       $output,
-      $dialog->getQuestion($this->trans('command.generate.form.questions.routing'), 'yes', '?'),
+      $dialog->getQuestion($this->trans('commands.generate.form.questions.routing'), 'yes', '?'),
       true)
     ) {
         $routing = true;

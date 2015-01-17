@@ -1,5 +1,5 @@
 application:
   name: Drupal Console
-  version: 0.6.1
+  version: 0.6.4
   environment: prod
   language: en

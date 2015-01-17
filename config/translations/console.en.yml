@@ -1,26 +1,36 @@
-common:
-  options:
-    module: The Module name.
-    services: Load services form the container.
-    inputs: Create inputs in a form.
-  questions:
-    module: Enter the module name
-    confirm: Do you confirm generation
-    canceled: Command generation canceled.
-    services:
-      confirm: Do you want to load services form the container
-      message: |
+application:
+  console:
+    messages:
+      completed: You can now start using the generated code!
+    errors:
+      invalid-command: Command "%s" is not defined.
+  site:
+    errors:
+      directory: In order to list all of the available commands, you should run this inside a drupal root directory.
+      settings: In order to list all of the available commands you should install drupal first.
+commands:
+  common:
+    options:
+      module: The Module name.
+      services: Load services form the container.
+      inputs: Create inputs in a form.
+    questions:
+      module: Enter the module name
+      confirm: Do you confirm generation
+      canceled: Command generation canceled.
+      services:
+        confirm: Do you want to load services form the container
+        message: |
 
-        Type the service name or use keyup or keydown
-        This is optional, press <info>enter</info> to <info>continue</info>
-      name: Enter your service
-    inputs:
-      confirm: Do you like generate a form structure
-      label: Input label
-      machine_name: Input machine name
-      type: Type
-      invalid: Field Type "%s" is invalid.
-command:
+          Type the service name or use keyup or keydown
+          This is optional, press <info>enter</info> to <info>continue</info>
+        name: Enter your service
+      inputs:
+        confirm: Do you like generate a form structure
+        label: Input label
+        machine_name: Input machine name
+        type: Type
+        invalid: Field Type "%s" is invalid.
   cache:
     rebuild:
       description: Rebuild and clear all site caches.
@@ -178,6 +188,27 @@ command:
           label: Enter the plugin label
           plugin-id: Enter the plugin id
           description: Enter the plugin Description
+      rest:
+          resource:
+            description: Generate plugin rest resource
+            help: The <info>generate:plugin:rest:resource</info> command helps you generate a new rest resource.
+            welcome: Welcome to the Drupal Plugin Rest Resource generator
+            options:
+              module: common.options.module
+              class-name: Plugin Rest Resource class
+              plugin-id: Plugin Rest Resource id
+              plugin-label: Plugin Rest Resource Label
+              plugin-url: Plugin Rest Resource URL
+              plugin-states: Plugin Rest Resource States
+            questions:
+              module: common.questions.module
+              class-name: Enter the plugin rest resource name
+              plugin-id: Enter the plugin rest resource id
+              plugin-label: Enter the plugin rest resource label
+              plugin-url: Enter the plugin rest resource url
+              plugin-states: Please select what REST States implement in your resource (GET is selected by default)
+            messages:
+              selected-states: States selected
     service:
       description: Generate service
       help: The <info>generate:service</info> command helps you generate a new service.

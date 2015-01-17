@@ -1,26 +1,36 @@
-common:
-  options:
-    module: Nombre del módulo.
-    services: Load services form the container.
-    inputs: Create inputs in a form.
-  questions:
-    module: Escriba el nombre del módulo
-    confirm: Do you confirm generation
-    canceled: Command generation canceled.
-    services:
-      confirm: Deseas cargar los servicios del contenedor
-      message: |
+application:
+  console:
+    messages:
+      completed: You can now start using the generated code!
+    errors:
+      invalid-command: Command "%s" is not defined.
+  site:
+    errors:
+      directory: In order to list all of the available commands, you should run this inside a drupal root directory.
+      settings: In order to list all of the available commands you should install drupal first.
+commands:
+  common:
+    options:
+      module: Nombre del módulo.
+      services: Load services form the container.
+      inputs: Create inputs in a form.
+    questions:
+      module: Escriba el nombre del módulo
+      confirm: Do you confirm generation
+      canceled: Command generation canceled.
+      services:
+        confirm: Deseas cargar los servicios del contenedor
+        message: |
 
-        Escriba el nombre del servicio o use la tecla keyup o keydown
-        Esto es opcional, presione <info>enter</info para <info>continuar</info>
-      name: Enter your service
-    inputs:
-      confirm: Do you like generate a form structure
-      label: Input label
-      machine_name: Input machine name
-      type: Tipo
-      invalid: El Tipo de Campo "%s" no es válido.
-command:
+          Escriba el nombre del servicio o use la tecla keyup o keydown
+          Esto es opcional, presione <info>enter</info para <info>continuar</info>
+        name: Enter your service
+      inputs:
+        confirm: Do you like generate a form structure
+        label: Input label
+        machine_name: Input machine name
+        type: Tipo
+        invalid: El Tipo de Campo "%s" no es válido.
   cache:
     rebuild:
       description: Reconstruye y limpia todas las cachés del sitio.

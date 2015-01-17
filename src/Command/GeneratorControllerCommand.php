@@ -20,22 +20,19 @@ class GeneratorControllerCommand extends GeneratorCommand
   use ServicesTrait;
   use ConfirmationTrait;
 
-
   protected function configure()
   {
     $this
-      ->setDefinition(array(
-//        new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
-        new InputOption('module','',InputOption::VALUE_REQUIRED, $this->trans('common.options.module')),
-        new InputOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.controller.options.class-name')),
-        new InputOption('method-name','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.controller.options.method-name')),
-        new InputOption('route','',InputOption::VALUE_OPTIONAL, $this->trans('command.generate.controller.options.route')),
-        new InputOption('services','',InputOption::VALUE_OPTIONAL, $this->trans('common.options.services')),
-        new InputOption('test', '', InputOption::VALUE_NONE, $this->trans('command.generate.controller.options.test')),
-      ))
-      ->setDescription($this->trans('command.generate.controller.description'))
-      ->setHelp($this->trans('command.generate.controller.command.help'))
-      ->setName('generate:controller');
+      ->setName('generate:controller')
+      ->setDescription($this->trans('commands.generate.controller.description'))
+      ->setHelp($this->trans('commands.generate.controller.command.help'))
+      ->addOption('module','',InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+      ->addOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.controller.options.class-name'))
+      ->addOption('method-name','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.controller.options.method-name'))
+      ->addOption('route','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.controller.options.route'))
+      ->addOption('services','',InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.services'))
+      ->addOption('test', '', InputOption::VALUE_NONE, $this->trans('commands.generate.controller.options.test'))
+    ;
   }
 
   /**
@@ -64,9 +61,6 @@ class GeneratorControllerCommand extends GeneratorCommand
 
     $this->getGenerator()
       ->generate($module, $class_name, $method_name, $route, $test, $build_services, $class_machine_name);
-
-    $errors = '';
-    $dialog->writeGeneratorSummary($output, $errors);
   }
 
   /**
@@ -75,7 +69,6 @@ class GeneratorControllerCommand extends GeneratorCommand
   protected function interact(InputInterface $input, OutputInterface $output)
   {
     $dialog = $this->getDialogHelper();
-    $dialog->writeSection($output, $this->trans('command.generate.controller.welcome'));
 
     // --module option
     $module = $input->getOption('module');
@@ -91,7 +84,7 @@ class GeneratorControllerCommand extends GeneratorCommand
       $class_name = 'DefaultController';
       $class_name = $dialog->askAndValidate(
         $output,
-        $dialog->getQuestion($this->trans('command.generate.controller.questions.class-name'), $class_name),
+        $dialog->getQuestion($this->trans('commands.generate.controller.questions.class-name'), $class_name),
         function ($class_name) {
           return $this->validateClassName($class_name);
         },
@@ -108,7 +101,7 @@ class GeneratorControllerCommand extends GeneratorCommand
       if (!$method_name) {
         $method_name = $dialog->ask(
           $output,
-          $dialog->getQuestion($this->trans('command.generate.controller.questions.method-name'), 'index'),
+          $dialog->getQuestion($this->trans('commands.generate.controller.questions.method-name'), 'index'),
           'index'
         );
       }
@@ -117,7 +110,7 @@ class GeneratorControllerCommand extends GeneratorCommand
       if (!$route) {
         $route = $dialog->ask(
           $output,
-          $dialog->getQuestion($this->trans('command.generate.controller.questions.route'), $module.'/'.$method_name),
+          $dialog->getQuestion($this->trans('commands.generate.controller.questions.route'), $module.'/'.$method_name),
           $module.'/'.$method_name
         );
       }
@@ -133,7 +126,7 @@ class GeneratorControllerCommand extends GeneratorCommand
     $test = $input->getOption('test');
     if (!$test && $dialog->askConfirmation(
       $output,
-      $dialog->getQuestion($this->trans('command.generate.controller.questions.test'), 'yes', '?'),
+      $dialog->getQuestion($this->trans('commands.generate.controller.questions.test'), 'yes', '?'),
       TRUE
     )) {
       $test = true;

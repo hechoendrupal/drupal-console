@@ -45,6 +45,7 @@ class GeneratorFormCommandTest extends GenerateCommandTest
         'name' => 'bar',
         'type' => 'textfield',
         'label' => 'Bar',
+        'options' => '',
       ]
     ];
 

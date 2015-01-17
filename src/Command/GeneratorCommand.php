@@ -31,8 +31,10 @@ abstract class GeneratorCommand extends ContainerAwareCommand
         if (null === $this->generator) {
             $this->generator = $this->createGenerator();
             $this->generator->setSkeletonDirs($this->getSkeletonDirs());
+            $this->generator->setTranslator($this->translator);
         }
 
+        $this->addMessage('application.console.messages.completed');
         return $this->generator;
     }
 
@@ -44,5 +46,4 @@ abstract class GeneratorCommand extends ContainerAwareCommand
 
         return $skeletonDirs;
     }
-
 }
