@@ -61,4 +61,8 @@ class StringUtils extends Helper
     return "stringUtils";
   }
 
+  public function humanToCamelCase($human) {
+    return str_replace(' ', '', ucwords($human));
+  }
+
 }
