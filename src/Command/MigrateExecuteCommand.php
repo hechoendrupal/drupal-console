@@ -18,6 +18,8 @@ use Drupal\migrate\MigrateMessageInterface;
 class MigrateExecuteCommand extends ContainerAwareCommand
 {
   protected $connection;
+  protected $migration_group;
+
   protected function configure()
   {
     $this
@@ -145,19 +147,23 @@ class MigrateExecuteCommand extends ContainerAwareCommand
       $this->getConnection($output);
 
       if ($this->connection->schema()->tableExists('filter_format')) {
-        $migrations = $this->getMigrations('Drupal 7');
+        $this->migration_group = 'Drupal 7' ;
+        $migrations = $this->getMigrations($this->migration_group);
       }
       elseif ($this->connection->schema()->tableExists('menu_router')) {
-        $migrations = $this->getMigrations('Drupal 6');
+        $this->migration_group = 'Drupal 6' ;
+        $migrations = $this->getMigrations($this->migration_group);
       }
       else {
         $output->writeln('[+] <error>'. $this->trans('commands.migrate.execute.questions.wrong-source') .'</error>');
         return;
       }
 
+      $migrations+= array('all' => 'All');
+
       $migration_id = $dialog->askAndValidate(
         $output,
-        $dialog->getQuestion($this->trans('commands.migrate.execute.questions.id'), ''),
+        $dialog->getQuestion($this->trans('commands.migrate.execute.questions.id'), 'all'),
         function ($migration_id) use ($migrations) {
          if($migrations[$migration_id]) {
            return $migration_id;
@@ -169,7 +175,7 @@ class MigrateExecuteCommand extends ContainerAwareCommand
          }
        },
         false,
-        '',
+        'all',
         array_keys($migrations)
       );
 
@@ -220,43 +226,53 @@ class MigrateExecuteCommand extends ContainerAwareCommand
     $migration_id = $input->getArgument('migration-id');
 
     if(!$this->connection) {
-      $this->migrateRegisterSourceDB($input);
+      $this->registerSourceDB($input);
       $this->getConnection($output);
+    }
+
+    if($migration_id != 'all') {
+      $migrations = array($migration_id);
+    }
+    else {
+      $migrations = array_keys($this->getMigrations($this->migration_group));
     }
 
     $entity_manager = $this->getEntityManager();
     $migration_storage = $entity_manager->getStorage('migration');
 
-    $migration = $migration_storage->load($migration_id);
+    foreach ($migrations as $migration_id) {
+      $output->writeln('[+] <info>'. sprintf($this->trans('commands.migrate.execute.messages.processing'), $migration_id) .'</info>');
+      $migration = $migration_storage->load($migration_id);
 
-    if ($migration) {
-      $messages = new MigrateExecuteMessageCapture();
-      $executable = new MigrateExecutable($migration, $messages);
-      $migration_name = $migration->label() ? $migration->label() : $migration_id;
-      $migration_status = $executable->import();
-      switch ($migration_status) {
-        case MigrationInterface::RESULT_COMPLETED:
-          $output->writeln('[+] <info>'.$this->trans('commands.migrate.execute.messages.imported').'</info>');
-          break;
-        case MigrationInterface::RESULT_INCOMPLETE:
-          $output->writeln('[+] <info>'.$this->trans('commands.migrate.execute.messages.importing-incomplete').'</info>');
-          break;
-        case MigrationInterface::RESULT_STOPPED:
-          $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.import-stoped').'</error>');
-          break;
-        case MigrationInterface::RESULT_FAILED:
-          $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.import-fail').'</error>');
-          break;
-        case MigrationInterface::RESULT_SKIPPED:
-          $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.import-skipped').'</error>');
-          break;
-        case MigrationInterface::RESULT_DISABLED:
-          // Skip silently if disabled.
-          break;
+      if ($migration) {
+        $messages = new MigrateExecuteMessageCapture();
+        $executable = new MigrateExecutable($migration, $messages);
+        $migration_name = $migration->label() ? $migration->label() : $migration_id;
+        $migration_status = $executable->import();
+        switch ($migration_status) {
+          case MigrationInterface::RESULT_COMPLETED:
+            $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.execute.messages.imported'), $migration_id) . '</info>');
+            break;
+          case MigrationInterface::RESULT_INCOMPLETE:
+            $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.execute.messages.importing-incomplete'), $migration_id) . '</info>');
+            break;
+          case MigrationInterface::RESULT_STOPPED:
+            $output->writeln('[+] <error>' . sprintf($this->trans('commands.migrate.execute.messages.import-stoped'), $migration_id) . '</error>');
+            break;
+          case MigrationInterface::RESULT_FAILED:
+            $output->writeln('[+] <error>' . sprintf($this->trans('commands.migrate.execute.messages.import-fail'), $migration_id) . '</error>');
+            break;
+          case MigrationInterface::RESULT_SKIPPED:
+            $output->writeln('[+] <error>'. sprintf($this->trans('commands.migrate.execute.messages.import-skipped'), $migration_id) . '</error>');
+            break;
+          case MigrationInterface::RESULT_DISABLED:
+            // Skip silently if disabled.
+            break;
+        }
       }
-    }
-    else {
-      $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.fail-load').'</error>');
+      else {
+        $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.fail-load').'</error>');
+      }
     }
   }
 }

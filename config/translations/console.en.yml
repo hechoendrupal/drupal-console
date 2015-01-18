@@ -255,12 +255,13 @@ commands:
         db-port: "Database Port"
         invalid-migration-id: Migration Id "%s" is invalid
       messages:
-        imported: "Migration was imported properly"
-        load-fail: "Migration can't be loaded"
-        importing-incomplete: "Importing migration"
-        import-stoped: "Import stopped by request"
-        import-fail: "Import fail"
-        import-skipped: "Import skipped due to unfulfilled dependencies"
+        processing: Procesing Migration "%s"
+        imported: Migration "%s" was imported properly
+        fail-load: Migration "%s" can't be loaded
+        importing-incomplete: Importing migration "%s"
+        import-stoped: Import "%s" stopped by request
+        import-fail: Import "%s" fail
+        import-skipped: Import "%s" skipped due to unfulfilled dependencies
         wrong-source: 'Upgrade from this version of Drupal is not supported.'
 
   router:
