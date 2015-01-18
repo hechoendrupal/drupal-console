@@ -232,6 +232,37 @@ commands:
         id: "Migration Id"
         description: "Description"
         version: "Version"
+    execute:
+      description: Execute a migration available for application
+      arguments:
+        id: "Migration Id"
+      options:
+        site-url: "Site Source URL"
+        db-host: "Database Host"
+        db-name: "Database Name"
+        db-user: "Database User"
+        db-pass: "Database Pass"
+        db-prefix: "Database Prefix"
+        db-port: "Database Port"
+      questions:
+        id: "Migration Id"
+        site-url: "Source Site URL"
+        db-host: "Database Host"
+        db-name: "Database Name"
+        db-user: "Database User"
+        db-pass: "Database Pass"
+        db-prefix: "Database Prefix"
+        db-port: "Database Port"
+        invalid-migration-id: Migration Id "%s" is invalid
+      messages:
+        imported: "Migration was imported properly"
+        load-fail: "Migration can't be loaded"
+        importing-incomplete: "Importing migration"
+        import-stoped: "Import stopped by request"
+        import-fail: "Import fail"
+        import-skipped: "Import skipped due to unfulfilled dependencies"
+        wrong-source: 'Upgrade from this version of Drupal is not supported.'
+
   router:
     debug:
       description: Displays current routes for an application

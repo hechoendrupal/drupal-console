@@ -67,7 +67,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
    * @param  boolean $core Return core modules
    * @return array list of modules
    */
-  public function getMigrations($version = false)
+  public function getMigrations($group = false)
   {
 
     $entity_manager = $this->getEntityManager();
@@ -76,12 +76,11 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     $entity_query_service = $this->getEntityQuery();
     $query = $entity_query_service->get('migration');
 
-    if($version and in_array($version, array(6,7))) {
-        $query->condition('migration_groups.*', 'Drupal ' . $version);
+    if($group) {
+        $query->condition('migration_groups.*', $group);
     }
 
     $results = $query->execute();
-
 
     $migration_entities = $migration_storage->loadMultiple($results);
 
