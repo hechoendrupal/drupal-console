@@ -66,6 +66,8 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
   {
     $dialog = $this->getDialogHelper();
 
+    $stringUtils = $this->getStringUtils();
+
     // --module option
     $module = $input->getOption('module');
     if (!$module) {
@@ -77,15 +79,21 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
     // --class-name option
     $class_name = $input->getOption('class-name');
     if (!$class_name) {
-      $class_name = $dialog->ask(
+      $class_name = $dialog->askAndValidate(
         $output,
         $dialog->getQuestion($this->trans('commands.generate.plugin.rest.resource.questions.class-name'), 'DefaultRestResource'),
+        function ($value) use($stringUtils) {
+            if (!strlen(trim($value))) {
+              throw new \Exception('The Class name can not be empty');
+            }
+          return $stringUtils->humanToCamelCase($value);
+        },
         'DefaultRestResource'
       );
     }
     $input->setOption('class-name', $class_name);
 
-    $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
+    $machine_name = $stringUtils->camelCaseToUnderscore($class_name);
 
     // --plugin-label option
     $plugin_id = $input->getOption('plugin-id');
