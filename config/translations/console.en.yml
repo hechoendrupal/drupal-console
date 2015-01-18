@@ -223,6 +223,15 @@ commands:
         service-name: Enter the service name
         class-name: Enter the Class name
         services: common.options.services
+  migrate:
+    debug:
+      description: Display current migration available for application
+      arguments:
+        drupal-version: Drupal Version
+      messages:
+        id: "Migration Id"
+        description: "Description"
+        version: "Version"
   router:
     debug:
       description: Displays current routes for an application

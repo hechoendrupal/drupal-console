@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Drupal\AppConsole\Command\Command;
 use Drupal\Core\Extension\ExtensionDiscovery;
+//use Drupal\Core\Entity\EntityStorageInterface;
 
 abstract class ContainerAwareCommand extends Command implements ContainerAwareInterface
 {
@@ -61,6 +62,39 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     return $this->modules;
   }
 
+  /**
+   * [getModules description]
+   * @param  boolean $core Return core modules
+   * @return array list of modules
+   */
+  public function getMigrations($version = false)
+  {
+
+    $entity_manager = $this->getEntityManager();
+    $migration_storage = $entity_manager->getStorage('migration');
+
+    $entity_query_service = $this->getEntityQuery();
+    $query = $entity_query_service->get('migration');
+
+    if($version and in_array($version, array(6,7))) {
+        $query->condition('migration_groups.*', 'Drupal ' . $version);
+    }
+
+    $results = $query->execute();
+
+
+    $migration_entities = $migration_storage->loadMultiple($results);
+
+    $migrations = array();
+    foreach ($migration_entities as $migration) {
+      $migrations[$migration->id]['version'] = ucfirst($migration->migration_groups[0]);
+      $label = str_replace($migrations[$migration->id]['version'], '', $migration->label);
+      $migrations[$migration->id]['description'] = ucwords($label);
+    }
+
+    return $migrations;
+  }
+
   public function getServices()
   {
     if (null === $this->services) {
@@ -90,6 +124,10 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
   public function getEntityManager(){
     return $this->getContainer()->get('entity.manager');
+  }
+
+  public function getEntityQuery(){
+    return $this->getContainer()->get('entity.query');
   }
 
   public function validateModuleExist($module_name)
