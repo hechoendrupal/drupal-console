@@ -6,7 +6,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Drupal\AppConsole\Command\Command;
 use Drupal\Core\Extension\ExtensionDiscovery;
-//use Drupal\Core\Entity\EntityStorageInterface;
 
 abstract class ContainerAwareCommand extends Command implements ContainerAwareInterface
 {
