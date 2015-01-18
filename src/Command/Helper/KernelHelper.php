@@ -88,10 +88,12 @@ class KernelHelper extends Helper
   {
     $kernel = $this->getKernel();
     $kernel->boot();
+    $kernel->preHandle($this->request);
 
     $container = $kernel->getContainer();
     $container->set('request', $this->request);
     $container->get('request_stack')->push($this->request);
+
   }
 
   /**
