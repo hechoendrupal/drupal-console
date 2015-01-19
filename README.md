@@ -14,9 +14,13 @@ Drupal Console
 [![Build Status](https://travis-ci.org/hechoendrupal/DrupalAppConsole.svg?branch=master)](https://travis-ci.org/hechoendrupal/DrupalAppConsole)
 [![Latest Stable Version](https://poser.pugx.org/drupal/console/v/stable.svg)](https://packagist.org/packages/drupal/console) [![Total Downloads](https://poser.pugx.org/drupal/console/downloads.svg)](https://packagist.org/packages/drupal/console) [![Latest Unstable Version](https://poser.pugx.org/drupal/console/v/unstable.svg)](https://packagist.org/packages/drupal/console) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
 
-## Supported version: Drupal 8.0.0-beta4
+## Supported version
 
-## [Project documentation](http://hechoendrupal.gitbooks.io/drupal-console/)
+[Drupal 8.0.0-beta4](http://ftp.drupal.org/files/projects/drupal-8.0.0-beta4.tar.gz)
+
+## Documentation
+
+You can read online of Downlad the Documentation of Drupal Console at [gitbooks.io](http://hechoendrupal.gitbooks.io/drupal-console/)
 
 ## Installation & usage
 ```
