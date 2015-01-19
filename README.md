@@ -1,10 +1,10 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
 - [Drupal Console](#drupal-console)
-  - [Supported version: Drupal 8.0.0-beta4](#supported-version-drupal-800-beta4)
-  - [[Project documentation](http://hechoendrupal.gitbooks.io/drupal-console/)](#project-documentationhttphechoendrupalgitbooksiodrupal-console)
-  - [Installation & usage](#installation-&-usage)
+  - [Supported version](#supported-version)
+  - [Documentation](#documentation)
+  - [Installation](#installation)
+  - [Usage](#usage)
   - [Supporting organizations](#supporting-organizations)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -22,7 +22,7 @@ Drupal Console
 
 You can read online of Downlad the Documentation of Drupal Console at [gitbooks.io](http://hechoendrupal.gitbooks.io/drupal-console/)
 
-## Installation & usage
+## Installation
 ```
 // Run this in your terminal to get the latest Console version:
 $ curl -LSs http://drupalconsole.com/installer | php
@@ -36,6 +36,8 @@ $ mv console.phar /usr/local/bin/drupal
 // Use the project
 $ drupal generate:module
 ```
+
+## Usage
 
 ![image](http://drupalconsole.com/assets/img/console-global.gif)
 
