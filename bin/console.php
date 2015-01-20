@@ -88,6 +88,19 @@ $dispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $
   $output = $event->getOutput();
   $command = $event->getCommand();
 
+  if (method_exists($command,'getDependencies')) {
+    $dependencies = $command->getDependencies();
+    foreach ($dependencies as $dependency) {
+      if (\Drupal::moduleHandler()->moduleExists($dependency) === false) {
+        $errorMessage = sprintf(
+          $translatorHelper->trans('commands.common.errors.module-dependency'),
+          $dependency
+        );
+        $command->showMessage($output, $errorMessage, 'error');
+      }
+    }
+  }
+
   $welcomeMessageKey = 'commands.'. str_replace(':', '.', $command->getName()). '.welcome';
   $welcomeMessage = $translatorHelper->trans($welcomeMessageKey);
 
