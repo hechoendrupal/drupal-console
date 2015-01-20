@@ -77,6 +77,11 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
   /**
    * {@inheritdoc}
    */
+  protected function getEditableConfigNames() {}
+
+  /**
+   * {@inheritdoc}
+   */
   public function build() {
     return [
       '#markup' => '{{label}}',
