@@ -1,13 +1,29 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [Drupal Console](#drupal-console)
+  - [Supported version](#supported-version)
+  - [Documentation](#documentation)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Supporting organizations](#supporting-organizations)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 Drupal Console
 =============================================
 [![Build Status](https://travis-ci.org/hechoendrupal/DrupalAppConsole.svg?branch=master)](https://travis-ci.org/hechoendrupal/DrupalAppConsole)
-[![Latest Stable Version](https://poser.pugx.org/drupal/console/v/stable.svg)](https://packagist.org/packages/drupal/console) [![Total Downloads](https://poser.pugx.org/drupal/console/downloads.svg)](https://packagist.org/packages/drupal/console) [![Latest Unstable Version](https://poser.pugx.org/drupal/console/v/unstable.svg)](https://packagist.org/packages/drupal/console) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
+[![Latest Stable Version](https://poser.pugx.org/drupal/console/v/stable.svg)](https://packagist.org/packages/drupal/console) [![Latest Unstable Version](https://poser.pugx.org/drupal/console/v/unstable.svg)](https://packagist.org/packages/drupal/console) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
 
-## Supported version: Drupal 8.0.0-beta4
+## Supported version
 
-### [Project documentation](http://hechoendrupal.gitbooks.io/drupal-console/)
+[Drupal 8.0.0-beta4](http://ftp.drupal.org/files/projects/drupal-8.0.0-beta4.tar.gz)
 
-### Installation & usage
+## Documentation
+
+You can read online of Downlad the Documentation of Drupal Console at [gitbooks.io](http://hechoendrupal.gitbooks.io/drupal-console/)
+
+## Installation
 ```
 // Run this in your terminal to get the latest Console version:
 $ curl -LSs http://drupalconsole.com/installer | php
@@ -22,8 +38,10 @@ $ mv console.phar /usr/local/bin/drupal
 $ drupal generate:module
 ```
 
+## Usage
+
 ![image](http://drupalconsole.com/assets/img/console-global.gif)
 
-#### Supporting organizations
+## Supporting organizations
 [![Blink Reaction](https://www.drupal.org/files/blink-reaction-logo.png)](http://www.blinkreaction.com/)
 [![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)
