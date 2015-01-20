@@ -14,6 +14,7 @@ use Drupal\Core\Database\Database;
 use Drupal\migrate\Entity\MigrationInterface;
 use Drupal\migrate\MigrateExecutable;
 use Drupal\migrate\MigrateMessageInterface;
+use Drupal\AppConsole\Command\migrate_upgrade\MigrateExecuteMessageCapture;
 
 class MigrateExecuteCommand extends ContainerAwareCommand
 {
@@ -275,40 +276,5 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.fail-load').'</error>');
       }
     }
-  }
-}
-
-/**
- * Defines a migrate message class.
- */
-class MigrateExecuteMessageCapture implements MigrateMessageInterface {
-  /**
-   * Array of recorded messages.
-   *
-   * @var array
-   */
-  protected $messages = array();
-
-  /**
-   * {@inheritdoc}
-   */
-  public function display($message, $type = 'status') {
-    $this->messages[] = $message;
-  }
-
-  /**
-   * Clear out any captured messages.
-   */
-  public function clear() {
-    $this->messages = array();
-  }
-
-  /**
-   * Return any captured messages.
-   *
-   * @return array
-   */
-  public function getMessages() {
-    return $this->messages;
   }
 }
