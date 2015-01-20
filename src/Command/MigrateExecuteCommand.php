@@ -33,8 +33,9 @@ class MigrateExecuteCommand extends ContainerAwareCommand
       ->addOption('db-pass','',InputOption::VALUE_OPTIONAL, $this->trans('commands.migrate.execute.options.db-pass'))
       ->addOption('db-prefix','',InputOption::VALUE_OPTIONAL, $this->trans('commands.migrate.execute.options.db-prefix'))
       ->addOption('db-port','',InputOption::VALUE_REQUIRED, $this->trans('commands.migrate.execute.options.db-port'))
-
     ;
+
+    $this->addDependency('migrate');
   }
 
   /**
