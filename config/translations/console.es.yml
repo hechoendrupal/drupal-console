@@ -12,7 +12,7 @@ commands:
   common:
     options:
       module: Nombre del módulo.
-      services: Load services form the container.
+      services: Load services from the container.
       inputs: Create inputs in a form.
     questions:
       module: Escriba el nombre del módulo
@@ -22,11 +22,11 @@ commands:
         confirm: Deseas cargar los servicios del contenedor
         message: |
 
-          Escriba el nombre del servicio o use la tecla keyup o keydown
+          Escriba el nombre del servicio o use la tecla keyup o keydown.
           Esto es opcional, presione <info>enter</info para <info>continuar</info>
         name: Enter your service
       inputs:
-        confirm: Do you like generate a form structure
+        confirm: Would you like to generate a form structure
         label: Input label
         machine_name: Input machine name
         type: Tipo
@@ -75,7 +75,7 @@ commands:
         module: common.questions.module
         class-name: Enter Command Class name.
         command: Enter Command name.
-        container: Necesita acceder al contenedor de servicios ?
+        container: Necesita acceder al contenedor de servicios
     controller:
       description: Generar y registrar un controlador
       help: El comando <info>generate:controller</info> le ayuda a generar un nuevo controlador.
@@ -93,7 +93,7 @@ commands:
         method-name: Escriba nombre del método de acción
         route: Escriba el camino de la ruta
         services: common.questions.services
-        test: Desea generar una clase de prueba unitaria ?
+        test: Desea generar una clase de prueba unitaria
     entity:
       description: Generate a new "%s"
       help: The <info>"%s"</info> command helps you generate a new "%s"
@@ -136,8 +136,8 @@ commands:
         core: Core version
         package: Module package
         controller: Default Controller
-        test: Generate a test class
-        structure: Generate the whole directory structure
+        test: Generate a test class?
+        structure: Generate the whole directory structure?
       questions:
         module: Enter the new module name
         machine-name: Enter the module machine name
@@ -145,12 +145,12 @@ commands:
         description: Enter module description
         core: Enter Drupal Core version
         package: Enter package name
-        controller: Do you want to generate a default Controller
-        test: Do you want to generate a unit test class
+        controller: Do you want to generate a default Controller?
+        test: Do you want to generate a unit test class?
         structure: Do you want to generate the whole directory structure
     plugin:
       block:
-        description: Generate plugin block.
+        description: Generate a plugin block
         help: The <info>generate:plugin:block</info> command helps you generate a new Plugin block.
         welcome: Welcome to the Drupal Plugin Block generator
         options:
@@ -160,7 +160,7 @@ commands:
           plugin-id: Plugin id
           inputs: common.options.inputs
           services: common.options.services
-        questions:
+        questions:a
           module: common.questions.module
           class-name: Enter the plugin class name
           label: Enter the plugin label
@@ -170,7 +170,7 @@ commands:
         messages:
           inputs: |
 
-            You can add some input fields to create special configurations in each block
+            You can add input fields to create special configurations in each block.
             This is optional, press <info>enter</info> to <info>continue</info>
       imageeffect:
         description: Generate image effect plugin.
@@ -221,8 +221,8 @@ commands:
         rebuilding: Rebuilding routes, wait a moment please
         completed: Done rebuilding route(s).
   self-update:
-    description: Update the console to lates version.
-    help: Update the console command to the lates version.
+    description: Update the console to latest version.
+    help: Update the console command to the latest version.
     messages:
-      success: The console has update to the lates version.
+      success: The console has been updated to the latest version.
 
