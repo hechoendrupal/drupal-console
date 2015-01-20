@@ -20,6 +20,8 @@ class MigrateDebugCommand extends ContainerAwareCommand
       ->setDescription($this->trans('commands.migrate.debug.description'))
       ->addArgument('drupal-version', InputArgument::OPTIONAL, $this->trans('commands.migrate.debug.arguments.drupal-version'))
     ;
+
+    $this->addDependency('migrate');
   }
 
   protected function execute(InputInterface $input, OutputInterface $output)

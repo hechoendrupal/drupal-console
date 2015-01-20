@@ -31,6 +31,8 @@ commands:
         machine_name: Input machine name
         type: Type
         invalid: Field Type "%s" is invalid.
+    errors:
+      module-dependency: Missing module dependency "%s"
   cache:
     rebuild:
       description: Rebuild and clear all site caches.

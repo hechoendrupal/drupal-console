@@ -13,6 +13,8 @@ abstract class Command extends BaseCommand {
 
   protected $messages = [];
 
+  protected $dependencies;
+
   /**
    * @var TranslatorHelper
    */
@@ -70,11 +72,15 @@ abstract class Command extends BaseCommand {
     $this->module = $module;
   }
 
-  public function showMessage($output, $welcomeMessage, $style = 'bg=blue;fg=white')
+  public function showMessage($output, $message, $type='info')
   {
+    $style = 'bg=blue;fg=white';
+    if ('error' == $type) {
+      $style = 'bg=red;fg=white';
+    }
     $output->writeln([
       '',
-      $this->getHelperSet()->get('formatter')->formatBlock($welcomeMessage, $style, true),
+      $this->getHelperSet()->get('formatter')->formatBlock($message, $style, true),
       '',
     ]);
   }
@@ -114,4 +120,11 @@ abstract class Command extends BaseCommand {
     return $validators;
   }
 
+  public function addDependency($moduleName){
+    $this->dependencies[] = $moduleName;
+  }
+
+  public function getDependencies(){
+    return $this->dependencies;
+  }
 }
