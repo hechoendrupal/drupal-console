@@ -13,6 +13,8 @@ abstract class Command extends BaseCommand {
 
   protected $messages = [];
 
+  protected $dependencies;
+
   /**
    * @var TranslatorHelper
    */
@@ -114,4 +116,11 @@ abstract class Command extends BaseCommand {
     return $validators;
   }
 
+  public function addDependency($moduleName){
+    $this->dependencies[] = $moduleName;
+  }
+
+  public function getDependencies(){
+    return $this->dependencies;
+  }
 }
