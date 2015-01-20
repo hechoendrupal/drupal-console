@@ -223,6 +223,47 @@ commands:
         service-name: Enter the service name
         class-name: Enter the Class name
         services: common.options.services
+  migrate:
+    debug:
+      description: Display current migration available for application
+      arguments:
+        drupal-version: Drupal Version
+      messages:
+        id: "Migration Id"
+        description: "Description"
+        version: "Version"
+    execute:
+      description: Execute a migration available for application
+      arguments:
+        id: "Migration Id"
+      options:
+        site-url: "Site Source URL"
+        db-host: "Database Host"
+        db-name: "Database Name"
+        db-user: "Database User"
+        db-pass: "Database Pass"
+        db-prefix: "Database Prefix"
+        db-port: "Database Port"
+      questions:
+        id: "Migration Id"
+        site-url: "Source Site URL"
+        db-host: "Database Host"
+        db-name: "Database Name"
+        db-user: "Database User"
+        db-pass: "Database Pass"
+        db-prefix: "Database Prefix"
+        db-port: "Database Port"
+        invalid-migration-id: Migration Id "%s" is invalid
+      messages:
+        processing: Procesing Migration "%s"
+        imported: Migration "%s" was imported properly
+        fail-load: Migration "%s" can't be loaded
+        importing-incomplete: Importing migration "%s"
+        import-stoped: Import "%s" stopped by request
+        import-fail: Import "%s" fail
+        import-skipped: Import "%s" skipped due to unfulfilled dependencies
+        wrong-source: 'Upgrade from this version of Drupal is not supported.'
+
   router:
     debug:
       description: Displays current routes for an application
