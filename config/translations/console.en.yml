@@ -12,21 +12,21 @@ commands:
   common:
     options:
       module: The Module name.
-      services: Load services form the container.
+      services: Load services from the container.
       inputs: Create inputs in a form.
     questions:
       module: Enter the module name
       confirm: Do you confirm generation
       canceled: Command generation canceled.
       services:
-        confirm: Do you want to load services form the container
+        confirm: Do you want to load services from the container
         message: |
 
-          Type the service name or use keyup or keydown
+          Type the service name or use keyup or keydown.
           This is optional, press <info>enter</info> to <info>continue</info>
         name: Enter your service
       inputs:
-        confirm: Do you like generate a form structure
+        confirm: Would you like to generate a form structure
         label: Input label
         machine_name: Input machine name
         type: Type
@@ -35,11 +35,11 @@ commands:
     rebuild:
       description: Rebuild and clear all site caches.
       options:
-        cache: Only clean a specific cache.
+        cache: Only clear a specific cache.
       messages:
         welcome: Welcome to the cache:rebuild command.
         rebuild: Rebuilding cache(s), wait a moment please.
-        completed: Done cleaning cache(s).
+        completed: Done clearing cache(s).
         invalid_cache: Cache "%s" is invalid.
       questions:
         cache: Select cache.
@@ -75,7 +75,7 @@ commands:
         module: common.questions.module
         class-name: Enter Command Class name.
         command: Enter Command name.
-        container: Do you need access the service container ?
+        container: Do you need to access the service container
     controller:
       description: Generate & Register a controller
       help: The <info>generate:controller</info> command helps you generate a new controller.
@@ -93,7 +93,7 @@ commands:
         method-name: Enter the action method name
         route: Enter the route path
         services: common.questions.services
-        test: Do you want to generate a unit test class ?
+        test: Do you want to generate a unit test class
     entity:
       description: Generate a new "%s"
       help: The <info>"%s"</info> command helps you generate a new "%s"
@@ -150,7 +150,7 @@ commands:
         structure: Do you want to generate the whole directory structure
     plugin:
       block:
-        description: Generate plugin block.
+        description: Generate a plugin block
         help: The <info>generate:plugin:block</info> command helps you generate a new Plugin block.
         welcome: Welcome to the Drupal Plugin Block generator
         options:
@@ -170,7 +170,7 @@ commands:
         messages:
           inputs: |
 
-            You can add some input fields to create special configurations in each block
+            You can add input fields to create special configurations in each block.
             This is optional, press <info>enter</info> to <info>continue</info>
       imageeffect:
         description: Generate image effect plugin.
@@ -283,8 +283,8 @@ commands:
         rebuilding: Rebuilding routes, wait a moment please
         completed: Done rebuilding route(s).
   self-update:
-    description: Update the console to lates version.
-    help: Update the console command to the lates version.
+    description: Update the console to latest version.
+    help: Update the console command to the latest version.
     messages:
-      success: The console has update to the lates version.
+      success: The console has been updated to the latest version.
 

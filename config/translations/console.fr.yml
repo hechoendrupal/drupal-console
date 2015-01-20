@@ -22,11 +22,11 @@ commands:
         confirm: Voulez-vous charger les services forment le container
         message: |
 
-          Tapez le nom du service ou utiliser keyup et keydown
+          Tapez le nom du service ou utiliser keyup et keydown.
           Cette option est facultative, appuyez <info>enter</info> to <info>continue</info>
         name: Entrez votre service
       inputs:
-        confirm: Aimez-vous générer une structure formulaire.
+        confirm: Voulez-vous générer une structure formulaire
         label: Label entrée
         machine_name: Nom de la machine d'entrée.
         type: Type
@@ -75,7 +75,7 @@ commands:
         module: common.questions.module
         class-name: Entrez classe commande
         command: Entrez nom commande.
-        container: Avez-vous besoin accéder au conteneur de services?
+        container: Avez-vous besoin accéder au conteneur de services
     controller:
       description: Générer et inscrire un contrôleur
       help: Le <info> générer: contrôleur </ info> commande aide à générer un nouveau contrôleur.
@@ -93,7 +93,7 @@ commands:
         method-name: Entrez l'action nom de la méthode
         route: Entrez le chemin de la route
         services: common.questions.services
-        test: Voulez-vous générer une classe de test unitaire?
+        test: Voulez-vous générer une classe de test unitaire
     entity:
       description: Générer un nouveau "% s"
       help: Le <info> "% s" </ info> commande aide à générer une nouvelle "% s"
@@ -150,7 +150,7 @@ commands:
         structure: Voulez-vous pour générer ensemble la structure de répertoire
     plugin:
       block:
-        description: Générer bloc plugin.
+        description: Générer un bloc de plugin
         help: Le <info> generate: plugin: bloc </ info> commande aide à générer un nouveau bloc de Plugin.
         welcome: Bienvenue au générateur drupal block Plugin
         options:
@@ -170,7 +170,7 @@ commands:
         messages:
           inputs: |
 
-            Vous pouvez ajouter des champs d'entrée pour créer des configurations spéciales dans chaque bloc
+            Vous pouvez ajouter des champs d'entrée pour créer des configurations spéciales dans chaque bloc.
             Cette option est facultative, appuyez sur <info> Entrée </ info> à <info> continuer </ info>
       imageeffect:
         description: Générer l'image en effet plugin
@@ -221,7 +221,7 @@ commands:
         rebuilding: Reconstruction des routes, attendez un instant s'il vous plaît
         completed: Reconstruction de route (s) fini.
   self-update:
-    description: Update the console to lates version.
-    help: Update the console command to the lates version.
+    description: Update the console to latest version.
+    help: Update the console command to the latest version.
     messages:
-      success: The console has update to the lates version.
+      success: The console has been updated to the latest version.
