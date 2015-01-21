@@ -65,8 +65,6 @@ class ModuleDebugCommand extends ContainerAwareCommand
       ]);
 
     $table->setlayout($table::LAYOUT_COMPACT);
-    print "type:" . $type . "\n";
-    print "status:" . $status ."\n";
 
     $modules = system_rebuild_module_data();
     foreach ($modules as $module_id => $module) {
