@@ -112,6 +112,10 @@ $dispatcher->addListener(ConsoleEvents::TERMINATE, function (ConsoleTerminateEve
   $output = $event->getOutput();
   $command = $event->getCommand();
 
+  if ('self-update' == $command->getName()) {
+    return;
+  }
+
   if (method_exists($command,'getMessages')) {
     $messages = $command->getMessages();
     foreach ($messages as $message) {
