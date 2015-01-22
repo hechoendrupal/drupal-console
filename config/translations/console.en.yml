@@ -240,7 +240,7 @@ commands:
         enabled: "Enabled"
         disabled: "Disabled"
     install:
-      description: Enable a modules or modules in application
+      description: Install module or modules in application
       options:
         module: Module or modules to enable separated by comma
       messages:
@@ -250,6 +250,13 @@ commands:
         nothing: Nothing to do. All modules already installed
         dependencies: Are you sure you want to install dependencies: %s?
         sucess: Modules %s were installed succesfully
+    uninstall:
+      description: Un-install module or modules in application
+      messages:
+        no-modules: You must provide module or modules to enable.
+        dependents: Unable to uninstall modules %s because are required by %s
+        nothing: Nothing to do. All modules already uninstalled
+        sucess: Modules %s were uninstalled succesfully
   migrate:
     debug:
       description: Display current migration available for application
