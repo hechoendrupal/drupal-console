@@ -30,7 +30,9 @@ commands:
         label: Label entrée
         machine_name: Nom de la machine d'entrée.
         type: Type
-        invalid: Type de champ "% s" n'est pas valide.
+        invalid: Field Type "%s" is invalid.
+    errors:
+      module-dependency: Missing module dependency "%s"
   cache:
     rebuild:
       description: Reconstruire et effacer tous les caches du site.
@@ -187,7 +189,28 @@ commands:
           class-name: Entrez le nom de la classe plugin
           label: Entrez le label plugin
           plugin-id: Entrez le plugin id
-          description: Entrez la description de plugin
+          description: Enter the plugin Description
+      rest:
+          resource:
+            description: Generate plugin rest resource
+            help: The <info>generate:plugin:rest:resource</info> command helps you generate a new rest resource.
+            welcome: Welcome to the Drupal Plugin Rest Resource generator
+            options:
+              module: common.options.module
+              class-name: Plugin Rest Resource class
+              plugin-id: Plugin Rest Resource id
+              plugin-label: Plugin Rest Resource Label
+              plugin-url: Plugin Rest Resource URL
+              plugin-states: Plugin Rest Resource States
+            questions:
+              module: common.questions.module
+              class-name: Enter the plugin rest resource name
+              plugin-id: Enter the plugin rest resource id
+              plugin-label: Enter the plugin rest resource label
+              plugin-url: Enter the plugin rest resource url
+              plugin-states: Please select what REST States implement in your resource (GET is selected by default)
+            messages:
+              selected-states: States selected
     service:
       description: Générer service
       help: Le <info> générer: Service </ info> commande aide à générer un nouveau service.
@@ -202,6 +225,78 @@ commands:
         service-name: Entrez le nom du service
         class-name: Entrez le nom de la classe
         services: common.options.services
+  module:
+    debug:
+      description: Display current modules available for application
+      options:
+        status: "Module status [enabled|disabled]"
+        type: "Module type [core|no-core]"
+      messages:
+        id: "ID"
+        name: "Name"
+        status: "Status"
+        origin: "Origin"
+        package: "Package"
+        enabled: "Enabled"
+        disabled: "Disabled"
+    install:
+      description: Install module or modules in the application
+      options:
+        module: Module or modules to be enabled should be separated by a comma
+      messages:
+        no-modules: You must provide module or modules to enable.
+        missing: Unable to install modules %s due to missing modules %s
+        missing-dependencies: Unable to install modules %s due to missing dependencies %s
+        nothing: Nothing to do. All modules are already installed
+        dependencies: Are you sure you want to install dependencies: %s?
+        sucess: Modules %s were installed successfully
+    uninstall:
+      description: Uninstall module or modules in the application
+      messages:
+        no-modules: You must provide module or modules to enable.
+        dependents: Unable to uninstall modules %s because are required by %s
+        nothing: Nothing to do. All modules are already uninstalled
+        sucess: Modules %s were uninstalled successfully
+  migrate:
+    debug:
+      description: Display current migration available for the application
+      arguments:
+        drupal-version: Drupal Version
+      messages:
+        id: "Migration Id"
+        description: "Description"
+        version: "Version"
+    execute:
+      description: Execute a migration available for application
+      arguments:
+        id: "Migration Id"
+      options:
+        site-url: "Site Source URL"
+        db-host: "Database Host"
+        db-name: "Database Name"
+        db-user: "Database User"
+        db-pass: "Database Pass"
+        db-prefix: "Database Prefix"
+        db-port: "Database Port"
+      questions:
+        id: "Migration Id"
+        site-url: "Source Site URL"
+        db-host: "Database Host"
+        db-name: "Database Name"
+        db-user: "Database User"
+        db-pass: "Database Pass"
+        db-prefix: "Database Prefix"
+        db-port: "Database Port"
+        invalid-migration-id: Migration Id "%s" is invalid
+      messages:
+        processing: Processing Migration "%s"
+        imported: Migration "%s" was imported correctly
+        fail-load: Migration "%s" can't be loaded
+        importing-incomplete: Importing migration "%s"
+        import-stoped: Import "%s" stopped by request
+        import-fail: Import "%s" failed
+        import-skipped: Import "%s" was skipped due to unfulfilled dependencies
+        wrong-source: 'Upgrading from this version of Drupal is not supported.'
   router:
     debug:
       description: Affiche les routes actuelles pour une application
@@ -225,3 +320,4 @@ commands:
     help: Update the console command to the latest version.
     messages:
       success: The console has been updated to the latest version.
+
