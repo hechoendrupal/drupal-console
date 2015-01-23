@@ -257,6 +257,13 @@ commands:
         dependents: Unable to uninstall modules %s because are required by %s
         nothing: Nothing to do. All modules are already uninstalled
         sucess: Modules %s were uninstalled successfully
+    download:
+      description: Download module or modules in application
+      messages:
+        no-releases: There aren't releases for module %s
+        getting-releases: Getting releases for module %s
+        downloading: Downloading module %s release %s
+        installed: Module %s was installed successfully
   migrate:
     debug:
       description: Display current migration available for the application

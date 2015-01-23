@@ -31,7 +31,9 @@
         "symfony/translation": "2.6.*",
         "symfony/yaml": "2.6.*",
         "twig/twig": "1.16.*",
-        "herrera-io/phar-update": "1.*"
+        "herrera-io/phar-update": "1.*",
+        "artack/dom-query": "*",
+        "alchemy/zippy": "0.2.*@dev"
     },
     "require-dev": {
         "drupal/coder": "dev-8.x-2.x",
