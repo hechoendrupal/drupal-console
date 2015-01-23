@@ -25,6 +25,7 @@ trait FormTrait
     )) {
       $input_types = [
         'color',
+        'checkbox',
         'checkboxes',
         'date',
         'datetime',
