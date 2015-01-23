@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Containt Drupal\AppConsole\Command\GeneratorFormCommand.
+ * Contains Drupal\AppConsole\Command\GeneratorFormCommand.
  */
 
 namespace Drupal\AppConsole\Command;

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Containt Drupal\AppConsole\Command\Helper\ModuleTrait.
+ * Contains Drupal\AppConsole\Command\Helper\ModuleTrait.
  */
 
 namespace Drupal\AppConsole\Command\Helper;
