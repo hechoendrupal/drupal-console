@@ -240,26 +240,26 @@ commands:
         enabled: "Enabled"
         disabled: "Disabled"
     install:
-      description: Install module or modules in application
+      description: Install module or modules in the application
       options:
-        module: Module or modules to enable separated by comma
+        module: Module or modules to be enabled should be separated by a comma
       messages:
         no-modules: You must provide module or modules to enable.
         missing: Unable to install modules %s due to missing modules %s
         missing-dependencies: Unable to install modules %s due to missing dependencies %s
-        nothing: Nothing to do. All modules already installed
+        nothing: Nothing to do. All modules are already installed
         dependencies: Are you sure you want to install dependencies: %s?
-        sucess: Modules %s were installed succesfully
+        sucess: Modules %s were installed successfully
     uninstall:
-      description: Un-install module or modules in application
+      description: Uninstall module or modules in the application
       messages:
         no-modules: You must provide module or modules to enable.
         dependents: Unable to uninstall modules %s because are required by %s
-        nothing: Nothing to do. All modules already uninstalled
-        sucess: Modules %s were uninstalled succesfully
+        nothing: Nothing to do. All modules are already uninstalled
+        sucess: Modules %s were uninstalled successfully
   migrate:
     debug:
-      description: Display current migration available for application
+      description: Display current migration available for the application
       arguments:
         drupal-version: Drupal Version
       messages:
@@ -289,18 +289,17 @@ commands:
         db-port: "Database Port"
         invalid-migration-id: Migration Id "%s" is invalid
       messages:
-        processing: Procesing Migration "%s"
-        imported: Migration "%s" was imported properly
+        processing: Processing Migration "%s"
+        imported: Migration "%s" was imported correctly
         fail-load: Migration "%s" can't be loaded
         importing-incomplete: Importing migration "%s"
         import-stoped: Import "%s" stopped by request
-        import-fail: Import "%s" fail
-        import-skipped: Import "%s" skipped due to unfulfilled dependencies
-        wrong-source: 'Upgrade from this version of Drupal is not supported.'
-
+        import-fail: Import "%s" failed
+        import-skipped: Import "%s" was skipped due to unfulfilled dependencies
+        wrong-source: 'Upgrading from this version of Drupal is not supported.'
   router:
     debug:
-      description: Displays current routes for an application
+      description: Displays current routes for the application
       arguments:
         route-name: Route names
       messages:
@@ -310,7 +309,7 @@ commands:
         defaults: Defaults
         options: Options
     rebuild:
-      description: Rebuild routes for an application
+      description: Rebuild routes for the application
       arguments:
         route-name: Route names
       messages:
