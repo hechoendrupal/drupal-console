@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Containt Drupa\AppConsole\Command\Helper\FormTrait.
+ * Contains Drupal\AppConsole\Command\Helper\FormTrait.
  */
 
 namespace Drupal\AppConsole\Command\Helper;

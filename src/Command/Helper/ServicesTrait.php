@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Containt Drupal\AppConsole\Command\Helper\ServicesTrait.
+ * Contains Drupal\AppConsole\Command\Helper\ServicesTrait.
  */
 
 namespace Drupal\AppConsole\Command\Helper;
