@@ -249,18 +249,18 @@ commands:
         missing-dependencies: Unable to install modules %s due to missing dependencies %s
         nothing: Nothing to do. All modules are already installed
         dependencies: Are you sure you want to install dependencies: %s?
-        sucess: Modules %s were installed successfully
+        success: Modules %s were installed successfully
     uninstall:
       description: Uninstall module or modules in the application
       messages:
         no-modules: You must provide module or modules to enable.
         dependents: Unable to uninstall modules %s because are required by %s
         nothing: Nothing to do. All modules are already uninstalled
-        sucess: Modules %s were uninstalled successfully
+        success: Modules %s were uninstalled successfully
     download:
       description: Download module or modules in application
       messages:
-        no-releases: There aren't releases for module %s
+        no-releases: There aren't any releases for module %s
         getting-releases: Getting releases for module %s
         downloading: Downloading module %s release %s
         installed: Module %s was installed successfully
