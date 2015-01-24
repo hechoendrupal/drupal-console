@@ -75,7 +75,7 @@ class {{ class_name }} extends ConfigFormBase
   $form['{{ input.name }}'] = array(
       '#type' => '{{ input.type }}',
       '#title' => $this->t('{{ input.label }}'),
-      '#description' => $this->t(''),
+      '#description' => $this->t('{{ input.description }}'),
       {% if input.options|length %}
         '#options' => {{ input.options }},
       {% endif %}
