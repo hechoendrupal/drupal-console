@@ -96,11 +96,19 @@ trait FormTrait
           $input_options = "array('" . implode("', '", $input_options) . "')";
         }
 
+        // Description for input
+        $input_description = $dialog->ask(
+          $output,
+          $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.description'),'',':'),
+          null
+        );
+
         array_push($inputs, array(
           'name'  => $input_name,
           'type'  => $input_type,
           'label' => $input_label,
           'options' => $input_options,
+          'description' => $input_description,
         ));
       }
 

@@ -31,6 +31,7 @@ commands:
         machine_name: Input machine name
         type: Tipo
         invalid: Field Type "%s" is invalid.
+        description: Description
     errors:
       module-dependency: Missing module dependency "%s"
   cache:

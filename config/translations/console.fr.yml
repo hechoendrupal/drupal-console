@@ -31,6 +31,7 @@ commands:
         machine_name: Nom de la machine d'entrée.
         type: Type
         invalid: Field Type "%s" is invalid.
+        description: Description
     errors:
       module-dependency: Missing module dependency "%s"
   cache:
