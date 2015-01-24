@@ -39,7 +39,7 @@ commands:
       options:
         cache: Only clear a specific cache.
       messages:
-        welcome: Welcome to the cache:rebuild command.
+        welcome: Welcome to the cache:rebuild command
         rebuild: Rebuilding cache(s), wait a moment please.
         completed: Done clearing cache(s).
         invalid_cache: Cache "%s" is invalid.
@@ -67,7 +67,7 @@ commands:
     command:
       description: Generate commands for the console.
       help: The <info>generate:command</info> command helps you generate a new command.
-      welcome: Welcome to the Drupal Command generator.
+      welcome: Welcome to the Drupal Command generator
       options:
         module: common.options.module
         class-name: Command Class name
@@ -75,13 +75,13 @@ commands:
         container: Access the services container
       questions:
         module: common.questions.module
-        class-name: Enter Command Class name.
-        command: Enter Command name.
+        class-name: Enter a Command Class name
+        command: Enter a Command name
         container: Do you need to access the service container
     controller:
       description: Generate & Register a controller
       help: The <info>generate:controller</info> command helps you generate a new controller.
-      welcome: Welcome to the Drupal Controller generator.
+      welcome: Welcome to the Drupal Controller generator
       options:
         module: common.options.module
         class-name: Controller Class name
@@ -97,7 +97,7 @@ commands:
         services: common.questions.services
         test: Do you want to generate a unit test class
     entity:
-      description: Generate a new "%s"
+      description: Generate a new "%s
       help: The <info>"%s"</info> command helps you generate a new "%s"
       welcome: Welcome to the Drupal entity generator
       options:
@@ -129,7 +129,7 @@ commands:
     module:
       description: Generate a module.
       help: The <info>generate:module</info> command helps you generates a new module.
-      welcome: Welcome to the Drupal module generator.
+      welcome: Welcome to the Drupal module generator
       options:
         module: The Module name
         machine-name: The machine name (lowercase and underscore only)
