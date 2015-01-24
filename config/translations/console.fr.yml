@@ -76,8 +76,8 @@ commands:
         container: Accéder au conteneur de services
       questions:
         module: common.questions.module
-        class-name: Entrez un nom de classe de commande
-        command: Entrez un nom de commande
+        class-name: Entrez le nom de classe de commande
+        command: Entrez le nom de commandement
         container: Avez-vous besoin accéder au conteneur de services
     controller:
       description: Générer et inscrire un contrôleur

@@ -76,8 +76,8 @@ commands:
         container: Access the services container
       questions:
         module: common.questions.module
-        class-name: Enter a Command Class name
-        command: Enter a Command name
+        class-name: Enter the Command Class name
+        command: Enter the Command name
         container: Do you need to access the service container
     controller:
       description: Generate & Register a controller
