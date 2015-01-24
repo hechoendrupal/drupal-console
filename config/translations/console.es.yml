@@ -76,8 +76,8 @@ commands:
         container: Acceso al contenedor de servicios
       questions:
         module: common.questions.module
-        class-name: Enter a Command Class name
-        command: Enter a Command name
+        class-name: Enter the Command Class name
+        command: Enter the Command name
         container: Necesita acceder al contenedor de servicios
     controller:
       description: Generar y registrar un controlador
