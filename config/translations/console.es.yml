@@ -39,7 +39,7 @@ commands:
       options:
         cache: Sólo limpiar un cache específico.
       messages:
-        welcome: Bienvenido al comando cache:rebuild.
+        welcome: Bienvenido al comando cache:rebuild
         rebuild: Reconstruyendo caché(s), espere un momento.
         completed: Hecho limpiar Caché(s).
         invalid_cache: Caché "%s" en inválido.
@@ -67,7 +67,7 @@ commands:
     command:
       description: Genera un comando para la consola.
       help: El comando <info>generate:command</info> le ayudará a generar un nuevo comando.
-      welcome: Bienvenido al generador de Comando de Drupal.
+      welcome: Bienvenido al generador de Comando de Drupal
       options:
         module: common.options.module
         class-name: Command Class name
@@ -75,13 +75,13 @@ commands:
         container: Acceso al contenedor de servicios
       questions:
         module: common.questions.module
-        class-name: Enter Command Class name.
-        command: Enter Command name.
+        class-name: Enter a Command Class name
+        command: Enter a Command name
         container: Necesita acceder al contenedor de servicios
     controller:
       description: Generar y registrar un controlador
       help: El comando <info>generate:controller</info> le ayuda a generar un nuevo controlador.
-      welcome: Bienvenido al generador de controlador de Drupal.
+      welcome: Bienvenido al generador de controlador de Drupal
       options:
         module: common.options.module
         class-name: Nombre de la clase del controlador
@@ -129,7 +129,7 @@ commands:
     module:
       description: Generate a module.
       help: The <info>generate:module</info> command helps you generates a new module.
-      welcome: Welcome to the Drupal module generator.
+      welcome: Welcome to the Drupal module generator
       options:
         module: The Module name
         machine-name: The machine name (lowercase and underscore only)

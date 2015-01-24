@@ -39,7 +39,7 @@ commands:
       options:
         cache: Nettoyer seulement un cache spécifique.
       messages:
-        welcome: Bienvenue sur le cache: reconstruire commande.
+        welcome: Bienvenue sur le cache: reconstruire commande
         rebuild: Reconstruire cache (s), attendez un instant s'il vous plaît.
         completed: Nettoyage cache (s) fini
         invalid_cache: Cache "%s" n'est pas valide.
@@ -75,13 +75,13 @@ commands:
         container: Accéder au conteneur de services
       questions:
         module: common.questions.module
-        class-name: Entrez classe commande
-        command: Entrez nom commande.
+        class-name: Entrez un nom de classe de commande
+        command: Entrez un nom de commande
         container: Avez-vous besoin accéder au conteneur de services
     controller:
       description: Générer et inscrire un contrôleur
       help: Le <info> générer: contrôleur </ info> commande aide à générer un nouveau contrôleur.
-      welcome: Bienvenue au générateur contrôleur Drupal.
+      welcome: Bienvenue au générateur contrôleur Drupal
       options:
         module: common.options.module
         class-name: Nom de la classe Controller
@@ -129,7 +129,7 @@ commands:
     module:
       description: Générer un module. 
       help: Le <info> générer: le module </ info> commande aide à générer un nouveau module 
-      welcome: Bienvenue sur le générateur de modules Drupal.
+      welcome: Bienvenue sur le générateur de modules Drupal
       options:
         module: Le nom du module
         machine-name: Le nom de la machine (en minuscules et soulignent seulement)
