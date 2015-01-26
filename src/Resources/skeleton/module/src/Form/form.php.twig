@@ -52,11 +52,7 @@ class {{ class_name }} extends ConfigFormBase
   * {@inheritdoc}
   */
   protected function getEditableConfigNames() {
-  return [
-  {% for input in inputs %}
-    '{{module_name}}.{{form_id}}_config',
-  {% endfor %}
-    ];
+    return ['{{module_name}}.{{form_id}}_config',];
   }
 
   /**
