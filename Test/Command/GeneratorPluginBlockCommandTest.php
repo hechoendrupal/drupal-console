@@ -65,14 +65,14 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
       // case three inputs
       [
         ['--module'=>'Foo'],
-        ['Foo','FooBlock', 'Foo label', 'foo_id', null, 'Description', $inputs],
-        "FooBlock\nFoo label\nfoo_id\nno\nyes\nText Field\ntext_field\ndescription\nDescription Field"
+        ['Foo','FooBlock', 'Foo label', 'foo_id', 'Description', null, $inputs],
+        "FooBlock\nFoo label\nfoo_id\nno\nyes\nText Field\ntext_field\nDescription Field\ndescription"
       ],
       //case four services and inputs
       [
         ['--module'=>'Foo'],
-        ['Foo','FooBlock', 'Foo label', 'foo_id', $service, 'Description', $inputs],
-        "FooBlock\nFoo label\nfoo_id\nyes\ntwig\n\nyes\nText Field\ntext_field\ndescription\nDescription Field"
+        ['Foo','FooBlock', 'Foo label', 'foo_id', 'Description', $service, $inputs],
+        "FooBlock\nFoo label\nfoo_id\nyes\ntwig\n\nyes\nText Field\ntext_field\nDescription Field\ndescription"
       ],
     ];
   }
