@@ -5,11 +5,9 @@ services:
   {{ service_name | lower }}:
     class: Drupal\{{module}}\{{ class_name }}
     arguments: [{{ servicesAsParametersKeys(services)|join(', ') }}]
-    {% if tags %}
-tags:
-    {% for tag in tags %}
-  - { {% for key, value in tag %} {{ key }}: {{ value }} , {% endfor %} }
-    {% endfor %}
-    {% endif %}
+{% if tags %}
+    tags:
+      - { {{ tagsAsArray(tags)|join(', ') }} }
+{% endif %}
 {% endif %}
 

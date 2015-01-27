@@ -46,6 +46,7 @@ class Generator
     $twig->addFunction($this->getArgumentsFromRoute());
     $twig->addFunction($this->getServicesClassInitialization());
     $twig->addFunction($this->getServicesClassInjection());
+    $twig->addFunction($this->getTagsAsArray());
 
     return $twig->render($template, $parameters);
   }
@@ -189,6 +190,20 @@ class Generator
       }
 
       return implode( "," .PHP_EOL, $returnValues);
+    });
+
+    return $returnValue;
+  }
+
+  public function getTagsAsArray()
+  {
+    $returnValue = new \Twig_SimpleFunction('tagsAsArray', function ($tags) {
+      $returnValues = [];
+      foreach ($tags as $key => $value) {
+        $returnValues[] = sprintf('%s: %s', $key, $value);
+      }
+
+      return $returnValues;
     });
 
     return $returnValue;
