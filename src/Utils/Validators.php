@@ -74,7 +74,7 @@ class Validators extends Helper implements HelperInterface
   {
     if (!in_array($module, array_values($modules))) {
       throw new \InvalidArgumentException(sprintf(
-        'Module "%s" is invalid. You can use first generate:module command.',
+        'Module "%s" is not in your application. Try generate:module to create it.',
         $module)
       );
     }
@@ -112,7 +112,7 @@ class Validators extends Helper implements HelperInterface
     if ($string == $name) {
       return $name;
     } else {
-      throw new \InvalidArgumentException(sprintf("The name \"%s\" is invalid, spaces between words not allowed.", $name));
+      throw new \InvalidArgumentException(sprintf("The name \"%s\" is invalid, spaces between words are not allowed.", $name));
     }
   }
 

@@ -47,6 +47,16 @@ class {{ class_name }} extends ConfigFormBase
 {% endblock %}
 
 {% block class_methods %}
+
+  /**
+  * {@inheritdoc}
+  */
+  protected function getEditableConfigNames() {
+    return [
+      '{{module_name}}.{{form_id}}_config'
+    ];
+  }
+
   /**
    * {@inheritdoc}
    */
@@ -60,15 +70,15 @@ class {{ class_name }} extends ConfigFormBase
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('{{module_name}}.{{form_id}}_config');
   {% for input in inputs %}
-  $form['{{ input.name }}'] = [
+  $form['{{ input.name }}'] = array(
       '#type' => '{{ input.type }}',
       '#title' => $this->t('{{ input.label }}'),
-      '#description' => $this->t(''),
+      '#description' => $this->t('{{ input.description }}'),
       {% if input.options|length %}
-      '#options' => {{ input.options }},
+        '#options' => {{ input.options }},
       {% endif %}
       '#default_value' => $config->get('{{ input.name }}'),
-    ];
+    );
   {% endfor %}
   return parent::buildForm($form, $form_state);
   }
@@ -77,7 +87,7 @@ class {{ class_name }} extends ConfigFormBase
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    return parent::validateForm($form, $form_state);
+    parent::validateForm($form, $form_state);
   }
 
   /**
