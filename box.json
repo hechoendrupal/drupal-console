@@ -12,7 +12,7 @@
     ],
     "finder": [
         {
-            "name": "/(\\.php|\\.json|\\.yml|\\.dist)$/",
+            "name": "/(\\.php|\\.json|\\.yml|\\.twig)$/",
             "exclude": ["Tests","tests", "docs"],
             "in": "vendor"
         }
