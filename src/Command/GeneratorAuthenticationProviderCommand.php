@@ -41,8 +41,6 @@ class GeneratorAuthenticationProviderCommand extends GeneratorCommand
   {
     $dialog = $this->getDialogHelper();
 
-    $stringUtils = $this->getStringUtils();
-
     // @see use Drupal\AppConsole\Command\Helper\ConfirmationTrait::confirmationQuestion
     if ($this->confirmationQuestion($input, $output, $dialog)) {
       return;
