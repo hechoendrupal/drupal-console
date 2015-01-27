@@ -94,7 +94,7 @@ class Generator
 
   public function getAuthenticationPath($module_name, $authentication_type)
   {
-    return $this->getModulePath($module_name).'/src/Authentication /'. $authentication_type;
+    return $this->getModulePath($module_name).'/src/Authentication/'. $authentication_type;
   }
 
   public function getCommandPath($module_name)

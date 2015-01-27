@@ -9,7 +9,6 @@ namespace Drupal\{{module}}\Authentication\Provider;
 {% endblock %}
 
 {% block use_class %}
-use \Drupal\Component\Utility\String;
 use Drupal\Core\Authentication\AuthenticationProviderInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityManagerInterface;
@@ -51,13 +50,6 @@ class {{ class_name }} implements AuthenticationProviderInterface
   public function __construct(ConfigFactoryInterface $config_factory, EntityManagerInterface $entity_manager) {
     $this->configFactory = $config_factory;
     $this->entityManager = $entity_manager;
-  }
-  /**
-   * {@inheritdoc}
-   */
-  public function applies(Request $request) {
-    // If Authentication Provider is enabled always apply
-    return TRUE;
   }
 {% endblock %}
 
