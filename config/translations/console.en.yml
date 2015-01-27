@@ -13,6 +13,7 @@ commands:
     options:
       module: The Module name.
       services: Load services from the container.
+      tags: Set service tags from the container.
       inputs: Create inputs in a form.
     questions:
       module: Enter the module name
@@ -64,6 +65,13 @@ commands:
     messages:
       not_found: Drush command not found.
   generate:
+    authentication:
+      provider:
+        description: Generate an Authentication Provider
+        help: The <info>generate:authentication:provider</info> command helps you generate a new Authentication Provider.
+        options:
+              module: common.options.module
+              class-name: Authentication Provider class
     command:
       description: Generate commands for the console.
       help: The <info>generate:command</info> command helps you generate a new command.
