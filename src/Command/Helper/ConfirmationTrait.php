@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Containt Drupal\AppConsole\Command\Helper\Confirmation.
+ * Contains Drupal\AppConsole\Command\Helper\Confirmation.
  */
 
 namespace Drupal\AppConsole\Command\Helper;

@@ -100,7 +100,7 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
     $form['{{ input.name }}'] = [
       '#type' => '{{ input.type }}',
       '#title' => $this->t('{{ input.label }}'),
-      '#description' => $this->t(''),
+      '#description' => $this->t('{{ input.description }}'),
       '#default_value' => isset($config['{{ input.name }}'])?$config['{{ input.name }}']:"",
     ];
 {% endfor %}

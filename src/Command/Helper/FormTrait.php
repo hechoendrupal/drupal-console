@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Containt Drupa\AppConsole\Command\Helper\FormTrait.
+ * Contains Drupal\AppConsole\Command\Helper\FormTrait.
  */
 
 namespace Drupal\AppConsole\Command\Helper;
@@ -25,6 +25,7 @@ trait FormTrait
     )) {
       $input_types = [
         'color',
+        'checkbox',
         'checkboxes',
         'date',
         'datetime',
@@ -95,11 +96,19 @@ trait FormTrait
           $input_options = "array('" . implode("', '", $input_options) . "')";
         }
 
+        // Description for input
+        $input_description = $dialog->ask(
+          $output,
+          $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.description'),'',':'),
+          null
+        );
+
         array_push($inputs, array(
           'name'  => $input_name,
           'type'  => $input_type,
           'label' => $input_label,
           'options' => $input_options,
+          'description' => $input_description,
         ));
       }
 
