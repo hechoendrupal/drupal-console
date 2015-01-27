@@ -3,19 +3,19 @@
     "chmod": "0755",
     "directories": [
         "config",
-        "src",
-        "vendor/composer",
-        "vendor/herrera-io",
-        "vendor/justinrainbow",
-        "vendor/kherge",
-        "vendor/seld",
-        "vendor/symfony",
-        "vendor/twig"
+        "src"
     ],
     "files": [
         "config.yml",
         "bin/console.php",
         "vendor/autoload.php"
+    ],
+    "finder": [
+        {
+            "name": "/(\\.php|\\.json|\\.yml|\\.dist)$/",
+            "exclude": ["Tests","tests", "docs"],
+            "in": "vendor"
+        }
     ],
     "main": "bin/console",
     "output": "console.phar",
