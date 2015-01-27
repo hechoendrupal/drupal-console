@@ -35,6 +35,7 @@ commands:
         description: Description
     errors:
       module-dependency: Missing module dependency "%s"
+      class-name-empty: The Class name can not be empty
   cache:
     rebuild:
       description: Rebuild and clear all site caches.
