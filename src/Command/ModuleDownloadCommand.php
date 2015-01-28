@@ -88,13 +88,12 @@ class ModuleDownloadCommand extends ContainerAwareCommand
 
     $release_file_path = 'http://ftp.drupal.org/files/projects/' . $module .'-' . $release_selected . '.tar.gz';
 
-    // Temp file to download the release
-    $temp = tmpfile();
-    $dest = tempnam(sys_get_temp_dir(), 'console.') . "tar.gz";
+    // Destination file to download the release
+    $destination = tempnam(sys_get_temp_dir(), 'console.') . "tar.gz";
 
     try {
 
-      $client->get($release_file_path, ['save_to' => $dest]);
+      $client->get($release_file_path, ['save_to' => $destination]);
 
       // Determine destion folder for contrib modules
       $drupalBoostrap = $this->getHelperSet()->get('bootstrap');
@@ -102,10 +101,10 @@ class ModuleDownloadCommand extends ContainerAwareCommand
 
       // Preper release to unzip and untar
       $zippy = Zippy::load();
-      $archive = $zippy->open($dest);
+      $archive = $zippy->open($destination);
       $archive->extract($module_contrib_path . '/');
 
-      fclose($dest . ".tar.gz");
+      fclose($destination . ".tar.gz");
 
       $output->writeln('[+] <info>' . sprintf($this->trans('commands.module.download.messages.installed'), $module, $release_selected) . '</info>');
     }
