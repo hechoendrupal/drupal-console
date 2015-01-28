@@ -13,6 +13,7 @@ commands:
     options:
       module: The Module name.
       services: Load services from the container.
+      tags: Set service tags from the container.
       inputs: Create inputs in a form.
     questions:
       module: Enter the module name
@@ -26,7 +27,7 @@ commands:
           This is optional, press <info>enter</info> to <info>continue</info>
         name: Enter your service
       inputs:
-        confirm: Would you like to generate a form structure
+        confirm: Do you want to generate a form structure
         label: Input label
         machine_name: Input machine name
         type: Type
@@ -34,6 +35,7 @@ commands:
         description: Description
     errors:
       module-dependency: Missing module dependency "%s"
+      class-name-empty: The Class name can not be empty
   cache:
     rebuild:
       description: Rebuild and clear all site caches.
@@ -65,6 +67,13 @@ commands:
     messages:
       not_found: Drush command not found.
   generate:
+    authentication:
+      provider:
+        description: Generate an Authentication Provider
+        help: The <info>generate:authentication:provider</info> command helps you generate a new Authentication Provider.
+        options:
+        module: common.options.module
+        class-name: Authentication Provider class
     command:
       description: Generate commands for the console.
       help: The <info>generate:command</info> command helps you generate a new command.
@@ -76,7 +85,7 @@ commands:
         container: Access the services container
       questions:
         module: common.questions.module
-        class-name: Enter the Command Class name
+        class-name: Enter the Controller class name
         command: Enter the Command name
         container: Do you need to access the service container
     controller:
@@ -98,7 +107,7 @@ commands:
         services: common.questions.services
         test: Do you want to generate a unit test class
     entity:
-      description: Generate a new "%s
+      description: Generate a new "%s"
       help: The <info>"%s"</info> command helps you generate a new "%s"
       welcome: Welcome to the Drupal entity generator
       options:
@@ -140,7 +149,7 @@ commands:
         package: Module package
         controller: Default Controller
         test: Generate a test class
-        structure: Generate the whole directory structure
+        structure: Generate the directory structure
       questions:
         module: Enter the new module name
         machine-name: Enter the module machine name
@@ -150,7 +159,7 @@ commands:
         package: Enter package name
         controller: Do you want to generate a default Controller
         test: Do you want to generate a unit test class
-        structure: Do you want to generate the whole directory structure
+        structure: Do you want to generate the directory structure
     plugin:
       block:
         description: Generate a plugin block

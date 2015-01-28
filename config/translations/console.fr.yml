@@ -13,6 +13,7 @@ commands:
     options:
       module: Le Nom du Module.
       services: Services de charge forment le container.
+      tags: Les étiquettes de service prévues du conteneur.
       inputs: Créer des entrées dans un formulaire.
     questions:
       module: Introduire le nom du module.
@@ -26,7 +27,7 @@ commands:
           Cette option est facultative, appuyez <info>enter</info> to <info>continue</info>
         name: Entrez votre service
       inputs:
-        confirm: Voulez-vous générer une structure formulaire
+        confirm: Voulez-vous générer une structure de forme
         label: Label entrée
         machine_name: Nom de la machine d'entrée.
         type: Type
@@ -34,6 +35,7 @@ commands:
         description: Description
     errors:
       module-dependency: Missing module dependency "%s"
+      class-name-empty: The Class name can not be empty
   cache:
     rebuild:
       description: Reconstruire et effacer tous les caches du site.
@@ -66,12 +68,19 @@ commands:
       not_found: Commande Drush introuvable.
   generate:
     command:
+      provider:
+        description: Générer un fournisseur d'authentification
+        help: The <info>generate:authentication:provider</info> command helps you generate a new Authentication Provider.
+        options:
+        module: common.options.module
+        class-name: Nom de commande classe
+    command:
       description: Générer des commandes pour la console.
       help: Le <info> générer: commande </ info> commande aide à générer une nouvelle commande.
       welcome: Bienvenue sur le générateur de commande Drupal
       options:
         module: common.options.module
-        class-name: Nom de commande classe
+        class-name: Nom de classe de commande
         command: Nom de la commande
         container: Accéder au conteneur de services
       questions:

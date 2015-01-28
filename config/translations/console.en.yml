@@ -27,7 +27,7 @@ commands:
           This is optional, press <info>enter</info> to <info>continue</info>
         name: Enter your service
       inputs:
-        confirm: Would you like to generate a form structure
+        confirm: Do you want to generate a form structure
         label: Input label
         machine_name: Input machine name
         type: Type
@@ -72,8 +72,8 @@ commands:
         description: Generate an Authentication Provider
         help: The <info>generate:authentication:provider</info> command helps you generate a new Authentication Provider.
         options:
-              module: common.options.module
-              class-name: Authentication Provider class
+        module: common.options.module
+        class-name: Authentication Provider class
     command:
       description: Generate commands for the console.
       help: The <info>generate:command</info> command helps you generate a new command.
@@ -149,7 +149,7 @@ commands:
         package: Module package
         controller: Default Controller
         test: Generate a test class
-        structure: Generate the whole directory structure
+        structure: Generate the directory structure
       questions:
         module: Enter the new module name
         machine-name: Enter the module machine name
@@ -159,7 +159,7 @@ commands:
         package: Enter package name
         controller: Do you want to generate a default Controller
         test: Do you want to generate a unit test class
-        structure: Do you want to generate the whole directory structure
+        structure: Do you want to generate the directory structure
     plugin:
       block:
         description: Generate a plugin block
@@ -182,7 +182,7 @@ commands:
         messages:
           inputs: |
 
-            You can add input fields to create special configurations in each block.
+            You can add input fields to create special configurations in the block.
             This is optional, press <info>enter</info> to <info>continue</info>
       imageeffect:
         description: Generate image effect plugin.
