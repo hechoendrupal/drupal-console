@@ -21,7 +21,7 @@ class PluginBlockGenerator extends Generator
     $parameters = [
       'module'       => $module,
       'class_name'   => $class_name,
-      'label' => $label,
+      'label'        => $label,
       'plugin_id'    => $plugin_id,
       'services'     => $services,
       'inputs'       => $inputs,

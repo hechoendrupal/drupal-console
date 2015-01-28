@@ -25,7 +25,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *  id = "{{plugin_id}}",
- *  admin_label = @Translation("{{label}}")
+ *  admin_label = @Translation("{{label}}"),
  * )
  */
 class {{class_name}} extends BlockBase {% if services is not empty %}implements ContainerFactoryPluginInterface {% endif %}
@@ -74,42 +74,26 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
 {% endblock %}
 
 {% block class_methods %}
-  /**
-   * {@inheritdoc}
-   */
-  protected function getEditableConfigNames() {}
-
-  /**
-   * {@inheritdoc}
-   */
-  public function build() {
-    return [
-      '#markup' => '{{label}}',
-    ];
-  }
 
 {% if inputs %}
   /**
-   * Overrides \Drupal\block\BlockBase::blockForm().
+   * {@inheritdoc}
    */
   public function blockForm($form, FormStateInterface $form_state) {
-    $form = parent::blockForm($form, $form_state);
-    $config = $this->getConfiguration();
-
 {% for input in inputs %}
-    $form['{{ input.name }}'] = [
+    $form['{{ input.name }}'] = array(
       '#type' => '{{ input.type }}',
       '#title' => $this->t('{{ input.label }}'),
       '#description' => $this->t('{{ input.description }}'),
-      '#default_value' => isset($config['{{ input.name }}'])?$config['{{ input.name }}']:"",
-    ];
+      '#default_value' => isset($this->configuration['{{ input.name }}']) ? $this->configuration['{{ input.name }}'] : '',
+    );
 {% endfor %}
 
     return $form;
   }
 
   /**
-   * Overrides \Drupal\block\BlockBase::blockSubmit().
+   * {@inheritdoc}
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
 {% for input in inputs %}
@@ -117,4 +101,16 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
 {% endfor %}
   }
 {% endif %}
+
+  /**
+   * {@inheritdoc}
+   */
+  public function build() {
+    $build = array();
+{% for input in inputs %}
+    $build['{{plugin_id}}_{{ input.name }}']['#markup'] = '<p>' . $this->configuration['{{ input.name }}'] . '</p>';
+{% endfor %}
+
+    return $build;
+  }
 {% endblock %}
