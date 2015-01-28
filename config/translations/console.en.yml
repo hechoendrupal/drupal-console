@@ -182,7 +182,7 @@ commands:
         messages:
           inputs: |
 
-            You can add input fields to create special configurations in each block.
+            You can add input fields to create special configurations in the block.
             This is optional, press <info>enter</info> to <info>continue</info>
       imageeffect:
         description: Generate image effect plugin.
