@@ -100,6 +100,7 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
     $this->configuration['{{ input.name }}'] = $form_state->getValue('{{ input.name }}');
 {% endfor %}
   }
+{% endif %}
 
   /**
    * {@inheritdoc}
@@ -112,5 +113,4 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
 
     return $build;
   }
-{% endif %}
 {% endblock %}
