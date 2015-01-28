@@ -99,6 +99,11 @@ class ModuleDownloadCommand extends ContainerAwareCommand
       $drupalBoostrap = $this->getHelperSet()->get('bootstrap');
       $module_contrib_path = $drupalBoostrap->getDrupalRoot() . "/modules/contrib";
 
+      // Create directory if does not exist
+      if (file_exists(dirname($module_contrib_path))) {
+        mkdir($module_contrib_path, 0777, true);
+      }
+
       // Preper release to unzip and untar
       $zippy = Zippy::load();
       $archive = $zippy->open($destination);
