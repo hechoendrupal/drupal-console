@@ -19,7 +19,7 @@ Drupal Console
 
 ## Supported version
 
-[Drupal 8.0.0-beta4](http://ftp.drupal.org/files/projects/drupal-8.0.0-beta4.tar.gz)
+[Drupal 8.0.0-beta6](http://ftp.drupal.org/files/projects/drupal-8.0.0-beta6.tar.gz)
 
 ## Documentation
 
