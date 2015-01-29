@@ -32,7 +32,7 @@
         "symfony/yaml": "2.6.*",
         "twig/twig": "1.16.*",
         "herrera-io/phar-update": "1.*",
-        "artack/dom-query": "*",
+        "artack/dom-query": "dev-master",
         "alchemy/zippy": "0.2.*@dev"
     },
     "require-dev": {
