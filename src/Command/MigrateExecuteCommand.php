@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Core\Database\Database;
 use Drupal\migrate\Entity\MigrationInterface;
 use Drupal\migrate\MigrateExecutable;
-use Drupal\migrate\MigrateMessageInterface;
 use Drupal\AppConsole\Command\migrate_upgrade\MigrateExecuteMessageCapture;
 
 class MigrateExecuteCommand extends ContainerAwareCommand
