@@ -2,6 +2,8 @@
 
 namespace Drupal\AppConsole\Command\migrate_upgrade;
 
+use Drupal\migrate\MigrateMessageInterface;
+
 /**
   * Defines a migrate message class.
 */
