@@ -12,7 +12,6 @@
 namespace Drupal\AppConsole\Command;
 
 use Drupal\AppConsole\Command\Helper\DialogHelper;
-use Drupal\AppConsole\Generator\Generator;
 
 abstract class GeneratorCommand extends ContainerAwareCommand
 {
