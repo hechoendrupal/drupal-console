@@ -44,21 +44,24 @@ class ModuleDownloadCommand extends ContainerAwareCommand
     // Parse release module page to get Drupal 8 releases
     try {
       $response = $client->get($project_release_d8);
-      $dom = $response->getBody()->__tostring();
+      $html = $response->getBody()->__tostring();
     }
     catch (\Exception $e) {
       $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
       return;
     }
 
-    $dom_query = DOMQuery::create($dom);
-
-    $releases = array();
-    foreach ($dom_query->find('span.file a') as $element) {
-      $element_attributes = $element->getAttributes();
-      if(strstr($element_attributes['href'], '.tar.gz')) {
-        $release_name = str_replace('.tar.gz', '' , str_replace('http://ftp.drupal.org/files/projects/' . $module .'-', '', $element_attributes['href']));
-        $releases[$release_name] = $element_attributes['href'];
+    $crawler = new Crawler($html);
+    $releases = [];
+    foreach ($crawler->filter('span.file a') as $element) {
+      if (strpos($element->nodeValue, ".tar.gz")>0) {
+        $release_name = str_replace(
+          '.tar.gz', '' ,
+          str_replace(
+            $module .'-', '', $element->nodeValue
+          )
+        );
+        $releases[$release_name] = $element->nodeValue;
       }
     }
 
