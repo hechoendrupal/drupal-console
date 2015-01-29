@@ -7,8 +7,7 @@
 namespace Drupal\AppConsole\Command;
 
 use Alchemy\Zippy\Zippy;
-use Artack\DOMQuery\DOMQuery;
-
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
@@ -37,29 +36,32 @@ class ModuleDownloadCommand extends ContainerAwareCommand
     $output->writeln('[+] <info>' . sprintf($this->trans('commands.module.download.messages.getting-releases'), implode(',', array($module))) . '</info>');
 
     $response = $client->head('https://www.drupal.org/project/' . $module);
+    $header_link = explode(";", $response->getHeader('link'));
 
-    $header_link = preg_split(";", $response->getHeader('link'));
     $project_node = str_replace('<', '', str_replace('>', '', $header_link[0]));
     $project_release_d8 = $project_node . '/release?api_version%5B%5D=7234';
 
     // Parse release module page to get Drupal 8 releases
     try {
       $response = $client->get($project_release_d8);
-      $dom = $response->getBody()->__tostring();
+      $html = $response->getBody()->__tostring();
     }
     catch (\Exception $e) {
       $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
       return;
     }
 
-    $dom_query = DOMQuery::create($dom);
-
-    $releases = array();
-    foreach ($dom_query->find('span.file a') as $element) {
-      $element_attributes = $element->getAttributes();
-      if(strstr($element_attributes['href'], '.tar.gz')) {
-        $release_name = str_replace('.tar.gz', '' , str_replace('http://ftp.drupal.org/files/projects/' . $module .'-', '', $element_attributes['href']));
-        $releases[$release_name] = $element_attributes['href'];
+    $crawler = new Crawler($html);
+    $releases = [];
+    foreach ($crawler->filter('span.file a') as $element) {
+      if (strpos($element->nodeValue, ".tar.gz")>0) {
+        $release_name = str_replace(
+          '.tar.gz', '' ,
+          str_replace(
+            $module .'-', '', $element->nodeValue
+          )
+        );
+        $releases[$release_name] = $element->nodeValue;
       }
     }
 
@@ -91,7 +93,7 @@ class ModuleDownloadCommand extends ContainerAwareCommand
 
       $client->get($release_file_path, ['save_to' => $destination]);
 
-      // Determine destion folder for contrib modules
+      // Determine destination folder for contrib modules
       $drupalBoostrap = $this->getHelperSet()->get('bootstrap');
       $module_contrib_path = $drupalBoostrap->getDrupalRoot() . "/modules/contrib";
 
