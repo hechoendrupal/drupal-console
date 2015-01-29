@@ -61,7 +61,6 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
   protected function execute(InputInterface $input, OutputInterface $output)
   {
     $entityType = $this->getStringUtils()->camelCaseToUnderscore($this->entityType);
-    $dialog = $this->getDialogHelper();
 
     $module = $input->getOption('module');
     $entity_class = $input->getOption('entity-class');
