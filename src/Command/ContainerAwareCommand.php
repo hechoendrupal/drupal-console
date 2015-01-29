@@ -93,6 +93,48 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     return $migrations;
   }
 
+  /**
+   * [geRest get a list of Rest Resouces]
+   * @param  boolean $status return Rest Resources by status
+   * @return array list of rest resources
+   */
+  public function getRestResources($rest_status = false)
+  {
+
+    $available_resources = array();
+
+    // Get the list of enabled and disabled resources.
+    $config = \Drupal::config('rest.settings')->get('resources') ?: array();
+
+    $resourcePluginManager = $this->getPluginManagerRest();
+    $resources = $resourcePluginManager->getDefinitions();
+
+    $enabled_resources = array_combine(array_keys($config), array_keys($config));
+    $available_resources = array('enabled' => array(), 'disabled' => array());
+
+    foreach ($resources as $id => $resource) {
+      $status = in_array($id, $enabled_resources) ? 'enabled' : 'disabled';
+      $available_resources[$status][$id] = $resource;
+    }
+
+    // Sort the list of resources by label.
+    $sort_resources = function($resource_a, $resource_b) {
+      return strcmp($resource_a['label'], $resource_b['label']);
+    };
+    if (!empty($available_resources['enabled'])) {
+      uasort($available_resources['enabled'], $sort_resources);
+    }
+    if (!empty($available_resources['disabled'])) {
+      uasort($available_resources['disabled'], $sort_resources);
+    }
+
+    if(isset($available_resources[$rest_status])) {
+      return array( $rest_status => $available_resources[$rest_status]);
+    }
+
+    return $available_resources;
+  }
+
   public function getServices()
   {
     if (null === $this->services) {
@@ -130,6 +172,10 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
   public function getModuleInstaller() {
     return $this->getContainer()->get('module_installer');
+  }
+
+  public function getPluginManagerRest(){
+    return $this->getContainer()->get('plugin.manager.rest');
   }
 
   public function getHttpClient() {
