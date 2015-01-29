@@ -7,8 +7,7 @@
 namespace Drupal\AppConsole\Command;
 
 use Alchemy\Zippy\Zippy;
-use Artack\DOMQuery\DOMQuery;
-
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
