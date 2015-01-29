@@ -198,7 +198,6 @@ class MigrateExecuteCommand extends ContainerAwareCommand
   }
   protected function registerSourceDB(InputInterface $input) {
 
-    $site_url = $input->getOption('site-url');
     $db_host = $input->getOption('db-host');
     $db_name = $input->getOption('db-name');
     $db_user = $input->getOption('db-user');
