@@ -7,7 +7,7 @@
 namespace Drupal\AppConsole\Command;
 
 use Alchemy\Zippy\Zippy;
-use Artack\DOMQuery\DOMQuery;
+use Symfony\Component\DomCrawler\Crawler;
 use GuzzleHttp\Exception\ClientErrorResponseException;
 use GuzzleHttp\Stream;
 
@@ -49,21 +49,20 @@ class ModuleDownloadCommand extends ContainerAwareCommand
     // Parse release module page to get Drupal 8 releases
     try {
       $response = $client->get($project_release_d8);
-      $dom = $response->getBody()->__tostring();
+      $html = $response->getBody()->__tostring();
     }
     catch (\Exception $e) {
       $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
       return;
     }
 
-    $dom_query = DOMQuery::create($dom);
+    $crawler = new Crawler($html);
 
     $releases = array();
-    foreach ($dom_query->find('span.file a') as $element) {
-      $element_attributes = $element->getAttributes();
-      if(strstr($element_attributes['href'], '.tar.gz')) {
-        $release_name = str_replace('.tar.gz', '' , str_replace('http://ftp.drupal.org/files/projects/' . $module .'-', '', $element_attributes['href']));
-        $releases[$release_name] = $element_attributes['href'];
+    foreach ($crawler->filter('span.file a') as $element) {
+      if (strpos($element->nodeValue, ".zip")>0) {
+        $release_name = 'http://ftp.drupal.org/files/projects/' . $element->nodeValue;
+        $releases[$element->nodeValue] = $release_name;
       }
     }
 
@@ -86,7 +85,7 @@ class ModuleDownloadCommand extends ContainerAwareCommand
     // Start the process to download the zip file of release and copy in contrib folter
     $output->writeln('[+] <info>' . sprintf($this->trans('commands.module.download.messages.downloading'), $module, $release_selected) . '</info>');
 
-    $release_file_path = 'http://ftp.drupal.org/files/projects/' . $module .'-' . $release_selected . '.tar.gz';
+    $release_file_path = 'http://ftp.drupal.org/files/projects/' . $release_selected;
 
     // Destination file to download the release
     $destination = tempnam(sys_get_temp_dir(), 'console.') . "tar.gz";
