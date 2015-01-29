@@ -10,10 +10,7 @@ use Alchemy\Zippy\Zippy;
 use Symfony\Component\DomCrawler\Crawler;
 use GuzzleHttp\Exception\ClientErrorResponseException;
 use GuzzleHttp\Stream;
-
-
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -42,7 +39,7 @@ class ModuleDownloadCommand extends ContainerAwareCommand
 
     $response = $client->head('https://www.drupal.org/project/' . $module);
 
-    $header_link = split(";", $response->getHeader('link'));
+    $header_link = preg_split(";", $response->getHeader('link'));
     $project_node = str_replace('<', '', str_replace('>', '', $header_link[0]));
     $project_release_d8 = $project_node . '/release?api_version%5B%5D=7234';
 

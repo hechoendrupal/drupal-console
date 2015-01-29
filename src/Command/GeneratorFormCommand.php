@@ -61,7 +61,6 @@ abstract class GeneratorFormCommand extends GeneratorCommand
    */
   protected function execute(InputInterface $input, OutputInterface $output)
   {
-    $dialog = $this->getDialogHelper();
 
     $module = $input->getOption('module');
     $services = $input->getOption('services');

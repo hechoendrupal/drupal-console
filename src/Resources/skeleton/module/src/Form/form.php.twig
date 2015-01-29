@@ -69,18 +69,19 @@ class {{ class_name }} extends ConfigFormBase
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('{{module_name}}.{{form_id}}_config');
-  {% for input in inputs %}
-  $form['{{ input.name }}'] = array(
+{% for input in inputs %}
+    $form['{{ input.name }}'] = array(
       '#type' => '{{ input.type }}',
       '#title' => $this->t('{{ input.label }}'),
       '#description' => $this->t('{{ input.description }}'),
-      {% if input.options|length %}
-        '#options' => {{ input.options }},
-      {% endif %}
+{% if input.options|length %}
+      '#options' => {{ input.options }},
+{% endif %}
       '#default_value' => $config->get('{{ input.name }}'),
     );
-  {% endfor %}
-  return parent::buildForm($form, $form_state);
+{% endfor %}
+
+    return parent::buildForm($form, $form_state);
   }
 
   /**
@@ -97,9 +98,9 @@ class {{ class_name }} extends ConfigFormBase
     parent::submitForm($form, $form_state);
 
     $this->config('{{module_name}}.{{form_id}}_config')
-    {% for input in inputs %}
+{% for input in inputs %}
       ->set('{{ input.name }}', $form_state->getValue('{{ input.name }}'))
-    {% endfor %}
+{% endfor %}
     ->save();
   }
 {% endblock %}
