@@ -8,7 +8,6 @@ namespace Drupal\AppConsole\Command;
 
 use Alchemy\Zippy\Zippy;
 use Artack\DOMQuery\DOMQuery;
-use GuzzleHttp\Exception\ClientErrorResponseException;
 use GuzzleHttp\Stream;
 
 
