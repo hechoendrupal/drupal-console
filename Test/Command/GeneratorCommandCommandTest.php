@@ -6,7 +6,6 @@
 
 namespace Drupal\AppConsole\Test\Command;
 
-use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class GeneratorCommandCommandTest extends GenerateCommandTest
