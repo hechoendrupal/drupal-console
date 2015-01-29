@@ -314,6 +314,25 @@ commands:
         import-fail: Import "%s" failed
         import-skipped: Import "%s" was skipped due to unfulfilled dependencies
         wrong-source: 'Upgrading from this version of Drupal is not supported.'
+  rest:
+    debug:
+      description: Display current rest resource for the application
+      arguments:
+        resource-id: Rest ID
+      options:
+        status: Rest resource status enabled | disabled
+      messages:
+        id: Rest ID
+        label: Label
+        canonical_url: Canonical URL
+        status: Status
+        provider: Provider
+        enabled: Enabled
+        disabled: Disabled
+        rest-state: REST States
+        supported-formats: Supported Formats
+        supported_auth: Supported Authentication Providers
+        not-found: Rest resource %s not found
   router:
     debug:
       description: Displays current routes for the application
