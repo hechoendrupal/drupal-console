@@ -248,7 +248,6 @@ class MigrateExecuteCommand extends ContainerAwareCommand
       if ($migration) {
         $messages = new MigrateExecuteMessageCapture();
         $executable = new MigrateExecutable($migration, $messages);
-        $migration_name = $migration->label() ? $migration->label() : $migration_id;
         $migration_status = $executable->import();
         switch ($migration_status) {
           case MigrationInterface::RESULT_COMPLETED:
