@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Core\Database\Database;
 use Drupal\migrate\Entity\MigrationInterface;
 use Drupal\migrate\MigrateExecutable;
-use Drupal\migrate\MigrateMessageInterface;
 use Drupal\AppConsole\Command\migrate_upgrade\MigrateExecuteMessageCapture;
 
 class MigrateExecuteCommand extends ContainerAwareCommand
@@ -198,7 +197,6 @@ class MigrateExecuteCommand extends ContainerAwareCommand
   }
   protected function registerSourceDB(InputInterface $input) {
 
-    $site_url = $input->getOption('site-url');
     $db_host = $input->getOption('db-host');
     $db_name = $input->getOption('db-name');
     $db_user = $input->getOption('db-user');
@@ -249,7 +247,6 @@ class MigrateExecuteCommand extends ContainerAwareCommand
       if ($migration) {
         $messages = new MigrateExecuteMessageCapture();
         $executable = new MigrateExecutable($migration, $messages);
-        $migration_name = $migration->label() ? $migration->label() : $migration_id;
         $migration_status = $executable->import();
         switch ($migration_status) {
           case MigrationInterface::RESULT_COMPLETED:

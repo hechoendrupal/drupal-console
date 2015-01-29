@@ -8,12 +8,8 @@ namespace Drupal\AppConsole\Command;
 
 use Alchemy\Zippy\Zippy;
 use Artack\DOMQuery\DOMQuery;
-use GuzzleHttp\Exception\ClientErrorResponseException;
-use GuzzleHttp\Stream;
-
 
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
