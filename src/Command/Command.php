@@ -15,6 +15,8 @@ abstract class Command extends BaseCommand {
 
   protected $dependencies;
 
+  protected $files;
+
   /**
    * @var TranslatorHelper
    */
