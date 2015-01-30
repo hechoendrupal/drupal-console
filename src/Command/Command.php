@@ -80,9 +80,31 @@ abstract class Command extends BaseCommand {
     }
     $output->writeln([
       '',
-      $this->getHelperSet()->get('formatter')->formatBlock($message, $style, true),
+      $this->getHelperSet()->get('formatter')->formatBlock($message, $style, false),
       '',
     ]);
+  }
+
+  public function showGeneratedFiles($output, $files)
+  {
+    if ($files) {
+      $this->showMessage($output, $this->trans('application.console.messages.generated-files'));
+      $output->writeln(sprintf(
+        '<info>%s:</info><comment>%s</comment>',
+        $this->trans('application.console.messages.site-path'),
+        DRUPAL_ROOT
+      ));
+
+      $index = 1;
+      foreach ($files as $file) {
+        $output->writeln(sprintf(
+          '<info>%s</info> - <comment>%s</comment>',
+          $index,
+          $file
+        ));
+        $index++;
+      }
+    }
   }
 
   protected function getQuestionHelper()

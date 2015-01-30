@@ -19,6 +19,8 @@ class Generator
 
   private $translator;
 
+  private $files;
+
   /**
    * Sets an array of directories to look for templates.
    *
@@ -57,7 +59,13 @@ class Generator
         mkdir(dirname($target), 0777, true);
     }
 
-    return file_put_contents($target, $this->render($template, $parameters), $flag);
+    if (file_put_contents($target, $this->render($template, $parameters), $flag)) {
+      $this->files[] = str_replace(DRUPAL_ROOT . '/', '', $target);
+
+      return true;
+    }
+
+    return false;
   }
 
   protected function renderView($template,$parameters) {
@@ -215,5 +223,9 @@ class Generator
 
   public function getTranslator(){
     return $this->translator;
+  }
+
+  public function getFiles(){
+    return $this->files;
   }
 }

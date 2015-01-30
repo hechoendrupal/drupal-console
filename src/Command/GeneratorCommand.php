@@ -25,7 +25,7 @@ abstract class GeneratorCommand extends ContainerAwareCommand
 
     abstract protected function createGenerator();
 
-    protected function getGenerator()
+    public function getGenerator()
     {
         if (null === $this->generator) {
             $this->generator = $this->createGenerator();
@@ -33,7 +33,6 @@ abstract class GeneratorCommand extends ContainerAwareCommand
             $this->generator->setTranslator($this->translator);
         }
 
-        $this->addMessage('application.console.messages.completed');
         return $this->generator;
     }
 
