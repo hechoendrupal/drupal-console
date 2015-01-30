@@ -13,7 +13,9 @@ abstract class GeneratorTest extends \PHPUnit_Framework_TestCase
   public function setUp()
   {
     $this->setUpTemporalDirectory();
-    define('DRUPAL_ROOT', getcwd());
+    if (!defined('DRUPAL_ROOT')) {
+      define('DRUPAL_ROOT', getcwd());
+    }
   }
 
   public function setUpTemporalDirectory()
