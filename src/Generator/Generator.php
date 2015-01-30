@@ -59,7 +59,13 @@ class Generator
         mkdir(dirname($target), 0777, true);
     }
 
-    return file_put_contents($target, $this->render($template, $parameters), $flag);
+    if (file_put_contents($target, $this->render($template, $parameters), $flag)) {
+      $this->files[] = str_replace(DRUPAL_ROOT . '/', '', $target);
+
+      return true;
+    }
+
+    return false;
   }
 
   protected function renderView($template,$parameters) {
