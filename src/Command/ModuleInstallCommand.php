@@ -90,7 +90,7 @@ class ModuleInstallCommand extends ContainerAwareCommand
       // Install the modules.
       $moduleInstaller->install($module_list);
 
-      $output->writeln('[+] <info>' . sprintf($this->trans('commands.module.install.messages.sucess'), implode(", ", $modules)) .'</info>');
+      $output->writeln('[+] <info>' . sprintf($this->trans('commands.module.install.messages.success'), implode(", ", $modules)) .'</info>');
     }
     catch (\Exception $e) {
       $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
