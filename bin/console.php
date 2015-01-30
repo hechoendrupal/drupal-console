@@ -131,8 +131,10 @@ $dispatcher->addListener(ConsoleEvents::TERMINATE, function (ConsoleTerminateEve
   $completeMessageKey = 'application.console.messages.completed';
   $completeMessage = $translatorHelper->trans($completeMessageKey);
 
-  if ($completeMessage != $completeMessageKey){
-    $command->showMessage($output, $completeMessage);
+  if ($completeMessage != $completeMessageKey) {
+    if (method_exists($command,'showMessage')) {
+      $command->showMessage($output, $completeMessage);
+    }
   }
 });
 
