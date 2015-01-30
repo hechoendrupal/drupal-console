@@ -122,6 +122,11 @@ $dispatcher->addListener(ConsoleEvents::TERMINATE, function (ConsoleTerminateEve
       $command->showMessage($output, $translatorHelper->trans($message));
     }
   }
+
+  if (method_exists($command,'getGenerator') && method_exists($command,'showGeneratedFiles')) {
+    $files = $command->getGenerator()->getFiles();
+    $command->showGeneratedFiles($output, $files);
+  }
 });
 
 $application->setDispatcher($dispatcher);
