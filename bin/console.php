@@ -17,22 +17,15 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
+use Drupal\AppConsole\Config;
 
 set_time_limit(0);
 
 $consoleRoot = __DIR__ . '/../';
 require $consoleRoot . '/vendor/autoload.php';
 
-$yaml = new Parser();
-$config = $yaml->parse(file_get_contents($directoryRoot.'config.yml'));
-
-$homeDirectory = trim(getenv('HOME') ?: getenv('USERPROFILE'));
-if (file_exists($homeDirectory.'/.console/config.yml')){
-  $userConfig = $yaml->parse(file_get_contents($homeDirectory.'/.console/config.yml'));
-  unset($userConfig['application']['name']);
-  unset($userConfig['application']['version']);
-  $config = array_replace_recursive($config, $userConfig);
-}
+$consoleConfig  = new Config(new Parser(), $consoleRoot);
+$config = $consoleConfig->getConfig();
 
 $translatorHelper = new TranslatorHelper();
 $translatorHelper->loadResource($config['application']['language'], $consoleRoot);
@@ -42,6 +35,7 @@ $application->setDirectoryRoot($consoleRoot);
 
 $errorMessages = [];
 $class_loader = null;
+
 // Try to find the Drupal autoloader.
 if (file_exists(getcwd() . '/core/vendor/autoload.php')) {
   if (!file_exists(getcwd() . '/sites/default/settings.php')) {
