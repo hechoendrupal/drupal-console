@@ -19,6 +19,8 @@ class Generator
 
   private $translator;
 
+  private $files;
+
   /**
    * Sets an array of directories to look for templates.
    *
