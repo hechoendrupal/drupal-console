@@ -34,7 +34,6 @@ class GeneratorModuleCommand extends GeneratorCommand
       ->addOption('package','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.module.options.package'))
       ->addOption('controller', '', InputOption::VALUE_NONE, $this->trans('commands.generate.module.options.controller'))
       ->addOption('test', '', InputOption::VALUE_NONE, $this->trans('commands.generate.module.options.test'))
-      ->addOption('structure', '', InputOption::VALUE_NONE, $this->trans('commands.generate.module.options.structure'))
     ;
   }
   /**
@@ -57,7 +56,6 @@ class GeneratorModuleCommand extends GeneratorCommand
     $package = $input->getOption('package');
     $controller = $input->getOption('controller');
     $test = $input->getOption('test');
-    $structure =  $input->getOption('structure');
 
     $generator = $this->getGenerator();
     $generator->generate(
@@ -68,8 +66,7 @@ class GeneratorModuleCommand extends GeneratorCommand
             $core,
             $package,
             $controller,
-            $test,
-            $structure
+            $test
     );
   }
 
@@ -167,12 +164,6 @@ class GeneratorModuleCommand extends GeneratorCommand
       $test = false;
     }
     $input->setOption('test', $test);
-
-    $structure = $input->getOption('structure');
-    if (!$structure && $dialog->askConfirmation($output, $dialog->getQuestion($this->trans('commands.generate.module.questions.structure'), 'yes', '?'), true)) {
-      $structure = true;
-    }
-    $input->setOption('structure', $structure);
   }
 
   /**

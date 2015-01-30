@@ -9,9 +9,7 @@ namespace Drupal\AppConsole\Generator;
 class ModuleGenerator extends Generator
 {
 
-  private $defaultDirectoryStructure = ['Tests', 'src', 'src/Controller', 'src/Form', 'src/Plugin', 'templates'];
-
-  public function generate($module, $machine_name, $dir, $description, $core, $package, $controller, $tests, $structure )
+  public function generate($module, $machine_name, $dir, $description, $core, $package, $controller, $tests)
   {
     $dir .= '/' . $machine_name;
     if (file_exists($dir)) {
@@ -77,14 +75,6 @@ class ModuleGenerator extends Generator
             $dir.'/Tests/Controller/'. $class_name .'Test.php',
             $parameters
         );
-      }
-    }
-
-    if ($structure) {
-      foreach ($this->defaultDirectoryStructure as $directory) {
-        if (!file_exists($dir.'/'.$directory)) {
-          mkdir($dir.'/'.$directory);
-        }
       }
     }
   }
