@@ -20,20 +20,8 @@ use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 
 set_time_limit(0);
 
-// Try to find the Console autoloader.
-if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
-  require __DIR__ . '/../vendor/autoload.php';
-}
-else if (file_exists(__DIR__ . '/../../../vendor/autoload.php')) {
-  require __DIR__ . '/../../../vendor/autoload.php';
-}
-else {
-  echo 'Something goes wrong with your archive'.PHP_EOL.
-    'Try downloading again'.PHP_EOL;
-  exit(1);
-}
-
-$directoryRoot = __DIR__ . '/../';
+$consoleRoot = __DIR__ . '/../';
+require $consoleRoot . '/vendor/autoload.php';
 
 $yaml = new Parser();
 $config = $yaml->parse(file_get_contents($directoryRoot.'config.yml'));
@@ -47,10 +35,10 @@ if (file_exists($homeDirectory.'/.console/config.yml')){
 }
 
 $translatorHelper = new TranslatorHelper();
-$translatorHelper->loadResource($config['application']['language'], $directoryRoot);
+$translatorHelper->loadResource($config['application']['language'], $consoleRoot);
 
 $application = new Application($config);
-$application->setDirectoryRoot($directoryRoot);
+$application->setDirectoryRoot($consoleRoot);
 
 $errorMessages = [];
 $class_loader = null;
