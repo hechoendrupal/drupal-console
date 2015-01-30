@@ -60,10 +60,7 @@ class RestDebugCommand extends ContainerAwareCommand
       return false;
     }
 
-    $methods = $plugin->availableMethods();
     $resource = $plugin->getPluginDefinition();
-
-    //print_r($config[$resource['id']]);
 
     $configuration = array();
     $configuration[$this->trans('commands.rest.debug.messages.id')] = $resource['id'];
