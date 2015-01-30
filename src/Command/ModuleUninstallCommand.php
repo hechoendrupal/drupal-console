@@ -73,7 +73,7 @@ class ModuleUninstallCommand extends ContainerAwareCommand
       // Install the modules.
       $moduleInstaller->uninstall($module_list);
 
-      $output->writeln('[+] <info>' . sprintf($this->trans('commands.module.uninstall.messages.sucess'), implode(", ", $modules)) .'</info>');
+      $output->writeln('[+] <info>' . sprintf($this->trans('commands.module.uninstall.messages.success'), implode(", ", $modules)) .'</info>');
     }
     catch (\Exception $e) {
       $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
