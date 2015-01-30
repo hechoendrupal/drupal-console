@@ -82,7 +82,7 @@ abstract class Command extends BaseCommand {
     }
     $output->writeln([
       '',
-      $this->getHelperSet()->get('formatter')->formatBlock($message, $style, true),
+      $this->getHelperSet()->get('formatter')->formatBlock($message, $style, false),
       '',
     ]);
   }
