@@ -74,25 +74,6 @@ class ModuleGeneratorTest extends GeneratorTest
         );
       }
     }
-
-//    $folders = [
-//      '',
-//      'src',
-//      'Tests',
-//      'templates',
-//      'src/Controller',
-//      'src/Form',
-//      'src/Plugin',
-//    ];
-
-//    if ($structure) {
-//      foreach ($folders as $folder) {
-//        $this->assertTrue(
-//          is_dir($dir . '/' . $machine_name . '/' . $folder),
-//          sprintf('%s has been generated', $dir . '/' . $machine_name . '/' . $folder)
-//        );
-//      }
-//    }
   }
 
   public function commandData()
