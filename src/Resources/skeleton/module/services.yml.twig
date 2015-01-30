@@ -5,7 +5,7 @@ services:
   {{ service_name | lower }}:
     class: Drupal\{{module}}\{{ class_name }}
     arguments: [{{ servicesAsParametersKeys(services)|join(', ') }}]
-{% if tags %}
+{% if tags is defined %}
     tags:
       - { {{ tagsAsArray(tags)|join(', ') }} }
 {% endif %}
