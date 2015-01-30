@@ -25,7 +25,7 @@ abstract class GeneratorCommand extends ContainerAwareCommand
 
     abstract protected function createGenerator();
 
-    protected function getGenerator()
+    public function getGenerator()
     {
         if (null === $this->generator) {
             $this->generator = $this->createGenerator();
