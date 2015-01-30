@@ -224,4 +224,8 @@ class Generator
   public function getTranslator(){
     return $this->translator;
   }
+
+  public function getFiles(){
+    return $this->files;
+  }
 }
