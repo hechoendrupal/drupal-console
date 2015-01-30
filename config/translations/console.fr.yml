@@ -149,7 +149,6 @@ commands:
         package: Paquet Module
         controller: Contrôleur par défaut
         test: Générer une classe de test
-        structure: Générer ensemble la structure du répertoire
       questions:
         module: Entrez le nom du nouveau module
         machine-name: Entrez le nom de la machine du module
@@ -159,7 +158,6 @@ commands:
         package: Entrez le nom du paquet
         controller: Voulez-vous générer un contrôleur par défaut 
         test: Voulez-vous générer une classe de test unitaire
-        structure: Voulez-vous pour générer ensemble la structure de répertoire
     plugin:
       block:
         description: Générer un bloc de plugin

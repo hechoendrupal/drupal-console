@@ -25,8 +25,7 @@ class ModuleGeneratorTest extends GeneratorTest
       $core,
       $package,
       $controller,
-      $tests,
-      $structure
+      $tests
     ) = $parameters;
 
     $this->getGenerator()->generate(
@@ -37,8 +36,7 @@ class ModuleGeneratorTest extends GeneratorTest
       $core,
       $package,
       $controller,
-      $tests,
-      $structure
+      $tests
     );
 
     $files = [
@@ -77,24 +75,24 @@ class ModuleGeneratorTest extends GeneratorTest
       }
     }
 
-    $folders = [
-      '',
-      'src',
-      'Tests',
-      'templates',
-      'src/Controller',
-      'src/Form',
-      'src/Plugin',
-    ];
+//    $folders = [
+//      '',
+//      'src',
+//      'Tests',
+//      'templates',
+//      'src/Controller',
+//      'src/Form',
+//      'src/Plugin',
+//    ];
 
-    if ($structure) {
-      foreach ($folders as $folder) {
-        $this->assertTrue(
-          is_dir($dir . '/' . $machine_name . '/' . $folder),
-          sprintf('%s has been generated', $dir . '/' . $machine_name . '/' . $folder)
-        );
-      }
-    }
+//    if ($structure) {
+//      foreach ($folders as $folder) {
+//        $this->assertTrue(
+//          is_dir($dir . '/' . $machine_name . '/' . $folder),
+//          sprintf('%s has been generated', $dir . '/' . $machine_name . '/' . $folder)
+//        );
+//      }
+//    }
   }
 
   public function commandData()
@@ -103,16 +101,16 @@ class ModuleGeneratorTest extends GeneratorTest
 
     return [
       [
-        ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, false, false],
+        ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, false],
       ],
       [
-        ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, true, true],
+        ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, true],
       ],
       [
-        ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, false, true],
+        ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, false],
       ],
       [
-        ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', true, true, true],
+        ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', true, true],
       ],
     ];
   }
