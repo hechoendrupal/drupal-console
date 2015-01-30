@@ -15,14 +15,14 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
    */
   public function testInteractive($options, $expected, $input)
   {
-    list($module, $machine_name, $dir, $description, $core, $package, $controller, $test, $structure) = $expected;
+    list($module, $machine_name, $dir, $description, $core, $package, $controller, $test) = $expected;
 
     $generator = $this->getGenerator();
 
     $generator
       ->expects($this->once())
       ->method('generate')
-      ->with($module, $machine_name, $dir, $description, $core, $package, $controller, $test, $structure)
+      ->with($module, $machine_name, $dir, $description, $core, $package, $controller, $test)
     ;
 
     $command = $this->getCommand($generator, $input);
@@ -39,7 +39,7 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
       // case one basic options
       [
         [],
-        ['foo', 'foo', $dir, 'My Awesome Module', '8.x', 'Other', false, false, true],
+        ['foo', 'foo', $dir, 'My Awesome Module', '8.x', 'Other', false, false],
         "foo\nfoo\n$dir\n"
       ],
     ];
@@ -50,14 +50,14 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
    */
   public function testNoInteractive($options, $expected)
   {
-    list($module, $machine_name, $dir, $description, $core, $package, $controller, $test, $structure) = $expected;
+    list($module, $machine_name, $dir, $description, $core, $package, $controller, $test) = $expected;
 
     $generator = $this->getGenerator();
 
     $generator
       ->expects($this->once())
       ->method('generate')
-      ->with($module, $machine_name, $dir, $description, $core, $package, $controller, $test, $structure)
+      ->with($module, $machine_name, $dir, $description, $core, $package, $controller, $test)
     ;
 
     $cmd = new CommandTester($this->getCommand($generator,''));
@@ -70,12 +70,12 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
 
     return [
       [
-        ['--module'=>'foo', '--machine-name'=>'foo', '--module-path'=>$dir, '--description'=>'My Awesome Module','--core'=>'8.x','--package'=>'Other', '--controller'=>true,'--test'=>true,'--structure'=>true],
-        ["foo", "foo", $dir, "My Awesome Module", '8.x', 'Other', true, true, true],
+        ['--module'=>'foo', '--machine-name'=>'foo', '--module-path'=>$dir, '--description'=>'My Awesome Module','--core'=>'8.x','--package'=>'Other', '--controller'=>true,'--test'=>true],
+        ["foo", "foo", $dir, "My Awesome Module", '8.x', 'Other', true, true],
       ],
       [
-        ['--module'=>'foo', '--machine-name'=>'foo', '--module-path'=>$dir,'--description'=>'My Awesome Module','--core'=>'8.x','--package'=>'Other', '--controller'=>true,'--test'=>true,'--structure'=>true],
-        ["foo", 'foo', $dir, "My Awesome Module", '8.x', 'Other', true, true, true],
+        ['--module'=>'foo', '--machine-name'=>'foo', '--module-path'=>$dir,'--description'=>'My Awesome Module','--core'=>'8.x','--package'=>'Other', '--controller'=>true,'--test'=>true],
+        ["foo", 'foo', $dir, "My Awesome Module", '8.x', 'Other', true, true],
       ]
     ];
   }
@@ -110,5 +110,4 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
       ->getMock()
     ;
   }
-
 }

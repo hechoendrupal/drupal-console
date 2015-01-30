@@ -151,7 +151,6 @@ commands:
         package: Module package
         controller: Default Controller
         test: Generate a test class
-        structure: Generate the directory structure
       questions:
         module: Enter the new module name
         machine-name: Enter the module machine name
@@ -161,7 +160,6 @@ commands:
         package: Enter package name
         controller: Do you want to generate a default Controller
         test: Do you want to generate a unit test class
-        structure: Do you want to generate the directory structure
     plugin:
       block:
         description: Generate a plugin block
