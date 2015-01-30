@@ -2,6 +2,8 @@ application:
   console:
     messages:
       completed: You can now start using the generated code!
+      generated-files: Generated files
+      site-path: Site path
     errors:
       invalid-command: Command "%s" is not defined.
   site:
