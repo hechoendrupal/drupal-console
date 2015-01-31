@@ -8,6 +8,8 @@ application:
     errors:
       invalid-command: Command "%s" is not defined.
   site:
+    messages:
+      path: Site path
     errors:
       directory: In order to list all of the available commands, you should run this inside a drupal root directory.
       settings: In order to list all of the available commands you should install drupal first.
