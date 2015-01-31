@@ -111,6 +111,7 @@ $dispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $
 $dispatcher->addListener(ConsoleEvents::TERMINATE, function (ConsoleTerminateEvent $event) use ($translatorHelper) {
   $output = $event->getOutput();
   $command = $event->getCommand();
+  $completeMessageKey = 'application.console.messages.completed';
 
   if ('self-update' == $command->getName()) {
     return;
@@ -125,15 +126,17 @@ $dispatcher->addListener(ConsoleEvents::TERMINATE, function (ConsoleTerminateEve
 
   if (method_exists($command,'getGenerator') && method_exists($command,'showGeneratedFiles')) {
     $files = $command->getGenerator()->getFiles();
-    $command->showGeneratedFiles($output, $files);
+    if ($files) {
+      $command->showGeneratedFiles($output, $files);
+    }
+    $completedMessageKey = 'application.console.messages.generated.completed';
   }
 
-  $completeMessageKey = 'application.console.messages.completed';
-  $completeMessage = $translatorHelper->trans($completeMessageKey);
+  $completedMessage = $translatorHelper->trans($completedMessageKey);
 
-  if ($completeMessage != $completeMessageKey) {
+  if ($completedMessage != $completedMessageKey) {
     if (method_exists($command,'showMessage')) {
-      $command->showMessage($output, $completeMessage);
+      $command->showMessage($output, $completedMessage);
     }
   }
 });
