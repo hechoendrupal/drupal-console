@@ -1,9 +1,10 @@
 application:
   console:
     messages:
-      completed: You can now start using the generated code!
-      generated-files: Generated files
-      site-path: Site path
+      completed: The command was executed succesfuly!
+      generated:
+        files: Generated files
+        completed: You can now start using the generated code!
     errors:
       invalid-command: Command "%s" is not defined.
   site:
