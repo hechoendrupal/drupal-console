@@ -99,7 +99,7 @@ class GeneratorModuleCommand extends GeneratorCommand
       );
     }
     $input->setOption('module', $module);
-    
+
     try {
         $machine_name = $input->getOption('machine-name') ? $this->validateModule($input->getOption('machine-name')) : null;
     } catch (\Exception $error) {
@@ -122,7 +122,7 @@ class GeneratorModuleCommand extends GeneratorCommand
     }
 
     $drupalBootstrap = $this->getHelperSet()->get('bootstrap');
-    $module_path_default = $drupalBootstrap->getDrupalRoot() . "/modules/custom";
+    $module_path_default = $drupalBootstrap->getDrupalRoot() . "/modules/" . $machine_name;
 
     $module_path = $input->getOption('module-path');
     if (!$module_path) {
