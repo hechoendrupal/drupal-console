@@ -111,7 +111,7 @@ $dispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $
 $dispatcher->addListener(ConsoleEvents::TERMINATE, function (ConsoleTerminateEvent $event) use ($translatorHelper) {
   $output = $event->getOutput();
   $command = $event->getCommand();
-  $completeMessageKey = 'application.console.messages.completed';
+  $completedMessageKey = 'application.console.messages.completed';
 
   if ('self-update' == $command->getName()) {
     return;
