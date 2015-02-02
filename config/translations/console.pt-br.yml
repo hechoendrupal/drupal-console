@@ -120,93 +120,93 @@ command:
       welcome: Bem-vindo ao Criador de módulo do Drupal.
       options:
         module: O nome do módulo
-        machine-name: The machine name (lowercase and underscore only)
-        module-path: The path of the module
-        description: Module description
-        core: Core version
-        package: Module package
-        controller: Default Controller
-        test: Generate a test class
-        structure: Generate the whole directory structure
+        machine-name: O nome de máquina (apenas minúsculas e sublinhado)
+        module-path: O caminho do módulo
+        description: Descrição do módulo
+        core: Versão do core
+        package: Pacote do módulo
+        controller: Controller padrão
+        test: Criar uma classe de teste
+        structure: Gerar estrutura de diretório
       questions:
-        module: Enter the new module name
-        machine-name: Enter the module machine name
-        module-path: Enter the module Path
-        description: Enter module description
-        core: Enter Drupal Core version
-        package: Enter package name
-        controller: Do you want to generate a default Controller
-        test: Do you want to generate a unit test class
-        structure: Do you want to generate the whole directory structure
+        module: Digite o nome do módulo
+        machine-name: Digite o nome de máquina do módulo
+        module-path: Digite o caminho do módulo
+        description: Digite a descrição do módulo
+        core: Digite a versão do core do Drupal
+        package: Digite o nome do pacote
+        controller: Você deseja criar um Controller padrão
+        test: Você deseja criar uma classe de teste unitário
+        structure: Você deseja criar a estrutura de diretório
     plugin:
       block:
-        description: Generate plugin block.
-        help: The <info>generate:plugin:block</info> command helps you generate a new Plugin block.
-        welcome: Welcome to the Drupal Plugin Block generator
+        description: Criar plugin de bloco.
+        help: O comando <info>generate:plugin:block</info> ajuda você a criar um novo plugin de bloco.
+        welcome: Bem-vindo ao Criador de plugin de bloco do Drupal.
         options:
           module: common.options.module
-          class-name: Plugin class name
-          label: Plugin label
-          plugin-id: Plugin id
+          class-name: Nome da classe do plugin
+          label: Label do plugin
+          plugin-id: Id do plugin
           inputs: common.options.inputs
           services: common.options.services
         questions:
           module: common.questions.module
-          class-name: Enter the plugin class name
-          label: Enter the plugin label
-          plugin-id: Enter the plugin id
+          class-name: Digite o nome da classe do plugin
+          label: Digite a label do plugin
+          plugin-id: Digite o id do plugin
           inputs: common.questions.inputs
           services: common.questions.services
         messages:
           inputs: |
 
-            You can add some input fields to create special configurations in each block
-            This is optional, press <info>enter</info> to <info>continue</info>
+            Você pode adicionar alguns campos para criar configurações especiais em cada bloco
+            Isso é opcional, pressione <info>enter</info> para <info>continuar</info>
       imageeffect:
-        description: Generate image effect plugin.
-        help: The <info>generate:plugin:imageeffect</info> command helps you generate a new image effect plugin.
-        welcome: Welcome to the Drupal Image Effect Plugin generator
+        description: Criar plugin de efeito de imagem.
+        help: O comando <info>generate:plugin:imageeffect</info> ajuda você a criar um novo plugin de efeito de imagem.
+        welcome: Bem-vindo ao Criador de plugin de efeito de imagem do Drupal
         options:
           module: common.options.module
-          class-name: Plugin class name
-          label: Plugin label
-          plugin-id: Plugin id
-          description: Plugin Description
+          class-name: Nome da classe do plugin
+          label: Label do plugin
+          plugin-id: Id do plugin
+          description: Descrição do plugin
         questions:
           module: common.questions.module
-          class-name: Enter the plugin class name
-          label: Enter the plugin label
-          plugin-id: Enter the plugin id
-          description: Enter the plugin Description
+          class-name: Digite o nome da classe do plugin
+          label: Digite a label do plugin
+          plugin-id: Digite o id do plugin
+          description: Digite a descrição do plugin
     service:
-      description: Generate service
-      help: The <info>generate:service</info> command helps you generate a new service.
-      welcome: Welcome to the Drupal service generator
+      description: Criar serviço
+      help: O comando <info>generate:service</info> ajuda você a criar um novo serviço.
+      welcome: Bem-vindo ao Criador de serviço do Drupal
       options:
         module: common.options.module
-        service-name: Service name
-        class-name: Class name
+        service-name: Nome do serviço
+        class-name: Nome da classe
         services: common.questions.services
       questions:
         module: common.questions.module
-        service-name: Enter the service name
-        class-name: Enter the Class name
+        service-name: Digite o nome do serviço
+        class-name: Digite o nome da classe
         services: common.options.services
   router:
     debug:
-      description: Displays current routes for an application
+      description: Exibe as rotas atuais de uma aplicação
       arguments:
-        route-name: Route names
+        route-name: Nomes das rotas
       messages:
-        name: Route name
-        path: Class path
+        name: Nome da rota
+        path: Caminho da classe
         pattern: Pattern
-        defaults: Defaults
-        options: Options
+        defaults: Padrão
+        options: Opções
     rebuild:
-      description: Rebuild routes for an application
+      description: Reconstruir rotas de uma aplicação
       arguments:
-        route-name: Route names
+        route-name: Nomas das rotas
       messages:
-        rebuilding: Rebuilding routes, wait a moment please
-        completed: Done rebuilding route(s).
+        rebuilding: Reconstruindo rotas, favor aguarde um momento
+        completed: Reconstrução de rota(s) finalizada.
