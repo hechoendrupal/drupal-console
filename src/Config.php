@@ -10,16 +10,20 @@ use Symfony\Component\Yaml\Parser;
 
 class Config {
 
+    protected $parser;
+
+    protected $root_path;
+
     public function __construct(Parser $parser, $root_path)
     {
-        $this->Parser = $parser;
+        $this->parser = $parser;
         $this->root_path = $root_path;
     }
 
     protected function readYamlFile($path_file)
     {
         if (file_exists($path_file)) {
-            return $this->Parser->parse(file_get_contents($path_file));
+            return $this->parser->parse(file_get_contents($path_file));
         }
         else {
             return [];
