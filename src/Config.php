@@ -10,6 +10,10 @@ use Symfony\Component\Yaml\Parser;
 
 class Config {
 
+    protected $parser;
+
+    protected $root_path;
+
     public function __construct(Parser $parser, $root_path)
     {
         $this->Parser = $parser;
