@@ -1,12 +1,15 @@
 application:
   console:
     messages:
-      completed: You can now start using the generated code!
-      generated-files: Generated files
-      site-path: Site path
+      completed: The command was executed succesfuly!
+      generated:
+        files: Generated files
+        completed: You can now start using the generated code!
     errors:
       invalid-command: Command "%s" is not defined.
   site:
+    messages:
+      path: Site path
     errors:
       directory: In order to list all of the available commands, you should run this inside a drupal root directory.
       settings: In order to list all of the available commands you should install drupal first.
