@@ -32,7 +32,6 @@ use Psr\Log\LoggerInterface;
  *   }
  * )
  */
-
 class {{ class_name }} extends ResourceBase
 {% endblock %}
 {% block class_variables %}
@@ -46,19 +45,19 @@ class {{ class_name }} extends ResourceBase
 
 {% block class_construct %}
   /**
-  * Constructs a Drupal\rest\Plugin\ResourceBase object.
-  *
-  * @param array $configuration
-  *   A configuration array containing information about the plugin instance.
-  * @param string $plugin_id
-  *   The plugin_id for the plugin instance.
-  * @param mixed $plugin_definition
-  *   The plugin implementation definition.
-  * @param array $serializer_formats
-  *   The available serialization formats.
-  * @param \Psr\Log\LoggerInterface $logger
-  *   A logger instance.
-  */
+   * Constructs a Drupal\rest\Plugin\ResourceBase object.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
+   * @param array $serializer_formats
+   *   The available serialization formats.
+   * @param \Psr\Log\LoggerInterface $logger
+   *   A logger instance.
+   */
   public function __construct(
     array $configuration,
     $plugin_id,
@@ -90,7 +89,7 @@ class {{ class_name }} extends ResourceBase
 
 {% block class_methods %}
 {% for state in plugin_states %}
-  /*
+  /**
    * Responds to {{ state }} requests.
    *
    * Returns a list of bundles for specified entity.
@@ -104,7 +103,7 @@ class {{ class_name }} extends ResourceBase
     $response = new ResourceResponse();
 
     // You must to implement the logic of your REST Resource here.
-    // Use current user after pass authentication to validate access
+    // Use current user after pass authentication to validate access.
     /*if(!$this->currentUser->hasPermission($permission)) {
       throw new AccessDeniedHttpException();
     }*/
@@ -113,11 +112,11 @@ class {{ class_name }} extends ResourceBase
     $response->setStatusCode(ResourceResponse::HTTP_OK);
     $response->headers->set('Content-Type', 'text/html');
 
-    // prints the HTTP headers followed by the content
+    // Prints the HTTP headers followed by the content.
     $response->send();
 
-    // Throw an exception if it is required'
-    //throw new HttpException(t('Throw an exception if it is required'));
+    // Throw an exception if it is required.
+    // throw new HttpException(t('Throw an exception if it is required.'));
   }
 
 {% endfor %}
