@@ -93,7 +93,11 @@ trait FormTrait
           // remove spaces in options and empty options
           $input_options = array_filter(array_map('trim', explode( ",", $input_options)));
           // Create array format for options
-          $input_options = "array('" . implode("', '", $input_options) . "')";
+          foreach($input_options as $key => $value){
+            $input_options_output[$key] = "\$this->t('" . $value . "') => \$this->t('" . $value . "')";
+          }
+
+          $input_options = "array(" . implode(", ", $input_options_output) . ")";
         }
 
         // Description for input
