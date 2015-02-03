@@ -1,7 +1,7 @@
 application:
   console:
     messages:
-      completed: The command was executed succesfuly!
+      completed: The command was executed succesfully!
       generated:
         files: Generated files
         completed: You can now start using the generated code!
