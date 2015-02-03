@@ -121,8 +121,8 @@ class GeneratorModuleCommand extends GeneratorCommand
       $input->setOption('machine-name', $machine_name);
     }
 
-    $drupalBoostrap = $this->getHelperSet()->get('bootstrap');
-    $module_path_default = $drupalBoostrap->getDrupalRoot() . "/modules/custom";
+    $drupalBootstrap = $this->getHelperSet()->get('bootstrap');
+    $module_path_default = $drupalBootstrap->getDrupalRoot() . "/modules/custom";
 
     $module_path = $input->getOption('module-path');
     if (!$module_path) {
