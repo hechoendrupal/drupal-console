@@ -85,6 +85,9 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
       '#type' => '{{ input.type }}',
       '#title' => $this->t('{{ input.label }}'),
       '#description' => $this->t('{{ input.description }}'),
+{% if input.options|length %}
+      '#options' => {{ input.options }},
+{% endif %}
       '#default_value' => isset($this->configuration['{{ input.name }}']) ? $this->configuration['{{ input.name }}'] : '',
     );
 {% endfor %}
