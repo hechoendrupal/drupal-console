@@ -182,6 +182,15 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     return $this->getContainer()->get('http_client');
   }
 
+  public function getSerializerFormats() {
+    return $this->getContainer()->getParameter('serializer.formats');
+  }
+
+  public function getAuthenticationProviders() {
+    return $this->getContainer()->get('authentication')->getSortedProviders();
+  }
+
+
   public function validateModuleExist($module_name)
   {
     return $this->getValidator()->validateModuleExist($module_name, $this->getModules());
