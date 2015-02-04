@@ -318,6 +318,22 @@ commands:
         import-skipped: Import "%s" was skipped due to unfulfilled dependencies
         wrong-source: 'Upgrading from this version of Drupal is not supported.'
   rest:
+    enable:
+      description: Enable a rest resource for the application
+      arguments:
+        resource-id: Rest ID
+        states: REST States to enable for Rest resource
+        autorizations: Autorizations providers enabled for Rest Resource
+
+      questions:
+        resource-id: Rest ID
+      messages:
+        invalid-rest-id: Rest ID %s is invalid
+        formats: Available serialization formats
+        authentication-providers: Available Authentication Providers
+        selected-state: Selected State
+        selected-formats: Selected formats
+        selected-authentication-providers: Selected Authentication Providers
     debug:
       description: Display current rest resource for the application
       arguments:
