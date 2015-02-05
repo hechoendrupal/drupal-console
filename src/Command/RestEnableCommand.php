@@ -7,7 +7,6 @@
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -59,7 +58,6 @@ class RestEnableCommand extends ContainerAwareCommand
     // Calculate states available by resource and generate the question
     $resourcePluginManager = $this->getPluginManagerRest();
     $plugin = $resourcePluginManager->getInstance(array('id' => $resource_id));
-    $resource = $plugin->getPluginDefinition();
 
     $states = $plugin->availableMethods();
     $question = new ChoiceQuestion(
