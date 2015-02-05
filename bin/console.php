@@ -90,15 +90,16 @@ $dispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $
   if ($welcomeMessage != $welcomeMessageKey){
     $command->showMessage($output, $welcomeMessage);
   }
-
-  if ($exit) {
-    die();
-  }
-
 });
+
 $dispatcher->addListener(ConsoleEvents::TERMINATE, function (ConsoleTerminateEvent $event) use ($translatorHelper) {
   $output = $event->getOutput();
   $command = $event->getCommand();
+
+  if ($event->getExitCode()!=0) {
+    return;
+  }
+
   $completedMessageKey = 'application.console.messages.completed';
 
   if ('self-update' == $command->getName()) {
