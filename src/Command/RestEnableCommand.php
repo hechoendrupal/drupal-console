@@ -33,7 +33,7 @@ class RestEnableCommand extends ContainerAwareCommand
 
     $resource_id = $input->getArgument('resource-id');
 
-    $rest_resources  = $this->getRestResources($status);
+    $rest_resources  = $this->getRestResources();
 
     $rest_resources_ids = array_merge(array_keys($rest_resources['enabled']), array_keys($rest_resources['disabled']));
 
