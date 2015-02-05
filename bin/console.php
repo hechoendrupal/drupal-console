@@ -79,6 +79,7 @@ $dispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $
           $dependency
         );
         $command->showMessage($output, $errorMessage, 'error');
+        $event->disableCommand();
       }
     }
   }
@@ -90,9 +91,15 @@ $dispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $
     $command->showMessage($output, $welcomeMessage);
   }
 });
+
 $dispatcher->addListener(ConsoleEvents::TERMINATE, function (ConsoleTerminateEvent $event) use ($translatorHelper) {
   $output = $event->getOutput();
   $command = $event->getCommand();
+
+  if ($event->getExitCode()!=0) {
+    return;
+  }
+
   $completedMessageKey = 'application.console.messages.completed';
 
   if ('self-update' == $command->getName()) {
