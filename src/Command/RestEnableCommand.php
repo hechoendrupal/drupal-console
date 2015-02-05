@@ -59,7 +59,6 @@ class RestEnableCommand extends ContainerAwareCommand
     // Calculate states available by resource and generate the question
     $resourcePluginManager = $this->getPluginManagerRest();
     $plugin = $resourcePluginManager->getInstance(array('id' => $resource_id));
-    $resource = $plugin->getPluginDefinition();
 
     $states = $plugin->availableMethods();
     $question = new ChoiceQuestion(
