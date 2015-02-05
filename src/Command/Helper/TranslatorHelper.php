@@ -11,7 +11,7 @@ use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Symfony\Component\Translation\Writer\TranslationWriter;
 use Symfony\Component\Translation\MessageCatalogue;
-use Drupal\AppConsole\Utils\YamlFileDumper;
+use Drupal\AppConsole\YamlFileDumper;
 
 class TranslatorHelper extends Helper
 {
