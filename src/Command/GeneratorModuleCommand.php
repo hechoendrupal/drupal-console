@@ -121,14 +121,31 @@ class GeneratorModuleCommand extends GeneratorCommand
       $input->setOption('machine-name', $machine_name);
     }
 
-    $drupalBootstrap = $this->getHelperSet()->get('bootstrap');
-    $module_path_default = $drupalBootstrap->getDrupalRoot() . "/modules/custom";
-
     $module_path = $input->getOption('module-path');
+    $drupalBootstrap = $this->getHelperSet()->get('bootstrap');
+    $drupal_root = $drupalBootstrap->getDrupalRoot();
     if (!$module_path) {
-      $module_path = $dialog->ask($output, $dialog->getQuestion($this->trans('commands.generate.module.questions.module-path'), $module_path_default), $module_path_default);
+      $module_path_default = "/modules/custom";
+
+      $module_path = $dialog->askAndValidate(
+        $output,
+        $dialog->getQuestion($this->trans('commands.generate.module.questions.module-path'), $module_path_default),
+        function ($module_path) use ($drupal_root, $machine_name){
+          $module_path = ($module_path[0]!='/'?'/':'') . $module_path;
+          $full_path = $drupal_root . $module_path . '/' . $machine_name;
+          if (file_exists($full_path)) {
+            throw new \InvalidArgumentException(sprintf($this->trans('commands.generate.module.errors.directory-exists'), $full_path));
+          }
+          else {
+            return $module_path;
+          }
+        },
+        false,
+        $module_path_default,
+        null
+      );
     }
-    $input->setOption('module-path', $module_path);
+    $input->setOption('module-path', $drupal_root . $module_path);
 
     $description = $input->getOption('description');
     if (!$description) {
