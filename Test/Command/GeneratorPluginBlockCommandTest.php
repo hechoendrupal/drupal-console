@@ -40,7 +40,13 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
     ];
 
     $inputs = [
-      ['name'=>'text_field', 'type'=>'textfield', 'label'=>'Text Field']
+      [
+        'name'=>'text_field',
+        'type'=>'textfield',
+        'label'=>'Text Field',
+        'options' => '',
+        'description' => 'Description Field',
+      ]
     ];
 
     return[
@@ -59,14 +65,14 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
       // case three inputs
       [
         ['--module'=>'Foo'],
-        ['Foo','FooBlock', 'Foo label', 'foo_id',null, $inputs],
-        "FooBlock\nFoo label\nfoo_id\nno\nyes\nText Field"
+        ['Foo','FooBlock', 'Foo label', 'foo_id', null, $inputs],
+        "FooBlock\nFoo label\nfoo_id\nno\nyes\nText Field\ntext_field\n\nDescription Field\n"
       ],
       //case four services and inputs
       [
         ['--module'=>'Foo'],
-        ['Foo','FooBlock', 'Foo label', 'foo_id',$service, $inputs],
-        "FooBlock\nFoo label\nfoo_id\nyes\ntwig\n\nyes\nText Field"
+        ['Foo','FooBlock', 'Foo label', 'foo_id', $service, $inputs],
+        "FooBlock\nFoo label\nfoo_id\nyes\ntwig\n\nyes\nText Field\ntext_field\n\nDescription Field\n"
       ],
     ];
   }
@@ -74,7 +80,8 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
   public function getCommand($generator, $input)
   {
     $command = $this->getMockBuilder('Drupal\AppConsole\Command\GeneratorPluginBlockCommand')
-      ->setMethods(['getModules','getServices'])
+      ->setMethods(['getModules','getServices','__construct'])
+      ->setConstructorArgs([$this->getTranslationHelper()])
       ->getMock()
     ;
 
@@ -102,6 +109,6 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
       ->disableOriginalConstructor()
       ->setMethods(['generate'])
       ->getMock()
-    ;
+      ;
   }
 }

@@ -6,6 +6,7 @@
 
 namespace Drupal\AppConsole\Command;
 
+use Drupal\AppConsole\Command\Helper\ConfirmationTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,6 +16,7 @@ use Drupal\AppConsole\Generator\CommandGenerator;
 class GeneratorCommandCommand extends GeneratorCommand
 {
   use ModuleTrait;
+  use ConfirmationTrait;
 
   /**
    * {@inheritdoc}
@@ -22,15 +24,14 @@ class GeneratorCommandCommand extends GeneratorCommand
   protected function configure()
   {
     $this
-      ->setDefinition(array(
-        new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module.'),
-        new InputOption('class-name','',InputOption::VALUE_OPTIONAL, 'Commmand Name'),
-        new InputOption('command','',InputOption::VALUE_OPTIONAL, 'Commmand Name'),
-        new InputOption('container', '', InputOption::VALUE_NONE, 'Get access to the services container'),
-      ))
-    ->setDescription('Generate commands for the console')
-    ->setHelp('The <info>generate:command</info> command helps you generate a new command.')
-    ->setName('generate:command');
+      ->setName('generate:command')
+      ->setDescription($this->trans('commands.generate.command.description'))
+      ->setHelp($this->trans('commands.generate.command.help'))
+      ->addOption('module','',InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+      ->addOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.command.options.class-name'))
+      ->addOption('command','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.command.options.command'))
+      ->addOption('container', '', InputOption::VALUE_NONE, $this->trans('commands.generate.command.options.container'))
+      ;
   }
 
   /**
@@ -40,11 +41,8 @@ class GeneratorCommandCommand extends GeneratorCommand
   {
     $dialog = $this->getDialogHelper();
 
-    if ($input->isInteractive()) {
-      if (!$dialog->askConfirmation($output, $dialog->getQuestion('Do you confirm generation', 'yes', '?'), true)) {
-        $output->writeln('<error>Command aborted</error>');
-        return 1;
-      }
+    if ($this->confirmationQuestion($input, $output, $dialog)) {
+      return;
     }
 
     $module = $input->getOption('module');
@@ -56,9 +54,6 @@ class GeneratorCommandCommand extends GeneratorCommand
       ->getGenerator()
       ->generate($module, $command, $class_name, $container)
     ;
-
-    $errors = [];
-    $dialog->writeGeneratorSummary($output, $errors);
   }
 
   /**
@@ -67,7 +62,6 @@ class GeneratorCommandCommand extends GeneratorCommand
   protected function interact(InputInterface $input, OutputInterface $output)
   {
     $dialog = $this->getDialogHelper();
-    $dialog->writeSection($output, 'Welcome to the Drupal Command generator');
 
     // --module option
     $module = $input->getOption('module');
@@ -81,7 +75,7 @@ class GeneratorCommandCommand extends GeneratorCommand
     $command = $input->getOption('command');
     if (!$command) {
       $command = $dialog->ask($output,
-        $dialog->getQuestion('Enter the command name', $module.':default'), 
+        $dialog->getQuestion($this->trans('commands.generate.command.questions.command'), $module.':default'),
         $module.':default'
       );
     }
@@ -91,7 +85,7 @@ class GeneratorCommandCommand extends GeneratorCommand
     $class_name = $input->getOption('class-name');
     if (!$class_name) {
       $class_name = $dialog->ask($output,
-        $dialog->getQuestion('Enter the class command name', 'DefaultCommand'),
+        $dialog->getQuestion($this->trans('commands.generate.command.questions.class-name'), 'DefaultCommand'),
         'DefaultCommand'
       );
     }
@@ -100,8 +94,8 @@ class GeneratorCommandCommand extends GeneratorCommand
     // --container option
     $container = $input->getOption('container');
     if (!$container && $dialog->askConfirmation($output,
-      $dialog->getQuestion('Access to services container', 'yes', '?'),
-      TRUE)
+        $dialog->getQuestion($this->trans('commands.generate.command.questions.container'), 'yes', '?'),
+        TRUE)
     ) {
       $container = TRUE;
     }

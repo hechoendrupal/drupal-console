@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Containt Drupal\AppConsole\Command\Helper\ServicesTrait.
+ * Contains Drupal\AppConsole\Command\Helper\ServicesTrait.
  */
 
 namespace Drupal\AppConsole\Command\Helper;
@@ -20,22 +20,17 @@ trait ServicesTrait
   {
     if ($dialog->askConfirmation(
       $output,
-      $dialog->getQuestion('Do you like add service(s)', 'no', '?'),
+      $dialog->getQuestion($this->trans('commands.common.questions.services.confirm') , 'no', '?'),
       false
     )) {
       $service_collection = [];
-      $output->writeln([
-        '',
-        'Type the service name or use keyup and keydown',
-        'This is optional, press <info>enter</info> to <info>continue</info>',
-        ''
-      ]);
+      $output->writeln($this->trans('commands.common.questions.services.message'));
 
       $services = $this->getServices();
       while (true) {
         $service = $dialog->askAndValidate(
           $output,
-          $dialog->getQuestion(' Enter your service',''),
+          $dialog->getQuestion($this->trans('commands.common.questions.services.name'),''),
           function ($service) use ($services) {
             return $this->validateServiceExist($service, $services);
           },

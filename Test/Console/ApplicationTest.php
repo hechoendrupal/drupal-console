@@ -39,7 +39,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         ->getMockBuilder('Drupal\AppConsole\Command\Helper\RegisterCommandsHelper')
         ->disableOriginalConstructor()
         ->getMock();
-
   }
 
   public function testCanRunApplication()
@@ -48,7 +47,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     $this->expectsThatRegisterCommandsIsCalled();
 
     $config = [
-      'general' => [
+      'application' => [
+        'name' => 'Drupal Console',
         'version' => '0.x.x',
         'environment' => 'prod'
       ]

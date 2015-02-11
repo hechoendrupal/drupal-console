@@ -1,6 +1,8 @@
 # Composer
 /vendor
 /bin/phpunit
+/bin/jsonlint
+/bin/validate-json
 /composer.lock
 
 # Binaries

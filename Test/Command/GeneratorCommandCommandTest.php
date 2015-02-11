@@ -57,7 +57,8 @@ class GeneratorCommandCommandTest extends GenerateCommandTest
   {
     $command = $this
       ->getMockBuilder('Drupal\AppConsole\Command\GeneratorCommandCommand')
-      ->setMethods(['getModules','getServices'])
+      ->setMethods(['getModules','getServices', '__construct'])
+      ->setConstructorArgs([$this->getTranslationHelper()])
       ->getMock()
     ;
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Containt Drupal\AppConsole\Generator\ControllerGenerator.
+ * Contains Drupal\AppConsole\Generator\ControllerGenerator.
  */
 
 namespace Drupal\AppConsole\Generator;

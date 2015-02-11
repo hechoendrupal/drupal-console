@@ -88,22 +88,12 @@ class KernelHelper extends Helper
   {
     $kernel = $this->getKernel();
     $kernel->boot();
+    $kernel->preHandle($this->request);
 
     $container = $kernel->getContainer();
     $container->set('request', $this->request);
     $container->get('request_stack')->push($this->request);
 
-    // Register Validator Service manually
-    $container->set(
-      'console.validators',
-      new \Drupal\AppConsole\Utils\Validators()
-    );
-
-    // Register StringUtils Service manually
-    $container->set(
-      'console.string_utils',
-      new \Drupal\AppConsole\Utils\StringUtils()
-    );
   }
 
   /**

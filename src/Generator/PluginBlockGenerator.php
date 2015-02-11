@@ -12,16 +12,16 @@ class PluginBlockGenerator extends Generator
    * Generator Plugin Block
    * @param  $module
    * @param  $class_name
-   * @param  $plugin_label
+   * @param  $label
    * @param  $plugin_id
    * @param  $services
    */
-  public function generate($module, $class_name, $plugin_label, $plugin_id, $services, $inputs)
+  public function generate($module, $class_name, $label, $plugin_id, $services, $inputs)
   {
     $parameters = [
       'module'       => $module,
       'class_name'   => $class_name,
-      'plugin_label' => $plugin_label,
+      'label'        => $label,
       'plugin_id'    => $plugin_id,
       'services'     => $services,
       'inputs'       => $inputs,

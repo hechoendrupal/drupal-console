@@ -1,3 +1,5 @@
-general:
-  version: 0.5.2
+application:
+  name: Drupal Console
+  version: 0.7.1
   environment: prod
+  language: en

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Containt Drupa\AppConsole\Command\Helper\FormTrait.
+ * Contains Drupal\AppConsole\Command\Helper\FormTrait.
  */
 
 namespace Drupal\AppConsole\Command\Helper;
@@ -20,19 +20,23 @@ trait FormTrait
   {
     if ($dialog->askConfirmation(
       $output,
-      $dialog->getQuestion('Do you like generate a form structure?', 'yes', '?'),
+      $dialog->getQuestion($this->trans('commands.common.questions.inputs.confirm'), 'yes', '?'),
       true
     )) {
       $input_types = [
-        'textfield',
-        'textarea',
         'color',
+        'checkbox',
+        'checkboxes',
         'date',
         'datetime',
         'email',
         'number',
         'range',
-        'tel'
+        'radios',
+        'select',
+        'tel',
+        'textarea',
+        'textfield',
       ];
 
       $inputs = [];
@@ -40,7 +44,7 @@ trait FormTrait
         // Label for input
         $input_label = $dialog->ask(
           $output,
-          $dialog->getQuestion(' Input label','',':'),
+          $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.label'),'',':'),
           null
         );
 
@@ -53,18 +57,18 @@ trait FormTrait
 
         $input_name = $dialog->ask(
           $output,
-          $dialog->getQuestion('  Input machine name', $input_machine_name, ':'),
+          $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.machine_name'), $input_machine_name, ':'),
           $input_machine_name
         );
 
         // Type input
         $input_type = $dialog->askAndValidate(
           $output,
-          $dialog->getQuestion('  Type', 'textfield',':'),
+          $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.type'), 'textfield',':'),
           function ($input) use ($input_types) {
             if (!in_array($input, $input_types)) {
               throw new \InvalidArgumentException(
-                sprintf("Field Type \"%s\" is invalid.", $input)
+                sprintf($this->trans('commands.common.questions.inputs.invalid'), $input)
               );
             }
 
@@ -75,10 +79,40 @@ trait FormTrait
           $input_types
         );
 
+        $input_options = '';
+        if(in_array($input_type, array('checkboxes', 'radios','select'))) {
+          $input_options = $dialog->ask(
+            $output,
+            $dialog->getQuestion(' Input options separated by comma','',':'),
+            null
+          );
+        }
+
+        // Prepare options as an array
+        if(strlen(trim($input_options))) {
+          // remove spaces in options and empty options
+          $input_options = array_filter(array_map('trim', explode( ",", $input_options)));
+          // Create array format for options
+          foreach($input_options as $key => $value){
+            $input_options_output[$key] = "\$this->t('" . $value . "') => \$this->t('" . $value . "')";
+          }
+
+          $input_options = "array(" . implode(", ", $input_options_output) . ")";
+        }
+
+        // Description for input
+        $input_description = $dialog->ask(
+          $output,
+          $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.description'),'',':'),
+          null
+        );
+
         array_push($inputs, array(
           'name'  => $input_name,
           'type'  => $input_type,
-          'label' => $input_label
+          'label' => $input_label,
+          'options' => $input_options,
+          'description' => $input_description,
         ));
       }
 

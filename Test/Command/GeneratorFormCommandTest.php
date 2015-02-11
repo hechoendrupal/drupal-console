@@ -45,6 +45,8 @@ class GeneratorFormCommandTest extends GenerateCommandTest
         'name' => 'bar',
         'type' => 'textfield',
         'label' => 'Bar',
+        'options' => '',
+        'description' => 'Baz',
       ]
     ];
 
@@ -56,7 +58,7 @@ class GeneratorFormCommandTest extends GenerateCommandTest
         // Expected options
         ['foo', 'DefaultForm', 'default_form' , $services, $inputs, true],
         // User input options
-        "foo\nDefaultForm\ndefault_form\nyes\ntwig\n\nyes\nBar\nbar\ntextfield\n",
+        "foo\nDefaultForm\ndefault_form\nyes\ntwig\n\nyes\nBar\nbar\ntextfield\nBaz\n",
       ],
       // case two
       [
@@ -74,7 +76,8 @@ class GeneratorFormCommandTest extends GenerateCommandTest
   {
     $command = $this
       ->getMockBuilder('Drupal\AppConsole\Command\GeneratorConfigFormBaseCommand')
-      ->setMethods(['getModules', 'getServices'])
+      ->setMethods(['getModules', 'getServices','__construct'])
+      ->setConstructorArgs([$this->getTranslationHelper()])
       ->getMock()
     ;
 

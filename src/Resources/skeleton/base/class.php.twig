@@ -18,8 +18,7 @@ use {{ service.class }};
 {% endif %}
 {% endblock %}
 
-{% block class_declaration %}{% endblock %}
-{
+{% block class_declaration %}{% endblock -%}{
 {% block class_properties %}
 {% if services is defined %}
 {% for service in services %}
@@ -34,7 +33,11 @@ use {{ service.class }};
 {% endif %}
 {% endblock %}
 
+{% block class_variables %}{% endblock %}
+
 {% block class_construct %}{% endblock %}
+
 {% block class_create %}{% endblock %}
+
 {% block class_methods %}{% endblock %}
 }

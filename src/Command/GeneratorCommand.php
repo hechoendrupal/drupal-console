@@ -11,7 +11,6 @@
 
 namespace Drupal\AppConsole\Command;
 
-use Drupal\AppConsole\Command\Helper\DialogHelper;
 use Drupal\AppConsole\Generator\Generator;
 
 abstract class GeneratorCommand extends ContainerAwareCommand
@@ -26,11 +25,12 @@ abstract class GeneratorCommand extends ContainerAwareCommand
 
     abstract protected function createGenerator();
 
-    protected function getGenerator()
+    public function getGenerator()
     {
         if (null === $this->generator) {
             $this->generator = $this->createGenerator();
             $this->generator->setSkeletonDirs($this->getSkeletonDirs());
+            $this->generator->setTranslator($this->translator);
         }
 
         return $this->generator;
@@ -44,5 +44,4 @@ abstract class GeneratorCommand extends ContainerAwareCommand
 
         return $skeletonDirs;
     }
-
 }

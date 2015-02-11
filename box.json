@@ -2,18 +2,20 @@
     "alias": "console.phar",
     "chmod": "0755",
     "directories": [
-        "src",
-        "vendor/composer",
-        "vendor/symfony/console",
-        "vendor/symfony/dependency-injection",
-        "vendor/symfony/finder",
-        "vendor/symfony/yaml",
-        "vendor/twig"
+        "config",
+        "src"
     ],
     "files": [
         "config.yml",
         "bin/console.php",
         "vendor/autoload.php"
+    ],
+    "finder": [
+        {
+            "name": "/(\\.php|\\.json|\\.yml|\\.twig)$/",
+            "exclude": ["Tests","tests", "docs"],
+            "in": "vendor"
+        }
     ],
     "main": "bin/console",
     "output": "console.phar",

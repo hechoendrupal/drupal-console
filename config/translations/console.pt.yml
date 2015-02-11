@@ -1,0 +1,338 @@
+application:
+  console:
+    messages:
+      completed: You can now start using the generated code!
+    errors:
+      invalid-command: Command "%s" is not defined.
+  site:
+    errors:
+      directory: In order to list all of the available commands, you should run this inside a drupal root directory.
+      settings: In order to list all of the available commands you should install drupal first.
+commands:
+  common:
+    options:
+      module: The Module name.
+      services: Load services from the container.
+      tags: Set service tags from the container.
+      inputs: Create inputs in a form.
+    questions:
+      module: Enter the module name
+      confirm: Do you confirm generation
+      canceled: Command generation canceled.
+      services:
+        confirm: Do you want to load services from the container
+        message: |
+
+          Type the service name or use keyup or keydown.
+          This is optional, press <info>enter</info> to <info>continue</info>
+        name: Enter your service
+      inputs:
+        confirm: Do you want to generate a form structure
+        label: Input label
+        machine_name: Input machine name
+        type: Type
+        invalid: Field Type "%s" is invalid.
+        description: Description
+    errors:
+      module-dependency: Missing module dependency "%s"
+      class-name-empty: The Class name can not be empty
+  cache:
+    rebuild:
+      description: Rebuild and clear all site caches.
+      options:
+        cache: Only clear a specific cache.
+      messages:
+        welcome: Welcome to the cache:rebuild command
+        rebuild: Rebuilding cache(s), wait a moment please.
+        completed: Done clearing cache(s).
+        invalid_cache: Cache "%s" is invalid.
+      questions:
+        cache: Select cache.
+  config:
+    debug:
+      description: Show the current configuration.
+      arguments:
+        config-name: Configuration name.
+  container:
+    debug:
+      description: Exibe serviços atuais para um aplicativo.
+      messages:
+        service_id: Service ID
+        class_name: Class Name
+  drush:
+    description: Run drush from console.
+    help: Use the interactive mode for a better experience --shell.
+    arguments:
+      args: Drush arguments.
+    messages:
+      not_found: Drush command not found.
+  generate:
+    authentication:
+      provider:
+        description: Generate an Authentication Provider
+        help: The <info>generate:authentication:provider</info> command helps you generate a new Authentication Provider.
+        options:
+        module: common.options.module
+        class-name: Authentication Provider class
+    command:
+      description: Generate commands for the console.
+      help: The <info>generate:command</info> command helps you generate a new command.
+      welcome: Welcome to the Drupal Command generator
+      options:
+        module: common.options.module
+        class-name: Command Class name
+        command: Command name
+        container: Access the services container
+      questions:
+        module: common.questions.module
+        class-name: Enter the Controller class name
+        command: Enter the Command name
+        container: Do you need to access the service container
+    controller:
+      description: Generate & Register a controller
+      help: The <info>generate:controller</info> command helps you generate a new controller.
+      welcome: Welcome to the Drupal Controller generator
+      options:
+        module: common.options.module
+        class-name: Controller Class name
+        method-name: The action method name
+        route: The route path
+        services: common.options.services
+        test: Generate a test class
+      questions:
+        module: common.questions.module
+        class-name: Enter the Controller class name
+        method-name: Enter the action method name
+        route: Enter the route path
+        services: common.questions.services
+        test: Do you want to generate a unit test class
+    entity:
+      description: Generate a new "%s"
+      help: The <info>"%s"</info> command helps you generate a new "%s"
+      welcome: Welcome to the Drupal entity generator
+      options:
+        module: common.options.module
+        entity-class: The entity class name
+        entity-name: The name of the entity
+      questions:
+        module: common.questions.module
+        entity-class: Enter the entity class name
+        entity-name: Enter the entity name
+    form:
+      description: Generate a new "%s"
+      help: The <info>"%s"</info> command helps you generate a new "%s"
+      welcome: Welcome to the Drupal form generator
+      options:
+        module: common.options.module
+        class-name: The form class name
+        form-id: The Form id
+        services: common.options.services
+        inputs: common.options.inputs
+        routing: Update routing
+      questions:
+        module: common.questions.module
+        class-name: Enter the Form Class name
+        form-id: Enter the Form id
+        services: common.questions.services
+        inputs: common.questions.inputs
+        routing: Update routing file
+    module:
+      description: Generate a module.
+      help: The <info>generate:module</info> command helps you generates a new module.
+      welcome: Welcome to the Drupal module generator
+      options:
+        module: The Module name
+        machine-name: The machine name (lowercase and underscore only)
+        module-path: The path of the module
+        description: Module description
+        core: Core version
+        package: Module package
+        controller: Default Controller
+        test: Generate a test class
+      questions:
+        module: Enter the new module name
+        machine-name: Enter the module machine name
+        module-path: Enter the module Path
+        description: Enter module description
+        core: Enter Drupal Core version
+        package: Enter package name
+        controller: Do you want to generate a default Controller
+        test: Do you want to generate a unit test class
+    plugin:
+      block:
+        description: Generate a plugin block
+        help: The <info>generate:plugin:block</info> command helps you generate a new Plugin block.
+        welcome: Welcome to the Drupal Plugin Block generator
+        options:
+          module: common.options.module
+          class-name: Plugin class name
+          label: Plugin label
+          plugin-id: Plugin id
+          inputs: common.options.inputs
+          services: common.options.services
+        questions:
+          module: common.questions.module
+          class-name: Enter the plugin class name
+          label: Enter the plugin label
+          plugin-id: Enter the plugin id
+          inputs: common.questions.inputs
+          services: common.questions.services
+        messages:
+          inputs: |
+
+            You can add input fields to create special configurations in each block.
+            This is optional, press <info>enter</info> to <info>continue</info>
+      imageeffect:
+        description: Generate image effect plugin.
+        help: The <info>generate:plugin:imageeffect</info> command helps you generate a new image effect plugin.
+        welcome: Welcome to the Drupal Image Effect Plugin generator
+        options:
+          module: common.options.module
+          class-name: Plugin class name
+          label: Plugin label
+          plugin-id: Plugin id
+          description: Plugin Description
+        questions:
+          module: common.questions.module
+          class-name: Enter the plugin class name
+          label: Enter the plugin label
+          plugin-id: Enter the plugin id
+          description: Enter the plugin Description
+      rest:
+          resource:
+            description: Generate plugin rest resource
+            help: The <info>generate:plugin:rest:resource</info> command helps you generate a new rest resource.
+            welcome: Welcome to the Drupal Plugin Rest Resource generator
+            options:
+              module: common.options.module
+              class-name: Plugin Rest Resource class
+              plugin-id: Plugin Rest Resource id
+              plugin-label: Plugin Rest Resource Label
+              plugin-url: Plugin Rest Resource URL
+              plugin-states: Plugin Rest Resource States
+            questions:
+              module: common.questions.module
+              class-name: Enter the plugin rest resource name
+              plugin-id: Enter the plugin rest resource id
+              plugin-label: Enter the plugin rest resource label
+              plugin-url: Enter the plugin rest resource url
+              plugin-states: Please select what REST States implement in your resource (GET is selected by default)
+            messages:
+              selected-states: States selected
+    service:
+      description: Generate service
+      help: The <info>generate:service</info> command helps you generate a new service.
+      welcome: Welcome to the Drupal service generator
+      options:
+        module: common.options.module
+        service-name: Service name
+        class-name: Class name
+        services: common.questions.services
+      questions:
+        module: common.questions.module
+        service-name: Enter the service name
+        class-name: Enter the Class name
+        services: common.options.services
+  module:
+    debug:
+      description: Display current modules available for application
+      options:
+        status: "Module status [enabled|disabled]"
+        type: "Module type [core|no-core]"
+      messages:
+        id: "ID"
+        name: "Name"
+        status: "Status"
+        origin: "Origin"
+        package: "Package"
+        enabled: "Enabled"
+        disabled: "Disabled"
+    install:
+      description: Install module or modules in the application
+      options:
+        module: Module or modules to be enabled should be separated by a comma
+      messages:
+        no-modules: You must provide module or modules to enable.
+        missing: Unable to install modules %s due to missing modules %s
+        missing-dependencies: Unable to install modules %s due to missing dependencies %s
+        nothing: Nothing to do. All modules are already installed
+        dependencies: Are you sure you want to install dependencies: %s?
+        success: Modules %s were installed successfully
+    uninstall:
+      description: Uninstall module or modules in the application
+      messages:
+        no-modules: You must provide module or modules to enable.
+        dependents: Unable to uninstall modules %s because are required by %s
+        nothing: Nothing to do. All modules are already uninstalled
+        success: Modules %s were uninstalled successfully
+    download:
+      description: Download module or modules in application
+      messages:
+        no-releases: There aren't any releases for module %s
+        getting-releases: Getting releases for module %s
+        downloading: Downloading module %s release %s
+        installed: Module %s was installed successfully
+  migrate:
+    debug:
+      description: Display current migration available for the application
+      arguments:
+        drupal-version: Drupal Version
+      messages:
+        id: "Migration Id"
+        description: "Description"
+        version: "Version"
+    execute:
+      description: Execute a migration available for application
+      arguments:
+        id: "Migration Id"
+      options:
+        site-url: "Site Source URL"
+        db-host: "Database Host"
+        db-name: "Database Name"
+        db-user: "Database User"
+        db-pass: "Database Pass"
+        db-prefix: "Database Prefix"
+        db-port: "Database Port"
+      questions:
+        id: "Migration Id"
+        site-url: "Source Site URL"
+        db-host: "Database Host"
+        db-name: "Database Name"
+        db-user: "Database User"
+        db-pass: "Database Pass"
+        db-prefix: "Database Prefix"
+        db-port: "Database Port"
+        invalid-migration-id: Migration Id "%s" is invalid
+      messages:
+        processing: Processing Migration "%s"
+        imported: Migration "%s" was imported correctly
+        fail-load: Migration "%s" can't be loaded
+        importing-incomplete: Importing migration "%s"
+        import-stoped: Import "%s" stopped by request
+        import-fail: Import "%s" failed
+        import-skipped: Import "%s" was skipped due to unfulfilled dependencies
+        wrong-source: 'Upgrading from this version of Drupal is not supported.'
+  router:
+    debug:
+      description: Displays current routes for the application
+      arguments:
+        route-name: Route names
+      messages:
+        name: Route name
+        path: Class path
+        pattern: Pattern
+        defaults: Defaults
+        options: Options
+    rebuild:
+      description: Rebuild routes for the application
+      arguments:
+        route-name: Route names
+      messages:
+        rebuilding: Rebuilding routes, wait a moment please
+        completed: Done rebuilding route(s).
+  self-update:
+    description: Update the console to latest version.
+    help: Update the console command to the latest version.
+    messages:
+      success: The console has been updated to the latest version.
+

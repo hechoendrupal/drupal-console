@@ -17,8 +17,8 @@ class RouterDebugCommand extends ContainerAwareCommand
   {
     $this
       ->setName('router:debug')
-      ->setDescription('Displays current routes for an application')
-      ->addArgument('route-name', InputArgument::OPTIONAL | InputArgument::IS_ARRAY, 'Route names')
+      ->setDescription($this->trans('commands.router.debug.description'))
+      ->addArgument('route-name', InputArgument::OPTIONAL | InputArgument::IS_ARRAY, $this->trans('commands.router.debug.arguments.route-name'))
     ;
   }
 
@@ -40,7 +40,11 @@ class RouterDebugCommand extends ContainerAwareCommand
     $rp = $this->getRouteProvider();
     $routes  = $rp->getAllRoutes();
 
-    $table->setHeaders(['Name', 'Path']);
+    $table->setHeaders(
+      [
+        $this->trans('commands.router.debug.messages.name'),
+        $this->trans('commands.router.debug.messages.path'),
+      ]);
     $table->setlayout($table::LAYOUT_COMPACT);
     foreach ($routes as $route_name => $route) {
       $table->addRow([$route_name, $route->getPath()]);
@@ -52,17 +56,22 @@ class RouterDebugCommand extends ContainerAwareCommand
   {
     $rp = $this->getRouteProvider();
     $routes = $rp->getRoutesByNames($route_name);
-    $table->setHeaders(['Route name', 'Options']);
+    $table->setHeaders(
+      [
+        $this->trans('commands.router.debug.messages.name'),
+        $this->trans('commands.router.debug.messages.options'),
+      ]
+    );
     $table->setlayout($table::LAYOUT_COMPACT);
 
     foreach ($routes as $name => $route) {
       $table->addRow(['<info>'.$name.'</info>']);
-      $table->addRow([' <comment>+ Pattern</comment>', $route->getPath()]);
+      $table->addRow([' <comment>+ '.$this->trans('commands.router.debug.messages.pattern').'</comment>', $route->getPath()]);
 
-      $table->addRow([' <comment>+ Defaults</comment>']);
+      $table->addRow([' <comment>+ '.$this->trans('commands.router.debug.messages.defaults').'</comment>']);
       $table = $this->addRouteAttributes($route->getDefaults(), $table);
 
-      $table->addRow([' <comment>+ Options</comment>']);
+      $table->addRow([' <comment>+ '.$this->trans('commands.router.debug.messages.options').'</comment>']);
       $table = $this->addRouteAttributes($route->getOptions(), $table);
     }
     $table->render($output);

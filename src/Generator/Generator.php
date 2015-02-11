@@ -17,6 +17,10 @@ class Generator
 
   private $module_path;
 
+  private $translator;
+
+  private $files;
+
   /**
    * Sets an array of directories to look for templates.
    *
@@ -44,6 +48,7 @@ class Generator
     $twig->addFunction($this->getArgumentsFromRoute());
     $twig->addFunction($this->getServicesClassInitialization());
     $twig->addFunction($this->getServicesClassInjection());
+    $twig->addFunction($this->getTagsAsArray());
 
     return $twig->render($template, $parameters);
   }
@@ -54,7 +59,13 @@ class Generator
         mkdir(dirname($target), 0777, true);
     }
 
-    return file_put_contents($target, $this->render($template, $parameters), $flag);
+    if (file_put_contents($target, $this->render($template, $parameters), $flag)) {
+      $this->files[] = str_replace(DRUPAL_ROOT . '/', '', $target);
+
+      return true;
+    }
+
+    return false;
   }
 
   protected function renderView($template,$parameters) {
@@ -90,6 +101,11 @@ class Generator
     return $this->getModulePath($module_name).'/src/Plugin/'.$plugin_type;
   }
 
+  public function getAuthenticationPath($module_name, $authentication_type)
+  {
+    return $this->getModulePath($module_name).'/src/Authentication/'. $authentication_type;
+  }
+
   public function getCommandPath($module_name)
   {
     return $this->getModulePath($module_name).'/src/Command';
@@ -108,6 +124,11 @@ class Generator
   public function getTemplatePath($module_name)
   {
     return $this->getModulePath($module_name).'/templates';
+  }
+
+  public function getTranslationsPath($module_name)
+  {
+    return $this->getModulePath($module_name).'/config/translations';
   }
 
   public function getServicesAsParameters()
@@ -180,5 +201,31 @@ class Generator
     });
 
     return $returnValue;
+  }
+
+  public function getTagsAsArray()
+  {
+    $returnValue = new \Twig_SimpleFunction('tagsAsArray', function ($tags) {
+      $returnValues = [];
+      foreach ($tags as $key => $value) {
+        $returnValues[] = sprintf('%s: %s', $key, $value);
+      }
+
+      return $returnValues;
+    });
+
+    return $returnValue;
+  }
+
+  public function setTranslator($translator){
+    $this->translator = $translator;
+  }
+
+  public function getTranslator(){
+    return $this->translator;
+  }
+
+  public function getFiles(){
+    return $this->files;
   }
 }

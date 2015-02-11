@@ -12,11 +12,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Command\Helper\ServicesTrait;
 use Drupal\AppConsole\Command\Helper\ModuleTrait;
 use Drupal\AppConsole\Generator\ServiceGenerator;
+use Drupal\AppConsole\Command\Helper\ConfirmationTrait;
 
 class GeneratorServiceCommand extends GeneratorCommand
 {
   use ServicesTrait;
   use ModuleTrait;
+  use ConfirmationTrait;
 
   /**
    * {@inheritdoc}
@@ -24,15 +26,14 @@ class GeneratorServiceCommand extends GeneratorCommand
   protected function configure()
   {
     $this
-      ->setDefinition(array(
-        new InputOption('module',null,InputOption::VALUE_REQUIRED, 'The name of the module'),
-        new InputOption('service-name',null,InputOption::VALUE_OPTIONAL, 'Service name'),
-        new InputOption('class-name',null,InputOption::VALUE_OPTIONAL, 'Class name'),
-        new InputOption('services',null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Load services'),
-      ))
-      ->setDescription('Generate service')
-      ->setHelp('The <info>generate:service</info> command helps you generate a new service.')
-      ->setName('generate:service');
+      ->setName('generate:service')
+      ->setDescription($this->trans('commands.generate.service.description'))
+      ->setHelp($this->trans('commands.generate.service.description'))
+      ->addOption('module',null,InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+      ->addOption('service-name',null,InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.service.options.service-name'))
+      ->addOption('class-name',null,InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.service.options.class-name'))
+      ->addOption('services',null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, $this->trans('commands.common.options.services'))
+    ;
   }
 
   /**
@@ -42,11 +43,9 @@ class GeneratorServiceCommand extends GeneratorCommand
   {
     $dialog = $this->getDialogHelper();
 
-    if ($input->isInteractive()) {
-      if (!$dialog->askConfirmation($output, $dialog->getQuestion('Do you confirm generation', 'yes', '?'), true)) {
-        $output->writeln('<error>Command aborted</error>');
-        return 1;
-      }
+    // @see use Drupal\AppConsole\Command\Helper\ConfirmationTrait::confirmationQuestion
+    if ($this->confirmationQuestion($input, $output, $dialog)) {
+      return;
     }
 
     $module = $input->getOption('module');
@@ -60,9 +59,6 @@ class GeneratorServiceCommand extends GeneratorCommand
     $this
       ->getGenerator()
       ->generate($module, $service_name, $class_name, $build_services);
-
-    $errors = [];
-    $dialog->writeGeneratorSummary($output, $errors);
   }
 
   /**
@@ -71,7 +67,6 @@ class GeneratorServiceCommand extends GeneratorCommand
   protected function interact(InputInterface $input, OutputInterface $output)
   {
     $dialog = $this->getDialogHelper();
-    $dialog->writeSection($output, 'Welcome to the Drupal service generator');
 
     // --module option
     $module = $input->getOption('module');
@@ -86,7 +81,7 @@ class GeneratorServiceCommand extends GeneratorCommand
     if (!$service_name) {
       $service_name = $dialog->ask(
         $output,
-        $dialog->getQuestion('Enter the service name', $module.'.default'),
+        $dialog->getQuestion($this->trans('commands.generate.service.questions.service-name'), $module.'.default'),
         $module.'.default'
       );
     }
@@ -97,7 +92,7 @@ class GeneratorServiceCommand extends GeneratorCommand
     if (!$class_name) {
       $class_name = $dialog->ask(
         $output,
-        $dialog->getQuestion('Enter the Class name', 'DefaultService'),
+        $dialog->getQuestion($this->trans('commands.generate.service.questions.class-name'), 'DefaultService'),
         'DefaultService'
       );
     }

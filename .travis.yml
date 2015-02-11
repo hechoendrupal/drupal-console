@@ -3,11 +3,23 @@ language: php
 php:
   - 5.4
   - 5.6
+  - hhvm
+
+matrix:
+  allow_failures:
+    - php: hhvm
 
 before_script:
+  - composer self-update
   - composer install --dev --prefer-source
 
 after_success:
   - ./bin/phpcs --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml /tmp/modules/*
   #- if ./bin/phpcs --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml /tmp/modules/* | egrep "FOUND ([1-9]+) ERRORS" --quiet; then echo "\nErrors in coding standards\n"; exit 1; fi
   - rm -r /tmp/modules
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/637685414a0d0ef9d4c6
+    on_success: change
+    on_failure: always

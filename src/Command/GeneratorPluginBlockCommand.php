@@ -13,27 +13,28 @@ use Drupal\AppConsole\Generator\PluginBlockGenerator;
 use Drupal\AppConsole\Command\Helper\ServicesTrait;
 use Drupal\AppConsole\Command\Helper\ModuleTrait;
 use Drupal\AppConsole\Command\Helper\FormTrait;
+use Drupal\AppConsole\Command\Helper\ConfirmationTrait;
 
 class GeneratorPluginBlockCommand extends GeneratorCommand
 {
   use ServicesTrait;
   use ModuleTrait;
   use FormTrait;
+  use ConfirmationTrait;
 
   protected function configure()
   {
     $this
-      ->setDefinition(array(
-        new InputOption('module','',InputOption::VALUE_REQUIRED, 'The name of the module'),
-        new InputOption('class-name','',InputOption::VALUE_OPTIONAL, 'Plugin block class'),
-        new InputOption('plugin-label','',InputOption::VALUE_OPTIONAL, 'Plugin Label'),
-        new InputOption('plugin-id','',InputOption::VALUE_OPTIONAL, 'Plugin id'),
-        new InputOption('plugin-form','',InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Plugin id'),
-        new InputOption('services','',InputOption::VALUE_OPTIONAL, 'Load services'),
-      ))
-    ->setDescription('Generate plugin block')
-    ->setHelp('The <info>generate:plugin:block</info> command helps you generate a new controller.')
-    ->setName('generate:plugin:block');
+      ->setName('generate:plugin:block')
+      ->setDescription($this->trans('commands.generate.plugin.block.description'))
+      ->setHelp($this->trans('commands.generate.plugin.block.help'))
+      ->addOption('module','',InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+      ->addOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.block.options.class-name'))
+      ->addOption('label','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.block.options.label'))
+      ->addOption('plugin-id','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.block.options.plugin-id'))
+      ->addOption('inputs','',InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, $this->trans('commands.common.options.inputs'))
+      ->addOption('services','',InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.services'))
+    ;
   }
 
   /**
@@ -43,33 +44,30 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
   {
     $dialog = $this->getDialogHelper();
 
-    if ($input->isInteractive()) {
-      if (!$dialog->askConfirmation($output, $dialog->getQuestion('Do you confirm generation', 'yes', '?'), true)) {
-        $output->writeln('<error>Command aborted</error>');
-        return 1;
-      }
+    // @see use Drupal\AppConsole\Command\Helper\ConfirmationTrait::confirmationQuestion
+    if ($this->confirmationQuestion($input, $output, $dialog)) {
+      return;
     }
 
     $module = $input->getOption('module');
     $class_name = $input->getOption('class-name');
-    $plugin_label = $input->getOption('plugin-label');
+    $label = $input->getOption('label');
     $plugin_id = $input->getOption('plugin-id');
     $services = $input->getOption('services');
-    $inputs = $input->getOption('plugin-form');
+    $inputs = $input->getOption('inputs');
 
     // @see use Drupal\AppConsole\Command\Helper\ServicesTrait::buildServices
     $build_services = $this->buildServices($services);
 
     $this
       ->getGenerator()
-      ->generate($module, $class_name, $plugin_label, $plugin_id, $build_services, $inputs)
+      ->generate($module, $class_name, $label, $plugin_id, $build_services, $inputs)
     ;
   }
 
   protected function interact(InputInterface $input, OutputInterface $output)
   {
     $dialog = $this->getDialogHelper();
-    $dialog->writeSection($output, 'Welcome to the Drupal Plugin Block generator');
 
     // --module option
     $module = $input->getOption('module');
@@ -84,7 +82,7 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
     if (!$class_name) {
       $class_name = $dialog->ask(
         $output,
-        $dialog->getQuestion('Enter the plugin block name', 'DefaultBlock'),
+        $dialog->getQuestion($this->trans('commands.generate.plugin.block.options.class-name'), 'DefaultBlock'),
         'DefaultBlock'
       );
     }
@@ -92,23 +90,23 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
 
     $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
 
-    // --plugin-label option
-    $plugin_label = $input->getOption('plugin-label');
-    if (!$plugin_label) {
-      $plugin_label = $dialog->ask(
+    // --label option
+    $label = $input->getOption('label');
+    if (!$label) {
+      $label = $dialog->ask(
         $output,
-        $dialog->getQuestion('Enter the plugin label', $machine_name),
+        $dialog->getQuestion($this->trans('commands.generate.plugin.block.options.label'), $machine_name),
         $machine_name
       );
     }
-    $input->setOption('plugin-label', $plugin_label);
+    $input->setOption('label', $label);
 
     // --plugin-id option
     $plugin_id = $input->getOption('plugin-id');
     if (!$plugin_id) {
       $plugin_id = $dialog->ask(
         $output,
-        $dialog->getQuestion('Enter the plugin id',$machine_name),
+        $dialog->getQuestion($this->trans('commands.generate.plugin.block.options.plugin-id'),$machine_name),
         $machine_name
       );
     }
@@ -119,16 +117,11 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
     $services_collection = $this->servicesQuestion($output, $dialog);
     $input->setOption('services', $services_collection);
 
-    $output->writeln([
-      '',
-      'You can add some input fields to create special configurations in each block',
-      'This is optional, press <info>enter</info> to <info>continue</info>',
-      ''
-    ]);
+    $output->writeln($this->trans('commands.generate.plugin.block.messages.inputs'));
 
     // @see Drupal\AppConsole\Command\Helper\FormTrait::formQuestion
     $form = $this->formQuestion($output, $dialog);
-    $input->setOption('plugin-form', $form);
+    $input->setOption('inputs', $form);
   }
 
   protected function createGenerator()

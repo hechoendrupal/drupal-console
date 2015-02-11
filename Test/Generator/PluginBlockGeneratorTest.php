@@ -16,7 +16,7 @@ class PluginBlockGeneratorTest extends GeneratorTest
     $this->setUpTemporalDirectory();
 
     // Get parameters
-    list($module, $class_name, $plugin_label, $plugin_id, $services, $inputs) = $parameters;
+    list($module, $class_name, $label, $plugin_id, $services, $inputs) = $parameters;
 
     // Get generator
     $generator = $this->getGenerator();
@@ -30,7 +30,7 @@ class PluginBlockGeneratorTest extends GeneratorTest
       );
 
     // Generate plugin block
-    $generator->generate($module, $class_name, $plugin_label, $plugin_id, $services, $inputs);
+    $generator->generate($module, $class_name, $label, $plugin_id, $services, $inputs);
 
     $this->assertTrue(
       file_exists($dir_module . '/src/Plugin/Block/' . $class_name .'.php'),
@@ -41,7 +41,7 @@ class PluginBlockGeneratorTest extends GeneratorTest
       'build',
       '@Block',
       'id',
-      'admin_label',
+      'label',
       $class_name . ' extends BlockBase',
     ];
 
@@ -85,6 +85,8 @@ class PluginBlockGeneratorTest extends GeneratorTest
         'name' => 'foo',
         'type' => 'textfield',
         'label' => 'Foo',
+        'options' => 'foo',
+        'description' => 'Foo',
       ]
     ];
 

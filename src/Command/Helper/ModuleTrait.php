@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Containt Drupal\AppConsole\Command\Helper\ModuleTrait.
+ * Contains Drupal\AppConsole\Command\Helper\ModuleTrait.
  */
 
 namespace Drupal\AppConsole\Command\Helper;
@@ -22,7 +22,7 @@ trait ModuleTrait
 
     return $dialog->askAndValidate(
       $output,
-      $dialog->getQuestion('Enter your module',''),
+      $dialog->getQuestion($this->trans('commands.common.questions.module'),''),
       function ($module) {
         return $this->validateModuleExist($module);
       },

@@ -1,0 +1,338 @@
+application:
+  console:
+    messages:
+      completed: You can now start using the generated code!
+    errors:
+      invalid-command: Command "%s" is not defined.
+  site:
+    errors:
+      directory: In order to list all of the available commands, you should run this inside a drupal root directory.
+      settings: In order to list all of the available commands you should install drupal first.
+commands:
+  common:
+    options:
+      module: Le Nom du Module.
+      services: Services de charge forment le container.
+      tags: Les étiquettes de service prévues du conteneur.
+      inputs: Créer des entrées dans un formulaire.
+    questions:
+      module: Introduire le nom du module.
+      confirm: Confirmez-vous la génération
+      canceled: Génération de commande annulée.
+      services:
+        confirm: Voulez-vous charger les services forment le container
+        message: |
+
+          Tapez le nom du service ou utiliser keyup et keydown.
+          Cette option est facultative, appuyez <info>enter</info> to <info>continue</info>
+        name: Entrez votre service
+      inputs:
+        confirm: Voulez-vous générer une structure de forme
+        label: Label entrée
+        machine_name: Nom de la machine d'entrée.
+        type: Type
+        invalid: Field Type "%s" is invalid.
+        description: Description
+    errors:
+      module-dependency: Missing module dependency "%s"
+      class-name-empty: The Class name can not be empty
+  cache:
+    rebuild:
+      description: Reconstruire et effacer tous les caches du site.
+      options:
+        cache: Nettoyer seulement un cache spécifique.
+      messages:
+        welcome: Bienvenue sur le cache: reconstruire commande
+        rebuild: Reconstruire cache (s), attendez un instant s'il vous plaît.
+        completed: Nettoyage cache (s) fini
+        invalid_cache: Cache "%s" n'est pas valide.
+      questions:
+        cache: Sélectionner cache.
+  config:
+    debug:
+      description: Afficher de la configuration actuelle.
+      arguments:
+        config-name: Nom de la configuration.
+  container:
+    debug:
+      description: Affiche les services actuels à une application.
+      messages:
+        service_id: Service ID
+        class_name: Nom de classe.
+  drush:
+    description: Exécutez drush à partir de la console.
+    help: Utilisez le mode interactif pour une meilleure expérience --shell.
+    arguments:
+      args: Drush arguments.
+    messages:
+      not_found: Commande Drush introuvable.
+  generate:
+    command:
+      provider:
+        description: Générer un fournisseur d'authentification
+        help: The <info>generate:authentication:provider</info> command helps you generate a new Authentication Provider.
+        options:
+        module: common.options.module
+        class-name: Nom de commande classe
+    command:
+      description: Générer des commandes pour la console.
+      help: Le <info> générer: commande </ info> commande aide à générer une nouvelle commande.
+      welcome: Bienvenue sur le générateur de commande Drupal
+      options:
+        module: common.options.module
+        class-name: Nom de classe de commande
+        command: Nom de la commande
+        container: Accéder au conteneur de services
+      questions:
+        module: common.questions.module
+        class-name: Entrez le nom de classe de commande
+        command: Entrez le nom de commandement
+        container: Avez-vous besoin accéder au conteneur de services
+    controller:
+      description: Générer et inscrire un contrôleur
+      help: Le <info> générer: contrôleur </ info> commande aide à générer un nouveau contrôleur.
+      welcome: Bienvenue au générateur contrôleur Drupal
+      options:
+        module: common.options.module
+        class-name: Nom de la classe Controller
+        method-name: L'action nom de la méthode
+        route: Le chemin de la route
+        services: common.options.services
+        test: Générer une classe de test
+      questions:
+        module: common.questions.module
+        class-name: Entrez le nom de la classe Controller
+        method-name: Entrez l'action nom de la méthode
+        route: Entrez le chemin de la route
+        services: common.questions.services
+        test: Voulez-vous générer une classe de test unitaire
+    entity:
+      description: Générer un nouveau "% s"
+      help: Le <info> "% s" </ info> commande aide à générer une nouvelle "% s"
+      welcome: Bienvenue sur le générateur de l'entité Drupal
+      options:
+        module: common.options.module
+        entity-class: Le nom de la classe entité
+        entity-name: Le nom de l'entité
+      questions:
+        module: common.questions.module
+        entity-class: Entrez le nom de la classe entité
+        entity-name: Entrez le nom de l'entité
+    form:
+      description: Générer un nouveau "%s"
+      help: Le <info>"%s"</info> commande aides toi à générer un nouveau "%s"
+      welcome: Bienvenue sur le générateur de formulaire Drupal
+      options:
+        module: common.options.module
+        class-name: Le nom de classe formulaire
+        form-id: Le formulaire id
+        services: common.options.services
+        inputs: common.options.inputs
+        routing: Mise à jour routage
+      questions:
+        module: common.questions.module
+        class-name: Entrez le nom du formulaire Classe
+        form-id: Entrez le formulaire id
+        services: common.questions.services
+        inputs: common.questions.inputs
+        routing: Mise à jour fichier de routage
+    module:
+      description: Générer un module. 
+      help: Le <info> générer: le module </ info> commande aide à générer un nouveau module 
+      welcome: Bienvenue sur le générateur de modules Drupal
+      options:
+        module: Le nom du module
+        machine-name: Le nom de la machine (en minuscules et soulignent seulement)
+        module-path: Le chemin du module
+        description: Description du module
+        core: Version de core.
+        package: Paquet Module
+        controller: Contrôleur par défaut
+        test: Générer une classe de test
+      questions:
+        module: Entrez le nom du nouveau module
+        machine-name: Entrez le nom de la machine du module
+        module-path: Entrez le chemin du module
+        description: Entrez la description du module
+        core: Entrez la version core Drupal
+        package: Entrez le nom du paquet
+        controller: Voulez-vous générer un contrôleur par défaut 
+        test: Voulez-vous générer une classe de test unitaire
+    plugin:
+      block:
+        description: Générer un bloc de plugin
+        help: Le <info> generate: plugin: bloc </ info> commande aide à générer un nouveau bloc de Plugin.
+        welcome: Bienvenue au générateur drupal block Plugin
+        options:
+          module: common.options.module
+          class-name: Nom de la classe plugin
+          label: Label plugin
+          plugin-id: Plugin id
+          inputs: common.options.inputs
+          services: common.options.services
+        questions:
+          module: common.questions.module
+          class-name: Entrez le nom de la classe plugin
+          label: Entrez le label plugin
+          plugin-id: Entrez le plugin id
+          inputs: common.questions.inputs
+          services: common.questions.services
+        messages:
+          inputs: |
+
+            Vous pouvez ajouter des champs d'entrée pour créer des configurations spéciales dans chaque bloc.
+            Cette option est facultative, appuyez sur <info> Entrée </ info> à <info> continuer </ info>
+      imageeffect:
+        description: Générer l'image en effet plugin
+        help: Le <info> generate: plugin: imageeffect </ info> commande aide à générer un nouveau plugin d'effet d'image..
+        welcome: Bienvenue au Drupal image Effet Plugin générateur
+        options:
+          module: common.options.module
+          class-name: Nom de la classe plugin
+          label: Label plugin
+          plugin-id: Plugin id
+          description: Description plugin
+        questions:
+          module: common.questions.module
+          class-name: Entrez le nom de la classe plugin
+          label: Entrez le label plugin
+          plugin-id: Entrez le plugin id
+          description: Enter the plugin Description
+      rest:
+          resource:
+            description: Generate plugin rest resource
+            help: The <info>generate:plugin:rest:resource</info> command helps you generate a new rest resource.
+            welcome: Welcome to the Drupal Plugin Rest Resource generator
+            options:
+              module: common.options.module
+              class-name: Plugin Rest Resource class
+              plugin-id: Plugin Rest Resource id
+              plugin-label: Plugin Rest Resource Label
+              plugin-url: Plugin Rest Resource URL
+              plugin-states: Plugin Rest Resource States
+            questions:
+              module: common.questions.module
+              class-name: Enter the plugin rest resource name
+              plugin-id: Enter the plugin rest resource id
+              plugin-label: Enter the plugin rest resource label
+              plugin-url: Enter the plugin rest resource url
+              plugin-states: Please select what REST States implement in your resource (GET is selected by default)
+            messages:
+              selected-states: States selected
+    service:
+      description: Générer service
+      help: Le <info> générer: Service </ info> commande aide à générer un nouveau service.
+      welcome: Bienvenue sur le générateur de services Drupal
+      options:
+        module: common.options.module
+        service-name: Le nom du service
+        class-name: Nom de la classe
+        services: common.questions.services
+      questions:
+        module: common.questions.module
+        service-name: Entrez le nom du service
+        class-name: Entrez le nom de la classe
+        services: common.options.services
+  module:
+    debug:
+      description: Display current modules available for application
+      options:
+        status: "Module status [enabled|disabled]"
+        type: "Module type [core|no-core]"
+      messages:
+        id: "ID"
+        name: "Name"
+        status: "Status"
+        origin: "Origin"
+        package: "Package"
+        enabled: "Enabled"
+        disabled: "Disabled"
+    install:
+      description: Install module or modules in the application
+      options:
+        module: Module or modules to be enabled should be separated by a comma
+      messages:
+        no-modules: You must provide module or modules to enable.
+        missing: Unable to install modules %s due to missing modules %s
+        missing-dependencies: Unable to install modules %s due to missing dependencies %s
+        nothing: Nothing to do. All modules are already installed
+        dependencies: Are you sure you want to install dependencies: %s?
+        success: Modules %s were installed successfully
+    uninstall:
+      description: Uninstall module or modules in the application
+      messages:
+        no-modules: You must provide module or modules to enable.
+        dependents: Unable to uninstall modules %s because are required by %s
+        nothing: Nothing to do. All modules are already uninstalled
+        success: Modules %s were uninstalled successfully
+    download:
+      description: Download module or modules in application
+      messages:
+        no-releases: There aren't any releases for module %s
+        getting-releases: Getting releases for module %s
+        downloading: Downloading module %s release %s
+        installed: Module %s was installed successfully
+  migrate:
+    debug:
+      description: Display current migration available for the application
+      arguments:
+        drupal-version: Drupal Version
+      messages:
+        id: "Migration Id"
+        description: "Description"
+        version: "Version"
+    execute:
+      description: Execute a migration available for application
+      arguments:
+        id: "Migration Id"
+      options:
+        site-url: "Site Source URL"
+        db-host: "Database Host"
+        db-name: "Database Name"
+        db-user: "Database User"
+        db-pass: "Database Pass"
+        db-prefix: "Database Prefix"
+        db-port: "Database Port"
+      questions:
+        id: "Migration Id"
+        site-url: "Source Site URL"
+        db-host: "Database Host"
+        db-name: "Database Name"
+        db-user: "Database User"
+        db-pass: "Database Pass"
+        db-prefix: "Database Prefix"
+        db-port: "Database Port"
+        invalid-migration-id: Migration Id "%s" is invalid
+      messages:
+        processing: Processing Migration "%s"
+        imported: Migration "%s" was imported correctly
+        fail-load: Migration "%s" can't be loaded
+        importing-incomplete: Importing migration "%s"
+        import-stoped: Import "%s" stopped by request
+        import-fail: Import "%s" failed
+        import-skipped: Import "%s" was skipped due to unfulfilled dependencies
+        wrong-source: 'Upgrading from this version of Drupal is not supported.'
+  router:
+    debug:
+      description: Affiche les routes actuelles pour une application
+      arguments:
+        route-name: Noms de la route
+      messages:
+        name: Nom de la route
+        path: Chemin classe
+        pattern: Motif
+        defaults: Par défaut
+        options: Options
+    rebuild:
+      description: Reconstruire les routes pour une application
+      arguments:
+        route-name: Noms de la route
+      messages:
+        rebuilding: Reconstruction des routes, attendez un instant s'il vous plaît
+        completed: Reconstruction de route (s) fini.
+  self-update:
+    description: Update the console to latest version.
+    help: Update the console command to the latest version.
+    messages:
+      success: The console has been updated to the latest version.
+
