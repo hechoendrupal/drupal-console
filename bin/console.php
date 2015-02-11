@@ -52,33 +52,17 @@ $translatorHelper->loadResource($config['application']['language'], $directoryRo
 $application = new Application($config);
 $application->setDirectoryRoot($directoryRoot);
 
-$errorMessages = [];
-$class_loader = null;
-// Try to find the Drupal autoloader.
-if (file_exists(getcwd() . '/core/vendor/autoload.php')) {
-  if (!file_exists(getcwd() . '/sites/default/settings.php')) {
-    $errorMessages[] = $translatorHelper->trans('application.site.errors.settings');
-  }
-  else {
-    $class_loader = require getcwd() . '/core/vendor/autoload.php';
-    $application->setBooted(true);
-  }
-} else {
-  $errorMessages[] = $translatorHelper->trans('application.site.errors.directory');
-}
-
-$application->addErrorMessages($errorMessages);
-
 $helpers = [
-  'bootstrap' => new DrupalBootstrapHelper(),
-  'finder' => new BootstrapFinderHelper(new Finder()),
+  //'bootstrap' => new DrupalBootstrapHelper(),
+  //    'finder' => new BootstrapFinderHelper(new Finder()),
   'kernel' => new KernelHelper(),
   'shell' => new ShellHelper(new Shell($application)),
   'dialog' => new DialogHelper(),
   'register_commands' => new RegisterCommandsHelper($application),
   'stringUtils' => new StringUtils(),
   'validators' => new Validators(),
-  'translator' => $translatorHelper
+  'translator' => $translatorHelper,
+  'drupal-autoload' => new \Drupal\AppConsole\Command\Helper\DrupalAutoload(new Finder()),
 ];
 
 $application->addHelpers($helpers);

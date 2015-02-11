@@ -22,6 +22,8 @@ class Application extends BaseApplication
 
   protected $errorMessages = [];
 
+  protected $drupalAutoload;
+
   /**
    * Create a new application extended from \Symfony\Component\Console\Application
    * @param $config array
@@ -66,10 +68,9 @@ class Application extends BaseApplication
    */
   public function doRun(InputInterface $input, OutputInterface $output)
   {
+    $this->autoload();
 
-    if (!$this->errorMessages) {
-
-      $this->autoload = $this->autoload();
+    if ($this->isBooted()) {
 
       if ($this->autoload) {
         $this->initDebug($input);
@@ -89,7 +90,7 @@ class Application extends BaseApplication
 
     $name = $this->getCommandName($input);
 
-    if ($name != '' && !$this->has($name)) {
+    if ($name != '' && !$this->find ($name)) {
       if (!$this->errorMessages) {
         $translator = $this->getHelperSet()->get('translator');
         $this->errorMessages[] = sprintf(
@@ -97,8 +98,8 @@ class Application extends BaseApplication
           $name
         );
       }
-      $name = $this->defaultCommand;
-      $input = new ArrayInput(array('command' => $name));
+      //$name = $this->defaultCommand;
+      //$input = new ArrayInput(array('command' => $name));
     }
 
     parent::doRun($input, $output);
@@ -110,18 +111,20 @@ class Application extends BaseApplication
 
   protected function autoload()
   {
-    $autoload = $this
+    $this->drupalAutoload = $this
       ->getHelperSet()
-        ->get('finder')
-          ->findBootstrapFile();
+      ->get('drupal-autoload')
+      ->findAutoload();
 
-    if ($autoload) {
-      $autoload = require($autoload);
-      return $autoload;
+    if ($this->drupalAutoload && !$this->isBooted()) {
+      require $this->drupalAutoload;
+      $this->setBooted(true);
     }
     else {
-      return false;
+      return null;
     }
+
+
   }
 
   protected function initDebug(InputInterface $input)
@@ -163,6 +166,9 @@ class Application extends BaseApplication
     $rc->register($drupalModules);
   }
 
+  /**
+   * @return \Drupal\Core\DrupalKernel | null
+   */
   public function getKernel()
   {
     return $this->autoload ? $this->getHelperSet()->get('kernel')->getKernel() : null;
@@ -219,17 +225,17 @@ class Application extends BaseApplication
   /**
    * @param array $helpers
    */
-  public function addHelpers($helpers){
-    $defaulHelperset = $this->getHelperSet();
+  public function addHelpers(array $helpers){
+    $defaultHelperset = $this->getHelperSet();
     foreach ($helpers as $alias => $helper) {
-      $defaulHelperset->set($helper, is_int($alias) ? null : $alias);
+      $defaultHelperset->set($helper, is_int($alias) ? null : $alias);
     }
   }
 
   /**
    * @param array $errorMessages
    */
-  public function addErrorMessages($errorMessages){
+  public function addErrorMessages(array $errorMessages){
     $this->errorMessages = $errorMessages;
   }
 }

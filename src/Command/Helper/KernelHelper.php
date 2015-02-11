@@ -16,7 +16,7 @@ class KernelHelper extends Helper
   protected $class_loader;
 
   /**
-   * @var DrupalKernel
+   * @var \Drupal\Core\DrupalKernel
    */
   protected $kernel;
 
@@ -41,7 +41,7 @@ class KernelHelper extends Helper
   }
 
   /**
-   * @param DrupalKernel $kernel
+   * @param \Drupal\Core\DrupalKernel $kernel
    */
   public function setKernel(DrupalKernel $kernel)
   {
@@ -49,7 +49,7 @@ class KernelHelper extends Helper
   }
 
   /**
-   * @return DrupalKernel
+   * @return \Drupal\Core\DrupalKernel
    */
   public function getKernel()
   {
