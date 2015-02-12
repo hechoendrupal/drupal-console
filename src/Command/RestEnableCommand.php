@@ -29,30 +29,24 @@ class RestEnableCommand extends ContainerAwareCommand
   {
     $dialog = $this->getDialogHelper();
     $questionHelper  = $this->getQuestionHelper();
-
     $resource_id = $input->getArgument('resource-id');
-
     $rest_resources  = $this->getRestResources();
-
     $rest_resources_ids = array_merge(array_keys($rest_resources['enabled']), array_keys($rest_resources['disabled']));
 
     if (!$resource_id) {
       $resource_id = $dialog->askAndValidate(
         $output,
         $dialog->getQuestion($this->trans('commands.rest.enable.arguments.resource-id'),''),
-        function ($rest) use($rest_resources_ids) {
-          if(in_array($rest, $rest_resources_ids)) {
-            return $rest;
-          }
-          else {
-            throw new \InvalidArgumentException(sprintf($this->trans('commands.rest.enable.messages.invalid-rest-id'), $rest));
-          }
+        function ($resource_id) use($rest_resources_ids) {
+          return $this->validateRestResource($resource_id, $rest_resources_ids, $this->getTranslator());
         },
         false,
         '',
         $rest_resources_ids
       );
     }
+
+    $this->validateRestResource($resource_id, $rest_resources_ids, $this->getTranslator());
     $input->setArgument('resource-id', $resource_id);
 
     // Calculate states available by resource and generate the question
@@ -96,12 +90,13 @@ class RestEnableCommand extends ContainerAwareCommand
     $output->writeln($this->trans('commands.rest.enable.messages.selected-authentication-providers') . ' ' . implode(', ', $authentication_providers));
 
 
-    $rest_settings = \Drupal::config('rest.settings')->get('resources') ?: array();
+    $rest_settings = $this->getRestDrupalConfig();
 
     $rest_settings[$resource_id][$state]['supported_formats'] = $formats;
     $rest_settings[$resource_id][$state]['supported_auth'] = $authentication_providers;
 
-    $config = \Drupal::configFactory()->getEditable('rest.settings');
+    $config = $this->getConfigFactory()
+      ->getEditable('rest.settings');
     $config->set('resources', $rest_settings);
     $config->save();
   }

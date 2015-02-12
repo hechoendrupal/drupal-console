@@ -336,6 +336,16 @@ commands:
         selected-state: Selected State
         selected-formats: Selected formats
         selected-authentication-providers: Selected Authentication Providers
+    disable:
+      description: Disable a rest resource for the application
+      arguments:
+        resource-id: Rest ID
+        states: REST States to disable for Rest resource
+
+      questions:
+        resource-id: Rest ID
+      messages:
+        invalid-rest-id: Rest ID %s is invalid
     debug:
       description: Display current rest resource for the application
       arguments:
