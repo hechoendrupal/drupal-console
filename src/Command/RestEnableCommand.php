@@ -29,13 +29,9 @@ class RestEnableCommand extends ContainerAwareCommand
   {
     $dialog = $this->getDialogHelper();
     $questionHelper  = $this->getQuestionHelper();
-
     $resource_id = $input->getArgument('resource-id');
-
     $rest_resources  = $this->getRestResources();
-
     $rest_resources_ids = array_merge(array_keys($rest_resources['enabled']), array_keys($rest_resources['disabled']));
-
     $this->validateRestResource($resource_id, $rest_resources_ids, $this->getTranslator());
 
     if (!$resource_id) {
@@ -94,8 +90,7 @@ class RestEnableCommand extends ContainerAwareCommand
     $output->writeln($this->trans('commands.rest.enable.messages.selected-authentication-providers') . ' ' . implode(', ', $authentication_providers));
 
 
-    $rest_settings = $this->getConfigFactory()
-      ->get('rest.settings')->get('resources') ?: array();
+    $rest_settings = $this->getRestDrupalConfig();
 
     $rest_settings[$resource_id][$state]['supported_formats'] = $formats;
     $rest_settings[$resource_id][$state]['supported_auth'] = $authentication_providers;
