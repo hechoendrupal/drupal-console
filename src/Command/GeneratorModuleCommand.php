@@ -59,14 +59,14 @@ class GeneratorModuleCommand extends GeneratorCommand
 
     $generator = $this->getGenerator();
     $generator->generate(
-            $module,
-            $machine_name,
-            $module_path,
-            $description,
-            $core,
-            $package,
-            $controller,
-            $test
+      $module,
+      $machine_name,
+      $module_path,
+      $description,
+      $core,
+      $package,
+      $controller,
+      $test
     );
   }
 
