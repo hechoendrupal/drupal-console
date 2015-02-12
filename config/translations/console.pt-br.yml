@@ -23,9 +23,9 @@ common:
 command:
   cache:
     rebuild:
-      description: Rebuild and clear all site caches.
+      description: Reconstruir e limpar todos os caches do site.
       options:
-        cache: Only clean a specific cache.
+        cache: Apenas limpar um cache específico.
       messages:
         welcome: Bem-vindo ao comando cache:rebuild.
         rebuild: Recriando cache(s), favor aguarde um momento.
