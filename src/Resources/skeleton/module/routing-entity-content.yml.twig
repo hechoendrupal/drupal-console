@@ -7,7 +7,7 @@ entity.{{ entity_name }}.canonical:
   requirements:
     _entity_access: '{{ entity_name }}.view'
 
-entity.{{ entity_name }}.list:
+entity.{{ entity_name }}.collection:
   path: '/admin/{{ entity_name }}'
   defaults:
     _entity_list: '{{ entity_name }}'
