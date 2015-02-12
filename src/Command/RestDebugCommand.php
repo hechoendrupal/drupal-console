@@ -50,7 +50,8 @@ class RestDebugCommand extends ContainerAwareCommand
    */
   private function getRestByID($output, $table, $resource_id){
     // Get the list of enabled and disabled resources.
-    $config = \Drupal::config('rest.settings')->get('resources') ?: array();
+    $config = $this->getConfigFactory()
+      ->get('rest.settings')->get('resources') ?: array();
 
     $resourcePluginManager = $this->getPluginManagerRest();
     $plugin = $resourcePluginManager->getInstance(array('id' => $resource_id));
