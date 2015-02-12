@@ -30,6 +30,7 @@ class RestDisableCommand extends ContainerAwareCommand {
     $resource_id = $input->getArgument('resource-id');
     $rest_resources  = $this->getRestResources();
     $rest_resources_ids = array_merge(array_keys($rest_resources['enabled']), array_keys($rest_resources['disabled']));
+    $this->validateRestResource($resource_id, $rest_resources_ids, $this->getTranslator());
 
     if (!$resource_id) {
       $resource_id = $dialog->askAndValidate(
@@ -42,14 +43,11 @@ class RestDisableCommand extends ContainerAwareCommand {
         '',
         $rest_resources_ids
       );
-    } else {
-      return $this->validateRestResource($resource_id, $rest_resources_ids, $this->getTranslator());
     }
 
     $input->setArgument('resource-id', $resource_id);
 
-    $rest_settings = $this->getConfigFactory()
-      ->get('rest.settings')->get('resources') ?: array();
+    $rest_settings = $this->getRestDrupalConfig();
 
     unset($rest_settings[$resource_id]);
 
