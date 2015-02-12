@@ -154,6 +154,24 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     return $this->route_provider;
   }
 
+  /**
+   * @param $rest
+   * @param $rest_resources_ids
+   * @param $translator
+   * @return mixed
+   */
+  public function validateRestResource($rest, $rest_resources_ids, $translator)
+  {
+    if (in_array($rest, $rest_resources_ids)) {
+      return $rest;
+    } else {
+      throw new \InvalidArgumentException(sprintf($translator->trans('commands.rest.disable.messages.invalid-rest-id'), $rest));
+    }
+  }
+
+  /**
+   * @return \Drupal\Core\Config\ConfigFactoryInterface
+   */
   public function getConfigFactory(){
     return $this->getContainer()->get('config.factory');
   }
