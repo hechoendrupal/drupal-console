@@ -35,7 +35,7 @@ class {{ entity_class }}DeleteForm extends ContentEntityConfirmFormBase
    * {@inheritdoc}
    */
   public function getCancelUrl() {
-    return new Url('entity.{{ entity_name }}.list');
+    return new Url('entity.{{ entity_name }}.collection');
   }
 
   /**
