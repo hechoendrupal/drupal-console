@@ -156,7 +156,7 @@ commands:
         description: Enter module description
         core: Enter Drupal Core version
         package: Enter package name
-        controller: Do you want to generate a default Controller
+        controller: Do you want to generate a default Controller        
         test: Do you want to generate a unit test class
     plugin:
       block:
