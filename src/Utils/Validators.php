@@ -3,7 +3,6 @@
  *@file
  * Contains \Drupal\AppConsole\Utils\Validators.
  */
-
 namespace Drupal\AppConsole\Utils;
 
 use Symfony\Component\Console\Helper\Helper;
@@ -13,69 +12,76 @@ class Validators extends Helper implements HelperInterface
 {
 
   const REGEX_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+$/';
-  const REGEX_MACHINE_NAME = '/^[a-z0-9_]+$/';
+    const REGEX_MACHINE_NAME = '/^[a-z0-9_]+$/';
   // This REGEX remove spaces between words
   const REGEX_REMOVE_SPACES = '/[\\s+]/';
-  
-  private $translator;
-  
-  public function __construct($translator)
-  {
-    $this->translator = $translator;
-  }
 
-  public function validateModuleName($module)
-  {
-    if (!empty($module)) {
-      return $module;
-    }
-    else {
-      throw new \InvalidArgumentException(sprintf('Module name "%s" is invalid.', $module));
-    }
-  }
+    private $translator;
 
-  public function validateClassName($class_name){
-    if (preg_match(self::REGEX_CLASS_NAME, $class_name)) {
-      return $class_name;
-    } else {
-      throw new \InvalidArgumentException(
+    public function __construct($translator)
+    {
+        $this->translator = $translator;
+    }
+
+    public function validateModuleName($module)
+    {
+        if (!empty($module)) {
+            return $module;
+        } else {
+            throw new \InvalidArgumentException(
         sprintf(
-          $this->translator->trans('application.console.errors.invalid-classname'), 
+          $this->translator->trans('application.console.errors.invalid-modulename'),
+          $module
+        )
+      );
+        }
+    }
+
+    public function validateClassName($class_name)
+    {
+        if (preg_match(self::REGEX_CLASS_NAME, $class_name)) {
+            return $class_name;
+        } else {
+            throw new \InvalidArgumentException(
+        sprintf(
+          $this->translator->trans('application.console.errors.invalid-classname'),
           $class_name
         )
       );
+        }
     }
-  }
 
-  public function validateMachineName($machine_name){
-    if (preg_match(self::REGEX_MACHINE_NAME, $machine_name)) {
-      return $machine_name;
-    } else {
-      throw new \InvalidArgumentException(
+    public function validateMachineName($machine_name)
+    {
+        if (preg_match(self::REGEX_MACHINE_NAME, $machine_name)) {
+            return $machine_name;
+        } else {
+            throw new \InvalidArgumentException(
         sprintf(
           $this->translator->trans('application.console.errors.invalid-machinename'),
           $machine_name
         )
       );
+        }
     }
-  }
 
-  public function validateModulePath($module_path, $create=false)
-  {
-    if (!is_dir($module_path)) {
+    public function validateModulePath($module_path, $create = false)
+    {
+        if (!is_dir($module_path)) {
+            if ($create && mkdir($module_path, 0755, true)) {
+                return $module_path;
+            }
 
-      if($create && mkdir($module_path,0755, true)){
-        return $module_path;
-      }
-
-      throw new \InvalidArgumentException(sprintf(
-        'Module path "%s" is invalid. You need to provide a valid path.',
-        $module_path)
+            throw new \InvalidArgumentException(
+        sprintf(
+          $this->translator->trans('application.console.errors.invalid-modulepath'),
+          $module_path
+        )
       );
-    }
+        }
 
-    return $module_path;
-  }
+        return $module_path;
+    }
 
   /**
    * Validate if module name exist
@@ -86,12 +92,13 @@ class Validators extends Helper implements HelperInterface
   public function validateModuleExist($module, $modules)
   {
     if (!in_array($module, array_values($modules))) {
-      throw new \InvalidArgumentException(sprintf(
-        'Module "%s" is not in your application. Try generate:module to create it.',
-        $module)
+      throw new \InvalidArgumentException(
+        sprintf(
+          $this->translator->trans('application.console.errors.invalid-modulenotexists'),
+          $module
+        )
       );
     }
-
     return $module;
   }
 
@@ -103,15 +110,19 @@ class Validators extends Helper implements HelperInterface
    */
   public function validateServiceExist($service, $services)
   {
-    if ($service == '') {
-      return null;
-    }
+      if ($service == '') {
+          return;
+      }
 
-    if (!in_array($service, array_values($services))) {
-      throw new \InvalidArgumentException(sprintf("Service \"%s\" is invalid.", $service));
-    }
-
-    return $service;
+      if (!in_array($service, array_values($services))) {
+        throw new \InvalidArgumentException(
+          sprintf(
+            $this->translator->trans('application.console.errors.invalid-servicenotexists'),
+            $service
+          )
+        );
+      }
+      return $service;
   }
 
   /**
@@ -123,19 +134,24 @@ class Validators extends Helper implements HelperInterface
   {
     $string = $this->removeSpaces($name);
     if ($string == $name) {
-      return $name;
+        return $name;
     } else {
-      throw new \InvalidArgumentException(sprintf("The name \"%s\" is invalid, spaces between words are not allowed.", $name));
+      throw new \InvalidArgumentException(
+        sprintf(
+          $this->translator->trans('application.console.errors.invalid-namewithspaces'),
+          $name
+        )
+      );
     }
   }
 
-  public function removeSpaces($name)
-  {
-    return preg_replace(self::REGEX_REMOVE_SPACES, '', $name);
-  }
+    public function removeSpaces($name)
+    {
+        return preg_replace(self::REGEX_REMOVE_SPACES, '', $name);
+    }
 
-  public function getName()
-  {
-    return "validators";
-  }
+    public function getName()
+    {
+        return "validators";
+    }
 }

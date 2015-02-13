@@ -6,6 +6,11 @@ application:
       invalid-command: Command "%s" is not defined.
       invalid-classname: El nombre de clase "%s" es invalido, debe contener solo letras mayuscula o minuscula, numeros y guion bajo.
       invalid-machinename: El nombre maquina "%s" es invalido, debe contener solo letras en minuscula, numeros y guion bajo.
+      invalid-modulename: El nombre del modulo "%s" es invalido.
+      invalid-modulepath: La ruta del modulo "%s" es invalido. Necesita ingresar una ruta valida.
+      invalid-modulenotexists: El modulo "%s" no esta en tu aplicacion. Intenta generate:module para crearlo.
+      invalid-servicenotexists: El servicio "%s" es invalido.
+      invalid-namewithspaces: El nombre "%s" es invalido, espacios entre las letras no estan permitidos.
   site:
     errors:
       directory: In order to list all of the available commands, you should run this inside a drupal root directory.

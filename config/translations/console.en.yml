@@ -9,6 +9,11 @@ application:
       invalid-command: Command "%s" is not defined.
       invalid-classname: Class name "%s" is invalid, it must contain only lower and upper letters, numbers and underscores.
       invalid-machinename: Machine name "%s" is invalid, it must contain only lowercase letters, numbers and underscores.
+      invalid-modulename: Module name "%s" is invalid.
+      invalid-modulepath: Module path "%s" is invalid. You need to provide a valid path.
+      invalid-modulenotexists: Module "%s" is not in your application. Try generate:module to create it.
+      invalid-servicenotexists: Service "%s" is invalid.
+      invalid-namewithspaces: The name "%s" is invalid, spaces between words are not allowed.
   site:
     messages:
       path: Site path
