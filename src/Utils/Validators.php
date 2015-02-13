@@ -65,11 +65,17 @@ class Validators extends Helper implements HelperInterface
   }
 
   public function validateModuleDependencies($dependencies) {
-    $dependencies = explode(',', $this->removeSpaces($dependencies));
+
     $dependencies_checked = array(
       'success' => array(),
       'fail'    => array()
     );
+
+    if (empty($dependencies) ) {
+      return array();
+    } 
+
+    $dependencies = explode(',', $this->removeSpaces($dependencies));
     foreach ($dependencies as $key => $module) {
       if (!empty($module)) { 
         if (preg_match(self::REGEX_MACHINE_NAME, $module)) {
@@ -79,6 +85,7 @@ class Validators extends Helper implements HelperInterface
         }
       }
     }
+    
     return $dependencies_checked;
   }
 
