@@ -8,9 +8,12 @@ namespace Drupal\AppConsole\Utils;
 
 use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Console\Helper\HelperInterface;
+use Drupal\Core\Cache\Cache;
 
 class Validators extends Helper implements HelperInterface
 {
+
+  private $caches = [];
 
   const REGEX_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+$/';
   const REGEX_MACHINE_NAME = '/^[a-z0-9_]+$/';
@@ -102,6 +105,23 @@ class Validators extends Helper implements HelperInterface
   }
 
   /**
+   * Validate if a string is a valid cache
+   * @param string $cache The cache name
+   * @return mixed The cache name if valid or FALSE if not valid
+   */
+  public function validateCache($cache) {
+    // Get the valid caches
+    $caches = $this->getCaches();
+    $cache_keys = array_keys($caches);
+    $cache_keys[] = 'all';
+
+    if (!in_array($cache, array_values($cache_keys))) {
+      return FALSE;
+    }
+    return $cache;
+  }
+
+  /**
    * Validates if class name have spaces between words
    * @param string $name
    * @return string
@@ -124,5 +144,18 @@ class Validators extends Helper implements HelperInterface
   public function getName()
   {
     return "validators";
+  }
+
+  /**
+   * Auxiliary function to get all available drupal caches
+   * @return array The all available drupal caches
+   */
+  public function getCaches() {
+    if (empty($this->caches)) {
+      foreach (Cache::getBins() as $name => $bin) {
+        $this->caches[$name] = $bin;
+      }
+    }
+    return $this->caches;
   }
 }
