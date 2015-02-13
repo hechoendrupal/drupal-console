@@ -35,7 +35,7 @@ class Validators extends Helper implements HelperInterface
     if (preg_match(self::REGEX_CLASS_NAME, $class_name)) {
       return $class_name;
     } else {
-      throw new \InvalidArgumentException(sprintf('Class name "%s" is invalid.', $class_name));
+      throw new \InvalidArgumentException(sprintf('Class name "%s" is invalid, it must contain only lower and upper letters, numbers and underscores.', $class_name));
     }
   }
 
@@ -43,7 +43,7 @@ class Validators extends Helper implements HelperInterface
     if (preg_match(self::REGEX_MACHINE_NAME, $machine_name)) {
       return $machine_name;
     } else {
-      throw new \InvalidArgumentException(sprintf('Machine name "%s" is invalid.', $machine_name));
+      throw new \InvalidArgumentException(sprintf('Machine name "%s" is invalid, it must contain only lowercase letters, numbers and underscores.', $machine_name));
     }
   }
 
