@@ -25,8 +25,8 @@ class SiteModeCommand extends ContainerAwareCommand
     {
         $environment = $input->getArgument('environment');
         $config = $this->getConfigFactory()->getEditable('system.performance');
+
         if ('dev' === $environment) {
-            echo $this->getContainer()->get('lock');
             $config->set('cache.page.use_internal', false);
             $config->set('css.preprocess', false);
             $config->set('css.gzip', false);
