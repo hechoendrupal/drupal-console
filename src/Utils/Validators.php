@@ -111,7 +111,6 @@ class Validators extends Helper implements HelperInterface
     return $dependencies_checked;
   }
 
->>>>>>> upstream/master
   /**
    * Validate if module name exist
    * @param  string $module  Module name
@@ -196,16 +195,10 @@ class Validators extends Helper implements HelperInterface
         return preg_replace(self::REGEX_REMOVE_SPACES, '', $name);
     }
 
-<<<<<<< HEAD
     public function getName()
     {
         return "validators";
     }
-=======
-  public function getName()
-  {
-    return "validators";
-  }
 
   /**
    * Auxiliary function to get all available drupal caches
@@ -219,5 +212,4 @@ class Validators extends Helper implements HelperInterface
     }
     return $this->caches;
   }
->>>>>>> upstream/master
 }
