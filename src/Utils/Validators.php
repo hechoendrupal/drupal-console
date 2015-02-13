@@ -16,9 +16,12 @@ class Validators extends Helper implements HelperInterface
   const REGEX_MACHINE_NAME = '/^[a-z0-9_]+$/';
   // This REGEX remove spaces between words
   const REGEX_REMOVE_SPACES = '/[\\s+]/';
-
-  public function __construct()
+  
+  private $translator;
+  
+  public function __construct($translator)
   {
+    $this->translator = $translator;
   }
 
   public function validateModuleName($module)
@@ -35,7 +38,12 @@ class Validators extends Helper implements HelperInterface
     if (preg_match(self::REGEX_CLASS_NAME, $class_name)) {
       return $class_name;
     } else {
-      throw new \InvalidArgumentException(sprintf('Class name "%s" is invalid, it must contain only lower and upper letters, numbers and underscores.', $class_name));
+      throw new \InvalidArgumentException(
+        sprintf(
+          $this->translator->trans('application.console.errors.invalid-classname'), 
+          $class_name
+        )
+      );
     }
   }
 
@@ -43,7 +51,12 @@ class Validators extends Helper implements HelperInterface
     if (preg_match(self::REGEX_MACHINE_NAME, $machine_name)) {
       return $machine_name;
     } else {
-      throw new \InvalidArgumentException(sprintf('Machine name "%s" is invalid, it must contain only lowercase letters, numbers and underscores.', $machine_name));
+      throw new \InvalidArgumentException(
+        sprintf(
+          $this->translator->trans('application.console.errors.invalid-machinename'),
+          $machine_name
+        )
+      );
     }
   }
 

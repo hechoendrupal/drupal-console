@@ -7,6 +7,8 @@ application:
         completed: You can now start using the generated code!
     errors:
       invalid-command: Command "%s" is not defined.
+      invalid-classname: Class name "%s" is invalid, it must contain only lower and upper letters, numbers and underscores.
+      invalid-machinename: Machine name "%s" is invalid, it must contain only lowercase letters, numbers and underscores.
   site:
     messages:
       path: Site path
