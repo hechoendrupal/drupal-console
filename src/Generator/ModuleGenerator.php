@@ -32,7 +32,7 @@ class ModuleGenerator extends Generator
       'core'    => $core,
       'description'    => $description,
       'package' => $package,
-      'dependencies' => $dependencies['success']
+      'dependencies' => $dependencies
     );
 
     $this->renderFile(

@@ -33,7 +33,7 @@ class GeneratorModuleCommand extends GeneratorCommand
       ->addOption('core','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.module.options.core'))
       ->addOption('package','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.module.options.package'))
       ->addOption('controller', '', InputOption::VALUE_NONE, $this->trans('commands.generate.module.options.controller'))
-      ->addOption('dependencies', '', InputOption::VALUE_REQUIRED, $this->trans('commands.generate.module.options.dependencies'))
+      ->addOption('dependencies', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.module.options.dependencies'))
       ->addOption('test', '', InputOption::VALUE_NONE, $this->trans('commands.generate.module.options.test'))
     ;
   }
@@ -62,11 +62,14 @@ class GeneratorModuleCommand extends GeneratorCommand
      */
     $dependencies = $validators->validateModuleDependencies($input->getOption('dependencies'));
     // Check if all module dependencies are availables or not
-    $checked_dpendencies = $this->checkDependencies($dependencies['success']);
-    if( !empty($checked_dpendencies['drupal_modules']) ){
-      $this->addMessage(
-        sprintf($this->trans('commands.generate.module.warnings.module-unavailable'), implode(', ', $checked_dpendencies['drupal_modules']))
-      );
+    if ( !empty($dependencies)) {
+      $checked_dpendencies = $this->checkDependencies($dependencies['success']);
+      if( !empty($checked_dpendencies['drupal_modules']) ){
+        $this->addMessage(
+          sprintf($this->trans('commands.generate.module.warnings.module-unavailable'), implode(', ', $checked_dpendencies['drupal_modules']))
+        );
+      }
+      $dependencies = $dependencies['success'];
     }
     /**
      * Test
@@ -230,7 +233,7 @@ class GeneratorModuleCommand extends GeneratorCommand
       'drupal_modules' => array(),
       'no_modules'     => array()
     );
-    $local_modules = $this->getModules(true);
+    $local_modules = null; //$local_modules = $this->getModules(true);
     foreach ($dependencies as $key => $module) {
       if (in_array($module,$local_modules)) {
         $checked_dependecies['local_modules'][] = $module;
