@@ -51,7 +51,7 @@ class Validators extends Helper implements HelperInterface
   {
     if (!is_dir($module_path)) {
 
-      if($create && mkdir($module_path,0755, true)){
+      if($create && mkdir($module_path,0755, true)) {
         return $module_path;
       }
 
@@ -62,6 +62,24 @@ class Validators extends Helper implements HelperInterface
     }
 
     return $module_path;
+  }
+
+  public function validateModuleDependencies($dependencies) {
+    $dependencies = explode(',', $this->removeSpaces($dependencies));
+    $dependencies_checked = array(
+      'success' => array(),
+      'fail'    => array()
+    );
+    foreach ($dependencies as $key => $module) {
+      if (!empty($module)) { 
+        if (preg_match(self::REGEX_MACHINE_NAME, $module)) {
+          $dependencies_checked['success'][] = $module;
+        } else {
+          $dependencies_checked['fail'][] = $module;
+        }
+      }
+    }
+    return $dependencies_checked;
   }
 
   /**
