@@ -7,9 +7,12 @@ namespace Drupal\AppConsole\Utils;
 
 use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Console\Helper\HelperInterface;
+use Drupal\Core\Cache\Cache;
 
 class Validators extends Helper implements HelperInterface
 {
+
+  private $caches = [];
 
   const REGEX_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+$/';
     const REGEX_MACHINE_NAME = '/^[a-z0-9_]+$/';
@@ -73,16 +76,42 @@ class Validators extends Helper implements HelperInterface
             }
 
             throw new \InvalidArgumentException(
-        sprintf(
-          $this->translator->trans('application.console.errors.invalid-modulepath'),
-          $module_path
-        )
-      );
+                sprintf(
+                    $this->translator->trans('application.console.errors.invalid-modulepath'),
+                    $module_path
+                )
+            );
         }
 
         return $module_path;
     }
 
+  public function validateModuleDependencies($dependencies) {
+
+    $dependencies_checked = array(
+      'success' => array(),
+      'fail'    => array()
+    );
+
+    if (empty($dependencies) ) {
+      return array();
+    } 
+
+    $dependencies = explode(',', $this->removeSpaces($dependencies));
+    foreach ($dependencies as $key => $module) {
+      if (!empty($module)) { 
+        if (preg_match(self::REGEX_MACHINE_NAME, $module)) {
+          $dependencies_checked['success'][] = $module;
+        } else {
+          $dependencies_checked['fail'][] = $module;
+        }
+      }
+    }
+    
+    return $dependencies_checked;
+  }
+
+>>>>>>> upstream/master
   /**
    * Validate if module name exist
    * @param  string $module  Module name
@@ -126,6 +155,23 @@ class Validators extends Helper implements HelperInterface
   }
 
   /**
+   * Validate if a string is a valid cache
+   * @param string $cache The cache name
+   * @return mixed The cache name if valid or FALSE if not valid
+   */
+  public function validateCache($cache) {
+    // Get the valid caches
+    $caches = $this->getCaches();
+    $cache_keys = array_keys($caches);
+    $cache_keys[] = 'all';
+
+    if (!in_array($cache, array_values($cache_keys))) {
+      return FALSE;
+    }
+    return $cache;
+  }
+
+  /**
    * Validates if class name have spaces between words
    * @param string $name
    * @return string
@@ -150,8 +196,28 @@ class Validators extends Helper implements HelperInterface
         return preg_replace(self::REGEX_REMOVE_SPACES, '', $name);
     }
 
+<<<<<<< HEAD
     public function getName()
     {
         return "validators";
     }
+=======
+  public function getName()
+  {
+    return "validators";
+  }
+
+  /**
+   * Auxiliary function to get all available drupal caches
+   * @return array The all available drupal caches
+   */
+  public function getCaches() {
+    if (empty($this->caches)) {
+      foreach (Cache::getBins() as $name => $bin) {
+        $this->caches[$name] = $bin;
+      }
+    }
+    return $this->caches;
+  }
+>>>>>>> upstream/master
 }

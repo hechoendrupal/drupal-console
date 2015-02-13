@@ -160,6 +160,7 @@ commands:
         core: Core version
         package: Module package
         controller: Default Controller
+        dependencies: Module dependencies separated by commas (i.e. context, panels)
         test: Generate a test class
       questions:
         module: Enter the new module name
@@ -169,7 +170,10 @@ commands:
         core: Enter Drupal Core version
         package: Enter package name
         controller: Do you want to generate a default Controller
+        dependencies: Would you like to add module depencencies
         test: Do you want to generate a unit test class
+      warnings:
+        module-unavailable: Warning The following modules are not already available in your local environment "%s" 
       errors:
         directory-exists: The target directory "%s" is not empty.
     plugin:
@@ -394,4 +398,10 @@ commands:
     help: Update the console command to the latest version.
     messages:
       success: The console has been updated to the latest version.
+  site:
+    mode:
+      description: Switch system performance configuration
+      arguments:
+        environment: Enviroment name
+
 
