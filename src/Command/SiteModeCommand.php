@@ -3,6 +3,7 @@
  * @file
  * Contains \Drupal\AppConsole\Command\SiteModeCommand.
  */
+
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -17,32 +18,67 @@ class SiteModeCommand extends ContainerAwareCommand
       $this
       ->setName('site:mode')
       ->setDescription($this->trans('commands.site.mode.description'))
-      ->addArgument('environment', InputArgument::REQUIRED, $this->trans('commands.site.mode.arguments.environment'))
-    ;
+      ->addArgument('environment', InputArgument::REQUIRED, $this->trans('commands.site.mode.arguments.environment'));
   }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $table = $this->getHelperSet()->get('table');
         $environment = $input->getArgument('environment');
-        $config = $this->getConfigFactory()->getEditable('system.performance');
+        $configName = 'system.performance';
+        $config = $this->getConfigFactory()->getEditable($configName);
+        $configurationOverrideResult = [];
 
         if ('dev' === $environment) {
-            $config->set('cache.page.use_internal', false);
-            $config->set('css.preprocess', false);
-            $config->set('css.gzip', false);
-            $config->set('js.preprocess', false);
-            $config->set('js.gzip', false);
-            $config->set('response.gzip', false);
+            $configurationOverrideResult = $this->overrideConfigurations($config, false);
         }
         if ('prod' === $environment) {
-            $config->set('cache.page.use_internal', true);
-            $config->set('css.preprocess', true);
-            $config->set('css.gzip', true);
-            $config->set('js.preprocess', true);
-            $config->set('js.gzip', true);
-            $config->set('response.gzip', true);
+            $configurationOverrideResult = $this->overrideConfigurations($config, true);
         }
 
         $config->save();
+
+        $output->writeln(sprintf(
+          ' <info>%s:</info> <comment>%s</comment>',
+          $this->trans('commands.site.mode.messages.configuration-key'),
+          $configName
+        ));
+
+        $table->setHeaders(
+          [
+            $this->trans('commands.site.mode.messages.configuration'),
+            $this->trans('commands.site.mode.messages.original'),
+            $this->trans('commands.site.mode.messages.updated')
+          ]);
+        $table->setlayout($table::LAYOUT_COMPACT);
+        $table->setRows($configurationOverrideResult);
+        $table->render($output);
+    }
+
+    protected function overrideConfigurations($config, $value)
+    {
+        $result = [];
+        $configurations = $this->getConfigurations();
+        foreach ($configurations as $configuration) {
+            $result[] = [
+              'configuration' => $configuration,
+              'original' => $config->get($configuration)?'true':'false',
+              'updated' => $value?'true':'false'
+            ];
+            $config->set($configuration, $value);
+        }
+        return $result;
+    }
+
+    protected function getConfigurations()
+    {
+        return [
+          'cache.page.use_internal',
+          'css.preprocess',
+          'css.gzip',
+          'js.preprocess',
+          'js.gzip',
+          'response.gzip'
+        ];
     }
 }
