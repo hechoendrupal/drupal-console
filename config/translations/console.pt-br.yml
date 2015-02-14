@@ -161,7 +161,7 @@ command:
           inputs: |
 
             Você pode adicionar alguns campos para criar configurações especiais em cada bloco
-            Isso e opcional, pressione <info>enter</info> para <info>continuar</info>
+            Isso é opcional, pressione <info>enter</info> para <info>continuar</info>
       imageeffect:
         description: Criar plugin de efeito de imagem.
         help: O comando <info>generate:plugin:imageeffect</info> ajuda você a criar um novo plugin de efeito de imagem.
