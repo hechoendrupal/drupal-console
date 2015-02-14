@@ -38,7 +38,6 @@ class CacheRebuildCommand extends ContainerAwareCommand
           $cache
         )
       );
-      return;
     }
 
     // Start rebuilding cache
