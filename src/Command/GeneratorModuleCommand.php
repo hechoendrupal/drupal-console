@@ -233,7 +233,7 @@ class GeneratorModuleCommand extends GeneratorCommand
       'drupal_modules' => array(),
       'no_modules'     => array()
     );
-    $local_modules = null; //$local_modules = $this->getModules(true);
+    $local_modules = null;
     foreach ($dependencies as $key => $module) {
       if (in_array($module,$local_modules)) {
         $checked_dependecies['local_modules'][] = $module;
