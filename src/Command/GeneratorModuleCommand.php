@@ -76,9 +76,6 @@ class GeneratorModuleCommand extends GeneratorCommand
      */
     $test = $input->getOption('test');
 
-    // $checked_dpendencies = $this->checkDependencies($dependencies['success']);
-    // $this->addMessage($this->trans('commands.generate.module.warnings.module-unavailable'), implode(', ', $checked_dpendencies['drupal_modules'])));
-
     $generator = $this->getGenerator();
     $generator->generate(
       $module,
