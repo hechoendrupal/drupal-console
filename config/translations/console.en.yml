@@ -396,5 +396,10 @@ commands:
       description: Switch system performance configuration
       arguments:
         environment: Enviroment name
+      messages:
+        configuration: Configuration
+        configuration-key: Configuration key
+        original: Original Value
+        updated: Updated Value
 
 
