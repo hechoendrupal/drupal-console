@@ -3,58 +3,53 @@
 namespace Drupal\AppConsole\Command\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
-use Symfony\Component\Finder\Finder;
 
 class DrupalAutoload extends Helper
 {
-    /**
-     * @var Finder
-     */
-    protected $finder;
-
-    /**
-     * @param Finder $finder
-     */
-    public function __construct(Finder $finder)
-    {
-        $this->finder = $finder;
-    }
 
     /**
      * @return null | string
      */
-    public function findAutoload()
+    public function findAutoload($drupal_root = false)
     {
         $currentPath = getcwd() . '/';
         $relativePath = '';
-        $autoloadFound = 0;
-        $iterator = false;
+        $autoloadFound = null;
 
-        while ($autoloadFound === 0) {
-            $path = $currentPath . $relativePath . 'core/vendor';
-
-            try {
-                $iterator = $this->finder
-                    ->files()
-                    ->name('autoload.php')
-                    ->in($path)
-                    ->depth('< 1');
-                $autoloadFound = $iterator->count();
-            } catch (\InvalidArgumentException $e) {
-                $relativePath .= '../';
-
-                if (realpath($currentPath . $relativePath) === '/') {
-                    break;
-                }
-            }
+        if ($path = $this->isDrupalAutoload($drupal_root)) {
+            return $path;
         }
 
-        if ($iterator) {
-            foreach ($iterator as $file) {
-                $bootstrapRealPath = $file->getRealpath();
-                break;
+        while (true) {
+            $path = $currentPath . $relativePath;
+
+            if ($autoloadFound = $this->isDrupalAutoload($path)) {
+                return $autoloadFound;
             }
-            return $bootstrapRealPath;
+            else {
+                $relativePath .= '../';
+            }
+
+            if (realpath($currentPath . $relativePath) === '/') {
+                return null;
+            }
+        }
+    }
+
+    /**
+     * @param $drupal_root
+     * @return null|string
+     *   Full path to drupal autoload file.
+     */
+    protected function isDrupalAutoload($drupal_root)
+    {
+        $path = realpath($drupal_root);
+        $path_core_autoload = $path . '/core/vendor/autoload.php';
+        $path_autoload = $path . '/vendor/autoload.php';
+
+        if (is_dir($path)) {
+            return is_file($path_core_autoload) ?
+                $path_core_autoload : (is_file($path_autoload) ? $path_autoload : null);
         }
         else {
             return null;
