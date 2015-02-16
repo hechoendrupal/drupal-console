@@ -36,21 +36,6 @@ $application->setDirectoryRoot($consoleRoot);
 $errorMessages = [];
 $class_loader = null;
 
-// Try to find the Drupal autoloader.
-if (file_exists(getcwd() . '/core/vendor/autoload.php')) {
-  if (!file_exists(getcwd() . '/sites/default/settings.php')) {
-    $errorMessages[] = $translatorHelper->trans('application.site.errors.settings');
-  }
-  else {
-    $class_loader = require getcwd() . '/core/vendor/autoload.php';
-    $application->setBooted(true);
-  }
-} else {
-  $errorMessages[] = $translatorHelper->trans('application.site.errors.directory');
-}
-
-$application->addErrorMessages($errorMessages);
-
 $helpers = [
   'bootstrap' => new DrupalBootstrapHelper(),
   'finder' => new BootstrapFinderHelper(new Finder()),
