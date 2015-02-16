@@ -4,8 +4,6 @@ use Drupal\AppConsole\Console\Shell;
 use Drupal\AppConsole\Console\Application;
 use Drupal\AppConsole\Command\Helper\ShellHelper;
 use Drupal\AppConsole\Command\Helper\KernelHelper;
-use Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper;
-use Drupal\AppConsole\Command\Helper\BootstrapFinderHelper;
 use Drupal\AppConsole\Command\Helper\DialogHelper;
 use Drupal\AppConsole\Command\Helper\RegisterCommandsHelper;
 use Symfony\Component\Finder\Finder;
@@ -18,6 +16,7 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Drupal\AppConsole\Config;
+use Drupal\AppConsole\Command\Helper\DrupalAutoload;
 
 set_time_limit(0);
 
@@ -37,15 +36,14 @@ $errorMessages = [];
 $class_loader = null;
 
 $helpers = [
-  'bootstrap' => new DrupalBootstrapHelper(),
-  'finder' => new BootstrapFinderHelper(new Finder()),
   'kernel' => new KernelHelper(),
   'shell' => new ShellHelper(new Shell($application)),
   'dialog' => new DialogHelper(),
   'register_commands' => new RegisterCommandsHelper($application),
   'stringUtils' => new StringUtils(),
   'validators' => new Validators(),
-  'translator' => $translatorHelper
+  'translator' => $translatorHelper,
+  'drupal-autoload' => new DrupalAutoload(),
 ];
 
 $application->addHelpers($helpers);
