@@ -93,6 +93,11 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     return $migrations;
   }
 
+  public function getRestDrupalConfig(){
+    return $this->getConfigFactory()
+      ->get('rest.settings')->get('resources') ?: [];
+  }
+
   /**
    * [geRest get a list of Rest Resouces]
    * @param  boolean $status return Rest Resources by status
@@ -101,10 +106,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
   public function getRestResources($rest_status = false)
   {
 
-    $available_resources = array();
-
-    // Get the list of enabled and disabled resources.
-    $config = \Drupal::config('rest.settings')->get('resources') ?: array();
+    $config = $this->getRestDrupalConfig();
 
     $resourcePluginManager = $this->getPluginManagerRest();
     $resources = $resourcePluginManager->getDefinitions();
@@ -154,6 +156,24 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     return $this->route_provider;
   }
 
+  /**
+   * @param $rest
+   * @param $rest_resources_ids
+   * @param $translator
+   * @return mixed
+   */
+  public function validateRestResource($rest, $rest_resources_ids, $translator)
+  {
+    if (in_array($rest, $rest_resources_ids)) {
+      return $rest;
+    } else {
+      throw new \InvalidArgumentException(sprintf($translator->trans('commands.rest.disable.messages.invalid-rest-id'), $rest));
+    }
+  }
+
+  /**
+   * @return \Drupal\Core\Config\ConfigFactoryInterface
+   */
   public function getConfigFactory(){
     return $this->getContainer()->get('config.factory');
   }
@@ -181,6 +201,15 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
   public function getHttpClient() {
     return $this->getContainer()->get('http_client');
   }
+
+  public function getSerializerFormats() {
+    return $this->getContainer()->getParameter('serializer.formats');
+  }
+
+  public function getAuthenticationProviders() {
+    return $this->getContainer()->get('authentication')->getSortedProviders();
+  }
+
 
   public function validateModuleExist($module_name)
   {

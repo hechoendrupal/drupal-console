@@ -17,52 +17,50 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
+use Drupal\AppConsole\Config;
 
 set_time_limit(0);
 
-// Try to find the Console autoloader.
-if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
-  require __DIR__ . '/../vendor/autoload.php';
-}
-else if (file_exists(__DIR__ . '/../../../vendor/autoload.php')) {
-  require __DIR__ . '/../../../vendor/autoload.php';
-}
-else {
-  echo 'Something goes wrong with your archive'.PHP_EOL.
-    'Try downloading again'.PHP_EOL;
-  exit(1);
-}
+$consoleRoot = __DIR__ . '/../';
+require $consoleRoot . '/vendor/autoload.php';
 
-$directoryRoot = __DIR__ . '/../';
-
-$yaml = new Parser();
-$config = $yaml->parse(file_get_contents($directoryRoot.'config.yml'));
-
-$homeDirectory = trim(getenv('HOME') ?: getenv('USERPROFILE'));
-if (file_exists($homeDirectory.'/.console/config.yml')){
-  $userConfig = $yaml->parse(file_get_contents($homeDirectory.'/.console/config.yml'));
-  unset($userConfig['application']['name']);
-  unset($userConfig['application']['version']);
-  $config = array_replace_recursive($config, $userConfig);
-}
+$consoleConfig  = new Config(new Parser(), $consoleRoot);
+$config = $consoleConfig->getConfig();
 
 $translatorHelper = new TranslatorHelper();
-$translatorHelper->loadResource($config['application']['language'], $directoryRoot);
+$translatorHelper->loadResource($config['application']['language'], $consoleRoot);
 
 $application = new Application($config);
-$application->setDirectoryRoot($directoryRoot);
+$application->setDirectoryRoot($consoleRoot);
+
+$errorMessages = [];
+$class_loader = null;
+
+// Try to find the Drupal autoloader.
+if (file_exists(getcwd() . '/core/vendor/autoload.php')) {
+  if (!file_exists(getcwd() . '/sites/default/settings.php')) {
+    $errorMessages[] = $translatorHelper->trans('application.site.errors.settings');
+  }
+  else {
+    $class_loader = require getcwd() . '/core/vendor/autoload.php';
+    $application->setBooted(true);
+  }
+} else {
+  $errorMessages[] = $translatorHelper->trans('application.site.errors.directory');
+}
+
+$application->addErrorMessages($errorMessages);
 
 $helpers = [
-  //'bootstrap' => new DrupalBootstrapHelper(),
-  //    'finder' => new BootstrapFinderHelper(new Finder()),
+  'bootstrap' => new DrupalBootstrapHelper(),
+  'finder' => new BootstrapFinderHelper(new Finder()),
   'kernel' => new KernelHelper(),
   'shell' => new ShellHelper(new Shell($application)),
   'dialog' => new DialogHelper(),
   'register_commands' => new RegisterCommandsHelper($application),
   'stringUtils' => new StringUtils(),
   'validators' => new Validators(),
-  'translator' => $translatorHelper,
-  'drupal-autoload' => new \Drupal\AppConsole\Command\Helper\DrupalAutoload(new Finder()),
+  'translator' => $translatorHelper
 ];
 
 $application->addHelpers($helpers);
@@ -81,6 +79,7 @@ $dispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $
           $dependency
         );
         $command->showMessage($output, $errorMessage, 'error');
+        $event->disableCommand();
       }
     }
   }
@@ -92,9 +91,16 @@ $dispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $
     $command->showMessage($output, $welcomeMessage);
   }
 });
+
 $dispatcher->addListener(ConsoleEvents::TERMINATE, function (ConsoleTerminateEvent $event) use ($translatorHelper) {
   $output = $event->getOutput();
   $command = $event->getCommand();
+
+  if ($event->getExitCode()!=0) {
+    return;
+  }
+
+  $completedMessageKey = 'application.console.messages.completed';
 
   if ('self-update' == $command->getName()) {
     return;
@@ -109,15 +115,17 @@ $dispatcher->addListener(ConsoleEvents::TERMINATE, function (ConsoleTerminateEve
 
   if (method_exists($command,'getGenerator') && method_exists($command,'showGeneratedFiles')) {
     $files = $command->getGenerator()->getFiles();
-    $command->showGeneratedFiles($output, $files);
+    if ($files) {
+      $command->showGeneratedFiles($output, $files);
+    }
+    $completedMessageKey = 'application.console.messages.generated.completed';
   }
 
-  $completeMessageKey = 'application.console.messages.completed';
-  $completeMessage = $translatorHelper->trans($completeMessageKey);
+  $completedMessage = $translatorHelper->trans($completedMessageKey);
 
-  if ($completeMessage != $completeMessageKey) {
+  if ($completedMessage != $completedMessageKey) {
     if (method_exists($command,'showMessage')) {
-      $command->showMessage($output, $completeMessage);
+      $command->showMessage($output, $completedMessage);
     }
   }
 });

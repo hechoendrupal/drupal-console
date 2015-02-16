@@ -85,6 +85,7 @@ class PluginBlockGeneratorTest extends GeneratorTest
         'name' => 'foo',
         'type' => 'textfield',
         'label' => 'Foo',
+        'options' => 'foo',
         'description' => 'Foo',
       ]
     ];

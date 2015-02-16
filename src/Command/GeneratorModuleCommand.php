@@ -33,6 +33,7 @@ class GeneratorModuleCommand extends GeneratorCommand
       ->addOption('core','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.module.options.core'))
       ->addOption('package','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.module.options.package'))
       ->addOption('controller', '', InputOption::VALUE_NONE, $this->trans('commands.generate.module.options.controller'))
+      ->addOption('dependencies', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.module.options.dependencies'))
       ->addOption('test', '', InputOption::VALUE_NONE, $this->trans('commands.generate.module.options.test'))
     ;
   }
@@ -55,18 +56,40 @@ class GeneratorModuleCommand extends GeneratorCommand
     $core = $input->getOption('core');
     $package = $input->getOption('package');
     $controller = $input->getOption('controller');
+    /**
+     * Modules Dependencies
+     *
+     */
+    $dependencies = $validators->validateModuleDependencies($input->getOption('dependencies'));
+    // Check if all module dependencies are availables or not
+    if ( !empty($dependencies)) {
+      $checked_dpendencies = $this->checkDependencies($dependencies['success']);
+      if( !empty($checked_dpendencies['drupal_modules']) ){
+        $this->addMessage(
+          sprintf($this->trans('commands.generate.module.warnings.module-unavailable'), implode(', ', $checked_dpendencies['drupal_modules']))
+        );
+      }
+      $dependencies = $dependencies['success'];
+    }
+    /**
+     * Test
+     */
     $test = $input->getOption('test');
+
+    // $checked_dpendencies = $this->checkDependencies($dependencies['success']);
+    // $this->addMessage($this->trans('commands.generate.module.warnings.module-unavailable'), implode(', ', $checked_dpendencies['drupal_modules'])));
 
     $generator = $this->getGenerator();
     $generator->generate(
-            $module,
-            $machine_name,
-            $module_path,
-            $description,
-            $core,
-            $package,
-            $controller,
-            $test
+      $module,
+      $machine_name,
+      $module_path,
+      $description,
+      $core,
+      $package,
+      $controller,
+      $dependencies,
+      $test
     );
   }
 
@@ -121,14 +144,31 @@ class GeneratorModuleCommand extends GeneratorCommand
       $input->setOption('machine-name', $machine_name);
     }
 
-    $drupalBoostrap = $this->getHelperSet()->get('bootstrap');
-    $module_path_default = $drupalBoostrap->getDrupalRoot() . "/modules/custom";
-
     $module_path = $input->getOption('module-path');
+    $drupalBootstrap = $this->getHelperSet()->get('bootstrap');
+    $drupal_root = $drupalBootstrap->getDrupalRoot();
     if (!$module_path) {
-      $module_path = $dialog->ask($output, $dialog->getQuestion($this->trans('commands.generate.module.questions.module-path'), $module_path_default), $module_path_default);
+      $module_path_default = "/modules/custom";
+
+      $module_path = $dialog->askAndValidate(
+        $output,
+        $dialog->getQuestion($this->trans('commands.generate.module.questions.module-path'), $module_path_default),
+        function ($module_path) use ($drupal_root, $machine_name){
+          $module_path = ($module_path[0]!='/'?'/':'') . $module_path;
+          $full_path = $drupal_root . $module_path . '/' . $machine_name;
+          if (file_exists($full_path)) {
+            throw new \InvalidArgumentException(sprintf($this->trans('commands.generate.module.errors.directory-exists'), $full_path));
+          }
+          else {
+            return $module_path;
+          }
+        },
+        false,
+        $module_path_default,
+        null
+      );
     }
-    $input->setOption('module-path', $module_path);
+    $input->setOption('module-path', $drupal_root . $module_path);
 
     $description = $input->getOption('description');
     if (!$description) {
@@ -154,6 +194,23 @@ class GeneratorModuleCommand extends GeneratorCommand
     }
     $input->setOption('controller', $controller);
 
+    $dependencies = $input->getOption('dependencies');
+    if (!$dependencies) {
+      if ( $dialog->askConfirmation($output,$dialog->getQuestion($this->trans('commands.generate.module.questions.dependencies'), 'yes', '?'), true)) {
+        $dependencies = $dialog->askAndValidate(
+          $output,
+          $dialog->getQuestion($this->trans('commands.generate.module.options.dependencies'), ''),
+          function ($dependencies){
+            return $dependencies;
+          },
+          false,
+          null,
+          null
+        );
+      }
+    }
+    $input->setOption('dependencies', $dependencies);
+
     if ($controller){
       $test = $input->getOption('test');
       if (!$test && $dialog->askConfirmation($output, $dialog->getQuestion($this->trans('commands.generate.module.questions.test'), 'yes', '?'), true)) {
@@ -164,6 +221,28 @@ class GeneratorModuleCommand extends GeneratorCommand
       $test = false;
     }
     $input->setOption('test', $test);
+  }
+
+  /** 
+   * private functions
+   *
+   */
+  private function checkDependencies(array $dependencies) {
+    $checked_dependecies = array (
+      'local_modules'  => array(),
+      'drupal_modules' => array(),
+      'no_modules'     => array()
+    );
+    $local_modules = null; //$local_modules = $this->getModules(true);
+    foreach ($dependencies as $key => $module) {
+      if (in_array($module,$local_modules)) {
+        $checked_dependecies['local_modules'][] = $module;
+      } else {
+        // here we have to check if this module is drupal.org using the api.
+        $checked_dependecies['drupal_modules'][] = $module;
+      }
+    }
+    return $checked_dependecies;
   }
 
   /**

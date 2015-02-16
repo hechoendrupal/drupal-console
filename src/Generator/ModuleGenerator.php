@@ -9,7 +9,7 @@ namespace Drupal\AppConsole\Generator;
 class ModuleGenerator extends Generator
 {
 
-  public function generate($module, $machine_name, $dir, $description, $core, $package, $controller, $tests)
+  public function generate($module, $machine_name, $dir, $description, $core, $package, $controller, $dependencies, $tests)
   {
     $dir .= '/' . $machine_name;
     if (file_exists($dir)) {
@@ -32,6 +32,7 @@ class ModuleGenerator extends Generator
       'core'    => $core,
       'description'    => $description,
       'package' => $package,
+      'dependencies' => $dependencies
     );
 
     $this->renderFile(

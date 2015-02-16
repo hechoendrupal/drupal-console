@@ -49,7 +49,8 @@ use Drupal\user\UserInterface;
  *   links = {
  *     "canonical" = "entity.{{ entity_name }}.canonical",
  *     "edit-form" = "entity.{{ entity_name }}.edit_form",
- *     "delete-form" = "entity.{{ entity_name }}.delete_form"
+ *     "delete-form" = "entity.{{ entity_name }}.delete_form",
+ *     "collection" = "entity.{{ entity_name }}.collection"
  *   },
  *   field_ui_base_route = "{{ entity_name }}.settings"
  * )
@@ -167,7 +168,7 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
         'weight' => -4,
       ))
       ->setDisplayOptions('form', array(
-        'type' => 'string',
+        'type' => 'string_textfield',
         'weight' => -4,
       ))
       ->setDisplayConfigurable('form', TRUE)
