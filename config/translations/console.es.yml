@@ -141,6 +141,7 @@ commands:
         core: Core version
         package: Module package
         controller: Default Controller
+        dependencies: Module dependencies (i.e. context, galleria, panels)
         test: Generate a test class
       questions:
         module: Enter the new module name
@@ -151,6 +152,8 @@ commands:
         package: Enter package name
         controller: Do you want to generate a default Controller
         test: Do you want to generate a unit test class
+      warnings:
+        module-unavailable: Warning The following modules are not already available in your local environment "%s" 
     plugin:
       block:
         description: Generate a plugin block
