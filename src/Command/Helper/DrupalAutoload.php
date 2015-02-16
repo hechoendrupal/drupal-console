@@ -8,6 +8,7 @@ class DrupalAutoload extends Helper
 {
 
     /**
+     * @param string $drupal_root
      * @return null | string
      */
     public function findAutoload($drupal_root = false)
