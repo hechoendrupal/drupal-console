@@ -88,10 +88,13 @@ abstract class Command extends BaseCommand {
   public function showGeneratedFiles($output, $files)
   {
     if ($files) {
-      $this->showMessage($output, $this->trans('application.console.messages.generated-files'));
+      $this->showMessage(
+        $output,
+        $this->trans('application.console.messages.generated.files')
+      );
       $output->writeln(sprintf(
         '<info>%s:</info><comment>%s</comment>',
-        $this->trans('application.console.messages.site-path'),
+        $this->trans('application.site.messages.path'),
         DRUPAL_ROOT
       ));
 

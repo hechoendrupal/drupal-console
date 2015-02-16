@@ -10,12 +10,9 @@ namespace Drupal\AppConsole\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Core\Cache\Cache;
 
 class CacheRebuildCommand extends ContainerAwareCommand
 {
-
-  protected $caches = [];
 
   protected function configure()
   {
@@ -23,49 +20,70 @@ class CacheRebuildCommand extends ContainerAwareCommand
       ->setName('cache:rebuild')
       ->setDescription($this->trans('commands.cache.rebuild.description'))
       ->setAliases(['cr'])
-      ->addOption('cache', null, InputOption::VALUE_NONE, $this->trans('commands.cache.rebuild.options.cache'))
+      ->addOption('cache', null, InputOption::VALUE_OPTIONAL, $this->trans('commands.cache.rebuild.options.cache'), '')
     ;
   }
 
-  protected function execute(InputInterface $input, OutputInterface $output)
-  {
+  protected function execute(InputInterface $input, OutputInterface $output) {
     require_once DRUPAL_ROOT . '/core/includes/utility.inc';
+    $validators = $this->getHelperSet()->get('validators');
 
+    // Get the --cache option and make validation
+    $cache = $input->getOption('cache');
+    $validated_cache = $validators->validateCache($cache);
+    if (!$validated_cache) {
+      throw new \InvalidArgumentException(
+        sprintf(
+          $this->trans('commands.cache.rebuild.messages.invalid_cache'),
+          $cache
+        )
+      );
+      return;
+    }
+
+    // Start rebuilding cache
     $output->writeln('[+] <comment>'.$this->trans('commands.cache.rebuild.messages.rebuild').'</comment>');
 
+    // Get data needed to rebuild cache
     $kernelHelper = $this->getHelper('kernel');
     $classLoader = $kernelHelper->getClassLoader();
     $request = $kernelHelper->getRequest();
 
-    $cache = $input->getOption('cache');
-
+    // Check cache to rebuild
     if ($cache == 'all') {
+      // If cache is all, then clear all caches
       \drupal_rebuild($classLoader, $request);
     }
     else {
-      $caches = $this->getCaches();
+      // Else, clear the selected cache
+      $caches = $validators->getCaches();
       $caches[$cache]->deleteAll();
     }
 
+    // Finish rebuiilding cache
     $output->writeln('[+] <info>'.$this->trans('commands.cache.rebuild.messages.completed').'</info>');
   }
 
-  protected function interact(InputInterface $input, OutputInterface $output)
-  {
+  protected function interact(InputInterface $input, OutputInterface $output) {
     $dialog = $this->getDialogHelper();
 
-    $caches = $this->getCaches();
-    $cache_keys = array_keys($caches);
-    $cache_keys[] = 'all';
+    // Get the cache option
+    $cache = $this->getCacheOption($input, $output, $dialog);
+    $input->setOption('cache', $cache);
+  }
 
-    // --cache option
+  private function getCacheOption($input, $output, $dialog) {
+    $validators = $this->getHelperSet()->get('validators');
+
+    // Get the --cache option and make user interaction with validation
     $cache = $input->getOption('cache');
     if (!$cache) {
       $cache = $dialog->askAndValidate(
         $output,
-        $dialog->getQuestion($this->trans('commands.cache.rebuild.questions.cache'),'all'),
-        function ($cache) use($cache_keys) {
-          if (!in_array($cache, array_values($cache_keys))) {
+        $dialog->getQuestion($this->trans('commands.cache.rebuild.questions.cache'), 'all'),
+        function ($cache) use ($cache_keys, $validators) {
+          $validated_cache = $validators->validateCache($cache);
+          if (!$validated_cache) {
             throw new \InvalidArgumentException(
               sprintf(
                 $this->trans('commands.cache.rebuild.messages.invalid_cache'),
@@ -73,7 +91,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
               )
             );
           }
-          return $cache;
+          return $validated_cache;
         },
         false,
         'all',
@@ -81,17 +99,6 @@ class CacheRebuildCommand extends ContainerAwareCommand
       );
     }
 
-    $input->setOption('cache', $cache);
-  }
-
-  protected function getCaches()
-  {
-    if (empty($this->caches)) {
-      foreach (Cache::getBins() as $name => $bin) {
-        $this->caches[$name] = $bin;
-      }
-    }
-
-    return $this->caches;
+    return $cache;
   }
 }

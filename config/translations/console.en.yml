@@ -1,12 +1,15 @@
 application:
   console:
     messages:
-      completed: You can now start using the generated code!
-      generated-files: Generated files
-      site-path: Site path
+      completed: The command was executed succesfully!
+      generated:
+        files: Generated files
+        completed: You can now start using the generated code!
     errors:
       invalid-command: Command "%s" is not defined.
   site:
+    messages:
+      path: Site path
     errors:
       directory: In order to list all of the available commands, you should run this inside a drupal root directory.
       settings: In order to list all of the available commands you should install drupal first.
@@ -150,6 +153,7 @@ commands:
         core: Core version
         package: Module package
         controller: Default Controller
+        dependencies: Module dependencies separated by commas (i.e. context, panels)
         test: Generate a test class
       questions:
         module: Enter the new module name
@@ -159,7 +163,12 @@ commands:
         core: Enter Drupal Core version
         package: Enter package name
         controller: Do you want to generate a default Controller
+        dependencies: Would you like to add module depencencies
         test: Do you want to generate a unit test class
+      warnings:
+        module-unavailable: Warning The following modules are not already available in your local environment "%s" 
+      errors:
+        directory-exists: The target directory "%s" is not empty.
     plugin:
       block:
         description: Generate a plugin block
@@ -315,6 +324,32 @@ commands:
         import-skipped: Import "%s" was skipped due to unfulfilled dependencies
         wrong-source: 'Upgrading from this version of Drupal is not supported.'
   rest:
+    enable:
+      description: Enable a rest resource for the application
+      arguments:
+        resource-id: Rest ID
+        states: REST States to enable for Rest resource
+        autorizations: Autorizations providers enabled for Rest Resource
+
+      questions:
+        resource-id: Rest ID
+      messages:
+        invalid-rest-id: Rest ID %s is invalid
+        formats: Available serialization formats
+        authentication-providers: Available Authentication Providers
+        selected-state: Selected State
+        selected-formats: Selected formats
+        selected-authentication-providers: Selected Authentication Providers
+    disable:
+      description: Disable a rest resource for the application
+      arguments:
+        resource-id: Rest ID
+        states: REST States to disable for Rest resource
+
+      questions:
+        resource-id: Rest ID
+      messages:
+        invalid-rest-id: Rest ID %s is invalid
     debug:
       description: Display current rest resource for the application
       arguments:
@@ -356,4 +391,15 @@ commands:
     help: Update the console command to the latest version.
     messages:
       success: The console has been updated to the latest version.
+  site:
+    mode:
+      description: Switch system performance configuration
+      arguments:
+        environment: Enviroment name
+      messages:
+        configuration: Configuration
+        configuration-key: Configuration key
+        original: Original Value
+        updated: Updated Value
+
 

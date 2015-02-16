@@ -8,9 +8,12 @@ namespace Drupal\AppConsole\Utils;
 
 use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Console\Helper\HelperInterface;
+use Drupal\Core\Cache\Cache;
 
 class Validators extends Helper implements HelperInterface
 {
+
+  private $caches = [];
 
   const REGEX_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+$/';
   const REGEX_MACHINE_NAME = '/^[a-z0-9_]+$/';
@@ -35,7 +38,7 @@ class Validators extends Helper implements HelperInterface
     if (preg_match(self::REGEX_CLASS_NAME, $class_name)) {
       return $class_name;
     } else {
-      throw new \InvalidArgumentException(sprintf('Class name "%s" is invalid.', $class_name));
+      throw new \InvalidArgumentException(sprintf('Class name "%s" is invalid, it must contain only lower and upper letters, numbers and underscores.', $class_name));
     }
   }
 
@@ -43,7 +46,7 @@ class Validators extends Helper implements HelperInterface
     if (preg_match(self::REGEX_MACHINE_NAME, $machine_name)) {
       return $machine_name;
     } else {
-      throw new \InvalidArgumentException(sprintf('Machine name "%s" is invalid.', $machine_name));
+      throw new \InvalidArgumentException(sprintf('Machine name "%s" is invalid, it must contain only lowercase letters, numbers and underscores.', $machine_name));
     }
   }
 
@@ -51,7 +54,7 @@ class Validators extends Helper implements HelperInterface
   {
     if (!is_dir($module_path)) {
 
-      if($create && mkdir($module_path,0755, true)){
+      if($create && mkdir($module_path,0755, true)) {
         return $module_path;
       }
 
@@ -62,6 +65,31 @@ class Validators extends Helper implements HelperInterface
     }
 
     return $module_path;
+  }
+
+  public function validateModuleDependencies($dependencies) {
+
+    $dependencies_checked = array(
+      'success' => array(),
+      'fail'    => array()
+    );
+
+    if (empty($dependencies) ) {
+      return array();
+    } 
+
+    $dependencies = explode(',', $this->removeSpaces($dependencies));
+    foreach ($dependencies as $key => $module) {
+      if (!empty($module)) { 
+        if (preg_match(self::REGEX_MACHINE_NAME, $module)) {
+          $dependencies_checked['success'][] = $module;
+        } else {
+          $dependencies_checked['fail'][] = $module;
+        }
+      }
+    }
+    
+    return $dependencies_checked;
   }
 
   /**
@@ -102,6 +130,23 @@ class Validators extends Helper implements HelperInterface
   }
 
   /**
+   * Validate if a string is a valid cache
+   * @param string $cache The cache name
+   * @return mixed The cache name if valid or FALSE if not valid
+   */
+  public function validateCache($cache) {
+    // Get the valid caches
+    $caches = $this->getCaches();
+    $cache_keys = array_keys($caches);
+    $cache_keys[] = 'all';
+
+    if (!in_array($cache, array_values($cache_keys))) {
+      return FALSE;
+    }
+    return $cache;
+  }
+
+  /**
    * Validates if class name have spaces between words
    * @param string $name
    * @return string
@@ -124,5 +169,18 @@ class Validators extends Helper implements HelperInterface
   public function getName()
   {
     return "validators";
+  }
+
+  /**
+   * Auxiliary function to get all available drupal caches
+   * @return array The all available drupal caches
+   */
+  public function getCaches() {
+    if (empty($this->caches)) {
+      foreach (Cache::getBins() as $name => $bin) {
+        $this->caches[$name] = $bin;
+      }
+    }
+    return $this->caches;
   }
 }
