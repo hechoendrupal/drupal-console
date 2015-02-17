@@ -23,20 +23,34 @@ class TranslatorHelper extends Helper
      */
     private $translator;
 
-    public function loadResource($language, $directoryRoot)
-    {
-        if (!file_exists($directoryRoot . 'config/translations/console.' . $language . '.yml')) {
-            $language = 'en';
-        }
-        $this->language = $language;
-
-        $this->translator = new Translator($language);
-        $this->translator->addLoader('yaml', new YamlFileLoader());
+    private function addResource($resource) {
         $this->translator->addResource(
           'yaml',
-          $directoryRoot . 'config/translations/console.' . $language . '.yml',
-          $language
+          $resource,
+          $this->language
         );
+    }
+
+    public function loadResource($language, $directoryRoot)
+    {
+        $resource_fallback = $directoryRoot . 'config/translations/console.en.yml';
+        $resource_language = $directoryRoot . 'config/translations/console.'.$language.'.yml';
+
+        if (!file_exists($resource_language)) {
+            $language = 'en';
+            $resource_language = $resource_fallback;
+        }
+        $this->language = $language;
+        $this->translator = new Translator($this->language);
+        $this->translator->addLoader('yaml', new YamlFileLoader());
+
+        //Fallback to English (en)
+        $this->addResource($resource_fallback);
+
+        //Load user language
+        if ($resource_language != $resource_fallback) {
+            $this->addResource($resource_language);
+        }
     }
 
     public function addResourceTranslationsByModule($module)
@@ -45,11 +59,7 @@ class TranslatorHelper extends Helper
           '/config/translations/console.' . $this->language . '.yml';
 
         if (file_exists($resource)) {
-            $this->translator->addResource(
-              'yaml',
-              $resource,
-              $this->language
-            );
+            $this->addResource($resource);
         }
     }
 
