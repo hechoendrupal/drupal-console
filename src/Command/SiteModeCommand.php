@@ -41,13 +41,13 @@ class SiteModeCommand extends ContainerAwareCommand
 
         $output->writeln(sprintf(
           ' <info>%s:</info> <comment>%s</comment>',
-          $this->trans('commands.site.mode.messages.configuration-key'),
+          $this->trans('commands.site.mode.messages.configuration'),
           $configName
         ));
 
         $table->setHeaders(
           [
-            $this->trans('commands.site.mode.messages.configuration'),
+            $this->trans('commands.site.mode.messages.configuration-key'),
             $this->trans('commands.site.mode.messages.original'),
             $this->trans('commands.site.mode.messages.updated')
           ]);

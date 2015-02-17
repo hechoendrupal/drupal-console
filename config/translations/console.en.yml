@@ -65,7 +65,7 @@ commands:
         key: Key
         value: Value
       messages:
-        configuration: Configuration
+        configuration: Configuration name
         configuration-key: Configuration key
         original: Original Value
         updated: Override Value
@@ -408,7 +408,7 @@ commands:
       arguments:
         environment: Enviroment name
       messages:
-        configuration: Configuration
+        configuration: Configuration name
         configuration-key: Configuration key
         original: Original Value
         updated: Override Value
