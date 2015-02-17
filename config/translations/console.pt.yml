@@ -1,338 +1,212 @@
-application:
-  console:
-    messages:
-      completed: You can now start using the generated code!
-    errors:
-      invalid-command: Command "%s" is not defined.
-  site:
-    errors:
-      directory: In order to list all of the available commands, you should run this inside a drupal root directory.
-      settings: In order to list all of the available commands you should install drupal first.
-commands:
-  common:
-    options:
-      module: The Module name.
-      services: Load services from the container.
-      tags: Set service tags from the container.
-      inputs: Create inputs in a form.
-    questions:
-      module: Enter the module name
-      confirm: Do you confirm generation
-      canceled: Command generation canceled.
-      services:
-        confirm: Do you want to load services from the container
-        message: |
+common:
+  options:
+    module: O nome do módulo.
+    services: Carrega serviços do container.
+    inputs: Cria entradas de formulário.
+  questions:
+    module: Digite o nome do módulo
+    confirm: Você confirma a criação
+    canceled: Criação de comando cancelada.
+    services:
+      confirm: Você deseja carregar serviços do container
+      message: |
 
-          Type the service name or use keyup or keydown.
-          This is optional, press <info>enter</info> to <info>continue</info>
-        name: Enter your service
-      inputs:
-        confirm: Do you want to generate a form structure
-        label: Input label
-        machine_name: Input machine name
-        type: Type
-        invalid: Field Type "%s" is invalid.
-        description: Description
-    errors:
-      module-dependency: Missing module dependency "%s"
-      class-name-empty: The Class name can not be empty
+        Digite o nome do serviçõ ou use as setas para cima e para baixo
+        Isto é opcional, precione <info>enter</info> para <info>continuar</info>
+      name: Digite seu serviço
+    inputs:
+      confirm: Você deseja de gerar uma estrutura de formulário
+      label: Label do input
+      machine_name: Nome de máquina do input
+      type: Tipo
+      invalid: Tipo de field "%s" inválido.
+command:
   cache:
     rebuild:
-      description: Rebuild and clear all site caches.
+      description: Reconstruir e limpar todos os caches do site.
       options:
-        cache: Only clear a specific cache.
+        cache: Apenas limpar um cache específico.
       messages:
-        welcome: Welcome to the cache:rebuild command
-        rebuild: Rebuilding cache(s), wait a moment please.
-        completed: Done clearing cache(s).
-        invalid_cache: Cache "%s" is invalid.
+        welcome: Bem-vindo ao comando cache:rebuild.
+        rebuild: Recriando cache(s), favor aguarde um momento.
+        completed: Limpesa de cache(s) finalizada.
+        invalid_cache: Cache "%s" e invalido.
       questions:
-        cache: Select cache.
+        cache: Selecione o cache.
   config:
     debug:
-      description: Show the current configuration.
+      description: Exibe a configuração atual.
       arguments:
-        config-name: Configuration name.
+        config-name: Nome da configuração.
   container:
     debug:
       description: Exibe serviços atuais para um aplicativo.
       messages:
-        service_id: Service ID
-        class_name: Class Name
+        service_id: ID do serviço
+        class_name: Nome da classe
   drush:
-    description: Run drush from console.
-    help: Use the interactive mode for a better experience --shell.
+    description: Roda drush via console.
+    help: Use o modo interativo para uma melhor experiência --shell.
     arguments:
-      args: Drush arguments.
+      args: argumentos para o Drush.
     messages:
-      not_found: Drush command not found.
+      not_found: Comando Drush não encontrado.
   generate:
-    authentication:
-      provider:
-        description: Generate an Authentication Provider
-        help: The <info>generate:authentication:provider</info> command helps you generate a new Authentication Provider.
-        options:
-        module: common.options.module
-        class-name: Authentication Provider class
     command:
-      description: Generate commands for the console.
-      help: The <info>generate:command</info> command helps you generate a new command.
-      welcome: Welcome to the Drupal Command generator
+      description: Cria comandos via console.
+      help: O comando <info>generate:command</info> te ajuda a criar um novo comando.
+      welcome: Bem-vindo ao Criador de comandos do Drupal.
       options:
         module: common.options.module
-        class-name: Command Class name
-        command: Command name
-        container: Access the services container
+        class-name: Nome da classe do comando
+        command: Nome do comando
+        container: Acessa o container de serviços
       questions:
         module: common.questions.module
-        class-name: Enter the Controller class name
-        command: Enter the Command name
-        container: Do you need to access the service container
+        class-name: Digite o nome da classe do comando.
+        command: Digite o nome do comando.
+        container: Você precisa de acesso o container de serviços?
     controller:
-      description: Generate & Register a controller
-      help: The <info>generate:controller</info> command helps you generate a new controller.
-      welcome: Welcome to the Drupal Controller generator
+      description: Cria e Registra um controller
+      help: O comando <info>generate:controller</info> ajuda você a criar um novo controller.
+      welcome: Bem-vindo ao Criador de controller do Drupal.
       options:
         module: common.options.module
-        class-name: Controller Class name
-        method-name: The action method name
-        route: The route path
+        class-name: Nome da classe do Controller
+        method-name: O nome do método
+        route: O caminho da rota
         services: common.options.services
-        test: Generate a test class
+        test: Criar uma classe de teste
       questions:
         module: common.questions.module
-        class-name: Enter the Controller class name
-        method-name: Enter the action method name
-        route: Enter the route path
+        class-name: Digite o nome da classe do Controller
+        method-name: Digite o nome do método
+        route: Digite o caminho da rota
         services: common.questions.services
-        test: Do you want to generate a unit test class
+        test: Você deseja criar uma classe de teste unitário?
     entity:
-      description: Generate a new "%s"
-      help: The <info>"%s"</info> command helps you generate a new "%s"
-      welcome: Welcome to the Drupal entity generator
+      description: Cria uma nova "%s"
+      help: O comando <info>"%s"</info> ajuda você a criar uma nova "%s"
+      welcome: Bem-vindo ao Criador de entidade do Drupal.
       options:
         module: common.options.module
-        entity-class: The entity class name
-        entity-name: The name of the entity
+        entity-class: O nome da classe da entidade
+        entity-name: O nome da entidade
       questions:
         module: common.questions.module
-        entity-class: Enter the entity class name
-        entity-name: Enter the entity name
+        entity-class: Digite o nome da classe da entidade
+        entity-name: Digita o nome da entidade
     form:
-      description: Generate a new "%s"
-      help: The <info>"%s"</info> command helps you generate a new "%s"
-      welcome: Welcome to the Drupal form generator
+      description: Cria um novo "%s"
+      help: O comando <info>"%s"</info> ajuda você a criar um novo "%s"
+      welcome: Bem-vindo ao Criador de formulário do Drupal.
       options:
         module: common.options.module
-        class-name: The form class name
-        form-id: The Form id
+        class-name: O nome da classe do Formulário
+        form-id: O id do formulário
         services: common.options.services
         inputs: common.options.inputs
-        routing: Update routing
+        routing: Atualizar roteamento
       questions:
         module: common.questions.module
-        class-name: Enter the Form Class name
-        form-id: Enter the Form id
+        class-name: Digite o nome da classe do fomrulário
+        form-id: Digite o id do formulário
         services: common.questions.services
         inputs: common.questions.inputs
-        routing: Update routing file
+        routing: Arquivo de atualização de roteamento
     module:
-      description: Generate a module.
-      help: The <info>generate:module</info> command helps you generates a new module.
-      welcome: Welcome to the Drupal module generator
+      description: Criar um módulo.
+      help: O comando <info>generate:module</info> ajuda você a criar um novo módulo.
+      welcome: Bem-vindo ao Criador de módulo do Drupal.
       options:
-        module: The Module name
-        machine-name: The machine name (lowercase and underscore only)
-        module-path: The path of the module
-        description: Module description
-        core: Core version
-        package: Module package
-        controller: Default Controller
-        test: Generate a test class
+        module: O nome do módulo
+        machine-name: O nome de máquina (apenas minúsculas e sublinhado)
+        module-path: O caminho do módulo
+        description: Descrição do módulo
+        core: Versão do core
+        package: Pacote do módulo
+        controller: Controller padrão
+        test: Criar uma classe de teste
+        structure: Gerar estrutura de diretório
       questions:
-        module: Enter the new module name
-        machine-name: Enter the module machine name
-        module-path: Enter the module Path
-        description: Enter module description
-        core: Enter Drupal Core version
-        package: Enter package name
-        controller: Do you want to generate a default Controller        
-        test: Do you want to generate a unit test class
+        module: Digite o nome do módulo
+        machine-name: Digite o nome de máquina do módulo
+        module-path: Digite o caminho do módulo
+        description: Digite a descrição do módulo
+        core: Digite a versão do core do Drupal
+        package: Digite o nome do pacote
+        controller: Você deseja criar um Controller padrão
+        test: Você deseja criar uma classe de teste unitário
+        structure: Você deseja criar a estrutura de diretório
     plugin:
       block:
-        description: Generate a plugin block
-        help: The <info>generate:plugin:block</info> command helps you generate a new Plugin block.
-        welcome: Welcome to the Drupal Plugin Block generator
+        description: Criar plugin de bloco.
+        help: O comando <info>generate:plugin:block</info> ajuda você a criar um novo plugin de bloco.
+        welcome: Bem-vindo ao Criador de plugin de bloco do Drupal.
         options:
           module: common.options.module
-          class-name: Plugin class name
-          label: Plugin label
-          plugin-id: Plugin id
+          class-name: Nome da classe do plugin
+          label: Label do plugin
+          plugin-id: Id do plugin
           inputs: common.options.inputs
           services: common.options.services
         questions:
           module: common.questions.module
-          class-name: Enter the plugin class name
-          label: Enter the plugin label
-          plugin-id: Enter the plugin id
+          class-name: Digite o nome da classe do plugin
+          label: Digite a label do plugin
+          plugin-id: Digite o id do plugin
           inputs: common.questions.inputs
           services: common.questions.services
         messages:
           inputs: |
 
-            You can add input fields to create special configurations in each block.
-            This is optional, press <info>enter</info> to <info>continue</info>
+            Você pode adicionar alguns campos para criar configurações especiais em cada bloco
+            Isso é opcional, pressione <info>enter</info> para <info>continuar</info>
       imageeffect:
-        description: Generate image effect plugin.
-        help: The <info>generate:plugin:imageeffect</info> command helps you generate a new image effect plugin.
-        welcome: Welcome to the Drupal Image Effect Plugin generator
+        description: Criar plugin de efeito de imagem.
+        help: O comando <info>generate:plugin:imageeffect</info> ajuda você a criar um novo plugin de efeito de imagem.
+        welcome: Bem-vindo ao Criador de plugin de efeito de imagem do Drupal
         options:
           module: common.options.module
-          class-name: Plugin class name
-          label: Plugin label
-          plugin-id: Plugin id
-          description: Plugin Description
+          class-name: Nome da classe do plugin
+          label: Label do plugin
+          plugin-id: Id do plugin
+          description: Descrição do plugin
         questions:
           module: common.questions.module
-          class-name: Enter the plugin class name
-          label: Enter the plugin label
-          plugin-id: Enter the plugin id
-          description: Enter the plugin Description
-      rest:
-          resource:
-            description: Generate plugin rest resource
-            help: The <info>generate:plugin:rest:resource</info> command helps you generate a new rest resource.
-            welcome: Welcome to the Drupal Plugin Rest Resource generator
-            options:
-              module: common.options.module
-              class-name: Plugin Rest Resource class
-              plugin-id: Plugin Rest Resource id
-              plugin-label: Plugin Rest Resource Label
-              plugin-url: Plugin Rest Resource URL
-              plugin-states: Plugin Rest Resource States
-            questions:
-              module: common.questions.module
-              class-name: Enter the plugin rest resource name
-              plugin-id: Enter the plugin rest resource id
-              plugin-label: Enter the plugin rest resource label
-              plugin-url: Enter the plugin rest resource url
-              plugin-states: Please select what REST States implement in your resource (GET is selected by default)
-            messages:
-              selected-states: States selected
+          class-name: Digite o nome da classe do plugin
+          label: Digite a label do plugin
+          plugin-id: Digite o id do plugin
+          description: Digite a descrição do plugin
     service:
-      description: Generate service
-      help: The <info>generate:service</info> command helps you generate a new service.
-      welcome: Welcome to the Drupal service generator
+      description: Criar serviço
+      help: O comando <info>generate:service</info> ajuda você a criar um novo serviço.
+      welcome: Bem-vindo ao Criador de serviço do Drupal
       options:
         module: common.options.module
-        service-name: Service name
-        class-name: Class name
+        service-name: Nome do serviço
+        class-name: Nome da classe
         services: common.questions.services
       questions:
         module: common.questions.module
-        service-name: Enter the service name
-        class-name: Enter the Class name
+        service-name: Digite o nome do serviço
+        class-name: Digite o nome da classe
         services: common.options.services
-  module:
-    debug:
-      description: Display current modules available for application
-      options:
-        status: "Module status [enabled|disabled]"
-        type: "Module type [core|no-core]"
-      messages:
-        id: "ID"
-        name: "Name"
-        status: "Status"
-        origin: "Origin"
-        package: "Package"
-        enabled: "Enabled"
-        disabled: "Disabled"
-    install:
-      description: Install module or modules in the application
-      options:
-        module: Module or modules to be enabled should be separated by a comma
-      messages:
-        no-modules: You must provide module or modules to enable.
-        missing: Unable to install modules %s due to missing modules %s
-        missing-dependencies: Unable to install modules %s due to missing dependencies %s
-        nothing: Nothing to do. All modules are already installed
-        dependencies: Are you sure you want to install dependencies: %s?
-        success: Modules %s were installed successfully
-    uninstall:
-      description: Uninstall module or modules in the application
-      messages:
-        no-modules: You must provide module or modules to enable.
-        dependents: Unable to uninstall modules %s because are required by %s
-        nothing: Nothing to do. All modules are already uninstalled
-        success: Modules %s were uninstalled successfully
-    download:
-      description: Download module or modules in application
-      messages:
-        no-releases: There aren't any releases for module %s
-        getting-releases: Getting releases for module %s
-        downloading: Downloading module %s release %s
-        installed: Module %s was installed successfully
-  migrate:
-    debug:
-      description: Display current migration available for the application
-      arguments:
-        drupal-version: Drupal Version
-      messages:
-        id: "Migration Id"
-        description: "Description"
-        version: "Version"
-    execute:
-      description: Execute a migration available for application
-      arguments:
-        id: "Migration Id"
-      options:
-        site-url: "Site Source URL"
-        db-host: "Database Host"
-        db-name: "Database Name"
-        db-user: "Database User"
-        db-pass: "Database Pass"
-        db-prefix: "Database Prefix"
-        db-port: "Database Port"
-      questions:
-        id: "Migration Id"
-        site-url: "Source Site URL"
-        db-host: "Database Host"
-        db-name: "Database Name"
-        db-user: "Database User"
-        db-pass: "Database Pass"
-        db-prefix: "Database Prefix"
-        db-port: "Database Port"
-        invalid-migration-id: Migration Id "%s" is invalid
-      messages:
-        processing: Processing Migration "%s"
-        imported: Migration "%s" was imported correctly
-        fail-load: Migration "%s" can't be loaded
-        importing-incomplete: Importing migration "%s"
-        import-stoped: Import "%s" stopped by request
-        import-fail: Import "%s" failed
-        import-skipped: Import "%s" was skipped due to unfulfilled dependencies
-        wrong-source: 'Upgrading from this version of Drupal is not supported.'
   router:
     debug:
-      description: Displays current routes for the application
+      description: Exibe as rotas atuais de uma aplicação
       arguments:
-        route-name: Route names
+        route-name: Nomes das rotas
       messages:
-        name: Route name
-        path: Class path
+        name: Nome da rota
+        path: Caminho da classe
         pattern: Pattern
-        defaults: Defaults
-        options: Options
+        defaults: Padrão
+        options: Opções
     rebuild:
-      description: Rebuild routes for the application
+      description: Reconstruir rotas de uma aplicação
       arguments:
-        route-name: Route names
+        route-name: Nomas das rotas
       messages:
-        rebuilding: Rebuilding routes, wait a moment please
-        completed: Done rebuilding route(s).
-  self-update:
-    description: Update the console to latest version.
-    help: Update the console command to the latest version.
-    messages:
-      success: The console has been updated to the latest version.
-
+        rebuilding: Reconstruindo rotas, favor aguarde um momento
+        completed: Reconstrução de rota(s) finalizada.
