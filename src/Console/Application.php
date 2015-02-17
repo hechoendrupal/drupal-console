@@ -1,6 +1,7 @@
 <?php
 namespace Drupal\AppConsole\Console;
 
+use Composer\Autoload\ClassLoader;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -118,12 +119,13 @@ class Application extends BaseApplication
 
         if ($autoload && !$this->isBooted()) {
             $this->drupalAutoload = require_once $autoload;
-            $this->setBooted(true);
-            return true;
+            if ($this->drupalAutoload instanceof ClassLoader) {
+                $this->setBooted(true);
+                return true;
+            }
         }
-        else {
-            return false;
-        }
+
+        return false;
     }
 
     /**
