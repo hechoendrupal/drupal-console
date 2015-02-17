@@ -68,23 +68,21 @@ class StringUtils extends Helper
         return str_replace(' ', '', ucwords($human));
     }
 
-  /**
-   *  Converts My Name to my name. For permissions
-   * @param  String $permission User input
-   * @return String
-   */
-    // Converts My Name to my name. For permissions
+    /**
+     * Converts My Name to my name. For permissions
+     * @param  String $permission User input
+     * @return String
+     */
     public function camelCaseToLowerCase($permission)
     {
         return strtolower(preg_replace(self::REGEX_SPACES, ' ', $permission));
     }
 
-  /**
-   *  Converts my name to My Name. For permissions
-   * @param  String $permission_uc User input
-   * @return String
-   */
-    // Converts my name to My Name. For permissions
+    /**
+     * Converts my name to My Name. For permissions
+     * @param  String $permission_uc User input
+     * @return String
+     */
     public function camelCaseToUpperCaseWords($permission_uc)
     {
         return ucwords(preg_replace(self::REGEX_SPACES, ' ', $permission_uc));
