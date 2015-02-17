@@ -38,9 +38,7 @@ abstract class GeneratorCommand extends ContainerAwareCommand
 
     protected function getSkeletonDirs()
     {
-        $skeletonDirs = array();
-        $skeletonDirs[] = __DIR__.'/../Resources/skeleton';
-        $skeletonDirs[] = __DIR__.'/../Resources';
+        $skeletonDirs[] = __DIR__ . '/../../templates';
 
         return $skeletonDirs;
     }

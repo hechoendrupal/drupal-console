@@ -8,7 +8,8 @@ namespace Drupal\AppConsole;
 
 use Symfony\Component\Yaml\Parser;
 
-class Config {
+class Config
+{
 
     protected $parser;
 
@@ -24,8 +25,7 @@ class Config {
     {
         if (file_exists($path_file)) {
             return $this->parser->parse(file_get_contents($path_file));
-        }
-        else {
+        } else {
             return [];
         }
     }
@@ -43,7 +43,7 @@ class Config {
     public function getUserConfig()
     {
         $userConfig = $this->readYamlFile(
-            $this->getUserHomeDir() . '/.console/config.yml'
+          $this->getUserHomeDir() . '/.console/config.yml'
         );
 
         unset($userConfig['application']['name']);

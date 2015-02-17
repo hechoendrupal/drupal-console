@@ -13,13 +13,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SiteModeCommand extends ContainerAwareCommand
 {
 
-  protected function configure()
-  {
-      $this
-      ->setName('site:mode')
-      ->setDescription($this->trans('commands.site.mode.description'))
-      ->addArgument('environment', InputArgument::REQUIRED, $this->trans('commands.site.mode.arguments.environment'));
-  }
+    protected function configure()
+    {
+        $this
+          ->setName('site:mode')
+          ->setDescription($this->trans('commands.site.mode.description'))
+          ->addArgument('environment', InputArgument::REQUIRED,
+            $this->trans('commands.site.mode.arguments.environment'));
+    }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -62,8 +63,8 @@ class SiteModeCommand extends ContainerAwareCommand
         foreach ($configurations as $configuration) {
             $result[] = [
               'configuration' => $configuration,
-              'original' => $config->get($configuration)?'true':'false',
-              'updated' => $value?'true':'false'
+              'original' => $config->get($configuration) ? 'true' : 'false',
+              'updated' => $value ? 'true' : 'false'
             ];
             $config->set($configuration, $value);
         }

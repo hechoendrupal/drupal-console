@@ -6,12 +6,13 @@
 
 namespace Drupal\AppConsole\Command;
 
-class GeneratorEntityContentCommand extends GeneratorEntityCommand {
+class GeneratorEntityContentCommand extends GeneratorEntityCommand
+{
 
-  protected function configure()
-  {
-    $this->setEntityType('EntityContent');
-    $this->setCommandName('generate:entity:content');
-    parent::configure();
-  }
+    protected function configure()
+    {
+        $this->setEntityType('EntityContent');
+        $this->setCommandName('generate:entity:content');
+        parent::configure();
+    }
 }
