@@ -49,7 +49,8 @@ class Application extends BaseApplication
     protected $env;
 
     /**
-     * Create a new application extended from \Symfony\Component\Console\Application
+     * Create a new application extended from \Symfony\Component\Console\Application.
+     *
      * @param $config array
      */
     public function __construct($config)
@@ -161,6 +162,9 @@ class Application extends BaseApplication
         $kernelHelper->initCommands($this->all());
     }
 
+    /**
+     * @param InputInterface $input
+     */
     protected function runShell(InputInterface $input)
     {
         /** @var \Drupal\AppConsole\Command\Helper\ShellHelper $shell */
