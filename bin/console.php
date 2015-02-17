@@ -21,7 +21,18 @@ use Drupal\AppConsole\Command\Helper\DrupalAutoload;
 set_time_limit(0);
 
 $consoleRoot = __DIR__ . '/../';
-require $consoleRoot . '/vendor/autoload.php';
+
+if (file_exists($consoleRoot . '/vendor/autoload.php')) {
+    require_once $consoleRoot . '/vendor/autoload.php';
+}
+else if (file_exists( $consoleRoot . '/../../vendor/autoload.php')) {
+    require_once $consoleRoot . '/../../vendor/autoload.php';
+}
+else {
+    echo 'Something goes wrong with your archive'.PHP_EOL.
+        'Try downloading again'.PHP_EOL;
+    exit(1);
+}
 
 $consoleConfig  = new Config(new Parser(), $consoleRoot);
 $config = $consoleConfig->getConfig();
