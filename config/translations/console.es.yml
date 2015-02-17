@@ -15,6 +15,7 @@ commands:
       services: Load services from the container.
       tags: Set service tags from the container.
       inputs: Create inputs in a form.
+      permissions: Create permissions.
     questions:
       module: Escriba el nombre del módulo
       confirm: Do you confirm generation
@@ -30,6 +31,7 @@ commands:
         confirm: Do you want to generate a form structure
         label: Input label
         machine_name: Input machine name
+        permission: Do you want to generate permissions
         type: Tipo
         invalid: Field Type "%s" is invalid.
         description: Description
@@ -154,6 +156,15 @@ commands:
         test: Do you want to generate a unit test class
       warnings:
         module-unavailable: Warning The following modules are not already available in your local environment "%s" 
+    permission:
+        description: Generate permissions
+        help: The <info>generate:permission</info> command helps you generate new permissions
+        options:
+          module: common.options.module
+          permission: Enter the module's permission
+        questions:
+          module: common.questions.module
+          permission: Enter the module's permission
     plugin:
       block:
         description: Generate a plugin block

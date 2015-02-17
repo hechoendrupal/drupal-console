@@ -1,0 +1,9 @@
+{% if permissions|length %}
+{% for permission in permissions %}
+{{ permission.permission_uc }}:
+  title: '{{ permission.permission }}'
+{% endfor %}
+{% else %}
+Access Content:
+  title: 'access content'
+{% endif %}
