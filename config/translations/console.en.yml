@@ -183,14 +183,14 @@ commands:
       errors:
         directory-exists: The target directory "%s" is not empty.
     permission:
-        description: Generate permissions
-        help: The <info>generate:permission</info> command helps you generate new permissions
+        description: Generate module permissions
+        help: The <info>generate:permissions</info> command helps you generate new permissions
         options:
           module: common.options.module
-          permission: Enter the module's permission
+          permission: Enter a permission
         questions:
           module: common.questions.module
-          permission: Enter the module's permission
+          permission: Enter a permission
     plugin:
       block:
         description: Generate a plugin block

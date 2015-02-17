@@ -27,7 +27,7 @@ class GeneratorPermissionCommand extends GeneratorCommand
   protected function configure()
   {
     $this
-      ->setName('generate:permission')
+      ->setName('generate:permissions')
       ->setDescription($this->trans('commands.generate.permission.description'))
       ->setHelp($this->trans('commands.generate.permission.help'))
       ->addOption('module','',InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
