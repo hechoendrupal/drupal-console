@@ -57,7 +57,6 @@ class ConfigOverrideCommand extends ContainerAwareCommand
 
   protected function overrideConfiguration($config, $key, $value)
   {
-      $result = [];
       $result[] = [
         'configuration' => $key,
         'original' => $config->get($key),
