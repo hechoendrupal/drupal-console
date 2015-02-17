@@ -30,21 +30,19 @@ class ConfigOverrideCommand extends ContainerAwareCommand
 
       $config = $this->getConfigFactory()->getEditable($configName);
 
-      $configurationOverrideResult = [];
-
       $configurationOverrideResult = $this->overrideConfiguration($config, $key, $value);
 
       $config->save();
 
       $output->writeln(sprintf(
         ' <info>%s:</info> <comment>%s</comment>',
-        $this->trans('commands.config.override.messages.configuration-key'),
+        $this->trans('commands.config.override.messages.configuration'),
         $configName
       ));
 
       $table->setHeaders(
         [
-          $this->trans('commands.config.override.messages.configuration'),
+          $this->trans('commands.config.override.messages.configuration-key'),
           $this->trans('commands.config.override.messages.original'),
           $this->trans('commands.config.override.messages.updated'),
         ]);
