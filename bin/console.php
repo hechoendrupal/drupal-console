@@ -43,9 +43,6 @@ $translatorHelper->loadResource($config['application']['language'], $consoleRoot
 $application = new Application($config);
 $application->setDirectoryRoot($consoleRoot);
 
-$errorMessages = [];
-$class_loader = null;
-
 $helpers = [
   'kernel' => new KernelHelper(),
   'shell' => new ShellHelper(new Shell($application)),
