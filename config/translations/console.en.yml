@@ -59,7 +59,7 @@ commands:
       arguments:
         config-name: Configuration name.
     override:
-      description: Edit the current configuration.
+      description: Override config value in active configuration..
       arguments:
         config-name: Configuration name.
         key: Key
@@ -68,7 +68,7 @@ commands:
         configuration: Configuration
         configuration-key: Configuration key
         original: Original Value
-        updated: Updated Value
+        updated: Override Value
   container:
     debug:
       description: Displays current services for an application.
@@ -411,6 +411,6 @@ commands:
         configuration: Configuration
         configuration-key: Configuration key
         original: Original Value
-        updated: Updated Value
+        updated: Override Value
 
 
