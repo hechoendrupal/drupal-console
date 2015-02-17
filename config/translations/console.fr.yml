@@ -15,6 +15,7 @@ commands:
       services: Services de charge forment le container.
       tags: Les étiquettes de service prévues du conteneur.
       inputs: Créer des entrées dans un formulaire.
+      permissions: Créer des autorisations.
     questions:
       module: Introduire le nom du module.
       confirm: Confirmez-vous la génération
@@ -30,6 +31,7 @@ commands:
         confirm: Voulez-vous générer une structure de forme
         label: Label entrée
         machine_name: Nom de la machine d'entrée.
+        permission: Voulez-vous générer des autorisations
         type: Type
         invalid: Field Type "%s" is invalid.
         description: Description
@@ -161,6 +163,15 @@ commands:
         test: Voulez-vous générer une classe de test unitaire
       warnings:
         module-unavailable: Warning The following modules are not already available in your local environment "%s"   
+    permission:
+        description: Generate permissions
+        help: The <info>generate:permission</info> command helps you generate new permissions
+        options:
+          module: common.options.module
+          permission: Enter the module's permission
+        questions:
+          module: common.questions.module
+          permission: Enter the module's permission
     plugin:
       block:
         description: Générer un bloc de plugin
