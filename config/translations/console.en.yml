@@ -58,6 +58,17 @@ commands:
       description: Show the current configuration.
       arguments:
         config-name: Configuration name.
+    override:
+      description: Edit the current configuration.
+      arguments:
+        config-name: Configuration name.
+        key: Key
+        value: Value
+      messages:
+        configuration: Configuration
+        configuration-key: Configuration key
+        original: Original Value
+        updated: Updated Value
   container:
     debug:
       description: Displays current services for an application.
