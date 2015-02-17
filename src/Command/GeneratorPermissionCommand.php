@@ -16,7 +16,6 @@ use Drupal\AppConsole\Command\Helper\ConfirmationTrait;
 
 class GeneratorPermissionCommand extends GeneratorCommand
 {
-
     use ModuleTrait;
     use PermissionTrait;
     use ConfirmationTrait;
@@ -41,7 +40,6 @@ class GeneratorPermissionCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         $module = $input->getOption('module');
         $permissions = $input->getOption('permissions');
 
@@ -72,9 +70,7 @@ class GeneratorPermissionCommand extends GeneratorCommand
             $permissions = $this->permissionQuestion($output, $dialog);
         }
         $input->setOption('permissions', $permissions);
-
     }
-
 
     /**
      * @return \Drupal\AppConsole\Generator\PermissionGenerator.
