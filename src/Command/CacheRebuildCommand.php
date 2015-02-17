@@ -38,7 +38,6 @@ class CacheRebuildCommand extends ContainerAwareCommand
           $cache
         )
       );
-      return;
     }
 
     // Start rebuilding cache
@@ -81,7 +80,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
       $cache = $dialog->askAndValidate(
         $output,
         $dialog->getQuestion($this->trans('commands.cache.rebuild.questions.cache'), 'all'),
-        function ($cache) use ($cache_keys, $validators) {
+        function ($cache) use ($validators) {
           $validated_cache = $validators->validateCache($cache);
           if (!$validated_cache) {
             throw new \InvalidArgumentException(
@@ -94,8 +93,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
           return $validated_cache;
         },
         false,
-        'all',
-        $cache_keys
+        'all'
       );
     }
 

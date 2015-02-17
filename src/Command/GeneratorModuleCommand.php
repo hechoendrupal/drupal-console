@@ -76,9 +76,6 @@ class GeneratorModuleCommand extends GeneratorCommand
      */
     $test = $input->getOption('test');
 
-    // $checked_dpendencies = $this->checkDependencies($dependencies['success']);
-    // $this->addMessage($this->trans('commands.generate.module.warnings.module-unavailable'), implode(', ', $checked_dpendencies['drupal_modules'])));
-
     $generator = $this->getGenerator();
     $generator->generate(
       $module,
@@ -233,7 +230,7 @@ class GeneratorModuleCommand extends GeneratorCommand
       'drupal_modules' => array(),
       'no_modules'     => array()
     );
-    $local_modules = null; //$local_modules = $this->getModules(true);
+    $local_modules = null;
     foreach ($dependencies as $key => $module) {
       if (in_array($module,$local_modules)) {
         $checked_dependecies['local_modules'][] = $module;
