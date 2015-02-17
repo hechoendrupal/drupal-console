@@ -141,14 +141,14 @@ commands:
         test: Você deseja criar uma classe de teste unitário
         structure: Você deseja criar a estrutura de diretório
     permission:
-        description: Generate permissions
-        help: The <info>generate:permission</info> command helps you generate new permissions
+        description: Generate module permissions
+        help: The <info>generate:permissions</info> command helps you generate new permissions
         options:
           module: common.options.module
-          permission: Enter the module's permission
+          permission: Enter a permission
         questions:
           module: common.questions.module
-          permission: Enter the module's permission
+          permission: Enter a permission
     plugin:
       block:
         description: Criar plugin de bloco.

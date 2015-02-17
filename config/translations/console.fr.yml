@@ -164,14 +164,14 @@ commands:
       warnings:
         module-unavailable: Warning The following modules are not already available in your local environment "%s"   
     permission:
-        description: Generate permissions
-        help: The <info>generate:permission</info> command helps you generate new permissions
+        description: Generate module permissions
+        help: The <info>generate:permissions</info> command helps you generate new permissions
         options:
           module: common.options.module
-          permission: Enter the module's permission
+          permission: Enter a permission
         questions:
           module: common.questions.module
-          permission: Enter the module's permission
+          permission: Enter a permission
     plugin:
       block:
         description: Générer un bloc de plugin
