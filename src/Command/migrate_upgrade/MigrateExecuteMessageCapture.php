@@ -5,39 +5,41 @@ namespace Drupal\AppConsole\Command\migrate_upgrade;
 use Drupal\migrate\MigrateMessageInterface;
 
 /**
-  * Defines a migrate message class.
-*/
+ * Defines a migrate message class.
+ */
+class MigrateExecuteMessageCapture implements MigrateMessageInterface
+{
 
-class MigrateExecuteMessageCapture implements MigrateMessageInterface {
+    /**
+     * Array of recorded messages.
+     *
+     * @var array
+     */
+    protected $messages = array();
 
-  /**
-   * Array of recorded messages.
-   *
-   * @var array
-   */
-  protected $messages = array();
+    /**
+     * {@inheritdoc}
+     */
+    public function display($message, $type = 'status')
+    {
+        $this->messages[] = $message;
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function display($message, $type = 'status') {
-    $this->messages[] = $message;
-  }
+    /**
+     * Clear out any captured messages.
+     */
+    public function clear()
+    {
+        $this->messages = array();
+    }
 
-  /**
-   * Clear out any captured messages.
-   */
-  public function clear() {
-    $this->messages = array();
-  }
-
-  /**
-   * Return any captured messages.
-   *
-   * @return array
-   */
-  public function getMessages() {
-    return $this->messages;
-  }
-
+    /**
+     * Return any captured messages.
+     *
+     * @return array
+     */
+    public function getMessages()
+    {
+        return $this->messages;
+    }
 }
