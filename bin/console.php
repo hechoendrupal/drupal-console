@@ -16,7 +16,8 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Drupal\AppConsole\Config;
-use Drupal\AppConsole\Command\Helper\DrupalAutoload;
+use Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper;
+use Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper;
 
 set_time_limit(0);
 
@@ -44,14 +45,15 @@ $application = new Application($config);
 $application->setDirectoryRoot($consoleRoot);
 
 $helpers = [
-  'kernel' => new KernelHelper(),
-  'shell' => new ShellHelper(new Shell($application)),
-  'dialog' => new DialogHelper(),
-  'register_commands' => new RegisterCommandsHelper($application),
-  'stringUtils' => new StringUtils(),
-  'validators' => new Validators(),
-  'translator' => $translatorHelper,
-  'drupal-autoload' => new DrupalAutoload(),
+    'bootstrap' => new DrupalBootstrapHelper(),
+    'kernel' => new KernelHelper(),
+    'shell' => new ShellHelper(new Shell($application)),
+    'dialog' => new DialogHelper(),
+    'register_commands' => new RegisterCommandsHelper($application),
+    'stringUtils' => new StringUtils(),
+    'validators' => new Validators(),
+    'translator' => $translatorHelper,
+    'drupal-autoload' => new DrupalAutoloadHelper(),
 ];
 
 $application->addHelpers($helpers);
