@@ -4,7 +4,7 @@ namespace Drupal\AppConsole\Command\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
 
-class DrupalAutoload extends Helper
+class DrupalAutoloadHelper extends Helper
 {
 
     /**
