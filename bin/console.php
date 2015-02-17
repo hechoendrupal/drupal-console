@@ -59,7 +59,7 @@ $helpers = [
   'dialog' => new DialogHelper(),
   'register_commands' => new RegisterCommandsHelper($application),
   'stringUtils' => new StringUtils(),
-  'validators' => new Validators(),
+  'validators' => new Validators($translatorHelper),
   'translator' => $translatorHelper
 ];
 
