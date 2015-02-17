@@ -7,7 +7,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Finder\SplFileInfo;
 
 class Application extends BaseApplication
 {
