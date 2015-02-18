@@ -18,6 +18,8 @@ class StringUtils extends Helper
     const REGEX_MACHINE_NAME_CHARS = '@[^a-z0-9_]+@';
     // This REGEX captures
     const REGEX_CAMEL_CASE_UNDER = '/([a-z])([A-Z])/';
+    // This REGEX captures spaces around words
+    const REGEX_SPACES = '/\s\s+/';
 
     /**
      * Replaces non alphanumeric characters with underscores
@@ -65,4 +67,25 @@ class StringUtils extends Helper
     {
         return str_replace(' ', '', ucwords($human));
     }
+
+    /**
+     * Converts My Name to my name. For permissions
+     * @param  String $permission User input
+     * @return String
+     */
+    public function camelCaseToLowerCase($permission)
+    {
+        return strtolower(preg_replace(self::REGEX_SPACES, ' ', $permission));
+    }
+
+    /**
+     * Convert the first character of upper case. For permissions
+     * @param  String $permission_title User input
+     * @return String
+     */
+    public function camelCaseToUcFirst($permission_title)
+    {
+        return ucfirst(preg_replace(self::REGEX_SPACES, ' ', $permission_title));
+    }
+
 }

@@ -20,6 +20,7 @@ commands:
       services: Load services from the container.
       tags: Set service tags from the container.
       inputs: Create inputs in a form.
+      permissions: Create permissions.
     questions:
       module: Enter the module name
       confirm: Do you confirm generation
@@ -35,6 +36,7 @@ commands:
         confirm: Do you want to generate a form structure
         label: Input label
         machine_name: Input machine name
+        permission: Do you want to generate permissions
         type: Type
         invalid: Field Type "%s" is invalid.
         description: Description
@@ -180,6 +182,15 @@ commands:
         module-unavailable: Warning The following modules are not already available in your local environment "%s" 
       errors:
         directory-exists: The target directory "%s" is not empty.
+    permission:
+        description: Generate module permissions
+        help: The <info>generate:permissions</info> command helps you generate new permissions
+        options:
+          module: common.options.module
+          permission: Enter a permission
+        questions:
+          module: common.questions.module
+          permission: Enter a permission
     plugin:
       block:
         description: Generate a plugin block
