@@ -21,6 +21,7 @@ commands:
       tags: Set service tags from the container.
       inputs: Create inputs in a form.
       permissions: Create permissions.
+      column_inputs: Create columns.
     questions:
       module: Enter the module name
       confirm: Do you confirm generation
@@ -40,6 +41,13 @@ commands:
         type: Type
         invalid: Field Type "%s" is invalid.
         description: Description
+      column_inputs:
+        confirm: Do you want to generate a columns
+        column_name: Column name
+        column_type: Type
+#        column_type: Input column type
+        column_invalid: Column Type "%s" is invalid.
+        column_description: Column Description
     errors:
       module-dependency: Missing module dependency "%s"
       class-name-empty: The Class name can not be empty
@@ -167,6 +175,18 @@ commands:
         services: common.questions.services
         inputs: common.questions.inputs
         routing: Update routing file
+    column:
+      description: Generate a custom table.
+      help: The <info>generate:install</info> command helps you generate a new custom table.
+      welcome: Welcome to the Drupal form generator
+      options:
+        module: common.options.module
+        table-name: Enter the table name
+        column_inputs: common.options.column_inputs
+      questions:
+        module: common.questions.module
+        table-name: The table name
+        column_inputs: common.questions.column_inputs
     module:
       description: Generate a module.
       help: The <info>generate:module</info> command helps you generates a new module.
@@ -196,14 +216,14 @@ commands:
       errors:
         directory-exists: The target directory "%s" is not empty.
     permission:
-        description: Generate module permissions
-        help: The <info>generate:permissions</info> command helps you generate new permissions
-        options:
-          module: common.options.module
-          permission: Enter a permission
-        questions:
-          module: common.questions.module
-          permission: Enter a permission
+      description: Generate module permissions
+      help: The <info>generate:permissions</info> command helps you generate new permissions
+      options:
+        module: common.options.module
+        permission: Enter a permission
+      questions:
+        module: common.questions.module
+        permission: Enter a permission
     plugin:
       block:
         description: Generate a plugin block
