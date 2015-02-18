@@ -1,7 +1,7 @@
 {% if permissions|length %}
 {% for permission in permissions %}
-{{ permission.permission_uc }}:
-  title: '{{ permission.permission }}'
+{{ permission.permission }}:
+  title: '{{ permission.permission_title }}'
 {% endfor %}
 {% else %}
 Access Content:

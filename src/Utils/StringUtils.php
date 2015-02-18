@@ -79,13 +79,13 @@ class StringUtils extends Helper
     }
 
     /**
-     * Converts my name to My Name. For permissions
-     * @param  String $permission_uc User input
+     * Convert the first character of upper case. For permissions
+     * @param  String $permission_title User input
      * @return String
      */
-    public function camelCaseToUpperCaseWords($permission_uc)
+    public function camelCaseToUcFirst($permission_title)
     {
-        return ucwords(preg_replace(self::REGEX_SPACES, ' ', $permission_uc));
+        return ucfirst(preg_replace(self::REGEX_SPACES, ' ', $permission_title));
     }
 
 }
