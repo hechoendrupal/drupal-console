@@ -69,6 +69,15 @@ commands:
         configuration-key: Configuration key
         original: Original Value
         updated: Override Value
+    edit:
+      description: Edit the selected configuration.
+      arguments:
+        config-name: Configuration name.
+      messages:
+        configuration: Configuration name
+        configuration-key: Configuration key
+        original: Original Value
+        updated: Override Value
   container:
     debug:
       description: Displays current services for an application.
