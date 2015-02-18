@@ -179,6 +179,14 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         return $this->getContainer()->get('config.factory');
     }
 
+    /**
+     * @return \Drupal\Core\State\StateInterface
+     */
+    public function getState()
+    {
+        return $this->getContainer()->get('state.default');
+    }
+
     public function getConfigStorage()
     {
         return $this->getContainer()->get('config.storage');
