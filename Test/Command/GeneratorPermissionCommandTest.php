@@ -35,7 +35,7 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
         $permissions = [
           [
             'permission' => 'my permission',
-            'permission_uc' => 'My Permission',
+            'permission_title' => 'My permission',
           ]
         ];
 

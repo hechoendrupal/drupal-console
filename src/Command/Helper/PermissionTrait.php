@@ -37,11 +37,11 @@ trait PermissionTrait
                     break;
                 }
                 $permission = $this->getStringUtils()->camelCaseToLowerCase($permission);
-                $permission_uc = $this->getStringUtils()->camelCaseToUpperCaseWords($permission);
+                $permission_title = $this->getStringUtils()->camelCaseToUcFirst($permission);
 
                 array_push($permissions, array(
                   'permission' => $permission,
-                  'permission_uc' => $permission_uc,
+                  'permission_title' => $permission_title,
                 ));
             }
 
