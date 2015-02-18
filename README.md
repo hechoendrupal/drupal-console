@@ -21,9 +21,9 @@ Drupal Console
 
 The Drupal Console brings the Symfony Console Component to Drupal 8.
 
-Using the Drupal Console, you can quickly generate the required framework necessary to build Drupal 8 modules.
+With the Drupal Console, you can quickly generate the Drupal 8 code and files needed for both new modules and upgrading Drupal 7 modules.
 
-Additionally, the Drupal Console can be used to interact with your Drupal installation.
+Additionally, you can use the Console to interact with your Drupal installation.
 
 ## Supported version
 
@@ -43,6 +43,9 @@ $ php -r "readfile('http://drupalconsole.com/installer');" | php
 
 // Accessing console from anywhere on your system:
 $ mv console.phar /usr/local/bin/drupal
+
+// Show all available Drupal Console commands.
+$ drupal
 
 // Generate a module.
 $ drupal generate:module
