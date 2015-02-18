@@ -21,7 +21,7 @@ Drupal Console
 
 The Drupal Console brings the Symfony Console Component to Drupal 8.
 
-With the Drupal Console, you can quickly generate the Drupal 8 code and files needed for both new modules and upgrading Drupal 7 modules.
+With the Drupal Console, you can quickly generate the code and files required by Drupal 8 for new modules or to upgrade existing modules.
 
 Additionally, you can use the Console to interact with your Drupal installation.
 
