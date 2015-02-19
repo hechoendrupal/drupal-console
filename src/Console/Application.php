@@ -14,39 +14,33 @@ class Application extends BaseApplication
     /**
      * @var bool
      */
-    private $commandsRegistered = false;
-
-    /**
-     * @var bool
-     */
     protected $booted = false;
-
     /**
      * @var array
      */
     protected $config;
-
     /**
      * @var string
      */
     protected $directoryRoot;
-
     /**
      * @var array
      */
     protected $errorMessages = [];
-
     /**
      * @var \Composer\Autoload\ClassLoader
      *   The Drupal autoload file.
      */
     protected $drupalAutoload;
-
     /**
      * @var string
      *   The Drupal environment.
      */
     protected $env;
+    /**
+     * @var bool
+     */
+    private $commandsRegistered = false;
 
     /**
      * Create a new application extended from \Symfony\Component\Console\Application.
@@ -130,6 +124,22 @@ class Application extends BaseApplication
     }
 
     /**
+     * @return boolean
+     */
+    public function isBooted()
+    {
+        return $this->booted;
+    }
+
+    /**
+     * @param boolean $booted
+     */
+    public function setBooted($booted)
+    {
+        $this->booted = $booted;
+    }
+
+    /**
      * @param InputInterface $input
      */
     protected function initDebug(InputInterface $input)
@@ -163,18 +173,6 @@ class Application extends BaseApplication
     }
 
     /**
-     * @param InputInterface $input
-     */
-    protected function runShell(InputInterface $input)
-    {
-        /** @var \Drupal\AppConsole\Command\Helper\ShellHelper $shell */
-        $shell = $this->getHelperSet()->get('shell')->getShell();
-
-        $shell->setProcessIsolation($input->hasParameterOption(array('--process-isolation')));
-        $shell->run();
-    }
-
-    /**
      * Register the console commands.
      */
     protected function registerCommands()
@@ -187,27 +185,23 @@ class Application extends BaseApplication
     }
 
     /**
+     * @param InputInterface $input
+     */
+    protected function runShell(InputInterface $input)
+    {
+        /** @var \Drupal\AppConsole\Command\Helper\ShellHelper $shell */
+        $shell = $this->getHelperSet()->get('shell')->getShell();
+
+        $shell->setProcessIsolation($input->hasParameterOption(array('--process-isolation')));
+        $shell->run();
+    }
+
+    /**
      * @return \Drupal\Core\DrupalKernel | null
      */
     public function getKernel()
     {
         return $this->drupalAutoload ? $this->getHelperSet()->get('kernel')->getKernel() : null;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isBooted()
-    {
-        return $this->booted;
-    }
-
-    /**
-     * @param boolean $booted
-     */
-    public function setBooted($booted)
-    {
-        $this->booted = $booted;
     }
 
     /**
