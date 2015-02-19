@@ -10,11 +10,13 @@ class InstallGenerator extends Generator
     /**
      * @param  $module
      * @param  $columns
+     * @param  $table_name
      */
-    public function generate($module, $columns)
+    public function generate($module, $table_name, $columns)
     {
         $parameters = array(
           'module_name' => $module,
+          'table_name' => $table_name,
           'columns' => $columns,
         );
 

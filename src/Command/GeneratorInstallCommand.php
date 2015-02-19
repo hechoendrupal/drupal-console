@@ -41,11 +41,12 @@ class GeneratorInstallCommand extends GeneratorCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $module = $input->getOption('module');
+        $table_name = $input->getOption('table-name');
         $columns = $input->getOption('columns');
 
         $this
           ->getGenerator()
-          ->generate($module, $columns);
+          ->generate($module, $table_name, $columns);
     }
 
     /**
@@ -64,13 +65,13 @@ class GeneratorInstallCommand extends GeneratorCommand
         $input->setOption('module', $module);
 
         // --table-name option
-        $default_table_name = $input->getOption('module');
         $table_name = $input->getOption('table-name');
         if (!$table_name) {
+            $table_name = $this->getStringUtils()->camelCaseToMachineName($module);
             $table_name = $dialog->ask(
               $output,
-              $dialog->getQuestion($this->trans('commands.generate.column.questions.table-name'), $default_table_name),
-              $default_table_name
+              $dialog->getQuestion($this->trans('commands.generate.column.questions.table-name'), $table_name),
+              $table_name
             );
         }
         $input->setOption('table-name', $table_name);
