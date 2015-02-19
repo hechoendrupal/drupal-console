@@ -18,8 +18,17 @@ function {{module_name}}_schema() {
     'fields' => array(
 {% for column in columns %}
       '{{ column.column_name }}' => array(
-        'description' => '{{ column.column_description }}',
         'type' => '{{ column.column_type }}',
+{% if column.column_unsigned != 'None' %}
+        'unsigned' => {{ column.column_unsigned }},
+{% endif %}
+{% if column.column_not_null != 'None' %}
+        'not null' => {{ column.column_not_null }},
+{% endif %}
+{% if column.column_default != 'None' %}
+        'default' => {{ column.column_default }},
+{% endif %}
+        'description' => '{{ column.column_description }}',
       ),
 {% endfor %}
     ),
@@ -44,5 +53,8 @@ function {{module_name}}_schema() {
   {#);#}
 
 
+{#'unsigned' => TRUE,#}
+{#'not null' => TRUE,#}
+{#'default' => 0,#}
 
 

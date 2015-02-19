@@ -44,9 +44,14 @@ commands:
       columns:
         confirm: Do you want to generate columns
         column_name: Column name
+        column_unsigned: Unsigned or signed
+        column_not_null: Not null or null
+        column_default: Default
         column_type: Type
-#        column_type: Input column type
         column_invalid: Column Type "%s" is invalid.
+        column_unsigned_invalid: Unsigned Type "%s" is invalid. Must be TRUE, FALSE, or None.
+        column_not_null_invalid: Null Type "%s" is invalid. Must be TRUE, FALSE, or None.
+        column_default_invalid: Default Type "%s" is invalid. Must be '', 0, 1 or None.
         column_description: Column Description
     errors:
       module-dependency: Missing module dependency "%s"

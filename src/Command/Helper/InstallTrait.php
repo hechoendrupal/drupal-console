@@ -34,6 +34,17 @@ trait InstallTrait
               'text',
               'blob',
             ];
+            $column_true_false = [
+              'TRUE',
+              'FALSE',
+              'None',
+            ];
+            $column_default_choices = [
+              '\'\'',
+              '0',
+              '1',
+              'None',
+            ];
             $column_size = [
               'tiny',
               'small',
@@ -68,7 +79,7 @@ trait InstallTrait
                     break;
                 }
 
-                // Column type input
+                // Column type
                 $column_type = $dialog->askAndValidate(
                   $output,
                   $dialog->getQuestion('  ' . $this->trans('commands.common.questions.columns.column_type'), 'varchar', ':'),
@@ -83,10 +94,70 @@ trait InstallTrait
                   },
                   false,
                   'varchar',
-                  $column_types
+                    $column_types
                 );
 
-                // Description for input
+                // Unsigned
+                $column_unsigned = $dialog->askAndValidate(
+                  $output,
+                  $dialog->getQuestion('  ' . $this->trans('commands.common.questions.columns.column_unsigned'), 'TRUE or FALSE. Type None to exclude', ':'),
+                  function ($column_unsigned_options) use ($column_true_false) {
+                      if (!in_array($column_unsigned_options, $column_true_false)) {
+                          throw new \InvalidArgumentException(
+                            sprintf($this->trans('commands.common.questions.columns.column_unsigned_invalid'), $column_unsigned_options)
+                          );
+                      }
+
+                      return $column_unsigned_options;
+                  },
+                  false,
+                  'TRUE',
+                  $column_true_false
+                );
+
+                // Not null
+                $column_not_null = $dialog->askAndValidate(
+                  $output,
+                  $dialog->getQuestion('  ' . $this->trans('commands.common.questions.columns.column_not_null'), 'TRUE or FALSE. Type None to exclude', ':'),
+                  function ($column_not_null_options) use ($column_true_false) {
+                      if (!in_array($column_not_null_options, $column_true_false)) {
+                          throw new \InvalidArgumentException(
+                            sprintf($this->trans('commands.common.questions.columns.column_not_null_invalid'), $column_not_null_options)
+                          );
+                      }
+
+                      return $column_not_null_options;
+                  },
+                  false,
+                  'TRUE',
+                  $column_true_false
+                );
+
+                // Default
+                $column_default = $dialog->askAndValidate(
+                  $output,
+//                  $dialog->getQuestion('  ' . $this->trans('commands.common.questions.columns.column_default'), '\'\'', ':'),
+                  $dialog->getQuestion('  ' . $this->trans('commands.common.questions.columns.column_default'), '0, 1, or \'\'. Type None to exclude', ':'),
+                  function ($column_default_options) use ($column_default_choices) {
+                      if (!in_array($column_default_options, $column_default_choices)) {
+                          throw new \InvalidArgumentException(
+                            sprintf($this->trans('commands.common.questions.columns.column_default_invalid'), $column_default_options)
+                          );
+                      }
+
+                      return $column_default_options;
+                  },
+                  false,
+                  '\'\'',
+                  $column_default_choices
+                );
+
+
+//                'unsigned' => TRUE,
+//                'not null' => TRUE,
+//                'default' => 0,
+
+                // Column Description
                 $column_description = $dialog->ask(
                   $output,
                   $dialog->getQuestion('  ' . $this->trans('commands.common.questions.columns.column_description'), '', ':'),
@@ -96,6 +167,9 @@ trait InstallTrait
                 array_push($columns, array(
                   'column_name' => $column_name,
                   'column_type' => $column_type,
+                  'column_unsigned' => $column_unsigned,
+                  'column_not_null' => $column_not_null,
+                  'column_default' => $column_default,
                   'column_description' => $column_description,
                 ));
             }
