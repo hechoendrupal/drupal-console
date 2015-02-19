@@ -20,7 +20,7 @@ trait InstallTrait
     {
         if ($dialog->askConfirmation(
           $output,
-          $dialog->getQuestion($this->trans('commands.common.questions.column_inputs.confirm'), 'yes', '?'),
+          $dialog->getQuestion($this->trans('commands.common.questions.columns.confirm'), 'yes', '?'),
           true
         )
         ) {
@@ -42,6 +42,7 @@ trait InstallTrait
               'normal',
             ];
             $column_length = [
+              '3',
               '4',
               '10',
               '11',
@@ -53,12 +54,12 @@ trait InstallTrait
               '2048',
             ];
 
-            $column_inputs = [];
+            $columns = [];
             while (true) {
                 // Column name
                 $column_name = $dialog->ask(
                   $output,
-                  $dialog->getQuestion('  ' . $this->trans('commands.common.questions.column_inputs.column_name'), '', ':'),
+                  $dialog->getQuestion('  ' . $this->trans('commands.common.questions.columns.column_name'), '', ':'),
                   null
                 );
 
@@ -69,18 +70,17 @@ trait InstallTrait
                 // Column type input
                 $column_type = $dialog->askAndValidate(
                   $output,
-                  $dialog->getQuestion('  ' . $this->trans('commands.common.questions.column_inputs.column_type'), 'varchar', ':'),
-                  function ($column_input) use ($column_types) {
-                      if (!in_array($column_input, $column_types)) {
+                  $dialog->getQuestion('  ' . $this->trans('commands.common.questions.columns.column_type'), 'varchar', ':'),
+                  function ($column_options) use ($column_types) {
+                      if (!in_array($column_options, $column_types)) {
                           throw new \InvalidArgumentException(
-                            sprintf($this->trans('commands.common.questions.column_inputs.column_invalid'), $column_input)
+                            sprintf($this->trans('commands.common.questions.columns.column_invalid'), $column_options)
                           );
                       }
 
-                      return $column_input;
+                      return $column_options;
                   },
                   false,
-                  'varchar',
                   'varchar',
                   $column_types
                 );
@@ -88,18 +88,18 @@ trait InstallTrait
                 // Description for input
                 $column_description = $dialog->ask(
                   $output,
-                  $dialog->getQuestion('  ' . $this->trans('commands.common.questions.column_inputs.column_description'), '', ':'),
+                  $dialog->getQuestion('  ' . $this->trans('commands.common.questions.columns.column_description'), '', ':'),
                   null
                 );
 
-                array_push($column_inputs, array(
+                array_push($columns, array(
                   'column_name' => $column_name,
                   'column_type' => $column_type,
                   'column_description' => $column_description,
                 ));
             }
 
-            return $column_inputs;
+            return $columns;
         }
         return null;
     }

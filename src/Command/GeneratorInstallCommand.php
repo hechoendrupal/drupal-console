@@ -2,6 +2,8 @@
 /**
  * @file
  * Contains Drupal\AppConsole\Command\GeneratorInstallCommand.
+ *
+ * Todo: Permit the creation of more than one table.
  */
 
 namespace Drupal\AppConsole\Command;
@@ -29,7 +31,7 @@ class GeneratorInstallCommand extends GeneratorCommand
           ->setHelp($this->trans('commands.generate.column.help'))
           ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
           ->addOption('table-name', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.column.options.table-name'))
-          ->addOption('column_inputs', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.column_inputs'))
+          ->addOption('columns', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.columns'))
         ;
     }
 
@@ -39,11 +41,11 @@ class GeneratorInstallCommand extends GeneratorCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $module = $input->getOption('module');
-        $column_inputs = $input->getOption('column_inputs');
+        $columns = $input->getOption('columns');
 
         $this
           ->getGenerator()
-          ->generate($module, $column_inputs);
+          ->generate($module, $columns);
     }
 
     /**
@@ -73,13 +75,13 @@ class GeneratorInstallCommand extends GeneratorCommand
         }
         $input->setOption('table-name', $table_name);
 
-        // --column_inputs option
-        $inputs = $input->getOption('column_inputs');
+        // --column options
+        $inputs = $input->getOption('columns');
         if (!$inputs) {
             // @see \Drupal\AppConsole\Command\Helper\InstallTrait::installQuestion
             $inputs = $this->installQuestion($output, $dialog);
         }
-        $input->setOption('column_inputs', $inputs);
+        $input->setOption('columns', $inputs);
     }
 
     /**
