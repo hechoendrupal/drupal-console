@@ -1,27 +1,27 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorPluginImageEffectTest.
+ * Contains \Drupal\AppConsole\Test\Command\GeneratorPermissionCommandTest.
  */
 
 namespace Drupal\AppConsole\Test\Command;
 
 use Symfony\Component\Console\Tester\CommandTester;
 
-class GeneratorPluginImageEffectCommandTest extends GenerateCommandTest
+class GeneratorPermissionCommandTest extends GenerateCommandTest
 {
     /**
      * @dataProvider getInteractiveData
      */
     public function testInteractive($options, $expected, $input)
     {
-        list($module, $class_name, $plugin_label, $plugin_id, $description) = $expected;
 
+        list($module, $permissions) = $expected;
         $generator = $this->getGenerator();
         $generator
           ->expects($this->once())
           ->method('generate')
-          ->with($module, $class_name, $plugin_label, $plugin_id, $description);
+          ->with($module, $permissions);
 
         $command = $this->getCommand($generator, $input);
         $cmd = new CommandTester($command);
@@ -30,30 +30,33 @@ class GeneratorPluginImageEffectCommandTest extends GenerateCommandTest
 
     public function getInteractiveData()
     {
+
+        $permissions = [
+          [
+            'permission' => 'my permission',
+            'permission_title' => 'My permission',
+          ]
+        ];
+
         return [
             // case one
           [
               // Inline options
             [],
               // Expected options
-            ['foo', 'FooImagePlugin', 'Foo label', 'foo_id', 'Foo Description'],
+              // Expected options
+            ['foo', $permissions, true],
               // User input options
-            "foo\nFooImagePlugin\nFoo label\nfoo_id\nFoo Description\n",
+            "foo\nyes\nMy Permission\n",
           ],
             // case two
           [
               // Inline options
-            [
-              '--module' => 'foo',
-              '--class-name' => 'FooImagePlugin',
-              '--label' => 'Foo label',
-              '--plugin-id' => 'foo_id',
-              '--description' => 'Foo Description'
-            ],
+            ['--module' => 'foo'],
               // Expected options
-            ['foo', 'FooImagePlugin', 'Foo label', 'foo_id', 'Foo Description'],
+            ['foo', $permissions, true],
               // User input options
-            "",
+            "foo\nyes\nMy Permission\n",
           ],
         ];
     }
@@ -61,18 +64,14 @@ class GeneratorPluginImageEffectCommandTest extends GenerateCommandTest
     protected function getCommand($generator, $input)
     {
         $command = $this
-          ->getMockBuilder('Drupal\AppConsole\Command\GeneratorPluginImageEffectCommand')
-          ->setMethods(['getModules', 'getServices', '__construct'])
+          ->getMockBuilder('Drupal\AppConsole\Command\GeneratorPermissionCommand')
+          ->setMethods(['getModules', '__construct'])
           ->setConstructorArgs([$this->getTranslationHelper()])
           ->getMock();
 
         $command->expects($this->any())
           ->method('getModules')
           ->will($this->returnValue(['foo']));;
-
-        $command->expects($this->any())
-          ->method('getServices')
-          ->will($this->returnValue(['twig', 'database']));;
 
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet($input));
@@ -84,7 +83,7 @@ class GeneratorPluginImageEffectCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-          ->getMockBuilder('Drupal\AppConsole\Generator\PluginImageEffectGenerator')
+          ->getMockBuilder('Drupal\AppConsole\Generator\PermissionGenerator')
           ->disableOriginalConstructor()
           ->setMethods(['generate'])
           ->getMock();

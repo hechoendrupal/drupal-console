@@ -39,36 +39,6 @@ class KernelHelper extends Helper
      */
     protected $debug;
 
-    public function setClassLoader(ClassLoader $class_loader)
-    {
-        $this->class_loader = $class_loader;
-    }
-
-    /**
-     * @param \Drupal\Core\DrupalKernel $kernel
-     */
-    public function setKernel(DrupalKernel $kernel)
-    {
-        $this->kernel = $kernel;
-    }
-
-    /**
-     * @return \Drupal\Core\DrupalKernel
-     */
-    public function getKernel()
-    {
-        if (!$this->kernel) {
-            $this->request = Request::createFromGlobals();
-            $this->kernel = DrupalKernel::createFromRequest(
-              $this->request,
-              $this->class_loader,
-              $this->environment
-            );
-        }
-
-        return $this->kernel;
-    }
-
     /**
      * @param string $environment
      */
@@ -100,6 +70,31 @@ class KernelHelper extends Helper
     }
 
     /**
+     * @return \Drupal\Core\DrupalKernel
+     */
+    public function getKernel()
+    {
+        if (!$this->kernel) {
+            $this->request = Request::createFromGlobals();
+            $this->kernel = DrupalKernel::createFromRequest(
+                $this->request,
+                $this->class_loader,
+                $this->environment
+            );
+        }
+
+        return $this->kernel;
+    }
+
+    /**
+     * @param \Drupal\Core\DrupalKernel $kernel
+     */
+    public function setKernel(DrupalKernel $kernel)
+    {
+        $this->kernel = $kernel;
+    }
+
+    /**
      * @param array $commands
      */
     public function initCommands(array $commands)
@@ -107,7 +102,7 @@ class KernelHelper extends Helper
         $container = $this->getKernel()->getContainer();
         array_walk($commands, function ($command) use ($container) {
             if ($command instanceof ContainerAwareInterface) {
-              $command->setContainer($container);
+                $command->setContainer($container);
             }
         });
     }
@@ -131,14 +126,21 @@ class KernelHelper extends Helper
     /**
      * @return \Composer\Autoload\ClassLoader
      */
-    public function getClassLoader(){
+    public function getClassLoader()
+    {
         return $this->class_loader;
+    }
+
+    public function setClassLoader(ClassLoader $class_loader)
+    {
+        $this->class_loader = $class_loader;
     }
 
     /**
      * @return \Symfony\Component\HttpFoundation\Request
      */
-    public function getRequest(){
+    public function getRequest()
+    {
         return $this->request;
     }
 }

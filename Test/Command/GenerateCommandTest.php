@@ -9,76 +9,71 @@ use Drupal\AppConsole\Command\Helper\DialogHelper;
 
 abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
 {
-  /**
-   * @return \Symfony\Component\DependencyInjection\Container Drupal container
-   */
-  protected function getContainer()
-  {
-    $container = new Container();
-    $container->set('twig', new \Twig_Environment());
-    return $container;
-  }
+    /**
+     * @return \Symfony\Component\DependencyInjection\Container Drupal container
+     */
+    protected function getContainer()
+    {
+        $container = new Container();
+        $container->set('twig', new \Twig_Environment());
+        return $container;
+    }
 
-  protected function getHelperSet($input)
-  {
-    $dialog = new DialogHelper();
-    $dialog->setInputStream($this->getInputStream($input));
+    protected function getHelperSet($input)
+    {
+        $dialog = new DialogHelper();
+        $dialog->setInputStream($this->getInputStream($input));
 
-    $bootstrap = $this
-      ->getMockBuilder('Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper')
-      ->setMethods(['getDrupalRoot'])
-      ->getMock()
-    ;
+        $bootstrap = $this
+          ->getMockBuilder('Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper')
+          ->setMethods(['getDrupalRoot'])
+          ->getMock();
 
-    $stringUtils = $this->getMockBuilder('Drupal\AppConsole\Utils\StringUtils')
-      ->disableOriginalConstructor()
-      ->setMethods(['createMachineName'])
-      ->getMock()
-    ;
+        $stringUtils = $this->getMockBuilder('Drupal\AppConsole\Utils\StringUtils')
+          ->disableOriginalConstructor()
+          ->setMethods(['createMachineName'])
+          ->getMock();
 
-    $stringUtils->expects($this->any())
-      ->method('createMachineName')
-      ->will($this->returnArgument(0));
+        $stringUtils->expects($this->any())
+          ->method('createMachineName')
+          ->will($this->returnArgument(0));
 
-    $validators  = $this->getMockBuilder('Drupal\AppConsole\Utils\Validators')
-      ->disableOriginalConstructor()
-      ->setMethods(['validateModuleName'])
-      ->getMock()
-    ;
-    
-    $validators->expects($this->any())
-      ->method('validateModuleName')
-      ->will($this->returnArgument(0));
+        $validators = $this->getMockBuilder('Drupal\AppConsole\Utils\Validators')
+          ->disableOriginalConstructor()
+          ->setMethods(['validateModuleName'])
+          ->getMock();
 
-    $translator  = $this->getTranslationHelper();
+        $validators->expects($this->any())
+          ->method('validateModuleName')
+          ->will($this->returnArgument(0));
 
-    return new HelperSet([
-      'formatter' => new FormatterHelper(),
-      'bootstrap' => $bootstrap,
-      'dialog' => $dialog,
-      'stringUtils' => $stringUtils,
-      'validators' => $validators,
-      'translator' => $translator
-    ]);
-  }
+        $translator = $this->getTranslationHelper();
 
-  protected function getInputStream($input)
-  {
-    $stream = fopen('php://memory', 'r+', false);
-    fputs($stream, $input.str_repeat("\n", 10));
-    rewind($stream);
+        return new HelperSet([
+          'formatter' => new FormatterHelper(),
+          'bootstrap' => $bootstrap,
+          'dialog' => $dialog,
+          'stringUtils' => $stringUtils,
+          'validators' => $validators,
+          'translator' => $translator
+        ]);
+    }
 
-    return $stream;
-  }
+    protected function getInputStream($input)
+    {
+        $stream = fopen('php://memory', 'r+', false);
+        fputs($stream, $input . str_repeat("\n", 10));
+        rewind($stream);
 
-  protected function getTranslationHelper()
-  {
-    return $this
-      ->getMockBuilder('Drupal\AppConsole\Command\Helper\TranslatorHelper')
-      ->disableOriginalConstructor()
-      ->setMethods(['loadResource','trans'])
-      ->getMock()
-      ;
-  }
+        return $stream;
+    }
 
+    protected function getTranslationHelper()
+    {
+        return $this
+          ->getMockBuilder('Drupal\AppConsole\Command\Helper\TranslatorHelper')
+          ->disableOriginalConstructor()
+          ->setMethods(['loadResource', 'trans'])
+          ->getMock();
+    }
 }
