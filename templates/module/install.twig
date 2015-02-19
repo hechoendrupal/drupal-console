@@ -11,24 +11,34 @@
 /**
  * Implements hook_schema().
  */
-function {{module_name}}_schema() {
-  $schema['{{table_name}}'] = array(
-    'description' => 'needs twig here.',
+function {{ module_name }}_schema() {
+  $schema['{{ table_name }}'] = array(
+{% if table_description | length %}
+    'description' => '{{ table_description }}',
+{% endif %}
 {% if columns %}
     'fields' => array(
 {% for column in columns %}
       '{{ column.column_name }}' => array(
         'type' => '{{ column.column_type }}',
-{% if column.column_unsigned != 'None' %}
+{% if column.column_type_options | length %}
+        'length' => '{{ column.column_type_options }}',
+{% endif %}
+{% if column.column_unsigned | length %}
         'unsigned' => {{ column.column_unsigned }},
 {% endif %}
-{% if column.column_not_null != 'None' %}
+{% if column.column_not_null | length %}
         'not null' => {{ column.column_not_null }},
 {% endif %}
-{% if column.column_default != 'None' %}
+{% if column.column_default | length %}
         'default' => {{ column.column_default }},
 {% endif %}
+{% if column.column_size | length %}
+        'size' => '{{ column.column_size }}',
+{% endif %}
+{% if column.column_description | length %}
         'description' => '{{ column.column_description }}',
+{% endif %}
       ),
 {% endfor %}
     ),
@@ -38,23 +48,3 @@ function {{module_name}}_schema() {
 }
 {% endif %}
 {% endblock %}
-
-{#function forum_schema() {#}
-  {#$schema['forum'] = array(#}
-    {#'description' => 'Stores the relationship of nodes to forum terms.',#}
-    {#'fields' => array(#}
-      {#'nid' => array(#}
-        {#'type' => 'int',#}
-        {#'unsigned' => TRUE,#}
-        {#'not null' => TRUE,#}
-        {#'default' => 0,#}
-        {#'description' => 'The {node}.nid of the node.',#}
-      {#),#}
-  {#);#}
-
-
-{#'unsigned' => TRUE,#}
-{#'not null' => TRUE,#}
-{#'default' => 0,#}
-
-

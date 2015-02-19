@@ -31,6 +31,7 @@ class GeneratorInstallCommand extends GeneratorCommand
           ->setHelp($this->trans('commands.generate.column.help'))
           ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
           ->addOption('table-name', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.column.options.table-name'))
+          ->addOption('table-description', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.column.options.table-description'))
           ->addOption('columns', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.columns'))
         ;
     }
@@ -42,11 +43,12 @@ class GeneratorInstallCommand extends GeneratorCommand
     {
         $module = $input->getOption('module');
         $table_name = $input->getOption('table-name');
+        $table_description = $input->getOption('table-description');
         $columns = $input->getOption('columns');
 
         $this
           ->getGenerator()
-          ->generate($module, $table_name, $columns);
+          ->generate($module, $table_name, $table_description, $columns);
     }
 
     /**
@@ -75,6 +77,17 @@ class GeneratorInstallCommand extends GeneratorCommand
             );
         }
         $input->setOption('table-name', $table_name);
+
+        // --table-description option
+        $table_description = $input->getOption('table-description');
+        if (!$table_description) {
+            $table_description = $dialog->ask(
+              $output,
+              $dialog->getQuestion($this->trans('commands.generate.column.questions.table-description'), 'Hit enter to exclude'),
+              null
+            );
+        }
+        $input->setOption('table-description', $table_description);
 
         // --column options
         $columns = $input->getOption('columns');
