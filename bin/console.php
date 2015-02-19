@@ -6,7 +6,6 @@ use Drupal\AppConsole\Command\Helper\ShellHelper;
 use Drupal\AppConsole\Command\Helper\KernelHelper;
 use Drupal\AppConsole\Command\Helper\DialogHelper;
 use Drupal\AppConsole\Command\Helper\RegisterCommandsHelper;
-use Symfony\Component\Finder\Finder;
 use Drupal\AppConsole\Utils\StringUtils;
 use Drupal\AppConsole\Utils\Validators;
 use Symfony\Component\Yaml\Parser;
