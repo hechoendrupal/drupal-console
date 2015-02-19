@@ -9,14 +9,14 @@ class PermissionGenerator extends Generator
 {
     /**
      * @param  $module
-     * @param  $permission
+     * @param  $permissions
      * @param  $permission_title
      */
-    public function generate($module, $permission, $permission_title)
+    public function generate($module, $permissions, $permission_title)
     {
         $parameters = array(
           'module_name' => $module,
-          'permissions' => $permission,
+          'permissions' => $permissions,
           'permission_title' => $permission_title,
         );
 

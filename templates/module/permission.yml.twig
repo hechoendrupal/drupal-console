@@ -1,4 +1,4 @@
-{% if permissions|length %}
+{% if permissions %}
 {% for permission in permissions %}
 {{ permission.permission }}:
   title: '{{ permission.permission_title }}'
