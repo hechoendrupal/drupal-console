@@ -20,6 +20,7 @@ commands:
       services: Load services from the container.
       tags: Set service tags from the container.
       inputs: Create inputs in a form.
+      permissions: Create permissions.
     questions:
       module: Enter the module name
       confirm: Do you confirm generation
@@ -35,6 +36,7 @@ commands:
         confirm: Do you want to generate a form structure
         label: Input label
         machine_name: Input machine name
+        permission: Do you want to generate permissions
         type: Type
         invalid: Field Type "%s" is invalid.
         description: Description
@@ -58,6 +60,17 @@ commands:
       description: Show the current configuration.
       arguments:
         config-name: Configuration name.
+    override:
+      description: Override config value in active configuration..
+      arguments:
+        config-name: Configuration name.
+        key: Key
+        value: Value
+      messages:
+        configuration: Configuration name
+        configuration-key: Configuration key
+        original: Original Value
+        updated: Override Value
   container:
     debug:
       description: Displays current services for an application.
@@ -169,6 +182,15 @@ commands:
         module-unavailable: Warning The following modules are not already available in your local environment "%s" 
       errors:
         directory-exists: The target directory "%s" is not empty.
+    permission:
+        description: Generate module permissions
+        help: The <info>generate:permissions</info> command helps you generate new permissions
+        options:
+          module: common.options.module
+          permission: Enter a permission
+        questions:
+          module: common.questions.module
+          permission: Enter a permission
     plugin:
       block:
         description: Generate a plugin block
@@ -397,9 +419,16 @@ commands:
       arguments:
         environment: Enviroment name
       messages:
-        configuration: Configuration
+        configuration: Configuration name
         configuration-key: Configuration key
         original: Original Value
-        updated: Updated Value
-
-
+        updated: Override Value
+    maintenance:
+      description: Switch site into maintenance mode
+      arguments:
+        mode: Site maintenance mode
+      messages:
+        maintenance-on: Operating in maintenance mode on
+        maintenance-off: Operating in maintenance mode off
+      errors:
+        invalid-mode: Invalid maintance mode

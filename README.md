@@ -15,7 +15,15 @@ Drupal Console
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/hechoendrupal/DrupalAppConsole)
 [![Build Status](https://travis-ci.org/hechoendrupal/DrupalAppConsole.svg?branch=master)](https://travis-ci.org/hechoendrupal/DrupalAppConsole)
-[![Latest Stable Version](https://poser.pugx.org/drupal/console/v/stable.svg)](https://packagist.org/packages/drupal/console) [![Latest Unstable Version](https://poser.pugx.org/drupal/console/v/unstable.svg)](https://packagist.org/packages/drupal/console) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
+[![Latest Stable Version](https://poser.pugx.org/drupal/console/v/stable.svg)](https://packagist.org/packages/drupal/console)
+[![Latest Unstable Version](https://poser.pugx.org/drupal/console/v/unstable.svg)](https://packagist.org/packages/drupal/console) 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
+
+The Drupal Console brings the Symfony Console Component to Drupal 8.
+
+With the Drupal Console, you can quickly generate the code and files required by Drupal 8 for new modules or to upgrade existing modules.
+
+Additionally, you can use the Console to interact with your Drupal installation.
 
 ## Supported version
 
@@ -23,7 +31,7 @@ Drupal Console
 
 ## Documentation
 
-You can read online of Downlad the Documentation of Drupal Console at [gitbooks.io](http://hechoendrupal.gitbooks.io/drupal-console/)
+You can read or download the Drupal Console Documentation at [gitbooks.io](http://hechoendrupal.gitbooks.io/drupal-console/).
 
 ## Installation
 ```
@@ -33,10 +41,13 @@ $ curl -LSs http://drupalconsole.com/installer | php
 // Or if you don't have curl:
 $ php -r "readfile('http://drupalconsole.com/installer');" | php
 
-// Accessing console from anywhere on your system:
+// To access the Console from anywhere your system, move console.phar and rename it to drupal:
 $ mv console.phar /usr/local/bin/drupal
 
-// Use the project
+// Show all available Drupal Console commands.
+$ drupal
+
+// Generate a module.
 $ drupal generate:module
 ```
 

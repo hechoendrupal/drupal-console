@@ -6,32 +6,32 @@ use Drupal\AppConsole\Console\Shell;
 
 class ShellHelper extends Helper
 {
-  /**
-   * @var Shell
-   */
-  protected $shell;
+    /**
+     * @var Shell
+     */
+    protected $shell;
 
-  /**
-   * @param Shell $shell
-   */
-  public function __construct(Shell $shell)
-  {
-    $this->shell = $shell;
-  }
+    /**
+     * @param Shell $shell
+     */
+    public function __construct(Shell $shell)
+    {
+        $this->shell = $shell;
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getName()
-  {
-    return 'shell';
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'shell';
+    }
 
-  /**
-   * @return Shell
-   */
-  public function getShell()
-  {
-    return $this->shell;
-  }
+    /**
+     * @return Shell
+     */
+    public function getShell()
+    {
+        return $this->shell;
+    }
 }
