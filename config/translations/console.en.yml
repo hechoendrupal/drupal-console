@@ -185,7 +185,7 @@ commands:
         columns: common.options.columns
       questions:
         module: common.questions.module
-        table-name: The table name
+        table-name: Enter the table name
         columns: common.questions.columns
     module:
       description: Generate a module.

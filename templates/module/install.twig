@@ -1,3 +1,48 @@
-{{ column_name }}
-{{ column_type }}
-{{ column_description }}
+<?php
+
+{% block file_docblock %}
+/**
+ * @file
+ * Install, update and uninstall functions for the {{module_name}} module.
+ */
+{% endblock %}
+
+{% block file_methods %}
+/**
+ * Implements hook_schema().
+ */
+function {{module_name}}_schema() {
+  $schema['{{module_name}}'] = array(
+    'description' => 'needs twig here.',
+{% if columns %}
+    'fields' => array(
+{% for column in columns %}
+      '{{ column.column_name }}' => array(
+        'description' => '{{ column.column_description }}',
+        'type' => '{{ column.column_type }}',
+      ),
+{% endfor %}
+    ),
+  );
+
+  return $schema;
+}
+{% endif %}
+{% endblock %}
+
+{#function forum_schema() {#}
+  {#$schema['forum'] = array(#}
+    {#'description' => 'Stores the relationship of nodes to forum terms.',#}
+    {#'fields' => array(#}
+      {#'nid' => array(#}
+        {#'type' => 'int',#}
+        {#'unsigned' => TRUE,#}
+        {#'not null' => TRUE,#}
+        {#'default' => 0,#}
+        {#'description' => 'The {node}.nid of the node.',#}
+      {#),#}
+  {#);#}
+
+
+
+

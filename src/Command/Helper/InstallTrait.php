@@ -62,6 +62,7 @@ trait InstallTrait
                   $dialog->getQuestion('  ' . $this->trans('commands.common.questions.columns.column_name'), '', ':'),
                   null
                 );
+                $column_name = $this->getStringUtils()->camelCaseToMachineName($column_name);
 
                 if (empty($column_name)) {
                     break;

@@ -76,12 +76,12 @@ class GeneratorInstallCommand extends GeneratorCommand
         $input->setOption('table-name', $table_name);
 
         // --column options
-        $inputs = $input->getOption('columns');
-        if (!$inputs) {
+        $columns = $input->getOption('columns');
+        if (!$columns) {
             // @see \Drupal\AppConsole\Command\Helper\InstallTrait::installQuestion
-            $inputs = $this->installQuestion($output, $dialog);
+            $columns = $this->installQuestion($output, $dialog);
         }
-        $input->setOption('columns', $inputs);
+        $input->setOption('columns', $columns);
     }
 
     /**
