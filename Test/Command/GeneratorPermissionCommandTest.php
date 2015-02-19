@@ -30,7 +30,6 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
 
     public function getInteractiveData()
     {
-        $dir = sys_get_temp_dir();
 
         $permissions = [
           [
