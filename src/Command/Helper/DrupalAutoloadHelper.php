@@ -62,5 +62,4 @@ class DrupalAutoloadHelper extends Helper
     {
         return 'drupal-autoload';
     }
-
 }
