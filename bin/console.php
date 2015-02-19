@@ -25,17 +25,15 @@ $consoleRoot = __DIR__ . '/../';
 
 if (file_exists($consoleRoot . '/vendor/autoload.php')) {
     require_once $consoleRoot . '/vendor/autoload.php';
-}
-else if (file_exists( $consoleRoot . '/../../vendor/autoload.php')) {
+} else if (file_exists($consoleRoot . '/../../vendor/autoload.php')) {
     require_once $consoleRoot . '/../../vendor/autoload.php';
-}
-else {
-    echo 'Something goes wrong with your archive'.PHP_EOL.
-        'Try downloading again'.PHP_EOL;
+} else {
+    echo 'Something goes wrong with your archive' . PHP_EOL .
+        'Try downloading again' . PHP_EOL;
     exit(1);
 }
 
-$consoleConfig  = new Config(new Parser(), $consoleRoot);
+$consoleConfig = new Config(new Parser(), $consoleRoot);
 $config = $consoleConfig->getConfig();
 
 $translatorHelper = new TranslatorHelper();
@@ -60,67 +58,67 @@ $application->addHelpers($helpers);
 
 $dispatcher = new EventDispatcher();
 $dispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $event) use ($translatorHelper) {
-  $output = $event->getOutput();
-  $command = $event->getCommand();
+    $output = $event->getOutput();
+    $command = $event->getCommand();
 
-  if (method_exists($command,'getDependencies')) {
-    $dependencies = $command->getDependencies();
-    foreach ($dependencies as $dependency) {
-      if (\Drupal::moduleHandler()->moduleExists($dependency) === false) {
-        $errorMessage = sprintf(
-          $translatorHelper->trans('commands.common.errors.module-dependency'),
-          $dependency
-        );
-        $command->showMessage($output, $errorMessage, 'error');
-        $event->disableCommand();
-      }
+    if (method_exists($command, 'getDependencies')) {
+        $dependencies = $command->getDependencies();
+        foreach ($dependencies as $dependency) {
+            if (\Drupal::moduleHandler()->moduleExists($dependency) === false) {
+                $errorMessage = sprintf(
+                    $translatorHelper->trans('commands.common.errors.module-dependency'),
+                    $dependency
+                );
+                $command->showMessage($output, $errorMessage, 'error');
+                $event->disableCommand();
+            }
+        }
     }
-  }
 
-  $welcomeMessageKey = 'commands.'. str_replace(':', '.', $command->getName()). '.welcome';
-  $welcomeMessage = $translatorHelper->trans($welcomeMessageKey);
+    $welcomeMessageKey = 'commands.' . str_replace(':', '.', $command->getName()) . '.welcome';
+    $welcomeMessage = $translatorHelper->trans($welcomeMessageKey);
 
-  if ($welcomeMessage != $welcomeMessageKey){
-    $command->showMessage($output, $welcomeMessage);
-  }
+    if ($welcomeMessage != $welcomeMessageKey) {
+        $command->showMessage($output, $welcomeMessage);
+    }
 });
 
 $dispatcher->addListener(ConsoleEvents::TERMINATE, function (ConsoleTerminateEvent $event) use ($translatorHelper) {
-  $output = $event->getOutput();
-  $command = $event->getCommand();
+    $output = $event->getOutput();
+    $command = $event->getCommand();
 
-  if ($event->getExitCode()!=0) {
-    return;
-  }
-
-  $completedMessageKey = 'application.console.messages.completed';
-
-  if ('self-update' == $command->getName()) {
-    return;
-  }
-
-  if (method_exists($command,'getMessages')) {
-    $messages = $command->getMessages();
-    foreach ($messages as $message) {
-      $command->showMessage($output, $translatorHelper->trans($message));
+    if ($event->getExitCode() != 0) {
+        return;
     }
-  }
 
-  if (method_exists($command,'getGenerator') && method_exists($command,'showGeneratedFiles')) {
-    $files = $command->getGenerator()->getFiles();
-    if ($files) {
-      $command->showGeneratedFiles($output, $files);
+    $completedMessageKey = 'application.console.messages.completed';
+
+    if ('self-update' == $command->getName()) {
+        return;
     }
-    $completedMessageKey = 'application.console.messages.generated.completed';
-  }
 
-  $completedMessage = $translatorHelper->trans($completedMessageKey);
-
-  if ($completedMessage != $completedMessageKey) {
-    if (method_exists($command,'showMessage')) {
-      $command->showMessage($output, $completedMessage);
+    if (method_exists($command, 'getMessages')) {
+        $messages = $command->getMessages();
+        foreach ($messages as $message) {
+            $command->showMessage($output, $translatorHelper->trans($message));
+        }
     }
-  }
+
+    if (method_exists($command, 'getGenerator') && method_exists($command, 'showGeneratedFiles')) {
+        $files = $command->getGenerator()->getFiles();
+        if ($files) {
+            $command->showGeneratedFiles($output, $files);
+        }
+        $completedMessageKey = 'application.console.messages.generated.completed';
+    }
+
+    $completedMessage = $translatorHelper->trans($completedMessageKey);
+
+    if ($completedMessage != $completedMessageKey) {
+        if (method_exists($command, 'showMessage')) {
+            $command->showMessage($output, $completedMessage);
+        }
+    }
 });
 
 $application->setDispatcher($dispatcher);
