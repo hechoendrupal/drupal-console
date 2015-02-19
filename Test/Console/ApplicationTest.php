@@ -24,27 +24,29 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     protected $register_commands;
 
+    /**
+     * {@inheritdoc}
+     */
     protected function setUp()
     {
         $this->helperSet = $this
-          ->getMockBuilder('Symfony\Component\Console\Helper\HelperSet')
-          ->getMock();
+            ->getMockBuilder('Symfony\Component\Console\Helper\HelperSet')
+            ->getMock();
 
-        $this->bootstrapFinder = $this
-          ->getMockBuilder('Drupal\AppConsole\Command\Helper\BootstrapFinderHelper')
-          ->disableOriginalConstructor()
-          ->getMock();
+        $this->drupalAutoload = $this
+            ->getMockBuilder('Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->register_commands = $this
-          ->getMockBuilder('Drupal\AppConsole\Command\Helper\RegisterCommandsHelper')
-          ->disableOriginalConstructor()
-          ->getMock();
+            ->getMockBuilder('Drupal\AppConsole\Command\Helper\RegisterCommandsHelper')
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     public function testCanRunApplication()
     {
         $this->expectsThatAutoloadFinderHelperIsRegistered();
-        $this->expectsThatRegisterCommandsIsCalled();
 
         $config = [
           'application' => [
@@ -53,7 +55,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             'environment' => 'prod'
           ]
         ];
-
+    
         $application = new Application($config);
         $application->setAutoExit(false);
         $application->setHelperSet($this->helperSet);
@@ -63,25 +65,14 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
     protected function expectsThatAutoloadFinderHelperIsRegistered()
     {
-        $this->bootstrapFinder->expects($this->any())
-          ->method('findBootstrapFile')
-          ->will($this->returnValue(false));
-
+        $this->drupalAutoload->expects($this->any())
+                    ->method('findAutoload')
+                    ->will($this->returnValue(false));
+    
         $this->helperSet->expects($this->at(1))
-          ->method('get')
-          ->with('finder')
-          ->will($this->returnValue($this->bootstrapFinder));
+                    ->method('get')
+                    ->with('drupal-autoload')
+                    ->will($this->returnValue($this->drupalAutoload));
     }
 
-    protected function expectsThatRegisterCommandsIsCalled()
-    {
-        $this->register_commands->expects($this->once())
-          ->method('register')
-          ->will($this->returnValue(true));
-
-        $this->helperSet->expects($this->at(2))
-          ->method('get')
-          ->with('register_commands')
-          ->will($this->returnValue($this->register_commands));
-    }
 }

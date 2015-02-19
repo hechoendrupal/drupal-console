@@ -6,6 +6,7 @@
 
 namespace Drupal\AppConsole\Command\Helper;
 
+use Composer\Autoload\ClassLoader;
 use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,10 +14,13 @@ use Drupal\Core\DrupalKernel;
 
 class KernelHelper extends Helper
 {
+    /**
+     * @var \Composer\Autoload\ClassLoader
+     */
     protected $class_loader;
 
     /**
-     * @var DrupalKernel
+     * @var \Drupal\Core\DrupalKernel
      */
     protected $kernel;
 
@@ -34,36 +38,6 @@ class KernelHelper extends Helper
      * @var boolean
      */
     protected $debug;
-
-    public function setClassLoader($class_loader)
-    {
-        $this->class_loader = $class_loader;
-    }
-
-    /**
-     * @param DrupalKernel $kernel
-     */
-    public function setKernel(DrupalKernel $kernel)
-    {
-        $this->kernel = $kernel;
-    }
-
-    /**
-     * @return DrupalKernel
-     */
-    public function getKernel()
-    {
-        if (!$this->kernel) {
-            $this->request = Request::createFromGlobals();
-            $this->kernel = DrupalKernel::createFromRequest(
-              $this->request,
-              $this->class_loader,
-              'dev'
-            );
-        }
-
-        return $this->kernel;
-    }
 
     /**
      * @param string $environment
@@ -96,6 +70,31 @@ class KernelHelper extends Helper
     }
 
     /**
+     * @return \Drupal\Core\DrupalKernel
+     */
+    public function getKernel()
+    {
+        if (!$this->kernel) {
+            $this->request = Request::createFromGlobals();
+            $this->kernel = DrupalKernel::createFromRequest(
+                $this->request,
+                $this->class_loader,
+                $this->environment
+            );
+        }
+
+        return $this->kernel;
+    }
+
+    /**
+     * @param \Drupal\Core\DrupalKernel $kernel
+     */
+    public function setKernel(DrupalKernel $kernel)
+    {
+        $this->kernel = $kernel;
+    }
+
+    /**
      * @param array $commands
      */
     public function initCommands(array $commands)
@@ -117,16 +116,24 @@ class KernelHelper extends Helper
     }
 
     /**
-     * @see \Symfony\Component\Console\Helper\HelperInterface::getName()
+     * {@inheritdoc}
      */
     public function getName()
     {
         return 'kernel';
     }
 
+    /**
+     * @return \Composer\Autoload\ClassLoader
+     */
     public function getClassLoader()
     {
         return $this->class_loader;
+    }
+
+    public function setClassLoader(ClassLoader $class_loader)
+    {
+        $this->class_loader = $class_loader;
     }
 
     /**

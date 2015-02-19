@@ -1,33 +1,20 @@
 <?php
+
+/**
+ * @file
+ *   Contains \Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper.
+ */
+
 namespace Drupal\AppConsole\Command\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
 
 class DrupalBootstrapHelper extends Helper
 {
-    private $booting = false;
-
     /**
-     * @param string $pathToBootstrapFile
+     * @var bool
      */
-    public function bootstrapConfiguration($pathToBootstrapFile)
-    {
-        if ($pathToBootstrapFile) {
-            require_once $pathToBootstrapFile;
-            \drupal_bootstrap(DRUPAL_BOOTSTRAP_CONFIGURATION);
-            $this->booting = true;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function bootstrapCode()
-    {
-        if ($this->booting) {
-            \drupal_bootstrap(DRUPAL_BOOTSTRAP_CODE);
-        }
-    }
+    private $booting = false;
 
     public function getDrupalRoot()
     {
