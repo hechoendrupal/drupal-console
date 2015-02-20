@@ -13,7 +13,9 @@ before_script:
   - composer self-update
   - composer install --dev --prefer-source
   - composer require drush/drush:dev-master
-  - ./bin/drush site-install standard --yes --account-name=root --account-pass=toor --db-url=sqlite://sites/default/files/console.sqlite
+  - git clone --branch 8.0.x http://git.drupal.org/project/drupal.git
+  - cd drupal
+  - ../bin/drush site-install standard --yes --account-name=root --account-pass=toor --db-url=sqlite://sites/default/files/console.sqlite
 
 after_success:
   - ./bin/console container:debug
