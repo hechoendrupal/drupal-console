@@ -56,7 +56,7 @@ commands:
         column_not_null_invalid: Null Type "%s" is invalid. Must be TRUE, FALSE, or None.
         column_default_invalid: Default Type "%s" is invalid. Must be '', 0, 1 or None.
         column_size_invalid: Size Type "%s" is invalid.
-        column_description: Description
+        column_description: Column Description
     errors:
       module-dependency: Missing module dependency "%s"
       class-name-empty: The Class name can not be empty
@@ -192,12 +192,12 @@ commands:
         module: common.options.module
         table-name: Enter the table's name
 #        To Do: Make table's Dynamic
-        table-description: Enter the table's description. Hit enter to exclude.
+        table-description: Enter the table's description.
         columns: common.options.columns
       questions:
         module: common.questions.module
         table-name: Enter the table's name
-        table-description: Enter the table's description. Hit enter to exclude.
+        table-description: Enter the table's description.
         columns: common.questions.columns
     module:
       description: Generate a module.

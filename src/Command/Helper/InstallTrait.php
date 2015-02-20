@@ -49,7 +49,7 @@ trait InstallTrait
               '\'\'',
               null,
             ];
-            $column_size = [
+            $column_size_choices = [
               'tiny',
               'small',
               'medium',
@@ -88,7 +88,7 @@ trait InstallTrait
                 // Column type
                 $column_type = $dialog->askAndValidate(
                   $output,
-                  $dialog->getQuestion('  ' . $this->trans('commands.common.questions.columns.column_type'), 'varchar', ':'),
+                  $dialog->getQuestion('    ' . $this->trans('commands.common.questions.columns.column_type'), 'varchar', ':'),
                   function ($column_options) use ($column_types) {
                       if (!in_array($column_options, $column_types)) {
                           throw new \InvalidArgumentException(
@@ -109,7 +109,7 @@ trait InstallTrait
 
                     $column_type_options = $dialog->askAndValidate(
                       $output,
-                      $dialog->getQuestion('  ' . $this->trans('commands.common.questions.columns.column_length'), '255', ':'),
+                      $dialog->getQuestion('    ' . $this->trans('commands.common.questions.columns.column_length'), '255', ':'),
                       function ($column_type_choices) use ($column_length) {
                           if (!in_array($column_type_choices, $column_length)) {
                               throw new \InvalidArgumentException(
@@ -128,7 +128,7 @@ trait InstallTrait
                 // Unsigned
                 $column_unsigned = $dialog->askAndValidate(
                   $output,
-                  $dialog->getQuestion('  ' . $this->trans('commands.common.questions.columns.column_unsigned'), 'TRUE or FALSE. Hit enter to exclude', ':'),
+                  $dialog->getQuestion('    ' . $this->trans('commands.common.questions.columns.column_unsigned'), 'TRUE or FALSE. Hit enter to exclude', ':'),
                   function ($column_unsigned_options) use ($column_true_false) {
                       if (!in_array($column_unsigned_options, $column_true_false)) {
                           throw new \InvalidArgumentException(
@@ -146,7 +146,7 @@ trait InstallTrait
                 // Not null
                 $column_not_null = $dialog->askAndValidate(
                   $output,
-                  $dialog->getQuestion('  ' . $this->trans('commands.common.questions.columns.column_not_null'), 'TRUE or FALSE. Hit enter to exclude', ':'),
+                  $dialog->getQuestion('    ' . $this->trans('commands.common.questions.columns.column_not_null'), 'TRUE or FALSE. Hit enter to exclude', ':'),
                   function ($column_not_null_options) use ($column_true_false) {
                       if (!in_array($column_not_null_options, $column_true_false)) {
                           throw new \InvalidArgumentException(
@@ -164,7 +164,7 @@ trait InstallTrait
                 // Default
                 $column_default = $dialog->askAndValidate(
                   $output,
-                  $dialog->getQuestion('  ' . $this->trans('commands.common.questions.columns.column_default'), '0, 1, or \'\'. Hit enter to exclude', ':'),
+                  $dialog->getQuestion('    ' . $this->trans('commands.common.questions.columns.column_default'), '0, 1, or \'\'. Hit enter to exclude', ':'),
                   function ($column_default_options) use ($column_default_choices) {
                       if (!in_array($column_default_options, $column_default_choices)) {
                           throw new \InvalidArgumentException(
@@ -175,16 +175,16 @@ trait InstallTrait
                       return $column_default_options;
                   },
                   false,
-                  '0',
+                  null,
                   $column_default_choices
                 );
 
                 // Size
                 $column_size = $dialog->askAndValidate(
                   $output,
-                  $dialog->getQuestion('  ' . $this->trans('commands.common.questions.columns.column_size'), 'tiny. Hit enter to exclude', ':'),
-                  function ($column_size_options) use ($column_size) {
-                      if (!in_array($column_size_options, $column_size)) {
+                  $dialog->getQuestion('    ' . $this->trans('commands.common.questions.columns.column_size'), 'tiny. Hit enter to exclude', ':'),
+                  function ($column_size_options) use ($column_size_choices) {
+                      if (!in_array($column_size_options, $column_size_choices)) {
                           throw new \InvalidArgumentException(
                             sprintf($this->trans('commands.common.questions.columns.column_size_invalid'), $column_size_options)
                           );
@@ -193,14 +193,14 @@ trait InstallTrait
                       return $column_size_options;
                   },
                   false,
-                  'tiny',
-                  $column_size
+                  null,
+                  $column_size_choices
                 );
 
                 // Description
                 $column_description = $dialog->ask(
                   $output,
-                  $dialog->getQuestion('  ' . $this->trans('commands.common.questions.columns.column_description'), 'Hit enter to exclude', ':'),
+                  $dialog->getQuestion('    ' . $this->trans('commands.common.questions.columns.column_description'), 'Hit enter to exclude', ':'),
                   null
                 );
 

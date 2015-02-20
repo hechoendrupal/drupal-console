@@ -37,7 +37,7 @@ trait PermissionTrait
                     break;
                 }
                 $permission = $this->getStringUtils()->camelCaseToLowerCase($permission);
-                $permission_title = $this->getStringUtils()->camelCaseToUcFirst($permission);
+                $permission_title = $this->getStringUtils()->anyCaseToUcFirst($permission);
 
                 array_push($permissions, array(
                   'permission' => $permission,

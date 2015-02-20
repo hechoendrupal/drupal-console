@@ -87,6 +87,7 @@ class GeneratorInstallCommand extends GeneratorCommand
               null
             );
         }
+        $table_description = $this->getStringUtils()->anyCaseToUcFirst($table_description);
         $input->setOption('table-description', $table_description);
 
         // --column options
