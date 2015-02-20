@@ -211,6 +211,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     {
         return $this->getContainer()->get('plugin.manager.rest');
     }
+
     /**
      * getTestDiscovery return a service object for Simpletest
      * @return Drupal\simpletest\TestDiscovery
