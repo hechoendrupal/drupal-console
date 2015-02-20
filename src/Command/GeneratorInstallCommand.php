@@ -29,11 +29,16 @@ class GeneratorInstallCommand extends GeneratorCommand
           ->setName('generate:install')
           ->setDescription($this->trans('commands.generate.column.description'))
           ->setHelp($this->trans('commands.generate.column.help'))
-          ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
-          ->addOption('table-name', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.column.options.table-name'))
-          ->addOption('table-description', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.column.options.table-description'))
-          ->addOption('columns', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.columns'))
-        ;
+          ->addOption('module', '', InputOption::VALUE_REQUIRED,
+            $this->trans('commands.common.options.module'))
+          ->addOption('table-name', '', InputOption::VALUE_OPTIONAL,
+            $this->trans('commands.generate.column.options.table-name'))
+          ->addOption('table-description', '', InputOption::VALUE_OPTIONAL,
+            $this->trans('commands.generate.column.options.table-description'))
+          ->addOption('columns', '', InputOption::VALUE_OPTIONAL,
+            $this->trans('commands.common.options.columns'))
+          ->addOption('primary-key', '', InputOption::VALUE_OPTIONAL,
+            $this->trans('commands.common.options.primary-key'));
     }
 
     /**
@@ -45,10 +50,12 @@ class GeneratorInstallCommand extends GeneratorCommand
         $table_name = $input->getOption('table-name');
         $table_description = $input->getOption('table-description');
         $columns = $input->getOption('columns');
+        $primary_key = $input->getOption('primary-key');
 
         $this
           ->getGenerator()
-          ->generate($module, $table_name, $table_description, $columns);
+          ->generate($module, $table_name, $table_description, $columns,
+            $primary_key);
     }
 
     /**
@@ -69,10 +76,12 @@ class GeneratorInstallCommand extends GeneratorCommand
         // --table-name option
         $table_name = $input->getOption('table-name');
         if (!$table_name) {
-            $table_name = $this->getStringUtils()->camelCaseToMachineName($module);
+            $table_name = $this->getStringUtils()
+              ->camelCaseToMachineName($module);
             $table_name = $dialog->ask(
               $output,
-              $dialog->getQuestion($this->trans('commands.generate.column.questions.table-name'), $table_name),
+              $dialog->getQuestion($this->trans('commands.generate.column.questions.table-name'),
+                $table_name),
               $table_name
             );
         }
@@ -83,11 +92,13 @@ class GeneratorInstallCommand extends GeneratorCommand
         if (!$table_description) {
             $table_description = $dialog->ask(
               $output,
-              $dialog->getQuestion($this->trans('commands.generate.column.questions.table-description'), 'Hit enter to exclude'),
+              $dialog->getQuestion($this->trans('commands.generate.column.questions.table-description'),
+                'Hit enter to exclude'),
               null
             );
         }
-        $table_description = $this->getStringUtils()->anyCaseToUcFirst($table_description);
+        $table_description = $this->getStringUtils()
+          ->anyCaseToUcFirst($table_description);
         $input->setOption('table-description', $table_description);
 
         // --column options
@@ -97,6 +108,50 @@ class GeneratorInstallCommand extends GeneratorCommand
             $columns = $this->installQuestion($output, $dialog);
         }
         $input->setOption('columns', $columns);
+
+        $column_names = array();
+        foreach ($columns as $item) {
+            $column_names[] = $item['column_name'];
+        }
+        // add null to the array
+        array_push($column_names, 'null');
+
+        $column_names_string = implode(', ', $column_names);
+        // remove null from the string
+        $column_names_string = substr($column_names_string, 0, -6);
+
+        // --primary key options
+        $primary_key = $input->getOption('primary-key');
+        if (!$primary_key) {
+            if ($dialog->askConfirmation(
+              $output,
+              $dialog->getQuestion($this->trans('commands.common.questions.columns.confirm_primary_key'),
+                'yes', '?'),
+              true
+            )
+            ) {
+                $primary_key_options = $dialog->askAndValidate(
+                  $output,
+                  $dialog->getQuestion('  ' . $this->trans('commands.common.questions.columns.table_primary_key'),
+                    $column_names_string, ':'),
+                  function ($primary_key_choices) use ($column_names) {
+                      if (!in_array($primary_key_choices, $column_names)) {
+                          throw new \InvalidArgumentException(
+                            sprintf($this->trans('commands.common.questions.columns.table_primary_key_invalid'),
+                              $primary_key_choices)
+                          );
+                      }
+
+                      return $primary_key_choices;
+                  },
+                  false,
+                  null,
+                  $column_names
+                );
+
+                $input->setOption('primary-key', $primary_key_options);
+            }
+        }
     }
 
     /**

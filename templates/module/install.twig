@@ -42,7 +42,11 @@ function {{ module_name }}_schema() {
       ),
 {% endfor %}
     ),
+{% if primary_key | length %}
+
+    'primary key' => array('{{ primary_key }}'),
   );
+
 
   return $schema;
 }

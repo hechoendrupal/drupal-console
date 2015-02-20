@@ -11,6 +11,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 trait InstallTrait
 {
+//    /**
+//     * @var $columns
+//     */
+//    protected $columns;
+//
     /**
      * @param OutputInterface $output
      * @param HelperInterface $dialog
@@ -37,16 +42,12 @@ trait InstallTrait
             $column_true_false = [
               'TRUE',
               'FALSE',
-//              'None',
-              '\'\'',
               null,
             ];
             $column_default_choices = [
               '\'\'',
               '0',
               '1',
-//              'None',
-              '\'\'',
               null,
             ];
             $column_size_choices = [
@@ -110,14 +111,14 @@ trait InstallTrait
                     $column_type_options = $dialog->askAndValidate(
                       $output,
                       $dialog->getQuestion('    ' . $this->trans('commands.common.questions.columns.column_length'), '255', ':'),
-                      function ($column_type_choices) use ($column_length) {
-                          if (!in_array($column_type_choices, $column_length)) {
+                      function ($column_length_choices) use ($column_length) {
+                          if (!in_array($column_length_choices, $column_length)) {
                               throw new \InvalidArgumentException(
-                                sprintf($this->trans('commands.common.questions.columns.column_length_invalid'), $column_type_choices)
+                                sprintf($this->trans('commands.common.questions.columns.column_length_invalid'), $column_length_choices)
                               );
                           }
 
-                          return $column_type_choices;
+                          return $column_length_choices;
                       },
                       false,
                       '255',
@@ -182,7 +183,7 @@ trait InstallTrait
                 // Size
                 $column_size = $dialog->askAndValidate(
                   $output,
-                  $dialog->getQuestion('    ' . $this->trans('commands.common.questions.columns.column_size'), 'tiny. Hit enter to exclude', ':'),
+                  $dialog->getQuestion('    ' . $this->trans('commands.common.questions.columns.column_size'), 'tiny, small, medium, big, normal. Hit enter to exclude', ':'),
                   function ($column_size_options) use ($column_size_choices) {
                       if (!in_array($column_size_options, $column_size_choices)) {
                           throw new \InvalidArgumentException(
@@ -219,5 +220,34 @@ trait InstallTrait
             return $columns;
         }
         return null;
+    }
+
+    public function getColumns()
+    {
+        return $this->columns;
+    }
+
+
+    /**
+     * @param OutputInterface $output
+     * @param HelperInterface $dialog
+     * @return mixed
+     */
+    public function installPrimaryKey(OutputInterface $output, HelperInterface $dialog)
+    {
+        if ($dialog->askConfirmation(
+          $output,
+          $dialog->getQuestion($this->trans('commands.common.questions.columns.confirm_primary_key'),
+            'yes', '?'),
+          true
+        )
+        ) {
+
+//            $columns = $this->installQuestion($output, $dialog);
+
+
+//            var_dump($this->columns);
+            var_dump('eric');
+        }
     }
 }
