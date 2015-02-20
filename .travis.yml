@@ -18,11 +18,11 @@ after_success:
   - mkdir /var/www -p
   - cd /var/www
   - wget http://ftp.drupal.org/files/projects/drupal-8.0.0-beta6.tar.gz
-  - tar xvzf drupal-8.0.0-beta6.tar.gz
+  - tar xzf drupal-8.0.0-beta6.tar.gz
   - cd drupal-8.0.0-beta6
   - ~/.composer/vendor/bin/drush site-install standard --yes --account-name=root --account-pass=toor --db-url=sqlite://sites/default/files/console.sqlite
-  - ./bin/console container:debug
-  - ./bin/phpcs --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml /tmp/modules/*
+  - $TRAVIS_BUILD_DIR/bin/console container:debug
+  - $TRAVIS_BUILD_DIR/bin/phpcs --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml /tmp/modules/*
   #- if ./bin/phpcs --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml /tmp/modules/* | egrep "FOUND ([1-9]+) ERRORS" --quiet; then echo "\nErrors in coding standards\n"; exit 1; fi
   - rm -r /tmp/modules
 notifications:
