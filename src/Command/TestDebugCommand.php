@@ -21,16 +21,16 @@ class TestDebugCommand extends ContainerAwareCommand
       */
     protected function configure()
     {
-      $this
-      ->setName('test:debug')
-      ->setDescription($this->trans('commands.test.debug.description'))
-      ->addArgument('test-id', InputArgument::OPTIONAL,
-        $this->trans('commands.test.debug.arguments.resource-id'))
-      ->addOption('group', '', InputOption::VALUE_OPTIONAL,
-        $this->trans('commands.test.debug.options.group'))
-      ;
+        $this
+        ->setName('test:debug')
+        ->setDescription($this->trans('commands.test.debug.description'))
+        ->addArgument('test-id', InputArgument::OPTIONAL,
+          $this->trans('commands.test.debug.arguments.resource-id'))
+        ->addOption('group', '', InputOption::VALUE_OPTIONAL,
+          $this->trans('commands.test.debug.options.group'))
+        ;
 
-      $this->addDependency('simpletest');
+        $this->addDependency('simpletest');
     }
 
     /**
@@ -38,17 +38,17 @@ class TestDebugCommand extends ContainerAwareCommand
       */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-      $test_id = $input->getArgument('test-id');
-      $group = $input->getOption('group');
+        $test_id = $input->getArgument('test-id');
+        $group = $input->getOption('group');
 
-      $table = $this->getHelperSet()->get('table');
-      $table->setlayout($table::LAYOUT_COMPACT);
+        $table = $this->getHelperSet()->get('table');
+        $table->setlayout($table::LAYOUT_COMPACT);
 
-      if ($test_id) {
-        $this->getTestByID($output, $table, $test_id);
-      } else {
-        $this->getAllTests($output, $table, $group);
-      }
+        if ($test_id) {
+            $this->getTestByID($output, $table, $test_id);
+        } else {
+            $this->getAllTests($output, $table, $group);
+        }
     }
 
     /**
@@ -58,17 +58,17 @@ class TestDebugCommand extends ContainerAwareCommand
      */
     private function getTestByID($output, $table, $test_id)
     {
-      $testing_groups = $this->getTestDiscovery()->getTestClasses(null);
+        $testing_groups = $this->getTestDiscovery()->getTestClasses(null);
 
-      foreach ($testing_groups as $testing_group => $tests) {
-        foreach ($tests as $key => $test) {
-          break;
+        foreach ($testing_groups as $testing_group => $tests) {
+            foreach ($tests as $key => $test) {
+                break;
+            }
         }
-      }
 
-      $configurationEncoded = Yaml::encode($test);
-      $table->addRow([$configurationEncoded]);
-      $table->render($output);
+        $configurationEncoded = Yaml::encode($test);
+        $table->addRow([$configurationEncoded]);
+        $table->render($output);
     }
 
     /**
@@ -78,24 +78,24 @@ class TestDebugCommand extends ContainerAwareCommand
     */
     protected function getAllTests($output, $table, $group)
     {
-      $testing_groups = $this->getTestDiscovery()->getTestClasses(null);
+        $testing_groups = $this->getTestDiscovery()->getTestClasses(null);
 
-      $table->setHeaders(
-        [
-        $this->trans('commands.test.debug.messages.id'),
-        $this->trans('commands.test.debug.messages.group'),
-        ]);
+        $table->setHeaders(
+            [
+            $this->trans('commands.test.debug.messages.id'),
+            $this->trans('commands.test.debug.messages.group'),
+            ]);
 
-      foreach ($testing_groups as $testing_group => $tests) {
-        if(!empty($group) and $group != $testing_group) {
-          continue;
+        foreach ($testing_groups as $testing_group => $tests) {
+            if(!empty($group) and $group != $testing_group) {
+                continue;
+            }
+
+            foreach ($tests as $test) {
+                $table->addRow(array($test['name'], $test['group']));
+            }
         }
 
-        foreach ($tests as $test) {
-          $table->addRow(array($test['name'], $test['group']));
-        }
+        $table->render($output);
       }
-
-      $table->render($output);
-    }
   }
