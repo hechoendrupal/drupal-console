@@ -16,6 +16,9 @@ use Drupal\simpletest\TestDiscovery;
 class TestDebugCommand extends ContainerAwareCommand
 {
 
+  /**
+    * {@inheritdoc}
+    */
   protected function configure()
   {
     $this
@@ -30,6 +33,9 @@ class TestDebugCommand extends ContainerAwareCommand
     $this->addDependency('simpletest');
   }
 
+  /**
+    * {@inheritdoc}
+    */
   protected function execute(InputInterface $input, OutputInterface $output)
   {
     $test_id = $input->getArgument('test-id');
@@ -53,7 +59,7 @@ class TestDebugCommand extends ContainerAwareCommand
    */
   private function getTestByID($output, $table, $test_id)
   {
-      $testing_groups = simpletest_test_get_all();
+      $testing_groups = $this->getTestDiscovery()->getTestClasses(null);
 
       foreach ($testing_groups as $testing_group => $tests) {
         foreach ($tests as $key => $test) {
@@ -74,7 +80,7 @@ class TestDebugCommand extends ContainerAwareCommand
   protected function getAllTests($output, $table, $group)
     {
 
-      $testing_groups = simpletest_test_get_all();
+      $testing_groups = $this->getTestDiscovery()->getTestClasses(null);
 
       $table->setHeaders(
         [

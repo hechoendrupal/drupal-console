@@ -212,6 +212,11 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         return $this->getContainer()->get('plugin.manager.rest');
     }
 
+    public function getTestDiscovery()
+    {
+        return $this->getContainer()->get('test_discovery');
+    }
+
     public function getHttpClient()
     {
         return $this->getContainer()->get('http_client');
