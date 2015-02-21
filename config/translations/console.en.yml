@@ -74,10 +74,7 @@ commands:
       arguments:
         config-name: Configuration name.
       messages:
-        configuration: Configuration name
-        configuration-key: Configuration key
-        original: Original Value
-        updated: Override Value
+        no-directory: An error occurred while creating your directory at
   container:
     debug:
       description: Displays current services for an application.
