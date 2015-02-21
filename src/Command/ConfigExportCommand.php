@@ -35,7 +35,9 @@ class ConfigExportCommand extends ContainerAwareCommand
         $directory = $input->getArgument('directory');
 
         if (!$directory) {
-            $directory = file_directory_temp();
+            $config = $this->getConfigFactory()->get('system.file');
+            $directory = $config->get('path.temporary') ?: file_directory_temp();
+            $directory .= '/' . CONFIG_STAGING_DIRECTORY;
         }
 
         $config_export_file  = $directory . '/config.tar.gz';
