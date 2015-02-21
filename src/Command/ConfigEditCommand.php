@@ -26,7 +26,9 @@ class ConfigEditCommand extends ContainerAwareCommand
           ->setName('config:edit')
           ->setDescription($this->trans('commands.config.edit.description'))
           ->addArgument('config-name', InputArgument::REQUIRED,
-            $this->trans('commands.config.edit.arguments.config-name'));
+            $this->trans('commands.config.edit.arguments.config-name'))
+            ->addArgument('editor', InputArgument::OPTIONAL,
+            $this->trans('commands.config.edit.arguments.editor'));
     }
 
     /**
@@ -35,6 +37,7 @@ class ConfigEditCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $configName = $input->getArgument('config-name');
+        $editor = $input->getArgument('editor');
         $config = $this->getConfigFactory()->getEditable($configName);
         $path = '/tmp/console/config/file/';
         $configFile = $path.$configName.'.yml';
@@ -47,8 +50,9 @@ class ConfigEditCommand extends ContainerAwareCommand
         } catch (IOExceptionInterface $e) {
             throw new \IOException($this->trans('commands.config.edit.messages.no-directory')." ".$e->getPath());
         }
-
-        $editor = $this->getEditor();
+        if (!$editor) {
+            $editor = $this->getEditor();
+        }
         $processBuilder = new ProcessBuilder(array($editor, $configFile));
         $process = $processBuilder->getProcess();
         $process->setTty('true');
