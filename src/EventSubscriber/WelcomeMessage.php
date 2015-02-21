@@ -1,9 +1,8 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: dmouse
- * Date: 2/20/15
- * Time: 7:14 PM
+ * @file
+ * Contains \Drupal\AppConsole\EventSubscriber\WelcomeMessage.
  */
 
 namespace Drupal\AppConsole\EventSubscriber;
