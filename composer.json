@@ -33,8 +33,7 @@
         "symfony/yaml": "2.6.*",
         "twig/twig": "1.16.*",
         "herrera-io/phar-update": "1.*",
-        "symfony/dom-crawler": "2.6.*",
-        "alchemy/zippy": "0.2.*@dev"
+        "symfony/dom-crawler": "2.6.*"
     },
     "require-dev": {
         "drupal/coder": "dev-8.x-2.x",
