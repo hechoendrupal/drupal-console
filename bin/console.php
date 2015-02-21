@@ -18,7 +18,7 @@ use Drupal\AppConsole\Config;
 use Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper;
 use Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper;
 use Drupal\AppConsole\EventSubscriber\ShowGeneratedFiles;
-use Drupal\AppConsole\EventSubscriber\WelcomeMessage;
+use Drupal\AppConsole\EventSubscriber\ShowWelcomeMessage;
 
 set_time_limit(0);
 
@@ -59,7 +59,7 @@ $application->addHelpers($helpers);
 
 $dispatcher = new EventDispatcher();
 $dispatcher->addSubscriber(new ShowGeneratedFiles($translatorHelper));
-$dispatcher->addSubscriber(new WelcomeMessage($translatorHelper));
+$dispatcher->addSubscriber(new ShowWelcomeMessage($translatorHelper));
 
 $application->setDispatcher($dispatcher);
 $application->setDefaultCommand('list');
