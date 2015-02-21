@@ -13,7 +13,6 @@ use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Drupal\Component\Serialization\Yaml;
-use Drupal\AppConsole\Config;
 
 class ConfigEditCommand extends ContainerAwareCommand
 {
@@ -27,7 +26,7 @@ class ConfigEditCommand extends ContainerAwareCommand
           ->setDescription($this->trans('commands.config.edit.description'))
           ->addArgument('config-name', InputArgument::REQUIRED,
             $this->trans('commands.config.edit.arguments.config-name'))
-            ->addArgument('editor', InputArgument::OPTIONAL,
+          ->addArgument('editor', InputArgument::OPTIONAL,
             $this->trans('commands.config.edit.arguments.editor'));
     }
 
@@ -39,16 +38,17 @@ class ConfigEditCommand extends ContainerAwareCommand
         $configName = $input->getArgument('config-name');
         $editor = $input->getArgument('editor');
         $config = $this->getConfigFactory()->getEditable($configName);
-        $path = '/tmp/console/config/file/';
-        $configFile = $path.$configName.'.yml';
+        $configSystem = $this->getConfigFactory()->get('system.file');
+        $temporalyDirectory = $configSystem->get('path.temporary') ?:'/tmp';
+        $configFile = $temporalyDirectory.'/config-edit/'.$configName.'.yml';
         $ymlFile = new Parser();
-        $fs = new Filesystem();
+        $fileSystem = new Filesystem();
 
         try {
-            $fs->mkdir($path);
-            $fs->dumpFile($configFile, $this->getYamlConfig($configName));
+            $fileSystem->mkdir($temporalyDirectory);
+            $fileSystem->dumpFile($configFile, $this->getYamlConfig($configName));
         } catch (IOExceptionInterface $e) {
-            throw new \IOException($this->trans('commands.config.edit.messages.no-directory')." ".$e->getPath());
+            throw new \Exception($this->trans('commands.config.edit.messages.no-directory')." ".$e->getPath());
         }
         if (!$editor) {
             $editor = $this->getEditor();
@@ -62,6 +62,7 @@ class ConfigEditCommand extends ContainerAwareCommand
             $value = $ymlFile->parse(file_get_contents($configFile));
             $config->setData($value);
             $config->save();
+            $fileSystem->remove($configFile);
         }
         if (!$process->isSuccessful()) {
             throw new \RuntimeException($process->getErrorOutput());
@@ -71,7 +72,7 @@ class ConfigEditCommand extends ContainerAwareCommand
     /**
      * @param $config_name String
      *
-     * @return array|null $configurationEncoded;
+     * @return array
 
      */
     protected function getYamlConfig($config_name)
@@ -86,13 +87,12 @@ class ConfigEditCommand extends ContainerAwareCommand
     }
 
     /**
-     * @return string|null $editor
+     * @return string
      */
     protected function getEditor()
     {
-        $consoleRoot = __DIR__.'/../../';
-        $consoleConfig = new Config(new Parser(), $consoleRoot);
-        $config = $consoleConfig->getConfig();
+        $app = $this->getApplication();
+        $config = $app->getConfig();
         $editor = ($config['application']['editor']) ? $config['application']['editor'] : '';
 
         if ($editor != '') {
