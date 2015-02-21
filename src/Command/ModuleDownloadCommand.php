@@ -6,7 +6,7 @@
 
 namespace Drupal\AppConsole\Command;
 
-use Alchemy\Zippy\Zippy;
+use Drupal\Core\Archiver\ArchiveTar;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -103,9 +103,8 @@ class ModuleDownloadCommand extends ContainerAwareCommand
             }
 
             // Preper release to unzip and untar
-            $zippy = Zippy::load();
-            $archive = $zippy->open($destination);
-            $archive->extract($module_contrib_path . '/');
+            $archiver = new ArchiveTar($destination, 'gz');
+            $result = $archiver->extract($module_contrib_path . '/');
 
             fclose($destination . ".tar.gz");
 
