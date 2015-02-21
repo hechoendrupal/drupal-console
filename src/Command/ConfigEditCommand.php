@@ -17,7 +17,9 @@ use Drupal\AppConsole\Config;
 
 class ConfigEditCommand extends ContainerAwareCommand
 {
-
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -27,6 +29,9 @@ class ConfigEditCommand extends ContainerAwareCommand
             $this->trans('commands.config.edit.arguments.config-name'));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $configName = $input->getArgument('config-name');
@@ -59,6 +64,12 @@ class ConfigEditCommand extends ContainerAwareCommand
         }
     }
 
+    /**
+     * @param $config_name String
+     *
+     * @return array|null $configurationEncoded;
+
+     */
     protected function getYamlConfig($config_name)
     {
         $configStorage = $this->getConfigStorage();
@@ -70,6 +81,9 @@ class ConfigEditCommand extends ContainerAwareCommand
         return $configurationEncoded;
     }
 
+    /**
+     * @return string|null $editor
+     */
     protected function getEditor()
     {
         $consoleRoot = __DIR__.'/../../';
