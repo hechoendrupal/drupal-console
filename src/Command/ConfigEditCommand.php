@@ -9,11 +9,11 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Drupal\Component\Serialization\Yaml;
-use Symfony\Component\Process\Process;
+use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-use Symfony\Component\Process\ProcessBuilder;
+use Drupal\Component\Serialization\Yaml;
+use Drupal\AppConsole\Config;
 
 class ConfigEditCommand extends ContainerAwareCommand
 {
@@ -32,38 +32,33 @@ class ConfigEditCommand extends ContainerAwareCommand
         $configName = $input->getArgument('config-name');
         $config = $this->getConfigFactory()->getEditable($configName);
         $path = '/tmp/console/config/file/';
-        $configFile = $path . $configName . '.yml';
-        $yaml = new Parser();
+        $configFile = $path.$configName.'.yml';
+        $ymlFile = new Parser();
         $fs = new Filesystem();
 
         try {
             $fs->mkdir($path);
             $fs->dumpFile($configFile, $this->getYamlConfig($configName));
         } catch (IOExceptionInterface $e) {
-            echo "An error occurred while creating your directory at " . $e->getPath();
+            throw new \IOException($this->trans('commands.config.edit.messages.no-directory')." ".$e->getPath());
         }
+
         $editor = $this->getEditor();
         $processBuilder = new ProcessBuilder(array($editor, $configFile));
         $process = $processBuilder->getProcess();
         $process->setTty('true');
         $process->run();
 
+        if ($process->isSuccessful()) {
+            $value = $ymlFile->parse(file_get_contents($configFile));
+            $config->setData($value);
+            $config->save();
+        }
         if (!$process->isSuccessful()) {
             throw new \RuntimeException($process->getErrorOutput());
         }
-        if ($process->isSuccessful()) {
-            $value = $yaml->parse(file_get_contents($configFile));
-            $config->setData($value);
-
-            $config->save();
-        }
-
-        echo $process->getOutput();
     }
 
-    /**
-     * @param $config_name    String
-     */
     protected function getYamlConfig($config_name)
     {
         $configStorage = $this->getConfigStorage();
@@ -77,22 +72,22 @@ class ConfigEditCommand extends ContainerAwareCommand
 
     protected function getEditor()
     {
-        $vim = new Process('which vim');
-        $vim->run();
-        if ($vim->getOutput() != '') {
-            return 'vim';
+        $consoleRoot = __DIR__.'/../../';
+        $consoleConfig = new Config(new Parser(), $consoleRoot);
+        $config = $consoleConfig->getConfig();
+        $editor = ($config['application']['editor']) ? $config['application']['editor'] : '';
+
+        if ($editor != '') {
+            return trim($editor);
         }
 
-        $nano = new Process('which nano');
-        $nano->run();
-        if ($nano->getOutput() != '') {
-            return 'nano';
-        }
+        $processBuilder = new ProcessBuilder(array('bash'));
+        $process = $processBuilder->getProcess();
+        $process->setCommandLine('echo ${EDITOR:-${VISUAL:-vi}}');
+        $process->run();
+        $editor = $process->getOutput();
+        $process->stop();
 
-        $pico = new Process('which pico');
-        $pico->run();
-        if ($pico->getOutput() != '') {
-            return 'pico';
-        }
+        return trim($editor);
     }
 }
