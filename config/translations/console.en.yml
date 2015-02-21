@@ -71,6 +71,13 @@ commands:
         configuration-key: Configuration key
         original: Original Value
         updated: Override Value
+    edit:
+      description: Edit the selected configuration.
+      arguments:
+        config-name: Configuration name.
+        editor: Editor.
+      messages:
+        no-directory: An error occurred while creating your directory at
   container:
     debug:
       description: Displays current services for an application.
