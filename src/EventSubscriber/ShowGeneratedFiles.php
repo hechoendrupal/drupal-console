@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\AppConsole\EventSubscriber\ShowGeneratedFiles.
+ */
+
 namespace Drupal\AppConsole\EventSubscriber;
 
 use Drupal\AppConsole\Command\Helper\TranslatorHelper;
