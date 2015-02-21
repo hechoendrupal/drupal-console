@@ -137,8 +137,8 @@ commands:
         inputs: common.questions.inputs
         routing: Mise à jour fichier de routage
     module:
-      description: Générer un module. 
-      help: Le <info> générer: le module </ info> commande aide à générer un nouveau module 
+      description: Générer un module.
+      help: Le <info> générer: le module </ info> commande aide à générer un nouveau module
       welcome: Bienvenue sur le générateur de modules Drupal
       options:
         module: Le nom du module
@@ -157,10 +157,10 @@ commands:
         description: Entrez la description du module
         core: Entrez la version core Drupal
         package: Entrez le nom du paquet
-        controller: Voulez-vous générer un contrôleur par défaut 
+        controller: Voulez-vous générer un contrôleur par défaut
         test: Voulez-vous générer une classe de test unitaire
       warnings:
-        module-unavailable: Warning The following modules are not already available in your local environment "%s"   
+        module-unavailable: Warning The following modules are not already available in your local environment "%s"
     plugin:
       block:
         description: Générer un bloc de plugin
@@ -338,4 +338,8 @@ commands:
     help: Update the console command to the latest version.
     messages:
       success: The console has been updated to the latest version.
-
+  site:
+    status:
+      description: View current Drupal Installation status
+      arguments:
+        fields-group: show a set of fields groupping by type All available groups are: version, database, theme, directories
