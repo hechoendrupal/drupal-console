@@ -113,12 +113,8 @@ class GeneratorInstallCommand extends GeneratorCommand
         foreach ($columns as $item) {
             $column_names[] = $item['column_name'];
         }
-        // add null to the array
-        array_push($column_names, 'null');
 
         $column_names_string = implode(', ', $column_names);
-        // remove null from the string
-        $column_names_string = substr($column_names_string, 0, -6);
 
         // --primary key options
         $primary_key = $input->getOption('primary-key');
@@ -135,7 +131,9 @@ class GeneratorInstallCommand extends GeneratorCommand
                   $dialog->getQuestion('  ' . $this->trans('commands.common.questions.columns.table_primary_key'),
                     $column_names_string, ':'),
                   function ($primary_key_choices) use ($column_names) {
-                      if (!in_array($primary_key_choices, $column_names)) {
+                      $primary_key_choices = $this->getStringUtils()
+                        ->camelCaseToCommaSeparated($primary_key_choices);
+                      if (empty($primary_key_choices)) {
                           throw new \InvalidArgumentException(
                             sprintf($this->trans('commands.common.questions.columns.table_primary_key_invalid'),
                               $primary_key_choices)
@@ -148,10 +146,10 @@ class GeneratorInstallCommand extends GeneratorCommand
                   null,
                   $column_names
                 );
-
-                $input->setOption('primary-key', $primary_key_options);
             }
         }
+
+        $input->setOption('primary-key', $primary_key_options);
     }
 
     /**

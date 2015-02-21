@@ -20,6 +20,8 @@ class StringUtils extends Helper
     const REGEX_CAMEL_CASE_UNDER = '/([a-z])([A-Z])/';
     // This REGEX captures spaces around words
     const REGEX_SPACES = '/\s\s+/';
+    // This REGEX captures spaces, and comma, and combinations with comma and space *, *
+    const REGEX_COMMAS_SPACES = '/[\s,]+/';
 
     /**
      * Replaces non alphanumeric characters with underscores
@@ -56,6 +58,16 @@ class StringUtils extends Helper
     public function camelCaseToUnderscore($camel_case)
     {
         return strtolower(preg_replace(self::REGEX_CAMEL_CASE_UNDER, '$1_$2', $camel_case));
+    }
+
+    /**
+     * Converts camel-case strings to comma separated format
+     * @param  String $camel_case User input
+     * @return String
+     */
+    public function camelCaseToCommaSeparated($camel_case)
+    {
+        return strtolower(preg_replace(self::REGEX_COMMAS_SPACES, ', ', $camel_case));
     }
 
     public function getName()

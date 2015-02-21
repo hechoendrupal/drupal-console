@@ -60,7 +60,7 @@ commands:
         column_description: Column Description
         confirm_primary_key: Do you want to generate a primary key
         table_primary_key: Enter primary keys. Multivalued primary keys separated by commas.
-        table_primary_key_invalid: One or more of the entered columns are invalid.
+        table_primary_key_invalid: Primary key requires a value.
     errors:
       module-dependency: Missing module dependency "%s"
       class-name-empty: The Class name can not be empty

@@ -30,14 +30,14 @@ trait InstallTrait
         )
         ) {
             $column_types = [
-              'serial',
-              'int',
-              'float',
-              'numeric',
-              'varchar',
-              'char',
-              'text',
               'blob',
+              'char',
+              'float',
+              'int',
+              'numeric',
+              'serial',
+              'text',
+              'varchar',
             ];
             $column_true_false = [
               'TRUE',
@@ -89,7 +89,7 @@ trait InstallTrait
                 // Column type
                 $column_type = $dialog->askAndValidate(
                   $output,
-                  $dialog->getQuestion('    ' . $this->trans('commands.common.questions.columns.column_type'), 'varchar', ':'),
+                  $dialog->getQuestion('    ' . $this->trans('commands.common.questions.columns.column_type'), 'blob, char, float, int, numeric, serial, text, varchar', ':'),
                   function ($column_options) use ($column_types) {
                       if (!in_array($column_options, $column_types)) {
                           throw new \InvalidArgumentException(
