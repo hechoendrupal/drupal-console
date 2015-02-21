@@ -68,5 +68,4 @@ class ShowWelcomeMessage implements EventSubscriberInterface
         return [ConsoleEvents::COMMAND => 'showMessage'];
     }
 
-
 }
