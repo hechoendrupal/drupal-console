@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\EventSubscriber\WelcomeMessage.
+ * Contains \Drupal\AppConsole\EventSubscriber\ShowWelcomeMessage.
  */
 
 namespace Drupal\AppConsole\EventSubscriber;
@@ -12,7 +12,7 @@ use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class WelcomeMessage implements EventSubscriberInterface
+class ShowWelcomeMessage implements EventSubscriberInterface
 {
 
     /**
