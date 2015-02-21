@@ -182,7 +182,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * @return mixed
+     * @return \Drupal\AppConsole\Config
      */
     public function getConfig()
     {
