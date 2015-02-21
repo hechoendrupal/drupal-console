@@ -11,6 +11,7 @@ use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Drupal\AppConsole\Command\Command;
 
 class ShowGeneratedFiles implements EventSubscriberInterface
 {
@@ -33,7 +34,6 @@ class ShowGeneratedFiles implements EventSubscriberInterface
         $this->trans = $trans;
     }
 
-
     /**
      * @param ConsoleCommandEvent $event
      */
@@ -53,7 +53,7 @@ class ShowGeneratedFiles implements EventSubscriberInterface
             return;
         }
 
-        if (method_exists($command, 'getMessages')) {
+        if ($command instanceof Command) {
             $messages = $command->getMessages();
 
             foreach ($messages as $message) {
