@@ -13,8 +13,9 @@ class InstallGenerator extends Generator
      * @param  $table_description
      * @param  $columns
      * @param  $primary_key
+     * @param  $index
      */
-    public function generate($module, $table_name, $table_description, $columns, $primary_key)
+    public function generate($module, $table_name, $table_description, $columns, $primary_key, $index)
     {
         $parameters = array(
           'module_name' => $module,
@@ -22,6 +23,7 @@ class InstallGenerator extends Generator
           'table_description' => $table_description,
           'columns' => $columns,
           'primary_key' => $primary_key,
+          'index' => $index,
         );
 
         $this->renderFile(

@@ -45,6 +45,7 @@ function {{ module_name }}_schema() {
 {% if primary_key | length %}
 
     'primary key' => array('{{ primary_key }}'),
+    {{ index }}
   );
 
   return $schema;

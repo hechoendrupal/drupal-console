@@ -22,7 +22,8 @@ commands:
       inputs: Create inputs in a form.
       permissions: Create permissions.
       columns: Create columns.
-      primary-key: Create primary key.
+      primary-key: Create a primary key.
+      index: Create an index or indexes.
     questions:
       module: Enter the module name
       confirm: Do you confirm generation
@@ -59,8 +60,11 @@ commands:
         column_size_invalid: Size Type "%s" is invalid.
         column_description: Column Description
         confirm_primary_key: Do you want to generate a primary key
-        table_primary_key: Enter primary keys. Multivalued primary keys separated by commas.
+        table_primary_key: Enter a primary key. Multivalued primary keys separated by commas or spaces.
         table_primary_key_invalid: Primary key requires a value.
+        confirm_table_index: Do you want to generate a index(es)
+        table_index: Enter indexes. Multivalued indexes separated by commas or spaces.
+        table_index_invalid: Index requires a value.
     errors:
       module-dependency: Missing module dependency "%s"
       class-name-empty: The Class name can not be empty
