@@ -34,11 +34,10 @@ if (file_exists($consoleRoot . '/vendor/autoload.php')) {
     exit(1);
 }
 
-$consoleConfig = new Config(new Parser(), $consoleRoot);
-$config = $consoleConfig->getConfig();
+$config = new Config(new Parser(), $consoleRoot);
 
 $translatorHelper = new TranslatorHelper();
-$translatorHelper->loadResource($config['application']['language'], $consoleRoot);
+$translatorHelper->loadResource($config->get('application.language'), $consoleRoot);
 
 $application = new Application($config);
 $application->setDirectoryRoot($consoleRoot);
