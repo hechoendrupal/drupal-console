@@ -1,6 +1,6 @@
 application:
-  name: Drupal Console
-  version: 0.7.1
   environment: prod
   language: en
   cache: ~/.console/cache
+  editor: vi
+  temp: /tmp

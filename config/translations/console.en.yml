@@ -56,12 +56,18 @@ commands:
       questions:
         cache: Select cache.
   config:
+    export:
+      description: Export current application configuration.
+      arguments:
+        directory: Define export directory to save configuration output.
+      messages:
+        directory: Your configuration export file was stores in %s
     debug:
       description: Show the current configuration.
       arguments:
         config-name: Configuration name.
     override:
-      description: Override config value in active configuration..
+      description: Override config value in active configuration.
       arguments:
         config-name: Configuration name.
         key: Key
@@ -71,6 +77,13 @@ commands:
         configuration-key: Configuration key
         original: Original Value
         updated: Override Value
+    edit:
+      description: Edit the selected configuration.
+      arguments:
+        config-name: Configuration name.
+        editor: Editor.
+      messages:
+        no-directory: An error occurred while creating your directory at
   container:
     debug:
       description: Displays current services for an application.
