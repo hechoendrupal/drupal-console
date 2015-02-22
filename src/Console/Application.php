@@ -11,6 +11,14 @@ use Symfony\Component\Debug\Debug;
 class Application extends BaseApplication
 {
     /**
+     * @var string
+     */
+    const NAME = 'Drupal Console';
+    /**
+     * @var string
+     */
+    const VERSION = '0.7.1';
+    /**
      * @var bool
      */
     protected $booted = false;
