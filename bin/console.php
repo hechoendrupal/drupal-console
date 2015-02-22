@@ -13,6 +13,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
+use Symfony\Component\Yaml\Parser;
 use Drupal\AppConsole\Config;
 use Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper;
 use Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper;
