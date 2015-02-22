@@ -8,12 +8,12 @@ use Drupal\AppConsole\Command\Helper\DialogHelper;
 use Drupal\AppConsole\Command\Helper\RegisterCommandsHelper;
 use Drupal\AppConsole\Utils\StringUtils;
 use Drupal\AppConsole\Utils\Validators;
-use Symfony\Component\Yaml\Parser;
 use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
+use Symfony\Component\Yaml\Parser;
 use Drupal\AppConsole\Config;
 use Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper;
 use Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper;
@@ -34,11 +34,10 @@ if (file_exists($consoleRoot . '/vendor/autoload.php')) {
     exit(1);
 }
 
-$consoleConfig = new Config(new Parser(), $consoleRoot);
-$config = $consoleConfig->getConfig();
+$config = new Config(new Parser(), $consoleRoot);
 
 $translatorHelper = new TranslatorHelper();
-$translatorHelper->loadResource($config['application']['language'], $consoleRoot);
+$translatorHelper->loadResource($config->get('application.language'), $consoleRoot);
 
 $application = new Application($config);
 $application->setDirectoryRoot($consoleRoot);
