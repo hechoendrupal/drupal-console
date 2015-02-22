@@ -3,3 +3,4 @@ application:
   version: 0.7.1
   environment: prod
   language: en
+  cache: ~/.console/cache
