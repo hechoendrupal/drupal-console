@@ -7,7 +7,6 @@
 namespace Drupal\AppConsole\Command;
 
 use Drupal\Core\Archiver\ArchiveTar;
-use Drupal\Core\Config\FileStorage;
 use Drupal\Component\Serialization\Yaml;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

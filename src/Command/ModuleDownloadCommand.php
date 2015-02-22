@@ -13,7 +13,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
 class ModuleDownloadCommand extends ContainerAwareCommand
 {
 
@@ -104,7 +103,7 @@ class ModuleDownloadCommand extends ContainerAwareCommand
 
             // Preper release to unzip and untar
             $archiver = new ArchiveTar($destination, 'gz');
-            $result = $archiver->extract($module_contrib_path . '/');
+            $archiver->extract($module_contrib_path . '/');
 
             fclose($destination . ".tar.gz");
 
