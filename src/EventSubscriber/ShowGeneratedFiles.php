@@ -85,5 +85,4 @@ class ShowGeneratedFiles implements EventSubscriberInterface
     {
         return [ConsoleEvents::TERMINATE => 'showGeneratedFiles'];
     }
-
 }
