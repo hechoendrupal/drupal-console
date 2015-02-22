@@ -66,6 +66,13 @@ commands:
       description: Show the current configuration.
       arguments:
         config-name: Configuration name.
+    import:
+      description: Import configuration to current application.
+      arguments:
+        config-file: Configuration file path.
+      messages:
+        config_files_imported: List of config files copied
+        imported: All config files were copied to Staging directory
     override:
       description: Override config value in active configuration.
       arguments:
