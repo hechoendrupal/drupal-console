@@ -93,7 +93,7 @@ class ConfigEditCommand extends ContainerAwareCommand
     {
         $app = $this->getApplication();
         $config = $app->getConfig();
-        $editor = ($config['application']['editor']) ? $config['application']['editor'] : '';
+        $editor = $config->get('application.editor', 'vi');
 
         if ($editor != '') {
             return trim($editor);
