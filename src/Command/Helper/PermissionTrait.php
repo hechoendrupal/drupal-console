@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains Drupal\AppConsole\Command\Helper\PermissionsTrait.
+ * Contains Drupal\AppConsole\Command\Helper\PermissionTrait.
  */
 
 namespace Drupal\AppConsole\Command\Helper;

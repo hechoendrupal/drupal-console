@@ -30,7 +30,6 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
 
     public function getInteractiveData()
     {
-
         $permissions = [
           [
             'permission' => 'my permission',
