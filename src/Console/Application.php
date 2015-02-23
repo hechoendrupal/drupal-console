@@ -14,16 +14,19 @@ class Application extends BaseApplication
      * @var string
      */
     const NAME = 'Drupal Console';
+
     /**
      * @var string
      */
     const VERSION = '0.7.1';
+
     /**
      * @var bool
      */
     protected $booted = false;
+
     /**
-     * @var Drupal\AppConsole\Config
+     * @var \Drupal\AppConsole\Config
      */
     protected $config;
     /**
@@ -88,15 +91,15 @@ class Application extends BaseApplication
                 $this->initDebug($input);
                 $this->doKernelConfiguration();
             }
+        }
 
-            if (!$this->commandsRegistered) {
-                $this->commandsRegistered = $this->registerCommands();
-            }
+        if (!$this->commandsRegistered) {
+            $this->commandsRegistered = $this->registerCommands();
+        }
 
-            if (true === $input->hasParameterOption(array('--shell', '-s'))) {
-                $this->runShell($input);
-                return 0;
-            }
+        if (true === $input->hasParameterOption(array('--shell', '-s'))) {
+            $this->runShell($input);
+            return 0;
         }
 
         parent::doRun($input, $output);
@@ -182,9 +185,7 @@ class Application extends BaseApplication
     {
         /** @var \Drupal\AppConsole\Command\Helper\RegisterCommandsHelper $rc */
         $rc = $this->getHelperSet()->get('register_commands');
-
-        $drupalModules = $this->drupalAutoload;
-        $rc->register($drupalModules);
+        $rc->register();
     }
 
     /**
