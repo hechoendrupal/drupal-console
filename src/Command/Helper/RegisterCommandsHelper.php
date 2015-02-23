@@ -5,9 +5,12 @@
  */
 namespace Drupal\AppConsole\Command\Helper;
 
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Finder\Finder;
 use Drupal\AppConsole\Console\Application;
+use Composer\Autoload\ClassLoader;
 
 class RegisterCommandsHelper extends Helper
 {
@@ -17,76 +20,151 @@ class RegisterCommandsHelper extends Helper
      */
     protected $console;
 
+    /**
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     */
     protected $container;
-    protected $kernel;
+
+    /**
+     * @var \Drupal\Core\DrupalKernel
+     */
+    protected $kernel = null;
+
+    /**
+     * @var array
+     */
     protected $modules;
+
+    /**
+     * @var array
+     */
     protected $namespaces;
 
-    public function __construct(Application $console)
+    /**
+     * @param Application $console
+     * @param AnnotationReader $reader
+     * @param ClassLoader $autoload
+     */
+    public function __construct(Application $console, AnnotationReader $reader, ClassLoader $autoload)
     {
         $this->console = $console;
-    }
-
-    public function register($drupalModules = true)
-    {
-        $this->modules = $this->getModuleList($drupalModules);
-        $this->namespaces = $this->getNamespaces($drupalModules);
-        $success = false;
-        $finder = new Finder();
-        foreach ($this->modules as $module => $directory) {
-            $place = $this->namespaces['Drupal\\' . $module];
-            $cmd_dir = '/Command';
-            $prefix = 'Drupal\\' . $module . '\\Command';
-
-            if (is_dir($place . $cmd_dir)) {
-                $dir = $place . $cmd_dir;
-            } else {
-                continue;
-            }
-
-            $finder->files()
-              ->name('*Command.php')
-              ->in($dir)
-              ->depth('< 2');
-
-            foreach ($finder as $file) {
-                $ns = $prefix;
-
-                if ($relativePath = $file->getRelativePath()) {
-                    $ns .= '\\' . strtr($relativePath, '/', '\\');
-                }
-                $class = $ns . '\\' . $file->getBasename('.php');
-
-                if (class_exists($class)) {
-                    $cmd = new \ReflectionClass($class);
-                    // if is a valid command
-                    if ($cmd->isSubclassOf('Symfony\\Component\\Console\\Command\\Command')
-                      && !$cmd->isAbstract()
-                    ) {
-                        if ($this->console->isBooted()) {
-                            if ($cmd->getConstructor()->getNumberOfRequiredParameters() > 0) {
-                                $translator = $this->getHelperSet()->get('translator');
-                                if ($module && $module != 'AppConsole') {
-                                    $translator->addResourceTranslationsByModule($module);
-                                }
-                                $command = $cmd->newInstance($translator);
-                            } else {
-                                $command = $cmd->newInstance();
-                            }
-                            $command->setModule($module);
-                            $this->console->add($command);
-                            $success = true;
-                        }
-                    }
-                }
-            }
-        }
-
-        return $success;
+        $this->reader = $reader;
+        $this->autoload = $autoload;
+        $this->finder = new Finder();
     }
 
     /**
-     * @see \Symfony\Component\Console\Helper\HelperInterface::getName()
+     * @return bool
+     */
+    public function register()
+    {
+        $this->registerAnnotation();
+        $modules = $this->getModuleList();
+
+        foreach ($modules as $module => $directory) {
+            $command_dir = $directory . '/src/Command';
+
+            if ($this->existCommandDirectory($command_dir)) {
+                $commands = $this->searchCommands($command_dir);
+
+                /** @var \Symfony\Component\Finder\SplFileInfo $command */
+                foreach ($commands as $command) {
+                    $class = $this->getFullyQualifiedPathName($module, $command);
+
+                    if ($cmd = $this->isCommand($class)) {
+                        $meta = $this->getCommandMetada($cmd);
+
+                        // If the command need Drupal.
+                        if ($meta && $this->console->isBooted() && $this->hasModule($meta->dependencies)) {
+                            $command = $this->buildCommand($cmd, $module);
+                            $this->console->add($command);
+                        } else if (!$meta) { // If the command not need drupal.
+
+                        }
+                    }
+                }
+
+            }
+        }
+
+    }
+
+    protected function getFullyQualifiedPathName($module, $command)
+    {
+        $prefix = 'Drupal\\' . $module . '\\Command';
+        if ($relativePath = $command->getRelativePath()) {
+            $prefix .= '\\' . strtr($relativePath, '/', '\\');
+        }
+        return $prefix . '\\' . $command->getBasename('.php');
+    }
+
+    protected function searchCommands($dir)
+    {
+        return $this->finder
+            ->name('*Command.php')
+            ->in($dir)
+            ->depth('< 2')
+        ;
+    }
+
+    protected function existCommandDirectory($directory)
+    {
+        return is_dir($directory);
+    }
+
+    /**
+     * @param $class
+     * @return null|\ReflectionClass
+     */
+    protected function isCommand($class)
+    {
+        $class_command = 'Symfony\\Component\\Console\\Command\\Command';
+        if (class_exists($class)) {
+            $cmd = new \ReflectionClass($class);
+            if ($cmd->isSubclassOf($class_command) && !$cmd->isAbstract()) {
+                return $cmd;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param \ReflectionClass $cmd
+     * @param string $module
+     * @return \Drupal\AppConsole\Command\Command
+     */
+    public function buildCommand(\ReflectionClass$cmd, $module)
+    {
+        if ($cmd->getConstructor()->getNumberOfRequiredParameters() > 0) {
+            $translator = $this->getHelperSet()->get('translator');
+
+            if ($module && $module != 'AppConsole') {
+                $translator->addResourceTranslationsByModule($module);
+            }
+
+            $command = $cmd->newInstance($translator);
+        } else {
+            $command = $cmd->newInstance();
+        }
+
+        return $command;
+    }
+
+    /**
+     * @param \ReflectionClass $cmd
+     * @return \Drupal\AppConsole\Annotation\DrupalCommand
+     */
+    protected function getCommandMetada(\ReflectionClass $cmd)
+    {
+        return $this->reader->getClassAnnotation(
+            $cmd,
+            '\Drupal\AppConsole\Annotation\DrupalCommand'
+        );
+    }
+
+    /**
+     * @{@inheritdoc}
      */
     public function getName()
     {
@@ -95,27 +173,40 @@ class RegisterCommandsHelper extends Helper
 
     protected function getKernel()
     {
-        if (!isset($this->kernel)) {
+        if (!$this->kernel) {
+            /** @var \Drupal\AppConsole\Command\Helper\KernelHelper $kernelHelper */
             $kernelHelper = $this->getHelperSet()->get('kernel');
             $this->kernel = $kernelHelper->getKernel();
         }
+
+        return $this->kernel;
     }
 
+    /**
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface
+     */
     protected function getContainer()
     {
         $this->getKernel();
         if (!isset($this->container)) {
             $this->container = $this->kernel->getContainer();
         }
+
+        return $this->container;
     }
 
-    protected function getModuleList($drupalModules = true)
+    /**
+     * @param bool $drupalModules
+     * @return array
+     */
+    protected function getModuleList()
     {
         // Get Module handler
-        if (!isset($this->modules)) {
+        if (!isset($this->modules) ) {
             $this->modules = [];
-            if ($drupalModules) {
-                $this->getContainer();
+            if ($this->console->isBooted()) {
+                $this->container = $this->getContainer();
+                /** @var \Drupal\Core\Extension\ModuleHandler $module_handler */
                 $module_handler = $this->container->get('module_handler');
                 $this->modules = $module_handler->getModuleDirectories();
             }
@@ -125,19 +216,22 @@ class RegisterCommandsHelper extends Helper
         return $this->modules;
     }
 
-    protected function getNamespaces($drupalModules = true)
+    protected function hasModule(array $dependencies)
     {
-        // Get Traversal, namespaces
-        if (!isset($this->namespaces)) {
-            $this->namespaces = [];
-            if ($drupalModules) {
-                $this->getContainer();
-                $namespaces = $this->container->get('container.namespaces');
-                $this->namespaces = $namespaces->getArrayCopy();
-            }
-            $this->namespaces += ['Drupal\\AppConsole' => dirname(dirname(__DIR__))];
-        }
+        return 0 == count(array_diff(
+            array_values($dependencies),
+            array_keys($this->modules)
+        ));
+    }
 
-        return $this->namespaces;
+    /**
+     * Register the command annotation.
+     */
+    protected function registerAnnotation()
+    {
+        AnnotationRegistry::registerLoader([
+            $this->autoload,
+            'loadClass'
+        ]);
     }
 }
