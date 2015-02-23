@@ -23,7 +23,7 @@ commands:
       permissions: Create permissions.
       columns: Create columns.
       primary-key: Create a primary key.
-      index: Create an index or indexes.
+      indexes: Create an index or indexes.
     questions:
       module: Enter the module name
       confirm: Do you confirm generation
@@ -63,8 +63,9 @@ commands:
         table_primary_key: Enter a primary key. Multivalued primary keys separated by commas or spaces.
         table_primary_key_invalid: Primary key requires a value.
         confirm_table_index: Do you want to generate a index(es)
-        table_index: Enter indexes. Multivalued indexes separated by commas or spaces.
-        table_index_invalid: Index requires a value.
+        confirm_index: Do you want to generate index(es)
+        index_name: Enter an index. Multivalued indexes separated by commas or spaces.
+        index_name_invalid: Index requires a value.
     errors:
       module-dependency: Missing module dependency "%s"
       class-name-empty: The Class name can not be empty

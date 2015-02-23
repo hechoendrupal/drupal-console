@@ -39,8 +39,8 @@ class GeneratorInstallCommand extends GeneratorCommand
             $this->trans('commands.common.options.columns'))
           ->addOption('primary-key', '', InputOption::VALUE_OPTIONAL,
             $this->trans('commands.common.options.primary-key'))
-          ->addOption('index', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.common.options.index'));
+          ->addOption('indexes', '', InputOption::VALUE_OPTIONAL,
+            $this->trans('commands.common.options.indexes'));
     }
 
     /**
@@ -53,12 +53,12 @@ class GeneratorInstallCommand extends GeneratorCommand
         $table_description = $input->getOption('table-description');
         $columns = $input->getOption('columns');
         $primary_key = $input->getOption('primary-key');
-        $index = $input->getOption('index');
+        $indexes = $input->getOption('indexes');
 
         $this
           ->getGenerator()
           ->generate($module, $table_name, $table_description, $columns,
-            $primary_key, $index);
+            $primary_key, $indexes);
     }
 
     /**
@@ -154,48 +154,21 @@ class GeneratorInstallCommand extends GeneratorCommand
 
         $input->setOption('primary-key', $primary_key_options);
 
-        // --index options
-        $index = $input->getOption('index');
-        if (!$index) {
-            if ($dialog->askConfirmation(
-              $output,
-              $dialog->getQuestion($this->trans('commands.common.questions.columns.confirm_table_index'),
-                'yes', '?'),
-              true
-            )
-            ) {
-                while (true) {
-                    $index_options = $dialog->askAndValidate(
-                      $output,
-                      $dialog->getQuestion('  ' . $this->trans('commands.common.questions.columns.table_index'),
-                        $column_names_string, ':'),
-                      function ($primary_key_choices) use ($column_names) {
-                          $primary_key_choices = $this->getStringUtils()
-                            ->camelCaseToCommaSeparated($primary_key_choices);
-                          if (empty($primary_key_choices)) {
-                              throw new \InvalidArgumentException(
-                                sprintf($this->trans('commands.common.questions.columns.table_index_invalid'),
-                                  $primary_key_choices)
-                              );
-                          }
 
-                          return $primary_key_choices;
-                      },
-                      false,
-                      null,
-                      $column_names
-                    );
 
-                    if (empty($index)) {
-                        break;
-                    }
 
-                }
-
+        // --indexes options
+        $indexes = $input->getOption('indexes');
+        if (!$indexes) {
+            // @see \Drupal\AppConsole\Command\Helper\InstallTrait::installIndex
+            $indexes = $this->installIndex($output, $dialog);
         }
+        $input->setOption('indexes', $indexes);
 
-        $input->setOption('index', $index_options);
-    }
+
+
+
+
     }
 
     /**

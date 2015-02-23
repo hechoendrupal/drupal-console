@@ -61,13 +61,14 @@ class StringUtils extends Helper
     }
 
     /**
-     * Converts camel-case strings to comma separated format
+     * Converts camel-case strings to comma separated format. Single quotes wrap each value
      * @param  String $camel_case User input
      * @return String
      */
     public function camelCaseToCommaSeparated($camel_case)
     {
-        return strtolower(preg_replace(self::REGEX_COMMAS_SPACES, ', ', $camel_case));
+        $camel_case_name = strtolower(preg_replace(self::REGEX_COMMAS_SPACES, '\', \'', $camel_case));
+        return $camel_case_name;
     }
 
     public function getName()

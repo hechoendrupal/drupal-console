@@ -45,7 +45,13 @@ function {{ module_name }}_schema() {
 {% if primary_key | length %}
 
     'primary key' => array('{{ primary_key }}'),
-    {{ index }}
+{% if indexes %}
+    'indexes' => array(
+{% for index in indexes %}
+      '{{ index.index_name_key }}' => array('{{ index.index_name_value }}'),
+{% endfor %}
+    ),
+{% endif %}
   );
 
   return $schema;
