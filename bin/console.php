@@ -22,9 +22,9 @@ set_time_limit(0);
 $consoleRoot = __DIR__ . '/../';
 
 if (file_exists($consoleRoot . '/vendor/autoload.php')) {
-    require_once $consoleRoot . '/vendor/autoload.php';
+    $autoload = require_once $consoleRoot . '/vendor/autoload.php';
 } else if (file_exists($consoleRoot . '/../../vendor/autoload.php')) {
-    require_once $consoleRoot . '/../../vendor/autoload.php';
+    $autoload = require_once $consoleRoot . '/../../vendor/autoload.php';
 } else {
     echo 'Something goes wrong with your archive' . PHP_EOL .
         'Try downloading again' . PHP_EOL;
@@ -39,12 +39,14 @@ $translatorHelper->loadResource($config->get('application.language'), $consoleRo
 $application = new Application($config);
 $application->setDirectoryRoot($consoleRoot);
 
+$reader = new \Doctrine\Common\Annotations\AnnotationReader();
+
 $helpers = [
     'bootstrap' => new DrupalBootstrapHelper(),
     'kernel' => new KernelHelper(),
     'shell' => new ShellHelper(new Shell($application)),
     'dialog' => new DialogHelper(),
-    'register_commands' => new RegisterCommandsHelper($application),
+    'register_commands' => new RegisterCommandsHelper($application, $reader, $autoload),
     'stringUtils' => new StringUtils(),
     'validators' => new Validators(),
     'translator' => $translatorHelper,
