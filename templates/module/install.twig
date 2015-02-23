@@ -14,7 +14,7 @@
 function {{ module_name }}_schema() {
   $schema['{{ table_name }}'] = array(
 {% if table_description | length %}
-    'description' => '{{ table_description }}',
+    'description' => "{{ table_description }}",
 {% endif %}
 {% if columns %}
     'fields' => array(
@@ -37,7 +37,7 @@ function {{ module_name }}_schema() {
         'size' => '{{ column.column_size }}',
 {% endif %}
 {% if column.column_description | length %}
-        'description' => '{{ column.column_description }}',
+        'description' => "{{ column.column_description }}",
 {% endif %}
       ),
 {% endfor %}
@@ -45,6 +45,7 @@ function {{ module_name }}_schema() {
 {% if primary_key | length %}
 
     'primary key' => array('{{ primary_key }}'),
+{% endif %}
 {% if indexes %}
     'indexes' => array(
 {% for index in indexes %}
@@ -56,6 +57,5 @@ function {{ module_name }}_schema() {
 
   return $schema;
 }
-{% endif %}
 {% endif %}
 {% endblock %}

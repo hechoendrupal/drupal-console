@@ -3,7 +3,10 @@
  * @file
  * Contains Drupal\AppConsole\Command\GeneratorInstallCommand.
  *
- * Todo: Permit the creation of more than one table.
+ * Todo: Creation of more than one table.
+ * Todo: Incrementally adding a new column.
+ * Todo: Better validation for $primary_key. Needs to validate multivalued keys.
+ * Todo: Add hook_uninstall()
  */
 
 namespace Drupal\AppConsole\Command;
@@ -151,23 +154,16 @@ class GeneratorInstallCommand extends GeneratorCommand
                 );
             }
         }
-
         $input->setOption('primary-key', $primary_key_options);
-
-
-
 
         // --indexes options
         $indexes = $input->getOption('indexes');
         if (!$indexes) {
             // @see \Drupal\AppConsole\Command\Helper\InstallTrait::installIndex
-            $indexes = $this->installIndex($output, $dialog);
+            $indexes = $this->installIndex($output, $dialog,
+              $column_names_string);
         }
         $input->setOption('indexes', $indexes);
-
-
-
-
 
     }
 

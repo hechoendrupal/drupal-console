@@ -65,7 +65,7 @@ commands:
         confirm_table_index: Do you want to generate a index(es)
         confirm_index: Do you want to generate index(es)
         index_name: Enter an index. Multivalued indexes separated by commas or spaces.
-        index_name_invalid: Index requires a value.
+        index_name_invalid: The index requires a value.
     errors:
       module-dependency: Missing module dependency "%s"
       class-name-empty: The Class name can not be empty
