@@ -132,13 +132,13 @@ class GeneratorInstallCommand extends GeneratorCommand
               true
             )
             ) {
-                $primary_key_options = $dialog->askAndValidate(
+                $primary_key = $dialog->askAndValidate(
                   $output,
                   $dialog->getQuestion('  ' . $this->trans('commands.common.questions.columns.table_primary_key'),
                     $column_names_string, ':'),
-                  function ($primary_key_choices) use ($column_names) {
+                  function ($primary_key) use ($column_names) {
                       $primary_key_choices = $this->getStringUtils()
-                        ->camelCaseToCommaSeparated($primary_key_choices);
+                        ->camelCaseToCommaSeparated($primary_key);
                       if (empty($primary_key_choices)) {
                           throw new \InvalidArgumentException(
                             sprintf($this->trans('commands.common.questions.columns.table_primary_key_invalid'),
@@ -154,7 +154,7 @@ class GeneratorInstallCommand extends GeneratorCommand
                 );
             }
         }
-        $input->setOption('primary-key', $primary_key_options);
+        $input->setOption('primary-key', $primary_key);
 
         // --indexes options
         $indexes = $input->getOption('indexes');

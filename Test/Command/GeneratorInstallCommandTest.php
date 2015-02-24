@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorPermissionCommandTest.
+ * Contains \Drupal\AppConsole\Test\Command\GeneratorInstallCommandTest.
  */
 
 namespace Drupal\AppConsole\Test\Command;
 
 use Symfony\Component\Console\Tester\CommandTester;
 
-class GeneratorPermissionCommandTest extends GenerateCommandTest
+class GeneratorInstallCommandTest extends GenerateCommandTest
 {
     /**
      * @dataProvider getInteractiveData
@@ -19,13 +19,13 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
      */
     public function testInteractive($options, $expected, $input)
     {
+        list($module, $table_name, $table_description, $columns, $primary_key, $indexes) = $expected;
 
-        list($module, $permissions) = $expected;
         $generator = $this->getGenerator();
         $generator
           ->expects($this->once())
           ->method('generate')
-          ->with($module, $permissions);
+          ->with($module, $table_name, $table_description, $columns, $primary_key, $indexes);
 
         $command = $this->getCommand($generator, $input);
         $cmd = new CommandTester($command);
@@ -34,10 +34,29 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
 
     public function getInteractiveData()
     {
-        $permissions = [
+        $columns = [
           [
-            'permission' => 'my permission',
-            'permission_title' => 'My permission',
+            'column_name' => 'bar',
+            'column_type' => 'int',
+            'column_type_options' => '',
+            'column_unsigned' => TRUE,
+            'column_not_null' => TRUE,
+            'column_default' => 0,
+            'column_size' => 'tiny',
+            'column_description' => 'Baz',
+//            'primary_key' => 'bar',
+//            'indexes' => 'bar',
+          ]
+        ];
+        $primary_key = [
+          [
+            'primary_key' => 'bar',
+          ]
+        ];
+        $indexes = [
+          [
+            'index_name_key' => 'bar',
+            'index_name_value' => 'bar',
           ]
         ];
 
@@ -47,26 +66,26 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
               // Inline options
             [],
               // Expected options
-            ['foo', $permissions, true],
+            ['foo', 'Description', $columns, $primary_key, $indexes],
               // User input options
-            "foo\nyes\nMy Permission\n",
+            "foo\nDescription\nyes\nbar\nint\nTRUE\nTRUE\n0\ntiny\nBaz\nyes\nbar\nyes\nbar\nbar\n",
           ],
-            // case two
-          [
-              // Inline options
-            ['--module' => 'foo'],
-              // Expected options
-            ['foo', $permissions, true],
-              // User input options
-            "foo\nyes\nMy Permission\n",
-          ],
+//            // case two
+//          [
+//              // Inline options
+//            ['--module' => 'foo'],
+//              // Expected options
+//            ['foo', $inputs, true],
+//              // User input options
+//            "foo\nyes\nMy Permission\n",
+//          ],
         ];
     }
 
     protected function getCommand($generator, $input)
     {
         $command = $this
-          ->getMockBuilder('Drupal\AppConsole\Command\GeneratorPermissionCommand')
+          ->getMockBuilder('Drupal\AppConsole\Command\GeneratorInstallCommand')
           ->setMethods(['getModules', '__construct'])
           ->setConstructorArgs([$this->getTranslationHelper()])
           ->getMock();
@@ -85,7 +104,7 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-          ->getMockBuilder('Drupal\AppConsole\Generator\PermissionGenerator')
+          ->getMockBuilder('Drupal\AppConsole\Generator\InstallGenerator')
           ->disableOriginalConstructor()
           ->setMethods(['generate'])
           ->getMock();

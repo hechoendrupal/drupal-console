@@ -199,14 +199,13 @@ commands:
       welcome: Welcome to the Drupal form generator
       options:
         module: common.options.module
-        table-name: Enter the table's name
-#        To Do: Make table's Dynamic
-        table-description: Enter the table's description.
+        table-name: Enter the table name
+        table-description: Enter the table description.
         columns: common.options.columns
       questions:
         module: common.questions.module
-        table-name: Enter the table's name
-        table-description: Enter the table's description.
+        table-name: Enter the table name
+        table-description: Enter the table description.
         columns: common.questions.columns
     module:
       description: Generate a module.
