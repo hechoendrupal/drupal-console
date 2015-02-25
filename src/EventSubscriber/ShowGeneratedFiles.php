@@ -62,7 +62,7 @@ class ShowGeneratedFiles implements EventSubscriberInterface
             }
         }
 
-        if (method_exists($command, 'getGenerator') && method_exists($command, 'showGeneratedFiles')) {
+        if ($command instanceof GeneratorCommand) {
             $files = $command->getGenerator()->getFiles();
             if ($files) {
                 $command->showGeneratedFiles($output, $files);
