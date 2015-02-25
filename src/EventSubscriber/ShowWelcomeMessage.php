@@ -38,7 +38,7 @@ class ShowWelcomeMessage implements EventSubscriberInterface
         $command = $event->getCommand();
         $output = $event->getOutput();
 
-        if (method_exists($command, 'getDependencies')) {
+        if ($command instanceof Command) {
             $dependencies = $command->getDependencies();
             foreach ($dependencies as $dependency) {
                 if (\Drupal::moduleHandler()->moduleExists($dependency) === false) {
