@@ -7,15 +7,16 @@ use Symfony\Component\Console\Command\Command as BaseCommand;
 abstract class Command extends BaseCommand
 {
 
+    const MESSAGE_ERROR = 'error';
+    const MESSAGE_WARNING = 'warning';
+    const MESSAGE_INFO = 'info';
+    const MESSAGE_SUCCESS = 'success';
     /**
      * @var string
      */
     protected $module;
-
     protected $messages = [];
-
     protected $dependencies;
-
     /**
      * @var TranslatorHelper
      */
@@ -25,22 +26,6 @@ abstract class Command extends BaseCommand
     {
         $this->translator = $translator;
         parent::__construct();
-    }
-
-    /**
-     * @param $key string
-     * @return string
-     */
-    public function trans($key)
-    {
-        return $this->translator->trans($key);
-    }
-
-    protected function getDialogHelper()
-    {
-        $dialog = $this->getHelperSet()->get('dialog');
-
-        return $dialog;
     }
 
     /**
@@ -75,15 +60,56 @@ abstract class Command extends BaseCommand
         $this->module = $module;
     }
 
-    public function showMessage($output, $message, $type = 'info')
+    public function showMessages($output, $type = null)
     {
-        $style = 'bg=blue;fg=white';
-        if ('error' == $type) {
+        if ($type) {
+            $messages =  $this->messages[$type];
+            return $this->getMessages($output, $messages, $type);
+        }
+
+        $messages = $this->messages[self::MESSAGE_ERROR];
+        $this->getMessages($output, $messages, self::MESSAGE_ERROR);
+
+        $messages = $this->messages[self::MESSAGE_WARNING];
+        $this->getMessages($output, $messages, self::MESSAGE_WARNING);
+
+        $messages = $this->messages[self::MESSAGE_INFO];
+        $this->getMessages($output, $messages, self::MESSAGE_INFO);
+
+        $messages = $this->messages[self::MESSAGE_SUCCESS];
+        $this->getMessages($output, $messages, self::MESSAGE_SUCCESS);
+    }
+
+    private function getMessages($output, $messages, $type)
+    {
+        if ($messages) {
+            foreach ($messages as $message) {
+                $this->showMessage($output, $message, $type);
+            }
+        }
+    }
+
+    public function showMessage($output, $message, $type = self::MESSAGE_INFO)
+    {
+        if ($type == self::MESSAGE_ERROR) {
             $style = 'bg=red;fg=white';
+        }
+        if ($type == self::MESSAGE_WARNING) {
+            $style = 'bg=magenta;fg=white';
+        }
+        if ($type == self::MESSAGE_INFO) {
+            $style = 'bg=blue;fg=white';
+        }
+        if ($type == self::MESSAGE_SUCCESS) {
+            $style = 'bg=green;fg=white';
         }
         $output->writeln([
           '',
-          $this->getHelperSet()->get('formatter')->formatBlock($message, $style, false),
+          $this->getHelperSet()->get('formatter')->formatBlock(
+            $message,
+            $style,
+            false
+          ),
           '',
         ]);
     }
@@ -113,21 +139,38 @@ abstract class Command extends BaseCommand
         }
     }
 
-    protected function getQuestionHelper()
+    /**
+     * @param $key string
+     * @return string
+     */
+    public function trans($key)
     {
-        $question = $this->getHelperSet()->get('question');
-
-        return $question;
+        return $this->translator->trans($key);
     }
 
-    public function addMessage($message)
+    public function addErrorMessage($message)
     {
-        $this->messages[] = $message;
+        $this->addMessage($message, self::MESSAGE_ERROR);
     }
 
-    public function getMessages()
+    private function addMessage($message, $type)
     {
-        return $this->messages;
+        $this->messages[$type][] = $message;
+    }
+
+    public function addWarningMessage($message)
+    {
+        $this->addMessage($message, self::MESSAGE_WARNING);
+    }
+
+    public function addInfoMessage($message)
+    {
+        $this->addMessage($message, self::MESSAGE_INFO);
+    }
+
+    public function addSuccessMessage($message)
+    {
+        $this->addMessage($message, self::MESSAGE_SUCCESS);
     }
 
     /**
@@ -158,5 +201,19 @@ abstract class Command extends BaseCommand
     public function getDependencies()
     {
         return $this->dependencies;
+    }
+
+    protected function getDialogHelper()
+    {
+        $dialog = $this->getHelperSet()->get('dialog');
+
+        return $dialog;
+    }
+
+    protected function getQuestionHelper()
+    {
+        $question = $this->getHelperSet()->get('question');
+
+        return $question;
     }
 }
