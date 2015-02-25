@@ -12,6 +12,7 @@ use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\AppConsole\Command\Command;
+use Drupal\AppConsole\Command\GeneratorCommand;
 
 class ShowGeneratedFiles implements EventSubscriberInterface
 {
