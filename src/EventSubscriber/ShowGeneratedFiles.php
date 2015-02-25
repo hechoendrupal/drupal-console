@@ -12,6 +12,7 @@ use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\AppConsole\Command\Command;
+use Drupal\AppConsole\Command\GeneratorCommand;
 
 class ShowGeneratedFiles implements EventSubscriberInterface
 {
@@ -61,7 +62,7 @@ class ShowGeneratedFiles implements EventSubscriberInterface
             }
         }
 
-        if (method_exists($command, 'getGenerator') && method_exists($command, 'showGeneratedFiles')) {
+        if ($command instanceof GeneratorCommand) {
             $files = $command->getGenerator()->getFiles();
             if ($files) {
                 $command->showGeneratedFiles($output, $files);

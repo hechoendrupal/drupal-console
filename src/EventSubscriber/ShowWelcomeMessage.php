@@ -11,6 +11,7 @@ use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Drupal\AppConsole\Command\Command;
 
 class ShowWelcomeMessage implements EventSubscriberInterface
 {
@@ -37,7 +38,7 @@ class ShowWelcomeMessage implements EventSubscriberInterface
         $command = $event->getCommand();
         $output = $event->getOutput();
 
-        if (method_exists($command, 'getDependencies')) {
+        if ($command instanceof Command) {
             $dependencies = $command->getDependencies();
             foreach ($dependencies as $dependency) {
                 if (\Drupal::moduleHandler()->moduleExists($dependency) === false) {
