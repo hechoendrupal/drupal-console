@@ -1,0 +1,43 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+Drupal\{{module}}\Plugin\Action\{{class_name}}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Plugin\Action;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\rules\Engine\RulesActionBase;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides a '{{class_name}}' action.
+ *
+ * @Action(
+ *  id = "{{plugin_id}}",
+ *  label = @Translation("{{label}}"),
+ *  category = @Translation("{{category}}"),
+ *  context = {{context}}
+ * )
+ */
+class {{class_name}} extends RulesActionBase
+{% endblock %}
+
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public function summary() {
+    return $this->t('{{label}}');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function execute() {
+    // Insert code here.
+  }
+{% endblock %}
