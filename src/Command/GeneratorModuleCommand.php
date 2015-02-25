@@ -62,6 +62,7 @@ class GeneratorModuleCommand extends GeneratorCommand
         $core = $input->getOption('core');
         $package = $input->getOption('package');
         $controller = $input->getOption('controller');
+
         /**
          * Modules Dependencies
          *
@@ -97,6 +98,29 @@ class GeneratorModuleCommand extends GeneratorCommand
           $dependencies,
           $test
         );
+    }
+
+    /**
+     * private functions
+     *
+     */
+    private function checkDependencies(array $dependencies)
+    {
+        $checked_dependecies = array(
+          'local_modules' => array(),
+          'drupal_modules' => array(),
+          'no_modules' => array()
+        );
+        $local_modules = null;
+        foreach ($dependencies as $key => $module) {
+            if (in_array($module, $local_modules)) {
+                $checked_dependecies['local_modules'][] = $module;
+            } else {
+                // here we have to check if this module is drupal.org using the api.
+                $checked_dependecies['drupal_modules'][] = $module;
+            }
+        }
+        return $checked_dependecies;
     }
 
     /**
@@ -237,29 +261,6 @@ class GeneratorModuleCommand extends GeneratorCommand
             $test = false;
         }
         $input->setOption('test', $test);
-    }
-
-    /**
-     * private functions
-     *
-     */
-    private function checkDependencies(array $dependencies)
-    {
-        $checked_dependecies = array(
-          'local_modules' => array(),
-          'drupal_modules' => array(),
-          'no_modules' => array()
-        );
-        $local_modules = null;
-        foreach ($dependencies as $key => $module) {
-            if (in_array($module, $local_modules)) {
-                $checked_dependecies['local_modules'][] = $module;
-            } else {
-                // here we have to check if this module is drupal.org using the api.
-                $checked_dependecies['drupal_modules'][] = $module;
-            }
-        }
-        return $checked_dependecies;
     }
 
     /**
