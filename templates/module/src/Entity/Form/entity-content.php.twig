@@ -20,9 +20,7 @@ use Drupal\Core\Language\Language;
  *
  * @ingroup {{module}}
  */
-class {{ entity_class }}Form extends ContentEntityForm
-{% endblock %}
-
+class {{ entity_class }}Form extends ContentEntityForm {% endblock %}
 {% block class_methods %}
   /**
    * Overrides Drupal\Core\Entity\EntityFormController::buildForm().

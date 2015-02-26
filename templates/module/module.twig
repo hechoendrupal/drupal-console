@@ -19,7 +19,7 @@ function {{machine_name}}_help($route_name, RouteMatchInterface $route_match) {
       $output .= '<p>' . t('{{ description }}') . '</p>';
       return $output;
 
-    break;
+    default:
   }
 }
 
