@@ -9,12 +9,17 @@ namespace Drupal\{{module}};
 {% endblock %}
 
 {% block class_declaration %}
-class {{ class_name }}
-{% endblock %}
-
+/**
+ * Class {{ class_name }}.
+ *
+ * @package Drupal\{{module}}
+ */
+class {{ class_name }} {% endblock %}
 {% block class_construct %}
-  public function __construct({{ servicesAsParameters(services)|join(', ') }})
-  {
+  /**
+   * Constructor.
+   */
+  public function __construct({{ servicesAsParameters(services)|join(', ') }}) {
 {{ serviceClassInitialization(services) }}
   }
 {% endblock %}
