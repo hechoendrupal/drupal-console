@@ -17,9 +17,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 {% endblock %}
 
 {% block class_declaration %}
+/**
+ * Class {{ class_name }}.
+ *
+ * @package Drupal\{{ module }}\Controller
+ */
 class {{ class_name }} extends ControllerBase {% if services is not empty %}implements ContainerInjectionInterface {% endif %}
 {% endblock %}
-
 {% block class_construct %}
 {% if services is not empty %}
   public function __construct({{ servicesAsParameters(services)|join(', ') }}) {
@@ -28,7 +32,6 @@ class {{ class_name }} extends ControllerBase {% if services is not empty %}impl
 
 {% endif %}
 {% endblock %}
-
 {% block class_create %}
 {% if services is not empty %}
   public static function create(ContainerInterface $container) {
@@ -39,7 +42,6 @@ class {{ class_name }} extends ControllerBase {% if services is not empty %}impl
 
 {% endif %}
 {% endblock %}
-
 {% block class_methods %}
   /**
    * {{ method_name | capitalize }}.
