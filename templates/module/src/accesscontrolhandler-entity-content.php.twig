@@ -21,9 +21,7 @@ use Drupal\Core\Access\AccessResult;
  *
  * @see \Drupal\{{module}}\Entity\{{ entity_class }}.
  */
-class {{ entity_class }}AccessControlHandler extends EntityAccessControlHandler
-{% endblock %}
-
+class {{ entity_class }}AccessControlHandler extends EntityAccessControlHandler {% endblock %}
 {% block class_methods %}
   /**
    * {@inheritdoc}
@@ -33,16 +31,12 @@ class {{ entity_class }}AccessControlHandler extends EntityAccessControlHandler
     switch ($operation) {
       case 'view':
         return AccessResult::allowedIfHasPermission($account, 'view {{ entity_class }} entity');
-        break;
 
       case 'edit':
         return AccessResult::allowedIfHasPermission($account, 'edit {{ entity_class }} entity');
-        break;
 
       case 'delete':
         return AccessResult::allowedIfHasPermission($account, 'delete {{ entity_class }} entity');
-        break;
-
     }
 
     return AccessResult::allowed();

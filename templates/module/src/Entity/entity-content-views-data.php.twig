@@ -17,9 +17,7 @@ use Drupal\views\EntityViewsDataInterface;
 /**
  * Provides the views data for the {{ entity_class }} entity type.
  */
-class {{ entity_class }}ViewsData extends EntityViewsData implements EntityViewsDataInterface
-{% endblock %}
-
+class {{ entity_class }}ViewsData extends EntityViewsData implements EntityViewsDataInterface {% endblock %}
 {% block class_methods %}
   /**
    * {@inheritdoc}
