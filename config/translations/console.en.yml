@@ -273,11 +273,13 @@ commands:
         module: common.options.module
         service-name: Service name
         class-name: Class name
+        interface: Interface
         services: common.questions.services
       questions:
         module: common.questions.module
         service-name: Enter the service name
         class-name: Enter the Class name
+        interface: Create an interface
         services: common.options.services
   module:
     debug:
