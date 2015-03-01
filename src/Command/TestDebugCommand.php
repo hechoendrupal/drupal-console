@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Serialization\Yaml;
-use Drupal\simpletest\TestDiscovery;
 
 class TestDebugCommand extends ContainerAwareCommand
 {
@@ -87,7 +86,7 @@ class TestDebugCommand extends ContainerAwareCommand
             ]);
 
         foreach ($testing_groups as $testing_group => $tests) {
-            if(!empty($group) and $group != $testing_group) {
+            if(!empty($group) && $group != $testing_group) {
                 continue;
             }
 

@@ -56,12 +56,18 @@ commands:
       questions:
         cache: Select cache.
   config:
+    export:
+      description: Export current application configuration.
+      arguments:
+        directory: Define export directory to save configuration output.
+      messages:
+        directory: Your configuration export file was stores in %s
     debug:
       description: Show the current configuration.
       arguments:
         config-name: Configuration name.
     override:
-      description: Override config value in active configuration..
+      description: Override config value in active configuration.
       arguments:
         config-name: Configuration name.
         key: Key
@@ -71,6 +77,13 @@ commands:
         configuration-key: Configuration key
         original: Original Value
         updated: Override Value
+    edit:
+      description: Edit the selected configuration.
+      arguments:
+        config-name: Configuration name.
+        editor: Editor.
+      messages:
+        no-directory: An error occurred while creating your directory at
   container:
     debug:
       description: Displays current services for an application.
@@ -260,11 +273,13 @@ commands:
         module: common.options.module
         service-name: Service name
         class-name: Class name
+        interface: Interface
         services: common.questions.services
       questions:
         module: common.questions.module
         service-name: Enter the service name
         class-name: Enter the Class name
+        interface: Create an interface
         services: common.options.services
   module:
     debug:
@@ -294,7 +309,7 @@ commands:
     uninstall:
       description: Uninstall module or modules in the application
       messages:
-        no-modules: You must provide module or modules to enable.
+        no-modules: You must provide module or modules to uninstall.
         dependents: Unable to uninstall modules %s because are required by %s
         nothing: Nothing to do. All modules are already uninstalled
         success: Module(s) %s were uninstalled successfully

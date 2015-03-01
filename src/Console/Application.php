@@ -11,11 +11,19 @@ use Symfony\Component\Debug\Debug;
 class Application extends BaseApplication
 {
     /**
+     * @var string
+     */
+    const NAME = 'Drupal Console';
+    /**
+     * @var string
+     */
+    const VERSION = '0.7.2';
+    /**
      * @var bool
      */
     protected $booted = false;
     /**
-     * @var array
+     * @var Drupal\AppConsole\Config
      */
     protected $config;
     /**
@@ -28,12 +36,12 @@ class Application extends BaseApplication
     protected $errorMessages = [];
     /**
      * @var \Composer\Autoload\ClassLoader
-     *   The Drupal autoload file.
+     * The Drupal autoload file.
      */
     protected $drupalAutoload;
     /**
      * @var string
-     *   The Drupal environment.
+     * The Drupal environment.
      */
     protected $env;
     /**
@@ -44,17 +52,14 @@ class Application extends BaseApplication
     /**
      * Create a new application extended from \Symfony\Component\Console\Application.
      *
-     * @param $config array
+     * @param $config
      */
     public function __construct($config)
     {
         $this->config = $config;
+        $this->env = $config->get('application.environment');
 
-        $name = $config['application']['name'];
-        $this->env = $config['application']['environment'];
-        $version = $config['application']['version'];
-
-        parent::__construct($name, sprintf('%s', $version));
+        parent::__construct($this::NAME, sprintf('%s', $this::VERSION));
 
         $this->getDefinition()->addOption(
             new InputOption('--drupal', '-d', InputOption::VALUE_OPTIONAL, 'Path to Drupal root.')
@@ -79,7 +84,6 @@ class Application extends BaseApplication
         $this->isRuningOnDrupalInstance($input);
 
         if ($this->isBooted()) {
-
             if ($this->drupalAutoload) {
                 $this->initDebug($input);
                 $this->doKernelConfiguration();
@@ -204,7 +208,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * @return mixed
+     * @return \Drupal\AppConsole\Config
      */
     public function getConfig()
     {
@@ -220,7 +224,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getDirectoryRoot()
     {
@@ -228,7 +232,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * @param mixed $directoryRoot
+     * @param string $directoryRoot
      */
     public function setDirectoryRoot($directoryRoot)
     {
@@ -249,7 +253,8 @@ class Application extends BaseApplication
     /**
      * @param array $errorMessages
      */
-    public function addErrorMessages(array $errorMessages){
+    public function addErrorMessages(array $errorMessages)
+    {
         $this->errorMessages = $errorMessages;
     }
 }
