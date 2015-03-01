@@ -14,6 +14,7 @@ before_script:
   - composer install
   - curl -LSs https://box-project.github.io/box2/installer.php | php
   - composer global require drush/drush:dev-master
+  - composer global require drupal/coder:~8.1
 
 script:
   - phpunit
