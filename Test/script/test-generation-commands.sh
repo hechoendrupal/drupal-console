@@ -11,4 +11,4 @@ SCRIPT_DIR=$( dirname "$FILE" )
 . $SCRIPT_DIR/generate-entity-config.sh
 . $SCRIPT_DIR/generate-entity-content.sh
 . $SCRIPT_DIR/generate-command.sh
-
+. $SCRIPT_DIR/generate-authentication-provider.sh
