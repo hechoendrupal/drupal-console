@@ -9,7 +9,7 @@ namespace Drupal\{{module}};
 {% endblock %}
 
 {% block class_declaration %}
-class {{ class_name }}
+class {{ class_name }} {% if(interface) %}implements {{ class_name }}Interface{% endif %}
 {% endblock %}
 
 {% block class_construct %}
