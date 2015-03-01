@@ -25,7 +25,7 @@ script:
   - tar xzf drupal-8.0.0-beta7.tar.gz
   - cd drupal-8.0.0-beta7
   - ~/.composer/vendor/bin/drush site-install standard --yes --account-name=root --account-pass=toor --db-url=sqlite://sites/default/files/console.sqlite
-  - ~/.composer/vendor/bin/phpcs --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml /tmp/modules/* | egrep "FOUND ([1-9]+) ERRORS" --quiet; then echo "\nErrors in coding standards\n"; exit 1; fi
+  - if ~/.composer/vendor/bin/phpcs --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml /tmp/modules/* | egrep "FOUND ([1-9]+) ERRORS" --quiet; then echo "\nErrors in coding standards\n"; exit 1; fi
 
 after_success:
   - rm -r /tmp/modules
