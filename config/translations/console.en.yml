@@ -61,7 +61,7 @@ commands:
       arguments:
         directory: Define export directory to save configuration output.
       messages:
-        directory: Your configuration export file was stores in %s
+        directory: Your configuration export file was stored in %s
     debug:
       description: Show the current configuration.
       arguments:
