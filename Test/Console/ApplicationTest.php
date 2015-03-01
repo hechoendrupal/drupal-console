@@ -48,13 +48,10 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectsThatAutoloadFinderHelperIsRegistered();
 
-        $config = [
-          'application' => [
-            'name' => 'Drupal Console',
-            'version' => '0.x.x',
-            'environment' => 'prod'
-          ]
-        ];
+        $config = $this
+          ->getMockBuilder('Drupal\AppConsole\Config')
+          ->disableOriginalConstructor()
+          ->getMock();
     
         $application = new Application($config);
         $application->setAutoExit(false);

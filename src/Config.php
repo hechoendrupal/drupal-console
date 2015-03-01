@@ -6,19 +6,20 @@
 
 namespace Drupal\AppConsole;
 
-use Symfony\Component\Yaml\Parser;
-
 class Config
 {
-
+    /** @var Symfony\Component\Yaml\Parser $parser  */
     protected $parser;
 
     protected $root_path;
 
-    public function __construct(Parser $parser, $root_path)
+    protected $config;
+
+    public function __construct($parser, $root_path)
     {
         $this->parser = $parser;
         $this->root_path = $root_path;
+        $this->mergeConfig();
     }
 
     protected function readYamlFile($path_file)
@@ -30,33 +31,52 @@ class Config
         }
     }
 
-    public function getUserHomeDir()
-    {
-        return rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/\\');
-    }
-
-    public function getBaseConfig()
-    {
-        return $this->readYamlFile($this->root_path . '/config.yml');
-    }
-
-    public function getUserConfig()
-    {
-        $userConfig = $this->readYamlFile(
-          $this->getUserHomeDir() . '/.console/config.yml'
-        );
-
-        unset($userConfig['application']['name']);
-        unset($userConfig['application']['version']);
-
-        return $userConfig;
-    }
-
-    public function getConfig()
+    protected function mergeConfig()
     {
         $baseConfig = $this->getBaseConfig();
         $userConfig = $this->getUserConfig();
 
-        return array_replace_recursive($baseConfig, $userConfig);
+        $this->config = array_replace_recursive($baseConfig, $userConfig);
+    }
+
+    protected function getBaseConfig()
+    {
+        return $this->readYamlFile($this->root_path . '/config.yml');
+    }
+
+    protected function getUserConfig()
+    {
+        $userConfig = $this->readYamlFile(
+          $this->getUserHomeDir() . '/.console/config.yml'
+        );
+        return $userConfig;
+    }
+
+    protected function getUserHomeDir()
+    {
+        return rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/\\');
+    }
+
+    public function get($key, $default='')
+    {
+        if (!$key){
+            return $default;
+        }
+
+        $config = $this->config;
+        $items = explode('.', $key);
+
+        if (!$items) {
+            return $default;
+        }
+
+        foreach ($items as $item) {
+            if (!$config[$item]) {
+                return $default;
+            }
+            $config = $config[$item];
+        }
+
+        return $config;
     }
 }

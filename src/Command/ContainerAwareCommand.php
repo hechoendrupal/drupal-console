@@ -192,6 +192,14 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         return $this->getContainer()->get('config.storage');
     }
 
+    /**
+     * @return Drupal\Core\Config\ConfigManagerInterface
+     */
+    public function getConfigManager()
+    {
+        return $this->getContainer()->get('config.manager');
+    }
+
     public function getEntityManager()
     {
         return $this->getContainer()->get('entity.manager');

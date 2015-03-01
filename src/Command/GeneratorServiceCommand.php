@@ -34,6 +34,8 @@ class GeneratorServiceCommand extends GeneratorCommand
             $this->trans('commands.generate.service.options.service-name'))
           ->addOption('class-name', null, InputOption::VALUE_OPTIONAL,
             $this->trans('commands.generate.service.options.class-name'))
+          ->addOption('interface', null, InputOption::VALUE_OPTIONAL,
+            $this->trans('commands.common.service.options.interface'))
           ->addOption('services', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
             $this->trans('commands.common.options.services'));
     }
@@ -53,6 +55,7 @@ class GeneratorServiceCommand extends GeneratorCommand
         $module = $input->getOption('module');
         $service_name = $input->getOption('service-name');
         $class_name = $input->getOption('class-name');
+        $interface = $input->getOption('interface');
         $services = $input->getOption('services');
 
         // @see Drupal\AppConsole\Command\Helper\ServicesTrait::buildServices
@@ -60,7 +63,7 @@ class GeneratorServiceCommand extends GeneratorCommand
 
         $this
           ->getGenerator()
-          ->generate($module, $service_name, $class_name, $build_services);
+          ->generate($module, $service_name, $class_name, $interface, $build_services);
     }
 
     /**
@@ -100,6 +103,17 @@ class GeneratorServiceCommand extends GeneratorCommand
             );
         }
         $input->setOption('class-name', $class_name);
+
+      // --interface option
+      $interface = $input->getOption('interface');
+      if (!$interface) {
+        $interface = $dialog->ask(
+          $output,
+          $dialog->getQuestion($this->trans('commands.generate.service.questions.interface'), 'yes', '?'),
+          true
+        );
+      }
+      $input->setOption('interface', $interface);
 
         // --services option
         $services = $input->getOption('services');
