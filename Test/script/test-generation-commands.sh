@@ -5,8 +5,10 @@ SCRIPT_DIR=$( dirname "$FILE" )
 
 . $SCRIPT_DIR/setup.sh
 
-. $SCRIPT_DIR/create-module.sh
-. $SCRIPT_DIR/create-controller.sh
-. $SCRIPT_DIR/create-form.sh
-. $SCRIPT_DIR/create-entity-config.sh
-. $SCRIPT_DIR/create-entity-content.sh
+. $SCRIPT_DIR/generate-module.sh
+. $SCRIPT_DIR/generate-controller.sh
+. $SCRIPT_DIR/generate-form.sh
+. $SCRIPT_DIR/generate-entity-config.sh
+. $SCRIPT_DIR/generate-entity-content.sh
+. $SCRIPT_DIR/generate-command.sh
+
