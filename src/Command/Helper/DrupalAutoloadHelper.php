@@ -30,7 +30,9 @@ class DrupalAutoloadHelper extends Helper
                 $relativePath .= '../';
             }
 
-            if (realpath($currentPath . $relativePath) === '/') {
+            $realPath = realpath($currentPath . $relativePath);
+
+            if ($realPath === '/' || $realPath === false) {
                 return null;
             }
         }
