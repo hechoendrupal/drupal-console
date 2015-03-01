@@ -1,12 +1,12 @@
 application:
   console:
     messages:
-      completed: The command was executed succesfully!
+      completed: Comanda a fost executata cu succes!
       generated:
-        files: Generated files
-        completed: You can now start using the generated code!
+        files: Fisierele generate
+        completed: Acum poti utiliza codul generat!
     errors:
-      invalid-command: Command "%s" is not defined.
+      invalid-command: Comanda "%s" nu este definita.
   site:
     messages:
       path: Site path
@@ -16,45 +16,47 @@ application:
 commands:
   common:
     options:
-      module: The Module name.
-      services: Load services from the container.
-      tags: Set service tags from the container.
-      inputs: Create inputs in a form.
-      permissions: Create permissions.
+      module: Nume de modul.
+      services: Incarca serviciile din container.
+      tags: Seteaza tag-urile serviciilor din container.
+      inputs: Creaza input-uri in forma.
+      permissions: Creaza permisiuni.
     questions:
-      module: Enter the module name
-      confirm: Do you confirm generation
-      canceled: Command generation canceled.
+      module: Introduceti numele de modul
+      confirm: Confirmati generarea
+      canceled: Comanda a fost anulata
       services:
         confirm: Do you want to load services from the container
+        confirm: Doriti sa incarcati serviciile din container
         message: |
 
           Type the service name or use keyup or keydown.
           This is optional, press <info>enter</info> to <info>continue</info>
         name: Enter your service
       inputs:
-        confirm: Do you want to generate a form structure
+        confirm: Doriti sa generati structura formei
         label: Input label
         machine_name: Input machine name
-        permission: Do you want to generate permissions
-        type: Type
-        invalid: Field Type "%s" is invalid.
-        description: Description
+        permission: Doriti sa generati permisiuni
+        type: Tip
+        invalid: Campul de tip "%s" este incorect.
+        description: Descriere
     errors:
-      module-dependency: Missing module dependency "%s"
-      class-name-empty: The Class name can not be empty
+      module-dependency: Dependenta de module lipseste "%s"
+      class-name-empty: Numele Clasei nu poate fi goala
   cache:
     rebuild:
-      description: Rebuild and clear all site caches.
+      description: Reconstruieste si curata tot cache-ul.
       options:
-        cache: Only clear a specific cache.
+        cache: Curata doar cache-ul specific.
       messages:
-        welcome: Welcome to the cache:rebuild command
+        welcome: Bine ai venit in comanda cache:rebuild
         rebuild: Rebuilding cache(s), wait a moment please.
-        completed: Done clearing cache(s).
-        invalid_cache: Cache "%s" is invalid.
+        rebuild: Cache-ul se reconstrueste, va rugam sa asteptati
+        completed: Cache-ul a fost curatit
+        invalid_cache: Cache-ul "%s" este incorect.
       questions:
-        cache: Select cache.
+        cache: Selecteaza cache-ul.
   config:
     export:
       description: Export current application configuration.
