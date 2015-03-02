@@ -17,9 +17,7 @@ use Drupal\Core\Entity\EntityInterface;
 /**
  * Provides a listing of {{ entity_class }}.
  */
-class {{ entity_class }}ListBuilder extends ConfigEntityListBuilder
-{% endblock %}
-
+class {{ entity_class }}ListBuilder extends ConfigEntityListBuilder {% endblock %}
 {% block class_methods %}
   /**
    * {@inheritdoc}
@@ -31,8 +29,8 @@ class {{ entity_class }}ListBuilder extends ConfigEntityListBuilder
   }
 
   /**
-  * {@inheritdoc}
-  */
+   * {@inheritdoc}
+   */
   public function buildRow(EntityInterface $entity) {
     $row['label'] = $this->getLabel($entity);
     $row['id'] = $entity->id();

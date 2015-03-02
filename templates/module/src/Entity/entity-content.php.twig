@@ -55,9 +55,7 @@ use Drupal\user\UserInterface;
  *   field_ui_base_route = "{{ entity_name }}.settings"
  * )
  */
-class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}Interface
-{% endblock %}
-
+class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}Interface {% endblock %}
 {% block class_methods %}
   /**
    * {@inheritdoc}
@@ -152,7 +150,6 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
       ))
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
-
 
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
