@@ -17,11 +17,10 @@ use Drupal\user\EntityOwnerInterface;
 {% block class_declaration %}
 /**
  * Provides an interface defining a {{ entity_class }} entity.
+ *
  * @ingroup account
  */
-interface {{ entity_class }}Interface extends ContentEntityInterface, EntityOwnerInterface
-{% endblock %}
-
+interface {{ entity_class }}Interface extends ContentEntityInterface, EntityOwnerInterface {% endblock %}
 {% block class_methods %}
   // Add get/set methods for your configuration properties here.
 {% endblock %}
