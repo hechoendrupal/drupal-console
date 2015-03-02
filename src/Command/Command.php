@@ -6,16 +6,10 @@ use Symfony\Component\Console\Command\Command as BaseCommand;
 
 abstract class Command extends BaseCommand
 {
-
-    const MESSAGE_ERROR = 'error';
-    const MESSAGE_WARNING = 'warning';
-    const MESSAGE_INFO = 'info';
-    const MESSAGE_SUCCESS = 'success';
     /**
      * @var string
      */
     protected $module;
-    protected $messages = [];
     protected $dependencies;
     /**
      * @var TranslatorHelper
@@ -146,31 +140,6 @@ abstract class Command extends BaseCommand
     public function trans($key)
     {
         return $this->translator->trans($key);
-    }
-
-    public function addErrorMessage($message)
-    {
-        $this->addMessage($message, self::MESSAGE_ERROR);
-    }
-
-    private function addMessage($message, $type)
-    {
-        $this->messages[$type][] = $message;
-    }
-
-    public function addWarningMessage($message)
-    {
-        $this->addMessage($message, self::MESSAGE_WARNING);
-    }
-
-    public function addInfoMessage($message)
-    {
-        $this->addMessage($message, self::MESSAGE_INFO);
-    }
-
-    public function addSuccessMessage($message)
-    {
-        $this->addMessage($message, self::MESSAGE_SUCCESS);
     }
 
     /**
