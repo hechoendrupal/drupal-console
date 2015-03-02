@@ -19,8 +19,12 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 {% endblock %}
 
 {% block class_declaration %}
-class {{ class_name }} implements AuthenticationProviderInterface
-{% endblock %}
+/**
+ * Class {{ class_name }}.
+ *
+ * @package Drupal\{{module}}\Authentication\Provider
+ */
+class {{ class_name }} implements AuthenticationProviderInterface {% endblock %}
 {% block class_variables %}
   /**
    * The config factory.
@@ -37,7 +41,7 @@ class {{ class_name }} implements AuthenticationProviderInterface
 {% endblock %}
 
 {% block class_construct %}
-    /**
+  /**
    * Constructs a HTTP basic authentication provider object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -59,7 +63,7 @@ class {{ class_name }} implements AuthenticationProviderInterface
    * {@inheritdoc}
    */
   public function applies(Request $request) {
-    // If Authentication Provider is enabled always apply
+    // If Authentication Provider is enabled always apply.
     return TRUE;
   }
   /**
@@ -68,12 +72,11 @@ class {{ class_name }} implements AuthenticationProviderInterface
   public function authenticate(Request $request) {
     $consumer_ip = $request->getClientIp(TRUE);
     if (in_array($consumer_ip, $ips)) {
-      // Return Anonymous user
+      // Return Anonymous user.
       return $this->entityManager->getStorage('user')->load(0);
     }
-    else{
+    else {
       throw new AccessDeniedHttpException();
-      return null;
     }
   }
   /**
