@@ -16,6 +16,7 @@ use Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper;
 use Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper;
 use Drupal\AppConsole\EventSubscriber\ShowGeneratedFiles;
 use Drupal\AppConsole\EventSubscriber\ShowWelcomeMessage;
+use Drupal\AppConsole\Command\Helper\MessageHelper;
 
 set_time_limit(0);
 
@@ -49,6 +50,7 @@ $helpers = [
     'validators' => new Validators(),
     'translator' => $translatorHelper,
     'drupal-autoload' => new DrupalAutoloadHelper(),
+    'message' => new MessageHelper(),
 ];
 
 $application->addHelpers($helpers);
