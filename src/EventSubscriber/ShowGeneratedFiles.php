@@ -67,11 +67,6 @@ class ShowGeneratedFiles implements EventSubscriberInterface
             return;
         }
 
-        if ($command instanceof Command) {
-            $command->showMessages($output);
-
-        }
-
         if ($command instanceof GeneratorCommand) {
             $files = $command->getGenerator()->getFiles();
             if ($files) {
