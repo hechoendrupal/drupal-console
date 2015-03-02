@@ -49,13 +49,20 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
 
         $translator = $this->getTranslationHelper();
 
+        $message = $this
+          ->getMockBuilder('Drupal\AppConsole\Command\Helper\MessageHelper')
+          ->disableOriginalConstructor()
+          ->setMethods(['showMessages', 'showMessage'])
+          ->getMock();
+
         return new HelperSet([
           'formatter' => new FormatterHelper(),
           'bootstrap' => $bootstrap,
           'dialog' => $dialog,
           'stringUtils' => $stringUtils,
           'validators' => $validators,
-          'translator' => $translator
+          'translator' => $translator,
+          'message' => $message
         ]);
     }
 
