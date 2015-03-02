@@ -62,6 +62,7 @@ class GeneratorModuleCommand extends GeneratorCommand
         $core = $input->getOption('core');
         $package = $input->getOption('package');
         $controller = $input->getOption('controller');
+
         /**
          * Modules Dependencies
          *
@@ -69,11 +70,13 @@ class GeneratorModuleCommand extends GeneratorCommand
         $dependencies = $validators->validateModuleDependencies($input->getOption('dependencies'));
         // Check if all module dependencies are availables or not
         if (!empty($dependencies)) {
-            $checked_dpendencies = $this->checkDependencies($dependencies['success']);
-            if (!empty($checked_dpendencies['drupal_modules'])) {
-                $this->addMessage(
-                  sprintf($this->trans('commands.generate.module.warnings.module-unavailable'),
-                    implode(', ', $checked_dpendencies['drupal_modules']))
+            $checked_dependencies = $this->checkDependencies($dependencies['success']);
+            if (!empty($checked_dependencies['drupal_modules'])) {
+                $this->addErrorMessage(
+                  sprintf(
+                    $this->trans('commands.generate.module.warnings.module-unavailable'),
+                    implode(', ', $checked_dependencies['drupal_modules'])
+                  )
                 );
             }
             $dependencies = $dependencies['success'];
@@ -95,6 +98,29 @@ class GeneratorModuleCommand extends GeneratorCommand
           $dependencies,
           $test
         );
+    }
+
+    /**
+     * private functions
+     *
+     */
+    private function checkDependencies(array $dependencies)
+    {
+        $checked_dependecies = array(
+          'local_modules' => array(),
+          'drupal_modules' => array(),
+          'no_modules' => array()
+        );
+        $local_modules = null;
+        foreach ($dependencies as $key => $module) {
+            if (in_array($module, $local_modules)) {
+                $checked_dependecies['local_modules'][] = $module;
+            } else {
+                // here we have to check if this module is drupal.org using the api.
+                $checked_dependecies['drupal_modules'][] = $module;
+            }
+        }
+        return $checked_dependecies;
     }
 
     /**
@@ -235,29 +261,6 @@ class GeneratorModuleCommand extends GeneratorCommand
             $test = false;
         }
         $input->setOption('test', $test);
-    }
-
-    /**
-     * private functions
-     *
-     */
-    private function checkDependencies(array $dependencies)
-    {
-        $checked_dependecies = array(
-          'local_modules' => array(),
-          'drupal_modules' => array(),
-          'no_modules' => array()
-        );
-        $local_modules = null;
-        foreach ($dependencies as $key => $module) {
-            if (in_array($module, $local_modules)) {
-                $checked_dependecies['local_modules'][] = $module;
-            } else {
-                // here we have to check if this module is drupal.org using the api.
-                $checked_dependecies['drupal_modules'][] = $module;
-            }
-        }
-        return $checked_dependecies;
     }
 
     /**

@@ -39,6 +39,10 @@ class ConfigExportCommand extends ContainerAwareCommand
             $directory .= '/' . CONFIG_STAGING_DIRECTORY;
         }
 
+        if (!is_dir($directory)) {
+            mkdir($directory, 0777, true);
+        }
+
         $config_export_file  = $directory . '/config.tar.gz';
 
         file_unmanaged_delete($config_export_file);
@@ -65,7 +69,9 @@ class ConfigExportCommand extends ContainerAwareCommand
             return;
         }
 
-        $this->showMessage($output,
-            sprintf($this->trans('commands.config.export.messages.directory'), $config_export_file));
+        $this->addSuccessMessage(
+          $output,
+          sprintf($this->trans('commands.config.export.messages.directory'), $config_export_file)
+        );
     }
 }

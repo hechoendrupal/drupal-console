@@ -273,11 +273,13 @@ commands:
         module: common.options.module
         service-name: Service name
         class-name: Class name
+        interface: Interface
         services: common.questions.services
       questions:
         module: common.questions.module
         service-name: Enter the service name
         class-name: Enter the Class name
+        interface: Create an interface
         services: common.options.services
   module:
     debug:
@@ -307,7 +309,7 @@ commands:
     uninstall:
       description: Uninstall module or modules in the application
       messages:
-        no-modules: You must provide module or modules to enable.
+        no-modules: You must provide module or modules to uninstall.
         dependents: Unable to uninstall modules %s because are required by %s
         nothing: Nothing to do. All modules are already uninstalled
         success: Module(s) %s were uninstalled successfully
