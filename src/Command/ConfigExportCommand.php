@@ -69,7 +69,8 @@ class ConfigExportCommand extends ContainerAwareCommand
             return;
         }
 
-        $this->showMessage($output,
-            sprintf($this->trans('commands.config.export.messages.directory'), $config_export_file));
+        $this->addSuccessMessage(
+          sprintf($this->trans('commands.config.export.messages.directory'), $config_export_file)
+        );
     }
 }

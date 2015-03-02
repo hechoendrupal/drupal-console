@@ -1,0 +1,462 @@
+application:
+  console:
+    messages:
+      completed: A parancs futása sikeres volt!
+      generated:
+        files: Létrehozott fájlok
+        completed: A létrehozott kód használatra alkalmas!
+    errors:
+      invalid-command: A "%s" parancs nincs definiálva.
+  site:
+    messages:
+      path: Elérési útvonal
+    errors:
+      directorz: Az összes elérhető parancs megjelnítéséhez a console-nak a drupal könyvtárból kell futnia.
+      settings: Az összes elérhető parancs megjelenítéséhez először a drupalt telepíteni kell.
+commands:
+  common:
+    options:
+      module: A Modul neve.
+      services: Service betöltése a container-ből.
+      tags: Service tag-ek hozzárendelése a container-hez.
+      inputs: Beviteli mezők létrehozása formhoz.
+      permissions: Jogosultságok létrehozása.
+    questions:
+      module: Modul neve
+      confirm: Létrehozás megerősítése
+      canceled: Létrehozás parancs megszakítva.
+      services:
+        confirm: Betölthető service a container-be
+        message: |
+
+          Service neve vagy fel és le billentyűk.
+          Ez opcionális, <info>enter</info> a <info>folytatáshoz</info>
+        name: Service megadása
+      inputs:
+        confirm: Form struktúra létrehozása?
+        label: Beviteli mező címke
+        machine_name: Beviteli mező gépi neve
+        permission: Jogosultságok létrehozása
+        type: Típus
+        invalid: Mező típus "%s" helytelen.
+        description: Leírás
+    errors:
+      module-dependency: Hiányzó modul függőség "%s"
+      class-name-empty: A Class neve nem lehet üres
+  cache:
+    rebuild:
+      description: Minden gyorsítótár újraépítése és törlése.
+      options:
+        cache: Csak bizonyos gyorsítótár törlése.
+      messages:
+        welcome: Üdvözlet a cache:rebuild parancsban
+        rebuild: Gyorsítótár újraépítése, türelem
+        completed: Gyorsítótár törlése kész.
+        invalid_cache: A "%s" gyorsítótár név helytelen.
+      questions:
+        cache: Gyorsítótár kiválasztása.
+  config:
+    export:
+      description: Jelenlegi alkalmazás beállításainak exportálása.
+      arguments:
+        directory: Export könyvtár meghatározása a beállítások mentéséhez.
+      messages:
+        directory: A beállítások export fájl mentése megtörtént: %s
+    debug:
+      description: Jelenlegi beállítások megjelenítése.
+      arguments:
+        config-name: Beállítás neve.
+    override:
+      description: Beállítás felülírása.
+      arguments:
+        config-name: Beállítás neve.
+        key: Kulcs
+        value: Érték
+      messages:
+        configuration: Beállítás neve
+        configuration-key: Beállítás kulcs
+        original: Beállítás érték
+        updated: Érték felülírása
+    edit:
+      description: Kiválasztott beállítások szerkesztése.
+      arguments:
+        config-name: Beállítás neve.
+        editor: Szerkesztő program.
+      messages:
+        no-directory: A következő könyvtár létrehozása közben hiba lépett fel:
+  container:
+    debug:
+      description: Alkalmazáshoz tartozó service megjelenítése.
+      messages:
+        service_id: Service ID
+        class_name: Class név
+  drush:
+    description: drush futtatása console-ból.
+    help: Interaktív mód a felhasználói élmény fokozásáért --shell.
+    arguments:
+      args: Drush argumentumok.
+    messages:
+      not_found: Drush parancs nem található.
+  generate:
+    authentication:
+      provider:
+        description: Authentication Provider létrehozása
+        help: A <info>generate:authentication:provider</info> parancs új Authentication Provider létrehozásában segít.
+        options:
+        module: common.options.module
+        class-name: Authentication Provider class neve
+    command:
+      description: Console parancsok létrehozása.
+      help: A <info>generate:command</info> parancs új parancsok létrehozásában segít.
+      welcome: Üdvözlet a Drupal Parancs létrehozásban
+      options:
+        module: common.options.module
+        class-name: Parancs Class neve
+        command: Parancs neve
+        container: services container elérése
+      questions:
+        module: common.questions.module
+        class-name: Parancs Class nevének megadása
+        command: Parancs nevének megadása
+        container: Service container elérése szükséges
+    controller:
+      description: Controller létrehozása és regisztrálása
+      help: A <info>generate:controller</info> parancs új Controller létrehozásában segít.
+      welcome: Üdvözlet a Drupal Controller létrehozásában
+      options:
+        module: common.options.module
+        class-name: Controller Class neve
+        method-name: Az akció metódus neve
+        route: Az elérési útvonal
+        services: common.options.services
+        test: Teszt osztály létrehozása
+      questions:
+        module: common.questions.module
+        class-name: Controller Class nevének megadása
+        method-name: Az akció metódus nevének megadása
+        route: Az elérési útvonal megadása
+        services: common.questions.services
+        test: Unit teszt osztály létrehozása
+    entity:
+      description: Új "%s" létrehozása
+      help: A <info>"%s"</info> parancs új "%s" létrehozásában segít
+      welcome: Üdvözlet a Drupal Entity létrehozásában
+      options:
+        module: common.options.module
+        entity-class: Az Entity osztály neve
+        entity-name: Az Entity neve
+      questions:
+        module: common.questions.module
+        entity-class: Entity osztály nevének megadása
+        entity-name: Entity nevének megadása
+    form:
+      description: Új "%s" létrehozása
+      help: A <info>"%s"</info> parancs új "%s" létrehozásában segít
+      welcome: Üdvözlet a Drupal Form létrehozásában
+      options:
+        module: common.options.module
+        class-name: A Form Class neve
+        form-id: A Form ID
+        services: common.options.services
+        inputs: common.options.inputs
+        routing: Routing frissítése
+      questions:
+        module: common.questions.module
+        class-name: Form Class nevének megadása
+        form-id: Form ID megadása
+        services: common.questions.services
+        inputs: common.questions.inputs
+        routing: Routing fájl frissítése
+    module:
+      description: Modul létrehozása.
+      help: A <info>generate:module</info> új modul létrehozásában segít.
+      welcome: Üdvözlet az új Modul létrehozásában
+      options:
+        module: A modul neve
+        machine-name: Gépi név (angol kis betűk és aláhúzás)
+        module-path: A modul elérési útvonala
+        description: Modul leírása
+        core: Drupal verzió
+        package: Modul csomag
+        controller: Alapértelmezett Controller
+        dependencies: Modul függőségek vesszővel elválasztva (pl. context, panels)
+        test: Teszt osztály létrehozása
+      questions:
+        module: Modul nevének megadása
+        machine-name: Modul gépi nevének megadása
+        module-path: A modul elérési útvonalának megadása
+        description: Modul leírásának megadása
+        core: Drupal Core verzió megadása
+        package: Csomag nevének megadása
+        controller: Alapértelmezett Controller szükséges
+        dependencies: Modul függőségek hozzáadása szükséges
+        test: Unit teszt osztály létrehozható
+      warnings:
+        module-unavailable: Figyelem, a következő modulok még nem elérhetőek a helyi Drual telepítésben: "%s"
+      errors:
+        directory-exists: A célkönyvtás "%s" nem üres.
+    permission:
+        description: Modul jogosultságok létrehozása
+        help: A <info>generate:permissions</info> modul jogosultságok létrehozásában segít
+        options:
+          module: common.options.module
+          permission: Jogosultság megadása
+        questions:
+          module: common.questions.module
+          permission: Jogosultság megadása
+    plugin:
+      block:
+        description: Plugin block létrehozása
+        help: A <info>generate:plugin:block</info> parancs új Plugin block létrehozásában segít.
+        welcome: Üdvözlet a  Drupal Plugin Block létrehozásában
+        options:
+          module: common.options.module
+          class-name: Plugin Class neve
+          label: Plugin címke
+          plugin-id: Plugin ID
+          inputs: common.options.inputs
+          services: common.options.services
+        questions:
+          module: common.questions.module
+          class-name: Plugin class nevének megadása
+          label: Plugin címke megadása
+          plugin-id: Plugin ID megadása
+          inputs: common.questions.inputs
+          services: common.questions.services
+        messages:
+          inputs: |
+
+            Tetszőleges beviteli mező hozzáadható, melyek a blokk beállításakor jelenik meg.
+            Ez opcionális, <info>enter</info> a <info>folytatáshoz</info>
+      imageeffect:
+        description: Kép hatás beépülő létrehozása.
+        help: A <info>generate:plugin:imageeffect</info> parancs kép hatás beépülő létrehozásában segít.
+        welcome: Üdvözlet a kép hatás beépülő létrehozásában
+        options:
+          module: common.options.module
+          class-name: Plugin class neve
+          label: Plugin címke
+          plugin-id: Plugin ID
+          description: Plugin leírás
+        questions:
+          module: common.questions.module
+          class-name: Plugin class nevének megadása
+          label: Plugin címke megadása
+          plugin-id: Plugin ID megadása
+          description: Plugin leírás megadása
+      rest:
+          resource:
+            description: REST erőforrás beépülő létrehozása
+            help: A <info>generate:plugin:rest:resource</info> parancs új REST erőforrás beépülő létrehozásában segít.
+            welcome: Üdvözlet a REST erőforrás beépülő létrehozásában
+            options:
+              module: common.options.module
+              class-name: REST erőforrás beépülő class
+              plugin-id: REST erőforrás beépülő azonosító
+              plugin-label: REST erőforrás beépülő címke
+              plugin-url: REST erőforrás beépülő url
+              plugin-states: REST erőforrás beépülő States
+            questions:
+              module: common.questions.module
+              class-name: REST erőforrás beépülő class nevének megadása
+              plugin-id: REST erőforrás beépülő azonosító megadása
+              plugin-label: REST erőforrás beépülő címke megadása
+              plugin-url: REST erőforrás beépülő url megadása
+              plugin-states: REST State megadása (GET alapértelmezetten kiválasztott)
+            messages:
+              selected-states: Kiválasztott State
+    service:
+      description: Service létrehozása
+      help: A <info>generate:service</info> új service létrehozásában segít.
+      welcome: Üdvözlet az új service létrehozásában
+      options:
+        module: common.options.module
+        service-name: Service neve
+        class-name: Class neve
+        interface: Interfész
+        services: common.questions.services
+      questions:
+        module: common.questions.module
+        service-name: Service nevének megadása
+        class-name: Class nevének megadása
+        interface: Interfész létrehozása
+        services: common.options.services
+  module:
+    debug:
+      description: Elérhető modulok megjelenítése
+      options:
+        status: "Modul állapot [engedélyezett|tiltott]"
+        type: "Module típus [core|no-core]"
+      messages:
+        id: "ID"
+        name: "Név"
+        status: "Állapot"
+        origin: "Származás"
+        package: "Csomag"
+        enabled: "Engedélyezett"
+        disabled: "Tiltott"
+    install:
+      description: Modul vagy modulok telepítése
+      options:
+        module: Modul vagy modulok engedélyezése vesszővel elválasztott lista alapján
+      messages:
+        no-modules: Engedélyezni kívánt modul vagy modulok megadása kötelező.
+        missing: "%s modulok telepítése sikertelen hiányzó modulok miatt: %s"
+        missing-dependencies: "%s modulok nem telepíthetők hiányzó függőségek miatt: %s"
+        nothing: Nincs teendő, minden modul már telepítve volt.
+        dependencies: "Biztosan telepíthetők a következő függőségek: %s?"
+        success: %s modul sikeresen telepítve lett
+    uninstall:
+      description: Modul vagy modulok eltávolítása
+      messages:
+        no-modules: Eltávolítani kívánt modul vagy modulok megadása kötelező.
+        dependents: "%s nem távolítható el, mert függősége más moduloknak: %s"
+        nothing: "Nincs teendő, minden modul már el lett távolítva."
+        success: %s Sikeresen el lett távolítva
+    download:
+      description: Modul vagy modulok letöltése
+      messages:
+        no-releases: "Nincs elérhető kiadás: %s"
+        getting-releases: "%s modulhoz kiadás letöltése"
+        downloading: "%s modul %s kiadásának letöltése"
+        installed: %s modul sikeresen telepítve lett
+  migrate:
+    debug:
+      description: Elérhető migrációk megjelenítése
+      arguments:
+        drupal-version: Drupal Verzió
+      messages:
+        id: "Migráció Id"
+        description: "Leírás"
+        version: "Verzió"
+    execute:
+      description: Elérhető migráció futtatása
+      arguments:
+        id: "Migráció Id"
+      options:
+        site-url: "Oldal forrás URL"
+        db-host: "Adatbázis Host"
+        db-name: "Adatbázis Név"
+        db-user: "Adatbázis Felhasználó"
+        db-pass: "Adatbázis jelszó"
+        db-prefix: "Adatbázis Prefix"
+        db-port: "Adatbázis Port"
+      questions:
+        id: "Migráció Id"
+        site-url: "Oldal forrás URL"
+        db-host: "Adatbázis Host"
+        db-name: "Adatbázis Név"
+        db-user: "Adatbázis Felhasználó"
+        db-pass: "Adatbázis jelszó"
+        db-prefix: "Adatbázis Prefix"
+        db-port: "Adatbázis Port"
+        invalid-migration-id: '"%s" érvénytelen migráció id'
+      messages:
+        processing: '"%s" migráció feldolgozása'
+        imported: '"%s" migráció sikeresen feldolgozásra került'
+        fail-load: '"%s" migráció nem tölthető be'
+        importing-incomplete: '"%s" migráció feldolgozása'
+        import-stoped: Import '"%s" futása meg lett szakítva'
+        import-fail: Import '"%s" hibás'
+        import-skipped: 'Import "%s" ki lett hagyva teljesíthehtlen függőség miatt'
+        wrong-source: 'Frissítés erről a Drupal verzióról nem támogatott.'
+  rest:
+    enable:
+      description: REST erőforrás engedélyezése
+      arguments:
+        resource-id: REST ID
+        states: REST State engedélyezése REST erőforrás számára
+        autorizations: Autorizations provider engedélyezése REST erőforrás számára
+
+      questions:
+        resource-id: REST ID
+      messages:
+        invalid-rest-id: REST ID %s érvénytelen
+        formats: Elérhető szérializáló formátumok
+        authentication-providers: Elérhető Authentication Provider-ek
+        selected-state: Kiválasztott State
+        selected-formats: Kiválasztott formátumok
+        selected-authentication-providers: Kiválasztott Authentication Provider-ek
+    disable:
+      description: REST erőforrás letiltása
+      arguments:
+        resource-id: REST ID
+        states: REST State letiltása a REST erőforrásból
+
+      questions:
+        resource-id: REST ID
+      messages:
+        invalid-rest-id: REST ID %s érvénytelen
+    debug:
+      description: REST erőforrás megjelenítése
+      arguments:
+        resource-id: REST ID
+      options:
+        status: REST erőforrás állapot engedélyezett | tiltott
+      messages:
+        id: REST ID
+        label: Címke
+        canonical_url: Canonical URL
+        status: Állapot
+        provider: Ellátó
+        enabled: Engedélyezett
+        disabled: Tiltott
+        rest-state: REST State
+        supported-formats: Támogatott formátumok
+        supported_auth: Támogatott Authentication Provider-ek
+        not-found: REST erőforrás %s nem található
+  router:
+    debug:
+      description: Elérhető útvonalak megjelenítése
+      arguments:
+        route-name: Útvonal neve
+      messages:
+        name: Útvonal neve
+        path: Class elérési útvonala
+        pattern: Minta
+        defaults: Alapértelmezés
+        options: Opciók
+    rebuild:
+      description: Útvonalak újraépítése
+      arguments:
+        route-name: Útvonal neve
+      messages:
+        rebuilding: Útvonalak újraépítése, kis türelmet
+        completed: Útvonalak újraépítése befejeződött.
+  self-update:
+    description: Console frissítése a legújabb verzióra.
+    help: Console parancs frissítése a legújabb elérhető verzióra.
+    messages:
+      success: A console frissítve lett a legújabb verzióra.
+  site:
+    mode:
+      description: Rendszer teljesítmény beállításának módosítása
+      arguments:
+        environment: Környezet neve
+      messages:
+        configuration: Konfiguráció neve
+        configuration-key: Konfiguráció kulcs
+        original: Eredeti érték
+        updated: Módisított érték
+    maintenance:
+      description: Oldal átállítása karbantartási módba
+      arguments:
+        mode: Karbantartási mód
+      messages:
+        maintenance-on: Karbantartási mód be
+        maintenance-off: Karbantartási mód ki
+      errors:
+        invalid-mode: Helytelen karbantartási mód
+  test:
+    debug:
+      description: Elérhető unit tesztek megjelenítése.
+      help: Console parancs frissítése a legújabb verzióra.
+      arguments:
+        test-id: Unit Teszt ID
+      options:
+        group: Csoport
+      messages:
+        id: Unit Teszt ID
+        description: Leírás
+        group: Csoport
+        success: A console sikeresen frissítve lett a legújabb verzióra.

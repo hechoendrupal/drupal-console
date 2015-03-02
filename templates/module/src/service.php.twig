@@ -14,7 +14,7 @@ namespace Drupal\{{module}};
  *
  * @package Drupal\{{module}}
  */
-class {{ class_name }} {% endblock %}
+class {{ class_name }} {% if(interface) %}implements {{ class_name }}Interface{% endif %} {% endblock %}
 {% block class_construct %}
   /**
    * Constructor.

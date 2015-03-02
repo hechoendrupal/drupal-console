@@ -58,7 +58,6 @@ class ShowWelcomeMessage implements EventSubscriberInterface
         if ($welcomeMessage != $welcomeMessageKey) {
             $command->showMessage($output, $welcomeMessage);
         }
-
     }
 
     /**
@@ -68,5 +67,4 @@ class ShowWelcomeMessage implements EventSubscriberInterface
     {
         return [ConsoleEvents::COMMAND => 'showMessage'];
     }
-
 }
