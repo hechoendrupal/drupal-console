@@ -31,6 +31,7 @@ class ConfigExportCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $messageHelper = $this->getHelperSet()->get('message');
         $directory = $input->getArgument('directory');
 
         if (!$directory) {
@@ -69,7 +70,7 @@ class ConfigExportCommand extends ContainerAwareCommand
             return;
         }
 
-        $this->addSuccessMessage(
+        $messageHelper->addSuccessMessage(
           $output,
           sprintf($this->trans('commands.config.export.messages.directory'), $config_export_file)
         );
