@@ -54,64 +54,12 @@ abstract class Command extends BaseCommand
         $this->module = $module;
     }
 
-    public function showMessages($output, $type = null)
-    {
-        if ($type) {
-            $messages =  $this->messages[$type];
-            return $this->getMessages($output, $messages, $type);
-        }
-
-        $messages = $this->messages[self::MESSAGE_ERROR];
-        $this->getMessages($output, $messages, self::MESSAGE_ERROR);
-
-        $messages = $this->messages[self::MESSAGE_WARNING];
-        $this->getMessages($output, $messages, self::MESSAGE_WARNING);
-
-        $messages = $this->messages[self::MESSAGE_INFO];
-        $this->getMessages($output, $messages, self::MESSAGE_INFO);
-
-        $messages = $this->messages[self::MESSAGE_SUCCESS];
-        $this->getMessages($output, $messages, self::MESSAGE_SUCCESS);
-    }
-
-    private function getMessages($output, $messages, $type)
-    {
-        if ($messages) {
-            foreach ($messages as $message) {
-                $this->showMessage($output, $message, $type);
-            }
-        }
-    }
-
-    public function showMessage($output, $message, $type = self::MESSAGE_INFO)
-    {
-        if ($type == self::MESSAGE_ERROR) {
-            $style = 'bg=red;fg=white';
-        }
-        if ($type == self::MESSAGE_WARNING) {
-            $style = 'bg=magenta;fg=white';
-        }
-        if ($type == self::MESSAGE_INFO) {
-            $style = 'bg=blue;fg=white';
-        }
-        if ($type == self::MESSAGE_SUCCESS) {
-            $style = 'bg=green;fg=white';
-        }
-        $output->writeln([
-          '',
-          $this->getHelperSet()->get('formatter')->formatBlock(
-            $message,
-            $style,
-            false
-          ),
-          '',
-        ]);
-    }
-
     public function showGeneratedFiles($output, $files)
     {
+        $messageHelper = $this->getHelperSet()->get('message');
+
         if ($files) {
-            $this->showMessage(
+            $messageHelper->showMessage(
               $output,
               $this->trans('application.console.messages.generated.files')
             );
