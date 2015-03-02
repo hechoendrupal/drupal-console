@@ -16,6 +16,7 @@ use Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper;
 use Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper;
 use Drupal\AppConsole\EventSubscriber\ShowGeneratedFiles;
 use Drupal\AppConsole\EventSubscriber\ShowWelcomeMessage;
+use Drupal\AppConsole\Command\Helper\MessageHelper;
 
 set_time_limit(0);
 
@@ -23,7 +24,7 @@ $consoleRoot = __DIR__ . '/../';
 
 if (file_exists($consoleRoot . '/vendor/autoload.php')) {
     require_once $consoleRoot . '/vendor/autoload.php';
-} else if (file_exists($consoleRoot . '/../../vendor/autoload.php')) {
+} elseif (file_exists($consoleRoot . '/../../vendor/autoload.php')) {
     require_once $consoleRoot . '/../../vendor/autoload.php';
 } else {
     echo 'Something goes wrong with your archive' . PHP_EOL .
@@ -49,6 +50,7 @@ $helpers = [
     'validators' => new Validators(),
     'translator' => $translatorHelper,
     'drupal-autoload' => new DrupalAutoloadHelper(),
+    'message' => new MessageHelper(),
 ];
 
 $application->addHelpers($helpers);

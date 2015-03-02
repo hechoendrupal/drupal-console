@@ -50,6 +50,7 @@ class GeneratorModuleCommand extends GeneratorCommand
     {
         $dialog = $this->getDialogHelper();
         $validators = $this->getHelperSet()->get('validators');
+        $messageHelper = $this->getHelperSet()->get('message');
 
         if ($this->confirmationQuestion($input, $output, $dialog)) {
             return;
@@ -72,7 +73,7 @@ class GeneratorModuleCommand extends GeneratorCommand
         if (!empty($dependencies)) {
             $checked_dependencies = $this->checkDependencies($dependencies['success']);
             if (!empty($checked_dependencies['drupal_modules'])) {
-                $this->addErrorMessage(
+                $messageHelper->addErrorMessage(
                   sprintf(
                     $this->trans('commands.generate.module.warnings.module-unavailable'),
                     implode(', ', $checked_dependencies['drupal_modules'])

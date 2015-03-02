@@ -31,10 +31,6 @@ class Application extends BaseApplication
      */
     protected $directoryRoot;
     /**
-     * @var array
-     */
-    protected $errorMessages = [];
-    /**
      * @var \Composer\Autoload\ClassLoader
      * The Drupal autoload file.
      */
@@ -48,6 +44,8 @@ class Application extends BaseApplication
      * @var bool
      */
     private $commandsRegistered = false;
+
+    private $searchSettingsFile = true;
 
     /**
      * Create a new application extended from \Symfony\Component\Console\Application.
@@ -115,6 +113,10 @@ class Application extends BaseApplication
             ->get('drupal-autoload')
             ->findAutoload($drupal_root);
 
+        if (!$this->isSettingsFile()) {
+            return false;
+        }
+
         if ($autoload && !$this->isBooted()) {
             $this->drupalAutoload = require_once $autoload;
             if ($this->drupalAutoload instanceof ClassLoader) {
@@ -124,6 +126,40 @@ class Application extends BaseApplication
         }
 
         return false;
+    }
+
+    public function setSearchSettingsFile($searchSettingsFile)
+    {
+        $this->searchSettingsFile = $searchSettingsFile;
+    }
+
+    public function isSettingsFile()
+    {
+        if (!$this->searchSettingsFile) {
+            return true;
+        }
+
+        $bootstrapHelper = $this
+          ->getHelperSet()
+          ->get('bootstrap');
+
+        $drupalRoot = $bootstrapHelper->getDrupalRoot();
+
+        $messageHelper = $this
+          ->getHelperSet()
+          ->get('message');
+
+        $translatorHelper = $this
+          ->getHelperSet()
+          ->get('translator');
+
+        if (!file_exists($drupalRoot . '/sites/default/settings.php')) {
+            $messageHelper->addErrorMessage($translatorHelper->trans('application.site.errors.settings'));
+
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -248,13 +284,5 @@ class Application extends BaseApplication
         foreach ($helpers as $alias => $helper) {
             $defaultHelperset->set($helper, is_int($alias) ? null : $alias);
         }
-    }
-
-    /**
-     * @param array $errorMessages
-     */
-    public function addErrorMessages(array $errorMessages)
-    {
-        $this->errorMessages = $errorMessages;
     }
 }
