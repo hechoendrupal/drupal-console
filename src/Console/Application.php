@@ -31,10 +31,6 @@ class Application extends BaseApplication
      */
     protected $directoryRoot;
     /**
-     * @var array
-     */
-    protected $errorMessages = [];
-    /**
      * @var \Composer\Autoload\ClassLoader
      * The Drupal autoload file.
      */
@@ -248,13 +244,5 @@ class Application extends BaseApplication
         foreach ($helpers as $alias => $helper) {
             $defaultHelperset->set($helper, is_int($alias) ? null : $alias);
         }
-    }
-
-    /**
-     * @param array $errorMessages
-     */
-    public function addErrorMessages(array $errorMessages)
-    {
-        $this->errorMessages = $errorMessages;
     }
 }
