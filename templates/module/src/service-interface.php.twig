@@ -1,0 +1,21 @@
+{% extends "base/interface.php.twig" %}
+
+{% block file_path %}
+Drupal\{{module}}\{{ class_name }}Interface.
+{% endblock %}
+
+{% block namespace_interface %}
+namespace Drupal\{{module}};
+{% endblock %}
+
+{% block interface_declaration %}
+/**
+ * Interface {{ class_name }}Interface.
+ *
+ * @package Drupal\{{module}}
+ */
+interface {{ class_name }}Interface {% endblock %}
+
+{% block interface_methods %}
+
+{% endblock %}

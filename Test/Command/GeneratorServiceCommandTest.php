@@ -15,13 +15,13 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
      */
     public function testInteractive($options, $expected, $input)
     {
-        list($module, $service_name, $class_name, $services) = $expected;
+        list($module, $service_name, $class_name, $interface, $services) = $expected;
 
         $generator = $this->getGenerator();
         $generator
           ->expects($this->once())
           ->method('generate')
-          ->with($module, $service_name, $class_name, $services);
+          ->with($module, $service_name, $class_name, $interface, $services);
 
         $command = $this->getCommand($generator, $input);
         $cmd = new CommandTester($command);
@@ -45,36 +45,36 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
               // Inline options
             [],
               // Expected options
-            ['foo', 'foo.default', 'DefaultService', $services],
+            ['foo', 'foo.default', 'DefaultService', 'no', $services],
               // User input options
-            "foo\nfoo.default\nDefaultService\nyes\ntwig\n\n",
+            "foo\nfoo.default\nDefaultService\nno\nyes\ntwig\n\n",
           ],
             // case two
           [
               // Inline options
             ['--module' => 'foo'],
               // Expected options
-            ['foo', 'foo.default', 'DefaultService', null],
+            ['foo', 'foo.default', 'DefaultService', 'yes', null],
               // User input options
-            "foo.default\nDefaultService\nno\n",
+            "foo.default\nDefaultService\nyes\nno\n",
           ],
             // case three
           [
               // Inline options
             ['--module' => 'foo', '--service-name' => 'foo.default'],
               // Expected options
-            ['foo', 'foo.default', 'DefaultService', null],
+            ['foo', 'foo.default', 'DefaultService', 'no', null],
               // User input options
-            "DefaultService\nno\n",
+            "DefaultService\nno\nno\n",
           ],
             // case three
           [
               // Inline options
             ['--module' => 'foo', '--service-name' => 'foo.default', '--class-name' => 'DefaultService'],
               // Expected options
-            ['foo', 'foo.default', 'DefaultService', $services],
+            ['foo', 'foo.default', 'DefaultService', 'yes', $services],
               // User input options
-            "yes\ntwig\n\n",
+            "yes\nyes\ntwig\n\n",
           ],
         ];
     }
