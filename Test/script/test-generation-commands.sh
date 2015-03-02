@@ -15,3 +15,4 @@ SCRIPT_DIR=$( dirname "$FILE" )
 . $SCRIPT_DIR/generate-plugin-block.sh
 . $SCRIPT_DIR/generate-plugin-imageeffect.sh
 . $SCRIPT_DIR/generate-plugin-rest-resource.sh
+. $SCRIPT_DIR/generate-service.sh
