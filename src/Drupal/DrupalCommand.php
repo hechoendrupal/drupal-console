@@ -4,7 +4,7 @@
  * @file
  */
 
-namespace Drupal\AppConsole\Annotation;
+namespace Drupal\AppConsole\Drupal;
 
 /**
  * @Annotation
