@@ -24,7 +24,7 @@ $consoleRoot = __DIR__ . '/../';
 
 if (file_exists($consoleRoot . '/vendor/autoload.php')) {
     require_once $consoleRoot . '/vendor/autoload.php';
-} else if (file_exists($consoleRoot . '/../../vendor/autoload.php')) {
+} elseif (file_exists($consoleRoot . '/../../vendor/autoload.php')) {
     require_once $consoleRoot . '/../../vendor/autoload.php';
 } else {
     echo 'Something goes wrong with your archive' . PHP_EOL .
