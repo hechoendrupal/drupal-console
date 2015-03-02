@@ -62,7 +62,7 @@ class ConfigExportCommand extends ContainerAwareCommand
             foreach ($this->targetStorage->getAllCollectionNames() as $collection) {
                 $collection_storage = $this->targetStorage->createCollection($collection);
                 foreach ($collection_storage->listAll() as $name) {
-                $archiver->addString(str_replace('.', '/', $collection) . "/$name.yml", Yaml::encode($collection_storage->read($name)));
+                    $archiver->addString(str_replace('.', '/', $collection) . "/$name.yml", Yaml::encode($collection_storage->read($name)));
                 }
             }
         } catch (\Exception $e) {
