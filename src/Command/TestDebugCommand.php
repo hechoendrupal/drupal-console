@@ -6,7 +6,7 @@
 
 namespace Drupal\AppConsole\Command;
 
-use Drupal\AppConsole\Annotation\DrupalCommand;
+use Drupal\AppConsole\Drupal\DrupalCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;

@@ -6,10 +6,18 @@
 
 namespace Drupal\AppConsole\Command;
 
+use Drupal\AppConsole\Drupal\DrupalCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @DrupalCommand(
+ *      dependencies={
+ *          "migrate"
+ *      }
+ * )
+ */
 class MigrateDebugCommand extends ContainerAwareCommand
 {
 

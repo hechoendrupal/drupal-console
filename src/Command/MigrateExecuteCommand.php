@@ -6,6 +6,7 @@
 
 namespace Drupal\AppConsole\Command;
 
+use Drupal\AppConsole\Drupal\DrupalCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,6 +16,14 @@ use Drupal\migrate\Entity\MigrationInterface;
 use Drupal\migrate\MigrateExecutable;
 use Drupal\AppConsole\Command\migrate_upgrade\MigrateExecuteMessageCapture;
 
+/**
+ * @DrupalCommand(
+ *      dependencies={
+ *          "migrate"
+ *      }
+ * )
+ *
+ */
 class MigrateExecuteCommand extends ContainerAwareCommand
 {
     protected $connection;

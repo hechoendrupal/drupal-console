@@ -73,13 +73,13 @@ class RegisterCommandsHelper extends Helper
 
                     if ($cmd = $this->isCommand($class)) {
                         $meta = $this->getCommandMetada($cmd);
+                        $command = $this->buildCommand($cmd, $module);
 
                         // If the command need Drupal.
                         if ($meta && $this->console->isBooted() && $this->hasModule($meta->dependencies)) {
-                            $command = $this->buildCommand($cmd, $module);
                             $this->console->add($command);
                         } else if (!$meta) { // If the command not need drupal.
-
+                            $this->console->add($command);
                         }
                     }
                 }
@@ -153,13 +153,13 @@ class RegisterCommandsHelper extends Helper
 
     /**
      * @param \ReflectionClass $cmd
-     * @return \Drupal\AppConsole\Annotation\DrupalCommand
+     * @return \Drupal\AppConsole\Drupal\DrupalCommand
      */
     protected function getCommandMetada(\ReflectionClass $cmd)
     {
         return $this->reader->getClassAnnotation(
             $cmd,
-            '\Drupal\AppConsole\Annotation\DrupalCommand'
+            '\Drupal\AppConsole\Drupal\DrupalCommand'
         );
     }
 

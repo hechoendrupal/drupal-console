@@ -6,12 +6,21 @@
 
 namespace Drupal\AppConsole\Command;
 
+use Drupal\AppConsole\Drupal\DrupalCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Serialization\Yaml;
 
+/**
+ * @DrupalCommand(
+ *      dependencies={
+ *          "rest"
+ *      }
+ * )
+ *
+ */
 class RestDebugCommand extends ContainerAwareCommand
 {
 
