@@ -36,6 +36,14 @@ class ShowGeneratedFiles implements EventSubscriberInterface
     }
 
     /**
+     * @{@inheritdoc}
+     */
+    public static function getSubscribedEvents()
+    {
+        return [ConsoleEvents::TERMINATE => 'showGeneratedFiles'];
+    }
+
+    /**
      * @param ConsoleCommandEvent $event
      */
     public function showGeneratedFiles(ConsoleTerminateEvent $event)
@@ -55,11 +63,8 @@ class ShowGeneratedFiles implements EventSubscriberInterface
         }
 
         if ($command instanceof Command) {
-            $messages = $command->getMessages();
+            $command->showMessages($output);
 
-            foreach ($messages as $message) {
-                $command->showMessage($output, $this->trans($message));
-            }
         }
 
         if ($command instanceof GeneratorCommand) {
@@ -70,20 +75,11 @@ class ShowGeneratedFiles implements EventSubscriberInterface
             $completedMessageKey = 'application.console.messages.generated.completed';
         }
 
-        $completedMessage = $this->trans->trans($completedMessageKey);
-
-        if ($completedMessage != $completedMessageKey) {
-            if (method_exists($command, 'showMessage')) {
+        if ($command instanceof Command) {
+            $completedMessage = $this->trans->trans($completedMessageKey);
+            if ($completedMessage != $completedMessageKey) {
                 $command->showMessage($output, $completedMessage);
             }
         }
-    }
-
-    /**
-     * @{@inheritdoc}
-     */
-    public static function getSubscribedEvents()
-    {
-        return [ConsoleEvents::TERMINATE => 'showGeneratedFiles'];
     }
 }
