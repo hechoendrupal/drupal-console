@@ -38,6 +38,9 @@ class ShowWelcomeMessage implements EventSubscriberInterface
         $command = $event->getCommand();
         $output = $event->getOutput();
 
+        $application = $command->getApplication();
+        $messageHelper = $application->getHelperSet()->get('message');
+
         if ($command instanceof Command) {
             $dependencies = $command->getDependencies();
             foreach ($dependencies as $dependency) {
@@ -46,7 +49,7 @@ class ShowWelcomeMessage implements EventSubscriberInterface
                         $this->trans->trans('commands.common.errors.module-dependency'),
                         $dependency
                     );
-                    $command->showMessage($output, $errorMessage, 'error');
+                    $messageHelper->showMessage($output, $errorMessage, 'error');
                     $event->disableCommand();
                 }
             }
@@ -56,7 +59,7 @@ class ShowWelcomeMessage implements EventSubscriberInterface
         $welcomeMessage = $this->trans->trans($welcomeMessageKey);
 
         if ($welcomeMessage != $welcomeMessageKey) {
-            $command->showMessage($output, $welcomeMessage);
+            $messageHelper->showMessage($output, $welcomeMessage);
         }
     }
 
