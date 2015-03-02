@@ -42,9 +42,7 @@ use Drupal\{{ module }}\{{ entity_class }}Interface;
  *   }
  * )
  */
-class {{ entity_class }} extends ConfigEntityBase implements {{ entity_class }}Interface
-{% endblock %}
-
+class {{ entity_class }} extends ConfigEntityBase implements {{ entity_class }}Interface {% endblock %}
 {% block class_methods %}
   /**
    * The {{ entity_class }} ID.

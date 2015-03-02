@@ -9,8 +9,12 @@ namespace Drupal\{{module}};
 {% endblock %}
 
 {% block interface_declaration %}
-interface {{ class_name }}Interface
-{% endblock %}
+/**
+ * Interface {{ class_name }}Interface.
+ *
+ * @package Drupal\{{module}}
+ */
+interface {{ class_name }}Interface {% endblock %}
 
 {% block interface_methods %}
 
