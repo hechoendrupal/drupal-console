@@ -109,38 +109,38 @@ commands:
         class-name: Classa pentru "Authentication Provider"
     command:
       description: Genereaza comenzi pentru consola.
-      help: The <info>generate:command</info> command helps you generate a new command.
-      welcome: Welcome to the Drupal Command generator
+      help: Comanda <info>generate:command</info> te va ajuta sa creezi o noua comanda.
+      welcome: Bine ai venit in genratorul de comenzi noi.
       options:
         module: common.options.module
-        class-name: Command Class name
-        command: Command name
-        container: Access the services container
+        class-name: Numele Clasei a Comenzii
+        command: Numele Comenzii
+        container: Acceseaza serviciul containerului
       questions:
         module: common.questions.module
-        class-name: Enter the Command Class name
-        command: Enter the Command name
-        container: Do you need to access the service container
+        class-name: Introdu Numele Clasei a Comenzii
+        command: Introdu Numele Comenzii
+        container: Aveti nevoie de a accesa serviciul containerului
     controller:
-      description: Generate & Register a controller
-      help: The <info>generate:controller</info> command helps you generate a new controller.
-      welcome: Welcome to the Drupal Controller generator
+      description: Genereaza si Inregistreaza un controller
+      help: Comanda <info>generate:controller</info> te va ajuta sa generezi un nou controller.
+      welcome: Bine ai venit in Generatorul de Drupal Controller
       options:
         module: common.options.module
-        class-name: Controller Class name
-        method-name: The action method name
+        class-name: Numele Clasei pentru Controller
+        method-name: Numele actiunii metodei
         route: The route path
         services: common.options.services
-        test: Generate a test class
+        test: Genereaza o clasa de test
       questions:
         module: common.questions.module
-        class-name: Enter the Controller class name
-        method-name: Enter the action method name
-        route: Enter the route path
+        class-name: Introdu numele Clasei pentru Controller
+        method-name: Introdu numele actiunii metodei
+        route: Introdu calea spre route
         services: common.questions.services
-        test: Do you want to generate a unit test class
+        test: Vreai sa generezi o Clasa pentru "Unit Test"
     entity:
-      description: Generate a new "%s"
+      description: Genereaza un nou "%s"
       help: The <info>"%s"</info> command helps you generate a new "%s"
       welcome: Welcome to the Drupal entity generator
       options:
