@@ -39,8 +39,8 @@ class ConfigEditCommand extends ContainerAwareCommand
         $editor = $input->getArgument('editor');
         $config = $this->getConfigFactory()->getEditable($configName);
         $configSystem = $this->getConfigFactory()->get('system.file');
-        $temporalyDirectory = $configSystem->get('path.temporary') ?:'/tmp';
-        $configFile = $temporalyDirectory.'/config-edit/'.$configName.'.yml';
+        $temporalyDirectory = $configSystem->get('path.temporary') ?: '/tmp';
+        $configFile = $temporalyDirectory . '/config-edit/' . $configName . '.yml';
         $ymlFile = new Parser();
         $fileSystem = new Filesystem();
 
@@ -48,7 +48,7 @@ class ConfigEditCommand extends ContainerAwareCommand
             $fileSystem->mkdir($temporalyDirectory);
             $fileSystem->dumpFile($configFile, $this->getYamlConfig($configName));
         } catch (IOExceptionInterface $e) {
-            throw new \Exception($this->trans('commands.config.edit.messages.no-directory')." ".$e->getPath());
+            throw new \Exception($this->trans('commands.config.edit.messages.no-directory') . " " . $e->getPath());
         }
         if (!$editor) {
             $editor = $this->getEditor();
@@ -73,7 +73,6 @@ class ConfigEditCommand extends ContainerAwareCommand
      * @param $config_name String
      *
      * @return array
-
      */
     protected function getYamlConfig($config_name)
     {

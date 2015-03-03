@@ -77,9 +77,9 @@ class KernelHelper extends Helper
         if (!$this->kernel) {
             $this->request = Request::createFromGlobals();
             $this->kernel = DrupalKernel::createFromRequest(
-                $this->request,
-                $this->class_loader,
-                $this->environment
+              $this->request,
+              $this->class_loader,
+              $this->environment
             );
         }
 

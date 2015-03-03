@@ -21,7 +21,7 @@ class MessageHelper extends Helper
     public function showMessages($output, $type = null)
     {
         if ($type) {
-            $messages =  $this->messages[$type];
+            $messages = $this->messages[$type];
             $this->showMessagesByType($output, $messages, $type);
         }
 
