@@ -26,14 +26,14 @@ class GeneratorPluginRulesActionCommand extends GeneratorCommand
   {
     $this
       ->setName('generate:plugin:rulesaction')
-      ->setDescription($this->trans('commands.generate.plugin.block.description'))
-      ->setHelp($this->trans('commands.generate.plugin.block.help'))
+      ->setDescription($this->trans('commands.generate.plugin.rulesaction.description'))
+      ->setHelp($this->trans('commands.generate.plugin.rulesaction.help'))
       ->addOption('module','',InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
-      ->addOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.block.options.class-name'))
-      ->addOption('label','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.block.options.label'))
-      ->addOption('plugin-id','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.block.options.plugin-id'))
-      ->addOption('category','',InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, $this->trans('commands.common.options.category'))
-      ->addOption('context','',InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.context'))
+      ->addOption('class-name','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.rulesaction.options.class-name'))
+      ->addOption('label','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.rulesaction.options.label'))
+      ->addOption('plugin-id','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.rulesaction.options.plugin-id'))
+      ->addOption('category','',InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, $this->trans('commands.generate.plugin.rulesaction.options.category'))
+      ->addOption('context','',InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.plugin.rulesaction.options.context'))
     ;
   }
 
@@ -79,7 +79,7 @@ class GeneratorPluginRulesActionCommand extends GeneratorCommand
     if (!$class_name) {
       $class_name = $dialog->ask(
         $output,
-        $dialog->getQuestion($this->trans('commands.generate.plugin.block.options.class-name'), 'DefaultBlock'),
+        $dialog->getQuestion($this->trans('commands.generate.plugin.rulesaction.options.class-name'), 'DefaultBlock'),
         'DefaultBlock'
       );
     }
@@ -92,7 +92,7 @@ class GeneratorPluginRulesActionCommand extends GeneratorCommand
     if (!$label) {
       $label = $dialog->ask(
         $output,
-        $dialog->getQuestion($this->trans('commands.generate.plugin.block.options.label'), $machine_name),
+        $dialog->getQuestion($this->trans('commands.generate.plugin.rulesaction.options.label'), $machine_name),
         $machine_name
       );
     }
@@ -103,7 +103,7 @@ class GeneratorPluginRulesActionCommand extends GeneratorCommand
     if (!$plugin_id) {
       $plugin_id = $dialog->ask(
         $output,
-        $dialog->getQuestion($this->trans('commands.generate.plugin.block.options.plugin-id'),$machine_name),
+        $dialog->getQuestion($this->trans('commands.generate.plugin.rulesaction.options.plugin-id'),$machine_name),
         $machine_name
       );
     }
@@ -114,7 +114,7 @@ class GeneratorPluginRulesActionCommand extends GeneratorCommand
     if (!$category) {
       $category = $dialog->ask(
         $output,
-        $dialog->getQuestion($this->trans('commands.generate.plugin.block.options.category'),$machine_name),
+        $dialog->getQuestion($this->trans('commands.generate.plugin.rulesaction.options.category'),$machine_name),
         $machine_name
       );
     }
@@ -125,7 +125,7 @@ class GeneratorPluginRulesActionCommand extends GeneratorCommand
     if (!$context) {
       $context = $dialog->ask(
         $output,
-        $dialog->getQuestion($this->trans('commands.generate.plugin.block.options.context'),$machine_name),
+        $dialog->getQuestion($this->trans('commands.generate.plugin.rulesaction.options.context'),$machine_name),
         $machine_name
       );
     }
