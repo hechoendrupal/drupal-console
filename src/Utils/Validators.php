@@ -38,7 +38,7 @@ class Validators extends Helper implements HelperInterface
         if (preg_match(self::REGEX_CLASS_NAME, $class_name)) {
             return $class_name;
         } else {
-            throw new \InvalidArgumentException(sprintf('Class name "%s" is invalid, it must contain only lower and upper letters, numbers and underscores.',
+            throw new \InvalidArgumentException(sprintf('Class name "%s" is invalid, it must starts with a letter or underscore, followed by any number of letters, numbers, or underscores.',
               $class_name));
         }
     }
