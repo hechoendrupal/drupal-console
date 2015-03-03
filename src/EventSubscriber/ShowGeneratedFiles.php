@@ -71,15 +71,13 @@ class ShowGeneratedFiles implements EventSubscriberInterface
             $files = $command->getGenerator()->getFiles();
             if ($files) {
                 $command->showGeneratedFiles($output, $files);
+                $completedMessageKey = 'application.console.messages.generated.completed';
             }
-            $completedMessageKey = 'application.console.messages.generated.completed';
         }
 
-        if ($command instanceof Command) {
-            $completedMessage = $this->trans->trans($completedMessageKey);
-            if ($completedMessage != $completedMessageKey) {
-                $messageHelper->showMessage($output, $completedMessage);
-            }
+        $completedMessage = $this->trans->trans($completedMessageKey);
+        if ($completedMessage != $completedMessageKey) {
+            $messageHelper->showMessage($output, $completedMessage);
         }
     }
 }
