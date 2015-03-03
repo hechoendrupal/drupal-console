@@ -16,12 +16,12 @@ use Drupal\Core\Form\FormStateInterface;
 {% block class_declaration %}
 /**
  * Class {{ entity_class }}SettingsForm.
+ *
  * @package Drupal\{{module}}\Form
+ *
  * @ingroup {{module}}
  */
-class {{ entity_class }}SettingsForm extends FormBase
-{% endblock %}
-
+class {{ entity_class }}SettingsForm extends FormBase {% endblock %}
 {% block class_methods %}
   /**
    * Returns a unique string identifying the form.
@@ -38,8 +38,8 @@ class {{ entity_class }}SettingsForm extends FormBase
    *
    * @param array $form
    *   An associative array containing the structure of the form.
-   * @param array $form_state
-   *   An associative array containing the current state of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Empty implementation of the abstract submit class.
@@ -48,13 +48,14 @@ class {{ entity_class }}SettingsForm extends FormBase
 
   /**
    * Define the form used for {{ entity_class }}  settings.
-   * @return array
-   *   Form definition array.
    *
    * @param array $form
    *   An associative array containing the structure of the form.
-   * @param array $form_state
-   *   An associative array containing the current state of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   *
+   * @return array
+   *   Form definition array.
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form['{{ entity_class }}_settings']['#markup'] = 'Settings form for {{ entity_class }}. Manage field settings here.';

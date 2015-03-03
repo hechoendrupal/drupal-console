@@ -16,9 +16,7 @@ use Drupal\Core\Config\Entity\ConfigEntityInterface;
 /**
  * Provides an interface defining a {{ entity_class }} entity.
  */
-interface {{ entity_class }}Interface extends ConfigEntityInterface
-{% endblock %}
-
+interface {{ entity_class }}Interface extends ConfigEntityInterface {% endblock %}
 {% block class_methods %}
   // Add get/set methods for your configuration properties here.
 {% endblock %}

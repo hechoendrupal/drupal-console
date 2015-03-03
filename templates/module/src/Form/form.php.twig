@@ -18,9 +18,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 {% endblock %}
 
 {% block class_declaration %}
-class {{ class_name }} extends ConfigFormBase
-{% endblock %}
-
+/**
+ * Class {{ class_name }}.
+ *
+ * @package Drupal\{{module_name}}\Form
+ */
+class {{ class_name }} extends ConfigFormBase {% endblock %}
 {% block class_construct %}
 {% if services is not empty %}
   public function __construct(
@@ -49,8 +52,8 @@ class {{ class_name }} extends ConfigFormBase
 {% block class_methods %}
 
   /**
-  * {@inheritdoc}
-  */
+   * {@inheritdoc}
+   */
   protected function getEditableConfigNames() {
     return [
       '{{module_name}}.{{form_id}}_config'
@@ -60,7 +63,7 @@ class {{ class_name }} extends ConfigFormBase
   /**
    * {@inheritdoc}
    */
-  public function getFormID() {
+  public function getFormId() {
     return '{{form_id}}';
   }
 
@@ -101,6 +104,6 @@ class {{ class_name }} extends ConfigFormBase
 {% for input in inputs %}
       ->set('{{ input.name }}', $form_state->getValue('{{ input.name }}'))
 {% endfor %}
-    ->save();
+      ->save();
   }
 {% endblock %}

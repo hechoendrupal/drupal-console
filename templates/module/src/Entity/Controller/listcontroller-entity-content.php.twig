@@ -20,9 +20,7 @@ use Drupal\Core\Url;
  *
  * @ingroup {{ module }}
  */
-class {{ entity_class }}ListController extends EntityListBuilder
-{% endblock %}
-
+class {{ entity_class }}ListController extends EntityListBuilder {% endblock %}
 {% block class_methods %}
   /**
    * {@inheritdoc}
@@ -40,10 +38,10 @@ class {{ entity_class }}ListController extends EntityListBuilder
     /* @var $entity \Drupal\{{module}}\Entity\{{ entity_class }} */
     $row['id'] = $entity->id();
     $row['name'] = \Drupal::l(
-        $this->getLabel($entity),
-        new Url(
-          'entity.{{ entity_name }}.edit_form', array(
-            '{{ entity_name }}' => $entity->id(),
+      $this->getLabel($entity),
+      new Url(
+        'entity.{{ entity_name }}.edit_form', array(
+          '{{ entity_name }}' => $entity->id(),
         )
       )
     );

@@ -31,6 +31,7 @@ class ConfigExportCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $messageHelper = $this->getHelperSet()->get('message');
         $directory = $input->getArgument('directory');
 
         if (!$directory) {
@@ -61,7 +62,7 @@ class ConfigExportCommand extends ContainerAwareCommand
             foreach ($this->targetStorage->getAllCollectionNames() as $collection) {
                 $collection_storage = $this->targetStorage->createCollection($collection);
                 foreach ($collection_storage->listAll() as $name) {
-                $archiver->addString(str_replace('.', '/', $collection) . "/$name.yml", Yaml::encode($collection_storage->read($name)));
+                    $archiver->addString(str_replace('.', '/', $collection) . "/$name.yml", Yaml::encode($collection_storage->read($name)));
                 }
             }
         } catch (\Exception $e) {
@@ -69,8 +70,7 @@ class ConfigExportCommand extends ContainerAwareCommand
             return;
         }
 
-        $this->addSuccessMessage(
-          $output,
+        $messageHelper->addSuccessMessage(
           sprintf($this->trans('commands.config.export.messages.directory'), $config_export_file)
         );
     }

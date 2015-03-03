@@ -15,9 +15,12 @@ use Drupal\Core\Form\FormStateInterface;
 {% endblock %}
 
 {% block class_declaration %}
-class {{ entity_class }}Form extends EntityForm
-{% endblock %}
-
+/**
+ * Class {{ entity_class }}Form.
+ *
+ * @package Drupal\{{ module }}\Form
+ */
+class {{ entity_class }}Form extends EntityForm {% endblock %}
 {% block class_methods %}
   /**
    * {@inheritdoc}
@@ -44,14 +47,14 @@ class {{ entity_class }}Form extends EntityForm
       '#disabled' => !${{ entity_name }}->isNew(),
     );
 
-    // You will need additional form elements for your custom properties.
+    /* You will need additional form elements for your custom properties. */
 
     return $form;
   }
 
   /**
-  * {@inheritdoc}
-  */
+   * {@inheritdoc}
+   */
   public function save(array $form, FormStateInterface $form_state) {
     ${{ entity_name }} = $this->entity;
     $status = ${{ entity_name }}->save();

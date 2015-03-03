@@ -61,7 +61,7 @@ commands:
       arguments:
         directory: Define export directory to save configuration output.
       messages:
-        directory: Your configuration export file was stores in %s
+        directory: Your configuration export file was stored in %s
     debug:
       description: Show the current configuration.
       arguments:
@@ -265,6 +265,28 @@ commands:
               plugin-states: Please select what REST States implement in your resource (GET is selected by default)
             messages:
               selected-states: States selected
+      rulesaction:
+        description: Generate a plugin rule action
+        help: The <info>generate:plugin:rulesaction</info> command helps you generate a new Plugin rule action.
+        welcome: Welcome to the Drupal Plugin Rules Action generator
+        options:
+          module: common.options.module
+          class-name: Plugin class name
+          label: Plugin label
+          plugin-id: Plugin id
+          inputs: common.options.inputs
+          services: common.options.services
+          category: Plugin category
+          context: Plugin context
+        questions:
+          module: common.questions.module
+          class-name: Enter the plugin class name
+          label: Enter the plugin label
+          plugin-id: Enter the plugin id
+          inputs: common.questions.inputs
+          services: common.questions.services
+          category: Enter plugin category
+          context: Enter plugin context
     service:
       description: Generate service
       help: The <info>generate:service</info> command helps you generate a new service.

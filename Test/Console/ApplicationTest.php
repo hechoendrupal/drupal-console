@@ -56,6 +56,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $application = new Application($config);
         $application->setAutoExit(false);
         $application->setHelperSet($this->helperSet);
+        $application->setSearchSettingsFile(false);
 
         $this->assertEquals(0, $application->run(new ArrayInput([]), new NullOutput()));
     }
@@ -71,5 +72,4 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
                     ->with('drupal-autoload')
                     ->will($this->returnValue($this->drupalAutoload));
     }
-
 }

@@ -92,6 +92,7 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
                   }
                   return $stringUtils->humanToCamelCase($value);
               },
+              false,
               'DefaultRestResource'
             );
         }
