@@ -23,15 +23,13 @@ use Drupal\image\ImageEffectBase;
  *  description = @Translation("{{description}}")
  * )
  */
-class {{ class_name }} extends ImageEffectBase
-{% endblock %}
-
+class {{ class_name }} extends ImageEffectBase {% endblock %}
 {% block class_methods %}
   /**
    * {@inheritdoc}
    */
   public function applyEffect(ImageInterface $image) {
-    // Implement Image Effect
+    // Implement Image Effect.
     return imagefilter($image->getToolkit()->getResource());
   }
 {% endblock %}

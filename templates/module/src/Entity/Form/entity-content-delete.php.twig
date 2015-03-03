@@ -20,9 +20,7 @@ use Drupal\Core\Url;
  *
  * @ingroup {{module}}
  */
-class {{ entity_class }}DeleteForm extends ContentEntityConfirmFormBase
-{% endblock %}
-
+class {{ entity_class }}DeleteForm extends ContentEntityConfirmFormBase {% endblock %}
 {% block class_methods %}
   /**
    * {@inheritdoc}
@@ -53,11 +51,12 @@ class {{ entity_class }}DeleteForm extends ContentEntityConfirmFormBase
 
     drupal_set_message(
       $this->t('content @type: deleted @label.',
-      [
-        '@type' => $this->entity->bundle(),
-        '@label' => $this->entity->label()
-      ]
-    ));
+        [
+          '@type' => $this->entity->bundle(),
+          '@label' => $this->entity->label()
+        ]
+      )
+    );
 
     $form_state->setRedirectUrl($this->getCancelUrl());
   }

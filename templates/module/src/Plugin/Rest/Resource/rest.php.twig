@@ -32,11 +32,10 @@ use Psr\Log\LoggerInterface;
  *   }
  * )
  */
-class {{ class_name }} extends ResourceBase
-{% endblock %}
+class {{ class_name }} extends ResourceBase {% endblock %}
 {% block class_variables %}
   /**
-   *  A curent user instance.
+   * A curent user instance.
    *
    * @var \Drupal\Core\Session\AccountProxyInterface
    */

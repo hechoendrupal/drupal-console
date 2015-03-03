@@ -84,9 +84,9 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
         $migrations = array();
         foreach ($migration_entities as $migration) {
-            $migrations[$migration->id]['version'] = ucfirst($migration->migration_groups[0]);
-            $label = str_replace($migrations[$migration->id]['version'], '', $migration->label);
-            $migrations[$migration->id]['description'] = ucwords($label);
+            $migrations[$migration->id()]['version'] = ucfirst($migration->migration_groups[0]);
+            $label = str_replace($migrations[$migration->id()]['version'], '', $migration->label());
+            $migrations[$migration->id()]['description'] = ucwords($label);
         }
 
         return $migrations;
@@ -184,7 +184,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
      */
     public function getState()
     {
-        return $this->getContainer()->get('state.default');
+        return $this->getContainer()->get('state');
     }
 
     public function getConfigStorage()

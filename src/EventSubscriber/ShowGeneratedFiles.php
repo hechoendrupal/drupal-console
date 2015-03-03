@@ -52,6 +52,11 @@ class ShowGeneratedFiles implements EventSubscriberInterface
         $command = $event->getCommand();
         $output = $event->getOutput();
 
+        $application = $command->getApplication();
+        $messageHelper = $application->getHelperSet()->get('message');
+
+        $messageHelper->showMessages($output);
+
         if ($event->getExitCode() != 0) {
             return;
         }
@@ -62,24 +67,17 @@ class ShowGeneratedFiles implements EventSubscriberInterface
             return;
         }
 
-        if ($command instanceof Command) {
-            $command->showMessages($output);
-
-        }
-
         if ($command instanceof GeneratorCommand) {
             $files = $command->getGenerator()->getFiles();
             if ($files) {
                 $command->showGeneratedFiles($output, $files);
+                $completedMessageKey = 'application.console.messages.generated.completed';
             }
-            $completedMessageKey = 'application.console.messages.generated.completed';
         }
 
-        if ($command instanceof Command) {
-            $completedMessage = $this->trans->trans($completedMessageKey);
-            if ($completedMessage != $completedMessageKey) {
-                $command->showMessage($output, $completedMessage);
-            }
+        $completedMessage = $this->trans->trans($completedMessageKey);
+        if ($completedMessage != $completedMessageKey) {
+            $messageHelper->showMessage($output, $completedMessage);
         }
     }
 }
