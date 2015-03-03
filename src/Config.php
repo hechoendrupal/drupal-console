@@ -8,7 +8,7 @@ namespace Drupal\AppConsole;
 
 class Config
 {
-    /** @var Symfony\Component\Yaml\Parser $parser  */
+    /** @var Symfony\Component\Yaml\Parser $parser */
     protected $parser;
 
     protected $root_path;
@@ -57,9 +57,9 @@ class Config
         return rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/\\');
     }
 
-    public function get($key, $default='')
+    public function get($key, $default = '')
     {
-        if (!$key){
+        if (!$key) {
             return $default;
         }
 

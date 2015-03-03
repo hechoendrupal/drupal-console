@@ -21,7 +21,7 @@ class SiteMaintenanceCommand extends ContainerAwareCommand
           ->addArgument(
             'mode',
             InputArgument::REQUIRED,
-            $this->trans('commands.site.maintenance.arguments.mode').'[on/off]'
+            $this->trans('commands.site.maintenance.arguments.mode') . '[on/off]'
           );
     }
 
