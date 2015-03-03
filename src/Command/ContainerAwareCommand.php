@@ -184,7 +184,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
      */
     public function getState()
     {
-        return $this->getContainer()->get('state.default');
+        return $this->getContainer()->get('state');
     }
 
     public function getConfigStorage()
