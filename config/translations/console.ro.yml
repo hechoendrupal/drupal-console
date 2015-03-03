@@ -11,8 +11,9 @@ application:
     messages:
       path: Site path
     errors:
-      directory: In order to list all of the available commands, you should run this inside a drupal root directory.
+      directory: Pentru a afisa toate comenzile accesibile, trebuie sa rulezi aceasta comanda in drupal root
       settings: In order to list all of the available commands you should install drupal first.
+      settings: Pentru a afisa toate comenzile accesibile, mai intai de toate trebuie sa instalezi Drupal.
 commands:
   common:
     options:
@@ -26,13 +27,12 @@ commands:
       confirm: Confirmati generarea
       canceled: Comanda a fost anulata
       services:
-        confirm: Do you want to load services from the container
         confirm: Doriti sa incarcati serviciile din container
         message: |
 
           Type the service name or use keyup or keydown.
           This is optional, press <info>enter</info> to <info>continue</info>
-        name: Enter your service
+        name: Introdu serviciul tau
       inputs:
         confirm: Doriti sa generati structura formei
         label: Input label
@@ -59,56 +59,56 @@ commands:
         cache: Selecteaza cache-ul.
   config:
     export:
-      description: Export current application configuration.
+      description: Exporta configurarile aplicatiei curente.
       arguments:
-        directory: Define export directory to save configuration output.
+        directory: Indica calea de salvare pentru configurarile exportate.
       messages:
-        directory: Your configuration export file was stores in %s
+        directory: Fisierul a fost salvat in %s
     debug:
-      description: Show the current configuration.
+      description: Afiseaza configurarile curente.
       arguments:
-        config-name: Configuration name.
+        config-name: Nnumele Configuratiei.
     override:
-      description: Override config value in active configuration.
+      description: Rescrie valoare unei configuratii in configuratia activa.
       arguments:
-        config-name: Configuration name.
-        key: Key
-        value: Value
+        config-name: Numele configuratiei.
+        key: Cheie
+        value: Valoare
       messages:
-        configuration: Configuration name
-        configuration-key: Configuration key
-        original: Original Value
-        updated: Override Value
+        configuration: Numele configuratiei
+        configuration-key: Cheia configuratiei
+        original: Valoarea originala
+        updated: Rescrie Valoarea
     edit:
-      description: Edit the selected configuration.
+      description: Editeaza configuratia selectata.
       arguments:
-        config-name: Configuration name.
+        config-name: Numele configuratiei.
         editor: Editor.
       messages:
-        no-directory: An error occurred while creating your directory at
+        no-directory: Directoria nu poate fi creata  in
   container:
     debug:
-      description: Displays current services for an application.
+      description: Afiseaza serviciile curente pentru o aplicatie.
       messages:
-        service_id: Service ID
-        class_name: Class Name
+        service_id: ID-ul Serviciului
+        class_name: Numele Clasei
   drush:
-    description: Run drush from console.
-    help: Use the interactive mode for a better experience --shell.
+    description: Ruleaza drush din consola..
+    help: Utilizeaza modul interactiv pentru o mai buna experienta --shell.
     arguments:
-      args: Drush arguments.
+      args: Drush argumente.
     messages:
-      not_found: Drush command not found.
+      not_found: Comanda Drush nu a fost gasita.
   generate:
     authentication:
       provider:
-        description: Generate an Authentication Provider
-        help: The <info>generate:authentication:provider</info> command helps you generate a new Authentication Provider.
+        description: Genereaza un "Authentication Provider"
+        help: Comanda <info>generate:authentication:provider</info> te va ajuta la generarea unui nou "Authentication Provider".
         options:
         module: common.options.module
-        class-name: Authentication Provider class
+        class-name: Classa pentru "Authentication Provider"
     command:
-      description: Generate commands for the console.
+      description: Genereaza comenzi pentru consola.
       help: The <info>generate:command</info> command helps you generate a new command.
       welcome: Welcome to the Drupal Command generator
       options:
