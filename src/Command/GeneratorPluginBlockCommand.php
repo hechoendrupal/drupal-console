@@ -82,11 +82,16 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
         // --class-name option
         $class_name = $input->getOption('class-name');
         if (!$class_name) {
-            $class_name = $dialog->ask(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.plugin.block.options.class-name'), 'DefaultBlock'),
-              'DefaultBlock'
-            );
+          $class_name = $dialog->askAndValidate(
+            $output,
+            $dialog->getQuestion($this->trans('commands.generate.plugin.block.options.class-name'), 'DefaultBlock'),
+            function ($class_name) {
+              return $this->validateClassName($class_name);
+            },
+            false,
+            'DefaultBlock',
+            null
+          );
         }
         $input->setOption('class-name', $class_name);
 
