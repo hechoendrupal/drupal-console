@@ -16,6 +16,13 @@ class MessageHelper extends Helper
     const MESSAGE_INFO = 'info';
     const MESSAGE_SUCCESS = 'success';
 
+    public $types = array(
+        self::MESSAGE_ERROR,
+        self::MESSAGE_WARNING,
+        self::MESSAGE_INFO,
+        self::MESSAGE_SUCCESS
+    );
+
     protected $messages = [];
 
     public function showMessages($output, $type = null)
@@ -25,17 +32,12 @@ class MessageHelper extends Helper
             $this->showMessagesByType($output, $messages, $type);
         }
 
-        $messages = $this->messages[self::MESSAGE_ERROR];
-        $this->showMessagesByType($output, $messages, self::MESSAGE_ERROR);
-
-        $messages = $this->messages[self::MESSAGE_WARNING];
-        $this->showMessagesByType($output, $messages, self::MESSAGE_WARNING);
-
-        $messages = $this->messages[self::MESSAGE_INFO];
-        $this->showMessagesByType($output, $messages, self::MESSAGE_INFO);
-
-        $messages = $this->messages[self::MESSAGE_SUCCESS];
-        $this->showMessagesByType($output, $messages, self::MESSAGE_SUCCESS);
+        foreach ($this->types as $messageType) {
+            if (isset($this->messages[$messageType])) {
+                $messages = $this->messages[$messageType];
+                $this->showMessagesByType($output, $messages, $messageType);
+            }
+        }
     }
 
     private function showMessagesByType($output, $messages, $type)
