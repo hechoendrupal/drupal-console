@@ -50,7 +50,7 @@ $helpers = [
     'validators' => new Validators(),
     'translator' => $translatorHelper,
     'drupal-autoload' => new DrupalAutoloadHelper(),
-    'message' => new MessageHelper(),
+    'message' => new MessageHelper($translatorHelper),
 ];
 
 $application->addHelpers($helpers);
