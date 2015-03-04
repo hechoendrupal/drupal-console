@@ -64,18 +64,18 @@ class GeneratorCommandCommandTest extends GenerateCommandTest
               // Inline options
             [],
               // Expected options
-            ['foo', 'FooCommand', 'foo:command', true],
+            ['foo', 'foo:command', 'FooCommand', true],
               // User input options
-            "foo\nFooCommand\nfoo:command\nyes",
+            "foo\nfoo:command\nFooCommand\nyes",
           ],
             // case two
           [
               // Inline options
             ['--module' => 'foo'],
               // Expected options
-            ['foo', 'FooCommand', 'foo:command', true],
+            ['foo', 'foo:command', 'FooCommand', true],
               // User input options
-            "FooCommand\nfoo:command\nyes",
+            "foo:command\nFooCommand\nyes",
           ],
         ];
     }
