@@ -19,11 +19,8 @@ Drupal Console
 [![Latest Unstable Version](https://poser.pugx.org/drupal/console/v/unstable.svg)](https://packagist.org/packages/drupal/console) 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
 
-The Drupal Console brings the Symfony Console Component to Drupal 8.
-
-With the Drupal Console, you can quickly generate the code and files required by Drupal 8 for new modules or to upgrade existing modules.
-
-Additionally, you can use the Console to interact with your Drupal installation.
+The Drupal Console is a suite of tools that you run on a command line interface (CLI) 
+to generate boilerplate code and interact with a Drupal 8 installation.
 
 ## Supported version
 
