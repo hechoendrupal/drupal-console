@@ -56,3 +56,4 @@ $ drupal generate:module
 ## Supporting organizations
 [![Blink Reaction](https://www.drupal.org/files/blink-reaction-logo.png)](http://www.blinkreaction.com/)
 [![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)
+[![Anexus IT](https://www.drupal.org/files/anexusit-logo.png)](http://www.anexusit.com/)
