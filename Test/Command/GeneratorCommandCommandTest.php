@@ -28,28 +28,13 @@ class GeneratorCommandCommandTest extends GenerateCommandTest
         $cmd->execute($options);
     }
 
-    public function getInteractiveData()
+    private function getGenerator()
     {
-        return [
-            // case one
-          [
-              // Inline options
-            [],
-              // Expected options
-            ['foo', 'FooCommand', 'foo:command', true],
-              // User input options
-            "foo\nFooCommand\nfoo:command\nyes",
-          ],
-            // case two
-          [
-              // Inline options
-            ['--module' => 'foo'],
-              // Expected options
-            ['foo', 'FooCommand', 'foo:command', true],
-              // User input options
-            "FooCommand\nfoo:command\nyes",
-          ],
-        ];
+        return $this
+          ->getMockBuilder('Drupal\AppConsole\Generator\CommandGenerator')
+          ->disableOriginalConstructor()
+          ->setMethods(['generate'])
+          ->getMock();
     }
 
     protected function getCommand($generator, $input)
@@ -71,12 +56,27 @@ class GeneratorCommandCommandTest extends GenerateCommandTest
         return $command;
     }
 
-    private function getGenerator()
+    public function getInteractiveData()
     {
-        return $this
-          ->getMockBuilder('Drupal\AppConsole\Generator\CommandGenerator')
-          ->disableOriginalConstructor()
-          ->setMethods(['generate'])
-          ->getMock();
+        return [
+            // case one
+          [
+              // Inline options
+            [],
+              // Expected options
+            ['foo', 'foo:command', 'FooCommand', true],
+              // User input options
+            "foo\nfoo:command\nFooCommand\nyes",
+          ],
+            // case two
+          [
+              // Inline options
+            ['--module' => 'foo'],
+              // Expected options
+            ['foo', 'foo:command', 'FooCommand', true],
+              // User input options
+            "foo:command\nFooCommand\nyes",
+          ],
+        ];
     }
 }
