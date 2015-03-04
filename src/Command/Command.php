@@ -54,33 +54,6 @@ abstract class Command extends BaseCommand
         $this->module = $module;
     }
 
-    public function showGeneratedFiles($output, $files)
-    {
-        $messageHelper = $this->getHelperSet()->get('message');
-
-        if ($files) {
-            $messageHelper->showMessage(
-              $output,
-              $this->trans('application.console.messages.generated.files')
-            );
-            $output->writeln(sprintf(
-              '<info>%s:</info><comment>%s</comment>',
-              $this->trans('application.site.messages.path'),
-              DRUPAL_ROOT
-            ));
-
-            $index = 1;
-            foreach ($files as $file) {
-                $output->writeln(sprintf(
-                  '<info>%s</info> - <comment>%s</comment>',
-                  $index,
-                  $file
-                ));
-                $index++;
-            }
-        }
-    }
-
     /**
      * @param $key string
      * @return string
