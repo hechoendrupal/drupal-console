@@ -28,7 +28,7 @@ to generate boilerplate code and interact with a Drupal 8 installation.
 
 ## Documentation
 
-You can read or download the Drupal Console Documentation at [gitbooks.io](http://hechoendrupal.gitbooks.io/drupal-console/).
+You can read or download the Drupal Console Documentation at [bit.ly/console-book](http://bit.ly/console-book).
 
 ## Installation
 ```
