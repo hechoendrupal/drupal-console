@@ -38,7 +38,8 @@ $ curl -LSs http://drupalconsole.com/installer | php
 // Or if you don't have curl:
 $ php -r "readfile('http://drupalconsole.com/installer');" | php
 
-// To access the Console from anywhere your system, move console.phar and rename it to drupal:
+// To access the Console from anywhere your system, 
+// move console.phar and rename it to drupal:
 $ mv console.phar /usr/local/bin/drupal
 
 // Show all available Drupal Console commands.
