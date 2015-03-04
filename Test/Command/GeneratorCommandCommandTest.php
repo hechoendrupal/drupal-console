@@ -28,6 +28,34 @@ class GeneratorCommandCommandTest extends GenerateCommandTest
         $cmd->execute($options);
     }
 
+    private function getGenerator()
+    {
+        return $this
+          ->getMockBuilder('Drupal\AppConsole\Generator\CommandGenerator')
+          ->disableOriginalConstructor()
+          ->setMethods(['generate'])
+          ->getMock();
+    }
+
+    protected function getCommand($generator, $input)
+    {
+        $command = $this
+          ->getMockBuilder('Drupal\AppConsole\Command\GeneratorCommandCommand')
+          ->setMethods(['getModules', 'getServices', '__construct'])
+          ->setConstructorArgs([$this->getTranslationHelper()])
+          ->getMock();
+
+        $command->expects($this->any())
+          ->method('getModules')
+          ->will($this->returnValue(['foo']));
+
+        $command->setContainer($this->getContainer());
+        $command->setHelperSet($this->getHelperSet($input));
+        $command->setGenerator($generator);
+
+        return $command;
+    }
+
     public function getInteractiveData()
     {
         return [
@@ -50,33 +78,5 @@ class GeneratorCommandCommandTest extends GenerateCommandTest
             "FooCommand\nfoo:command\nyes",
           ],
         ];
-    }
-
-    protected function getCommand($generator, $input)
-    {
-        $command = $this
-          ->getMockBuilder('Drupal\AppConsole\Command\GeneratorCommandCommand')
-          ->setMethods(['getModules', 'getServices', '__construct'])
-          ->setConstructorArgs([$this->getTranslationHelper()])
-          ->getMock();
-
-        $command->expects($this->any())
-          ->method('getModules')
-          ->will($this->returnValue(['foo']));
-
-        $command->setContainer($this->getContainer());
-        $command->setHelperSet($this->getHelperSet($input));
-        $command->setGenerator($generator);
-
-        return $command;
-    }
-
-    private function getGenerator()
-    {
-        return $this
-          ->getMockBuilder('Drupal\AppConsole\Generator\CommandGenerator')
-          ->disableOriginalConstructor()
-          ->setMethods(['generate'])
-          ->getMock();
     }
 }
