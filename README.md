@@ -24,7 +24,7 @@ to generate boilerplate code and interact with a Drupal 8 installation.
 
 ## Supported version
 
-[Drupal 8.0.0-beta6](http://ftp.drupal.org/files/projects/drupal-8.0.0-beta6.tar.gz)
+[Drupal 8.0.0-beta7](http://ftp.drupal.org/files/projects/drupal-8.0.0-beta7.tar.gz)
 
 ## Documentation
 
