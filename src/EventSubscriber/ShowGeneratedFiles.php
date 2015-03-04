@@ -43,7 +43,7 @@ class ShowGeneratedFiles implements EventSubscriberInterface
     }
 
     /**
-     * @param ConsoleCommandEvent $event
+     * @param ConsoleTerminateEvent $event
      */
     public function showGeneratedFiles(ConsoleTerminateEvent $event)
     {
@@ -69,7 +69,7 @@ class ShowGeneratedFiles implements EventSubscriberInterface
         if ($command instanceof GeneratorCommand) {
             $files = $command->getGenerator()->getFiles();
             if ($files) {
-                $command->showGeneratedFiles($output, $files);
+                $messageHelper->showGeneratedFiles($output, $files);
                 $completedMessageKey = 'application.console.messages.generated.completed';
             }
         }
