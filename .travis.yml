@@ -27,7 +27,7 @@ script:
   - ~/.composer/vendor/bin/drush site-install standard --yes --account-name=root --account-pass=toor --db-url=sqlite://sites/default/files/console.sqlite
   - bash $TRAVIS_BUILD_DIR/Test/script/test-generation-commands.sh
   - ~/.composer/vendor/bin/phpcs --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml modules/custom/travis
-  - if ~/.composer/vendor/bin/phpcs --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml modules/custom/travis | egrep "FOUND ([1-9]+) ERRORS" --quiet; then echo "\nErrors in coding standards\n"; exit 1; else exit 0; fi
+  - if ~/.composer/vendor/bin/phpcs --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml modules/custom/travis | egrep "FOUND ([1-9]+) ERRORS" --quiet; then echo "Errors in coding standards"; exit 1; else exit 0; fi
 
 after_success:
   - rm -r /tmp/modules
