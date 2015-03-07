@@ -23,7 +23,8 @@ class TranslatorHelper extends Helper
      */
     private $translator;
 
-    private function addResource($resource) {
+    private function addResource($resource)
+    {
         $this->translator->addResource(
           'yaml',
           $resource,
@@ -34,7 +35,7 @@ class TranslatorHelper extends Helper
     public function loadResource($language, $directoryRoot)
     {
         $resource_fallback = $directoryRoot . 'config/translations/console.en.yml';
-        $resource_language = $directoryRoot . 'config/translations/console.'.$language.'.yml';
+        $resource_language = $directoryRoot . 'config/translations/console.' . $language . '.yml';
 
         if (!file_exists($resource_language)) {
             $language = 'en';

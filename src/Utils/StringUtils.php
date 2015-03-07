@@ -87,5 +87,4 @@ class StringUtils extends Helper
     {
         return ucfirst(preg_replace(self::REGEX_SPACES, ' ', $permission_title));
     }
-
 }

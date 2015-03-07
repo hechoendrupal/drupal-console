@@ -11,7 +11,6 @@ use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Drupal\AppConsole\Command\Command;
 use Drupal\AppConsole\Command\GeneratorCommand;
 
 class ShowGeneratedFiles implements EventSubscriberInterface
@@ -44,13 +43,18 @@ class ShowGeneratedFiles implements EventSubscriberInterface
     }
 
     /**
-     * @param ConsoleCommandEvent $event
+     * @param ConsoleTerminateEvent $event
      */
     public function showGeneratedFiles(ConsoleTerminateEvent $event)
     {
         /** @var \Drupal\AppConsole\Command\Command $command */
         $command = $event->getCommand();
         $output = $event->getOutput();
+
+        $application = $command->getApplication();
+        $messageHelper = $application->getHelperSet()->get('message');
+
+        $messageHelper->showMessages($output);
 
         if ($event->getExitCode() != 0) {
             return;
@@ -62,24 +66,17 @@ class ShowGeneratedFiles implements EventSubscriberInterface
             return;
         }
 
-        if ($command instanceof Command) {
-            $command->showMessages($output);
-
-        }
-
         if ($command instanceof GeneratorCommand) {
             $files = $command->getGenerator()->getFiles();
             if ($files) {
-                $command->showGeneratedFiles($output, $files);
+                $messageHelper->showGeneratedFiles($output, $files);
+                $completedMessageKey = 'application.console.messages.generated.completed';
             }
-            $completedMessageKey = 'application.console.messages.generated.completed';
         }
 
-        if ($command instanceof Command) {
-            $completedMessage = $this->trans->trans($completedMessageKey);
-            if ($completedMessage != $completedMessageKey) {
-                $command->showMessage($output, $completedMessage);
-            }
+        $completedMessage = $this->trans->trans($completedMessageKey);
+        if ($completedMessage != $completedMessageKey) {
+            $messageHelper->showMessage($output, $completedMessage);
         }
     }
 }

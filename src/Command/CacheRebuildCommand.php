@@ -79,6 +79,10 @@ class CacheRebuildCommand extends ContainerAwareCommand
         // Get the --cache option and make user interaction with validation
         $cache = $input->getOption('cache');
         if (!$cache) {
+            $caches = $validators->getCaches();
+            $cache_keys = array_keys($caches);
+            $cache_keys[] = 'all';
+
             $cache = $dialog->askAndValidate(
               $output,
               $dialog->getQuestion($this->trans('commands.cache.rebuild.questions.cache'), 'all'),
@@ -95,7 +99,8 @@ class CacheRebuildCommand extends ContainerAwareCommand
                   return $validated_cache;
               },
               false,
-              'all'
+              'all',
+              $cache_keys
             );
         }
 

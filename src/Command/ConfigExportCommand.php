@@ -31,6 +31,7 @@ class ConfigExportCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $messageHelper = $this->getHelperSet()->get('message');
         $directory = $input->getArgument('directory');
 
         if (!$directory) {
@@ -43,7 +44,7 @@ class ConfigExportCommand extends ContainerAwareCommand
             mkdir($directory, 0777, true);
         }
 
-        $config_export_file  = $directory . '/config.tar.gz';
+        $config_export_file = $directory . '/config.tar.gz';
 
         file_unmanaged_delete($config_export_file);
 
@@ -53,7 +54,8 @@ class ConfigExportCommand extends ContainerAwareCommand
             $this->configManager = $this->getConfigManager();
             // Get raw configuration data without overrides.
             foreach ($this->configManager->getConfigFactory()->listAll() as $name) {
-                $archiver->addString("$name.yml", Yaml::encode($this->configManager->getConfigFactory()->get($name)->getRawData()));
+                $archiver->addString("$name.yml",
+                  Yaml::encode($this->configManager->getConfigFactory()->get($name)->getRawData()));
             }
 
             $this->targetStorage = $this->getConfigStorage();
@@ -61,7 +63,8 @@ class ConfigExportCommand extends ContainerAwareCommand
             foreach ($this->targetStorage->getAllCollectionNames() as $collection) {
                 $collection_storage = $this->targetStorage->createCollection($collection);
                 foreach ($collection_storage->listAll() as $name) {
-                $archiver->addString(str_replace('.', '/', $collection) . "/$name.yml", Yaml::encode($collection_storage->read($name)));
+                    $archiver->addString(str_replace('.', '/', $collection) . "/$name.yml",
+                      Yaml::encode($collection_storage->read($name)));
                 }
             }
         } catch (\Exception $e) {
@@ -69,7 +72,7 @@ class ConfigExportCommand extends ContainerAwareCommand
             return;
         }
 
-        $this->addSuccessMessage(
+        $messageHelper->addSuccessMessage(
           sprintf($this->trans('commands.config.export.messages.directory'), $config_export_file)
         );
     }
