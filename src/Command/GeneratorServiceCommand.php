@@ -104,16 +104,16 @@ class GeneratorServiceCommand extends GeneratorCommand
         }
         $input->setOption('class-name', $class_name);
 
-      // --interface option
-      $interface = $input->getOption('interface');
-      if (!$interface) {
-        $interface = $dialog->ask(
-          $output,
-          $dialog->getQuestion($this->trans('commands.generate.service.questions.interface'), 'yes', '?'),
-          true
-        );
-      }
-      $input->setOption('interface', $interface);
+        // --interface option
+        $interface = $input->getOption('interface');
+        if (!$interface) {
+            $interface = $dialog->ask(
+              $output,
+              $dialog->getQuestion($this->trans('commands.generate.service.questions.interface'), 'yes', '?'),
+              true
+            );
+        }
+        $input->setOption('interface', $interface);
 
         // --services option
         $services = $input->getOption('services');

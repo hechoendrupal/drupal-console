@@ -85,11 +85,11 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
 
         $command->expects($this->any())
           ->method('getModules')
-          ->will($this->returnValue(['Foo']));;
+          ->will($this->returnValue(['Foo']));
 
         $command->expects($this->any())
           ->method('getServices')
-          ->will($this->returnValue(['twig', 'database']));;
+          ->will($this->returnValue(['twig', 'database']));
 
         $command->setGenerator($generator);
         $command->setContainer($this->getContainer());

@@ -15,7 +15,6 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
      */
     public function testInteractive($options, $expected, $input)
     {
-
         list($module, $permissions) = $expected;
         $generator = $this->getGenerator();
         $generator
@@ -30,7 +29,6 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
 
     public function getInteractiveData()
     {
-
         $permissions = [
           [
             'permission' => 'my permission',
@@ -71,7 +69,7 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
 
         $command->expects($this->any())
           ->method('getModules')
-          ->will($this->returnValue(['foo']));;
+          ->will($this->returnValue(['foo']));
 
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet($input));

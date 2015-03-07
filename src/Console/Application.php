@@ -17,7 +17,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '0.7.2';
+    const VERSION = '0.7.3';
     /**
      * @var bool
      */
@@ -30,10 +30,6 @@ class Application extends BaseApplication
      * @var string
      */
     protected $directoryRoot;
-    /**
-     * @var array
-     */
-    protected $errorMessages = [];
     /**
      * @var \Composer\Autoload\ClassLoader
      * The Drupal autoload file.
@@ -49,6 +45,8 @@ class Application extends BaseApplication
      */
     private $commandsRegistered = false;
 
+    private $searchSettingsFile = true;
+
     /**
      * Create a new application extended from \Symfony\Component\Console\Application.
      *
@@ -62,17 +60,17 @@ class Application extends BaseApplication
         parent::__construct($this::NAME, sprintf('%s', $this::VERSION));
 
         $this->getDefinition()->addOption(
-            new InputOption('--drupal', '-d', InputOption::VALUE_OPTIONAL, 'Path to Drupal root.')
+          new InputOption('--drupal', '-d', InputOption::VALUE_OPTIONAL, 'Path to Drupal root.')
         );
 
         $this->getDefinition()->addOption(
-            new InputOption('--shell', '-s', InputOption::VALUE_NONE, 'Launch the shell.')
+          new InputOption('--shell', '-s', InputOption::VALUE_NONE, 'Launch the shell.')
         );
         $this->getDefinition()->addOption(
-            new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, 'The Environment name.', $this->env)
+          new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, 'The Environment name.', $this->env)
         );
         $this->getDefinition()->addOption(
-            new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.')
+          new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.')
         );
     }
 
@@ -111,9 +109,13 @@ class Application extends BaseApplication
         $drupal_root = $input->getParameterOption(['--drupal', '-d'], false);
 
         $autoload = $this
-            ->getHelperSet()
-            ->get('drupal-autoload')
-            ->findAutoload($drupal_root);
+          ->getHelperSet()
+          ->get('drupal-autoload')
+          ->findAutoload($drupal_root);
+
+        if (!$this->isSettingsFile()) {
+            return false;
+        }
 
         if ($autoload && !$this->isBooted()) {
             $this->drupalAutoload = require_once $autoload;
@@ -124,6 +126,40 @@ class Application extends BaseApplication
         }
 
         return false;
+    }
+
+    public function setSearchSettingsFile($searchSettingsFile)
+    {
+        $this->searchSettingsFile = $searchSettingsFile;
+    }
+
+    public function isSettingsFile()
+    {
+        if (!$this->searchSettingsFile) {
+            return true;
+        }
+
+        $bootstrapHelper = $this
+          ->getHelperSet()
+          ->get('bootstrap');
+
+        $drupalRoot = $bootstrapHelper->getDrupalRoot();
+
+        $messageHelper = $this
+          ->getHelperSet()
+          ->get('message');
+
+        $translatorHelper = $this
+          ->getHelperSet()
+          ->get('translator');
+
+        if (!file_exists($drupalRoot . '/sites/default/settings.php')) {
+            $messageHelper->addErrorMessage($translatorHelper->trans('application.site.errors.settings'));
+
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -150,8 +186,8 @@ class Application extends BaseApplication
         $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
 
         $debug = getenv('DRUPAL_DEBUG') !== '0'
-            && !$input->hasParameterOption(array('--no-debug', ''))
-            && $env !== 'prod';
+          && !$input->hasParameterOption(array('--no-debug', ''))
+          && $env !== 'prod';
 
         if ($debug) {
             Debug::enable();
@@ -248,13 +284,5 @@ class Application extends BaseApplication
         foreach ($helpers as $alias => $helper) {
             $defaultHelperset->set($helper, is_int($alias) ? null : $alias);
         }
-    }
-
-    /**
-     * @param array $errorMessages
-     */
-    public function addErrorMessages(array $errorMessages)
-    {
-        $this->errorMessages = $errorMessages;
     }
 }
