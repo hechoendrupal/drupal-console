@@ -1,0 +1,70 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+Drupal\{{module}}\Controller\{{ class_name }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Controller;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Controller\ControllerBase;
+{% if services is not empty %}
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+{% endif %}
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Class {{ class_name }}.
+ *
+ * @package Drupal\{{ module }}\Controller
+ */
+class {{ class_name }} extends ControllerBase {% if services is not empty %}implements ContainerInjectionInterface {% endif %}
+{% endblock %}
+{% block class_construct %}
+{% if services is not empty %}
+  public function __construct({{ servicesAsParameters(services)|join(', ') }}) {
+{{ serviceClassInitialization(services) }}
+  }
+
+{% endif %}
+{% endblock %}
+{% block class_create %}
+{% if services is not empty %}
+  public static function create(ContainerInterface $container) {
+    return new static(
+{{ serviceClassInjection(services) }}
+    );
+  }
+
+{% endif %}
+{% endblock %}
+{% block class_methods %}
+  /**
+   * {{ method_name | capitalize }}.
+   *
+   * @return string
+   *   Return Hello string.
+   */
+  public function {{method_name}}({{ argumentsFromRoute(route)|join(', ') }}) {
+{% if class_name == "DefaultController" %}
+    return [
+        '#type' => 'markup',
+        '#markup' => $this->t('Hello @name!', ['@name' => $name])
+    ];
+{% elseif argumentsFromRoute(route) is not empty %}
+    return [
+        '#type' => 'markup',
+        '#markup' => $this->t('Implement method: {{method_name}} with parameter(s): {{ argumentsFromRoute(route)|join(', ') }}')
+    ];
+{% else %}
+    return [
+        '#type' => 'markup',
+        '#markup' => $this->t('Implement method: {{method_name}}')
+    ];
+{% endif %}
+  }
+{% endblock %}

@@ -42,6 +42,6 @@ ooooooooo+`      `.-::--`       :oooooooooooo
                              `-:.`
 </fg=blue>
 EOF
-        .parent::getHeader();
+        . parent::getHeader();
     }
 }

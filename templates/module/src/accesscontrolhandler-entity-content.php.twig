@@ -1,0 +1,51 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+Drupal\account\{{ entity_class }}AccessController.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}};
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Entity\EntityAccessControlHandler;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Access\AccessResult;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Access controller for the {{ entity_class }} entity.
+ *
+ * @see \Drupal\{{module}}\Entity\{{ entity_class }}.
+ */
+class {{ entity_class }}AccessControlHandler extends EntityAccessControlHandler {% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  protected function checkAccess(EntityInterface $entity, $operation, $langcode, AccountInterface $account) {
+
+    switch ($operation) {
+      case 'view':
+        return AccessResult::allowedIfHasPermission($account, 'view {{ entity_class }} entity');
+
+      case 'edit':
+        return AccessResult::allowedIfHasPermission($account, 'edit {{ entity_class }} entity');
+
+      case 'delete':
+        return AccessResult::allowedIfHasPermission($account, 'delete {{ entity_class }} entity');
+    }
+
+    return AccessResult::allowed();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function checkCreateAccess(AccountInterface $account, array $context, $entity_bundle = NULL) {
+    return AccessResult::allowedIfHasPermission($account, 'add Bar entity');
+  }
+{% endblock %}

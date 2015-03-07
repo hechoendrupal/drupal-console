@@ -4,152 +4,106 @@ namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Command\Command as BaseCommand;
 
-abstract class Command extends BaseCommand {
+abstract class Command extends BaseCommand
+{
+    /**
+     * @var string
+     */
+    protected $module;
+    protected $dependencies;
+    /**
+     * @var TranslatorHelper
+     */
+    protected $translator;
 
-  /**
-   * @var string
-   */
-  protected $module;
-
-  protected $messages = [];
-
-  protected $dependencies;
-
-  /**
-   * @var TranslatorHelper
-   */
-  protected $translator;
-
-  function __construct($translator)
-  {
-    $this->translator = $translator;
-    parent::__construct();
-  }
-
-  /**
-   * @param $key string
-   * @return string
-   */
-  public function trans($key){
-    return $this->translator->trans($key);
-  }
-
-  protected function getDialogHelper()
-  {
-    $dialog = $this->getHelperSet()->get('dialog');
-
-    return $dialog;
-  }
-  /**
-   * @return TranslatorHelper
-   */
-  public function getTranslator()
-  {
-    return $this->translator;
-  }
-
-  /**
-   * @param TranslatorHelper $translator
-   */
-  public function setTranslator($translator)
-  {
-    $this->translator = $translator;
-  }
-
-  /**
-   * @return string
-   */
-  public function getModule()
-  {
-    return $this->module;
-  }
-
-  /**
-   * @param string $module
-   */
-  public function setModule($module)
-  {
-    $this->module = $module;
-  }
-
-  public function showMessage($output, $message, $type='info')
-  {
-    $style = 'bg=blue;fg=white';
-    if ('error' == $type) {
-      $style = 'bg=red;fg=white';
+    public function __construct($translator)
+    {
+        $this->translator = $translator;
+        parent::__construct();
     }
-    $output->writeln([
-      '',
-      $this->getHelperSet()->get('formatter')->formatBlock($message, $style, false),
-      '',
-    ]);
-  }
 
-  public function showGeneratedFiles($output, $files)
-  {
-    if ($files) {
-      $this->showMessage(
-        $output,
-        $this->trans('application.console.messages.generated.files')
-      );
-      $output->writeln(sprintf(
-        '<info>%s:</info><comment>%s</comment>',
-        $this->trans('application.site.messages.path'),
-        DRUPAL_ROOT
-      ));
-
-      $index = 1;
-      foreach ($files as $file) {
-        $output->writeln(sprintf(
-          '<info>%s</info> - <comment>%s</comment>',
-          $index,
-          $file
-        ));
-        $index++;
-      }
+    /**
+     * @return TranslatorHelper
+     */
+    public function getTranslator()
+    {
+        return $this->translator;
     }
-  }
 
-  protected function getQuestionHelper()
-  {
-    $question = $this->getHelperSet()->get('question');
+    /**
+     * @param TranslatorHelper $translator
+     */
+    public function setTranslator($translator)
+    {
+        $this->translator = $translator;
+    }
 
-    return $question;
-  }
+    /**
+     * @return string
+     */
+    public function getModule()
+    {
+        return $this->module;
+    }
 
-  public function addMessage($message) {
-    $this->messages[] = $message;
-  }
+    /**
+     * @param string $module
+     */
+    public function setModule($module)
+    {
+        $this->module = $module;
+    }
 
-  public function getMessages(){
-    return $this->messages;
-  }
+    /**
+     * @param $key string
+     * @return string
+     */
+    public function trans($key)
+    {
+        return $this->translator->trans($key);
+    }
 
-  /**
-   * @return \Drupal\AppConsole\Utils\StringUtils
-   */
-  public function getStringUtils()
-  {
-    $stringUtils = $this->getHelperSet()->get('stringUtils');
+    /**
+     * @return \Drupal\AppConsole\Utils\StringUtils
+     */
+    public function getStringUtils()
+    {
+        $stringUtils = $this->getHelperSet()->get('stringUtils');
 
-    return $stringUtils;
-  }
+        return $stringUtils;
+    }
 
-  /**
-   * @return \Drupal\AppConsole\Utils\Validators
-   */
-  public function getValidator()
-  {
-    $validators = $this->getHelperSet()->get('validators');
+    /**
+     * @return \Drupal\AppConsole\Utils\Validators
+     */
+    public function getValidator()
+    {
+        $validators = $this->getHelperSet()->get('validators');
 
-    return $validators;
-  }
+        return $validators;
+    }
 
-  public function addDependency($moduleName){
-    $this->dependencies[] = $moduleName;
-  }
+    public function addDependency($moduleName)
+    {
+        $this->dependencies[] = $moduleName;
+    }
 
-  public function getDependencies(){
-    return $this->dependencies;
-  }
+    public function getDependencies()
+    {
+        return $this->dependencies;
+    }
+
+    protected function getDialogHelper()
+    {
+        $dialog = $this->getHelperSet()->get('dialog');
+
+        return $dialog;
+    }
+
+    protected function getQuestionHelper()
+    {
+        $question = $this->getHelperSet()->get('question');
+
+        return $question;
+    }
 }

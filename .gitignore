@@ -2,6 +2,8 @@
 /vendor
 /bin/phpunit
 /bin/jsonlint
+/bin/phpcbf
+/bin/phpcs
 /bin/validate-json
 /composer.lock
 
@@ -11,3 +13,6 @@
 
 # Test
 /phpunit.xml
+
+# Drupal
+/core
