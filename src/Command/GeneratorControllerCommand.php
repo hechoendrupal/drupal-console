@@ -55,6 +55,7 @@ class GeneratorControllerCommand extends GeneratorCommand
         $test = $input->getOption('test');
         $services = $input->getOption('services');
 
+        $learning = false;
         if ($input->hasOption('learning')) {
             $learning = $input->getOption('learning');
         }
