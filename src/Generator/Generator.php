@@ -38,12 +38,12 @@ class Generator
 
     protected function render($template, $parameters)
     {
-        $twig = new \Twig_Environment(new \Twig_Loader_Filesystem($this->skeletonDirs), array(
+        $twig = new \Twig_Environment(new \Twig_Loader_Filesystem($this->skeletonDirs), [
           'debug' => true,
           'cache' => false,
           'strict_variables' => true,
           'autoescape' => false,
-        ));
+        ]);
 
         $twig->addFunction($this->getServicesAsParameters());
         $twig->addFunction($this->getServicesAsParametersKeys());
