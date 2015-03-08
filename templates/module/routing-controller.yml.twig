@@ -1,4 +1,7 @@
 {% if class_name is defined %}
+{% if learning is defined and learning %}
+{{ yaml_comment('application.console.messages.learning.route') }}
+{% endif %}
 {{ module }}.{{ class_machine_name }}_{{ method_name }}:
   path: '{{ route }}'
   defaults:
