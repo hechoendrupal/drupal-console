@@ -51,6 +51,7 @@ class Generator
         $twig->addFunction($this->getServicesClassInitialization());
         $twig->addFunction($this->getServicesClassInjection());
         $twig->addFunction($this->getTagsAsArray());
+        $twig->addFunction($this->getTranslationAsYamlComment());
 
         return $twig->render($template, $parameters);
     }
@@ -216,6 +217,28 @@ class Generator
 
             return $returnValues;
         });
+
+        return $returnValue;
+    }
+
+    public function getTranslationAsYamlComment()
+    {
+        $returnValue = new \Twig_SimpleFunction('yaml_comment', function (\Twig_Environment $environment, $context, $key) {
+            $message = $this->translator->trans($key);
+            $messages = explode("\n", $message);
+            $returnValues = [];
+            foreach ($messages as $message) {
+                $returnValues[] = '# ' . $message;
+            }
+
+            $message = implode("\n", $returnValues);
+            $environment->setLoader(new \Twig_Loader_String());
+
+            return $environment->render($message, $context);
+        }, [
+          'needs_environment' => true,
+          'needs_context' => true,
+        ]);
 
         return $returnValue;
     }
