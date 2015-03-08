@@ -17,7 +17,7 @@ class ControllerGenerator extends Generator
           'module' => $module,
           'method_name' => $method_name,
           'class_machine_name' => $class_machine_name,
-          'route' => $route,
+          'route' => (strpos($route, '/') === 0) ? $route : '/' . $route,
           'learning' => $this->isLearning()
         ];
 
