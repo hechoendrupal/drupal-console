@@ -21,6 +21,8 @@ class Generator
 
     private $files;
 
+    private $learning = false;
+
     /**
      * Sets an array of directories to look for templates.
      *
@@ -231,5 +233,13 @@ class Generator
     public function getFiles()
     {
         return $this->files;
+    }
+
+    public function setLearning($learning){
+        $this->learning = $learning;
+    }
+
+    public function isLearning(){
+        return $this->learning;
     }
 }
