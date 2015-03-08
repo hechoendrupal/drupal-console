@@ -4,12 +4,12 @@ application:
       completed: You can now start using the generated code!
       learning:
         route: |
-          Con el fin de crear páginas es necesario definir rutas para ellos.
-          Una ruta asigna una ruta URL a un controlador. Se define con qué función
+          Con el fin de crear páginas es necesario definir rutas para ellas.
+          Una ruta asigna una URL a un controlador. Se define con qué función
           o método será llamado cuando se accede a una URL.
           Si el usuario accede la ruta http://drupal8.dev/{{ route }},
-          sistema buscará una ruta con ese camino. En este caso, se encuentra una
-          igualar, y ejecutar la devolución de llamada _controller.
+          el sistema buscará una ruta con ese camino. En este caso, si encuentra una
+          ejecutara la devolución de la llamada _controller.
           En este caso, la devolución de llamada es definida como un nombre de clase
           ("\Drupal\{{ module }}\Controller\{{ class_name }}")
           y un método ("{{ method_name }}").
