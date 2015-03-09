@@ -25,6 +25,9 @@ abstract class GeneratorCommand extends ContainerAwareCommand
 
     abstract protected function createGenerator();
 
+    /**
+     * @return \Drupal\AppConsole\Generator\Generator
+     */
     public function getGenerator()
     {
         if (null === $this->generator) {
