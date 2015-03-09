@@ -1,0 +1,48 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+Drupal\{{ module }}\Annotation\{{ annotation }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Annotation;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Component\Annotation\Plugin;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * {{ annotation }} Annotation plugin.
+ *
+ * @Annotation
+ */
+class {{ annotation }} extends Plugin {% endblock %}
+
+{% block class_methods %}
+
+  /**
+   * The resource plugin ID.
+   *
+   * @var string
+   */
+  public $id;
+{% for property in annotation_property %}
+
+  /**
+   * Property {{ property.name }}.
+   *
+{% if property.type == 'translation' %}
+   * @var \Drupal\Core\Annotation\Translation
+{% else %}
+   * @var {{ property.type }}
+{% endif %}
+   *
+{% if property.type == 'translation' %}
+   * @ingroup plugin_translatable
+{% endif %}
+   */
+  public ${{ property.name }};
+{% endfor %}
+{% endblock %}
