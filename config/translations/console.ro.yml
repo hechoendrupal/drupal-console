@@ -17,13 +17,13 @@ application:
 commands:
   common:
     options:
-      module: Nume de modul.
+      module: Nume de Modul.
       services: Incarca serviciile din container.
       tags: Seteaza tag-urile serviciilor din container.
       inputs: Creaza input-uri in forma.
       permissions: Creaza permisiuni.
     questions:
-      module: Introduceti numele de modul
+      module: Introduceti numele de Modul
       confirm: Confirmati generarea
       canceled: Comanda a fost anulata
       services:
@@ -42,7 +42,7 @@ commands:
         invalid: Campul de tip "%s" este incorect.
         description: Descriere
     errors:
-      module-dependency: Dependenta de module lipseste "%s"
+      module-dependency: Dependenta de Module lipseste "%s"
       class-name-empty: Numele Clasei nu poate fi goala
   cache:
     rebuild:
@@ -94,7 +94,7 @@ commands:
         class_name: Numele Clasei
   drush:
     description: Ruleaza drush din consola..
-    help: Utilizeaza modul interactiv pentru o mai buna experienta --shell.
+    help: Utilizeaza Modul interactiv pentru o mai buna experienta --shell.
     arguments:
       args: Drush argumente.
     messages:
@@ -118,7 +118,7 @@ commands:
         container: Acceseaza serviciul containerului
       questions:
         module: common.questions.module
-        class-name: Introdu Numele Clasei a Comenzii
+        class-name: Introdu Numele Clasei pentru Comenzii
         command: Introdu Numele Comenzii
         container: Aveti nevoie de a accesa serviciul containerului
     controller:
@@ -142,87 +142,89 @@ commands:
     entity:
       description: Genereaza un nou "%s"
       help: The <info>"%s"</info> command helps you generate a new "%s"
-      welcome: Welcome to the Drupal entity generator
+      help: Comanda <info>"%s"</info> te va ajuta sa generezi un nou "%s"
+      welcome: Bine ai venit in generatorul de Drupal Entity
       options:
         module: common.options.module
-        entity-class: The entity class name
-        entity-name: The name of the entity
+        entity-class: Numele classei pentru Entity
+        entity-name: Numele Entity
       questions:
         module: common.questions.module
-        entity-class: Enter the entity class name
-        entity-name: Enter the entity name
+        entity-class: Introdu numele classei pentru Entity
+        entity-name: Introdu numele Entity
     form:
-      description: Generate a new "%s"
+      description: Genereaza un nou "%s"
       help: The <info>"%s"</info> command helps you generate a new "%s"
-      welcome: Welcome to the Drupal form generator
+      welcome: Bine ai venit in generatorul de forma
       options:
         module: common.options.module
-        class-name: The form class name
-        form-id: The Form id
+        class-name: Numele Clasei pentru forma
+        form-id: Id-ul formei
         services: common.options.services
         inputs: common.options.inputs
-        routing: Update routing
+        routing: Actualizeaza "Routing"
       questions:
         module: common.questions.module
-        class-name: Enter the Form Class name
-        form-id: Enter the Form id
+        class-name: Introdu numele Clasei pentru forma
+        form-id: Introdu id-ul formei
         services: common.questions.services
         inputs: common.questions.inputs
-        routing: Update routing file
+        routing: Actualizeaza fisierul de "Routing"
     module:
-      description: Generate a module.
-      help: The <info>generate:module</info> command helps you generates a new module.
-      welcome: Welcome to the Drupal module generator
+      description: Genereaza un Modul.
+      help: Comanda <info>generate:module</info> te va ajuta sa creezi un nou Modul.
+      welcome: Bine ai venit in generatorul de Modul Drupal
       options:
-        module: The Module name
+        module: Numele Modulului
         machine-name: The machine name (lowercase and underscore only)
-        module-path: The path of the module
-        description: Module description
-        core: Core version
+        module-path: Calea de stocare a Modulului
+        description: Descrierea Modulului
+        core: Versiunea nucleului (Core version)
         package: Module package
-        controller: Default Controller
-        dependencies: Module dependencies separated by commas (i.e. context, panels)
-        test: Generate a test class
+        controller: Controller-ul implicit
+        dependencies: Dependente de Module separate prin virgula (ex. context, panels)
+        test: Genereaza o clasa pentru test
       questions:
-        module: Enter the new module name
-        machine-name: Enter the module machine name
-        module-path: Enter the module Path
-        description: Enter module description
-        core: Enter Drupal Core version
-        package: Enter package name
-        controller: Do you want to generate a default Controller
-        dependencies: Would you like to add module depencencies
-        test: Do you want to generate a unit test class
+        module: Introdu numele modulului nou
+        machine-name: Introdu "machine name" pentru Modul
+        module-path: Introdu calea pentru Modul
+        description: Intodu descrierea Modulului
+        core: Introdu versiunea nucleului Drupal
+        package: Introdu numele pentru "package"
+        controller: Doresti sa generezi un Controller implicit
+        dependencies: Would you like to add Module depencencies
+        dependencies: Doresti sa adaugi dependente pentru Modul
+        test: Doresti sa generezi o clasa pentru "unit test"
       warnings:
-        module-unavailable: Warning The following modules are not already available in your local environment "%s"
+        module-unavailable: Avertizare. Urmatoarele Module nu sunt disponibile in proiectul tau local "%s"
       errors:
-        directory-exists: The target directory "%s" is not empty.
+        directory-exists: Mapa indicata "%s" nu este goala.
     permission:
-        description: Generate module permissions
-        help: The <info>generate:permissions</info> command helps you generate new permissions
+        description: Genereaza permisiuni pentru Modul
+        help: Comanda <info>generate:permissions</info> te va ajuta sa creezi permisiuni noi
         options:
           module: common.options.module
-          permission: Enter a permission
+          permission: Introdu o permisiune
         questions:
           module: common.questions.module
-          permission: Enter a permission
+          permission: Introdu o permisiune
     plugin:
       block:
-        description: Generate a plugin block
-        help: The <info>generate:plugin:block</info> command helps you generate a new Plugin block.
-        welcome: Welcome to the Drupal Plugin Block generator
+        description: Genereaza un "plugin block"
+        help: Comanda <info>generate:plugin:block</info> te va ajuta sa creezi un nou "Plugin block".
+        welcome: Bine ai venit in generatorul de "Drupal Plugin Block"
         options:
           module: common.options.module
-          class-name: Plugin class name
-          label: Plugin label
-          plugin-id: Plugin id
+          class-name: Numele clasei pentru Plugin
+          label: Eticheta pentru Plugin
+          plugin-id: Id-ul pentru Plugin
           inputs: common.options.inputs
           services: common.options.services
         questions:
           module: common.questions.module
-          class-name: Enter the plugin class name
-          label: Enter the plugin label
-          plugin-id: Enter the plugin id
+          class-name: Introdu numele Clasei pentru Plugin
+          label: Introdu eticheta pentru Plugin
+          plugin-id: Introdu id-ul pentru Plugin
           inputs: common.questions.inputs
           services: common.questions.services
         messages:
@@ -233,232 +235,233 @@ commands:
       imageeffect:
         description: Generate image effect plugin.
         help: The <info>generate:plugin:imageeffect</info> command helps you generate a new image effect plugin.
-        welcome: Welcome to the Drupal Image Effect Plugin generator
+        welcome: Bine ai venit in generatorul de "Drupal Image Effect Plugin"
         options:
           module: common.options.module
-          class-name: Plugin class name
-          label: Plugin label
-          plugin-id: Plugin id
-          description: Plugin Description
+          class-name: Introdu numele clasei pentru Plugin
+          label: Eticheta pentru Plugin
+          plugin-id: Id-ul pentru Plugin
+          description: Descrierea Plugin-ului
         questions:
           module: common.questions.module
-          class-name: Enter the plugin class name
-          label: Enter the plugin label
-          plugin-id: Enter the plugin id
-          description: Enter the plugin Description
+          class-name: Introdu numele clasei pentru Plugin
+          label: Introdu eticheta pentru Plugin
+          plugin-id: Introdu id-ul pentru Plugin
+          description: Introdu Descrierea pentru Plugin
       rest:
           resource:
-            description: Generate plugin rest resource
-            help: The <info>generate:plugin:rest:resource</info> command helps you generate a new rest resource.
-            welcome: Welcome to the Drupal Plugin Rest Resource generator
+            description: Genereaza "plugin rest resource"
+            help: Comanda <info>generate:plugin:rest:resource</info> te va ajuta sa generezi un nou "rest resource".
+            welcome: Bine ai venit in generatorul de "Drupal Plugin Rest Resource"
             options:
               module: common.options.module
-              class-name: Plugin Rest Resource class
-              plugin-id: Plugin Rest Resource id
-              plugin-label: Plugin Rest Resource Label
-              plugin-url: Plugin Rest Resource URL
+              class-name: Numele clasei pentru "Plugin Rest Resource"
+              plugin-id: Id-ul pentru "Plugin Rest Resource"
+              plugin-label: Eticheta pentru "Plugin Rest Resource"
+              plugin-url: URL pentru Plugin Rest Resource
               plugin-states: Plugin Rest Resource States
             questions:
               module: common.questions.module
-              class-name: Enter the plugin rest resource name
-              plugin-id: Enter the plugin rest resource id
-              plugin-label: Enter the plugin rest resource label
-              plugin-url: Enter the plugin rest resource url
+              class-name: Introdu numele pentru "plugin rest resource"
+              plugin-id: Introdu Id-ul pentru "plugin rest resource"
+              plugin-label: Intrudu eticheta pentru "plugin rest resource"
+              plugin-url: Introdu URL pentru "plugin rest resource"
               plugin-states: Please select what REST States implement in your resource (GET is selected by default)
             messages:
               selected-states: States selected
     service:
-      description: Generate service
-      help: The <info>generate:service</info> command helps you generate a new service.
-      welcome: Welcome to the Drupal service generator
+      description: Genereaza un serviciu
+      help: Comanda <info>generate:service</info> te va ajuta sa creezi un serviciu nou.
+      welcome: Bine ai venit in "Drupal service generator"
       options:
         module: common.options.module
-        service-name: Service name
-        class-name: Class name
-        interface: Interface
+        service-name: Numele serviciului
+        class-name: Numele clasei
+        interface: Interfata
         services: common.questions.services
       questions:
         module: common.questions.module
-        service-name: Enter the service name
-        class-name: Enter the Class name
-        interface: Create an interface
+        service-name: Introdu numele serviciului
+        class-name: Introdu numele Clasei
+        interface: Creaza o interfata
         services: common.options.services
   module:
     debug:
-      description: Display current modules available for application
+      description: Afiseaza Modulele curente pentru aplicatie
       options:
-        status: "Module status [enabled|disabled]"
-        type: "Module type [core|no-core]"
+        status: "Statutul Modulului [enabled|disabled]"
+        type: "Tipul Modulului [core|no-core]"
       messages:
         id: "ID"
-        name: "Name"
+        name: "Nume"
         status: "Status"
         origin: "Origin"
         package: "Package"
         enabled: "Enabled"
         disabled: "Disabled"
     install:
-      description: Install module or modules in the application
+      description: Install Module or Modules in the application
       options:
-        module: Module or modules to be enabled should be separated by a comma
+        module: Modulul/Modulele trebuie sa fie separate prin virgula
       messages:
-        no-modules: You must provide module or modules to enable.
-        missing: Unable to install modules %s due to missing modules %s
-        missing-dependencies: Unable to install modules %s due to missing dependencies %s
-        nothing: Nothing to do. All modules are already installed
+        no-modules: You must provide Module or Modules to enable.
+        missing: Unable to install Modules %s due to missing Modules %s
+        missing-dependencies: Unable to install Modules %s due to missing dependencies %s
+        nothing: Toate Modulele deja sunt instalate
         dependencies: Are you sure you want to install dependencies: %s?
         success: Module(s) %s were installed successfully
     uninstall:
-      description: Uninstall module or modules in the application
+      description: Dezinstalarea Modulelor
       messages:
-        no-modules: You must provide module or modules to uninstall.
-        dependents: Unable to uninstall modules %s because are required by %s
-        nothing: Nothing to do. All modules are already uninstalled
-        success: Module(s) %s were uninstalled successfully
+        no-modules: Trebuie sa introduci un Modul sau mai multe pentru a le dezinstala.
+        dependents: Incapabil de a dezinstala Modulele %s deoarece ele sunt necesare pentru %s
+        nothing: Toate Modulele sunt deja dezinstalate.
+        success: Modulele au fost dezinstalate cu succes
     download:
-      description: Download module or modules in application
+      description: Download Module or Modules in application
       messages:
-        no-releases: There aren't any releases for module %s
-        getting-releases: Getting releases for module %s
-        downloading: Downloading module %s release %s
-        installed: Module %s was installed successfully
+        no-releases: Nu exista nici o versiune pentru Modulul %s
+        getting-releases: Getting releases for Module %s
+        downloading: Downloading Module %s release %s
+        installed: Modulul %s a fost instalat cu succes
   migrate:
     debug:
       description: Display current migration available for the application
       arguments:
-        drupal-version: Drupal Version
+        drupal-version: Versiunea Drupal
       messages:
         id: "Migration Id"
-        description: "Description"
-        version: "Version"
+        description: "Descrierea"
+        version: "Versiunea"
     execute:
-      description: Execute a migration available for application
+      description: Executa migrarea disponibila pentru aplicatie
       arguments:
-        id: "Migration Id"
+        id: "Id-ul Migratiei"
       options:
         site-url: "Site Source URL"
-        db-host: "Database Host"
-        db-name: "Database Name"
-        db-user: "Database User"
-        db-pass: "Database Pass"
-        db-prefix: "Database Prefix"
-        db-port: "Database Port"
+        db-host: "Host-ul Bazei de Date"
+        db-name: "Numele Bazei de Date"
+        db-user: "Utilizatorul Bazei de Date"
+        db-pass: "Parola Bazei de Date"
+        db-prefix: "Prefixul Bazei de Date"
+        db-port: "Port Bazei de Date"
       questions:
-        id: "Migration Id"
+        id: "Id-ul Migratiei"
         site-url: "Source Site URL"
-        db-host: "Database Host"
-        db-name: "Database Name"
-        db-user: "Database User"
-        db-pass: "Database Pass"
-        db-prefix: "Database Prefix"
-        db-port: "Database Port"
-        invalid-migration-id: Migration Id "%s" is invalid
+        db-host: "Host-ul Bazei de Date"
+        db-name: "Numele Bazei de Date"
+        db-user: "Utilizatorul Bazei de Date"
+        db-pass: "Parola Bazei de Date"
+        db-prefix: "Prefixul Bazei de Date"
+        db-port: "Port Bazei de Date"
+        invalid-migration-id: Id-ul Migratiei "%s" este incorect
       messages:
-        processing: Processing Migration "%s"
-        imported: Migration "%s" was imported correctly
-        fail-load: Migration "%s" can't be loaded
-        importing-incomplete: Importing migration "%s"
-        import-stoped: Import "%s" stopped by request
-        import-fail: Import "%s" failed
-        import-skipped: Import "%s" was skipped due to unfulfilled dependencies
-        wrong-source: 'Upgrading from this version of Drupal is not supported.'
+        processing: Migratia "%s" se prelucreaza
+        imported: Migratia "%s" a fost importata corect
+        fail-load: Migratia "%s" nu poate fi incarcata
+        importing-incomplete: Migratia "%s" se importa
+        import-stoped: Importul "%s" a fost stopat
+        import-fail: Importul "%s" a esuat
+        import-skipped: Importul "%s" a fost omis din cauza dependentelor neandeplinite
+        wrong-source: 'Actualizarea pentru aceasta versiune Drupal nu este suportata.'
+        
   rest:
     enable:
-      description: Enable a rest resource for the application
+      description: Activeaza REST pentru aplicatie
       arguments:
         resource-id: Rest ID
-        states: REST States to enable for Rest resource
-        autorizations: Autorizations providers enabled for Rest Resource
+        states: REST States pentru a activa REST resource
+        autorizations: "Autorizations providers" au fost activate pentru "REST Resource"
 
       questions:
         resource-id: Rest ID
       messages:
-        invalid-rest-id: Rest ID %s is invalid
-        formats: Available serialization formats
-        authentication-providers: Available Authentication Providers
-        selected-state: Selected State
-        selected-formats: Selected formats
-        selected-authentication-providers: Selected Authentication Providers
+        invalid-rest-id: Rest ID %s nu este corect
+        formats: Formatele disponibile de serializare
+        authentication-providers: "Authentication Providers" disponibili
+        selected-state: "State" selectat
+        selected-formats: Formatele selectate
+        selected-authentication-providers: "Authentication Providers" selectati
     disable:
-      description: Disable a rest resource for the application
+      description: Dezactiveaza un "REST resource"
       arguments:
         resource-id: Rest ID
-        states: REST States to disable for Rest resource
+        states: "REST States" pentru a dezactiva "Rest resource"
 
       questions:
         resource-id: Rest ID
       messages:
-        invalid-rest-id: Rest ID %s is invalid
+        invalid-rest-id: Rest ID %s este incorect
     debug:
-      description: Display current rest resource for the application
+      description: Afiseaza curentul "REST resource"
       arguments:
         resource-id: Rest ID
       options:
-        status: Rest resource status enabled | disabled
+        status: "Rest resource" statut activat | dezactivat
       messages:
         id: Rest ID
-        label: Label
+        label: Eticheta
         canonical_url: Canonical URL
         status: Status
         provider: Provider
-        enabled: Enabled
-        disabled: Disabled
+        enabled: Activat
+        disabled: Dezactivat
         rest-state: REST States
-        supported-formats: Supported Formats
-        supported_auth: Supported Authentication Providers
-        not-found: Rest resource %s not found
+        supported-formats: Formatele suportate
+        supported_auth: "Authentication Providers" suportati
+        not-found: "Rest resource" %s nu a fost gasit
   router:
     debug:
-      description: Displays current routes for the application
+      description: Afiseaza "Routes" curente
       arguments:
-        route-name: Route names
+        route-name: Numele de "Route"
       messages:
-        name: Route name
-        path: Class path
-        pattern: Pattern
-        defaults: Defaults
-        options: Options
+        name: Numele de "Route"
+        path: Calea spre Clasa
+        pattern: "Pattern"
+        defaults: Implicit
+        options: Optiuni
     rebuild:
-      description: Rebuild routes for the application
+      description: Reconstruieste "Routes"
       arguments:
-        route-name: Route names
+        route-name: Numele de "Route"
       messages:
-        rebuilding: Rebuilding routes, wait a moment please
-        completed: Done rebuilding route(s).
+        rebuilding: Reconstruirea "Routes" in proces, doar o clipa ...
+        completed: Reconstruirea "Routes" a fost finisata cu succes
   self-update:
-    description: Update the console to latest version.
-    help: Update the console command to the latest version.
+    description: Actualizeaza "Console" cu ultima versiune.
+    help: Actualizeaza "Console" cu ultima versiune.
     messages:
-      success: The console has been updated to the latest version.
+      success: "Console" a fost actualizata cu ultima versiune.
   site:
     mode:
-      description: Switch system performance configuration
+      description: Schimba configurarile de performanta a sistemei 
       arguments:
-        environment: Enviroment name
+        environment: Numele "Enviroment"
       messages:
-        configuration: Configuration name
-        configuration-key: Configuration key
-        original: Original Value
-        updated: Override Value
+        configuration: Numele Configuratiei
+        configuration-key: Cheia Configuratiei
+        original: Valoarea originala
+        updated: Rescrie valoarea
     maintenance:
-      description: Switch site into maintenance mode
+      description: Activeaza "Maintenance mode"
       arguments:
-        mode: Site maintenance mode
+        mode: Modul "Site maintenance"
       messages:
-        maintenance-on: Operating in maintenance mode on
-        maintenance-off: Operating in maintenance mode off
+        maintenance-on: Operarea in "Maintenance mode" activata
+        maintenance-off: Operarea in "Maintenance mode" dezactivata
       errors:
-        invalid-mode: Invalid maintance mode
+        invalid-mode: "Maintance mode" incorect
   test:
     debug:
-      description: List Test Units available for the application.
-      help: Update the console command to the latest version.
+      description: Afiseaza Unit testele accesibile
+      help: Actualizeaza "Console" la ultima versiune.
       arguments:
-        test-id: Test Unit ID
+        test-id: Unit Test ID
       options:
-        group: Group
+        group: Groupa
       messages:
-        id: Test Unit ID
-        description: Description
-        group: Group
-        success: The console has been updated to the latest version.
+        id: Unit Test ID
+        description: Descrierea
+        group: Groupa
+        success: "Console" a fost actualizata la ultima versiune.
