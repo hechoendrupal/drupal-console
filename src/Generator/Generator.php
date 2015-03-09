@@ -108,6 +108,11 @@ class Generator
         return $this->getModulePath($module_name) . '/src/Form';
     }
 
+    /**
+     * @param string $module_name
+     * @param string|null $plugin_type
+     * @return string
+     */
     public function getPluginPath($module_name, $plugin_type)
     {
         return $this->getModulePath($module_name) . '/src/Plugin/' . $plugin_type;
