@@ -118,6 +118,15 @@ class Generator
         return $this->getModulePath($module_name) . '/src/Plugin/' . $plugin_type;
     }
 
+    /**
+     * @param string $module_name
+     * @return string
+     */
+    public function getAnnotationPath($module_name)
+    {
+        return $this->getSourcePath($module_name) . '/Annotation';
+    }
+
     public function getAuthenticationPath($module_name, $authentication_type)
     {
         return $this->getModulePath($module_name) . '/src/Authentication/' . $authentication_type;
