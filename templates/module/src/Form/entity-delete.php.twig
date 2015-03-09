@@ -53,7 +53,7 @@ class {{ entity_class }}DeleteForm extends EntityConfirmFormBase {% endblock %}
           '@type' => $this->entity->bundle(),
           '@label' => $this->entity->label()
         ]
-      )
+        )
     );
 
     $form_state->setRedirectUrl($this->getCancelUrl());
