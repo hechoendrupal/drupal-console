@@ -36,8 +36,8 @@
         "symfony/dom-crawler": "2.6.*"
     },
     "require-dev": {
-        "drupal/coder": "dev-8.x-2.x",
-        "drupal/drupal": "8.0.0-beta7",
+        "drupal/coder": "~8.1",
+        "drupal/core": "8.0.0-beta7",
         "phpunit/phpunit": "4.4.*"
     },
     "minimum-stability": "dev",

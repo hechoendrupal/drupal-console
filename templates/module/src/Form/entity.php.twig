@@ -28,23 +28,23 @@ class {{ entity_class }}Form extends EntityForm {% endblock %}
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
 
-    ${{ entity_name }} = $this->entity;
+    ${{ entity_name | machine_name }} = $this->entity;
     $form['label'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Label'),
       '#maxlength' => 255,
-      '#default_value' => ${{ entity_name }}->label(),
+      '#default_value' => ${{ entity_name | machine_name }}->label(),
       '#description' => $this->t("Label for the {{ entity_class }}."),
       '#required' => TRUE,
     );
 
     $form['id'] = array(
       '#type' => 'machine_name',
-      '#default_value' => ${{ entity_name }}->id(),
+      '#default_value' => ${{ entity_name | machine_name }}->id(),
       '#machine_name' => array(
         'exists' => '\Drupal\{{ module }}\Entity\{{ entity_class }}::load',
       ),
-      '#disabled' => !${{ entity_name }}->isNew(),
+      '#disabled' => !${{ entity_name | machine_name }}->isNew(),
     );
 
     /* You will need additional form elements for your custom properties. */
@@ -56,19 +56,19 @@ class {{ entity_class }}Form extends EntityForm {% endblock %}
    * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state) {
-    ${{ entity_name }} = $this->entity;
-    $status = ${{ entity_name }}->save();
+    ${{ entity_name | machine_name }} = $this->entity;
+    $status = ${{ entity_name | machine_name }}->save();
 
     if ($status) {
       drupal_set_message($this->t('Saved the %label {{ entity_class }}.', array(
-        '%label' => ${{ entity_name }}->label(),
+        '%label' => ${{ entity_name | machine_name }}->label(),
       )));
     }
     else {
       drupal_set_message($this->t('The %label {{ entity_class }} was not saved.', array(
-        '%label' => ${{ entity_name }}->label(),
+        '%label' => ${{ entity_name | machine_name }}->label(),
       )));
     }
-    $form_state->setRedirectUrl(${{ entity_name }}->urlInfo('collection'));
+    $form_state->setRedirectUrl(${{ entity_name | machine_name }}->urlInfo('collection'));
   }
 {% endblock %}
