@@ -93,6 +93,9 @@ abstract class Command extends BaseCommand
         return $this->dependencies;
     }
 
+    /**
+     * @return \Drupal\AppConsole\Command\Helper\DialogHelper
+     */
     protected function getDialogHelper()
     {
         $dialog = $this->getHelperSet()->get('dialog');
