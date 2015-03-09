@@ -19,6 +19,8 @@ class Generator
 
     private $files;
 
+    private $learning = false;
+
     /**
      * Sets an array of directories to look for templates.
      *
@@ -39,12 +41,12 @@ class Generator
      */
     protected function render($template, $parameters)
     {
-        $twig = new \Twig_Environment(new \Twig_Loader_Filesystem($this->skeletonDirs), array(
+        $twig = new \Twig_Environment(new \Twig_Loader_Filesystem($this->skeletonDirs), [
           'debug' => true,
           'cache' => false,
           'strict_variables' => true,
           'autoescape' => false,
-        ));
+        ]);
 
         $twig->addFunction($this->getServicesAsParameters());
         $twig->addFunction($this->getServicesAsParametersKeys());
@@ -52,6 +54,7 @@ class Generator
         $twig->addFunction($this->getServicesClassInitialization());
         $twig->addFunction($this->getServicesClassInjection());
         $twig->addFunction($this->getTagsAsArray());
+        $twig->addFunction($this->getTranslationAsYamlComment());
         $twig->addFilter($this->createMachineName());
 
         return $twig->render($template, $parameters);
@@ -260,13 +263,36 @@ class Generator
         return $returnValue;
     }
 
+    public function getTranslationAsYamlComment()
+    {
+        $returnValue = new \Twig_SimpleFunction('yaml_comment', function (\Twig_Environment $environment, $context, $key) {
+            $message = $this->translator->trans($key);
+            $messages = explode("\n", $message);
+            $returnValues = [];
+            foreach ($messages as $message) {
+                $returnValues[] = '# ' . $message;
+            }
+
+            $message = implode("\n", $returnValues);
+            $environment->setLoader(new \Twig_Loader_String());
+
+            return $environment->render($message, $context);
+        }, [
+          'needs_environment' => true,
+          'needs_context' => true,
+        ]);
+
+        return $returnValue;
+    }
+
     /**
      * @return \Twig_SimpleFilter
      */
     public function createMachineName()
     {
         $string = new StringUtils();
-        return new \Twig_SimpleFilter('machine_name', function ($var) use($string) {
+
+        return new \Twig_SimpleFilter('machine_name', function ($var) use ($string) {
             return $string->createMachineName($var);
         });
     }
@@ -284,5 +310,15 @@ class Generator
     public function getFiles()
     {
         return $this->files;
+    }
+
+    public function setLearning($learning)
+    {
+        $this->learning = $learning;
+    }
+
+    public function isLearning()
+    {
+        return $this->learning;
     }
 }

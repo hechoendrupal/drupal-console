@@ -62,7 +62,6 @@ class Application extends BaseApplication
         $this->getDefinition()->addOption(
           new InputOption('--drupal', '-d', InputOption::VALUE_OPTIONAL, 'Path to Drupal root.')
         );
-
         $this->getDefinition()->addOption(
           new InputOption('--shell', '-s', InputOption::VALUE_NONE, 'Launch the shell.')
         );
@@ -71,6 +70,9 @@ class Application extends BaseApplication
         );
         $this->getDefinition()->addOption(
           new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.')
+        );
+        $this->getDefinition()->addOption(
+          new InputOption('--learning', null, InputOption::VALUE_NONE, 'Generate a verbose code output.')
         );
     }
 
