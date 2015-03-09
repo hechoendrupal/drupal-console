@@ -53,6 +53,13 @@ class Generator
         return $twig->render($template, $parameters);
     }
 
+    /**
+     * @param string $template
+     * @param string $target
+     * @param array $parameters
+     * @param null $flag
+     * @return bool
+     */
     protected function renderFile($template, $target, $parameters, $flag = null)
     {
         if (!is_dir(dirname($target))) {
@@ -73,6 +80,10 @@ class Generator
         return $this->render($template, $parameters);
     }
 
+    /**
+     * @param string $module_name
+     * @return string
+     */
     public function getModulePath($module_name)
     {
         if (!$this->module_path) {
@@ -112,6 +123,10 @@ class Generator
         return $this->getModulePath($module_name) . '/src/Command';
     }
 
+    /**
+     * @param string $module_name
+     * @return string
+     */
     public function getSourcePath($module_name)
     {
         return $this->getModulePath($module_name) . '/src';
