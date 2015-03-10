@@ -37,23 +37,7 @@ class SiteStatusCommand extends ContainerAwareCommand
         $this
           ->setName('site:status')
           ->setDescription($this->trans('commands.site.status.description'))
-          ->addArgument(
-              'field-group',
-              InputArgument::OPTIONAL,
-              $this->trans('commands.site.status.arguments.fields-group')
-          )
-          ->addOption(
-              'all',
-              'a',
-              null,
-              $this->trans('commands.site.status.options.all')
-          )
-          ->addOption(
-              'format',
-              null,
-              InputOption::VALUE_REQUIRED,
-              $this->trans('commands.site.status.options.format')
-          );
+        ;
     }
 
     /**
