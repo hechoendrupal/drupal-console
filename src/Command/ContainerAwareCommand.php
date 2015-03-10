@@ -244,6 +244,13 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         return $this->getContainer()->get('authentication')->getSortedProviders();
     }
 
+    /**
+     * @return \Drupal\system\SystemManager
+     */
+    public function getSystemManager()
+    {
+        return $this->getContainer()->get('system.manager');
+    }
 
     public function validateModuleExist($module_name)
     {
