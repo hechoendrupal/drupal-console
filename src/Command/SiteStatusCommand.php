@@ -18,9 +18,17 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class SiteStatusCommand extends ContainerAwareCommand
 {
-    const FORMAT_STANDARD_OUTPUT = 'stdo';
-    const FORMAT_JSON = 'json';
-    const FORMAT_CSV = 'csv';
+
+    /* @var $connectionInfoKeys array */
+    protected $connectionInfoKeys = [
+      'driver',
+      'host',
+      'database',
+      'port',
+      'username',
+      'password'
+    ];
+
     /**
      * {@inheritdoc}
      */
