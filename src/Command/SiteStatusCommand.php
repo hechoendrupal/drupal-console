@@ -59,7 +59,7 @@ class SiteStatusCommand extends ContainerAwareCommand
 
     private function getStatusData(InputInterface $input)
     {
-      $status_data =  array (
+        $status_data =  array(
         'console_version' => '',
         'drupal_version'  => '',
         'database'        => array(
@@ -88,23 +88,23 @@ class SiteStatusCommand extends ContainerAwareCommand
       // Collect Data
       // ==================
       $status_data['console_version'] = $this->getApplication()->getVersion();
-      $status_data['drupal_version'] = \Drupal::VERSION;
+        $status_data['drupal_version'] = \Drupal::VERSION;
       // database
       $db_info = \Drupal\Core\Database\Database::getConnectionInfo();
-      $status_data['database'] = $arrayName = array(
+        $status_data['database'] = $arrayName = array(
             'driver'            => $db_info['default']['driver'],
             'hostname'          => $db_info['default']['host'],
             'name'              => $db_info['default']['database'],
             'port'              => $db_info['default']['port'],
             'username'          => $db_info['default']['username'],
             'password'          => $db_info['default']['password'],
-            'connection_string' => $db_info['default']['driver'].'//'.$db_info['default']['username'].':'.$db_info['default']['password'].'@'.$db_info['default']['host'].((!empty ($db_info['default']['port'])) ? ':'.$db_info['default']['port'] : '').'/'.$db_info['default']['database']
+            'connection_string' => $db_info['default']['driver'].'//'.$db_info['default']['username'].':'.$db_info['default']['password'].'@'.$db_info['default']['host'].((!empty($db_info['default']['port'])) ? ':'.$db_info['default']['port'] : '').'/'.$db_info['default']['database']
           );
       // ==================
       // Filters
       // ==================
       if (!($input->getOption('all'))) {
-        $status_data = array(
+          $status_data = array(
             'console_version'  => $status_data['console_version'],
             'drupal_version'   => $status_data['drupal_version'],
             'database'         => array('connection_string' => $status_data['database']['connection_string']),
@@ -112,8 +112,8 @@ class SiteStatusCommand extends ContainerAwareCommand
             'directories'      => array('root' => $status_data['directories']['root'])
         );
       }
-      if ( $input->getArgument('field-group') != null ) {
-        switch ($input->getArgument('field-group')) {
+        if ($input->getArgument('field-group') != null) {
+            switch ($input->getArgument('field-group')) {
           case 'version':
             $status_data = array(
               'console_version' => $status_data['console_version'],
@@ -133,7 +133,7 @@ class SiteStatusCommand extends ContainerAwareCommand
             # code...
             break;
         }
-      }
+        }
       // ==================
       // Output Format
       // ==================
@@ -148,25 +148,24 @@ class SiteStatusCommand extends ContainerAwareCommand
           $formatter = $this->getHelper('formatter');
           $message = '<info>Site Status</info>' . PHP_EOL;
           foreach ($status_data as $field_group => $field_value) {
-            if (is_array($field_value)) {
-              $seccion = '';
-              $section_msg = '';
-              $section = $field_group;
-              foreach ($field_value as $field => $value) {
-                $line = PHP_EOL. $field . ': ' . $value;
-                $section_msg = $section_msg . $line;
+              if (is_array($field_value)) {
+                  $seccion = '';
+                  $section_msg = '';
+                  $section = $field_group;
+                  foreach ($field_value as $field => $value) {
+                      $line = PHP_EOL. $field . ': ' . $value;
+                      $section_msg = $section_msg . $line;
+                  }
+                  $formattedLine = $formatter->formatSection($section, $section_msg);
+                  $message = $message . PHP_EOL . PHP_EOL .$formattedLine ;
+              } else {
+                  $line = PHP_EOL . $field_group . ': ' . $field_value;
+                  $message = $message . $line;
               }
-              $formattedLine = $formatter->formatSection($section,$section_msg);
-              $message = $message . PHP_EOL . PHP_EOL .$formattedLine ;
-            } else {
-              $line = PHP_EOL . $field_group . ': ' . $field_value;
-              $message = $message . $line;
-            }
           }
           $status_data = $message;
           break;
       }
-      return $status_data;
+        return $status_data;
     }
-
 }
