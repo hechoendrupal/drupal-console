@@ -14,7 +14,7 @@ class MessageHelper extends Helper
     /**
      * @param TranslatorHelper $translator
      */
-    function __construct(TranslatorHelper $translator)
+    public function __construct(TranslatorHelper $translator)
     {
         $this->translator = $translator;
     }
@@ -191,7 +191,8 @@ class MessageHelper extends Helper
      * @param string $file
      * @param int    $index
      */
-    private function showFile($output, $file, $index){
+    private function showFile($output, $file, $index)
+    {
         $output->writeln(sprintf(
           '<info>%s</info> - <comment>%s</comment>',
           $index,
