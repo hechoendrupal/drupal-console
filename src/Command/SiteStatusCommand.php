@@ -89,7 +89,7 @@ class SiteStatusCommand extends ContainerAwareCommand
           null
         ]);
 
-        $connectionInfo = \Drupal\Core\Database\Database::getConnectionInfo();
+        $connectionInfo = $this->getConnectionInfo();
 
         foreach ($this->connectionInfoKeys as $connectionInfoKey) {
             $table->addRow([
