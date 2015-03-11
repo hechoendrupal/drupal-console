@@ -17,8 +17,12 @@ use Drupal\AppConsole\Command\ContainerAwareCommand;
 {% endblock %}
 
 {% block class_declaration %}
-class {{ name.class }} extends ContainerAwareCommand
-{% endblock %}
+/**
+ * Class {{ name.class }}.
+ *
+ * @package Drupal\{{module_name}}
+ */
+class {{ name.class }} extends ContainerAwareCommand {% endblock %}
 
 {% block class_methods %}
   /**

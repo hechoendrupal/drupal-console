@@ -51,7 +51,7 @@ class DrupalAutoloadHelper extends Helper
 
         if (is_dir($path)) {
             return is_file($path_core_autoload) ?
-                $path_core_autoload : (is_file($path_autoload) ? $path_autoload : null);
+              $path_core_autoload : (is_file($path_autoload) ? $path_autoload : null);
         } else {
             return null;
         }

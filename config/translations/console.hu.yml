@@ -265,6 +265,28 @@ commands:
               plugin-states: REST State megadása (GET alapértelmezetten kiválasztott)
             messages:
               selected-states: Kiválasztott State
+      rulesaction:
+        description: Generate a plugin rule action
+        help: A <info>generate:plugin:rulesaction</info> parancs új Rula akció létrehozásában segít.
+        welcome: Üdvözlet a Drupal Rules Akció Beépülő létrehozásában
+        options:
+          module: common.options.module
+          class-name: Beépülő class neve
+          label: Beépülő címke
+          plugin-id: Beépülő id
+          inputs: common.options.inputs
+          services: common.options.services
+          category: Beépülő kategória
+          context: Beépülő kontextus
+        questions:
+          module: common.questions.module
+          class-name: Beépülő class nevének megadása
+          label: Beépülő címke megadása
+          plugin-id: Beépülő id megadása
+          inputs: common.questions.inputs
+          services: common.questions.services
+          category: Beépülő kategória megadása
+          context: Beépülő kontextus megadása
     service:
       description: Service létrehozása
       help: A <info>generate:service</info> új service létrehozásában segít.

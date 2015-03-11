@@ -106,7 +106,7 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
 
         $command->expects($this->any())
           ->method('validateModule')
-          ->will($this->returnValue('foo'));;
+          ->will($this->returnValue('foo'));
 
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet($input));

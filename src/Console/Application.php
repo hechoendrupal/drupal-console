@@ -17,7 +17,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '0.7.2';
+    const VERSION = '0.7.4';
     /**
      * @var bool
      */
@@ -60,17 +60,19 @@ class Application extends BaseApplication
         parent::__construct($this::NAME, sprintf('%s', $this::VERSION));
 
         $this->getDefinition()->addOption(
-            new InputOption('--drupal', '-d', InputOption::VALUE_OPTIONAL, 'Path to Drupal root.')
-        );
-
-        $this->getDefinition()->addOption(
-            new InputOption('--shell', '-s', InputOption::VALUE_NONE, 'Launch the shell.')
+          new InputOption('--drupal', '-d', InputOption::VALUE_OPTIONAL, 'Path to Drupal root.')
         );
         $this->getDefinition()->addOption(
-            new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, 'The Environment name.', $this->env)
+          new InputOption('--shell', '-s', InputOption::VALUE_NONE, 'Launch the shell.')
         );
         $this->getDefinition()->addOption(
-            new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.')
+          new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, 'The Environment name.', $this->env)
+        );
+        $this->getDefinition()->addOption(
+          new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.')
+        );
+        $this->getDefinition()->addOption(
+          new InputOption('--learning', null, InputOption::VALUE_NONE, 'Generate a verbose code output.')
         );
     }
 
@@ -109,9 +111,9 @@ class Application extends BaseApplication
         $drupal_root = $input->getParameterOption(['--drupal', '-d'], false);
 
         $autoload = $this
-            ->getHelperSet()
-            ->get('drupal-autoload')
-            ->findAutoload($drupal_root);
+          ->getHelperSet()
+          ->get('drupal-autoload')
+          ->findAutoload($drupal_root);
 
         if (!$this->isSettingsFile()) {
             return false;
@@ -186,8 +188,8 @@ class Application extends BaseApplication
         $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
 
         $debug = getenv('DRUPAL_DEBUG') !== '0'
-            && !$input->hasParameterOption(array('--no-debug', ''))
-            && $env !== 'prod';
+          && !$input->hasParameterOption(array('--no-debug', ''))
+          && $env !== 'prod';
 
         if ($debug) {
             Debug::enable();

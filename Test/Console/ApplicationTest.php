@@ -30,18 +30,18 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->helperSet = $this
-            ->getMockBuilder('Symfony\Component\Console\Helper\HelperSet')
-            ->getMock();
+          ->getMockBuilder('Symfony\Component\Console\Helper\HelperSet')
+          ->getMock();
 
         $this->drupalAutoload = $this
-            ->getMockBuilder('Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper')
-            ->disableOriginalConstructor()
-            ->getMock();
+          ->getMockBuilder('Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper')
+          ->disableOriginalConstructor()
+          ->getMock();
 
         $this->register_commands = $this
-            ->getMockBuilder('Drupal\AppConsole\Command\Helper\RegisterCommandsHelper')
-            ->disableOriginalConstructor()
-            ->getMock();
+          ->getMockBuilder('Drupal\AppConsole\Command\Helper\RegisterCommandsHelper')
+          ->disableOriginalConstructor()
+          ->getMock();
     }
 
     public function testCanRunApplication()
@@ -52,7 +52,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
           ->getMockBuilder('Drupal\AppConsole\Config')
           ->disableOriginalConstructor()
           ->getMock();
-    
+
         $application = new Application($config);
         $application->setAutoExit(false);
         $application->setHelperSet($this->helperSet);
@@ -64,12 +64,12 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     protected function expectsThatAutoloadFinderHelperIsRegistered()
     {
         $this->drupalAutoload->expects($this->any())
-                    ->method('findAutoload')
-                    ->will($this->returnValue(false));
-    
+          ->method('findAutoload')
+          ->will($this->returnValue(false));
+
         $this->helperSet->expects($this->at(1))
-                    ->method('get')
-                    ->with('drupal-autoload')
-                    ->will($this->returnValue($this->drupalAutoload));
+          ->method('get')
+          ->with('drupal-autoload')
+          ->will($this->returnValue($this->drupalAutoload));
     }
 }
