@@ -252,6 +252,22 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         return $this->getContainer()->get('system.manager');
     }
 
+    /**
+     * @return array
+     */
+    public function getConnectionInfo()
+    {
+        return \Drupal\Core\Database\Database::getConnectionInfo();
+    }
+
+    /**
+     * @return \Drupal\Core\Extension\ThemeHandlerInterface
+     */
+    public function getThemeHandler()
+    {
+        return $this->getContainer()->get('theme_handler');
+    }
+
     public function validateModuleExist($module_name)
     {
         return $this->getValidator()->validateModuleExist($module_name, $this->getModules());
