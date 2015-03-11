@@ -221,3 +221,8 @@ commands:
       messages:
         rebuilding: Reconstruindo rotas, favor aguarde um momento
         completed: Reconstrução de rota(s) finalizada.
+  site:
+    status:
+      description: View current Drupal Installation status
+      arguments:
+        fields-group: show a set of fields groupping by type All available groups are: version, database, theme, directories
