@@ -109,9 +109,75 @@ class SiteStatusCommand extends ContainerAwareCommand
             $connectionInfo['default']['port'] ? ':'. $connectionInfo['default']['port'] :'',
             $connectionInfo['default']['database']
           )
-          //$connectionInfo['default']['driver'].'//'.$connectionInfo['default']['username'].':'.$connectionInfo['default']['password'].'@'.$connectionInfo['default']['host'].((!empty($connectionInfo['default']['port'])) ? ':'.$connectionInfo['default']['port'] : '').'/'.$connectionInfo['default']['database']
         ]);
 
+        $table->addRow([null, null]);
+        $table->addRow([
+          sprintf(
+            '<comment>%s</comment>',
+            $this->trans('commands.site.status.messages.themes')
+          ),
+          null
+        ]);
+
+        $themes = $this->getThemesInfo();
+        foreach ($themes as $key => $theme) {
+            $table->addRow([
+              $this->trans('commands.site.status.messages.'.$key),
+              $theme
+            ]);
+        }
+
+        $table->addRow([null, null]);
+        $table->addRow([
+          sprintf(
+            '<comment>%s</comment>',
+            $this->trans('commands.site.status.messages.directories')
+          ),
+          null
+        ]);
+
+        $directories = $this->getDirectoriesInfo();
+        foreach ($directories as $key => $directory) {
+            $table->addRow([
+              $this->trans('commands.site.status.messages.'.$key),
+              $directory
+            ]);
+        }
+
         $table->render($output);
+    }
+
+    protected function getThemesInfo()
+    {
+        $configFactory = $this->getConfigFactory();
+        $config = $configFactory->get('system.theme');
+
+        return [
+          'theme_default' => $config->get('default'),
+          'theme_admin' => $config->get('admin')
+        ];
+    }
+
+    protected function getDirectoriesInfo()
+    {
+        $drupalBootstrap = $this->getHelperSet()->get('bootstrap');
+        $drupal_root = $drupalBootstrap->getDrupalRoot();
+
+        $configFactory = $this->getConfigFactory();
+        $systemTheme = $configFactory->get('system.theme');
+
+        $themeHandler = $this->getThemeHandler();
+        $themeDefault = $themeHandler->getTheme($systemTheme->get('default'));
+        $themeAdmin = $themeHandler->getTheme($systemTheme->get('admin'));
+
+        $systemFile = $this->getConfigFactory()->get('system.file');
+
+        return [
+            'directory_root' => $drupal_root,
+            'directory_temporary' => $systemFile->get('path.temporary'),
+            'directory_theme_default' => '/'. $themeDefault->getpath(),
+            'directory_theme_admin' => $themeAdmin->getpath(),
+        ];
     }
 }
