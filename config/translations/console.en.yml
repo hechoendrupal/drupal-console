@@ -471,6 +471,27 @@ commands:
         configuration-key: Configuration key
         original: Original Value
         updated: Override Value
+    status:
+      description: View current Drupal Installation status
+      messages:
+        application: Application
+        system: System Info
+        database: Database connection
+        driver: Driver
+        host: Host
+        database: Database
+        port: Port
+        username: Username
+        password: Password
+        themes: Themes
+        connection: Connection
+        theme_default: Default theme
+        theme_admin: Admin theme
+        directories: Directories
+        directory_root: Site root directory
+        directory_temporary: Site temporary directory
+        directory_theme_default: Default theme directory
+        directory_theme_admin: Admin theme directory
     maintenance:
       description: Switch site into maintenance mode
       arguments:
