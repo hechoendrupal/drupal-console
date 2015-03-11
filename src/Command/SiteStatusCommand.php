@@ -177,7 +177,7 @@ class SiteStatusCommand extends ContainerAwareCommand
             'directory_root' => $drupal_root,
             'directory_temporary' => $systemFile->get('path.temporary'),
             'directory_theme_default' => '/'. $themeDefault->getpath(),
-            'directory_theme_admin' => $themeAdmin->getpath(),
+            'directory_theme_admin' => '/' . $themeAdmin->getpath(),
         ];
     }
 }
