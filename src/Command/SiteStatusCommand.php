@@ -53,17 +53,23 @@ class SiteStatusCommand extends ContainerAwareCommand
         $table->setlayout($table::LAYOUT_COMPACT);
 
         $table->addRow([
-          '<comment>Application</comment>',
+          sprintf(
+            '<comment>%s</comment>',
+            $this->trans('commands.site.status.messages.application')
+          ),
           null
         ]);
         $table->addRow([
           'Drupal Console',
           $this->getApplication()->getVersion()
         ]);
-        $table->addRow([null,null]);
+        $table->addRow([null, null]);
 
         $table->addRow([
-          '<comment>System Info</comment>',
+          sprintf(
+            '<comment>%s</comment>',
+            $this->trans('commands.site.status.messages.system')
+          ),
           null
         ]);
 
@@ -73,10 +79,13 @@ class SiteStatusCommand extends ContainerAwareCommand
               $requirement['value']
             ]);
         }
-        $table->addRow([null,null]);
+        $table->addRow([null, null]);
 
         $table->addRow([
-          '<comment>Database connection</comment>',
+          sprintf(
+            '<comment>%s</comment>',
+            $this->trans('commands.site.status.messages.database')
+          ),
           null
         ]);
 
@@ -84,7 +93,7 @@ class SiteStatusCommand extends ContainerAwareCommand
 
         foreach ($this->connectionInfoKeys as $connectionInfoKey) {
             $table->addRow([
-              $connectionInfoKey,
+              $this->trans('commands.site.status.messages.'.$connectionInfoKey),
               $connectionInfo['default'][$connectionInfoKey]
             ]);
         }
