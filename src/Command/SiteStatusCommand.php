@@ -99,8 +99,17 @@ class SiteStatusCommand extends ContainerAwareCommand
         }
 
         $table->addRow([
-          'connection',
-          $connectionInfo['default']['driver'].'//'.$connectionInfo['default']['username'].':'.$connectionInfo['default']['password'].'@'.$connectionInfo['default']['host'].((!empty($connectionInfo['default']['port'])) ? ':'.$connectionInfo['default']['port'] : '').'/'.$connectionInfo['default']['database']
+          $this->trans('commands.site.status.messages.connection'),
+          sprintf(
+            '%s//%s:%s@%s%s/%s',
+            $connectionInfo['default']['driver'],
+            $connectionInfo['default']['username'],
+            $connectionInfo['default']['password'],
+            $connectionInfo['default']['host'],
+            $connectionInfo['default']['port'] ? ':'. $connectionInfo['default']['port'] :'',
+            $connectionInfo['default']['database']
+          )
+          //$connectionInfo['default']['driver'].'//'.$connectionInfo['default']['username'].':'.$connectionInfo['default']['password'].'@'.$connectionInfo['default']['host'].((!empty($connectionInfo['default']['port'])) ? ':'.$connectionInfo['default']['port'] : '').'/'.$connectionInfo['default']['database']
         ]);
 
         $table->render($output);
