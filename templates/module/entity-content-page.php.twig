@@ -22,9 +22,9 @@ use Drupal\Core\Render\Element;
  *   - elements: An associative array containing the user information and any
  *   - attributes: HTML attributes for the containing element.
  */
-function template_preprocess_{{ entity_name }}(array &$variables) {
+function template_preprocess_{{ entity_name | machine_name }}(array &$variables) {
   // Fetch {{ entity_class }} Entity Object.
-  ${{ entity_name }} = $variables['elements']['#{{ entity_name }}'];
+  ${{ entity_name | machine_name }} = $variables['elements']['#{{ entity_name }}'];
 
   // Helpful $content variable for templates.
   foreach (Element::children($variables['elements']) as $key) {

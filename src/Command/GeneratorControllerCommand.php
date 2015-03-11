@@ -55,14 +55,20 @@ class GeneratorControllerCommand extends GeneratorCommand
         $test = $input->getOption('test');
         $services = $input->getOption('services');
 
+        $learning = false;
+        if ($input->hasOption('learning')) {
+            $learning = $input->getOption('learning');
+        }
+
         // @see use Drupal\AppConsole\Command\Helper\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
 
-        //Controller machine name
+        // Controller machine name
         $class_machine_name = $this->getStringUtils()->camelCaseToMachineName($class_name);
 
-        $this->getGenerator()
-          ->generate($module, $class_name, $method_name, $route, $test, $build_services, $class_machine_name);
+        $generator = $this->getGenerator();
+        $generator->setLearning($learning);
+        $generator->generate($module, $class_name, $method_name, $route, $test, $build_services, $class_machine_name);
     }
 
     /**

@@ -5,6 +5,17 @@ application:
       generated:
         files: Generated files
         completed: You can now start using the generated code!
+      learning:
+        route: |
+          In order to to create pages it is necessary to define routes for them.
+          A route maps a URL path to a controller. It defines with what function
+          or method will be called when a URL is accessed.
+          If the user accesses http://drupal8.dev/{{ route }}, the routing
+          system will look for a route with that path. In this case it will find a
+          match, and execute the _controller callback. In this case the callback is
+          defined as a classname
+          ("\Drupal\{{ module }}\Controller\{{ class_name }}")
+          and a method ("{{ method_name }}").
     errors:
       invalid-command: Command "%s" is not defined.
   site:
@@ -460,6 +471,27 @@ commands:
         configuration-key: Configuration key
         original: Original Value
         updated: Override Value
+    status:
+      description: View current Drupal Installation status
+      messages:
+        application: Application
+        system: System Info
+        database: Database connection
+        driver: Driver
+        host: Host
+        database: Database
+        port: Port
+        username: Username
+        password: Password
+        themes: Themes
+        connection: Connection
+        theme_default: Default theme
+        theme_admin: Admin theme
+        directories: Directories
+        directory_root: Site root directory
+        directory_temporary: Site temporary directory
+        directory_theme_default: Default theme directory
+        directory_theme_admin: Admin theme directory
     maintenance:
       description: Switch site into maintenance mode
       arguments:

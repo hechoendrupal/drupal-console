@@ -2,6 +2,17 @@ application:
   console:
     messages:
       completed: You can now start using the generated code!
+      learning:
+        route: |
+          Con el fin de crear páginas es necesario definir rutas para ellas.
+          Una ruta asigna una URL a un controlador. Se define con qué función
+          o método será llamado cuando se accede a una URL.
+          Si el usuario accede la ruta http://drupal8.dev/{{ route }},
+          el sistema buscará una ruta con ese camino. En este caso, si encuentra una
+          ejecutara la devolución de la llamada _controller.
+          En este caso, la devolución de llamada es definida como un nombre de clase
+          ("\Drupal\{{ module }}\Controller\{{ class_name }}")
+          y un método ("{{ method_name }}").
     errors:
       invalid-command: Command "%s" is not defined.
   site:
@@ -155,7 +166,7 @@ commands:
         controller: Do you want to generate a default Controller
         test: Do you want to generate a unit test class
       warnings:
-        module-unavailable: Warning The following modules are not already available in your local environment "%s" 
+        module-unavailable: Warning The following modules are not already available in your local environment "%s"
     permission:
         description: Generate module permissions
         help: The <info>generate:permissions</info> command helps you generate new permissions
@@ -342,4 +353,8 @@ commands:
     help: Update the console command to the latest version.
     messages:
       success: The console has been updated to the latest version.
-
+  site:
+    status:
+      description: View current Drupal Installation status
+      arguments:
+        fields-group: Show a set of fields groupping by type All available groups are: version, database, theme, directories

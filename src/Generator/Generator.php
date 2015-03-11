@@ -1,15 +1,13 @@
 <?php
 
-/*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+/**
+ * @file
+ * Contains \Drupal\AppConsole\Generator\Generator.
  */
 
 namespace Drupal\AppConsole\Generator;
+
+use Drupal\AppConsole\Utils\StringUtils;
 
 class Generator
 {
@@ -20,6 +18,8 @@ class Generator
     private $translator;
 
     private $files;
+
+    private $learning = false;
 
     /**
      * Sets an array of directories to look for templates.
@@ -34,14 +34,19 @@ class Generator
         $this->skeletonDirs = is_array($skeletonDirs) ? $skeletonDirs : array($skeletonDirs);
     }
 
+    /**
+     * @param string $template
+     * @param array $parameters
+     * @return string
+     */
     protected function render($template, $parameters)
     {
-        $twig = new \Twig_Environment(new \Twig_Loader_Filesystem($this->skeletonDirs), array(
+        $twig = new \Twig_Environment(new \Twig_Loader_Filesystem($this->skeletonDirs), [
           'debug' => true,
           'cache' => false,
           'strict_variables' => true,
           'autoescape' => false,
-        ));
+        ]);
 
         $twig->addFunction($this->getServicesAsParameters());
         $twig->addFunction($this->getServicesAsParametersKeys());
@@ -49,10 +54,19 @@ class Generator
         $twig->addFunction($this->getServicesClassInitialization());
         $twig->addFunction($this->getServicesClassInjection());
         $twig->addFunction($this->getTagsAsArray());
+        $twig->addFunction($this->getTranslationAsYamlComment());
+        $twig->addFilter($this->createMachineName());
 
         return $twig->render($template, $parameters);
     }
 
+    /**
+     * @param string $template
+     * @param string $target
+     * @param array $parameters
+     * @param null $flag
+     * @return bool
+     */
     protected function renderFile($template, $target, $parameters, $flag = null)
     {
         if (!is_dir(dirname($target))) {
@@ -68,6 +82,11 @@ class Generator
         return false;
     }
 
+    /**
+     * @param string $template
+     * @param array $parameters
+     * @return string
+     */
     protected function renderView($template, $parameters)
     {
         return $this->render($template, $parameters);
@@ -122,16 +141,27 @@ class Generator
         return $this->getModulePath($module_name) . '/src/Entity';
     }
 
+    /**
+     * @param string $module_name
+     * @return string
+     */
     public function getTemplatePath($module_name)
     {
         return $this->getModulePath($module_name) . '/templates';
     }
 
+    /**
+     * @param string $module_name
+     * @return string
+     */
     public function getTranslationsPath($module_name)
     {
         return $this->getModulePath($module_name) . '/config/translations';
     }
 
+    /**
+     * @return \Twig_SimpleFunction
+     */
     public function getServicesAsParameters()
     {
         $servicesAsParameters = new \Twig_SimpleFunction('servicesAsParameters', function ($services) {
@@ -146,6 +176,9 @@ class Generator
         return $servicesAsParameters;
     }
 
+    /**
+     * @return \Twig_SimpleFunction
+     */
     public function getServicesAsParametersKeys()
     {
         $servicesAsParametersKeys = new \Twig_SimpleFunction('servicesAsParametersKeys', function ($services) {
@@ -160,6 +193,9 @@ class Generator
         return $servicesAsParametersKeys;
     }
 
+    /**
+     * @return \Twig_SimpleFunction
+     */
     public function getArgumentsFromRoute()
     {
         $argumentsFromRoute = new \Twig_SimpleFunction('argumentsFromRoute', function ($route) {
@@ -176,6 +212,9 @@ class Generator
         return $argumentsFromRoute;
     }
 
+    /**
+     * @return \Twig_SimpleFunction
+     */
     public function getServicesClassInitialization()
     {
         $returnValue = new \Twig_SimpleFunction('serviceClassInitialization', function ($services) {
@@ -190,6 +229,9 @@ class Generator
         return $returnValue;
     }
 
+    /**
+     * @return \Twig_SimpleFunction
+     */
     public function getServicesClassInjection()
     {
         $returnValue = new \Twig_SimpleFunction('serviceClassInjection', function ($services) {
@@ -204,6 +246,9 @@ class Generator
         return $returnValue;
     }
 
+    /**
+     * @return \Twig_SimpleFunction
+     */
     public function getTagsAsArray()
     {
         $returnValue = new \Twig_SimpleFunction('tagsAsArray', function ($tags) {
@@ -216,6 +261,40 @@ class Generator
         });
 
         return $returnValue;
+    }
+
+    public function getTranslationAsYamlComment()
+    {
+        $returnValue = new \Twig_SimpleFunction('yaml_comment', function (\Twig_Environment $environment, $context, $key) {
+            $message = $this->translator->trans($key);
+            $messages = explode("\n", $message);
+            $returnValues = [];
+            foreach ($messages as $message) {
+                $returnValues[] = '# ' . $message;
+            }
+
+            $message = implode("\n", $returnValues);
+            $environment->setLoader(new \Twig_Loader_String());
+
+            return $environment->render($message, $context);
+        }, [
+          'needs_environment' => true,
+          'needs_context' => true,
+        ]);
+
+        return $returnValue;
+    }
+
+    /**
+     * @return \Twig_SimpleFilter
+     */
+    public function createMachineName()
+    {
+        $string = new StringUtils();
+
+        return new \Twig_SimpleFilter('machine_name', function ($var) use ($string) {
+            return $string->createMachineName($var);
+        });
     }
 
     public function setTranslator($translator)
@@ -231,5 +310,15 @@ class Generator
     public function getFiles()
     {
         return $this->files;
+    }
+
+    public function setLearning($learning)
+    {
+        $this->learning = $learning;
+    }
+
+    public function isLearning()
+    {
+        return $this->learning;
     }
 }

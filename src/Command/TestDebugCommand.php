@@ -16,25 +16,24 @@ class TestDebugCommand extends ContainerAwareCommand
 {
 
     /**
-      * {@inheritdoc}
-      */
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
-        ->setName('test:debug')
-        ->setDescription($this->trans('commands.test.debug.description'))
-        ->addArgument('test-id', InputArgument::OPTIONAL,
-          $this->trans('commands.test.debug.arguments.resource-id'))
-        ->addOption('group', '', InputOption::VALUE_OPTIONAL,
-          $this->trans('commands.test.debug.options.group'))
-        ;
+          ->setName('test:debug')
+          ->setDescription($this->trans('commands.test.debug.description'))
+          ->addArgument('test-id', InputArgument::OPTIONAL,
+            $this->trans('commands.test.debug.arguments.resource-id'))
+          ->addOption('group', '', InputOption::VALUE_OPTIONAL,
+            $this->trans('commands.test.debug.options.group'));
 
         $this->addDependency('simpletest');
     }
 
     /**
-      * {@inheritdoc}
-      */
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $test_id = $input->getArgument('test-id');
@@ -71,22 +70,22 @@ class TestDebugCommand extends ContainerAwareCommand
     }
 
     /**
-      * @param $output         OutputInterface
-      * @param $table          TableHelper
-      * @param $config_name    String
-    */
+     * @param $output         OutputInterface
+     * @param $table          TableHelper
+     * @param $config_name    String
+     */
     protected function getAllTests($output, $table, $group)
     {
         $testing_groups = $this->getTestDiscovery()->getTestClasses(null);
 
         $table->setHeaders(
-            [
+          [
             $this->trans('commands.test.debug.messages.id'),
             $this->trans('commands.test.debug.messages.group'),
-            ]);
+          ]);
 
         foreach ($testing_groups as $testing_group => $tests) {
-            if(!empty($group) && $group != $testing_group) {
+            if (!empty($group) && $group != $testing_group) {
                 continue;
             }
 
@@ -96,5 +95,5 @@ class TestDebugCommand extends ContainerAwareCommand
         }
 
         $table->render($output);
-      }
-  }
+    }
+}

@@ -40,12 +40,12 @@ class ServiceGenerator extends Generator
           $parameters
         );
 
-        if($interface) {
-          $this->renderFile(
-            'module/src/service-interface.php.twig',
-            $this->getModulePath($module) . '/src/' . $class_name . 'Interface.php',
-            $parameters
-          );
+        if ($interface) {
+            $this->renderFile(
+              'module/src/service-interface.php.twig',
+              $this->getModulePath($module) . '/src/' . $class_name . 'Interface.php',
+              $parameters
+            );
         }
     }
 }

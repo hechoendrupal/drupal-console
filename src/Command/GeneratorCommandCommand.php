@@ -82,15 +82,21 @@ class GeneratorCommandCommand extends GeneratorCommand
         }
         $input->setOption('command', $command);
 
-        // --name option
+        // --class-name option
         $class_name = $input->getOption('class-name');
         if (!$class_name) {
-            $class_name = $dialog->ask($output,
-              $dialog->getQuestion($this->trans('commands.generate.command.questions.class-name'), 'DefaultCommand'),
-              'DefaultCommand'
+            $class_name = $dialog->askAndValidate(
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.command.questions.class-name'), 'DefaultCommand'),
+                function ($class_name) {
+                  return $this->validateClassName($class_name);
+                },
+                false,
+                'DefaultCommand',
+                null
             );
+            $input->setOption('class-name', $class_name);
         }
-        $input->setOption('class-name', $class_name);
 
         // --container option
         $container = $input->getOption('container');

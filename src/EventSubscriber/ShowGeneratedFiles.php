@@ -11,7 +11,6 @@ use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Drupal\AppConsole\Command\Command;
 use Drupal\AppConsole\Command\GeneratorCommand;
 
 class ShowGeneratedFiles implements EventSubscriberInterface
@@ -44,7 +43,7 @@ class ShowGeneratedFiles implements EventSubscriberInterface
     }
 
     /**
-     * @param ConsoleCommandEvent $event
+     * @param ConsoleTerminateEvent $event
      */
     public function showGeneratedFiles(ConsoleTerminateEvent $event)
     {
@@ -70,7 +69,7 @@ class ShowGeneratedFiles implements EventSubscriberInterface
         if ($command instanceof GeneratorCommand) {
             $files = $command->getGenerator()->getFiles();
             if ($files) {
-                $command->showGeneratedFiles($output, $files);
+                $messageHelper->showGeneratedFiles($output, $files);
                 $completedMessageKey = 'application.console.messages.generated.completed';
             }
         }
