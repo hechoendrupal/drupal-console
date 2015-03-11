@@ -473,13 +473,17 @@ commands:
         updated: Override Value
     status:
       description: View current Drupal Installation status
-      arguments:
-        fields-group: Show a set of fields groupping by type. All available groups are: version, database, theme, directories
-      options:
-        all: Show all available groups data in the report, even if there are a lot.
-        format: |
-          You can modify the output format for the report. To do so, you use the --format and
-          specify one of the supported output formats: default key-value, json, csv
+      messages:
+        application: Application
+        system: System Info
+        database: Database connection
+        driver: Driver
+        host: Host
+        database: Database
+        port: Port
+        username: Username
+        password: Password
+        connection: Connection
     maintenance:
       description: Switch site into maintenance mode
       arguments:
