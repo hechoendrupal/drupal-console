@@ -29,6 +29,13 @@ class SiteStatusCommand extends ContainerAwareCommand
       'password'
     ];
 
+    protected $groups = [
+      'system',
+      'database',
+      'theme',
+      'directory'
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -37,6 +44,13 @@ class SiteStatusCommand extends ContainerAwareCommand
         $this
           ->setName('site:status')
           ->setDescription($this->trans('commands.site.status.description'))
+          ->addOption(
+            'format',
+            null,
+            InputOption::VALUE_OPTIONAL,
+            $this->trans('commands.site.status.options.format'),
+            'table'
+          );
         ;
     }
 
@@ -45,121 +59,74 @@ class SiteStatusCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $systemManager = $this->getSystemManager();
-        $requirements = $systemManager->listRequirements();
+        $systemData = $this->getSystemData();
+        $connectionData = $this->getConnectionData();
+        $themeInfo = $this->getThemeData();
+        $directoryData = $this->getDirectoryData();
 
-        $table = $this->getHelperSet()->get('table');
+        $siteData = array_merge($systemData, $connectionData, $themeInfo, $directoryData);
 
-        $table->setlayout($table::LAYOUT_COMPACT);
+        $format = $input->getOption('format');
 
-        $table->addRow([
-          sprintf(
-            '<comment>%s</comment>',
-            $this->trans('commands.site.status.messages.application')
-          ),
-          null
-        ]);
-        $table->addRow([
-          'Drupal Console',
-          $this->getApplication()->getVersion()
-        ]);
-        $table->addRow([null, null]);
-
-        $table->addRow([
-          sprintf(
-            '<comment>%s</comment>',
-            $this->trans('commands.site.status.messages.system')
-          ),
-          null
-        ]);
-
-        foreach ($requirements as $requirement) {
-            $table->addRow([
-              $requirement['title'],
-              $requirement['value']
-            ]);
-        }
-        $table->addRow([null, null]);
-
-        $table->addRow([
-          sprintf(
-            '<comment>%s</comment>',
-            $this->trans('commands.site.status.messages.database')
-          ),
-          null
-        ]);
-
-        $connectionInfo = $this->getConnectionInfo();
-
-        foreach ($this->connectionInfoKeys as $connectionInfoKey) {
-            $table->addRow([
-              $this->trans('commands.site.status.messages.'.$connectionInfoKey),
-              $connectionInfo['default'][$connectionInfoKey]
-            ]);
+        if ('table' === $format) {
+            $this->showDataAsTable($output, $siteData);
         }
 
-        $table->addRow([
-          $this->trans('commands.site.status.messages.connection'),
-          sprintf(
-            '%s//%s:%s@%s%s/%s',
-            $connectionInfo['default']['driver'],
-            $connectionInfo['default']['username'],
-            $connectionInfo['default']['password'],
-            $connectionInfo['default']['host'],
-            $connectionInfo['default']['port'] ? ':'. $connectionInfo['default']['port'] :'',
-            $connectionInfo['default']['database']
-          )
-        ]);
-
-        $table->addRow([null, null]);
-        $table->addRow([
-          sprintf(
-            '<comment>%s</comment>',
-            $this->trans('commands.site.status.messages.themes')
-          ),
-          null
-        ]);
-
-        $themes = $this->getThemesInfo();
-        foreach ($themes as $key => $theme) {
-            $table->addRow([
-              $this->trans('commands.site.status.messages.'.$key),
-              $theme
-            ]);
+        if ('json' === $format) {
+            $output->writeln(json_encode($siteData, JSON_PRETTY_PRINT));
         }
-
-        $table->addRow([null, null]);
-        $table->addRow([
-          sprintf(
-            '<comment>%s</comment>',
-            $this->trans('commands.site.status.messages.directories')
-          ),
-          null
-        ]);
-
-        $directories = $this->getDirectoriesInfo();
-        foreach ($directories as $key => $directory) {
-            $table->addRow([
-              $this->trans('commands.site.status.messages.'.$key),
-              $directory
-            ]);
-        }
-
-        $table->render($output);
     }
 
-    protected function getThemesInfo()
+    protected function getSystemData()
+    {
+        $systemManager = $this->getSystemManager();
+        $requirements = $systemManager->listRequirements();
+        $requirementData = [];
+
+        foreach ($requirements as $key => $requirement) {
+            $requirementData['system'][$requirement['title']] = $requirement['value'];
+        }
+
+        return $requirementData;
+    }
+
+    protected function getConnectionData()
+    {
+        $connectionInfo = $this->getConnectionInfo();
+        $connectionData = [];
+
+        foreach ($this->connectionInfoKeys as $connectionInfoKey) {
+            $connectionKey = $this->trans('commands.site.status.messages.'.$connectionInfoKey);
+            $connectionData['database'][$connectionKey] = $connectionInfo['default'][$connectionInfoKey];
+        }
+
+        $connectionData['database'][$this->trans('commands.site.status.messages.connection')] = sprintf(
+          '%s//%s:%s@%s%s/%s',
+          $connectionInfo['default']['driver'],
+          $connectionInfo['default']['username'],
+          $connectionInfo['default']['password'],
+          $connectionInfo['default']['host'],
+          $connectionInfo['default']['port'] ? ':'. $connectionInfo['default']['port'] :'',
+          $connectionInfo['default']['database']
+        );
+
+        return $connectionData;
+    }
+
+    protected function getThemeData()
     {
         $configFactory = $this->getConfigFactory();
         $config = $configFactory->get('system.theme');
 
         return [
-          'theme_default' => $config->get('default'),
-          'theme_admin' => $config->get('admin')
+          'theme' => [
+            'theme_default' => $config->get('default'),
+            'theme_admin' => $config->get('admin')
+          ]
         ];
     }
 
-    protected function getDirectoriesInfo()
+    protected function getDirectoryData()
     {
         $drupalBootstrap = $this->getHelperSet()->get('bootstrap');
         $drupal_root = $drupalBootstrap->getDrupalRoot();
@@ -174,10 +141,41 @@ class SiteStatusCommand extends ContainerAwareCommand
         $systemFile = $this->getConfigFactory()->get('system.file');
 
         return [
-            'directory_root' => $drupal_root,
-            'directory_temporary' => $systemFile->get('path.temporary'),
-            'directory_theme_default' => '/'. $themeDefault->getpath(),
-            'directory_theme_admin' => '/' . $themeAdmin->getpath(),
+          'directory' => [
+            $this->trans('commands.site.status.messages.directory_root') => $drupal_root,
+            $this->trans('commands.site.status.messages.directory_temporary') => $systemFile->get('path.temporary'),
+            $this->trans('commands.site.status.messages.directory_theme_default') => '/'. $themeDefault->getpath(),
+            $this->trans('commands.site.status.messages.directory_theme_admin') => '/' . $themeAdmin->getpath(),
+          ]
         ];
+    }
+
+    protected function showDataAsTable($output, $siteData)
+    {
+        if (empty($siteData)) {
+            return [];
+        }
+
+        $table = $this->getHelperSet()->get('table');
+        $table->setlayout($table::LAYOUT_COMPACT);
+        foreach ($this->groups as $group) {
+            $groupData = $siteData[$group];
+            $table->addRow([
+              sprintf(
+                '<comment>%s</comment>',
+                $this->trans('commands.site.status.messages.'.$group)
+              ),
+              null
+            ]);
+
+            foreach ($groupData as $key => $item) {
+                $table->addRow([
+                  $key,
+                  $item
+                ]);
+            }
+        }
+
+        $table->render($output);
     }
 }
