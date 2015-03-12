@@ -29,19 +29,45 @@ trait PermissionTrait
                 $permission = $dialog->ask(
                   $output,
                   $dialog->getQuestion($this->trans('commands.generate.permission.options.permission'),
-                    'Access Content'),
-                  null
+                    'access content'),
+                  'access content'
                 );
-
-                if (empty($permission)) {
+                $title = $dialog->ask(
+                  $output,
+                  $dialog->getQuestion($this->trans('commands.generate.permission.options.title'),
+                    'Access Content'),
+                  'Access Content'
+                );
+                $description = $dialog->ask(
+                  $output,
+                  $dialog->getQuestion($this->trans('commands.generate.permission.options.description'),
+                    'Allow access to my content'),
+                  'Allow access to my content'
+                );
+                $restrictAccess = $dialog->ask(
+                  $output,
+                  $dialog->getQuestion($this->trans('commands.generate.permission.options.restrict-access'), 'false', '?'),
+                  'false'
+                );
+                if (!$dialog->askConfirmation(
+                  $output,
+                  $dialog->getQuestion($this->trans('commands.generate.permission.questions.add'), 'y', '?'),
+                  true
+                )) {
                     break;
                 }
+
+                if (empty($permission)) {
+
+                }
                 $permission = $this->getStringUtils()->camelCaseToLowerCase($permission);
-                $permission_title = $this->getStringUtils()->camelCaseToUcFirst($permission);
+                $title = $this->getStringUtils()->camelCaseToUcFirst($title);
 
                 array_push($permissions, array(
                   'permission' => $permission,
-                  'permission_title' => $permission_title,
+                  'title' => $title,
+                  'description' => $description,
+                  'restrict_access' => $restrictAccess,
                 ));
             }
 
