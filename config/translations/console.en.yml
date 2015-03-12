@@ -483,11 +483,11 @@ commands:
         port: Port
         username: Username
         password: Password
-        themes: Themes
+        theme: Themes
         connection: Connection
         theme_default: Default theme
         theme_admin: Admin theme
-        directories: Directories
+        directory: Directories
         directory_root: Site root directory
         directory_temporary: Site temporary directory
         directory_theme_default: Default theme directory
