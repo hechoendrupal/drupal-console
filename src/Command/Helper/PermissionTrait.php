@@ -25,25 +25,25 @@ trait PermissionTrait
         while (true) {
             $permission = $dialog->ask(
               $output,
-              $dialog->getQuestion($this->trans('commands.generate.permission.options.permission'),
+              $dialog->getQuestion($this->trans('commands.generate.permission.questions.permission'),
                 'access content'),
               'access content'
             );
             $title = $dialog->ask(
               $output,
-              $dialog->getQuestion($this->trans('commands.generate.permission.options.title'),
+              $dialog->getQuestion($this->trans('commands.generate.permission.questions.title'),
                 'Access Content'),
               'Access Content'
             );
             $description = $dialog->ask(
               $output,
-              $dialog->getQuestion($this->trans('commands.generate.permission.options.description'),
+              $dialog->getQuestion($this->trans('commands.generate.permission.questions.description'),
                 'Allow access to my content'),
               'Allow access to my content'
             );
             $restrictAccess = $dialog->ask(
               $output,
-              $dialog->getQuestion($this->trans('commands.generate.permission.options.restrict-access'),
+              $dialog->getQuestion($this->trans('commands.generate.permission.questions.restrict-access'),
                 'false', '?'),
               'false'
             );

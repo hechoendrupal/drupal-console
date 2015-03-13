@@ -21,7 +21,7 @@ class PermissionGenerator extends Generator
 
         $this->renderFile(
           'module/permission.yml.twig',
-          $this->getModulePath($module) . '/' . $module . '.permissions.yml',
+          $this->getModulePath($module).'/'.$module.'.permissions.yml',
           $parameters,
           FILE_APPEND
         );
@@ -31,13 +31,9 @@ class PermissionGenerator extends Generator
           $parameters
         );
 
-        if($this->isLearning()){
-            echo 'You can use this permission in the routing file like this:' . PHP_EOL;
+        if ($this->isLearning()) {
+            echo 'You can use this permission in the routing file like this:'.PHP_EOL;
             echo $content;
         }
-
-
-
-
     }
 }
