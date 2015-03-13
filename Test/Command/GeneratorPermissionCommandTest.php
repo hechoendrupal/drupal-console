@@ -32,7 +32,9 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
         $permissions = [
           [
             'permission' => 'my permission',
-            'permission_title' => 'My permission',
+            'title' => 'My permission',
+            'description' => 'Allow Access to my permission',
+            'restrict_access' => 'false',
           ]
         ];
 
@@ -45,7 +47,7 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
               // Expected options
             ['foo', $permissions, true],
               // User input options
-            "foo\nyes\nMy Permission\n",
+            "foo\nmy permission\nMy permission\nAllow Access to my permission\nfalse\nn",
           ],
             // case two
           [
@@ -54,7 +56,7 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
               // Expected options
             ['foo', $permissions, true],
               // User input options
-            "foo\nyes\nMy Permission\n",
+            "my permission\nMy permission\nAllow Access to my permission\nfalse\nn",
           ],
         ];
     }
