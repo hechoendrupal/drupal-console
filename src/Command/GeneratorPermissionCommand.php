@@ -42,11 +42,15 @@ class GeneratorPermissionCommand extends GeneratorCommand
     {
         $module = $input->getOption('module');
         $permissions = $input->getOption('permissions');
-        $permission_title = $input->getOption('permissions');
 
-        $this
-          ->getGenerator()
-          ->generate($module, $permissions, $permission_title);
+        $learning = false;
+        if ($input->hasOption('learning')) {
+            $learning = $input->getOption('learning');
+        }
+
+        $generator = $this->getGenerator();
+        $generator->setLearning($learning);
+        $generator->generate($module, $permissions);
     }
 
     /**
