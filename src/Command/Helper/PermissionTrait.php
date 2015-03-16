@@ -44,7 +44,7 @@ trait PermissionTrait
             $restrictAccess = $dialog->ask(
               $output,
               $dialog->getQuestion($this->trans('commands.generate.permission.questions.restrict-access'),
-                'false', '?'),
+                'false, true or none', '?'),
               'false'
             );
 

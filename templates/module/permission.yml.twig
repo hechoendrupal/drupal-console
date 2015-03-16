@@ -3,6 +3,8 @@
 {{ permission.permission }}:
   title: '{{ permission.title }}'
   description: '{{ permission.description }}'
+{% if  permission.restrict_access != 'none' %}
   restrict access: {{ permission.restrict_access }}
+{% endif %}
 {% endfor %}
 {% endif %}
