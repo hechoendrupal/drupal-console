@@ -32,8 +32,8 @@ trait PermissionTrait
             $title = $dialog->ask(
               $output,
               $dialog->getQuestion($this->trans('commands.generate.permission.questions.title'),
-                'Access Content'),
-              'Access Content'
+                'Access content'),
+              'Access content'
             );
             $description = $dialog->ask(
               $output,
@@ -48,9 +48,8 @@ trait PermissionTrait
               'false'
             );
 
-            $permission = $this->getStringUtils()
-              ->camelCaseToLowerCase($permission);
-            $title = $this->getStringUtils()->camelCaseToUcFirst($title);
+            $permission = $this->getStringUtils()->camelCaseToLowerCase($permission);
+            $title = $this->getStringUtils()->anyCaseToUcFirst($title);
 
             array_push($permissions, array(
               'permission' => $permission,
