@@ -83,7 +83,7 @@ class StringUtils extends Helper
      * @param  String $permission_title User input
      * @return String
      */
-    public function camelCaseToUcFirst($permission_title)
+    public function anyCaseToUcFirst($permission_title)
     {
         return ucfirst(preg_replace(self::REGEX_SPACES, ' ', $permission_title));
     }
