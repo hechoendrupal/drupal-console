@@ -55,6 +55,12 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
           ->setMethods(['showMessages', 'showMessage'])
           ->getMock();
 
+        $chain = $this
+          ->getMockBuilder('Drupal\AppConsole\Command\Helper\ChainCommandHelper')
+          ->disableOriginalConstructor()
+          ->setMethods(['addCommand', 'getCommands'])
+          ->getMock();
+
         return new HelperSet([
           'formatter' => new FormatterHelper(),
           'bootstrap' => $bootstrap,
@@ -62,7 +68,8 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
           'stringUtils' => $stringUtils,
           'validators' => $validators,
           'translator' => $translator,
-          'message' => $message
+          'message' => $message,
+          'chain' => $chain,
         ]);
     }
 
