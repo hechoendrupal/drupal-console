@@ -20,6 +20,8 @@ class StringUtils extends Helper
     const REGEX_CAMEL_CASE_UNDER = '/([a-z])([A-Z])/';
     // This REGEX captures spaces around words
     const REGEX_SPACES = '/\s\s+/';
+    // This REGEX captures spaces, and comma, and combinations with comma and space *, *
+    const REGEX_COMMAS_SPACES = '/[\s,]+/';
 
     /**
      * Replaces non alphanumeric characters with underscores
@@ -49,13 +51,24 @@ class StringUtils extends Helper
     }
 
     /**
-     *  Converts camel-case strings to under-score format
+     * Converts camel-case strings to under-score format
      * @param  String $camel_case User input
      * @return String
      */
     public function camelCaseToUnderscore($camel_case)
     {
         return strtolower(preg_replace(self::REGEX_CAMEL_CASE_UNDER, '$1_$2', $camel_case));
+    }
+
+    /**
+     * Converts camel-case strings to comma separated format. Single quotes wrap each value
+     * @param  String $camel_case User input
+     * @return String
+     */
+    public function camelCaseToCommaSeparated($camel_case)
+    {
+        $camel_case_name = strtolower(preg_replace(self::REGEX_COMMAS_SPACES, '\', \'', $camel_case));
+        return $camel_case_name;
     }
 
     public function getName()
@@ -69,22 +82,26 @@ class StringUtils extends Helper
     }
 
     /**
-     * Converts My Name to my name. For permissions
-     * @param  String $permission User input
+     * Converts string to lower case, single space, and trims string.
+     * @param  String $string User input
      * @return String
      */
-    public function camelCaseToLowerCase($permission)
+    public function camelCaseToLowerCase($string)
     {
-        return strtolower(preg_replace(self::REGEX_SPACES, ' ', $permission));
+        return strtolower(preg_replace(self::REGEX_SPACES, ' ', $string));
     }
 
     /**
-     * Convert the first character of upper case. For permissions
-     * @param  String $permission_title User input
+     * Converts the first character of string to Upper case and trims the string.
+     * @param  String $string User input
      * @return String
      */
-    public function camelCaseToUcFirst($permission_title)
+    public function anyCaseToUcFirst($string)
     {
-        return ucfirst(preg_replace(self::REGEX_SPACES, ' ', $permission_title));
+        $string = preg_replace(self::REGEX_SPACES, ' ', $string);
+        $string = strtolower($string);
+        $string = ucfirst($string);
+
+        return $string;
     }
 }

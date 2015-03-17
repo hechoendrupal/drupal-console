@@ -2,6 +2,8 @@
 /**
  * @file
  * Contains Drupal\AppConsole\Command\GeneratorPermissionCommand.
+ *
+ * TODO: Update routing.yml with permission(s).
  */
 
 namespace Drupal\AppConsole\Command;

@@ -85,7 +85,7 @@ trait FormTrait
                 if (in_array($input_type, array('checkboxes', 'radios', 'select'))) {
                     $input_options = $dialog->ask(
                       $output,
-                      $dialog->getQuestion(' Input options separated by comma', '', ':'),
+                      $dialog->getQuestion(' Input options separated by commas', '', ':'),
                       null
                     );
                 }

@@ -32,6 +32,9 @@ commands:
       tags: Set service tags from the container.
       inputs: Create inputs in a form.
       permissions: Create permissions.
+      columns: Create columns.
+      primary-key: Create a primary key.
+      indexes: Create an index or indexes.
     questions:
       module: Enter the module name
       confirm: Do you confirm generation
@@ -49,8 +52,31 @@ commands:
         machine_name: Input machine name
         permission: Do you want to generate permissions
         type: Type
-        invalid: Field Type "%s" is invalid.
+        invalid: Column Type "%s" is invalid.
         description: Description
+      columns:
+        confirm: Do you want to generate columns
+        column_name: Column name
+        column_unsigned: Unsigned or signed
+        column_not_null: Not null or null
+        column_default: Default
+        column_size: Size
+        column_type: Type
+        column_length: Length
+        column_type_invalid: Column Type "%s" is invalid.
+        column_length_invalid: Column Length "%s" is invalid.
+        column_unsigned_invalid: Unsigned Type "%s" is invalid. Must be TRUE, FALSE, or None.
+        column_not_null_invalid: Null Type "%s" is invalid. Must be TRUE, FALSE, or None.
+        column_default_invalid: Default Type "%s" is invalid. Must be '', 0, 1 or None.
+        column_size_invalid: Size Type "%s" is invalid.
+        column_description: Column Description
+        confirm_primary_key: Do you want to generate a primary key
+        table_primary_key: Enter a primary key. Multivalued primary keys separated by commas or spaces.
+        table_primary_key_invalid: Primary key requires a value.
+        confirm_table_index: Do you want to generate a index(es)
+        confirm_index: Do you want to generate index(es)
+        index_name: Enter an index. Multivalued indexes separated by commas or spaces.
+        index_name_invalid: The index requires a value.
     errors:
       module-dependency: Missing module dependency "%s"
       class-name-empty: The Class name can not be empty
@@ -178,6 +204,20 @@ commands:
         services: common.questions.services
         inputs: common.questions.inputs
         routing: Update routing file
+    column:
+      description: Generate a custom table.
+      help: The <info>generate:install</info> command helps you generate a new custom table.
+      welcome: Welcome to the Drupal form generator
+      options:
+        module: common.options.module
+        table-name: Enter the table name
+        table-description: Enter the table description.
+        columns: common.options.columns
+      questions:
+        module: common.questions.module
+        table-name: Enter the table name
+        table-description: Enter the table description.
+        columns: common.questions.columns
     module:
       description: Generate a module.
       help: The <info>generate:module</info> command helps you generates a new module.
@@ -207,14 +247,14 @@ commands:
       errors:
         directory-exists: The target directory "%s" is not empty.
     permission:
-        description: Generate module permissions
-        help: The <info>generate:permissions</info> command helps you generate new permissions
-        options:
-          module: common.options.module
-          permission: Enter a permission
-        questions:
-          module: common.questions.module
-          permission: Enter a permission
+      description: Generate module permissions
+      help: The <info>generate:permissions</info> command helps you generate new permissions
+      options:
+        module: common.options.module
+        permission: Enter a permission
+      questions:
+        module: common.questions.module
+        permission: Enter a permission
     plugin:
       block:
         description: Generate a plugin block

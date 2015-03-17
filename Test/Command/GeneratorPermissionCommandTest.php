@@ -12,6 +12,10 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
 {
     /**
      * @dataProvider getInteractiveData
+     *
+     * @param $options
+     * @param $expected
+     * @param $input
      */
     public function testInteractive($options, $expected, $input)
     {
@@ -41,7 +45,6 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
           [
               // Inline options
             [],
-              // Expected options
               // Expected options
             ['foo', $permissions, true],
               // User input options
