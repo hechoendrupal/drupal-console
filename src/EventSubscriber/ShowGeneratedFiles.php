@@ -60,8 +60,6 @@ class ShowGeneratedFiles implements EventSubscriberInterface
             return;
         }
 
-        $completedMessageKey = 'application.console.messages.completed';
-
         if ('self-update' == $command->getName()) {
             return;
         }
@@ -70,13 +68,7 @@ class ShowGeneratedFiles implements EventSubscriberInterface
             $files = $command->getGenerator()->getFiles();
             if ($files) {
                 $messageHelper->showGeneratedFiles($output, $files);
-                $completedMessageKey = 'application.console.messages.generated.completed';
             }
-        }
-
-        $completedMessage = $this->trans->trans($completedMessageKey);
-        if ($completedMessage != $completedMessageKey) {
-            $messageHelper->showMessage($output, $completedMessage);
         }
     }
 }
