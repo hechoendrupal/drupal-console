@@ -19,7 +19,6 @@ class CacheRebuildCommand extends ContainerAwareCommand
         $this
           ->setName('cache:rebuild')
           ->setDescription($this->trans('commands.cache.rebuild.description'))
-          ->setAliases(['cr'])
           ->addOption('cache', null, InputOption::VALUE_OPTIONAL, $this->trans('commands.cache.rebuild.options.cache'),
             '');
     }
@@ -42,6 +41,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
         }
 
         // Start rebuilding cache
+        $output->writeln('');
         $output->writeln('[+] <comment>' . $this->trans('commands.cache.rebuild.messages.rebuild') . '</comment>');
 
         // Get data needed to rebuild cache
