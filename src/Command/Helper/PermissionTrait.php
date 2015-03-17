@@ -22,6 +22,7 @@ trait PermissionTrait
       HelperInterface $dialog
     ) {
         $permissions = [];
+        $boolOrNone = ['true','false','none'];
         while (true) {
             $permission = $dialog->ask(
               $output,
@@ -41,11 +42,22 @@ trait PermissionTrait
                 'Allow access to my content'),
               'Allow access to my content'
             );
-            $restrictAccess = $dialog->ask(
+            $restrictAccess = $dialog->askAndValidate(
               $output,
               $dialog->getQuestion($this->trans('commands.generate.permission.questions.restrict-access'),
-                'false, true or none', '?'),
-              'false'
+                'none', '?'),
+              function ($answer) use ($boolOrNone) {
+                  if (!in_array($answer, $boolOrNone)) {
+                      throw new \RuntimeException(
+                        'The values can be true, false or none'
+                      );
+                  }
+
+                  return $answer;
+              },
+              false,
+              'none',
+              $boolOrNone
             );
 
             $permission = $this->getStringUtils()->camelCaseToLowerCase($permission);
@@ -61,7 +73,7 @@ trait PermissionTrait
             if (!$dialog->askConfirmation(
               $output,
               $dialog->getQuestion($this->trans('commands.generate.permission.questions.add'),
-                'y', '?'),
+                'yes', '?'),
               true
             )
             ) {
