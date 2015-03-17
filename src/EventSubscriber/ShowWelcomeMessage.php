@@ -43,14 +43,17 @@ class ShowWelcomeMessage implements EventSubscriberInterface
 
         if ($command instanceof Command) {
             $dependencies = $command->getDependencies();
-            foreach ($dependencies as $dependency) {
-                if (\Drupal::moduleHandler()->moduleExists($dependency) === false) {
-                    $errorMessage = sprintf(
-                      $this->trans->trans('commands.common.errors.module-dependency'),
-                      $dependency
-                    );
-                    $messageHelper->showMessage($output, $errorMessage, 'error');
-                    $event->disableCommand();
+
+            if ($dependencies) {
+                foreach ($dependencies as $dependency) {
+                    if (\Drupal::moduleHandler()->moduleExists($dependency) === false) {
+                        $errorMessage = sprintf(
+                          $this->trans->trans('commands.common.errors.module-dependency'),
+                          $dependency
+                        );
+                        $messageHelper->showMessage($output, $errorMessage, 'error');
+                        $event->disableCommand();
+                    }
                 }
             }
         }
