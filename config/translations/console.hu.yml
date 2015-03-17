@@ -5,6 +5,16 @@ application:
       generated:
         files: Létrehozott fájlok
         completed: A létrehozott kód használatra alkalmas!
+      learning:
+        route: |
+          Oldalak létrehozásához szükséges útvonal (route) meghatározása.
+          A route határozza meg, hogy egy adott URL-t mely Controllernek adjuk át.
+          Mely metődust hív meg az adtt URL.
+          Ha a felhasználó betölti a http://drupal8.dev/{{ route }}, a route
+          rendszer ellenőtzi, hogy mely route tartozik az URL-hez. Találat esetén
+          végrehajtja a _controller hívást. A hívás osztálynévként van definiálva
+          ("\Drupal\{{ module }}\Controller\{{ class_name }}")
+          metódus neve: ("{{ method_name }}").
     errors:
       invalid-command: A "%s" parancs nincs definiálva.
   site:
@@ -460,6 +470,27 @@ commands:
         configuration-key: Konfiguráció kulcs
         original: Eredeti érték
         updated: Módisított érték
+    status:
+      description: A jelenlegi Drupal telepítés állapotának megtekintése
+      messages:
+        application: Applikáció
+        system: Rendszer Információk
+        database: Adatbázis kapcsolat
+        driver: Meghajtó
+        host: Host
+        database: Adatbázis
+        port: Port
+        username: Felhasználói név
+        password: Jelszó
+        theme: Sminkek
+        connection: Kapcsolat
+        theme_default: Alapértelmezett smink
+        theme_admin: Admin smink
+        directory: Könyvtárak
+        directory_root: Oldal gyökérkönyvtára
+        directory_temporary: Oldal ideiglenes könyvtára
+        directory_theme_default: Alapértelmezett smink könyvtár
+        directory_theme_admin: Admin smink könyvtár
     maintenance:
       description: Oldal átállítása karbantartási módba
       arguments:
