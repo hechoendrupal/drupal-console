@@ -17,6 +17,9 @@ use Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper;
 use Drupal\AppConsole\EventSubscriber\ShowGeneratedFiles;
 use Drupal\AppConsole\EventSubscriber\ShowWelcomeMessage;
 use Drupal\AppConsole\Command\Helper\MessageHelper;
+use Drupal\AppConsole\Command\Helper\ChainCommandHelper;
+use Drupal\AppConsole\EventSubscriber\CallCommandListener;
+use Drupal\AppConsole\EventSubscriber\ShowCompletedMessageListener;
 
 set_time_limit(0);
 
@@ -51,13 +54,16 @@ $helpers = [
     'translator' => $translatorHelper,
     'drupal-autoload' => new DrupalAutoloadHelper(),
     'message' => new MessageHelper($translatorHelper),
+    'chain' => new ChainCommandHelper(),
 ];
 
 $application->addHelpers($helpers);
 
 $dispatcher = new EventDispatcher();
-$dispatcher->addSubscriber(new ShowGeneratedFiles($translatorHelper));
 $dispatcher->addSubscriber(new ShowWelcomeMessage($translatorHelper));
+$dispatcher->addSubscriber(new ShowGeneratedFiles($translatorHelper));
+$dispatcher->addSubscriber(new CallCommandListener());
+$dispatcher->addSubscriber(new ShowCompletedMessageListener($translatorHelper));
 
 $application->setDispatcher($dispatcher);
 $application->setDefaultCommand('list');
