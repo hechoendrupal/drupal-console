@@ -69,6 +69,8 @@ class GeneratorControllerCommand extends GeneratorCommand
         $generator = $this->getGenerator();
         $generator->setLearning($learning);
         $generator->generate($module, $class_name, $method_name, $route, $test, $build_services, $class_machine_name);
+
+        $this->getHelper('chain')->addCommand('router:rebuild');
     }
 
     /**
