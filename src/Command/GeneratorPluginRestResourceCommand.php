@@ -63,6 +63,8 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
 
         $this->getGenerator()
           ->generate($module, $class_name, $plugin_label, $plugin_id, $plugin_url, $plugin_states);
+
+        $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'discovery']);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
