@@ -1,9 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jmolivas
- * Date: 3/17/15
- * Time: 2:05 PM
+ * @file
+ * Contains \Drupal\AppConsole\EventSubscriber\CallCommandListener.
  */
 
 namespace Drupal\AppConsole\EventSubscriber;
