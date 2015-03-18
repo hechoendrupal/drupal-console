@@ -15,25 +15,6 @@ use Drupal\AppConsole\Command\GeneratorCommand;
 
 class ShowCompletedMessageListener implements EventSubscriberInterface
 {
-
-    /**
-     * @var TranslatorHelper
-     */
-    protected $trans;
-
-    /**
-     * @var string
-     */
-    protected $completedMessageKey = 'application.console.messages.completed';
-
-    /**
-     * @param TranslatorHelper $trans
-     */
-    public function __construct(TranslatorHelper $trans)
-    {
-        $this->trans = $trans;
-    }
-
     /**
      * @param ConsoleTerminateEvent $event
      */
@@ -45,6 +26,8 @@ class ShowCompletedMessageListener implements EventSubscriberInterface
 
         $application = $command->getApplication();
         $messageHelper = $application->getHelperSet()->get('message');
+        /** @var TranslatorHelper */
+        $translatorHelper = $application->getHelperSet()->get('translator');
 
         $messageHelper->showMessages($output);
 
@@ -62,7 +45,7 @@ class ShowCompletedMessageListener implements EventSubscriberInterface
             $completedMessageKey = 'application.console.messages.generated.completed';
         }
 
-        $completedMessage = $this->trans->trans($completedMessageKey);
+        $completedMessage = $translatorHelper->trans($completedMessageKey);
         if ($completedMessage != $completedMessageKey) {
             $messageHelper->showMessage($output, $completedMessage);
         }
