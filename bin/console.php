@@ -20,6 +20,7 @@ use Drupal\AppConsole\Command\Helper\MessageHelper;
 use Drupal\AppConsole\Command\Helper\ChainCommandHelper;
 use Drupal\AppConsole\EventSubscriber\CallCommandListener;
 use Drupal\AppConsole\EventSubscriber\ShowCompletedMessageListener;
+use Drupal\AppConsole\EventSubscriber\ValidateDependenciesListener;
 
 set_time_limit(0);
 
@@ -60,6 +61,7 @@ $helpers = [
 $application->addHelpers($helpers);
 
 $dispatcher = new EventDispatcher();
+$dispatcher->addSubscriber(new ValidateDependenciesListener());
 $dispatcher->addSubscriber(new ShowWelcomeMessage($translatorHelper));
 $dispatcher->addSubscriber(new ShowGeneratedFiles($translatorHelper));
 $dispatcher->addSubscriber(new CallCommandListener());
