@@ -64,6 +64,8 @@ class GeneratorServiceCommand extends GeneratorCommand
         $this
           ->getGenerator()
           ->generate($module, $service_name, $class_name, $interface, $build_services);
+
+        $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'all']);
     }
 
     /**
