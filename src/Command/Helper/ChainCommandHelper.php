@@ -16,12 +16,12 @@ class ChainCommandHelper extends Helper
 
     /**
      * @param $name      string
-     * @param $arguments array
+     * @param $inputs array
      */
-    public function addCommand($name, $arguments)
+    public function addCommand($name, $inputs = [])
     {
-        array_unshift($arguments, ['command' => $name]);
-        $this->commands[] = ['name' => $name, 'arguments' => $arguments];
+        array_unshift($inputs, ['command' => $name]);
+        $this->commands[] = ['name' => $name, 'inputs' => $inputs];
     }
 
     /**
