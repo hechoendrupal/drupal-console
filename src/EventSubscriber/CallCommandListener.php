@@ -37,7 +37,7 @@ class CallCommandListener implements EventSubscriberInterface
         foreach ($commands as $chainedCommand) {
             $callCommand = $application->find($chainedCommand['name']);
 
-            $input = new ArrayInput($chainedCommand['arguments']);
+            $input = new ArrayInput($chainedCommand['inputs']);
             $callCommand->run($input, $output);
         }
     }
