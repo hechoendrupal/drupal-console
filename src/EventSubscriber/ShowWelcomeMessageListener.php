@@ -11,9 +11,8 @@ use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Drupal\AppConsole\Command\Command;
 
-class ShowWelcomeMessage implements EventSubscriberInterface
+class ShowWelcomeMessageListener implements EventSubscriberInterface
 {
     /**
      * @param ConsoleCommandEvent $event
