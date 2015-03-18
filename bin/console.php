@@ -62,10 +62,10 @@ $application->addHelpers($helpers);
 
 $dispatcher = new EventDispatcher();
 $dispatcher->addSubscriber(new ValidateDependenciesListener());
-$dispatcher->addSubscriber(new ShowWelcomeMessage($translatorHelper));
-$dispatcher->addSubscriber(new ShowGeneratedFiles($translatorHelper));
+$dispatcher->addSubscriber(new ShowWelcomeMessage());
+$dispatcher->addSubscriber(new ShowGeneratedFiles());
 $dispatcher->addSubscriber(new CallCommandListener());
-$dispatcher->addSubscriber(new ShowCompletedMessageListener($translatorHelper));
+$dispatcher->addSubscriber(new ShowCompletedMessageListener());
 
 $application->setDispatcher($dispatcher);
 $application->setDefaultCommand('list');
