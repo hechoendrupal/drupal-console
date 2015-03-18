@@ -21,6 +21,7 @@ class RouterRebuildCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->writeln('');
         $output->writeln('[+] <comment>' . $this->trans('commands.router.rebuild.messages.rebuilding') . '</comment>');
         $container = $this->getContainer();
         $router_builder = $container->get('router.builder');
