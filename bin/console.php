@@ -14,8 +14,8 @@ use Symfony\Component\Yaml\Parser;
 use Drupal\AppConsole\Config;
 use Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper;
 use Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper;
-use Drupal\AppConsole\EventSubscriber\ShowGeneratedFiles;
-use Drupal\AppConsole\EventSubscriber\ShowWelcomeMessage;
+use Drupal\AppConsole\EventSubscriber\ShowGeneratedFilesListener;
+use Drupal\AppConsole\EventSubscriber\ShowWelcomeMessageListener;
 use Drupal\AppConsole\Command\Helper\MessageHelper;
 use Drupal\AppConsole\Command\Helper\ChainCommandHelper;
 use Drupal\AppConsole\EventSubscriber\CallCommandListener;
@@ -62,8 +62,8 @@ $application->addHelpers($helpers);
 
 $dispatcher = new EventDispatcher();
 $dispatcher->addSubscriber(new ValidateDependenciesListener());
-$dispatcher->addSubscriber(new ShowWelcomeMessage());
-$dispatcher->addSubscriber(new ShowGeneratedFiles());
+$dispatcher->addSubscriber(new ShowWelcomeMessageListener());
+$dispatcher->addSubscriber(new ShowGeneratedFilesListener());
 $dispatcher->addSubscriber(new CallCommandListener());
 $dispatcher->addSubscriber(new ShowCompletedMessageListener());
 
