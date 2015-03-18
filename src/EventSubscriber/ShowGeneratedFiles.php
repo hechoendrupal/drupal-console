@@ -7,7 +7,6 @@
 
 namespace Drupal\AppConsole\EventSubscriber;
 
-use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -15,34 +14,7 @@ use Drupal\AppConsole\Command\GeneratorCommand;
 
 class ShowGeneratedFiles implements EventSubscriberInterface
 {
-
-    /**
-     * @var TranslatorHelper
-     */
-    protected $trans;
-
-    /**
-     * @var string
-     */
-    protected $completedMessageKey = 'application.console.messages.completed';
-
-    /**
-     * @param TranslatorHelper $trans
-     */
-    public function __construct(TranslatorHelper $trans)
-    {
-        $this->trans = $trans;
-    }
-
-    /**
-     * @{@inheritdoc}
-     */
-    public static function getSubscribedEvents()
-    {
-        return [ConsoleEvents::TERMINATE => 'showGeneratedFiles'];
-    }
-
-    /**
+   /**
      * @param ConsoleTerminateEvent $event
      */
     public function showGeneratedFiles(ConsoleTerminateEvent $event)
@@ -70,5 +42,13 @@ class ShowGeneratedFiles implements EventSubscriberInterface
                 $messageHelper->showGeneratedFiles($output, $files);
             }
         }
+    }
+
+    /**
+     * @{@inheritdoc}
+     */
+    public static function getSubscribedEvents()
+    {
+        return [ConsoleEvents::TERMINATE => 'showGeneratedFiles'];
     }
 }
