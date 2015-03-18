@@ -56,6 +56,8 @@ class GeneratorPluginImageEffectCommand extends GeneratorCommand
         $this
           ->getGenerator()
           ->generate($module, $class_name, $label, $plugin_id, $description);
+
+        $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'discovery']);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

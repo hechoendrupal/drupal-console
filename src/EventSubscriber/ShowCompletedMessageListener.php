@@ -13,39 +13,12 @@ use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\AppConsole\Command\GeneratorCommand;
 
-class ShowGeneratedFiles implements EventSubscriberInterface
+class ShowCompletedMessageListener implements EventSubscriberInterface
 {
-
-    /**
-     * @var TranslatorHelper
-     */
-    protected $trans;
-
-    /**
-     * @var string
-     */
-    protected $completedMessageKey = 'application.console.messages.completed';
-
-    /**
-     * @param TranslatorHelper $trans
-     */
-    public function __construct(TranslatorHelper $trans)
-    {
-        $this->trans = $trans;
-    }
-
-    /**
-     * @{@inheritdoc}
-     */
-    public static function getSubscribedEvents()
-    {
-        return [ConsoleEvents::TERMINATE => 'showGeneratedFiles'];
-    }
-
     /**
      * @param ConsoleTerminateEvent $event
      */
-    public function showGeneratedFiles(ConsoleTerminateEvent $event)
+    public function showCompletedMessage(ConsoleTerminateEvent $event)
     {
         /** @var \Drupal\AppConsole\Command\Command $command */
         $command = $event->getCommand();
@@ -53,6 +26,8 @@ class ShowGeneratedFiles implements EventSubscriberInterface
 
         $application = $command->getApplication();
         $messageHelper = $application->getHelperSet()->get('message');
+        /** @var TranslatorHelper */
+        $translatorHelper = $application->getHelperSet()->get('translator');
 
         $messageHelper->showMessages($output);
 
@@ -67,16 +42,20 @@ class ShowGeneratedFiles implements EventSubscriberInterface
         }
 
         if ($command instanceof GeneratorCommand) {
-            $files = $command->getGenerator()->getFiles();
-            if ($files) {
-                $messageHelper->showGeneratedFiles($output, $files);
-                $completedMessageKey = 'application.console.messages.generated.completed';
-            }
+            $completedMessageKey = 'application.console.messages.generated.completed';
         }
 
-        $completedMessage = $this->trans->trans($completedMessageKey);
+        $completedMessage = $translatorHelper->trans($completedMessageKey);
         if ($completedMessage != $completedMessageKey) {
             $messageHelper->showMessage($output, $completedMessage);
         }
+    }
+
+    /**
+     * @{@inheritdoc}
+     */
+    public static function getSubscribedEvents()
+    {
+        return [ConsoleEvents::TERMINATE => 'showCompletedMessage'];
     }
 }
