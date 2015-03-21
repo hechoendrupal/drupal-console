@@ -10,18 +10,22 @@ use Symfony\Component\Console\Helper\Helper;
 
 class ChainCommandHelper extends Helper
 {
-
     /** @var $commands array */
     private $commands;
 
     /**
-     * @param $name      string
-     * @param $inputs array
+     * @param $name         string
+     * @param $inputs       array
+     * @param $interactive  boolean
+     * @param $learning     boolean
      */
-    public function addCommand($name, $inputs = [])
+    public function addCommand($name, $inputs = [], $interactive = null, $learning = null)
     {
-        array_unshift($inputs, ['command' => $name]);
-        $this->commands[] = ['name' => $name, 'inputs' => $inputs];
+        $inputs['command'] = $name;
+        if (!is_null($learning)) {
+            $inputs['--learning'] = $learning;
+        }
+        $this->commands[] = ['name' => $name, 'inputs' => $inputs, 'interactive' => $interactive];
     }
 
     /**
