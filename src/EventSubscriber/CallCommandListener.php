@@ -38,6 +38,9 @@ class CallCommandListener implements EventSubscriberInterface
             $callCommand = $application->find($chainedCommand['name']);
 
             $input = new ArrayInput($chainedCommand['inputs']);
+            if (!is_null($chainedCommand['interactive'])) {
+                $input->setInteractive($chainedCommand['interactive']);
+            }
             $callCommand->run($input, $output);
         }
     }
