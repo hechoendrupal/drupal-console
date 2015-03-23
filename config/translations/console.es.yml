@@ -1,7 +1,10 @@
 application:
   console:
     messages:
-      completed: You can now start using the generated code!
+      completed: Ahora puedes empezar a usar el código generado!
+      generated:
+        files: Generated files
+        completed: You can now start using the generated code!
       learning:
         route: |
           Con el fin de crear páginas es necesario definir rutas para ellas.
@@ -14,41 +17,43 @@ application:
           ("\Drupal\{{ module }}\Controller\{{ class_name }}")
           y un método ("{{ method_name }}").
     errors:
-      invalid-command: Command "%s" is not defined.
+      invalid-command: Comando "%s" no está definido.
   site:
+    messages:
+      path: Site path
     errors:
-      directory: In order to list all of the available commands, you should run this inside a drupal root directory.
-      settings: In order to list all of the available commands you should install drupal first.
+      directory: Para listar todos los comandos disponibles, debes estar dentro del directorio raiz de Drupal.
+      settings: Para listar todos los comandos disponibles primero debes instalar Drupal.
 commands:
   common:
     options:
       module: Nombre del módulo.
-      services: Load services from the container.
-      tags: Set service tags from the container.
-      inputs: Create inputs in a form.
-      permissions: Create permissions.
+      services: Cargar servicios desde el 'container'.
+      tags: Asignar etiquetas de servicio desde el contenedor.
+      inputs: Crear campos de entradas de formulario.
+      permissions: Crear permisos.
     questions:
       module: Escriba el nombre del módulo
-      confirm: Do you confirm generation
-      canceled: Command generation canceled.
+      confirm: Confirmar generacion
+      canceled: Comando de generacion cancelado.
       services:
         confirm: Deseas cargar los servicios del contenedor
         message: |
 
           Escriba el nombre del servicio o use la tecla keyup o keydown.
           Esto es opcional, presione <info>enter</info para <info>continuar</info>
-        name: Enter your service
+        name: Introduzca su servicio
       inputs:
-        confirm: Do you want to generate a form structure
-        label: Input label
-        machine_name: Input machine name
-        permission: Do you want to generate permissions
+        confirm: Quieres generar una estrctura de formulario
+        label: Etiquita del campo de entrada
+        machine_name: Introduzca el nombre de maquina
+        permission: Quieres generar permisos
         type: Tipo
-        invalid: Field Type "%s" is invalid.
-        description: Description
+        invalid: El campo de tipo "%s" es inválido.
+        description: Descripción
     errors:
-      module-dependency: Missing module dependency "%s"
-      class-name-empty: The Class name can not be empty
+      module-dependency: Depencia "%s" del modulo faltante
+      class-name-empty: El nombre de la Clase no puede estér psavia
   cache:
     rebuild:
       description: Reconstruye y limpia todas las cachés del sitio.
@@ -62,10 +67,34 @@ commands:
       questions:
         cache: Seleccione una caché.
   config:
+    export:
+      description: Export current application configuration.
+      arguments:
+        directory: Define export directory to save configuration output.
+      messages:
+        directory: Your configuration export file was stored in %s
     debug:
       description: Muestra la configuración actual.
       arguments:
-        config-name: Nombre de la configuración.
+        config-name: Configuration name.
+    override:
+      description: Override config value in active configuration.
+      arguments:
+        config-name: Configuration name.
+        key: Key
+        value: Value
+      messages:
+        configuration: Configuration name
+        configuration-key: Configuration key
+        original: Original Value
+        updated: Override Value
+    edit:
+      description: Edit the selected configuration.
+      arguments:
+        config-name: Configuration name.
+        editor: Editor.
+      messages:
+        no-directory: An error occurred while creating your directory at
   container:
     debug:
       description: Muestra los servicios actuales para una aplicación.
@@ -80,19 +109,26 @@ commands:
     messages:
       not_found: Comando de Drush no encontrado.
   generate:
+    authentication:
+      provider:
+        description: Generate an Authentication Provider
+        help: The <info>generate:authentication:provider</info> command helps you generate a new Authentication Provider.
+        options:
+        module: common.options.module
+        class-name: Authentication Provider class
     command:
       description: Genera un comando para la consola.
       help: El comando <info>generate:command</info> le ayudará a generar un nuevo comando.
       welcome: Bienvenido al generador de Comando de Drupal
       options:
         module: common.options.module
-        class-name: Command Class name
+        class-name: Nombre de la Clase de Comandos
         command: Nombre del Comando
         container: Acceso al contenedor de servicios
       questions:
         module: common.questions.module
-        class-name: Enter the Command Class name
-        command: Enter the Command name
+        class-name: Introduzca el nombre de la Clase de Comandos
+        command: Introduzca el nombre del Comando
         container: Necesita acceder al contenedor de servicios
     controller:
       description: Generar y registrar un controlador
@@ -113,21 +149,21 @@ commands:
         services: common.questions.services
         test: Desea generar una clase de prueba unitaria
     entity:
-      description: Generate a new "%s"
-      help: The <info>"%s"</info> command helps you generate a new "%s"
-      welcome: Welcome to the Drupal entity generator
+      description: Generar un nuevo "%s"
+      help: El <info>"%s"</info> comando te ayuda a generar a nuevo "%s"
+      welcome: Bienvenido al generador de comando de Drupal
       options:
         module: common.options.module
-        entity-class: The entity class name
-        entity-name: The name of the entity
+        entity-class: El nombre de la clase de la entidad
+        entity-name: El nombre de la entidad
       questions:
         module: common.questions.module
-        entity-class: Enter the entity class name
-        entity-name: Enter the entity name
+        entity-class: Introduzca el nombre de la clase de la entidad
+        entity-name: Introduzca el nombre de la entidad
     form:
-      description: Generate a new "%s"
-      help: The <info>"%s"</info> command helps you generate a new "%s"
-      welcome: Welcome to the Drupal form generator
+      description: Generar un nuevo "%s"
+      help: El <info>"%s"</info> comando te ayuda a generar un nuevo "%s"
+      welcome: Bienvenido al generador de formularios de Drupal
       options:
         module: common.options.module
         class-name: The form class name
@@ -143,8 +179,8 @@ commands:
         inputs: common.questions.inputs
         routing: Update routing file
     module:
-      description: Generate a module.
-      help: The <info>generate:module</info> command helps you generates a new module.
+      description: Generar a modulo.
+      help: The <info>generate:module</info> command helps you generates a new módulo.
       welcome: Welcome to the Drupal module generator
       options:
         module: The Module name
@@ -164,18 +200,24 @@ commands:
         core: Enter Drupal Core version
         package: Enter package name
         controller: Do you want to generate a default Controller
+        dependencies: Would you like to add module depencencies
         test: Do you want to generate a unit test class
       warnings:
         module-unavailable: Warning The following modules are not already available in your local environment "%s"
+      errors:
+        directory-exists: The target directory "%s" is not empty.
     permission:
         description: Generate module permissions
         help: The <info>generate:permissions</info> command helps you generate new permissions
         options:
           module: common.options.module
-          permission: Enter a permission
         questions:
           module: common.questions.module
           permission: Enter a permission
+          title: Enter a title for the permision
+          description: Enter a description for the permision
+          restrict-access: Restrict Access
+          add: Do you want add another permission
     plugin:
       block:
         description: Generate a plugin block
@@ -237,6 +279,28 @@ commands:
               plugin-states: Please select what REST States implement in your resource (GET is selected by default)
             messages:
               selected-states: States selected
+      rulesaction:
+        description: Generate a plugin rule action
+        help: The <info>generate:plugin:rulesaction</info> command helps you generate a new Plugin rule action.
+        welcome: Welcome to the Drupal Plugin Rules Action generator
+        options:
+          module: common.options.module
+          class-name: Plugin class name
+          label: Plugin label
+          plugin-id: Plugin id
+          inputs: common.options.inputs
+          services: common.options.services
+          category: Plugin category
+          context: Plugin context
+        questions:
+          module: common.questions.module
+          class-name: Enter the plugin class name
+          label: Enter the plugin label
+          plugin-id: Enter the plugin id
+          inputs: common.questions.inputs
+          services: common.questions.services
+          category: Enter plugin category
+          context: Enter plugin context
     service:
       description: Generate service
       help: The <info>generate:service</info> command helps you generate a new service.
@@ -245,11 +309,13 @@ commands:
         module: common.options.module
         service-name: Service name
         class-name: Class name
+        interface: Interface
         services: common.questions.services
       questions:
         module: common.questions.module
         service-name: Enter the service name
         class-name: Enter the Class name
+        interface: Create an interface
         services: common.options.services
   module:
     debug:
@@ -330,6 +396,51 @@ commands:
         import-fail: Import "%s" failed
         import-skipped: Import "%s" was skipped due to unfulfilled dependencies
         wrong-source: 'Upgrading from this version of Drupal is not supported.'
+  rest:
+    enable:
+      description: Enable a rest resource for the application
+      arguments:
+        resource-id: Rest ID
+        states: REST States to enable for Rest resource
+        autorizations: Autorizations providers enabled for Rest Resource
+
+      questions:
+        resource-id: Rest ID
+      messages:
+        invalid-rest-id: Rest ID %s is invalid
+        formats: Available serialization formats
+        authentication-providers: Available Authentication Providers
+        selected-state: Selected State
+        selected-formats: Selected formats
+        selected-authentication-providers: Selected Authentication Providers
+    disable:
+      description: Disable a rest resource for the application
+      arguments:
+        resource-id: Rest ID
+        states: REST States to disable for Rest resource
+
+      questions:
+        resource-id: Rest ID
+      messages:
+        invalid-rest-id: Rest ID %s is invalid
+    debug:
+      description: Display current rest resource for the application
+      arguments:
+        resource-id: Rest ID
+      options:
+        status: Rest resource status enabled | disabled
+      messages:
+        id: Rest ID
+        label: Label
+        canonical_url: Canonical URL
+        status: Status
+        provider: Provider
+        enabled: Enabled
+        disabled: Disabled
+        rest-state: REST States
+        supported-formats: Supported Formats
+        supported_auth: Supported Authentication Providers
+        not-found: Rest resource %s not found
   router:
     debug:
       description: Displays current routes for the application
@@ -354,7 +465,55 @@ commands:
     messages:
       success: The console has been updated to the latest version.
   site:
+    mode:
+      description: Switch system performance configuration
+      arguments:
+        environment: Enviroment name
+      messages:
+        configuration: Configuration name
+        configuration-key: Configuration key
+        original: Original Value
+        updated: Override Value
     status:
       description: View current Drupal Installation status
+      messages:
+        application: Application
+        system: System Info
+        database: Database connection
+        driver: Driver
+        host: Host
+        database: Database
+        port: Port
+        username: Username
+        password: Password
+        theme: Themes
+        connection: Connection
+        theme_default: Default theme
+        theme_admin: Admin theme
+        directory: Directories
+        directory_root: Site root directory
+        directory_temporary: Site temporary directory
+        directory_theme_default: Default theme directory
+        directory_theme_admin: Admin theme directory
+    maintenance:
+      description: Switch site into maintenance mode
       arguments:
-        fields-group: Show a set of fields groupping by type All available groups are: version, database, theme, directories
+        mode: Site maintenance mode
+      messages:
+        maintenance-on: Operating in maintenance mode on
+        maintenance-off: Operating in maintenance mode off
+      errors:
+        invalid-mode: Invalid maintance mode
+  test:
+    debug:
+      description: List Test Units available for the application.
+      help: Update the console command to the latest version.
+      arguments:
+        test-id: Test Unit ID
+      options:
+        group: Group
+      messages:
+        id: Test Unit ID
+        description: Description
+        group: Group
+        success: The console has been updated to the latest version.
