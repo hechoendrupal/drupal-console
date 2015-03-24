@@ -81,8 +81,15 @@ class ModuleDownloadCommand extends ContainerAwareCommand
         $release_selected = $questionHelper->ask($input, $output, $question);
 
         // Start the process to download the zip file of release and copy in contrib folter
-        $output->writeln('[+] <info>' . sprintf($this->trans('commands.module.download.messages.downloading'), $module,
-            $release_selected) . '</info>');
+        $output->writeln(
+          '[+] <info>' .
+          sprintf(
+            $this->trans('commands.module.download.messages.downloading'),
+            $module,
+            $release_selected
+          ) .
+          '</info>'
+        );
 
         $release_file_path = 'http://ftp.drupal.org/files/projects/' . $module . '-' . $release_selected . '.tar.gz';
 
