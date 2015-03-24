@@ -13,7 +13,6 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Yaml\Parser;
 use Drupal\AppConsole\Config;
 use Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper;
-use Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper;
 use Drupal\AppConsole\EventSubscriber\ShowGeneratedFilesListener;
 use Drupal\AppConsole\EventSubscriber\ShowWelcomeMessageListener;
 use Drupal\AppConsole\Command\Helper\MessageHelper;
@@ -45,7 +44,6 @@ $application = new Application($config);
 $application->setDirectoryRoot($consoleRoot);
 
 $helpers = [
-    'bootstrap' => new DrupalBootstrapHelper(),
     'kernel' => new KernelHelper(),
     'shell' => new ShellHelper(new Shell($application)),
     'dialog' => new DialogHelper(),
