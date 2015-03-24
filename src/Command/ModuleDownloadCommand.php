@@ -81,8 +81,15 @@ class ModuleDownloadCommand extends ContainerAwareCommand
         $release_selected = $questionHelper->ask($input, $output, $question);
 
         // Start the process to download the zip file of release and copy in contrib folter
-        $output->writeln('[+] <info>' . sprintf($this->trans('commands.module.download.messages.downloading'), $module,
-            $release_selected) . '</info>');
+        $output->writeln(
+          '[+] <info>' .
+          sprintf(
+            $this->trans('commands.module.download.messages.downloading'),
+            $module,
+            $release_selected
+          ) .
+          '</info>'
+        );
 
         $release_file_path = 'http://ftp.drupal.org/files/projects/' . $module . '-' . $release_selected . '.tar.gz';
 
@@ -93,8 +100,8 @@ class ModuleDownloadCommand extends ContainerAwareCommand
             $client->get($release_file_path, ['save_to' => $destination]);
 
             // Determine destination folder for contrib modules
-            $drupalBoostrap = $this->getHelperSet()->get('bootstrap');
-            $module_contrib_path = $drupalBoostrap->getDrupalRoot() . "/modules/contrib";
+            $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
+            $module_contrib_path = $drupalAutoLoad->getDrupalRoot() . "/modules/contrib";
 
             // Create directory if does not exist
             if (file_exists(dirname($module_contrib_path))) {

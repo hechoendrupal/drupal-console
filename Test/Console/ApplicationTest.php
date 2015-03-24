@@ -36,6 +36,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->drupalAutoload = $this
           ->getMockBuilder('Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper')
           ->disableOriginalConstructor()
+          ->setMethods(['findAutoload','getDrupalRoot'])
           ->getMock();
 
         $this->register_commands = $this
@@ -63,10 +64,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
     protected function expectsThatAutoloadFinderHelperIsRegistered()
     {
-        $this->drupalAutoload->expects($this->any())
-          ->method('findAutoload')
-          ->will($this->returnValue(false));
-
         $this->helperSet->expects($this->at(1))
           ->method('get')
           ->with('drupal-autoload')

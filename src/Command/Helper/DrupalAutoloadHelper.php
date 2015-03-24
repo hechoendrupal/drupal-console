@@ -7,9 +7,11 @@ use Symfony\Component\Console\Helper\Helper;
 class DrupalAutoloadHelper extends Helper
 {
 
+    protected $drupalAutoLoad;
+
     /**
-     * @param string $drupal_root
-     * @return null | string
+     * @param  mixed  $drupal_root
+     * @return string
      */
     public function findAutoload($drupal_root = false)
     {
@@ -18,6 +20,7 @@ class DrupalAutoloadHelper extends Helper
         $autoloadFound = null;
 
         if ($path = $this->isDrupalAutoload($drupal_root)) {
+            $this->drupalAutoLoad = $path;
             return $path;
         }
 
@@ -25,6 +28,7 @@ class DrupalAutoloadHelper extends Helper
             $path = $currentPath . $relativePath;
 
             if ($autoloadFound = $this->isDrupalAutoload($path)) {
+                $this->drupalAutoLoad = $autoloadFound;
                 return $autoloadFound;
             } else {
                 $relativePath .= '../';
@@ -39,9 +43,8 @@ class DrupalAutoloadHelper extends Helper
     }
 
     /**
-     * @param $drupal_root
-     * @return null|string
-     *   Full path to drupal autoload file.
+     * @param  mixed  $drupal_root
+     * @return string
      */
     protected function isDrupalAutoload($drupal_root)
     {
@@ -55,6 +58,17 @@ class DrupalAutoloadHelper extends Helper
         } else {
             return null;
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getDrupalRoot(){
+        if (($coreIndex = stripos($this->drupalAutoLoad,'core')) > 0) {
+            return  substr($this->drupalAutoLoad, 0, $coreIndex);
+        }
+
+        return null;
     }
 
     /**
