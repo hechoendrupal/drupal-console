@@ -24,9 +24,9 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
         $dialog = new DialogHelper();
         $dialog->setInputStream($this->getInputStream($input));
 
-        $bootstrap = $this
-          ->getMockBuilder('Drupal\AppConsole\Command\Helper\DrupalBootstrapHelper')
-          ->setMethods(['getDrupalRoot'])
+        $autoload = $this
+          ->getMockBuilder('Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper')
+          ->setMethods(['findAutoload','getDrupalRoot'])
           ->getMock();
 
         $stringUtils = $this->getMockBuilder('Drupal\AppConsole\Utils\StringUtils')
@@ -63,7 +63,7 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
 
         return new HelperSet([
           'formatter' => new FormatterHelper(),
-          'bootstrap' => $bootstrap,
+          'drupal-autoload' => $autoload,
           'dialog' => $dialog,
           'stringUtils' => $stringUtils,
           'validators' => $validators,
