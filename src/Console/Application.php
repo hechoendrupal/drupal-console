@@ -141,11 +141,10 @@ class Application extends BaseApplication
             return true;
         }
 
-        $bootstrapHelper = $this
+        $drupalRoot = $this
           ->getHelperSet()
-          ->get('bootstrap');
-
-        $drupalRoot = $bootstrapHelper->getDrupalRoot();
+          ->get('drupal-autoload')
+          ->getDrupalRoot();
 
         $messageHelper = $this
           ->getHelperSet()
