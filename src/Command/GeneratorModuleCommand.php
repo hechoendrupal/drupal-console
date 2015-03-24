@@ -176,8 +176,9 @@ class GeneratorModuleCommand extends GeneratorCommand
         }
 
         $module_path = $input->getOption('module-path');
-        $drupalBootstrap = $this->getHelperSet()->get('bootstrap');
-        $drupal_root = $drupalBootstrap->getDrupalRoot();
+        $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
+        $drupal_root = $drupalAutoLoad->getDrupalRoot();
+
         if (!$module_path) {
             $module_path_default = "/modules/custom";
 

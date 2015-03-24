@@ -93,8 +93,8 @@ class ModuleDownloadCommand extends ContainerAwareCommand
             $client->get($release_file_path, ['save_to' => $destination]);
 
             // Determine destination folder for contrib modules
-            $drupalBoostrap = $this->getHelperSet()->get('bootstrap');
-            $module_contrib_path = $drupalBoostrap->getDrupalRoot() . "/modules/contrib";
+            $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
+            $module_contrib_path = $drupalAutoLoad->getDrupalRoot() . "/modules/contrib";
 
             // Create directory if does not exist
             if (file_exists(dirname($module_contrib_path))) {
