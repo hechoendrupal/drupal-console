@@ -127,8 +127,8 @@ class SiteStatusCommand extends ContainerAwareCommand
 
     protected function getDirectoryData()
     {
-        $drupalBootstrap = $this->getHelperSet()->get('bootstrap');
-        $drupal_root = $drupalBootstrap->getDrupalRoot();
+        $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
+        $drupal_root = $drupalAutoLoad->getDrupalRoot();
 
         $configFactory = $this->getConfigFactory();
         $systemTheme = $configFactory->get('system.theme');
