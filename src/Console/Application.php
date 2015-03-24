@@ -110,7 +110,7 @@ class Application extends BaseApplication
     {
         $drupal_root = $input->getParameterOption(['--drupal', '-d'], false);
 
-        $autoload = $this
+        $auto_load = $this
           ->getHelperSet()
           ->get('drupal-autoload')
           ->findAutoload($drupal_root);
@@ -119,8 +119,8 @@ class Application extends BaseApplication
             return false;
         }
 
-        if ($autoload && !$this->isBooted()) {
-            $this->drupalAutoload = require_once $autoload;
+        if ($auto_load && !$this->isBooted()) {
+            $this->drupalAutoload = require_once $auto_load;
             if ($this->drupalAutoload instanceof ClassLoader) {
                 $this->setBooted(true);
                 return true;
