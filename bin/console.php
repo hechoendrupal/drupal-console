@@ -44,7 +44,7 @@ $application = new Application($config);
 $application->setDirectoryRoot($consoleRoot);
 
 $helpers = [
-    'kernel' => new KernelHelper(),
+    'kernel'  => new KernelHelper(),
     'shell' => new ShellHelper(new Shell($application)),
     'dialog' => new DialogHelper(),
     'register_commands' => new RegisterCommandsHelper($application),
