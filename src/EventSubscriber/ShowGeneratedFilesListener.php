@@ -26,8 +26,6 @@ class ShowGeneratedFilesListener implements EventSubscriberInterface
         $application = $command->getApplication();
         $messageHelper = $application->getHelperSet()->get('message');
 
-        $messageHelper->showMessages($output);
-
         if ($event->getExitCode() != 0) {
             return;
         }
