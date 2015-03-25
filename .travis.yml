@@ -19,7 +19,7 @@ before_script:
 
 script:
   - phpunit
-#  - composer update --no-dev
+  - composer update --no-dev
   - php box.phar build
   - sudo mv console.phar /usr/local/bin
   - wget http://ftp.drupal.org/files/projects/drupal-8.0.0-beta7.tar.gz
