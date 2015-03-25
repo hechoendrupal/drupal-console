@@ -66,6 +66,8 @@ commands:
         invalid_cache: Cache "%s" is invalid.
       questions:
         cache: Select cache.
+  chain:
+    description: Chain command execution
   config:
     export:
       description: Export current application configuration.
