@@ -26,7 +26,7 @@ script:
   - cd drupal-8.0.0-beta7
   - mkdir sites/default/files/
   - chmod -R 777 sites/default/files/
-  - ~/.composer/vendor/bin/drush site-install standard --yes --account-name=root --account-pass=toor --db-url=sqlite://sites/default/files/drupal8.sqlite
+  - sudo ~/.composer/vendor/bin/drush site-install standard --yes --account-name=root --account-pass=toor --db-url=sqlite://sites/default/files/drupal8.sqlite
   - bash $TRAVIS_BUILD_DIR/Test/script/test-generation-commands.sh
   - ~/.composer/vendor/bin/phpcs --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml modules/custom/travis
   - if ~/.composer/vendor/bin/phpcs --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml modules/custom/travis | egrep "FOUND ([1-9]+) ERRORS" --quiet; then echo "Errors in coding standards"; exit 1; else exit 0; fi
