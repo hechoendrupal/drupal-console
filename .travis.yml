@@ -3,15 +3,15 @@ language: php
 php:
   - 5.4
   - 5.6
-  - hhvm
+#  - hhvm
 
-matrix:
-  allow_failures:
-    - php: hhvm
+#matrix:
+#  allow_failures:
+#    - php: hhvm
 
 before_script:
   - composer self-update
-  - composer install
+#  - composer install
   - composer install --no-dev
   - curl -LSs https://box-project.github.io/box2/installer.php | php
   - composer global require drush/drush:dev-master
@@ -25,7 +25,7 @@ script:
   - wget http://ftp.drupal.org/files/projects/drupal-8.0.0-beta7.tar.gz
   - tar xzf drupal-8.0.0-beta7.tar.gz
   - cd drupal-8.0.0-beta7
-  - ~/.composer/vendor/bin/drush site-install standard --yes --account-name=root --account-pass=toor --db-url=sqlite://sites/default/files/console.sqlite
+  - sudo ~/.composer/vendor/bin/drush site-install standard --yes --account-name=root --account-pass=toor --db-url=sqlite://sites/default/files/console.sqlite
   - bash $TRAVIS_BUILD_DIR/Test/script/test-generation-commands.sh
   - ~/.composer/vendor/bin/phpcs --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml modules/custom/travis
   - if ~/.composer/vendor/bin/phpcs --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml modules/custom/travis | egrep "FOUND ([1-9]+) ERRORS" --quiet; then echo "Errors in coding standards"; exit 1; else exit 0; fi
