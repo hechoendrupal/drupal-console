@@ -3,23 +3,22 @@ language: php
 php:
   - 5.4
   - 5.6
-#  - hhvm
+  - hhvm
 
-#matrix:
-#  allow_failures:
-#    - php: hhvm
+matrix:
+  allow_failures:
+    - php: hhvm
 
 before_script:
   - composer self-update
-#  - composer install
-- composer install --no-dev
+  - composer install
   - curl -LSs https://box-project.github.io/box2/installer.php | php
   - composer global require drush/drush:dev-master
   - composer global require drupal/coder:~8.1
 
 script:
   - phpunit
-#  - composer update --no-dev
+  - composer update --no-dev
   - php box.phar build
   - sudo mv console.phar /usr/local/bin
   - wget http://ftp.drupal.org/files/projects/drupal-8.0.0-beta7.tar.gz
