@@ -25,6 +25,7 @@ script:
   - ~/.composer/vendor/bin/drush dl drupal-8.0.0-beta7
   - cd drupal-8.0.0-beta7
   - mkdir sites/default/files/
+  - chmod -R 777 sites/default/files/
   - ~/.composer/vendor/bin/drush site-install standard --yes --account-name=root --account-pass=toor --db-url=sqlite://sites/default/files/drupal8.sqlite
   - bash $TRAVIS_BUILD_DIR/Test/script/test-generation-commands.sh
   - ~/.composer/vendor/bin/phpcs --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml modules/custom/travis
