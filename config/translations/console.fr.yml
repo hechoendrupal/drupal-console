@@ -1,13 +1,13 @@
 application:
   console:
     messages:
-      completed: You can now start using the generated code!
+      completed: Vous pouvez maintenant commencer à utiliser le code généré !
     errors:
-      invalid-command: Command "%s" is not defined.
+      invalid-command: La commande "%s" n'existe pas.
   site:
     errors:
-      directory: In order to list all of the available commands, you should run this inside a drupal root directory.
-      settings: In order to list all of the available commands you should install drupal first.
+      directory: Afin de lister l\'ensemble des commandes disponibles, vous devez lancer cette commande à la racine du dossier drupal.
+      settings: Afin de lister l\'ensmble des commandes dispobibles vous devez commencer par installer drupal.
 commands:
   common:
     options:
@@ -37,7 +37,7 @@ commands:
         description: Description
     errors:
       module-dependency: Missing module dependency "%s"
-      class-name-empty: The Class name can not be empty
+      class-name-empty: Le nom de la classe ne peut pas être vide
   cache:
     rebuild:
       description: Reconstruire et effacer tous les caches du site.
@@ -65,7 +65,7 @@ commands:
     description: Exécutez drush à partir de la console.
     help: Utilisez le mode interactif pour une meilleure expérience --shell.
     arguments:
-      args: Drush arguments.
+      args: Arguments à passer à Drush.
     messages:
       not_found: Commande Drush introuvable.
   generate:
@@ -164,14 +164,14 @@ commands:
       warnings:
         module-unavailable: Warning The following modules are not already available in your local environment "%s"
     permission:
-        description: Generate module permissions
-        help: The <info>generate:permissions</info> command helps you generate new permissions
+        description: Génère les permissions d\'un module
+        help: La commande <info>generate:permissions</info> vous aide à définir des nouvelles permissions
         options:
           module: common.options.module
-          permission: Enter a permission
+          permission: Entrez une permission
         questions:
           module: common.questions.module
-          permission: Enter a permission
+          permission: Entrez une permission
     plugin:
       block:
         description: Générer un bloc de plugin
