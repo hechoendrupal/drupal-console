@@ -17,7 +17,7 @@ commands:
       inputs: Créer des entrées dans un formulaire.
       permissions: Créer des autorisations.
     questions:
-      module: Introduire le nom du module.
+      module: Entrez le nom du module.
       confirm: Confirmez-vous la génération
       canceled: Génération de commande annulée.
       services:
