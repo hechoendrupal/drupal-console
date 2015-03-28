@@ -28,15 +28,15 @@ commands:
           Cette option est facultative, appuyez <info>enter</info> to <info>continue</info>
         name: Entrez votre service
       inputs:
-        confirm: Voulez-vous générer une structure de forme
-        label: Label entrée
-        machine_name: Nom de la machine d'entrée.
-        permission: Voulez-vous générer des autorisations
+        confirm: Voulez-vous générer une structure de formulaire
+        label: Entrez le label
+        machine_name: Entrez le nom machine.
+        permission: Voulez-vous générer des permissions
         type: Type
         invalid: Field Type "%s" is invalid.
         description: Description
     errors:
-      module-dependency: Missing module dependency "%s"
+      module-dependency: Le module dépendant "%s" est manquant
       class-name-empty: Le nom de la classe ne peut pas être vide
   cache:
     rebuild:
