@@ -17,7 +17,7 @@ commands:
       inputs: Créer des entrées dans un formulaire.
       permissions: Créer des autorisations.
     questions:
-      module: Introduire le nom du module.
+      module: Entrez le nom du module.
       confirm: Confirmez-vous la génération
       canceled: Génération de commande annulée.
       services:
@@ -28,15 +28,15 @@ commands:
           Cette option est facultative, appuyez <info>enter</info> to <info>continue</info>
         name: Entrez votre service
       inputs:
-        confirm: Voulez-vous générer une structure de forme
-        label: Label entrée
-        machine_name: Nom de la machine d'entrée.
-        permission: Voulez-vous générer des autorisations
+        confirm: Voulez-vous générer une structure de formulaire
+        label: Entrez le label
+        machine_name: Entrez le nom machine.
+        permission: Voulez-vous générer des permissions
         type: Type
         invalid: Field Type "%s" is invalid.
         description: Description
     errors:
-      module-dependency: Missing module dependency "%s"
+      module-dependency: Le module dépendant "%s" est manquant
       class-name-empty: Le nom de la classe ne peut pas être vide
   cache:
     rebuild:
@@ -345,12 +345,12 @@ commands:
         rebuilding: Reconstruction des routes, attendez un instant s'il vous plaît
         completed: Reconstruction de route (s) fini.
   self-update:
-    description: Update the console to latest version.
-    help: Update the console command to the latest version.
+    description: Mettre à jour la console drupal vers la dernière version.
+    help: Met à jour l'utilitaire console drupal.
     messages:
-      success: The console has been updated to the latest version.
+      success: La console drupal a correctement été mise à jour.
   site:
     status:
-      description: View current Drupal Installation status
+      description: Voir le statut de l'installation de drupal
       arguments:
         fields-group: show a set of fields groupping by type All available groups are: version, database, theme, directories
