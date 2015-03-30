@@ -15,6 +15,12 @@ use Drupal\AppConsole\Command\GeneratorCommand;
 
 class ShowCompletedMessageListener implements EventSubscriberInterface
 {
+
+    private $skipCommands = [
+        'self-update',
+        'list'
+    ];
+
     /**
      * @param ConsoleTerminateEvent $event
      */
@@ -35,11 +41,11 @@ class ShowCompletedMessageListener implements EventSubscriberInterface
             return;
         }
 
-        $completedMessageKey = 'application.console.messages.completed';
-
-        if ('self-update' == $command->getName()) {
+        if (in_array($command->getName(), $this->skipCommands)) {
             return;
         }
+
+        $completedMessageKey = 'application.console.messages.completed';
 
         if ($command instanceof GeneratorCommand) {
             $completedMessageKey = 'application.console.messages.generated.completed';
