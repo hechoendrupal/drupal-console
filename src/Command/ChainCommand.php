@@ -5,6 +5,7 @@
  */
 namespace Drupal\AppConsole\Command;
 
+use Drupal\AppConsole\Config;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -19,6 +20,12 @@ class ChainCommand extends ContainerAwareCommand
         $this
           ->setName('chain')
           ->setDescription($this->trans('commands.chain.description'))
+          ->addOption(
+            'file',
+            null,
+            InputOption::VALUE_OPTIONAL,
+            $this->trans('commands.chain.options.file')
+          );
         ;
     }
 
@@ -27,6 +34,8 @@ class ChainCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $message = $this->getHelperSet()->get('message');
+
         $interactive = false;
 
         $learning = false;
@@ -34,27 +43,42 @@ class ChainCommand extends ContainerAwareCommand
             $learning = $input->getOption('learning');
         }
 
-        $generateModuleInputs = [
-          '--module' => 'Example module',
-          '--machine-name' => 'example',
-          '--module-path' => DRUPAL_ROOT . '/modules/custom/',
-          '--description' => 'My example module',
-          '--core' => '8.x',
-          '--package' => 'Test',
-          '--test' => false,
-          '--controller' => false,
-        ];
+        $file = '';
+        if ($input->hasOption('file')) {
+            $file = $input->getOption('file');
+        }
 
-        $this->getHelper('chain')->addCommand('generate:module', $generateModuleInputs, $interactive, $learning);
+        if (!$file) {
+            $message->addErrorMessage(
+              $this->trans('commands.chain.messages.missing_file')
+            );
+            return 1;
+        }
 
-        $generateControllerInputs = [
-          '--module' => 'example',
-          '--class-name' => 'ExampleController',
-          '--method-name' => 'index',
-          '--route'=>'/index',
-          '--services' => 'twig',
-        ];
+        if (!file_exists($file)) {
+            $message->addErrorMessage(
+              sprintf(
+                $this->trans('commands.chain.messages.invalid_file'),
+                $file
+              )
+            );
+            return 1;
+        }
 
-        $this->getHelper('chain')->addCommand('generate:controller', $generateControllerInputs, $interactive, $learning);
+        $chainData = new Config($file);
+        $commands = $chainData->get('commands.chain');
+
+        foreach ($commands as $command) {
+            $commandKey = 'commands.' . str_replace(':', '.', $command);
+            $options = $chainData->get($commandKey.'.options');
+            if (!$options) {
+                exit;
+            }
+            $moduleInputs = [];
+            foreach ($options as $key => $value) {
+                $moduleInputs['--' . $key] = is_null($value) ? '' : $value;
+            }
+            $this->getHelper('chain')->addCommand($command, $moduleInputs, $interactive, $learning);
+        }
     }
 }
