@@ -46,6 +46,6 @@ class {{ entity_class }}AccessControlHandler extends EntityAccessControlHandler 
    * {@inheritdoc}
    */
   protected function checkCreateAccess(AccountInterface $account, array $context, $entity_bundle = NULL) {
-    return AccessResult::allowedIfHasPermission($account, 'add Bar entity');
+    return AccessResult::allowedIfHasPermission($account, 'add {{ entity_class }} entity');
   }
 {% endblock %}
