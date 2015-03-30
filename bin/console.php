@@ -10,8 +10,7 @@ use Drupal\AppConsole\Utils\StringUtils;
 use Drupal\AppConsole\Utils\Validators;
 use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\Yaml\Parser;
-use Drupal\AppConsole\Config;
+use Drupal\AppConsole\UserConfig;
 use Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper;
 use Drupal\AppConsole\EventSubscriber\ShowGeneratedFilesListener;
 use Drupal\AppConsole\EventSubscriber\ShowWelcomeMessageListener;
@@ -35,7 +34,7 @@ if (file_exists($consoleRoot . '/vendor/autoload.php')) {
     exit(1);
 }
 
-$config = new Config(new Parser(), $consoleRoot);
+$config = new UserConfig($consoleRoot);
 
 $translatorHelper = new TranslatorHelper();
 $translatorHelper->loadResource($config->get('application.language'), $consoleRoot);
