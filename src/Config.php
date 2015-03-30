@@ -1,60 +1,41 @@
 <?php
-
 /**
  * @file
+ * Contains \Drupal\AppConsole\Config.
  */
 
 namespace Drupal\AppConsole;
 
+use Symfony\Component\Yaml\Parser;
+
 class Config
 {
-    /** @var Symfony\Component\Yaml\Parser $parser */
-    protected $parser;
+    protected $file;
 
-    protected $root_path;
+    protected $parser;
 
     protected $config;
 
-    public function __construct($parser, $root_path)
+    public function __construct($file = null)
     {
-        $this->parser = $parser;
-        $this->root_path = $root_path;
-        $this->mergeConfig();
-    }
-
-    protected function readYamlFile($path_file)
-    {
-        if (file_exists($path_file)) {
-            return $this->parser->parse(file_get_contents($path_file));
-        } else {
-            return [];
+        $this->parser = new Parser();
+        if ($file) {
+            $this->file = $file;
+            $this->config = $this->readYamlFile($file);
         }
     }
 
-    protected function mergeConfig()
+    public function readYamlFile($file = null)
     {
-        $baseConfig = $this->getBaseConfig();
-        $userConfig = $this->getUserConfig();
+        if (is_null($file)) {
+            return [];
+        }
 
-        $this->config = array_replace_recursive($baseConfig, $userConfig);
-    }
-
-    protected function getBaseConfig()
-    {
-        return $this->readYamlFile($this->root_path . '/config.yml');
-    }
-
-    protected function getUserConfig()
-    {
-        $userConfig = $this->readYamlFile(
-          $this->getUserHomeDir() . '/.console/config.yml'
-        );
-        return $userConfig;
-    }
-
-    protected function getUserHomeDir()
-    {
-        return rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/\\');
+        if (file_exists($file)) {
+            return $this->parser->parse(file_get_contents($file));
+        } else {
+            return [];
+        }
     }
 
     public function get($key, $default = '')
