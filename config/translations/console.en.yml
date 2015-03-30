@@ -66,6 +66,13 @@ commands:
         invalid_cache: Cache "%s" is invalid.
       questions:
         cache: Select cache.
+  chain:
+    description: Chain command execution
+    options:
+      file: User defined file containing commands to get executed.
+    messages:
+        missing_file: Yu must provide a valid file path and name.
+        invalid_file: The file "%s" does not exists.
   config:
     export:
       description: Export current application configuration.
