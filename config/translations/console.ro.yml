@@ -9,7 +9,7 @@ application:
         route: |
           Pentru a crea pagini, trebuie de definit "routes" pentru ele.
           Un "route" mapeaza un URL cu un Controller. Acesta stabileste cu ce
-          functie sau metoda din Clasa va fi apelata cand URL-ul este accesat.          
+          functie sau metoda din Clasa va fi apelata cand URL-ul este accesat.
           Daca utilizatorul acceseaza http://drupal8.dev/{{ route }}, sistema de
           rutare va cauta ruta respectiva din URL. In acest caz acesta va fi gasit
           si va executa "_controller callback". In acest caz "callback"-ul este
@@ -463,7 +463,7 @@ commands:
       success: Console a fost actualizata cu ultima versiune.
   site:
     mode:
-      description: Schimba configurarile de performanta a sistemei 
+      description: Schimba configurarile de performanta a sistemei
       arguments:
         environment: Numele "Enviroment"
       messages:

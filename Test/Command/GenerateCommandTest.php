@@ -26,7 +26,7 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
 
         $autoload = $this
           ->getMockBuilder('Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper')
-          ->setMethods(['findAutoload','getDrupalRoot'])
+          ->setMethods(['findAutoload', 'getDrupalRoot'])
           ->getMock();
 
         $stringUtils = $this->getMockBuilder('Drupal\AppConsole\Utils\StringUtils')
