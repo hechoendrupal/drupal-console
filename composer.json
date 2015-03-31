@@ -37,7 +37,7 @@
     },
     "require-dev": {
         "drupal/coder": "~8.1",
-        "drupal/core": "8.0.0-beta7",
+        "drupal/core": "8.0.0-beta9",
         "phpunit/phpunit": "4.4.*"
     },
     "minimum-stability": "dev",
