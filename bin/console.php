@@ -34,7 +34,7 @@ if (file_exists($consoleRoot . '/vendor/autoload.php')) {
     exit(1);
 }
 
-$config = new UserConfig($consoleRoot);
+$config = new UserConfig();
 
 $translatorHelper = new TranslatorHelper();
 $translatorHelper->loadResource($config->get('application.language'), $consoleRoot);
