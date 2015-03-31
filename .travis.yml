@@ -21,9 +21,9 @@ script:
   - composer update --no-dev
   - php box.phar build
   - sudo mv console.phar /usr/local/bin
-  - wget http://ftp.drupal.org/files/projects/drupal-8.0.0-beta7.tar.gz
-  - tar xzf drupal-8.0.0-beta7.tar.gz
-  - cd drupal-8.0.0-beta7
+  - wget http://ftp.drupal.org/files/projects/drupal-8.0.0-beta9.tar.gz
+  - tar xzf drupal-8.0.0-beta9.tar.gz
+  - cd drupal-8.0.0-beta9
   - ~/.composer/vendor/bin/drush site-install standard --yes --account-name=root --account-pass=toor --db-url=sqlite://sites/default/files/console.sqlite
   - bash $TRAVIS_BUILD_DIR/Test/script/test-generation-commands.sh
   - ~/.composer/vendor/bin/phpcs --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml modules/custom/travis
