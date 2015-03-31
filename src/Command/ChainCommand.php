@@ -72,7 +72,7 @@ class ChainCommand extends ContainerAwareCommand
             $commandKey = 'commands.' . str_replace(':', '.', $command);
             $options = $chainData->get($commandKey.'.options');
             if (!$options) {
-                exit;
+                continue;
             }
             $moduleInputs = [];
             foreach ($options as $key => $value) {
