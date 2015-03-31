@@ -27,7 +27,7 @@ class UserConfig extends Config
 
     protected function getBaseConfig()
     {
-        return $this->readYamlFile($this->file . '/config.yml');
+        return $this->readYamlFile(__DIR__ . '/../config.yml');
     }
 
     protected function getUserConfig()
