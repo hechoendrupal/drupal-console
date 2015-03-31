@@ -57,13 +57,17 @@ class GeneratorModuleCommand extends GeneratorCommand
         }
 
         $module = $validators->validateModuleName($input->getOption('module'));
-        $module_path = $validators->validateModulePath($input->getOption('module-path'), true);
+
+        $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
+        $drupal_root = $drupalAutoLoad->getDrupalRoot();
+        $module_path = $drupal_root . $input->getOption('module-path');
+        $module_path = $validators->validateModulePath($module_path, true);
+
         $machine_name = $validators->validateMachineName($input->getOption('machine-name'));
         $description = $input->getOption('description');
         $core = $input->getOption('core');
         $package = $input->getOption('package');
         $controller = $input->getOption('controller');
-
         /**
          * Modules Dependencies
          *
