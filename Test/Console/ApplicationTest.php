@@ -36,7 +36,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->drupalAutoload = $this
           ->getMockBuilder('Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper')
           ->disableOriginalConstructor()
-          ->setMethods(['findAutoload','getDrupalRoot'])
+          ->setMethods(['findAutoload', 'getDrupalRoot'])
           ->getMock();
 
         $this->register_commands = $this

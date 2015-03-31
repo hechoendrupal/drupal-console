@@ -89,7 +89,8 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
 
         $command->expects($this->any())
           ->method('getModules')
-          ->will($this->returnValue(['foo']));;
+          ->will($this->returnValue(['foo']));
+        ;
 
         $command->expects($this->any())
           ->method('getServices')
