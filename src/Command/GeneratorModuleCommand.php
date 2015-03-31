@@ -57,13 +57,17 @@ class GeneratorModuleCommand extends GeneratorCommand
         }
 
         $module = $validators->validateModuleName($input->getOption('module'));
-        $module_path = $validators->validateModulePath($input->getOption('module-path'), true);
+
+        $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
+        $drupal_root = $drupalAutoLoad->getDrupalRoot();
+        $module_path = $drupal_root . $input->getOption('module-path');
+        $module_path = $validators->validateModulePath($module_path, true);
+
         $machine_name = $validators->validateMachineName($input->getOption('machine-name'));
         $description = $input->getOption('description');
         $core = $input->getOption('core');
         $package = $input->getOption('package');
         $controller = $input->getOption('controller');
-
         /**
          * Modules Dependencies
          *
@@ -190,8 +194,11 @@ class GeneratorModuleCommand extends GeneratorCommand
                   $module_path = ($module_path[0] != '/' ? '/' : '') . $module_path;
                   $full_path = $drupal_root . $module_path . '/' . $machine_name;
                   if (file_exists($full_path)) {
-                      throw new \InvalidArgumentException(sprintf($this->trans('commands.generate.module.errors.directory-exists'),
-                        $full_path));
+                      throw new \InvalidArgumentException(
+                        sprintf(
+                          $this->trans('commands.generate.module.errors.directory-exists'),
+                        $full_path)
+                      );
                   } else {
                       return $module_path;
                   }
@@ -201,7 +208,7 @@ class GeneratorModuleCommand extends GeneratorCommand
               null
             );
         }
-        $input->setOption('module-path', $drupal_root . $module_path);
+        $input->setOption('module-path', $module_path);
 
         $description = $input->getOption('description');
         if (!$description) {
