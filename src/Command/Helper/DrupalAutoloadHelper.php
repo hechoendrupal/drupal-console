@@ -63,8 +63,9 @@ class DrupalAutoloadHelper extends Helper
     /**
      * @return string
      */
-    public function getDrupalRoot(){
-        if (($coreIndex = stripos($this->drupalAutoLoad,'core')) > 0) {
+    public function getDrupalRoot()
+    {
+        if (($coreIndex = stripos($this->drupalAutoLoad, 'core')) > 0) {
             return  substr($this->drupalAutoLoad, 0, $coreIndex);
         }
 
