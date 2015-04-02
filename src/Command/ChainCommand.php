@@ -25,7 +25,7 @@ class ChainCommand extends ContainerAwareCommand
             null,
             InputOption::VALUE_OPTIONAL,
             $this->trans('commands.chain.options.file')
-          );
+          )
         ;
     }
 
@@ -43,7 +43,7 @@ class ChainCommand extends ContainerAwareCommand
             $learning = $input->getOption('learning');
         }
 
-        $file = '';
+        $file = null;
         if ($input->hasOption('file')) {
             $file = $input->getOption('file');
         }
@@ -70,13 +70,20 @@ class ChainCommand extends ContainerAwareCommand
 
         foreach ($commands as $command) {
             $commandKey = 'commands.' . str_replace(':', '.', $command);
-            $options = $chainData->get($commandKey.'.options');
-            if (!$options) {
-                continue;
-            }
             $moduleInputs = [];
-            foreach ($options as $key => $value) {
-                $moduleInputs['--' . $key] = is_null($value) ? '' : $value;
+
+            $arguments = $chainData->get($commandKey.'.arguments');
+            if ($arguments) {
+                foreach ($arguments as $key => $value) {
+                    $moduleInputs[$key] = is_null($value) ? '' : $value;
+                }
+            }
+
+            $options = $chainData->get($commandKey.'.options');
+            if ($options) {
+                foreach ($options as $key => $value) {
+                    $moduleInputs['--' . $key] = is_null($value) ? '' : $value;
+                }
             }
             $this->getHelper('chain')->addCommand($command, $moduleInputs, $interactive, $learning);
         }
