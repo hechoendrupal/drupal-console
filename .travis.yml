@@ -20,6 +20,7 @@ script:
   - phpunit
   - composer update --no-dev
   - php box.phar build
+  - console.phar --version
   - sudo mv console.phar /usr/local/bin
   - wget http://ftp.drupal.org/files/projects/drupal-8.0.0-beta9.tar.gz
   - tar xzf drupal-8.0.0-beta9.tar.gz
