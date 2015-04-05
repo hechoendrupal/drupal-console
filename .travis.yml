@@ -9,6 +9,10 @@ matrix:
   allow_failures:
     - php: hhvm
 
+env:
+  global:
+    - PROJECT_DIR=/home/project
+
 before_script:
   - composer self-update
   - composer install --no-dev
