@@ -32,21 +32,21 @@ You can read or download the Drupal Console Documentation at [bit.ly/console-boo
 
 ## Installation
 ```
-// Run this in your terminal to get the latest Console version:
-$ curl -LSs http://drupalconsole.com/installer | php
+# Run this in your terminal to get the latest Console version:
+curl -LSs http://drupalconsole.com/installer | php
 
-// Or if you don't have curl:
-$ php -r "readfile('http://drupalconsole.com/installer');" | php
+# Or if you don't have curl:
+php -r "readfile('http://drupalconsole.com/installer');" | php
 
-// To access the Console from anywhere your system, 
-// move console.phar and rename it to drupal:
-$ mv console.phar /usr/local/bin/drupal
+# To access the Console from anywhere your system, 
+# move console.phar and rename it to drupal:
+mv console.phar /usr/local/bin/drupal
 
-// Show all available Drupal Console commands.
-$ drupal
+# Show all available Drupal Console commands.
+drupal
 
-// Generate a module.
-$ drupal generate:module
+# Generate a module.
+drupal generate:module
 ```
 
 ## Usage
