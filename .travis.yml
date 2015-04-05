@@ -24,8 +24,8 @@ script:
   - ~/.composer/vendor/bin/drush dl drupal-8.0.0-beta9
   - mv drupal-8.0.0-beta9 drupal8.dev
   - cd drupal8.dev
-  - ~/.composer/vendor/bin/drush site-install standard --yes --account-name=root --account-pass=toor --db-url=sqlite:/home/project/drupal8.dev/sites/default/files/console.sqlite
-  - drupal chain --file=/home/project/config/dist/chain.yml
+  - ~/.composer/vendor/bin/drush site-install standard --yes --account-name=root --account-pass=toor --db-url=sqlite:$TRAVIS_BUILD_DIR/drupal8.dev/sites/default/files/console.sqlite
+  - drupal chain --file=$TRAVIS_BUILD_DIR/config/dist/chain.yml
   - ~/.composer/vendor/bin/phpcs --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml modules/custom/example
   - if ~/.composer/vendor/bin/phpcs --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml modules/custom/example | egrep "FOUND ([1-9]+) ERRORS" --quiet; then echo "Errors in coding standards"; exit 1; else exit 0; fi
 
