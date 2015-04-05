@@ -1,0 +1,92 @@
+commands:
+  chain:
+    - generate:module
+    - generate:controller
+    - generate:form:config
+    - generate:entity:content
+    - generate:entity:config
+    - generate:command
+    - generate:authentication:provider
+    - generate:plugin:block
+    - generate:plugin:imageeffect
+    - generate:plugin:rest:resource
+    - generate:service
+  generate:
+    module:
+      options:
+        module: Example module
+        machine-name: example
+        module-path: /modules/custom/
+        description: My example module
+        core: 8.x
+        package: Test
+        controller: false
+        dependencies:
+        test: false
+    controller:
+      options:
+        module: example
+        class-name: ExampleController
+        method-name: index
+        route: /example/index
+        services: twig
+    form:
+      config:
+        options:
+          module: example
+          class-name: ExampleForm
+          form-id: example_form
+          services: database
+          inputs: false
+          routing: true
+    entity:
+      content:
+        options:
+          module: example
+          entity-class: Foo
+          entity-name: foo
+      config:
+        options:
+          module: example
+          entity-class: Bar
+          entity-name: bar
+    command:
+      options:
+        module: example
+        class-name: ExampleCommand
+        command: example:command
+        container: false
+    authentication:
+      provider:
+        options:
+          module: example
+          class-name: ExampleAuthenticationProvider
+    plugin:
+      block:
+        options:
+          module: example
+          class-name: ExampleBlock
+          label: Example plugin block
+          plugin-id: example_block
+      imageeffect:
+        options:
+          module: example
+          class-name: ExampleImageEffect
+          plugin-id: example_image_effect
+          label: Example image effect
+          description: Example image effect
+      rest:
+        resource:
+          options:
+            module: example
+            class-name: ExampleRestResource
+            plugin-id: example_rest_resource
+            plugin-label: Example Rest Resource
+            plugin-url: example_rest_resource
+            plugin-states: 0, 1, 2
+    service:
+      options:
+        module: example
+        class-name: ExampleService
+        service-name: example.service
+        interface: yes
