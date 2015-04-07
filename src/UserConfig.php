@@ -20,23 +20,27 @@ class UserConfig extends Config
         $baseConfig = $this->getBaseConfig();
         $userConfig = $this->getUserConfig();
 
-        if ($baseConfig && $userConfig) {
-            $this->config = array_replace_recursive($baseConfig, $userConfig);
-        }
+        $this->config = array_replace_recursive($baseConfig, $userConfig);
     }
 
     protected function getBaseConfig()
     {
-        return $this->readYamlFile(__DIR__ . '/../config.yml');
+        if (file_exists(__DIR__ . '/../config.yml')) {
+            return $this->readYamlFile(__DIR__ . '/../config.yml');
+        }
+
+        return [];
     }
 
     protected function getUserConfig()
     {
-        $userConfig = $this->readYamlFile(
-          $this->getUserHomeDir() . '/.console/config.yml'
-        );
+        if (file_exists($this->getUserHomeDir() . '/.console/config.yml')) {
+            return $this->readYamlFile(
+              $this->getUserHomeDir() . '/.console/config.yml'
+            );
+        }
 
-        return $userConfig;
+        return [];
     }
 
     public function getUserHomeDir()
