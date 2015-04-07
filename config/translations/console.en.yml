@@ -2,9 +2,10 @@ application:
   console:
     messages:
       completed: The command was executed succesfully!
-      generated:
-        files: Generated files
-        completed: You can now start using the generated code!
+      generated: You can now start using the generated code!
+      files:
+        generated: Generated or updated files
+        copied: Copied files
       learning:
         route: |
           In order to to create pages it is necessary to define routes for them.
@@ -24,6 +25,9 @@ application:
     errors:
       directory: In order to list all of the available commands, you should run this inside a drupal root directory.
       settings: In order to list all of the available commands you should install drupal first.
+  user:
+      messages:
+        path: User home path
 commands:
   common:
     options:
@@ -324,6 +328,8 @@ commands:
         class-name: Enter the Class name
         interface: Create an interface
         services: common.options.services
+  init:
+    description: Copy configuration files to user home directory.
   module:
     debug:
       description: Display current modules available for application
