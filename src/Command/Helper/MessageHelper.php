@@ -166,23 +166,58 @@ class MessageHelper extends Helper
      */
     public function showGeneratedFiles($output, $files)
     {
-        if ($files) {
-            $this->showMessage(
-              $output,
-              $this->translator->trans('application.console.messages.generated.files')
-            );
+        $this->showFiles(
+          $output,
+          $files,
+          'application.console.messages.files.generated',
+          'application.site.messages.path',
+          DRUPAL_ROOT
+        );
+    }
 
-            $output->writeln(sprintf(
-              '<info>%s:</info><comment>%s</comment>',
-              $this->translator->trans('application.site.messages.path'),
-              DRUPAL_ROOT
-            ));
+    /**
+     * @param $output
+     * @param string $files
+     */
+    public function showCopiedFiles($output, $files)
+    {
+        $this->showFiles(
+          $output,
+          $files,
+          'application.console.messages.files.copied',
+          'application.user.messages.path',
+          rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/\\') . '/.console/'
+        );
+    }
 
-            $index = 1;
-            foreach ($files as $file) {
-                $this->showFile($output, $file, $index);
-                $index++;
-            }
+    /**
+     * @param $output
+     * @param string $files
+     * @param string $headerKey
+     * @param string $pathKey
+     * @param string $path+
+     */
+    private function showFiles($output, $files, $headerKey, $pathKey, $path)
+    {
+        if (!$files) {
+            return;
+        }
+
+        $this->showMessage(
+          $output,
+          $this->translator->trans($headerKey)
+        );
+
+        $output->writeln(sprintf(
+          '<info>%s:</info> <comment>%s</comment>',
+          $this->translator->trans($pathKey),
+          $path
+        ));
+
+        $index = 1;
+        foreach ($files as $file) {
+            $this->showFile($output, $file, $index);
+            $index++;
         }
     }
 
