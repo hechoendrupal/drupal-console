@@ -23,7 +23,7 @@ class Application extends BaseApplication
      */
     protected $booted = false;
     /**
-     * @var Drupal\AppConsole\Config
+     * @var Drupal\AppConsole\UserConfig
      */
     protected $config;
     /**
@@ -249,7 +249,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * @return \Drupal\AppConsole\Config
+     * @return \Drupal\AppConsole\UserConfig
      */
     public function getConfig()
     {
