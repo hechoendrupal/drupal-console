@@ -65,8 +65,9 @@ class InitCommand extends ContainerAwareCommand
             return false;
         }
 
-        if (!is_dir(dirname($destination))) {
-            mkdir(dirname($destination));
+        $filePath = dirname($destination);
+        if (!is_dir($filePath)) {
+            mkdir($filePath);
         }
 
         return copy(
