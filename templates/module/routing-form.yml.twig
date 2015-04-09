@@ -1,6 +1,6 @@
 {% if class_name is defined %}
 {{ module_name }}.{{form_id}}:
-  path: '/{{ module_name }}/settings/{{ class_name }}'
+  path: '/admin/config/{{ module_name }}/{{ class_name_path }}'
   defaults:
     _form: '\Drupal\{{ module_name }}\Form\{{ class_name }}'
     _title: '{{ class_name }}'
