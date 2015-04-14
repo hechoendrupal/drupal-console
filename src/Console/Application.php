@@ -120,7 +120,7 @@ class Application extends BaseApplication
         }
 
         if ($auto_load && !$this->isBooted()) {
-            $this->drupalAutoload = require_once $auto_load;
+            $this->drupalAutoload = require $auto_load;
             if ($this->drupalAutoload instanceof ClassLoader) {
                 $this->setBooted(true);
                 return true;
