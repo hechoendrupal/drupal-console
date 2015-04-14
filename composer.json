@@ -2,7 +2,7 @@
     "name": "drupal/console",
     "description": "Drupal Console",
     "keywords": ["Drupal", "Console", "Development"],
-    "type": "drupal-module",
+    "type": "project",
     "license": "MIT",
     "authors": [
         {
