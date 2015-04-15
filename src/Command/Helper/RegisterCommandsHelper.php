@@ -27,14 +27,31 @@ class RegisterCommandsHelper extends Helper
         $this->console = $console;
     }
 
-    public function register($drupalModules = true)
+    public function register()
     {
-        $this->modules = $this->getModuleList($drupalModules);
-        $this->namespaces = $this->getNamespaces($drupalModules);
         $success = false;
+        $commands = $this->getCommands();
+
+        if (!$commands) {
+            return false;
+        }
+
+        foreach ($commands as $command) {
+            if ($this->console->isBooted()) {
+                $this->console->add($command);
+                $success = true;
+            }
+        }
+
+        return $success;
+    }
+
+    private function findCommands($modules, $namespaces)
+    {
+        $commands = [];
         $finder = new Finder();
-        foreach ($this->modules as $module => $directory) {
-            $place = $this->namespaces['Drupal\\' . $module];
+        foreach ($modules as $module => $directory) {
+            $place = $namespaces['Drupal\\' . $module];
             $cmd_dir = '/Command';
             $prefix = 'Drupal\\' . $module . '\\Command';
 
@@ -63,26 +80,47 @@ class RegisterCommandsHelper extends Helper
                     if ($cmd->isSubclassOf('Symfony\\Component\\Console\\Command\\Command')
                       && !$cmd->isAbstract()
                     ) {
-                        if ($this->console->isBooted()) {
-                            if ($cmd->getConstructor()->getNumberOfRequiredParameters() > 0) {
-                                $translator = $this->getHelperSet()->get('translator');
-                                if ($module && $module != 'AppConsole') {
-                                    $translator->addResourceTranslationsByModule($module);
-                                }
-                                $command = $cmd->newInstance($translator);
-                            } else {
-                                $command = $cmd->newInstance();
+                        if ($cmd->getConstructor()->getNumberOfRequiredParameters() > 0) {
+                            $translator = $this->getHelperSet()->get('translator');
+                            if ($module && $module != 'AppConsole') {
+                                $translator->addResourceTranslationsByModule($module);
                             }
-                            $command->setModule($module);
-                            $this->console->add($command);
-                            $success = true;
+                            $command = $cmd->newInstance($translator);
+                        } else {
+                            $command = $cmd->newInstance();
                         }
+                        $command->setModule($module);
+                        $commands[] = $command;
                     }
                 }
             }
         }
 
-        return $success;
+        return $commands;
+    }
+
+    public function getCommands()
+    {
+        $consoleCommands = $this->getConsoleCommands();
+        $customCommands = $this->getCustomCommands();
+
+        return array_merge($consoleCommands, $customCommands);
+    }
+
+    public function getConsoleCommands()
+    {
+        $modules = ['AppConsole' => dirname(dirname(dirname(__DIR__)))];
+        $namespaces = ['Drupal\\AppConsole' => dirname(dirname(__DIR__))];
+
+        return $this->findCommands($modules, $namespaces);
+    }
+
+    public function getCustomCommands()
+    {
+        $modules = $this->getModuleList();
+        $namespaces = $this->getNamespaces();
+
+        return $this->findCommands($modules, $namespaces);
     }
 
     /**
@@ -109,33 +147,25 @@ class RegisterCommandsHelper extends Helper
         }
     }
 
-    protected function getModuleList($drupalModules = true)
+    protected function getModuleList()
     {
         // Get Module handler
         if (!isset($this->modules)) {
-            $this->modules = [];
-            if ($drupalModules) {
-                $this->getContainer();
-                $module_handler = $this->container->get('module_handler');
-                $this->modules = $module_handler->getModuleDirectories();
-            }
-            $this->modules += ['AppConsole' => dirname(dirname(dirname(__DIR__)))];
+            $this->getContainer();
+            $module_handler = $this->container->get('module_handler');
+            $this->modules = $module_handler->getModuleDirectories();
         }
 
         return $this->modules;
     }
 
-    protected function getNamespaces($drupalModules = true)
+    protected function getNamespaces()
     {
         // Get Traversal, namespaces
         if (!isset($this->namespaces)) {
-            $this->namespaces = [];
-            if ($drupalModules) {
-                $this->getContainer();
-                $namespaces = $this->container->get('container.namespaces');
-                $this->namespaces = $namespaces->getArrayCopy();
-            }
-            $this->namespaces += ['Drupal\\AppConsole' => dirname(dirname(__DIR__))];
+            $this->getContainer();
+            $namespaces = $this->container->get('container.namespaces');
+            $this->namespaces = $namespaces->getArrayCopy();
         }
 
         return $this->namespaces;
