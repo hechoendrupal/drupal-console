@@ -17,7 +17,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '0.7.6';
+    const VERSION = '0.7.9';
     /**
      * @var bool
      */
@@ -120,7 +120,7 @@ class Application extends BaseApplication
         }
 
         if ($auto_load && !$this->isBooted()) {
-            $this->drupalAutoload = require_once $auto_load;
+            $this->drupalAutoload = require $auto_load;
             if ($this->drupalAutoload instanceof ClassLoader) {
                 $this->setBooted(true);
                 return true;
@@ -224,8 +224,7 @@ class Application extends BaseApplication
         /** @var \Drupal\AppConsole\Command\Helper\RegisterCommandsHelper $rc */
         $rc = $this->getHelperSet()->get('register_commands');
 
-        $drupalModules = $this->drupalAutoload;
-        $rc->register($drupalModules);
+        $rc->register();
     }
 
     /**
