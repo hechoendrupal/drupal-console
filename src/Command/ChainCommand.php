@@ -87,7 +87,7 @@ class ChainCommand extends ContainerAwareCommand
             }
 
             $this->getHelper('chain')
-                ->addCommand($command['name'], $moduleInputs, $interactive, $learning);
+                ->addCommand($command['command'], $moduleInputs, $interactive, $learning);
         }
     }
 }
