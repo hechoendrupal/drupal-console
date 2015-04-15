@@ -224,8 +224,7 @@ class Application extends BaseApplication
         /** @var \Drupal\AppConsole\Command\Helper\RegisterCommandsHelper $rc */
         $rc = $this->getHelperSet()->get('register_commands');
 
-        $drupalModules = $this->drupalAutoload;
-        $rc->register($drupalModules);
+        $rc->register();
     }
 
     /**
