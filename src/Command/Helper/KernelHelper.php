@@ -60,13 +60,15 @@ class KernelHelper extends Helper
      */
     public function bootKernel()
     {
-        $kernel = $this->getKernel();
-        $kernel->boot();
-        $kernel->preHandle($this->request);
+        if (!$this->kernel) {
+            $kernel = $this->getKernel();
+            $kernel->boot();
+            $kernel->preHandle($this->request);
 
-        $container = $kernel->getContainer();
-        $container->set('request', $this->request);
-        $container->get('request_stack')->push($this->request);
+            $container = $kernel->getContainer();
+            $container->set('request', $this->request);
+            $container->get('request_stack')->push($this->request);
+        }
     }
 
     /**
