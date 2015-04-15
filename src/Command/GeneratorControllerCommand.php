@@ -33,7 +33,7 @@ class GeneratorControllerCommand extends GeneratorCommand
             $this->trans('commands.generate.controller.options.method-name'))
           ->addOption('route', '', InputOption::VALUE_OPTIONAL,
             $this->trans('commands.generate.controller.options.route'))
-          ->addOption('services', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.services'))
+          ->addOption('services', '', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, $this->trans('commands.common.options.services'))
           ->addOption('test', '', InputOption::VALUE_NONE, $this->trans('commands.generate.controller.options.test'));
     }
 
