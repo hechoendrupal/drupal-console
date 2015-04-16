@@ -20,6 +20,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 {% block class_declaration %}
 /**
  * Class {{ class_name }}.
+ *
+ * @package Drupal\{{module_name}}\Form
  */
 class {{ class_name }} extends ConfigFormBase {% endblock %}
 {% block class_construct %}
@@ -54,7 +56,7 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
    */
   protected function getEditableConfigNames() {
     return [
-      '{{module_name}}.{{form_id}}_config'
+      '{{module_name}}.{{class_name_short}}_config'
     ];
   }
 
@@ -69,7 +71,7 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = $this->config('{{module_name}}.{{form_id}}_config');
+    $config = $this->config('{{module_name}}.{{class_name_short}}_config');
 {% for input in inputs %}
     $form['{{ input.name }}'] = array(
       '#type' => '{{ input.type }}',
@@ -98,7 +100,7 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
 
-    $this->config('{{module_name}}.{{form_id}}_config')
+    $this->config('{{module_name}}.{{class_name_short}}_config')
 {% for input in inputs %}
       ->set('{{ input.name }}', $form_state->getValue('{{ input.name }}'))
 {% endfor %}
