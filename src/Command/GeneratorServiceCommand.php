@@ -58,7 +58,7 @@ class GeneratorServiceCommand extends GeneratorCommand
         $interface = $input->getOption('interface');
         $services = $input->getOption('services');
 
-        $interface = ($interface===true);
+        $interface = ($interface===true || strtolower($interface)==='yes');
 
         // @see Drupal\AppConsole\Command\Helper\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
