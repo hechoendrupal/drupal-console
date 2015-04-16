@@ -6,6 +6,7 @@
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class InitCommand extends ContainerAwareCommand
@@ -30,6 +31,12 @@ class InitCommand extends ContainerAwareCommand
         $this
           ->setName('init')
           ->setDescription($this->trans('commands.init.description'))
+          ->addOption(
+            'override',
+            null,
+            InputOption::VALUE_NONE,
+            $this->trans('commands.init.options.override')
+          )
         ;
     }
 
@@ -45,10 +52,15 @@ class InitCommand extends ContainerAwareCommand
         $userPath = $config->getUserHomeDir() . '/.console/';
         $copiedFiles = [];
 
+        $override = false;
+        if ($input->hasOption('override')) {
+            $override = $input->getOption('override');
+        }
+
         foreach ($this->files as $file) {
             $source = $basePath . $file['source'];
             $destination = $userPath . '/' . $file['destination'];
-            if ($this->copyFile($source, $destination)) {
+            if ($this->copyFile($source, $destination, $override)) {
                 $copiedFiles[] = $file['destination'];
             }
         }
@@ -58,9 +70,9 @@ class InitCommand extends ContainerAwareCommand
         }
     }
 
-    public function copyFile($source, $destination)
+    public function copyFile($source, $destination, $override)
     {
-        if (file_exists($destination)) {
+        if (file_exists($destination) && !$override) {
             return false;
         }
 
