@@ -17,14 +17,14 @@ class FormGenerator extends Generator
      */
     public function generate($module, $class_name, $form_id, $services, $inputs, $update_routing)
     {
-        $class_name_path = strtolower(substr($class_name, -4)=='Form'?str_replace('Form', '', $class_name):$class_name);
+        $class_name_short = substr($class_name, -4)=='Form'?str_replace('Form', '', $class_name):$class_name;
         $parameters = array(
           'class_name' => $class_name,
           'services' => $services,
           'inputs' => $inputs,
           'module_name' => $module,
           'form_id' => $form_id,
-          'class_name_path' => $class_name_path,
+          'class_name_short' => strtolower($class_name_short),
         );
 
         $this->renderFile(
