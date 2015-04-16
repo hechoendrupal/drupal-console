@@ -88,6 +88,12 @@ class KernelHelper extends Helper
         return $this->kernel;
     }
 
+    public function terminate()
+    {
+        $response = Response::create('');
+        $this->kernel->terminate($this->request, $response);
+    }
+
     /**
      * @param \Drupal\Core\DrupalKernel $kernel
      */
