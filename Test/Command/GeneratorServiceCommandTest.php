@@ -45,7 +45,7 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
               // Inline options
             [],
               // Expected options
-            ['foo', 'foo.default', 'DefaultService', 'no', $services],
+            ['foo', 'foo.default', 'DefaultService', false, $services],
               // User input options
             "foo\nfoo.default\nDefaultService\nno\nyes\ntwig\n\n",
           ],
@@ -54,7 +54,7 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
               // Inline options
             ['--module' => 'foo'],
               // Expected options
-            ['foo', 'foo.default', 'DefaultService', 'yes', null],
+            ['foo', 'foo.default', 'DefaultService', true, null],
               // User input options
             "foo.default\nDefaultService\nyes\nno\n",
           ],
@@ -63,7 +63,7 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
               // Inline options
             ['--module' => 'foo', '--service-name' => 'foo.default'],
               // Expected options
-            ['foo', 'foo.default', 'DefaultService', 'no', null],
+            ['foo', 'foo.default', 'DefaultService', false, null],
               // User input options
             "DefaultService\nno\nno\n",
           ],
@@ -72,7 +72,7 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
               // Inline options
             ['--module' => 'foo', '--service-name' => 'foo.default', '--class-name' => 'DefaultService'],
               // Expected options
-            ['foo', 'foo.default', 'DefaultService', 'yes', $services],
+            ['foo', 'foo.default', 'DefaultService', true, $services],
               // User input options
             "yes\nyes\ntwig\n\n",
           ],
