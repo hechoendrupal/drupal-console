@@ -71,26 +71,23 @@ class ChainCommand extends ContainerAwareCommand
         }
 
         $chainData = new Config($file);
-        $commands = $chainData->get('commands.chain');
+        $commands = $chainData->get('commands');
 
         foreach ($commands as $command) {
-            $commandKey = 'commands.' . str_replace(':', '.', $command);
             $moduleInputs = [];
+            $arguments = !empty($command['arguments']) ? $command['arguments'] : [];
+            $options = !empty($command['options']) ? $command['options'] : [];
 
-            $arguments = $chainData->get($commandKey.'.arguments');
-            if ($arguments) {
-                foreach ($arguments as $key => $value) {
-                    $moduleInputs[$key] = is_null($value) ? '' : $value;
-                }
+            foreach ($arguments as $key => $value) {
+                $moduleInputs[$key] = is_null($value) ? '' : $value;
             }
 
-            $options = $chainData->get($commandKey.'.options');
-            if ($options) {
-                foreach ($options as $key => $value) {
-                    $moduleInputs['--' . $key] = is_null($value) ? '' : $value;
-                }
+            foreach ($options as $key => $value) {
+                $moduleInputs['--' . $key] = is_null($value) ? '' : $value;
             }
-            $this->getHelper('chain')->addCommand($command, $moduleInputs, $interactive, $learning);
+
+            $this->getHelper('chain')
+                ->addCommand($command['command'], $moduleInputs, $interactive, $learning);
         }
     }
 }
