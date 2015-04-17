@@ -41,6 +41,11 @@ class KernelHelper extends Helper
     protected $debug;
 
     /**
+     * @var boolean
+     */
+    protected $booted;
+
+    /**
      * @param string $environment
      */
     public function setEnvironment($environment)
@@ -61,7 +66,7 @@ class KernelHelper extends Helper
      */
     public function bootKernel()
     {
-        if (!$this->kernel) {
+        if (!$this->booted) {
             $kernel = $this->getKernel();
             $kernel->boot();
             $kernel->preHandle($this->request);
@@ -69,6 +74,7 @@ class KernelHelper extends Helper
             $container = $kernel->getContainer();
             $container->set('request', $this->request);
             $container->get('request_stack')->push($this->request);
+            $this->booted = true;
         }
     }
 
