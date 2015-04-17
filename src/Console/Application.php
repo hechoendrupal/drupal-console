@@ -121,7 +121,9 @@ class Application extends BaseApplication
         parent::doRun($input, $output);
 
         $kernelHelper = $this->getHelperSet()->get('kernel');
-        $kernelHelper->terminate();
+        if ($kernelHelper) {
+            $kernelHelper->terminate();
+        }
     }
 
     /**
