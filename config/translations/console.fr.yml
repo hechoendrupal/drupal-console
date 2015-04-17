@@ -1,13 +1,33 @@
 application:
   console:
     messages:
-      completed: Vous pouvez maintenant commencer à utiliser le code généré !
+      completed: La commande a été correctement executée
+      generated: Vous pouvez maintenant commencer à utiliser le code généré !
+      files:
+        generated: Fichiers générés ou mis à jour
+        copied: Fichiers copiés
+      learning:
+        route: |
+          In order to to create pages it is necessary to define routes for them.
+          A route maps a URL path to a controller. It defines with what function
+          or method will be called when a URL is accessed.
+          If the user accesses http://drupal8.dev/{{ route }}, the routing
+          system will look for a route with that path. In this case it will find a
+          match, and execute the _controller callback. In this case the callback is
+          defined as a classname
+          ("\Drupal\{{ module }}\Controller\{{ class_name }}")
+          and a method ("{{ method_name }}").
     errors:
       invalid-command: La commande "%s" n'existe pas.
   site:
+    messages:
+      path: Chemin du site
     errors:
       directory: Afin de lister l\'ensemble des commandes disponibles, vous devez lancer cette commande à la racine du dossier drupal.
       settings: Afin de lister l\'ensmble des commandes dispobibles vous devez commencer par installer drupal.
+  user:
+      messages:
+        path: Dossier "Home" de l\'utilisateur
 commands:
   common:
     options:
@@ -40,21 +60,52 @@ commands:
       class-name-empty: Le nom de la classe ne peut pas être vide
   cache:
     rebuild:
-      description: Reconstruire et effacer tous les caches du site.
+      description: Reconstruire l'ensemble des caches du site.
       options:
-        cache: Nettoyer seulement un cache spécifique.
+        cache: Reconstruire un cache spécifique.
       messages:
-        welcome: Bienvenue sur le cache: reconstruire commande
-        rebuild: Reconstruire cache (s), attendez un instant s'il vous plaît.
-        completed: Nettoyage cache (s) fini
-        invalid_cache: Cache "%s" n'est pas valide.
+        welcome: Bienvenue sur la commande cache:rebuild commande
+        rebuild: Reconstruire cache (s), veuillez patienter.
+        completed: Reconstruction des caches terminées
+        invalid_cache: Le cache "%s" n'est pas valide.
       questions:
-        cache: Sélectionner cache.
+        cache: Sélectionner un cache.
+  chain:
+    description: Chain command execution
+    options:
+      file: User defined file containing commands to get executed.
+    messages:
+        missing_file: Yu must provide a valid file path and name.
+        invalid_file: The file "%s" does not exists.
   config:
+    export:
+      description: Export current application configuration.
+      arguments:
+        directory: Define export directory to save configuration output.
+      messages:
+        directory: Your configuration export file was stored in %s
     debug:
       description: Afficher de la configuration actuelle.
       arguments:
         config-name: Nom de la configuration.
+    override:
+      description: Override config value in active configuration.
+      arguments:
+        config-name: Configuration name.
+        key: Key
+        value: Value
+      messages:
+        configuration: Configuration name
+        configuration-key: Configuration key
+        original: Original Value
+        updated: Override Value
+    edit:
+      description: Edit the selected configuration.
+      arguments:
+        config-name: Configuration name.
+        editor: Editor.
+      messages:
+        no-directory: An error occurred while creating your directory at
   container:
     debug:
       description: Affiche les services actuels à une application.
@@ -194,10 +245,10 @@ commands:
         messages:
           inputs: |
 
-            Vous pouvez ajouter des champs d'entrée pour créer des configurations spéciales dans chaque bloc.
+            Vous pouvez ajouter des champs d\'entrée pour créer des configurations spéciales dans chaque bloc.
             Cette option est facultative, appuyez sur <info> Entrée </ info> à <info> continuer </ info>
       imageeffect:
-        description: Générer l'image en effet plugin
+        description: Générer l\'image en effet plugin
         help: Le <info> generate: plugin: imageeffect </ info> commande aide à générer un nouveau plugin d'effet d'image..
         welcome: Bienvenue au Drupal image Effet Plugin générateur
         options:
@@ -282,7 +333,7 @@ commands:
     download:
       description: Download module or modules in application
       messages:
-        no-releases: There aren't any releases for module %s
+        no-releases: There aren\'t any releases for module %s
         getting-releases: Getting releases for module %s
         downloading: Downloading module %s release %s
         installed: Module %s was installed successfully
@@ -330,7 +381,7 @@ commands:
     debug:
       description: Affiche les routes actuelles pour une application
       arguments:
-        route-name: Noms de la route
+        route-name: Nom de la route
       messages:
         name: Nom de la route
         path: Chemin classe
@@ -342,8 +393,8 @@ commands:
       arguments:
         route-name: Noms de la route
       messages:
-        rebuilding: Reconstruction des routes, attendez un instant s'il vous plaît
-        completed: Reconstruction de route (s) fini.
+        rebuilding: Reconstruction des routes, Veuillez patienter
+        completed: Reconstruction des routes terminé.
   self-update:
     description: Mettre à jour la console drupal vers la dernière version.
     help: Met à jour l'utilitaire console drupal.
@@ -353,4 +404,4 @@ commands:
     status:
       description: Voir le statut de l'installation de drupal
       arguments:
-        fields-group: show a set of fields groupping by type All available groups are: version, database, theme, directories
+        fields-group: show a set of fields groupping by type All available groups are\: version, database, theme, directories
