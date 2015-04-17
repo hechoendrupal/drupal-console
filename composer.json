@@ -29,6 +29,7 @@
         "symfony/debug": "2.6.*",
         "symfony/event-dispatcher": "2.6.*",
         "symfony/finder": "2.6.*",
+        "symfony/http-foundation": "2.6.*",
         "symfony/translation": "2.6.*",
         "symfony/yaml": "2.6.*",
         "twig/twig": "1.16.*",
