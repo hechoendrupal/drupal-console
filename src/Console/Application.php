@@ -254,9 +254,10 @@ class Application extends BaseApplication
     protected function registerCommands()
     {
         /** @var \Drupal\AppConsole\Command\Helper\RegisterCommandsHelper $rc */
-        $rc = $this->getHelperSet()->get('register_commands');
-
-        $rc->register();
+        $registerCommands = $this->getHelperSet()->get('register_commands');
+        if ($registerCommands){
+            $registerCommands->register();
+        }
     }
 
     /**
