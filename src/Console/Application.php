@@ -238,8 +238,10 @@ class Application extends BaseApplication
     public function bootstrap()
     {
         $kernelHelper = $this->getHelperSet()->get('kernel');
-        $kernelHelper->bootKernel();
-        $kernelHelper->initCommands($this->all());
+        if ($kernelHelper){
+            $kernelHelper->bootKernel();
+            $kernelHelper->initCommands($this->all());
+        }
 
         if (!$this->commandsRegistered) {
             $this->commandsRegistered = $this->registerCommands();
