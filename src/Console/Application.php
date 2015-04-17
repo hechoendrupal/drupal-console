@@ -79,16 +79,12 @@ class Application extends BaseApplication
     /**
      * Prepare Drupal Console to run, and bootstrap Drupal
      */
-    public function bootstrap($env = 'prod', $debug = false)
+    public function setup($env = 'prod', $debug = false)
     {
         if ($this->isBooted()) {
             if ($this->drupalAutoload) {
                 $this->initDebug($env, $debug);
                 $this->doKernelConfiguration();
-            }
-
-            if (!$this->commandsRegistered) {
-                $this->commandsRegistered = $this->registerCommands();
             }
         }
     }
@@ -108,7 +104,8 @@ class Application extends BaseApplication
 
         if (!$this->isBooted()) {
             $this->isRuningOnDrupalInstance($drupal_root);
-            $this->bootstrap($env, $debug);
+            $this->setup($env, $debug);
+            $this->bootstrap();
         }
 
         if ($this->isBooted()) {
@@ -236,8 +233,17 @@ class Application extends BaseApplication
 
         $kernelHelper->setClassLoader($this->drupalAutoload);
         $kernelHelper->setEnvironment($this->env);
+    }
+
+    public function bootstrap()
+    {
+        $kernelHelper = $this->getHelperSet()->get('kernel');
         $kernelHelper->bootKernel();
         $kernelHelper->initCommands($this->all());
+
+        if (!$this->commandsRegistered) {
+            $this->commandsRegistered = $this->registerCommands();
+        }
     }
 
     /**
