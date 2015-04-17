@@ -106,8 +106,7 @@ class Application extends BaseApplication
             && !$input->hasParameterOption(array('--no-debug', ''))
             && $env !== 'prod';
 
-        if (!$this->isBooted())
-        {
+        if (!$this->isBooted()) {
             $this->isRuningOnDrupalInstance($drupal_root);
             $this->bootstrap($env, $debug);
         }
@@ -122,7 +121,9 @@ class Application extends BaseApplication
         parent::doRun($input, $output);
 
         $kernelHelper = $this->getHelperSet()->get('kernel');
-        $kernelHelper->terminate();
+        if ($kernelHelper) {
+            $kernelHelper->terminate();
+        }
     }
 
     /**
