@@ -238,8 +238,10 @@ class Application extends BaseApplication
     public function bootstrap()
     {
         $kernelHelper = $this->getHelperSet()->get('kernel');
-        $kernelHelper->bootKernel();
-        $kernelHelper->initCommands($this->all());
+        if ($kernelHelper){
+            $kernelHelper->bootKernel();
+            $kernelHelper->initCommands($this->all());
+        }
 
         if (!$this->commandsRegistered) {
             $this->commandsRegistered = $this->registerCommands();
@@ -252,9 +254,10 @@ class Application extends BaseApplication
     protected function registerCommands()
     {
         /** @var \Drupal\AppConsole\Command\Helper\RegisterCommandsHelper $rc */
-        $rc = $this->getHelperSet()->get('register_commands');
-
-        $rc->register();
+        $registerCommands = $this->getHelperSet()->get('register_commands');
+        if ($registerCommands){
+            $registerCommands->register();
+        }
     }
 
     /**
