@@ -120,6 +120,13 @@ commands:
     messages:
       not_found: Commande Drush introuvable.
   generate:
+    authentication:
+      provider:
+        description: Generate an Authentication Provider
+        help: The <info>generate:authentication:provider</info> command helps you generate a new Authentication Provider.
+        options:
+        module: common.options.module
+        class-name: Authentication Provider class
     command:
       provider:
         description: Générer un fournisseur d'authentification
