@@ -77,22 +77,42 @@ class Application extends BaseApplication
     }
 
     /**
-     * {@inheritdoc}
+     * Prepare Drupal Console to run, and bootstrap Drupal
      */
-    public function doRun(InputInterface $input, OutputInterface $output)
+    public function bootstrap($env = 'prod', $debug = false)
     {
-        $this->isRuningOnDrupalInstance($input);
-
         if ($this->isBooted()) {
             if ($this->drupalAutoload) {
-                $this->initDebug($input);
+                $this->initDebug($env, $debug);
                 $this->doKernelConfiguration();
             }
 
             if (!$this->commandsRegistered) {
                 $this->commandsRegistered = $this->registerCommands();
             }
+        }
+    }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function doRun(InputInterface $input, OutputInterface $output)
+    {
+        $drupal_root = $input->getParameterOption(['--drupal', '-d'], false);
+
+        $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
+
+        $debug = getenv('DRUPAL_DEBUG') !== '0'
+            && !$input->hasParameterOption(array('--no-debug', ''))
+            && $env !== 'prod';
+
+        if (!$this->isBooted())
+        {
+            $this->isRuningOnDrupalInstance($drupal_root);
+            $this->bootstrap($env, $debug);
+        }
+
+        if ($this->isBooted()) {
             if (true === $input->hasParameterOption(array('--shell', '-s'))) {
                 $this->runShell($input);
                 return 0;
@@ -103,28 +123,34 @@ class Application extends BaseApplication
     }
 
     /**
-     * @param InputInterface $input
+     * @param $drupal_root
      * @return bool
      */
-    protected function isRuningOnDrupalInstance(InputInterface $input)
+    protected function isRuningOnDrupalInstance($drupal_root)
     {
-        $drupal_root = $input->getParameterOption(['--drupal', '-d'], false);
-
         $auto_load = $this
-          ->getHelperSet()
-          ->get('drupal-autoload')
-          ->findAutoload($drupal_root);
+            ->getHelperSet()
+            ->get('drupal-autoload')
+            ->findAutoload($drupal_root);
 
         if (!$this->isSettingsFile()) {
             return false;
         }
 
         if ($auto_load && !$this->isBooted()) {
-            $this->drupalAutoload = require $auto_load;
-            if ($this->drupalAutoload instanceof ClassLoader) {
-                $this->setBooted(true);
-                return true;
-            }
+            $drupalLoader = require $auto_load;
+
+            return $this->setDrupalAutoload($drupalLoader);
+        }
+        return false;
+    }
+
+    public function setDrupalAutoLoad($drupalLoader)
+    {
+        if ($drupalLoader instanceof ClassLoader) {
+            $this->drupalAutoload = $drupalLoader;
+            $this->setBooted(true);
+            return true;
         }
 
         return false;
@@ -186,14 +212,8 @@ class Application extends BaseApplication
     /**
      * @param InputInterface $input
      */
-    protected function initDebug(InputInterface $input)
+    protected function initDebug($env, $debug)
     {
-        $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
-
-        $debug = getenv('DRUPAL_DEBUG') !== '0'
-          && !$input->hasParameterOption(array('--no-debug', ''))
-          && $env !== 'prod';
-
         if ($debug) {
             Debug::enable();
         }
