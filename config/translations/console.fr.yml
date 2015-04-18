@@ -139,8 +139,8 @@ commands:
       questions:
         module: common.questions.module
         class-name: Veuillez renseigner le nom de pour la classe de la commande
-        command: Enter the Command name
-        container: Do you need to access the service container
+        command: Veuillez renseigner le nom de la commande
+        container: Avez-vous besoin accéder au conteneur de services
     controller:
       description: Générer & enregistrer un contrôleur
       help: La commande <info>generate:controller</ info> vous assiste dans la création d'un nouveau controller
@@ -159,57 +159,36 @@ commands:
         route: Veuillez renseigner le chemin de la route
         services: common.questions.services
         test: Voulez-vous générer une classe de test unitaire
-    command:
-      provider:
-        description: Générer un fournisseur d'authentification
-        help: The <info>generate:authentication:provider</info> command helps you generate a new Authentication Provider.
-        options:
-        module: common.options.module
-        class-name: Nom de commande classe
-    command:
-      description: Générer des commandes pour la console.
-      help: Le <info> générer: commande </ info> commande aide à générer une nouvelle commande.
-      welcome: Bienvenue sur le générateur de commande Drupal
-      options:
-        module: common.options.module
-        class-name: Nom de classe de commande
-        command: Nom de la commande
-        container: Accéder au conteneur de services
-      questions:
-        module: common.questions.module
-        class-name: Entrez le nom de classe de commande
-        command: Entrez le nom de commandement
-        container: Avez-vous besoin accéder au conteneur de services
     entity:
-      description: Générer un nouveau "% s"
-      help: Le <info> "% s" </ info> commande aide à générer une nouvelle "% s"
+      description: Générer une nouvelle "%s"
+      help: La commande <info>"%s"</info> vous assiste dans la génération d'une nouvelle "%s"
       welcome: Bienvenue sur le générateur de l'entité Drupal
       options:
         module: common.options.module
-        entity-class: Le nom de la classe entité
-        entity-name: Le nom de l'entité
+        entity-class: Le nom de la classe pour entitée
+        entity-name: Le nom de l'entitée
       questions:
         module: common.questions.module
-        entity-class: Entrez le nom de la classe entité
-        entity-name: Entrez le nom de l'entité
+        entity-class: Entrez le nom de la classe de l'entitée
+        entity-name: Entrez le nom de l'entitée
     form:
       description: Générer un nouveau "%s"
-      help: Le <info>"%s"</info> commande aides toi à générer un nouveau "%s"
+      help: la commande <info>"%s"</info> vous assisite dans la génération d'un nouveau "%s"
       welcome: Bienvenue sur le générateur de formulaire Drupal
       options:
         module: common.options.module
-        class-name: Le nom de classe formulaire
-        form-id: Le formulaire id
+        class-name: Le nom de classe du formulaire
+        form-id: l'ID du formulaire
         services: common.options.services
         inputs: common.options.inputs
-        routing: Mise à jour routage
+        routing: Mise à jour des routes
       questions:
         module: common.questions.module
-        class-name: Entrez le nom du formulaire Classe
-        form-id: Entrez le formulaire id
+        class-name: Entrez le nom de la classe du formulair
+        form-id: Entrez l'id du formulaire
         services: common.questions.services
         inputs: common.questions.inputs
-        routing: Mise à jour fichier de routage
+        routing: Mise à jour des routes
     module:
       description: Générer un module.
       help: Le <info> générer: le module </ info> commande aide à générer un nouveau module
