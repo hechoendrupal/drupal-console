@@ -109,6 +109,11 @@ class Application extends BaseApplication
             }
         }
 
+        if ($this->isRuningOnDrupalInstance($drupal_root)) {
+            $this->setup($env, $debug);
+            $this->bootstrap();
+        }
+
         parent::doRun($input, $output);
 
         $kernelHelper = $this->getHelperSet()->get('kernel');
