@@ -141,6 +141,24 @@ commands:
         class-name: Veuillez renseigner le nom de pour la classe de la commande
         command: Enter the Command name
         container: Do you need to access the service container
+    controller:
+      description: Générer & enregistrer un contrôleur
+      help: La commande <info>generate:controller</ info> vous assiste dans la création d'un nouveau controller
+      welcome: Bienvenue dans le générateur de contrôleur Drupal
+      options:
+        module: common.options.module
+        class-name: Nom du Controller
+        method-name: Nom de la méthode d'action
+        route: La route de l'action
+        services: common.options.services
+        test: Générer une classe de test
+      questions:
+        module: common.questions.module
+        class-name: Veuillez renseigner le nom de la classe de votre controlleur
+        method-name: Veuillez renseigner le nom de la méthode d'action
+        route: Veuillez renseigner le chemin de la route
+        services: common.questions.services
+        test: Voulez-vous générer une classe de test unitaire
     command:
       provider:
         description: Générer un fournisseur d'authentification
@@ -162,24 +180,6 @@ commands:
         class-name: Entrez le nom de classe de commande
         command: Entrez le nom de commandement
         container: Avez-vous besoin accéder au conteneur de services
-    controller:
-      description: Générer et inscrire un contrôleur
-      help: Le <info> générer: contrôleur </ info> commande aide à générer un nouveau contrôleur.
-      welcome: Bienvenue au générateur contrôleur Drupal
-      options:
-        module: common.options.module
-        class-name: Nom de la classe Controller
-        method-name: L'action nom de la méthode
-        route: Le chemin de la route
-        services: common.options.services
-        test: Générer une classe de test
-      questions:
-        module: common.questions.module
-        class-name: Entrez le nom de la classe Controller
-        method-name: Entrez l'action nom de la méthode
-        route: Entrez le chemin de la route
-        services: common.questions.services
-        test: Voulez-vous générer une classe de test unitaire
     entity:
       description: Générer un nouveau "% s"
       help: Le <info> "% s" </ info> commande aide à générer une nouvelle "% s"
