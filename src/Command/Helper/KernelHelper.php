@@ -97,8 +97,10 @@ class KernelHelper extends Helper
 
     public function terminate()
     {
-        $response = Response::create('');
-        $this->kernel->terminate($this->request, $response);
+        if ($this->booted) {
+            $response = Response::create('');
+            $this->kernel->terminate($this->request, $response);
+        }
     }
 
     /**
