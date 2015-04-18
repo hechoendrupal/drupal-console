@@ -211,18 +211,24 @@ commands:
         core: Entrez la version core Drupal
         package: Entrez le nom du paquet
         controller: Voulez-vous générer un contrôleur par défaut
+        dependencies: Would you like to add module depencencies
         test: Voulez-vous générer une classe de test unitaire
       warnings:
         module-unavailable: Warning The following modules are not already available in your local environment "%s"
+      errors:
+        directory-exists: The target directory "%s" is not empty.
     permission:
         description: Génère les permissions d\'un module
         help: La commande <info>generate:permissions</info> vous aide à définir des nouvelles permissions
         options:
           module: common.options.module
-          permission: Entrez une permission
         questions:
           module: common.questions.module
           permission: Entrez une permission
+          title: Enter a title for the permision
+          description: Enter a description for the permision
+          restrict-access: Restrict Access
+          add: Do you want add another permission
     plugin:
       block:
         description: Générer un bloc de plugin
@@ -284,6 +290,28 @@ commands:
               plugin-states: Please select what REST States implement in your resource (GET is selected by default)
             messages:
               selected-states: States selected
+      rulesaction:
+        description: Generate a plugin rule action
+        help: The <info>generate:plugin:rulesaction</info> command helps you generate a new Plugin rule action.
+        welcome: Welcome to the Drupal Plugin Rules Action generator
+        options:
+          module: common.options.module
+          class-name: Plugin class name
+          label: Plugin label
+          plugin-id: Plugin id
+          inputs: common.options.inputs
+          services: common.options.services
+          category: Plugin category
+          context: Plugin context
+        questions:
+          module: common.questions.module
+          class-name: Enter the plugin class name
+          label: Enter the plugin label
+          plugin-id: Enter the plugin id
+          inputs: common.questions.inputs
+          services: common.questions.services
+          category: Enter plugin category
+          context: Enter plugin context
     service:
       description: Générer service
       help: Le <info> générer: Service </ info> commande aide à générer un nouveau service.
@@ -292,12 +320,16 @@ commands:
         module: common.options.module
         service-name: Le nom du service
         class-name: Nom de la classe
+        interface: Interface
         services: common.questions.services
       questions:
         module: common.questions.module
         service-name: Entrez le nom du service
         class-name: Entrez le nom de la classe
+        interface: Create an interface
         services: common.options.services
+  init:
+    description: Copy configuration files to user home directory.
   module:
     debug:
       description: Display current modules available for application
@@ -377,31 +409,124 @@ commands:
         import-fail: Import "%s" failed
         import-skipped: Import "%s" was skipped due to unfulfilled dependencies
         wrong-source: 'Upgrading from this version of Drupal is not supported.'
+  rest:
+    enable:
+      description: Enable a rest resource for the application
+      arguments:
+        resource-id: Rest ID
+        states: REST States to enable for Rest resource
+        autorizations: Autorizations providers enabled for Rest Resource
+
+      questions:
+        resource-id: Rest ID
+      messages:
+        invalid-rest-id: Rest ID %s is invalid
+        formats: Available serialization formats
+        authentication-providers: Available Authentication Providers
+        selected-state: Selected State
+        selected-formats: Selected formats
+        selected-authentication-providers: Selected Authentication Providers
+    disable:
+      description: Disable a rest resource for the application
+      arguments:
+        resource-id: Rest ID
+        states: REST States to disable for Rest resource
+
+      questions:
+        resource-id: Rest ID
+      messages:
+        invalid-rest-id: Rest ID %s is invalid
+    debug:
+      description: Display current rest resource for the application
+      arguments:
+        resource-id: Rest ID
+      options:
+        status: Rest resource status enabled | disabled
+      messages:
+        id: Rest ID
+        label: Label
+        canonical_url: Canonical URL
+        status: Status
+        provider: Provider
+        enabled: Enabled
+        disabled: Disabled
+        rest-state: REST States
+        supported-formats: Supported Formats
+        supported_auth: Supported Authentication Providers
+        not-found: Rest resource %s not found
   router:
     debug:
-      description: Affiche les routes actuelles pour une application
+      description: Affiche les routes de l'application
       arguments:
-        route-name: Nom de la route
+        route-name: Noms des routes
       messages:
-        name: Nom de la route
-        path: Chemin classe
+        name: nom de la toute
+        path: Chemin de la path
         pattern: Motif
-        defaults: Par défaut
+        defaults: Défault
         options: Options
     rebuild:
-      description: Reconstruire les routes pour une application
+      description: Reconstruire les routes de l'application
       arguments:
-        route-name: Noms de la route
+        route-name: Noms des routes
       messages:
-        rebuilding: Reconstruction des routes, Veuillez patienter
-        completed: Reconstruction des routes terminé.
+        rebuilding: Reconstruction des routes en cours, veuillez patienter
+        completed: Reconstruction des routes terminée.
   self-update:
-    description: Mettre à jour la console drupal vers la dernière version.
-    help: Met à jour l'utilitaire console drupal.
+    description: Mise à jour de la console.
+    help: Permet de mettre à jour la console Drupal vers la dernière version.
     messages:
-      success: La console drupal a correctement été mise à jour.
+      success: La console Drupal à été mise à jour.
   site:
-    status:
-      description: Voir le statut de l'installation de drupal
+    mode:
+      description: Switch system performance configuration
       arguments:
-        fields-group: show a set of fields groupping by type All available groups are\: version, database, theme, directories
+        environment: Enviroment name
+      messages:
+        configuration: Configuration name
+        configuration-key: Configuration key
+        original: Original Value
+        updated: Override Value
+    status:
+      description: View current Drupal Installation status
+      messages:
+        application: Application
+        system: System Info
+        database: Database connection
+        driver: Driver
+        host: Host
+        database: Database
+        port: Port
+        username: Username
+        password: Password
+        theme: Themes
+        connection: Connection
+        theme_default: Default theme
+        theme_admin: Admin theme
+        directory: Directories
+        directory_root: Site root directory
+        directory_temporary: Site temporary directory
+        directory_theme_default: Default theme directory
+        directory_theme_admin: Admin theme directory
+    maintenance:
+      description: Switch site into maintenance mode
+      arguments:
+        mode: Site maintenance mode
+      messages:
+        maintenance-on: Operating in maintenance mode on
+        maintenance-off: Operating in maintenance mode off
+      errors:
+        invalid-mode: Invalid maintance mode
+  test:
+    debug:
+      description: List Test Units available for the application.
+      help: Update the console command to the latest version.
+      arguments:
+        test-id: Test Unit ID
+      options:
+        group: Group
+      messages:
+        id: Test Unit ID
+        description: Description
+        group: Group
+        success: The console has been updated to the latest version.
