@@ -102,12 +102,6 @@ class Application extends BaseApplication
             && !$input->hasParameterOption(array('--no-debug', ''))
             && $env !== 'prod';
 
-        if (!$this->isBooted()) {
-            $this->isRuningOnDrupalInstance($drupal_root);
-            $this->setup($env, $debug);
-            $this->bootstrap();
-        }
-
         if ($this->isBooted()) {
             if (true === $input->hasParameterOption(array('--shell', '-s'))) {
                 $this->runShell($input);
