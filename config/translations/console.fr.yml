@@ -1,13 +1,33 @@
 application:
   console:
     messages:
-      completed: Vous pouvez maintenant commencer à utiliser le code généré !
+      completed: La commande a été correctement executée
+      generated: Vous pouvez maintenant commencer à utiliser le code généré !
+      files:
+        generated: Fichiers générés ou mis à jour
+        copied: Fichiers copiés
+      learning:
+        route: |
+          In order to to create pages it is necessary to define routes for them.
+          A route maps a URL path to a controller. It defines with what function
+          or method will be called when a URL is accessed.
+          If the user accesses http://drupal8.dev/{{ route }}, the routing
+          system will look for a route with that path. In this case it will find a
+          match, and execute the _controller callback. In this case the callback is
+          defined as a classname
+          ("\Drupal\{{ module }}\Controller\{{ class_name }}")
+          and a method ("{{ method_name }}").
     errors:
       invalid-command: La commande "%s" n'existe pas.
   site:
+    messages:
+      path: Chemin du site
     errors:
       directory: Afin de lister l\'ensemble des commandes disponibles, vous devez lancer cette commande à la racine du dossier drupal.
       settings: Afin de lister l\'ensmble des commandes dispobibles vous devez commencer par installer drupal.
+  user:
+      messages:
+        path: Dossier "Home" de l\'utilisateur
 commands:
   common:
     options:
@@ -40,21 +60,52 @@ commands:
       class-name-empty: Le nom de la classe ne peut pas être vide
   cache:
     rebuild:
-      description: Reconstruire et effacer tous les caches du site.
+      description: Reconstruire l'ensemble des caches du site.
       options:
-        cache: Nettoyer seulement un cache spécifique.
+        cache: Reconstruire un cache spécifique.
       messages:
-        welcome: Bienvenue sur le cache: reconstruire commande
-        rebuild: Reconstruire cache (s), attendez un instant s'il vous plaît.
-        completed: Nettoyage cache (s) fini
-        invalid_cache: Cache "%s" n'est pas valide.
+        welcome: Bienvenue sur la commande cache:rebuild commande
+        rebuild: Reconstruire cache (s), veuillez patienter.
+        completed: Reconstruction des caches terminées
+        invalid_cache: Le cache "%s" n'est pas valide.
       questions:
-        cache: Sélectionner cache.
+        cache: Sélectionner un cache.
+  chain:
+    description: Chain command execution
+    options:
+      file: User defined file containing commands to get executed.
+    messages:
+        missing_file: Yu must provide a valid file path and name.
+        invalid_file: The file "%s" does not exists.
   config:
+    export:
+      description: Export current application configuration.
+      arguments:
+        directory: Define export directory to save configuration output.
+      messages:
+        directory: Your configuration export file was stored in %s
     debug:
       description: Afficher de la configuration actuelle.
       arguments:
         config-name: Nom de la configuration.
+    override:
+      description: Override config value in active configuration.
+      arguments:
+        config-name: Configuration name.
+        key: Key
+        value: Value
+      messages:
+        configuration: Configuration name
+        configuration-key: Configuration key
+        original: Original Value
+        updated: Override Value
+    edit:
+      description: Edit the selected configuration.
+      arguments:
+        config-name: Configuration name.
+        editor: Editor.
+      messages:
+        no-directory: An error occurred while creating your directory at
   container:
     debug:
       description: Affiche les services actuels à une application.
@@ -69,75 +120,75 @@ commands:
     messages:
       not_found: Commande Drush introuvable.
   generate:
-    command:
+    authentication:
       provider:
-        description: Générer un fournisseur d'authentification
-        help: The <info>generate:authentication:provider</info> command helps you generate a new Authentication Provider.
+        description: Générer un fournisseur d\'authentification
+        help: La commande <info>generate:authentication:provider</info> vous permet de générer un fournisseur d\'authentification.
         options:
         module: common.options.module
-        class-name: Nom de commande classe
+        class-name: Nom de la classe du fournisseur d'authentification
     command:
-      description: Générer des commandes pour la console.
-      help: Le <info> générer: commande </ info> commande aide à générer une nouvelle commande.
-      welcome: Bienvenue sur le générateur de commande Drupal
+      description: Génère une commande utilisable via la console
+      help: la commande <info>generate:command</info> vous permet de générer une nouvelle commande.
+      welcome: Bienvenue dans le générateur de commande Drupal
       options:
         module: common.options.module
-        class-name: Nom de classe de commande
+        class-name: Nom de la classe de la commande
         command: Nom de la commande
-        container: Accéder au conteneur de services
+        container: Access the services container
       questions:
         module: common.questions.module
-        class-name: Entrez le nom de classe de commande
-        command: Entrez le nom de commandement
+        class-name: Veuillez renseigner le nom de pour la classe de la commande
+        command: Veuillez renseigner le nom de la commande
         container: Avez-vous besoin accéder au conteneur de services
     controller:
-      description: Générer et inscrire un contrôleur
-      help: Le <info> générer: contrôleur </ info> commande aide à générer un nouveau contrôleur.
-      welcome: Bienvenue au générateur contrôleur Drupal
+      description: Générer & enregistrer un contrôleur
+      help: La commande <info>generate:controller</ info> vous assiste dans la création d'un nouveau controller
+      welcome: Bienvenue dans le générateur de contrôleur Drupal
       options:
         module: common.options.module
-        class-name: Nom de la classe Controller
-        method-name: L'action nom de la méthode
-        route: Le chemin de la route
+        class-name: Nom du Controller
+        method-name: Nom de la méthode d'action
+        route: La route de l'action
         services: common.options.services
         test: Générer une classe de test
       questions:
         module: common.questions.module
-        class-name: Entrez le nom de la classe Controller
-        method-name: Entrez l'action nom de la méthode
-        route: Entrez le chemin de la route
+        class-name: Veuillez renseigner le nom de la classe de votre controlleur
+        method-name: Veuillez renseigner le nom de la méthode d'action
+        route: Veuillez renseigner le chemin de la route
         services: common.questions.services
         test: Voulez-vous générer une classe de test unitaire
     entity:
-      description: Générer un nouveau "% s"
-      help: Le <info> "% s" </ info> commande aide à générer une nouvelle "% s"
+      description: Générer une nouvelle "%s"
+      help: La commande <info>"%s"</info> vous assiste dans la génération d'une nouvelle "%s"
       welcome: Bienvenue sur le générateur de l'entité Drupal
       options:
         module: common.options.module
-        entity-class: Le nom de la classe entité
-        entity-name: Le nom de l'entité
+        entity-class: Le nom de la classe pour entitée
+        entity-name: Le nom de l'entitée
       questions:
         module: common.questions.module
-        entity-class: Entrez le nom de la classe entité
-        entity-name: Entrez le nom de l'entité
+        entity-class: Entrez le nom de la classe de l'entitée
+        entity-name: Entrez le nom de l'entitée
     form:
       description: Générer un nouveau "%s"
-      help: Le <info>"%s"</info> commande aides toi à générer un nouveau "%s"
+      help: la commande <info>"%s"</info> vous assisite dans la génération d'un nouveau "%s"
       welcome: Bienvenue sur le générateur de formulaire Drupal
       options:
         module: common.options.module
-        class-name: Le nom de classe formulaire
-        form-id: Le formulaire id
+        class-name: Le nom de classe du formulaire
+        form-id: l'ID du formulaire
         services: common.options.services
         inputs: common.options.inputs
-        routing: Mise à jour routage
+        routing: Mise à jour des routes
       questions:
         module: common.questions.module
-        class-name: Entrez le nom du formulaire Classe
-        form-id: Entrez le formulaire id
+        class-name: Entrez le nom de la classe du formulair
+        form-id: Entrez l'id du formulaire
         services: common.questions.services
         inputs: common.questions.inputs
-        routing: Mise à jour fichier de routage
+        routing: Mise à jour des routes
     module:
       description: Générer un module.
       help: Le <info> générer: le module </ info> commande aide à générer un nouveau module
@@ -160,18 +211,24 @@ commands:
         core: Entrez la version core Drupal
         package: Entrez le nom du paquet
         controller: Voulez-vous générer un contrôleur par défaut
+        dependencies: Would you like to add module depencencies
         test: Voulez-vous générer une classe de test unitaire
       warnings:
         module-unavailable: Warning The following modules are not already available in your local environment "%s"
+      errors:
+        directory-exists: The target directory "%s" is not empty.
     permission:
         description: Génère les permissions d\'un module
         help: La commande <info>generate:permissions</info> vous aide à définir des nouvelles permissions
         options:
           module: common.options.module
-          permission: Entrez une permission
         questions:
           module: common.questions.module
           permission: Entrez une permission
+          title: Enter a title for the permision
+          description: Enter a description for the permision
+          restrict-access: Restrict Access
+          add: Do you want add another permission
     plugin:
       block:
         description: Générer un bloc de plugin
@@ -194,10 +251,10 @@ commands:
         messages:
           inputs: |
 
-            Vous pouvez ajouter des champs d'entrée pour créer des configurations spéciales dans chaque bloc.
+            Vous pouvez ajouter des champs d\'entrée pour créer des configurations spéciales dans chaque bloc.
             Cette option est facultative, appuyez sur <info> Entrée </ info> à <info> continuer </ info>
       imageeffect:
-        description: Générer l'image en effet plugin
+        description: Générer l\'image en effet plugin
         help: Le <info> generate: plugin: imageeffect </ info> commande aide à générer un nouveau plugin d'effet d'image..
         welcome: Bienvenue au Drupal image Effet Plugin générateur
         options:
@@ -233,6 +290,28 @@ commands:
               plugin-states: Please select what REST States implement in your resource (GET is selected by default)
             messages:
               selected-states: States selected
+      rulesaction:
+        description: Generate a plugin rule action
+        help: The <info>generate:plugin:rulesaction</info> command helps you generate a new Plugin rule action.
+        welcome: Welcome to the Drupal Plugin Rules Action generator
+        options:
+          module: common.options.module
+          class-name: Plugin class name
+          label: Plugin label
+          plugin-id: Plugin id
+          inputs: common.options.inputs
+          services: common.options.services
+          category: Plugin category
+          context: Plugin context
+        questions:
+          module: common.questions.module
+          class-name: Enter the plugin class name
+          label: Enter the plugin label
+          plugin-id: Enter the plugin id
+          inputs: common.questions.inputs
+          services: common.questions.services
+          category: Enter plugin category
+          context: Enter plugin context
     service:
       description: Générer service
       help: Le <info> générer: Service </ info> commande aide à générer un nouveau service.
@@ -241,12 +320,16 @@ commands:
         module: common.options.module
         service-name: Le nom du service
         class-name: Nom de la classe
+        interface: Interface
         services: common.questions.services
       questions:
         module: common.questions.module
         service-name: Entrez le nom du service
         class-name: Entrez le nom de la classe
+        interface: Create an interface
         services: common.options.services
+  init:
+    description: Copy configuration files to user home directory.
   module:
     debug:
       description: Display current modules available for application
@@ -282,7 +365,7 @@ commands:
     download:
       description: Download module or modules in application
       messages:
-        no-releases: There aren't any releases for module %s
+        no-releases: There aren\'t any releases for module %s
         getting-releases: Getting releases for module %s
         downloading: Downloading module %s release %s
         installed: Module %s was installed successfully
@@ -326,31 +409,124 @@ commands:
         import-fail: Import "%s" failed
         import-skipped: Import "%s" was skipped due to unfulfilled dependencies
         wrong-source: 'Upgrading from this version of Drupal is not supported.'
+  rest:
+    enable:
+      description: Enable a rest resource for the application
+      arguments:
+        resource-id: Rest ID
+        states: REST States to enable for Rest resource
+        autorizations: Autorizations providers enabled for Rest Resource
+
+      questions:
+        resource-id: Rest ID
+      messages:
+        invalid-rest-id: Rest ID %s is invalid
+        formats: Available serialization formats
+        authentication-providers: Available Authentication Providers
+        selected-state: Selected State
+        selected-formats: Selected formats
+        selected-authentication-providers: Selected Authentication Providers
+    disable:
+      description: Disable a rest resource for the application
+      arguments:
+        resource-id: Rest ID
+        states: REST States to disable for Rest resource
+
+      questions:
+        resource-id: Rest ID
+      messages:
+        invalid-rest-id: Rest ID %s is invalid
+    debug:
+      description: Display current rest resource for the application
+      arguments:
+        resource-id: Rest ID
+      options:
+        status: Rest resource status enabled | disabled
+      messages:
+        id: Rest ID
+        label: Label
+        canonical_url: Canonical URL
+        status: Status
+        provider: Provider
+        enabled: Enabled
+        disabled: Disabled
+        rest-state: REST States
+        supported-formats: Supported Formats
+        supported_auth: Supported Authentication Providers
+        not-found: Rest resource %s not found
   router:
     debug:
-      description: Affiche les routes actuelles pour une application
+      description: Affiche les routes de l'application
       arguments:
-        route-name: Noms de la route
+        route-name: Noms des routes
       messages:
-        name: Nom de la route
-        path: Chemin classe
+        name: nom de la toute
+        path: Chemin de la path
         pattern: Motif
-        defaults: Par défaut
+        defaults: Défault
         options: Options
     rebuild:
-      description: Reconstruire les routes pour une application
+      description: Reconstruire les routes de l'application
       arguments:
-        route-name: Noms de la route
+        route-name: Noms des routes
       messages:
-        rebuilding: Reconstruction des routes, attendez un instant s'il vous plaît
-        completed: Reconstruction de route (s) fini.
+        rebuilding: Reconstruction des routes en cours, veuillez patienter
+        completed: Reconstruction des routes terminée.
   self-update:
-    description: Mettre à jour la console drupal vers la dernière version.
-    help: Met à jour l'utilitaire console drupal.
+    description: Mise à jour de la console.
+    help: Permet de mettre à jour la console Drupal vers la dernière version.
     messages:
-      success: La console drupal a correctement été mise à jour.
+      success: La console Drupal à été mise à jour.
   site:
-    status:
-      description: Voir le statut de l'installation de drupal
+    mode:
+      description: Switch system performance configuration
       arguments:
-        fields-group: show a set of fields groupping by type All available groups are: version, database, theme, directories
+        environment: Enviroment name
+      messages:
+        configuration: Configuration name
+        configuration-key: Configuration key
+        original: Original Value
+        updated: Override Value
+    status:
+      description: View current Drupal Installation status
+      messages:
+        application: Application
+        system: System Info
+        database: Database connection
+        driver: Driver
+        host: Host
+        database: Database
+        port: Port
+        username: Username
+        password: Password
+        theme: Themes
+        connection: Connection
+        theme_default: Default theme
+        theme_admin: Admin theme
+        directory: Directories
+        directory_root: Site root directory
+        directory_temporary: Site temporary directory
+        directory_theme_default: Default theme directory
+        directory_theme_admin: Admin theme directory
+    maintenance:
+      description: Switch site into maintenance mode
+      arguments:
+        mode: Site maintenance mode
+      messages:
+        maintenance-on: Operating in maintenance mode on
+        maintenance-off: Operating in maintenance mode off
+      errors:
+        invalid-mode: Invalid maintance mode
+  test:
+    debug:
+      description: List Test Units available for the application.
+      help: Update the console command to the latest version.
+      arguments:
+        test-id: Test Unit ID
+      options:
+        group: Group
+      messages:
+        id: Test Unit ID
+        description: Description
+        group: Group
+        success: The console has been updated to the latest version.
