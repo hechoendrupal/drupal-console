@@ -15,9 +15,9 @@ class PluginRestResourceGenerator extends Generator
      * @param  $plugin_label
      * @param  $plugin_id
      * @param  $plugin_url
-     * @param  $states
+     * @param  $plugin_states
      */
-    public function generate($module, $class_name, $plugin_id, $plugin_label, $plugin_url, $plugin_states)
+    public function generate($module, $class_name, $plugin_label, $plugin_id, $plugin_url, $plugin_states)
     {
         $parameters = [
           'module_name' => $module,
