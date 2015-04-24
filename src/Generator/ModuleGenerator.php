@@ -59,6 +59,12 @@ class ModuleGenerator extends Generator
           $parameters
         );
 
+        $this->renderFile(
+          'module/composer.json.twig',
+          $dir . '/' . 'composer.json',
+          $parameters
+        );
+
         if ($controller) {
             $class_name = 'DefaultController';
             $parameters = array(
