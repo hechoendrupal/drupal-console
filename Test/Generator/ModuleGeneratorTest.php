@@ -25,6 +25,7 @@ class ModuleGeneratorTest extends GeneratorTest
           $core,
           $package,
           $controller,
+          $composer,
           $dependencies,
           $tests
           ) = $parameters;
@@ -37,6 +38,7 @@ class ModuleGeneratorTest extends GeneratorTest
           $core,
           $package,
           $controller,
+          $composer,
           $dependencies,
           $tests
         );
@@ -84,16 +86,16 @@ class ModuleGeneratorTest extends GeneratorTest
 
         return [
           [
-            ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, null, false],
+            ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, false, null, false],
           ],
           [
-            ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, null, true],
+            ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, false, null, true],
           ],
           [
-            ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, null, false],
+            ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, false, null, false],
           ],
           [
-            ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', true, null, true],
+            ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', true, true, null, true],
           ],
         ];
     }
