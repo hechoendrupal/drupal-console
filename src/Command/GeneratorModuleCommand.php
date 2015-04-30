@@ -38,6 +38,8 @@ class GeneratorModuleCommand extends GeneratorCommand
             $this->trans('commands.generate.module.options.package'))
           ->addOption('controller', '', InputOption::VALUE_NONE,
             $this->trans('commands.generate.module.options.controller'))
+          ->addOption('composer', '', InputOption::VALUE_NONE,
+            $this->trans('commands.generate.module.options.composer'))
           ->addOption('dependencies', '', InputOption::VALUE_OPTIONAL,
             $this->trans('commands.generate.module.options.dependencies'))
           ->addOption('test', '', InputOption::VALUE_NONE, $this->trans('commands.generate.module.options.test'));
@@ -68,6 +70,7 @@ class GeneratorModuleCommand extends GeneratorCommand
         $core = $input->getOption('core');
         $package = $input->getOption('package');
         $controller = $input->getOption('controller');
+        $composer = $input->getOption('composer');
         /**
          * Modules Dependencies
          *
@@ -100,6 +103,7 @@ class GeneratorModuleCommand extends GeneratorCommand
           $core,
           $package,
           $controller,
+          $composer,
           $dependencies,
           $test
         );
@@ -239,6 +243,14 @@ class GeneratorModuleCommand extends GeneratorCommand
             $controller = true;
         }
         $input->setOption('controller', $controller);
+
+        $composer = $input->getOption('composer');
+        if (!$composer && $dialog->askConfirmation($output,
+            $dialog->getQuestion($this->trans('commands.generate.module.questions.composer'), 'no', '?'), false)
+        ) {
+            $composer = true;
+        }
+        $input->setOption('composer', $composer);
 
         $dependencies = $input->getOption('dependencies');
         if (!$dependencies) {
