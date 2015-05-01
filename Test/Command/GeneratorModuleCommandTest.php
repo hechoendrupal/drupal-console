@@ -15,14 +15,14 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
      */
     public function testInteractive($options, $expected, $input)
     {
-        list($module, $machine_name, $dir, $description, $core, $package, $controller, $dependencies, $test) = $expected;
+        list($module, $machine_name, $dir, $description, $core, $package, $controller, $composer, $dependencies, $test) = $expected;
 
         $generator = $this->getGenerator();
 
         $generator
           ->expects($this->once())
           ->method('generate')
-          ->with($module, $machine_name, $dir, $description, $core, $package, $controller, $dependencies, $test);
+          ->with($module, $machine_name, $dir, $description, $core, $package, $controller, $composer, $dependencies, $test);
 
         $command = $this->getCommand($generator, $input);
 
@@ -38,7 +38,7 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
             // case one basic options
           [
             [],
-            ['foo', 'foo', $dir, 'My Awesome Module', '8.x', 'Other', false, [], false],
+            ['foo', 'foo', $dir, 'My Awesome Module', '8.x', 'Other', false, false, [], false],
             "foo\nfoo\n$dir\n"
           ],
         ];
@@ -49,14 +49,14 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
      */
     public function testNoInteractive($options, $expected)
     {
-        list($module, $machine_name, $dir, $description, $core, $package, $controller, $dependencies, $test) = $expected;
+        list($module, $machine_name, $dir, $description, $core, $package, $controller, $composer, $dependencies, $test) = $expected;
 
         $generator = $this->getGenerator();
 
         $generator
           ->expects($this->once())
           ->method('generate')
-          ->with($module, $machine_name, $dir, $description, $core, $package, $controller, $dependencies, $test);
+          ->with($module, $machine_name, $dir, $description, $core, $package, $controller, $composer, $dependencies, $test);
 
         $cmd = new CommandTester($this->getCommand($generator, ''));
         $cmd->execute($options, ['interactive' => false]);
@@ -75,10 +75,11 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
               '--description' => 'My Awesome Module',
               '--core' => '8.x',
               '--package' => 'Other',
+              '--composer' => false,
               '--controller' => true,
               '--test' => true
             ],
-            ["foo", "foo", $dir, "My Awesome Module", '8.x', 'Other', true, [], true],
+            ["foo", "foo", $dir, "My Awesome Module", '8.x', 'Other', true, false, [], true],
           ],
           [
             [
@@ -88,10 +89,11 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
               '--description' => 'My Awesome Module',
               '--core' => '8.x',
               '--package' => 'Other',
+              '--composer' => false,
               '--controller' => true,
               '--test' => true
             ],
-            ["foo", 'foo', $dir, "My Awesome Module", '8.x', 'Other', true, [], true],
+            ["foo", 'foo', $dir, "My Awesome Module", '8.x', 'Other', true, false, [], true],
           ]
         ];
     }
