@@ -113,8 +113,8 @@ class {{ class_name }} extends ResourceBase {% endblock %}
     $response->setStatusCode(ResourceResponse::HTTP_OK);
     $response->headers->set('Content-Type', 'text/html');
 
-    // Prints the HTTP headers followed by the content.
-    $response->send();
+    // Return response to be process by RequestHandler::handle
+    return $response;
 
     // Throw an exception if it is required.
     // throw new HttpException(t('Throw an exception if it is required.'));
