@@ -126,7 +126,9 @@ commands:
         help: The <info>generate:authentication:provider</info> command helps you generate a new Authentication Provider.
         options:
         module: common.options.module
-        class-name: Authentication Provider class
+        options:
+          class-name: Authentication Provider class
+          provider-id: Provider ID
     command:
       description: Generate commands for the console.
       help: The <info>generate:command</info> command helps you generate a new command.
