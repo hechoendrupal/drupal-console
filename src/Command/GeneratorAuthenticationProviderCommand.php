@@ -31,7 +31,9 @@ class GeneratorAuthenticationProviderCommand extends GeneratorCommand
           ->setHelp($this->trans('commands.generate.authentication.provider.help'))
           ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
           ->addOption('class-name', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.authentication.provider.options.class-name'));
+            $this->trans('commands.generate.authentication.provider.options.class-name'))
+          ->addOption('provider-id', '', InputOption::VALUE_OPTIONAL,
+            $this->trans('commands.generate.authentication.provider.options.provider-id'));
     }
 
     /**
@@ -48,9 +50,10 @@ class GeneratorAuthenticationProviderCommand extends GeneratorCommand
 
         $module = $input->getOption('module');
         $class_name = $input->getOption('class-name');
+        $provider_id = $input->getOption('provider-id');
 
         $this->getGenerator()
-          ->generate($module, $class_name);
+          ->generate($module, $class_name, $provider_id);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -84,7 +87,27 @@ class GeneratorAuthenticationProviderCommand extends GeneratorCommand
               'DefaultAuthenticationProvider'
             );
         }
+
+        // --provider-id option
+        $provider_id = $input->getOption('provider-id');
+        if (!$provider_id) {
+          $provider_id = $dialog->askAndValidate(
+            $output,
+            $dialog->getQuestion($this->trans('commands.generate.authentication.provider.options.provider-id'),
+              $stringUtils->camelCaseToUnderscore($class_name)),
+            function ($value) use ($stringUtils) {
+              if (!strlen(trim($value))) {
+                throw new \Exception('The Class name can not be empty');
+              }
+              return $stringUtils->camelCaseToUnderscore($value);
+            },
+            false,
+            $stringUtils->camelCaseToUnderscore($class_name)
+          );
+        }
+
         $input->setOption('class-name', $class_name);
+        $input->setOption('provider-id', $provider_id);
     }
 
     protected function createGenerator()

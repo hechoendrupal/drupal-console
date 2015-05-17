@@ -13,7 +13,7 @@ class AuthenticationProviderGenerator extends Generator
      * @param  $module
      * @param  $class_name
      */
-    public function generate($module, $class_name)
+    public function generate($module, $class_name, $provider_id)
     {
         $parameters = [
           'module' => $module,
@@ -26,6 +26,7 @@ class AuthenticationProviderGenerator extends Generator
           $parameters
         );
 
+
         $parameters = [
           'module' => $module,
           'class_name' => 'Authentication\\Provider\\' . $class_name,
@@ -37,6 +38,7 @@ class AuthenticationProviderGenerator extends Generator
           'file_exists' => file_exists($this->getModulePath($module) . '/' . $module . '.services.yml'),
           'tags' => [
             'name' => 'authentication_provider',
+            'provider_id' => $provider_id,
             'priority' => '100'
           ],
         ];
