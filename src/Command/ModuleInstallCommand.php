@@ -22,6 +22,74 @@ class ModuleInstallCommand extends ContainerAwareCommand
           ->addArgument('module', InputArgument::REQUIRED, $this->trans('commands.module.install.options.module'));
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function interact(InputInterface $input, OutputInterface $output) {
+
+      $module_list = array();
+
+      $dialog = $this->getDialogHelper();
+
+      $modules = system_rebuild_module_data();
+      foreach ($modules as $module_id => $module) {
+
+        if ($module->status == 1) {
+          continue;
+        }
+
+        $module_list[$module_id] = $module->info['name'];
+      }
+
+      $output->writeln('[+] <info>' . $this->trans('commands.module.install.messages.disabled-modules') . '</info>');
+
+      $module_list_install = array();
+      $i=0;
+      $module_name = $dialog->askAndValidate(
+        $output,
+        $dialog->getQuestion($this->trans('commands.module.install.questions.module'), ''),
+        function ($module_id) use ($module_list) {
+          if ($module_list[$module_id]) {
+            return $module_id;
+          } else {
+            throw new \InvalidArgumentException(
+              sprintf($this->trans('commands.module.install.questions.invalid-module'), $module_name)
+            );
+          }
+        },
+        false,
+        '',
+        array_keys($module_list)
+      );
+      $module_list_install[$i] = $module_name;
+
+      do {
+        $module_name = $dialog->askAndValidate(
+          $output,
+          $dialog->getQuestion($this->trans('commands.module.install.questions.another-module'), ''),
+          function ($module_id) use ($module_list) {
+            if ($module_id == '' || $module_list[$module_id]) {
+              return $module_id;
+            } else {
+              throw new \InvalidArgumentException(
+                sprintf($this->trans('commands.module.install.questions.invalid-module'), $module_name)
+              );
+            }
+          },
+          false,
+          '',
+          array_keys($module_list)
+        );
+        if($module_name != '') {
+          $i++;
+          $module_list_install[$i] = $module_name;
+        }
+
+      } while($module_name != '');
+
+      $input->setArgument('module', implode(',', $module_list_install));
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $extension_config = $this->getConfigFactory()->getEditable('core.extension');
@@ -95,7 +163,7 @@ class ModuleInstallCommand extends ContainerAwareCommand
             $moduleInstaller->install($module_list);
             system_rebuild_module_data();
             $output->writeln('[+] <info>' . sprintf($this->trans('commands.module.install.messages.success'),
-                implode(", ", $modules)) . '</info>');
+                implode(", ", array_merge($modules, $dependencies))) . '</info>');
         } catch (\Exception $e) {
             $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
             return;

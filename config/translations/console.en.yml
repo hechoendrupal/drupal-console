@@ -348,6 +348,10 @@ commands:
         disabled: "Disabled"
     install:
       description: Install module or modules in the application
+      questions:
+        module: Module name
+        another-module: Another module name (or leave empty to begin installation)
+        invalid-module: Invalid module
       options:
         module: Module or modules to be enabled should be separated by a comma
       messages:
@@ -356,7 +360,8 @@ commands:
         missing-dependencies: Unable to install modules %s due to missing dependencies %s
         nothing: Nothing to do. All modules are already installed
         dependencies: Are you sure you want to install dependencies: %s?
-        success: Module(s) %s were installed successfully
+        success: The following module(s) were installed successfully: %s
+        disabled-modules: Only disabled modules will be listed in autocomplete
     uninstall:
       description: Uninstall module or modules in the application
       messages:
