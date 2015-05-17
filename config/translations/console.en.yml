@@ -368,7 +368,7 @@ commands:
         no-modules: You must provide module or modules to uninstall.
         dependents: Unable to uninstall modules %s because are required by %s
         nothing: Nothing to do. All modules are already uninstalled
-        success: Module(s) %s were uninstalled successfully
+        success: The following module(s) were uninstalled successfully: %s
     download:
       description: Download module or modules in application
       messages:
