@@ -350,6 +350,10 @@ commands:
         disabled: "Disabled"
     install:
       description: Install module or modules in the application
+      questions:
+        module: Module name
+        another-module: Another module name (or leave empty to begin installation)
+        invalid-module: Invalid module
       options:
         module: Module or modules to be enabled should be separated by a comma
       messages:
@@ -358,21 +362,24 @@ commands:
         missing-dependencies: Unable to install modules %s due to missing dependencies %s
         nothing: Nothing to do. All modules are already installed
         dependencies: Are you sure you want to install dependencies: %s?
-        success: Module(s) %s were installed successfully
+        success: The following module(s) were installed successfully: %s
+        disabled-modules: Only disabled modules will be listed in autocomplete
     uninstall:
       description: Uninstall module or modules in the application
       messages:
         no-modules: You must provide module or modules to uninstall.
         dependents: Unable to uninstall modules %s because are required by %s
         nothing: Nothing to do. All modules are already uninstalled
-        success: Module(s) %s were uninstalled successfully
+        success: The following module(s) were uninstalled successfully: %s
     download:
       description: Download module or modules in application
+      options:
+        version: Module version i.e 1.x-dev
       messages:
         no-releases: There aren't any releases for module %s
         getting-releases: Getting releases for module %s
         downloading: Downloading module %s release %s
-        installed: Module %s was installed successfully
+        downloaded: Module %s version %s was downloaded successfully at %s
   migrate:
     debug:
       description: Display current migration available for the application
