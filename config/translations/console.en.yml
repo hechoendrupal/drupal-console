@@ -371,11 +371,13 @@ commands:
         success: The following module(s) were uninstalled successfully: %s
     download:
       description: Download module or modules in application
+      options:
+        version: Module version i.e 1.x-dev
       messages:
         no-releases: There aren't any releases for module %s
         getting-releases: Getting releases for module %s
         downloading: Downloading module %s release %s
-        installed: Module %s was installed successfully
+        downloaded: Module %s version %s was downloaded successfully at %s
   migrate:
     debug:
       description: Display current migration available for the application
