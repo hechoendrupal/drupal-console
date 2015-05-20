@@ -107,11 +107,11 @@ class ModuleInstallCommand extends ContainerAwareCommand
 
         // Calculate dependencies and missing dependencies
         $dependencies = array();
-        $misssing_dependencies = array();
+        $missing_dependencies = array();
         while (list($module) = each($module_list)) {
             foreach (array_keys($module_data[$module]->requires) as $dependency) {
                 if (!isset($module_data[$dependency])) {
-                    $misssing_dependencies[] = $dependency;
+                    $missing_dependencies[] = $dependency;
                 }
 
                 // Skip already installed modules.
@@ -123,9 +123,9 @@ class ModuleInstallCommand extends ContainerAwareCommand
         }
 
         // Error if there are missing dependencies
-        if (!empty($misssing_dependencies)) {
+        if (!empty($missing_dependencies)) {
             $output->writeln('[+] <error>' . sprintf($this->trans('commands.module.install.messages.missing-dependencies'),
-                implode(", ", $modules), implode(", ", $misssing_dependencies)) . '</error>');
+                implode(", ", $modules), implode(", ", $missing_dependencies)) . '</error>');
             return true;
         }
 
