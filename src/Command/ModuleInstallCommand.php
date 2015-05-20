@@ -19,75 +19,63 @@ class ModuleInstallCommand extends ContainerAwareCommand
         $this
           ->setName('module:install')
           ->setDescription($this->trans('commands.module.install.description'))
-          ->addArgument('module', InputArgument::REQUIRED, $this->trans('commands.module.install.options.module'));
+          ->addArgument('module', InputArgument::IS_ARRAY, $this->trans('commands.module.install.options.module'));
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function interact(InputInterface $input, OutputInterface $output) {
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        $module = $input->getArgument('module');
 
-      $module_list = array();
+        if (!$module) {
+            $module_list = [];
 
-      $dialog = $this->getDialogHelper();
+            $dialog = $this->getDialogHelper();
 
-      $modules = system_rebuild_module_data();
-      foreach ($modules as $module_id => $module) {
+            $modules = system_rebuild_module_data();
+            foreach ($modules as $module_id => $module) {
+                if ($module->status == 1) {
+                    continue;
+                }
 
-        if ($module->status == 1) {
-          continue;
-        }
-
-        $module_list[$module_id] = $module->info['name'];
-      }
-
-      $output->writeln('[+] <info>' . $this->trans('commands.module.install.messages.disabled-modules') . '</info>');
-
-      $module_list_install = array();
-      $i=0;
-      $module_name = $dialog->askAndValidate(
-        $output,
-        $dialog->getQuestion($this->trans('commands.module.install.questions.module'), ''),
-        function ($module_id) use ($module_list) {
-          if ($module_list[$module_id]) {
-            return $module_id;
-          } else {
-            throw new \InvalidArgumentException(
-              sprintf($this->trans('commands.module.install.questions.invalid-module'), $module_name)
-            );
-          }
-        },
-        false,
-        '',
-        array_keys($module_list)
-      );
-      $module_list_install[$i] = $module_name;
-
-      do {
-        $module_name = $dialog->askAndValidate(
-          $output,
-          $dialog->getQuestion($this->trans('commands.module.install.questions.another-module'), ''),
-          function ($module_id) use ($module_list) {
-            if ($module_id == '' || $module_list[$module_id]) {
-              return $module_id;
-            } else {
-              throw new \InvalidArgumentException(
-                sprintf($this->trans('commands.module.install.questions.invalid-module'), $module_name)
-              );
+                $module_list[$module_id] = $module->info['name'];
             }
-          },
-          false,
-          '',
-          array_keys($module_list)
-        );
-        if($module_name != '') {
-          $i++;
-          $module_list_install[$i] = $module_name;
+
+            $output->writeln('[+] <info>' . $this->trans('commands.module.install.messages.disabled-modules') . '</info>');
+
+            while (true) {
+                $module_name = $dialog->askAndValidate(
+                  $output,
+                  $dialog->getQuestion($this->trans('commands.module.install.questions.module'), ''),
+                  function ($module_id) use ($module_list) {
+                      if ($module_id == '' || $module_list[$module_id]) {
+                          return $module_id;
+                      } else {
+                          throw new \InvalidArgumentException(
+                            sprintf($this->trans('commands.module.install.questions.invalid-module'), $module_id)
+                          );
+                      }
+                  },
+                  false,
+                  '',
+                  array_keys($module_list)
+                );
+
+                if (empty($module_name)) {
+                    break;
+                }
+
+                $module_list_install[] = $module_name;
+
+                if (array_search($module_name, $module_list_install, true) >= 0) {
+                    unset($module_list[$module_name]);
+                }
+            }
+
+            $input->setArgument('module', $module_list_install);
         }
-
-      } while($module_name != '');
-
-      $input->setArgument('module', implode(',', $module_list_install));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -99,9 +87,7 @@ class ModuleInstallCommand extends ContainerAwareCommand
         // Get info about modules available
         $module_data = system_rebuild_module_data();
 
-        $module = $input->getArgument('module');
-
-        $modules = array_filter(array_map('trim', explode(",", $module)));
+        $modules = $input->getArgument('module');
 
         $module_list = array_combine($modules, $modules);
 
@@ -121,11 +107,11 @@ class ModuleInstallCommand extends ContainerAwareCommand
 
         // Calculate dependencies and missing dependencies
         $dependencies = array();
-        $misssing_dependencies = array();
+        $missing_dependencies = array();
         while (list($module) = each($module_list)) {
             foreach (array_keys($module_data[$module]->requires) as $dependency) {
                 if (!isset($module_data[$dependency])) {
-                    $misssing_dependencies[] = $dependency;
+                    $missing_dependencies[] = $dependency;
                 }
 
                 // Skip already installed modules.
@@ -137,9 +123,9 @@ class ModuleInstallCommand extends ContainerAwareCommand
         }
 
         // Error if there are missing dependencies
-        if (!empty($misssing_dependencies)) {
+        if (!empty($missing_dependencies)) {
             $output->writeln('[+] <error>' . sprintf($this->trans('commands.module.install.messages.missing-dependencies'),
-                implode(", ", $modules), implode(", ", $misssing_dependencies)) . '</error>');
+                implode(", ", $modules), implode(", ", $missing_dependencies)) . '</error>');
             return true;
         }
 
