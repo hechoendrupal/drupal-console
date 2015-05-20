@@ -351,9 +351,8 @@ commands:
     install:
       description: Install module or modules in the application
       questions:
-        module: Module name
-        another-module: Another module name (or leave empty to begin installation)
-        invalid-module: Invalid module
+        module: Module name (press <return> to stop adding modules)
+        invalid-module: Invalid module %s
       options:
         module: Module or modules to be enabled should be separated by a comma
       messages:
