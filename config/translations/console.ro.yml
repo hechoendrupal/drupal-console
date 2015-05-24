@@ -399,7 +399,7 @@ commands:
       arguments:
         resource-id: Rest ID
         states: REST States pentru a activa REST resource
-        autorizations: Autorizations providers au fost activate pentru "REST Resource"
+        authorizations: Authorizations providers au fost activate pentru "REST Resource"
 
       questions:
         resource-id: Rest ID

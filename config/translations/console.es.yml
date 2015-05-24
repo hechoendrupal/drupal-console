@@ -402,7 +402,7 @@ commands:
       arguments:
         resource-id: Rest ID
         states: REST States to enable for Rest resource
-        autorizations: Autorizations providers enabled for Rest Resource
+        authorizations: Authorizations providers enabled for Rest Resource
 
       questions:
         resource-id: Rest ID

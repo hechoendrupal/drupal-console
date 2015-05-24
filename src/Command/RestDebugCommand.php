@@ -22,7 +22,7 @@ class RestDebugCommand extends ContainerAwareCommand
           ->setDescription($this->trans('commands.rest.debug.description'))
           ->addArgument('resource-id', InputArgument::OPTIONAL,
             $this->trans('commands.rest.debug.arguments.resource-id'))
-          ->addOption('autorization', '', InputOption::VALUE_OPTIONAL,
+          ->addOption('authorization', '', InputOption::VALUE_OPTIONAL,
             $this->trans('commands.rest.debug.options.status'));
 
         $this->addDependency('rest');
@@ -31,7 +31,7 @@ class RestDebugCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $resource_id = $input->getArgument('resource-id');
-        $status = $input->getOption('autorization');
+        $status = $input->getOption('authorization');
 
         $table = $this->getHelperSet()->get('table');
         $table->setlayout($table::LAYOUT_COMPACT);
