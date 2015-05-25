@@ -398,7 +398,7 @@ commands:
       arguments:
         resource-id: REST ID
         states: REST State engedélyezése REST erőforrás számára
-        autorizations: Autorizations provider engedélyezése REST erőforrás számára
+        authorizations: Authorizations provider engedélyezése REST erőforrás számára
 
       questions:
         resource-id: REST ID
