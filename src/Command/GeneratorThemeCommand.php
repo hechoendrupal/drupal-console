@@ -47,7 +47,6 @@ class GeneratorThemeCommand extends GeneratorCommand
     {
         $dialog = $this->getDialogHelper();
         $validators = $this->getHelperSet()->get('validators');
-        $messageHelper = $this->getHelperSet()->get('message');
 
         if ($this->confirmationQuestion($input, $output, $dialog)) {
             return;
