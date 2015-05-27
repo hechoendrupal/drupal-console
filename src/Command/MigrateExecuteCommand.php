@@ -25,7 +25,7 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         $this
           ->setName('migrate:execute')
           ->setDescription($this->trans('commands.migrate.execute.description'))
-          ->addArgument('migration-id', InputArgument::REQUIRED, $this->trans('commands.migrate.execute.arguments.id'))
+          ->addArgument('migration-ids', InputArgument::IS_ARRAY, $this->trans('commands.migrate.execute.arguments.id'))
           ->addOption('site-url', '', InputOption::VALUE_REQUIRED,
             $this->trans('commands.migrate.execute.options.site-url'))
           ->addOption('db-host', '', InputOption::VALUE_REQUIRED,
@@ -145,45 +145,63 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         }
         $input->setOption('db-port', $db_port);
 
-
         // --migration-id prefix
-        $migration_id = $input->getArgument('migration-id');
+        $migration_id = $input->getArgument('migration-ids');
         if (!$migration_id) {
-            $this->registerSourceDB($input);
+          $this->registerSourceDB($input);
 
-            $this->getConnection($output);
+          $this->getConnection($output);
 
-            if ($this->connection->schema()->tableExists('filter_format')) {
-                $this->migration_group = 'Drupal 7';
-                $migrations = $this->getMigrations($this->migration_group);
-            } elseif ($this->connection->schema()->tableExists('menu_router')) {
-                $this->migration_group = 'Drupal 6';
-                $migrations = $this->getMigrations($this->migration_group);
-            } else {
-                $output->writeln('[+] <error>' . $this->trans('commands.migrate.execute.questions.wrong-source') . '</error>');
-                return;
-            }
+          if ($this->connection->schema()->tableExists('filter_format')) {
+            $this->migration_group = 'Drupal 7';
+            $migrations_list = $this->getMigrations($this->migration_group);
+          } elseif ($this->connection->schema()->tableExists('menu_router')) {
+            $this->migration_group = 'Drupal 6';
+            $migrations_list = $this->getMigrations($this->migration_group);
+          } else {
+            $output->writeln('[+] <error>' . $this->trans('commands.migrate.execute.questions.wrong-source') . '</error>');
+            return;
+          }
 
-            $migrations += array('all' => 'All');
+          if(count($migrations_list) == 0 ) {
+            $output->writeln('[+] <error>' . $this->trans('commands.migrate.execute.messages.no-migrations') . '</error>');
+            return;
+          }
 
+          $migrations_list += array('all' => 'All');
+          $migrations_ids = array();
+
+          while (true) {
             $migration_id = $dialog->askAndValidate(
               $output,
-              $dialog->getQuestion($this->trans('commands.migrate.execute.questions.id'), 'all'),
-              function ($migration_id) use ($migrations) {
-                  if ($migrations[$migration_id]) {
-                      return $migration_id;
-                  } else {
-                      throw new \InvalidArgumentException(
-                        sprintf($this->trans('commands.migrate.execute.questions.invalid-migration-id'), $migration_id)
-                      );
-                  }
+              $dialog->getQuestion((count($migrations_ids) == 0 ? $this->trans('commands.migrate.execute.questions.id'):$this->trans('commands.migrate.execute.questions.other-id')), 'all'),
+              function ($migration) use ($migrations_list) {
+                print 'migration:' . $migration;
+                if (isset($migrations_list[$migration])) {
+                  return $migration;
+                } else {
+                  throw new \InvalidArgumentException(
+                    sprintf($this->trans('commands.migrate.execute.questions.invalid-migration-id'), $migration_id)
+                  );
+                }
               },
               false,
               'all',
-              array_keys($migrations)
+              array_keys($migrations_list)
             );
 
-            $input->setArgument('migration-id', $migration_id);
+            if (empty($migration_id) || $migration_id == 'all') {
+              if($migration_id == 'all') {
+                $migrations_ids[] = $migration_id;
+              }
+              break;
+            }
+            else {
+              $migrations_ids[] = $migration_id;
+            }
+          }
+          
+          $input->setArgument('migration-ids', $migrations_ids);
         }
     }
 
@@ -192,8 +210,8 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         try {
             $this->connection = Database::getConnection('default', 'migrate');
         } catch (\Exception $e) {
-            $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
-            return;
+          $output->writeln('[+] <error>' . $this->trans('commands.migrate.execute.messages.destination-error') . ': ' . $e->getMessage() . '</error>');
+          return;
         }
 
         return $this;
@@ -219,7 +237,12 @@ class MigrateExecuteCommand extends ContainerAwareCommand
           'driver' => 'mysql'
         );
 
-        Database::addConnectionInfo('migrate', 'default', $database);
+        try {
+          Database::addConnectionInfo('migrate', 'default', $database);
+        } catch (\Exception $e) {
+          $output->writeln('[+] <error>' . $this->trans('commands.migrate.execute.messages.source-error') . ': ' . $e->getMessage() . '</error>');
+          return;
+        }
     }
 
     /**
@@ -227,15 +250,20 @@ class MigrateExecuteCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $migration_id = $input->getArgument('migration-id');
+        $migration_ids = $input->getArgument('migration-ids');
+
+        // If migrations weren't provided finish execution
+        if(empty($migration_ids)) {
+          return;
+        }
 
         if (!$this->connection) {
             $this->registerSourceDB($input);
             $this->getConnection($output);
         }
 
-        if ($migration_id != 'all') {
-            $migrations = array($migration_id);
+        if (!in_array('all', $migration_ids)) {
+            $migrations = $migration_ids;
         } else {
             $migrations = array_keys($this->getMigrations($this->migration_group));
         }
