@@ -572,17 +572,34 @@ commands:
         success: The console has been updated to the latest version.
   password:
     hash:
-        description: Generate a hash from a plaintext password.
-        help: The <info>password:hash</info> command helps you to generate hashs password from plaintext passwords.
-        welcome: Welcome to the Drupal password hash generator
-        options:
-          password: password(s) in text format
-        questions:
-          invalid-pass: Password can't be empty
-          password: Enter password
-          other-password: Other password (press <return> to stop adding passwords)
-        messages:
-          password: Password
-          hash: Hash
-        errors:
+      description: Generate a hash from a plaintext password.
+      help: The <info>password:hash</info> command helps you to generate hashs password from plaintext passwords.
+      welcome: Welcome to the Drupal password hash generator
+      options:
+        password: Password(s) in text format
+      questions:
+        invalid-pass: Password can't be empty
+        password: Enter password
+        other-password: Other password (press <return> to stop adding passwords)
+      messages:
+        password: Password
+        hash: Hash
+      errors:
+    reset:
+      description: Reset password for a specific user.
+      help: The <info>password:reset</info> command helps you to reset password for a specific user.
+      welcome: Welcome to the Drupal password reset
+      options:
+        password: Password in text format
+        user-id: User ID
+      questions:
+        invalid-uid: Invalid user id %, user id must be an integer
+        invalid-pass: Password can't be empty
+        user: Enter User ID
+        password: Enter password
+        other-password: Other password (press <return> to stop adding passwords)
+      messages:
+        reset-successful: Password was updated sucessfully for user id %s
+      errors:
+        invalid-user: Invalid user id %s
 
