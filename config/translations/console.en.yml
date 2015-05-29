@@ -426,8 +426,10 @@ commands:
         db-pass: "Database Pass"
         db-prefix: "Database Prefix"
         db-port: "Database Port"
+        exclude: "Migration id(s) to exclude"
       questions:
         id: "Migration Id"
+        exclude-id: "Migration Id to exlude (press <return> to stop adding migrations)"
         other-id: "Other migration id (press <return> to stop adding migrations)"
         site-url: "Source Site URL"
         db-host: "Database Host"
