@@ -9,6 +9,7 @@ namespace Drupal\AppConsole\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Core\Site\Settings;
 
 /**
  *  This command provides a view of the current drupal installation.
@@ -80,13 +81,25 @@ class SiteStatusCommand extends ContainerAwareCommand
     {
         $systemManager = $this->getSystemManager();
         $requirements = $systemManager->listRequirements();
-        $requirementData = [];
+        $systemData = [];
 
         foreach ($requirements as $key => $requirement) {
-            $requirementData['system'][$requirement['title']] = $requirement['value'];
+            $systemData['system'][$requirement['title']] = $requirement['value'];
         }
 
-        return $requirementData;
+        $kernelHelper = $this->getHelper('kernel');
+        $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
+
+        Settings::initialize(
+          $drupalAutoLoad->getDrupalRoot(),
+          'sites/default',
+          $kernelHelper->getClassLoader()
+        );
+
+        $systemData['system'][$this->trans('commands.site.status.messages.hash_salt')] = Settings::getHashSalt();
+        $systemData['system'][$this->trans('commands.site.status.messages.console')] = $this->getApplication()->getVersion();
+
+        return $systemData;
     }
 
     protected function getConnectionData()
