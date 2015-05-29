@@ -48,16 +48,16 @@ class ChainCommand extends ContainerAwareCommand
             $file = $input->getOption('file');
         }
 
-        if (strpos($file, '~') === 0) {
-            $home = rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/');
-            $file = realpath(preg_replace('/~/', $home, $file, 1));
-        }
-
         if (!$file) {
             $message->addErrorMessage(
               $this->trans('commands.chain.messages.missing_file')
             );
             return 1;
+        }
+
+        if (strpos($file, '~') === 0) {
+            $home = rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/');
+            $file = realpath(preg_replace('/~/', $home, $file, 1));
         }
 
         if (!file_exists($file)) {
