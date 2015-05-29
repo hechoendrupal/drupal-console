@@ -48,7 +48,7 @@ class ChainCommand extends ContainerAwareCommand
             $file = $input->getOption('file');
         }
 
-        if (strpos($file, '~') == 0) {
+        if (strpos($file, '~') === 0) {
             $home = rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/');
             $file = realpath(preg_replace('/~/', $home, $file, 1));
         }
