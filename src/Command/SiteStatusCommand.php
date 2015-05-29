@@ -33,7 +33,8 @@ class SiteStatusCommand extends ContainerAwareCommand
       'system',
       'database',
       'theme',
-      'directory'
+      'directory',
+      'configuration'
     ];
 
     /**
@@ -63,8 +64,15 @@ class SiteStatusCommand extends ContainerAwareCommand
         $connectionData = $this->getConnectionData();
         $themeInfo = $this->getThemeData();
         $directoryData = $this->getDirectoryData();
+        $configurationData = $this->getConfigurationData();
 
-        $siteData = array_merge($systemData, $connectionData, $themeInfo, $directoryData);
+        $siteData = array_merge(
+          $systemData,
+          $connectionData,
+          $themeInfo,
+          $directoryData,
+          $configurationData
+        );
 
         $format = $input->getOption('format');
 
@@ -158,6 +166,17 @@ class SiteStatusCommand extends ContainerAwareCommand
             $this->trans('commands.site.status.messages.directory_temporary') => $systemFile->get('path.temporary'),
             $this->trans('commands.site.status.messages.directory_theme_default') => '/'. $themeDefault->getpath(),
             $this->trans('commands.site.status.messages.directory_theme_admin') => '/' . $themeAdmin->getpath(),
+          ]
+        ];
+    }
+
+    protected function getConfigurationData()
+    {
+
+        return [
+          'configuration' => [
+            $this->trans('commands.site.status.messages.active') => config_get_config_directory(active),
+            $this->trans('commands.site.status.messages.staging') => config_get_config_directory(staging),
           ]
         ];
     }
