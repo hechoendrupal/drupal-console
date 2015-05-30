@@ -102,17 +102,17 @@
         */
         public function {{ state|lower }}() {
 
-        // You must to implement the logic of your REST Resource here.
-        // Use current user after pass authentication to validate access.
+            // You must to implement the logic of your REST Resource here.
+            // Use current user after pass authentication to validate access.
 
-        return new ResourceResponse("Implement REST State {{ state }}!");
+            return new ResourceResponse("Implement REST State {{ state }}!");
 
-        /*if(!$this->currentUser->hasPermission($permission)) {
-        throw new AccessDeniedHttpException();
-        }*/
+            /*if(!$this->currentUser->hasPermission($permission)) {
+                throw new AccessDeniedHttpException();
+            }*/
 
-        // Throw an exception if it is required.
-        // throw new HttpException(t('Throw an exception if it is required.'));
+            // Throw an exception if it is required.
+            // throw new HttpException(t('Throw an exception if it is required.'));
         }
     {% endfor %}
 {% endblock %}
