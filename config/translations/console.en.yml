@@ -77,6 +77,7 @@ commands:
     messages:
         missing_file: You must provide a valid file path and name.
         invalid_file: The file "%s" does not exists.
+        module_install: module:install command is not runnable inside a chain queue and must be run independently.
   config:
     export:
       description: Export current application configuration.
