@@ -72,3 +72,7 @@ commands:
       class-name: ExampleService
       service-name: example.service
       interface: yes
+  - command: module:install
+    arguments:
+      module: [example]
+
