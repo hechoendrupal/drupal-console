@@ -95,6 +95,10 @@ class Generator
     public function getModulePath($module_name)
     {
         if (!$this->module_path) {
+            // Call system_rebuild_module_data to reload module data
+            // This a quick fix and is required since Beta 11
+            // A module discover mechanism must be implemented
+            system_rebuild_module_data();
             $this->module_path = DRUPAL_ROOT . '/' . drupal_get_path('module', $module_name);
         }
 
