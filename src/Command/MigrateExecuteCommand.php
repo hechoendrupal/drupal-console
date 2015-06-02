@@ -153,37 +153,36 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         $this->getConnection($output);
 
         if ($this->connection->schema()->tableExists('filter_format')) {
-          $this->migration_group = 'Drupal 7';
-          $migrations_list = $this->getMigrations($this->migration_group);
+            $this->migration_group = 'Drupal 7';
+            $migrations_list = $this->getMigrations($this->migration_group);
         } elseif ($this->connection->schema()->tableExists('menu_router')) {
-          $this->migration_group = 'Drupal 6';
-          $migrations_list = $this->getMigrations($this->migration_group);
+            $this->migration_group = 'Drupal 6';
+            $migrations_list = $this->getMigrations($this->migration_group);
         } else {
-          $output->writeln('[+] <error>' . $this->trans('commands.migrate.execute.questions.wrong-source') . '</error>');
-          return;
+            $output->writeln('[+] <error>' . $this->trans('commands.migrate.execute.questions.wrong-source') . '</error>');
+            return;
         }
 
-        if(count($migrations_list) == 0 ) {
-          $output->writeln('[+] <error>' . $this->trans('commands.migrate.execute.messages.no-migrations') . '</error>');
-          return;
+        if (count($migrations_list) == 0) {
+            $output->writeln('[+] <error>' . $this->trans('commands.migrate.execute.messages.no-migrations') . '</error>');
+            return;
         }
 
         // --migration-id prefix
         $migration_id = $input->getArgument('migration-ids');
         if (!$migration_id) {
+            $migrations_list += array('all' => 'All');
+            $migrations_ids = array();
 
-          $migrations_list += array('all' => 'All');
-          $migrations_ids = array();
-
-          while (true) {
-            $migration_id = $dialog->askAndValidate(
+            while (true) {
+                $migration_id = $dialog->askAndValidate(
               $output,
               $dialog->getQuestion((count($migrations_ids) == 0 ? $this->trans('commands.migrate.execute.questions.id'):$this->trans('commands.migrate.execute.questions.other-id')), 'all'),
               function ($migration) use ($migrations_list) {
                 if (isset($migrations_list[$migration])) {
-                  return $migration;
+                    return $migration;
                 } else {
-                  throw new \InvalidArgumentException(
+                    throw new \InvalidArgumentException(
                     sprintf($this->trans('commands.migrate.execute.questions.invalid-migration-id'), $migration_id)
                   );
                 }
@@ -193,33 +192,32 @@ class MigrateExecuteCommand extends ContainerAwareCommand
               array_keys($migrations_list)
             );
 
-            if (empty($migration_id) || $migration_id == 'all') {
-              if($migration_id == 'all') {
-                $migrations_ids[] = $migration_id;
-              }
-              break;
+                if (empty($migration_id) || $migration_id == 'all') {
+                    if ($migration_id == 'all') {
+                        $migrations_ids[] = $migration_id;
+                    }
+                    break;
+                } else {
+                    $migrations_ids[] = $migration_id;
+                }
             }
-            else {
-              $migrations_ids[] = $migration_id;
-            }
-          }
 
-          $input->setArgument('migration-ids', $migrations_ids);
+            $input->setArgument('migration-ids', $migrations_ids);
         }
 
         // --migration-id prefix
         $exclude_ids = $input->getOption('exclude');
         if (!$exclude_ids) {
-          unset($migrations_list['all']);
-          while (true) {
-            $exclude_id = $dialog->askAndValidate(
+            unset($migrations_list['all']);
+            while (true) {
+                $exclude_id = $dialog->askAndValidate(
               $output,
               $dialog->getQuestion($this->trans('commands.migrate.execute.questions.exclude-id'), null),
               function ($exclude) use ($migrations_list) {
                 if (empty($exclude) || isset($migrations_list[$exclude])) {
-                  return $exclude;
+                    return $exclude;
                 } else {
-                  throw new \InvalidArgumentException(
+                    throw new \InvalidArgumentException(
                     sprintf($this->trans('commands.migrate.execute.questions.invalid-migration-id'), '@@' . $exclude)
                   );
                 }
@@ -229,12 +227,12 @@ class MigrateExecuteCommand extends ContainerAwareCommand
               array_keys($migrations_list)
             );
 
-            if (empty($exclude_id)) {
-              break;
-            } else {
-              $exclude_ids[] = $exclude_id;
+                if (empty($exclude_id)) {
+                    break;
+                } else {
+                    $exclude_ids[] = $exclude_id;
+                }
             }
-          }
         }
 
         $input->setOption('exclude', $exclude_ids);
@@ -245,8 +243,8 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         try {
             $this->connection = Database::getConnection('default', 'migrate');
         } catch (\Exception $e) {
-          $output->writeln('[+] <error>' . $this->trans('commands.migrate.execute.messages.destination-error') . ': ' . $e->getMessage() . '</error>');
-          return;
+            $output->writeln('[+] <error>' . $this->trans('commands.migrate.execute.messages.destination-error') . ': ' . $e->getMessage() . '</error>');
+            return;
         }
 
         return $this;
@@ -273,10 +271,10 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         );
 
         try {
-          Database::addConnectionInfo('migrate', 'default', $database);
+            Database::addConnectionInfo('migrate', 'default', $database);
         } catch (\Exception $e) {
-          $output->writeln('[+] <error>' . $this->trans('commands.migrate.execute.messages.source-error') . ': ' . $e->getMessage() . '</error>');
-          return;
+            $output->writeln('[+] <error>' . $this->trans('commands.migrate.execute.messages.source-error') . ': ' . $e->getMessage() . '</error>');
+            return;
         }
     }
 
@@ -285,43 +283,43 @@ class MigrateExecuteCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-      $migration_ids = $input->getArgument('migration-ids');
-      $exclude_ids = $input->getArgument('exclude');
+        $migration_ids = $input->getArgument('migration-ids');
+        $exclude_ids = $input->getArgument('exclude');
 
-      if (!empty($exclude_ids)) {
-        // Remove exclude migration from migration script
+        if (!empty($exclude_ids)) {
+            // Remove exclude migration from migration script
         $migration_ids = array_diff($migration_ids, $exclude_ids);
-      }
+        }
 
       // If migrations weren't provided finish execution
-      if(empty($migration_ids)) {
-        return;
+      if (empty($migration_ids)) {
+          return;
       }
 
-      if (!$this->connection) {
-          $this->registerSourceDB($input);
-          $this->getConnection($output);
-      }
+        if (!$this->connection) {
+            $this->registerSourceDB($input);
+            $this->getConnection($output);
+        }
 
-      if (!in_array('all', $migration_ids)) {
-          $migrations = $migration_ids;
-      } else {
-          $migrations = array_keys($this->getMigrations($this->migration_group));
-      }
+        if (!in_array('all', $migration_ids)) {
+            $migrations = $migration_ids;
+        } else {
+            $migrations = array_keys($this->getMigrations($this->migration_group));
+        }
 
-      $entity_manager = $this->getEntityManager();
-      $migration_storage = $entity_manager->getStorage('migration');
+        $entity_manager = $this->getEntityManager();
+        $migration_storage = $entity_manager->getStorage('migration');
 
-      foreach ($migrations as $migration_id) {
-          $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.execute.messages.processing'),
+        foreach ($migrations as $migration_id) {
+            $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.execute.messages.processing'),
               $migration_id) . '</info>');
-          $migration = $migration_storage->load($migration_id);
+            $migration = $migration_storage->load($migration_id);
 
-          if ($migration) {
-              $messages = new MigrateExecuteMessageCapture();
-              $executable = new MigrateExecutable($migration, $messages);
-              $migration_status = $executable->import();
-              switch ($migration_status) {
+            if ($migration) {
+                $messages = new MigrateExecuteMessageCapture();
+                $executable = new MigrateExecutable($migration, $messages);
+                $migration_status = $executable->import();
+                switch ($migration_status) {
                   case MigrationInterface::RESULT_COMPLETED:
                       $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.execute.messages.imported'),
                           $migration_id) . '</info>');
@@ -346,9 +344,9 @@ class MigrateExecuteCommand extends ContainerAwareCommand
                       // Skip silently if disabled.
                       break;
               }
-          } else {
-              $output->writeln('[+] <error>' . $this->trans('commands.migrate.execute.messages.fail-load') . '</error>');
-          }
-      }
+            } else {
+                $output->writeln('[+] <error>' . $this->trans('commands.migrate.execute.messages.fail-load') . '</error>');
+            }
+        }
     }
 }
