@@ -47,7 +47,7 @@ class PasswordHashCommand extends ContainerAwareCommand
         $table->setlayout($table::LAYOUT_COMPACT);
 
         foreach ($passwords as $password) {
-          $table->addRow([
+            $table->addRow([
             $password,
             $password_hasher->hash($password)
           ]);
@@ -61,20 +61,20 @@ class PasswordHashCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-      $dialog = $this->getDialogHelper();
+        $dialog = $this->getDialogHelper();
 
-      $passwords = $input->getArgument('password');
-      if (!$passwords) {
-        $passwords = array();
-        while (true) {
-          $password = $dialog->askAndValidate(
+        $passwords = $input->getArgument('password');
+        if (!$passwords) {
+            $passwords = array();
+            while (true) {
+                $password = $dialog->askAndValidate(
             $output,
             $dialog->getQuestion(count($passwords)>0?$this->trans('commands.password.hash.questions.other-password'):$this->trans('commands.password.hash.questions.password'), ''),
             function ($pass) use ($passwords) {
               if (!empty($pass) || count($passwords) >= 1) {
-                return $pass;
+                  return $pass;
               } else {
-                throw new \InvalidArgumentException(
+                  throw new \InvalidArgumentException(
                   sprintf($this->trans('commands.password.hash.questions.invalid-pass'), $pass)
                 );
               }
@@ -84,14 +84,14 @@ class PasswordHashCommand extends ContainerAwareCommand
             null
           );
 
-          if (empty($password)) {
-            break;
-          }
+                if (empty($password)) {
+                    break;
+                }
 
-          $passwords[] = $password;
+                $passwords[] = $password;
+            }
         }
-      }
 
-      $input->setArgument('password', $passwords);
+        $input->setArgument('password', $passwords);
     }
 }

@@ -37,10 +37,10 @@ class PasswordResetCommand extends ContainerAwareCommand
         $user_id =  $input->getArgument('user');
         $user = user_load($user_id);
 
-        if(!is_object($user)) {
-          $output->writeln('[+] <error>' . sprintf($this->trans('commands.password.reset.errors.invalid-user'),
+        if (!is_object($user)) {
+            $output->writeln('[+] <error>' . sprintf($this->trans('commands.password.reset.errors.invalid-user'),
               $user_id) . '</error>');
-          return;
+            return;
         }
 
         $password = $input->getArgument('password');
@@ -50,11 +50,11 @@ class PasswordResetCommand extends ContainerAwareCommand
             $user->setPassword($password);
             $user->save();
         } catch (\Exception $e) {
-          $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
-          return;
+            $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
+            return;
         }
 
-      $output->writeln('[+] <info>' . sprintf($this->trans('commands.password.reset.messages.reset-successful'),
+        $output->writeln('[+] <info>' . sprintf($this->trans('commands.password.reset.messages.reset-successful'),
           $user_id) . '</info>');
     }
 
@@ -63,19 +63,19 @@ class PasswordResetCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-      $dialog = $this->getDialogHelper();
+        $dialog = $this->getDialogHelper();
 
-      $user = $input->getArgument('password');
-      if (!$user) {
-        $user = $dialog->askAndValidate(
+        $user = $input->getArgument('password');
+        if (!$user) {
+            $user = $dialog->askAndValidate(
           $output,
           $dialog->getQuestion($this->trans('commands.password.reset.questions.user'), ''),
-          function ($uid)  {
+          function ($uid) {
             $uid = (int) $uid;
             if (is_int($uid) && $uid > 0) {
-              return $uid;
+                return $uid;
             } else {
-              throw new \InvalidArgumentException(
+                throw new \InvalidArgumentException(
                 sprintf($this->trans('commands.password.reset.questions.invalid-uid'), $uid)
               );
             }
@@ -84,19 +84,19 @@ class PasswordResetCommand extends ContainerAwareCommand
           '',
           null
         );
-      }
-      $input->setArgument('user', $user);
+        }
+        $input->setArgument('user', $user);
 
-      $password = $input->getArgument('password');
-      if (!$password) {
-        $password = $dialog->askAndValidate(
+        $password = $input->getArgument('password');
+        if (!$password) {
+            $password = $dialog->askAndValidate(
           $output,
           $dialog->getQuestion($this->trans('commands.password.hash.questions.password'), ''),
-          function ($pass)  {
+          function ($pass) {
             if (!empty($pass)) {
-              return $pass;
+                return $pass;
             } else {
-              throw new \InvalidArgumentException(
+                throw new \InvalidArgumentException(
                 sprintf($this->trans('commands.password.hash.questions.invalid-pass'), $pass)
               );
             }
@@ -105,7 +105,7 @@ class PasswordResetCommand extends ContainerAwareCommand
           '',
           null
         );
-      }
-      $input->setArgument('password', $password);
+        }
+        $input->setArgument('password', $password);
     }
 }
