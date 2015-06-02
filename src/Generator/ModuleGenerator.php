@@ -61,7 +61,7 @@ class ModuleGenerator extends Generator
         );
 
         if ($composer) {
-          $this->renderFile(
+            $this->renderFile(
             'module/composer.json.twig',
             $dir . '/' . 'composer.json',
             $parameters

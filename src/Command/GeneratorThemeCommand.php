@@ -92,9 +92,9 @@ class GeneratorThemeCommand extends GeneratorCommand
             $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
         }
 
-      $theme = $input->getOption('theme');
+        $theme = $input->getOption('theme');
         if (!$theme) {
-          $theme = $dialog->askAndValidate(
+            $theme = $dialog->askAndValidate(
               $output,
               $dialog->getQuestion($this->trans('commands.generate.theme.questions.theme'), ''),
               function ($module) use ($validators) {
@@ -188,14 +188,14 @@ class GeneratorThemeCommand extends GeneratorCommand
 
         $base_theme = $input->getOption('base_theme');
         if (!$base_theme) {
-          $base_theme = $dialog->askAndValidate(
+            $base_theme = $dialog->askAndValidate(
               $output,
               $dialog->getQuestion($this->trans('commands.generate.theme.options.base_theme'), ''),
             function ($base_theme) use ($themes) {
               if ($base_theme == '' || isset($themes[$base_theme])) {
-                return $base_theme;
+                  return $base_theme;
               } else {
-                throw new \InvalidArgumentException(
+                  throw new \InvalidArgumentException(
                   sprintf($this->trans('commands.generate.theme.questions.invalid-theme'), $base_theme)
                 );
               }

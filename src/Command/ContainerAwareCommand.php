@@ -273,7 +273,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
      */
     public function getPassHandler()
     {
-      return $this->getContainer()->get('password');
+        return $this->getContainer()->get('password');
     }
 
 
