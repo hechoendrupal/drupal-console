@@ -15,7 +15,7 @@ Drupal Console
 =============================================
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/hechoendrupal/DrupalConsole)
-[![Build Status](https://travis-ci.org/hechoendrupal/DrupalAppConsole.svg?branch=master)](https://travis-ci.org/hechoendrupal/DrupalAppConsole)
+[![Build Status](https://travis-ci.org/hechoendrupal/DrupalConsole.svg?branch=master)](https://travis-ci.org/hechoendrupal/DrupalConsole)
 [![Latest Stable Version](https://poser.pugx.org/drupal/console/v/stable.svg)](https://packagist.org/packages/drupal/console)
 [![Latest Unstable Version](https://poser.pugx.org/drupal/console/v/unstable.svg)](https://packagist.org/packages/drupal/console)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
@@ -25,7 +25,7 @@ to generate boilerplate code and interact with a Drupal 8 installation.
 
 ## Supported Drupal version
 
-Drupal Console is only compatible with [Drupal 8](http://ftp.drupal.org/files/projects/drupal-8.0.0-beta10.tar.gz), some version of which *must* be installed in order to run Drupal Console commands.
+Drupal Console is only compatible with [Drupal 8](http://ftp.drupal.org/files/projects/drupal-8.0.0-beta11.tar.gz), some version of which *must* be installed in order to run Drupal Console commands.
 
 ## Drupal Console documentation
 
