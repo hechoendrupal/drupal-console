@@ -91,13 +91,13 @@ class GeneratorAuthenticationProviderCommand extends GeneratorCommand
         // --provider-id option
         $provider_id = $input->getOption('provider-id');
         if (!$provider_id) {
-          $provider_id = $dialog->askAndValidate(
+            $provider_id = $dialog->askAndValidate(
             $output,
             $dialog->getQuestion($this->trans('commands.generate.authentication.provider.options.provider-id'),
               $stringUtils->camelCaseToUnderscore($class_name)),
             function ($value) use ($stringUtils) {
               if (!strlen(trim($value))) {
-                throw new \Exception('The Class name can not be empty');
+                  throw new \Exception('The Class name can not be empty');
               }
               return $stringUtils->camelCaseToUnderscore($value);
             },

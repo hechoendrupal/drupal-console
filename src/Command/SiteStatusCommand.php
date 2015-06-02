@@ -172,7 +172,6 @@ class SiteStatusCommand extends ContainerAwareCommand
 
     protected function getConfigurationData()
     {
-
         return [
           'configuration' => [
             $this->trans('commands.site.status.messages.active') => config_get_config_directory(active),
