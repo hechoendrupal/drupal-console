@@ -16,13 +16,12 @@ commands:
       class-name: ExampleController
       method-name: index
       route: /example/index
-      services: twig
+      services: [twig]
   - command: generate:form:config
     options:
       module: example
       class-name: ExampleForm
       form-id: example_form
-      services: database
       inputs: false
       routing: true
   - command: generate:entity:content
