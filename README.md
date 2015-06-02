@@ -25,7 +25,7 @@ to generate boilerplate code and interact with a Drupal 8 installation.
 
 ## Supported Drupal version
 
-Drupal Console is only compatible with [Drupal 8](http://ftp.drupal.org/files/projects/drupal-8.0.0-beta10.tar.gz), some version of which *must* be installed in order to run Drupal Console commands.
+Drupal Console is only compatible with [Drupal 8](http://ftp.drupal.org/files/projects/drupal-8.0.0-beta11.tar.gz), some version of which *must* be installed in order to run Drupal Console commands.
 
 ## Drupal Console documentation
 
