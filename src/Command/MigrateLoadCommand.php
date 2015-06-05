@@ -17,7 +17,10 @@ use Drupal\AppConsole\Command\MigrateDebugCommand;
 
 class MigrateLoadCommand extends ContainerAwareCommand
 {
-     protected $invalid_file;
+
+
+     protected $file_data; 
+     protected $migration_id_found = FALSE; 
 
      protected function configure()
     {
@@ -59,17 +62,19 @@ class MigrateLoadCommand extends ContainerAwareCommand
               ''
             );
         }
-        $input->setArgument('file', $file);
 
-        $file_data = $this->loadDataFile($file);
-        $migration_id = $this->validateMigration($file_data['migration_groups']['0'],$file_data['id']);
+        $input->setArgument('file', $file);
+       
+        $this->file_data = $this->loadDataFile($file);
+        $this->migration_id_found = $this->validateMigration($this->file_data['migration_groups']['0'],$this->file_data['id']);
        
         $override = $input->getOption('override');
 
-        if($migration_id == true){
+        if($this->migration_id_found == true){
+
          $override_required = function ($value) {
             if (!strlen(trim($value))) {
-                throw new \Exception(' Please provide an answer');
+                throw new \Exception(' Please provide an answer.');
             }
             return $value;
         };
@@ -95,6 +100,7 @@ class MigrateLoadCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $message = $this->getHelperSet()->get('message');
+        
         $file = null;
         if ($input->hasArgument('file')) {
             $file = $input->getArgument('file');
@@ -112,15 +118,9 @@ class MigrateLoadCommand extends ContainerAwareCommand
         }
       
         try {
-
-         $file_data = $this->loadDataFile($file);
-         $entity_manager = $this->getEntityManager();
-         $entity_storage = $entity_manager->getStorage('migration');
-         $id_found = $this->validateMigration($file_data['migration_groups']['0'],$file_data['id']);
          
-         if ($id_found == false) {
-            $migration_entity = $entity_storage->createFromStorageRecord($file_data); 
-
+         if ($this->migration_id_found == false) {
+            $migration_entity = $this->generateEntity($this->file_data,'migration'); 
            if ($migration_entity->isInstallable()) {
             $migration_entity->trustData()->save();
             $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.load.messages.installed') . '</info>'));
@@ -131,14 +131,19 @@ class MigrateLoadCommand extends ContainerAwareCommand
            $override = $input->getOption('override');
 
            if($override === 'yes'){
-            $entity = $entity_storage->load($file_data['id']);
-            $migration_updated = $entity_storage->updateFromStorageRecord($entity, $file_data);
+            $entity_manager = $this->getEntityManager();
+            $entity_storage = $entity_manager->getStorage('migration');
+
+            $entity = $entity_storage->load($this->file_data['id']);
+            $migration_updated = $entity_storage->updateFromStorageRecord($entity, $this->file_data);
             $migration_updated->trustData()->save();
+            
             $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.load.messages.overridden') . '</info>'));
             return;
          }
+
           else
-          {
+          { 
             return;
           } 
           
@@ -148,6 +153,17 @@ class MigrateLoadCommand extends ContainerAwareCommand
          }     
        
     }
+
+    protected function generateEntity($yml,$entity_type){
+      $entity = '';
+      $entity_manager = $this->getEntityManager();
+      $entity_storage = $entity_manager->getStorage($entity_type);
+      $entity = $entity_storage->createFromStorageRecord($yml); 
+      
+      return $entity;
+
+    }
+
 
     protected function validateMigration($drupal_version,$migrate_id){
        $migration_id_found = false;
@@ -168,7 +184,5 @@ class MigrateLoadCommand extends ContainerAwareCommand
        return $file_data;
 
     }
-
-
      
 }
