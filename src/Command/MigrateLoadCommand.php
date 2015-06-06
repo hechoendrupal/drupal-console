@@ -9,20 +9,17 @@ namespace Drupal\AppConsole\Command;
  
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\migrate\Entity\MigrationInterface;
-use Drupal\AppConsole\Command\MigrateDebugCommand;
+use Symfony\Component\Yaml\Parser;
 
 class MigrateLoadCommand extends ContainerAwareCommand
 {
 
-
      protected $file_data; 
      protected $migration_id_found = FALSE; 
 
-     protected function configure()
+    protected function configure()
     {
         $this
           ->setName('migrate:load')
@@ -40,7 +37,6 @@ class MigrateLoadCommand extends ContainerAwareCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         
-        
         $validator_required = function ($value) {
             if (!strlen(trim($value))) {
                 throw new \Exception(' You must provide a valid file path and name.');
@@ -48,7 +44,6 @@ class MigrateLoadCommand extends ContainerAwareCommand
             return $value;
         };
 
-       
         $file = $input->getArgument('file');
 
         if (!$file) {
@@ -120,7 +115,9 @@ class MigrateLoadCommand extends ContainerAwareCommand
         try {
          
          if ($this->migration_id_found == false) {
-            $migration_entity = $this->generateEntity($this->file_data,'migration'); 
+            $this->getHelper('load')->generateEntity($this->file_data,'migration');
+            $migration_entity = $this->getHelper('load')->getEntity(); 
+            
            if ($migration_entity->isInstallable()) {
             $migration_entity->trustData()->save();
             $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.load.messages.installed') . '</info>'));
@@ -133,7 +130,6 @@ class MigrateLoadCommand extends ContainerAwareCommand
            if($override === 'yes'){
             $entity_manager = $this->getEntityManager();
             $entity_storage = $entity_manager->getStorage('migration');
-
             $entity = $entity_storage->load($this->file_data['id']);
             $migration_updated = $entity_storage->updateFromStorageRecord($entity, $this->file_data);
             $migration_updated->trustData()->save();
@@ -153,17 +149,6 @@ class MigrateLoadCommand extends ContainerAwareCommand
          }     
        
     }
-
-    protected function generateEntity($yml,$entity_type){
-      $entity = '';
-      $entity_manager = $this->getEntityManager();
-      $entity_storage = $entity_manager->getStorage($entity_type);
-      $entity = $entity_storage->createFromStorageRecord($yml); 
-      
-      return $entity;
-
-    }
-
 
     protected function validateMigration($drupal_version,$migrate_id){
        $migration_id_found = false;

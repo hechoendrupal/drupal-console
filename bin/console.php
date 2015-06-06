@@ -16,6 +16,7 @@ use Drupal\AppConsole\EventSubscriber\ShowGeneratedFilesListener;
 use Drupal\AppConsole\EventSubscriber\ShowWelcomeMessageListener;
 use Drupal\AppConsole\Command\Helper\MessageHelper;
 use Drupal\AppConsole\Command\Helper\ChainCommandHelper;
+use Drupal\AppConsole\Command\Helper\MigrateLoadHelper;
 use Drupal\AppConsole\EventSubscriber\CallCommandListener;
 use Drupal\AppConsole\EventSubscriber\ShowCompletedMessageListener;
 use Drupal\AppConsole\EventSubscriber\ValidateDependenciesListener;
@@ -53,6 +54,7 @@ $helpers = [
     'drupal-autoload' => new DrupalAutoloadHelper(),
     'message' => new MessageHelper($translatorHelper),
     'chain' => new ChainCommandHelper(),
+    'load' => new MigrateLoadHelper(),
 ];
 
 $application->addHelpers($helpers);
