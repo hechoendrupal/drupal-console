@@ -42,7 +42,7 @@
         "phpunit/phpunit": "4.4.*"
     },
     "minimum-stability": "dev",
-    "bin": ["bin/console"],
+    "bin": ["bin/drupal"],
     "config": {
         "bin-dir": "bin/"
     },
