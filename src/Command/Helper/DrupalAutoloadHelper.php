@@ -49,12 +49,10 @@ class DrupalAutoloadHelper extends Helper
     protected function isDrupalAutoload($drupal_root)
     {
         $path = realpath($drupal_root);
-        $path_core_autoload = $path . '/core/vendor/autoload.php';
-        $path_autoload = $path . '/vendor/autoload.php';
+        $path_autoload = $path . '/autoload.php';
 
         if (is_dir($path)) {
-            return is_file($path_core_autoload) ?
-              $path_core_autoload : (is_file($path_autoload) ? $path_autoload : null);
+            return is_file($path_autoload) ? $path_autoload : null;
         } else {
             return null;
         }
@@ -65,8 +63,8 @@ class DrupalAutoloadHelper extends Helper
      */
     public function getDrupalRoot()
     {
-        if (($coreIndex = stripos($this->drupalAutoLoad, 'core')) > 0) {
-            return  substr($this->drupalAutoLoad, 0, $coreIndex);
+        if (isset($this->drupalAutoLoad)) {
+          return dirname($this->drupalAutoLoad);
         }
 
         return null;
