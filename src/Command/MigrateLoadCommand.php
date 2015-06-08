@@ -6,7 +6,6 @@
 
 namespace Drupal\AppConsole\Command;
 
- 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,8 +15,8 @@ use Symfony\Component\Yaml\Parser;
 class MigrateLoadCommand extends ContainerAwareCommand
 {
 
-     protected $file_data; 
-     protected $migration_id_found = FALSE; 
+    protected $file_data; 
+    protected $migration_id_found = FALSE; 
 
     protected function configure()
     {
@@ -115,9 +114,8 @@ class MigrateLoadCommand extends ContainerAwareCommand
         try {
          
          if ($this->migration_id_found == false) {
-            $this->getHelper('load')->generateEntity($this->file_data,'migration');
-            $migration_entity = $this->getHelper('load')->getEntity(); 
-            
+            $migration_entity = $this->generateEntity($this->file_data,'migration');
+             
            if ($migration_entity->isInstallable()) {
             $migration_entity->trustData()->save();
             $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.load.messages.installed') . '</info>'));
@@ -128,14 +126,12 @@ class MigrateLoadCommand extends ContainerAwareCommand
            $override = $input->getOption('override');
 
            if($override === 'yes'){
-            $entity_manager = $this->getEntityManager();
-            $entity_storage = $entity_manager->getStorage('migration');
-            $entity = $entity_storage->load($this->file_data['id']);
-            $migration_updated = $entity_storage->updateFromStorageRecord($entity, $this->file_data);
-            $migration_updated->trustData()->save();
+             
+             $migration_updated = $this->updateEntity($this->file_data['id'],'migration',$this->file_data);
+             $migration_updated->trustData()->save();
             
-            $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.load.messages.overridden') . '</info>'));
-            return;
+             $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.load.messages.overridden') . '</info>'));
+             return;
          }
 
           else
@@ -162,12 +158,12 @@ class MigrateLoadCommand extends ContainerAwareCommand
        return $migration_id_found;
     }
 
-
     protected function loadDataFile($file){
        $yml = new Parser();
        $file_data = $yml->parse(file_get_contents($file));
        return $file_data;
 
-    }
+    }   
+    
      
 }
