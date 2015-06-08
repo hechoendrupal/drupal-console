@@ -117,6 +117,10 @@ class Application extends BaseApplication
             $this->bootstrap();
         }
 
+        if (!$this->commandsRegistered) {
+            $this->commandsRegistered = $this->registerCommands();
+        }
+
         parent::doRun($input, $output);
 
         $kernelHelper = $this->getHelperSet()->get('kernel');
