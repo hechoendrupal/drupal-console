@@ -112,7 +112,7 @@ class Application extends BaseApplication
             }
         }
 
-        if ($this->isRuningOnDrupalInstance($drupal_root)) {
+        if ($this->isRunningOnDrupalInstance($drupal_root)) {
             $this->setup($env, $debug);
             $this->bootstrap();
         }
@@ -129,7 +129,7 @@ class Application extends BaseApplication
      * @param $drupal_root
      * @return bool
      */
-    protected function isRuningOnDrupalInstance($drupal_root)
+    protected function isRunningOnDrupalInstance($drupal_root)
     {
         $auto_load = $this
             ->getHelperSet()
