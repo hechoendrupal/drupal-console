@@ -188,12 +188,12 @@ class Application extends BaseApplication
           ->get('translator');
 
         if (!file_exists($drupalRoot . '/core/vendor/autoload.php')) {
-            $messageHelper->addErrorMessage($translatorHelper->trans('application.site.errors.directory'));
+            $messageHelper->addWarningMessage($translatorHelper->trans('application.site.errors.directory'));
             return false;
         }
 
         if (!file_exists($drupalRoot . '/sites/default/settings.php')) {
-            $messageHelper->addErrorMessage($translatorHelper->trans('application.site.errors.settings'));
+            $messageHelper->addWarningMessage($translatorHelper->trans('application.site.errors.settings'));
             return false;
         }
 
