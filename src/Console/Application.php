@@ -77,7 +77,10 @@ class Application extends BaseApplication
     }
 
     /**
-     * Prepare Drupal Console to run, and bootstrap Drupal
+     * Prepare Drupal Console to run, and bootstrap Drupal.
+     *
+     * @param string $env
+     * @param bool $debug
      */
     public function setup($env = 'prod', $debug = false)
     {
