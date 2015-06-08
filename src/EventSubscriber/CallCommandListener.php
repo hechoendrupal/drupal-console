@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\EventSubscriber\CallCommandListener.
  */
-
 namespace Drupal\AppConsole\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

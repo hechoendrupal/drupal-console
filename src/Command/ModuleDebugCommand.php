@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\ModuleDebugCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputOption;
@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ModuleDebugCommand extends ContainerAwareCommand
 {
-
     protected function configure()
     {
         $this
@@ -78,7 +77,7 @@ class ModuleDebugCommand extends ContainerAwareCommand
               $module->info['name'],
               $module_status,
               $module->info['package'],
-              $module->origin
+              $module->origin,
             ]);
         }
 

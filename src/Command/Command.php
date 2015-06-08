@@ -56,6 +56,7 @@ abstract class Command extends BaseCommand
 
     /**
      * @param $key string
+     *
      * @return string
      */
     public function trans($key)

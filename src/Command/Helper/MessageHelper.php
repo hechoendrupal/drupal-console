@@ -1,13 +1,12 @@
 <?php
+
 /**
  * @file
  * Contains Drupal\AppConsole\Command\Helper\MessageHelper.
  */
-
 namespace Drupal\AppConsole\Command\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
-use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 
 class MessageHelper extends Helper
 {
@@ -37,7 +36,7 @@ class MessageHelper extends Helper
      */
     const MESSAGE_INFO = 'info';
     /**
-     * @var  string
+     * @var string
      */
     const MESSAGE_SUCCESS = 'success';
 
@@ -48,7 +47,7 @@ class MessageHelper extends Helper
         self::MESSAGE_ERROR,
         self::MESSAGE_WARNING,
         self::MESSAGE_INFO,
-        self::MESSAGE_SUCCESS
+        self::MESSAGE_SUCCESS,
     ];
 
     /**
@@ -77,8 +76,8 @@ class MessageHelper extends Helper
 
     /**
      * @param $output
-     * @param array     $messages
-     * @param string    $type
+     * @param array  $messages
+     * @param string $type
      */
     private function showMessagesByType($output, $messages, $type)
     {
@@ -91,8 +90,8 @@ class MessageHelper extends Helper
 
     /**
      * @param $output
-     * @param array     $message
-     * @param string    $type
+     * @param array  $message
+     * @param string $type
      */
     public function showMessage($output, $message, $type = self::MESSAGE_INFO)
     {
@@ -186,7 +185,7 @@ class MessageHelper extends Helper
           $files,
           'application.console.messages.files.copied',
           'application.user.messages.path',
-          rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/\\') . '/.console/'
+          rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/\\').'/.console/'
         );
     }
 

@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains Drupal\AppConsole\Command\Helper\ChainCommandHelper.
  */
-
 namespace Drupal\AppConsole\Command\Helper;
 
 use Symfony\Component\Console\Helper\Helper;

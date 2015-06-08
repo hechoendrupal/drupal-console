@@ -39,7 +39,7 @@ commands:
       services:
         confirm: Doriti sa incarcati serviciile din container
         message: |
-          
+
           Introdu numele serviciului sau utilizeaza keyup/keydown pentru a selecta.
           Aceasta este optional, tasteaza <info>Enter</info> pentru a <info>continua</info>
         name: Introdu serviciul tau
@@ -415,7 +415,7 @@ commands:
       arguments:
         resource-id: Rest ID
         states: REST States pentru a dezactiva "Rest resource"
-        
+
       questions:
         resource-id: Rest ID
       messages:

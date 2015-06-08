@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Config.
  */
-
 namespace Drupal\AppConsole;
 
 use Symfony\Component\Yaml\Parser;

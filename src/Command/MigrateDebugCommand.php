@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\MigrateDebugCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MigrateDebugCommand extends ContainerAwareCommand
 {
-
     protected function configure()
     {
         $this

@@ -1,11 +1,11 @@
 <?php
+
 namespace Drupal\AppConsole\Test\Utils;
 
-use \Drupal\AppConsole\Utils\StringUtils;
+use Drupal\AppConsole\Utils\StringUtils;
 
 class StringUtilsTest extends \PHPUnit_Framework_TestCase
 {
-
     /* @var StringUtils */
     protected $stringUtil;
 
@@ -31,7 +31,7 @@ class StringUtilsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Random strings and their equivalent machine-name
+     * Random strings and their equivalent machine-name.
      */
     public function getDataNames()
     {
@@ -43,7 +43,7 @@ class StringUtilsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Camel-case strings and their equivalent machine-name
+     * Camel-case strings and their equivalent machine-name.
      */
     public function getDataCamelCaseNames()
     {

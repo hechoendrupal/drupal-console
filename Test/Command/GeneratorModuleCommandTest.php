@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Test\Command\GeneratorModuleCommandTest.
  */
-
 namespace Drupal\AppConsole\Test\Command;
 
 use Symfony\Component\Console\Tester\CommandTester;
@@ -32,14 +32,14 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
 
     public function getInteractiveData()
     {
-        $dir = sys_get_temp_dir() . "/modules";
+        $dir = sys_get_temp_dir().'/modules';
 
         return [
             // case one basic options
           [
             [],
             ['foo', 'foo', $dir, 'My Awesome Module', '8.x', 'Other', false, false, [], false],
-            "foo\nfoo\n$dir\n"
+            "foo\nfoo\n$dir\n",
           ],
         ];
     }
@@ -77,9 +77,9 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
               '--package' => 'Other',
               '--composer' => false,
               '--controller' => true,
-              '--test' => true
+              '--test' => true,
             ],
-            ["foo", "foo", $dir, "My Awesome Module", '8.x', 'Other', true, false, [], true],
+            ['foo', 'foo', $dir, 'My Awesome Module', '8.x', 'Other', true, false, [], true],
           ],
           [
             [
@@ -91,10 +91,10 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
               '--package' => 'Other',
               '--composer' => false,
               '--controller' => true,
-              '--test' => true
+              '--test' => true,
             ],
-            ["foo", 'foo', $dir, "My Awesome Module", '8.x', 'Other', true, false, [], true],
-          ]
+            ['foo', 'foo', $dir, 'My Awesome Module', '8.x', 'Other', true, false, [], true],
+          ],
         ];
     }
 

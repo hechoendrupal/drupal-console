@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Test\Command\GeneratorServiceCommandTest.
  */
-
 namespace Drupal\AppConsole\Test\Command;
 
 use Symfony\Component\Console\Tester\CommandTester;
@@ -36,7 +36,7 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
             'machine_name' => 'twig',
             'class' => 'Twig_Environment',
             'short' => 'Twig_Environment',
-          ]
+          ],
         ];
 
         return [
@@ -90,7 +90,6 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
         $command->expects($this->any())
           ->method('getModules')
           ->will($this->returnValue(['foo']));
-        ;
 
         $command->expects($this->any())
           ->method('getServices')

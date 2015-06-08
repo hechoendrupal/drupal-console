@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains Drupal\AppConsole\Command\GeneratorControllerCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
@@ -121,13 +121,13 @@ class GeneratorControllerCommand extends GeneratorCommand
                 $route = $dialog->ask(
                   $output,
                   $dialog->getQuestion($this->trans('commands.generate.controller.questions.route'),
-                    $module . '/' . $method_name),
-                  $module . '/' . $method_name
+                    $module.'/'.$method_name),
+                  $module.'/'.$method_name
                 );
             }
         } else {
             $method_name = 'hello';
-            $route = $module . '/hello/{name}';
+            $route = $module.'/hello/{name}';
         }
         $input->setOption('method-name', $method_name);
         $input->setOption('route', $route);

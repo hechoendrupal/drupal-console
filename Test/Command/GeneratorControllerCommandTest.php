@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Test\Command\GeneratorModuleCommandTest.
  */
-
 namespace Drupal\AppConsole\Test\Command;
 
 use Symfony\Component\Console\Tester\CommandTester;
@@ -36,7 +36,7 @@ class GeneratorControllerCommandTest extends GenerateCommandTest
             'machine_name' => 'twig',
             'class' => 'Twig_Environment',
             'short' => 'Twig_Environment',
-          ]
+          ],
         ];
 
         return [

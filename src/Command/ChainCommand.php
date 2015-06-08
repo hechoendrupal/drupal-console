@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\ChainCommand.
@@ -52,6 +53,7 @@ class ChainCommand extends ContainerAwareCommand
             $message->addErrorMessage(
               $this->trans('commands.chain.messages.missing_file')
             );
+
             return 1;
         }
 
@@ -67,6 +69,7 @@ class ChainCommand extends ContainerAwareCommand
                 $file
               )
             );
+
             return 1;
         }
 
@@ -83,7 +86,7 @@ class ChainCommand extends ContainerAwareCommand
             }
 
             foreach ($options as $key => $value) {
-                $moduleInputs['--' . $key] = is_null($value) ? '' : $value;
+                $moduleInputs['--'.$key] = is_null($value) ? '' : $value;
             }
 
             $this->getHelper('chain')

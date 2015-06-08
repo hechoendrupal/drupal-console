@@ -1,15 +1,16 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Generator\PluginRestResourceGenerator.
  */
-
 namespace Drupal\AppConsole\Generator;
 
 class PluginRestResourceGenerator extends Generator
 {
     /**
-     * Generator Plugin Block
+     * Generator Plugin Block.
+     *
      * @param  $module
      * @param  $class_name
      * @param  $plugin_label
@@ -30,7 +31,7 @@ class PluginRestResourceGenerator extends Generator
 
         $this->renderFile(
           'module/src/Plugin/Rest/Resource/rest.php.twig',
-          $this->getPluginPath($module, 'rest') . '/resource/' . $class_name . '.php',
+          $this->getPluginPath($module, 'rest').'/resource/'.$class_name.'.php',
           $parameters
         );
     }

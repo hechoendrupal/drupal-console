@@ -610,4 +610,3 @@ commands:
         reset-successful: Password was updated sucessfully for user id %s
       errors:
         invalid-user: Invalid user id %s
-

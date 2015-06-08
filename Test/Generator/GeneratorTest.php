@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains Drupal\AppConsole\Test\Generator\GeneratorTest.
  */
-
 namespace Drupal\AppConsole\Test\Generator;
 
 abstract class GeneratorTest extends \PHPUnit_Framework_TestCase
@@ -20,18 +20,18 @@ abstract class GeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function setUpTemporalDirectory()
     {
-        $this->dir = sys_get_temp_dir() . "/modules";
+        $this->dir = sys_get_temp_dir().'/modules';
     }
 
     public function getSkeletonDirs()
     {
-        $skeletonDirs[] = __DIR__ . '/../../templates';
+        $skeletonDirs[] = __DIR__.'/../../templates';
 
         return $skeletonDirs;
     }
 
     public function getModulePath($module)
     {
-        return $this->dir . '/' . $module;
+        return $this->dir.'/'.$module;
     }
 }

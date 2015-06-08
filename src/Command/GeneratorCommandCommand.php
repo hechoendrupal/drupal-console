@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\GeneratorCommandCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Drupal\AppConsole\Command\Helper\ConfirmationTrait;
@@ -76,8 +76,8 @@ class GeneratorCommandCommand extends GeneratorCommand
         $command = $input->getOption('command');
         if (!$command) {
             $command = $dialog->ask($output,
-              $dialog->getQuestion($this->trans('commands.generate.command.questions.command'), $module . ':default'),
-              $module . ':default'
+              $dialog->getQuestion($this->trans('commands.generate.command.questions.command'), $module.':default'),
+              $module.':default'
             );
         }
         $input->setOption('command', $command);

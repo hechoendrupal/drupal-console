@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Utils\Validators.
  */
-
 namespace Drupal\AppConsole\Utils;
 
 use Symfony\Component\Console\Helper\Helper;
@@ -12,7 +12,6 @@ use Drupal\Core\Cache\Cache;
 
 class Validators extends Helper implements HelperInterface
 {
-
     private $caches = [];
 
     const REGEX_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+$/';
@@ -73,7 +72,7 @@ class Validators extends Helper implements HelperInterface
     {
         $dependencies_checked = array(
           'success' => array(),
-          'fail' => array()
+          'fail' => array(),
         );
 
         if (empty($dependencies)) {
@@ -95,9 +94,11 @@ class Validators extends Helper implements HelperInterface
     }
 
     /**
-     * Validate if module name exist
-     * @param  string $module Module name
-     * @param  array $modules List of modules
+     * Validate if module name exist.
+     *
+     * @param string $module  Module name
+     * @param array  $modules List of modules
+     *
      * @return string
      */
     public function validateModuleExist($module, $modules)
@@ -113,27 +114,31 @@ class Validators extends Helper implements HelperInterface
     }
 
     /**
-     * Validate if service name exist
-     * @param  string $service Service name
-     * @param  array $services Array of services
+     * Validate if service name exist.
+     *
+     * @param string $service  Service name
+     * @param array  $services Array of services
+     *
      * @return string
      */
     public function validateServiceExist($service, $services)
     {
         if ($service == '') {
-            return null;
+            return;
         }
 
         if (!in_array($service, array_values($services))) {
-            throw new \InvalidArgumentException(sprintf("Service \"%s\" is invalid.", $service));
+            throw new \InvalidArgumentException(sprintf('Service "%s" is invalid.', $service));
         }
 
         return $service;
     }
 
     /**
-     * Validate if a string is a valid cache
+     * Validate if a string is a valid cache.
+     *
      * @param string $cache The cache name
+     *
      * @return mixed The cache name if valid or FALSE if not valid
      */
     public function validateCache($cache)
@@ -146,12 +151,15 @@ class Validators extends Helper implements HelperInterface
         if (!in_array($cache, array_values($cache_keys))) {
             return false;
         }
+
         return $cache;
     }
 
     /**
-     * Validates if class name have spaces between words
+     * Validates if class name have spaces between words.
+     *
      * @param string $name
+     *
      * @return string
      */
     public function validateSpaces($name)
@@ -160,7 +168,7 @@ class Validators extends Helper implements HelperInterface
         if ($string == $name) {
             return $name;
         } else {
-            throw new \InvalidArgumentException(sprintf("The name \"%s\" is invalid, spaces between words are not allowed.",
+            throw new \InvalidArgumentException(sprintf('The name "%s" is invalid, spaces between words are not allowed.',
               $name));
         }
     }
@@ -172,11 +180,12 @@ class Validators extends Helper implements HelperInterface
 
     public function getName()
     {
-        return "validators";
+        return 'validators';
     }
 
     /**
-     * Auxiliary function to get all available drupal caches
+     * Auxiliary function to get all available drupal caches.
+     *
      * @return array The all available drupal caches
      */
     public function getCaches()
@@ -186,6 +195,7 @@ class Validators extends Helper implements HelperInterface
                 $this->caches[$name] = $bin;
             }
         }
+
         return $this->caches;
     }
 }

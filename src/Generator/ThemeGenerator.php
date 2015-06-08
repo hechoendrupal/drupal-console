@@ -1,14 +1,13 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Generator\ThemeGenerator.
  */
-
 namespace Drupal\AppConsole\Generator;
 
 class ThemeGenerator extends Generator
 {
-
     public function generate(
       $theme,
       $machine_name,
@@ -18,7 +17,7 @@ class ThemeGenerator extends Generator
       $package,
       $base_theme
     ) {
-        $dir .= '/' . $machine_name;
+        $dir .= '/'.$machine_name;
         if (file_exists($dir)) {
             if (!is_dir($dir)) {
                 throw new \RuntimeException(sprintf('Unable to generate the bundle as the target directory "%s" exists but is a file.',
@@ -42,18 +41,18 @@ class ThemeGenerator extends Generator
           'core' => $core,
           'description' => $description,
           'package' => $package,
-          'base_theme' => $base_theme
+          'base_theme' => $base_theme,
         );
 
         $this->renderFile(
           'theme/info.yml.twig',
-          $dir . '/' . $machine_name . '.info.yml',
+          $dir.'/'.$machine_name.'.info.yml',
           $parameters
         );
 
         $this->renderFile(
           'theme/theme.twig',
-          $dir . '/' . $machine_name . '.theme',
+          $dir.'/'.$machine_name.'.theme',
           $parameters
         );
     }

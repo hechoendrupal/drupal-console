@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Test\Command\GeneratorPermissionCommandTest.
  */
-
 namespace Drupal\AppConsole\Test\Command;
 
 use Symfony\Component\Console\Tester\CommandTester;
@@ -35,7 +35,7 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
             'title' => 'My permission',
             'description' => 'Allow Access to my permission',
             'restrict_access' => 'false',
-          ]
+          ],
         ];
 
         return [

@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\MigrateExecuteCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -159,12 +159,14 @@ class MigrateExecuteCommand extends ContainerAwareCommand
             $this->migration_group = 'Drupal 6';
             $migrations_list = $this->getMigrations($this->migration_group);
         } else {
-            $output->writeln('[+] <error>' . $this->trans('commands.migrate.execute.questions.wrong-source') . '</error>');
+            $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.questions.wrong-source').'</error>');
+
             return;
         }
 
         if (count($migrations_list) == 0) {
-            $output->writeln('[+] <error>' . $this->trans('commands.migrate.execute.messages.no-migrations') . '</error>');
+            $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.no-migrations').'</error>');
+
             return;
         }
 
@@ -177,7 +179,7 @@ class MigrateExecuteCommand extends ContainerAwareCommand
             while (true) {
                 $migration_id = $dialog->askAndValidate(
               $output,
-              $dialog->getQuestion((count($migrations_ids) == 0 ? $this->trans('commands.migrate.execute.questions.id'):$this->trans('commands.migrate.execute.questions.other-id')), 'all'),
+              $dialog->getQuestion((count($migrations_ids) == 0 ? $this->trans('commands.migrate.execute.questions.id') : $this->trans('commands.migrate.execute.questions.other-id')), 'all'),
               function ($migration) use ($migrations_list) {
                 if (isset($migrations_list[$migration])) {
                     return $migration;
@@ -218,7 +220,7 @@ class MigrateExecuteCommand extends ContainerAwareCommand
                     return $exclude;
                 } else {
                     throw new \InvalidArgumentException(
-                    sprintf($this->trans('commands.migrate.execute.questions.invalid-migration-id'), '@@' . $exclude)
+                    sprintf($this->trans('commands.migrate.execute.questions.invalid-migration-id'), '@@'.$exclude)
                   );
                 }
               },
@@ -243,7 +245,8 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         try {
             $this->connection = Database::getConnection('default', 'migrate');
         } catch (\Exception $e) {
-            $output->writeln('[+] <error>' . $this->trans('commands.migrate.execute.messages.destination-error') . ': ' . $e->getMessage() . '</error>');
+            $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.destination-error').': '.$e->getMessage().'</error>');
+
             return;
         }
 
@@ -267,13 +270,14 @@ class MigrateExecuteCommand extends ContainerAwareCommand
           'port' => $db_port,
           'host' => $db_host,
           'namespace' => 'Drupal\Core\Database\Driver\mysql',
-          'driver' => 'mysql'
+          'driver' => 'mysql',
         );
 
         try {
             Database::addConnectionInfo('migrate', 'default', $database);
         } catch (\Exception $e) {
-            $output->writeln('[+] <error>' . $this->trans('commands.migrate.execute.messages.source-error') . ': ' . $e->getMessage() . '</error>');
+            $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.source-error').': '.$e->getMessage().'</error>');
+
             return;
         }
     }
@@ -311,8 +315,8 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         $migration_storage = $entity_manager->getStorage('migration');
 
         foreach ($migrations as $migration_id) {
-            $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.execute.messages.processing'),
-              $migration_id) . '</info>');
+            $output->writeln('[+] <info>'.sprintf($this->trans('commands.migrate.execute.messages.processing'),
+              $migration_id).'</info>');
             $migration = $migration_storage->load($migration_id);
 
             if ($migration) {
@@ -321,31 +325,31 @@ class MigrateExecuteCommand extends ContainerAwareCommand
                 $migration_status = $executable->import();
                 switch ($migration_status) {
                   case MigrationInterface::RESULT_COMPLETED:
-                      $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.execute.messages.imported'),
-                          $migration_id) . '</info>');
+                      $output->writeln('[+] <info>'.sprintf($this->trans('commands.migrate.execute.messages.imported'),
+                          $migration_id).'</info>');
                       break;
                   case MigrationInterface::RESULT_INCOMPLETE:
-                      $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.execute.messages.importing-incomplete'),
-                          $migration_id) . '</info>');
+                      $output->writeln('[+] <info>'.sprintf($this->trans('commands.migrate.execute.messages.importing-incomplete'),
+                          $migration_id).'</info>');
                       break;
                   case MigrationInterface::RESULT_STOPPED:
-                      $output->writeln('[+] <error>' . sprintf($this->trans('commands.migrate.execute.messages.import-stoped'),
-                          $migration_id) . '</error>');
+                      $output->writeln('[+] <error>'.sprintf($this->trans('commands.migrate.execute.messages.import-stoped'),
+                          $migration_id).'</error>');
                       break;
                   case MigrationInterface::RESULT_FAILED:
-                      $output->writeln('[+] <error>' . sprintf($this->trans('commands.migrate.execute.messages.import-fail'),
-                          $migration_id) . '</error>');
+                      $output->writeln('[+] <error>'.sprintf($this->trans('commands.migrate.execute.messages.import-fail'),
+                          $migration_id).'</error>');
                       break;
                   case MigrationInterface::RESULT_SKIPPED:
-                      $output->writeln('[+] <error>' . sprintf($this->trans('commands.migrate.execute.messages.import-skipped'),
-                          $migration_id) . '</error>');
+                      $output->writeln('[+] <error>'.sprintf($this->trans('commands.migrate.execute.messages.import-skipped'),
+                          $migration_id).'</error>');
                       break;
                   case MigrationInterface::RESULT_DISABLED:
                       // Skip silently if disabled.
                       break;
               }
             } else {
-                $output->writeln('[+] <error>' . $this->trans('commands.migrate.execute.messages.fail-load') . '</error>');
+                $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.fail-load').'</error>');
             }
         }
     }

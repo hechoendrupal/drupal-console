@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains Drupal\AppConsole\Command\Helper\ServicesTrait.
  */
-
 namespace Drupal\AppConsole\Command\Helper;
 
 use Symfony\Component\Console\Helper\HelperInterface;
@@ -14,6 +14,7 @@ trait ServicesTrait
     /**
      * @param OutputInterface $output
      * @param HelperInterface $dialog
+     *
      * @return mixed
      */
     public function servicesQuestion(OutputInterface $output, HelperInterface $dialog)
@@ -55,11 +56,12 @@ trait ServicesTrait
             return $service_collection;
         }
 
-        return null;
+        return;
     }
 
     /**
-     * @param  Array $services
+     * @param Array $services
+     *
      * @return Array
      */
     public function buildServices($services)
@@ -76,8 +78,10 @@ trait ServicesTrait
                   'short' => end($explode_class),
                 ];
             }
+
             return $build_service;
         }
-        return null;
+
+        return;
     }
 }

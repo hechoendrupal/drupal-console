@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\ContainerDebugCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,7 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ContainerDebugCommand extends ContainerAwareCommand
 {
-
     protected function configure()
     {
         $this
@@ -26,7 +25,7 @@ class ContainerDebugCommand extends ContainerAwareCommand
         $table->setHeaders(
           [
             $this->trans('commands.container.debug.messages.service_id'),
-            $this->trans('commands.container.debug.messages.class_name')
+            $this->trans('commands.container.debug.messages.class_name'),
           ]);
         $table->setlayout($table::LAYOUT_COMPACT);
         foreach ($services as $serviceId) {

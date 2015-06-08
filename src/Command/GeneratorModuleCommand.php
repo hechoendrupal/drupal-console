@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\GeneratorModuleCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
@@ -62,7 +62,7 @@ class GeneratorModuleCommand extends GeneratorCommand
 
         $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
         $drupal_root = $drupalAutoLoad->getDrupalRoot();
-        $module_path = $drupal_root . $input->getOption('module-path');
+        $module_path = $drupal_root.$input->getOption('module-path');
         $module_path = $validators->validateModulePath($module_path, true);
 
         $machine_name = $validators->validateMachineName($input->getOption('machine-name'));
@@ -71,7 +71,7 @@ class GeneratorModuleCommand extends GeneratorCommand
         $package = $input->getOption('package');
         $controller = $input->getOption('controller');
         $composer = $input->getOption('composer');
-        /**
+        /*
          * Modules Dependencies
          *
          */
@@ -89,7 +89,7 @@ class GeneratorModuleCommand extends GeneratorCommand
             }
             $dependencies = $dependencies['success'];
         }
-        /**
+        /*
          * Test
          */
         $test = $input->getOption('test');
@@ -110,15 +110,14 @@ class GeneratorModuleCommand extends GeneratorCommand
     }
 
     /**
-     * private functions
-     *
+     * private functions.
      */
     private function checkDependencies(array $dependencies)
     {
         $checked_dependecies = array(
           'local_modules' => array(),
           'drupal_modules' => array(),
-          'no_modules' => array()
+          'no_modules' => array(),
         );
         $local_modules = null;
         foreach ($dependencies as $key => $module) {
@@ -129,6 +128,7 @@ class GeneratorModuleCommand extends GeneratorCommand
                 $checked_dependecies['drupal_modules'][] = $module;
             }
         }
+
         return $checked_dependecies;
     }
 
@@ -188,15 +188,15 @@ class GeneratorModuleCommand extends GeneratorCommand
         $drupal_root = $drupalAutoLoad->getDrupalRoot();
 
         if (!$module_path) {
-            $module_path_default = "/modules/custom";
+            $module_path_default = '/modules/custom';
 
             $module_path = $dialog->askAndValidate(
               $output,
               $dialog->getQuestion($this->trans('commands.generate.module.questions.module-path'),
                 $module_path_default),
               function ($module_path) use ($drupal_root, $machine_name) {
-                  $module_path = ($module_path[0] != '/' ? '/' : '') . $module_path;
-                  $full_path = $drupal_root . $module_path . '/' . $machine_name;
+                  $module_path = ($module_path[0] != '/' ? '/' : '').$module_path;
+                  $full_path = $drupal_root.$module_path.'/'.$machine_name;
                   if (file_exists($full_path)) {
                       throw new \InvalidArgumentException(
                         sprintf(

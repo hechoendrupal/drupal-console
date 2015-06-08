@@ -1,15 +1,16 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Generator\PluginBlockGenerator.
  */
-
 namespace Drupal\AppConsole\Generator;
 
 class PluginBlockGenerator extends Generator
 {
     /**
-     * Generator Plugin Block
+     * Generator Plugin Block.
+     *
      * @param  $module
      * @param  $class_name
      * @param  $label
@@ -29,7 +30,7 @@ class PluginBlockGenerator extends Generator
 
         $this->renderFile(
           'module/src/Plugin/Block/block.php.twig',
-          $this->getPluginPath($module, 'Block') . '/' . $class_name . '.php',
+          $this->getPluginPath($module, 'Block').'/'.$class_name.'.php',
           $parameters
         );
     }

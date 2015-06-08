@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\RestEnableCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RestEnableCommand extends ContainerAwareCommand
 {
-
     protected function configure()
     {
         $this
@@ -62,7 +61,7 @@ class RestEnableCommand extends ContainerAwareCommand
         );
 
         $state = $questionHelper->ask($input, $output, $question);
-        $output->writeln($this->trans('commands.rest.enable.messages.selected-state') . ' ' . $state);
+        $output->writeln($this->trans('commands.rest.enable.messages.selected-state').' '.$state);
 
         // Get serializer formats available and generate the question.
 
@@ -75,7 +74,7 @@ class RestEnableCommand extends ContainerAwareCommand
 
         $question->setMultiselect(true);
         $formats = $questionHelper->ask($input, $output, $question);
-        $output->writeln($this->trans('commands.rest.enable.messages.selected-formats') . ' ' . implode(', ',
+        $output->writeln($this->trans('commands.rest.enable.messages.selected-formats').' '.implode(', ',
             $formats));
 
         // Get Authentication Provider and generate the question
@@ -89,9 +88,8 @@ class RestEnableCommand extends ContainerAwareCommand
 
         $question->setMultiselect(true);
         $authentication_providers = $questionHelper->ask($input, $output, $question);
-        $output->writeln($this->trans('commands.rest.enable.messages.selected-authentication-providers') . ' ' . implode(', ',
+        $output->writeln($this->trans('commands.rest.enable.messages.selected-authentication-providers').' '.implode(', ',
             $authentication_providers));
-
 
         $rest_settings = $this->getRestDrupalConfig();
 

@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains Drupal\AppConsole\Test\Generator\PluginBlockGeneratorTest.
  */
-
 namespace Drupal\AppConsole\Test\Generator;
 
 class PluginBlockGeneratorTest extends GeneratorTest
@@ -21,20 +21,20 @@ class PluginBlockGeneratorTest extends GeneratorTest
         // Get generator
         $generator = $this->getGenerator();
 
-        $dir_module = $this->dir . '/' . $module;
+        $dir_module = $this->dir.'/'.$module;
         // Set plugin path.
         $generator->expects($this->once())
           ->method('getPluginPath')
           ->will($this->returnValue(
-            $dir_module . '/src/Plugin/Block')
+            $dir_module.'/src/Plugin/Block')
           );
 
         // Generate plugin block
         $generator->generate($module, $class_name, $label, $plugin_id, $services, $inputs);
 
         $this->assertTrue(
-          file_exists($dir_module . '/src/Plugin/Block/' . $class_name . '.php'),
-          sprintf('%s has been generated', $dir_module . '/src/Plugin/Block/' . $class_name . '.php')
+          file_exists($dir_module.'/src/Plugin/Block/'.$class_name.'.php'),
+          sprintf('%s has been generated', $dir_module.'/src/Plugin/Block/'.$class_name.'.php')
         );
 
         $contains = [
@@ -42,7 +42,7 @@ class PluginBlockGeneratorTest extends GeneratorTest
           '@Block',
           'id',
           'label',
-          $class_name . ' extends BlockBase',
+          $class_name.' extends BlockBase',
         ];
 
         if ($inputs) {
@@ -63,7 +63,7 @@ class PluginBlockGeneratorTest extends GeneratorTest
             ];
         }
 
-        $content = file_get_contents($dir_module . '/src/Plugin/Block/' . $class_name . '.php');
+        $content = file_get_contents($dir_module.'/src/Plugin/Block/'.$class_name.'.php');
         foreach ($contains as $contain) {
             $this->assertContains($contain, $content);
         }
@@ -77,7 +77,7 @@ class PluginBlockGeneratorTest extends GeneratorTest
             'machine_name' => 'twig',
             'class' => 'Twig_Environment',
             'short' => 'Twig_Environment',
-          ]
+          ],
         ];
 
         $inputs = [
@@ -87,21 +87,21 @@ class PluginBlockGeneratorTest extends GeneratorTest
             'label' => 'Foo',
             'options' => 'foo',
             'description' => 'Foo',
-          ]
+          ],
         ];
 
         return [
           [
-            ['plugin_block' . rand(), 'FooBlock', 'Foo Block', 'foo_block', null, []]
+            ['plugin_block'.rand(), 'FooBlock', 'Foo Block', 'foo_block', null, []],
           ],
           [
-            ['plugin_block' . rand(), 'FooBlock', 'Foo Block', 'foo_block', $services, []]
+            ['plugin_block'.rand(), 'FooBlock', 'Foo Block', 'foo_block', $services, []],
           ],
           [
-            ['plugin_block' . rand(), 'FooBlock', 'Foo Block', 'foo_block', null, $inputs]
+            ['plugin_block'.rand(), 'FooBlock', 'Foo Block', 'foo_block', null, $inputs],
           ],
           [
-            ['plugin_block' . rand(), 'FooBlock', 'Foo Block', 'foo_block', $services, $inputs]
+            ['plugin_block'.rand(), 'FooBlock', 'Foo Block', 'foo_block', $services, $inputs],
           ],
         ];
     }

@@ -16,6 +16,7 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
     {
         $container = new Container();
         $container->set('twig', new \Twig_Environment());
+
         return $container;
     }
 
@@ -76,7 +77,7 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
     protected function getInputStream($input)
     {
         $stream = fopen('php://memory', 'r+', false);
-        fputs($stream, $input . str_repeat("\n", 10));
+        fputs($stream, $input.str_repeat("\n", 10));
         rewind($stream);
 
         return $stream;

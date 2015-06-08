@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains Drupal\AppConsole\Command\Helper\FormTrait.
  */
-
 namespace Drupal\AppConsole\Command\Helper;
 
 use Symfony\Component\Console\Helper\HelperInterface;
@@ -14,6 +14,7 @@ trait FormTrait
     /**
      * @param OutputInterface $output
      * @param HelperInterface $dialog
+     *
      * @return mixed
      */
     public function formQuestion(OutputInterface $output, HelperInterface $dialog)
@@ -45,7 +46,7 @@ trait FormTrait
                 // Label for input
                 $input_label = $dialog->ask(
                   $output,
-                  $dialog->getQuestion('  ' . $this->trans('commands.common.questions.inputs.label'), '', ':'),
+                  $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.label'), '', ':'),
                   null
                 );
 
@@ -58,7 +59,7 @@ trait FormTrait
 
                 $input_name = $dialog->ask(
                   $output,
-                  $dialog->getQuestion('  ' . $this->trans('commands.common.questions.inputs.machine_name'),
+                  $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.machine_name'),
                     $input_machine_name, ':'),
                   $input_machine_name
                 );
@@ -66,7 +67,7 @@ trait FormTrait
                 // Type input
                 $input_type = $dialog->askAndValidate(
                   $output,
-                  $dialog->getQuestion('  ' . $this->trans('commands.common.questions.inputs.type'), 'textfield', ':'),
+                  $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.type'), 'textfield', ':'),
                   function ($input) use ($input_types) {
                       if (!in_array($input, $input_types)) {
                           throw new \InvalidArgumentException(
@@ -93,19 +94,19 @@ trait FormTrait
                 // Prepare options as an array
                 if (strlen(trim($input_options))) {
                     // remove spaces in options and empty options
-                    $input_options = array_filter(array_map('trim', explode(",", $input_options)));
+                    $input_options = array_filter(array_map('trim', explode(',', $input_options)));
                     // Create array format for options
                     foreach ($input_options as $key => $value) {
-                        $input_options_output[$key] = "\$this->t('" . $value . "') => \$this->t('" . $value . "')";
+                        $input_options_output[$key] = "\$this->t('".$value."') => \$this->t('".$value."')";
                     }
 
-                    $input_options = "array(" . implode(", ", $input_options_output) . ")";
+                    $input_options = 'array('.implode(', ', $input_options_output).')';
                 }
 
                 // Description for input
                 $input_description = $dialog->ask(
                   $output,
-                  $dialog->getQuestion('  ' . $this->trans('commands.common.questions.inputs.description'), '', ':'),
+                  $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.description'), '', ':'),
                   null
                 );
 
@@ -120,6 +121,7 @@ trait FormTrait
 
             return $inputs;
         }
-        return null;
+
+        return;
     }
 }

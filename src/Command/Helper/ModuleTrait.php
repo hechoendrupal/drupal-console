@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains Drupal\AppConsole\Command\Helper\ModuleTrait.
  */
-
 namespace Drupal\AppConsole\Command\Helper;
 
 use Symfony\Component\Console\Helper\HelperInterface;
@@ -14,6 +14,7 @@ trait ModuleTrait
     /**
      * @param OutputInterface $output
      * @param HelperInterface $dialog
+     *
      * @return mixed
      */
     public function moduleQuestion(OutputInterface $output, HelperInterface $dialog)

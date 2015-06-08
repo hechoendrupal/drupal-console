@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Test\Command\GeneratorPluginImageEffectTest.
  */
-
 namespace Drupal\AppConsole\Test\Command;
 
 use Symfony\Component\Console\Tester\CommandTester;
@@ -48,12 +48,12 @@ class GeneratorPluginImageEffectCommandTest extends GenerateCommandTest
               '--class-name' => 'FooImagePlugin',
               '--label' => 'Foo label',
               '--plugin-id' => 'foo_id',
-              '--description' => 'Foo Description'
+              '--description' => 'Foo Description',
             ],
               // Expected options
             ['foo', 'FooImagePlugin', 'Foo label', 'foo_id', 'Foo Description'],
               // User input options
-            "",
+            '',
           ],
         ];
     }
