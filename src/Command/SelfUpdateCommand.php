@@ -34,7 +34,14 @@ class SelfUpdateCommand extends Command
         $manager = new Manager(Manifest::loadFile(
           self::DRUPAL_CONSOLE_MANIFEST
         ));
-        $manager->update($this->getApplication()->getVersion(), true);
-        $output->writeln($this->trans('commands.self-update.messages.success'));
+
+        if ($manager->update($this->getApplication()->getVersion(), true)) {
+            $output->writeln($this->trans('commands.self-update.messages.success'));
+        } else {
+            $output->writeln(sprintf(
+              $this->trans('commands.self-update.messages.current-version'),
+              $this->getApplication()->getVersion()
+            ));
+        }
     }
 }
