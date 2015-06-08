@@ -112,13 +112,19 @@ class Application extends BaseApplication
             }
         }
 
+        if (!$this->commandsRegistered) {
+            $this->commandsRegistered = $this->registerCommands();
+        }
+
+        $commandName = $this->getCommandName($input);
+
+        if ($commandName && $this->has($commandName)){
+            $this->searchSettingsFile = false;
+        }
+
         if ($this->isRunningOnDrupalInstance($drupal_root)) {
             $this->setup($env, $debug);
             $this->bootstrap();
-        }
-
-        if (!$this->commandsRegistered) {
-            $this->commandsRegistered = $this->registerCommands();
         }
 
         parent::doRun($input, $output);
