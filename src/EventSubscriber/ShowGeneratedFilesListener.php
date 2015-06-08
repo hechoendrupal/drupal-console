@@ -4,7 +4,6 @@
  * @file
  * Contains \Drupal\AppConsole\EventSubscriber\ShowGeneratedFiles.
  */
-
 namespace Drupal\AppConsole\EventSubscriber;
 
 use Symfony\Component\Console\ConsoleEvents;
@@ -14,7 +13,7 @@ use Drupal\AppConsole\Command\GeneratorCommand;
 
 class ShowGeneratedFilesListener implements EventSubscriberInterface
 {
-   /**
+    /**
      * @param ConsoleTerminateEvent $event
      */
     public function showGeneratedFiles(ConsoleTerminateEvent $event)

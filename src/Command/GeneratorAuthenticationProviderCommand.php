@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\GeneratorAuthenticationProviderCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Command\Helper\ServicesTrait;
 use Drupal\AppConsole\Command\Helper\ModuleTrait;
 use Drupal\AppConsole\Command\Helper\FormTrait;
-use Symfony\Component\Console\Question\ChoiceQuestion;
 use Drupal\AppConsole\Generator\AuthenticationProviderGenerator;
 use Drupal\AppConsole\Command\Helper\ConfirmationTrait;
 
@@ -81,6 +80,7 @@ class GeneratorAuthenticationProviderCommand extends GeneratorCommand
                   if (!strlen(trim($value))) {
                       throw new \Exception('The Class name can not be empty');
                   }
+
                   return $stringUtils->humanToCamelCase($value);
               },
               false,
@@ -99,6 +99,7 @@ class GeneratorAuthenticationProviderCommand extends GeneratorCommand
               if (!strlen(trim($value))) {
                   throw new \Exception('The Class name can not be empty');
               }
+
               return $stringUtils->camelCaseToUnderscore($value);
             },
             false,

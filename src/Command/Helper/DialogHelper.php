@@ -7,7 +7,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class DialogHelper extends BaseDialogHelper
 {
-
     public function writeSection(OutputInterface $output, $text, $style = 'bg=blue;fg=white')
     {
         $output->writeln(array(

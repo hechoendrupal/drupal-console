@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains Drupal\AppConsole\Command\Helper\KernelHelper.
  */
-
 namespace Drupal\AppConsole\Command\Helper;
 
 use Composer\Autoload\ClassLoader;
@@ -36,12 +36,12 @@ class KernelHelper extends Helper
     protected $environment;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $debug;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $booted;
 
@@ -54,7 +54,7 @@ class KernelHelper extends Helper
     }
 
     /**
-     * @param boolean $debug
+     * @param bool $debug
      */
     public function setDebug($debug)
     {
@@ -62,7 +62,6 @@ class KernelHelper extends Helper
     }
 
     /**
-     * @return void
      */
     public function bootKernel()
     {

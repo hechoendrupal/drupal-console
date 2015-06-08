@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\RouterDebugCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RouterDebugCommand extends ContainerAwareCommand
 {
-
     protected function configure()
     {
         $this
@@ -64,16 +63,16 @@ class RouterDebugCommand extends ContainerAwareCommand
         $table->setlayout($table::LAYOUT_COMPACT);
 
         foreach ($routes as $name => $route) {
-            $table->addRow(['<info>' . $name . '</info>']);
+            $table->addRow(['<info>'.$name.'</info>']);
             $table->addRow([
-              ' <comment>+ ' . $this->trans('commands.router.debug.messages.pattern') . '</comment>',
-              $route->getPath()
+              ' <comment>+ '.$this->trans('commands.router.debug.messages.pattern').'</comment>',
+              $route->getPath(),
             ]);
 
-            $table->addRow([' <comment>+ ' . $this->trans('commands.router.debug.messages.defaults') . '</comment>']);
+            $table->addRow([' <comment>+ '.$this->trans('commands.router.debug.messages.defaults').'</comment>']);
             $table = $this->addRouteAttributes($route->getDefaults(), $table);
 
-            $table->addRow([' <comment>+ ' . $this->trans('commands.router.debug.messages.options') . '</comment>']);
+            $table->addRow([' <comment>+ '.$this->trans('commands.router.debug.messages.options').'</comment>']);
             $table = $this->addRouteAttributes($route->getOptions(), $table);
         }
         $table->render($output);
@@ -85,9 +84,10 @@ class RouterDebugCommand extends ContainerAwareCommand
             if (is_array($value)) {
                 $table = $this->addRouteAttributes($value, $table);
             } else {
-                $table->addRow(['  <comment>- </comment>' . $key, $value]);
+                $table->addRow(['  <comment>- </comment>'.$key, $value]);
             }
         }
+
         return $table;
     }
 }

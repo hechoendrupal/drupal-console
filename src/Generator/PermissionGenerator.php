@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains Drupal\AppConsole\Generator\PermissionGenerator.
  */
-
 namespace Drupal\AppConsole\Generator;
 
 class PermissionGenerator extends Generator

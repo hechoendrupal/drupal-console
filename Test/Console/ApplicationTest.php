@@ -8,7 +8,6 @@ use Drupal\AppConsole\Console\Application;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Symfony\Component\Console\Helper\HelperSet
      */

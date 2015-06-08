@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\RestDebugCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -14,7 +14,6 @@ use Drupal\Component\Serialization\Yaml;
 
 class RestDebugCommand extends ContainerAwareCommand
 {
-
     protected function configure()
     {
         $this
@@ -57,8 +56,9 @@ class RestDebugCommand extends ContainerAwareCommand
         $plugin = $resourcePluginManager->getInstance(array('id' => $resource_id));
 
         if (empty($plugin)) {
-            $output->writeln('[+] <error>' . sprintf($this->trans('commands.rest.debug.messages.not-found'),
-                $resource_id) . '</error>');
+            $output->writeln('[+] <error>'.sprintf($this->trans('commands.rest.debug.messages.not-found'),
+                $resource_id).'</error>');
+
             return false;
         }
 
@@ -66,7 +66,7 @@ class RestDebugCommand extends ContainerAwareCommand
 
         $configuration = array();
         $configuration[$this->trans('commands.rest.debug.messages.id')] = $resource['id'];
-        $configuration[$this->trans('commands.rest.debug.messages.label')] = (string)$resource['label'];
+        $configuration[$this->trans('commands.rest.debug.messages.label')] = (string) $resource['label'];
         $configuration[$this->trans('commands.rest.debug.messages.canonical_url')] = $resource['uri_paths']['canonical'];
         $configuration[$this->trans('commands.rest.debug.messages.status')] = (isset($config[$resource['id']])) ? $this->trans('commands.rest.debug.messages.enabled') : $this->trans('commands.rest.debug.messages.disabled');
         $configuration[$this->trans('commands.rest.debug.messages.provider')] = $resource['provider'];
@@ -88,7 +88,7 @@ class RestDebugCommand extends ContainerAwareCommand
             $table->addRow([
               $method,
               implode(', ', $settings['supported_formats']),
-              implode(', ', $settings['supported_auth'])
+              implode(', ', $settings['supported_auth']),
             ]);
         }
 
@@ -117,7 +117,7 @@ class RestDebugCommand extends ContainerAwareCommand
                   $resource['label'],
                   $resource['uri_paths']['canonical'],
                   $status,
-                  $resource['provider']
+                  $resource['provider'],
                 ]);
             }
         }

@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\TestDebugCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -14,7 +14,6 @@ use Drupal\Component\Serialization\Yaml;
 
 class TestDebugCommand extends ContainerAwareCommand
 {
-
     /**
      * {@inheritdoc}
      */

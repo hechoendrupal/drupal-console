@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\SiteModeCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SiteModeCommand extends ContainerAwareCommand
 {
-
     protected function configure()
     {
         $this
@@ -49,7 +48,7 @@ class SiteModeCommand extends ContainerAwareCommand
           [
             $this->trans('commands.site.mode.messages.configuration-key'),
             $this->trans('commands.site.mode.messages.original'),
-            $this->trans('commands.site.mode.messages.updated')
+            $this->trans('commands.site.mode.messages.updated'),
           ]);
         $table->setlayout($table::LAYOUT_COMPACT);
         $table->setRows($configurationOverrideResult);
@@ -64,10 +63,11 @@ class SiteModeCommand extends ContainerAwareCommand
             $result[] = [
               'configuration' => $configuration,
               'original' => $config->get($configuration) ? 'true' : 'false',
-              'updated' => $value ? 'true' : 'false'
+              'updated' => $value ? 'true' : 'false',
             ];
             $config->set($configuration, $value);
         }
+
         return $result;
     }
 
@@ -79,7 +79,7 @@ class SiteModeCommand extends ContainerAwareCommand
           'css.gzip',
           'js.preprocess',
           'js.gzip',
-          'response.gzip'
+          'response.gzip',
         ];
     }
 }

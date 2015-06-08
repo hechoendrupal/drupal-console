@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\Helper\RegisterCommandsHelper
@@ -11,7 +12,6 @@ use Drupal\AppConsole\Console\Application;
 
 class RegisterCommandsHelper extends Helper
 {
-
     /**
      * @var \Symfony\Component\Console\Application.
      */
@@ -51,12 +51,12 @@ class RegisterCommandsHelper extends Helper
         $commands = [];
         $finder = new Finder();
         foreach ($modules as $module => $directory) {
-            $place = $namespaces['Drupal\\' . $module];
+            $place = $namespaces['Drupal\\'.$module];
             $cmd_dir = '/Command';
-            $prefix = 'Drupal\\' . $module . '\\Command';
+            $prefix = 'Drupal\\'.$module.'\\Command';
 
-            if (is_dir($place . $cmd_dir)) {
-                $dir = $place . $cmd_dir;
+            if (is_dir($place.$cmd_dir)) {
+                $dir = $place.$cmd_dir;
             } else {
                 continue;
             }
@@ -70,9 +70,9 @@ class RegisterCommandsHelper extends Helper
                 $ns = $prefix;
 
                 if ($relativePath = $file->getRelativePath()) {
-                    $ns .= '\\' . strtr($relativePath, '/', '\\');
+                    $ns .= '\\'.strtr($relativePath, '/', '\\');
                 }
-                $class = $ns . '\\' . $file->getBasename('.php');
+                $class = $ns.'\\'.$file->getBasename('.php');
 
                 if (class_exists($class)) {
                     $cmd = new \ReflectionClass($class);

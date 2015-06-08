@@ -1,13 +1,12 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\PasswordCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Command\Helper\ConfirmationTrait;
@@ -34,12 +33,13 @@ class PasswordResetCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $user_id =  $input->getArgument('user');
+        $user_id = $input->getArgument('user');
         $user = user_load($user_id);
 
         if (!is_object($user)) {
-            $output->writeln('[+] <error>' . sprintf($this->trans('commands.password.reset.errors.invalid-user'),
-              $user_id) . '</error>');
+            $output->writeln('[+] <error>'.sprintf($this->trans('commands.password.reset.errors.invalid-user'),
+              $user_id).'</error>');
+
             return;
         }
 
@@ -50,12 +50,13 @@ class PasswordResetCommand extends ContainerAwareCommand
             $user->setPassword($password);
             $user->save();
         } catch (\Exception $e) {
-            $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
+            $output->writeln('[+] <error>'.$e->getMessage().'</error>');
+
             return;
         }
 
-        $output->writeln('[+] <info>' . sprintf($this->trans('commands.password.reset.messages.reset-successful'),
-          $user_id) . '</info>');
+        $output->writeln('[+] <info>'.sprintf($this->trans('commands.password.reset.messages.reset-successful'),
+          $user_id).'</info>');
     }
 
     /**

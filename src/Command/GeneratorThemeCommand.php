@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\GeneratorModuleCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
@@ -56,7 +56,7 @@ class GeneratorThemeCommand extends GeneratorCommand
 
         $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
         $drupal_root = $drupalAutoLoad->getDrupalRoot();
-        $theme_path = $drupal_root . $input->getOption('theme-path');
+        $theme_path = $drupal_root.$input->getOption('theme-path');
         $theme_path = $validators->validateModulePath($theme_path, true);
 
         $machine_name = $validators->validateMachineName($input->getOption('machine-name'));
@@ -133,15 +133,15 @@ class GeneratorThemeCommand extends GeneratorCommand
         $drupal_root = $drupalAutoLoad->getDrupalRoot();
 
         if (!$theme_path) {
-            $theme_path_default = "/themes/custom";
+            $theme_path_default = '/themes/custom';
 
             $theme_path = $dialog->askAndValidate(
               $output,
               $dialog->getQuestion($this->trans('commands.generate.theme.questions.theme-path'),
                 $theme_path_default),
               function ($theme_path) use ($drupal_root, $machine_name) {
-                  $theme_path = ($theme_path[0] != '/' ? '/' : '') . $theme_path;
-                  $full_path = $drupal_root . $theme_path . '/' . $machine_name;
+                  $theme_path = ($theme_path[0] != '/' ? '/' : '').$theme_path;
+                  $full_path = $drupal_root.$theme_path.'/'.$machine_name;
                   if (file_exists($full_path)) {
                       throw new \InvalidArgumentException(
                         sprintf(

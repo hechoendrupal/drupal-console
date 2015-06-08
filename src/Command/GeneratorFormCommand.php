@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains Drupal\AppConsole\Command\GeneratorFormCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,7 +16,6 @@ use Drupal\AppConsole\Generator\FormGenerator;
 
 abstract class GeneratorFormCommand extends GeneratorCommand
 {
-
     use ModuleTrait;
     use ServicesTrait;
     use FormTrait;

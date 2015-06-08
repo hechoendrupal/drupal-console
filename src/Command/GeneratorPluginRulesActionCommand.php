@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\GeneratorPluginBlockCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Drupal\AppConsole\Generator\PluginRulesActionGenerator;

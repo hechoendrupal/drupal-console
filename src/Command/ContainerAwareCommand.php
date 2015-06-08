@@ -4,12 +4,10 @@ namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Drupal\AppConsole\Command\Command;
 use Drupal\Core\Extension\ExtensionDiscovery;
 
 abstract class ContainerAwareCommand extends Command implements ContainerAwareInterface
 {
-
     private $container;
 
     private $modules;
@@ -39,8 +37,10 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     }
 
     /**
-     * [getModules description]
-     * @param  boolean $core Return core modules
+     * [getModules description].
+     *
+     * @param bool $core Return core modules
+     *
      * @return array list of modules
      */
     public function getModules($core = false)
@@ -62,8 +62,10 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     }
 
     /**
-     * [getModules description]
-     * @param  boolean $core Return core modules
+     * [getModules description].
+     *
+     * @param bool $core Return core modules
+     *
      * @return array list of modules
      */
     public function getMigrations($group = false)
@@ -99,8 +101,10 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     }
 
     /**
-     * [geRest get a list of Rest Resouces]
-     * @param  boolean $status return Rest Resources by status
+     * [geRest get a list of Rest Resouces].
+     *
+     * @param bool $status return Rest Resources by status
+     *
      * @return array list of rest resources
      */
     public function getRestResources($rest_status = false)
@@ -159,6 +163,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
      * @param $rest
      * @param $rest_resources_ids
      * @param $translator
+     *
      * @return mixed
      */
     public function validateRestResource($rest, $rest_resources_ids, $translator)
@@ -221,7 +226,8 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     }
 
     /**
-     * getTestDiscovery return a service object for Simpletest
+     * getTestDiscovery return a service object for Simpletest.
+     *
      * @return Drupal\simpletest\TestDiscovery
      */
     public function getTestDiscovery()
@@ -276,8 +282,6 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         return $this->getContainer()->get('password');
     }
 
-
-
     public function validateModuleExist($module_name)
     {
         return $this->getValidator()->validateModuleExist($module_name, $this->getModules());
@@ -299,6 +303,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         if (in_array($machine_name, $modules)) {
             throw new \InvalidArgumentException(sprintf('Module "%s" already exist.', $machine_name));
         }
+
         return $machine_name;
     }
 

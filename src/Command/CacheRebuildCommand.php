@@ -4,7 +4,6 @@
  * @file
  * Contains \Drupal\AppConsole\Command\CacheRebuildCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -13,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CacheRebuildCommand extends ContainerAwareCommand
 {
-
     protected function configure()
     {
         $this
@@ -32,7 +30,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
         $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
         $drupal_root = $drupalAutoLoad->getDrupalRoot();
 
-        require_once $drupal_root . 'core/includes/utility.inc';
+        require_once $drupal_root.'core/includes/utility.inc';
         $validators = $this->getHelperSet()->get('validators');
 
         // Get the --cache option and make validation
@@ -49,7 +47,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
 
         // Start rebuilding cache
         $output->writeln('');
-        $output->writeln('[+] <comment>' . $this->trans('commands.cache.rebuild.messages.rebuild') . '</comment>');
+        $output->writeln('[+] <comment>'.$this->trans('commands.cache.rebuild.messages.rebuild').'</comment>');
 
         // Get data needed to rebuild cache
         $kernelHelper = $this->getHelper('kernel');
@@ -67,7 +65,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
         }
 
         // Finish rebuiilding cache
-        $output->writeln('[+] <info>' . $this->trans('commands.cache.rebuild.messages.completed') . '</info>');
+        $output->writeln('[+] <info>'.$this->trans('commands.cache.rebuild.messages.completed').'</info>');
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -103,6 +101,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
                         )
                       );
                   }
+
                   return $validated_cache;
               },
               false,

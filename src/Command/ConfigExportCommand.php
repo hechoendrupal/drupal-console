@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\ConfigExportCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Drupal\Core\Archiver\ArchiveTar;
@@ -37,14 +37,14 @@ class ConfigExportCommand extends ContainerAwareCommand
         if (!$directory) {
             $config = $this->getConfigFactory()->get('system.file');
             $directory = $config->get('path.temporary') ?: file_directory_temp();
-            $directory .= '/' . CONFIG_STAGING_DIRECTORY;
+            $directory .= '/'.CONFIG_STAGING_DIRECTORY;
         }
 
         if (!is_dir($directory)) {
             mkdir($directory, 0777, true);
         }
 
-        $config_export_file = $directory . '/config.tar.gz';
+        $config_export_file = $directory.'/config.tar.gz';
 
         file_unmanaged_delete($config_export_file);
 
@@ -63,12 +63,13 @@ class ConfigExportCommand extends ContainerAwareCommand
             foreach ($this->targetStorage->getAllCollectionNames() as $collection) {
                 $collection_storage = $this->targetStorage->createCollection($collection);
                 foreach ($collection_storage->listAll() as $name) {
-                    $archiver->addString(str_replace('.', '/', $collection) . "/$name.yml",
+                    $archiver->addString(str_replace('.', '/', $collection)."/$name.yml",
                       Yaml::encode($collection_storage->read($name)));
                 }
             }
         } catch (\Exception $e) {
-            $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
+            $output->writeln('[+] <error>'.$e->getMessage().'</error>');
+
             return;
         }
 

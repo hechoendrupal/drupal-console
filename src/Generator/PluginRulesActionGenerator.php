@@ -1,15 +1,16 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Generator\PluginBlockGenerator.
  */
-
 namespace Drupal\AppConsole\Generator;
 
 class PluginRulesActionGenerator extends Generator
 {
     /**
-     * Generator Plugin RulesAction
+     * Generator Plugin RulesAction.
+     *
      * @param  $module
      * @param  $class_name
      * @param  $label
@@ -30,7 +31,7 @@ class PluginRulesActionGenerator extends Generator
 
         $this->renderFile(
           'module/src/Plugin/RulesAction/rulesaction.php.twig',
-          $this->getPluginPath($module, 'RulesAction') . '/' . $class_name . '.php',
+          $this->getPluginPath($module, 'RulesAction').'/'.$class_name.'.php',
           $parameters
         );
     }

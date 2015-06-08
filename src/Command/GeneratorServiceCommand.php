@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\GeneratorServiceCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
@@ -58,7 +58,7 @@ class GeneratorServiceCommand extends GeneratorCommand
         $interface = $input->getOption('interface');
         $services = $input->getOption('services');
 
-        $interface = ($interface===true || strtolower($interface)==='yes');
+        $interface = ($interface === true || strtolower($interface) === 'yes');
 
         // @see Drupal\AppConsole\Command\Helper\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
@@ -91,8 +91,8 @@ class GeneratorServiceCommand extends GeneratorCommand
             $service_name = $dialog->ask(
               $output,
               $dialog->getQuestion($this->trans('commands.generate.service.questions.service-name'),
-                $module . '.default'),
-              $module . '.default'
+                $module.'.default'),
+              $module.'.default'
             );
         }
         $input->setOption('service-name', $service_name);

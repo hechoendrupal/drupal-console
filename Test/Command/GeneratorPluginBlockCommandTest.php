@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Test\Command\GeneratorModuleCommandTest.
  */
-
 namespace Drupal\AppConsole\Test\Command;
 
 use Symfony\Component\Console\Tester\CommandTester;
@@ -45,7 +45,7 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
             'label' => 'Text Field',
             'options' => '',
             'description' => 'Description Field',
-          ]
+          ],
         ];
 
         return [
@@ -53,25 +53,25 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
           [
             [],
             ['Foo', 'FooBlock', 'Foo label', 'foo_id', null, []],
-            "Foo\nFooBlock\nFoo label\nfoo_id\nno\nno"
+            "Foo\nFooBlock\nFoo label\nfoo_id\nno\nno",
           ],
             //case two services
           [
             [],
             ['Foo', 'FooBlock', 'Foo label', 'foo_id', $service, []],
-            "Foo\nFooBlock\nFoo label\nfoo_id\nyes\nyes\ntwig\n\nno\n"
+            "Foo\nFooBlock\nFoo label\nfoo_id\nyes\nyes\ntwig\n\nno\n",
           ],
             // case three inputs
           [
             ['--module' => 'Foo'],
             ['Foo', 'FooBlock', 'Foo label', 'foo_id', null, $inputs],
-            "FooBlock\nFoo label\nfoo_id\nno\nyes\nText Field\ntext_field\n\nDescription Field\n"
+            "FooBlock\nFoo label\nfoo_id\nno\nyes\nText Field\ntext_field\n\nDescription Field\n",
           ],
             //case four services and inputs
           [
             ['--module' => 'Foo'],
             ['Foo', 'FooBlock', 'Foo label', 'foo_id', $service, $inputs],
-            "FooBlock\nFoo label\nfoo_id\nyes\ntwig\n\nyes\nText Field\ntext_field\n\nDescription Field\n"
+            "FooBlock\nFoo label\nfoo_id\nyes\ntwig\n\nyes\nText Field\ntext_field\n\nDescription Field\n",
           ],
         ];
     }

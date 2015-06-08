@@ -4,7 +4,6 @@
  * @file
  * Contains \Drupal\AppConsole\EventSubscriber\ShowWelcomeMessage.
  */
-
 namespace Drupal\AppConsole\EventSubscriber;
 
 use Drupal\AppConsole\Command\Helper\TranslatorHelper;
@@ -25,10 +24,10 @@ class ShowWelcomeMessageListener implements EventSubscriberInterface
 
         $application = $command->getApplication();
         $messageHelper = $application->getHelperSet()->get('message');
-        /** @var TranslatorHelper */
+        /* @var TranslatorHelper */
         $translatorHelper = $application->getHelperSet()->get('translator');
 
-        $welcomeMessageKey = 'commands.' . str_replace(':', '.', $command->getName()) . '.welcome';
+        $welcomeMessageKey = 'commands.'.str_replace(':', '.', $command->getName()).'.welcome';
         $welcomeMessage = $translatorHelper->trans($welcomeMessageKey);
 
         if ($welcomeMessage != $welcomeMessageKey) {

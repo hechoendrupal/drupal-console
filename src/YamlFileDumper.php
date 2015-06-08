@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Symfony package.
  *
@@ -7,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Drupal\AppConsole;
 
 use Symfony\Component\Translation\MessageCatalogue;
@@ -21,8 +23,8 @@ use Symfony\Component\Translation\Dumper\FileDumper;
 class YamlFileDumper extends FileDumper
 {
     /**
-     * @var integer Nesting depth. 0 means one line by message, 1 will
-     * indent at most one time, and so on.
+     * @var int Nesting depth. 0 means one line by message, 1 will
+     *          indent at most one time, and so on.
      */
     public $nestLevel = 0;
 
@@ -67,6 +69,7 @@ class YamlFileDumper extends FileDumper
                     $node = $message;
                 }
             }
+
             return Yaml::dump($tree,
               $this->nestLevel + 1); // second parameter at 1 outputs normal line-by-line catalogue
         } else {

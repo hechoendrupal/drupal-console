@@ -4,7 +4,6 @@
  * @file
  * Contains \Drupal\AppConsole\EventSubscriber\ShowWelcomeMessage.
  */
-
 namespace Drupal\AppConsole\EventSubscriber;
 
 use Drupal\AppConsole\Command\Helper\TranslatorHelper;
@@ -26,7 +25,7 @@ class ValidateDependenciesListener implements EventSubscriberInterface
 
         $application = $command->getApplication();
         $messageHelper = $application->getHelperSet()->get('message');
-        /** @var TranslatorHelper */
+        /* @var TranslatorHelper */
         $translatorHelper = $application->getHelperSet()->get('translator');
 
         if (!$command instanceof Command) {

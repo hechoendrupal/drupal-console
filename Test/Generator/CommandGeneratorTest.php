@@ -4,7 +4,6 @@
  * @file
  * Contains \Drupal\AppConsole\Test\Generator\CommandGeneratorTest.
  */
-
 namespace Drupal\AppConsole\Test\Generator;
 
 class CommandGeneratorTest extends GeneratorTest
@@ -18,13 +17,13 @@ class CommandGeneratorTest extends GeneratorTest
 
         $generator = $this->getGenerator();
 
-        $dir_module = $this->dir . '/' . $module;
+        $dir_module = $this->dir.'/'.$module;
 
         $generator->expects($this->once())
           ->method('getCommandPath')
           ->will(
             $this->returnValue(
-              $dir_module . '/src/Command'
+              $dir_module.'/src/Command'
             )
           );
 
@@ -32,7 +31,7 @@ class CommandGeneratorTest extends GeneratorTest
         $generator->generate($module, $command, $class_name, $container);
 
         $this->assertTrue(
-          is_file($dir_module . '/src/Command/' . $class_name . '.php'),
+          is_file($dir_module.'/src/Command/'.$class_name.'.php'),
           'Command class generated'
         );
     }
@@ -41,10 +40,10 @@ class CommandGeneratorTest extends GeneratorTest
     {
         return [
           [
-            ['command_' . rand(), 'command:default', 'CommandDefault', false]
+            ['command_'.rand(), 'command:default', 'CommandDefault', false],
           ],
           [
-            ['command_' . rand(), 'command:default', 'CommandDefault', true]
+            ['command_'.rand(), 'command:default', 'CommandDefault', true],
           ],
         ];
     }

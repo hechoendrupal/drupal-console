@@ -1,13 +1,12 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\PasswordCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Command\Helper\ConfirmationTrait;
@@ -49,7 +48,7 @@ class PasswordHashCommand extends ContainerAwareCommand
         foreach ($passwords as $password) {
             $table->addRow([
             $password,
-            $password_hasher->hash($password)
+            $password_hasher->hash($password),
           ]);
         }
 
@@ -69,7 +68,7 @@ class PasswordHashCommand extends ContainerAwareCommand
             while (true) {
                 $password = $dialog->askAndValidate(
             $output,
-            $dialog->getQuestion(count($passwords)>0?$this->trans('commands.password.hash.questions.other-password'):$this->trans('commands.password.hash.questions.password'), ''),
+            $dialog->getQuestion(count($passwords) > 0 ? $this->trans('commands.password.hash.questions.other-password') : $this->trans('commands.password.hash.questions.password'), ''),
             function ($pass) use ($passwords) {
               if (!empty($pass) || count($passwords) >= 1) {
                   return $pass;

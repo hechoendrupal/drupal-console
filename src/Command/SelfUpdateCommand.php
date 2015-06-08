@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\SelfUpdateCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,7 +13,7 @@ use Herrera\Phar\Update\Manifest;
 
 class SelfUpdateCommand extends ContainerAwareCommand
 {
-    const DRUPAL_CONSOLE_MANIFEST = "http://drupalconsole.com/manifest.json";
+    const DRUPAL_CONSOLE_MANIFEST = 'http://drupalconsole.com/manifest.json';
 
     /**
      * {@inheritdoc}

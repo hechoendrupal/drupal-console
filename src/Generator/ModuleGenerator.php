@@ -1,14 +1,13 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Generator\ModuleGenerator.
  */
-
 namespace Drupal\AppConsole\Generator;
 
 class ModuleGenerator extends Generator
 {
-
     public function generate(
       $module,
       $machine_name,
@@ -21,7 +20,7 @@ class ModuleGenerator extends Generator
       $dependencies,
       $tests
     ) {
-        $dir .= '/' . $machine_name;
+        $dir .= '/'.$machine_name;
         if (file_exists($dir)) {
             if (!is_dir($dir)) {
                 throw new \RuntimeException(sprintf('Unable to generate the bundle as the target directory "%s" exists but is a file.',
@@ -45,25 +44,25 @@ class ModuleGenerator extends Generator
           'core' => $core,
           'description' => $description,
           'package' => $package,
-          'dependencies' => $dependencies
+          'dependencies' => $dependencies,
         );
 
         $this->renderFile(
           'module/info.yml.twig',
-          $dir . '/' . $machine_name . '.info.yml',
+          $dir.'/'.$machine_name.'.info.yml',
           $parameters
         );
 
         $this->renderFile(
           'module/module.twig',
-          $dir . '/' . $machine_name . '.module',
+          $dir.'/'.$machine_name.'.module',
           $parameters
         );
 
         if ($composer) {
             $this->renderFile(
             'module/composer.json.twig',
-            $dir . '/' . 'composer.json',
+            $dir.'/'.'composer.json',
             $parameters
           );
         }
@@ -75,26 +74,26 @@ class ModuleGenerator extends Generator
               'module' => $machine_name,
               'method_name' => 'hello',
               'class_machine_name' => 'default_controller',
-              'route' => '/' . $machine_name . '/hello/{name}',
-              'services' => []
+              'route' => '/'.$machine_name.'/hello/{name}',
+              'services' => [],
             );
 
             $this->renderFile(
               'module/src/Controller/controller.php.twig',
-              $dir . '/src/Controller/' . $class_name . '.php',
+              $dir.'/src/Controller/'.$class_name.'.php',
               $parameters
             );
 
             $this->renderFile(
               'module/routing-controller.yml.twig',
-              $dir . '/' . $machine_name . '.routing.yml',
+              $dir.'/'.$machine_name.'.routing.yml',
               $parameters
             );
 
             if ($tests) {
                 $this->renderFile(
                   'module/Tests/Controller/controller.php.twig',
-                  $dir . '/Tests/Controller/' . $class_name . 'Test.php',
+                  $dir.'/Tests/Controller/'.$class_name.'Test.php',
                   $parameters
                 );
             }

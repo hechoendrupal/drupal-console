@@ -1,4 +1,5 @@
 <?php
+
 namespace Drupal\AppConsole\Console;
 
 use Composer\Autoload\ClassLoader;
@@ -32,12 +33,12 @@ class Application extends BaseApplication
     protected $directoryRoot;
     /**
      * @var \Composer\Autoload\ClassLoader
-     * The Drupal autoload file.
+     *                                     The Drupal autoload file.
      */
     protected $drupalAutoload;
     /**
      * @var string
-     * The Drupal environment.
+     *             The Drupal environment.
      */
     protected $env;
     /**
@@ -77,7 +78,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * Prepare Drupal Console to run, and bootstrap Drupal
+     * Prepare Drupal Console to run, and bootstrap Drupal.
      */
     public function setup($env = 'prod', $debug = false)
     {
@@ -105,6 +106,7 @@ class Application extends BaseApplication
         if ($this->isBooted()) {
             if (true === $input->hasParameterOption(array('--shell', '-s'))) {
                 $this->runShell($input);
+
                 return 0;
             }
         }
@@ -124,6 +126,7 @@ class Application extends BaseApplication
 
     /**
      * @param $drupal_root
+     *
      * @return bool
      */
     protected function isRuningOnDrupalInstance($drupal_root)
@@ -142,6 +145,7 @@ class Application extends BaseApplication
 
             return $this->setDrupalAutoload($drupalLoader);
         }
+
         return false;
     }
 
@@ -150,6 +154,7 @@ class Application extends BaseApplication
         if ($drupalLoader instanceof ClassLoader) {
             $this->drupalAutoload = $drupalLoader;
             $this->setBooted(true);
+
             return true;
         }
 
@@ -180,13 +185,15 @@ class Application extends BaseApplication
           ->getHelperSet()
           ->get('translator');
 
-        if (!file_exists($drupalRoot . '/core/vendor/autoload.php')) {
+        if (!file_exists($drupalRoot.'/core/vendor/autoload.php')) {
             $messageHelper->addErrorMessage($translatorHelper->trans('application.site.errors.directory'));
+
             return false;
         }
 
-        if (!file_exists($drupalRoot . '/sites/default/settings.php')) {
+        if (!file_exists($drupalRoot.'/sites/default/settings.php')) {
             $messageHelper->addErrorMessage($translatorHelper->trans('application.site.errors.settings'));
+
             return false;
         }
 
@@ -194,7 +201,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isBooted()
     {
@@ -202,7 +209,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * @param boolean $booted
+     * @param bool $booted
      */
     public function setBooted($booted)
     {
@@ -252,7 +259,7 @@ class Application extends BaseApplication
      */
     protected function registerCommands()
     {
-        /** @var \Drupal\AppConsole\Command\Helper\RegisterCommandsHelper $rc */
+        /* @var \Drupal\AppConsole\Command\Helper\RegisterCommandsHelper $rc */
         $registerCommands = $this->getHelperSet()->get('register_commands');
         if ($registerCommands) {
             $registerCommands->register();

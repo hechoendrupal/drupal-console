@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\GeneratorPluginRestResourceCommand.
  */
-
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
@@ -92,6 +92,7 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
                   if (!strlen(trim($value))) {
                       throw new \Exception('The Class name can not be empty');
                   }
+
                   return $stringUtils->humanToCamelCase($value);
               },
               false,
@@ -138,7 +139,6 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
         }
         $input->setOption('plugin-url', $plugin_url);
 
-
         // --plugin-states option
         $plugin_states = $input->getOption('plugin-states');
         if (!$plugin_states) {
@@ -152,7 +152,7 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
 
             $question->setMultiselect(true);
             $plugin_states = $questionHelper->ask($input, $output, $question);
-            $output->writeln($this->trans('commands.generate.plugin.rest.resource.messages.selected-states') . ' ' . implode(', ',
+            $output->writeln($this->trans('commands.generate.plugin.rest.resource.messages.selected-states').' '.implode(', ',
                 $plugin_states));
 
             $input->setOption('plugin-states', $plugin_states);
