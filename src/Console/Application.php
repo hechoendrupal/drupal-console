@@ -124,7 +124,7 @@ class Application extends BaseApplication
             $this->searchSettingsFile = false;
         }
 
-        if ($drupal_root && $this->isRunningOnDrupalInstance($drupal_root)) {
+        if ($this->isRunningOnDrupalInstance($drupal_root)) {
             $this->setup($env, $debug);
             $this->bootstrap();
         }
