@@ -337,4 +337,22 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     {
         return $this->getValidator()->removeSpaces($name);
     }
+
+    public function generateEntity($entity_definition,$entity_type){
+        $entity_manager = $this->getEntityManager();
+        $entity_storage = $entity_manager->getStorage($entity_type);
+        $entity = $entity_storage->createFromStorageRecord($entity_definition); 
+       
+        return $entity;
+    }
+
+    public function updateEntity($entity_id,$entity_type,$entity_definition){
+        $entity_manager = $this->getEntityManager();
+        $entity_storage = $entity_manager->getStorage($entity_type);
+        $entity = $entity_storage->load($entity_id);
+        $entity_updated = $entity_storage->updateFromStorageRecord($entity,$entity_definition);
+
+        return $entity_updated;
+    }
+
 }
