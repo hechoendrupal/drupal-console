@@ -47,7 +47,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
     public function testCanRunApplication()
     {
-        $this->expectsThatAutoloadFinderHelperIsRegistered();
+//        $this->expectsThatAutoloadFinderHelperIsRegistered();
 
         $config = $this
           ->getMockBuilder('Drupal\AppConsole\Config')
