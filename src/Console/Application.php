@@ -116,7 +116,9 @@ class Application extends BaseApplication
             $this->commandsRegistered = $this->registerCommands();
         }
 
-        $commandName = $this->getCommandName($input);
+        if ($input) {
+            $commandName = $this->getCommandName($input);
+        }
 
         if ($commandName && $this->has($commandName)){
             $this->searchSettingsFile = false;
@@ -129,9 +131,11 @@ class Application extends BaseApplication
 
         parent::doRun($input, $output);
 
-        $kernelHelper = $this->getHelperSet()->get('kernel');
-        if ($kernelHelper) {
-            $kernelHelper->terminate();
+        if ($this->isBooted()) {
+            $kernelHelper = $this->getHelperSet()->get('kernel');
+            if ($kernelHelper) {
+                $kernelHelper->terminate();
+            }
         }
     }
 
