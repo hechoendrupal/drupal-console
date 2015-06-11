@@ -60,20 +60,20 @@ class {{ class_name }} implements AuthenticationProviderInterface {% endblock %}
 
 {% block class_methods %}
   /**
-    * Checks whether suitable authentication credentials are on the request.
-    *
-    * @param \Symfony\Component\HttpFoundation\Request $request
-    *   The request object.
-    *
-    * @return bool
-    *   TRUE if authentication credentials suitable for this provider are on the
-    *   request, FALSE otherwise.
-    */
-   public function applies(Request $request) {
+   * Checks whether suitable authentication credentials are on the request.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The request object.
+   *
+   * @return bool
+   *   TRUE if authentication credentials suitable for this provider are on the
+   *   request, FALSE otherwise.
+   */
+  public function applies(Request $request) {
     // If you return TRUE and the method Authentication logic fails,
     // you will get out from Drupal navigation if you are logged in.
     return FALSE;
-   }
+  }
   /**
    * {@inheritdoc}
    */

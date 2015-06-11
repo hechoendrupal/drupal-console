@@ -26,6 +26,9 @@ class {{ class_name }} extends ControllerBase {% if services is not empty %}impl
 {% endblock %}
 {% block class_construct %}
 {% if services is not empty %}
+  /**
+   * {@inheritdoc}
+   */
   public function __construct({{ servicesAsParameters(services)|join(', ') }}) {
 {{ serviceClassInitialization(services) }}
   }
@@ -34,6 +37,9 @@ class {{ class_name }} extends ControllerBase {% if services is not empty %}impl
 {% endblock %}
 {% block class_create %}
 {% if services is not empty %}
+  /**
+   * {@inheritdoc}
+   */
   public static function create(ContainerInterface $container) {
     return new static(
 {{ serviceClassInjection(services) }}
