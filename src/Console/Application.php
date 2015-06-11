@@ -77,7 +77,10 @@ class Application extends BaseApplication
     }
 
     /**
-     * Prepare Drupal Console to run, and bootstrap Drupal
+     * Prepare Drupal Console to run, and bootstrap Drupal.
+     *
+     * @param string $env
+     * @param bool $debug
      */
     public function setup($env = 'prod', $debug = false)
     {
@@ -109,7 +112,17 @@ class Application extends BaseApplication
             }
         }
 
-        if ($this->isRuningOnDrupalInstance($drupal_root)) {
+        if (!$this->commandsRegistered) {
+            $this->commandsRegistered = $this->registerCommands();
+        }
+
+        $commandName = $this->getCommandName($input);
+
+        if ($commandName && $this->has($commandName)){
+            $this->searchSettingsFile = false;
+        }
+
+        if ($this->isRunningOnDrupalInstance($drupal_root)) {
             $this->setup($env, $debug);
             $this->bootstrap();
         }
@@ -126,7 +139,7 @@ class Application extends BaseApplication
      * @param $drupal_root
      * @return bool
      */
-    protected function isRuningOnDrupalInstance($drupal_root)
+    protected function isRunningOnDrupalInstance($drupal_root)
     {
         $auto_load = $this
             ->getHelperSet()
@@ -181,12 +194,12 @@ class Application extends BaseApplication
           ->get('translator');
 
         if (!file_exists($drupalRoot . '/core/vendor/autoload.php')) {
-            $messageHelper->addErrorMessage($translatorHelper->trans('application.site.errors.directory'));
+            $messageHelper->addWarningMessage($translatorHelper->trans('application.site.errors.directory'));
             return false;
         }
 
         if (!file_exists($drupalRoot . '/sites/default/settings.php')) {
-            $messageHelper->addErrorMessage($translatorHelper->trans('application.site.errors.settings'));
+            $messageHelper->addWarningMessage($translatorHelper->trans('application.site.errors.settings'));
             return false;
         }
 

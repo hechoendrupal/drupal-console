@@ -30,17 +30,19 @@ class RegisterCommandsHelper extends Helper
     public function register()
     {
         $success = false;
-        $commands = $this->getCommands();
+        if ($this->console->isBooted()) {
+            $commands = $this->getCommands();
+        } else {
+            $commands = $this->getConsoleCommands();
+        }
 
         if (!$commands) {
             return false;
         }
 
         foreach ($commands as $command) {
-            if ($this->console->isBooted()) {
-                $this->console->add($command);
-                $success = true;
-            }
+            $this->console->add($command);
+            $success = true;
         }
 
         return $success;
@@ -76,22 +78,30 @@ class RegisterCommandsHelper extends Helper
 
                 if (class_exists($class)) {
                     $cmd = new \ReflectionClass($class);
-                    // if is a valid command
-                    if ($cmd->isSubclassOf('Symfony\\Component\\Console\\Command\\Command')
-                      && !$cmd->isAbstract()
-                    ) {
-                        if ($cmd->getConstructor()->getNumberOfRequiredParameters() > 0) {
-                            $translator = $this->getHelperSet()->get('translator');
-                            if ($module && $module != 'AppConsole') {
-                                $translator->addResourceTranslationsByModule($module);
-                            }
-                            $command = $cmd->newInstance($translator);
-                        } else {
-                            $command = $cmd->newInstance();
-                        }
-                        $command->setModule($module);
-                        $commands[] = $command;
+
+                    if ($cmd->isAbstract()) {
+                        continue;
                     }
+
+                    if (!$cmd->isSubclassOf('Drupal\\AppConsole\\Command\\Command')) {
+                        continue;
+                    }
+
+                    if (!$this->console->isBooted() && $cmd->isSubclassOf('Drupal\\AppConsole\\Command\\ContainerAwareCommand')) {
+                        continue;
+                    }
+
+                    if ($cmd->getConstructor()->getNumberOfRequiredParameters() > 0) {
+                        $translator = $this->getHelperSet()->get('translator');
+                        if ($module && $module != 'AppConsole') {
+                            $translator->addResourceTranslationsByModule($module);
+                        }
+                        $command = $cmd->newInstance($translator);
+                    } else {
+                        $command = $cmd->newInstance();
+                    }
+                    $command->setModule($module);
+                    $commands[] = $command;
                 }
             }
         }
