@@ -116,22 +116,26 @@ class Application extends BaseApplication
             $this->commandsRegistered = $this->registerCommands();
         }
 
-        $commandName = $this->getCommandName($input);
+        if ($input) {
+            $commandName = $this->getCommandName($input);
+        }
 
         if ($commandName && $this->has($commandName)){
             $this->searchSettingsFile = false;
         }
 
-        if ($this->isRunningOnDrupalInstance($drupal_root)) {
+        if ($drupal_root && $this->isRunningOnDrupalInstance($drupal_root)) {
             $this->setup($env, $debug);
             $this->bootstrap();
         }
 
         parent::doRun($input, $output);
 
-        $kernelHelper = $this->getHelperSet()->get('kernel');
-        if ($kernelHelper) {
-            $kernelHelper->terminate();
+        if ($this->isBooted()) {
+            $kernelHelper = $this->getHelperSet()->get('kernel');
+            if ($kernelHelper) {
+                $kernelHelper->terminate();
+            }
         }
     }
 
