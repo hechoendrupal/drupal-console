@@ -59,7 +59,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $application->setHelperSet($this->helperSet);
         $application->setSearchSettingsFile(false);
 
-//        $this->assertEquals(0, $application->run(new ArrayInput([]), new NullOutput()));
+        $this->markTestIncomplete(
+          'This test has not been implemented yet.'
+        );
     }
 
     protected function expectsThatAutoloadFinderHelperIsRegistered()
