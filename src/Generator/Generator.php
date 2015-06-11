@@ -7,6 +7,7 @@
 
 namespace Drupal\AppConsole\Generator;
 
+use Drupal\AppConsole\Utils\DrupalExtensionDiscovery;
 use Drupal\AppConsole\Utils\StringUtils;
 
 class Generator
@@ -75,7 +76,6 @@ class Generator
 
         if (file_put_contents($target, $this->render($template, $parameters), $flag)) {
             $this->files[] = str_replace(DRUPAL_ROOT . '/', '', $target);
-
             return true;
         }
 
@@ -95,11 +95,14 @@ class Generator
     public function getModulePath($module_name)
     {
         if (!$this->module_path) {
-            // Call system_rebuild_module_data to reload module data
-            // This a quick fix and is required since Beta 11
-            // A module discover mechanism must be implemented
-            system_rebuild_module_data();
-            $this->module_path = DRUPAL_ROOT . '/' . drupal_get_path('module', $module_name);
+          /**
+           * @todo Remove DrupalExtensionDiscovery subclass once
+           * https://www.drupal.org/node/2503927 is fixed.
+           */
+          $discovery = new DrupalExtensionDiscovery(\Drupal::root());
+          $discovery->reset();
+          $result = $discovery->scan('module');
+          $this->module_path = DRUPAL_ROOT . '/' . $result[$module_name]->getPath();
         }
 
         return $this->module_path;
