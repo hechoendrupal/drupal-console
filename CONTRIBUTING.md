@@ -1,3 +1,14 @@
+### Minimum Requirements
+This project requires Drupal 8 Beta11.
+
+### Support
+**Do not open issue for support question, only features and bugs.** For question please visit our [ DrupalConsole Gitter room](https://gitter.im/hechoendrupal/DrupalConsole).
+
+### Documentation
+There's been some amazing Drupal Community work done around DrupalConsole. Many of your questions can be answered in our [DrupalConsole Book](https://www.gitbook.com/book/hechoendrupal/drupal-console/details).
+
+If you find documentation in this DrupalConsole Book inaccurate or missing, you can created a new issue at [DrupalConsole Book](https://github.com/hechoendrupal/drupal-console-book) repository.
+
 ### Issue title
 
 The issue title should comply with the following structure:
