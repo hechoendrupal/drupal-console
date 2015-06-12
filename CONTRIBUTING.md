@@ -1,3 +1,20 @@
+### Issue title
+
+The issue title should comply with the following structure:
+
+[ *ISSUE-GROUP* ] Short description
+
+The *ISSUE-GROUP* should be one of:
+
+* `command:name`
+* `console`
+* `helper`
+* `standard`
+* `template`
+* `translation`
+* `test`
+* `docs`
+
 ### Problem/Motivation
 A brief statement describing why the issue was filed.
 
