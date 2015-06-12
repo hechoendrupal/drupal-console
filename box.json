@@ -1,5 +1,5 @@
 {
-    "alias": "console.phar",
+    "alias": "drupal.phar",
     "chmod": "0755",
     "directories": [
         "config",
@@ -8,8 +8,8 @@
     ],
     "files": [
         "config.yml",
-        "bin/console.php",
-        "vendor/autoload.php"
+        "bin/drupal.php",
+        "vendor/drupal.php"
     ],
     "finder": [
         {
@@ -18,7 +18,7 @@
             "in": "vendor"
         }
     ],
-    "main": "bin/console",
-    "output": "console.phar",
+    "main": "bin/drupal",
+    "output": "drupal.phar",
     "stub": true
 }
