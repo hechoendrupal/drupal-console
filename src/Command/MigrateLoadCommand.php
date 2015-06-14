@@ -104,31 +104,23 @@ class MigrateLoadCommand extends ContainerAwareCommand
             );
             return 1;
         }
-      
-        try {
-            if ($this->migration_id_found === false) {
-                $migration_entity = $this->generateEntity($this->file_data, 'migration');
-             
-                if ($migration_entity->isInstallable()) {
-                    $migration_entity->trustData()->save();
-                    $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.load.messages.installed') . '</info>'));
-                }
-            }
 
-            $override = $input->getOption('override');
+        if ($this->migration_id_found === false) {
+            $migration_entity = $this->generateEntity($this->file_data, 'migration');
 
-            if ($override === 'yes') {
-                $migration_updated = $this->updateEntity($this->file_data['id'], 'migration', $this->file_data);
-                $migration_updated->trustData()->save();
-            
-                $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.load.messages.overridden') . '</info>'));
-                return;
-            } else {
-                return;
+            if ($migration_entity->isInstallable()) {
+                $migration_entity->trustData()->save();
+                $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.load.messages.installed') . '</info>'));
             }
-        } catch (Exception $e) {
-            $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
-            return;
+        }
+
+        $override = $input->getOption('override');
+
+        if ($override === 'yes') {
+            $migration_updated = $this->updateEntity($this->file_data['id'], 'migration', $this->file_data);
+            $migration_updated->trustData()->save();
+
+            $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.load.messages.overridden') . '</info>'));
         }
     }
 
