@@ -31,6 +31,13 @@ class EntityContentGenerator extends Generator
         );
 
         $this->renderFile(
+          'module/permissions-entity-content.yml.twig',
+          $this->getModulePath($module) . '/' . $module . '.permissions.yml',
+          $parameters,
+          FILE_APPEND
+        );
+
+        $this->renderFile(
           'module/links.menu-entity-content.yml.twig',
           $this->getModulePath($module) . '/' . $module . '.links.menu.yml',
           $parameters,
