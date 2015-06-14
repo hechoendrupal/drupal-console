@@ -64,7 +64,7 @@ class MigrateLoadCommand extends ContainerAwareCommand
        
         $override = $input->getOption('override');
 
-        if($this->migration_id_found == true){
+        if($this->migration_id_found === true){
 
          $override_required = function ($value) {
             if (!strlen(trim($value))) {
@@ -113,7 +113,7 @@ class MigrateLoadCommand extends ContainerAwareCommand
       
         try {
          
-         if ($this->migration_id_found == false) {
+         if ($this->migration_id_found === false) {
             $migration_entity = $this->generateEntity($this->file_data,'migration');
              
            if ($migration_entity->isInstallable()) {
