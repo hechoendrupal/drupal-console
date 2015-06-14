@@ -1,13 +1,15 @@
-### Minimum Requirements
-This project requires Drupal 8 Beta11.
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-### Support
-**Do not open issue for support question, only features and bugs.** For question please visit our [ DrupalConsole Gitter room](https://gitter.im/hechoendrupal/DrupalConsole).
+- [Issue title](#issue-title)
+- [Problem/Motivation](#problemmotivation)
+- [How to reproduce](#how-to-reproduce)
+- [Solution](#solution)
+- [Minimum Requirements](#minimum-requirements)
+- [Support](#support)
+- [Documentation](#documentation)
 
-### Documentation
-There's been some amazing Drupal Community work done around DrupalConsole. Many of your questions can be answered in our [DrupalConsole Book](https://www.gitbook.com/book/hechoendrupal/drupal-console/details).
-
-If you find documentation in this DrupalConsole Book inaccurate or missing, you can created a new issue at [DrupalConsole Book](https://github.com/hechoendrupal/drupal-console-book) repository.
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ### Issue title
 
@@ -49,3 +51,14 @@ A brief description of the proposed fix.
 - Approaches that have been tried and ruled out.
 - Links to relevant API documentation or other resources.
 - Known workarounds.
+
+### Minimum Requirements
+This project requires Drupal 8 Beta11.
+
+### Support
+**Do not open issue for support question, only features and bugs.** For question please visit our [ DrupalConsole Gitter room](https://gitter.im/hechoendrupal/DrupalConsole).
+
+### Documentation
+There's been some amazing Drupal Community work done around DrupalConsole. Many of your questions can be answered in our [DrupalConsole Book](https://www.gitbook.com/book/hechoendrupal/drupal-console/details).
+
+If you find documentation in this DrupalConsole Book inaccurate or missing, you can created a new issue at [DrupalConsole Book](https://github.com/hechoendrupal/drupal-console-book) repository.
