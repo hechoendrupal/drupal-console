@@ -31,11 +31,3 @@ entity.{{ entity_name }}.delete_form:
     _title: 'Delete {{ entity_class }}'
   requirements:
     _permission: 'administer site configuration'
-
-{{ entity_name }}.settings:
-  path: 'admin/structure/{{ entity_name }}'
-  defaults:
-  _form: '\Drupal\{{ module }}\Entity\Form\{{ entity_class }}SettingsForm'
-  _title: '{{ entity_class }} Settings'
-  requirements:
-  _permission: 'administer {{ entity_class }} entity'
