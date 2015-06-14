@@ -14,9 +14,8 @@ use Symfony\Component\Yaml\Parser;
 
 class MigrateLoadCommand extends ContainerAwareCommand
 {
-
-    protected $file_data; 
-    protected $migration_id_found = FALSE; 
+    protected $file_data;
+    protected $migration_id_found = false;
 
     protected function configure()
     {
@@ -35,7 +34,6 @@ class MigrateLoadCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        
         $validator_required = function ($value) {
             if (!strlen(trim($value))) {
                 throw new \Exception(' You must provide a valid file path and name.');
@@ -60,21 +58,20 @@ class MigrateLoadCommand extends ContainerAwareCommand
         $input->setArgument('file', $file);
        
         $this->file_data = $this->loadDataFile($file);
-        $this->migration_id_found = $this->validateMigration($this->file_data['migration_groups']['0'],$this->file_data['id']);
+        $this->migration_id_found = $this->validateMigration($this->file_data['migration_groups']['0'], $this->file_data['id']);
        
         $override = $input->getOption('override');
 
-        if($this->migration_id_found === true){
-
-         $override_required = function ($value) {
+        if ($this->migration_id_found === true) {
+            $override_required = function ($value) {
             if (!strlen(trim($value))) {
                 throw new \Exception(' Please provide an answer.');
             }
             return $value;
         };
 
-          $dialog = $this->getDialogHelper();
-          $override = $dialog->askAndValidate(
+            $dialog = $this->getDialogHelper();
+            $override = $dialog->askAndValidate(
               $output,
               $dialog->getQuestion($this->trans('commands.migrate.load.questions.override'),
                 ''),
@@ -82,10 +79,8 @@ class MigrateLoadCommand extends ContainerAwareCommand
               false,
               ''
             );
-          
         }
         $input->setOption('override', $override);
-
     }
     
     /**
@@ -112,58 +107,49 @@ class MigrateLoadCommand extends ContainerAwareCommand
         }
       
         try {
-         
-         if ($this->migration_id_found === false) {
-            $migration_entity = $this->generateEntity($this->file_data,'migration');
+            if ($this->migration_id_found === false) {
+                $migration_entity = $this->generateEntity($this->file_data, 'migration');
              
-           if ($migration_entity->isInstallable()) {
-            $migration_entity->trustData()->save();
-            $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.load.messages.installed') . '</info>'));
-           } 
+                if ($migration_entity->isInstallable()) {
+                    $migration_entity->trustData()->save();
+                    $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.load.messages.installed') . '</info>'));
+                }
+            }
 
-         }
+            $override = $input->getOption('override');
 
-           $override = $input->getOption('override');
-
-           if($override === 'yes'){
-             
-             $migration_updated = $this->updateEntity($this->file_data['id'],'migration',$this->file_data);
-             $migration_updated->trustData()->save();
+            if ($override === 'yes') {
+                $migration_updated = $this->updateEntity($this->file_data['id'], 'migration', $this->file_data);
+                $migration_updated->trustData()->save();
             
-             $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.load.messages.overridden') . '</info>'));
-             return;
-         }
-
-          else
-          { 
-            return;
-          } 
-          
+                $output->writeln('[+] <info>' . sprintf($this->trans('commands.migrate.load.messages.overridden') . '</info>'));
+                return;
+            } else {
+                return;
+            }
         } catch (Exception $e) {
-          $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
-            return;  
-         }     
-       
-    }
-
-    protected function validateMigration($drupal_version,$migrate_id){
-       $migration_id_found = false;
-       $migrations = $this->getMigrations($drupal_version);
-       foreach ($migrations as $migration_id => $migration) {
-           if (strcmp($migration_id, $migrate_id) == 0) {
-                  $migration_id_found = true;
-                  break;
-              }
+            $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
+            return;
         }
-       return $migration_id_found;
     }
 
-    protected function loadDataFile($file){
-       $yml = new Parser();
-       $file_data = $yml->parse(file_get_contents($file));
-       return $file_data;
+    protected function validateMigration($drupal_version, $migrate_id)
+    {
+        $migration_id_found = false;
+        $migrations = $this->getMigrations($drupal_version);
+        foreach ($migrations as $migration_id => $migration) {
+            if (strcmp($migration_id, $migrate_id) == 0) {
+                $migration_id_found = true;
+                break;
+            }
+        }
+        return $migration_id_found;
+    }
 
-    }   
-    
-     
+    protected function loadDataFile($file)
+    {
+        $yml = new Parser();
+        $file_data = $yml->parse(file_get_contents($file));
+        return $file_data;
+    }
 }
