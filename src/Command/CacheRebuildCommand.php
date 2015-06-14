@@ -32,7 +32,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
         $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
         $drupal_root = $drupalAutoLoad->getDrupalRoot();
 
-        require_once $drupal_root . 'core/includes/utility.inc';
+        require_once $drupal_root . '/core/includes/utility.inc';
         $validators = $this->getHelperSet()->get('validators');
 
         // Get the --cache option and make validation
