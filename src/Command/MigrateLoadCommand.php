@@ -96,7 +96,6 @@ class MigrateLoadCommand extends ContainerAwareCommand
         }
          
         if (!file_exists($file)) {
-            $message = $this->getHelperSet()->get('message');
             $message->addErrorMessage(
               sprintf(
                 $this->trans('commands.migrate.load.messages.invalid_file'),
