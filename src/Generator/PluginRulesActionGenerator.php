@@ -17,7 +17,7 @@ class PluginRulesActionGenerator extends Generator
      * @param  $category
      * @param  $context
      */
-    public function generate($module, $class_name, $label, $plugin_id, $category, $context)
+    public function generate($module, $class_name, $label, $plugin_id, $category, $context, $type)
     {
         $parameters = [
           'module' => $module,
@@ -26,11 +26,18 @@ class PluginRulesActionGenerator extends Generator
           'plugin_id' => $plugin_id,
           'category' => $category,
           'context' => $context,
+          'type' => $type
         ];
 
         $this->renderFile(
           'module/src/Plugin/RulesAction/rulesaction.php.twig',
-          $this->getPluginPath($module, 'RulesAction') . '/' . $class_name . '.php',
+          $this->getPluginPath($module, 'Action') . '/' . $class_name . '.php',
+          $parameters
+        );
+        
+        $this->renderFile(
+          'module/system.action.action.yml',
+          $this->getModulePath($module) . '/config/install/system.action.' . $plugin_id .'.yml',
           $parameters
         );
     }
