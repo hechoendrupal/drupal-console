@@ -334,6 +334,7 @@ commands:
           services: common.options.services
           category: Plugin category
           context: Plugin context
+          type: Action Type (user or node)
         questions:
           module: common.questions.module
           class-name: Enter the plugin class name

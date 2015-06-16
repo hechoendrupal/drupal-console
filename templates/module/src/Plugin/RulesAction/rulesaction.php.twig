@@ -9,7 +9,8 @@ namespace Drupal\{{module}}\Plugin\Action;
 {% endblock %}
 
 {% block use_class %}
-use Drupal\rules\Engine\RulesActionBase;
+use Drupal\Core\Action\ActionBase;
+use Drupal\Core\Session\AccountInterface;
 {% endblock %}
 
 {% block class_declaration %}
@@ -19,23 +20,26 @@ use Drupal\rules\Engine\RulesActionBase;
  * @Action(
  *  id = "{{plugin_id}}",
  *  label = @Translation("{{label}}"),
- *  category = @Translation("{{category}}"),
- *  context = {{context}}
+ *  type = "{{type}}",
  * )
  */
-class {{class_name}} extends RulesActionBase {% endblock %}
+class {{class_name}} extends ActionBase {% endblock %}
 {% block class_methods %}
   /**
    * {@inheritdoc}
    */
-  public function summary() {
-    return $this->t('{{label}}');
+  public function execute($object = NULL) {
+    // Insert code here.
   }
 
   /**
    * {@inheritdoc}
    */
-  public function execute() {
-    // Insert code here.
+  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+    /** @var \Drupal\user\UserInterface $object */
+    $access = $object->status->access('edit', $account, TRUE)
+      ->andIf($object->access('update', $account, TRUE));
+
+    return $return_as_object ? $access : $access->isAllowed();
   }
 {% endblock %}
