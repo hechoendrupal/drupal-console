@@ -37,6 +37,13 @@ class EntityConfigGenerator extends Generator
         );
 
         $this->renderFile(
+            'module/links.menu-entity-config.yml.twig',
+            $this->getModulePath($module) . '/' . $module . '.links.menu.yml',
+            $parameters,
+            FILE_APPEND
+        );
+
+        $this->renderFile(
           'module/links.action-entity.yml.twig',
           $this->getModulePath($module) . '/' . $module . '.links.action.yml',
           $parameters,
