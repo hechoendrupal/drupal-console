@@ -7,3 +7,4 @@ plugin: {{ plugin_id }}
 dependencies:
   module:
     - {{ type }}
+
