@@ -56,7 +56,6 @@ drupal generate:module
 ![image](http://drupalconsole.com/assets/img/console-global.gif)
 
 ## Supporting organizations
-[![Blink Reaction](https://www.drupal.org/files/blink-reaction-logo.png)](http://www.blinkreaction.com/)
-[![FFW](https://ffwagency.com/assets/img/logo-blue.png)](https://ffwagency.com)
-[![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)
+[![FFW](https://www.drupal.org/files/ffw-logo.png)](https://ffwagency.com)  
+[![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)  
 [![Anexus IT](https://www.drupal.org/files/anexusit-logo.png)](http://www.anexusit.com/)
