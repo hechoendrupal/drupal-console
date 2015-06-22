@@ -46,6 +46,8 @@ class GeneratorFormCommandTest extends GenerateCommandTest
             'label' => 'Bar',
             'options' => '',
             'description' => 'Baz',
+            'maxlength' => 60,
+            'size' => 15
           ]
         ];
 
