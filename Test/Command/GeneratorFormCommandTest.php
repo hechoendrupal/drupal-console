@@ -59,7 +59,7 @@ class GeneratorFormCommandTest extends GenerateCommandTest
               // Expected options
             ['foo', 'DefaultForm', 'default_form', $services, $inputs, true],
               // User input options
-            "foo\nDefaultForm\ndefault_form\nyes\ntwig\n\nyes\nBar\nbar\ntextfield\nBaz\n60\n15\n",
+            "foo\nDefaultForm\ndefault_form\nyes\ntwig\n\nyes\nBar\nbar\ntextfield\n60\n15\nBaz\n",
           ],
             // case two
           [
