@@ -32,6 +32,8 @@ trait FormTrait
               'datetime',
               'email',
               'number',
+              'password',
+              'password_confirm',
               'range',
               'radios',
               'select',
@@ -81,11 +83,35 @@ trait FormTrait
                   $input_types
                 );
 
+                $maxlength = null;
+                $size = null;
+                if (in_array($input_type, array('textfield', 'password', 'password_confirm'))) {
+                  $maxlength = $dialog->ask(
+                    $output,
+                    $dialog->getQuestion('  Maximum amount of character', '', ':'),
+                    null
+                  );
+
+                  $size = $dialog->ask(
+                    $output,
+                    $dialog->getQuestion('  Width of the textfield (in characters)', '', ':'),
+                    null
+                  );
+                }
+
+                if($input_type == 'select') {
+                  $size = $dialog->ask(
+                    $output,
+                    $dialog->getQuestion('  Size of multiselect box (in lines)', '', ':'),
+                    null
+                  );
+                }
+
                 $input_options = '';
                 if (in_array($input_type, array('checkboxes', 'radios', 'select'))) {
                     $input_options = $dialog->ask(
                       $output,
-                      $dialog->getQuestion(' Input options separated by comma', '', ':'),
+                      $dialog->getQuestion('  Input options separated by comma', '', ':'),
                       null
                     );
                 }
@@ -115,6 +141,8 @@ trait FormTrait
                   'label' => $input_label,
                   'options' => $input_options,
                   'description' => $input_description,
+                  'maxlength' => $maxlength,
+                  'size' => $size
                 ));
             }
 
