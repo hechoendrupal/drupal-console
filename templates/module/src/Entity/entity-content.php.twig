@@ -48,9 +48,9 @@ use Drupal\user\UserInterface;
  *     "uuid" = "uuid"
  *   },
  *   links = {
- *     "canonical" = "/node/{{ entity_name }}",
- *     "edit-form" = "/node/{{ entity_name }}/edit",
- *     "delete-form" = "/node/{{ entity_name }}/delete"
+ *     "canonical" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
+ *     "edit-form" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
+ *     "delete-form" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete"
  *   },
  *   field_ui_base_route = "{{ entity_name }}.settings"
  * )
