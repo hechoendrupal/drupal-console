@@ -219,7 +219,7 @@ commands:
         dependencies: Would you like to add module depencencies
         test: Do you want to generate a unit test class
       warnings:
-        module-unavailable: Warning The following modules are not Drupal modules or already available in your local environment "%s"
+        module-unavailable: Warning The following modules are not already available in your local environment "%s"
       errors:
         directory-exists: The target directory "%s" is not empty.
     theme:
