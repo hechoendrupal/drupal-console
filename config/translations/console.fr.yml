@@ -8,26 +8,26 @@ application:
         copied: Fichiers copiés
       learning:
         route: |
-          In order to to create pages it is necessary to define routes for them.
-          A route maps a URL path to a controller. It defines with what function
-          or method will be called when a URL is accessed.
-          If the user accesses http://drupal8.dev/{{ route }}, the routing
-          system will look for a route with that path. In this case it will find a
-          match, and execute the _controller callback. In this case the callback is
-          defined as a classname
+          Afin de créer des pages, il est nécessaire de définir des routes.
+          Une route mappe un chemin d'URL à un contrôleur. Elle définit quelle fonction
+          ou méthode sera appelée quand cet URL est appelé.
+          Si l'utilisateur accède http://drupal8.dev/{{ route }}, le routage
+          système va chercher un itinéraire pour ce chemin. Dans ce cas, il va chercher une
+          correspondance, et exécuter le l'appel _controller. La fonction de rappel est
+          définie comme un nom de classe
           ("\Drupal\{{ module }}\Controller\{{ class_name }}")
-          and a method ("{{ method_name }}").
+          et la méthode ("{{ method_name }}").
     errors:
       invalid-command: La commande "%s" n'existe pas.
   site:
     messages:
       path: Chemin du site
     errors:
-      directory: Afin de lister l\'ensemble des commandes disponibles, vous devez lancer cette commande à la racine du dossier drupal.
-      settings: Afin de lister l\'ensmble des commandes dispobibles vous devez commencer par installer drupal.
+      directory: Afin de lister l'ensemble des commandes disponibles, vous devez lancer cette commande à la racine du dossier drupal.
+      settings: Afin de lister l'ensmble des commandes dispobibles vous devez commencer par installer drupal.
   user:
       messages:
-        path: Dossier "Home" de l\'utilisateur
+        path: Dossier "Home" de l'utilisateur
 commands:
   common:
     options:
@@ -53,7 +53,7 @@ commands:
         machine_name: Entrez le nom machine.
         permission: Voulez-vous générer des permissions
         type: Type
-        invalid: Field Type "%s" is invalid.
+        invalid: Le champ de type "%s" est invalide.
         description: Description
     errors:
       module-dependency: Le module dépendant "%s" est manquant
@@ -71,41 +71,41 @@ commands:
       questions:
         cache: Sélectionner un cache.
   chain:
-    description: Chain command execution
+    description: Séquence d'exécution de commandes
     options:
-      file: User defined file containing commands to get executed.
+      file: Fichier utilisateur contenant les commandes à être exécutées.
     messages:
-        missing_file: Yu must provide a valid file path and name.
-        invalid_file: The file "%s" does not exists.
+        missing_file: Vous devez fournir un chemin et nom de fichier valides.
+        invalid_file: Le fichier "%s" n'existe pas.
   config:
     export:
-      description: Export current application configuration.
+      description: Exporter la configuration actuelle de l'application.
       arguments:
-        directory: Define export directory to save configuration output.
+        directory: Définit le répertoire de sauvegarde de la configuration.
       messages:
-        directory: Your configuration export file was stored in %s
+        directory: Votre exportation de configuration a été sauvegardée dans %s
     debug:
       description: Afficher de la configuration actuelle.
       arguments:
         config-name: Nom de la configuration.
     override:
-      description: Override config value in active configuration.
+      description: Surplanter la valeur de configuration dans la configuration active.
       arguments:
-        config-name: Configuration name.
-        key: Key
-        value: Value
+        config-name: Nom de la configuration.
+        key: Clé
+        value: Valeur
       messages:
-        configuration: Configuration name
-        configuration-key: Configuration key
-        original: Original Value
-        updated: Override Value
+        configuration: Nom de la configuration
+        configuration-key: Clé de la configuration
+        original: Valeur d'origine
+        updated: Nouvelle valeur
     edit:
-      description: Edit the selected configuration.
+      description: Éditer la configuration sélectionnée.
       arguments:
-        config-name: Configuration name.
-        editor: Editor.
+        config-name: Nom de la configuration.
+        editor: Editeur.
       messages:
-        no-directory: An error occurred while creating your directory at
+        no-directory: Une erreur est survenue lors de la création du répertoire 
   container:
     debug:
       description: Affiche les services actuels à une application.
@@ -122,8 +122,8 @@ commands:
   generate:
     authentication:
       provider:
-        description: Générer un fournisseur d\'authentification
-        help: La commande <info>generate:authentication:provider</info> vous permet de générer un fournisseur d\'authentification.
+        description: Générer un fournisseur d'authentification
+        help: La commande <info>generate:authentication:provider</info> vous permet de générer un fournisseur d'authentification.
         options:
         module: common.options.module
         class-name: Nom de la classe du fournisseur d'authentification
@@ -218,7 +218,7 @@ commands:
       errors:
         directory-exists: The target directory "%s" is not empty.
     permission:
-        description: Génère les permissions d\'un module
+        description: Génère les permissions d'un module
         help: La commande <info>generate:permissions</info> vous aide à définir des nouvelles permissions
         options:
           module: common.options.module
@@ -251,10 +251,10 @@ commands:
         messages:
           inputs: |
 
-            Vous pouvez ajouter des champs d\'entrée pour créer des configurations spéciales dans chaque bloc.
+            Vous pouvez ajouter des champs d'entrée pour créer des configurations spéciales dans chaque bloc.
             Cette option est facultative, appuyez sur <info> Entrée </ info> à <info> continuer </ info>
       imageeffect:
-        description: Générer l\'image en effet plugin
+        description: Générer l'image en effet plugin
         help: Le <info> generate: plugin: imageeffect </ info> commande aide à générer un nouveau plugin d'effet d'image..
         welcome: Bienvenue au Drupal image Effet Plugin générateur
         options:
@@ -365,7 +365,7 @@ commands:
     download:
       description: Download module or modules in application
       messages:
-        no-releases: There aren\'t any releases for module %s
+        no-releases: There aren't any releases for module %s
         getting-releases: Getting releases for module %s
         downloading: Downloading module %s release %s
         installed: Module %s was installed successfully
