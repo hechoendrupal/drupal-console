@@ -120,12 +120,7 @@ class GeneratorModuleCommand extends GeneratorCommand
 
         $modules = system_rebuild_module_data();
         foreach ($modules as $module_id => $module) {
-          if ($module->origin == 'core') {
-            continue;
-          }
-          if (strstr($module->subpath, 'modules/custom/')) {
-            array_push($local_modules, str_replace('modules/custom/', '', $module->subpath));
-          }
+          array_push($local_modules, basename($module->subpath));
         }
 
         $checked_dependecies = array(
