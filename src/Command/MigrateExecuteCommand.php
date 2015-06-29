@@ -288,7 +288,7 @@ class MigrateExecuteCommand extends ContainerAwareCommand
 
         if (!empty($exclude_ids)) {
             // Remove exclude migration from migration script
-        $migration_ids = array_diff($migration_ids, $exclude_ids);
+            $migration_ids = array_diff($migration_ids, $exclude_ids);
         }
 
       // If migrations weren't provided finish execution
