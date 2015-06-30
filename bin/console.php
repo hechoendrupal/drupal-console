@@ -39,7 +39,7 @@ $config = new UserConfig();
 $translatorHelper = new TranslatorHelper();
 $translatorHelper->loadResource($config->get('application.language'), $consoleRoot);
 
-$application = new Application($config);
+$application = new Application($config, $translatorHelper);
 $application->setDirectoryRoot($consoleRoot);
 
 $helpers = [
