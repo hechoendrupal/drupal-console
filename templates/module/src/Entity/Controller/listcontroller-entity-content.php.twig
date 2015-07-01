@@ -26,8 +26,8 @@ class {{ entity_class }}ListController extends EntityListBuilder {% endblock %}
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['id'] = t('{{ entity_class }}ID');
-    $header['name'] = t('Name');
+    $header['id'] = $this->t('{{ entity_class }}ID');
+    $header['name'] = $this->t('Name');
     return $header + parent::buildHeader();
   }
 
