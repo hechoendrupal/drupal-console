@@ -155,10 +155,10 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
       ->setLabel(t('Name'))
       ->setDescription(t('The name of the {{ entity_class }} entity.'))
       ->setSettings(array(
-        'default_value' => '',
         'max_length' => 50,
         'text_processing' => 0,
       ))
+      ->setDefaultValue('')
       ->setDisplayOptions('view', array(
         'label' => 'above',
         'type' => 'string',
