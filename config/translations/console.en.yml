@@ -107,6 +107,11 @@ commands:
         editor: Editor.
       messages:
         no-directory: An error occurred while creating your directory at
+    import-single:
+      description: Import the selected configuration.
+      arguments:
+        config-name: Configuration name.
+        input-file: Path to the import files.
   container:
     debug:
       description: Displays current services for an application.
