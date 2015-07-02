@@ -36,9 +36,9 @@ use Drupal\{{ module }}\{{ entity_class }}Interface;
  *     "uuid" = "uuid"
  *   },
  *   links = {
- *     "edit-form" = "entity.{{ entity_name }}.edit_form",
- *     "delete-form" = "entity.{{ entity_name }}.delete_form",
- *     "collection" = "entity.{{ entity_name }}.collection"
+ *     "canonical" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
+ *     "edit-form" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
+ *     "delete-form" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete"
  *   }
  * )
  */
