@@ -1,0 +1,25 @@
+Index: templates/module/src/Controller/controller.php.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- templates/module/src/Controller/controller.php.twig	(revision 0ffcd96c5180b6611b61aa1af8e59d49bf86e7aa)
++++ templates/module/src/Controller/controller.php.twig	(revision )
+@@ -11,7 +11,7 @@
+ {% block use_class %}
+ use Drupal\Core\Controller\ControllerBase;
+ {% if services is not empty %}
+-use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
++class {{ DefaultController }} extends ControllerBase {% if services is not empty %}implements ContainerInjectionInterface {% endif %}
+ use Symfony\Component\DependencyInjection\ContainerInterface;
+ {% endif %}
+ {% endblock %}
+@@ -22,7 +22,7 @@
+  *
+  * @package Drupal\{{ module }}\Controller
+  */
+-class {{ class_name }} extends ControllerBase {% if services is not empty %}implements ContainerInjectionInterface {% endif %}
++class {{ class_name }} extends ControllerBase
+ {% endblock %}
+ {% block class_construct %}
+ {% if services is not empty %}
