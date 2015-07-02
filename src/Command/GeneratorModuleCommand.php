@@ -133,8 +133,14 @@ class GeneratorModuleCommand extends GeneratorCommand
             if (in_array($module, $local_modules)) {
                 $checked_dependecies['local_modules'][] = $module;
             } else {
-                // here we have to check if this module is drupal.org using the api.
+              $response = $client->head('https://www.drupal.org/project/' . $module);
+              $header_link = explode(";", $response->getHeader('link'));
+              if(empty($header_link[0])) {
+                $checked_dependecies['no_modules'][] = $module;
+              }
+              else {
                 $checked_dependecies['drupal_modules'][] = $module;
+              }
             }
         }
         return $checked_dependecies;
