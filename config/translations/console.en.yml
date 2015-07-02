@@ -9,6 +9,8 @@ application:
       generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
     messages:
       completed: The command was executed succesfully!
+      chain:
+        generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
       generated: You can now start using the generated code!
       files:
         generated: Generated or updated files

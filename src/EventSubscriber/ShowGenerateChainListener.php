@@ -12,6 +12,7 @@ use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\AppConsole\Command\GeneratorCommand;
+use Symfony\Component\Yaml\Dumper;
 
 class ShowGenerateChainListener implements EventSubscriberInterface
 {
@@ -21,6 +22,13 @@ class ShowGenerateChainListener implements EventSubscriberInterface
         'list'
     ];
 
+    private $skipOptions = [
+        'env',
+        'generate-chain'
+    ];
+
+    private $skipArguments = [
+    ];
     /**
      * @param ConsoleTerminateEvent $event
      */
@@ -29,6 +37,9 @@ class ShowGenerateChainListener implements EventSubscriberInterface
         /** @var \Drupal\AppConsole\Command\Command $command */
         $command = $event->getCommand();
         $output = $event->getOutput();
+        $command_name = $command->getName();
+
+        $this->skipArguments[] = $command_name;
 
         $application = $command->getApplication();
         $messageHelper = $application->getHelperSet()->get('message');
@@ -51,8 +62,32 @@ class ShowGenerateChainListener implements EventSubscriberInterface
             $completedMessageKey = 'application.console.messages.generated.completed';
         }
 
-        print_r($command->getDefinition()->getArguments());
-        print_r($command->getDefinition()->getOptions());
+        //print_r($command->getDefinition()->getArguments());
+        //print_r($command->getDefinition()->getOptions());
+
+        // get the input instance
+        $input = $event->getInput();
+
+        //Get options list
+        $options = array_diff(array_filter($input->getOptions()), $this->skipOptions);
+
+        if(isset($options['generate-chain']) && $options['generate-chain'] == 1) {
+            // Get argument list
+            $arguments = array_diff(array_filter($input->getArguments()), $this->skipArguments);
+
+            $yaml = array();
+            $yaml[$command_name]['options'] = $options;
+            $yaml[$command_name]['arguments'] = $arguments;
+
+            $dumper = new Dumper();
+
+            $yaml = $dumper->dump($yaml, 10);
+
+            // Print yaml output and message
+            $messageHelper->showMessage($output, $translatorHelper->trans('application.console.messages.chain.generated'));
+            print $yaml;
+        }
+
     }
 
     /**

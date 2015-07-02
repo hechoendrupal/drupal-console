@@ -6,8 +6,11 @@ application:
             env: 'The Environment name.'
             no-debug: 'Switches off debug mode.'
             learning: 'Generate a verbose code output.'
+            generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
         messages:
             completed: 'La commande a été correctement executée'
+            chain:
+                generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
             generated: 'Vous pouvez maintenant commencer à utiliser le code généré !'
             files:
                 generated: 'Fichiers générés ou mis à jour'
