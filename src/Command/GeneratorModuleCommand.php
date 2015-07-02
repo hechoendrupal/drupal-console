@@ -79,11 +79,11 @@ class GeneratorModuleCommand extends GeneratorCommand
         // Check if all module dependencies are availables or not
         if (!empty($dependencies)) {
             $checked_dependencies = $this->checkDependencies($dependencies['success']);
-            if (!empty($checked_dependencies['drupal_modules'])) {
-                $messageHelper->addErrorMessage(
+            if (!empty($checked_dependencies['no_modules'])) {
+                $messageHelper->addWarningMessage(
                   sprintf(
                     $this->trans('commands.generate.module.warnings.module-unavailable'),
-                    implode(', ', $checked_dependencies['drupal_modules'])
+                    implode(', ', $checked_dependencies['no_modules'])
                   )
                 );
             }
@@ -122,14 +122,15 @@ class GeneratorModuleCommand extends GeneratorCommand
         foreach ($modules as $module_id => $module) {
           array_push($local_modules, basename($module->subpath));
         }
-      
+
+
         $checked_dependecies = array(
           'local_modules' => array(),
           'drupal_modules' => array(),
           'no_modules' => array()
         );
-        $local_modules = null;
-        foreach ($dependencies as $key => $module) {
+
+        foreach ($dependencies as $module) {
             if (in_array($module, $local_modules)) {
                 $checked_dependecies['local_modules'][] = $module;
             } else {
@@ -143,6 +144,7 @@ class GeneratorModuleCommand extends GeneratorCommand
               }
             }
         }
+
         return $checked_dependecies;
     }
 
