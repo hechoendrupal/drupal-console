@@ -80,6 +80,9 @@ class Application extends BaseApplication
         $this->getDefinition()->addOption(
           new InputOption('--learning', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.learning'))
         );
+        $this->getDefinition()->addOption(
+          new InputOption('--generate-chain', '--gc', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-chain'))
+        );
     }
 
     /**
