@@ -31,7 +31,7 @@ class {{ entity_class }}Form extends ContentEntityForm {% endblock %}
     $entity = $this->entity;
 
     $form['langcode'] = array(
-      '#title' => t('Language'),
+      '#title' => $this->t('Language'),
       '#type' => 'language_select',
       '#default_value' => $entity->getUntranslated()->language()->getId(),
       '#languages' => Language::STATE_ALL,
