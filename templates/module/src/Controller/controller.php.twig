@@ -11,7 +11,7 @@ namespace Drupal\{{module}}\Controller;
 {% block use_class %}
 use Drupal\Core\Controller\ControllerBase;
 {% if services is not empty %}
-use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+class {{ DefaultController }} extends ControllerBase {% if services is not empty %}implements ContainerInjectionInterface {% endif %}
 use Symfony\Component\DependencyInjection\ContainerInterface;
 {% endif %}
 {% endblock %}
@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @package Drupal\{{ module }}\Controller
  */
-class {{ class_name }} extends ControllerBase {% if services is not empty %}implements ContainerInjectionInterface {% endif %}
+class {{ class_name }} extends ControllerBase
 {% endblock %}
 {% block class_construct %}
 {% if services is not empty %}
