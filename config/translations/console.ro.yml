@@ -1,516 +1,656 @@
 application:
-  console:
-    messages:
-      completed: Comanda a fost executata cu succes!
-      generated:
-        files: Fisierele generate
-        completed: Acum poti utiliza codul generat!
-      learning:
-        route: |
-          Pentru a crea pagini, trebuie de definit "routes" pentru ele.
-          Un "route" mapeaza un URL cu un Controller. Acesta stabileste cu ce
-          functie sau metoda din Clasa va fi apelata cand URL-ul este accesat.
-          Daca utilizatorul acceseaza http://drupal8.dev/{{ route }}, sistema de
-          rutare va cauta ruta respectiva din URL. In acest caz acesta va fi gasit
-          si va executa "_controller callback". In acest caz "callback"-ul este
-          definit in Clasa ("\Drupal\{{ module }}\Controller\{{ class_name }}")
-          si metoda ("{{ method_name }}").
-
-    errors:
-      invalid-command: Comanda "%s" nu este definita.
-  site:
-    messages:
-      path: Calea spre "Site"
-    errors:
-      directory: Pentru a afisa toate comenzile accesibile, trebuie sa rulezi aceasta comanda in drupal root
-      settings: Pentru a afisa toate comenzile accesibile, mai intai de toate trebuie sa instalezi Drupal.
-commands:
-  common:
-    options:
-      module: Nume de Modul.
-      services: Incarca serviciile din container.
-      tags: Seteaza tag-urile serviciilor din container.
-      inputs: Creeaza Campuri in forma.
-      permissions: Creeaza Permisiuni.
-    questions:
-      module: Introduceti numele de Modul
-      confirm: Confirmati generarea
-      canceled: Comanda a fost anulata
-      services:
-        confirm: Doriti sa incarcati serviciile din container
-        message: |
-          
-          Introdu numele serviciului sau utilizeaza keyup/keydown pentru a selecta.
-          Aceasta este optional, tasteaza <info>Enter</info> pentru a <info>continua</info>
-        name: Introdu serviciul tau
-      inputs:
-        confirm: Doriti sa generati structura formei
-        label: Introdu "Eticheta"
-        machine_name: Introdu "machine name"
-        permission: Doriti sa generati permisiuni
-        type: Tip
-        invalid: Campul de tip "%s" este incorect.
-        description: Descriere
-    errors:
-      module-dependency: Dependenta de Module lipseste "%s"
-      class-name-empty: Numele Clasei este necesar
-  cache:
-    rebuild:
-      description: Reconstruieste si curata tot cache-ul.
-      options:
-        cache: Curata doar cache-ul specific.
-      messages:
-        welcome: Bine ai venit in comanda cache:rebuild
-        rebuild: Cache-ul se reconstrueste, va rugam sa asteptati
-        completed: Cache-ul a fost curatit
-        invalid_cache: Cache-ul "%s" este incorect.
-      questions:
-        cache: Selecteaza cache-ul.
-  config:
-    export:
-      description: Exporta configurarile aplicatiei curente.
-      arguments:
-        directory: Indica calea de salvare pentru configurarile exportate.
-      messages:
-        directory: Fisierul a fost salvat in %s
-    debug:
-      description: Afiseaza configurarile curente.
-      arguments:
-        config-name: Numele Configuratiei.
-    override:
-      description: Rescrie valoare unei configuratii in configuratia activa.
-      arguments:
-        config-name: Numele configuratiei.
-        key: Cheie
-        value: Valoare
-      messages:
-        configuration: Numele configuratiei
-        configuration-key: Cheia configuratiei
-        original: Valoarea originala
-        updated: Rescrie Valoarea
-    edit:
-      description: Editeaza configuratia selectata.
-      arguments:
-        config-name: Numele configuratiei.
-        editor: Editor.
-      messages:
-        no-directory: Directoria nu poate fi creata in
-  container:
-    debug:
-      description: Afiseaza serviciile curente pentru o aplicatie.
-      messages:
-        service_id: ID-ul Serviciului
-        class_name: Numele Clasei
-  drush:
-    description: Ruleaza drush din consola.
-    help: Utilizeaza modul interactiv pentru o mai buna experienta --shell.
-    arguments:
-      args: Drush argumente.
-    messages:
-      not_found: Comanda Drush nu a fost gasita.
-  generate:
-    authentication:
-      provider:
-        description: Genereaza un "Authentication Provider"
-        help: Comanda <info>generate:authentication:provider</info> te va ajuta la generarea unui nou "Authentication Provider".
-        options:
-        module: common.options.module
-        class-name: Clasa pentru "Authentication Provider"
-    command:
-      description: Genereaza comenzi pentru consola.
-      help: Comanda <info>generate:command</info> te va ajuta sa creezi o noua comanda.
-      welcome: Bine ai venit in genratorul de comenzi noi.
-      options:
-        module: common.options.module
-        class-name: Numele Clasei a Comenzii
-        command: Numele Comenzii
-        container: Acceseaza serviciul containerului
-      questions:
-        module: common.questions.module
-        class-name: Introdu Numele Clasei pentru Comanda
-        command: Introdu Numele Comenzii
-        container: Aveti nevoie de a accesa serviciul containerului
-    controller:
-      description: Genereaza si Inregistreaza un controller
-      help: Comanda <info>generate:controller</info> te va ajuta sa generezi un nou controller.
-      welcome: Bine ai venit in Generatorul de Drupal Controller
-      options:
-        module: common.options.module
-        class-name: Numele Clasei pentru "Controller"
-        method-name: Numele actiunii metodei
-        route: Calea spre "route"
-        services: common.options.services
-        test: Genereaza o Clasa de test
-      questions:
-        module: common.questions.module
-        class-name: Introdu numele Clasei pentru "Controller"
-        method-name: Introdu numele actiunii metodei
-        route: Introdu calea spre "route"
-        services: common.questions.services
-        test: Vreai sa generezi o Clasa pentru "Unit Test"
-    entity:
-      description: Genereaza un nou "%s"
-      help: Comanda <info>"%s"</info> te va ajuta sa generezi un nou "%s"
-      welcome: Bine ai venit in generatorul de Drupal "Entity"
-      options:
-        module: common.options.module
-        entity-class: Numele Clasei pentru "Entity"
-        entity-name: Numele "Entity"
-      questions:
-        module: common.questions.module
-        entity-class: Introdu numele Clasei pentru "Entity"
-        entity-name: Introdu numele de "Entity"
-    form:
-      description: Genereaza un nou "%s"
-      help: Comanda <info>"%s"</info> te va ajuta sa generezi un nou "%s"
-      welcome: Bine ai venit in generatorul de forma
-      options:
-        module: common.options.module
-        class-name: Numele Clasei pentru forma
-        form-id: ID-ul formei
-        services: common.options.services
-        inputs: common.options.inputs
-        routing: Actualizeaza "Routing"
-      questions:
-        module: common.questions.module
-        class-name: Introdu numele Clasei pentru forma
-        form-id: Introdu ID-ul formei
-        services: common.questions.services
-        inputs: common.questions.inputs
-        routing: Actualizeaza fisierul de "Routing"
-    module:
-      description: Genereaza un Modul.
-      help: Comanda <info>generate:module</info> te va ajuta sa creezi un nou Modul.
-      welcome: Bine ai venit in generatorul de Modul Drupal
-      options:
-        module: Numele Modulului
-        machine-name: Machine name (doar minuscule si sublinia)
-        module-path: Calea de stocare a Modulului
-        description: Descrierea Modulului
-        core: Versiunea nucleului (Core version)
-        package: Package al modulului
-        controller: Controller-ul implicit
-        dependencies: Dependente de Module separate prin virgula (ex. context, panels)
-        test: Genereaza o clasa pentru "unit test"
-      questions:
-        module: Introdu numele modulului nou
-        machine-name: Introdu "machine name" pentru Modul
-        module-path: Introdu calea pentru Modul
-        description: Introdu descrierea Modulului
-        core: Introdu versiunea nucleului Drupal
-        package: Introdu numele pentru "package"
-        controller: Doresti sa generezi un Controller implicit
-        dependencies: Doresti sa adaugi dependente pentru Modul
-        test: Doresti sa generezi o clasa pentru "unit test"
-      warnings:
-        module-unavailable: Avertizare! Urmatoarele Module nu sunt disponibile in proiectul tau local "%s"
-      errors:
-        directory-exists: Directoriul indicat "%s" nu este gol.
-    permission:
-        description: Genereaza permisiuni pentru Modul
-        help: Comanda <info>generate:permissions</info> te va ajuta sa creezi permisiuni noi
-        options:
-          module: common.options.module
-          permission: Introdu o permisiune
-        questions:
-          module: common.questions.module
-          permission: Introdu o permisiune
-    plugin:
-      block:
-        description: Genereaza un "Plugin Block"
-        help: Comanda <info>generate:plugin:block</info> te va ajuta sa creezi un nou "Plugin block".
-        welcome: Bine ai venit in generatorul de Drupal "Plugin Block"
-        options:
-          module: common.options.module
-          class-name: Numele clasei pentru Plugin
-          label: Eticheta pentru Plugin
-          plugin-id: ID-ul pentru Plugin
-          inputs: common.options.inputs
-          services: common.options.services
-        questions:
-          module: common.questions.module
-          class-name: Introdu numele Clasei pentru Plugin
-          label: Introdu eticheta pentru Plugin
-          plugin-id: Introdu ID-ul pentru Plugin
-          inputs: common.questions.inputs
-          services: common.questions.services
+    console:
+        arguments:
+            drupal: 'Path to Drupal root.'
+            shell: 'Launch the shell.'
+            env: 'The Environment name.'
+            no-debug: 'Switches off debug mode.'
+            learning: 'Generate a verbose code output.'
         messages:
-          inputs: |
-
-            Poti adauga campuri pentru a crea configurari speciale in block.
-            Aceasta este optional, tasteaza <info>Enter</info> pentru a <info>continua</info>
-      imageeffect:
-        description: Genereaza un "Image effect plugin".
-        help: Comanda <info>generate:plugin:imageeffect</info> te va ajuta sa generezi un nou "Image effect plugin".
-        welcome: Bine ai venit in generatorul de Drupal "Image Effect Plugin"
+            completed: 'Comanda a fost executata cu succes!'
+            generated: 'Aou can now start using the generated code!'
+            files:
+                generated: 'Generated or updated files'
+                copied: 'Copied files'
+            learning:
+                route: "Pentru a crea pagini, trebuie de definit \"routes\" pentru ele.\nUn \"route\" mapeaza un URL cu un Controller. Acesta stabileste cu ce\nfunctie sau metoda din Clasa va fi apelata cand URL-ul este accesat.\nDaca utilizatorul acceseaza http://drupal8.dev/{{ route }}, sistema de\nrutare va cauta ruta respectiva din URL. In acest caz acesta va fi gasit\nsi va executa \"_controller callback\". In acest caz \"callback\"-ul este\ndefinit in Clasa (\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nsi metoda (\"{{ method_name }}\").\n"
+        errors:
+            invalid-command: 'Comanda "%s" nu este definita.'
+    site:
+        messages:
+            path: 'Calea spre "Site"'
+        errors:
+            directory: 'Pentru a afisa toate comenzile accesibile, trebuie sa rulezi aceasta comanda in drupal root'
+            settings: 'Pentru a afisa toate comenzile accesibile, mai intai de toate trebuie sa instalezi Drupal.'
+    user:
+        messages:
+            path: 'User home path'
+commands:
+    common:
         options:
-          module: common.options.module
-          class-name: Introdu numele clasei pentru Plugin
-          label: Eticheta pentru Plugin
-          plugin-id: Id-ul pentru Plugin
-          description: Descrierea Plugin-ului
+            module: 'Nume de Modul.'
+            services: 'Incarca serviciile din container.'
+            tags: 'Seteaza tag-urile serviciilor din container.'
+            inputs: 'Creeaza Campuri in forma.'
+            permissions: 'Creeaza Permisiuni.'
         questions:
-          module: common.questions.module
-          class-name: Introdu numele Clasei pentru Plugin
-          label: Introdu Eticheta pentru Plugin
-          plugin-id: Introdu ID-ul pentru Plugin
-          description: Introdu Descrierea pentru Plugin
-      rest:
-          resource:
-            description: Genereaza "plugin rest resource"
-            help: Comanda <info>generate:plugin:rest:resource</info> te va ajuta sa generezi un nou "Rest resource".
-            welcome: Bine ai venit in generatorul de Drupal "Plugin Rest Resource"
+            module: 'Introduceti numele de Modul'
+            confirm: 'Confirmati generarea'
+            canceled: 'Comanda a fost anulata'
+            services:
+                confirm: 'Doriti sa incarcati serviciile din container'
+                message: "\nIntrodu numele serviciului sau utilizeaza keyup/keydown pentru a selecta.\nAceasta este optional, tasteaza <info>Enter</info> pentru a <info>continua</info>\n"
+                name: 'Introdu serviciul tau'
+            inputs:
+                confirm: 'Doriti sa generati structura formei'
+                label: 'Introdu "Eticheta"'
+                machine_name: 'Introdu "machine name"'
+                permission: 'Doriti sa generati permisiuni'
+                type: Tip
+                invalid: 'Campul de tip "%s" este incorect.'
+                description: Descriere
+        errors:
+            module-dependency: 'Dependenta de Module lipseste "%s"'
+            class-name-empty: 'Numele Clasei este necesar'
+    cache:
+        rebuild:
+            description: 'Reconstruieste si curata tot cache-ul.'
             options:
-              module: common.options.module
-              class-name: Numele clasei pentru "Plugin Rest Resource"
-              plugin-id: Id-ul pentru "Plugin Rest Resource"
-              plugin-label: Eticheta pentru "Plugin Rest Resource"
-              plugin-url: URL pentru "Plugin Rest Resource"
-              plugin-states: Plugin Rest Resource States
-            questions:
-              module: common.questions.module
-              class-name: Introdu numele pentru "plugin rest resource"
-              plugin-id: Introdu Id-ul pentru "plugin rest resource"
-              plugin-label: Introdu eticheta pentru "plugin rest resource"
-              plugin-url: Introdu URL pentru "plugin rest resource"
-              plugin-states: Selecteaza care "REST States" in "resource"-ul current (GET este selectat implicit)
+                cache: 'Curata doar cache-ul specific.'
             messages:
-              selected-states: States selectate
-    rulesaction:
-      description: Genereaza un "Plugin rule action"
-      help: Comanda <info>generate:plugin:rulesaction</info> te va ajuta sa generezi un nou "Plugin rule action".
-      welcome: Bine ai venit in generatorul "Drupal Plugin Rules Action"
-      options:
-        module: common.options.module
-        class-name: Numele Clasei pentru "Plugin"
-        label: Eticheta pentru "Plugin"
-        plugin-id: ID-ul pentru "Plugin"
-        inputs: common.options.inputs
-        services: common.options.services
-        category: Categoria pentru "Plugin"
-        context: Contextul pentru "Plugin"
-      questions:
-        module: common.questions.module
-        class-name: Introdu numele Clasei pentru "Plugin"
-        label: Introdu eticheta pentru "Plugin"
-        plugin-id: Introdu ID-ul pentru "Plugin"
-        inputs: common.questions.inputs
-        services: common.questions.services
-        category: Introdu categoria pentru "Plugin"
-        context: Introdu contextul pentru "Plugin"
-    service:
-      description: Genereaza un serviciu
-      help: Comanda <info>generate:service</info> te va ajuta sa creezi un serviciu nou.
-      welcome: Bine ai venit in "Drupal service generator"
-      options:
-        module: common.options.module
-        service-name: Numele serviciului
-        class-name: Numele Clasei
-        interface: Interfata
-        services: common.questions.services
-      questions:
-        module: common.questions.module
-        service-name: Introdu numele serviciului
-        class-name: Introdu numele Clasei
-        interface: Creeaza o interfata
-        services: common.options.services
-  module:
-    debug:
-      description: Afiseaza Modulele curente pentru aplicatie
-      options:
-        status: "Statutul Modulului [enabled|disabled]"
-        type: "Tipul Modulului [core|no-core]"
-      messages:
-        id: "ID"
-        name: "Nume"
-        status: "Statut"
-        origin: "Origine"
-        package: "Package"
-        enabled: "Activat"
-        disabled: "Dezactivat"
-    install:
-      description: Instaleaza Module
-      options:
-        module: Modulul/Modulele trebuie sa fie separate prin virgula
-      messages:
-        no-modules: Trebuie sa introduci nume de Modul/Module.
-        missing: Modulele %s nu pot fi instalate din cauza ca Modulele %s lipsesc
-        missing-dependencies: Modulele %s nu pot fi instalate din cauza dependentelor %s
-        nothing: Toate Modulele deja sunt instalate
-        dependencies: Esti increzut ca vreai sa instalezi dependentile: %s?
-        success: Modulele %s au fost instalate cu succes
-    uninstall:
-      description: Dezinstalarea Modulelor
-      messages:
-        no-modules: Trebuie sa introduci un Modul sau mai multe pentru a le dezinstala.
-        dependents: Modulele %s nu pot fi dezinstalate deoarece ele sunt necesare pentru %s
-        nothing: Toate Modulele sunt deja dezinstalate
-        success: Modulele au fost dezinstalate cu succes
-    download:
-      description: Descarca module
-      messages:
-        no-releases: Nu exista nici o versiune pentru Modulul %s
-        getting-releases: Receptionarea versiunilor pentru Modulul %s
-        downloading: Se descarca modulul %s cu versiunea %s
-        installed: Modulul %s a fost instalat cu succes
-  migrate:
-    debug:
-      description: Afiseaza Migratiile curente accesibile
-      arguments:
-        drupal-version: Versiunea Drupal
-      messages:
-        id: "Migration Id"
-        description: "Descrierea"
-        version: "Versiunea"
-    execute:
-      description: Executa migrarea disponibila pentru aplicatie
-      arguments:
-        id: "Id-ul Migratiei"
-      options:
-        site-url: "Site Source URL"
-        db-host: "Host-ul Bazei de Date"
-        db-name: "Numele Bazei de Date"
-        db-user: "Utilizatorul Bazei de Date"
-        db-pass: "Parola Bazei de Date"
-        db-prefix: "Prefixul Bazei de Date"
-        db-port: "Port-ul Bazei de Date"
-      questions:
-        id: "Id-ul Migratiei"
-        site-url: "Source Site URL"
-        db-host: "Host-ul Bazei de Date"
-        db-name: "Numele Bazei de Date"
-        db-user: "Utilizatorul Bazei de Date"
-        db-pass: "Parola Bazei de Date"
-        db-prefix: "Prefixul Bazei de Date"
-        db-port: "Port-ul Bazei de Date"
-        invalid-migration-id: Id-ul Migratiei "%s" este incorect
-      messages:
-        processing: Migratia "%s" se prelucreaza
-        imported: Migratia "%s" a fost importata corect
-        fail-load: Migratia "%s" nu poate fi incarcata
-        importing-incomplete: Migratia "%s" se importa
-        import-stoped: Importatorul "%s" a fost stopat
-        import-fail: Importatorul "%s" a esuat
-        import-skipped: Importatorul "%s" a fost omis din cauza dependentelor neandeplinite
-        wrong-source: 'Actualizarea pentru aceasta versiune Drupal nu este suportata.'
-  rest:
-    enable:
-      description: Activeaza REST pentru aplicatie
-      arguments:
-        resource-id: Rest ID
-        states: REST States pentru a activa REST resource
-        authorizations: Authorizations providers au fost activate pentru "REST Resource"
-
-      questions:
-        resource-id: Rest ID
-      messages:
-        invalid-rest-id: Rest ID %s nu este corect
-        formats: Formatele disponibile de serializare
-        authentication-providers: Authentication Providers disponibili
-        selected-state: State selectat
-        selected-formats: Formatele selectate
-        selected-authentication-providers: Authentication Providers selectati
-    disable:
-      description: Dezactiveaza un "REST resource"
-      arguments:
-        resource-id: Rest ID
-        states: REST States pentru a dezactiva "Rest resource"
-        
-      questions:
-        resource-id: Rest ID
-      messages:
-        invalid-rest-id: Rest ID %s este incorect
-    debug:
-      description: Afiseaza curentul "REST resource"
-      arguments:
-        resource-id: Rest ID
-      options:
-        status: Rest resource statut activat | dezactivat
-      messages:
-        id: Rest ID
-        label: Eticheta
-        canonical_url: Canonical URL
-        status: Status
-        provider: Provider
-        enabled: Activat
-        disabled: Dezactivat
-        rest-state: REST States
-        supported-formats: Formatele suportate
-        supported_auth: Authentication Providers suportati
-        not-found: Rest resource - "%s" nu a fost gasit
-  router:
-    debug:
-      description: Afiseaza "Routes" curente
-      arguments:
-        route-name: Numele de "Route"
-      messages:
-        name: Numele de "Route"
-        path: Calea spre Clasa
-        pattern: "Pattern"
-        defaults: Implicit
-        options: Optiuni
-    rebuild:
-      description: Reconstruieste "Routes"
-      arguments:
-        route-name: Numele de "Route"
-      messages:
-        rebuilding: Reconstruirea "Routes" in proces, doar o clipa ...
-        completed: Reconstruirea "Routes" a fost finisata cu succes
-  self-update:
-    description: Actualizeaza "Console" cu ultima versiune.
-    help: Actualizeaza "Console" cu ultima versiune.
-    messages:
-      success: Console a fost actualizata cu ultima versiune.
-  site:
-    mode:
-      description: Schimba configurarile de performanta a sistemei
-      arguments:
-        environment: Numele "Enviroment"
-      messages:
-        configuration: Numele Configuratiei
-        configuration-key: Cheia Configuratiei
-        original: Valoarea originala
-        updated: Rescrie valoarea
-    status:
-      description: Vizualizeaza statutul de instalare (Drupal Installation status)
-      messages:
-        application: Application
-        system: System Info
-        database: Database connection
-        driver: Driver
-        host: Host
-        database: Database
-        port: Port
-        username: Username
-        password: Password
-        themes: Themes
-        connection: Connection
-        theme_default: Default theme
-        theme_admin: Admin theme
-        directories: Directories
-        directory_root: Site root directory
-        directory_temporary: Site temporary directory
-        directory_theme_default: Default theme directory
-        directory_theme_admin: Admin theme directory
-    maintenance:
-      description: Activeaza "Maintenance mode"
-      arguments:
-        mode: Modul "Site maintenance"
-      messages:
-        maintenance-on: Maintenance mode activat
-        maintenance-off: Maintenance mode dezactivat
-      errors:
-        invalid-mode: Maintance mode incorect
-  test:
-    debug:
-      description: Afiseaza Unit testele accesibile
-      help: Actualizeaza "Console" cu ultima versiune.
-      arguments:
-        test-id: Unit Test ID
-      options:
-        group: Grupa
-      messages:
-        id: Unit Test ID
-        description: Descrierea
-        group: Grupa
-        success: Console a fost actualizata cu ultima versiune.
+                welcome: 'Bine ai venit in comanda cache:rebuild'
+                rebuild: 'Cache-ul se reconstrueste, va rugam sa asteptati'
+                completed: 'Cache-ul a fost curatit'
+                invalid_cache: 'Cache-ul "%s" este incorect.'
+            questions:
+                cache: 'Selecteaza cache-ul.'
+    chain:
+        description: 'Chain command execution'
+        options:
+            file: 'User defined file containing commands to get executed.'
+        messages:
+            missing_file: 'You must provide a valid file path and name.'
+            invalid_file: 'The file "%s" does not exists.'
+            module_install: 'module:install command is not runnable inside a chain queue and must be run independently.'
+    config:
+        export:
+            description: 'Exporta configurarile aplicatiei curente.'
+            arguments:
+                directory: 'Indica calea de salvare pentru configurarile exportate.'
+            messages:
+                directory: 'Fisierul a fost salvat in %s'
+        debug:
+            description: 'Afiseaza configurarile curente.'
+            arguments:
+                config-name: 'Numele Configuratiei.'
+        override:
+            description: 'Rescrie valoare unei configuratii in configuratia activa.'
+            arguments:
+                config-name: 'Numele configuratiei.'
+                key: Cheie
+                value: Valoare
+            messages:
+                configuration: 'Numele configuratiei'
+                configuration-key: 'Cheia configuratiei'
+                original: 'Valoarea originala'
+                updated: 'Rescrie Valoarea'
+        edit:
+            description: 'Editeaza configuratia selectata.'
+            arguments:
+                config-name: 'Numele configuratiei.'
+                editor: Editor.
+            messages:
+                no-directory: 'Directoria nu poate fi creata in'
+    container:
+        debug:
+            description: 'Afiseaza serviciile curente pentru o aplicatie.'
+            messages:
+                service_id: 'ID-ul Serviciului'
+                class_name: 'Numele Clasei'
+    drush:
+        description: 'Ruleaza drush din consola.'
+        help: 'Utilizeaza modul interactiv pentru o mai buna experienta --shell.'
+        arguments:
+            args: 'Drush argumente.'
+        messages:
+            not_found: 'Comanda Drush nu a fost gasita.'
+    generate:
+        authentication:
+            provider:
+                description: 'Genereaza un "Authentication Provider"'
+                help: 'Comanda <info>generate:authentication:provider</info> te va ajuta la generarea unui nou "Authentication Provider".'
+                options: null
+                module: common.options.module
+                class-name: 'Clasa pentru "Authentication Provider"'
+        command:
+            description: 'Genereaza comenzi pentru consola.'
+            help: 'Comanda <info>generate:command</info> te va ajuta sa creezi o noua comanda.'
+            welcome: 'Bine ai venit in genratorul de comenzi noi.'
+            options:
+                module: common.options.module
+                class-name: 'Numele Clasei a Comenzii'
+                command: 'Numele Comenzii'
+                container: 'Acceseaza serviciul containerului'
+            questions:
+                module: common.questions.module
+                class-name: 'Introdu Numele Clasei pentru Comanda'
+                command: 'Introdu Numele Comenzii'
+                container: 'Aveti nevoie de a accesa serviciul containerului'
+        controller:
+            description: 'Genereaza si Inregistreaza un controller'
+            help: 'Comanda <info>generate:controller</info> te va ajuta sa generezi un nou controller.'
+            welcome: 'Bine ai venit in Generatorul de Drupal Controller'
+            options:
+                module: common.options.module
+                class-name: 'Numele Clasei pentru "Controller"'
+                method-name: 'Numele actiunii metodei'
+                route: 'Calea spre "route"'
+                services: common.options.services
+                test: 'Genereaza o Clasa de test'
+            questions:
+                module: common.questions.module
+                class-name: 'Introdu numele Clasei pentru "Controller"'
+                method-name: 'Introdu numele actiunii metodei'
+                route: 'Introdu calea spre "route"'
+                services: common.questions.services
+                test: 'Vreai sa generezi o Clasa pentru "Unit Test"'
+        entity:
+            description: 'Genereaza un nou "%s"'
+            help: 'Comanda <info>"%s"</info> te va ajuta sa generezi un nou "%s"'
+            welcome: 'Bine ai venit in generatorul de Drupal "Entity"'
+            options:
+                module: common.options.module
+                entity-class: 'Numele Clasei pentru "Entity"'
+                entity-name: 'Numele "Entity"'
+            questions:
+                module: common.questions.module
+                entity-class: 'Introdu numele Clasei pentru "Entity"'
+                entity-name: 'Introdu numele de "Entity"'
+        form:
+            description: 'Genereaza un nou "%s"'
+            help: 'Comanda <info>"%s"</info> te va ajuta sa generezi un nou "%s"'
+            welcome: 'Bine ai venit in generatorul de forma'
+            options:
+                module: common.options.module
+                class-name: 'Numele Clasei pentru forma'
+                form-id: 'ID-ul formei'
+                services: common.options.services
+                inputs: common.options.inputs
+                routing: 'Actualizeaza "Routing"'
+            questions:
+                module: common.questions.module
+                class-name: 'Introdu numele Clasei pentru forma'
+                form-id: 'Introdu ID-ul formei'
+                services: common.questions.services
+                inputs: common.questions.inputs
+                routing: 'Actualizeaza fisierul de "Routing"'
+        module:
+            description: 'Genereaza un Modul.'
+            help: 'Comanda <info>generate:module</info> te va ajuta sa creezi un nou Modul.'
+            welcome: 'Bine ai venit in generatorul de Modul Drupal'
+            options:
+                module: 'Numele Modulului'
+                machine-name: 'Machine name (doar minuscule si sublinia)'
+                module-path: 'Calea de stocare a Modulului'
+                description: 'Descrierea Modulului'
+                core: 'Versiunea nucleului (Core version)'
+                package: 'Package al modulului'
+                controller: 'Controller-ul implicit'
+                composer: 'Add a composer.json file'
+                dependencies: 'Dependente de Module separate prin virgula (ex. context, panels)'
+                test: 'Genereaza o clasa pentru "unit test"'
+            questions:
+                module: 'Introdu numele modulului nou'
+                machine-name: 'Introdu "machine name" pentru Modul'
+                module-path: 'Introdu calea pentru Modul'
+                description: 'Introdu descrierea Modulului'
+                core: 'Introdu versiunea nucleului Drupal'
+                package: 'Introdu numele pentru "package"'
+                controller: 'Doresti sa generezi un Controller implicit'
+                composer: 'Do you want to add a composer.json file to your module'
+                dependencies: 'Doresti sa adaugi dependente pentru Modul'
+                test: 'Doresti sa generezi o clasa pentru "unit test"'
+            warnings:
+                module-unavailable: 'Avertizare! Urmatoarele Module nu sunt disponibile in proiectul tau local "%s"'
+            errors:
+                directory-exists: 'Directoriul indicat "%s" nu este gol.'
+        theme:
+            description: 'Generate a theme.'
+            help: 'The <info>generate:theme</info> command helps you generates a new theme.'
+            welcome: 'Welcome to the Drupal theme generator'
+            options:
+                theme: 'The theme name'
+                machine-name: 'The machine name (lowercase and underscore only)'
+                theme-path: 'The path of the theme'
+                description: 'Theme description'
+                core: 'Core version'
+                package: 'Theme package'
+                composer: 'Add a composer.json file'
+                base_theme: 'Base theme (i.e. classy, seven)'
+            questions:
+                theme: 'Enter the new theme name'
+                machine-name: 'Enter the theme machine name'
+                theme-path: 'Enter the theme Path'
+                description: 'Enter theme description'
+                core: 'Enter Drupal Core version'
+                package: 'Enter package name'
+                dependencies: 'Would you like to add module depencencies'
+                invalid-theme: 'Invalid %s theme was selected'
+            warnings:
+                module-unavailable: 'Warning The following modules are not already available in your local environment "%s"'
+            errors:
+                directory-exists: 'The target directory "%s" is not empty.'
+        permission:
+            description: 'Genereaza permisiuni pentru Modul'
+            help: 'Comanda <info>generate:permissions</info> te va ajuta sa creezi permisiuni noi'
+            options:
+                module: common.options.module
+                permission: 'Introdu o permisiune'
+            questions:
+                module: common.questions.module
+                permission: 'Introdu o permisiune'
+                title: 'Enter a title for the permision'
+                description: 'Enter a description for the permision'
+                restrict-access: 'Restrict Access'
+                add: 'Do you want add another permission'
+        plugin:
+            block:
+                description: 'Genereaza un "Plugin Block"'
+                help: 'Comanda <info>generate:plugin:block</info> te va ajuta sa creezi un nou "Plugin block".'
+                welcome: 'Bine ai venit in generatorul de Drupal "Plugin Block"'
+                options:
+                    module: common.options.module
+                    class-name: 'Numele clasei pentru Plugin'
+                    label: 'Eticheta pentru Plugin'
+                    plugin-id: 'ID-ul pentru Plugin'
+                    inputs: common.options.inputs
+                    services: common.options.services
+                questions:
+                    module: common.questions.module
+                    class-name: 'Introdu numele Clasei pentru Plugin'
+                    label: 'Introdu eticheta pentru Plugin'
+                    plugin-id: 'Introdu ID-ul pentru Plugin'
+                    inputs: common.questions.inputs
+                    services: common.questions.services
+                messages:
+                    inputs: "\nPoti adauga campuri pentru a crea configurari speciale in block.\nAceasta este optional, tasteaza <info>Enter</info> pentru a <info>continua</info>"
+            imageeffect:
+                description: 'Genereaza un "Image effect plugin".'
+                help: 'Comanda <info>generate:plugin:imageeffect</info> te va ajuta sa generezi un nou "Image effect plugin".'
+                welcome: 'Bine ai venit in generatorul de Drupal "Image Effect Plugin"'
+                options:
+                    module: common.options.module
+                    class-name: 'Introdu numele clasei pentru Plugin'
+                    label: 'Eticheta pentru Plugin'
+                    plugin-id: 'Id-ul pentru Plugin'
+                    description: 'Descrierea Plugin-ului'
+                questions:
+                    module: common.questions.module
+                    class-name: 'Introdu numele Clasei pentru Plugin'
+                    label: 'Introdu Eticheta pentru Plugin'
+                    plugin-id: 'Introdu ID-ul pentru Plugin'
+                    description: 'Introdu Descrierea pentru Plugin'
+            rest:
+                resource:
+                    description: 'Genereaza "plugin rest resource"'
+                    help: 'Comanda <info>generate:plugin:rest:resource</info> te va ajuta sa generezi un nou "Rest resource".'
+                    welcome: 'Bine ai venit in generatorul de Drupal "Plugin Rest Resource"'
+                    options:
+                        module: common.options.module
+                        class-name: 'Numele clasei pentru "Plugin Rest Resource"'
+                        plugin-id: 'Id-ul pentru "Plugin Rest Resource"'
+                        plugin-label: 'Eticheta pentru "Plugin Rest Resource"'
+                        plugin-url: 'URL pentru "Plugin Rest Resource"'
+                        plugin-states: 'Plugin Rest Resource States'
+                    questions:
+                        module: common.questions.module
+                        class-name: 'Introdu numele pentru "plugin rest resource"'
+                        plugin-id: 'Introdu Id-ul pentru "plugin rest resource"'
+                        plugin-label: 'Introdu eticheta pentru "plugin rest resource"'
+                        plugin-url: 'Introdu URL pentru "plugin rest resource"'
+                        plugin-states: 'Selecteaza care "REST States" in "resource"-ul current (GET este selectat implicit)'
+                    messages:
+                        selected-states: 'States selectate'
+            rulesaction:
+                description: 'Generate a plugin rule action'
+                help: 'The <info>generate:plugin:rulesaction</info> command helps you generate a new Plugin rule action.'
+                welcome: 'Welcome to the Drupal Plugin Rules Action generator'
+                options:
+                    module: common.options.module
+                    class-name: 'Plugin class name'
+                    label: 'Plugin label'
+                    plugin-id: 'Plugin id'
+                    inputs: common.options.inputs
+                    services: common.options.services
+                    category: 'Plugin category'
+                    context: 'Plugin context'
+                    type: 'Action Type (user or node)'
+                questions:
+                    module: common.questions.module
+                    class-name: 'Enter the plugin class name'
+                    label: 'Enter the plugin label'
+                    plugin-id: 'Enter the plugin id'
+                    inputs: common.questions.inputs
+                    services: common.questions.services
+                    category: 'Enter plugin category'
+                    context: 'Enter plugin context'
+        service:
+            description: 'Genereaza un serviciu'
+            help: 'Comanda <info>generate:service</info> te va ajuta sa creezi un serviciu nou.'
+            welcome: 'Bine ai venit in "Drupal service generator"'
+            options:
+                module: common.options.module
+                service-name: 'Numele serviciului'
+                class-name: 'Numele Clasei'
+                interface: Interfata
+                services: common.questions.services
+            questions:
+                module: common.questions.module
+                service-name: 'Introdu numele serviciului'
+                class-name: 'Introdu numele Clasei'
+                interface: 'Creeaza o interfata'
+                services: common.options.services
+        rulesaction:
+            description: 'Genereaza un "Plugin rule action"'
+            help: 'Comanda <info>generate:plugin:rulesaction</info> te va ajuta sa generezi un nou "Plugin rule action".'
+            welcome: 'Bine ai venit in generatorul "Drupal Plugin Rules Action"'
+            options:
+                module: common.options.module
+                class-name: 'Numele Clasei pentru "Plugin"'
+                label: 'Eticheta pentru "Plugin"'
+                plugin-id: 'ID-ul pentru "Plugin"'
+                inputs: common.options.inputs
+                services: common.options.services
+                category: 'Categoria pentru "Plugin"'
+                context: 'Contextul pentru "Plugin"'
+            questions:
+                module: common.questions.module
+                class-name: 'Introdu numele Clasei pentru "Plugin"'
+                label: 'Introdu eticheta pentru "Plugin"'
+                plugin-id: 'Introdu ID-ul pentru "Plugin"'
+                inputs: common.questions.inputs
+                services: common.questions.services
+                category: 'Introdu categoria pentru "Plugin"'
+                context: 'Introdu contextul pentru "Plugin"'
+    init:
+        description: 'Copy configuration files to user home directory.'
+    module:
+        debug:
+            description: 'Afiseaza Modulele curente pentru aplicatie'
+            options:
+                status: 'Statutul Modulului [enabled|disabled]'
+                type: 'Tipul Modulului [core|no-core]'
+            messages:
+                id: ID
+                name: Nume
+                status: Statut
+                origin: Origine
+                package: Package
+                enabled: Activat
+                disabled: Dezactivat
+        install:
+            description: 'Instaleaza Module'
+            questions:
+                module: 'Module name (press <return> to stop adding modules)'
+                invalid-module: 'Invalid module %s'
+            options:
+                module: 'Modulul/Modulele trebuie sa fie separate prin virgula'
+            messages:
+                no-modules: 'Trebuie sa introduci nume de Modul/Module.'
+                missing: 'Modulele %s nu pot fi instalate din cauza ca Modulele %s lipsesc'
+                missing-dependencies: 'Modulele %s nu pot fi instalate din cauza dependentelor %s'
+                nothing: 'Toate Modulele deja sunt instalate'
+                dependencies: 'Esti increzut ca vreai sa instalezi dependentile: %s?'
+                success: 'Modulele %s au fost instalate cu succes'
+                disabled-modules: 'Only disabled modules will be listed in autocomplete'
+        uninstall:
+            description: 'Dezinstalarea Modulelor'
+            messages:
+                no-modules: 'Trebuie sa introduci un Modul sau mai multe pentru a le dezinstala.'
+                dependents: 'Modulele %s nu pot fi dezinstalate deoarece ele sunt necesare pentru %s'
+                nothing: 'Toate Modulele sunt deja dezinstalate'
+                success: 'Modulele au fost dezinstalate cu succes'
+        download:
+            description: 'Descarca module'
+            options:
+                version: 'Module version i.e 1.x-dev'
+            messages:
+                no-releases: 'Nu exista nici o versiune pentru Modulul %s'
+                getting-releases: 'Receptionarea versiunilor pentru Modulul %s'
+                downloading: 'Se descarca modulul %s cu versiunea %s'
+                downloaded: 'Module %s version %s was downloaded successfully at %s'
+                installed: 'Modulul %s a fost instalat cu succes'
+    migrate:
+        debug:
+            description: 'Afiseaza Migratiile curente accesibile'
+            arguments:
+                drupal-version: 'Versiunea Drupal'
+            messages:
+                id: 'Migration Id'
+                description: Descrierea
+                version: Versiunea
+        load:
+            description: 'Generate a migration entity.'
+            arguments:
+                file: 'Path to the yml file'
+            messages:
+                invalid_file: 'The file "%s" does not exists.'
+                installed: 'Please remember to put the plugin files where they should be.'
+                overridden: 'The entity was overridden.'
+            questions:
+                override: 'The File is already install, do you want override it [yes/no] ?'
+                file: 'Path to file'
+        execute:
+            description: 'Executa migrarea disponibila pentru aplicatie'
+            arguments:
+                id: 'Id-ul Migratiei'
+            options:
+                site-url: 'Site Source URL'
+                db-host: 'Host-ul Bazei de Date'
+                db-name: 'Numele Bazei de Date'
+                db-user: 'Utilizatorul Bazei de Date'
+                db-pass: 'Parola Bazei de Date'
+                db-prefix: 'Prefixul Bazei de Date'
+                db-port: 'Port-ul Bazei de Date'
+                exclude: 'Migration id(s) to exclude'
+            questions:
+                id: 'Id-ul Migratiei'
+                exclude-id: 'Migration Id to exlude (press <return> to stop adding migrations)'
+                other-id: 'Other migration id (press <return> to stop adding migrations)'
+                site-url: 'Source Site URL'
+                db-host: 'Host-ul Bazei de Date'
+                db-name: 'Numele Bazei de Date'
+                db-user: 'Utilizatorul Bazei de Date'
+                db-pass: 'Parola Bazei de Date'
+                db-prefix: 'Prefixul Bazei de Date'
+                db-port: 'Port-ul Bazei de Date'
+                invalid-migration-id: 'Id-ul Migratiei "%s" este incorect'
+            messages:
+                processing: 'Migratia "%s" se prelucreaza'
+                imported: 'Migratia "%s" a fost importata corect'
+                fail-load: 'Migratia "%s" nu poate fi incarcata'
+                importing-incomplete: 'Migratia "%s" se importa'
+                import-stoped: 'Importatorul "%s" a fost stopat'
+                import-fail: 'Importatorul "%s" a esuat'
+                import-skipped: 'Importatorul "%s" a fost omis din cauza dependentelor neandeplinite'
+                wrong-source: 'Actualizarea pentru aceasta versiune Drupal nu este suportata.'
+                destination-error: 'Database destination error'
+                source-error: 'Database source error'
+                no-migrations: 'There are not migrations available to be executed'
+    rest:
+        enable:
+            description: 'Activeaza REST pentru aplicatie'
+            arguments:
+                resource-id: 'Rest ID'
+                states: 'REST States pentru a activa REST resource'
+                authorizations: 'Authorizations providers au fost activate pentru "REST Resource"'
+            questions:
+                resource-id: 'Rest ID'
+            messages:
+                invalid-rest-id: 'Rest ID %s nu este corect'
+                formats: 'Formatele disponibile de serializare'
+                authentication-providers: 'Authentication Providers disponibili'
+                selected-state: 'State selectat'
+                selected-formats: 'Formatele selectate'
+                selected-authentication-providers: 'Authentication Providers selectati'
+        disable:
+            description: 'Dezactiveaza un "REST resource"'
+            arguments:
+                resource-id: 'Rest ID'
+                states: 'REST States pentru a dezactiva "Rest resource"'
+            questions:
+                resource-id: 'Rest ID'
+            messages:
+                invalid-rest-id: 'Rest ID %s este incorect'
+        debug:
+            description: 'Afiseaza curentul "REST resource"'
+            arguments:
+                resource-id: 'Rest ID'
+            options:
+                status: 'Rest resource statut activat | dezactivat'
+            messages:
+                id: 'Rest ID'
+                label: Eticheta
+                canonical_url: 'Canonical URL'
+                status: Status
+                provider: Provider
+                enabled: Activat
+                disabled: Dezactivat
+                rest-state: 'REST States'
+                supported-formats: 'Formatele suportate'
+                supported_auth: 'Authentication Providers suportati'
+                not-found: 'Rest resource - "%s" nu a fost gasit'
+    router:
+        debug:
+            description: 'Afiseaza "Routes" curente'
+            arguments:
+                route-name: 'Numele de "Route"'
+            messages:
+                name: 'Numele de "Route"'
+                path: 'Calea spre Clasa'
+                pattern: Pattern
+                defaults: Implicit
+                options: Optiuni
+        rebuild:
+            description: 'Reconstruieste "Routes"'
+            arguments:
+                route-name: 'Numele de "Route"'
+            messages:
+                rebuilding: 'Reconstruirea "Routes" in proces, doar o clipa ...'
+                completed: 'Reconstruirea "Routes" a fost finisata cu succes'
+    self-update:
+        description: 'Actualizeaza "Console" cu ultima versiune.'
+        help: 'Actualizeaza "Console" cu ultima versiune.'
+        messages:
+            success: 'Console a fost actualizata cu ultima versiune.'
+            current-version: 'The latest version %s, was already installed on your system.'
+    site:
+        mode:
+            description: 'Schimba configurarile de performanta a sistemei'
+            arguments:
+                environment: 'Numele "Enviroment"'
+            messages:
+                configuration: 'Numele Configuratiei'
+                configuration-key: 'Cheia Configuratiei'
+                original: 'Valoarea originala'
+                updated: 'Rescrie valoarea'
+        status:
+            description: 'Vizualizeaza statutul de instalare (Drupal Installation status)'
+            messages:
+                application: Application
+                system: 'System Info'
+                hash_salt: 'Hash salt'
+                console: 'Console version'
+                database: 'Database connection'
+                driver: Driver
+                host: Host
+                port: Port
+                username: Username
+                password: Password
+                theme: Themes
+                connection: Connection
+                theme_default: 'Default theme'
+                theme_admin: 'Admin theme'
+                directory: Directories
+                directory_root: 'Site root directory'
+                directory_temporary: 'Site temporary directory'
+                directory_theme_default: 'Default theme directory'
+                directory_theme_admin: 'Admin theme directory'
+                configuration: Configuration
+                active: 'Active config path'
+                staging: 'Staging config path'
+                themes: Themes
+                directories: Directories
+        maintenance:
+            description: 'Activeaza "Maintenance mode"'
+            arguments:
+                mode: 'Modul "Site maintenance"'
+            messages:
+                maintenance-on: 'Maintenance mode activat'
+                maintenance-off: 'Maintenance mode dezactivat'
+            errors:
+                invalid-mode: 'Maintance mode incorect'
+    test:
+        debug:
+            description: 'Afiseaza Unit testele accesibile'
+            help: 'Actualizeaza "Console" cu ultima versiune.'
+            arguments:
+                test-id: 'Unit Test ID'
+            options:
+                group: Grupa
+            messages:
+                id: 'Unit Test ID'
+                description: Descrierea
+                group: Grupa
+                success: 'Console a fost actualizata cu ultima versiune.'
+    password:
+        hash:
+            description: 'Generate a hash from a plaintext password.'
+            help: 'The <info>password:hash</info> command helps you to generate hashs password from plaintext passwords.'
+            welcome: 'Welcome to the Drupal password hash generator'
+            options:
+                password: 'Password(s) in text format'
+            questions:
+                invalid-pass: 'Password can''t be empty'
+                password: 'Enter password'
+                other-password: 'Other password (press <return> to stop adding passwords)'
+            messages:
+                password: Password
+                hash: Hash
+            errors: null
+        reset:
+            description: 'Reset password for a specific user.'
+            help: 'The <info>password:reset</info> command helps you to reset password for a specific user.'
+            welcome: 'Welcome to the Drupal password reset'
+            options:
+                password: 'Password in text format'
+                user-id: 'User ID'
+            questions:
+                invalid-uid: 'Invalid user id %, user id must be an integer'
+                invalid-pass: 'Password can''t be empty'
+                user: 'Enter User ID'
+                password: 'Enter password'
+                other-password: 'Other password (press <return> to stop adding passwords)'
+            messages:
+                reset-successful: 'Password was updated sucessfully for user id %s'
+            errors:
+                invalid-user: 'Invalid user id %s'
+    yaml:
+        merge:
+            description: 'Merge one or more YAML files in a new YAML file. Latest values are preserved.'
+            arguments:
+                yaml-files: 'Path of YAML files to merge'
+                yaml-destination: 'Path of new YAML file to store result of merge.'
+            questions:
+                yaml-destination: 'Path of new YAML file to store result of merge.'
+                file: 'Path to file to merge'
+                other-file: 'Path to file to merge (empty to start with merge process)'
+                invalid-file: 'Path of file cannot be empty'
+                file-already-added: 'Path of file was already added'
+            messages:
+                wrong-parse: 'Yaml file "%s" is empty or doesn''t exist the file.'
+                error-parsing: 'An error occurs during parsing of Yaml file %s.'
+                two-files-required: 'At least to files are required.'
+                error-generating: 'Error generating merged YAML.'
+                error-writing: 'Error writing merged YAML file.'
+                merged: 'New file %s was created sucessfully after merge Yaml files.'

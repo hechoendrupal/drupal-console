@@ -76,14 +76,14 @@ class GeneratorModuleCommand extends GeneratorCommand
          *
          */
         $dependencies = $validators->validateModuleDependencies($input->getOption('dependencies'));
-        // Check if all module dependencies are available or not
+        // Check if all module dependencies are availables or not
         if (!empty($dependencies)) {
             $checked_dependencies = $this->checkDependencies($dependencies['success']);
-            if (!empty($checked_dependencies['no_modules'])) {
-                $messageHelper->addWarningMessage(
+            if (!empty($checked_dependencies['drupal_modules'])) {
+                $messageHelper->addErrorMessage(
                   sprintf(
                     $this->trans('commands.generate.module.warnings.module-unavailable'),
-                    implode(', ', $checked_dependencies['no_modules'])
+                    implode(', ', $checked_dependencies['drupal_modules'])
                   )
                 );
             }
@@ -122,26 +122,19 @@ class GeneratorModuleCommand extends GeneratorCommand
         foreach ($modules as $module_id => $module) {
           array_push($local_modules, basename($module->subpath));
         }
-
+      
         $checked_dependecies = array(
           'local_modules' => array(),
           'drupal_modules' => array(),
           'no_modules' => array()
         );
-
+        $local_modules = null;
         foreach ($dependencies as $key => $module) {
             if (in_array($module, $local_modules)) {
                 $checked_dependecies['local_modules'][] = $module;
             } else {
                 // here we have to check if this module is drupal.org using the api.
-                $response = $client->head('https://www.drupal.org/project/' . $module);
-                $header_link = explode(";", $response->getHeader('link'));
-                if(empty($header_link[0])) {
-                  $checked_dependecies['no_modules'][] = $module;
-                }
-                else {
-                  $checked_dependecies['drupal_modules'][] = $module;
-                }
+                $checked_dependecies['drupal_modules'][] = $module;
             }
         }
         return $checked_dependecies;

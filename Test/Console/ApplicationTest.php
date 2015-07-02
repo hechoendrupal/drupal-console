@@ -52,7 +52,13 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
           ->disableOriginalConstructor()
           ->getMock();
 
-        $application = new Application($config);
+        $translatorHelper = $this
+          ->getMockBuilder('Drupal\AppConsole\Command\Helper\TranslatorHelper')
+          ->disableOriginalConstructor()
+          ->setMethods(['loadResource', 'trans'])
+          ->getMock();
+
+        $application = new Application($config, $translatorHelper);
         $application->setAutoExit(false);
         $application->setHelperSet($this->helperSet);
         $application->setSearchSettingsFile(false);

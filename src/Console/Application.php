@@ -48,31 +48,37 @@ class Application extends BaseApplication
     private $searchSettingsFile = true;
 
     /**
+     * @var TranslatorHelper
+     */
+    protected $translator;
+
+    /**
      * Create a new application extended from \Symfony\Component\Console\Application.
      *
      * @param $config
      */
-    public function __construct($config)
+    public function __construct($config, $translator)
     {
         $this->config = $config;
+        $this->translator = $translator;
         $this->env = $config->get('application.environment');
 
         parent::__construct($this::NAME, sprintf('%s', $this::VERSION));
 
         $this->getDefinition()->addOption(
-          new InputOption('--drupal', '-d', InputOption::VALUE_OPTIONAL, 'Path to Drupal root.')
+          new InputOption('--drupal', '-d', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.drupal'))
         );
         $this->getDefinition()->addOption(
-          new InputOption('--shell', '-s', InputOption::VALUE_NONE, 'Launch the shell.')
+          new InputOption('--shell', '-s', InputOption::VALUE_NONE, $this->trans('application.console.arguments.shell'))
         );
         $this->getDefinition()->addOption(
-          new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, 'The Environment name.', $this->env)
+          new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.env'), $this->env)
         );
         $this->getDefinition()->addOption(
-          new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.')
+          new InputOption('--no-debug', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.no-debug'))
         );
         $this->getDefinition()->addOption(
-          new InputOption('--learning', null, InputOption::VALUE_NONE, 'Generate a verbose code output.')
+          new InputOption('--learning', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.learning'))
         );
     }
 
@@ -337,5 +343,14 @@ class Application extends BaseApplication
         foreach ($helpers as $alias => $helper) {
             $defaultHelperset->set($helper, is_int($alias) ? null : $alias);
         }
+    }
+
+    /**
+     * @param $key string
+     * @return string
+     */
+    public function trans($key)
+    {
+        return $this->translator->trans($key);
     }
 }

@@ -27,8 +27,8 @@ class {{ entity_class }}ViewsData extends EntityViewsData implements EntityViews
 
     $data['{{ entity_name }}']['table']['base'] = array(
       'field' => 'id',
-      'title' => t('{{ entity_class }}'),
-      'help' => t('The {{ entity_name }} entity ID.'),
+      'title' => $this->t('{{ entity_class }}'),
+      'help' => $this->t('The {{ entity_name }} entity ID.'),
     );
 
     return $data;
