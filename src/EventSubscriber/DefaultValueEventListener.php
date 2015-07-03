@@ -14,6 +14,12 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class DefaultValueEventListener implements EventSubscriberInterface
 {
+    private $skipCommands = [
+      'self-update',
+      'list',
+      'chain'
+    ];
+
     /**
      * @param ConsoleCommandEvent $event
      */
