@@ -14,22 +14,6 @@ use Symfony\Component\Yaml\Parser;
 
 class YamlMergeCommand extends Command
 {
-  /** Recursive function to merge arrays using the right array to overwrite left array if the same key is used.
-   * @param mixed $yaml_left
-   * @param mixed $yaml_right
-   * @return mixed array
-   */
-    public function yaml_merge(&$yaml_left, &$yaml_right) {
-      foreach ($yaml_right as $key => $value ) {
-        if(!is_array($value)) {
-          $yaml_left[$key] = $yaml_right[$key];
-        } else {
-          $yaml_left[$key] = $this->yaml_merge($yaml_left[$key], $yaml_right[$key]);
-        }
-      }
-      return $yaml_left;
-    }
-
     protected function configure()
     {
         $this
@@ -58,7 +42,6 @@ class YamlMergeCommand extends Command
 
       foreach ($yaml_files as $yaml_file) {
         try {
-          $yaml_parsed = array();
           $yaml_parsed = $yaml->parse(file_get_contents($yaml_file));
         } catch (\Exception $e) {
           $output->writeln('[+] <error>' . $this->trans('commands.yaml.merge.messages.error-parsing') . ': ' . $e->getMessage() . '</error>');
@@ -71,7 +54,7 @@ class YamlMergeCommand extends Command
         }
 
         // Merge arrays
-        $final_yaml = $this->yaml_merge($final_yaml, $yaml_parsed);
+        $final_yaml = array_replace_recursive($final_yaml, $yaml_parsed);
       }
 
       try {
