@@ -52,7 +52,7 @@ class Config
         }
 
         foreach ($items as $item) {
-            if (!$config[$item]) {
+            if (isset($config[$item]) && !$config[$item]) {
                 return $default;
             }
             $config = $config[$item];
