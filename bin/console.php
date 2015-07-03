@@ -20,6 +20,7 @@ use Drupal\AppConsole\EventSubscriber\CallCommandListener;
 use Drupal\AppConsole\EventSubscriber\ShowGenerateChainListener;
 use Drupal\AppConsole\EventSubscriber\ShowCompletedMessageListener;
 use Drupal\AppConsole\EventSubscriber\ValidateDependenciesListener;
+use Drupal\AppConsole\EventSubscriber\DefaultValueEventListener;
 
 set_time_limit(0);
 
@@ -61,6 +62,7 @@ $application->addHelpers($helpers);
 $dispatcher = new EventDispatcher();
 $dispatcher->addSubscriber(new ValidateDependenciesListener());
 $dispatcher->addSubscriber(new ShowWelcomeMessageListener());
+$dispatcher->addSubscriber(new DefaultValueEventListener());
 $dispatcher->addSubscriber(new ShowGeneratedFilesListener());
 $dispatcher->addSubscriber(new CallCommandListener());
 $dispatcher->addSubscriber(new ShowGenerateChainListener());
