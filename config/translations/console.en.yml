@@ -586,7 +586,6 @@ commands:
       messages:
         maintenance-on: Operating in maintenance mode on
         maintenance-off: Operating in maintenance mode off
-        downloading: Downloading drupal %s
       errors:
         invalid-mode: Invalid maintance mode
     new:
@@ -595,7 +594,12 @@ commands:
         site-name: Site name
         version: Specific Drupal version to download
       messages:
-        getting-releases: Getting releases for Drupal
+        getting-releases: 'Getting releases for Drupal'
+        downloading: 'Downloading Drupal %s'
+        extracting: 'Extracting files for Drupal %s'
+        no-releases: "There aren't not releases available for Drupal"
+        downloaded: 'Drupal %s was downloaded in directory %s'
+        error-copying: 'An error occurred while renaming your directory at %s'
   test:
     debug:
       description: List Test Units available for the application.

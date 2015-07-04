@@ -570,6 +570,18 @@ commands:
                 maintenance-off: 'Karbantartási mód ki'
             errors:
                 invalid-mode: 'Helytelen karbantartási mód'
+        new:
+            description: 'Create a new Drupal project'
+            arguments:
+                site-name: 'Site name'
+                version: 'Specific Drupal version to download'
+            messages:
+                getting-releases: 'Getting releases for Drupal'
+                downloading: 'Downloading Drupal %s'
+                extracting: 'Extracting files for Drupal %s'
+                no-releases: 'There aren''t not releases available for Drupal'
+                downloaded: 'Drupal %s was downloaded in directory %s'
+                error-copying: 'An error occurred while renaming your directory at %s'
     test:
         debug:
             description: 'Elérhető unit tesztek megjelenítése.'

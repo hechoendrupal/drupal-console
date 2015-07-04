@@ -30,7 +30,6 @@ class SiteNewCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        //$client = $this->getApplication()->getKernel()->getContainer()->get('http_client');
         $client =  new Client();
         $site_name = $input->getArgument('site-name');
         $version = $input->getArgument('version');
@@ -47,13 +46,11 @@ class SiteNewCommand extends Command
           // Parse release module page to get Drupal 8 releases
           try {
               $response = $client->get($project_release_d8);
-              print_r($response);
               $html = $response->getBody()->__tostring();
           } catch (\Exception $e) {
               $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
               return;
           }
-
             $crawler = new Crawler($html);
             $releases = [];
             foreach ($crawler->filter('span.file a') as $element) {
@@ -69,8 +66,7 @@ class SiteNewCommand extends Command
             }
 
             if (empty($releases)) {
-                $output->writeln('[+] <error>' . sprintf($this->trans('commands.module.download.messages.no-releases'),
-                implode(',', array($module))) . '</error>');
+                $output->writeln('[+] <error>' . $this->trans('commands.module.site.new.no-releases') . '</error>');
                 return;
             }
 
@@ -101,6 +97,14 @@ class SiteNewCommand extends Command
         // Destination file to download the release
         $destination = tempnam(sys_get_temp_dir(), 'drupal.') . "tar.gz";
 
+        $output->writeln(
+          '[+] <info>' .
+          sprintf(
+            $this->trans('commands.site.new.messages.extracting'),
+            $release_selected
+          ) .
+          '</info>'
+        );
         try {
             $client->get($release_file_path, ['save_to' => $destination]);
 
@@ -113,11 +117,12 @@ class SiteNewCommand extends Command
               $fs = new Filesystem();
               $fs->rename('./drupal-' . $release_selected, './' . $site_name);
             } catch (IOExceptionInterface $e) {
-              $output->writeln('[+] <error>'. "An error occurred while renaming your directory at " . $e->getPath() . '</error>');
+              $output->writeln('[+] <error>'. sprintf($this->trans('commands.site.new.messages.error-copying'),
+                  $e->getPath())  . '</error>');
             }
 
-            $output->writeln('[+] <info>' . sprintf($this->trans('commands.module.download.messages.downloaded'),
-                $module, $release_selected, $module_contrib_path) . '</info>');
+            $output->writeln('[+] <info>' . sprintf($this->trans('commands.site.new.messages.downloaded'),
+                $release_selected, $site_name) . '</info>');
         } catch (\Exception $e) {
             $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
             return;
