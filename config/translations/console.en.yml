@@ -578,6 +578,7 @@ commands:
         configuration: Configuration
         active: Active config path
         staging: Staging config path
+
     maintenance:
       description: Switch site into maintenance mode
       arguments:
@@ -587,6 +588,18 @@ commands:
         maintenance-off: Operating in maintenance mode off
       errors:
         invalid-mode: Invalid maintance mode
+    new:
+      description: Create a new Drupal project
+      arguments:
+        site-name: Site name
+        version: Specific Drupal version to download
+      messages:
+        getting-releases: 'Getting releases for Drupal'
+        downloading: 'Downloading Drupal %s'
+        extracting: 'Extracting files for Drupal %s'
+        no-releases: "There aren't not releases available for Drupal"
+        downloaded: 'Drupal %s was downloaded in directory %s'
+        error-copying: 'An error occurred while renaming your directory at %s'
   test:
     debug:
       description: List Test Units available for the application.
@@ -651,5 +664,3 @@ commands:
         error-generating: Error generating merged YAML.
         error-writing: Error writing merged YAML file.
         merged: New file %s was created sucessfully after merge Yaml files.
-
-
