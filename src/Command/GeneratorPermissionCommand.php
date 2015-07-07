@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains Drupal\AppConsole\Command\GeneratorPermissionCommand.
@@ -29,10 +30,18 @@ class GeneratorPermissionCommand extends GeneratorCommand
           ->setName('generate:permissions')
           ->setDescription($this->trans('commands.generate.permission.description'))
           ->setHelp($this->trans('commands.generate.permission.help'))
-          ->addOption('module', '', InputOption::VALUE_REQUIRED,
-            $this->trans('commands.common.options.module'))
-          ->addOption('permissions', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.common.options.permissions'));
+          ->addOption(
+              'module',
+              '',
+              InputOption::VALUE_REQUIRED,
+              $this->trans('commands.common.options.module')
+          )
+          ->addOption(
+              'permissions',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.common.options.permissions')
+          );
     }
 
     /**

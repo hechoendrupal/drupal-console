@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\DrushCommand.
@@ -31,14 +32,14 @@ class DrushCommand extends ContainerAwareCommand
     {
         $args = '';
         if ($arguments = $input->getArgument('args')) {
-            $args .= ' ' . implode(' ', $arguments);
+            $args .= ' '.implode(' ', $arguments);
             $c_args = preg_replace('/[^a-z0-9-= ]/i', '', $args);
         }
 
         if (`which drush`) {
-            system('drush' . $c_args);
+            system('drush'.$c_args);
         } else {
-            $output->write("<error>" . $this->trans('commands.drush.message.not_found') . "</error>");
+            $output->write('<error>'.$this->trans('commands.drush.message.not_found').'</error>');
         }
     }
 }
