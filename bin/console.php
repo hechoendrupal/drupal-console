@@ -39,7 +39,7 @@ if (file_exists($consoleRoot . '/vendor/autoload.php')) {
 $config = new UserConfig();
 
 //Try to determine locale language if not available used console configuration
-$locale = (\Locale::getDefault() != '')?\Locale::getDefault(): $config->get('application.language');
+$locale = $config->get('application.language')?:\Locale::getDefault();
 
 $translatorHelper = new TranslatorHelper();
 $translatorHelper->loadResource($locale, $consoleRoot);
