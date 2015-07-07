@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Generator\PluginBlockGenerator.
@@ -9,7 +10,8 @@ namespace Drupal\AppConsole\Generator;
 class PluginRulesActionGenerator extends Generator
 {
     /**
-     * Generator Plugin RulesAction
+     * Generator Plugin RulesAction.
+     *
      * @param  $module
      * @param  $class_name
      * @param  $label
@@ -26,19 +28,19 @@ class PluginRulesActionGenerator extends Generator
           'plugin_id' => $plugin_id,
           'category' => $category,
           'context' => $context,
-          'type' => $type
+          'type' => $type,
         ];
 
         $this->renderFile(
-          'module/src/Plugin/Action/rulesaction.php.twig',
-          $this->getPluginPath($module, 'Action') . '/' . $class_name . '.php',
-          $parameters
+            'module/src/Plugin/Action/rulesaction.php.twig',
+            $this->getPluginPath($module, 'Action').'/'.$class_name.'.php',
+            $parameters
         );
-        
+
         $this->renderFile(
-          'module/system.action.action.yml.twig',
-          $this->getModulePath($module) . '/config/install/system.action.' . $plugin_id .'.yml',
-          $parameters
+            'module/system.action.action.yml.twig',
+            $this->getModulePath($module).'/config/install/system.action.'.$plugin_id.'.yml',
+            $parameters
         );
     }
 }

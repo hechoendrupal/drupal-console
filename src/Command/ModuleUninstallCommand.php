@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\ModuleUninstallCommand.
@@ -10,10 +11,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
 class ModuleUninstallCommand extends ContainerAwareCommand
 {
-
     protected function configure()
     {
         $this
@@ -33,21 +32,26 @@ class ModuleUninstallCommand extends ContainerAwareCommand
 
         $module = $input->getArgument('module');
 
-        $modules = array_filter(array_map('trim', explode(",", $module)));
+        $modules = array_filter(array_map('trim', explode(',', $module)));
 
         $module_list = array_combine($modules, $modules);
 
         // Determine if some module request is missing
         if ($missing_modules = array_diff_key($module_list, $module_data)) {
-            $output->writeln('[+] <error>' . sprintf($this->trans('commands.module.uninstall.messages.missing'),
-                implode(", ", $modules), implode(", ", $missing_modules)) . '</error>');
+            $output->writeln('[+] <error>'.sprintf(
+                $this->trans('commands.module.uninstall.messages.missing'),
+                implode(', ', $modules),
+                implode(', ', $missing_modules)
+            ).'</error>');
+
             return true;
         }
 
         // Only process currently installed modules.
         $installed_modules = $extension_config->get('module') ?: array();
         if (!$module_list = array_intersect_key($module_list, $installed_modules)) {
-            $output->writeln('[+] <info>' . $this->trans('commands.module.uninstall.messages.nothing') . '</info>');
+            $output->writeln('[+] <info>'.$this->trans('commands.module.uninstall.messages.nothing').'</info>');
+
             return true;
         }
 
@@ -64,21 +68,27 @@ class ModuleUninstallCommand extends ContainerAwareCommand
 
         // Error if there are missing dependencies
         if (!empty($dependents)) {
-            $output->writeln('[+] <error>' . sprintf($this->trans('commands.module.uninstall.messages.dependents'),
-                implode(", ", $modules), implode(", ", $dependents)) . '</error>');
+            $output->writeln('[+] <error>'.sprintf(
+                $this->trans('commands.module.uninstall.messages.dependents'),
+                implode(', ', $modules),
+                implode(', ', $dependents)
+            ).'</error>');
+
             return true;
         }
-
 
         // Installing modules
         try {
             // Install the modules.
             $moduleInstaller->uninstall($module_list);
 
-            $output->writeln('[+] <info>' . sprintf($this->trans('commands.module.uninstall.messages.success'),
-                implode(", ", $modules)) . '</info>');
+            $output->writeln('[+] <info>'.sprintf(
+                $this->trans('commands.module.uninstall.messages.success'),
+                implode(', ', $modules)
+            ).'</info>');
         } catch (\Exception $e) {
-            $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
+            $output->writeln('[+] <error>'.$e->getMessage().'</error>');
+
             return;
         }
     }

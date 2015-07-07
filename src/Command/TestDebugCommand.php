@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\TestDebugCommand.
@@ -14,7 +15,6 @@ use Drupal\Component\Serialization\Yaml;
 
 class TestDebugCommand extends ContainerAwareCommand
 {
-
     /**
      * {@inheritdoc}
      */
@@ -23,10 +23,17 @@ class TestDebugCommand extends ContainerAwareCommand
         $this
           ->setName('test:debug')
           ->setDescription($this->trans('commands.test.debug.description'))
-          ->addArgument('test-id', InputArgument::OPTIONAL,
-            $this->trans('commands.test.debug.arguments.resource-id'))
-          ->addOption('group', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.test.debug.options.group'));
+          ->addArgument(
+              'test-id',
+              InputArgument::OPTIONAL,
+              $this->trans('commands.test.debug.arguments.resource-id')
+          )
+          ->addOption(
+              'group',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.test.debug.options.group')
+          );
 
         $this->addDependency('simpletest');
     }
@@ -79,10 +86,11 @@ class TestDebugCommand extends ContainerAwareCommand
         $testing_groups = $this->getTestDiscovery()->getTestClasses(null);
 
         $table->setHeaders(
-          [
+            [
             $this->trans('commands.test.debug.messages.id'),
             $this->trans('commands.test.debug.messages.group'),
-          ]);
+            ]
+        );
 
         foreach ($testing_groups as $testing_group => $tests) {
             if (!empty($group) && $group != $testing_group) {

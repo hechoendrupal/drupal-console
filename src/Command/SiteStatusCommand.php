@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\SiteStatusCommand.
@@ -18,7 +19,6 @@ use Drupal\Core\Site\Settings;
  */
 class SiteStatusCommand extends ContainerAwareCommand
 {
-
     /* @var $connectionInfoKeys array */
     protected $connectionInfoKeys = [
       'driver',
@@ -26,7 +26,7 @@ class SiteStatusCommand extends ContainerAwareCommand
       'database',
       'port',
       'username',
-      'password'
+      'password',
     ];
 
     protected $groups = [
@@ -34,7 +34,7 @@ class SiteStatusCommand extends ContainerAwareCommand
       'database',
       'theme',
       'directory',
-      'configuration'
+      'configuration',
     ];
 
     /**
@@ -46,13 +46,12 @@ class SiteStatusCommand extends ContainerAwareCommand
           ->setName('site:status')
           ->setDescription($this->trans('commands.site.status.description'))
           ->addOption(
-            'format',
-            null,
-            InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.site.status.options.format'),
-            'table'
+              'format',
+              null,
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.site.status.options.format'),
+              'table'
           );
-        ;
     }
 
     /**
@@ -67,11 +66,11 @@ class SiteStatusCommand extends ContainerAwareCommand
         $configurationData = $this->getConfigurationData();
 
         $siteData = array_merge(
-          $systemData,
-          $connectionData,
-          $themeInfo,
-          $directoryData,
-          $configurationData
+            $systemData,
+            $connectionData,
+            $themeInfo,
+            $directoryData,
+            $configurationData
         );
 
         $format = $input->getOption('format');
@@ -99,9 +98,9 @@ class SiteStatusCommand extends ContainerAwareCommand
         $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
 
         Settings::initialize(
-          $drupalAutoLoad->getDrupalRoot(),
-          'sites/default',
-          $kernelHelper->getClassLoader()
+            $drupalAutoLoad->getDrupalRoot(),
+            'sites/default',
+            $kernelHelper->getClassLoader()
         );
 
         $systemData['system'][$this->trans('commands.site.status.messages.hash_salt')] = Settings::getHashSalt();
@@ -121,13 +120,13 @@ class SiteStatusCommand extends ContainerAwareCommand
         }
 
         $connectionData['database'][$this->trans('commands.site.status.messages.connection')] = sprintf(
-          '%s//%s:%s@%s%s/%s',
-          $connectionInfo['default']['driver'],
-          $connectionInfo['default']['username'],
-          $connectionInfo['default']['password'],
-          $connectionInfo['default']['host'],
-          $connectionInfo['default']['port'] ? ':'. $connectionInfo['default']['port'] :'',
-          $connectionInfo['default']['database']
+            '%s//%s:%s@%s%s/%s',
+            $connectionInfo['default']['driver'],
+            $connectionInfo['default']['username'],
+            $connectionInfo['default']['password'],
+            $connectionInfo['default']['host'],
+            $connectionInfo['default']['port'] ? ':'.$connectionInfo['default']['port'] : '',
+            $connectionInfo['default']['database']
         );
 
         return $connectionData;
@@ -141,8 +140,8 @@ class SiteStatusCommand extends ContainerAwareCommand
         return [
           'theme' => [
             'theme_default' => $config->get('default'),
-            'theme_admin' => $config->get('admin')
-          ]
+            'theme_admin' => $config->get('admin'),
+          ],
         ];
     }
 
@@ -164,9 +163,9 @@ class SiteStatusCommand extends ContainerAwareCommand
           'directory' => [
             $this->trans('commands.site.status.messages.directory_root') => $drupal_root,
             $this->trans('commands.site.status.messages.directory_temporary') => $systemFile->get('path.temporary'),
-            $this->trans('commands.site.status.messages.directory_theme_default') => '/'. $themeDefault->getpath(),
-            $this->trans('commands.site.status.messages.directory_theme_admin') => '/' . $themeAdmin->getpath(),
-          ]
+            $this->trans('commands.site.status.messages.directory_theme_default') => '/'.$themeDefault->getpath(),
+            $this->trans('commands.site.status.messages.directory_theme_admin') => '/'.$themeAdmin->getpath(),
+          ],
         ];
     }
 
@@ -176,7 +175,7 @@ class SiteStatusCommand extends ContainerAwareCommand
           'configuration' => [
             $this->trans('commands.site.status.messages.active') => config_get_config_directory(active),
             $this->trans('commands.site.status.messages.staging') => config_get_config_directory(staging),
-          ]
+          ],
         ];
     }
 
@@ -192,16 +191,16 @@ class SiteStatusCommand extends ContainerAwareCommand
             $groupData = $siteData[$group];
             $table->addRow([
               sprintf(
-                '<comment>%s</comment>',
-                $this->trans('commands.site.status.messages.'.$group)
+                  '<comment>%s</comment>',
+                  $this->trans('commands.site.status.messages.'.$group)
               ),
-              null
+              null,
             ]);
 
             foreach ($groupData as $key => $item) {
                 $table->addRow([
                   $key,
-                  $item
+                  $item,
                 ]);
             }
         }

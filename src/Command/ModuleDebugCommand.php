@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\ModuleDebugCommand.
@@ -12,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ModuleDebugCommand extends ContainerAwareCommand
 {
-
     protected function configure()
     {
         $this
@@ -51,13 +51,14 @@ class ModuleDebugCommand extends ContainerAwareCommand
     protected function getAllModules($status, $type, $output, $table)
     {
         $table->setHeaders(
-          [
+            [
             $this->trans('commands.module.debug.messages.id'),
             $this->trans('commands.module.debug.messages.name'),
             $this->trans('commands.module.debug.messages.status'),
             $this->trans('commands.module.debug.messages.package'),
             $this->trans('commands.module.debug.messages.origin'),
-          ]);
+            ]
+        );
 
         $table->setlayout($table::LAYOUT_COMPACT);
 
@@ -78,7 +79,7 @@ class ModuleDebugCommand extends ContainerAwareCommand
               $module->info['name'],
               $module_status,
               $module->info['package'],
-              $module->origin
+              $module->origin,
             ]);
         }
 
