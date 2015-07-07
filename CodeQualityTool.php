@@ -39,7 +39,7 @@ class CodeQualityTool extends Application
             if ($key>0) {
                 $output->writeln(
                   sprintf(
-                    '<info> - %s</info>',
+                    '<comment> - %s</comment>',
                     $file
                   )
                 );
@@ -70,10 +70,10 @@ class CodeQualityTool extends Application
         }
 
         // Enable on a second phase, once code base is PSR-2 compliant
-        $output->writeln('<info>Checking code mess with PHPMD</info>');
-        if (!$this->phPmd($files)) {
-            throw new Exception(sprintf('There are PHPMD violations!'));
-        }
+//        $output->writeln('<info>Checking code mess with PHPMD</info>');
+//        if (!$this->phPmd($files)) {
+//            throw new Exception(sprintf('There are PHPMD violations!'));
+//        }
 
         $output->writeln('<info>Running unit tests</info>');
         if (!$this->unitTests()) {
@@ -105,7 +105,7 @@ class CodeQualityTool extends Application
 
     private function extractCommitedFiles()
     {
-        $output = array();
+        $output = [];
         $rc = 0;
 
         exec('git rev-parse --verify HEAD 2> /dev/null', $output, $rc);
@@ -151,7 +151,7 @@ class CodeQualityTool extends Application
     {
         $needle = self::PHP_FILES_IN_SRC;
         $succeed = true;
-        $rootPath = realpath(__DIR__ . '/../../');
+        $rootPath = realpath(__DIR__ . '/');
 
         foreach ($files as $file) {
             if (!preg_match($needle, $file)) {
@@ -178,7 +178,7 @@ class CodeQualityTool extends Application
 
     private function unitTests()
     {
-        $processBuilder = new ProcessBuilder(array('php', 'bin/phpunit'));
+        $processBuilder = new ProcessBuilder(['php', 'bin/phpunit']);
         $processBuilder->setWorkingDirectory(__DIR__ . '/');
         $processBuilder->setTimeout(3600);
         $phpunit = $processBuilder->getProcess();
@@ -230,8 +230,8 @@ class CodeQualityTool extends Application
                 continue;
             }
 
-            $processBuilder = new ProcessBuilder(array('php', 'bin/'.$command, '--standard=PSR2', '-n', $file));
-            $processBuilder->setWorkingDirectory(__DIR__ . '/../../');
+            $processBuilder = new ProcessBuilder(['php', 'bin/'.$command, '--standard=PSR2', '-n', $file]);
+            $processBuilder->setWorkingDirectory(__DIR__ . '/');
             $phpCsFixer = $processBuilder->getProcess();
             $phpCsFixer->run();
 
