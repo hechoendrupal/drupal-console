@@ -16,15 +16,14 @@ use Symfony\Component\Yaml\Dumper;
 
 class ShowGenerateChainListener implements EventSubscriberInterface
 {
-
     private $skipCommands = [
         'self-update',
-        'list'
+        'list',
     ];
 
     private $skipOptions = [
         'env',
-        'generate-chain'
+        'generate-chain',
     ];
 
     private $skipArguments = [
@@ -43,7 +42,7 @@ class ShowGenerateChainListener implements EventSubscriberInterface
 
         $application = $command->getApplication();
         $messageHelper = $application->getHelperSet()->get('message');
-        /** @var TranslatorHelper */
+        /* @var TranslatorHelper */
         $translatorHelper = $application->getHelperSet()->get('translator');
 
         $messageHelper->showMessages($output);
@@ -71,7 +70,7 @@ class ShowGenerateChainListener implements EventSubscriberInterface
         //Get options list
         $options = array_diff(array_filter($input->getOptions()), $this->skipOptions);
 
-        if(isset($options['generate-chain']) && $options['generate-chain'] == 1) {
+        if (isset($options['generate-chain']) && $options['generate-chain'] == 1) {
             // Get argument list
             $arguments = array_diff(array_filter($input->getArguments()), $this->skipArguments);
 
@@ -87,7 +86,6 @@ class ShowGenerateChainListener implements EventSubscriberInterface
             $messageHelper->showMessage($output, $translatorHelper->trans('application.console.messages.chain.generated'));
             print $yaml;
         }
-
     }
 
     /**

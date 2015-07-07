@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains Drupal\AppConsole\Command\Helper\KernelHelper.
@@ -36,12 +37,12 @@ class KernelHelper extends Helper
     protected $environment;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $debug;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $booted;
 
@@ -54,7 +55,7 @@ class KernelHelper extends Helper
     }
 
     /**
-     * @param boolean $debug
+     * @param bool $debug
      */
     public function setDebug($debug)
     {
@@ -62,7 +63,6 @@ class KernelHelper extends Helper
     }
 
     /**
-     * @return void
      */
     public function bootKernel()
     {
@@ -86,9 +86,9 @@ class KernelHelper extends Helper
         if (!$this->kernel) {
             $this->request = Request::createFromGlobals();
             $this->kernel = DrupalKernel::createFromRequest(
-              $this->request,
-              $this->class_loader,
-              $this->environment
+                $this->request,
+                $this->class_loader,
+                $this->environment
             );
         }
 

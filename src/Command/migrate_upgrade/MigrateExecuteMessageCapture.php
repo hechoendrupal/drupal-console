@@ -9,7 +9,6 @@ use Drupal\migrate\MigrateMessageInterface;
  */
 class MigrateExecuteMessageCapture implements MigrateMessageInterface
 {
-
     /**
      * Array of recorded messages.
      *
