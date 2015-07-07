@@ -38,10 +38,10 @@ class CodeQualityTool extends Application
         foreach ($files as $key => $file) {
             if ($key>0) {
                 $output->writeln(
-                  sprintf(
-                    '<comment> - %s</comment>',
-                    $file
-                  )
+                    sprintf(
+                        '<comment> - %s</comment>',
+                        $file
+                    )
                 );
             }
         }
@@ -69,7 +69,6 @@ class CodeQualityTool extends Application
             throw new Exception(sprintf('There are PHPCS (phpcs) coding standards violations!'));
         }
 
-        // Enable on a second phase, once code base is PSR-2 compliant
         $output->writeln('<info>Checking code mess with PHPMD</info>');
         if (!$this->phPmd($files)) {
             throw new Exception(sprintf('There are PHPMD violations!'));
