@@ -1,8 +1,10 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\ChainCommand.
  */
+
 namespace Drupal\AppConsole\Command;
 
 use Drupal\AppConsole\Config;
@@ -21,10 +23,10 @@ class ChainCommand extends ContainerAwareCommand
           ->setName('chain')
           ->setDescription($this->trans('commands.chain.description'))
           ->addOption(
-            'file',
-            null,
-            InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.chain.options.file')
+              'file',
+              null,
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.chain.options.file')
           )
         ;
     }
@@ -50,8 +52,9 @@ class ChainCommand extends ContainerAwareCommand
 
         if (!$file) {
             $message->addErrorMessage(
-              $this->trans('commands.chain.messages.missing_file')
+                $this->trans('commands.chain.messages.missing_file')
             );
+
             return 1;
         }
 
@@ -62,11 +65,12 @@ class ChainCommand extends ContainerAwareCommand
 
         if (!file_exists($file)) {
             $message->addErrorMessage(
-              sprintf(
-                $this->trans('commands.chain.messages.invalid_file'),
-                $file
-              )
+                sprintf(
+                    $this->trans('commands.chain.messages.invalid_file'),
+                    $file
+                )
             );
+
             return 1;
         }
 
@@ -83,7 +87,7 @@ class ChainCommand extends ContainerAwareCommand
             }
 
             foreach ($options as $key => $value) {
-                $moduleInputs['--' . $key] = is_null($value) ? '' : $value;
+                $moduleInputs['--'.$key] = is_null($value) ? '' : $value;
             }
 
             $this->getHelper('chain')

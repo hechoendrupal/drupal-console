@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\ConfigDebugCommand.
@@ -21,8 +22,11 @@ class ConfigDebugCommand extends ContainerAwareCommand
         $this
           ->setName('config:debug')
           ->setDescription($this->trans('commands.config.debug.description'))
-          ->addArgument('config-name', InputArgument::OPTIONAL,
-            $this->trans('commands.config.debug.arguments.config-name'));
+          ->addArgument(
+              'config-name',
+              InputArgument::OPTIONAL,
+              $this->trans('commands.config.debug.arguments.config-name')
+          );
     }
 
     /**

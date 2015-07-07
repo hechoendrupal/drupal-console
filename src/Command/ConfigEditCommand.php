@@ -1,8 +1,10 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\ConfigEditCommand.
  */
+
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -24,10 +26,16 @@ class ConfigEditCommand extends ContainerAwareCommand
         $this
           ->setName('config:edit')
           ->setDescription($this->trans('commands.config.edit.description'))
-          ->addArgument('config-name', InputArgument::REQUIRED,
-            $this->trans('commands.config.edit.arguments.config-name'))
-          ->addArgument('editor', InputArgument::OPTIONAL,
-            $this->trans('commands.config.edit.arguments.editor'));
+          ->addArgument(
+              'config-name',
+              InputArgument::REQUIRED,
+              $this->trans('commands.config.edit.arguments.config-name')
+          )
+          ->addArgument(
+              'editor',
+              InputArgument::OPTIONAL,
+              $this->trans('commands.config.edit.arguments.editor')
+          );
     }
 
     /**
@@ -40,7 +48,7 @@ class ConfigEditCommand extends ContainerAwareCommand
         $config = $this->getConfigFactory()->getEditable($configName);
         $configSystem = $this->getConfigFactory()->get('system.file');
         $temporalyDirectory = $configSystem->get('path.temporary') ?: '/tmp';
-        $configFile = $temporalyDirectory . '/config-edit/' . $configName . '.yml';
+        $configFile = $temporalyDirectory.'/config-edit/'.$configName.'.yml';
         $ymlFile = new Parser();
         $fileSystem = new Filesystem();
 
@@ -48,7 +56,7 @@ class ConfigEditCommand extends ContainerAwareCommand
             $fileSystem->mkdir($temporalyDirectory);
             $fileSystem->dumpFile($configFile, $this->getYamlConfig($configName));
         } catch (IOExceptionInterface $e) {
-            throw new \Exception($this->trans('commands.config.edit.messages.no-directory') . " " . $e->getPath());
+            throw new \Exception($this->trans('commands.config.edit.messages.no-directory').' '.$e->getPath());
         }
         if (!$editor) {
             $editor = $this->getEditor();

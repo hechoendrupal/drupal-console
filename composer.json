@@ -43,7 +43,9 @@
     },
     "require-dev": {
         "drupal/coder": "~8.1",
-        "phpunit/phpunit": "4.6.*"
+        "phpunit/phpunit": "4.6.*",
+        "phpmd/phpmd" : "*",
+        "fabpot/php-cs-fixer": "*"
     },
     "bin": ["bin/console"],
     "config": {

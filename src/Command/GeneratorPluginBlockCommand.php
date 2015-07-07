@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\GeneratorPluginBlockCommand.
@@ -29,14 +30,30 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
           ->setDescription($this->trans('commands.generate.plugin.block.description'))
           ->setHelp($this->trans('commands.generate.plugin.block.help'))
           ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
-          ->addOption('class-name', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.plugin.block.options.class-name'))
-          ->addOption('label', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.plugin.block.options.label'))
-          ->addOption('plugin-id', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.plugin.block.options.plugin-id'))
-          ->addOption('inputs', '', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-            $this->trans('commands.common.options.inputs'))
+          ->addOption(
+              'class-name',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.plugin.block.options.class-name')
+          )
+          ->addOption(
+              'label',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.plugin.block.options.label')
+          )
+          ->addOption(
+              'plugin-id',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.plugin.block.options.plugin-id')
+          )
+          ->addOption(
+              'inputs',
+              '',
+              InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+              $this->trans('commands.common.options.inputs')
+          )
           ->addOption('services', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.services'));
     }
 
@@ -85,14 +102,14 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
         $class_name = $input->getOption('class-name');
         if (!$class_name) {
             $class_name = $dialog->askAndValidate(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.plugin.block.options.class-name'), 'DefaultBlock'),
-              function ($class_name) {
-                  return $this->validateClassName($class_name);
-              },
-              false,
-              'DefaultBlock',
-              null
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.plugin.block.options.class-name'), 'DefaultBlock'),
+                function ($class_name) {
+                    return $this->validateClassName($class_name);
+                },
+                false,
+                'DefaultBlock',
+                null
             );
         }
         $input->setOption('class-name', $class_name);
@@ -103,9 +120,9 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
         $label = $input->getOption('label');
         if (!$label) {
             $label = $dialog->ask(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.plugin.block.options.label'), $machine_name),
-              $machine_name
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.plugin.block.options.label'), $machine_name),
+                $machine_name
             );
         }
         $input->setOption('label', $label);
@@ -114,9 +131,9 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
         $plugin_id = $input->getOption('plugin-id');
         if (!$plugin_id) {
             $plugin_id = $dialog->ask(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.plugin.block.options.plugin-id'), $machine_name),
-              $machine_name
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.plugin.block.options.plugin-id'), $machine_name),
+                $machine_name
             );
         }
         $input->setOption('plugin-id', $plugin_id);

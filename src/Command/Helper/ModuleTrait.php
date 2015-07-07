@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains Drupal\AppConsole\Command\Helper\ModuleTrait.
@@ -14,6 +15,7 @@ trait ModuleTrait
     /**
      * @param OutputInterface $output
      * @param HelperInterface $dialog
+     *
      * @return mixed
      */
     public function moduleQuestion(OutputInterface $output, HelperInterface $dialog)
@@ -21,14 +23,14 @@ trait ModuleTrait
         $modules = $this->getModules();
 
         return $dialog->askAndValidate(
-          $output,
-          $dialog->getQuestion($this->trans('commands.common.questions.module'), ''),
-          function ($module) {
-              return $this->validateModuleExist($module);
-          },
-          false,
-          '',
-          $modules
+            $output,
+            $dialog->getQuestion($this->trans('commands.common.questions.module'), ''),
+            function ($module) {
+                return $this->validateModuleExist($module);
+            },
+            false,
+            '',
+            $modules
         );
     }
 }

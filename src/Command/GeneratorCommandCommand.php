@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\GeneratorCommandCommand.
@@ -28,12 +29,24 @@ class GeneratorCommandCommand extends GeneratorCommand
           ->setDescription($this->trans('commands.generate.command.description'))
           ->setHelp($this->trans('commands.generate.command.help'))
           ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
-          ->addOption('class-name', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.command.options.class-name'))
-          ->addOption('command', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.command.options.command'))
-          ->addOption('container', '', InputOption::VALUE_NONE,
-            $this->trans('commands.generate.command.options.container'));
+          ->addOption(
+              'class-name',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.command.options.class-name')
+          )
+          ->addOption(
+              'command',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.command.options.command')
+          )
+          ->addOption(
+              'container',
+              '',
+              InputOption::VALUE_NONE,
+              $this->trans('commands.generate.command.options.container')
+          );
     }
 
     /**
@@ -75,9 +88,10 @@ class GeneratorCommandCommand extends GeneratorCommand
         // --command
         $command = $input->getOption('command');
         if (!$command) {
-            $command = $dialog->ask($output,
-              $dialog->getQuestion($this->trans('commands.generate.command.questions.command'), $module . ':default'),
-              $module . ':default'
+            $command = $dialog->ask(
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.command.questions.command'), $module.':default'),
+                $module.':default'
             );
         }
         $input->setOption('command', $command);
@@ -89,7 +103,7 @@ class GeneratorCommandCommand extends GeneratorCommand
                 $output,
                 $dialog->getQuestion($this->trans('commands.generate.command.questions.class-name'), 'DefaultCommand'),
                 function ($class_name) {
-                  return $this->validateClassName($class_name);
+                    return $this->validateClassName($class_name);
                 },
                 false,
                 'DefaultCommand',
@@ -100,9 +114,11 @@ class GeneratorCommandCommand extends GeneratorCommand
 
         // --container option
         $container = $input->getOption('container');
-        if (!$container && $dialog->askConfirmation($output,
+        if (!$container && $dialog->askConfirmation(
+            $output,
             $dialog->getQuestion($this->trans('commands.generate.command.questions.container'), 'yes', '?'),
-            true)
+            true
+        )
         ) {
             $container = true;
         }
