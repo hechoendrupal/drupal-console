@@ -7,7 +7,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class DialogHelper extends BaseDialogHelper
 {
-
     public function writeSection(OutputInterface $output, $text, $style = 'bg=blue;fg=white')
     {
         $output->writeln(array(
@@ -19,7 +18,11 @@ class DialogHelper extends BaseDialogHelper
 
     public function getQuestion($question, $default, $sep = ':')
     {
-        return $default ? sprintf('<info>%s</info> [<comment>%s</comment>]%s ', $question, $default,
-          $sep) : sprintf('<info>%s</info>%s ', $question, $sep);
+        return $default ? sprintf(
+            '<info>%s</info> [<comment>%s</comment>]%s ',
+            $question,
+            $default,
+            $sep
+        ) : sprintf('<info>%s</info>%s ', $question, $sep);
     }
 }

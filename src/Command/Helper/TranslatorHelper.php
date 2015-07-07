@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\Helper\TranslatorHelper.
@@ -15,27 +16,26 @@ use Drupal\AppConsole\YamlFileDumper;
 
 class TranslatorHelper extends Helper
 {
-
     private $language;
 
     /**
-     * @var $translator Translator
+     * @var Translator
      */
     private $translator;
 
     private function addResource($resource)
     {
         $this->translator->addResource(
-          'yaml',
-          $resource,
-          $this->language
+            'yaml',
+            $resource,
+            $this->language
         );
     }
 
     public function loadResource($language, $directoryRoot)
     {
-        $resource_fallback = $directoryRoot . 'config/translations/console.en.yml';
-        $resource_language = $directoryRoot . 'config/translations/console.' . $language . '.yml';
+        $resource_fallback = $directoryRoot.'config/translations/console.en.yml';
+        $resource_language = $directoryRoot.'config/translations/console.'.$language.'.yml';
 
         if (!file_exists($resource_language)) {
             $language = 'en';
@@ -56,8 +56,8 @@ class TranslatorHelper extends Helper
 
     public function addResourceTranslationsByModule($module)
     {
-        $resource = DRUPAL_ROOT . '/' . drupal_get_path('module', $module) .
-          '/config/translations/console.' . $this->language . '.yml';
+        $resource = DRUPAL_ROOT.'/'.drupal_get_path('module', $module).
+          '/config/translations/console.'.$this->language.'.yml';
 
         if (file_exists($resource)) {
             $this->addResource($resource);
@@ -69,7 +69,7 @@ class TranslatorHelper extends Helper
         $currentMessages = $this->getMessagesByModule($module);
 
         $language = 'en';
-        $resource = DRUPAL_ROOT . '/' . drupal_get_path('module', $module) .
+        $resource = DRUPAL_ROOT.'/'.drupal_get_path('module', $module).
           '/config/translations/';
 
         $messageCatalogue = new MessageCatalogue($language);
@@ -81,25 +81,26 @@ class TranslatorHelper extends Helper
         $translatorWriter = new TranslationWriter();
         $translatorWriter->addDumper('yaml', new YamlFileDumper());
         $translatorWriter->writeTranslations(
-          $messageCatalogue,
-          'yaml',
-          ['path' => $resource, 'nest-level' => 10, 'indent' => 2]
+            $messageCatalogue,
+            'yaml',
+            ['path' => $resource, 'nest-level' => 10, 'indent' => 2]
         );
     }
 
     protected function getMessagesByModule($module)
     {
-        $resource = DRUPAL_ROOT . '/' . drupal_get_path('module', $module) .
-          '/config/translations/console.' . $this->language . '.yml';
+        $resource = DRUPAL_ROOT.'/'.drupal_get_path('module', $module).
+          '/config/translations/console.'.$this->language.'.yml';
 
         if (file_exists($resource)) {
             $moduleTranslator = new Translator($this->language);
             $moduleTranslator->addLoader('yaml', new YamlFileLoader());
             $moduleTranslator->addResource(
-              'yaml',
-              $resource,
-              $this->language
+                'yaml',
+                $resource,
+                $this->language
             );
+
             return $moduleTranslator->getMessages($this->language);
         }
 

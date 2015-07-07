@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains Drupal\AppConsole\Command\Helper\ServicesTrait.
@@ -14,14 +15,15 @@ trait ServicesTrait
     /**
      * @param OutputInterface $output
      * @param HelperInterface $dialog
+     *
      * @return mixed
      */
     public function servicesQuestion(OutputInterface $output, HelperInterface $dialog)
     {
         if ($dialog->askConfirmation(
-          $output,
-          $dialog->getQuestion($this->trans('commands.common.questions.services.confirm'), 'no', '?'),
-          false
+            $output,
+            $dialog->getQuestion($this->trans('commands.common.questions.services.confirm'), 'no', '?'),
+            false
         )
         ) {
             $service_collection = [];
@@ -30,14 +32,14 @@ trait ServicesTrait
             $services = $this->getServices();
             while (true) {
                 $service = $dialog->askAndValidate(
-                  $output,
-                  $dialog->getQuestion($this->trans('commands.common.questions.services.name'), ''),
-                  function ($service) use ($services) {
-                      return $this->validateServiceExist($service, $services);
-                  },
-                  false,
-                  null,
-                  $services
+                    $output,
+                    $dialog->getQuestion($this->trans('commands.common.questions.services.name'), ''),
+                    function ($service) use ($services) {
+                        return $this->validateServiceExist($service, $services);
+                    },
+                    false,
+                    null,
+                    $services
                 );
 
                 if (empty($service)) {
@@ -55,11 +57,12 @@ trait ServicesTrait
             return $service_collection;
         }
 
-        return null;
+        return;
     }
 
     /**
-     * @param  Array $services
+     * @param Array $services
+     *
      * @return Array
      */
     public function buildServices($services)
@@ -76,8 +79,10 @@ trait ServicesTrait
                   'short' => end($explode_class),
                 ];
             }
+
             return $build_service;
         }
-        return null;
+
+        return;
     }
 }

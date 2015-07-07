@@ -1,8 +1,10 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\ConfigOverrideCommand.
  */
+
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -16,8 +18,11 @@ class ConfigOverrideCommand extends ContainerAwareCommand
         $this
           ->setName('config:override')
           ->setDescription($this->trans('commands.config.override.description'))
-          ->addArgument('config-name', InputArgument::REQUIRED,
-            $this->trans('commands.config.override.arguments.config-name'))
+          ->addArgument(
+              'config-name',
+              InputArgument::REQUIRED,
+              $this->trans('commands.config.override.arguments.config-name')
+          )
           ->addArgument('key', InputArgument::REQUIRED, $this->trans('commands.config.override.arguments.key'))
           ->addArgument('value', InputArgument::REQUIRED, $this->trans('commands.config.override.arguments.value'));
     }
@@ -36,17 +41,18 @@ class ConfigOverrideCommand extends ContainerAwareCommand
         $config->save();
 
         $output->writeln(sprintf(
-          ' <info>%s:</info> <comment>%s</comment>',
-          $this->trans('commands.config.override.messages.configuration'),
-          $configName
+            ' <info>%s:</info> <comment>%s</comment>',
+            $this->trans('commands.config.override.messages.configuration'),
+            $configName
         ));
 
         $table->setHeaders(
-          [
+            [
             $this->trans('commands.config.override.messages.configuration-key'),
             $this->trans('commands.config.override.messages.original'),
             $this->trans('commands.config.override.messages.updated'),
-          ]);
+            ]
+        );
         $table->setlayout($table::LAYOUT_COMPACT);
         $table->setRows($configurationOverrideResult);
         $table->render($output);

@@ -1,4 +1,5 @@
 <?php
+
 namespace Drupal\AppConsole\Console;
 
 use Composer\Autoload\ClassLoader;
@@ -32,12 +33,12 @@ class Application extends BaseApplication
     protected $directoryRoot;
     /**
      * @var \Composer\Autoload\ClassLoader
-     * The Drupal autoload file.
+     *                                     The Drupal autoload file.
      */
     protected $drupalAutoload;
     /**
      * @var string
-     * The Drupal environment.
+     *             The Drupal environment.
      */
     protected $env;
     /**
@@ -66,22 +67,22 @@ class Application extends BaseApplication
         parent::__construct($this::NAME, sprintf('%s', $this::VERSION));
 
         $this->getDefinition()->addOption(
-          new InputOption('--drupal', '-d', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.drupal'))
+            new InputOption('--drupal', '-d', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.drupal'))
         );
         $this->getDefinition()->addOption(
-          new InputOption('--shell', '-s', InputOption::VALUE_NONE, $this->trans('application.console.arguments.shell'))
+            new InputOption('--shell', '-s', InputOption::VALUE_NONE, $this->trans('application.console.arguments.shell'))
         );
         $this->getDefinition()->addOption(
-          new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.env'), $this->env)
+            new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.env'), $this->env)
         );
         $this->getDefinition()->addOption(
-          new InputOption('--no-debug', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.no-debug'))
+            new InputOption('--no-debug', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.no-debug'))
         );
         $this->getDefinition()->addOption(
-          new InputOption('--learning', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.learning'))
+            new InputOption('--learning', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.learning'))
         );
         $this->getDefinition()->addOption(
-          new InputOption('--generate-chain', '--gc', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-chain'))
+            new InputOption('--generate-chain', '--gc', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-chain'))
         );
     }
 
@@ -89,7 +90,7 @@ class Application extends BaseApplication
      * Prepare Drupal Console to run, and bootstrap Drupal.
      *
      * @param string $env
-     * @param bool $debug
+     * @param bool   $debug
      */
     public function setup($env = 'prod', $debug = false)
     {
@@ -117,6 +118,7 @@ class Application extends BaseApplication
         if ($this->isBooted()) {
             if (true === $input->hasParameterOption(array('--shell', '-s'))) {
                 $this->runShell($input);
+
                 return 0;
             }
         }
@@ -129,7 +131,7 @@ class Application extends BaseApplication
             $commandName = $this->getCommandName($input);
         }
 
-        if ($commandName && $this->has($commandName)){
+        if ($commandName && $this->has($commandName)) {
             $this->searchSettingsFile = false;
         }
 
@@ -150,6 +152,7 @@ class Application extends BaseApplication
 
     /**
      * @param $drupal_root
+     *
      * @return bool
      */
     protected function isRunningOnDrupalInstance($drupal_root)
@@ -168,6 +171,7 @@ class Application extends BaseApplication
 
             return $this->setDrupalAutoload($drupalLoader);
         }
+
         return false;
     }
 
@@ -176,6 +180,7 @@ class Application extends BaseApplication
         if ($drupalLoader instanceof ClassLoader) {
             $this->drupalAutoload = $drupalLoader;
             $this->setBooted(true);
+
             return true;
         }
 
@@ -206,13 +211,15 @@ class Application extends BaseApplication
           ->getHelperSet()
           ->get('translator');
 
-        if (!file_exists($drupalRoot . '/core/vendor/autoload.php')) {
+        if (!file_exists($drupalRoot.'/core/vendor/autoload.php')) {
             $messageHelper->addWarningMessage($translatorHelper->trans('application.site.errors.directory'));
+
             return false;
         }
 
-        if (!file_exists($drupalRoot . '/sites/default/settings.php')) {
+        if (!file_exists($drupalRoot.'/sites/default/settings.php')) {
             $messageHelper->addWarningMessage($translatorHelper->trans('application.site.errors.settings'));
+
             return false;
         }
 
@@ -220,7 +227,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isBooted()
     {
@@ -228,7 +235,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * @param boolean $booted
+     * @param bool $booted
      */
     public function setBooted($booted)
     {
@@ -278,7 +285,7 @@ class Application extends BaseApplication
      */
     protected function registerCommands()
     {
-        /** @var \Drupal\AppConsole\Command\Helper\RegisterCommandsHelper $rc */
+        /* @var \Drupal\AppConsole\Command\Helper\RegisterCommandsHelper $rc */
         $registerCommands = $this->getHelperSet()->get('register_commands');
         if ($registerCommands) {
             $registerCommands->register();
@@ -350,6 +357,7 @@ class Application extends BaseApplication
 
     /**
      * @param $key string
+     *
      * @return string
      */
     public function trans($key)

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\EventSubscriber\CallCommandListener.
@@ -39,7 +40,7 @@ class CallCommandListener implements EventSubscriberInterface
                 $messageHelper = $application->getHelperSet()->get('message');
                 $translatorHelper = $application->getHelperSet()->get('translator');
                 $messageHelper->addErrorMessage(
-                  $translatorHelper->trans('commands.chain.messages.module_install')
+                    $translatorHelper->trans('commands.chain.messages.module_install')
                 );
                 continue;
             }
