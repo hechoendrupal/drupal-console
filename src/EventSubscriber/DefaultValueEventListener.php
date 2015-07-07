@@ -7,7 +7,6 @@
 
 namespace Drupal\AppConsole\EventSubscriber;
 
-use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

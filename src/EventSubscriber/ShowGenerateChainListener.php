@@ -11,7 +11,6 @@ use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Drupal\AppConsole\Command\GeneratorCommand;
 use Symfony\Component\Yaml\Dumper;
 
 class ShowGenerateChainListener implements EventSubscriberInterface
@@ -45,8 +44,6 @@ class ShowGenerateChainListener implements EventSubscriberInterface
         /* @var TranslatorHelper */
         $translatorHelper = $application->getHelperSet()->get('translator');
 
-        $messageHelper->showMessages($output);
-
         if ($event->getExitCode() != 0) {
             return;
         }
@@ -54,15 +51,6 @@ class ShowGenerateChainListener implements EventSubscriberInterface
         if (in_array($command->getName(), $this->skipCommands)) {
             return;
         }
-
-        $completedMessageKey = 'application.console.messages.completed';
-
-        if ($command instanceof GeneratorCommand) {
-            $completedMessageKey = 'application.console.messages.generated.completed';
-        }
-
-        //print_r($command->getDefinition()->getArguments());
-        //print_r($command->getDefinition()->getOptions());
 
         // get the input instance
         $input = $event->getInput();
@@ -84,7 +72,8 @@ class ShowGenerateChainListener implements EventSubscriberInterface
 
             // Print yaml output and message
             $messageHelper->showMessage($output, $translatorHelper->trans('application.console.messages.chain.generated'));
-            print $yaml;
+
+            $output->writeln($yaml);
         }
     }
 
