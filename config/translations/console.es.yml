@@ -1,20 +1,20 @@
 application:
     console:
         arguments:
-            drupal: 'Path to Drupal root.'
-            shell: 'Launch the shell.'
-            env: 'The Environment name.'
-            no-debug: 'Switches off debug mode.'
-            learning: 'Generate a verbose code output.'
-            generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
+            drupal: 'Ruta a la raíz de Drupal'
+            shell: 'Iniciar el shell.'
+            env: 'Nombre del ambiente.'
+            no-debug: 'Desactivar el modo de depuración.'
+            learning: 'Generar código con explicaciones.'
+            generate-chain: 'Imprimir opciones y argumentos como yaml para ser usado el comando chain'
         messages:
             completed: 'Ahora puedes empezar a usar el código generado!'
             chain:
-                generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
+                generated: 'A continuación puede observar la representación en yaml del último comando ejecutado, puede copiarlo en ~/.console/chain/sample.yml para ejecutarlo en una secuencia de comandos'
             generated: 'You can now start using the generated code!'
             files:
-                generated: 'Generated or updated files'
-                copied: 'Copied files'
+                generated: 'Ahora puede comenzar a usar el código generado!'
+                copied: 'Los archivos fueron copiados'
             learning:
                 route: "Con el fin de crear páginas es necesario definir rutas para ellas.\nUna ruta asigna una URL a un controlador. Se define con qué función\no método será llamado cuando se accede a una URL.\nSi el usuario accede la ruta http://drupal8.dev/{{ route }},\nel sistema buscará una ruta con ese camino. En este caso, si encuentra una\nejecutara la devolución de la llamada _controller.\nEn este caso, la devolución de llamada es definida como un nombre de clase\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\ny un método (\"{{ method_name }}\")."
         errors:
