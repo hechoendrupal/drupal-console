@@ -78,7 +78,7 @@ class CodeQualityTool extends Application
             throw new Exception('PHPUnit test failed!');
         }
 
-        $output->writeln('<info>Good job dude!</info>');
+        $output->writeln('<info>Good job!</info>');
     }
 
     private function checkComposer($files)
