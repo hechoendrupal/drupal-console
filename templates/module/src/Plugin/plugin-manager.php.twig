@@ -1,0 +1,35 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+Drupal\{{ module }}\Plugin\{{ plugin_manager }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }}\Plugin;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Cache\CacheBackendInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Plugin\DefaultPluginManager;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides an Plugin Manager definition.
+ */
+class {{ plugin_manager }} extends DefaultPluginManager {% endblock %}
+
+{% block class_methods %}
+  public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
+    parent::__construct(
+      "Plugin/{{ plugin_manager }}",
+      $namespaces,
+      $module_handler,
+      'Drupal\{{ module }}\Plugin\{{ plugin_manager }}Interface',
+      'Drupal\{{ module }}\Annotation\{{ annotation }}'
+    );
+
+    $this->setCacheBackend($cache_backend, '{{ plugin_manager | lower }}_plugins');
+  }
+{% endblock %}

@@ -92,6 +92,10 @@ class Generator
         return $this->render($template, $parameters);
     }
 
+    /**
+     * @param string $module_name
+     * @return string
+     */
     public function getModulePath($module_name)
     {
         if (!$this->module_path) {
@@ -123,9 +127,23 @@ class Generator
         return $this->getModulePath($module_name) . '/src/Form';
     }
 
+    /**
+     * @param string $module_name
+     * @param string|null $plugin_type
+     * @return string
+     */
     public function getPluginPath($module_name, $plugin_type)
     {
         return $this->getModulePath($module_name) . '/src/Plugin/' . $plugin_type;
+    }
+
+    /**
+     * @param string $module_name
+     * @return string
+     */
+    public function getAnnotationPath($module_name)
+    {
+        return $this->getSourcePath($module_name) . '/Annotation';
     }
 
     public function getAuthenticationPath($module_name, $authentication_type)
@@ -138,6 +156,10 @@ class Generator
         return $this->getModulePath($module_name) . '/src/Command';
     }
 
+    /**
+     * @param string $module_name
+     * @return string
+     */
     public function getSourcePath($module_name)
     {
         return $this->getModulePath($module_name) . '/src';
