@@ -38,8 +38,11 @@ if (file_exists($consoleRoot . '/vendor/autoload.php')) {
 
 $config = new UserConfig();
 
+//Try to determine locale language if not available used console configuration
+$locale = (\Locale::getDefault() != '')?\Locale::getDefault(): $config->get('application.language');
+
 $translatorHelper = new TranslatorHelper();
-$translatorHelper->loadResource($config->get('application.language'), $consoleRoot);
+$translatorHelper->loadResource($locale, $consoleRoot);
 
 $application = new Application($config, $translatorHelper);
 $application->setDirectoryRoot($consoleRoot);
