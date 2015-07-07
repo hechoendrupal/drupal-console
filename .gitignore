@@ -5,6 +5,9 @@
 /bin/phpcbf
 /bin/phpcs
 /bin/validate-json
+/bin/pdepend
+/bin/php-cs-fixer
+/bin/phpmd
 /composer.lock
 
 # Binaries
@@ -16,3 +19,4 @@
 
 # Drupal
 /core
+
