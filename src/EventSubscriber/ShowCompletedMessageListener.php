@@ -15,10 +15,9 @@ use Drupal\AppConsole\Command\GeneratorCommand;
 
 class ShowCompletedMessageListener implements EventSubscriberInterface
 {
-
     private $skipCommands = [
         'self-update',
-        'list'
+        'list',
     ];
 
     /**
@@ -32,7 +31,7 @@ class ShowCompletedMessageListener implements EventSubscriberInterface
 
         $application = $command->getApplication();
         $messageHelper = $application->getHelperSet()->get('message');
-        /** @var TranslatorHelper */
+        /* @var TranslatorHelper */
         $translatorHelper = $application->getHelperSet()->get('translator');
 
         $messageHelper->showMessages($output);

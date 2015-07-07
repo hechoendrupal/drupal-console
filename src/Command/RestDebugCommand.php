@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\RestDebugCommand.
@@ -14,16 +15,22 @@ use Drupal\Component\Serialization\Yaml;
 
 class RestDebugCommand extends ContainerAwareCommand
 {
-
     protected function configure()
     {
         $this
           ->setName('rest:debug')
           ->setDescription($this->trans('commands.rest.debug.description'))
-          ->addArgument('resource-id', InputArgument::OPTIONAL,
-            $this->trans('commands.rest.debug.arguments.resource-id'))
-          ->addOption('authorization', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.rest.debug.options.status'));
+          ->addArgument(
+              'resource-id',
+              InputArgument::OPTIONAL,
+              $this->trans('commands.rest.debug.arguments.resource-id')
+          )
+          ->addOption(
+              'authorization',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.rest.debug.options.status')
+          );
 
         $this->addDependency('rest');
     }
@@ -57,8 +64,11 @@ class RestDebugCommand extends ContainerAwareCommand
         $plugin = $resourcePluginManager->getInstance(array('id' => $resource_id));
 
         if (empty($plugin)) {
-            $output->writeln('[+] <error>' . sprintf($this->trans('commands.rest.debug.messages.not-found'),
-                $resource_id) . '</error>');
+            $output->writeln('[+] <error>'.sprintf(
+                $this->trans('commands.rest.debug.messages.not-found'),
+                $resource_id
+            ).'</error>');
+
             return false;
         }
 
@@ -66,7 +76,7 @@ class RestDebugCommand extends ContainerAwareCommand
 
         $configuration = array();
         $configuration[$this->trans('commands.rest.debug.messages.id')] = $resource['id'];
-        $configuration[$this->trans('commands.rest.debug.messages.label')] = (string)$resource['label'];
+        $configuration[$this->trans('commands.rest.debug.messages.label')] = (string) $resource['label'];
         $configuration[$this->trans('commands.rest.debug.messages.canonical_url')] = $resource['uri_paths']['canonical'];
         $configuration[$this->trans('commands.rest.debug.messages.status')] = (isset($config[$resource['id']])) ? $this->trans('commands.rest.debug.messages.enabled') : $this->trans('commands.rest.debug.messages.disabled');
         $configuration[$this->trans('commands.rest.debug.messages.provider')] = $resource['provider'];
@@ -78,17 +88,18 @@ class RestDebugCommand extends ContainerAwareCommand
         $table->render($output);
 
         $table->setHeaders(
-          [
+            [
             $this->trans('commands.rest.debug.messages.rest-state'),
             $this->trans('commands.rest.debug.messages.supported-formats'),
             $this->trans('commands.rest.debug.messages.supported_auth'),
-          ]);
+            ]
+        );
 
         foreach ($config[$resource['id']] as $method => $settings) {
             $table->addRow([
-              $method,
-              implode(', ', $settings['supported_formats']),
-              implode(', ', $settings['supported_auth'])
+            $method,
+            implode(', ', $settings['supported_formats']),
+            implode(', ', $settings['supported_auth']),
             ]);
         }
 
@@ -100,24 +111,25 @@ class RestDebugCommand extends ContainerAwareCommand
         $rest_resources = $this->getRestResources($status);
 
         $table->setHeaders(
-          [
+            [
             $this->trans('commands.rest.debug.messages.id'),
             $this->trans('commands.rest.debug.messages.label'),
             $this->trans('commands.rest.debug.messages.canonical_url'),
             $this->trans('commands.rest.debug.messages.status'),
             $this->trans('commands.rest.debug.messages.provider'),
-          ]);
+            ]
+        );
 
         $table->setlayout($table::LAYOUT_COMPACT);
 
         foreach ($rest_resources as $status => $resources) {
             foreach ($resources as $id => $resource) {
                 $table->addRow([
-                  $id,
-                  $resource['label'],
-                  $resource['uri_paths']['canonical'],
-                  $status,
-                  $resource['provider']
+                $id,
+                $resource['label'],
+                $resource['uri_paths']['canonical'],
+                $status,
+                $resource['provider'],
                 ]);
             }
         }

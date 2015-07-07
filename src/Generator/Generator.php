@@ -37,7 +37,8 @@ class Generator
 
     /**
      * @param string $template
-     * @param array $parameters
+     * @param array  $parameters
+     *
      * @return string
      */
     protected function render($template, $parameters)
@@ -64,8 +65,9 @@ class Generator
     /**
      * @param string $template
      * @param string $target
-     * @param array $parameters
-     * @param null $flag
+     * @param array  $parameters
+     * @param null   $flag
+     *
      * @return bool
      */
     protected function renderFile($template, $target, $parameters, $flag = null)
@@ -75,7 +77,8 @@ class Generator
         }
 
         if (file_put_contents($target, $this->render($template, $parameters), $flag)) {
-            $this->files[] = str_replace(DRUPAL_ROOT . '/', '', $target);
+            $this->files[] = str_replace(DRUPAL_ROOT.'/', '', $target);
+
             return true;
         }
 
@@ -84,7 +87,8 @@ class Generator
 
     /**
      * @param string $template
-     * @param array $parameters
+     * @param array  $parameters
+     *
      * @return string
      */
     protected function renderView($template, $parameters)
@@ -95,14 +99,14 @@ class Generator
     public function getModulePath($module_name)
     {
         if (!$this->module_path) {
-          /**
+            /*
            * @todo Remove DrupalExtensionDiscovery subclass once
            * https://www.drupal.org/node/2503927 is fixed.
            */
-          $discovery = new DrupalExtensionDiscovery(\Drupal::root());
-          $discovery->reset();
-          $result = $discovery->scan('module');
-          $this->module_path = DRUPAL_ROOT . '/' . $result[$module_name]->getPath();
+            $discovery = new DrupalExtensionDiscovery(\Drupal::root());
+            $discovery->reset();
+            $result = $discovery->scan('module');
+            $this->module_path = DRUPAL_ROOT.'/'.$result[$module_name]->getPath();
         }
 
         return $this->module_path;
@@ -110,60 +114,62 @@ class Generator
 
     public function getControllerPath($module_name)
     {
-        return $this->getModulePath($module_name) . '/src/Controller';
+        return $this->getModulePath($module_name).'/src/Controller';
     }
 
     public function getTestPath($module_name, $test_type)
     {
-        return $this->getModulePath($module_name) . '/Tests/' . $test_type;
+        return $this->getModulePath($module_name).'/Tests/'.$test_type;
     }
 
     public function getFormPath($module_name)
     {
-        return $this->getModulePath($module_name) . '/src/Form';
+        return $this->getModulePath($module_name).'/src/Form';
     }
 
     public function getPluginPath($module_name, $plugin_type)
     {
-        return $this->getModulePath($module_name) . '/src/Plugin/' . $plugin_type;
+        return $this->getModulePath($module_name).'/src/Plugin/'.$plugin_type;
     }
 
     public function getAuthenticationPath($module_name, $authentication_type)
     {
-        return $this->getModulePath($module_name) . '/src/Authentication/' . $authentication_type;
+        return $this->getModulePath($module_name).'/src/Authentication/'.$authentication_type;
     }
 
     public function getCommandPath($module_name)
     {
-        return $this->getModulePath($module_name) . '/src/Command';
+        return $this->getModulePath($module_name).'/src/Command';
     }
 
     public function getSourcePath($module_name)
     {
-        return $this->getModulePath($module_name) . '/src';
+        return $this->getModulePath($module_name).'/src';
     }
 
     public function getEntityPath($module_name)
     {
-        return $this->getModulePath($module_name) . '/src/Entity';
+        return $this->getModulePath($module_name).'/src/Entity';
     }
 
     /**
      * @param string $module_name
+     *
      * @return string
      */
     public function getTemplatePath($module_name)
     {
-        return $this->getModulePath($module_name) . '/templates';
+        return $this->getModulePath($module_name).'/templates';
     }
 
     /**
      * @param string $module_name
+     *
      * @return string
      */
     public function getTranslationsPath($module_name)
     {
-        return $this->getModulePath($module_name) . '/config/translations';
+        return $this->getModulePath($module_name).'/config/translations';
     }
 
     /**
@@ -247,7 +253,7 @@ class Generator
                 $returnValues[] = sprintf('      $container->get(\'%s\')', $service['name']);
             }
 
-            return implode("," . PHP_EOL, $returnValues);
+            return implode(','.PHP_EOL, $returnValues);
         });
 
         return $returnValue;
@@ -277,7 +283,7 @@ class Generator
             $messages = explode("\n", $message);
             $returnValues = [];
             foreach ($messages as $message) {
-                $returnValues[] = '# ' . $message;
+                $returnValues[] = '# '.$message;
             }
 
             $message = implode("\n", $returnValues);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\GeneratorServiceCommand.
@@ -30,14 +31,30 @@ class GeneratorServiceCommand extends GeneratorCommand
           ->setDescription($this->trans('commands.generate.service.description'))
           ->setHelp($this->trans('commands.generate.service.description'))
           ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
-          ->addOption('service-name', null, InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.service.options.service-name'))
-          ->addOption('class-name', null, InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.service.options.class-name'))
-          ->addOption('interface', null, InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.common.service.options.interface'))
-          ->addOption('services', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-            $this->trans('commands.common.options.services'));
+          ->addOption(
+              'service-name',
+              null,
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.service.options.service-name')
+          )
+          ->addOption(
+              'class-name',
+              null,
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.service.options.class-name')
+          )
+          ->addOption(
+              'interface',
+              null,
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.common.service.options.interface')
+          )
+          ->addOption(
+              'services',
+              null,
+              InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+              $this->trans('commands.common.options.services')
+          );
     }
 
     /**
@@ -58,7 +75,7 @@ class GeneratorServiceCommand extends GeneratorCommand
         $interface = $input->getOption('interface');
         $services = $input->getOption('services');
 
-        $interface = ($interface===true || strtolower($interface)==='yes');
+        $interface = ($interface === true || strtolower($interface) === 'yes');
 
         // @see Drupal\AppConsole\Command\Helper\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
@@ -89,10 +106,12 @@ class GeneratorServiceCommand extends GeneratorCommand
         $service_name = $input->getOption('service-name');
         if (!$service_name) {
             $service_name = $dialog->ask(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.service.questions.service-name'),
-                $module . '.default'),
-              $module . '.default'
+                $output,
+                $dialog->getQuestion(
+                    $this->trans('commands.generate.service.questions.service-name'),
+                    $module.'.default'
+                ),
+                $module.'.default'
             );
         }
         $input->setOption('service-name', $service_name);
@@ -101,9 +120,9 @@ class GeneratorServiceCommand extends GeneratorCommand
         $class_name = $input->getOption('class-name');
         if (!$class_name) {
             $class_name = $dialog->ask(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.service.questions.class-name'), 'DefaultService'),
-              'DefaultService'
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.service.questions.class-name'), 'DefaultService'),
+                'DefaultService'
             );
         }
         $input->setOption('class-name', $class_name);
@@ -112,9 +131,9 @@ class GeneratorServiceCommand extends GeneratorCommand
         $interface = $input->getOption('interface');
         if (!$interface) {
             $interface = $dialog->ask(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.service.questions.interface'), 'yes', '?'),
-              true
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.service.questions.interface'), 'yes', '?'),
+                true
             );
         }
         $input->setOption('interface', $interface);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\RouterRebuildCommand.
@@ -11,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RouterRebuildCommand extends ContainerAwareCommand
 {
-
     protected function configure()
     {
         $this
@@ -22,10 +22,10 @@ class RouterRebuildCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('');
-        $output->writeln('[+] <comment>' . $this->trans('commands.router.rebuild.messages.rebuilding') . '</comment>');
+        $output->writeln('[+] <comment>'.$this->trans('commands.router.rebuild.messages.rebuilding').'</comment>');
         $container = $this->getContainer();
         $router_builder = $container->get('router.builder');
         $router_builder->rebuild();
-        $output->writeln('[+] <info>' . $this->trans('commands.router.rebuild.messages.completed') . '</info>');
+        $output->writeln('[+] <info>'.$this->trans('commands.router.rebuild.messages.completed').'</info>');
     }
 }

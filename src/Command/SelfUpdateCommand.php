@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\SelfUpdateCommand.
@@ -13,7 +14,7 @@ use Herrera\Phar\Update\Manifest;
 
 class SelfUpdateCommand extends Command
 {
-    const DRUPAL_CONSOLE_MANIFEST = "http://drupalconsole.com/manifest.json";
+    const DRUPAL_CONSOLE_MANIFEST = 'http://drupalconsole.com/manifest.json';
 
     /**
      * {@inheritdoc}
@@ -32,15 +33,15 @@ class SelfUpdateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $manager = new Manager(Manifest::loadFile(
-          self::DRUPAL_CONSOLE_MANIFEST
+            self::DRUPAL_CONSOLE_MANIFEST
         ));
 
         if ($manager->update($this->getApplication()->getVersion(), true)) {
             $output->writeln($this->trans('commands.self-update.messages.success'));
         } else {
             $output->writeln(sprintf(
-              $this->trans('commands.self-update.messages.current-version'),
-              $this->getApplication()->getVersion()
+                $this->trans('commands.self-update.messages.current-version'),
+                $this->getApplication()->getVersion()
             ));
         }
     }

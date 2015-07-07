@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains Drupal\AppConsole\Command\Helper\MessageHelper.
@@ -7,7 +8,6 @@
 namespace Drupal\AppConsole\Command\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
-use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 
 class MessageHelper extends Helper
 {
@@ -37,7 +37,7 @@ class MessageHelper extends Helper
      */
     const MESSAGE_INFO = 'info';
     /**
-     * @var  string
+     * @var string
      */
     const MESSAGE_SUCCESS = 'success';
 
@@ -48,7 +48,7 @@ class MessageHelper extends Helper
         self::MESSAGE_ERROR,
         self::MESSAGE_WARNING,
         self::MESSAGE_INFO,
-        self::MESSAGE_SUCCESS
+        self::MESSAGE_SUCCESS,
     ];
 
     /**
@@ -77,8 +77,8 @@ class MessageHelper extends Helper
 
     /**
      * @param $output
-     * @param array     $messages
-     * @param string    $type
+     * @param array  $messages
+     * @param string $type
      */
     private function showMessagesByType($output, $messages, $type)
     {
@@ -91,8 +91,8 @@ class MessageHelper extends Helper
 
     /**
      * @param $output
-     * @param array     $message
-     * @param string    $type
+     * @param array  $message
+     * @param string $type
      */
     public function showMessage($output, $message, $type = self::MESSAGE_INFO)
     {
@@ -111,9 +111,9 @@ class MessageHelper extends Helper
         $output->writeln([
           '',
           $this->getHelperSet()->get('formatter')->formatBlock(
-            $message,
-            $style,
-            false
+              $message,
+              $style,
+              false
           ),
           '',
         ]);
@@ -167,11 +167,11 @@ class MessageHelper extends Helper
     public function showGeneratedFiles($output, $files)
     {
         $this->showFiles(
-          $output,
-          $files,
-          'application.console.messages.files.generated',
-          'application.site.messages.path',
-          DRUPAL_ROOT
+            $output,
+            $files,
+            'application.console.messages.files.generated',
+            'application.site.messages.path',
+            DRUPAL_ROOT
         );
     }
 
@@ -182,11 +182,11 @@ class MessageHelper extends Helper
     public function showCopiedFiles($output, $files)
     {
         $this->showFiles(
-          $output,
-          $files,
-          'application.console.messages.files.copied',
-          'application.user.messages.path',
-          rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/\\') . '/.console/'
+            $output,
+            $files,
+            'application.console.messages.files.copied',
+            'application.user.messages.path',
+            rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/\\').'/.console/'
         );
     }
 
@@ -204,20 +204,20 @@ class MessageHelper extends Helper
         }
 
         $this->showMessage(
-          $output,
-          $this->translator->trans($headerKey)
+            $output,
+            $this->translator->trans($headerKey)
         );
 
         $output->writeln(sprintf(
-          '<info>%s:</info> <comment>%s</comment>',
-          $this->translator->trans($pathKey),
-          $path
+            '<info>%s:</info> <comment>%s</comment>',
+            $this->translator->trans($pathKey),
+            $path
         ));
 
         $index = 1;
         foreach ($files as $file) {
             $this->showFile($output, $file, $index);
-            $index++;
+            ++$index;
         }
     }
 
@@ -229,9 +229,9 @@ class MessageHelper extends Helper
     private function showFile($output, $file, $index)
     {
         $output->writeln(sprintf(
-          '<info>%s</info> - <comment>%s</comment>',
-          $index,
-          $file
+            '<info>%s</info> - <comment>%s</comment>',
+            $index,
+            $file
         ));
     }
 
