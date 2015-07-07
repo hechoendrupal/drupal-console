@@ -70,10 +70,10 @@ class CodeQualityTool extends Application
         }
 
         // Enable on a second phase, once code base is PSR-2 compliant
-//        $output->writeln('<info>Checking code mess with PHPMD</info>');
-//        if (!$this->phPmd($files)) {
-//            throw new Exception(sprintf('There are PHPMD violations!'));
-//        }
+        $output->writeln('<info>Checking code mess with PHPMD</info>');
+        if (!$this->phPmd($files)) {
+            throw new Exception(sprintf('There are PHPMD violations!'));
+        }
 
         $output->writeln('<info>Running unit tests</info>');
         if (!$this->unitTests()) {
