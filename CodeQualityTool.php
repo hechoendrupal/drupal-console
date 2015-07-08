@@ -42,7 +42,6 @@ class CodeQualityTool extends Application
                 );
             }
         }
-
         $output->writeln('<info>Check composer</info>');
         $this->checkComposer($files);
 
@@ -95,7 +94,7 @@ class CodeQualityTool extends Application
         }
 
         if ($composerJsonDetected && !$composerLockDetected) {
-            throw new Exception('composer.lock must be commited if composer.json is modified!');
+            $this->output->writeln('<comment>composer.lock should be commited if composer.json is modified!</comment>');
         }
     }
 
