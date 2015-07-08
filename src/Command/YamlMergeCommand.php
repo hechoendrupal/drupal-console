@@ -105,10 +105,10 @@ class YamlMergeCommand extends Command
 
         $dialog = $this->getDialogHelper();
 
-      // --yaml-destination option
+        // --yaml-destination option
         $yaml_destination = $input->getArgument('yaml-destination');
         if (!$yaml_destination) {
-            $site_url = $dialog->askAndValidate(
+            $yaml_destination = $dialog->askAndValidate(
                 $output,
                 $dialog->getQuestion($this->trans('commands.yaml.merge.questions.yaml-destination'), ''),
                 $validator_filename,
@@ -129,11 +129,11 @@ class YamlMergeCommand extends Command
                     function ($file) use ($yaml_files) {
                         if (count($yaml_files) < 2 && empty($file)) {
                             throw new \InvalidArgumentException(
-                                sprintf($this->trans('commands.yaml.merge.questions.invalid-file'), $migration_id)
+                                sprintf($this->trans('commands.yaml.merge.questions.invalid-file'), $file)
                             );
                         } elseif (in_array($file, $yaml_files)) {
                             throw new \InvalidArgumentException(
-                                sprintf($this->trans('commands.yaml.merge.questions.file-already-added'), $migration_id)
+                                sprintf($this->trans('commands.yaml.merge.questions.file-already-added'), $file)
                             );
                         } else {
                             return $file;
@@ -144,11 +144,11 @@ class YamlMergeCommand extends Command
                     null
                 );
 
-                if (!empty($yaml_file)) {
-                    $yaml_files[] = $yaml_file;
-                } else {
+                if (empty($yaml_file)) {
                     break;
                 }
+
+                $yaml_files[] = $yaml_file;
             }
 
             $input->setArgument('yaml-files', $yaml_files);
