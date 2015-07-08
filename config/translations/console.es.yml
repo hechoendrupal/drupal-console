@@ -68,13 +68,13 @@ commands:
             questions:
                 cache: 'Seleccione una caché.'
     chain:
-        description: 'Chain command execution'
+        description: 'Ejecución de comandos en secuencia'
         options:
-            file: 'User defined file containing commands to get executed.'
+            file: 'Archivo definido por el usuario que contiene comandos para ser ejecutados en secuencia.'
         messages:
-            missing_file: 'You must provide a valid file path and name.'
-            invalid_file: 'The file "%s" does not exists.'
-            module_install: 'module:install command is not runnable inside a chain queue and must be run independently.'
+            missing_file: 'Debe proporcionar una ruta de archivo válida y el nombre.'
+            invalid_file: 'El archivo "%s" no existe.'
+            module_install: 'comando module:install no es ejecutable dentro de una secuencia de comandos y se debe ejecutar de forma independiente.'
     config:
         export:
             description: 'Export current application configuration.'
