@@ -24,25 +24,22 @@ use Drupal\AppConsole\EventSubscriber\DefaultValueEventListener;
 
 set_time_limit(0);
 
-$consoleRoot = __DIR__ . '/../';
+$consoleRoot = __DIR__.'/../';
 
-if (file_exists($consoleRoot . '/vendor/autoload.php')) {
-    require_once $consoleRoot . '/vendor/autoload.php';
-} elseif (file_exists($consoleRoot . '/../../autoload.php')) {
-    require_once $consoleRoot . '/../../autoload.php';
+if (file_exists($consoleRoot.'/vendor/autoload.php')) {
+    require_once $consoleRoot.'/vendor/autoload.php';
+} elseif (file_exists($consoleRoot.'/../../autoload.php')) {
+    require_once $consoleRoot.'/../../autoload.php';
 } else {
-    echo 'Something goes wrong with your archive' . PHP_EOL .
-        'Try downloading again' . PHP_EOL;
+    echo 'Something goes wrong with your archive'.PHP_EOL.
+        'Try downloading again'.PHP_EOL;
     exit(1);
 }
 
 $config = new UserConfig();
 
-//Try to determine locale language if not available used console configuration
-$locale = $config->get('application.language')?:\Locale::getDefault();
-
 $translatorHelper = new TranslatorHelper();
-$translatorHelper->loadResource($locale, $consoleRoot);
+$translatorHelper->loadResource($config->get('application.language'), $consoleRoot);
 
 $application = new Application($config, $translatorHelper);
 $application->setDirectoryRoot($consoleRoot);

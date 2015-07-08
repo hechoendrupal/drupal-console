@@ -16,7 +16,6 @@ use Symfony\Component\Console\Application;
 class CodeQualityTool extends Application
 {
     private $output;
-    private $input;
 
     const PHP_FILES_IN_SRC = '/^src\/(.*)(\.php)$/';
     const PHP_FILES_IN_CLASSES = '/^classes\/(.*)(\.php)$/';
@@ -28,7 +27,6 @@ class CodeQualityTool extends Application
 
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        $this->input = $input;
         $this->output = $output;
 
         $output->writeln('<info>Code Quality Tool</info>');
