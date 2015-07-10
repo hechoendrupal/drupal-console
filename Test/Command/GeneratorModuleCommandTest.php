@@ -77,12 +77,9 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
               '--package' => 'Other',
               '--composer' => false,
               '--controller' => true,
-              '--controller-title' => 'Foo title',
-              '--controller-path' => '/foo/index',
-              '--controller-class-name' => 'DefaultController',
               '--test' => true
             ],
-            ["foo", "foo", $dir, "My Awesome Module", '8.x', 'Other', true, false, [], 'Foo title', '/foo/index', 'DefaultController', 'index', true],
+            ["foo", "foo", $dir, "My Awesome Module", '8.x', 'Other', true, false, [], true],
           ],
           [
             [
@@ -94,13 +91,9 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
               '--package' => 'Other',
               '--composer' => false,
               '--controller' => true,
-              '--controller-title' => 'Foo title',
-              '--controller-path' => '/foo/index',
-              '--controller-class-name' => 'DefaultController',
-              '--controller-method-name' => 'index',
               '--test' => true
             ],
-            ["foo", 'foo', $dir, "My Awesome Module", '8.x', 'Other', true, true, [], 'Foo title', '/foo/index', 'DefaultController', 'index', true],
+            ["foo", 'foo', $dir, "My Awesome Module", '8.x', 'Other', true, false, [], true],
           ]
         ];
     }
