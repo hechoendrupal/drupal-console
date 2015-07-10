@@ -124,9 +124,9 @@ class ModuleDownloadCommand extends ContainerAwareCommand
                 mkdir($module_contrib_path, 0777, true);
             }
 
-            // Preper release to unzip and untar
+            // Prepare release to unzip and untar
             $archiver = new ArchiveTar($destination, 'gz');
-            $archiver->extract($module_contrib_path.'/');
+            $archiver->extract($module_contrib_path . '/');
 
             fclose($destination.'.tar.gz');
 

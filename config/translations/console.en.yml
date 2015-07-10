@@ -213,6 +213,10 @@ commands:
         core: Core version
         package: Module package
         controller: Default Controller
+        controller-title: Controller title
+        controller-path: Controller path
+        controller-class-name: Controller class name
+        controller-method-name: Controller method name
         composer: Add a composer.json file
         dependencies: Module dependencies separated by commas (i.e. context, panels)
         test: Generate a test class
@@ -224,6 +228,10 @@ commands:
         core: Enter Drupal Core version
         package: Enter package name
         controller: Do you want to generate a default Controller
+        controller-title: Controller title
+        controller-path: Controller path
+        controller-class-name: Controller class name
+        controller-method-name: Controller method name
         composer: Do you want to add a composer.json file to your module
         dependencies: Would you like to add module depencencies
         test: Do you want to generate a unit test class
