@@ -21,13 +21,13 @@ application:
             invalid-command: 'Comando "%s" no está definido.'
     site:
         messages:
-            path: 'Site path'
+            path: 'Ruta del sitio'
         errors:
             directory: 'Para listar todos los comandos disponibles, debes estar dentro del directorio raiz de Drupal.'
             settings: 'Para listar todos los comandos disponibles primero debes instalar Drupal.'
     user:
         messages:
-            path: 'User home path'
+            path: 'Ruta del home del usuario'
 commands:
     common:
         options:
@@ -51,7 +51,7 @@ commands:
                 permission: 'Quieres generar permisos'
                 type: Tipo
                 invalid: 'El campo de tipo "%s" es inválido.'
-                description: Descripción
+                description: 'Descripción'
         errors:
             module-dependency: 'Depencia "%s" del modulo faltante'
             class-name-empty: 'El nombre de la Clase no puede estér psavia'
@@ -79,31 +79,31 @@ commands:
         export:
             description: 'Export current application configuration.'
             arguments:
-                directory: 'Define export directory to save configuration output.'
+                directory: 'Definir directorio de exportación para guardar la configuración.'
             messages:
-                directory: 'Your configuration export file was stored in %s'
+                directory: 'La configuración exportada fue guardada en el archivo %s'
         debug:
             description: 'Muestra la configuración actual.'
             arguments:
-                config-name: 'Configuration name.'
+                config-name: 'Nombre de la configuration.'
         override:
-            description: 'Override config value in active configuration.'
+            description: 'Sobreescribir valor de la configuración activa.'
             arguments:
-                config-name: 'Configuration name.'
+                config-name: 'Nombre de la configuración.'
                 key: Key
                 value: Value
             messages:
-                configuration: 'Configuration name'
-                configuration-key: 'Configuration key'
-                original: 'Original Value'
-                updated: 'Override Value'
+                configuration: 'Nombre de la configuración.'
+                configuration-key: 'Llave de la configuración.'
+                original: 'Valor origina.l'
+                updated: 'Valos sobreescrito.'
         edit:
-            description: 'Edit the selected configuration.'
+            description: 'Editar la configuración seleccionada.'
             arguments:
-                config-name: 'Configuration name.'
+                config-name: 'Nombre de la configuración.'
                 editor: Editor.
             messages:
-                no-directory: 'An error occurred while creating your directory at'
+                no-directory: 'Ha acurrido un eror mienstras se create el directio en'
     container:
         debug:
             description: 'Muestra los servicios actuales para una aplicación.'
