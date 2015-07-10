@@ -64,30 +64,6 @@ class GeneratorModuleCommand extends GeneratorCommand
               $this->trans('commands.generate.module.options.controller')
           )
           ->addOption(
-              'controller-title',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.module.options.controller-title')
-          )
-          ->addOption(
-              'controller-path',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.module.options.controller-path')
-          )
-          ->addOption(
-              'controller-class-name',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.module.options.controller-class-name')
-          )
-          ->addOption(
-              'controller-method-name',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.module.options.controller-method-name')
-          )
-          ->addOption(
               'composer',
               '',
               InputOption::VALUE_NONE,
@@ -127,10 +103,6 @@ class GeneratorModuleCommand extends GeneratorCommand
         $core = $input->getOption('core');
         $package = $input->getOption('package');
         $controller = $input->getOption('controller');
-        $controller_title = $input->getOption('controller-title');
-        $controller_path = $input->getOption('controller-path');
-        $controller_class_name = $input->getOption('controller-class-name');
-        $controller_method_name = $input->getOption('controller-method-name');
         $composer = $input->getOption('composer');
         /*
          * Modules Dependencies
@@ -155,8 +127,6 @@ class GeneratorModuleCommand extends GeneratorCommand
          */
         $test = $input->getOption('test');
 
-        $stringUtils = $this->getHelperSet()->get('stringUtils');
-        $controller_class_name_machine_name = $stringUtils->createMachineName($controller_class_name);
         $generator = $this->getGenerator();
         $generator->generate(
             $module,
@@ -166,11 +136,6 @@ class GeneratorModuleCommand extends GeneratorCommand
             $core,
             $package,
             $controller,
-            $controller_title,
-            $controller_path,
-            $controller_class_name,
-            $controller_class_name_machine_name,
-            $controller_method_name,
             $composer,
             $dependencies,
             $test
@@ -338,48 +303,6 @@ class GeneratorModuleCommand extends GeneratorCommand
             $controller = true;
         }
         $input->setOption('controller', $controller);
-
-        if ($controller) {
-            $controller_title = $input->getOption('controller-title');
-            if (!$controller_title) {
-                $controller_title = $dialog->ask(
-                    $output,
-                    $dialog->getQuestion($this->trans('commands.generate.module.questions.controller-title'), $module . ' title'),
-                    $module . ' title'
-                );
-                $input->setOption('controller-title', $controller_title);
-            }
-
-            $controller_path = $input->getOption('controller-path');
-            if (!$controller_path) {
-                $controller_path = $dialog->ask(
-                    $output,
-                    $dialog->getQuestion($this->trans('commands.generate.module.questions.controller-path'), '/' . $machine_name . '/index'),
-                    '/' . $machine_name . '/index'
-                );
-                $input->setOption('controller-path', $controller_path);
-            }
-
-            $controller_class_name = $input->getOption('controller-class-name');
-            if (!$controller_class_name) {
-                $controller_class_name = $dialog->ask(
-                    $output,
-                    $dialog->getQuestion($this->trans('commands.generate.module.questions.controller-class-name'), 'DefaultController'),
-                    'DefaultController'
-                );
-                $input->setOption('controller-class-name', $controller_class_name);
-            }
-
-            $controller_method_name = $input->getOption('controller-method-name');
-            if (!$controller_method_name) {
-                $controller_method_name = $dialog->ask(
-                    $output,
-                    $dialog->getQuestion($this->trans('commands.generate.module.questions.controller-method-name'), 'index'),
-                    'index'
-                );
-                $input->setOption('controller-method-name', $controller_method_name);
-            }
-        }
 
         $composer = $input->getOption('composer');
         if (!$composer && $dialog->askConfirmation(

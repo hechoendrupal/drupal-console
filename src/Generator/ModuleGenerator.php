@@ -17,17 +17,11 @@ class ModuleGenerator extends Generator
         $core,
         $package,
         $controller,
-        $controller_title,
-        $controller_path,
-        $controller_class_name,
-        $controller_class_name_machine_name,
-        $controller_method_name,
         $composer,
         $dependencies,
         $tests
     ) {
         $dir .= '/'.$machine_name;
-
         if (file_exists($dir)) {
             if (!is_dir($dir)) {
                 throw new \RuntimeException(sprintf(
@@ -81,32 +75,32 @@ class ModuleGenerator extends Generator
         }
 
         if ($controller) {
+            $class_name = 'DefaultController';
             $parameters = array(
-              'title' => $controller_title,
-              'class_name' => $controller_class_name,
+              'class_name' => $class_name,
               'module' => $machine_name,
-              'method_name' => $controller_method_name,
-              'class_machine_name' => $controller_class_name_machine_name,
-              'route' =>  $controller_path . '/{name}',
+              'method_name' => 'hello',
+              'class_machine_name' => 'default_controller',
+              'route' => '/'.$machine_name.'/hello/{name}',
               'services' => [],
             );
 
             $this->renderFile(
                 'module/src/Controller/controller.php.twig',
-                $dir . '/src/Controller/' . $controller_class_name .'.php',
+                $dir.'/src/Controller/'.$class_name.'.php',
                 $parameters
             );
 
             $this->renderFile(
                 'module/routing-controller.yml.twig',
-                $dir . '/' . $machine_name.'.routing.yml',
+                $dir.'/'.$machine_name.'.routing.yml',
                 $parameters
             );
 
             if ($tests) {
                 $this->renderFile(
                     'module/Tests/Controller/controller.php.twig',
-                    $dir . '/Tests/Controller/'. $controller_class_name . 'Test.php',
+                    $dir.'/Tests/Controller/'.$class_name.'Test.php',
                     $parameters
                 );
             }
