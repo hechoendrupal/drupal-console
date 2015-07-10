@@ -35,6 +35,12 @@ class GeneratorControllerCommand extends GeneratorCommand
               $this->trans('commands.generate.controller.options.class-name')
           )
           ->addOption(
+              'controller-title',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.controller.options.controller-title')
+          )
+          ->addOption(
               'method-name',
               '',
               InputOption::VALUE_OPTIONAL,
@@ -62,6 +68,7 @@ class GeneratorControllerCommand extends GeneratorCommand
         }
 
         $module = $input->getOption('module');
+        $controller_title = $input->getOption('controller-title');
         $class_name = $input->getOption('class-name');
         $method_name = $input->getOption('method-name');
         $route = $input->getOption('route');
@@ -81,7 +88,7 @@ class GeneratorControllerCommand extends GeneratorCommand
 
         $generator = $this->getGenerator();
         $generator->setLearning($learning);
-        $generator->generate($module, $class_name, $method_name, $route, $test, $build_services, $class_machine_name);
+        $generator->generate($module, $controller_title, $class_name, $method_name, $route, $test, $build_services, $class_machine_name);
 
         $this->getHelper('chain')->addCommand('router:rebuild');
     }
@@ -102,47 +109,63 @@ class GeneratorControllerCommand extends GeneratorCommand
         $input->setOption('module', $module);
 
         // --class-name option
+        $controller_title = $input->getOption('controller-title');
+        if (!$controller_title) {
+            $controller_title = $dialog->askAndValidate(
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.controller.questions.controller-title'), 'My Title'),
+                function ($title) {
+                    if (empty($title)) {
+                        throw new \InvalidArgumentException(
+                            $this->trans('commands.generate.controller.messages.title-not-empty')
+                        );
+                    } else {
+                        return $title;
+                    }
+                },
+                false,
+                'My Title',
+                null
+            );
+        }
+        $input->setOption('controller-title', $controller_title);
+
+        // --class-name option
         $class_name = $input->getOption('class-name');
         if (!$class_name) {
-            $class_name = 'DefaultController';
             $class_name = $dialog->askAndValidate(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.controller.questions.class-name'), $class_name),
+                $dialog->getQuestion($this->trans('commands.generate.controller.questions.class-name'), 'DefaultController'),
                 function ($class_name) {
                     return $this->validateClassName($class_name);
                 },
                 false,
-                $class_name,
+                'DefaultController',
                 null
             );
         }
         $input->setOption('class-name', $class_name);
 
         // --method-name option & --route option
-        if ($class_name != 'DefaultController') {
-            $method_name = $input->getOption('method-name');
-            if (!$method_name) {
-                $method_name = $dialog->ask(
-                    $output,
-                    $dialog->getQuestion($this->trans('commands.generate.controller.questions.method-name'), 'index'),
-                    'index'
-                );
-            }
+        $method_name = $input->getOption('method-name');
+        if (!$method_name) {
+            $method_name = $dialog->ask(
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.controller.questions.method-name'), 'index'),
+                'index'
+            );
+        }
 
-            $route = $input->getOption('route');
-            if (!$route) {
-                $route = $dialog->ask(
-                    $output,
-                    $dialog->getQuestion(
-                        $this->trans('commands.generate.controller.questions.route'),
-                        $module.'/'.$method_name
-                    ),
+        $route = $input->getOption('route');
+        if (!$route) {
+            $route = $dialog->ask(
+                $output,
+                $dialog->getQuestion(
+                    $this->trans('commands.generate.controller.questions.route'),
                     $module.'/'.$method_name
-                );
-            }
-        } else {
-            $method_name = 'hello';
-            $route = $module.'/hello/{name}';
+                ),
+                $module.'/'.$method_name
+            );
         }
         $input->setOption('method-name', $method_name);
         $input->setOption('route', $route);

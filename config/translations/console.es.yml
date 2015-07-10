@@ -145,6 +145,7 @@ commands:
             welcome: 'Bienvenido al generador de controlador de Drupal'
             options:
                 module: common.options.module
+                controller-title: 'Título del controllador'
                 class-name: 'Nombre de la clase del controlador'
                 method-name: 'El nombre del método de acción'
                 route: 'El camino de la routa'
@@ -152,11 +153,14 @@ commands:
                 test: 'Generar una clase de prueba'
             questions:
                 module: common.questions.module
+                controller-title: 'Escriba el título del controllador'
                 class-name: 'Escriba el nombre de la clase del Controlador'
                 method-name: 'Escriba nombre del método de acción'
                 route: 'Escriba el camino de la ruta'
                 services: common.questions.services
                 test: 'Desea generar una clase de prueba unitaria'
+            messages:
+                title-not-empty: 'Título no puede ser vacío'
         entity:
             description: 'Generar un nuevo "%s"'
             help: 'El <info>"%s"</info> comando te ayuda a generar a nuevo "%s"'

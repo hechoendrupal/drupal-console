@@ -9,9 +9,10 @@ namespace Drupal\AppConsole\Generator;
 
 class ControllerGenerator extends Generator
 {
-    public function generate($module, $class_name, $method_name, $route, $test, $services, $class_machine_name)
+    public function generate($module, $controller_title, $class_name, $method_name, $route, $test, $services, $class_machine_name)
     {
         $parameters = [
+          'controller_title' => $controller_title,
           'class_name' => $class_name,
           'services' => $services,
           'module' => $module,
