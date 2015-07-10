@@ -56,11 +56,20 @@ class ShowGenerateChainListener implements EventSubscriberInterface
         $input = $event->getInput();
 
         //Get options list
-        $options = array_diff(array_filter($input->getOptions()), $this->skipOptions);
+        $options = array_filter($input->getOptions());
 
         if (isset($options['generate-chain']) && $options['generate-chain'] == 1) {
+            // Remove unnecessary options
+            foreach ($this->skipOptions as $remove_option) {
+                unset($options[$remove_option]);
+            }
+
             // Get argument list
-            $arguments = array_diff(array_filter($input->getArguments()), $this->skipArguments);
+            $arguments = array_filter($input->getArguments());
+            // Remove unnecessary arguments
+            foreach ($this->skipArguments as $remove_argument) {
+                unset($arguments[$remove_argument]);
+            }
 
             $yaml = array();
             $yaml[$command_name]['options'] = $options;
