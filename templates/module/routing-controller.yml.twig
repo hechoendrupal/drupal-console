@@ -7,7 +7,7 @@
   path: '{{ route }}'
   defaults:
     _controller: '\Drupal\{{ module }}\Controller\{{ class_name }}::{{ method_name }}'
-    _title: '{{module}} Title'
+    _title: '{{title}}'
   requirements:
     _permission: 'access content'
 {% endif %}
