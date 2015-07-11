@@ -4,13 +4,15 @@ namespace Drupal\AppConsole\Test\Command;
 
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 use Drupal\AppConsole\Command\Helper\DialogHelper;
+use Drupal\AppConsole\Test\BaseTestCase;
 
-abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
+abstract class GenerateCommandTest extends BaseTestCase
 {
     /**
-     * @return \Symfony\Component\DependencyInjection\Container Drupal container
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface Drupal container
      */
     protected function getContainer()
     {
@@ -19,7 +21,7 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
         return $container;
     }
 
-    protected function getHelperSet($input)
+    protected function getHelperSet($input = null)
     {
         $dialog = new DialogHelper();
         $dialog->setInputStream($this->getInputStream($input));
@@ -82,7 +84,13 @@ abstract class GenerateCommandTest extends \PHPUnit_Framework_TestCase
         return $stream;
     }
 
+
     protected function getTranslationHelper()
+    {
+        return $this->getTranslatorHelper();
+    }
+
+    public function getTranslatorHelper()
     {
         return $this
           ->getMockBuilder('Drupal\AppConsole\Command\Helper\TranslatorHelper')
