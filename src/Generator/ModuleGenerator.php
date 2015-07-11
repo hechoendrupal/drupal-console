@@ -16,29 +16,27 @@ class ModuleGenerator extends Generator
         $description,
         $core,
         $package,
-        $controller,
         $composer,
-        $dependencies,
-        $tests
+        $dependencies
     ) {
         $dir .= '/'.$machine_name;
         if (file_exists($dir)) {
             if (!is_dir($dir)) {
                 throw new \RuntimeException(sprintf(
-                    'Unable to generate the bundle as the target directory "%s" exists but is a file.',
+                    'Unable to generate the module as the target directory "%s" exists but is a file.',
                     realpath($dir)
                 ));
             }
             $files = scandir($dir);
             if ($files != array('.', '..')) {
                 throw new \RuntimeException(sprintf(
-                    'Unable to generate the bundle as the target directory "%s" is not empty.',
+                    'Unable to generate the module as the target directory "%s" is not empty.',
                     realpath($dir)
                 ));
             }
             if (!is_writable($dir)) {
                 throw new \RuntimeException(sprintf(
-                    'Unable to generate the bundle as the target directory "%s" is not writable.',
+                    'Unable to generate the module as the target directory "%s" is not writable.',
                     realpath($dir)
                 ));
             }
@@ -72,38 +70,6 @@ class ModuleGenerator extends Generator
                 $dir.'/'.'composer.json',
                 $parameters
             );
-        }
-
-        if ($controller) {
-            $class_name = 'DefaultController';
-            $parameters = array(
-              'class_name' => $class_name,
-              'module' => $machine_name,
-              'method_name' => 'hello',
-              'class_machine_name' => 'default_controller',
-              'route' => '/'.$machine_name.'/hello/{name}',
-              'services' => [],
-            );
-
-            $this->renderFile(
-                'module/src/Controller/controller.php.twig',
-                $dir.'/src/Controller/'.$class_name.'.php',
-                $parameters
-            );
-
-            $this->renderFile(
-                'module/routing-controller.yml.twig',
-                $dir.'/'.$machine_name.'.routing.yml',
-                $parameters
-            );
-
-            if ($tests) {
-                $this->renderFile(
-                    'module/Tests/Controller/controller.php.twig',
-                    $dir.'/Tests/Controller/'.$class_name.'Test.php',
-                    $parameters
-                );
-            }
         }
     }
 }
