@@ -4,7 +4,6 @@ namespace Drupal\AppConsole\Test\Command;
 
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 use Drupal\AppConsole\Command\Helper\DialogHelper;
 use Drupal\AppConsole\Test\BaseTestCase;
