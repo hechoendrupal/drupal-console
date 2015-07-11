@@ -7,9 +7,7 @@ commands:
       description: My example module
       core: 8.x
       package: Test
-      controller: false
       dependencies:
-      test: false
   - command: generate:controller
     options:
       module: example
