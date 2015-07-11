@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__.'/vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,8 +17,7 @@ class CodeQualityTool extends Application
 {
     private $output;
 
-    const PHP_FILES_IN_SRC = '/^src\/(.*)(\.php)$/';
-    const PHP_FILES_IN_CLASSES = '/^classes\/(.*)(\.php)$/';
+    private $needle = '/(\.php)|(\.inc)$/';
 
     public function __construct()
     {
@@ -55,12 +54,12 @@ class CodeQualityTool extends Application
             throw new Exception(sprintf('There are coding standards violations!'));
         }
 
-        $output->writeln('<info>Checking code style with PHPCS (phpcbf)</info>');
+        $output->writeln('<info>Fixing code style with PHPCBF</info>');
         if (!$this->codeStylePsr($files, 'phpcbf')) {
             throw new Exception(sprintf('There are PHPCS coding standards violations! and some got fixed by PHPCBF'));
         }
 
-        $output->writeln('<info>Checking code style with PHPCS (phpcs)</info>');
+        $output->writeln('<info>Checking code style with PHPCS</info>');
         if (!$this->codeStylePsr($files, 'phpcs')) {
             throw new Exception(sprintf('There are PHPCS coding standards violations!'));
         }
@@ -115,11 +114,10 @@ class CodeQualityTool extends Application
 
     private function phpLint($files)
     {
-        $needle = '/(\.php)|(\.inc)$/';
         $succeed = true;
 
         foreach ($files as $file) {
-            if (!preg_match($needle, $file)) {
+            if (!preg_match($this->needle, $file)) {
                 continue;
             }
 
@@ -144,12 +142,11 @@ class CodeQualityTool extends Application
     {
         $this->validateBinary('bin/phpmd');
 
-        $needle = self::PHP_FILES_IN_SRC;
         $succeed = true;
         $rootPath = realpath(__DIR__.'/');
 
         foreach ($files as $file) {
-            if (!preg_match($needle, $file)) {
+            if (!preg_match($this->needle, $file) || $file == 'CodeQualityTool.php') {
                 continue;
             }
 
@@ -194,10 +191,7 @@ class CodeQualityTool extends Application
         $succeed = true;
 
         foreach ($files as $file) {
-            $classesFile = preg_match(self::PHP_FILES_IN_CLASSES, $file);
-            $srcFile = preg_match(self::PHP_FILES_IN_SRC, $file);
-
-            if (!$classesFile && !$srcFile) {
+            if (!preg_match($this->needle, $file) || $file == 'CodeQualityTool.php') {
                 continue;
             }
 
@@ -224,10 +218,9 @@ class CodeQualityTool extends Application
         $this->validateBinary(sprintf('bin/%s', $command));
 
         $succeed = true;
-        $needle = self::PHP_FILES_IN_SRC;
 
         foreach ($files as $file) {
-            if (!preg_match($needle, $file)) {
+            if (!preg_match($this->needle, $file) || $file == 'CodeQualityTool.php') {
                 continue;
             }
 
