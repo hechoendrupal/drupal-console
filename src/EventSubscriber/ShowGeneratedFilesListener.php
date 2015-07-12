@@ -14,7 +14,7 @@ use Drupal\AppConsole\Command\GeneratorCommand;
 
 class ShowGeneratedFilesListener implements EventSubscriberInterface
 {
-   /**
+    /**
      * @param ConsoleTerminateEvent $event
      */
     public function showGeneratedFiles(ConsoleTerminateEvent $event)

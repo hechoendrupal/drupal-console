@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains Drupal\AppConsole\Command\GeneratorControllerCommand.
@@ -27,12 +28,24 @@ class GeneratorControllerCommand extends GeneratorCommand
           ->setDescription($this->trans('commands.generate.controller.description'))
           ->setHelp($this->trans('commands.generate.controller.command.help'))
           ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
-          ->addOption('class-name', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.controller.options.class-name'))
-          ->addOption('method-name', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.controller.options.method-name'))
-          ->addOption('route', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.controller.options.route'))
+          ->addOption(
+              'class-name',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.controller.options.class-name')
+          )
+          ->addOption(
+              'method-name',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.controller.options.method-name')
+          )
+          ->addOption(
+              'route',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.controller.options.route')
+          )
           ->addOption('services', '', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, $this->trans('commands.common.options.services'))
           ->addOption('test', '', InputOption::VALUE_NONE, $this->trans('commands.generate.controller.options.test'));
     }
@@ -93,14 +106,14 @@ class GeneratorControllerCommand extends GeneratorCommand
         if (!$class_name) {
             $class_name = 'DefaultController';
             $class_name = $dialog->askAndValidate(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.controller.questions.class-name'), $class_name),
-              function ($class_name) {
-                  return $this->validateClassName($class_name);
-              },
-              false,
-              $class_name,
-              null
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.controller.questions.class-name'), $class_name),
+                function ($class_name) {
+                    return $this->validateClassName($class_name);
+                },
+                false,
+                $class_name,
+                null
             );
         }
         $input->setOption('class-name', $class_name);
@@ -110,24 +123,26 @@ class GeneratorControllerCommand extends GeneratorCommand
             $method_name = $input->getOption('method-name');
             if (!$method_name) {
                 $method_name = $dialog->ask(
-                  $output,
-                  $dialog->getQuestion($this->trans('commands.generate.controller.questions.method-name'), 'index'),
-                  'index'
+                    $output,
+                    $dialog->getQuestion($this->trans('commands.generate.controller.questions.method-name'), 'index'),
+                    'index'
                 );
             }
 
             $route = $input->getOption('route');
             if (!$route) {
                 $route = $dialog->ask(
-                  $output,
-                  $dialog->getQuestion($this->trans('commands.generate.controller.questions.route'),
-                    $module . '/' . $method_name),
-                  $module . '/' . $method_name
+                    $output,
+                    $dialog->getQuestion(
+                        $this->trans('commands.generate.controller.questions.route'),
+                        $module.'/'.$method_name
+                    ),
+                    $module.'/'.$method_name
                 );
             }
         } else {
             $method_name = 'hello';
-            $route = $module . '/hello/{name}';
+            $route = $module.'/hello/{name}';
         }
         $input->setOption('method-name', $method_name);
         $input->setOption('route', $route);
@@ -138,7 +153,7 @@ class GeneratorControllerCommand extends GeneratorCommand
             $output,
             $dialog->getQuestion($this->trans('commands.generate.controller.questions.test'), 'yes', '?'),
             true
-          )
+        )
         ) {
             $test = true;
         }

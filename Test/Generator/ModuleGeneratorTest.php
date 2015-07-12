@@ -7,40 +7,52 @@
 namespace Drupal\AppConsole\Test\Generator;
 
 use Drupal\AppConsole\Generator\ModuleGenerator;
+use Drupal\AppConsole\Test\DataProvider\ModuleDataProviderTrait;
 
+/**
+ * Class ModuleGeneratorTest
+ * @package Drupal\AppConsole\Test\Generator
+ */
 class ModuleGeneratorTest extends GeneratorTest
 {
+    use ModuleDataProviderTrait;
+
     /**
      * Module generator test
      *
+     * @param $module
+     * @param $machine_name
+     * @param $module_path,
+     * @param $description
+     * @param $core
+     * @param $package
+     * @param $composer
+     * @param $dependencies
+     *
      * @dataProvider commandData
      */
-    public function testGenerateModule($parameters)
-    {
-        list(
-          $module,
-          $machine_name,
-          $dir,
-          $description,
-          $core,
-          $package,
-          $controller,
-          $composer,
-          $dependencies,
-          $tests
-          ) = $parameters;
+    public function testGenerateModule(
+        $module,
+        $machine_name,
+        $module_path,
+        $description,
+        $core,
+        $package,
+        $composer,
+        $dependencies
+    ) {
+        $generator = new ModuleGenerator();
+        $generator->setSkeletonDirs(__DIR__ . '/../../templates');
 
-        $this->getGenerator()->generate(
-          $module,
-          $machine_name,
-          $dir,
-          $description,
-          $core,
-          $package,
-          $controller,
-          $composer,
-          $dependencies,
-          $tests
+        $generator->generate(
+            $module,
+            $machine_name,
+            $module_path,
+            $description,
+            $core,
+            $package,
+            $composer,
+            $dependencies
         );
 
         $files = [
@@ -50,60 +62,16 @@ class ModuleGeneratorTest extends GeneratorTest
 
         foreach ($files as $file) {
             $this->assertTrue(
-              file_exists($dir . '/' . $machine_name . '/' . $file),
-              sprintf('%s has been generated', $dir . '/' . $machine_name . '/' . $file)
+                file_exists($module_path . '/' . $machine_name . '/' . $file),
+                sprintf('%s has been generated', $module_path . '/' . $machine_name . '/' . $file)
             );
         }
 
-        if ($controller) {
+        if ($composer) {
             $this->assertTrue(
-              file_exists($dir . '/' . $machine_name . '/src/Controller/DefaultController.php'),
-              sprintf('%s has been generated',
-                $dir . $machine_name . '/src/Controller/DefaultController.php'
-              )
+                file_exists($module_path . '/' . $machine_name . '/composer.json'),
+                sprintf('%s has been generated', $module_path . '/' . $machine_name . '/composer.json')
             );
-            $this->assertTrue(
-              file_exists($dir . '/' . $machine_name . "/$machine_name.routing.yml"),
-              sprintf('%s has been generated',
-                $dir . '/' . $machine_name . "/$machine_name.routing.yml"
-              )
-            );
-
-            if ($tests) {
-                $this->assertTrue(
-                  file_exists($dir . '/' . $machine_name . '/Tests/Controller/DefaultControllerTest.php'),
-                  sprintf('%s has been generated',
-                    $dir . '/' . $machine_name . '/Tests/Controller/DefaultControllerTest.php'
-                  )
-                );
-            }
         }
-    }
-
-    public function commandData()
-    {
-        $this->setUpTemporalDirectory();
-
-        return [
-          [
-            ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, false, null, false],
-          ],
-          [
-            ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, false, null, true],
-          ],
-          [
-            ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, false, null, false],
-          ],
-          [
-            ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', true, true, null, true],
-          ],
-        ];
-    }
-
-    protected function getGenerator()
-    {
-        $generator = new ModuleGenerator();
-        $generator->setSkeletonDirs(__DIR__ . '/../../templates');
-        return $generator;
     }
 }

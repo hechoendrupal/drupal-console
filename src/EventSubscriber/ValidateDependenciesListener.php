@@ -26,7 +26,7 @@ class ValidateDependenciesListener implements EventSubscriberInterface
 
         $application = $command->getApplication();
         $messageHelper = $application->getHelperSet()->get('message');
-        /** @var TranslatorHelper */
+        /* @var TranslatorHelper */
         $translatorHelper = $application->getHelperSet()->get('translator');
 
         if (!$command instanceof Command) {
@@ -39,8 +39,8 @@ class ValidateDependenciesListener implements EventSubscriberInterface
             foreach ($dependencies as $dependency) {
                 if (\Drupal::moduleHandler()->moduleExists($dependency) === false) {
                     $errorMessage = sprintf(
-                      $translatorHelper->trans('commands.common.errors.module-dependency'),
-                      $dependency
+                        $translatorHelper->trans('commands.common.errors.module-dependency'),
+                        $dependency
                     );
                     $messageHelper->showMessage($output, $errorMessage, 'error');
                     $event->disableCommand();

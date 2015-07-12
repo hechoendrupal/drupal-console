@@ -87,9 +87,7 @@ class {{ class_name }} extends ResourceBase {% endblock %}
       $container->get('current_user')
     );
   }
-
 {% endblock %}
-
 {% block class_methods %}
 {% for state in plugin_states %}
   /**

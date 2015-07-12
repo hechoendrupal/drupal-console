@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\GeneratorEntityCommand.
@@ -43,19 +44,27 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
         $this
           ->setName($this->commandName)
           ->setDescription(sprintf(
-            $this->trans('commands.generate.entity.description'),
-            $this->entityType
+              $this->trans('commands.generate.entity.description'),
+              $this->entityType
           ))
           ->setHelp(sprintf(
-            $this->trans('commands.generate.entity.help'),
-            $this->commandName,
-            $this->entityType
+              $this->trans('commands.generate.entity.help'),
+              $this->commandName,
+              $this->entityType
           ))
           ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
-          ->addOption('entity-class', null, InputOption::VALUE_REQUIRED,
-            $this->trans('commands.generate.entity.options.entity-class'))
-          ->addOption('entity-name', null, InputOption::VALUE_REQUIRED,
-            $this->trans('commands.generate.entity.options.entity-name'));
+          ->addOption(
+              'entity-class',
+              null,
+              InputOption::VALUE_REQUIRED,
+              $this->trans('commands.generate.entity.options.entity-class')
+          )
+          ->addOption(
+              'entity-name',
+              null,
+              InputOption::VALUE_REQUIRED,
+              $this->trans('commands.generate.entity.options.entity-name')
+          );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -92,14 +101,14 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
         if (!$entity_class) {
             $entity_class = 'DefaultEntity';
             $entity_class = $dialog->askAndValidate(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.entity.questions.entity-class'), $entity_class),
-              function ($entity_class) {
-                  return $this->validateSpaces($entity_class);
-              },
-              false,
-              $entity_class,
-              null
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.entity.questions.entity-class'), $entity_class),
+                function ($entity_class) {
+                    return $this->validateSpaces($entity_class);
+                },
+                false,
+                $entity_class,
+                null
             );
         }
         $input->setOption('entity-class', $entity_class);
@@ -110,14 +119,14 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
         $entity_name = $input->getOption('entity-name');
         if (!$entity_name) {
             $entity_name = $dialog->askAndValidate(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.entity.questions.entity-name'), $machine_name),
-              function ($machine_name) {
-                  return $this->validateMachineName($machine_name);
-              },
-              false,
-              $machine_name,
-              null
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.entity.questions.entity-name'), $machine_name),
+                function ($machine_name) {
+                    return $this->validateMachineName($machine_name);
+                },
+                false,
+                $machine_name,
+                null
             );
         }
 

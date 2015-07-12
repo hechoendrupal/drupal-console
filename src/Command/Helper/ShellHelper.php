@@ -1,4 +1,5 @@
 <?php
+
 namespace Drupal\AppConsole\Command\Helper;
 
 use Symfony\Component\Console\Helper\Helper;

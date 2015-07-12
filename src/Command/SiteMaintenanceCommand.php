@@ -1,8 +1,10 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\SiteModeCommand.
  */
+
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -17,9 +19,9 @@ class SiteMaintenanceCommand extends ContainerAwareCommand
           ->setName('site:maintenance')
           ->setDescription($this->trans('commands.site.maintenance.description'))
           ->addArgument(
-            'mode',
-            InputArgument::REQUIRED,
-            $this->trans('commands.site.maintenance.arguments.mode') . '[on/off]'
+              'mode',
+              InputArgument::REQUIRED,
+              $this->trans('commands.site.maintenance.arguments.mode').'[on/off]'
           );
     }
 
@@ -47,8 +49,8 @@ class SiteMaintenanceCommand extends ContainerAwareCommand
         }
 
         $output->writeln(sprintf(
-          '[+] <info>%s:</info>',
-          $this->trans($modeMessage)
+            '[+] <info>%s:</info>',
+            $this->trans($modeMessage)
         ));
 
         if ($cacheRebuild) {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains Drupal\AppConsole\Generator\PermissionGenerator.
@@ -20,15 +21,15 @@ class PermissionGenerator extends Generator
         );
 
         $this->renderFile(
-          'module/permission.yml.twig',
-          $this->getModulePath($module).'/'.$module.'.permissions.yml',
-          $parameters,
-          FILE_APPEND
+            'module/permission.yml.twig',
+            $this->getModulePath($module).'/'.$module.'.permissions.yml',
+            $parameters,
+            FILE_APPEND
         );
 
         $content = $this->renderView(
-          'module/permission-routing.yml.twig',
-          $parameters
+            'module/permission-routing.yml.twig',
+            $parameters
         );
 
         if ($this->isLearning()) {

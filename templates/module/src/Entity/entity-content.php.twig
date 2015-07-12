@@ -41,17 +41,15 @@ use Drupal\user\UserInterface;
  *   },
  *   base_table = "{{ entity_name }}",
  *   admin_permission = "administer {{ entity_class }} entity",
- *   fieldable = TRUE,
  *   entity_keys = {
  *     "id" = "id",
  *     "label" = "name",
  *     "uuid" = "uuid"
  *   },
  *   links = {
- *     "canonical" = "/entity.{{ entity_name }}.canonical",
- *     "edit-form" = "/entity.{{ entity_name }}.edit_form",
- *     "delete-form" = "/entity.{{ entity_name }}.delete_form",
- *     "collection" = "/entity.{{ entity_name }}.collection"
+ *     "canonical" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
+ *     "edit-form" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
+ *     "delete-form" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete"
  *   },
  *   field_ui_base_route = "{{ entity_name }}.settings"
  * )
@@ -156,10 +154,10 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
       ->setLabel(t('Name'))
       ->setDescription(t('The name of the {{ entity_class }} entity.'))
       ->setSettings(array(
-        'default_value' => '',
         'max_length' => 50,
         'text_processing' => 0,
       ))
+      ->setDefaultValue('')
       ->setDisplayOptions('view', array(
         'label' => 'above',
         'type' => 'string',
