@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\ModuleInstallCommand.
@@ -10,10 +11,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
 class ModuleInstallCommand extends ContainerAwareCommand
 {
-
     protected function configure()
     {
         $this
@@ -43,24 +42,24 @@ class ModuleInstallCommand extends ContainerAwareCommand
                 $module_list[$module_id] = $module->info['name'];
             }
 
-            $output->writeln('[+] <info>' . $this->trans('commands.module.install.messages.disabled-modules') . '</info>');
+            $output->writeln('[+] <info>'.$this->trans('commands.module.install.messages.disabled-modules').'</info>');
 
             while (true) {
                 $module_name = $dialog->askAndValidate(
-                  $output,
-                  $dialog->getQuestion($this->trans('commands.module.install.questions.module'), ''),
-                  function ($module_id) use ($module_list) {
-                      if ($module_id == '' || $module_list[$module_id]) {
-                          return $module_id;
-                      } else {
-                          throw new \InvalidArgumentException(
-                            sprintf($this->trans('commands.module.install.questions.invalid-module'), $module_id)
-                          );
-                      }
-                  },
-                  false,
-                  '',
-                  array_keys($module_list)
+                    $output,
+                    $dialog->getQuestion($this->trans('commands.module.install.questions.module'), ''),
+                    function ($module_id) use ($module_list) {
+                        if ($module_id == '' || $module_list[$module_id]) {
+                            return $module_id;
+                        } else {
+                            throw new \InvalidArgumentException(
+                                sprintf($this->trans('commands.module.install.questions.invalid-module'), $module_id)
+                            );
+                        }
+                    },
+                    false,
+                    '',
+                    array_keys($module_list)
                 );
 
                 if (empty($module_name)) {
@@ -93,15 +92,20 @@ class ModuleInstallCommand extends ContainerAwareCommand
 
         // Determine if some module request is missing
         if ($missing_modules = array_diff_key($module_list, $module_data)) {
-            $output->writeln('[+] <error>' . sprintf($this->trans('commands.module.install.messages.missing'),
-                implode(", ", $modules), implode(", ", $missing_modules)) . '</error>');
+            $output->writeln('[+] <error>'.sprintf(
+                $this->trans('commands.module.install.messages.missing'),
+                implode(', ', $modules),
+                implode(', ', $missing_modules)
+            ).'</error>');
+
             return true;
         }
 
         // Only process currently uninstalled modules.
         $installed_modules = $extension_config->get('module') ?: array();
         if (!$module_list = array_diff_key($module_list, $installed_modules)) {
-            $output->writeln('[+] <info>' . $this->trans('commands.module.install.messages.nothing') . '</info>');
+            $output->writeln('[+] <info>'.$this->trans('commands.module.install.messages.nothing').'</info>');
+
             return true;
         }
 
@@ -124,8 +128,12 @@ class ModuleInstallCommand extends ContainerAwareCommand
 
         // Error if there are missing dependencies
         if (!empty($missing_dependencies)) {
-            $output->writeln('[+] <error>' . sprintf($this->trans('commands.module.install.messages.missing-dependencies'),
-                implode(", ", $modules), implode(", ", $missing_dependencies)) . '</error>');
+            $output->writeln('[+] <error>'.sprintf(
+                $this->trans('commands.module.install.messages.missing-dependencies'),
+                implode(', ', $modules),
+                implode(', ', $missing_dependencies)
+            ).'</error>');
+
             return true;
         }
 
@@ -133,10 +141,12 @@ class ModuleInstallCommand extends ContainerAwareCommand
         if ($dependencies) {
             $dialog = $this->getDialogHelper();
             if (!$dialog->askConfirmation(
-              $output,
-              $dialog->getQuestion(sprintf($this->trans('commands.module.install.messages.dependencies'),
-                implode(", ", $dependencies)), n),
-              false
+                $output,
+                $dialog->getQuestion(sprintf(
+                    $this->trans('commands.module.install.messages.dependencies'),
+                    implode(', ', $dependencies)
+                ), n),
+                false
             )
             ) {
                 return;
@@ -148,10 +158,13 @@ class ModuleInstallCommand extends ContainerAwareCommand
             // Install the modules.
             $moduleInstaller->install($module_list);
             system_rebuild_module_data();
-            $output->writeln('[+] <info>' . sprintf($this->trans('commands.module.install.messages.success'),
-                implode(", ", array_merge($modules, $dependencies))) . '</info>');
+            $output->writeln('[+] <info>'.sprintf(
+                $this->trans('commands.module.install.messages.success'),
+                implode(', ', array_merge($modules, $dependencies))
+            ).'</info>');
         } catch (\Exception $e) {
-            $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
+            $output->writeln('[+] <error>'.$e->getMessage().'</error>');
+
             return;
         }
     }

@@ -32,7 +32,7 @@ class {{ entity_class }}AccessControlHandler extends EntityAccessControlHandler 
       case 'view':
         return AccessResult::allowedIfHasPermission($account, 'view {{ entity_class }} entity');
 
-      case 'edit':
+      case 'update':
         return AccessResult::allowedIfHasPermission($account, 'edit {{ entity_class }} entity');
 
       case 'delete':

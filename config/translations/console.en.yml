@@ -1,11 +1,20 @@
 application:
   console:
+    arguments:
+      drupal: 'Path to Drupal root.'
+      shell: 'Launch the shell.'
+      env: 'The Environment name.'
+      no-debug: 'Switches off debug mode.'
+      learning: 'Generate a verbose code output.'
+      generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
     messages:
-      completed: The command was executed succesfully!
-      generated: You can now start using the generated code!
+      completed: 'The command was executed succesfully!'
+      chain:
+        generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
+      generated: 'You can now start using the generated code!'
       files:
-        generated: Generated or updated files
-        copied: Copied files
+        generated: 'Generated or updated files'
+        copied: 'Copied files'
       learning:
         route: |
           In order to to create pages it is necessary to define routes for them.
@@ -18,7 +27,7 @@ application:
           ("\Drupal\{{ module }}\Controller\{{ class_name }}")
           and a method ("{{ method_name }}").
     errors:
-      invalid-command: Command "%s" is not defined.
+      invalid-command: 'Command "%s" is not defined.'
   site:
     messages:
       path: Site path
@@ -334,6 +343,7 @@ commands:
           services: common.options.services
           category: Plugin category
           context: Plugin context
+          type: Action Type (user or node)
         questions:
           module: common.questions.module
           class-name: Enter the plugin class name
@@ -415,6 +425,17 @@ commands:
         id: "Migration Id"
         description: "Description"
         version: "Version"
+    load:
+      description: Generate a migration entity.
+      arguments:
+        file: Path to the yml file
+      messages: 
+        invalid_file: The file "%s" does not exists.
+        installed: Please remember to put the plugin files where they should be.
+        overridden: The entity was overridden. 
+      questions:
+        override: The File is already install, do you want override it [yes/no] ?
+        file: "Path to file"
     execute:
       description: Execute a migration available for application
       arguments:
@@ -520,6 +541,7 @@ commands:
     help: Update the console command to the latest version.
     messages:
       success: The console has been updated to the latest version.
+      current-version: The latest version %s, was already installed on your system.
   site:
     mode:
       description: Switch system performance configuration
@@ -556,6 +578,7 @@ commands:
         configuration: Configuration
         active: Active config path
         staging: Staging config path
+
     maintenance:
       description: Switch site into maintenance mode
       arguments:
@@ -565,6 +588,18 @@ commands:
         maintenance-off: Operating in maintenance mode off
       errors:
         invalid-mode: Invalid maintance mode
+    new:
+      description: Create a new Drupal project
+      arguments:
+        site-name: Site name
+        version: Specific Drupal version to download
+      messages:
+        getting-releases: 'Getting releases for Drupal'
+        downloading: 'Downloading Drupal %s'
+        extracting: 'Extracting files for Drupal %s'
+        no-releases: "There aren't not releases available for Drupal"
+        downloaded: 'Drupal %s was downloaded in directory %s'
+        error-copying: 'An error occurred while renaming your directory at %s'
   test:
     debug:
       description: List Test Units available for the application.
@@ -610,4 +645,22 @@ commands:
         reset-successful: Password was updated sucessfully for user id %s
       errors:
         invalid-user: Invalid user id %s
-
+  yaml:
+    merge:
+      description: 'Merge one or more YAML files in a new YAML file. Latest values are preserved.'
+      arguments:
+        yaml-files: 'Path of YAML files to merge'
+        yaml-destination: 'Path of new YAML file to store result of merge.'
+      questions:
+        yaml-destination: 'Path of new YAML file to store result of merge.'
+        file: 'Path to file to merge'
+        other-file: 'Path to file to merge (empty to start with merge process)'
+        invalid-file: 'Path of file cannot be empty'
+        file-already-added: 'Path of file was already added'
+      messages:
+        wrong-parse: "Yaml file '%s' is empty or doesn\'t exist the file."
+        error-parsing: 'An error occurs during parsing of Yaml file "%s".'
+        two-files-required: 'At least two files are required.'
+        error-generating: 'Error generating merged YAML.'
+        error-writing: 'Error writing merged YAML file.'
+        merged: 'New file "%s" was created sucessfully after merge Yaml files.'
