@@ -24,6 +24,7 @@ class PluginTypeAnnotationGenerator extends Generator
             'class_name' => $class_name,
             'machine_name' => $machine_name,
             'label' => $label,
+            'file_exists' => file_exists($this->getModulePath($module).'/'.$module.'.services.yml'),
         ];
 
         $this->renderFile(
@@ -48,6 +49,12 @@ class PluginTypeAnnotationGenerator extends Generator
             'module/src/plugin-type-annotation-manager.php.twig',
             $this->getSourcePath($module).'/Plugin/' . $class_name . 'Manager.php',
             $parameters
+        );
+        $this->renderFile(
+            'module/plugin-annotation-services.yml.twig',
+            $this->getModulePath($module) . '/' . $module . '.services.yml',
+            $parameters,
+            FILE_APPEND
         );
 
         $directory = $this->getSourcePath($module).'/Plugin/' . $class_name;
