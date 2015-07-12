@@ -353,6 +353,21 @@ commands:
           services: common.questions.services
           category: Enter plugin category
           context: Enter plugin context
+      type:
+        annotation:
+          description: Generate a plugin type with annotation discovery
+          help: The <info>generate:plugin:type:annotation</info> command helps you generate a new Plugin type that uses annotation discovery.
+          welcome: Welcome to the Drupal Plugin Type generator
+          options:
+            module: common.options.module
+            class-name: Plugin type class name
+            machine-name: Plugin type machine name
+            label: Plugin type label
+          questions:
+            module: common.questions.module
+            class-name: Enter the plugin type class name
+            machine-name: Enter the plugin type machine name
+            label: Enter the plugin type label
     service:
       description: Generate service
       help: The <info>generate:service</info> command helps you generate a new service.
