@@ -293,6 +293,58 @@ commands:
 
             You can add input fields to create special configurations in the block.
             This is optional, press <info>enter</info> to <info>continue</info>
+      fieldformatter:
+        description: Generate field formatter plugin.
+        help: The <info>generate:plugin:fieldformatter</info> command helps you generate a new field formatter plugin.
+        welcome: Welcome to the Drupal Field Formatter Plugin generator
+        options:
+          module: common.options.module
+          class-name: Plugin class name
+          label: Plugin label
+          plugin-id: Plugin id
+          field-type: Field type the plugin can be used with
+        questions:
+          module: common.questions.module
+          class-name: Enter the plugin class name
+          label: Enter the plugin label
+          plugin-id: Enter the plugin id
+          field-type: Enter the field type the plugin can be used with
+      fieldtype:
+        description: Generate field type plugin.
+        help: The <info>generate:plugin:fieldtype</info> command helps you generate a new field type plugin.
+        welcome: Welcome to the Drupal Field Type Plugin generator
+        options:
+          module: common.options.module
+          class-name: Plugin class name
+          label: Plugin label
+          plugin-id: Plugin id
+          description: Plugin Description
+          default-widget: Default field widget of this plugin
+          default-formatter: Default field widget of this plugin
+        questions:
+          module: common.questions.module
+          class-name: Enter the plugin class name
+          label: Enter the plugin label
+          plugin-id: Enter the plugin id
+          description: Enter the plugin Description
+          default-widget: Enter the default field widget of this plugin
+          default-formatter: Enter the default field widget of this plugin
+      fieldwidget:
+        description: Generate field widget plugin.
+        help: The <info>generate:plugin:fieldwidget</info> command helps you generate a new field widget plugin.
+        welcome: Welcome to the Drupal Field Widget Plugin generator
+        options:
+          module: common.options.module
+          class-name: Plugin class name
+          label: Plugin label
+          plugin-id: Plugin id
+          field-type: Field type the plugin can be used with
+        questions:
+          module: common.questions.module
+          class-name: Enter the plugin class name
+          label: Enter the plugin label
+          plugin-id: Enter the plugin id
+          field-type: Enter the field type the plugin can be used with
       imageeffect:
         description: Generate image effect plugin.
         help: The <info>generate:plugin:imageeffect</info> command helps you generate a new image effect plugin.
@@ -429,10 +481,10 @@ commands:
       description: Generate a migration entity.
       arguments:
         file: Path to the yml file
-      messages: 
+      messages:
         invalid_file: The file "%s" does not exists.
         installed: Please remember to put the plugin files where they should be.
-        overridden: The entity was overridden. 
+        overridden: The entity was overridden.
       questions:
         override: The File is already install, do you want override it [yes/no] ?
         file: "Path to file"
