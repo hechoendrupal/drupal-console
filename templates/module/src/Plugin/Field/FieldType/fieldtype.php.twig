@@ -22,9 +22,13 @@ use Drupal\Core\TypedData\DataDefinition;
  * @FieldType(
  *   id = "{{ plugin_id }}",
  *   label = @Translation("{{ label }}"),
- *   description = @Translation("{{ description }}"),
- *   default_widget = "{{ default_widget }}",
+ *   description = @Translation("{{ description }}"){% if default_widget || default_formatter %},{% endif %}
+{% if default_widget %}
+ *   default_widget = "{{ default_widget }}"{%  if default_formatter %},{% endif %}
+{% enfif %}
+{%  if default_formatter %}
  *   default_formatter = "{{ default_formatter }}"
+{%  endif %}
  * )
  */
 class {{ class_name }} extends FieldItemBase {% endblock %}
