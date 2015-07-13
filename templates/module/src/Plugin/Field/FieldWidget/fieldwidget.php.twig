@@ -1,0 +1,69 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+Drupal\{{ module }}\Plugin\Field\FieldWidget\{{ class_name }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }}\Plugin\Field\FieldWidget;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\Field\WidgetBase;
+use Drupal\Core\Form\FormStateInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Plugin implementation of the '{{ plugin_id }}' widget.
+ *
+ * @FieldWidget(
+ *   id = "{{ plugin_id }}",
+ *   label = @Translation("{{ label }}"),
+ *   field_types = {
+ *     "{{ field_type }}"
+ *   }
+ * )
+ */
+class {{ class_name }} extends WidgetBase {% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public static function defaultSettings() {
+    return array(
+    // Implement default settings.
+    ) + parent::defaultSettings();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function settingsForm(array $form, FormStateInterface $form_state) {
+    $element = array();
+    // Implement settings form.
+
+    return $element;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function settingsSummary() {
+    $summary = array();
+    // Implement settings summary.
+
+    return $summary;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
+    $element = array();
+    // Implement form element.
+
+    return $element;
+  }
+{% endblock %}
