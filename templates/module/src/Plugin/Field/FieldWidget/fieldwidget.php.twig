@@ -20,7 +20,7 @@ use Drupal\Core\Form\FormStateInterface;
  *
  * @FieldWidget(
  *   id = "{{ plugin_id }}",
- *   label = @Translation("{{ label }}"){% if field_type %},{%  endif %}
+ *   label = @Translation("{{ label }}"){% if field_type %},{% endif %}
 {% if field_type %}
  *   field_types = {
  *     "{{ field_type }}"

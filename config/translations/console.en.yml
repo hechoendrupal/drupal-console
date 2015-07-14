@@ -328,7 +328,7 @@ commands:
           plugin-id: Enter the plugin id
           description: Enter the plugin Description
           default-widget: Enter the default field widget of this plugin
-          default-formatter: Enter the default field widget of this plugin
+          default-formatter: Enter the default field formatter of this plugin
       fieldwidget:
         description: Generate field widget plugin.
         help: The <info>generate:plugin:fieldwidget</info> command helps you generate a new field widget plugin.
