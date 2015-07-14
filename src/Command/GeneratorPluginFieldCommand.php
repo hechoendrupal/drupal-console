@@ -328,9 +328,9 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
                 $output,
                 $dialog->getQuestion(
                     $this->trans('commands.generate.plugin.field.questions.default-widget'),
-                    ''
+                    $input->getOption('widget-plugin-id')
                 ),
-                ''
+                $input->getOption('widget-plugin-id')
             );
         }
         $input->setOption('default-widget', $field_type);
@@ -342,9 +342,9 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
                 $output,
                 $dialog->getQuestion(
                     $this->trans('commands.generate.plugin.field.questions.default-formatter'),
-                    ''
+                    $input->getOption('formatter-plugin-id')
                 ),
-                ''
+                $input->getOption('formatter-plugin-id')
             );
         }
         $input->setOption('default-formatter', $field_type);
