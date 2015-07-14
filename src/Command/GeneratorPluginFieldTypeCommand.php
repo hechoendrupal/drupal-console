@@ -160,7 +160,7 @@ class GeneratorPluginFieldTypeCommand extends GeneratorCommand
         }
         $input->setOption('description', $description);
 
-        // --default widget option
+        // --default-widget option
         $field_type = $input->getOption('default-widget');
         if (!$field_type) {
             $field_type = $dialog->ask(
@@ -174,7 +174,7 @@ class GeneratorPluginFieldTypeCommand extends GeneratorCommand
         }
         $input->setOption('default-widget', $field_type);
 
-        // --default formatter option
+        // --default-formatter option
         $field_type = $input->getOption('default-formatter');
         if (!$field_type) {
             $field_type = $dialog->ask(
