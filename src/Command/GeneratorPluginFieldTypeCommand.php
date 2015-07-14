@@ -88,7 +88,8 @@ class GeneratorPluginFieldTypeCommand extends GeneratorCommand
             ->getGenerator()
             ->generate($module, $class_name, $label, $plugin_id, $description, $default_widget, $default_formatter);
 
-        $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'discovery']);
+// @todo Fails with InvalidArgumentException
+//        $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'discovery'], false);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -146,9 +147,9 @@ class GeneratorPluginFieldTypeCommand extends GeneratorCommand
         $input->setOption('plugin-id', $plugin_id);
 
         // --description option
-        $field_type = $input->getOption('description');
-        if (!$field_type) {
-            $field_type = $dialog->ask(
+        $description = $input->getOption('description');
+        if (!$description) {
+            $description = $dialog->ask(
                 $output,
                 $dialog->getQuestion(
                     $this->trans('commands.generate.plugin.fieldtype.questions.description'),
@@ -157,7 +158,7 @@ class GeneratorPluginFieldTypeCommand extends GeneratorCommand
                 'My Field Type'
             );
         }
-        $input->setOption('description', $field_type);
+        $input->setOption('description', $description);
 
         // --default widget option
         $field_type = $input->getOption('default-widget');
