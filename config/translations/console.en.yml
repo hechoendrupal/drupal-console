@@ -245,6 +245,7 @@ commands:
         composer: Add a composer.json file
         base-theme: Base theme (i.e. classy, seven)
         global-library: Global styling library name
+        regions: Regions
       questions:
         theme: Enter the new theme name
         machine-name: Enter the theme machine name
@@ -255,6 +256,10 @@ commands:
         dependencies: Would you like to add module depencencies
         invalid-theme: Invalid %s theme was selected
         global-library: Enter the global styling library name
+        regions: Do you want to generate the theme regions
+        region-name: Enter region name
+        region-machine-name: Enter region machine name
+        region-add: Do you want add another region
       warnings:
         module-unavailable: Warning The following modules are not already available in your local environment "%s"
       errors:
