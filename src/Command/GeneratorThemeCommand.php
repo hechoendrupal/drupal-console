@@ -10,12 +10,14 @@ namespace Drupal\AppConsole\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\AppConsole\Command\Helper\ThemeRegionTrait;
 use Drupal\AppConsole\Generator\ThemeGenerator;
 use Drupal\AppConsole\Command\Helper\ConfirmationTrait;
 
 class GeneratorThemeCommand extends GeneratorCommand
 {
     use ConfirmationTrait;
+    use ThemeRegionTrait;
 
     /**
      * {@inheritdoc}
@@ -68,6 +70,12 @@ class GeneratorThemeCommand extends GeneratorCommand
               '',
               InputOption::VALUE_OPTIONAL,
               $this->trans('commands.generate.theme.options.base-theme')
+          )
+          ->addOption(
+              'regions',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.theme.options.regions')
           );
     }
 
@@ -96,6 +104,7 @@ class GeneratorThemeCommand extends GeneratorCommand
         $package = $input->getOption('package');
         $base_theme = $input->getOption('base-theme');
         $global_library = $input->getOption('global-library');
+        $regions = $input->getOption('regions');
 
         $generator = $this->getGenerator();
         $generator->generate(
@@ -107,6 +116,7 @@ class GeneratorThemeCommand extends GeneratorCommand
             $package,
             $base_theme,
             $global_library,
+            $regions
         );
     }
 
@@ -260,7 +270,22 @@ class GeneratorThemeCommand extends GeneratorCommand
             );
         }
         $input->setOption('global-library', $global_library);
-        
+
+        // --regions option
+        $regions = $input->getOption('regions');
+        if (!$regions) {
+            if ($dialog->askConfirmation(
+              $output,
+              $dialog->getQuestion($this->trans('commands.generate.theme.questions.regions'), 'no', '?'),
+              false
+            )
+            ) {
+                // @see \Drupal\AppConsole\Command\Helper\ThemeRegionTrait::regionQuestion
+                $regions = $this->regionQuestion($output, $dialog);
+            }
+        }
+        $input->setOption('regions', $regions);
+
     }
 
     /**
