@@ -58,10 +58,16 @@ class GeneratorThemeCommand extends GeneratorCommand
               $this->trans('commands.generate.theme.options.package')
           )
           ->addOption(
-              'base_theme',
+              'global-library',
               '',
               InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.theme.options.base_theme')
+              $this->trans('commands.generate.theme.options.global-library')
+          )
+          ->addOption(
+              'base-theme',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.theme.options.base-theme')
           );
     }
 
@@ -88,7 +94,8 @@ class GeneratorThemeCommand extends GeneratorCommand
         $description = $input->getOption('description');
         $core = $input->getOption('core');
         $package = $input->getOption('package');
-        $base_theme = $input->getOption('base_theme');
+        $base_theme = $input->getOption('base-theme');
+        $global_library = $input->getOption('global-library');
 
         $generator = $this->getGenerator();
         $generator->generate(
@@ -98,7 +105,8 @@ class GeneratorThemeCommand extends GeneratorCommand
             $description,
             $core,
             $package,
-            $base_theme
+            $base_theme,
+            $global_library,
         );
     }
 
@@ -222,11 +230,11 @@ class GeneratorThemeCommand extends GeneratorCommand
         $themes = $themeHandler->rebuildThemeData();
         uasort($themes, 'system_sort_modules_by_info_name');
 
-        $base_theme = $input->getOption('base_theme');
+        $base_theme = $input->getOption('base-theme');
         if (!$base_theme) {
             $base_theme = $dialog->askAndValidate(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.theme.options.base_theme'), ''),
+                $dialog->getQuestion($this->trans('commands.generate.theme.options.base-theme'), ''),
                 function ($base_theme) use ($themes) {
                     if ($base_theme == '' || isset($themes[$base_theme])) {
                         return $base_theme;
@@ -241,7 +249,18 @@ class GeneratorThemeCommand extends GeneratorCommand
                 array_keys($themes)
             );
         }
-        $input->setOption('base_theme', $base_theme);
+        $input->setOption('base-theme', $base_theme);
+
+        $global_library = $input->getOption('global-library');
+        if (!$global_library) {
+            $global_library = $dialog->ask(
+              $output,
+              $dialog->getQuestion($this->trans('commands.generate.theme.questions.global-library'), 'global-styling'),
+              'global-styling'
+            );
+        }
+        $input->setOption('global-library', $global_library);
+        
     }
 
     /**

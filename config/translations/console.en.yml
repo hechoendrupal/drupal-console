@@ -243,7 +243,8 @@ commands:
         core: Core version
         package: Theme package
         composer: Add a composer.json file
-        base_theme: Base theme (i.e. classy, seven)
+        base-theme: Base theme (i.e. classy, seven)
+        global-library: Global styling library name
       questions:
         theme: Enter the new theme name
         machine-name: Enter the theme machine name
@@ -253,6 +254,7 @@ commands:
         package: Enter package name
         dependencies: Would you like to add module depencencies
         invalid-theme: Invalid %s theme was selected
+        global-library: Enter the global styling library name
       warnings:
         module-unavailable: Warning The following modules are not already available in your local environment "%s"
       errors:
