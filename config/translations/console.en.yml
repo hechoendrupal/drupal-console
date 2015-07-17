@@ -454,6 +454,20 @@ commands:
             class-name: Enter the plugin type class name
             machine-name: Enter the plugin type machine name
             label: Enter the plugin type label
+        yaml:
+          description: Generate a plugin type with Yaml discovery
+          help: The <info>generate:plugin:type:yaml</info> command helps you generate a new Plugin type that uses Yaml discovery.
+          welcome: Welcome to the Drupal Plugin Type generator
+          options:
+            module: common.options.module
+            class-name: Plugin type class name
+            plugin-name: Plugin type machine name
+            plugin-file-name: Plugin file name
+          questions:
+            module: common.questions.module
+            class-name: Enter the plugin type class name
+            plugin-name: Enter the plugin type machine name
+            plugin-file-name: Enter the plugin file name (e.g. MODULE.plugin.filename.yml)
     service:
       description: Generate service
       help: The <info>generate:service</info> command helps you generate a new service.
