@@ -1,0 +1,63 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+Drupal\{{ module }}\Plugin\Field\FieldType\{{ class_name }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }}\Plugin\Field\FieldType;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\Core\Field\FieldItemBase;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\TypedData\DataDefinition;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Plugin implementation of the '{{ plugin_id }}' field type.
+ *
+ * @FieldType(
+ *   id = "{{ plugin_id }}",
+ *   label = @Translation("{{ label }}"),
+ *   description = @Translation("{{ description }}"){% if default_widget or default_formatter %},{% endif %}
+{% if default_widget %}
+ *   default_widget = "{{ default_widget }}"{% if default_formatter %},{% endif %}
+{% endif %}
+{%  if default_formatter %}
+ *   default_formatter = "{{ default_formatter }}"
+{%  endif %}
+ * )
+ */
+class {{ class_name }} extends FieldItemBase {% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public static function defaultStorageSettings() {
+    return array(
+    // Implement default storage settings.
+    ) + parent::defaultStorageSettings();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
+    $properties = array();
+    // Implement property definitions.
+
+    return $properties;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function schema(FieldStorageDefinitionInterface $field_definition) {
+    return array(
+      // Implement schema.
+    )
+  };
+{% endblock %}

@@ -50,7 +50,12 @@ class GeneratorModuleCommand extends GeneratorCommand
               InputOption::VALUE_OPTIONAL,
               $this->trans('commands.generate.module.options.description')
           )
-          ->addOption('core', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.module.options.core'))
+          ->addOption(
+              'core',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.module.options.core')
+          )
           ->addOption(
               'package',
               '',
@@ -58,24 +63,17 @@ class GeneratorModuleCommand extends GeneratorCommand
               $this->trans('commands.generate.module.options.package')
           )
           ->addOption(
-              'controller',
-              '',
-              InputOption::VALUE_NONE,
-              $this->trans('commands.generate.module.options.controller')
-          )
-          ->addOption(
               'composer',
-              '',
-              InputOption::VALUE_NONE,
+              false,
+              InputOption::VALUE_OPTIONAL,
               $this->trans('commands.generate.module.options.composer')
           )
           ->addOption(
               'dependencies',
-              '',
+              false,
               InputOption::VALUE_OPTIONAL,
               $this->trans('commands.generate.module.options.dependencies')
-          )
-          ->addOption('test', '', InputOption::VALUE_NONE, $this->trans('commands.generate.module.options.test'));
+          );
     }
 
     /**
@@ -102,15 +100,13 @@ class GeneratorModuleCommand extends GeneratorCommand
         $description = $input->getOption('description');
         $core = $input->getOption('core');
         $package = $input->getOption('package');
-        $controller = $input->getOption('controller');
         $composer = $input->getOption('composer');
         /*
          * Modules Dependencies
-         *
          */
         $dependencies = $validators->validateModuleDependencies($input->getOption('dependencies'));
-        // Check if all module dependencies are availables or not
-        if (!empty($dependencies)) {
+        // Check if all module dependencies are available
+        if ($dependencies) {
             $checked_dependencies = $this->checkDependencies($dependencies['success']);
             if (!empty($checked_dependencies['no_modules'])) {
                 $messageHelper->addWarningMessage(
@@ -122,10 +118,6 @@ class GeneratorModuleCommand extends GeneratorCommand
             }
             $dependencies = $dependencies['success'];
         }
-        /*
-         * Test
-         */
-        $test = $input->getOption('test');
 
         $generator = $this->getGenerator();
         $generator->generate(
@@ -135,15 +127,15 @@ class GeneratorModuleCommand extends GeneratorCommand
             $description,
             $core,
             $package,
-            $controller,
             $composer,
-            $dependencies,
-            $test
+            $dependencies
         );
     }
 
+
     /**
-     * private functions.
+     * @param  array $dependencies
+     * @return array
      */
     private function checkDependencies(array $dependencies)
     {
@@ -293,17 +285,6 @@ class GeneratorModuleCommand extends GeneratorCommand
         }
         $input->setOption('core', $core);
 
-        $controller = $input->getOption('controller');
-        if (!$controller && $dialog->askConfirmation(
-            $output,
-            $dialog->getQuestion($this->trans('commands.generate.module.questions.controller'), 'no', '?'),
-            false
-        )
-        ) {
-            $controller = true;
-        }
-        $input->setOption('controller', $controller);
-
         $composer = $input->getOption('composer');
         if (!$composer && $dialog->askConfirmation(
             $output,
@@ -319,8 +300,8 @@ class GeneratorModuleCommand extends GeneratorCommand
         if (!$dependencies) {
             if ($dialog->askConfirmation(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.module.questions.dependencies'), 'yes', '?'),
-                true
+                $dialog->getQuestion($this->trans('commands.generate.module.questions.dependencies'), 'no', '?'),
+                false
             )
             ) {
                 $dependencies = $dialog->askAndValidate(
@@ -336,21 +317,6 @@ class GeneratorModuleCommand extends GeneratorCommand
             }
         }
         $input->setOption('dependencies', $dependencies);
-
-        if ($controller) {
-            $test = $input->getOption('test');
-            if (!$test && $dialog->askConfirmation(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.module.questions.test'), 'yes', '?'),
-                true
-            )
-            ) {
-                $test = true;
-            }
-        } else {
-            $test = false;
-        }
-        $input->setOption('test', $test);
     }
 
     /**

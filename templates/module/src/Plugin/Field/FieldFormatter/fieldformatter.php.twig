@@ -1,0 +1,71 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+Drupal\{{ module }}\Plugin\Field\FieldFormatter\{{ class_name }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }}\Plugin\Field\FieldFormatter;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Field\FormatterBase;
+use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\Form\FormStateInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Plugin implementation of the '{{ plugin_id }}' formatter.
+ *
+ * @FieldFormatter(
+ *   id = "{{ plugin_id }}",
+ *   label = @Translation("{{ label }}"){% if field_type %},{% endif %}
+{% if field_type %}
+ *   field_types = {
+ *     "{{ field_type }}"
+ *   }
+{% endif %}
+ * )
+ */
+class {{ class_name }} extends FormatterBase {% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public static function defaultSettings() {
+    return array(
+      // Implement default settings.
+    ) + parent::defaultSettings();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function settingsForm(array $form, FormStateInterface $form_state) {
+    // Implement settings form.
+
+    return $elements;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function settingsSummary() {
+    $summary = array();
+    // Implement settings summary.
+
+    return $summary;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function viewElements(FieldItemListInterface $items) {
+    $element = array();
+    // Implement view elements.
+
+    return $element;
+  }
+}
+{% endblock %}

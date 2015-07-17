@@ -8,7 +8,7 @@ use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Console\Application;
 
 /**
- * Class CodeQualityTool
+ * Class CodeQualityTool.
  *
  * Based on
  * http://carlosbuenosvinos.com/write-your-git-hooks-in-php-and-keep-them-under-git-control/
@@ -17,8 +17,7 @@ class CodeQualityTool extends Application
 {
     private $output;
 
-    const PHP_FILES_IN_SRC = '/^src\/(.*)(\.php)$/';
-    const PHP_FILES_IN_CLASSES = '/^classes\/(.*)(\.php)$/';
+    private $needle = '/(\.php)|(\.inc)$/';
 
     public function __construct()
     {
@@ -29,11 +28,11 @@ class CodeQualityTool extends Application
     {
         $this->output = $output;
 
-        $output->writeln('<info>Code Quality Tool</info>');
+        $output->writeln('<question> Code Quality Tool </question>');
         $output->writeln('<info>Fetching files:</info>');
         $files = $this->extractCommitedFiles();
         foreach ($files as $key => $file) {
-            if ($key>0) {
+            if ($key > 0) {
                 $output->writeln(
                     sprintf(
                         '<comment> - %s</comment>',
@@ -42,7 +41,6 @@ class CodeQualityTool extends Application
                 );
             }
         }
-
         $output->writeln('<info>Check composer</info>');
         $this->checkComposer($files);
 
@@ -56,20 +54,18 @@ class CodeQualityTool extends Application
             throw new Exception(sprintf('There are coding standards violations!'));
         }
 
-        $output->writeln('<info>Checking code style with PHPCS (phpcbf)</info>');
+        $output->writeln('<info>Fixing code style with PHPCBF</info>');
         if (!$this->codeStylePsr($files, 'phpcbf')) {
-            throw new Exception(sprintf('There are PHPCS (phpcbf) coding standards violations!'));
+            throw new Exception(sprintf('There are PHPCS coding standards violations! and some got fixed by PHPCBF'));
         }
 
-        $output->writeln('<info>Checking code style with PHPCS (phpcs)</info>');
+        $output->writeln('<info>Checking code style with PHPCS</info>');
         if (!$this->codeStylePsr($files, 'phpcs')) {
-            throw new Exception(sprintf('There are PHPCS (phpcs) coding standards violations!'));
+            throw new Exception(sprintf('There are PHPCS coding standards violations!'));
         }
 
         $output->writeln('<info>Checking code mess with PHPMD</info>');
-        if (!$this->phPmd($files)) {
-            throw new Exception(sprintf('There are PHPMD violations!'));
-        }
+        $this->phPmd($files);
 
         $output->writeln('<info>Running unit tests</info>');
         if (!$this->unitTests()) {
@@ -95,7 +91,7 @@ class CodeQualityTool extends Application
         }
 
         if ($composerJsonDetected && !$composerLockDetected) {
-            throw new Exception('composer.lock must be commited if composer.json is modified!');
+            $this->output->writeln('<comment>composer.lock should be commited if composer.json is modified!</comment>');
         }
     }
 
@@ -118,11 +114,10 @@ class CodeQualityTool extends Application
 
     private function phpLint($files)
     {
-        $needle = '/(\.php)|(\.inc)$/';
         $succeed = true;
 
         foreach ($files as $file) {
-            if (!preg_match($needle, $file)) {
+            if (!preg_match($this->needle, $file)) {
                 continue;
             }
 
@@ -145,23 +140,24 @@ class CodeQualityTool extends Application
 
     private function phPmd($files)
     {
-        $needle = self::PHP_FILES_IN_SRC;
+        $this->validateBinary('bin/phpmd');
+
         $succeed = true;
-        $rootPath = realpath(__DIR__ . '/');
+        $rootPath = realpath(__DIR__.'/');
 
         foreach ($files as $file) {
-            if (!preg_match($needle, $file)) {
+            if (!preg_match($this->needle, $file) || $file == 'CodeQualityTool.php') {
                 continue;
             }
 
-            $processBuilder = new ProcessBuilder(['php', 'bin/phpmd', $file, 'text', 'cleancode,codesize,unusedcode,naming']);
+            $processBuilder = new ProcessBuilder(['php', 'bin/phpmd', $file, 'text', 'cleancode,codesize,unusedcode,naming,controversial,design']);
             $processBuilder->setWorkingDirectory($rootPath);
             $process = $processBuilder->getProcess();
             $process->run();
 
             if (!$process->isSuccessful()) {
                 $this->output->writeln($file);
-                $this->output->writeln(sprintf('<error>%s</error>', trim($process->getErrorOutput())));
+                $this->output->writeln(sprintf('<info>%s</info>', trim($process->getErrorOutput())));
                 $this->output->writeln(sprintf('<comment>%s</comment>', trim($process->getOutput())));
                 if ($succeed) {
                     $succeed = false;
@@ -174,12 +170,14 @@ class CodeQualityTool extends Application
 
     private function unitTests()
     {
+        $this->validateBinary('bin/phpunit');
+
         $processBuilder = new ProcessBuilder(['php', 'bin/phpunit']);
-        $processBuilder->setWorkingDirectory(__DIR__ . '/');
+        $processBuilder->setWorkingDirectory(__DIR__.'/');
         $processBuilder->setTimeout(3600);
         $phpunit = $processBuilder->getProcess();
 
-        $phpunit->run(function ($type, $buffer) {
+        $phpunit->run(function ($messageType, $buffer) {
             $this->output->write($buffer);
         });
 
@@ -188,19 +186,18 @@ class CodeQualityTool extends Application
 
     private function codeStyle(array $files)
     {
+        $this->validateBinary('bin/php-cs-fixer');
+
         $succeed = true;
 
         foreach ($files as $file) {
-            $classesFile = preg_match(self::PHP_FILES_IN_CLASSES, $file);
-            $srcFile = preg_match(self::PHP_FILES_IN_SRC, $file);
-
-            if (!$classesFile && !$srcFile) {
+            if (!preg_match($this->needle, $file) || $file == 'CodeQualityTool.php') {
                 continue;
             }
 
             $processBuilder = new ProcessBuilder(['php', 'bin/php-cs-fixer', 'fix', '--verbose', '--level=psr2', $file]);
 
-            $processBuilder->setWorkingDirectory(__DIR__ . '/');
+            $processBuilder->setWorkingDirectory(__DIR__.'/');
             $phpCsFixer = $processBuilder->getProcess();
             $phpCsFixer->run();
 
@@ -218,16 +215,17 @@ class CodeQualityTool extends Application
 
     private function codeStylePsr(array $files, $command)
     {
+        $this->validateBinary(sprintf('bin/%s', $command));
+
         $succeed = true;
-        $needle = self::PHP_FILES_IN_SRC;
 
         foreach ($files as $file) {
-            if (!preg_match($needle, $file)) {
+            if (!preg_match($this->needle, $file) || $file == 'CodeQualityTool.php') {
                 continue;
             }
 
             $processBuilder = new ProcessBuilder(['php', 'bin/'.$command, '--standard=PSR2', '-n', $file]);
-            $processBuilder->setWorkingDirectory(__DIR__ . '/');
+            $processBuilder->setWorkingDirectory(__DIR__.'/');
             $phpCsFixer = $processBuilder->getProcess();
             $phpCsFixer->run();
 
@@ -241,6 +239,15 @@ class CodeQualityTool extends Application
         }
 
         return $succeed;
+    }
+
+    private function validateBinary($binaryFile)
+    {
+        if (!file_exists($binaryFile)) {
+            throw new Exception(
+                sprintf('%s do not exist!', $binaryFile)
+            );
+        }
     }
 }
 
