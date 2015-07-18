@@ -138,10 +138,10 @@ commands:
                 container: 'Acessa o container de serviços'
             questions:
                 module: common.questions.module
-                controller-title: 'Controller title'
                 class-name: 'Digite o nome da classe do comando.'
                 command: 'Digite o nome do comando.'
                 container: 'Você precisa de acesso o container de serviços?'
+                controller-title: 'Controller title'
             messages:
                 title-not-empty: 'Title cannot be empty'
         controller:
@@ -163,6 +163,7 @@ commands:
                 services: common.questions.services
                 test: 'Você deseja criar uma classe de teste unitário?'
                 other-controller-title: 'Controller title (empty to start with code generation)'
+                controller-title: 'Controller title'
             messages:
                 invalid-controller-title: 'Title cannot be empty'
                 title-already-added: 'Title was already added'

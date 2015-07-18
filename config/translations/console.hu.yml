@@ -138,10 +138,10 @@ commands:
                 container: 'services container elérése'
             questions:
                 module: common.questions.module
-                controller-title: 'Controller title'
                 class-name: 'Parancs Class nevének megadása'
                 command: 'Parancs nevének megadása'
                 container: 'Service container elérése szükséges'
+                controller-title: 'Controller title'
             messages:
                 title-not-empty: 'Title cannot be empty'
         controller:
@@ -163,6 +163,7 @@ commands:
                 services: common.questions.services
                 test: 'Unit teszt osztály létrehozása'
                 other-controller-title: 'Controller title (empty to start with code generation)'
+                controller-title: 'Controller title'
             messages:
                 invalid-controller-title: 'Title cannot be empty'
                 title-already-added: 'Title was already added'

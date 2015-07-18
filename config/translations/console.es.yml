@@ -131,16 +131,16 @@ commands:
             welcome: 'Bienvenido al generador de Comando de Drupal'
             options:
                 module: common.options.module
-                controller-title: 'Controller title'
+                controller-title: 'Título del controlador'
                 class-name: 'Nombre de la Clase de Comandos'
                 command: 'Nombre del Comando'
                 container: 'Acceso al contenedor de servicios'
             questions:
                 module: common.questions.module
-                controller-title: 'Controller title'
                 class-name: 'Introduzca el nombre de la Clase de Comandos'
                 command: 'Introduzca el nombre del Comando'
                 container: 'Necesita acceder al contenedor de servicios'
+                controller-title: 'Título del controlador'
             messages:
                 title-not-empty: 'Title cannot be empty'
         controller:
@@ -162,7 +162,7 @@ commands:
                 route: 'Escriba el camino de la ruta'
                 services: common.questions.services
                 test: 'Desea generar una clase de prueba unitaria'
-                other-controller-title: 'Controller title (empty to start with code generation)'
+                other-controller-title: 'Título del controlado (vació para iniciar generación de código)'
                 controller-title: 'Escriba el título del controllador'
             messages:
                 invalid-controller-title: 'Title cannot be empty'

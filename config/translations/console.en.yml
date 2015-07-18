@@ -151,7 +151,6 @@ commands:
         container: Access the services container
       questions:
         module: common.questions.module
-        controller-title: 'Controller title'
         class-name: Enter the Command Class name
         command: Enter the Command name
         container: Do you need to access the service container
@@ -176,6 +175,7 @@ commands:
         services: common.questions.services
         test: Do you want to generate a unit test class
         other-controller-title: 'Controller title (empty to start with code generation)'
+        controller-title: 'Controller title'
       messages:
               invalid-controller-title: Title cannot be empty
               title-already-added: Title was already added
