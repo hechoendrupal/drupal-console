@@ -9,16 +9,14 @@ namespace Drupal\AppConsole\Generator;
 
 class ControllerGenerator extends Generator
 {
-    public function generate($module, $controller_title, $class_name, $method_name, $route, $test, $services, $class_machine_name)
+    public function generate($module, $class_name, $routes, $test, $services, $class_machine_name)
     {
         $parameters = [
-          'controller_title' => $controller_title,
           'class_name' => $class_name,
           'services' => $services,
           'module' => $module,
-          'method_name' => $method_name,
           'class_machine_name' => $class_machine_name,
-          'route' => (strpos($route, '/') === 0) ? $route : '/'.$route,
+          'routes' => $routes,
           'learning' => $this->isLearning(),
         ];
 

@@ -175,6 +175,14 @@ commands:
         route: Enter the route path
         services: common.questions.services
         test: Do you want to generate a unit test class
+        other-controller-title: 'Controller title (empty to start with code generation)'
+      messages:
+              invalid-controller-title: Title cannot be empty
+              title-already-added: Title was already added
+              invalid-method-name: Method name cannot be empty
+              method-name-already-added: Method name was already added
+              invalid-route: Route cannot be empty
+              route-already-added: Route was already added
     entity:
       description: Generate a new "%s"
       help: The <info>"%s"</info> command helps you generate a new "%s"
