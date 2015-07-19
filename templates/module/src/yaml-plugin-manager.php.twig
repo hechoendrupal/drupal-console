@@ -9,19 +9,19 @@ namespace Drupal\{{ module }};
 {% endblock %}
 
 {% block use_class %}
+use Drupal\Component\Plugin\Exception\PluginException;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Plugin\Discovery\ContainerDerivativeDiscoveryDecorator;
 use Drupal\Core\Plugin\Discovery\YamlDiscovery;
-use Drupal\Core\Plugin\Factory\ContainerFactory;
 {% endblock %}
 
 {% block class_declaration %}
 /**
  * Provides the default {{ plugin_name }} manager.
  */
-class {{ plugin_class }}Manager extends DefaultPluginManager implements Drupal\{{ module }}\{{ plugin_class }}ManagerInterface {% endblock %}
+class {{ plugin_class }}Manager extends DefaultPluginManager implements {{ plugin_class }}ManagerInterface {% endblock %}
 {% block class_methods %}
   /**
    * Provides default values for all {{ plugin_name }} plugins.
@@ -29,9 +29,9 @@ class {{ plugin_class }}Manager extends DefaultPluginManager implements Drupal\{
    * @var array
    */
   protected $defaults = array(
-    // The plugin id. Set by the plugin system based on the top-level YAML key.
-    'id' => NULL,
-    // Add more plugin properties as required.
+    // Add required and optional plugin properties.
+    'id' => '',
+    'label' => '',
   );
 
   /**
@@ -66,8 +66,8 @@ class {{ plugin_class }}Manager extends DefaultPluginManager implements Drupal\{
     parent::processDefinition($definition, $plugin_id);
 
     // You can add validation of the plugin definition here.
-    if (empty($definition['example'])) {
-      throw new PluginException(sprintf('Example plugin property (%s) definition "example" is required.', $plugin_id));
+    if (empty($definition['id'])) {
+      throw new PluginException(sprintf('Example plugin property (%s) definition "is" is required.', $plugin_id));
     }
   }
 
