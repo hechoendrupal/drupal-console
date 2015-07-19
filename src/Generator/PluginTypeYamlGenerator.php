@@ -24,6 +24,7 @@ class PluginTypeYamlGenerator extends Generator
             'plugin_class' => $plugin_class,
             'plugin_name' => $plugin_name,
             'plugin_file_name' => $plugin_file_name,
+            'file_exists' => file_exists($this->getModulePath($module) . '/' . $module . '.services.yml'),
         ];
 
         $this->renderFile(
@@ -35,6 +36,19 @@ class PluginTypeYamlGenerator extends Generator
         $this->renderFile(
             'module/src/yaml-plugin-manager-interface.php.twig',
             $this->getSourcePath($module) . '/' . $plugin_class . 'ManagerInterface.php',
+            $parameters
+        );
+
+        $this->renderFile(
+            'module/plugin-yaml-services.yml.twig',
+            $this->getModulePath($module) . '/' . $module . '.services.yml',
+            $parameters,
+            FILE_APPEND
+        );
+
+        $this->renderFile(
+            'module/plugin.yml.twig',
+            $this->getModulePath($module) . '/' . $module . '.' . $plugin_file_name . '.yml',
             $parameters
         );
     }
