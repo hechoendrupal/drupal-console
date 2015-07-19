@@ -106,13 +106,18 @@ class GeneratorPluginTypeYamlCommand extends GeneratorCommand
         }
         $input->setOption('plugin-name', $plugin_name);
 
+        $default_file_name = strtr($plugin_name, '_-', '..');
+
         // --plugin-file-name option
         $plugin_file_name = $input->getOption('plugin-file-name');
         if (!$plugin_file_name) {
             $plugin_file_name = $dialog->ask(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.plugin.type.yaml.options.plugin-file-name'), $machine_name),
-                $machine_name
+                $dialog->getQuestion(
+                    $this->trans('commands.generate.plugin.type.yaml.options.plugin-file-name'),
+                    $default_file_name
+                ),
+                $default_file_name
             );
         }
         $input->setOption('plugin-file-name', $plugin_file_name);

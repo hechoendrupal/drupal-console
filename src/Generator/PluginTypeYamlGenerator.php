@@ -21,20 +21,20 @@ class PluginTypeYamlGenerator extends Generator
     {
         $parameters = [
             'module' => $module,
-            'class_name' => $plugin_class,
+            'plugin_class' => $plugin_class,
             'plugin_name' => $plugin_name,
             'plugin_file_name' => $plugin_file_name,
         ];
 
         $this->renderFile(
             'module/src/yaml-plugin-manager.php.twig',
-            $this->getSourcePath($module) . '/' . $plugin_name . 'Manager.php',
+            $this->getSourcePath($module) . '/' . $plugin_class . 'Manager.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/yaml-plugin-manager-interface.php.twig',
-            $this->getSourcePath($module) . '/' . $plugin_name . 'ManagerInterface.php',
+            $this->getSourcePath($module) . '/' . $plugin_class . 'ManagerInterface.php',
             $parameters
         );
     }
