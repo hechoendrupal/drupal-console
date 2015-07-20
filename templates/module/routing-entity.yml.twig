@@ -4,7 +4,7 @@ entity.{{ entity_name }}.collection:
   path: '/admin/config/system/{{ entity_name }}'
   defaults:
     _entity_list: '{{ entity_name }}'
-    _title: '{{ entity_class }} Configuration'
+    _title: '{{ label }}'
   requirements:
     _permission: 'administer site configuration'
 
@@ -12,7 +12,7 @@ entity.{{ entity_name }}.add_form:
   path: '/admin/config/system/{{ entity_name }}/add'
   defaults:
     _entity_form: '{{ entity_name }}.add'
-    _title: 'Add {{ entity_class }}'
+    _title: 'Add {{ label }}'
   requirements:
     _permission: 'administer site configuration'
 
@@ -20,7 +20,7 @@ entity.{{ entity_name }}.edit_form:
   path: '/admin/config/system/{{ entity_name }}/{{ '{'~entity_name~'}' }}'
   defaults:
     _entity_form: '{{ entity_name }}.edit'
-    _title: 'Edit {{ entity_class }}'
+    _title: 'Edit {{ label }}'
   requirements:
     _permission: 'administer site configuration'
 
@@ -28,7 +28,7 @@ entity.{{ entity_name }}.delete_form:
   path: '/admin/config/system/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete'
   defaults:
     _entity_form: '{{ entity_name }}.delete'
-    _title: 'Delete {{ entity_class }}'
+    _title: 'Delete {{ label }}'
   requirements:
     _permission: 'administer site configuration'
 

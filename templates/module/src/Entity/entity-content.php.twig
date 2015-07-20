@@ -19,13 +19,13 @@ use Drupal\user\UserInterface;
 
 {% block class_declaration %}
 /**
- * Defines the {{ entity_class }} entity.
+ * Defines the {{ label }} entity.
  *
  * @ingroup {{ module }}
  *
  * @ContentEntityType(
  *   id = "{{ entity_name }}",
- *   label = @Translation("{{ entity_class }} entity"),
+ *   label = @Translation("{{ label }}"),
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\{{ module }}\Entity\Controller\{{ entity_class }}ListController",
