@@ -17,7 +17,7 @@ use Drupal\Core\Access\AccessResult;
 
 {% block class_declaration %}
 /**
- * Access controller for the {{ entity_class }} entity.
+ * Access controller for the {{ label }} entity.
  *
  * @see \Drupal\{{module}}\Entity\{{ entity_class }}.
  */
@@ -30,13 +30,13 @@ class {{ entity_class }}AccessControlHandler extends EntityAccessControlHandler 
 
     switch ($operation) {
       case 'view':
-        return AccessResult::allowedIfHasPermission($account, 'view {{ entity_class }} entity');
+        return AccessResult::allowedIfHasPermission($account, 'view {{ label|lower }}');
 
       case 'update':
-        return AccessResult::allowedIfHasPermission($account, 'edit {{ entity_class }} entity');
+        return AccessResult::allowedIfHasPermission($account, 'edit {{ label|lower }}');
 
       case 'delete':
-        return AccessResult::allowedIfHasPermission($account, 'delete {{ entity_class }} entity');
+        return AccessResult::allowedIfHasPermission($account, 'delete {{ label|lower }}');
     }
 
     return AccessResult::allowed();
@@ -46,6 +46,6 @@ class {{ entity_class }}AccessControlHandler extends EntityAccessControlHandler 
    * {@inheritdoc}
    */
   protected function checkCreateAccess(AccountInterface $account, array $context, $entity_bundle = NULL) {
-    return AccessResult::allowedIfHasPermission($account, 'add {{ entity_class }} entity');
+    return AccessResult::allowedIfHasPermission($account, 'add {{ label|lower }}');
   }
 {% endblock %}

@@ -34,7 +34,7 @@ class {{ entity_class }}Form extends EntityForm {% endblock %}
       '#title' => $this->t('Label'),
       '#maxlength' => 255,
       '#default_value' => ${{ entity_name | machine_name }}->label(),
-      '#description' => $this->t("Label for the {{ entity_class }}."),
+      '#description' => $this->t("Label for the {{ label }}."),
       '#required' => TRUE,
     );
 
@@ -60,12 +60,12 @@ class {{ entity_class }}Form extends EntityForm {% endblock %}
     $status = ${{ entity_name | machine_name }}->save();
 
     if ($status) {
-      drupal_set_message($this->t('Saved the %label {{ entity_class }}.', array(
+      drupal_set_message($this->t('Saved the %label {{ label }}.', array(
         '%label' => ${{ entity_name | machine_name }}->label(),
       )));
     }
     else {
-      drupal_set_message($this->t('The %label {{ entity_class }} was not saved.', array(
+      drupal_set_message($this->t('The %label {{ label }} was not saved.', array(
         '%label' => ${{ entity_name | machine_name }}->label(),
       )));
     }

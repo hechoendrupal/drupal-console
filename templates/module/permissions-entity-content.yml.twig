@@ -1,16 +1,16 @@
 
-view {{ entity_class }} entity:
-  title: 'View {{ entity_class }} entity'
-  description: 'Allow view my {{ entity_class }}'
+view {{ label|lower }}:
+  title: 'View {{ label }}'
+  description: 'Allow view my {{ label }}'
 
-edit {{ entity_class }} entity:
-  title: 'Edit {{ entity_class }} entity'
-  description: 'Allow edit my {{ entity_class }}'
+edit {{ label|lower }}:
+  title: 'Edit {{ label }}'
+  description: 'Allow edit my {{ label }}'
 
-delete {{ entity_class }} entity:
-  title: 'Delete {{ entity_class }} entity'
-  description: 'Allow delete my {{ entity_class }}'
+delete {{ label|lower }}:
+  title: 'Delete {{ label }}'
+  description: 'Allow delete my {{ label }}'
 
-administer {{ entity_class }} entity:
-  title: 'Adminster {{ entity_class }} entity'
-  description: 'Allow administer my {{ entity_class }}'
+administer {{ label|lower }}:
+  title: 'Adminster {{ label }}'
+  description: 'Allow administer my {{ label }}'
