@@ -194,6 +194,8 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
         }
         $input->setOption('type-label', $label);
 
+        $default_label = $this->getStringUtils()->camelCaseToHuman($class_name);
+
         // --type-plugin-id option
         $plugin_id = $input->getOption('type-plugin-id');
 
@@ -202,9 +204,9 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
                 $output,
                 $dialog->getQuestion(
                     $this->trans('commands.generate.plugin.field.questions.type-plugin-id'),
-                    $machine_name
+                    $default_label
                 ),
-                $machine_name
+                $default_label
             );
         }
         $input->setOption('type-plugin-id', $plugin_id);
@@ -237,18 +239,20 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
         }
         $input->setOption('widget-class-name', $class_name);
 
-        $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
+        $default_label = $this->getStringUtils()->camelCaseToHuman($class_name);
 
         // --widget-label option
         $label = $input->getOption('widget-label');
         if (!$label) {
             $label = $dialog->ask(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.plugin.field.questions.widget-label'), $machine_name),
-                $machine_name
+                $dialog->getQuestion($this->trans('commands.generate.plugin.field.questions.widget-label'), $default_label),
+                $default_label
             );
         }
         $input->setOption('widget-label', $label);
+
+        $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
 
         // --widget-plugin-id option
         $plugin_id = $input->getOption('widget-plugin-id');
@@ -279,18 +283,20 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
         }
         $input->setOption('formatter-class-name', $class_name);
 
-        $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
+        $default_label = $this->getStringUtils()->camelCaseToHuman($class_name);
 
         // --formatter-label option
         $label = $input->getOption('formatter-label');
         if (!$label) {
             $label = $dialog->ask(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.plugin.field.questions.formatter-label'), $machine_name),
-                $machine_name
+                $dialog->getQuestion($this->trans('commands.generate.plugin.field.questions.formatter-label'), $default_label),
+                $default_label
             );
         }
         $input->setOption('formatter-label', $label);
+
+        $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
 
         // --formatter-plugin-id option
         $plugin_id = $input->getOption('formatter-plugin-id');

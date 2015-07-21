@@ -140,6 +140,8 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
         }
         $input->setOption('plugin-id', $plugin_id);
 
+        $default_label = $this->getStringUtils()->camelCaseToHuman($class_name);
+
         // --plugin-id option
         $plugin_label = $input->getOption('plugin-label');
         if (!$plugin_label) {
@@ -147,9 +149,9 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
                 $output,
                 $dialog->getQuestion(
                     $this->trans('commands.generate.plugin.rest.resource.questions.plugin-label'),
-                    $machine_name
+                    $default_label
                 ),
-                $machine_name
+                $default_label
             );
         }
         $input->setOption('plugin-label', $plugin_label);
