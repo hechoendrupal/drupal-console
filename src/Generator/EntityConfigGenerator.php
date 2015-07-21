@@ -25,7 +25,6 @@ class EntityConfigGenerator extends Generator
           'entity_class' => $entity_class,
           'label' => $label,
         ];
-
         $this->renderFile(
             'module/config/schema/entity.schema.yml.twig',
             $this->getModulePath($module).'/config/schema/'.$entity_name.'.schema.yml',

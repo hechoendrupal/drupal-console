@@ -84,7 +84,7 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
 
         $this
           ->getGenerator()
-          ->generate($module, $entity_name, $entity_class, $entityType, $label);
+          ->generate($module, $entity_name, $entity_class, $label, $entityType);
     }
 
     /**

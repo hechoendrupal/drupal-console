@@ -44,7 +44,7 @@ entity.{{ entity_name }}.delete_form:
   path: 'admin/structure/{{ entity_name }}'
   defaults:
    _form: '\Drupal\{{ module }}\Entity\Form\{{ entity_class }}SettingsForm'
-   _title: '{{ labe }} settings'
+   _title: '{{ label }} settings'
   requirements:
     _permission: 'administer {{ label|lower }}'
 
