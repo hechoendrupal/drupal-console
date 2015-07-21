@@ -116,18 +116,20 @@ class GeneratorPluginRulesActionCommand extends GeneratorCommand
         }
         $input->setOption('class-name', $class_name);
 
-        $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
+        $default_label = $this->getStringUtils()->camelCaseToHuman($class_name);
 
         // --label option
         $label = $input->getOption('label');
         if (!$label) {
             $label = $dialog->ask(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.plugin.rulesaction.options.label'), $machine_name),
-                $machine_name
+                $dialog->getQuestion($this->trans('commands.generate.plugin.rulesaction.options.label'), $default_label),
+                $default_label
             );
         }
         $input->setOption('label', $label);
+
+        $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
 
         // --plugin-id option
         $plugin_id = $input->getOption('plugin-id');
