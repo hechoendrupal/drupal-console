@@ -40,12 +40,6 @@
         "guzzlehttp/guzzle": "~5.0",
         "alchemy/zippy": "0.2.*@dev"
     },
-    "require-dev": {
-        "drupal/coder": "~8.1",
-        "phpunit/phpunit": "4.6.*",
-        "phpmd/phpmd" : "*",
-        "fabpot/php-cs-fixer": "*"
-    },
     "bin": ["bin/console"],
     "config": {
         "bin-dir": "bin/"
