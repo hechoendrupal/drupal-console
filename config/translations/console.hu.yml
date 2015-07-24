@@ -7,10 +7,13 @@ application:
             no-debug: 'Switches off debug mode.'
             learning: 'Generate a verbose code output.'
             generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
+            generate-inline: 'Print execution options and arguments as inline call to be use in the future'
         messages:
             completed: 'A parancs futása sikeres volt!'
             chain:
                 generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
+            inline:
+                generated: 'Following you can find the inline representation of this command to re-execute this command later'
             generated: 'Aou can now start using the generated code!'
             files:
                 generated: 'Generated or updated files'
