@@ -18,6 +18,7 @@ use Drupal\AppConsole\Command\Helper\MessageHelper;
 use Drupal\AppConsole\Command\Helper\ChainCommandHelper;
 use Drupal\AppConsole\EventSubscriber\CallCommandListener;
 use Drupal\AppConsole\EventSubscriber\ShowGenerateChainListener;
+use Drupal\AppConsole\EventSubscriber\ShowGenerateInlineListener;
 use Drupal\AppConsole\EventSubscriber\ShowCompletedMessageListener;
 use Drupal\AppConsole\EventSubscriber\ValidateDependenciesListener;
 use Drupal\AppConsole\EventSubscriber\DefaultValueEventListener;
@@ -66,6 +67,7 @@ $dispatcher->addSubscriber(new DefaultValueEventListener());
 $dispatcher->addSubscriber(new ShowGeneratedFilesListener());
 $dispatcher->addSubscriber(new CallCommandListener());
 $dispatcher->addSubscriber(new ShowGenerateChainListener());
+$dispatcher->addSubscriber(new ShowGenerateInlineListener());
 $dispatcher->addSubscriber(new ShowCompletedMessageListener());
 
 $application->setDispatcher($dispatcher);
