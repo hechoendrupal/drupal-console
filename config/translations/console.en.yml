@@ -145,6 +145,7 @@ commands:
       welcome: Welcome to the Drupal Command generator
       options:
         module: common.options.module
+        controller-title: 'Controller title'
         class-name: Command Class name
         command: Command name
         container: Access the services container
@@ -153,6 +154,8 @@ commands:
         class-name: Enter the Command Class name
         command: Enter the Command name
         container: Do you need to access the service container
+      messages:
+        title-not-empty: 'Title cannot be empty'
     controller:
       description: Generate & Register a controller
       help: The <info>generate:controller</info> command helps you generate a new controller.
@@ -171,6 +174,15 @@ commands:
         route: Enter the route path
         services: common.questions.services
         test: Do you want to generate a unit test class
+        other-controller-title: 'Controller title (empty to start with code generation)'
+        controller-title: 'Controller title'
+      messages:
+              invalid-controller-title: Title cannot be empty
+              title-already-added: Title was already added
+              invalid-method-name: Method name cannot be empty
+              method-name-already-added: Method name was already added
+              invalid-route: Route cannot be empty
+              route-already-added: Route was already added
     entity:
       description: Generate a new "%s"
       help: The <info>"%s"</info> command helps you generate a new "%s"

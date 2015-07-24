@@ -131,6 +131,7 @@ commands:
             welcome: 'Bine ai venit in genratorul de comenzi noi.'
             options:
                 module: common.options.module
+                controller-title: 'Controller title'
                 class-name: 'Numele Clasei a Comenzii'
                 command: 'Numele Comenzii'
                 container: 'Acceseaza serviciul containerului'
@@ -139,6 +140,9 @@ commands:
                 class-name: 'Introdu Numele Clasei pentru Comanda'
                 command: 'Introdu Numele Comenzii'
                 container: 'Aveti nevoie de a accesa serviciul containerului'
+                controller-title: 'Controller title'
+            messages:
+                title-not-empty: 'Title cannot be empty'
         controller:
             description: 'Genereaza si Inregistreaza un controller'
             help: 'Comanda <info>generate:controller</info> te va ajuta sa generezi un nou controller.'
@@ -157,6 +161,15 @@ commands:
                 route: 'Introdu calea spre "route"'
                 services: common.questions.services
                 test: 'Vreai sa generezi o Clasa pentru "Unit Test"'
+                other-controller-title: 'Controller title (empty to start with code generation)'
+                controller-title: 'Controller title'
+            messages:
+                invalid-controller-title: 'Title cannot be empty'
+                title-already-added: 'Title was already added'
+                invalid-method-name: 'Method name cannot be empty'
+                method-name-already-added: 'Method name was already added'
+                invalid-route: 'Route cannot be empty'
+                route-already-added: 'Route was already added'
         entity:
             description: 'Genereaza un nou "%s"'
             help: 'Comanda <info>"%s"</info> te va ajuta sa generezi un nou "%s"'
@@ -277,6 +290,92 @@ commands:
                     services: common.questions.services
                 messages:
                     inputs: "\nPoti adauga campuri pentru a crea configurari speciale in block.\nAceasta este optional, tasteaza <info>Enter</info> pentru a <info>continua</info>"
+            field:
+                description: 'Generate field type, widget and formatter plugins.'
+                help: 'The <info>generate:plugin:field</info> command helps you generate a full set of field plugin: field type, field formatter and field widget.'
+                welcome: 'Welcome to the Drupal Field Plugin generator'
+                options:
+                    module: common.options.module
+                    type-class-name: 'Field type plugin class name'
+                    type-label: 'Field type plugin label'
+                    type-plugin-id: 'Field type plugin id'
+                    type-description: 'Field type plugin description'
+                    formatter-class-name: 'Field formatter plugin class name'
+                    formatter-label: 'Field formatter plugin label'
+                    formatter-plugin-id: 'Field formatter plugin id'
+                    widget-class-name: 'Field widget plugin class name'
+                    widget-label: 'Field widget plugin label'
+                    widget-plugin-id: 'Field widget plugin id'
+                    field-type: 'Field type the formatter and widget plugin can be used with'
+                    default-widget: 'Default field widget of the field type plugin'
+                    default-formatter: 'Default field widget of field type plugin'
+                questions:
+                    module: common.questions.module
+                    type-class-name: 'Field type plugin class name'
+                    type-label: 'Enter the field type plugin label'
+                    type-plugin-id: 'Enter the field type plugin id'
+                    type-description: 'Enter the field type plugin description'
+                    formatter-class-name: 'Enter the field formatter plugin class name'
+                    formatter-label: 'Enter the field formatter plugin label'
+                    formatter-plugin-id: 'Enter the field formatter plugin id'
+                    widget-class-name: 'Enter the field widget plugin class name'
+                    widget-label: 'Enter the field widget plugin label'
+                    widget-plugin-id: 'Enter the field widget plugin id'
+                    field-type: 'Enter the field type the formatter and widget plugin can be used with'
+                    default-widget: 'Enter the default field widget of the field type plugin'
+                    default-formatter: 'Enter the default field widget of field type plugin'
+            fieldformatter:
+                description: 'Generate field formatter plugin.'
+                help: 'The <info>generate:plugin:fieldformatter</info> command helps you generate a new field formatter plugin.'
+                welcome: 'Welcome to the Drupal Field Formatter Plugin generator'
+                options:
+                    module: common.options.module
+                    class-name: 'Plugin class name'
+                    label: 'Plugin label'
+                    plugin-id: 'Plugin id'
+                    field-type: 'Field type the plugin can be used with'
+                questions:
+                    module: common.questions.module
+                    class-name: 'Enter the plugin class name'
+                    label: 'Enter the plugin label'
+                    plugin-id: 'Enter the plugin id'
+                    field-type: 'Enter the field type the plugin can be used with'
+            fieldtype:
+                description: 'Generate field type plugin.'
+                help: 'The <info>generate:plugin:fieldtype</info> command helps you generate a new field type plugin.'
+                welcome: 'Welcome to the Drupal Field Type Plugin generator'
+                options:
+                    module: common.options.module
+                    class-name: 'Plugin class name'
+                    label: 'Plugin label'
+                    plugin-id: 'Plugin id'
+                    description: 'Plugin Description'
+                    default-widget: 'Default field widget of this plugin'
+                    default-formatter: 'Default field widget of this plugin'
+                questions:
+                    module: common.questions.module
+                    class-name: 'Enter the plugin class name'
+                    label: 'Enter the plugin label'
+                    plugin-id: 'Enter the plugin id'
+                    description: 'Enter the plugin Description'
+                    default-widget: 'Enter the default field widget of this plugin'
+                    default-formatter: 'Enter the default field formatter of this plugin'
+            fieldwidget:
+                description: 'Generate field widget plugin.'
+                help: 'The <info>generate:plugin:fieldwidget</info> command helps you generate a new field widget plugin.'
+                welcome: 'Welcome to the Drupal Field Widget Plugin generator'
+                options:
+                    module: common.options.module
+                    class-name: 'Plugin class name'
+                    label: 'Plugin label'
+                    plugin-id: 'Plugin id'
+                    field-type: 'Field type the plugin can be used with'
+                questions:
+                    module: common.questions.module
+                    class-name: 'Enter the plugin class name'
+                    label: 'Enter the plugin label'
+                    plugin-id: 'Enter the plugin id'
+                    field-type: 'Enter the field type the plugin can be used with'
             imageeffect:
                 description: 'Genereaza un "Image effect plugin".'
                 help: 'Comanda <info>generate:plugin:imageeffect</info> te va ajuta sa generezi un nou "Image effect plugin".'
@@ -337,6 +436,21 @@ commands:
                     services: common.questions.services
                     category: 'Enter plugin category'
                     context: 'Enter plugin context'
+            type:
+                annotation:
+                    description: 'Generate a plugin type with annotation discovery'
+                    help: 'The <info>generate:plugin:type:annotation</info> command helps you generate a new Plugin type that uses annotation discovery.'
+                    welcome: 'Welcome to the Drupal Plugin Type generator'
+                    options:
+                        module: common.options.module
+                        class-name: 'Plugin type class name'
+                        machine-name: 'Plugin type machine name'
+                        label: 'Plugin type label'
+                    questions:
+                        module: common.questions.module
+                        class-name: 'Enter the plugin type class name'
+                        machine-name: 'Enter the plugin type machine name'
+                        label: 'Enter the plugin type label'
         service:
             description: 'Genereaza un serviciu'
             help: 'Comanda <info>generate:service</info> te va ajuta sa creezi un serviciu nou.'
