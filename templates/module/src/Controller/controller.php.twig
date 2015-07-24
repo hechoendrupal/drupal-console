@@ -47,28 +47,25 @@ class {{ class_name }} extends ControllerBase {% endblock %}
 {% endif %}
 {% endblock %}
 {% block class_methods %}
+{% for route in routes %}
   /**
-   * {{ method_name | capitalize }}.
+   * {{ route.method | capitalize }}.
    *
    * @return string
    *   Return Hello string.
    */
-  public function {{method_name}}({{ argumentsFromRoute(route)|join(', ') }}) {
-{% if class_name == "DefaultController" %}
+  public function {{route.method}}({{ argumentsFromRoute(route.route)|join(', ') }}) {
+{% if argumentsFromRoute(route.route) is not empty %}
     return [
         '#type' => 'markup',
-        '#markup' => $this->t('Hello @name!', ['@name' => $name])
-    ];
-{% elseif argumentsFromRoute(route) is not empty %}
-    return [
-        '#type' => 'markup',
-        '#markup' => $this->t('Implement method: {{method_name}} with parameter(s): {{ argumentsFromRoute(route)|join(', ') }}')
+        '#markup' => $this->t('Implement method: {{route.method}} with parameter(s): {{ argumentsFromRoute(route.route)|join(', ') }}')
     ];
 {% else %}
     return [
         '#type' => 'markup',
-        '#markup' => $this->t('Implement method: {{method_name}}')
+        '#markup' => $this->t('Implement method: {{route.method}}')
     ];
 {% endif %}
   }
+{% endfor %}
 {% endblock %}
