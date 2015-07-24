@@ -334,4 +334,11 @@ class Generator
     {
         return $this->learning;
     }
+
+    /**
+     * @param string $modulePath
+     */
+    public function setModulePath($modulePath) {
+        $this->module_path = $modulePath;
+    }
 }

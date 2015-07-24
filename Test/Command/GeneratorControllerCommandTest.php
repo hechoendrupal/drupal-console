@@ -19,7 +19,7 @@ class GeneratorControllerCommandTest extends GenerateCommandTest
      * @param $class_name
      * @param $routes
      * @param $test
-     * @param $build_services
+     * @param $services
      * @param $class_machine_name
      *
      * @dataProvider commandData
@@ -29,12 +29,10 @@ class GeneratorControllerCommandTest extends GenerateCommandTest
       $class_name,
       $routes,
       $test,
-      $build_services,
-      $class_machine_name
+      $services
     ) {
 
         $command = new GeneratorControllerCommand($this->getTranslatorHelper());
-        $container = $this->getContainer();
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
@@ -48,7 +46,7 @@ class GeneratorControllerCommandTest extends GenerateCommandTest
             '--controller-title'    => $routes[0]['title'],
             '--method-name'    => $routes[0]['method'],
             '--route'           => $routes[0]['route'],
-            '--services'        => $build_services,
+            '--services'        => $services,
             '--test'       => $test,
           ],
           ['interactive' => false]

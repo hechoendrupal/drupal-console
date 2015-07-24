@@ -17,16 +17,14 @@ class ControllerGeneratorTest extends GeneratorTest
     use ControllerDataProviderTrait;
 
     /**
-     * Module generator test
+     * Controller generator test
      *
      * @param $module
-     * @param $machine_name
-     * @param $module_path,
-     * @param $description
-     * @param $core
-     * @param $package
-     * @param $composer
-     * @param $dependencies
+     * @param $class_name
+     * @param $routes
+     * @param $test
+     * @param $build_services
+     * @param $class_machine_name
      *
      * @dataProvider commandData
      */
@@ -41,6 +39,7 @@ class ControllerGeneratorTest extends GeneratorTest
     {
         $generator = new ControllerGenerator();
         $generator->setSkeletonDirs(__DIR__ . '/../../templates');
+        $generator->setModulePath($this->getModulePath($module));
 
         $generator->generate(
           $module,
@@ -52,21 +51,21 @@ class ControllerGeneratorTest extends GeneratorTest
         );
 
         $files = [
-          $module . '/' . $class_name . '.php',
-          $module . '/' . $module . '.routing.yml'
+          $generator->getControllerPath($module).'/'.$class_name.'.php',
+          $generator->getModulePath($module).'/'.$module.'.routing.yml'
         ];
 
         foreach ($files as $file) {
             $this->assertTrue(
               file_exists($file),
-              sprintf('%s has been generated', $file)
+              sprintf('%s does not exist', $file)
             );
         }
 
         if ($test) {
             $this->assertTrue(
-              file_exists( $this->getTestPath($module, 'Controller') . '/' . $class_name.'Test.php'),
-              sprintf('Generate test class %s has been generated ', $class_name.'Test.php')
+              file_exists($generator->getTestPath($module, 'Controller') . '/' . $class_name.'Test.php'),
+              sprintf('%s does not exist', $class_name.'Test.php')
             );
         }
     }
