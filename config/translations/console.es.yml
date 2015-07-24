@@ -7,10 +7,13 @@ application:
             no-debug: 'Desactivar el modo de depuración.'
             learning: 'Generar código con explicaciones.'
             generate-chain: 'Imprimir opciones y argumentos como yaml para ser usado el comando chain'
+            generate-inline: 'Print execution options and arguments as inline call to be use in the future'
         messages:
             completed: 'Ahora puedes empezar a usar el código generado!'
             chain:
                 generated: 'A continuación puede observar la representación en yaml del último comando ejecutado, puede copiarlo en ~/.console/chain/sample.yml para ejecutarlo en una secuencia de comandos'
+            inline:
+                generated: 'Following you can find the inline representation of this command to re-execute this command later'
             generated: 'You can now start using the generated code!'
             files:
                 generated: 'Ahora puede comenzar a usar el código generado!'
