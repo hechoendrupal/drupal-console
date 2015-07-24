@@ -37,7 +37,7 @@
         "twig/twig": "1.18.*",
         "herrera-io/phar-update": "1.*",
         "symfony/dom-crawler": "2.7.*",
-        "guzzlehttp/guzzle": "~5.0",
+        "guzzlehttp/guzzle": ">=5.0",
         "alchemy/zippy": "0.2.*@dev"
     },
     "bin": ["bin/console"],
