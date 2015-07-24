@@ -13,17 +13,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CacheRebuildCommand extends ContainerAwareCommand
 {
-
     protected function configure()
     {
         $this
           ->setName('cache:rebuild')
           ->setDescription($this->trans('commands.cache.rebuild.description'))
           ->addArgument(
-            'cache',
-            InputArgument::OPTIONAL,
-            $this->trans('commands.cache.rebuild.options.cache'),
-            null
+              'cache',
+              InputArgument::OPTIONAL,
+              $this->trans('commands.cache.rebuild.options.cache'),
+              null
           );
     }
 
@@ -32,7 +31,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
         $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
         $drupal_root = $drupalAutoLoad->getDrupalRoot();
 
-        require_once $drupal_root . 'core/includes/utility.inc';
+        require_once $drupal_root.'/core/includes/utility.inc';
         $validators = $this->getHelperSet()->get('validators');
 
         // Get the --cache option and make validation
@@ -40,16 +39,16 @@ class CacheRebuildCommand extends ContainerAwareCommand
         $validated_cache = $validators->validateCache($cache);
         if (!$validated_cache) {
             throw new \InvalidArgumentException(
-              sprintf(
-                $this->trans('commands.cache.rebuild.messages.invalid_cache'),
-                $cache
-              )
+                sprintf(
+                    $this->trans('commands.cache.rebuild.messages.invalid_cache'),
+                    $cache
+                )
             );
         }
 
         // Start rebuilding cache
         $output->writeln('');
-        $output->writeln('[+] <comment>' . $this->trans('commands.cache.rebuild.messages.rebuild') . '</comment>');
+        $output->writeln('[+] <comment>'.$this->trans('commands.cache.rebuild.messages.rebuild').'</comment>');
 
         // Get data needed to rebuild cache
         $kernelHelper = $this->getHelper('kernel');
@@ -67,7 +66,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
         }
 
         // Finish rebuiilding cache
-        $output->writeln('[+] <info>' . $this->trans('commands.cache.rebuild.messages.completed') . '</info>');
+        $output->writeln('[+] <info>'.$this->trans('commands.cache.rebuild.messages.completed').'</info>');
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -91,23 +90,24 @@ class CacheRebuildCommand extends ContainerAwareCommand
             $cache_keys[] = 'all';
 
             $cache = $dialog->askAndValidate(
-              $output,
-              $dialog->getQuestion($this->trans('commands.cache.rebuild.questions.cache'), 'all'),
-              function ($cache) use ($validators) {
-                  $validated_cache = $validators->validateCache($cache);
-                  if (!$validated_cache) {
-                      throw new \InvalidArgumentException(
-                        sprintf(
-                          $this->trans('commands.cache.rebuild.messages.invalid_cache'),
-                          $cache
-                        )
-                      );
-                  }
-                  return $validated_cache;
-              },
-              false,
-              'all',
-              $cache_keys
+                $output,
+                $dialog->getQuestion($this->trans('commands.cache.rebuild.questions.cache'), 'all'),
+                function ($cache) use ($validators) {
+                    $validated_cache = $validators->validateCache($cache);
+                    if (!$validated_cache) {
+                        throw new \InvalidArgumentException(
+                            sprintf(
+                                $this->trans('commands.cache.rebuild.messages.invalid_cache'),
+                                $cache
+                            )
+                        );
+                    }
+
+                    return $validated_cache;
+                },
+                false,
+                'all',
+                $cache_keys
             );
         }
 

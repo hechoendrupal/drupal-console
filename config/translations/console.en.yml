@@ -1,11 +1,20 @@
 application:
   console:
+    arguments:
+      drupal: 'Path to Drupal root.'
+      shell: 'Launch the shell.'
+      env: 'The Environment name.'
+      no-debug: 'Switches off debug mode.'
+      learning: 'Generate a verbose code output.'
+      generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
     messages:
-      completed: The command was executed succesfully!
-      generated: You can now start using the generated code!
+      completed: 'The command was executed succesfully!'
+      chain:
+        generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
+      generated: 'You can now start using the generated code!'
       files:
-        generated: Generated or updated files
-        copied: Copied files
+        generated: 'Generated or updated files'
+        copied: 'Copied files'
       learning:
         route: |
           In order to to create pages it is necessary to define routes for them.
@@ -18,7 +27,7 @@ application:
           ("\Drupal\{{ module }}\Controller\{{ class_name }}")
           and a method ("{{ method_name }}").
     errors:
-      invalid-command: Command "%s" is not defined.
+      invalid-command: 'Command "%s" is not defined.'
   site:
     messages:
       path: Site path
@@ -75,8 +84,9 @@ commands:
     options:
       file: User defined file containing commands to get executed.
     messages:
-        missing_file: Yu must provide a valid file path and name.
+        missing_file: You must provide a valid file path and name.
         invalid_file: The file "%s" does not exists.
+        module_install: module:install command is not runnable inside a chain queue and must be run independently.
   config:
     export:
       description: Export current application configuration.
@@ -135,6 +145,7 @@ commands:
       welcome: Welcome to the Drupal Command generator
       options:
         module: common.options.module
+        controller-title: 'Controller title'
         class-name: Command Class name
         command: Command name
         container: Access the services container
@@ -143,6 +154,8 @@ commands:
         class-name: Enter the Command Class name
         command: Enter the Command name
         container: Do you need to access the service container
+      messages:
+        title-not-empty: 'Title cannot be empty'
     controller:
       description: Generate & Register a controller
       help: The <info>generate:controller</info> command helps you generate a new controller.
@@ -161,6 +174,15 @@ commands:
         route: Enter the route path
         services: common.questions.services
         test: Do you want to generate a unit test class
+        other-controller-title: 'Controller title (empty to start with code generation)'
+        controller-title: 'Controller title'
+      messages:
+              invalid-controller-title: Title cannot be empty
+              title-already-added: Title was already added
+              invalid-method-name: Method name cannot be empty
+              method-name-already-added: Method name was already added
+              invalid-route: Route cannot be empty
+              route-already-added: Route was already added
     entity:
       description: Generate a new "%s"
       help: The <info>"%s"</info> command helps you generate a new "%s"
@@ -283,6 +305,92 @@ commands:
 
             You can add input fields to create special configurations in the block.
             This is optional, press <info>enter</info> to <info>continue</info>
+      field:
+        description: Generate field type, widget and formatter plugins.
+        help: The <info>generate:plugin:field</info> command helps you generate a full set of field plugin: field type, field formatter and field widget.
+        welcome: Welcome to the Drupal Field Plugin generator
+        options:
+          module: common.options.module
+          type-class-name: Field type plugin class name
+          type-label: Field type plugin label
+          type-plugin-id: Field type plugin id
+          type-description: Field type plugin description
+          formatter-class-name: Field formatter plugin class name
+          formatter-label: Field formatter plugin label
+          formatter-plugin-id: Field formatter plugin id
+          widget-class-name: Field widget plugin class name
+          widget-label: Field widget plugin label
+          widget-plugin-id: Field widget plugin id
+          field-type: Field type the formatter and widget plugin can be used with
+          default-widget: Default field widget of the field type plugin
+          default-formatter: Default field widget of field type plugin
+        questions:
+          module: common.questions.module
+          type-class-name: Field type plugin class name
+          type-label: Enter the field type plugin label
+          type-plugin-id: Enter the field type plugin id
+          type-description: Enter the field type plugin description
+          formatter-class-name: Enter the field formatter plugin class name
+          formatter-label: Enter the field formatter plugin label
+          formatter-plugin-id: Enter the field formatter plugin id
+          widget-class-name: Enter the field widget plugin class name
+          widget-label: Enter the field widget plugin label
+          widget-plugin-id: Enter the field widget plugin id
+          field-type: Enter the field type the formatter and widget plugin can be used with
+          default-widget: Enter the default field widget of the field type plugin
+          default-formatter: Enter the default field widget of field type plugin
+      fieldformatter:
+        description: Generate field formatter plugin.
+        help: The <info>generate:plugin:fieldformatter</info> command helps you generate a new field formatter plugin.
+        welcome: Welcome to the Drupal Field Formatter Plugin generator
+        options:
+          module: common.options.module
+          class-name: Plugin class name
+          label: Plugin label
+          plugin-id: Plugin id
+          field-type: Field type the plugin can be used with
+        questions:
+          module: common.questions.module
+          class-name: Enter the plugin class name
+          label: Enter the plugin label
+          plugin-id: Enter the plugin id
+          field-type: Enter the field type the plugin can be used with
+      fieldtype:
+        description: Generate field type plugin.
+        help: The <info>generate:plugin:fieldtype</info> command helps you generate a new field type plugin.
+        welcome: Welcome to the Drupal Field Type Plugin generator
+        options:
+          module: common.options.module
+          class-name: Plugin class name
+          label: Plugin label
+          plugin-id: Plugin id
+          description: Plugin Description
+          default-widget: Default field widget of this plugin
+          default-formatter: Default field widget of this plugin
+        questions:
+          module: common.questions.module
+          class-name: Enter the plugin class name
+          label: Enter the plugin label
+          plugin-id: Enter the plugin id
+          description: Enter the plugin Description
+          default-widget: Enter the default field widget of this plugin
+          default-formatter: Enter the default field formatter of this plugin
+      fieldwidget:
+        description: Generate field widget plugin.
+        help: The <info>generate:plugin:fieldwidget</info> command helps you generate a new field widget plugin.
+        welcome: Welcome to the Drupal Field Widget Plugin generator
+        options:
+          module: common.options.module
+          class-name: Plugin class name
+          label: Plugin label
+          plugin-id: Plugin id
+          field-type: Field type the plugin can be used with
+        questions:
+          module: common.questions.module
+          class-name: Enter the plugin class name
+          label: Enter the plugin label
+          plugin-id: Enter the plugin id
+          field-type: Enter the field type the plugin can be used with
       imageeffect:
         description: Generate image effect plugin.
         help: The <info>generate:plugin:imageeffect</info> command helps you generate a new image effect plugin.
@@ -333,6 +441,7 @@ commands:
           services: common.options.services
           category: Plugin category
           context: Plugin context
+          type: Action Type (user or node)
         questions:
           module: common.questions.module
           class-name: Enter the plugin class name
@@ -342,6 +451,21 @@ commands:
           services: common.questions.services
           category: Enter plugin category
           context: Enter plugin context
+      type:
+        annotation:
+          description: Generate a plugin type with annotation discovery
+          help: The <info>generate:plugin:type:annotation</info> command helps you generate a new Plugin type that uses annotation discovery.
+          welcome: Welcome to the Drupal Plugin Type generator
+          options:
+            module: common.options.module
+            class-name: Plugin type class name
+            machine-name: Plugin type machine name
+            label: Plugin type label
+          questions:
+            module: common.questions.module
+            class-name: Enter the plugin type class name
+            machine-name: Enter the plugin type machine name
+            label: Enter the plugin type label
     service:
       description: Generate service
       help: The <info>generate:service</info> command helps you generate a new service.
@@ -414,6 +538,17 @@ commands:
         id: "Migration Id"
         description: "Description"
         version: "Version"
+    load:
+      description: Generate a migration entity.
+      arguments:
+        file: Path to the yml file
+      messages:
+        invalid_file: The file "%s" does not exists.
+        installed: Please remember to put the plugin files where they should be.
+        overridden: The entity was overridden.
+      questions:
+        override: The File is already install, do you want override it [yes/no] ?
+        file: "Path to file"
     execute:
       description: Execute a migration available for application
       arguments:
@@ -426,8 +561,10 @@ commands:
         db-pass: "Database Pass"
         db-prefix: "Database Prefix"
         db-port: "Database Port"
+        exclude: "Migration id(s) to exclude"
       questions:
         id: "Migration Id"
+        exclude-id: "Migration Id to exlude (press <return> to stop adding migrations)"
         other-id: "Other migration id (press <return> to stop adding migrations)"
         site-url: "Source Site URL"
         db-host: "Database Host"
@@ -517,6 +654,7 @@ commands:
     help: Update the console command to the latest version.
     messages:
       success: The console has been updated to the latest version.
+      current-version: The latest version %s, was already installed on your system.
   site:
     mode:
       description: Switch system performance configuration
@@ -532,6 +670,8 @@ commands:
       messages:
         application: Application
         system: System Info
+        hash_salt: Hash salt
+        console: Console version
         database: Database connection
         driver: Driver
         host: Host
@@ -548,6 +688,10 @@ commands:
         directory_temporary: Site temporary directory
         directory_theme_default: Default theme directory
         directory_theme_admin: Admin theme directory
+        configuration: Configuration
+        active: Active config path
+        staging: Staging config path
+
     maintenance:
       description: Switch site into maintenance mode
       arguments:
@@ -557,6 +701,18 @@ commands:
         maintenance-off: Operating in maintenance mode off
       errors:
         invalid-mode: Invalid maintance mode
+    new:
+      description: Create a new Drupal project
+      arguments:
+        site-name: Site name
+        version: Specific Drupal version to download
+      messages:
+        getting-releases: 'Getting releases for Drupal'
+        downloading: 'Downloading Drupal %s'
+        extracting: 'Extracting files for Drupal %s'
+        no-releases: "There aren't not releases available for Drupal"
+        downloaded: 'Drupal %s was downloaded in directory %s'
+        error-copying: 'An error occurred while renaming your directory at %s'
   test:
     debug:
       description: List Test Units available for the application.
@@ -572,17 +728,52 @@ commands:
         success: The console has been updated to the latest version.
   password:
     hash:
-        description: Generate a hash from a plaintext password.
-        help: The <info>password:hash</info> command helps you to generate hashs password from plaintext passwords.
-        welcome: Welcome to the Drupal password hash generator
-        options:
-          password: password(s) in text format
-        questions:
-          invalid-pass: Password can't be empty
-          password: Enter password
-          other-password: Other password (press <return> to stop adding passwords)
-        messages:
-          password: Password
-          hash: Hash
-        errors:
-
+      description: Generate a hash from a plaintext password.
+      help: The <info>password:hash</info> command helps you to generate hashs password from plaintext passwords.
+      welcome: Welcome to the Drupal password hash generator
+      options:
+        password: Password(s) in text format
+      questions:
+        invalid-pass: Password can't be empty
+        password: Enter password
+        other-password: Other password (press <return> to stop adding passwords)
+      messages:
+        password: Password
+        hash: Hash
+      errors:
+    reset:
+      description: Reset password for a specific user.
+      help: The <info>password:reset</info> command helps you to reset password for a specific user.
+      welcome: Welcome to the Drupal password reset
+      options:
+        password: Password in text format
+        user-id: User ID
+      questions:
+        invalid-uid: Invalid user id %, user id must be an integer
+        invalid-pass: Password can't be empty
+        user: Enter User ID
+        password: Enter password
+        other-password: Other password (press <return> to stop adding passwords)
+      messages:
+        reset-successful: Password was updated sucessfully for user id %s
+      errors:
+        invalid-user: Invalid user id %s
+  yaml:
+    merge:
+      description: 'Merge one or more YAML files in a new YAML file. Latest values are preserved.'
+      arguments:
+        yaml-files: 'Path of YAML files to merge'
+        yaml-destination: 'Path of new YAML file to store result of merge.'
+      questions:
+        yaml-destination: 'Path of new YAML file to store result of merge.'
+        file: 'Path to file to merge'
+        other-file: 'Path to file to merge (empty to start with merge process)'
+        invalid-file: 'Path of file cannot be empty'
+        file-already-added: 'Path of file was already added'
+      messages:
+        wrong-parse: "Yaml file '%s' is empty or doesn\'t exist the file."
+        error-parsing: 'An error occurs during parsing of Yaml file "%s".'
+        two-files-required: 'At least two files are required.'
+        error-generating: 'Error generating merged YAML.'
+        error-writing: 'Error writing merged YAML file.'
+        merged: 'New file "%s" was created sucessfully after merge Yaml files.'

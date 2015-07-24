@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\GeneratorPluginRestResourceCommand.
@@ -30,16 +31,36 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
           ->setDescription($this->trans('commands.generate.plugin.rest.resource.description'))
           ->setHelp($this->trans('commands.generate.plugin.rest.resource.help'))
           ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
-          ->addOption('class-name', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.plugin.rest.resource.options.class-name'))
-          ->addOption('plugin-id', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.plugin.rest.resource.options.plugin-id'))
-          ->addOption('plugin-label', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.plugin.rest.resource.options.plugin-label'))
-          ->addOption('plugin-url', '', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-            $this->trans('commands.generate.plugin.rest.resource.options.plugin-url'))
-          ->addOption('plugin-states', '', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-            $this->trans('commands.generate.plugin.rest.resource.options.plugin-states'));
+          ->addOption(
+              'class-name',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.plugin.rest.resource.options.class-name')
+          )
+          ->addOption(
+              'plugin-id',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.plugin.rest.resource.options.plugin-id')
+          )
+          ->addOption(
+              'plugin-label',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.plugin.rest.resource.options.plugin-label')
+          )
+          ->addOption(
+              'plugin-url',
+              '',
+              InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+              $this->trans('commands.generate.plugin.rest.resource.options.plugin-url')
+          )
+          ->addOption(
+              'plugin-states',
+              '',
+              InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+              $this->trans('commands.generate.plugin.rest.resource.options.plugin-states')
+          );
     }
 
     /**
@@ -85,17 +106,20 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
         $class_name = $input->getOption('class-name');
         if (!$class_name) {
             $class_name = $dialog->askAndValidate(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.plugin.rest.resource.questions.class-name'),
-                'DefaultRestResource'),
-              function ($value) use ($stringUtils) {
-                  if (!strlen(trim($value))) {
-                      throw new \Exception('The Class name can not be empty');
-                  }
-                  return $stringUtils->humanToCamelCase($value);
-              },
-              false,
-              'DefaultRestResource'
+                $output,
+                $dialog->getQuestion(
+                    $this->trans('commands.generate.plugin.rest.resource.questions.class-name'),
+                    'DefaultRestResource'
+                ),
+                function ($value) use ($stringUtils) {
+                    if (!strlen(trim($value))) {
+                        throw new \Exception('The Class name can not be empty');
+                    }
+
+                    return $stringUtils->humanToCamelCase($value);
+                },
+                false,
+                'DefaultRestResource'
             );
         }
         $input->setOption('class-name', $class_name);
@@ -106,10 +130,12 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
         $plugin_id = $input->getOption('plugin-id');
         if (!$plugin_id) {
             $plugin_id = $dialog->ask(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.plugin.rest.resource.questions.plugin-id'),
-                $machine_name),
-              $machine_name
+                $output,
+                $dialog->getQuestion(
+                    $this->trans('commands.generate.plugin.rest.resource.questions.plugin-id'),
+                    $machine_name
+                ),
+                $machine_name
             );
         }
         $input->setOption('plugin-id', $plugin_id);
@@ -118,10 +144,12 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
         $plugin_label = $input->getOption('plugin-label');
         if (!$plugin_label) {
             $plugin_label = $dialog->ask(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.plugin.rest.resource.questions.plugin-label'),
-                $machine_name),
-              $machine_name
+                $output,
+                $dialog->getQuestion(
+                    $this->trans('commands.generate.plugin.rest.resource.questions.plugin-label'),
+                    $machine_name
+                ),
+                $machine_name
             );
         }
         $input->setOption('plugin-label', $plugin_label);
@@ -130,14 +158,15 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
         $plugin_url = $input->getOption('plugin-url');
         if (!$plugin_url) {
             $plugin_url = $dialog->ask(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.plugin.rest.resource.questions.plugin-url'),
-                $machine_name),
-              $machine_name
+                $output,
+                $dialog->getQuestion(
+                    $this->trans('commands.generate.plugin.rest.resource.questions.plugin-url'),
+                    $machine_name
+                ),
+                $machine_name
             );
         }
         $input->setOption('plugin-url', $plugin_url);
-
 
         // --plugin-states option
         $plugin_states = $input->getOption('plugin-states');
@@ -145,15 +174,17 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
             $questionHelper = $this->getQuestionHelper();
 
             $question = new ChoiceQuestion(
-              $this->trans('commands.generate.plugin.rest.resource.questions.plugin-states'),
-              array('GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'),
-              '0'
+                $this->trans('commands.generate.plugin.rest.resource.questions.plugin-states'),
+                array('GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'),
+                '0'
             );
 
             $question->setMultiselect(true);
             $plugin_states = $questionHelper->ask($input, $output, $question);
-            $output->writeln($this->trans('commands.generate.plugin.rest.resource.messages.selected-states') . ' ' . implode(', ',
-                $plugin_states));
+            $output->writeln($this->trans('commands.generate.plugin.rest.resource.messages.selected-states').' '.implode(
+                ', ',
+                $plugin_states
+            ));
 
             $input->setOption('plugin-states', $plugin_states);
         }

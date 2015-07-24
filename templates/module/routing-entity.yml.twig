@@ -1,6 +1,7 @@
+
 # {{ entity_class }} routing definition
 entity.{{ entity_name }}.collection:
-  path: '/admin/config/system/{{ entity_name }}'
+  path: '/admin/structure/{{ entity_name }}'
   defaults:
     _entity_list: '{{ entity_name }}'
     _title: '{{ entity_class }} Configuration'
@@ -8,7 +9,7 @@ entity.{{ entity_name }}.collection:
     _permission: 'administer site configuration'
 
 entity.{{ entity_name }}.add_form:
-  path: '/admin/config/system/{{ entity_name }}/add'
+  path: '/admin/structure/{{ entity_name }}/add'
   defaults:
     _entity_form: '{{ entity_name }}.add'
     _title: 'Add {{ entity_class }}'
@@ -16,7 +17,7 @@ entity.{{ entity_name }}.add_form:
     _permission: 'administer site configuration'
 
 entity.{{ entity_name }}.edit_form:
-  path: '/admin/config/system/{{ entity_name }}/{{ '{'~entity_name~'}' }}'
+  path: '/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}'
   defaults:
     _entity_form: '{{ entity_name }}.edit'
     _title: 'Edit {{ entity_class }}'
@@ -24,7 +25,7 @@ entity.{{ entity_name }}.edit_form:
     _permission: 'administer site configuration'
 
 entity.{{ entity_name }}.delete_form:
-  path: '/admin/config/system/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete'
+  path: '/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete'
   defaults:
     _entity_form: '{{ entity_name }}.delete'
     _title: 'Delete {{ entity_class }}'

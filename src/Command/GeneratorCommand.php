@@ -39,13 +39,13 @@ abstract class GeneratorCommand extends ContainerAwareCommand
     protected function getSkeletonDirs()
     {
         $module = $this->getModule();
-        if ($module!='AppConsole') {
+        if ($module != 'AppConsole') {
             $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
             $drupal_root = $drupalAutoLoad->getDrupalRoot();
-            $skeletonDirs[] = $drupal_root . drupal_get_path('module', $module) . '/templates';
+            $skeletonDirs[] = $drupal_root.drupal_get_path('module', $module).'/templates';
         }
 
-        $skeletonDirs[] = __DIR__ . '/../../templates';
+        $skeletonDirs[] = __DIR__.'/../../templates';
 
         return $skeletonDirs;
     }

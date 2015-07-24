@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\GeneratorAuthenticationProviderCommand.
@@ -12,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Command\Helper\ServicesTrait;
 use Drupal\AppConsole\Command\Helper\ModuleTrait;
 use Drupal\AppConsole\Command\Helper\FormTrait;
-use Symfony\Component\Console\Question\ChoiceQuestion;
 use Drupal\AppConsole\Generator\AuthenticationProviderGenerator;
 use Drupal\AppConsole\Command\Helper\ConfirmationTrait;
 
@@ -30,10 +30,18 @@ class GeneratorAuthenticationProviderCommand extends GeneratorCommand
           ->setDescription($this->trans('commands.generate.authentication.provider.description'))
           ->setHelp($this->trans('commands.generate.authentication.provider.help'))
           ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
-          ->addOption('class-name', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.authentication.provider.options.class-name'))
-          ->addOption('provider-id', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.authentication.provider.options.provider-id'));
+          ->addOption(
+              'class-name',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.authentication.provider.options.class-name')
+          )
+          ->addOption(
+              'provider-id',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.authentication.provider.options.provider-id')
+          );
     }
 
     /**
@@ -74,36 +82,42 @@ class GeneratorAuthenticationProviderCommand extends GeneratorCommand
         $class_name = $input->getOption('class-name');
         if (!$class_name) {
             $class_name = $dialog->askAndValidate(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.authentication.provider.options.class-name'),
-                'DefaultAuthenticationProvider'),
-              function ($value) use ($stringUtils) {
-                  if (!strlen(trim($value))) {
-                      throw new \Exception('The Class name can not be empty');
-                  }
-                  return $stringUtils->humanToCamelCase($value);
-              },
-              false,
-              'DefaultAuthenticationProvider'
+                $output,
+                $dialog->getQuestion(
+                    $this->trans('commands.generate.authentication.provider.options.class-name'),
+                    'DefaultAuthenticationProvider'
+                ),
+                function ($value) use ($stringUtils) {
+                    if (!strlen(trim($value))) {
+                        throw new \Exception('The Class name can not be empty');
+                    }
+
+                    return $stringUtils->humanToCamelCase($value);
+                },
+                false,
+                'DefaultAuthenticationProvider'
             );
         }
 
         // --provider-id option
         $provider_id = $input->getOption('provider-id');
         if (!$provider_id) {
-          $provider_id = $dialog->askAndValidate(
-            $output,
-            $dialog->getQuestion($this->trans('commands.generate.authentication.provider.options.provider-id'),
-              $stringUtils->camelCaseToUnderscore($class_name)),
-            function ($value) use ($stringUtils) {
-              if (!strlen(trim($value))) {
-                throw new \Exception('The Class name can not be empty');
-              }
-              return $stringUtils->camelCaseToUnderscore($value);
-            },
-            false,
-            $stringUtils->camelCaseToUnderscore($class_name)
-          );
+            $provider_id = $dialog->askAndValidate(
+                $output,
+                $dialog->getQuestion(
+                    $this->trans('commands.generate.authentication.provider.options.provider-id'),
+                    $stringUtils->camelCaseToUnderscore($class_name)
+                ),
+                function ($value) use ($stringUtils) {
+                    if (!strlen(trim($value))) {
+                        throw new \Exception('The Class name can not be empty');
+                    }
+
+                    return $stringUtils->camelCaseToUnderscore($value);
+                },
+                false,
+                $stringUtils->camelCaseToUnderscore($class_name)
+            );
         }
 
         $input->setOption('class-name', $class_name);

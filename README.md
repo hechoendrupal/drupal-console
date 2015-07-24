@@ -15,7 +15,7 @@ Drupal Console
 =============================================
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/hechoendrupal/DrupalConsole)
-[![Build Status](https://travis-ci.org/hechoendrupal/DrupalAppConsole.svg?branch=master)](https://travis-ci.org/hechoendrupal/DrupalAppConsole)
+[![Build Status](https://travis-ci.org/hechoendrupal/DrupalConsole.svg?branch=master)](https://travis-ci.org/hechoendrupal/DrupalConsole)
 [![Latest Stable Version](https://poser.pugx.org/drupal/console/v/stable.svg)](https://packagist.org/packages/drupal/console)
 [![Latest Unstable Version](https://poser.pugx.org/drupal/console/v/unstable.svg)](https://packagist.org/packages/drupal/console)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
@@ -24,12 +24,13 @@ The Drupal Console is a suite of tools that you run on a command line interface 
 to generate boilerplate code and interact with a Drupal 8 installation.
 
 ## Supported Drupal version
-
-Drupal Console is only compatible with [Drupal 8](http://ftp.drupal.org/files/projects/drupal-8.0.0-beta10.tar.gz), some version of which *must* be installed in order to run Drupal Console commands.
+The Drupal 8 supported version is [Drupal 8 Beta 12](http://ftp.drupal.org/files/projects/drupal-8.0.0-beta12.tar.gz).
 
 ## Drupal Console documentation
-
 You can read or download the Drupal Console documentation at [bit.ly/console-book](http://bit.ly/console-book).
+
+## Drupal Console support
+You can ask for support at Drupal Console gitter chat room [http://bit.ly/console-support](http://bit.ly/console-support).
 
 ## Installing Drupal Console
 ```
@@ -52,11 +53,9 @@ drupal generate:module
 ```
 
 ## Using Drupal Console
-
 ![image](http://drupalconsole.com/assets/img/console-global.gif)
 
 ## Supporting organizations
-[![Blink Reaction](https://www.drupal.org/files/blink-reaction-logo.png)](http://www.blinkreaction.com/)
-[![FFW](https://ffwagency.com/assets/img/logo-blue.png)](https://ffwagency.com)
-[![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)
+[![FFW](https://www.drupal.org/files/ffw-logo.png)](https://ffwagency.com)  
+[![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)  
 [![Anexus IT](https://www.drupal.org/files/anexusit-logo.png)](http://www.anexusit.com/)

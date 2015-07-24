@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\GeneratorModuleCommand.
@@ -25,19 +26,43 @@ class GeneratorThemeCommand extends GeneratorCommand
           ->setName('generate:theme')
           ->setDescription($this->trans('commands.generate.theme.description'))
           ->setHelp($this->trans('commands.generate.theme.help'))
-          ->addOption('theme', '', InputOption::VALUE_REQUIRED,
-            $this->trans('commands.generate.theme.options.module'))
-          ->addOption('machine-name', '', InputOption::VALUE_REQUIRED,
-            $this->trans('commands.generate.theme.options.machine-name'))
-          ->addOption('theme-path', '', InputOption::VALUE_REQUIRED,
-            $this->trans('commands.generate.theme.options.module-path'))
-          ->addOption('description', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.theme.options.description'))
+          ->addOption(
+              'theme',
+              '',
+              InputOption::VALUE_REQUIRED,
+              $this->trans('commands.generate.theme.options.module')
+          )
+          ->addOption(
+              'machine-name',
+              '',
+              InputOption::VALUE_REQUIRED,
+              $this->trans('commands.generate.theme.options.machine-name')
+          )
+          ->addOption(
+              'theme-path',
+              '',
+              InputOption::VALUE_REQUIRED,
+              $this->trans('commands.generate.theme.options.module-path')
+          )
+          ->addOption(
+              'description',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.theme.options.description')
+          )
           ->addOption('core', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.theme.options.core'))
-          ->addOption('package', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.theme.options.package'))
-          ->addOption('base_theme', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.theme.options.base_theme'));
+          ->addOption(
+              'package',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.theme.options.package')
+          )
+          ->addOption(
+              'base_theme',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.theme.options.base_theme')
+          );
     }
 
     /**
@@ -56,7 +81,7 @@ class GeneratorThemeCommand extends GeneratorCommand
 
         $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
         $drupal_root = $drupalAutoLoad->getDrupalRoot();
-        $theme_path = $drupal_root . $input->getOption('theme-path');
+        $theme_path = $drupal_root.$input->getOption('theme-path');
         $theme_path = $validators->validateModulePath($theme_path, true);
 
         $machine_name = $validators->validateMachineName($input->getOption('machine-name'));
@@ -67,13 +92,13 @@ class GeneratorThemeCommand extends GeneratorCommand
 
         $generator = $this->getGenerator();
         $generator->generate(
-          $theme,
-          $machine_name,
-          $theme_path,
-          $description,
-          $core,
-          $package,
-          $base_theme
+            $theme,
+            $machine_name,
+            $theme_path,
+            $description,
+            $core,
+            $package,
+            $base_theme
         );
     }
 
@@ -92,17 +117,17 @@ class GeneratorThemeCommand extends GeneratorCommand
             $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
         }
 
-      $theme = $input->getOption('theme');
+        $theme = $input->getOption('theme');
         if (!$theme) {
-          $theme = $dialog->askAndValidate(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.theme.questions.theme'), ''),
-              function ($module) use ($validators) {
-                  return $validators->validateModuleName($module);
-              },
-              false,
-              null,
-              null
+            $theme = $dialog->askAndValidate(
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.theme.questions.theme'), ''),
+                function ($module) use ($validators) {
+                    return $validators->validateModuleName($module);
+                },
+                false,
+                null,
+                null
             );
         }
         $input->setOption('theme', $theme);
@@ -116,14 +141,14 @@ class GeneratorThemeCommand extends GeneratorCommand
         if (!$machine_name) {
             $machine_name = $stringUtils->createMachineName($theme);
             $machine_name = $dialog->askAndValidate(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.module.questions.machine-name'), $machine_name),
-              function ($machine_name) use ($validators) {
-                  return $validators->validateMachineName($machine_name);
-              },
-              false,
-              $machine_name,
-              null
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.module.questions.machine-name'), $machine_name),
+                function ($machine_name) use ($validators) {
+                    return $validators->validateMachineName($machine_name);
+                },
+                false,
+                $machine_name,
+                null
             );
             $input->setOption('machine-name', $machine_name);
         }
@@ -133,51 +158,62 @@ class GeneratorThemeCommand extends GeneratorCommand
         $drupal_root = $drupalAutoLoad->getDrupalRoot();
 
         if (!$theme_path) {
-            $theme_path_default = "/themes/custom";
+            $theme_path_default = '/themes/custom';
 
             $theme_path = $dialog->askAndValidate(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.theme.questions.theme-path'),
-                $theme_path_default),
-              function ($theme_path) use ($drupal_root, $machine_name) {
-                  $theme_path = ($theme_path[0] != '/' ? '/' : '') . $theme_path;
-                  $full_path = $drupal_root . $theme_path . '/' . $machine_name;
-                  if (file_exists($full_path)) {
-                      throw new \InvalidArgumentException(
-                        sprintf(
-                          $this->trans('commands.generate.theme.errors.directory-exists'),
-                        $full_path)
-                      );
-                  } else {
-                      return $theme_path;
-                  }
-              },
-              false,
-              $theme_path_default,
-              null
+                $output,
+                $dialog->getQuestion(
+                    $this->trans('commands.generate.theme.questions.theme-path'),
+                    $theme_path_default
+                ),
+                function ($theme_path) use ($drupal_root, $machine_name) {
+                    $theme_path = ($theme_path[0] != '/' ? '/' : '').$theme_path;
+                    $full_path = $drupal_root.$theme_path.'/'.$machine_name;
+                    if (file_exists($full_path)) {
+                        throw new \InvalidArgumentException(
+                            sprintf(
+                                $this->trans('commands.generate.theme.errors.directory-exists'),
+                                $full_path
+                            )
+                        );
+                    } else {
+                        return $theme_path;
+                    }
+                },
+                false,
+                $theme_path_default,
+                null
             );
         }
         $input->setOption('theme-path', $theme_path);
 
         $description = $input->getOption('description');
         if (!$description) {
-            $description = $dialog->ask($output,
-              $dialog->getQuestion($this->trans('commands.generate.theme.questions.description'), 'My Awesome Theme'),
-              'My Awesome Module');
+            $description = $dialog->ask(
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.theme.questions.description'), 'My Awesome Theme'),
+                'My Awesome Module'
+            );
         }
         $input->setOption('description', $description);
 
         $package = $input->getOption('package');
         if (!$package) {
-            $package = $dialog->ask($output,
-              $dialog->getQuestion($this->trans('commands.generate.theme.questions.package'), 'Other'), 'Other');
+            $package = $dialog->ask(
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.theme.questions.package'), 'Other'),
+                'Other'
+            );
         }
         $input->setOption('package', $package);
 
         $core = $input->getOption('core');
         if (!$core) {
-            $core = $dialog->ask($output,
-              $dialog->getQuestion($this->trans('commands.generate.theme.questions.core'), '8.x'), '8.x');
+            $core = $dialog->ask(
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.theme.questions.core'), '8.x'),
+                '8.x'
+            );
         }
         $input->setOption('core', $core);
 
@@ -188,21 +224,21 @@ class GeneratorThemeCommand extends GeneratorCommand
 
         $base_theme = $input->getOption('base_theme');
         if (!$base_theme) {
-          $base_theme = $dialog->askAndValidate(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.theme.options.base_theme'), ''),
-            function ($base_theme) use ($themes) {
-              if ($base_theme == '' || isset($themes[$base_theme])) {
-                return $base_theme;
-              } else {
-                throw new \InvalidArgumentException(
-                  sprintf($this->trans('commands.generate.theme.questions.invalid-theme'), $base_theme)
-                );
-              }
-            },
-              false,
-              null,
-              array_keys($themes)
+            $base_theme = $dialog->askAndValidate(
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.theme.options.base_theme'), ''),
+                function ($base_theme) use ($themes) {
+                    if ($base_theme == '' || isset($themes[$base_theme])) {
+                        return $base_theme;
+                    } else {
+                        throw new \InvalidArgumentException(
+                            sprintf($this->trans('commands.generate.theme.questions.invalid-theme'), $base_theme)
+                        );
+                    }
+                },
+                false,
+                null,
+                array_keys($themes)
             );
         }
         $input->setOption('base_theme', $base_theme);

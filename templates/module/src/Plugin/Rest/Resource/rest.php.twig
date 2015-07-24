@@ -87,9 +87,7 @@ class {{ class_name }} extends ResourceBase {% endblock %}
       $container->get('current_user')
     );
   }
-
 {% endblock %}
-
 {% block class_methods %}
 {% for state in plugin_states %}
   /**
@@ -101,23 +99,19 @@ class {{ class_name }} extends ResourceBase {% endblock %}
    *   Throws exception expected.
    */
   public function {{ state|lower }}() {
-    $response = new ResourceResponse();
 
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
-    /*if(!$this->currentUser->hasPermission($permission)) {
-      throw new AccessDeniedHttpException();
-    }*/
 
-    $response->setContent('<html><body><h1>Implement REST State {{ state }}!</h1></body></html>');
-    $response->setStatusCode(ResourceResponse::HTTP_OK);
-    $response->headers->set('Content-Type', 'text/html');
-
-    // Return response to be process by RequestHandler::handle
-    return $response;
+    /*
+    if(!$this->currentUser->hasPermission($permission)) {
+        throw new AccessDeniedHttpException();
+    }
+    */
 
     // Throw an exception if it is required.
     // throw new HttpException(t('Throw an exception if it is required.'));
+    return new ResourceResponse("Implement REST State {{ state }}!");
   }
 {% endfor %}
 {% endblock %}

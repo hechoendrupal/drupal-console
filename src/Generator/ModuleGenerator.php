@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Generator\ModuleGenerator.
@@ -8,33 +9,36 @@ namespace Drupal\AppConsole\Generator;
 
 class ModuleGenerator extends Generator
 {
-
     public function generate(
-      $module,
-      $machine_name,
-      $dir,
-      $description,
-      $core,
-      $package,
-      $controller,
-      $composer,
-      $dependencies,
-      $tests
+        $module,
+        $machine_name,
+        $dir,
+        $description,
+        $core,
+        $package,
+        $composer,
+        $dependencies
     ) {
-        $dir .= '/' . $machine_name;
+        $dir .= '/'.$machine_name;
         if (file_exists($dir)) {
             if (!is_dir($dir)) {
-                throw new \RuntimeException(sprintf('Unable to generate the bundle as the target directory "%s" exists but is a file.',
-                  realpath($dir)));
+                throw new \RuntimeException(sprintf(
+                    'Unable to generate the module as the target directory "%s" exists but is a file.',
+                    realpath($dir)
+                ));
             }
             $files = scandir($dir);
             if ($files != array('.', '..')) {
-                throw new \RuntimeException(sprintf('Unable to generate the bundle as the target directory "%s" is not empty.',
-                  realpath($dir)));
+                throw new \RuntimeException(sprintf(
+                    'Unable to generate the module as the target directory "%s" is not empty.',
+                    realpath($dir)
+                ));
             }
             if (!is_writable($dir)) {
-                throw new \RuntimeException(sprintf('Unable to generate the bundle as the target directory "%s" is not writable.',
-                  realpath($dir)));
+                throw new \RuntimeException(sprintf(
+                    'Unable to generate the module as the target directory "%s" is not writable.',
+                    realpath($dir)
+                ));
             }
         }
 
@@ -45,59 +49,27 @@ class ModuleGenerator extends Generator
           'core' => $core,
           'description' => $description,
           'package' => $package,
-          'dependencies' => $dependencies
+          'dependencies' => $dependencies,
         );
 
         $this->renderFile(
-          'module/info.yml.twig',
-          $dir . '/' . $machine_name . '.info.yml',
-          $parameters
+            'module/info.yml.twig',
+            $dir.'/'.$machine_name.'.info.yml',
+            $parameters
         );
 
         $this->renderFile(
-          'module/module.twig',
-          $dir . '/' . $machine_name . '.module',
-          $parameters
+            'module/module.twig',
+            $dir.'/'.$machine_name.'.module',
+            $parameters
         );
 
         if ($composer) {
-          $this->renderFile(
-            'module/composer.json.twig',
-            $dir . '/' . 'composer.json',
-            $parameters
-          );
-        }
-
-        if ($controller) {
-            $class_name = 'DefaultController';
-            $parameters = array(
-              'class_name' => $class_name,
-              'module' => $machine_name,
-              'method_name' => 'hello',
-              'class_machine_name' => 'default_controller',
-              'route' => '/' . $machine_name . '/hello/{name}',
-              'services' => []
-            );
-
             $this->renderFile(
-              'module/src/Controller/controller.php.twig',
-              $dir . '/src/Controller/' . $class_name . '.php',
-              $parameters
+                'module/composer.json.twig',
+                $dir.'/'.'composer.json',
+                $parameters
             );
-
-            $this->renderFile(
-              'module/routing-controller.yml.twig',
-              $dir . '/' . $machine_name . '.routing.yml',
-              $parameters
-            );
-
-            if ($tests) {
-                $this->renderFile(
-                  'module/Tests/Controller/controller.php.twig',
-                  $dir . '/Tests/Controller/' . $class_name . 'Test.php',
-                  $parameters
-                );
-            }
         }
     }
 }

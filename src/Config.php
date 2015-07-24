@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Config.
@@ -50,9 +51,8 @@ class Config
         if (!$items) {
             return $default;
         }
-
         foreach ($items as $item) {
-            if (!$config[$item]) {
+            if (empty($config[$item])) {
                 return $default;
             }
             $config = $config[$item];

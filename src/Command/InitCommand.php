@@ -1,26 +1,27 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\InitCommand.
  */
+
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class InitCommand extends ContainerAwareCommand
+class InitCommand extends Command
 {
-
     private $files = [
       [
         'source' => 'config/dist/config.yml',
-        'destination' => 'config.yml'
+        'destination' => 'config.yml',
       ],
       [
         'source' => 'config/dist/chain.yml',
-        'destination' => 'chain/sample.yml'
-      ]
+        'destination' => 'chain/sample.yml',
+      ],
     ];
 
     /**
@@ -32,10 +33,10 @@ class InitCommand extends ContainerAwareCommand
           ->setName('init')
           ->setDescription($this->trans('commands.init.description'))
           ->addOption(
-            'override',
-            null,
-            InputOption::VALUE_NONE,
-            $this->trans('commands.init.options.override')
+              'override',
+              null,
+              InputOption::VALUE_NONE,
+              $this->trans('commands.init.options.override')
           )
         ;
     }
@@ -48,8 +49,8 @@ class InitCommand extends ContainerAwareCommand
         $application = $this->getApplication();
         $config = $application->getConfig();
         $message = $this->getHelperSet()->get('message');
-        $basePath = __DIR__ . '/../../';
-        $userPath = $config->getUserHomeDir() . '/.console/';
+        $basePath = __DIR__.'/../../';
+        $userPath = $config->getUserHomeDir().'/.console/';
         $copiedFiles = [];
 
         $override = false;
@@ -58,8 +59,8 @@ class InitCommand extends ContainerAwareCommand
         }
 
         foreach ($this->files as $file) {
-            $source = $basePath . $file['source'];
-            $destination = $userPath . '/' . $file['destination'];
+            $source = $basePath.$file['source'];
+            $destination = $userPath.'/'.$file['destination'];
             if ($this->copyFile($source, $destination, $override)) {
                 $copiedFiles[] = $file['destination'];
             }
@@ -82,8 +83,8 @@ class InitCommand extends ContainerAwareCommand
         }
 
         return copy(
-          $source,
-          $destination
+            $source,
+            $destination
         );
     }
 }
