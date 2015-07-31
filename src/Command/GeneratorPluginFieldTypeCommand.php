@@ -118,18 +118,20 @@ class GeneratorPluginFieldTypeCommand extends GeneratorCommand
         }
         $input->setOption('class-name', $class_name);
 
-        $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
+        $default_label = $this->getStringUtils()->camelCaseToHuman($class_name);
 
         // --plugin label option
         $label = $input->getOption('label');
         if (!$label) {
             $label = $dialog->ask(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.plugin.fieldtype.questions.label'), $machine_name),
-                $machine_name
+                $dialog->getQuestion($this->trans('commands.generate.plugin.fieldtype.questions.label'), $default_label),
+                $default_label
             );
         }
         $input->setOption('label', $label);
+
+        $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
 
         // --name option
         $plugin_id = $input->getOption('plugin-id');

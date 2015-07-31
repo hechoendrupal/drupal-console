@@ -15,13 +15,15 @@ class EntityContentGenerator extends Generator
      * @param string $module       Module name
      * @param string $entity_name  Entity machine name
      * @param string $entity_class Entity class name
+     * @param string $label        Entity label
      */
-    public function generate($module, $entity_name, $entity_class)
+    public function generate($module, $entity_name, $entity_class, $label)
     {
         $parameters = [
           'module' => $module,
           'entity_name' => $entity_name,
           'entity_class' => $entity_class,
+            'label' => $label,
         ];
 
         $this->renderFile(

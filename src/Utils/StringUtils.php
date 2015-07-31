@@ -64,6 +64,18 @@ class StringUtils extends Helper
         return strtolower(preg_replace(self::REGEX_CAMEL_CASE_UNDER, '$1_$2', $camel_case));
     }
 
+    /**
+     * Converts camel-case strings to human readable format.
+     *
+     * @param String $camel_case User input
+     *
+     * @return String
+     */
+    public function camelCaseToHuman($camel_case)
+    {
+        return ucfirst(strtolower(preg_replace(self::REGEX_CAMEL_CASE_UNDER, '$1 $2', $camel_case)));
+    }
+
     public function getName()
     {
         return 'stringUtils';

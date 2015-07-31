@@ -1,12 +1,12 @@
-# {{ entity_class }} menu items definition
+# {{ label }} menu items definition
 entity.{{ entity_name }}.collection:
-  title: '{{ entity_class }}: Listing'
+  title: '{{ label }} list'
   route_name: entity.{{ entity_name }}.collection
-  description: 'List {{ entity_class }}'
+  description: 'List {{ label }}'
 
 {{ entity_name }}.admin.structure.settings:
-  title: {{ entity_class }} Settings
-  description: 'Configure {{ entity_class }} entity'
+  title: {{ label }} settings
+  description: 'Configure {{ label }}'
   route_name: {{ entity_name }}.settings
   parent: system.admin_structure
 
