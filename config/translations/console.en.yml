@@ -264,7 +264,7 @@ commands:
         breakpoints: Do you want to generate the theme breakpoints
         breakpoint-name: Enter breakpoint name
         breakpoint-label: Enter breakpoint label
-        breakpoint-media-query: Enter breakpoint label
+        breakpoint-media-query: Enter breakpoint media query
         breakpoint-weight: Enter breakpoint weight
         breakpoint-multipliers: Enter breakpoint multipliers
         breakpoint-add: Do you want add another breakpoint
