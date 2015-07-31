@@ -125,6 +125,14 @@ commands:
       messages:
         service_id: Service ID
         class_name: Class Name
+  database:
+    dump:
+      description: Dump the current database to a generation script
+      options:
+        file: File to write the generated script to
+      messages:
+        not_mysql: This command can only be used with MySQL database backends
+        file_written: The database script was added to %file
   drush:
     description: Run drush from console.
     help: Use the interactive mode for a better experience --shell.
