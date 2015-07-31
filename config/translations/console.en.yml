@@ -246,6 +246,7 @@ commands:
         base-theme: Base theme (i.e. classy, seven)
         global-library: Global styling library name
         regions: Regions
+        breakpoints: Breakpoints
       questions:
         theme: Enter the new theme name
         machine-name: Enter the theme machine name
@@ -260,6 +261,13 @@ commands:
         region-name: Enter region name
         region-machine-name: Enter region machine name
         region-add: Do you want add another region
+        breakpoints: Do you want to generate the theme breakpoints
+        breakpoint-name: Enter breakpoint name
+        breakpoint-label: Enter breakpoint label
+        breakpoint-media-query: Enter breakpoint label
+        breakpoint-weight: Enter breakpoint weight
+        breakpoint-multipliers: Enter breakpoint multipliers
+        breakpoint-add: Do you want add another breakpoint
       warnings:
         module-unavailable: Warning The following modules are not already available in your local environment "%s"
       errors:
