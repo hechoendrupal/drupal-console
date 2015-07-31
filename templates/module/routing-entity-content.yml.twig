@@ -4,7 +4,7 @@ entity.{{ entity_name }}.canonical:
   path: '/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}'
   defaults:
     _entity_view: '{{ entity_name }}'
-    _title: '{{ entity_class }} Content'
+    _title: '{{ label }}'
   requirements:
     _entity_access: '{{ entity_name }}.view'
 
@@ -12,15 +12,15 @@ entity.{{ entity_name }}.collection:
   path: '/admin/{{ entity_name }}'
   defaults:
     _entity_list: '{{ entity_name }}'
-    _title: '{{ entity_class }} List'
+    _title: '{{ label }} list'
   requirements:
-    _permission: 'view {{ entity_class }} entity'
+    _permission: 'view {{ label|lower }}'
 
 entity.{{ entity_name }}.add_form:
   path: '/admin/{{ entity_name }}/add'
   defaults:
     _entity_form: {{ entity_name }}.add
-    _title: 'Add {{ entity_class }}'
+    _title: 'Add {{ label }}'
   requirements:
     _entity_create_access: '{{ entity_name }}'
 
@@ -28,7 +28,7 @@ entity.{{ entity_name }}.edit_form:
   path: '/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit'
   defaults:
     _entity_form: {{ entity_name }}.edit
-    _title: 'Edit {{ entity_class }}'
+    _title: 'Edit {{ label }}'
   requirements:
     _entity_access: '{{ entity_name }}.edit'
 
@@ -36,7 +36,7 @@ entity.{{ entity_name }}.delete_form:
   path: '/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete'
   defaults:
     _entity_form: {{ entity_name }}.delete
-    _title: 'Delete {{ entity_class }}'
+    _title: 'Delete {{ label }}'
   requirements:
     _entity_access: '{{ entity_name }}.delete'
 
@@ -44,7 +44,7 @@ entity.{{ entity_name }}.delete_form:
   path: 'admin/structure/{{ entity_name }}'
   defaults:
    _form: '\Drupal\{{ module }}\Entity\Form\{{ entity_class }}SettingsForm'
-   _title: '{{ entity_class }} Settings'
+   _title: '{{ label }} settings'
   requirements:
-    _permission: 'administer {{ entity_class }} entity'
+    _permission: 'administer {{ label|lower }}'
 

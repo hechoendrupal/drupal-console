@@ -16,7 +16,7 @@ use Drupal\Core\Url;
 
 {% block class_declaration %}
 /**
- * Provides a list controller for {{ entity_class }} entity.
+ * Provides a list controller for {{ label }}.
  *
  * @ingroup {{ module }}
  */
@@ -26,7 +26,7 @@ class {{ entity_class }}ListController extends EntityListBuilder {% endblock %}
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['id'] = $this->t('{{ entity_class }}ID');
+    $header['id'] = $this->t('{{ label }} ID');
     $header['name'] = $this->t('Name');
     return $header + parent::buildHeader();
   }

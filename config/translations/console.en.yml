@@ -194,10 +194,12 @@ commands:
         module: common.options.module
         entity-class: The entity class name
         entity-name: The name of the entity
+        label: The entity label
       questions:
         module: common.questions.module
         entity-class: Enter the entity class name
         entity-name: Enter the entity name
+        label: Enter the entity label
     form:
       description: Generate a new "%s"
       help: The <info>"%s"</info> command helps you generate a new "%s"

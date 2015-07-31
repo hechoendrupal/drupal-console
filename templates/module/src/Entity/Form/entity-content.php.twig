@@ -16,7 +16,7 @@ use Drupal\Core\Language\Language;
 
 {% block class_declaration %}
 /**
- * Form controller for the {{ entity_class }} entity edit forms.
+ * Form controller for the {{ label }} edit forms.
  *
  * @ingroup {{module}}
  */
@@ -58,12 +58,12 @@ class {{ entity_class }}Form extends ContentEntityForm {% endblock %}
     $status = $entity->save();
 
     if ($status) {
-      drupal_set_message($this->t('Saved the %label {{ entity_class }}.', array(
+      drupal_set_message($this->t('Saved the %label {{ label }}.', array(
         '%label' => $entity->label(),
       )));
     }
     else {
-      drupal_set_message($this->t('The %label {{ entity_class }} was not saved.', array(
+      drupal_set_message($this->t('The %label {{ label }} was not saved.', array(
         '%label' => $entity->label(),
       )));
     }

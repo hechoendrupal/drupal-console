@@ -15,7 +15,7 @@ use Drupal\Core\Entity\EntityInterface;
 
 {% block class_declaration %}
 /**
- * Provides a listing of {{ entity_class }}.
+ * Provides a listing of {{ label }}.
  */
 class {{ entity_class }}ListBuilder extends ConfigEntityListBuilder {% endblock %}
 {% block class_methods %}
@@ -23,7 +23,7 @@ class {{ entity_class }}ListBuilder extends ConfigEntityListBuilder {% endblock 
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['label'] = $this->t('{{ entity_class }}');
+    $header['label'] = $this->t('{{ label }}');
     $header['id'] = $this->t('Machine name');
     return $header + parent::buildHeader();
   }
