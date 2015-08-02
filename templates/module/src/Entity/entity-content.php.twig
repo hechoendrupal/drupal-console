@@ -19,7 +19,7 @@ use Drupal\user\UserInterface;
 
 {% block class_declaration %}
 /**
- * Defines the {{ label }}.
+ * Defines the {{ label }} entity.
  *
  * @ingroup {{ module }}
  *
@@ -172,7 +172,7 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
 
     $fields['langcode'] = BaseFieldDefinition::create('language')
       ->setLabel(t('Language code'))
-      ->setDescription(t('The language code of {{ label }}.'));
+      ->setDescription(t('The language code for the {{ label }} entity.'));
 
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))
