@@ -14,7 +14,7 @@ entity.{{ entity_name }}.collection:
     _entity_list: '{{ entity_name }}'
     _title: '{{ label }} list'
   requirements:
-    _permission: 'view {{ label|lower }}'
+    _permission: 'view {{ label|lower }} entities'
 
 entity.{{ entity_name }}.add_form:
   path: '/admin/{{ entity_name }}/add'
@@ -46,5 +46,5 @@ entity.{{ entity_name }}.delete_form:
    _form: '\Drupal\{{ module }}\Entity\Form\{{ entity_class }}SettingsForm'
    _title: '{{ label }} settings'
   requirements:
-    _permission: 'administer {{ label|lower }}'
+    _permission: 'administer {{ label|lower }} entities'
 
