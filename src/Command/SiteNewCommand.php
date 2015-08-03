@@ -30,6 +30,14 @@ class SiteNewCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        throw new \Exception(
+            sprintf(
+              'This command is disabled, for more information visit issue(s) %s %s',
+              "\r\n". 'https://www.drupal.org/node/2538484',
+              "\r\n". 'https://github.com/hechoendrupal/DrupalConsole/issues/767' . "\r\n"
+            )
+        );
+
         $client =  new Client();
         $site_name = $input->getArgument('site-name');
         $version = $input->getArgument('version');
