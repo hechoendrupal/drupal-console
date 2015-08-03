@@ -80,7 +80,7 @@ class ShowGenerateInlineListener implements EventSubscriberInterface
                     $argument = '"' . $argument . '"';
                 }
 
-                $inline .= " $argument";
+                $inline.= ' --' . $argument_id . '=' . $argument;
 
             }
 
