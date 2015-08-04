@@ -174,10 +174,10 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
         $plugin_states = $input->getOption('plugin-states');
         if (!$plugin_states) {
             $questionHelper = $this->getQuestionHelper();
-
+            $states = array_combine(array('GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'), array('GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'));
             $question = new ChoiceQuestion(
                 $this->trans('commands.generate.plugin.rest.resource.questions.plugin-states'),
-                array('GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'),
+                $states,
                 '0'
             );
 
