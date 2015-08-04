@@ -62,7 +62,7 @@ class RestEnableCommand extends ContainerAwareCommand
         $states = $plugin->availableMethods();
         $question = new ChoiceQuestion(
             $this->trans('commands.rest.enable.arguments.states'),
-            $states,
+            array_combine($states, $states),
             '0'
         );
 
@@ -74,7 +74,7 @@ class RestEnableCommand extends ContainerAwareCommand
         $formats = $this->getSerializerFormats();
         $question = new ChoiceQuestion(
             $this->trans('commands.rest.enable.messages.formats'),
-            $formats,
+          array_combine($formats, $formats),
             '0'
         );
 
@@ -90,7 +90,7 @@ class RestEnableCommand extends ContainerAwareCommand
 
         $question = new ChoiceQuestion(
             $this->trans('commands.rest.enable.messages.authentication-providers'),
-            array_keys($authentication_providers),
+            array_combine(array_keys($authentication_providers), array_keys($authentication_providers)),
             '0'
         );
 

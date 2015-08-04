@@ -90,7 +90,7 @@ class ModuleDownloadCommand extends ContainerAwareCommand
 
             $question = new ChoiceQuestion(
               $this->trans('commands.module.download.messages.select-release'),
-                array_keys($releases),
+                array_combine(array_keys($releases), array_keys($releases)),
                 '0'
             );
 
@@ -109,7 +109,6 @@ class ModuleDownloadCommand extends ContainerAwareCommand
         }
 
         $release_file_path = 'http://ftp.drupal.org/files/projects/'.$module.'-'.$release_selected.'.tar.gz';
-        print $release_file_path . "\n";
 
         // Destination file to download the release
         $destination = tempnam(sys_get_temp_dir(), 'console.').'tar.gz';
