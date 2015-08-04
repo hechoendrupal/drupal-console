@@ -107,6 +107,11 @@ commands:
                 editor: Editor.
             messages:
                 no-directory: 'An error occurred while creating your directory at'
+        import-single:
+            description: 'Import the selected configuration.'
+            arguments:
+                config-name: 'Configuration name.'
+                input-file: 'Path to the import files.'
     container:
         debug:
             description: 'Exibe serviços atuais para um aplicativo.'
@@ -182,10 +187,12 @@ commands:
                 module: common.options.module
                 entity-class: 'O nome da classe da entidade'
                 entity-name: 'O nome da entidade'
+                label: 'The entity label'
             questions:
                 module: common.questions.module
                 entity-class: 'Digite o nome da classe da entidade'
                 entity-name: 'Digita o nome da entidade'
+                label: 'Enter the entity label'
         form:
             description: 'Cria um novo "%s"'
             help: 'O comando <info>"%s"</info> ajuda você a criar um novo "%s"'
@@ -248,6 +255,10 @@ commands:
                 core: 'Core version'
                 package: 'Theme package'
                 composer: 'Add a composer.json file'
+                base-theme: 'Base theme (i.e. classy, seven)'
+                global-library: 'Global styling library name'
+                regions: Regions
+                breakpoints: Breakpoints
                 base_theme: 'Base theme (i.e. classy, seven)'
             questions:
                 theme: 'Enter the new theme name'
@@ -258,6 +269,18 @@ commands:
                 package: 'Enter package name'
                 dependencies: 'Would you like to add module depencencies'
                 invalid-theme: 'Invalid %s theme was selected'
+                global-library: 'Enter the global styling library name'
+                regions: 'Do you want to generate the theme regions'
+                region-name: 'Enter region name'
+                region-machine-name: 'Enter region machine name'
+                region-add: 'Do you want add another region'
+                breakpoints: 'Do you want to generate the theme breakpoints'
+                breakpoint-name: 'Enter breakpoint name'
+                breakpoint-label: 'Enter breakpoint label'
+                breakpoint-media-query: 'Enter breakpoint media query'
+                breakpoint-weight: 'Enter breakpoint weight'
+                breakpoint-multipliers: 'Enter breakpoint multipliers'
+                breakpoint-add: 'Do you want add another breakpoint'
             warnings:
                 module-unavailable: 'Warning The following modules are not already available in your local environment "%s"'
             errors:
@@ -457,6 +480,20 @@ commands:
                         class-name: 'Enter the plugin type class name'
                         machine-name: 'Enter the plugin type machine name'
                         label: 'Enter the plugin type label'
+                yaml:
+                    description: 'Generate a plugin type with Yaml discovery'
+                    help: 'The <info>generate:plugin:type:yaml</info> command helps you generate a new Plugin type that uses Yaml discovery.'
+                    welcome: 'Welcome to the Drupal Plugin Type generator'
+                    options:
+                        module: common.options.module
+                        class-name: 'Plugin type class name'
+                        plugin-name: 'Plugin type machine name'
+                        plugin-file-name: 'Plugin file name'
+                    questions:
+                        module: common.questions.module
+                        class-name: 'Enter the plugin type class name'
+                        plugin-name: 'Enter the plugin type machine name'
+                        plugin-file-name: 'Enter the plugin file name (e.g. MODULE.plugin.filename.yml)'
         service:
             description: 'Criar serviço'
             help: 'O comando <info>generate:service</info> ajuda você a criar um novo serviço.'
@@ -520,6 +557,7 @@ commands:
                 getting-releases: 'Getting releases for module %s'
                 downloading: 'Downloading module %s release %s'
                 downloaded: 'Module %s version %s was downloaded successfully at %s'
+                select-release: 'Please select your favorite release'
     migrate:
         debug:
             description: 'Display current migration available for the application'

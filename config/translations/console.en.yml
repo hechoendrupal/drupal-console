@@ -568,6 +568,7 @@ commands:
         getting-releases: Getting releases for module %s
         downloading: Downloading module %s release %s
         downloaded: Module %s version %s was downloaded successfully at %s
+        select-release: 'Please select your favorite release'
   migrate:
     debug:
       description: Display current migration available for the application
