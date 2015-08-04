@@ -24,7 +24,7 @@ The Drupal Console is a suite of tools that you run on a command line interface 
 to generate boilerplate code and interact with a Drupal 8 installation.
 
 ## Supported Drupal version
-The Drupal 8 supported version is [Drupal 8 Beta 12](http://ftp.drupal.org/files/projects/drupal-8.0.0-beta12.tar.gz).
+The Drupal 8 supported version is [Drupal 8 Beta 14](http://ftp.drupal.org/files/projects/drupal-8.0.0-beta14.tar.gz).
 
 ## Drupal Console documentation
 You can read or download the Drupal Console documentation at [bit.ly/console-book](http://bit.ly/console-book).
