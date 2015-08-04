@@ -249,7 +249,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
     public function getAuthenticationProviders()
     {
-        return $this->getContainer()->get('authentication')->getSortedProviders();
+        return $this->getContainer()->get('authentication_collector')->getSortedProviders();
     }
 
     /**
