@@ -43,7 +43,8 @@ class ModuleDownloadCommand extends ContainerAwareCommand
             ).'</info>');
 
             $response = $client->head('https://www.drupal.org/project/'.$module);
-            $header_link = explode(';', $response->getHeader('link'));
+            $link = $response->getHeader('link');
+            $header_link = explode(';', $link[0]);
 
             $project_node = str_replace('<', '', str_replace('>', '', $header_link[0]));
             $project_release_d8 = $project_node.'/release?api_version%5B%5D=7234';
@@ -88,9 +89,9 @@ class ModuleDownloadCommand extends ContainerAwareCommand
             $questionHelper = $this->getQuestionHelper();
 
             $question = new ChoiceQuestion(
-                'Please select your favorite release',
-                array_keys($releases),
-                0
+              $this->trans('commands.module.download.messages.select-release'),
+                array_combine(array_keys($releases), array_keys($releases)),
+                '0'
             );
 
             $release_selected = $questionHelper->ask($input, $output, $question);
