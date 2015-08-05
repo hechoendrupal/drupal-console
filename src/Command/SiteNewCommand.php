@@ -83,7 +83,7 @@ class SiteNewCommand extends Command
 
             $question = new ChoiceQuestion(
             'Please select your favorite release',
-            array_keys($releases),
+            array_combine(array_keys($releases), array_keys($releases)),
             0
           );
 
