@@ -372,7 +372,7 @@ class MigrateExecuteCommand extends ContainerAwareCommand
                             $this->trans('commands.migrate.execute.messages.imported'),
                             $migration_id
                         ).'</info>'
-                            );
+                    );
                     break;
                 case MigrationInterface::RESULT_INCOMPLETE:
                     $output->writeln(
@@ -392,10 +392,10 @@ class MigrateExecuteCommand extends ContainerAwareCommand
                     break;
                 case MigrationInterface::RESULT_FAILED:
                     $output->writeln(
-                            '[+] <error>'.sprintf(
-                                $this->trans('commands.migrate.execute.messages.import-fail'),
-                                $migration_id
-                            ).'</error>'
+                        '[+] <error>'.sprintf(
+                            $this->trans('commands.migrate.execute.messages.import-fail'),
+                            $migration_id
+                        ).'</error>'
                     );
                     break;
                 case MigrationInterface::RESULT_SKIPPED:

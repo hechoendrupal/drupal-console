@@ -28,7 +28,9 @@ class ValidateDependenciesListener implements EventSubscriberInterface
 
         $application = $command->getApplication();
         $messageHelper = $application->getHelperSet()->get('message');
-        /** @var TranslatorHelper */
+        /**
+         * @var TranslatorHelper
+         */
         $translatorHelper = $application->getHelperSet()->get('translator');
 
         if (!$command instanceof Command) {

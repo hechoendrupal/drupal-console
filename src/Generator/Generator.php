@@ -226,7 +226,7 @@ class Generator
                     function ($value) {
                         return sprintf('$%s', $value);
                     }, $returnValues[1]
-            );
+                );
 
                 return $returnValues;
             }
