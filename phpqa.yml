@@ -11,6 +11,8 @@ application:
       enabled: true
       exception: true
       options:
+        e: 'php'
+        exclude: vendor/
       arguments:
     php-cs-fixer:
       enabled: true
@@ -19,7 +21,6 @@ application:
         config-file: .php_cs
         single-execution: false
       options:
-        verbose:
         level: psr2
       arguments:
       prefixes:
@@ -31,6 +32,7 @@ application:
       options:
         standard: PSR2
         severity: 0
+        ignore: /vendor
       arguments:
         - '-n'
     phpcs:
@@ -39,6 +41,7 @@ application:
       options:
         standard: PSR2
         severity: 0
+        ignore: /vendor
       arguments:
         - '-n'
     phpmd:

@@ -19,13 +19,17 @@ class ShowWelcomeMessageListener implements EventSubscriberInterface
      */
     public function showMessage(ConsoleCommandEvent $event)
     {
-        /** @var \Drupal\AppConsole\Command\Command $command */
+        /**
+         * @var \Drupal\AppConsole\Command\Command $command
+         */
         $command = $event->getCommand();
         $output = $event->getOutput();
 
         $application = $command->getApplication();
         $messageHelper = $application->getHelperSet()->get('message');
-        /* @var TranslatorHelper */
+        /**
+         * @var TranslatorHelper
+         */
         $translatorHelper = $application->getHelperSet()->get('translator');
 
         $welcomeMessageKey = 'commands.'.str_replace(':', '.', $command->getName()).'.welcome';

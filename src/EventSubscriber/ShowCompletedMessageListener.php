@@ -25,7 +25,9 @@ class ShowCompletedMessageListener implements EventSubscriberInterface
      */
     public function showCompletedMessage(ConsoleTerminateEvent $event)
     {
-        /** @var \Drupal\AppConsole\Command\Command $command */
+        /**
+         * @var \Drupal\AppConsole\Command\Command $command
+         */
         $command = $event->getCommand();
         $output = $event->getOutput();
 

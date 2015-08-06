@@ -43,12 +43,14 @@ class Generator
      */
     protected function render($template, $parameters)
     {
-        $twig = new \Twig_Environment(new \Twig_Loader_Filesystem($this->skeletonDirs), [
-          'debug' => true,
-          'cache' => false,
-          'strict_variables' => true,
-          'autoescape' => false,
-        ]);
+        $twig = new \Twig_Environment(
+            new \Twig_Loader_Filesystem($this->skeletonDirs), [
+            'debug' => true,
+            'cache' => false,
+            'strict_variables' => true,
+            'autoescape' => false,
+            ]
+        );
 
         $twig->addFunction($this->getServicesAsParameters());
         $twig->addFunction($this->getServicesAsParametersKeys());
@@ -100,9 +102,9 @@ class Generator
     {
         if (!$this->module_path) {
             /*
-           * @todo Remove DrupalExtensionDiscovery subclass once
-           * https://www.drupal.org/node/2503927 is fixed.
-           */
+            * @todo Remove DrupalExtensionDiscovery subclass once
+            * https://www.drupal.org/node/2503927 is fixed.
+            */
             $discovery = new DrupalExtensionDiscovery(\Drupal::root());
             $discovery->reset();
             $result = $discovery->scan('module');
@@ -177,14 +179,16 @@ class Generator
      */
     public function getServicesAsParameters()
     {
-        $servicesAsParameters = new \Twig_SimpleFunction('servicesAsParameters', function ($services) {
-            $returnValues = [];
-            foreach ($services as $service) {
-                $returnValues[] = sprintf('%s $%s', $service['short'], $service['machine_name']);
-            }
+        $servicesAsParameters = new \Twig_SimpleFunction(
+            'servicesAsParameters', function ($services) {
+                $returnValues = [];
+                foreach ($services as $service) {
+                    $returnValues[] = sprintf('%s $%s', $service['short'], $service['machine_name']);
+                }
 
-            return $returnValues;
-        });
+                return $returnValues;
+            }
+        );
 
         return $servicesAsParameters;
     }
@@ -194,14 +198,16 @@ class Generator
      */
     public function getServicesAsParametersKeys()
     {
-        $servicesAsParametersKeys = new \Twig_SimpleFunction('servicesAsParametersKeys', function ($services) {
-            $returnValues = [];
-            foreach ($services as $service) {
-                $returnValues[] = sprintf('"@%s"', $service['name']);
-            }
+        $servicesAsParametersKeys = new \Twig_SimpleFunction(
+            'servicesAsParametersKeys', function ($services) {
+                $returnValues = [];
+                foreach ($services as $service) {
+                    $returnValues[] = sprintf('"@%s"', $service['name']);
+                }
 
-            return $returnValues;
-        });
+                return $returnValues;
+            }
+        );
 
         return $servicesAsParametersKeys;
     }
@@ -211,16 +217,20 @@ class Generator
      */
     public function getArgumentsFromRoute()
     {
-        $argumentsFromRoute = new \Twig_SimpleFunction('argumentsFromRoute', function ($route) {
-            $returnValues = '';
-            preg_match_all('/{(.*?)}/', $route, $returnValues);
+        $argumentsFromRoute = new \Twig_SimpleFunction(
+            'argumentsFromRoute', function ($route) {
+                $returnValues = '';
+                preg_match_all('/{(.*?)}/', $route, $returnValues);
 
-            $returnValues = array_map(function ($value) {
-                return sprintf('$%s', $value);
-            }, $returnValues[1]);
+                $returnValues = array_map(
+                    function ($value) {
+                        return sprintf('$%s', $value);
+                    }, $returnValues[1]
+                );
 
-            return $returnValues;
-        });
+                return $returnValues;
+            }
+        );
 
         return $argumentsFromRoute;
     }
@@ -230,14 +240,16 @@ class Generator
      */
     public function getServicesClassInitialization()
     {
-        $returnValue = new \Twig_SimpleFunction('serviceClassInitialization', function ($services) {
-            $returnValues = [];
-            foreach ($services as $service) {
-                $returnValues[] = sprintf('    $this->%s = $%s;', $service['machine_name'], $service['machine_name']);
-            }
+        $returnValue = new \Twig_SimpleFunction(
+            'serviceClassInitialization', function ($services) {
+                $returnValues = [];
+                foreach ($services as $service) {
+                    $returnValues[] = sprintf('    $this->%s = $%s;', $service['machine_name'], $service['machine_name']);
+                }
 
-            return implode(PHP_EOL, $returnValues);
-        });
+                return implode(PHP_EOL, $returnValues);
+            }
+        );
 
         return $returnValue;
     }
@@ -247,14 +259,16 @@ class Generator
      */
     public function getServicesClassInjection()
     {
-        $returnValue = new \Twig_SimpleFunction('serviceClassInjection', function ($services) {
-            $returnValues = [];
-            foreach ($services as $service) {
-                $returnValues[] = sprintf('      $container->get(\'%s\')', $service['name']);
-            }
+        $returnValue = new \Twig_SimpleFunction(
+            'serviceClassInjection', function ($services) {
+                $returnValues = [];
+                foreach ($services as $service) {
+                    $returnValues[] = sprintf('      $container->get(\'%s\')', $service['name']);
+                }
 
-            return implode(','.PHP_EOL, $returnValues);
-        });
+                return implode(','.PHP_EOL, $returnValues);
+            }
+        );
 
         return $returnValue;
     }
@@ -264,36 +278,40 @@ class Generator
      */
     public function getTagsAsArray()
     {
-        $returnValue = new \Twig_SimpleFunction('tagsAsArray', function ($tags) {
-            $returnValues = [];
-            foreach ($tags as $key => $value) {
-                $returnValues[] = sprintf('%s: %s', $key, $value);
-            }
+        $returnValue = new \Twig_SimpleFunction(
+            'tagsAsArray', function ($tags) {
+                $returnValues = [];
+                foreach ($tags as $key => $value) {
+                    $returnValues[] = sprintf('%s: %s', $key, $value);
+                }
 
-            return $returnValues;
-        });
+                return $returnValues;
+            }
+        );
 
         return $returnValue;
     }
 
     public function getTranslationAsYamlComment()
     {
-        $returnValue = new \Twig_SimpleFunction('yaml_comment', function (\Twig_Environment $environment, $context, $key) {
-            $message = $this->translator->trans($key);
-            $messages = explode("\n", $message);
-            $returnValues = [];
-            foreach ($messages as $message) {
-                $returnValues[] = '# '.$message;
-            }
+        $returnValue = new \Twig_SimpleFunction(
+            'yaml_comment', function (\Twig_Environment $environment, $context, $key) {
+                $message = $this->translator->trans($key);
+                $messages = explode("\n", $message);
+                $returnValues = [];
+                foreach ($messages as $message) {
+                    $returnValues[] = '# '.$message;
+                }
 
-            $message = implode("\n", $returnValues);
-            $environment->setLoader(new \Twig_Loader_String());
+                $message = implode("\n", $returnValues);
+                $environment->setLoader(new \Twig_Loader_String());
 
-            return $environment->render($message, $context);
-        }, [
-          'needs_environment' => true,
-          'needs_context' => true,
-        ]);
+                return $environment->render($message, $context);
+            }, [
+            'needs_environment' => true,
+            'needs_context' => true,
+            ]
+        );
 
         return $returnValue;
     }
@@ -305,9 +323,11 @@ class Generator
     {
         $string = new StringUtils();
 
-        return new \Twig_SimpleFilter('machine_name', function ($var) use ($string) {
-            return $string->createMachineName($var);
-        });
+        return new \Twig_SimpleFilter(
+            'machine_name', function ($var) use ($string) {
+                return $string->createMachineName($var);
+            }
+        );
     }
 
     public function setTranslator($translator)
@@ -338,7 +358,8 @@ class Generator
     /**
      * @param string $modulePath
      */
-    public function setModulePath($modulePath) {
+    public function setModulePath($modulePath)
+    {
         $this->module_path = $modulePath;
     }
 }

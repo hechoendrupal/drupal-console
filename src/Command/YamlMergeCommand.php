@@ -18,18 +18,18 @@ class YamlMergeCommand extends Command
     protected function configure()
     {
         $this
-          ->setName('yaml:merge')
-          ->setDescription($this->trans('commands.yaml.merge.description'))
-          ->addArgument(
-              'yaml-destination',
-              InputArgument::REQUIRED,
-              $this->trans('commands.yaml.merge.arguments.yaml-destination')
-          )
-          ->addArgument(
-              'yaml-files',
-              InputArgument::IS_ARRAY,
-              $this->trans('commands.yaml.merge.arguments.yaml-files')
-          );
+            ->setName('yaml:merge')
+            ->setDescription($this->trans('commands.yaml.merge.description'))
+            ->addArgument(
+                'yaml-destination',
+                InputArgument::REQUIRED,
+                $this->trans('commands.yaml.merge.arguments.yaml-destination')
+            )
+            ->addArgument(
+                'yaml-files',
+                InputArgument::IS_ARRAY,
+                $this->trans('commands.yaml.merge.arguments.yaml-files')
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -58,13 +58,15 @@ class YamlMergeCommand extends Command
             }
 
             if (empty($yaml_parsed)) {
-                $output->writeln('[+] <info>'.sprintf(
-                    $this->trans('commands.yaml.merge.messages.wrong-parse'),
-                    $yaml_file
-                ).'</info>');
+                $output->writeln(
+                    '[+] <info>'.sprintf(
+                        $this->trans('commands.yaml.merge.messages.wrong-parse'),
+                        $yaml_file
+                    ).'</info>'
+                );
             }
 
-        // Merge arrays
+            // Merge arrays
             $final_yaml = array_replace_recursive($final_yaml, $yaml_parsed);
         }
 
@@ -84,10 +86,12 @@ class YamlMergeCommand extends Command
             return;
         }
 
-        $output->writeln('[+] <info>'.sprintf(
-            $this->trans('commands.yaml.merge.messages.merged'),
-            $yaml_destination
-        ).'</info>');
+        $output->writeln(
+            '[+] <info>'.sprintf(
+                $this->trans('commands.yaml.merge.messages.merged'),
+                $yaml_destination
+            ).'</info>'
+        );
     }
 
     /**

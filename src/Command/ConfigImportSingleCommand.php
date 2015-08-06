@@ -22,12 +22,16 @@ class ConfigImportSingleCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('config:import:single')
-          ->setDescription($this->trans('commands.config.import-single.description'))
-          ->addArgument('config-name', InputArgument::REQUIRED,
-            $this->trans('commands.config.import-single.arguments.config-name'))
-          ->addArgument('input-file', InputArgument::OPTIONAL,
-            $this->trans('commands.config.import-single.arguments.input-file'));
+            ->setName('config:import:single')
+            ->setDescription($this->trans('commands.config.import-single.description'))
+            ->addArgument(
+                'config-name', InputArgument::REQUIRED,
+                $this->trans('commands.config.import-single.arguments.config-name')
+            )
+            ->addArgument(
+                'input-file', InputArgument::OPTIONAL,
+                $this->trans('commands.config.import-single.arguments.input-file')
+            );
     }
 
     /**
@@ -41,14 +45,13 @@ class ConfigImportSingleCommand extends ContainerAwareCommand
         $ymlFile = new Parser();
 
         if (!empty($fileName) && file_exists($fileName)) {
-          $value = $ymlFile->parse(file_get_contents($fileName));
+            $value = $ymlFile->parse(file_get_contents($fileName));
         } else {
-          $value = $ymlFile->parse(stream_get_contents(fopen("php://stdin", "r")));
+            $value = $ymlFile->parse(stream_get_contents(fopen("php://stdin", "r")));
         }
         if (!empty($value)) {
             print_r($value);
-        }
-        else {
+        } else {
             echo "Whoah No!";
         }
         $config->setData($value);

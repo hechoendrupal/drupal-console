@@ -26,35 +26,35 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
     protected function configure()
     {
         $this
-          ->setName('generate:plugin:block')
-          ->setDescription($this->trans('commands.generate.plugin.block.description'))
-          ->setHelp($this->trans('commands.generate.plugin.block.help'))
-          ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
-          ->addOption(
-              'class-name',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.plugin.block.options.class-name')
-          )
-          ->addOption(
-              'label',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.plugin.block.options.label')
-          )
-          ->addOption(
-              'plugin-id',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.plugin.block.options.plugin-id')
-          )
-          ->addOption(
-              'inputs',
-              '',
-              InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-              $this->trans('commands.common.options.inputs')
-          )
-          ->addOption('services', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.services'));
+            ->setName('generate:plugin:block')
+            ->setDescription($this->trans('commands.generate.plugin.block.description'))
+            ->setHelp($this->trans('commands.generate.plugin.block.help'))
+            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'class-name',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.plugin.block.options.class-name')
+            )
+            ->addOption(
+                'label',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.plugin.block.options.label')
+            )
+            ->addOption(
+                'plugin-id',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.plugin.block.options.plugin-id')
+            )
+            ->addOption(
+                'inputs',
+                '',
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                $this->trans('commands.common.options.inputs')
+            )
+            ->addOption('services', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.services'));
     }
 
     /**
@@ -80,8 +80,8 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
         $build_services = $this->buildServices($services);
 
         $this
-          ->getGenerator()
-          ->generate($module, $class_name, $label, $plugin_id, $build_services, $inputs);
+            ->getGenerator()
+            ->generate($module, $class_name, $label, $plugin_id, $build_services, $inputs);
 
         $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'discovery']);
     }

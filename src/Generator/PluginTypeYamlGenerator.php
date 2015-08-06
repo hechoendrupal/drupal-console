@@ -12,10 +12,10 @@ class PluginTypeYamlGenerator extends Generator
     /**
      * Generator for Plugin type with Yaml discovery.
      *
-     * @param  $module
-     * @param  $plugin_class
-     * @param  $plugin_name
-     * @param  $plugin_file_name
+     * @param $module
+     * @param $plugin_class
+     * @param $plugin_name
+     * @param $plugin_file_name
      */
     public function generate($module, $plugin_class, $plugin_name, $plugin_file_name)
     {

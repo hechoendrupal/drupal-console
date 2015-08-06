@@ -32,7 +32,9 @@ class ShowGenerateInlineListener implements EventSubscriberInterface
      */
     public function showGenerateInline(ConsoleTerminateEvent $event)
     {
-        /** @var \Drupal\AppConsole\Command\Command $command */
+        /**
+         * @var \Drupal\AppConsole\Command\Command $command
+         */
         $command = $event->getCommand();
         $output = $event->getOutput();
         $command_name = $command->getName();
@@ -41,9 +43,10 @@ class ShowGenerateInlineListener implements EventSubscriberInterface
 
         $application = $command->getApplication();
         $messageHelper = $application->getHelperSet()->get('message');
-        /* @var TranslatorHelper */
+        /**
+         * @var TranslatorHelper
+         */
         $translatorHelper = $application->getHelperSet()->get('translator');
-
         if ($event->getExitCode() != 0) {
             return;
         }
@@ -72,20 +75,18 @@ class ShowGenerateInlineListener implements EventSubscriberInterface
             }
 
             $inline = '';
-            foreach($arguments as $argument_id => $argument) {
-                if(is_array($argument)) {
+            foreach ($arguments as $argument_id => $argument) {
+                if (is_array($argument)) {
                     $argument = implode(" ", $argument);
-                }
-                elseif(strstr($argument, ' ' )) {
+                } elseif (strstr($argument, ' ')) {
                     $argument = '"' . $argument . '"';
                 }
 
                 $inline .= " $argument";
-
             }
 
-            foreach($options as $option_id => $option) {
-                if(strstr($option, ' ' )) {
+            foreach ($options as $option_id => $option) {
+                if (strstr($option, ' ')) {
                     $option = '"' . $option . '"';
                 }
                 $inline.= ' --' . $option_id . '=' . $option;
