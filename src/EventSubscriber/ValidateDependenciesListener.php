@@ -20,13 +20,15 @@ class ValidateDependenciesListener implements EventSubscriberInterface
      */
     public function validateDependencies(ConsoleCommandEvent $event)
     {
-        /** @var \Drupal\AppConsole\Command\Command $command */
+        /**
+         * @var \Drupal\AppConsole\Command\Command $command
+         */
         $command = $event->getCommand();
         $output = $event->getOutput();
 
         $application = $command->getApplication();
         $messageHelper = $application->getHelperSet()->get('message');
-        /* @var TranslatorHelper */
+        /** @var TranslatorHelper */
         $translatorHelper = $application->getHelperSet()->get('translator');
 
         if (!$command instanceof Command) {

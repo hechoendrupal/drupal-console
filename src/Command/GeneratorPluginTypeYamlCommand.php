@@ -48,7 +48,7 @@ class GeneratorPluginTypeYamlCommand extends GeneratorCommand
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.type.yaml.options.plugin-file-name')
             );
-        }
+    }
 
     /**
      * {@inheritdoc}

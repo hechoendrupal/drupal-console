@@ -15,8 +15,8 @@ class ContainerDebugCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('container:debug')
-          ->setDescription($this->trans('commands.container.debug.description'));
+            ->setName('container:debug')
+            ->setDescription($this->trans('commands.container.debug.description'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

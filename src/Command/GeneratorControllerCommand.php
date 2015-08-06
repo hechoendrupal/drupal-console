@@ -24,36 +24,36 @@ class GeneratorControllerCommand extends GeneratorCommand
     protected function configure()
     {
         $this
-          ->setName('generate:controller')
-          ->setDescription($this->trans('commands.generate.controller.description'))
-          ->setHelp($this->trans('commands.generate.controller.command.help'))
-          ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
-          ->addOption(
-              'class-name',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.controller.options.class-name')
-          )
-          ->addOption(
-              'controller-title',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.controller.options.controller-title')
-          )
-          ->addOption(
-              'method-name',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.controller.options.method-name')
-          )
-          ->addOption(
-              'route',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.controller.options.route')
-          )
-          ->addOption('services', '', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, $this->trans('commands.common.options.services'))
-          ->addOption('test', '', InputOption::VALUE_NONE, $this->trans('commands.generate.controller.options.test'));
+            ->setName('generate:controller')
+            ->setDescription($this->trans('commands.generate.controller.description'))
+            ->setHelp($this->trans('commands.generate.controller.command.help'))
+            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'class-name',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.controller.options.class-name')
+            )
+            ->addOption(
+                'controller-title',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.controller.options.controller-title')
+            )
+            ->addOption(
+                'method-name',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.controller.options.method-name')
+            )
+            ->addOption(
+                'route',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.controller.options.route')
+            )
+            ->addOption('services', '', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, $this->trans('commands.common.options.services'))
+            ->addOption('test', '', InputOption::VALUE_NONE, $this->trans('commands.generate.controller.options.test'));
     }
 
     /**
@@ -77,7 +77,7 @@ class GeneratorControllerCommand extends GeneratorCommand
 
         // Combine all routes
         $routes = array();
-        for($i=0; $i < count($controller_title); $i++) {
+        for ($i=0; $i < count($controller_title); $i++) {
             $routes[$i]['title'] = $controller_title[$i];
             $routes[$i]['method'] = $method_name[$i];
             $routes[$i]['route'] = (strpos($route[$i], '/') === 0) ? $route[$i] : '/' . $route[$i] ;
@@ -122,14 +122,14 @@ class GeneratorControllerCommand extends GeneratorCommand
         $class_name = $input->getOption('class-name');
         if (!$class_name) {
             $class_name = $dialog->askAndValidate(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.controller.questions.class-name'), 'DefaultController'),
-              function ($class_name) {
-                  return $this->validateClassName($class_name);
-              },
-              false,
-              'DefaultController',
-              null
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.controller.questions.class-name'), 'DefaultController'),
+                function ($class_name) {
+                    return $this->validateClassName($class_name);
+                },
+                false,
+                'DefaultController',
+                null
             );
         }
         $input->setOption('class-name', $class_name);
@@ -139,27 +139,26 @@ class GeneratorControllerCommand extends GeneratorCommand
             // --controller-title option
             $controller_title = $input->getOption('controller-title');
             if (!$controller_title) {
-
                 $controller_title = $dialog->askAndValidate(
-                  $output,
-                  $dialog->getQuestion((count($routers) < 1 ? $this->trans('commands.generate.controller.questions.controller-title') : $this->trans('commands.generate.controller.questions.other-controller-title')) , ''),
-                  function ($title) use($routers) {
-                      if (count($routers) < 1 && empty($title)) {
-                          throw new \InvalidArgumentException(
-                            sprintf($this->trans('commands.generate.controller.messages.invalid-controller-title'), $title)
-                          );
-                      } elseif (in_array($title, array_column($routers, 'title'))) {
-                          throw new \InvalidArgumentException(
-                            sprintf($this->trans('commands.generate.controller.messages.title-already-added'), $title)
-                          );
-                      } else {
-                          return $title;
-                      }
+                    $output,
+                    $dialog->getQuestion((count($routers) < 1 ? $this->trans('commands.generate.controller.questions.controller-title') : $this->trans('commands.generate.controller.questions.other-controller-title')), ''),
+                    function ($title) use ($routers) {
+                        if (count($routers) < 1 && empty($title)) {
+                            throw new \InvalidArgumentException(
+                                sprintf($this->trans('commands.generate.controller.messages.invalid-controller-title'), $title)
+                            );
+                        } elseif (in_array($title, array_column($routers, 'title'))) {
+                            throw new \InvalidArgumentException(
+                                sprintf($this->trans('commands.generate.controller.messages.title-already-added'), $title)
+                            );
+                        } else {
+                            return $title;
+                        }
 
-                  },
-                  false,
-                  '',
-                  null
+                    },
+                    false,
+                    '',
+                    null
                 );
             }
 
@@ -173,24 +172,24 @@ class GeneratorControllerCommand extends GeneratorCommand
             $method_name = $input->getOption('method-name');
             if (!$method_name) {
                 $method_name = $dialog->askAndValidate(
-                  $output,
-                  $dialog->getQuestion($this->trans('commands.generate.controller.questions.method-name'), 'index'),
-                  function ($method) use($routers) {
-                      if (empty($method)) {
-                          throw new \InvalidArgumentException(
-                            sprintf($this->trans('commands.generate.controller.messages.invalid-method-name'), $method)
-                          );
-                      } elseif (in_array($method, array_column($routers, 'method'))) {
-                          throw new \InvalidArgumentException(
-                            sprintf($this->trans('commands.generate.controller.messages.method-name-already-added'), $title)
-                          );
-                      } else {
-                          return $method;
-                      }
-                  },
-                  false,
-                  'index',
-                  null
+                    $output,
+                    $dialog->getQuestion($this->trans('commands.generate.controller.questions.method-name'), 'index'),
+                    function ($method) use ($routers) {
+                        if (empty($method)) {
+                            throw new \InvalidArgumentException(
+                                sprintf($this->trans('commands.generate.controller.messages.invalid-method-name'), $method)
+                            );
+                        } elseif (in_array($method, array_column($routers, 'method'))) {
+                            throw new \InvalidArgumentException(
+                                sprintf($this->trans('commands.generate.controller.messages.method-name-already-added'), $title)
+                            );
+                        } else {
+                            return $method;
+                        }
+                    },
+                    false,
+                    'index',
+                    null
                 );
             }
             $routers[$i]['method'] = $method_name;
@@ -199,27 +198,27 @@ class GeneratorControllerCommand extends GeneratorCommand
             $route = $input->getOption('route');
             if (!$route) {
                 $route = $dialog->askAndValidate(
-                  $output,
-                  $dialog->getQuestion(
-                    $this->trans('commands.generate.controller.questions.route'),
-                    $module . '/' . $method_name . '/{param_1}/{param_2}'
-                  ),
-                  function ($new_route) use($routers) {
-                      if (empty($new_route)) {
-                          throw new \InvalidArgumentException(
-                            sprintf($this->trans('commands.generate.controller.messages.invalid-route'), $new_route)
-                          );
-                      } elseif (in_array($new_route, array_column($routers, 'route'))) {
-                          throw new \InvalidArgumentException(
-                            sprintf($this->trans('commands.generate.controller.messages.route-already-added'), $new_route)
-                          );
-                      } else {
-                          return $new_route;
-                      }
-                  },
-                  false,
-                  $module . '/' . $method_name . '/{param_1}/{param_2}',
-                  null
+                    $output,
+                    $dialog->getQuestion(
+                        $this->trans('commands.generate.controller.questions.route'),
+                        $module . '/' . $method_name . '/{param_1}/{param_2}'
+                    ),
+                    function ($new_route) use ($routers) {
+                        if (empty($new_route)) {
+                            throw new \InvalidArgumentException(
+                                sprintf($this->trans('commands.generate.controller.messages.invalid-route'), $new_route)
+                            );
+                        } elseif (in_array($new_route, array_column($routers, 'route'))) {
+                            throw new \InvalidArgumentException(
+                                sprintf($this->trans('commands.generate.controller.messages.route-already-added'), $new_route)
+                            );
+                        } else {
+                            return $new_route;
+                        }
+                    },
+                    false,
+                    $module . '/' . $method_name . '/{param_1}/{param_2}',
+                    null
                 );
             }
             $routers[$i]['route'] = $route;

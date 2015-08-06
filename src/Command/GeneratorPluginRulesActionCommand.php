@@ -26,41 +26,41 @@ class GeneratorPluginRulesActionCommand extends GeneratorCommand
     protected function configure()
     {
         $this
-          ->setName('generate:plugin:rulesaction')
-          ->setDescription($this->trans('commands.generate.plugin.rulesaction.description'))
-          ->setHelp($this->trans('commands.generate.plugin.rulesaction.help'))
-          ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
-          ->addOption(
-              'class-name',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.plugin.rulesaction.options.class-name')
-          )
-          ->addOption(
-              'label',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.plugin.rulesaction.options.label')
-          )
-          ->addOption(
-              'plugin-id',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.plugin.rulesaction.options.plugin-id')
-          )
-          ->addOption('type', '', InputOption::VALUE_REQUIRED, $this->trans('commands.generate.plugin.rulesaction.options.type'))
-          ->addOption(
-              'category',
-              '',
-              InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-              $this->trans('commands.generate.plugin.rulesaction.options.category')
-          )
-          ->addOption(
-              'context',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.plugin.rulesaction.options.context')
-          );
+            ->setName('generate:plugin:rulesaction')
+            ->setDescription($this->trans('commands.generate.plugin.rulesaction.description'))
+            ->setHelp($this->trans('commands.generate.plugin.rulesaction.help'))
+            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'class-name',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.plugin.rulesaction.options.class-name')
+            )
+            ->addOption(
+                'label',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.plugin.rulesaction.options.label')
+            )
+            ->addOption(
+                'plugin-id',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.plugin.rulesaction.options.plugin-id')
+            )
+            ->addOption('type', '', InputOption::VALUE_REQUIRED, $this->trans('commands.generate.plugin.rulesaction.options.type'))
+            ->addOption(
+                'category',
+                '',
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                $this->trans('commands.generate.plugin.rulesaction.options.category')
+            )
+            ->addOption(
+                'context',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.plugin.rulesaction.options.context')
+            );
     }
 
     /**
@@ -84,8 +84,8 @@ class GeneratorPluginRulesActionCommand extends GeneratorCommand
         $context = $input->getOption('context');
 
         $this
-          ->getGenerator()
-          ->generate($module, $class_name, $label, $plugin_id, $category, $context, $type);
+            ->getGenerator()
+            ->generate($module, $class_name, $label, $plugin_id, $category, $context, $type);
 
         $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }

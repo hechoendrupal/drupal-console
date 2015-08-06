@@ -18,19 +18,19 @@ class RestDebugCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('rest:debug')
-          ->setDescription($this->trans('commands.rest.debug.description'))
-          ->addArgument(
-              'resource-id',
-              InputArgument::OPTIONAL,
-              $this->trans('commands.rest.debug.arguments.resource-id')
-          )
-          ->addOption(
-              'authorization',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.rest.debug.options.status')
-          );
+            ->setName('rest:debug')
+            ->setDescription($this->trans('commands.rest.debug.description'))
+            ->addArgument(
+                'resource-id',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.rest.debug.arguments.resource-id')
+            )
+            ->addOption(
+                'authorization',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.rest.debug.options.status')
+            );
 
         $this->addDependency('rest');
     }
@@ -51,9 +51,11 @@ class RestDebugCommand extends ContainerAwareCommand
     }
 
     /**
+     *
      * @param $output         OutputInterface
      * @param $table          TableHelper
-     * @param $config_name    String
+     * @param $resource_id    String
+     *
      */
     private function getRestByID($output, $table, $resource_id)
     {
@@ -64,10 +66,12 @@ class RestDebugCommand extends ContainerAwareCommand
         $plugin = $resourcePluginManager->getInstance(array('id' => $resource_id));
 
         if (empty($plugin)) {
-            $output->writeln('[+] <error>'.sprintf(
-                $this->trans('commands.rest.debug.messages.not-found'),
-                $resource_id
-            ).'</error>');
+            $output->writeln(
+                '[+] <error>'.sprintf(
+                    $this->trans('commands.rest.debug.messages.not-found'),
+                    $resource_id
+                ).'</error>'
+            );
 
             return false;
         }
@@ -96,11 +100,13 @@ class RestDebugCommand extends ContainerAwareCommand
         );
 
         foreach ($config[$resource['id']] as $method => $settings) {
-            $table->addRow([
-            $method,
-            implode(', ', $settings['supported_formats']),
-            implode(', ', $settings['supported_auth']),
-            ]);
+            $table->addRow(
+                [
+                $method,
+                implode(', ', $settings['supported_formats']),
+                implode(', ', $settings['supported_auth']),
+                ]
+            );
         }
 
         $table->render($output);
@@ -124,13 +130,15 @@ class RestDebugCommand extends ContainerAwareCommand
 
         foreach ($rest_resources as $status => $resources) {
             foreach ($resources as $id => $resource) {
-                $table->addRow([
-                $id,
-                $resource['label'],
-                $resource['uri_paths']['canonical'],
-                $status,
-                $resource['provider'],
-                ]);
+                $table->addRow(
+                    [
+                    $id,
+                    $resource['label'],
+                    $resource['uri_paths']['canonical'],
+                    $status,
+                    $resource['provider'],
+                    ]
+                );
             }
         }
         $table->render($output);

@@ -19,10 +19,10 @@ class ModuleDownloadCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('module:download')
-          ->setDescription($this->trans('commands.module.install.description'))
-          ->addArgument('module', InputArgument::REQUIRED, $this->trans('commands.module.install.options.module'))
-          ->addArgument('version', InputArgument::OPTIONAL, $this->trans('commands.module.download.options.version'));
+            ->setName('module:download')
+            ->setDescription($this->trans('commands.module.install.description'))
+            ->addArgument('module', InputArgument::REQUIRED, $this->trans('commands.module.install.options.module'))
+            ->addArgument('version', InputArgument::OPTIONAL, $this->trans('commands.module.download.options.version'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -37,10 +37,12 @@ class ModuleDownloadCommand extends ContainerAwareCommand
             $release_selected = '8.x-'.$version;
         } else {
             // Getting Module page header and parse to get module Node
-            $output->writeln('[+] <info>'.sprintf(
-                $this->trans('commands.module.download.messages.getting-releases'),
-                implode(',', array($module))
-            ).'</info>');
+            $output->writeln(
+                '[+] <info>'.sprintf(
+                    $this->trans('commands.module.download.messages.getting-releases'),
+                    implode(',', array($module))
+                ).'</info>'
+            );
 
             $response = $client->head('https://www.drupal.org/project/'.$module);
             $link = $response->getHeader('link');
@@ -49,7 +51,7 @@ class ModuleDownloadCommand extends ContainerAwareCommand
             $project_node = str_replace('<', '', str_replace('>', '', $header_link[0]));
             $project_release_d8 = $project_node.'/release?api_version%5B%5D=7234';
 
-          // Parse release module page to get Drupal 8 releases
+            // Parse release module page to get Drupal 8 releases
             try {
                 $response = $client->get($project_release_d8);
                 $html = $response->getBody()->__tostring();
@@ -77,26 +79,28 @@ class ModuleDownloadCommand extends ContainerAwareCommand
             }
 
             if (empty($releases)) {
-                $output->writeln('[+] <error>'.sprintf(
-                    $this->trans('commands.module.download.messages.no-releases'),
-                    implode(',', array($module))
-                ).'</error>');
+                $output->writeln(
+                    '[+] <error>'.sprintf(
+                        $this->trans('commands.module.download.messages.no-releases'),
+                        implode(',', array($module))
+                    ).'</error>'
+                );
 
                 return;
             }
 
-          // List module releases to enable user to select his favorite release
+            // List module releases to enable user to select his favorite release
             $questionHelper = $this->getQuestionHelper();
 
             $question = new ChoiceQuestion(
-              $this->trans('commands.module.download.messages.select-release'),
+                $this->trans('commands.module.download.messages.select-release'),
                 array_combine(array_keys($releases), array_keys($releases)),
                 '0'
             );
 
             $release_selected = $questionHelper->ask($input, $output, $question);
 
-          // Start the process to download the zip file of release and copy in contrib folter
+            // Start the process to download the zip file of release and copy in contrib folter
             $output->writeln(
                 '[+] <info>'.
                 sprintf(
@@ -131,12 +135,14 @@ class ModuleDownloadCommand extends ContainerAwareCommand
 
             fclose($destination.'.tar.gz');
 
-            $output->writeln('[+] <info>'.sprintf(
-                $this->trans('commands.module.download.messages.downloaded'),
-                $module,
-                $release_selected,
-                $module_contrib_path
-            ).'</info>');
+            $output->writeln(
+                '[+] <info>'.sprintf(
+                    $this->trans('commands.module.download.messages.downloaded'),
+                    $module,
+                    $release_selected,
+                    $module_contrib_path
+                ).'</info>'
+            );
         } catch (\Exception $e) {
             $output->writeln('[+] <error>'.$e->getMessage().'</error>');
 

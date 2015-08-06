@@ -15,8 +15,8 @@ class RouterRebuildCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('router:rebuild')
-          ->setDescription($this->trans('commands.router.rebuild.description'));
+            ->setName('router:rebuild')
+            ->setDescription($this->trans('commands.router.rebuild.description'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
