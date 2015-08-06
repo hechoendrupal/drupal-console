@@ -120,7 +120,8 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
 
         $this
             ->getHelper('chain')
-            ->addCommand('generate:plugin:fieldtype', [
+            ->addCommand(
+                'generate:plugin:fieldtype', [
                 '--module' => $input->getOption('module'),
                 '--class-name' => $input->getOption('type-class-name'),
                 '--label' => $input->getOption('type-label'),
@@ -129,30 +130,35 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
                 '--default-widget' => $input->getOption('default-widget'),
                 '--default-formatter' => $input->getOption('default-formatter'),
                 ],
-                false);
+                false
+            );
         $this
             ->getHelper('chain')
-            ->addCommand('generate:plugin:fieldwidget', [
+            ->addCommand(
+                'generate:plugin:fieldwidget', [
                 '--module' => $input->getOption('module'),
                 '--class-name' => $input->getOption('widget-class-name'),
                 '--label' => $input->getOption('widget-label'),
                 '--plugin-id' => $input->getOption('widget-plugin-id'),
                 '--field-type' => $input->getOption('field-type'),
-             ],
-             false);
+                ],
+                false
+            );
         $this
             ->getHelper('chain')
-            ->addCommand('generate:plugin:fieldformatter', [
+            ->addCommand(
+                'generate:plugin:fieldformatter', [
                 '--module' => $input->getOption('module'),
                 '--class-name' => $input->getOption('formatter-class-name'),
                 '--label' => $input->getOption('formatter-label'),
                 '--plugin-id' => $input->getOption('formatter-plugin-id'),
                 '--field-type' => $input->getOption('field-type'),
-            ],
-            false);
+                ],
+                false
+            );
 
-// @todo Fails with InvalidArgumentException
-//        $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'discovery'], false);
+        // @todo Fails with InvalidArgumentException
+        //        $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'discovery'], false);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

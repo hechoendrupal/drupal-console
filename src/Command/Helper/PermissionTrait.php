@@ -73,12 +73,14 @@ trait PermissionTrait
             $permission = $this->getStringUtils()->camelCaseToLowerCase($permission);
             $title = $this->getStringUtils()->anyCaseToUcFirst($title);
 
-            array_push($permissions, array(
-              'permission' => $permission,
-              'title' => $title,
-              'description' => $description,
-              'restrict_access' => $restrictAccess,
-            ));
+            array_push(
+                $permissions, array(
+                'permission' => $permission,
+                'title' => $title,
+                'description' => $description,
+                'restrict_access' => $restrictAccess,
+                )
+            );
 
             if (!$dialog->askConfirmation(
                 $output,

@@ -16,14 +16,14 @@ class CacheRebuildCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('cache:rebuild')
-          ->setDescription($this->trans('commands.cache.rebuild.description'))
-          ->addArgument(
-              'cache',
-              InputArgument::OPTIONAL,
-              $this->trans('commands.cache.rebuild.options.cache'),
-              null
-          );
+            ->setName('cache:rebuild')
+            ->setDescription($this->trans('commands.cache.rebuild.description'))
+            ->addArgument(
+                'cache',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.cache.rebuild.options.cache'),
+                null
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -31,7 +31,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
         $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
         $drupal_root = $drupalAutoLoad->getDrupalRoot();
 
-        require_once $drupal_root.'/core/includes/utility.inc';
+        include_once $drupal_root.'/core/includes/utility.inc';
         $validators = $this->getHelperSet()->get('validators');
 
         // Get the --cache option and make validation

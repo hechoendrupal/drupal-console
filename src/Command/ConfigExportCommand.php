@@ -21,13 +21,13 @@ class ConfigExportCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('config:export')
-          ->setDescription($this->trans('commands.config.export.description'))
-          ->addArgument(
-              'directory',
-              InputArgument::OPTIONAL,
-              $this->trans('commands.config.export.arguments.directory')
-          );
+            ->setName('config:export')
+            ->setDescription($this->trans('commands.config.export.description'))
+            ->addArgument(
+                'directory',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.config.export.arguments.directory')
+            );
     }
 
     /**

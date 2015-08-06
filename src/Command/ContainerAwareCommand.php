@@ -97,7 +97,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     public function getRestDrupalConfig()
     {
         return $this->getConfigFactory()
-          ->get('rest.settings')->get('resources') ?: [];
+            ->get('rest.settings')->get('resources') ?: [];
     }
 
     /**
@@ -171,10 +171,12 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         if (in_array($rest, $rest_resources_ids)) {
             return $rest;
         } else {
-            throw new \InvalidArgumentException(sprintf(
-                $translator->trans('commands.rest.disable.messages.invalid-rest-id'),
-                $rest
-            ));
+            throw new \InvalidArgumentException(
+                sprintf(
+                    $translator->trans('commands.rest.disable.messages.invalid-rest-id'),
+                    $rest
+                )
+            );
         }
     }
 

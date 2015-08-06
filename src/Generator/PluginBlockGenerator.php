@@ -12,11 +12,11 @@ class PluginBlockGenerator extends Generator
     /**
      * Generator Plugin Block.
      *
-     * @param  $module
-     * @param  $class_name
-     * @param  $label
-     * @param  $plugin_id
-     * @param  $services
+     * @param $module
+     * @param $class_name
+     * @param $label
+     * @param $plugin_id
+     * @param $services
      */
     public function generate($module, $class_name, $label, $plugin_id, $services, $inputs)
     {

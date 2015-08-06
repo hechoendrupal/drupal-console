@@ -88,8 +88,8 @@ class GeneratorPluginFieldTypeCommand extends GeneratorCommand
             ->getGenerator()
             ->generate($module, $class_name, $label, $plugin_id, $description, $default_widget, $default_formatter);
 
-// @todo Fails with InvalidArgumentException
-//        $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'discovery'], false);
+        // @todo Fails with InvalidArgumentException
+        //        $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'discovery'], false);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

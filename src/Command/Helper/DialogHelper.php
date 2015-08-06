@@ -9,11 +9,13 @@ class DialogHelper extends BaseDialogHelper
 {
     public function writeSection(OutputInterface $output, $text, $style = 'bg=blue;fg=white')
     {
-        $output->writeln(array(
-          '',
-          $this->getHelperSet()->get('formatter')->formatBlock($text, $style, true),
-          '',
-        ));
+        $output->writeln(
+            array(
+            '',
+            $this->getHelperSet()->get('formatter')->formatBlock($text, $style, true),
+            '',
+            )
+        );
     }
 
     public function getQuestion($question, $default, $sep = ':')
