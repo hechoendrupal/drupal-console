@@ -12,8 +12,8 @@ class AuthenticationProviderGenerator extends Generator
     /**
      * Generator Plugin Block.
      *
-     * @param  $module
-     * @param  $class_name
+     * @param $module
+     * @param $class_name
      */
     public function generate($module, $class_name, $provider_id)
     {

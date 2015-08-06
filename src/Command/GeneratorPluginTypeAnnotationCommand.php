@@ -48,7 +48,7 @@ class GeneratorPluginTypeAnnotationCommand extends GeneratorCommand
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.type.annotation.options.label')
             );
-        }
+    }
 
     /**
      * {@inheritdoc}
@@ -117,7 +117,7 @@ class GeneratorPluginTypeAnnotationCommand extends GeneratorCommand
                     $this->trans('commands.generate.plugin.type.annotation.options.label'),
                     $default_label
                 ),
-              $default_label
+                $default_label
             );
         }
         $input->setOption('label', $label);

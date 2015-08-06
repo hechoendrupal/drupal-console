@@ -24,11 +24,17 @@ class DefaultValueEventListener implements EventSubscriberInterface
      */
     public function setDefaultValues(ConsoleCommandEvent $event)
     {
-        /** @var \Drupal\AppConsole\Command\Command $command */
+        /**
+         * @var \Drupal\AppConsole\Command\Command $command
+         */
         $command = $event->getCommand();
-        /** @var \Drupal\AppConsole\Console\Application $command */
+        /**
+         * @var \Drupal\AppConsole\Console\Application $command
+         */
         $application = $command->getApplication();
-        /** @var \Drupal\AppConsole\Config $config */
+        /**
+         * @var \Drupal\AppConsole\Config $config
+         */
         $config = $application->getConfig();
 
         if (in_array($command->getName(), $this->skipCommands)) {

@@ -16,9 +16,9 @@ class ModuleInstallCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('module:install')
-          ->setDescription($this->trans('commands.module.install.description'))
-          ->addArgument('module', InputArgument::IS_ARRAY, $this->trans('commands.module.install.options.module'));
+            ->setName('module:install')
+            ->setDescription($this->trans('commands.module.install.description'))
+            ->addArgument('module', InputArgument::IS_ARRAY, $this->trans('commands.module.install.options.module'));
     }
 
     /**
@@ -92,11 +92,13 @@ class ModuleInstallCommand extends ContainerAwareCommand
 
         // Determine if some module request is missing
         if ($missing_modules = array_diff_key($module_list, $module_data)) {
-            $output->writeln('[+] <error>'.sprintf(
-                $this->trans('commands.module.install.messages.missing'),
-                implode(', ', $modules),
-                implode(', ', $missing_modules)
-            ).'</error>');
+            $output->writeln(
+                '[+] <error>'.sprintf(
+                    $this->trans('commands.module.install.messages.missing'),
+                    implode(', ', $modules),
+                    implode(', ', $missing_modules)
+                ).'</error>'
+            );
 
             return true;
         }
@@ -128,11 +130,13 @@ class ModuleInstallCommand extends ContainerAwareCommand
 
         // Error if there are missing dependencies
         if (!empty($missing_dependencies)) {
-            $output->writeln('[+] <error>'.sprintf(
-                $this->trans('commands.module.install.messages.missing-dependencies'),
-                implode(', ', $modules),
-                implode(', ', $missing_dependencies)
-            ).'</error>');
+            $output->writeln(
+                '[+] <error>'.sprintf(
+                    $this->trans('commands.module.install.messages.missing-dependencies'),
+                    implode(', ', $modules),
+                    implode(', ', $missing_dependencies)
+                ).'</error>'
+            );
 
             return true;
         }
@@ -142,10 +146,12 @@ class ModuleInstallCommand extends ContainerAwareCommand
             $dialog = $this->getDialogHelper();
             if (!$dialog->askConfirmation(
                 $output,
-                $dialog->getQuestion(sprintf(
-                    $this->trans('commands.module.install.messages.dependencies'),
-                    implode(', ', $dependencies)
-                ), n),
+                $dialog->getQuestion(
+                    sprintf(
+                        $this->trans('commands.module.install.messages.dependencies'),
+                        implode(', ', $dependencies)
+                    ), n
+                ),
                 false
             )
             ) {
@@ -158,10 +164,12 @@ class ModuleInstallCommand extends ContainerAwareCommand
             // Install the modules.
             $moduleInstaller->install($module_list);
             system_rebuild_module_data();
-            $output->writeln('[+] <info>'.sprintf(
-                $this->trans('commands.module.install.messages.success'),
-                implode(', ', array_merge($modules, $dependencies))
-            ).'</info>');
+            $output->writeln(
+                '[+] <info>'.sprintf(
+                    $this->trans('commands.module.install.messages.success'),
+                    implode(', ', array_merge($modules, $dependencies))
+                ).'</info>'
+            );
         } catch (\Exception $e) {
             $output->writeln('[+] <error>'.$e->getMessage().'</error>');
 

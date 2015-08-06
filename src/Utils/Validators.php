@@ -38,10 +38,12 @@ class Validators extends Helper implements HelperInterface
         if (preg_match(self::REGEX_CLASS_NAME, $class_name)) {
             return $class_name;
         } else {
-            throw new \InvalidArgumentException(sprintf(
-                'Class name "%s" is invalid, it must starts with a letter or underscore, followed by any number of letters, numbers, or underscores.',
-                $class_name
-            ));
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Class name "%s" is invalid, it must starts with a letter or underscore, followed by any number of letters, numbers, or underscores.',
+                    $class_name
+                )
+            );
         }
     }
 
@@ -50,10 +52,12 @@ class Validators extends Helper implements HelperInterface
         if (preg_match(self::REGEX_MACHINE_NAME, $machine_name)) {
             return $machine_name;
         } else {
-            throw new \InvalidArgumentException(sprintf(
-                'Machine name "%s" is invalid, it must contain only lowercase letters, numbers and underscores.',
-                $machine_name
-            ));
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Machine name "%s" is invalid, it must contain only lowercase letters, numbers and underscores.',
+                    $machine_name
+                )
+            );
         }
     }
 
@@ -64,10 +68,12 @@ class Validators extends Helper implements HelperInterface
                 return $module_path;
             }
 
-            throw new \InvalidArgumentException(sprintf(
-                'Module path "%s" is invalid. You need to provide a valid path.',
-                $module_path
-            ));
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Module path "%s" is invalid. You need to provide a valid path.',
+                    $module_path
+                )
+            );
         }
 
         return $module_path;
@@ -109,10 +115,12 @@ class Validators extends Helper implements HelperInterface
     public function validateModuleExist($module, $modules)
     {
         if (!in_array($module, array_values($modules))) {
-            throw new \InvalidArgumentException(sprintf(
-                'Module "%s" is not in your application. Try generate:module to create it.',
-                $module
-            ));
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Module "%s" is not in your application. Try generate:module to create it.',
+                    $module
+                )
+            );
         }
 
         return $module;
@@ -173,10 +181,12 @@ class Validators extends Helper implements HelperInterface
         if ($string == $name) {
             return $name;
         } else {
-            throw new \InvalidArgumentException(sprintf(
-                'The name "%s" is invalid, spaces between words are not allowed.',
-                $name
-            ));
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'The name "%s" is invalid, spaces between words are not allowed.',
+                    $name
+                )
+            );
         }
     }
 

@@ -22,11 +22,11 @@ class PasswordResetCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('password:reset')
-          ->setDescription($this->trans('commands.password.reset.description'))
-          ->setHelp($this->trans('commands.password.reset.help'))
-          ->addArgument('user', InputArgument::REQUIRED, $this->trans('commands.password.reset.options.user-id'))
-          ->addArgument('password', InputArgument::REQUIRED, $this->trans('commands.password.reset.options.password'));
+            ->setName('password:reset')
+            ->setDescription($this->trans('commands.password.reset.description'))
+            ->setHelp($this->trans('commands.password.reset.help'))
+            ->addArgument('user', InputArgument::REQUIRED, $this->trans('commands.password.reset.options.user-id'))
+            ->addArgument('password', InputArgument::REQUIRED, $this->trans('commands.password.reset.options.password'));
     }
 
     /**
@@ -38,10 +38,12 @@ class PasswordResetCommand extends ContainerAwareCommand
         $user = user_load($user_id);
 
         if (!is_object($user)) {
-            $output->writeln('[+] <error>'.sprintf(
-                $this->trans('commands.password.reset.errors.invalid-user'),
-                $user_id
-            ).'</error>');
+            $output->writeln(
+                '[+] <error>'.sprintf(
+                    $this->trans('commands.password.reset.errors.invalid-user'),
+                    $user_id
+                ).'</error>'
+            );
 
             return;
         }
@@ -58,10 +60,12 @@ class PasswordResetCommand extends ContainerAwareCommand
             return;
         }
 
-        $output->writeln('[+] <info>'.sprintf(
-            $this->trans('commands.password.reset.messages.reset-successful'),
-            $user_id
-        ).'</info>');
+        $output->writeln(
+            '[+] <info>'.sprintf(
+                $this->trans('commands.password.reset.messages.reset-successful'),
+                $user_id
+            ).'</info>'
+        );
     }
 
     /**

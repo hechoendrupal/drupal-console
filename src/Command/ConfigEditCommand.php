@@ -24,18 +24,18 @@ class ConfigEditCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('config:edit')
-          ->setDescription($this->trans('commands.config.edit.description'))
-          ->addArgument(
-              'config-name',
-              InputArgument::REQUIRED,
-              $this->trans('commands.config.edit.arguments.config-name')
-          )
-          ->addArgument(
-              'editor',
-              InputArgument::OPTIONAL,
-              $this->trans('commands.config.edit.arguments.editor')
-          );
+            ->setName('config:edit')
+            ->setDescription($this->trans('commands.config.edit.description'))
+            ->addArgument(
+                'config-name',
+                InputArgument::REQUIRED,
+                $this->trans('commands.config.edit.arguments.config-name')
+            )
+            ->addArgument(
+                'editor',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.config.edit.arguments.editor')
+            );
     }
 
     /**

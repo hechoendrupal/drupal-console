@@ -21,15 +21,15 @@ class MigrateLoadCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('migrate:load')
-          ->setDescription($this->trans('commands.migrate.load.description'))
-          ->addOption(
-              'override',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.migrate.load.questions.override')
-          )
-          ->addArgument('file', InputArgument::OPTIONAL, $this->trans('commands.migrate.load.arguments.file'));
+            ->setName('migrate:load')
+            ->setDescription($this->trans('commands.migrate.load.description'))
+            ->addOption(
+                'override',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.migrate.load.questions.override')
+            )
+            ->addArgument('file', InputArgument::OPTIONAL, $this->trans('commands.migrate.load.arguments.file'));
 
         $this->addDependency('migrate');
     }

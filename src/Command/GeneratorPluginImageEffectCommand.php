@@ -22,34 +22,34 @@ class GeneratorPluginImageEffectCommand extends GeneratorCommand
     protected function configure()
     {
         $this
-          ->setName('generate:plugin:imageeffect')
-          ->setDescription($this->trans('commands.generate.plugin.imageeffect.description'))
-          ->setHelp($this->trans('commands.generate.plugin.imageeffect.help'))
-          ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
-          ->addOption(
-              'class-name',
-              '',
-              InputOption::VALUE_REQUIRED,
-              $this->trans('commands.generate.plugin.imageeffect.options.class-name')
-          )
-          ->addOption(
-              'label',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.plugin.imageeffect.options.label')
-          )
-          ->addOption(
-              'plugin-id',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.plugin.imageeffect.options.plugin-id')
-          )
-          ->addOption(
-              'description',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.plugin.imageeffect.options.description')
-          );
+            ->setName('generate:plugin:imageeffect')
+            ->setDescription($this->trans('commands.generate.plugin.imageeffect.description'))
+            ->setHelp($this->trans('commands.generate.plugin.imageeffect.help'))
+            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'class-name',
+                '',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.generate.plugin.imageeffect.options.class-name')
+            )
+            ->addOption(
+                'label',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.plugin.imageeffect.options.label')
+            )
+            ->addOption(
+                'plugin-id',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.plugin.imageeffect.options.plugin-id')
+            )
+            ->addOption(
+                'description',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.plugin.imageeffect.options.description')
+            );
     }
 
     /**
@@ -71,8 +71,8 @@ class GeneratorPluginImageEffectCommand extends GeneratorCommand
         $description = $input->getOption('description');
 
         $this
-          ->getGenerator()
-          ->generate($module, $class_name, $label, $plugin_id, $description);
+            ->getGenerator()
+            ->generate($module, $class_name, $label, $plugin_id, $description);
 
         $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'discovery']);
     }

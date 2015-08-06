@@ -22,23 +22,29 @@ class ModuleGenerator extends Generator
         $dir .= '/'.$machine_name;
         if (file_exists($dir)) {
             if (!is_dir($dir)) {
-                throw new \RuntimeException(sprintf(
-                    'Unable to generate the module as the target directory "%s" exists but is a file.',
-                    realpath($dir)
-                ));
+                throw new \RuntimeException(
+                    sprintf(
+                        'Unable to generate the module as the target directory "%s" exists but is a file.',
+                        realpath($dir)
+                    )
+                );
             }
             $files = scandir($dir);
             if ($files != array('.', '..')) {
-                throw new \RuntimeException(sprintf(
-                    'Unable to generate the module as the target directory "%s" is not empty.',
-                    realpath($dir)
-                ));
+                throw new \RuntimeException(
+                    sprintf(
+                        'Unable to generate the module as the target directory "%s" is not empty.',
+                        realpath($dir)
+                    )
+                );
             }
             if (!is_writable($dir)) {
-                throw new \RuntimeException(sprintf(
-                    'Unable to generate the module as the target directory "%s" is not writable.',
-                    realpath($dir)
-                ));
+                throw new \RuntimeException(
+                    sprintf(
+                        'Unable to generate the module as the target directory "%s" is not writable.',
+                        realpath($dir)
+                    )
+                );
             }
         }
 

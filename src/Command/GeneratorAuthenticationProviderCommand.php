@@ -26,22 +26,22 @@ class GeneratorAuthenticationProviderCommand extends GeneratorCommand
     protected function configure()
     {
         $this
-          ->setName('generate:authentication:provider')
-          ->setDescription($this->trans('commands.generate.authentication.provider.description'))
-          ->setHelp($this->trans('commands.generate.authentication.provider.help'))
-          ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
-          ->addOption(
-              'class-name',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.authentication.provider.options.class-name')
-          )
-          ->addOption(
-              'provider-id',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.authentication.provider.options.provider-id')
-          );
+            ->setName('generate:authentication:provider')
+            ->setDescription($this->trans('commands.generate.authentication.provider.description'))
+            ->setHelp($this->trans('commands.generate.authentication.provider.help'))
+            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'class-name',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.authentication.provider.options.class-name')
+            )
+            ->addOption(
+                'provider-id',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.authentication.provider.options.provider-id')
+            );
     }
 
     /**
@@ -61,7 +61,7 @@ class GeneratorAuthenticationProviderCommand extends GeneratorCommand
         $provider_id = $input->getOption('provider-id');
 
         $this->getGenerator()
-          ->generate($module, $class_name, $provider_id);
+            ->generate($module, $class_name, $provider_id);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

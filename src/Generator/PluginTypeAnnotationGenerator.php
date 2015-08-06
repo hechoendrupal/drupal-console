@@ -12,10 +12,10 @@ class PluginTypeAnnotationGenerator extends Generator
     /**
      * Generator for Plugin type with annotation discovery.
      *
-     * @param  $module
-     * @param  $class_name
-     * @param  $machine_name
-     * @param  $label
+     * @param $module
+     * @param $class_name
+     * @param $machine_name
+     * @param $label
      */
     public function generate($module, $class_name, $machine_name, $label)
     {
