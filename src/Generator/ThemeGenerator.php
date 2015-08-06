@@ -12,21 +12,18 @@ namespace Drupal\AppConsole\Generator;
  */
 class ThemeGenerator extends Generator
 {
-    /**
-   *
-   */
     public function generate(
-      $theme,
-      $machine_name,
-      $dir,
-      $description,
-      $core,
-      $package,
-      $base_theme,
-      $global_library,
-      $regions,
-      $breakpoints
-  ) {
+        $theme,
+        $machine_name,
+        $dir,
+        $description,
+        $core,
+        $package,
+        $base_theme,
+        $global_library,
+        $regions,
+        $breakpoints
+    ) {
         $dir .= '/' . $machine_name;
         if (file_exists($dir)) {
             if (!is_dir($dir)) {

@@ -55,7 +55,6 @@ class RestDebugCommand extends ContainerAwareCommand
      * @param $output         OutputInterface
      * @param $table          TableHelper
      * @param $resource_id    String
-     *
      */
     private function getRestByID($output, $table, $resource_id)
     {
