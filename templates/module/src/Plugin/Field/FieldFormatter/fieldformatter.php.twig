@@ -20,11 +20,13 @@ use Drupal\Core\Form\FormStateInterface;
  *
  * @FieldFormatter(
  *   id = "{{ plugin_id }}",
- *   label = @Translation("{{ label }}"){% if field_type %},{% endif %}
-{% if field_type %}
+ *   label = @Translation("{{ label }}"){% if field_type %},
  *   field_types = {
  *     "{{ field_type }}"
  *   }
+{% else %}
+ *   @todo: At least one field_types annotation array entry is necessary to display this formatter in the UI.
+ *   ex. field_types = { "field_type" }
 {% endif %}
  * )
  */
@@ -43,17 +45,16 @@ class {{ class_name }} extends FormatterBase {% endblock %}
    * {@inheritdoc}
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
-    $elements = array();
-    // Implement settings form.
-
-    return $elements;
+    return array(
+      // Implement settings form.
+    ) + parent::settingsForm($form, $form_state);
   }
 
   /**
    * {@inheritdoc}
    */
   public function settingsSummary() {
-    $summary = array();
+    $summary = [];
     // Implement settings summary.
 
     return $summary;
@@ -63,9 +64,27 @@ class {{ class_name }} extends FormatterBase {% endblock %}
    * {@inheritdoc}
    */
   public function viewElements(FieldItemListInterface $items) {
-    $element = array();
-    // Implement view elements.
+    $elements = [];
 
-    return $element;
+    foreach ($items as $delta => $item) {
+      $elements[$delta] = ['#markup' => $this->viewValue($item)];
+    }
+
+    return $elements;
+  }
+
+  /**
+   * Generate the output appropriate for one field item.
+   *
+   * @param \Drupal\Core\Field\FieldItemInterface $item
+   *   One field item.
+   *
+   * @return string
+   *   The textual output generated.
+   */
+  protected function viewValue(FieldItemInterface $item) {
+    // The text value has no text format assigned to it, so the user input
+    // should equal the output, including newlines.
+    return nl2br(SafeMarkup::checkPlain($item->value));
   }
 {% endblock %}
