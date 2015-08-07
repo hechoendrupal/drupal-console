@@ -30,7 +30,7 @@ class PluginFieldFormatterGenerator extends Generator
 
         $this->renderFile(
             'module/src/Plugin/Field/FieldFormatter/fieldformatter.php.twig',
-            $this->getPluginPath($module, 'FieldFormatter') . '/' . $class_name . '.php',
+            $this->getPluginPath($module, 'Field/FieldFormatter') . '/' . $class_name . '.php',
             $parameters
         );
     }
