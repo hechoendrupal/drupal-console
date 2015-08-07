@@ -9,7 +9,6 @@ namespace Drupal\{{ module }}\Plugin\Field\FieldType;
 {% endblock %}
 
 {% block use_class %}
-use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemBase;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\TypedData\DataDefinition;
@@ -58,6 +57,6 @@ class {{ class_name }} extends FieldItemBase {% endblock %}
   public static function schema(FieldStorageDefinitionInterface $field_definition) {
     return array(
       // Implement schema.
-    )
-  };
+    );
+  }
 {% endblock %}
