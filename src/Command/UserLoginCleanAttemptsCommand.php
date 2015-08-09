@@ -79,18 +79,12 @@ class UserLoginCleanAttemptsCommand extends ContainerAwareCommand {
     if ($account = \Drupal\user\Entity\User::load($uid)) {
       // Define event name and identifier.
       $event = 'user.failed_login_user';
-      /**
-       * @todo
-       * We don't define IP address, we should figure it out
-       * a solution when DrupalConsole will be executed remotely.
-       */
+      // Identifier is created by uid and IP address,
+      // Then we defined a generic identifier.
       $identifier = "{$account->id()}-";
 
-      /**
-       * @todo Could ContainerAwareCommand provide current connection?
-       */
       // Retrieve current database connection.
-      $connection = \Drupal\Core\Database\Database::getConnection();
+      $connection = \Drupal::database();
       // Clear login attempts.
       $connection->delete('flood')
           ->condition('event', $event)
