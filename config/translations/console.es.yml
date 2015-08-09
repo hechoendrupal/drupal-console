@@ -744,6 +744,22 @@ commands:
                 reset-successful: 'Password was updated sucessfully for user id %s'
             errors:
                 invalid-user: 'Invalid user id %s'
+    user:
+        login:
+            clear:
+                attempts:
+                    description: 'Limpia intentos de inicio de sesion para una cuenta.'
+                    help: 'El commando <info>clean:login:failed</info> reinicia intentos fallidos de inicio de sesion para una cuenta.'
+                    options:
+                        user-id: Identificador de usuario.
+                    questions:
+                        user: Ingrese el identificador de usuario.
+                        numeric-uid: 'El identificador de usuario debe ser valido.'
+                        invalid-uid: 'El identificador de usuario no valido.'
+                    messages:
+                        successful: 'Intentos de inicio de sesion fueron limpiados satisfactoriamente para el ID del usuario %s.'
+                    errors:
+                        invalid-user: 'No se puede cargar la entidad de usuario (Uid: %s).'
     yaml:
         merge:
             description: 'Combinar uno o más archivos de YAML en un nuevo archivo YAML. Se conservaran los últimos valores del archivo mas a la izquierda del merge.'
