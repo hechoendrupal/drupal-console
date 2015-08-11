@@ -11,7 +11,7 @@ class PermissionGenerator extends Generator
 {
     /**
      * @param  $module
-     * @param  $permission
+     * @param  $permissions
      */
     public function generate($module, $permissions)
     {
@@ -22,7 +22,7 @@ class PermissionGenerator extends Generator
 
         $this->renderFile(
             'module/permission.yml.twig',
-            $this->getModulePath($module).'/'.$module.'.permissions.yml',
+            $this->getSite()->getModulePath($module).'/'.$module.'.permissions.yml',
             $parameters,
             FILE_APPEND
         );

@@ -32,7 +32,7 @@ class PluginRestResourceGenerator extends Generator
 
         $this->renderFile(
             'module/src/Plugin/Rest/Resource/rest.php.twig',
-            $this->getPluginPath($module, 'rest').'/resource/'.$class_name.'.php',
+            $this->getSite()->getPluginPath($module, 'rest').'/resource/'.$class_name.'.php',
             $parameters
         );
     }

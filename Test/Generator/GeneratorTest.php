@@ -16,9 +16,4 @@ abstract class GeneratorTest extends BaseTestCase
 
         return $skeletonDirs;
     }
-
-    public function getModulePath($module)
-    {
-        return $this->dir . '/' . $module;
-    }
 }

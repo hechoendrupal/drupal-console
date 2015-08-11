@@ -19,9 +19,9 @@ class GeneratorCommandCommandTest extends GenerateCommandTest
 
         $generator = $this->getGenerator();
         $generator
-          ->expects($this->once())
-          ->method('generate')
-          ->with($module, $class_name, $command, $container);
+            ->expects($this->once())
+            ->method('generate')
+            ->with($module, $class_name, $command, $container);
 
         $command = $this->getCommand($generator, $input);
         $cmd = new CommandTester($command);
@@ -31,23 +31,23 @@ class GeneratorCommandCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-          ->getMockBuilder('Drupal\AppConsole\Generator\CommandGenerator')
-          ->disableOriginalConstructor()
-          ->setMethods(['generate'])
-          ->getMock();
+            ->getMockBuilder('Drupal\AppConsole\Generator\CommandGenerator')
+            ->disableOriginalConstructor()
+            ->setMethods(['generate'])
+            ->getMock();
     }
 
     protected function getCommand($generator, $input)
     {
         $command = $this
-          ->getMockBuilder('Drupal\AppConsole\Command\GeneratorCommandCommand')
-          ->setMethods(['getModules', 'getServices', '__construct'])
-          ->setConstructorArgs([$this->getTranslationHelper()])
-          ->getMock();
+            ->getMockBuilder('Drupal\AppConsole\Command\GeneratorCommandCommand')
+            ->setMethods(['getModules', 'getServices', '__construct'])
+            ->setConstructorArgs([$this->getTranslatorHelper()])
+            ->getMock();
 
         $command->expects($this->any())
-          ->method('getModules')
-          ->will($this->returnValue(['foo']));
+            ->method('getModules')
+            ->will($this->returnValue(['foo']));
 
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet($input));
