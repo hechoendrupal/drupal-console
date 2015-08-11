@@ -29,7 +29,7 @@ script:
   - phpunit
   - php box.phar build
   - php console.phar --version
-  - sudo mv console.phar /usr/local/bin/drupal
+  - mv console.phar /usr/local/bin/drupal
   - ~/.composer/vendor/bin/drush dl drupal-8.0.0-beta12
   - mv drupal-8.0.0-beta12 drupal8.dev
   - cd drupal8.dev
