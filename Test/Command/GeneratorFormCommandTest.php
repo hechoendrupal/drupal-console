@@ -19,9 +19,9 @@ class GeneratorFormCommandTest extends GenerateCommandTest
 
         $generator = $this->getGenerator();
         $generator
-          ->expects($this->once())
-          ->method('generate')
-          ->with($module, $class_name, $form_id, $services, $inputs, $routing_update);
+            ->expects($this->once())
+            ->method('generate')
+            ->with($module, $class_name, $form_id, $services, $inputs, $routing_update);
 
         $command = $this->getCommand($generator, $input);
         $cmd = new CommandTester($command);
@@ -76,18 +76,18 @@ class GeneratorFormCommandTest extends GenerateCommandTest
     protected function getCommand($generator, $input)
     {
         $command = $this
-          ->getMockBuilder('Drupal\AppConsole\Command\GeneratorConfigFormBaseCommand')
-          ->setMethods(['getModules', 'getServices', '__construct'])
-          ->setConstructorArgs([$this->getTranslationHelper()])
-          ->getMock();
+            ->getMockBuilder('Drupal\AppConsole\Command\GeneratorConfigFormBaseCommand')
+            ->setMethods(['getModules', 'getServices', '__construct'])
+            ->setConstructorArgs([$this->getTranslatorHelper()])
+            ->getMock();
 
         $command->expects($this->any())
-          ->method('getModules')
-          ->will($this->returnValue(['foo']));
+            ->method('getModules')
+            ->will($this->returnValue(['foo']));
 
         $command->expects($this->any())
-          ->method('getServices')
-          ->will($this->returnValue(['twig', 'database']));
+            ->method('getServices')
+            ->will($this->returnValue(['twig', 'database']));
 
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet($input));
@@ -99,9 +99,9 @@ class GeneratorFormCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-          ->getMockBuilder('Drupal\AppConsole\Generator\FormGenerator')
-          ->disableOriginalConstructor()
-          ->setMethods(['generate'])
-          ->getMock();
+            ->getMockBuilder('Drupal\AppConsole\Generator\FormGenerator')
+            ->disableOriginalConstructor()
+            ->setMethods(['generate'])
+            ->getMock();
     }
 }
