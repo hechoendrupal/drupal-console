@@ -12,6 +12,7 @@ use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Drupal\AppConsole\UserConfig;
 use Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper;
+use Drupal\AppConsole\Command\Helper\SiteHelper;
 use Drupal\AppConsole\EventSubscriber\ShowGeneratedFilesListener;
 use Drupal\AppConsole\EventSubscriber\ShowWelcomeMessageListener;
 use Drupal\AppConsole\Command\Helper\MessageHelper;
@@ -54,6 +55,7 @@ $helpers = [
     'validators' => new Validators(),
     'translator' => $translatorHelper,
     'drupal-autoload' => new DrupalAutoloadHelper(),
+    'site' => new SiteHelper(),
     'message' => new MessageHelper($translatorHelper),
     'chain' => new ChainCommandHelper(),
 ];
