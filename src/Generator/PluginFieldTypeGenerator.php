@@ -34,7 +34,7 @@ class PluginFieldTypeGenerator extends Generator
 
         $this->renderFile(
             'module/src/Plugin/Field/FieldType/fieldtype.php.twig',
-            $this->getPluginPath($module, 'Field/FieldType') . '/' . $class_name . '.php',
+            $this->getSite()->getPluginPath($module, 'FieldType') . '/' . $class_name . '.php',
             $parameters
         );
     }

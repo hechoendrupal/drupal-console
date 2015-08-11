@@ -24,7 +24,7 @@ class AuthenticationProviderGenerator extends Generator
 
         $this->renderFile(
             'module/src/Authentication/Provider/authentication-provider.php.twig',
-            $this->getAuthenticationPath($module, 'Provider').'/'.$class_name.'.php',
+            $this->getSite()->getAuthenticationPath($module, 'Provider').'/'.$class_name.'.php',
             $parameters
         );
 
@@ -36,7 +36,7 @@ class AuthenticationProviderGenerator extends Generator
             ['name' => 'config.factory'],
             ['name' => 'entity.manager'],
           ],
-          'file_exists' => file_exists($this->getModulePath($module).'/'.$module.'.services.yml'),
+          'file_exists' => file_exists($this->getSite()->getModulePath($module).'/'.$module.'.services.yml'),
           'tags' => [
             'name' => 'authentication_provider',
             'provider_id' => $provider_id,
@@ -46,7 +46,7 @@ class AuthenticationProviderGenerator extends Generator
 
         $this->renderFile(
             'module/services.yml.twig',
-            $this->getModulePath($module).'/'.$module.'.services.yml',
+            $this->getSite()->getModulePath($module).'/'.$module.'.services.yml',
             $parameters,
             FILE_APPEND
         );

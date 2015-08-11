@@ -33,13 +33,13 @@ class PluginRulesActionGenerator extends Generator
 
         $this->renderFile(
             'module/src/Plugin/Action/rulesaction.php.twig',
-            $this->getPluginPath($module, 'Action').'/'.$class_name.'.php',
+            $this->getSite()->getPluginPath($module, 'Action').'/'.$class_name.'.php',
             $parameters
         );
 
         $this->renderFile(
             'module/system.action.action.yml.twig',
-            $this->getModulePath($module).'/config/install/system.action.'.$plugin_id.'.yml',
+            $this->getSite()->getModulePath($module).'/config/install/system.action.'.$plugin_id.'.yml',
             $parameters
         );
     }

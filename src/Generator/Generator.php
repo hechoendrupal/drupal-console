@@ -7,20 +7,19 @@
 
 namespace Drupal\AppConsole\Generator;
 
-use Drupal\AppConsole\Utils\DrupalExtensionDiscovery;
 use Drupal\AppConsole\Utils\StringUtils;
 
 class Generator
 {
     private $skeletonDirs;
 
-    private $module_path;
-
     private $translator;
 
     private $files;
 
     private $learning = false;
+
+    private $helpers;
 
     /**
      * Sets an array of directories to look for templates.
@@ -96,82 +95,6 @@ class Generator
     protected function renderView($template, $parameters)
     {
         return $this->render($template, $parameters);
-    }
-
-    public function getModulePath($module_name)
-    {
-        if (!$this->module_path) {
-            /*
-            * @todo Remove DrupalExtensionDiscovery subclass once
-            * https://www.drupal.org/node/2503927 is fixed.
-            */
-            $discovery = new DrupalExtensionDiscovery(\Drupal::root());
-            $discovery->reset();
-            $result = $discovery->scan('module');
-            $this->module_path = DRUPAL_ROOT.'/'.$result[$module_name]->getPath();
-        }
-
-        return $this->module_path;
-    }
-
-    public function getControllerPath($module_name)
-    {
-        return $this->getModulePath($module_name).'/src/Controller';
-    }
-
-    public function getTestPath($module_name, $test_type)
-    {
-        return $this->getModulePath($module_name).'/Tests/'.$test_type;
-    }
-
-    public function getFormPath($module_name)
-    {
-        return $this->getModulePath($module_name).'/src/Form';
-    }
-
-    public function getPluginPath($module_name, $plugin_type)
-    {
-        return $this->getModulePath($module_name).'/src/Plugin/'.$plugin_type;
-    }
-
-    public function getAuthenticationPath($module_name, $authentication_type)
-    {
-        return $this->getModulePath($module_name).'/src/Authentication/'.$authentication_type;
-    }
-
-    public function getCommandPath($module_name)
-    {
-        return $this->getModulePath($module_name).'/src/Command';
-    }
-
-    public function getSourcePath($module_name)
-    {
-        return $this->getModulePath($module_name).'/src';
-    }
-
-    public function getEntityPath($module_name)
-    {
-        return $this->getModulePath($module_name).'/src/Entity';
-    }
-
-    /**
-     * @param string $module_name
-     *
-     * @return string
-     */
-    public function getTemplatePath($module_name)
-    {
-        return $this->getModulePath($module_name).'/templates';
-    }
-
-    /**
-     * @param string $module_name
-     *
-     * @return string
-     */
-    public function getTranslationsPath($module_name)
-    {
-        return $this->getModulePath($module_name).'/config/translations';
     }
 
     /**
@@ -330,6 +253,21 @@ class Generator
         );
     }
 
+    public function getSite()
+    {
+        return $this->getHelpers()->get('site');
+    }
+
+    public function setHelpers($helpers)
+    {
+        $this->helpers = $helpers;
+    }
+
+    public function getHelpers()
+    {
+        return $this->helpers;
+    }
+
     public function setTranslator($translator)
     {
         $this->translator = $translator;
@@ -353,13 +291,5 @@ class Generator
     public function isLearning()
     {
         return $this->learning;
-    }
-
-    /**
-     * @param string $modulePath
-     */
-    public function setModulePath($modulePath)
-    {
-        $this->module_path = $modulePath;
     }
 }

@@ -18,9 +18,9 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
         list($module, $permissions) = $expected;
         $generator = $this->getGenerator();
         $generator
-          ->expects($this->once())
-          ->method('generate')
-          ->with($module, $permissions);
+            ->expects($this->once())
+            ->method('generate')
+            ->with($module, $permissions);
 
         $command = $this->getCommand($generator, $input);
         $cmd = new CommandTester($command);
@@ -64,14 +64,14 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
     protected function getCommand($generator, $input)
     {
         $command = $this
-          ->getMockBuilder('Drupal\AppConsole\Command\GeneratorPermissionCommand')
-          ->setMethods(['getModules', '__construct'])
-          ->setConstructorArgs([$this->getTranslationHelper()])
-          ->getMock();
+            ->getMockBuilder('Drupal\AppConsole\Command\GeneratorPermissionCommand')
+            ->setMethods(['getModules', '__construct'])
+            ->setConstructorArgs([$this->getTranslatorHelper()])
+            ->getMock();
 
         $command->expects($this->any())
-          ->method('getModules')
-          ->will($this->returnValue(['foo']));
+            ->method('getModules')
+            ->will($this->returnValue(['foo']));
 
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet($input));
@@ -83,9 +83,9 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-          ->getMockBuilder('Drupal\AppConsole\Generator\PermissionGenerator')
-          ->disableOriginalConstructor()
-          ->setMethods(['generate'])
-          ->getMock();
+            ->getMockBuilder('Drupal\AppConsole\Generator\PermissionGenerator')
+            ->disableOriginalConstructor()
+            ->setMethods(['generate'])
+            ->getMock();
     }
 }
