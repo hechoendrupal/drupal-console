@@ -107,4 +107,9 @@ abstract class Command extends BaseCommand
 
         return $question;
     }
+
+    public function getSite()
+    {
+        return $this->getHelperSet()->get('site');
+    }
 }
