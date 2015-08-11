@@ -31,14 +31,14 @@ class FormGenerator extends Generator
 
         $this->renderFile(
             'module/src/Form/form.php.twig',
-            $this->getFormPath($module).'/'.$class_name.'.php',
+            $this->getSite()->getFormPath($module).'/'.$class_name.'.php',
             $parameters
         );
 
         if ($update_routing) {
             $this->renderFile(
                 'module/routing-form.yml.twig',
-                $this->getModulePath($module).'/'.$module.'.routing.yml',
+                $this->getSite()->getModulePath($module).'/'.$module.'.routing.yml',
                 $parameters,
                 FILE_APPEND
             );

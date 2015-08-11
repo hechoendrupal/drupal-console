@@ -20,9 +20,9 @@ class GeneratorPluginTypeYamlCommandTest extends GenerateCommandTest
         $generator = $this->getGenerator();
 
         $generator
-          ->expects($this->once())
-          ->method('generate')
-          ->with($module, $plugin_class, $plugin_name, $plugin_file_name);
+            ->expects($this->once())
+            ->method('generate')
+            ->with($module, $plugin_class, $plugin_name, $plugin_file_name);
 
         $command = $this->getCommand($generator, $input);
         $cmd = new CommandTester($command);
@@ -43,13 +43,13 @@ class GeneratorPluginTypeYamlCommandTest extends GenerateCommandTest
     public function getCommand($generator, $input)
     {
         $command = $this->getMockBuilder('Drupal\AppConsole\Command\GeneratorPluginTypeYamlCommand')
-          ->setMethods(['getModules', 'getServices', '__construct'])
-          ->setConstructorArgs([$this->getTranslationHelper()])
-          ->getMock();
+            ->setMethods(['getModules', 'getServices', '__construct'])
+            ->setConstructorArgs([$this->getTranslatorHelper()])
+            ->getMock();
 
         $command->expects($this->any())
-          ->method('getModules')
-          ->will($this->returnValue(['Foo']));
+            ->method('getModules')
+            ->will($this->returnValue(['Foo']));
 
         $command->setGenerator($generator);
         $command->setContainer($this->getContainer());
@@ -61,9 +61,9 @@ class GeneratorPluginTypeYamlCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-          ->getMockBuilder('Drupal\AppConsole\Generator\PluginTypeYamlGenerator')
-          ->disableOriginalConstructor()
-          ->setMethods(['generate'])
-          ->getMock();
+            ->getMockBuilder('Drupal\AppConsole\Generator\PluginTypeYamlGenerator')
+            ->disableOriginalConstructor()
+            ->setMethods(['generate'])
+            ->getMock();
     }
 }

@@ -3,7 +3,6 @@
 /**
  * @file
  * Contains Drupal\AppConsole\Test\Generator\ControllerGeneratorTest.
- *
  */
 
 namespace Drupal\AppConsole\Test\Generator;
@@ -13,7 +12,6 @@ use Drupal\AppConsole\Test\DataProvider\ControllerDataProviderTrait;
 
 class ControllerGeneratorTest extends GeneratorTest
 {
-
     use ControllerDataProviderTrait;
 
     /**
@@ -29,43 +27,42 @@ class ControllerGeneratorTest extends GeneratorTest
      * @dataProvider commandData
      */
     public function testGenerateController(
-      $module,
-      $class_name,
-      $routes,
-      $test,
-      $build_services,
-      $class_machine_name
-    )
-    {
+        $module,
+        $class_name,
+        $routes,
+        $test,
+        $build_services,
+        $class_machine_name
+    ) {
         $generator = new ControllerGenerator();
         $generator->setSkeletonDirs(__DIR__ . '/../../templates');
-        $generator->setModulePath($this->getModulePath($module));
+        $generator->setHelpers($this->getHelperSet());
 
         $generator->generate(
-          $module,
-          $class_name,
-          $routes,
-          $test,
-          $build_services,
-          $class_machine_name
+            $module,
+            $class_name,
+            $routes,
+            $test,
+            $build_services,
+            $class_machine_name
         );
 
         $files = [
-          $generator->getControllerPath($module).'/'.$class_name.'.php',
-          $generator->getModulePath($module).'/'.$module.'.routing.yml'
+          $generator->getSite()->getControllerPath($module).'/'.$class_name.'.php',
+          $generator->getSite()->getModulePath($module).'/'.$module.'.routing.yml'
         ];
 
         foreach ($files as $file) {
             $this->assertTrue(
-              file_exists($file),
-              sprintf('%s does not exist', $file)
+                file_exists($file),
+                sprintf('%s does not exist', $file)
             );
         }
 
         if ($test) {
             $this->assertTrue(
-              file_exists($generator->getTestPath($module, 'Controller') . '/' . $class_name.'Test.php'),
-              sprintf('%s does not exist', $class_name.'Test.php')
+                file_exists($generator->getSite()->getTestPath($module, 'Controller') . '/' . $class_name.'Test.php'),
+                sprintf('%s does not exist', $class_name.'Test.php')
             );
         }
     }

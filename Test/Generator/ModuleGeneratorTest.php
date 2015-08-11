@@ -43,6 +43,7 @@ class ModuleGeneratorTest extends GeneratorTest
     ) {
         $generator = new ModuleGenerator();
         $generator->setSkeletonDirs(__DIR__ . '/../../templates');
+        $generator->setHelpers($this->getHelperSet());
 
         $generator->generate(
             $module,
