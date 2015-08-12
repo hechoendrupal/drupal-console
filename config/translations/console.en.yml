@@ -97,6 +97,16 @@ commands:
         directory: Define export directory to save configuration output.
       messages:
         directory: Your configuration export file was stored in %s
+      content:
+        type:
+          description: Export a specific content type and their fields.
+          arguments:
+            content_type: Content Type to be exported
+          questions:
+            content_type: Content Type to be exported
+          messages:
+            configuration_exported: The following configuration files were generated
+
     debug:
       description: Show the current configuration.
       arguments:

@@ -86,6 +86,15 @@ commands:
                 directory: 'Export könyvtár meghatározása a beállítások mentéséhez.'
             messages:
                 directory: 'A beállítások export fájl mentése megtörtént: %s'
+            content:
+                type:
+                    description: 'Export a specific content type and their fields.'
+                    arguments:
+                        content_type: 'Content Type to be exported'
+                    questions:
+                        content_type: 'Content Type to be exported'
+                    messages:
+                        configuration_exported: 'The following configuration files were generated'
         debug:
             description: 'Jelenlegi beállítások megjelenítése.'
             arguments:
