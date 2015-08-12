@@ -182,7 +182,7 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
     protected function getConfiguration($config_name) {
         // Unset uuid, maybe is not necessary to export
         $config = $this->configStorage->read($config_name);
-        //unset($config['uuid']);
+        unset($config['uuid']);
         return $config;
     }
 
