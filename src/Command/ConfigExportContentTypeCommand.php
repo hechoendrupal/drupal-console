@@ -182,7 +182,7 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
     protected function getConfiguration($config_name) {
         // Unset uuid, maybe is not necessary to export
         $config = $this->configStorage->read($config_name);
-        unset($config['uuid']);
+        //unset($config['uuid']);
         return $config;
     }
 
@@ -192,6 +192,10 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
         $module_path =  $this->getSite()->getModulePath($module);
         if (!file_exists($module_path .'/config')) {
             mkdir($module_path .'/config', 0755, true);
+        }
+
+        if (!file_exists($module_path .'/config/install')) {
+            mkdir($module_path .'/config/install', 0755, true);
         }
 
         $output->writeln(
@@ -204,10 +208,10 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
             $yaml_config = $dumper->dump($config, 10);
             $output->writeln(
               '- <info>' .
-              $module_path . '/config/' . $file_name . '.yml' .
+              str_replace(DRUPAL_ROOT, '', $module_path)  . '/config/install' . $file_name . '.yml' .
               '</info>'
             );
-            file_put_contents($module_path . '/config/' . $file_name . '.yml', $yaml_config);
+            file_put_contents($module_path . '/config/install' . $file_name . '.yml', $yaml_config);
         }
     }
 }
