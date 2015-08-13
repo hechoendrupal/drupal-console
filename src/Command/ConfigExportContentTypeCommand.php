@@ -114,13 +114,6 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
         $this->getViewDisplays($content_type);
 
         $this->exportConfig($module,$output);
-
-        exit();
-
-
-        $messageHelper->addSuccessMessage(
-            sprintf($this->trans('commands.config.export.messages.directory'), $files_generated)
-        );
     }
 
     protected function getFields($content_type) {
