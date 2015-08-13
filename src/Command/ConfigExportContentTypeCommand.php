@@ -208,10 +208,10 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
             $yaml_config = $dumper->dump($config, 10);
             $output->writeln(
               '- <info>' .
-              str_replace(DRUPAL_ROOT, '', $module_path)  . '/config/install' . $file_name . '.yml' .
+              str_replace(DRUPAL_ROOT, '', $module_path)  . '/config/install/' . $file_name . '.yml' .
               '</info>'
             );
-            file_put_contents($module_path . '/config/install' . $file_name . '.yml', $yaml_config);
+            file_put_contents($module_path . '/config/install/' . $file_name . '.yml', $yaml_config);
         }
     }
 }
