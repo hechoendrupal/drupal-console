@@ -34,7 +34,7 @@
         "symfony/http-foundation": "2.7.*",
         "symfony/translation": "2.7.*",
         "symfony/yaml": "2.7.*",
-        "twig/twig": "1.18.*",
+        "twig/twig": "~1.18",
         "herrera-io/phar-update": "1.*",
         "symfony/dom-crawler": "2.7.*",
         "alchemy/zippy": "0.2.*@dev"
