@@ -7,18 +7,23 @@
 
 namespace Drupal\AppConsole\Command;
 
+use Drupal\Core\Config\PreExistingConfigException;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ModuleInstallCommand extends ContainerAwareCommand
 {
+    protected $moduleInstaller;
+
     protected function configure()
     {
         $this
             ->setName('module:install')
             ->setDescription($this->trans('commands.module.install.description'))
-            ->addArgument('module', InputArgument::IS_ARRAY, $this->trans('commands.module.install.options.module'));
+            ->addArgument('module', InputArgument::IS_ARRAY, $this->trans('commands.module.install.options.module'))
+            ->addOption('overwrite-config', '', InputOption::VALUE_NONE, $this->trans('commands.module.install.options.overwrite-config'));
     }
 
     /**
@@ -75,18 +80,25 @@ class ModuleInstallCommand extends ContainerAwareCommand
 
             $input->setArgument('module', $module_list_install);
         }
+
+        $overwrite_config = $input->getOption('overwrite-config');
+
+        $input->setOption('overwrite-config', $overwrite_config);
+
+
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $extension_config = $this->getConfigFactory()->getEditable('core.extension');
 
-        $moduleInstaller = $this->getModuleInstaller();
+        $this->moduleInstaller = $this->getModuleInstaller();
 
         // Get info about modules available
         $module_data = system_rebuild_module_data();
 
         $modules = $input->getArgument('module');
+        $overwrite_config = $input->getOption('overwrite-config');
 
         $module_list = array_combine($modules, $modules);
 
@@ -162,7 +174,7 @@ class ModuleInstallCommand extends ContainerAwareCommand
         // Installing modules
         try {
             // Install the modules.
-            $moduleInstaller->install($module_list);
+            $this->moduleInstaller->install($module_list);
             system_rebuild_module_data();
             $output->writeln(
                 '[+] <info>'.sprintf(
@@ -170,10 +182,55 @@ class ModuleInstallCommand extends ContainerAwareCommand
                     implode(', ', array_merge($modules, $dependencies))
                 ).'</info>'
             );
-        } catch (\Exception $e) {
-            $output->writeln('[+] <error>'.$e->getMessage().'</error>');
+        }
+        catch(PreExistingConfigException $e) {
+            $this->overwriteConfig($e, $module_list, $modules, $dependencies, $overwrite_config, $output);
 
             return;
         }
+        catch (\Exception $e) {
+            $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
+            return;
+        }
     }
+
+    protected function overwriteConfig(PreExistingConfigException $e, $module_list, $modules, $dependencies, $overwrite_config, $output) {
+
+        if($overwrite_config) {
+            $output->writeln('[+] <info>' .  $this->trans('commands.module.install.messages.config-conflict-overwrite') . '</info>');
+
+        }
+        else {
+            $output->writeln('[+] <info>' .  $this->trans('commands.module.install.messages.config-conflict') . '</info>');
+        }
+
+        $configObjects = $e->getConfigObjects();
+        foreach(current($configObjects) as $config) {
+            $output->writeln('[-] <info>' . $config . '</info>');
+            $config = $this->getConfigFactory()->getEditable($config);
+            $config->delete();
+        }
+        
+        if(!$overwrite_config) {
+            return;
+        }
+
+        // Try to reinstall modules
+        try {
+            // Install the modules.
+            $this->moduleInstaller->install($module_list);
+            system_rebuild_module_data();
+            $output->writeln(
+              '[+] <info>'.sprintf(
+                $this->trans('commands.module.install.messages.success'),
+                implode(', ', array_merge($modules, $dependencies))
+              ).'</info>'
+            );
+        }
+        catch (\Exception $e) {
+            $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
+            return;
+        }
+    }
+
 }

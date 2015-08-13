@@ -542,6 +542,7 @@ commands:
                 invalid-module: 'Invalid module %s'
             options:
                 module: 'Module or modules to be enabled should be separated by a comma'
+                overwrite-config: 'Overwrite configuration active if necessary'
             messages:
                 no-modules: 'You must provide module or modules to enable.'
                 missing: 'Unable to install modules %s due to missing modules %s'
@@ -550,6 +551,8 @@ commands:
                 dependencies: 'Are you sure you want to install dependencies: %s?'
                 success: 'The following module(s) were installed successfully: %s'
                 disabled-modules: 'Only disabled modules will be listed in autocomplete'
+                config-conflict-overwrite: 'These configuration objects will be overwritten in your active configuration'
+                config-conflict: 'These configuration objects already exist in active configuration, installation is not possible'
         uninstall:
             description: 'Uninstall module or modules in the application'
             messages:
