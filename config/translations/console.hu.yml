@@ -540,6 +540,7 @@ commands:
                 invalid-module: 'Invalid module %s'
             options:
                 module: 'Modul vagy modulok engedélyezése vesszővel elválasztott lista alapján'
+                overwrite-config: 'Overwrite configuration active if necessary'
             messages:
                 no-modules: 'Engedélyezni kívánt modul vagy modulok megadása kötelező.'
                 missing: '%s modulok telepítése sikertelen hiányzó modulok miatt: %s'
@@ -548,6 +549,8 @@ commands:
                 dependencies: 'Biztosan telepíthetők a következő függőségek: %s?'
                 success: '%s modul sikeresen telepítve lett'
                 disabled-modules: 'Only disabled modules will be listed in autocomplete'
+                config-conflict-overwrite: 'These configuration objects will be overwritten in your active configuration'
+                config-conflict: 'These configuration objects already exist in active configuration, installation is not possible'
         uninstall:
             description: 'Modul vagy modulok eltávolítása'
             messages:

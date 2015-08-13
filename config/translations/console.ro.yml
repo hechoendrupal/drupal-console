@@ -561,6 +561,7 @@ commands:
                 invalid-module: 'Invalid module %s'
             options:
                 module: 'Modulul/Modulele trebuie sa fie separate prin virgula'
+                overwrite-config: 'Overwrite configuration active if necessary'
             messages:
                 no-modules: 'Trebuie sa introduci nume de Modul/Module.'
                 missing: 'Modulele %s nu pot fi instalate din cauza ca Modulele %s lipsesc'
@@ -569,6 +570,8 @@ commands:
                 dependencies: 'Esti increzut ca vreai sa instalezi dependentile: %s?'
                 success: 'Modulele %s au fost instalate cu succes'
                 disabled-modules: 'Only disabled modules will be listed in autocomplete'
+                config-conflict-overwrite: 'These configuration objects will be overwritten in your active configuration'
+                config-conflict: 'These configuration objects already exist in active configuration, installation is not possible'
         uninstall:
             description: 'Dezinstalarea Modulelor'
             messages:
