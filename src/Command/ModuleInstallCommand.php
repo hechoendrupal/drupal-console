@@ -210,7 +210,7 @@ class ModuleInstallCommand extends ContainerAwareCommand
             $config = $this->getConfigFactory()->getEditable($config);
             $config->delete();
         }
-        
+
         if(!$overwrite_config) {
             return;
         }
