@@ -16,11 +16,9 @@ use Drupal\Core\Url;
 
 {% block class_declaration %}
 /**
- * Builds the form to delete a {{ entity_class }}.
+ * Builds the form to delete {{ label }} entities.
  */
-class {{ entity_class }}DeleteForm extends EntityConfirmFormBase
-{% endblock %}
-
+class {{ entity_class }}DeleteForm extends EntityConfirmFormBase {% endblock %}
 {% block class_methods %}
   /**
    * {@inheritdoc}
@@ -30,32 +28,33 @@ class {{ entity_class }}DeleteForm extends EntityConfirmFormBase
   }
 
   /**
-  * {@inheritdoc}
-  */
+   * {@inheritdoc}
+   */
   public function getCancelUrl() {
     return new Url('entity.{{ entity_name }}.collection');
   }
 
   /**
-  * {@inheritdoc}
-  */
+   * {@inheritdoc}
+   */
   public function getConfirmText() {
     return $this->t('Delete');
   }
 
   /**
-  * {@inheritdoc}
-  */
+   * {@inheritdoc}
+   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->entity->delete();
 
     drupal_set_message(
       $this->t('content @type: deleted @label.',
-      [
-        '@type' => $this->entity->bundle(),
-        '@label' => $this->entity->label()
-      ]
-    ));
+        [
+          '@type' => $this->entity->bundle(),
+          '@label' => $this->entity->label()
+        ]
+        )
+    );
 
     $form_state->setRedirectUrl($this->getCancelUrl());
   }

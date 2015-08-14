@@ -1,29 +1,40 @@
 <?php
+
 /**
  * @file
  * Contains Drupal\AppConsole\Generator\PermissionGenerator.
  */
+
 namespace Drupal\AppConsole\Generator;
 
 class PermissionGenerator extends Generator
 {
     /**
      * @param  $module
-     * @param  $permission
-     * @param  $permission_title
+     * @param  $permissions
      */
-    public function generate($module, $permission, $permission_title)
+    public function generate($module, $permissions)
     {
         $parameters = array(
           'module_name' => $module,
-          'permissions' => $permission,
-          'permission_title' => $permission_title,
+          'permissions' => $permissions,
         );
 
         $this->renderFile(
-          'module/permission.yml.twig',
-          $this->getModulePath($module) . '/' . $module . '.permissions.yml',
-          $parameters
+            'module/permission.yml.twig',
+            $this->getSite()->getModulePath($module).'/'.$module.'.permissions.yml',
+            $parameters,
+            FILE_APPEND
         );
+
+        $content = $this->renderView(
+            'module/permission-routing.yml.twig',
+            $parameters
+        );
+
+        if ($this->isLearning()) {
+            echo 'You can use this permission in the routing file like this:'.PHP_EOL;
+            echo $content;
+        }
     }
 }

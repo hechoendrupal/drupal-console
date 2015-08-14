@@ -1,4 +1,5 @@
 <?php
+
 namespace Drupal\AppConsole\Console;
 
 use Composer\Autoload\ClassLoader;
@@ -11,11 +12,19 @@ use Symfony\Component\Debug\Debug;
 class Application extends BaseApplication
 {
     /**
+     * @var string
+     */
+    const NAME = 'Drupal Console';
+    /**
+     * @var string
+     */
+    const VERSION = '0.8.2';
+    /**
      * @var bool
      */
     protected $booted = false;
     /**
-     * @var array
+     * @var Drupal\AppConsole\UserConfig
      */
     protected $config;
     /**
@@ -23,17 +32,13 @@ class Application extends BaseApplication
      */
     protected $directoryRoot;
     /**
-     * @var array
-     */
-    protected $errorMessages = [];
-    /**
      * @var \Composer\Autoload\ClassLoader
-     *   The Drupal autoload file.
+     *                                     The Drupal autoload file.
      */
     protected $drupalAutoload;
     /**
      * @var string
-     *   The Drupal environment.
+     *             The Drupal environment.
      */
     protected $env;
     /**
@@ -41,34 +46,63 @@ class Application extends BaseApplication
      */
     private $commandsRegistered = false;
 
+    private $searchSettingsFile = true;
+
+    /**
+     * @var TranslatorHelper
+     */
+    protected $translator;
+
     /**
      * Create a new application extended from \Symfony\Component\Console\Application.
      *
-     * @param $config array
+     * @param $config
      */
-    public function __construct($config)
+    public function __construct($config, $translator)
     {
         $this->config = $config;
+        $this->translator = $translator;
+        $this->env = $config->get('application.environment');
 
-        $name = $config['application']['name'];
-        $this->env = $config['application']['environment'];
-        $version = $config['application']['version'];
-
-        parent::__construct($name, sprintf('%s', $version));
+        parent::__construct($this::NAME, sprintf('%s', $this::VERSION));
 
         $this->getDefinition()->addOption(
-            new InputOption('--drupal', '-d', InputOption::VALUE_OPTIONAL, 'Path to Drupal root.')
+            new InputOption('--drupal', '-d', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.drupal'))
         );
+        $this->getDefinition()->addOption(
+            new InputOption('--shell', '-s', InputOption::VALUE_NONE, $this->trans('application.console.arguments.shell'))
+        );
+        $this->getDefinition()->addOption(
+            new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.env'), $this->env)
+        );
+        $this->getDefinition()->addOption(
+            new InputOption('--no-debug', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.no-debug'))
+        );
+        $this->getDefinition()->addOption(
+            new InputOption('--learning', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.learning'))
+        );
+        $this->getDefinition()->addOption(
+            new InputOption('--generate-chain', '--gc', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-chain'))
+        );
+        $this->getDefinition()->addOption(
+            new InputOption('--generate-inline', '--gi', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-inline'))
+        );
+    }
 
-        $this->getDefinition()->addOption(
-            new InputOption('--shell', '-s', InputOption::VALUE_NONE, 'Launch the shell.')
-        );
-        $this->getDefinition()->addOption(
-            new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, 'The Environment name.', $this->env)
-        );
-        $this->getDefinition()->addOption(
-            new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.')
-        );
+    /**
+     * Prepare Drupal Console to run, and bootstrap Drupal.
+     *
+     * @param string $env
+     * @param bool   $debug
+     */
+    public function setup($env = 'prod', $debug = false)
+    {
+        if ($this->isBooted()) {
+            if ($this->drupalAutoload) {
+                $this->initDebug($env, $debug);
+                $this->doKernelConfiguration();
+            }
+        }
     }
 
     /**
@@ -76,54 +110,127 @@ class Application extends BaseApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        $this->isRuningOnDrupalInstance($input);
+        $drupal_root = $input->getParameterOption(['--drupal', '-d'], false);
+
+        $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
+
+        $debug = getenv('DRUPAL_DEBUG') !== '0'
+            && !$input->hasParameterOption(array('--no-debug', ''))
+            && $env !== 'prod';
 
         if ($this->isBooted()) {
-
-            if ($this->drupalAutoload) {
-                $this->initDebug($input);
-                $this->doKernelConfiguration();
-            }
-
-            if (!$this->commandsRegistered) {
-                $this->commandsRegistered = $this->registerCommands();
-            }
-
             if (true === $input->hasParameterOption(array('--shell', '-s'))) {
                 $this->runShell($input);
+
                 return 0;
             }
         }
 
+        if (!$this->commandsRegistered) {
+            $this->commandsRegistered = $this->registerCommands();
+        }
+
+        if ($input) {
+            $commandName = $this->getCommandName($input);
+        }
+
+        if ($commandName && $this->has($commandName)) {
+            $this->searchSettingsFile = false;
+        }
+
+        if ($this->isRunningOnDrupalInstance($drupal_root)) {
+            $this->setup($env, $debug);
+            $this->bootstrap();
+        }
+
         parent::doRun($input, $output);
+
+        if ($this->isBooted()) {
+            $kernelHelper = $this->getHelperSet()->get('kernel');
+            if ($kernelHelper) {
+                $kernelHelper->terminate();
+            }
+        }
     }
 
     /**
-     * @param InputInterface $input
+     * @param $drupal_root
+     *
      * @return bool
      */
-    protected function isRuningOnDrupalInstance(InputInterface $input)
+    protected function isRunningOnDrupalInstance($drupal_root)
     {
-        $drupal_root = $input->getParameterOption(['--drupal', '-d'], false);
-
-        $autoload = $this
+        $auto_load = $this
             ->getHelperSet()
             ->get('drupal-autoload')
             ->findAutoload($drupal_root);
 
-        if ($autoload && !$this->isBooted()) {
-            $this->drupalAutoload = require_once $autoload;
-            if ($this->drupalAutoload instanceof ClassLoader) {
-                $this->setBooted(true);
-                return true;
-            }
+        if (!$this->isSettingsFile()) {
+            return false;
+        }
+
+        if ($auto_load && !$this->isBooted()) {
+            $drupalLoader = include $auto_load;
+
+            return $this->setDrupalAutoload($drupalLoader);
         }
 
         return false;
     }
 
+    public function setDrupalAutoLoad($drupalLoader)
+    {
+        if ($drupalLoader instanceof ClassLoader) {
+            $this->drupalAutoload = $drupalLoader;
+            $this->setBooted(true);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function setSearchSettingsFile($searchSettingsFile)
+    {
+        $this->searchSettingsFile = $searchSettingsFile;
+    }
+
+    public function isSettingsFile()
+    {
+        if (!$this->searchSettingsFile) {
+            return true;
+        }
+
+        $drupalRoot = $this
+            ->getHelperSet()
+            ->get('drupal-autoload')
+            ->getDrupalRoot();
+
+        $messageHelper = $this
+            ->getHelperSet()
+            ->get('message');
+
+        $translatorHelper = $this
+            ->getHelperSet()
+            ->get('translator');
+
+        if (!file_exists($drupalRoot.'/core/vendor/autoload.php')) {
+            $messageHelper->addWarningMessage($translatorHelper->trans('application.site.errors.directory'));
+
+            return false;
+        }
+
+        if (!file_exists($drupalRoot.'/sites/default/settings.php')) {
+            $messageHelper->addWarningMessage($translatorHelper->trans('application.site.errors.settings'));
+
+            return false;
+        }
+
+        return true;
+    }
+
     /**
-     * @return boolean
+     * @return bool
      */
     public function isBooted()
     {
@@ -131,7 +238,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * @param boolean $booted
+     * @param bool $booted
      */
     public function setBooted($booted)
     {
@@ -141,19 +248,15 @@ class Application extends BaseApplication
     /**
      * @param InputInterface $input
      */
-    protected function initDebug(InputInterface $input)
+    protected function initDebug($env, $debug)
     {
-        $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
-
-        $debug = getenv('DRUPAL_DEBUG') !== '0'
-            && !$input->hasParameterOption(array('--no-debug', ''))
-            && $env !== 'prod';
-
         if ($debug) {
             Debug::enable();
         }
 
-        /** @var \Drupal\AppConsole\Command\Helper\KernelHelper $kernelHelper */
+        /**
+         * @var \Drupal\AppConsole\Command\Helper\KernelHelper $kernelHelper
+         */
         $kernelHelper = $this->getHelperSet()->get('kernel');
 
         $kernelHelper->setDebug($debug);
@@ -162,13 +265,26 @@ class Application extends BaseApplication
 
     protected function doKernelConfiguration()
     {
-        /** @var \Drupal\AppConsole\Command\Helper\KernelHelper $kernelHelper */
+        /**
+         * @var \Drupal\AppConsole\Command\Helper\KernelHelper $kernelHelper
+         */
         $kernelHelper = $this->getHelperSet()->get('kernel');
 
         $kernelHelper->setClassLoader($this->drupalAutoload);
         $kernelHelper->setEnvironment($this->env);
-        $kernelHelper->bootKernel();
-        $kernelHelper->initCommands($this->all());
+    }
+
+    public function bootstrap()
+    {
+        $kernelHelper = $this->getHelperSet()->get('kernel');
+        if ($kernelHelper) {
+            $kernelHelper->bootKernel();
+            $kernelHelper->initCommands($this->all());
+        }
+
+        if (!$this->commandsRegistered) {
+            $this->commandsRegistered = $this->registerCommands();
+        }
     }
 
     /**
@@ -176,11 +292,11 @@ class Application extends BaseApplication
      */
     protected function registerCommands()
     {
-        /** @var \Drupal\AppConsole\Command\Helper\RegisterCommandsHelper $rc */
-        $rc = $this->getHelperSet()->get('register_commands');
-
-        $drupalModules = $this->drupalAutoload;
-        $rc->register($drupalModules);
+        /* @var \Drupal\AppConsole\Command\Helper\RegisterCommandsHelper $rc */
+        $registerCommands = $this->getHelperSet()->get('register_commands');
+        if ($registerCommands) {
+            $registerCommands->register();
+        }
     }
 
     /**
@@ -188,7 +304,9 @@ class Application extends BaseApplication
      */
     protected function runShell(InputInterface $input)
     {
-        /** @var \Drupal\AppConsole\Command\Helper\ShellHelper $shell */
+        /**
+         * @var \Drupal\AppConsole\Command\Helper\ShellHelper $shell
+         */
         $shell = $this->getHelperSet()->get('shell')->getShell();
 
         $shell->setProcessIsolation($input->hasParameterOption(array('--process-isolation')));
@@ -204,7 +322,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * @return mixed
+     * @return \Drupal\AppConsole\UserConfig
      */
     public function getConfig()
     {
@@ -220,7 +338,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getDirectoryRoot()
     {
@@ -228,7 +346,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * @param mixed $directoryRoot
+     * @param string $directoryRoot
      */
     public function setDirectoryRoot($directoryRoot)
     {
@@ -247,9 +365,12 @@ class Application extends BaseApplication
     }
 
     /**
-     * @param array $errorMessages
+     * @param $key string
+     *
+     * @return string
      */
-    public function addErrorMessages(array $errorMessages){
-        $this->errorMessages = $errorMessages;
+    public function trans($key)
+    {
+        return $this->translator->trans($key);
     }
 }

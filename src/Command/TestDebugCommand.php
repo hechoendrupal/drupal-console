@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\TestDebugCommand.
@@ -11,31 +12,35 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Serialization\Yaml;
-use Drupal\simpletest\TestDiscovery;
 
 class TestDebugCommand extends ContainerAwareCommand
 {
-
     /**
-      * {@inheritdoc}
-      */
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
-        ->setName('test:debug')
-        ->setDescription($this->trans('commands.test.debug.description'))
-        ->addArgument('test-id', InputArgument::OPTIONAL,
-          $this->trans('commands.test.debug.arguments.resource-id'))
-        ->addOption('group', '', InputOption::VALUE_OPTIONAL,
-          $this->trans('commands.test.debug.options.group'))
-        ;
+            ->setName('test:debug')
+            ->setDescription($this->trans('commands.test.debug.description'))
+            ->addArgument(
+                'test-id',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.test.debug.arguments.resource-id')
+            )
+            ->addOption(
+                'group',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.test.debug.options.group')
+            );
 
         $this->addDependency('simpletest');
     }
 
     /**
-      * {@inheritdoc}
-      */
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $test_id = $input->getArgument('test-id');
@@ -72,10 +77,10 @@ class TestDebugCommand extends ContainerAwareCommand
     }
 
     /**
-      * @param $output         OutputInterface
-      * @param $table          TableHelper
-      * @param $config_name    String
-    */
+     * @param $output         OutputInterface
+     * @param $table          TableHelper
+     * @param $config_name    String
+     */
     protected function getAllTests($output, $table, $group)
     {
         $testing_groups = $this->getTestDiscovery()->getTestClasses(null);
@@ -84,10 +89,11 @@ class TestDebugCommand extends ContainerAwareCommand
             [
             $this->trans('commands.test.debug.messages.id'),
             $this->trans('commands.test.debug.messages.group'),
-            ]);
+            ]
+        );
 
         foreach ($testing_groups as $testing_group => $tests) {
-            if(!empty($group) and $group != $testing_group) {
+            if (!empty($group) && $group != $testing_group) {
                 continue;
             }
 
@@ -97,5 +103,5 @@ class TestDebugCommand extends ContainerAwareCommand
         }
 
         $table->render($output);
-      }
-  }
+    }
+}

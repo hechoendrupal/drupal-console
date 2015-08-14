@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains Drupal\AppConsole\Command\GeneratorFormCommand.
@@ -16,7 +17,6 @@ use Drupal\AppConsole\Generator\FormGenerator;
 
 abstract class GeneratorFormCommand extends GeneratorCommand
 {
-
     use ModuleTrait;
     use ServicesTrait;
     use FormTrait;
@@ -37,24 +37,36 @@ abstract class GeneratorFormCommand extends GeneratorCommand
     protected function configure()
     {
         $this
-          ->setName($this->commandName)
-          ->setDescription(sprintf(
-            $this->trans('commands.generate.form.description'),
-            $this->formType
-          ))
-          ->setHelp(sprintf(
-            $this->trans('commands.generate.form.help'),
-            $this->commandName,
-            $this->formType
-          ))
-          ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
-          ->addOption('class-name', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.form.options.class-name'))
-          ->addOption('form-id', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.form.options.form-id'))
-          ->addOption('services', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.services'))
-          ->addOption('inputs', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.inputs'))
-          ->addOption('routing', '', InputOption::VALUE_NONE, $this->trans('commands.generate.form.options.routing'));
+            ->setName($this->commandName)
+            ->setDescription(
+                sprintf(
+                    $this->trans('commands.generate.form.description'),
+                    $this->formType
+                )
+            )
+            ->setHelp(
+                sprintf(
+                    $this->trans('commands.generate.form.help'),
+                    $this->commandName,
+                    $this->formType
+                )
+            )
+            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'class-name',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.form.options.class-name')
+            )
+            ->addOption(
+                'form-id',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.form.options.form-id')
+            )
+            ->addOption('services', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.services'))
+            ->addOption('inputs', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.inputs'))
+            ->addOption('routing', '', InputOption::VALUE_NONE, $this->trans('commands.generate.form.options.routing'));
     }
 
     /**
@@ -73,8 +85,10 @@ abstract class GeneratorFormCommand extends GeneratorCommand
         $build_services = $this->buildServices($services);
 
         $this
-          ->getGenerator()
-          ->generate($module, $class_name, $form_id, $build_services, $inputs, $update_routing);
+            ->getGenerator()
+            ->generate($module, $class_name, $form_id, $build_services, $inputs, $update_routing);
+
+        $this->getHelper('chain')->addCommand('router:rebuild');
     }
 
     /**
@@ -96,9 +110,9 @@ abstract class GeneratorFormCommand extends GeneratorCommand
         $class_name = $input->getOption('class-name');
         if (!$class_name) {
             $class_name = $dialog->ask(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.form.questions.class-name'), 'DefaultForm'),
-              'DefaultForm'
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.form.questions.class-name'), 'DefaultForm'),
+                'DefaultForm'
             );
         }
         $input->setOption('class-name', $class_name);
@@ -108,9 +122,9 @@ abstract class GeneratorFormCommand extends GeneratorCommand
         if (!$form_id) {
             $form_id = $this->getStringUtils()->camelCaseToMachineName($class_name);
             $form_id = $dialog->ask(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.form.questions.form-id'), $form_id),
-              $form_id
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.form.questions.form-id'), $form_id),
+                $form_id
             );
         }
         $input->setOption('form-id', $form_id);
@@ -133,7 +147,8 @@ abstract class GeneratorFormCommand extends GeneratorCommand
         if (!$routing && $dialog->askConfirmation(
             $output,
             $dialog->getQuestion($this->trans('commands.generate.form.questions.routing'), 'yes', '?'),
-            true)
+            true
+        )
         ) {
             $routing = true;
         }

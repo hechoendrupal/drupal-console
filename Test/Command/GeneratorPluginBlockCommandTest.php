@@ -20,9 +20,9 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
         $generator = $this->getGenerator();
 
         $generator
-          ->expects($this->once())
-          ->method('generate')
-          ->with($module, $class_name, $plugin_label, $plugin_id, $services, $inputs);
+            ->expects($this->once())
+            ->method('generate')
+            ->with($module, $class_name, $plugin_label, $plugin_id, $services, $inputs);
 
         $command = $this->getCommand($generator, $input);
         $cmd = new CommandTester($command);
@@ -45,6 +45,8 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
             'label' => 'Text Field',
             'options' => '',
             'description' => 'Description Field',
+            'maxlength' => 60,
+            'size' => 15
           ]
         ];
 
@@ -65,13 +67,13 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
           [
             ['--module' => 'Foo'],
             ['Foo', 'FooBlock', 'Foo label', 'foo_id', null, $inputs],
-            "FooBlock\nFoo label\nfoo_id\nno\nyes\nText Field\ntext_field\n\nDescription Field\n"
+            "FooBlock\nFoo label\nfoo_id\nno\nyes\nText Field\ntext_field\n\n60\n15\nDescription Field\n"
           ],
             //case four services and inputs
           [
             ['--module' => 'Foo'],
             ['Foo', 'FooBlock', 'Foo label', 'foo_id', $service, $inputs],
-            "FooBlock\nFoo label\nfoo_id\nyes\ntwig\n\nyes\nText Field\ntext_field\n\nDescription Field\n"
+            "FooBlock\nFoo label\nfoo_id\nyes\ntwig\n\nyes\nText Field\ntext_field\n\n60\n15\nDescription Field\n"
           ],
         ];
     }
@@ -79,17 +81,17 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
     public function getCommand($generator, $input)
     {
         $command = $this->getMockBuilder('Drupal\AppConsole\Command\GeneratorPluginBlockCommand')
-          ->setMethods(['getModules', 'getServices', '__construct'])
-          ->setConstructorArgs([$this->getTranslationHelper()])
-          ->getMock();
+            ->setMethods(['getModules', 'getServices', '__construct'])
+            ->setConstructorArgs([$this->getTranslatorHelper()])
+            ->getMock();
 
         $command->expects($this->any())
-          ->method('getModules')
-          ->will($this->returnValue(['Foo']));;
+            ->method('getModules')
+            ->will($this->returnValue(['Foo']));
 
         $command->expects($this->any())
-          ->method('getServices')
-          ->will($this->returnValue(['twig', 'database']));;
+            ->method('getServices')
+            ->will($this->returnValue(['twig', 'database']));
 
         $command->setGenerator($generator);
         $command->setContainer($this->getContainer());
@@ -101,9 +103,9 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-          ->getMockBuilder('Drupal\AppConsole\Generator\PluginBlockGenerator')
-          ->disableOriginalConstructor()
-          ->setMethods(['generate'])
-          ->getMock();
+            ->getMockBuilder('Drupal\AppConsole\Generator\PluginBlockGenerator')
+            ->disableOriginalConstructor()
+            ->setMethods(['generate'])
+            ->getMock();
     }
 }

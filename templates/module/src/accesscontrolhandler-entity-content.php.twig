@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-Drupal\account\{{ entity_class }}AccessController.
+Drupal\{{module}}\{{ entity_class }}AccessControlHandler.
 {% endblock %}
 
 {% block namespace_class %}
@@ -17,13 +17,11 @@ use Drupal\Core\Access\AccessResult;
 
 {% block class_declaration %}
 /**
- * Access controller for the {{ entity_class }} entity.
+ * Access controller for the {{ label }} entity.
  *
  * @see \Drupal\{{module}}\Entity\{{ entity_class }}.
  */
-class {{ entity_class }}AccessControlHandler extends EntityAccessControlHandler
-{% endblock %}
-
+class {{ entity_class }}AccessControlHandler extends EntityAccessControlHandler {% endblock %}
 {% block class_methods %}
   /**
    * {@inheritdoc}
@@ -32,17 +30,13 @@ class {{ entity_class }}AccessControlHandler extends EntityAccessControlHandler
 
     switch ($operation) {
       case 'view':
-        return AccessResult::allowedIfHasPermission($account, 'view {{ entity_class }} entity');
-        break;
+        return AccessResult::allowedIfHasPermission($account, 'view {{ label|lower }} entities');
 
-      case 'edit':
-        return AccessResult::allowedIfHasPermission($account, 'edit {{ entity_class }} entity');
-        break;
+      case 'update':
+        return AccessResult::allowedIfHasPermission($account, 'edit {{ label|lower }} entities');
 
       case 'delete':
-        return AccessResult::allowedIfHasPermission($account, 'delete {{ entity_class }} entity');
-        break;
-
+        return AccessResult::allowedIfHasPermission($account, 'delete {{ label|lower }} entities');
     }
 
     return AccessResult::allowed();
@@ -52,6 +46,6 @@ class {{ entity_class }}AccessControlHandler extends EntityAccessControlHandler
    * {@inheritdoc}
    */
   protected function checkCreateAccess(AccountInterface $account, array $context, $entity_bundle = NULL) {
-    return AccessResult::allowedIfHasPermission($account, 'add Bar entity');
+    return AccessResult::allowedIfHasPermission($account, 'add {{ label|lower }} entities');
   }
 {% endblock %}

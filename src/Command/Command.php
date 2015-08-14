@@ -6,16 +6,11 @@ use Symfony\Component\Console\Command\Command as BaseCommand;
 
 abstract class Command extends BaseCommand
 {
-
     /**
      * @var string
      */
     protected $module;
-
-    protected $messages = [];
-
     protected $dependencies;
-
     /**
      * @var TranslatorHelper
      */
@@ -25,22 +20,6 @@ abstract class Command extends BaseCommand
     {
         $this->translator = $translator;
         parent::__construct();
-    }
-
-    /**
-     * @param $key string
-     * @return string
-     */
-    public function trans($key)
-    {
-        return $this->translator->trans($key);
-    }
-
-    protected function getDialogHelper()
-    {
-        $dialog = $this->getHelperSet()->get('dialog');
-
-        return $dialog;
     }
 
     /**
@@ -75,59 +54,14 @@ abstract class Command extends BaseCommand
         $this->module = $module;
     }
 
-    public function showMessage($output, $message, $type = 'info')
+    /**
+     * @param $key string
+     *
+     * @return string
+     */
+    public function trans($key)
     {
-        $style = 'bg=blue;fg=white';
-        if ('error' == $type) {
-            $style = 'bg=red;fg=white';
-        }
-        $output->writeln([
-          '',
-          $this->getHelperSet()->get('formatter')->formatBlock($message, $style, false),
-          '',
-        ]);
-    }
-
-    public function showGeneratedFiles($output, $files)
-    {
-        if ($files) {
-            $this->showMessage(
-              $output,
-              $this->trans('application.console.messages.generated.files')
-            );
-            $output->writeln(sprintf(
-              '<info>%s:</info><comment>%s</comment>',
-              $this->trans('application.site.messages.path'),
-              DRUPAL_ROOT
-            ));
-
-            $index = 1;
-            foreach ($files as $file) {
-                $output->writeln(sprintf(
-                  '<info>%s</info> - <comment>%s</comment>',
-                  $index,
-                  $file
-                ));
-                $index++;
-            }
-        }
-    }
-
-    protected function getQuestionHelper()
-    {
-        $question = $this->getHelperSet()->get('question');
-
-        return $question;
-    }
-
-    public function addMessage($message)
-    {
-        $this->messages[] = $message;
-    }
-
-    public function getMessages()
-    {
-        return $this->messages;
+        return $this->translator->trans($key);
     }
 
     /**
@@ -158,5 +92,24 @@ abstract class Command extends BaseCommand
     public function getDependencies()
     {
         return $this->dependencies;
+    }
+
+    protected function getDialogHelper()
+    {
+        $dialog = $this->getHelperSet()->get('dialog');
+
+        return $dialog;
+    }
+
+    protected function getQuestionHelper()
+    {
+        $question = $this->getHelperSet()->get('question');
+
+        return $question;
+    }
+
+    public function getSite()
+    {
+        return $this->getHelperSet()->get('site');
     }
 }

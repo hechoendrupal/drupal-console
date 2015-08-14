@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains Drupal\AppConsole\Command\Helper\KernelHelper.
@@ -10,6 +11,7 @@ use Composer\Autoload\ClassLoader;
 use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Drupal\Core\DrupalKernel;
 
 class KernelHelper extends Helper
@@ -35,9 +37,14 @@ class KernelHelper extends Helper
     protected $environment;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $debug;
+
+    /**
+     * @var bool
+     */
+    protected $booted;
 
     /**
      * @param string $environment
@@ -48,7 +55,7 @@ class KernelHelper extends Helper
     }
 
     /**
-     * @param boolean $debug
+     * @param bool $debug
      */
     public function setDebug($debug)
     {
@@ -56,17 +63,19 @@ class KernelHelper extends Helper
     }
 
     /**
-     * @return void
      */
     public function bootKernel()
     {
-        $kernel = $this->getKernel();
-        $kernel->boot();
-        $kernel->preHandle($this->request);
+        if (!$this->booted) {
+            $kernel = $this->getKernel();
+            $kernel->boot();
+            $kernel->preHandle($this->request);
 
-        $container = $kernel->getContainer();
-        $container->set('request', $this->request);
-        $container->get('request_stack')->push($this->request);
+            $container = $kernel->getContainer();
+            $container->set('request', $this->request);
+            $container->get('request_stack')->push($this->request);
+            $this->booted = true;
+        }
     }
 
     /**
@@ -86,6 +95,14 @@ class KernelHelper extends Helper
         return $this->kernel;
     }
 
+    public function terminate()
+    {
+        if ($this->booted) {
+            $response = Response::create('');
+            $this->kernel->terminate($this->request, $response);
+        }
+    }
+
     /**
      * @param \Drupal\Core\DrupalKernel $kernel
      */
@@ -100,11 +117,13 @@ class KernelHelper extends Helper
     public function initCommands(array $commands)
     {
         $container = $this->getKernel()->getContainer();
-        array_walk($commands, function ($command) use ($container) {
-            if ($command instanceof ContainerAwareInterface) {
-                $command->setContainer($container);
+        array_walk(
+            $commands, function ($command) use ($container) {
+                if ($command instanceof ContainerAwareInterface) {
+                    $command->setContainer($container);
+                }
             }
-        });
+        );
     }
 
     /**

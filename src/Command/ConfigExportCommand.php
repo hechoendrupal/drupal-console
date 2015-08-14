@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\ConfigExportCommand.
@@ -7,7 +8,6 @@
 namespace Drupal\AppConsole\Command;
 
 use Drupal\Core\Archiver\ArchiveTar;
-use Drupal\Core\Config\FileStorage;
 use Drupal\Component\Serialization\Yaml;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,10 +21,13 @@ class ConfigExportCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('config:export')
-          ->setDescription($this->trans('commands.config.export.description'))
-          ->addArgument('directory', InputArgument::OPTIONAL,
-            $this->trans('commands.config.export.arguments.directory'));
+            ->setName('config:export')
+            ->setDescription($this->trans('commands.config.export.description'))
+            ->addArgument(
+                'directory',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.config.export.arguments.directory')
+            );
     }
 
     /**
@@ -32,15 +35,20 @@ class ConfigExportCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $messageHelper = $this->getHelperSet()->get('message');
         $directory = $input->getArgument('directory');
 
         if (!$directory) {
             $config = $this->getConfigFactory()->get('system.file');
             $directory = $config->get('path.temporary') ?: file_directory_temp();
-            $directory .= '/' . CONFIG_STAGING_DIRECTORY;
+            $directory .= '/'.CONFIG_STAGING_DIRECTORY;
         }
 
-        $config_export_file  = $directory . '/config.tar.gz';
+        if (!is_dir($directory)) {
+            mkdir($directory, 0777, true);
+        }
+
+        $config_export_file = $directory.'/config.tar.gz';
 
         file_unmanaged_delete($config_export_file);
 
@@ -50,7 +58,10 @@ class ConfigExportCommand extends ContainerAwareCommand
             $this->configManager = $this->getConfigManager();
             // Get raw configuration data without overrides.
             foreach ($this->configManager->getConfigFactory()->listAll() as $name) {
-                $archiver->addString("$name.yml", Yaml::encode($this->configManager->getConfigFactory()->get($name)->getRawData()));
+                $archiver->addString(
+                    "$name.yml",
+                    Yaml::encode($this->configManager->getConfigFactory()->get($name)->getRawData())
+                );
             }
 
             $this->targetStorage = $this->getConfigStorage();
@@ -58,15 +69,20 @@ class ConfigExportCommand extends ContainerAwareCommand
             foreach ($this->targetStorage->getAllCollectionNames() as $collection) {
                 $collection_storage = $this->targetStorage->createCollection($collection);
                 foreach ($collection_storage->listAll() as $name) {
-                $archiver->addString(str_replace('.', '/', $collection) . "/$name.yml", Yaml::encode($collection_storage->read($name)));
+                    $archiver->addString(
+                        str_replace('.', '/', $collection)."/$name.yml",
+                        Yaml::encode($collection_storage->read($name))
+                    );
                 }
             }
         } catch (\Exception $e) {
-            $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
+            $output->writeln('[+] <error>'.$e->getMessage().'</error>');
+
             return;
         }
 
-        $this->showMessage($output,
-            sprintf($this->trans('commands.config.export.messages.directory'), $config_export_file));
+        $messageHelper->addSuccessMessage(
+            sprintf($this->trans('commands.config.export.messages.directory'), $config_export_file)
+        );
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\GeneratorCommandCommand.
@@ -24,16 +25,28 @@ class GeneratorCommandCommand extends GeneratorCommand
     protected function configure()
     {
         $this
-          ->setName('generate:command')
-          ->setDescription($this->trans('commands.generate.command.description'))
-          ->setHelp($this->trans('commands.generate.command.help'))
-          ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
-          ->addOption('class-name', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.command.options.class-name'))
-          ->addOption('command', '', InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.command.options.command'))
-          ->addOption('container', '', InputOption::VALUE_NONE,
-            $this->trans('commands.generate.command.options.container'));
+            ->setName('generate:command')
+            ->setDescription($this->trans('commands.generate.command.description'))
+            ->setHelp($this->trans('commands.generate.command.help'))
+            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'class-name',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.command.options.class-name')
+            )
+            ->addOption(
+                'command',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.command.options.command')
+            )
+            ->addOption(
+                'container',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.generate.command.options.container')
+            );
     }
 
     /**
@@ -53,8 +66,8 @@ class GeneratorCommandCommand extends GeneratorCommand
         $container = $input->getOption('container');
 
         $this
-          ->getGenerator()
-          ->generate($module, $command, $class_name, $container);
+            ->getGenerator()
+            ->generate($module, $command, $class_name, $container);
     }
 
     /**
@@ -75,28 +88,37 @@ class GeneratorCommandCommand extends GeneratorCommand
         // --command
         $command = $input->getOption('command');
         if (!$command) {
-            $command = $dialog->ask($output,
-              $dialog->getQuestion($this->trans('commands.generate.command.questions.command'), $module . ':default'),
-              $module . ':default'
+            $command = $dialog->ask(
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.command.questions.command'), $module.':default'),
+                $module.':default'
             );
         }
         $input->setOption('command', $command);
 
-        // --name option
+        // --class-name option
         $class_name = $input->getOption('class-name');
         if (!$class_name) {
-            $class_name = $dialog->ask($output,
-              $dialog->getQuestion($this->trans('commands.generate.command.questions.class-name'), 'DefaultCommand'),
-              'DefaultCommand'
+            $class_name = $dialog->askAndValidate(
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.command.questions.class-name'), 'DefaultCommand'),
+                function ($class_name) {
+                    return $this->validateClassName($class_name);
+                },
+                false,
+                'DefaultCommand',
+                null
             );
+            $input->setOption('class-name', $class_name);
         }
-        $input->setOption('class-name', $class_name);
 
         // --container option
         $container = $input->getOption('container');
-        if (!$container && $dialog->askConfirmation($output,
+        if (!$container && $dialog->askConfirmation(
+            $output,
             $dialog->getQuestion($this->trans('commands.generate.command.questions.container'), 'yes', '?'),
-            true)
+            true
+        )
         ) {
             $container = true;
         }

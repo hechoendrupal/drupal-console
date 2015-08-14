@@ -15,13 +15,13 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
      */
     public function testInteractive($options, $expected, $input)
     {
-        list($module, $service_name, $class_name, $services) = $expected;
+        list($module, $service_name, $class_name, $interface, $services) = $expected;
 
         $generator = $this->getGenerator();
         $generator
-          ->expects($this->once())
-          ->method('generate')
-          ->with($module, $service_name, $class_name, $services);
+            ->expects($this->once())
+            ->method('generate')
+            ->with($module, $service_name, $class_name, $interface, $services);
 
         $command = $this->getCommand($generator, $input);
         $cmd = new CommandTester($command);
@@ -45,36 +45,36 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
               // Inline options
             [],
               // Expected options
-            ['foo', 'foo.default', 'DefaultService', $services],
+            ['foo', 'foo.default', 'DefaultService', false, $services],
               // User input options
-            "foo\nfoo.default\nDefaultService\nyes\ntwig\n\n",
+            "foo\nfoo.default\nDefaultService\nno\nyes\ntwig\n\n",
           ],
             // case two
           [
               // Inline options
             ['--module' => 'foo'],
               // Expected options
-            ['foo', 'foo.default', 'DefaultService', null],
+            ['foo', 'foo.default', 'DefaultService', true, null],
               // User input options
-            "foo.default\nDefaultService\nno\n",
+            "foo.default\nDefaultService\nyes\nno\n",
           ],
             // case three
           [
               // Inline options
             ['--module' => 'foo', '--service-name' => 'foo.default'],
               // Expected options
-            ['foo', 'foo.default', 'DefaultService', null],
+            ['foo', 'foo.default', 'DefaultService', false, null],
               // User input options
-            "DefaultService\nno\n",
+            "DefaultService\nno\nno\n",
           ],
             // case three
           [
               // Inline options
             ['--module' => 'foo', '--service-name' => 'foo.default', '--class-name' => 'DefaultService'],
               // Expected options
-            ['foo', 'foo.default', 'DefaultService', $services],
+            ['foo', 'foo.default', 'DefaultService', true, $services],
               // User input options
-            "yes\ntwig\n\n",
+            "yes\nyes\ntwig\n\n",
           ],
         ];
     }
@@ -82,18 +82,19 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
     protected function getCommand($generator, $input)
     {
         $command = $this
-          ->getMockBuilder('Drupal\AppConsole\Command\GeneratorServiceCommand')
-          ->setMethods(['getModules', 'getServices', '__construct'])
-          ->setConstructorArgs([$this->getTranslationHelper()])
-          ->getMock();
+            ->getMockBuilder('Drupal\AppConsole\Command\GeneratorServiceCommand')
+            ->setMethods(['getModules', 'getServices', '__construct'])
+            ->setConstructorArgs([$this->getTranslatorHelper()])
+            ->getMock();
 
         $command->expects($this->any())
-          ->method('getModules')
-          ->will($this->returnValue(['foo']));;
+            ->method('getModules')
+            ->will($this->returnValue(['foo']));
+        ;
 
         $command->expects($this->any())
-          ->method('getServices')
-          ->will($this->returnValue(['twig', 'database']));;
+            ->method('getServices')
+            ->will($this->returnValue(['twig', 'database']));
 
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet($input));
@@ -105,9 +106,9 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-          ->getMockBuilder('Drupal\AppConsole\Generator\ServiceGenerator')
-          ->disableOriginalConstructor()
-          ->setMethods(['generate'])
-          ->getMock();
+            ->getMockBuilder('Drupal\AppConsole\Generator\ServiceGenerator')
+            ->disableOriginalConstructor()
+            ->setMethods(['generate'])
+            ->getMock();
     }
 }

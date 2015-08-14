@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Utils\StringUtils
@@ -11,7 +12,6 @@ use Symfony\Component\Console\Helper\Helper;
 
 class StringUtils extends Helper
 {
-
     // This REGEX captures all uppercase letters after the first character
     const REGEX_UPPER_CASE_LETTERS = '/(?<=\\w)(?=[A-Z])/';
     // This REGEX captures non alphanumeric characters and non underscores
@@ -22,8 +22,10 @@ class StringUtils extends Helper
     const REGEX_SPACES = '/\s\s+/';
 
     /**
-     * Replaces non alphanumeric characters with underscores
+     * Replaces non alphanumeric characters with underscores.
+     *
      * @param String $name User input
+     *
      * @return String $machine_name User input in machine-name format
      */
     public function createMachineName($name)
@@ -35,13 +37,15 @@ class StringUtils extends Helper
     }
 
     /**
-     *  Converts camel-case strings to machine-name format
-     * @param  String $name User input
+     *  Converts camel-case strings to machine-name format.
+     *
+     * @param String $name User input
+     *
      * @return String $machine_name  User input in machine-name format
      */
     public function camelCaseToMachineName($name)
     {
-        $machine_name = preg_replace(self::REGEX_UPPER_CASE_LETTERS, "_$1", $name);
+        $machine_name = preg_replace(self::REGEX_UPPER_CASE_LETTERS, '_$1', $name);
         $machine_name = preg_replace(self::REGEX_MACHINE_NAME_CHARS, '_', strtolower($machine_name));
         $machine_name = trim($machine_name, '_');
 
@@ -49,8 +53,10 @@ class StringUtils extends Helper
     }
 
     /**
-     *  Converts camel-case strings to under-score format
-     * @param  String $camel_case User input
+     *  Converts camel-case strings to under-score format.
+     *
+     * @param String $camel_case User input
+     *
      * @return String
      */
     public function camelCaseToUnderscore($camel_case)
@@ -58,9 +64,21 @@ class StringUtils extends Helper
         return strtolower(preg_replace(self::REGEX_CAMEL_CASE_UNDER, '$1_$2', $camel_case));
     }
 
+    /**
+     * Converts camel-case strings to human readable format.
+     *
+     * @param String $camel_case User input
+     *
+     * @return String
+     */
+    public function camelCaseToHuman($camel_case)
+    {
+        return ucfirst(strtolower(preg_replace(self::REGEX_CAMEL_CASE_UNDER, '$1 $2', $camel_case)));
+    }
+
     public function getName()
     {
-        return "stringUtils";
+        return 'stringUtils';
     }
 
     public function humanToCamelCase($human)
@@ -69,8 +87,10 @@ class StringUtils extends Helper
     }
 
     /**
-     * Converts My Name to my name. For permissions
-     * @param  String $permission User input
+     * Converts My Name to my name. For permissions.
+     *
+     * @param String $permission User input
+     *
      * @return String
      */
     public function camelCaseToLowerCase($permission)
@@ -79,13 +99,14 @@ class StringUtils extends Helper
     }
 
     /**
-     * Convert the first character of upper case. For permissions
-     * @param  String $permission_title User input
+     * Convert the first character of upper case. For permissions.
+     *
+     * @param String $permission_title User input
+     *
      * @return String
      */
-    public function camelCaseToUcFirst($permission_title)
+    public function anyCaseToUcFirst($permission_title)
     {
         return ucfirst(preg_replace(self::REGEX_SPACES, ' ', $permission_title));
     }
-
 }

@@ -1,10 +1,15 @@
 {% if class_name is defined %}
-{{ module }}.{{ class_machine_name }}_{{ method_name }}:
-  path: '{{ route }}'
+
+{% if learning is defined and learning %}
+{{ yaml_comment('application.console.messages.learning.route') }}
+{% endif %}
+{% for route in routes %}
+{{ module }}.{{ class_machine_name }}_{{ route.method }}:
+  path: '{{ route.route }}'
   defaults:
-    _controller: '\Drupal\{{ module }}\Controller\{{ class_name }}::{{ method_name }}'
-    _title: '{{module}} Title'
+    _controller: '\Drupal\{{ module }}\Controller\{{ class_name }}::{{ route.method }}'
+    _title: '{{route.title}}'
   requirements:
     _permission: 'access content'
+{% endfor %}
 {% endif %}
-

@@ -4,12 +4,10 @@ namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Drupal\AppConsole\Command\Command;
 use Drupal\Core\Extension\ExtensionDiscovery;
 
 abstract class ContainerAwareCommand extends Command implements ContainerAwareInterface
 {
-
     private $container;
 
     private $modules;
@@ -39,8 +37,10 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     }
 
     /**
-     * [getModules description]
-     * @param  boolean $core Return core modules
+     * [getModules description].
+     *
+     * @param bool $core Return core modules
+     *
      * @return array list of modules
      */
     public function getModules($core = false)
@@ -62,8 +62,10 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     }
 
     /**
-     * [getModules description]
-     * @param  boolean $core Return core modules
+     * [getModules description].
+     *
+     * @param bool $core Return core modules
+     *
      * @return array list of modules
      */
     public function getMigrations($group = false)
@@ -84,9 +86,9 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
         $migrations = array();
         foreach ($migration_entities as $migration) {
-            $migrations[$migration->id]['version'] = ucfirst($migration->migration_groups[0]);
-            $label = str_replace($migrations[$migration->id]['version'], '', $migration->label);
-            $migrations[$migration->id]['description'] = ucwords($label);
+            $migrations[$migration->id()]['version'] = ucfirst($migration->migration_groups[0]);
+            $label = str_replace($migrations[$migration->id()]['version'], '', $migration->label());
+            $migrations[$migration->id()]['description'] = ucwords($label);
         }
 
         return $migrations;
@@ -95,12 +97,14 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     public function getRestDrupalConfig()
     {
         return $this->getConfigFactory()
-          ->get('rest.settings')->get('resources') ?: [];
+            ->get('rest.settings')->get('resources') ?: [];
     }
 
     /**
-     * [geRest get a list of Rest Resouces]
-     * @param  boolean $status return Rest Resources by status
+     * [geRest get a list of Rest Resouces].
+     *
+     * @param bool $status return Rest Resources by status
+     *
      * @return array list of rest resources
      */
     public function getRestResources($rest_status = false)
@@ -159,6 +163,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
      * @param $rest
      * @param $rest_resources_ids
      * @param $translator
+     *
      * @return mixed
      */
     public function validateRestResource($rest, $rest_resources_ids, $translator)
@@ -166,8 +171,12 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         if (in_array($rest, $rest_resources_ids)) {
             return $rest;
         } else {
-            throw new \InvalidArgumentException(sprintf($translator->trans('commands.rest.disable.messages.invalid-rest-id'),
-              $rest));
+            throw new \InvalidArgumentException(
+                sprintf(
+                    $translator->trans('commands.rest.disable.messages.invalid-rest-id'),
+                    $rest
+                )
+            );
         }
     }
 
@@ -184,7 +193,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
      */
     public function getState()
     {
-        return $this->getContainer()->get('state.default');
+        return $this->getContainer()->get('state');
     }
 
     public function getConfigStorage()
@@ -221,7 +230,8 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     }
 
     /**
-     * getTestDiscovery return a service object for Simpletest
+     * getTestDiscovery return a service object for Simpletest.
+     *
      * @return Drupal\simpletest\TestDiscovery
      */
     public function getTestDiscovery()
@@ -241,9 +251,40 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
     public function getAuthenticationProviders()
     {
-        return $this->getContainer()->get('authentication')->getSortedProviders();
+        return $this->getContainer()->get('authentication_collector')->getSortedProviders();
     }
 
+    /**
+     * @return \Drupal\system\SystemManager
+     */
+    public function getSystemManager()
+    {
+        return $this->getContainer()->get('system.manager');
+    }
+
+    /**
+     * @return array
+     */
+    public function getConnectionInfo()
+    {
+        return \Drupal\Core\Database\Database::getConnectionInfo();
+    }
+
+    /**
+     * @return \Drupal\Core\Extension\ThemeHandlerInterface
+     */
+    public function getThemeHandler()
+    {
+        return $this->getContainer()->get('theme_handler');
+    }
+
+    /**
+     * @return \Drupal\Core\Extension\ThemeHandlerInterface
+     */
+    public function getPassHandler()
+    {
+        return $this->getContainer()->get('password');
+    }
 
     public function validateModuleExist($module_name)
     {
@@ -266,6 +307,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         if (in_array($machine_name, $modules)) {
             throw new \InvalidArgumentException(sprintf('Module "%s" already exist.', $machine_name));
         }
+
         return $machine_name;
     }
 
@@ -303,5 +345,24 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     public function removeSpaces($name)
     {
         return $this->getValidator()->removeSpaces($name);
+    }
+
+    public function generateEntity($entity_definition, $entity_type)
+    {
+        $entity_manager = $this->getEntityManager();
+        $entity_storage = $entity_manager->getStorage($entity_type);
+        $entity = $entity_storage->createFromStorageRecord($entity_definition);
+
+        return $entity;
+    }
+
+    public function updateEntity($entity_id, $entity_type, $entity_definition)
+    {
+        $entity_manager = $this->getEntityManager();
+        $entity_storage = $entity_manager->getStorage($entity_type);
+        $entity = $entity_storage->load($entity_id);
+        $entity_updated = $entity_storage->updateFromStorageRecord($entity, $entity_definition);
+
+        return $entity_updated;
     }
 }

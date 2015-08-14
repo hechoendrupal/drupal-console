@@ -19,19 +19,20 @@ use Drupal\user\UserInterface;
 
 {% block class_declaration %}
 /**
- * Defines the {{ entity_class }} entity.
+ * Defines the {{ label }} entity.
  *
  * @ingroup {{ module }}
  *
  * @ContentEntityType(
  *   id = "{{ entity_name }}",
- *   label = @Translation("{{ entity_class }} entity"),
+ *   label = @Translation("{{ label }}"),
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\{{ module }}\Entity\Controller\{{ entity_class }}ListController",
  *     "views_data" = "Drupal\{{ module }}\Entity\{{ entity_class }}ViewsData",
  *
  *     "form" = {
+ *       "default" = "Drupal\{{ module }}\Entity\Form\{{ entity_class }}Form",
  *       "add" = "Drupal\{{ module }}\Entity\Form\{{ entity_class }}Form",
  *       "edit" = "Drupal\{{ module }}\Entity\Form\{{ entity_class }}Form",
  *       "delete" = "Drupal\{{ module }}\Entity\Form\{{ entity_class }}DeleteForm",
@@ -40,24 +41,20 @@ use Drupal\user\UserInterface;
  *   },
  *   base_table = "{{ entity_name }}",
  *   admin_permission = "administer {{ entity_class }} entity",
- *   fieldable = TRUE,
  *   entity_keys = {
  *     "id" = "id",
  *     "label" = "name",
  *     "uuid" = "uuid"
  *   },
  *   links = {
- *     "canonical" = "entity.{{ entity_name }}.canonical",
- *     "edit-form" = "entity.{{ entity_name }}.edit_form",
- *     "delete-form" = "entity.{{ entity_name }}.delete_form",
- *     "collection" = "entity.{{ entity_name }}.collection"
+ *     "canonical" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
+ *     "edit-form" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
+ *     "delete-form" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete"
  *   },
  *   field_ui_base_route = "{{ entity_name }}.settings"
  * )
  */
-class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}Interface
-{% endblock %}
-
+class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}Interface {% endblock %}
 {% block class_methods %}
   /**
    * {@inheritdoc}
@@ -119,17 +116,17 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields['id'] = BaseFieldDefinition::create('integer')
       ->setLabel(t('ID'))
-      ->setDescription(t('The ID of the {{ entity_class }} entity.'))
+      ->setDescription(t('The ID of the {{ label }} entity.'))
       ->setReadOnly(TRUE);
 
     $fields['uuid'] = BaseFieldDefinition::create('uuid')
       ->setLabel(t('UUID'))
-      ->setDescription(t('The UUID of the {{ entity_class }} entity.'))
+      ->setDescription(t('The UUID of the {{ label }} entity.'))
       ->setReadOnly(TRUE);
 
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Authored by'))
-      ->setDescription(t('The user ID of the {{ entity_class }} entity author.'))
+      ->setDescription(t('The user ID of author of the {{ label }} entity.'))
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'user')
       ->setSetting('handler', 'default')
@@ -153,15 +150,14 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
 
-
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
-      ->setDescription(t('The name of the {{ entity_class }} entity.'))
+      ->setDescription(t('The name of the {{ label }} entity.'))
       ->setSettings(array(
-        'default_value' => '',
         'max_length' => 50,
         'text_processing' => 0,
       ))
+      ->setDefaultValue('')
       ->setDisplayOptions('view', array(
         'label' => 'above',
         'type' => 'string',
@@ -176,7 +172,7 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
 
     $fields['langcode'] = BaseFieldDefinition::create('language')
       ->setLabel(t('Language code'))
-      ->setDescription(t('The language code of {{ entity_class }} entity.'));
+      ->setDescription(t('The language code for the {{ label }} entity.'));
 
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))

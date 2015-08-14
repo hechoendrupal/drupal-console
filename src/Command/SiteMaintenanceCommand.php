@@ -1,28 +1,28 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\SiteModeCommand.
  */
+
 namespace Drupal\AppConsole\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\ArrayInput;
 
 class SiteMaintenanceCommand extends ContainerAwareCommand
 {
-
     protected function configure()
     {
         $this
-          ->setName('site:maintenance')
-          ->setDescription($this->trans('commands.site.maintenance.description'))
-          ->addArgument(
-            'mode',
-            InputArgument::REQUIRED,
-            $this->trans('commands.site.maintenance.arguments.mode').'[on/off]'
-          );
+            ->setName('site:maintenance')
+            ->setDescription($this->trans('commands.site.maintenance.description'))
+            ->addArgument(
+                'mode',
+                InputArgument::REQUIRED,
+                $this->trans('commands.site.maintenance.arguments.mode').'[on/off]'
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -48,20 +48,15 @@ class SiteMaintenanceCommand extends ContainerAwareCommand
             $cacheRebuild = false;
         }
 
-        $output->writeln(sprintf(
-          '[+] <info>%s:</info>',
-          $this->trans($modeMessage)
-        ));
+        $output->writeln(
+            sprintf(
+                '[+] <info>%s:</info>',
+                $this->trans($modeMessage)
+            )
+        );
 
         if ($cacheRebuild) {
-            // executes cache rebuild command
-            $cacheRebuildCommand = $this->getApplication()->find('cache:rebuild');
-            $arguments = [
-              'command' => 'cache:rebuild',
-              '--cache' => 'all',
-            ];
-            $input = new ArrayInput($arguments);
-            $cacheRebuildCommand->run($input, $output);
+            $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'all']);
         }
     }
 }
