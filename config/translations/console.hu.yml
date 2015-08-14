@@ -1,0 +1,803 @@
+application:
+    console:
+        arguments:
+            drupal: 'Path to Drupal root.'
+            shell: 'Launch the shell.'
+            env: 'The Environment name.'
+            no-debug: 'Switches off debug mode.'
+            learning: 'Generate a verbose code output.'
+            generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
+            generate-inline: 'Print execution options and arguments as inline call to be use in the future'
+        messages:
+            completed: 'A parancs futása sikeres volt!'
+            chain:
+                generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
+            inline:
+                generated: 'Following you can find the inline representation of this command to re-execute this command later'
+            generated: 'Aou can now start using the generated code!'
+            files:
+                generated: 'Generated or updated files'
+                copied: 'Copied files'
+            learning:
+                route: "Oldalak létrehozásához szükséges útvonal (route) meghatározása.\nA route határozza meg, hogy egy adott URL-t mely Controllernek adjuk át.\nMely metődust hív meg az adtt URL.\nHa a felhasználó betölti a http://drupal8.dev/{{ route }}, a route\nrendszer ellenőtzi, hogy mely route tartozik az URL-hez. Találat esetén\nvégrehajtja a _controller hívást. A hívás osztálynévként van definiálva\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nmetódus neve: (\"{{ method_name }}\")."
+        errors:
+            invalid-command: 'A "%s" parancs nincs definiálva.'
+    site:
+        messages:
+            path: 'Elérési útvonal'
+        errors:
+            directory: 'In order to list all of the available commands, you should run this inside a drupal root directory.'
+            settings: 'Az összes elérhető parancs megjelenítéséhez először a drupalt telepíteni kell.'
+            directorz: 'Az összes elérhető parancs megjelnítéséhez a console-nak a drupal könyvtárból kell futnia.'
+    user:
+        messages:
+            path: 'User home path'
+commands:
+    common:
+        options:
+            module: 'A Modul neve.'
+            services: 'Service betöltése a container-ből.'
+            tags: 'Service tag-ek hozzárendelése a container-hez.'
+            inputs: 'Beviteli mezők létrehozása formhoz.'
+            permissions: 'Jogosultságok létrehozása.'
+        questions:
+            module: 'Modul neve'
+            confirm: 'Létrehozás megerősítése'
+            canceled: 'Létrehozás parancs megszakítva.'
+            services:
+                confirm: 'Betölthető service a container-be'
+                message: "\nService neve vagy fel és le billentyűk.\nEz opcionális, <info>enter</info> a <info>folytatáshoz</info>\n"
+                name: 'Service megadása'
+            inputs:
+                confirm: 'Form struktúra létrehozása?'
+                label: 'Beviteli mező címke'
+                machine_name: 'Beviteli mező gépi neve'
+                permission: 'Jogosultságok létrehozása'
+                type: Típus
+                invalid: 'Mező típus "%s" helytelen.'
+                description: Leírás
+        errors:
+            module-dependency: 'Hiányzó modul függőség "%s"'
+            class-name-empty: 'A Class neve nem lehet üres'
+    cache:
+        rebuild:
+            description: 'Minden gyorsítótár újraépítése és törlése.'
+            options:
+                cache: 'Csak bizonyos gyorsítótár törlése.'
+            messages:
+                welcome: 'Üdvözlet a cache:rebuild parancsban'
+                rebuild: 'Gyorsítótár újraépítése, türelem'
+                completed: 'Gyorsítótár törlése kész.'
+                invalid_cache: 'A "%s" gyorsítótár név helytelen.'
+            questions:
+                cache: 'Gyorsítótár kiválasztása.'
+    chain:
+        description: 'Chain command execution'
+        options:
+            file: 'User defined file containing commands to get executed.'
+        messages:
+            missing_file: 'You must provide a valid file path and name.'
+            invalid_file: 'The file "%s" does not exists.'
+            module_install: 'module:install command is not runnable inside a chain queue and must be run independently.'
+    config:
+        export:
+            description: 'Jelenlegi alkalmazás beállításainak exportálása.'
+            arguments:
+                directory: 'Export könyvtár meghatározása a beállítások mentéséhez.'
+            messages:
+                directory: 'A beállítások export fájl mentése megtörtént: %s'
+        debug:
+            description: 'Jelenlegi beállítások megjelenítése.'
+            arguments:
+                config-name: 'Beállítás neve.'
+        override:
+            description: 'Beállítás felülírása.'
+            arguments:
+                config-name: 'Beállítás neve.'
+                key: Kulcs
+                value: Érték
+            messages:
+                configuration: 'Beállítás neve'
+                configuration-key: 'Beállítás kulcs'
+                original: 'Beállítás érték'
+                updated: 'Érték felülírása'
+        edit:
+            description: 'Kiválasztott beállítások szerkesztése.'
+            arguments:
+                config-name: 'Beállítás neve.'
+                editor: 'Szerkesztő program.'
+            messages:
+                no-directory: 'A következő könyvtár létrehozása közben hiba lépett fel:'
+        import-single:
+            description: 'Import the selected configuration.'
+            arguments:
+                config-name: 'Configuration name.'
+                input-file: 'Path to the import files.'
+    container:
+        debug:
+            description: 'Alkalmazáshoz tartozó service megjelenítése.'
+            messages:
+                service_id: 'Service ID'
+                class_name: 'Class név'
+    drush:
+        description: 'drush futtatása console-ból.'
+        help: 'Interaktív mód a felhasználói élmény fokozásáért --shell.'
+        arguments:
+            args: 'Drush argumentumok.'
+        messages:
+            not_found: 'Drush parancs nem található.'
+    generate:
+        authentication:
+            provider:
+                description: 'Authentication Provider létrehozása'
+                help: 'A <info>generate:authentication:provider</info> parancs új Authentication Provider létrehozásában segít.'
+                options: null
+                module: common.options.module
+                class-name: 'Authentication Provider class neve'
+        command:
+            description: 'Console parancsok létrehozása.'
+            help: 'A <info>generate:command</info> parancs új parancsok létrehozásában segít.'
+            welcome: 'Üdvözlet a Drupal Parancs létrehozásban'
+            options:
+                module: common.options.module
+                controller-title: 'Controller title'
+                class-name: 'Parancs Class neve'
+                command: 'Parancs neve'
+                container: 'services container elérése'
+            questions:
+                module: common.questions.module
+                class-name: 'Parancs Class nevének megadása'
+                command: 'Parancs nevének megadása'
+                container: 'Service container elérése szükséges'
+                controller-title: 'Controller title'
+            messages:
+                title-not-empty: 'Title cannot be empty'
+        controller:
+            description: 'Controller létrehozása és regisztrálása'
+            help: 'A <info>generate:controller</info> parancs új Controller létrehozásában segít.'
+            welcome: 'Üdvözlet a Drupal Controller létrehozásában'
+            options:
+                module: common.options.module
+                class-name: 'Controller Class neve'
+                method-name: 'Az akció metódus neve'
+                route: 'Az elérési útvonal'
+                services: common.options.services
+                test: 'Teszt osztály létrehozása'
+            questions:
+                module: common.questions.module
+                class-name: 'Controller Class nevének megadása'
+                method-name: 'Az akció metódus nevének megadása'
+                route: 'Az elérési útvonal megadása'
+                services: common.questions.services
+                test: 'Unit teszt osztály létrehozása'
+                other-controller-title: 'Controller title (empty to start with code generation)'
+                controller-title: 'Controller title'
+            messages:
+                invalid-controller-title: 'Title cannot be empty'
+                title-already-added: 'Title was already added'
+                invalid-method-name: 'Method name cannot be empty'
+                method-name-already-added: 'Method name was already added'
+                invalid-route: 'Route cannot be empty'
+                route-already-added: 'Route was already added'
+        entity:
+            description: 'Új "%s" létrehozása'
+            help: 'A <info>"%s"</info> parancs új "%s" létrehozásában segít'
+            welcome: 'Üdvözlet a Drupal Entity létrehozásában'
+            options:
+                module: common.options.module
+                entity-class: 'Az Entity osztály neve'
+                entity-name: 'Az Entity neve'
+                label: 'The entity label'
+            questions:
+                module: common.questions.module
+                entity-class: 'Entity osztály nevének megadása'
+                entity-name: 'Entity nevének megadása'
+                label: 'Enter the entity label'
+        form:
+            description: 'Új "%s" létrehozása'
+            help: 'A <info>"%s"</info> parancs új "%s" létrehozásában segít'
+            welcome: 'Üdvözlet a Drupal Form létrehozásában'
+            options:
+                module: common.options.module
+                class-name: 'A Form Class neve'
+                form-id: 'A Form ID'
+                services: common.options.services
+                inputs: common.options.inputs
+                routing: 'Routing frissítése'
+            questions:
+                module: common.questions.module
+                class-name: 'Form Class nevének megadása'
+                form-id: 'Form ID megadása'
+                services: common.questions.services
+                inputs: common.questions.inputs
+                routing: 'Routing fájl frissítése'
+        module:
+            description: 'Modul létrehozása.'
+            help: 'A <info>generate:module</info> új modul létrehozásában segít.'
+            welcome: 'Üdvözlet az új Modul létrehozásában'
+            options:
+                module: 'A modul neve'
+                machine-name: 'Gépi név (angol kis betűk és aláhúzás)'
+                module-path: 'A modul elérési útvonala'
+                description: 'Modul leírása'
+                core: 'Drupal verzió'
+                package: 'Modul csomag'
+                controller: 'Alapértelmezett Controller'
+                composer: 'Add a composer.json file'
+                dependencies: 'Modul függőségek vesszővel elválasztva (pl. context, panels)'
+                test: 'Teszt osztály létrehozása'
+            questions:
+                module: 'Modul nevének megadása'
+                machine-name: 'Modul gépi nevének megadása'
+                module-path: 'A modul elérési útvonalának megadása'
+                description: 'Modul leírásának megadása'
+                core: 'Drupal Core verzió megadása'
+                package: 'Csomag nevének megadása'
+                controller: 'Alapértelmezett Controller szükséges'
+                composer: 'Do you want to add a composer.json file to your module'
+                dependencies: 'Modul függőségek hozzáadása szükséges'
+                test: 'Unit teszt osztály létrehozható'
+            warnings:
+                module-unavailable: 'Figyelem, a következő modulok még nem elérhetőek a helyi Drual telepítésben: "%s"'
+            errors:
+                directory-exists: 'A célkönyvtás "%s" nem üres.'
+        theme:
+            description: 'Generate a theme.'
+            help: 'The <info>generate:theme</info> command helps you generates a new theme.'
+            welcome: 'Welcome to the Drupal theme generator'
+            options:
+                theme: 'The theme name'
+                machine-name: 'The machine name (lowercase and underscore only)'
+                theme-path: 'The path of the theme'
+                description: 'Theme description'
+                core: 'Core version'
+                package: 'Theme package'
+                composer: 'Add a composer.json file'
+                base-theme: 'Base theme (i.e. classy, seven)'
+                global-library: 'Global styling library name'
+                regions: Regions
+                breakpoints: Breakpoints
+                base_theme: 'Base theme (i.e. classy, seven)'
+            questions:
+                theme: 'Enter the new theme name'
+                machine-name: 'Enter the theme machine name'
+                theme-path: 'Enter the theme Path'
+                description: 'Enter theme description'
+                core: 'Enter Drupal Core version'
+                package: 'Enter package name'
+                dependencies: 'Would you like to add module depencencies'
+                invalid-theme: 'Invalid %s theme was selected'
+                global-library: 'Enter the global styling library name'
+                regions: 'Do you want to generate the theme regions'
+                region-name: 'Enter region name'
+                region-machine-name: 'Enter region machine name'
+                region-add: 'Do you want add another region'
+                breakpoints: 'Do you want to generate the theme breakpoints'
+                breakpoint-name: 'Enter breakpoint name'
+                breakpoint-label: 'Enter breakpoint label'
+                breakpoint-media-query: 'Enter breakpoint media query'
+                breakpoint-weight: 'Enter breakpoint weight'
+                breakpoint-multipliers: 'Enter breakpoint multipliers'
+                breakpoint-add: 'Do you want add another breakpoint'
+            warnings:
+                module-unavailable: 'Warning The following modules are not already available in your local environment "%s"'
+            errors:
+                directory-exists: 'The target directory "%s" is not empty.'
+        permission:
+            description: 'Modul jogosultságok létrehozása'
+            help: 'A <info>generate:permissions</info> modul jogosultságok létrehozásában segít'
+            options:
+                module: common.options.module
+                permission: 'Jogosultság megadása'
+            questions:
+                module: common.questions.module
+                permission: 'Jogosultság megadása'
+                title: 'Enter a title for the permision'
+                description: 'Enter a description for the permision'
+                restrict-access: 'Restrict Access'
+                add: 'Do you want add another permission'
+        plugin:
+            block:
+                description: 'Plugin block létrehozása'
+                help: 'A <info>generate:plugin:block</info> parancs új Plugin block létrehozásában segít.'
+                welcome: 'Üdvözlet a  Drupal Plugin Block létrehozásában'
+                options:
+                    module: common.options.module
+                    class-name: 'Plugin Class neve'
+                    label: 'Plugin címke'
+                    plugin-id: 'Plugin ID'
+                    inputs: common.options.inputs
+                    services: common.options.services
+                questions:
+                    module: common.questions.module
+                    class-name: 'Plugin class nevének megadása'
+                    label: 'Plugin címke megadása'
+                    plugin-id: 'Plugin ID megadása'
+                    inputs: common.questions.inputs
+                    services: common.questions.services
+                messages:
+                    inputs: "\nTetszőleges beviteli mező hozzáadható, melyek a blokk beállításakor jelenik meg.\nEz opcionális, <info>enter</info> a <info>folytatáshoz</info>"
+            field:
+                description: 'Generate field type, widget and formatter plugins.'
+                help: 'The <info>generate:plugin:field</info> command helps you generate a full set of field plugin: field type, field formatter and field widget.'
+                welcome: 'Welcome to the Drupal Field Plugin generator'
+                options:
+                    module: common.options.module
+                    type-class-name: 'Field type plugin class name'
+                    type-label: 'Field type plugin label'
+                    type-plugin-id: 'Field type plugin id'
+                    type-description: 'Field type plugin description'
+                    formatter-class-name: 'Field formatter plugin class name'
+                    formatter-label: 'Field formatter plugin label'
+                    formatter-plugin-id: 'Field formatter plugin id'
+                    widget-class-name: 'Field widget plugin class name'
+                    widget-label: 'Field widget plugin label'
+                    widget-plugin-id: 'Field widget plugin id'
+                    field-type: 'Field type the formatter and widget plugin can be used with'
+                    default-widget: 'Default field widget of the field type plugin'
+                    default-formatter: 'Default field widget of field type plugin'
+                questions:
+                    module: common.questions.module
+                    type-class-name: 'Field type plugin class name'
+                    type-label: 'Enter the field type plugin label'
+                    type-plugin-id: 'Enter the field type plugin id'
+                    type-description: 'Enter the field type plugin description'
+                    formatter-class-name: 'Enter the field formatter plugin class name'
+                    formatter-label: 'Enter the field formatter plugin label'
+                    formatter-plugin-id: 'Enter the field formatter plugin id'
+                    widget-class-name: 'Enter the field widget plugin class name'
+                    widget-label: 'Enter the field widget plugin label'
+                    widget-plugin-id: 'Enter the field widget plugin id'
+                    field-type: 'Enter the field type the formatter and widget plugin can be used with'
+                    default-widget: 'Enter the default field widget of the field type plugin'
+                    default-formatter: 'Enter the default field widget of field type plugin'
+            fieldformatter:
+                description: 'Generate field formatter plugin.'
+                help: 'The <info>generate:plugin:fieldformatter</info> command helps you generate a new field formatter plugin.'
+                welcome: 'Welcome to the Drupal Field Formatter Plugin generator'
+                options:
+                    module: common.options.module
+                    class-name: 'Plugin class name'
+                    label: 'Plugin label'
+                    plugin-id: 'Plugin id'
+                    field-type: 'Field type the plugin can be used with'
+                questions:
+                    module: common.questions.module
+                    class-name: 'Enter the plugin class name'
+                    label: 'Enter the plugin label'
+                    plugin-id: 'Enter the plugin id'
+                    field-type: 'Enter the field type the plugin can be used with'
+            fieldtype:
+                description: 'Generate field type plugin.'
+                help: 'The <info>generate:plugin:fieldtype</info> command helps you generate a new field type plugin.'
+                welcome: 'Welcome to the Drupal Field Type Plugin generator'
+                options:
+                    module: common.options.module
+                    class-name: 'Plugin class name'
+                    label: 'Plugin label'
+                    plugin-id: 'Plugin id'
+                    description: 'Plugin Description'
+                    default-widget: 'Default field widget of this plugin'
+                    default-formatter: 'Default field widget of this plugin'
+                questions:
+                    module: common.questions.module
+                    class-name: 'Enter the plugin class name'
+                    label: 'Enter the plugin label'
+                    plugin-id: 'Enter the plugin id'
+                    description: 'Enter the plugin Description'
+                    default-widget: 'Enter the default field widget of this plugin'
+                    default-formatter: 'Enter the default field formatter of this plugin'
+            fieldwidget:
+                description: 'Generate field widget plugin.'
+                help: 'The <info>generate:plugin:fieldwidget</info> command helps you generate a new field widget plugin.'
+                welcome: 'Welcome to the Drupal Field Widget Plugin generator'
+                options:
+                    module: common.options.module
+                    class-name: 'Plugin class name'
+                    label: 'Plugin label'
+                    plugin-id: 'Plugin id'
+                    field-type: 'Field type the plugin can be used with'
+                questions:
+                    module: common.questions.module
+                    class-name: 'Enter the plugin class name'
+                    label: 'Enter the plugin label'
+                    plugin-id: 'Enter the plugin id'
+                    field-type: 'Enter the field type the plugin can be used with'
+            imageeffect:
+                description: 'Kép hatás beépülő létrehozása.'
+                help: 'A <info>generate:plugin:imageeffect</info> parancs kép hatás beépülő létrehozásában segít.'
+                welcome: 'Üdvözlet a kép hatás beépülő létrehozásában'
+                options:
+                    module: common.options.module
+                    class-name: 'Plugin class neve'
+                    label: 'Plugin címke'
+                    plugin-id: 'Plugin ID'
+                    description: 'Plugin leírás'
+                questions:
+                    module: common.questions.module
+                    class-name: 'Plugin class nevének megadása'
+                    label: 'Plugin címke megadása'
+                    plugin-id: 'Plugin ID megadása'
+                    description: 'Plugin leírás megadása'
+            rest:
+                resource:
+                    description: 'REST erőforrás beépülő létrehozása'
+                    help: 'A <info>generate:plugin:rest:resource</info> parancs új REST erőforrás beépülő létrehozásában segít.'
+                    welcome: 'Üdvözlet a REST erőforrás beépülő létrehozásában'
+                    options:
+                        module: common.options.module
+                        class-name: 'REST erőforrás beépülő class'
+                        plugin-id: 'REST erőforrás beépülő azonosító'
+                        plugin-label: 'REST erőforrás beépülő címke'
+                        plugin-url: 'REST erőforrás beépülő url'
+                        plugin-states: 'REST erőforrás beépülő States'
+                    questions:
+                        module: common.questions.module
+                        class-name: 'REST erőforrás beépülő class nevének megadása'
+                        plugin-id: 'REST erőforrás beépülő azonosító megadása'
+                        plugin-label: 'REST erőforrás beépülő címke megadása'
+                        plugin-url: 'REST erőforrás beépülő url megadása'
+                        plugin-states: 'REST State megadása (GET alapértelmezetten kiválasztott)'
+                    messages:
+                        selected-states: 'Kiválasztott State'
+            rulesaction:
+                description: 'Generate a plugin rule action'
+                help: 'A <info>generate:plugin:rulesaction</info> parancs új Rula akció létrehozásában segít.'
+                welcome: 'Üdvözlet a Drupal Rules Akció Beépülő létrehozásában'
+                options:
+                    module: common.options.module
+                    class-name: 'Beépülő class neve'
+                    label: 'Beépülő címke'
+                    plugin-id: 'Beépülő id'
+                    inputs: common.options.inputs
+                    services: common.options.services
+                    category: 'Beépülő kategória'
+                    context: 'Beépülő kontextus'
+                    type: 'Action Type (user or node)'
+                questions:
+                    module: common.questions.module
+                    class-name: 'Beépülő class nevének megadása'
+                    label: 'Beépülő címke megadása'
+                    plugin-id: 'Beépülő id megadása'
+                    inputs: common.questions.inputs
+                    services: common.questions.services
+                    category: 'Beépülő kategória megadása'
+                    context: 'Beépülő kontextus megadása'
+            type:
+                annotation:
+                    description: 'Generate a plugin type with annotation discovery'
+                    help: 'The <info>generate:plugin:type:annotation</info> command helps you generate a new Plugin type that uses annotation discovery.'
+                    welcome: 'Welcome to the Drupal Plugin Type generator'
+                    options:
+                        module: common.options.module
+                        class-name: 'Plugin type class name'
+                        machine-name: 'Plugin type machine name'
+                        label: 'Plugin type label'
+                    questions:
+                        module: common.questions.module
+                        class-name: 'Enter the plugin type class name'
+                        machine-name: 'Enter the plugin type machine name'
+                        label: 'Enter the plugin type label'
+                yaml:
+                    description: 'Generate a plugin type with Yaml discovery'
+                    help: 'The <info>generate:plugin:type:yaml</info> command helps you generate a new Plugin type that uses Yaml discovery.'
+                    welcome: 'Welcome to the Drupal Plugin Type generator'
+                    options:
+                        module: common.options.module
+                        class-name: 'Plugin type class name'
+                        plugin-name: 'Plugin type machine name'
+                        plugin-file-name: 'Plugin file name'
+                    questions:
+                        module: common.questions.module
+                        class-name: 'Enter the plugin type class name'
+                        plugin-name: 'Enter the plugin type machine name'
+                        plugin-file-name: 'Enter the plugin file name (e.g. MODULE.plugin.filename.yml)'
+        service:
+            description: 'Service létrehozása'
+            help: 'A <info>generate:service</info> új service létrehozásában segít.'
+            welcome: 'Üdvözlet az új service létrehozásában'
+            options:
+                module: common.options.module
+                service-name: 'Service neve'
+                class-name: 'Class neve'
+                interface: Interfész
+                services: common.questions.services
+            questions:
+                module: common.questions.module
+                service-name: 'Service nevének megadása'
+                class-name: 'Class nevének megadása'
+                interface: 'Interfész létrehozása'
+                services: common.options.services
+    init:
+        description: 'Copy configuration files to user home directory.'
+    module:
+        debug:
+            description: 'Elérhető modulok megjelenítése'
+            options:
+                status: 'Modul állapot [engedélyezett|tiltott]'
+                type: 'Module típus [core|no-core]'
+            messages:
+                id: ID
+                name: Név
+                status: Állapot
+                origin: Származás
+                package: Csomag
+                enabled: Engedélyezett
+                disabled: Tiltott
+        install:
+            description: 'Modul vagy modulok telepítése'
+            questions:
+                module: 'Module name (press <return> to stop adding modules)'
+                invalid-module: 'Invalid module %s'
+            options:
+                module: 'Modul vagy modulok engedélyezése vesszővel elválasztott lista alapján'
+            messages:
+                no-modules: 'Engedélyezni kívánt modul vagy modulok megadása kötelező.'
+                missing: '%s modulok telepítése sikertelen hiányzó modulok miatt: %s'
+                missing-dependencies: '%s modulok nem telepíthetők hiányzó függőségek miatt: %s'
+                nothing: 'Nincs teendő, minden modul már telepítve volt.'
+                dependencies: 'Biztosan telepíthetők a következő függőségek: %s?'
+                success: '%s modul sikeresen telepítve lett'
+                disabled-modules: 'Only disabled modules will be listed in autocomplete'
+        uninstall:
+            description: 'Modul vagy modulok eltávolítása'
+            messages:
+                no-modules: 'Eltávolítani kívánt modul vagy modulok megadása kötelező.'
+                dependents: '%s nem távolítható el, mert függősége más moduloknak: %s'
+                nothing: 'Nincs teendő, minden modul már el lett távolítva.'
+                success: '%s Sikeresen el lett távolítva'
+        download:
+            description: 'Modul vagy modulok letöltése'
+            options:
+                version: 'Module version i.e 1.x-dev'
+            messages:
+                no-releases: 'Nincs elérhető kiadás: %s'
+                getting-releases: '%s modulhoz kiadás letöltése'
+                downloading: '%s modul %s kiadásának letöltése'
+                downloaded: 'Module %s version %s was downloaded successfully at %s'
+                select-release: 'Please select your favorite release'
+                installed: '%s modul sikeresen telepítve lett'
+    migrate:
+        debug:
+            description: 'Elérhető migrációk megjelenítése'
+            arguments:
+                drupal-version: 'Drupal Verzió'
+            messages:
+                id: 'Migráció Id'
+                description: Leírás
+                version: Verzió
+        load:
+            description: 'Generate a migration entity.'
+            arguments:
+                file: 'Path to the yml file'
+            messages:
+                invalid_file: 'The file "%s" does not exists.'
+                installed: 'Please remember to put the plugin files where they should be.'
+                overridden: 'The entity was overridden.'
+            questions:
+                override: 'The File is already install, do you want override it [yes/no] ?'
+                file: 'Path to file'
+        execute:
+            description: 'Elérhető migráció futtatása'
+            arguments:
+                id: 'Migráció Id'
+            options:
+                site-url: 'Oldal forrás URL'
+                db-host: 'Adatbázis Host'
+                db-name: 'Adatbázis Név'
+                db-user: 'Adatbázis Felhasználó'
+                db-pass: 'Adatbázis jelszó'
+                db-prefix: 'Adatbázis Prefix'
+                db-port: 'Adatbázis Port'
+                exclude: 'Migration id(s) to exclude'
+            questions:
+                id: 'Migráció Id'
+                exclude-id: 'Migration Id to exlude (press <return> to stop adding migrations)'
+                other-id: 'Other migration id (press <return> to stop adding migrations)'
+                site-url: 'Oldal forrás URL'
+                db-host: 'Adatbázis Host'
+                db-name: 'Adatbázis Név'
+                db-user: 'Adatbázis Felhasználó'
+                db-pass: 'Adatbázis jelszó'
+                db-prefix: 'Adatbázis Prefix'
+                db-port: 'Adatbázis Port'
+                invalid-migration-id: '"%s" érvénytelen migráció id'
+            messages:
+                processing: '"%s" migráció feldolgozása'
+                imported: '"%s" migráció sikeresen feldolgozásra került'
+                fail-load: '"%s" migráció nem tölthető be'
+                importing-incomplete: '"%s" migráció feldolgozása'
+                import-stoped: 'Import ''"%s" futása meg lett szakítva'''
+                import-fail: 'Import ''"%s" hibás'''
+                import-skipped: 'Import "%s" ki lett hagyva teljesíthehtlen függőség miatt'
+                wrong-source: 'Frissítés erről a Drupal verzióról nem támogatott.'
+                destination-error: 'Database destination error'
+                source-error: 'Database source error'
+                no-migrations: 'There are not migrations available to be executed'
+    rest:
+        enable:
+            description: 'REST erőforrás engedélyezése'
+            arguments:
+                resource-id: 'REST ID'
+                states: 'REST State engedélyezése REST erőforrás számára'
+                authorizations: 'Authorizations provider engedélyezése REST erőforrás számára'
+            questions:
+                resource-id: 'REST ID'
+            messages:
+                invalid-rest-id: 'REST ID %s érvénytelen'
+                formats: 'Elérhető szérializáló formátumok'
+                authentication-providers: 'Elérhető Authentication Provider-ek'
+                selected-state: 'Kiválasztott State'
+                selected-formats: 'Kiválasztott formátumok'
+                selected-authentication-providers: 'Kiválasztott Authentication Provider-ek'
+        disable:
+            description: 'REST erőforrás letiltása'
+            arguments:
+                resource-id: 'REST ID'
+                states: 'REST State letiltása a REST erőforrásból'
+            questions:
+                resource-id: 'REST ID'
+            messages:
+                invalid-rest-id: 'REST ID %s érvénytelen'
+        debug:
+            description: 'REST erőforrás megjelenítése'
+            arguments:
+                resource-id: 'REST ID'
+            options:
+                status: 'REST erőforrás állapot engedélyezett | tiltott'
+            messages:
+                id: 'REST ID'
+                label: Címke
+                canonical_url: 'Canonical URL'
+                status: Állapot
+                provider: Ellátó
+                enabled: Engedélyezett
+                disabled: Tiltott
+                rest-state: 'REST State'
+                supported-formats: 'Támogatott formátumok'
+                supported_auth: 'Támogatott Authentication Provider-ek'
+                not-found: 'REST erőforrás %s nem található'
+    router:
+        debug:
+            description: 'Elérhető útvonalak megjelenítése'
+            arguments:
+                route-name: 'Útvonal neve'
+            messages:
+                name: 'Útvonal neve'
+                path: 'Class elérési útvonala'
+                pattern: Minta
+                defaults: Alapértelmezés
+                options: Opciók
+        rebuild:
+            description: 'Útvonalak újraépítése'
+            arguments:
+                route-name: 'Útvonal neve'
+            messages:
+                rebuilding: 'Útvonalak újraépítése, kis türelmet'
+                completed: 'Útvonalak újraépítése befejeződött.'
+    self-update:
+        description: 'Console frissítése a legújabb verzióra.'
+        help: 'Console parancs frissítése a legújabb elérhető verzióra.'
+        messages:
+            success: 'A console frissítve lett a legújabb verzióra.'
+            current-version: 'The latest version %s, was already installed on your system.'
+    site:
+        mode:
+            description: 'Rendszer teljesítmény beállításának módosítása'
+            arguments:
+                environment: 'Környezet neve'
+            messages:
+                configuration: 'Konfiguráció neve'
+                configuration-key: 'Konfiguráció kulcs'
+                original: 'Eredeti érték'
+                updated: 'Módisított érték'
+        status:
+            description: 'A jelenlegi Drupal telepítés állapotának megtekintése'
+            messages:
+                application: Applikáció
+                system: 'Rendszer Információk'
+                hash_salt: 'Hash salt'
+                console: 'Console version'
+                database: 'Adatbázis kapcsolat'
+                driver: Meghajtó
+                host: Host
+                port: Port
+                username: 'Felhasználói név'
+                password: Jelszó
+                theme: Sminkek
+                connection: Kapcsolat
+                theme_default: 'Alapértelmezett smink'
+                theme_admin: 'Admin smink'
+                directory: Könyvtárak
+                directory_root: 'Oldal gyökérkönyvtára'
+                directory_temporary: 'Oldal ideiglenes könyvtára'
+                directory_theme_default: 'Alapértelmezett smink könyvtár'
+                directory_theme_admin: 'Admin smink könyvtár'
+                configuration: Configuration
+                active: 'Active config path'
+                staging: 'Staging config path'
+        maintenance:
+            description: 'Oldal átállítása karbantartási módba'
+            arguments:
+                mode: 'Karbantartási mód'
+            messages:
+                maintenance-on: 'Karbantartási mód be'
+                maintenance-off: 'Karbantartási mód ki'
+            errors:
+                invalid-mode: 'Helytelen karbantartási mód'
+        new:
+            description: 'Create a new Drupal project'
+            arguments:
+                site-name: 'Site name'
+                version: 'Specific Drupal version to download'
+            messages:
+                getting-releases: 'Getting releases for Drupal'
+                downloading: 'Downloading Drupal %s'
+                extracting: 'Extracting files for Drupal %s'
+                no-releases: 'There aren''t not releases available for Drupal'
+                downloaded: 'Drupal %s was downloaded in directory %s'
+                error-copying: 'An error occurred while renaming your directory at %s'
+    test:
+        debug:
+            description: 'Elérhető unit tesztek megjelenítése.'
+            help: 'Console parancs frissítése a legújabb verzióra.'
+            arguments:
+                test-id: 'Unit Teszt ID'
+            options:
+                group: Csoport
+            messages:
+                id: 'Unit Teszt ID'
+                description: Leírás
+                group: Csoport
+                success: 'A console sikeresen frissítve lett a legújabb verzióra.'
+    password:
+        hash:
+            description: 'Generate a hash from a plaintext password.'
+            help: 'The <info>password:hash</info> command helps you to generate hashs password from plaintext passwords.'
+            welcome: 'Welcome to the Drupal password hash generator'
+            options:
+                password: 'Password(s) in text format'
+            questions:
+                invalid-pass: 'Password can''t be empty'
+                password: 'Enter password'
+                other-password: 'Other password (press <return> to stop adding passwords)'
+            messages:
+                password: Password
+                hash: Hash
+            errors: null
+        reset:
+            description: 'Reset password for a specific user.'
+            help: 'The <info>password:reset</info> command helps you to reset password for a specific user.'
+            welcome: 'Welcome to the Drupal password reset'
+            options:
+                password: 'Password in text format'
+                user-id: 'User ID'
+            questions:
+                invalid-uid: 'Invalid user id %, user id must be an integer'
+                invalid-pass: 'Password can''t be empty'
+                user: 'Enter User ID'
+                password: 'Enter password'
+                other-password: 'Other password (press <return> to stop adding passwords)'
+            messages:
+                reset-successful: 'Password was updated sucessfully for user id %s'
+            errors:
+                invalid-user: 'Invalid user id %s'
+    yaml:
+        merge:
+            description: 'Merge one or more YAML files in a new YAML file. Latest values are preserved.'
+            arguments:
+                yaml-files: 'Path of YAML files to merge'
+                yaml-destination: 'Path of new YAML file to store result of merge.'
+            questions:
+                yaml-destination: 'Path of new YAML file to store result of merge.'
+                file: 'Path to file to merge'
+                other-file: 'Path to file to merge (empty to start with merge process)'
+                invalid-file: 'Path of file cannot be empty'
+                file-already-added: 'Path of file was already added'
+            messages:
+                wrong-parse: 'Yaml file "%s" is empty or doesn''t exist the file.'
+                error-parsing: 'An error occurs during parsing of Yaml file %s.'
+                two-files-required: 'At least to files are required.'
+                error-generating: 'Error generating merged YAML.'
+                error-writing: 'Error writing merged YAML file.'
+                merged: 'New file %s was created sucessfully after merge Yaml files.'

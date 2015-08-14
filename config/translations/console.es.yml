@@ -1,345 +1,803 @@
 application:
-  console:
-    messages:
-      completed: You can now start using the generated code!
-    errors:
-      invalid-command: Command "%s" is not defined.
-  site:
-    errors:
-      directory: In order to list all of the available commands, you should run this inside a drupal root directory.
-      settings: In order to list all of the available commands you should install drupal first.
-commands:
-  common:
-    options:
-      module: Nombre del módulo.
-      services: Load services from the container.
-      tags: Set service tags from the container.
-      inputs: Create inputs in a form.
-      permissions: Create permissions.
-    questions:
-      module: Escriba el nombre del módulo
-      confirm: Do you confirm generation
-      canceled: Command generation canceled.
-      services:
-        confirm: Deseas cargar los servicios del contenedor
-        message: |
-
-          Escriba el nombre del servicio o use la tecla keyup o keydown.
-          Esto es opcional, presione <info>enter</info para <info>continuar</info>
-        name: Enter your service
-      inputs:
-        confirm: Do you want to generate a form structure
-        label: Input label
-        machine_name: Input machine name
-        permission: Do you want to generate permissions
-        type: Tipo
-        invalid: Field Type "%s" is invalid.
-        description: Description
-    errors:
-      module-dependency: Missing module dependency "%s"
-      class-name-empty: The Class name can not be empty
-  cache:
-    rebuild:
-      description: Reconstruye y limpia todas las cachés del sitio.
-      options:
-        cache: Sólo limpiar un cache específico.
-      messages:
-        welcome: Bienvenido al comando cache:rebuild
-        rebuild: Reconstruyendo caché(s), espere un momento.
-        completed: Hecho limpiar Caché(s).
-        invalid_cache: Caché "%s" en inválido.
-      questions:
-        cache: Seleccione una caché.
-  config:
-    debug:
-      description: Muestra la configuración actual.
-      arguments:
-        config-name: Nombre de la configuración.
-  container:
-    debug:
-      description: Muestra los servicios actuales para una aplicación.
-      messages:
-        service_id: ID del servicio
-        class_name: Nombre de la clase
-  drush:
-    description: Ejecutar Drush desde la consola.
-    help: Utilice el modo interactivo para una mejor experiencia --shell.
-    arguments:
-      args: Argumento de Drush.
-    messages:
-      not_found: Comando de Drush no encontrado.
-  generate:
-    command:
-      description: Genera un comando para la consola.
-      help: El comando <info>generate:command</info> le ayudará a generar un nuevo comando.
-      welcome: Bienvenido al generador de Comando de Drupal
-      options:
-        module: common.options.module
-        class-name: Command Class name
-        command: Nombre del Comando
-        container: Acceso al contenedor de servicios
-      questions:
-        module: common.questions.module
-        class-name: Enter the Command Class name
-        command: Enter the Command name
-        container: Necesita acceder al contenedor de servicios
-    controller:
-      description: Generar y registrar un controlador
-      help: El comando <info>generate:controller</info> le ayuda a generar un nuevo controlador.
-      welcome: Bienvenido al generador de controlador de Drupal
-      options:
-        module: common.options.module
-        class-name: Nombre de la clase del controlador
-        method-name: El nombre del método de acción
-        route: El camino de la routa
-        services: common.options.services
-        test: Generar una clase de prueba
-      questions:
-        module: common.questions.module
-        class-name: Escriba el nombre de la clase del Controlador
-        method-name: Escriba nombre del método de acción
-        route: Escriba el camino de la ruta
-        services: common.questions.services
-        test: Desea generar una clase de prueba unitaria
-    entity:
-      description: Generate a new "%s"
-      help: The <info>"%s"</info> command helps you generate a new "%s"
-      welcome: Welcome to the Drupal entity generator
-      options:
-        module: common.options.module
-        entity-class: The entity class name
-        entity-name: The name of the entity
-      questions:
-        module: common.questions.module
-        entity-class: Enter the entity class name
-        entity-name: Enter the entity name
-    form:
-      description: Generate a new "%s"
-      help: The <info>"%s"</info> command helps you generate a new "%s"
-      welcome: Welcome to the Drupal form generator
-      options:
-        module: common.options.module
-        class-name: The form class name
-        form-id: The Form id
-        services: common.options.services
-        inputs: common.options.inputs
-        routing: Update routing
-      questions:
-        module: common.questions.module
-        class-name: Enter the Form Class name
-        form-id: Enter the Form id
-        services: common.questions.services
-        inputs: common.questions.inputs
-        routing: Update routing file
-    module:
-      description: Generate a module.
-      help: The <info>generate:module</info> command helps you generates a new module.
-      welcome: Welcome to the Drupal module generator
-      options:
-        module: The Module name
-        machine-name: The machine name (lowercase and underscore only)
-        module-path: The path of the module
-        description: Module description
-        core: Core version
-        package: Module package
-        controller: Default Controller
-        dependencies: Module dependencies (i.e. context, galleria, panels)
-        test: Generate a test class
-      questions:
-        module: Enter the new module name
-        machine-name: Enter the module machine name
-        module-path: Enter the module Path
-        description: Enter module description
-        core: Enter Drupal Core version
-        package: Enter package name
-        controller: Do you want to generate a default Controller
-        test: Do you want to generate a unit test class
-      warnings:
-        module-unavailable: Warning The following modules are not already available in your local environment "%s" 
-    permission:
-        description: Generate module permissions
-        help: The <info>generate:permissions</info> command helps you generate new permissions
-        options:
-          module: common.options.module
-          permission: Enter a permission
-        questions:
-          module: common.questions.module
-          permission: Enter a permission
-    plugin:
-      block:
-        description: Generate a plugin block
-        help: The <info>generate:plugin:block</info> command helps you generate a new Plugin block.
-        welcome: Welcome to the Drupal Plugin Block generator
-        options:
-          module: common.options.module
-          class-name: Plugin class name
-          label: Plugin label
-          plugin-id: Plugin id
-          inputs: common.options.inputs
-          services: common.options.services
-        questions:
-          module: common.questions.module
-          class-name: Enter the plugin class name
-          label: Enter the plugin label
-          plugin-id: Enter the plugin id
-          inputs: common.questions.inputs
-          services: common.questions.services
+    console:
+        arguments:
+            drupal: 'Ruta a la raíz de Drupal'
+            shell: 'Iniciar el shell.'
+            env: 'Nombre del ambiente.'
+            no-debug: 'Desactivar el modo de depuración.'
+            learning: 'Generar código con explicaciones.'
+            generate-chain: 'Imprimir opciones y argumentos como yaml para ser usado el comando chain'
+            generate-inline: 'Print execution options and arguments as inline call to be use in the future'
         messages:
-          inputs: |
-
-            You can add input fields to create special configurations in each block.
-            This is optional, press <info>enter</info> to <info>continue</info>
-      imageeffect:
-        description: Generate image effect plugin.
-        help: The <info>generate:plugin:imageeffect</info> command helps you generate a new image effect plugin.
-        welcome: Welcome to the Drupal Image Effect Plugin generator
+            completed: 'Ahora puedes empezar a usar el código generado!'
+            chain:
+                generated: 'A continuación puede observar la representación en yaml del último comando ejecutado, puede copiarlo en ~/.console/chain/sample.yml para ejecutarlo en una secuencia de comandos'
+            inline:
+                generated: 'Following you can find the inline representation of this command to re-execute this command later'
+            generated: 'You can now start using the generated code!'
+            files:
+                generated: 'Ahora puede comenzar a usar el código generado!'
+                copied: 'Los archivos fueron copiados'
+            learning:
+                route: "Con el fin de crear páginas es necesario definir rutas para ellas.\nUna ruta asigna una URL a un controlador. Se define con qué función\no método será llamado cuando se accede a una URL.\nSi el usuario accede la ruta http://drupal8.dev/{{ route }},\nel sistema buscará una ruta con ese camino. En este caso, si encuentra una\nejecutara la devolución de la llamada _controller.\nEn este caso, la devolución de llamada es definida como un nombre de clase\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\ny un método (\"{{ method_name }}\")."
+        errors:
+            invalid-command: 'Comando "%s" no está definido.'
+    site:
+        messages:
+            path: 'Ruta del sitio'
+        errors:
+            directory: 'Para listar todos los comandos disponibles, debes estar dentro del directorio raiz de Drupal.'
+            settings: 'Para listar todos los comandos disponibles primero debes instalar Drupal.'
+    user:
+        messages:
+            path: 'Ruta del home del usuario'
+commands:
+    common:
         options:
-          module: common.options.module
-          class-name: Plugin class name
-          label: Plugin label
-          plugin-id: Plugin id
-          description: Plugin Description
+            module: 'Nombre del módulo.'
+            services: 'Cargar servicios desde el ''container''.'
+            tags: 'Asignar etiquetas de servicio desde el contenedor.'
+            inputs: 'Crear campos de entradas de formulario.'
+            permissions: 'Crear permisos.'
         questions:
-          module: common.questions.module
-          class-name: Enter the plugin class name
-          label: Enter the plugin label
-          plugin-id: Enter the plugin id
-          description: Enter the plugin Description
-      rest:
-          resource:
-            description: Generate plugin rest resource
-            help: The <info>generate:plugin:rest:resource</info> command helps you generate a new rest resource.
-            welcome: Welcome to the Drupal Plugin Rest Resource generator
+            module: 'Escriba el nombre del módulo'
+            confirm: 'Confirmar generacion'
+            canceled: 'Comando de generacion cancelado.'
+            services:
+                confirm: 'Deseas cargar los servicios del contenedor'
+                message: "\nEscriba el nombre del servicio o use la tecla keyup o keydown.\nEsto es opcional, presione <info>enter</info para <info>continuar</info>\n"
+                name: 'Introduzca su servicio'
+            inputs:
+                confirm: 'Quieres generar una estrctura de formulario'
+                label: 'Etiquita del campo de entrada'
+                machine_name: 'Introduzca el nombre de maquina'
+                permission: 'Quieres generar permisos'
+                type: Tipo
+                invalid: 'El campo de tipo "%s" es inválido.'
+                description: Descripción
+        errors:
+            module-dependency: 'Depencia "%s" del modulo faltante'
+            class-name-empty: 'El nombre de la Clase no puede estér psavia'
+    cache:
+        rebuild:
+            description: 'Reconstruye y limpia todas las cachés del sitio.'
             options:
-              module: common.options.module
-              class-name: Plugin Rest Resource class
-              plugin-id: Plugin Rest Resource id
-              plugin-label: Plugin Rest Resource Label
-              plugin-url: Plugin Rest Resource URL
-              plugin-states: Plugin Rest Resource States
-            questions:
-              module: common.questions.module
-              class-name: Enter the plugin rest resource name
-              plugin-id: Enter the plugin rest resource id
-              plugin-label: Enter the plugin rest resource label
-              plugin-url: Enter the plugin rest resource url
-              plugin-states: Please select what REST States implement in your resource (GET is selected by default)
+                cache: 'Sólo limpiar un cache específico.'
             messages:
-              selected-states: States selected
-    service:
-      description: Generate service
-      help: The <info>generate:service</info> command helps you generate a new service.
-      welcome: Welcome to the Drupal service generator
-      options:
-        module: common.options.module
-        service-name: Service name
-        class-name: Class name
-        services: common.questions.services
-      questions:
-        module: common.questions.module
-        service-name: Enter the service name
-        class-name: Enter the Class name
-        services: common.options.services
-  module:
-    debug:
-      description: Display current modules available for application
-      options:
-        status: "Module status [enabled|disabled]"
-        type: "Module type [core|no-core]"
-      messages:
-        id: "ID"
-        name: "Name"
-        status: "Status"
-        origin: "Origin"
-        package: "Package"
-        enabled: "Enabled"
-        disabled: "Disabled"
-    install:
-      description: Install module or modules in the application
-      options:
-        module: Module or modules to be enabled should be separated by a comma
-      messages:
-        no-modules: You must provide module or modules to enable.
-        missing: Unable to install modules %s due to missing modules %s
-        missing-dependencies: Unable to install modules %s due to missing dependencies %s
-        nothing: Nothing to do. All modules are already installed
-        dependencies: Are you sure you want to install dependencies: %s?
-        success: Modules %s were installed successfully
-    uninstall:
-      description: Uninstall module or modules in the application
-      messages:
-        no-modules: You must provide module or modules to enable.
-        dependents: Unable to uninstall modules %s because are required by %s
-        nothing: Nothing to do. All modules are already uninstalled
-        success: Modules %s were uninstalled successfully
-    download:
-      description: Download module or modules in application
-      messages:
-        no-releases: There aren't any releases for module %s
-        getting-releases: Getting releases for module %s
-        downloading: Downloading module %s release %s
-        installed: Module %s was installed successfully
-  migrate:
-    debug:
-      description: Display current migration available for the application
-      arguments:
-        drupal-version: Drupal Version
-      messages:
-        id: "Migration Id"
-        description: "Description"
-        version: "Version"
-    execute:
-      description: Execute a migration available for application
-      arguments:
-        id: "Migration Id"
-      options:
-        site-url: "Site Source URL"
-        db-host: "Database Host"
-        db-name: "Database Name"
-        db-user: "Database User"
-        db-pass: "Database Pass"
-        db-prefix: "Database Prefix"
-        db-port: "Database Port"
-      questions:
-        id: "Migration Id"
-        site-url: "Source Site URL"
-        db-host: "Database Host"
-        db-name: "Database Name"
-        db-user: "Database User"
-        db-pass: "Database Pass"
-        db-prefix: "Database Prefix"
-        db-port: "Database Port"
-        invalid-migration-id: Migration Id "%s" is invalid
-      messages:
-        processing: Processing Migration "%s"
-        imported: Migration "%s" was imported correctly
-        fail-load: Migration "%s" can't be loaded
-        importing-incomplete: Importing migration "%s"
-        import-stoped: Import "%s" stopped by request
-        import-fail: Import "%s" failed
-        import-skipped: Import "%s" was skipped due to unfulfilled dependencies
-        wrong-source: 'Upgrading from this version of Drupal is not supported.'
-  router:
-    debug:
-      description: Displays current routes for the application
-      arguments:
-        route-name: Route names
-      messages:
-        name: Route name
-        path: Class path
-        pattern: Pattern
-        defaults: Defaults
-        options: Options
-    rebuild:
-      description: Rebuild routes for the application
-      arguments:
-        route-name: Route names
-      messages:
-        rebuilding: Rebuilding routes, wait a moment please
-        completed: Done rebuilding route(s).
-  self-update:
-    description: Update the console to latest version.
-    help: Update the console command to the latest version.
-    messages:
-      success: The console has been updated to the latest version.
-
+                welcome: 'Bienvenido al comando cache:rebuild'
+                rebuild: 'Reconstruyendo caché(s), espere un momento.'
+                completed: 'Hecho limpiar Caché(s).'
+                invalid_cache: 'Caché "%s" en inválido.'
+            questions:
+                cache: 'Seleccione una caché.'
+    chain:
+        description: 'Ejecución de comandos en secuencia'
+        options:
+            file: 'Archivo definido por el usuario que contiene comandos para ser ejecutados en secuencia.'
+        messages:
+            missing_file: 'Debe proporcionar una ruta de archivo válida y el nombre.'
+            invalid_file: 'El archivo "%s" no existe.'
+            module_install: 'comando module:install no es ejecutable dentro de una secuencia de comandos y se debe ejecutar de forma independiente.'
+    config:
+        export:
+            description: 'Export current application configuration.'
+            arguments:
+                directory: 'Definir directorio de exportación para guardar la configuración.'
+            messages:
+                directory: 'La configuración exportada fue guardada en el archivo %s'
+        debug:
+            description: 'Muestra la configuración actual.'
+            arguments:
+                config-name: 'Nombre de la configuration.'
+        override:
+            description: 'Sobreescribir valor de la configuración activa.'
+            arguments:
+                config-name: 'Nombre de la configuración.'
+                key: Key
+                value: Value
+            messages:
+                configuration: 'Nombre de la configuración.'
+                configuration-key: 'Llave de la configuración.'
+                original: 'Valor origina.l'
+                updated: 'Valos sobreescrito.'
+        edit:
+            description: 'Editar la configuración seleccionada.'
+            arguments:
+                config-name: 'Nombre de la configuración.'
+                editor: Editor.
+            messages:
+                no-directory: 'Ha acurrido un eror mienstras se create el directio en'
+        import-single:
+            description: 'Import the selected configuration.'
+            arguments:
+                config-name: 'Configuration name.'
+                input-file: 'Path to the import files.'
+    container:
+        debug:
+            description: 'Muestra los servicios actuales para una aplicación.'
+            messages:
+                service_id: 'ID del servicio'
+                class_name: 'Nombre de la clase'
+    drush:
+        description: 'Ejecutar Drush desde la consola.'
+        help: 'Utilice el modo interactivo para una mejor experiencia --shell.'
+        arguments:
+            args: 'Argumento de Drush.'
+        messages:
+            not_found: 'Comando de Drush no encontrado.'
+    generate:
+        authentication:
+            provider:
+                description: 'Generate an Authentication Provider'
+                help: 'The <info>generate:authentication:provider</info> command helps you generate a new Authentication Provider.'
+                options: null
+                module: common.options.module
+                class-name: 'Authentication Provider class'
+        command:
+            description: 'Genera un comando para la consola.'
+            help: 'El comando <info>generate:command</info> le ayudará a generar un nuevo comando.'
+            welcome: 'Bienvenido al generador de Comando de Drupal'
+            options:
+                module: common.options.module
+                controller-title: 'Título del controlador'
+                class-name: 'Nombre de la Clase de Comandos'
+                command: 'Nombre del Comando'
+                container: 'Acceso al contenedor de servicios'
+            questions:
+                module: common.questions.module
+                class-name: 'Introduzca el nombre de la Clase de Comandos'
+                command: 'Introduzca el nombre del Comando'
+                container: 'Necesita acceder al contenedor de servicios'
+                controller-title: 'Título del controlador'
+            messages:
+                title-not-empty: 'Title cannot be empty'
+        controller:
+            description: 'Generar y registrar un controlador'
+            help: 'El comando <info>generate:controller</info> le ayuda a generar un nuevo controlador.'
+            welcome: 'Bienvenido al generador de controlador de Drupal'
+            options:
+                module: common.options.module
+                class-name: 'Nombre de la clase del controlador'
+                method-name: 'El nombre del método de acción'
+                route: 'El camino de la routa'
+                services: common.options.services
+                test: 'Generar una clase de prueba'
+                controller-title: 'Título del controllador'
+            questions:
+                module: common.questions.module
+                class-name: 'Escriba el nombre de la clase del Controlador'
+                method-name: 'Escriba nombre del método de acción'
+                route: 'Escriba el camino de la ruta'
+                services: common.questions.services
+                test: 'Desea generar una clase de prueba unitaria'
+                other-controller-title: 'Título del controlado (vació para iniciar generación de código)'
+                controller-title: 'Escriba el título del controllador'
+            messages:
+                invalid-controller-title: 'Title cannot be empty'
+                title-already-added: 'Title was already added'
+                invalid-method-name: 'Method name cannot be empty'
+                method-name-already-added: 'Method name was already added'
+                invalid-route: 'Route cannot be empty'
+                route-already-added: 'Route was already added'
+                title-not-empty: 'Título no puede ser vacío'
+        entity:
+            description: 'Generar un nuevo "%s"'
+            help: 'El <info>"%s"</info> comando te ayuda a generar a nuevo "%s"'
+            welcome: 'Bienvenido al generador de comando de Drupal'
+            options:
+                module: common.options.module
+                entity-class: 'El nombre de la clase de la entidad'
+                entity-name: 'El nombre de la entidad'
+                label: 'The entity label'
+            questions:
+                module: common.questions.module
+                entity-class: 'Introduzca el nombre de la clase de la entidad'
+                entity-name: 'Introduzca el nombre de la entidad'
+                label: 'Enter the entity label'
+        form:
+            description: 'Generar un nuevo "%s"'
+            help: 'El <info>"%s"</info> comando te ayuda a generar un nuevo "%s"'
+            welcome: 'Bienvenido al generador de formularios de Drupal'
+            options:
+                module: common.options.module
+                class-name: 'The form class name'
+                form-id: 'The Form id'
+                services: common.options.services
+                inputs: common.options.inputs
+                routing: 'Update routing'
+            questions:
+                module: common.questions.module
+                class-name: 'Enter the Form Class name'
+                form-id: 'Enter the Form id'
+                services: common.questions.services
+                inputs: common.questions.inputs
+                routing: 'Update routing file'
+        module:
+            description: 'Generar a modulo.'
+            help: 'The <info>generate:module</info> command helps you generates a new módulo.'
+            welcome: 'Welcome to the Drupal module generator'
+            options:
+                module: 'The Module name'
+                machine-name: 'The machine name (lowercase and underscore only)'
+                module-path: 'The path of the module'
+                description: 'Module description'
+                core: 'Core version'
+                package: 'Module package'
+                controller: 'Default Controller'
+                composer: 'Add a composer.json file'
+                dependencies: 'Module dependencies (i.e. context, galleria, panels)'
+                test: 'Generate a test class'
+            questions:
+                module: 'Enter the new module name'
+                machine-name: 'Enter the module machine name'
+                module-path: 'Enter the module Path'
+                description: 'Enter module description'
+                core: 'Enter Drupal Core version'
+                package: 'Enter package name'
+                controller: 'Do you want to generate a default Controller'
+                composer: 'Do you want to add a composer.json file to your module'
+                dependencies: 'Would you like to add module depencencies'
+                test: 'Do you want to generate a unit test class'
+            warnings:
+                module-unavailable: 'Warning The following modules are not already available in your local environment "%s"'
+            errors:
+                directory-exists: 'The target directory "%s" is not empty.'
+        theme:
+            description: 'Generate a theme.'
+            help: 'The <info>generate:theme</info> command helps you generates a new theme.'
+            welcome: 'Welcome to the Drupal theme generator'
+            options:
+                theme: 'The theme name'
+                machine-name: 'The machine name (lowercase and underscore only)'
+                theme-path: 'The path of the theme'
+                description: 'Theme description'
+                core: 'Core version'
+                package: 'Theme package'
+                composer: 'Add a composer.json file'
+                base-theme: 'Base theme (i.e. classy, seven)'
+                global-library: 'Global styling library name'
+                regions: Regions
+                breakpoints: Breakpoints
+                base_theme: 'Base theme (i.e. classy, seven)'
+            questions:
+                theme: 'Enter the new theme name'
+                machine-name: 'Enter the theme machine name'
+                theme-path: 'Enter the theme Path'
+                description: 'Enter theme description'
+                core: 'Enter Drupal Core version'
+                package: 'Enter package name'
+                dependencies: 'Would you like to add module depencencies'
+                invalid-theme: 'Invalid %s theme was selected'
+                global-library: 'Enter the global styling library name'
+                regions: 'Do you want to generate the theme regions'
+                region-name: 'Enter region name'
+                region-machine-name: 'Enter region machine name'
+                region-add: 'Do you want add another region'
+                breakpoints: 'Do you want to generate the theme breakpoints'
+                breakpoint-name: 'Enter breakpoint name'
+                breakpoint-label: 'Enter breakpoint label'
+                breakpoint-media-query: 'Enter breakpoint media query'
+                breakpoint-weight: 'Enter breakpoint weight'
+                breakpoint-multipliers: 'Enter breakpoint multipliers'
+                breakpoint-add: 'Do you want add another breakpoint'
+            warnings:
+                module-unavailable: 'Warning The following modules are not already available in your local environment "%s"'
+            errors:
+                directory-exists: 'The target directory "%s" is not empty.'
+        permission:
+            description: 'Generate module permissions'
+            help: 'The <info>generate:permissions</info> command helps you generate new permissions'
+            options:
+                module: common.options.module
+            questions:
+                module: common.questions.module
+                permission: 'Enter a permission'
+                title: 'Enter a title for the permision'
+                description: 'Enter a description for the permision'
+                restrict-access: 'Restrict Access'
+                add: 'Do you want add another permission'
+        plugin:
+            block:
+                description: 'Generate a plugin block'
+                help: 'The <info>generate:plugin:block</info> command helps you generate a new Plugin block.'
+                welcome: 'Welcome to the Drupal Plugin Block generator'
+                options:
+                    module: common.options.module
+                    class-name: 'Plugin class name'
+                    label: 'Plugin label'
+                    plugin-id: 'Plugin id'
+                    inputs: common.options.inputs
+                    services: common.options.services
+                questions:
+                    module: common.questions.module
+                    class-name: 'Enter the plugin class name'
+                    label: 'Enter the plugin label'
+                    plugin-id: 'Enter the plugin id'
+                    inputs: common.questions.inputs
+                    services: common.questions.services
+                messages:
+                    inputs: "\nYou can add input fields to create special configurations in each block.\nThis is optional, press <info>enter</info> to <info>continue</info>"
+            field:
+                description: 'Generate field type, widget and formatter plugins.'
+                help: 'The <info>generate:plugin:field</info> command helps you generate a full set of field plugin: field type, field formatter and field widget.'
+                welcome: 'Welcome to the Drupal Field Plugin generator'
+                options:
+                    module: common.options.module
+                    type-class-name: 'Field type plugin class name'
+                    type-label: 'Field type plugin label'
+                    type-plugin-id: 'Field type plugin id'
+                    type-description: 'Field type plugin description'
+                    formatter-class-name: 'Field formatter plugin class name'
+                    formatter-label: 'Field formatter plugin label'
+                    formatter-plugin-id: 'Field formatter plugin id'
+                    widget-class-name: 'Field widget plugin class name'
+                    widget-label: 'Field widget plugin label'
+                    widget-plugin-id: 'Field widget plugin id'
+                    field-type: 'Field type the formatter and widget plugin can be used with'
+                    default-widget: 'Default field widget of the field type plugin'
+                    default-formatter: 'Default field widget of field type plugin'
+                questions:
+                    module: common.questions.module
+                    type-class-name: 'Field type plugin class name'
+                    type-label: 'Enter the field type plugin label'
+                    type-plugin-id: 'Enter the field type plugin id'
+                    type-description: 'Enter the field type plugin description'
+                    formatter-class-name: 'Enter the field formatter plugin class name'
+                    formatter-label: 'Enter the field formatter plugin label'
+                    formatter-plugin-id: 'Enter the field formatter plugin id'
+                    widget-class-name: 'Enter the field widget plugin class name'
+                    widget-label: 'Enter the field widget plugin label'
+                    widget-plugin-id: 'Enter the field widget plugin id'
+                    field-type: 'Enter the field type the formatter and widget plugin can be used with'
+                    default-widget: 'Enter the default field widget of the field type plugin'
+                    default-formatter: 'Enter the default field widget of field type plugin'
+            fieldformatter:
+                description: 'Generate field formatter plugin.'
+                help: 'The <info>generate:plugin:fieldformatter</info> command helps you generate a new field formatter plugin.'
+                welcome: 'Welcome to the Drupal Field Formatter Plugin generator'
+                options:
+                    module: common.options.module
+                    class-name: 'Plugin class name'
+                    label: 'Plugin label'
+                    plugin-id: 'Plugin id'
+                    field-type: 'Field type the plugin can be used with'
+                questions:
+                    module: common.questions.module
+                    class-name: 'Enter the plugin class name'
+                    label: 'Enter the plugin label'
+                    plugin-id: 'Enter the plugin id'
+                    field-type: 'Enter the field type the plugin can be used with'
+            fieldtype:
+                description: 'Generate field type plugin.'
+                help: 'The <info>generate:plugin:fieldtype</info> command helps you generate a new field type plugin.'
+                welcome: 'Welcome to the Drupal Field Type Plugin generator'
+                options:
+                    module: common.options.module
+                    class-name: 'Plugin class name'
+                    label: 'Plugin label'
+                    plugin-id: 'Plugin id'
+                    description: 'Plugin Description'
+                    default-widget: 'Default field widget of this plugin'
+                    default-formatter: 'Default field widget of this plugin'
+                questions:
+                    module: common.questions.module
+                    class-name: 'Enter the plugin class name'
+                    label: 'Enter the plugin label'
+                    plugin-id: 'Enter the plugin id'
+                    description: 'Enter the plugin Description'
+                    default-widget: 'Enter the default field widget of this plugin'
+                    default-formatter: 'Enter the default field formatter of this plugin'
+            fieldwidget:
+                description: 'Generate field widget plugin.'
+                help: 'The <info>generate:plugin:fieldwidget</info> command helps you generate a new field widget plugin.'
+                welcome: 'Welcome to the Drupal Field Widget Plugin generator'
+                options:
+                    module: common.options.module
+                    class-name: 'Plugin class name'
+                    label: 'Plugin label'
+                    plugin-id: 'Plugin id'
+                    field-type: 'Field type the plugin can be used with'
+                questions:
+                    module: common.questions.module
+                    class-name: 'Enter the plugin class name'
+                    label: 'Enter the plugin label'
+                    plugin-id: 'Enter the plugin id'
+                    field-type: 'Enter the field type the plugin can be used with'
+            imageeffect:
+                description: 'Generate image effect plugin.'
+                help: 'The <info>generate:plugin:imageeffect</info> command helps you generate a new image effect plugin.'
+                welcome: 'Welcome to the Drupal Image Effect Plugin generator'
+                options:
+                    module: common.options.module
+                    class-name: 'Plugin class name'
+                    label: 'Plugin label'
+                    plugin-id: 'Plugin id'
+                    description: 'Plugin Description'
+                questions:
+                    module: common.questions.module
+                    class-name: 'Enter the plugin class name'
+                    label: 'Enter the plugin label'
+                    plugin-id: 'Enter the plugin id'
+                    description: 'Enter the plugin Description'
+            rest:
+                resource:
+                    description: 'Generate plugin rest resource'
+                    help: 'The <info>generate:plugin:rest:resource</info> command helps you generate a new rest resource.'
+                    welcome: 'Welcome to the Drupal Plugin Rest Resource generator'
+                    options:
+                        module: common.options.module
+                        class-name: 'Plugin Rest Resource class'
+                        plugin-id: 'Plugin Rest Resource id'
+                        plugin-label: 'Plugin Rest Resource Label'
+                        plugin-url: 'Plugin Rest Resource URL'
+                        plugin-states: 'Plugin Rest Resource States'
+                    questions:
+                        module: common.questions.module
+                        class-name: 'Enter the plugin rest resource name'
+                        plugin-id: 'Enter the plugin rest resource id'
+                        plugin-label: 'Enter the plugin rest resource label'
+                        plugin-url: 'Enter the plugin rest resource url'
+                        plugin-states: 'Please select what REST States implement in your resource (GET is selected by default)'
+                    messages:
+                        selected-states: 'States selected'
+            rulesaction:
+                description: 'Generate a plugin rule action'
+                help: 'The <info>generate:plugin:rulesaction</info> command helps you generate a new Plugin rule action.'
+                welcome: 'Welcome to the Drupal Plugin Rules Action generator'
+                options:
+                    module: common.options.module
+                    class-name: 'Plugin class name'
+                    label: 'Plugin label'
+                    plugin-id: 'Plugin id'
+                    inputs: common.options.inputs
+                    services: common.options.services
+                    category: 'Plugin category'
+                    context: 'Plugin context'
+                    type: 'Action Type (user or node)'
+                questions:
+                    module: common.questions.module
+                    class-name: 'Enter the plugin class name'
+                    label: 'Enter the plugin label'
+                    plugin-id: 'Enter the plugin id'
+                    inputs: common.questions.inputs
+                    services: common.questions.services
+                    category: 'Enter plugin category'
+                    context: 'Enter plugin context'
+            type:
+                annotation:
+                    description: 'Generate a plugin type with annotation discovery'
+                    help: 'The <info>generate:plugin:type:annotation</info> command helps you generate a new Plugin type that uses annotation discovery.'
+                    welcome: 'Welcome to the Drupal Plugin Type generator'
+                    options:
+                        module: common.options.module
+                        class-name: 'Plugin type class name'
+                        machine-name: 'Plugin type machine name'
+                        label: 'Plugin type label'
+                    questions:
+                        module: common.questions.module
+                        class-name: 'Enter the plugin type class name'
+                        machine-name: 'Enter the plugin type machine name'
+                        label: 'Enter the plugin type label'
+                yaml:
+                    description: 'Generate a plugin type with Yaml discovery'
+                    help: 'The <info>generate:plugin:type:yaml</info> command helps you generate a new Plugin type that uses Yaml discovery.'
+                    welcome: 'Welcome to the Drupal Plugin Type generator'
+                    options:
+                        module: common.options.module
+                        class-name: 'Plugin type class name'
+                        plugin-name: 'Plugin type machine name'
+                        plugin-file-name: 'Plugin file name'
+                    questions:
+                        module: common.questions.module
+                        class-name: 'Enter the plugin type class name'
+                        plugin-name: 'Enter the plugin type machine name'
+                        plugin-file-name: 'Enter the plugin file name (e.g. MODULE.plugin.filename.yml)'
+        service:
+            description: 'Generate service'
+            help: 'The <info>generate:service</info> command helps you generate a new service.'
+            welcome: 'Welcome to the Drupal service generator'
+            options:
+                module: common.options.module
+                service-name: 'Service name'
+                class-name: 'Class name'
+                interface: Interface
+                services: common.questions.services
+            questions:
+                module: common.questions.module
+                service-name: 'Enter the service name'
+                class-name: 'Enter the Class name'
+                interface: 'Create an interface'
+                services: common.options.services
+    init:
+        description: 'Copy configuration files to user home directory.'
+    module:
+        debug:
+            description: 'Display current modules available for application'
+            options:
+                status: 'Module status [enabled|disabled]'
+                type: 'Module type [core|no-core]'
+            messages:
+                id: ID
+                name: Name
+                status: Status
+                origin: Origin
+                package: Package
+                enabled: Enabled
+                disabled: Disabled
+        install:
+            description: 'Install module or modules in the application'
+            questions:
+                module: 'Module name (press <return> to stop adding modules)'
+                invalid-module: 'Invalid module %s'
+            options:
+                module: 'Module or modules to be enabled should be separated by a comma'
+            messages:
+                no-modules: 'You must provide module or modules to enable.'
+                missing: 'Unable to install modules %s due to missing modules %s'
+                missing-dependencies: 'Unable to install modules %s due to missing dependencies %s'
+                nothing: 'Nothing to do. All modules are already installed'
+                dependencies: 'Are you sure you want to install dependencies: %s?'
+                success: 'Modules %s were installed successfully'
+                disabled-modules: 'Only disabled modules will be listed in autocomplete'
+        uninstall:
+            description: 'Uninstall module or modules in the application'
+            messages:
+                no-modules: 'You must provide module or modules to enable.'
+                dependents: 'Unable to uninstall modules %s because are required by %s'
+                nothing: 'Nothing to do. All modules are already uninstalled'
+                success: 'Modules %s were uninstalled successfully'
+        download:
+            description: 'Download module or modules in application'
+            options:
+                version: 'Module version i.e 1.x-dev'
+            messages:
+                no-releases: 'There aren''t any releases for module %s'
+                getting-releases: 'Getting releases for module %s'
+                downloading: 'Downloading module %s release %s'
+                downloaded: 'Module %s version %s was downloaded successfully at %s'
+                select-release: 'Please select your favorite release'
+                installed: 'Module %s was installed successfully'
+    migrate:
+        debug:
+            description: 'Display current migration available for the application'
+            arguments:
+                drupal-version: 'Drupal Version'
+            messages:
+                id: 'Migration Id'
+                description: Description
+                version: Version
+        load:
+            description: 'Generate a migration entity.'
+            arguments:
+                file: 'Path to the yml file'
+            messages:
+                invalid_file: 'The file "%s" does not exists.'
+                installed: 'Please remember to put the plugin files where they should be.'
+                overridden: 'The entity was overridden.'
+            questions:
+                override: 'The File is already install, do you want override it [yes/no] ?'
+                file: 'Path to file'
+        execute:
+            description: 'Execute a migration available for application'
+            arguments:
+                id: 'Migration Id'
+            options:
+                site-url: 'Site Source URL'
+                db-host: 'Database Host'
+                db-name: 'Database Name'
+                db-user: 'Database User'
+                db-pass: 'Database Pass'
+                db-prefix: 'Database Prefix'
+                db-port: 'Database Port'
+                exclude: 'Migration id(s) to exclude'
+            questions:
+                id: 'Migration Id'
+                exclude-id: 'Migration Id to exlude (press <return> to stop adding migrations)'
+                other-id: 'Other migration id (press <return> to stop adding migrations)'
+                site-url: 'Source Site URL'
+                db-host: 'Database Host'
+                db-name: 'Database Name'
+                db-user: 'Database User'
+                db-pass: 'Database Pass'
+                db-prefix: 'Database Prefix'
+                db-port: 'Database Port'
+                invalid-migration-id: 'Migration Id "%s" is invalid'
+            messages:
+                processing: 'Processing Migration "%s"'
+                imported: 'Migration "%s" was imported correctly'
+                fail-load: 'Migration "%s" can''t be loaded'
+                importing-incomplete: 'Importing migration "%s"'
+                import-stoped: 'Import "%s" stopped by request'
+                import-fail: 'Import "%s" failed'
+                import-skipped: 'Import "%s" was skipped due to unfulfilled dependencies'
+                wrong-source: 'Upgrading from this version of Drupal is not supported.'
+                destination-error: 'Database destination error'
+                source-error: 'Database source error'
+                no-migrations: 'There are not migrations available to be executed'
+    rest:
+        enable:
+            description: 'Enable a rest resource for the application'
+            arguments:
+                resource-id: 'Rest ID'
+                states: 'REST States to enable for Rest resource'
+                authorizations: 'Authorizations providers enabled for Rest Resource'
+            questions:
+                resource-id: 'Rest ID'
+            messages:
+                invalid-rest-id: 'Rest ID %s is invalid'
+                formats: 'Available serialization formats'
+                authentication-providers: 'Available Authentication Providers'
+                selected-state: 'Selected State'
+                selected-formats: 'Selected formats'
+                selected-authentication-providers: 'Selected Authentication Providers'
+        disable:
+            description: 'Disable a rest resource for the application'
+            arguments:
+                resource-id: 'Rest ID'
+                states: 'REST States to disable for Rest resource'
+            questions:
+                resource-id: 'Rest ID'
+            messages:
+                invalid-rest-id: 'Rest ID %s is invalid'
+        debug:
+            description: 'Display current rest resource for the application'
+            arguments:
+                resource-id: 'Rest ID'
+            options:
+                status: 'Rest resource status enabled | disabled'
+            messages:
+                id: 'Rest ID'
+                label: Label
+                canonical_url: 'Canonical URL'
+                status: Status
+                provider: Provider
+                enabled: Enabled
+                disabled: Disabled
+                rest-state: 'REST States'
+                supported-formats: 'Supported Formats'
+                supported_auth: 'Supported Authentication Providers'
+                not-found: 'Rest resource %s not found'
+    router:
+        debug:
+            description: 'Displays current routes for the application'
+            arguments:
+                route-name: 'Route names'
+            messages:
+                name: 'Route name'
+                path: 'Class path'
+                pattern: Pattern
+                defaults: Defaults
+                options: Options
+        rebuild:
+            description: 'Rebuild routes for the application'
+            arguments:
+                route-name: 'Route names'
+            messages:
+                rebuilding: 'Rebuilding routes, wait a moment please'
+                completed: 'Done rebuilding route(s).'
+    self-update:
+        description: 'Update the console to latest version.'
+        help: 'Update the console command to the latest version.'
+        messages:
+            success: 'The console has been updated to the latest version.'
+            current-version: 'The latest version %s, was already installed on your system.'
+    site:
+        mode:
+            description: 'Switch system performance configuration'
+            arguments:
+                environment: 'Enviroment name'
+            messages:
+                configuration: 'Configuration name'
+                configuration-key: 'Configuration key'
+                original: 'Original Value'
+                updated: 'Override Value'
+        status:
+            description: 'View current Drupal Installation status'
+            messages:
+                application: Application
+                system: 'System Info'
+                hash_salt: 'Hash salt'
+                console: 'Console version'
+                database: 'Database connection'
+                driver: Driver
+                host: Host
+                port: Port
+                username: Username
+                password: Password
+                theme: Themes
+                connection: Connection
+                theme_default: 'Default theme'
+                theme_admin: 'Admin theme'
+                directory: Directories
+                directory_root: 'Site root directory'
+                directory_temporary: 'Site temporary directory'
+                directory_theme_default: 'Default theme directory'
+                directory_theme_admin: 'Admin theme directory'
+                configuration: Configuration
+                active: 'Active config path'
+                staging: 'Staging config path'
+        maintenance:
+            description: 'Switch site into maintenance mode'
+            arguments:
+                mode: 'Site maintenance mode'
+            messages:
+                maintenance-on: 'Operating in maintenance mode on'
+                maintenance-off: 'Operating in maintenance mode off'
+            errors:
+                invalid-mode: 'Invalid maintance mode'
+        new:
+            description: 'Create a new Drupal project'
+            arguments:
+                site-name: 'Site name'
+                version: 'Specific Drupal version to download'
+            messages:
+                getting-releases: 'Getting releases for Drupal'
+                downloading: 'Downloading Drupal %s'
+                extracting: 'Extracting files for Drupal %s'
+                no-releases: 'There aren''t not releases available for Drupal'
+                downloaded: 'Drupal %s was downloaded in directory %s'
+                error-copying: 'An error occurred while renaming your directory at %s'
+    test:
+        debug:
+            description: 'List Test Units available for the application.'
+            help: 'Update the console command to the latest version.'
+            arguments:
+                test-id: 'Test Unit ID'
+            options:
+                group: Group
+            messages:
+                id: 'Test Unit ID'
+                description: Description
+                group: Group
+                success: 'The console has been updated to the latest version.'
+    password:
+        hash:
+            description: 'Generate a hash from a plaintext password.'
+            help: 'The <info>password:hash</info> command helps you to generate hashs password from plaintext passwords.'
+            welcome: 'Welcome to the Drupal password hash generator'
+            options:
+                password: 'Password(s) in text format'
+            questions:
+                invalid-pass: 'Password can''t be empty'
+                password: 'Enter password'
+                other-password: 'Other password (press <return> to stop adding passwords)'
+            messages:
+                password: Password
+                hash: Hash
+            errors: null
+        reset:
+            description: 'Reset password for a specific user.'
+            help: 'The <info>password:reset</info> command helps you to reset password for a specific user.'
+            welcome: 'Welcome to the Drupal password reset'
+            options:
+                password: 'Password in text format'
+                user-id: 'User ID'
+            questions:
+                invalid-uid: 'Invalid user id %, user id must be an integer'
+                invalid-pass: 'Password can''t be empty'
+                user: 'Enter User ID'
+                password: 'Enter password'
+                other-password: 'Other password (press <return> to stop adding passwords)'
+            messages:
+                reset-successful: 'Password was updated sucessfully for user id %s'
+            errors:
+                invalid-user: 'Invalid user id %s'
+    yaml:
+        merge:
+            description: 'Combinar uno o más archivos de YAML en un nuevo archivo YAML. Se conservaran los últimos valores del archivo mas a la izquierda del merge.'
+            arguments:
+                yaml-files: 'Ruta de archivos de YAML para combinar'
+                yaml-destination: 'Ruta para el nuevo archivo YAML que almacenara la combinación.'
+            questions:
+                yaml-destination: 'Ruta para el nuevo archivo YAML que almacenara la combinación.'
+                file: 'Ruta del archivo a combinar'
+                other-file: 'Ruta del archivo a combinar (vacío para iniciar con el proceso de combinación)'
+                invalid-file: 'Ruta del archivo no puede ser vacía'
+                file-already-added: 'Ruta del archivo ya fue agregada'
+            messages:
+                wrong-parse: 'Archivo de Yaml "%s" esta vacío o no existe.'
+                error-parsing: 'Un error ha ocurrido al procesar el archvio de Yaml "%s".'
+                two-files-required: 'Al menos dos archivos son requeridos'
+                error-generating: 'Error generando el archivo YAML combinado.'
+                error-writing: 'Error escribiendo en el archivo YAML combinado.'
+                merged: 'Nuevo archivo "%s" fue creado satisfactorimente despuesde de combinar los archivos Yaml.'

@@ -18,6 +18,9 @@
             "in": "vendor"
         }
     ],
+    "compactors": [
+        "Herrera\\Box\\Compactor\\Php"
+    ],
     "main": "bin/console",
     "output": "console.phar",
     "stub": true

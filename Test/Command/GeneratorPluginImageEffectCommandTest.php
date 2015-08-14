@@ -19,9 +19,9 @@ class GeneratorPluginImageEffectCommandTest extends GenerateCommandTest
 
         $generator = $this->getGenerator();
         $generator
-          ->expects($this->once())
-          ->method('generate')
-          ->with($module, $class_name, $plugin_label, $plugin_id, $description);
+            ->expects($this->once())
+            ->method('generate')
+            ->with($module, $class_name, $plugin_label, $plugin_id, $description);
 
         $command = $this->getCommand($generator, $input);
         $cmd = new CommandTester($command);
@@ -61,18 +61,18 @@ class GeneratorPluginImageEffectCommandTest extends GenerateCommandTest
     protected function getCommand($generator, $input)
     {
         $command = $this
-          ->getMockBuilder('Drupal\AppConsole\Command\GeneratorPluginImageEffectCommand')
-          ->setMethods(['getModules', 'getServices', '__construct'])
-          ->setConstructorArgs([$this->getTranslationHelper()])
-          ->getMock();
+            ->getMockBuilder('Drupal\AppConsole\Command\GeneratorPluginImageEffectCommand')
+            ->setMethods(['getModules', 'getServices', '__construct'])
+            ->setConstructorArgs([$this->getTranslatorHelper()])
+            ->getMock();
 
         $command->expects($this->any())
-          ->method('getModules')
-          ->will($this->returnValue(['foo']));;
+            ->method('getModules')
+            ->will($this->returnValue(['foo']));
 
         $command->expects($this->any())
-          ->method('getServices')
-          ->will($this->returnValue(['twig', 'database']));;
+            ->method('getServices')
+            ->will($this->returnValue(['twig', 'database']));
 
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet($input));
@@ -84,9 +84,9 @@ class GeneratorPluginImageEffectCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-          ->getMockBuilder('Drupal\AppConsole\Generator\PluginImageEffectGenerator')
-          ->disableOriginalConstructor()
-          ->setMethods(['generate'])
-          ->getMock();
+            ->getMockBuilder('Drupal\AppConsole\Generator\PluginImageEffectGenerator')
+            ->disableOriginalConstructor()
+            ->setMethods(['generate'])
+            ->getMock();
     }
 }

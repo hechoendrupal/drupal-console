@@ -109,9 +109,11 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
    * {@inheritdoc}
    */
   public function build() {
-    $build = array();
+    $build = [];
 {% for input in inputs %}
     $build['{{plugin_id}}_{{ input.name }}']['#markup'] = '<p>' . $this->configuration['{{ input.name }}'] . '</p>';
+{% else %}
+    $build['{{plugin_id}}']['#markup'] = 'Implement {{class_name}}.';
 {% endfor %}
 
     return $build;

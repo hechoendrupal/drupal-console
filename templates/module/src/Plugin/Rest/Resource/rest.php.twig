@@ -9,14 +9,12 @@ namespace Drupal\{{module_name}}\Plugin\rest\resource;
 {% endblock %}
 
 {% block use_class %}
-use Drupal\Core\Entity\EntityManagerInterface;
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Psr\Log\LoggerInterface;
 {% endblock %}
 
@@ -32,15 +30,16 @@ use Psr\Log\LoggerInterface;
  *   }
  * )
  */
-class {{ class_name }} extends ResourceBase
-{% endblock %}
+class {{ class_name }} extends ResourceBase {% endblock %}
+
 {% block class_variables %}
   /**
-   *  A curent user instance.
+   * A current user instance.
    *
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $currentUser;
+
 {% endblock %}
 
 {% block class_construct %}
@@ -57,6 +56,8 @@ class {{ class_name }} extends ResourceBase
    *   The available serialization formats.
    * @param \Psr\Log\LoggerInterface $logger
    *   A logger instance.
+   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
+   *   A current user instance.
    */
   public function __construct(
     array $configuration,
@@ -69,6 +70,7 @@ class {{ class_name }} extends ResourceBase
 
     $this->currentUser = $current_user;
   }
+
 {% endblock %}
 
 {% block class_create %}
@@ -86,7 +88,6 @@ class {{ class_name }} extends ResourceBase
     );
   }
 {% endblock %}
-
 {% block class_methods %}
 {% for state in plugin_states %}
   /**
@@ -94,30 +95,23 @@ class {{ class_name }} extends ResourceBase
    *
    * Returns a list of bundles for specified entity.
    *
-   * @return \Drupal\rest\ResourceResponse
-   *   The response containing a reponse HTML.
-   *
    * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+   *   Throws exception expected.
    */
   public function {{ state|lower }}() {
-    $response = new ResourceResponse();
 
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
-    /*if(!$this->currentUser->hasPermission($permission)) {
-      throw new AccessDeniedHttpException();
-    }*/
 
-    $response->setContent('<html><body><h1>Implement REST State {{ state }}!</h1></body></html>');
-    $response->setStatusCode(ResourceResponse::HTTP_OK);
-    $response->headers->set('Content-Type', 'text/html');
-
-    // Prints the HTTP headers followed by the content.
-    $response->send();
+    /*
+    if(!$this->currentUser->hasPermission($permission)) {
+        throw new AccessDeniedHttpException();
+    }
+    */
 
     // Throw an exception if it is required.
     // throw new HttpException(t('Throw an exception if it is required.'));
+    return new ResourceResponse("Implement REST State {{ state }}!");
   }
-
 {% endfor %}
 {% endblock %}

@@ -2,6 +2,7 @@
 
 /**
  * @file
+ * Contains \Drupal\AppConsole\Config.
  */
 
 namespace Drupal\AppConsole;
@@ -10,53 +11,53 @@ use Symfony\Component\Yaml\Parser;
 
 class Config
 {
+    protected $file;
 
     protected $parser;
 
-    protected $root_path;
+    protected $config;
 
-    public function __construct(Parser $parser, $root_path)
+    public function __construct($file = null)
     {
-        $this->parser = $parser;
-        $this->root_path = $root_path;
+        $this->parser = new Parser();
+        if ($file) {
+            $this->file = $file;
+            $this->config = $this->readYamlFile($file);
+        }
     }
 
-    protected function readYamlFile($path_file)
+    public function readYamlFile($file = null)
     {
-        if (file_exists($path_file)) {
-            return $this->parser->parse(file_get_contents($path_file));
+        if (is_null($file)) {
+            return [];
+        }
+
+        if (file_exists($file)) {
+            return $this->parser->parse(file_get_contents($file));
         } else {
             return [];
         }
     }
 
-    public function getUserHomeDir()
+    public function get($key, $default = '')
     {
-        return rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/\\');
-    }
+        if (!$key) {
+            return $default;
+        }
 
-    public function getBaseConfig()
-    {
-        return $this->readYamlFile($this->root_path . '/config.yml');
-    }
+        $config = $this->config;
+        $items = explode('.', $key);
 
-    public function getUserConfig()
-    {
-        $userConfig = $this->readYamlFile(
-          $this->getUserHomeDir() . '/.console/config.yml'
-        );
+        if (!$items) {
+            return $default;
+        }
+        foreach ($items as $item) {
+            if (empty($config[$item])) {
+                return $default;
+            }
+            $config = $config[$item];
+        }
 
-        unset($userConfig['application']['name']);
-        unset($userConfig['application']['version']);
-
-        return $userConfig;
-    }
-
-    public function getConfig()
-    {
-        $baseConfig = $this->getBaseConfig();
-        $userConfig = $this->getUserConfig();
-
-        return array_replace_recursive($baseConfig, $userConfig);
+        return $config;
     }
 }

@@ -1,11 +1,10 @@
 {% extends "base/file.php.twig" %}
 
 {% block file_path %}
-{{ entity_name }}.page.inc
-{% endblock %}
-
+{{ entity_name }}.page.inc{% endblock %}
 {% block extra_info %}
- * {{ entity_class }} page callback file for the {{ entity_name }} entity.
+ *
+ * Page callback for {{ label }} entities.
 {% endblock %}
 
 {% block use_class %}
@@ -14,7 +13,7 @@ use Drupal\Core\Render\Element;
 
 {% block file_methods %}
 /**
- * Prepares variables for {{ entity_name }} templates.
+ * Prepares variables for {{ label }} templates.
  *
  * Default template: {{ entity_name }}.html.twig.
  *
@@ -23,10 +22,9 @@ use Drupal\Core\Render\Element;
  *   - elements: An associative array containing the user information and any
  *   - attributes: HTML attributes for the containing element.
  */
-
-function template_preprocess_{{ entity_name }}(&$variables) {
-  // Fetch {{ entity_class }} Entity Object
-  ${{ entity_name }} = $variables['elements']['#{{ entity_name }}'];
+function template_preprocess_{{ entity_name | machine_name }}(array &$variables) {
+  // Fetch {{ entity_class }} Entity Object.
+  ${{ entity_name | machine_name }} = $variables['elements']['#{{ entity_name }}'];
 
   // Helpful $content variable for templates.
   foreach (Element::children($variables['elements']) as $key) {

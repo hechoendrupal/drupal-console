@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\GeneratorEntityCommand.
@@ -41,21 +42,39 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
     protected function configure()
     {
         $this
-          ->setName($this->commandName)
-          ->setDescription(sprintf(
-            $this->trans('commands.generate.entity.description'),
-            $this->entityType
-          ))
-          ->setHelp(sprintf(
-            $this->trans('commands.generate.entity.help'),
-            $this->commandName,
-            $this->entityType
-          ))
-          ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
-          ->addOption('entity-class', null, InputOption::VALUE_REQUIRED,
-            $this->trans('commands.generate.entity.options.entity-class'))
-          ->addOption('entity-name', null, InputOption::VALUE_REQUIRED,
-            $this->trans('commands.generate.entity.options.entity-name'));
+            ->setName($this->commandName)
+            ->setDescription(
+                sprintf(
+                    $this->trans('commands.generate.entity.description'),
+                    $this->entityType
+                )
+            )
+            ->setHelp(
+                sprintf(
+                    $this->trans('commands.generate.entity.help'),
+                    $this->commandName,
+                    $this->entityType
+                )
+            )
+            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'entity-class',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.generate.entity.options.entity-class')
+            )
+            ->addOption(
+                'entity-name',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.generate.entity.options.entity-name')
+            )
+            ->addOption(
+                'label',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.generate.entity.options.label')
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -65,10 +84,11 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
         $module = $input->getOption('module');
         $entity_class = $input->getOption('entity-class');
         $entity_name = $input->getOption('entity-name');
+        $label = $input->getOption('label');
 
         $this
-          ->getGenerator()
-          ->generate($module, $entity_name, $entity_class, $entityType);
+            ->getGenerator()
+            ->generate($module, $entity_name, $entity_class, $label, $entityType);
     }
 
     /**
@@ -92,14 +112,14 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
         if (!$entity_class) {
             $entity_class = 'DefaultEntity';
             $entity_class = $dialog->askAndValidate(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.entity.questions.entity-class'), $entity_class),
-              function ($entity_class) {
-                  return $this->validateSpaces($entity_class);
-              },
-              false,
-              $entity_class,
-              null
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.entity.questions.entity-class'), $entity_class),
+                function ($entity_class) {
+                    return $this->validateSpaces($entity_class);
+                },
+                false,
+                $entity_class,
+                null
             );
         }
         $input->setOption('entity-class', $entity_class);
@@ -110,18 +130,30 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
         $entity_name = $input->getOption('entity-name');
         if (!$entity_name) {
             $entity_name = $dialog->askAndValidate(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.entity.questions.entity-name'), $machine_name),
-              function ($machine_name) {
-                  return $this->validateMachineName($machine_name);
-              },
-              false,
-              $machine_name,
-              null
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.entity.questions.entity-name'), $machine_name),
+                function ($machine_name) {
+                    return $this->validateMachineName($machine_name);
+                },
+                false,
+                $machine_name,
+                null
             );
         }
-
         $input->setOption('entity-name', $entity_name);
+
+        $default_label = $utils->camelCaseToHuman($entity_class);
+
+        // --label option
+        $label = $input->getOption('label');
+        if (!$label) {
+            $label = $dialog->ask(
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.entity.questions.label'), $default_label),
+                $default_label
+            );
+        }
+        $input->setOption('label', $label);
     }
 
     protected function createGenerator()

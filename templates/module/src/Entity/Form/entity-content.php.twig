@@ -16,13 +16,11 @@ use Drupal\Core\Language\Language;
 
 {% block class_declaration %}
 /**
- * Form controller for the {{ entity_class }} entity edit forms.
+ * Form controller for {{ label }} edit forms.
  *
  * @ingroup {{module}}
  */
-class {{ entity_class }}Form extends ContentEntityForm
-{% endblock %}
-
+class {{ entity_class }}Form extends ContentEntityForm {% endblock %}
 {% block class_methods %}
   /**
    * Overrides Drupal\Core\Entity\EntityFormController::buildForm().
@@ -33,7 +31,7 @@ class {{ entity_class }}Form extends ContentEntityForm
     $entity = $this->entity;
 
     $form['langcode'] = array(
-      '#title' => t('Language'),
+      '#title' => $this->t('Language'),
       '#type' => 'language_select',
       '#default_value' => $entity->getUntranslated()->language()->getId(),
       '#languages' => Language::STATE_ALL,
@@ -60,12 +58,12 @@ class {{ entity_class }}Form extends ContentEntityForm
     $status = $entity->save();
 
     if ($status) {
-      drupal_set_message($this->t('Saved the %label {{ entity_class }}.', array(
+      drupal_set_message($this->t('Saved the %label {{ label }}.', array(
         '%label' => $entity->label(),
       )));
     }
     else {
-      drupal_set_message($this->t('The %label {{ entity_class }} was not saved.', array(
+      drupal_set_message($this->t('The %label {{ label }} was not saved.', array(
         '%label' => $entity->label(),
       )));
     }

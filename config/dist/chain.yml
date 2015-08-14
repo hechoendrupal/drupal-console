@@ -1,0 +1,81 @@
+commands:
+  - command: generate:module
+    options:
+      module: Example module
+      machine-name: example
+      module-path: /modules/custom/
+      description: My example module
+      core: 8.x
+      package: Test
+      dependencies:
+  - command: generate:controller
+    options:
+      module: example
+      class-name: ExampleController
+      method-name: index
+      route: /example/index
+      services: [twig]
+  - command: generate:form:config
+    options:
+      module: example
+      class-name: ExampleForm
+      form-id: example_form
+      inputs: false
+      routing: true
+  - command: generate:entity:content
+    options:
+      module: example
+      entity-class: Foo
+      entity-name: foo
+  - command: generate:entity:config
+    options:
+      module: example
+      entity-class: Bar
+      entity-name: bar
+  - command: generate:command
+    options:
+      module: example
+      class-name: ExampleCommand
+      command: example:command
+      container: false
+  - command: generate:authentication:provider
+    options:
+      module: example
+      class-name: ExampleAuthenticationProvider
+  - command: generate:plugin:block
+    options:
+      module: example
+      class-name: ExampleBlock
+      label: Example plugin block
+      plugin-id: example_block
+  - command: generate:plugin:imageeffect
+    options:
+      module: example
+      class-name: ExampleImageEffect
+      plugin-id: example_image_effect
+      label: Example image effect
+      description: Example image effect
+  - command: generate:plugin:rest:resource
+    options:
+      module: example
+      class-name: ExampleRestResource
+      plugin-id: example_rest_resource
+      plugin-label: Example Rest Resource
+      plugin-url: example_rest_resource
+      plugin-states: 0, 1, 2
+  - command: generate:plugin:type:annotation
+    options:
+      module: example
+      class-name: ExamplePlugin
+      machine-name: example_plugin
+      label: Example plugin
+  - command: generate:service
+    options:
+      module: example
+      class-name: ExampleService
+      service-name: example.service
+      interface: yes
+  - command: module:install
+    arguments:
+      module: [example]
+

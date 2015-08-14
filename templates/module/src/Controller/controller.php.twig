@@ -11,26 +11,33 @@ namespace Drupal\{{module}}\Controller;
 {% block use_class %}
 use Drupal\Core\Controller\ControllerBase;
 {% if services is not empty %}
-use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 {% endif %}
 {% endblock %}
 
 {% block class_declaration %}
-class {{ class_name }} extends ControllerBase {% if services is not empty %}implements ContainerInjectionInterface {% endif %}
-{% endblock %}
-
+/**
+ * Class {{ class_name }}.
+ *
+ * @package Drupal\{{ module }}\Controller
+ */
+class {{ class_name }} extends ControllerBase {% endblock %}
 {% block class_construct %}
 {% if services is not empty %}
+  /**
+   * {@inheritdoc}
+   */
   public function __construct({{ servicesAsParameters(services)|join(', ') }}) {
 {{ serviceClassInitialization(services) }}
   }
 
 {% endif %}
 {% endblock %}
-
 {% block class_create %}
 {% if services is not empty %}
+  /**
+   * {@inheritdoc}
+   */
   public static function create(ContainerInterface $container) {
     return new static(
 {{ serviceClassInjection(services) }}
@@ -39,30 +46,26 @@ class {{ class_name }} extends ControllerBase {% if services is not empty %}impl
 
 {% endif %}
 {% endblock %}
-
 {% block class_methods %}
+{% for route in routes %}
   /**
-   * {{ method_name | capitalize }}.
+   * {{ route.method | capitalize }}.
    *
    * @return string
    *   Return Hello string.
    */
-  public function {{method_name}}({{ argumentsFromRoute(route)|join(', ') }}) {
-{% if class_name == "DefaultController" %}
+  public function {{route.method}}({{ argumentsFromRoute(route.route)|join(', ') }}) {
+{% if argumentsFromRoute(route.route) is not empty %}
     return [
         '#type' => 'markup',
-        '#markup' => $this->t('Hello @name!', ['@name' => $name])
-    ];
-{% elseif argumentsFromRoute(route) is not empty %}
-    return [
-        '#type' => 'markup',
-        '#markup' => $this->t('Implement method: {{method_name}} with parameter(s): {{ argumentsFromRoute(route)|join(', ') }}')
+        '#markup' => $this->t('Implement method: {{route.method}} with parameter(s): {{ argumentsFromRoute(route.route)|join(', ') }}')
     ];
 {% else %}
     return [
         '#type' => 'markup',
-        '#markup' => $this->t('Implement method: {{method_name}}')
+        '#markup' => $this->t('Implement method: {{route.method}}')
     ];
 {% endif %}
   }
+{% endfor %}
 {% endblock %}

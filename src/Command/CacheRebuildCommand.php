@@ -7,42 +7,48 @@
 
 namespace Drupal\AppConsole\Command;
 
-use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CacheRebuildCommand extends ContainerAwareCommand
 {
-
     protected function configure()
     {
         $this
-          ->setName('cache:rebuild')
-          ->setDescription($this->trans('commands.cache.rebuild.description'))
-          ->setAliases(['cr'])
-          ->addOption('cache', null, InputOption::VALUE_OPTIONAL, $this->trans('commands.cache.rebuild.options.cache'),
-            '');
+            ->setName('cache:rebuild')
+            ->setDescription($this->trans('commands.cache.rebuild.description'))
+            ->addArgument(
+                'cache',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.cache.rebuild.options.cache'),
+                null
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        require_once DRUPAL_ROOT . '/core/includes/utility.inc';
+        $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
+        $drupal_root = $drupalAutoLoad->getDrupalRoot();
+
+        include_once $drupal_root.'/core/includes/utility.inc';
         $validators = $this->getHelperSet()->get('validators');
 
         // Get the --cache option and make validation
-        $cache = $input->getOption('cache');
+        $cache = $input->getArgument('cache');
         $validated_cache = $validators->validateCache($cache);
         if (!$validated_cache) {
             throw new \InvalidArgumentException(
-              sprintf(
-                $this->trans('commands.cache.rebuild.messages.invalid_cache'),
-                $cache
-              )
+                sprintf(
+                    $this->trans('commands.cache.rebuild.messages.invalid_cache'),
+                    $cache
+                )
             );
         }
 
         // Start rebuilding cache
-        $output->writeln('[+] <comment>' . $this->trans('commands.cache.rebuild.messages.rebuild') . '</comment>');
+        $output->writeln('');
+        $output->writeln('[+] <comment>'.$this->trans('commands.cache.rebuild.messages.rebuild').'</comment>');
 
         // Get data needed to rebuild cache
         $kernelHelper = $this->getHelper('kernel');
@@ -60,7 +66,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
         }
 
         // Finish rebuiilding cache
-        $output->writeln('[+] <info>' . $this->trans('commands.cache.rebuild.messages.completed') . '</info>');
+        $output->writeln('[+] <info>'.$this->trans('commands.cache.rebuild.messages.completed').'</info>');
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -69,7 +75,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
 
         // Get the cache option
         $cache = $this->getCacheOption($input, $output, $dialog);
-        $input->setOption('cache', $cache);
+        $input->setArgument('cache', $cache);
     }
 
     private function getCacheOption($input, $output, $dialog)
@@ -77,25 +83,31 @@ class CacheRebuildCommand extends ContainerAwareCommand
         $validators = $this->getHelperSet()->get('validators');
 
         // Get the --cache option and make user interaction with validation
-        $cache = $input->getOption('cache');
+        $cache = $input->getArgument('cache');
         if (!$cache) {
+            $caches = $validators->getCaches();
+            $cache_keys = array_keys($caches);
+            $cache_keys[] = 'all';
+
             $cache = $dialog->askAndValidate(
-              $output,
-              $dialog->getQuestion($this->trans('commands.cache.rebuild.questions.cache'), 'all'),
-              function ($cache) use ($validators) {
-                  $validated_cache = $validators->validateCache($cache);
-                  if (!$validated_cache) {
-                      throw new \InvalidArgumentException(
-                        sprintf(
-                          $this->trans('commands.cache.rebuild.messages.invalid_cache'),
-                          $cache
-                        )
-                      );
-                  }
-                  return $validated_cache;
-              },
-              false,
-              'all'
+                $output,
+                $dialog->getQuestion($this->trans('commands.cache.rebuild.questions.cache'), 'all'),
+                function ($cache) use ($validators) {
+                    $validated_cache = $validators->validateCache($cache);
+                    if (!$validated_cache) {
+                        throw new \InvalidArgumentException(
+                            sprintf(
+                                $this->trans('commands.cache.rebuild.messages.invalid_cache'),
+                                $cache
+                            )
+                        );
+                    }
+
+                    return $validated_cache;
+                },
+                false,
+                'all',
+                $cache_keys
             );
         }
 
