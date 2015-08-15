@@ -15,11 +15,11 @@ use Drupal\{{ module }}\{{ entity_class }}Interface;
 
 {% block class_declaration %}
 /**
- * Defines the {{ entity_class }} entity.
+ * Defines the {{ label }} entity.
  *
  * @ConfigEntityType(
  *   id = "{{ entity_name }}",
- *   label = @Translation("{{ entity_class }}"),
+ *   label = @Translation("{{ label }}"),
  *   handlers = {
  *     "list_builder" = "Drupal\{{ module }}\Controller\{{ entity_class }}ListBuilder",
  *     "form" = {
@@ -36,23 +36,23 @@ use Drupal\{{ module }}\{{ entity_class }}Interface;
  *     "uuid" = "uuid"
  *   },
  *   links = {
- *     "canonical" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
- *     "edit-form" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
- *     "delete-form" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete"
+ *     "canonical" = "/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
+ *     "edit-form" = "/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
+ *     "delete-form" = "/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete"
  *   }
  * )
  */
 class {{ entity_class }} extends ConfigEntityBase implements {{ entity_class }}Interface {% endblock %}
 {% block class_methods %}
   /**
-   * The {{ entity_class }} ID.
+   * The {{ label }} ID.
    *
    * @var string
    */
   protected $id;
 
   /**
-   * The {{ entity_class }} label.
+   * The {{ label }} label.
    *
    * @var string
    */

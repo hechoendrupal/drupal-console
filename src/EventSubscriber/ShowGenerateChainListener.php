@@ -32,7 +32,9 @@ class ShowGenerateChainListener implements EventSubscriberInterface
      */
     public function showGenerateChain(ConsoleTerminateEvent $event)
     {
-        /** @var \Drupal\AppConsole\Command\Command $command */
+        /**
+         * @var \Drupal\AppConsole\Command\Command $command
+         */
         $command = $event->getCommand();
         $output = $event->getOutput();
         $command_name = $command->getName();

@@ -16,13 +16,13 @@ class RestDisableCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('rest:disable')
-          ->setDescription($this->trans('commands.rest.disable.description'))
-          ->addArgument(
-              'resource-id',
-              InputArgument::OPTIONAL,
-              $this->trans('commands.rest.debug.arguments.resource-id')
-          );
+            ->setName('rest:disable')
+            ->setDescription($this->trans('commands.rest.disable.description'))
+            ->addArgument(
+                'resource-id',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.rest.debug.arguments.resource-id')
+            );
 
         $this->addDependency('rest');
     }
@@ -57,7 +57,7 @@ class RestDisableCommand extends ContainerAwareCommand
         unset($rest_settings[$resource_id]);
 
         $config = $this->getConfigFactory()
-          ->getEditable('rest.settings');
+            ->getEditable('rest.settings');
 
         $config->set('resources', $rest_settings);
         $config->save();

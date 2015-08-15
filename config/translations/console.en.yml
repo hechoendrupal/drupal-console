@@ -7,10 +7,13 @@ application:
       no-debug: 'Switches off debug mode.'
       learning: 'Generate a verbose code output.'
       generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
+      generate-inline: 'Print execution options and arguments as inline call to be use in the future'
     messages:
       completed: 'The command was executed succesfully!'
       chain:
         generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
+      inline:
+        generated: 'Following you can find the inline representation of this command to re-execute this command later'
       generated: 'You can now start using the generated code!'
       files:
         generated: 'Generated or updated files'
@@ -116,6 +119,11 @@ commands:
         editor: Editor.
       messages:
         no-directory: An error occurred while creating your directory at
+    import-single:
+      description: Import the selected configuration.
+      arguments:
+        config-name: Configuration name.
+        input-file: Path to the import files.
   container:
     debug:
       description: Displays current services for an application.
@@ -145,6 +153,7 @@ commands:
       welcome: Welcome to the Drupal Command generator
       options:
         module: common.options.module
+        controller-title: 'Controller title'
         class-name: Command Class name
         command: Command name
         container: Access the services container
@@ -153,6 +162,8 @@ commands:
         class-name: Enter the Command Class name
         command: Enter the Command name
         container: Do you need to access the service container
+      messages:
+        title-not-empty: 'Title cannot be empty'
     controller:
       description: Generate & Register a controller
       help: The <info>generate:controller</info> command helps you generate a new controller.
@@ -171,6 +182,15 @@ commands:
         route: Enter the route path
         services: common.questions.services
         test: Do you want to generate a unit test class
+        other-controller-title: 'Controller title (empty to start with code generation)'
+        controller-title: 'Controller title'
+      messages:
+              invalid-controller-title: Title cannot be empty
+              title-already-added: Title was already added
+              invalid-method-name: Method name cannot be empty
+              method-name-already-added: Method name was already added
+              invalid-route: Route cannot be empty
+              route-already-added: Route was already added
     entity:
       description: Generate a new "%s"
       help: The <info>"%s"</info> command helps you generate a new "%s"
@@ -179,10 +199,12 @@ commands:
         module: common.options.module
         entity-class: The entity class name
         entity-name: The name of the entity
+        label: The entity label
       questions:
         module: common.questions.module
         entity-class: Enter the entity class name
         entity-name: Enter the entity name
+        label: Enter the entity label
     form:
       description: Generate a new "%s"
       help: The <info>"%s"</info> command helps you generate a new "%s"
@@ -243,7 +265,10 @@ commands:
         core: Core version
         package: Theme package
         composer: Add a composer.json file
-        base_theme: Base theme (i.e. classy, seven)
+        base-theme: Base theme (i.e. classy, seven)
+        global-library: Global styling library name
+        regions: Regions
+        breakpoints: Breakpoints
       questions:
         theme: Enter the new theme name
         machine-name: Enter the theme machine name
@@ -253,6 +278,18 @@ commands:
         package: Enter package name
         dependencies: Would you like to add module depencencies
         invalid-theme: Invalid %s theme was selected
+        global-library: Enter the global styling library name
+        regions: Do you want to generate the theme regions
+        region-name: Enter region name
+        region-machine-name: Enter region machine name
+        region-add: Do you want add another region
+        breakpoints: Do you want to generate the theme breakpoints
+        breakpoint-name: Enter breakpoint name
+        breakpoint-label: Enter breakpoint label
+        breakpoint-media-query: Enter breakpoint media query
+        breakpoint-weight: Enter breakpoint weight
+        breakpoint-multipliers: Enter breakpoint multipliers
+        breakpoint-add: Do you want add another breakpoint
       warnings:
         module-unavailable: Warning The following modules are not already available in your local environment "%s"
       errors:
@@ -454,6 +491,20 @@ commands:
             class-name: Enter the plugin type class name
             machine-name: Enter the plugin type machine name
             label: Enter the plugin type label
+        yaml:
+          description: Generate a plugin type with Yaml discovery
+          help: The <info>generate:plugin:type:yaml</info> command helps you generate a new Plugin type that uses Yaml discovery.
+          welcome: Welcome to the Drupal Plugin Type generator
+          options:
+            module: common.options.module
+            class-name: Plugin type class name
+            plugin-name: Plugin type machine name
+            plugin-file-name: Plugin file name
+          questions:
+            module: common.questions.module
+            class-name: Enter the plugin type class name
+            plugin-name: Enter the plugin type machine name
+            plugin-file-name: Enter the plugin file name (e.g. MODULE.plugin.filename.yml)
     service:
       description: Generate service
       help: The <info>generate:service</info> command helps you generate a new service.
@@ -517,6 +568,7 @@ commands:
         getting-releases: Getting releases for module %s
         downloading: Downloading module %s release %s
         downloaded: Module %s version %s was downloaded successfully at %s
+        select-release: 'Please select your favorite release'
   migrate:
     debug:
       description: Display current migration available for the application

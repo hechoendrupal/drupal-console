@@ -16,13 +16,13 @@ class SiteMaintenanceCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('site:maintenance')
-          ->setDescription($this->trans('commands.site.maintenance.description'))
-          ->addArgument(
-              'mode',
-              InputArgument::REQUIRED,
-              $this->trans('commands.site.maintenance.arguments.mode').'[on/off]'
-          );
+            ->setName('site:maintenance')
+            ->setDescription($this->trans('commands.site.maintenance.description'))
+            ->addArgument(
+                'mode',
+                InputArgument::REQUIRED,
+                $this->trans('commands.site.maintenance.arguments.mode').'[on/off]'
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -48,10 +48,12 @@ class SiteMaintenanceCommand extends ContainerAwareCommand
             $cacheRebuild = false;
         }
 
-        $output->writeln(sprintf(
-            '[+] <info>%s:</info>',
-            $this->trans($modeMessage)
-        ));
+        $output->writeln(
+            sprintf(
+                '[+] <info>%s:</info>',
+                $this->trans($modeMessage)
+            )
+        );
 
         if ($cacheRebuild) {
             $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'all']);

@@ -19,10 +19,10 @@ class DrushCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('drush')
-          ->setDescription($this->trans('commands.drush.description'))
-          ->addArgument('args', InputArgument::IS_ARRAY, $this->trans('commands.drush.arguments.args'))
-          ->setHelp($this->trans('commands.drush.help'));
+            ->setName('drush')
+            ->setDescription($this->trans('commands.drush.description'))
+            ->addArgument('args', InputArgument::IS_ARRAY, $this->trans('commands.drush.arguments.args'))
+            ->setHelp($this->trans('commands.drush.help'));
     }
 
     /**

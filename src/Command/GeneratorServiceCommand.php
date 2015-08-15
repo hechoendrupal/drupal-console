@@ -27,34 +27,34 @@ class GeneratorServiceCommand extends GeneratorCommand
     protected function configure()
     {
         $this
-          ->setName('generate:service')
-          ->setDescription($this->trans('commands.generate.service.description'))
-          ->setHelp($this->trans('commands.generate.service.description'))
-          ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
-          ->addOption(
-              'service-name',
-              null,
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.service.options.service-name')
-          )
-          ->addOption(
-              'class-name',
-              null,
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.service.options.class-name')
-          )
-          ->addOption(
-              'interface',
-              null,
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.common.service.options.interface')
-          )
-          ->addOption(
-              'services',
-              null,
-              InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-              $this->trans('commands.common.options.services')
-          );
+            ->setName('generate:service')
+            ->setDescription($this->trans('commands.generate.service.description'))
+            ->setHelp($this->trans('commands.generate.service.description'))
+            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'service-name',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.service.options.service-name')
+            )
+            ->addOption(
+                'class-name',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.service.options.class-name')
+            )
+            ->addOption(
+                'interface',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.common.service.options.interface')
+            )
+            ->addOption(
+                'services',
+                null,
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                $this->trans('commands.common.options.services')
+            );
     }
 
     /**
@@ -81,8 +81,8 @@ class GeneratorServiceCommand extends GeneratorCommand
         $build_services = $this->buildServices($services);
 
         $this
-          ->getGenerator()
-          ->generate($module, $service_name, $class_name, $interface, $build_services);
+            ->getGenerator()
+            ->generate($module, $service_name, $class_name, $interface, $build_services);
 
         $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'all']);
     }

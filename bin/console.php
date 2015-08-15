@@ -12,12 +12,14 @@ use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Drupal\AppConsole\UserConfig;
 use Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper;
+use Drupal\AppConsole\Command\Helper\SiteHelper;
 use Drupal\AppConsole\EventSubscriber\ShowGeneratedFilesListener;
 use Drupal\AppConsole\EventSubscriber\ShowWelcomeMessageListener;
 use Drupal\AppConsole\Command\Helper\MessageHelper;
 use Drupal\AppConsole\Command\Helper\ChainCommandHelper;
 use Drupal\AppConsole\EventSubscriber\CallCommandListener;
 use Drupal\AppConsole\EventSubscriber\ShowGenerateChainListener;
+use Drupal\AppConsole\EventSubscriber\ShowGenerateInlineListener;
 use Drupal\AppConsole\EventSubscriber\ShowCompletedMessageListener;
 use Drupal\AppConsole\EventSubscriber\ValidateDependenciesListener;
 use Drupal\AppConsole\EventSubscriber\DefaultValueEventListener;
@@ -27,9 +29,9 @@ set_time_limit(0);
 $consoleRoot = __DIR__.'/../';
 
 if (file_exists($consoleRoot.'/vendor/autoload.php')) {
-    require_once $consoleRoot.'/vendor/autoload.php';
+    include_once $consoleRoot.'/vendor/autoload.php';
 } elseif (file_exists($consoleRoot.'/../../autoload.php')) {
-    require_once $consoleRoot.'/../../autoload.php';
+    include_once $consoleRoot.'/../../autoload.php';
 } else {
     echo 'Something goes wrong with your archive'.PHP_EOL.
         'Try downloading again'.PHP_EOL;
@@ -53,6 +55,7 @@ $helpers = [
     'validators' => new Validators(),
     'translator' => $translatorHelper,
     'drupal-autoload' => new DrupalAutoloadHelper(),
+    'site' => new SiteHelper(),
     'message' => new MessageHelper($translatorHelper),
     'chain' => new ChainCommandHelper(),
 ];
@@ -66,6 +69,7 @@ $dispatcher->addSubscriber(new DefaultValueEventListener());
 $dispatcher->addSubscriber(new ShowGeneratedFilesListener());
 $dispatcher->addSubscriber(new CallCommandListener());
 $dispatcher->addSubscriber(new ShowGenerateChainListener());
+$dispatcher->addSubscriber(new ShowGenerateInlineListener());
 $dispatcher->addSubscriber(new ShowCompletedMessageListener());
 
 $application->setDispatcher($dispatcher);

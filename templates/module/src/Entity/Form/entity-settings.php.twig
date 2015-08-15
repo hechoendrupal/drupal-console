@@ -47,7 +47,7 @@ class {{ entity_class }}SettingsForm extends FormBase {% endblock %}
 
 
   /**
-   * Define the form used for {{ entity_class }}  settings.
+   * Defines the settings form for {{ label }} entities.
    *
    * @param array $form
    *   An associative array containing the structure of the form.
@@ -58,7 +58,7 @@ class {{ entity_class }}SettingsForm extends FormBase {% endblock %}
    *   Form definition array.
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['{{ entity_class }}_settings']['#markup'] = 'Settings form for {{ entity_class }}. Manage field settings here.';
+    $form['{{ entity_class }}_settings']['#markup'] = 'Settings form for {{ label }} entities. Manage field settings here.';
     return $form;
   }
 {% endblock %}

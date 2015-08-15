@@ -30,15 +30,14 @@ class InitCommand extends Command
     protected function configure()
     {
         $this
-          ->setName('init')
-          ->setDescription($this->trans('commands.init.description'))
-          ->addOption(
-              'override',
-              null,
-              InputOption::VALUE_NONE,
-              $this->trans('commands.init.options.override')
-          )
-        ;
+            ->setName('init')
+            ->setDescription($this->trans('commands.init.description'))
+            ->addOption(
+                'override',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.init.options.override')
+            );
     }
 
     /**

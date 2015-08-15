@@ -43,15 +43,15 @@ class SiteStatusCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('site:status')
-          ->setDescription($this->trans('commands.site.status.description'))
-          ->addOption(
-              'format',
-              null,
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.site.status.options.format'),
-              'table'
-          );
+            ->setName('site:status')
+            ->setDescription($this->trans('commands.site.status.description'))
+            ->addOption(
+                'format',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.site.status.options.format'),
+                'table'
+            );
     }
 
     /**
@@ -189,19 +189,23 @@ class SiteStatusCommand extends ContainerAwareCommand
         $table->setlayout($table::LAYOUT_COMPACT);
         foreach ($this->groups as $group) {
             $groupData = $siteData[$group];
-            $table->addRow([
-              sprintf(
-                  '<comment>%s</comment>',
-                  $this->trans('commands.site.status.messages.'.$group)
-              ),
-              null,
-            ]);
+            $table->addRow(
+                [
+                sprintf(
+                    '<comment>%s</comment>',
+                    $this->trans('commands.site.status.messages.'.$group)
+                ),
+                null,
+                ]
+            );
 
             foreach ($groupData as $key => $item) {
-                $table->addRow([
-                  $key,
-                  $item,
-                ]);
+                $table->addRow(
+                    [
+                    $key,
+                    $item,
+                    ]
+                );
             }
         }
 

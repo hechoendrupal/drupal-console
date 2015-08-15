@@ -65,9 +65,9 @@ class RegisterCommandsHelper extends Helper
             }
 
             $finder->files()
-              ->name('*Command.php')
-              ->in($dir)
-              ->depth('< 2');
+                ->name('*Command.php')
+                ->in($dir)
+                ->depth('< 2');
 
             foreach ($finder as $file) {
                 $ns = $prefix;

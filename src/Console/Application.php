@@ -18,7 +18,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '0.7.15';
+    const VERSION = '0.8.2';
     /**
      * @var bool
      */
@@ -83,6 +83,9 @@ class Application extends BaseApplication
         );
         $this->getDefinition()->addOption(
             new InputOption('--generate-chain', '--gc', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-chain'))
+        );
+        $this->getDefinition()->addOption(
+            new InputOption('--generate-inline', '--gi', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-inline'))
         );
     }
 
@@ -167,7 +170,7 @@ class Application extends BaseApplication
         }
 
         if ($auto_load && !$this->isBooted()) {
-            $drupalLoader = require $auto_load;
+            $drupalLoader = include $auto_load;
 
             return $this->setDrupalAutoload($drupalLoader);
         }
@@ -199,17 +202,17 @@ class Application extends BaseApplication
         }
 
         $drupalRoot = $this
-          ->getHelperSet()
-          ->get('drupal-autoload')
-          ->getDrupalRoot();
+            ->getHelperSet()
+            ->get('drupal-autoload')
+            ->getDrupalRoot();
 
         $messageHelper = $this
-          ->getHelperSet()
-          ->get('message');
+            ->getHelperSet()
+            ->get('message');
 
         $translatorHelper = $this
-          ->getHelperSet()
-          ->get('translator');
+            ->getHelperSet()
+            ->get('translator');
 
         if (!file_exists($drupalRoot.'/core/vendor/autoload.php')) {
             $messageHelper->addWarningMessage($translatorHelper->trans('application.site.errors.directory'));
@@ -251,7 +254,9 @@ class Application extends BaseApplication
             Debug::enable();
         }
 
-        /** @var \Drupal\AppConsole\Command\Helper\KernelHelper $kernelHelper */
+        /**
+         * @var \Drupal\AppConsole\Command\Helper\KernelHelper $kernelHelper
+         */
         $kernelHelper = $this->getHelperSet()->get('kernel');
 
         $kernelHelper->setDebug($debug);
@@ -260,7 +265,9 @@ class Application extends BaseApplication
 
     protected function doKernelConfiguration()
     {
-        /** @var \Drupal\AppConsole\Command\Helper\KernelHelper $kernelHelper */
+        /**
+         * @var \Drupal\AppConsole\Command\Helper\KernelHelper $kernelHelper
+         */
         $kernelHelper = $this->getHelperSet()->get('kernel');
 
         $kernelHelper->setClassLoader($this->drupalAutoload);
@@ -297,7 +304,9 @@ class Application extends BaseApplication
      */
     protected function runShell(InputInterface $input)
     {
-        /** @var \Drupal\AppConsole\Command\Helper\ShellHelper $shell */
+        /**
+         * @var \Drupal\AppConsole\Command\Helper\ShellHelper $shell
+         */
         $shell = $this->getHelperSet()->get('shell')->getShell();
 
         $shell->setProcessIsolation($input->hasParameterOption(array('--process-isolation')));

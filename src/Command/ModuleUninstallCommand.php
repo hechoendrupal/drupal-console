@@ -16,9 +16,9 @@ class ModuleUninstallCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('module:uninstall')
-          ->setDescription($this->trans('commands.module.install.description'))
-          ->addArgument('module', InputArgument::REQUIRED, $this->trans('commands.module.install.options.module'));
+            ->setName('module:uninstall')
+            ->setDescription($this->trans('commands.module.install.description'))
+            ->addArgument('module', InputArgument::REQUIRED, $this->trans('commands.module.install.options.module'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -38,11 +38,13 @@ class ModuleUninstallCommand extends ContainerAwareCommand
 
         // Determine if some module request is missing
         if ($missing_modules = array_diff_key($module_list, $module_data)) {
-            $output->writeln('[+] <error>'.sprintf(
-                $this->trans('commands.module.uninstall.messages.missing'),
-                implode(', ', $modules),
-                implode(', ', $missing_modules)
-            ).'</error>');
+            $output->writeln(
+                '[+] <error>'.sprintf(
+                    $this->trans('commands.module.uninstall.messages.missing'),
+                    implode(', ', $modules),
+                    implode(', ', $missing_modules)
+                ).'</error>'
+            );
 
             return true;
         }
@@ -68,11 +70,13 @@ class ModuleUninstallCommand extends ContainerAwareCommand
 
         // Error if there are missing dependencies
         if (!empty($dependents)) {
-            $output->writeln('[+] <error>'.sprintf(
-                $this->trans('commands.module.uninstall.messages.dependents'),
-                implode(', ', $modules),
-                implode(', ', $dependents)
-            ).'</error>');
+            $output->writeln(
+                '[+] <error>'.sprintf(
+                    $this->trans('commands.module.uninstall.messages.dependents'),
+                    implode(', ', $modules),
+                    implode(', ', $dependents)
+                ).'</error>'
+            );
 
             return true;
         }
@@ -82,10 +86,12 @@ class ModuleUninstallCommand extends ContainerAwareCommand
             // Install the modules.
             $moduleInstaller->uninstall($module_list);
 
-            $output->writeln('[+] <info>'.sprintf(
-                $this->trans('commands.module.uninstall.messages.success'),
-                implode(', ', $modules)
-            ).'</info>');
+            $output->writeln(
+                '[+] <info>'.sprintf(
+                    $this->trans('commands.module.uninstall.messages.success'),
+                    implode(', ', $modules)
+                ).'</info>'
+            );
         } catch (\Exception $e) {
             $output->writeln('[+] <error>'.$e->getMessage().'</error>');
 

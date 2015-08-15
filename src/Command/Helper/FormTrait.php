@@ -140,15 +140,17 @@ trait FormTrait
                     null
                 );
 
-                array_push($inputs, array(
-                  'name' => $input_name,
-                  'type' => $input_type,
-                  'label' => $input_label,
-                  'options' => $input_options,
-                  'description' => $input_description,
-                  'maxlength' => $maxlength,
-                  'size' => $size,
-                ));
+                array_push(
+                    $inputs, array(
+                    'name' => $input_name,
+                    'type' => $input_type,
+                    'label' => $input_label,
+                    'options' => $input_options,
+                    'description' => $input_description,
+                    'maxlength' => $maxlength,
+                    'size' => $size,
+                    )
+                );
             }
 
             return $inputs;

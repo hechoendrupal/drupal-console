@@ -19,7 +19,9 @@ class ShowGeneratedFilesListener implements EventSubscriberInterface
      */
     public function showGeneratedFiles(ConsoleTerminateEvent $event)
     {
-        /** @var \Drupal\AppConsole\Command\Command $command */
+        /**
+         * @var \Drupal\AppConsole\Command\Command $command
+         */
         $command = $event->getCommand();
         $output = $event->getOutput();
 

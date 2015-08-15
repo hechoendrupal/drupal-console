@@ -16,13 +16,13 @@ class RouterDebugCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('router:debug')
-          ->setDescription($this->trans('commands.router.debug.description'))
-          ->addArgument(
-              'route-name',
-              InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
-              $this->trans('commands.router.debug.arguments.route-name')
-          );
+            ->setName('router:debug')
+            ->setDescription($this->trans('commands.router.debug.description'))
+            ->addArgument(
+                'route-name',
+                InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
+                $this->trans('commands.router.debug.arguments.route-name')
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -69,10 +69,12 @@ class RouterDebugCommand extends ContainerAwareCommand
 
         foreach ($routes as $name => $route) {
             $table->addRow(['<info>'.$name.'</info>']);
-            $table->addRow([
-              ' <comment>+ '.$this->trans('commands.router.debug.messages.pattern').'</comment>',
-              $route->getPath(),
-            ]);
+            $table->addRow(
+                [
+                ' <comment>+ '.$this->trans('commands.router.debug.messages.pattern').'</comment>',
+                $route->getPath(),
+                ]
+            );
 
             $table->addRow([' <comment>+ '.$this->trans('commands.router.debug.messages.defaults').'</comment>']);
             $table = $this->addRouteAttributes($route->getDefaults(), $table);

@@ -22,10 +22,10 @@ class PasswordHashCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('password:hash')
-          ->setDescription($this->trans('commands.password.hash.description'))
-          ->setHelp($this->trans('commands.password.hash.help'))
-          ->addArgument('password', InputArgument::IS_ARRAY, $this->trans('commands.password.hash.options.password'));
+            ->setName('password:hash')
+            ->setDescription($this->trans('commands.password.hash.description'))
+            ->setHelp($this->trans('commands.password.hash.help'))
+            ->addArgument('password', InputArgument::IS_ARRAY, $this->trans('commands.password.hash.options.password'));
     }
 
     /**
@@ -48,10 +48,12 @@ class PasswordHashCommand extends ContainerAwareCommand
         $table->setlayout($table::LAYOUT_COMPACT);
 
         foreach ($passwords as $password) {
-            $table->addRow([
-            $password,
-            $password_hasher->hash($password),
-            ]);
+            $table->addRow(
+                [
+                $password,
+                $password_hasher->hash($password),
+                ]
+            );
         }
 
         $table->render($output);

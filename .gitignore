@@ -8,7 +8,6 @@
 /bin/pdepend
 /bin/php-cs-fixer
 /bin/phpmd
-/composer.lock
 
 # Binaries
 /box.phar

@@ -108,15 +108,17 @@ class MessageHelper extends Helper
         if ($type == self::MESSAGE_SUCCESS) {
             $style = 'bg=green;fg=white';
         }
-        $output->writeln([
-          '',
-          $this->getHelperSet()->get('formatter')->formatBlock(
-              $message,
-              $style,
-              false
-          ),
-          '',
-        ]);
+        $output->writeln(
+            [
+            '',
+            $this->getHelperSet()->get('formatter')->formatBlock(
+                $message,
+                $style,
+                false
+            ),
+            '',
+            ]
+        );
     }
 
     /**
@@ -208,11 +210,13 @@ class MessageHelper extends Helper
             $this->translator->trans($headerKey)
         );
 
-        $output->writeln(sprintf(
-            '<info>%s:</info> <comment>%s</comment>',
-            $this->translator->trans($pathKey),
-            $path
-        ));
+        $output->writeln(
+            sprintf(
+                '<info>%s:</info> <comment>%s</comment>',
+                $this->translator->trans($pathKey),
+                $path
+            )
+        );
 
         $index = 1;
         foreach ($files as $file) {
@@ -228,11 +232,13 @@ class MessageHelper extends Helper
      */
     private function showFile($output, $file, $index)
     {
-        $output->writeln(sprintf(
-            '<info>%s</info> - <comment>%s</comment>',
-            $index,
-            $file
-        ));
+        $output->writeln(
+            sprintf(
+                '<info>%s</info> - <comment>%s</comment>',
+                $index,
+                $file
+            )
+        );
     }
 
     /**
