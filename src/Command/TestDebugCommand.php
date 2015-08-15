@@ -143,6 +143,7 @@ class TestDebugCommand extends ContainerAwareCommand
             else {
                 if (is_subclass_of($test_details['name'], 'PHPUnit_Framework_TestCase')) {
                     $test_details['type'] = 'phpunit';
+                    $class = new \ReflectionClass($test['name']);
                 } else {
                     $test_details = $this->getTestDiscovery()->getTestInfo($test_details['name']);
                     $test_details['type'] = 'simpletest';
