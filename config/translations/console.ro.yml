@@ -772,7 +772,10 @@ commands:
                 id: 'Unit Test ID'
                 description: Descrierea
                 group: Grupa
+                type: 'Test Type'
                 success: 'Console a fost actualizata cu ultima versiune.'
+                missing-dependency: 'Missing dependency'
+                not-found: 'Debug wans''t found, try enclosure test id between double quotes.'
     password:
         hash:
             description: 'Generate a hash from a plaintext password.'

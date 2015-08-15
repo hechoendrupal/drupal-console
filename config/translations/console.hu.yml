@@ -749,7 +749,10 @@ commands:
                 id: 'Unit Teszt ID'
                 description: Leírás
                 group: Csoport
+                type: 'Test Type'
                 success: 'A console sikeresen frissítve lett a legújabb verzióra.'
+                missing-dependency: 'Missing dependency'
+                not-found: 'Debug wans''t found, try enclosure test id between double quotes.'
     password:
         hash:
             description: 'Generate a hash from a plaintext password.'
