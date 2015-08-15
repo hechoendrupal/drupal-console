@@ -90,6 +90,15 @@ commands:
             description: 'Jelenlegi beállítások megjelenítése.'
             arguments:
                 config-name: 'Beállítás neve.'
+        import:
+            description: 'Import configuration to current application.'
+            arguments:
+                config-file: 'Configuration file path.'
+                copy-only: 'Copy only configuration files in staging directory.'
+            messages:
+                config_files_imported: 'List of config files.'
+                copied: 'All config files were copied to staging directory.'
+                imported: 'All config files were copied to staging directory and imported.'
         override:
             description: 'Beállítás felülírása.'
             arguments:
