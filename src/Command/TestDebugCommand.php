@@ -135,6 +135,7 @@ class TestDebugCommand extends ContainerAwareCommand
             }
         }
 
+        $class = null;
         if($test_details) {
             if ($dependency = $this->checkExceptions($test['name'])) {
                 $test_details['error'] = $this->trans('commands.test.debug.messages.missing-dependency') .  ' ' . $dependency;
@@ -145,11 +146,25 @@ class TestDebugCommand extends ContainerAwareCommand
                 } else {
                     $test_details = $this->getTestDiscovery()->getTestInfo($test_details['name']);
                     $test_details['type'] = 'simpletest';
+                    $class = new \ReflectionClass($test['name']);
                 }
             }
             $configurationEncoded = Yaml::encode($test_details);
             $table->addRow([$configurationEncoded]);
             $table->render($output);
+
+            if($class) {
+                $methods = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
+                $output->writeln('[+] <info>'. $this->trans('commands.test.debug.messages.methods').'</info>');
+                foreach ($methods as $method ) {
+                    if($method->class == $test_details['name']) {
+                        $output->writeln('[-] <info>'. $method->name .'</info>');
+                    }
+                }
+
+            }
+
+
         }
         else {
             $output->writeln('[+] <error>'. $this->trans('commands.test.debug.messages.not-found').'</error>');
