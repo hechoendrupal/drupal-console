@@ -141,13 +141,13 @@ class TestDebugCommand extends ContainerAwareCommand
                 $test_details['error'] = $this->trans('commands.test.debug.messages.missing-dependency') .  ' ' . $dependency;
             }
             else {
+                $class = new \ReflectionClass($test['name']);
                 if (is_subclass_of($test_details['name'], 'PHPUnit_Framework_TestCase')) {
                     $test_details['type'] = 'phpunit';
-                    $class = new \ReflectionClass($test['name']);
+
                 } else {
                     $test_details = $this->getTestDiscovery()->getTestInfo($test_details['name']);
                     $test_details['type'] = 'simpletest';
-                    $class = new \ReflectionClass($test['name']);
                 }
             }
             $configurationEncoded = Yaml::encode($test_details);
