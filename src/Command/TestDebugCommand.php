@@ -21,19 +21,19 @@ class TestDebugCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('test:debug')
-          ->setDescription($this->trans('commands.test.debug.description'))
-          ->addArgument(
-              'test-id',
-              InputArgument::OPTIONAL,
-              $this->trans('commands.test.debug.arguments.resource-id')
-          )
-          ->addOption(
-              'group',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.test.debug.options.group')
-          );
+            ->setName('test:debug')
+            ->setDescription($this->trans('commands.test.debug.description'))
+            ->addArgument(
+                'test-id',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.test.debug.arguments.resource-id')
+            )
+            ->addOption(
+                'group',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.test.debug.options.group')
+            );
 
         $this->addDependency('simpletest');
     }

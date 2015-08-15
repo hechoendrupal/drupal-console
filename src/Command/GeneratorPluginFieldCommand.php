@@ -120,7 +120,8 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
 
         $this
             ->getHelper('chain')
-            ->addCommand('generate:plugin:fieldtype', [
+            ->addCommand(
+                'generate:plugin:fieldtype', [
                 '--module' => $input->getOption('module'),
                 '--class-name' => $input->getOption('type-class-name'),
                 '--label' => $input->getOption('type-label'),
@@ -129,30 +130,35 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
                 '--default-widget' => $input->getOption('default-widget'),
                 '--default-formatter' => $input->getOption('default-formatter'),
                 ],
-                false);
+                false
+            );
         $this
             ->getHelper('chain')
-            ->addCommand('generate:plugin:fieldwidget', [
+            ->addCommand(
+                'generate:plugin:fieldwidget', [
                 '--module' => $input->getOption('module'),
                 '--class-name' => $input->getOption('widget-class-name'),
                 '--label' => $input->getOption('widget-label'),
                 '--plugin-id' => $input->getOption('widget-plugin-id'),
                 '--field-type' => $input->getOption('field-type'),
-             ],
-             false);
+                ],
+                false
+            );
         $this
             ->getHelper('chain')
-            ->addCommand('generate:plugin:fieldformatter', [
+            ->addCommand(
+                'generate:plugin:fieldformatter', [
                 '--module' => $input->getOption('module'),
                 '--class-name' => $input->getOption('formatter-class-name'),
                 '--label' => $input->getOption('formatter-label'),
                 '--plugin-id' => $input->getOption('formatter-plugin-id'),
                 '--field-type' => $input->getOption('field-type'),
-            ],
-            false);
+                ],
+                false
+            );
 
-// @todo Fails with InvalidArgumentException
-//        $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'discovery'], false);
+        // @todo Fails with InvalidArgumentException
+        //        $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'discovery'], false);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -194,6 +200,8 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
         }
         $input->setOption('type-label', $label);
 
+        $default_label = $this->getStringUtils()->camelCaseToHuman($class_name);
+
         // --type-plugin-id option
         $plugin_id = $input->getOption('type-plugin-id');
 
@@ -202,9 +210,9 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
                 $output,
                 $dialog->getQuestion(
                     $this->trans('commands.generate.plugin.field.questions.type-plugin-id'),
-                    $machine_name
+                    $default_label
                 ),
-                $machine_name
+                $default_label
             );
         }
         $input->setOption('type-plugin-id', $plugin_id);
@@ -237,18 +245,20 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
         }
         $input->setOption('widget-class-name', $class_name);
 
-        $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
+        $default_label = $this->getStringUtils()->camelCaseToHuman($class_name);
 
         // --widget-label option
         $label = $input->getOption('widget-label');
         if (!$label) {
             $label = $dialog->ask(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.plugin.field.questions.widget-label'), $machine_name),
-                $machine_name
+                $dialog->getQuestion($this->trans('commands.generate.plugin.field.questions.widget-label'), $default_label),
+                $default_label
             );
         }
         $input->setOption('widget-label', $label);
+
+        $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
 
         // --widget-plugin-id option
         $plugin_id = $input->getOption('widget-plugin-id');
@@ -279,18 +289,20 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
         }
         $input->setOption('formatter-class-name', $class_name);
 
-        $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
+        $default_label = $this->getStringUtils()->camelCaseToHuman($class_name);
 
         // --formatter-label option
         $label = $input->getOption('formatter-label');
         if (!$label) {
             $label = $dialog->ask(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.plugin.field.questions.formatter-label'), $machine_name),
-                $machine_name
+                $dialog->getQuestion($this->trans('commands.generate.plugin.field.questions.formatter-label'), $default_label),
+                $default_label
             );
         }
         $input->setOption('formatter-label', $label);
+
+        $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
 
         // --formatter-plugin-id option
         $plugin_id = $input->getOption('formatter-plugin-id');

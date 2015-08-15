@@ -24,58 +24,58 @@ class MigrateExecuteCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('migrate:execute')
-          ->setDescription($this->trans('commands.migrate.execute.description'))
-          ->addArgument('migration-ids', InputArgument::IS_ARRAY, $this->trans('commands.migrate.execute.arguments.id'))
-          ->addOption(
-              'site-url',
-              '',
-              InputOption::VALUE_REQUIRED,
-              $this->trans('commands.migrate.execute.options.site-url')
-          )
-          ->addOption(
-              'db-host',
-              '',
-              InputOption::VALUE_REQUIRED,
-              $this->trans('commands.migrate.execute.options.db-host')
-          )
-          ->addOption(
-              'db-name',
-              '',
-              InputOption::VALUE_REQUIRED,
-              $this->trans('commands.migrate.execute.options.db-name')
-          )
-          ->addOption(
-              'db-user',
-              '',
-              InputOption::VALUE_REQUIRED,
-              $this->trans('commands.migrate.execute.options.db-user')
-          )
-          ->addOption(
-              'db-pass',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.migrate.execute.options.db-pass')
-          )
-          ->addOption(
-              'db-prefix',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.migrate.execute.options.db-prefix')
-          )
-          ->addOption(
-              'db-port',
-              '',
-              InputOption::VALUE_REQUIRED,
-              $this->trans('commands.migrate.execute.options.db-port')
-          )
-          ->addOption(
-              'exclude',
-              '',
-              InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-              $this->trans('commands.migrate.execute.options.exclude'),
-              array()
-          );
+            ->setName('migrate:execute')
+            ->setDescription($this->trans('commands.migrate.execute.description'))
+            ->addArgument('migration-ids', InputArgument::IS_ARRAY, $this->trans('commands.migrate.execute.arguments.id'))
+            ->addOption(
+                'site-url',
+                '',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.migrate.execute.options.site-url')
+            )
+            ->addOption(
+                'db-host',
+                '',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.migrate.execute.options.db-host')
+            )
+            ->addOption(
+                'db-name',
+                '',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.migrate.execute.options.db-name')
+            )
+            ->addOption(
+                'db-user',
+                '',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.migrate.execute.options.db-user')
+            )
+            ->addOption(
+                'db-pass',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.migrate.execute.options.db-pass')
+            )
+            ->addOption(
+                'db-prefix',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.migrate.execute.options.db-prefix')
+            )
+            ->addOption(
+                'db-port',
+                '',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.migrate.execute.options.db-port')
+            )
+            ->addOption(
+                'exclude',
+                '',
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                $this->trans('commands.migrate.execute.options.exclude'),
+                array()
+            );
 
         $this->addDependency('migrate');
     }
@@ -333,7 +333,7 @@ class MigrateExecuteCommand extends ContainerAwareCommand
             $migration_ids = array_diff($migration_ids, $exclude_ids);
         }
 
-      // If migrations weren't provided finish execution
+        // If migrations weren't provided finish execution
         if (empty($migration_ids)) {
             return;
         }
@@ -353,10 +353,12 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         $migration_storage = $entity_manager->getStorage('migration');
 
         foreach ($migrations as $migration_id) {
-            $output->writeln('[+] <info>'.sprintf(
-                $this->trans('commands.migrate.execute.messages.processing'),
-                $migration_id
-            ).'</info>');
+            $output->writeln(
+                '[+] <info>'.sprintf(
+                    $this->trans('commands.migrate.execute.messages.processing'),
+                    $migration_id
+                ).'</info>'
+            );
             $migration = $migration_storage->load($migration_id);
 
             if ($migration) {
@@ -364,39 +366,49 @@ class MigrateExecuteCommand extends ContainerAwareCommand
                 $executable = new MigrateExecutable($migration, $messages);
                 $migration_status = $executable->import();
                 switch ($migration_status) {
-                    case MigrationInterface::RESULT_COMPLETED:
-                        $output->writeln('[+] <info>'.sprintf(
+                case MigrationInterface::RESULT_COMPLETED:
+                    $output->writeln(
+                        '[+] <info>'.sprintf(
                             $this->trans('commands.migrate.execute.messages.imported'),
                             $migration_id
-                        ).'</info>');
-                        break;
-                    case MigrationInterface::RESULT_INCOMPLETE:
-                        $output->writeln('[+] <info>'.sprintf(
+                        ).'</info>'
+                    );
+                    break;
+                case MigrationInterface::RESULT_INCOMPLETE:
+                    $output->writeln(
+                        '[+] <info>'.sprintf(
                             $this->trans('commands.migrate.execute.messages.importing-incomplete'),
                             $migration_id
-                        ).'</info>');
-                        break;
-                    case MigrationInterface::RESULT_STOPPED:
-                        $output->writeln('[+] <error>'.sprintf(
+                        ).'</info>'
+                    );
+                    break;
+                case MigrationInterface::RESULT_STOPPED:
+                    $output->writeln(
+                        '[+] <error>'.sprintf(
                             $this->trans('commands.migrate.execute.messages.import-stoped'),
                             $migration_id
-                        ).'</error>');
-                        break;
-                    case MigrationInterface::RESULT_FAILED:
-                        $output->writeln('[+] <error>'.sprintf(
+                        ).'</error>'
+                    );
+                    break;
+                case MigrationInterface::RESULT_FAILED:
+                    $output->writeln(
+                        '[+] <error>'.sprintf(
                             $this->trans('commands.migrate.execute.messages.import-fail'),
                             $migration_id
-                        ).'</error>');
-                        break;
-                    case MigrationInterface::RESULT_SKIPPED:
-                        $output->writeln('[+] <error>'.sprintf(
+                        ).'</error>'
+                    );
+                    break;
+                case MigrationInterface::RESULT_SKIPPED:
+                    $output->writeln(
+                        '[+] <error>'.sprintf(
                             $this->trans('commands.migrate.execute.messages.import-skipped'),
                             $migration_id
-                        ).'</error>');
-                        break;
-                    case MigrationInterface::RESULT_DISABLED:
-                        // Skip silently if disabled.
-                        break;
+                        ).'</error>'
+                    );
+                    break;
+                case MigrationInterface::RESULT_DISABLED:
+                    // Skip silently if disabled.
+                    break;
                 }
             } else {
                 $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.fail-load').'</error>');

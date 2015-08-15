@@ -48,7 +48,7 @@ class GeneratorPluginTypeAnnotationCommand extends GeneratorCommand
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.type.annotation.options.label')
             );
-        }
+    }
 
     /**
      * {@inheritdoc}
@@ -106,13 +106,18 @@ class GeneratorPluginTypeAnnotationCommand extends GeneratorCommand
         }
         $input->setOption('machine-name', $machine_name);
 
+        $default_label = $this->getStringUtils()->camelCaseToHuman($class_name);
+
         // --label option
         $label = $input->getOption('label');
         if (!$label) {
             $label = $dialog->ask(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.plugin.type.annotation.options.label'), $machine_name),
-                $machine_name
+                $dialog->getQuestion(
+                    $this->trans('commands.generate.plugin.type.annotation.options.label'),
+                    $default_label
+                ),
+                $default_label
             );
         }
         $input->setOption('label', $label);

@@ -74,8 +74,8 @@ class GeneratorPluginFieldFormatterCommand extends GeneratorCommand
             ->getGenerator()
             ->generate($module, $class_name, $label, $plugin_id, $field_type);
 
-// @todo Fails with InvalidArgumentException
-//        $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'discovery']);
+        // @todo Fails with InvalidArgumentException
+        //        $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'discovery']);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -104,18 +104,20 @@ class GeneratorPluginFieldFormatterCommand extends GeneratorCommand
         }
         $input->setOption('class-name', $class_name);
 
-        $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
+        $default_label = $this->getStringUtils()->camelCaseToHuman($class_name);
 
         // --plugin label option
         $label = $input->getOption('label');
         if (!$label) {
             $label = $dialog->ask(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.plugin.fieldformatter.questions.label'), $machine_name),
-                $machine_name
+                $dialog->getQuestion($this->trans('commands.generate.plugin.fieldformatter.questions.label'), $default_label),
+                $default_label
             );
         }
         $input->setOption('label', $label);
+
+        $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
 
         // --name option
         $plugin_id = $input->getOption('plugin-id');

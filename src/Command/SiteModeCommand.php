@@ -16,13 +16,13 @@ class SiteModeCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('site:mode')
-          ->setDescription($this->trans('commands.site.mode.description'))
-          ->addArgument(
-              'environment',
-              InputArgument::REQUIRED,
-              $this->trans('commands.site.mode.arguments.environment')
-          );
+            ->setName('site:mode')
+            ->setDescription($this->trans('commands.site.mode.description'))
+            ->addArgument(
+                'environment',
+                InputArgument::REQUIRED,
+                $this->trans('commands.site.mode.arguments.environment')
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -42,11 +42,13 @@ class SiteModeCommand extends ContainerAwareCommand
 
         $config->save();
 
-        $output->writeln(sprintf(
-            ' <info>%s:</info> <comment>%s</comment>',
-            $this->trans('commands.site.mode.messages.configuration'),
-            $configName
-        ));
+        $output->writeln(
+            sprintf(
+                ' <info>%s:</info> <comment>%s</comment>',
+                $this->trans('commands.site.mode.messages.configuration'),
+                $configName
+            )
+        );
 
         $table->setHeaders(
             [

@@ -11,7 +11,9 @@ use Symfony\Component\Console\Helper\Helper;
 
 class ChainCommandHelper extends Helper
 {
-    /** @var $commands array */
+    /**
+ * @var $commands array 
+*/
     private $commands;
 
     /**

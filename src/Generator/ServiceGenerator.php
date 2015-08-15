@@ -26,26 +26,26 @@ class ServiceGenerator extends Generator
           'class_name' => $class_name,
           'interface' => $interface,
           'services' => $services,
-          'file_exists' => file_exists($this->getModulePath($module).'/'.$module.'.services.yml'),
+          'file_exists' => file_exists($this->getSite()->getModulePath($module).'/'.$module.'.services.yml'),
         ];
 
         $this->renderFile(
             'module/services.yml.twig',
-            $this->getModulePath($module).'/'.$module.'.services.yml',
+            $this->getSite()->getModulePath($module).'/'.$module.'.services.yml',
             $parameters,
             FILE_APPEND
         );
 
         $this->renderFile(
             'module/src/service.php.twig',
-            $this->getModulePath($module).'/src/'.$class_name.'.php',
+            $this->getSite()->getModulePath($module).'/src/'.$class_name.'.php',
             $parameters
         );
 
         if ($interface) {
             $this->renderFile(
                 'module/src/service-interface.php.twig',
-                $this->getModulePath($module).'/src/'.$class_name.'Interface.php',
+                $this->getSite()->getModulePath($module).'/src/'.$class_name.'Interface.php',
                 $parameters
             );
         }

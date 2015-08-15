@@ -35,12 +35,12 @@ class CommandGenerator extends Generator
         $messages[$command_key_root.'.arguments.name'] = 'Who do you want to greet?';
         $messages[$command_key_root.'.options.yell'] = 'If set, the task will yell in uppercase letters';
 
-        $translator = $this->getTranslator();
+        $translator = $this->getHelpers()->get('translator');
         $translator->writeTranslationsByModule($module, $messages);
 
         $this->renderFile(
             'module/src/Command/command.php.twig',
-            $this->getCommandPath($module).'/'.$class_name.'.php',
+            $this->getSite()->getCommandPath($module).'/'.$class_name.'.php',
             $parameters
         );
     }

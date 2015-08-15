@@ -15,7 +15,7 @@ use Drupal\views\EntityViewsDataInterface;
 
 {% block class_declaration %}
 /**
- * Provides the views data for the {{ entity_class }} entity type.
+ * Provides Views data for {{ label }} entities.
  */
 class {{ entity_class }}ViewsData extends EntityViewsData implements EntityViewsDataInterface {% endblock %}
 {% block class_methods %}
@@ -27,8 +27,8 @@ class {{ entity_class }}ViewsData extends EntityViewsData implements EntityViews
 
     $data['{{ entity_name }}']['table']['base'] = array(
       'field' => 'id',
-      'title' => $this->t('{{ entity_class }}'),
-      'help' => $this->t('The {{ entity_name }} entity ID.'),
+      'title' => $this->t('{{ label }}'),
+      'help' => $this->t('The {{ label }} ID.'),
     );
 
     return $data;

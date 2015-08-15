@@ -117,11 +117,13 @@ class KernelHelper extends Helper
     public function initCommands(array $commands)
     {
         $container = $this->getKernel()->getContainer();
-        array_walk($commands, function ($command) use ($container) {
-            if ($command instanceof ContainerAwareInterface) {
-                $command->setContainer($container);
+        array_walk(
+            $commands, function ($command) use ($container) {
+                if ($command instanceof ContainerAwareInterface) {
+                    $command->setContainer($container);
+                }
             }
-        });
+        );
     }
 
     /**

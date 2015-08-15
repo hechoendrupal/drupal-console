@@ -16,15 +16,15 @@ class ConfigOverrideCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('config:override')
-          ->setDescription($this->trans('commands.config.override.description'))
-          ->addArgument(
-              'config-name',
-              InputArgument::REQUIRED,
-              $this->trans('commands.config.override.arguments.config-name')
-          )
-          ->addArgument('key', InputArgument::REQUIRED, $this->trans('commands.config.override.arguments.key'))
-          ->addArgument('value', InputArgument::REQUIRED, $this->trans('commands.config.override.arguments.value'));
+            ->setName('config:override')
+            ->setDescription($this->trans('commands.config.override.description'))
+            ->addArgument(
+                'config-name',
+                InputArgument::REQUIRED,
+                $this->trans('commands.config.override.arguments.config-name')
+            )
+            ->addArgument('key', InputArgument::REQUIRED, $this->trans('commands.config.override.arguments.key'))
+            ->addArgument('value', InputArgument::REQUIRED, $this->trans('commands.config.override.arguments.value'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -40,11 +40,13 @@ class ConfigOverrideCommand extends ContainerAwareCommand
 
         $config->save();
 
-        $output->writeln(sprintf(
-            ' <info>%s:</info> <comment>%s</comment>',
-            $this->trans('commands.config.override.messages.configuration'),
-            $configName
-        ));
+        $output->writeln(
+            sprintf(
+                ' <info>%s:</info> <comment>%s</comment>',
+                $this->trans('commands.config.override.messages.configuration'),
+                $configName
+            )
+        );
 
         $table->setHeaders(
             [

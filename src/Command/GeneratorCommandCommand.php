@@ -25,28 +25,28 @@ class GeneratorCommandCommand extends GeneratorCommand
     protected function configure()
     {
         $this
-          ->setName('generate:command')
-          ->setDescription($this->trans('commands.generate.command.description'))
-          ->setHelp($this->trans('commands.generate.command.help'))
-          ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
-          ->addOption(
-              'class-name',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.command.options.class-name')
-          )
-          ->addOption(
-              'command',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.command.options.command')
-          )
-          ->addOption(
-              'container',
-              '',
-              InputOption::VALUE_NONE,
-              $this->trans('commands.generate.command.options.container')
-          );
+            ->setName('generate:command')
+            ->setDescription($this->trans('commands.generate.command.description'))
+            ->setHelp($this->trans('commands.generate.command.help'))
+            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'class-name',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.command.options.class-name')
+            )
+            ->addOption(
+                'command',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.command.options.command')
+            )
+            ->addOption(
+                'container',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.generate.command.options.container')
+            );
     }
 
     /**
@@ -66,8 +66,8 @@ class GeneratorCommandCommand extends GeneratorCommand
         $container = $input->getOption('container');
 
         $this
-          ->getGenerator()
-          ->generate($module, $command, $class_name, $container);
+            ->getGenerator()
+            ->generate($module, $command, $class_name, $container);
     }
 
     /**

@@ -20,15 +20,14 @@ class ChainCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('chain')
-          ->setDescription($this->trans('commands.chain.description'))
-          ->addOption(
-              'file',
-              null,
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.chain.options.file')
-          )
-        ;
+            ->setName('chain')
+            ->setDescription($this->trans('commands.chain.description'))
+            ->addOption(
+                'file',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.chain.options.file')
+            );
     }
 
     /**

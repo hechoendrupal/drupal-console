@@ -4,7 +4,7 @@
 {{ entity_name }}.page.inc{% endblock %}
 {% block extra_info %}
  *
- * {{ entity_class }} page callback file for the {{ entity_name }} entity.
+ * Page callback for {{ label }} entities.
 {% endblock %}
 
 {% block use_class %}
@@ -13,7 +13,7 @@ use Drupal\Core\Render\Element;
 
 {% block file_methods %}
 /**
- * Prepares variables for {{ entity_name }} templates.
+ * Prepares variables for {{ label }} templates.
  *
  * Default template: {{ entity_name }}.html.twig.
  *

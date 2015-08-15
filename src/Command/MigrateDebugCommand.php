@@ -16,13 +16,13 @@ class MigrateDebugCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('migrate:debug')
-          ->setDescription($this->trans('commands.migrate.debug.description'))
-          ->addArgument(
-              'drupal-version',
-              InputArgument::OPTIONAL,
-              $this->trans('commands.migrate.debug.arguments.drupal-version')
-          );
+            ->setName('migrate:debug')
+            ->setDescription($this->trans('commands.migrate.debug.description'))
+            ->addArgument(
+                'drupal-version',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.migrate.debug.arguments.drupal-version')
+            );
 
         $this->addDependency('migrate');
     }

@@ -19,9 +19,9 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
 
         $generator = $this->getGenerator();
         $generator
-          ->expects($this->once())
-          ->method('generate')
-          ->with($module, $service_name, $class_name, $interface, $services);
+            ->expects($this->once())
+            ->method('generate')
+            ->with($module, $service_name, $class_name, $interface, $services);
 
         $command = $this->getCommand($generator, $input);
         $cmd = new CommandTester($command);
@@ -82,19 +82,19 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
     protected function getCommand($generator, $input)
     {
         $command = $this
-          ->getMockBuilder('Drupal\AppConsole\Command\GeneratorServiceCommand')
-          ->setMethods(['getModules', 'getServices', '__construct'])
-          ->setConstructorArgs([$this->getTranslationHelper()])
-          ->getMock();
+            ->getMockBuilder('Drupal\AppConsole\Command\GeneratorServiceCommand')
+            ->setMethods(['getModules', 'getServices', '__construct'])
+            ->setConstructorArgs([$this->getTranslatorHelper()])
+            ->getMock();
 
         $command->expects($this->any())
-          ->method('getModules')
-          ->will($this->returnValue(['foo']));
+            ->method('getModules')
+            ->will($this->returnValue(['foo']));
         ;
 
         $command->expects($this->any())
-          ->method('getServices')
-          ->will($this->returnValue(['twig', 'database']));
+            ->method('getServices')
+            ->will($this->returnValue(['twig', 'database']));
 
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet($input));
@@ -106,9 +106,9 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-          ->getMockBuilder('Drupal\AppConsole\Generator\ServiceGenerator')
-          ->disableOriginalConstructor()
-          ->setMethods(['generate'])
-          ->getMock();
+            ->getMockBuilder('Drupal\AppConsole\Generator\ServiceGenerator')
+            ->disableOriginalConstructor()
+            ->setMethods(['generate'])
+            ->getMock();
     }
 }

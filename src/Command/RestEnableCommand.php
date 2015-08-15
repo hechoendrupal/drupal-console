@@ -17,13 +17,13 @@ class RestEnableCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('rest:enable')
-          ->setDescription($this->trans('commands.rest.enable.description'))
-          ->addArgument(
-              'resource-id',
-              InputArgument::OPTIONAL,
-              $this->trans('commands.rest.debug.arguments.resource-id')
-          );
+            ->setName('rest:enable')
+            ->setDescription($this->trans('commands.rest.enable.description'))
+            ->addArgument(
+                'resource-id',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.rest.debug.arguments.resource-id')
+            );
 
         $this->addDependency('rest');
     }
@@ -62,7 +62,7 @@ class RestEnableCommand extends ContainerAwareCommand
         $states = $plugin->availableMethods();
         $question = new ChoiceQuestion(
             $this->trans('commands.rest.enable.arguments.states'),
-            $states,
+            array_combine($states, $states),
             '0'
         );
 
@@ -74,32 +74,36 @@ class RestEnableCommand extends ContainerAwareCommand
         $formats = $this->getSerializerFormats();
         $question = new ChoiceQuestion(
             $this->trans('commands.rest.enable.messages.formats'),
-            $formats,
+            array_combine($formats, $formats),
             '0'
         );
 
         $question->setMultiselect(true);
         $formats = $questionHelper->ask($input, $output, $question);
-        $output->writeln($this->trans('commands.rest.enable.messages.selected-formats').' '.implode(
-            ', ',
-            $formats
-        ));
+        $output->writeln(
+            $this->trans('commands.rest.enable.messages.selected-formats').' '.implode(
+                ', ',
+                $formats
+            )
+        );
 
         // Get Authentication Provider and generate the question
         $authentication_providers = $this->getAuthenticationProviders();
 
         $question = new ChoiceQuestion(
             $this->trans('commands.rest.enable.messages.authentication-providers'),
-            array_keys($authentication_providers),
+            array_combine(array_keys($authentication_providers), array_keys($authentication_providers)),
             '0'
         );
 
         $question->setMultiselect(true);
         $authentication_providers = $questionHelper->ask($input, $output, $question);
-        $output->writeln($this->trans('commands.rest.enable.messages.selected-authentication-providers').' '.implode(
-            ', ',
-            $authentication_providers
-        ));
+        $output->writeln(
+            $this->trans('commands.rest.enable.messages.selected-authentication-providers').' '.implode(
+                ', ',
+                $authentication_providers
+            )
+        );
 
         $rest_settings = $this->getRestDrupalConfig();
 
@@ -107,7 +111,7 @@ class RestEnableCommand extends ContainerAwareCommand
         $rest_settings[$resource_id][$state]['supported_auth'] = $authentication_providers;
 
         $config = $this->getConfigFactory()
-          ->getEditable('rest.settings');
+            ->getEditable('rest.settings');
         $config->set('resources', $rest_settings);
         $config->save();
     }
