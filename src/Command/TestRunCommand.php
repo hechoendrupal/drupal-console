@@ -37,7 +37,7 @@ class TestRunCommand extends ContainerAwareCommand
                 '',
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.test.run.arguments.url')
-          );
+            );
 
 
         $this->addDependency('simpletest');
@@ -46,8 +46,8 @@ class TestRunCommand extends ContainerAwareCommand
     /*
      * Set Server variable to be used in test cases.
      */
-    protected function setEnvironment($url) {
-
+    protected function setEnvironment($url)
+    {
         global $base_url;
 
         $host = 'localhost';
@@ -69,9 +69,8 @@ class TestRunCommand extends ContainerAwareCommand
 
 
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
-        $base_url = 'https://';
-        }
-        else {
+            $base_url = 'https://';
+        } else {
             $base_url = 'http://';
         }
         $base_url .= $host;
@@ -83,7 +82,7 @@ class TestRunCommand extends ContainerAwareCommand
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['SERVER_ADDR'] = '127.0.0.1';
         $_SERVER['SERVER_PORT'] = $port;
-        $_SERVER['SERVER_SOFTWARE'] = NULL;
+        $_SERVER['SERVER_SOFTWARE'] = null;
         $_SERVER['SERVER_NAME'] = 'localhost';
         $_SERVER['REQUEST_URI'] = $path .'/';
         $_SERVER['REQUEST_METHOD'] = 'GET';
@@ -91,7 +90,6 @@ class TestRunCommand extends ContainerAwareCommand
         $_SERVER['SCRIPT_FILENAME'] = $path .'/index.php';
         $_SERVER['PHP_SELF'] = $path .'/index.php';
         $_SERVER['HTTP_USER_AGENT'] = 'Drupal Console';
-
     }
     /**
      * {@inheritdoc}
@@ -106,7 +104,7 @@ class TestRunCommand extends ContainerAwareCommand
 
         $url = $input->getOption('url');
 
-        if(!$url) {
+        if (!$url) {
             $output->writeln('[+] <error>'. $this->trans('commands.test.run.messages.url-required') .'</error>');
             return;
         }
@@ -121,7 +119,6 @@ class TestRunCommand extends ContainerAwareCommand
         if (is_subclass_of($test_class, 'PHPUnit_Framework_TestCase')) {
             $output->writeln('[+] <info>'. $this->trans('commands.test.run.messages.phpunit-pending')  .'</info>');
             return;
-
         } else {
             $test = new $test_class($test_id);
             $output->writeln('[+] <info>'. $this->trans('commands.test.run.messages.starting-test')  .'</info>');
@@ -149,23 +146,22 @@ class TestRunCommand extends ContainerAwareCommand
 
             $messages = $this->simpletest_script_load_messages_by_test_ids(array($test_id));
 
-            foreach($messages as $message) {
-                if($current_class == null || $current_class != $message->test_class) {
+            foreach ($messages as $message) {
+                if ($current_class == null || $current_class != $message->test_class) {
                     $current_class = $message->test_class;
                     $output->writeln('[+] <info>' . $message->test_class . '</info>');
                 }
 
-                if($current_group == null || $current_group != $message->message_group) {
+                if ($current_group == null || $current_group != $message->message_group) {
                     $current_group =  $message->message_group;
                 }
 
-                if($current_status == null || $current_status != $message->status) {
+                if ($current_status == null || $current_status != $message->status) {
                     $current_status =  $message->status;
-                    if($message->status == 'fail') {
+                    if ($message->status == 'fail') {
                         $output->writeln('[+] <error>' . $this->trans('commands.test.run.messages.group') . ':' . $message->message_group . ' ' . $this->trans('commands.test.run.messages.status') . ':' . $message->status . '</error>');
                         print "\n";
-                    }
-                    else {
+                    } else {
                         $output->writeln('[+] <info>' . $this->trans('commands.test.run.messages.group') . ':' . $message->message_group . ' ' . $this->trans('commands.test.run.messages.status') . ':' . $message->status . '</info>');
                         print "\n";
                     }
@@ -189,9 +185,11 @@ class TestRunCommand extends ContainerAwareCommand
         $results = array();
 
         foreach ($test_ids as $test_id) {
-            $result = \Drupal::database()->query("SELECT * FROM {simpletest} WHERE test_id = :test_id ORDER BY test_class, message_group, status", array(
+            $result = \Drupal::database()->query(
+                "SELECT * FROM {simpletest} WHERE test_id = :test_id ORDER BY test_class, message_group, status", array(
                 ':test_id' => $test_id,
-              ))->fetchAll();
+                )
+            )->fetchAll();
             if ($result) {
                 $results = array_merge($results, $result);
             }

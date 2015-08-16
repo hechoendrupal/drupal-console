@@ -72,23 +72,21 @@ class TestDebugCommand extends ContainerAwareCommand
         $test_details = null;
         foreach ($testing_groups as $testing_group => $tests) {
             foreach ($tests as $key => $test) {
-                if($test['name'] == $test_class) {
+                if ($test['name'] == $test_class) {
                     $test_details = $test;
                     break;
                 }
             }
-            if($test_details != null) {
+            if ($test_details != null) {
                 break;
             }
         }
 
         $class = null;
-        if($test_details) {
-
+        if ($test_details) {
             $class = new \ReflectionClass($test['name']);
             if (is_subclass_of($test_details['name'], 'PHPUnit_Framework_TestCase')) {
                 $test_details['type'] = 'phpunit';
-
             } else {
                 $test_details = $this->getTestDiscovery()->getTestInfo($test_details['name']);
                 $test_details['type'] = 'simpletest';
@@ -98,18 +96,16 @@ class TestDebugCommand extends ContainerAwareCommand
             $table->addRow([$configurationEncoded]);
             $table->render($output);
 
-            if($class) {
+            if ($class) {
                 $methods = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
                 $output->writeln('[+] <info>'. $this->trans('commands.test.debug.messages.methods').'</info>');
-                foreach ($methods as $method ) {
-                    if($method->class == $test_details['name'] && strpos( $method->name, 'test') === 0) {
+                foreach ($methods as $method) {
+                    if ($method->class == $test_details['name'] && strpos($method->name, 'test') === 0) {
                         $output->writeln('[-] <info>'. $method->name .'</info>');
                     }
                 }
-
             }
-        }
-        else {
+        } else {
             $output->writeln('[+] <error>'. $this->trans('commands.test.debug.messages.not-found').'</error>');
         }
     }

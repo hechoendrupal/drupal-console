@@ -23,11 +23,13 @@ class ConfigImportCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('config:import')
-          ->setDescription($this->trans('commands.config.import.description'))
-          ->addArgument('config-file', InputArgument::REQUIRED,
-            $this->trans('commands.config.import.arguments.config-file'))
-          ->addOption('copy-only', '', InputOption::VALUE_NONE, $this->trans('commands.config.import.arguments.copy-only'));
+            ->setName('config:import')
+            ->setDescription($this->trans('commands.config.import.description'))
+            ->addArgument(
+                'config-file', InputArgument::REQUIRED,
+                $this->trans('commands.config.import.arguments.config-file')
+            )
+            ->addOption('copy-only', '', InputOption::VALUE_NONE, $this->trans('commands.config.import.arguments.copy-only'));
     }
 
     /**
@@ -44,9 +46,9 @@ class ConfigImportCommand extends ContainerAwareCommand
 
             $output->writeln($this->trans('commands.config.import.messages.config_files_imported'));
             foreach ($archiver->listContent() as $file) {
-              $pathinfo = pathinfo($file['filename']);
-              $files[$pathinfo['filename']] = $file['filename'];
-              $output->writeln('[-] <info>' .  $file['filename'] . '</info>');
+                $pathinfo = pathinfo($file['filename']);
+                $files[$pathinfo['filename']] = $file['filename'];
+                $output->writeln('[-] <info>' .  $file['filename'] . '</info>');
             }
 
             $config_staging_dir = config_get_config_directory(CONFIG_STAGING_DIRECTORY);
@@ -58,18 +60,16 @@ class ConfigImportCommand extends ContainerAwareCommand
                 return;
             }
 
-            if($copy_only) {
+            if ($copy_only) {
                 $output->writeln(sprintf($this->trans('commands.config.import.messages.copied'), CONFIG_STAGING_DIRECTORY));
-            }
-            else {
-                foreach($files as $cofig_name => $filename) {
+            } else {
+                foreach ($files as $cofig_name => $filename) {
                     $config = $this->getConfigFactory()->getEditable($cofig_name);
                     $parser = new Parser();
                     $config_value = $parser->parse(file_get_contents($config_staging_dir . '/' . $filename));
                     $config->setData($config_value);
 
                     try {
-
                         $config->save();
                     } catch (\Exception $e) {
                         $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
@@ -78,13 +78,10 @@ class ConfigImportCommand extends ContainerAwareCommand
                 }
 
                 $output->writeln(sprintf($this->trans('commands.config.import.messages.imported'), CONFIG_STAGING_DIRECTORY));
-
             }
         } catch (\Exception $e) {
             $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
             return;
         }
-
-
     }
 }
