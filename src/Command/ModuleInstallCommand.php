@@ -84,8 +84,6 @@ class ModuleInstallCommand extends ContainerAwareCommand
         $overwrite_config = $input->getOption('overwrite-config');
 
         $input->setOption('overwrite-config', $overwrite_config);
-
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -182,36 +180,32 @@ class ModuleInstallCommand extends ContainerAwareCommand
                     implode(', ', array_merge($modules, $dependencies))
                 ).'</info>'
             );
-        }
-        catch(PreExistingConfigException $e) {
+        } catch (PreExistingConfigException $e) {
             $this->overwriteConfig($e, $module_list, $modules, $dependencies, $overwrite_config, $output);
 
             return;
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
             return;
         }
     }
 
-    protected function overwriteConfig(PreExistingConfigException $e, $module_list, $modules, $dependencies, $overwrite_config, $output) {
-
-        if($overwrite_config) {
+    protected function overwriteConfig(PreExistingConfigException $e, $module_list, $modules, $dependencies, $overwrite_config, $output)
+    {
+        if ($overwrite_config) {
             $output->writeln('[+] <info>' .  $this->trans('commands.module.install.messages.config-conflict-overwrite') . '</info>');
-
-        }
-        else {
+        } else {
             $output->writeln('[+] <info>' .  $this->trans('commands.module.install.messages.config-conflict') . '</info>');
         }
 
         $configObjects = $e->getConfigObjects();
-        foreach(current($configObjects) as $config) {
+        foreach (current($configObjects) as $config) {
             $output->writeln('[-] <info>' . $config . '</info>');
             $config = $this->getConfigFactory()->getEditable($config);
             $config->delete();
         }
 
-        if(!$overwrite_config) {
+        if (!$overwrite_config) {
             return;
         }
 
@@ -221,16 +215,14 @@ class ModuleInstallCommand extends ContainerAwareCommand
             $this->moduleInstaller->install($module_list);
             system_rebuild_module_data();
             $output->writeln(
-              '[+] <info>'.sprintf(
-                $this->trans('commands.module.install.messages.success'),
-                implode(', ', array_merge($modules, $dependencies))
-              ).'</info>'
+                '[+] <info>'.sprintf(
+                    $this->trans('commands.module.install.messages.success'),
+                    implode(', ', array_merge($modules, $dependencies))
+                ).'</info>'
             );
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
             return;
         }
     }
-
 }
