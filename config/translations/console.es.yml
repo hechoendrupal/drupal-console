@@ -777,6 +777,74 @@ commands:
                 method: Method
                 line: Line
                 message: Message
+    user:
+        login:
+            clear:
+                attempts:
+                    description: 'Limpia intentos de inicio de sesion para una cuenta.'
+                    help: 'El commando <info>clean:login:failed</info> reinicia intentos fallidos de inicio de sesion para una cuenta.'
+                    options:
+                        user-id: 'Identificador de usuario.'
+                    questions:
+                        uid: 'Enter User ID.'
+                        numeric-uid: 'El identificador de usuario debe ser valido.'
+                        invalid-uid: 'El identificador de usuario no valido.'
+                        user: 'Ingrese el identificador de usuario.'
+                    messages:
+                        successful: 'Intentos de inicio de sesion fueron limpiados satisfactoriamente para el ID del usuario %s.'
+                    errors:
+                        invalid-user: 'No se puede cargar la entidad de usuario (Uid: %s).'
+        password:
+            hash:
+                description: 'Generate a hash from a plaintext password.'
+                help: 'The <info>password:hash</info> command helps you to generate hashs password from plaintext passwords.'
+                welcome: 'Welcome to the Drupal password hash generator'
+                options:
+                    password: 'Password(s) in text format'
+                questions:
+                    invalid-pass: 'Password can''t be empty'
+                    password: 'Enter password'
+                    other-password: 'Other password (press <return> to stop adding passwords)'
+                messages:
+                    password: Password
+                    hash: Hash
+                errors: null
+            reset:
+                description: 'Reset password for a specific user.'
+                help: 'The <info>password:reset</info> command helps you to reset password for a specific user.'
+                welcome: 'Welcome to the Drupal password reset'
+                options:
+                    password: 'Password in text format'
+                    user-id: 'User ID'
+                questions:
+                    invalid-uid: 'Invalid user id %, user id must be an integer'
+                    invalid-pass: 'Password can''t be empty'
+                    user: 'Enter User ID'
+                    password: 'Enter password'
+                    other-password: 'Other password (press <return> to stop adding passwords)'
+                messages:
+                    reset-successful: 'Password was updated sucessfully for user id %s'
+                errors:
+                    invalid-user: 'Invalid user id %s'
+    yaml:
+        merge:
+            description: 'Combinar uno o más archivos de YAML en un nuevo archivo YAML. Se conservaran los últimos valores del archivo mas a la izquierda del merge.'
+            arguments:
+                yaml-files: 'Ruta de archivos de YAML para combinar'
+                yaml-destination: 'Ruta para el nuevo archivo YAML que almacenara la combinación.'
+            questions:
+                yaml-destination: 'Ruta para el nuevo archivo YAML que almacenara la combinación.'
+                file: 'Ruta del archivo a combinar'
+                other-file: 'Ruta del archivo a combinar (vacío para iniciar con el proceso de combinación)'
+                invalid-file: 'Ruta del archivo no puede ser vacía'
+                file-already-added: 'Ruta del archivo ya fue agregada'
+            messages:
+                wrong-parse: 'Archivo de Yaml "%s" esta vacío o no existe.'
+                error-parsing: 'Un error ha ocurrido al procesar el archvio de Yaml "%s".'
+                two-files-required: 'Al menos dos archivos son requeridos'
+                error-generating: 'Error generando el archivo YAML combinado.'
+                error-writing: 'Error escribiendo en el archivo YAML combinado.'
+                merged: 'Nuevo archivo "%s" fue creado satisfactorimente despuesde de combinar los archivos Yaml.'
     password:
         hash:
             description: 'Generate a hash from a plaintext password.'
@@ -809,22 +877,3 @@ commands:
                 reset-successful: 'Password was updated sucessfully for user id %s'
             errors:
                 invalid-user: 'Invalid user id %s'
-    yaml:
-        merge:
-            description: 'Combinar uno o más archivos de YAML en un nuevo archivo YAML. Se conservaran los últimos valores del archivo mas a la izquierda del merge.'
-            arguments:
-                yaml-files: 'Ruta de archivos de YAML para combinar'
-                yaml-destination: 'Ruta para el nuevo archivo YAML que almacenara la combinación.'
-            questions:
-                yaml-destination: 'Ruta para el nuevo archivo YAML que almacenara la combinación.'
-                file: 'Ruta del archivo a combinar'
-                other-file: 'Ruta del archivo a combinar (vacío para iniciar con el proceso de combinación)'
-                invalid-file: 'Ruta del archivo no puede ser vacía'
-                file-already-added: 'Ruta del archivo ya fue agregada'
-            messages:
-                wrong-parse: 'Archivo de Yaml "%s" esta vacío o no existe.'
-                error-parsing: 'Un error ha ocurrido al procesar el archvio de Yaml "%s".'
-                two-files-required: 'Al menos dos archivos son requeridos'
-                error-generating: 'Error generando el archivo YAML combinado.'
-                error-writing: 'Error escribiendo en el archivo YAML combinado.'
-                merged: 'Nuevo archivo "%s" fue creado satisfactorimente despuesde de combinar los archivos Yaml.'
