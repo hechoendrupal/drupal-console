@@ -3,7 +3,8 @@
     "chmod": "0755",
     "directories": [
         "config",
-        "src"
+        "src",
+        "templates"
     ],
     "files": [
         "config.yml",
@@ -16,6 +17,9 @@
             "exclude": ["Tests","tests", "docs"],
             "in": "vendor"
         }
+    ],
+    "compactors": [
+        "Herrera\\Box\\Compactor\\Php"
     ],
     "main": "bin/console",
     "output": "console.phar",

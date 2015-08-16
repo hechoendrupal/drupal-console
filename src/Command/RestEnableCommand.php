@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\AppConsole\Command\RestEnableCommand.
@@ -13,96 +14,105 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RestEnableCommand extends ContainerAwareCommand
 {
+    protected function configure()
+    {
+        $this
+            ->setName('rest:enable')
+            ->setDescription($this->trans('commands.rest.enable.description'))
+            ->addArgument(
+                'resource-id',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.rest.debug.arguments.resource-id')
+            );
 
-  protected function configure()
-  {
-    $this
-      ->setName('rest:enable')
-      ->setDescription($this->trans('commands.rest.enable.description'))
-      ->addArgument('resource-id', InputArgument::OPTIONAL, $this->trans('commands.rest.debug.arguments.resource-id'))
-    ;
-
-    $this->addDependency('rest');
-  }
-
-  protected function execute(InputInterface $input, OutputInterface $output)
-  {
-    $dialog = $this->getDialogHelper();
-    $questionHelper  = $this->getQuestionHelper();
-
-    $resource_id = $input->getArgument('resource-id');
-
-    $rest_resources  = $this->getRestResources($status);
-
-    $rest_resources_ids = array_merge(array_keys($rest_resources['enabled']), array_keys($rest_resources['disabled']));
-
-    if (!$resource_id) {
-      $resource_id = $dialog->askAndValidate(
-        $output,
-        $dialog->getQuestion($this->trans('commands.rest.enable.arguments.resource-id'),''),
-        function ($rest) use($rest_resources_ids) {
-          if(in_array($rest, $rest_resources_ids)) {
-            return $rest;
-          }
-          else {
-            throw new \InvalidArgumentException(sprintf($this->trans('commands.rest.enable.messages.invalid-rest-id'), $rest));
-          }
-        },
-        false,
-        '',
-        $rest_resources_ids
-      );
+        $this->addDependency('rest');
     }
-    $input->setArgument('resource-id', $resource_id);
 
-    // Calculate states available by resource and generate the question
-    $resourcePluginManager = $this->getPluginManagerRest();
-    $plugin = $resourcePluginManager->getInstance(array('id' => $resource_id));
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $dialog = $this->getDialogHelper();
+        $questionHelper = $this->getQuestionHelper();
+        $resource_id = $input->getArgument('resource-id');
+        $rest_resources = $this->getRestResources();
+        $rest_resources_ids = array_merge(
+            array_keys($rest_resources['enabled']),
+            array_keys($rest_resources['disabled'])
+        );
 
-    $states = $plugin->availableMethods();
-    $question = new ChoiceQuestion(
-      $this->trans('commands.rest.enable.arguments.states'),
-        $states,
-        '0'
-    );
+        if (!$resource_id) {
+            $resource_id = $dialog->askAndValidate(
+                $output,
+                $dialog->getQuestion($this->trans('commands.rest.enable.arguments.resource-id'), ''),
+                function ($resource_id) use ($rest_resources_ids) {
+                    return $this->validateRestResource($resource_id, $rest_resources_ids, $this->getTranslator());
+                },
+                false,
+                '',
+                $rest_resources_ids
+            );
+        }
 
-    $state = $questionHelper->ask($input, $output, $question);
-    $output->writeln($this->trans('commands.rest.enable.messages.selected-state') . ' ' . $state);
+        $this->validateRestResource($resource_id, $rest_resources_ids, $this->getTranslator());
+        $input->setArgument('resource-id', $resource_id);
 
-    // Get serializer formats available and generate the question.
+        // Calculate states available by resource and generate the question
+        $resourcePluginManager = $this->getPluginManagerRest();
+        $plugin = $resourcePluginManager->getInstance(array('id' => $resource_id));
 
-    $formats = $this->getSerializerFormats();
-    $question = new ChoiceQuestion(
-    $this->trans('commands.rest.enable.messages.formats'),
-      $formats,
-      '0'
-    );
+        $states = $plugin->availableMethods();
+        $question = new ChoiceQuestion(
+            $this->trans('commands.rest.enable.arguments.states'),
+            array_combine($states, $states),
+            '0'
+        );
 
-    $question->setMultiselect(true);
-    $formats = $questionHelper->ask($input, $output, $question);
-    $output->writeln($this->trans('commands.rest.enable.messages.selected-formats') . ' ' . implode(', ', $formats));
+        $state = $questionHelper->ask($input, $output, $question);
+        $output->writeln($this->trans('commands.rest.enable.messages.selected-state').' '.$state);
 
-    // Get Authentication Provider and generate the question
-    $authentication_providers = $this->getAuthenticationProviders();
+        // Get serializer formats available and generate the question.
 
-    $question = new ChoiceQuestion(
-    $this->trans('commands.rest.enable.messages.authentication-providers'),
-      array_keys($authentication_providers),
-      '0'
-    );
+        $formats = $this->getSerializerFormats();
+        $question = new ChoiceQuestion(
+            $this->trans('commands.rest.enable.messages.formats'),
+            array_combine($formats, $formats),
+            '0'
+        );
 
-    $question->setMultiselect(true);
-    $authentication_providers = $questionHelper->ask($input, $output, $question);
-    $output->writeln($this->trans('commands.rest.enable.messages.selected-authentication-providers') . ' ' . implode(', ', $authentication_providers));
+        $question->setMultiselect(true);
+        $formats = $questionHelper->ask($input, $output, $question);
+        $output->writeln(
+            $this->trans('commands.rest.enable.messages.selected-formats').' '.implode(
+                ', ',
+                $formats
+            )
+        );
 
+        // Get Authentication Provider and generate the question
+        $authentication_providers = $this->getAuthenticationProviders();
 
-    $rest_settings = \Drupal::config('rest.settings')->get('resources') ?: array();
+        $question = new ChoiceQuestion(
+            $this->trans('commands.rest.enable.messages.authentication-providers'),
+            array_combine(array_keys($authentication_providers), array_keys($authentication_providers)),
+            '0'
+        );
 
-    $rest_settings[$resource_id][$state]['supported_formats'] = $formats;
-    $rest_settings[$resource_id][$state]['supported_auth'] = $authentication_providers;
+        $question->setMultiselect(true);
+        $authentication_providers = $questionHelper->ask($input, $output, $question);
+        $output->writeln(
+            $this->trans('commands.rest.enable.messages.selected-authentication-providers').' '.implode(
+                ', ',
+                $authentication_providers
+            )
+        );
 
-    $config = \Drupal::configFactory()->getEditable('rest.settings');
-    $config->set('resources', $rest_settings);
-    $config->save();
-  }
+        $rest_settings = $this->getRestDrupalConfig();
+
+        $rest_settings[$resource_id][$state]['supported_formats'] = $formats;
+        $rest_settings[$resource_id][$state]['supported_auth'] = $authentication_providers;
+
+        $config = $this->getConfigFactory()
+            ->getEditable('rest.settings');
+        $config->set('resources', $rest_settings);
+        $config->save();
+    }
 }

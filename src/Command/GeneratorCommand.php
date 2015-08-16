@@ -31,6 +31,7 @@ abstract class GeneratorCommand extends ContainerAwareCommand
             $this->generator = $this->createGenerator();
             $this->generator->setSkeletonDirs($this->getSkeletonDirs());
             $this->generator->setTranslator($this->translator);
+            $this->generator->setHelpers($this->getHelperSet());
         }
 
         return $this->generator;
@@ -38,9 +39,14 @@ abstract class GeneratorCommand extends ContainerAwareCommand
 
     protected function getSkeletonDirs()
     {
-        $skeletonDirs = array();
-        $skeletonDirs[] = __DIR__.'/../Resources/skeleton';
-        $skeletonDirs[] = __DIR__.'/../Resources';
+        $module = $this->getModule();
+        if ($module != 'AppConsole') {
+            $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
+            $drupal_root = $drupalAutoLoad->getDrupalRoot();
+            $skeletonDirs[] = $drupal_root.drupal_get_path('module', $module).'/templates';
+        }
+
+        $skeletonDirs[] = __DIR__.'/../../templates';
 
         return $skeletonDirs;
     }

@@ -1,0 +1,34 @@
+
+# {{ entity_class }} routing definition
+entity.{{ entity_name }}.collection:
+  path: '/admin/structure/{{ entity_name }}'
+  defaults:
+    _entity_list: '{{ entity_name }}'
+    _title: '{{ label }}'
+  requirements:
+    _permission: 'administer site configuration'
+
+entity.{{ entity_name }}.add_form:
+  path: '/admin/structure/{{ entity_name }}/add'
+  defaults:
+    _entity_form: '{{ entity_name }}.add'
+    _title: 'Add {{ label }}'
+  requirements:
+    _permission: 'administer site configuration'
+
+entity.{{ entity_name }}.edit_form:
+  path: '/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}'
+  defaults:
+    _entity_form: '{{ entity_name }}.edit'
+    _title: 'Edit {{ label }}'
+  requirements:
+    _permission: 'administer site configuration'
+
+entity.{{ entity_name }}.delete_form:
+  path: '/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete'
+  defaults:
+    _entity_form: '{{ entity_name }}.delete'
+    _title: 'Delete {{ label }}'
+  requirements:
+    _permission: 'administer site configuration'
+

@@ -6,34 +6,14 @@
 
 namespace Drupal\AppConsole\Test\Generator;
 
-abstract class GeneratorTest extends \PHPUnit_Framework_TestCase 
+use Drupal\AppConsole\Test\BaseTestCase;
+
+abstract class GeneratorTest extends BaseTestCase
 {
-  var $dir;
+    public function getSkeletonDirs()
+    {
+        $skeletonDirs[] = __DIR__ . '/../../templates';
 
-  public function setUp()
-  {
-    $this->setUpTemporalDirectory();
-    if (!defined('DRUPAL_ROOT')) {
-      define('DRUPAL_ROOT', getcwd());
+        return $skeletonDirs;
     }
-  }
-
-  public function setUpTemporalDirectory()
-  {
-    $this->dir = sys_get_temp_dir() . "/modules";
-  }
-
-  public function getSkeletonDirs()
-  {
-    $skeletonDirs = [];
-    $skeletonDirs[] = __DIR__.'/../../src/Resources/skeleton';
-    $skeletonDirs[] = __DIR__.'/../../src/Resources';
-
-    return $skeletonDirs;
-  }
-
-  public function getModulePath($module)
-  {
-    return $this->dir . '/' . $module;
-  }
 }

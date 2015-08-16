@@ -2,7 +2,7 @@
     "name": "drupal/console",
     "description": "Drupal Console",
     "keywords": ["Drupal", "Console", "Development"],
-    "type": "drupal-module",
+    "type": "project",
     "license": "MIT",
     "authors": [
         {
@@ -23,24 +23,22 @@
     "require": {
         "php": ">=5.4.5",
         "composer/installers": "~1.0",
-        "symfony/config": "2.6.*",
-        "symfony/console": "2.6.*",
-        "symfony/dependency-injection": "2.6.*",
-        "symfony/event-dispatcher": "2.6.*",
-        "symfony/finder": "2.6.*",
-        "symfony/translation": "2.6.*",
-        "symfony/yaml": "2.6.*",
-        "twig/twig": "1.16.*",
+        "symfony/config": "2.7.*",
+        "symfony/console": "2.7.*",
+        "symfony/css-selector": "2.7.*",
+        "symfony/dependency-injection": "2.7.*",
+        "symfony/debug": "2.7.*",
+        "symfony/event-dispatcher": "2.7.*",
+        "symfony/filesystem": "2.7.*",
+        "symfony/finder": "2.7.*",
+        "symfony/http-foundation": "2.7.*",
+        "symfony/translation": "2.7.*",
+        "symfony/yaml": "2.7.*",
+        "twig/twig": "~1.18",
         "herrera-io/phar-update": "1.*",
-        "symfony/dom-crawler": "2.6.*",
+        "symfony/dom-crawler": "2.7.*",
         "alchemy/zippy": "0.2.*@dev"
     },
-    "require-dev": {
-        "drupal/coder": "dev-8.x-2.x",
-        "hechoendrupal/drupal": "8.0.0-beta4",
-        "phpunit/phpunit": "4.1.*"
-    },
-    "minimum-stability": "dev",
     "bin": ["bin/console"],
     "config": {
         "bin-dir": "bin/"
