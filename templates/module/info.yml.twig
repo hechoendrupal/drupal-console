@@ -1,0 +1,12 @@
+name: {{ module }}
+type: {{ type }}
+description: {{ description }}
+core: {{ core }}
+package: {{ package }}
+{% if dependencies %}
+dependencies:
+{% for dependency in dependencies %}
+  {{ "- #{dependency}"}}
+{% endfor %}
+{% endif %}
+

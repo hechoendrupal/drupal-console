@@ -1,0 +1,10 @@
+{% block routing_file %}
+{% endblock %}
+{% if permissions|length %}
+  {% for permission in permissions %}
+  {{ module_name }}.route:
+      requirements:
+        _permission: {{ permission.permission }}:
+  {% endfor %}
+{% endif %}
+

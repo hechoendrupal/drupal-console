@@ -1,0 +1,22 @@
+{{ '{#' }}
+/**
+ * @file {{ entity_name }}.html.twig
+ * Default theme implementation to present {{ label }} data.
+ *
+ * This template is used when viewing {{ label }} pages.
+ *
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ * - attributes: HTML attributes for the container element.
+ *
+ * @see template_preprocess_{{ entity_name }}()
+ *
+ * @ingroup themeable
+ */
+{{ '#}' }}
+<div{{ '{{' }} attributes.addClass('{{ entity_name }}') {{ '}}' }}>
+  {{ '{%' }} if content {{ '%}' }}
+    {{ '{{' }}- content -{{ '}}' }}
+  {{ '{%' }} endif {{ '%}' }}
+</div>

@@ -1,0 +1,60 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+Drupal\{{ module }}\Entity\{{ entity_class }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }}\Entity;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Config\Entity\ConfigEntityBase;
+use Drupal\{{ module }}\{{ entity_class }}Interface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Defines the {{ label }} entity.
+ *
+ * @ConfigEntityType(
+ *   id = "{{ entity_name }}",
+ *   label = @Translation("{{ label }}"),
+ *   handlers = {
+ *     "list_builder" = "Drupal\{{ module }}\Controller\{{ entity_class }}ListBuilder",
+ *     "form" = {
+ *       "add" = "Drupal\{{ module }}\Form\{{ entity_class }}Form",
+ *       "edit" = "Drupal\{{ module }}\Form\{{ entity_class }}Form",
+ *       "delete" = "Drupal\{{ module }}\Form\{{ entity_class }}DeleteForm"
+ *     }
+ *   },
+ *   config_prefix = "{{ entity_name }}",
+ *   admin_permission = "administer site configuration",
+ *   entity_keys = {
+ *     "id" = "id",
+ *     "label" = "label",
+ *     "uuid" = "uuid"
+ *   },
+ *   links = {
+ *     "canonical" = "/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
+ *     "edit-form" = "/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
+ *     "delete-form" = "/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete"
+ *   }
+ * )
+ */
+class {{ entity_class }} extends ConfigEntityBase implements {{ entity_class }}Interface {% endblock %}
+{% block class_methods %}
+  /**
+   * The {{ label }} ID.
+   *
+   * @var string
+   */
+  protected $id;
+
+  /**
+   * The {{ label }} label.
+   *
+   * @var string
+   */
+  protected $label;
+{% endblock %}
