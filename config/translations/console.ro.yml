@@ -765,11 +765,12 @@ commands:
             description: 'Afiseaza Unit testele accesibile'
             help: 'Actualizeaza "Console" cu ultima versiune.'
             arguments:
+                test-class: 'Test Class'
                 test-id: 'Unit Test ID'
             options:
                 group: Grupa
             messages:
-                id: 'Unit Test ID'
+                class: 'Test Class'
                 description: Descrierea
                 group: Grupa
                 type: 'Test Type'
@@ -777,6 +778,28 @@ commands:
                 missing-dependency: 'Missing dependency'
                 methods: 'Test methods'
                 not-found: 'Debug wans''t found, try enclosure test id between double quotes.'
+                id: 'Unit Test ID'
+        run:
+            description: 'Run Test unit from tests available for application'
+            arguments:
+                test-class: 'Test Class'
+            messages:
+                missing-dependency: 'Test can''t be executed due a missing dependency'
+                phpunit-pending: 'Logic to execute PHPUnit test is not implemented yet.'
+                starting-test: 'Starting test'
+                test-duration: 'Test duration'
+                test-pass: 'Test passes'
+                test-fail: 'Test fails'
+                test-exception: 'Test exceptions'
+                test-debug: 'Test debugs'
+                url-required: 'URL option is required to run test'
+                test-summary: 'Test Summary'
+                group: Group
+                status: Status
+                file: File
+                method: Method
+                line: Line
+                message: Message
     password:
         hash:
             description: 'Generate a hash from a plaintext password.'
