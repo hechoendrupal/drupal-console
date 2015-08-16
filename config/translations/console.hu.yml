@@ -750,6 +750,73 @@ commands:
                 description: Leírás
                 group: Csoport
                 success: 'A console sikeresen frissítve lett a legújabb verzióra.'
+    user:
+        login:
+            clear:
+                attempts:
+                    description: 'Clear login failed attempts for an account.'
+                    help: 'The <info>user:login:clear:attempts</info> reset login failed attempts for an account.'
+                    options:
+                        user-id: 'User ID.'
+                    questions:
+                        uid: 'Enter User ID.'
+                        numeric-uid: 'User id must be an integer.'
+                        invalid-uid: 'User id must be upper than zero.'
+                    messages:
+                        successful: 'Login attempts was clean sucessfully for user id %s.'
+                    errors:
+                        invalid-user: 'Cannot load user entity (Uid: %s).'
+        password:
+            hash:
+                description: 'Generate a hash from a plaintext password.'
+                help: 'The <info>password:hash</info> command helps you to generate hashs password from plaintext passwords.'
+                welcome: 'Welcome to the Drupal password hash generator'
+                options:
+                    password: 'Password(s) in text format'
+                questions:
+                    invalid-pass: 'Password can''t be empty'
+                    password: 'Enter password'
+                    other-password: 'Other password (press <return> to stop adding passwords)'
+                messages:
+                    password: Password
+                    hash: Hash
+                errors: null
+            reset:
+                description: 'Reset password for a specific user.'
+                help: 'The <info>password:reset</info> command helps you to reset password for a specific user.'
+                welcome: 'Welcome to the Drupal password reset'
+                options:
+                    password: 'Password in text format'
+                    user-id: 'User ID'
+                questions:
+                    invalid-uid: 'Invalid user id %, user id must be an integer'
+                    invalid-pass: 'Password can''t be empty'
+                    user: 'Enter User ID'
+                    password: 'Enter password'
+                    other-password: 'Other password (press <return> to stop adding passwords)'
+                messages:
+                    reset-successful: 'Password was updated sucessfully for user id %s'
+                errors:
+                    invalid-user: 'Invalid user id %s'
+    yaml:
+        merge:
+            description: 'Merge one or more YAML files in a new YAML file. Latest values are preserved.'
+            arguments:
+                yaml-files: 'Path of YAML files to merge'
+                yaml-destination: 'Path of new YAML file to store result of merge.'
+            questions:
+                yaml-destination: 'Path of new YAML file to store result of merge.'
+                file: 'Path to file to merge'
+                other-file: 'Path to file to merge (empty to start with merge process)'
+                invalid-file: 'Path of file cannot be empty'
+                file-already-added: 'Path of file was already added'
+            messages:
+                wrong-parse: 'Yaml file "%s" is empty or doesn''t exist the file.'
+                error-parsing: 'An error occurs during parsing of Yaml file %s.'
+                two-files-required: 'At least to files are required.'
+                error-generating: 'Error generating merged YAML.'
+                error-writing: 'Error writing merged YAML file.'
+                merged: 'New file %s was created sucessfully after merge Yaml files.'
     password:
         hash:
             description: 'Generate a hash from a plaintext password.'
@@ -782,22 +849,3 @@ commands:
                 reset-successful: 'Password was updated sucessfully for user id %s'
             errors:
                 invalid-user: 'Invalid user id %s'
-    yaml:
-        merge:
-            description: 'Merge one or more YAML files in a new YAML file. Latest values are preserved.'
-            arguments:
-                yaml-files: 'Path of YAML files to merge'
-                yaml-destination: 'Path of new YAML file to store result of merge.'
-            questions:
-                yaml-destination: 'Path of new YAML file to store result of merge.'
-                file: 'Path to file to merge'
-                other-file: 'Path to file to merge (empty to start with merge process)'
-                invalid-file: 'Path of file cannot be empty'
-                file-already-added: 'Path of file was already added'
-            messages:
-                wrong-parse: 'Yaml file "%s" is empty or doesn''t exist the file.'
-                error-parsing: 'An error occurs during parsing of Yaml file %s.'
-                two-files-required: 'At least to files are required.'
-                error-generating: 'Error generating merged YAML.'
-                error-writing: 'Error writing merged YAML file.'
-                merged: 'New file %s was created sucessfully after merge Yaml files.'
