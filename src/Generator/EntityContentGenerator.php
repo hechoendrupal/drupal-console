@@ -86,8 +86,8 @@ class EntityContentGenerator extends Generator
         );
 
         $this->renderFile(
-            'module/src/Entity/Controller/listcontroller-entity-content.php.twig',
-            $this->getSite()->getEntityPath($module).'/Controller/'.$entity_class.'ListController.php',
+            'module/src/listbuilder-entity-content.php.twig',
+            $this->getSite()->getSourcePath($module).'/'.$entity_class.'ListBuilder.php',
             $parameters
         );
 
