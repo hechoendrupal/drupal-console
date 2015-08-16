@@ -75,7 +75,7 @@ class PasswordResetCommand extends ContainerAwareCommand
     {
         $dialog = $this->getDialogHelper();
 
-        $user = $input->getArgument('password');
+        $user = $input->getArgument('user');
         if (!$user) {
             $user = $dialog->askAndValidate(
                 $output,
