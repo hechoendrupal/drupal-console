@@ -763,14 +763,41 @@ commands:
             description: 'Elérhető unit tesztek megjelenítése.'
             help: 'Console parancs frissítése a legújabb verzióra.'
             arguments:
+                test-class: 'Test Class'
                 test-id: 'Unit Teszt ID'
             options:
                 group: Csoport
             messages:
-                id: 'Unit Teszt ID'
+                class: 'Test Class'
                 description: Leírás
                 group: Csoport
+                type: 'Test Type'
                 success: 'A console sikeresen frissítve lett a legújabb verzióra.'
+                missing-dependency: 'Missing dependency'
+                methods: 'Test methods'
+                not-found: 'Debug wans''t found, try enclosure test id between double quotes.'
+                id: 'Unit Teszt ID'
+        run:
+            description: 'Run Test unit from tests available for application'
+            arguments:
+                test-class: 'Test Class'
+            messages:
+                missing-dependency: 'Test can''t be executed due a missing dependency'
+                phpunit-pending: 'Logic to execute PHPUnit test is not implemented yet.'
+                starting-test: 'Starting test'
+                test-duration: 'Test duration'
+                test-pass: 'Test passes'
+                test-fail: 'Test fails'
+                test-exception: 'Test exceptions'
+                test-debug: 'Test debugs'
+                url-required: 'URL option is required to run test'
+                test-summary: 'Test Summary'
+                group: Group
+                status: Status
+                file: File
+                method: Method
+                line: Line
+                message: Message
     user:
         login:
             clear:
