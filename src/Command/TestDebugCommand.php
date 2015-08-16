@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Serialization\Yaml;
+use Drupal\simpletest\TestDiscovery;
 
 class TestDebugCommand extends ContainerAwareCommand
 {
@@ -24,9 +25,9 @@ class TestDebugCommand extends ContainerAwareCommand
             ->setName('test:debug')
             ->setDescription($this->trans('commands.test.debug.description'))
             ->addArgument(
-                'test-id',
+                'test-class',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.test.debug.arguments.resource-id')
+                $this->trans('commands.test.debug.arguments.test-class')
             )
             ->addOption(
                 'group',
@@ -43,14 +44,17 @@ class TestDebugCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $test_id = $input->getArgument('test-id');
+        //Registers namespaces for disabled modules.
+        $this->getTestDiscovery()->registerTestNamespaces();
+
+        $test_class = $input->getArgument('test-class');
         $group = $input->getOption('group');
 
         $table = $this->getHelperSet()->get('table');
         $table->setlayout($table::LAYOUT_COMPACT);
 
-        if ($test_id) {
-            $this->getTestByID($output, $table, $test_id);
+        if ($test_class) {
+            $this->getTestByID($output, $table, $test_class);
         } else {
             $this->getAllTests($output, $table, $group);
         }
@@ -61,19 +65,53 @@ class TestDebugCommand extends ContainerAwareCommand
      * @param $table          TableHelper
      * @param $config_name    String
      */
-    private function getTestByID($output, $table, $test_id)
+    private function getTestByID($output, $table, $test_class)
     {
         $testing_groups = $this->getTestDiscovery()->getTestClasses(null);
 
+        $test_details = null;
         foreach ($testing_groups as $testing_group => $tests) {
             foreach ($tests as $key => $test) {
+                if($test['name'] == $test_class) {
+                    $test_details = $test;
+                    break;
+                }
+            }
+            if($test_details != null) {
                 break;
             }
         }
 
-        $configurationEncoded = Yaml::encode($test);
-        $table->addRow([$configurationEncoded]);
-        $table->render($output);
+        $class = null;
+        if($test_details) {
+
+            $class = new \ReflectionClass($test['name']);
+            if (is_subclass_of($test_details['name'], 'PHPUnit_Framework_TestCase')) {
+                $test_details['type'] = 'phpunit';
+
+            } else {
+                $test_details = $this->getTestDiscovery()->getTestInfo($test_details['name']);
+                $test_details['type'] = 'simpletest';
+            }
+
+            $configurationEncoded = Yaml::encode($test_details);
+            $table->addRow([$configurationEncoded]);
+            $table->render($output);
+
+            if($class) {
+                $methods = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
+                $output->writeln('[+] <info>'. $this->trans('commands.test.debug.messages.methods').'</info>');
+                foreach ($methods as $method ) {
+                    if($method->class == $test_details['name'] && strpos( $method->name, 'test') === 0) {
+                        $output->writeln('[-] <info>'. $method->name .'</info>');
+                    }
+                }
+
+            }
+        }
+        else {
+            $output->writeln('[+] <error>'. $this->trans('commands.test.debug.messages.not-found').'</error>');
+        }
     }
 
     /**
@@ -87,8 +125,9 @@ class TestDebugCommand extends ContainerAwareCommand
 
         $table->setHeaders(
             [
-            $this->trans('commands.test.debug.messages.id'),
+            $this->trans('commands.test.debug.messages.class'),
             $this->trans('commands.test.debug.messages.group'),
+            $this->trans('commands.test.debug.messages.type'),
             ]
         );
 
@@ -98,7 +137,12 @@ class TestDebugCommand extends ContainerAwareCommand
             }
 
             foreach ($tests as $test) {
-                $table->addRow(array($test['name'], $test['group']));
+                if (is_subclass_of($test['name'], 'PHPUnit_Framework_TestCase')) {
+                    $test['type'] = 'phpunit';
+                } else {
+                    $test['type'] = 'simpletest';
+                }
+                $table->addRow(array($test['name'], $test['group'], $test['type']));
             }
         }
 
