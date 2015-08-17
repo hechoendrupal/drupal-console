@@ -7,15 +7,11 @@
 
 namespace Drupal\AppConsole\Command;
 
-use Herrera\Json\Exception\Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Core\Render\Element;
-use Drupal\Component\Serialization\Yaml;
 use Drupal\Component\Utility\Timer;
-use Drupal\simpletest\TestDiscovery;
 
 class TestRunCommand extends ContainerAwareCommand
 {
