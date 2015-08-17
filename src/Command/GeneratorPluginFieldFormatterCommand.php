@@ -74,8 +74,7 @@ class GeneratorPluginFieldFormatterCommand extends GeneratorCommand
             ->getGenerator()
             ->generate($module, $class_name, $label, $plugin_id, $field_type);
 
-        // @todo Fails with InvalidArgumentException
-        //        $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'discovery']);
+        $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
