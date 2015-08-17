@@ -61,9 +61,7 @@ class UserPasswordResetCommand extends ContainerAwareCommand
             $user->setPassword($password);
             $user->save();
         } catch (\Exception $e) {
-            throw new \InvalidArgumentException(
-                $e->getMessage().'</error>'
-            );
+            throw new \InvalidArgumentException($e->getMessage());
         }
 
         $messageHelper->addSuccessMessage(
