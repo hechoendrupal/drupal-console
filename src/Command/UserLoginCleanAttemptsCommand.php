@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\CleanLoginFailedCommand.
+ * Contains \Drupal\AppConsole\Command\UserLoginCleanAttemptsCommand.
  */
 
 namespace Drupal\AppConsole\Command;
@@ -47,7 +47,9 @@ class UserLoginCleanAttemptsCommand extends ContainerAwareCommand
         }
         // Check if message was defined.
         if ($message) {
-            throw new \Symfony\Component\Process\Exception\InvalidArgumentException($message);
+            throw new \InvalidArgumentException(
+                $message
+            );
         }
         // Return a valid $uid.
         return (int) $uid;
@@ -79,35 +81,40 @@ class UserLoginCleanAttemptsCommand extends ContainerAwareCommand
    */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $messageHelper = $this->getHelperSet()->get('message');
         $uid = $input->getArgument('uid');
-        if ($account = \Drupal\user\Entity\User::load($uid)) {
-            // Define event name and identifier.
-            $event = 'user.failed_login_user';
-            // Identifier is created by uid and IP address,
-            // Then we defined a generic identifier.
-            $identifier = "{$account->id()}-";
+        $account = \Drupal\user\Entity\User::load($uid);
 
-            // Retrieve current database connection.
-            $connection = \Drupal::database();
-            // Clear login attempts.
-            $connection->delete('flood')
-                ->condition('event', $event)
-                ->condition('identifier', $connection->escapeLike($identifier) . '%', 'LIKE')
-                ->execute();
-
-            // Command executed successful.
-            $output->writeln(
-                '[+] <info>' . sprintf(
-                    $this->trans('commands.user.login.clear.attempts.messages.successful'), $uid
-                ) . '</info>'
-            );
-        } else {
+        if (!$account) {
             // Error loading User entity.
-            $output->writeln(
-                '[+] <error>' . sprintf(
-                    $this->trans('commands.user.login.clear.attempts.errors.invalid-user'), $uid
-                ) . '</error>'
+            throw new \InvalidArgumentException(
+                sprintf(
+                    $this->trans('commands.user.login.clear.attempts.errors.invalid-user'),
+                    $uid
+                )
             );
         }
+
+        // Define event name and identifier.
+        $event = 'user.failed_login_user';
+        // Identifier is created by uid and IP address,
+        // Then we defined a generic identifier.
+        $identifier = "{$account->id()}-";
+
+        // Retrieve current database connection.
+        $connection = $this->getDatabase();
+        // Clear login attempts.
+        $connection->delete('flood')
+            ->condition('event', $event)
+            ->condition('identifier', $connection->escapeLike($identifier) . '%', 'LIKE')
+            ->execute();
+
+        // Command executed successful.
+        $messageHelper->addSuccessMessage(
+            sprintf(
+                $this->trans('commands.user.login.clear.attempts.messages.successful'),
+                $uid
+            )
+        );
     }
 }

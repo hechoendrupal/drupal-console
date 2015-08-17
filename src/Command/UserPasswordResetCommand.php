@@ -1,8 +1,7 @@
 <?php
-
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\PasswordCommand.
+ * Contains \Drupal\AppConsole\Command\UserPasswordResetCommand.
  */
 
 namespace Drupal\AppConsole\Command;
@@ -34,37 +33,44 @@ class UserPasswordResetCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $user_id = $input->getArgument('user');
-        $user = user_load($user_id);
+        $messageHelper = $this->getHelperSet()->get('message');
+        $uid = $input->getArgument('user');
 
-        if (!is_object($user)) {
-            $output->writeln(
-                '[+] <error>'.sprintf(
+        $user = \Drupal\user\Entity\User::load($uid);
+
+        if (!$user) {
+            throw new \InvalidArgumentException(
+                sprintf(
                     $this->trans('commands.user.password.reset.errors.invalid-user'),
-                    $user_id
-                ).'</error>'
+                    $uid
+                )
             );
-
-            return;
         }
 
         $password = $input->getArgument('password');
+        if (!$password) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    $this->trans('commands.user.password.reset.errors.empty-password'),
+                    $uid
+                )
+            );
+        }
 
-        //Set password
         try {
             $user->setPassword($password);
             $user->save();
         } catch (\Exception $e) {
-            $output->writeln('[+] <error>'.$e->getMessage().'</error>');
-
-            return;
+            throw new \InvalidArgumentException(
+                $e->getMessage().'</error>'
+            );
         }
 
-        $output->writeln(
-            '[+] <info>'.sprintf(
+        $messageHelper->addSuccessMessage(
+            sprintf(
                 $this->trans('commands.user.password.reset.messages.reset-successful'),
-                $user_id
-            ).'</info>'
+                $uid
+            )
         );
     }
 
