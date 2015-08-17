@@ -143,6 +143,8 @@ commands:
       arguments:
         config-name: Configuration name.
         input-file: Path to the import files.
+      messages:
+        empty-value: Value can not be empty
   container:
     debug:
       description: Displays current services for an application.

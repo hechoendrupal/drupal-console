@@ -49,10 +49,13 @@ class ConfigImportSingleCommand extends ContainerAwareCommand
         } else {
             $value = $ymlFile->parse(stream_get_contents(fopen("php://stdin", "r")));
         }
-        if (!empty($value)) {
-            print_r($value);
-        } else {
-            echo "Whoah No!";
+        if (empty($value)) {
+            $output->writeln(
+              sprintf(
+                "<error>%s</error>",
+                $this->trans('commands.config.import-single.messages.empty-value')
+              )
+            );
         }
         $config->setData($value);
         $config->save();
