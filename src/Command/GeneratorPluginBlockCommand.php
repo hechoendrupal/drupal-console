@@ -83,7 +83,7 @@ class GeneratorPluginBlockCommand extends GeneratorCommand
             ->getGenerator()
             ->generate($module, $class_name, $label, $plugin_id, $build_services, $inputs);
 
-        $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'discovery']);
+        $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
