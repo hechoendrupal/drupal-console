@@ -202,7 +202,15 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     }
 
     /**
-     * @return Drupal\Core\Config\ConfigManagerInterface
+     * @return \Drupal\Core\Database\Connection
+     */
+    public function getDatabase()
+    {
+        return $this->getContainer()->get('database');
+    }
+
+    /**
+     * @return \Drupal\Core\Config\ConfigManagerInterface
      */
     public function getConfigManager()
     {
