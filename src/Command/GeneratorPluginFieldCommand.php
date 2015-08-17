@@ -156,9 +156,7 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
                 ],
                 false
             );
-
-        // @todo Fails with InvalidArgumentException
-        //        $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'discovery'], false);
+        $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'discovery'], false);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
