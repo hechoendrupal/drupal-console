@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "af21eb99f410f2e702fdd6e07e0d500b",
+    "hash": "773d5ac4e949f8028933c5ba6a5f8b2d",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -430,7 +430,8 @@
                 {
                     "name": "Kevin Herrera",
                     "email": "kevin@herrera.io",
-                    "homepage": "http://kevin.herrera.io"
+                    "homepage": "http://kevin.herrera.io/",
+                    "role": "Developer"
                 }
             ],
             "description": "A library for self-updating Phars.",
@@ -726,6 +727,51 @@
                 "validator"
             ],
             "time": "2015-01-04 21:18:15"
+        },
+        {
+            "name": "stecman/symfony-console-completion",
+            "version": "0.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stecman/symfony-console-completion.git",
+                "reference": "1a9fc7ab4820cd1aabbdc584c6b25d221e7b6cb5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stecman/symfony-console-completion/zipball/1a9fc7ab4820cd1aabbdc584c6b25d221e7b6cb5",
+                "reference": "1a9fc7ab4820cd1aabbdc584c6b25d221e7b6cb5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "symfony/console": "~2.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Stecman\\Component\\Symfony\\Console\\BashCompletion\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stephen Holdaway",
+                    "email": "stephen@stecman.co.nz"
+                }
+            ],
+            "description": "Automatic BASH completion for Symfony Console Component based applications.",
+            "time": "2015-05-07 12:21:50"
         },
         {
             "name": "symfony/config",
