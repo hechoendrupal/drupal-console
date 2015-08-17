@@ -94,7 +94,6 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $messageHelper = $this->getHelperSet()->get('message');
         $this->entity_manager = $this->getEntityManager();
         $this->configStorage = $this->getConfigStorage();
 
