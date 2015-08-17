@@ -76,8 +76,9 @@ class GeneratorControllerCommand extends GeneratorCommand
         $services = $input->getOption('services');
 
         // Combine all routes
-        $routes = array();
-        for ($i=0; $i < count($controller_title); $i++) {
+        $numberOfRoutes = count($controller_title);
+        $routes = [];
+        for ($i=0; $i < $numberOfRoutes; $i++) {
             $routes[$i]['title'] = $controller_title[$i];
             $routes[$i]['method'] = $method_name[$i];
             $routes[$i]['route'] = (strpos($route[$i], '/') === 0) ? $route[$i] : '/' . $route[$i] ;
