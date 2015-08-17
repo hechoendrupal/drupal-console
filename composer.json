@@ -38,7 +38,8 @@
         "herrera-io/phar-update": "1.*",
         "symfony/dom-crawler": "2.7.*",
         "alchemy/zippy": "0.2.*@dev",
-        "kriswallsmith/buzz": ">=0.15"
+        "kriswallsmith/buzz": ">=0.15",
+        "stecman/symfony-console-completion": "^0.5.1"
     },
     "bin": ["bin/console"],
     "config": {
