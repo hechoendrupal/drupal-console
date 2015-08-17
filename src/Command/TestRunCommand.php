@@ -147,16 +147,16 @@ class TestRunCommand extends ContainerAwareCommand
             $messages = $this->simpletest_script_load_messages_by_test_ids(array($test_id));
 
             foreach ($messages as $message) {
-                if ($current_class == null || $current_class != $message->test_class) {
+                if ($current_class === null || $current_class != $message->test_class) {
                     $current_class = $message->test_class;
                     $output->writeln('[+] <info>' . $message->test_class . '</info>');
                 }
 
-                if ($current_group == null || $current_group != $message->message_group) {
+                if ($current_group === null || $current_group != $message->message_group) {
                     $current_group =  $message->message_group;
                 }
 
-                if ($current_status == null || $current_status != $message->status) {
+                if ($current_status === null || $current_status != $message->status) {
                     $current_status =  $message->status;
                     if ($message->status == 'fail') {
                         $output->writeln('[+] <error>' . $this->trans('commands.test.run.messages.group') . ':' . $message->message_group . ' ' . $this->trans('commands.test.run.messages.status') . ':' . $message->status . '</error>');

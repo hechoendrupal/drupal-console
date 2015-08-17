@@ -77,7 +77,7 @@ class TestDebugCommand extends ContainerAwareCommand
                     break;
                 }
             }
-            if ($test_details != null) {
+            if ($test_details !== null) {
                 break;
             }
         }
