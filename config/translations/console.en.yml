@@ -896,6 +896,7 @@ commands:
             reset-successful: Password was updated sucessfully for user id %s
           errors:
             invalid-user: Invalid user id %s
+            empty-password: Password can not be empty
   yaml:
     merge:
       description: 'Merge one or more YAML files in a new YAML file. Latest values are preserved.'

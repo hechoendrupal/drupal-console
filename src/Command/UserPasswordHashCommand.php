@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\PasswordCommand.
+ * Contains \Drupal\AppConsole\Command\UserPasswordHashCommand.
  */
 
 namespace Drupal\AppConsole\Command;
@@ -35,13 +35,13 @@ class UserPasswordHashCommand extends ContainerAwareCommand
     {
         $passwords = $input->getArgument('password');
 
-        $password_hasher = $this->getPassHandler();
+        $passHandler = $this->getPassHandler();
 
         $table = $this->getHelperSet()->get('table');
         $table->setHeaders(
             [
-            $this->trans('commands.user.password.hash.messages.password'),
-            $this->trans('commands.user.password.hash.messages.hash'),
+                $this->trans('commands.user.password.hash.messages.password'),
+                $this->trans('commands.user.password.hash.messages.hash'),
             ]
         );
 
@@ -50,8 +50,8 @@ class UserPasswordHashCommand extends ContainerAwareCommand
         foreach ($passwords as $password) {
             $table->addRow(
                 [
-                $password,
-                $password_hasher->hash($password),
+                    $password,
+                    $passHandler->hash($password),
                 ]
             );
         }
@@ -68,7 +68,7 @@ class UserPasswordHashCommand extends ContainerAwareCommand
 
         $passwords = $input->getArgument('password');
         if (!$passwords) {
-            $passwords = array();
+            $passwords = [];
             while (true) {
                 $password = $dialog->askAndValidate(
                     $output,
