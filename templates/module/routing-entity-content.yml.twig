@@ -22,7 +22,6 @@ entity.{{ entity_name }}.add_form:
     _entity_form: {{ entity_name }}.add
     _title: 'Add {{ label }}'
   requirements:
-    _entity_create_access: '{{ entity_name }}'
     _permission: 'add {{ label|lower }} entities'
 
 entity.{{ entity_name }}.edit_form:
