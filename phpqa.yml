@@ -45,7 +45,7 @@ application:
       arguments:
         - '-n'
     phpmd:
-      enabled: true
+      enabled: false
       exception: false
       options:
       arguments:
@@ -60,7 +60,7 @@ application:
       enabled: true
       exception: false
     phpdcd:
-      enabled: true
+      enabled: false
       exception: false
     phpunit:
       enabled: true
