@@ -22,16 +22,22 @@ namespace Drupal\{{ module }}\Plugin\Field\FieldType;
  * @FieldType(
  *   id = "{{ plugin_id }}",
  *   label = @Translation("{{ label }}"),
- *   description = @Translation("{{ description }}"){% if default_widget or default_formatter %},{% endif %}
+ *   description = @Translation("{{ description }}"){% if default_widget or default_formatter %},
+{% endif %}
 {% if default_widget %}
- *   default_widget = "{{ default_widget }}"{% if default_widget and default_formatter %},{% endif %}
+ *   default_widget = "{{ default_widget }}"{% if default_widget and default_formatter %},
+{% endif %}
 {% else %}
- * @todo: Create and/or assign a default_widget.
+
+ *   @todo: Create and/or assign a default_widget.
+ *   ex. default_widget = "field_widget"
 {% endif %}
 {%  if default_formatter %}
  *   default_formatter = "{{ default_formatter }}"
 {% else %}
-  * @todo: Create and/or assign a default_formatter.
+
+ *   @todo: Create and/or assign a default_formatter.
+ *   ex. default_formatter = "field_formatter"
 {%  endif %}
  * )
  */
