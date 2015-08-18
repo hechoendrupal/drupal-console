@@ -17,6 +17,7 @@ class ShowCompletedMessageListener implements EventSubscriberInterface
     private $skipCommands = [
         'self-update',
         'list',
+        '_completion'
     ];
 
     /**
@@ -44,7 +45,7 @@ class ShowCompletedMessageListener implements EventSubscriberInterface
             return;
         }
 
-        /*$completedMessageKey = 'application.console.messages.completed';
+        $completedMessageKey = 'application.console.messages.completed';
 
         if ($command instanceof GeneratorCommand) {
             $completedMessageKey = 'application.console.messages.generated.completed';
@@ -53,7 +54,7 @@ class ShowCompletedMessageListener implements EventSubscriberInterface
         $completedMessage = $translatorHelper->trans($completedMessageKey);
         if ($completedMessage != $completedMessageKey) {
             $messageHelper->showMessage($output, $completedMessage);
-        }*/
+        }
     }
 
     /**
