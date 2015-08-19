@@ -89,8 +89,8 @@ class InitCommand extends Command
         $process = $processBuilder->getProcess();
         $process->setCommandLine('echo $_');
         $process->run();
-        $fullPAthExecutable = explode('/', $process->getOutput());
-        $executable = end($fullPAthExecutable);
+        $fullPathExecutable = explode('/', $process->getOutput());
+        $executable = trim(end($fullPathExecutable));
         $process->stop();
 
         $generator->generate($userPath, $executable);
