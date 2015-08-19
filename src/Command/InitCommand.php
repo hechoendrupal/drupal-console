@@ -72,6 +72,7 @@ class InitCommand extends Command
         }
 
         $this->createAutocomplete();
+        $output->writeln($this->trans('application.console.messages.autocomplete'));
     }
 
     protected function createAutocomplete()
