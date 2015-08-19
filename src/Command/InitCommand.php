@@ -10,6 +10,8 @@ namespace Drupal\Console\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\AppConsole\Generator\AutocompleteGenerator;
+use Symfony\Component\Process\ProcessBuilder;
 
 class InitCommand extends Command
 {
@@ -68,6 +70,44 @@ class InitCommand extends Command
         if ($copiedFiles) {
             $message->showCopiedFiles($output, $copiedFiles);
         }
+
+        $this->createAutocomplete();
+    }
+
+    protected function createAutocomplete()
+    {
+        $generator = new AutocompleteGenerator();
+        $generator->setSkeletonDirs($this->getSkeletonDirs());
+        $generator->setTranslator($this->translator);
+        $generator->setHelpers($this->getHelperSet());
+
+        $application = $this->getApplication();
+        $config = $application->getConfig();
+        $userPath = $config->getUserHomeDir().'/.console/';
+
+        $processBuilder = new ProcessBuilder(array('bash'));
+        $process = $processBuilder->getProcess();
+        $process->setCommandLine('echo $_');
+        $process->run();
+        $fullPAthExecutable = explode('/', $process->getOutput());
+        $executable = end($fullPAthExecutable);
+        $process->stop();
+
+        $generator->generate($userPath, $executable);
+    }
+
+    protected function getSkeletonDirs()
+    {
+        $module = $this->getModule();
+        if ($module != 'AppConsole') {
+            $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
+            $drupal_root = $drupalAutoLoad->getDrupalRoot();
+            $skeletonDirs[] = $drupal_root.drupal_get_path('module', $module).'/templates';
+        }
+
+        $skeletonDirs[] = __DIR__.'/../../templates';
+
+        return $skeletonDirs;
     }
 
     public function copyFile($source, $destination, $override)
