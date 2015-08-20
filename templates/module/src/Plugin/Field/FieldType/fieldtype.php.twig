@@ -9,10 +9,13 @@ namespace Drupal\{{ module }}\Plugin\Field\FieldType;
 {% endblock %}
 
 {% block use_class %}
-  use Drupal\Component\Utility\Random;
-  use Drupal\Core\Field\FieldDefinitionInterface;
-  use Drupal\Core\Field\FieldStorageDefinitionInterface;
-  use Drupal\Core\Form\FormStateInterface;
+use Drupal\Component\Utility\Random;
+use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\Core\Field\FieldItemBase;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslationWrapper;
+use Drupal\Core\TypedData\DataDefinition;
 {% endblock %}
 
 {% block class_declaration %}
