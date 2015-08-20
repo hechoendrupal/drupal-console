@@ -59,15 +59,17 @@ class {{ entity_class }}Form extends EntityForm {% endblock %}
     ${{ entity_name | machine_name }} = $this->entity;
     $status = ${{ entity_name | machine_name }}->save();
 
-    if ($status) {
-      drupal_set_message($this->t('Saved the %label {{ label }}.', array(
-        '%label' => ${{ entity_name | machine_name }}->label(),
-      )));
-    }
-    else {
-      drupal_set_message($this->t('The %label {{ label }} was not saved.', array(
-        '%label' => ${{ entity_name | machine_name }}->label(),
-      )));
+    switch ($status) {
+      case SAVED_NEW:
+        drupal_set_message($this->t('Created the %label {{ label }}.', [
+          '%label' => ${{ entity_name | machine_name }}->label(),
+        ]));
+        break;
+
+      default:
+        drupal_set_message($this->t('Saved the %label {{ label }}.', [
+          '%label' => ${{ entity_name | machine_name }}->label(),
+        ]));
     }
     $form_state->setRedirectUrl(${{ entity_name | machine_name }}->urlInfo('collection'));
   }
