@@ -57,15 +57,17 @@ class {{ entity_class }}Form extends ContentEntityForm {% endblock %}
     $entity = $this->entity;
     $status = $entity->save();
 
-    if ($status) {
-      drupal_set_message($this->t('Saved the %label {{ label }}.', array(
-        '%label' => $entity->label(),
-      )));
-    }
-    else {
-      drupal_set_message($this->t('The %label {{ label }} was not saved.', array(
-        '%label' => $entity->label(),
-      )));
+    switch ($status) {
+      case SAVED_NEW:
+        drupal_set_message($this->t('Created the %label {{ label }}.', [
+          '%label' => $entity->label(),
+        ]));
+        break;
+
+      default:
+        drupal_set_message($this->t('Saved the %label {{ label }}.', [
+          '%label' => $entity->label(),
+        ]));
     }
     $form_state->setRedirect('entity.{{ entity_name }}.edit_form', ['{{ entity_name }}' => $entity->id()]);
   }
