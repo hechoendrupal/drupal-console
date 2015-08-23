@@ -254,7 +254,7 @@ commands:
                 package: 'Digite o nome do pacote'
                 controller: 'Você deseja criar um Controller padrão'
                 composer: 'Do you want to add a composer.json file to your module'
-                dependencies: 'Would you like to add module depencencies'
+                dependencies: 'Would you like to add module dependencies'
                 test: 'Você deseja criar uma classe de teste unitário'
                 structure: 'Você deseja criar a estrutura de diretório'
             warnings:
@@ -285,7 +285,7 @@ commands:
                 description: 'Enter theme description'
                 core: 'Enter Drupal Core version'
                 package: 'Enter package name'
-                dependencies: 'Would you like to add module depencencies'
+                dependencies: 'Would you like to add module dependencies'
                 invalid-theme: 'Invalid %s theme was selected'
                 global-library: 'Enter the global styling library name'
                 regions: 'Do you want to generate the theme regions'
@@ -355,7 +355,7 @@ commands:
                     widget-plugin-id: 'Field widget plugin id'
                     field-type: 'Field type the formatter and widget plugin can be used with'
                     default-widget: 'Default field widget of the field type plugin'
-                    default-formatter: 'Default field widget of field type plugin'
+                    default-formatter: 'Default field formatter of field type plugin'
                 questions:
                     module: common.questions.module
                     type-class-name: 'Field type plugin class name'
@@ -370,7 +370,7 @@ commands:
                     widget-plugin-id: 'Enter the field widget plugin id'
                     field-type: 'Enter the field type the formatter and widget plugin can be used with'
                     default-widget: 'Enter the default field widget of the field type plugin'
-                    default-formatter: 'Enter the default field widget of field type plugin'
+                    default-formatter: 'Enter the default field formatter of field type plugin'
             fieldformatter:
                 description: 'Generate field formatter plugin.'
                 help: 'The <info>generate:plugin:fieldformatter</info> command helps you generate a new field formatter plugin.'
@@ -398,7 +398,7 @@ commands:
                     plugin-id: 'Plugin id'
                     description: 'Plugin Description'
                     default-widget: 'Default field widget of this plugin'
-                    default-formatter: 'Default field widget of this plugin'
+                    default-formatter: 'Default field formatter of this plugin'
                 questions:
                     module: common.questions.module
                     class-name: 'Enter the plugin class name'
@@ -629,7 +629,7 @@ commands:
                 imported: 'Migration "%s" was imported correctly'
                 fail-load: 'Migration "%s" can''t be loaded'
                 importing-incomplete: 'Importing migration "%s"'
-                import-stoped: 'Import "%s" stopped by request'
+                import-stopped: 'Import "%s" stopped by request'
                 import-fail: 'Import "%s" failed'
                 import-skipped: 'Import "%s" was skipped due to unfulfilled dependencies'
                 wrong-source: 'Upgrading from this version of Drupal is not supported.'

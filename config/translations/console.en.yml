@@ -9,7 +9,7 @@ application:
       generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
       generate-inline: 'Print execution options and arguments as inline call to be use in the future'
     messages:
-      completed: 'The command was executed succesfully!'
+      completed: 'The command was executed successfully!'
       chain:
         generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
       inline:
@@ -268,7 +268,7 @@ commands:
         package: Enter package name
         controller: Do you want to generate a default Controller
         composer: Do you want to add a composer.json file to your module
-        dependencies: Would you like to add module depencencies
+        dependencies: Would you like to add module dependencies
         test: Do you want to generate a unit test class
       warnings:
         module-unavailable: Warning The following modules are not already available in your local environment "%s"
@@ -297,7 +297,7 @@ commands:
         description: Enter theme description
         core: Enter Drupal Core version
         package: Enter package name
-        dependencies: Would you like to add module depencencies
+        dependencies: Would you like to add module dependencies
         invalid-theme: Invalid %s theme was selected
         global-library: Enter the global styling library name
         regions: Do you want to generate the theme regions
@@ -323,8 +323,8 @@ commands:
         questions:
           module: common.questions.module
           permission: Enter a permission
-          title: Enter a title for the permision
-          description: Enter a description for the permision
+          title: Enter a title for the permission
+          description: Enter a description for the permission
           restrict-access: Restrict Access
           add: Do you want add another permission
     plugin:
@@ -369,7 +369,7 @@ commands:
           widget-plugin-id: Field widget plugin id
           field-type: Field type the formatter and widget plugin can be used with
           default-widget: Default field widget of the field type plugin
-          default-formatter: Default field widget of field type plugin
+          default-formatter: Default field formatter of field type plugin
         questions:
           module: common.questions.module
           type-class-name: Field type plugin class name
@@ -384,7 +384,7 @@ commands:
           widget-plugin-id: Enter the field widget plugin id
           field-type: Enter the field type the formatter and widget plugin can be used with
           default-widget: Enter the default field widget of the field type plugin
-          default-formatter: Enter the default field widget of field type plugin
+          default-formatter: Enter the default field formatter of field type plugin
       fieldformatter:
         description: Generate field formatter plugin.
         help: The <info>generate:plugin:fieldformatter</info> command helps you generate a new field formatter plugin.
@@ -412,7 +412,7 @@ commands:
           plugin-id: Plugin id
           description: Plugin Description
           default-widget: Default field widget of this plugin
-          default-formatter: Default field widget of this plugin
+          default-formatter: Default field formatter of this plugin
         questions:
           module: common.questions.module
           class-name: Enter the plugin class name
@@ -611,7 +611,7 @@ commands:
         installed: Please remember to put the plugin files where they should be.
         overridden: The entity was overridden.
       questions:
-        override: The File is already install, do you want override it [yes/no] ?
+        override: The File is already installed, do you want override it [yes/no] ?
         file: "Path to file"
     execute:
       description: Execute a migration available for application
@@ -628,7 +628,7 @@ commands:
         exclude: "Migration id(s) to exclude"
       questions:
         id: "Migration Id"
-        exclude-id: "Migration Id to exlude (press <return> to stop adding migrations)"
+        exclude-id: "Migration Id to exclude (press <return> to stop adding migrations)"
         other-id: "Other migration id (press <return> to stop adding migrations)"
         site-url: "Source Site URL"
         db-host: "Database Host"
@@ -643,7 +643,7 @@ commands:
         imported: Migration "%s" was imported correctly
         fail-load: Migration "%s" can't be loaded
         importing-incomplete: Importing migration "%s"
-        import-stoped: Import "%s" stopped by request
+        import-stopped: Import "%s" stopped by request
         import-fail: Import "%s" failed
         import-skipped: Import "%s" was skipped due to unfulfilled dependencies
         wrong-source: 'Upgrading from this version of Drupal is not supported.'
@@ -723,7 +723,7 @@ commands:
     mode:
       description: Switch system performance configuration
       arguments:
-        environment: Enviroment name
+        environment: Environment name
       messages:
         configuration: Configuration name
         configuration-key: Configuration key
@@ -764,7 +764,7 @@ commands:
         maintenance-on: Operating in maintenance mode on
         maintenance-off: Operating in maintenance mode off
       errors:
-        invalid-mode: Invalid maintance mode
+        invalid-mode: Invalid maintenance mode
     new:
       description: Create a new Drupal project
       arguments:
@@ -774,7 +774,7 @@ commands:
         getting-releases: 'Getting releases for Drupal'
         downloading: 'Downloading Drupal %s'
         extracting: 'Extracting files for Drupal %s'
-        no-releases: "There aren't not releases available for Drupal"
+        no-releases: "There aren't any releases available for Drupal"
         downloaded: 'Drupal %s was downloaded in directory %s'
         error-copying: 'An error occurred while renaming your directory at %s'
   test:
@@ -793,7 +793,7 @@ commands:
         success: The console has been updated to the latest version.
         missing-dependency: Missing dependency
         methods: Test methods
-        not-found: Debug wans't found, try enclosure test id between double quotes.
+        not-found: Debug wasn't found, try enclosure test id between double quotes.
     run:
       description: Run Test unit from tests available for application
       arguments:
@@ -819,7 +819,7 @@ commands:
   password:
     hash:
       description: Generate a hash from a plaintext password.
-      help: The <info>password:hash</info> command helps you to generate hashs password from plaintext passwords.
+      help: The <info>password:hash</info> command helps you to generate hashes password from plaintext passwords.
       welcome: Welcome to the Drupal password hash generator
       options:
         password: Password(s) in text format
@@ -845,7 +845,7 @@ commands:
         password: Enter password
         other-password: Other password (press <return> to stop adding passwords)
       messages:
-        reset-successful: Password was updated sucessfully for user id %s
+        reset-successful: Password was updated successfully for user id %s
       errors:
         invalid-user: Invalid user id %s
   user:
@@ -861,13 +861,13 @@ commands:
              numeric-uid: User id must be an integer.
              invalid-uid: User id must be upper than zero.
            messages:
-             successful: Login attempts was clean sucessfully for user id %s.
+             successful: Login attempts was clean successfully for user id %s.
            errors:
              invalid-user: Cannot load user entity (Uid: %s).
     password:
         hash:
           description: Generate a hash from a plaintext password.
-          help: The <info>password:hash</info> command helps you to generate hashs password from plaintext passwords.
+          help: The <info>password:hash</info> command helps you to generate hashes password from plaintext passwords.
           welcome: Welcome to the Drupal password hash generator
           options:
             password: Password(s) in text format
@@ -893,7 +893,7 @@ commands:
             password: Enter password
             other-password: Other password (press <return> to stop adding passwords)
           messages:
-            reset-successful: Password was updated sucessfully for user id %s
+            reset-successful: Password was updated successfully for user id %s
           errors:
             invalid-user: Invalid user id %s
             empty-password: Password can not be empty
@@ -915,4 +915,4 @@ commands:
         two-files-required: 'At least two files are required.'
         error-generating: 'Error generating merged YAML.'
         error-writing: 'Error writing merged YAML file.'
-        merged: 'New file "%s" was created sucessfully after merge Yaml files.'
+        merged: 'New file "%s" was created successfully after merge Yaml files.'

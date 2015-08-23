@@ -22,7 +22,7 @@ entity.{{ entity_name }}.add_form:
     _entity_form: {{ entity_name }}.add
     _title: 'Add {{ label }}'
   requirements:
-    _entity_create_access: '{{ entity_name }}'
+    _permission: 'add {{ label|lower }} entities'
 
 entity.{{ entity_name }}.edit_form:
   path: '/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit'
@@ -30,7 +30,7 @@ entity.{{ entity_name }}.edit_form:
     _entity_form: {{ entity_name }}.edit
     _title: 'Edit {{ label }}'
   requirements:
-    _entity_access: '{{ entity_name }}.edit'
+    _permission: 'edit {{ label|lower }} entities'
 
 entity.{{ entity_name }}.delete_form:
   path: '/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete'
@@ -38,7 +38,7 @@ entity.{{ entity_name }}.delete_form:
     _entity_form: {{ entity_name }}.delete
     _title: 'Delete {{ label }}'
   requirements:
-    _entity_access: '{{ entity_name }}.delete'
+    _permission: 'delete {{ label|lower }} entities'
 
 {{ entity_name }}.settings:
   path: 'admin/structure/{{ entity_name }}'
