@@ -77,8 +77,8 @@ class EntityConfigGenerator extends Generator
         );
 
         $this->renderFile(
-            'module/src/Controller/entity-listbuilder.php.twig',
-            $this->getSite()->getControllerPath($module).'/'.$entity_class.'ListBuilder.php',
+            'module/src/entity-listbuilder.php.twig',
+            $this->getSite()->getSourcePath($module).'/'.$entity_class.'ListBuilder.php',
             $parameters
         );
     }
