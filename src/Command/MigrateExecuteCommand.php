@@ -385,7 +385,7 @@ class MigrateExecuteCommand extends ContainerAwareCommand
                 case MigrationInterface::RESULT_STOPPED:
                     $output->writeln(
                         '[+] <error>'.sprintf(
-                            $this->trans('commands.migrate.execute.messages.import-stoped'),
+                            $this->trans('commands.migrate.execute.messages.import-stopped'),
                             $migration_id
                         ).'</error>'
                     );
