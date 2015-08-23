@@ -1,11 +1,11 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-Drupal\{{module}}\Entity\Controller\{{ entity_class }}ListController.
+Drupal\{{module}}\{{ entity_class }}ListBuilder.
 {% endblock %}
 
 {% block namespace_class %}
-namespace Drupal\{{module}}\Entity\Controller;
+namespace Drupal\{{module}};
 {% endblock %}
 
 {% block use_class %}
@@ -16,11 +16,11 @@ use Drupal\Core\Url;
 
 {% block class_declaration %}
 /**
- * Provides a list controller for the {{ label }} entity.
+ * Defines a class to build a listing of {{ label }} entities.
  *
  * @ingroup {{ module }}
  */
-class {{ entity_class }}ListController extends EntityListBuilder {% endblock %}
+class {{ entity_class }}ListBuilder extends EntityListBuilder {% endblock %}
 {% block class_methods %}
   /**
    * {@inheritdoc}
