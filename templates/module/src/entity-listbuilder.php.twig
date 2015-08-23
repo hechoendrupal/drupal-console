@@ -1,11 +1,11 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-Drupal\{{module}}\Controller\{{ entity_class }}ListBuilder.
+Drupal\{{module}}\{{ entity_class }}ListBuilder.
 {% endblock %}
 
 {% block namespace_class %}
-namespace Drupal\{{module}}\Controller;
+namespace Drupal\{{module}};
 {% endblock %}
 
 {% block use_class %}
