@@ -7,7 +7,7 @@
 namespace Drupal\AppConsole\Command;
 
 use Alchemy\Zippy\Zippy;
-use GuzzleHttp\Client;
+use Buzz\Browser;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,7 +29,7 @@ class SiteNewCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!class_exists('GuzzleHttp\Client')) {
+/*        if (!class_exists('GuzzleHttp\Client')) {
             throw new \Exception(
                 sprintf(
                     'This command is disabled, for more information visit issue(s) %s %s',
@@ -37,9 +37,9 @@ class SiteNewCommand extends Command
                     "\r\n" . 'https://github.com/hechoendrupal/DrupalConsole/issues/767' . "\r\n"
                 )
             );
-        }
+        }*/
 
-        $client =  new Client();
+        $client =  new Browser();
         $site_name = $input->getArgument('site-name');
         $version = $input->getArgument('version');
 
@@ -55,7 +55,7 @@ class SiteNewCommand extends Command
             // Parse release module page to get Drupal 8 releases
             try {
                 $response = $client->get($project_release_d8);
-                $html = $response->getBody()->__tostring();
+                $html = $response->getContent();
             } catch (\Exception $e) {
                 $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
                 return;
@@ -89,16 +89,6 @@ class SiteNewCommand extends Command
             );
 
             $release_selected = $questionHelper->ask($input, $output, $question);
-
-            // Start the process to download the zip file of release and copy in contrib folter
-            $output->writeln(
-                '[+] <info>' .
-                sprintf(
-                    $this->trans('commands.site.new.messages.downloading'),
-                    $release_selected
-                ) .
-                '</info>'
-            );
         }
 
         $release_file_path = 'http://ftp.drupal.org/files/projects/drupal-' . $release_selected . '.tar.gz';
@@ -106,18 +96,28 @@ class SiteNewCommand extends Command
         // Destination file to download the release
         $destination = tempnam(sys_get_temp_dir(), 'drupal.') . "tar.gz";
 
-        $output->writeln(
-            '[+] <info>' .
-            sprintf(
+        try {
+            // Start the process to download the zip file of release and copy in contrib folter
+            $output->writeln(
+              '[+] <info>' .
+              sprintf(
+                $this->trans('commands.site.new.messages.downloading'),
+                $release_selected
+              ) .
+              '</info>'
+            );
+            // Save release file
+            file_put_contents($destination, file_get_contents($release_file_path));
+
+            $output->writeln(
+              '[+] <info>' .
+              sprintf(
                 $this->trans('commands.site.new.messages.extracting'),
                 $release_selected
-            ) .
-            '</info>'
-        );
-        try {
-            $client->get($release_file_path, ['save_to' => $destination]);
+              ) .
+              '</info>'
+            );
 
-            // Prepare release to unzip and untar
             $zippy = Zippy::load();
             $archive = $zippy->open($destination);
             $archive->extract('./');
