@@ -62,7 +62,7 @@ class UserPasswordResetCommand extends ContainerAwareCommand
             $user->save();
             // Clear all failed login attempts after setup new password to user account.
             $this->getHelper('chain')
-              ->addCommand('user:login:clear:attempts', ['uid' => $uid]);
+                ->addCommand('user:login:clear:attempts', ['uid' => $uid]);
         } catch (\Exception $e) {
             throw new \InvalidArgumentException($e->getMessage());
         }
