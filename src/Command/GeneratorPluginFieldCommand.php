@@ -208,7 +208,7 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
                 $output,
                 $dialog->getQuestion(
                     $this->trans('commands.generate.plugin.field.questions.type-plugin-id'),
-                  $machine_name
+                    $machine_name
                 ),
                 $machine_name
             );
