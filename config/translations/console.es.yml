@@ -94,6 +94,13 @@ commands:
                         content_type: 'Content Type to be exported'
                     messages:
                         configuration_exported: 'The following configuration files were generated'
+            single:
+                description: 'Export single configuration as yml file.'
+                arguments:
+                    config-name: 'Configuration name.'
+                messages:
+                    config-not-found: 'Configuration name not found.'
+                    export: 'Configuration was exported at file %s.'
         debug:
             description: 'Muestra la configuración actual.'
             arguments:
@@ -130,6 +137,8 @@ commands:
             arguments:
                 config-name: 'Configuration name.'
                 input-file: 'Path to the import files.'
+            messages:
+                empty-value: 'Value can not be empty'
     container:
         debug:
             description: 'Muestra los servicios actuales para una aplicación.'
@@ -798,6 +807,38 @@ commands:
                 method: Method
                 line: Line
                 message: Message
+    password:
+        hash:
+            description: 'Generate a hash from a plaintext password.'
+            help: 'The <info>password:hash</info> command helps you to generate hashs password from plaintext passwords.'
+            welcome: 'Welcome to the Drupal password hash generator'
+            options:
+                password: 'Password(s) in text format'
+            questions:
+                invalid-pass: 'Password can''t be empty'
+                password: 'Enter password'
+                other-password: 'Other password (press <return> to stop adding passwords)'
+            messages:
+                password: Password
+                hash: Hash
+            errors: null
+        reset:
+            description: 'Reset password for a specific user.'
+            help: 'The <info>password:reset</info> command helps you to reset password for a specific user.'
+            welcome: 'Welcome to the Drupal password reset'
+            options:
+                password: 'Password in text format'
+                user-id: 'User ID'
+            questions:
+                invalid-uid: 'Invalid user id %, user id must be an integer'
+                invalid-pass: 'Password can''t be empty'
+                user: 'Enter User ID'
+                password: 'Enter password'
+                other-password: 'Other password (press <return> to stop adding passwords)'
+            messages:
+                reset-successful: 'Password was updated sucessfully for user id %s'
+            errors:
+                invalid-user: 'Invalid user id %s'
     user:
         login:
             clear:
@@ -847,6 +888,7 @@ commands:
                     reset-successful: 'Password was updated sucessfully for user id %s'
                 errors:
                     invalid-user: 'Invalid user id %s'
+                    empty-password: 'Password can not be empty'
     yaml:
         merge:
             description: 'Combinar uno o más archivos de YAML en un nuevo archivo YAML. Se conservaran los últimos valores del archivo mas a la izquierda del merge.'
@@ -866,35 +908,3 @@ commands:
                 error-generating: 'Error generando el archivo YAML combinado.'
                 error-writing: 'Error escribiendo en el archivo YAML combinado.'
                 merged: 'Nuevo archivo "%s" fue creado satisfactorimente despuesde de combinar los archivos Yaml.'
-    password:
-        hash:
-            description: 'Generate a hash from a plaintext password.'
-            help: 'The <info>password:hash</info> command helps you to generate hashs password from plaintext passwords.'
-            welcome: 'Welcome to the Drupal password hash generator'
-            options:
-                password: 'Password(s) in text format'
-            questions:
-                invalid-pass: 'Password can''t be empty'
-                password: 'Enter password'
-                other-password: 'Other password (press <return> to stop adding passwords)'
-            messages:
-                password: Password
-                hash: Hash
-            errors: null
-        reset:
-            description: 'Reset password for a specific user.'
-            help: 'The <info>password:reset</info> command helps you to reset password for a specific user.'
-            welcome: 'Welcome to the Drupal password reset'
-            options:
-                password: 'Password in text format'
-                user-id: 'User ID'
-            questions:
-                invalid-uid: 'Invalid user id %, user id must be an integer'
-                invalid-pass: 'Password can''t be empty'
-                user: 'Enter User ID'
-                password: 'Enter password'
-                other-password: 'Other password (press <return> to stop adding passwords)'
-            messages:
-                reset-successful: 'Password was updated sucessfully for user id %s'
-            errors:
-                invalid-user: 'Invalid user id %s'
