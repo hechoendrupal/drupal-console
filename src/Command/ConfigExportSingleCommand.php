@@ -53,7 +53,7 @@ class ConfigExportSingleCommand extends ContainerAwareCommand
         }
 
         $config_name = $input->getArgument('config-name');
-        $config_export_file = $directory.$config_name.'.yml';
+        $config_export_file = $directory . '/' . $config_name.'.yml';
 
         file_unmanaged_delete($config_export_file);
 
