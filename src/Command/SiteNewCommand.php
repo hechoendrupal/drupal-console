@@ -29,16 +29,6 @@ class SiteNewCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-/*        if (!class_exists('GuzzleHttp\Client')) {
-            throw new \Exception(
-                sprintf(
-                    'This command is disabled, for more information visit issue(s) %s %s',
-                    "\r\n" . 'https://www.drupal.org/node/2538484',
-                    "\r\n" . 'https://github.com/hechoendrupal/DrupalConsole/issues/767' . "\r\n"
-                )
-            );
-        }*/
-
         $client =  new Browser();
         $site_name = $input->getArgument('site-name');
         $version = $input->getArgument('version');
@@ -99,23 +89,24 @@ class SiteNewCommand extends Command
         try {
             // Start the process to download the zip file of release and copy in contrib folter
             $output->writeln(
-              '[+] <info>' .
-              sprintf(
-                $this->trans('commands.site.new.messages.downloading'),
-                $release_selected
-              ) .
-              '</info>'
+                '[+] <info>' .
+                sprintf(
+                    $this->trans('commands.site.new.messages.downloading'),
+                    $release_selected
+                ) .
+                '</info>'
             );
+
             // Save release file
             file_put_contents($destination, file_get_contents($release_file_path));
 
             $output->writeln(
-              '[+] <info>' .
-              sprintf(
-                $this->trans('commands.site.new.messages.extracting'),
-                $release_selected
-              ) .
-              '</info>'
+                '[+] <info>' .
+                sprintf(
+                    $this->trans('commands.site.new.messages.extracting'),
+                    $release_selected
+                ) .
+                '</info>'
             );
 
             $zippy = Zippy::load();
