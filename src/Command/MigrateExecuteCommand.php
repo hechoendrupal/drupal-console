@@ -202,12 +202,6 @@ class MigrateExecuteCommand extends ContainerAwareCommand
             return;
         }
 
-        if (count($migrations_list) == 0) {
-            $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.no-migrations').'</error>');
-
-            return;
-        }
-
         // --migration-id prefix
         $migration_id = $input->getArgument('migration-ids');
         if (!$migration_id) {
@@ -326,8 +320,7 @@ class MigrateExecuteCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $migration_ids = $input->getArgument('migration-ids');
-        $exclude_ids = $input->getArgument('exclude');
-
+        $exclude_ids = $input->getOption('exclude');
         if (!empty($exclude_ids)) {
             // Remove exclude migration from migration script
             $migration_ids = array_diff($migration_ids, $exclude_ids);
@@ -351,7 +344,10 @@ class MigrateExecuteCommand extends ContainerAwareCommand
 
         $entity_manager = $this->getEntityManager();
         $migration_storage = $entity_manager->getStorage('migration');
-
+        if (count($migrations) == 0) {
+            $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.no-migrations').'</error>');
+            return;
+        }
         foreach ($migrations as $migration_id) {
             $output->writeln(
                 '[+] <info>'.sprintf(
