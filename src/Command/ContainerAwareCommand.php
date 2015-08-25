@@ -202,7 +202,15 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     }
 
     /**
-     * @return Drupal\Core\Config\ConfigManagerInterface
+     * @return \Drupal\Core\Database\Connection
+     */
+    public function getDatabase()
+    {
+        return $this->getContainer()->get('database');
+    }
+
+    /**
+     * @return \Drupal\Core\Config\ConfigManagerInterface
      */
     public function getConfigManager()
     {
@@ -222,6 +230,11 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     public function getModuleInstaller()
     {
         return $this->getContainer()->get('module_installer');
+    }
+
+    public function getModuleHandler()
+    {
+        return $this->getContainer()->get('module_handler');
     }
 
     public function getPluginManagerRest()
