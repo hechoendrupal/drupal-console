@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\PasswordCommand.
+ * Contains \Drupal\AppConsole\Command\UserPasswordHashCommand.
  */
 
 namespace Drupal\AppConsole\Command;
@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\AppConsole\Command\Helper\ConfirmationTrait;
 
-class PasswordHashCommand extends ContainerAwareCommand
+class UserPasswordHashCommand extends ContainerAwareCommand
 {
     use ConfirmationTrait;
 
@@ -22,10 +22,10 @@ class PasswordHashCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('password:hash')
-            ->setDescription($this->trans('commands.password.hash.description'))
-            ->setHelp($this->trans('commands.password.hash.help'))
-            ->addArgument('password', InputArgument::IS_ARRAY, $this->trans('commands.password.hash.options.password'));
+            ->setName('user:password:hash')
+            ->setDescription($this->trans('commands.user.password.hash.description'))
+            ->setHelp($this->trans('commands.user.password.hash.help'))
+            ->addArgument('password', InputArgument::IS_ARRAY, $this->trans('commands.user.password.hash.options.password'));
     }
 
     /**
@@ -35,13 +35,13 @@ class PasswordHashCommand extends ContainerAwareCommand
     {
         $passwords = $input->getArgument('password');
 
-        $password_hasher = $this->getPassHandler();
+        $passHandler = $this->getPassHandler();
 
         $table = $this->getHelperSet()->get('table');
         $table->setHeaders(
             [
-            $this->trans('commands.password.hash.messages.password'),
-            $this->trans('commands.password.hash.messages.hash'),
+                $this->trans('commands.user.password.hash.messages.password'),
+                $this->trans('commands.user.password.hash.messages.hash'),
             ]
         );
 
@@ -50,8 +50,8 @@ class PasswordHashCommand extends ContainerAwareCommand
         foreach ($passwords as $password) {
             $table->addRow(
                 [
-                $password,
-                $password_hasher->hash($password),
+                    $password,
+                    $passHandler->hash($password),
                 ]
             );
         }
@@ -68,17 +68,17 @@ class PasswordHashCommand extends ContainerAwareCommand
 
         $passwords = $input->getArgument('password');
         if (!$passwords) {
-            $passwords = array();
+            $passwords = [];
             while (true) {
                 $password = $dialog->askAndValidate(
                     $output,
-                    $dialog->getQuestion(count($passwords) > 0 ? $this->trans('commands.password.hash.questions.other-password') : $this->trans('commands.password.hash.questions.password'), ''),
+                    $dialog->getQuestion(count($passwords) > 0 ? $this->trans('commands.user.password.hash.questions.other-password') : $this->trans('commands.user.password.hash.questions.password'), ''),
                     function ($pass) use ($passwords) {
                         if (!empty($pass) || count($passwords) >= 1) {
                             return $pass;
                         } else {
                             throw new \InvalidArgumentException(
-                                sprintf($this->trans('commands.password.hash.questions.invalid-pass'), $pass)
+                                sprintf($this->trans('commands.user.password.hash.questions.invalid-pass'), $pass)
                             );
                         }
                     },

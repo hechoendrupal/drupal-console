@@ -156,9 +156,7 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
                 ],
                 false
             );
-
-        // @todo Fails with InvalidArgumentException
-        //        $this->getHelper('chain')->addCommand('cache:rebuild', ['--cache' => 'discovery'], false);
+        $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'discovery'], false);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -187,20 +185,20 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
         }
         $input->setOption('type-class-name', $class_name);
 
-        $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
+        $default_label = $this->getStringUtils()->camelCaseToHuman($class_name);
 
         // --type-label option
         $label = $input->getOption('type-label');
         if (!$label) {
             $label = $dialog->ask(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.plugin.field.questions.type-label'), $machine_name),
-                $machine_name
+                $dialog->getQuestion($this->trans('commands.generate.plugin.field.questions.type-label'), $default_label),
+                $default_label
             );
         }
         $input->setOption('type-label', $label);
 
-        $default_label = $this->getStringUtils()->camelCaseToHuman($class_name);
+        $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
 
         // --type-plugin-id option
         $plugin_id = $input->getOption('type-plugin-id');
@@ -210,9 +208,9 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
                 $output,
                 $dialog->getQuestion(
                     $this->trans('commands.generate.plugin.field.questions.type-plugin-id'),
-                    $default_label
+                    $machine_name
                 ),
-                $default_label
+                $machine_name
             );
         }
         $input->setOption('type-plugin-id', $plugin_id);
@@ -326,17 +324,17 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
                 $output,
                 $dialog->getQuestion(
                     $this->trans('commands.generate.plugin.field.questions.field-type'),
-                    ''
+                    $input->getOption('type-plugin-id')
                 ),
-                ''
+                $input->getOption('type-plugin-id')
             );
         }
         $input->setOption('field-type', $field_type);
 
         // --default-widget option
-        $field_type = $input->getOption('default-widget');
-        if (!$field_type) {
-            $field_type = $dialog->ask(
+        $field_widget = $input->getOption('default-widget');
+        if (!$field_widget) {
+            $field_widget = $dialog->ask(
                 $output,
                 $dialog->getQuestion(
                     $this->trans('commands.generate.plugin.field.questions.default-widget'),
@@ -345,12 +343,12 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
                 $input->getOption('widget-plugin-id')
             );
         }
-        $input->setOption('default-widget', $field_type);
+        $input->setOption('default-widget', $field_widget);
 
         // --default-formatter option
-        $field_type = $input->getOption('default-formatter');
-        if (!$field_type) {
-            $field_type = $dialog->ask(
+        $field_formatter = $input->getOption('default-formatter');
+        if (!$field_formatter) {
+            $field_formatter = $dialog->ask(
                 $output,
                 $dialog->getQuestion(
                     $this->trans('commands.generate.plugin.field.questions.default-formatter'),
@@ -359,7 +357,7 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
                 $input->getOption('formatter-plugin-id')
             );
         }
-        $input->setOption('default-formatter', $field_type);
+        $input->setOption('default-formatter', $field_formatter);
     }
 
     protected function createGenerator()

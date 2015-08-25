@@ -11,7 +11,6 @@ use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Yaml\Dumper;
 
 class ShowGenerateInlineListener implements EventSubscriberInterface
 {

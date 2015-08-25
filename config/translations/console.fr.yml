@@ -85,10 +85,35 @@ commands:
                 directory: 'Définit le répertoire de sauvegarde de la configuration.'
             messages:
                 directory: 'Votre exportation de configuration a été sauvegardée dans %s'
+            content:
+                type:
+                    description: 'Export a specific content type and their fields.'
+                    arguments:
+                        content_type: 'Content Type to be exported'
+                    questions:
+                        content_type: 'Content Type to be exported'
+                    messages:
+                        configuration_exported: 'The following configuration files were generated'
+            single:
+                description: 'Export single configuration as yml file.'
+                arguments:
+                    config-name: 'Configuration name.'
+                messages:
+                    config-not-found: 'Configuration name not found.'
+                    export: 'Configuration was exported at file %s.'
         debug:
             description: 'Afficher de la configuration actuelle.'
             arguments:
                 config-name: 'Nom de la configuration.'
+        import:
+            description: 'Import configuration to current application.'
+            arguments:
+                config-file: 'Configuration file path.'
+                copy-only: 'Copy only configuration files in staging directory.'
+            messages:
+                config_files_imported: 'List of config files.'
+                copied: 'All config files were copied to staging directory.'
+                imported: 'All config files were copied to staging directory and imported.'
         override:
             description: 'Surplanter la valeur de configuration dans la configuration active.'
             arguments:
@@ -112,6 +137,8 @@ commands:
             arguments:
                 config-name: 'Configuration name.'
                 input-file: 'Path to the import files.'
+            messages:
+                empty-value: 'Value can not be empty'
     container:
         debug:
             description: 'Affiche les services actuels à une application.'
@@ -234,7 +261,7 @@ commands:
                 package: 'Entrez le nom du paquet'
                 controller: 'Voulez-vous générer un contrôleur par défaut'
                 composer: 'Do you want to add a composer.json file to your module'
-                dependencies: 'Would you like to add module depencencies'
+                dependencies: 'Would you like to add module dependencies'
                 test: 'Voulez-vous générer une classe de test unitaire'
             warnings:
                 module-unavailable: 'Warning The following modules are not already available in your local environment "%s"'
@@ -264,7 +291,7 @@ commands:
                 description: 'Enter theme description'
                 core: 'Enter Drupal Core version'
                 package: 'Enter package name'
-                dependencies: 'Would you like to add module depencencies'
+                dependencies: 'Would you like to add module dependencies'
                 invalid-theme: 'Invalid %s theme was selected'
                 global-library: 'Enter the global styling library name'
                 regions: 'Do you want to generate the theme regions'
@@ -333,7 +360,7 @@ commands:
                     widget-plugin-id: 'Field widget plugin id'
                     field-type: 'Field type the formatter and widget plugin can be used with'
                     default-widget: 'Default field widget of the field type plugin'
-                    default-formatter: 'Default field widget of field type plugin'
+                    default-formatter: 'Default field formatter of field type plugin'
                 questions:
                     module: common.questions.module
                     type-class-name: 'Field type plugin class name'
@@ -348,7 +375,7 @@ commands:
                     widget-plugin-id: 'Enter the field widget plugin id'
                     field-type: 'Enter the field type the formatter and widget plugin can be used with'
                     default-widget: 'Enter the default field widget of the field type plugin'
-                    default-formatter: 'Enter the default field widget of field type plugin'
+                    default-formatter: 'Enter the default field formatter of field type plugin'
             fieldformatter:
                 description: 'Generate field formatter plugin.'
                 help: 'The <info>generate:plugin:fieldformatter</info> command helps you generate a new field formatter plugin.'
@@ -376,7 +403,7 @@ commands:
                     plugin-id: 'Plugin id'
                     description: 'Plugin Description'
                     default-widget: 'Default field widget of this plugin'
-                    default-formatter: 'Default field widget of this plugin'
+                    default-formatter: 'Default field formatter of this plugin'
                 questions:
                     module: common.questions.module
                     class-name: 'Enter the plugin class name'
@@ -529,6 +556,7 @@ commands:
                 invalid-module: 'Invalid module %s'
             options:
                 module: 'Module or modules to be enabled should be separated by a comma'
+                overwrite-config: 'Overwrite configuration active if necessary'
             messages:
                 no-modules: 'You must provide module or modules to enable.'
                 missing: 'Unable to install modules %s due to missing modules %s'
@@ -537,6 +565,8 @@ commands:
                 dependencies: 'Are you sure you want to install dependencies: %s?'
                 success: 'Modules %s were installed successfully'
                 disabled-modules: 'Only disabled modules will be listed in autocomplete'
+                config-conflict-overwrite: 'These configuration objects will be overwritten in your active configuration'
+                config-conflict: 'These configuration objects already exist in active configuration, installation is not possible'
         uninstall:
             description: 'Uninstall module or modules in the application'
             messages:
@@ -605,7 +635,7 @@ commands:
                 imported: 'Migration "%s" was imported correctly'
                 fail-load: 'Migration "%s" can''t be loaded'
                 importing-incomplete: 'Importing migration "%s"'
-                import-stoped: 'Import "%s" stopped by request'
+                import-stopped: 'Import "%s" stopped by request'
                 import-fail: 'Import "%s" failed'
                 import-skipped: 'Import "%s" was skipped due to unfulfilled dependencies'
                 wrong-source: 'Upgrading from this version of Drupal is not supported.'
@@ -740,14 +770,41 @@ commands:
             description: 'List Test Units available for the application.'
             help: 'Update the console command to the latest version.'
             arguments:
+                test-class: 'Test Class'
                 test-id: 'Test Unit ID'
             options:
                 group: Group
             messages:
-                id: 'Test Unit ID'
+                class: 'Test Class'
                 description: Description
                 group: Group
+                type: 'Test Type'
                 success: 'The console has been updated to the latest version.'
+                missing-dependency: 'Missing dependency'
+                methods: 'Test methods'
+                not-found: 'Debug wans''t found, try enclosure test id between double quotes.'
+                id: 'Test Unit ID'
+        run:
+            description: 'Run Test unit from tests available for application'
+            arguments:
+                test-class: 'Test Class'
+            messages:
+                missing-dependency: 'Test can''t be executed due a missing dependency'
+                phpunit-pending: 'Logic to execute PHPUnit test is not implemented yet.'
+                starting-test: 'Starting test'
+                test-duration: 'Test duration'
+                test-pass: 'Test passes'
+                test-fail: 'Test fails'
+                test-exception: 'Test exceptions'
+                test-debug: 'Test debugs'
+                url-required: 'URL option is required to run test'
+                test-summary: 'Test Summary'
+                group: Group
+                status: Status
+                file: File
+                method: Method
+                line: Line
+                message: Message
     password:
         hash:
             description: 'Generate a hash from a plaintext password.'
@@ -780,6 +837,55 @@ commands:
                 reset-successful: 'Password was updated sucessfully for user id %s'
             errors:
                 invalid-user: 'Invalid user id %s'
+    user:
+        login:
+            clear:
+                attempts:
+                    description: 'Clear login failed attempts for an account.'
+                    help: 'The <info>user:login:clear:attempts</info> reset login failed attempts for an account.'
+                    options:
+                        user-id: 'User ID.'
+                    questions:
+                        uid: 'Enter User ID.'
+                        numeric-uid: 'User id must be an integer.'
+                        invalid-uid: 'User id must be upper than zero.'
+                    messages:
+                        successful: 'Login attempts was clean sucessfully for user id %s.'
+                    errors:
+                        invalid-user: 'Cannot load user entity (Uid: %s).'
+        password:
+            hash:
+                description: 'Generate a hash from a plaintext password.'
+                help: 'The <info>password:hash</info> command helps you to generate hashs password from plaintext passwords.'
+                welcome: 'Welcome to the Drupal password hash generator'
+                options:
+                    password: 'Password(s) in text format'
+                questions:
+                    invalid-pass: 'Password can''t be empty'
+                    password: 'Enter password'
+                    other-password: 'Other password (press <return> to stop adding passwords)'
+                messages:
+                    password: Password
+                    hash: Hash
+                errors: null
+            reset:
+                description: 'Reset password for a specific user.'
+                help: 'The <info>password:reset</info> command helps you to reset password for a specific user.'
+                welcome: 'Welcome to the Drupal password reset'
+                options:
+                    password: 'Password in text format'
+                    user-id: 'User ID'
+                questions:
+                    invalid-uid: 'Invalid user id %, user id must be an integer'
+                    invalid-pass: 'Password can''t be empty'
+                    user: 'Enter User ID'
+                    password: 'Enter password'
+                    other-password: 'Other password (press <return> to stop adding passwords)'
+                messages:
+                    reset-successful: 'Password was updated sucessfully for user id %s'
+                errors:
+                    invalid-user: 'Invalid user id %s'
+                    empty-password: 'Password can not be empty'
     yaml:
         merge:
             description: 'Merge one or more YAML files in a new YAML file. Latest values are preserved.'
