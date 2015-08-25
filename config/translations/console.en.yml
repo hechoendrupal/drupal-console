@@ -106,6 +106,13 @@ commands:
             content_type: Content Type to be exported
           messages:
             configuration_exported: The following configuration files were generated
+      single:
+        description: Export single configuration as yml file.
+        arguments:
+                config-name: Configuration name.
+        messages:
+          config-not-found: Configuration name not found.
+          export: Configuration was exported at file %s.
 
     debug:
       description: Show the current configuration.

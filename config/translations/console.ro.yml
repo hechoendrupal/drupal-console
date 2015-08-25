@@ -94,10 +94,26 @@ commands:
                         content_type: 'Content Type to be exported'
                     messages:
                         configuration_exported: 'The following configuration files were generated'
+            single:
+                description: 'Export single configuration as yml file.'
+                arguments:
+                    config-name: 'Configuration name.'
+                messages:
+                    config-not-found: 'Configuration name not found.'
+                    export: 'Configuration was exported at file %s.'
         debug:
             description: 'Afiseaza configurarile curente.'
             arguments:
                 config-name: 'Numele Configuratiei.'
+        import:
+            description: 'Import configuration to current application.'
+            arguments:
+                config-file: 'Configuration file path.'
+                copy-only: 'Copy only configuration files in staging directory.'
+            messages:
+                config_files_imported: 'List of config files.'
+                copied: 'All config files were copied to staging directory.'
+                imported: 'All config files were copied to staging directory and imported.'
         override:
             description: 'Rescrie valoare unei configuratii in configuratia activa.'
             arguments:
@@ -121,6 +137,8 @@ commands:
             arguments:
                 config-name: 'Configuration name.'
                 input-file: 'Path to the import files.'
+            messages:
+                empty-value: 'Value can not be empty'
     container:
         debug:
             description: 'Afiseaza serviciile curente pentru o aplicatie.'
@@ -812,6 +830,38 @@ commands:
                 method: Method
                 line: Line
                 message: Message
+    password:
+        hash:
+            description: 'Generate a hash from a plaintext password.'
+            help: 'The <info>password:hash</info> command helps you to generate hashs password from plaintext passwords.'
+            welcome: 'Welcome to the Drupal password hash generator'
+            options:
+                password: 'Password(s) in text format'
+            questions:
+                invalid-pass: 'Password can''t be empty'
+                password: 'Enter password'
+                other-password: 'Other password (press <return> to stop adding passwords)'
+            messages:
+                password: Password
+                hash: Hash
+            errors: null
+        reset:
+            description: 'Reset password for a specific user.'
+            help: 'The <info>password:reset</info> command helps you to reset password for a specific user.'
+            welcome: 'Welcome to the Drupal password reset'
+            options:
+                password: 'Password in text format'
+                user-id: 'User ID'
+            questions:
+                invalid-uid: 'Invalid user id %, user id must be an integer'
+                invalid-pass: 'Password can''t be empty'
+                user: 'Enter User ID'
+                password: 'Enter password'
+                other-password: 'Other password (press <return> to stop adding passwords)'
+            messages:
+                reset-successful: 'Password was updated sucessfully for user id %s'
+            errors:
+                invalid-user: 'Invalid user id %s'
     user:
         login:
             clear:
@@ -860,6 +910,7 @@ commands:
                     reset-successful: 'Password was updated sucessfully for user id %s'
                 errors:
                     invalid-user: 'Invalid user id %s'
+                    empty-password: 'Password can not be empty'
     yaml:
         merge:
             description: 'Merge one or more YAML files in a new YAML file. Latest values are preserved.'
@@ -879,35 +930,3 @@ commands:
                 error-generating: 'Error generating merged YAML.'
                 error-writing: 'Error writing merged YAML file.'
                 merged: 'New file %s was created sucessfully after merge Yaml files.'
-    password:
-        hash:
-            description: 'Generate a hash from a plaintext password.'
-            help: 'The <info>password:hash</info> command helps you to generate hashs password from plaintext passwords.'
-            welcome: 'Welcome to the Drupal password hash generator'
-            options:
-                password: 'Password(s) in text format'
-            questions:
-                invalid-pass: 'Password can''t be empty'
-                password: 'Enter password'
-                other-password: 'Other password (press <return> to stop adding passwords)'
-            messages:
-                password: Password
-                hash: Hash
-            errors: null
-        reset:
-            description: 'Reset password for a specific user.'
-            help: 'The <info>password:reset</info> command helps you to reset password for a specific user.'
-            welcome: 'Welcome to the Drupal password reset'
-            options:
-                password: 'Password in text format'
-                user-id: 'User ID'
-            questions:
-                invalid-uid: 'Invalid user id %, user id must be an integer'
-                invalid-pass: 'Password can''t be empty'
-                user: 'Enter User ID'
-                password: 'Enter password'
-                other-password: 'Other password (press <return> to stop adding passwords)'
-            messages:
-                reset-successful: 'Password was updated sucessfully for user id %s'
-            errors:
-                invalid-user: 'Invalid user id %s'
