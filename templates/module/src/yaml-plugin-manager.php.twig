@@ -54,6 +54,7 @@ class {{ plugin_class }}Manager extends DefaultPluginManager implements {{ plugi
   protected function getDiscovery() {
     if (!isset($this->discovery)) {
       $this->discovery = new YamlDiscovery('{{ plugin_file_name }}', $this->moduleHandler->getModuleDirectories());
+      $this->discovery->addTranslatableProperty('label', 'label_context');
       $this->discovery = new ContainerDerivativeDiscoveryDecorator($this->discovery);
     }
     return $this->discovery;
