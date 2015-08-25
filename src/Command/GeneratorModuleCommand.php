@@ -65,7 +65,7 @@ class GeneratorModuleCommand extends GeneratorCommand
             ->addOption(
                 'composer',
                 false,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_NONE,
                 $this->trans('commands.generate.module.options.composer')
             )
             ->addOption(
