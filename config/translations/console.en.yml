@@ -28,7 +28,7 @@ application:
           match, and execute the _controller callback. In this case the callback is
           defined as a classname
           ("\Drupal\{{ module }}\Controller\{{ class_name }}")
-          and a method ("{{ method_name }}").
+          and a method ("{{ route.method }}").
     errors:
       invalid-command: 'Command "%s" is not defined.'
   site:
