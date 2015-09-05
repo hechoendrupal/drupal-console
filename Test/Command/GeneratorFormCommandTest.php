@@ -1,107 +1,75 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorModuleCommandTest.
+ * Contains \Drupal\AppConsole\Test\Command\GeneratorFormCommandTest.
  */
 
 namespace Drupal\AppConsole\Test\Command;
 
+use Drupal\AppConsole\Command\GeneratorFormCommand;
 use Symfony\Component\Console\Tester\CommandTester;
+use Drupal\AppConsole\Test\DataProvider\FormDataProviderTrait;
 
 class GeneratorFormCommandTest extends GenerateCommandTest
 {
+    use FormDataProviderTrait;
+
     /**
-     * @dataProvider getInteractiveData
+     * @param  $module
+     * @param  $class_name
+     * @param  $services
+     * @param  $inputs
+     * @param  $form_id
+     * @param  $routing_update
+     *
+     * @dataProvider commandData
      */
-    public function testInteractive($options, $expected, $input)
-    {
-        list($module, $class_name, $form_id, $services, $inputs, $routing_update) = $expected;
+    public function testGenerateForm(
+      $module,
+      $class_name,
+      $form_id,
+      $services,
+      $inputs,
+      $routing_update
+    ) {
 
-        $generator = $this->getGenerator();
-        $generator
-            ->expects($this->once())
-            ->method('generate')
-            ->with($module, $class_name, $form_id, $services, $inputs, $routing_update);
+        $command = $this->getGeneratorConfig();
+        $command->setContainer($this->getContainer());
+        $command->setHelperSet($this->getHelperSet(null));
+        $command->setGenerator($this->getGenerator());
 
-        $command = $this->getCommand($generator, $input);
-        $cmd = new CommandTester($command);
-        $cmd->execute($options);
+        $commandTester = new CommandTester($command);
+
+        $code = $commandTester->execute(
+          [
+            '--module'              => $module,
+            '--class-name'          => $class_name,
+            '--services'            => $services,
+            '--inputs'              => $inputs,
+            '--form-id'             => $form_id,
+            '--routing'             => $routing_update,
+          ],
+          ['interactive' => false]
+        );
+
+        $this->assertEquals(0, $code);
     }
 
-    public function getInteractiveData()
+    private function getGeneratorConfig()
     {
-        $services = [
-          'twig' => [
-            'name' => 'twig',
-            'machine_name' => 'twig',
-            'class' => 'Twig_Environment',
-            'short' => 'Twig_Environment',
-          ]
-        ];
-
-        $inputs = [
-          [
-            'name' => 'bar',
-            'type' => 'textfield',
-            'label' => 'Bar',
-            'options' => '',
-            'description' => 'Baz',
-            'maxlength' => 60,
-            'size' => 15
-          ]
-        ];
-
-        return [
-            // case one
-          [
-              // Inline options
-            [],
-              // Expected options
-            ['foo', 'DefaultForm', 'default_form', $services, $inputs, true],
-              // User input options
-            "foo\nDefaultForm\ndefault_form\nyes\ntwig\n\nyes\nBar\nbar\ntextfield\n60\n15\nBaz\n",
-          ],
-            // case two
-          [
-              // Inline options
-            ['--module' => 'foo'],
-              // Expected options
-            ['foo', 'DefaultForm', 'default_form', null, null, true],
-              // User input options
-            "DefaultForm\ndefault_form\nno\nno\n",
-          ],
-        ];
-    }
-
-    protected function getCommand($generator, $input)
-    {
-        $command = $this
+        return $this
             ->getMockBuilder('Drupal\AppConsole\Command\GeneratorConfigFormBaseCommand')
             ->setMethods(['getModules', 'getServices', '__construct'])
             ->setConstructorArgs([$this->getTranslatorHelper()])
             ->getMock();
-
-        $command->expects($this->any())
-            ->method('getModules')
-            ->will($this->returnValue(['foo']));
-
-        $command->expects($this->any())
-            ->method('getServices')
-            ->will($this->returnValue(['twig', 'database']));
-
-        $command->setContainer($this->getContainer());
-        $command->setHelperSet($this->getHelperSet($input));
-        $command->setGenerator($generator);
-
-        return $command;
     }
 
     private function getGenerator()
     {
         return $this
-            ->getMockBuilder('Drupal\AppConsole\Generator\FormGenerator')
-            ->disableOriginalConstructor()
-            ->setMethods(['generate'])
-            ->getMock();
+          ->getMockBuilder('Drupal\AppConsole\Generator\FormGenerator')
+          ->disableOriginalConstructor()
+          ->setMethods(['generate'])
+          ->getMock();
     }
 }
