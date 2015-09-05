@@ -14,9 +14,9 @@ trait FormDataProviderTrait
     public function commandData()
     {
         $this->setUpTemporalDirectory();
-
+        
         return [
-          ['Foo', 'foo' . rand(), 'id' . rand(), null, 'inputs', false]
+          ['Foo', 'foo' . rand(), 'id' . rand(), null, null, true]
         ];
     }
 }
