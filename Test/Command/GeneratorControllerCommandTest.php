@@ -15,6 +15,8 @@ class GeneratorControllerCommandTest extends GenerateCommandTest
     use ControllerDataProviderTrait;
 
     /**
+     * Controller generator test
+     *
      * @param $module
      * @param $class_name
      * @param $routes
