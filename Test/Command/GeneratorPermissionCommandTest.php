@@ -6,78 +6,43 @@
 
 namespace Drupal\AppConsole\Test\Command;
 
+use Drupal\AppConsole\Command\GeneratorPermissionCommand;
 use Symfony\Component\Console\Tester\CommandTester;
+use Drupal\AppConsole\Test\DataProvider\PermissionDataProviderTrait;
 
 class GeneratorPermissionCommandTest extends GenerateCommandTest
 {
+    use PermissionDataProviderTrait;
+    
     /**
-     * @dataProvider getInteractiveData
+     * Permission generator test
+     *
+     * @param $module
+     * @param $permissions
+     *
+     * @dataProvider commandData
      */
-    public function testInteractive($options, $expected, $input)
-    {
-        list($module, $permissions) = $expected;
-        $generator = $this->getGenerator();
-        $generator
-            ->expects($this->once())
-            ->method('generate')
-            ->with($module, $permissions);
+    public function testGeneratePermission(
+        $module,
+        $permissions
+    ) {
 
-        $command = $this->getCommand($generator, $input);
-        $cmd = new CommandTester($command);
-        $cmd->execute($options);
-    }
-
-    public function getInteractiveData()
-    {
-        $permissions = [
-          [
-            'permission' => 'my permission',
-            'title' => 'My permission',
-            'description' => 'Allow Access to my permission',
-            'restrict_access' => 'false',
-          ]
-        ];
-
-        return [
-            // case one
-          [
-              // Inline options
-            [],
-              // Expected options
-              // Expected options
-            ['foo', $permissions, true],
-              // User input options
-            "foo\nmy permission\nMy permission\nAllow Access to my permission\nfalse\nn",
-          ],
-            // case two
-          [
-              // Inline options
-            ['--module' => 'foo'],
-              // Expected options
-            ['foo', $permissions, true],
-              // User input options
-            "my permission\nMy permission\nAllow Access to my permission\nfalse\nn",
-          ],
-        ];
-    }
-
-    protected function getCommand($generator, $input)
-    {
-        $command = $this
-            ->getMockBuilder('Drupal\AppConsole\Command\GeneratorPermissionCommand')
-            ->setMethods(['getModules', '__construct'])
-            ->setConstructorArgs([$this->getTranslatorHelper()])
-            ->getMock();
-
-        $command->expects($this->any())
-            ->method('getModules')
-            ->will($this->returnValue(['foo']));
-
+        $command = new GeneratorPermissionCommand($this->getTranslatorHelper());
         $command->setContainer($this->getContainer());
-        $command->setHelperSet($this->getHelperSet($input));
-        $command->setGenerator($generator);
+        $command->setHelperSet($this->getHelperSet());
+        $command->setGenerator($this->getGenerator());
 
-        return $command;
+        $commandTester = new CommandTester($command);
+
+        $code = $commandTester->execute(
+          [
+            '--module'        => $module,
+            '--permissions'   => $permissions,
+          ],
+          ['interactive' => false]
+        );
+
+        $this->assertEquals(0, $code);
     }
 
     private function getGenerator()
