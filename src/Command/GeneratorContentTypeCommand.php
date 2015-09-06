@@ -106,14 +106,14 @@ class GeneratorContentTypeCommand extends GeneratorCommand
         $bundle_title = $input->getOption('bundle-title');
         if (!$bundle_title) {
             $bundle_title = $dialog->askAndValidate(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.contenttype.questions.bundle-title'), 'default'),
-              function ($bundle_title) {
-                  return $this->validateClassName($bundle_title);
-              },
-              false,
-              'default',
-              null
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.contenttype.questions.bundle-title'), 'default'),
+                function ($bundle_title) {
+                    return $this->validateClassName($bundle_title);
+                },
+                false,
+                'default',
+                null
             );
         }
         $input->setOption('bundle-title', $bundle_title);

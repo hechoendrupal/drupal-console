@@ -40,7 +40,8 @@ class ConfigExportSingleCommand extends ContainerAwareCommand
     /*
      * Return config types
      */
-    protected function getConfigTypes() {
+    protected function getConfigTypes()
+    {
         $this->entityManager = $this->getEntityManager();
 
         foreach ($this->entityManager->getDefinitions() as $entity_type => $definition) {
@@ -48,9 +49,11 @@ class ConfigExportSingleCommand extends ContainerAwareCommand
                 $this->definitions[$entity_type] = $definition;
             }
         }
-        $entity_types = array_map(function ( $definition) {
-            return $definition->getLabel();
-        }, $this->definitions);
+        $entity_types = array_map(
+            function ($definition) {
+                return $definition->getLabel();
+            }, $this->definitions
+        );
 
         uasort($entity_types, 'strnatcasecmp');
         $config_types = array(
@@ -63,7 +66,8 @@ class ConfigExportSingleCommand extends ContainerAwareCommand
     /*
      * Return config types
      */
-    protected function getConfigNames($config_type) {
+    protected function getConfigNames($config_type)
+    {
         $this->configStorage = $this->getConfigStorage();
 
         // For a given entity type, load all entities.
@@ -78,9 +82,11 @@ class ConfigExportSingleCommand extends ContainerAwareCommand
         // Handle simple configuration.
         else {
             // Gather the config entity prefixes.
-            $config_prefixes = array_map(function ($definition) {
-                return $definition->getConfigPrefix() . '.';
-            }, $this->definitions);
+            $config_prefixes = array_map(
+                function ($definition) {
+                    return $definition->getConfigPrefix() . '.';
+                }, $this->definitions
+            );
 
             // Find all config, and then filter our anything matching a config prefix.
             $names = $this->configStorage->listAll();
@@ -111,45 +117,45 @@ class ConfigExportSingleCommand extends ContainerAwareCommand
         if (!$config_name) {
             // Type input
             $config_type = $dialog->askAndValidate(
-              $output,
-              $dialog->getQuestion('  '. $this->trans('commands.config.export.single.questions.config-type'), $this->trans('commands.config.export.single.options.simple-configuration'), ':'),
-              function ($input) use ($config_types) {
-                  if (!in_array($input, $config_types)) {
-                      throw new \InvalidArgumentException(
-                        sprintf($this->trans('commands.config.export.single.messages.invalid-config-type'), $input)
-                      );
-                  }
+                $output,
+                $dialog->getQuestion('  '. $this->trans('commands.config.export.single.questions.config-type'), $this->trans('commands.config.export.single.options.simple-configuration'), ':'),
+                function ($input) use ($config_types) {
+                    if (!in_array($input, $config_types)) {
+                        throw new \InvalidArgumentException(
+                            sprintf($this->trans('commands.config.export.single.messages.invalid-config-type'), $input)
+                        );
+                    }
 
-                  return $input;
-              },
-              false,
-              $this->trans('commands.config.export.single.options.simple-configuration'),
-              $config_types
+                    return $input;
+                },
+                false,
+                $this->trans('commands.config.export.single.options.simple-configuration'),
+                $config_types
             );
 
-            $config_type_key = array_search ($config_type, $config_types);
+            $config_type_key = array_search($config_type, $config_types);
 
             $config_names = $this->getConfigNames($config_type_key);
 
             $config_name = $dialog->askAndValidate(
-              $output,
-              $dialog->getQuestion('  '. $this->trans('commands.config.export.single.questions.config-name'), current($config_names), ':'),
-              function ($input) use ($config_names) {
-                  if (!in_array($input, $config_names)) {
-                      throw new \InvalidArgumentException(
-                        sprintf($this->trans('commands.config.export.single.messages.invalid-config-name'), $input)
-                      );
-                  }
+                $output,
+                $dialog->getQuestion('  '. $this->trans('commands.config.export.single.questions.config-name'), current($config_names), ':'),
+                function ($input) use ($config_names) {
+                    if (!in_array($input, $config_names)) {
+                        throw new \InvalidArgumentException(
+                            sprintf($this->trans('commands.config.export.single.messages.invalid-config-name'), $input)
+                        );
+                    }
 
-                  return $input;
-              },
-              false,
-              current($config_names),
-              $config_names
+                    return $input;
+                },
+                false,
+                current($config_names),
+                $config_names
             );
 
             // Calculate internal config ID
-            $config_name_key = array_search ($config_name, $config_names);
+            $config_name_key = array_search($config_name, $config_names);
 
             if ($config_type_key !== 'system.simple') {
                 $definition = $this->entityManager->getDefinition($config_type_key);
