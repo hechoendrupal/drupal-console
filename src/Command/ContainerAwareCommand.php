@@ -242,6 +242,11 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         return $this->getContainer()->get('plugin.manager.rest');
     }
 
+    public function getContextRepository()
+    {
+        return $this->getContainer()->get('context.repository');
+    }
+
     /**
      * getTestDiscovery return a service object for Simpletest.
      *
