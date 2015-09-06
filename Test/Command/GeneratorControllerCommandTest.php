@@ -6,8 +6,8 @@
 
 namespace Drupal\AppConsole\Test\Command;
 
-use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\AppConsole\Command\GeneratorControllerCommand;
+use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\AppConsole\Test\DataProvider\ControllerDataProviderTrait;
 
 class GeneratorControllerCommandTest extends GenerateCommandTest

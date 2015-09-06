@@ -22,7 +22,6 @@ trait ControllerDataProviderTrait
         return [
           ['foo', 'FooController', $routes, true, null, 'foo_controller'],
           ['foo', 'FooController', $routes, false, null, 'foo_controller'],
-
         ];
     }
 }
