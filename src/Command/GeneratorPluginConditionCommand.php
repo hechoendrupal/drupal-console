@@ -99,7 +99,7 @@ class GeneratorPluginConditionCommand extends GeneratorCommand
 
         $entity_manager = $this->getEntityManager();
 
-        $entity_types = $entity_manager->getEntityTypeLabels(TRUE);
+        $entity_types = $entity_manager->getEntityTypeLabels(true);
 
         // --module option
         $module = $input->getOption('module');
@@ -154,7 +154,7 @@ class GeneratorPluginConditionCommand extends GeneratorCommand
         $input->setOption('plugin-id', $plugin_id);
 
         $context_definition_id = $input->getOption('context-definition-id');
-        if(!$context_definition_id) {
+        if (!$context_definition_id) {
             $questionHelper = $this->getQuestionHelper();
 
             $context_type = array('language' => 'Language', "entity" => "Entity");
@@ -165,11 +165,10 @@ class GeneratorPluginConditionCommand extends GeneratorCommand
             );
             $context_type_sel = $questionHelper->ask($input, $output, $question);
 
-            if($context_type_sel == 'language'){
+            if ($context_type_sel == 'language') {
                 $context_definition_id = $context_type_sel;
                 $context_definition_id_value = ucfirst($context_type_sel);
-            }
-            else {
+            } else {
                 $options = array_keys($entity_types);
                 $options = array_combine($options, $options);
                 $question = new ChoiceQuestion(
@@ -196,7 +195,7 @@ class GeneratorPluginConditionCommand extends GeneratorCommand
         }
 
         $context_definition_label = $input->getOption('context-definition-label');
-        if(!$context_definition_label) {
+        if (!$context_definition_label) {
             $context_definition_label = $dialog->ask(
                 $output,
                 $dialog->getQuestion($this->trans('commands.generate.plugin.condition.questions.context-definition-label'), $context_definition_id_value),
@@ -206,11 +205,11 @@ class GeneratorPluginConditionCommand extends GeneratorCommand
         $input->setOption('context-definition-label', $context_definition_label);
 
         $context_definition_required = $input->getOption('context-definition-required');
-        if(empty($context_definition_required)) {
+        if (empty($context_definition_required)) {
             $context_definition_required = $dialog->askConfirmation(
                 $output,
                 $dialog->getQuestion($this->trans('commands.generate.plugin.condition.questions.context-definition-required'), 'yes', '?'),
-                TRUE
+                true
             );
         }
 
