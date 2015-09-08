@@ -205,7 +205,7 @@ commands:
                 dependencies: 'Voulez-vous ajouter des dépendances à votre module ?'
                 test: 'Voulez-vous générer une classe de test unitaire ?'
             warnings:
-                module-unavailable: 'Attention, les modules suivant ne sont pas disponible dans votre installation locale : "%s"'
+                module-unavailable: 'Attention, les modules suivants ne sont pas disponible dans votre installation locale : "%s"'
             errors:
                 directory-exists: 'Le dossier cible "%s" n''est pas vide'
         theme:
@@ -229,9 +229,9 @@ commands:
                 core: 'Entrez la version du core de Drupal'
                 package: 'Entrez le nom du paquet <info>package</info>'
                 dependencies: 'Voulez-vous ajouter des dépendances pour le thème ?'
-                invalid-theme: 'Le thème %s N''est pas valide'
+                invalid-theme: 'Le thème %s n''est pas valide'
             warnings:
-                module-unavailable: 'Attention, les modules suivant ne sont pas disponible dans votre installation locale : "%s"'
+                module-unavailable: 'Attention, les modules suivants ne sont pas disponible dans votre installation locale : "%s"'
             errors:
                 directory-exists: 'Le dossier cible "%s" n''est pas vide'
         permission:
