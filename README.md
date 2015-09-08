@@ -61,4 +61,4 @@ drupal generate:module
 ## Supporting organizations
 [![FFW](https://www.drupal.org/files/ffw-logo.png)](https://ffwagency.com)  
 [![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)  
-[![Anexus IT](https://www.drupal.org/files/anexusit-logo.png)](http://www.anexusit.com/)
+[![Anexus](https://www.drupal.org/files/anexus-logo.png)](http://www.anexusit.com/)
