@@ -98,9 +98,16 @@ commands:
                 description: 'Export single configuration as yml file.'
                 arguments:
                     config-name: 'Configuration name.'
+                options:
+                    simple-configuration: 'Simple configuration'
+                questions:
+                    config-type: 'Configuration type'
+                    config-name: 'Configuration name'
                 messages:
                     config-not-found: 'Configuration name not found.'
                     export: 'Configuration was exported at file %s.'
+                    invalid-config-type: 'Invalid config type, please select one of the list'
+                    invalid-config-name: 'Invalid config name, please select one of the list'
         debug:
             description: 'Muestra la configuración actual.'
             arguments:
@@ -178,6 +185,20 @@ commands:
                 controller-title: 'Título del controlador'
             messages:
                 title-not-empty: 'Title cannot be empty'
+        contenttype:
+            description: 'Generate a new content type (node / entity bundle)'
+            help: 'Use: generate:contenttype <fancy> <Fancy> to create a new content type name with the machine name of fancy and the human-readable name of Fancy.'
+            welcome: 'Welcome to the Drupal Content Type generator'
+            options:
+                module: common.options.module
+                bundle-name: 'The content type''s machine name'
+                bundle-title: 'The content type''s human-readable name'
+            questions:
+                module: common.questions.module
+                bundle-name: 'Enter the machine name of your new content type'
+                bundle-title: 'Enter the human-readable name of your new content type'
+            message:
+                error-state1: placeholder
         controller:
             description: 'Generar y registrar un controlador'
             help: 'El comando <info>generate:controller</info> le ayuda a generar un nuevo controlador.'
@@ -344,6 +365,28 @@ commands:
                     services: common.questions.services
                 messages:
                     inputs: "\nYou can add input fields to create special configurations in each block.\nThis is optional, press <info>enter</info> to <info>continue</info>"
+            condition:
+                description: 'Generate a plugin condition.'
+                help: 'The <info>generate:plugin:conditon</info> command helps you generate a plugin condition.'
+                welcome: 'Welcome to the Drupal Plugin Condition generator'
+                options:
+                    module: common.options.module
+                    class-name: 'Plugin condition class name'
+                    label: 'Plugin condition label'
+                    plugin-id: 'Plugin condition id'
+                    context-definition-id: 'Context definition ID'
+                    context-definition-label: 'Context definition label'
+                    context-definition-required: 'Context definition is requiered (TRUE/FALSE)'
+                questions:
+                    module: common.questions.module
+                    class-name: 'Enter the plugin condition class name'
+                    label: 'Enter the plugin condition label'
+                    plugin-id: 'Enter the plugin condition id'
+                    context-type: 'Context type'
+                    context-entity-type: 'Context entity type'
+                    context-definition-id: 'Context definition ID'
+                    context-definition-label: 'Context definition label'
+                    context-definition-required: 'Context definition is requiered'
             field:
                 description: 'Generate field type, widget and formatter plugins.'
                 help: 'The <info>generate:plugin:field</info> command helps you generate a full set of field plugin: field type, field formatter and field widget.'
@@ -394,6 +437,19 @@ commands:
                     label: 'Enter the plugin label'
                     plugin-id: 'Enter the plugin id'
                     field-type: 'Enter the field type the plugin can be used with'
+            imageformatter:
+                description: 'Generate image formatter plugin.'
+                help: 'The <info>generate:plugin:imageformatter</info> command helps you generate a new image formatter plugin.'
+                options:
+                    module: common.options.module
+                    class-name: 'Plugin class name'
+                    label: 'Plugin label'
+                    plugin-id: 'Plugin id'
+                questions:
+                    module: common.questions.module
+                    class-name: 'Enter the plugin class name'
+                    label: 'Enter the plugin label'
+                    plugin-id: 'Enter the plugin id'
             fieldtype:
                 description: 'Generate field type plugin.'
                 help: 'The <info>generate:plugin:fieldtype</info> command helps you generate a new field type plugin.'
