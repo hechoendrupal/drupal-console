@@ -1,103 +1,57 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorModuleCommandTest.
+ * Contains \Drupal\AppConsole\Test\Command\GeneratorPluginBlockCommandTest.
  */
 
 namespace Drupal\AppConsole\Test\Command;
 
+use Drupal\AppConsole\Command\GeneratorPluginBlockCommand;
 use Symfony\Component\Console\Tester\CommandTester;
+use Drupal\AppConsole\Test\DataProvider\PluginBlockDataProviderTrait;
 
 class GeneratorPluginBlockCommandTest extends GenerateCommandTest
 {
+    use PluginBlockDataProviderTrait;
+    
     /**
-     * @dataProvider getDataInteractive
+     * Plugin block generator test
+     *
+     * @param $module
+     * @param $class_name
+     * @param $label
+     * @param $plugin_id
+     *
+     * @dataProvider commandData
      */
-    public function testInteractiveCommand($options, $expected, $input)
-    {
-        list($module, $class_name, $plugin_label, $plugin_id, $services, $inputs) = $expected;
-
-        $generator = $this->getGenerator();
-
-        $generator
-            ->expects($this->once())
-            ->method('generate')
-            ->with($module, $class_name, $plugin_label, $plugin_id, $services, $inputs);
-
-        $command = $this->getCommand($generator, $input);
-        $cmd = new CommandTester($command);
-        $cmd->execute($options);
-    }
-
-    public function getDataInteractive()
-    {
-        $service ['twig'] = [
-          'name' => 'twig',
-          'machine_name' => 'twig',
-          'class' => 'Twig_Environment',
-          'short' => 'Twig_Environment',
-        ];
-
-        $inputs = [
-          [
-            'name' => 'text_field',
-            'type' => 'textfield',
-            'label' => 'Text Field',
-            'options' => '',
-            'description' => 'Description Field',
-            'maxlength' => 60,
-            'size' => 15
-          ]
-        ];
-
-        return [
-            // case base
-          [
-            [],
-            ['Foo', 'FooBlock', 'Foo label', 'foo_id', null, []],
-            "Foo\nFooBlock\nFoo label\nfoo_id\nno\nno"
-          ],
-            //case two services
-          [
-            [],
-            ['Foo', 'FooBlock', 'Foo label', 'foo_id', $service, []],
-            "Foo\nFooBlock\nFoo label\nfoo_id\nyes\nyes\ntwig\n\nno\n"
-          ],
-            // case three inputs
-          [
-            ['--module' => 'Foo'],
-            ['Foo', 'FooBlock', 'Foo label', 'foo_id', null, $inputs],
-            "FooBlock\nFoo label\nfoo_id\nno\nyes\nText Field\ntext_field\n\n60\n15\nDescription Field\n"
-          ],
-            //case four services and inputs
-          [
-            ['--module' => 'Foo'],
-            ['Foo', 'FooBlock', 'Foo label', 'foo_id', $service, $inputs],
-            "FooBlock\nFoo label\nfoo_id\nyes\ntwig\n\nyes\nText Field\ntext_field\n\n60\n15\nDescription Field\n"
-          ],
-        ];
-    }
-
-    public function getCommand($generator, $input)
-    {
-        $command = $this->getMockBuilder('Drupal\AppConsole\Command\GeneratorPluginBlockCommand')
-            ->setMethods(['getModules', 'getServices', '__construct'])
-            ->setConstructorArgs([$this->getTranslatorHelper()])
-            ->getMock();
-
-        $command->expects($this->any())
-            ->method('getModules')
-            ->will($this->returnValue(['Foo']));
-
-        $command->expects($this->any())
-            ->method('getServices')
-            ->will($this->returnValue(['twig', 'database']));
-
-        $command->setGenerator($generator);
+    public function testGeneratePluginBlock(
+        $module,
+        $class_name,
+        $label,
+        $plugin_id,
+        $services,
+        $inputs
+    ) {
+        $command = new GeneratorPluginBlockCommand($this->getTranslatorHelper());
         $command->setContainer($this->getContainer());
-        $command->setHelperSet($this->getHelperSet($input));
+        $command->setHelperSet($this->getHelperSet());
+        $command->setGenerator($this->getGenerator());
 
-        return $command;
+        $commandTester = new CommandTester($command);
+
+        $code = $commandTester->execute(
+            [
+              '--module'         => $module,
+              '--class-name'     => $class_name,
+              '--label'          => $label,
+              '--plugin-id'      => $plugin_id,
+              '--services'       => $services,
+              '--inputs'         => $inputs
+            ],
+            ['interactive' => false]
+        );
+
+        $this->assertEquals(0, $code);
     }
 
     private function getGenerator()

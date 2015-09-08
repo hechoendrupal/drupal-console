@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorModuleCommandTest.
+ * Contains \Drupal\AppConsole\Test\Command\GeneratorControllerCommandTest.
  */
 
 namespace Drupal\AppConsole\Test\Command;
