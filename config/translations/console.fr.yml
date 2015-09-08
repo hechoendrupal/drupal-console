@@ -81,8 +81,8 @@ commands:
             description: 'Surplanter la valeur de configuration dans la configuration active.'
             arguments:
                 config-name: 'Nom de la configuration.'
-                key: Clé
-                value: Valeur
+                key: 'Clé'
+                value: 'Valeur'
             messages:
                 configuration: 'Nom de la configuration'
                 configuration-key: 'Clé de la configuration'
@@ -92,7 +92,7 @@ commands:
             description: 'Éditer la configuration sélectionnée.'
             arguments:
                 config-name: 'Nom de la configuration.'
-                editor: Editeur.
+                editor: 'Editeur'.
             messages:
                 no-directory: 'Une erreur est survenue lors de la création du répertoire'
     container:
@@ -162,7 +162,7 @@ commands:
                 entity-name: 'Entrez le nom de l''entitée'
         form:
             description: 'Générer un nouveau "%s"'
-            help: 'la commande <info>"%s"</info> vous assisite dans la génération d''un nouveau "%s"'
+            help: 'la commande <info>"%s"</info> vous assiste dans la génération d''un nouveau "%s"'
             welcome: 'Bienvenue sur le générateur de formulaire Drupal'
             options:
                 module: common.options.module
@@ -180,18 +180,18 @@ commands:
                 routing: 'Mise à jour des routes'
         module:
             description: 'Générer un module.'
-            help: 'Le <info> générer: le module </ info> commande aide à générer un nouveau module'
+            help: 'La commande <info>generate:module</info> vous assiste dans la génération d''un nouveau module'
             welcome: 'Bienvenue sur le générateur de modules Drupal'
             options:
                 module: 'Le nom du module'
-                machine-name: 'Le nom de la machine (en minuscules et soulignent seulement)'
+                machine-name: 'Le nom machine (minuscules et underscore _ seulement)'
                 module-path: 'Le chemin du module'
                 description: 'Description du module'
-                core: 'Version de core.'
-                package: 'Paquet Module'
+                core: 'Version de core'
+                package: 'Paquet du module'
                 controller: 'Contrôleur par défaut'
-                composer: 'Add a composer.json file'
-                dependencies: 'Module dependencies (i.e. context, galleria, panels)'
+                composer: 'Ajouter un fichier composer.json'
+                dependencies: 'Dépendences du modules (par exemple : context, galleria, panels)'
                 test: 'Générer une classe de test'
             questions:
                 module: 'Entrez le nom du nouveau module'
@@ -201,13 +201,13 @@ commands:
                 core: 'Entrez la version core Drupal'
                 package: 'Entrez le nom du paquet'
                 controller: 'Voulez-vous générer un contrôleur par défaut'
-                composer: 'Do you want to add a composer.json file to your module'
-                dependencies: 'Would you like to add module depencencies'
-                test: 'Voulez-vous générer une classe de test unitaire'
+                composer: 'Voulez-vous générer un fichier composer.json file pour votre module ?'
+                dependencies: 'Voulez-vous ajouter des dépendances à votre module ?'
+                test: 'Voulez-vous générer une classe de test unitaire ?'
             warnings:
-                module-unavailable: 'Warning The following modules are not already available in your local environment "%s"'
+                module-unavailable: 'Attention, les modules suivant ne sont pas disponible dans votre installation locale : "%s"'
             errors:
-                directory-exists: 'The target directory "%s" is not empty.'
+                directory-exists: 'Le dossier cible "%s" n''est pas vide'
         theme:
             description: 'Generate a theme.'
             help: 'The <info>generate:theme</info> command helps you generates a new theme.'
