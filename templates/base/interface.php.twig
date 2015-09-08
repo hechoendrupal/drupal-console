@@ -9,15 +9,6 @@
 
 {% block namespace_interface %}{% endblock %}
 
-{% block use_interface %}{% endblock %}
-{% block use_interface_services %}
-{% if services is defined %}
-{% for service in services %}
-use {{ service.interface }};
-{% endfor %}
-{% endif %}
-{% endblock %}
-
 {% block interface_declaration %}{% endblock -%}{
 
 {% block interface_methods %}{% endblock %}
