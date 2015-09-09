@@ -6,26 +6,48 @@
 
 namespace Drupal\AppConsole\Test\Command;
 
+use Drupal\AppConsole\Command\GeneratorCommandCommand;
 use Symfony\Component\Console\Tester\CommandTester;
+use Drupal\AppConsole\Test\DataProvider\CommandDataProviderTrait;
 
 class GeneratorCommandCommandTest extends GenerateCommandTest
 {
+    use CommandDataProviderTrait;
+    
     /**
-     * @dataProvider getInteractiveData
+     * Command generator test
+     *
+     * @param $module
+     * @param $class_name
+     * @param $command
+     * @param $services
+     *
+     * @dataProvider commandData
      */
-    public function testInteractive($options, $expected, $input)
-    {
-        list($module, $class_name, $command, $container) = $expected;
+    public function testGenerateCommand(
+        $module,
+        $class_name,
+        $command,
+        $container
+    ) {
+        $command = new GeneratorCommandCommand($this->getTranslatorHelper());
+        $command->setContainer($this->getContainer());
+        $command->setHelperSet($this->getHelperSet());
+        $command->setGenerator($this->getGenerator());
 
-        $generator = $this->getGenerator();
-        $generator
-            ->expects($this->once())
-            ->method('generate')
-            ->with($module, $class_name, $command, $container);
+        $commandTester = new CommandTester($command);
 
-        $command = $this->getCommand($generator, $input);
-        $cmd = new CommandTester($command);
-        $cmd->execute($options);
+        $code = $commandTester->execute(
+            [
+              '--module'         => $module,
+              '--class-name'     => $class_name,
+              '--command'        => $command,
+              '--container'      => $container
+            ],
+            ['interactive' => false]
+        );
+
+        $this->assertEquals(0, $code);
     }
 
     private function getGenerator()
@@ -35,48 +57,5 @@ class GeneratorCommandCommandTest extends GenerateCommandTest
             ->disableOriginalConstructor()
             ->setMethods(['generate'])
             ->getMock();
-    }
-
-    protected function getCommand($generator, $input)
-    {
-        $command = $this
-            ->getMockBuilder('Drupal\AppConsole\Command\GeneratorCommandCommand')
-            ->setMethods(['getModules', 'getServices', '__construct'])
-            ->setConstructorArgs([$this->getTranslatorHelper()])
-            ->getMock();
-
-        $command->expects($this->any())
-            ->method('getModules')
-            ->will($this->returnValue(['foo']));
-
-        $command->setContainer($this->getContainer());
-        $command->setHelperSet($this->getHelperSet($input));
-        $command->setGenerator($generator);
-
-        return $command;
-    }
-
-    public function getInteractiveData()
-    {
-        return [
-            // case one
-          [
-              // Inline options
-            [],
-              // Expected options
-            ['foo', 'foo:command', 'FooCommand', true],
-              // User input options
-            "foo\nfoo:command\nFooCommand\nyes",
-          ],
-            // case two
-          [
-              // Inline options
-            ['--module' => 'foo'],
-              // Expected options
-            ['foo', 'foo:command', 'FooCommand', true],
-              // User input options
-            "foo:command\nFooCommand\nyes",
-          ],
-        ];
     }
 }
