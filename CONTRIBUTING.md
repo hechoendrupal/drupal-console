@@ -53,7 +53,7 @@ A brief description of the proposed fix.
 - Known workarounds.
 
 ### Minimum Requirements
-This project requires Drupal 8 Beta11.
+This project requires Drupal 8 Beta15.
 
 ### Support
 **Do not open issue for support question, only features and bugs.** For question please visit our [ DrupalConsole Gitter room](https://gitter.im/hechoendrupal/DrupalConsole).

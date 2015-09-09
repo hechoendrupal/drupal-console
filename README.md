@@ -23,8 +23,11 @@ Drupal Console
 The Drupal Console is a suite of tools that you run on a command line interface (CLI)
 to generate boilerplate code and interact with a Drupal 8 installation.
 
+## Change Log
+All notable changes to this project will be documented in the [releases page](https://github.com/hechoendrupal/DrupalConsole/releases) 
+
 ## Supported Drupal version
-The Drupal 8 supported version is [Drupal 8 Beta 14](http://ftp.drupal.org/files/projects/drupal-8.0.0-beta14.tar.gz).
+The Drupal 8 supported version is [Drupal 8 Beta 15](http://ftp.drupal.org/files/projects/drupal-8.0.0-beta15.tar.gz).
 
 ## Drupal Console documentation
 You can read or download the Drupal Console documentation at [bit.ly/console-book](http://bit.ly/console-book).
@@ -58,4 +61,4 @@ drupal generate:module
 ## Supporting organizations
 [![FFW](https://www.drupal.org/files/ffw-logo.png)](https://ffwagency.com)  
 [![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)  
-[![Anexus IT](https://www.drupal.org/files/anexusit-logo.png)](http://www.anexusit.com/)
+[![Anexus](https://www.drupal.org/files/anexus-logo.png)](http://www.anexusit.com/)
