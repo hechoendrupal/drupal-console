@@ -59,6 +59,9 @@ commands:
         errors:
             module-dependency: 'Hiányzó modul függőség "%s"'
             class-name-empty: 'A Class neve nem lehet üres'
+        status:
+            enabled: Enabled
+            disabled: Disabled
     cache:
         rebuild:
             description: 'Minden gyorsítótár újraépítése és törlése.'
@@ -944,6 +947,26 @@ commands:
                 errors:
                     invalid-user: 'Invalid user id %s'
                     empty-password: 'Password can not be empty'
+    views:
+        debug:
+            description: 'Display current views resources for the application'
+            arguments:
+                view-id: 'View ID'
+                view-tag: 'View tag'
+                view-status: 'View status (Enabled|Disabled)'
+            messages:
+                view-id: 'View ID'
+                view-name: 'View name'
+                description: Description
+                tag: Tag
+                status: Status
+                path: Path
+                not-found: 'View wasn''t found'
+                display-list: 'Display list'
+                display-id: ID
+                display-name: Name
+                display-description: Description
+                display-paths: Paths
     yaml:
         merge:
             description: 'Merge one or more YAML files in a new YAML file. Latest values are preserved.'
