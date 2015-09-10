@@ -782,6 +782,13 @@ commands:
                 original: 'Original Value'
                 updated: 'Override Value'
                 invalid-env: 'Invalid environment'
+                new-services-settings: 'New services settings'
+                service: Service
+                service-parameter: Parameter
+                service-value: Value
+                error-copying-file: 'Error copying file'
+                error-writing-file: 'Error copying file'
+                services-file-overwritten: 'Services files %s was overwritten'
         status:
             description: 'View current Drupal Installation status'
             messages:
