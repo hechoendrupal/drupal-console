@@ -780,6 +780,7 @@ commands:
                 configuration-key: 'Konfiguráció kulcs'
                 original: 'Eredeti érték'
                 updated: 'Módisított érték'
+                invalid-env: 'Invalid environment'
         status:
             description: 'A jelenlegi Drupal telepítés állapotának megtekintése'
             messages:
