@@ -29,50 +29,57 @@ class SiteModeCommand extends ContainerAwareCommand
     {
         $table = $this->getHelperSet()->get('table');
         $environment = $input->getArgument('environment');
-        $configName = 'system.performance';
-        $config = $this->getConfigFactory()->getEditable($configName);
+
         $configurationOverrideResult = [];
 
-        if ('dev' === $environment) {
-            $configurationOverrideResult = $this->overrideConfigurations($config, false);
+        if (in_array($environment, array('dev', 'prod'))) {
+            $configurationOverrideResult = $this->overrideConfigurations($environment);
+        } else {
+            $output->writeln(
+                ' <error>'.$this->trans('commands.site.mode.messages.invalid-env').'</error>'
+            );
         }
-        if ('prod' === $environment) {
-            $configurationOverrideResult = $this->overrideConfigurations($config, true);
+
+        foreach ($configurationOverrideResult as $configName => $result) {
+            $output->writeln(
+                sprintf(
+                    ' <info>%s:</info> <comment>%s</comment>',
+                    $this->trans('commands.site.mode.messages.configuration'),
+                    $configName
+                )
+            );
+
+            $table->setHeaders(
+                [
+                    $this->trans('commands.site.mode.messages.configuration-key'),
+                    $this->trans('commands.site.mode.messages.original'),
+                    $this->trans('commands.site.mode.messages.updated'),
+                ]
+            );
+            $table->setlayout($table::LAYOUT_COMPACT);
+            $table->setRows($result);
+            $table->render($output);
+            print "\n";
         }
 
-        $config->save();
-
-        $output->writeln(
-            sprintf(
-                ' <info>%s:</info> <comment>%s</comment>',
-                $this->trans('commands.site.mode.messages.configuration'),
-                $configName
-            )
-        );
-
-        $table->setHeaders(
-            [
-            $this->trans('commands.site.mode.messages.configuration-key'),
-            $this->trans('commands.site.mode.messages.original'),
-            $this->trans('commands.site.mode.messages.updated'),
-            ]
-        );
-        $table->setlayout($table::LAYOUT_COMPACT);
-        $table->setRows($configurationOverrideResult);
-        $table->render($output);
+        $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 
-    protected function overrideConfigurations($config, $value)
+    protected function overrideConfigurations($env)
     {
         $result = [];
         $configurations = $this->getConfigurations();
-        foreach ($configurations as $configuration) {
-            $result[] = [
-              'configuration' => $configuration,
-              'original' => $config->get($configuration) ? 'true' : 'false',
-              'updated' => $value ? 'true' : 'false',
-            ];
-            $config->set($configuration, $value);
+        foreach ($configurations as $configName => $options) {
+            $config = $this->getConfigFactory()->getEditable($configName);
+            foreach ($options as $key => $value) {
+                $result[$configName][] = [
+                    'configuration' => $key,
+                    'original' => $config->get($key) ? 'true' : 'false',
+                    'updated' => $value[$env]  ? 'true' : 'false',
+                ];
+                $config->set($key, $value[$env]);
+            }
+            $config->save();
         }
 
         return $result;
@@ -81,12 +88,18 @@ class SiteModeCommand extends ContainerAwareCommand
     protected function getConfigurations()
     {
         return [
-          'cache.page.use_internal',
-          'css.preprocess',
-          'css.gzip',
-          'js.preprocess',
-          'js.gzip',
-          'response.gzip',
+            'system.performance' => array(
+                'cache.page.use_internal' => array('dev' => false, 'prod' => true),
+                'css.preprocess' => array('dev' => false, 'prod' => true),
+                'css.gzip' => array('dev' => false, 'prod' => true),
+                'js.preprocess' => array('dev' => false, 'prod' => true),
+                'js.gzip' => array('dev' => false, 'prod' => true),
+                'response.gzip' => array('dev' => false, 'prod' => true),
+            ),
+            'views.settings' => array(
+                'ui.show.sql_query.enabled' => array('dev' => true, 'prod' => false),
+                'ui.show.performance_statistics' => array('dev' => true, 'prod' => false),
+            ),
         ];
     }
 }

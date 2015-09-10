@@ -778,6 +778,7 @@ commands:
                 configuration-key: 'Configuration key'
                 original: 'Original Value'
                 updated: 'Override Value'
+                invalid-env: 'Invalid environment'
         status:
             description: 'View current Drupal Installation status'
             messages:
