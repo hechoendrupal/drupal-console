@@ -58,6 +58,9 @@ commands:
         errors:
             module-dependency: 'Depencia "%s" del modulo faltante'
             class-name-empty: 'El nombre de la Clase no puede estér psavia'
+        status:
+            enabled: Enabled
+            disabled: Disabled
     cache:
         rebuild:
             description: 'Reconstruye y limpia todas las cachés del sitio.'
@@ -945,6 +948,26 @@ commands:
                 errors:
                     invalid-user: 'Invalid user id %s'
                     empty-password: 'Password can not be empty'
+    views:
+        debug:
+            description: 'Display current views resources for the application'
+            arguments:
+                view-id: 'View ID'
+                view-tag: 'View tag'
+                view-status: 'View status (Enabled|Disabled)'
+            messages:
+                view-id: 'View ID'
+                view-name: 'View name'
+                description: Description
+                tag: Tag
+                status: Status
+                path: Path
+                not-found: 'View wasn''t found'
+                display-list: 'Display list'
+                display-id: ID
+                display-name: Name
+                display-description: Description
+                display-paths: Paths
     yaml:
         merge:
             description: 'Combinar uno o más archivos de YAML en un nuevo archivo YAML. Se conservaran los últimos valores del archivo mas a la izquierda del merge.'
