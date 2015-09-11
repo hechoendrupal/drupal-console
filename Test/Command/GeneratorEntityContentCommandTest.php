@@ -1,21 +1,21 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorEntityConfigCommandTest.
+ * Contains \Drupal\AppConsole\Test\Command\GeneratorEntityContentCommandTest.
  */
 
 namespace Drupal\AppConsole\Test\Command;
 
-use Drupal\AppConsole\Command\GeneratorEntityConfigCommand;
+use Drupal\AppConsole\Command\GeneratorEntityContentCommand;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\AppConsole\Test\DataProvider\EntityConfigDataProviderTrait;
+use Drupal\AppConsole\Test\DataProvider\EntityContentDataProviderTrait;
 
-class GeneratorEntityConfigCommandTest extends GenerateCommandTest
+class GeneratorEntityContentCommandTest extends GenerateCommandTest
 {
-    use EntityConfigDataProviderTrait;
+    use EntityContentDataProviderTrait;
 
     /**
-     * EntityConfig generator test
+     * EntityContent generator test
      *
      * @param $module
      * @param $entity_name
@@ -24,13 +24,13 @@ class GeneratorEntityConfigCommandTest extends GenerateCommandTest
      *
      * @dataProvider commandData
      */
-    public function testGenerateEntityConfig(
+    public function testGenerateEntityContent(
         $module,
         $entity_name,
         $entity_class,
         $label
     ) {
-        $command = new GeneratorEntityConfigCommand($this->getTranslatorHelper());
+        $command = new GeneratorEntityContentCommand($this->getTranslatorHelper());
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
@@ -53,7 +53,7 @@ class GeneratorEntityConfigCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-            ->getMockBuilder('Drupal\AppConsole\Generator\EntityConfigGenerator')
+            ->getMockBuilder('Drupal\AppConsole\Generator\EntityContentGenerator')
             ->disableOriginalConstructor()
             ->setMethods(['generate'])
             ->getMock();
