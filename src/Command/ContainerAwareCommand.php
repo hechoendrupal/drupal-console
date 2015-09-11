@@ -222,6 +222,11 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         return $this->getContainer()->get('entity.manager');
     }
 
+    public function getCron()
+    {
+        return $this->getContainer()->get('cron');
+    }
+
     public function getViewDisplayManager()
     {
         return $this->getContainer()->get('plugin.manager.views.display');
