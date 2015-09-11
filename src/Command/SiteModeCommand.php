@@ -35,7 +35,6 @@ class SiteModeCommand extends ContainerAwareCommand
 
         if (in_array($environment, array('dev', 'prod'))) {
             $configurationOverrideResult = $this->overrideConfigurations($environment, $output);
-            $servicesOverrideResult = $this->overrideServices($environment, $output);
         } else {
             $output->writeln(
                 ' <error>'.$this->trans('commands.site.mode.messages.invalid-env').'</error>'
@@ -64,20 +63,24 @@ class SiteModeCommand extends ContainerAwareCommand
             print "\n";
         }
 
-        $output->writeln(
-            ' <info>' .  $this->trans('commands.site.mode.messages.new-services-settings') . '</info>'
-        );
+        $servicesOverrideResult = $this->overrideServices($environment, $output);
 
-        $table->setHeaders(
-            [
-                $this->trans('commands.site.mode.messages.service'),
-                $this->trans('commands.site.mode.messages.service-parameter'),
-                $this->trans('commands.site.mode.messages.service-value'),
-            ]
-        );
-        $table->setlayout($table::LAYOUT_COMPACT);
-        $table->setRows($servicesOverrideResult);
-        $table->render($output);
+        if(!empty($servicesOverrideResult)) {
+            $output->writeln(
+                ' <info>' .  $this->trans('commands.site.mode.messages.new-services-settings') . '</info>'
+            );
+
+            $table->setHeaders(
+                [
+                    $this->trans('commands.site.mode.messages.service'),
+                    $this->trans('commands.site.mode.messages.service-parameter'),
+                    $this->trans('commands.site.mode.messages.service-value'),
+                ]
+            );
+            $table->setlayout($table::LAYOUT_COMPACT);
+            $table->setRows($servicesOverrideResult);
+            $table->render($output);
+        }
 
         $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'all']);
     }
@@ -125,7 +128,7 @@ class SiteModeCommand extends ContainerAwareCommand
                 $output->writeln(
                     ' <error>'. $this->trans('commands.site.mode.messages.error-copying-file') . ': ' . $directory . '/services.yml' .'</error>'
                 );
-                return;
+                return [];
             }
         }
 
@@ -155,6 +158,7 @@ class SiteModeCommand extends ContainerAwareCommand
             $output->writeln(
                 ' <error>'. $this->trans('commands.site.mode.messages.error-writing-file') . ': ' . $directory . '/services.yml' .'</error>'
             );
+            return [];
         }
 
         sort($result);
