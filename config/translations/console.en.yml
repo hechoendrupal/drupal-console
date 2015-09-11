@@ -168,6 +168,16 @@ commands:
       messages:
         service_id: Service ID
         class_name: Class Name
+  cron:
+    debug:
+      description: 'List of modules implementing a cron'
+      messages:
+        module-list: 'Modules implementing a cron method'
+        module: 'Module'
+    execute:
+      description: 'Execute cron implementation from a specific module'
+      messages:
+        module-invalid: "Module %s doesn't have an implemtation of cron"
   drush:
     description: Run drush from console.
     help: Use the interactive mode for a better experience --shell.
