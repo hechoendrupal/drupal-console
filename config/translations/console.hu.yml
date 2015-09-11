@@ -59,6 +59,9 @@ commands:
         errors:
             module-dependency: 'Hiányzó modul függőség "%s"'
             class-name-empty: 'A Class neve nem lehet üres'
+        status:
+            enabled: Enabled
+            disabled: Disabled
     cache:
         rebuild:
             description: 'Minden gyorsítótár újraépítése és törlése.'
@@ -777,6 +780,14 @@ commands:
                 configuration-key: 'Konfiguráció kulcs'
                 original: 'Eredeti érték'
                 updated: 'Módisított érték'
+                invalid-env: 'Invalid environment'
+                new-services-settings: 'New services settings'
+                service: Service
+                service-parameter: Parameter
+                service-value: Value
+                error-copying-file: 'Error copying file'
+                error-writing-file: 'Error copying file'
+                services-file-overwritten: 'Services files %s was overwritten'
         status:
             description: 'A jelenlegi Drupal telepítés állapotának megtekintése'
             messages:
@@ -944,6 +955,26 @@ commands:
                 errors:
                     invalid-user: 'Invalid user id %s'
                     empty-password: 'Password can not be empty'
+    views:
+        debug:
+            description: 'Display current views resources for the application'
+            arguments:
+                view-id: 'View ID'
+                view-tag: 'View tag'
+                view-status: 'View status (Enabled|Disabled)'
+            messages:
+                view-id: 'View ID'
+                view-name: 'View name'
+                description: Description
+                tag: Tag
+                status: Status
+                path: Path
+                not-found: 'View wasn''t found'
+                display-list: 'Display list'
+                display-id: ID
+                display-name: Name
+                display-description: Description
+                display-paths: Paths
     yaml:
         merge:
             description: 'Merge one or more YAML files in a new YAML file. Latest values are preserved.'
