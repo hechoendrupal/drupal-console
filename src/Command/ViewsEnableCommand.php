@@ -36,7 +36,7 @@ class ViewsEnableCommand extends ContainerAwareCommand
         $entity_manager = $this->getEntityManager();
         $view = $entity_manager->getStorage('view')->load($view_id);
 
-        if(empty($view)) {
+        if (empty($view)) {
             $output->writeln(
                 '[+] <error>'.sprintf(
                     $this->trans('commands.views.debug.messages.not-found'),
@@ -52,13 +52,10 @@ class ViewsEnableCommand extends ContainerAwareCommand
             $output->writeln(
                 '[-] <info>'. sprintf($this->trans('commands.views.enable.messages.disabled-successfully'), $view->get('label')) . '</info>'
             );
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             $output->writeln(
                 '[+] <error>'. $e->getMessage() . '</error>'
             );
         }
-
-
     }
 }
