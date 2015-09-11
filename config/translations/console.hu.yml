@@ -968,6 +968,14 @@ commands:
                 display-name: Name
                 display-description: Description
                 display-paths: Paths
+        disable:
+            description: 'Disable a View'
+            messages:
+                disabled-successfully: 'View %s was disabled successfully.'
+        enable:
+            description: 'Enable a View'
+            messages:
+                disabled-successfully: 'View %s was enabled successfully.'
     yaml:
         merge:
             description: 'Merge one or more YAML files in a new YAML file. Latest values are preserved.'

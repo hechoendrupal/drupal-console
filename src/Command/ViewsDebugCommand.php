@@ -10,11 +10,9 @@ namespace Drupal\AppConsole\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOptionuse;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\views\Entity\View;
 use Drupal\Component\Serialization\Yaml;
-
 
 class ViewsDebugCommand extends ContainerAwareCommand
 {
@@ -26,7 +24,7 @@ class ViewsDebugCommand extends ContainerAwareCommand
             ->addArgument(
                 'view-id',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.views.debug.arguments.view-name')
+                $this->trans('commands.views.debug.arguments.view-id')
             )
             ->addOption(
                 'tag',
@@ -39,7 +37,6 @@ class ViewsDebugCommand extends ContainerAwareCommand
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.views.debug.arguments.view-status')
             );
-            ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -48,13 +45,11 @@ class ViewsDebugCommand extends ContainerAwareCommand
         $view_tag = $input->getOption('tag');
         $view_status = $input->getOption('status');
 
-        if($view_status == $this->trans('commands.common.status.enabled')) {
+        if ($view_status == $this->trans('commands.common.status.enabled')) {
             $view_status = 1;
-        }
-        elseif($view_status == $this->trans('commands.common.status.disabled')) {
+        } elseif ($view_status == $this->trans('commands.common.status.disabled')) {
             $view_status = 0;
-        }
-        else {
+        } else {
             $view_status = -1;
         }
         $table = $this->getHelperSet()->get('table');
@@ -68,7 +63,6 @@ class ViewsDebugCommand extends ContainerAwareCommand
     }
 
     /**
-     *
      * @param $output         OutputInterface
      * @param $table          TableHelper
      * @param $resource_id    String
@@ -93,7 +87,7 @@ class ViewsDebugCommand extends ContainerAwareCommand
         $configuration[$this->trans('commands.views.debug.messages.view-id')] = $view->get('id');
         $configuration[$this->trans('commands.views.debug.messages.view-name')] = (string) $view->get('label');
         $configuration[$this->trans('commands.views.debug.messages.tag')] = $view->get('tag');
-        $configuration[$this->trans('commands.views.debug.messages.status')] = $view->status()? $this->trans('commands.common.status.enabled'):$this->trans('commands.common.status.disabled');
+        $configuration[$this->trans('commands.views.debug.messages.status')] = $view->status() ? $this->trans('commands.common.status.enabled') : $this->trans('commands.common.status.disabled');
         $configuration[$this->trans('commands.views.debug.messages.description')] = $view->get('description');
 
         $configurationEncoded = Yaml::encode($configuration);
@@ -152,13 +146,13 @@ class ViewsDebugCommand extends ContainerAwareCommand
 
         $table->setlayout($table::LAYOUT_COMPACT);
 
-        print $status . "\n";
+        print $status."\n";
         foreach ($views as $view) {
-            if($status!= -1 and $view->status() != $status) {
+            if ($status != -1 and $view->status() != $status) {
                 continue;
             }
 
-            if(isset($tag) and $view->get('tag') != $tag) {
+            if (isset($tag) and $view->get('tag') != $tag) {
                 continue;
             }
             $table->addRow(
@@ -166,7 +160,7 @@ class ViewsDebugCommand extends ContainerAwareCommand
                 $view->get('id'),
                 $view->get('label'),
                 $view->get('tag'),
-                $view->status()? $this->trans('commands.common.status.enabled'):$this->trans('commands.common.status.disabled') ,
+                $view->status() ? $this->trans('commands.common.status.enabled') : $this->trans('commands.common.status.disabled'),
                 $this->getDisplayPaths($view),
                 ]
             );
@@ -178,48 +172,48 @@ class ViewsDebugCommand extends ContainerAwareCommand
      * Gets a list of paths assigned to the view.
      *
      * @param \Drupal\views\Entity\View $view
-     *   The view entity.
+     *                                        The view entity.
      *
      * @return array
-     *   An array of paths for this view.
+     *               An array of paths for this view.
      */
-    protected function getDisplayPaths(View $view, $display_id = NULL) {
+    protected function getDisplayPaths(View $view, $display_id = null)
+    {
         $all_paths = array();
         $executable = $view->getExecutable();
         $executable->initDisplay();
         foreach ($executable->displayHandlers as $display) {
             if ($display->hasPath()) {
                 $path = $display->getPath();
-                if (strpos($path, '%') === FALSE) {
+                if (strpos($path, '%') === false) {
                     // @todo Views should expect and store a leading /. See:
                     //   https://www.drupal.org/node/2423913
-                    $all_paths[] = '/' . $path;
-                }
-                else {
-                    $all_paths[] = '/' . $path;
+                    $all_paths[] = '/'.$path;
+                } else {
+                    $all_paths[] = '/'.$path;
                 }
 
-                if($display_id != NULL && $display_id == $display->getBaseId()) {
-                    return "/" . $path;
+                if ($display_id != null && $display_id == $display->getBaseId()) {
+                    return '/'.$path;
                 }
             }
-
         }
-        return join(', ', array_unique($all_paths));
+
+        return implode(', ', array_unique($all_paths));
     }
 
     /**
      * Gets a list of displays included in the view.
      *
      * @param \Drupal\Core\Entity\View $view
-     *   The view entity instance to get a list of displays for.
+     *                                       The view entity instance to get a list of displays for.
      *
      * @return array
-     *   An array of display types that this view includes.
+     *               An array of display types that this view includes.
      */
-    protected function getDisplaysList(View $view) {
-
-        $displayManager  = $this->getViewDisplayManager();
+    protected function getDisplaysList(View $view)
+    {
+        $displayManager = $this->getViewDisplayManager();
         $displays = array();
         foreach ($view->get('display') as $display) {
             $definition = $displayManager->getDefinition($display['display_plugin']);
@@ -231,6 +225,7 @@ class ViewsDebugCommand extends ContainerAwareCommand
             }
         }
         asort($displays);
+
         return $displays;
     }
 }
