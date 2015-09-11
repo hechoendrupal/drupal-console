@@ -781,6 +781,13 @@ commands:
                 original: 'Eredeti érték'
                 updated: 'Módisított érték'
                 invalid-env: 'Invalid environment'
+                new-services-settings: 'New services settings'
+                service: Service
+                service-parameter: Parameter
+                service-value: Value
+                error-copying-file: 'Error copying file'
+                error-writing-file: 'Error copying file'
+                services-file-overwritten: 'Services files %s was overwritten'
         status:
             description: 'A jelenlegi Drupal telepítés állapotának megtekintése'
             messages:
