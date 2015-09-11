@@ -65,7 +65,7 @@ class SiteModeCommand extends ContainerAwareCommand
 
         $servicesOverrideResult = $this->overrideServices($environment, $output);
 
-        if(!empty($servicesOverrideResult)) {
+        if (!empty($servicesOverrideResult)) {
             $output->writeln(
                 ' <info>' .  $this->trans('commands.site.mode.messages.new-services-settings') . '</info>'
             );
@@ -93,11 +93,11 @@ class SiteModeCommand extends ContainerAwareCommand
             $config = $this->getConfigFactory()->getEditable($configName);
             foreach ($options as $key => $value) {
                 $original = $config->get($key);
-                if(is_bool($original)) {
+                if (is_bool($original)) {
                     $original = $original? 'true' : 'false';
                 }
                 $updated = $value;
-                if(is_bool($updated)) {
+                if (is_bool($updated)) {
                     $updated = $updated? 'true' : 'false';
                 }
 
@@ -114,8 +114,8 @@ class SiteModeCommand extends ContainerAwareCommand
         return $result;
     }
 
-    protected function overrideServices($env, $output) {
-
+    protected function overrideServices($env, $output)
+    {
         $services_settings = $this->getServicesSettings($env);
 
         $directory = DRUPAL_ROOT . '/' .  \Drupal::service('site.path');
@@ -124,7 +124,7 @@ class SiteModeCommand extends ContainerAwareCommand
         if (!file_exists($settings_services_file)) {
             // Copying default services
             $default_services_file = DRUPAL_ROOT . '/sites/default/default.services.yml';
-            if(!copy($default_services_file, $directory . '/services.yml')) {
+            if (!copy($default_services_file, $directory . '/services.yml')) {
                 $output->writeln(
                     ' <error>'. $this->trans('commands.site.mode.messages.error-copying-file') . ': ' . $directory . '/services.yml' .'</error>'
                 );
@@ -138,23 +138,23 @@ class SiteModeCommand extends ContainerAwareCommand
 
         $result = [];
         foreach ($services_settings as $service => $parameters) {
-            foreach($parameters as $parameter => $value) {
+            foreach ($parameters as $parameter => $value) {
                 $services['parameters'][$service][$parameter] = $value;
                 // Set values for output
                 $result[$parameter]['service'] = $service;
                 $result[$parameter]['parameter'] = $parameter;
-                if(is_bool($value)) {
+                if (is_bool($value)) {
                     $value = $value? 'true' : 'false';
                 }
                 $result[$parameter]['value'] = $value;
             }
         }
 
-        if(file_put_contents($directory . '/services.yml', $yaml->dump($services))) {
-           $output->writeln(
-                '<info>' . sprintf($this->trans('commands.site.mode.messages.services-file-overwritten'), $directory . '/services.yml') . '</info>');
-        }
-        else {
+        if (file_put_contents($directory . '/services.yml', $yaml->dump($services))) {
+            $output->writeln(
+            '<info>' . sprintf($this->trans('commands.site.mode.messages.services-file-overwritten'), $directory . '/services.yml') . '</info>'
+            );
+        } else {
             $output->writeln(
                 ' <error>'. $this->trans('commands.site.mode.messages.error-writing-file') . ': ' . $directory . '/services.yml' .'</error>'
             );
@@ -169,16 +169,16 @@ class SiteModeCommand extends ContainerAwareCommand
     {
         $settings =  [
             'system.performance' => array(
-                'cache.page.use_internal' => array('dev' => FALSE, 'prod' => TRUE),
-                'css.preprocess' => array('dev' => FALSE, 'prod' => TRUE),
-                'css.gzip' => array('dev' => FALSE, 'prod' => TRUE),
-                'js.preprocess' => array('dev' => FALSE, 'prod' => TRUE),
-                'js.gzip' => array('dev' => FALSE, 'prod' => TRUE),
-                'response.gzip' => array('dev' => FALSE, 'prod' => TRUE),
+                'cache.page.use_internal' => array('dev' => false, 'prod' => true),
+                'css.preprocess' => array('dev' => false, 'prod' => true),
+                'css.gzip' => array('dev' => false, 'prod' => true),
+                'js.preprocess' => array('dev' => false, 'prod' => true),
+                'js.gzip' => array('dev' => false, 'prod' => true),
+                'response.gzip' => array('dev' => false, 'prod' => true),
             ),
             'views.settings' => array(
-                'ui.show.sql_query.enabled' => array('dev' => TRUE, 'prod' => FALSE),
-                'ui.show.performance_statistics' => array('dev' => TRUE, 'prod' => FALSE),
+                'ui.show.sql_query.enabled' => array('dev' => true, 'prod' => false),
+                'ui.show.performance_statistics' => array('dev' => true, 'prod' => false),
             ),
             'system.logging' => array(
                 'error_level' => array('dev' => ERROR_REPORTING_DISPLAY_ALL, 'prod' => ERROR_REPORTING_HIDE),
@@ -186,8 +186,8 @@ class SiteModeCommand extends ContainerAwareCommand
         ];
 
         $configuration_settings = [];
-        foreach($settings as $setting => $parameters) {
-            foreach($parameters as $parameter => $value) {
+        foreach ($settings as $setting => $parameters) {
+            foreach ($parameters as $parameter => $value) {
                 $configuration_settings[$setting][$parameter] = $value[$env];
             }
         }
@@ -195,18 +195,19 @@ class SiteModeCommand extends ContainerAwareCommand
         return $configuration_settings;
     }
 
-    protected function getServicesSettings($env) {
+    protected function getServicesSettings($env)
+    {
         $settings = [
             'twig.config' => [
-                'debug' => ['dev' => TRUE, 'prod' => FALSE],
-                'auto_reload' =>['dev' => TRUE, 'prod' => FALSE],
-                'cache' => ['dev' => TRUE, 'prod' => FALSE]
+                'debug' => ['dev' => true, 'prod' => false],
+                'auto_reload' =>['dev' => true, 'prod' => false],
+                'cache' => ['dev' => true, 'prod' => false]
             ]
         ];
 
         $environment_settings = [];
-        foreach($settings as $setting => $parameters) {
-            foreach($parameters as $parameter => $value) {
+        foreach ($settings as $setting => $parameters) {
+            foreach ($parameters as $parameter => $value) {
                 $environment_settings[$setting][$parameter] = $value[$env];
             }
         }
