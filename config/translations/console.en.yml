@@ -175,9 +175,10 @@ commands:
         module-list: 'Modules implementing a cron method'
         module: 'Module'
     execute:
-      description: 'Execute cron implementation from a specific module'
+      description: 'Execute cron implementation from a specific module or all to execute all implementations'
       messages:
-        module-invalid: "Module %s doesn't have an implemtation of cron"
+        module-invalid: "Module %s doesn't have an implementation of cron"
+        executing-cron: "Executing cron function of module %s"
   drush:
     description: Run drush from console.
     help: Use the interactive mode for a better experience --shell.

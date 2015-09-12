@@ -155,6 +155,17 @@ commands:
             messages:
                 service_id: 'ID del servicio'
                 class_name: 'Nombre de la clase'
+    cron:
+        debug:
+            description: 'List of modules implementing a cron'
+            messages:
+                module-list: 'Modules implementing a cron method'
+                module: Module
+        execute:
+            description: 'Execute cron implementation from a specific module or all to execute all implementations'
+            messages:
+                module-invalid: 'Module %s doesn''t have an implementation of cron'
+                executing-cron: 'Executing cron function of module %s'
     drush:
         description: 'Ejecutar Drush desde la consola.'
         help: 'Utilice el modo interactivo para una mejor experiencia --shell.'
