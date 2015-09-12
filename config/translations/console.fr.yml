@@ -619,6 +619,7 @@ commands:
                 package: Package
                 enabled: Enabled
                 disabled: Disabled
+                schema-version: 'Schema version'
         install:
             description: 'Install module or modules in the application'
             questions:
@@ -915,6 +916,28 @@ commands:
                 reset-successful: 'Password was updated sucessfully for user id %s'
             errors:
                 invalid-user: 'Invalid user id %s'
+    update:
+        debug:
+            description: 'Display current updates available for the application'
+            messages:
+                no-updates: 'No pending updates'
+                severity: Severity
+                title: Title
+                value: Value
+                description: Description
+                requirements-error: 'The following requirement weren''t completed'
+                module-list: 'Modules with pending updates'
+                module: Module
+                update-n: 'Update N'
+        execute:
+            description: 'Execute a specfic Update N function in a module, or execute all'
+            options:
+                update-n: 'Specific Update N function to be executed'
+            messages:
+                no-module-updates: 'There aren''t updates available for module %s'
+                executing-update: 'Executing update function %s of module %s'
+                module-update-function-not-found: 'Module %s doesn''t have a function update for %s'
+                executing-required-previous-updates: 'Executing required previous updates'
     user:
         login:
             clear:
