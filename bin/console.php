@@ -23,6 +23,7 @@ use Drupal\AppConsole\EventSubscriber\ShowGenerateInlineListener;
 use Drupal\AppConsole\EventSubscriber\ShowCompletedMessageListener;
 use Drupal\AppConsole\EventSubscriber\ValidateDependenciesListener;
 use Drupal\AppConsole\EventSubscriber\DefaultValueEventListener;
+use Drupal\AppConsole\Command\Helper\NestedArrayHelper;
 
 set_time_limit(0);
 
@@ -58,6 +59,7 @@ $helpers = [
     'site' => new SiteHelper(),
     'message' => new MessageHelper($translatorHelper),
     'chain' => new ChainCommandHelper(),
+    'nested-array' => new NestedArrayHelper(),
 ];
 
 $application->addHelpers($helpers);
