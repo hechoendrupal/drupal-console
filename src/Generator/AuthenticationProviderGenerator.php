@@ -30,8 +30,8 @@ class AuthenticationProviderGenerator extends Generator
 
         $parameters = [
           'module' => $module,
-          'class_name' => 'Authentication\\Provider\\'.$class_name,
-          'service_name' => 'authentication.'.$module,
+          'class' => 'Authentication\\Provider\\'.$class_name,
+          'name' => 'authentication.'.$module,
           'services' => [
             ['name' => 'config.factory'],
             ['name' => 'entity.manager'],

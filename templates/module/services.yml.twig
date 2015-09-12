@@ -1,9 +1,9 @@
-{% if service_name is defined %}
+{% if name is defined %}
 {% if not file_exists %}
 services:
 {% endif %}
-  {{ service_name | lower }}:
-    class: Drupal\{{module}}\{{ class_name }}
+  {{ name | lower }}:
+    class: Drupal\{{module}}\{{ class }}
     arguments: [{{ servicesAsParametersKeys(services)|join(', ') }}]
 {% if tags is defined %}
     tags:

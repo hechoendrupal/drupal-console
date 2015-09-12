@@ -63,17 +63,11 @@ commands:
       plugin-label: Example Rest Resource
       plugin-url: example_rest_resource
       plugin-states: 0, 1, 2
-  - command: generate:plugin:type:annotation
-    options:
-      module: example
-      class-name: ExamplePlugin
-      machine-name: example_plugin
-      label: Example plugin
   - command: generate:service
     options:
       module: example
-      class-name: ExampleService
-      service-name: example.service
+      class: ExampleService
+      name: example.service
       interface: yes
   - command: module:install
     arguments:
