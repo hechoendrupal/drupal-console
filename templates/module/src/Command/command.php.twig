@@ -1,11 +1,11 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-Drupal\{{module_name}}\Command\{{ name.class }}.
+Drupal\{{module}}\Command\{{ class }}.
 {% endblock %}
 
 {% block namespace_class %}
-namespace Drupal\{{module_name}}\Command;
+namespace Drupal\{{module}}\Command;
 {% endblock %}
 
 {% block use_class %}
@@ -13,16 +13,20 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+{% if container_aware %}
 use Drupal\AppConsole\Command\ContainerAwareCommand;
+{% else %}
+use Drupal\AppConsole\Command\Command;
+{% endif %}
 {% endblock %}
 
 {% block class_declaration %}
 /**
- * Class {{ name.class }}.
+ * Class {{ class }}.
  *
- * @package Drupal\{{module_name}}
+ * @package Drupal\{{module}}
  */
-class {{ name.class }} extends ContainerAwareCommand {% endblock %}
+class {{ class }} extends {% if container_aware %}ContainerAwareCommand{% else %}Command{% endif %} {% endblock %}
 
 {% block class_methods %}
   /**
@@ -30,10 +34,10 @@ class {{ name.class }} extends ContainerAwareCommand {% endblock %}
    */
   protected function configure() {
     $this
-      ->setName('{{ command }}')
-      ->setDescription($this->trans('{{ command_key_root }}.description'))
-      ->addArgument('name', InputArgument::OPTIONAL, $this->trans('{{ command_key_root }}.arguments.name'))
-      ->addOption('yell', NULL, InputOption::VALUE_NONE, $this->trans('{{ command_key_root }}.options.yell'));
+      ->setName('{{ name }}')
+      ->setDescription($this->trans('{{ command_key }}.description'))
+      ->addArgument('name', InputArgument::OPTIONAL, $this->trans('{{ command_key }}.arguments.name'))
+      ->addOption('yell', NULL, InputOption::VALUE_NONE, $this->trans('{{ command_key }}.options.yell'));
   }
 
   /**

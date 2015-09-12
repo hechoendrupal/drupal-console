@@ -18,17 +18,17 @@ class GeneratorCommandCommandTest extends GenerateCommandTest
      * Command generator test
      *
      * @param $module
-     * @param $class_name
-     * @param $command
-     * @param $services
+     * @param $name
+     * @param $class
+     * @param $containerAware
      *
      * @dataProvider commandData
      */
     public function testGenerateCommand(
         $module,
-        $class_name,
-        $command,
-        $container
+        $name,
+        $class,
+        $containerAware
     ) {
         $command = new GeneratorCommandCommand($this->getTranslatorHelper());
         $command->setContainer($this->getContainer());
@@ -39,10 +39,10 @@ class GeneratorCommandCommandTest extends GenerateCommandTest
 
         $code = $commandTester->execute(
             [
-              '--module'         => $module,
-              '--class-name'     => $class_name,
-              '--command'        => $command,
-              '--container'      => $container
+              '--module'          => $module,
+              '--name'            => $name,
+              '--class'           => $class,
+              '--container-aware' => $containerAware
             ],
             ['interactive' => false]
         );

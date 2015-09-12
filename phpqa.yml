@@ -16,7 +16,7 @@ application:
       arguments:
     php-cs-fixer:
       enabled: true
-      exception: false
+      exception: true
       file:
         config-file: .php_cs
         single-execution: false
@@ -28,7 +28,7 @@ application:
       postfixes:
     phpcbf:
       enabled: true
-      exception: false
+      exception: true
       options:
         standard: PSR2
         severity: 0
