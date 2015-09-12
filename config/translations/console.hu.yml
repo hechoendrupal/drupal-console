@@ -1036,3 +1036,20 @@ commands:
                 error-generating: 'Error generating merged YAML.'
                 error-writing: 'Error writing merged YAML file.'
                 merged: 'New file %s was created sucessfully after merge Yaml files.'
+        update:
+            value:
+                description: 'Update a value for a specific key in a YAML file.'
+                arguments:
+                    yaml-file: 'Path of YAML file to update'
+                    yaml-key: 'YAML key to update'
+                    yaml-value: 'YAML value to update'
+                messages:
+                    updated: 'YAML file %s was updated successfully'
+            key:
+                description: 'Replace a YAML key in a YAML file.'
+                arguments:
+                    yaml-file: 'Path of YAML file to update'
+                    yaml-key: 'YAML key to be replace'
+                    yaml-new-key: 'YAML new key'
+                messages:
+                    updated: 'YAML file %s was updated successfully'
