@@ -1,36 +1,32 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorCommandCommandTest.
+ * Contains \Drupal\AppConsole\Test\Command\GeneratorAuthenticationProviderCommandTest.
  */
 
 namespace Drupal\AppConsole\Test\Command;
 
-use Drupal\AppConsole\Command\GeneratorCommandCommand;
+use Drupal\AppConsole\Command\GeneratorAuthenticationProviderCommand;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\AppConsole\Test\DataProvider\CommandDataProviderTrait;
+use Drupal\AppConsole\Test\DataProvider\AuthenticationProviderDataProviderTrait;
 
-class GeneratorCommandCommandTest extends GenerateCommandTest
+class GeneratorAuthenticationProviderCommandTest extends GenerateCommandTest
 {
-    use CommandDataProviderTrait;
-    
+    use AuthenticationProviderDataProviderTrait;
+
     /**
-     * Command generator test
+     * AuthenticationProvider generator test
      *
      * @param $module
      * @param $class_name
-     * @param $command
-     * @param $services
      *
      * @dataProvider commandData
      */
-    public function testGenerateCommand(
+    public function testGenerateAuthenticationProvider(
         $module,
-        $class_name,
-        $command,
-        $container
+        $class_name
     ) {
-        $command = new GeneratorCommandCommand($this->getTranslatorHelper());
+        $command = new GeneratorAuthenticationProviderCommand($this->getTranslatorHelper());
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
@@ -40,9 +36,7 @@ class GeneratorCommandCommandTest extends GenerateCommandTest
         $code = $commandTester->execute(
             [
               '--module'         => $module,
-              '--class-name'     => $class_name,
-              '--command'        => $command,
-              '--container'      => $container
+              '--class-name'     => $class_name
             ],
             ['interactive' => false]
         );
@@ -53,7 +47,7 @@ class GeneratorCommandCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-            ->getMockBuilder('Drupal\AppConsole\Generator\CommandGenerator')
+            ->getMockBuilder('Drupal\AppConsole\Generator\AuthenticationProviderGenerator')
             ->disableOriginalConstructor()
             ->setMethods(['generate'])
             ->getMock();

@@ -15,6 +15,8 @@ class GeneratorFormCommandTest extends GenerateCommandTest
     use FormDataProviderTrait;
 
     /**
+     * Form generator test
+     *
      * @param  $module
      * @param  $class_name
      * @param  $services
