@@ -16,7 +16,7 @@ trait ServiceDataProviderTrait
         $this->setUpTemporalDirectory();
 
         return [
-          ['Foo', 'foo' . rand(), 'Foo', false, null],
+          ['Foo', 'foo' . rand(), 'Foo', false, []],
         ];
     }
 }
