@@ -72,8 +72,8 @@ commands:
   - command: generate:service
     options:
       module: example
-      class-name: ExampleService
-      service-name: example.service
+      class: ExampleService
+      name: example.service
       interface: yes
   - command: module:install
     arguments:
