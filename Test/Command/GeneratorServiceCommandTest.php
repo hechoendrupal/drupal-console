@@ -18,8 +18,8 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
      * Service generator test
      *
      * @param $module
-     * @param $service_name
-     * @param $class_name
+     * @param $name
+     * @param $class
      * @param $interface
      * @param $services
      *
@@ -27,8 +27,8 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
      */
     public function testGenerateService(
         $module,
-        $service_name,
-        $class_name,
+        $name,
+        $class,
         $interface,
         $services
     ) {
@@ -42,8 +42,8 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
         $code = $commandTester->execute(
             [
               '--module'         => $module,
-              '--service-name'   => $service_name,
-              '--class-name'     => $class_name,
+              '--name'             => $name,
+              '--class'     => $class,
               '--interface'      => $interface,
               '--services'       => $services,
             ],

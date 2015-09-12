@@ -32,16 +32,16 @@ class GeneratorServiceCommand extends GeneratorCommand
             ->setHelp($this->trans('commands.generate.service.description'))
             ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
-                'service-name',
+                'name',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.service.options.service-name')
+                $this->trans('commands.generate.service.options.name')
             )
             ->addOption(
-                'class-name',
+                'class',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.service.options.class-name')
+                $this->trans('commands.generate.service.options.class')
             )
             ->addOption(
                 'interface',
@@ -70,8 +70,8 @@ class GeneratorServiceCommand extends GeneratorCommand
         }
 
         $module = $input->getOption('module');
-        $service_name = $input->getOption('service-name');
-        $class_name = $input->getOption('class-name');
+        $name = $input->getOption('name');
+        $class = $input->getOption('class');
         $interface = $input->getOption('interface');
         $services = $input->getOption('services');
 
@@ -82,7 +82,7 @@ class GeneratorServiceCommand extends GeneratorCommand
 
         $this
             ->getGenerator()
-            ->generate($module, $service_name, $class_name, $interface, $build_services);
+            ->generate($module, $name, $class, $interface, $build_services);
 
         $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'all']);
     }
@@ -103,29 +103,29 @@ class GeneratorServiceCommand extends GeneratorCommand
         $input->setOption('module', $module);
 
         // --service-name option
-        $service_name = $input->getOption('service-name');
-        if (!$service_name) {
-            $service_name = $dialog->ask(
+        $name = $input->getOption('name');
+        if (!name) {
+            $name = $dialog->ask(
                 $output,
                 $dialog->getQuestion(
-                    $this->trans('commands.generate.service.questions.service-name'),
+                    $this->trans('commands.generate.service.questions.name'),
                     $module.'.default'
                 ),
                 $module.'.default'
             );
         }
-        $input->setOption('service-name', $service_name);
+        $input->setOption('name', $name);
 
         // --class-name option
-        $class_name = $input->getOption('class-name');
-        if (!$class_name) {
-            $class_name = $dialog->ask(
+        $class = $input->getOption('class');
+        if (!$class) {
+            $class = $dialog->ask(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.service.questions.class-name'), 'DefaultService'),
+                $dialog->getQuestion($this->trans('commands.generate.service.questions.class'), 'DefaultService'),
                 'DefaultService'
             );
         }
-        $input->setOption('class-name', $class_name);
+        $input->setOption('class', $class);
 
         // --interface option
         $interface = $input->getOption('interface');
