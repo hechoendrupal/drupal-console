@@ -152,7 +152,7 @@ class SiteModeCommand extends ContainerAwareCommand
 
         if (file_put_contents($directory . '/services.yml', $yaml->dump($services))) {
             $output->writeln(
-            '<info>' . sprintf($this->trans('commands.site.mode.messages.services-file-overwritten'), $directory . '/services.yml') . '</info>'
+                '<info>' . sprintf($this->trans('commands.site.mode.messages.services-file-overwritten'), $directory . '/services.yml') . '</info>'
             );
         } else {
             $output->writeln(
