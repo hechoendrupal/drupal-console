@@ -29,8 +29,8 @@ script:
   - phpunit
   - php box.phar build
   - php console.phar --version
-  - ~/.composer/vendor/bin/drush dl drupal-8.0.0-beta12
-  - mv drupal-8.0.0-beta12 drupal8.dev
+  - ~/.composer/vendor/bin/drush dl drupal-8.0.0-beta15
+  - mv drupal-8.0.0-beta15 drupal8.dev
   - cd drupal8.dev
   - ~/.composer/vendor/bin/drush site-install standard --yes --account-name=root --account-pass=toor --db-url=sqlite:$PROJECT_DIR/drupal8.dev/sites/default/files/console.sqlite
   - php ../console.phar chain --file=$PROJECT_DIR/config/dist/chain.yml
