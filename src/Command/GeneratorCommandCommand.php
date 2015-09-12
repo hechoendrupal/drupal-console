@@ -30,22 +30,22 @@ class GeneratorCommandCommand extends GeneratorCommand
             ->setHelp($this->trans('commands.generate.command.help'))
             ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
-                'class-name',
+                'class',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.command.options.class-name')
+                $this->trans('commands.generate.command.options.class')
             )
             ->addOption(
-                'command',
+                'name',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.command.options.command')
+                $this->trans('commands.generate.command.options.name')
             )
             ->addOption(
-                'container',
+                'container-aware',
                 '',
                 InputOption::VALUE_NONE,
-                $this->trans('commands.generate.command.options.container')
+                $this->trans('commands.generate.command.options.container-aware')
             );
     }
 
@@ -61,13 +61,13 @@ class GeneratorCommandCommand extends GeneratorCommand
         }
 
         $module = $input->getOption('module');
-        $class_name = $input->getOption('class-name');
-        $command = $input->getOption('command');
-        $container = $input->getOption('container');
+        $class = $input->getOption('class');
+        $name = $input->getOption('name');
+        $containerAware = $input->getOption('container-aware');
 
         $this
             ->getGenerator()
-            ->generate($module, $command, $class_name, $container);
+            ->generate($module, $name, $class, $containerAware);
     }
 
     /**
@@ -86,43 +86,43 @@ class GeneratorCommandCommand extends GeneratorCommand
         $input->setOption('module', $module);
 
         // --command
-        $command = $input->getOption('command');
-        if (!$command) {
-            $command = $dialog->ask(
+        $name = $input->getOption('name');
+        if (!$name) {
+            $name = $dialog->ask(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.command.questions.command'), $module.':default'),
+                $dialog->getQuestion($this->trans('commands.generate.command.questions.name'), $module.':default'),
                 $module.':default'
             );
         }
-        $input->setOption('command', $command);
+        $input->setOption('name', $name);
 
         // --class-name option
-        $class_name = $input->getOption('class-name');
-        if (!$class_name) {
-            $class_name = $dialog->askAndValidate(
+        $class = $input->getOption('class');
+        if (!$class) {
+            $class = $dialog->askAndValidate(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.command.questions.class-name'), 'DefaultCommand'),
-                function ($class_name) {
-                    return $this->validateClassName($class_name);
+                $dialog->getQuestion($this->trans('commands.generate.command.questions.class'), 'DefaultCommand'),
+                function ($class) {
+                    return $this->validateClassName($class);
                 },
                 false,
                 'DefaultCommand',
                 null
             );
-            $input->setOption('class-name', $class_name);
+            $input->setOption('class', $class);
         }
 
         // --container option
-        $container = $input->getOption('container');
-        if (!$container && $dialog->askConfirmation(
+        $containerAware = $input->getOption('container-aware');
+        if (!$containerAware && $dialog->askConfirmation(
             $output,
-            $dialog->getQuestion($this->trans('commands.generate.command.questions.container'), 'yes', '?'),
+            $dialog->getQuestion($this->trans('commands.generate.command.questions.container-aware'), 'yes', '?'),
             true
         )
         ) {
-            $container = true;
+            $containerAware = true;
         }
-        $input->setOption('container', $container);
+        $input->setOption('container-aware', $containerAware);
     }
 
     protected function createGenerator()
