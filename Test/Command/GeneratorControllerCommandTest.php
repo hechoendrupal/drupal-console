@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorModuleCommandTest.
+ * Contains \Drupal\AppConsole\Test\Command\GeneratorControllerCommandTest.
  */
 
 namespace Drupal\AppConsole\Test\Command;
@@ -15,6 +15,8 @@ class GeneratorControllerCommandTest extends GenerateCommandTest
     use ControllerDataProviderTrait;
 
     /**
+     * Controller generator test
+     *
      * @param $module
      * @param $class_name
      * @param $routes

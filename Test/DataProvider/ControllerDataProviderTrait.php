@@ -3,7 +3,7 @@
 namespace Drupal\AppConsole\Test\DataProvider;
 
 /**
- * Class ModuleDataProviderTrait
+ * Class ControllerDataProviderTrait
  * @package Drupal\AppConsole\Test\DataProvider
  */
 trait ControllerDataProviderTrait
