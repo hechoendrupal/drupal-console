@@ -35,9 +35,9 @@ commands:
   - command: generate:command
     options:
       module: example
-      class-name: ExampleCommand
-      command: example:command
-      container: false
+      name: ExampleCommand
+      name: example:command
+      container-aware: false
   - command: generate:authentication:provider
     options:
       module: example
