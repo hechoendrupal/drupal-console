@@ -50,6 +50,6 @@ class PluginBlockGeneratorTest extends GeneratorTest
         $this->assertTrue(
             file_exists($generator->getSite()->getPluginPath($module, 'Block').'/'.$class_name.'.php'),
             sprintf('%s does not exist', $class_name.'.php')
-        );        
+        );
     }
 }
