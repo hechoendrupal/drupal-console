@@ -16,17 +16,17 @@ class CommandGeneratorTest extends GeneratorTest
 
     /**
      * @param $module
-     * @param $command
-     * @param $class_name
-     * @param $container
+     * @param $name
+     * @param $class
+     * @param $containerAware
      *
      * @dataProvider commandData
      */
-    public function testCommandController(
+    public function testGenerateCommand(
         $module,
-        $command,
-        $class_name,
-        $container
+        $name,
+        $class,
+        $containerAware
     ) {
         $generator = new CommandGenerator();
         $generator->setSkeletonDirs(__DIR__ . '/../../templates');
@@ -34,9 +34,9 @@ class CommandGeneratorTest extends GeneratorTest
 
         $generator->generate(
             $module,
-            $command,
-            $class_name,
-            $container
+            $name,
+            $class,
+            $containerAware
         );
     }
 }
