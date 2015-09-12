@@ -112,4 +112,11 @@ abstract class Command extends BaseCommand
     {
         return $this->getHelperSet()->get('site');
     }
+
+    protected function getNestedArrayHelper()
+    {
+        $nested_array = $this->getHelperSet()->get('nested-array');
+
+        return $nested_array;
+    }
 }
