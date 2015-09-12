@@ -104,7 +104,7 @@ class GeneratorServiceCommand extends GeneratorCommand
 
         // --service-name option
         $name = $input->getOption('name');
-        if (!name) {
+        if (!$name) {
             $name = $dialog->ask(
                 $output,
                 $dialog->getQuestion(
