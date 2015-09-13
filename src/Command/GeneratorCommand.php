@@ -29,8 +29,8 @@ abstract class GeneratorCommand extends ContainerAwareCommand
     {
         if (null === $this->generator) {
             $this->generator = $this->createGenerator();
-            $this->generator->setSkeletonDirs($this->getSkeletonDirs());
-            $this->generator->setTranslator($this->translator);
+            $this->getHelperSet()->get('renderer')->setSkeletonDirs($this->getSkeletonDirs());
+            $this->getHelperSet()->get('renderer')->setTranslator($this->translator);
             $this->generator->setHelpers($this->getHelperSet());
         }
 

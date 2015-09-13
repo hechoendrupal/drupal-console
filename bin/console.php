@@ -24,6 +24,7 @@ use Drupal\AppConsole\EventSubscriber\ShowCompletedMessageListener;
 use Drupal\AppConsole\EventSubscriber\ValidateDependenciesListener;
 use Drupal\AppConsole\EventSubscriber\DefaultValueEventListener;
 use Drupal\AppConsole\Command\Helper\NestedArrayHelper;
+use Drupal\AppConsole\Helper\TwigRendererHelper;
 
 set_time_limit(0);
 
@@ -57,9 +58,10 @@ $helpers = [
     'translator' => $translatorHelper,
     'drupal-autoload' => new DrupalAutoloadHelper(),
     'site' => new SiteHelper(),
+    'renderer' => new TwigRendererHelper(),
     'message' => new MessageHelper($translatorHelper),
     'chain' => new ChainCommandHelper(),
-    'nested-array' => new NestedArrayHelper(),
+//    'nested-array' => new NestedArrayHelper(),
 ];
 
 $application->addHelpers($helpers);
