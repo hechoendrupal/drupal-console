@@ -35,7 +35,8 @@ class ControllerGeneratorTest extends GeneratorTest
         $class_machine_name
     ) {
         $generator = new ControllerGenerator();
-        $generator->setSkeletonDirs(__DIR__ . '/../../templates');
+        $this->getHelperSet()->get('renderer')->setSkeletonDirs($this->getSkeletonDirs());
+        $this->getHelperSet()->get('renderer')->setTranslator($this->getTranslatorHelper());
         $generator->setHelpers($this->getHelperSet());
 
         $generator->generate(
