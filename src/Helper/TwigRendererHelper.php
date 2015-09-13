@@ -242,6 +242,6 @@ class TwigRendererHelper extends Helper
      */
     public function getName()
     {
-      return 'chain';
+        return 'chain';
     }
 }

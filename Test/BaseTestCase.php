@@ -5,6 +5,7 @@ namespace Drupal\AppConsole\Test;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Helper\HelperSet;
 use Drupal\AppConsole\Command\Helper\DialogHelper;
+use Drupal\AppConsole\Helper\TwigRendererHelper;
 
 abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -85,6 +86,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
             $this->helperSet = new HelperSet(
                 [
                 'formatter' => new FormatterHelper(),
+                'renderer' => new TwigRendererHelper(),
                 'drupal-autoload' => $autoload,
                 'dialog' => $dialog,
                 'stringUtils' => $stringUtils,
@@ -92,7 +94,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
                 'translator' => $translator,
                 'site' => $siteHelper,
                 'message' => $message,
-                'chain' => $chain,
+                'chain' => $chain
                 ]
             );
         }

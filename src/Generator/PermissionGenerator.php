@@ -27,7 +27,7 @@ class PermissionGenerator extends Generator
             FILE_APPEND
         );
 
-        $content = $this->renderView(
+        $content = $this->getRenderer()->renderView(
             'module/permission-routing.yml.twig',
             $parameters
         );
