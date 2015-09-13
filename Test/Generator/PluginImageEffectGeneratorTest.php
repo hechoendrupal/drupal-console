@@ -33,7 +33,7 @@ class PluginImageEffectGeneratorTest extends GeneratorTest
     ) {
         $generator = new PluginImageEffectGenerator();
         $this->getHelperSet()->get('renderer')->setSkeletonDirs($this->getSkeletonDirs());
-        $this->getHelperSet()->get('renderer')->setTranslator($this->translator);
+        $this->getHelperSet()->get('renderer')->setTranslator($this->getTranslatorHelper());
         $generator->setHelpers($this->getHelperSet());
 
         $generator->generate(
