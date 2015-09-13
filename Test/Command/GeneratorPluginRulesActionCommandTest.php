@@ -23,6 +23,7 @@ class GeneratorPluginRulesActionCommandTest extends GenerateCommandTest
      * @param $plugin_id
      * @param $category
      * @param $context
+     * @param $type
      *
      * @dataProvider commandData
      */
@@ -32,7 +33,8 @@ class GeneratorPluginRulesActionCommandTest extends GenerateCommandTest
         $label,
         $plugin_id,
         $category,
-        $context
+        $context,
+        $type
     ) {
         $command = new GeneratorPluginRulesActionCommand($this->getTranslatorHelper());
         $command->setContainer($this->getContainer());
@@ -49,6 +51,7 @@ class GeneratorPluginRulesActionCommandTest extends GenerateCommandTest
               '--plugin-id'     => $plugin_id,
               '--category'      => $category,
               '--context'       => $context,
+              '--type'          => $type
             ],
             ['interactive' => false]
         );
