@@ -87,6 +87,9 @@ class Application extends BaseApplication
         $this->getDefinition()->addOption(
             new InputOption('--generate-inline', '--gi', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-inline'))
         );
+        $this->getDefinition()->addOption(
+            new InputOption('--generate-doc', '--gd', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc'))
+        );
     }
 
     /**
@@ -141,6 +144,15 @@ class Application extends BaseApplication
         if ($this->isRunningOnDrupalInstance($drupal_root)) {
             $this->setup($env, $debug);
             $this->bootstrap();
+        }
+
+        if (true === $input->hasParameterOption(array('--generate-doc', '--gd'))) {
+            $command = $this->get($commandName);
+            $command->addOption(
+                'generate-doc',
+                '--gd',
+                InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc')
+            );
         }
 
         parent::doRun($input, $output);

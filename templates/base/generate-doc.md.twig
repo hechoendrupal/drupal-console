@@ -1,0 +1,25 @@
+# {{ command }}
+The **{{ command }}** command {{ description }}
+
+**Usage:**
+```
+$ drupal {{ command }} {% if arguments|length>0 %}[arguments] {% endif %}{% if options|length>0 %}[options] {% endif %}
+
+```
+
+{% if options|length>0 %}
+## Available options
+Option | Details
+-------|-------------
+{% for option in options %}
+--{{ option.name }} | {{ option.description }}
+{% endfor %}
+{% endif %}
+{% if arguments|length>0 %}
+## Available arguments
+Argument | Details
+---------|-------------
+{% for argument in arguments %}
+{{ argument.name }} | {{ argument.description }}
+{% endfor %}
+{% endif %}
