@@ -16,7 +16,7 @@ trait PluginRulesActionDataProviderTrait
         $this->setUpTemporalDirectory();
 
         return [
-          ['Foo', 'foo' . rand(), 'Foo', 'pluginID' . rand(), 'category', 'context'],
+          ['Foo', 'foo' . rand(), 'Foo', 'pluginID' . rand(), 'category', 'context', 'bar'],
         ];
     }
 }
