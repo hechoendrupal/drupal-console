@@ -77,17 +77,6 @@ class TwigRendererHelper extends Helper
     }
 
     /**
-     * @param string $template
-     * @param array  $parameters
-     *
-     * @return string
-     */
-    public function renderView($template, $parameters)
-    {
-        return $this->render($template, $parameters);
-    }
-
-    /**
      * @return \Twig_SimpleFunction
      */
     public function getServicesAsParameters()
