@@ -25,6 +25,7 @@ use Drupal\AppConsole\EventSubscriber\ValidateDependenciesListener;
 use Drupal\AppConsole\EventSubscriber\DefaultValueEventListener;
 use Drupal\AppConsole\Command\Helper\NestedArrayHelper;
 use Drupal\AppConsole\Helper\TwigRendererHelper;
+use Drupal\AppConsole\EventSubscriber\ShowGenerateDocListener;
 
 set_time_limit(0);
 
@@ -61,7 +62,6 @@ $helpers = [
     'renderer' => new TwigRendererHelper(),
     'message' => new MessageHelper($translatorHelper),
     'chain' => new ChainCommandHelper(),
-//    'nested-array' => new NestedArrayHelper(),
 ];
 
 $application->addHelpers($helpers);
@@ -69,6 +69,7 @@ $application->addHelpers($helpers);
 $dispatcher = new EventDispatcher();
 $dispatcher->addSubscriber(new ValidateDependenciesListener());
 $dispatcher->addSubscriber(new ShowWelcomeMessageListener());
+$dispatcher->addSubscriber(new ShowGenerateDocListener());
 $dispatcher->addSubscriber(new DefaultValueEventListener());
 $dispatcher->addSubscriber(new ShowGeneratedFilesListener());
 $dispatcher->addSubscriber(new CallCommandListener());

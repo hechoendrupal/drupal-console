@@ -36,6 +36,15 @@ class TwigRendererHelper extends Helper
         $this->translator = $translator;
     }
 
+    public function getSkeletonDirs()
+    {
+        if (!$this->skeletonDirs) {
+            $this->skeletonDirs[] = __DIR__ . '/../../templates';
+        }
+
+        return $this->skeletonDirs;
+    }
+
     /**
      * @param string $template
      * @param array  $parameters
@@ -46,7 +55,7 @@ class TwigRendererHelper extends Helper
     {
         if (!$this->engine) {
             $this->engine = new \Twig_Environment(
-                new \Twig_Loader_Filesystem($this->skeletonDirs), [
+                new \Twig_Loader_Filesystem($this->getSkeletonDirs()), [
                 'debug' => true,
                 'cache' => false,
                 'strict_variables' => true,
