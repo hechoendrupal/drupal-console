@@ -16,7 +16,7 @@ trait AuthenticationProviderDataProviderTrait
         $this->setUpTemporalDirectory();
 
         return [
-          ['Foo', 'foo' . rand()],
+          ['Foo', 'foo' . rand(), 0],
         ];
     }
 }
