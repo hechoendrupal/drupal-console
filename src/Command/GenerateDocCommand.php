@@ -117,6 +117,14 @@ class GenerateDocCommand extends ContainerAwareCommand
             null,
             $renderer
         );
+
+        $this->renderFile(
+            'gitbook/available-commands-list.md.twig',
+            $path . '/commands/available-commands-list.md',
+            $parameters,
+            null,
+            $renderer
+        );
     }
 
     private function renderCommand($command, $path, $renderer)
