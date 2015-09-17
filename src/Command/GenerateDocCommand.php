@@ -66,8 +66,8 @@ class GenerateDocCommand extends ContainerAwareCommand
         foreach ($this->single_commands as $single_command) {
             $command = $application->find($single_command);
             $command_list['none'][] = [
-            'name' => $command->getName(),
-            'description' => $command->getDescription(),
+                'name' => $command->getName(),
+                'description' => $command->getDescription(),
             ];
             $this->renderCommand($command, $path, $renderer);
         }
@@ -105,9 +105,9 @@ class GenerateDocCommand extends ContainerAwareCommand
         $options = $input->getOptions();
         $arguments = $input->getArguments();
         $parameters = [
-          'command_list' => $command_list,
-          'options' => $options,
-          'arguments' => $arguments,
+            'command_list' => $command_list,
+            'options' => $options,
+            'arguments' => $arguments,
         ];
 
         $this->renderFile(
@@ -134,11 +134,11 @@ class GenerateDocCommand extends ContainerAwareCommand
         $arguments = $input->getArguments();
 
         $parameters = [
-          'options' => $options,
-          'arguments' => $arguments,
-          'command' => $command->getName(),
-          'description' => $command->getDescription(),
-          'aliases' => $command->getAliases()
+            'options' => $options,
+            'arguments' => $arguments,
+            'command' => $command->getName(),
+            'description' => $command->getDescription(),
+            'aliases' => $command->getAliases()
         ];
 
         $this->renderFile(
