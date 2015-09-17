@@ -142,10 +142,6 @@ class GenerateDocCommand extends ContainerAwareCommand
             mkdir(dirname($target), 0777, true);
         }
 
-        if (file_put_contents($target, $renderer->render($template, $parameters), $flag)) {
-            return true;
-        }
-
-        return false;
+        return file_put_contents($target, $renderer->render($template, $parameters), $flag);
     }
 }
