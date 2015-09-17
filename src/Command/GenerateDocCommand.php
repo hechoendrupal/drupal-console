@@ -93,8 +93,8 @@ class GenerateDocCommand extends ContainerAwareCommand
             foreach ($commands as $command) {
                 if ($command->getModule()=='AppConsole') {
                     $command_list[$namespace][] = [
-                    'name' => $command->getName(),
-                    'description' => $command->getDescription(),
+                        'name' => $command->getName(),
+                        'description' => $command->getDescription(),
                     ];
                     $this->renderCommand($command, $path, $renderer);
                 }
