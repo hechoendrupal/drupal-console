@@ -22,7 +22,6 @@ class GenerateDocCommand extends ContainerAwareCommand
       'self-update'
     ];
 
-
     /**
      * {@inheritdoc}
      */
@@ -84,6 +83,13 @@ class GenerateDocCommand extends ContainerAwareCommand
 
         foreach ($namespaces as $namespace) {
             $commands = $application->all($namespace);
+
+            usort(
+                $commands, function ($cmd1, $cmd2) {
+                    return strcmp($cmd1->getName(), $cmd2->getName());
+                }
+            );
+
             foreach ($commands as $command) {
                 if ($command->getModule()=='AppConsole') {
                     $command_list[$namespace][] = [
