@@ -16,7 +16,7 @@ use Drupal\migrate\Entity\MigrationInterface;
 use Drupal\migrate\MigrateExecutable;
 use Drupal\AppConsole\Command\migrate_upgrade\MigrateExecuteMessageCapture;
 
-class MigrateExecuteCommand extends ContainerAwareCommand
+class SiteInstallCommand extends Command
 {
     protected $connection;
     protected $migration_group;
@@ -24,15 +24,9 @@ class MigrateExecuteCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('migrate:execute')
-            ->setDescription($this->trans('commands.migrate.execute.description'))
-            ->addArgument('migration-ids', InputArgument::IS_ARRAY, $this->trans('commands.migrate.execute.arguments.id'))
-            ->addOption(
-                'site-url',
-                '',
-                InputOption::VALUE_REQUIRED,
-                $this->trans('commands.migrate.execute.options.site-url')
-            )
+            ->setName('site:install')
+            ->setDescription($this->trans('commands.site.install.description'))
+            ->addArgument('profile', InputArgument::REQUIRED, $this->trans('commands.site.install.arguments.profile'))
             ->addOption(
                 'db-host',
                 '',
@@ -68,13 +62,6 @@ class MigrateExecuteCommand extends ContainerAwareCommand
                 '',
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.migrate.execute.options.db-port')
-            )
-            ->addOption(
-                'exclude',
-                '',
-                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-                $this->trans('commands.migrate.execute.options.exclude'),
-                array()
             );
 
         $this->addDependency('migrate');
@@ -85,6 +72,10 @@ class MigrateExecuteCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
+
+        print 'aqui2';
+        exit();
+
         $validator_required = function ($value) {
             if (!strlen(trim($value))) {
                 throw new \Exception('The option can not be empty');
@@ -94,22 +85,6 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         };
 
         $dialog = $this->getDialogHelper();
-
-        // --site-url option
-        $site_url = $input->getOption('site-url');
-        if (!$site_url) {
-            $site_url = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.migrate.execute.questions.site-url'),
-                    'http://www.example.com'
-                ),
-                $validator_required,
-                false,
-                'http://www.example.com'
-            );
-        }
-        $input->setOption('site-url', $site_url);
 
         // --db-host option
         $db_host = $input->getOption('db-host');
@@ -186,96 +161,15 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         $input->setOption('db-port', $db_port);
 
         // Get migrations available
-        $this->registerSourceDB($input);
+        //$this->registerDB($input);
 
-        $this->getConnection($output);
-
-        if ($this->connection->schema()->tableExists('filter_format')) {
-            $this->migration_group = 'Drupal 7';
-            $migrations_list = $this->getMigrations($this->migration_group);
-        } elseif ($this->connection->schema()->tableExists('menu_router')) {
-            $this->migration_group = 'Drupal 6';
-            $migrations_list = $this->getMigrations($this->migration_group);
-        } else {
-            $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.questions.wrong-source').'</error>');
-
-            return;
-        }
-
-        // --migration-id prefix
-        $migration_id = $input->getArgument('migration-ids');
-        if (!$migration_id) {
-            $migrations_list += array('all' => 'All');
-            $migrations_ids = array();
-
-            while (true) {
-                $migration_id = $dialog->askAndValidate(
-                    $output,
-                    $dialog->getQuestion((count($migrations_ids) == 0 ? $this->trans('commands.migrate.execute.questions.id') : $this->trans('commands.migrate.execute.questions.other-id')), 'all'),
-                    function ($migration) use ($migrations_list) {
-                        if (isset($migrations_list[$migration])) {
-                            return $migration;
-                        } else {
-                            throw new \InvalidArgumentException(
-                                sprintf($this->trans('commands.migrate.execute.questions.invalid-migration-id'), $migration_id)
-                            );
-                        }
-                    },
-                    false,
-                    'all',
-                    array_keys($migrations_list)
-                );
-
-                if (empty($migration_id) || $migration_id == 'all') {
-                    if ($migration_id == 'all') {
-                        $migrations_ids[] = $migration_id;
-                    }
-                    break;
-                } else {
-                    $migrations_ids[] = $migration_id;
-                }
-            }
-
-            $input->setArgument('migration-ids', $migrations_ids);
-        }
-
-        // --migration-id prefix
-        $exclude_ids = $input->getOption('exclude');
-        if (!$exclude_ids) {
-            unset($migrations_list['all']);
-            while (true) {
-                $exclude_id = $dialog->askAndValidate(
-                    $output,
-                    $dialog->getQuestion($this->trans('commands.migrate.execute.questions.exclude-id'), null),
-                    function ($exclude) use ($migrations_list) {
-                        if (empty($exclude) || isset($migrations_list[$exclude])) {
-                            return $exclude;
-                        } else {
-                            throw new \InvalidArgumentException(
-                                sprintf($this->trans('commands.migrate.execute.questions.invalid-migration-id'), '@@'.$exclude)
-                            );
-                        }
-                    },
-                    false,
-                    null,
-                    array_keys($migrations_list)
-                );
-
-                if (empty($exclude_id)) {
-                    break;
-                } else {
-                    $exclude_ids[] = $exclude_id;
-                }
-            }
-        }
-
-        $input->setOption('exclude', $exclude_ids);
+        //$this->getConnection($output);
     }
 
     protected function getConnection(OutputInterface $output)
     {
         try {
-            $this->connection = Database::getConnection('default', 'migrate');
+            $this->connection = Database::getConnection('default', 'install');
         } catch (\Exception $e) {
             $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.destination-error').': '.$e->getMessage().'</error>');
 
@@ -285,7 +179,7 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         return $this;
     }
 
-    protected function registerSourceDB(InputInterface $input, OutputInterface $output)
+    protected function registerDB(InputInterface $input, OutputInterface $output)
     {
         $db_host = $input->getOption('db-host');
         $db_name = $input->getOption('db-name');
@@ -306,7 +200,7 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         );
 
         try {
-            Database::addConnectionInfo('migrate', 'default', $database);
+            Database::addConnectionInfo('install', 'default', $database);
         } catch (\Exception $e) {
             $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.source-error').': '.$e->getMessage().'</error>');
 
@@ -319,27 +213,13 @@ class MigrateExecuteCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $migration_ids = $input->getArgument('migration-ids');
-        $exclude_ids = $input->getOption('exclude');
-        if (!empty($exclude_ids)) {
-            // Remove exclude migration from migration script
-            $migration_ids = array_diff($migration_ids, $exclude_ids);
-        }
 
-        // If migrations weren't provided finish execution
-        if (empty($migration_ids)) {
-            return;
-        }
+        print 'aqui';
+        exit();
 
         if (!$this->connection) {
-            $this->registerSourceDB($input, $output);
+            $this->registerSourceDB($input);
             $this->getConnection($output);
-        }
-
-        if (!in_array('all', $migration_ids)) {
-            $migrations = $migration_ids;
-        } else {
-            $migrations = array_keys($this->getMigrations($this->migration_group));
         }
 
         $entity_manager = $this->getEntityManager();
