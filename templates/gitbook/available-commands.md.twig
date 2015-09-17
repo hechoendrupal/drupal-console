@@ -1,0 +1,32 @@
+# Available Drupal Console Commands
+
+**Note:** Drupal Console commands *must* be run from the root of a Drupal 8 installation.
+
+Drupal Console Command | Details
+------------ | -------------
+{% for namespace, commands in command_list %}
+{% if namespace != 'none' %}
+**{{ namespace }}**  |
+{% endif %}
+{% for command in commands %}
+[{{ command.name }}]({{ command.name|replace(':','-') }}.md) | {{ command.description }}
+{% endfor %}
+{% endfor %}
+
+{% if options|length>0 %}
+## Available options
+Option | Details
+-------|-------------
+{% for option in options %}
+--{{ option.name }} | {{ option.description }}
+{% endfor %}
+{% endif %}
+
+{% if arguments|length>0 %}
+## Available arguments
+Argument | Details
+---------|-------------
+{% for argument in arguments %}
+{{ argument.name }} | {{ argument.description }}
+{% endfor %}
+{% endif %}
