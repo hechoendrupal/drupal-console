@@ -67,7 +67,7 @@ class ShowGenerateDocListener implements EventSubscriberInterface
             ];
 
             $renderedDoc = $application->getHelperSet()->get('renderer')->render(
-                'base/generate-doc.md.twig',
+                'gitbook/generate-doc.md.twig',
                 $parameters
             );
 
