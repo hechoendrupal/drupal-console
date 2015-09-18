@@ -1,0 +1,62 @@
+<?php
+/**
+ * @file
+ * Contains \Drupal\AppConsole\Test\Command\GeneratorPluginImageFormatterCommandTest.
+ */
+
+namespace Drupal\AppConsole\Test\Command;
+
+use Drupal\AppConsole\Command\GeneratorPluginImageFormatterCommand;
+use Symfony\Component\Console\Tester\CommandTester;
+use Drupal\AppConsole\Test\DataProvider\PluginImageFormatterDataProviderTrait;
+
+class GeneratorPluginImageFormatterCommandTest extends GenerateCommandTest
+{
+    use PluginImageFormatterDataProviderTrait;
+    
+    /**
+     * Plugin image effect generator test
+     *
+     * @param $module
+     * @param $class_name
+     * @param $plugin_label
+     * @param $plugin_id
+     * @param $description
+     *
+     * @dataProvider commandData
+     */
+    public function testGeneratePluginImageFormatter(
+        $module,
+        $class_name,
+        $plugin_label,
+        $plugin_id
+    ) {
+        $command = new GeneratorPluginImageFormatterCommand($this->getTranslatorHelper());
+        $command->setContainer($this->getContainer());
+        $command->setHelperSet($this->getHelperSet());
+        $command->setGenerator($this->getGenerator());
+
+        $commandTester = new CommandTester($command);
+
+        $code = $commandTester->execute(
+            [
+              '--module'         => $module,
+              '--class-name'     => $class_name,
+              '--label'          => $plugin_label,
+              '--plugin-id'      => $plugin_id
+            ],
+            ['interactive' => false]
+        );
+
+        $this->assertEquals(0, $code);
+    }
+
+    private function getGenerator()
+    {
+        return $this
+            ->getMockBuilder('Drupal\AppConsole\Generator\PluginImageFormatterGenerator')
+            ->disableOriginalConstructor()
+            ->setMethods(['generate'])
+            ->getMock();
+    }
+}
