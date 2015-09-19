@@ -4,10 +4,13 @@ namespace Drupal\AppConsole\Console;
 
 use Composer\Autoload\ClassLoader;
 use Symfony\Component\Console\Application as BaseApplication;
+use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Debug\Debug;
+
 
 class Application extends BaseApplication
 {
@@ -90,6 +93,42 @@ class Application extends BaseApplication
         $this->getDefinition()->addOption(
             new InputOption('--generate-doc', '--gd', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc'))
         );
+    }
+
+    /**
+     * Gets the default input definition.
+     *
+     * @return InputDefinition An InputDefinition instance
+     */
+    protected function getDefaultInputDefinition()
+    {
+        return new InputDefinition(array(
+            new InputArgument('command', InputArgument::REQUIRED, $this->trans('application.console.input.definition.command')),
+            new InputOption('--help', '-h', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.help')),
+            new InputOption('--quiet', '-q', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.quiet')),
+            new InputOption('--verbose', '-v|vv|vvv', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.verbose')),
+            new InputOption('--version', '-V', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.version')),
+            new InputOption('--ansi', '', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.ansi')),
+            new InputOption('--no-ansi', '', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.no-ansi')),
+            new InputOption('--no-interaction', '-n', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.no-interaction')),
+        ));
+    }
+
+
+    /**
+     * Returns the long version of the application.
+     *
+     * @return string The long application version
+     *
+     * @api
+     */
+    public function getLongVersion()
+    {
+        if ('UNKNOWN' !== $this->getName() && 'UNKNOWN' !== $this->getVersion()) {
+            return sprintf($this->trans('application.console.options.version'), $this->getName(), $this->getVersion());
+        }
+
+        return '<info>Console Tool</info>';
     }
 
     /**
