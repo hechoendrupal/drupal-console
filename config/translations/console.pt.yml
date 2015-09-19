@@ -22,6 +22,18 @@ application:
                 route: "In order to to create pages it is necessary to define routes for them.\nA route maps a URL path to a controller. It defines with what function\nor method will be called when a URL is accessed.\nIf the user accesses http://drupal8.dev/{{ route }}, the routing\nsystem will look for a route with that path. In this case it will find a\nmatch, and execute the _controller callback. In this case the callback is\ndefined as a classname\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nand a method (\"{{ method_name }}\")."
         errors:
             invalid-command: 'Command "%s" is not defined.'
+        input:
+            definition:
+                command: 'The command to execute'
+                help: 'Display this help message'
+                quiet: 'Do not output any message'
+                verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
+                version: 'Display this application version'
+                ansi: 'Force ANSI output'
+                no-ansi: 'Disable ANSI output'
+                no-interaction: 'Do not ask any interactive question'
+        options:
+            version: '<info>%s</info> version <comment>%s</comment>'
     site:
         messages:
             path: 'Site path'
@@ -609,6 +621,12 @@ commands:
                 services: common.options.services
     init:
         description: 'Copy configuration files to user home directory.'
+    list:
+        messages:
+            usage: "<comment>Usage:</comment>\n"
+            usage_details: "  command [options] [arguments]\n\n"
+            arguments: '<comment>Arguments:</comment>'
+            options: '<comment>Options:</comment>'
     module:
         debug:
             description: 'Display current modules available for application'
