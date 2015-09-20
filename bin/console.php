@@ -78,5 +78,5 @@ $dispatcher->addSubscriber(new ShowGenerateInlineListener());
 $dispatcher->addSubscriber(new ShowCompletedMessageListener());
 
 $application->setDispatcher($dispatcher);
-$application->setDefaultCommand('list');
+$application->setDefaultCommand('about');
 $application->run();
