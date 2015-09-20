@@ -210,6 +210,14 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     }
 
     /**
+     * @return \Drupal\Core\Datetime\DateFormatter;
+     */
+    public function getDateFormatter()
+    {
+        return $this->getContainer()->get('date.formatter');
+    }
+
+    /**
      * @return \Drupal\Core\Config\ConfigManagerInterface
      */
     public function getConfigManager()
@@ -276,6 +284,12 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     {
         return $this->getContainer()->getParameter('serializer.formats');
     }
+
+    public function getStringTanslation()
+    {
+        return $this->getContainer()->get('string_translation');
+    }
+
 
     public function getAuthenticationProviders()
     {

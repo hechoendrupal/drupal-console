@@ -34,7 +34,7 @@ class YamlDiffCommand extends Command
             )
             ->addOption(
                 'negate',
-                FALSE,
+                false,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.yaml.diff.options.negate')
             )
@@ -67,11 +67,10 @@ class YamlDiffCommand extends Command
         $limit = $input->getOption('limit');
         $offset = $input->getOption('offset');
 
-        if($negate == 1 || $negate == 'TRUE') {
-            $negate = TRUE;
-        }
-        else {
-            $negate = FALSE;
+        if ($negate == 1 || $negate == 'TRUE') {
+            $negate = true;
+        } else {
+            $negate = false;
         }
 
         try {
@@ -112,8 +111,8 @@ class YamlDiffCommand extends Command
         $key_flatten = '';
         $nested_array->yaml_flatten_array($diff, $diff_flatten, $key_flatten);
 
-        if($limit != null) {
-            if(!$offset) {
+        if ($limit != null) {
+            if (!$offset) {
                 $offset = 0;
             }
             $diff_flatten = array_slice($diff_flatten, $offset, $limit);
