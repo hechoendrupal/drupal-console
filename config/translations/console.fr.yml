@@ -999,6 +999,19 @@ commands:
                 errors:
                     invalid-user: 'Invalid user id %s'
                     empty-password: 'Password can not be empty'
+    about:
+        description: 'Display basic information about Drupal Console project'
+        messages:
+            welcome: 'The Drupal Console is a suite of tools that you run on the CLI to:'
+            welcome-feature-generate: 'Generate boilerplate code.'
+            welcome-feature-interact: 'Interact with a Drupal 8 installation.'
+            welcome-feature-learn: 'Learn Drupal 8.'
+            list: 'Execute <info>list</info> command to get a list of all commands available.'
+            change-log: 'Project change log at <comment>%s</comment>'
+            version-supported: 'The Drupal 8 supported version is <info>%s</info>'
+            documentation: 'Drupal Console documentation at <comment>%s</comment>'
+            support: 'Support at Drupal Console gitter chat room <comment>%s</comment>'
+            supporting-organizations: 'Supporting organizations'
     views:
         debug:
             description: 'Display current views resources for the application'
