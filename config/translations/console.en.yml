@@ -633,12 +633,6 @@ commands:
         services: common.options.services
   init:
     description: Copy configuration files to user home directory.
-  list:
-    messages:
-      usage: "<comment>Usage:</comment>\n"
-      usage_details: "  command [options] [arguments]\n\n"
-      arguments: '<comment>Arguments:</comment>'
-      options: '<comment>Options:</comment>'
   module:
     debug:
       description: Display current modules available for application

@@ -616,12 +616,6 @@ commands:
                 services: common.options.services
     init:
         description: 'Copy configuration files to user home directory.'
-    list:
-        messages:
-            usage: "<comment>用法:</comment>\n"
-            usage_details: "  命令 [选项] [参数]\n\n"
-            arguments: '<comment>参数:</comment>'
-            options: '<comment>选项:</comment>'
     module:
         debug:
             description: 'Display current modules available for application'
