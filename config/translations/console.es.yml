@@ -22,6 +22,18 @@ application:
                 route: "Con el fin de crear páginas es necesario definir rutas para ellas.\nUna ruta asigna una URL a un controlador. Se define con qué función\no método será llamado cuando se accede a una URL.\nSi el usuario accede la ruta http://drupal8.dev/{{ route }},\nel sistema buscará una ruta con ese camino. En este caso, si encuentra una\nejecutara la devolución de la llamada _controller.\nEn este caso, la devolución de llamada es definida como un nombre de clase\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\ny un método (\"{{ method_name }}\")."
         errors:
             invalid-command: 'Comando "%s" no está definido.'
+        input:
+            definition:
+                command: 'The command to execute'
+                help: 'Display this help message'
+                quiet: 'Do not output any message'
+                verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
+                version: 'Display this application version'
+                ansi: 'Force ANSI output'
+                no-ansi: 'Disable ANSI output'
+                no-interaction: 'Do not ask any interactive question'
+        options:
+            version: '<info>%s</info> version <comment>%s</comment>'
     site:
         messages:
             path: 'Ruta del sitio'

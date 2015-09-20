@@ -18,6 +18,7 @@ class NestedArrayHelper extends BaseDialogHelper
      *
      * Without this helper function the only way to get a nested array value with
      * variable depth in one line would be using eval(), which should be avoided:
+     *
      * @code
      * // Do not do this! Avoid eval().
      * // May also throw a PHP notice, if the variable array keys do not exist.
@@ -52,7 +53,7 @@ class NestedArrayHelper extends BaseDialogHelper
      *   The array from which to get the value.
      * @param array $parents
      *   An array of parent keys of the value, starting with the outermost key.
-     * @param bool $key_exists
+     * @param bool  $key_exists
      *   (optional) If given, an already defined variable that is altered by
      *   reference.
      *
@@ -90,6 +91,7 @@ class NestedArrayHelper extends BaseDialogHelper
      * is primarily used for form structures and renderable arrays.
      *
      * Example:
+     *
      * @code
      * // Assume you have a 'signature' element somewhere in a form. It might be:
      * $form['signature_settings']['signature'] = array(
@@ -105,9 +107,9 @@ class NestedArrayHelper extends BaseDialogHelper
      *
      * To deal with the situation, the code needs to figure out the route to the
      * element, given an array of parents that is either
-     * @code array('signature_settings', 'signature') @endcode
+     * @code    array('signature_settings', 'signature') @endcode
      * in the first case or
-     * @code array('signature_settings', 'user', 'signature') @endcode
+     * @code    array('signature_settings', 'user', 'signature') @endcode
      * in the second case.
      *
      * Without this helper function the only way to set the signature element in
@@ -135,7 +137,7 @@ class NestedArrayHelper extends BaseDialogHelper
      *   An array of parent keys, starting with the outermost key.
      * @param mixed $value
      *   The value to set.
-     * @param bool $force
+     * @param bool  $force
      *   (optional) If TRUE, the value is forced into the structure even if it
      *   requires the deletion of an already existing non-array parent value. If
      *   FALSE, PHP throws an error if trying to add into a value that is not an
@@ -179,6 +181,7 @@ class NestedArrayHelper extends BaseDialogHelper
      * is primarily used for form structures and renderable arrays.
      *
      * Example:
+     *
      * @code
      * // Assume you have a 'signature' element somewhere in a form. It might be:
      * $form['signature_settings']['signature'] = array(
@@ -194,9 +197,9 @@ class NestedArrayHelper extends BaseDialogHelper
      *
      * To deal with the situation, the code needs to figure out the route to the
      * element, given an array of parents that is either
-     * @code array('signature_settings', 'signature') @endcode
+     * @code    array('signature_settings', 'signature') @endcode
      * in the first case or
-     * @code array('signature_settings', 'user', 'signature') @endcode
+     * @code    array('signature_settings', 'user', 'signature') @endcode
      * in the second case.
      *
      * Without this helper function the only way to unset the signature element in
@@ -223,7 +226,7 @@ class NestedArrayHelper extends BaseDialogHelper
      * @param array $parents
      *   An array of parent keys, starting with the outermost key and including
      *   the key to be unset.
-     * @param bool $key_existed
+     * @param bool  $key_existed
      *   (optional) If given, an already defined variable that is altered by
      *   reference.
      *
@@ -255,6 +258,7 @@ class NestedArrayHelper extends BaseDialogHelper
      *
      * If the number of array parent keys is static, this helper function is
      * unnecessary and the following code can be used instead:
+     *
      * @code
      * $value_exists = isset($form['signature_settings']['signature']);
      * $key_exists = array_key_exists('signature', $form['signature_settings']);
@@ -287,6 +291,7 @@ class NestedArrayHelper extends BaseDialogHelper
      * arrays, the latter value replaces the former rather than merging with it.
      *
      * Example:
+     *
      * @code
      * $link_options_1 = array('fragment' => 'x', 'attributes' => array('title' => t('X'), 'class' => array('a', 'b')));
      * $link_options_2 = array('fragment' => 'y', 'attributes' => array('title' => t('Y'), 'class' => array('c', 'd')));
@@ -328,7 +333,7 @@ class NestedArrayHelper extends BaseDialogHelper
      *
      * @param array $arrays
      *   An arrays of arrays to merge.
-     * @param bool $preserve_integer_keys
+     * @param bool  $preserve_integer_keys
      *   (optional) If given, integer keys will be preserved and merged instead of
      *   appended. Defaults to FALSE.
      *
