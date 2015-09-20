@@ -25,7 +25,6 @@ class AboutCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         $output->writeln(
             $this->trans('commands.about.messages.welcome')
         );
@@ -79,8 +78,5 @@ class AboutCommand extends ContainerAwareCommand
         $output->writeln("    <comment>" . 'Indava (http://www.indava.com/)' . "</comment>");
         $output->writeln("    <comment>" . 'Anexus (https://anexusit.com)' . "</comment>");
         $output->writeln("    <comment>" . 'FFW (https://ffwagency.com)' . "</comment>");
-
     }
-
-
 }
