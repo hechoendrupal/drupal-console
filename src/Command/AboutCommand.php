@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\views\Entity\View;
 use Drupal\Component\Serialization\Yaml;
 
-class AboutCommand extends ContainerAwareCommand
+class AboutCommand extends Command
 {
     protected function configure()
     {
