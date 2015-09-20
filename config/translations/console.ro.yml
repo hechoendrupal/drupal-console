@@ -22,6 +22,18 @@ application:
                 route: "Pentru a crea pagini, trebuie de definit \"routes\" pentru ele.\nUn \"route\" mapeaza un URL cu un Controller. Acesta stabileste cu ce\nfunctie sau metoda din Clasa va fi apelata cand URL-ul este accesat.\nDaca utilizatorul acceseaza http://drupal8.dev/{{ route }}, sistema de\nrutare va cauta ruta respectiva din URL. In acest caz acesta va fi gasit\nsi va executa \"_controller callback\". In acest caz \"callback\"-ul este\ndefinit in Clasa (\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nsi metoda (\"{{ method_name }}\").\n"
         errors:
             invalid-command: 'Comanda "%s" nu este definita.'
+        input:
+            definition:
+                command: 'The command to execute'
+                help: 'Display this help message'
+                quiet: 'Do not output any message'
+                verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
+                version: 'Display this application version'
+                ansi: 'Force ANSI output'
+                no-ansi: 'Disable ANSI output'
+                no-interaction: 'Do not ask any interactive question'
+        options:
+            version: '<info>%s</info> version <comment>%s</comment>'
     site:
         messages:
             path: 'Calea spre "Site"'
@@ -58,6 +70,9 @@ commands:
         errors:
             module-dependency: 'Dependenta de Module lipseste "%s"'
             class-name-empty: 'Numele Clasei este necesar'
+        status:
+            enabled: Enabled
+            disabled: Disabled
     cache:
         rebuild:
             description: 'Reconstruieste si curata tot cache-ul.'
@@ -98,9 +113,16 @@ commands:
                 description: 'Export single configuration as yml file.'
                 arguments:
                     config-name: 'Configuration name.'
+                options:
+                    simple-configuration: 'Simple configuration'
+                questions:
+                    config-type: 'Configuration type'
+                    config-name: 'Configuration name'
                 messages:
                     config-not-found: 'Configuration name not found.'
                     export: 'Configuration was exported at file %s.'
+                    invalid-config-type: 'Invalid config type, please select one of the list'
+                    invalid-config-name: 'Invalid config name, please select one of the list'
         debug:
             description: 'Afiseaza configurarile curente.'
             arguments:
@@ -145,6 +167,37 @@ commands:
             messages:
                 service_id: 'ID-ul Serviciului'
                 class_name: 'Numele Clasei'
+    cron:
+        debug:
+            description: 'List of modules implementing a cron'
+            messages:
+                module-list: 'Modules implementing a cron method'
+                module: Module
+        execute:
+            description: 'Execute cron implementation from a specific module or all to execute all implementations'
+            messages:
+                module-invalid: 'Module %s doesn''t have an implementation of cron'
+                executing-cron: 'Executing cron function of module %s'
+    dblog:
+        debug:
+            description: 'Display current log events for the application'
+            arguments:
+                event-id: 'DBLog event ID'
+            options:
+                type: 'Filter events by a specific type'
+                severity: 'Filter events by a specific level of severity'
+                user-id: 'Filter events by a specific user id'
+                limit: 'Limit results to a specific number'
+                offset: 'Starting point of a limit'
+            messages:
+                event-id: 'Event ID'
+                type: Type
+                date: Date
+                message: Message
+                user: User
+                severity: Severity
+                invalid-severity: 'Severity type is invalid, filter was ignored'
+                not-found: 'DBLog event %s wasn''t found'
     drush:
         description: 'Ruleaza drush din consola.'
         help: 'Utilizeaza modul interactiv pentru o mai buna experienta --shell.'
@@ -178,6 +231,20 @@ commands:
                 controller-title: 'Controller title'
             messages:
                 title-not-empty: 'Title cannot be empty'
+        contenttype:
+            description: 'Generate a new content type (node / entity bundle)'
+            help: 'Use: generate:contenttype <fancy> <Fancy> to create a new content type name with the machine name of fancy and the human-readable name of Fancy.'
+            welcome: 'Welcome to the Drupal Content Type generator'
+            options:
+                module: common.options.module
+                bundle-name: 'The content type''s machine name'
+                bundle-title: 'The content type''s human-readable name'
+            questions:
+                module: common.questions.module
+                bundle-name: 'Enter the machine name of your new content type'
+                bundle-title: 'Enter the human-readable name of your new content type'
+            message:
+                error-state1: placeholder
         controller:
             description: 'Genereaza si Inregistreaza un controller'
             help: 'Comanda <info>generate:controller</info> te va ajuta sa generezi un nou controller.'
@@ -343,6 +410,28 @@ commands:
                     services: common.questions.services
                 messages:
                     inputs: "\nPoti adauga campuri pentru a crea configurari speciale in block.\nAceasta este optional, tasteaza <info>Enter</info> pentru a <info>continua</info>"
+            condition:
+                description: 'Generate a plugin condition.'
+                help: 'The <info>generate:plugin:conditon</info> command helps you generate a plugin condition.'
+                welcome: 'Welcome to the Drupal Plugin Condition generator'
+                options:
+                    module: common.options.module
+                    class-name: 'Plugin condition class name'
+                    label: 'Plugin condition label'
+                    plugin-id: 'Plugin condition id'
+                    context-definition-id: 'Context definition ID'
+                    context-definition-label: 'Context definition label'
+                    context-definition-required: 'Context definition is requiered (TRUE/FALSE)'
+                questions:
+                    module: common.questions.module
+                    class-name: 'Enter the plugin condition class name'
+                    label: 'Enter the plugin condition label'
+                    plugin-id: 'Enter the plugin condition id'
+                    context-type: 'Context type'
+                    context-entity-type: 'Context entity type'
+                    context-definition-id: 'Context definition ID'
+                    context-definition-label: 'Context definition label'
+                    context-definition-required: 'Context definition is requiered'
             field:
                 description: 'Generate field type, widget and formatter plugins.'
                 help: 'The <info>generate:plugin:field</info> command helps you generate a full set of field plugin: field type, field formatter and field widget.'
@@ -585,6 +674,7 @@ commands:
                 package: Package
                 enabled: Activat
                 disabled: Dezactivat
+                schema-version: 'Schema version'
         install:
             description: 'Instaleaza Module'
             questions:
@@ -755,6 +845,14 @@ commands:
                 configuration-key: 'Cheia Configuratiei'
                 original: 'Valoarea originala'
                 updated: 'Rescrie valoarea'
+                invalid-env: 'Invalid environment'
+                new-services-settings: 'New services settings'
+                service: Service
+                service-parameter: Parameter
+                service-value: Value
+                error-copying-file: 'Error copying file'
+                error-writing-file: 'Error copying file'
+                services-file-overwritten: 'Services files %s was overwritten'
         status:
             description: 'Vizualizeaza statutul de instalare (Drupal Installation status)'
             messages:
@@ -875,6 +973,28 @@ commands:
                 reset-successful: 'Password was updated sucessfully for user id %s'
             errors:
                 invalid-user: 'Invalid user id %s'
+    update:
+        debug:
+            description: 'Display current updates available for the application'
+            messages:
+                no-updates: 'No pending updates'
+                severity: Severity
+                title: Title
+                value: Value
+                description: Description
+                requirements-error: 'The following requirement weren''t completed'
+                module-list: 'Modules with pending updates'
+                module: Module
+                update-n: 'Update N'
+        execute:
+            description: 'Execute a specfic Update N function in a module, or execute all'
+            options:
+                update-n: 'Specific Update N function to be executed'
+            messages:
+                no-module-updates: 'There aren''t updates available for module %s'
+                executing-update: 'Executing update function %s of module %s'
+                module-update-function-not-found: 'Module %s doesn''t have a function update for %s'
+                executing-required-previous-updates: 'Executing required previous updates'
     user:
         login:
             clear:
@@ -924,7 +1044,50 @@ commands:
                 errors:
                     invalid-user: 'Invalid user id %s'
                     empty-password: 'Password can not be empty'
+    views:
+        debug:
+            description: 'Display current views resources for the application'
+            arguments:
+                view-id: 'View ID'
+                view-tag: 'View tag'
+                view-status: 'View status (Enabled|Disabled)'
+            messages:
+                view-id: 'View ID'
+                view-name: 'View name'
+                description: Description
+                tag: Tag
+                status: Status
+                path: Path
+                not-found: 'View %s wasn''t found.'
+                display-list: 'Display list'
+                display-id: ID
+                display-name: Name
+                display-description: Description
+                display-paths: Paths
+        disable:
+            description: 'Disable a View'
+            messages:
+                disabled-successfully: 'View %s was disabled successfully.'
+        enable:
+            description: 'Enable a View'
+            messages:
+                disabled-successfully: 'View %s was enabled successfully.'
     yaml:
+        diff:
+            description: 'Compare two YAML files do determined differences between them'
+            arguments:
+                yaml-left: 'YAML file used as base to compare'
+                yaml-right: 'YAML file used to determine missing or differences with base YAML file'
+            options:
+                negate: 'Define mode diff or equal comparation, possible values TRUE/FALSE or 0/1'
+                limit: 'Limit results to a specific number'
+                offset: 'Starting point of a limit'
+            questions:
+                yaml-left: 'Path of YAML file to be use as base in comparation.'
+                yaml-right: 'Path of YAML file to be compare.'
+            messages:
+                key: 'YAML Key'
+                value: 'YAML Value'
         merge:
             description: 'Merge one or more YAML files in a new YAML file. Latest values are preserved.'
             arguments:
@@ -943,3 +1106,20 @@ commands:
                 error-generating: 'Error generating merged YAML.'
                 error-writing: 'Error writing merged YAML file.'
                 merged: 'New file %s was created sucessfully after merge Yaml files.'
+        update:
+            value:
+                description: 'Update a value for a specific key in a YAML file.'
+                arguments:
+                    yaml-file: 'Path of YAML file to update'
+                    yaml-key: 'YAML key to update'
+                    yaml-value: 'YAML value to update'
+                messages:
+                    updated: 'YAML file %s was updated successfully'
+            key:
+                description: 'Replace a YAML key in a YAML file.'
+                arguments:
+                    yaml-file: 'Path of YAML file to update'
+                    yaml-key: 'YAML key to be replace'
+                    yaml-new-key: 'YAML new key'
+                messages:
+                    updated: 'YAML file %s was updated successfully'

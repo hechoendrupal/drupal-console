@@ -146,7 +146,6 @@ class ViewsDebugCommand extends ContainerAwareCommand
 
         $table->setlayout($table::LAYOUT_COMPACT);
 
-        print $status."\n";
         foreach ($views as $view) {
             if ($status != -1 and $view->status() != $status) {
                 continue;
