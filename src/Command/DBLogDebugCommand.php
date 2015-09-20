@@ -16,7 +16,6 @@ use Drupal\Component\Serialization\Yaml;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Logger\RfcLogLevel;
 
-
 class DBLogDebugCommand extends ContainerAwareCommand
 {
     protected function configure()
@@ -58,7 +57,8 @@ class DBLogDebugCommand extends ContainerAwareCommand
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.dblog.debug.options.offset')
-            );;
+            );
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -116,12 +116,10 @@ class DBLogDebugCommand extends ContainerAwareCommand
         $configurationEncoded = Yaml::encode($configuration);
 
         $output->writeln($configurationEncoded);
-
     }
 
     protected function getAllEvents($event_type, $event_severity, $user_id, $offset, $limit, $output)
     {
-
         $table = $this->getHelperSet()->get('table');
         $table->setlayout($table::LAYOUT_COMPACT);
 
@@ -131,7 +129,8 @@ class DBLogDebugCommand extends ContainerAwareCommand
         $severity = RfcLogLevel::getLevels();
 
         $query = $connection->select('watchdog', 'w');
-        $query->fields('w', array(
+        $query->fields(
+            'w', array(
             'wid',
             'uid',
             'severity',
@@ -139,7 +138,8 @@ class DBLogDebugCommand extends ContainerAwareCommand
             'timestamp',
             'message',
             'variables',
-        ));
+            )
+        );
 
         if (!empty($event_type)) {
             $query->condition('type', $event_type);
@@ -147,12 +147,13 @@ class DBLogDebugCommand extends ContainerAwareCommand
 
         if (!empty($event_severity) && in_array($event_severity, $severity)) {
             $query->condition('severity', array_search($event_severity, $severity));
-        } else if(!empty($event_severity)){
+        } elseif (!empty($event_severity)) {
             $output->writeln(
                 '[-] <error>' .
                 sprintf(
                     $this->trans('commands.dblog.debug.messages.invalid-severity'),
-                    $event_severity)
+                    $event_severity
+                )
                 . '</error>'
             );
         }
@@ -161,11 +162,11 @@ class DBLogDebugCommand extends ContainerAwareCommand
             $query->condition('uid', $user_id);
         }
 
-        if(!$offset) {
+        if (!$offset) {
             $offset = 0;
         }
 
-        if($limit) {
+        if ($limit) {
             $query->range($offset, $limit);
         }
 
@@ -192,7 +193,7 @@ class DBLogDebugCommand extends ContainerAwareCommand
                     $dblog->wid,
                     $dblog->type,
                     $date_formatter->format($dblog->timestamp, 'short'),
-                    Unicode::truncate(Html::decodeEntities(strip_tags($this->formatMessage($dblog))), 56, TRUE, TRUE),
+                    Unicode::truncate(Html::decodeEntities(strip_tags($this->formatMessage($dblog))), 56, true, true),
                     $user->getUsername() . ' (' . $user->id() .')',
                     $severity[$dblog->severity]
                 ]
@@ -200,7 +201,6 @@ class DBLogDebugCommand extends ContainerAwareCommand
         }
 
         $table->render($output);
-
     }
 
     /**
@@ -214,7 +214,8 @@ class DBLogDebugCommand extends ContainerAwareCommand
      *   The formatted log message or FALSE if the message or variables properties
      *   are not set.
      */
-    public function formatMessage($event) {
+    public function formatMessage($event)
+    {
         $string_translation = $this->getStringTanslation();
 
         // Check for required properties.
@@ -227,9 +228,8 @@ class DBLogDebugCommand extends ContainerAwareCommand
             else {
                 $message = $string_translation->translate($event->message, unserialize($event->variables));
             }
-        }
-        else {
-            $message = FALSE;
+        } else {
+            $message = false;
         }
         return $message;
     }
