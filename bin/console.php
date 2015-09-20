@@ -50,6 +50,7 @@ $application = new Application($config, $translatorHelper);
 $application->setDirectoryRoot($consoleRoot);
 
 $helpers = [
+    'nested-array' => new NestedArrayHelper(),
     'kernel' => new KernelHelper(),
     'shell' => new ShellHelper(new Shell($application)),
     'dialog' => new DialogHelper(),

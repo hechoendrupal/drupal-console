@@ -160,7 +160,12 @@ class NestedArrayHelper extends BaseDialogHelper
         $ref = $value;
     }
 
-
+    /**
+     * Replace a YAML key maintaining values
+     * @param array $array
+     * @param array $parents
+     * @param $new_key
+     */
     public static function replaceKey(array &$array, array $parents, $new_key)
     {
         $ref = &$array;
@@ -172,6 +177,67 @@ class NestedArrayHelper extends BaseDialogHelper
 
         $father[$new_key] = $father[$key];
         unset($father[$key]);
+    }
+
+    /**
+     * @param $array1
+     * @param $array2
+     * @param bool $negate if Negate is true only if values are equal are returned.
+     * @return array
+     */
+    function array_diff($array1, $array2, $negate = FALSE){
+        $result = array();
+        foreach($array1 as $key => $val) {
+            if(isset($array2[$key])){
+                if(is_array($val) && $array2[$key]){
+                    $result[$key] = $this->array_diff($val, $array2[$key], $negate);
+                    if(empty($result[$key])) {
+                        unset($result[$key]);
+                    }
+                }
+                elseif($val == $array2[$key] && $negate) {
+                    $result[$key] = $array2[$key];
+                }
+                elseif($val != $array2[$key] and !$negate) {
+                    $result[$key] = $array2[$key];
+                }
+            } else {
+                if(isset($array2[$key])) {
+                    $result[$key] = $array2[$key];
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Flat a yaml file
+     * @param array $array
+     * @param $flatten_array
+     * @param string $key_flatten
+     */
+    public function yaml_flatten_array(array &$array, &$flatten_array, &$key_flatten = '')
+    {
+        foreach ($array as $key => $value) {
+            if(!empty($key_flatten)) {
+                $key_flatten.= '.';
+            }
+            $key_flatten.= $key;
+
+            if(is_array($value)) {
+               $this->yaml_flatten_array($value, $flatten_array, $key_flatten);
+            }
+            else {
+                if (!empty($value)) {
+                    $flatten_array[$key_flatten] = $value;
+                    $key_flatten = substr($key_flatten, 0, strrpos($key_flatten, "."));
+                }
+            }
+        }
+
+        // Start again with flatten key after recursive call
+        $key_flatten = substr($key_flatten, 0, strrpos($key_flatten, "."));
     }
     /**
      * Unsets a value in a nested array with variable depth.
