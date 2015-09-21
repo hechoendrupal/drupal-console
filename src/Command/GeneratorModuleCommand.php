@@ -91,8 +91,8 @@ class GeneratorModuleCommand extends GeneratorCommand
 
         $module = $validators->validateModuleName($input->getOption('module'));
 
-        $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
-        $drupal_root = $drupalAutoLoad->getDrupalRoot();
+        $drupal = $this->getHelperSet()->get('drupal');
+        $drupal_root = $drupal->getDrupalRoot();
         $module_path = $drupal_root.$input->getOption('module-path');
         $module_path = $validators->validateModulePath($module_path, true);
 
@@ -222,8 +222,8 @@ class GeneratorModuleCommand extends GeneratorCommand
         }
 
         $module_path = $input->getOption('module-path');
-        $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
-        $drupal_root = $drupalAutoLoad->getDrupalRoot();
+        $drupal = $this->getHelperSet()->get('drupal');
+        $drupal_root = $drupal->getDrupalRoot();
 
         if (!$module_path) {
             $module_path_default = '/modules/custom';
