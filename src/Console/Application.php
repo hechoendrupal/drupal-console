@@ -48,8 +48,6 @@ class Application extends BaseApplication
      */
     private $commandsRegistered = false;
 
-    private $searchSettingsFile = true;
-
     /**
      * @var TranslatorHelper
      */
@@ -180,10 +178,6 @@ class Application extends BaseApplication
             $commandName = $this->getCommandName($input);
         }
 
-        if ($commandName && $this->has($commandName)) {
-            $this->searchSettingsFile = false;
-        }
-
         if ($drupal->isBootable()) {
             $this->prepareKernel($env, $debug, $drupal);
             $this->setBooted($drupal->isInstalled());
@@ -242,11 +236,6 @@ class Application extends BaseApplication
         $kernelHelper->setClassLoader($drupalAutoLoaderClass);
 
         $this->drupalAutoload = $drupalAutoLoaderClass;
-    }
-
-    public function setSearchSettingsFile($searchSettingsFile)
-    {
-        $this->searchSettingsFile = $searchSettingsFile;
     }
 
     /**
