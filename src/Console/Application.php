@@ -321,9 +321,9 @@ class Application extends BaseApplication
      */
     public function addHelpers(array $helpers)
     {
-        $defaultHelperset = $this->getHelperSet();
+        $defaultHelperSet = $this->getHelperSet();
         foreach ($helpers as $alias => $helper) {
-            $defaultHelperset->set($helper, is_int($alias) ? null : $alias);
+            $defaultHelperSet->set($helper, is_int($alias) ? null : $alias);
         }
     }
 
