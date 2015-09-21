@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\ModuleGenerator;
-use Drupal\Console\Command\Helper\ConfirmationTrait;
+use Drupal\Console\Command\ConfirmationTrait;
 
 class GeneratorModuleCommand extends GeneratorCommand
 {

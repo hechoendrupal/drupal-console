@@ -12,11 +12,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     protected $helperSet;
 
     /**
-     * @var \Drupal\Console\Command\Helper\BootstrapFinderHelper
-     */
-    protected $bootstrapFinder;
-
-    /**
      * @var \Drupal\Console\Helper\RegisterCommandsHelper
      */
     protected $register_commands;
@@ -57,7 +52,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $translatorHelper = $this
-            ->getMockBuilder('Drupal\Console\Command\Helper\TranslatorHelper')
+            ->getMockBuilder('Drupal\Console\Helper\TranslatorHelper')
             ->disableOriginalConstructor()
             ->setMethods(['loadResource', 'trans'])
             ->getMock();
