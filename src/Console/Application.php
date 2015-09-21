@@ -20,7 +20,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '0.8.4';
+    const VERSION = '0.9.0';
     /**
      * @var bool
      */
@@ -57,6 +57,7 @@ class Application extends BaseApplication
      * Create a new application extended from \Symfony\Component\Console\Application.
      *
      * @param $config
+     * @param $translator
      */
     public function __construct($config, $translator)
     {
@@ -113,7 +114,6 @@ class Application extends BaseApplication
         );
     }
 
-
     /**
      * Returns the long version of the application.
      *
@@ -131,22 +131,6 @@ class Application extends BaseApplication
     }
 
     /**
-     * Prepare Drupal Console to run, and bootstrap Drupal.
-     *
-     * @param string $env
-     * @param bool   $debug
-     */
-    public function setup($env = 'prod', $debug = false)
-    {
-        if ($this->isBooted()) {
-            if ($this->drupalAutoload) {
-                $this->initDebug($env, $debug);
-                $this->doKernelConfiguration();
-            }
-        }
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function doRun(InputInterface $input, OutputInterface $output)
@@ -160,15 +144,13 @@ class Application extends BaseApplication
             && $env !== 'prod';
 
         $message = $this->getHelperSet()->get('message');
-
-        /* decouple as function */
         $drupal = $this->getHelperSet()->get('drupal');
+
         if (!$drupal->isValidInstance($drupalRoot)) {
             $message->addWarningMessage(
                 $this->trans('application.site.errors.directory')
             );
         }
-        /* decouple as function */
 
         if (!$this->commandsRegistered) {
             $this->commandsRegistered = $this->registerCommands();
@@ -339,9 +321,9 @@ class Application extends BaseApplication
      */
     public function addHelpers(array $helpers)
     {
-        $defaultHelperset = $this->getHelperSet();
+        $defaultHelperSet = $this->getHelperSet();
         foreach ($helpers as $alias => $helper) {
-            $defaultHelperset->set($helper, is_int($alias) ? null : $alias);
+            $defaultHelperSet->set($helper, is_int($alias) ? null : $alias);
         }
     }
 
