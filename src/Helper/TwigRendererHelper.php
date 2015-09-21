@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Helper\TwigRendererHelper.
+ * Contains \Drupal\Console\Helper\TwigRendererHelper.
  */
 
-namespace Drupal\AppConsole\Helper;
+namespace Drupal\Console\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
-use Drupal\AppConsole\Utils\StringUtils;
+use Drupal\Console\Utils\StringUtils;
 
 class TwigRendererHelper extends Helper
 {

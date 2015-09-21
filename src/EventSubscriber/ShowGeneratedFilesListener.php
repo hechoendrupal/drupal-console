@@ -2,15 +2,15 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\EventSubscriber\ShowGeneratedFiles.
+ * Contains \Drupal\Console\EventSubscriber\ShowGeneratedFiles.
  */
 
-namespace Drupal\AppConsole\EventSubscriber;
+namespace Drupal\Console\EventSubscriber;
 
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Drupal\AppConsole\Command\GeneratorCommand;
+use Drupal\Console\Command\GeneratorCommand;
 
 class ShowGeneratedFilesListener implements EventSubscriberInterface
 {
@@ -20,7 +20,7 @@ class ShowGeneratedFilesListener implements EventSubscriberInterface
     public function showGeneratedFiles(ConsoleTerminateEvent $event)
     {
         /**
-         * @var \Drupal\AppConsole\Command\Command $command
+         * @var \Drupal\Console\Command\Command $command
          */
         $command = $event->getCommand();
         $output = $event->getOutput();

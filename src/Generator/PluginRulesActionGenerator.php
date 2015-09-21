@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Generator\PluginBlockGenerator.
+ * Contains \Drupal\Console\Generator\PluginBlockGenerator.
  */
 
-namespace Drupal\AppConsole\Generator;
+namespace Drupal\Console\Generator;
 
 class PluginRulesActionGenerator extends Generator
 {

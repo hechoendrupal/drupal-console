@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Test\Generator\EntityConfigGeneratorTest.
+ * Contains Drupal\Console\Test\Generator\EntityConfigGeneratorTest.
  */
 
-namespace Drupal\AppConsole\Test\Generator;
+namespace Drupal\Console\Test\Generator;
 
-use Drupal\AppConsole\Generator\EntityConfigGenerator;
-use Drupal\AppConsole\Test\DataProvider\EntityConfigDataProviderTrait;
+use Drupal\Console\Generator\EntityConfigGenerator;
+use Drupal\Console\Test\DataProvider\EntityConfigDataProviderTrait;
 
 class EntityConfigGeneratorTest extends GeneratorTest
 {

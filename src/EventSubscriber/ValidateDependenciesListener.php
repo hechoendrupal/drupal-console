@@ -2,16 +2,16 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\EventSubscriber\ShowWelcomeMessage.
+ * Contains \Drupal\Console\EventSubscriber\ShowWelcomeMessage.
  */
 
-namespace Drupal\AppConsole\EventSubscriber;
+namespace Drupal\Console\EventSubscriber;
 
-use Drupal\AppConsole\Command\Helper\TranslatorHelper;
+use Drupal\Console\Command\Helper\TranslatorHelper;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Drupal\AppConsole\Command\Command;
+use Drupal\Console\Command\Command;
 
 class ValidateDependenciesListener implements EventSubscriberInterface
 {
@@ -21,7 +21,7 @@ class ValidateDependenciesListener implements EventSubscriberInterface
     public function validateDependencies(ConsoleCommandEvent $event)
     {
         /**
-         * @var \Drupal\AppConsole\Command\Command $command
+         * @var \Drupal\Console\Command\Command $command
          */
         $command = $event->getCommand();
         $output = $event->getOutput();

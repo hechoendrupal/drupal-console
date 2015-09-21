@@ -14,9 +14,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 {% if container_aware %}
-use Drupal\AppConsole\Command\ContainerAwareCommand;
+use Drupal\Console\Command\ContainerAwareCommand;
 {% else %}
-use Drupal\AppConsole\Command\Command;
+use Drupal\Console\Command\Command;
 {% endif %}
 {% endblock %}
 

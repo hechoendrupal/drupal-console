@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Generator\PluginImageEffectGenerator.
+ * Contains \Drupal\Console\Generator\PluginImageEffectGenerator.
  */
 
-namespace Drupal\AppConsole\Generator;
+namespace Drupal\Console\Generator;
 
 class PluginImageEffectGenerator extends Generator
 {

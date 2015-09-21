@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Generator\PluginRestResourceGenerator.
+ * Contains \Drupal\Console\Generator\PluginRestResourceGenerator.
  */
 
-namespace Drupal\AppConsole\Generator;
+namespace Drupal\Console\Generator;
 
 class PluginRestResourceGenerator extends Generator
 {

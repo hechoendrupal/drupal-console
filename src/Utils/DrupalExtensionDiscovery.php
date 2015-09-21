@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Utils\DrupalExtensionDiscovery.
+ * Contains \Drupal\Console\Utils\DrupalExtensionDiscovery.
  */
 
-namespace Drupal\AppConsole\Utils;
+namespace Drupal\Console\Utils;
 
 use Drupal\Core\Extension\ExtensionDiscovery;
 

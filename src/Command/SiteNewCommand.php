@@ -1,10 +1,10 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\ModuleDownloadCommand.
+ * Contains \Drupal\Console\Command\ModuleDownloadCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 use Alchemy\Zippy\Zippy;
 use Buzz\Browser;

@@ -2,16 +2,16 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Helper\DrupalHelper.
+ * Contains Drupal\Console\Helper\DrupalHelper.
  */
 
-namespace Drupal\AppConsole\Helper;
+namespace Drupal\Console\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
 
 /**
  * Class DrupalHelper
- * @package Drupal\AppConsole\Helper
+ * @package Drupal\Console\Helper
  */
 class DrupalHelper extends Helper
 {

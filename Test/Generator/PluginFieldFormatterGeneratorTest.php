@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Test\Generator\PluginFieldFormatterGeneratorTest.
+ * Contains Drupal\Console\Test\Generator\PluginFieldFormatterGeneratorTest.
  */
 
-namespace Drupal\AppConsole\Test\Generator;
+namespace Drupal\Console\Test\Generator;
 
-use Drupal\AppConsole\Generator\PluginFieldFormatterGenerator;
-use Drupal\AppConsole\Test\DataProvider\PluginFieldFormatterDataProviderTrait;
+use Drupal\Console\Generator\PluginFieldFormatterGenerator;
+use Drupal\Console\Test\DataProvider\PluginFieldFormatterDataProviderTrait;
 
 class PluginFieldFormatterGeneratorTest extends GeneratorTest
 {

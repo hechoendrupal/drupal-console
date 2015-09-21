@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Generator\CommandGenerator.
+ * Contains \Drupal\Console\Generator\CommandGenerator.
  */
 
-namespace Drupal\AppConsole\Generator;
+namespace Drupal\Console\Generator;
 
 class CommandGenerator extends Generator
 {

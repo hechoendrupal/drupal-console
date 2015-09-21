@@ -1,8 +1,8 @@
 <?php
 
-namespace Drupal\AppConsole\Test\Console;
+namespace Drupal\Console\Test\Console;
 
-use Drupal\AppConsole\Console\Application;
+use Drupal\Console\Console\Application;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,17 +12,17 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     protected $helperSet;
 
     /**
-     * @var \Drupal\AppConsole\Command\Helper\BootstrapFinderHelper
+     * @var \Drupal\Console\Command\Helper\BootstrapFinderHelper
      */
     protected $bootstrapFinder;
 
     /**
-     * @var \Drupal\AppConsole\Helper\RegisterCommandsHelper
+     * @var \Drupal\Console\Helper\RegisterCommandsHelper
      */
     protected $register_commands;
 
     /**
-     * @var \Drupal\AppConsole\Helper\DrupalHelper
+     * @var \Drupal\Console\Helper\DrupalHelper
      */
     protected $drupal;
 
@@ -36,13 +36,13 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->drupal = $this
-            ->getMockBuilder('Drupal\AppConsole\Helper\DrupalHelper')
+            ->getMockBuilder('Drupal\Console\Helper\DrupalHelper')
             ->disableOriginalConstructor()
             ->setMethods(['getDrupalRoot'])
             ->getMock();
 
         $this->register_commands = $this
-            ->getMockBuilder('Drupal\AppConsole\Helper\RegisterCommandsHelper')
+            ->getMockBuilder('Drupal\Console\Helper\RegisterCommandsHelper')
             ->disableOriginalConstructor()
             ->getMock();
     }
@@ -52,12 +52,12 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->expectsThatAutoloadFinderHelperIsRegistered();
 
         $config = $this
-            ->getMockBuilder('Drupal\AppConsole\Config')
+            ->getMockBuilder('Drupal\Console\Config')
             ->disableOriginalConstructor()
             ->getMock();
 
         $translatorHelper = $this
-            ->getMockBuilder('Drupal\AppConsole\Command\Helper\TranslatorHelper')
+            ->getMockBuilder('Drupal\Console\Command\Helper\TranslatorHelper')
             ->disableOriginalConstructor()
             ->setMethods(['loadResource', 'trans'])
             ->getMock();

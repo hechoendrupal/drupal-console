@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Generator\PluginTypeYamlGenerator.
+ * Contains \Drupal\Console\Generator\PluginTypeYamlGenerator.
  */
 
-namespace Drupal\AppConsole\Generator;
+namespace Drupal\Console\Generator;
 
 class PluginTypeYamlGenerator extends Generator
 {

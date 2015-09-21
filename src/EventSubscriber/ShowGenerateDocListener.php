@@ -2,19 +2,19 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\EventSubscriber\ShowGenerateDocListener.
+ * Contains \Drupal\Console\EventSubscriber\ShowGenerateDocListener.
  */
 
-namespace Drupal\AppConsole\EventSubscriber;
+namespace Drupal\Console\EventSubscriber;
 
-use Drupal\AppConsole\Command\Helper\TranslatorHelper;
+use Drupal\Console\Command\Helper\TranslatorHelper;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class ShowGenerateDocListener
- * @package Drupal\AppConsole\EventSubscriber
+ * @package Drupal\Console\EventSubscriber
  */
 class ShowGenerateDocListener implements EventSubscriberInterface
 {
@@ -37,15 +37,15 @@ class ShowGenerateDocListener implements EventSubscriberInterface
     public function showGenerateDoc(ConsoleCommandEvent $event)
     {
         /**
-         * @var \Drupal\AppConsole\Command\Command $command
+         * @var \Drupal\Console\Command\Command $command
          */
         $command = $event->getCommand();
         /**
-         * @var \Drupal\AppConsole\Console\Application $command
+         * @var \Drupal\Console\Console\Application $command
          */
         $application = $command->getApplication();
         /**
-         * @var \Drupal\AppConsole\Config $config
+         * @var \Drupal\Console\Config $config
          */
         $config = $application->getConfig();
 

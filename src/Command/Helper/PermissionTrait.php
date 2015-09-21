@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Command\Helper\PermissionsTrait.
+ * Contains Drupal\Console\Command\Helper\PermissionsTrait.
  */
 
-namespace Drupal\AppConsole\Command\Helper;
+namespace Drupal\Console\Command\Helper;
 
 use Symfony\Component\Console\Helper\HelperInterface;
 use Symfony\Component\Console\Output\OutputInterface;

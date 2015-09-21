@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Helper\KernelHelper.
+ * Contains Drupal\Console\Helper\KernelHelper.
  */
 
-namespace Drupal\AppConsole\Helper;
+namespace Drupal\Console\Helper;
 
 use Composer\Autoload\ClassLoader;
 use Symfony\Component\Console\Helper\Helper;

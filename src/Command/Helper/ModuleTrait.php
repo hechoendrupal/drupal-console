@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Command\Helper\ModuleTrait.
+ * Contains Drupal\Console\Command\Helper\ModuleTrait.
  */
 
-namespace Drupal\AppConsole\Command\Helper;
+namespace Drupal\Console\Command\Helper;
 
 use Symfony\Component\Console\Helper\HelperInterface;
 use Symfony\Component\Console\Output\OutputInterface;

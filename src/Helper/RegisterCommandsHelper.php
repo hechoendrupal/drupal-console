@@ -2,14 +2,14 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Helper\RegisterCommandsHelper
+ * Contains \Drupal\Console\Helper\RegisterCommandsHelper
  */
 
-namespace Drupal\AppConsole\Helper;
+namespace Drupal\Console\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Finder\Finder;
-use Drupal\AppConsole\Console\Application;
+use Drupal\Console\Console\Application;
 
 class RegisterCommandsHelper extends Helper
 {
@@ -84,17 +84,17 @@ class RegisterCommandsHelper extends Helper
                         continue;
                     }
 
-                    if (!$cmd->isSubclassOf('Drupal\\AppConsole\\Command\\Command')) {
+                    if (!$cmd->isSubclassOf('Drupal\\Console\\Command\\Command')) {
                         continue;
                     }
 
-                    if (!$this->console->isBooted() && $cmd->isSubclassOf('Drupal\\AppConsole\\Command\\ContainerAwareCommand')) {
+                    if (!$this->console->isBooted() && $cmd->isSubclassOf('Drupal\\Console\\Command\\ContainerAwareCommand')) {
                         continue;
                     }
 
                     if ($cmd->getConstructor()->getNumberOfRequiredParameters() > 0) {
                         $translator = $this->getHelperSet()->get('translator');
-                        if ($module && $module != 'AppConsole') {
+                        if ($module && $module != 'Console') {
                             $translator->addResourceTranslationsByModule($module);
                         }
                         $command = $cmd->newInstance($translator);
@@ -120,8 +120,8 @@ class RegisterCommandsHelper extends Helper
 
     public function getConsoleCommands()
     {
-        $modules = ['AppConsole' => dirname(dirname(dirname(__DIR__)))];
-        $namespaces = ['Drupal\\AppConsole' => dirname(__DIR__)];
+        $modules = ['Console' => dirname(dirname(dirname(__DIR__)))];
+        $namespaces = ['Drupal\\Console' => dirname(__DIR__)];
 
         return $this->findCommands($modules, $namespaces);
     }
