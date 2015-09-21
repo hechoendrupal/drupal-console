@@ -7,11 +7,11 @@
 
 namespace Drupal\Console\Command;
 
-use Drupal\Console\Command\Helper\ConfirmationTrait;
+use Drupal\Console\Command\ConfirmationTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Helper\ModuleTrait;
+use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Generator\CommandGenerator;
 
 class GeneratorCommandCommand extends GeneratorCommand
@@ -80,7 +80,7 @@ class GeneratorCommandCommand extends GeneratorCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\Helper\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($output, $dialog);
         }
         $input->setOption('module', $module);

@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command;
 
-use Drupal\Console\Command\Helper\ModuleTrait;
+use Drupal\Console\Command\ModuleTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -51,7 +51,7 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\Helper\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($output, $dialog);
         }
         $input->setOption('module', $module);

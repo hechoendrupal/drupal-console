@@ -7,9 +7,9 @@
 
 namespace Drupal\Console\Command;
 
-use Drupal\Console\Command\Helper\ConfirmationTrait;
-use Drupal\Console\Command\Helper\ModuleTrait;
-use Drupal\Console\Command\Helper\ServicesTrait;
+use Drupal\Console\Command\ConfirmationTrait;
+use Drupal\Console\Command\ModuleTrait;
+use Drupal\Console\Command\ServicesTrait;
 use Drupal\Console\Generator\ContentTypeGenerator;
 use Drupal\Console\Generator\ControllerGenerator;
 use Symfony\Component\Console\Input\InputInterface;
@@ -81,7 +81,7 @@ class GeneratorContentTypeCommand extends GeneratorCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\Helper\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($output, $dialog);
         }
         $input->setOption('module', $module);
