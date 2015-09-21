@@ -2,16 +2,16 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\GeneratorModuleCommand.
+ * Contains \Drupal\Console\Command\GeneratorModuleCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\AppConsole\Generator\ModuleGenerator;
-use Drupal\AppConsole\Command\Helper\ConfirmationTrait;
+use Drupal\Console\Generator\ModuleGenerator;
+use Drupal\Console\Command\Helper\ConfirmationTrait;
 
 class GeneratorModuleCommand extends GeneratorCommand
 {

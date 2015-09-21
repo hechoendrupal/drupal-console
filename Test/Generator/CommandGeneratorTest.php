@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Generator\CommandGeneratorTest.
+ * Contains \Drupal\Console\Test\Generator\CommandGeneratorTest.
  */
 
-namespace Drupal\AppConsole\Test\Generator;
+namespace Drupal\Console\Test\Generator;
 
-use Drupal\AppConsole\Generator\CommandGenerator;
-use Drupal\AppConsole\Test\DataProvider\CommandDataProviderTrait;
+use Drupal\Console\Generator\CommandGenerator;
+use Drupal\Console\Test\DataProvider\CommandDataProviderTrait;
 
 class CommandGeneratorTest extends GeneratorTest
 {

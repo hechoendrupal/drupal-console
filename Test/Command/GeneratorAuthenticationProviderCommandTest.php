@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorAuthenticationProviderCommandTest.
+ * Contains \Drupal\Console\Test\Command\GeneratorAuthenticationProviderCommandTest.
  */
 
-namespace Drupal\AppConsole\Test\Command;
+namespace Drupal\Console\Test\Command;
 
-use Drupal\AppConsole\Command\GeneratorAuthenticationProviderCommand;
+use Drupal\Console\Command\GeneratorAuthenticationProviderCommand;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\AppConsole\Test\DataProvider\AuthenticationProviderDataProviderTrait;
+use Drupal\Console\Test\DataProvider\AuthenticationProviderDataProviderTrait;
 
 class GeneratorAuthenticationProviderCommandTest extends GenerateCommandTest
 {
@@ -47,7 +47,7 @@ class GeneratorAuthenticationProviderCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-            ->getMockBuilder('Drupal\AppConsole\Generator\AuthenticationProviderGenerator')
+            ->getMockBuilder('Drupal\Console\Generator\AuthenticationProviderGenerator')
             ->disableOriginalConstructor()
             ->setMethods(['generate'])
             ->getMock();

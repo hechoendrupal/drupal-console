@@ -1,10 +1,10 @@
 <?php
 
-namespace Drupal\AppConsole\Test\DataProvider;
+namespace Drupal\Console\Test\DataProvider;
 
 /**
  * Class PluginFieldWidgetDataProviderTrait
- * @package Drupal\AppConsole\Test\DataProvider
+ * @package Drupal\Console\Test\DataProvider
  */
 trait PluginFieldWidgetDataProviderTrait
 {

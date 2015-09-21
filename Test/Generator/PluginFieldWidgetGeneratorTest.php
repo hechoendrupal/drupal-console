@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Test\Generator\PluginFieldWidgetGeneratorTest.
+ * Contains Drupal\Console\Test\Generator\PluginFieldWidgetGeneratorTest.
  */
 
-namespace Drupal\AppConsole\Test\Generator;
+namespace Drupal\Console\Test\Generator;
 
-use Drupal\AppConsole\Generator\PluginFieldWidgetGenerator;
-use Drupal\AppConsole\Test\DataProvider\PluginFieldWidgetDataProviderTrait;
+use Drupal\Console\Generator\PluginFieldWidgetGenerator;
+use Drupal\Console\Test\DataProvider\PluginFieldWidgetDataProviderTrait;
 
 class PluginFieldWidgetGeneratorTest extends GeneratorTest
 {

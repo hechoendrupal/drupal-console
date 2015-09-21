@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorPluginFieldFormatterCommandTest.
+ * Contains \Drupal\Console\Test\Command\GeneratorPluginFieldFormatterCommandTest.
  */
 
-namespace Drupal\AppConsole\Test\Command;
+namespace Drupal\Console\Test\Command;
 
-use Drupal\AppConsole\Command\GeneratorPluginFieldFormatterCommand;
+use Drupal\Console\Command\GeneratorPluginFieldFormatterCommand;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\AppConsole\Test\DataProvider\PluginFieldFormatterDataProviderTrait;
+use Drupal\Console\Test\DataProvider\PluginFieldFormatterDataProviderTrait;
 
 class GeneratorPluginFieldFormatterCommandTest extends GenerateCommandTest
 {
@@ -56,7 +56,7 @@ class GeneratorPluginFieldFormatterCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-            ->getMockBuilder('Drupal\AppConsole\Generator\PluginFieldFormatterGenerator')
+            ->getMockBuilder('Drupal\Console\Generator\PluginFieldFormatterGenerator')
             ->disableOriginalConstructor()
             ->setMethods(['generate'])
             ->getMock();

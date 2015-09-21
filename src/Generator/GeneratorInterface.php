@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\AppConsole\Generator;
+namespace Drupal\Console\Generator;
 
 interface GeneratorInterface
 {

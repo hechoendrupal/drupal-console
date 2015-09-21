@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Generator\PluginFieldFormatterGenerator.
+ * Contains \Drupal\Console\Generator\PluginFieldFormatterGenerator.
  */
 
-namespace Drupal\AppConsole\Generator;
+namespace Drupal\Console\Generator;
 
 class PluginFieldFormatterGenerator extends Generator
 {

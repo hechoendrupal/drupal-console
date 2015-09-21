@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorPluginTypeAnnotationCommandTest.
+ * Contains \Drupal\Console\Test\Command\GeneratorPluginTypeAnnotationCommandTest.
  */
 
-namespace Drupal\AppConsole\Test\Command;
+namespace Drupal\Console\Test\Command;
 
-use Drupal\AppConsole\Command\GeneratorPluginTypeAnnotationCommand;
+use Drupal\Console\Command\GeneratorPluginTypeAnnotationCommand;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\AppConsole\Test\DataProvider\PluginTypeYamlDataProviderTrait;
+use Drupal\Console\Test\DataProvider\PluginTypeYamlDataProviderTrait;
 
 class GeneratorPluginTypeAnnotationCommandTest extends GenerateCommandTest
 {
@@ -53,7 +53,7 @@ class GeneratorPluginTypeAnnotationCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-            ->getMockBuilder('Drupal\AppConsole\Generator\PluginTypeYamlGenerator')
+            ->getMockBuilder('Drupal\Console\Generator\PluginTypeYamlGenerator')
             ->disableOriginalConstructor()
             ->setMethods(['generate'])
             ->getMock();

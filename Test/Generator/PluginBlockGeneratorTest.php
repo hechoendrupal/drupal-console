@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Test\Generator\PluginBlockGeneratorTest.
+ * Contains Drupal\Console\Test\Generator\PluginBlockGeneratorTest.
  */
 
-namespace Drupal\AppConsole\Test\Generator;
+namespace Drupal\Console\Test\Generator;
 
-use Drupal\AppConsole\Generator\PluginBlockGenerator;
-use Drupal\AppConsole\Test\DataProvider\PluginBlockDataProviderTrait;
+use Drupal\Console\Generator\PluginBlockGenerator;
+use Drupal\Console\Test\DataProvider\PluginBlockDataProviderTrait;
 
 class PluginBlockGeneratorTest extends GeneratorTest
 {

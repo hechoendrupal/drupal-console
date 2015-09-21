@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorEntityContentCommandTest.
+ * Contains \Drupal\Console\Test\Command\GeneratorEntityContentCommandTest.
  */
 
-namespace Drupal\AppConsole\Test\Command;
+namespace Drupal\Console\Test\Command;
 
-use Drupal\AppConsole\Command\GeneratorEntityContentCommand;
+use Drupal\Console\Command\GeneratorEntityContentCommand;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\AppConsole\Test\DataProvider\EntityContentDataProviderTrait;
+use Drupal\Console\Test\DataProvider\EntityContentDataProviderTrait;
 
 class GeneratorEntityContentCommandTest extends GenerateCommandTest
 {
@@ -53,7 +53,7 @@ class GeneratorEntityContentCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-            ->getMockBuilder('Drupal\AppConsole\Generator\EntityContentGenerator')
+            ->getMockBuilder('Drupal\Console\Generator\EntityContentGenerator')
             ->disableOriginalConstructor()
             ->setMethods(['generate'])
             ->getMock();

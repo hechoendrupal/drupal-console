@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Generator\ModuleGenerator.
+ * Contains \Drupal\Console\Generator\ModuleGenerator.
  */
 
-namespace Drupal\AppConsole\Generator;
+namespace Drupal\Console\Generator;
 
 class ModuleGenerator extends Generator
 {

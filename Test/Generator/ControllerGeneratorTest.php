@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Test\Generator\ControllerGeneratorTest.
+ * Contains Drupal\Console\Test\Generator\ControllerGeneratorTest.
  */
 
-namespace Drupal\AppConsole\Test\Generator;
+namespace Drupal\Console\Test\Generator;
 
-use Drupal\AppConsole\Generator\ControllerGenerator;
-use Drupal\AppConsole\Test\DataProvider\ControllerDataProviderTrait;
+use Drupal\Console\Generator\ControllerGenerator;
+use Drupal\Console\Test\DataProvider\ControllerDataProviderTrait;
 
 class ControllerGeneratorTest extends GeneratorTest
 {

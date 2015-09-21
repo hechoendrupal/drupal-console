@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorPluginImageEffectCommandTest.
+ * Contains \Drupal\Console\Test\Command\GeneratorPluginImageEffectCommandTest.
  */
 
-namespace Drupal\AppConsole\Test\Command;
+namespace Drupal\Console\Test\Command;
 
-use Drupal\AppConsole\Command\GeneratorPluginImageEffectCommand;
+use Drupal\Console\Command\GeneratorPluginImageEffectCommand;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\AppConsole\Test\DataProvider\PluginImageEffectDataProviderTrait;
+use Drupal\Console\Test\DataProvider\PluginImageEffectDataProviderTrait;
 
 class GeneratorPluginImageEffectCommandTest extends GenerateCommandTest
 {
@@ -56,7 +56,7 @@ class GeneratorPluginImageEffectCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-            ->getMockBuilder('Drupal\AppConsole\Generator\PluginImageEffectGenerator')
+            ->getMockBuilder('Drupal\Console\Generator\PluginImageEffectGenerator')
             ->disableOriginalConstructor()
             ->setMethods(['generate'])
             ->getMock();

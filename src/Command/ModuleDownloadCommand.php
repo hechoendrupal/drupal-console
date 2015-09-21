@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\ModuleDownloadCommand.
+ * Contains \Drupal\Console\Command\ModuleDownloadCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 use Drupal\Core\Archiver\ArchiveTar;
 use Symfony\Component\DomCrawler\Crawler;

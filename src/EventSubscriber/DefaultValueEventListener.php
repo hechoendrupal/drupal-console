@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\EventSubscriber\DefaultValueEventListener.
+ * Contains \Drupal\Console\EventSubscriber\DefaultValueEventListener.
  */
 
-namespace Drupal\AppConsole\EventSubscriber;
+namespace Drupal\Console\EventSubscriber;
 
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
@@ -25,15 +25,15 @@ class DefaultValueEventListener implements EventSubscriberInterface
     public function setDefaultValues(ConsoleCommandEvent $event)
     {
         /**
-         * @var \Drupal\AppConsole\Command\Command $command
+         * @var \Drupal\Console\Command\Command $command
          */
         $command = $event->getCommand();
         /**
-         * @var \Drupal\AppConsole\Console\Application $command
+         * @var \Drupal\Console\Console\Application $command
          */
         $application = $command->getApplication();
         /**
-         * @var \Drupal\AppConsole\Config $config
+         * @var \Drupal\Console\Config $config
          */
         $config = $application->getConfig();
 

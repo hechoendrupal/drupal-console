@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Generator\PluginFieldWidgetGenerator.
+ * Contains \Drupal\Console\Generator\PluginFieldWidgetGenerator.
  */
 
-namespace Drupal\AppConsole\Generator;
+namespace Drupal\Console\Generator;
 
 class PluginFieldWidgetGenerator extends Generator
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Drupal\AppConsole\Test\Command;
+namespace Drupal\Console\Test\Command;
 
 use Symfony\Component\DependencyInjection\Container;
-use Drupal\AppConsole\Test\BaseTestCase;
+use Drupal\Console\Test\BaseTestCase;
 
 abstract class GenerateCommandTest extends BaseTestCase
 {
