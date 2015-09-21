@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\Helper\RegisterCommandsHelper
+ * Contains \Drupal\AppConsole\Helper\RegisterCommandsHelper
  */
 
-namespace Drupal\AppConsole\Command\Helper;
+namespace Drupal\AppConsole\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Finder\Finder;
@@ -121,7 +121,7 @@ class RegisterCommandsHelper extends Helper
     public function getConsoleCommands()
     {
         $modules = ['AppConsole' => dirname(dirname(dirname(__DIR__)))];
-        $namespaces = ['Drupal\\AppConsole' => dirname(dirname(__DIR__))];
+        $namespaces = ['Drupal\\AppConsole' => dirname(__DIR__)];
 
         return $this->findCommands($modules, $namespaces);
     }
