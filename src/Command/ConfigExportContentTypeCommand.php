@@ -2,12 +2,12 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\ConfigExportCommand.
+ * Contains \Drupal\Console\Command\ConfigExportCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
-use Drupal\AppConsole\Command\Helper\ModuleTrait;
+use Drupal\Console\Command\Helper\ModuleTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -51,7 +51,7 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\AppConsole\Command\Helper\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Command\Helper\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($output, $dialog);
         }
         $input->setOption('module', $module);

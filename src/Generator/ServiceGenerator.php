@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Generator\ServiceGenerator.
+ * Contains \Drupal\Console\Generator\ServiceGenerator.
  */
 
-namespace Drupal\AppConsole\Generator;
+namespace Drupal\Console\Generator;
 
 class ServiceGenerator extends Generator
 {

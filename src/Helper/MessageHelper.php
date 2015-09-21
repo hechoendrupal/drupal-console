@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Command\MessageHelper.
+ * Contains Drupal\Console\Command\MessageHelper.
  */
 
-namespace Drupal\AppConsole\Helper;
+namespace Drupal\Console\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
-use Drupal\AppConsole\Helper\TranslatorHelper;
+use Drupal\Console\Helper\TranslatorHelper;
 
 class MessageHelper extends Helper
 {

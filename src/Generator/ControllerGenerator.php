@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Generator\ControllerGenerator.
+ * Contains Drupal\Console\Generator\ControllerGenerator.
  */
 
-namespace Drupal\AppConsole\Generator;
+namespace Drupal\Console\Generator;
 
 class ControllerGenerator extends Generator
 {

@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\GenerateDocCommand.
+ * Contains \Drupal\Console\Command\GenerateDocCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -91,7 +91,7 @@ class GenerateDocCommand extends ContainerAwareCommand
             );
 
             foreach ($commands as $command) {
-                if ($command->getModule()=='AppConsole') {
+                if ($command->getModule()=='Console') {
                     $command_list[$namespace][] = [
                         'name' => $command->getName(),
                         'description' => $command->getDescription(),

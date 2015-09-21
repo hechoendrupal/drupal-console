@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorFormCommandTest.
+ * Contains \Drupal\Console\Test\Command\GeneratorFormCommandTest.
  */
 
-namespace Drupal\AppConsole\Test\Command;
+namespace Drupal\Console\Test\Command;
 
-use Drupal\AppConsole\Command\GeneratorFormCommand;
+use Drupal\Console\Command\GeneratorFormCommand;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\AppConsole\Test\DataProvider\FormDataProviderTrait;
+use Drupal\Console\Test\DataProvider\FormDataProviderTrait;
 
 class GeneratorFormCommandTest extends GenerateCommandTest
 {
@@ -60,7 +60,7 @@ class GeneratorFormCommandTest extends GenerateCommandTest
     private function getGeneratorConfig()
     {
         return $this
-            ->getMockBuilder('Drupal\AppConsole\Command\GeneratorConfigFormBaseCommand')
+            ->getMockBuilder('Drupal\Console\Command\GeneratorConfigFormBaseCommand')
             ->setMethods(['getModules', 'getServices', '__construct'])
             ->setConstructorArgs([$this->getTranslatorHelper()])
             ->getMock();
@@ -69,7 +69,7 @@ class GeneratorFormCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-          ->getMockBuilder('Drupal\AppConsole\Generator\FormGenerator')
+          ->getMockBuilder('Drupal\Console\Generator\FormGenerator')
           ->disableOriginalConstructor()
           ->setMethods(['generate'])
           ->getMock();

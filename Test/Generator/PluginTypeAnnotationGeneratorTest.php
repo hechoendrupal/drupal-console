@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * Contains Drupal\AppConsole\Test\Generator\PluginTypeAnnotationGeneratorTest.
+ * Contains Drupal\Console\Test\Generator\PluginTypeAnnotationGeneratorTest.
  */
 
-namespace Drupal\AppConsole\Test\Generator;
+namespace Drupal\Console\Test\Generator;
 
-use Drupal\AppConsole\Generator\PluginTypeAnnotationGenerator;
-use Drupal\AppConsole\Test\DataProvider\PluginTypeAnnotationDataProviderTrait;
+use Drupal\Console\Generator\PluginTypeAnnotationGenerator;
+use Drupal\Console\Test\DataProvider\PluginTypeAnnotationDataProviderTrait;
 
 class PluginTypeAnnotationGeneratorTest extends GeneratorTest
 {

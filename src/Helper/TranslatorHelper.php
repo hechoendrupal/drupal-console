@@ -2,17 +2,17 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Helper\TranslatorHelper.
+ * Contains \Drupal\Console\Helper\TranslatorHelper.
  */
 
-namespace Drupal\AppConsole\Helper;
+namespace Drupal\Console\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Symfony\Component\Translation\Writer\TranslationWriter;
 use Symfony\Component\Translation\MessageCatalogue;
-use Drupal\AppConsole\YamlFileDumper;
+use Drupal\Console\YamlFileDumper;
 
 class TranslatorHelper extends Helper
 {

@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorPluginConditionCommandTest.
+ * Contains \Drupal\Console\Test\Command\GeneratorPluginConditionCommandTest.
  */
 
-namespace Drupal\AppConsole\Test\Command;
+namespace Drupal\Console\Test\Command;
 
-use Drupal\AppConsole\Command\GeneratorPluginConditionCommand;
+use Drupal\Console\Command\GeneratorPluginConditionCommand;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\AppConsole\Test\DataProvider\PluginConditionDataProviderTrait;
+use Drupal\Console\Test\DataProvider\PluginConditionDataProviderTrait;
 
 class GeneratorPluginConditionCommandTest extends GenerateCommandTest
 {
@@ -62,7 +62,7 @@ class GeneratorPluginConditionCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-            ->getMockBuilder('Drupal\AppConsole\Generator\PluginConditionGenerator')
+            ->getMockBuilder('Drupal\Console\Generator\PluginConditionGenerator')
             ->disableOriginalConstructor()
             ->setMethods(['generate'])
             ->getMock();

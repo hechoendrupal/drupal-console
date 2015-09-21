@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * Contains Drupal\AppConsole\Test\Generator\PluginRulesActionGeneratorTest.
+ * Contains Drupal\Console\Test\Generator\PluginRulesActionGeneratorTest.
  */
 
-namespace Drupal\AppConsole\Test\Generator;
+namespace Drupal\Console\Test\Generator;
 
-use Drupal\AppConsole\Generator\PluginRulesActionGenerator;
-use Drupal\AppConsole\Test\DataProvider\PluginRulesActionDataProviderTrait;
+use Drupal\Console\Generator\PluginRulesActionGenerator;
+use Drupal\Console\Test\DataProvider\PluginRulesActionDataProviderTrait;
 
 class PluginRulesActionGeneratorTest extends GeneratorTest
 {

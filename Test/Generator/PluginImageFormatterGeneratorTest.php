@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * Contains Drupal\AppConsole\Test\Generator\PluginImageFormatterGeneratorTest.
+ * Contains Drupal\Console\Test\Generator\PluginImageFormatterGeneratorTest.
  */
 
-namespace Drupal\AppConsole\Test\Generator;
+namespace Drupal\Console\Test\Generator;
 
-use Drupal\AppConsole\Generator\PluginImageFormatterGenerator;
-use Drupal\AppConsole\Test\DataProvider\PluginImageFormatterDataProviderTrait;
+use Drupal\Console\Generator\PluginImageFormatterGenerator;
+use Drupal\Console\Test\DataProvider\PluginImageFormatterDataProviderTrait;
 
 class PluginImageFormatterGeneratorTest extends GeneratorTest
 {
