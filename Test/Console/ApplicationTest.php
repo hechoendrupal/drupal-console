@@ -6,7 +6,6 @@ use Drupal\AppConsole\Console\Application;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Symfony\Component\Console\Helper\HelperSet
      */
@@ -23,24 +22,29 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     protected $register_commands;
 
     /**
+     * @var \Drupal\AppConsole\Helper\DrupalHelper
+     */
+    protected $drupal;
+
+    /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
         $this->helperSet = $this
-          ->getMockBuilder('Symfony\Component\Console\Helper\HelperSet')
-          ->getMock();
+            ->getMockBuilder('Symfony\Component\Console\Helper\HelperSet')
+            ->getMock();
 
-        $this->drupalAutoload = $this
-          ->getMockBuilder('Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper')
-          ->disableOriginalConstructor()
-          ->setMethods(['findAutoload', 'getDrupalRoot'])
-          ->getMock();
+        $this->drupal = $this
+            ->getMockBuilder('Drupal\AppConsole\Helper\DrupalHelper')
+            ->disableOriginalConstructor()
+            ->setMethods(['getDrupalRoot'])
+            ->getMock();
 
         $this->register_commands = $this
-          ->getMockBuilder('Drupal\AppConsole\Command\Helper\RegisterCommandsHelper')
-          ->disableOriginalConstructor()
-          ->getMock();
+            ->getMockBuilder('Drupal\AppConsole\Command\Helper\RegisterCommandsHelper')
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     public function testCanRunApplication()
@@ -48,15 +52,15 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->expectsThatAutoloadFinderHelperIsRegistered();
 
         $config = $this
-          ->getMockBuilder('Drupal\AppConsole\Config')
-          ->disableOriginalConstructor()
-          ->getMock();
+            ->getMockBuilder('Drupal\AppConsole\Config')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $translatorHelper = $this
-          ->getMockBuilder('Drupal\AppConsole\Command\Helper\TranslatorHelper')
-          ->disableOriginalConstructor()
-          ->setMethods(['loadResource', 'trans'])
-          ->getMock();
+            ->getMockBuilder('Drupal\AppConsole\Command\Helper\TranslatorHelper')
+            ->disableOriginalConstructor()
+            ->setMethods(['loadResource', 'trans'])
+            ->getMock();
 
         $application = new Application($config, $translatorHelper);
         $application->setAutoExit(false);
@@ -64,15 +68,15 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $application->setSearchSettingsFile(false);
 
         $this->markTestIncomplete(
-          'This test has not been implemented yet.'
+            'This test has not been implemented yet.'
         );
     }
 
     protected function expectsThatAutoloadFinderHelperIsRegistered()
     {
         $this->helperSet->expects($this->any(1))
-          ->method('get')
-          ->with('drupal-autoload')
-          ->will($this->returnValue($this->drupalAutoload));
+            ->method('get')
+            ->with('drupal')
+            ->will($this->returnValue($this->drupal));
     }
 }

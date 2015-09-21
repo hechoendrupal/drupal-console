@@ -11,7 +11,6 @@ use Drupal\AppConsole\Utils\Validators;
 use Drupal\AppConsole\Command\Helper\TranslatorHelper;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Drupal\AppConsole\UserConfig;
-use Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper;
 use Drupal\AppConsole\Command\Helper\SiteHelper;
 use Drupal\AppConsole\EventSubscriber\ShowGeneratedFilesListener;
 use Drupal\AppConsole\EventSubscriber\ShowWelcomeMessageListener;
@@ -26,6 +25,7 @@ use Drupal\AppConsole\EventSubscriber\DefaultValueEventListener;
 use Drupal\AppConsole\Command\Helper\NestedArrayHelper;
 use Drupal\AppConsole\Helper\TwigRendererHelper;
 use Drupal\AppConsole\EventSubscriber\ShowGenerateDocListener;
+use Drupal\AppConsole\Helper\DrupalHelper;
 
 set_time_limit(0);
 
@@ -58,11 +58,11 @@ $helpers = [
     'stringUtils' => new StringUtils(),
     'validators' => new Validators(),
     'translator' => $translatorHelper,
-    'drupal-autoload' => new DrupalAutoloadHelper(),
     'site' => new SiteHelper(),
     'renderer' => new TwigRendererHelper(),
     'message' => new MessageHelper($translatorHelper),
     'chain' => new ChainCommandHelper(),
+    'drupal' => new DrupalHelper(),
 ];
 
 $application->addHelpers($helpers);

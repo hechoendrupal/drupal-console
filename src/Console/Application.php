@@ -153,7 +153,7 @@ class Application extends BaseApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        $drupal_root = $input->getParameterOption(['--drupal', '-d'], false);
+        $drupalRoot = $input->getParameterOption(['--drupal', '-d'], false);
 
         $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
 
@@ -161,13 +161,16 @@ class Application extends BaseApplication
             && !$input->hasParameterOption(array('--no-debug', ''))
             && $env !== 'prod';
 
-        if ($this->isBooted()) {
-            if (true === $input->hasParameterOption(array('--shell', '-s'))) {
-                $this->runShell($input);
+        $message = $this->getHelperSet()->get('message');
 
-                return 0;
-            }
+        /* decouple as function */
+        $drupal = $this->getHelperSet()->get('drupal');
+        if (!$drupal->isValidInstance($drupalRoot)) {
+            $message->addWarningMessage(
+                $this->trans('application.site.errors.directory')
+            );
         }
+        /* decouple as function */
 
         if (!$this->commandsRegistered) {
             $this->commandsRegistered = $this->registerCommands();
@@ -181,9 +184,25 @@ class Application extends BaseApplication
             $this->searchSettingsFile = false;
         }
 
-        if ($this->isRunningOnDrupalInstance($drupal_root)) {
-            $this->setup($env, $debug);
+        if ($drupal->isBootable()) {
+            $this->prepareKernel($env, $debug, $drupal);
+            $this->setBooted($drupal->isInstalled());
+        }
+
+        if ($drupal->isBootable() && !$this->isBooted()) {
+            $message->addWarningMessage(
+                $this->trans('application.site.errors.settings')
+            );
+        }
+
+        if ($this->isBooted()) {
             $this->bootstrap();
+
+            if (true === $input->hasParameterOption(array('--shell', '-s'))) {
+                $this->runShell($input);
+
+                return 0;
+            }
         }
 
         if (true === $input->hasParameterOption(array('--generate-doc', '--gd'))) {
@@ -205,80 +224,29 @@ class Application extends BaseApplication
         }
     }
 
-    /**
-     * @param $drupal_root
-     *
-     * @return bool
-     */
-    protected function isRunningOnDrupalInstance($drupal_root)
+    private function prepareKernel($env = 'prod', $debug = false, $drupal)
     {
-        $auto_load = $this
-            ->getHelperSet()
-            ->get('drupal-autoload')
-            ->findAutoload($drupal_root);
+        $drupalAutoLoaderClass = include $drupal->getDrupalAutoLoadPath();
 
-        if (!$this->isSettingsFile()) {
-            return false;
+        if ($debug) {
+            Debug::enable();
         }
 
-        if ($auto_load && !$this->isBooted()) {
-            $drupalLoader = include $auto_load;
+        /**
+         * @var \Drupal\AppConsole\Command\Helper\KernelHelper $kernelHelper
+         */
+        $kernelHelper = $this->getHelperSet()->get('kernel');
 
-            return $this->setDrupalAutoload($drupalLoader);
-        }
+        $kernelHelper->setDebug($debug);
+        $kernelHelper->setEnvironment($env);
+        $kernelHelper->setClassLoader($drupalAutoLoaderClass);
 
-        return false;
-    }
-
-    public function setDrupalAutoLoad($drupalLoader)
-    {
-        if ($drupalLoader instanceof ClassLoader) {
-            $this->drupalAutoload = $drupalLoader;
-            $this->setBooted(true);
-
-            return true;
-        }
-
-        return false;
+        $this->drupalAutoload = $drupalAutoLoaderClass;
     }
 
     public function setSearchSettingsFile($searchSettingsFile)
     {
         $this->searchSettingsFile = $searchSettingsFile;
-    }
-
-    public function isSettingsFile()
-    {
-        if (!$this->searchSettingsFile) {
-            return true;
-        }
-
-        $drupalRoot = $this
-            ->getHelperSet()
-            ->get('drupal-autoload')
-            ->getDrupalRoot();
-
-        $messageHelper = $this
-            ->getHelperSet()
-            ->get('message');
-
-        $translatorHelper = $this
-            ->getHelperSet()
-            ->get('translator');
-
-        if (!file_exists($drupalRoot.'/core/vendor/autoload.php')) {
-            $messageHelper->addWarningMessage($translatorHelper->trans('application.site.errors.directory'));
-
-            return false;
-        }
-
-        if (!file_exists($drupalRoot.'/sites/default/settings.php')) {
-            $messageHelper->addWarningMessage($translatorHelper->trans('application.site.errors.settings'));
-
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -297,35 +265,6 @@ class Application extends BaseApplication
         $this->booted = $booted;
     }
 
-    /**
-     * @param InputInterface $input
-     */
-    protected function initDebug($env, $debug)
-    {
-        if ($debug) {
-            Debug::enable();
-        }
-
-        /**
-         * @var \Drupal\AppConsole\Command\Helper\KernelHelper $kernelHelper
-         */
-        $kernelHelper = $this->getHelperSet()->get('kernel');
-
-        $kernelHelper->setDebug($debug);
-        $kernelHelper->setEnvironment($env);
-    }
-
-    protected function doKernelConfiguration()
-    {
-        /**
-         * @var \Drupal\AppConsole\Command\Helper\KernelHelper $kernelHelper
-         */
-        $kernelHelper = $this->getHelperSet()->get('kernel');
-
-        $kernelHelper->setClassLoader($this->drupalAutoload);
-        $kernelHelper->setEnvironment($this->env);
-    }
-
     public function bootstrap()
     {
         $kernelHelper = $this->getHelperSet()->get('kernel');
@@ -336,6 +275,7 @@ class Application extends BaseApplication
 
         if (!$this->commandsRegistered) {
             $this->commandsRegistered = $this->registerCommands();
+            $kernelHelper->initCommands($this->all());
         }
     }
 
