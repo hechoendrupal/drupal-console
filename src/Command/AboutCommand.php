@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\RestDebugCommand.
+ * Contains \Drupal\Console\Command\AboutCommand.
  */
 
 namespace Drupal\Console\Command;
@@ -11,8 +11,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\views\Entity\View;
-use Drupal\Component\Serialization\Yaml;
 
 class AboutCommand extends Command
 {
@@ -56,7 +54,6 @@ class AboutCommand extends Command
             )
         );
 
-
         $output->writeln(
             sprintf(
                 $this->trans('commands.about.messages.documentation'),
@@ -75,8 +72,8 @@ class AboutCommand extends Command
 
         $output->writeln("<info>" . $this->trans('commands.about.messages.supporting-organizations') . "</info>");
 
-        $output->writeln("    <comment>" . 'Indava (http://www.indava.com/)' . "</comment>");
-        $output->writeln("    <comment>" . 'Anexus (https://anexusit.com)' . "</comment>");
-        $output->writeln("    <comment>" . 'FFW (https://ffwagency.com)' . "</comment>");
+        $output->writeln("    <comment>Indava (http://www.indava.com/)</comment>");
+        $output->writeln("    <comment>Anexus (https://anexusit.com)</comment>");
+        $output->writeln("    <comment>FFW (https://ffwagency.com)</comment>");
     }
 }
