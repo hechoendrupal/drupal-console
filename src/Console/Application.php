@@ -57,6 +57,7 @@ class Application extends BaseApplication
      * Create a new application extended from \Symfony\Component\Console\Application.
      *
      * @param $config
+     * @param $translator
      */
     public function __construct($config, $translator)
     {
@@ -112,7 +113,6 @@ class Application extends BaseApplication
             )
         );
     }
-
 
     /**
      * Returns the long version of the application.
