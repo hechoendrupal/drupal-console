@@ -2,17 +2,17 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Helper\SiteHelper
+ * Contains \Drupal\Console\Helper\SiteHelper
  */
 
-namespace Drupal\AppConsole\Helper;
+namespace Drupal\Console\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
-use Drupal\AppConsole\Utils\DrupalExtensionDiscovery;
+use Drupal\Console\Utils\DrupalExtensionDiscovery;
 
 /**
  * Class SiteHelper
- * @package Drupal\AppConsole\Command\Helper
+ * @package Drupal\Console\Command\Helper
  */
 
 class SiteHelper extends Helper

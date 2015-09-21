@@ -1,7 +1,7 @@
 <?php
-namespace Drupal\AppConsole\Test\Utils;
+namespace Drupal\Console\Test\Utils;
 
-use \Drupal\AppConsole\Utils\StringUtils;
+use \Drupal\Console\Utils\StringUtils;
 
 class StringUtilsTest extends \PHPUnit_Framework_TestCase
 {

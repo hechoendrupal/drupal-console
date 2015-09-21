@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\AppConsole\Console;
+namespace Drupal\Console\Console;
 
 use Symfony\Component\Console\Shell as BaseShell;
 

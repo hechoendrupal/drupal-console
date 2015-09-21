@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Test\Generator\ServiceGeneratorTest.
+ * Contains Drupal\Console\Test\Generator\ServiceGeneratorTest.
  */
 
-namespace Drupal\AppConsole\Test\Generator;
+namespace Drupal\Console\Test\Generator;
 
-use Drupal\AppConsole\Generator\ServiceGenerator;
-use Drupal\AppConsole\Test\DataProvider\ServiceDataProviderTrait;
+use Drupal\Console\Generator\ServiceGenerator;
+use Drupal\Console\Test\DataProvider\ServiceDataProviderTrait;
 
 class ServiceGeneratorTest extends GeneratorTest
 {

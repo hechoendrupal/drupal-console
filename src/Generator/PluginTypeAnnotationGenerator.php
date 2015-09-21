@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Generator\PluginTypeAnnotationGenerator.
+ * Contains \Drupal\Console\Generator\PluginTypeAnnotationGenerator.
  */
 
-namespace Drupal\AppConsole\Generator;
+namespace Drupal\Console\Generator;
 
 class PluginTypeAnnotationGenerator extends Generator
 {

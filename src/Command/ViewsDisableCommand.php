@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\RestDebugCommand.
+ * Contains \Drupal\Console\Command\RestDebugCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 use Herrera\Json\Exception\Exception;
 use Symfony\Component\Console\Input\InputArgument;

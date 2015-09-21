@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Generator\AuthenticationProviderGenerator.
+ * Contains \Drupal\Console\Generator\AuthenticationProviderGenerator.
  */
 
-namespace Drupal\AppConsole\Generator;
+namespace Drupal\Console\Generator;
 
 class AuthenticationProviderGenerator extends Generator
 {

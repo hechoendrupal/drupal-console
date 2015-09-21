@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Utils\Validators.
+ * Contains \Drupal\Console\Utils\Validators.
  */
 
-namespace Drupal\AppConsole\Utils;
+namespace Drupal\Console\Utils;
 
 use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Console\Helper\HelperInterface;

@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Test\Generator\AuthenticationProviderGeneratorTest.
+ * Contains Drupal\Console\Test\Generator\AuthenticationProviderGeneratorTest.
  */
 
-namespace Drupal\AppConsole\Test\Generator;
+namespace Drupal\Console\Test\Generator;
 
-use Drupal\AppConsole\Generator\AuthenticationProviderGenerator;
-use Drupal\AppConsole\Test\DataProvider\AuthenticationProviderDataProviderTrait;
+use Drupal\Console\Generator\AuthenticationProviderGenerator;
+use Drupal\Console\Test\DataProvider\AuthenticationProviderDataProviderTrait;
 
 class AuthenticationProviderGeneratorTest extends GeneratorTest
 {

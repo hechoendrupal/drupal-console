@@ -2,18 +2,18 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\GeneratorPluginFieldFormatterCommand.
+ * Contains \Drupal\Console\Command\GeneratorPluginFieldFormatterCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
-use Drupal\AppConsole\Generator\PluginConditionGenerator;
-use Drupal\AppConsole\Command\Helper\ModuleTrait;
-use Drupal\AppConsole\Command\Helper\ConfirmationTrait;
+use Drupal\Console\Generator\PluginConditionGenerator;
+use Drupal\Console\Command\Helper\ModuleTrait;
+use Drupal\Console\Command\Helper\ConfirmationTrait;
 
 class GeneratorPluginConditionCommand extends GeneratorCommand
 {
@@ -72,7 +72,7 @@ class GeneratorPluginConditionCommand extends GeneratorCommand
     {
         $dialog = $this->getDialogHelper();
 
-        // @see use Drupal\AppConsole\Command\Helper\ConfirmationTrait::confirmationQuestion
+        // @see use Drupal\Console\Command\Helper\ConfirmationTrait::confirmationQuestion
         if ($this->confirmationQuestion($input, $output, $dialog)) {
             return;
         }
@@ -104,7 +104,7 @@ class GeneratorPluginConditionCommand extends GeneratorCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\AppConsole\Command\Helper\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Command\Helper\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($output, $dialog);
         }
         $input->setOption('module', $module);

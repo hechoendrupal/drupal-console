@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorPluginFieldWidgetCommandTest.
+ * Contains \Drupal\Console\Test\Command\GeneratorPluginFieldWidgetCommandTest.
  */
 
-namespace Drupal\AppConsole\Test\Command;
+namespace Drupal\Console\Test\Command;
 
-use Drupal\AppConsole\Command\GeneratorPluginFieldWidgetCommand;
+use Drupal\Console\Command\GeneratorPluginFieldWidgetCommand;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\AppConsole\Test\DataProvider\PluginFieldWidgetDataProviderTrait;
+use Drupal\Console\Test\DataProvider\PluginFieldWidgetDataProviderTrait;
 
 class GeneratorPluginFieldWidgetCommandTest extends GenerateCommandTest
 {
@@ -56,7 +56,7 @@ class GeneratorPluginFieldWidgetCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-            ->getMockBuilder('Drupal\AppConsole\Generator\PluginFieldWidgetGenerator')
+            ->getMockBuilder('Drupal\Console\Generator\PluginFieldWidgetGenerator')
             ->disableOriginalConstructor()
             ->setMethods(['generate'])
             ->getMock();

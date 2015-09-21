@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorPluginRestResourceCommandTest.
+ * Contains \Drupal\Console\Test\Command\GeneratorPluginRestResourceCommandTest.
  */
 
-namespace Drupal\AppConsole\Test\Command;
+namespace Drupal\Console\Test\Command;
 
-use Drupal\AppConsole\Command\GeneratorPluginRestResourceCommand;
+use Drupal\Console\Command\GeneratorPluginRestResourceCommand;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\AppConsole\Test\DataProvider\PluginRestResourceDataProviderTrait;
+use Drupal\Console\Test\DataProvider\PluginRestResourceDataProviderTrait;
 
 class GeneratorPluginRestResourceCommandTest extends GenerateCommandTest
 {
@@ -59,7 +59,7 @@ class GeneratorPluginRestResourceCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-            ->getMockBuilder('Drupal\AppConsole\Generator\PluginRestResourceGenerator')
+            ->getMockBuilder('Drupal\Console\Generator\PluginRestResourceGenerator')
             ->disableOriginalConstructor()
             ->setMethods(['generate'])
             ->getMock();

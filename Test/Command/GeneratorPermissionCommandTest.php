@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorPermissionCommandTest.
+ * Contains \Drupal\Console\Test\Command\GeneratorPermissionCommandTest.
  */
 
-namespace Drupal\AppConsole\Test\Command;
+namespace Drupal\Console\Test\Command;
 
-use Drupal\AppConsole\Command\GeneratorPermissionCommand;
+use Drupal\Console\Command\GeneratorPermissionCommand;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\AppConsole\Test\DataProvider\PermissionDataProviderTrait;
+use Drupal\Console\Test\DataProvider\PermissionDataProviderTrait;
 
 class GeneratorPermissionCommandTest extends GenerateCommandTest
 {
@@ -48,7 +48,7 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-            ->getMockBuilder('Drupal\AppConsole\Generator\PermissionGenerator')
+            ->getMockBuilder('Drupal\Console\Generator\PermissionGenerator')
             ->disableOriginalConstructor()
             ->setMethods(['generate'])
             ->getMock();

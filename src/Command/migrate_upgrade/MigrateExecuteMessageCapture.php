@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\AppConsole\Command\migrate_upgrade;
+namespace Drupal\Console\Command\migrate_upgrade;
 
 use Drupal\migrate\MigrateMessageInterface;
 

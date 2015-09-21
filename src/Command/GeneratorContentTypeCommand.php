@@ -2,16 +2,16 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Command\GeneratorControllerCommand.
+ * Contains Drupal\Console\Command\GeneratorControllerCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
-use Drupal\AppConsole\Command\Helper\ConfirmationTrait;
-use Drupal\AppConsole\Command\Helper\ModuleTrait;
-use Drupal\AppConsole\Command\Helper\ServicesTrait;
-use Drupal\AppConsole\Generator\ContentTypeGenerator;
-use Drupal\AppConsole\Generator\ControllerGenerator;
+use Drupal\Console\Command\Helper\ConfirmationTrait;
+use Drupal\Console\Command\Helper\ModuleTrait;
+use Drupal\Console\Command\Helper\ServicesTrait;
+use Drupal\Console\Generator\ContentTypeGenerator;
+use Drupal\Console\Generator\ControllerGenerator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -81,7 +81,7 @@ class GeneratorContentTypeCommand extends GeneratorCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\AppConsole\Command\Helper\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Command\Helper\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($output, $dialog);
         }
         $input->setOption('module', $module);
@@ -120,7 +120,7 @@ class GeneratorContentTypeCommand extends GeneratorCommand
     }
 
     /**
-     * @return \Drupal\AppConsole\Generator\ControllerGenerator
+     * @return \Drupal\Console\Generator\ControllerGenerator
      */
     protected function createGenerator()
     {

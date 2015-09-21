@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Helper\ShellHelper.
+ * Contains Drupal\Console\Helper\ShellHelper.
  */
 
-namespace Drupal\AppConsole\Helper;
+namespace Drupal\Console\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
-use Drupal\AppConsole\Console\Shell;
+use Drupal\Console\Console\Shell;
 
 class ShellHelper extends Helper
 {

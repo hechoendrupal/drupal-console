@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\AppConsole\Console;
+namespace Drupal\Console\Console;
 
 use Composer\Autoload\ClassLoader;
 use Symfony\Component\Console\Application as BaseApplication;
@@ -26,7 +26,7 @@ class Application extends BaseApplication
      */
     protected $booted = false;
     /**
-     * @var Drupal\AppConsole\UserConfig
+     * @var Drupal\Console\UserConfig
      */
     protected $config;
     /**
@@ -233,7 +233,7 @@ class Application extends BaseApplication
         }
 
         /**
-         * @var \Drupal\AppConsole\Helper\KernelHelper $kernelHelper
+         * @var \Drupal\Console\Helper\KernelHelper $kernelHelper
          */
         $kernelHelper = $this->getHelperSet()->get('kernel');
 
@@ -284,7 +284,7 @@ class Application extends BaseApplication
      */
     protected function registerCommands()
     {
-        /* @var \Drupal\AppConsole\Helper\RegisterCommandsHelper $rc */
+        /* @var \Drupal\Console\Helper\RegisterCommandsHelper $rc */
         $registerCommands = $this->getHelperSet()->get('register_commands');
         if ($registerCommands) {
             $registerCommands->register();
@@ -297,7 +297,7 @@ class Application extends BaseApplication
     protected function runShell(InputInterface $input)
     {
         /**
-         * @var \Drupal\AppConsole\Helper\ShellHelper $shell
+         * @var \Drupal\Console\Helper\ShellHelper $shell
          */
         $shell = $this->getHelperSet()->get('shell')->getShell();
 
@@ -314,7 +314,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * @return \Drupal\AppConsole\UserConfig
+     * @return \Drupal\Console\UserConfig
      */
     public function getConfig()
     {

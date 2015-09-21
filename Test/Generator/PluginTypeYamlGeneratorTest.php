@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * Contains Drupal\AppConsole\Test\Generator\PluginTypeYamlGeneratorTest.
+ * Contains Drupal\Console\Test\Generator\PluginTypeYamlGeneratorTest.
  */
 
-namespace Drupal\AppConsole\Test\Generator;
+namespace Drupal\Console\Test\Generator;
 
-use Drupal\AppConsole\Generator\PluginTypeYamlGenerator;
-use Drupal\AppConsole\Test\DataProvider\PluginTypeYamlDataProviderTrait;
+use Drupal\Console\Generator\PluginTypeYamlGenerator;
+use Drupal\Console\Test\DataProvider\PluginTypeYamlDataProviderTrait;
 
 class PluginTypeYamlGeneratorTest extends GeneratorTest
 {

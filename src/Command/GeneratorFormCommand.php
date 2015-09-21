@@ -2,18 +2,18 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Command\GeneratorFormCommand.
+ * Contains Drupal\Console\Command\GeneratorFormCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\AppConsole\Command\Helper\ServicesTrait;
-use Drupal\AppConsole\Command\Helper\ModuleTrait;
-use Drupal\AppConsole\Command\Helper\FormTrait;
-use Drupal\AppConsole\Generator\FormGenerator;
+use Drupal\Console\Command\Helper\ServicesTrait;
+use Drupal\Console\Command\Helper\ModuleTrait;
+use Drupal\Console\Command\Helper\FormTrait;
+use Drupal\Console\Generator\FormGenerator;
 
 abstract class GeneratorFormCommand extends GeneratorCommand
 {
@@ -101,7 +101,7 @@ abstract class GeneratorFormCommand extends GeneratorCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\AppConsole\Command\Helper\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Command\Helper\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($output, $dialog);
         }
         $input->setOption('module', $module);
@@ -130,14 +130,14 @@ abstract class GeneratorFormCommand extends GeneratorCommand
         $input->setOption('form-id', $form_id);
 
         // --services option
-        // @see use Drupal\AppConsole\Command\Helper\ServicesTrait::servicesQuestion
+        // @see use Drupal\Console\Command\Helper\ServicesTrait::servicesQuestion
         $services_collection = $this->servicesQuestion($output, $dialog);
         $input->setOption('services', $services_collection);
 
         // --inputs option
         $inputs = $input->getOption('inputs');
         if (!$inputs) {
-            // @see \Drupal\AppConsole\Command\Helper\FormTrait::formQuestion
+            // @see \Drupal\Console\Command\Helper\FormTrait::formQuestion
             $inputs = $this->formQuestion($output, $dialog);
         }
         $input->setOption('inputs', $inputs);
@@ -156,7 +156,7 @@ abstract class GeneratorFormCommand extends GeneratorCommand
     }
 
     /**
-     * @return \Drupal\AppConsole\Generator\FormGenerator.
+     * @return \Drupal\Console\Generator\FormGenerator.
      */
     protected function createGenerator()
     {

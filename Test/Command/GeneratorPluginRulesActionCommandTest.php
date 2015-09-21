@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorPluginRulesActionCommandTest.
+ * Contains \Drupal\Console\Test\Command\GeneratorPluginRulesActionCommandTest.
  */
 
-namespace Drupal\AppConsole\Test\Command;
+namespace Drupal\Console\Test\Command;
 
-use Drupal\AppConsole\Command\GeneratorPluginRulesActionCommand;
+use Drupal\Console\Command\GeneratorPluginRulesActionCommand;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\AppConsole\Test\DataProvider\PluginRulesActionDataProviderTrait;
+use Drupal\Console\Test\DataProvider\PluginRulesActionDataProviderTrait;
 
 class GeneratorPluginRulesActionCommandTest extends GenerateCommandTest
 {
@@ -62,7 +62,7 @@ class GeneratorPluginRulesActionCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-            ->getMockBuilder('Drupal\AppConsole\Generator\PluginRulesActionGenerator')
+            ->getMockBuilder('Drupal\Console\Generator\PluginRulesActionGenerator')
             ->disableOriginalConstructor()
             ->setMethods(['generate'])
             ->getMock();

@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * Contains Drupal\AppConsole\Test\Generator\PluginRestResourceGeneratorTest.
+ * Contains Drupal\Console\Test\Generator\PluginRestResourceGeneratorTest.
  */
 
-namespace Drupal\AppConsole\Test\Generator;
+namespace Drupal\Console\Test\Generator;
 
-use Drupal\AppConsole\Generator\PluginRestResourceGenerator;
-use Drupal\AppConsole\Test\DataProvider\PluginRestResourceDataProviderTrait;
+use Drupal\Console\Generator\PluginRestResourceGenerator;
+use Drupal\Console\Test\DataProvider\PluginRestResourceDataProviderTrait;
 
 class PluginRestResourceGeneratorTest extends GeneratorTest
 {

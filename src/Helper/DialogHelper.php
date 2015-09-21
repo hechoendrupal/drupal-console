@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Helper\DialogHelper.
+ * Contains Drupal\Console\Helper\DialogHelper.
  */
 
-namespace Drupal\AppConsole\Helper;
+namespace Drupal\Console\Helper;
 
 use Symfony\Component\Console\Helper\DialogHelper as BaseDialogHelper;
 use Symfony\Component\Console\Output\OutputInterface;

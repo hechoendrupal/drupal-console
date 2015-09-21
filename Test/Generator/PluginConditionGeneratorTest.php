@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Test\Generator\PluginConditionGeneratorTest.
+ * Contains Drupal\Console\Test\Generator\PluginConditionGeneratorTest.
  */
 
-namespace Drupal\AppConsole\Test\Generator;
+namespace Drupal\Console\Test\Generator;
 
-use Drupal\AppConsole\Generator\PluginConditionGenerator;
-use Drupal\AppConsole\Test\DataProvider\PluginConditionDataProviderTrait;
+use Drupal\Console\Generator\PluginConditionGenerator;
+use Drupal\Console\Test\DataProvider\PluginConditionDataProviderTrait;
 
 class PluginConditionGeneratorTest extends GeneratorTest
 {

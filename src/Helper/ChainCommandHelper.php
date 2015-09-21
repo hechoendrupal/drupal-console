@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Helper\ChainCommandHelper.
+ * Contains Drupal\Console\Helper\ChainCommandHelper.
  */
 
-namespace Drupal\AppConsole\Helper;
+namespace Drupal\Console\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
 

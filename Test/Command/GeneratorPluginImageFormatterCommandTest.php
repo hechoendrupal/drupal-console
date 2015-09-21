@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorPluginImageFormatterCommandTest.
+ * Contains \Drupal\Console\Test\Command\GeneratorPluginImageFormatterCommandTest.
  */
 
-namespace Drupal\AppConsole\Test\Command;
+namespace Drupal\Console\Test\Command;
 
-use Drupal\AppConsole\Command\GeneratorPluginImageFormatterCommand;
+use Drupal\Console\Command\GeneratorPluginImageFormatterCommand;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\AppConsole\Test\DataProvider\PluginImageFormatterDataProviderTrait;
+use Drupal\Console\Test\DataProvider\PluginImageFormatterDataProviderTrait;
 
 class GeneratorPluginImageFormatterCommandTest extends GenerateCommandTest
 {
@@ -54,7 +54,7 @@ class GeneratorPluginImageFormatterCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-            ->getMockBuilder('Drupal\AppConsole\Generator\PluginImageFormatterGenerator')
+            ->getMockBuilder('Drupal\Console\Generator\PluginImageFormatterGenerator')
             ->disableOriginalConstructor()
             ->setMethods(['generate'])
             ->getMock();
