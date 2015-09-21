@@ -233,7 +233,7 @@ class Application extends BaseApplication
         }
 
         /**
-         * @var \Drupal\AppConsole\Command\Helper\KernelHelper $kernelHelper
+         * @var \Drupal\AppConsole\Helper\KernelHelper $kernelHelper
          */
         $kernelHelper = $this->getHelperSet()->get('kernel');
 
@@ -284,7 +284,7 @@ class Application extends BaseApplication
      */
     protected function registerCommands()
     {
-        /* @var \Drupal\AppConsole\Command\Helper\RegisterCommandsHelper $rc */
+        /* @var \Drupal\AppConsole\Helper\RegisterCommandsHelper $rc */
         $registerCommands = $this->getHelperSet()->get('register_commands');
         if ($registerCommands) {
             $registerCommands->register();
@@ -297,7 +297,7 @@ class Application extends BaseApplication
     protected function runShell(InputInterface $input)
     {
         /**
-         * @var \Drupal\AppConsole\Command\Helper\ShellHelper $shell
+         * @var \Drupal\AppConsole\Helper\ShellHelper $shell
          */
         $shell = $this->getHelperSet()->get('shell')->getShell();
 

@@ -1,6 +1,11 @@
 <?php
 
-namespace Drupal\AppConsole\Command\Helper;
+/**
+ * @file
+ * Contains Drupal\AppConsole\Helper\ShellHelper.
+ */
+
+namespace Drupal\AppConsole\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
 use Drupal\AppConsole\Console\Shell;

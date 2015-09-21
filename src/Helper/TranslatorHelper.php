@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\Helper\TranslatorHelper.
+ * Contains \Drupal\AppConsole\Helper\TranslatorHelper.
  */
 
-namespace Drupal\AppConsole\Command\Helper;
+namespace Drupal\AppConsole\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Translation\Translator;
