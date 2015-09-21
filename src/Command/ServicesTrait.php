@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\Helper\ServicesTrait.
+ * Contains Drupal\Console\Command\ServicesTrait.
  */
 
-namespace Drupal\Console\Command\Helper;
+namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Helper\HelperInterface;
 use Symfony\Component\Console\Output\OutputInterface;

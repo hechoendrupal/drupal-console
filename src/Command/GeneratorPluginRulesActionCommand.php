@@ -11,10 +11,10 @@ use Drupal\Console\Generator\PluginRulesActionGenerator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Helper\ServicesTrait;
-use Drupal\Console\Command\Helper\ModuleTrait;
-use Drupal\Console\Command\Helper\FormTrait;
-use Drupal\Console\Command\Helper\ConfirmationTrait;
+use Drupal\Console\Command\ServicesTrait;
+use Drupal\Console\Command\ModuleTrait;
+use Drupal\Console\Command\FormTrait;
+use Drupal\Console\Command\ConfirmationTrait;
 
 class GeneratorPluginRulesActionCommand extends GeneratorCommand
 {
@@ -70,7 +70,7 @@ class GeneratorPluginRulesActionCommand extends GeneratorCommand
     {
         $dialog = $this->getDialogHelper();
 
-        // @see use Drupal\Console\Command\Helper\ConfirmationTrait::confirmationQuestion
+        // @see use Drupal\Console\Command\ConfirmationTrait::confirmationQuestion
         if ($this->confirmationQuestion($input, $output, $dialog)) {
             return;
         }
@@ -97,7 +97,7 @@ class GeneratorPluginRulesActionCommand extends GeneratorCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\Helper\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($output, $dialog);
         }
         $input->setOption('module', $module);
