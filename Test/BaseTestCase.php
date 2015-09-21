@@ -36,11 +36,6 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
             $dialog = new DialogHelper();
             $dialog->setInputStream($this->getInputStream($input));
 
-            $autoload = $this
-                ->getMockBuilder('Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper')
-                ->setMethods(['findAutoload', 'getDrupalRoot'])
-                ->getMock();
-
             $stringUtils = $this->getMockBuilder('Drupal\AppConsole\Utils\StringUtils')
                 ->disableOriginalConstructor()
                 ->setMethods(['createMachineName'])
@@ -73,6 +68,11 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
                 ->setMethods(['addCommand', 'getCommands'])
                 ->getMock();
 
+            $drupal = $this
+                ->getMockBuilder('Drupal\AppConsole\Helper\DrupalHelper')
+                ->setMethods(['isBootable', 'getDrupalRoot'])
+                ->getMock();
+
             $siteHelper = $this
                 ->getMockBuilder('Drupal\AppConsole\Command\Helper\SiteHelper')
                 ->disableOriginalConstructor()
@@ -85,16 +85,16 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
 
             $this->helperSet = new HelperSet(
                 [
-                'formatter' => new FormatterHelper(),
-                'renderer' => new TwigRendererHelper(),
-                'drupal-autoload' => $autoload,
-                'dialog' => $dialog,
-                'stringUtils' => $stringUtils,
-                'validators' => $validators,
-                'translator' => $translator,
-                'site' => $siteHelper,
-                'message' => $message,
-                'chain' => $chain
+                    'formatter' => new FormatterHelper(),
+                    'renderer' => new TwigRendererHelper(),
+                    'dialog' => $dialog,
+                    'stringUtils' => $stringUtils,
+                    'validators' => $validators,
+                    'translator' => $translator,
+                    'site' => $siteHelper,
+                    'message' => $message,
+                    'chain' => $chain,
+                    'drupal' => $drupal,
                 ]
             );
         }
