@@ -1,0 +1,7 @@
+{% for namespace, commands in command_list %}
+{% spaceless %}
+{% for command in commands %}
+  * [{{ command.name }}](commands/{{ command.name|replace(':','-') }}.md)
+{% endfor %}
+{% endspaceless %}
+{% endfor %}
