@@ -7,14 +7,14 @@
 
 namespace Drupal\Console\Command;
 
-use Drupal\Console\Command\Helper\ThemeBreakpointTrait;
+use Drupal\Console\Command\ThemeBreakpointTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Helper\ThemeRegionTrait;
-use Drupal\Console\Command\Helper\ThemeBreakpointTraitT;
+use Drupal\Console\Command\ThemeRegionTrait;
+use Drupal\Console\Command\ThemeBreakpointTraitT;
 use Drupal\Console\Generator\ThemeGenerator;
-use Drupal\Console\Command\Helper\ConfirmationTrait;
+use Drupal\Console\Command\ConfirmationTrait;
 
 /**
  *
@@ -294,7 +294,7 @@ class GeneratorThemeCommand extends GeneratorCommand
                 false
             )
             ) {
-                // @see \Drupal\Console\Command\Helper\ThemeRegionTrait::regionQuestion
+                // @see \Drupal\Console\Command\ThemeRegionTrait::regionQuestion
                 $regions = $this->regionQuestion($output, $dialog);
             }
         }
@@ -309,7 +309,7 @@ class GeneratorThemeCommand extends GeneratorCommand
                 false
             )
             ) {
-                // @see \Drupal\Console\Command\Helper\ThemeRegionTrait::regionQuestion
+                // @see \Drupal\Console\Command\ThemeRegionTrait::regionQuestion
                 $breakpoints = $this->breakpointQuestion($output, $dialog);
             }
         }
