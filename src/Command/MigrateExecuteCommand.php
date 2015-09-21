@@ -285,7 +285,7 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         return $this;
     }
 
-    protected function registerSourceDB(InputInterface $input)
+    protected function registerSourceDB(InputInterface $input, OutputInterface $output)
     {
         $db_host = $input->getOption('db-host');
         $db_name = $input->getOption('db-name');
@@ -332,7 +332,7 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         }
 
         if (!$this->connection) {
-            $this->registerSourceDB($input);
+            $this->registerSourceDB($input, $output);
             $this->getConnection($output);
         }
 
