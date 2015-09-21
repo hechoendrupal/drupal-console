@@ -14,6 +14,7 @@ use Symfony\Component\Console\Input\InputOption;
 class GenerateDocCommand extends ContainerAwareCommand
 {
     private $single_commands = [
+      'about',
       'chain',
       'drush',
       'help',
