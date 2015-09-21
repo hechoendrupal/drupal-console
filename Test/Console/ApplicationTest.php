@@ -17,7 +17,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     protected $bootstrapFinder;
 
     /**
-     * @var \Drupal\AppConsole\Command\Helper\RegisterCommandsHelper
+     * @var \Drupal\AppConsole\Helper\RegisterCommandsHelper
      */
     protected $register_commands;
 
@@ -42,7 +42,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->register_commands = $this
-            ->getMockBuilder('Drupal\AppConsole\Command\Helper\RegisterCommandsHelper')
+            ->getMockBuilder('Drupal\AppConsole\Helper\RegisterCommandsHelper')
             ->disableOriginalConstructor()
             ->getMock();
     }

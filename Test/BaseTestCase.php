@@ -4,7 +4,7 @@ namespace Drupal\AppConsole\Test;
 
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Helper\HelperSet;
-use Drupal\AppConsole\Command\Helper\DialogHelper;
+use Drupal\AppConsole\Helper\DialogHelper;
 use Drupal\AppConsole\Helper\TwigRendererHelper;
 
 abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
@@ -57,13 +57,13 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
             $translator = $this->getTranslatorHelper();
 
             $message = $this
-                ->getMockBuilder('Drupal\AppConsole\Command\Helper\MessageHelper')
+                ->getMockBuilder('Drupal\AppConsole\Helper\MessageHelper')
                 ->disableOriginalConstructor()
                 ->setMethods(['showMessages', 'showMessage'])
                 ->getMock();
 
             $chain = $this
-                ->getMockBuilder('Drupal\AppConsole\Command\Helper\ChainCommandHelper')
+                ->getMockBuilder('Drupal\AppConsole\Helper\ChainCommandHelper')
                 ->disableOriginalConstructor()
                 ->setMethods(['addCommand', 'getCommands'])
                 ->getMock();
@@ -74,7 +74,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
                 ->getMock();
 
             $siteHelper = $this
-                ->getMockBuilder('Drupal\AppConsole\Command\Helper\SiteHelper')
+                ->getMockBuilder('Drupal\AppConsole\Helper\SiteHelper')
                 ->disableOriginalConstructor()
                 ->setMethods(['setModulePath', 'getModulePath'])
                 ->getMock();
@@ -114,7 +114,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
     public function getTranslatorHelper()
     {
         $translatorHelper = $this
-            ->getMockBuilder('Drupal\AppConsole\Command\Helper\TranslatorHelper')
+            ->getMockBuilder('Drupal\AppConsole\Helper\TranslatorHelper')
             ->disableOriginalConstructor()
             ->setMethods(['loadResource', 'trans', 'getMessagesByModule', 'writeTranslationsByModule'])
             ->getMock();
