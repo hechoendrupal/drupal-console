@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\Helper\SiteHelper
+ * Contains \Drupal\AppConsole\Helper\SiteHelper
  */
 
-namespace Drupal\AppConsole\Command\Helper;
+namespace Drupal\AppConsole\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
 use Drupal\AppConsole\Utils\DrupalExtensionDiscovery;

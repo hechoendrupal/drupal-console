@@ -1,6 +1,11 @@
 <?php
 
-namespace Drupal\AppConsole\Command\Helper;
+/**
+ * @file
+ * Contains Drupal\AppConsole\Helper\NestedArrayHelper.
+ */
+
+namespace Drupal\AppConsole\Helper;
 
 use Symfony\Component\Console\Helper\DialogHelper as BaseDialogHelper;
 use Symfony\Component\Console\Output\OutputInterface;
