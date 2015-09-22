@@ -3,3 +3,15 @@ application:
   language: en
   editor: vim
   temp: /tmp
+  remote:
+    user: root
+    port: 22
+    console: /usr/local/bin/console
+    options: --ansi
+    keys:
+      rds:
+        pub: ~/.ssh/id_rsa.pub
+        private: ~/.ssh/id_rsa
+      dsa:
+        pub: ~/.ssh/id_dsa.pub
+        private: ~/.ssh/id_dsa
