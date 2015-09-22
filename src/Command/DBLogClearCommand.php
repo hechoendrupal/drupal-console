@@ -83,8 +83,7 @@ class DBLogClearCommand extends ContainerAwareCommand
             );
 
             return false;
-        }
-        else {
+        } else {
             $output->writeln(
                 '[+] <info>'.sprintf(
                     $this->trans('commands.dblog.clear.messages.event-deleted'),
@@ -134,22 +133,20 @@ class DBLogClearCommand extends ContainerAwareCommand
         if (!$result) {
             $output->writeln(
                 '[+] <error>'.
-                    $this->trans('commands.dblog.clear.messages.clear-error')
-                   .'</error>'
+                $this->trans('commands.dblog.clear.messages.clear-error')
+                .'</error>'
             );
 
             return false;
-        }
-        else {
+        } else {
             $output->writeln(
                 '[+] <info>'.
-                    $this->trans('commands.dblog.clear.messages.clear-sucess')
-                    .'</info>'
+                $this->trans('commands.dblog.clear.messages.clear-sucess')
+                .'</info>'
             );
 
             return true;
         }
-
     }
 
     /**
