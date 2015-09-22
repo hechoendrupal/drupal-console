@@ -21,7 +21,7 @@ class YamlDiffCommand extends Command
     {
         $this
             ->setName('yaml:diff')
-            ->setDescription($this->trans('commands.yaml.merge.description'))
+            ->setDescription($this->trans('commands.yaml.diff.description'))
             ->addArgument(
                 'yaml-left',
                 InputArgument::REQUIRED,
