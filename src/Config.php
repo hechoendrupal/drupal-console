@@ -60,4 +60,14 @@ class Config
 
         return $config;
     }
+
+    /**
+     * Return the user home directory.
+     *
+     * @return string
+     */
+    public function getUserHomeDir()
+    {
+        return rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/\\');
+    }
 }
