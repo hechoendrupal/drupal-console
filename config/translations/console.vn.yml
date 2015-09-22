@@ -1,7 +1,7 @@
 application:
   console:
     arguments:
-      drupal: 'Path to Drupal root.'
+      drupal: 'Ðu?ng d?n t?i Drupal root.'
       shell: 'Launch the shell.'
       env: 'The Environment name.'
       no-debug: 'Switches off debug mode.'
