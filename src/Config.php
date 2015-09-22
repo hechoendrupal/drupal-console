@@ -26,6 +26,10 @@ class Config
         }
     }
 
+    /**
+     * @param string|null $file
+     * @return array|mixed|null
+     */
     public function readYamlFile($file = null)
     {
         if (is_null($file)) {
@@ -39,6 +43,11 @@ class Config
         }
     }
 
+    /**
+     * @param string $key
+     * @param string $default
+     * @return array|mixed|null|string
+     */
     public function get($key, $default = '')
     {
         if (!$key) {

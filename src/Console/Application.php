@@ -15,37 +15,47 @@ class Application extends BaseApplication
      * @var string
      */
     const NAME = 'Drupal Console';
+
     /**
      * @var string
      */
     const VERSION = '0.8.4';
+
     /**
      * @var bool
      */
     protected $booted = false;
+
     /**
-     * @var Drupal\AppConsole\UserConfig
+     * @var \Drupal\AppConsole\UserConfig
      */
     protected $config;
+
     /**
      * @var string
      */
     protected $directoryRoot;
+
     /**
      * @var \Composer\Autoload\ClassLoader
      *                                     The Drupal autoload file.
      */
     protected $drupalAutoload;
+
     /**
      * @var string
      *             The Drupal environment.
      */
     protected $env;
+
     /**
      * @var bool
      */
     private $commandsRegistered = false;
 
+    /**
+     * @var bool
+     */
     private $searchSettingsFile = true;
 
     /**
@@ -56,7 +66,8 @@ class Application extends BaseApplication
     /**
      * Create a new application extended from \Symfony\Component\Console\Application.
      *
-     * @param $config
+     * @param string $config
+     * @param string $translator
      */
     public function __construct($config, $translator)
     {
