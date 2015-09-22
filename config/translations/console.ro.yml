@@ -179,6 +179,12 @@ commands:
                 module-invalid: 'Module %s doesn''t have an implementation of cron'
                 executing-cron: 'Executing cron function of module %s'
     dblog:
+        clear:
+            description: 'Remove events from DBLog table, filters are available'
+            messages:
+                event-deleted: 'Event %s was deleted'
+                clear-error: 'Clear process fail, please check used filters'
+                clear-sucess: 'Clear of events was successfully'
         debug:
             description: 'Display current log events for the application'
             arguments:
@@ -1044,6 +1050,19 @@ commands:
                 errors:
                     invalid-user: 'Invalid user id %s'
                     empty-password: 'Password can not be empty'
+    about:
+        description: 'Display basic information about Drupal Console project'
+        messages:
+            welcome: 'The Drupal Console is a suite of tools that you run on the CLI to:'
+            welcome-feature-generate: 'Generate boilerplate code.'
+            welcome-feature-interact: 'Interact with a Drupal 8 installation.'
+            welcome-feature-learn: 'Learn Drupal 8.'
+            list: 'Execute <info>list</info> command to get a list of all commands available.'
+            change-log: 'Project change log at <comment>%s</comment>'
+            version-supported: 'The Drupal 8 supported version is <info>%s</info>'
+            documentation: 'Drupal Console documentation at <comment>%s</comment>'
+            support: 'Support at Drupal Console gitter chat room <comment>%s</comment>'
+            supporting-organizations: 'Supporting organizations'
     views:
         debug:
             description: 'Display current views resources for the application'
