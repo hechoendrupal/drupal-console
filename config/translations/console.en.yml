@@ -192,6 +192,12 @@ commands:
         module-invalid: "Module %s doesn't have an implementation of cron"
         executing-cron: "Executing cron function of module %s"
   dblog:
+    clear:
+      description: 'Remove events from DBLog table, filters are available'
+      messages:
+        event-deleted: 'Event %s was deleted'
+        clear-error: 'Clear process fail, please check used filters'
+        clear-sucess: 'Clear of events was successfully'
     debug:
       description: 'Display current log events for the application'
       arguments:
