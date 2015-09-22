@@ -1,6 +1,11 @@
 <?php
 
-namespace Drupal\Console\Command\migrate_upgrade;
+/**
+ * @file
+ * Contains \Drupal\Console\Utils\MigrateExecuteMessageCapture.
+ */
+
+namespace Drupal\Console\Utils;
 
 use Drupal\migrate\MigrateMessageInterface;
 
