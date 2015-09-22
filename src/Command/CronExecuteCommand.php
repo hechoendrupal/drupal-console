@@ -21,7 +21,7 @@ class CronExecuteCommand extends ContainerAwareCommand
     {
         $this
             ->setName('cron:execute')
-            ->setDescription($this->trans('commands.views.execute.description'))
+            ->setDescription($this->trans('commands.cron.execute.description'))
             ->addArgument('module', InputArgument::OPTIONAL, $this->trans('commands.common.options.module'));
     }
 
