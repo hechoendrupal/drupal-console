@@ -20,7 +20,7 @@ class CronDebugCommand extends ContainerAwareCommand
     {
         $this
             ->setName('cron:debug')
-            ->setDescription($this->trans('commands.views.debug.description'));
+            ->setDescription($this->trans('commands.cron.debug.description'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
