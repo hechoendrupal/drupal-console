@@ -3,6 +3,8 @@
 namespace Drupal\Console\Console;
 
 use Composer\Autoload\ClassLoader;
+use Drupal\Console\Command\Alias\AliasCommand;
+use Drupal\Console\RemoteConfig;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputArgument;
@@ -91,6 +93,10 @@ class Application extends BaseApplication
         $this->getDefinition()->addOption(
             new InputOption('--generate-doc', '--gd', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc'))
         );
+
+        $this->getDefinition()->addOption(
+            new InputOption('target', 't', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.target'))
+        );
     }
 
     /**
@@ -135,71 +141,110 @@ class Application extends BaseApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        $drupalRoot = $input->getParameterOption(['--drupal', '-d'], false);
+        if ($input->getParameterOption(['--target', '-t'])) {
+            $this->doRunRemote($input, $output);
+        } else {
 
-        $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
+            $drupalRoot = $input->getParameterOption(['--drupal', '-d'], false);
 
-        $debug = getenv('DRUPAL_DEBUG') !== '0'
-            && !$input->hasParameterOption(array('--no-debug', ''))
-            && $env !== 'prod';
+            $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
 
-        $message = $this->getHelperSet()->get('message');
-        $drupal = $this->getHelperSet()->get('drupal');
+            $debug = getenv('DRUPAL_DEBUG') !== '0'
+                && !$input->hasParameterOption(array('--no-debug', ''))
+                && $env !== 'prod';
 
-        if (!$drupal->isValidInstance($drupalRoot)) {
-            $message->addWarningMessage(
-                $this->trans('application.site.errors.directory')
-            );
-        }
+            $message = $this->getHelperSet()->get('message');
+            $drupal = $this->getHelperSet()->get('drupal');
 
-        if (!$this->commandsRegistered) {
-            $this->commandsRegistered = $this->registerCommands();
-        }
-
-        if ($input) {
-            $commandName = $this->getCommandName($input);
-        }
-
-        if ($drupal->isBootable()) {
-            $this->prepareKernel($env, $debug, $drupal);
-            $this->setBooted($drupal->isInstalled());
-        }
-
-        if ($drupal->isBootable() && !$this->isBooted()) {
-            $message->addWarningMessage(
-                $this->trans('application.site.errors.settings')
-            );
-        }
-
-        if ($this->isBooted()) {
-            $this->bootstrap();
-
-            if (true === $input->hasParameterOption(array('--shell', '-s'))) {
-                $this->runShell($input);
-
-                return 0;
+            if (!$drupal->isValidInstance($drupalRoot)) {
+                $message->addWarningMessage(
+                    $this->trans('application.site.errors.directory')
+                );
             }
-        }
 
-        if (true === $input->hasParameterOption(array('--generate-doc', '--gd'))) {
-            $command = $this->get($commandName);
-            $command->addOption(
-                'generate-doc',
-                '--gd',
-                InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc')
-            );
-        }
+            if (!$this->commandsRegistered) {
+                $this->commandsRegistered = $this->registerCommands();
+            }
 
-        parent::doRun($input, $output);
+            if ($input) {
+                $commandName = $this->getCommandName($input);
+            }
 
-        if ($this->isBooted()) {
-            $kernelHelper = $this->getHelperSet()->get('kernel');
-            if ($kernelHelper) {
-                $kernelHelper->terminate();
+            if ($drupal->isBootable()) {
+                $this->prepareKernel($env, $debug, $drupal);
+                $this->setBooted($drupal->isInstalled());
+            }
+
+            if ($drupal->isBootable() && !$this->isBooted()) {
+                $message->addWarningMessage(
+                    $this->trans('application.site.errors.settings')
+                );
+            }
+
+            if ($this->isBooted()) {
+                $this->bootstrap();
+
+                if (true === $input->hasParameterOption(array('--shell', '-s'))) {
+                    $this->runShell($input);
+
+                    return 0;
+                }
+            }
+
+            if (true === $input->hasParameterOption(array('--generate-doc', '--gd'))) {
+                $command = $this->get($commandName);
+                $command->addOption(
+                    'generate-doc',
+                    '--gd',
+                    InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc')
+                );
+            }
+
+            parent::doRun($input, $output);
+
+            if ($this->isBooted()) {
+                $kernelHelper = $this->getHelperSet()->get('kernel');
+                if ($kernelHelper) {
+                    $kernelHelper->terminate();
+                }
             }
         }
     }
 
+    /**
+     * @param InputInterface $input
+     * @return string
+     */
+    protected function getCommandName(InputInterface $input)
+    {
+        $target = $input->getParameterOption(['--target', '-t']);
+        if ($target) {
+            return 'alias';
+        } else {
+            return $input->getFirstArgument();
+        }
+    }
+
+    /**
+     * @param InputInterface $input
+     * @param $output
+     */
+    private function doRunRemote(InputInterface $input, $output)
+    {
+        $remoteConfig = new RemoteConfig();
+        $remoteCommand = new AliasCommand($this->translator);
+        $remoteCommand->setRemoteConfigurations($remoteConfig);
+        $this->addCommands([
+            $remoteCommand
+        ]);
+        parent::doRun($input, $output);
+    }
+
+    /**
+     * @param string $env
+     * @param bool $debug
+     * @param $drupal
+     */
     private function prepareKernel($env = 'prod', $debug = false, $drupal)
     {
         $drupalAutoLoaderClass = include $drupal->getDrupalAutoLoadPath();
