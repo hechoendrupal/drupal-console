@@ -860,7 +860,7 @@ commands:
         application: Application
         system: System Info
         hash_salt: Hash salt
-        console: Console version
+        console: Drupal Console version
         database: Database connection
         driver: Driver
         host: Host
@@ -1052,6 +1052,7 @@ commands:
       welcome-feature-interact: 'Interact with a Drupal 8 installation.'
       welcome-feature-learn: 'Learn Drupal 8.'
       list: 'Execute <info>list</info> command to get a list of all commands available.'
+      landing: 'Project landing page <comment>%s</comment>'
       change-log: 'Project change log at <comment>%s</comment>'
       version-supported: 'The Drupal 8 supported version is <info>%s</info>'
       documentation: 'Drupal Console documentation at <comment>%s</comment>'

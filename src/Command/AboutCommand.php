@@ -23,57 +23,63 @@ class AboutCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln(
-            $this->trans('commands.about.messages.welcome')
+        $renderer = $this->getHelperSet()->get('renderer');
+
+        $features = [
+          $this->trans('commands.about.messages.welcome-feature-learn'),
+          $this->trans('commands.about.messages.welcome-feature-generate'),
+          $this->trans('commands.about.messages.welcome-feature-interact')
+        ];
+
+        $consoleVersion = sprintf(
+            '%s <info>%s</info>',
+            $this->trans('commands.site.status.messages.console'),
+            $this->getApplication()->getVersion()
         );
 
-        $output->writeln("    <comment>" . $this->trans('commands.about.messages.welcome-feature-learn') . "</comment>");
-        $output->writeln("    <comment>" . $this->trans('commands.about.messages.welcome-feature-generate') . "</comment>");
-        $output->writeln("    <comment>" . $this->trans('commands.about.messages.welcome-feature-interact') . "</comment>");
-        $output->writeln("");
-
-        $output->writeln(
-            sprintf(
-                $this->trans('commands.about.messages.version-supported'),
-                'Drupal 8 Beta 15'
-            )
+        $supportedVersion = sprintf(
+            $this->trans('commands.about.messages.version-supported'),
+            'Drupal 8 Beta 15'
         );
 
-        $output->writeln("");
+        $links = [
+          sprintf(
+              $this->trans('commands.about.messages.landing'),
+              'http://drupalconsole.com'
+          ),
+          sprintf(
+              $this->trans('commands.about.messages.change-log'),
+              'http://bit.ly/console-releases'
+          ),
+          sprintf(
+              $this->trans('commands.about.messages.documentation'),
+              'http://bit.ly/console-book'
+          ),
+          sprintf(
+              $this->trans('commands.about.messages.support'),
+              'http://bit.ly/console-support'
+          )
+        ];
 
-        $output->writeln(
-            $this->trans('commands.about.messages.list')
-        );
+        $organizations = [
+            'Indava (http://www.indava.com/)',
+            'Anexus (https://anexusit.com)',
+            'FFW (https://ffwagency.com)'
+        ];
 
-        $output->writeln("");
+        $parameters = [
+          'title' =>  $this->trans('commands.about.messages.welcome'),
+          'features' => $features,
+          'console_version' => $consoleVersion,
+          'supported_version' => $supportedVersion,
+          'list_command' => $this->trans('commands.about.messages.list'),
+          'links' => $links,
+          'supporting_organizations' => $this->trans('commands.about.messages.supporting-organizations'),
+          'organizations' => $organizations
+        ];
 
-        $output->writeln(
-            sprintf(
-                $this->trans('commands.about.messages.change-log'),
-                'http://bit.ly/console-releases'
-            )
-        );
+        $about = $renderer->render('core/about.twig', $parameters);
 
-        $output->writeln(
-            sprintf(
-                $this->trans('commands.about.messages.documentation'),
-                'http://bit.ly/console-book'
-            )
-        );
-
-        $output->writeln(
-            sprintf(
-                $this->trans('commands.about.messages.support'),
-                'http://bit.ly/console-support'
-            )
-        );
-
-        $output->writeln("");
-
-        $output->writeln("<info>" . $this->trans('commands.about.messages.supporting-organizations') . "</info>");
-
-        $output->writeln("    <comment>Indava (http://www.indava.com/)</comment>");
-        $output->writeln("    <comment>Anexus (https://anexusit.com)</comment>");
-        $output->writeln("    <comment>FFW (https://ffwagency.com)</comment>");
+        $output->writeln($about);
     }
 }
