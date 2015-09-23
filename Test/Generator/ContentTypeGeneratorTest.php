@@ -33,6 +33,12 @@ class ContentTypeGeneratorTest extends GeneratorTest
         $this->getHelperSet()->get('renderer')->setTranslator($this->getTranslatorHelper());
         $generator->setHelpers($this->getHelperSet());
 
+        $generator->generate(
+            $module,
+            $bundle_name,
+            $bundle_title
+        );
+
         $files = [
           $generator->getSite()->getModulePath($module) . '/' . $module . '/config/install/core.entity_form_display.node.' . $bundle_name . '.default.yml',
           $generator->getSite()->getModulePath($module) . '/' . $module . '/config/install/core.entity_view_display.node.' . $bundle_name . '.default.yml',
