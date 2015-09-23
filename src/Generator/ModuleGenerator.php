@@ -16,6 +16,7 @@ class ModuleGenerator extends Generator
         $description,
         $core,
         $package,
+        $feature,
         $composer,
         $dependencies
     ) {
@@ -55,6 +56,7 @@ class ModuleGenerator extends Generator
           'core' => $core,
           'description' => $description,
           'package' => $package,
+          'feature' => $feature,
           'dependencies' => $dependencies,
         );
 

@@ -63,6 +63,12 @@ class GeneratorModuleCommand extends GeneratorCommand
                 $this->trans('commands.generate.module.options.package')
             )
             ->addOption(
+                'feature',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.module.options.feature')
+            )
+            ->addOption(
                 'composer',
                 false,
                 InputOption::VALUE_NONE,
@@ -100,6 +106,7 @@ class GeneratorModuleCommand extends GeneratorCommand
         $description = $input->getOption('description');
         $core = $input->getOption('core');
         $package = $input->getOption('package');
+        $feature = $input->getOption('feature');
         $composer = $input->getOption('composer');
         /*
          * Modules Dependencies
@@ -127,6 +134,7 @@ class GeneratorModuleCommand extends GeneratorCommand
             $description,
             $core,
             $package,
+            $feature,
             $composer,
             $dependencies
         );
@@ -284,6 +292,17 @@ class GeneratorModuleCommand extends GeneratorCommand
             );
         }
         $input->setOption('core', $core);
+
+        $feature = $input->getOption('feature');
+        if (!$feature && $dialog->askConfirmation(
+            $output,
+            $dialog->getQuestion($this->trans('commands.generate.module.questions.feature'), 'no', '?'),
+            false
+        )
+        ) {
+            $feature = true;
+        }
+        $input->setOption('feature', $feature);
 
         $composer = $input->getOption('composer');
         if (!$composer && $dialog->askConfirmation(
