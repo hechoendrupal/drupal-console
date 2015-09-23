@@ -16,7 +16,7 @@ trait ContentTypeDataProviderTrait
         $this->setUpTemporalDirectory();
         
         return [
-          ['foo', 'default', 'default']
+          ['foo', 'default_type', 'default']
         ];
     }
 }
