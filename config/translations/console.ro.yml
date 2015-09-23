@@ -67,6 +67,8 @@ commands:
                 type: Tip
                 invalid: 'Campul de tip "%s" este incorect.'
                 description: Descriere
+                default-value: 'Default value'
+                weight: 'Weight for input item'
         errors:
             module-dependency: 'Dependenta de Module lipseste "%s"'
             class-name-empty: 'Numele Clasei este necesar'
@@ -293,6 +295,13 @@ commands:
                 entity-name: 'Introdu numele de "Entity"'
                 label: 'Enter the entity label'
         form:
+            alter:
+                description: 'Generate an implementation of hook_form_alter() or hook_form_FORM_ID_alter'
+                help: 'The <info>"%s"</info> command helps you generate a new "%s"'
+                options:
+                    form-id: 'Form ID to alter'
+                messages:
+                    inputs: "You can add form fields to modify form.\nThis is optional, press <info>enter</info> to <info>continue</info>"
             description: 'Genereaza un nou "%s"'
             help: 'Comanda <info>"%s"</info> te va ajuta sa generezi un nou "%s"'
             welcome: 'Bine ai venit in generatorul de forma'
