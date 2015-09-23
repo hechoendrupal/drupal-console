@@ -84,12 +84,10 @@ class ViewsExportCommand extends ContainerAwareCommand
             );
         }
         $input->setArgument('view-id', $view_id);
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         $this->entity_manager = $this->getEntityManager();
         $this->configStorage = $this->getConfigStorage();
 
@@ -143,6 +141,4 @@ class ViewsExportCommand extends ContainerAwareCommand
         unset($config['uuid']);
         return $config;
     }
-
-
 }
