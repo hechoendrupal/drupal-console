@@ -32,7 +32,7 @@ class AliasDebugCommand extends Command
         $app = $this->getApplication();
         $homeDir = $app->getConfig()->getUserHomeDir();
 
-        $remoteDir = $homeDir . '/.console/remote';
+        $remoteDir = $homeDir . '/.console/alias';
         $finder = new Finder();
         $finder->in($remoteDir);
         $finder->name("*.yml");
