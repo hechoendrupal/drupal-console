@@ -140,6 +140,20 @@ trait FormTrait
                     null
                 );
 
+                // Default value for input
+                $default_value = $dialog->ask(
+                    $output,
+                    $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.default-value'), '', ':'),
+                    null
+                );
+
+                // Weight for input
+                $weight = $dialog->ask(
+                    $output,
+                    $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.weight'), '', ':'),
+                    null
+                );
+
                 array_push(
                     $inputs, array(
                     'name' => $input_name,
@@ -149,6 +163,8 @@ trait FormTrait
                     'description' => $input_description,
                     'maxlength' => $maxlength,
                     'size' => $size,
+                    'default_value' => $default_value,
+                    'weight' => $weight
                     )
                 );
             }
