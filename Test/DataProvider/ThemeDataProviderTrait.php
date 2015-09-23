@@ -16,7 +16,7 @@ trait ThemeDataProviderTrait
         $this->setUpTemporalDirectory();
 
         return [
-          ['Foo', 'foo', $this->dir.'themes/custom', 'bar', 'Other', '8.x', 'sd', 'global-styling', false, false]
+          ['Foo', rand(), $this->dir.'/themes/custom', 'bar', 'Other', '8.x', 'sd', 'global-styling', false, false]
         ];
     }
 }
