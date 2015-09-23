@@ -2,17 +2,17 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\GeneratorPluginImageEffectCommand.
+ * Contains \Drupal\Console\Command\GeneratorPluginImageEffectCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\AppConsole\Generator\PluginImageEffectGenerator;
-use Drupal\AppConsole\Command\Helper\ModuleTrait;
-use Drupal\AppConsole\Command\Helper\ConfirmationTrait;
+use Drupal\Console\Generator\PluginImageEffectGenerator;
+use Drupal\Console\Command\ModuleTrait;
+use Drupal\Console\Command\ConfirmationTrait;
 
 class GeneratorPluginImageEffectCommand extends GeneratorCommand
 {
@@ -59,7 +59,7 @@ class GeneratorPluginImageEffectCommand extends GeneratorCommand
     {
         $dialog = $this->getDialogHelper();
 
-        // @see use Drupal\AppConsole\Command\Helper\ConfirmationTrait::confirmationQuestion
+        // @see use Drupal\Console\Command\ConfirmationTrait::confirmationQuestion
         if ($this->confirmationQuestion($input, $output, $dialog)) {
             return;
         }
@@ -84,7 +84,7 @@ class GeneratorPluginImageEffectCommand extends GeneratorCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\AppConsole\Command\Helper\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($output, $dialog);
         }
         $input->setOption('module', $module);

@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Config.
+ * Contains \Drupal\Console\Config.
  */
 
-namespace Drupal\AppConsole;
+namespace Drupal\Console;
 
 use Symfony\Component\Yaml\Parser;
 

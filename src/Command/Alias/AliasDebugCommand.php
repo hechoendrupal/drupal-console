@@ -1,9 +1,9 @@
 <?php
 
-namespace Drupal\AppConsole\Command\Alias;
+namespace Drupal\Console\Command\Alias;
 
-use Drupal\AppConsole\Command\Command;
-use Drupal\AppConsole\Console\Application;
+use Drupal\Console\Command\Command;
+use Drupal\Console\Console\Application;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

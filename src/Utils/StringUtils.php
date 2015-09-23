@@ -2,11 +2,11 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Utils\StringUtils
+ * Contains \Drupal\Console\Utils\StringUtils
  * Utility functions
  */
 
-namespace Drupal\AppConsole\Utils;
+namespace Drupal\Console\Utils;
 
 use Symfony\Component\Console\Helper\Helper;
 

@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\RestDebugCommand.
+ * Contains \Drupal\Console\Command\RestDebugCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -20,7 +20,7 @@ class CronDebugCommand extends ContainerAwareCommand
     {
         $this
             ->setName('cron:debug')
-            ->setDescription($this->trans('commands.views.debug.description'));
+            ->setDescription($this->trans('commands.cron.debug.description'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

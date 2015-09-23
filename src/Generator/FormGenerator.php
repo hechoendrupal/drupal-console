@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Generator\FormGenerator.
+ * Contains Drupal\Console\Generator\FormGenerator.
  */
 
-namespace Drupal\AppConsole\Generator;
+namespace Drupal\Console\Generator;
 
 class FormGenerator extends Generator
 {

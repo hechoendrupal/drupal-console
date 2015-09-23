@@ -2,16 +2,16 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\EventSubscriber\ShowGeneratedFiles.
+ * Contains \Drupal\Console\EventSubscriber\ShowGeneratedFiles.
  */
 
-namespace Drupal\AppConsole\EventSubscriber;
+namespace Drupal\Console\EventSubscriber;
 
-use Drupal\AppConsole\Command\Helper\TranslatorHelper;
+use Drupal\Console\Helper\TranslatorHelper;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Drupal\AppConsole\Command\GeneratorCommand;
+use Drupal\Console\Command\GeneratorCommand;
 
 class ShowCompletedMessageListener implements EventSubscriberInterface
 {
@@ -26,7 +26,7 @@ class ShowCompletedMessageListener implements EventSubscriberInterface
     public function showCompletedMessage(ConsoleTerminateEvent $event)
     {
         /**
-         * @var \Drupal\AppConsole\Command\Command $command
+         * @var \Drupal\Console\Command\Command $command
          */
         $command = $event->getCommand();
         $output = $event->getOutput();

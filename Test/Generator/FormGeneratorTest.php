@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Test\Generator\FormGeneratorTest.
+ * Contains Drupal\Console\Test\Generator\FormGeneratorTest.
  */
 
-namespace Drupal\AppConsole\Test\Generator;
+namespace Drupal\Console\Test\Generator;
 
-use Drupal\AppConsole\Generator\FormGenerator;
-use Drupal\AppConsole\Test\DataProvider\FormDataProviderTrait;
+use Drupal\Console\Generator\FormGenerator;
+use Drupal\Console\Test\DataProvider\FormDataProviderTrait;
 
 class FormGeneratorTest extends GeneratorTest
 {

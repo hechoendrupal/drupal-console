@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorModuleCommandTest.
+ * Contains \Drupal\Console\Test\Command\GeneratorModuleCommandTest.
  */
 
-namespace Drupal\AppConsole\Test\Command;
+namespace Drupal\Console\Test\Command;
 
-use Drupal\AppConsole\Command\GeneratorModuleCommand;
+use Drupal\Console\Command\GeneratorModuleCommand;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\AppConsole\Test\DataProvider\ModuleDataProviderTrait;
+use Drupal\Console\Test\DataProvider\ModuleDataProviderTrait;
 
 class GeneratorModuleCommandTest extends GenerateCommandTest
 {
@@ -65,7 +65,7 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-          ->getMockBuilder('Drupal\AppConsole\Generator\ModuleGenerator')
+          ->getMockBuilder('Drupal\Console\Generator\ModuleGenerator')
           ->disableOriginalConstructor()
           ->setMethods(['generate'])
           ->getMock();

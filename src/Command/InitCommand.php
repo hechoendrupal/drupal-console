@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\InitCommand.
+ * Contains \Drupal\Console\Command\InitCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

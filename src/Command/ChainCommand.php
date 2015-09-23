@@ -2,12 +2,12 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\ChainCommand.
+ * Contains \Drupal\Console\Command\ChainCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
-use Drupal\AppConsole\Config;
+use Drupal\Console\Config;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;

@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\ConfigOverrideCommand.
+ * Contains \Drupal\Console\Command\ConfigOverrideCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

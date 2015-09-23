@@ -1,14 +1,14 @@
 <?php
 
-namespace Drupal\AppConsole\Command\Alias;
+namespace Drupal\Console\Command\Alias;
 
-use Drupal\AppConsole\RemoteConfig;
-use Drupal\AppConsole\UserConfig;
+use Drupal\Console\RemoteConfig;
+use Drupal\Console\UserConfig;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Drupal\AppConsole\Command\Command;
+use Drupal\Console\Command\Command;
 
 class AliasCommand extends Command
 {

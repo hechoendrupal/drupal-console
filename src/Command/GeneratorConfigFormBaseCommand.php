@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Command\GeneratorFormBaseCommand.
+ * Contains Drupal\Console\Command\GeneratorFormBaseCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 class GeneratorConfigFormBaseCommand extends GeneratorFormCommand
 {

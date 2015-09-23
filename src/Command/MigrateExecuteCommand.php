@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\MigrateExecuteCommand.
+ * Contains \Drupal\Console\Command\MigrateExecuteCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Core\Database\Database;
 use Drupal\migrate\Entity\MigrationInterface;
 use Drupal\migrate\MigrateExecutable;
-use Drupal\AppConsole\Command\migrate_upgrade\MigrateExecuteMessageCapture;
+use Drupal\Console\Utils\MigrateExecuteMessageCapture;
 
 class MigrateExecuteCommand extends ContainerAwareCommand
 {
@@ -285,7 +285,7 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         return $this;
     }
 
-    protected function registerSourceDB(InputInterface $input)
+    protected function registerSourceDB(InputInterface $input, OutputInterface $output)
     {
         $db_host = $input->getOption('db-host');
         $db_name = $input->getOption('db-name');
@@ -332,7 +332,7 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         }
 
         if (!$this->connection) {
-            $this->registerSourceDB($input);
+            $this->registerSourceDB($input, $output);
             $this->getConnection($output);
         }
 

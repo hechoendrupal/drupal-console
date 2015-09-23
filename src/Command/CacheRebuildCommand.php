@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\CacheRebuildCommand.
+ * Contains \Drupal\Console\Command\CacheRebuildCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,10 +28,10 @@ class CacheRebuildCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
-        $drupal_root = $drupalAutoLoad->getDrupalRoot();
+        $drupal = $this->getHelperSet()->get('drupal');
+        $drupalRoot = $drupal->getDrupalRoot();
 
-        include_once $drupal_root.'/core/includes/utility.inc';
+        include_once $drupalRoot.'/core/includes/utility.inc';
         $validators = $this->getHelperSet()->get('validators');
 
         // Get the --cache option and make validation

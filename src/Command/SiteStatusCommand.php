@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\SiteStatusCommand.
+ * Contains \Drupal\Console\Command\SiteStatusCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -95,10 +95,10 @@ class SiteStatusCommand extends ContainerAwareCommand
         }
 
         $kernelHelper = $this->getHelper('kernel');
-        $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
+        $drupal = $this->getHelperSet()->get('drupal');
 
         Settings::initialize(
-            $drupalAutoLoad->getDrupalRoot(),
+            $drupal->getDrupalRoot(),
             'sites/default',
             $kernelHelper->getClassLoader()
         );
@@ -147,8 +147,8 @@ class SiteStatusCommand extends ContainerAwareCommand
 
     protected function getDirectoryData()
     {
-        $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
-        $drupal_root = $drupalAutoLoad->getDrupalRoot();
+        $drupal = $this->getHelperSet()->get('drupal');
+        $drupal_root = $drupal->getDrupalRoot();
 
         $configFactory = $this->getConfigFactory();
         $systemTheme = $configFactory->get('system.theme');

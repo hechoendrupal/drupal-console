@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
-use Drupal\AppConsole\Generator\Generator;
+use Drupal\Console\Generator\Generator;
 
 abstract class GeneratorCommand extends ContainerAwareCommand
 {
@@ -40,10 +40,10 @@ abstract class GeneratorCommand extends ContainerAwareCommand
     protected function getSkeletonDirs()
     {
         $module = $this->getModule();
-        if ($module != 'AppConsole') {
-            $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
-            $drupal_root = $drupalAutoLoad->getDrupalRoot();
-            $skeletonDirs[] = $drupal_root.drupal_get_path('module', $module).'/templates';
+        if ($module != 'Console') {
+            $drupal = $this->getHelperSet()->get('drupal');
+            $drupalRoot = $drupal->getDrupalRoot();
+            $skeletonDirs[] = $drupalRoot.drupal_get_path('module', $module).'/templates';
         }
 
         $skeletonDirs[] = __DIR__.'/../../templates';

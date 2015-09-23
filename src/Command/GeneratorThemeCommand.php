@@ -2,19 +2,19 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\GeneratorModuleCommand.
+ * Contains \Drupal\Console\Command\GeneratorModuleCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
-use Drupal\AppConsole\Command\Helper\ThemeBreakpointTrait;
+use Drupal\Console\Command\ThemeBreakpointTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\AppConsole\Command\Helper\ThemeRegionTrait;
-use Drupal\AppConsole\Command\Helper\ThemeBreakpointTraitT;
-use Drupal\AppConsole\Generator\ThemeGenerator;
-use Drupal\AppConsole\Command\Helper\ConfirmationTrait;
+use Drupal\Console\Command\ThemeRegionTrait;
+use Drupal\Console\Command\ThemeBreakpointTraitT;
+use Drupal\Console\Generator\ThemeGenerator;
+use Drupal\Console\Command\ConfirmationTrait;
 
 /**
  *
@@ -105,8 +105,8 @@ class GeneratorThemeCommand extends GeneratorCommand
 
         $theme = $validators->validateModuleName($input->getOption('theme'));
 
-        $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
-        $drupal_root = $drupalAutoLoad->getDrupalRoot();
+        $drupal = $this->getHelperSet()->get('drupal');
+        $drupal_root = $drupal->getDrupalRoot();
         $theme_path = $drupal_root . $input->getOption('theme-path');
         $theme_path = $validators->validateModulePath($theme_path, true);
 
@@ -186,8 +186,8 @@ class GeneratorThemeCommand extends GeneratorCommand
         }
 
         $theme_path = $input->getOption('theme-path');
-        $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
-        $drupal_root = $drupalAutoLoad->getDrupalRoot();
+        $drupal = $this->getHelperSet()->get('drupal');
+        $drupal_root = $drupal->getDrupalRoot();
 
         if (!$theme_path) {
             $theme_path_default = '/themes/custom';
@@ -294,7 +294,7 @@ class GeneratorThemeCommand extends GeneratorCommand
                 false
             )
             ) {
-                // @see \Drupal\AppConsole\Command\Helper\ThemeRegionTrait::regionQuestion
+                // @see \Drupal\Console\Command\ThemeRegionTrait::regionQuestion
                 $regions = $this->regionQuestion($output, $dialog);
             }
         }
@@ -309,7 +309,7 @@ class GeneratorThemeCommand extends GeneratorCommand
                 false
             )
             ) {
-                // @see \Drupal\AppConsole\Command\Helper\ThemeRegionTrait::regionQuestion
+                // @see \Drupal\Console\Command\ThemeRegionTrait::regionQuestion
                 $breakpoints = $this->breakpointQuestion($output, $dialog);
             }
         }

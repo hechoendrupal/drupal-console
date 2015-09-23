@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * Contains Drupal\AppConsole\Test\Generator\PluginImageEffectGeneratorTest.
+ * Contains Drupal\Console\Test\Generator\PluginImageEffectGeneratorTest.
  */
 
-namespace Drupal\AppConsole\Test\Generator;
+namespace Drupal\Console\Test\Generator;
 
-use Drupal\AppConsole\Generator\PluginImageEffectGenerator;
-use Drupal\AppConsole\Test\DataProvider\PluginImageEffectDataProviderTrait;
+use Drupal\Console\Generator\PluginImageEffectGenerator;
+use Drupal\Console\Test\DataProvider\PluginImageEffectDataProviderTrait;
 
 class PluginImageEffectGeneratorTest extends GeneratorTest
 {

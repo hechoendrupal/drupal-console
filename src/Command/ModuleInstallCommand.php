@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\ModuleInstallCommand.
+ * Contains \Drupal\Console\Command\ModuleInstallCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 use Drupal\Core\Config\PreExistingConfigException;
 use Symfony\Component\Console\Input\InputArgument;
