@@ -1,0 +1,19 @@
+{{ title }}
+{% for feature in features %}
+    <comment>{{ feature }}</comment>
+{% endfor %}
+
+{{ console_version }}
+
+{{ supported_version }}
+
+{% for link in links %}
+{{ link }}
+{% endfor %}
+
+{{ supporting_organizations }}
+{% for organization in organizations %}
+    <comment>{{ organization }}</comment>
+{% endfor %}
+
+{{ list_command }}
