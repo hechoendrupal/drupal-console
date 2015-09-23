@@ -68,6 +68,8 @@ commands:
                 type: Típus
                 invalid: 'Mező típus "%s" helytelen.'
                 description: Leírás
+                default-value: 'Default value'
+                weight: 'Weight for input item'
         errors:
             module-dependency: 'Hiányzó modul függőség "%s"'
             class-name-empty: 'A Class neve nem lehet üres'
@@ -294,6 +296,13 @@ commands:
                 entity-name: 'Entity nevének megadása'
                 label: 'Enter the entity label'
         form:
+            alter:
+                description: 'Generate an implementation of hook_form_alter() or hook_form_FORM_ID_alter'
+                help: 'The <info>"%s"</info> command helps you generate a new "%s"'
+                options:
+                    form-id: 'Form ID to alter'
+                messages:
+                    inputs: "You can add form fields to modify form.\nThis is optional, press <info>enter</info> to <info>continue</info>"
             description: 'Új "%s" létrehozása'
             help: 'A <info>"%s"</info> parancs új "%s" létrehozásában segít'
             welcome: 'Üdvözlet a Drupal Form létrehozásában'

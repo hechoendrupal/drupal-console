@@ -67,6 +67,8 @@ commands:
                 type: Type
                 invalid: 'Le champ de type "%s" est invalide.'
                 description: Description
+                default-value: 'Default value'
+                weight: 'Weight for input item'
         errors:
             module-dependency: 'Le module dépendant "%s" est manquant'
             class-name-empty: 'Le nom de la classe ne peut pas être vide'
@@ -293,6 +295,13 @@ commands:
                 entity-name: 'Entrez le nom de l''entitée'
                 label: 'Enter the entity label'
         form:
+            alter:
+                description: 'Generate an implementation of hook_form_alter() or hook_form_FORM_ID_alter'
+                help: 'The <info>"%s"</info> command helps you generate a new "%s"'
+                options:
+                    form-id: 'Form ID to alter'
+                messages:
+                    inputs: "You can add form fields to modify form.\nThis is optional, press <info>enter</info> to <info>continue</info>"
             description: 'Générer un nouveau "%s"'
             help: 'la commande <info>"%s"</info> vous assisite dans la génération d''un nouveau "%s"'
             welcome: 'Bienvenue sur le générateur de formulaire Drupal'
