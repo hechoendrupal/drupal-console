@@ -3,6 +3,8 @@
 namespace Drupal\AppConsole\Console;
 
 use Composer\Autoload\ClassLoader;
+use Drupal\AppConsole\Command\Alias\AliasCommand;
+use Drupal\AppConsole\RemoteConfig;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -78,28 +80,32 @@ class Application extends BaseApplication
         parent::__construct($this::NAME, sprintf('%s', $this::VERSION));
 
         $this->getDefinition()->addOption(
-            new InputOption('--drupal', '-d', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.drupal'))
+            new InputOption('drupal', '-d', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.drupal'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--shell', '-s', InputOption::VALUE_NONE, $this->trans('application.console.arguments.shell'))
+            new InputOption('shell', '-s', InputOption::VALUE_NONE, $this->trans('application.console.arguments.shell'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.env'), $this->env)
+            new InputOption('env', '-e', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.env'), $this->env)
         );
         $this->getDefinition()->addOption(
-            new InputOption('--no-debug', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.no-debug'))
+            new InputOption('no-debug', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.no-debug'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--learning', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.learning'))
+            new InputOption('learning', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.learning'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--generate-chain', '--gc', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-chain'))
+            new InputOption('generate-chain', '--gc', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-chain'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--generate-inline', '--gi', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-inline'))
+            new InputOption('generate-inline', '--gi', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-inline'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--generate-doc', '--gd', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc'))
+            new InputOption('generate-doc', '--gd', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc'))
+        );
+
+        $this->getDefinition()->addOption(
+            new InputOption('target', 't', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.target'))
         );
     }
 
@@ -119,59 +125,90 @@ class Application extends BaseApplication
         }
     }
 
+    protected function getCommandName(InputInterface $input)
+    {
+        $target = $input->getParameterOption(['--target', '-t']);
+        if ($target) {
+            return 'alias';
+        } else {
+            return $input->getFirstArgument();
+        }
+
+    }
+
+    private function doRunRemote(InputInterface $input, $output)
+    {
+        $remoteConfig = new RemoteConfig();
+        $remoteCommand = new AliasCommand($this->translator);
+        $remoteCommand->setRemoteConfigurations($remoteConfig);
+
+        $this->addCommands([
+            $remoteCommand
+        ]);
+
+        parent::doRun($input, $output);
+    }
+
     /**
      * {@inheritdoc}
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        $drupal_root = $input->getParameterOption(['--drupal', '-d'], false);
 
-        $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
+        $target = $input->getParameterOption(['--target', '-t']);
+        if ($target) {
+            $this->doRunRemote($input, $output);
+        } else {
 
-        $debug = getenv('DRUPAL_DEBUG') !== '0'
-            && !$input->hasParameterOption(array('--no-debug', ''))
-            && $env !== 'prod';
+            $drupal_root = $input->getParameterOption(['--drupal', '-d'], false);
 
-        if ($this->isBooted()) {
-            if (true === $input->hasParameterOption(array('--shell', '-s'))) {
-                $this->runShell($input);
+            $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
 
-                return 0;
+            $debug = getenv('DRUPAL_DEBUG') !== '0'
+                && !$input->hasParameterOption(array('--no-debug', ''))
+                && $env !== 'prod';
+
+            if ($this->isBooted()) {
+                if (true === $input->hasParameterOption(array('--shell', '-s'))) {
+                    $this->runShell($input);
+
+                    return 0;
+                }
             }
-        }
 
-        if (!$this->commandsRegistered) {
-            $this->commandsRegistered = $this->registerCommands();
-        }
+            if (!$this->commandsRegistered) {
+                $this->commandsRegistered = $this->registerCommands();
+            }
 
-        if ($input) {
-            $commandName = $this->getCommandName($input);
-        }
+            if ($input) {
+                $commandName = $this->getCommandName($input);
+            }
 
-        if ($commandName && $this->has($commandName)) {
-            $this->searchSettingsFile = false;
-        }
+            if ($commandName && $this->has($commandName)) {
+                $this->searchSettingsFile = false;
+            }
 
-        if ($this->isRunningOnDrupalInstance($drupal_root)) {
-            $this->setup($env, $debug);
-            $this->bootstrap();
-        }
+            if ($this->isRunningOnDrupalInstance($drupal_root)) {
+                $this->setup($env, $debug);
+                $this->bootstrap();
+            }
 
-        if (true === $input->hasParameterOption(array('--generate-doc', '--gd'))) {
-            $command = $this->get($commandName);
-            $command->addOption(
-                'generate-doc',
-                '--gd',
-                InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc')
-            );
-        }
+            if (true === $input->hasParameterOption(array('--generate-doc', '--gd'))) {
+                $command = $this->get($commandName);
+                $command->addOption(
+                    'generate-doc',
+                    '--gd',
+                    InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc')
+                );
+            }
 
-        parent::doRun($input, $output);
+            parent::doRun($input, $output);
 
-        if ($this->isBooted()) {
-            $kernelHelper = $this->getHelperSet()->get('kernel');
-            if ($kernelHelper) {
-                $kernelHelper->terminate();
+            if ($this->isBooted()) {
+                $kernelHelper = $this->getHelperSet()->get('kernel');
+                if ($kernelHelper) {
+                    $kernelHelper->terminate();
+                }
             }
         }
     }
