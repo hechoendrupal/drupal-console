@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dmouse
- * Date: 9/18/15
- * Time: 9:42 AM
- */
 
-namespace Drupal\AppConsole;
-
+namespace Drupal\Console;
 
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 
