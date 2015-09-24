@@ -18,16 +18,40 @@ use Drupal\Console\Utils\DrupalExtensionDiscovery;
 class SiteHelper extends Helper
 {
     /**
-     * @var string
+     * @var array
      */
-    private $modulePath;
+    private $modules;
 
     /**
-     * @param string $modulePath
+     * @var string
      */
-    public function setModulePath($modulePath)
+    private $sitePath;
+
+    /**
+     * @return string
+     */
+    public function getSitePath()
     {
-        $this->modulePath = $modulePath;
+        return $this->sitePath;
+    }
+
+    /**
+     * @param string $sitePath
+     */
+    public function setSitePath($sitePath)
+    {
+        $this->sitePath = $sitePath;
+    }
+
+    private function discoverModules(){
+        /*
+         * @todo Remove DrupalExtensionDiscovery subclass once
+         * https://www.drupal.org/node/2503927 is fixed.
+         */
+        $discovery = new DrupalExtensionDiscovery(\Drupal::root());
+        $discovery->reset();
+
+        return $discovery->scan('module');
     }
 
     /**
@@ -36,16 +60,15 @@ class SiteHelper extends Helper
      */
     public function getModulePath($moduleName)
     {
-        if (!$this->modulePath) {
-            /*
-            * @todo Remove DrupalExtensionDiscovery subclass once
-            * https://www.drupal.org/node/2503927 is fixed.
-            */
-            $discovery = new DrupalExtensionDiscovery(\Drupal::root());
-            $discovery->reset();
-            $result = $discovery->scan('module');
-            $this->modulePath = DRUPAL_ROOT.'/'.$result[$moduleName]->getPath();
+        if (!$this->modules || !$this->modules[$moduleName]) {
+            $this->modules = $this->discoverModules();
         }
+
+        $this->modulePath = sprintf(
+            '%s/%s',
+            $this->sitePath,
+          $this->modules[$moduleName]->getPath()
+        );
 
         return $this->modulePath;
     }
