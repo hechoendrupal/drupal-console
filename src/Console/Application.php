@@ -174,6 +174,8 @@ class Application extends BaseApplication
         if ($this->isBooted()) {
             $this->bootstrap();
 
+            $this->getHelperSet()->get('site')->setSitePath($drupal->getDrupalRoot());
+
             if (true === $input->hasParameterOption(array('--shell', '-s'))) {
                 $this->runShell($input);
 
