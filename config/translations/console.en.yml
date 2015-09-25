@@ -245,7 +245,7 @@ commands:
         module: common.options.module
         controller-title: 'Controller title'
         class-name: Command Class name
-        command: Command name
+        command: Command name (Must end with the word 'Commmand')
         container: Access the services container
       questions:
         module: common.questions.module
