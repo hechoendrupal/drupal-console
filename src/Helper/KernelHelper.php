@@ -83,6 +83,12 @@ class KernelHelper extends Helper
      */
     public function getKernel()
     {
+        // Add support for Acquia Dev Desktop sites on Mac OS X
+        // @TODO: Check if this condition works in Windows
+        if (file_exists($_SERVER['HOME'] . "/.acquia/DevDesktop/DrupalSettings")) {
+            $_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR'] = $_SERVER['HOME'] . "/.acquia/DevDesktop/DrupalSettings";
+        }
+
         if (!$this->kernel) {
             $this->request = Request::createFromGlobals();
             $this->kernel = DrupalKernel::createFromRequest(
