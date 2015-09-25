@@ -1008,6 +1008,13 @@ commands:
           executing-required-previous-updates: 'Executing required previous updates'
   user:
     login:
+      description: Returns a one time user login url.
+      options:
+        user-id: User ID.
+      messages:
+        url: One time login for @name: @url
+      errors:
+       invalid-user: Cannot load user entity (User ID: @uid).
       clear:
         attempts:
            description: Clear login failed attempts for an account.
