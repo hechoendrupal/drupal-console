@@ -12,9 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Core\Database\Database;
-use Drupal\migrate\Entity\MigrationInterface;
-use Drupal\migrate\MigrateExecutable;
-use Drupal\AppConsole\Command\migrate_upgrade\MigrateExecuteMessageCapture;
+use Drupal\Console\Command\Command;
 
 class SiteInstallCommand extends Command
 {
@@ -72,9 +70,6 @@ class SiteInstallCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-
-        print 'aqui2';
-        exit();
 
         $validator_required = function ($value) {
             if (!strlen(trim($value))) {
@@ -213,10 +208,6 @@ class SiteInstallCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
-        print 'aqui';
-        exit();
-
         if (!$this->connection) {
             $this->registerSourceDB($input);
             $this->getConnection($output);
