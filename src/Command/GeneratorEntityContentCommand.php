@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\GeneratorEntityContentCommand.
+ * Contains \Drupal\Console\Command\GeneratorEntityContentCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 class GeneratorEntityContentCommand extends GeneratorEntityCommand
 {

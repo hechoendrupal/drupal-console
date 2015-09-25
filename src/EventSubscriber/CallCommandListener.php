@@ -2,15 +2,15 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\EventSubscriber\CallCommandListener.
+ * Contains \Drupal\Console\EventSubscriber\CallCommandListener.
  */
 
-namespace Drupal\AppConsole\EventSubscriber;
+namespace Drupal\Console\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\Console\Input\ArrayInput;
-use Drupal\AppConsole\Command\Command;
+use Drupal\Console\Command\Command;
 use Symfony\Component\Console\ConsoleEvents;
 
 class CallCommandListener implements EventSubscriberInterface
@@ -21,7 +21,7 @@ class CallCommandListener implements EventSubscriberInterface
     public function callCommands(ConsoleTerminateEvent $event)
     {
         /**
-         * @var \Drupal\AppConsole\Command\Command $command
+         * @var \Drupal\Console\Command\Command $command
          */
         $command = $event->getCommand();
         $output = $event->getOutput();

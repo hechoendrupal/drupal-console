@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorPluginBlockCommandTest.
+ * Contains \Drupal\Console\Test\Command\GeneratorPluginBlockCommandTest.
  */
 
-namespace Drupal\AppConsole\Test\Command;
+namespace Drupal\Console\Test\Command;
 
-use Drupal\AppConsole\Command\GeneratorPluginBlockCommand;
+use Drupal\Console\Command\GeneratorPluginBlockCommand;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\AppConsole\Test\DataProvider\PluginBlockDataProviderTrait;
+use Drupal\Console\Test\DataProvider\PluginBlockDataProviderTrait;
 
 class GeneratorPluginBlockCommandTest extends GenerateCommandTest
 {
@@ -57,7 +57,7 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-            ->getMockBuilder('Drupal\AppConsole\Generator\PluginBlockGenerator')
+            ->getMockBuilder('Drupal\Console\Generator\PluginBlockGenerator')
             ->disableOriginalConstructor()
             ->setMethods(['generate'])
             ->getMock();

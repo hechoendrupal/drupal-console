@@ -17,7 +17,7 @@
         },
         {
             "name":      "Drupal Console Contributors",
-            "homepage":  "https://github.com/hechoendrupal/DrupalAppConsole/graphs/contributors"
+            "homepage":  "https://github.com/hechoendrupal/DrupalConsole/graphs/contributors"
         }
     ],
     "require": {
@@ -45,6 +45,6 @@
         "bin-dir": "bin/"
     },
     "autoload": {
-        "psr-4": {"Drupal\\AppConsole\\": "src"}
+        "psr-4": {"Drupal\\Console\\": "src"}
     }
 }

@@ -6,7 +6,7 @@
  * Time: 2:45 PM
  */
 
-namespace Drupal\AppConsole\Generator;
+namespace Drupal\Console\Generator;
 
 class ContentTypeGenerator extends Generator
 {

@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Test\Generator\PermissionGeneratorTest.
+ * Contains Drupal\Console\Test\Generator\PermissionGeneratorTest.
  */
 
-namespace Drupal\AppConsole\Test\Generator;
+namespace Drupal\Console\Test\Generator;
 
-use Drupal\AppConsole\Generator\PermissionGenerator;
-use Drupal\AppConsole\Test\DataProvider\PermissionDataProviderTrait;
+use Drupal\Console\Generator\PermissionGenerator;
+use Drupal\Console\Test\DataProvider\PermissionDataProviderTrait;
 
 class PermissionGeneratorTest extends GeneratorTest
 {

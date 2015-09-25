@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Drupal\AppConsole;
+namespace Drupal\Console;
 
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Yaml\Yaml;

@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\UserConfig.
+ * Contains \Drupal\Console\UserConfig.
  */
 
-namespace Drupal\AppConsole;
+namespace Drupal\Console;
 
 class UserConfig extends Config
 {

@@ -1,12 +1,12 @@
 <?php
 /**
  * @file
- * Contains Drupal\AppConsole\Test\Generator\GeneratorTest.
+ * Contains Drupal\Console\Test\Generator\GeneratorTest.
  */
 
-namespace Drupal\AppConsole\Test\Generator;
+namespace Drupal\Console\Test\Generator;
 
-use Drupal\AppConsole\Test\BaseTestCase;
+use Drupal\Console\Test\BaseTestCase;
 
 abstract class GeneratorTest extends BaseTestCase
 {

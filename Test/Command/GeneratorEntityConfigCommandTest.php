@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorEntityConfigCommandTest.
+ * Contains \Drupal\Console\Test\Command\GeneratorEntityConfigCommandTest.
  */
 
-namespace Drupal\AppConsole\Test\Command;
+namespace Drupal\Console\Test\Command;
 
-use Drupal\AppConsole\Command\GeneratorEntityConfigCommand;
+use Drupal\Console\Command\GeneratorEntityConfigCommand;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\AppConsole\Test\DataProvider\EntityConfigDataProviderTrait;
+use Drupal\Console\Test\DataProvider\EntityConfigDataProviderTrait;
 
 class GeneratorEntityConfigCommandTest extends GenerateCommandTest
 {
@@ -53,7 +53,7 @@ class GeneratorEntityConfigCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-            ->getMockBuilder('Drupal\AppConsole\Generator\EntityConfigGenerator')
+            ->getMockBuilder('Drupal\Console\Generator\EntityConfigGenerator')
             ->disableOriginalConstructor()
             ->setMethods(['generate'])
             ->getMock();

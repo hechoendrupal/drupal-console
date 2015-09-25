@@ -12,7 +12,7 @@
          bootstrap="autoload.php.dist">
 
     <testsuites>
-       <testsuite name="Drupal\AppConsole Test Suite">
+       <testsuite name="Drupal\Console Test Suite">
            <directory suffix="Test.php">Test</directory>
        </testsuite>
     </testsuites>

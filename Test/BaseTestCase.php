@@ -1,11 +1,11 @@
 <?php
 
-namespace Drupal\AppConsole\Test;
+namespace Drupal\Console\Test;
 
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Helper\HelperSet;
-use Drupal\AppConsole\Command\Helper\DialogHelper;
-use Drupal\AppConsole\Helper\TwigRendererHelper;
+use Drupal\Console\Helper\DialogHelper;
+use Drupal\Console\Helper\TwigRendererHelper;
 
 abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -36,12 +36,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
             $dialog = new DialogHelper();
             $dialog->setInputStream($this->getInputStream($input));
 
-            $autoload = $this
-                ->getMockBuilder('Drupal\AppConsole\Command\Helper\DrupalAutoloadHelper')
-                ->setMethods(['findAutoload', 'getDrupalRoot'])
-                ->getMock();
-
-            $stringUtils = $this->getMockBuilder('Drupal\AppConsole\Utils\StringUtils')
+            $stringUtils = $this->getMockBuilder('Drupal\Console\Utils\StringUtils')
                 ->disableOriginalConstructor()
                 ->setMethods(['createMachineName'])
                 ->getMock();
@@ -50,7 +45,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
                 ->method('createMachineName')
                 ->will($this->returnArgument(0));
 
-            $validators = $this->getMockBuilder('Drupal\AppConsole\Utils\Validators')
+            $validators = $this->getMockBuilder('Drupal\Console\Utils\Validators')
                 ->disableOriginalConstructor()
                 ->setMethods(['validateModuleName'])
                 ->getMock();
@@ -62,19 +57,24 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
             $translator = $this->getTranslatorHelper();
 
             $message = $this
-                ->getMockBuilder('Drupal\AppConsole\Command\Helper\MessageHelper')
+                ->getMockBuilder('Drupal\Console\Helper\MessageHelper')
                 ->disableOriginalConstructor()
                 ->setMethods(['showMessages', 'showMessage'])
                 ->getMock();
 
             $chain = $this
-                ->getMockBuilder('Drupal\AppConsole\Command\Helper\ChainCommandHelper')
+                ->getMockBuilder('Drupal\Console\Helper\ChainCommandHelper')
                 ->disableOriginalConstructor()
                 ->setMethods(['addCommand', 'getCommands'])
                 ->getMock();
 
+            $drupal = $this
+                ->getMockBuilder('Drupal\Console\Helper\DrupalHelper')
+                ->setMethods(['isBootable', 'getDrupalRoot'])
+                ->getMock();
+
             $siteHelper = $this
-                ->getMockBuilder('Drupal\AppConsole\Command\Helper\SiteHelper')
+                ->getMockBuilder('Drupal\Console\Helper\SiteHelper')
                 ->disableOriginalConstructor()
                 ->setMethods(['setModulePath', 'getModulePath'])
                 ->getMock();
@@ -85,16 +85,16 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
 
             $this->helperSet = new HelperSet(
                 [
-                'formatter' => new FormatterHelper(),
-                'renderer' => new TwigRendererHelper(),
-                'drupal-autoload' => $autoload,
-                'dialog' => $dialog,
-                'stringUtils' => $stringUtils,
-                'validators' => $validators,
-                'translator' => $translator,
-                'site' => $siteHelper,
-                'message' => $message,
-                'chain' => $chain
+                    'formatter' => new FormatterHelper(),
+                    'renderer' => new TwigRendererHelper(),
+                    'dialog' => $dialog,
+                    'stringUtils' => $stringUtils,
+                    'validators' => $validators,
+                    'translator' => $translator,
+                    'site' => $siteHelper,
+                    'message' => $message,
+                    'chain' => $chain,
+                    'drupal' => $drupal,
                 ]
             );
         }
@@ -114,7 +114,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
     public function getTranslatorHelper()
     {
         $translatorHelper = $this
-            ->getMockBuilder('Drupal\AppConsole\Command\Helper\TranslatorHelper')
+            ->getMockBuilder('Drupal\Console\Helper\TranslatorHelper')
             ->disableOriginalConstructor()
             ->setMethods(['loadResource', 'trans', 'getMessagesByModule', 'writeTranslationsByModule'])
             ->getMock();

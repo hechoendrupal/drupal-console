@@ -22,6 +22,18 @@ application:
                 route: "Con el fin de crear páginas es necesario definir rutas para ellas.\nUna ruta asigna una URL a un controlador. Se define con qué función\no método será llamado cuando se accede a una URL.\nSi el usuario accede la ruta http://drupal8.dev/{{ route }},\nel sistema buscará una ruta con ese camino. En este caso, si encuentra una\nejecutara la devolución de la llamada _controller.\nEn este caso, la devolución de llamada es definida como un nombre de clase\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\ny un método (\"{{ method_name }}\")."
         errors:
             invalid-command: 'Comando "%s" no está definido.'
+        input:
+            definition:
+                command: 'The command to execute'
+                help: 'Display this help message'
+                quiet: 'Do not output any message'
+                verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
+                version: 'Display this application version'
+                ansi: 'Force ANSI output'
+                no-ansi: 'Disable ANSI output'
+                no-interaction: 'Do not ask any interactive question'
+        options:
+            version: '<info>%s</info> version <comment>%s</comment>'
     site:
         messages:
             path: 'Ruta del sitio'
@@ -55,6 +67,8 @@ commands:
                 type: Tipo
                 invalid: 'El campo de tipo "%s" es inválido.'
                 description: Descripción
+                default-value: 'Default value'
+                weight: 'Weight for input item'
         errors:
             module-dependency: 'Depencia "%s" del modulo faltante'
             class-name-empty: 'El nombre de la Clase no puede estér psavia'
@@ -166,6 +180,32 @@ commands:
             messages:
                 module-invalid: 'Module %s doesn''t have an implementation of cron'
                 executing-cron: 'Executing cron function of module %s'
+    dblog:
+        clear:
+            description: 'Remove events from DBLog table, filters are available'
+            messages:
+                event-deleted: 'Event %s was deleted'
+                clear-error: 'Clear process fail, please check used filters'
+                clear-sucess: 'Clear of events was successfully'
+        debug:
+            description: 'Display current log events for the application'
+            arguments:
+                event-id: 'DBLog event ID'
+            options:
+                type: 'Filter events by a specific type'
+                severity: 'Filter events by a specific level of severity'
+                user-id: 'Filter events by a specific user id'
+                limit: 'Limit results to a specific number'
+                offset: 'Starting point of a limit'
+            messages:
+                event-id: 'Event ID'
+                type: Type
+                date: Date
+                message: Message
+                user: User
+                severity: Severity
+                invalid-severity: 'Severity type is invalid, filter was ignored'
+                not-found: 'DBLog event %s wasn''t found'
     drush:
         description: 'Ejecutar Drush desde la consola.'
         help: 'Utilice el modo interactivo para una mejor experiencia --shell.'
@@ -257,6 +297,13 @@ commands:
                 entity-name: 'Introduzca el nombre de la entidad'
                 label: 'Enter the entity label'
         form:
+            alter:
+                description: 'Generate an implementation of hook_form_alter() or hook_form_FORM_ID_alter'
+                help: 'The <info>"%s"</info> command helps you generate a new "%s"'
+                options:
+                    form-id: 'Form ID to alter'
+                messages:
+                    inputs: "You can add form fields to modify form.\nThis is optional, press <info>enter</info> to <info>continue</info>"
             description: 'Generar un nuevo "%s"'
             help: 'El <info>"%s"</info> comando te ayuda a generar un nuevo "%s"'
             welcome: 'Bienvenido al generador de formularios de Drupal'
@@ -990,6 +1037,19 @@ commands:
                 errors:
                     invalid-user: 'Invalid user id %s'
                     empty-password: 'Password can not be empty'
+    about:
+        description: 'Display basic information about Drupal Console project'
+        messages:
+            welcome: 'The Drupal Console is a suite of tools that you run on the CLI to:'
+            welcome-feature-generate: 'Generate boilerplate code.'
+            welcome-feature-interact: 'Interact with a Drupal 8 installation.'
+            welcome-feature-learn: 'Learn Drupal 8.'
+            list: 'Execute <info>list</info> command to get a list of all commands available.'
+            change-log: 'Project change log at <comment>%s</comment>'
+            version-supported: 'The Drupal 8 supported version is <info>%s</info>'
+            documentation: 'Drupal Console documentation at <comment>%s</comment>'
+            support: 'Support at Drupal Console gitter chat room <comment>%s</comment>'
+            supporting-organizations: 'Supporting organizations'
     views:
         debug:
             description: 'Display current views resources for the application'
@@ -1019,6 +1079,21 @@ commands:
             messages:
                 disabled-successfully: 'View %s was enabled successfully.'
     yaml:
+        diff:
+            description: 'Compare two YAML files do determined differences between them'
+            arguments:
+                yaml-left: 'YAML file used as base to compare'
+                yaml-right: 'YAML file used to determine missing or differences with base YAML file'
+            options:
+                negate: 'Define mode diff or equal comparation, possible values TRUE/FALSE or 0/1'
+                limit: 'Limit results to a specific number'
+                offset: 'Starting point of a limit'
+            questions:
+                yaml-left: 'Path of YAML file to be use as base in comparation.'
+                yaml-right: 'Path of YAML file to be compare.'
+            messages:
+                key: 'YAML Key'
+                value: 'YAML Value'
         merge:
             description: 'Combinar uno o más archivos de YAML en un nuevo archivo YAML. Se conservaran los últimos valores del archivo mas a la izquierda del merge.'
             arguments:
@@ -1053,4 +1128,4 @@ commands:
                     yaml-key: 'YAML key to be replace'
                     yaml-new-key: 'YAML new key'
                 messages:
-                    updated: 'YAML file %s was updated successfully'
+                    updated: 'Archivo YAML %s fue actualizado satisfactoriamente'

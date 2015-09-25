@@ -1,10 +1,10 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\ConfigImportCommand.
+ * Contains \Drupal\Console\Command\ConfigImportCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 use Drupal\Core\Archiver\ArchiveTar;
 use Symfony\Component\Console\Input\InputArgument;

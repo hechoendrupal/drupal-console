@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\ConfigExportCommand.
+ * Contains \Drupal\Console\Command\ConfigExportCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 use Drupal\Component\Serialization\Yaml;
 use Symfony\Component\Console\Input\InputArgument;

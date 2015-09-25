@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\RestDebugCommand.
+ * Contains \Drupal\Console\Command\RestDebugCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -146,7 +146,6 @@ class ViewsDebugCommand extends ContainerAwareCommand
 
         $table->setlayout($table::LAYOUT_COMPACT);
 
-        print $status."\n";
         foreach ($views as $view) {
             if ($status != -1 and $view->status() != $status) {
                 continue;

@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Generator\PermissionGenerator.
+ * Contains Drupal\Console\Generator\PermissionGenerator.
  */
 
-namespace Drupal\AppConsole\Generator;
+namespace Drupal\Console\Generator;
 
 class PermissionGenerator extends Generator
 {

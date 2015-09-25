@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Command\Command as BaseCommand;
 
@@ -65,7 +65,7 @@ abstract class Command extends BaseCommand
     }
 
     /**
-     * @return \Drupal\AppConsole\Utils\StringUtils
+     * @return \Drupal\Console\Utils\StringUtils
      */
     public function getStringUtils()
     {
@@ -75,7 +75,7 @@ abstract class Command extends BaseCommand
     }
 
     /**
-     * @return \Drupal\AppConsole\Utils\Validators
+     * @return \Drupal\Console\Utils\Validators
      */
     public function getValidator()
     {
