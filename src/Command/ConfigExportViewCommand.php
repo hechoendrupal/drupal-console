@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\RestDebugCommand.
+ * Contains \Drupal\Console\Command\ConfigExportViewCommand.
  */
 
 namespace Drupal\Console\Command;
@@ -11,22 +11,20 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\views\Entity\View;
-use Drupal\Component\Serialization\Yaml;
 use Symfony\Component\Yaml\Dumper;
 
-class ViewsExportCommand extends ContainerAwareCommand
+class ConfigExportViewCommand extends ContainerAwareCommand
 {
     use ModuleTrait;
 
-    protected $entity_manager;
+    protected $entityManager;
     protected $configStorage;
-    protected $config_export;
+    protected $configExport;
 
     protected function configure()
     {
         $this
-            ->setName('views:export')
+            ->setName('config:export:view')
             ->setDescription($this->trans('commands.views.export.description'))
             ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addArgument(
@@ -52,22 +50,22 @@ class ViewsExportCommand extends ContainerAwareCommand
         $input->setOption('module', $module);
 
 
-        // --module option
-        $view_id = $input->getArgument('view-id');
-        if (!$view_id) {
-            $entity_manager = $this->getEntityManager();
-            $views = $entity_manager->getStorage('view')->loadMultiple();
+        // view-id argument
+        $viewId = $input->getArgument('view-id');
+        if (!$viewId) {
+            $entityManager = $this->getEntityManager();
+            $views = $entityManager->getStorage('view')->loadMultiple();
 
-            $views_list = [];
+            $viewList = [];
             foreach ($views as $view) {
-                $views_list[$view->get('id')] = $view->get('label');
+                $viewList[$view->get('id')] = $view->get('label');
             }
 
-            $view_id = $dialog->askAndValidate(
+            $viewId = $dialog->askAndValidate(
                 $output,
                 $dialog->getQuestion($this->trans('commands.views.export.questions.view'), ''),
-                function ($view) use ($views_list) {
-                    if (!in_array($view, array_values($views_list))) {
+                function ($view) use ($viewList) {
+                    if (!in_array($view, array_values($viewList))) {
                         throw new \InvalidArgumentException(
                             sprintf(
                                 'View "%s" is invalid.',
@@ -76,30 +74,30 @@ class ViewsExportCommand extends ContainerAwareCommand
                         );
                     }
 
-                    return array_search($view, $views_list);
+                    return array_search($view, $viewList);
                 },
                 false,
                 '',
-                $views_list
+                $viewList
             );
         }
-        $input->setArgument('view-id', $view_id);
+        $input->setArgument('view-id', $viewId);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->entity_manager = $this->getEntityManager();
+        $this->entityManager = $this->getEntityManager();
         $this->configStorage = $this->getConfigStorage();
 
         $module = $input->getOption('module');
-        $view_id = $input->getArgument('view-id');
+        $viewId = $input->getArgument('view-id');
 
-        $view_type_definition = $this->entity_manager->getDefinition('view');
-        $view_type_name = $view_type_definition->getConfigPrefix() . '.' . $view_id;
+        $viewTypeDefinition = $this->entityManager->getDefinition('view');
+        $viewTypeName = $viewTypeDefinition->getConfigPrefix() . '.' . $viewId;
 
-        $view_name_config = $this->getConfiguration($view_type_name);
+        $viewNameConfig = $this->getConfiguration($viewTypeName);
 
-        $this->config_export[$view_type_name] = $view_name_config;
+        $this->configExport[$viewTypeName] = $viewNameConfig;
 
         $this->exportConfig($module, $output);
     }
@@ -108,36 +106,36 @@ class ViewsExportCommand extends ContainerAwareCommand
     {
         $dumper = new Dumper();
 
-        $module_path =  $this->getSite()->getModulePath($module);
-        if (!file_exists($module_path .'/config')) {
-            mkdir($module_path .'/config', 0755, true);
-        }
-
-        if (!file_exists($module_path .'/config/install')) {
-            mkdir($module_path .'/config/install', 0755, true);
-        }
+        $modulePath = $this->getSite()->getModulePath($module);
+        $this->getSite()->createModuleConfigInstallDirectory($module);
 
         $output->writeln(
-            '[+] <info>' .
-            $this->trans('commands.views.export.messages.view_exported') .
-            '</info>'
+            sprintf(
+                '[+] <info>%s</info>',
+                $this->trans('commands.views.export.messages.view_exported')
+            )
         );
 
-        foreach ($this->config_export as $file_name => $config) {
-            $yaml_config = $dumper->dump($config, 10);
+        foreach ($this->configExport as $file_name => $config) {
+            $yamlConfig = $dumper->dump($config, 10);
             $output->writeln(
-                '- <info>' .
-                str_replace(DRUPAL_ROOT, '', $module_path)  . '/config/install/' . $file_name . '.yml' .
-                '</info>'
+                sprintf(
+                    '- <info>%s</info>',
+                    sprintf(
+                        '%s/%s.yml',
+                        $this->getSite()->getModuleConfigInstallDirectory($module, false),
+                        $file_name
+                    )
+                )
             );
-            file_put_contents($module_path . '/config/install/' . $file_name . '.yml', $yaml_config);
+            file_put_contents($modulePath . '/config/install/' . $file_name . '.yml', $yamlConfig);
         }
     }
 
-    protected function getConfiguration($config_name)
+    protected function getConfiguration($configName)
     {
         // Unset uuid, maybe is not necessary to export
-        $config = $this->configStorage->read($config_name);
+        $config = $this->configStorage->read($configName);
         unset($config['uuid']);
         return $config;
     }
