@@ -5,14 +5,16 @@
  * Contains \Drupal\AppConsole\Command\MigrateExecuteCommand.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Core\Database\Database;
-use Drupal\Console\Command\Command;
+use Drupal\Core\Extension\ExtensionDiscovery;
+use Drupal\Component\FileCache\FileCacheFactory;
+
 
 class SiteInstallCommand extends Command
 {
@@ -24,7 +26,7 @@ class SiteInstallCommand extends Command
         $this
             ->setName('site:install')
             ->setDescription($this->trans('commands.site.install.description'))
-            ->addArgument('profile', InputArgument::REQUIRED, $this->trans('commands.site.install.arguments.profile'))
+            ->addArgument('profile', InputArgument::OPTIONAL, $this->trans('commands.site.install.arguments.profile'))
             ->addOption(
                 'db-host',
                 '',
@@ -61,8 +63,6 @@ class SiteInstallCommand extends Command
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.migrate.execute.options.db-port')
             );
-
-        $this->addDependency('migrate');
     }
 
     /**
@@ -80,6 +80,8 @@ class SiteInstallCommand extends Command
         };
 
         $dialog = $this->getDialogHelper();
+
+        $profiles = $this->getProfiles();
 
         // --db-host option
         $db_host = $input->getOption('db-host');
@@ -208,78 +210,36 @@ class SiteInstallCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!$this->connection) {
+
+        $profiles = $this->getProfiles();
+
+        print_r($profiles);
+
+        /*if (!$this->connection) {
             $this->registerSourceDB($input);
             $this->getConnection($output);
-        }
+        }*/
 
         $entity_manager = $this->getEntityManager();
-        $migration_storage = $entity_manager->getStorage('migration');
-        if (count($migrations) == 0) {
-            $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.no-migrations').'</error>');
-            return;
-        }
-        foreach ($migrations as $migration_id) {
-            $output->writeln(
-                '[+] <info>'.sprintf(
-                    $this->trans('commands.migrate.execute.messages.processing'),
-                    $migration_id
-                ).'</info>'
-            );
-            $migration = $migration_storage->load($migration_id);
+    }
 
-            if ($migration) {
-                $messages = new MigrateExecuteMessageCapture();
-                $executable = new MigrateExecutable($migration, $messages);
-                $migration_status = $executable->import();
-                switch ($migration_status) {
-                case MigrationInterface::RESULT_COMPLETED:
-                    $output->writeln(
-                        '[+] <info>'.sprintf(
-                            $this->trans('commands.migrate.execute.messages.imported'),
-                            $migration_id
-                        ).'</info>'
-                    );
-                    break;
-                case MigrationInterface::RESULT_INCOMPLETE:
-                    $output->writeln(
-                        '[+] <info>'.sprintf(
-                            $this->trans('commands.migrate.execute.messages.importing-incomplete'),
-                            $migration_id
-                        ).'</info>'
-                    );
-                    break;
-                case MigrationInterface::RESULT_STOPPED:
-                    $output->writeln(
-                        '[+] <error>'.sprintf(
-                            $this->trans('commands.migrate.execute.messages.import-stopped'),
-                            $migration_id
-                        ).'</error>'
-                    );
-                    break;
-                case MigrationInterface::RESULT_FAILED:
-                    $output->writeln(
-                        '[+] <error>'.sprintf(
-                            $this->trans('commands.migrate.execute.messages.import-fail'),
-                            $migration_id
-                        ).'</error>'
-                    );
-                    break;
-                case MigrationInterface::RESULT_SKIPPED:
-                    $output->writeln(
-                        '[+] <error>'.sprintf(
-                            $this->trans('commands.migrate.execute.messages.import-skipped'),
-                            $migration_id
-                        ).'</error>'
-                    );
-                    break;
-                case MigrationInterface::RESULT_DISABLED:
-                    // Skip silently if disabled.
-                    break;
-                }
-            } else {
-                $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.fail-load').'</error>');
-            }
-        }
+    protected function getProfiles() {
+        $profiles = [];
+        $listing = null;
+
+        $drupal = $this->getHelperSet()->get('drupal');
+
+        print_r($drupal->getDrupalRoot());
+
+        // Add list of all available profiles to the installation state.
+        $listing = new ExtensionDiscovery($drupal->getDrupalRoot());
+
+        print_r($listing);
+
+        $listing->setProfileDirectories(array());
+        $profiles += $listing->scan('profile');
+
+        return $profiles;
+
     }
 }

@@ -165,13 +165,15 @@ class Application extends BaseApplication
             $this->setBooted($drupal->isInstalled());
         }
 
-        if ($drupal->isBootable() && !$this->isBooted()) {
+        // Skip error is command is site:install
+        if ($drupal->isBootable() && (!$this->isBooted() && $commandName != 'site:install')) {
             $message->addWarningMessage(
                 $this->trans('application.site.errors.settings')
             );
         }
 
-        if ($this->isBooted()) {
+        // Bootstrap if command is site:install
+        if ($this->isBooted() || $commandName == 'site:install') {
             $this->bootstrap();
 
             $this->getHelperSet()->get('site')->setSitePath($drupal->getDrupalRoot());
