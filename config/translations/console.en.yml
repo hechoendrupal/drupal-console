@@ -55,6 +55,7 @@ application:
 commands:
   common:
     options:
+      events: Load events from the container
       module: The Module name.
       services: Load services from the container.
       tags: Set service tags from the container.
@@ -64,6 +65,12 @@ commands:
       module: Enter the module name
       confirm: Do you confirm generation
       canceled: Command generation canceled.
+      events:
+        message: |
+
+          Type the event name or use keyup or keydown.
+          This is optional, press <info>enter</info> to <info>continue</info>
+        name: Enter event name
       services:
         confirm: Do you want to load services from the container
         message: |
@@ -295,6 +302,12 @@ commands:
               method-name-already-added: Method name was already added
               invalid-route: Route cannot be empty
               route-already-added: Route was already added
+    event:
+      subscriber:
+        description: Generate an event subscriber
+        questions:
+          class-name: "Class name"
+          callback-name: Callback function name to handle event
     entity:
       description: Generate a new "%s"
       help: The <info>"%s"</info> command helps you generate a new "%s"
