@@ -43,6 +43,9 @@ class SiteHelper extends Helper
         $this->sitePath = $sitePath;
     }
 
+    /**
+     * @return \Drupal\Core\Extension\Extension[]
+     */
     private function discoverModules()
     {
         /*
@@ -57,21 +60,85 @@ class SiteHelper extends Helper
 
     /**
      * @param string $moduleName
+     * @param bool   $fullPath
      * @return string
      */
-    public function getModulePath($moduleName)
+    public function getModulePath($moduleName, $fullPath=true)
     {
         if (!$this->modules || !$this->modules[$moduleName]) {
             $this->modules = $this->discoverModules();
         }
 
-        $this->modulePath = sprintf(
+        $modulePath = sprintf(
             '%s/%s',
             $this->sitePath,
             $this->modules[$moduleName]->getPath()
         );
 
-        return $this->modulePath;
+        if (!$fullPath) {
+            $modulePath = str_replace(
+                sprintf(
+                    '%s/',
+                    $this->sitePath
+                ),
+                '',
+                $modulePath
+            );
+        }
+
+        return $modulePath;
+    }
+
+    /**
+     * @param string $moduleName
+     * @return bool
+     */
+    public function createModuleConfigDirectory($moduleName)
+    {
+        if (!$moduleName) {
+            return false;
+        }
+
+        $modulePath = $this->getModulePath($moduleName);
+
+        if (!file_exists($modulePath .'/config')) {
+            mkdir($modulePath .'/config', 0755, true);
+        }
+
+        return true;
+    }
+
+    /**
+     * @param string $moduleName
+     * @return bool
+     */
+    public function createModuleConfigInstallDirectory($moduleName)
+    {
+        if (!$moduleName) {
+            return false;
+        }
+
+        if (!$this->createModuleConfigDirectory($moduleName)) {
+            return false;
+        }
+
+        $modulePath = $this->getModulePath($moduleName);
+
+        if (!file_exists($modulePath .'/config/install')) {
+            mkdir($modulePath .'/config/install', 0755, true);
+        }
+
+        return true;
+    }
+
+    /**
+     * @param string $moduleName
+     * @param bool   $fullPath
+     * @return string
+     */
+    public function getModuleConfigInstallDirectory($moduleName, $fullPath=true)
+    {
+        return $this->getModulePath($moduleName, $fullPath).'/config/install';
     }
 
     /**
