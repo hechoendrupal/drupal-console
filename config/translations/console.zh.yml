@@ -46,6 +46,7 @@ application:
 commands:
     common:
         options:
+            events: 'Load events from the container'
             module: 'The Module name.'
             services: 'Load services from the container.'
             tags: 'Set service tags from the container.'
@@ -55,6 +56,9 @@ commands:
             module: 'Enter the module name'
             confirm: 'Do you confirm generation'
             canceled: 'Command generation canceled.'
+            events:
+                message: "\nType the event name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
+                name: 'Enter event name'
             services:
                 confirm: 'Do you want to load services from the container'
                 message: "\nType the service name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
@@ -280,6 +284,12 @@ commands:
                 method-name-already-added: 'Method name was already added'
                 invalid-route: 'Route cannot be empty'
                 route-already-added: 'Route was already added'
+        event:
+            subscriber:
+                description: 'Generate an event subscriber'
+                questions:
+                    class-name: 'Class name'
+                    callback-name: 'Callback function name to handle event'
         entity:
             description: 'Generate a new "%s"'
             help: 'The <info>"%s"</info> command helps you generate a new "%s"'
@@ -1038,6 +1048,7 @@ commands:
             welcome-feature-interact: 'Interact with a Drupal 8 installation.'
             welcome-feature-learn: 'Learn Drupal 8.'
             list: 'Execute <info>list</info> command to get a list of all commands available.'
+            landing: 'Project landing page <comment>%s</comment>'
             change-log: 'Project change log at <comment>%s</comment>'
             version-supported: 'The Drupal 8 supported version is <info>%s</info>'
             documentation: 'Drupal Console documentation at <comment>%s</comment>'

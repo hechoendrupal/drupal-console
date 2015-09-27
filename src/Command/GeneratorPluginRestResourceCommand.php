@@ -38,6 +38,12 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
                 $this->trans('commands.generate.plugin.rest.resource.options.class-name')
             )
             ->addOption(
+                'name',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.service.options.name')
+            )
+            ->addOption(
                 'plugin-id',
                 '',
                 InputOption::VALUE_OPTIONAL,
