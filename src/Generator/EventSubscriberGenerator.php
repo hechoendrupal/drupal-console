@@ -44,7 +44,5 @@ class EventSubscriberGenerator extends Generator
             $parameters,
             FILE_APPEND
         );
-
-
     }
 }
