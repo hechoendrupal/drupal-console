@@ -5,9 +5,12 @@ namespace Drupal\Console\Command;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Drupal\Core\Extension\ExtensionDiscovery;
+use Drupal\Console\Helper\HelperTrait;
 
 abstract class ContainerAwareCommand extends Command implements ContainerAwareInterface
 {
+    use HelperTrait;
+
     private $container;
 
     private $modules;
