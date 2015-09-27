@@ -43,7 +43,8 @@ class SiteHelper extends Helper
         $this->sitePath = $sitePath;
     }
 
-    private function discoverModules(){
+    private function discoverModules()
+    {
         /*
          * @todo Remove DrupalExtensionDiscovery subclass once
          * https://www.drupal.org/node/2503927 is fixed.
@@ -67,7 +68,7 @@ class SiteHelper extends Helper
         $this->modulePath = sprintf(
             '%s/%s',
             $this->sitePath,
-          $this->modules[$moduleName]->getPath()
+            $this->modules[$moduleName]->getPath()
         );
 
         return $this->modulePath;
