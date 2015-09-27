@@ -252,7 +252,7 @@ commands:
         module: common.options.module
         controller-title: 'Controller title'
         class-name: Command Class name
-        command: Command name
+        command: Command name (Must end with the word 'Commmand')
         container: Access the services container
       questions:
         module: common.questions.module
@@ -1021,6 +1021,14 @@ commands:
           executing-required-previous-updates: 'Executing required previous updates'
   user:
     login:
+      url:
+        description: Returns a one time user login url.
+        options:
+          user-id: User ID.
+        messages:
+          url: One time login for @name: @url
+        errors:
+         invalid-user: Cannot load user entity (User ID: @uid).
       clear:
         attempts:
            description: Clear login failed attempts for an account.
@@ -1107,9 +1115,15 @@ commands:
       messages:
         disabled-successfully: "View %s was disabled successfully."
     enable:
-          description: "Enable a View"
-          messages:
-            disabled-successfully: "View %s was enabled successfully."
+      description: "Enable a View"
+      messages:
+      disabled-successfully: "View %s was enabled successfully."
+    export:
+      description: "Export a view in YAML format inside a provided module to reuse in other website."
+      messages:
+        view_exported: "Exporting view"
+      questions:
+        view: "View to be exported"
   yaml:
     diff:
       description: 'Compare two YAML files do determined differences between them'
