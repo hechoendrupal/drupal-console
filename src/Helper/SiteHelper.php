@@ -142,7 +142,7 @@ class SiteHelper extends Helper
         $directory =  $this->getModulePath($moduleName, $fullPath).'/config/' . $config_type;
 
         // Create config folder is doesn't exist
-        if(!file_exists($directory)) {
+        if (!file_exists($directory)) {
             mkdir($directory);
         }
         return $directory;
