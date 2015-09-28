@@ -135,7 +135,17 @@ class ConfigExportViewCommand extends ContainerAwareCommand
         foreach ($this->configExport as $file_name => $config) {
             $yamlConfig = $dumper->dump($config['data'], 10);
 
-            $config_directory = $this->getSite()->getModuleConfigDirectory($module, false, $config['optional']);
+            if($config['optional']) {
+                $config_directory = $this->getSite()->getModuleConfigOptionalDirectory($module, false);
+            }
+            else {
+                $config_directory = $this->getSite()->getModuleConfigInstallDirectory($module, false);
+            }
+
+            // Create config folder is doesn't exist
+            if (!file_exists($config_directory)) {
+                mkdir($config_directory);
+            }
 
             $config_file = sprintf(
                 '%s/%s.yml',
