@@ -136,16 +136,19 @@ class SiteHelper extends Helper
      * @param bool   $fullPath
      * @return string
      */
-    public function getModuleConfigDirectory($moduleName, $fullPath=true, $optional = false)
+    public function getModuleConfigInstallDirectory($moduleName, $fullPath=true)
     {
-        $config_type = $optional?'optional': 'install';
-        $directory =  $this->getModulePath($moduleName, $fullPath).'/config/' . $config_type;
+        return $this->getModulePath($moduleName, $fullPath).'/config/install';
+    }
 
-        // Create config folder is doesn't exist
-        if (!file_exists($directory)) {
-            mkdir($directory);
-        }
-        return $directory;
+    /**
+     * @param string $moduleName
+     * @param bool   $fullPath
+     * @return string
+     */
+    public function getModuleConfigOptionalDirectory($moduleName, $fullPath=true)
+    {
+        return $this->getModulePath($moduleName, $fullPath).'/config/optional';
     }
 
     /**
