@@ -32,12 +32,15 @@ class EventSubscriberGenerator extends Generator
 
         $this->renderFile(
             'module/src/event-subscriber.php.twig',
-            $this->getSite()->getModulePath($module).'/src/EventSubscriber/'.$class.'.php',
+            $this->getSite()->getSourcePath($module).'/EventSubscriber/'.$class.'.php',
             $parameters
         );
 
         // Fixed module path to be used in services
-        $parameters['module'] = $module .'\EventSubscriber';
+        $parameters['module'] = sprintf(
+            '%s\EventSubscriber',
+            $module
+        );
         $this->renderFile(
             'module/services.yml.twig',
             $this->getSite()->getModulePath($module).'/'.$module.'.services.yml',

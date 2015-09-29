@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\ServicesTrait.
+ * Contains Drupal\Console\Command\EventsTrait.
  */
 
 namespace Drupal\Console\Command;
@@ -20,7 +20,7 @@ trait EventsTrait
      */
     public function eventsQuestion(OutputInterface $output, HelperInterface $dialog)
     {
-        $event_collection = [];
+        $eventCollection = [];
         $output->writeln($this->trans('commands.common.questions.events.message'));
 
         $events = $this->getEvents();
@@ -41,21 +41,21 @@ trait EventsTrait
                 break;
             }
 
-            $callback_suggestion = str_replace('.', '_', $event);
+            $callbackSuggestion = str_replace('.', '_', $event);
             $callback = $dialog->ask(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.event.subscriber.questions.callback-name'), $callback_suggestion),
-                $callback_suggestion
+                $dialog->getQuestion($this->trans('commands.generate.event.subscriber.questions.callback-name'), $callbackSuggestion),
+                $callbackSuggestion
             );
 
-            $event_collection[$event] = $callback;
-            $event_key = array_search($event, $events, true);
+            $eventCollection[$event] = $callback;
+            $eventKey = array_search($event, $events, true);
 
-            if ($event_key >= 0) {
-                unset($events[$event_key]);
+            if ($eventKey >= 0) {
+                unset($events[$eventKey]);
             }
         }
 
-        return $event_collection;
+        return $eventCollection;
     }
 }
