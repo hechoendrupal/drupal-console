@@ -25,12 +25,18 @@ class ConfigExportViewCommand extends ContainerAwareCommand
     {
         $this
             ->setName('config:export:view')
-            ->setDescription($this->trans('commands.views.export.description'))
+            ->setDescription($this->trans('commands.config.export.view.description'))
             ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addArgument(
                 'view-id',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.views.debug.arguments.view-id')
+            )
+            ->addOption(
+                'optional-config',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.config.export.view.options.optional-config')
             );
     }
 
@@ -48,7 +54,6 @@ class ConfigExportViewCommand extends ContainerAwareCommand
             $module = $this->moduleQuestion($output, $dialog);
         }
         $input->setOption('module', $module);
-
 
         // view-id argument
         $viewId = $input->getArgument('view-id');
@@ -82,6 +87,16 @@ class ConfigExportViewCommand extends ContainerAwareCommand
             );
         }
         $input->setArgument('view-id', $viewId);
+
+        $optional_config = $input->getOption('optional-config');
+        if (!$optional_config) {
+            $optional_config = $dialog->askConfirmation(
+                $output,
+                $dialog->getQuestion($this->trans('commands.config.export.view.questions.optional-config'), 'yes', '?'),
+                true
+            );
+        }
+        $input->setOption('optional-config', $optional_config);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -91,13 +106,14 @@ class ConfigExportViewCommand extends ContainerAwareCommand
 
         $module = $input->getOption('module');
         $viewId = $input->getArgument('view-id');
+        $optional_config = $input->getOption('optional-config');
 
         $viewTypeDefinition = $this->entityManager->getDefinition('view');
         $viewTypeName = $viewTypeDefinition->getConfigPrefix() . '.' . $viewId;
 
         $viewNameConfig = $this->getConfiguration($viewTypeName);
 
-        $this->configExport[$viewTypeName] = $viewNameConfig;
+        $this->configExport[$viewTypeName] = array('data' => $viewNameConfig, 'optional' => $optional_config);
 
         $this->exportConfig($module, $output);
     }
@@ -117,18 +133,34 @@ class ConfigExportViewCommand extends ContainerAwareCommand
         );
 
         foreach ($this->configExport as $file_name => $config) {
-            $yamlConfig = $dumper->dump($config, 10);
+            $yamlConfig = $dumper->dump($config['data'], 10);
+
+            if($config['optional']) {
+                $config_directory = $this->getSite()->getModuleConfigOptionalDirectory($module, false);
+            }
+            else {
+                $config_directory = $this->getSite()->getModuleConfigInstallDirectory($module, false);
+            }
+
+            // Create config folder is doesn't exist
+            if (!file_exists($config_directory)) {
+                mkdir($config_directory);
+            }
+
+            $config_file = sprintf(
+                '%s/%s.yml',
+                $config_directory,
+                $file_name
+            );
+
             $output->writeln(
                 sprintf(
                     '- <info>%s</info>',
-                    sprintf(
-                        '%s/%s.yml',
-                        $this->getSite()->getModuleConfigInstallDirectory($module, false),
-                        $file_name
-                    )
+                    $config_file
                 )
             );
-            file_put_contents($modulePath . '/config/install/' . $file_name . '.yml', $yamlConfig);
+
+            file_put_contents($config_file, $yamlConfig);
         }
     }
 
