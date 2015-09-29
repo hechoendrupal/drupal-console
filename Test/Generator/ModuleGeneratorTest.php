@@ -26,6 +26,7 @@ class ModuleGeneratorTest extends GeneratorTest
      * @param $description
      * @param $core
      * @param $package
+     * @param $feature
      * @param $composer
      * @param $dependencies
      *
@@ -38,6 +39,7 @@ class ModuleGeneratorTest extends GeneratorTest
         $description,
         $core,
         $package,
+        $feature,
         $composer,
         $dependencies
     ) {
@@ -53,6 +55,7 @@ class ModuleGeneratorTest extends GeneratorTest
             $description,
             $core,
             $package,
+            $feature,
             $composer,
             $dependencies
         );
