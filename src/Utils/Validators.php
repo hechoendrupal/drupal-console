@@ -170,6 +170,27 @@ class Validators extends Helper implements HelperInterface
     }
 
     /**
+     * Validate if event name exist.
+     *
+     * @param string $event  Event name
+     * @param array  $events Array of events
+     *
+     * @return string
+     */
+    public function validateEventExist($event, $events)
+    {
+        if ($event == '') {
+            return;
+        }
+
+        if (!in_array($event, array_values($events))) {
+            throw new \InvalidArgumentException(sprintf('Event "%s" is invalid.', $event));
+        }
+
+        return $event;
+    }
+
+    /**
      * Validate if a string is a valid cache.
      *
      * @param string $cache The cache name

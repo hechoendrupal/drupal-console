@@ -47,6 +47,7 @@ application:
 commands:
     common:
         options:
+            events: 'Load events from the container'
             module: 'A Modul neve.'
             services: 'Service betöltése a container-ből.'
             tags: 'Service tag-ek hozzárendelése a container-hez.'
@@ -56,6 +57,9 @@ commands:
             module: 'Modul neve'
             confirm: 'Létrehozás megerősítése'
             canceled: 'Létrehozás parancs megszakítva.'
+            events:
+                message: "\nType the event name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
+                name: 'Enter event name'
             services:
                 confirm: 'Betölthető service a container-be'
                 message: "\nService neve vagy fel és le billentyűk.\nEz opcionális, <info>enter</info> a <info>folytatáshoz</info>\n"
@@ -281,6 +285,12 @@ commands:
                 method-name-already-added: 'Method name was already added'
                 invalid-route: 'Route cannot be empty'
                 route-already-added: 'Route was already added'
+        event:
+            subscriber:
+                description: 'Generate an event subscriber'
+                questions:
+                    class-name: 'Class name'
+                    callback-name: 'Callback function name to handle event'
         entity:
             description: 'Új "%s" létrehozása'
             help: 'A <info>"%s"</info> parancs új "%s" létrehozásában segít'
