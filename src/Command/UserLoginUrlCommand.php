@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Utility\SafeMarkup;
 use Drupal\Console\Command\ContainerAwareCommand;
-use Drupal\Console\Helper\HelperTrait;
 
 /**
  * Class UserLoginCommand.
