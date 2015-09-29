@@ -77,11 +77,11 @@ class GeneratorEventSubscriberCommand extends GeneratorCommand
         $services = $input->getOption('services');
 
         // @see Drupal\Console\Command\ServicesTrait::buildServices
-        $build_services = $this->buildServices($services);
+        $buildServices = $this->buildServices($services);
 
         $this
             ->getGenerator()
-            ->generate($module, $name, $class, $events, $build_services);
+            ->generate($module, $name, $class, $events, $buildServices);
 
         $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'all']);
     }
