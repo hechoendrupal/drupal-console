@@ -25,12 +25,22 @@ class ConfigExportViewCommand extends ContainerAwareCommand
     {
         $this
             ->setName('config:export:view')
-            ->setDescription($this->trans('commands.views.export.description'))
-            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->setDescription($this->trans('commands.config.export.view.description'))
+            ->addOption(
+                'module', '',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            )
             ->addArgument(
                 'view-id',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.views.debug.arguments.view-id')
+                $this->trans('commands.config.export.view.arguments.view-id')
+            )
+            ->addOption(
+                'optional-config',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.config.export.view.options.optional-config')
             );
     }
 
@@ -48,7 +58,6 @@ class ConfigExportViewCommand extends ContainerAwareCommand
             $module = $this->moduleQuestion($output, $dialog);
         }
         $input->setOption('module', $module);
-
 
         // view-id argument
         $viewId = $input->getArgument('view-id');
@@ -82,6 +91,16 @@ class ConfigExportViewCommand extends ContainerAwareCommand
             );
         }
         $input->setArgument('view-id', $viewId);
+
+        $optionalConfig = $input->getOption('optional-config');
+        if (!$optionalConfig) {
+            $optionalConfig = $dialog->askConfirmation(
+                $output,
+                $dialog->getQuestion($this->trans('commands.config.export.view.questions.optional-config'), 'yes', '?'),
+                true
+            );
+        }
+        $input->setOption('optional-config', $optionalConfig);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -91,13 +110,14 @@ class ConfigExportViewCommand extends ContainerAwareCommand
 
         $module = $input->getOption('module');
         $viewId = $input->getArgument('view-id');
+        $optionalConfig = $input->getOption('optional-config');
 
         $viewTypeDefinition = $this->entityManager->getDefinition('view');
         $viewTypeName = $viewTypeDefinition->getConfigPrefix() . '.' . $viewId;
 
         $viewNameConfig = $this->getConfiguration($viewTypeName);
 
-        $this->configExport[$viewTypeName] = $viewNameConfig;
+        $this->configExport[$viewTypeName] = array('data' => $viewNameConfig, 'optional' => $optionalConfig);
 
         $this->exportConfig($module, $output);
     }
@@ -106,9 +126,6 @@ class ConfigExportViewCommand extends ContainerAwareCommand
     {
         $dumper = new Dumper();
 
-        $modulePath = $this->getSite()->getModulePath($module);
-        $this->getSite()->createModuleConfigInstallDirectory($module);
-
         $output->writeln(
             sprintf(
                 '[+] <info>%s</info>',
@@ -116,19 +133,46 @@ class ConfigExportViewCommand extends ContainerAwareCommand
             )
         );
 
-        foreach ($this->configExport as $file_name => $config) {
-            $yamlConfig = $dumper->dump($config, 10);
+        foreach ($this->configExport as $fileName => $config) {
+            $yamlConfig = $dumper->dump($config['data'], 10);
+
+            if ($config['optional']) {
+                $configDirectory = $this->getSite()->getModuleConfigOptionalDirectory($module, false);
+            } else {
+                $configDirectory = $this->getSite()->getModuleConfigInstallDirectory($module, false);
+            }
+
+            $configFile = sprintf(
+                '%s/%s.yml',
+                $configDirectory,
+                $fileName
+            );
+
             $output->writeln(
                 sprintf(
                     '- <info>%s</info>',
-                    sprintf(
-                        '%s/%s.yml',
-                        $this->getSite()->getModuleConfigInstallDirectory($module, false),
-                        $file_name
-                    )
+                    $configFile
                 )
             );
-            file_put_contents($modulePath . '/config/install/' . $file_name . '.yml', $yamlConfig);
+
+            $configDirectory = sprintf(
+                '%s/%s',
+                $this->getSite()->getSitePath(),
+                $configDirectory
+            );
+
+            if (!file_exists($configDirectory)) {
+                mkdir($configDirectory);
+            }
+
+            file_put_contents(
+                sprintf(
+                    '%s/%s',
+                    $this->getSite()->getSitePath(),
+                    $configFile
+                ),
+                $yamlConfig
+            );
         }
     }
 

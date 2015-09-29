@@ -110,25 +110,12 @@ class SiteHelper extends Helper
 
     /**
      * @param string $moduleName
-     * @return bool
+     * @param bool   $fullPath
+     * @return string
      */
-    public function createModuleConfigInstallDirectory($moduleName)
+    public function getModuleConfigInstallDirectory($moduleName, $fullPath=true)
     {
-        if (!$moduleName) {
-            return false;
-        }
-
-        if (!$this->createModuleConfigDirectory($moduleName)) {
-            return false;
-        }
-
-        $modulePath = $this->getModulePath($moduleName);
-
-        if (!file_exists($modulePath .'/config/install')) {
-            mkdir($modulePath .'/config/install', 0755, true);
-        }
-
-        return true;
+        return $this->getModulePath($moduleName, $fullPath).'/config/install';
     }
 
     /**
@@ -136,9 +123,9 @@ class SiteHelper extends Helper
      * @param bool   $fullPath
      * @return string
      */
-    public function getModuleConfigInstallDirectory($moduleName, $fullPath=true)
+    public function getModuleConfigOptionalDirectory($moduleName, $fullPath=true)
     {
-        return $this->getModulePath($moduleName, $fullPath).'/config/install';
+        return $this->getModulePath($moduleName, $fullPath).'/config/optional';
     }
 
     /**
