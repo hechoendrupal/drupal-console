@@ -3,3 +3,7 @@ application:
   language: en
   editor: vim
   temp: /tmp
+# disable load commands from module list
+#  disable:
+#    - module_name
+#    - module_name
