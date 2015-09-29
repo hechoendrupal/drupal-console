@@ -26,11 +26,15 @@ class ConfigExportViewCommand extends ContainerAwareCommand
         $this
             ->setName('config:export:view')
             ->setDescription($this->trans('commands.config.export.view.description'))
-            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'module', '',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            )
             ->addArgument(
                 'view-id',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.views.debug.arguments.view-id')
+                $this->trans('commands.config.export.view.arguments.view-id')
             )
             ->addOption(
                 'optional-config',
@@ -88,15 +92,15 @@ class ConfigExportViewCommand extends ContainerAwareCommand
         }
         $input->setArgument('view-id', $viewId);
 
-        $optional_config = $input->getOption('optional-config');
-        if (!$optional_config) {
-            $optional_config = $dialog->askConfirmation(
+        $optionalConfig = $input->getOption('optional-config');
+        if (!$optionalConfig) {
+            $optionalConfig = $dialog->askConfirmation(
                 $output,
                 $dialog->getQuestion($this->trans('commands.config.export.view.questions.optional-config'), 'yes', '?'),
                 true
             );
         }
-        $input->setOption('optional-config', $optional_config);
+        $input->setOption('optional-config', $optionalConfig);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -106,14 +110,14 @@ class ConfigExportViewCommand extends ContainerAwareCommand
 
         $module = $input->getOption('module');
         $viewId = $input->getArgument('view-id');
-        $optional_config = $input->getOption('optional-config');
+        $optionalConfig = $input->getOption('optional-config');
 
         $viewTypeDefinition = $this->entityManager->getDefinition('view');
         $viewTypeName = $viewTypeDefinition->getConfigPrefix() . '.' . $viewId;
 
         $viewNameConfig = $this->getConfiguration($viewTypeName);
 
-        $this->configExport[$viewTypeName] = array('data' => $viewNameConfig, 'optional' => $optional_config);
+        $this->configExport[$viewTypeName] = array('data' => $viewNameConfig, 'optional' => $optionalConfig);
 
         $this->exportConfig($module, $output);
     }
@@ -122,9 +126,6 @@ class ConfigExportViewCommand extends ContainerAwareCommand
     {
         $dumper = new Dumper();
 
-        $modulePath = $this->getSite()->getModulePath($module);
-        $this->getSite()->createModuleConfigInstallDirectory($module);
-
         $output->writeln(
             sprintf(
                 '[+] <info>%s</info>',
@@ -132,35 +133,46 @@ class ConfigExportViewCommand extends ContainerAwareCommand
             )
         );
 
-        foreach ($this->configExport as $file_name => $config) {
+        foreach ($this->configExport as $fileName => $config) {
             $yamlConfig = $dumper->dump($config['data'], 10);
 
-            if($config['optional']) {
-                $config_directory = $this->getSite()->getModuleConfigOptionalDirectory($module, false);
-            }
-            else {
-                $config_directory = $this->getSite()->getModuleConfigInstallDirectory($module, false);
-            }
-
-            // Create config folder is doesn't exist
-            if (!file_exists($config_directory)) {
-                mkdir($config_directory);
+            if ($config['optional']) {
+                $configDirectory = $this->getSite()->getModuleConfigOptionalDirectory($module, false);
+            } else {
+                $configDirectory = $this->getSite()->getModuleConfigInstallDirectory($module, false);
             }
 
-            $config_file = sprintf(
+            $configFile = sprintf(
                 '%s/%s.yml',
-                $config_directory,
-                $file_name
+                $configDirectory,
+                $fileName
             );
 
             $output->writeln(
                 sprintf(
                     '- <info>%s</info>',
-                    $config_file
+                    $configFile
                 )
             );
 
-            file_put_contents($config_file, $yamlConfig);
+            $configDirectory = sprintf(
+                '%s/%s',
+                $this->getSite()->getSitePath(),
+                $configDirectory
+            );
+
+            if (!file_exists($configDirectory)) {
+                mkdir($configDirectory);
+            }
+
+            file_put_contents(
+                sprintf(
+                    '%s/%s',
+                    $this->getSite()->getSitePath(),
+                    $configFile
+                ),
+                $yamlConfig
+            );
         }
     }
 
