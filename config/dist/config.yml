@@ -7,3 +7,10 @@ application:
 #  disable:
 #    - module_name
 #    - module_name
+# set default values for commands
+#  default:
+#    commands:
+#      generate:
+#        controller:
+#          options:
+#            module: module_name
