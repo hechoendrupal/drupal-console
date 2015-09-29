@@ -129,6 +129,15 @@ commands:
                     export: 'Configuration was exported at file %s.'
                     invalid-config-type: 'Invalid config type, please select one of the list'
                     invalid-config-name: 'Invalid config name, please select one of the list'
+            view:
+                description: 'Export a view in YAML format inside a provided module to reuse in other website.'
+                messages:
+                    view_exported: 'Exporting view'
+                questions:
+                    view: 'View to be exported'
+                    optional-config: 'Export view in module as an optional configuration'
+                options:
+                    optional-config: 'Export view as an optional YAML configuration in your module'
         debug:
             description: 'Show the current configuration.'
             arguments:
@@ -995,6 +1004,14 @@ commands:
                 executing-required-previous-updates: 'Executing required previous updates'
     user:
         login:
+            url:
+                description: 'Returns a one time user login url.'
+                options:
+                    user-id: 'User ID.'
+                messages:
+                    url: 'One time login for @name: @url'
+                errors:
+                    invalid-user: 'Cannot load user entity (User ID: @uid).'
             clear:
                 attempts:
                     description: 'Clear login failed attempts for an account.'
