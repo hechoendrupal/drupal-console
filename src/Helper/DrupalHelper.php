@@ -15,7 +15,7 @@ use Symfony\Component\Console\Helper\Helper;
  */
 class DrupalHelper extends Helper
 {
-    const DRUPAL_AUTOLOAD = 'core/vendor/autoload.php';
+    const DRUPAL_AUTOLOAD = 'autoload.php';
 
     const DRUPAL_SETTINGS = 'sites/default/settings.php';
 
