@@ -108,6 +108,9 @@ abstract class Command extends BaseCommand
         return $question;
     }
 
+    /**
+     * @return \Drupal\Console\Helper\SiteHelper
+     */
     public function getSite()
     {
         return $this->getHelperSet()->get('site');

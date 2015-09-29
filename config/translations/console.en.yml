@@ -151,6 +151,8 @@ commands:
         questions:
            view: "View to be exported"
            optional-config: 'Export view in module as an optional configuration'
+        arguments:
+          view-id: 'View ID'
         options:
           optional-config: 'Export view as an optional YAML configuration in your module'
     debug:

@@ -110,29 +110,6 @@ class SiteHelper extends Helper
 
     /**
      * @param string $moduleName
-     * @return bool
-     */
-    public function createModuleConfigInstallDirectory($moduleName)
-    {
-        if (!$moduleName) {
-            return false;
-        }
-
-        if (!$this->createModuleConfigDirectory($moduleName)) {
-            return false;
-        }
-
-        $modulePath = $this->getModulePath($moduleName);
-
-        if (!file_exists($modulePath .'/config/install')) {
-            mkdir($modulePath .'/config/install', 0755, true);
-        }
-
-        return true;
-    }
-
-    /**
-     * @param string $moduleName
      * @param bool   $fullPath
      * @return string
      */
