@@ -143,6 +143,16 @@ class SiteHelper extends Helper
 
     /**
      * @param string $moduleName
+     * @param bool   $fullPath
+     * @return string
+     */
+    public function getModuleConfigOptionalDirectory($moduleName, $fullPath=true)
+    {
+        return $this->getModulePath($moduleName, $fullPath).'/config/optional';
+    }
+
+    /**
+     * @param string $moduleName
      * @return string
      */
     public function getControllerPath($moduleName)
