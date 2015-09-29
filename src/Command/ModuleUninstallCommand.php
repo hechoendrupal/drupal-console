@@ -97,5 +97,8 @@ class ModuleUninstallCommand extends ContainerAwareCommand
 
             return;
         }
+
+        // Run cache rebuild to see changes in Web UI
+        $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
 }
