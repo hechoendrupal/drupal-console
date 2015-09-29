@@ -52,7 +52,7 @@ class Validators extends Helper implements HelperInterface
     {
         if (preg_match(self::REGEX_COMMAND_CLASS_NAME, $class_name)) {
             return $class_name;
-        } else if (preg_match(self::REGEX_CLASS_NAME, $class_name)) {
+        } elseif (preg_match(self::REGEX_CLASS_NAME, $class_name)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'Command name "%s" is invalid, it must end with the word \'Command\'',
@@ -167,6 +167,27 @@ class Validators extends Helper implements HelperInterface
         }
 
         return $service;
+    }
+
+    /**
+     * Validate if event name exist.
+     *
+     * @param string $event  Event name
+     * @param array  $events Array of events
+     *
+     * @return string
+     */
+    public function validateEventExist($event, $events)
+    {
+        if ($event == '') {
+            return;
+        }
+
+        if (!in_array($event, array_values($events))) {
+            throw new \InvalidArgumentException(sprintf('Event "%s" is invalid.', $event));
+        }
+
+        return $event;
     }
 
     /**

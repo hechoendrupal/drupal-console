@@ -46,6 +46,7 @@ application:
 commands:
     common:
         options:
+            events: 'Load events from the container'
             module: 'Le Nom du Module.'
             services: 'Services de charge forment le container.'
             tags: 'Les étiquettes de service prévues du conteneur.'
@@ -55,6 +56,9 @@ commands:
             module: 'Entrez le nom du module.'
             confirm: 'Confirmez-vous la génération'
             canceled: 'Génération de commande annulée.'
+            events:
+                message: "\nType the event name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
+                name: 'Enter event name'
             services:
                 confirm: 'Voulez-vous charger les services forment le container'
                 message: "\nTapez le nom du service ou utiliser keyup et keydown.\nCette option est facultative, appuyez <info>enter</info> to <info>continue</info>\n"
@@ -280,6 +284,12 @@ commands:
                 method-name-already-added: 'Method name was already added'
                 invalid-route: 'Route cannot be empty'
                 route-already-added: 'Route was already added'
+        event:
+            subscriber:
+                description: 'Generate an event subscriber'
+                questions:
+                    class-name: 'Class name'
+                    callback-name: 'Callback function name to handle event'
         entity:
             description: 'Générer une nouvelle "%s"'
             help: 'La commande <info>"%s"</info> vous assiste dans la génération d''une nouvelle "%s"'

@@ -46,6 +46,7 @@ application:
 commands:
     common:
         options:
+            events: 'Load events from the container'
             module: 'O nome do módulo.'
             services: 'Carrega serviços do container.'
             tags: 'Set service tags from the container.'
@@ -55,6 +56,9 @@ commands:
             module: 'Digite o nome do módulo'
             confirm: 'Você confirma a criação'
             canceled: 'Criação de comando cancelada.'
+            events:
+                message: "\nType the event name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
+                name: 'Enter event name'
             services:
                 confirm: 'Você deseja carregar serviços do container'
                 message: "\nDigite o nome do serviçõ ou use as setas para cima e para baixo\nIsto é opcional, precione <info>enter</info> para <info>continuar</info>\n"
@@ -281,6 +285,12 @@ commands:
                 method-name-already-added: 'Method name was already added'
                 invalid-route: 'Route cannot be empty'
                 route-already-added: 'Route was already added'
+        event:
+            subscriber:
+                description: 'Generate an event subscriber'
+                questions:
+                    class-name: 'Class name'
+                    callback-name: 'Callback function name to handle event'
         entity:
             description: 'Cria uma nova "%s"'
             help: 'O comando <info>"%s"</info> ajuda você a criar uma nova "%s"'

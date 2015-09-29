@@ -17,6 +17,8 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
     private $services;
 
+    private $events;
+
     private $route_provider;
 
     /**
@@ -153,6 +155,16 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         return $this->services;
     }
 
+    public function getEvents()
+    {
+        if (null === $this->events) {
+            $this->events = [];
+            $this->events = array_keys($this->getEventDispatcher()->getListeners());
+        }
+
+        return $this->events;
+    }
+
     public function getRouteProvider()
     {
         if (null === $this->route_provider) {
@@ -226,6 +238,14 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     public function getConfigManager()
     {
         return $this->getContainer()->get('config.manager');
+    }
+
+    /**
+     * @return \Drupal\Component\EventDispatcher\ContainerAwareEventDispatcher
+     */
+    public function getEventDispatcher()
+    {
+        return $this->getContainer()->get('event_dispatcher');
     }
 
     public function getEntityManager()
@@ -329,6 +349,15 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     public function getPassHandler()
     {
         return $this->getContainer()->get('password');
+    }
+
+    public function validateEventExist($event_name, $events = null)
+    {
+        if (!$events) {
+            $events = $this->getEvents();
+        }
+
+        return $this->getValidator()->validateEventExist($event_name, $events);
     }
 
     public function validateModuleExist($module_name)
