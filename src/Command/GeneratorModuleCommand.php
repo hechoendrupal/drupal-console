@@ -64,8 +64,8 @@ class GeneratorModuleCommand extends GeneratorCommand
             )
             ->addOption(
                 'feature',
-                '',
-                InputOption::VALUE_OPTIONAL,
+                false,
+                InputOption::VALUE_NONE,
                 $this->trans('commands.generate.module.options.feature')
             )
             ->addOption(
