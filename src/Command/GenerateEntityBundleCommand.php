@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\GeneratorControllerCommand.
+ * Contains Drupal\Console\Command\GenerateEntityBundleCommand.
  */
 
 namespace Drupal\Console\Command;
@@ -11,12 +11,12 @@ use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\ServicesTrait;
 use Drupal\Console\Generator\ContentTypeGenerator;
-use Drupal\Console\Generator\ControllerGenerator;
+use Drupal\Console\Generator\EntityBundleGenerator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GeneratorContentTypeCommand extends GeneratorCommand
+class GenerateEntityBundleCommand extends GeneratorCommand
 {
     use ModuleTrait;
     use ServicesTrait;
@@ -25,21 +25,21 @@ class GeneratorContentTypeCommand extends GeneratorCommand
     protected function configure()
     {
         $this
-            ->setName('generate:contenttype')
-            ->setDescription($this->trans('commands.generate.contenttype.description'))
-            ->setHelp($this->trans('commands.generate.contenttype.command.help'))
+            ->setName('generate:entity:bundle')
+            ->setDescription($this->trans('commands.generate.entity.bundle.description'))
+            ->setHelp($this->trans('commands.generate.entity.bundle.help'))
             ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
                 'bundle-name',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.contenttype.options.bundle-name')
+                $this->trans('commands.generate.entity.bundle.options.bundle-name')
             )
             ->addOption(
                 'bundle-title',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.contenttype.options.bundle-title')
+                $this->trans('commands.generate.entity.bundle.options.bundle-title')
             );
     }
 
@@ -55,8 +55,8 @@ class GeneratorContentTypeCommand extends GeneratorCommand
         }
 
         $module = $input->getOption('module');
-        $bundle_name = $input->getOption('bundle-name');
-        $bundle_title = $input->getOption('bundle-title');
+        $bundleName = $input->getOption('bundle-name');
+        $bundleTitle = $input->getOption('bundle-title');
 
         $learning = false;
         if ($input->hasOption('learning')) {
@@ -65,10 +65,7 @@ class GeneratorContentTypeCommand extends GeneratorCommand
 
         $generator = $this->getGenerator();
         $generator->setLearning($learning);
-        $generator->generate($module, $bundle_name, $bundle_title);
-
-        // Consider chaining the import command
-        //$this->getHelper('chain')->addCommand('router:rebuild');
+        $generator->generate($module, $bundleName, $bundleTitle);
     }
 
     /**
@@ -89,9 +86,9 @@ class GeneratorContentTypeCommand extends GeneratorCommand
         // --bundle-name option
         $bundle_name = $input->getOption('bundle-name');
         if (!$bundle_name) {
-            $bundle_name = $dialog->askAndValidate(
+            $bundleName = $dialog->askAndValidate(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.contenttype.questions.bundle-name'), 'default'),
+                $dialog->getQuestion($this->trans('commands.generate.entity.bundle.questions.bundle-name'), 'default'),
                 function ($bundle_name) {
                     return $this->validateClassName($bundle_name);
                 },
@@ -100,14 +97,14 @@ class GeneratorContentTypeCommand extends GeneratorCommand
                 null
             );
         }
-        $input->setOption('bundle-name', $bundle_name);
+        $input->setOption('bundle-name', $bundleName);
 
         // --bundle-title option
-        $bundle_title = $input->getOption('bundle-title');
-        if (!$bundle_title) {
-            $bundle_title = $dialog->askAndValidate(
+        $bundleTitle = $input->getOption('bundle-title');
+        if (!$bundleTitle) {
+            $bundleTitle = $dialog->askAndValidate(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.contenttype.questions.bundle-title'), 'default'),
+                $dialog->getQuestion($this->trans('commands.generate.entity.bundle.questions.bundle-title'), 'default'),
                 function ($bundle_title) {
                     return $this->validateClassName($bundle_title);
                 },
@@ -116,14 +113,14 @@ class GeneratorContentTypeCommand extends GeneratorCommand
                 null
             );
         }
-        $input->setOption('bundle-title', $bundle_title);
+        $input->setOption('bundle-title', $bundleTitle);
     }
 
     /**
-     * @return \Drupal\Console\Generator\ControllerGenerator
+     * @return \Drupal\Console\Generator\EntityBundleGenerator
      */
     protected function createGenerator()
     {
-        return new ContentTypeGenerator();
+        return new EntityBundleGenerator();
     }
 }
