@@ -3,10 +3,10 @@
 namespace Drupal\Console\Test\DataProvider;
 
 /**
- * Class ContentTypeDataProviderTrait
+ * Class EntityBundleDataProviderTrait
  * @package Drupal\Console\Test\DataProvider
  */
-trait ContentTypeDataProviderTrait
+trait EntityBundleDataProviderTrait
 {
     /**
      * @return array

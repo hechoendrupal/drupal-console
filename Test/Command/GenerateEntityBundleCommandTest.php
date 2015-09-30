@@ -1,18 +1,18 @@
 <?php
 /**
  * @file
- * Contains \Drupal\Console\Test\Command\GeneratorContentTypeCommandTest.
+ * Contains \Drupal\Console\Test\Command\GenerateEntityBundleCommandTest.
  */
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GeneratorContentTypeCommand;
+use Drupal\Console\Command\GenerateEntityBundleCommand;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\Console\Test\DataProvider\ContentTypeDataProviderTrait;
+use Drupal\Console\Test\DataProvider\EntityBundleDataProviderTrait;
 
-class GeneratorContentTypeCommandTest extends GenerateCommandTest
+class GenerateEntityBundleCommandTest extends GenerateCommandTest
 {
-    use ContentTypeDataProviderTrait;
+    use EntityBundleDataProviderTrait;
 
     /**
      * ContentType generator test
@@ -28,7 +28,7 @@ class GeneratorContentTypeCommandTest extends GenerateCommandTest
         $bundle_name,
         $bundle_title
     ) {
-        $command = new GeneratorContentTypeCommand($this->getTranslatorHelper());
+        $command = new GenerateEntityBundleCommand($this->getTranslatorHelper());
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
@@ -50,7 +50,7 @@ class GeneratorContentTypeCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-            ->getMockBuilder('Drupal\Console\Generator\ContentTypeGenerator')
+            ->getMockBuilder('Drupal\Console\Generator\EntityBundleGenerator')
             ->disableOriginalConstructor()
             ->setMethods(['generate'])
             ->getMock();
