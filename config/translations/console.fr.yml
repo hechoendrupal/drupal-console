@@ -136,6 +136,8 @@ commands:
                 questions:
                     view: 'View to be exported'
                     optional-config: 'Export view in module as an optional configuration'
+                arguments:
+                    view-id: 'View ID'
                 options:
                     optional-config: 'Export view as an optional YAML configuration in your module'
         debug:
@@ -252,20 +254,34 @@ commands:
                 controller-title: 'Controller title'
             messages:
                 title-not-empty: 'Title cannot be empty'
-        contenttype:
-            description: 'Generate a new content type (node / entity bundle)'
-            help: 'Use: generate:contenttype <fancy> <Fancy> to create a new content type name with the machine name of fancy and the human-readable name of Fancy.'
-            welcome: 'Welcome to the Drupal Content Type generator'
+        entity:
+            bundle:
+                description: 'Generate a new content type (node / entity bundle)'
+                help: 'Use: generate:contenttype <fancy> <Fancy> to create a new content type name with the machine name of fancy and the human-readable name of Fancy.'
+                welcome: 'Welcome to the Drupal Content Type generator'
+                options:
+                    module: common.options.module
+                    bundle-name: 'The content type''s machine name'
+                    bundle-title: 'The content type''s human-readable name'
+                questions:
+                    module: common.questions.module
+                    bundle-name: 'Enter the machine name of your new content type'
+                    bundle-title: 'Enter the human-readable name of your new content type'
+                message:
+                    error-state1: placeholder
+            description: 'Générer une nouvelle "%s"'
+            help: 'La commande <info>"%s"</info> vous assiste dans la génération d''une nouvelle "%s"'
+            welcome: 'Bienvenue sur le générateur de l''entité Drupal'
             options:
                 module: common.options.module
-                bundle-name: 'The content type''s machine name'
-                bundle-title: 'The content type''s human-readable name'
+                entity-class: 'Le nom de la classe pour entitée'
+                entity-name: 'Le nom de l''entitée'
+                label: 'The entity label'
             questions:
                 module: common.questions.module
-                bundle-name: 'Enter the machine name of your new content type'
-                bundle-title: 'Enter the human-readable name of your new content type'
-            message:
-                error-state1: placeholder
+                entity-class: 'Entrez le nom de la classe de l''entitée'
+                entity-name: 'Entrez le nom de l''entitée'
+                label: 'Enter the entity label'
         controller:
             description: 'Générer & enregistrer un contrôleur'
             help: 'La commande <info>generate:controller</ info> vous assiste dans la création d''un nouveau controller'
@@ -299,20 +315,6 @@ commands:
                 questions:
                     class-name: 'Class name'
                     callback-name: 'Callback function name to handle event'
-        entity:
-            description: 'Générer une nouvelle "%s"'
-            help: 'La commande <info>"%s"</info> vous assiste dans la génération d''une nouvelle "%s"'
-            welcome: 'Bienvenue sur le générateur de l''entité Drupal'
-            options:
-                module: common.options.module
-                entity-class: 'Le nom de la classe pour entitée'
-                entity-name: 'Le nom de l''entitée'
-                label: 'The entity label'
-            questions:
-                module: common.questions.module
-                entity-class: 'Entrez le nom de la classe de l''entitée'
-                entity-name: 'Entrez le nom de l''entitée'
-                label: 'Enter the entity label'
         form:
             alter:
                 description: 'Generate an implementation of hook_form_alter() or hook_form_FORM_ID_alter'
@@ -322,7 +324,7 @@ commands:
                 messages:
                     inputs: "You can add form fields to modify form.\nThis is optional, press <info>enter</info> to <info>continue</info>"
             description: 'Générer un nouveau "%s"'
-            help: 'la commande <info>"%s"</info> vous assisite dans la génération d''un nouveau "%s"'
+            help: 'la commande <info>"%s"</info> vous assiste dans la génération d''un nouveau "%s"'
             welcome: 'Bienvenue sur le générateur de formulaire Drupal'
             options:
                 module: common.options.module
@@ -340,19 +342,19 @@ commands:
                 routing: 'Mise à jour des routes'
         module:
             description: 'Générer un module.'
-            help: 'Le <info> générer: le module </ info> commande aide à générer un nouveau module'
+            help: 'La commande <info>generate:module</info> vous assiste dans la génération d''un nouveau module'
             welcome: 'Bienvenue sur le générateur de modules Drupal'
             options:
                 module: 'Le nom du module'
-                machine-name: 'Le nom de la machine (en minuscules et soulignent seulement)'
+                machine-name: 'Le nom machine (minuscules et underscore _ seulement)'
                 module-path: 'Le chemin du module'
                 description: 'Description du module'
                 core: 'Version de core.'
                 feature: 'Set module compatible with Features module'
                 package: 'Paquet Module'
                 controller: 'Contrôleur par défaut'
-                composer: 'Add a composer.json file'
-                dependencies: 'Module dependencies (i.e. context, galleria, panels)'
+                composer: 'Ajouter un fichier composer.json'
+                dependencies: 'Dépendences du modules (par exemple : context, galleria, panels)'
                 test: 'Générer une classe de test'
             questions:
                 module: 'Entrez le nom du nouveau module'
@@ -367,13 +369,13 @@ commands:
                 dependencies: 'Would you like to add module dependencies'
                 test: 'Voulez-vous générer une classe de test unitaire'
             warnings:
-                module-unavailable: 'Warning The following modules are not already available in your local environment "%s"'
+                module-unavailable: 'Attention, les modules suivants ne sont pas disponible dans votre installation locale : "%s"'
             errors:
-                directory-exists: 'The target directory "%s" is not empty.'
+                directory-exists: 'Le dossier cible "%s" n''est pas vide'
         theme:
-            description: 'Generate a theme.'
-            help: 'The <info>generate:theme</info> command helps you generates a new theme.'
-            welcome: 'Welcome to the Drupal theme generator'
+            description: 'Générer un theme.'
+            help: 'La commande <info>generate:theme</info> vous assiste dans la création d''un nouveau thème.'
+            welcome: 'Bienvenue dans le générateur de thème pour Drupal'
             options:
                 theme: 'The theme name'
                 machine-name: 'The machine name (lowercase and underscore only)'
@@ -409,9 +411,9 @@ commands:
                 breakpoint-multipliers: 'Enter breakpoint multipliers'
                 breakpoint-add: 'Do you want add another breakpoint'
             warnings:
-                module-unavailable: 'Warning The following modules are not already available in your local environment "%s"'
+                module-unavailable: 'Attention, les modules suivants ne sont pas disponible dans votre installation locale : "%s"'
             errors:
-                directory-exists: 'The target directory "%s" is not empty.'
+                directory-exists: 'Le dossier cible "%s" n''est pas vide'
         permission:
             description: 'Génère les permissions d''un module'
             help: 'La commande <info>generate:permissions</info> vous aide à définir des nouvelles permissions'
@@ -671,6 +673,20 @@ commands:
                 class-name: 'Entrez le nom de la classe'
                 interface: 'Create an interface'
                 services: common.options.services
+        contenttype:
+            description: 'Generate a new content type (node / entity bundle)'
+            help: 'Use: generate:contenttype <fancy> <Fancy> to create a new content type name with the machine name of fancy and the human-readable name of Fancy.'
+            welcome: 'Welcome to the Drupal Content Type generator'
+            options:
+                module: common.options.module
+                bundle-name: 'The content type''s machine name'
+                bundle-title: 'The content type''s human-readable name'
+            questions:
+                module: common.questions.module
+                bundle-name: 'Enter the machine name of your new content type'
+                bundle-title: 'Enter the human-readable name of your new content type'
+            message:
+                error-state1: placeholder
     init:
         description: 'Copy configuration files to user home directory.'
     module:
@@ -1129,16 +1145,16 @@ commands:
                 key: 'YAML Key'
                 value: 'YAML Value'
         merge:
-            description: 'Merge one or more YAML files in a new YAML file. Latest values are preserved.'
+            description: 'Fusionne un ou plusieurs fichiers YAML en un nouveau. Les valeurs les plus récentes sont concervées.'
             arguments:
-                yaml-files: 'Path of YAML files to merge'
-                yaml-destination: 'Path of new YAML file to store result of merge.'
+                yaml-files: 'Chemin des fichiers YAML à fusionner'
+                yaml-destination: 'Chemin du nouveau fichier YAML résultant de la fusion.'
             questions:
-                yaml-destination: 'Path of new YAML file to store result of merge.'
-                file: 'Path to file to merge'
-                other-file: 'Path to file to merge (empty to start with merge process)'
-                invalid-file: 'Path of file cannot be empty'
-                file-already-added: 'Path of file was already added'
+                yaml-destination: 'Entrez le chemin du nouveau fichier qui résultera de la fusion.'
+                file: 'Chemin du premier fichier à fusionner'
+                other-file: 'Chemin d''un autre fichier à fusionner (laissez vide pour commencer la fusion)'
+                invalid-file: 'Le chemin du fichier ne peut être vide'
+                file-already-added: 'Ce fichier est déjà présent dans la fusion'
             messages:
                 wrong-parse: 'Yaml file "%s" is empty or doesn''t exist the file.'
                 error-parsing: 'An error occurs during parsing of Yaml file %s.'
