@@ -12,6 +12,7 @@ namespace Drupal\{{ module }}\Entity;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\ContentEntityBase;
+use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\{{ module }}\{{ entity_class }}Interface;
 use Drupal\user\UserInterface;
@@ -55,6 +56,9 @@ use Drupal\user\UserInterface;
  * )
  */
 class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}Interface {% endblock %}
+{% block use_trait %}
+  use EntityChangedTrait;
+{% endblock %}
 {% block class_methods %}
   /**
    * {@inheritdoc}
@@ -71,13 +75,6 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
    */
   public function getCreatedTime() {
     return $this->get('created')->value;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getChangedTime() {
-    return $this->get('changed')->value;
   }
 
   /**
