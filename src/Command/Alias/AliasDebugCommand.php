@@ -42,15 +42,12 @@ class AliasDebugCommand extends Command
         /** @var \Symfony\Component\Finder\SplFileInfo $site */
         foreach($finder as $site) {
             $environments  = $app->getConfig()->readYamlFile($remoteDir . '/' . $site->getFilename());
-            $table->addRow([
-                explode(".", $site->getFilename())[0]
-            ]);
+            $site = explode(".", $site->getFilename())[0];
 
             foreach ($environments as $env => $config) {
                 $table->addRow([
-                   '',
-                    $env,
-                    $config['host'],
+                    $site . '.' . $env,
+                    array_key_exists('host', $config) ? $config['host'] : 'local',
                     $config['drupal']
                 ]);
             }
