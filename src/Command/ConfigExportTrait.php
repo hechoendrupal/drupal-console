@@ -13,12 +13,12 @@ use Symfony\Component\Yaml\Dumper;
 
 trait ConfigExportTrait
 {
-    protected function getConfiguration($configName, $uuid = FALSE)
+    protected function getConfiguration($configName, $uuid = false)
     {
         // Unset uuid, maybe is not necessary to export
         $config = $this->configStorage->read($configName);
 
-        if(!$uuid) {
+        if (!$uuid) {
             unset($config['uuid']);
         }
 
