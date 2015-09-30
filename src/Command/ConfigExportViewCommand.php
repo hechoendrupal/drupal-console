@@ -11,11 +11,11 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Yaml\Dumper;
 
 class ConfigExportViewCommand extends ContainerAwareCommand
 {
     use ModuleTrait;
+    use ConfigExportTrait;
 
     protected $entityManager;
     protected $configStorage;
@@ -120,67 +120,5 @@ class ConfigExportViewCommand extends ContainerAwareCommand
         $this->configExport[$viewTypeName] = array('data' => $viewNameConfig, 'optional' => $optionalConfig);
 
         $this->exportConfig($module, $output);
-    }
-
-    protected function exportConfig($module, OutputInterface $output)
-    {
-        $dumper = new Dumper();
-
-        $output->writeln(
-            sprintf(
-                '[+] <info>%s</info>',
-                $this->trans('commands.views.export.messages.view_exported')
-            )
-        );
-
-        foreach ($this->configExport as $fileName => $config) {
-            $yamlConfig = $dumper->dump($config['data'], 10);
-
-            if ($config['optional']) {
-                $configDirectory = $this->getSite()->getModuleConfigOptionalDirectory($module, false);
-            } else {
-                $configDirectory = $this->getSite()->getModuleConfigInstallDirectory($module, false);
-            }
-
-            $configFile = sprintf(
-                '%s/%s.yml',
-                $configDirectory,
-                $fileName
-            );
-
-            $output->writeln(
-                sprintf(
-                    '- <info>%s</info>',
-                    $configFile
-                )
-            );
-
-            $configDirectory = sprintf(
-                '%s/%s',
-                $this->getSite()->getSitePath(),
-                $configDirectory
-            );
-
-            if (!file_exists($configDirectory)) {
-                mkdir($configDirectory);
-            }
-
-            file_put_contents(
-                sprintf(
-                    '%s/%s',
-                    $this->getSite()->getSitePath(),
-                    $configFile
-                ),
-                $yamlConfig
-            );
-        }
-    }
-
-    protected function getConfiguration($configName)
-    {
-        // Unset uuid, maybe is not necessary to export
-        $config = $this->configStorage->read($configName);
-        unset($config['uuid']);
-        return $config;
     }
 }
