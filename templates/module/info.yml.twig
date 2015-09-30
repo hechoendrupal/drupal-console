@@ -9,7 +9,6 @@ features: true
 {% if dependencies %}
 dependencies:
 {% for dependency in dependencies %}
-  {{ "- #{dependency}"}}
+  - {{ dependency }}
 {% endfor %}
 {% endif %}
-
