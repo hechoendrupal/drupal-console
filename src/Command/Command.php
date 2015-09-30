@@ -3,9 +3,12 @@
 namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Command\Command as BaseCommand;
+use Drupal\Console\Helper\HelperTrait;
 
 abstract class Command extends BaseCommand
 {
+    use HelperTrait;
+
     /**
      * @var string
      */
@@ -64,26 +67,6 @@ abstract class Command extends BaseCommand
         return $this->translator->trans($key);
     }
 
-    /**
-     * @return \Drupal\Console\Utils\StringUtils
-     */
-    public function getStringUtils()
-    {
-        $stringUtils = $this->getHelperSet()->get('stringUtils');
-
-        return $stringUtils;
-    }
-
-    /**
-     * @return \Drupal\Console\Utils\Validators
-     */
-    public function getValidator()
-    {
-        $validators = $this->getHelperSet()->get('validators');
-
-        return $validators;
-    }
-
     public function addDependency($moduleName)
     {
         $this->dependencies[] = $moduleName;
@@ -92,31 +75,5 @@ abstract class Command extends BaseCommand
     public function getDependencies()
     {
         return $this->dependencies;
-    }
-
-    protected function getDialogHelper()
-    {
-        $dialog = $this->getHelperSet()->get('dialog');
-
-        return $dialog;
-    }
-
-    protected function getQuestionHelper()
-    {
-        $question = $this->getHelperSet()->get('question');
-
-        return $question;
-    }
-
-    public function getSite()
-    {
-        return $this->getHelperSet()->get('site');
-    }
-
-    protected function getNestedArrayHelper()
-    {
-        $nested_array = $this->getHelperSet()->get('nested-array');
-
-        return $nested_array;
     }
 }

@@ -88,7 +88,16 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
 {% if input.options|length %}
       '#options' => {{ input.options }},
 {% endif %}
-      '#default_value' => isset($this->configuration['{{ input.name }}']) ? $this->configuration['{{ input.name }}'] : '',
+      '#default_value' => isset($this->configuration['{{ input.name }}']) ? $this->configuration['{{ input.name }}'] : '{{ input.default_value }}',
+{% if input.maxlength|length %}
+      '#maxlength' => {{ input.maxlength }},
+{% endif %}
+{% if input.size|length %}
+      '#size' => {{ input.size }},
+{% endif %}
+{% if input.weight|length %}
+      '#weight' => '{{ input.weight }}',
+{% endif %}
     );
 {% endfor %}
 

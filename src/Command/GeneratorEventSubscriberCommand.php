@@ -12,11 +12,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ServicesTrait;
 use Drupal\Console\Command\ModuleTrait;
-use Drupal\Console\Generator\ServiceGenerator;
+use Drupal\Console\Generator\EventSubscriberGenerator;
 use Drupal\Console\Command\ConfirmationTrait;
 
-class GeneratorServiceCommand extends GeneratorCommand
+class GeneratorEventSubscriberCommand extends GeneratorCommand
 {
+    use EventsTrait;
     use ServicesTrait;
     use ModuleTrait;
     use ConfirmationTrait;
@@ -27,9 +28,9 @@ class GeneratorServiceCommand extends GeneratorCommand
     protected function configure()
     {
         $this
-            ->setName('generate:service')
-            ->setDescription($this->trans('commands.generate.service.description'))
-            ->setHelp($this->trans('commands.generate.service.description'))
+            ->setName('generate:event:subscriber')
+            ->setDescription($this->trans('commands.generate.event.subscriber.description'))
+            ->setHelp($this->trans('commands.generate.event.subscriber.description'))
             ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
                 'name',
@@ -44,10 +45,10 @@ class GeneratorServiceCommand extends GeneratorCommand
                 $this->trans('commands.generate.service.options.class')
             )
             ->addOption(
-                'interface',
+                'events',
                 null,
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.common.service.options.interface')
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                $this->trans('commands.common.options.services')
             )
             ->addOption(
                 'services',
@@ -72,17 +73,15 @@ class GeneratorServiceCommand extends GeneratorCommand
         $module = $input->getOption('module');
         $name = $input->getOption('name');
         $class = $input->getOption('class');
-        $interface = $input->getOption('interface');
+        $events = $input->getOption('events');
         $services = $input->getOption('services');
 
-        $interface = ($interface === true || strtolower($interface) === 'yes');
-
         // @see Drupal\Console\Command\ServicesTrait::buildServices
-        $build_services = $this->buildServices($services);
+        $buildServices = $this->buildServices($services);
 
         $this
             ->getGenerator()
-            ->generate($module, $name, $class, $interface, $build_services);
+            ->generate($module, $name, $class, $events, $buildServices);
 
         $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'all']);
     }
@@ -121,22 +120,19 @@ class GeneratorServiceCommand extends GeneratorCommand
         if (!$class) {
             $class = $dialog->ask(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.service.questions.class-name'), 'DefaultService'),
-                'DefaultService'
+                $dialog->getQuestion($this->trans('commands.generate.event.subscriber.questions.class-name'), ucfirst($module) .  'DefaultSubscriber'),
+                ucfirst($module) .  'DefaultSubscriber'
             );
         }
         $input->setOption('class', $class);
 
-        // --interface option
-        $interface = $input->getOption('interface');
-        if (!$interface) {
-            $interface = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.service.questions.interface'), 'yes', '?'),
-                true
-            );
+        // --events option
+        $events = $input->getOption('events');
+        if (!$events) {
+            // @see Drupal\Console\Command\ServicesTrait::servicesQuestion
+            $events = $this->eventsQuestion($output, $dialog);
         }
-        $input->setOption('interface', $interface);
+        $input->setOption('events', $events);
 
         // --services option
         $services = $input->getOption('services');
@@ -149,6 +145,6 @@ class GeneratorServiceCommand extends GeneratorCommand
 
     protected function createGenerator()
     {
-        return new ServiceGenerator();
+        return new EventSubscriberGenerator();
     }
 }

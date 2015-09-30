@@ -55,6 +55,7 @@ application:
 commands:
   common:
     options:
+      events: Load events from the container
       module: The Module name.
       services: Load services from the container.
       tags: Set service tags from the container.
@@ -64,6 +65,12 @@ commands:
       module: Enter the module name
       confirm: Do you confirm generation
       canceled: Command generation canceled.
+      events:
+        message: |
+
+          Type the event name or use keyup or keydown.
+          This is optional, press <info>enter</info> to <info>continue</info>
+        name: Enter event name
       services:
         confirm: Do you want to load services from the container
         message: |
@@ -137,7 +144,17 @@ commands:
           export: Configuration was exported at file %s.
           invalid-config-type: Invalid config type, please select one of the list
           invalid-config-name: Invalid config name, please select one of the list
-
+      view:
+        description: "Export a view in YAML format inside a provided module to reuse in other website."
+        messages:
+          view_exported: "Exporting view"
+        questions:
+           view: "View to be exported"
+           optional-config: 'Export view in module as an optional configuration'
+        arguments:
+          view-id: 'View ID'
+        options:
+          optional-config: 'Export view as an optional YAML configuration in your module'
     debug:
       description: Show the current configuration.
       arguments:
@@ -245,7 +262,7 @@ commands:
         module: common.options.module
         controller-title: 'Controller title'
         class-name: Command Class name
-        command: Command name
+        command: Command name (Must end with the word 'Commmand')
         container: Access the services container
       questions:
         module: common.questions.module
@@ -295,6 +312,12 @@ commands:
               method-name-already-added: Method name was already added
               invalid-route: Route cannot be empty
               route-already-added: Route was already added
+    event:
+      subscriber:
+        description: Generate an event subscriber
+        questions:
+          class-name: "Class name"
+          callback-name: Callback function name to handle event
     entity:
       description: Generate a new "%s"
       help: The <info>"%s"</info> command helps you generate a new "%s"
@@ -346,6 +369,7 @@ commands:
         module-path: The path of the module
         description: Module description
         core: Core version
+        feature: 'Set module compatible with Features module'
         package: Module package
         controller: Default Controller
         composer: Add a composer.json file
@@ -358,6 +382,7 @@ commands:
         description: Enter module description
         core: Enter Drupal Core version
         package: Enter package name
+        feature: Define module as feature
         controller: Do you want to generate a default Controller
         composer: Do you want to add a composer.json file to your module
         dependencies: Would you like to add module dependencies
@@ -1008,6 +1033,14 @@ commands:
           executing-required-previous-updates: 'Executing required previous updates'
   user:
     login:
+      url:
+        description: Returns a one time user login url.
+        options:
+          user-id: User ID.
+        messages:
+          url: One time login for @name: @url
+        errors:
+         invalid-user: Cannot load user entity (User ID: @uid).
       clear:
         attempts:
            description: Clear login failed attempts for an account.
@@ -1094,9 +1127,9 @@ commands:
       messages:
         disabled-successfully: "View %s was disabled successfully."
     enable:
-          description: "Enable a View"
-          messages:
-            disabled-successfully: "View %s was enabled successfully."
+      description: "Enable a View"
+      messages:
+      disabled-successfully: "View %s was enabled successfully."
   yaml:
     diff:
       description: 'Compare two YAML files do determined differences between them'
