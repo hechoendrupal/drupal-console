@@ -186,7 +186,7 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         $input->setOption('db-port', $db_port);
 
         // Get migrations available
-        $this->registerSourceDB($input);
+        $this->registerSourceDB($input, $output);
 
         $this->getConnection($output);
 
