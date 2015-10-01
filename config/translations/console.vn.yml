@@ -1,23 +1,23 @@
 application:
   console:
     arguments:
-      drupal: '�u?ng d?n t?i Drupal root.'
-      shell: 'Launch the shell.'
-      env: 'The Environment name.'
-      no-debug: 'Switches off debug mode.'
+      drupal: 'đường dẫn tới Drupal root'
+      shell: 'Khởi động shell'
+      env: 'Tên môi trường'
+      no-debug: 'Tắt chế độ debug'
       learning: 'Generate a verbose code output.'
-      generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
-      generate-inline: 'Print execution options and arguments as inline call to be use in the future'
+      generate-chain: 'In các lựa chọn thi hành và các đối số dạng yaml, để sử dụng trong chuỗi lệnh'
+      generate-inline: 'In các lựa chọn thi hành và các đối số dạng inline, để sử dụng sau'
     messages:
-      completed: 'The command was executed successfully!'
+      completed: 'Dòng lệnh đã được thực thi thành công!'
       chain:
-        generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
+        generated: 'Như sau bạn có thể tìm được file yaml của dòng lệnh thi hành cuối cùng, ví dụ copy in ~/.console/chain/sample.yml sẽ được chạy trong một chuỗi dòng lệnh theo thứ tự gọi'
       inline:
-        generated: 'Following you can find the inline representation of this command to re-execute this command later'
-      generated: 'You can now start using the generated code!'
+        generated: 'Như này bạn có thấy dạng inline của dòng lệnh thi hành và có thể gọi nó lại'
+      generated: 'Bạn có thể bắt đầu sử dụng code mới khởi tạo"
       files:
-        generated: 'Generated or updated files'
-        copied: 'Copied files'
+        generated: 'Các files được khởi tạo hoặc đã tải lên'
+        copied: 'Các files đã được sao chép'
       learning:
         route: |
           In order to to create pages it is necessary to define routes for them.
