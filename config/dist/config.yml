@@ -5,8 +5,9 @@ application:
   temp: /tmp
 # disable load commands from module list
 #  disable:
-#    - module_name
-#    - module_name
+#    modules:
+#      - module_name
+#      - module_name
 # set default values for commands
 #  default:
 #    commands:
