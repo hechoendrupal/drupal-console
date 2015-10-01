@@ -132,7 +132,7 @@ class RegisterCommandsHelper extends Helper
         $namespaces = $this->getNamespaces();
 
         $config = $this->console->getConfig();
-        $disableModules = $config->get('application.disable');
+        $disableModules = $config->get('application.disable.modules');
 
         foreach ($disableModules as $disableModule) {
             if (array_key_exists($disableModule, $modules)) {
