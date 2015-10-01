@@ -48,11 +48,11 @@ class EntityBundleGenerator extends Generator
         /**
          * Generate core.entity_view_mode.node.teaser.yml
          */
-        $this->renderFile(
+/*         $this->renderFile(
             'module/src/Entity/Bundle/core.entity_view_mode.node.teaser.yml.twig',
             $this->getSite()->getModulePath($module) . '/config/install/core.entity_view_mode.node.teaser.yml',
             $parameters
-        );
+        ); */
 
         /**
          * Generate field.field.node.{ bundle_name }.body.yml
@@ -66,11 +66,11 @@ class EntityBundleGenerator extends Generator
         /**
          * Generate field.storage.node.body.yml
          */
-        $this->renderFile(
+/*         $this->renderFile(
             'module/src/Entity/Bundle/field.storage.node.body.yml.twig',
             $this->getSite()->getModulePath($module) . '/config/install/field.storage.node.body.yml',
             $parameters
-        );
+        ); */
 
         /**
          * Generate node.type.{ bundle_name }.yml
