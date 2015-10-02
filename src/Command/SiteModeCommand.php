@@ -118,12 +118,12 @@ class SiteModeCommand extends ContainerAwareCommand
     {
         $services_settings = $this->getServicesSettings($env);
 
-        $directory = DRUPAL_ROOT . '/' .  \Drupal::service('site.path');
+        $directory = $this->getDrupalHelper()->getDrupalRoot() . '/' .  \Drupal::service('site.path');
 
         $settings_services_file = $directory . '/services.yml';
         if (!file_exists($settings_services_file)) {
             // Copying default services
-            $default_services_file = DRUPAL_ROOT . '/sites/default/default.services.yml';
+            $default_services_file = $this->getDrupalHelper()->getDrupalRoot() . '/sites/default/default.services.yml';
             if (!copy($default_services_file, $directory . '/services.yml')) {
                 $output->writeln(
                     ' <error>'. $this->trans('commands.site.mode.messages.error-copying-file') . ': ' . $directory . '/services.yml' .'</error>'
