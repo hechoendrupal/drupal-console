@@ -103,7 +103,7 @@ class GeneratorCommandCommand extends GeneratorCommand
                 $output,
                 $dialog->getQuestion($this->trans('commands.generate.command.questions.class'), 'DefaultCommand'),
                 function ($class) {
-                    return $this->validateCommandName($class);
+                    return $this->getValidator()->validateCommandName($class);
                 },
                 false,
                 'DefaultCommand',
