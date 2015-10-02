@@ -39,7 +39,6 @@ class LocaleTranslationStatusCommand extends ContainerAwareCommand
 
     protected function displayUpdates($language_filter, $output, $table)
     {
-
         $table->setHeaders(
             [
                 $this->trans('commands.locale.translation.status.messages.project'),
@@ -61,11 +60,9 @@ class LocaleTranslationStatusCommand extends ContainerAwareCommand
             $output->writeln('[+] <info>'.$this->trans('commands.locale.translation.status.messages.no-languages') .'</info>');
 
             return;
-        }
-        elseif (empty($status)) {
+        } elseif (empty($status)) {
             $output->writeln('[+] <info>'.$this->trans('commands.locale.translation.status.messages.no-translations') .'</info>');
             return;
-
         }
 
         if ($languages && $status) {
@@ -74,12 +71,11 @@ class LocaleTranslationStatusCommand extends ContainerAwareCommand
             $status_report = [];
             foreach ($status as $project_id => $project) {
                 foreach ($project as $langcode => $project_info) {
-
                     $info = $this->createInfoString($project_info);
 
                     if ($project_info->type == LOCALE_TRANSLATION_LOCAL || $project_info->type == LOCALE_TRANSLATION_REMOTE) {
-                        $local = isset($project_info->files[LOCALE_TRANSLATION_LOCAL]) ? $project_info->files[LOCALE_TRANSLATION_LOCAL] : NULL;
-                        $remote = isset($project_info->files[LOCALE_TRANSLATION_REMOTE]) ? $project_info->files[LOCALE_TRANSLATION_REMOTE] : NULL;
+                        $local = isset($project_info->files[LOCALE_TRANSLATION_LOCAL]) ? $project_info->files[LOCALE_TRANSLATION_LOCAL] : null;
+                        $remote = isset($project_info->files[LOCALE_TRANSLATION_REMOTE]) ? $project_info->files[LOCALE_TRANSLATION_REMOTE] : null;
 
                         // Remove info because type was found
                         $info = '';
@@ -94,12 +90,12 @@ class LocaleTranslationStatusCommand extends ContainerAwareCommand
 
             print $language_filter;
 
-            foreach ($status_report as $langcode => $rows ) {
-                if($language_filter !='' and !($language_filter == $langcode || strtolower($language_filter) == strtolower($languages[$langcode]->getName()))) {
+            foreach ($status_report as $langcode => $rows) {
+                if ($language_filter !='' and !($language_filter == $langcode || strtolower($language_filter) == strtolower($languages[$langcode]->getName()))) {
                     continue;
                 }
                 $output->writeln('[+] <info>'.$languages[$langcode]->getName() .'</info>');
-                foreach($rows as $row) {
+                foreach ($rows as $row) {
                     $table->addRow($row);
                 }
             }
@@ -126,24 +122,26 @@ class LocaleTranslationStatusCommand extends ContainerAwareCommand
      * @return string
      *   The string which contains debug information.
      */
-    protected function createInfoString($project_info) {
-        $remote_path = isset($project_info->files['remote']->uri) ? $project_info->files['remote']->uri : FALSE;
-        $local_path = isset($project_info->files['local']->uri) ? $project_info->files['local']->uri : FALSE;
+    protected function createInfoString($project_info)
+    {
+        $remote_path = isset($project_info->files['remote']->uri) ? $project_info->files['remote']->uri : false;
+        $local_path = isset($project_info->files['local']->uri) ? $project_info->files['local']->uri : false;
 
-        if (strpos($project_info->version, 'dev') !== FALSE) {
+        if (strpos($project_info->version, 'dev') !== false) {
             return $this->trans('commands.locale.translation.status.messages.no-translation-files');
         }
         if (locale_translation_use_remote_source() && $remote_path && $local_path) {
             return sprintf(
                 $this->trans('commands.locale.translation.status.messages.file-not-found'),
                 $remote_path,
-                $local_path);
-        }
-        elseif ($local_path) {
+                $local_path
+            );
+        } elseif ($local_path) {
             return
                 sprintf(
                     $this->trans('commands.locale.translation.status.messages.local-file-not-found'),
-                    $local_path);
+                    $local_path
+                );
         }
 
         return $this->trans('commands.locale.translation.status.messages.translation-not-determined');
