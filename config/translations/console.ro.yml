@@ -79,6 +79,8 @@ commands:
         status:
             enabled: Enabled
             disabled: Disabled
+        messages:
+            drupal-core: 'Drupal Core'
     cache:
         rebuild:
             description: 'Reconstruieste si curata tot cache-ul.'
@@ -136,6 +138,8 @@ commands:
                 questions:
                     view: 'View to be exported'
                     optional-config: 'Export view in module as an optional configuration'
+                arguments:
+                    view-id: 'View ID'
                 options:
                     optional-config: 'Export view as an optional YAML configuration in your module'
         debug:
@@ -252,20 +256,34 @@ commands:
                 controller-title: 'Controller title'
             messages:
                 title-not-empty: 'Title cannot be empty'
-        contenttype:
-            description: 'Generate a new content type (node / entity bundle)'
-            help: 'Use: generate:contenttype <fancy> <Fancy> to create a new content type name with the machine name of fancy and the human-readable name of Fancy.'
-            welcome: 'Welcome to the Drupal Content Type generator'
+        entity:
+            bundle:
+                description: 'Generate a new content type (node / entity bundle)'
+                help: 'Use: generate:contenttype <fancy> <Fancy> to create a new content type name with the machine name of fancy and the human-readable name of Fancy.'
+                welcome: 'Welcome to the Drupal Content Type generator'
+                options:
+                    module: common.options.module
+                    bundle-name: 'The content type''s machine name'
+                    bundle-title: 'The content type''s human-readable name'
+                questions:
+                    module: common.questions.module
+                    bundle-name: 'Enter the machine name of your new content type'
+                    bundle-title: 'Enter the human-readable name of your new content type'
+                message:
+                    error-state1: placeholder
+            description: 'Genereaza un nou "%s"'
+            help: 'Comanda <info>"%s"</info> te va ajuta sa generezi un nou "%s"'
+            welcome: 'Bine ai venit in generatorul de Drupal "Entity"'
             options:
                 module: common.options.module
-                bundle-name: 'The content type''s machine name'
-                bundle-title: 'The content type''s human-readable name'
+                entity-class: 'Numele Clasei pentru "Entity"'
+                entity-name: 'Numele "Entity"'
+                label: 'The entity label'
             questions:
                 module: common.questions.module
-                bundle-name: 'Enter the machine name of your new content type'
-                bundle-title: 'Enter the human-readable name of your new content type'
-            message:
-                error-state1: placeholder
+                entity-class: 'Introdu numele Clasei pentru "Entity"'
+                entity-name: 'Introdu numele de "Entity"'
+                label: 'Enter the entity label'
         controller:
             description: 'Genereaza si Inregistreaza un controller'
             help: 'Comanda <info>generate:controller</info> te va ajuta sa generezi un nou controller.'
@@ -299,20 +317,6 @@ commands:
                 questions:
                     class-name: 'Class name'
                     callback-name: 'Callback function name to handle event'
-        entity:
-            description: 'Genereaza un nou "%s"'
-            help: 'Comanda <info>"%s"</info> te va ajuta sa generezi un nou "%s"'
-            welcome: 'Bine ai venit in generatorul de Drupal "Entity"'
-            options:
-                module: common.options.module
-                entity-class: 'Numele Clasei pentru "Entity"'
-                entity-name: 'Numele "Entity"'
-                label: 'The entity label'
-            questions:
-                module: common.questions.module
-                entity-class: 'Introdu numele Clasei pentru "Entity"'
-                entity-name: 'Introdu numele de "Entity"'
-                label: 'Enter the entity label'
         form:
             alter:
                 description: 'Generate an implementation of hook_form_alter() or hook_form_FORM_ID_alter'
@@ -672,6 +676,20 @@ commands:
                 class-name: 'Introdu numele Clasei'
                 interface: 'Creeaza o interfata'
                 services: common.options.services
+        contenttype:
+            description: 'Generate a new content type (node / entity bundle)'
+            help: 'Use: generate:contenttype <fancy> <Fancy> to create a new content type name with the machine name of fancy and the human-readable name of Fancy.'
+            welcome: 'Welcome to the Drupal Content Type generator'
+            options:
+                module: common.options.module
+                bundle-name: 'The content type''s machine name'
+                bundle-title: 'The content type''s human-readable name'
+            questions:
+                module: common.questions.module
+                bundle-name: 'Enter the machine name of your new content type'
+                bundle-title: 'Enter the human-readable name of your new content type'
+            message:
+                error-state1: placeholder
         rulesaction:
             description: 'Genereaza un "Plugin rule action"'
             help: 'Comanda <info>generate:plugin:rulesaction</info> te va ajuta sa generezi un nou "Plugin rule action".'
@@ -747,6 +765,25 @@ commands:
                 downloaded: 'Module %s version %s was downloaded successfully at %s'
                 select-release: 'Please select your favorite release'
                 installed: 'Modulul %s a fost instalat cu succes'
+    locale:
+        translation:
+            status:
+                description: 'List available translation updates'
+                arguments:
+                    language: 'Language for instance es or Spanish'
+                messages:
+                    no-languages: 'No translatable languages available. Add a language first.'
+                    up-to-date: 'All translations up to date.'
+                    no-translations: 'No translation status available. Check manually'
+                    project: Project
+                    version: Version
+                    local-age: 'Local age'
+                    remote-age: 'Remote age'
+                    info: Information
+                    no-translation-files: 'No translation files are provided for development releases.'
+                    file-not-found: 'File not found at %s nor at %s'
+                    local-file-not-found: 'File not found at %s'
+                    translation-not-determined: 'Translation file location could not be determined.'
     migrate:
         debug:
             description: 'Afiseaza Migratiile curente accesibile'

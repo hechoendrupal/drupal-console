@@ -79,6 +79,8 @@ commands:
         status:
             enabled: Enabled
             disabled: Disabled
+        messages:
+            drupal-core: 'Drupal Core'
     cache:
         rebuild:
             description: 'Rebuild and clear all site caches.'
@@ -136,6 +138,8 @@ commands:
                 questions:
                     view: 'View to be exported'
                     optional-config: 'Export view in module as an optional configuration'
+                arguments:
+                    view-id: 'View ID'
                 options:
                     optional-config: 'Export view as an optional YAML configuration in your module'
         debug:
@@ -252,20 +256,34 @@ commands:
                 container: 'Do you need to access the service container'
             messages:
                 title-not-empty: 'Title cannot be empty'
-        contenttype:
-            description: 'Generate a new content type (node / entity bundle)'
-            help: 'Use: generate:contenttype <fancy> <Fancy> to create a new content type name with the machine name of fancy and the human-readable name of Fancy.'
-            welcome: 'Welcome to the Drupal Content Type generator'
+        entity:
+            bundle:
+                description: 'Generate a new content type (node / entity bundle)'
+                help: 'Use: generate:contenttype <fancy> <Fancy> to create a new content type name with the machine name of fancy and the human-readable name of Fancy.'
+                welcome: 'Welcome to the Drupal Content Type generator'
+                options:
+                    module: common.options.module
+                    bundle-name: 'The content type''s machine name'
+                    bundle-title: 'The content type''s human-readable name'
+                questions:
+                    module: common.questions.module
+                    bundle-name: 'Enter the machine name of your new content type'
+                    bundle-title: 'Enter the human-readable name of your new content type'
+                message:
+                    error-state1: placeholder
+            description: 'Generate a new "%s"'
+            help: 'The <info>"%s"</info> command helps you generate a new "%s"'
+            welcome: 'Welcome to the Drupal entity generator'
             options:
                 module: common.options.module
-                bundle-name: 'The content type''s machine name'
-                bundle-title: 'The content type''s human-readable name'
+                entity-class: 'The entity class name'
+                entity-name: 'The name of the entity'
+                label: 'The entity label'
             questions:
                 module: common.questions.module
-                bundle-name: 'Enter the machine name of your new content type'
-                bundle-title: 'Enter the human-readable name of your new content type'
-            message:
-                error-state1: placeholder
+                entity-class: 'Enter the entity class name'
+                entity-name: 'Enter the entity name'
+                label: 'Enter the entity label'
         controller:
             description: 'Generate & Register a controller'
             help: 'The <info>generate:controller</info> command helps you generate a new controller.'
@@ -299,20 +317,6 @@ commands:
                 questions:
                     class-name: 'Class name'
                     callback-name: 'Callback function name to handle event'
-        entity:
-            description: 'Generate a new "%s"'
-            help: 'The <info>"%s"</info> command helps you generate a new "%s"'
-            welcome: 'Welcome to the Drupal entity generator'
-            options:
-                module: common.options.module
-                entity-class: 'The entity class name'
-                entity-name: 'The name of the entity'
-                label: 'The entity label'
-            questions:
-                module: common.questions.module
-                entity-class: 'Enter the entity class name'
-                entity-name: 'Enter the entity name'
-                label: 'Enter the entity label'
         form:
             alter:
                 description: 'Generate an implementation of hook_form_alter() or hook_form_FORM_ID_alter'
@@ -670,6 +674,20 @@ commands:
                 class-name: 'Enter the Class name'
                 interface: 'Create an interface'
                 services: common.options.services
+        contenttype:
+            description: 'Generate a new content type (node / entity bundle)'
+            help: 'Use: generate:contenttype <fancy> <Fancy> to create a new content type name with the machine name of fancy and the human-readable name of Fancy.'
+            welcome: 'Welcome to the Drupal Content Type generator'
+            options:
+                module: common.options.module
+                bundle-name: 'The content type''s machine name'
+                bundle-title: 'The content type''s human-readable name'
+            questions:
+                module: common.questions.module
+                bundle-name: 'Enter the machine name of your new content type'
+                bundle-title: 'Enter the human-readable name of your new content type'
+            message:
+                error-state1: placeholder
     init:
         description: 'Copy configuration files to user home directory.'
     module:
@@ -722,6 +740,25 @@ commands:
                 downloading: 'Downloading module %s release %s'
                 downloaded: 'Module %s version %s was downloaded successfully at %s'
                 select-release: 'Please select your favorite release'
+    locale:
+        translation:
+            status:
+                description: 'List available translation updates'
+                arguments:
+                    language: 'Language for instance es or Spanish'
+                messages:
+                    no-languages: 'No translatable languages available. Add a language first.'
+                    up-to-date: 'All translations up to date.'
+                    no-translations: 'No translation status available. Check manually'
+                    project: Project
+                    version: Version
+                    local-age: 'Local age'
+                    remote-age: 'Remote age'
+                    info: Information
+                    no-translation-files: 'No translation files are provided for development releases.'
+                    file-not-found: 'File not found at %s nor at %s'
+                    local-file-not-found: 'File not found at %s'
+                    translation-not-determined: 'Translation file location could not be determined.'
     migrate:
         debug:
             description: 'Display current migration available for the application'
