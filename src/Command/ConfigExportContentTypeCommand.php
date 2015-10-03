@@ -18,10 +18,11 @@ use Symfony\Component\Yaml\Dumper;
 class ConfigExportContentTypeCommand extends ContainerAwareCommand
 {
     use ModuleTrait;
+    use ConfigExportTrait;
 
     protected $entity_manager;
     protected $configStorage;
-    protected $config_export;
+    protected $configExport;
 
     /**
      * {@inheritdoc}
@@ -36,9 +37,14 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
                 'content_type',
                 InputArgument::REQUIRED,
                 $this->trans('commands.config.export.content.type.arguments.content_type')
+            )->addOption(
+                'optional-config',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.config.export.content.type.options.optional-config')
             );
 
-        $this->config_export = array();
+        $this->configExport = array();
     }
 
     /**
@@ -85,7 +91,18 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
                 '',
                 $bundles
             );
+
+            $optionalConfig = $input->getOption('optional-config');
+            if (!$optionalConfig) {
+                $optionalConfig = $dialog->askConfirmation(
+                    $output,
+                    $dialog->getQuestion($this->trans('commands.config.export.content.type.questions.optional-config'), 'yes', '?'),
+                    true
+                );
+            }
+            $input->setOption('optional-config', $optionalConfig);
         }
+
         $input->setArgument('content_type', $content_type);
     }
 
@@ -99,24 +116,25 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
 
         $module = $input->getOption('module');
         $content_type = $input->getArgument('content_type');
+        $optionalConfig = $input->getOption('optional-config');
 
         $content_type_definition = $this->entity_manager->getDefinition('node_type');
         $content_type_name = $content_type_definition->getConfigPrefix() . '.' . $content_type;
 
         $content_type_name_config = $this->getConfiguration($content_type_name);
 
-        $this->config_export[$content_type_name] = $content_type_name_config;
+        $this->configExport[$content_type_name] = array('data' => $content_type_name_config, 'optional' => $optionalConfig);
 
-        $this->getFields($content_type);
+        $this->getFields($content_type, $optionalConfig);
 
-        $this->getFormDisplays($content_type);
+        $this->getFormDisplays($content_type, $optionalConfig);
 
-        $this->getViewDisplays($content_type);
+        $this->getViewDisplays($content_type, $optionalConfig);
 
-        $this->exportConfig($module, $output);
+        $this->exportConfig($module, $output, $this->trans('commands.config.export.content.type.messages.content_type_exported'));
     }
 
-    protected function getFields($content_type)
+    protected function getFields($content_type, $optional = false)
     {
         $fields_definition = $this->entity_manager->getDefinition('field_config');
 
@@ -126,14 +144,14 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
             $field_name_config = $this->getConfiguration($field_name);
             // Only select fields related with content type
             if ($field_name_config['bundle'] == $content_type) {
-                $this->config_export[$field_name] = $field_name_config;
+                $this->configExport[$field_name] = array('data' => $field_name_config, 'optional' => $optional);
                 // Include dependencies in export files
-                $this->resolveDependencies($field_name_config['dependencies']['config']);
+                $this->resolveDependencies($field_name_config['dependencies']['config'], $optional);
             }
         }
     }
 
-    protected function getFormDisplays($content_type)
+    protected function getFormDisplays($content_type, $optional = false)
     {
         $form_display_definition = $this->entity_manager->getDefinition('entity_form_display');
         $form_display_storage = $this->entity_manager->getStorage('entity_form_display');
@@ -142,14 +160,14 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
             $form_display_name_config = $this->getConfiguration($form_display_name);
             // Only select fields related with content type
             if ($form_display_name_config['bundle'] == $content_type) {
-                $this->config_export[$form_display_name] = $form_display_name_config;
+                $this->configExport[$form_display_name] = array('data' => $form_display_name_config, 'optional' => $optional);
                 // Include dependencies in export files
-                $this->resolveDependencies($form_display_name_config['dependencies']['config']);
+                $this->resolveDependencies($form_display_name_config['dependencies']['config'], $optional);
             }
         }
     }
 
-    protected function getViewDisplays($content_type)
+    protected function getViewDisplays($content_type, $optional = false)
     {
         $view_display_definition = $this->entity_manager->getDefinition('entity_view_display');
         $view_display_storage = $this->entity_manager->getStorage('entity_view_display');
@@ -158,59 +176,10 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
             $view_display_name_config = $this->getConfiguration($view_display_name);
             // Only select fields related with content type
             if ($view_display_name_config['bundle'] == $content_type) {
-                $this->config_export[$view_display_name] = $view_display_name_config;
+                $this->configExport[$view_display_name] = array('data' => $view_display_name_config, 'optional' => $optional);
                 // Include dependencies in export files
-                $this->resolveDependencies($view_display_name_config['dependencies']['config']);
+                $this->resolveDependencies($view_display_name_config['dependencies']['config'], $optional);
             }
-        }
-    }
-
-    protected function resolveDependencies($dependencies)
-    {
-        foreach ($dependencies as $dependency) {
-            if (!array_key_exists($dependency, $this->config_export)) {
-                $this->config_export[$dependency] = $this->getConfiguration($dependency);
-                if (isset($this->config_export[$dependency]['dependencies']['config'])) {
-                    $this->resolveDependencies($this->config_export[$dependency]['dependencies']['config']);
-                }
-            }
-        }
-    }
-    protected function getConfiguration($config_name)
-    {
-        // Unset uuid, maybe is not necessary to export
-        $config = $this->configStorage->read($config_name);
-        unset($config['uuid']);
-        return $config;
-    }
-
-    protected function exportConfig($module, OutputInterface $output)
-    {
-        $dumper = new Dumper();
-
-        $module_path =  $this->getSite()->getModulePath($module);
-        if (!file_exists($module_path .'/config')) {
-            mkdir($module_path .'/config', 0755, true);
-        }
-
-        if (!file_exists($module_path .'/config/install')) {
-            mkdir($module_path .'/config/install', 0755, true);
-        }
-
-        $output->writeln(
-            '[+] <info>' .
-            $this->trans('commands.config.export.content.type.messages.configuration_exported') .
-            '</info>'
-        );
-
-        foreach ($this->config_export as $file_name => $config) {
-            $yaml_config = $dumper->dump($config, 10);
-            $output->writeln(
-                '- <info>' .
-                str_replace($this->getDrupalHelper()->getDrupalRoot(), '', $module_path)  . '/config/install/' . $file_name . '.yml' .
-                '</info>'
-            );
-            file_put_contents($module_path . '/config/install/' . $file_name . '.yml', $yaml_config);
         }
     }
 }
