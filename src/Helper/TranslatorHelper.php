@@ -61,8 +61,7 @@ class TranslatorHelper extends Helper
 
         if (file_exists($resource)) {
             $this->addResource($resource);
-        }
-        else {
+        } else {
             // Try to load the language fallback
             $resource_fallback = DRUPAL_ROOT.'/'.drupal_get_path('module', $module).
               '/config/translations/console.en.yml';
