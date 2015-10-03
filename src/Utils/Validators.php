@@ -48,6 +48,15 @@ class Validators extends Helper implements HelperInterface
         }
     }
 
+    public function validateBundleTitle($bundle_title)
+    {
+        if (!empty($bundle_title)) {
+            return $bundle_title;
+        } else {
+            throw new \InvalidArgumentException(sprintf('Bundle title "%s" is invalid.', $bundle_title));
+        }
+    }
+
     public function validateCommandName($class_name)
     {
         if (preg_match(self::REGEX_COMMAND_CLASS_NAME, $class_name)) {
