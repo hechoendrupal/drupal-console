@@ -10,6 +10,7 @@ namespace Drupal\{{module}};
 
 {% block use_class %}
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityChangedInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\user\EntityOwnerInterface;
 {% endblock %}
@@ -20,7 +21,7 @@ use Drupal\user\EntityOwnerInterface;
  *
  * @ingroup {{module}}
  */
-interface {{ entity_class }}Interface extends ContentEntityInterface, EntityOwnerInterface {% endblock %}
+interface {{ entity_class }}Interface extends ContentEntityInterface, EntityChangedInterface, EntityOwnerInterface {% endblock %}
 {% block class_methods %}
   // Add get/set methods for your configuration properties here.
 {% endblock %}
