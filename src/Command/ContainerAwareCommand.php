@@ -255,6 +255,14 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         return $this->getContainer()->get('cron');
     }
 
+    /**
+     * @return \Drupal\Core\ProxyClass\Lock\DatabaseLockBackend
+     */
+    public function getDatabaseLockBackend()
+    {
+        return $this->getContainer()->get('lock');
+    }
+
     public function getViewDisplayManager()
     {
         return $this->getContainer()->get('plugin.manager.views.display');
