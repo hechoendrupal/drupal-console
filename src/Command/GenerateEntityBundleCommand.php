@@ -106,7 +106,7 @@ class GenerateEntityBundleCommand extends GeneratorCommand
                 $output,
                 $dialog->getQuestion($this->trans('commands.generate.entity.bundle.questions.bundle-title'), 'default'),
                 function ($bundle_title) {
-                    return $this->validateClassName($bundle_title);
+                    return $this->validateBundleTitle($bundle_title);
                 },
                 false,
                 'default',
