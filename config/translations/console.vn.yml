@@ -1,23 +1,23 @@
 application:
     console:
         arguments:
-            drupal: 'Path to Drupal root.'
-            shell: 'Launch the shell.'
-            env: 'The Environment name.'
-            no-debug: 'Switches off debug mode.'
+            drupal: 'đường dẫn tới Drupal root'
+            shell: 'Khởi động shell'
+            env: 'Tên môi trường'
+            no-debug: 'Tắt chế độ debug'
             learning: 'Generate a verbose code output.'
-            generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
-            generate-inline: 'Print execution options and arguments as inline call to be use in the future'
+            generate-chain: 'In các lựa chọn thi hành và các đối số dạng yaml, để sử dụng trong chuỗi lệnh'
+            generate-inline: 'In các lựa chọn thi hành và các đối số dạng inline, để sử dụng sau'
         messages:
-            completed: 'The command was executed successfully!'
+            completed: 'Dòng lệnh đã được thực thi thành công!'
             chain:
-                generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
+                generated: 'Như sau bạn có thể tìm được file yaml của dòng lệnh thi hành cuối cùng, ví dụ copy in ~/.console/chain/sample.yml sẽ được chạy trong một chuỗi dòng lệnh theo thứ tự gọi'
             inline:
-                generated: 'Following you can find the inline representation of this command to re-execute this command later'
-            generated: 'You can now start using the generated code!'
+                generated: 'Như này bạn có thấy dạng inline của dòng lệnh thi hành và có thể gọi nó lại'
+            generated: 'Bạn có thể bắt đầu sử dụng code mới khởi tạo'
             files:
-                generated: 'Generated or updated files'
-                copied: 'Copied files'
+                generated: 'Các files được khởi tạo hoặc đã tải lên'
+                copied: 'Các files đã được sao chép'
             learning:
                 route: "In order to to create pages it is necessary to define routes for them.\nA route maps a URL path to a controller. It defines with what function\nor method will be called when a URL is accessed.\nIf the user accesses http://drupal8.dev/{{ route }}, the routing\nsystem will look for a route with that path. In this case it will find a\nmatch, and execute the _controller callback. In this case the callback is\ndefined as a classname\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nand a method (\"{{ route.method }}\")."
         errors:
@@ -119,8 +119,16 @@ commands:
                 description: 'Export single configuration as yml file.'
                 arguments:
                     config-name: 'Configuration name.'
+                    drupal: 'Path to Drupal root.'
+                    shell: 'Launch the shell.'
+                    env: 'The Environment name.'
+                    no-debug: 'Switches off debug mode.'
+                    learning: 'Generate a verbose code output.'
+                    generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
+                    generate-inline: 'Print execution options and arguments as inline call to be use in the future'
                 options:
                     simple-configuration: 'Simple configuration'
+                    version: '<info>%s</info> version <comment>%s</comment>'
                 questions:
                     config-type: 'Configuration type'
                     config-name: 'Configuration name'
@@ -129,6 +137,29 @@ commands:
                     export: 'Configuration was exported at file %s.'
                     invalid-config-type: 'Invalid config type, please select one of the list'
                     invalid-config-name: 'Invalid config name, please select one of the list'
+                    completed: 'The command was executed successfully!'
+                    chain:
+                        generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
+                    inline:
+                        generated: 'Following you can find the inline representation of this command to re-execute this command later'
+                    generated: 'You can now start using the generated code!'
+                    files:
+                        generated: 'Generated or updated files'
+                        copied: 'Copied files'
+                    learning:
+                        route: "In order to to create pages it is necessary to define routes for them.\nA route maps a URL path to a controller. It defines with what function\nor method will be called when a URL is accessed.\nIf the user accesses http://drupal8.dev/{{ route }}, the routing\nsystem will look for a route with that path. In this case it will find a\nmatch, and execute the _controller callback. In this case the callback is\ndefined as a classname\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nand a method (\"{{ route.method }}\")."
+                errors:
+                    invalid-command: 'Command "%s" is not defined.'
+                input:
+                    definition:
+                        command: 'The command to execute'
+                        help: 'Display this help message'
+                        quiet: 'Do not output any message'
+                        verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
+                        version: 'Display this application version'
+                        ansi: 'Force ANSI output'
+                        no-ansi: 'Disable ANSI output'
+                        no-interaction: 'Do not ask any interactive question'
             view:
                 description: 'Export a view in YAML format inside a provided module to reuse in other website.'
                 messages:
@@ -178,6 +209,15 @@ commands:
                 input-file: 'Path to the import files.'
             messages:
                 empty-value: 'Value can not be empty'
+        site:
+            messages:
+                path: 'Site path'
+            errors:
+                directory: 'In order to list all of the available commands, you should run this inside a drupal root directory.'
+                settings: 'In order to list all of the available commands you should install drupal first.'
+        user:
+            messages:
+                path: 'User home path'
     container:
         debug:
             description: 'Displays current services for an application.'
@@ -249,7 +289,7 @@ commands:
                 module: common.options.module
                 controller-title: 'Controller title'
                 class-name: 'Command Class name'
-                command: 'Command name'
+                command: 'Command name (Must end with the word ''Commmand'')'
                 container: 'Access the services container'
             questions:
                 module: common.questions.module
@@ -273,19 +313,6 @@ commands:
                     bundle-title: 'Enter the human-readable name of your new content type'
                 message:
                     error-state1: placeholder
-            description: 'Generate a new "%s"'
-            help: 'The <info>"%s"</info> command helps you generate a new "%s"'
-            welcome: 'Welcome to the Drupal entity generator'
-            options:
-                module: common.options.module
-                entity-class: 'The entity class name'
-                entity-name: 'The name of the entity'
-                label: 'The entity label'
-            questions:
-                module: common.questions.module
-                entity-class: 'Enter the entity class name'
-                entity-name: 'Enter the entity name'
-                label: 'Enter the entity label'
         controller:
             description: 'Generate & Register a controller'
             help: 'The <info>generate:controller</info> command helps you generate a new controller.'
@@ -676,20 +703,6 @@ commands:
                 class-name: 'Enter the Class name'
                 interface: 'Create an interface'
                 services: common.options.services
-        contenttype:
-            description: 'Generate a new content type (node / entity bundle)'
-            help: 'Use: generate:contenttype <fancy> <Fancy> to create a new content type name with the machine name of fancy and the human-readable name of Fancy.'
-            welcome: 'Welcome to the Drupal Content Type generator'
-            options:
-                module: common.options.module
-                bundle-name: 'The content type''s machine name'
-                bundle-title: 'The content type''s human-readable name'
-            questions:
-                module: common.questions.module
-                bundle-name: 'Enter the machine name of your new content type'
-                bundle-title: 'Enter the human-readable name of your new content type'
-            message:
-                error-state1: placeholder
     init:
         description: 'Copy configuration files to user home directory.'
     module:
@@ -890,7 +903,7 @@ commands:
                 application: Application
                 system: 'System Info'
                 hash_salt: 'Hash salt'
-                console: 'Console version'
+                console: 'Drupal Console version'
                 database: 'Database connection'
                 driver: Driver
                 host: Host
@@ -1119,15 +1132,8 @@ commands:
                 disabled-successfully: 'View %s was disabled successfully.'
         enable:
             description: 'Enable a View'
-            messages:
-                disabled-successfully: 'View %s was enabled successfully.'
+            messages: null
             disabled-successfully: 'View %s was enabled successfully.'
-        export:
-            description: 'Export a view in YAML format inside a provided module to reuse in other website.'
-            messages:
-                view_exported: 'Exporting view'
-            questions:
-                view: 'View to be exported'
     yaml:
         diff:
             description: 'Compare two YAML files do determined differences between them'
