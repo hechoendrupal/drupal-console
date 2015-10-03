@@ -34,16 +34,15 @@ class CronReleaseCommand extends ContainerAwareCommand
             $lock->release('cron');
 
             $output->writeln(
-              '[-] <info>' .
+                '[-] <info>' .
                 $this->trans('commands.cron.release.messages.released')
-              . '</info>'
+                . '</info>'
             );
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             $output->writeln(
-              '<error>' .
-              $e->getMessage() .
-              '</error>'
+                '<error>' .
+                $e->getMessage() .
+                '</error>'
             );
         }
 
