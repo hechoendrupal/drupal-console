@@ -182,15 +182,6 @@ commands:
                 input-file: 'Path to the import files.'
             messages:
                 empty-value: 'Value can not be empty'
-        site:
-            messages:
-                path: 'Site path'
-            errors:
-                directory: 'In order to list all of the available commands, you should run this inside a drupal root directory.'
-                settings: 'In order to list all of the available commands you should install drupal first.'
-        user:
-            messages:
-                path: 'User home path'
     container:
         debug:
             description: 'Displays current services for an application.'
