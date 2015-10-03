@@ -2,18 +2,16 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\RestDebugCommand.
+ * Contains \Drupal\Console\Command\CronReleaseCommand.
  */
 
 namespace Drupal\Console\Command;
 
 use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOptionuse;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Core\Lock\LockBackendInterface;
+use Drupal\Console\Command\ContainerAwareCommand;
 
 class CronReleaseCommand extends ContainerAwareCommand
 {
@@ -29,20 +27,20 @@ class CronReleaseCommand extends ContainerAwareCommand
         $lock = $this->getDatabaseLockBackend();
 
         try {
-
-            // Release cron lock.
             $lock->release('cron');
 
             $output->writeln(
-                '[-] <info>' .
-                $this->trans('commands.cron.release.messages.released')
-                . '</info>'
+                sprintf(
+                    '[-] <info>%s</info>',
+                    $this->trans('commands.cron.release.messages.released')
+                )
             );
         } catch (Exception $e) {
             $output->writeln(
-                '<error>' .
-                $e->getMessage() .
-                '</error>'
+                sprintf(
+                    '<error>%s</error>',
+                    $e->getMessage()
+                )
             );
         }
 
