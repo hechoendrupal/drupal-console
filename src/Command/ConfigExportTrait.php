@@ -24,7 +24,6 @@ trait ConfigExportTrait
      */
     protected function getConfiguration($configName, $uuid = false)
     {
-
         $config = $this->configStorage->read($configName);
 
         // Exclude uuid base in parameter, useful to share configurations.
@@ -94,7 +93,7 @@ trait ConfigExportTrait
         }
     }
 
-    protected function resolveDependencies($dependencies, $optional = FALSE)
+    protected function resolveDependencies($dependencies, $optional = false)
     {
         foreach ($dependencies as $dependency) {
             if (!array_key_exists($dependency, $this->configExport)) {

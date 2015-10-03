@@ -38,7 +38,7 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
                 InputArgument::REQUIRED,
                 $this->trans('commands.config.export.content.type.arguments.content_type')
             )->addOption(
-            'optional-config',
+                'optional-config',
                 '',
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.config.export.content.type.options.optional-config')
@@ -95,9 +95,9 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
             $optionalConfig = $input->getOption('optional-config');
             if (!$optionalConfig) {
                 $optionalConfig = $dialog->askConfirmation(
-                  $output,
-                  $dialog->getQuestion($this->trans('commands.config.export.content.type.questions.optional-config'), 'yes', '?'),
-                  true
+                    $output,
+                    $dialog->getQuestion($this->trans('commands.config.export.content.type.questions.optional-config'), 'yes', '?'),
+                    true
                 );
             }
             $input->setOption('optional-config', $optionalConfig);
@@ -134,7 +134,7 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
         $this->exportConfig($module, $output, $this->trans('commands.config.export.content.type.messages.content_type_exported'));
     }
 
-    protected function getFields($content_type, $optional = FALSE)
+    protected function getFields($content_type, $optional = false)
     {
         $fields_definition = $this->entity_manager->getDefinition('field_config');
 
@@ -151,7 +151,7 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
         }
     }
 
-    protected function getFormDisplays($content_type, $optional = FALSE)
+    protected function getFormDisplays($content_type, $optional = false)
     {
         $form_display_definition = $this->entity_manager->getDefinition('entity_form_display');
         $form_display_storage = $this->entity_manager->getStorage('entity_form_display');
@@ -167,7 +167,7 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
         }
     }
 
-    protected function getViewDisplays($content_type, $optional = FALSE)
+    protected function getViewDisplays($content_type, $optional = false)
     {
         $view_display_definition = $this->entity_manager->getDefinition('entity_view_display');
         $view_display_storage = $this->entity_manager->getStorage('entity_view_display');
