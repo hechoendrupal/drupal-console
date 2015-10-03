@@ -397,11 +397,6 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         return $this->getValidator()->validateClassName($class_name);
     }
 
-    public function validateBundleTitle($bundle_title)
-    {
-        return $this->getValidator()->validateBundleTitle($bundle_title);
-    }
-
     public function validateMachineName($machine_name)
     {
         $machine_name = $this->getValidator()->validateMachineName($machine_name);
