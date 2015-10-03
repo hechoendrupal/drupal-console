@@ -11,6 +11,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Debug\Debug;
 
+/**
+ * Class Application
+ * @package Drupal\Console\Console
+ */
 class Application extends BaseApplication
 {
     /**
@@ -35,12 +39,12 @@ class Application extends BaseApplication
     protected $directoryRoot;
     /**
      * @var \Composer\Autoload\ClassLoader
-     *                                     The Drupal autoload file.
+     * The Drupal autoload file.
      */
     protected $drupalAutoload;
     /**
      * @var string
-     *             The Drupal environment.
+     * The Drupal environment.
      */
     protected $env;
     /**
@@ -68,7 +72,7 @@ class Application extends BaseApplication
         parent::__construct($this::NAME, sprintf('%s', $this::VERSION));
 
         $this->getDefinition()->addOption(
-            new InputOption('--drupal', '-d', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.drupal'))
+            new InputOption('--root', null, InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.root'))
         );
         $this->getDefinition()->addOption(
             new InputOption('--shell', '-s', InputOption::VALUE_NONE, $this->trans('application.console.arguments.shell'))
@@ -135,7 +139,7 @@ class Application extends BaseApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        $drupalRoot = $input->getParameterOption(['--drupal', '-d'], false);
+        $root = $input->getParameterOption(['--root'], false);
 
         $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
 
@@ -146,7 +150,7 @@ class Application extends BaseApplication
         $message = $this->getHelperSet()->get('message');
         $drupal = $this->getHelperSet()->get('drupal');
 
-        if (!$drupal->isValidInstance($drupalRoot)) {
+        if (!$drupal->isValidInstance($root)) {
             $message->addWarningMessage(
                 $this->trans('application.site.errors.directory')
             );
@@ -202,6 +206,11 @@ class Application extends BaseApplication
         }
     }
 
+    /**
+     * @param string     $env
+     * @param bool|false $debug
+     * @param $drupal
+     */
     private function prepareKernel($env = 'prod', $debug = false, $drupal)
     {
         $drupalAutoLoaderClass = include $drupal->getDrupalAutoLoadPath();
