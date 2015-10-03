@@ -91,7 +91,9 @@ class SiteStatusCommand extends ContainerAwareCommand
         $systemData = [];
 
         foreach ($requirements as $key => $requirement) {
-            $systemData['system'][$requirement['title']] = $requirement['value'];
+            $title = $requirement['title']->render();
+            $value = $requirement['value'];
+            $systemData['system'][$title] = $value;
         }
 
         $kernelHelper = $this->getHelper('kernel');
@@ -103,7 +105,13 @@ class SiteStatusCommand extends ContainerAwareCommand
             $kernelHelper->getClassLoader()
         );
 
-        $systemData['system'][$this->trans('commands.site.status.messages.hash_salt')] = Settings::getHashSalt();
+        try {
+            $hashSalt = Settings::getHashSalt();
+        } catch (\Exception $e) {
+            $hashSalt = '';
+        }
+
+        $systemData['system'][$this->trans('commands.site.status.messages.hash_salt')] = $hashSalt;
         $systemData['system'][$this->trans('commands.site.status.messages.console')] = $this->getApplication()->getVersion();
 
         return $systemData;
@@ -171,10 +179,18 @@ class SiteStatusCommand extends ContainerAwareCommand
 
     protected function getConfigurationData()
     {
+        try {
+            $active = config_get_config_directory('active');
+            $staging = config_get_config_directory('staging');
+        } catch (\Exception $e) {
+            $active='';
+            $staging = '';
+        }
+
         return [
           'configuration' => [
-            $this->trans('commands.site.status.messages.active') => config_get_config_directory(active),
-            $this->trans('commands.site.status.messages.staging') => config_get_config_directory(staging),
+            $this->trans('commands.site.status.messages.active') => $active,
+            $this->trans('commands.site.status.messages.staging') => $staging,
           ],
         ];
     }

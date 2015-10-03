@@ -30,7 +30,7 @@ class Generator
         }
 
         if (file_put_contents($target, $this->getRenderer()->render($template, $parameters), $flag)) {
-            $this->files[] = str_replace(DRUPAL_ROOT.'/', '', $target);
+            $this->files[] = str_replace($this->getDrupalHelper()->getDrupalRoot().'/', '', $target);
 
             return true;
         }
@@ -46,6 +46,14 @@ class Generator
     public function getRenderer()
     {
         return $this->getHelpers()->get('renderer');
+    }
+
+    /**
+     * @return \Drupal\Console\Helper\DrupalHelper
+     */
+    public function getDrupalHelper()
+    {
+        return $this->getHelpers()->get('drupal');
     }
 
     public function setHelpers($helpers)
