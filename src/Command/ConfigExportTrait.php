@@ -24,9 +24,9 @@ trait ConfigExportTrait
      */
     protected function getConfiguration($configName, $uuid = false)
     {
-        // Unset uuid, maybe is not necessary to export
         $config = $this->configStorage->read($configName);
 
+        // Exclude uuid base in parameter, useful to share configurations.
         if (!$uuid) {
             unset($config['uuid']);
         }
@@ -38,14 +38,14 @@ trait ConfigExportTrait
      * @param $module
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
-    protected function exportConfig($module, OutputInterface $output)
+    protected function exportConfig($module, OutputInterface $output, $message)
     {
         $dumper = new Dumper();
 
         $output->writeln(
             sprintf(
                 '[+] <info>%s</info>',
-                $this->trans('commands.views.export.messages.view_exported')
+                $message
             )
         );
 
@@ -77,8 +77,9 @@ trait ConfigExportTrait
                 $configDirectory
             );
 
+            // Create directory if doesn't exist
             if (!file_exists($configDirectory)) {
-                mkdir($configDirectory);
+                mkdir($configDirectory, 0755, true);
             }
 
             file_put_contents(
@@ -89,6 +90,18 @@ trait ConfigExportTrait
                 ),
                 $yamlConfig
             );
+        }
+    }
+
+    protected function resolveDependencies($dependencies, $optional = false)
+    {
+        foreach ($dependencies as $dependency) {
+            if (!array_key_exists($dependency, $this->configExport)) {
+                $this->configExport[$dependency] = array('data' => $this->getConfiguration($dependency), 'optional' => $optional);
+                if (isset($this->configExport[$dependency]['dependencies']['config'])) {
+                    $this->resolveDependencies($this->configExport[$dependency]['dependencies']['config']);
+                }
+            }
         }
     }
 }

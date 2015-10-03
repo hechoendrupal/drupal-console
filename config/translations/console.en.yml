@@ -128,8 +128,11 @@ commands:
             content_type: Content Type to be exported
           questions:
             content_type: Content Type to be exported
+            optional-config: 'Export content type in module as an optional configuration'
           messages:
-            configuration_exported: The following configuration files were generated
+            content_type_exported: 'Exporting content type'
+          options:
+            optional-config: 'Export content type as an optional YAML configuration in your module'
       single:
         description: Export single configuration as yml file.
         arguments:
