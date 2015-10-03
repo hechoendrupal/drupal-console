@@ -260,6 +260,11 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         return $this->getContainer()->get('plugin.manager.views.display');
     }
 
+    public function getWebprofilerForms()
+    {
+        return $this->getContainer()->get('webprofiler.forms');
+    }
+
     public function getEntityQuery()
     {
         return $this->getContainer()->get('entity.query');

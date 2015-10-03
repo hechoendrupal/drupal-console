@@ -71,6 +71,14 @@ class GeneratorFormAlterCommand extends GeneratorCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $dialog = $this->getDialogHelper();
+        $moduleHandler = $this->getModuleHandler();
+
+        if($moduleHandler->moduleExists('webprofiler')) {
+            $webprofilerForms = $this->getWebprofilerForms();
+
+            $forms = $webprofilerForms->getForms();
+            print_r($forms);
+        }
 
         // --module option
         $module = $input->getOption('module');
