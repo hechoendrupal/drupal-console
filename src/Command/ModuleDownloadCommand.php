@@ -34,7 +34,7 @@ class ModuleDownloadCommand extends ContainerAwareCommand
         $version = $input->getArgument('version');
 
         if ($version) {
-            $release_selected = '8.x-'.$version;
+            $release_selected = $version;
         } else {
             // Getting Module page header and parse to get module Node
             $output->writeln(
