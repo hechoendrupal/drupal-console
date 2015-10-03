@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\EventsTrait.
+ * Contains Drupal\Console\Command\ConfigExportTrait.
  */
 
 namespace Drupal\Console\Command;
@@ -11,8 +11,17 @@ use Symfony\Component\Console\Helper\HelperInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Dumper;
 
+/**
+ * Class ConfigExportTrait
+ * @package Drupal\Console\Command
+ */
 trait ConfigExportTrait
 {
+    /**
+     * @param $configName
+     * @param bool|false $uuid
+     * @return mixed
+     */
     protected function getConfiguration($configName, $uuid = false)
     {
         // Unset uuid, maybe is not necessary to export
@@ -26,8 +35,8 @@ trait ConfigExportTrait
     }
 
     /**
-     * string module name
-     * @param OutputInterface $output
+     * @param $module
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
     protected function exportConfig($module, OutputInterface $output)
     {
