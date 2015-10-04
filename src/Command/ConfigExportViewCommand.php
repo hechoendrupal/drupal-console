@@ -42,12 +42,12 @@ class ConfigExportViewCommand extends ContainerAwareCommand
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.config.export.view.options.optional-config')
             )
-          ->addOption(
-            'include-module-dependencies',
-            '',
-            InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.config.export.view.options.include-module-dependencies')
-          );
+            ->addOption(
+                'include-module-dependencies',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.config.export.view.options.include-module-dependencies')
+            );
     }
 
     /**
@@ -111,9 +111,9 @@ class ConfigExportViewCommand extends ContainerAwareCommand
         $includeModuleDependencies = $input->getOption('include-module-dependencies');
         if (!$includeModuleDependencies) {
             $includeModuleDependencies = $dialog->askConfirmation(
-              $output,
-              $dialog->getQuestion($this->trans('commands.config.export.view.questions.include-module-dependencies'), 'yes', '?'),
-              true
+                $output,
+                $dialog->getQuestion($this->trans('commands.config.export.view.questions.include-module-dependencies'), 'yes', '?'),
+                true
             );
         }
         $input->setOption('include-module-dependencies', $includeModuleDependencies);
@@ -142,7 +142,7 @@ class ConfigExportViewCommand extends ContainerAwareCommand
         }
 
         // Include module dependencies in export files if export is not optional
-        if($includeModuleDependencies) {
+        if ($includeModuleDependencies) {
             if ($dependencies = $this->fetchDependencies($viewNameConfig, 'module')) {
                 $this->exportModuleDependencies($output, $module, $dependencies);
             }
