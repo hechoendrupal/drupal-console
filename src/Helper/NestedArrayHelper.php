@@ -217,9 +217,9 @@ class NestedArrayHelper extends BaseDialogHelper
 
     /**
      * Flat a yaml file
-     * @param array         $array
-     * @param $flatten_array
-     * @param string        $key_flatten
+     * @param array $array
+     * @param array $flatten_array
+     * @param string $key_flatten
      */
     public function yaml_flatten_array(array &$array, &$flatten_array, &$key_flatten = '')
     {
@@ -241,6 +241,51 @@ class NestedArrayHelper extends BaseDialogHelper
 
         // Start again with flatten key after recursive call
         $key_flatten = substr($key_flatten, 0, strrpos($key_flatten, "."));
+    }
+
+    /**
+     * @param array $array
+     * @param array $split_array
+     * @param int $indent_level
+     * @param array $key_flatten
+     * @param int $key_level
+     * @param bool $exclude_parents_key
+     */
+    public function yaml_split_array(array &$array, array &$split_array, $indent_level = '', &$key_flatten, &$key_level, $exclude_parents_key)
+    {
+        foreach ($array as $key => $value) {
+            if (!$exclude_parents_key && !empty($key_flatten)) {
+                $key_flatten.= '.';
+            }
+
+            if($exclude_parents_key) {
+                $key_flatten = $key;
+            } else {
+                $key_flatten .= $key;
+            }
+
+            if($key_level == $indent_level) {
+                if (!empty($value)) {
+                    $split_array[$key_flatten] = $value;
+
+                    if (!$exclude_parents_key) {
+                        $key_flatten = substr($key_flatten, 0, strrpos($key_flatten, "."));
+                    }
+                }
+            } else {
+                if(is_array($value)) {
+                    $key_level++;
+                    $this->yaml_split_array($value, $split_array, $indent_level, $key_flatten, $key_level, $exclude_parents_key);
+                }
+            }
+        }
+
+        // Start again with flatten key after recursive call
+        if (!$exclude_parents_key) {
+            $key_flatten = substr($key_flatten, 0, strrpos($key_flatten, "."));
+        }
+
+        $key_level--;
     }
     /**
      * Unsets a value in a nested array with variable depth.
