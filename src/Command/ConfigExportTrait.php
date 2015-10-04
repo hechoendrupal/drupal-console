@@ -93,8 +93,9 @@ trait ConfigExportTrait
         }
     }
 
-    protected function fetchDependencies($config, $type = 'config') {
-        if(isset($config['dependencies'][$type])) {
+    protected function fetchDependencies($config, $type = 'config')
+    {
+        if (isset($config['dependencies'][$type])) {
             return $config['dependencies'][$type];
         }
 
@@ -113,12 +114,13 @@ trait ConfigExportTrait
         }
     }
 
-    protected function exportModuleDependencies($output, $module, $dependencies) {
+    protected function exportModuleDependencies($output, $module, $dependencies)
+    {
         $yaml = new \Symfony\Component\Yaml\Yaml();
         $info_file = file_get_contents($this->getSite()->getModuleInfoFile($module));
         $info_yaml = $yaml->parse($info_file);
 
-        if(empty($info_yaml['dependencies'])) {
+        if (empty($info_yaml['dependencies'])) {
             $info_yaml['dependencies'] = $dependencies;
         } else {
             $info_yaml['dependencies'] = array_merge($info_yaml['dependencies'], $dependencies);
@@ -126,22 +128,23 @@ trait ConfigExportTrait
 
         if (file_put_contents($this->getSite()->getModuleInfoFile($module), $yaml->dump($info_yaml))) {
             $output->writeln(
-              '<info>[+] ' .
-              sprintf(
-                $this->trans('commands.config.export.view.messages.depencies-included'),
-              $this->getSite()->getModuleInfoFile($module)
-            ) . '</info>');
+                '<info>[+] ' .
+                sprintf(
+                    $this->trans('commands.config.export.view.messages.depencies-included'),
+                    $this->getSite()->getModuleInfoFile($module)
+                ) . '</info>'
+            );
 
-            foreach($dependencies as $dependency) {
+            foreach ($dependencies as $dependency) {
                 $output->writeln(
-                  '<info>    [-] ' . $dependency . '</info>');
+                    '<info>    [-] ' . $dependency . '</info>'
+                  );
             }
 
             $output->writeln('');
-
         } else {
             $output->writeln(
-              ' <error>'. $this->trans('commands.site.mode.messages.error-writing-file') . ': ' . $this->getSite()->getModuleInfoFile($module) .'</error>'
+                ' <error>'. $this->trans('commands.site.mode.messages.error-writing-file') . ': ' . $this->getSite()->getModuleInfoFile($module) .'</error>'
             );
             return [];
         }
