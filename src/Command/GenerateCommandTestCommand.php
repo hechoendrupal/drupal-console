@@ -39,7 +39,7 @@ class GenerateCommandTestCommand extends ContainerAwareCommand
         $renderer = $this->getRenderHelper();
         $application = $this->getApplication();
         $command = $application->find($commandName);
-        $this->renderCommand($command, '', $renderer);
+        $this->renderCommand($command, '/home/atempa/Desktop/', $renderer);
     }
 
     private function renderCommand($command, $path, $renderer)
@@ -57,10 +57,17 @@ class GenerateCommandTestCommand extends ContainerAwareCommand
             'command_name' => $command_name
         ];
 
-        var_export($path);
         $this->renderFile(
             'core/test/command.php.twig',
             $path . $command_class_name. 'Test.php',
+            $parameters,
+            null,
+            $renderer
+        );
+
+        $this->renderFile(
+            'core/test/command_data_provider.php.twig',
+            $path . $command_name. 'DataProviderTrait.php',
             $parameters,
             null,
             $renderer
