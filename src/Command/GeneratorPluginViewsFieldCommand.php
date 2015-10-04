@@ -38,12 +38,12 @@ class GeneratorPluginViewsFieldCommand extends GeneratorCommand
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.views.field.options.title')
             )
-          ->addOption(
+            ->addOption(
                 'description',
                 '',
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.views.field.options.description')
-          );
+            );
     }
 
     /**
@@ -114,9 +114,9 @@ class GeneratorPluginViewsFieldCommand extends GeneratorCommand
         $description = $input->getOption('description');
         if (!$description) {
             $description = $dialog->ask(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.plugin.views.field.questions.description'), $this->trans('commands.generate.plugin.views.field.questions.description_default')),
-              $this->trans('commands.generate.plugin.views.field.questions.description_default')
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.plugin.views.field.questions.description'), $this->trans('commands.generate.plugin.views.field.questions.description_default')),
+                $this->trans('commands.generate.plugin.views.field.questions.description_default')
             );
         }
         $input->setOption('description', $description);
