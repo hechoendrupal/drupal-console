@@ -39,7 +39,7 @@ class GenerateCommandTestCommand extends ContainerAwareCommand
         $renderer = $this->getRenderHelper();
         $application = $this->getApplication();
         $command = $application->find($commandName);
-        $this->renderCommand($command, '/home/atempa/Desktop/', $renderer);
+        $this->renderCommand($command, '', $renderer);
     }
 
     private function renderCommand($command, $path, $renderer)
