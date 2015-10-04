@@ -130,6 +130,16 @@ class SiteHelper extends Helper
 
     /**
      * @param string $moduleName
+     * @param bool   $fullPath
+     * @return string
+     */
+    public function getModuleInfoFile($moduleName, $fullPath=true)
+    {
+        return $this->getModulePath($moduleName, $fullPath)."/$moduleName.info.yml";
+    }
+
+    /**
+     * @param string $moduleName
      * @return string
      */
     public function getControllerPath($moduleName)

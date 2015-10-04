@@ -41,7 +41,13 @@ class ConfigExportViewCommand extends ContainerAwareCommand
                 '',
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.config.export.view.options.optional-config')
-            );
+            )
+          ->addOption(
+            'include-module-dependencies',
+            '',
+            InputOption::VALUE_OPTIONAL,
+            $this->trans('commands.config.export.view.options.include-module-dependencies')
+          );
     }
 
     /**
@@ -101,6 +107,16 @@ class ConfigExportViewCommand extends ContainerAwareCommand
             );
         }
         $input->setOption('optional-config', $optionalConfig);
+
+        $includeModuleDependencies = $input->getOption('include-module-dependencies');
+        if (!$includeModuleDependencies) {
+            $includeModuleDependencies = $dialog->askConfirmation(
+              $output,
+              $dialog->getQuestion($this->trans('commands.config.export.view.questions.include-module-dependencies'), 'yes', '?'),
+              true
+            );
+        }
+        $input->setOption('include-module-dependencies', $includeModuleDependencies);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -111,6 +127,7 @@ class ConfigExportViewCommand extends ContainerAwareCommand
         $module = $input->getOption('module');
         $viewId = $input->getArgument('view-id');
         $optionalConfig = $input->getOption('optional-config');
+        $includeModuleDependencies = $input->getOption('include-module-dependencies');
 
         $viewTypeDefinition = $this->entityManager->getDefinition('view');
         $viewTypeName = $viewTypeDefinition->getConfigPrefix() . '.' . $viewId;
@@ -118,6 +135,18 @@ class ConfigExportViewCommand extends ContainerAwareCommand
         $viewNameConfig = $this->getConfiguration($viewTypeName);
 
         $this->configExport[$viewTypeName] = array('data' => $viewNameConfig, 'optional' => $optionalConfig);
+
+        // Include config dependencies in export files
+        if ($dependencies = $this->fetchDependencies($viewNameConfig, 'config')) {
+            $this->resolveDependencies($dependencies, $optionalConfig);
+        }
+
+        // Include module dependencies in export files if export is not optional
+        if($includeModuleDependencies) {
+            if ($dependencies = $this->fetchDependencies($viewNameConfig, 'module')) {
+                $this->exportModuleDependencies($output, $module, $dependencies);
+            }
+        }
 
         $this->exportConfig($module, $output, $this->trans('commands.views.export.messages.view_exported'));
     }
