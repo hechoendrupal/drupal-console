@@ -686,6 +686,19 @@ commands:
             class-name: Enter the plugin type class name
             plugin-name: Enter the plugin type machine name
             plugin-file-name: Enter the plugin file name (e.g. MODULE.plugin.filename.yml)
+      views:
+        field:
+          description: "Generate a custom plugin view field."
+          help: The <info>generate:plugin:views:field</info> command helps you generate a new custom views field plugin.
+          options:
+            class-name: Views plugin field class name
+            title: Views plugin field title
+            description: Views plugin field description
+          questions:
+             class-name: Views plugin field class name
+             title: Views plugin field title
+             description: Views plugin field description
+             description_default: "My awesome custom views field plugin."
     service:
       description: Generate service
       help: The <info>generate:service</info> command helps you generate a new service.
