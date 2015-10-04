@@ -19,12 +19,12 @@ class {{ class }}Test extends CommandTest
      *
 {% if options|length>0 %}
 {% for option in options %}
-     * @param ${{ option.name }}
+     * @param ${{ option.name|replace({'-': '_'})  }}
 {% endfor %}
 {% endif %}
 {% if arguments|length>0 %}
 {% for argument in arguments %}
-     * @param ${{ argument.name }}
+     * @param ${{ argument.name|replace({'-': '_'}) }}
 {% endfor %}
 {% endif %}
      *
@@ -34,18 +34,18 @@ class {{ class }}Test extends CommandTest
 {% if options|length>0 %}
 {% for option in options %}
      {% if loop.last %}
-       ${{ option.name }}
+       ${{ option.name|replace({'-': '_'}) }}
      {% else %}
-       ${{ option.name }},
+       ${{ option.name|replace({'-': '_'}) }},
      {% endif %}
 {% endfor %}
 {% endif %}
 {% if arguments|length>0 %}
 {% for argument in arguments %}
      {% if loop.last %}
-       ${{ argument.name }}
+       ${{ argument.name|replace({'-': '_'}) }}
      {% else %}
-       ${{ argument.name }},
+       ${{ argument.name|replace({'-': '_'}) }},
      {% endif %}
 {% endfor %}
 {% endif %}
@@ -61,18 +61,18 @@ class {{ class }}Test extends CommandTest
 {% if options|length>0 %}
 {% for option in options %}
     {% if loop.last %}
-          '--{{ option.name }}' => ${{ option.name }}
+          '--{{ option.name }}' => ${{ option.name|replace({'-': '_'}) }}
     {% else %}
-          '--{{ option.name }}' => ${{ option.name }},
+          '--{{ option.name }}' => ${{ option.name|replace({'-': '_'}) }},
     {% endif %}
 {% endfor %}
 {% endif %}
 {% if arguments|length>0 %}
 {% for argument in arguments %}
     {% if loop.last %}
-          '{{ argument.name }}' => ${{ argument.name }}
+          '{{ argument.name }}' => ${{ argument.name|replace({'-': '_'}) }}
     {% else %}
-          '{{ argument.name }}' => ${{ argument.name }},
+          '{{ argument.name }}' => ${{ argument.name|replace({'-': '_'}) }},
     {% endif %}
 {% endfor %}
 {% endif %}
