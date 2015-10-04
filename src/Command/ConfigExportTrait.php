@@ -123,7 +123,7 @@ trait ConfigExportTrait
         if (empty($info_yaml['dependencies'])) {
             $info_yaml['dependencies'] = $dependencies;
         } else {
-            $info_yaml['dependencies'] = array_merge($info_yaml['dependencies'], $dependencies);
+            $info_yaml['dependencies'] = array_unique(array_merge($info_yaml['dependencies'], $dependencies));
         }
 
         if (file_put_contents($this->getSite()->getModuleInfoFile($module), $yaml->dump($info_yaml))) {
