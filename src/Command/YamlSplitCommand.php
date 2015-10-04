@@ -86,7 +86,7 @@ class YamlSplitCommand extends Command
         $initial_level = 1;
         $nested_array->yaml_split_array($yaml_file_parsed, $yaml_split, $indent_level, $key_flatten, $initial_level, $exclude_parents_key);
 
-        $this->writeSplittedFile($yaml_split,$output);
+        $this->writeSplittedFile($yaml_split, $output);
     }
 
     /**
@@ -118,17 +118,17 @@ class YamlSplitCommand extends Command
         $input->setArgument('yaml-file', $yaml_file);
     }
 
-    protected function writeSplittedFile($yaml_splitted, $output) {
-
+    protected function writeSplittedFile($yaml_splitted, $output)
+    {
         $dumper = new Dumper();
 
         $output->writeln(
-          '[+] <info>'.
+            '[+] <info>'.
             $this->trans('commands.yaml.split.messages.generating-split')
-          .'</info>'
+            .'</info>'
         );
 
-        foreach($yaml_splitted as $key => $value) {
+        foreach ($yaml_splitted as $key => $value) {
             $filename = $key . '.yml';
 
             try {
@@ -148,10 +148,10 @@ class YamlSplitCommand extends Command
             }
 
             $output->writeln(
-              '    [-] <info>'.sprintf(
-                $this->trans('commands.yaml.split.messages.split-generated'),
-                $filename
-              ).'</info>'
+                '    [-] <info>'.sprintf(
+                    $this->trans('commands.yaml.split.messages.split-generated'),
+                    $filename
+                ).'</info>'
             );
         }
     }

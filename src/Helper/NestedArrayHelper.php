@@ -217,8 +217,8 @@ class NestedArrayHelper extends BaseDialogHelper
 
     /**
      * Flat a yaml file
-     * @param array $array
-     * @param array $flatten_array
+     * @param array  $array
+     * @param array  $flatten_array
      * @param string $key_flatten
      */
     public function yaml_flatten_array(array &$array, &$flatten_array, &$key_flatten = '')
@@ -246,10 +246,10 @@ class NestedArrayHelper extends BaseDialogHelper
     /**
      * @param array $array
      * @param array $split_array
-     * @param int $indent_level
+     * @param int   $indent_level
      * @param array $key_flatten
-     * @param int $key_level
-     * @param bool $exclude_parents_key
+     * @param int   $key_level
+     * @param bool  $exclude_parents_key
      */
     public function yaml_split_array(array &$array, array &$split_array, $indent_level = '', &$key_flatten, &$key_level, $exclude_parents_key)
     {
@@ -258,13 +258,13 @@ class NestedArrayHelper extends BaseDialogHelper
                 $key_flatten.= '.';
             }
 
-            if($exclude_parents_key) {
+            if ($exclude_parents_key) {
                 $key_flatten = $key;
             } else {
                 $key_flatten .= $key;
             }
 
-            if($key_level == $indent_level) {
+            if ($key_level == $indent_level) {
                 if (!empty($value)) {
                     $split_array[$key_flatten] = $value;
 
@@ -273,7 +273,7 @@ class NestedArrayHelper extends BaseDialogHelper
                     }
                 }
             } else {
-                if(is_array($value)) {
+                if (is_array($value)) {
                     $key_level++;
                     $this->yaml_split_array($value, $split_array, $indent_level, $key_flatten, $key_level, $exclude_parents_key);
                 }
