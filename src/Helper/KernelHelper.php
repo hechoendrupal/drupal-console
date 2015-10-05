@@ -14,12 +14,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Drupal\Core\DrupalKernel;
 
+/**
+ * Class KernelHelper
+ * @package Drupal\Console\Helper
+ */
 class KernelHelper extends Helper
 {
     /**
      * @var \Composer\Autoload\ClassLoader
      */
-    protected $class_loader;
+    protected $classLoader;
 
     /**
      * @var \Drupal\Core\DrupalKernel
@@ -63,6 +67,7 @@ class KernelHelper extends Helper
     }
 
     /**
+     * @return bool
      */
     public function bootKernel()
     {
@@ -76,6 +81,8 @@ class KernelHelper extends Helper
             $container->get('request_stack')->push($this->request);
             $this->booted = true;
         }
+
+        return $this->booted;
     }
 
     /**
@@ -94,7 +101,7 @@ class KernelHelper extends Helper
             $this->request = Request::createFromGlobals();
             $this->kernel = DrupalKernel::createFromRequest(
                 $this->request,
-                $this->class_loader,
+                $this->classLoader,
                 $this->environment
             );
         }
@@ -102,12 +109,17 @@ class KernelHelper extends Helper
         return $this->kernel;
     }
 
+    /**
+     * @return void
+     */
     public function terminate()
     {
         if ($this->booted) {
             $response = Response::create('');
             $this->kernel->terminate($this->request, $response);
         }
+
+        return;
     }
 
     /**
@@ -119,21 +131,6 @@ class KernelHelper extends Helper
     }
 
     /**
-     * @param array $commands
-     */
-    public function initCommands(array $commands)
-    {
-        $container = $this->getKernel()->getContainer();
-        array_walk(
-            $commands, function ($command) use ($container) {
-                if ($command instanceof ContainerAwareInterface) {
-                    $command->setContainer($container);
-                }
-            }
-        );
-    }
-
-    /**
      * @return \Symfony\Component\EventDispatcher\EventDispatcherInterface
      */
     public function getEventDispatcher()
@@ -142,11 +139,11 @@ class KernelHelper extends Helper
     }
 
     /**
-     * {@inheritdoc}
+     * @return boolean
      */
-    public function getName()
+    public function isBooted()
     {
-        return 'kernel';
+        return $this->booted;
     }
 
     /**
@@ -154,12 +151,15 @@ class KernelHelper extends Helper
      */
     public function getClassLoader()
     {
-        return $this->class_loader;
+        return $this->classLoader;
     }
 
-    public function setClassLoader(ClassLoader $class_loader)
+    /**
+     * @param \Composer\Autoload\ClassLoader $classLoader
+     */
+    public function setClassLoader(ClassLoader $classLoader)
     {
-        $this->class_loader = $class_loader;
+        $this->classLoader = $classLoader;
     }
 
     /**
@@ -168,5 +168,13 @@ class KernelHelper extends Helper
     public function getRequest()
     {
         return $this->request;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'kernel';
     }
 }
