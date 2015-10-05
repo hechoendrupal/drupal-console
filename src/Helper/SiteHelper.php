@@ -58,6 +58,15 @@ class SiteHelper extends Helper
         return $discovery->scan('module');
     }
 
+    public function getModules()
+    {
+        if (!$this->modules) {
+            $this->modules = $this->discoverModules();
+        }
+
+        return $this->modules;
+    }
+
     /**
      * @param string $moduleName
      * @param bool   $fullPath
@@ -126,6 +135,16 @@ class SiteHelper extends Helper
     public function getModuleConfigOptionalDirectory($moduleName, $fullPath=true)
     {
         return $this->getModulePath($moduleName, $fullPath).'/config/optional';
+    }
+
+    /**
+     * @param string $moduleName
+     * @param bool   $fullPath
+     * @return string
+     */
+    public function getModuleInfoFile($moduleName, $fullPath=true)
+    {
+        return $this->getModulePath($moduleName, $fullPath)."/$moduleName.info.yml";
     }
 
     /**

@@ -50,7 +50,7 @@ class ModuleDebugCommand extends ContainerAwareCommand
 
     protected function getAllModules($status, $type, $output, $table)
     {
-        include_once $this->getDrupalHelper()->getDrupalRoot() . '/core/includes/schema.inc';
+        include_once $this->getDrupalHelper()->getRoot() . '/core/includes/schema.inc';
 
         $table->setHeaders(
             [
