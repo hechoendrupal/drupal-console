@@ -30,7 +30,7 @@ class Generator
         }
 
         if (file_put_contents($target, $this->getRenderer()->render($template, $parameters), $flag)) {
-            $this->files[] = str_replace($this->getDrupalHelper()->getDrupalRoot().'/', '', $target);
+            $this->files[] = str_replace($this->getDrupalHelper()->getRoot().'/', '', $target);
 
             return true;
         }

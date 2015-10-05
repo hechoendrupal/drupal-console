@@ -26,6 +26,7 @@ use Drupal\Console\Helper\NestedArrayHelper;
 use Drupal\Console\Helper\TwigRendererHelper;
 use Drupal\Console\EventSubscriber\ShowGenerateDocListener;
 use Drupal\Console\Helper\DrupalHelper;
+use Drupal\Console\Helper\CommandDiscoveryHelper;
 
 set_time_limit(0);
 
@@ -54,7 +55,6 @@ $helpers = [
     'kernel' => new KernelHelper(),
     'shell' => new ShellHelper(new Shell($application)),
     'dialog' => new DialogHelper(),
-    'register_commands' => new RegisterCommandsHelper($application),
     'stringUtils' => new StringUtils(),
     'validators' => new Validators(),
     'translator' => $translatorHelper,
@@ -63,6 +63,7 @@ $helpers = [
     'message' => new MessageHelper($translatorHelper),
     'chain' => new ChainCommandHelper(),
     'drupal' => new DrupalHelper(),
+    'commandDiscovery' => new CommandDiscoveryHelper(),
 ];
 
 $application->addHelpers($helpers);
