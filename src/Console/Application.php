@@ -207,9 +207,8 @@ class Application extends BaseApplication
 
     /**
      * @param $commands
-     * @param $drupal
      */
-    private function registerCommands($commands, $drupal)
+    private function registerCommands($commands)
     {
         if (!$commands) {
             return;
