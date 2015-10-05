@@ -277,7 +277,7 @@ class Application extends BaseApplication
      */
     public function getDirectoryRoot()
     {
-        return realpath($this->directoryRoot);
+        return $this->directoryRoot;
     }
 
     /**
