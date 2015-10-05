@@ -58,6 +58,15 @@ class SiteHelper extends Helper
         return $discovery->scan('module');
     }
 
+    public function getModules()
+    {
+        if (!$this->modules) {
+            $this->modules = $this->discoverModules();
+        }
+
+        return $this->modules;
+    }
+
     /**
      * @param string $moduleName
      * @param bool   $fullPath
