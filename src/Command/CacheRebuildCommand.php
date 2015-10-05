@@ -28,8 +28,8 @@ class CacheRebuildCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $drupal = $this->getHelperSet()->get('drupal');
-        $drupalRoot = $drupal->getDrupalRoot();
+        $drupal = $this->getDrupalHelper();
+        $drupalRoot = $drupal->getRoot();
 
         include_once $drupalRoot.'/core/includes/utility.inc';
         $validators = $this->getHelperSet()->get('validators');

@@ -131,7 +131,7 @@ class Application extends BaseApplication
             return sprintf($this->trans('application.console.options.version'), $this->getName(), $this->getVersion());
         }
 
-        return '<info>Console Tool</info>';
+        return '<info>Drupal Console</info>';
     }
 
     /**
@@ -139,7 +139,7 @@ class Application extends BaseApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        $root = $input->getParameterOption(['--root'], false);
+        $root = $input->getParameterOption(['--root'], null);
 
         $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
 
@@ -149,42 +149,48 @@ class Application extends BaseApplication
 
         $message = $this->getHelperSet()->get('message');
         $drupal = $this->getHelperSet()->get('drupal');
+        $site = $this->getHelperSet()->get('site');
+        $commandDiscovery = $this->getHelperSet()->get('commandDiscovery');
+        $commandDiscovery->setApplicationRoot($this->getDirectoryRoot());
 
-        if (!$drupal->isValidInstance($root)) {
+        $commands = [];
+        $recursive = false;
+        if (!$root) {
+            $root = getcwd();
+            $recursive = true;
+        }
+
+        if (!$drupal->isValidRoot($root, $recursive)) {
+            $commands = $commandDiscovery->getConsoleCommands();
             $message->addWarningMessage(
                 $this->trans('application.site.errors.directory')
             );
+        } else {
+            $site->setSitePath($drupal->getRoot());
+
+            if ($drupal->isInstalled()) {
+                $this->bootDrupal($env, $debug, $drupal);
+                $disabledModules = $this->config->get('application.disable.modules');
+                $commandDiscovery->setDisabledModules($disabledModules);
+
+                $commands = $commandDiscovery->getCommands();
+            } else {
+                $commands = $commandDiscovery->getConsoleCommands();
+                $message->addWarningMessage(
+                    $this->trans('application.site.errors.settings')
+                );
+            }
         }
 
-        if (!$this->commandsRegistered) {
-            $this->commandsRegistered = $this->registerCommands();
+        $this->registerCommands($commands, $drupal);
+
+        if (true === $input->hasParameterOption(['--shell', '-s'])) {
+            $this->runShell($input);
+            return;
         }
 
         if ($input) {
             $commandName = $this->getCommandName($input);
-        }
-
-        if ($drupal->isBootable()) {
-            $this->prepareKernel($env, $debug, $drupal);
-            $this->setBooted($drupal->isInstalled());
-        }
-
-        if ($drupal->isBootable() && !$this->isBooted()) {
-            $message->addWarningMessage(
-                $this->trans('application.site.errors.settings')
-            );
-        }
-
-        if ($this->isBooted()) {
-            $this->bootstrap();
-
-            $this->getHelperSet()->get('site')->setSitePath($drupal->getDrupalRoot());
-
-            if (true === $input->hasParameterOption(array('--shell', '-s'))) {
-                $this->runShell($input);
-
-                return 0;
-            }
         }
 
         if (true === $input->hasParameterOption(array('--generate-doc', '--gd'))) {
@@ -197,12 +203,18 @@ class Application extends BaseApplication
         }
 
         parent::doRun($input, $output);
+    }
 
-        if ($this->isBooted()) {
-            $kernelHelper = $this->getHelperSet()->get('kernel');
-            if ($kernelHelper) {
-                $kernelHelper->terminate();
-            }
+    /**
+     * @param $commands
+     */
+    private function registerCommands($commands)
+    {
+        if (!$commands) {
+            return;
+        }
+        foreach ($commands as $command) {
+            $this->add($command);
         }
     }
 
@@ -211,10 +223,8 @@ class Application extends BaseApplication
      * @param bool|false $debug
      * @param $drupal
      */
-    private function prepareKernel($env = 'prod', $debug = false, $drupal)
+    private function bootDrupal($env = 'prod', $debug = false, $drupal)
     {
-        $drupalAutoLoaderClass = include $drupal->getDrupalAutoLoadPath();
-
         if ($debug) {
             Debug::enable();
         }
@@ -226,50 +236,9 @@ class Application extends BaseApplication
 
         $kernelHelper->setDebug($debug);
         $kernelHelper->setEnvironment($env);
-        $kernelHelper->setClassLoader($drupalAutoLoaderClass);
-
-        $this->drupalAutoload = $drupalAutoLoaderClass;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isBooted()
-    {
-        return $this->booted;
-    }
-
-    /**
-     * @param bool $booted
-     */
-    public function setBooted($booted)
-    {
-        $this->booted = $booted;
-    }
-
-    public function bootstrap()
-    {
-        $kernelHelper = $this->getHelperSet()->get('kernel');
-        if ($kernelHelper) {
+        $kernelHelper->setClassLoader($drupal->getAutoLoadClass());
+        if ($drupal->isInstalled()) {
             $kernelHelper->bootKernel();
-            $kernelHelper->initCommands($this->all());
-        }
-
-        if (!$this->commandsRegistered) {
-            $this->commandsRegistered = $this->registerCommands();
-            $kernelHelper->initCommands($this->all());
-        }
-    }
-
-    /**
-     * Register the console commands.
-     */
-    protected function registerCommands()
-    {
-        /* @var \Drupal\Console\Helper\RegisterCommandsHelper $rc */
-        $registerCommands = $this->getHelperSet()->get('register_commands');
-        if ($registerCommands) {
-            $registerCommands->register();
         }
     }
 
@@ -285,14 +254,6 @@ class Application extends BaseApplication
 
         $shell->setProcessIsolation($input->hasParameterOption(array('--process-isolation')));
         $shell->run();
-    }
-
-    /**
-     * @return \Drupal\Core\DrupalKernel | null
-     */
-    public function getKernel()
-    {
-        return $this->drupalAutoload ? $this->getHelperSet()->get('kernel')->getKernel() : null;
     }
 
     /**

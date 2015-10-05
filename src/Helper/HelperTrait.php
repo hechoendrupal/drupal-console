@@ -24,7 +24,7 @@ trait HelperTrait
     /**
      * @return \Drupal\Console\Helper\KernelHelper
      */
-    public function getkernelHelper()
+    public function getKernelHelper()
     {
         return $this->getHelperSet()->get('kernel');
     }
