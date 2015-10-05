@@ -105,8 +105,8 @@ class GeneratorThemeCommand extends GeneratorCommand
 
         $theme = $validators->validateModuleName($input->getOption('theme'));
 
-        $drupal = $this->getHelperSet()->get('drupal');
-        $drupal_root = $drupal->getDrupalRoot();
+        $drupal = $this->getDrupalHelper();
+        $drupal_root = $drupal->getRoot();
         $theme_path = $drupal_root . $input->getOption('theme-path');
         $theme_path = $validators->validateModulePath($theme_path, true);
 
@@ -186,8 +186,8 @@ class GeneratorThemeCommand extends GeneratorCommand
         }
 
         $theme_path = $input->getOption('theme-path');
-        $drupal = $this->getHelperSet()->get('drupal');
-        $drupal_root = $drupal->getDrupalRoot();
+        $drupal = $this->getDrupalHelper();
+        $drupal_root = $drupal->getRoot();
 
         if (!$theme_path) {
             $theme_path_default = '/themes/custom';
