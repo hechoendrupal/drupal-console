@@ -119,6 +119,6 @@ class ConfigExportViewCommand extends ContainerAwareCommand
 
         $this->configExport[$viewTypeName] = array('data' => $viewNameConfig, 'optional' => $optionalConfig);
 
-        $this->exportConfig($module, $output);
+        $this->exportConfig($module, $output, $this->trans('commands.views.export.messages.view_exported'));
     }
 }
