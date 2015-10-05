@@ -28,8 +28,8 @@ class UpdateDebugCommand extends ContainerAwareCommand
         $table = $this->getHelperSet()->get('table');
         $table->setlayout($table::LAYOUT_COMPACT);
 
-        include_once $this->getDrupalHelper()->getDrupalRoot() . '/core/includes/update.inc';
-        include_once $this->getDrupalHelper()->getDrupalRoot() . '/core/includes/install.inc';
+        include_once $this->getDrupalHelper()->getRoot() . '/core/includes/update.inc';
+        include_once $this->getDrupalHelper()->getRoot() . '/core/includes/install.inc';
 
         $module_handler = $this->getModuleHandler();
 

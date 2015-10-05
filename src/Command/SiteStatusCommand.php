@@ -97,10 +97,10 @@ class SiteStatusCommand extends ContainerAwareCommand
         }
 
         $kernelHelper = $this->getHelper('kernel');
-        $drupal = $this->getHelperSet()->get('drupal');
+        $drupal = $this->getDrupalHelper();
 
         Settings::initialize(
-            $drupal->getDrupalRoot(),
+            $drupal->getRoot(),
             'sites/default',
             $kernelHelper->getClassLoader()
         );
@@ -155,8 +155,8 @@ class SiteStatusCommand extends ContainerAwareCommand
 
     protected function getDirectoryData()
     {
-        $drupal = $this->getHelperSet()->get('drupal');
-        $drupal_root = $drupal->getDrupalRoot();
+        $drupal = $this->getDrupalHelper();
+        $drupal_root = $drupal->getRoot();
 
         $configFactory = $this->getConfigFactory();
         $systemTheme = $configFactory->get('system.theme');

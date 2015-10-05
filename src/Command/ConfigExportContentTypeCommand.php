@@ -146,7 +146,9 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
             if ($field_name_config['bundle'] == $content_type) {
                 $this->configExport[$field_name] = array('data' => $field_name_config, 'optional' => $optional);
                 // Include dependencies in export files
-                $this->resolveDependencies($field_name_config['dependencies']['config'], $optional);
+                if ($dependencies = $this->fetchDependencies($field_name_config, 'config')) {
+                    $this->resolveDependencies($dependencies, $optional);
+                }
             }
         }
     }
@@ -162,7 +164,9 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
             if ($form_display_name_config['bundle'] == $content_type) {
                 $this->configExport[$form_display_name] = array('data' => $form_display_name_config, 'optional' => $optional);
                 // Include dependencies in export files
-                $this->resolveDependencies($form_display_name_config['dependencies']['config'], $optional);
+                if ($dependencies = $this->fetchDependencies($form_display_name_config, 'config')) {
+                    $this->resolveDependencies($dependencies, $optional);
+                }
             }
         }
     }
@@ -178,7 +182,9 @@ class ConfigExportContentTypeCommand extends ContainerAwareCommand
             if ($view_display_name_config['bundle'] == $content_type) {
                 $this->configExport[$view_display_name] = array('data' => $view_display_name_config, 'optional' => $optional);
                 // Include dependencies in export files
-                $this->resolveDependencies($view_display_name_config['dependencies']['config'], $optional);
+                if ($dependencies = $this->fetchDependencies($view_display_name_config, 'config')) {
+                    $this->resolveDependencies($dependencies, $optional);
+                }
             }
         }
     }
