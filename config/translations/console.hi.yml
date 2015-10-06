@@ -249,22 +249,22 @@ commands:
                     provider-id: 'प्रदाता ID'
                 module: common.options.module
         command:
-            description: 'Generate commands for the console.'
-            help: 'The <info>generate:command</info> command helps you generate a new command.'
-            welcome: 'Welcome to the Drupal Command generator'
+            description: 'कंसोल के कमाण्ड उत्पन्न करे'
+            help: '<info>generate:command</info> कमाण्ड नया कमाण्ड उत्पन्न करने में मदद करता है।'
+            welcome: 'Drupal कमाण्ड उत्पादक में आपका स्वागत है'
             options:
                 module: common.options.module
-                controller-title: 'Controller title'
-                class-name: 'Command Class name'
-                command: 'Command name (Must end with the word ''Commmand'')'
-                container: 'Access the services container'
+                controller-title: 'Controller का नाम'
+                class-name: 'कमाण्ड क्लास का नाम'
+                command: 'कमाण्ड का नाम (शब्द ''Commmand'' के साथ समाप्त होना चाहिए)'
+                container: 'सर्विसेज़ कंटेनर को ऐक्सेस करें'
             questions:
                 module: common.questions.module
-                class-name: 'Enter the Command Class name'
-                command: 'Enter the Command name'
-                container: 'Do you need to access the service container'
+                class-name: 'कमाण्ड क्लास का शीर्षक दर्ज करें'
+                command: 'कमाण्ड क्लास का नाम दर्ज करें'
+                container: 'क्या आपको सर्विसेज़ कंटेनर को ऐक्सेस करने का जरूरत है'
             messages:
-                title-not-empty: 'Title cannot be empty'
+                title-not-empty: 'शीर्षक खाली नहीं हो सकता'
         entity:
             bundle:
                 description: 'Generate a new content type (node / entity bundle)'
