@@ -242,11 +242,11 @@ commands:
     generate:
         authentication:
             provider:
-                description: 'Generate an Authentication Provider'
-                help: 'The <info>generate:authentication:provider</info> command helps you generate a new Authentication Provider.'
+                description: 'प्रमाण प्रदाता उत्पन्न करें'
+                help: '<info>generate:authentication:provider</info> कमाण्ड आपको नया प्रमाण प्रदाता उत्पन्न करने में मदद करता है।'
                 options:
-                    class-name: 'Authentication Provider class'
-                    provider-id: 'Provider ID'
+                    class-name: 'प्रमाण प्रदाता वर्ग'
+                    provider-id: 'प्रदाता ID'
                 module: common.options.module
         command:
             description: 'Generate commands for the console.'
