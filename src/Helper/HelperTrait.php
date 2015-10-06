@@ -72,7 +72,7 @@ trait HelperTrait
     /**
      * @return \Drupal\Console\Helper\DialogHelper
      */
-    protected function getDialogHelper()
+    public function getDialogHelper()
     {
         return $this->getHelperSet()->get('dialog');
     }
@@ -80,15 +80,15 @@ trait HelperTrait
     /**
      * @return \Symfony\Component\Console\Helper\QuestionHelper
      */
-    protected function getQuestionHelper()
+    public function getQuestionHelper()
     {
         return $this->getHelperSet()->get('question');
     }
 
     /**
-     * @return \Drupal\Console\Helper\NestedArrayHelper
+     * @return \Drupal\Console\Helper\TwigRendererHelper
      */
-    protected function getRenderHelper()
+    public function getRenderHelper()
     {
         return $this->getHelperSet()->get('renderer');
     }
@@ -96,13 +96,21 @@ trait HelperTrait
     /**
      * @return \Drupal\Console\Helper\NestedArrayHelper
      */
-    protected function getNestedArrayHelper()
+    public function getNestedArrayHelper()
     {
         return $this->getHelperSet()->get('nested-array');
     }
 
-    protected function getTableHelper()
+    public function getTableHelper()
     {
         return $this->getHelperSet()->get('table');
+    }
+
+    /**
+     * @return \Drupal\Console\Helper\TranslatorHelper
+     */
+    public function getTranslator()
+    {
+        return $this->getHelperSet()->get('translator');
     }
 }

@@ -27,7 +27,7 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
         $permissions
     ) {
 
-        $command = new GeneratorPermissionCommand($this->getTranslatorHelper());
+        $command = new GeneratorPermissionCommand($this->getHelperSet());
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
