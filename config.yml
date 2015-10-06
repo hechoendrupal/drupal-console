@@ -1,5 +1,0 @@
-application:
-  environment: prod
-  language: hi 
-  editor: vi
-  temp: /tmp

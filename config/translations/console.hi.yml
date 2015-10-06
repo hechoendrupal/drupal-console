@@ -127,9 +127,18 @@ commands:
           arguments:
             content_type: निर्यात किए जाने वाले कंटेंट प्ररूप
           questions:
+<<<<<<< HEAD
             content_type: निर्यात किए जाने वाले कंटेंट प्ररूप
           messages:
             configuration_exported: नीचे दी गयी विन्यास फाइलें उत्पन्न हुयी थी
+=======
+            content_type: Content Type to be exported
+            optional-config: 'Export content type in module as an optional configuration'
+          messages:
+            content_type_exported: 'Exporting content type'
+          options:
+            optional-config: 'Export content type as an optional YAML configuration in your module'
+>>>>>>> upstream/master
       single:
         description: अकेली विन्यास फाइल का बतौर yml फाइल निर्यात करें.
         arguments:
@@ -147,14 +156,28 @@ commands:
       view:
         description: "एक दृश्य को दूसरी वेबसाइट में परयोग करने के लिए, दिए गए मॉड्यूल के अंदर yml फार्मेट में निर्यात करें."
         messages:
+<<<<<<< HEAD
           view_exported: "दृश्य का निर्यात हो रहा है"
         questions:
            view: "निर्यात किए जाने वाले दृश्य"
            optional-config: 'एक वैकल्पिक विन्यास के रूप में मॉड्यूल में दृश्य निर्यात करें'
+=======
+          view_exported: "Exporting view"
+          depencies-included: 'The following module dependencies were included at %s'
+        questions:
+           view: "View to be exported"
+           optional-config: 'Export view in module as an optional configuration'
+           include-module-dependencies: 'Include view module dependencies in module info YAML file'
+>>>>>>> upstream/master
         arguments:
           view-id: 'आईडी देखें'
         options:
+<<<<<<< HEAD
           optional-config: 'अपने मॉड्यूल में एक वैकल्पिक YAML विन्यास के रूप में दृश्य को निर्यात करें'
+=======
+          optional-config: 'Export view as an optional YAML configuration in your module'
+          include-module-dependencies: 'Include module dependencies in module info YAML file'
+>>>>>>> upstream/master
     debug:
       description: मौजूदा विन्यास दिखाएँ.
       arguments:
@@ -683,6 +706,19 @@ commands:
             class-name: Enter the plugin type class name
             plugin-name: Enter the plugin type machine name
             plugin-file-name: Enter the plugin file name (e.g. MODULE.plugin.filename.yml)
+      views:
+        field:
+          description: "Generate a custom plugin view field."
+          help: The <info>generate:plugin:views:field</info> command helps you generate a new custom views field plugin.
+          options:
+            class-name: Views plugin field class name
+            title: Views plugin field title
+            description: Views plugin field description
+          questions:
+             class-name: Views plugin field class name
+             title: Views plugin field title
+             description: Views plugin field description
+             description_default: "My awesome custom views field plugin."
     service:
       description: Generate service
       help: The <info>generate:service</info> command helps you generate a new service.
@@ -1169,6 +1205,16 @@ commands:
         error-generating: 'Error generating merged YAML.'
         error-writing: 'Error writing merged YAML file.'
         merged: 'New file "%s" was created successfully after merge YAML files.'
+    split:
+      description: 'Split a YAML file using indent as separator criteria'
+      arguments:
+        yaml-file: 'Path of YAML file to be splitted'
+      options:
+        indent-level: 'Split YAML file using a specific indent level'
+        exclude-parents-key: 'Exclude parents key in file name generated'
+      messages:
+        generating-split: 'Generating new files'
+        split-generated: 'File %s was generated'
     update:
       value:
         description: 'Update a value for a specific key in a YAML file.'

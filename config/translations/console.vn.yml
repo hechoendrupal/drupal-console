@@ -1,23 +1,23 @@
 application:
     console:
         arguments:
-            drupal: 'Path to Drupal root.'
-            shell: 'Launch the shell.'
-            env: 'The Environment name.'
-            no-debug: 'Switches off debug mode.'
+            drupal: 'đường dẫn tới Drupal root'
+            shell: 'Khởi động shell'
+            env: 'Tên môi trường'
+            no-debug: 'Tắt chế độ debug'
             learning: 'Generate a verbose code output.'
-            generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
-            generate-inline: 'Print execution options and arguments as inline call to be use in the future'
+            generate-chain: 'In các lựa chọn thi hành và các đối số dạng yaml, để sử dụng trong chuỗi lệnh'
+            generate-inline: 'In các lựa chọn thi hành và các đối số dạng inline, để sử dụng sau'
         messages:
-            completed: 'The command was executed successfully!'
+            completed: 'Dòng lệnh đã được thực thi thành công!'
             chain:
-                generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
+                generated: 'Như sau bạn có thể tìm được file yaml của dòng lệnh thi hành cuối cùng, ví dụ copy in ~/.console/chain/sample.yml sẽ được chạy trong một chuỗi dòng lệnh theo thứ tự gọi'
             inline:
-                generated: 'Following you can find the inline representation of this command to re-execute this command later'
-            generated: 'You can now start using the generated code!'
+                generated: 'Như này bạn có thấy dạng inline của dòng lệnh thi hành và có thể gọi nó lại'
+            generated: 'Bạn có thể bắt đầu sử dụng code mới khởi tạo'
             files:
-                generated: 'Generated or updated files'
-                copied: 'Copied files'
+                generated: 'Các files được khởi tạo hoặc đã tải lên'
+                copied: 'Các files đã được sao chép'
             learning:
                 route: "In order to to create pages it is necessary to define routes for them.\nA route maps a URL path to a controller. It defines with what function\nor method will be called when a URL is accessed.\nIf the user accesses http://drupal8.dev/{{ route }}, the routing\nsystem will look for a route with that path. In this case it will find a\nmatch, and execute the _controller callback. In this case the callback is\ndefined as a classname\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nand a method (\"{{ route.method }}\")."
         errors:
@@ -113,8 +113,12 @@ commands:
                         content_type: 'Content Type to be exported'
                     questions:
                         content_type: 'Content Type to be exported'
+                        optional-config: 'Export content type in module as an optional configuration'
                     messages:
+                        content_type_exported: 'Exporting content type'
                         configuration_exported: 'The following configuration files were generated'
+                    options:
+                        optional-config: 'Export content type as an optional YAML configuration in your module'
             single:
                 description: 'Export single configuration as yml file.'
                 arguments:
@@ -133,13 +137,16 @@ commands:
                 description: 'Export a view in YAML format inside a provided module to reuse in other website.'
                 messages:
                     view_exported: 'Exporting view'
+                    depencies-included: 'The following module dependencies were included at %s'
                 questions:
                     view: 'View to be exported'
                     optional-config: 'Export view in module as an optional configuration'
+                    include-module-dependencies: 'Include view module dependencies in module info YAML file'
                 arguments:
                     view-id: 'View ID'
                 options:
                     optional-config: 'Export view as an optional YAML configuration in your module'
+                    include-module-dependencies: 'Include module dependencies in module info YAML file'
         debug:
             description: 'Show the current configuration.'
             arguments:
@@ -249,7 +256,7 @@ commands:
                 module: common.options.module
                 controller-title: 'Controller title'
                 class-name: 'Command Class name'
-                command: 'Command name'
+                command: 'Command name (Must end with the word ''Commmand'')'
                 container: 'Access the services container'
             questions:
                 module: common.questions.module
@@ -273,19 +280,6 @@ commands:
                     bundle-title: 'Enter the human-readable name of your new content type'
                 message:
                     error-state1: placeholder
-            description: 'Generate a new "%s"'
-            help: 'The <info>"%s"</info> command helps you generate a new "%s"'
-            welcome: 'Welcome to the Drupal entity generator'
-            options:
-                module: common.options.module
-                entity-class: 'The entity class name'
-                entity-name: 'The name of the entity'
-                label: 'The entity label'
-            questions:
-                module: common.questions.module
-                entity-class: 'Enter the entity class name'
-                entity-name: 'Enter the entity name'
-                label: 'Enter the entity label'
         controller:
             description: 'Generate & Register a controller'
             help: 'The <info>generate:controller</info> command helps you generate a new controller.'
@@ -660,6 +654,19 @@ commands:
                         class-name: 'Enter the plugin type class name'
                         plugin-name: 'Enter the plugin type machine name'
                         plugin-file-name: 'Enter the plugin file name (e.g. MODULE.plugin.filename.yml)'
+            views:
+                field:
+                    description: 'Generate a custom plugin view field.'
+                    help: 'The <info>generate:plugin:views:field</info> command helps you generate a new custom views field plugin.'
+                    options:
+                        class-name: 'Views plugin field class name'
+                        title: 'Views plugin field title'
+                        description: 'Views plugin field description'
+                    questions:
+                        class-name: 'Views plugin field class name'
+                        title: 'Views plugin field title'
+                        description: 'Views plugin field description'
+                        description_default: 'My awesome custom views field plugin.'
         service:
             description: 'Generate service'
             help: 'The <info>generate:service</info> command helps you generate a new service.'
@@ -676,20 +683,6 @@ commands:
                 class-name: 'Enter the Class name'
                 interface: 'Create an interface'
                 services: common.options.services
-        contenttype:
-            description: 'Generate a new content type (node / entity bundle)'
-            help: 'Use: generate:contenttype <fancy> <Fancy> to create a new content type name with the machine name of fancy and the human-readable name of Fancy.'
-            welcome: 'Welcome to the Drupal Content Type generator'
-            options:
-                module: common.options.module
-                bundle-name: 'The content type''s machine name'
-                bundle-title: 'The content type''s human-readable name'
-            questions:
-                module: common.questions.module
-                bundle-name: 'Enter the machine name of your new content type'
-                bundle-title: 'Enter the human-readable name of your new content type'
-            message:
-                error-state1: placeholder
     init:
         description: 'Copy configuration files to user home directory.'
     module:
@@ -890,7 +883,7 @@ commands:
                 application: Application
                 system: 'System Info'
                 hash_salt: 'Hash salt'
-                console: 'Console version'
+                console: 'Drupal Console version'
                 database: 'Database connection'
                 driver: Driver
                 host: Host
@@ -1119,15 +1112,8 @@ commands:
                 disabled-successfully: 'View %s was disabled successfully.'
         enable:
             description: 'Enable a View'
-            messages:
-                disabled-successfully: 'View %s was enabled successfully.'
+            messages: null
             disabled-successfully: 'View %s was enabled successfully.'
-        export:
-            description: 'Export a view in YAML format inside a provided module to reuse in other website.'
-            messages:
-                view_exported: 'Exporting view'
-            questions:
-                view: 'View to be exported'
     yaml:
         diff:
             description: 'Compare two YAML files do determined differences between them'
@@ -1162,6 +1148,16 @@ commands:
                 error-generating: 'Error generating merged YAML.'
                 error-writing: 'Error writing merged YAML file.'
                 merged: 'New file "%s" was created successfully after merge YAML files.'
+        split:
+            description: 'Split a YAML file using indent as separator criteria'
+            arguments:
+                yaml-file: 'Path of YAML file to be splitted'
+            options:
+                indent-level: 'Split YAML file using a specific indent level'
+                exclude-parents-key: 'Exclude parents key in file name generated'
+            messages:
+                generating-split: 'Generating new files'
+                split-generated: 'File %s was generated'
         update:
             value:
                 description: 'Update a value for a specific key in a YAML file.'
