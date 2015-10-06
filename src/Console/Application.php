@@ -153,7 +153,6 @@ class Application extends BaseApplication
             );
         } else {
             chdir($drupal->getRoot());
-
             $site->setSitePath($drupal->getRoot());
 
             if ($drupal->isInstalled()) {
