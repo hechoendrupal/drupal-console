@@ -26,10 +26,6 @@ class Application extends BaseApplication
      */
     const VERSION = '0.9.1';
     /**
-     * @var bool
-     */
-    protected $booted = false;
-    /**
      * @var Drupal\Console\UserConfig
      */
     protected $config;
@@ -38,20 +34,10 @@ class Application extends BaseApplication
      */
     protected $directoryRoot;
     /**
-     * @var \Composer\Autoload\ClassLoader
-     * The Drupal autoload file.
-     */
-    protected $drupalAutoload;
-    /**
      * @var string
      * The Drupal environment.
      */
     protected $env;
-    /**
-     * @var bool
-     */
-    private $commandsRegistered = false;
-
     /**
      * @var TranslatorHelper
      */
