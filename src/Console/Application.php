@@ -24,7 +24,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '0.9.1';
+    const VERSION = '0.9.2';
     /**
      * @var Drupal\Console\UserConfig
      */
