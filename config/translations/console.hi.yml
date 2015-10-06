@@ -233,12 +233,12 @@ commands:
                 invalid-severity: 'गंभीरता वर्ग अमान्य है, फिल्टर को नजरअंदाज कर दिया जायेगा'
                 not-found: 'DBLog घटना %s नहीं मिला'
     drush:
-        description: 'Run drush from console.'
-        help: 'Use the interactive mode for a better experience --shell.'
+        description: 'कंसोल से Drush चलायें।'
+        help: 'बेहतर अनुभव के लिए इंटरैक्टिव कार्यविधि का उपयोग करें --shell।'
         arguments:
-            args: 'Drush arguments.'
+            args: 'Drush तर्क।'
         messages:
-            not_found: 'Drush command not found.'
+            not_found: 'Drush कमाण्ड नहीं मिला।'
     generate:
         authentication:
             provider:
