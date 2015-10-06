@@ -267,19 +267,19 @@ commands:
                 title-not-empty: 'शीर्षक खाली नहीं हो सकता'
         entity:
             bundle:
-                description: 'Generate a new content type (node / entity bundle)'
-                help: 'Use: generate:contenttype <fancy> <Fancy> to create a new content type name with the machine name of fancy and the human-readable name of Fancy.'
-                welcome: 'Welcome to the Drupal Content Type generator'
+                description: 'नया कंटेंट टाइप उत्पन्न करें (नोड / एंटिटी बंडल)'
+                help: 'एक नया कंटेंट टाइप fancy मशीन नाम से और Fancy मानव पठनीय नाम से बनाने के लिए generate:contenttype <fancy> <Fancy> का प्रयोग करें।'
+                welcome: 'Drupal कंटेंट टाइप उत्पादक में आपका स्वागत है'
                 options:
                     module: common.options.module
-                    bundle-name: 'The content type''s machine name'
-                    bundle-title: 'The content type''s human-readable name'
+                    bundle-name: 'कंटेंट टाइप का मशीन नाम'
+                    bundle-title: 'कंटेंट टाइप का मानव पठनीय नाम'
                 questions:
                     module: common.questions.module
-                    bundle-name: 'Enter the machine name of your new content type'
-                    bundle-title: 'Enter the human-readable name of your new content type'
+                    bundle-name: 'नये कंटेंट टाइप का मशीन नाम दर्ज करें'
+                    bundle-title: 'नये कंटेंट टाइप का मानव पठनीय नाम दर्ज करें'
                 message:
-                    error-state1: placeholder
+                    error-state1: प्लेसहोल्डर
         controller:
             description: 'Generate & Register a controller'
             help: 'The <info>generate:controller</info> command helps you generate a new controller.'
