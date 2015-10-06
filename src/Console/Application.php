@@ -166,6 +166,8 @@ class Application extends BaseApplication
                 $this->trans('application.site.errors.directory')
             );
         } else {
+            chdir($drupal->getRoot());
+
             $site->setSitePath($drupal->getRoot());
 
             if ($drupal->isInstalled()) {
