@@ -40,7 +40,7 @@ class RestDebugCommand extends ContainerAwareCommand
         $resource_id = $input->getArgument('resource-id');
         $status = $input->getOption('authorization');
 
-        $table = $this->getHelperSet()->get('table');
+        $table = $this->getTableHelper();
         $table->setlayout($table::LAYOUT_COMPACT);
 
         if ($resource_id) {

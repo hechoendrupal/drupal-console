@@ -22,7 +22,7 @@ class ContainerDebugCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $services = $this->getServices();
-        $table = $this->getHelperSet()->get('table');
+        $table = $this->getTableHelper();
         $table->setHeaders(
             [
             $this->trans('commands.container.debug.messages.service_id'),

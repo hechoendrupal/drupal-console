@@ -31,7 +31,7 @@ class MigrateDebugCommand extends ContainerAwareCommand
     {
         $drupal_version = $input->getArgument('drupal-version');
 
-        $table = $this->getHelperSet()->get('table');
+        $table = $this->getTableHelper();
         $table->setlayout($table::LAYOUT_COMPACT);
         $this->getAllMigrations($drupal_version, $output, $table);
     }

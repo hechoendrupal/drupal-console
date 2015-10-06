@@ -81,7 +81,7 @@ class UserLoginCleanAttemptsCommand extends ContainerAwareCommand
    */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $messageHelper = $this->getHelperSet()->get('message');
+        $messageHelper = $this->getMessageHelper();
         $uid = $input->getArgument('uid');
         $account = \Drupal\user\Entity\User::load($uid);
 

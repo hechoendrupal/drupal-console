@@ -25,7 +25,7 @@ class CronDebugCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $table = $this->getHelperSet()->get('table');
+        $table = $this->getTableHelper();
         $table->setlayout($table::LAYOUT_COMPACT);
 
         $module_handler = $this->getModuleHandler();
