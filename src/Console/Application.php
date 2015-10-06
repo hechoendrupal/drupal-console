@@ -55,7 +55,7 @@ class Application extends BaseApplication
         $this->translator = $translator;
         $this->env = $config->get('application.environment');
 
-        parent::__construct($this::NAME, sprintf('%s', $this::VERSION));
+        parent::__construct($this::NAME, $this::VERSION);
 
         $this->getDefinition()->addOption(
             new InputOption('--root', null, InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.root'))
