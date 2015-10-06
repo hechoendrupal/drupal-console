@@ -30,7 +30,7 @@ class GeneratorCommandCommandTest extends GenerateCommandTest
         $class,
         $containerAware
     ) {
-        $command = new GeneratorCommandCommand($this->getTranslatorHelper());
+        $command = new GeneratorCommandCommand($this->getHelperSet());
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());

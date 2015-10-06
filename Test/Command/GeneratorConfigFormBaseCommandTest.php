@@ -34,7 +34,7 @@ class GeneratorConfigFormBaseCommandTest extends GenerateCommandTest
         $inputs,
         $routing
     ) {
-        $command = new GeneratorConfigFormBaseCommand($this->getTranslatorHelper());
+        $command = new GeneratorConfigFormBaseCommand($this->getHelperSet());
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
