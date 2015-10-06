@@ -205,30 +205,30 @@ commands:
                 released: 'Cron lock was released sucessfully'
     dblog:
         clear:
-            description: 'Remove events from DBLog table, filters are available'
+            description: 'घटनाओं को DBLog तालिका से निकालें, फिल्टर उपलब्ध हैं'
             messages:
-                event-deleted: 'Event %s was deleted'
-                clear-error: 'Clear process fail, please check used filters'
-                clear-sucess: 'Clear of events was successfully'
+                event-deleted: 'घटना %s को हटा दें'
+                clear-error: 'सफाई की प्रक्रिया असफल रहा, कृपया इस्तेमाल किये गए फिल्टर की जाँच करें'
+                clear-sucess: 'घटनाओं को सफलतापूर्वक साफ किया गया'
         debug:
-            description: 'Display current log events for the application'
+            description: 'एप्लीकेशन की वर्तमान लॉग घटनाओं को देखें'
             arguments:
-                event-id: 'DBLog event ID'
+                event-id: 'DBLog घटना ID'
             options:
-                type: 'Filter events by a specific type'
-                severity: 'Filter events by a specific level of severity'
-                user-id: 'Filter events by a specific user id'
-                limit: 'Limit results to a specific number'
-                offset: 'Starting point of a limit'
+                type: 'विशिष्ट प्रकार की घटनाओं द्वारा फ़िल्टर करें'
+                severity: 'गंभीरता का विशिष्ट स्तर की घटनाओं द्वारा फ़िल्टर करें'
+                user-id: 'घटनाओं को विशिष्ट उपभोक्ता ID के आधार पर फ़िल्टर करें'
+                limit: 'परिणाम को एक विशिष्ट संख्या से सीमित करें'
+                offset: 'सीमा का प्रारम्भिक स्थान'
             messages:
-                event-id: 'Event ID'
-                type: Type
-                date: Date
-                message: Message
-                user: User
-                severity: Severity
-                invalid-severity: 'Severity type is invalid, filter was ignored'
-                not-found: 'DBLog event %s wasn''t found'
+                event-id: 'घटना ID'
+                type: वर्ग
+                date: तारीख
+                message: संदेश
+                user: उपभोक्ता
+                severity: गंभीरता
+                invalid-severity: 'गंभीरता वर्ग अमान्य है, फिल्टर को नजरअंदाज कर दिया जायेगा'
+                not-found: 'DBLog घटना %s नहीं मिला'
     drush:
         description: 'Run drush from console.'
         help: 'Use the interactive mode for a better experience --shell.'
