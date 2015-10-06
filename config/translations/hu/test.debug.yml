@@ -1,0 +1,17 @@
+description: 'Elérhető unit tesztek megjelenítése.'
+help: 'Console parancs frissítése a legújabb verzióra.'
+arguments:
+    test-class: 'Test Class'
+    test-id: 'Unit Teszt ID'
+options:
+    group: Csoport
+messages:
+    class: 'Test Class'
+    description: Leírás
+    group: Csoport
+    type: 'Test Type'
+    success: 'A console sikeresen frissítve lett a legújabb verzióra.'
+    missing-dependency: 'Missing dependency'
+    methods: 'Test methods'
+    not-found: 'Debug wans''t found, try enclosure test id between double quotes.'
+    id: 'Unit Teszt ID'

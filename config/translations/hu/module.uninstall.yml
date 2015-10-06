@@ -1,0 +1,6 @@
+description: 'Modul vagy modulok eltávolítása'
+messages:
+    no-modules: 'Eltávolítani kívánt modul vagy modulok megadása kötelező.'
+    dependents: '%s nem távolítható el, mert függősége más moduloknak: %s'
+    nothing: 'Nincs teendő, minden modul már el lett távolítva.'
+    success: '%s Sikeresen el lett távolítva'

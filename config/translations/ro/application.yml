@@ -1,0 +1,44 @@
+console:
+    arguments:
+        drupal: 'Path to Drupal root.'
+        shell: 'Launch the shell.'
+        env: 'The Environment name.'
+        no-debug: 'Switches off debug mode.'
+        learning: 'Generate a verbose code output.'
+        generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
+        generate-inline: 'Print execution options and arguments as inline call to be use in the future'
+    messages:
+        completed: 'Comanda a fost executata cu succes!'
+        chain:
+            generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
+        inline:
+            generated: 'Following you can find the inline representation of this command to re-execute this command later'
+        generated: 'Aou can now start using the generated code!'
+        files:
+            generated: 'Generated or updated files'
+            copied: 'Copied files'
+        learning:
+            route: "Pentru a crea pagini, trebuie de definit \"routes\" pentru ele.\nUn \"route\" mapeaza un URL cu un Controller. Acesta stabileste cu ce\nfunctie sau metoda din Clasa va fi apelata cand URL-ul este accesat.\nDaca utilizatorul acceseaza http://drupal8.dev/{{ route }}, sistema de\nrutare va cauta ruta respectiva din URL. In acest caz acesta va fi gasit\nsi va executa \"_controller callback\". In acest caz \"callback\"-ul este\ndefinit in Clasa (\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nsi metoda (\"{{ method_name }}\").\n"
+    errors:
+        invalid-command: 'Comanda "%s" nu este definita.'
+    input:
+        definition:
+            command: 'The command to execute'
+            help: 'Display this help message'
+            quiet: 'Do not output any message'
+            verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
+            version: 'Display this application version'
+            ansi: 'Force ANSI output'
+            no-ansi: 'Disable ANSI output'
+            no-interaction: 'Do not ask any interactive question'
+    options:
+        version: '<info>%s</info> version <comment>%s</comment>'
+site:
+    messages:
+        path: 'Calea spre "Site"'
+    errors:
+        directory: 'Pentru a afisa toate comenzile accesibile, trebuie sa rulezi aceasta comanda in drupal root'
+        settings: 'Pentru a afisa toate comenzile accesibile, mai intai de toate trebuie sa instalezi Drupal.'
+user:
+    messages:
+        path: 'User home path'

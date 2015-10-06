@@ -1,0 +1,13 @@
+description: 'Elérhető modulok megjelenítése'
+options:
+    status: 'Modul állapot [engedélyezett|tiltott]'
+    type: 'Module típus [core|no-core]'
+messages:
+    id: ID
+    name: Név
+    status: Állapot
+    origin: Származás
+    package: Csomag
+    enabled: Engedélyezett
+    disabled: Tiltott
+    schema-version: 'Schema version'

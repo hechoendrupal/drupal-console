@@ -1,0 +1,19 @@
+description: 'Genereaza "plugin rest resource"'
+help: 'Comanda <info>generate:plugin:rest:resource</info> te va ajuta sa generezi un nou "Rest resource".'
+welcome: 'Bine ai venit in generatorul de Drupal "Plugin Rest Resource"'
+options:
+    module: common.options.module
+    class-name: 'Numele clasei pentru "Plugin Rest Resource"'
+    plugin-id: 'Id-ul pentru "Plugin Rest Resource"'
+    plugin-label: 'Eticheta pentru "Plugin Rest Resource"'
+    plugin-url: 'URL pentru "Plugin Rest Resource"'
+    plugin-states: 'Plugin Rest Resource States'
+questions:
+    module: common.questions.module
+    class-name: 'Introdu numele pentru "plugin rest resource"'
+    plugin-id: 'Introdu Id-ul pentru "plugin rest resource"'
+    plugin-label: 'Introdu eticheta pentru "plugin rest resource"'
+    plugin-url: 'Introdu URL pentru "plugin rest resource"'
+    plugin-states: 'Selecteaza care "REST States" in "resource"-ul current (GET este selectat implicit)'
+messages:
+    selected-states: 'States selectate'
