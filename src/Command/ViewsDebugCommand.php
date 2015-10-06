@@ -52,7 +52,7 @@ class ViewsDebugCommand extends ContainerAwareCommand
         } else {
             $view_status = -1;
         }
-        $table = $this->getHelperSet()->get('table');
+        $table = $this->getTableHelper();
         $table->setlayout($table::LAYOUT_COMPACT);
 
         if ($view_id) {

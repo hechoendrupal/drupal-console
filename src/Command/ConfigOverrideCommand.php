@@ -29,7 +29,7 @@ class ConfigOverrideCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $table = $this->getHelperSet()->get('table');
+        $table = $this->getTableHelper();
         $configName = $input->getArgument('config-name');
         $key = $input->getArgument('key');
         $value = $input->getArgument('value');

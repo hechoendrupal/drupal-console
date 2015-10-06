@@ -36,7 +36,7 @@ class YamlMergeCommand extends Command
     {
         $yaml = new Parser();
         $dumper = new Dumper();
-        $messageHelper = $this->getHelperSet()->get('message');
+        $messageHelper = $this->getMessageHelper();
 
         $final_yaml = array();
         $yaml_destination = $input->getArgument('yaml-destination');

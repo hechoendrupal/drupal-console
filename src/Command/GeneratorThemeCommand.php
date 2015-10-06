@@ -97,7 +97,7 @@ class GeneratorThemeCommand extends GeneratorCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $dialog = $this->getDialogHelper();
-        $validators = $this->getHelperSet()->get('validators');
+        $validators = $this->getValidator();
 
         if ($this->confirmationQuestion($input, $output, $dialog)) {
             return;
@@ -139,8 +139,8 @@ class GeneratorThemeCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $stringUtils = $this->getHelperSet()->get('stringUtils');
-        $validators = $this->getHelperSet()->get('validators');
+        $stringUtils = $this->getStringUtils();
+        $validators = $this->getValidator();
         $dialog = $this->getDialogHelper();
 
         try {

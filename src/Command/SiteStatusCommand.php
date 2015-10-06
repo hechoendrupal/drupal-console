@@ -201,7 +201,7 @@ class SiteStatusCommand extends ContainerAwareCommand
             return [];
         }
 
-        $table = $this->getHelperSet()->get('table');
+        $table = $this->getTableHelper();
         $table->setlayout($table::LAYOUT_COMPACT);
         foreach ($this->groups as $group) {
             $groupData = $siteData[$group];
