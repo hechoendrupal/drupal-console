@@ -138,7 +138,7 @@ trait ConfigExportTrait
             foreach ($dependencies as $dependency) {
                 $output->writeln(
                     '<info>    [-] ' . $dependency . '</info>'
-                  );
+                );
             }
 
             $output->writeln('');
