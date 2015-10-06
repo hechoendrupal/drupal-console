@@ -1,131 +1,131 @@
 application:
   console:
     arguments:
-      drupal: 'Path to Drupal root.'
-      shell: 'Launch the shell.'
-      env: 'The Environment name.'
-      no-debug: 'Switches off debug mode.'
-      learning: 'Generate a verbose code output.'
-      generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
-      generate-inline: 'Print execution options and arguments as inline call to be use in the future'
+      drupal: 'द्रुपल की जड़ को पथ.'
+      shell: 'शैल चालू करना.'
+      env: 'वातावरण का नाम.'
+      no-debug: 'डीबग प्रणाली बंद करें.'
+      learning: 'शब्दबहुल कोड उत्पन्न करें.'
+      generate-chain: 'निष्पादन विकल्प में प्रिंट और तर्क को YAML आउटपुट के रूप में श्रृंखला कमांड में इस्तेमाल किया जाएगा'
+      generate-inline: 'निष्पादन विकल्प में प्रिंट और तर्क को इनलाइन कॉल के रूप में भविष्य में उपयोग किया जाएगा'
     messages:
-      completed: 'The command was executed successfully!'
+      completed: 'कमांड सफलतापूर्वक पूर्ण किया गया!'
       chain:
-        generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
+        generated: 'नीचे दिए गए में से आप अपनी आखरी कमांड की YAML प्रस्तुति देखे जो की  ~/.console/chain/sample.yml में नक़ल करें, कमांड्स के अनुक्रम में चलाने के लिए'
       inline:
-        generated: 'Following you can find the inline representation of this command to re-execute this command later'
-      generated: 'You can now start using the generated code!'
+        generated: 'नीचे दिए गए में से आप यह कमांड का इनलाइन प्रस्तुति देखे, बाद में इस कमांड को बाद में दोबारा चलाने के लिए'
+      generated: 'अब आप उत्पन्न कोड को इस्तेमाल कर सकते हैं!'
       files:
-        generated: 'Generated or updated files'
-        copied: 'Copied files'
+        generated: 'उत्पन्न या अपडेटेड फ़ाइलें'
+        copied: 'नकल फ़ाइलें'
       learning:
         route: |
-          In order to to create pages it is necessary to define routes for them.
-          A route maps a URL path to a controller. It defines with what function
-          or method will be called when a URL is accessed.
-          If the user accesses http://drupal8.dev/{{ route }}, the routing
-          system will look for a route with that path. In this case it will find a
-          match, and execute the _controller callback. In this case the callback is
-          defined as a classname
+          पृष्ठ बनाने के लिए मार्गों को उनके लिए परिभाषित करना आवश्यक है.
+          एक मार्ग URL पथ को एक नियंत्रक से मैप करता है. यह परिभाषित करता है की
+          कौन सा फंक्शन और तरीका बुलाया जायेगा जब एक एक्सेस किया जायेगा.
+          अगर उपयोगकर्ता http://drupal8.dev/{{ route }} एक्सेस करता है,
+          मार्ग प्रणाली एक मार्ग को पथ के साथ देखेगा. इस मामले में यह एक मैच मिलेगा,
+          और _controller कॉलबैक को चलायेगा. इस मामले में कॉलबैक 
+          एक क्लासनेम के रूप में परिभाषित है.
           ("\Drupal\{{ module }}\Controller\{{ class_name }}")
-          and a method ("{{ route.method }}").
+          और एक तरीका ("{{ route.method }}").
     errors:
-      invalid-command: 'Command "%s" is not defined.'
+      invalid-command: 'कमांड "%s" परिभाषित नहीं है.'
     input:
       definition:
-        command: 'The command to execute'
-        help: 'Display this help message'
-        quiet: 'Do not output any message'
-        verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
-        version: 'Display this application version'
-        ansi: 'Force ANSI output'
-        no-ansi: 'Disable ANSI output'
-        no-interaction: 'Do not ask any interactive question'
+        command: 'कमांड को चलाने के लिए'
+        help: 'इस मदद संदेश को प्रदर्शित करें'
+        quiet: 'किसी भी संदेश को आउटपुट न करें'
+        verbose: 'संदेशों के वर्बोसिटी बढ़ाएँ: 1 सामान्य आउटपुट के लिए, 2 अधिक वाचाल आउटपुट के लिए and 3 डिबग के लिए'
+        version: 'इस आवेदन के वर्शन को प्रदर्शित करें'
+        ansi: 'जबर्दस्ती ANSI आउटपुट'
+        no-ansi: 'अक्षम ANSI आउटपुट'
+        no-interaction: 'कोई भी परस्पर संवादात्मक सवाल मत पूछो'
     options:
-        version: '<info>%s</info> version <comment>%s</comment>'
+        version: '<info>%s</info> वर्शन <comment>%s</comment>'
   site:
     messages:
-      path: Site path
+      path: साइट पथ
     errors:
-      directory: In order to list all of the available commands, you should run this inside a drupal root directory.
-      settings: In order to list all of the available commands you should install drupal first.
+      directory: सभी उपलब्ध कमांडो को सूची के क्रम में दिखाने के लिए, यह आपको एक द्रुपल जड़ निर्देशिका में चलाना चाहिए.
+      settings: सभी उपलब्ध कमांडो को सूची के क्रम में दिखाने के लिए, आपको पहले द्रुपल स्थापित करना चाहिए.
   user:
       messages:
-        path: User home path
+        path: उपयोगकर्ता घर पथ
 commands:
   common:
     options:
-      events: Load events from the container
-      module: The Module name.
-      services: Load services from the container.
-      tags: Set service tags from the container.
-      inputs: Create inputs in a form.
-      permissions: Create permissions.
+      events: कंटेनर से घटनाओं को लोड करें
+      module: माड्यूल का नाम.
+      services: कंटेनर से सेवाएं को लोड करें.
+      tags: कंटेनर से सेवा टैग सेट करें.
+      inputs: एक फ़ॉर्म में आदानों को बनाएं.
+      permissions: अनुमतियों बनाएं.
     questions:
-      module: Enter the module name
-      confirm: Do you confirm generation
-      canceled: Command generation canceled.
+      module: मॉड्यूल का नाम दर्ज करें
+      confirm: क्या आप उत्पन्न की पुष्टि करते हैं
+      canceled: कमांड उत्पन्न रद्द.
       events:
         message: |
 
-          Type the event name or use keyup or keydown.
-          This is optional, press <info>enter</info> to <info>continue</info>
-        name: Enter event name
+          घटना नाम टाइप करें या KeyUp का उपयोग करें या KeyDown.
+          यह वैकल्पिक है, दबाएँ <info>enter</info> to <info>continue</info>
+        name: घटना नाम दर्ज करें
       services:
-        confirm: Do you want to load services from the container
+        confirm: क्या आप कंटेनर से सेवाओं को लोड करना चाहते हैं
         message: |
 
-          Type the service name or use keyup or keydown.
-          This is optional, press <info>enter</info> to <info>continue</info>
-        name: Enter your service
+          सेवा नाम टाइप करें या KeyUp का उपयोग करें या KeyDown.
+          यह वैकल्पिक है, दबाएँ <info>enter</info> to <info>continue</info>
+        name: सेवा नाम दर्ज करें
       inputs:
-        confirm: Do you want to generate a form structure
-        label: Input label
-        machine_name: Input machine name
-        permission: Do you want to generate permissions
-        type: Type
-        invalid: Field Type "%s" is invalid.
-        description: Description
-        default-value: 'Default value'
-        weight: 'Weight for input item'
+        confirm: क्या आप एक फार्म संरचना उत्पन्न करना चाहते हैं
+        label: इनपुट लेबल
+        machine_name: इनपुट मशीन नाम
+        permission: क्या आप अनुमतियाँ उत्पन्न करना चाहते हैं
+        type: टाइप
+        invalid: फ़ील्ड टाइप "%s" अमान्य है.
+        description: विवरण
+        default-value: 'डिफ़ॉल्ट मूल्य'
+        weight: 'इनपुट आइटम का वजन'
     errors:
-      module-dependency: Missing module dependency "%s"
-      class-name-empty: The Class name can not be empty
+      module-dependency: गुम मॉड्यूल निर्भरता "%s"
+      class-name-empty: क्लास नाम खाली नहीं हो सकता
     status:
-      enabled: 'Enabled'
-      disabled: 'Disabled'
+      enabled: 'सक्षम किया'
+      disabled: 'अक्षम की'
   cache:
     rebuild:
-      description: Rebuild and clear all site caches.
+      description: पुनर्निर्माण और सभी साइट कैश को साफ़ करें.
       options:
-        cache: Only clear a specific cache.
+        cache: केवल एक विशेष कैश साफ कीजिए.
       messages:
-        welcome: Welcome to the cache:rebuild command
-        rebuild: Rebuilding cache(s), wait a moment please.
-        completed: Done clearing cache(s).
-        invalid_cache: Cache "%s" is invalid.
+        welcome: कैश करने के लिए स्वागत है:कमांड पुनर्निर्माण करें
+        rebuild: कैश फिर से बन रही है,कृपया एक क्षण रुकें.
+        completed: कैश को साफ कर दिया गया है.
+        invalid_cache: कैश "%s" अमान्य है.
       questions:
-        cache: Select cache.
+        cache: कैश का चयन कीजिए.
   chain:
-    description: Chain command execution
+    description: कमांड शृंखला चलाना
     options:
-      file: User defined file containing commands to get executed.
+      file: चलने वाली कमांड युक्त उपयोगकर्ता परिभाषित फ़ाइल.
     messages:
-        missing_file: You must provide a valid file path and name.
-        invalid_file: The file "%s" does not exists.
-        module_install: module:install command is not runnable inside a chain queue and must be run independently.
+        missing_file: आपको एक मान्य फाइल का पथ और नाम उपलब्ध कराना चाहिए.
+        invalid_file: फाइल "%s" मौजूद नहीं है.
+        module_install: मॉड्यूल:इनस्टॉल कमांड शृंखला कतार के अंतर्गत नहीं चल सकती और अलग से चलनी चाहिए.
   config:
     export:
-      description: Export current application configuration.
+      description: वर्तमान एप्लीकेशन विन्यास का निर्यात करें.
       arguments:
-        directory: Define export directory to save configuration output.
+        directory: विन्यास आउटपुट को सुरक्षित करने क लिए निर्यात डायरेक्टरी की परिभाषा दें.
       messages:
-        directory: Your configuration export file was stored in %s
+        directory: आपकी विन्यास निर्यात फाइल को %s में सुरक्षित किया गया था
       content:
         type:
-          description: Export a specific content type and their fields.
+          description: एक विशेष सामग्री प्ररूप और उनके क्षेत्रों का निर्यात करें.
           arguments:
-            content_type: Content Type to be exported
+            content_type: निर्यात किए जाने वाले कंटेंट प्ररूप
           questions:
             content_type: Content Type to be exported
             optional-config: 'Export content type in module as an optional configuration'
@@ -134,21 +134,21 @@ commands:
           options:
             optional-config: 'Export content type as an optional YAML configuration in your module'
       single:
-        description: Export single configuration as yml file.
+        description: अकेली विन्यास फाइल का बतौर yml फाइल निर्यात करें.
         arguments:
-                config-name: Configuration name.
+                config-name: विन्यास नाम.
         options:
-          simple-configuration: 'Simple configuration'
+          simple-configuration: 'साधारण विन्यास'
         questions:
-          config-type: Configuration type
-          config-name: Configuration name
+          config-type: विन्यास प्ररूप
+          config-name: विन्यास नाम
         messages:
-          config-not-found: Configuration name not found.
-          export: Configuration was exported at file %s.
-          invalid-config-type: Invalid config type, please select one of the list
-          invalid-config-name: Invalid config name, please select one of the list
+          config-not-found: विन्यास नाम नहीं मिला.
+          export: विन्यास को %s फाइल पर निर्यात किया गया था.
+          invalid-config-type: विन्यास प्ररूप अमान्य है, सूची में से एक का चयन करें
+          invalid-config-name: विन्यास प्ररूप अमान्य है, सूची में से एक का चयन करें
       view:
-        description: "Export a view in YAML format inside a provided module to reuse in other website."
+        description: "एक दृश्य को दूसरी वेबसाइट में परयोग करने के लिए, दिए गए मॉड्यूल के अंदर yml फार्मेट में निर्यात करें."
         messages:
           view_exported: "Exporting view"
           depencies-included: 'The following module dependencies were included at %s'
@@ -157,60 +157,60 @@ commands:
            optional-config: 'Export view in module as an optional configuration'
            include-module-dependencies: 'Include view module dependencies in module info YAML file'
         arguments:
-          view-id: 'View ID'
+          view-id: 'आईडी देखें'
         options:
           optional-config: 'Export view as an optional YAML configuration in your module'
           include-module-dependencies: 'Include module dependencies in module info YAML file'
     debug:
-      description: Show the current configuration.
+      description: मौजूदा विन्यास दिखाएँ.
       arguments:
-        config-name: Configuration name.
+        config-name: विन्यास नाम.
     import:
-      description: Import configuration to current application.
+      description: वर्तमान आवेदन के लिए  विन्यास आयात करें.
       arguments:
-        config-file: Configuration file path.
-        copy-only: Copy only configuration files in staging directory.
+        config-file: विन्यास फ़ाइल पथ.
+        copy-only: Cटेजिंग डायरेक्टरी में केवल विन्यास फाइल कॉपी करें.
       messages:
-        config_files_imported: List of config files.
-        copied: All config files were copied to staging directory.
-        imported: All config files were copied to staging directory and imported.
+        config_files_imported: विन्यास फाइल की सूची.
+        copied: सभी विन्यास फाइल स्टेजिंग डायरेक्टरी में कॉपी हो गयी हैं.
+        imported: सभी विन्यास फाइल स्टेजिंग डायरेक्टरी में कॉपी और आयात हो गयी हैं.
     override:
-      description: Override config value in active configuration.
+      description: सक्रिय विन्यास में विन्यास मान को ओवरराइड.
       arguments:
-        config-name: Configuration name.
-        key: Key
-        value: Value
+        config-name: विन्यास नाम.
+        key: कुंजी
+        value: मूल्य
       messages:
-        configuration: Configuration name
-        configuration-key: Configuration key
-        original: Original Value
-        updated: Override Value
+        configuration: विन्यास नाम
+        configuration-key: विन्यास कुंजी
+        original: मूल मूल्य
+        updated: ओवरराइड मूल्य
     edit:
-      description: Edit the selected configuration.
+      description: चयनित विन्यास संपादित करें.
       arguments:
-        config-name: Configuration name.
-        editor: Editor.
+        config-name: विन्यास नाम.
+        editor: संपादक.
       messages:
-        no-directory: An error occurred while creating your directory at
+        no-directory: पर अपनी निर्देशिका बनाते हुए दोष पैदा हुआ
     import-single:
-      description: Import the selected configuration.
+      description: चयनित विन्यास आयात करें.
       arguments:
-        config-name: Configuration name.
-        input-file: Path to the import files.
+        config-name: विन्यास नाम.
+        input-file: आयात फाइल करने के लिए पथ.
       messages:
-        empty-value: Value can not be empty
+        empty-value: मूल्य खाली नहीं हो सकता
   container:
     debug:
-      description: Displays current services for an application.
+      description: एक आवेदन के लिए वर्तमान सेवाओं को प्रदर्शित करता है.
       messages:
-        service_id: Service ID
-        class_name: Class Name
+        service_id: सेवा आईडी
+        class_name: क्लास नाम
   cron:
     debug:
-      description: 'List of modules implementing a cron'
+      description: 'एक क्रॉन को लागू करने वाले मॉड्यूल की सूची'
       messages:
-        module-list: 'Modules implementing a cron method'
-        module: 'Module'
+        module-list: 'एक क्रॉन विधि को लागू करने वाले मॉड्यूल'
+        module: 'मॉड्यूल'
     execute:
       description: 'Execute cron implementation from a specific module or all to execute all implementations'
       messages:
