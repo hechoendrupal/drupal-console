@@ -32,7 +32,7 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
         $interface,
         $services
     ) {
-        $command = new GeneratorServiceCommand($this->getTranslatorHelper());
+        $command = new GeneratorServiceCommand($this->getHelperSet());
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());

@@ -34,7 +34,7 @@ class GeneratorControllerCommandTest extends GenerateCommandTest
       $services
     ) {
 
-        $command = new GeneratorControllerCommand($this->getTranslatorHelper());
+        $command = new GeneratorControllerCommand($this->getHelperSet());
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
