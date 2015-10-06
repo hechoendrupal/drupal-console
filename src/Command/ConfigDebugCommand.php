@@ -36,7 +36,7 @@ class ConfigDebugCommand extends ContainerAwareCommand
     {
         $config_name = $input->getArgument('config-name');
 
-        $table = $this->getHelperSet()->get('table');
+        $table = $this->getTableHelper();
         $table->setlayout($table::LAYOUT_COMPACT);
 
         if (!$config_name) {

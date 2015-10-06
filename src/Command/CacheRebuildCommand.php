@@ -32,7 +32,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
         $drupalRoot = $drupal->getRoot();
 
         include_once $drupalRoot.'/core/includes/utility.inc';
-        $validators = $this->getHelperSet()->get('validators');
+        $validators = $this->getValidator();
 
         // Get the --cache option and make validation
         $cache = $input->getArgument('cache');
@@ -80,7 +80,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
 
     private function getCacheOption($input, $output, $dialog)
     {
-        $validators = $this->getHelperSet()->get('validators');
+        $validators = $this->getValidator();
 
         // Get the --cache option and make user interaction with validation
         $cache = $input->getArgument('cache');
