@@ -1,0 +1,17 @@
+description: 'Afiseaza Unit testele accesibile'
+help: 'Actualizeaza "Console" cu ultima versiune.'
+arguments:
+    test-class: 'Test Class'
+    test-id: 'Unit Test ID'
+options:
+    group: Grupa
+messages:
+    class: 'Test Class'
+    description: Descrierea
+    group: Grupa
+    type: 'Test Type'
+    success: 'Console a fost actualizata cu ultima versiune.'
+    missing-dependency: 'Missing dependency'
+    methods: 'Test methods'
+    not-found: 'Debug wans''t found, try enclosure test id between double quotes.'
+    id: 'Unit Test ID'

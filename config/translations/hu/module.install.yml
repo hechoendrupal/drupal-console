@@ -1,0 +1,17 @@
+description: 'Modul vagy modulok telepítése'
+questions:
+    module: 'Module name (press <return> to stop adding modules)'
+    invalid-module: 'Invalid module %s'
+options:
+    module: 'Modul vagy modulok engedélyezése vesszővel elválasztott lista alapján'
+    overwrite-config: 'Overwrite configuration active if necessary'
+messages:
+    no-modules: 'Engedélyezni kívánt modul vagy modulok megadása kötelező.'
+    missing: '%s modulok telepítése sikertelen hiányzó modulok miatt: %s'
+    missing-dependencies: '%s modulok nem telepíthetők hiányzó függőségek miatt: %s'
+    nothing: 'Nincs teendő, minden modul már telepítve volt.'
+    dependencies: 'Biztosan telepíthetők a következő függőségek: %s?'
+    success: '%s modul sikeresen telepítve lett'
+    disabled-modules: 'Only disabled modules will be listed in autocomplete'
+    config-conflict-overwrite: 'These configuration objects will be overwritten in your active configuration'
+    config-conflict: 'These configuration objects already exist in active configuration, installation is not possible'

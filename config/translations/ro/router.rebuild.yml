@@ -1,0 +1,6 @@
+description: 'Reconstruieste "Routes"'
+arguments:
+    route-name: 'Numele de "Route"'
+messages:
+    rebuilding: 'Reconstruirea "Routes" in proces, doar o clipa ...'
+    completed: 'Reconstruirea "Routes" a fost finisata cu succes'

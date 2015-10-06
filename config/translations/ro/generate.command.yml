@@ -1,0 +1,17 @@
+description: 'Genereaza comenzi pentru consola.'
+help: 'Comanda <info>generate:command</info> te va ajuta sa creezi o noua comanda.'
+welcome: 'Bine ai venit in genratorul de comenzi noi.'
+options:
+    module: common.options.module
+    controller-title: 'Controller title'
+    class-name: 'Numele Clasei a Comenzii'
+    command: 'Numele Comenzii'
+    container: 'Acceseaza serviciul containerului'
+questions:
+    module: common.questions.module
+    class-name: 'Introdu Numele Clasei pentru Comanda'
+    command: 'Introdu Numele Comenzii'
+    container: 'Aveti nevoie de a accesa serviciul containerului'
+    controller-title: 'Controller title'
+messages:
+    title-not-empty: 'Title cannot be empty'

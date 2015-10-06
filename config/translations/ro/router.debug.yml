@@ -1,0 +1,9 @@
+description: 'Afiseaza "Routes" curente'
+arguments:
+    route-name: 'Numele de "Route"'
+messages:
+    name: 'Numele de "Route"'
+    path: 'Calea spre Clasa'
+    pattern: Pattern
+    defaults: Implicit
+    options: Optiuni

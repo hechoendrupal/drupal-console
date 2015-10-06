@@ -1,0 +1,9 @@
+description: 'Exibe as rotas atuais de uma aplicação'
+arguments:
+    route-name: 'Nomes das rotas'
+messages:
+    name: 'Nome da rota'
+    path: 'Caminho da classe'
+    pattern: Pattern
+    defaults: Padrão
+    options: Opções

@@ -1,0 +1,14 @@
+description: 'REST erőforrás engedélyezése'
+arguments:
+    resource-id: 'REST ID'
+    states: 'REST State engedélyezése REST erőforrás számára'
+    authorizations: 'Authorizations provider engedélyezése REST erőforrás számára'
+questions:
+    resource-id: 'REST ID'
+messages:
+    invalid-rest-id: 'REST ID %s érvénytelen'
+    formats: 'Elérhető szérializáló formátumok'
+    authentication-providers: 'Elérhető Authentication Provider-ek'
+    selected-state: 'Kiválasztott State'
+    selected-formats: 'Kiválasztott formátumok'
+    selected-authentication-providers: 'Kiválasztott Authentication Provider-ek'

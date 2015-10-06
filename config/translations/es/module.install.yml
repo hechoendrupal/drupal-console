@@ -1,0 +1,17 @@
+description: 'Install module or modules in the application'
+questions:
+    module: 'Module name (press <return> to stop adding modules)'
+    invalid-module: 'Invalid module %s'
+options:
+    module: 'Module or modules to be enabled should be separated by a comma'
+    overwrite-config: 'Overwrite configuration active if necessary'
+messages:
+    no-modules: 'You must provide module or modules to enable.'
+    missing: 'Unable to install modules %s due to missing modules %s'
+    missing-dependencies: 'Unable to install modules %s due to missing dependencies %s'
+    nothing: 'Nothing to do. All modules are already installed'
+    dependencies: 'Are you sure you want to install dependencies: %s?'
+    success: 'Modules %s were installed successfully'
+    disabled-modules: 'Only disabled modules will be listed in autocomplete'
+    config-conflict-overwrite: 'These configuration objects will be overwritten in your active configuration'
+    config-conflict: 'These configuration objects already exist in active configuration, installation is not possible'

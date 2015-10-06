@@ -1,0 +1,8 @@
+description: 'Activeaza "Maintenance mode"'
+arguments:
+    mode: 'Modul "Site maintenance"'
+messages:
+    maintenance-on: 'Maintenance mode activat'
+    maintenance-off: 'Maintenance mode dezactivat'
+errors:
+    invalid-mode: 'Maintance mode incorect'

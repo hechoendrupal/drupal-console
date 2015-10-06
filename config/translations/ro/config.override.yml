@@ -1,0 +1,10 @@
+description: 'Rescrie valoare unei configuratii in configuratia activa.'
+arguments:
+    config-name: 'Numele configuratiei.'
+    key: Cheie
+    value: Valoare
+messages:
+    configuration: 'Numele configuratiei'
+    configuration-key: 'Cheia configuratiei'
+    original: 'Valoarea originala'
+    updated: 'Rescrie Valoarea'

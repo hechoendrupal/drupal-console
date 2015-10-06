@@ -1,0 +1,8 @@
+description: 'REST erőforrás letiltása'
+arguments:
+    resource-id: 'REST ID'
+    states: 'REST State letiltása a REST erőforrásból'
+questions:
+    resource-id: 'REST ID'
+messages:
+    invalid-rest-id: 'REST ID %s érvénytelen'

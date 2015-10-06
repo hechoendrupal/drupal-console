@@ -1,0 +1,10 @@
+description: 'Surplanter la valeur de configuration dans la configuration active.'
+arguments:
+    config-name: 'Nom de la configuration.'
+    key: Clé
+    value: Valeur
+messages:
+    configuration: 'Nom de la configuration'
+    configuration-key: 'Clé de la configuration'
+    original: 'Valeur d''origine'
+    updated: 'Nouvelle valeur'
