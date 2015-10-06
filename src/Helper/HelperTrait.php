@@ -100,4 +100,9 @@ trait HelperTrait
     {
         return $this->getHelperSet()->get('nested-array');
     }
+
+    protected function getTableHelper()
+    {
+        return $this->getHelperSet()->get('table');
+    }
 }
