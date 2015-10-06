@@ -127,18 +127,12 @@ commands:
           arguments:
             content_type: निर्यात किए जाने वाले कंटेंट प्ररूप
           questions:
-<<<<<<< HEAD
-            content_type: निर्यात किए जाने वाले कंटेंट प्ररूप
-          messages:
-            configuration_exported: नीचे दी गयी विन्यास फाइलें उत्पन्न हुयी थी
-=======
             content_type: Content Type to be exported
             optional-config: 'Export content type in module as an optional configuration'
           messages:
             content_type_exported: 'Exporting content type'
           options:
             optional-config: 'Export content type as an optional YAML configuration in your module'
->>>>>>> upstream/master
       single:
         description: अकेली विन्यास फाइल का बतौर yml फाइल निर्यात करें.
         arguments:
@@ -156,28 +150,17 @@ commands:
       view:
         description: "एक दृश्य को दूसरी वेबसाइट में परयोग करने के लिए, दिए गए मॉड्यूल के अंदर yml फार्मेट में निर्यात करें."
         messages:
-<<<<<<< HEAD
-          view_exported: "दृश्य का निर्यात हो रहा है"
-        questions:
-           view: "निर्यात किए जाने वाले दृश्य"
-           optional-config: 'एक वैकल्पिक विन्यास के रूप में मॉड्यूल में दृश्य निर्यात करें'
-=======
           view_exported: "Exporting view"
           depencies-included: 'The following module dependencies were included at %s'
         questions:
            view: "View to be exported"
            optional-config: 'Export view in module as an optional configuration'
            include-module-dependencies: 'Include view module dependencies in module info YAML file'
->>>>>>> upstream/master
         arguments:
           view-id: 'आईडी देखें'
         options:
-<<<<<<< HEAD
-          optional-config: 'अपने मॉड्यूल में एक वैकल्पिक YAML विन्यास के रूप में दृश्य को निर्यात करें'
-=======
           optional-config: 'Export view as an optional YAML configuration in your module'
           include-module-dependencies: 'Include module dependencies in module info YAML file'
->>>>>>> upstream/master
     debug:
       description: मौजूदा विन्यास दिखाएँ.
       arguments:
