@@ -1,8 +1,8 @@
-description: 'Import configuration to current application.'
+description: 'Importă configurarea pentru aplicația curentă.'
 arguments:
-    config-file: 'Configuration file path.'
-    copy-only: 'Copy only configuration files in staging directory.'
+    config-file: 'Calea către fișierul de configurare.'
+    copy-only: 'Copiază doar fișierele de configurare în directorul de așteptare.'
 messages:
-    config_files_imported: 'List of config files.'
-    copied: 'All config files were copied to staging directory.'
-    imported: 'All config files were copied to staging directory and imported.'
+    config_files_imported: 'Lista tuturor fișierelor de configurare.'
+    copied: 'Toate fișierele de configurare au fost copiate în directorul de așteptare.'
+    imported: 'Toate fișierele de configurare au fost copiate în directorul de așteptare și apoi importate.'
