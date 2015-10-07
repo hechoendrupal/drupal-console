@@ -44,6 +44,6 @@ class CronReleaseCommand extends ContainerAwareCommand
             );
         }
 
-        $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 }

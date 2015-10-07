@@ -68,7 +68,7 @@ class GeneratorPluginViewsFieldCommand extends GeneratorCommand
             ->getGenerator()
             ->generate($module, $class_machine_name, $class_name, $title, $description);
 
-        $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'discovery']);
+        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
