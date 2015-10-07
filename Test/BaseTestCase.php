@@ -22,10 +22,6 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
     protected function setup()
     {
         $this->setUpTemporalDirectory();
-
-        if (!defined('DRUPAL_ROOT')) {
-            define('DRUPAL_ROOT', getcwd());
-        }
     }
 
     public function setUpTemporalDirectory()
