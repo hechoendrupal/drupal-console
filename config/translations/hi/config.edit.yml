@@ -1,6 +1,6 @@
-description: 'Edit the selected configuration.'
+description: 'चयनित विन्यास संपादित करें.'
 arguments:
-    config-name: 'Configuration name.'
-    editor: Editor.
+    config-name: 'विन्यास नाम.'
+    editor: संपादक.
 messages:
-    no-directory: 'An error occurred while creating your directory at'
+    no-directory: 'पर अपनी निर्देशिका बनाते हुए दोष पैदा हुआ'

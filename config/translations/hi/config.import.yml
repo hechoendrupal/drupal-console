@@ -1,8 +1,8 @@
-description: 'Import configuration to current application.'
+description: 'वर्तमान आवेदन के लिए  विन्यास आयात करें.'
 arguments:
-    config-file: 'Configuration file path.'
-    copy-only: 'Copy only configuration files in staging directory.'
+    config-file: 'विन्यास फ़ाइल पथ.'
+    copy-only: 'Cटेजिंग डायरेक्टरी में केवल विन्यास फाइल कॉपी करें.'
 messages:
-    config_files_imported: 'List of config files.'
-    copied: 'All config files were copied to staging directory.'
-    imported: 'All config files were copied to staging directory and imported.'
+    config_files_imported: 'विन्यास फाइल की सूची.'
+    copied: 'सभी विन्यास फाइल स्टेजिंग डायरेक्टरी में कॉपी हो गयी हैं.'
+    imported: 'सभी विन्यास फाइल स्टेजिंग डायरेक्टरी में कॉपी और आयात हो गयी हैं.'
