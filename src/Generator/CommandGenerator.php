@@ -33,7 +33,7 @@ class CommandGenerator extends Generator
         $messages[$command_key.'.arguments.name'] = 'Who do you want to greet?';
         $messages[$command_key.'.options.yell'] = 'If set, the task will yell in uppercase letters';
 
-        $translator = $this->getHelpers()->get('translator');
+        $translator = $this->getTranslator();
         $translator->writeTranslationsByModule($module, $messages);
 
         $this->renderFile(

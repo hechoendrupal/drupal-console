@@ -7,8 +7,7 @@
 
 namespace Drupal\Console\Helper;
 
-use Symfony\Component\Console\Helper\Helper;
-use Drupal\Console\Helper\TranslatorHelper;
+use Drupal\Console\Helper\Helper;
 
 class MessageHelper extends Helper
 {
@@ -112,7 +111,7 @@ class MessageHelper extends Helper
         $output->writeln(
             [
             '',
-            $this->getHelperSet()->get('formatter')->formatBlock(
+            $this->getFormatterHelper()->formatBlock(
                 $message,
                 $style,
                 false

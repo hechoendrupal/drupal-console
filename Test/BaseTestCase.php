@@ -6,9 +6,12 @@ use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Helper\HelperSet;
 use Drupal\Console\Helper\DialogHelper;
 use Drupal\Console\Helper\TwigRendererHelper;
+use Drupal\Console\Helper\HelperTrait;
 
 abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
 {
+    use HelperTrait;
+
     public $dir;
 
     /**
