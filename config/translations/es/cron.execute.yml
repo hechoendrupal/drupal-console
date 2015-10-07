@@ -1,4 +1,4 @@
-description: 'Execute cron implementation from a specific module or all to execute all implementations'
+description: 'Ejecutar implementación de cron desde un módulo específico o todos para ejecutar todas las implementaciones'
 messages:
-    module-invalid: 'Module %s doesn''t have an implementation of cron'
-    executing-cron: 'Executing cron function of module %s'
+    module-invalid: 'El módulo %s no tiene una implementación de cron'
+    executing-cron: 'Ejecutando función de cron del módulo %s'
