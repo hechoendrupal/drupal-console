@@ -190,7 +190,7 @@ class ModuleInstallCommand extends ContainerAwareCommand
         }
 
         // Run cache rebuild to see changes in Web UI
-        $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'discovery']);
+        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
 
     protected function overwriteConfig(PreExistingConfigException $e, $module_list, $modules, $dependencies, $overwrite_config, $output)

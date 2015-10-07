@@ -51,7 +51,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
         $output->writeln('[+] <comment>'.$this->trans('commands.cache.rebuild.messages.rebuild').'</comment>');
 
         // Get data needed to rebuild cache
-        $kernelHelper = $this->getHelper('kernel');
+        $kernelHelper = $this->getKernelHelper();
         $classLoader = $kernelHelper->getClassLoader();
         $request = $kernelHelper->getRequest();
 

@@ -119,7 +119,7 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
         }
 
         $this
-            ->getHelper('chain')
+            ->getChain()
             ->addCommand(
                 'generate:plugin:fieldtype', [
                 '--module' => $input->getOption('module'),

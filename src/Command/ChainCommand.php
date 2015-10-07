@@ -89,7 +89,7 @@ class ChainCommand extends ContainerAwareCommand
                 $moduleInputs['--'.$key] = is_null($value) ? '' : $value;
             }
 
-            $this->getHelper('chain')
+            $this->getChain()
                 ->addCommand($command['command'], $moduleInputs, $interactive, $learning);
         }
     }
