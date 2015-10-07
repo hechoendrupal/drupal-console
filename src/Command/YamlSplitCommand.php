@@ -38,7 +38,7 @@ class YamlSplitCommand extends Command
                 false,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.yaml.split.options.file-output-prefix')
-              )
+            )
             ->addOption(
                 'file-output-suffix',
                 false,
@@ -97,19 +97,18 @@ class YamlSplitCommand extends Command
 
         $nested_array = $this->getNestedArrayHelper();
 
-        if($starting_key) {
+        if ($starting_key) {
             $parents = explode(".", $starting_key);
-            if($nested_array->keyExists($yaml_file_parsed, $parents)) {
+            if ($nested_array->keyExists($yaml_file_parsed, $parents)) {
                 $yaml_file_parsed = $nested_array->getValue($yaml_file_parsed,  $parents);
             } else {
                 $output->writeln('[+] <error>'.$this->trans('commands.yaml.merge.messages.invalid-key').'</error>');
             }
 
-            if($indent_level == 0) {
+            if ($indent_level == 0) {
                 $yaml_split[$starting_key] = $yaml_file_parsed;
             }
-        }
-        else {
+        } else {
             // Set minimum level to split
             $indent_level = empty($indent_level)?1: $indent_level;
 
@@ -163,11 +162,11 @@ class YamlSplitCommand extends Command
         );
 
         foreach ($yaml_splitted as $key => $value) {
-            if($file_output_prefix) {
+            if ($file_output_prefix) {
                 $key = $file_output_prefix .  '.' . $key;
             }
 
-            if($file_output_suffix) {
+            if ($file_output_suffix) {
                 $key.= '.' . $file_output_suffix;
             }
             $filename = $key . '.yml';
