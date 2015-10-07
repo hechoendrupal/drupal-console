@@ -156,7 +156,7 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
                 ],
                 false
             );
-        $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'discovery'], false);
+        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery'], false);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
