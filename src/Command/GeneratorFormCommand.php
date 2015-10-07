@@ -88,7 +88,7 @@ abstract class GeneratorFormCommand extends GeneratorCommand
             ->getGenerator()
             ->generate($module, $class_name, $form_id, $build_services, $inputs, $update_routing);
 
-        $this->getHelper('chain')->addCommand('router:rebuild');
+        $this->getChain()->addCommand('router:rebuild');
     }
 
     /**

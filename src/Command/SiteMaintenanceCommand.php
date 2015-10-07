@@ -56,7 +56,7 @@ class SiteMaintenanceCommand extends ContainerAwareCommand
         );
 
         if ($cacheRebuild) {
-            $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'all']);
+            $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
         }
     }
 }

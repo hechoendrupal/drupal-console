@@ -96,7 +96,7 @@ class SiteStatusCommand extends ContainerAwareCommand
             $systemData['system'][$title] = $value;
         }
 
-        $kernelHelper = $this->getHelper('kernel');
+        $kernelHelper = $this->getKernelHelper();
         $drupal = $this->getDrupalHelper();
 
         Settings::initialize(
