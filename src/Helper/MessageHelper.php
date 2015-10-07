@@ -12,19 +12,6 @@ use Drupal\Console\Helper\Helper;
 class MessageHelper extends Helper
 {
     /**
-     * @param TranslatorHelper $translator
-     */
-    public function __construct(TranslatorHelper $translator)
-    {
-        $this->translator = $translator;
-    }
-
-    /**
-     * @var TranslatorHelper
-     */
-    protected $translator;
-
-    /**
      * @var string
      */
     const MESSAGE_ERROR = 'error';
@@ -207,13 +194,13 @@ class MessageHelper extends Helper
 
         $this->showMessage(
             $output,
-            $this->translator->trans($headerKey)
+            $this->getTranslator()->trans($headerKey)
         );
 
         $output->writeln(
             sprintf(
                 '<info>%s:</info> <comment>%s</comment>',
-                $this->translator->trans($pathKey),
+                $this->getTranslator()->trans($pathKey),
                 $path
             )
         );
