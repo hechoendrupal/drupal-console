@@ -10,8 +10,6 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 {
     private $container;
 
-    private $modules;
-
     private $services;
 
     private $events;
@@ -36,31 +34,6 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
-    }
-
-    /**
-     * [getModules description].
-     *
-     * @param bool $core Return core modules
-     *
-     * @return array list of modules
-     */
-    public function getModules($core = false)
-    {
-        if (null === $this->modules) {
-            $this->modules = [];
-            $extensionDiscover = new ExtensionDiscovery(\Drupal::root());
-            $moduleList = $extensionDiscover->scan('module');
-            foreach ($moduleList as $name => $filename) {
-                if ($core) {
-                    array_push($this->modules, $name);
-                } elseif (!preg_match('/^core/', $filename->getPathname())) {
-                    array_push($this->modules, $name);
-                }
-            }
-        }
-
-        return $this->modules;
     }
 
     /**
@@ -367,7 +340,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
     public function validateModuleExist($module_name)
     {
-        return $this->getValidator()->validateModuleExist($module_name, $this->getModules());
+        return $this->getValidator()->validateModuleExist($module_name, $this->getSite()->getNoCoreModules());
     }
 
     public function validateServiceExist($service_name, $services = null)
@@ -382,7 +355,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     public function validateModule($machine_name)
     {
         $machine_name = $this->validateMachineName($machine_name);
-        $modules = array_merge($this->getModules(true), $this->getModules());
+        $modules = array_merge($this->getSite()->getModules(true), $this->getSite()->getModules(false));
         if (in_array($machine_name, $modules)) {
             throw new \InvalidArgumentException(sprintf('Module "%s" already exist.', $machine_name));
         }
