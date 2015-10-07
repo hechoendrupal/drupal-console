@@ -8,7 +8,6 @@
 namespace Drupal\Console\Helper;
 
 use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
@@ -16,6 +15,7 @@ use Symfony\Component\Translation\Loader\ArrayLoader;
 use Symfony\Component\Translation\Writer\TranslationWriter;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Yaml\Parser;
+use Drupal\Console\Helper\Helper;
 use Drupal\Console\YamlFileDumper;
 
 class TranslatorHelper extends Helper
