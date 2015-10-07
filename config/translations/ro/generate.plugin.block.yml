@@ -1,0 +1,19 @@
+description: 'Genereaza un "Plugin Block"'
+help: 'Comanda <info>generate:plugin:block</info> te va ajuta sa creezi un nou "Plugin block".'
+welcome: 'Bine ai venit in generatorul de Drupal "Plugin Block"'
+options:
+    module: common.options.module
+    class-name: 'Numele clasei pentru Plugin'
+    label: 'Eticheta pentru Plugin'
+    plugin-id: 'ID-ul pentru Plugin'
+    inputs: common.options.inputs
+    services: common.options.services
+questions:
+    module: common.questions.module
+    class-name: 'Introdu numele Clasei pentru Plugin'
+    label: 'Introdu eticheta pentru Plugin'
+    plugin-id: 'Introdu ID-ul pentru Plugin'
+    inputs: common.questions.inputs
+    services: common.questions.services
+messages:
+    inputs: "\nPoti adauga campuri pentru a crea configurari speciale in block.\nAceasta este optional, tasteaza <info>Enter</info> pentru a <info>continua</info>"

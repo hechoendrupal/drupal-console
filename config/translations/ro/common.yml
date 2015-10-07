@@ -1,0 +1,34 @@
+options:
+    events: 'Load events from the container'
+    module: 'Nume de Modul.'
+    services: 'Incarca serviciile din container.'
+    tags: 'Seteaza tag-urile serviciilor din container.'
+    inputs: 'Creeaza Campuri in forma.'
+    permissions: 'Creeaza Permisiuni.'
+questions:
+    module: 'Introduceti numele de Modul'
+    confirm: 'Confirmati generarea'
+    canceled: 'Comanda a fost anulata'
+    events:
+        message: "\nType the event name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
+        name: 'Enter event name'
+    services:
+        confirm: 'Doriti sa incarcati serviciile din container'
+        message: "\nIntrodu numele serviciului sau utilizeaza keyup/keydown pentru a selecta.\nAceasta este optional, tasteaza <info>Enter</info> pentru a <info>continua</info>\n"
+        name: 'Introdu serviciul tau'
+    inputs:
+        confirm: 'Doriti sa generati structura formei'
+        label: 'Introdu "Eticheta"'
+        machine_name: 'Introdu "machine name"'
+        permission: 'Doriti sa generati permisiuni'
+        type: Tip
+        invalid: 'Campul de tip "%s" este incorect.'
+        description: Descriere
+        default-value: 'Default value'
+        weight: 'Weight for input item'
+errors:
+    module-dependency: 'Dependenta de Module lipseste "%s"'
+    class-name-empty: 'Numele Clasei este necesar'
+status:
+    enabled: Enabled
+    disabled: Disabled

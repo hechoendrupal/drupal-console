@@ -1,0 +1,17 @@
+description: 'REST erőforrás megjelenítése'
+arguments:
+    resource-id: 'REST ID'
+options:
+    status: 'REST erőforrás állapot engedélyezett | tiltott'
+messages:
+    id: 'REST ID'
+    label: Címke
+    canonical_url: 'Canonical URL'
+    status: Állapot
+    provider: Ellátó
+    enabled: Engedélyezett
+    disabled: Tiltott
+    rest-state: 'REST State'
+    supported-formats: 'Támogatott formátumok'
+    supported_auth: 'Támogatott Authentication Provider-ek'
+    not-found: 'REST erőforrás %s nem található'

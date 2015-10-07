@@ -1,0 +1,4 @@
+description: 'Displays current services for an application.'
+messages:
+    service_id: 'Service ID'
+    class_name: 'Class Name'

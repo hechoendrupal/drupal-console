@@ -1,0 +1,17 @@
+description: 'Afiseaza curentul "REST resource"'
+arguments:
+    resource-id: 'Rest ID'
+options:
+    status: 'Rest resource statut activat | dezactivat'
+messages:
+    id: 'Rest ID'
+    label: Eticheta
+    canonical_url: 'Canonical URL'
+    status: Status
+    provider: Provider
+    enabled: Activat
+    disabled: Dezactivat
+    rest-state: 'REST States'
+    supported-formats: 'Formatele suportate'
+    supported_auth: 'Authentication Providers suportati'
+    not-found: 'Rest resource - "%s" nu a fost gasit'

@@ -7,11 +7,15 @@
 
 namespace Drupal\Console\Helper;
 
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Helper\Helper;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
+use Symfony\Component\Translation\Loader\ArrayLoader;
 use Symfony\Component\Translation\Writer\TranslationWriter;
 use Symfony\Component\Translation\MessageCatalogue;
+use Symfony\Component\Yaml\Parser;
 use Drupal\Console\YamlFileDumper;
 
 class TranslatorHelper extends Helper
@@ -23,35 +27,96 @@ class TranslatorHelper extends Helper
      */
     private $translator;
 
-    private function addResource($resource)
+    /**
+     * @var Translations;
+     */
+    private $translations;
+
+    private function addResource($resource, $name = 'yaml')
     {
         $this->translator->addResource(
-            'yaml',
+            $name,
             $resource,
             $this->language
         );
     }
 
+    private function addLoader($loader, $name = 'yaml')
+    {
+        $this->translator->addLoader(
+            $name,
+            $loader
+        );
+    }
+
+
     public function loadResource($language, $directoryRoot)
     {
-        $resource_fallback = $directoryRoot.'config/translations/console.en.yml';
-        $resource_language = $directoryRoot.'config/translations/console.'.$language.'.yml';
-
-        if (!file_exists($resource_language)) {
-            $language = 'en';
-            $resource_language = $resource_fallback;
-        }
         $this->language = $language;
         $this->translator = new Translator($this->language);
-        $this->translator->addLoader('yaml', new YamlFileLoader());
+        $this->addLoader(new ArrayLoader(), 'array');
+        $this->addLoader(new YamlFileLoader(), 'yaml');
 
-        //Fallback to English (en)
-        $this->addResource($resource_fallback);
+        $finder = new Finder();
 
-        //Load user language
-        if ($resource_language != $resource_fallback) {
-            $this->addResource($resource_language);
+        // Fetch all language files for translation
+        try {
+            $finder->files()
+                ->name('*.yml')
+                ->in($directoryRoot . 'config/translations/' . $language);
+        } catch (Exception $e) {
+            if ($language != 'en') {
+                $finder->files()
+                    ->name('*.yml')
+                    ->in($directoryRoot . 'config/translations/en');
+            }
         }
+
+        foreach ($finder as $file) {
+            $resource = $file->getRealpath();
+            $filename = $file->getBasename('.yml');
+            // Handle application file different than commands
+            if ($filename == 'application') {
+                $this->writeTranslationByFile($resource, 'application');
+            } else {
+                $key = 'commands.' . $filename;
+                $this->writeTranslationByFile($resource, $key);
+            }
+        }
+    }
+
+    /**
+     * Load yml translation where filename is part of translation key.
+     *
+     * @param $key
+     * @param $resource
+     */
+    public function writeTranslationByFile($resource, $resourceKey= null)
+    {
+        $yaml = new Parser();
+        $resourceParsed = $yaml->parse(file_get_contents($resource));
+
+        if ($resourceKey) {
+            $parents = explode(".", $resourceKey);
+            $resourceArray = [];
+            $this->setResourceArray($parents, $resourceArray, $resourceParsed);
+            $resourceParsed = $resourceArray;
+        }
+
+        $this->addResource($resourceParsed, 'array');
+    }
+
+    public function setResourceArray($parents, &$parentsArray, $resource)
+    {
+        $ref = &$parentsArray;
+        foreach ($parents as $parent) {
+            $ref[$parent] = [];
+            $previous = &$ref;
+            $ref = &$ref[$parent];
+        }
+
+        $previous[$parent] = $resource;
+        return $parentsArray;
     }
 
     public function addResourceTranslationsByModule($module)

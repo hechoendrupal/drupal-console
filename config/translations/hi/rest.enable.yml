@@ -1,0 +1,14 @@
+description: 'Enable a rest resource for the application'
+arguments:
+    resource-id: 'Rest ID'
+    states: 'REST States to enable for Rest resource'
+    authorizations: 'Authorizations providers enabled for Rest Resource'
+questions:
+    resource-id: 'Rest ID'
+messages:
+    invalid-rest-id: 'Rest ID %s is invalid'
+    formats: 'Available serialization formats'
+    authentication-providers: 'Available Authentication Providers'
+    selected-state: 'Selected State'
+    selected-formats: 'Selected formats'
+    selected-authentication-providers: 'Selected Authentication Providers'

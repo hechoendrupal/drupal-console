@@ -1,0 +1,9 @@
+description: 'Affiche les routes de l''application'
+arguments:
+    route-name: 'Noms des routes'
+messages:
+    name: 'nom de la toute'
+    path: 'Chemin de la path'
+    pattern: Motif
+    defaults: Défault
+    options: Options

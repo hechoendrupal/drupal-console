@@ -1,0 +1,10 @@
+description: 'Modul vagy modulok letöltése'
+options:
+    version: 'Module version i.e 1.x-dev'
+messages:
+    no-releases: 'Nincs elérhető kiadás: %s'
+    getting-releases: '%s modulhoz kiadás letöltése'
+    downloading: '%s modul %s kiadásának letöltése'
+    downloaded: 'Module %s version %s was downloaded successfully at %s'
+    select-release: 'Please select your favorite release'
+    installed: '%s modul sikeresen telepítve lett'
