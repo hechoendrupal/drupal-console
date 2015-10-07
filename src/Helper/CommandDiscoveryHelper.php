@@ -7,7 +7,7 @@
 namespace Drupal\Console\Helper;
 
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Console\Helper\Helper;
+use Drupal\Console\Helper\Helper;
 
 /**
  * Class CommandDiscovery
@@ -69,7 +69,7 @@ class CommandDiscoveryHelper extends Helper
      */
     public function getCustomCommands()
     {
-        $modules = $this->getHelperSet()->get('site')->getModules();
+        $modules = $this->getSite()->getModules();
 
         foreach ($this->disabledModules as $disabledModule) {
             if (array_key_exists($disabledModule, $modules)) {
@@ -96,7 +96,7 @@ class CommandDiscoveryHelper extends Helper
             } else {
                 $directory = sprintf(
                     '%s/%s/src/Command',
-                    $modules = $this->getHelperSet()->get('drupal')->getRoot(),
+                    $modules = $this->getDrupalHelper()->getRoot(),
                     $extension->getPath()
                 );
             }
@@ -160,13 +160,13 @@ class CommandDiscoveryHelper extends Helper
             return;
         }
 
-        if (!$this->getHelperSet()->get('drupal')->isInstalled() && $reflectionClass->isSubclassOf('Drupal\\Console\\Command\\ContainerAwareCommand')) {
+        if (!$this->getDrupalHelper()->isInstalled() && $reflectionClass->isSubclassOf('Drupal\\Console\\Command\\ContainerAwareCommand')) {
             return;
         }
 
         if ($reflectionClass->getConstructor()->getNumberOfRequiredParameters() > 0) {
             if ($module != 'Console') {
-                $this->getHelperSet()->get('translator')->addResourceTranslationsByModule($module);
+                $this->getTranslator()->addResourceTranslationsByModule($module);
             }
             $command = $reflectionClass->newInstance($this->getHelperSet());
         } else {
@@ -175,7 +175,7 @@ class CommandDiscoveryHelper extends Helper
         $command->setModule($module);
 
         if ($reflectionClass->isSubclassOf('Drupal\\Console\\Command\\ContainerAwareCommand')) {
-            $kernel = $this->getHelperSet()->get('kernel')->getKernel();
+            $kernel = $this->getKernelHelper()->getKernel();
             $container = $kernel->getContainer();
             $command->setContainer($container);
         }
