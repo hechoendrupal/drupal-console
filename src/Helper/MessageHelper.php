@@ -173,7 +173,7 @@ class MessageHelper extends Helper
             $files,
             'application.console.messages.files.generated',
             'application.site.messages.path',
-            DRUPAL_ROOT
+            $this->getDrupalHelper()->getRoot()
         );
     }
 
