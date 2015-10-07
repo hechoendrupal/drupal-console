@@ -23,6 +23,11 @@ class SiteHelper extends Helper
     private $modules;
 
     /**
+     * @var array
+     */
+    private $noCoreModules;
+
+    /**
      * @var string
      */
     private $sitePath;
@@ -58,10 +63,24 @@ class SiteHelper extends Helper
         return $discovery->scan('module');
     }
 
-    public function getModules()
+    public function getNoCoreModules()
     {
-        if (!$this->modules) {
+        if (!$this->noCoreModules) {
+            $this->getModules();
+        }
+
+        return $this->noCoreModules;
+    }
+
+    public function getModules($reset=false)
+    {
+        if (!$this->modules || $reset) {
             $this->modules = $this->discoverModules();
+            foreach ($this->modules as $module) {
+                if ($module->origin != 'core') {
+                    $this->noCoreModules[] = $module->getName();
+                }
+            }
         }
 
         return $this->modules;
