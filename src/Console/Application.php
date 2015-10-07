@@ -24,11 +24,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '0.9.1';
-    /**
-     * @var bool
-     */
-    protected $booted = false;
+    const VERSION = '0.9.2';
     /**
      * @var Drupal\Console\UserConfig
      */
@@ -38,20 +34,10 @@ class Application extends BaseApplication
      */
     protected $directoryRoot;
     /**
-     * @var \Composer\Autoload\ClassLoader
-     * The Drupal autoload file.
-     */
-    protected $drupalAutoload;
-    /**
      * @var string
      * The Drupal environment.
      */
     protected $env;
-    /**
-     * @var bool
-     */
-    private $commandsRegistered = false;
-
     /**
      * @var TranslatorHelper
      */
@@ -69,7 +55,7 @@ class Application extends BaseApplication
         $this->translator = $translator;
         $this->env = $config->get('application.environment');
 
-        parent::__construct($this::NAME, sprintf('%s', $this::VERSION));
+        parent::__construct($this::NAME, $this::VERSION);
 
         $this->getDefinition()->addOption(
             new InputOption('--root', null, InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.root'))
@@ -166,6 +152,7 @@ class Application extends BaseApplication
                 $this->trans('application.site.errors.directory')
             );
         } else {
+            chdir($drupal->getRoot());
             $site->setSitePath($drupal->getRoot());
 
             if ($drupal->isInstalled()) {

@@ -88,8 +88,8 @@ class GeneratorModuleCommand extends GeneratorCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $dialog = $this->getDialogHelper();
-        $validators = $this->getHelperSet()->get('validators');
-        $messageHelper = $this->getHelperSet()->get('message');
+        $validators = $this->getValidator();
+        $messageHelper = $this->getMessageHelper();
 
         if ($this->confirmationQuestion($input, $output, $dialog)) {
             return;
@@ -183,8 +183,8 @@ class GeneratorModuleCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $stringUtils = $this->getHelperSet()->get('stringUtils');
-        $validators = $this->getHelperSet()->get('validators');
+        $stringUtils = $this->getStringUtils();
+        $validators = $this->getValidator();
         $dialog = $this->getDialogHelper();
 
         try {

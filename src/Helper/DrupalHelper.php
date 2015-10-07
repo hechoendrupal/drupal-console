@@ -59,7 +59,7 @@ class DrupalHelper extends Helper
         }
 
         if ($recursive) {
-            return $this->isValidRoot(realpath($root . '/../'));
+            return $this->isValidRoot(realpath($root . '/../'), $recursive);
         }
 
         return false;
