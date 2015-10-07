@@ -35,7 +35,7 @@ class ChainCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $message = $this->getHelperSet()->get('message');
+        $message = $this->getMessageHelper();
 
         $interactive = false;
 

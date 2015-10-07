@@ -56,7 +56,7 @@ class YamlDiffCommand extends Command
     {
         $yaml = new Parser();
         $dumper = new Dumper();
-        $messageHelper = $this->getHelperSet()->get('message');
+        $messageHelper = $this->getMessageHelper();
 
         $final_yaml = array();
         $yaml_left = $input->getArgument('yaml-left');
@@ -118,7 +118,7 @@ class YamlDiffCommand extends Command
             $diff_flatten = array_slice($diff_flatten, $offset, $limit);
         }
 
-        $table = $this->getHelperSet()->get('table');
+        $table = $this->getTableHelper();
         $table->setlayout($table::LAYOUT_COMPACT);
 
         $table->setHeaders(

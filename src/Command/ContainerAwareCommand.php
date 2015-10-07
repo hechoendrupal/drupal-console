@@ -24,7 +24,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     protected function getContainer()
     {
         if (null === $this->container) {
-            $this->container = $this->getApplication()->getKernel()->getContainer();
+            $this->container = $this->getKernelHelper()->getKernel()->getContainer();
         }
 
         return $this->container;

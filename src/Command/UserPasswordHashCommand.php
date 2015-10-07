@@ -37,7 +37,7 @@ class UserPasswordHashCommand extends ContainerAwareCommand
 
         $passHandler = $this->getPassHandler();
 
-        $table = $this->getHelperSet()->get('table');
+        $table = $this->getTableHelper();
         $table->setHeaders(
             [
                 $this->trans('commands.user.password.hash.messages.password'),

@@ -28,7 +28,7 @@ class SiteModeCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $table = $this->getHelperSet()->get('table');
+        $table = $this->getTableHelper();
         $environment = $input->getArgument('environment');
 
         $configurationOverrideResult = [];

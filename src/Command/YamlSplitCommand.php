@@ -63,7 +63,7 @@ class YamlSplitCommand extends Command
     {
         $yaml = new Parser();
         $dumper = new Dumper();
-        $messageHelper = $this->getHelperSet()->get('message');
+        $messageHelper = $this->getMessageHelper();
 
         $yaml_file = $input->getArgument('yaml-file');
         $indent_level = $input->getOption('indent-level');

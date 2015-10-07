@@ -43,7 +43,7 @@ class ModuleDebugCommand extends ContainerAwareCommand
             $type = null;
         }
 
-        $table = $this->getHelperSet()->get('table');
+        $table = $this->getTableHelper();
         $table->setlayout($table::LAYOUT_COMPACT);
         $this->getAllModules($status, $type, $output, $table);
     }

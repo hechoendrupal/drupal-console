@@ -20,8 +20,8 @@ trait ThemeRegionTrait
    */
     public function regionQuestion(OutputInterface $output, HelperInterface $dialog)
     {
-        $stringUtils = $this->getHelperSet()->get('stringUtils');
-        $validators = $this->getHelperSet()->get('validators');
+        $stringUtils = $this->getStringUtils();
+        $validators = $this->getValidator();
 
         $regions = [];
         while (true) {

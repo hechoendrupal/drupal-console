@@ -25,7 +25,7 @@ class UpdateDebugCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $table = $this->getHelperSet()->get('table');
+        $table = $this->getTableHelper();
         $table->setlayout($table::LAYOUT_COMPACT);
 
         include_once $this->getDrupalHelper()->getRoot() . '/core/includes/update.inc';
