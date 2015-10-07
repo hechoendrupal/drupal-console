@@ -1,10 +1,10 @@
-description: 'Override config value in active configuration.'
+description: 'सक्रिय विन्यास में विन्यास मान को ओवरराइड.'
 arguments:
-    config-name: 'Configuration name.'
-    key: Key
-    value: Value
+    config-name: 'विन्यास नाम.'
+    key: कुंजी
+    value: मूल्य
 messages:
-    configuration: 'Configuration name'
-    configuration-key: 'Configuration key'
-    original: 'Original Value'
-    updated: 'Override Value'
+    configuration: 'विन्यास नाम'
+    configuration-key: 'विन्यास कुंजी'
+    original: 'मूल मूल्य'
+    updated: 'ओवरराइड मूल्य'

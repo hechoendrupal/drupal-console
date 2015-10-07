@@ -1,6 +1,6 @@
-description: 'Import the selected configuration.'
+description: 'चयनित विन्यास आयात करें.'
 arguments:
-    config-name: 'Configuration name.'
-    input-file: 'Path to the import files.'
+    config-name: 'विन्यास नाम.'
+    input-file: 'आयात फाइल करने के लिए पथ.'
 messages:
-    empty-value: 'Value can not be empty'
+    empty-value: 'मूल्य खाली नहीं हो सकता'

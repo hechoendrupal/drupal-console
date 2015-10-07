@@ -1,13 +1,13 @@
-description: 'Export current application configuration.'
+description: 'वर्तमान एप्लीकेशन विन्यास का निर्यात करें.'
 arguments:
-    directory: 'Define export directory to save configuration output.'
+    directory: 'विन्यास आउटपुट को सुरक्षित करने क लिए निर्यात डायरेक्टरी की परिभाषा दें.'
 messages:
-    directory: 'Your configuration export file was stored in %s'
+    directory: 'आपकी विन्यास निर्यात फाइल को %s में सुरक्षित किया गया था'
 content:
     type:
-        description: 'Export a specific content type and their fields.'
+        description: 'एक विशेष सामग्री प्ररूप और उनके क्षेत्रों का निर्यात करें.'
         arguments:
-            content_type: 'Content Type to be exported'
+            content_type: 'निर्यात किए जाने वाले कंटेंट प्ररूप'
         questions:
             content_type: 'Content Type to be exported'
             optional-config: 'Export content type in module as an optional configuration'
@@ -16,21 +16,21 @@ content:
         options:
             optional-config: 'Export content type as an optional YAML configuration in your module'
 single:
-    description: 'Export single configuration as yml file.'
+    description: 'अकेली विन्यास फाइल का बतौर yml फाइल निर्यात करें.'
     arguments:
-        config-name: 'Configuration name.'
+        config-name: 'विन्यास नाम.'
     options:
-        simple-configuration: 'Simple configuration'
+        simple-configuration: 'साधारण विन्यास'
     questions:
-        config-type: 'Configuration type'
-        config-name: 'Configuration name'
+        config-type: 'विन्यास प्ररूप'
+        config-name: 'विन्यास नाम'
     messages:
-        config-not-found: 'Configuration name not found.'
-        export: 'Configuration was exported at file %s.'
-        invalid-config-type: 'Invalid config type, please select one of the list'
-        invalid-config-name: 'Invalid config name, please select one of the list'
+        config-not-found: 'विन्यास नाम नहीं मिला.'
+        export: 'विन्यास को %s फाइल पर निर्यात किया गया था.'
+        invalid-config-type: 'विन्यास प्ररूप अमान्य है, सूची में से एक का चयन करें'
+        invalid-config-name: 'विन्यास प्ररूप अमान्य है, सूची में से एक का चयन करें'
 view:
-    description: 'Export a view in YAML format inside a provided module to reuse in other website.'
+    description: 'एक दृश्य को दूसरी वेबसाइट में परयोग करने के लिए, दिए गए मॉड्यूल के अंदर yml फार्मेट में निर्यात करें.'
     messages:
         view_exported: 'Exporting view'
         depencies-included: 'The following module dependencies were included at %s'
@@ -39,7 +39,7 @@ view:
         optional-config: 'Export view in module as an optional configuration'
         include-module-dependencies: 'Include view module dependencies in module info YAML file'
     arguments:
-        view-id: 'View ID'
+        view-id: 'आईडी देखें'
     options:
         optional-config: 'Export view as an optional YAML configuration in your module'
         include-module-dependencies: 'Include module dependencies in module info YAML file'

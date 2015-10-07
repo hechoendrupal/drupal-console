@@ -1,44 +1,44 @@
 console:
     arguments:
-        drupal: 'Path to Drupal root.'
-        shell: 'Launch the shell.'
-        env: 'The Environment name.'
-        no-debug: 'Switches off debug mode.'
-        learning: 'Generate a verbose code output.'
-        generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
-        generate-inline: 'Print execution options and arguments as inline call to be use in the future'
+        drupal: 'द्रुपल की जड़ को पथ.'
+        shell: 'शैल चालू करना.'
+        env: 'वातावरण का नाम.'
+        no-debug: 'डीबग प्रणाली बंद करें.'
+        learning: 'शब्दबहुल कोड उत्पन्न करें.'
+        generate-chain: 'निष्पादन विकल्प में प्रिंट और तर्क को YAML आउटपुट के रूप में श्रृंखला कमांड में इस्तेमाल किया जाएगा'
+        generate-inline: 'निष्पादन विकल्प में प्रिंट और तर्क को इनलाइन कॉल के रूप में भविष्य में उपयोग किया जाएगा'
     messages:
-        completed: 'The command was executed successfully!'
+        completed: 'कमांड सफलतापूर्वक पूर्ण किया गया!'
         chain:
-            generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
+            generated: 'नीचे दिए गए में से आप अपनी आखरी कमांड की YAML प्रस्तुति देखे जो की  ~/.console/chain/sample.yml में नक़ल करें, कमांड्स के अनुक्रम में चलाने के लिए'
         inline:
-            generated: 'Following you can find the inline representation of this command to re-execute this command later'
-        generated: 'You can now start using the generated code!'
+            generated: 'नीचे दिए गए में से आप यह कमांड का इनलाइन प्रस्तुति देखे, बाद में इस कमांड को बाद में दोबारा चलाने के लिए'
+        generated: 'अब आप उत्पन्न कोड को इस्तेमाल कर सकते हैं!'
         files:
-            generated: 'Generated or updated files'
-            copied: 'Copied files'
+            generated: 'उत्पन्न या अपडेटेड फ़ाइलें'
+            copied: 'नकल फ़ाइलें'
         learning:
-            route: "In order to to create pages it is necessary to define routes for them.\nA route maps a URL path to a controller. It defines with what function\nor method will be called when a URL is accessed.\nIf the user accesses http://drupal8.dev/{{ route }}, the routing\nsystem will look for a route with that path. In this case it will find a\nmatch, and execute the _controller callback. In this case the callback is\ndefined as a classname\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nand a method (\"{{ route.method }}\")."
+            route: "पृष्ठ बनाने के लिए मार्गों को उनके लिए परिभाषित करना आवश्यक है.\nएक मार्ग URL पथ को एक नियंत्रक से मैप करता है. यह परिभाषित करता है की\nकौन सा फंक्शन और तरीका बुलाया जायेगा जब एक एक्सेस किया जायेगा.\nअगर उपयोगकर्ता http://drupal8.dev/{{ route }} एक्सेस करता है,\nमार्ग प्रणाली एक मार्ग को पथ के साथ देखेगा. इस मामले में यह एक मैच मिलेगा,\nऔर _controller कॉलबैक को चलायेगा. इस मामले में कॉलबैक \nएक क्लासनेम के रूप में परिभाषित है.\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nऔर एक तरीका (\"{{ route.method }}\")."
     errors:
-        invalid-command: 'Command "%s" is not defined.'
+        invalid-command: 'कमांड "%s" परिभाषित नहीं है.'
     input:
         definition:
-            command: 'The command to execute'
-            help: 'Display this help message'
-            quiet: 'Do not output any message'
-            verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
-            version: 'Display this application version'
-            ansi: 'Force ANSI output'
-            no-ansi: 'Disable ANSI output'
-            no-interaction: 'Do not ask any interactive question'
+            command: 'कमांड को चलाने के लिए'
+            help: 'इस मदद संदेश को प्रदर्शित करें'
+            quiet: 'किसी भी संदेश को आउटपुट न करें'
+            verbose: 'संदेशों के वर्बोसिटी बढ़ाएँ: 1 सामान्य आउटपुट के लिए, 2 अधिक वाचाल आउटपुट के लिए and 3 डिबग के लिए'
+            version: 'इस आवेदन के वर्शन को प्रदर्शित करें'
+            ansi: 'जबर्दस्ती ANSI आउटपुट'
+            no-ansi: 'अक्षम ANSI आउटपुट'
+            no-interaction: 'कोई भी परस्पर संवादात्मक सवाल मत पूछो'
     options:
-        version: '<info>%s</info> version <comment>%s</comment>'
+        version: '<info>%s</info> वर्शन <comment>%s</comment>'
 site:
     messages:
-        path: 'Site path'
+        path: 'साइट पथ'
     errors:
-        directory: 'In order to list all of the available commands, you should run this inside a drupal root directory.'
-        settings: 'In order to list all of the available commands you should install drupal first.'
+        directory: 'सभी उपलब्ध कमांडो को सूची के क्रम में दिखाने के लिए, यह आपको एक द्रुपल जड़ निर्देशिका में चलाना चाहिए.'
+        settings: 'सभी उपलब्ध कमांडो को सूची के क्रम में दिखाने के लिए, आपको पहले द्रुपल स्थापित करना चाहिए.'
 user:
     messages:
-        path: 'User home path'
+        path: 'उपयोगकर्ता घर पथ'

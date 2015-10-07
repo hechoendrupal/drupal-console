@@ -1,4 +1,4 @@
-description: 'List of modules implementing a cron'
+description: 'एक क्रॉन को लागू करने वाले मॉड्यूल की सूची'
 messages:
-    module-list: 'Modules implementing a cron method'
-    module: Module
+    module-list: 'एक क्रॉन विधि को लागू करने वाले मॉड्यूल'
+    module: मॉड्यूल
