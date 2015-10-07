@@ -13,20 +13,13 @@ namespace Drupal\Console\Helper;
  */
 trait HelperTrait
 {
-    /**
-     * @return \Drupal\Console\Helper\DrupalHelper
-     */
-    public function getDrupalHelper()
-    {
-        return $this->getHelperSet()->get('drupal');
-    }
 
     /**
-     * @return \Drupal\Console\Helper\KernelHelper
+     * @return \Drupal\Console\Helper\TranslatorHelper
      */
-    public function getKernelHelper()
+    public function getTranslator()
     {
-        return $this->getHelperSet()->get('kernel');
+        return $this->getHelperSet()->get('translator');
     }
 
     /**
@@ -46,14 +39,6 @@ trait HelperTrait
     }
 
     /**
-     * @return \Drupal\Console\Helper\MessageHelper
-     */
-    public function getMessageHelper()
-    {
-        return $this->getHelperSet()->get('message');
-    }
-
-    /**
      * @return \Drupal\Console\Utils\StringUtils
      */
     public function getStringUtils()
@@ -67,6 +52,30 @@ trait HelperTrait
     public function getValidator()
     {
         return $this->getHelperSet()->get('validators');
+    }
+
+    /**
+     * @return \Drupal\Console\Helper\DrupalHelper
+     */
+    public function getDrupalHelper()
+    {
+        return $this->getHelperSet()->get('drupal');
+    }
+
+    /**
+     * @return \Drupal\Console\Helper\KernelHelper
+     */
+    public function getKernelHelper()
+    {
+        return $this->getHelperSet()->get('kernel');
+    }
+
+    /**
+     * @return \Drupal\Console\Helper\MessageHelper
+     */
+    public function getMessageHelper()
+    {
+        return $this->getHelperSet()->get('message');
     }
 
     /**
@@ -101,16 +110,36 @@ trait HelperTrait
         return $this->getHelperSet()->get('nested-array');
     }
 
+    /**
+     * @return \Symfony\Component\Console\Helper\QuestionHelper
+     */
     public function getTableHelper()
     {
         return $this->getHelperSet()->get('table');
     }
 
     /**
-     * @return \Drupal\Console\Helper\TranslatorHelper
+     * @return \Drupal\Console\Helper\CommandDiscoveryHelper
      */
-    public function getTranslator()
+    public function getCommandDiscoveryHelper()
     {
-        return $this->getHelperSet()->get('translator');
+        return $this->getHelperSet()->get('commandDiscovery');
     }
+
+    /**
+     * @return \Drupal\Console\Helper\ShellHelper
+     */
+    public function getShellHelper()
+    {
+        return $this->getHelperSet()->get('shell');
+    }
+
+    /**
+     * @return \Symfony\Component\Console\Helper\FormatterHelper
+     */
+    public function getFormatterHelper()
+    {
+        return $this->getHelperSet()->get('formatter');
+    }
+
 }

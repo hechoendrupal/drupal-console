@@ -10,13 +10,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Debug\Debug;
-
+use Drupal\Console\Helper\HelperTrait;
 /**
  * Class Application
  * @package Drupal\Console\Console
  */
 class Application extends BaseApplication
 {
+    use HelperTrait;
+
     /**
      * @var string
      */
@@ -133,10 +135,10 @@ class Application extends BaseApplication
             && !$input->hasParameterOption(array('--no-debug', ''))
             && $env !== 'prod';
 
-        $message = $this->getHelperSet()->get('message');
-        $drupal = $this->getHelperSet()->get('drupal');
-        $site = $this->getHelperSet()->get('site');
-        $commandDiscovery = $this->getHelperSet()->get('commandDiscovery');
+        $message = $this->getMessageHelper();
+        $drupal = $this->getDrupalHelper();
+        $site = $this->getSite();
+        $commandDiscovery = $this->getCommandDiscoveryHelper();
         $commandDiscovery->setApplicationRoot($this->getDirectoryRoot());
 
         $commands = [];
@@ -216,10 +218,7 @@ class Application extends BaseApplication
             Debug::enable();
         }
 
-        /**
-         * @var \Drupal\Console\Helper\KernelHelper $kernelHelper
-         */
-        $kernelHelper = $this->getHelperSet()->get('kernel');
+        $kernelHelper = $this->getKernelHelper();
 
         $kernelHelper->setDebug($debug);
         $kernelHelper->setEnvironment($env);
@@ -237,7 +236,7 @@ class Application extends BaseApplication
         /**
          * @var \Drupal\Console\Helper\ShellHelper $shell
          */
-        $shell = $this->getHelperSet()->get('shell')->getShell();
+        $shell = $this->getShellHelper()->getShell();
 
         $shell->setProcessIsolation($input->hasParameterOption(array('--process-isolation')));
         $shell->run();
