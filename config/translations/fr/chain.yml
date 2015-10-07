@@ -1,0 +1,7 @@
+description: 'Séquence d''exécution de commandes'
+options:
+    file: 'Fichier utilisateur contenant les commandes à être exécutées.'
+messages:
+    missing_file: 'Vous devez fournir un chemin et nom de fichier valides.'
+    invalid_file: 'Le fichier "%s" n''existe pas.'
+    module_install: 'module:install command is not runnable inside a chain queue and must be run independently.'

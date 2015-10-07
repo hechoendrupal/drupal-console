@@ -1,0 +1,5 @@
+description: 'Mise à jour de la console.'
+help: 'Permet de mettre à jour la console Drupal vers la dernière version.'
+messages:
+    success: 'La console Drupal à été mise à jour.'
+    current-version: 'The latest version %s, was already installed on your system.'

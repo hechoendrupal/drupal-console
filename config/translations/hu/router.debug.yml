@@ -1,0 +1,9 @@
+description: 'Elérhető útvonalak megjelenítése'
+arguments:
+    route-name: 'Útvonal neve'
+messages:
+    name: 'Útvonal neve'
+    path: 'Class elérési útvonala'
+    pattern: Minta
+    defaults: Alapértelmezés
+    options: Opciók

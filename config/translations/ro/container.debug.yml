@@ -1,0 +1,4 @@
+description: 'Afiseaza serviciile curente pentru o aplicatie.'
+messages:
+    service_id: 'ID-ul Serviciului'
+    class_name: 'Numele Clasei'
