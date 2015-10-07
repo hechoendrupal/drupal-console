@@ -1,7 +1,7 @@
-description: 'Returns a one time user login url.'
+description: 'Returneaza un URL de logare care poate fi folosit o singură dată.'
 options:
-    user-id: 'User ID.'
+    user-id: 'ID utilizator.'
 messages:
-    url: 'One time login for @name: @url'
+    url: 'URL de logare pentru @name: @url'
 errors:
-    invalid-user: 'Cannot load user entity (User ID: @uid).'
+    invalid-user: 'Nu se poate deschide entitatea utilizator (ID utilizator: @uid).'
