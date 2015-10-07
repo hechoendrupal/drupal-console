@@ -121,14 +121,14 @@ class TranslatorHelper extends Helper
 
     public function addResourceTranslationsByModule($module)
     {
-        $resource = DRUPAL_ROOT.'/'.drupal_get_path('module', $module).
+        $resource = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('module', $module).
           '/config/translations/console.'.$this->language.'.yml';
 
         if (file_exists($resource)) {
             $this->addResource($resource);
         } else {
             // Try to load the language fallback
-            $resource_fallback = DRUPAL_ROOT.'/'.drupal_get_path('module', $module).
+            $resource_fallback = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('module', $module).
               '/config/translations/console.en.yml';
             if (file_exists($resource_fallback)) {
                 $this->addResource($resource_fallback);
@@ -141,7 +141,7 @@ class TranslatorHelper extends Helper
         $currentMessages = $this->getMessagesByModule($module);
 
         $language = 'en';
-        $resource = DRUPAL_ROOT.'/'.drupal_get_path('module', $module).
+        $resource = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('module', $module).
           '/config/translations/';
 
         $messageCatalogue = new MessageCatalogue($language);
@@ -161,7 +161,7 @@ class TranslatorHelper extends Helper
 
     protected function getMessagesByModule($module)
     {
-        $resource = DRUPAL_ROOT.'/'.drupal_get_path('module', $module).
+        $resource = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('module', $module).
           '/config/translations/console.'.$this->language.'.yml';
 
         if (file_exists($resource)) {
