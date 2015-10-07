@@ -1,4 +1,4 @@
-description: 'List of modules implementing a cron'
+description: 'Liste des modules implémentants une tache cron'
 messages:
-    module-list: 'Modules implementing a cron method'
+    module-list: 'Modules implémentants une tache cron'
     module: Module
