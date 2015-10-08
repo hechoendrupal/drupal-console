@@ -5,11 +5,11 @@ options:
     module: common.options.module
     service-name: 'Numele serviciului'
     class-name: 'Numele Clasei'
-    interface: Interfata
+    interface: Interfaţa
     services: common.questions.services
 questions:
     module: common.questions.module
     service-name: 'Introdu numele serviciului'
     class-name: 'Introdu numele Clasei'
-    interface: 'Creeaza o interfata'
+    interface: 'Creează o interfaţă'
     services: common.options.services
