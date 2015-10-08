@@ -31,7 +31,6 @@ class GeneratorPluginTypeYamlCommandTest extends GenerateCommandTest
         $plugin_file_name
     ) {
         $command = new GeneratorPluginTypeYamlCommand($this->getHelperSet());
-        $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 

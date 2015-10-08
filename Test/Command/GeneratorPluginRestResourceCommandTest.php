@@ -35,7 +35,6 @@ class GeneratorPluginRestResourceCommandTest extends GenerateCommandTest
         $plugin_states
     ) {
         $command = new GeneratorPluginRestResourceCommand($this->getHelperSet());
-        $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 

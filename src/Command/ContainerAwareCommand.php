@@ -2,44 +2,25 @@
 
 namespace Drupal\Console\Command;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Drupal\Core\Extension\ExtensionDiscovery;
-
-abstract class ContainerAwareCommand extends Command implements ContainerAwareInterface
+abstract class ContainerAwareCommand extends Command
 {
-    private $container;
-
     private $services;
 
     private $events;
 
-    private $route_provider;
-
     /**
-     * @return ContainerInterface
+     * Gets the current container.
+     *
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface
+     *   A ContainerInterface instance.
      */
     protected function getContainer()
     {
-        if (null === $this->container) {
-            $this->container = $this->getKernelHelper()->getKernel()->getContainer();
-        }
-
-        return $this->container;
+        return $this->getKernelHelper()->getKernel()->getContainer();
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
-
-    /**
-     * [getModules description].
-     *
-     * @param bool $core Return core modules
+     * @param bool $group
      *
      * @return array list of modules
      */
@@ -78,7 +59,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     /**
      * [geRest get a list of Rest Resouces].
      *
-     * @param bool $status return Rest Resources by status
+     * @param bool $rest_status return Rest Resources by status
      *
      * @return array list of rest resources
      */
@@ -137,11 +118,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
     public function getRouteProvider()
     {
-        if (null === $this->route_provider) {
-            $this->route_provider = $this->getContainer()->get('router.route_provider');
-        }
-
-        return $this->route_provider;
+        return $this->getContainer()->get('router.route_provider');
     }
 
     /**
