@@ -1,17 +1,17 @@
-description: 'Genereaza comenzi pentru consola.'
-help: 'Comanda <info>generate:command</info> te va ajuta sa creezi o noua comanda.'
-welcome: 'Bine ai venit in genratorul de comenzi noi.'
+description: 'Generează comenzi pentru consolă.'
+help: 'Comanda <info>generate:command</info> te va ajuta să creezi o comandă nouă.'
+welcome: 'Bine ați venit la Generatorul de comenzi Drupal.'
 options:
     module: common.options.module
-    controller-title: 'Controller title'
-    class-name: 'Numele Clasei a Comenzii'
-    command: 'Numele Comenzii'
-    container: 'Acceseaza serviciul containerului'
+    controller-title: 'Titlul controlerului'
+    class-name: 'Numele Clasei "Command"'
+    command: 'Numele comenzii (Trebuie să se termine în cuvântul "Command").'
+    container: 'Accesează serviciile containerului'
 questions:
     module: common.questions.module
-    class-name: 'Introdu Numele Clasei pentru Comanda'
+    class-name: 'Introdu Numele Clasei'
     command: 'Introdu Numele Comenzii'
-    container: 'Aveti nevoie de a accesa serviciul containerului'
-    controller-title: 'Controller title'
+    container: 'Aveți nevoie să accesați serviciile containerului'
+    controller-title: 'Titlul controlerului'
 messages:
-    title-not-empty: 'Title cannot be empty'
+    title-not-empty: 'Titlul nu poate fi necompletat.'
