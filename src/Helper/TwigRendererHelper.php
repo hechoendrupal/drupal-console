@@ -8,7 +8,6 @@
 namespace Drupal\Console\Helper;
 
 use Drupal\Console\Helper\Helper;
-use Drupal\Console\Utils\StringUtils;
 
 class TwigRendererHelper extends Helper
 {

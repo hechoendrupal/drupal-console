@@ -38,7 +38,7 @@ trait HelperTrait
     }
 
     /**
-     * @return \Drupal\Console\Utils\StringUtils
+     * @return \Drupal\Console\Helper\StringHelper
      */
     public function getStringHelper()
     {
