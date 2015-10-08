@@ -5,14 +5,14 @@
  * Contains \Drupal\Console\Utils\Validators.
  */
 
-namespace Drupal\Console\Utils;
+namespace Drupal\Console\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Console\Helper\HelperInterface;
 use Drupal\Core\Cache\Cache;
 use Drupal\Console\Helper\HelperTrait;
 
-class Validators extends Helper implements HelperInterface
+class ValidatorHelper extends Helper implements HelperInterface
 {
     use HelperTrait;
 
@@ -253,7 +253,7 @@ class Validators extends Helper implements HelperInterface
 
     public function getName()
     {
-        return 'validators';
+        return 'validator';
     }
 
     /**

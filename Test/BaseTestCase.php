@@ -44,12 +44,12 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
                 ->method('createMachineName')
                 ->will($this->returnArgument(0));
 
-            $validators = $this->getMockBuilder('Drupal\Console\Utils\Validators')
+            $validator = $this->getMockBuilder('Drupal\Console\Helper\ValidatorHelper')
                 ->disableOriginalConstructor()
                 ->setMethods(['validateModuleName'])
                 ->getMock();
 
-            $validators->expects($this->any())
+            $validator->expects($this->any())
                 ->method('validateModuleName')
                 ->will($this->returnArgument(0));
 
@@ -88,7 +88,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
                     'renderer' => new TwigRendererHelper(),
                     'dialog' => $dialog,
                     'stringUtils' => $stringUtils,
-                    'validators' => $validators,
+                    'validator' => $validator,
                     'translator' => $translator,
                     'site' => $siteHelper,
                     'message' => $message,
