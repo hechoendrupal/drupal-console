@@ -10,9 +10,12 @@ namespace Drupal\Console\Utils;
 use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Console\Helper\HelperInterface;
 use Drupal\Core\Cache\Cache;
+use Drupal\Console\Helper\HelperTrait;
 
 class Validators extends Helper implements HelperInterface
 {
+    use HelperTrait;
+
     private $caches = [];
 
     const REGEX_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+$/';
@@ -143,9 +146,10 @@ class Validators extends Helper implements HelperInterface
      *
      * @return string
      */
-    public function validateModuleExist($module, $modules)
+    public function validateModuleExist($module)
     {
-        if (!in_array($module, array_values($modules))) {
+        $modules = $this->getSite()->getNoCoreModules();
+        if (!in_array($module, $modules)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'Module "%s" is not in your application. Try generate:module to create it.',
