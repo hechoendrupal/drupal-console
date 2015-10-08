@@ -226,11 +226,9 @@ class TwigRendererHelper extends Helper
      */
     public function createMachineName()
     {
-        $string = new StringUtils();
-
         return new \Twig_SimpleFilter(
-            'machine_name', function ($var) use ($string) {
-                return $string->createMachineName($var);
+            'machine_name', function ($var) {
+                return $this->getStringUtils()->createMachineName($var);
             }
         );
     }
