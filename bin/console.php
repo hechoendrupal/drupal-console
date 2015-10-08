@@ -7,7 +7,7 @@ use Drupal\Console\Helper\KernelHelper;
 use Drupal\Console\Helper\DialogHelper;
 use Drupal\Console\Helper\RegisterCommandsHelper;
 use Drupal\Console\Utils\StringUtils;
-use Drupal\Console\Utils\Validators;
+use Drupal\Console\Helper\ValidatorHelper;
 use Drupal\Console\Helper\TranslatorHelper;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Drupal\Console\UserConfig;
@@ -56,7 +56,7 @@ $helpers = [
     'shell' => new ShellHelper(new Shell($application)),
     'dialog' => new DialogHelper(),
     'stringUtils' => new StringUtils(),
-    'validators' => new Validators(),
+    'validator' => new ValidatorHelper(),
     'translator' => $translatorHelper,
     'site' => new SiteHelper(),
     'renderer' => new TwigRendererHelper(),
