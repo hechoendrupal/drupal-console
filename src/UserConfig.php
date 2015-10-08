@@ -42,9 +42,4 @@ class UserConfig extends Config
 
         return [];
     }
-
-    public function getUserHomeDir()
-    {
-        return rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/\\');
-    }
 }
