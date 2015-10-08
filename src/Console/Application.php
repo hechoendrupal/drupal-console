@@ -169,7 +169,7 @@ class Application extends BaseApplication
             } else {
                 $commands = $commandDiscovery->getConsoleCommands();
                 $message->addWarningMessage(
-                  $this->trans('application.site.errors.settings')
+                    $this->trans('application.site.errors.settings')
                 );
             }
         }
