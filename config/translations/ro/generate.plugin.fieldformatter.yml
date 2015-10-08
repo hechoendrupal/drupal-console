@@ -12,4 +12,4 @@ questions:
     class-name: 'Introduceți numele clasei pentru extensie'
     label: 'Introduceți eticheta extensiei'
     plugin-id: 'Introduceți ID-ul extensiei'
-    field-type: 'Introduceți Tipul câmpului cu, care extensia poate fi folosită'
+    field-type: 'Introduceți tipul câmpului cu, care extensia poate fi folosită'
