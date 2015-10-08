@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\EventSubscriber\ShowGeneratedFiles.
+ * Contains \Drupal\Console\EventSubscriber\ShowGeneratedFilesListener.
  */
 
 namespace Drupal\Console\EventSubscriber;
@@ -26,7 +26,7 @@ class ShowGeneratedFilesListener implements EventSubscriberInterface
         $output = $event->getOutput();
 
         $application = $command->getApplication();
-        $messageHelper = $application->getHelperSet()->get('message');
+        $messageHelper = $application->getMessageHelper();
 
         if ($event->getExitCode() != 0) {
             return;

@@ -317,7 +317,7 @@ abstract class ContainerAwareCommand extends Command
 
     public function validateModuleExist($module_name)
     {
-        return $this->getValidator()->validateModuleExist($module_name, $this->getSite()->getNoCoreModules());
+        return $this->getValidator()->validateModuleExist($module_name);
     }
 
     public function validateServiceExist($service_name, $services = null)
