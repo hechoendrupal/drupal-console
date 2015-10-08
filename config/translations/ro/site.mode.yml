@@ -1,16 +1,16 @@
-description: 'Schimba configurarile de performanta a sistemei'
+description: 'Schimbă configurarile de performanţă ale sistemului'
 arguments:
-    environment: 'Numele "Enviroment"'
+    environment: 'Numele mediului'
 messages:
-    configuration: 'Numele Configuratiei'
-    configuration-key: 'Cheia Configuratiei'
-    original: 'Valoarea originala'
+    configuration: 'Numele Configuraţiei'
+    configuration-key: 'Cheia Configuraţiei'
+    original: 'Valoarea originală'
     updated: 'Rescrie valoarea'
-    invalid-env: 'Invalid environment'
-    new-services-settings: 'New services settings'
-    service: Service
-    service-parameter: Parameter
-    service-value: Value
-    error-copying-file: 'Error copying file'
-    error-writing-file: 'Error copying file'
-    services-file-overwritten: 'Services files %s was overwritten'
+    invalid-env: 'Mediu invalid'
+    new-services-settings: 'Noile setări pentru servicii'
+    service: Serviciu
+    service-parameter: Parametru
+    service-value: Valoare
+    error-copying-file: 'Eroare la copierea fişierului.'
+    error-writing-file: 'Eroare la scrierea fişierului.'
+    services-file-overwritten: 'Fişierele serviciului %s au fost rescrise.'
