@@ -157,8 +157,11 @@ class Application extends BaseApplication
             chdir($drupal->getRoot());
             $site->setSitePath($drupal->getRoot());
 
-            if ($drupal->isInstalled()) {
+            if ($drupal->isValidInstance()) {
                 $this->bootDrupal($env, $debug, $drupal);
+            }
+
+            if ($drupal->isInstalled()) {
                 $disabledModules = $this->config->get('application.disable.modules');
                 $commandDiscovery->setDisabledModules($disabledModules);
 
@@ -166,7 +169,7 @@ class Application extends BaseApplication
             } else {
                 $commands = $commandDiscovery->getConsoleCommands();
                 $message->addWarningMessage(
-                    $this->trans('application.site.errors.settings')
+                  $this->trans('application.site.errors.settings')
                 );
             }
         }
@@ -223,9 +226,7 @@ class Application extends BaseApplication
         $kernelHelper->setDebug($debug);
         $kernelHelper->setEnvironment($env);
         $kernelHelper->setClassLoader($drupal->getAutoLoadClass());
-        if ($drupal->isInstalled()) {
-            $kernelHelper->bootKernel();
-        }
+        $kernelHelper->bootKernel();
     }
 
     /**

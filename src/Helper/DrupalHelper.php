@@ -35,6 +35,11 @@ class DrupalHelper extends Helper
     private $installed = false;
 
     /**
+     * @var bool
+     */
+    private $validInstance = false;
+
+    /**
      * @param  string $root
      * @param  bool   $recursive
      * @return bool
@@ -54,6 +59,7 @@ class DrupalHelper extends Helper
         if (file_exists($autoLoad)) {
             $this->root = $root;
             $this->autoLoad = $autoLoad;
+            $this->validInstance = true;
             $this->installed = $this->isSettingsFile();
             return true;
         }
@@ -73,6 +79,14 @@ class DrupalHelper extends Helper
         $settingsPath = sprintf('%s/%s', $this->root, self::DRUPAL_SETTINGS);
 
         return file_exists($settingsPath);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValidInstance()
+    {
+        return $this->validInstance;
     }
 
     /**
