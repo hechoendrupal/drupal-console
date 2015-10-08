@@ -78,7 +78,7 @@ abstract class Command extends BaseCommand
     }
 
     /**
-     * @return \Drupal\Console\Console\Application;
+     * @return \Drupal\Console\Application;
      */
     public function getApplication()
     {

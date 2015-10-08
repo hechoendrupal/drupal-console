@@ -29,7 +29,7 @@ class DefaultValueEventListener implements EventSubscriberInterface
          */
         $command = $event->getCommand();
         /**
-         * @var \Drupal\Console\Console\Application $command
+         * @var \Drupal\Console\Application $application
          */
         $application = $command->getApplication();
         /**
