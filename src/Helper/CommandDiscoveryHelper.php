@@ -172,13 +172,8 @@ class CommandDiscoveryHelper extends Helper
         } else {
             $command = $reflectionClass->newInstance();
         }
-        $command->setModule($module);
 
-        if ($reflectionClass->isSubclassOf('Drupal\\Console\\Command\\ContainerAwareCommand')) {
-            $kernel = $this->getKernelHelper()->getKernel();
-            $container = $kernel->getContainer();
-            $command->setContainer($container);
-        }
+        $command->setModule($module);
 
         return $command;
     }

@@ -33,7 +33,6 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
         $services
     ) {
         $command = new GeneratorServiceCommand($this->getHelperSet());
-        $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 
