@@ -1,8 +1,8 @@
-description: 'Activeaza "Maintenance mode"'
+description: 'Activează modul de mentenanţă'
 arguments:
-    mode: 'Modul "Site maintenance"'
+    mode: 'Modul de mentenanţă al sait-ului'
 messages:
-    maintenance-on: 'Maintenance mode activat'
-    maintenance-off: 'Maintenance mode dezactivat'
+    maintenance-on: 'Modul de mentenanţă activat'
+    maintenance-off: 'Modul de mentenanţă dezactivat'
 errors:
-    invalid-mode: 'Maintance mode incorect'
+    invalid-mode: 'Modul de mentenanţă incorect'

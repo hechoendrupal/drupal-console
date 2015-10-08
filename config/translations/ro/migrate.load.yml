@@ -1,10 +1,10 @@
-description: 'Generate a migration entity.'
+description: 'Generează o entitate de migrare.'
 arguments:
-    file: 'Path to the yml file'
+    file: 'Calea către fişierul YML'
 messages:
-    invalid_file: 'The file "%s" does not exists.'
-    installed: 'Please remember to put the plugin files where they should be.'
-    overridden: 'The entity was overridden.'
+    invalid_file: 'Fişierul "%s" nu exista.'
+    installed: 'Nu uitaţi să puneţi fişierele extensiei unde trebuie sa fie.'
+    overridden: 'Entitatea a fost suprascrisă.'
 questions:
-    override: 'The File is already install, do you want override it [yes/no] ?'
-    file: 'Path to file'
+    override: 'Fişierul este deja instalat, doriţi sa îl suprascrieţi [yes/no] ?'
+    file: 'Calea spre fişier.'
