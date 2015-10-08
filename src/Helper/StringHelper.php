@@ -2,15 +2,14 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Utils\StringUtils
- * Utility functions
+ * Contains \Drupal\Console\Helper\StringHelper
  */
 
-namespace Drupal\Console\Utils;
+namespace Drupal\Console\Helper;
 
-use Symfony\Component\Console\Helper\Helper;
+use Drupal\Console\Helper\Helper;
 
-class StringUtils extends Helper
+class StringHelper extends Helper
 {
     // This REGEX captures all uppercase letters after the first character
     const REGEX_UPPER_CASE_LETTERS = '/(?<=\\w)(?=[A-Z])/';
@@ -76,11 +75,6 @@ class StringUtils extends Helper
         return ucfirst(strtolower(preg_replace(self::REGEX_CAMEL_CASE_UNDER, '$1 $2', $camel_case)));
     }
 
-    public function getName()
-    {
-        return 'stringUtils';
-    }
-
     public function humanToCamelCase($human)
     {
         return str_replace(' ', '', ucwords($human));
@@ -108,5 +102,10 @@ class StringUtils extends Helper
     public function anyCaseToUcFirst($permission_title)
     {
         return ucfirst(preg_replace(self::REGEX_SPACES, ' ', $permission_title));
+    }
+
+    public function getName()
+    {
+        return 'stringUtils';
     }
 }

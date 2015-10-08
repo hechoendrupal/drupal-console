@@ -139,7 +139,7 @@ class GeneratorThemeCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $stringUtils = $this->getStringUtils();
+        $stringUtils = $this->getStringHelper();
         $validators = $this->getValidator();
         $dialog = $this->getDialogHelper();
 

@@ -38,11 +38,11 @@ trait HelperTrait
     }
 
     /**
-     * @return \Drupal\Console\Utils\StringUtils
+     * @return \Drupal\Console\Helper\StringHelper
      */
-    public function getStringUtils()
+    public function getStringHelper()
     {
-        return $this->getHelperSet()->get('stringUtils');
+        return $this->getHelperSet()->get('string');
     }
 
     /**
