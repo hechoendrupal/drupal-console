@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Console\Console;
+namespace Drupal\Console;
 
 use Composer\Autoload\ClassLoader;
 use Symfony\Component\Console\Application as BaseApplication;
