@@ -1,5 +1,5 @@
-description: 'Generează un "image formatter plugin".'
-help: 'Comanda <info>generate:plugin:imageformatter</info> ajuta la generarea unui nou "image formatter plugin".'
+description: 'Generează o extensie de formatare a imaginii.'
+help: 'Comanda <info>generate:plugin:imageformatter</info> ajuta la generarea unei noi extensii de formatare a imaginii.'
 options:
     module: common.options.module
     class-name: 'Numele clasei pentru plugin.'
