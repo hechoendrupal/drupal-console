@@ -1,4 +1,4 @@
-description: 'Generează un tip de plugin cu YAML discoverz.'
+description: 'Generează un tip de plugin cu YAML discovery.'
 help: 'Comanda <info>generate:plugin:type:yaml</info> ajută la generarea unui nou tip de plugin care foloseşte "Yaml discovery".'
 welcome: 'Bun venit la "Drupal Plugin Type generator"'
 options:
