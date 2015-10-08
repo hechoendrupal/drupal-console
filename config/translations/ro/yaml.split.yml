@@ -4,6 +4,8 @@ arguments:
 options:
     indent-level: 'Separă fişierul YAML folosind un nivel specific de indentare'
     exclude-parents-key: 'Exclude cheia părinte din numele fişierului generat'
+    starting-key: 'YAML Key from where start split useful to extract partial elements'
 messages:
     generating-split: 'Generează fişiere noi'
     split-generated: 'Fişierul %s a fost generat'
+    invalid-key: 'Provided key as stating YAML key wasn''t found, combine with indent-level 0 to extract values'
