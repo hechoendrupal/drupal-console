@@ -190,7 +190,7 @@ class GeneratorModuleCommand extends GeneratorCommand
         try {
             $module = $input->getOption('module') ? $this->validateModuleName($input->getOption('module')) : null;
         } catch (\Exception $error) {
-            $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
+            $output->writeln($dialog->getFormatterHelper()->formatBlock($error->getMessage(), 'error'));
         }
 
         $module = $input->getOption('module');
@@ -211,7 +211,7 @@ class GeneratorModuleCommand extends GeneratorCommand
         try {
             $machine_name = $input->getOption('machine-name') ? $this->validateModule($input->getOption('machine-name')) : null;
         } catch (\Exception $error) {
-            $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
+            $output->writeln($dialog->getFormatterHelper()->formatBlock($error->getMessage(), 'error'));
         }
 
         if (!$machine_name) {
