@@ -6,7 +6,7 @@ use Drupal\Console\Helper\ShellHelper;
 use Drupal\Console\Helper\KernelHelper;
 use Drupal\Console\Helper\DialogHelper;
 use Drupal\Console\Helper\RegisterCommandsHelper;
-use Drupal\Console\Utils\StringUtils;
+use Drupal\Console\Helper\StringHelper;
 use Drupal\Console\Helper\ValidatorHelper;
 use Drupal\Console\Helper\TranslatorHelper;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -55,7 +55,7 @@ $helpers = [
     'kernel' => new KernelHelper(),
     'shell' => new ShellHelper(new Shell($application)),
     'dialog' => new DialogHelper(),
-    'stringUtils' => new StringUtils(),
+    'string' => new StringHelper(),
     'validator' => new ValidatorHelper(),
     'translator' => $translatorHelper,
     'site' => new SiteHelper(),

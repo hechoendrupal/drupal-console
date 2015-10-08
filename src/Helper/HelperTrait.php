@@ -40,9 +40,9 @@ trait HelperTrait
     /**
      * @return \Drupal\Console\Utils\StringUtils
      */
-    public function getStringUtils()
+    public function getStringHelper()
     {
-        return $this->getHelperSet()->get('stringUtils');
+        return $this->getHelperSet()->get('string');
     }
 
     /**
