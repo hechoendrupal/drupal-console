@@ -40,14 +40,8 @@ class ShowGenerateDocListener implements EventSubscriberInterface
          * @var \Drupal\Console\Command\Command $command
          */
         $command = $event->getCommand();
-        /**
-         * @var \Drupal\Console\Console\Application $command
-         */
+
         $application = $command->getApplication();
-        /**
-         * @var \Drupal\Console\Config $config
-         */
-        $config = $application->getConfig();
 
         $input = $command->getDefinition();
         $options = $input->getOptions();
