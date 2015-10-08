@@ -61,28 +61,28 @@ class Application extends BaseApplication
         parent::__construct($this::NAME, $this::VERSION);
 
         $this->getDefinition()->addOption(
-            new InputOption('--root', null, InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.root'))
+          new InputOption('--root', null, InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.root'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--shell', '-s', InputOption::VALUE_NONE, $this->trans('application.console.arguments.shell'))
+          new InputOption('--shell', '-s', InputOption::VALUE_NONE, $this->trans('application.console.arguments.shell'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.env'), $this->env)
+          new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.env'), $this->env)
         );
         $this->getDefinition()->addOption(
-            new InputOption('--no-debug', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.no-debug'))
+          new InputOption('--no-debug', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.no-debug'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--learning', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.learning'))
+          new InputOption('--learning', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.learning'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--generate-chain', '--gc', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-chain'))
+          new InputOption('--generate-chain', '--gc', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-chain'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--generate-inline', '--gi', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-inline'))
+          new InputOption('--generate-inline', '--gi', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-inline'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--generate-doc', '--gd', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc'))
+          new InputOption('--generate-doc', '--gd', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc'))
         );
     }
 
@@ -94,7 +94,7 @@ class Application extends BaseApplication
     protected function getDefaultInputDefinition()
     {
         return new InputDefinition(
-            array(
+          array(
             new InputArgument('command', InputArgument::REQUIRED, $this->trans('application.console.input.definition.command')),
             new InputOption('--help', '-h', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.help')),
             new InputOption('--quiet', '-q', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.quiet')),
@@ -103,7 +103,7 @@ class Application extends BaseApplication
             new InputOption('--ansi', '', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.ansi')),
             new InputOption('--no-ansi', '', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.no-ansi')),
             new InputOption('--no-interaction', '-n', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.no-interaction')),
-            )
+          )
         );
     }
 
@@ -133,8 +133,8 @@ class Application extends BaseApplication
         $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
 
         $debug = getenv('DRUPAL_DEBUG') !== '0'
-            && !$input->hasParameterOption(array('--no-debug', ''))
-            && $env !== 'prod';
+          && !$input->hasParameterOption(array('--no-debug', ''))
+          && $env !== 'prod';
 
         $message = $this->getMessageHelper();
         $drupal = $this->getDrupalHelper();
@@ -152,7 +152,7 @@ class Application extends BaseApplication
         if (!$drupal->isValidRoot($root, $recursive)) {
             $commands = $commandDiscovery->getConsoleCommands();
             $message->addWarningMessage(
-                $this->trans('application.site.errors.directory')
+              $this->trans('application.site.errors.directory')
             );
         } else {
             chdir($drupal->getRoot());
@@ -170,7 +170,7 @@ class Application extends BaseApplication
             } else {
                 $commands = $commandDiscovery->getConsoleCommands();
                 $message->addWarningMessage(
-                    $this->trans('application.site.errors.settings')
+                  $this->trans('application.site.errors.settings')
                 );
             }
         }
@@ -189,9 +189,9 @@ class Application extends BaseApplication
         if (true === $input->hasParameterOption(array('--generate-doc', '--gd'))) {
             $command = $this->get($commandName);
             $command->addOption(
-                'generate-doc',
-                '--gd',
-                InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc')
+              'generate-doc',
+              '--gd',
+              InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc')
             );
         }
 
