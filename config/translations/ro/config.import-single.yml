@@ -1,6 +1,6 @@
-description: 'Import the selected configuration.'
+description: 'Importă configurarea selectată.'
 arguments:
-    config-name: 'Configuration name.'
-    input-file: 'Path to the import files.'
+    config-name: 'Numele configurării.'
+    input-file: 'Calea către fișierele importate.'
 messages:
-    empty-value: 'Value can not be empty'
+    empty-value: 'Valoarea nu poate fi necompletată'
