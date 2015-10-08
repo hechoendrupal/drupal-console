@@ -2,13 +2,14 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Helper\Validators.
+ * Contains \Drupal\Console\Utils\Validators.
  */
 
 namespace Drupal\Console\Helper;
 
-use Drupal\Console\Helper\Helper;
+use Symfony\Component\Console\Helper\HelperInterface;
 use Drupal\Core\Cache\Cache;
+use Drupal\Console\Helper\Helper;
 
 class ValidatorHelper extends Helper
 {
@@ -19,10 +20,6 @@ class ValidatorHelper extends Helper
     const REGEX_MACHINE_NAME = '/^[a-z0-9_]+$/';
     // This REGEX remove spaces between words
     const REGEX_REMOVE_SPACES = '/[\\s+]/';
-
-    public function __construct()
-    {
-    }
 
     public function validateModuleName($module)
     {
