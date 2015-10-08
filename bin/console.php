@@ -5,7 +5,6 @@ use Drupal\Console\Application;
 use Drupal\Console\Helper\ShellHelper;
 use Drupal\Console\Helper\KernelHelper;
 use Drupal\Console\Helper\DialogHelper;
-use Drupal\Console\Helper\RegisterCommandsHelper;
 use Drupal\Console\Helper\StringHelper;
 use Drupal\Console\Helper\ValidatorHelper;
 use Drupal\Console\Helper\TranslatorHelper;
