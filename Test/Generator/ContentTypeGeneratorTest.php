@@ -2,17 +2,17 @@
 
 /**
  * @file
- * Contains Drupal\Console\Test\Generator\ContentTypeGeneratorTest.
+ * Contains Drupal\Console\Test\Generator\EntityBundleGeneratorTest.
  */
 
 namespace Drupal\Console\Test\Generator;
 
-use Drupal\Console\Generator\ContentTypeGenerator;
-use Drupal\Console\Test\DataProvider\ContentTypeDataProviderTrait;
+use Drupal\Console\Generator\EntityBundleGenerator;
+use Drupal\Console\Test\DataProvider\EntityBundleDataProviderTrait;
 
 class ContentTypeGeneratorTest extends GeneratorTest
 {
-    use ContentTypeDataProviderTrait;
+    use EntityBundleDataProviderTrait;
 
     /**
      * ContentType generator test
@@ -28,10 +28,10 @@ class ContentTypeGeneratorTest extends GeneratorTest
         $bundle_name,
         $bundle_title
     ) {
-        $generator = new ContentTypeGenerator();
-        $this->getHelperSet()->get('renderer')->setSkeletonDirs($this->getSkeletonDirs());
-        $this->getHelperSet()->get('renderer')->setTranslator($this->getTranslatorHelper());
-        $generator->setHelpers($this->getHelperSet());
+        $generator = new EntityBundleGenerator();
+        $this->getRenderHelper()->setSkeletonDirs($this->getSkeletonDirs());
+        $this->getRenderHelper()->setTranslator($this->getTranslatorHelper());
+        $generator->setHelperSet($this->getHelperSet());
 
         $generator->generate(
             $module,

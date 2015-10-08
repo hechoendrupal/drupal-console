@@ -23,6 +23,7 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
      * @param $description
      * @param $core
      * @param $package
+     * @param $feature
      * @param $composer
      * @param $dependencies
      *
@@ -35,10 +36,11 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
         $description,
         $core,
         $package,
+        $feature,
         $composer,
         $dependencies
     ) {
-        $command = new GeneratorModuleCommand($this->getTranslatorHelper());
+        $command = new GeneratorModuleCommand($this->getHelperSet());
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
@@ -53,6 +55,7 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
               '--description'    => $description,
               '--core'           => $core,
               '--package'        => $package,
+              '--feature'        => $feature,
               '--composer'       => $composer,
               '--dependencies'   => $dependencies
             ],
@@ -65,9 +68,9 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-          ->getMockBuilder('Drupal\Console\Generator\ModuleGenerator')
-          ->disableOriginalConstructor()
-          ->setMethods(['generate'])
-          ->getMock();
+            ->getMockBuilder('Drupal\Console\Generator\ModuleGenerator')
+            ->disableOriginalConstructor()
+            ->setMethods(['generate'])
+            ->getMock();
     }
 }

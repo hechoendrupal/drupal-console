@@ -1,0 +1,6 @@
+description: 'Run drush from console.'
+help: 'Use the interactive mode for a better experience --shell.'
+arguments:
+    args: 'Drush arguments.'
+messages:
+    not_found: 'Drush command not found.'

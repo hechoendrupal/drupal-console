@@ -6,9 +6,12 @@ use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Helper\HelperSet;
 use Drupal\Console\Helper\DialogHelper;
 use Drupal\Console\Helper\TwigRendererHelper;
+use Drupal\Console\Helper\HelperTrait;
 
 abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
 {
+    use HelperTrait;
+
     public $dir;
 
     /**
@@ -19,10 +22,6 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
     protected function setup()
     {
         $this->setUpTemporalDirectory();
-
-        if (!defined('DRUPAL_ROOT')) {
-            define('DRUPAL_ROOT', getcwd());
-        }
     }
 
     public function setUpTemporalDirectory()

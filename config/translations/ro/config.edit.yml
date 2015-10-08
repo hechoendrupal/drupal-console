@@ -1,0 +1,6 @@
+description: 'Editeaza configuratia selectata.'
+arguments:
+    config-name: 'Numele configuratiei.'
+    editor: Editor.
+messages:
+    no-directory: 'Directoria nu poate fi creata in'

@@ -1,0 +1,6 @@
+description: 'चयनित विन्यास आयात करें.'
+arguments:
+    config-name: 'विन्यास नाम.'
+    input-file: 'आयात फाइल करने के लिए पथ.'
+messages:
+    empty-value: 'मूल्य खाली नहीं हो सकता'

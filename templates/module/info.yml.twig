@@ -3,10 +3,12 @@ type: {{ type }}
 description: {{ description }}
 core: {{ core }}
 package: {{ package }}
+{% if feature %}
+features: true
+{% endif %}
 {% if dependencies %}
 dependencies:
 {% for dependency in dependencies %}
-  {{ "- #{dependency}"}}
+  - {{ dependency }}
 {% endfor %}
 {% endif %}
-

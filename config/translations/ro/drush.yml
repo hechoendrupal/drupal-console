@@ -1,0 +1,6 @@
+description: 'Ruleaza drush din consola.'
+help: 'Utilizeaza modul interactiv pentru o mai buna experienta --shell.'
+arguments:
+    args: 'Drush argumente.'
+messages:
+    not_found: 'Comanda Drush nu a fost gasita.'

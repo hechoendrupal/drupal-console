@@ -1,0 +1,58 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+Drupal\{{module}}\{{ class }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\EventSubscriber;
+{% endblock %}
+
+{% block use_class %}
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Class {{ class }}.
+ *
+ * @package Drupal\{{module}}
+ */
+class {{ class }} implements EventSubscriberInterface {% endblock %}
+{% block class_construct %}
+  /**
+   * Constructor.
+   */
+  public function __construct({{ servicesAsParameters(services)|join(', ') }}) {
+{{ serviceClassInitialization(services) }}
+  }
+{% endblock %}
+
+{% block class_methods %}
+/**
+* Registers the methods in this class that should be listeners.
+*
+* @return array
+*   An array of event listener definitions.
+*/
+static function getSubscribedEvents() {
+
+{% for event_name, callback in events %}
+  $events['{{ event_name }}'] = array('{{ callback }}');
+{% endfor %}
+  return $events;
+}
+
+{% for event_name, callback in events %}
+/**
+ * This method is called whenever the {{ event_name }} event is
+ * dispatched.
+ *
+ * @param GetResponseEvent $event
+ */
+ public function {{ callback }}(GetResponseEvent $event) {
+   drupal_set_message('Event {{ event_name }} thrown by Subscriber in module {{ module }}.', 'status', TRUE);
+ }
+{% endfor %}
+{% endblock %}

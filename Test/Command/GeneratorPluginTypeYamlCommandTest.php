@@ -30,7 +30,7 @@ class GeneratorPluginTypeYamlCommandTest extends GenerateCommandTest
         $plugin_name,
         $plugin_file_name
     ) {
-        $command = new GeneratorPluginTypeYamlCommand($this->getTranslatorHelper());
+        $command = new GeneratorPluginTypeYamlCommand($this->getHelperSet());
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());

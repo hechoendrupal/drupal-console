@@ -1,0 +1,45 @@
+description: 'वर्तमान एप्लीकेशन विन्यास का निर्यात करें.'
+arguments:
+    directory: 'विन्यास आउटपुट को सुरक्षित करने क लिए निर्यात डायरेक्टरी की परिभाषा दें.'
+messages:
+    directory: 'आपकी विन्यास निर्यात फाइल को %s में सुरक्षित किया गया था'
+content:
+    type:
+        description: 'एक विशेष सामग्री प्ररूप और उनके क्षेत्रों का निर्यात करें.'
+        arguments:
+            content_type: 'निर्यात किए जाने वाले कंटेंट प्ररूप'
+        questions:
+            content_type: 'Content Type to be exported'
+            optional-config: 'Export content type in module as an optional configuration'
+        messages:
+            content_type_exported: 'Exporting content type'
+        options:
+            optional-config: 'Export content type as an optional YAML configuration in your module'
+single:
+    description: 'अकेली विन्यास फाइल का बतौर yml फाइल निर्यात करें.'
+    arguments:
+        config-name: 'विन्यास नाम.'
+    options:
+        simple-configuration: 'साधारण विन्यास'
+    questions:
+        config-type: 'विन्यास प्ररूप'
+        config-name: 'विन्यास नाम'
+    messages:
+        config-not-found: 'विन्यास नाम नहीं मिला.'
+        export: 'विन्यास को %s फाइल पर निर्यात किया गया था.'
+        invalid-config-type: 'विन्यास प्ररूप अमान्य है, सूची में से एक का चयन करें'
+        invalid-config-name: 'विन्यास प्ररूप अमान्य है, सूची में से एक का चयन करें'
+view:
+    description: 'एक दृश्य को दूसरी वेबसाइट में परयोग करने के लिए, दिए गए मॉड्यूल के अंदर yml फार्मेट में निर्यात करें.'
+    messages:
+        view_exported: 'Exporting view'
+        depencies-included: 'The following module dependencies were included at %s'
+    questions:
+        view: 'View to be exported'
+        optional-config: 'Export view in module as an optional configuration'
+        include-module-dependencies: 'Include view module dependencies in module info YAML file'
+    arguments:
+        view-id: 'आईडी देखें'
+    options:
+        optional-config: 'Export view as an optional YAML configuration in your module'
+        include-module-dependencies: 'Include module dependencies in module info YAML file'

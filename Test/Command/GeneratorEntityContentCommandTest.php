@@ -30,7 +30,7 @@ class GeneratorEntityContentCommandTest extends GenerateCommandTest
         $entity_class,
         $label
     ) {
-        $command = new GeneratorEntityContentCommand($this->getTranslatorHelper());
+        $command = new GeneratorEntityContentCommand($this->getHelperSet());
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());

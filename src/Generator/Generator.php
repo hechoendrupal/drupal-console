@@ -7,13 +7,26 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Helper\HelperTrait;
+
 class Generator
 {
+    use HelperTrait;
+
+    /**
+     * @var array
+     */
     private $files;
 
+    /**
+     * @var bool
+     */
     private $learning = false;
 
-    private $helpers;
+    /**
+     * @var array
+     */
+    private $helperSet;
 
     /**
      * @param string $template
@@ -29,8 +42,8 @@ class Generator
             mkdir(dirname($target), 0777, true);
         }
 
-        if (file_put_contents($target, $this->getRenderer()->render($template, $parameters), $flag)) {
-            $this->files[] = str_replace(DRUPAL_ROOT.'/', '', $target);
+        if (file_put_contents($target, $this->getRenderHelper()->render($template, $parameters), $flag)) {
+            $this->files[] = str_replace($this->getDrupalHelper()->getRoot().'/', '', $target);
 
             return true;
         }
@@ -38,36 +51,41 @@ class Generator
         return false;
     }
 
-    public function getSite()
+    /**
+     * @param $helperSet
+     */
+    public function setHelperSet($helperSet)
     {
-        return $this->getHelpers()->get('site');
+        $this->helperSet = $helperSet;
     }
 
-    public function getRenderer()
+    /**
+     * @return array
+     */
+    public function getHelperSet()
     {
-        return $this->getHelpers()->get('renderer');
+        return $this->helperSet;
     }
 
-    public function setHelpers($helpers)
-    {
-        $this->helpers = $helpers;
-    }
-
-    public function getHelpers()
-    {
-        return $this->helpers;
-    }
-
+    /**
+     * @return array
+     */
     public function getFiles()
     {
         return $this->files;
     }
 
+    /**
+     * @param $learning
+     */
     public function setLearning($learning)
     {
         $this->learning = $learning;
     }
 
+    /**
+     * @return bool
+     */
     public function isLearning()
     {
         return $this->learning;

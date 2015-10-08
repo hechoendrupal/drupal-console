@@ -1,0 +1,26 @@
+description: 'Genereaza si Inregistreaza un controller'
+help: 'Comanda <info>generate:controller</info> te va ajuta sa generezi un nou controller.'
+welcome: 'Bine ai venit in Generatorul de Drupal Controller'
+options:
+    module: common.options.module
+    class-name: 'Numele Clasei pentru "Controller"'
+    method-name: 'Numele actiunii metodei'
+    route: 'Calea spre "route"'
+    services: common.options.services
+    test: 'Genereaza o Clasa de test'
+questions:
+    module: common.questions.module
+    class-name: 'Introdu numele Clasei pentru "Controller"'
+    method-name: 'Introdu numele actiunii metodei'
+    route: 'Introdu calea spre "route"'
+    services: common.questions.services
+    test: 'Vreai sa generezi o Clasa pentru "Unit Test"'
+    other-controller-title: 'Controller title (empty to start with code generation)'
+    controller-title: 'Controller title'
+messages:
+    invalid-controller-title: 'Title cannot be empty'
+    title-already-added: 'Title was already added'
+    invalid-method-name: 'Method name cannot be empty'
+    method-name-already-added: 'Method name was already added'
+    invalid-route: 'Route cannot be empty'
+    route-already-added: 'Route was already added'

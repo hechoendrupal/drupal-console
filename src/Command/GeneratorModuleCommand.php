@@ -63,6 +63,12 @@ class GeneratorModuleCommand extends GeneratorCommand
                 $this->trans('commands.generate.module.options.package')
             )
             ->addOption(
+                'feature',
+                false,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.generate.module.options.feature')
+            )
+            ->addOption(
                 'composer',
                 false,
                 InputOption::VALUE_NONE,
@@ -82,8 +88,8 @@ class GeneratorModuleCommand extends GeneratorCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $dialog = $this->getDialogHelper();
-        $validators = $this->getHelperSet()->get('validators');
-        $messageHelper = $this->getHelperSet()->get('message');
+        $validators = $this->getValidator();
+        $messageHelper = $this->getMessageHelper();
 
         if ($this->confirmationQuestion($input, $output, $dialog)) {
             return;
@@ -91,8 +97,8 @@ class GeneratorModuleCommand extends GeneratorCommand
 
         $module = $validators->validateModuleName($input->getOption('module'));
 
-        $drupal = $this->getHelperSet()->get('drupal');
-        $drupal_root = $drupal->getDrupalRoot();
+        $drupal = $this->getDrupalHelper();
+        $drupal_root = $drupal->getRoot();
         $module_path = $drupal_root.$input->getOption('module-path');
         $module_path = $validators->validateModulePath($module_path, true);
 
@@ -100,6 +106,7 @@ class GeneratorModuleCommand extends GeneratorCommand
         $description = $input->getOption('description');
         $core = $input->getOption('core');
         $package = $input->getOption('package');
+        $feature = $input->getOption('feature');
         $composer = $input->getOption('composer');
         /*
          * Modules Dependencies
@@ -127,6 +134,7 @@ class GeneratorModuleCommand extends GeneratorCommand
             $description,
             $core,
             $package,
+            $feature,
             $composer,
             $dependencies
         );
@@ -175,8 +183,8 @@ class GeneratorModuleCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $stringUtils = $this->getHelperSet()->get('stringUtils');
-        $validators = $this->getHelperSet()->get('validators');
+        $stringUtils = $this->getStringUtils();
+        $validators = $this->getValidator();
         $dialog = $this->getDialogHelper();
 
         try {
@@ -222,8 +230,8 @@ class GeneratorModuleCommand extends GeneratorCommand
         }
 
         $module_path = $input->getOption('module-path');
-        $drupal = $this->getHelperSet()->get('drupal');
-        $drupal_root = $drupal->getDrupalRoot();
+        $drupal = $this->getDrupalHelper();
+        $drupal_root = $drupal->getRoot();
 
         if (!$module_path) {
             $module_path_default = '/modules/custom';
@@ -284,6 +292,17 @@ class GeneratorModuleCommand extends GeneratorCommand
             );
         }
         $input->setOption('core', $core);
+
+        $feature = $input->getOption('feature');
+        if (!$feature && $dialog->askConfirmation(
+            $output,
+            $dialog->getQuestion($this->trans('commands.generate.module.questions.feature'), 'no', '?'),
+            false
+        )
+        ) {
+            $feature = true;
+        }
+        $input->setOption('feature', $feature);
 
         $composer = $input->getOption('composer');
         if (!$composer && $dialog->askConfirmation(

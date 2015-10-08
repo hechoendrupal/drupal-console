@@ -84,7 +84,7 @@ class GeneratorServiceCommand extends GeneratorCommand
             ->getGenerator()
             ->generate($module, $name, $class, $interface, $build_services);
 
-        $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 
     /**
@@ -108,7 +108,7 @@ class GeneratorServiceCommand extends GeneratorCommand
             $name = $dialog->ask(
                 $output,
                 $dialog->getQuestion(
-                    $this->trans('commands.generate.service.questions.name'),
+                    $this->trans('commands.generate.service.questions.service-name'),
                     $module.'.default'
                 ),
                 $module.'.default'
@@ -121,7 +121,7 @@ class GeneratorServiceCommand extends GeneratorCommand
         if (!$class) {
             $class = $dialog->ask(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.service.questions.class'), 'DefaultService'),
+                $dialog->getQuestion($this->trans('commands.generate.service.questions.class-name'), 'DefaultService'),
                 'DefaultService'
             );
         }

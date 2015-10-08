@@ -43,14 +43,14 @@ class ModuleDebugCommand extends ContainerAwareCommand
             $type = null;
         }
 
-        $table = $this->getHelperSet()->get('table');
+        $table = $this->getTableHelper();
         $table->setlayout($table::LAYOUT_COMPACT);
         $this->getAllModules($status, $type, $output, $table);
     }
 
     protected function getAllModules($status, $type, $output, $table)
     {
-        include_once DRUPAL_ROOT . '/core/includes/schema.inc';
+        include_once $this->getDrupalHelper()->getRoot() . '/core/includes/schema.inc';
 
         $table->setHeaders(
             [

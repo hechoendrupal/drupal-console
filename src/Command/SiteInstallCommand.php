@@ -227,12 +227,12 @@ class SiteInstallCommand extends Command
         $profiles = [];
         $listing = null;
 
-        $drupal = $this->getHelperSet()->get('drupal');
+        $drupal = $this->getDrupalHelper();
 
-        print_r($drupal->getDrupalRoot());
+        print_r($drupal->getRoot());
 
         // Add list of all available profiles to the installation state.
-        $listing = new ExtensionDiscovery($drupal->getDrupalRoot());
+        $listing = new ExtensionDiscovery($drupal->getRoot());
 
         print_r($listing);
 

@@ -47,7 +47,7 @@ class InitCommand extends Command
     {
         $application = $this->getApplication();
         $config = $application->getConfig();
-        $message = $this->getHelperSet()->get('message');
+        $message = $this->getMessageHelper();
         $basePath = __DIR__.'/../../';
         $userPath = $config->getUserHomeDir().'/.console/';
         $copiedFiles = [];

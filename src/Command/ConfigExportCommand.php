@@ -35,7 +35,7 @@ class ConfigExportCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $messageHelper = $this->getHelperSet()->get('message');
+        $messageHelper = $this->getMessageHelper();
         $directory = $input->getArgument('directory');
 
         if (!$directory) {

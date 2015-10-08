@@ -32,7 +32,7 @@ class GeneratorPluginImageEffectCommandTest extends GenerateCommandTest
         $plugin_id,
         $description
     ) {
-        $command = new GeneratorPluginImageEffectCommand($this->getTranslatorHelper());
+        $command = new GeneratorPluginImageEffectCommand($this->getHelperSet());
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());

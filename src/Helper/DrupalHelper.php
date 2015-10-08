@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Helper;
 
-use Symfony\Component\Console\Helper\Helper;
+use Drupal\Console\Helper\Helper;
 
 /**
  * Class DrupalHelper
@@ -15,74 +15,51 @@ use Symfony\Component\Console\Helper\Helper;
  */
 class DrupalHelper extends Helper
 {
-    const DRUPAL_AUTOLOAD = 'core/vendor/autoload.php';
+    const DRUPAL_AUTOLOAD = 'autoload.php';
 
     const DRUPAL_SETTINGS = 'sites/default/settings.php';
 
     /**
      * @var string
      */
-    private $drupalRoot;
+    private $root = false;
 
     /**
      * @var string
      */
-    private $drupalAutoLoadPath;
+    private $autoLoad = null;
 
     /**
      * @var bool
      */
-    private $bootable;
+    private $installed = false;
 
     /**
-     * @param  string $drupalRoot
+     * @param  string $root
+     * @param  bool   $recursive
      * @return bool
      */
-    public function isValidInstance($drupalRoot=null)
+    public function isValidRoot($root, $recursive=false)
     {
-        if ($drupalRoot) {
-            return $this->isValidRoot($drupalRoot);
-        }
-
-        $drupalRoot = getcwd();
-
-        return $this->isAutoLoader($drupalRoot);
-    }
-
-    /**
-     * @param $drupalRoot
-     * @return bool
-     */
-    private function isAutoLoader($drupalRoot)
-    {
-        if ($drupalRoot === '/') {
+        if (!$root) {
             return false;
         }
 
-        if ($this->isValidRoot($drupalRoot)) {
-            return true;
-        }
-
-        return $this->isAutoLoader(realpath($drupalRoot . '/../'));
-    }
-
-    /**
-     * @param  string $drupalRoot
-     * @return bool
-     */
-    private function isValidRoot($drupalRoot)
-    {
-        if (!$drupalRoot) {
+        if ($root === '/') {
             return false;
         }
 
-        $drupalAutoLoadPath = sprintf('%s/%s', $drupalRoot, self::DRUPAL_AUTOLOAD);
+        $autoLoad = sprintf('%s/%s', $root, self::DRUPAL_AUTOLOAD);
 
-        if (file_exists($drupalAutoLoadPath)) {
-            $this->drupalRoot = $drupalRoot;
-            $this->drupalAutoLoadPath = $drupalAutoLoadPath;
-            $this->bootable = true;
+        if (file_exists($autoLoad)) {
+            $this->root = $root;
+            $this->autoLoad = $autoLoad;
+            $this->installed = $this->isSettingsFile();
             return true;
+        }
+
+        if ($recursive) {
+            return $this->isValidRoot(realpath($root . '/../'), $recursive);
         }
 
         return false;
@@ -93,13 +70,9 @@ class DrupalHelper extends Helper
      */
     private function isSettingsFile()
     {
-        $drupalSettingsPath = sprintf('%s/%s', $this->drupalRoot, self::DRUPAL_SETTINGS);
+        $settingsPath = sprintf('%s/%s', $this->root, self::DRUPAL_SETTINGS);
 
-        if (!file_exists($drupalSettingsPath)) {
-            return false;
-        }
-
-        return true;
+        return file_exists($settingsPath);
     }
 
     /**
@@ -107,39 +80,39 @@ class DrupalHelper extends Helper
      */
     public function isInstalled()
     {
-        if (!$this->isBootable()) {
-            return false;
-        }
+        return $this->installed;
+    }
 
-        if (!$this->isSettingsFile()) {
-            return false;
-        }
+    /**
+     * @return string
+     */
+    public function getRoot()
+    {
+        return $this->root;
+    }
 
-        return true;
+    /**
+     * @return string
+     */
+    public function getAutoLoad()
+    {
+        return $this->autoLoad;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAutoLoadClass()
+    {
+        return include $this->autoLoad;
     }
 
     /**
      * @return bool
      */
-    public function isBootable()
+    public function isAutoload()
     {
-        return $this->bootable;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDrupalRoot()
-    {
-        return $this->drupalRoot;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDrupalAutoLoadPath()
-    {
-        return $this->drupalAutoLoadPath;
+        return ($this->autoLoad?true:false);
     }
 
     /**

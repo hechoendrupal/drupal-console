@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Helper;
 
-use Symfony\Component\Console\Helper\Helper;
+use Drupal\Console\Helper\Helper;
 use Drupal\Console\Utils\DrupalExtensionDiscovery;
 
 /**
@@ -21,6 +21,11 @@ class SiteHelper extends Helper
      * @var array
      */
     private $modules;
+
+    /**
+     * @var array
+     */
+    private $noCoreModules;
 
     /**
      * @var string
@@ -43,7 +48,11 @@ class SiteHelper extends Helper
         $this->sitePath = $sitePath;
     }
 
-    private function discoverModules(){
+    /**
+     * @return \Drupal\Core\Extension\Extension[]
+     */
+    private function discoverModules()
+    {
         /*
          * @todo Remove DrupalExtensionDiscovery subclass once
          * https://www.drupal.org/node/2503927 is fixed.
@@ -54,23 +63,107 @@ class SiteHelper extends Helper
         return $discovery->scan('module');
     }
 
+    public function getNoCoreModules()
+    {
+        if (!$this->noCoreModules) {
+            $this->getModules();
+        }
+
+        return $this->noCoreModules;
+    }
+
+    public function getModules($reset=false)
+    {
+        if (!$this->modules || $reset) {
+            $this->modules = $this->discoverModules();
+            foreach ($this->modules as $module) {
+                if ($module->origin != 'core') {
+                    $this->noCoreModules[] = $module->getName();
+                }
+            }
+        }
+
+        return $this->modules;
+    }
+
     /**
      * @param string $moduleName
+     * @param bool   $fullPath
      * @return string
      */
-    public function getModulePath($moduleName)
+    public function getModulePath($moduleName, $fullPath=true)
     {
         if (!$this->modules || !$this->modules[$moduleName]) {
             $this->modules = $this->discoverModules();
         }
 
-        $this->modulePath = sprintf(
+        $modulePath = sprintf(
             '%s/%s',
             $this->sitePath,
-          $this->modules[$moduleName]->getPath()
+            $this->modules[$moduleName]->getPath()
         );
 
-        return $this->modulePath;
+        if (!$fullPath) {
+            $modulePath = str_replace(
+                sprintf(
+                    '%s/',
+                    $this->sitePath
+                ),
+                '',
+                $modulePath
+            );
+        }
+
+        return $modulePath;
+    }
+
+    /**
+     * @param string $moduleName
+     * @return bool
+     */
+    public function createModuleConfigDirectory($moduleName)
+    {
+        if (!$moduleName) {
+            return false;
+        }
+
+        $modulePath = $this->getModulePath($moduleName);
+
+        if (!file_exists($modulePath .'/config')) {
+            mkdir($modulePath .'/config', 0755, true);
+        }
+
+        return true;
+    }
+
+    /**
+     * @param string $moduleName
+     * @param bool   $fullPath
+     * @return string
+     */
+    public function getModuleConfigInstallDirectory($moduleName, $fullPath=true)
+    {
+        return $this->getModulePath($moduleName, $fullPath).'/config/install';
+    }
+
+    /**
+     * @param string $moduleName
+     * @param bool   $fullPath
+     * @return string
+     */
+    public function getModuleConfigOptionalDirectory($moduleName, $fullPath=true)
+    {
+        return $this->getModulePath($moduleName, $fullPath).'/config/optional';
+    }
+
+    /**
+     * @param string $moduleName
+     * @param bool   $fullPath
+     * @return string
+     */
+    public function getModuleInfoFile($moduleName, $fullPath=true)
+    {
+        return $this->getModulePath($moduleName, $fullPath)."/$moduleName.info.yml";
     }
 
     /**

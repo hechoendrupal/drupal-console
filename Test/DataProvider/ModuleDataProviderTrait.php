@@ -16,10 +16,10 @@ trait ModuleDataProviderTrait
         $this->setUpTemporalDirectory();
 
         return [
-          ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, null],
-          ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, null],
-          ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, null],
-          ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', true, null],
+          ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, false, null],
+          ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', true, false, null],
+          ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, false, null],
+          ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', true, true, null],
         ];
     }
 }

@@ -23,7 +23,7 @@ class AboutCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $renderer = $this->getHelperSet()->get('renderer');
+        $renderer = $this->getRenderHelper();
 
         $features = [
           $this->trans('commands.about.messages.welcome-feature-learn'),

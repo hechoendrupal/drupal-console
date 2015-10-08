@@ -10,9 +10,9 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 {
     private $container;
 
-    private $modules;
-
     private $services;
+
+    private $events;
 
     private $route_provider;
 
@@ -22,7 +22,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     protected function getContainer()
     {
         if (null === $this->container) {
-            $this->container = $this->getApplication()->getKernel()->getContainer();
+            $this->container = $this->getKernelHelper()->getKernel()->getContainer();
         }
 
         return $this->container;
@@ -34,31 +34,6 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
-    }
-
-    /**
-     * [getModules description].
-     *
-     * @param bool $core Return core modules
-     *
-     * @return array list of modules
-     */
-    public function getModules($core = false)
-    {
-        if (null === $this->modules) {
-            $this->modules = [];
-            $extensionDiscover = new ExtensionDiscovery(\Drupal::root());
-            $moduleList = $extensionDiscover->scan('module');
-            foreach ($moduleList as $name => $filename) {
-                if ($core) {
-                    array_push($this->modules, $name);
-                } elseif (!preg_match('/^core/', $filename->getPathname())) {
-                    array_push($this->modules, $name);
-                }
-            }
-        }
-
-        return $this->modules;
     }
 
     /**
@@ -150,6 +125,16 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         return $this->services;
     }
 
+    public function getEvents()
+    {
+        if (null === $this->events) {
+            $this->events = [];
+            $this->events = array_keys($this->getEventDispatcher()->getListeners());
+        }
+
+        return $this->events;
+    }
+
     public function getRouteProvider()
     {
         if (null === $this->route_provider) {
@@ -225,6 +210,14 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         return $this->getContainer()->get('config.manager');
     }
 
+    /**
+     * @return \Drupal\Component\EventDispatcher\ContainerAwareEventDispatcher
+     */
+    public function getEventDispatcher()
+    {
+        return $this->getContainer()->get('event_dispatcher');
+    }
+
     public function getEntityManager()
     {
         return $this->getContainer()->get('entity.manager');
@@ -233,6 +226,14 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     public function getCron()
     {
         return $this->getContainer()->get('cron');
+    }
+
+    /**
+     * @return \Drupal\Core\ProxyClass\Lock\DatabaseLockBackend
+     */
+    public function getDatabaseLockBackend()
+    {
+        return $this->getContainer()->get('lock');
     }
 
     public function getViewDisplayManager()
@@ -328,9 +329,18 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         return $this->getContainer()->get('password');
     }
 
+    public function validateEventExist($event_name, $events = null)
+    {
+        if (!$events) {
+            $events = $this->getEvents();
+        }
+
+        return $this->getValidator()->validateEventExist($event_name, $events);
+    }
+
     public function validateModuleExist($module_name)
     {
-        return $this->getValidator()->validateModuleExist($module_name, $this->getModules());
+        return $this->getValidator()->validateModuleExist($module_name, $this->getSite()->getNoCoreModules());
     }
 
     public function validateServiceExist($service_name, $services = null)
@@ -345,7 +355,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     public function validateModule($machine_name)
     {
         $machine_name = $this->validateMachineName($machine_name);
-        $modules = array_merge($this->getModules(true), $this->getModules());
+        $modules = array_merge($this->getSite()->getModules(true), $this->getSite()->getModules(false));
         if (in_array($machine_name, $modules)) {
             throw new \InvalidArgumentException(sprintf('Module "%s" already exist.', $machine_name));
         }
