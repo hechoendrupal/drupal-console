@@ -16,7 +16,7 @@ use Symfony\Component\Translation\Writer\TranslationWriter;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Yaml\Parser;
 use Drupal\Console\Helper\Helper;
-use Drupal\Console\YamlFileDumper;
+use Drupal\Console\Utils\YamlFileDumper;
 
 /**
  * Class TranslatorHelper
@@ -36,7 +36,7 @@ class TranslatorHelper extends Helper
 
     /**
      * @param $resource
-     * @param string $name
+     * @param string   $name
      */
     private function addResource($resource, $name = 'yaml')
     {
@@ -79,8 +79,8 @@ class TranslatorHelper extends Helper
         }
 
         $finder->files()
-          ->name('*.yml')
-          ->in($languageDirectory);
+            ->name('*.yml')
+            ->in($languageDirectory);
 
         foreach ($finder as $file) {
             $resource = $languageDirectory . '/' . $file->getBasename();
