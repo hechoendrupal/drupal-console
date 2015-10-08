@@ -1,0 +1,9 @@
+dev:
+  drupal: /var/www/drupal8.dev
+  host: 172.17.0.1
+  user: ubuntu
+prod:
+  drupal: /var/www/html/docroot
+  host: cloud.sample.com
+  user: root
+  console: /var/www/html/docroot/console.phar

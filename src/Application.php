@@ -133,8 +133,8 @@ class Application extends BaseApplication
         $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
 
         $debug = getenv('DRUPAL_DEBUG') !== '0'
-            && !$input->hasParameterOption(array('--no-debug', ''))
-            && $env !== 'prod';
+          && !$input->hasParameterOption(array('--no-debug', ''))
+          && $env !== 'prod';
 
         $message = $this->getMessageHelper();
         $drupal = $this->getDrupalHelper();
