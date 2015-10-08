@@ -7,15 +7,12 @@
 
 namespace Drupal\Console\Helper;
 
-use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Console\Helper\HelperInterface;
 use Drupal\Core\Cache\Cache;
-use Drupal\Console\Helper\HelperTrait;
+use Drupal\Console\Helper\Helper;
 
-class ValidatorHelper extends Helper implements HelperInterface
+class ValidatorHelper extends Helper
 {
-    use HelperTrait;
-
     private $caches = [];
 
     const REGEX_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+$/';
@@ -23,10 +20,6 @@ class ValidatorHelper extends Helper implements HelperInterface
     const REGEX_MACHINE_NAME = '/^[a-z0-9_]+$/';
     // This REGEX remove spaces between words
     const REGEX_REMOVE_SPACES = '/[\\s+]/';
-
-    public function __construct()
-    {
-    }
 
     public function validateModuleName($module)
     {
