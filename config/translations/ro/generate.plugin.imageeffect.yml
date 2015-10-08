@@ -1,15 +1,15 @@
-description: 'Genereaza un "Image effect plugin".'
-help: 'Comanda <info>generate:plugin:imageeffect</info> te va ajuta sa generezi un nou "Image effect plugin".'
-welcome: 'Bine ai venit in generatorul de Drupal "Image Effect Plugin"'
+description: 'Generează o extensie pentru efecte de imagini.'
+help: 'Comanda <info>generate:plugin:imageeffect</info> te va ajuta să generezi o noua extensie pentru efecte de imagini.'
+welcome: 'Bine ai venit în generatorul de extensii pentru efecte de imagini'
 options:
     module: common.options.module
-    class-name: 'Introdu numele clasei pentru Plugin'
-    label: 'Eticheta pentru Plugin'
-    plugin-id: 'Id-ul pentru Plugin'
-    description: 'Descrierea Plugin-ului'
+    class-name: 'Introdu numele clasei pentru extensie'
+    label: 'Eticheta pentru extensie'
+    plugin-id: 'Id-ul pentru extensie'
+    description: 'Descrierea extensiei'
 questions:
     module: common.questions.module
-    class-name: 'Introdu numele Clasei pentru Plugin'
-    label: 'Introdu Eticheta pentru Plugin'
-    plugin-id: 'Introdu ID-ul pentru Plugin'
-    description: 'Introdu Descrierea pentru Plugin'
+    class-name: 'Introdu numele Clasei pentru extensie'
+    label: 'Introdu Eticheta pentru extensie'
+    plugin-id: 'Introdu ID-ul pentru extensie'
+    description: 'Introdu Descrierea pentru extensie'
