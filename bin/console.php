@@ -1,7 +1,7 @@
 <?php
 
-use Drupal\Console\Console\Shell;
-use Drupal\Console\Console\Application;
+use Drupal\Console\Shell;
+use Drupal\Console\Application;
 use Drupal\Console\Helper\ShellHelper;
 use Drupal\Console\Helper\KernelHelper;
 use Drupal\Console\Helper\DialogHelper;
