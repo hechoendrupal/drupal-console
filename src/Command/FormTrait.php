@@ -58,7 +58,7 @@ trait FormTrait
                 }
 
                 // Machine name
-                $input_machine_name = $this->getStringUtils()->createMachineName($input_label);
+                $input_machine_name = $this->getStringHelper()->createMachineName($input_label);
 
                 $input_name = $dialog->ask(
                     $output,

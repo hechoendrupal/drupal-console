@@ -95,7 +95,7 @@ class GeneratorControllerCommand extends GeneratorCommand
         $build_services = $this->buildServices($services);
 
         // Controller machine name
-        $class_machine_name = $this->getStringUtils()->camelCaseToMachineName($class_name);
+        $class_machine_name = $this->getStringHelper()->camelCaseToMachineName($class_name);
 
         $generator = $this->getGenerator();
         $generator->setLearning($learning);

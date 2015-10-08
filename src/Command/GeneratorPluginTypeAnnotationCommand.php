@@ -90,7 +90,7 @@ class GeneratorPluginTypeAnnotationCommand extends GeneratorCommand
         }
         $input->setOption('class-name', $class_name);
 
-        $default_machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
+        $default_machine_name = $this->getStringHelper()->camelCaseToUnderscore($class_name);
 
         // --machine-name option
         $machine_name = $input->getOption('machine-name');
@@ -106,7 +106,7 @@ class GeneratorPluginTypeAnnotationCommand extends GeneratorCommand
         }
         $input->setOption('machine-name', $machine_name);
 
-        $default_label = $this->getStringUtils()->camelCaseToHuman($class_name);
+        $default_label = $this->getStringHelper()->camelCaseToHuman($class_name);
 
         // --label option
         $label = $input->getOption('label');
