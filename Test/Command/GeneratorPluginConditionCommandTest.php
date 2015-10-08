@@ -37,7 +37,6 @@ class GeneratorPluginConditionCommandTest extends GenerateCommandTest
         $context_definition_required
     ) {
         $command = new GeneratorPluginConditionCommand($this->getHelperSet());
-        $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 
