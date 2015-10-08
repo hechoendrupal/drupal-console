@@ -1,19 +1,19 @@
-description: 'Generate a plugin block'
-help: 'The <info>generate:plugin:block</info> command helps you generate a new Plugin block.'
-welcome: 'Welcome to the Drupal Plugin Block generator'
+description: 'Genera un plugin de bloque'
+help: 'El comando <info>generate:plugin:block</info> te ayuda a generar un nuevo plugin de bloque.'
+welcome: 'Bienvenido al generador de plugins de bloque para Drupal'
 options:
     module: common.options.module
-    class-name: 'Plugin class name'
-    label: 'Plugin label'
-    plugin-id: 'Plugin id'
+    class-name: 'Nombre de la clase del plugin'
+    label: 'Etiqueta del plugin'
+    plugin-id: 'Id del plugin'
     inputs: common.options.inputs
     services: common.options.services
 questions:
     module: common.questions.module
-    class-name: 'Enter the plugin class name'
-    label: 'Enter the plugin label'
-    plugin-id: 'Enter the plugin id'
+    class-name: 'Introduce un nombre de clase para el plugin'
+    label: 'Introduce la etiqueta del plugin'
+    plugin-id: 'Introduce el id del plugin'
     inputs: common.questions.inputs
     services: common.questions.services
 messages:
-    inputs: "\nYou can add input fields to create special configurations in each block.\nThis is optional, press <info>enter</info> to <info>continue</info>"
+    inputs: "\nPuedes añadir campos de tipo input para crear configuraciones particulares en cada bloque.\nEsto es opcional, pulssa <info>enter</info> para <info>continuar</info>"
