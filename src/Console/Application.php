@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Debug\Debug;
 use Drupal\Console\Helper\HelperTrait;
+
 /**
  * Class Application
  * @package Drupal\Console\Console
