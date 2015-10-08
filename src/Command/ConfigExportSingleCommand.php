@@ -109,7 +109,7 @@ class ConfigExportSingleCommand extends ContainerAwareCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $dialog = $this->getDialogHelper();
-        $utils = $this->getStringUtils();
+        $utils = $this->getStringHelper();
 
         $config_types = $this->getConfigTypes();
 

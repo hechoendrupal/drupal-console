@@ -70,8 +70,8 @@ trait PermissionTrait
                 $boolOrNone
             );
 
-            $permission = $this->getStringUtils()->camelCaseToLowerCase($permission);
-            $title = $this->getStringUtils()->anyCaseToUcFirst($title);
+            $permission = $this->getStringHelper()->camelCaseToLowerCase($permission);
+            $title = $this->getStringHelper()->anyCaseToUcFirst($title);
 
             array_push(
                 $permissions, array(
