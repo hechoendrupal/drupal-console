@@ -4,7 +4,7 @@ arguments:
 options:
     indent-level: 'Split YAML file using a specific indent level'
     exclude-parents-key: 'Exclude parents key in file name generated'
-    stating-key: 'YAML Key from where start split useful to extract partial elements'
+    starting-key: 'YAML Key from where start split useful to extract partial elements'
 messages:
     generating-split: 'Generating new files'
     split-generated: 'File %s was generated'
