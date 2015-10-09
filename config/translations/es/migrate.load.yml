@@ -1,10 +1,10 @@
-description: 'Generate a migration entity.'
+description: 'Genera una entidad de migración.'
 arguments:
-    file: 'Path to the yml file'
+    file: 'Ruta al fichero YAML'
 messages:
-    invalid_file: 'The file "%s" does not exists.'
-    installed: 'Please remember to put the plugin files where they should be.'
-    overridden: 'The entity was overridden.'
+    invalid_file: 'El fichero "%s" no existe.'
+    installed: 'Por favor, recuerda colocar los ficheros del plugin donde deben estar.'
+    overridden: 'La entidad ha sido sobreescrita.'
 questions:
-    override: 'The File is already install, do you want override it [yes/no] ?'
-    file: 'Path to file'
+    override: 'El fichero ya está instalado, seguro que quieres sobreescribirlo [yes/no] ?'
+    file: 'Ruta al fichero'
