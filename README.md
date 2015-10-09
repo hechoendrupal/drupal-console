@@ -48,17 +48,23 @@ php -r "readfile('http://drupalconsole.com/installer');" | php
 # For example: move console.phar and rename it, 'drupal':
 mv console.phar /usr/local/bin/drupal
 
-# You can enable autocomplete (only bash and zsh for the moment)
-drupal init
-
-# Add this line to your shell configuration file
-source "$HOME/.console/console.rc" 2>/dev/null
-
 # Show all available Drupal Console commands.
 drupal
 
 # Generate a module.
 drupal generate:module
+```
+
+## Enabling Autocomplete
+```
+# You can enable autocomplete by executing
+drupal init
+
+# Bash or Zsh: Add this line to your shell configuration file
+source "$HOME/.console/console.rc" 2>/dev/null
+
+# Fish: Create a symbolic link
+ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish
 ```
 
 ## Using Drupal Console

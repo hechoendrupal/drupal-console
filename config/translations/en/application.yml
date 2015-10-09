@@ -20,10 +20,10 @@ console:
         learning:
             route: "In order to to create pages it is necessary to define routes for them.\nA route maps a URL path to a controller. It defines with what function\nor method will be called when a URL is accessed.\nIf the user accesses http://drupal8.dev/{{ route }}, the routing\nsystem will look for a route with that path. In this case it will find a\nmatch, and execute the _controller callback. In this case the callback is\ndefined as a classname\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nand a method (\"{{ route.method }}\")."
         autocomplete: |
-                    To enable auto-complete on bash or zsh add this line to your shell configuration file:
+                    Bash or Zsh: Add this line to your shell configuration file:
                     <info>source "$HOME/.console/console.rc" 2>/dev/null</info>
 
-                    On Fish shell just link the .fish file to fish completions directory
+                    Fish: Create a symbolic link
                     <info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>
 
     errors:
