@@ -2,12 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\AppConsole\Generator\AutocompleteGenerator.
+ * Contains Drupal\Console\Generator\AutocompleteGenerator.
  */
 
-namespace Drupal\AppConsole\Generator;
-
-use Drupal\AppConsole\Console\Application;
+namespace Drupal\Console\Generator;
 
 class AutocompleteGenerator extends Generator
 {
@@ -23,6 +21,12 @@ class AutocompleteGenerator extends Generator
         $this->renderFile(
             'autocomplete/console.rc.twig',
             $user_path.'console.rc',
+            $parameters
+        );
+
+        $this->renderFile(
+            'autocomplete/console.fish.twig',
+            $user_path.'drupal.fish',
             $parameters
         );
     }
