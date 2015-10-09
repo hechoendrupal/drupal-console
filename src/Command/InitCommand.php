@@ -10,7 +10,7 @@ namespace Drupal\Console\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\AppConsole\Generator\AutocompleteGenerator;
+use Drupal\Console\Generator\AutocompleteGenerator;
 use Symfony\Component\Process\ProcessBuilder;
 
 class InitCommand extends Command
@@ -78,9 +78,7 @@ class InitCommand extends Command
     protected function createAutocomplete()
     {
         $generator = new AutocompleteGenerator();
-        $generator->setSkeletonDirs($this->getSkeletonDirs());
-        $generator->setTranslator($this->translator);
-        $generator->setHelpers($this->getHelperSet());
+        $generator->setHelperSet($this->getHelperSet());
 
         $application = $this->getApplication();
         $config = $application->getConfig();
@@ -101,8 +99,8 @@ class InitCommand extends Command
     {
         $module = $this->getModule();
         if ($module != 'AppConsole') {
-            $drupalAutoLoad = $this->getHelperSet()->get('drupal-autoload');
-            $drupal_root = $drupalAutoLoad->getDrupalRoot();
+            $drupal = $this->getDrupalHelper();
+            $drupal_root = $drupal->getRoot();
             $skeletonDirs[] = $drupal_root.drupal_get_path('module', $module).'/templates';
         }
 
