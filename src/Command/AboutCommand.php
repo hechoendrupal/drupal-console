@@ -39,7 +39,7 @@ class AboutCommand extends Command
 
         $supportedVersion = sprintf(
             $this->trans('commands.about.messages.version-supported'),
-            'Drupal 8 Beta 15'
+            'Drupal 8 Beta 16'
         );
 
         $links = [
