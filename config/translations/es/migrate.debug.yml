@@ -1,7 +1,7 @@
-description: 'Display current migration available for the application'
+description: 'Muestra la migración actual disponible para la aplicación'
 arguments:
-    drupal-version: 'Drupal Version'
+    drupal-version: 'Versión de Drupal'
 messages:
-    id: 'Migration Id'
+    id: 'Id de la migration'
     description: Description
     version: Version
