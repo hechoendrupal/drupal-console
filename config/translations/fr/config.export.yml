@@ -12,8 +12,8 @@ content:
             content_type: 'Type de contenu à exporter'
             optional-config: 'Export content type in module as an optional configuration'
         messages:
-            content_type_exported: 'Exporting content type'
-            configuration_exported: 'The following configuration files were generated'
+            content_type_exported: 'Export du type de contenu'
+            configuration_exported: 'Les fichiers de configuration suivants ont été généré'
         options:
             optional-config: 'Export content type as an optional YAML configuration in your module'
 single:
@@ -26,10 +26,10 @@ single:
         config-type: 'Type de configuration'
         config-name: 'Nom de la configuration'
     messages:
-        config-not-found: 'Configuration name not found.'
-        export: 'Configuration was exported at file %s.'
-        invalid-config-type: 'Invalid config type, please select one of the list'
-        invalid-config-name: 'Invalid config name, please select one of the list'
+        config-not-found: 'La configuration n''a pas été trouvée.'
+        export: 'La configuration a été exporté dans le fichier %s.'
+        invalid-config-type: 'Type de configuration non valide, merci de sélectionner un élément de la liste'
+        invalid-config-name: 'Nom de configuration non valide, merci de sélectionner un élément de la liste'
 view:
     description: 'Export a view in YAML format inside a provided module to reuse in other website.'
     messages:
