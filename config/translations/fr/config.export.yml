@@ -5,7 +5,7 @@ messages:
     directory: 'Votre exportation de configuration a été sauvegardée dans %s'
 content:
     type:
-        description: 'Ecporte un type de contenu ainsi que ses champs.'
+        description: 'Exporte un type de contenu ainsi que ses champs.'
         arguments:
             content_type: 'Type de contenu à exporter'
         questions:
