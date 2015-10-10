@@ -23,9 +23,9 @@ console:
         invalid-command: 'La commande "%s" n''existe pas.'
     input:
         definition:
-            command: 'The command to execute'
-            help: 'Display this help message'
-            quiet: 'Do not output any message'
+            command: 'Commande à executer'
+            help: 'Affiche ce message d''aide'
+            quiet: 'N''affiche aucune message'
             verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
             version: 'Display this application version'
             ansi: 'Force ANSI output'
