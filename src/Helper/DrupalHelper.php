@@ -20,7 +20,6 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml\Parser;
 
-
 /**
  * Class DrupalHelper
  * @package Drupal\Console\Helper
@@ -145,7 +144,8 @@ class DrupalHelper extends Helper
     /**
      * @return mixed array
      */
-    public function getStandardtLanguages() {
+    public function getStandardtLanguages()
+    {
         $standard_languages = LanguageManager::getStandardLanguageList();
         $languages = [];
         foreach ($standard_languages as $langcode => $standard_language) {
@@ -156,7 +156,8 @@ class DrupalHelper extends Helper
     }
 
 
-    public function setMinimalContainerPreKernel() {
+    public function setMinimalContainerPreKernel()
+    {
         // Create a minimal mocked container to support calls to t() in the pre-kernel
         // base system verification code paths below. The strings are not actually
         // used or output for these calls.
@@ -197,8 +198,8 @@ class DrupalHelper extends Helper
             ->depth('== 0');
 
         $databases = [];
-        foreach($finder as $driver_folder) {
-            if(file_exists($driver_folder->getRealpath() . '/Install/Tasks.php')) {
+        foreach ($finder as $driver_folder) {
+            if (file_exists($driver_folder->getRealpath() . '/Install/Tasks.php')) {
                 $driver  = $driver_folder->getBasename();
                 $installer = db_installer_object($driver);
                 // Verify is database is installable
@@ -215,14 +216,14 @@ class DrupalHelper extends Helper
         return $databases;
     }
 
-    public function getDatabaseTypeDriver($driver) {
+    public function getDatabaseTypeDriver($driver)
+    {
         // We cannot use Database::getConnection->getDriverClass() here, because
         // the connection object is not yet functional.
         $task_class = "Drupal\\Core\\Database\\Driver\\{$driver}\\Install\\Tasks";
         if (class_exists($task_class)) {
             return new $task_class();
-        }
-        else {
+        } else {
             $task_class = "Drupal\\Driver\\Database\\{$driver}\\Install\\Tasks";
             return new $task_class();
         }

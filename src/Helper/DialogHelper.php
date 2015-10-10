@@ -13,7 +13,6 @@ use Drupal\Console\Helper\HelperTrait;
 
 class DialogHelper extends BaseDialogHelper
 {
-
     use HelperTrait;
 
     public function writeSection(OutputInterface $output, $text, $style = 'bg=blue;fg=white')
