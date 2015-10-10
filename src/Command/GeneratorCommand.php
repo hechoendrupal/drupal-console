@@ -27,7 +27,6 @@ abstract class GeneratorCommand extends ContainerAwareCommand
 
     public function getGenerator()
     {
-
         if (null === $this->generator) {
             $this->generator = $this->createGenerator();
             $this->getRenderHelper()->setSkeletonDirs($this->getSkeletonDirs());
