@@ -10,12 +10,12 @@ content:
             content_type: 'Type de contenu à exporter'
         questions:
             content_type: 'Type de contenu à exporter'
-            optional-config: 'Export content type in module as an optional configuration'
+            optional-config: 'Exporte le type de contenu dans un module comme une configuration optionnelle'
         messages:
             content_type_exported: 'Export du type de contenu'
             configuration_exported: 'Les fichiers de configuration suivants ont été généré'
         options:
-            optional-config: 'Export content type as an optional YAML configuration in your module'
+            optional-config: 'Exporte le type de contenu dans un module comme une configuration optionnelle au sein du module'
 single:
     description: 'Exporte une seule configuration dans un fichier yml.'
     arguments:
