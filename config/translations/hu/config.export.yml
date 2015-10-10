@@ -5,42 +5,42 @@ messages:
     directory: 'A beállítások export fájl mentése megtörtént: %s'
 content:
     type:
-        description: 'Export a specific content type and their fields.'
+        description: 'Bizonyos tipusú tartalom és ennek a mezőinek az exportálása.'
         arguments:
-            content_type: 'Content Type to be exported'
+            content_type: 'Az exportálásra szánt tartalom tipus'
         questions:
-            content_type: 'Content Type to be exported'
-            optional-config: 'Export content type in module as an optional configuration'
+            content_type: 'Az exportálásra szánt tartalom tipus'
+            optional-config: 'Tartalom tipus exportálása modulba mint opcionális konfiguráció'
         messages:
-            content_type_exported: 'Exporting content type'
-            configuration_exported: 'The following configuration files were generated'
+            content_type_exported: 'Tartalom tipus exportálása'
+            configuration_exported: 'A következő konfigurációs fájlok voltak generálva'
         options:
-            optional-config: 'Export content type as an optional YAML configuration in your module'
+            optional-config: 'Tartalom tipus exportálása az ön moduljába opciónális YAML konfiguracióként'
 single:
-    description: 'Export single configuration as yml file.'
+    description: 'Egyetlen konfiguráció exportálása yml fájlként.'
     arguments:
-        config-name: 'Configuration name.'
+        config-name: 'Konfiguráció neve.'
     options:
-        simple-configuration: 'Simple configuration'
+        simple-configuration: 'Egyszerű konfiguráció'
     questions:
-        config-type: 'Configuration type'
-        config-name: 'Configuration name'
+        config-type: 'Konfigruáció tipusa'
+        config-name: 'Konfiguráció neve'
     messages:
-        config-not-found: 'Configuration name not found.'
-        export: 'Configuration was exported at file %s.'
-        invalid-config-type: 'Invalid config type, please select one of the list'
-        invalid-config-name: 'Invalid config name, please select one of the list'
+        config-not-found: 'Konfiguráció neve nem található.'
+        export: 'A konfiguráció ki lett exportálva a %s fájlba.'
+        invalid-config-type: 'Érvénytelen konfiguráció tipus, kérem válasszon egyet a listából'
+        invalid-config-name: 'Érvénytelen konfiguráció név, kérem válasszon egyet a listából'
 view:
-    description: 'Export a view in YAML format inside a provided module to reuse in other website.'
+    description: 'Exportáljon egy view-t YAML formátumban, egy adott modulon belül amit más siteokon újrahasználhat.'
     messages:
-        view_exported: 'Exporting view'
-        depencies-included: 'The following module dependencies were included at %s'
+        view_exported: 'View exportálása'
+        depencies-included: 'A következő modul föggőségek voltak becsatolva %s'
     questions:
-        view: 'View to be exported'
-        optional-config: 'Export view in module as an optional configuration'
-        include-module-dependencies: 'Include view module dependencies in module info YAML file'
+        view: 'Exportálásra szánt view'
+        optional-config: 'View exportálása modulba mint opciónális konfiguráció'
+        include-module-dependencies: 'View modul függőségek becsatolása a modul YAML info fájljába'
     arguments:
         view-id: 'View ID'
     options:
-        optional-config: 'Export view as an optional YAML configuration in your module'
-        include-module-dependencies: 'Include module dependencies in module info YAML file'
+        optional-config: 'Vew exportálása a modulodba opciónális YAML konfigurációs fájlként'
+        include-module-dependencies: 'Modul függőségek becsatolása a modul YAML info fájljába '
