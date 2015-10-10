@@ -5,11 +5,11 @@ messages:
     directory: 'Votre exportation de configuration a été sauvegardée dans %s'
 content:
     type:
-        description: 'Export a specific content type and their fields.'
+        description: 'Ecporte un type de contenu ainsi que ses champs.'
         arguments:
-            content_type: 'Content Type to be exported'
+            content_type: 'Type de contenu à exporter'
         questions:
-            content_type: 'Content Type to be exported'
+            content_type: 'Type de contenu à exporter'
             optional-config: 'Export content type in module as an optional configuration'
         messages:
             content_type_exported: 'Exporting content type'
@@ -19,12 +19,12 @@ content:
 single:
     description: 'Export single configuration as yml file.'
     arguments:
-        config-name: 'Configuration name.'
+        config-name: 'Nom de la configuration.'
     options:
-        simple-configuration: 'Simple configuration'
+        simple-configuration: 'Configuration simple'
     questions:
-        config-type: 'Configuration type'
-        config-name: 'Configuration name'
+        config-type: 'Type de configuration'
+        config-name: 'Nom de la configuration'
     messages:
         config-not-found: 'Configuration name not found.'
         export: 'Configuration was exported at file %s.'
@@ -33,14 +33,14 @@ single:
 view:
     description: 'Export a view in YAML format inside a provided module to reuse in other website.'
     messages:
-        view_exported: 'Exporting view'
+        view_exported: 'Export de la vue'
         depencies-included: 'The following module dependencies were included at %s'
     questions:
-        view: 'View to be exported'
+        view: 'Vue à exporter'
         optional-config: 'Export view in module as an optional configuration'
         include-module-dependencies: 'Include view module dependencies in module info YAML file'
     arguments:
-        view-id: 'View ID'
+        view-id: 'Identifiant de la vue'
     options:
         optional-config: 'Export view as an optional YAML configuration in your module'
         include-module-dependencies: 'Include module dependencies in module info YAML file'
