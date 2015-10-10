@@ -26,7 +26,7 @@ console:
             command: 'Commande à executer'
             help: 'Affiche ce message d''aide'
             quiet: 'N''affiche aucune message'
-            verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
+            verbose: 'Augment la verbosité des commandes : 1 pour le mode normal, 2 pour plus d''informations et 3 pour le mode "debug"'
             version: 'Affiche la version de ce programme'
             ansi: 'Active la sortie ANSI'
             no-ansi: 'Désactive la sortie ANSI'
