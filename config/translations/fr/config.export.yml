@@ -10,10 +10,10 @@ content:
             content_type: 'Type de contenu à exporter'
         questions:
             content_type: 'Type de contenu à exporter'
-            optional-config: 'Exporte le type de contenu dans un module comme une configuration optionnelle'
+            optional-config: 'Exporter le type de contenu dans un module comme une configuration optionnelle'
         messages:
             content_type_exported: 'Export du type de contenu'
-            configuration_exported: 'Les fichiers de configuration suivants ont été généré'
+            configuration_exported: 'Les fichiers de configuration suivants ont été générés'
         options:
             optional-config: 'Exporte le type de contenu dans un module comme une configuration optionnelle au sein du module'
 single:
@@ -37,10 +37,10 @@ view:
         depencies-included: 'Les dépendances de modules suivantes ont été ajoutées dans %s'
     questions:
         view: 'Vue à exporter'
-        optional-config: 'Exporte la vue dans un module comme une configuration optionnelle'
+        optional-config: 'Exporter la vue dans un module comme une configuration optionnelle'
         include-module-dependencies: 'Ajouter le module views comme dépendance dans le fichier info YAML du module'
     arguments:
         view-id: 'Identifiant de la vue'
     options:
-        optional-config: 'Export view as an optional YAML configuration in your module'
-        include-module-dependencies: 'Include module dependencies in module info YAML file'
+        optional-config: 'Export la vue dans un module comme une configuration optionnelle dans votre module'
+        include-module-dependencies: 'Include les dépendances de module dans le fichier info YAML du module'
