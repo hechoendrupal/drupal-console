@@ -1,10 +1,10 @@
 description: 'Genera una entidad de migración.'
 arguments:
-    file: 'Ruta al fichero YAML'
+    file: 'Ruta al archivo YAML'
 messages:
-    invalid_file: 'El fichero "%s" no existe.'
-    installed: 'Por favor, recuerda colocar los ficheros del plugin donde deben estar.'
+    invalid_file: 'El archivo "%s" no existe.'
+    installed: 'Por favor, recuerda colocar los archivos del plugin donde deben estar.'
     overridden: 'La entidad ha sido sobreescrita.'
 questions:
-    override: 'El fichero ya está instalado, seguro que quieres sobreescribirlo [yes/no] ?'
-    file: 'Ruta al fichero'
+    override: 'El archivo ya está instalado, seguro que quieres sobreescribirlo [yes/no] ?'
+    file: 'Ruta al archivo'
