@@ -15,7 +15,7 @@ questions:
     module: common.questions.module
     class-name: 'Introduzca el nombre de la clase del plugin'
     label: 'Introduzca la etiqueta del plugin'
-    plugin-id: 'Introduce el ID del plugin'
+    plugin-id: 'Introduzca el ID del plugin'
     inputs: common.questions.inputs
     services: common.questions.services
     category: 'Introduzca la categoría del plugin'

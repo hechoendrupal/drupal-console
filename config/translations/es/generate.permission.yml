@@ -4,8 +4,8 @@ options:
     module: common.options.module
 questions:
     module: common.questions.module
-    permission: 'Introduce un permiso'
-    title: 'Introduce un título para el permiso'
-    description: 'Introduce una descripción para el permiso'
+    permission: 'Introduzca un permiso'
+    title: 'Introduzca un título para el permiso'
+    description: 'Introduzca una descripción para el permiso'
     restrict-access: 'Restringir acceso'
     add: 'Quieres añadir otro permiso'

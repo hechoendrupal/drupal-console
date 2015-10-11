@@ -9,7 +9,7 @@ options:
     services: common.questions.services
 questions:
     module: common.questions.module
-    service-name: 'Introduce el nombre del servicio'
-    class-name: 'Introduce el nombre de la clase'
+    service-name: 'Introduzca el nombre del servicio'
+    class-name: 'Introduzca el nombre de la clase'
     interface: 'Crear una interfaz'
     services: common.options.services

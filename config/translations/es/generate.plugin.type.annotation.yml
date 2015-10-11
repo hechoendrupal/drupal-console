@@ -8,6 +8,6 @@ options:
     label: 'Etiqueta del tipo de plugin'
 questions:
     module: common.questions.module
-    class-name: 'Introduce el nombre de la clase del tipo de plugin'
-    machine-name: 'Introduce el nombre máquina del tipo de plugin'
-    label: 'Introduce la etiqueta del tipo de plugin'
+    class-name: 'Introduzca el nombre de la clase del tipo de plugin'
+    machine-name: 'Introduzca el nombre máquina del tipo de plugin'
+    label: 'Introduzca la etiqueta del tipo de plugin'
