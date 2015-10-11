@@ -1,5 +1,5 @@
 description: 'Genera un servicio'
-help: 'El comando <info>generate:service</info> te ayuda a crear un nuevo servicio.'
+help: 'El comando <info>generate:service</info> le ayuda a crear un nuevo servicio.'
 welcome: 'Bienvenido al generador de servicios para Drupal'
 options:
     module: common.options.module

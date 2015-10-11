@@ -1,5 +1,5 @@
 description: 'Genera un tema.'
-help: 'El comando <info>generate:theme</info> te ayuda a crear un tema nuevo.'
+help: 'El comando <info>generate:theme</info> le ayuda a crear un tema nuevo.'
 welcome: 'Bienvenido al generador de temas para Drupal'
 options:
     theme: 'Nombre del tema'
