@@ -1,5 +1,5 @@
 description: 'Generar a modulo.'
-help: 'El comando <info>generate:module</info> te ayuda a generar un nuevo módulo.'
+help: 'El comando <info>generate:module</info> le ayuda a generar un nuevo módulo.'
 welcome: 'Bienvenido al generador de módulos para Drupal'
 options:
     module: 'El nombre del módulo'

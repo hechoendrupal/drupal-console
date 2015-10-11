@@ -1,5 +1,5 @@
 description: 'Genera un plugin de recurso rest'
-help: 'El comando <info>generate:plugin:rest:resource</info> te ayuda a generar un nuevo recurso rest.'
+help: 'El comando <info>generate:plugin:rest:resource</info> le ayuda a generar un nuevo recurso rest.'
 welcome: 'Bienvenido al generador de plugins de recursos rest para Drupal'
 options:
     module: common.options.module

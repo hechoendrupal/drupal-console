@@ -1,5 +1,5 @@
 description: 'Genera un tipo de plugin con descubrimiento de anotaciones'
-help: 'El comando <info>generate:plugin:type:annotation</info> te ayuda a generar un nuevo tipo de plugin que usa descubrimiento de anotaciones.'
+help: 'El comando <info>generate:plugin:type:annotation</info> le ayuda a generar un nuevo tipo de plugin que usa descubrimiento de anotaciones.'
 welcome: 'Bienvenido al generador de tipos de plugin para drupal'
 options:
     module: common.options.module
