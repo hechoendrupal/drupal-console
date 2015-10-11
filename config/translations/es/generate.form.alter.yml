@@ -3,4 +3,4 @@ help: 'El comando <info>"%s"</info> te ayuda a generar un nuevo "%s"'
 options:
     form-id: 'Form ID a alterar'
 messages:
-    inputs: "Puedes añadir campos para modificar el formulario.\nEsto es opcional, pulsa <info>enter</info> para <info>continuar</info>"
+    inputs: "Puedes añadir campos para modificar el formulario.\nEsto es opcional, pulse <info>enter</info> para <info>continuar</info>"
