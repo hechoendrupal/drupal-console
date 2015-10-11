@@ -61,7 +61,7 @@ class DrupalHelper extends Helper
             return false;
         }
 
-        if ($root === '/') {
+        if ($root === '/' || preg_match('~^[a-z]:\\\\$~i', $root)) {
             return false;
         }
 
