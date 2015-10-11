@@ -8,7 +8,7 @@ options:
     description: 'Descripción del tema'
     core: 'Versión del core'
     package: 'Paquete del tema'
-    composer: 'Añadir un fichero composer.json'
+    composer: 'Añadir un archivo composer.json'
     base-theme: 'Tema base (por ejemplo: classy, seven)'
     global-library: 'Nombre de la librería de estilo global'
     regions: Regions

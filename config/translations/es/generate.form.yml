@@ -14,4 +14,4 @@ questions:
     form-id: 'Introduce el id del formulario'
     services: common.questions.services
     inputs: common.questions.inputs
-    routing: 'Actualizar el fichero de routing'
+    routing: 'Actualizar el archivo de routing'
