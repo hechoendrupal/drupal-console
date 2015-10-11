@@ -10,8 +10,8 @@ options:
     routing: 'Actualizar la ruta'
 questions:
     module: common.questions.module
-    class-name: 'Introduce el nombre de la clase del formulario'
-    form-id: 'Introduce el id del formulario'
+    class-name: 'Introduzca el nombre de la clase del formulario'
+    form-id: 'Introduzca el id del formulario'
     services: common.questions.services
     inputs: common.questions.inputs
     routing: 'Actualizar el archivo de routing'

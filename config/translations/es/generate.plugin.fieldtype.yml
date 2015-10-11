@@ -11,9 +11,9 @@ options:
     default-formatter: 'Formateador de campo por defecto para este plugin'
 questions:
     module: common.questions.module
-    class-name: 'Introduce el nombre de la clase del plugin'
-    label: 'Introduce la etiqueta del plugin'
-    plugin-id: 'Introduce el ID del plugin'
-    description: 'Introduce la descripción del plugin'
-    default-widget: 'Introduce el widget de campo por defecto para este plugin'
-    default-formatter: 'Introduce el formateador de campo por defecto para este plugin'
+    class-name: 'Introduzca el nombre de la clase del plugin'
+    label: 'Introduzca la etiqueta del plugin'
+    plugin-id: 'Introduzca el ID del plugin'
+    description: 'Introduzca la descripción del plugin'
+    default-widget: 'Introduzca el widget de campo por defecto para este plugin'
+    default-formatter: 'Introduzca el formateador de campo por defecto para este plugin'

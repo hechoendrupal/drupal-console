@@ -11,7 +11,7 @@ questions:
     canceled: 'Comando de generacion cancelado.'
     events:
         message: "\nEscribe el nombre del evento o usa la tecla keyup o keydown.\nEsto es opcional, pulse <info>enter</info> para <info>continuar</info>\n"
-        name: 'Introduce el nombre del evento'
+        name: 'Introduzca el nombre del evento'
     services:
         confirm: 'Deseas cargar los servicios del contenedor'
         message: "\nEscribe el nombre del servicio o usa la tecla keyup o keydown.\nEsto es opcional, presione <info>enter</info para <info>continuar</info>\n"
