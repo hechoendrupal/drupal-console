@@ -5,7 +5,7 @@ options:
     module: common.options.module
     class-name: 'Nombre de la clase del plugin'
     label: 'Etiqueta del plugin'
-    plugin-id: 'Id del Plugin'
+    plugin-id: 'ID del Plugin'
     description: 'Descripción del Plugin'
     default-widget: 'Widget de campo por defecto para este plugin'
     default-formatter: 'Formateador de campo por defecto para este plugin'
@@ -13,7 +13,7 @@ questions:
     module: common.questions.module
     class-name: 'Introduce el nombre de la clase del plugin'
     label: 'Introduce la etiqueta del plugin'
-    plugin-id: 'Introduce el id del plugin'
+    plugin-id: 'Introduce el ID del plugin'
     description: 'Introduce la descripción del plugin'
     default-widget: 'Introduce el widget de campo por defecto para este plugin'
     default-formatter: 'Introduce el formateador de campo por defecto para este plugin'
