@@ -9,38 +9,73 @@ namespace Drupal\Console;
 
 use Symfony\Component\Yaml\Parser;
 
+/**
+ * Class Config
+ * @package Drupal\Console
+ */
 class Config
 {
-    protected $file;
+    /**
+     * @var array
+     */
+    protected $config = [];
 
-    protected $parser;
-
-    protected $config;
-
-    public function __construct($file = null)
+    /**
+     * 
+     */
+    public function __construct()
     {
-        $this->parser = new Parser();
-        if ($file) {
-            $this->file = $file;
-            $this->config = $this->readYamlFile($file);
-        }
+        $this->config = [];
+
+        $this->loadFile(__DIR__.'/../config.yml');
+        $this->loadFile($this->getUserHomeDir().'/.console/config.yml');
     }
 
     /**
      * @param string|null $file
-     * @return array|mixed|null
+     * @param string|null $prefix
+     *
+     * @return bool
      */
-    public function readYamlFile($file = null)
+    private function loadFile($file = null, $prefix=null)
     {
-        if (is_null($file)) {
-            return [];
-        }
+        $config = null;
 
         if (file_exists($file)) {
-            return $this->parser->parse(file_get_contents($file));
-        } else {
-            return [];
+            $parser = new Parser();
+            $config = $parser->parse(file_get_contents($file));
         }
+
+        if ($config) {
+            if ($prefix) {
+                $prefixes = explode('.', $prefix);
+                $this->setResourceArray($prefixes, $this->config, $config);
+            } else {
+                $this->config = array_replace_recursive($this->config, $config);
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $parents
+     * @param $parentsArray
+     * @param $resource
+     * @return mixed
+     */
+    private function setResourceArray($parents, &$parentsArray, $resource)
+    {
+        $ref = &$parentsArray;
+        foreach ($parents as $parent) {
+            $ref[$parent] = [];
+            $previous = &$ref;
+            $ref = &$ref[$parent];
+        }
+
+        $previous[$parent] = $resource;
+        return $parentsArray;
     }
 
     /**
@@ -78,5 +113,56 @@ class Config
     public function getUserHomeDir()
     {
         return rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/\\');
+    }
+
+    /**
+     * Return the site config directory.
+     *
+     * @return string
+     */
+    public function getSitesDirectory()
+    {
+        return sprintf(
+            '%s/.console/sites',
+            $this->getUserHomeDir()
+        );
+    }
+
+    /**
+     * @param string $site
+     * @return bool
+     */
+    public function loadSite($site)
+    {
+        $siteFile = $this->getSitesDirectory()  . '/' . $site . '.yml';
+        $prefix = 'sites.'.$site;
+        return $this->loadFile($siteFile, $prefix);
+    }
+
+    /**
+     * @param string $target
+     * @return array|mixed|null|\Exception
+     */
+    public function loadTarget($target)
+    {
+        $site = null;
+        $environment = null;
+        if (strpos($target, '.')) {
+            $site = explode('.', $target)[0];
+        }
+
+        return $this->loadSite($site);
+    }
+
+    public function getTarget($target)
+    {
+        $targetConfig = $this->get('sites.' . $target);
+        $targetConfig['remote'] = false;
+        if (array_key_exists('host', $targetConfig) && $targetConfig['host'] != 'local') {
+            $remoteConfig = $this->get('application.remote');
+            $targetConfig = array_replace_recursive($remoteConfig, $targetConfig);
+            $targetConfig['remote'] = true;
+        }
+        return $targetConfig;
     }
 }

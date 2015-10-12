@@ -9,7 +9,7 @@ use Drupal\Console\Helper\StringHelper;
 use Drupal\Console\Helper\ValidatorHelper;
 use Drupal\Console\Helper\TranslatorHelper;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Drupal\Console\UserConfig;
+use Drupal\Console\Config;
 use Drupal\Console\Helper\SiteHelper;
 use Drupal\Console\EventSubscriber\ShowGeneratedFilesListener;
 use Drupal\Console\EventSubscriber\ShowWelcomeMessageListener;
@@ -26,6 +26,7 @@ use Drupal\Console\Helper\TwigRendererHelper;
 use Drupal\Console\EventSubscriber\ShowGenerateDocListener;
 use Drupal\Console\Helper\DrupalHelper;
 use Drupal\Console\Helper\CommandDiscoveryHelper;
+use Drupal\Console\Helper\RemoteHelper;
 
 set_time_limit(0);
 
@@ -41,7 +42,7 @@ if (file_exists($consoleRoot.'/vendor/autoload.php')) {
     exit(1);
 }
 
-$config = new UserConfig();
+$config = new Config();
 
 $translatorHelper = new TranslatorHelper();
 $translatorHelper->loadResource($config->get('application.language'), $consoleRoot);
@@ -63,6 +64,7 @@ $helpers = [
     'chain' => new ChainCommandHelper(),
     'drupal' => new DrupalHelper(),
     'commandDiscovery' => new CommandDiscoveryHelper(),
+    'remote' => new RemoteHelper(),
 ];
 
 $application->addHelpers($helpers);
@@ -76,7 +78,6 @@ $dispatcher->addSubscriber(new ShowGeneratedFilesListener());
 $dispatcher->addSubscriber(new CallCommandListener());
 $dispatcher->addSubscriber(new ShowGenerateChainListener());
 $dispatcher->addSubscriber(new ShowGenerateInlineListener());
-$dispatcher->addSubscriber(new ShowCompletedMessageListener());
 
 $application->setDispatcher($dispatcher);
 $application->setDefaultCommand('about');
