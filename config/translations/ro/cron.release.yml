@@ -1,3 +1,3 @@
-description: 'Release cron system lock to renable re-run cron'
+description: 'Lansează sistemul de blocare pentru a repermite reluarea rulării cron-ului'
 messages:
-    released: 'Cron lock was released sucessfully'
+    released: 'Sistemul de blocare a cron-ului a fost lansat cu succes!'

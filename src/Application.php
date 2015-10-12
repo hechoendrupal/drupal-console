@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Console\Console;
+namespace Drupal\Console;
 
 use Composer\Autoload\ClassLoader;
 use Symfony\Component\Console\Application as BaseApplication;
@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Debug\Debug;
 use Drupal\Console\Helper\HelperTrait;
+
 /**
  * Class Application
  * @package Drupal\Console\Console
@@ -157,8 +158,11 @@ class Application extends BaseApplication
             chdir($drupal->getRoot());
             $site->setSitePath($drupal->getRoot());
 
-            if ($drupal->isInstalled()) {
+            if ($drupal->isValidInstance()) {
                 $this->bootDrupal($env, $debug, $drupal);
+            }
+
+            if ($drupal->isInstalled()) {
                 $disabledModules = $this->config->get('application.disable.modules');
                 $commandDiscovery->setDisabledModules($disabledModules);
 
@@ -223,9 +227,7 @@ class Application extends BaseApplication
         $kernelHelper->setDebug($debug);
         $kernelHelper->setEnvironment($env);
         $kernelHelper->setClassLoader($drupal->getAutoLoadClass());
-        if ($drupal->isInstalled()) {
-            $kernelHelper->bootKernel();
-        }
+        $kernelHelper->bootKernel();
     }
 
     /**

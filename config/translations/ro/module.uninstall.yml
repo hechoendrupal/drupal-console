@@ -1,4 +1,4 @@
-description: 'Dezinstalarea Modulelor'
+description: 'Dezinstalează un modul sau mai multe din aplicaţie.'
 messages:
     no-modules: 'Trebuie sa introduci un Modul sau mai multe pentru a le dezinstala.'
     dependents: 'Modulele %s nu pot fi dezinstalate deoarece ele sunt necesare pentru %s'

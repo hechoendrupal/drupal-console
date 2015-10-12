@@ -16,10 +16,17 @@ use Symfony\Component\Translation\Writer\TranslationWriter;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Yaml\Parser;
 use Drupal\Console\Helper\Helper;
-use Drupal\Console\YamlFileDumper;
+use Drupal\Console\Utils\YamlFileDumper;
 
+/**
+ * Class TranslatorHelper
+ * @package Drupal\Console\Helper
+ */
 class TranslatorHelper extends Helper
 {
+    /**
+     * @var string
+     */
     private $language;
 
     /**
@@ -28,10 +35,9 @@ class TranslatorHelper extends Helper
     private $translator;
 
     /**
-     * @var Translations;
+     * @param $resource
+     * @param string   $name
      */
-    private $translations;
-
     private function addResource($resource, $name = 'yaml')
     {
         $this->translator->addResource(
@@ -41,6 +47,10 @@ class TranslatorHelper extends Helper
         );
     }
 
+    /**
+     * @param $loader
+     * @param string $name
+     */
     private function addLoader($loader, $name = 'yaml')
     {
         $this->translator->addLoader(
@@ -49,7 +59,10 @@ class TranslatorHelper extends Helper
         );
     }
 
-
+    /**
+     * @param $language
+     * @param $directoryRoot
+     */
     public function loadResource($language, $directoryRoot)
     {
         $this->language = $language;
@@ -59,21 +72,18 @@ class TranslatorHelper extends Helper
 
         $finder = new Finder();
 
-        // Fetch all language files for translation
-        try {
-            $finder->files()
-                ->name('*.yml')
-                ->in($directoryRoot . 'config/translations/' . $language);
-        } catch (Exception $e) {
-            if ($language != 'en') {
-                $finder->files()
-                    ->name('*.yml')
-                    ->in($directoryRoot . 'config/translations/en');
-            }
+        $languageDirectory = $directoryRoot . 'config/translations/' . $language;
+
+        if (!is_dir($languageDirectory)) {
+            $languageDirectory = $directoryRoot . 'config/translations/en';
         }
 
+        $finder->files()
+            ->name('*.yml')
+            ->in($languageDirectory);
+
         foreach ($finder as $file) {
-            $resource = $file->getRealpath();
+            $resource = $languageDirectory . '/' . $file->getBasename();
             $filename = $file->getBasename('.yml');
             // Handle application file different than commands
             if ($filename == 'application') {
@@ -88,8 +98,8 @@ class TranslatorHelper extends Helper
     /**
      * Load yml translation where filename is part of translation key.
      *
-     * @param $key
      * @param $resource
+     * @param $resourceKey
      */
     public function writeTranslationByFile($resource, $resourceKey= null)
     {
@@ -106,6 +116,12 @@ class TranslatorHelper extends Helper
         $this->addResource($resourceParsed, 'array');
     }
 
+    /**
+     * @param $parents
+     * @param $parentsArray
+     * @param $resource
+     * @return mixed
+     */
     public function setResourceArray($parents, &$parentsArray, $resource)
     {
         $ref = &$parentsArray;
@@ -119,6 +135,9 @@ class TranslatorHelper extends Helper
         return $parentsArray;
     }
 
+    /**
+     * @param $module
+     */
     public function addResourceTranslationsByModule($module)
     {
         $resource = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('module', $module).
@@ -136,6 +155,10 @@ class TranslatorHelper extends Helper
         }
     }
 
+    /**
+     * @param $module
+     * @param $messages
+     */
     public function writeTranslationsByModule($module, $messages)
     {
         $currentMessages = $this->getMessagesByModule($module);
@@ -159,6 +182,10 @@ class TranslatorHelper extends Helper
         );
     }
 
+    /**
+     * @param $module
+     * @return array
+     */
     protected function getMessagesByModule($module)
     {
         $resource = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('module', $module).
@@ -179,6 +206,10 @@ class TranslatorHelper extends Helper
         return [];
     }
 
+    /**
+     * @param $key
+     * @return string
+     */
     public function trans($key)
     {
         return $this->translator->trans($key);

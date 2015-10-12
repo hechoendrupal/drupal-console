@@ -1,18 +1,18 @@
 console:
     arguments:
-        drupal: 'Path to Drupal root.'
-        shell: 'Launch the shell.'
-        env: 'The Environment name.'
-        no-debug: 'Switches off debug mode.'
-        learning: 'Generate a verbose code output.'
-        generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
-        generate-inline: 'Print execution options and arguments as inline call to be use in the future'
+        drupal: 'Chemin vers la racine de Drupal.'
+        shell: 'Lance le terminal.'
+        env: 'Nom de l''environement.'
+        no-debug: 'Désactive le mode "debug".'
+        learning: 'Affiche plus d''informations.'
+        generate-chain: 'Affiche les commandes ainsi que leurs paramètres sous le format yaml pour être réutilisé dans une commande chainée'
+        generate-inline: 'Affiche les commandes ainsi que leurs paramètres sur une ligne pour une réutilisation future'
     messages:
-        completed: 'La commande a été correctement executée'
+        completed: 'La commande a été correctement exécutée'
         chain:
-            generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
+            generated: 'Voici sous le format yaml la dernière commande exécutée, copiez-la par exemple dans ~/.console/chain/sample.yml pour l''executer au sein d''une séquence'
         inline:
-            generated: 'Following you can find the inline representation of this command to re-execute this command later'
+            generated: 'Voici la dernière commande exécutée pour une pour une réutilisation future'
         generated: 'Vous pouvez maintenant commencer à utiliser le code généré !'
         files:
             generated: 'Fichiers générés ou mis à jour'
@@ -23,14 +23,14 @@ console:
         invalid-command: 'La commande "%s" n''existe pas.'
     input:
         definition:
-            command: 'The command to execute'
-            help: 'Display this help message'
-            quiet: 'Do not output any message'
-            verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
-            version: 'Display this application version'
-            ansi: 'Force ANSI output'
-            no-ansi: 'Disable ANSI output'
-            no-interaction: 'Do not ask any interactive question'
+            command: 'Commande à executer'
+            help: 'Affiche ce message d''aide'
+            quiet: 'N''affiche aucune message'
+            verbose: 'Augment la verbosité des commandes : 1 pour le mode normal, 2 pour plus d''informations et 3 pour le mode "debug"'
+            version: 'Affiche la version de ce programme'
+            ansi: 'Active la sortie ANSI'
+            no-ansi: 'Désactive la sortie ANSI'
+            no-interaction: 'Ne pas poser de question'
     options:
         version: '<info>%s</info> version <comment>%s</comment>'
 site:
