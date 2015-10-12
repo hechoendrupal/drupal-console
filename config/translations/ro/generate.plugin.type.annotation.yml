@@ -1,13 +1,13 @@
-description: 'Generate a plugin type with annotation discovery'
-help: 'The <info>generate:plugin:type:annotation</info> command helps you generate a new Plugin type that uses annotation discovery.'
-welcome: 'Welcome to the Drupal Plugin Type generator'
+description: 'Generează un tip de plugin cu descoperire de adnotaţii'
+help: 'Comanda <info>generate:plugin:type:annotation</info> ajută la generarea unui nou tip de plugin care foloseste descoperirea de adnotaţii.'
+welcome: 'Bun venit la "Drupal Plugin Type generator"'
 options:
     module: common.options.module
-    class-name: 'Plugin type class name'
-    machine-name: 'Plugin type machine name'
-    label: 'Plugin type label'
+    class-name: 'Numele clasei tipului de plugin.'
+    machine-name: 'Numele maşină al tipului de plugin.'
+    label: 'Eticheta tipului de plugin.'
 questions:
     module: common.questions.module
-    class-name: 'Enter the plugin type class name'
-    machine-name: 'Enter the plugin type machine name'
-    label: 'Enter the plugin type label'
+    class-name: 'Introduceţi numele clasei tipului de plugin.'
+    machine-name: 'Introduceţi numele maşină al tipului de plugin.'
+    label: 'Introduceţi eticheta tipului de plugin.'

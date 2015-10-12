@@ -73,13 +73,14 @@ class KernelHelper extends Helper
     {
         if (!$this->booted) {
             $kernel = $this->getKernel();
-            $kernel->boot();
-            $kernel->preHandle($this->request);
-
-            $container = $kernel->getContainer();
-            $container->set('request', $this->request);
-            $container->get('request_stack')->push($this->request);
-            $this->booted = true;
+            if ($this->getDrupalHelper()->isInstalled()) {
+                $kernel->boot();
+                $kernel->preHandle($this->request);
+                $container = $kernel->getContainer();
+                $container->set('request', $this->request);
+                $container->get('request_stack')->push($this->request);
+                $this->booted = true;
+            }
         }
 
         return $this->booted;

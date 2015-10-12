@@ -68,7 +68,7 @@ class GeneratorAuthenticationProviderCommand extends GeneratorCommand
     {
         $dialog = $this->getDialogHelper();
 
-        $stringUtils = $this->getStringUtils();
+        $stringUtils = $this->getStringHelper();
 
         // --module option
         $module = $input->getOption('module');

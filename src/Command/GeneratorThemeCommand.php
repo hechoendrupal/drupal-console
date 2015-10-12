@@ -139,14 +139,14 @@ class GeneratorThemeCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $stringUtils = $this->getStringUtils();
+        $stringUtils = $this->getStringHelper();
         $validators = $this->getValidator();
         $dialog = $this->getDialogHelper();
 
         try {
             $theme = $input->getOption('theme') ? $this->validateModuleName($input->getOption('theme')) : null;
         } catch (\Exception $error) {
-            $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
+            $output->writeln($dialog->getFormatterHelper()->formatBlock($error->getMessage(), 'error'));
         }
 
         $theme = $input->getOption('theme');
@@ -167,7 +167,7 @@ class GeneratorThemeCommand extends GeneratorCommand
         try {
             $machine_name = $input->getOption('machine-name') ? $this->validateModule($input->getOption('machine-name')) : null;
         } catch (\Exception $error) {
-            $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
+            $output->writeln($dialog->getFormatterHelper()->formatBlock($error->getMessage(), 'error'));
         }
 
         if (!$machine_name) {

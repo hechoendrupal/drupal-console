@@ -1,14 +1,14 @@
-description: 'Activeaza REST pentru aplicatie'
+description: 'Activează o resursă REST pentru aplicaţie.'
 arguments:
-    resource-id: 'Rest ID'
-    states: 'REST States pentru a activa REST resource'
-    authorizations: 'Authorizations providers au fost activate pentru "REST Resource"'
+    resource-id: 'ID-ul resursei.'
+    states: 'Stări REST de activat pentru resursa REST.'
+    authorizations: 'Furnizorii de autorizaţii au fost activaţi pentru resursa REST.'
 questions:
-    resource-id: 'Rest ID'
+    resource-id: 'ID-ul resursei.'
 messages:
-    invalid-rest-id: 'Rest ID %s nu este corect'
+    invalid-rest-id: 'ID-ul REST %s nu este corect'
     formats: 'Formatele disponibile de serializare'
-    authentication-providers: 'Authentication Providers disponibili'
-    selected-state: 'State selectat'
+    authentication-providers: 'Furnizorii de autorizaţii sunt disponibili'
+    selected-state: 'Starea selectată'
     selected-formats: 'Formatele selectate'
-    selected-authentication-providers: 'Authentication Providers selectati'
+    selected-authentication-providers: 'Furnizorii de autorizaţii selectaţi'

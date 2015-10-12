@@ -31,7 +31,6 @@ class GeneratorEntityCommandTest extends GenerateCommandTest
         $label
     ) {
         $command = new GeneratorEntityConfigCommand($this->getHelperSet());
-        $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 

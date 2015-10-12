@@ -13,7 +13,6 @@ namespace Drupal\Console\Helper;
  */
 trait HelperTrait
 {
-
     /**
      * @return \Drupal\Console\Helper\TranslatorHelper
      */
@@ -39,11 +38,11 @@ trait HelperTrait
     }
 
     /**
-     * @return \Drupal\Console\Utils\StringUtils
+     * @return \Drupal\Console\Helper\StringHelper
      */
-    public function getStringUtils()
+    public function getStringHelper()
     {
-        return $this->getHelperSet()->get('stringUtils');
+        return $this->getHelperSet()->get('string');
     }
 
     /**
@@ -51,7 +50,7 @@ trait HelperTrait
      */
     public function getValidator()
     {
-        return $this->getHelperSet()->get('validators');
+        return $this->getHelperSet()->get('validator');
     }
 
     /**
@@ -141,5 +140,4 @@ trait HelperTrait
     {
         return $this->getHelperSet()->get('formatter');
     }
-
 }
