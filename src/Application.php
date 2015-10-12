@@ -327,4 +327,17 @@ class Application extends BaseApplication
     {
         return $this->translator->trans($key);
     }
+
+    /**
+     * Gets the default commands that should always be available.
+     *
+     * @return Command[] An array of default Command instances
+     */
+    protected function getDefaultCommands()
+    {
+        $commands = parent::getDefaultCommands();
+        $commands[] = new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand();
+        return $commands;
+
+    }
 }
