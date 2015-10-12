@@ -1,15 +1,15 @@
-description: 'Generate field formatter plugin.'
-help: 'The <info>generate:plugin:fieldformatter</info> command helps you generate a new field formatter plugin.'
-welcome: 'Welcome to the Drupal Field Formatter Plugin generator'
+description: 'Genera un plugin de formateador de campo.'
+help: 'El comando <info>generate:plugin:fieldformatter</info> le ayuda a generar un nuevo plugin de formateador de campo.'
+welcome: 'Bienvenido al generador de plugins de formateador de campo para Drupal'
 options:
     module: common.options.module
-    class-name: 'Plugin class name'
-    label: 'Plugin label'
-    plugin-id: 'Plugin id'
-    field-type: 'Field type the plugin can be used with'
+    class-name: 'Nombre de la clase del plugin'
+    label: 'Etiqueta del plugin'
+    plugin-id: 'ID del plugin'
+    field-type: 'Tipo de campo con el que el plugin puede ser usado'
 questions:
     module: common.questions.module
-    class-name: 'Enter the plugin class name'
-    label: 'Enter the plugin label'
-    plugin-id: 'Enter the plugin id'
-    field-type: 'Enter the field type the plugin can be used with'
+    class-name: 'Introduzca el nombre de clase del plugin'
+    label: 'Introduzca la etiqueta del plugin'
+    plugin-id: 'Introduzca el id del plugin'
+    field-type: 'Introduzca el tipo de campo con el que el plugin puede ser usado'
