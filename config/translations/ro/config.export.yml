@@ -1,46 +1,46 @@
-description: 'Exporta configurarile aplicatiei curente.'
+description: 'Exportă configurările curente ale aplicației.'
 arguments:
-    directory: 'Indica calea de salvare pentru configurarile exportate.'
+    directory: 'Indică calea de salvare pentru configurările exportate.'
 messages:
-    directory: 'Fisierul a fost salvat in %s'
+    directory: 'Fișierul de configurări a fost salvat în %s'
 content:
     type:
-        description: 'Export a specific content type and their fields.'
+        description: 'Exportă un anumit tip de conținut și câmpurile aferente.'
         arguments:
-            content_type: 'Content Type to be exported'
+            content_type: 'Tipul de conținut ce urmează a fi exportat'
         questions:
-            content_type: 'Content Type to be exported'
-            optional-config: 'Export content type in module as an optional configuration'
+            content_type: 'Tipul de conținut ce urmează a fi exportat'
+            optional-config: 'Exportă tipul de conținut într-un modul ca și o configurare opțională'
         messages:
-            content_type_exported: 'Exporting content type'
-            configuration_exported: 'The following configuration files were generated'
+            content_type_exported: 'Tip de conținut exportat'
+            configuration_exported: 'Următorul fișier de configurare a fost generat'
         options:
-            optional-config: 'Export content type as an optional YAML configuration in your module'
+            optional-config: 'Exportă tipul de conținut ca un fișier opțional de configurare YAML în modulul tău'
 single:
-    description: 'Export single configuration as yml file.'
+    description: 'Exportă o singură configurare ca fișier YAML.'
     arguments:
-        config-name: 'Configuration name.'
+        config-name: 'Numele configurării.'
     options:
-        simple-configuration: 'Simple configuration'
+        simple-configuration: 'Configurare simplă'
     questions:
-        config-type: 'Configuration type'
-        config-name: 'Configuration name'
+        config-type: 'Tipul configurării'
+        config-name: 'Numele configurării'
     messages:
-        config-not-found: 'Configuration name not found.'
-        export: 'Configuration was exported at file %s.'
-        invalid-config-type: 'Invalid config type, please select one of the list'
-        invalid-config-name: 'Invalid config name, please select one of the list'
+        config-not-found: 'Numele configurării nu a fost găsit.'
+        export: 'Configurarea a fost exportată la fișierul %s.'
+        invalid-config-type: 'Tip de configurare invalid, vă rugăm să selectați unul din listă'
+        invalid-config-name: 'Numele configurării invalid, vă rugăm să selectați unul din listă'
 view:
-    description: 'Export a view in YAML format inside a provided module to reuse in other website.'
+    description: 'Exportă un view în format YAML în cadrul unui modul pentru a fi reutilizat într-un alt website.'
     messages:
-        view_exported: 'Exporting view'
-        depencies-included: 'The following module dependencies were included at %s'
+        view_exported: 'Exportă view'
+        depencies-included: 'Dependințele modulului au fost incluse la %s'
     questions:
-        view: 'View to be exported'
-        optional-config: 'Export view in module as an optional configuration'
-        include-module-dependencies: 'Include view module dependencies in module info YAML file'
+        view: 'View-ul de exportat'
+        optional-config: 'Exportă view-ul într-un modul ca o configurare opțională'
+        include-module-dependencies: 'Include modulul views ca dependință în fișierul info YAML'
     arguments:
         view-id: 'View ID'
     options:
-        optional-config: 'Export view as an optional YAML configuration in your module'
-        include-module-dependencies: 'Include module dependencies in module info YAML file'
+        optional-config: 'Exportă view-ul ca un fișier de configurare YAML în modul'
+        include-module-dependencies: 'Include dependințele modulului în fișierul info YAML'

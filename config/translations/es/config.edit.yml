@@ -3,4 +3,4 @@ arguments:
     config-name: 'Nombre de la configuración.'
     editor: Editor.
 messages:
-    no-directory: 'Ha acurrido un eror mienstras se create el directio en'
+    no-directory: 'Ha acurrido un eror mientras se creaba el directorio en'

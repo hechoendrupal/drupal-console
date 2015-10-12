@@ -1,6 +1,6 @@
-description: 'Generate an implementation of hook_form_alter() or hook_form_FORM_ID_alter'
-help: 'The <info>"%s"</info> command helps you generate a new "%s"'
+description: 'Generează o implementare a hook_form_alter() sau hook_form_FORM_ID_alter'
+help: 'Comanda <info>"%s"</info> te ajută să generezi un nou "%s"'
 options:
-    form-id: 'Form ID to alter'
+    form-id: 'ID-ul formului de alterat'
 messages:
-    inputs: "You can add form fields to modify form.\nThis is optional, press <info>enter</info> to <info>continue</info>"
+    inputs: "Puteți adăuga câmpuri noi în scopul de a modifica structura form-ului.\nAceasta este opțional, apăsați <info>enter</info> pentru a <info>continua</info>"

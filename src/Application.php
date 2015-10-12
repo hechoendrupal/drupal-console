@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Console\Console;
+namespace Drupal\Console;
 
 use Composer\Autoload\ClassLoader;
 use Symfony\Component\Console\Application as BaseApplication;
@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Debug\Debug;
+use Drupal\Console\Helper\HelperTrait;
 
 /**
  * Class Application
@@ -17,6 +18,8 @@ use Symfony\Component\Debug\Debug;
  */
 class Application extends BaseApplication
 {
+    use HelperTrait;
+
     /**
      * @var string
      */
@@ -133,10 +136,10 @@ class Application extends BaseApplication
             && !$input->hasParameterOption(array('--no-debug', ''))
             && $env !== 'prod';
 
-        $message = $this->getHelperSet()->get('message');
-        $drupal = $this->getHelperSet()->get('drupal');
-        $site = $this->getHelperSet()->get('site');
-        $commandDiscovery = $this->getHelperSet()->get('commandDiscovery');
+        $message = $this->getMessageHelper();
+        $drupal = $this->getDrupalHelper();
+        $site = $this->getSite();
+        $commandDiscovery = $this->getCommandDiscoveryHelper();
         $commandDiscovery->setApplicationRoot($this->getDirectoryRoot());
 
         $commands = [];
@@ -155,8 +158,11 @@ class Application extends BaseApplication
             chdir($drupal->getRoot());
             $site->setSitePath($drupal->getRoot());
 
-            if ($drupal->isInstalled()) {
+            if ($drupal->isValidInstance()) {
                 $this->bootDrupal($env, $debug, $drupal);
+            }
+
+            if ($drupal->isInstalled()) {
                 $disabledModules = $this->config->get('application.disable.modules');
                 $commandDiscovery->setDisabledModules($disabledModules);
 
@@ -216,17 +222,12 @@ class Application extends BaseApplication
             Debug::enable();
         }
 
-        /**
-         * @var \Drupal\Console\Helper\KernelHelper $kernelHelper
-         */
-        $kernelHelper = $this->getHelperSet()->get('kernel');
+        $kernelHelper = $this->getKernelHelper();
 
         $kernelHelper->setDebug($debug);
         $kernelHelper->setEnvironment($env);
         $kernelHelper->setClassLoader($drupal->getAutoLoadClass());
-        if ($drupal->isInstalled()) {
-            $kernelHelper->bootKernel();
-        }
+        $kernelHelper->bootKernel();
     }
 
     /**
@@ -237,7 +238,7 @@ class Application extends BaseApplication
         /**
          * @var \Drupal\Console\Helper\ShellHelper $shell
          */
-        $shell = $this->getHelperSet()->get('shell')->getShell();
+        $shell = $this->getShellHelper()->getShell();
 
         $shell->setProcessIsolation($input->hasParameterOption(array('--process-isolation')));
         $shell->run();

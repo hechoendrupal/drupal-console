@@ -9,15 +9,18 @@ namespace Drupal\Console\Helper;
 
 use Symfony\Component\Console\Helper\DialogHelper as BaseDialogHelper;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Helper\HelperTrait;
 
 class DialogHelper extends BaseDialogHelper
 {
+    use HelperTrait;
+
     public function writeSection(OutputInterface $output, $text, $style = 'bg=blue;fg=white')
     {
         $output->writeln(
             array(
             '',
-            $this->getHelperSet()->get('formatter')->formatBlock($text, $style, true),
+            $this->getFormatterHelper()->formatBlock($text, $style, true),
             '',
             )
         );

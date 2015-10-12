@@ -1,6 +1,6 @@
 description: 'Genera un comando para la consola.'
 help: 'El comando <info>generate:command</info> le ayudará a generar un nuevo comando.'
-welcome: 'Bienvenido al generador de Comando de Drupal'
+welcome: 'Bienvenido al generador de Comandos de Drupal'
 options:
     module: common.options.module
     controller-title: 'Título del controlador'
@@ -14,4 +14,4 @@ questions:
     container: 'Necesita acceder al contenedor de servicios'
     controller-title: 'Título del controlador'
 messages:
-    title-not-empty: 'Title cannot be empty'
+    title-not-empty: 'el Título no puede estar vacío'
