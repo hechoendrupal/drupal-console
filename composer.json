@@ -39,7 +39,7 @@
         "symfony/dom-crawler": "2.7.*",
         "alchemy/zippy": "0.2.*@dev",
         "kriswallsmith/buzz": ">=0.15",
-        "mikemeier/php-ssh": "^1.0"
+        "phpseclib/phpseclib": "2.*"
     },
     "bin": ["bin/console"],
     "config": {

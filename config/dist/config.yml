@@ -6,26 +6,20 @@ application:
   remote:
     user: root
     port: 22
-    console: /usr/local/bin/console
+    console: /usr/local/bin/drupal
     options: --ansi
+    arguments:
     keys:
-      rds:
-        pub: ~/.ssh/id_rsa.pub
-        private: ~/.ssh/id_rsa
-      dsa:
-        pub: ~/.ssh/id_dsa.pub
-        private: ~/.ssh/id_dsa
-
-# disable load commands from module list
-#  disable:
-#    modules:
+      public: ~/.ssh/id_rsa.pub
+      private: ~/.ssh/id_rsa
+      passphrase: ~/.ssh/passphrase.txt
+  disable:
+    modules:
 #      - module_name
 #      - module_name
-# set default values for commands
-#  default:
-#    commands:
-#      generate:
-#        controller:
-#          options:
+  default:
+    commands:
+      generate:
+        controller:
+          options:
 #            module: module_name
-
