@@ -23,8 +23,8 @@ class InitCommand extends Command
             'destination' => 'chain/sample.yml',
         ],
         [
-            'source' => 'config/dist/alias.yml',
-            'destination' => 'alias/sample.yml'
+            'source' => 'config/dist/site.yml',
+            'destination' => 'sites/sample.yml'
         ]
     ];
 
