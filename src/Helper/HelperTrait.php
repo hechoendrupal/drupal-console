@@ -140,4 +140,12 @@ trait HelperTrait
     {
         return $this->getHelperSet()->get('formatter');
     }
+
+    /**
+     * @return \Drupal\Console\Helper\RemoteHelper
+     */
+    public function getRemoteHelper()
+    {
+        return $this->getHelperSet()->get('remote');
+    }
 }

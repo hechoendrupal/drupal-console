@@ -128,7 +128,10 @@ class CommandDiscoveryHelper extends Helper
             $className = sprintf(
                 'Drupal\%s\Command\%s',
                 $module,
-                $file->getBasename('.php')
+                str_replace(
+                    ['/', '.php'], ['\\', ''],
+                    $file->getRelativePathname()
+                )
             );
             $command = $this->validateCommand($className, $module);
             if ($command) {

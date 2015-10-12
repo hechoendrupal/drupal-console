@@ -29,7 +29,7 @@ class Application extends BaseApplication
      */
     const VERSION = '0.9.2';
     /**
-     * @var Drupal\Console\UserConfig
+     * @var Drupal\Console\Config
      */
     protected $config;
     /**
@@ -84,6 +84,9 @@ class Application extends BaseApplication
         $this->getDefinition()->addOption(
             new InputOption('--generate-doc', '--gd', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc'))
         );
+        $this->getDefinition()->addOption(
+            new InputOption('--target', '--t', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.target'))
+        );
     }
 
     /**
@@ -128,22 +131,50 @@ class Application extends BaseApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        $root = $input->getParameterOption(['--root'], null);
+        $root = null;
+        $config = $this->getConfig();
+        $target = $input->getParameterOption(['--target'], null);
+
+        if ($input) {
+            $commandName = $this->getCommandName($input);
+        }
+
+        $targetConfig = [];
+        if ($target && $config->loadTarget($target)) {
+            $targetConfig = $config->getTarget($target);
+            $root = $targetConfig['root'];
+        }
+
+        if ($targetConfig && $targetConfig['remote']) {
+            $remoteHelper = $this->getRemoteHelper();
+            $remoteResult = $remoteHelper->executeCommand(
+                $commandName,
+                $target,
+                $targetConfig,
+                $input->__toString(),
+                $config->getUserHomeDir()
+            );
+            $output->writeln($remoteResult);
+            return 0;
+        }
+
+        if (!$target) {
+            $root = $input->getParameterOption(['--root'], null);
+        }
 
         $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
 
         $debug = getenv('DRUPAL_DEBUG') !== '0'
-            && !$input->hasParameterOption(array('--no-debug', ''))
-            && $env !== 'prod';
+          && !$input->hasParameterOption(array('--no-debug', ''))
+          && $env !== 'prod';
 
         $message = $this->getMessageHelper();
         $drupal = $this->getDrupalHelper();
         $site = $this->getSite();
         $commandDiscovery = $this->getCommandDiscoveryHelper();
         $commandDiscovery->setApplicationRoot($this->getDirectoryRoot());
-
-        $commands = [];
         $recursive = false;
+
         if (!$root) {
             $root = getcwd();
             $recursive = true;
@@ -151,9 +182,11 @@ class Application extends BaseApplication
 
         if (!$drupal->isValidRoot($root, $recursive)) {
             $commands = $commandDiscovery->getConsoleCommands();
-            $message->addWarningMessage(
-                $this->trans('application.site.errors.directory')
-            );
+            if (!$commandName) {
+                $message->addWarningMessage(
+                    $this->trans('application.site.errors.directory')
+                );
+            }
         } else {
             chdir($drupal->getRoot());
             $site->setSitePath($drupal->getRoot());
@@ -169,9 +202,11 @@ class Application extends BaseApplication
                 $commands = $commandDiscovery->getCommands();
             } else {
                 $commands = $commandDiscovery->getConsoleCommands();
-                $message->addWarningMessage(
-                    $this->trans('application.site.errors.settings')
-                );
+                if (!$commandName) {
+                    $message->addWarningMessage(
+                        $this->trans('application.site.errors.settings')
+                    );
+                }
             }
         }
 
@@ -180,10 +215,6 @@ class Application extends BaseApplication
         if (true === $input->hasParameterOption(['--shell', '-s'])) {
             $this->runShell($input);
             return;
-        }
-
-        if ($input) {
-            $commandName = $this->getCommandName($input);
         }
 
         if (true === $input->hasParameterOption(array('--generate-doc', '--gd'))) {
@@ -245,7 +276,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * @return \Drupal\Console\UserConfig
+     * @return \Drupal\Console\Config
      */
     public function getConfig()
     {
