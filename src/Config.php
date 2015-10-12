@@ -20,15 +20,26 @@ class Config
      */
     protected $config = [];
 
-    /**
-     * 
-     */
     public function __construct()
     {
         $this->config = [];
 
         $this->loadFile(__DIR__.'/../config.yml');
         $this->loadFile($this->getUserHomeDir().'/.console/config.yml');
+    }
+
+    /**
+   * @param $file
+   * @return array
+   */
+    public function getFileContents($file)
+    {
+        if (file_exists($file)) {
+            $parser = new Parser();
+            return $parser->parse(file_get_contents($file));
+        }
+
+        return [];
     }
 
     /**
@@ -39,12 +50,7 @@ class Config
      */
     private function loadFile($file = null, $prefix=null)
     {
-        $config = null;
-
-        if (file_exists($file)) {
-            $parser = new Parser();
-            $config = $parser->parse(file_get_contents($file));
-        }
+        $config = $this->getFileContents($file);
 
         if ($config) {
             if ($prefix) {
@@ -154,6 +160,10 @@ class Config
         return $this->loadSite($site);
     }
 
+    /**
+   * @param $target
+   * @return array|mixed|null|string
+   */
     public function getTarget($target)
     {
         $targetConfig = $this->get('sites.' . $target);

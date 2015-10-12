@@ -18,7 +18,7 @@ use Drupal\Console\Helper\ChainCommandHelper;
 use Drupal\Console\EventSubscriber\CallCommandListener;
 use Drupal\Console\EventSubscriber\ShowGenerateChainListener;
 use Drupal\Console\EventSubscriber\ShowGenerateInlineListener;
-use Drupal\Console\EventSubscriber\ShowCompletedMessageListener;
+use Drupal\Console\EventSubscriber\ShowTerminateMessageListener;
 use Drupal\Console\EventSubscriber\ValidateDependenciesListener;
 use Drupal\Console\EventSubscriber\DefaultValueEventListener;
 use Drupal\Console\Helper\NestedArrayHelper;
@@ -78,6 +78,7 @@ $dispatcher->addSubscriber(new ShowGeneratedFilesListener());
 $dispatcher->addSubscriber(new CallCommandListener());
 $dispatcher->addSubscriber(new ShowGenerateChainListener());
 $dispatcher->addSubscriber(new ShowGenerateInlineListener());
+$dispatcher->addSubscriber(new ShowTerminateMessageListener());
 
 $application->setDispatcher($dispatcher);
 $application->setDefaultCommand('about');
