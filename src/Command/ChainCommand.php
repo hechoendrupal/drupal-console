@@ -73,8 +73,10 @@ class ChainCommand extends ContainerAwareCommand
             return 1;
         }
 
-        $chainData = new Config($file);
-        $commands = $chainData->get('commands');
+        $configData = $this->getApplication()->getConfig()->getFileContents($file);
+        if (array_key_exists('commands', $configData)) {
+            $commands = $configData['commands'];
+        }
 
         foreach ($commands as $command) {
             $moduleInputs = [];
