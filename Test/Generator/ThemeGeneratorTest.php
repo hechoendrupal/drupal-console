@@ -43,9 +43,9 @@ class ThemeGeneratorTest extends GeneratorTest
         $breakpoints
     ) {
         $generator = new ThemeGenerator();
-        $this->getHelperSet()->get('renderer')->setSkeletonDirs($this->getSkeletonDirs());
-        $this->getHelperSet()->get('renderer')->setTranslator($this->getTranslatorHelper());
-        $generator->setHelpers($this->getHelperSet());
+        $this->getRenderHelper()->setSkeletonDirs($this->getSkeletonDirs());
+        $this->getRenderHelper()->setTranslator($this->getTranslatorHelper());
+        $generator->setHelperSet($this->getHelperSet());
 
         $generator->generate(
             $theme,

@@ -1,15 +1,15 @@
-description: 'Generate field formatter plugin.'
-help: 'The <info>generate:plugin:fieldformatter</info> command helps you generate a new field formatter plugin.'
-welcome: 'Welcome to the Drupal Field Formatter Plugin generator'
+description: 'Generează extensia de formatare a câmpului.'
+help: 'Comanda <info>generate:plugin:fieldformatter</info> te ajută să generezi o nouă extensie de formatare a câmpului.'
+welcome: 'Bine ați venit la generatorul de extensii de formatare a câmpului Drupal'
 options:
     module: common.options.module
-    class-name: 'Plugin class name'
-    label: 'Plugin label'
-    plugin-id: 'Plugin id'
-    field-type: 'Field type the plugin can be used with'
+    class-name: 'Numele clasei pentru extensie'
+    label: 'Eticheta extensiei'
+    plugin-id: 'ID-ul extensiei'
+    field-type: 'Tipul câmpului cu, care extensia poate fi folosită'
 questions:
     module: common.questions.module
-    class-name: 'Enter the plugin class name'
-    label: 'Enter the plugin label'
-    plugin-id: 'Enter the plugin id'
-    field-type: 'Enter the field type the plugin can be used with'
+    class-name: 'Introduceți numele clasei pentru extensie'
+    label: 'Introduceți eticheta extensiei'
+    plugin-id: 'Introduceți ID-ul extensiei'
+    field-type: 'Introduceți tipul câmpului cu, care extensia poate fi folosită'

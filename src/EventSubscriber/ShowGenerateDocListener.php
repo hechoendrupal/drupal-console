@@ -18,16 +18,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class ShowGenerateDocListener implements EventSubscriberInterface
 {
-    private $skipCommands = [
-        'self-update',
-        'list',
-    ];
-
     private $skipOptions = [
         'generate-doc'
-    ];
-
-    private $skipArguments = [
     ];
 
     /**
@@ -40,14 +32,8 @@ class ShowGenerateDocListener implements EventSubscriberInterface
          * @var \Drupal\Console\Command\Command $command
          */
         $command = $event->getCommand();
-        /**
-         * @var \Drupal\Console\Console\Application $command
-         */
+
         $application = $command->getApplication();
-        /**
-         * @var \Drupal\Console\Config $config
-         */
-        $config = $application->getConfig();
 
         $input = $command->getDefinition();
         $options = $input->getOptions();
@@ -66,7 +52,7 @@ class ShowGenerateDocListener implements EventSubscriberInterface
               'aliases' => $command->getAliases()
             ];
 
-            $renderedDoc = $application->getHelperSet()->get('renderer')->render(
+            $renderedDoc = $application->getRenderHelper()->render(
                 'gitbook/generate-doc.md.twig',
                 $parameters
             );

@@ -5,6 +5,6 @@ arguments:
     value: Value
 messages:
     configuration: 'Nombre de la configuración.'
-    configuration-key: 'Llave de la configuración.'
-    original: 'Valor origina.l'
-    updated: 'Valos sobreescrito.'
+    configuration-key: 'Clave de la configuración.'
+    original: 'Valor original'
+    updated: 'Valor sobreescrito.'

@@ -41,7 +41,6 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
         $dependencies
     ) {
         $command = new GeneratorModuleCommand($this->getHelperSet());
-        $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 

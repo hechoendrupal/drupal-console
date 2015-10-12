@@ -9,12 +9,12 @@ content:
         arguments:
             content_type: 'निर्यात किए जाने वाले कंटेंट प्ररूप'
         questions:
-            content_type: 'Content Type to be exported'
-            optional-config: 'Export content type in module as an optional configuration'
+            content_type: 'निर्यात किया जाने वाला कंटेंट प्ररूप'
+            optional-config: 'एक वैकल्पिक विन्यास के रूप में मॉड्यूल में निर्यात कंटेंट प्ररूप'
         messages:
-            content_type_exported: 'Exporting content type'
+            content_type_exported: 'कंटेंट प्ररूप के निर्यात'
         options:
-            optional-config: 'Export content type as an optional YAML configuration in your module'
+            optional-config: 'अपने मॉड्यूल में एक वैकल्पिक YAML विन्यास के रूप में निर्यात सामग्री प्ररूप'
 single:
     description: 'अकेली विन्यास फाइल का बतौर yml फाइल निर्यात करें.'
     arguments:
@@ -32,14 +32,14 @@ single:
 view:
     description: 'एक दृश्य को दूसरी वेबसाइट में परयोग करने के लिए, दिए गए मॉड्यूल के अंदर yml फार्मेट में निर्यात करें.'
     messages:
-        view_exported: 'Exporting view'
-        depencies-included: 'The following module dependencies were included at %s'
+        view_exported: 'निर्यात दृश्य'
+        depencies-included: 'निम्नलिखित मॉड्यूल निर्भरता में शामिल थे %s'
     questions:
-        view: 'View to be exported'
-        optional-config: 'Export view in module as an optional configuration'
-        include-module-dependencies: 'Include view module dependencies in module info YAML file'
+        view: 'दृश्य निर्यात किया जाएगा'
+        optional-config: 'एक वैकल्पिक विन्यास के रूप में मॉड्यूल में निर्यात दृश्य'
+        include-module-dependencies: 'मॉड्यूल इन्फो YAML फ़ाइल में दृश्य मॉड्यूल निर्भरता को शामिल करें'
     arguments:
         view-id: 'आईडी देखें'
     options:
-        optional-config: 'Export view as an optional YAML configuration in your module'
-        include-module-dependencies: 'Include module dependencies in module info YAML file'
+        optional-config: 'अपने मॉड्यूल में एक वैकल्पिक YAML विन्यास के रूप में निर्यात सामग्री प्ररूप'
+        include-module-dependencies: 'मॉड्यूल इन्फो YAML फ़ाइल में दृश्य मॉड्यूल निर्भरता को शामिल करें'

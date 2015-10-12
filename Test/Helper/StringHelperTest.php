@@ -1,17 +1,16 @@
 <?php
-namespace Drupal\Console\Test\Utils;
+namespace Drupal\Console\Test\Helper;
 
-use \Drupal\Console\Utils\StringUtils;
+use Drupal\Console\Helper\StringHelper;
 
-class StringUtilsTest extends \PHPUnit_Framework_TestCase
+class StringHelperTest extends \PHPUnit_Framework_TestCase
 {
-
-    /* @var StringUtils */
-    protected $stringUtil;
+    /* @var $stringHelper */
+    protected $stringHelper;
 
     protected function setUp()
     {
-        $this->stringUtil = new StringUtils();
+        $this->stringHelper = new StringHelper();
     }
 
     /**
@@ -19,7 +18,7 @@ class StringUtilsTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateMachineName($input, $machine_name)
     {
-        $this->assertEquals($this->stringUtil->createMachineName($input), $machine_name);
+        $this->assertEquals($this->stringHelper->createMachineName($input), $machine_name);
     }
 
     /**
@@ -27,7 +26,7 @@ class StringUtilsTest extends \PHPUnit_Framework_TestCase
      */
     public function testCamelCaseToMachineName($camel_case, $machine_name)
     {
-        $this->assertEquals($this->stringUtil->camelCaseToMachineName($camel_case), $machine_name);
+        $this->assertEquals($this->stringHelper->camelCaseToMachineName($camel_case), $machine_name);
     }
 
     /**

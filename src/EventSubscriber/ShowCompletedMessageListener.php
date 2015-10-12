@@ -2,12 +2,11 @@
 
 /**
  * @file
- * Contains \Drupal\Console\EventSubscriber\ShowGeneratedFiles.
+ * Contains \Drupal\Console\EventSubscriber\ShowCompletedMessageListener.
  */
 
 namespace Drupal\Console\EventSubscriber;
 
-use Drupal\Console\Helper\TranslatorHelper;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -32,9 +31,8 @@ class ShowCompletedMessageListener implements EventSubscriberInterface
         $output = $event->getOutput();
 
         $application = $command->getApplication();
-        $messageHelper = $application->getHelperSet()->get('message');
-        /* @var TranslatorHelper */
-        $translatorHelper = $application->getHelperSet()->get('translator');
+        $messageHelper = $application->getMessageHelper();
+        $translatorHelper = $application->getTranslator();
 
         $messageHelper->showMessages($output);
 
