@@ -294,7 +294,7 @@ class SiteInstallCommand extends Command
         if (!$account_mail) {
             $account_mail = $dialog->askAndValidate(
                 $output,
-                $dialog->getQuestion($this->trans('commands.site.install.questions.site-mail'), 'admin@example.com'),
+                $dialog->getQuestion($this->trans('commands.site.install.questions.account-mail'), 'admin@example.com'),
                 $validator_required,
                 false,
                 'admin@example.com'
@@ -352,8 +352,7 @@ class SiteInstallCommand extends Command
         );
 
         $this->runInstaller($output, $profile, $langcode, $site_name, $site_mail, $account_name, $account_mail, $account_pass, $database);
-
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
+        
     }
 
     protected function getProfiles()
