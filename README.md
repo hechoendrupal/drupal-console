@@ -55,6 +55,18 @@ drupal
 drupal generate:module
 ```
 
+## Enabling Autocomplete
+```
+# You can enable autocomplete by executing
+drupal init
+
+# Bash or Zsh: Add this line to your shell configuration file
+source "$HOME/.console/console.rc" 2>/dev/null
+
+# Fish: Create a symbolic link
+ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish
+```
+
 ## Using Drupal Console
 ![image](http://drupalconsole.com/assets/img/console-global.gif)
 
