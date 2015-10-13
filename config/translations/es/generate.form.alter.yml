@@ -4,3 +4,4 @@ options:
     form-id: 'Form ID a alterar'
 messages:
     inputs: "Puede añadir campos para modificar el formulario.\nEsto es opcional, pulse <info>enter</info> para <info>continuar</info>"
+    loading-forms: Loading forms definition from Webprofiler module
