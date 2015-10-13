@@ -39,7 +39,8 @@
         "symfony/dom-crawler": "2.7.*",
         "alchemy/zippy": "0.2.*@dev",
         "kriswallsmith/buzz": ">=0.15",
-        "phpseclib/phpseclib": "2.*"
+        "phpseclib/phpseclib": "2.*",
+        "stecman/symfony-console-completion": "^0.5.1"
     },
     "bin": ["bin/console"],
     "config": {
