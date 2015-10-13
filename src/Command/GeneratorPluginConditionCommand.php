@@ -89,7 +89,7 @@ class GeneratorPluginConditionCommand extends GeneratorCommand
             ->getGenerator()
             ->generate($module, $class_name, $label, $plugin_id, $context_definition_id, $context_definition_label, $context_definition_required);
 
-        $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'discovery']);
+        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -123,7 +123,7 @@ class GeneratorPluginConditionCommand extends GeneratorCommand
         }
         $input->setOption('class-name', $class_name);
 
-        $default_label = $this->getStringUtils()->camelCaseToHuman($class_name);
+        $default_label = $this->getStringHelper()->camelCaseToHuman($class_name);
 
         // --plugin label option
         $label = $input->getOption('label');
@@ -136,7 +136,7 @@ class GeneratorPluginConditionCommand extends GeneratorCommand
         }
         $input->setOption('label', $label);
 
-        $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
+        $machine_name = $this->getStringHelper()->camelCaseToUnderscore($class_name);
 
         // --name option
         $plugin_id = $input->getOption('plugin-id');

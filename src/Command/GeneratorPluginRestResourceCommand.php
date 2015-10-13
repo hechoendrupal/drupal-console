@@ -91,14 +91,14 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
         $this->getGenerator()
             ->generate($module, $class_name, $plugin_label, $plugin_id, $plugin_url, $plugin_states);
 
-        $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'discovery']);
+        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $dialog = $this->getDialogHelper();
 
-        $stringUtils = $this->getStringUtils();
+        $stringUtils = $this->getStringHelper();
 
         // --module option
         $module = $input->getOption('module');
@@ -146,7 +146,7 @@ class GeneratorPluginRestResourceCommand extends GeneratorCommand
         }
         $input->setOption('plugin-id', $plugin_id);
 
-        $default_label = $this->getStringUtils()->camelCaseToHuman($class_name);
+        $default_label = $this->getStringHelper()->camelCaseToHuman($class_name);
 
         // --plugin-id option
         $plugin_label = $input->getOption('plugin-label');

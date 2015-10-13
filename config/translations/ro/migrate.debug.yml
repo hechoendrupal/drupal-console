@@ -1,0 +1,7 @@
+description: 'Afisează Migraţiile curente accesibile'
+arguments:
+    drupal-version: 'Versiunea Drupal'
+messages:
+    id: 'ID-ul migraţiei'
+    description: Descrierea
+    version: Versiunea

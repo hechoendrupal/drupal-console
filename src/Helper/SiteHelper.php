@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Helper;
 
-use Symfony\Component\Console\Helper\Helper;
+use Drupal\Console\Helper\Helper;
 use Drupal\Console\Utils\DrupalExtensionDiscovery;
 
 /**
@@ -21,6 +21,11 @@ class SiteHelper extends Helper
      * @var array
      */
     private $modules;
+
+    /**
+     * @var array
+     */
+    private $noCoreModules;
 
     /**
      * @var string
@@ -56,6 +61,29 @@ class SiteHelper extends Helper
         $discovery->reset();
 
         return $discovery->scan('module');
+    }
+
+    public function getNoCoreModules()
+    {
+        if (!$this->noCoreModules) {
+            $this->getModules();
+        }
+
+        return $this->noCoreModules;
+    }
+
+    public function getModules($reset=false)
+    {
+        if (!$this->modules || $reset) {
+            $this->modules = $this->discoverModules();
+            foreach ($this->modules as $module) {
+                if ($module->origin != 'core') {
+                    $this->noCoreModules[] = $module->getName();
+                }
+            }
+        }
+
+        return $this->modules;
     }
 
     /**
@@ -126,6 +154,16 @@ class SiteHelper extends Helper
     public function getModuleConfigOptionalDirectory($moduleName, $fullPath=true)
     {
         return $this->getModulePath($moduleName, $fullPath).'/config/optional';
+    }
+
+    /**
+     * @param string $moduleName
+     * @param bool   $fullPath
+     * @return string
+     */
+    public function getModuleInfoFile($moduleName, $fullPath=true)
+    {
+        return $this->getModulePath($moduleName, $fullPath)."/$moduleName.info.yml";
     }
 
     /**

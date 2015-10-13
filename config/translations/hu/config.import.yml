@@ -1,0 +1,8 @@
+description: 'Konfiguráció importálása az aktuális aplikációba.'
+arguments:
+    config-file: 'Konfigurációs fájl útvonala.'
+    copy-only: 'Csak a konfigurációs fájlok mentése az átmeneti könyvtárba.'
+messages:
+    config_files_imported: 'Konfigurációs fájlok listája.'
+    copied: 'Az összes konfigurációs fájl át lett másolva az átmeneti könyvtárba.'
+    imported: 'Az összes konfigurációs fájl át lett másolva és importálva lett az átmeneti könyvtárba.'

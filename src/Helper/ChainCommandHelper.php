@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Helper;
 
-use Symfony\Component\Console\Helper\Helper;
+use Drupal\Console\Helper\Helper;
 
 class ChainCommandHelper extends Helper
 {

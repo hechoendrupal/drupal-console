@@ -1,0 +1,5 @@
+description: 'Console frissítése a legújabb verzióra.'
+help: 'Console parancs frissítése a legújabb elérhető verzióra.'
+messages:
+    success: 'A console frissítve lett a legújabb verzióra.'
+    current-version: 'The latest version %s, was already installed on your system.'

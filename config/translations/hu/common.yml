@@ -1,0 +1,34 @@
+options:
+    events: 'Esemémnyek betöltése a tárolóból'
+    module: 'A Modul neve.'
+    services: 'Service betöltése a container-ből.'
+    tags: 'Service tag-ek hozzárendelése a container-hez.'
+    inputs: 'Beviteli mezők létrehozása formhoz.'
+    permissions: 'Jogosultságok létrehozása.'
+questions:
+    module: 'Modul neve'
+    confirm: 'Létrehozás megerősítése'
+    canceled: 'Létrehozás parancs megszakítva.'
+    events:
+        message: "\nEsemény neve vagy használja a le/fel billentyűt.\nEz opcionális, <info>enter</info> a <info>folytatáshoz</info>\n"
+        name: 'Esemény neve'
+    services:
+        confirm: 'Betölthető service a container-be'
+        message: "\nService neve vagy fel és le billentyűk.\nEz opcionális, <info>enter</info> a <info>folytatáshoz</info>\n"
+        name: 'Service megadása'
+    inputs:
+        confirm: 'Form struktúra létrehozása?'
+        label: 'Beviteli mező címke'
+        machine_name: 'Beviteli mező gépi neve'
+        permission: 'Jogosultságok létrehozása'
+        type: Típus
+        invalid: 'Mező típus "%s" helytelen.'
+        description: Leírás
+        default-value: 'Alapértelmezett érték'
+        weight: 'A bemeneti elem súlya'
+errors:
+    module-dependency: 'Hiányzó modul függőség "%s"'
+    class-name-empty: 'A Class neve nem lehet üres'
+status:
+    enabled: Enabled
+    disabled: Disabled

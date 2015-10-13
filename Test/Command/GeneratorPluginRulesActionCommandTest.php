@@ -36,8 +36,7 @@ class GeneratorPluginRulesActionCommandTest extends GenerateCommandTest
         $context,
         $type
     ) {
-        $command = new GeneratorPluginRulesActionCommand($this->getTranslatorHelper());
-        $command->setContainer($this->getContainer());
+        $command = new GeneratorPluginRulesActionCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 

@@ -28,11 +28,11 @@ class CacheRebuildCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $drupal = $this->getHelperSet()->get('drupal');
-        $drupalRoot = $drupal->getDrupalRoot();
+        $drupal = $this->getDrupalHelper();
+        $drupalRoot = $drupal->getRoot();
 
         include_once $drupalRoot.'/core/includes/utility.inc';
-        $validators = $this->getHelperSet()->get('validators');
+        $validators = $this->getValidator();
 
         // Get the --cache option and make validation
         $cache = $input->getArgument('cache');
@@ -51,7 +51,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
         $output->writeln('[+] <comment>'.$this->trans('commands.cache.rebuild.messages.rebuild').'</comment>');
 
         // Get data needed to rebuild cache
-        $kernelHelper = $this->getHelper('kernel');
+        $kernelHelper = $this->getKernelHelper();
         $classLoader = $kernelHelper->getClassLoader();
         $request = $kernelHelper->getRequest();
 
@@ -80,7 +80,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
 
     private function getCacheOption($input, $output, $dialog)
     {
-        $validators = $this->getHelperSet()->get('validators');
+        $validators = $this->getValidator();
 
         // Get the --cache option and make user interaction with validation
         $cache = $input->getArgument('cache');

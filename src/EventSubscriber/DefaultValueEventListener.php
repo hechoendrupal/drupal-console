@@ -28,13 +28,7 @@ class DefaultValueEventListener implements EventSubscriberInterface
          * @var \Drupal\Console\Command\Command $command
          */
         $command = $event->getCommand();
-        /**
-         * @var \Drupal\Console\Console\Application $command
-         */
         $application = $command->getApplication();
-        /**
-         * @var \Drupal\Console\Config $config
-         */
         $config = $application->getConfig();
 
         if (in_array($command->getName(), $this->skipCommands)) {

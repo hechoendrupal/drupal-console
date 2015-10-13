@@ -1,0 +1,22 @@
+description: 'Instalează un proiect drupal.'
+arguments:
+    profile: 'Proiectul drupal care va fi instalat'
+    langcode: 'Limba proiectului'
+    db-type: 'Tipul bazei de date care va fi folosit la instalarea proiectului'
+    site-name: 'Numele saitului drupal'
+    site-mail: 'Adresa de email a saitului'
+    account-name: 'Numele de utilizator al administratorului saitului'
+    account-mail: 'Adresa de email a administratorului saitului'
+    account-pass: 'Parola administratorului saitului'
+questions:
+    profile: 'Selectaţi profilul Drupal care va fi instalat'
+    langcode: 'Selectaţi limba pentru instalare'
+    db-type: 'Selectaţi tipul bazei de date care va fi folosit la instalare'
+    site-name: 'Introduceţi numele saitului'
+    site-mail: 'Introduceţi adresa de email a saitului'
+    account-name: 'Introduceţi numele de utilizator al administratorului saitului'
+    account-mail: 'Introduceţi adresa de email a administratorului saitului'
+    account-pass: 'Introduceţi parola administratorului saitului'
+messages:
+    installing: 'Se începe instalarea proiectului Drupal 8.'
+    installed: 'Instalarea proiectului Drupa 8 a fost finalizată cu succes.'

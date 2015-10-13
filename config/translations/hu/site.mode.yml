@@ -1,0 +1,16 @@
+description: 'Rendszer teljesítmény beállításának módosítása'
+arguments:
+    environment: 'Környezet neve'
+messages:
+    configuration: 'Konfiguráció neve'
+    configuration-key: 'Konfiguráció kulcs'
+    original: 'Eredeti érték'
+    updated: 'Módisított érték'
+    invalid-env: 'Invalid environment'
+    new-services-settings: 'New services settings'
+    service: Service
+    service-parameter: Parameter
+    service-value: Value
+    error-copying-file: 'Error copying file'
+    error-writing-file: 'Error copying file'
+    services-file-overwritten: 'Services files %s was overwritten'

@@ -7,7 +7,18 @@
 
 namespace Drupal\Console\Helper;
 
-use Symfony\Component\Console\Helper\Helper;
+use Composer\Autoload\ClassLoader;
+use Drupal\Console\Helper\Helper;
+use Drupal\Core\DependencyInjection\ContainerBuilder;
+use Drupal\Core\Installer\InstallerKernel;
+use Drupal\Core\Logger\LoggerChannelFactory;
+use Drupal\Core\Language\Language;
+use Drupal\Core\Language\LanguageManager;
+use Drupal\Core\Site\Settings;
+use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Yaml\Parser;
 
 /**
  * Class DrupalHelper
@@ -22,67 +33,50 @@ class DrupalHelper extends Helper
     /**
      * @var string
      */
-    private $drupalRoot;
+    private $root = false;
 
     /**
      * @var string
      */
-    private $drupalAutoLoadPath;
+    private $autoLoad = null;
 
     /**
      * @var bool
      */
-    private $bootable;
+    private $installed = false;
 
     /**
-     * @param  string $drupalRoot
-     * @return bool
+     * @var bool
      */
-    public function isValidInstance($drupalRoot=null)
-    {
-        if ($drupalRoot) {
-            return $this->isValidRoot($drupalRoot);
-        }
-
-        $drupalRoot = getcwd();
-
-        return $this->isAutoLoader($drupalRoot);
-    }
+    private $validInstance = false;
 
     /**
-     * @param $drupalRoot
+     * @param  string $root
+     * @param  bool   $recursive
      * @return bool
      */
-    private function isAutoLoader($drupalRoot)
+    public function isValidRoot($root, $recursive=false)
     {
-        if ($drupalRoot === '/') {
+        if (!$root) {
             return false;
         }
 
-        if ($this->isValidRoot($drupalRoot)) {
-            return true;
-        }
-
-        return $this->isAutoLoader(realpath($drupalRoot . '/../'));
-    }
-
-    /**
-     * @param  string $drupalRoot
-     * @return bool
-     */
-    private function isValidRoot($drupalRoot)
-    {
-        if (!$drupalRoot) {
+        if ($root === '/' || preg_match('~^[a-z]:\\\\$~i', $root)) {
             return false;
         }
 
-        $drupalAutoLoadPath = sprintf('%s/%s', $drupalRoot, self::DRUPAL_AUTOLOAD);
+        $autoLoad = sprintf('%s/%s', $root, self::DRUPAL_AUTOLOAD);
 
-        if (file_exists($drupalAutoLoadPath)) {
-            $this->drupalRoot = $drupalRoot;
-            $this->drupalAutoLoadPath = $drupalAutoLoadPath;
-            $this->bootable = true;
+        if (file_exists($autoLoad)) {
+            $this->root = $root;
+            $this->autoLoad = $autoLoad;
+            $this->validInstance = true;
+            $this->installed = $this->isSettingsFile();
             return true;
+        }
+
+        if ($recursive) {
+            return $this->isValidRoot(realpath($root . '/../'), $recursive);
         }
 
         return false;
@@ -93,13 +87,17 @@ class DrupalHelper extends Helper
      */
     private function isSettingsFile()
     {
-        $drupalSettingsPath = sprintf('%s/%s', $this->drupalRoot, self::DRUPAL_SETTINGS);
+        $settingsPath = sprintf('%s/%s', $this->root, self::DRUPAL_SETTINGS);
 
-        if (!file_exists($drupalSettingsPath)) {
-            return false;
-        }
+        return file_exists($settingsPath);
+    }
 
-        return true;
+    /**
+     * @return bool
+     */
+    public function isValidInstance()
+    {
+        return $this->validInstance;
     }
 
     /**
@@ -107,41 +105,153 @@ class DrupalHelper extends Helper
      */
     public function isInstalled()
     {
-        if (!$this->isBootable()) {
-            return false;
-        }
+        return $this->installed;
+    }
 
-        if (!$this->isSettingsFile()) {
-            return false;
-        }
+    /**
+     * @return string
+     */
+    public function getRoot()
+    {
+        return $this->root;
+    }
 
-        return true;
+    /**
+     * @return string
+     */
+    public function getAutoLoad()
+    {
+        return $this->autoLoad;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAutoLoadClass()
+    {
+        return include $this->autoLoad;
     }
 
     /**
      * @return bool
      */
-    public function isBootable()
+    public function isAutoload()
     {
-        return $this->bootable;
+        return ($this->autoLoad?true:false);
+    }
+
+
+    /**
+     * @return mixed array
+     */
+    public function getStandardtLanguages()
+    {
+        $standard_languages = LanguageManager::getStandardLanguageList();
+        $languages = [];
+        foreach ($standard_languages as $langcode => $standard_language) {
+            $languages[$langcode] = $standard_language[0];
+        }
+
+        return $languages;
+    }
+
+
+    public function setMinimalContainerPreKernel()
+    {
+        // Create a minimal mocked container to support calls to t() in the pre-kernel
+        // base system verification code paths below. The strings are not actually
+        // used or output for these calls.
+        // @todo Separate API level checks from UI-facing error messages.
+        $container = new ContainerBuilder();
+        $container->setParameter('language.default_values', Language::$defaultValues);
+        $container
+            ->register('language.default', 'Drupal\Core\Language\LanguageDefault')
+            ->addArgument('%language.default_values%');
+        $container
+            ->register('string_translation', 'Drupal\Core\StringTranslation\TranslationManager')
+            ->addArgument(new Reference('language.default'));
+
+        // Register the stream wrapper manager.
+        $container
+            ->register('stream_wrapper_manager', 'Drupal\Core\StreamWrapper\StreamWrapperManager')
+            ->addMethodCall('setContainer', array(new Reference('service_container')));
+        $container
+            ->register('file_system', 'Drupal\Core\File\FileSystem')
+            ->addArgument(new Reference('stream_wrapper_manager'))
+            ->addArgument(Settings::getInstance())
+            ->addArgument((new LoggerChannelFactory())->get('file'));
+
+        \Drupal::setContainer($container);
+    }
+    /**
+     * @return mixed array
+     */
+    public function getDatabaseTypes()
+    {
+        include_once $this->root . '/core/includes/install.inc';
+
+        $this->setMinimalContainerPreKernel();
+
+        $finder = new Finder();
+        $finder->directories()
+            ->in($this->root . '/core/lib/Drupal/Core/Database/Driver')
+            ->depth('== 0');
+
+        $databases = [];
+        foreach ($finder as $driver_folder) {
+            if (file_exists($driver_folder->getRealpath() . '/Install/Tasks.php')) {
+                $driver  = $driver_folder->getBasename();
+                $installer = db_installer_object($driver);
+                // Verify is database is installable
+                if ($installer->installable()) {
+                    $reflection = new \ReflectionClass($installer);
+                    $install_namespace = $reflection->getNamespaceName();
+                    // Cut the trailing \Install from namespace.
+                    $driver_class = substr($install_namespace, 0, strrpos($install_namespace, '\\'));
+                    $databases[$driver] = ['namespace' => $driver_class, 'name' =>$installer->name()];
+                }
+            }
+        }
+
+        return $databases;
+    }
+
+    public function getDatabaseTypeDriver($driver)
+    {
+        // We cannot use Database::getConnection->getDriverClass() here, because
+        // the connection object is not yet functional.
+        $task_class = "Drupal\\Core\\Database\\Driver\\{$driver}\\Install\\Tasks";
+        if (class_exists($task_class)) {
+            return new $task_class();
+        } else {
+            $task_class = "Drupal\\Driver\\Database\\{$driver}\\Install\\Tasks";
+            return new $task_class();
+        }
     }
 
     /**
-     * @return string
+     * @return mixed array
      */
-    public function getDrupalRoot()
+    public function getProfiles()
     {
-        return $this->drupalRoot;
-    }
+        $yamlParser = new Parser();
 
-    /**
-     * @return string
-     */
-    public function getDrupalAutoLoadPath()
-    {
-        return $this->drupalAutoLoadPath;
-    }
+        $finder = new Finder();
+        $finder->files()
+            ->name('*.info.yml')
+            ->in($this->root . '/core/profiles/*/')
+            ->contains('type: profile')
+            ->notContains('hidden: true')
+            ->depth('== 0');
 
+        $profiles = [];
+        foreach ($finder as $file) {
+            $profile_key = $file->getBasename('.info.yml');
+            $profiles[$profile_key] = $yamlParser->parse($file->getContents());
+        }
+
+        return $profiles;
+    }
     /**
      * {@inheritdoc}
      */

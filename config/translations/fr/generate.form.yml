@@ -1,0 +1,17 @@
+description: 'Générer un nouveau "%s"'
+help: 'la commande <info>"%s"</info> vous assiste dans la génération d''un nouveau "%s"'
+welcome: 'Bienvenue sur le générateur de formulaire Drupal'
+options:
+    module: common.options.module
+    class-name: 'Le nom de classe du formulaire'
+    form-id: 'l''ID du formulaire'
+    services: common.options.services
+    inputs: common.options.inputs
+    routing: 'Mise à jour des routes'
+questions:
+    module: common.questions.module
+    class-name: 'Entrez le nom de la classe du formulair'
+    form-id: 'Entrez l''id du formulaire'
+    services: common.questions.services
+    inputs: common.questions.inputs
+    routing: 'Mise à jour des routes'

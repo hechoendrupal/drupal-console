@@ -1,0 +1,7 @@
+description: 'Elérhető migrációk megjelenítése'
+arguments:
+    drupal-version: 'Drupal Verzió'
+messages:
+    id: 'Migráció Id'
+    description: Leírás
+    version: Verzió

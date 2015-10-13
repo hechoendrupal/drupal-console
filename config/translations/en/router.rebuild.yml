@@ -1,0 +1,6 @@
+description: 'Rebuild routes for the application'
+arguments:
+    route-name: 'Route names'
+messages:
+    rebuilding: 'Rebuilding routes, wait a moment please'
+    completed: 'Done rebuilding route(s).'

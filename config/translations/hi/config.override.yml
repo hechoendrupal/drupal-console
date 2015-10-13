@@ -1,0 +1,10 @@
+description: 'सक्रिय विन्यास में विन्यास मान को ओवरराइड.'
+arguments:
+    config-name: 'विन्यास नाम.'
+    key: कुंजी
+    value: मूल्य
+messages:
+    configuration: 'विन्यास नाम'
+    configuration-key: 'विन्यास कुंजी'
+    original: 'मूल मूल्य'
+    updated: 'ओवरराइड मूल्य'

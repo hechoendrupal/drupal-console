@@ -1,0 +1,6 @@
+description: 'Exécutez drush à partir de la console.'
+help: 'Utilisez le mode interactif pour une meilleure expérience --shell.'
+arguments:
+    args: 'Arguments à passer à Drush.'
+messages:
+    not_found: 'Commande Drush introuvable.'

@@ -1,0 +1,6 @@
+description: 'Edit the selected configuration.'
+arguments:
+    config-name: 'Configuration name.'
+    editor: Editor.
+messages:
+    no-directory: 'An error occurred while creating your directory at'

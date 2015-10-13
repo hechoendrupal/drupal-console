@@ -1,0 +1,7 @@
+description: 'Returneaza un URL de logare care poate fi folosit o singură dată.'
+options:
+    user-id: 'ID utilizator.'
+messages:
+    url: 'URL de logare pentru @name: @url'
+errors:
+    invalid-user: 'Nu se poate deschide entitatea utilizator (ID utilizator: @uid).'

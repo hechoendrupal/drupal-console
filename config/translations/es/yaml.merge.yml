@@ -1,0 +1,17 @@
+description: 'Combinar uno o más archivos de YAML en un nuevo archivo YAML. Se conservaran los últimos valores del archivo mas a la izquierda del merge.'
+arguments:
+    yaml-files: 'Ruta de archivos de YAML para combinar'
+    yaml-destination: 'Ruta para el nuevo archivo YAML que almacenara la combinación.'
+questions:
+    yaml-destination: 'Ruta para el nuevo archivo YAML que almacenara la combinación.'
+    file: 'Ruta del archivo a combinar'
+    other-file: 'Ruta del archivo a combinar (vacío para iniciar con el proceso de combinación)'
+    invalid-file: 'Ruta del archivo no puede ser vacía'
+    file-already-added: 'Ruta del archivo ya fue agregada'
+messages:
+    wrong-parse: 'Archivo de Yaml "%s" esta vacío o no existe.'
+    error-parsing: 'Un error ha ocurrido al procesar el archvio de Yaml "%s".'
+    two-files-required: 'Al menos dos archivos son requeridos'
+    error-generating: 'Error generando el archivo YAML combinado.'
+    error-writing: 'Error escribiendo en el archivo YAML combinado.'
+    merged: 'Nuevo archivo "%s" fue creado satisfactorimente despuesde de combinar los archivos Yaml.'

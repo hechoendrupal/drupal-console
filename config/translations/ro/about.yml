@@ -1,0 +1,13 @@
+description: 'Afișează informațiile de bază despre proiectul Drupal Console'
+messages:
+    welcome: 'Drupal Console este o colecție de tool-uri pe care le rulezi pe CLI pentru a:'
+    welcome-feature-generate: 'Genera cod șablon.'
+    welcome-feature-interact: 'Interacționa cu o instanță de Drupal 8.'
+    welcome-feature-learn: 'Învăța Drupal 8.'
+    list: 'Execută comanda <info>list</info> pentru a obține o listă cu toate comenzile valabile.'
+    landing: 'Pagina de destinație <comment>%s</comment>'
+    change-log: 'Jurnal modificări la <comment>%s</comment>'
+    version-supported: 'Versiunea de Drupal 8 suportată este <info>%s</info>'
+    documentation: 'Documentația pentru proiectul Drupal Console la <comment>%s</comment>'
+    support: 'Suport chat pe platforma gitter la <comment>%s</comment>'
+    supporting-organizations: 'Organizații care ne susțin'

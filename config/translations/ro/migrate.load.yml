@@ -1,0 +1,10 @@
+description: 'Generează o entitate de migrare.'
+arguments:
+    file: 'Calea către fişierul YML'
+messages:
+    invalid_file: 'Fişierul "%s" nu exista.'
+    installed: 'Nu uitaţi să puneţi fişierele extensiei unde trebuie sa fie.'
+    overridden: 'Entitatea a fost suprascrisă.'
+questions:
+    override: 'Fişierul este deja instalat, doriţi sa îl suprascrieţi [yes/no] ?'
+    file: 'Calea spre fişier.'

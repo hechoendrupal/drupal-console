@@ -97,7 +97,7 @@ class GeneratorThemeCommand extends GeneratorCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $dialog = $this->getDialogHelper();
-        $validators = $this->getHelperSet()->get('validators');
+        $validators = $this->getValidator();
 
         if ($this->confirmationQuestion($input, $output, $dialog)) {
             return;
@@ -105,8 +105,8 @@ class GeneratorThemeCommand extends GeneratorCommand
 
         $theme = $validators->validateModuleName($input->getOption('theme'));
 
-        $drupal = $this->getHelperSet()->get('drupal');
-        $drupal_root = $drupal->getDrupalRoot();
+        $drupal = $this->getDrupalHelper();
+        $drupal_root = $drupal->getRoot();
         $theme_path = $drupal_root . $input->getOption('theme-path');
         $theme_path = $validators->validateModulePath($theme_path, true);
 
@@ -139,14 +139,14 @@ class GeneratorThemeCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $stringUtils = $this->getHelperSet()->get('stringUtils');
-        $validators = $this->getHelperSet()->get('validators');
+        $stringUtils = $this->getStringHelper();
+        $validators = $this->getValidator();
         $dialog = $this->getDialogHelper();
 
         try {
             $theme = $input->getOption('theme') ? $this->validateModuleName($input->getOption('theme')) : null;
         } catch (\Exception $error) {
-            $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
+            $output->writeln($dialog->getFormatterHelper()->formatBlock($error->getMessage(), 'error'));
         }
 
         $theme = $input->getOption('theme');
@@ -167,7 +167,7 @@ class GeneratorThemeCommand extends GeneratorCommand
         try {
             $machine_name = $input->getOption('machine-name') ? $this->validateModule($input->getOption('machine-name')) : null;
         } catch (\Exception $error) {
-            $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
+            $output->writeln($dialog->getFormatterHelper()->formatBlock($error->getMessage(), 'error'));
         }
 
         if (!$machine_name) {
@@ -186,8 +186,8 @@ class GeneratorThemeCommand extends GeneratorCommand
         }
 
         $theme_path = $input->getOption('theme-path');
-        $drupal = $this->getHelperSet()->get('drupal');
-        $drupal_root = $drupal->getDrupalRoot();
+        $drupal = $this->getDrupalHelper();
+        $drupal_root = $drupal->getRoot();
 
         if (!$theme_path) {
             $theme_path_default = '/themes/custom';

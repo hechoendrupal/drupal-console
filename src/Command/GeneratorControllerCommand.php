@@ -95,13 +95,13 @@ class GeneratorControllerCommand extends GeneratorCommand
         $build_services = $this->buildServices($services);
 
         // Controller machine name
-        $class_machine_name = $this->getStringUtils()->camelCaseToMachineName($class_name);
+        $class_machine_name = $this->getStringHelper()->camelCaseToMachineName($class_name);
 
         $generator = $this->getGenerator();
         $generator->setLearning($learning);
         $generator->generate($module, $class_name, $routes, $test, $build_services, $class_machine_name);
 
-        $this->getHelper('chain')->addCommand('router:rebuild');
+        $this->getChain()->addCommand('router:rebuild');
     }
 
     /**

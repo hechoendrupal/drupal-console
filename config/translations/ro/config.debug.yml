@@ -1,0 +1,3 @@
+description: 'Afișează configurările curente.'
+arguments:
+    config-name: 'Numele Configurației.'

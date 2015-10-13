@@ -1,0 +1,34 @@
+options:
+    events: 'Cargar eventos desde el contenedor'
+    module: 'Nombre del módulo.'
+    services: 'Cargar servicios desde el ''container''.'
+    tags: 'Asignar etiquetas de servicio desde el contenedor.'
+    inputs: 'Crear campos de entradas de formulario.'
+    permissions: 'Crear permisos.'
+questions:
+    module: 'Escriba el nombre del módulo'
+    confirm: 'Confirmar generacion'
+    canceled: 'Comando de generacion cancelado.'
+    events:
+        message: "\nEscribe el nombre del evento o usa la tecla keyup o keydown.\nEsto es opcional, pulse <info>enter</info> para <info>continuar</info>\n"
+        name: 'Introduzca el nombre del evento'
+    services:
+        confirm: 'Deseas cargar los servicios del contenedor'
+        message: "\nEscribe el nombre del servicio o usa la tecla keyup o keydown.\nEsto es opcional, presione <info>enter</info para <info>continuar</info>\n"
+        name: 'Introduzca su servicio'
+    inputs:
+        confirm: 'Quieres generar una estrctura de formulario'
+        label: 'Etiqueta del campo de entrada'
+        machine_name: 'Introduzca el nombre de maquina'
+        permission: 'Quieres generar permisos'
+        type: Tipo
+        invalid: 'El campo de tipo "%s" es inválido.'
+        description: Descripción
+        default-value: 'Default value'
+        weight: 'Peso para el elemento input'
+errors:
+    module-dependency: 'Depencia "%s" del modulo faltante'
+    class-name-empty: 'El nombre de la Clase no puede estar vacío'
+status:
+    enabled: Enabled
+    disabled: Disabled
