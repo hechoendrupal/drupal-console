@@ -262,7 +262,18 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
     public function getWebprofilerForms()
     {
-        return $this->getContainer()->get('webprofiler.forms');
+        $profiler = $this->getContainer()->get('profiler');
+        $tokens = $profiler->find(NULL, NULL, 1000, NULL, '', '');
+
+        $forms = [];
+        foreach ($tokens as $token) {
+            $token = [$token['token']];
+            $profile = $profiler->loadProfile($token);
+            $form = $profile->getCollector('forms');
+            $forms[] = $form->getForms();
+        }
+
+        return $forms;
     }
 
     public function getEntityQuery()
