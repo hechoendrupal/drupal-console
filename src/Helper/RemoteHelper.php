@@ -7,6 +7,8 @@
 
 namespace Drupal\Console\Helper;
 
+use phpseclib\Crypt\RSA;
+use phpseclib\Net\SSH2;
 use Drupal\Console\Helper\Helper;
 
 /**
@@ -42,7 +44,7 @@ class RemoteHelper extends Helper
             $remoteCommand
         );
 
-        $key = new \phpseclib\Crypt\RSA();
+        $key = new RSA();
         if (array_key_exists('passphrase', $targetConfig['keys'])) {
             $passphrase = $targetConfig['keys']['passphrase'];
             $passphrase = realpath(preg_replace('/~/', $userHomeDir, $passphrase, 1));
@@ -55,7 +57,7 @@ class RemoteHelper extends Helper
             return $this->getTranslator()->trans('commands.site.debug.messages.private-key');
         }
 
-        $ssh = new \phpseclib\Net\SSH2($targetConfig['host']);
+        $ssh = new SSH2($targetConfig['host']);
         if (!$ssh->login('root', $key)) {
             return $this->getTranslator()->trans('commands.site.debug.messages.error-connect');
         } else {
