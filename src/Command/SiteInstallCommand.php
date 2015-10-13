@@ -352,7 +352,6 @@ class SiteInstallCommand extends Command
         );
 
         $this->runInstaller($output, $profile, $langcode, $site_name, $site_mail, $account_name, $account_mail, $account_pass, $database);
-        
     }
 
     protected function getProfiles()
@@ -396,10 +395,7 @@ class SiteInstallCommand extends Command
     protected function runInstaller($output, $profile, $langcode, $site_name, $site_mail, $account_name, $account_mail, $account_pass, $database)
     {
         $drupal = $this->getDrupalHelper();
-
-        include_once $drupal->getRoot() . '/core/includes/install.core.inc';
-
-        $classLoader = include $drupal->getRoot() . '/vendor/autoload.php';
+        $drupal->loadLegacyFile('/core/includes/install.core.inc');
 
         $settings = [
         'parameters' => [
@@ -436,7 +432,7 @@ class SiteInstallCommand extends Command
         $output->writeln('[-] <info>'.$this->trans('commands.site.install.messages.installing').'</info>');
 
         try {
-            install_drupal($classLoader, $settings);
+            install_drupal($drupal->getAutoLoadClass(), $settings);
         } catch (\Exception $e) {
             $output->writeln('[-] <error>' . $e->getMessage() . '</error>');
             return;
