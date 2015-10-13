@@ -73,13 +73,6 @@ class GeneratorFormAlterCommand extends GeneratorCommand
         $dialog = $this->getDialogHelper();
         $moduleHandler = $this->getModuleHandler();
 
-        if($moduleHandler->moduleExists('webprofiler')) {
-            $webprofilerForms = $this->getWebprofilerForms();
-
-            $forms = $webprofilerForms->getForms();
-            print_r($forms);
-        }
-
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
@@ -91,15 +84,22 @@ class GeneratorFormAlterCommand extends GeneratorCommand
         // --class-name option
         $form_id = $input->getOption('form-id');
         if (!$form_id) {
+
+            $forms = [];
+            if($moduleHandler->moduleExists('webprofiler')) {
+                $output->writeln('[-] <info>'.$this->trans('commands.generate.form.alter.messages.loading-forms').'</info>');
+                $forms = $this->getWebprofilerForms();
+            }
+
             $form_id = $dialog->askAndValidate(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.form.alter.options.form-id'), ''),
+                $dialog->getQuestion($this->trans('commands.generate.form.alter.options.form-id'), current(array_keys($forms))),
                 function ($form) {
                     return $form;
                 },
                 false,
                 '',
-                null
+                array_combine(array_keys($forms), array_keys($forms))
             );
         }
         $input->setOption('form-id', $form_id);
