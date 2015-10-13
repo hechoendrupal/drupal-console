@@ -1,0 +1,17 @@
+description: 'Afişează resursele REST curente.'
+arguments:
+    resource-id: 'ID-ul resursei'
+options:
+    status: 'Starea resursei REST activat | dezactivat'
+messages:
+    id: 'ID-ul resursei'
+    label: Eticheta
+    canonical_url: 'URL-ul canonic'
+    status: Status
+    provider: Furnizor
+    enabled: Activat
+    disabled: Dezactivat
+    rest-state: 'Stari REST'
+    supported-formats: 'Formate suportate'
+    supported_auth: 'Furnizori de autentificare suportaţi'
+    not-found: 'Resursa REST - "%s" nu a fost găsită'

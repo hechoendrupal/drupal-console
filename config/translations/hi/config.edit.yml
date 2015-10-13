@@ -1,0 +1,6 @@
+description: 'चयनित विन्यास संपादित करें.'
+arguments:
+    config-name: 'विन्यास नाम.'
+    editor: संपादक.
+messages:
+    no-directory: 'पर अपनी निर्देशिका बनाते हुए दोष पैदा हुआ'

@@ -14,14 +14,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 class InitCommand extends Command
 {
     private $files = [
-      [
-        'source' => 'config/dist/config.yml',
-        'destination' => 'config.yml',
-      ],
-      [
-        'source' => 'config/dist/chain.yml',
-        'destination' => 'chain/sample.yml',
-      ],
+        [
+            'source' => 'config/dist/config.yml',
+            'destination' => 'config.yml',
+        ],
+        [
+            'source' => 'config/dist/chain.yml',
+            'destination' => 'chain/sample.yml',
+        ],
+        [
+            'source' => 'config/dist/site.yml',
+            'destination' => 'sites/sample.yml'
+        ]
     ];
 
     /**
@@ -47,7 +51,7 @@ class InitCommand extends Command
     {
         $application = $this->getApplication();
         $config = $application->getConfig();
-        $message = $this->getHelperSet()->get('message');
+        $message = $this->getMessageHelper();
         $basePath = __DIR__.'/../../';
         $userPath = $config->getUserHomeDir().'/.console/';
         $copiedFiles = [];
@@ -70,6 +74,12 @@ class InitCommand extends Command
         }
     }
 
+    /**
+     * @param string $source
+     * @param string $destination
+     * @param string $override
+     * @return bool
+     */
     public function copyFile($source, $destination, $override)
     {
         if (file_exists($destination) && !$override) {

@@ -45,8 +45,8 @@ class GenerateDocCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $message = $this->getHelperSet()->get('message');
-        $renderer = $this->getHelperSet()->get('renderer');
+        $message = $this->getMessageHelper();
+        $renderer = $this->getRenderHelper();
 
         $path = null;
         if ($input->hasOption('path')) {

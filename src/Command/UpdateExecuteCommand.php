@@ -30,8 +30,8 @@ class UpdateExecuteCommand extends ContainerAwareCommand
         /*      drupal_set_installed_schema_version('sample', '8000');
         exit();*/
 
-        include_once $this->getDrupalHelper()->getDrupalRoot() . '/core/includes/install.inc';
-        include_once $this->getDrupalHelper()->getDrupalRoot() . '/core/includes/update.inc';
+        include_once $this->getDrupalHelper()->getRoot() . '/core/includes/install.inc';
+        include_once $this->getDrupalHelper()->getRoot() . '/core/includes/update.inc';
 
         $module = $input->getArgument('module');
         $update_n = $input->getArgument('update-n');
@@ -128,6 +128,6 @@ class UpdateExecuteCommand extends ContainerAwareCommand
             . '</info>'
         );
 
-        $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 }

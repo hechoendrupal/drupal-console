@@ -30,8 +30,7 @@ class GeneratorPluginTypeAnnotationCommandTest extends GenerateCommandTest
         $machine_name,
         $label
     ) {
-        $command = new GeneratorPluginTypeAnnotationCommand($this->getTranslatorHelper());
-        $command->setContainer($this->getContainer());
+        $command = new GeneratorPluginTypeAnnotationCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 

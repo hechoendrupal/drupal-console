@@ -1,0 +1,4 @@
+description: 'Ejecutar implementación de cron desde un módulo específico o todos para ejecutar todas las implementaciones'
+messages:
+    module-invalid: 'El módulo %s no tiene una implementación de cron'
+    executing-cron: 'Ejecutando función de cron del módulo %s'

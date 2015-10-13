@@ -1,0 +1,26 @@
+description: 'Controller létrehozása és regisztrálása'
+help: 'A <info>generate:controller</info> parancs új Controller létrehozásában segít.'
+welcome: 'Üdvözlet a Drupal Controller létrehozásában'
+options:
+    module: common.options.module
+    class-name: 'Controller Class neve'
+    method-name: 'Az akció metódus neve'
+    route: 'Az elérési útvonal'
+    services: common.options.services
+    test: 'Teszt osztály létrehozása'
+questions:
+    module: common.questions.module
+    class-name: 'Controller Class nevének megadása'
+    method-name: 'Az akció metódus nevének megadása'
+    route: 'Az elérési útvonal megadása'
+    services: common.questions.services
+    test: 'Unit teszt osztály létrehozása'
+    other-controller-title: 'Controller title (empty to start with code generation)'
+    controller-title: 'Controller title'
+messages:
+    invalid-controller-title: 'Title cannot be empty'
+    title-already-added: 'Title was already added'
+    invalid-method-name: 'Method name cannot be empty'
+    method-name-already-added: 'Method name was already added'
+    invalid-route: 'Route cannot be empty'
+    route-already-added: 'Route was already added'

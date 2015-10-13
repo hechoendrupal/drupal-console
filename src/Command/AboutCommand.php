@@ -23,7 +23,7 @@ class AboutCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $renderer = $this->getHelperSet()->get('renderer');
+        $renderer = $this->getRenderHelper();
 
         $features = [
           $this->trans('commands.about.messages.welcome-feature-learn'),
@@ -39,7 +39,7 @@ class AboutCommand extends Command
 
         $supportedVersion = sprintf(
             $this->trans('commands.about.messages.version-supported'),
-            'Drupal 8 Beta 15'
+            'Drupal 8 Beta 16'
         );
 
         $links = [

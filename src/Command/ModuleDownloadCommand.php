@@ -34,7 +34,7 @@ class ModuleDownloadCommand extends ContainerAwareCommand
         $version = $input->getArgument('version');
 
         if ($version) {
-            $release_selected = '8.x-'.$version;
+            $release_selected = $version;
         } else {
             // Getting Module page header and parse to get module Node
             $output->writeln(
@@ -121,8 +121,8 @@ class ModuleDownloadCommand extends ContainerAwareCommand
             $client->get($release_file_path, ['save_to' => $destination]);
 
             // Determine destination folder for contrib modules
-            $drupal = $this->getHelperSet()->get('drupal');
-            $module_contrib_path = $drupal->getDrupalRoot().'/modules/contrib';
+            $drupal = $this->getDrupalHelper();
+            $module_contrib_path = $drupal->getRoot().'/modules/contrib';
 
             // Create directory if does not exist
             if (file_exists(dirname($module_contrib_path))) {

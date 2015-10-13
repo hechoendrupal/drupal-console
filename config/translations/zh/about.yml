@@ -1,0 +1,13 @@
+description: '显示Drupal Console项目的基本信息'
+messages:
+    welcome: 'Drupal Console是一系列可以在命令行里执行的工具：'
+    welcome-feature-generate: '生成样板代码。'
+    welcome-feature-interact: '与Drupal 8安装流程交互。'
+    welcome-feature-learn: '学习Drupal 8。'
+    list: '执行<info>list</info>命令可以获得所有可用的命令列表。'
+    landing: '项目初始页面<comment>%s</comment>'
+    change-log: '项目更新记录在<comment>%s</comment>'
+    version-supported: '支持的Drupal 8版本信息在<info>%s</info>'
+    documentation: 'Drupal Console文档在<comment>%s</comment>'
+    support: 'Drupal Console技术支持在gitter聊天室<comment>%s</comment>'
+    supporting-organizations: '支持的机构'

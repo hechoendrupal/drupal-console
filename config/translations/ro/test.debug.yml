@@ -1,0 +1,17 @@
+description: 'Afişează testele accesibile'
+help: 'Actualizează Consola cu ultima versiune.'
+arguments:
+    test-class: 'Clasa de test'
+    test-id: 'ID-ul testului'
+options:
+    group: Grupa
+messages:
+    class: 'Clasa de test'
+    description: Descrierea
+    group: Grupa
+    type: 'Tipul de test'
+    success: 'Consola a fost actualizată cu ultima versiune.'
+    missing-dependency: 'Dependinţă lipsă'
+    methods: 'Metode de test'
+    not-found: 'Depanarea nu a fost găsită, încercaţi să puneţi ID-ul între ghilimele.'
+    id: 'Unit Test ID'

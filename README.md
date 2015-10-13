@@ -27,7 +27,7 @@ to generate boilerplate code and interact with a Drupal 8 installation.
 All notable changes to this project will be documented in the [releases page](https://github.com/hechoendrupal/DrupalConsole/releases) 
 
 ## Supported Drupal version
-The Drupal 8 supported version is [Drupal 8 Beta 15](http://ftp.drupal.org/files/projects/drupal-8.0.0-beta15.tar.gz).
+The Drupal 8 supported version is [Drupal 8 Beta 16](http://ftp.drupal.org/files/projects/drupal-8.0.0-beta16.tar.gz).
 
 ## Drupal Console documentation
 You can read or download the Drupal Console documentation at [bit.ly/console-book](http://bit.ly/console-book).

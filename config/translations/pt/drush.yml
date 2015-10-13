@@ -1,0 +1,6 @@
+description: 'Roda drush via console.'
+help: 'Use o modo interativo para uma melhor experiência --shell.'
+arguments:
+    args: 'argumentos para o Drush.'
+messages:
+    not_found: 'Comando Drush não encontrado.'

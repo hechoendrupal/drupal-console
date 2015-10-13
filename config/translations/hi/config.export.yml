@@ -1,0 +1,45 @@
+description: 'वर्तमान एप्लीकेशन विन्यास का निर्यात करें.'
+arguments:
+    directory: 'विन्यास आउटपुट को सुरक्षित करने क लिए निर्यात डायरेक्टरी की परिभाषा दें.'
+messages:
+    directory: 'आपकी विन्यास निर्यात फाइल को %s में सुरक्षित किया गया था'
+content:
+    type:
+        description: 'एक विशेष सामग्री प्ररूप और उनके क्षेत्रों का निर्यात करें.'
+        arguments:
+            content_type: 'निर्यात किए जाने वाले कंटेंट प्ररूप'
+        questions:
+            content_type: 'निर्यात किया जाने वाला कंटेंट प्ररूप'
+            optional-config: 'एक वैकल्पिक विन्यास के रूप में मॉड्यूल में निर्यात कंटेंट प्ररूप'
+        messages:
+            content_type_exported: 'कंटेंट प्ररूप के निर्यात'
+        options:
+            optional-config: 'अपने मॉड्यूल में एक वैकल्पिक YAML विन्यास के रूप में निर्यात सामग्री प्ररूप'
+single:
+    description: 'अकेली विन्यास फाइल का बतौर yml फाइल निर्यात करें.'
+    arguments:
+        config-name: 'विन्यास नाम.'
+    options:
+        simple-configuration: 'साधारण विन्यास'
+    questions:
+        config-type: 'विन्यास प्ररूप'
+        config-name: 'विन्यास नाम'
+    messages:
+        config-not-found: 'विन्यास नाम नहीं मिला.'
+        export: 'विन्यास को %s फाइल पर निर्यात किया गया था.'
+        invalid-config-type: 'विन्यास प्ररूप अमान्य है, सूची में से एक का चयन करें'
+        invalid-config-name: 'विन्यास प्ररूप अमान्य है, सूची में से एक का चयन करें'
+view:
+    description: 'एक दृश्य को दूसरी वेबसाइट में परयोग करने के लिए, दिए गए मॉड्यूल के अंदर yml फार्मेट में निर्यात करें.'
+    messages:
+        view_exported: 'निर्यात दृश्य'
+        depencies-included: 'निम्नलिखित मॉड्यूल निर्भरता में शामिल थे %s'
+    questions:
+        view: 'दृश्य निर्यात किया जाएगा'
+        optional-config: 'एक वैकल्पिक विन्यास के रूप में मॉड्यूल में निर्यात दृश्य'
+        include-module-dependencies: 'मॉड्यूल इन्फो YAML फ़ाइल में दृश्य मॉड्यूल निर्भरता को शामिल करें'
+    arguments:
+        view-id: 'आईडी देखें'
+    options:
+        optional-config: 'अपने मॉड्यूल में एक वैकल्पिक YAML विन्यास के रूप में निर्यात सामग्री प्ररूप'
+        include-module-dependencies: 'मॉड्यूल इन्फो YAML फ़ाइल में दृश्य मॉड्यूल निर्भरता को शामिल करें'

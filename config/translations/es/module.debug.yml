@@ -1,0 +1,13 @@
+description: 'Muestra los módulos actualmente disponibles para la aplicación'
+options:
+    status: 'Estado del módulo [habilitado|deshabilitado]'
+    type: 'Tipo de módulo [core|no-core]'
+messages:
+    id: ID
+    name: Name
+    status: Status
+    origin: Origin
+    package: Package
+    enabled: Enabled
+    disabled: Disabled
+    schema-version: 'Versión del Schema'

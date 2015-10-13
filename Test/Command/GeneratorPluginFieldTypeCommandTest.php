@@ -36,8 +36,7 @@ class GeneratorPluginFieldTypeCommandTest extends GenerateCommandTest
         $default_widget,
         $default_formatter
     ) {
-        $command = new GeneratorPluginFieldTypeCommand($this->getTranslatorHelper());
-        $command->setContainer($this->getContainer());
+        $command = new GeneratorPluginFieldTypeCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 

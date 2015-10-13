@@ -1,0 +1,19 @@
+description: 'Generează o extensie pentru o resursă REST'
+help: 'Comanda <info>generate:plugin:rest:resource</info> te va ajuta sa generezi o noua extensie pentru o resursă REST.'
+welcome: 'Bine ai venit in generatorul de extensii pentru resurse REST'
+options:
+    module: common.options.module
+    class-name: 'Numele clasei pentru plugin.'
+    plugin-id: 'Id-ul pentru plugin.'
+    plugin-label: 'Eticheta pentru plugin.'
+    plugin-url: 'URL pentru plugin.'
+    plugin-states: 'Stările pentru plugin.'
+questions:
+    module: common.questions.module
+    class-name: 'Introdu numele pentru plugin.'
+    plugin-id: 'Introdu Id-ul pentru plugin.'
+    plugin-label: 'Introdu eticheta pentru plugin.'
+    plugin-url: 'Introdu URL pentru plugin.'
+    plugin-states: 'Selectează care stări REST vor fi implementate în resursa dumneavoastră(GET este selectat implicit)'
+messages:
+    selected-states: 'Stările selectate'

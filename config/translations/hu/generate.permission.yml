@@ -1,0 +1,12 @@
+description: 'Modul jogosultságok létrehozása'
+help: 'A <info>generate:permissions</info> modul jogosultságok létrehozásában segít'
+options:
+    module: common.options.module
+    permission: 'Jogosultság megadása'
+questions:
+    module: common.questions.module
+    permission: 'Jogosultság megadása'
+    title: 'Enter a title for the permision'
+    description: 'Enter a description for the permision'
+    restrict-access: 'Restrict Access'
+    add: 'Do you want add another permission'

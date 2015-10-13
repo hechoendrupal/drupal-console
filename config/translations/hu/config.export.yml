@@ -1,0 +1,46 @@
+description: 'Jelenlegi alkalmazás beállításainak exportálása.'
+arguments:
+    directory: 'Export könyvtár meghatározása a beállítások mentéséhez.'
+messages:
+    directory: 'A beállítások export fájl mentése megtörtént: %s'
+content:
+    type:
+        description: 'Bizonyos tipusú tartalom és ennek a mezőinek az exportálása.'
+        arguments:
+            content_type: 'Az exportálásra szánt tartalom tipus'
+        questions:
+            content_type: 'Az exportálásra szánt tartalom tipus'
+            optional-config: 'Tartalom tipus exportálása modulba mint opcionális konfiguráció'
+        messages:
+            content_type_exported: 'Tartalom tipus exportálása'
+            configuration_exported: 'A következő konfigurációs fájlok voltak generálva'
+        options:
+            optional-config: 'Tartalom tipus exportálása az ön moduljába opciónális YAML konfiguracióként'
+single:
+    description: 'Egyetlen konfiguráció exportálása yml fájlként.'
+    arguments:
+        config-name: 'Konfiguráció neve.'
+    options:
+        simple-configuration: 'Egyszerű konfiguráció'
+    questions:
+        config-type: 'Konfigruáció tipusa'
+        config-name: 'Konfiguráció neve'
+    messages:
+        config-not-found: 'Konfiguráció neve nem található.'
+        export: 'A konfiguráció ki lett exportálva a %s fájlba.'
+        invalid-config-type: 'Érvénytelen konfiguráció tipus, kérem válasszon egyet a listából'
+        invalid-config-name: 'Érvénytelen konfiguráció név, kérem válasszon egyet a listából'
+view:
+    description: 'Exportáljon egy view-t YAML formátumban, egy adott modulon belül amit más siteokon újrahasználhat.'
+    messages:
+        view_exported: 'View exportálása'
+        depencies-included: 'A következő modul föggőségek voltak becsatolva %s'
+    questions:
+        view: 'Exportálásra szánt view'
+        optional-config: 'View exportálása modulba mint opciónális konfiguráció'
+        include-module-dependencies: 'View modul függőségek becsatolása a modul YAML info fájljába'
+    arguments:
+        view-id: 'View ID'
+    options:
+        optional-config: 'Vew exportálása a modulodba opciónális YAML konfigurációs fájlként'
+        include-module-dependencies: 'Modul függőségek becsatolása a modul YAML info fájljába '

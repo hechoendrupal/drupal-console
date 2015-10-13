@@ -83,7 +83,7 @@ class GeneratorEventSubscriberCommand extends GeneratorCommand
             ->getGenerator()
             ->generate($module, $name, $class, $events, $buildServices);
 
-        $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 
     /**

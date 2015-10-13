@@ -109,7 +109,7 @@ class ConfigExportSingleCommand extends ContainerAwareCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $dialog = $this->getDialogHelper();
-        $utils = $this->getStringUtils();
+        $utils = $this->getStringHelper();
 
         $config_types = $this->getConfigTypes();
 
@@ -176,7 +176,7 @@ class ConfigExportSingleCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $messageHelper = $this->getHelperSet()->get('message');
+        $messageHelper = $this->getMessageHelper();
         $directory = $input->getArgument('directory');
 
         if (!$directory) {

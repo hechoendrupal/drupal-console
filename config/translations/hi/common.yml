@@ -1,0 +1,34 @@
+options:
+    events: 'कंटेनर से घटनाओं को लोड करें'
+    module: 'माड्यूल का नाम.'
+    services: 'कंटेनर से सेवाएं को लोड करें.'
+    tags: 'कंटेनर से सेवा टैग सेट करें.'
+    inputs: 'एक फ़ॉर्म में आदानों को बनाएं.'
+    permissions: 'अनुमतियों बनाएं.'
+questions:
+    module: 'मॉड्यूल का नाम दर्ज करें'
+    confirm: 'क्या आप उत्पन्न की पुष्टि करते हैं'
+    canceled: 'कमांड उत्पन्न रद्द.'
+    events:
+        message: "\nघटना नाम टाइप करें या KeyUp का उपयोग करें या KeyDown.\nयह वैकल्पिक है, दबाएँ <info>enter</info> to <info>continue</info>\n"
+        name: 'घटना नाम दर्ज करें'
+    services:
+        confirm: 'क्या आप कंटेनर से सेवाओं को लोड करना चाहते हैं'
+        message: "\nसेवा नाम टाइप करें या KeyUp का उपयोग करें या KeyDown.\nयह वैकल्पिक है, दबाएँ <info>enter</info> to <info>continue</info>\n"
+        name: 'सेवा नाम दर्ज करें'
+    inputs:
+        confirm: 'क्या आप एक फार्म संरचना उत्पन्न करना चाहते हैं'
+        label: 'इनपुट लेबल'
+        machine_name: 'इनपुट मशीन नाम'
+        permission: 'क्या आप अनुमतियाँ उत्पन्न करना चाहते हैं'
+        type: टाइप
+        invalid: 'फ़ील्ड टाइप "%s" अमान्य है.'
+        description: विवरण
+        default-value: 'डिफ़ॉल्ट मूल्य'
+        weight: 'इनपुट आइटम का वजन'
+errors:
+    module-dependency: 'गुम मॉड्यूल निर्भरता "%s"'
+    class-name-empty: 'क्लास नाम खाली नहीं हो सकता'
+status:
+    enabled: 'सक्षम किया'
+    disabled: 'अक्षम की'
