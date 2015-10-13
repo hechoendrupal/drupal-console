@@ -282,6 +282,7 @@ abstract class ContainerAwareCommand extends Command
         return $this->getContainer()->get('system.manager');
     }
 
+
     /**
      * @return array
      */

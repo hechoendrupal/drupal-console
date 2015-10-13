@@ -352,7 +352,7 @@ class SiteInstallCommand extends Command
         );
 
         $this->runInstaller($output, $profile, $langcode, $site_name, $site_mail, $account_name, $account_mail, $account_pass, $database);
-        
+
     }
 
     protected function getProfiles()
