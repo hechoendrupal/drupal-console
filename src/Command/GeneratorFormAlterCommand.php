@@ -84,9 +84,8 @@ class GeneratorFormAlterCommand extends GeneratorCommand
         // --class-name option
         $form_id = $input->getOption('form-id');
         if (!$form_id) {
-
             $forms = [];
-            if($moduleHandler->moduleExists('webprofiler')) {
+            if ($moduleHandler->moduleExists('webprofiler')) {
                 $output->writeln('[-] <info>'.$this->trans('commands.generate.form.alter.messages.loading-forms').'</info>');
                 $forms = $this->getWebprofilerForms();
             }

@@ -221,7 +221,7 @@ abstract class ContainerAwareCommand extends Command
     public function getWebprofilerForms()
     {
         $profiler = $this->getContainer()->get('profiler');
-        $tokens = $profiler->find(NULL, NULL, 1000, NULL, '', '');
+        $tokens = $profiler->find(null, null, 1000, null, '', '');
 
         $forms = array();
         foreach ($tokens as $token) {
@@ -229,10 +229,9 @@ abstract class ContainerAwareCommand extends Command
             $profile = $profiler->loadProfile($token);
             $formCollector = $profile->getCollector('forms');
             $collectedForms = $formCollector->getForms();
-            if(empty($forms)) {
+            if (empty($forms)) {
                 $forms = $collectedForms;
-            }
-            elseif(!empty($collectedForms)){
+            } elseif (!empty($collectedForms)) {
                 $forms = array_merge($forms, $collectedForms);
             }
         }
