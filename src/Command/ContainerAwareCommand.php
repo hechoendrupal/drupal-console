@@ -223,14 +223,19 @@ abstract class ContainerAwareCommand extends Command
         $profiler = $this->getContainer()->get('profiler');
         $tokens = $profiler->find(NULL, NULL, 1000, NULL, '', '');
 
-        $forms = [];
+        $forms = array();
         foreach ($tokens as $token) {
             $token = [$token['token']];
             $profile = $profiler->loadProfile($token);
-            $form = $profile->getCollector('forms');
-            $forms[] = $form->getForms();
+            $formCollector = $profile->getCollector('forms');
+            $collectedForms = $formCollector->getForms();
+            if(empty($forms)) {
+                $forms = $collectedForms;
+            }
+            elseif(!empty($collectedForms)){
+                $forms = array_merge($forms, $collectedForms);
+            }
         }
-
         return $forms;
     }
 
