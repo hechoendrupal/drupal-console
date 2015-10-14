@@ -140,6 +140,17 @@ class DrupalHelper extends Helper
         return ($this->autoLoad?true:false);
     }
 
+    public function loadLegacyFile($legacyFile)
+    {
+        $legacyFile = realpath(
+            sprintf('%s/%s', $this->getDrupalHelper()->getRoot(), $legacyFile)
+        );
+        if (file_exists($legacyFile)) {
+            include_once $legacyFile;
+            return true;
+        }
+        return false;
+    }
 
     /**
      * @return mixed array
@@ -188,7 +199,7 @@ class DrupalHelper extends Helper
      */
     public function getDatabaseTypes()
     {
-        include_once $this->root . '/core/includes/install.inc';
+        $this->loadLegacyFile('/core/includes/install.inc');
 
         $this->setMinimalContainerPreKernel();
 
