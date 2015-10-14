@@ -1,11 +1,11 @@
-description: 'Fusionne un ou plusieurs fichiers YAML en un nouveau. Les valeurs les plus récentes sont concervées.'
+description: 'Fusionne un ou plusieurs fichiers YAML en un nouveau. Les valeurs les plus récentes sont conservées.'
 arguments:
     yaml-files: 'Chemin des fichiers YAML à fusionner'
     yaml-destination: 'Chemin du nouveau fichier YAML résultant de la fusion.'
 questions:
     yaml-destination: 'Entrez le chemin du nouveau fichier qui résultera de la fusion.'
     file: 'Chemin du premier fichier à fusionner'
-    other-file: 'Chemin d''un autre fichier à fusionner (laissez vide pour commencer la fusion)'
+    other-file: 'Chemin d''un autre fichier à fusionner (laissez vide pour démarrer la fusion)'
     invalid-file: 'Le chemin du fichier ne peut être vide'
     file-already-added: 'Ce fichier est déjà présent dans la fusion'
 messages:
