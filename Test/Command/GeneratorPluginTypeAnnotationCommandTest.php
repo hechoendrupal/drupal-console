@@ -31,7 +31,6 @@ class GeneratorPluginTypeAnnotationCommandTest extends GenerateCommandTest
         $label
     ) {
         $command = new GeneratorPluginTypeAnnotationCommand($this->getHelperSet());
-        $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 

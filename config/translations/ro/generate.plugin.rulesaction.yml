@@ -1,22 +1,22 @@
-description: 'Generate a plugin rule action'
-help: 'The <info>generate:plugin:rulesaction</info> command helps you generate a new Plugin rule action.'
-welcome: 'Welcome to the Drupal Plugin Rules Action generator'
+description: 'Generează un plugin care implementează o acţiune de rules'
+help: 'Comanda <info>generate:plugin:rulesaction</info> ajuta la generarea unui plugin care implementează o acţiune de rules.'
+welcome: 'Bun venit la "Drupal Plugin Rules Action generator"'
 options:
     module: common.options.module
-    class-name: 'Plugin class name'
-    label: 'Plugin label'
-    plugin-id: 'Plugin id'
+    class-name: 'Numele clasei pluginului'
+    label: 'Eticheta pluginului'
+    plugin-id: 'ID-ul pluginului'
     inputs: common.options.inputs
     services: common.options.services
-    category: 'Plugin category'
-    context: 'Plugin context'
-    type: 'Action Type (user or node)'
+    category: 'Categoria pluginului'
+    context: 'Contextul pluginului'
+    type: 'Tip de acţiune (user sau node)'
 questions:
     module: common.questions.module
-    class-name: 'Enter the plugin class name'
-    label: 'Enter the plugin label'
-    plugin-id: 'Enter the plugin id'
+    class-name: 'Introduceţi numele clasei pluginului'
+    label: 'Introduceţi eticheta pluginului.'
+    plugin-id: 'Introduceţi ID-ul pluginului.'
     inputs: common.questions.inputs
     services: common.questions.services
-    category: 'Enter plugin category'
-    context: 'Enter plugin context'
+    category: 'Introduceţi categoria pluginului.'
+    context: 'Introduceţi contextul pluginului.'

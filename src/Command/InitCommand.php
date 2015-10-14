@@ -10,18 +10,24 @@ namespace Drupal\Console\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Generator\AutocompleteGenerator;
+use Symfony\Component\Process\ProcessBuilder;
 
 class InitCommand extends Command
 {
     private $files = [
-      [
-        'source' => 'config/dist/config.yml',
-        'destination' => 'config.yml',
-      ],
-      [
-        'source' => 'config/dist/chain.yml',
-        'destination' => 'chain/sample.yml',
-      ],
+        [
+            'source' => 'config/dist/config.yml',
+            'destination' => 'config.yml',
+        ],
+        [
+            'source' => 'config/dist/chain.yml',
+            'destination' => 'chain/sample.yml',
+        ],
+        [
+            'source' => 'config/dist/site.yml',
+            'destination' => 'sites/sample.yml'
+        ]
     ];
 
     /**
@@ -68,8 +74,51 @@ class InitCommand extends Command
         if ($copiedFiles) {
             $message->showCopiedFiles($output, $copiedFiles);
         }
+
+        $this->createAutocomplete();
+        $output->writeln($this->trans('application.console.messages.autocomplete'));
     }
 
+    protected function createAutocomplete()
+    {
+        $generator = new AutocompleteGenerator();
+        $generator->setHelperSet($this->getHelperSet());
+
+        $application = $this->getApplication();
+        $config = $application->getConfig();
+        $userPath = $config->getUserHomeDir().'/.console/';
+
+        $processBuilder = new ProcessBuilder(array('bash'));
+        $process = $processBuilder->getProcess();
+        $process->setCommandLine('echo $_');
+        $process->run();
+        $fullPathExecutable = explode('/', $process->getOutput());
+        $executable = trim(end($fullPathExecutable));
+        $process->stop();
+
+        $generator->generate($userPath, $executable);
+    }
+
+    protected function getSkeletonDirs()
+    {
+        $module = $this->getModule();
+        if ($module != 'AppConsole') {
+            $drupal = $this->getDrupalHelper();
+            $drupal_root = $drupal->getRoot();
+            $skeletonDirs[] = $drupal_root.drupal_get_path('module', $module).'/templates';
+        }
+
+        $skeletonDirs[] = __DIR__.'/../../templates';
+
+        return $skeletonDirs;
+    }
+
+    /**
+     * @param string $source
+     * @param string $destination
+     * @param string $override
+     * @return bool
+     */
     public function copyFile($source, $destination, $override)
     {
         if (file_exists($destination) && !$override) {

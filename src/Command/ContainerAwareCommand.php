@@ -2,44 +2,25 @@
 
 namespace Drupal\Console\Command;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Drupal\Core\Extension\ExtensionDiscovery;
-
-abstract class ContainerAwareCommand extends Command implements ContainerAwareInterface
+abstract class ContainerAwareCommand extends Command
 {
-    private $container;
-
     private $services;
 
     private $events;
 
-    private $route_provider;
-
     /**
-     * @return ContainerInterface
+     * Gets the current container.
+     *
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface
+     *   A ContainerInterface instance.
      */
     protected function getContainer()
     {
-        if (null === $this->container) {
-            $this->container = $this->getKernelHelper()->getKernel()->getContainer();
-        }
-
-        return $this->container;
+        return $this->getKernelHelper()->getKernel()->getContainer();
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
-
-    /**
-     * [getModules description].
-     *
-     * @param bool $core Return core modules
+     * @param bool $group
      *
      * @return array list of modules
      */
@@ -78,7 +59,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     /**
      * [geRest get a list of Rest Resouces].
      *
-     * @param bool $status return Rest Resources by status
+     * @param bool $rest_status return Rest Resources by status
      *
      * @return array list of rest resources
      */
@@ -137,11 +118,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
     public function getRouteProvider()
     {
-        if (null === $this->route_provider) {
-            $this->route_provider = $this->getContainer()->get('router.route_provider');
-        }
-
-        return $this->route_provider;
+        return $this->getContainer()->get('router.route_provider');
     }
 
     /**
@@ -239,6 +216,26 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     public function getViewDisplayManager()
     {
         return $this->getContainer()->get('plugin.manager.views.display');
+    }
+
+    public function getWebprofilerForms()
+    {
+        $profiler = $this->getContainer()->get('profiler');
+        $tokens = $profiler->find(null, null, 1000, null, '', '');
+
+        $forms = array();
+        foreach ($tokens as $token) {
+            $token = [$token['token']];
+            $profile = $profiler->loadProfile($token);
+            $formCollector = $profile->getCollector('forms');
+            $collectedForms = $formCollector->getForms();
+            if (empty($forms)) {
+                $forms = $collectedForms;
+            } elseif (!empty($collectedForms)) {
+                $forms = array_merge($forms, $collectedForms);
+            }
+        }
+        return $forms;
     }
 
     public function getEntityQuery()
@@ -340,7 +337,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
     public function validateModuleExist($module_name)
     {
-        return $this->getValidator()->validateModuleExist($module_name, $this->getSite()->getNoCoreModules());
+        return $this->getValidator()->validateModuleExist($module_name);
     }
 
     public function validateServiceExist($service_name, $services = null)

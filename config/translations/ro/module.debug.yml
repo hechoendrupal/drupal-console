@@ -1,13 +1,13 @@
-description: 'Afiseaza Modulele curente pentru aplicatie'
+description: 'Afişează Modulele curente pentru aplicaţie'
 options:
-    status: 'Statutul Modulului [enabled|disabled]'
+    status: 'Starea Modulului [activat|dezactivat]'
     type: 'Tipul Modulului [core|no-core]'
 messages:
     id: ID
     name: Nume
-    status: Statut
+    status: Stare
     origin: Origine
-    package: Package
+    package: Pachet
     enabled: Activat
     disabled: Dezactivat
-    schema-version: 'Schema version'
+    schema-version: 'Versiunea schemei'

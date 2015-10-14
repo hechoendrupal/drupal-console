@@ -21,7 +21,7 @@
         }
     ],
     "require": {
-        "php": ">=5.4.5",
+        "php": ">=5.5.9",
         "composer/installers": "~1.0",
         "symfony/config": "2.7.*",
         "symfony/console": "2.7.*",
@@ -38,7 +38,9 @@
         "herrera-io/phar-update": "1.*",
         "symfony/dom-crawler": "2.7.*",
         "alchemy/zippy": "0.2.*@dev",
-        "kriswallsmith/buzz": ">=0.15"
+        "kriswallsmith/buzz": ">=0.15",
+        "phpseclib/phpseclib": "2.*",
+        "stecman/symfony-console-completion": "^0.5.1"
     },
     "bin": ["bin/console"],
     "config": {

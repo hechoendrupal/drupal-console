@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\EventSubscriber;
 
-use Drupal\Console\Helper\TranslatorHelper;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -18,16 +17,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class ShowGenerateDocListener implements EventSubscriberInterface
 {
-    private $skipCommands = [
-        'self-update',
-        'list',
-    ];
-
     private $skipOptions = [
         'generate-doc'
-    ];
-
-    private $skipArguments = [
     ];
 
     /**
@@ -40,20 +31,14 @@ class ShowGenerateDocListener implements EventSubscriberInterface
          * @var \Drupal\Console\Command\Command $command
          */
         $command = $event->getCommand();
-        /**
-         * @var \Drupal\Console\Console\Application $command
-         */
+
         $application = $command->getApplication();
-        /**
-         * @var \Drupal\Console\Config $config
-         */
-        $config = $application->getConfig();
 
         $input = $command->getDefinition();
         $options = $input->getOptions();
         $arguments = $input->getArguments();
 
-        if (isset($options['generate-doc']) && $options['generate-doc'] == 1) {
+        if (isset($options['generate-doc'])) {
             foreach ($this->skipOptions as $remove_option) {
                 unset($options[$remove_option]);
             }
@@ -66,7 +51,7 @@ class ShowGenerateDocListener implements EventSubscriberInterface
               'aliases' => $command->getAliases()
             ];
 
-            $renderedDoc = $application->getHelperSet()->get('renderer')->render(
+            $renderedDoc = $application->getRenderHelper()->render(
                 'gitbook/generate-doc.md.twig',
                 $parameters
             );

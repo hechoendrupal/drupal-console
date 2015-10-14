@@ -153,7 +153,7 @@ class ModuleDownloadCommand extends Command
             if (!file_exists(dirname($module_contrib_path))) {
                 if (!mkdir($module_contrib_path, 0777, true)) {
                     $output->writeln(
-                        ' <error>'. $this->trans('commands.module.download.messages.error-creating-folter') . ': ' . $module_contrib_path .'</error>'
+                        ' <error>'. $this->trans('commands.module.download.messages.error-creating-folder') . ': ' . $module_contrib_path .'</error>'
                     );
                     return;
                 }
