@@ -5,7 +5,7 @@ arguments:
 questions:
     yaml-destination: 'Calea către fişierul nou în care va fi salvat rezultatul.'
     file: 'Calea către fişierul care va fi unit.'
-    other-file: 'Calea către fişierul care va fi unit (gol pentru a incepe procesul).'
+    other-file: 'Alt fişier ( lăsaţi gol pentru a incepe procesul).'
     invalid-file: 'Calea către fişier nu poate fi goală.'
     file-already-added: 'Calea către acest fişier a fost adăugată deja.'
 messages:

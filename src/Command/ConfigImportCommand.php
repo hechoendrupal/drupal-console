@@ -27,7 +27,12 @@ class ConfigImportCommand extends ContainerAwareCommand
                 'config-file', InputArgument::REQUIRED,
                 $this->trans('commands.config.import.arguments.config-file')
             )
-            ->addOption('copy-only', '', InputOption::VALUE_NONE, $this->trans('commands.config.import.arguments.copy-only'));
+            ->addOption(
+                'copy-only',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.config.import.arguments.copy-only')
+            );
     }
 
     /**
@@ -49,7 +54,7 @@ class ConfigImportCommand extends ContainerAwareCommand
                 $output->writeln('[-] <info>' .  $file['filename'] . '</info>');
             }
 
-            $config_staging_dir = config_get_config_directory(CONFIG_STAGING_DIRECTORY);
+            $config_staging_dir = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
 
             try {
                 $archiver->extract($config_staging_dir . '/');
@@ -59,7 +64,7 @@ class ConfigImportCommand extends ContainerAwareCommand
             }
 
             if ($copy_only) {
-                $output->writeln(sprintf($this->trans('commands.config.import.messages.copied'), CONFIG_STAGING_DIRECTORY));
+                $output->writeln(sprintf($this->trans('commands.config.import.messages.copied'), CONFIG_SYNC_DIRECTORY));
             } else {
                 foreach ($files as $cofig_name => $filename) {
                     $config = $this->getConfigFactory()->getEditable($cofig_name);
@@ -75,7 +80,7 @@ class ConfigImportCommand extends ContainerAwareCommand
                     }
                 }
 
-                $output->writeln(sprintf($this->trans('commands.config.import.messages.imported'), CONFIG_STAGING_DIRECTORY));
+                $output->writeln(sprintf($this->trans('commands.config.import.messages.imported'), CONFIG_SYNC_DIRECTORY));
             }
         } catch (\Exception $e) {
             $output->writeln('[+] <error>' . $e->getMessage() . '</error>');

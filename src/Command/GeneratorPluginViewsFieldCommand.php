@@ -60,7 +60,7 @@ class GeneratorPluginViewsFieldCommand extends GeneratorCommand
 
         $module = $input->getOption('module');
         $class_name = $input->getOption('class-name');
-        $class_machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
+        $class_machine_name = $this->getStringHelper()->camelCaseToUnderscore($class_name);
         $title = $input->getOption('title');
         $description = $input->getOption('description');
 
@@ -97,7 +97,7 @@ class GeneratorPluginViewsFieldCommand extends GeneratorCommand
         }
         $input->setOption('class-name', $class_name);
 
-        $default_label = $this->getStringUtils()->camelCaseToHuman($class_name);
+        $default_label = $this->getStringHelper()->camelCaseToHuman($class_name);
 
         // --plugin title option
         $title = $input->getOption('title');

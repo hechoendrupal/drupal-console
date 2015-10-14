@@ -30,17 +30,17 @@ class CallCommandListener implements EventSubscriberInterface
             return;
         }
 
-        $commands = $command->getHelper('chain')->getCommands();
+        $application = $command->getApplication();
+        $commands = $application->getChain()->getCommands();
 
         if (!$commands) {
             return;
         }
 
-        $application = $command->getApplication();
         foreach ($commands as $chainedCommand) {
             if ($chainedCommand['name'] == 'module:install') {
-                $messageHelper = $application->getHelperSet()->get('message');
-                $translatorHelper = $application->getHelperSet()->get('translator');
+                $messageHelper = $application->getMessageHelper();
+                $translatorHelper = $application->getTranslator();
                 $messageHelper->addErrorMessage(
                     $translatorHelper->trans('commands.chain.messages.module_install')
                 );

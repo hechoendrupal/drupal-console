@@ -1,7 +1,7 @@
-description: 'Chain command execution'
+description: 'Parancsláncsor végrehajtása'
 options:
-    file: 'User defined file containing commands to get executed.'
+    file: 'Felhasználó által definiált futtatható parancsokat tartalmazo fájl.'
 messages:
-    missing_file: 'You must provide a valid file path and name.'
-    invalid_file: 'The file "%s" does not exists.'
-    module_install: 'module:install command is not runnable inside a chain queue and must be run independently.'
+    missing_file: 'Érvényes fájl nevet és elérési útat adjon meg.'
+    invalid_file: 'A "%s" fájl nem létezik.'
+    module_install: 'module:install parancs nem futtatható egy láncsoron belül ezért önállóan kell futtani.'

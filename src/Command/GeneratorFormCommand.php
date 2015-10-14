@@ -120,7 +120,7 @@ abstract class GeneratorFormCommand extends GeneratorCommand
         // --form-id option
         $form_id = $input->getOption('form-id');
         if (!$form_id) {
-            $form_id = $this->getStringUtils()->camelCaseToMachineName($class_name);
+            $form_id = $this->getStringHelper()->camelCaseToMachineName($class_name);
             $form_id = $dialog->ask(
                 $output,
                 $dialog->getQuestion($this->trans('commands.generate.form.questions.form-id'), $form_id),

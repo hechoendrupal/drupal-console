@@ -185,7 +185,7 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
         }
         $input->setOption('type-class-name', $class_name);
 
-        $default_label = $this->getStringUtils()->camelCaseToHuman($class_name);
+        $default_label = $this->getStringHelper()->camelCaseToHuman($class_name);
 
         // --type-label option
         $label = $input->getOption('type-label');
@@ -198,7 +198,7 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
         }
         $input->setOption('type-label', $label);
 
-        $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
+        $machine_name = $this->getStringHelper()->camelCaseToUnderscore($class_name);
 
         // --type-plugin-id option
         $plugin_id = $input->getOption('type-plugin-id');
@@ -243,7 +243,7 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
         }
         $input->setOption('widget-class-name', $class_name);
 
-        $default_label = $this->getStringUtils()->camelCaseToHuman($class_name);
+        $default_label = $this->getStringHelper()->camelCaseToHuman($class_name);
 
         // --widget-label option
         $label = $input->getOption('widget-label');
@@ -256,7 +256,7 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
         }
         $input->setOption('widget-label', $label);
 
-        $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
+        $machine_name = $this->getStringHelper()->camelCaseToUnderscore($class_name);
 
         // --widget-plugin-id option
         $plugin_id = $input->getOption('widget-plugin-id');
@@ -287,7 +287,7 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
         }
         $input->setOption('formatter-class-name', $class_name);
 
-        $default_label = $this->getStringUtils()->camelCaseToHuman($class_name);
+        $default_label = $this->getStringHelper()->camelCaseToHuman($class_name);
 
         // --formatter-label option
         $label = $input->getOption('formatter-label');
@@ -300,7 +300,7 @@ class GeneratorPluginFieldCommand extends GeneratorCommand
         }
         $input->setOption('formatter-label', $label);
 
-        $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
+        $machine_name = $this->getStringHelper()->camelCaseToUnderscore($class_name);
 
         // --formatter-plugin-id option
         $plugin_id = $input->getOption('formatter-plugin-id');

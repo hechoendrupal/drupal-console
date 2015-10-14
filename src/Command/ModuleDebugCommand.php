@@ -50,16 +50,16 @@ class ModuleDebugCommand extends ContainerAwareCommand
 
     protected function getAllModules($status, $type, $output, $table)
     {
-        include_once $this->getDrupalHelper()->getRoot() . '/core/includes/schema.inc';
+        $this->getDrupalHelper()->loadLegacyFile('/core/includes/schema.inc');
 
         $table->setHeaders(
             [
-            $this->trans('commands.module.debug.messages.id'),
-            $this->trans('commands.module.debug.messages.name'),
-            $this->trans('commands.module.debug.messages.status'),
-            $this->trans('commands.module.debug.messages.package'),
-            $this->trans('commands.module.debug.messages.schema-version'),
-            $this->trans('commands.module.debug.messages.origin'),
+                $this->trans('commands.module.debug.messages.id'),
+                $this->trans('commands.module.debug.messages.name'),
+                $this->trans('commands.module.debug.messages.status'),
+                $this->trans('commands.module.debug.messages.package'),
+                $this->trans('commands.module.debug.messages.schema-version'),
+                $this->trans('commands.module.debug.messages.origin'),
             ]
         );
 
@@ -80,12 +80,12 @@ class ModuleDebugCommand extends ContainerAwareCommand
             $schema_version = (drupal_get_installed_schema_version($module_id)!= -1?drupal_get_installed_schema_version($module_id): '');
             $table->addRow(
                 [
-                $module_id,
-                $module->info['name'],
-                $module_status,
-                $module->info['package'],
-                $schema_version,
-                $module->origin,
+                    $module_id,
+                    $module->info['name'],
+                    $module_status,
+                    $module->info['package'],
+                    $schema_version,
+                    $module->origin,
                 ]
             );
         }

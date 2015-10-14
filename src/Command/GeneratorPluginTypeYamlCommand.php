@@ -90,7 +90,7 @@ class GeneratorPluginTypeYamlCommand extends GeneratorCommand
         }
         $input->setOption('class-name', $class_name);
 
-        $default_plugin_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
+        $default_plugin_name = $this->getStringHelper()->camelCaseToUnderscore($class_name);
 
         // --plugin-name option
         $plugin_name = $input->getOption('plugin-name');

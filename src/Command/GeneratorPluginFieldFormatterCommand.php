@@ -103,7 +103,7 @@ class GeneratorPluginFieldFormatterCommand extends GeneratorCommand
         }
         $input->setOption('class-name', $class_name);
 
-        $default_label = $this->getStringUtils()->camelCaseToHuman($class_name);
+        $default_label = $this->getStringHelper()->camelCaseToHuman($class_name);
 
         // --plugin label option
         $label = $input->getOption('label');
@@ -116,7 +116,7 @@ class GeneratorPluginFieldFormatterCommand extends GeneratorCommand
         }
         $input->setOption('label', $label);
 
-        $machine_name = $this->getStringUtils()->camelCaseToUnderscore($class_name);
+        $machine_name = $this->getStringHelper()->camelCaseToUnderscore($class_name);
 
         // --name option
         $plugin_id = $input->getOption('plugin-id');

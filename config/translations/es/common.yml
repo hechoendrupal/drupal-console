@@ -1,5 +1,5 @@
 options:
-    events: 'Load events from the container'
+    events: 'Cargar eventos desde el contenedor'
     module: 'Nombre del módulo.'
     services: 'Cargar servicios desde el ''container''.'
     tags: 'Asignar etiquetas de servicio desde el contenedor.'
@@ -10,25 +10,25 @@ questions:
     confirm: 'Confirmar generacion'
     canceled: 'Comando de generacion cancelado.'
     events:
-        message: "\nType the event name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
-        name: 'Enter event name'
+        message: "\nEscribe el nombre del evento o usa la tecla keyup o keydown.\nEsto es opcional, pulse <info>enter</info> para <info>continuar</info>\n"
+        name: 'Introduzca el nombre del evento'
     services:
         confirm: 'Deseas cargar los servicios del contenedor'
-        message: "\nEscriba el nombre del servicio o use la tecla keyup o keydown.\nEsto es opcional, presione <info>enter</info para <info>continuar</info>\n"
+        message: "\nEscribe el nombre del servicio o usa la tecla keyup o keydown.\nEsto es opcional, presione <info>enter</info para <info>continuar</info>\n"
         name: 'Introduzca su servicio'
     inputs:
         confirm: 'Quieres generar una estrctura de formulario'
-        label: 'Etiquita del campo de entrada'
+        label: 'Etiqueta del campo de entrada'
         machine_name: 'Introduzca el nombre de maquina'
         permission: 'Quieres generar permisos'
         type: Tipo
         invalid: 'El campo de tipo "%s" es inválido.'
         description: Descripción
         default-value: 'Default value'
-        weight: 'Weight for input item'
+        weight: 'Peso para el elemento input'
 errors:
     module-dependency: 'Depencia "%s" del modulo faltante'
-    class-name-empty: 'El nombre de la Clase no puede estér psavia'
+    class-name-empty: 'El nombre de la Clase no puede estar vacío'
 status:
     enabled: Enabled
     disabled: Disabled
