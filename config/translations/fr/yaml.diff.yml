@@ -4,11 +4,11 @@ arguments:
     yaml-right: 'Fichier YAML à comparer avec le fichier de base'
 options:
     negate: 'Define mode diff or equal comparation, possible values TRUE/FALSE or 0/1'
-    limit: 'Limit results to a specific number'
-    offset: 'Starting point of a limit'
+    limit: 'Limiter le nombre de résultats'
+    offset: 'Décalage de départ'
 questions:
-    yaml-left: 'Path of YAML file to be use as base in comparation.'
-    yaml-right: 'Path of YAML file to be compare.'
+    yaml-left: 'Chemin du fichier YAML de base'
+    yaml-right: 'Chemin du fichier ichier YAML à comparer avec le fichier de base'
 messages:
     key: 'Clé YAML'
     value: 'Valeur YAML'
