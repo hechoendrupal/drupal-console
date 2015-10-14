@@ -7,4 +7,5 @@ messages:
     downloading: 'Se descarca modulul %s cu versiunea %s'
     downloaded: 'Module %s version %s was downloaded successfully at %s'
     select-release: 'Please select your favorite release'
-    installed: 'Modulul %s a fost instalat cu succes'
+    outside-drupal: "Drupal root can't be determined. Use --root to set the destination, current folder will be used instead of."
+    error-creating-folter: 'Error crearing folder %s, please check your permssions'
