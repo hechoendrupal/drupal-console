@@ -16,7 +16,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Buzz\Browser;
 use Alchemy\Zippy\Zippy;
 
-
 class ModuleDownloadCommand extends Command
 {
     protected function configure()
@@ -135,7 +134,7 @@ class ModuleDownloadCommand extends Command
             // Determine destination folder for contrib modules
             $drupal = $this->getDrupalHelper();
             $drupalRoot = $drupal->getRoot();
-            if($drupalRoot) {
+            if ($drupalRoot) {
                 $module_contrib_path = $drupalRoot . '/modules/contrib';
             } else {
                 $output->writeln(
@@ -152,7 +151,7 @@ class ModuleDownloadCommand extends Command
 
             // Create directory if does not exist
             if (!file_exists(dirname($module_contrib_path))) {
-                if(!mkdir($module_contrib_path, 0777, true)) {
+                if (!mkdir($module_contrib_path, 0777, true)) {
                     $output->writeln(
                         ' <error>'. $this->trans('commands.module.download.messages.error-creating-folter') . ': ' . $module_contrib_path .'</error>'
                     );
