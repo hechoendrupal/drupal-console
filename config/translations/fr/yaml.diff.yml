@@ -1,4 +1,4 @@
-description: 'Compare deux fichier YAML afin de trouver les différences'
+description: 'Compare deux fichiers YAML afin de trouver les différences'
 arguments:
     yaml-left: 'Fichier YAML de base'
     yaml-right: 'Fichier YAML à comparer avec le fichier de base'
