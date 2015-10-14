@@ -27,7 +27,11 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '0.9.2';
+    const VERSION = '0.9.3';
+    /**
+     * @var string
+     */
+    const DRUPAL_VERSION = 'Drupal 8 RC-1';
     /**
      * @var Drupal\Console\Config
      */
@@ -338,6 +342,5 @@ class Application extends BaseApplication
         $commands = parent::getDefaultCommands();
         $commands[] = new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand();
         return $commands;
-
     }
 }

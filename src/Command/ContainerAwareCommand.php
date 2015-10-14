@@ -218,6 +218,26 @@ abstract class ContainerAwareCommand extends Command
         return $this->getContainer()->get('plugin.manager.views.display');
     }
 
+    public function getWebprofilerForms()
+    {
+        $profiler = $this->getContainer()->get('profiler');
+        $tokens = $profiler->find(null, null, 1000, null, '', '');
+
+        $forms = array();
+        foreach ($tokens as $token) {
+            $token = [$token['token']];
+            $profile = $profiler->loadProfile($token);
+            $formCollector = $profile->getCollector('forms');
+            $collectedForms = $formCollector->getForms();
+            if (empty($forms)) {
+                $forms = $collectedForms;
+            } elseif (!empty($collectedForms)) {
+                $forms = array_merge($forms, $collectedForms);
+            }
+        }
+        return $forms;
+    }
+
     public function getEntityQuery()
     {
         return $this->getContainer()->get('entity.query');
