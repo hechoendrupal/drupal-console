@@ -98,7 +98,7 @@ class GeneratorFormAlterCommand extends GeneratorCommand
                 $forms = $this->getWebprofilerForms();
             }
 
-            if(!empty($forms)) {
+            if (!empty($forms)) {
                 $form_id = $dialog->askAndValidate(
                     $output,
                     $dialog->getQuestion($this->trans('commands.generate.form.alter.options.form-id'), current(array_keys($forms))),
@@ -116,7 +116,7 @@ class GeneratorFormAlterCommand extends GeneratorCommand
             ;
             $this->metadata['class'] = $forms[$form_id]['class']['class'];
             $this->metadata['method'] = $forms[$form_id]['class']['method'];
-            $this->metadata['file'] = str_replace($drupal->getRoot() , '', $forms[$form_id]['class']['file']);
+            $this->metadata['file'] = str_replace($drupal->getRoot(), '', $forms[$form_id]['class']['file']);
 
             $formItems = array_keys($forms[$form_id]['form']);
 
@@ -128,9 +128,11 @@ class GeneratorFormAlterCommand extends GeneratorCommand
 
             $question->setMultiselect(true);
 
-            $question->setValidator(function ($answer) {
-                return $answer;
-            });
+            $question->setValidator(
+                function ($answer) {
+                    return $answer;
+                }
+            );
 
             $formItemsToHide = $questionHelper->ask($input, $output, $question);
             $this->metadata['unset'] = array_filter(array_map('trim', explode(',', $formItemsToHide)));
