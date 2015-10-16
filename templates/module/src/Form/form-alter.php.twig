@@ -26,7 +26,7 @@ function {{ module }}_form_alter(&$form, FormStateInterface $form_state, $form_i
 
 {%- if metadata.unset -%}
    {% for field in metadata.unset %}
-    unset($form['{{ field }}']);
+    $form['{{ field }}']['#access'] = FALSE;
    {% endfor %}
 {% endif %}
 
