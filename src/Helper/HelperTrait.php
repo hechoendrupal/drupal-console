@@ -46,7 +46,7 @@ trait HelperTrait
     }
 
     /**
-     * @return \Drupal\Console\Utils\Validators
+     * @return \Drupal\Console\Helper\ValidatorHelper
      */
     public function getValidator()
     {

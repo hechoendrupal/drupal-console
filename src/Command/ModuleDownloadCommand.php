@@ -7,14 +7,14 @@
 
 namespace Drupal\Console\Command;
 
-//use Drupal\Core\Archiver\ArchiveTar;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
-use Buzz\Browser;
 use Alchemy\Zippy\Zippy;
+use Buzz\Browser;
+use Buzz\Client\Curl;
 
 class ModuleDownloadCommand extends Command
 {
@@ -29,7 +29,8 @@ class ModuleDownloadCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $client =  new Browser();
+        $client = new Curl();
+        $browser = new Browser($client);
 
         $module = $input->getArgument('module');
 
@@ -47,14 +48,13 @@ class ModuleDownloadCommand extends Command
             );
 
             try {
-                $response = $client->head('https://www.drupal.org/project/'.$module);
-                $html = $response->getContent();
+                $response = $browser->get('https://www.drupal.org/project/'.$module);
+                $link = $response->getHeader('link');
             } catch (\Exception $e) {
                 $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
                 return;
             }
 
-            $link = $response->getHeader('link');
             $header_link = explode(';', $link);
             $project_node = str_replace('<', '', str_replace('>', '', $header_link[0]));
             $project_release_d8 = $project_node.'/release?api_version%5B%5D=7234';
