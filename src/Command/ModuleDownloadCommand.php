@@ -61,7 +61,11 @@ class ModuleDownloadCommand extends Command
 
             // Parse release module page to get Drupal 8 releases
             try {
-                $response = $client->get($project_release_d8);
+                if (method_exists($client, 'get')) {
+                    $response = $client->get($project_release_d8);
+                } else {
+                    $response = $browser->get($project_release_d8);
+                }
                 $html = $response->getContent();
             } catch (\Exception $e) {
                 print_r($e->getMessage());
@@ -127,8 +131,11 @@ class ModuleDownloadCommand extends Command
         $destination = tempnam(sys_get_temp_dir(), 'console.').'.tar.gz';
 
         try {
-            //$client->get($release_file_path, ['save_to' => $destination]);
-            $response = $client->get($release_file_path);
+            if (method_exists($client, 'get')) {
+                $response = $client->get($release_file_path);
+            } else {
+                $response = $browser->get($release_file_path);
+            }
             file_put_contents($destination, $response->getContent());
 
             // Determine destination folder for contrib modules
@@ -150,7 +157,7 @@ class ModuleDownloadCommand extends Command
             }
 
             // Create directory if does not exist
-            if (!file_exists(dirname($module_contrib_path))) {
+            if (!file_exists($module_contrib_path)) {
                 if (!mkdir($module_contrib_path, 0777, true)) {
                     $output->writeln(
                         ' <error>'. $this->trans('commands.module.download.messages.error-creating-folder') . ': ' . $module_contrib_path .'</error>'
