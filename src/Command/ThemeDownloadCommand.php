@@ -61,7 +61,7 @@ class ThemeDownloadCommand extends Command
 
             // Parse release theme page to get Drupal 8 releases
             try {
-                if(method_exists($client,'get')) {
+                if (method_exists($client, 'get')) {
                     $response = $client->get($project_release_d8);
                 } else {
                     $response = $browser->get($project_release_d8);
@@ -131,7 +131,7 @@ class ThemeDownloadCommand extends Command
         $destination = tempnam(sys_get_temp_dir(), 'console.').'.tar.gz';
 
         try {
-            if(method_exists($client,'get')) {
+            if (method_exists($client, 'get')) {
                 $response = $client->get($release_file_path);
             } else {
                 $response = $browser->get($release_file_path);
