@@ -6,8 +6,6 @@
 
 namespace Drupal\Console\Command;
 
-use Alchemy\Zippy\Zippy;
-use Buzz\Browser;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,6 +13,9 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Alchemy\Zippy\Zippy;
+use Buzz\Browser;
+use Buzz\Client\Curl;
 
 class SiteNewCommand extends Command
 {
@@ -29,7 +30,8 @@ class SiteNewCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $client =  new Browser();
+        $client = new Curl();
+        $browser = new Browser($client);
         $site_name = $input->getArgument('site-name');
         $version = $input->getArgument('version');
 
@@ -44,7 +46,7 @@ class SiteNewCommand extends Command
 
             // Parse release module page to get Drupal 8 releases
             try {
-                $response = $client->get($project_release_d8);
+                $response = $browser->get($project_release_d8);
                 $html = $response->getContent();
             } catch (\Exception $e) {
                 $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
