@@ -7,6 +7,7 @@ console:
         learning: 'शब्दबहुल कोड उत्पन्न करें.'
         generate-chain: 'निष्पादन विकल्प में प्रिंट और तर्क को YAML आउटपुट के रूप में श्रृंखला कमांड में इस्तेमाल किया जाएगा'
         generate-inline: 'निष्पादन विकल्प में प्रिंट और तर्क को इनलाइन कॉल के रूप में भविष्य में उपयोग किया जाएगा'
+        root: 'Define the Drupal root to be use in command execution'
     messages:
         completed: 'कमांड सफलतापूर्वक पूर्ण किया गया!'
         chain:
