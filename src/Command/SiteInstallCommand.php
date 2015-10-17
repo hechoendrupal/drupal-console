@@ -27,13 +27,13 @@ class SiteInstallCommand extends Command
                 'langcode',
                 '',
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.migrate.execute.options.langcode')
+                $this->trans('commands.site.install.arguments.langcode')
             )
             ->addOption(
                 'db-type',
                 '',
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.site.install.options.db-type')
+                $this->trans('commands.site.install.arguments.db-type')
             )
             ->addOption(
                 'db-host',
@@ -104,8 +104,8 @@ class SiteInstallCommand extends Command
     }
 
     /**
-   * {@inheritdoc}
-   */
+     * {@inheritdoc}
+     */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $validator_required = function ($value) {
@@ -121,7 +121,7 @@ class SiteInstallCommand extends Command
 
         $profiles = $this->getProfiles();
 
-        // --db-host option
+        // <profile> option
         $profile = $input->getArgument('profile');
         if (!$profile) {
             $profile = $questionHelper->ask(
@@ -137,7 +137,7 @@ class SiteInstallCommand extends Command
 
         $input->setArgument('profile', array_search($profile, $profiles));
 
-        // --db-host option
+        // --langcode option
         $langcode = $input->getOption('langcode');
         if (!$langcode) {
             $languages = $this->getLanguages();
@@ -315,8 +315,8 @@ class SiteInstallCommand extends Command
     }
 
     /**
-   * {@inheritdoc}
-   */
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // Drupal site options
