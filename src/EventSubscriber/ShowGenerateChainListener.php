@@ -79,6 +79,12 @@ class ShowGenerateChainListener implements EventSubscriberInterface
 
             $yaml = $dumper->dump($yaml, 10);
 
+            $yaml = str_replace(
+                sprintf('\'%s\'', $command_name),
+                $command_name,
+                $yaml
+            );
+
             // Print yaml output and message
             $messageHelper->showMessage(
                 $output,
