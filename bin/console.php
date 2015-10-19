@@ -27,6 +27,7 @@ use Drupal\Console\EventSubscriber\ShowGenerateDocListener;
 use Drupal\Console\Helper\DrupalHelper;
 use Drupal\Console\Helper\CommandDiscoveryHelper;
 use Drupal\Console\Helper\RemoteHelper;
+use Drupal\Console\Helper\HttpClientHelper;
 
 set_time_limit(0);
 
@@ -65,6 +66,7 @@ $helpers = [
     'drupal' => new DrupalHelper(),
     'commandDiscovery' => new CommandDiscoveryHelper(),
     'remote' => new RemoteHelper(),
+    'httpClient' => new HttpClientHelper(),
 ];
 
 $application->addHelpers($helpers);
