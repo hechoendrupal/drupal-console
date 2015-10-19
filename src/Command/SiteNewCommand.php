@@ -14,8 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Alchemy\Zippy\Zippy;
-use Buzz\Browser;
-use Buzz\Client\Curl;
 
 class SiteNewCommand extends Command
 {
@@ -30,9 +28,8 @@ class SiteNewCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $client = new Curl();
-        $client->setTimeout(30);
-        $browser = new Browser($client);
+        $httpClient = $this->getHttpClientHelper();
+
         $site_name = $input->getArgument('site-name');
         $version = $input->getArgument('version');
 
@@ -47,8 +44,7 @@ class SiteNewCommand extends Command
 
             // Parse release module page to get Drupal 8 releases
             try {
-                $response = $browser->get($project_release_d8);
-                $html = $response->getContent();
+                $html = $httpClient->getHtml($project_release_d8);
             } catch (\Exception $e) {
                 $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
                 return;
@@ -100,9 +96,7 @@ class SiteNewCommand extends Command
                 '</info>'
             );
 
-            // Save release file
-            $response = $browser->get($release_file_path);
-            file_put_contents($destination, $response->getContent());
+            $httpClient->downloadFile($release_file_path, $destination);
 
             $output->writeln(
                 '[+] <info>' .
