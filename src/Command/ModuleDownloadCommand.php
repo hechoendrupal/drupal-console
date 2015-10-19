@@ -30,6 +30,7 @@ class ModuleDownloadCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $client = new Curl();
+        $client->setTimeout(30);
         $browser = new Browser($client);
 
         $module = $input->getArgument('module');
@@ -61,11 +62,7 @@ class ModuleDownloadCommand extends Command
 
             // Parse release module page to get Drupal 8 releases
             try {
-                if (method_exists($client, 'get')) {
-                    $response = $client->get($project_release_d8);
-                } else {
-                    $response = $browser->get($project_release_d8);
-                }
+                $response = $browser->get($project_release_d8);
                 $html = $response->getContent();
             } catch (\Exception $e) {
                 print_r($e->getMessage());
@@ -131,11 +128,7 @@ class ModuleDownloadCommand extends Command
         $destination = tempnam(sys_get_temp_dir(), 'console.').'.tar.gz';
 
         try {
-            if (method_exists($client, 'get')) {
-                $response = $client->get($release_file_path);
-            } else {
-                $response = $browser->get($release_file_path);
-            }
+            $response = $browser->get($release_file_path);
             file_put_contents($destination, $response->getContent());
 
             // Determine destination folder for contrib modules
