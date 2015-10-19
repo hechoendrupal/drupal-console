@@ -30,7 +30,7 @@ class ThemeDownloadCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $client = new Curl();
-        $client->setTimeout(10);
+        $client->setTimeout(30);
         $browser = new Browser($client);
 
         $theme = $input->getArgument('theme');
@@ -62,11 +62,7 @@ class ThemeDownloadCommand extends Command
 
             // Parse release theme page to get Drupal 8 releases
             try {
-                if (method_exists($client, 'get')) {
-                    $response = $client->get($project_release_d8);
-                } else {
-                    $response = $browser->get($project_release_d8);
-                }
+                $response = $browser->get($project_release_d8);
                 $html = $response->getContent();
             } catch (\Exception $e) {
                 print_r($e->getMessage());
@@ -132,11 +128,7 @@ class ThemeDownloadCommand extends Command
         $destination = tempnam(sys_get_temp_dir(), 'console.').'.tar.gz';
 
         try {
-            if (method_exists($client, 'get')) {
-                $response = $client->get($release_file_path);
-            } else {
-                $response = $browser->get($release_file_path);
-            }
+            $response = $browser->get($release_file_path);
             file_put_contents($destination, $response->getContent());
 
             // Determine destination folder for contrib theme
