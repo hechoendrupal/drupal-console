@@ -30,6 +30,7 @@ class ThemeDownloadCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $client = new Curl();
+        $client->setTimeout(10);
         $browser = new Browser($client);
 
         $theme = $input->getArgument('theme');
