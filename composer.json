@@ -53,9 +53,9 @@
         "herrera-io/phar-update": "1.*",
         "symfony/dom-crawler": "2.7.*",
         "alchemy/zippy": "0.2.*@dev",
-        "kriswallsmith/buzz": "~0.15",
         "phpseclib/phpseclib": "2.*",
-        "stecman/symfony-console-completion": "^0.5.1"
+        "stecman/symfony-console-completion": "^0.5.1",
+        "guzzlehttp/guzzle": "~6.1"
     },
     "bin": ["bin/console"],
     "config": {

@@ -148,4 +148,12 @@ trait HelperTrait
     {
         return $this->getHelperSet()->get('remote');
     }
+
+    /**
+     * @return \Drupal\Console\Helper\HttpClientHelper
+     */
+    public function getHttpClientHelper()
+    {
+        return $this->getHelperSet()->get('httpClient');
+    }
 }
