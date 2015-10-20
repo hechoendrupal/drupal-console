@@ -13,8 +13,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
 use Alchemy\Zippy\Zippy;
-use Buzz\Browser;
-use Buzz\Client\Curl;
 
 class ModuleDownloadCommand extends Command
 {
@@ -29,9 +27,7 @@ class ModuleDownloadCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $client = new Curl();
-        $client->setTimeout(30);
-        $browser = new Browser($client);
+        $httpClient = $this->getHttpClientHelper();
 
         $module = $input->getArgument('module');
 
@@ -49,8 +45,7 @@ class ModuleDownloadCommand extends Command
             );
 
             try {
-                $response = $browser->get('https://www.drupal.org/project/'.$module);
-                $link = $response->getHeader('link');
+                $link = $httpClient->getHeader('https://www.drupal.org/project/'.$module, 'link');
             } catch (\Exception $e) {
                 $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
                 return;
@@ -62,8 +57,7 @@ class ModuleDownloadCommand extends Command
 
             // Parse release module page to get Drupal 8 releases
             try {
-                $response = $browser->get($project_release_d8);
-                $html = $response->getContent();
+                $html = $httpClient->getHtml($project_release_d8);
             } catch (\Exception $e) {
                 print_r($e->getMessage());
                 $output->writeln('[+] <error>'.$e->getMessage().'</error>');
@@ -128,8 +122,7 @@ class ModuleDownloadCommand extends Command
         $destination = tempnam(sys_get_temp_dir(), 'console.').'.tar.gz';
 
         try {
-            $response = $browser->get($release_file_path);
-            file_put_contents($destination, $response->getContent());
+            $httpClient->downloadFile($release_file_path, $destination);
 
             // Determine destination folder for contrib modules
             $drupal = $this->getDrupalHelper();
