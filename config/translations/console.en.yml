@@ -191,7 +191,7 @@ commands:
         form-id: Enter the Form id
         services: common.questions.services
         inputs: common.questions.inputs
-        routing: Update routing file
+        routing: Would you like to like create a route
     module:
       description: Generate a module.
       help: The <info>generate:module</info> command helps you generates a new module.
