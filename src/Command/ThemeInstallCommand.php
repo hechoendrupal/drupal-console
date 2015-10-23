@@ -102,9 +102,11 @@ class ThemeInstallCommand extends ContainerAwareCommand
         $theme = $input->getArgument('theme');
         $default = $input->getOption('set-default');
 
-        if($default && count($theme) > 1) {
-            $output->writeln('[-] <error>' . $this->trans('commands.theme.install.messages.invalid-theme-default')
-                .'</error>');
+        if ($default && count($theme) > 1) {
+            $output->writeln(
+                '[-] <error>' . $this->trans('commands.theme.install.messages.invalid-theme-default')
+                .'</error>'
+            );
 
             return;
         }
@@ -115,75 +117,103 @@ class ThemeInstallCommand extends ContainerAwareCommand
         $themesInstalled = [];
         $themesUnavailable = [];
 
-        foreach($theme as $themeName) {
-            if(isset($themes[$themeName]) && $themes[$themeName]->status == 0) {
+        foreach ($theme as $themeName) {
+            if (isset($themes[$themeName]) && $themes[$themeName]->status == 0) {
                 $themesAvailable[] = $themes[$themeName]->info['name'];
-            } elseif(isset($themes[$themeName]) && $themes[$themeName]->status == 1) {
+            } elseif (isset($themes[$themeName]) && $themes[$themeName]->status == 1) {
                 $themesInstalled[] = $themes[$themeName]->info['name'];
-            }
-            else {
+            } else {
                 $themesUnavailable[] = $themeName;
             }
-
         }
 
-        if(count($themesAvailable) > 0) {
+        if (count($themesAvailable) > 0) {
             try {
                 if ($themeHandler->install($theme)) {
                     if (count($themesAvailable) > 1) {
-                        $output->writeln('[+] <info>' .
-                            sprintf($this->trans('commands.theme.install.messages.themes-success'),
-                                implode(',', $themesAvailable))
-                            . '</info>');
+                        $output->writeln(
+                            '[+] <info>' .
+                            sprintf(
+                                $this->trans('commands.theme.install.messages.themes-success'),
+                                implode(',', $themesAvailable)
+                            )
+                            . '</info>'
+                        );
                     } else {
                         if ($default) {
                             // Set the default theme.
                             $config->set('default', $theme[0])->save();
-                            $output->writeln('[+] <info>' .
-                                sprintf($this->trans('commands.theme.install.messages.theme-default-success'),
-                                    $themesAvailable[0])
-                                . '</info>');
+                            $output->writeln(
+                                '[+] <info>' .
+                                sprintf(
+                                    $this->trans('commands.theme.install.messages.theme-default-success'),
+                                    $themesAvailable[0]
+                                )
+                                . '</info>'
+                            );
                         } else {
-                            $output->writeln('[+] <info>' .
-                                sprintf($this->trans('commands.theme.install.messages.theme-success'),
-                                    $themesAvailable[0])
-                                . '</info>');
+                            $output->writeln(
+                                '[+] <info>' .
+                                sprintf(
+                                    $this->trans('commands.theme.install.messages.theme-success'),
+                                    $themesAvailable[0]
+                                )
+                                . '</info>'
+                            );
                         }
                     }
                 }
-            }
-            catch (UnmetDependenciesException $e) {
+            } catch (UnmetDependenciesException $e) {
                 print 'error3';
-                $output->writeln('[+] <error>'.
-                    sprintf($this->trans('commands.theme.install.messages.success'),
-                        $theme)
-                    .'</error>');
+                $output->writeln(
+                    '[+] <error>'.
+                    sprintf(
+                        $this->trans('commands.theme.install.messages.success'),
+                        $theme
+                    )
+                    .'</error>'
+                );
                 drupal_set_message($e->getTranslatedMessage($this->getStringTranslation(), $theme), 'error');
             }
-        } elseif(empty($themesAvailable) && count($themesInstalled) > 0) {
-            if(count($themesInstalled) > 1) {
-                $output->writeln('[-] <info>' .
-                    sprintf($this->trans('commands.theme.install.messages.themes-nothing'),
-                        implode(',', $themesInstalled))
-                    . '</info>');
+        } elseif (empty($themesAvailable) && count($themesInstalled) > 0) {
+            if (count($themesInstalled) > 1) {
+                $output->writeln(
+                    '[-] <info>' .
+                    sprintf(
+                        $this->trans('commands.theme.install.messages.themes-nothing'),
+                        implode(',', $themesInstalled)
+                    )
+                    . '</info>'
+                );
             } else {
-                $output->writeln('[-] <info>' .
-                    sprintf($this->trans('commands.theme.install.messages.theme-nothing'),
-                        implode(',', $themesInstalled))
-                    . '</info>');
+                $output->writeln(
+                    '[-] <info>' .
+                    sprintf(
+                        $this->trans('commands.theme.install.messages.theme-nothing'),
+                        implode(',', $themesInstalled)
+                    )
+                    . '</info>'
+                );
             }
-        }
-        else {
-            if(count($themesUnavailable) > 1) {
-                $output->writeln('[-] <error>' .
-                    sprintf($this->trans('commands.theme.install.messages.themes-missing'),
-                        implode(',', $themesUnavailable))
-                    . '</error>');
+        } else {
+            if (count($themesUnavailable) > 1) {
+                $output->writeln(
+                    '[-] <error>' .
+                    sprintf(
+                        $this->trans('commands.theme.install.messages.themes-missing'),
+                        implode(',', $themesUnavailable)
+                    )
+                    . '</error>'
+                );
             } else {
-                $output->writeln('[-] <error>' .
-                    sprintf($this->trans('commands.theme.install.messages.theme-missing'),
-                        implode(',', $themesUnavailable))
-                    . '</error>');
+                $output->writeln(
+                    '[-] <error>' .
+                    sprintf(
+                        $this->trans('commands.theme.install.messages.theme-missing'),
+                        implode(',', $themesUnavailable)
+                    )
+                    . '</error>'
+                );
             }
         }
 
