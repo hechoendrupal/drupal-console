@@ -111,7 +111,7 @@ class ThemeUninstallCommand extends ContainerAwareCommand
 
         if (count($themesAvailable) > 0) {
             try {
-                foreach($themesAvailable as $themeKey => $themeName) {
+                foreach ($themesAvailable as $themeKey => $themeName) {
                     if ($themeKey === $config->get('default')) {
                         $output->writeln(
                             '[+] <error>' .
@@ -125,7 +125,7 @@ class ThemeUninstallCommand extends ContainerAwareCommand
                         return;
                     }
 
-                    if($themeKey === $config->get('admin')) {
+                    if ($themeKey === $config->get('admin')) {
                         $output->writeln(
                             '[+] <error>' .
                             sprintf(
@@ -191,7 +191,6 @@ class ThemeUninstallCommand extends ContainerAwareCommand
                 );
             }
         } else {
-
             if (count($themesUnavailable) > 1) {
                 $output->writeln(
                     '[-] <error>' .
