@@ -1,0 +1,5 @@
+description: 'Generate documentations for Commands'
+options:
+    path: 'The path to render the documentation'
+messages:
+        missing_path: 'the path is missing'
