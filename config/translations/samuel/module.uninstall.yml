@@ -1,6 +1,6 @@
-description: 'Uninstall module or modules in the application'
+description: 'I am sick of these motherfucking modules in this motherfucking application'
 messages:
     no-modules: 'You must provide module or modules to uninstall.'
     dependents: 'Unable to uninstall modules %s because are required by %s'
-    nothing: 'Nothing to do. All modules are already uninstalled'
+    nothing: 'Get the fuck out of here!'
     success: 'The following module(s) were uninstalled successfully: %s'

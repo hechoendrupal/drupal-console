@@ -19,4 +19,4 @@ questions:
     account-pass: 'Provide your Drupal administrator account password'
 messages:
     installing: 'Starting Drupal 8 install process'
-    installed: 'Your Drupal 8 installation was completed sucessfully'
+    installed: 'This IS a tasty burger.'

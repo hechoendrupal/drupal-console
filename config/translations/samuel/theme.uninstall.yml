@@ -3,7 +3,7 @@ questions:
     theme: 'theme name (press <return> to stop adding themes)'
     invalid-theme: 'Invalid theme %s'
 options:
-    theme: 'theme or themes to be uninstalled should be separated by a comma'
+    theme: 'waste these motherfuckers'
 messages:
     no-themes: 'You must provide theme or themes to uninstall.'
     themes-missing: "Unable to uninstall themes %s due they aren't available"
