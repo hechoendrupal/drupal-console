@@ -5,12 +5,12 @@ options:
     module: common.options.module
     controller-title: 'Controller title'
     class-name: 'Command Class name'
-    command: 'Command name (Must end with the word ''Commmand'')'
-    container: 'Access the services container'
+    name: 'Command name (Must end with the word ''Commmand'')'
+    container-aware: 'Access the services container'
 questions:
     module: common.questions.module
     class-name: 'Enter the Command Class name'
-    command: 'Enter the Command name'
-    container: 'Do you need to access the service container'
+    name: 'Enter the Command name'
+    container-aware: 'Do you need to access the service container'
 messages:
     title-not-empty: 'Title cannot be empty'
