@@ -7,4 +7,5 @@ messages:
     downloading: 'Descargando la release %s del módulo %s'
     downloaded: 'La versión %s del módulo %s ha sido descargada con éxito en el directorio %s'
     select-release: 'Por favor, selecciona tu release favorita'
-    installed: 'El módulo %s ha sido instalado con éxito'
+    outside-drupal: "Drupal root can't be determined. Use --root to set the destination, current folder will be used instead of."
+    error-creating-folder: 'Error crearing folder %s, please check your permssions'

@@ -7,6 +7,7 @@ console:
         learning: 'Részletes kimeneti kód generálása.'
         generate-chain: 'Végrehajtási lehetőségek és argumentumok nyomtatása mint yaml kimenet amit késöbb egy parancsláncba használhat fel'
         generate-inline: 'Végrehajtási lehetőségek és argumentumok nyomtatása beágyazott hívásként amit késöbb felhasználhat'
+        root: 'Define the Drupal root to be use in command execution'
     messages:
         completed: 'A parancs futása sikeres volt!'
         chain:
