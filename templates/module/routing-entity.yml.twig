@@ -7,6 +7,8 @@ entity.{{ entity_name }}.collection:
     _title: '{{ label }}'
   requirements:
     _permission: 'administer site configuration'
+  options:
+    _admin_route: TRUE
 
 entity.{{ entity_name }}.add_form:
   path: '/admin/structure/{{ entity_name }}/add'
@@ -15,6 +17,8 @@ entity.{{ entity_name }}.add_form:
     _title: 'Add {{ label }}'
   requirements:
     _permission: 'administer site configuration'
+  options:
+    _admin_route: TRUE
 
 entity.{{ entity_name }}.edit_form:
   path: '/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}'
@@ -23,6 +27,8 @@ entity.{{ entity_name }}.edit_form:
     _title: 'Edit {{ label }}'
   requirements:
     _permission: 'administer site configuration'
+  options:
+    _admin_route: TRUE
 
 entity.{{ entity_name }}.delete_form:
   path: '/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete'
@@ -31,4 +37,6 @@ entity.{{ entity_name }}.delete_form:
     _title: 'Delete {{ label }}'
   requirements:
     _permission: 'administer site configuration'
+  options:
+    _admin_route: TRUE
 

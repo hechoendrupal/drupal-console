@@ -33,7 +33,7 @@ class GeneratorCommandCommand extends GeneratorCommand
                 'class',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.command.options.class')
+                $this->trans('commands.generate.command.options.class-name')
             )
             ->addOption(
                 'name',
@@ -101,7 +101,7 @@ class GeneratorCommandCommand extends GeneratorCommand
         if (!$class) {
             $class = $dialog->askAndValidate(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.command.questions.class'), 'DefaultCommand'),
+                $dialog->getQuestion($this->trans('commands.generate.command.questions.class-name'), 'DefaultCommand'),
                 function ($class) {
                     return $this->getValidator()->validateCommandName($class);
                 },

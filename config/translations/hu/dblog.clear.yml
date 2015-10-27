@@ -1,5 +1,5 @@
-description: 'Remove events from DBLog table, filters are available'
+description: 'Események törlése a DBlog táblából, szűrök elérhetők'
 messages:
-    event-deleted: 'Event %s was deleted'
-    clear-error: 'Clear process fail, please check used filters'
-    clear-sucess: 'Clear of events was successfully'
+    event-deleted: '%s esemény törölve'
+    clear-error: 'Törlési művelet hiba, kérem vizsgálja át a használt szűröket'
+    clear-sucess: 'Események törlése sikeres volt'

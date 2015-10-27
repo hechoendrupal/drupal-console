@@ -9,6 +9,7 @@ console:
         generate-inline: 'Printează opțiunile și argumentele de execuție în apel inline pentru a fi folosit pe viitor'
     messages:
         completed: 'Comanda a fost executată cu succes!'
+        root: 'Define the Drupal root to be use in command execution'
         chain:
             generated: 'Mai jos puteți găsi reprezentarea yaml pentru ultima comandă executată, ex. copie în ~/.console/chain/sample.yml pentru a executa în interiorul unei secvențe de comenzi'
         inline:

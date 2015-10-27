@@ -38,15 +38,6 @@ class CallCommandListener implements EventSubscriberInterface
         }
 
         foreach ($commands as $chainedCommand) {
-            if ($chainedCommand['name'] == 'module:install') {
-                $messageHelper = $application->getMessageHelper();
-                $translatorHelper = $application->getTranslator();
-                $messageHelper->addErrorMessage(
-                    $translatorHelper->trans('commands.chain.messages.module_install')
-                );
-                continue;
-            }
-
             $callCommand = $application->find($chainedCommand['name']);
 
             $input = new ArrayInput($chainedCommand['inputs']);
