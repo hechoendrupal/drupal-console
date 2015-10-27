@@ -118,7 +118,7 @@ class SiteHelper extends Helper
             if ($nameOnly) {
                 $modules[] = $name;
             } else {
-                $modules[] = $module;
+                $modules[$name] = $module;
             }
         }
 
