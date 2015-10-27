@@ -10,7 +10,6 @@ namespace Drupal\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Command;
 
 class DBClientCommand extends ContainerAwareCommand
 {
@@ -52,11 +51,18 @@ class DBClientCommand extends ContainerAwareCommand
 
         $db = $connectionInfo[$database];
         if( $db['driver'] == 'mysql') {
-            $command = sprintf('mysql -u%s -p%s %s -h%s -P%s', $db['username'], $db['password'],$db['database'], $db['host'], $db['port']
+            $command = sprintf('mysql -A -u%s -p%s %s -h%s -P%s', $db['username'], $db['password'],$db['database'], $db['host'], $db['port']
                 );
-            $output->writeln('[+] <info>'. 'Executing:'. $command . '</info>');
+
             if (`which mysql`) {
-                system($command);
+                $output->writeln('[+] <info>'.
+                    sprintf(
+                        $this->trans('commands.db.client.messages.executing'),
+                        $command)
+                    .'</info>');
+                $process = proc_open($command, array(0 => STDIN, 1 => STDOUT, 2 => STDERR), $pipes);
+                $proc_status = proc_get_status($process);
+                $exit_code = proc_close($process);
             } else {
                 $output->writeln('[+] <error>'.
                     sprintf(
