@@ -41,41 +41,54 @@ class DBClientCommand extends ContainerAwareCommand
 
         $connectionInfo = $this->getConnectionInfo();
 
-        if(!isset($connectionInfo[$database])) {
-            $output->writeln('[+] <error>'.
+        if (!isset($connectionInfo[$database])) {
+            $output->writeln(
+                '[+] <error>'.
                 sprintf(
                     $this->trans('commands.db.client.messages.database-not-found'),
-                    $database)
-                .'</error>');
+                    $database
+                )
+                .'</error>'
+            );
         }
 
         $db = $connectionInfo[$database];
-        if( $db['driver'] == 'mysql') {
-            $command = sprintf('mysql -A -u%s -p%s %s -h%s -P%s', $db['username'], $db['password'],$db['database'], $db['host'], $db['port']
-                );
+        if ($db['driver'] == 'mysql') {
+            $command = sprintf(
+                'mysql -A -u%s -p%s %s -h%s -P%s', $db['username'], $db['password'], $db['database'], $db['host'], $db['port']
+            );
 
             if (`which mysql`) {
-                $output->writeln('[+] <info>'.
+                $output->writeln(
+                    '[+] <info>'.
                     sprintf(
                         $this->trans('commands.db.client.messages.executing'),
-                        $command)
-                    .'</info>');
+                        $command
+                    )
+                    .'</info>'
+                );
                 $process = proc_open($command, array(0 => STDIN, 1 => STDOUT, 2 => STDERR), $pipes);
                 $proc_status = proc_get_status($process);
                 $exit_code = proc_close($process);
             } else {
-                $output->writeln('[+] <error>'.
+                $output->writeln(
+                    '[+] <error>'.
                     sprintf(
                         $this->trans('commands.db.client.messages.database-client-not-found'),
-                        'mysql')
-                    .'</error>');
+                        'mysql'
+                    )
+                    .'</error>'
+                );
             }
         } else {
-            $output->writeln('[+] <error>'.
+            $output->writeln(
+                '[+] <error>'.
                 sprintf(
                     $this->trans('commands.db.client.messages.database-not-supported'),
-                    $db['driver'])
-                .'</error>');
+                    $db['driver']
+                )
+                .'</error>'
+            );
         }
     }
 }
