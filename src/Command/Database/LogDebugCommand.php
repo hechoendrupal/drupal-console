@@ -2,61 +2,62 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\RestDebugCommand.
+ * Contains \Drupal\Console\Command\Database\LogDebugCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Database;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Component\Utility\Unicode;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Logger\RfcLogLevel;
 
-class DBLogDebugCommand extends ContainerAwareCommand
+class LogDebugCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
-            ->setName('dblog:debug')
-            ->setDescription($this->trans('commands.dblog.debug.description'))
+            ->setName('database:log:debug')
+            ->setDescription($this->trans('commands.database.log.debug.description'))
             ->addArgument(
                 'event-id',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.dblog.debug.arguments.event-id')
+                $this->trans('commands.database.log.debug.arguments.event-id')
             )
             ->addOption(
                 'type',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.dblog.debug.options.type')
+                $this->trans('commands.database.log.debug.options.type')
             )
             ->addOption(
                 'severity',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.dblog.debug.options.severity')
+                $this->trans('commands.database.log.debug.options.severity')
             )
             ->addOption(
                 'user-id',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.dblog.debug.options.user-id')
+                $this->trans('commands.database.log.debug.options.user-id')
             )
             ->addOption(
                 'limit',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.dblog.debug.options.limit')
+                $this->trans('commands.database.log.debug.options.limit')
             )
             ->addOption(
                 'offset',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.dblog.debug.options.offset')
+                $this->trans('commands.database.log.debug.options.offset')
             );
         ;
     }
@@ -78,9 +79,9 @@ class DBLogDebugCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param $output         OutputInterface
-     * @param $table          TableHelper
-     * @param $resource_id    String
+     * @param $output
+     * @param $event_id
+     * @return bool
      */
     private function getEventDetails($output, $event_id)
     {
@@ -95,7 +96,7 @@ class DBLogDebugCommand extends ContainerAwareCommand
         if (empty($dblog)) {
             $output->writeln(
                 '[+] <error>'.sprintf(
-                    $this->trans('commands.dblog.debug.messages.not-found'),
+                    $this->trans('commands.database.log.debug.messages.not-found'),
                     $event_id
                 ).'</error>'
             );
@@ -106,12 +107,12 @@ class DBLogDebugCommand extends ContainerAwareCommand
         $user= $user_storage->load($dblog->uid);
 
         $configuration = array();
-        $configuration[$this->trans('commands.dblog.debug.messages.event-id')] = $event_id;
-        $configuration[$this->trans('commands.dblog.debug.messages.type')] = $dblog->type;
-        $configuration[$this->trans('commands.dblog.debug.messages.date')] = $date_formatter->format($dblog->timestamp, 'short');
-        $configuration[$this->trans('commands.dblog.debug.messages.user')] = $user->getUsername() . ' (' . $user->id() .')';
-        $configuration[$this->trans('commands.dblog.debug.messages.severity')] = (string) $severity[$dblog->severity];
-        $configuration[$this->trans('commands.dblog.debug.messages.message')] = Html::decodeEntities(strip_tags($this->formatMessage($dblog)));
+        $configuration[$this->trans('commands.database.log.debug.messages.event-id')] = $event_id;
+        $configuration[$this->trans('commands.database.log.debug.messages.type')] = $dblog->type;
+        $configuration[$this->trans('commands.database.log.debug.messages.date')] = $date_formatter->format($dblog->timestamp, 'short');
+        $configuration[$this->trans('commands.database.log.debug.messages.user')] = $user->getUsername() . ' (' . $user->id() .')';
+        $configuration[$this->trans('commands.database.log.debug.messages.severity')] = (string) $severity[$dblog->severity];
+        $configuration[$this->trans('commands.database.log.debug.messages.message')] = Html::decodeEntities(strip_tags($this->formatMessage($dblog)));
 
         $configurationEncoded = Yaml::encode($configuration);
 
@@ -151,7 +152,7 @@ class DBLogDebugCommand extends ContainerAwareCommand
             $output->writeln(
                 '[-] <error>' .
                 sprintf(
-                    $this->trans('commands.dblog.debug.messages.invalid-severity'),
+                    $this->trans('commands.database.log.debug.messages.invalid-severity'),
                     $event_severity
                 )
                 . '</error>'
@@ -174,12 +175,12 @@ class DBLogDebugCommand extends ContainerAwareCommand
 
         $table->setHeaders(
             [
-              $this->trans('commands.dblog.debug.messages.event-id'),
-              $this->trans('commands.dblog.debug.messages.type'),
-              $this->trans('commands.dblog.debug.messages.date'),
-              $this->trans('commands.dblog.debug.messages.message'),
-              $this->trans('commands.dblog.debug.messages.user'),
-              $this->trans('commands.dblog.debug.messages.severity'),
+              $this->trans('commands.database.log.debug.messages.event-id'),
+              $this->trans('commands.database.log.debug.messages.type'),
+              $this->trans('commands.database.log.debug.messages.date'),
+              $this->trans('commands.database.log.debug.messages.message'),
+              $this->trans('commands.database.log.debug.messages.user'),
+              $this->trans('commands.database.log.debug.messages.severity'),
             ]
         );
 
@@ -206,7 +207,7 @@ class DBLogDebugCommand extends ContainerAwareCommand
     /**
      * Formats a database log message.
      *
-     * @param object $row
+     * @param $event
      *   The record from the watchdog table. The object properties are: wid, uid,
      *   severity, type, timestamp, message, variables, link, name.
      *
