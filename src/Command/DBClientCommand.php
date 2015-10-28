@@ -10,6 +10,7 @@ namespace Drupal\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\ProcessBuilder;
 
 class DBClientCommand extends ContainerAwareCommand
 {
@@ -34,61 +35,73 @@ class DBClientCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $message = $this->getMessageHelper();
         $database = $input->getArgument('database');
+
         if (!$database) {
             $database = 'default';
         }
 
         $connectionInfo = $this->getConnectionInfo();
 
-        if (!isset($connectionInfo[$database])) {
-            $output->writeln(
-                '[+] <error>'.
+        if (!$connectionInfo || !isset($connectionInfo[$database])) {
+            $message->addErrorMessage(
                 sprintf(
                     $this->trans('commands.db.client.messages.database-not-found'),
                     $database
                 )
-                .'</error>'
             );
+            return;
         }
 
         $db = $connectionInfo[$database];
-        if ($db['driver'] == 'mysql') {
-            $command = sprintf(
-                'mysql -A -u%s -p%s %s -h%s -P%s', $db['username'], $db['password'], $db['database'], $db['host'], $db['port']
-            );
-
-            if (`which mysql`) {
-                $output->writeln(
-                    '[+] <info>'.
-                    sprintf(
-                        $this->trans('commands.db.client.messages.executing'),
-                        $command
-                    )
-                    .'</info>'
-                );
-                $process = proc_open($command, array(0 => STDIN, 1 => STDOUT, 2 => STDERR), $pipes);
-                $proc_status = proc_get_status($process);
-                $exit_code = proc_close($process);
-            } else {
-                $output->writeln(
-                    '[+] <error>'.
-                    sprintf(
-                        $this->trans('commands.db.client.messages.database-client-not-found'),
-                        'mysql'
-                    )
-                    .'</error>'
-                );
-            }
-        } else {
-            $output->writeln(
-                '[+] <error>'.
+        if ($db['driver'] !== 'mysql') {
+            $message->addErrorMessage(
                 sprintf(
                     $this->trans('commands.db.client.messages.database-not-supported'),
                     $db['driver']
                 )
-                .'</error>'
             );
+            return;
+        }
+
+        if (!`which mysql`) {
+            $message->addErrorMessage(
+                sprintf(
+                    $this->trans('commands.db.client.messages.database-client-not-found'),
+                    'mysql'
+                )
+            );
+
+            return;
+        }
+
+        $command = sprintf(
+            '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
+            $db['driver'],
+            $db['database'],
+            $db['username'],
+            $db['password'],
+            $db['host'],
+            $db['port']
+        );
+
+        $message->showMessage(
+            $output,
+            sprintf(
+                $this->trans('commands.db.client.messages.executing'),
+                $command
+            )
+        );
+
+        $processBuilder = new ProcessBuilder([]);
+        $processBuilder->setArguments(explode(' ', $command));
+        $process = $processBuilder->getProcess();
+        $process->setTty('true');
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException($process->getErrorOutput());
         }
     }
 }
