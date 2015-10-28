@@ -72,6 +72,8 @@ class DBClientCommand extends ContainerAwareCommand
                     'mysql'
                 )
             );
+
+            return;
         }
 
         $command = sprintf(
