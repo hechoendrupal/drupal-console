@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\GeneratorServiceCommand.
+ * Contains \Drupal\Console\Command\Generate\ServiceCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Generate;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -14,8 +14,9 @@ use Drupal\Console\Command\ServicesTrait;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Generator\ServiceGenerator;
 use Drupal\Console\Command\ConfirmationTrait;
+use Drupal\Console\Command\GeneratorCommand;
 
-class GeneratorServiceCommand extends GeneratorCommand
+class ServiceCommand extends GeneratorCommand
 {
     use ServicesTrait;
     use ModuleTrait;
@@ -30,23 +31,28 @@ class GeneratorServiceCommand extends GeneratorCommand
             ->setName('generate:service')
             ->setDescription($this->trans('commands.generate.service.description'))
             ->setHelp($this->trans('commands.generate.service.description'))
-            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'module',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            )
             ->addOption(
                 'name',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.service.options.name')
             )
             ->addOption(
                 'class',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.service.options.class')
             )
             ->addOption(
                 'interface',
-                null,
-                InputOption::VALUE_OPTIONAL,
+                false,
+                InputOption::VALUE_NONE,
                 $this->trans('commands.common.service.options.interface')
             )
             ->addOption(
@@ -75,8 +81,6 @@ class GeneratorServiceCommand extends GeneratorCommand
         $interface = $input->getOption('interface');
         $services = $input->getOption('services');
 
-        $interface = ($interface === true || strtolower($interface) === 'yes');
-
         // @see Drupal\Console\Command\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
 
@@ -102,7 +106,7 @@ class GeneratorServiceCommand extends GeneratorCommand
         }
         $input->setOption('module', $module);
 
-        // --service-name option
+        // --name option
         $name = $input->getOption('name');
         if (!$name) {
             $name = $dialog->ask(
@@ -116,7 +120,7 @@ class GeneratorServiceCommand extends GeneratorCommand
         }
         $input->setOption('name', $name);
 
-        // --class-name option
+        // --class option
         $class = $input->getOption('class');
         if (!$class) {
             $class = $dialog->ask(
