@@ -9,10 +9,9 @@ namespace Drupal\{{module_name}}\Form;
 {% endblock %}
 
 {% block use_class %}
-use Drupal\Core\Form\ConfigFormBase;
+use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 {% if services is not empty %}
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 {% endif %}
 {% endblock %}
@@ -23,14 +22,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @package Drupal\{{module_name}}\Form
  */
-class {{ class_name }} extends ConfigFormBase {% endblock %}
+class {{ class_name }} extends FormBase {% endblock %}
 {% block class_construct %}
 {% if services is not empty %}
   public function __construct(
-    ConfigFactoryInterface $config_factory,
     {{ servicesAsParameters(services)|join(',\n    ') }}
   ) {
-    parent::__construct($config_factory);
 {{ serviceClassInitialization(services) }}
   }
 
@@ -54,15 +51,6 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
   /**
    * {@inheritdoc}
    */
-  protected function getEditableConfigNames() {
-    return [
-      '{{module_name}}.{{class_name_short}}'
-    ];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getFormId() {
     return '{{form_id}}';
   }
@@ -71,7 +59,6 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = $this->config('{{module_name}}.{{class_name_short}}');
 {% for input in inputs %}
     $form['{{ input.name }}'] = array(
       '#type' => '{{ input.type }}',
@@ -86,9 +73,6 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
 {% if input.size|length %}
       '#size' => {{ input.size }},
 {% endif %}
-{% if input.type != 'password_confirm' %}
-      '#default_value' => $config->get('{{ input.name }}'),
-{% endif %}
     );
 {% endfor %}
 
@@ -98,20 +82,7 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
   /**
    * {@inheritdoc}
    */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-    parent::validateForm($form, $form_state);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    parent::submitForm($form, $form_state);
 
-    $this->config('{{module_name}}.{{class_name_short}}')
-{% for input in inputs %}
-      ->set('{{ input.name }}', $form_state->getValue('{{ input.name }}'))
-{% endfor %}
-      ->save();
   }
 {% endblock %}
