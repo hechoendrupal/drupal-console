@@ -4,13 +4,14 @@
  * Contains \Drupal\Console\Test\Command\GeneratorServiceCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
-use Drupal\Console\Command\GeneratorServiceCommand;
+use Drupal\Console\Command\Generate\ServiceCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\ServiceDataProviderTrait;
+use Drupal\Console\Test\Command\GenerateCommandTest;
 
-class GeneratorServiceCommandTest extends GenerateCommandTest
+class ServiceCommandTest extends GenerateCommandTest
 {
     use ServiceDataProviderTrait;
 
@@ -32,7 +33,7 @@ class GeneratorServiceCommandTest extends GenerateCommandTest
         $interface,
         $services
     ) {
-        $command = new GeneratorServiceCommand($this->getHelperSet());
+        $command = new ServiceCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 
