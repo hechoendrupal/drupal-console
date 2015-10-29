@@ -71,9 +71,11 @@ class CommandDiscoveryHelper extends Helper
     {
         $modules = $this->getSite()->getModules(true, false, false, true, false);
 
-        foreach ($this->disabledModules as $disabledModule) {
-            if (array_key_exists($disabledModule, $modules)) {
-                unset($modules[$disabledModule]);
+        if ($this->disabledModules) {
+            foreach ($this->disabledModules as $disabledModule) {
+                if (array_key_exists($disabledModule, $modules)) {
+                    unset($modules[$disabledModule]);
+                }
             }
         }
 
