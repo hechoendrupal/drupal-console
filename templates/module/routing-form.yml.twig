@@ -1,4 +1,4 @@
-{% if class_name is defined and "ConfigFormBase" == form_type %}
+{% if class_name is defined %}
 
 {{ module_name }}.{{form_id}}:
   path: '/admin/config/{{ module_name }}/{{ class_name_short }}'
