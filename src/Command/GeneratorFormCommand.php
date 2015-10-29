@@ -79,6 +79,7 @@ abstract class GeneratorFormCommand extends GeneratorCommand
         $update_routing = $input->getOption('routing');
         $class_name = $input->getOption('class-name');
         $form_id = $input->getOption('form-id');
+        $form_type = $this->formType;
 
         // if exist form generate config file
         $inputs = $input->getOption('inputs');
@@ -86,7 +87,7 @@ abstract class GeneratorFormCommand extends GeneratorCommand
 
         $this
             ->getGenerator()
-            ->generate($module, $class_name, $form_id, $build_services, $inputs, $update_routing);
+            ->generate($module, $class_name, $form_id, $form_type, $build_services, $inputs, $update_routing);
 
         $this->getChain()->addCommand('router:rebuild');
     }
@@ -142,17 +143,19 @@ abstract class GeneratorFormCommand extends GeneratorCommand
         }
         $input->setOption('inputs', $inputs);
 
-        // --routing option
-        $routing = $input->getOption('routing');
-        if (!$routing && $dialog->askConfirmation(
-            $output,
-            $dialog->getQuestion($this->trans('commands.generate.form.questions.routing'), 'yes', '?'),
-            true
-        )
-        ) {
+        // --routing option for ConfigFormBase
+        if ($this->formType == 'ConfigFormBase') {
+          $routing = $input->getOption('routing');
+          if (!$routing && $dialog->askConfirmation(
+              $output,
+              $dialog->getQuestion($this->trans('commands.generate.form.questions.routing'), 'yes', '?'),
+              true
+            )
+          ) {
             $routing = true;
+          }
+          $input->setOption('routing', $routing);
         }
-        $input->setOption('routing', $routing);
     }
 
     /**
