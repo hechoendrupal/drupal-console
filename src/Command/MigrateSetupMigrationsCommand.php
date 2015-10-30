@@ -17,7 +17,6 @@ use Drupal\Core\Database\Connection;
 use Drupal\migrate\Entity\Migration;
 use Drupal\migrate\Plugin\MigratePluginManager;
 
-
 class MigrateSetupMigrationsCommand extends ContainerAwareCommand
 {
     protected function configure()
@@ -212,8 +211,8 @@ class MigrateSetupMigrationsCommand extends ContainerAwareCommand
         if (!$drupal_version = $this->getLegacyDrupalVersion($connection)) {
             $output->writeln(
                 '[-] <error>'.
-                    $this->trans('commands.migrate.setup.migrations.questions.not-drupal')
-                 .'</error>'
+                $this->trans('commands.migrate.setup.migrations.questions.not-drupal')
+                .'</error>'
             );
             return;
         }
@@ -239,12 +238,13 @@ class MigrateSetupMigrationsCommand extends ContainerAwareCommand
                 $variants = $builderManager
                     ->createInstance($template['builder']['plugin'], $template['builder'])
                     ->buildMigrations($template);
-            }
-            else {
+            } else {
                 $variants = array(Migration::create($template));
             }
 
-            /** @var \Drupal\migrate\Entity\MigrationInterface[] $variants */
+            /**
+ * @var \Drupal\migrate\Entity\MigrationInterface[] $variants 
+*/
             foreach ($variants as $variant) {
                 $variant->set('template', $template_id);
             }
@@ -264,7 +264,6 @@ class MigrateSetupMigrationsCommand extends ContainerAwareCommand
                     $migration->save();
                     $migration_ids[] = $migration->id();
                 }
-
             }
                 // Migrations which are not applicable given the source and destination
                 // site configurations (e.g., what modules are enabled) will be silently
@@ -275,8 +274,7 @@ class MigrateSetupMigrationsCommand extends ContainerAwareCommand
                     $e->getMessage()
                     .'</error>'
                 );
-            }
-            catch (PluginNotFoundException $e) {
+            } catch (PluginNotFoundException $e) {
                 $output->writeln(
                     '[-] <error>'.
                     $e->getMessage()
@@ -285,13 +283,14 @@ class MigrateSetupMigrationsCommand extends ContainerAwareCommand
             }
         }
 
-        if(empty($migration_ids)) {
-            if(empty($migrations)) {
+        if (empty($migration_ids)) {
+            if (empty($migrations)) {
                 $output->writeln(
                     '[-] <info>' .
                     sprintf(
                         $this->trans('commands.migrate.setup.migrations.messages.migrations-not-found'),
-                        count($migrations))
+                        count($migrations)
+                    )
                     . '</info>'
                 );
             } else {
@@ -299,18 +298,19 @@ class MigrateSetupMigrationsCommand extends ContainerAwareCommand
                     '[-] <error>' .
                     sprintf(
                         $this->trans('commands.migrate.setup.migrations.messages.migrations-already-exist'),
-                        count($migrations))
+                        count($migrations)
+                    )
                     . '</error>'
                 );
             }
-
         } else {
             $output->writeln(
                 '[-] <info>' .
                 sprintf(
                     $this->trans('commands.migrate.setup.migrations.messages.migrations-created'),
                     count($migrations),
-                    $version_tag)
+                    $version_tag
+                )
                 . '</info>'
             );
         }
@@ -332,7 +332,8 @@ class MigrateSetupMigrationsCommand extends ContainerAwareCommand
      *
      * @return int|FALSE
      */
-    protected function getLegacyDrupalVersion(Connection $connection) {
+    protected function getLegacyDrupalVersion(Connection $connection)
+    {
         // Don't assume because a table of that name exists, that it has the columns
         // we're querying. Catch exceptions and report that the source database is
         // not Drupal.
@@ -345,14 +346,12 @@ class MigrateSetupMigrationsCommand extends ContainerAwareCommand
                 if ($version_string && $version_string[0] == '1') {
                     if ((int) $version_string >= 1000) {
                         $version_string = '5';
-                    }
-                    else {
-                        $version_string = FALSE;
+                    } else {
+                        $version_string = false;
                     }
                 }
-            }
-            catch (\PDOException $e) {
-                $version_string = FALSE;
+            } catch (\PDOException $e) {
+                $version_string = false;
             }
         }
         // For Drupal 8 (and we're predicting beyond) the schema version is in the
@@ -360,11 +359,10 @@ class MigrateSetupMigrationsCommand extends ContainerAwareCommand
         elseif ($connection->schema()->tableExists('key_value')) {
             $result = $connection->query("SELECT value FROM {key_value} WHERE collection = :system_schema  and name = :module", [':system_schema' => 'system.schema', ':module' => 'system'])->fetchField();
             $version_string = unserialize($result);
-        }
-        else {
-            $version_string = FALSE;
+        } else {
+            $version_string = false;
         }
 
-        return $version_string ? substr($version_string, 0, 1) : FALSE;
+        return $version_string ? substr($version_string, 0, 1) : false;
     }
 }
