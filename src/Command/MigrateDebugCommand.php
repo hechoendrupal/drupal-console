@@ -29,11 +29,14 @@ class MigrateDebugCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $moduleHandler = $this->getModuleHandler();
+
         $drupal_version = $input->getArgument('drupal-version');
 
         $table = $this->getTableHelper();
         $table->setlayout($table::LAYOUT_COMPACT);
         $this->getAllMigrations($drupal_version, $output, $table);
+
     }
 
     protected function getAllMigrations($drupal_version, $output, $table)
@@ -50,9 +53,20 @@ class MigrateDebugCommand extends ContainerAwareCommand
 
         $table->setlayout($table::LAYOUT_COMPACT);
 
-        foreach ($migrations as $migration_id => $migration) {
-            $table->addRow([$migration_id, $migration['description'], $migration['version']]);
+        if(empty($migrations)) {
+            $output->writeln(
+                '[-] <error>' .
+                sprintf(
+                    $this->trans('commands.migrate.debug.messages.no-migrations'),
+                    count($migrations))
+                . '</error>'
+            );
+        } else {
+            foreach ($migrations as $migration_id => $migration) {
+                $table->addRow([$migration_id, $migration['description'], $migration['version']]);
+            }
+            $table->render($output);
         }
-        $table->render($output);
+
     }
 }

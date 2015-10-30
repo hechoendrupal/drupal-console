@@ -5,3 +5,4 @@ messages:
     id: 'Migráció Id'
     description: Leírás
     version: Verzió
+    no-migrations: "There aren't migrations available try to execute command: migrate:setup:migrations"
