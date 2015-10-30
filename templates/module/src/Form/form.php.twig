@@ -76,7 +76,7 @@ class {{ class_name }} extends FormBase {% endblock %}
     );
 {% endfor %}
 
-    return parent::buildForm($form, $form_state);
+    return $form;
   }
 
   /**
