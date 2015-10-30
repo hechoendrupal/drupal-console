@@ -22,7 +22,7 @@ class MigrateSetupMigrationsCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('migrate:setup:migrations')
+            ->setName('migrate:setup')
             ->setDescription($this->trans('commands.migrate.setup.migrations.description'))
             ->addOption(
                 'db-type',
@@ -229,7 +229,6 @@ class MigrateSetupMigrationsCommand extends ContainerAwareCommand
 
         //print_r($migration_templates);
         $migrations = [];
-        $builder = \Drupal::service('migrate.migration_builder');
         $builderManager = \Drupal::service('plugin.manager.migrate.builder');
         foreach ($migration_templates as $template_id => $template) {
             if (isset($template['builder'])) {
@@ -243,8 +242,8 @@ class MigrateSetupMigrationsCommand extends ContainerAwareCommand
             }
 
             /**
- * @var \Drupal\migrate\Entity\MigrationInterface[] $variants 
-*/
+             * @var \Drupal\migrate\Entity\MigrationInterface[] $variants
+             */
             foreach ($variants as $variant) {
                 $variant->set('template', $template_id);
             }
