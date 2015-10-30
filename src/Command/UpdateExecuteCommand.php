@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\RestDebugCommand.
+ * Contains \Drupal\Console\Command\UpdateExecuteCommand.
  */
 
 namespace Drupal\Console\Command;
@@ -20,9 +20,9 @@ class UpdateExecuteCommand extends ContainerAwareCommand
     {
         $this
             ->setName('update:execute')
-            ->setDescription($this->trans('commands.update.debug.description'))
+            ->setDescription($this->trans('commands.update.execute.description'))
             ->addArgument('module', InputArgument::REQUIRED, $this->trans('commands.common.options.module'))
-            ->addArgument('update-n', InputArgument::OPTIONAL, $this->trans('commands.update.debug.options.update-n'));
+            ->addArgument('update-n', InputArgument::OPTIONAL, $this->trans('commands.update.execute.options.update-n'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
