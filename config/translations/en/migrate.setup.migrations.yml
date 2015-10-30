@@ -1,4 +1,4 @@
-description: 'Set up the relevant migrations for import from the provided database'
+description: 'Load and create the relevant migrations for a provided legacy database'
 options:
     db-type: 'Drupal Database type'
     db-host: 'Database Host'
