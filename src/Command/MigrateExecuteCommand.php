@@ -16,10 +16,12 @@ use Drupal\migrate\Entity\MigrationInterface;
 use Drupal\migrate\MigrateExecutable;
 use Drupal\Console\Utils\MigrateExecuteMessageCapture;
 
+
 class MigrateExecuteCommand extends ContainerAwareCommand
 {
-    protected $connection;
-    protected $migration_group;
+    use DatabaseTrait;
+
+    protected $migrateConnection;
 
     protected function configure()
     {
@@ -32,6 +34,12 @@ class MigrateExecuteCommand extends ContainerAwareCommand
                 '',
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.migrate.execute.options.site-url')
+            )
+            ->addOption(
+                'db-type',
+                '',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.migrate.setup.migrations.options.db-type')
             )
             ->addOption(
                 'db-host',
@@ -94,6 +102,7 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         };
 
         $dialog = $this->getDialogHelper();
+        $question = $this->getQuestionHelper();
 
         // --site-url option
         $site_url = $input->getOption('site-url');
@@ -111,96 +120,70 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         }
         $input->setOption('site-url', $site_url);
 
+        // --db-type option
+        $db_type = $input->getOption('db-type');
+        if (!$db_type) {
+            $db_type = $this->dbTypeQuestion($input, $output, $question);
+        }
+        $input->setOption('db-type', $db_type);
+
         // --db-host option
         $db_host = $input->getOption('db-host');
         if (!$db_host) {
-            $db_host = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.migrate.execute.questions.db-host'), '127.0.0.1'),
-                $validator_required,
-                false,
-                '127.0.0.1'
-            );
+            $db_host = $this->dbHostQuestion($output, $dialog);
         }
         $input->setOption('db-host', $db_host);
 
         // --db-name option
         $db_name = $input->getOption('db-name');
         if (!$db_name) {
-            $db_name = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.migrate.execute.questions.db-name'), ''),
-                $validator_required,
-                false,
-                null
-            );
+            $db_name = $this->dbNameQuestion($output, $dialog);
         }
         $input->setOption('db-name', $db_name);
 
         // --db-user option
         $db_user = $input->getOption('db-user');
         if (!$db_user) {
-            $db_user = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.migrate.execute.questions.db-user'), ''),
-                $validator_required,
-                false,
-                null
-            );
+            $db_user = $this->dbUserQuestion($output, $dialog);
         }
         $input->setOption('db-user', $db_user);
 
         // --db-pass option
         $db_pass = $input->getOption('db-pass');
         if (!$db_pass) {
-            $db_pass = $dialog->askHiddenResponse(
-                $output,
-                $dialog->getQuestion($this->trans('commands.migrate.execute.questions.db-pass'), ''),
-                ''
-            );
+            $db_pass = $this->dbPassQuestion($output, $dialog);
         }
         $input->setOption('db-pass', $db_pass);
 
         // --db-prefix
         $db_prefix = $input->getOption('db-prefix');
         if (!$db_prefix) {
-            $db_prefix = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.migrate.execute.questions.db-prefix'), ''),
-                ''
-            );
+            $db_prefix = $this->dbPrefixQuestion($output, $dialog);
         }
         $input->setOption('db-prefix', $db_prefix);
 
         // --db-port prefix
         $db_port = $input->getOption('db-port');
         if (!$db_port) {
-            $db_port = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.migrate.execute.questions.db-port'), '3306'),
-                $validator_required,
-                false,
-                '3306'
-            );
+            $db_port = $this->dbPortQuestion($output, $dialog);
         }
         $input->setOption('db-port', $db_port);
 
-        // Get migrations available
-        $this->registerSourceDB($input, $output);
+        $this->registerMigrateDB($input, $output);
+        $this->migrateConnection = $this->getDBConnection($output, 'default', 'migrate');
 
-        $this->getConnection($output);
-
-        if ($this->connection->schema()->tableExists('filter_format')) {
-            $this->migration_group = 'Drupal 7';
-            $migrations_list = $this->getMigrations($this->migration_group);
-        } elseif ($this->connection->schema()->tableExists('menu_router')) {
-            $this->migration_group = 'Drupal 6';
-            $migrations_list = $this->getMigrations($this->migration_group);
-        } else {
-            $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.questions.wrong-source').'</error>');
-
+        if (!$drupal_version = $this->getLegacyDrupalVersion($this->migrateConnection)) {
+            $output->writeln(
+                '[-] <error>'.
+                $this->trans('commands.migrate.setup.migrations.questions.not-drupal')
+                .'</error>'
+            );
             return;
         }
+
+        $version_tag = 'Drupal ' . $drupal_version;
+        // Get migrations available
+        $migrations_list = $this->getMigrations($version_tag);
 
         // --migration-id prefix
         $migration_id = $input->getArgument('migration-ids');
@@ -217,7 +200,7 @@ class MigrateExecuteCommand extends ContainerAwareCommand
                             return $migration;
                         } else {
                             throw new \InvalidArgumentException(
-                                sprintf($this->trans('commands.migrate.execute.questions.invalid-migration-id'), $migration_id)
+                                sprintf($this->trans('commands.migrate.execute.questions.invalid-migration-id'), $migration)
                             );
                         }
                     },
@@ -272,48 +255,6 @@ class MigrateExecuteCommand extends ContainerAwareCommand
         $input->setOption('exclude', $exclude_ids);
     }
 
-    protected function getConnection(OutputInterface $output)
-    {
-        try {
-            $this->connection = Database::getConnection('default', 'migrate');
-        } catch (\Exception $e) {
-            $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.destination-error').': '.$e->getMessage().'</error>');
-
-            return;
-        }
-
-        return $this;
-    }
-
-    protected function registerSourceDB(InputInterface $input, OutputInterface $output)
-    {
-        $db_host = $input->getOption('db-host');
-        $db_name = $input->getOption('db-name');
-        $db_user = $input->getOption('db-user');
-        $db_pass = $input->getOption('db-pass');
-        $db_prefix = $input->getOption('db-prefix');
-        $db_port = $input->getOption('db-port');
-
-        $database = array(
-          'database' => $db_name,
-          'username' => $db_user,
-          'password' => $db_pass,
-          'prefix' => $db_prefix,
-          'port' => $db_port,
-          'host' => $db_host,
-          'namespace' => 'Drupal\Core\Database\Driver\mysql',
-          'driver' => 'mysql',
-        );
-
-        try {
-            Database::addConnectionInfo('migrate', 'default', $database);
-        } catch (\Exception $e) {
-            $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.source-error').': '.$e->getMessage().'</error>');
-
-            return;
-        }
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -331,15 +272,26 @@ class MigrateExecuteCommand extends ContainerAwareCommand
             return;
         }
 
-        if (!$this->connection) {
-            $this->registerSourceDB($input, $output);
-            $this->getConnection($output);
+        if (!$this->migrateConnection) {
+            $this->registerMigrateDB($input, $output);
+            $this->migrateConnection = $this->getDBConnection($output, 'default', 'migrate');
         }
+
+        if (!$drupal_version = $this->getLegacyDrupalVersion($this->migrateConnection)) {
+            $output->writeln(
+                '[-] <error>'.
+                $this->trans('commands.migrate.setup.migrations.questions.not-drupal')
+                .'</error>'
+            );
+            return;
+        }
+
+        $version_tag = 'Drupal ' . $drupal_version;
 
         if (!in_array('all', $migration_ids)) {
             $migrations = $migration_ids;
         } else {
-            $migrations = array_keys($this->getMigrations($this->migration_group));
+            $migrations = array_keys($this->getMigrations($version_tag));
         }
 
         $entity_manager = $this->getEntityManager();

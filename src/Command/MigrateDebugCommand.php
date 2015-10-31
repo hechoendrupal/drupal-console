@@ -19,9 +19,9 @@ class MigrateDebugCommand extends ContainerAwareCommand
             ->setName('migrate:debug')
             ->setDescription($this->trans('commands.migrate.debug.description'))
             ->addArgument(
-                'drupal-version',
+                'tag',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.migrate.debug.arguments.drupal-version')
+                $this->trans('commands.migrate.debug.arguments.tag')
             );
 
         $this->addDependency('migrate');
@@ -31,7 +31,7 @@ class MigrateDebugCommand extends ContainerAwareCommand
     {
         $moduleHandler = $this->getModuleHandler();
 
-        $drupal_version = $input->getArgument('drupal-version');
+        $drupal_version = $input->getArgument('tag');
 
         $table = $this->getTableHelper();
         $table->setlayout($table::LAYOUT_COMPACT);
@@ -46,7 +46,7 @@ class MigrateDebugCommand extends ContainerAwareCommand
             [
             $this->trans('commands.migrate.debug.messages.id'),
             $this->trans('commands.migrate.debug.messages.description'),
-            $this->trans('commands.migrate.debug.messages.version'),
+            $this->trans('commands.migrate.debug.messages.tags'),
             ]
         );
 
@@ -63,7 +63,7 @@ class MigrateDebugCommand extends ContainerAwareCommand
             );
         } else {
             foreach ($migrations as $migration_id => $migration) {
-                $table->addRow([$migration_id, $migration['description'], $migration['version']]);
+                $table->addRow([$migration_id, $migration['description'], $migration['tags']]);
             }
             $table->render($output);
         }
