@@ -12,7 +12,7 @@ options:
     exclude: 'Excluir los siguientes IDs de migración'
 questions:
     id: 'ID de migración'
-    exclude-id: 'ID de migración a excluir (pulse <return> para dejar de añadir migraciones)'
+    exclude-id: 'Migration Id to exclude (press <return> to stop adding migrations to exclude)'
     other-id: 'ID de otra migración (pulse <return> para dejar de añadir migraciones)'
     site-url: 'URL fuente del sitio'
     db-host: 'Host de la base de datos'
