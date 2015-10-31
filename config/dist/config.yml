@@ -23,3 +23,7 @@ application:
         controller:
           options:
 #            module: module_name
+      cache:
+        rebuild:
+          aliases:
+            - cr

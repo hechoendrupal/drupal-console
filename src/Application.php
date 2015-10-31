@@ -241,9 +241,29 @@ class Application extends BaseApplication
         if (!$commands) {
             return;
         }
+
         foreach ($commands as $command) {
+            $aliases = $this->getCommandAliases($command);
+            if ($aliases) {
+                $command->setAliases($aliases);
+            }
+
             $this->add($command);
         }
+    }
+
+    /**
+     * @param $command
+     * @return array
+     */
+    private function getCommandAliases($command)
+    {
+        $aliasKey = sprintf(
+            'application.default.commands.%s.aliases',
+            str_replace(':', '.', $command->getName())
+        );
+
+        return $this->config->get($aliasKey);
     }
 
     /**
