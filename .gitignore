@@ -1,0 +1,20 @@
+# Composer
+/vendor
+/bin/phpunit
+/bin/jsonlint
+/bin/phpcbf
+/bin/phpcs
+/bin/validate-json
+/bin/pdepend
+/bin/php-cs-fixer
+/bin/phpmd
+
+# Binaries
+/box.phar
+/console.phar
+
+# Test
+/phpunit.xml
+
+# Drupal
+/core
