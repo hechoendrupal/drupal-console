@@ -47,10 +47,19 @@ class ShowGenerateDocListener implements EventSubscriberInterface
               'options' => $options,
               'arguments' => $arguments,
               'command' => $command->getName(),
-              'description' => $command->getDescription(),
-              'aliases' => $command->getAliases()
+                'messages' => array(
+                    'command_description' => sprintf($application->trans('commands.generate.doc.output.command.command_description'), $command->getName(), $command->getDescription()),
+                    'usage' =>  $application->trans('commands.generate.doc.output.command.usage'),
+                    'options' => $application->trans('commands.generate.doc.output.command.options'),
+                    'option' => $application->trans('commands.generate.doc.output.command.options'),
+                    'details' => $application->trans('commands.generate.doc.output.command.details'),
+                    'arguments' => $application->trans('commands.generate.doc.output.command.arguments'),
+                    'argument' => $application->trans('commands.generate.doc.output.command.argument'),
+                )
             ];
 
+            print_r($parameters);
+            print_r(sprintf($application->trans('commands.generate.doc.output.command-description'), $command->getName(), $command->getDescription()));
             $renderedDoc = $application->getRenderHelper()->render(
                 'gitbook/generate-doc.md.twig',
                 $parameters
