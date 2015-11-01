@@ -16,5 +16,4 @@ output:
     option: Option
     details: Details
     arguments: 'Available arguments'
-    arguments: 'Available arguments'
     argument: 'Argument'
