@@ -1,0 +1,13 @@
+description: 'Display current modules available for application'
+options:
+    status: 'Module status [enabled|disabled]'
+    type: 'Module type [core|no-core]'
+messages:
+    id: ID
+    name: Name
+    status: Status
+    origin: Origin
+    package: Package
+    enabled: Enabled
+    disabled: Disabled
+    schema-version: 'Schema version'

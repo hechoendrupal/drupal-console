@@ -32,8 +32,7 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
         $services,
         $inputs
     ) {
-        $command = new GeneratorPluginBlockCommand($this->getTranslatorHelper());
-        $command->setContainer($this->getContainer());
+        $command = new GeneratorPluginBlockCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 

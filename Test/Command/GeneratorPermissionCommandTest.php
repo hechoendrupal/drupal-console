@@ -26,20 +26,18 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
         $module,
         $permissions
     ) {
-
-        $command = new GeneratorPermissionCommand($this->getTranslatorHelper());
-        $command->setContainer($this->getContainer());
+        $command = new GeneratorPermissionCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 
         $commandTester = new CommandTester($command);
 
         $code = $commandTester->execute(
-          [
+            [
             '--module'        => $module,
             '--permissions'   => $permissions,
-          ],
-          ['interactive' => false]
+            ],
+            ['interactive' => false]
         );
 
         $this->assertEquals(0, $code);

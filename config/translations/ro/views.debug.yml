@@ -1,0 +1,18 @@
+description: 'Afişează resursele curente ale view-ului pentru aplicatie.'
+arguments:
+    view-id: 'ID'
+    view-tag: 'etichetă'
+    view-status: 'status (Enabled|Disabled)'
+messages:
+    view-id: 'ID'
+    view-name: 'Nume'
+    description: Descriere
+    tag: Etichetă
+    status: Status
+    path: Calea
+    not-found: 'View-ul %s nu a fost găsit.'
+    display-list: 'Afişează lista'
+    display-id: ID
+    display-name: Nume
+    display-description: Descriere
+    display-paths: Calea

@@ -1,0 +1,5 @@
+description: 'Actualiza la consola a la última versión.'
+help: 'Actualiza la consola de comandos a la última versión.'
+messages:
+    success: 'La consola ha sido actualizada a la última versión.'
+    current-version: 'La última versión %s, ya ha sido instalada en tu sistema.'

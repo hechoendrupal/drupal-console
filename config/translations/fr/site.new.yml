@@ -1,0 +1,11 @@
+description: 'Créer un nouveau projet Drupal'
+arguments:
+    site-name: 'Nom du site'
+    version: 'Version de Drupal à télécharger'
+messages:
+    getting-releases: 'Récupération des versions de Drupal'
+    downloading: 'Télechargement de Drupal %s'
+    extracting: 'Extraction des fichiers de Drupal %s'
+    no-releases: 'Il n''y a pas de versions disponible pour Drupal'
+    downloaded: 'Drupal %s a été télechargé dans le dossier %s'
+    error-copying: 'Une erreur est survenue lors du renommage du dossier %s'

@@ -1,0 +1,13 @@
+description: 'Limpia intentos de inicio de sesion para una cuenta.'
+help: 'El commando <info>clean:login:failed</info> reinicia intentos fallidos de inicio de sesion para una cuenta.'
+options:
+    user-id: 'Identificador de usuario.'
+questions:
+    uid: 'Introduzca un ID de usuario.'
+    numeric-uid: 'El identificador de usuario debe ser valido.'
+    invalid-uid: 'El identificador de usuario no valido.'
+    user: 'Introduzca el identificador de usuario.'
+messages:
+    successful: 'Los intentos de inicio de sesion fueron limpiados satisfactoriamente para el ID del usuario %s.'
+errors:
+    invalid-user: 'No se puede cargar la entidad de usuario (Uid: %s).'

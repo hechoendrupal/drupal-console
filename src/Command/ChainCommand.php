@@ -35,7 +35,7 @@ class ChainCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $message = $this->getHelperSet()->get('message');
+        $message = $this->getMessageHelper();
 
         $interactive = false;
 
@@ -73,8 +73,10 @@ class ChainCommand extends ContainerAwareCommand
             return 1;
         }
 
-        $chainData = new Config($file);
-        $commands = $chainData->get('commands');
+        $configData = $this->getApplication()->getConfig()->getFileContents($file);
+        if (array_key_exists('commands', $configData)) {
+            $commands = $configData['commands'];
+        }
 
         foreach ($commands as $command) {
             $moduleInputs = [];
@@ -89,7 +91,7 @@ class ChainCommand extends ContainerAwareCommand
                 $moduleInputs['--'.$key] = is_null($value) ? '' : $value;
             }
 
-            $this->getHelper('chain')
+            $this->getChain()
                 ->addCommand($command['command'], $moduleInputs, $interactive, $learning);
         }
     }

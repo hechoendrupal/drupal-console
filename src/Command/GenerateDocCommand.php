@@ -45,8 +45,8 @@ class GenerateDocCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $message = $this->getHelperSet()->get('message');
-        $renderer = $this->getHelperSet()->get('renderer');
+        $message = $this->getMessageHelper();
+        $renderer = $this->getRenderHelper();
 
         $path = null;
         if ($input->hasOption('path')) {
@@ -109,6 +109,17 @@ class GenerateDocCommand extends ContainerAwareCommand
             'command_list' => $command_list,
             'options' => $options,
             'arguments' => $arguments,
+            'messages' => array(
+                'title' =>  $this->trans('commands.generate.doc.output.available-commands.title'),
+                'note' =>  $this->trans('commands.generate.doc.output.available-commands.note'),
+                'note_description' =>  $this->trans('commands.generate.doc.output.available-commands.note-description'),
+                'command' =>  $this->trans('commands.generate.doc.output.available-commands.command'),
+                'options' => $this->trans('commands.generate.doc.output.command.options'),
+                'option' => $this->trans('commands.generate.doc.output.command.options'),
+                'details' => $this->trans('commands.generate.doc.output.command.details'),
+                'arguments' => $this->trans('commands.generate.doc.output.command.arguments'),
+                'argument' => $this->trans('commands.generate.doc.output.command.argument'),
+            )
         ];
 
         $this->renderFile(
@@ -139,7 +150,17 @@ class GenerateDocCommand extends ContainerAwareCommand
             'arguments' => $arguments,
             'command' => $command->getName(),
             'description' => $command->getDescription(),
-            'aliases' => $command->getAliases()
+            'aliases' => $command->getAliases(),
+            'messages' => array(
+                'command_description' => sprintf($this->trans('commands.generate.doc.output.command.command_description'), $command->getName(), $command->getDescription()),
+                'usage' =>  $this->trans('commands.generate.doc.output.command.usage'),
+                'options' => $this->trans('commands.generate.doc.output.command.options'),
+                'option' => $this->trans('commands.generate.doc.output.command.options'),
+                'details' => $this->trans('commands.generate.doc.output.command.details'),
+                'arguments' => $this->trans('commands.generate.doc.output.command.arguments'),
+                'argument' => $this->trans('commands.generate.doc.output.command.argument'),
+            )
+
         ];
 
         $this->renderFile(

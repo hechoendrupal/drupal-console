@@ -1,0 +1,5 @@
+description: 'Események törlése a DBlog táblából, szűrök elérhetők'
+messages:
+    event-deleted: '%s esemény törölve'
+    clear-error: 'Törlési művelet hiba, kérem vizsgálja át a használt szűröket'
+    clear-sucess: 'Események törlése sikeres volt'

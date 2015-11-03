@@ -26,8 +26,7 @@ class GeneratorAuthenticationProviderCommandTest extends GenerateCommandTest
         $module,
         $class_name
     ) {
-        $command = new GeneratorAuthenticationProviderCommand($this->getTranslatorHelper());
-        $command->setContainer($this->getContainer());
+        $command = new GeneratorAuthenticationProviderCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 

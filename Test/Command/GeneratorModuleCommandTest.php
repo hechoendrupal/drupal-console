@@ -40,8 +40,7 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
         $composer,
         $dependencies
     ) {
-        $command = new GeneratorModuleCommand($this->getTranslatorHelper());
-        $command->setContainer($this->getContainer());
+        $command = new GeneratorModuleCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 

@@ -1,0 +1,3 @@
+description: 'Libera el bloqueo de sistema del cron para volver a posibilitar la ejecución del cron'
+messages:
+    released: 'El bloqueo del cron ha sido liberado con éxito'

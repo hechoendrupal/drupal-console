@@ -88,7 +88,7 @@ abstract class GeneratorFormCommand extends GeneratorCommand
             ->getGenerator()
             ->generate($module, $class_name, $form_id, $build_services, $inputs, $update_routing);
 
-        $this->getHelper('chain')->addCommand('router:rebuild');
+        $this->getChain()->addCommand('router:rebuild');
     }
 
     /**
@@ -120,7 +120,7 @@ abstract class GeneratorFormCommand extends GeneratorCommand
         // --form-id option
         $form_id = $input->getOption('form-id');
         if (!$form_id) {
-            $form_id = $this->getStringUtils()->camelCaseToMachineName($class_name);
+            $form_id = $this->getStringHelper()->camelCaseToMachineName($class_name);
             $form_id = $dialog->ask(
                 $output,
                 $dialog->getQuestion($this->trans('commands.generate.form.questions.form-id'), $form_id),

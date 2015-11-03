@@ -14,19 +14,11 @@ namespace Drupal\Console\Helper;
 trait HelperTrait
 {
     /**
-     * @return \Drupal\Console\Helper\DrupalHelper
+     * @return \Drupal\Console\Helper\TranslatorHelper
      */
-    public function getDrupalHelper()
+    public function getTranslator()
     {
-        return $this->getHelperSet()->get('drupal');
-    }
-
-    /**
-     * @return \Drupal\Console\Helper\KernelHelper
-     */
-    public function getkernelHelper()
-    {
-        return $this->getHelperSet()->get('kernel');
+        return $this->getHelperSet()->get('translator');
     }
 
     /**
@@ -46,6 +38,38 @@ trait HelperTrait
     }
 
     /**
+     * @return \Drupal\Console\Helper\StringHelper
+     */
+    public function getStringHelper()
+    {
+        return $this->getHelperSet()->get('string');
+    }
+
+    /**
+     * @return \Drupal\Console\Helper\ValidatorHelper
+     */
+    public function getValidator()
+    {
+        return $this->getHelperSet()->get('validator');
+    }
+
+    /**
+     * @return \Drupal\Console\Helper\DrupalHelper
+     */
+    public function getDrupalHelper()
+    {
+        return $this->getHelperSet()->get('drupal');
+    }
+
+    /**
+     * @return \Drupal\Console\Helper\KernelHelper
+     */
+    public function getKernelHelper()
+    {
+        return $this->getHelperSet()->get('kernel');
+    }
+
+    /**
      * @return \Drupal\Console\Helper\MessageHelper
      */
     public function getMessageHelper()
@@ -54,25 +78,9 @@ trait HelperTrait
     }
 
     /**
-     * @return \Drupal\Console\Utils\StringUtils
-     */
-    public function getStringUtils()
-    {
-        return $this->getHelperSet()->get('stringUtils');
-    }
-
-    /**
-     * @return \Drupal\Console\Utils\Validators
-     */
-    public function getValidator()
-    {
-        return $this->getHelperSet()->get('validators');
-    }
-
-    /**
      * @return \Drupal\Console\Helper\DialogHelper
      */
-    protected function getDialogHelper()
+    public function getDialogHelper()
     {
         return $this->getHelperSet()->get('dialog');
     }
@@ -80,15 +88,15 @@ trait HelperTrait
     /**
      * @return \Symfony\Component\Console\Helper\QuestionHelper
      */
-    protected function getQuestionHelper()
+    public function getQuestionHelper()
     {
         return $this->getHelperSet()->get('question');
     }
 
     /**
-     * @return \Drupal\Console\Helper\NestedArrayHelper
+     * @return \Drupal\Console\Helper\TwigRendererHelper
      */
-    protected function getRenderHelper()
+    public function getRenderHelper()
     {
         return $this->getHelperSet()->get('renderer');
     }
@@ -96,8 +104,56 @@ trait HelperTrait
     /**
      * @return \Drupal\Console\Helper\NestedArrayHelper
      */
-    protected function getNestedArrayHelper()
+    public function getNestedArrayHelper()
     {
         return $this->getHelperSet()->get('nested-array');
+    }
+
+    /**
+     * @return \Symfony\Component\Console\Helper\QuestionHelper
+     */
+    public function getTableHelper()
+    {
+        return $this->getHelperSet()->get('table');
+    }
+
+    /**
+     * @return \Drupal\Console\Helper\CommandDiscoveryHelper
+     */
+    public function getCommandDiscoveryHelper()
+    {
+        return $this->getHelperSet()->get('commandDiscovery');
+    }
+
+    /**
+     * @return \Drupal\Console\Helper\ShellHelper
+     */
+    public function getShellHelper()
+    {
+        return $this->getHelperSet()->get('shell');
+    }
+
+    /**
+     * @return \Symfony\Component\Console\Helper\FormatterHelper
+     */
+    public function getFormatterHelper()
+    {
+        return $this->getHelperSet()->get('formatter');
+    }
+
+    /**
+     * @return \Drupal\Console\Helper\RemoteHelper
+     */
+    public function getRemoteHelper()
+    {
+        return $this->getHelperSet()->get('remote');
+    }
+
+    /**
+     * @return \Drupal\Console\Helper\HttpClientHelper
+     */
+    public function getHttpClientHelper()
+    {
+        return $this->getHelperSet()->get('httpClient');
     }
 }

@@ -91,16 +91,20 @@ class SiteStatusCommand extends ContainerAwareCommand
         $systemData = [];
 
         foreach ($requirements as $key => $requirement) {
-            $title = $requirement['title']->render();
-            $value = $requirement['value'];
-            $systemData['system'][$title] = $value;
+            if ($requirement['title'] instanceof \Drupal\Core\StringTranslation\TranslatableMarkup) {
+                $title = $requirement['title']->render();
+            } else {
+                $title = $requirement['title'];
+            }
+
+            $systemData['system'][$title] = $requirement['value'];
         }
 
-        $kernelHelper = $this->getHelper('kernel');
-        $drupal = $this->getHelperSet()->get('drupal');
+        $kernelHelper = $this->getKernelHelper();
+        $drupal = $this->getDrupalHelper();
 
         Settings::initialize(
-            $drupal->getDrupalRoot(),
+            $drupal->getRoot(),
             'sites/default',
             $kernelHelper->getClassLoader()
         );
@@ -155,8 +159,8 @@ class SiteStatusCommand extends ContainerAwareCommand
 
     protected function getDirectoryData()
     {
-        $drupal = $this->getHelperSet()->get('drupal');
-        $drupal_root = $drupal->getDrupalRoot();
+        $drupal = $this->getDrupalHelper();
+        $drupal_root = $drupal->getRoot();
 
         $configFactory = $this->getConfigFactory();
         $systemTheme = $configFactory->get('system.theme');
@@ -201,7 +205,7 @@ class SiteStatusCommand extends ContainerAwareCommand
             return [];
         }
 
-        $table = $this->getHelperSet()->get('table');
+        $table = $this->getTableHelper();
         $table->setlayout($table::LAYOUT_COMPACT);
         foreach ($this->groups as $group) {
             $groupData = $siteData[$group];

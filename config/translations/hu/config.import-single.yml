@@ -1,0 +1,6 @@
+description: 'Importálja a kijelölt konfigurációt.'
+arguments:
+    config-name: 'Konfiguráció neve.'
+    input-file: 'Import fájlok felé vezető útvonal.'
+messages:
+    empty-value: 'Az érték nem lehet üres'

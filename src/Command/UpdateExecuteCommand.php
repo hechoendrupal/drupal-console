@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\RestDebugCommand.
+ * Contains \Drupal\Console\Command\UpdateExecuteCommand.
  */
 
 namespace Drupal\Console\Command;
@@ -20,18 +20,15 @@ class UpdateExecuteCommand extends ContainerAwareCommand
     {
         $this
             ->setName('update:execute')
-            ->setDescription($this->trans('commands.update.debug.description'))
+            ->setDescription($this->trans('commands.update.execute.description'))
             ->addArgument('module', InputArgument::REQUIRED, $this->trans('commands.common.options.module'))
-            ->addArgument('update-n', InputArgument::OPTIONAL, $this->trans('commands.update.debug.options.update-n'));
+            ->addArgument('update-n', InputArgument::OPTIONAL, $this->trans('commands.update.execute.options.update-n'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /*      drupal_set_installed_schema_version('sample', '8000');
-        exit();*/
-
-        include_once $this->getDrupalHelper()->getDrupalRoot() . '/core/includes/install.inc';
-        include_once $this->getDrupalHelper()->getDrupalRoot() . '/core/includes/update.inc';
+        $this->getDrupalHelper()->loadLegacyFile('/core/includes/install.inc');
+        $this->getDrupalHelper()->loadLegacyFile('/core/includes/update.inc');
 
         $module = $input->getArgument('module');
         $update_n = $input->getArgument('update-n');
@@ -128,6 +125,6 @@ class UpdateExecuteCommand extends ContainerAwareCommand
             . '</info>'
         );
 
-        $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 }

@@ -31,8 +31,7 @@ class GeneratorPluginImageFormatterCommandTest extends GenerateCommandTest
         $plugin_label,
         $plugin_id
     ) {
-        $command = new GeneratorPluginImageFormatterCommand($this->getTranslatorHelper());
-        $command->setContainer($this->getContainer());
+        $command = new GeneratorPluginImageFormatterCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 

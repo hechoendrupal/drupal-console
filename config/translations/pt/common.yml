@@ -1,0 +1,34 @@
+options:
+    events: 'Load events from the container'
+    module: 'O nome do módulo.'
+    services: 'Carrega serviços do container.'
+    tags: 'Set service tags from the container.'
+    inputs: 'Cria entradas de formulário.'
+    permissions: 'Create permissions.'
+questions:
+    module: 'Digite o nome do módulo'
+    confirm: 'Você confirma a criação'
+    canceled: 'Criação de comando cancelada.'
+    events:
+        message: "\nType the event name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
+        name: 'Enter event name'
+    services:
+        confirm: 'Você deseja carregar serviços do container'
+        message: "\nDigite o nome do serviçõ ou use as setas para cima e para baixo\nIsto é opcional, precione <info>enter</info> para <info>continuar</info>\n"
+        name: 'Digite seu serviço'
+    inputs:
+        confirm: 'Você deseja de gerar uma estrutura de formulário'
+        label: 'Label do input'
+        machine_name: 'Nome de máquina do input'
+        permission: 'Do you want to generate permissions'
+        type: Tipo
+        invalid: 'Tipo de field "%s" inválido.'
+        description: Description
+        default-value: 'Default value'
+        weight: 'Weight for input item'
+errors:
+    module-dependency: 'Missing module dependency "%s"'
+    class-name-empty: 'The Class name can not be empty'
+status:
+    enabled: Enabled
+    disabled: Disabled

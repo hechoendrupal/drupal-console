@@ -1,0 +1,3 @@
+description: 'Jelenlegi beállítások megjelenítése.'
+arguments:
+    config-name: 'Beállítás neve.'

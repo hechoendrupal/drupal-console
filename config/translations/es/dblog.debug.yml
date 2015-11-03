@@ -1,0 +1,18 @@
+description: 'Muestra los eventos de log actuales de la aplicación'
+arguments:
+    event-id: 'ID de evento de DBLog'
+options:
+    type: 'Filtrar eventos por un tipo determinado'
+    severity: 'Filtrar eventos por un nivel concreto de severidad'
+    user-id: 'Filtrar eventos por un ID de usuario dado'
+    limit: 'Limitar resultados a un número específico'
+    offset: 'Punto de empiece del límite'
+messages:
+    event-id: 'ID de Event'
+    type: Type
+    date: Date
+    message: Message
+    user: User
+    severity: Severity
+    invalid-severity: 'El tipo de severidad no es válido, el filtro ha sido ignorado'
+    not-found: 'El evento de DBLog %s no ha sido encontrado'

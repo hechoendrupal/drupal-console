@@ -1,0 +1,11 @@
+description: 'Descarga un módulo o varios en la aplicación'
+options:
+    version: 'Versión del módulo. Por ejemplo: 1.x-dev'
+messages:
+    no-releases: 'No hay ninguna descarga disponible del módulo %s'
+    getting-releases: 'Obteniendo releases del módulo %s'
+    downloading: 'Descargando la release %s del módulo %s'
+    downloaded: 'La versión %s del módulo %s ha sido descargada con éxito en el directorio %s'
+    select-release: 'Por favor, selecciona tu release favorita'
+    outside-drupal: "Drupal root can't be determined. Use --root to set the destination, current folder will be used instead of."
+    error-creating-folder: 'Error crearing folder %s, please check your permssions'

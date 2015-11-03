@@ -25,13 +25,11 @@ class UpdateDebugCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $table = $this->getHelperSet()->get('table');
+        $table = $this->getTableHelper();
         $table->setlayout($table::LAYOUT_COMPACT);
 
-        include_once $this->getDrupalHelper()->getDrupalRoot() . '/core/includes/update.inc';
-        include_once $this->getDrupalHelper()->getDrupalRoot() . '/core/includes/install.inc';
-
-        $module_handler = $this->getModuleHandler();
+        $this->getDrupalHelper()->loadLegacyFile('/core/includes/update.inc');
+        $this->getDrupalHelper()->loadLegacyFile('/core/includes/install.inc');
 
         drupal_load_updates();
         update_fix_compatibility();

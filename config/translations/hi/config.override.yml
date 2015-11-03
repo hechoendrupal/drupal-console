@@ -1,0 +1,10 @@
+description: 'व्यवस्था निधि को सक्रिय डायरेक्टरी में चढ़ा दें।'
+arguments:
+    config-name: 'व्यवस्था का नाम।'
+    key: कुंजी
+    value: निधि
+messages:
+    configuration: 'व्यवस्था का नाम'
+    configuration-key: 'व्यवस्था की कुंजी'
+    original: 'मूल निधि'
+    updated: 'चढ़ाई निधि'

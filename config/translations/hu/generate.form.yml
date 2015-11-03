@@ -1,0 +1,17 @@
+description: 'Új "%s" létrehozása'
+help: 'A <info>"%s"</info> parancs új "%s" létrehozásában segít'
+welcome: 'Üdvözlet a Drupal Form létrehozásában'
+options:
+    module: common.options.module
+    class-name: 'A Form Class neve'
+    form-id: 'A Form ID'
+    services: common.options.services
+    inputs: common.options.inputs
+    routing: 'Routing frissítése'
+questions:
+    module: common.questions.module
+    class-name: 'Form Class nevének megadása'
+    form-id: 'Form ID megadása'
+    services: common.questions.services
+    inputs: common.questions.inputs
+    routing: 'Routing fájl frissítése'

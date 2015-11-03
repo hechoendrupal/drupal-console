@@ -1,0 +1,26 @@
+description: 'Cria e Registra um controller'
+help: 'O comando <info>generate:controller</info> ajuda você a criar um novo controller.'
+welcome: 'Bem-vindo ao Criador de controller do Drupal.'
+options:
+    module: common.options.module
+    class-name: 'Nome da classe do Controller'
+    method-name: 'O nome do método'
+    route: 'O caminho da rota'
+    services: common.options.services
+    test: 'Criar uma classe de teste'
+questions:
+    module: common.questions.module
+    class-name: 'Digite o nome da classe do Controller'
+    method-name: 'Digite o nome do método'
+    route: 'Digite o caminho da rota'
+    services: common.questions.services
+    test: 'Você deseja criar uma classe de teste unitário?'
+    other-controller-title: 'Controller title (empty to start with code generation)'
+    controller-title: 'Controller title'
+messages:
+    invalid-controller-title: 'Title cannot be empty'
+    title-already-added: 'Title was already added'
+    invalid-method-name: 'Method name cannot be empty'
+    method-name-already-added: 'Method name was already added'
+    invalid-route: 'Route cannot be empty'
+    route-already-added: 'Route was already added'

@@ -28,11 +28,9 @@ class CacheRebuildCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $drupal = $this->getHelperSet()->get('drupal');
-        $drupalRoot = $drupal->getDrupalRoot();
+        $this->getDrupalHelper()->loadLegacyFile('/core/includes/utility.inc');
 
-        include_once $drupalRoot.'/core/includes/utility.inc';
-        $validators = $this->getHelperSet()->get('validators');
+        $validators = $this->getValidator();
 
         // Get the --cache option and make validation
         $cache = $input->getArgument('cache');
@@ -51,21 +49,21 @@ class CacheRebuildCommand extends ContainerAwareCommand
         $output->writeln('[+] <comment>'.$this->trans('commands.cache.rebuild.messages.rebuild').'</comment>');
 
         // Get data needed to rebuild cache
-        $kernelHelper = $this->getHelper('kernel');
+        $kernelHelper = $this->getKernelHelper();
         $classLoader = $kernelHelper->getClassLoader();
         $request = $kernelHelper->getRequest();
 
         // Check cache to rebuild
         if ($cache === 'all') {
             // If cache is all, then clear all caches
-            \drupal_rebuild($classLoader, $request);
+            drupal_rebuild($classLoader, $request);
         } else {
             // Else, clear the selected cache
             $caches = $validators->getCaches();
             $caches[$cache]->deleteAll();
         }
 
-        // Finish rebuiilding cache
+        // Finish rebuilding cache
         $output->writeln('[+] <info>'.$this->trans('commands.cache.rebuild.messages.completed').'</info>');
     }
 
@@ -80,7 +78,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
 
     private function getCacheOption($input, $output, $dialog)
     {
-        $validators = $this->getHelperSet()->get('validators');
+        $validators = $this->getValidator();
 
         // Get the --cache option and make user interaction with validation
         $cache = $input->getArgument('cache');

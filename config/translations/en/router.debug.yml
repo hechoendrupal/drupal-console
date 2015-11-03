@@ -1,0 +1,9 @@
+description: 'Displays current routes for the application'
+arguments:
+    route-name: 'Route names'
+messages:
+    name: 'Route name'
+    path: 'Class path'
+    pattern: Pattern
+    defaults: Defaults
+    options: Options

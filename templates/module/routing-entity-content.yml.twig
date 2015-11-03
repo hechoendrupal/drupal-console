@@ -7,6 +7,8 @@ entity.{{ entity_name }}.canonical:
     _title: '{{ label }}'
   requirements:
     _entity_access: '{{ entity_name }}.view'
+  options:
+    _admin_route: TRUE
 
 entity.{{ entity_name }}.collection:
   path: '/admin/{{ entity_name }}'
@@ -15,6 +17,8 @@ entity.{{ entity_name }}.collection:
     _title: '{{ label }} list'
   requirements:
     _permission: 'view {{ label|lower }} entities'
+  options:
+    _admin_route: TRUE
 
 entity.{{ entity_name }}.add_form:
   path: '/admin/{{ entity_name }}/add'
@@ -23,6 +27,8 @@ entity.{{ entity_name }}.add_form:
     _title: 'Add {{ label }}'
   requirements:
     _permission: 'add {{ label|lower }} entities'
+  options:
+    _admin_route: TRUE
 
 entity.{{ entity_name }}.edit_form:
   path: '/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit'
@@ -31,6 +37,8 @@ entity.{{ entity_name }}.edit_form:
     _title: 'Edit {{ label }}'
   requirements:
     _permission: 'edit {{ label|lower }} entities'
+  options:
+    _admin_route: TRUE
 
 entity.{{ entity_name }}.delete_form:
   path: '/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete'
@@ -39,6 +47,8 @@ entity.{{ entity_name }}.delete_form:
     _title: 'Delete {{ label }}'
   requirements:
     _permission: 'delete {{ label|lower }} entities'
+  options:
+    _admin_route: TRUE
 
 {{ entity_name }}.settings:
   path: 'admin/structure/{{ entity_name }}'
@@ -47,4 +57,6 @@ entity.{{ entity_name }}.delete_form:
    _title: '{{ label }} settings'
   requirements:
     _permission: 'administer {{ label|lower }} entities'
+  options:
+    _admin_route: TRUE
 

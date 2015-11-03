@@ -1,0 +1,17 @@
+description: 'List Test Units available for the application.'
+help: 'Update the console command to the latest version.'
+arguments:
+    test-class: 'Test Class'
+    test-id: 'Test Unit ID'
+options:
+    group: Group
+messages:
+    class: 'Test Class'
+    description: Description
+    group: Group
+    type: 'Test Type'
+    success: 'The console has been updated to the latest version.'
+    missing-dependency: 'Missing dependency'
+    methods: 'Test methods'
+    not-found: 'Debug wans''t found, try enclosure test id between double quotes.'
+    id: 'Test Unit ID'

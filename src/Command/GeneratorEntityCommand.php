@@ -79,7 +79,7 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $entityType = $this->getStringUtils()->camelCaseToUnderscore($this->entityType);
+        $entityType = $this->getStringHelper()->camelCaseToUnderscore($this->entityType);
 
         $module = $input->getOption('module');
         $entity_class = $input->getOption('entity-class');
@@ -97,7 +97,7 @@ abstract class GeneratorEntityCommand extends GeneratorCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $dialog = $this->getDialogHelper();
-        $utils = $this->getStringUtils();
+        $utils = $this->getStringHelper();
 
         // --module option
         $module = $input->getOption('module');

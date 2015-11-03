@@ -1,0 +1,8 @@
+description: 'Importă configurarea pentru aplicația curentă.'
+arguments:
+    config-file: 'Calea către fișierul de configurare.'
+    copy-only: 'Copiază doar fișierele de configurare în directorul de așteptare.'
+messages:
+    config_files_imported: 'Lista tuturor fișierelor de configurare.'
+    copied: 'Toate fișierele de configurare au fost copiate în directorul de așteptare.'
+    imported: 'Toate fișierele de configurare au fost copiate în directorul de așteptare și apoi importate.'

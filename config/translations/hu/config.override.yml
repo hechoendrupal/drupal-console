@@ -1,0 +1,10 @@
+description: 'Beállítás felülírása.'
+arguments:
+    config-name: 'Beállítás neve.'
+    key: Kulcs
+    value: Érték
+messages:
+    configuration: 'Beállítás neve'
+    configuration-key: 'Beállítás kulcs'
+    original: 'Beállítás érték'
+    updated: 'Érték felülírása'

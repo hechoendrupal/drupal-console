@@ -1,0 +1,3 @@
+description: 'Cron rendszer zárolás feloldása ahhoz hogy a cron újrafusson'
+messages:
+    released: 'Cron zárolás sikeresen feloldva'

@@ -49,7 +49,7 @@ class TestDebugCommand extends ContainerAwareCommand
         $test_class = $input->getArgument('test-class');
         $group = $input->getOption('group');
 
-        $table = $this->getHelperSet()->get('table');
+        $table = $this->getTableHelper();
         $table->setlayout($table::LAYOUT_COMPACT);
 
         if ($test_class) {
