@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Command\Database\DatabaseTrait;
 
-class MigrateDebugCommand extends ContainerAwareCommand
+class DebugCommand extends ContainerAwareCommand
 {
     protected function configure()
     {

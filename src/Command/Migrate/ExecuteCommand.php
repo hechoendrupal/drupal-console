@@ -19,7 +19,7 @@ use Drupal\Console\Utils\MigrateExecuteMessageCapture;
 use Drupal\Console\Command\Database\DatabaseTrait;
 
 
-class MigrateExecuteCommand extends ContainerAwareCommand
+class ExecuteCommand extends ContainerAwareCommand
 {
     use DatabaseTrait;
 
