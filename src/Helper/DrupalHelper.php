@@ -155,7 +155,7 @@ class DrupalHelper extends Helper
     /**
      * @return mixed array
      */
-    public function getStandardtLanguages()
+    public function getStandardLanguages()
     {
         $standard_languages = LanguageManager::getStandardLanguageList();
         $languages = [];
