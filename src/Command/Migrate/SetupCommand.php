@@ -20,7 +20,7 @@ use Drupal\migrate\Entity\Migration;
 use Drupal\migrate\Plugin\MigratePluginManager;
 
 
-class MigrateSetupCommand extends ContainerAwareCommand
+class SetupCommand extends ContainerAwareCommand
 {
     use DatabaseTrait;
 
