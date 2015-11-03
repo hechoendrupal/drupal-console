@@ -27,6 +27,10 @@ class InitCommand extends Command
         [
             'source' => 'config/dist/site.yml',
             'destination' => 'sites/sample.yml'
+        ],
+        [
+        'source' => 'config/dist/aliases.yml',
+        'destination' => 'aliases.yml'
         ]
     ];
 
