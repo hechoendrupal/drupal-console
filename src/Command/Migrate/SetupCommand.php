@@ -2,22 +2,25 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\MigrateDebugCommand.
+ * Contains \Drupal\Console\Command\Migrate\SetupCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Migrate;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
+use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Command\Database\DatabaseTrait;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Database\Connection;
 use Drupal\migrate\Entity\Migration;
 use Drupal\migrate\Plugin\MigratePluginManager;
 
-class MigrateSetupCommand extends ContainerAwareCommand
+
+class SetupCommand extends ContainerAwareCommand
 {
     use DatabaseTrait;
 
