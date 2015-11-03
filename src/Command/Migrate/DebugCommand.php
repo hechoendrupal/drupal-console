@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
-use Drupal\Console\Command\Database\DatabaseTrait;
 
 class DebugCommand extends ContainerAwareCommand
 {
