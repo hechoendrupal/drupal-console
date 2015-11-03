@@ -1,0 +1,10 @@
+description: 'Reconstruiește și curăță tot cache-ul.'
+options:
+    cache: 'Curăță doar cache-ul specificat.'
+messages:
+    welcome: 'Bine ai venit în cache:comanda de rebuild'
+    rebuild: 'Cache-ul se reconstruiește, vă rugăm să așteptați.'
+    completed: 'Cache-ul a fost curățat!'
+    invalid_cache: 'Cache-ul "%s" este invalid.'
+questions:
+    cache: 'Selectează cache-ul.'

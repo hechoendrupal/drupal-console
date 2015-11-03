@@ -1,0 +1,17 @@
+description: 'Uneşte doua sau mai multe fişiere de tip YAML într-un nou fişier de tip YAML. Ultimele valori sunt păstrate.'
+arguments:
+    yaml-files: 'Calea către fişierele YAML care vor fi modificate.'
+    yaml-destination: 'Calea către fişierul nou în care va fi salvat rezultatul.'
+questions:
+    yaml-destination: 'Calea către fişierul nou în care va fi salvat rezultatul.'
+    file: 'Calea către fişierul care va fi unit.'
+    other-file: 'Alt fişier ( lăsaţi gol pentru a incepe procesul).'
+    invalid-file: 'Calea către fişier nu poate fi goală.'
+    file-already-added: 'Calea către acest fişier a fost adăugată deja.'
+messages:
+    wrong-parse: 'Fişierul YAML %s este gol sau nu există.'
+    error-parsing: 'A apărut o eroare la parsarea fişierului YAML %s.'
+    two-files-required: 'Sunt necesare cel puţin două fişiere.'
+    error-generating: 'Eroare la generarea fişierului YAML combinat.'
+    error-writing: 'Eroare la scrierea fişierului YAML combinat.'
+    merged: 'Noul fişier %s a fost creat cu succes dupa unirea fişierelor YAML.'

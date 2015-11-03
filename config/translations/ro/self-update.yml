@@ -1,0 +1,5 @@
+description: 'Actualizează Consola la ultima versiune.'
+help: 'Actualizează Consola la ultima versiune.'
+messages:
+    success: 'Consola a fost actualizată la ultima versiune.'
+    current-version: 'Ultima versiune %s este deja instalată.'

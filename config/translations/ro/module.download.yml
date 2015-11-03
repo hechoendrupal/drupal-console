@@ -1,0 +1,12 @@
+description: 'Descarca module'
+options:
+    version: 'Versiunea modulului (ex.: 1.x-dev)'
+messages:
+    no-releases: 'Nu exista nici o versiune pentru Modulul %s'
+    getting-releases: 'Receptionarea versiunilor pentru Modulul %s'
+    downloading: 'Se descarca modulul %s cu versiunea %s'
+    downloaded: 'Modulul %s cu versiunea %s a fost descărcat cu succes la %s'
+    select-release: 'Selectează versiunea dorită.'
+    installed: 'Modulul %s a fost instalat cu succes'
+    outside-drupal: "Drupal root can't be determined. Use --root to set the destination, current folder will be used instead of."
+    error-creating-folder: 'Error crearing folder %s, please check your permssions'

@@ -88,8 +88,8 @@ class GeneratorModuleCommand extends GeneratorCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $dialog = $this->getDialogHelper();
-        $validators = $this->getHelperSet()->get('validators');
-        $messageHelper = $this->getHelperSet()->get('message');
+        $validators = $this->getValidator();
+        $messageHelper = $this->getMessageHelper();
 
         if ($this->confirmationQuestion($input, $output, $dialog)) {
             return;
@@ -97,8 +97,8 @@ class GeneratorModuleCommand extends GeneratorCommand
 
         $module = $validators->validateModuleName($input->getOption('module'));
 
-        $drupal = $this->getHelperSet()->get('drupal');
-        $drupal_root = $drupal->getDrupalRoot();
+        $drupal = $this->getDrupalHelper();
+        $drupal_root = $drupal->getRoot();
         $module_path = $drupal_root.$input->getOption('module-path');
         $module_path = $validators->validateModulePath($module_path, true);
 
@@ -183,14 +183,14 @@ class GeneratorModuleCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $stringUtils = $this->getHelperSet()->get('stringUtils');
-        $validators = $this->getHelperSet()->get('validators');
+        $stringUtils = $this->getStringHelper();
+        $validators = $this->getValidator();
         $dialog = $this->getDialogHelper();
 
         try {
             $module = $input->getOption('module') ? $this->validateModuleName($input->getOption('module')) : null;
         } catch (\Exception $error) {
-            $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
+            $output->writeln($dialog->getFormatterHelper()->formatBlock($error->getMessage(), 'error'));
         }
 
         $module = $input->getOption('module');
@@ -211,7 +211,7 @@ class GeneratorModuleCommand extends GeneratorCommand
         try {
             $machine_name = $input->getOption('machine-name') ? $this->validateModule($input->getOption('machine-name')) : null;
         } catch (\Exception $error) {
-            $output->writeln($dialog->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
+            $output->writeln($dialog->getFormatterHelper()->formatBlock($error->getMessage(), 'error'));
         }
 
         if (!$machine_name) {
@@ -230,8 +230,8 @@ class GeneratorModuleCommand extends GeneratorCommand
         }
 
         $module_path = $input->getOption('module-path');
-        $drupal = $this->getHelperSet()->get('drupal');
-        $drupal_root = $drupal->getDrupalRoot();
+        $drupal = $this->getDrupalHelper();
+        $drupal_root = $drupal->getRoot();
 
         if (!$module_path) {
             $module_path_default = '/modules/custom';

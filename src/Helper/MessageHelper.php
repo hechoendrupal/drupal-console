@@ -7,24 +7,10 @@
 
 namespace Drupal\Console\Helper;
 
-use Symfony\Component\Console\Helper\Helper;
-use Drupal\Console\Helper\TranslatorHelper;
+use Drupal\Console\Helper\Helper;
 
 class MessageHelper extends Helper
 {
-    /**
-     * @param TranslatorHelper $translator
-     */
-    public function __construct(TranslatorHelper $translator)
-    {
-        $this->translator = $translator;
-    }
-
-    /**
-     * @var TranslatorHelper
-     */
-    protected $translator;
-
     /**
      * @var string
      */
@@ -112,7 +98,7 @@ class MessageHelper extends Helper
         $output->writeln(
             [
             '',
-            $this->getHelperSet()->get('formatter')->formatBlock(
+            $this->getFormatterHelper()->formatBlock(
                 $message,
                 $style,
                 false
@@ -174,7 +160,7 @@ class MessageHelper extends Helper
             $files,
             'application.console.messages.files.generated',
             'application.site.messages.path',
-            DRUPAL_ROOT
+            $this->getDrupalHelper()->getRoot()
         );
     }
 
@@ -208,13 +194,13 @@ class MessageHelper extends Helper
 
         $this->showMessage(
             $output,
-            $this->translator->trans($headerKey)
+            $this->getTranslator()->trans($headerKey)
         );
 
         $output->writeln(
             sprintf(
                 '<info>%s:</info> <comment>%s</comment>',
-                $this->translator->trans($pathKey),
+                $this->getTranslator()->trans($pathKey),
                 $path
             )
         );

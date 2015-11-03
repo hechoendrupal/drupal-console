@@ -7,8 +7,7 @@
 
 namespace Drupal\Console\Helper;
 
-use Symfony\Component\Console\Helper\Helper;
-use Drupal\Console\Utils\StringUtils;
+use Drupal\Console\Helper\Helper;
 
 class TwigRendererHelper extends Helper
 {
@@ -226,11 +225,9 @@ class TwigRendererHelper extends Helper
      */
     public function createMachineName()
     {
-        $string = new StringUtils();
-
         return new \Twig_SimpleFilter(
-            'machine_name', function ($var) use ($string) {
-                return $string->createMachineName($var);
+            'machine_name', function ($var) {
+                return $this->getStringHelper()->createMachineName($var);
             }
         );
     }

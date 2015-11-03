@@ -1,0 +1,3 @@
+description: 'Relâche le verrou lié au cron afin de pouvoir le relancer'
+messages:
+    released: 'Le verrou du cron a été relâché'

@@ -1,0 +1,5 @@
+description: 'Supprime les évènements de la table DBLog, des filtres sont disponibles'
+messages:
+    event-deleted: 'L''évènement %s a été supprimé'
+    clear-error: 'Le processus de suppression des évènements a échoué, veuillez vérifier les filtres utilisés'
+    clear-sucess: 'Suppression des évènements réussie'

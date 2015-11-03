@@ -1,0 +1,4 @@
+description: 'Modulok listája amelyek implementálják a cront'
+messages:
+    module-list: 'Modulok amelyek implementálják a cron módot'
+    module: Module

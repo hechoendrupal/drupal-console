@@ -42,8 +42,7 @@ class GeneratorThemeCommandTest extends GenerateCommandTest
         $regions,
         $breakpoints
     ) {
-        $command = new GeneratorThemeCommand($this->getTranslatorHelper());
-        $command->setContainer($this->getContainer());
+        $command = new GeneratorThemeCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 

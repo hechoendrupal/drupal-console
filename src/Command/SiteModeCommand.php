@@ -28,7 +28,7 @@ class SiteModeCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $table = $this->getHelperSet()->get('table');
+        $table = $this->getTableHelper();
         $environment = $input->getArgument('environment');
 
         $configurationOverrideResult = [];
@@ -82,7 +82,7 @@ class SiteModeCommand extends ContainerAwareCommand
             $table->render($output);
         }
 
-        $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 
     protected function overrideConfigurations($env)
@@ -118,12 +118,12 @@ class SiteModeCommand extends ContainerAwareCommand
     {
         $services_settings = $this->getServicesSettings($env);
 
-        $directory = $this->getDrupalHelper()->getDrupalRoot() . '/' .  \Drupal::service('site.path');
+        $directory = $this->getDrupalHelper()->getRoot() . '/' .  \Drupal::service('site.path');
 
         $settings_services_file = $directory . '/services.yml';
         if (!file_exists($settings_services_file)) {
             // Copying default services
-            $default_services_file = $this->getDrupalHelper()->getDrupalRoot() . '/sites/default/default.services.yml';
+            $default_services_file = $this->getDrupalHelper()->getRoot() . '/sites/default/default.services.yml';
             if (!copy($default_services_file, $directory . '/services.yml')) {
                 $output->writeln(
                     ' <error>'. $this->trans('commands.site.mode.messages.error-copying-file') . ': ' . $directory . '/services.yml' .'</error>'
@@ -201,7 +201,7 @@ class SiteModeCommand extends ContainerAwareCommand
             'twig.config' => [
                 'debug' => ['dev' => true, 'prod' => false],
                 'auto_reload' =>['dev' => true, 'prod' => false],
-                'cache' => ['dev' => true, 'prod' => false]
+                'cache' => ['dev' => false, 'prod' => true]
             ]
         ];
 

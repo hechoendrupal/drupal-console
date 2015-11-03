@@ -70,6 +70,6 @@ class CronExecuteCommand extends ContainerAwareCommand
             }
         }
 
-        $this->getHelper('chain')->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 }

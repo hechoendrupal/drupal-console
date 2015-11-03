@@ -1,0 +1,13 @@
+description: 'एक नया कंटेंट प्रकार उत्पन्न करें (नोड/एंटिटी बंडल)'
+help: 'यांत्रिक नाम fancy और पठनीय मानव Fancy से एक नया कंटेंट प्रकार उत्पन्न करने के लिए generate:contenttype <fancy> <Fancy> कमाण्ड व्यवहार करें।'
+welcome: 'Drupal कंटेंट प्रकार उत्पादक में आपका स्वागत है'
+options:
+    module: common.options.module
+    bundle-name: 'कंटेंट प्रकार का यांत्रिक नाम'
+    bundle-title: 'कंटेंट प्रकार का मानव पठनीय नाम'
+questions:
+    module: common.questions.module
+    bundle-name: 'अपने नये कंटेंट प्रकार का यांत्रिक नाम दर्ज करें'
+    bundle-title: 'अपने नये कंटेंट प्रकार का मानव पठनीय नाम दर्ज करें'
+message:
+    error-state1: स्थानधारक

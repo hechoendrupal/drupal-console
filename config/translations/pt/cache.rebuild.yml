@@ -1,0 +1,10 @@
+description: 'Reconstruir e limpar todos os caches do site.'
+options:
+    cache: 'Apenas limpar um cache específico.'
+messages:
+    welcome: 'Bem-vindo ao comando cache:rebuild.'
+    rebuild: 'Recriando cache(s), favor aguarde um momento.'
+    completed: 'Limpesa de cache(s) finalizada.'
+    invalid_cache: 'Cache "%s" e invalido.'
+questions:
+    cache: 'Selecione o cache.'

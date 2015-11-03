@@ -6,8 +6,6 @@
 
 namespace Drupal\Console\Command;
 
-use Alchemy\Zippy\Zippy;
-use Buzz\Browser;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,6 +13,7 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Alchemy\Zippy\Zippy;
 
 class SiteNewCommand extends Command
 {
@@ -29,12 +28,13 @@ class SiteNewCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $client =  new Browser();
+        $httpClient = $this->getHttpClientHelper();
+
         $site_name = $input->getArgument('site-name');
         $version = $input->getArgument('version');
 
         if ($version) {
-            $release_selected = '8.x-' . $version;
+            $release_selected = $version;
         } else {
             // Getting Module page header and parse to get module Node
             $output->writeln('[+] <info>' . sprintf($this->trans('commands.site.new.messages.getting-releases')) . '</info>');
@@ -44,8 +44,7 @@ class SiteNewCommand extends Command
 
             // Parse release module page to get Drupal 8 releases
             try {
-                $response = $client->get($project_release_d8);
-                $html = $response->getContent();
+                $html = $httpClient->getHtml($project_release_d8);
             } catch (\Exception $e) {
                 $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
                 return;
@@ -97,8 +96,7 @@ class SiteNewCommand extends Command
                 '</info>'
             );
 
-            // Save release file
-            file_put_contents($destination, file_get_contents($release_file_path));
+            $httpClient->downloadFile($release_file_path, $destination);
 
             $output->writeln(
                 '[+] <info>' .

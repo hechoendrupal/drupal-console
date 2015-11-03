@@ -1,0 +1,13 @@
+description: 'Affiche les informations concernant le projet Drupal Console'
+messages:
+    welcome: 'Drupal Console est en semble d''outils à utiliser depuis le terminal permettant de :'
+    welcome-feature-generate: 'Générer une structure de code.'
+    welcome-feature-interact: 'Interagir avec votre installation de Drupal 8.'
+    welcome-feature-learn: 'Apprendre Drupal 8.'
+    list: 'Utiliser la commande <info>list</info> pour obtenir la liste de toutes les commandes disponibles.'
+    landing: 'Page du projet <comment>%s</comment>'
+    change-log: 'Liste des modifications du projet <comment>%s</comment>'
+    version-supported: 'La version supporté de Drupal 8 est <info>%s</info>'
+    documentation: 'La documentation de Drupal Console est disponible à l''adresse suivante : <comment>%s</comment>'
+    support: 'Du support est disponible via chat gitter à l''adresse suivante : <comment>%s</comment>'
+    supporting-organizations: 'Sponsors'

@@ -1,0 +1,7 @@
+description: 'Parancsláncsor végrehajtása'
+options:
+    file: 'Felhasználó által definiált futtatható parancsokat tartalmazo fájl.'
+messages:
+    missing_file: 'Érvényes fájl nevet és elérési útat adjon meg.'
+    invalid_file: 'A "%s" fájl nem létezik.'
+    module_install: 'module:install parancs nem futtatható egy láncsoron belül ezért önállóan kell futtani.'

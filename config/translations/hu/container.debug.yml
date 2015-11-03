@@ -1,0 +1,4 @@
+description: 'Alkalmazáshoz tartozó service megjelenítése.'
+messages:
+    service_id: 'Service ID'
+    class_name: 'Class név'

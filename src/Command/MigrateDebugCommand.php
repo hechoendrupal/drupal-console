@@ -19,9 +19,9 @@ class MigrateDebugCommand extends ContainerAwareCommand
             ->setName('migrate:debug')
             ->setDescription($this->trans('commands.migrate.debug.description'))
             ->addArgument(
-                'drupal-version',
+                'tag',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.migrate.debug.arguments.drupal-version')
+                $this->trans('commands.migrate.debug.arguments.tag')
             );
 
         $this->addDependency('migrate');
@@ -29,9 +29,11 @@ class MigrateDebugCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $drupal_version = $input->getArgument('drupal-version');
+        $moduleHandler = $this->getModuleHandler();
 
-        $table = $this->getHelperSet()->get('table');
+        $drupal_version = $input->getArgument('tag');
+
+        $table = $this->getTableHelper();
         $table->setlayout($table::LAYOUT_COMPACT);
         $this->getAllMigrations($drupal_version, $output, $table);
     }
@@ -44,15 +46,26 @@ class MigrateDebugCommand extends ContainerAwareCommand
             [
             $this->trans('commands.migrate.debug.messages.id'),
             $this->trans('commands.migrate.debug.messages.description'),
-            $this->trans('commands.migrate.debug.messages.version'),
+            $this->trans('commands.migrate.debug.messages.tags'),
             ]
         );
 
         $table->setlayout($table::LAYOUT_COMPACT);
 
-        foreach ($migrations as $migration_id => $migration) {
-            $table->addRow([$migration_id, $migration['description'], $migration['version']]);
+        if (empty($migrations)) {
+            $output->writeln(
+                '[-] <error>' .
+                sprintf(
+                    $this->trans('commands.migrate.debug.messages.no-migrations'),
+                    count($migrations)
+                )
+                . '</error>'
+            );
+        } else {
+            foreach ($migrations as $migration_id => $migration) {
+                $table->addRow([$migration_id, $migration['description'], $migration['tags']]);
+            }
+            $table->render($output);
         }
-        $table->render($output);
     }
 }

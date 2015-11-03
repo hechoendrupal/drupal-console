@@ -29,9 +29,9 @@ class ContentTypeGeneratorTest extends GeneratorTest
         $bundle_title
     ) {
         $generator = new EntityBundleGenerator();
-        $this->getHelperSet()->get('renderer')->setSkeletonDirs($this->getSkeletonDirs());
-        $this->getHelperSet()->get('renderer')->setTranslator($this->getTranslatorHelper());
-        $generator->setHelpers($this->getHelperSet());
+        $this->getRenderHelper()->setSkeletonDirs($this->getSkeletonDirs());
+        $this->getRenderHelper()->setTranslator($this->getTranslatorHelper());
+        $generator->setHelperSet($this->getHelperSet());
 
         $generator->generate(
             $module,
@@ -43,9 +43,8 @@ class ContentTypeGeneratorTest extends GeneratorTest
           $generator->getSite()->getModulePath($module) . '/config/install/core.entity_form_display.node.' . $bundle_name . '.default.yml',
           $generator->getSite()->getModulePath($module) . '/config/install/core.entity_view_display.node.' . $bundle_name . '.default.yml',
           $generator->getSite()->getModulePath($module) . '/config/install/core.entity_view_display.node.' . $bundle_name . '.teaser.yml',
-          $generator->getSite()->getModulePath($module) . '/config/install/core.entity_view_mode.node.teaser.yml',
           $generator->getSite()->getModulePath($module) . '/config/install/field.field.node.' . $bundle_name . '.body.yml',
-          $generator->getSite()->getModulePath($module) . '/config/install/field.storage.node.body.yml'
+          $generator->getSite()->getModulePath($module) . '/config/install/node.type.' . $bundle_name . '.yml',
         ];
 
         foreach ($files as $file) {

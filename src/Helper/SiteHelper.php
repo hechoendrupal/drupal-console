@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Helper;
 
-use Symfony\Component\Console\Helper\Helper;
+use Drupal\Console\Helper\Helper;
 use Drupal\Console\Utils\DrupalExtensionDiscovery;
 
 /**
@@ -56,6 +56,73 @@ class SiteHelper extends Helper
         $discovery->reset();
 
         return $discovery->scan('module');
+    }
+
+    /**
+     * @return array
+     */
+    private function getInstalledModules()
+    {
+        $kernel = $this->getKernelHelper()->getKernel();
+        if (!$kernel) {
+            return [];
+        }
+        $container = $kernel->getContainer();
+        if (!$container) {
+            return [];
+        }
+        $configFactory = $container->get('config.factory');
+        if (!$configFactory) {
+            return [];
+        }
+        $coreExtension = $configFactory->get('core.extension');
+        if (!$coreExtension) {
+            return [];
+        }
+        return $coreExtension->get('module') ?: [];
+    }
+
+    /**
+     * @param bool|false $reset
+     * @param bool|false $installedOnly
+     * @param bool|true  $showCore
+     * @param bool|true  $showNoCore
+     * @param bool|false $nameOnly
+     * @return array
+     */
+    public function getModules(
+        $reset = false,
+        $installedOnly = false,
+        $showCore = true,
+        $showNoCore = true,
+        $nameOnly = false
+    ) {
+        $installedModules = $this->getInstalledModules();
+        $modules = [];
+
+        if (!$this->modules || $reset) {
+            $this->modules = $this->discoverModules();
+        }
+
+        foreach ($this->modules as $module) {
+            $name = $module->getName();
+            if ($installedOnly && !array_key_exists($name, $installedModules)) {
+                continue;
+            }
+            if (!$showCore && $module->origin == 'core') {
+                continue;
+            }
+            if (!$showNoCore && $module->origin != 'core') {
+                continue;
+            }
+            if ($nameOnly) {
+                $modules[] = $name;
+            } else {
+                $modules[$name] = $module;
+            }
+        }
+
+        return $modules;
     }
 
     /**
@@ -126,6 +193,16 @@ class SiteHelper extends Helper
     public function getModuleConfigOptionalDirectory($moduleName, $fullPath=true)
     {
         return $this->getModulePath($moduleName, $fullPath).'/config/optional';
+    }
+
+    /**
+     * @param string $moduleName
+     * @param bool   $fullPath
+     * @return string
+     */
+    public function getModuleInfoFile($moduleName, $fullPath=true)
+    {
+        return $this->getModulePath($moduleName, $fullPath)."/$moduleName.info.yml";
     }
 
     /**

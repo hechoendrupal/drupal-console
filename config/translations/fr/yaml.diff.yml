@@ -1,0 +1,14 @@
+description: 'Compare deux fichiers YAML afin de trouver les différences'
+arguments:
+    yaml-left: 'Fichier YAML de base'
+    yaml-right: 'Fichier YAML à comparer avec le fichier de base'
+options:
+    negate: 'Défini le mode de comparaison inverse, met en valeur ce qui est identique, les valeurs possibles sont TRUE/FALSE ou 0/1'
+    limit: 'Limiter le nombre de résultats'
+    offset: 'Décalage de départ'
+questions:
+    yaml-left: 'Chemin du fichier YAML de base'
+    yaml-right: 'Chemin du fichier YAML à comparer avec le fichier de base'
+messages:
+    key: 'Clé YAML'
+    value: 'Valeur YAML'

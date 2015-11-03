@@ -1,0 +1,45 @@
+console:
+    arguments:
+        drupal: 'Drupal根目录路径。'
+        shell: '启动命令行。'
+        env: '环境名称。'
+        no-debug: '关闭调试模式。'
+        learning: '生成冗长的代码输出。'
+        generate-chain: '把执行选项和参数以yaml格式打印出来，作为连串命令'
+        generate-inline: '把执行选项和参数以直接调用的形式打印出来，为未来使用'
+        root: 'Define the Drupal root to be use in command execution'
+    messages:
+        completed: '此命令执行成功！'
+        chain:
+            generated: '以下你可以找到以yaml呈现的你的最后一条执行命令。例如，被执行的一系列命令里有 ~/.console/chain/sample.yml'
+        inline:
+            generated: '以下你可以找到直接调用的你的最后一条执行命令，可再次执行'
+        generated: '你可以现在开始使用生成的代码！'
+        files:
+            generated: '被生成的或者被更新的文件'
+            copied: '被复制的文件'
+        learning:
+            route: "为了创建页面，必须先定义这些页面的路线。\n路线是把一个URL定义到一个控制器上。当这个URL被访问，它定义了功能或方法。\n 如果用户访问http://drupal8.dev/{{ route }}, 这个路线系统将查找相关路线，因此它会执行_controller callback。 这里的callback被定义为一个类名(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\n和一个方法 (\"{{ route.method }}\")."
+    errors:
+        invalid-command: '命令 "%s" 没有被定义过。'
+    input:
+        definition:
+            command: '要执行的命令'
+            help: '显示此帮助消息'
+            quiet: '不要输出任何消息'
+            verbose: '增大信息的描述性：选项1） 正常输出，选项2）更多描述性输出，选项3）调试输出'
+            version: '显示此应用版本'
+            ansi: '强制ANSI输出'
+            no-ansi: '关闭ANSI输出'
+            no-interaction: '不要询问任何交互式问题'
+    options:
+        version: '<info>%s</info> 版本 <comment>%s</comment>'
+site:
+    messages:
+        path: '站点路径'
+    errors:
+        directory: '为显示所有可用命令，你应该在Drupal根目录下执行此命令。'
+        settings: '为显示所有可用命令，你应该先安装Drupal。'
+user:
+    messages:
+        path: '用户home路径'

@@ -1,0 +1,16 @@
+value:
+    description: 'Actualizează valoarea unei chei specifice într-un fişier YAML.'
+    arguments:
+        yaml-file: 'Calea către fişierul de tip YAML care va fi actualizat'
+        yaml-key: 'Cheia de tip YAML care va fi actualizat'
+        yaml-value: 'Valoarea care va fi atribuită'
+    messages:
+        updated: 'Fişierul YAML %s a fost actualizat cu succes'
+key:
+    description: 'Înlocuieşte o cheie de tip YAML într-un fişier te tip YAML.'
+    arguments:
+        yaml-file: 'Calea către fişierul de tip YAML care va fi actualizat'
+        yaml-key: 'Cheia de tip YAML care va fi înlocuită'
+        yaml-new-key: 'Noua cheie'
+    messages:
+        updated: 'Fişierul YAML %s a fost actualizat cu succes'

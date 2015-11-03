@@ -1,0 +1,46 @@
+console:
+    arguments:
+        drupal: 'Drupal gyökérkönyvtára felé vezető útvonal.'
+        shell: 'Shell indítása.'
+        env: 'A Környezet neve.'
+        no-debug: 'Hibakeresés mód leállítása.'
+        learning: 'Részletes kimeneti kód generálása.'
+        generate-chain: 'Végrehajtási lehetőségek és argumentumok nyomtatása mint yaml kimenet amit késöbb egy parancsláncba használhat fel'
+        generate-inline: 'Végrehajtási lehetőségek és argumentumok nyomtatása beágyazott hívásként amit késöbb felhasználhat'
+        root: 'Define the Drupal root to be use in command execution'
+    messages:
+        completed: 'A parancs futása sikeres volt!'
+        chain:
+            generated: 'A következőkben megtalálható az utolsó parancs yaml reprezentációja, amit bemásolhat egy ~/.console/chain/sample.yml fájlba ahhoz hogy egy parancssoron belül lehessen futtatni'
+        inline:
+            generated: 'A következőkben megtalálhatja ennek a kódnak a beágyazott ábrázolását ha később ezt a parancsot futtani szeretné'
+        generated: 'Most kezdheti használni a generált kódot!'
+        files:
+            generated: 'Generált vagy frissített fájlok'
+            copied: 'Másolt fájlok'
+        learning:
+            route: "Oldalak létrehozásához szükséges útvonal (route) meghatározása.\nA route határozza meg, hogy egy adott URL-t mely Controllernek adjuk át.\nMely metődust hív meg az adtt URL.\nHa a felhasználó betölti a http://drupal8.dev/{{ route }}, a route\nrendszer ellenőtzi, hogy mely route tartozik az URL-hez. Találat esetén\nvégrehajtja a _controller hívást. A hívás osztálynévként van definiálva\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nmetódus neve: (\"{{ method_name }}\")."
+    errors:
+        invalid-command: 'A "%s" parancs nincs definiálva.'
+    input:
+        definition:
+            command: 'A parancs amit végrehajt'
+            help: 'Kimeneti űzenet megjelentése'
+            quiet: 'Kimeneti űzenet tíltása'
+            verbose: 'Üzenetek gyakoriságának növelése: 1 normál kimenet, 2 részletes kimenet és 3 hibakeresésre'
+            version: 'Alkalmazás verzió megjelenítése'
+            ansi: 'ANSI kimenet kényszerítése'
+            no-ansi: 'ANSI kimenet letiltása'
+            no-interaction: 'Ne kérdezzen interaktiv kérdést'
+    options:
+        version: '<info>%s</info> version <comment>%s</comment>'
+site:
+    messages:
+        path: 'Elérési útvonal'
+    errors:
+        directory: 'Ahhoz hogy az egész elérhető parancsot megjelenítsük, ezt a parancsot egy drupal gyökérkönyvtárból kell futtani.'
+        settings: 'Az összes elérhető parancs megjelenítéséhez először a drupalt telepíteni kell.'
+        directorz: 'Az összes elérhető parancs megjelenítéséhez a console-nak a drupal könyvtárból kell futnia.'
+user:
+    messages:
+        path: 'Felhasználói kezdő útvonal'

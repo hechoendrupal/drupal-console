@@ -1,0 +1,34 @@
+options:
+    events: 'Load events from the container'
+    module: 'Le Nom du Module.'
+    services: 'Services de charge forment le container.'
+    tags: 'Les étiquettes de service prévues du conteneur.'
+    inputs: 'Créer des entrées dans un formulaire.'
+    permissions: 'Créer des autorisations.'
+questions:
+    module: 'Entrez le nom du module.'
+    confirm: 'Confirmez-vous la génération'
+    canceled: 'Génération de commande annulée.'
+    events:
+        message: "\nType the event name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
+        name: 'Enter event name'
+    services:
+        confirm: 'Voulez-vous charger les services forment le container'
+        message: "\nTapez le nom du service ou utiliser keyup et keydown.\nCette option est facultative, appuyez <info>enter</info> to <info>continue</info>\n"
+        name: 'Entrez votre service'
+    inputs:
+        confirm: 'Voulez-vous générer une structure de formulaire'
+        label: 'Entrez le label'
+        machine_name: 'Entrez le nom machine.'
+        permission: 'Voulez-vous générer des permissions'
+        type: Type
+        invalid: 'Le champ de type "%s" est invalide.'
+        description: Description
+        default-value: 'Default value'
+        weight: 'Weight for input item'
+errors:
+    module-dependency: 'Le module dépendant "%s" est manquant'
+    class-name-empty: 'Le nom de la classe ne peut pas être vide'
+status:
+    enabled: Enabled
+    disabled: Disabled

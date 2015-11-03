@@ -1,0 +1,46 @@
+description: 'Exporter la configuration actuelle de l''application.'
+arguments:
+    directory: 'Définit le répertoire de sauvegarde de la configuration.'
+messages:
+    directory: 'Votre exportation de configuration a été sauvegardée dans %s'
+content:
+    type:
+        description: 'Exporte un type de contenu ainsi que ses champs.'
+        arguments:
+            content_type: 'Type de contenu à exporter'
+        questions:
+            content_type: 'Type de contenu à exporter'
+            optional-config: 'Exporter le type de contenu dans un module comme une configuration optionnelle'
+        messages:
+            content_type_exported: 'Export du type de contenu'
+            configuration_exported: 'Les fichiers de configuration suivants ont été générés'
+        options:
+            optional-config: 'Exporte le type de contenu dans un module comme une configuration optionnelle au sein du module'
+single:
+    description: 'Exporte une seule configuration dans un fichier yml.'
+    arguments:
+        config-name: 'Nom de la configuration.'
+    options:
+        simple-configuration: 'Configuration simple'
+    questions:
+        config-type: 'Type de configuration'
+        config-name: 'Nom de la configuration'
+    messages:
+        config-not-found: 'La configuration n''a pas été trouvée.'
+        export: 'La configuration a été exporté dans le fichier %s.'
+        invalid-config-type: 'Type de configuration non valide, merci de sélectionner un élément de la liste'
+        invalid-config-name: 'Nom de configuration non valide, merci de sélectionner un élément de la liste'
+view:
+    description: 'Exporte une vue vue dans le format YAML au sein d''un module pour la réutiliser sur un autre site.'
+    messages:
+        view_exported: 'Export de la vue'
+        depencies-included: 'Les dépendances de modules suivantes ont été ajoutées dans %s'
+    questions:
+        view: 'Vue à exporter'
+        optional-config: 'Exporter la vue dans un module comme une configuration optionnelle'
+        include-module-dependencies: 'Ajouter le module views comme dépendance dans le fichier info YAML du module'
+    arguments:
+        view-id: 'Identifiant de la vue'
+    options:
+        optional-config: 'Export la vue dans un module comme une configuration optionnelle dans votre module'
+        include-module-dependencies: 'Include les dépendances de module dans le fichier info YAML du module'

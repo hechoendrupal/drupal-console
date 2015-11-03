@@ -163,7 +163,7 @@ class TestRunCommand extends ContainerAwareCommand
                     }
                 }
 
-                $output->writeln('[-] <info>' . $this->trans('commands.test.run.messages.file') . ': ' . str_replace($this->getDrupalHelper()->getDrupalRoot(), '', $message->file) . '</info>');
+                $output->writeln('[-] <info>' . $this->trans('commands.test.run.messages.file') . ': ' . str_replace($this->getDrupalHelper()->getRoot(), '', $message->file) . '</info>');
                 $output->writeln('[-] <info>' . $this->trans('commands.test.run.messages.method') . ': ' . $message->function . '</info>');
                 $output->writeln('[-] <info>' . $this->trans('commands.test.run.messages.line') . ': ' . $message->line . '</info>');
                 $output->writeln('[-] <info>' . $this->trans('commands.test.run.messages.message') . ': ' . $message->message . '</info>');

@@ -1,0 +1,18 @@
+description: 'Muestra los recursos actuales de vistas para la aplicación'
+arguments:
+    view-id: 'ID de la vista'
+    view-tag: 'Etiqueta de la vista'
+    view-status: 'Estado de la vista (Habilitado|Deshabilitado)'
+messages:
+    view-id: 'ID de la vista'
+    view-name: 'Nombre de la vista'
+    description: Description
+    tag: Tag
+    status: Status
+    path: Path
+    not-found: 'No se encontró la vista'
+    display-list: 'Lista de displays'
+    display-id: ID
+    display-name: Name
+    display-description: Description
+    display-paths: Paths
