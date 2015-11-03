@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\MigrateDebugCommand.
+ * Contains \Drupal\Console\Command\Migrate\DebugCommand.
  */
 
 namespace Drupal\Console\Command\Migrate;
