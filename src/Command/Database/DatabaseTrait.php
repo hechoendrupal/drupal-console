@@ -5,7 +5,7 @@
  * Contains Drupal\Console\Command\ModuleTrait.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Database;
 
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Database;

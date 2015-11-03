@@ -5,16 +5,18 @@
  * Contains \Drupal\Console\Command\MigrateExecuteCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Migrate;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Core\Database\Database;
 use Drupal\migrate\Entity\MigrationInterface;
 use Drupal\migrate\MigrateExecutable;
 use Drupal\Console\Utils\MigrateExecuteMessageCapture;
+use Drupal\Console\Command\Database\DatabaseTrait;
 
 
 class MigrateExecuteCommand extends ContainerAwareCommand
