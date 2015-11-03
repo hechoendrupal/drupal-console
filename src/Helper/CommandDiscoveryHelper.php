@@ -69,11 +69,13 @@ class CommandDiscoveryHelper extends Helper
      */
     public function getCustomCommands()
     {
-        $modules = $this->getSite()->getModules();
+        $modules = $this->getSite()->getModules(true, false, false, true, false);
 
-        foreach ($this->disabledModules as $disabledModule) {
-            if (array_key_exists($disabledModule, $modules)) {
-                unset($modules[$disabledModule]);
+        if ($this->disabledModules) {
+            foreach ($this->disabledModules as $disabledModule) {
+                if (array_key_exists($disabledModule, $modules)) {
+                    unset($modules[$disabledModule]);
+                }
             }
         }
 
@@ -87,22 +89,22 @@ class CommandDiscoveryHelper extends Helper
     private function discoverCommands($modules)
     {
         $commands = [];
-        foreach ($modules as $module => $extension) {
-            if ($module === 'Console') {
+        foreach ($modules as $moduleName => $module) {
+            if ($moduleName === 'Console') {
                 $directory = sprintf(
                     '%s/src/Command',
-                    $extension['path']
+                    $module['path']
                 );
             } else {
                 $directory = sprintf(
                     '%s/%s/src/Command',
-                    $modules = $this->getDrupalHelper()->getRoot(),
-                    $extension->getPath()
+                    $this->getDrupalHelper()->getRoot(),
+                    $module->getPath()
                 );
             }
 
             if (is_dir($directory)) {
-                $commands = array_merge($commands, $this->extractCommands($directory, $module));
+                $commands = array_merge($commands, $this->extractCommands($directory, $moduleName));
             }
         }
 

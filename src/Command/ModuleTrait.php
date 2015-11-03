@@ -20,7 +20,7 @@ trait ModuleTrait
      */
     public function moduleQuestion(OutputInterface $output, HelperInterface $dialog)
     {
-        $modules = $this->getSite()->getNoCoreModules();
+        $modules = $this->getSite()->getModules(false, false, false, true, true);
 
         return $dialog->askAndValidate(
             $output,

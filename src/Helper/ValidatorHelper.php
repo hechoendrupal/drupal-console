@@ -134,14 +134,13 @@ class ValidatorHelper extends Helper
     /**
      * Validate if module name exist.
      *
-     * @param string $module  Module name
-     * @param array  $modules List of modules
+     * @param string $module Module name
      *
      * @return string
      */
     public function validateModuleExist($module)
     {
-        $modules = $this->getSite()->getNoCoreModules();
+        $modules = $this->getSite()->getModules(false, false, true, true, true);
         if (!in_array($module, $modules)) {
             throw new \InvalidArgumentException(
                 sprintf(

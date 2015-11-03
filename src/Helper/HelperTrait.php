@@ -46,7 +46,7 @@ trait HelperTrait
     }
 
     /**
-     * @return \Drupal\Console\Utils\Validators
+     * @return \Drupal\Console\Helper\ValidatorHelper
      */
     public function getValidator()
     {
@@ -147,5 +147,13 @@ trait HelperTrait
     public function getRemoteHelper()
     {
         return $this->getHelperSet()->get('remote');
+    }
+
+    /**
+     * @return \Drupal\Console\Helper\HttpClientHelper
+     */
+    public function getHttpClientHelper()
+    {
+        return $this->getHelperSet()->get('httpClient');
     }
 }
