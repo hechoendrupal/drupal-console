@@ -91,9 +91,13 @@ class SiteStatusCommand extends ContainerAwareCommand
         $systemData = [];
 
         foreach ($requirements as $key => $requirement) {
-            $title = $requirement['title']->render();
-            $value = $requirement['value'];
-            $systemData['system'][$title] = $value;
+            if ($requirement['title'] instanceof \Drupal\Core\StringTranslation\TranslatableMarkup) {
+                $title = $requirement['title']->render();
+            } else {
+                $title = $requirement['title'];
+            }
+
+            $systemData['system'][$title] = $requirement['value'];
         }
 
         $kernelHelper = $this->getKernelHelper();

@@ -1,13 +1,13 @@
-description: 'Generate a new content type (node / entity bundle)'
-help: 'Use: generate:contenttype <fancy> <Fancy> to create a new content type name with the machine name of fancy and the human-readable name of Fancy.'
-welcome: 'Welcome to the Drupal Content Type generator'
+description: 'एक नया कंटेंट प्रकार उत्पन्न करें (नोड/एंटिटी बंडल)'
+help: 'यांत्रिक नाम fancy और पठनीय मानव Fancy से एक नया कंटेंट प्रकार उत्पन्न करने के लिए generate:contenttype <fancy> <Fancy> कमाण्ड व्यवहार करें।'
+welcome: 'Drupal कंटेंट प्रकार उत्पादक में आपका स्वागत है'
 options:
     module: common.options.module
-    bundle-name: 'The content type''s machine name'
-    bundle-title: 'The content type''s human-readable name'
+    bundle-name: 'कंटेंट प्रकार का यांत्रिक नाम'
+    bundle-title: 'कंटेंट प्रकार का मानव पठनीय नाम'
 questions:
     module: common.questions.module
-    bundle-name: 'Enter the machine name of your new content type'
-    bundle-title: 'Enter the human-readable name of your new content type'
+    bundle-name: 'अपने नये कंटेंट प्रकार का यांत्रिक नाम दर्ज करें'
+    bundle-title: 'अपने नये कंटेंट प्रकार का मानव पठनीय नाम दर्ज करें'
 message:
-    error-state1: placeholder
+    error-state1: स्थानधारक

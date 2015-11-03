@@ -1,11 +1,11 @@
-description: 'Generate module permissions'
-help: 'The <info>generate:permissions</info> command helps you generate new permissions'
+description: 'मोड्यूल अनुमतियां उत्पन्न करें'
+help: '<info>generate:permissions</info> आपको नई अनुमतियों को उत्पन्न करने में मदद करता है।'
 options:
     module: common.options.module
 questions:
     module: common.questions.module
-    permission: 'Enter a permission'
-    title: 'Enter a title for the permission'
-    description: 'Enter a description for the permission'
-    restrict-access: 'Restrict Access'
-    add: 'Do you want add another permission'
+    permission: 'एक अनुमति दर्ज करें'
+    title: 'अनुमति का शीर्षक दर्ज करें'
+    description: 'अनुमति का विवरण दर्ज करें'
+    restrict-access: 'प्रवेश निषेध'
+    add: 'क्या आप एक और अनुमति डालना चाहते हैं'

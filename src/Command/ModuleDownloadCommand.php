@@ -7,13 +7,11 @@
 
 namespace Drupal\Console\Command;
 
-//use Drupal\Core\Archiver\ArchiveTar;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
-use Buzz\Browser;
 use Alchemy\Zippy\Zippy;
 
 class ModuleDownloadCommand extends Command
@@ -29,7 +27,7 @@ class ModuleDownloadCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $client =  new Browser();
+        $httpClient = $this->getHttpClientHelper();
 
         $module = $input->getArgument('module');
 
@@ -47,22 +45,19 @@ class ModuleDownloadCommand extends Command
             );
 
             try {
-                $response = $client->head('https://www.drupal.org/project/'.$module);
-                $html = $response->getContent();
+                $link = $httpClient->getHeader('https://www.drupal.org/project/'.$module, 'link');
             } catch (\Exception $e) {
                 $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
                 return;
             }
 
-            $link = $response->getHeader('link');
             $header_link = explode(';', $link);
             $project_node = str_replace('<', '', str_replace('>', '', $header_link[0]));
             $project_release_d8 = $project_node.'/release?api_version%5B%5D=7234';
 
             // Parse release module page to get Drupal 8 releases
             try {
-                $response = $client->get($project_release_d8);
-                $html = $response->getContent();
+                $html = $httpClient->getHtml($project_release_d8);
             } catch (\Exception $e) {
                 print_r($e->getMessage());
                 $output->writeln('[+] <error>'.$e->getMessage().'</error>');
@@ -127,9 +122,7 @@ class ModuleDownloadCommand extends Command
         $destination = tempnam(sys_get_temp_dir(), 'console.').'.tar.gz';
 
         try {
-            //$client->get($release_file_path, ['save_to' => $destination]);
-            $response = $client->get($release_file_path);
-            file_put_contents($destination, $response->getContent());
+            $httpClient->downloadFile($release_file_path, $destination);
 
             // Determine destination folder for contrib modules
             $drupal = $this->getDrupalHelper();
@@ -150,7 +143,7 @@ class ModuleDownloadCommand extends Command
             }
 
             // Create directory if does not exist
-            if (!file_exists(dirname($module_contrib_path))) {
+            if (!file_exists($module_contrib_path)) {
                 if (!mkdir($module_contrib_path, 0777, true)) {
                     $output->writeln(
                         ' <error>'. $this->trans('commands.module.download.messages.error-creating-folder') . ': ' . $module_contrib_path .'</error>'

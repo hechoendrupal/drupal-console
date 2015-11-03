@@ -7,6 +7,7 @@ console:
         learning: 'Generate a verbose code output.'
         generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
         generate-inline: 'Print execution options and arguments as inline call to be use in the future'
+        root: 'Define the Drupal root to be use in command execution'
     messages:
         completed: 'The command was executed succesfully!'
         chain:

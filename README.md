@@ -66,7 +66,12 @@ drupal generate:module
 # You can enable autocomplete by executing
 drupal init
 
-# Bash or Zsh: Add this line to your shell configuration file
+# Bash: Bash support depends on the http://bash-completion.alioth.debian.org/
+# project which can be installed with your package manager of choice. Then add 
+# this line to your shell configuration file.
+source "$HOME/.console/console.rc" 2>/dev/null
+
+# Zsh: Add this line to your shell configuration file.
 source "$HOME/.console/console.rc" 2>/dev/null
 
 # Fish: Create a symbolic link

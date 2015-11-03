@@ -1,15 +1,15 @@
 # {{ command }}
-The **{{ command }}** command {{ description }}
+{{ messages.command_description }}
 
-**Usage:**
+**{{ messages.usage }}:**
 ```
 $ drupal {{ command }} {% if arguments|length>0 %}[arguments] {% endif %}{% if options|length>0 %}[options] {% endif %}
 
 ```
 
 {% if options|length>0 %}
-## Available options
-Option | Details
+## {{ messages.options }}
+{{ messages.option  }} | {{ messages.details }}
 -------|-------------
 {% for option in options %}
 --{{ option.name }} | {{ option.description }}
@@ -17,8 +17,8 @@ Option | Details
 {% endif %}
 
 {% if arguments|length>0 %}
-## Available arguments
-Argument | Details
+## {{ messages.arguments }}
+{{ messages.argument }} | {{ messages.details }}
 ---------|-------------
 {% for argument in arguments %}
 {{ argument.name }} | {{ argument.description }}
