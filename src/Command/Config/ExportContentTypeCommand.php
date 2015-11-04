@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\ConfigExportCommand.
+ * Contains \Drupal\Console\Command\Config\ExportContentTypeCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Config;
 
 use Drupal\Console\Command\ModuleTrait;
 use Symfony\Component\Console\Input\InputArgument;
@@ -14,11 +14,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\Yaml\Dumper;
+use Drupal\Console\Command\ContainerAwareCommand;
 
-class ConfigExportContentTypeCommand extends ContainerAwareCommand
+class ExportContentTypeCommand extends ContainerAwareCommand
 {
     use ModuleTrait;
-    use ConfigExportTrait;
+    use ExportTrait;
 
     protected $entity_manager;
     protected $configStorage;

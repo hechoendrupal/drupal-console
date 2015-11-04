@@ -2,18 +2,19 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\ConfigExportCommand.
+ * Contains \Drupal\Console\Command\Config\ExportCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Config;
 
 use Drupal\Core\Archiver\ArchiveTar;
 use Drupal\Component\Serialization\Yaml;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Command\ContainerAwareCommand;
 
-class ConfigExportCommand extends ContainerAwareCommand
+class ExportCommand extends ContainerAwareCommand
 {
     /**
      * {@inheritdoc}
