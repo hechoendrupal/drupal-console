@@ -2,16 +2,17 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\ConfigOverrideCommand.
+ * Contains \Drupal\Console\Command\Config\OverrideCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Config;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Command\ContainerAwareCommand;
 
-class ConfigOverrideCommand extends ContainerAwareCommand
+class OverrideCommand extends ContainerAwareCommand
 {
     protected function configure()
     {

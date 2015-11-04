@@ -1,10 +1,10 @@
 <?php
 /**
  * @file
- * Contains \Drupal\Console\Command\ConfigImportCommand.
+ * Contains \Drupal\Console\Command\Config\ImportCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Config;
 
 use Drupal\Core\Archiver\ArchiveTar;
 use Symfony\Component\Console\Input\InputArgument;
@@ -12,8 +12,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Parser;
+use Drupal\Console\Command\ContainerAwareCommand;
 
-class ConfigImportCommand extends ContainerAwareCommand
+class ImportCommand extends ContainerAwareCommand
 {
     /**
      * {@inheritdoc}
