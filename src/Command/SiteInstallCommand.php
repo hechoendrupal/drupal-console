@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command;
 
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -120,14 +121,14 @@ class SiteInstallCommand extends Command
         };
 
         $dialog = $this->getDialogHelper();
-        $questionHelper = $this->getQuestionHelper();
+        $question = $this->getQuestionHelper();
 
         $profiles = $this->getProfiles();
 
         // <profile> option
         $profile = $input->getArgument('profile');
         if (!$profile) {
-            $profile = $questionHelper->ask(
+            $profile = $question->ask(
                 $input,
                 $output,
                 new ChoiceQuestion(
@@ -136,9 +137,8 @@ class SiteInstallCommand extends Command
                     1
                 )
             );
+            $input->setArgument('profile', array_search($profile, $profiles));
         }
-
-        $input->setArgument('profile', array_search($profile, $profiles));
 
         // --langcode option
         $langcode = $input->getOption('langcode');
@@ -153,9 +153,10 @@ class SiteInstallCommand extends Command
                 $languages[$defaultLanguage],
                 $languages
             );
+            $input->setOption('langcode', array_search($langcode, $languages));
         }
 
-        $input->setOption('langcode', array_search($langcode, $languages));
+
 
         // --db-type option
         $db_type = $input->getOption('db-type');
@@ -306,7 +307,12 @@ class SiteInstallCommand extends Command
         'driver' => $db_type,
         );
 
-        $this->runInstaller($output, $profile, $langcode, $site_name, $site_mail, $account_name, $account_mail, $account_pass, $database);
+        try {
+            $this->runInstaller($output, $profile, $langcode, $site_name, $site_mail, $account_name, $account_mail, $account_pass, $database);
+        } catch(Exception $e) {
+            $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
+            return;
+        }
     }
 
     protected function getProfiles()
