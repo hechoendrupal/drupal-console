@@ -1,17 +1,19 @@
 <?php
+
 /**
  * @file
- * Contains \Drupal\Console\Command\ConfigImportSingleCommand.
+ * Contains \Drupal\Console\Command\Config\ImportSingleCommand.
  */
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Config;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Parser;
 use Drupal\Component\Serialization\Yaml;
+use Drupal\Console\Command\ContainerAwareCommand;
 
-class ConfigImportSingleCommand extends ContainerAwareCommand
+class ImportSingleCommand extends ContainerAwareCommand
 {
     /**
      * {@inheritdoc}

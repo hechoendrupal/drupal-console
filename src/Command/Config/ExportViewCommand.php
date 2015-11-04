@@ -2,20 +2,22 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\ConfigExportViewCommand.
+ * Contains \Drupal\Console\Command\Config\ExportViewCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Config;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Command\ModuleTrait;
 
-class ConfigExportViewCommand extends ContainerAwareCommand
+class ExportViewCommand extends ContainerAwareCommand
 {
     use ModuleTrait;
-    use ConfigExportTrait;
+    use ExportTrait;
 
     protected $entityManager;
     protected $configStorage;
