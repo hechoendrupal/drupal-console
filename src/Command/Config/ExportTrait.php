@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\ConfigExportTrait.
+ * Contains Drupal\Console\Command\Config\ExportTrait.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Config;
 
 use Symfony\Component\Console\Helper\HelperInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,7 +15,7 @@ use Symfony\Component\Yaml\Dumper;
  * Class ConfigExportTrait
  * @package Drupal\Console\Command
  */
-trait ConfigExportTrait
+trait ExportTrait
 {
     /**
      * @param $configName

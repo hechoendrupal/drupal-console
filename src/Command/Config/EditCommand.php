@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\ConfigEditCommand.
+ * Contains \Drupal\Console\Command\Config\EditCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Config;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,8 +15,9 @@ use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Drupal\Component\Serialization\Yaml;
+use Drupal\Console\Command\ContainerAwareCommand;
 
-class ConfigEditCommand extends ContainerAwareCommand
+class EditCommand extends ContainerAwareCommand
 {
     /**
      * {@inheritdoc}

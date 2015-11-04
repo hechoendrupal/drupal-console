@@ -2,17 +2,18 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\ConfigExportCommand.
+ * Contains \Drupal\Console\Command\Config\ExportSingleCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Config;
 
 use Drupal\Component\Serialization\Yaml;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Command\ContainerAwareCommand;
 
-class ConfigExportSingleCommand extends ContainerAwareCommand
+class ExportSingleCommand extends ContainerAwareCommand
 {
     protected $entityManager;
     protected $definitions;
