@@ -20,8 +20,8 @@ class ModuleDownloadCommand extends Command
     {
         $this
             ->setName('module:download')
-            ->setDescription($this->trans('commands.module.install.description'))
-            ->addArgument('module', InputArgument::REQUIRED, $this->trans('commands.module.install.options.module'))
+            ->setDescription($this->trans('commands.module.download.description'))
+            ->addArgument('module', InputArgument::REQUIRED, $this->trans('commands.module.download.options.module'))
             ->addArgument('version', InputArgument::OPTIONAL, $this->trans('commands.module.download.options.version'));
     }
 
