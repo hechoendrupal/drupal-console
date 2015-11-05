@@ -16,6 +16,7 @@ use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Question\ChoiceQuestion;
 
 class EditCommand extends ContainerAwareCommand
 {
@@ -53,6 +54,10 @@ class EditCommand extends ContainerAwareCommand
         $ymlFile = new Parser();
         $fileSystem = new Filesystem();
 
+        if (!$configName) {
+            throw new \Exception($this->trans('commands.config.edit.messages.no-config'));
+        }
+
         try {
             $fileSystem->mkdir($temporalyDirectory);
             $fileSystem->dumpFile($configFile, $this->getYamlConfig($configName));
@@ -76,6 +81,27 @@ class EditCommand extends ContainerAwareCommand
         if (!$process->isSuccessful()) {
             throw new \RuntimeException($process->getErrorOutput());
         }
+    }
+
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        $helper = $this->getHelper('question');
+
+        $configName = $input->getArgument('config-name');
+        if (!$configName) {
+            $configFactory = $this->getConfigFactory();
+            $configNames = $configFactory->listAll();
+
+            $question = new ChoiceQuestion(
+                'Choose a configuration',
+                $configNames,
+                null
+            );
+
+            $configName = $helper->ask($input, $output, $question);
+        }
+
+        $input->setArgument('config-name', $configName);
     }
 
     /**
