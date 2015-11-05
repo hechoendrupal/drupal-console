@@ -5,13 +5,13 @@
  * Contains \Drupal\Console\Utils\Validators.
  */
 
-namespace Drupal\Console\Utils;
+namespace Drupal\Console\Helper;
 
-use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Console\Helper\HelperInterface;
 use Drupal\Core\Cache\Cache;
+use Drupal\Console\Helper\Helper;
 
-class Validators extends Helper implements HelperInterface
+class ValidatorHelper extends Helper
 {
     private $caches = [];
 
@@ -20,10 +20,6 @@ class Validators extends Helper implements HelperInterface
     const REGEX_MACHINE_NAME = '/^[a-z0-9_]+$/';
     // This REGEX remove spaces between words
     const REGEX_REMOVE_SPACES = '/[\\s+]/';
-
-    public function __construct()
-    {
-    }
 
     public function validateModuleName($module)
     {
@@ -138,14 +134,14 @@ class Validators extends Helper implements HelperInterface
     /**
      * Validate if module name exist.
      *
-     * @param string $module  Module name
-     * @param array  $modules List of modules
+     * @param string $module Module name
      *
      * @return string
      */
-    public function validateModuleExist($module, $modules)
+    public function validateModuleExist($module)
     {
-        if (!in_array($module, array_values($modules))) {
+        $modules = $this->getSite()->getModules(false, false, true, true, true);
+        if (!in_array($module, $modules)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'Module "%s" is not in your application. Try generate:module to create it.',
@@ -249,7 +245,7 @@ class Validators extends Helper implements HelperInterface
 
     public function getName()
     {
-        return 'validators';
+        return 'validator';
     }
 
     /**

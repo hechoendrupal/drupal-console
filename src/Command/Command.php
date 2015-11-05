@@ -76,4 +76,12 @@ abstract class Command extends BaseCommand
     {
         return $this->dependencies;
     }
+
+    /**
+     * @return \Drupal\Console\Application;
+     */
+    public function getApplication()
+    {
+        return parent::getApplication();
+    }
 }

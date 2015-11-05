@@ -27,11 +27,8 @@ class UpdateExecuteCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /*      drupal_set_installed_schema_version('sample', '8000');
-        exit();*/
-
-        include_once $this->getDrupalHelper()->getRoot() . '/core/includes/install.inc';
-        include_once $this->getDrupalHelper()->getRoot() . '/core/includes/update.inc';
+        $this->getDrupalHelper()->loadLegacyFile('/core/includes/install.inc');
+        $this->getDrupalHelper()->loadLegacyFile('/core/includes/update.inc');
 
         $module = $input->getArgument('module');
         $update_n = $input->getArgument('update-n');

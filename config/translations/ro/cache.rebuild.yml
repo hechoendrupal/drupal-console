@@ -1,10 +1,10 @@
-description: 'Reconstruieste si curata tot cache-ul.'
+description: 'Reconstruiește și curăță tot cache-ul.'
 options:
-    cache: 'Curata doar cache-ul specific.'
+    cache: 'Curăță doar cache-ul specificat.'
 messages:
-    welcome: 'Bine ai venit in comanda cache:rebuild'
-    rebuild: 'Cache-ul se reconstrueste, va rugam sa asteptati'
-    completed: 'Cache-ul a fost curatit'
-    invalid_cache: 'Cache-ul "%s" este incorect.'
+    welcome: 'Bine ai venit în cache:comanda de rebuild'
+    rebuild: 'Cache-ul se reconstruiește, vă rugăm să așteptați.'
+    completed: 'Cache-ul a fost curățat!'
+    invalid_cache: 'Cache-ul "%s" este invalid.'
 questions:
-    cache: 'Selecteaza cache-ul.'
+    cache: 'Selectează cache-ul.'

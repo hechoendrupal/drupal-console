@@ -35,13 +35,14 @@ class ConfigExportCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $application = $this->getApplication()->getConfig();
         $messageHelper = $this->getMessageHelper();
         $directory = $input->getArgument('directory');
 
         if (!$directory) {
-            $config = $this->getConfigFactory()->get('system.file');
-            $directory = $config->get('path.temporary') ?: file_directory_temp();
-            $directory .= '/'.CONFIG_STAGING_DIRECTORY;
+            $configFactory = $this->getConfigFactory();
+            $directory = $application->get('application.temp')?:
+              $configFactory->get('system.file')->get('path.temporary');
         }
 
         if (!is_dir($directory)) {
@@ -58,9 +59,11 @@ class ConfigExportCommand extends ContainerAwareCommand
             $this->configManager = $this->getConfigManager();
             // Get raw configuration data without overrides.
             foreach ($this->configManager->getConfigFactory()->listAll() as $name) {
+                $configData = $this->configManager->getConfigFactory()->get($name)->getRawData();
+                unset($configData['uuid']);
                 $archiver->addString(
                     "$name.yml",
-                    Yaml::encode($this->configManager->getConfigFactory()->get($name)->getRawData())
+                    Yaml::encode($configData)
                 );
             }
 
@@ -69,9 +72,11 @@ class ConfigExportCommand extends ContainerAwareCommand
             foreach ($this->targetStorage->getAllCollectionNames() as $collection) {
                 $collection_storage = $this->targetStorage->createCollection($collection);
                 foreach ($collection_storage->listAll() as $name) {
+                    $configData = $collection_storage->read($name);
+                    unset($configData['uuid']);
                     $archiver->addString(
                         str_replace('.', '/', $collection)."/$name.yml",
-                        Yaml::encode($collection_storage->read($name))
+                        Yaml::encode($configData)
                     );
                 }
             }

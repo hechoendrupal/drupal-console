@@ -8,7 +8,7 @@
 namespace Drupal\Console\Helper;
 
 use Drupal\Console\Helper\Helper;
-use Drupal\Console\Console\Shell;
+use Drupal\Console\Shell;
 
 class ShellHelper extends Helper
 {

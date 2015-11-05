@@ -13,7 +13,6 @@ namespace Drupal\Console\Helper;
  */
 trait HelperTrait
 {
-
     /**
      * @return \Drupal\Console\Helper\TranslatorHelper
      */
@@ -39,19 +38,19 @@ trait HelperTrait
     }
 
     /**
-     * @return \Drupal\Console\Utils\StringUtils
+     * @return \Drupal\Console\Helper\StringHelper
      */
-    public function getStringUtils()
+    public function getStringHelper()
     {
-        return $this->getHelperSet()->get('stringUtils');
+        return $this->getHelperSet()->get('string');
     }
 
     /**
-     * @return \Drupal\Console\Utils\Validators
+     * @return \Drupal\Console\Helper\ValidatorHelper
      */
     public function getValidator()
     {
-        return $this->getHelperSet()->get('validators');
+        return $this->getHelperSet()->get('validator');
     }
 
     /**
@@ -142,4 +141,19 @@ trait HelperTrait
         return $this->getHelperSet()->get('formatter');
     }
 
+    /**
+     * @return \Drupal\Console\Helper\RemoteHelper
+     */
+    public function getRemoteHelper()
+    {
+        return $this->getHelperSet()->get('remote');
+    }
+
+    /**
+     * @return \Drupal\Console\Helper\HttpClientHelper
+     */
+    public function getHttpClientHelper()
+    {
+        return $this->getHelperSet()->get('httpClient');
+    }
 }

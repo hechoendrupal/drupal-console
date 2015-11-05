@@ -1,12 +1,12 @@
-description: 'Genereaza permisiuni pentru Modul'
-help: 'Comanda <info>generate:permissions</info> te va ajuta sa creezi permisiuni noi'
+description: 'Generează permisiuni pentru modul'
+help: 'Comanda <info>generate:permissions</info> te va ajuta să creezi permisiuni noi'
 options:
     module: common.options.module
     permission: 'Introdu o permisiune'
 questions:
     module: common.questions.module
     permission: 'Introdu o permisiune'
-    title: 'Enter a title for the permision'
-    description: 'Enter a description for the permision'
-    restrict-access: 'Restrict Access'
-    add: 'Do you want add another permission'
+    title: 'Introdu un titlu pentru permisiune'
+    description: 'Introdu o descriere pentru permisiune'
+    restrict-access: 'Acces restricționat'
+    add: 'Doriți să adăugați o nouă permisiune?'
