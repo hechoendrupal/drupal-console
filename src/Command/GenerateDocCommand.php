@@ -29,13 +29,13 @@ class GenerateDocCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('generate:doc')
-            ->setDescription($this->trans('commands.generate.doc.description'))
+            ->setName('generate:doc:gitbook')
+            ->setDescription($this->trans('commands.generate.doc.gitbook.description'))
             ->addOption(
                 'path',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.doc.options.path')
+                $this->trans('commands.generate.doc.gitbook.options.path')
             );
         ;
     }
@@ -55,7 +55,7 @@ class GenerateDocCommand extends ContainerAwareCommand
 
         if (!$path) {
             $message->addErrorMessage(
-                $this->trans('commands.generate.doc.messages.missing_path')
+                $this->trans('commands.generate.doc.gitbook.messages.missing_path')
             );
 
             return 1;
