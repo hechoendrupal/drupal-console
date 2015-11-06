@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}{{ command }}{% endblock %}</title>
+</head>
+<body>
+<h1 class="title">{{ command }}</h1>
+<p>The <strong>{{ command }}</strong> command: {{ description }}</p>
+<p><strong>Usage:</strong>
+    <pre>
+        <code>$ drupal {{ command }} {% if arguments|length>0 %}[arguments] {% endif %}{% if options|length>0 %}[options] {% endif %}</code>
+    </pre>
+</p>
+{% if options|length>0 %}
+<h2>Available options</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Option</th>
+        <th>Details</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for option in options %}
+        <tr>
+            <td>{{ option.name }}</td>
+            <td>{{ option.description }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% if arguments|length>0 %}
+<h2>Available arguments</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Argument</th>
+        <th>Details</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for argument in arguments %}
+        <tr>
+            <td>{{ argument.name }}</td>
+            <td>{{ argument.description }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+</body>
+</html>
