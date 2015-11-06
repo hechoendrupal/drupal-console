@@ -14,7 +14,7 @@ use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
-class GenerateDashCommand extends GenerateDocCommand
+class GenerateDashCommand extends ContainerAwareCommand
 {
 
   /**
@@ -150,7 +150,7 @@ PLIST;
 
         // Set the index page
         $this->renderFile(
-            'dash/index.hmtl.twig',
+            'dash/index.html.twig',
             $path . '/DrupalConsole.docset/Contents/Resources/Documents/index.html',
             $parameters,
             null,
@@ -203,7 +203,6 @@ PLIST;
     {
         $filesystem = new Filesystem();
         try {
-            $filesystem->mkdir($target, 0777);
             $filesystem->dumpFile($target, $renderer->render($template, $parameters));
         } catch (IOException $e) {
             throw $e;
