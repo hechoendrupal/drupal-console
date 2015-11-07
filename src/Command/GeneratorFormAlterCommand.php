@@ -10,6 +10,7 @@ namespace Drupal\Console\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ChoiceQuestion;
 use Drupal\Console\Generator\FormAlterGenerator;
 use Drupal\Console\Command\ServicesTrait;
 use Drupal\Console\Command\ModuleTrait;
@@ -22,6 +23,8 @@ class GeneratorFormAlterCommand extends GeneratorCommand
     use ModuleTrait;
     use FormTrait;
     use ConfirmationTrait;
+
+    protected $metadata;
 
     protected function configure()
     {
@@ -63,15 +66,19 @@ class GeneratorFormAlterCommand extends GeneratorCommand
 
         $this
             ->getGenerator()
-            ->generate($module, $form_id, $inputs);
+            ->generate($module, $form_id, $inputs, $this->metadata);
 
         $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
+        $this->metadata = [];
+
         $dialog = $this->getDialogHelper();
         $moduleHandler = $this->getModuleHandler();
+        $drupal = $this->getDrupalHelper();
+        $questionHelper = $this->getQuestionHelper();
 
         // --module option
         $module = $input->getOption('module');
@@ -85,22 +92,52 @@ class GeneratorFormAlterCommand extends GeneratorCommand
         $form_id = $input->getOption('form-id');
         if (!$form_id) {
             $forms = [];
+            // Get form ids from webprofiler
             if ($moduleHandler->moduleExists('webprofiler')) {
                 $output->writeln('[-] <info>'.$this->trans('commands.generate.form.alter.messages.loading-forms').'</info>');
                 $forms = $this->getWebprofilerForms();
             }
 
-            $form_id = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.form.alter.options.form-id'), current(array_keys($forms))),
-                function ($form) {
-                    return $form;
-                },
-                false,
-                '',
-                array_combine(array_keys($forms), array_keys($forms))
-            );
+            if (!empty($forms)) {
+                $form_id = $dialog->askAndValidate(
+                    $output,
+                    $dialog->getQuestion($this->trans('commands.generate.form.alter.options.form-id'), current(array_keys($forms))),
+                    function ($form) {
+                        return $form;
+                    },
+                    false,
+                    '',
+                    array_combine(array_keys($forms), array_keys($forms))
+                );
+            }
         }
+
+        if ($moduleHandler->moduleExists('webprofiler') and isset($forms[$form_id])) {
+            ;
+            $this->metadata['class'] = $forms[$form_id]['class']['class'];
+            $this->metadata['method'] = $forms[$form_id]['class']['method'];
+            $this->metadata['file'] = str_replace($drupal->getRoot(), '', $forms[$form_id]['class']['file']);
+
+            $formItems = array_keys($forms[$form_id]['form']);
+
+            $question = new ChoiceQuestion(
+                $this->trans('commands.generate.form.alter.messages.hide-form-elements'),
+                array_combine($formItems, $formItems),
+                '0'
+            );
+
+            $question->setMultiselect(true);
+
+            $question->setValidator(
+                function ($answer) {
+                    return $answer;
+                }
+            );
+
+            $formItemsToHide = $questionHelper->ask($input, $output, $question);
+            $this->metadata['unset'] = array_filter(array_map('trim', explode(',', $formItemsToHide)));
+        }
+
         $input->setOption('form-id', $form_id);
 
         $output->writeln($this->trans('commands.generate.form.alter.messages.inputs'));
