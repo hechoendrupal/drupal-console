@@ -1,5 +1,5 @@
-description: 'Remove events from DBLog table, filters are available'
+description: 'घटनाओं को DBLog टेबल से निकाल दें, फ़िल्टर उपलब्ध है'
 messages:
-    event-deleted: 'Event %s was deleted'
-    clear-error: 'Clear process fail, please check used filters'
-    clear-sucess: 'Clear of events was successfully'
+    event-deleted: 'घटना %s हटा दिया गया'
+    clear-error: 'असफल प्रक्रिया को साफ़ करें, कृपया उपयोग किये गए छन्ना को जाँच कर ले'
+    clear-sucess: 'घटनाओं को सफलतापूर्वक हटा दिया गया'

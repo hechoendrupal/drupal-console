@@ -27,11 +27,11 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '0.9.5';
+    const VERSION = '0.9.6';
     /**
      * @var string
      */
-    const DRUPAL_VERSION = 'Drupal 8 RC-1';
+    const DRUPAL_VERSION = 'Drupal 8 RC-2';
     /**
      * @var Drupal\Console\Config
      */
@@ -241,9 +241,29 @@ class Application extends BaseApplication
         if (!$commands) {
             return;
         }
+
         foreach ($commands as $command) {
+            $aliases = $this->getCommandAliases($command);
+            if ($aliases) {
+                $command->setAliases($aliases);
+            }
+
             $this->add($command);
         }
+    }
+
+    /**
+     * @param $command
+     * @return array
+     */
+    private function getCommandAliases($command)
+    {
+        $aliasKey = sprintf(
+            'application.aliases.commands.%s',
+            str_replace(':', '.', $command->getName())
+        );
+
+        return $this->config->get($aliasKey);
     }
 
     /**
