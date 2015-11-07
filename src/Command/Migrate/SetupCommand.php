@@ -19,7 +19,6 @@ use Drupal\Core\Database\Connection;
 use Drupal\migrate\Entity\Migration;
 use Drupal\migrate\Plugin\MigratePluginManager;
 
-
 class SetupCommand extends ContainerAwareCommand
 {
     use DatabaseTrait;
@@ -136,12 +135,10 @@ class SetupCommand extends ContainerAwareCommand
     }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
-
         $template_storage = \Drupal::service('migrate.template_storage');
 
         $this->registerMigrateDB($input, $output);
-        $this->migrateConnection = $this->getDBConnection($output, 'default','migrate');
+        $this->migrateConnection = $this->getDBConnection($output, 'default', 'migrate');
 
         if (!$drupal_version = $this->getLegacyDrupalVersion($this->migrateConnection)) {
             $output->writeln(
