@@ -1,8 +1,8 @@
-description: 'Display current migration available for the application'
+description: 'अनुप्रयोग के मौजूदा प्रवसन को दिखाएँ'
 arguments:
-    tag: 'Migrate tag'
+    tag: 'माइग्रेट टैग'
 messages:
-    id: 'Migration Id'
-    description: Description
-    no-migrations: "There aren't migrations available try to execute command: migrate:setup:migrations"
-    tags: Tags
+    id: 'प्रवसन क्रमांक'
+    description: विवरण
+    no-migrations: "उपलब्ध माइग्रेशन नहीं हैं| यह आदेश निष्पादित करें: migrate:setup:migrations"
+    tags: टैग
