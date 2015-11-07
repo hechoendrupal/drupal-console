@@ -15,13 +15,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 
-
 trait DatabaseTrait
 {
     protected $database;
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param InputInterface          $input
+     * @param OutputInterface         $output
      * @param QuestionHelperInterface $question
      *
      * @return mixed
@@ -72,7 +71,6 @@ trait DatabaseTrait
             false,
             '127.0.0.1'
         );
-
     }
 
     /**
@@ -224,7 +222,8 @@ trait DatabaseTrait
         return $version_string ? substr($version_string, 0, 1) : false;
     }
 
-    protected function getDBInfo() {
+    protected function getDBInfo()
+    {
         return $this->database;
     }
 
@@ -257,12 +256,12 @@ trait DatabaseTrait
 
     /**
      * @param OutputInterface $output
-     * @param string $key
-     * @param sting $target
-     * @param array $info
+     * @param string          $key
+     * @param sting           $target
+     * @param array           $info
      */
-    protected function addDBConnection($output, $key, $target, $db_type, $db_name, $db_user, $db_pass, $db_prefix, $db_port, $db_host) {
-
+    protected function addDBConnection($output, $key, $target, $db_type, $db_name, $db_user, $db_pass, $db_prefix, $db_port, $db_host)
+    {
         $databases = $this->getDatabaseTypes();
 
         $this->database = array(
