@@ -8,6 +8,7 @@ console:
         generate-chain: 'Affiche les commandes ainsi que leurs paramètres sous le format yaml pour être réutilisé dans une commande chainée'
         generate-inline: 'Affiche les commandes ainsi que leurs paramètres sur une ligne pour une réutilisation future'
         root: 'Define the Drupal root to be use in command execution'
+        uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
     messages:
         completed: 'La commande a été correctement exécutée'
         chain:

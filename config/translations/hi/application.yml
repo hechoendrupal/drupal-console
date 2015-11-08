@@ -8,6 +8,7 @@ console:
         generate-chain: 'निष्पादन विकल्प में प्रिंट और तर्क को YAML आउटपुट के रूप में श्रृंखला कमांड में इस्तेमाल किया जाएगा'
         generate-inline: 'निष्पादन विकल्प में प्रिंट और तर्क को इनलाइन कॉल के रूप में भविष्य में उपयोग किया जाएगा'
         root: 'कमाण्ड चलाने के लिए Drupal रूट परिभाषित करें'
+        uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
     messages:
         completed: 'कमाण्ड सफलतापूर्वक चलाया गया!'
         chain:
