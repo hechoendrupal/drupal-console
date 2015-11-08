@@ -10,6 +10,7 @@ console:
     messages:
         completed: 'Comanda a fost executată cu succes!'
         root: 'Define the Drupal root to be use in command execution'
+        uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
         chain:
             generated: 'Mai jos puteți găsi reprezentarea yaml pentru ultima comandă executată, ex. copie în ~/.console/chain/sample.yml pentru a executa în interiorul unei secvențe de comenzi'
         inline:

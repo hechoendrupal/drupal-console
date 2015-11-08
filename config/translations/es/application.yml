@@ -8,6 +8,7 @@ console:
         generate-chain: 'Imprimir opciones y argumentos como YAML para ser usado el comando chain'
         generate-inline: 'Imprimir opciones y argumentos de ejecución como llamada inline para ser usados en el futuro'
         root: 'Define the Drupal root to be use in command execution'
+        uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
     messages:
         completed: '¡Ya puede empezar a usar el código generado!'
         chain:
