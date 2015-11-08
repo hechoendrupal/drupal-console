@@ -46,6 +46,11 @@ class KernelHelper extends Helper
     protected $debug;
 
     /**
+     * @var string
+     */
+    protected $requestUri;
+
+    /**
      * @var bool
      */
     protected $booted;
@@ -64,6 +69,13 @@ class KernelHelper extends Helper
     public function setDebug($debug)
     {
         $this->debug = $debug;
+    }
+
+    /**
+     * @param string $requestUri
+     */
+    public function setRequestUri($requestUri) {
+        $this->requestUri = $requestUri;
     }
 
     /**
@@ -99,7 +111,14 @@ class KernelHelper extends Helper
         }
 
         if (!$this->kernel) {
-            $this->request = Request::createFromGlobals();
+            if ($this->requestUri) {
+                $this->request = Request::create($this->requestUri);
+                $this->request->server->set('SCRIPT_NAME', '/index.php');
+            }
+            else {
+                $this->request = Request::createFromGlobals();
+            }
+
             $this->kernel = DrupalKernel::createFromRequest(
                 $this->request,
                 $this->classLoader,
