@@ -7,14 +7,18 @@
 
 namespace Drupal\Console\Command;
 
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
+use Drupal\Console\Command\Database\DatabaseTrait;
 
 class SiteInstallCommand extends Command
 {
+    use DatabaseTrait;
+
     protected $connection;
 
     protected function configure()
@@ -117,14 +121,14 @@ class SiteInstallCommand extends Command
         };
 
         $dialog = $this->getDialogHelper();
-        $questionHelper = $this->getQuestionHelper();
+        $question = $this->getQuestionHelper();
 
         $profiles = $this->getProfiles();
 
         // <profile> option
         $profile = $input->getArgument('profile');
         if (!$profile) {
-            $profile = $questionHelper->ask(
+            $profile = $question->ask(
                 $input,
                 $output,
                 new ChoiceQuestion(
@@ -133,9 +137,8 @@ class SiteInstallCommand extends Command
                     1
                 )
             );
+            $input->setArgument('profile', array_search($profile, $profiles));
         }
-
-        $input->setArgument('profile', array_search($profile, $profiles));
 
         // --langcode option
         $langcode = $input->getOption('langcode');
@@ -150,103 +153,57 @@ class SiteInstallCommand extends Command
                 $languages[$defaultLanguage],
                 $languages
             );
+            $input->setOption('langcode', array_search($langcode, $languages));
         }
 
-        $input->setOption('langcode', array_search($langcode, $languages));
+
 
         // --db-type option
         $db_type = $input->getOption('db-type');
         if (!$db_type) {
-            $databases = $this->getDatabaseTypes();
-            $db_type = $questionHelper->ask(
-                $input,
-                $output,
-                new ChoiceQuestion(
-                    $this->trans('commands.site.install.questions.db-type'),
-                    array_combine(array_column($databases, 'name'), array_column($databases, 'name')),
-                    current(array_column($databases, 'name'))
-                )
-            );
-        }
-        // find current database type selected to set the proper driver id
-        foreach ($databases as $db_index => $database) {
-            if ($database['name'] == $db_type) {
-                $db_type = $db_index;
-            }
+            $db_type = $this->dbTypeQuestion($input, $output, $question);
         }
         $input->setOption('db-type', $db_type);
 
         // --db-host option
         $db_host = $input->getOption('db-host');
         if (!$db_host) {
-            $db_host = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.migrate.execute.questions.db-host'), '127.0.0.1'),
-                $validator_required,
-                false,
-                '127.0.0.1'
-            );
+            $db_host = $this->dbHostQuestion($output, $dialog);
         }
         $input->setOption('db-host', $db_host);
 
         // --db-name option
         $db_name = $input->getOption('db-name');
         if (!$db_name) {
-            $db_name = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.migrate.execute.questions.db-name'), ''),
-                $validator_required,
-                false,
-                null
-            );
+            $db_name = $this->dbNameQuestion($output, $dialog);
         }
         $input->setOption('db-name', $db_name);
 
         // --db-user option
         $db_user = $input->getOption('db-user');
         if (!$db_user) {
-            $db_user = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.migrate.execute.questions.db-user'), ''),
-                $validator_required,
-                false,
-                null
-            );
+            $db_user = $this->dbUserQuestion($output, $dialog);
         }
         $input->setOption('db-user', $db_user);
 
         // --db-pass option
         $db_pass = $input->getOption('db-pass');
         if (!$db_pass) {
-            $db_pass = $dialog->askHiddenResponse(
-                $output,
-                $dialog->getQuestion($this->trans('commands.migrate.execute.questions.db-pass'), ''),
-                ''
-            );
+            $db_pass = $this->dbPassQuestion($output, $dialog);
         }
         $input->setOption('db-pass', $db_pass);
 
         // --db-prefix
         $db_prefix = $input->getOption('db-prefix');
         if (!$db_prefix) {
-            $db_prefix = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.migrate.execute.questions.db-prefix'), ''),
-                ''
-            );
+            $db_prefix = $this->dbPrefixQuestion($output, $dialog);
         }
         $input->setOption('db-prefix', $db_prefix);
 
         // --db-port prefix
         $db_port = $input->getOption('db-port');
         if (!$db_port) {
-            $db_port = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.migrate.execute.questions.db-port'), '3306'),
-                $validator_required,
-                false,
-                '3306'
-            );
+            $db_port = $this->dbPortQuestion($output, $dialog);
         }
         $input->setOption('db-port', $db_port);
 
@@ -347,11 +304,15 @@ class SiteInstallCommand extends Command
         'port' => $db_port,
         'host' => $db_host,
         'namespace' => $databases[$db_type]['namespace'],
-        //'namespace' => 'Drupal\Core\Database\Driver\mysql',
-        'driver' => 'mysql',
+        'driver' => $db_type,
         );
 
-        $this->runInstaller($output, $profile, $langcode, $site_name, $site_mail, $account_name, $account_mail, $account_pass, $database);
+        try {
+            $this->runInstaller($output, $profile, $langcode, $site_name, $site_mail, $account_name, $account_mail, $account_pass, $database);
+        } catch(Exception $e) {
+            $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
+            return;
+        }
     }
 
     protected function getProfiles()
@@ -371,18 +332,9 @@ class SiteInstallCommand extends Command
     protected function getLanguages()
     {
         $drupal = $this->getDrupalHelper();
-        $languages = $drupal->getStandardtLanguages();
+        $languages = $drupal->getStandardLanguages();
 
         return $languages;
-    }
-
-    protected function getDatabaseTypes()
-    {
-        $drupal = $this->getDrupalHelper();
-
-        $databases = $drupal->getDatabaseTypes();
-
-        return $databases;
     }
 
     protected function getDefaultLanguage()
