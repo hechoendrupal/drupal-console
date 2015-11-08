@@ -309,7 +309,7 @@ class SiteInstallCommand extends Command
 
         try {
             $this->runInstaller($output, $profile, $langcode, $site_name, $site_mail, $account_name, $account_mail, $account_pass, $database);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
             return;
         }
