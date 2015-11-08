@@ -190,6 +190,13 @@ class KernelHelper extends Helper
         return $this->request;
     }
 
+  /**
+   *
+   */
+    public function getSitePath() {
+        return $this->getKernel()->getSitePath();
+    }
+
     /**
      * {@inheritdoc}
      */
