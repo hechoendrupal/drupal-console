@@ -114,5 +114,8 @@ class RestEnableCommand extends ContainerAwareCommand
             ->getEditable('rest.settings');
         $config->set('resources', $rest_settings);
         $config->save();
+
+        // Run cache rebuild to enable rest routing
+        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 }
