@@ -101,12 +101,11 @@ class SiteStatusCommand extends ContainerAwareCommand
         }
 
         $kernelHelper = $this->getKernelHelper();
-//        $site = $this->getSiteHelper();
         $drupal = $this->getDrupalHelper();
 
         Settings::initialize(
             $drupal->getRoot(),
-            'sites/default',
+            $kernelHelper->getSitePath(),
             $kernelHelper->getClassLoader()
         );
 
