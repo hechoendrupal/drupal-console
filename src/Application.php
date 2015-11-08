@@ -92,7 +92,7 @@ class Application extends BaseApplication
             new InputOption('--target', '--t', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.target'))
         );
         $this->getDefinition()->addOption(
-          new InputOption('--uri', '-l', InputOption::VALUE_REQUIRED, $this->trans('application.console.arguments.uri'))
+            new InputOption('--uri', '-l', InputOption::VALUE_REQUIRED, $this->trans('application.console.arguments.uri'))
         );
     }
 

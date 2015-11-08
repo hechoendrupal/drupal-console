@@ -74,7 +74,8 @@ class KernelHelper extends Helper
     /**
      * @param string $requestUri
      */
-    public function setRequestUri($requestUri) {
+    public function setRequestUri($requestUri)
+    {
         $this->requestUri = $requestUri;
     }
 
@@ -114,8 +115,7 @@ class KernelHelper extends Helper
             if ($this->requestUri) {
                 $this->request = Request::create($this->requestUri);
                 $this->request->server->set('SCRIPT_NAME', '/index.php');
-            }
-            else {
+            } else {
                 $this->request = Request::createFromGlobals();
             }
 
@@ -190,10 +190,11 @@ class KernelHelper extends Helper
         return $this->request;
     }
 
-  /**
+    /**
    *
    */
-    public function getSitePath() {
+    public function getSitePath()
+    {
         return $this->getKernel()->getSitePath();
     }
 
