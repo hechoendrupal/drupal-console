@@ -14,12 +14,13 @@ use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
-class GenerateDashCommand extends ContainerAwareCommand {
+class GenerateDashCommand extends ContainerAwareCommand
+{
 
-  /**
-   * @constant Contents of the plist file required by the docset format.
-   */
-  const PLIST = <<<PLIST
+    /**
+     * @constant Contents of the plist file required by the docset format.
+     */
+    const PLIST = <<<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -38,184 +39,199 @@ class GenerateDashCommand extends ContainerAwareCommand {
 </plist>
 PLIST;
 
-  private $single_commands = [
-    'about',
-    'chain',
-    'drush',
-    'help',
-    'init',
-    'list',
-    'self-update'
-  ];
+    private $single_commands = [
+      'about',
+      'chain',
+      'drush',
+      'help',
+      'init',
+      'list',
+      'self-update'
+    ];
 
-  /**
-   * @var SQLite3 Controller for the sqlite db required by the docset format.
-   *
-   */
-  private $sqlite;
+    /**
+     * @var SQLite3 Controller for the sqlite db required by the docset format.
+     *
+     */
+    private $sqlite;
 
-  /**
-   * {@inheritdoc}
-   */
-  protected function configure() {
-    $this
-      ->setName('generate:doc:dash')
-      ->setDescription($this->trans('commands.generate.doc.dash.description'))
-      ->addOption(
-        'path',
-        NULL,
-        InputOption::VALUE_OPTIONAL,
-        $this->trans('commands.generate.doc.dash.options.path')
-      );;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function execute(InputInterface $input, OutputInterface $output) {
-    $message = $this->getMessageHelper();
-    $renderer = $this->getRenderHelper();
-
-    $path = NULL;
-    if ($input->hasOption('path')) {
-      $path = $input->getOption('path');
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        $this
+          ->setName('generate:doc:dash')
+          ->setDescription($this->trans('commands.generate.doc.dash.description'))
+          ->addOption(
+            'path',
+            null,
+            InputOption::VALUE_OPTIONAL,
+            $this->trans('commands.generate.doc.dash.options.path')
+          );;
     }
 
-    if (!$path) {
-      $message->addErrorMessage(
-        $this->trans('commands.generate.doc.dash.messages.missing_path')
-      );
+    /**
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $message = $this->getMessageHelper();
+        $renderer = $this->getRenderHelper();
 
-      return 1;
-    }
-
-    // Setup the docset structure
-    $this->initDocset($path);
-
-    $application = $this->getApplication();
-    $command_list = [];
-
-    foreach ($this->single_commands as $single_command) {
-      $command = $application->find($single_command);
-      $command_list['none'][] = [
-        'name' => $command->getName(),
-        'description' => $command->getDescription(),
-      ];
-      $this->renderCommand($command, $path, $renderer);
-      $this->registerCommand($command, $path);
-    }
-
-    $namespaces = $application->getNamespaces();
-    sort($namespaces);
-
-    $namespaces = array_filter(
-      $namespaces, function ($item) {
-      return (strpos($item, ':') <= 0);
-    }
-    );
-
-    foreach ($namespaces as $namespace) {
-      $commands = $application->all($namespace);
-
-      usort(
-        $commands, function ($cmd1, $cmd2) {
-        return strcmp($cmd1->getName(), $cmd2->getName());
-      }
-      );
-
-      foreach ($commands as $command) {
-        if ($command->getModule() == 'Console') {
-          $command_list[$namespace][] = [
-            'name' => $command->getName(),
-            'description' => $command->getDescription(),
-          ];
-          $this->renderCommand($command, $path, $renderer);
-          $this->registerCommand($command, $path);
+        $path = null;
+        if ($input->hasOption('path')) {
+            $path = $input->getOption('path');
         }
-      }
+
+        if (!$path) {
+            $message->addErrorMessage(
+              $this->trans('commands.generate.doc.dash.messages.missing_path')
+            );
+
+            return 1;
+        }
+
+        // Setup the docset structure
+        $this->initDocset($path);
+
+        $application = $this->getApplication();
+        $command_list = [];
+
+        foreach ($this->single_commands as $single_command) {
+            $command = $application->find($single_command);
+            $command_list['none'][] = [
+              'name' => $command->getName(),
+              'description' => $command->getDescription(),
+            ];
+            $this->renderCommand($command, $path, $renderer);
+            $this->registerCommand($command, $path);
+        }
+
+        $namespaces = $application->getNamespaces();
+        sort($namespaces);
+
+        $namespaces = array_filter(
+          $namespaces, function ($item) {
+            return (strpos($item, ':') <= 0);
+        }
+        );
+
+        foreach ($namespaces as $namespace) {
+            $commands = $application->all($namespace);
+
+            usort(
+              $commands, function ($cmd1, $cmd2) {
+                return strcmp($cmd1->getName(), $cmd2->getName());
+            }
+            );
+
+            foreach ($commands as $command) {
+                if ($command->getModule() == 'Console') {
+                    $command_list[$namespace][] = [
+                      'name' => $command->getName(),
+                      'description' => $command->getDescription(),
+                    ];
+                    $this->renderCommand($command, $path, $renderer);
+                    $this->registerCommand($command, $path);
+                }
+            }
+        }
+
+        $input = $application->getDefinition();
+        $options = $input->getOptions();
+        $arguments = $input->getArguments();
+        $parameters = [
+          'command_list' => $command_list,
+          'options' => $options,
+          'arguments' => $arguments,
+        ];
+
+        // Set the index page
+        $this->renderFile(
+          'dash/index.html.twig',
+          $path . '/DrupalConsole.docset/Contents/Resources/Documents/index.html',
+          $parameters,
+          null,
+          $renderer
+        );
     }
 
-    $input = $application->getDefinition();
-    $options = $input->getOptions();
-    $arguments = $input->getArguments();
-    $parameters = [
-      'command_list' => $command_list,
-      'options' => $options,
-      'arguments' => $arguments,
-    ];
+    private function renderCommand($command, $path, $renderer)
+    {
+        $input = $command->getDefinition();
+        $options = $input->getOptions();
+        $arguments = $input->getArguments();
 
-    // Set the index page
-    $this->renderFile(
-      'dash/index.html.twig',
-      $path . '/DrupalConsole.docset/Contents/Resources/Documents/index.html',
+        $parameters = [
+          'options' => $options,
+          'arguments' => $arguments,
+          'command' => $command->getName(),
+          'description' => $command->getDescription(),
+          'aliases' => $command->getAliases()
+        ];
+
+        $this->renderFile(
+          'dash/generate-doc.html.twig',
+          $path . '/DrupalConsole.docset/Contents/Resources/Documents/commands/'
+          . str_replace(':', '-', $command->getName()) . '.html',
+          $parameters,
+          null,
+          $renderer
+        );
+    }
+
+    private function registerCommand($command, $path)
+    {
+        // ->query("INSERT OR IGNORE INTO searchIndex(name, type, path) VALUES (\"$name\",\"$class\",\"$href\")");
+        try {
+            $statement = $this->sqlite->prepare('INSERT OR IGNORE INTO searchIndex(name, type, path) VALUES (:name, :type, :path)');
+            $statement->bindValue(':name', $command->getName(), SQLITE3_TEXT);
+            $statement->bindValue(':type', 'Command', SQLITE3_TEXT);
+            $statement->bindValue(
+              ':path',
+              $path . '/DrupalConsole.docset/Contents/Resources/Documents/commands/'
+              . str_replace(':', '-', $command->getName()) . '.html',
+              SQLITE3_TEXT);
+            $statement->execute();
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    private function renderFile(
+      $template,
+      $target,
       $parameters,
-      NULL,
+      $flag = null,
       $renderer
-    );
-  }
-
-  private function renderCommand($command, $path, $renderer) {
-    $input = $command->getDefinition();
-    $options = $input->getOptions();
-    $arguments = $input->getArguments();
-
-    $parameters = [
-      'options' => $options,
-      'arguments' => $arguments,
-      'command' => $command->getName(),
-      'description' => $command->getDescription(),
-      'aliases' => $command->getAliases()
-    ];
-
-    $this->renderFile(
-      'dash/generate-doc.html.twig',
-      $path . '/DrupalConsole.docset/Contents/Resources/Documents/commands/'
-      . str_replace(':', '-', $command->getName()) . '.html',
-      $parameters,
-      NULL,
-      $renderer
-    );
-  }
-
-  private function registerCommand($command, $path) {
-    // ->query("INSERT OR IGNORE INTO searchIndex(name, type, path) VALUES (\"$name\",\"$class\",\"$href\")");
-    try {
-      $statement = $this->sqlite->prepare('INSERT OR IGNORE INTO searchIndex(name, type, path) VALUES (:name, :type, :path)');
-      $statement->bindValue(':name', $command->getName(), SQLITE3_TEXT);
-      $statement->bindValue(':type', 'Command', SQLITE3_TEXT);
-      $statement->bindValue(
-        ':path',
-        $path . '/DrupalConsole.docset/Contents/Resources/Documents/commands/'
-        . str_replace(':', '-', $command->getName()) . '.html',
-        SQLITE3_TEXT);
-      $statement->execute();
-    } catch (Exception $e) {
-      throw $e;
+    ) {
+        $filesystem = new Filesystem();
+        try {
+            $filesystem->dumpFile($target,
+              $renderer->render($template, $parameters));
+        } catch (IOException $e) {
+            throw $e;
+        }
     }
-  }
 
-  private function renderFile($template, $target, $parameters, $flag = NULL, $renderer) {
-    $filesystem = new Filesystem();
-    try {
-      $filesystem->dumpFile($target, $renderer->render($template, $parameters));
-    } catch (IOException $e) {
-      throw $e;
+    private function initDocset($path)
+    {
+        try {
+            $filesystem = new Filesystem();
+            $filesystem->mkdir($path . '/DrupalConsole.docset/Contents/Resources/Documents/',
+              0777);
+            $filesystem->dumpFile($path . '/DrupalConsole.docset/Contents/Info.plist',
+              self::PLIST);
+            $source_dir = $this->getApplication()->getDirectoryRoot();
+            $filesystem->copy($source_dir . '/resources/drupal-console.png',
+              $path . '/DrupalConsole.docset/icon.png');
+            // create the required sqlite db
+            $this->sqlite = new \SQLite3($path . '/DrupalConsole.docset/Contents/Resources/docSet.dsidx');
+            $this->sqlite->query("CREATE TABLE searchIndex(id INTEGER PRIMARY KEY, name TEXT, type TEXT, path TEXT)");
+            $this->sqlite->query("CREATE UNIQUE INDEX anchor ON searchIndex (name, type, path)");
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
-  }
-
-  private function initDocset($path) {
-    try {
-      $filesystem = new Filesystem();
-      $filesystem->mkdir($path . '/DrupalConsole.docset/Contents/Resources/Documents/', 0777);
-      $filesystem->dumpFile($path . '/DrupalConsole.docset/Contents/Info.plist', self::PLIST);
-      $source_dir = $this->getApplication()->getDirectoryRoot();
-      $filesystem->copy($source_dir . '/resources/drupal-console.png', $path . '/DrupalConsole.docset/icon.png');
-      // create the required sqlite db
-      $this->sqlite = new \SQLite3($path . '/DrupalConsole.docset/Contents/Resources/docSet.dsidx');
-      $this->sqlite->query("CREATE TABLE searchIndex(id INTEGER PRIMARY KEY, name TEXT, type TEXT, path TEXT)");
-      $this->sqlite->query("CREATE UNIQUE INDEX anchor ON searchIndex (name, type, path)");
-    } catch (\Exception $e) {
-      throw $e;
-    }
-  }
 }
