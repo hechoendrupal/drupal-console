@@ -190,7 +190,7 @@ PLIST;
             $statement->bindValue(':type', 'Command', SQLITE3_TEXT);
             $statement->bindValue(
               ':path',
-              $path . '/DrupalConsole.docset/Contents/Resources/Documents/commands/'
+              'commands/'
               . str_replace(':', '-', $command->getName()) . '.html',
               SQLITE3_TEXT);
             $statement->execute();
