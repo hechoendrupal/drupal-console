@@ -27,11 +27,11 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '0.9.5';
+    const VERSION = '0.9.6';
     /**
      * @var string
      */
-    const DRUPAL_VERSION = 'Drupal 8 RC-1';
+    const DRUPAL_VERSION = 'Drupal 8 RC-2';
     /**
      * @var Drupal\Console\Config
      */
@@ -90,6 +90,9 @@ class Application extends BaseApplication
         );
         $this->getDefinition()->addOption(
             new InputOption('--target', '--t', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.target'))
+        );
+        $this->getDefinition()->addOption(
+            new InputOption('--uri', '-l', InputOption::VALUE_REQUIRED, $this->trans('application.console.arguments.uri'))
         );
     }
 
@@ -166,6 +169,7 @@ class Application extends BaseApplication
             $root = $input->getParameterOption(['--root'], null);
         }
 
+        $uri = $input->getParameterOption(array('--uri', '-l'));
         $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
 
         $debug = getenv('DRUPAL_DEBUG') !== '0'
@@ -193,10 +197,10 @@ class Application extends BaseApplication
             }
         } else {
             chdir($drupal->getRoot());
-            $site->setSitePath($drupal->getRoot());
+            $site->setSiteRoot($drupal->getRoot());
 
             if ($drupal->isValidInstance()) {
-                $this->bootDrupal($env, $debug, $drupal);
+                $this->bootDrupal($env, $debug, $drupal, $uri);
             }
 
             if ($drupal->isInstalled()) {
@@ -241,17 +245,38 @@ class Application extends BaseApplication
         if (!$commands) {
             return;
         }
+
         foreach ($commands as $command) {
+            $aliases = $this->getCommandAliases($command);
+            if ($aliases) {
+                $command->setAliases($aliases);
+            }
+
             $this->add($command);
         }
+    }
+
+    /**
+     * @param $command
+     * @return array
+     */
+    private function getCommandAliases($command)
+    {
+        $aliasKey = sprintf(
+            'application.aliases.commands.%s',
+            str_replace(':', '.', $command->getName())
+        );
+
+        return $this->config->get($aliasKey);
     }
 
     /**
      * @param string     $env
      * @param bool|false $debug
      * @param $drupal
+     * @param string     $uri
      */
-    private function bootDrupal($env = 'prod', $debug = false, $drupal)
+    private function bootDrupal($env = 'prod', $debug = false, $drupal, $uri = '')
     {
         if ($debug) {
             Debug::enable();
@@ -259,6 +284,7 @@ class Application extends BaseApplication
 
         $kernelHelper = $this->getKernelHelper();
 
+        $kernelHelper->setRequestUri($uri);
         $kernelHelper->setDebug($debug);
         $kernelHelper->setEnvironment($env);
         $kernelHelper->setClassLoader($drupal->getAutoLoadClass());

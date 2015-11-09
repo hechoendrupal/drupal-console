@@ -8,6 +8,7 @@ console:
         generate-chain: '把执行选项和参数以yaml格式打印出来，作为连串命令'
         generate-inline: '把执行选项和参数以直接调用的形式打印出来，为未来使用'
         root: 'Define the Drupal root to be use in command execution'
+        uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
     messages:
         completed: '此命令执行成功！'
         chain:

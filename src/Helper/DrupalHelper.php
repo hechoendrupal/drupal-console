@@ -28,7 +28,7 @@ class DrupalHelper extends Helper
 {
     const DRUPAL_AUTOLOAD = 'autoload.php';
 
-    const DRUPAL_SETTINGS = 'sites/default/settings.php';
+    const DEFAULT_SETTINGS_PHP = 'sites/default/settings.php';
 
     /**
      * @var string
@@ -87,7 +87,7 @@ class DrupalHelper extends Helper
      */
     private function isSettingsFile()
     {
-        $settingsPath = sprintf('%s/%s', $this->root, self::DRUPAL_SETTINGS);
+        $settingsPath = sprintf('%s/%s', $this->root, self::DEFAULT_SETTINGS_PHP);
 
         return file_exists($settingsPath);
     }
@@ -155,7 +155,7 @@ class DrupalHelper extends Helper
     /**
      * @return mixed array
      */
-    public function getStandardtLanguages()
+    public function getStandardLanguages()
     {
         $standard_languages = LanguageManager::getStandardLanguageList();
         $languages = [];

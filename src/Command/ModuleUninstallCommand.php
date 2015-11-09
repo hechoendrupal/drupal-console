@@ -17,8 +17,8 @@ class ModuleUninstallCommand extends ContainerAwareCommand
     {
         $this
             ->setName('module:uninstall')
-            ->setDescription($this->trans('commands.module.install.description'))
-            ->addArgument('module', InputArgument::REQUIRED, $this->trans('commands.module.install.options.module'));
+            ->setDescription($this->trans('commands.module.uninstall.description'))
+            ->addArgument('module', InputArgument::REQUIRED, $this->trans('commands.module.uninstall.options.module'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
