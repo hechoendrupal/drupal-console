@@ -25,22 +25,22 @@ class SiteHelper extends Helper
     /**
      * @var string
      */
-    private $sitePath;
+    private $siteRoot;
 
     /**
      * @return string
      */
-    public function getSitePath()
+    public function getSiteRoot()
     {
-        return $this->sitePath;
+        return $this->siteRoot;
     }
 
     /**
-     * @param string $sitePath
+     * @param string $siteRoot
      */
-    public function setSitePath($sitePath)
+    public function setSiteRoot($siteRoot)
     {
-        $this->sitePath = $sitePath;
+        $this->siteRoot = $siteRoot;
     }
 
     /**
@@ -138,7 +138,7 @@ class SiteHelper extends Helper
 
         $modulePath = sprintf(
             '%s/%s',
-            $this->sitePath,
+            $this->siteRoot,
             $this->modules[$moduleName]->getPath()
         );
 
@@ -146,7 +146,7 @@ class SiteHelper extends Helper
             $modulePath = str_replace(
                 sprintf(
                     '%s/',
-                    $this->sitePath
+                    $this->siteRoot
                 ),
                 '',
                 $modulePath

@@ -105,7 +105,7 @@ class SiteStatusCommand extends ContainerAwareCommand
 
         Settings::initialize(
             $drupal->getRoot(),
-            'sites/default',
+            $kernelHelper->getSitePath(),
             $kernelHelper->getClassLoader()
         );
 

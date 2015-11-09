@@ -37,7 +37,7 @@ class ValidateDependenciesListener implements EventSubscriberInterface
 
         if ($dependencies) {
             foreach ($dependencies as $dependency) {
-                if ($application->getValidator()->validateModuleExist($dependency) === false) {
+                if ($application->getValidator()->validateModuleInstalled($dependency) === false) {
                     $errorMessage = sprintf(
                         $translatorHelper->trans('commands.common.errors.module-dependency'),
                         $dependency

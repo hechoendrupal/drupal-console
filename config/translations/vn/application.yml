@@ -8,6 +8,7 @@ console:
         generate-chain: 'In các lựa chọn thi hành và các đối số dạng yaml, để sử dụng trong chuỗi lệnh'
         generate-inline: 'In các lựa chọn thi hành và các đối số dạng inline, để sử dụng sau'
         root: 'Define the Drupal root to be use in command execution'
+        uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
     messages:
         completed: 'Dòng lệnh đã được thực thi thành công!'
         chain:
