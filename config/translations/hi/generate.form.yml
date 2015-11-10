@@ -1,10 +1,3 @@
-alter:
-    description: 'एक hook_form_alter() या hook_form_FORM_ID_alter कार्यान्वयन उत्पन्न करें'
-    help: '<info>%s</info> कमाण्ड एक नया %s उत्पन्न करने में मदद करता है'
-    options:
-        form-id: 'Form ID को बदलने के लिए'
-    messages:
-        inputs: "फॉर्म को बदलने लिए फॉर्म में आप खाने डाल सकते हैं।\nइच्छानुसार <info>जारी</info> रखने के लिए <info>enter</info> कुंजी दबाएँ"
 description: 'एक नया %s उत्पन्न करें'
 help: '<info>%s</info> कमाण्ड एक नया %s उत्पन्न करने में मदद करता है'
 welcome: 'Drupal फॉर्म उत्पादक में आपका स्वागत है'
@@ -22,3 +15,10 @@ questions:
     services: common.questions.services
     inputs: common.questions.inputs
     routing: 'राउटिंग फाइल अवगत करें'
+alter:
+    description: 'एक hook_form_alter() या hook_form_FORM_ID_alter कार्यान्वयन उत्पन्न करें'
+    help: '<info>%s</info> कमाण्ड एक नया %s उत्पन्न करने में मदद करता है'
+    options:
+        form-id: 'Form ID को बदलने के लिए'
+    messages:
+        inputs: "फॉर्म को बदलने लिए फॉर्म में आप खाने डाल सकते हैं।\nइच्छानुसार <info>जारी</info> रखने के लिए <info>enter</info> कुंजी दबाएँ"

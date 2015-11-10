@@ -31,6 +31,6 @@ errors:
     class-name-empty: 'क्लास का नाम खली नही रह सकता'
 status:
     enabled: सक्षम
-    disabled: अक्षम
+    disabled: 'अक्षम'
 messages:
     canceled: 'उत्पन्न रद्द कर दिया गया'

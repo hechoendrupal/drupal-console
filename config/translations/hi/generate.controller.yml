@@ -4,8 +4,9 @@ welcome: 'Drupal कंट्रोलर उत्पादक में आप
 options:
     module: common.options.module
     class-name: 'कंट्रोलर क्लास का नाम'
+    controller-title: 'Title of the controller'
     method-name: 'प्रक्रिया मेथड का नाम'
-    route: 'मार्ग'
+    route: मार्ग
     services: common.options.services
     test: 'एक परिक्षण क्लास उत्पन्न करें'
 questions:
