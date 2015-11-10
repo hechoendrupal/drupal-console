@@ -44,7 +44,7 @@
     </thead>
     <tbody>
     {% for argument in arguments %}
-        <tr>
+        <tr class="{{ cycle(['odd', 'even'], loop.index0) }}">
             <td>{{ argument.name }}</td>
             <td>{{ argument.description }}</td>
         </tr>
