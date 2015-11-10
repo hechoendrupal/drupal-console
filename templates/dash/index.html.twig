@@ -122,7 +122,7 @@
         </thead>
         <tbody>
         {% for option in options %}
-            <tr>
+            <tr class="{{ cycle(['odd', 'even'], loop.index0) }}">
                 <td>{{ option.name }}</td>
                 <td>{{ option.description }}</td>
             </tr>
@@ -141,7 +141,7 @@
         </thead>
         <tbody>
         {% for argument in arguments %}
-            <tr>
+            <tr class="{{ cycle(['odd', 'even'], loop.index0) }}">
                 <td>{{ argument.name }}</td>
                 <td>{{ argument.description }}</td>
             </tr>
