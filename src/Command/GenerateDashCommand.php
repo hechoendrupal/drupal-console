@@ -16,7 +16,6 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 class GenerateDashCommand extends ContainerAwareCommand
 {
-
     /**
      * @constant Contents of the plist file required by the docset format.
      */
@@ -51,7 +50,6 @@ PLIST;
 
     /**
      * @var SQLite3 Controller for the sqlite db required by the docset format.
-     *
      */
     private $sqlite;
 
@@ -61,14 +59,15 @@ PLIST;
     protected function configure()
     {
         $this
-          ->setName('generate:doc:dash')
-          ->setDescription($this->trans('commands.generate.doc.dash.description'))
-          ->addOption(
-            'path',
-            null,
-            InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.doc.dash.options.path')
-          );;
+            ->setName('generate:doc:dash')
+            ->setDescription($this->trans('commands.generate.doc.dash.description'))
+            ->addOption(
+                'path',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.doc.dash.options.path')
+            );
+        ;
     }
 
     /**
@@ -86,7 +85,7 @@ PLIST;
 
         if (!$path) {
             $message->addErrorMessage(
-              $this->trans('commands.generate.doc.dash.messages.missing_path')
+                $this->trans('commands.generate.doc.dash.messages.missing_path')
             );
 
             return 1;
@@ -112,18 +111,18 @@ PLIST;
         sort($namespaces);
 
         $namespaces = array_filter(
-          $namespaces, function ($item) {
-            return (strpos($item, ':') <= 0);
-        }
+            $namespaces, function ($item) {
+                return (strpos($item, ':') <= 0);
+            }
         );
 
         foreach ($namespaces as $namespace) {
             $commands = $application->all($namespace);
 
             usort(
-              $commands, function ($cmd1, $cmd2) {
-                return strcmp($cmd1->getName(), $cmd2->getName());
-            }
+                $commands, function ($cmd1, $cmd2) {
+                    return strcmp($cmd1->getName(), $cmd2->getName());
+                }
             );
 
             foreach ($commands as $command) {
@@ -150,11 +149,11 @@ PLIST;
 
         // Set the index page
         $this->renderFile(
-          'dash/index.html.twig',
-          $path . '/DrupalConsole.docset/Contents/Resources/Documents/index.html',
-          $parameters,
-          null,
-          $renderer
+            'dash/index.html.twig',
+            $path . '/DrupalConsole.docset/Contents/Resources/Documents/index.html',
+            $parameters,
+            null,
+            $renderer
         );
     }
 
@@ -174,12 +173,12 @@ PLIST;
         ];
 
         $this->renderFile(
-          'dash/generate-doc.html.twig',
-          $path . '/DrupalConsole.docset/Contents/Resources/Documents/commands/'
-          . str_replace(':', '-', $command->getName()) . '.html',
-          $parameters,
-          null,
-          $renderer
+            'dash/generate-doc.html.twig',
+            $path . '/DrupalConsole.docset/Contents/Resources/Documents/commands/'
+            . str_replace(':', '-', $command->getName()) . '.html',
+            $parameters,
+            null,
+            $renderer
         );
     }
 
@@ -191,10 +190,11 @@ PLIST;
             $statement->bindValue(':name', $command->getName(), SQLITE3_TEXT);
             $statement->bindValue(':type', 'Command', SQLITE3_TEXT);
             $statement->bindValue(
-              ':path',
-              'commands/'
-              . str_replace(':', '-', $command->getName()) . '.html',
-              SQLITE3_TEXT);
+                ':path',
+                'commands/'
+                . str_replace(':', '-', $command->getName()) . '.html',
+                SQLITE3_TEXT
+            );
             $statement->execute();
         } catch (Exception $e) {
             throw $e;
@@ -202,16 +202,18 @@ PLIST;
     }
 
     private function renderFile(
-      $template,
-      $target,
-      $parameters,
-      $flag = null,
-      $renderer
+        $template,
+        $target,
+        $parameters,
+        $flag = null,
+        $renderer
     ) {
         $filesystem = new Filesystem();
         try {
-            $filesystem->dumpFile($target,
-              $renderer->render($template, $parameters));
+            $filesystem->dumpFile(
+                $target,
+                $renderer->render($template, $parameters)
+            );
         } catch (IOException $e) {
             throw $e;
         }
@@ -221,15 +223,23 @@ PLIST;
     {
         try {
             $filesystem = new Filesystem();
-            $filesystem->mkdir($path . '/DrupalConsole.docset/Contents/Resources/Documents/',
-              0777);
-            $filesystem->dumpFile($path . '/DrupalConsole.docset/Contents/Info.plist',
-              self::PLIST);
+            $filesystem->mkdir(
+                $path . '/DrupalConsole.docset/Contents/Resources/Documents/',
+                0777
+            );
+            $filesystem->dumpFile(
+                $path . '/DrupalConsole.docset/Contents/Info.plist',
+                self::PLIST
+            );
             $source_dir = $this->getApplication()->getDirectoryRoot();
-            $filesystem->copy($source_dir . '/resources/drupal-console.png',
-              $path . '/DrupalConsole.docset/icon.png');
-            $filesystem->copy($source_dir . '/resources/dash.css',
-              $path . '/DrupalConsole.docset/Contents/Resources/Documents/style.css');
+            $filesystem->copy(
+                $source_dir . '/resources/drupal-console.png',
+                $path . '/DrupalConsole.docset/icon.png'
+            );
+            $filesystem->copy(
+                $source_dir . '/resources/dash.css',
+                $path . '/DrupalConsole.docset/Contents/Resources/Documents/style.css'
+            );
             // create the required sqlite db
             $this->sqlite = new \SQLite3($path . '/DrupalConsole.docset/Contents/Resources/docSet.dsidx');
             $this->sqlite->query("CREATE TABLE searchIndex(id INTEGER PRIMARY KEY, name TEXT, type TEXT, path TEXT)");
