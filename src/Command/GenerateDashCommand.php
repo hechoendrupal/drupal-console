@@ -145,6 +145,7 @@ PLIST;
           'command_list' => $command_list,
           'options' => $options,
           'arguments' => $arguments,
+          'css_path' => 'style.css'
         ];
 
         // Set the index page
@@ -168,7 +169,8 @@ PLIST;
           'arguments' => $arguments,
           'command' => $command->getName(),
           'description' => $command->getDescription(),
-          'aliases' => $command->getAliases()
+          'aliases' => $command->getAliases(),
+          'css_path' => '../style.css'
         ];
 
         $this->renderFile(
@@ -226,6 +228,8 @@ PLIST;
             $source_dir = $this->getApplication()->getDirectoryRoot();
             $filesystem->copy($source_dir . '/resources/drupal-console.png',
               $path . '/DrupalConsole.docset/icon.png');
+            $filesystem->copy($source_dir . '/resources/dash.css',
+              $path . '/DrupalConsole.docset/Contents/Resources/Documents/style.css');
             // create the required sqlite db
             $this->sqlite = new \SQLite3($path . '/DrupalConsole.docset/Contents/Resources/docSet.dsidx');
             $this->sqlite->query("CREATE TABLE searchIndex(id INTEGER PRIMARY KEY, name TEXT, type TEXT, path TEXT)");
