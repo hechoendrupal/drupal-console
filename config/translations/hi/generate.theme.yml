@@ -12,7 +12,7 @@ options:
     base-theme: 'आधार थीम (i.e. classy, seven)'
     global-library: 'वैश्विक स्टाइल पुस्तकालय नाम'
     regions: क्षेत्र
-    breakpoints: ब्रेक पॉइंट्स
+    breakpoints: 'ब्रेक पॉइंट्स'
 questions:
     theme: 'नया थीम का नाम दर्ज करें'
     machine-name: 'थीम का यांत्रिक नाम दर्ज करें'
