@@ -1,19 +1,19 @@
-description: 'Generate documentations for Commands'
+description: 'Generar documentaciones para Comandos'
 options:
-  path: 'The path to render the documentation'
+  path: 'La ruta donde exportar la documentación'
 messages:
-  missing_path: 'The path is missing'
+  missing_path: 'La ruta de exportación no fue proveida'
 output:
   available-commands:
-    title: 'Available Drupal Console Commands'
+    title: 'Comandos Drupal Console disponibles'
     note: 'Note'
-    note-description: 'Drupal Console commands *must* be run from the root of a Drupal 8 installation'
-    command: 'Drupal Console Command'
+    note-description: 'Comandos de Drupal Console que *deben* ser ejecutados desde una instalación de Drupal 8'
+    command: 'Comando de Drupal Console'
   command:
-    command_description: 'The **%s** command %s'
-    usage: 'Usage'
-    options: 'Available options'
-    option: Option
-    details: Details
-    arguments: 'Available arguments'
-    argument: 'Argument'
+    command_description: 'El comando **%s** %s'
+    usage: 'Uso'
+    options: 'Opciones disponibles'
+    option: Opción
+    details: Detalles
+    arguments: 'Argumentos disponibles'
+    argument: 'Argumento'
