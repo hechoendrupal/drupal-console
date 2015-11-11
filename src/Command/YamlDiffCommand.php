@@ -118,21 +118,26 @@ class YamlDiffCommand extends Command
         $table = $this->getTableHelper();
         $table->setlayout($table::LAYOUT_COMPACT);
 
-        if($stats) {
-
+        if ($stats) {
             $message->addInfoMessage(
-                sprintf($this->trans('commands.yaml.diff.messages.total'),
-                    $statisticts['total'])
+                sprintf(
+                    $this->trans('commands.yaml.diff.messages.total'),
+                    $statisticts['total']
+                )
             );
 
             $message->addInfoMessage(
-                sprintf($this->trans('commands.yaml.diff.messages.diff'),
-                    $statisticts['diff'])
+                sprintf(
+                    $this->trans('commands.yaml.diff.messages.diff'),
+                    $statisticts['diff']
+                )
             );
 
             $message->addInfoMessage(
-                sprintf($this->trans('commands.yaml.diff.messages.equal'),
-                    $statisticts['equal'])
+                sprintf(
+                    $this->trans('commands.yaml.diff.messages.equal'),
+                    $statisticts['equal']
+                )
             );
 
             return;
