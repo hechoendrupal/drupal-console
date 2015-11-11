@@ -110,15 +110,15 @@ class GenerateDocCommand extends ContainerAwareCommand
             'options' => $options,
             'arguments' => $arguments,
             'messages' => array(
-                'title' =>  $this->trans('commands.generate.doc.output.available-commands.title'),
-                'note' =>  $this->trans('commands.generate.doc.output.available-commands.note'),
-                'note_description' =>  $this->trans('commands.generate.doc.output.available-commands.note-description'),
-                'command' =>  $this->trans('commands.generate.doc.output.available-commands.command'),
-                'options' => $this->trans('commands.generate.doc.output.command.options'),
-                'option' => $this->trans('commands.generate.doc.output.command.options'),
-                'details' => $this->trans('commands.generate.doc.output.command.details'),
-                'arguments' => $this->trans('commands.generate.doc.output.command.arguments'),
-                'argument' => $this->trans('commands.generate.doc.output.command.argument'),
+                'title' =>  $this->trans('commands.generate.doc.gitbook.output.available-commands.title'),
+                'note' =>  $this->trans('commands.generate.doc.gitbook.output.available-commands.note'),
+                'note_description' =>  $this->trans('commands.generate.doc.gitbook.output.available-commands.note-description'),
+                'command' =>  $this->trans('commands.generate.doc.gitbook.output.available-commands.command'),
+                'options' => $this->trans('commands.generate.doc.gitbook.output.command.options'),
+                'option' => $this->trans('commands.generate.doc.gitbook.output.command.options'),
+                'details' => $this->trans('commands.generate.doc.gitbook.output.command.details'),
+                'arguments' => $this->trans('commands.generate.doc.gitbook.output.command.arguments'),
+                'argument' => $this->trans('commands.generate.doc.gitbook.output.command.argument'),
             )
         ];
 
