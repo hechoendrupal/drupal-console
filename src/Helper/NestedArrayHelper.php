@@ -190,24 +190,38 @@ class NestedArrayHelper extends BaseDialogHelper
      * @param bool   $negate if Negate is true only if values are equal are returned.
      * @return array
      */
-    public function array_diff($array1, $array2, $negate = false)
+    public function array_diff($array1, $array2, $negate = false, &$statisticts)
     {
         $result = array();
         foreach ($array1 as $key => $val) {
             if (isset($array2[$key])) {
                 if (is_array($val) && $array2[$key]) {
-                    $result[$key] = $this->array_diff($val, $array2[$key], $negate);
+                    $result[$key] = $this->array_diff($val, $array2[$key], $negate, $statisticts);
                     if (empty($result[$key])) {
                         unset($result[$key]);
                     }
-                } elseif ($val == $array2[$key] && $negate) {
-                    $result[$key] = $array2[$key];
-                } elseif ($val != $array2[$key] and !$negate) {
-                    $result[$key] = $array2[$key];
+                } else {
+                    $statisticts['total'] += 1;
+                    if ($val == $array2[$key] && $negate) {
+                        $result[$key] = $array2[$key];
+                        $statisticts['diff'] += 1;
+                    } elseif ($val != $array2[$key] && $negate) {
+                        $statisticts['equal'] += 1;
+                    } elseif ($val != $array2[$key] and !$negate) {
+                        $result[$key] = $array2[$key];
+                        $statisticts['equal'] += 1;
+                    } elseif ($val == $array2[$key] and !$negate) {
+                        $result[$key] = $array2[$key];
+                        $statisticts['diff'] += 1;
+                    }
                 }
             } else {
-                if (isset($array2[$key])) {
-                    $result[$key] = $array2[$key];
+                if (is_array($val)) {
+                    $statisticts['diff'] += count($val, COUNT_RECURSIVE);
+                    $statisticts['total'] += count($val, COUNT_RECURSIVE);
+                } else {
+                    $statisticts['diff'] +=1;
+                    $statisticts['total'] += 1;
                 }
             }
         }
