@@ -5,7 +5,7 @@ messages:
   no-languages: "No hay disponibilidad de idiomas traducibles. Primero agrege un idioma."
   up-to-date: "Todas las traducciones hasta la fecha."
   no-translations: 'Estado de la traducción no disponible. Chequee manualmente'
-  project: 'Projecto'
+  project: 'Proyecto'
   version: 'Versión'
   local-age: 'Edad local'
   remote-age: 'Edad remota'
