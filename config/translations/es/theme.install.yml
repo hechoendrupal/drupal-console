@@ -1,6 +1,6 @@
 description: 'Instalar tema o temas en la aplicación'
 questions:
-    theme: 'nombre del tema theme name (presiones <enter> para detener el agregado de temas)'
+    theme: 'nombre del tema (presione <enter> para detener el agregado de temas)'
     invalid-theme: '%s tema no válido'
 options:
     theme: 'tema o temas que serán activados deberían estar separados por comas'
