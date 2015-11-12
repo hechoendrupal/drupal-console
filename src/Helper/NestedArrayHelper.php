@@ -204,15 +204,15 @@ class NestedArrayHelper extends BaseDialogHelper
                     $statisticts['total'] += 1;
                     if ($val == $array2[$key] && $negate) {
                         $result[$key] = $array2[$key];
-                        $statisticts['diff'] += 1;
-                    } elseif ($val != $array2[$key] && $negate) {
                         $statisticts['equal'] += 1;
+                    } elseif ($val != $array2[$key] && $negate) {
+                        $statisticts['diff'] += 1;
                     } elseif ($val != $array2[$key] and !$negate) {
                         $result[$key] = $array2[$key];
-                        $statisticts['equal'] += 1;
+                        $statisticts['diff'] += 1;
                     } elseif ($val == $array2[$key] and !$negate) {
                         $result[$key] = $array2[$key];
-                        $statisticts['diff'] += 1;
+                        $statisticts['equal'] += 1;
                     }
                 }
             } else {
