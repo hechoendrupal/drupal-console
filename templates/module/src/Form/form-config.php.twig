@@ -19,10 +19,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 {% block class_declaration %}
 /**
-* Class {{ class_name }}.
-*
-* @package Drupal\{{module_name}}\Form
-*/
+ * Class {{ class_name }}.
+ *
+ * @package Drupal\{{module_name}}\Form
+ */
 class {{ class_name }} extends ConfigFormBase {% endblock %}
 {% block class_construct %}
 {% if services is not empty %}
@@ -52,8 +52,8 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
   {% block class_methods %}
 
   /**
-  * {@inheritdoc}
-  */
+   * {@inheritdoc}
+   */
   protected function getEditableConfigNames() {
     return [
     '{{module_name}}.{{class_name_short}}'
@@ -61,15 +61,15 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
   }
 
   /**
-  * {@inheritdoc}
-  */
+   * {@inheritdoc}
+   */
   public function getFormId() {
     return '{{form_id}}';
   }
 
   /**
-  * {@inheritdoc}
-  */
+   * {@inheritdoc}
+   */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('{{module_name}}.{{class_name_short}}');
   {% for input in inputs %}
@@ -96,15 +96,15 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
   }
 
   /**
-  * {@inheritdoc}
-  */
+   * {@inheritdoc}
+   */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     parent::validateForm($form, $form_state);
   }
 
   /**
-  * {@inheritdoc}
-  */
+   * {@inheritdoc}
+   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
 
