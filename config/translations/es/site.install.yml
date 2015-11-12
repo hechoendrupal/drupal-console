@@ -1,7 +1,7 @@
 description: 'Instala un proyecto Drupal'
 arguments:
     profile: 'Perfil de Drupal que será instalado'
-    langcode: 'Idioma'
+    langcode: Idioma
     db-type: 'Tipo de base de datos'
     site-name: 'Nombre del sitio'
     site-mail: 'Dirección de correo electrónico del sitio'
