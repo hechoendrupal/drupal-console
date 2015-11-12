@@ -2,7 +2,7 @@ description: Lista de traducciones disponibles actualizadas
 arguments:
   language: Idioma por ejemplo es o Español
 messages:
-  no-languages: "No hay idioma traducible, Añada un idioma primero."
+  no-languages: "No hay idioma traducible, Elija un idioma primero."
   up-to-date: "Todas las traducciones actualizadas."
   no-translations: 'No hay status de traducción disponible. Checar manualmente'
   project: 'Proyecto'
