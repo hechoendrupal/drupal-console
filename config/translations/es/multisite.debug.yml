@@ -1,4 +1,4 @@
-description: "List all multisites available in system"
+description: "Listar todos los dominios multisite disponibles en el sistema"
 help: 'The <info>multisite:debug</info> list all known multi sites.'
 messages:
   no-multisites: "There aren't multisites configured"
