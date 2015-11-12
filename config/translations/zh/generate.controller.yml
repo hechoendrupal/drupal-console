@@ -4,6 +4,7 @@ welcome: 'Welcome to the Drupal Controller generator'
 options:
     module: common.options.module
     class-name: 'Controller Class name'
+    controller-title: 'Title of the controller'
     method-name: 'The action method name'
     route: 'The route path'
     services: common.options.services
