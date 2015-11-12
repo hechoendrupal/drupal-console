@@ -32,3 +32,5 @@ errors:
 status:
     enabled: Enabled
     disabled: Disabled
+messages:
+    canceled: 'Generated Cancelled'
