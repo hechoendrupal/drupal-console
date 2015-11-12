@@ -1,1 +1,3 @@
 description: 'Copiar archivos de configuración al directorio home del usuario.'
+options:
+    override: 'Override configurations files'

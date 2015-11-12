@@ -3,6 +3,7 @@ arguments:
     yaml-left: 'Fişierul YAML folosit ca bază pentru comparare.'
     yaml-right: 'Fişierul YAML folosit pentru a determina lipsurile şi diferenţele cu fişierul de bază.'
 options:
+    stats: 'Print statistics about YAML files comparation'
     negate: 'Define mode diff or equal comparation, valori posibile TRUE/FALSE sau 0/1'
     limit: 'Limitează rezultatele la un anumit număr.'
     offset: 'Începutul unei limite'
@@ -12,3 +13,6 @@ questions:
 messages:
     key: 'Cheia YAML'
     value: 'Valoarea YAML'
+    total: 'Total: %s'
+    diff: 'Diff: %s'
+    equal: 'Equal: %s'

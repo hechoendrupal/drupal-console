@@ -29,13 +29,13 @@ class GenerateDocCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('generate:doc')
-            ->setDescription($this->trans('commands.generate.doc.description'))
+            ->setName('generate:doc:gitbook')
+            ->setDescription($this->trans('commands.generate.doc.gitbook.description'))
             ->addOption(
                 'path',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.doc.options.path')
+                $this->trans('commands.generate.doc.gitbook.options.path')
             );
         ;
     }
@@ -55,7 +55,7 @@ class GenerateDocCommand extends ContainerAwareCommand
 
         if (!$path) {
             $message->addErrorMessage(
-                $this->trans('commands.generate.doc.messages.missing_path')
+                $this->trans('commands.generate.doc.gitbook.messages.missing_path')
             );
 
             return 1;
@@ -110,15 +110,15 @@ class GenerateDocCommand extends ContainerAwareCommand
             'options' => $options,
             'arguments' => $arguments,
             'messages' => array(
-                'title' =>  $this->trans('commands.generate.doc.output.available-commands.title'),
-                'note' =>  $this->trans('commands.generate.doc.output.available-commands.note'),
-                'note_description' =>  $this->trans('commands.generate.doc.output.available-commands.note-description'),
-                'command' =>  $this->trans('commands.generate.doc.output.available-commands.command'),
-                'options' => $this->trans('commands.generate.doc.output.command.options'),
-                'option' => $this->trans('commands.generate.doc.output.command.options'),
-                'details' => $this->trans('commands.generate.doc.output.command.details'),
-                'arguments' => $this->trans('commands.generate.doc.output.command.arguments'),
-                'argument' => $this->trans('commands.generate.doc.output.command.argument'),
+                'title' =>  $this->trans('commands.generate.doc.gitbook.output.available-commands.title'),
+                'note' =>  $this->trans('commands.generate.doc.gitbook.output.available-commands.note'),
+                'note_description' =>  $this->trans('commands.generate.doc.gitbook.output.available-commands.note-description'),
+                'command' =>  $this->trans('commands.generate.doc.gitbook.output.available-commands.command'),
+                'options' => $this->trans('commands.generate.doc.gitbook.output.command.options'),
+                'option' => $this->trans('commands.generate.doc.gitbook.output.command.options'),
+                'details' => $this->trans('commands.generate.doc.gitbook.output.command.details'),
+                'arguments' => $this->trans('commands.generate.doc.gitbook.output.command.arguments'),
+                'argument' => $this->trans('commands.generate.doc.gitbook.output.command.argument'),
             )
         ];
 

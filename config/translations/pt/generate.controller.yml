@@ -4,6 +4,7 @@ welcome: 'Bem-vindo ao Criador de controller do Drupal.'
 options:
     module: common.options.module
     class-name: 'Nome da classe do Controller'
+    controller-title: 'Title of the controller'
     method-name: 'O nome do método'
     route: 'O caminho da rota'
     services: common.options.services
