@@ -33,9 +33,15 @@ class YamlDiffCommand extends Command
                 $this->trans('commands.yaml.diff.arguments.yaml-right')
             )
             ->addOption(
+                'stats',
+                false,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.yaml.diff.options.stats')
+            )
+            ->addOption(
                 'negate',
                 false,
-                InputOption::VALUE_REQUIRED,
+                InputOption::VALUE_NONE,
                 $this->trans('commands.yaml.diff.options.negate')
             )
             ->addOption(
@@ -56,11 +62,13 @@ class YamlDiffCommand extends Command
     {
         $yaml = new Parser();
         $dumper = new Dumper();
-        $messageHelper = $this->getMessageHelper();
+        $message = $this->getMessageHelper();
 
         $final_yaml = array();
         $yaml_left = $input->getArgument('yaml-left');
         $yaml_right = $input->getArgument('yaml-right');
+
+        $stats = $input->getOption('stats');
 
         $negate = $input->getOption('negate');
 
@@ -103,9 +111,37 @@ class YamlDiffCommand extends Command
 
         $nested_array = $this->getNestedArrayHelper();
 
-        $diff = $nested_array->array_diff($yaml_left_parsed, $yaml_right_parsed, $negate);
+        $statisticts = ['total' => 0, 'equal'=> 0 , 'diff' => 0];
+        $diff = $nested_array->array_diff($yaml_left_parsed, $yaml_right_parsed, $negate, $statisticts);
 
 
+        $table = $this->getTableHelper();
+        $table->setlayout($table::LAYOUT_COMPACT);
+
+        if ($stats) {
+            $message->addInfoMessage(
+                sprintf(
+                    $this->trans('commands.yaml.diff.messages.total'),
+                    $statisticts['total']
+                )
+            );
+
+            $message->addInfoMessage(
+                sprintf(
+                    $this->trans('commands.yaml.diff.messages.diff'),
+                    $statisticts['diff']
+                )
+            );
+
+            $message->addInfoMessage(
+                sprintf(
+                    $this->trans('commands.yaml.diff.messages.equal'),
+                    $statisticts['equal']
+                )
+            );
+
+            return;
+        }
         // FLAT YAML file to display full yaml to be used with command yaml:update:key or yaml:update:value
         $diff_flatten = array();
         $key_flatten = '';
@@ -117,9 +153,6 @@ class YamlDiffCommand extends Command
             }
             $diff_flatten = array_slice($diff_flatten, $offset, $limit);
         }
-
-        $table = $this->getTableHelper();
-        $table->setlayout($table::LAYOUT_COMPACT);
 
         $table->setHeaders(
             [

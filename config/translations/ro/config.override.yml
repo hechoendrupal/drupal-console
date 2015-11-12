@@ -1,8 +1,8 @@
 description: 'Rescrie valoarea inițiala de configurare într-o configurare activă.'
 arguments:
     config-name: 'Numele configurării.'
-    key: 'Cheie'
-    value: 'Valoare'
+    key: Cheie
+    value: Valoare
 messages:
     configuration: 'Numele configurării'
     configuration-key: 'Cheia configurării'

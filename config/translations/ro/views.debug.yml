@@ -1,11 +1,11 @@
 description: 'Afişează resursele curente ale view-ului pentru aplicatie.'
 arguments:
-    view-id: 'ID'
-    view-tag: 'etichetă'
+    view-id: ID
+    view-tag: etichetă
     view-status: 'status (Enabled|Disabled)'
 messages:
-    view-id: 'ID'
-    view-name: 'Nume'
+    view-id: ID
+    view-name: Nume
     description: Descriere
     tag: Etichetă
     status: Status

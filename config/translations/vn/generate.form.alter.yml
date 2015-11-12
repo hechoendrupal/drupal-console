@@ -4,5 +4,5 @@ options:
     form-id: 'Form ID to alter'
 messages:
     inputs: "You can add form fields to modify form.\nThis is optional, press <info>enter</info> to <info>continue</info>"
-    loading-forms: Loading forms definition from Webprofiler module
+    loading-forms: 'Loading forms definition from Webprofiler module'
     hide-form-elements: 'Optionally you can select form items for hide'
