@@ -16,5 +16,3 @@ messages:
     total: 'Total: %s'
     diff: 'Diff: %s'
     equal: 'Equal: %s'
-
-

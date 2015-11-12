@@ -23,7 +23,7 @@ questions:
         permission: '¿Deseas generar permisos?'
         type: Tipo
         invalid: 'El campo de tipo "%s" es inválido.'
-        description: 'Descripción'
+        description: Descripción
         default-value: 'Valor por defecto'
         weight: 'Peso para el elemento ''input''.'
 errors:
@@ -32,3 +32,5 @@ errors:
 status:
     enabled: Enabled
     disabled: Disabled
+messages:
+    canceled: 'Generated Cancelled'

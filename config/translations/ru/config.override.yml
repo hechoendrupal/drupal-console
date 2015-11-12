@@ -1,0 +1,10 @@
+description: 'Override config value in active configuration.'
+arguments:
+    config-name: 'Configuration name.'
+    key: Key
+    value: Value
+messages:
+    configuration: 'Configuration name'
+    configuration-key: 'Configuration key'
+    original: 'Original Value'
+    updated: 'Override Value'
