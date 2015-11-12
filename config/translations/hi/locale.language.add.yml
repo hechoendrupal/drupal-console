@@ -1,1 +1,3 @@
-null
+description: Add a language to be supported by your site
+messages:
+  invalid-language: "Language %s it's an invalid language"
