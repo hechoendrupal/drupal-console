@@ -1,4 +1,4 @@
-description: List available translation updates
+description: Listar traducciones disponibles
 arguments:
   language: Language for instance es or Spanish
 messages:
