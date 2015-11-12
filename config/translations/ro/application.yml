@@ -7,10 +7,10 @@ console:
         learning: 'Generarea unui cod verbal.'
         generate-chain: 'Printează opțiunile și argumentele de execuție în format yaml pentru a fi folosit în comandă înlănțuită'
         generate-inline: 'Printează opțiunile și argumentele de execuție în apel inline pentru a fi folosit pe viitor'
-    messages:
-        completed: 'Comanda a fost executată cu succes!'
         root: 'Define the Drupal root to be use in command execution'
         uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
+    messages:
+        completed: 'Comanda a fost executată cu succes!'
         chain:
             generated: 'Mai jos puteți găsi reprezentarea yaml pentru ultima comandă executată, ex. copie în ~/.console/chain/sample.yml pentru a executa în interiorul unei secvențe de comenzi'
         inline:
@@ -21,6 +21,9 @@ console:
             copied: 'Fișiere copiate'
         learning:
             route: "Pentru a crea pagini, trebuie definite route pentru ele.\nO roută mapează un URL cu un Controller. Acesta stabilește cu ce\nfuncție sau metodă din Clasă va fi apelată când URL-ul este accesat.\nDacă utilizatorul accesează http://drupal8.dev/{{ route }}, sistemul de\nrutare va căuta ruta respectivă din URL. În acest caz acesta va fi găsit\nși va apela executarea \"_controller callback\". În acest caz \"callback\"-ul este\ndefinit în Clasa (\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nși metoda (\"{{ method_name }}\").\n"
+        autocomplete: "Bash or Zsh: Add this line to your shell configuration file:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Create a symbolic link\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
+        root: 'Define the Drupal root to be use in command execution'
+        uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
     errors:
         invalid-command: 'Comanda "%s" nu este definită.'
     input:
