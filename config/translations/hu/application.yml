@@ -21,6 +21,7 @@ console:
             copied: 'Másolt fájlok'
         learning:
             route: "Oldalak létrehozásához szükséges útvonal (route) meghatározása.\nA route határozza meg, hogy egy adott URL-t mely Controllernek adjuk át.\nMely metődust hív meg az adtt URL.\nHa a felhasználó betölti a http://drupal8.dev/{{ route }}, a route\nrendszer ellenőtzi, hogy mely route tartozik az URL-hez. Találat esetén\nvégrehajtja a _controller hívást. A hívás osztálynévként van definiálva\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nmetódus neve: (\"{{ method_name }}\")."
+        autocomplete: "Bash or Zsh: Add this line to your shell configuration file:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Create a symbolic link\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
     errors:
         invalid-command: 'A "%s" parancs nincs definiálva.'
     input:
