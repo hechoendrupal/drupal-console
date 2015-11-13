@@ -45,13 +45,13 @@ class ClientCommand extends ContainerAwareCommand
         $databaseConnection = $this->resolveConnection($message, $database, $output);
 
         $connection = sprintf(
-          '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
-          $databaseConnection['driver'],
-          $databaseConnection['database'],
-          $databaseConnection['username'],
-          $databaseConnection['password'],
-          $databaseConnection['host'],
-          $databaseConnection['port']
+            '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
+            $databaseConnection['driver'],
+            $databaseConnection['database'],
+            $databaseConnection['username'],
+            $databaseConnection['password'],
+            $databaseConnection['host'],
+            $databaseConnection['port']
         );
 
         $message->showMessage(
