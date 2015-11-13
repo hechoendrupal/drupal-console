@@ -42,7 +42,17 @@ class ClientCommand extends ContainerAwareCommand
         $message = $this->getMessageHelper();
         $database = $input->getArgument('database');
 
-        $connection = $this->resolveConnection($message, $database);
+        $databaseConnection = $this->resolveConnection($message, $database, $output);
+
+        $connection = sprintf(
+          '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
+          $databaseConnection['driver'],
+          $databaseConnection['database'],
+          $databaseConnection['username'],
+          $databaseConnection['password'],
+          $databaseConnection['host'],
+          $databaseConnection['port']
+        );
 
         $message->showMessage(
             $output,
