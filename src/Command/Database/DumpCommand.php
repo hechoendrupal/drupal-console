@@ -81,10 +81,7 @@ class DumpCommand extends ContainerAwareCommand
         }
 
         $message->addDefaultMessage(
-            sprintf(
-                $this->trans('commands.database.dump.messages.success'),
-                $mysqldump
-            )
+            $this->trans('commands.database.dump.messages.success')
         );
 
         $message->addDefaultMessage(
