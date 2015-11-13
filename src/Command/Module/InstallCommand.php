@@ -2,18 +2,19 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\ModuleInstallCommand.
+ * Contains \Drupal\Console\Command\Module\InstallCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Module;
 
 use Drupal\Core\Config\PreExistingConfigException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Command\ContainerAwareCommand;
 
-class ModuleInstallCommand extends ContainerAwareCommand
+class InstallCommand extends ContainerAwareCommand
 {
     protected $moduleInstaller;
 

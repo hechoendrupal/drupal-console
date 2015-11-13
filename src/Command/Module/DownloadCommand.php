@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\ModuleDownloadCommand.
+ * Contains \Drupal\Console\Command\Module\DownloadCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Module;
 
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Console\Input\InputArgument;
@@ -13,8 +13,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
 use Alchemy\Zippy\Zippy;
+use Drupal\Console\Command\Command;
 
-class ModuleDownloadCommand extends Command
+class DownloadCommand extends Command
 {
     protected function configure()
     {
