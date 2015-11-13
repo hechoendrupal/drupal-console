@@ -5,7 +5,7 @@
  * Contains \Drupal\AppConsole\Command\MigrateExecuteCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Site;
 
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Input\InputArgument;
@@ -14,8 +14,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Drupal\Console\Command\Database\DatabaseTrait;
+use Drupal\Console\Command\Command;
 
-class SiteInstallCommand extends Command
+class InstallCommand extends Command
 {
     use DatabaseTrait;
 

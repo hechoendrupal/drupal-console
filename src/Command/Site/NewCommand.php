@@ -4,7 +4,7 @@
  * Contains \Drupal\Console\Command\ModuleDownloadCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Site;
 
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Console\Input\InputArgument;
@@ -14,8 +14,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Alchemy\Zippy\Zippy;
+use Drupal\Console\Command\Command;
 
-class SiteNewCommand extends Command
+class NewCommand extends Command
 {
     protected function configure()
     {
