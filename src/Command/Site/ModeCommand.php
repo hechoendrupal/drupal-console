@@ -5,14 +5,15 @@
  * Contains \Drupal\Console\Command\SiteModeCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Site;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Core\Site\Settings;
 
-class SiteModeCommand extends ContainerAwareCommand
+class ModeCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
