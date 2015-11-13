@@ -5,12 +5,13 @@
  * Contains \Drupal\Console\Command\SiteStatusCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Site;
 
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
+use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Core\Site\Settings;
 
 /**
@@ -18,7 +19,7 @@ use Drupal\Core\Site\Settings;
  *
  *  @category site
  */
-class SiteStatusCommand extends ContainerAwareCommand
+class StatusCommand extends ContainerAwareCommand
 {
     /* @var $connectionInfoKeys array */
     protected $connectionInfoKeys = [
