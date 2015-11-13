@@ -56,6 +56,29 @@ trait DatabaseTrait
      *
      * @return mixed
      */
+    public function dbFileQuestion(OutputInterface $output, HelperInterface $dialog)
+    {
+        return $dialog->askAndValidate(
+          $output,
+          $dialog->getQuestion($this->trans('commands.migrate.execute.questions.db-file'), 'sites/default/files/.ht.sqlite'),
+          function ($value) {
+              if (!strlen(trim($value))) {
+                  throw new \Exception('The option can not be empty');
+              }
+
+              return $value;
+          },
+          false,
+          'sites/default/files/.ht.sqlite'
+        );
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @param HelperInterface $dialog
+     *
+     * @return mixed
+     */
     public function dbHostQuestion(OutputInterface $output, HelperInterface $dialog)
     {
         return $dialog->askAndValidate(
