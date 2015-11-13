@@ -51,6 +51,11 @@ class Application extends BaseApplication
     protected $translator;
 
     /**
+     * @var string
+     */
+    protected $commandName;
+
+    /**
      * Create a new application extended from \Symfony\Component\Console\Application.
      *
      * @param $config
@@ -144,6 +149,7 @@ class Application extends BaseApplication
 
         if ($input) {
             $commandName = $this->getCommandName($input);
+            $this->commandName = $commandName;
         }
 
         $targetConfig = [];
@@ -254,6 +260,33 @@ class Application extends BaseApplication
 
             $this->add($command);
         }
+
+        $autoWireForcedCommands = $this->getConfig()->get(
+            sprintf(
+                'application.autowire.commands.forced'
+            )
+        );
+
+        foreach ($autoWireForcedCommands as $autowireForcedCommand) {
+            $command = new $autowireForcedCommand['class'](
+                $autoWireNameCommand['helperset']?$this->getHelperSet():null
+            );
+            $this->add($command);
+        }
+
+        $autoWireNameCommand = $this->getConfig()->get(
+            sprintf(
+                'application.autowire.commands.name.%s',
+                $this->commandName
+            )
+        );
+
+        if ($autoWireNameCommand) {
+            $command = new $autoWireNameCommand['class'](
+                $autoWireNameCommand['helperset']?$this->getHelperSet():null
+            );
+            $this->add($command);
+        }
     }
 
     /**
@@ -356,17 +389,5 @@ class Application extends BaseApplication
     public function trans($key)
     {
         return $this->translator->trans($key);
-    }
-
-    /**
-     * Gets the default commands that should always be available.
-     *
-     * @return Command[] An array of default Command instances
-     */
-    protected function getDefaultCommands()
-    {
-        $commands = parent::getDefaultCommands();
-        $commands[] = new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand();
-        return $commands;
     }
 }
