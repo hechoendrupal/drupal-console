@@ -9,8 +9,8 @@ namespace Drupal\Console\Command\Config;
 
 use Drupal\Core\Archiver\ArchiveTar;
 use Drupal\Component\Serialization\Yaml;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
 
@@ -24,10 +24,17 @@ class ExportCommand extends ContainerAwareCommand
         $this
             ->setName('config:export')
             ->setDescription($this->trans('commands.config.export.description'))
-            ->addArgument(
+            ->addOption(
                 'directory',
-                InputArgument::OPTIONAL,
-                $this->trans('commands.config.export.arguments.directory')
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.config.export.options.directory')
+            )
+            ->addOption(
+                'tar',
+                false,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.config.export.options.tar')
             );
     }
 
@@ -36,50 +43,48 @@ class ExportCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $application = $this->getApplication()->getConfig();
         $messageHelper = $this->getMessageHelper();
-        $directory = $input->getArgument('directory');
+        $directory = $input->getOption('directory');
+        $tar = $input->getOption('tar');
+        $archiveTar = new ArchiveTar();
 
         if (!$directory) {
-            $configFactory = $this->getConfigFactory();
-            $directory = $application->get('application.temp')?:
-              $configFactory->get('system.file')->get('path.temporary');
+            $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
         }
 
-        if (!is_dir($directory)) {
-            mkdir($directory, 0777, true);
-        }
-
-        $config_export_file = $directory.'/config.tar.gz';
-
-        file_unmanaged_delete($config_export_file);
-
-        try {
-            $archiver = new ArchiveTar($config_export_file, 'gz');
-
-            $this->configManager = $this->getConfigManager();
-            // Get raw configuration data without overrides.
-            foreach ($this->configManager->getConfigFactory()->listAll() as $name) {
-                $configData = $this->configManager->getConfigFactory()->get($name)->getRawData();
-                unset($configData['uuid']);
-                $archiver->addString(
-                    "$name.yml",
-                    Yaml::encode($configData)
-                );
+        if ($tar) {
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
             }
 
-            $this->targetStorage = $this->getConfigStorage();
-            // Get all override data from the remaining collections.
-            foreach ($this->targetStorage->getAllCollectionNames() as $collection) {
-                $collection_storage = $this->targetStorage->createCollection($collection);
-                foreach ($collection_storage->listAll() as $name) {
-                    $configData = $collection_storage->read($name);
-                    unset($configData['uuid']);
-                    $archiver->addString(
-                        str_replace('.', '/', $collection)."/$name.yml",
-                        Yaml::encode($configData)
+            $dateTime = new \DateTime();
+
+            $archiveFile = sprintf(
+                '%s/config-%s.tar.gz',
+                $directory,
+                $dateTime->format('Y-m-d-H-i-s')
+            );
+            $archiveTar = new ArchiveTar($archiveFile, 'gz');
+        }
+
+        try {
+            $configManager = $this->getConfigManager();
+            // Get raw configuration data without overrides.
+            foreach ($configManager->getConfigFactory()->listAll() as $name) {
+                $configData = $configManager->getConfigFactory()->get($name)->getRawData();
+                $configName =  sprintf('%s.yml', $name);
+                $ymlData = Yaml::encode($configData);
+
+                if ($tar) {
+                    $archiveTar->addString(
+                        $configName,
+                        $ymlData
                     );
+                    continue;
                 }
+
+                $configFileName =  sprintf('%s/%s', $directory, $configName);
+                file_put_contents($configFileName, $ymlData);
             }
         } catch (\Exception $e) {
             $output->writeln('[+] <error>'.$e->getMessage().'</error>');
@@ -88,7 +93,11 @@ class ExportCommand extends ContainerAwareCommand
         }
 
         $messageHelper->addSuccessMessage(
-            sprintf($this->trans('commands.config.export.messages.directory'), $config_export_file)
+            sprintf($this->trans('commands.config.export.messages.directory'))
+        );
+
+        $messageHelper->addSuccessMessage(
+            $directory
         );
     }
 }

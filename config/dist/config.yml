@@ -3,6 +3,7 @@ application:
   language: en
   editor: vim
   temp: /tmp
+  develop: false
   remote:
     user: root
     port: 22

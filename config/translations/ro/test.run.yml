@@ -8,7 +8,7 @@ messages:
     test-duration: 'Durata testului'
     test-pass: 'Teste reuşite'
     test-fail: 'Teste eşuate'
-    test-exception: 'Excepţii'
+    test-exception: Excepţii
     test-debug: 'Teste depanate'
     url-required: 'Opţiunea URL este necesară pentru a rula testul.'
     test-summary: 'Rezumatul testului.'

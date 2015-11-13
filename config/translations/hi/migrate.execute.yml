@@ -3,6 +3,7 @@ arguments:
     id: 'प्रवसन क्रमांक'
 options:
     site-url: 'साइट स्रोत URL'
+    db-file: 'Database File'
     db-host: 'मेजबान डेटाबेस'
     db-name: 'डेटाबेस का नाम'
     db-user: 'डेटाबेस उपयोगकर्ता'
@@ -15,6 +16,7 @@ questions:
     exclude-id: 'बाहर किए जाने वाले प्रवसन क्रमांक (प्रवसन बाहर बंद करने के लिए <return> दबायें)'
     other-id: 'अन्य प्रवसन क्रमांक (प्रवसन जोड़ना बंद करने के लिए <return> दबायें)'
     site-url: 'साइट स्रोत URL'
+    db-file: 'Database File'
     db-host: 'मेजबान डेटाबेस'
     db-name: 'डेटाबेस का नाम'
     db-user: 'डेटाबेस उपयोगकर्ता'

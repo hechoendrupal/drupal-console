@@ -10,6 +10,7 @@ namespace Drupal\Console\Command\Config;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Command\ContainerAwareCommand;
 
 class OverrideCommand extends ContainerAwareCommand
@@ -30,7 +31,7 @@ class OverrideCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $table = $this->getTableHelper();
+        $table = new Table($output);
         $configName = $input->getArgument('config-name');
         $key = $input->getArgument('key');
         $value = $input->getArgument('value');
@@ -51,12 +52,11 @@ class OverrideCommand extends ContainerAwareCommand
 
         $table->setHeaders(
             [
-            $this->trans('commands.config.override.messages.configuration-key'),
-            $this->trans('commands.config.override.messages.original'),
-            $this->trans('commands.config.override.messages.updated'),
+                $this->trans('commands.config.override.messages.configuration-key'),
+                $this->trans('commands.config.override.messages.original'),
+                $this->trans('commands.config.override.messages.updated'),
             ]
         );
-        $table->setlayout($table::LAYOUT_COMPACT);
         $table->setRows($configurationOverrideResult);
         $table->render($output);
 
