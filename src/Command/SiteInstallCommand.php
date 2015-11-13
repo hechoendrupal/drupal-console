@@ -162,8 +162,6 @@ class SiteInstallCommand extends Command
             $input->setOption('langcode', array_search($langcode, $languages));
         }
 
-
-
         // --db-type option
         $db_type = $input->getOption('db-type');
         if (!$db_type) {
@@ -172,12 +170,11 @@ class SiteInstallCommand extends Command
         $input->setOption('db-type', $db_type);
 
         // --db-file option
-        if($db_type == 'sqlite' && !$db_file){
+        $db_file = $input->getOption('db-file');
+        if ($db_type == 'sqlite' && !$db_file) {
             $db_file = $this->dbFileQuestion($output, $dialog);
             $input->setOption('db-file', $db_file);
-        }
-
-        else{
+        } else {
             // --db-host option
             $db_host = $input->getOption('db-host');
             if (!$db_host) {
@@ -312,15 +309,14 @@ class SiteInstallCommand extends Command
 
         $databases = $this->getDatabaseTypes();
 
-        if($db_type == 'sqlite'){
+        if ($db_type == 'sqlite') {
             $database = array(
               'database' => $db_file,
               'prefix' => $db_prefix,
               'namespace' => $databases[$db_type]['namespace'],
               'driver' => $db_type,
             );
-        }
-        else{
+        } else {
             $database = array(
               'database' => $db_name,
               'username' => $db_user,
@@ -332,7 +328,6 @@ class SiteInstallCommand extends Command
               'driver' => $db_type,
             );
         }
-
 
         try {
             $this->runInstaller($output, $profile, $langcode, $site_name, $site_mail, $account_name, $account_mail, $account_pass, $database);
