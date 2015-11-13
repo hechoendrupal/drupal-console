@@ -1,0 +1,13 @@
+description: 'Export a view in YAML format inside a provided module to reuse in other website.'
+messages:
+    view_exported: 'Exporting view'
+    depencies-included: 'The following module dependencies were included at %s'
+questions:
+    view: 'View to be exported'
+    optional-config: 'Export view in module as an optional configuration'
+    include-module-dependencies: 'Include view module dependencies in module info YAML file'
+arguments:
+    view-id: 'View ID'
+options:
+    optional-config: 'Export view as an optional YAML configuration in your module'
+    include-module-dependencies: 'Include module dependencies in module info YAML file'
