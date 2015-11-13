@@ -10,6 +10,7 @@ namespace Drupal\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\Table;
 use Drupal\Core\Site\Settings;
 
 /**
@@ -34,7 +35,6 @@ class SiteStatusCommand extends ContainerAwareCommand
       'database',
       'theme',
       'directory',
-      'configuration',
     ];
 
     /**
@@ -63,14 +63,12 @@ class SiteStatusCommand extends ContainerAwareCommand
         $connectionData = $this->getConnectionData();
         $themeInfo = $this->getThemeData();
         $directoryData = $this->getDirectoryData();
-        $configurationData = $this->getConfigurationData();
 
         $siteData = array_merge(
             $systemData,
             $connectionData,
             $themeInfo,
-            $directoryData,
-            $configurationData
+            $directoryData
         );
 
         $format = $input->getOption('format');
@@ -181,51 +179,28 @@ class SiteStatusCommand extends ContainerAwareCommand
         ];
     }
 
-    protected function getConfigurationData()
-    {
-        try {
-            $active = config_get_config_directory('active');
-            $staging = config_get_config_directory('staging');
-        } catch (\Exception $e) {
-            $active='';
-            $staging = '';
-        }
-
-        return [
-          'configuration' => [
-            $this->trans('commands.site.status.messages.active') => $active,
-            $this->trans('commands.site.status.messages.staging') => $staging,
-          ],
-        ];
-    }
-
     protected function showDataAsTable($output, $siteData)
     {
         if (empty($siteData)) {
             return [];
         }
 
-        $table = $this->getTableHelper();
-        $table->setlayout($table::LAYOUT_COMPACT);
+        $table = new Table($output);
+        $table->setStyle('compact');
         foreach ($this->groups as $group) {
             $groupData = $siteData[$group];
             $table->addRow(
                 [
-                sprintf(
-                    '<comment>%s</comment>',
-                    $this->trans('commands.site.status.messages.'.$group)
-                ),
-                null,
+                    sprintf(
+                        '<comment>%s</comment>',
+                        $this->trans('commands.site.status.messages.'.$group)
+                    ),
+                    null,
                 ]
             );
 
             foreach ($groupData as $key => $item) {
-                $table->addRow(
-                    [
-                    $key,
-                    $item,
-                    ]
-                );
+                $table->addRow([$key, $item]);
             }
         }
 
