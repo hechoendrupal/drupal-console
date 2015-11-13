@@ -5,24 +5,23 @@
  * Contains \Drupal\Console\Command\RestDebugCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Cron;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOptionuse;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\views\Entity\View;
-use Drupal\Component\Serialization\Yaml;
+use Drupal\Console\Command\ContainerAwareCommand;
 
-class CronExecuteCommand extends ContainerAwareCommand
+class ExecuteCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
             ->setName('cron:execute')
             ->setDescription($this->trans('commands.cron.execute.description'))
-            ->addArgument('module', InputArgument::OPTIONAL, $this->trans('commands.common.options.module'));
+            ->addArgument('module', InputArgument::REQUIRED, $this->trans('commands.common.options.module'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
