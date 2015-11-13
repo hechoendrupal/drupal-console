@@ -4,6 +4,7 @@ welcome: 'Bienvenue dans le générateur de contrôleur Drupal'
 options:
     module: common.options.module
     class-name: 'Nom du Controller'
+    controller-title: 'Title of the controller'
     method-name: 'Nom de la méthode d''action'
     route: 'La route de l''action'
     services: common.options.services

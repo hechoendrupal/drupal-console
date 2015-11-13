@@ -8,7 +8,7 @@ messages:
     driver: Driver
     host: Gazda
     port: Port
-    username: Nume de utilizator
+    username: 'Nume de utilizator'
     password: Parola
     theme: Teme
     connection: Conexiune

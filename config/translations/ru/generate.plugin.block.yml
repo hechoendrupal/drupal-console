@@ -1,0 +1,19 @@
+description: 'Generate a plugin block'
+help: 'The <info>generate:plugin:block</info> command helps you generate a new Plugin block.'
+welcome: 'Welcome to the Drupal Plugin Block generator'
+options:
+    module: common.options.module
+    class-name: 'Plugin class name'
+    label: 'Plugin label'
+    plugin-id: 'Plugin id'
+    inputs: common.options.inputs
+    services: common.options.services
+questions:
+    module: common.questions.module
+    class-name: 'Enter the plugin class name'
+    label: 'Enter the plugin label'
+    plugin-id: 'Enter the plugin id'
+    inputs: common.questions.inputs
+    services: common.questions.services
+messages:
+    inputs: "\nYou can add input fields to create special configurations in the block.\nThis is optional, press <info>enter</info> to <info>continue</info>"

@@ -27,6 +27,10 @@ class MessageHelper extends Helper
      * @var string
      */
     const MESSAGE_SUCCESS = 'success';
+    /**
+     * @var string
+     */
+    const MESSAGE_DEFAULT = 'default';
 
     /**
      * @var array
@@ -36,6 +40,7 @@ class MessageHelper extends Helper
         self::MESSAGE_WARNING,
         self::MESSAGE_INFO,
         self::MESSAGE_SUCCESS,
+        self::MESSAGE_DEFAULT,
     ];
 
     /**
@@ -95,8 +100,11 @@ class MessageHelper extends Helper
         if ($type == self::MESSAGE_SUCCESS) {
             $style = 'bg=green;fg=white';
         }
-        $output->writeln(
-            [
+        if ($type == self::MESSAGE_DEFAULT) {
+            $style = 'fg=green';
+        }
+
+        $outputMessage = [
             '',
             $this->getFormatterHelper()->formatBlock(
                 $message,
@@ -104,8 +112,14 @@ class MessageHelper extends Helper
                 false
             ),
             '',
-            ]
-        );
+        ];
+
+        if ($type == self::MESSAGE_DEFAULT) {
+            unset($outputMessage[2]);
+            unset($outputMessage[0]);
+        }
+
+        $output->writeln($outputMessage);
     }
 
     /**
@@ -115,6 +129,14 @@ class MessageHelper extends Helper
     private function addMessage($message, $type)
     {
         $this->messages[$type][] = $message;
+    }
+
+    /**
+     * @param string $message
+     */
+    public function addDefaultMessage($message)
+    {
+        $this->addMessage($message, self::MESSAGE_DEFAULT);
     }
 
     /**
