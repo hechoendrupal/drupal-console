@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\CronReleaseCommand.
+ * Contains \Drupal\Console\Command\Cron\ReleaseCommand.
  */
 
 namespace Drupal\Console\Command\Cron;

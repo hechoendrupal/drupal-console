@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\RestDebugCommand.
+ * Contains \Drupal\Console\Command\Cron\ExecuteCommand.
  */
 
 namespace Drupal\Console\Command\Cron;
