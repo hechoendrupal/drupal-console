@@ -1,4 +1,4 @@
-description: 'Desinstalar el tema o temas en la aplicación' 
+description: 'Desinstalar el tema o temas en la aplicación'
 questions:
     theme: 'nombre del tema (presiona <return> para detener la adición de temas'
     invalid-theme: 'Tema invalido %s'
