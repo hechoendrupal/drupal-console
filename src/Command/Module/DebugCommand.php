@@ -2,16 +2,17 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\ModuleDebugCommand.
+ * Contains \Drupal\Console\Command\Module\DebugCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Module;
 
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Command\ContainerAwareCommand;
 
-class ModuleDebugCommand extends ContainerAwareCommand
+class DebugCommand extends ContainerAwareCommand
 {
     protected function configure()
     {

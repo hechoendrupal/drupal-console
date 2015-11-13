@@ -2,16 +2,17 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\ModuleUninstallCommand.
+ * Contains \Drupal\Console\Command\Module\UninstallCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Module;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Command\ContainerAwareCommand;
 
-class ModuleUninstallCommand extends ContainerAwareCommand
+class UninstallCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
