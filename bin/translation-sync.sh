@@ -40,7 +40,7 @@ if [ $# -eq 0 ]; then
             if [ ! -f $dir/$filepath ]; then
               echo "File $dir/$filepath not found!"
               echo "coping en/$filepath to $dir/$filepath"
-              command="cp $en/$filepath $dir/$filepath"
+              command="cp en/$filepath $dir/$filepath"
               $command
             else
               echo "console.dev yaml:merge $dir/$filepath en/$filepath $dir/$filepath"

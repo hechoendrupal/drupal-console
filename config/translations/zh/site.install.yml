@@ -3,6 +3,7 @@ arguments:
     profile: 'Drupal Profile to be install'
     langcode: 'Drupal language'
     db-type: 'Drupal Database type to be use in install'
+    db-file: 'Drupal Database file to be use in install'
     site-name: 'Drupal site name'
     site-mail: 'Drupal site mail'
     account-name: 'Drupal administrator account name'
