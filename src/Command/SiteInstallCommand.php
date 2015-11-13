@@ -40,21 +40,27 @@ class SiteInstallCommand extends Command
                 $this->trans('commands.site.install.arguments.db-type')
             )
             ->addOption(
-                'db-host',
+                'db-file',
                 '',
                 InputOption::VALUE_REQUIRED,
+                $this->trans('commands.site.install.arguments.db-file')
+            )
+            ->addOption(
+                'db-host',
+                '',
+                InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.migrate.execute.options.db-host')
             )
             ->addOption(
                 'db-name',
                 '',
-                InputOption::VALUE_REQUIRED,
+                InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.migrate.execute.options.db-name')
             )
             ->addOption(
                 'db-user',
                 '',
-                InputOption::VALUE_REQUIRED,
+                InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.migrate.execute.options.db-user')
             )
             ->addOption(
@@ -72,7 +78,7 @@ class SiteInstallCommand extends Command
             ->addOption(
                 'db-port',
                 '',
-                InputOption::VALUE_REQUIRED,
+                InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.migrate.execute.options.db-port')
             )
             ->addOption(
@@ -156,8 +162,6 @@ class SiteInstallCommand extends Command
             $input->setOption('langcode', array_search($langcode, $languages));
         }
 
-
-
         // --db-type option
         $db_type = $input->getOption('db-type');
         if (!$db_type) {
@@ -165,33 +169,47 @@ class SiteInstallCommand extends Command
         }
         $input->setOption('db-type', $db_type);
 
-        // --db-host option
-        $db_host = $input->getOption('db-host');
-        if (!$db_host) {
-            $db_host = $this->dbHostQuestion($output, $dialog);
-        }
-        $input->setOption('db-host', $db_host);
+        // --db-file option
+        $db_file = $input->getOption('db-file');
+        if ($db_type == 'sqlite' && !$db_file) {
+            $db_file = $this->dbFileQuestion($output, $dialog);
+            $input->setOption('db-file', $db_file);
+        } else {
+            // --db-host option
+            $db_host = $input->getOption('db-host');
+            if (!$db_host) {
+                $db_host = $this->dbHostQuestion($output, $dialog);
+            }
+            $input->setOption('db-host', $db_host);
 
-        // --db-name option
-        $db_name = $input->getOption('db-name');
-        if (!$db_name) {
-            $db_name = $this->dbNameQuestion($output, $dialog);
-        }
-        $input->setOption('db-name', $db_name);
+            // --db-name option
+            $db_name = $input->getOption('db-name');
+            if (!$db_name) {
+                $db_name = $this->dbNameQuestion($output, $dialog);
+            }
+            $input->setOption('db-name', $db_name);
 
-        // --db-user option
-        $db_user = $input->getOption('db-user');
-        if (!$db_user) {
-            $db_user = $this->dbUserQuestion($output, $dialog);
-        }
-        $input->setOption('db-user', $db_user);
+            // --db-user option
+            $db_user = $input->getOption('db-user');
+            if (!$db_user) {
+                $db_user = $this->dbUserQuestion($output, $dialog);
+            }
+            $input->setOption('db-user', $db_user);
 
-        // --db-pass option
-        $db_pass = $input->getOption('db-pass');
-        if (!$db_pass) {
-            $db_pass = $this->dbPassQuestion($output, $dialog);
+            // --db-pass option
+            $db_pass = $input->getOption('db-pass');
+            if (!$db_pass) {
+                $db_pass = $this->dbPassQuestion($output, $dialog);
+            }
+            $input->setOption('db-pass', $db_pass);
+
+            // --db-port prefix
+            $db_port = $input->getOption('db-port');
+            if (!$db_port) {
+                $db_port = $this->dbPortQuestion($output, $dialog);
+            }
+            $input->setOption('db-port', $db_port);
         }
-        $input->setOption('db-pass', $db_pass);
 
         // --db-prefix
         $db_prefix = $input->getOption('db-prefix');
@@ -200,12 +218,6 @@ class SiteInstallCommand extends Command
         }
         $input->setOption('db-prefix', $db_prefix);
 
-        // --db-port prefix
-        $db_port = $input->getOption('db-port');
-        if (!$db_port) {
-            $db_port = $this->dbPortQuestion($output, $dialog);
-        }
-        $input->setOption('db-port', $db_port);
 
         // --site-name option
         $site_name = $input->getOption('site-name');
@@ -287,6 +299,7 @@ class SiteInstallCommand extends Command
 
         // Database options
         $db_type = $input->getOption('db-type');
+        $db_file = $input->getOption('db-file');
         $db_host = $input->getOption('db-host');
         $db_name = $input->getOption('db-name');
         $db_user = $input->getOption('db-user');
@@ -296,16 +309,25 @@ class SiteInstallCommand extends Command
 
         $databases = $this->getDatabaseTypes();
 
-        $database = array(
-        'database' => $db_name,
-        'username' => $db_user,
-        'password' => $db_pass,
-        'prefix' => $db_prefix,
-        'port' => $db_port,
-        'host' => $db_host,
-        'namespace' => $databases[$db_type]['namespace'],
-        'driver' => $db_type,
-        );
+        if ($db_type == 'sqlite') {
+            $database = array(
+              'database' => $db_file,
+              'prefix' => $db_prefix,
+              'namespace' => $databases[$db_type]['namespace'],
+              'driver' => $db_type,
+            );
+        } else {
+            $database = array(
+              'database' => $db_name,
+              'username' => $db_user,
+              'password' => $db_pass,
+              'prefix' => $db_prefix,
+              'port' => $db_port,
+              'host' => $db_host,
+              'namespace' => $databases[$db_type]['namespace'],
+              'driver' => $db_type,
+            );
+        }
 
         try {
             $this->runInstaller($output, $profile, $langcode, $site_name, $site_mail, $account_name, $account_mail, $account_pass, $database);
