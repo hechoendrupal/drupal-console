@@ -26,6 +26,20 @@ class CommandDiscoveryHelper extends Helper
     protected $disabledModules = [];
 
     /**
+     * @var bool
+     */
+    protected $develop = false;
+
+    /**
+     * CommandDiscoveryHelper constructor.
+     * @param bool $develop
+     */
+    public function __construct($develop)
+    {
+        $this->develop = $develop;
+    }
+
+    /**
      * @param string $applicationRoot
      */
     public function setApplicationRoot($applicationRoot)
@@ -123,6 +137,10 @@ class CommandDiscoveryHelper extends Helper
             ->name('*Command.php')
             ->in($directory)
             ->depth('< 2');
+
+        if (!$this->develop) {
+            $finder->exclude('Develop');
+        }
 
         $commands = [];
 
