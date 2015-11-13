@@ -2,16 +2,17 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\GenerateDocCommand.
+ * Contains \Drupal\Console\Command\Develop\GenerateDocCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Develop;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Drupal\Console\Command\ContainerAwareCommand;
 
-class GenerateDocCommand extends ContainerAwareCommand
+class GenerateDocGitbookCommand extends ContainerAwareCommand
 {
     private $single_commands = [
       'about',
