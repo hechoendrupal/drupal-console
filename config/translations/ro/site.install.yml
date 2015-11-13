@@ -3,6 +3,7 @@ arguments:
     profile: 'Proiectul drupal care va fi instalat'
     langcode: 'Limba proiectului'
     db-type: 'Tipul bazei de date care va fi folosit la instalarea proiectului'
+    db-file: 'Drupal Database file to be use in install'
     site-name: 'Numele saitului drupal'
     site-mail: 'Adresa de email a saitului'
     account-name: 'Numele de utilizator al administratorului saitului'
