@@ -3,6 +3,7 @@ arguments:
     id: 'Id-ul migraţiei'
 options:
     site-url: 'URL-ul saitului'
+    db-file: 'Database File'
     db-host: 'Gazda bazei de date'
     db-name: 'Numele bazei de date'
     db-user: 'Utilizatorul bazei de date'
@@ -15,6 +16,7 @@ questions:
     exclude-id: 'Migration Id to exclude (press <return> to stop adding migrations to exclude)'
     other-id: 'Altă migraţie (apasa <return> pentru a nu mai adăuga migraţii)'
     site-url: 'URL-ul saitului'
+    db-file: 'Database File'
     db-host: 'Host-ul bazei de date'
     db-name: 'Numele bazei de date'
     db-user: 'Utilizatorul bazei de date'

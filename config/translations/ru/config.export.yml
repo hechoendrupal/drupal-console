@@ -1,0 +1,45 @@
+description: 'Export current application configuration.'
+arguments:
+    directory: 'Define export directory to save configuration output.'
+messages:
+    directory: 'Your configuration export file was stored in %s'
+content:
+    type:
+        description: 'Export a specific content type and their fields.'
+        arguments:
+            content_type: 'Content Type to be exported'
+        questions:
+            content_type: 'Content Type to be exported'
+            optional-config: 'Export content type in module as an optional configuration'
+        messages:
+            content_type_exported: 'Exporting content type'
+        options:
+            optional-config: 'Export content type as an optional YAML configuration in your module'
+single:
+    description: 'Export single configuration as yml file.'
+    arguments:
+        config-name: 'Configuration name.'
+    options:
+        simple-configuration: 'Simple configuration'
+    questions:
+        config-type: 'Configuration type'
+        config-name: 'Configuration name'
+    messages:
+        config-not-found: 'Configuration name not found.'
+        export: 'Configuration was exported at file %s.'
+        invalid-config-type: 'Invalid config type, please select one of the list'
+        invalid-config-name: 'Invalid config name, please select one of the list'
+view:
+    description: 'Export a view in YAML format inside a provided module to reuse in other website.'
+    messages:
+        view_exported: 'Exporting view'
+        depencies-included: 'The following module dependencies were included at %s'
+    questions:
+        view: 'View to be exported'
+        optional-config: 'Export view in module as an optional configuration'
+        include-module-dependencies: 'Include view module dependencies in module info YAML file'
+    arguments:
+        view-id: 'View ID'
+    options:
+        optional-config: 'Export view as an optional YAML configuration in your module'
+        include-module-dependencies: 'Include module dependencies in module info YAML file'

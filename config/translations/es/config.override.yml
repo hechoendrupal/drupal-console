@@ -1,8 +1,8 @@
 description: 'Sobreescribir valor de la configuración activa.'
 arguments:
     config-name: 'Nombre de la configuración.'
-    key: 'Clave'
-    value: 'Valor'
+    key: Clave
+    value: Valor
 messages:
     configuration: 'Nombre de la configuración.'
     configuration-key: 'Clave de la configuración.'
