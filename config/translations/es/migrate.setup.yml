@@ -8,7 +8,7 @@ options:
     db-prefix: 'Prefijo de base de datos'
     db-port: 'Puerto'
 questions:
-    db-type: 'DTipo de base de datos de Drupal'
+    db-type: 'Tipo de base de datos de Drupal'
     db-host: '"Host" de base de datos'
     db-name: 'Nombre de base de datos'
     db-user: 'Usuario de base de datos'
