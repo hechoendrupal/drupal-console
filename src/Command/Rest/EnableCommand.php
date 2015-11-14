@@ -2,17 +2,18 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\RestEnableCommand.
+ * Contains \Drupal\Console\Command\Rest\EnableCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Rest;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Command\ContainerAwareCommand;
 
-class RestEnableCommand extends ContainerAwareCommand
+class EnableCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
