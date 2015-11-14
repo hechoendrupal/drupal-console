@@ -2,33 +2,28 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\ModuleInstallCommand.
+ * Contains \Drupal\Console\Command\Theme\UninstallCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Theme;
 
 use Drupal\Core\Config\PreExistingConfigException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Command\ContainerAwareCommand;
 
-class ThemeInstallCommand extends ContainerAwareCommand
+class UninstallCommand extends ContainerAwareCommand
 {
     protected $moduleInstaller;
 
     protected function configure()
     {
         $this
-            ->setName('theme:install')
-            ->setDescription($this->trans('commands.theme.install.description'))
-            ->addArgument('theme', InputArgument::IS_ARRAY, $this->trans('commands.theme.install.options.module'))
-            ->addOption(
-                'set-default',
-                '',
-                InputOption::VALUE_NONE,
-                $this->trans('commands.theme.install.options.set-default')
-            );
+            ->setName('theme:uninstall')
+            ->setDescription($this->trans('commands.theme.uninstall.description'))
+            ->addArgument('theme', InputArgument::IS_ARRAY, $this->trans('commands.theme.uninstall.options.module'));
     }
 
     /**
@@ -50,24 +45,24 @@ class ThemeInstallCommand extends ContainerAwareCommand
                     continue;
                 }
 
-                if (!empty($theme->status == 1)) {
+                if (!empty($theme->status == 0)) {
                     continue;
                 }
                 $theme_list[$theme_id] = $theme->getName();
             }
 
-            $output->writeln('[+] <info>'.$this->trans('commands.theme.install.messages.disabled-themes').'</info>');
+            $output->writeln('[+] <info>'.$this->trans('commands.theme.uninstall.messages.installed-themes').'</info>');
 
             while (true) {
                 $theme_name = $dialog->askAndValidate(
                     $output,
-                    $dialog->getQuestion($this->trans('commands.theme.install.questions.theme'), ''),
+                    $dialog->getQuestion($this->trans('commands.theme.uninstall.questions.theme'), ''),
                     function ($theme_id) use ($theme_list) {
                         if ($theme_id == '' || $theme_list[$theme_id]) {
                             return $theme_id;
                         } else {
                             throw new \InvalidArgumentException(
-                                sprintf($this->trans('commands.theme.install.questions.invalid-theme'), $theme_id)
+                                sprintf($this->trans('commands.theme.uninstall.questions.invalid-theme'), $theme_id)
                             );
                         }
                     },
@@ -94,23 +89,11 @@ class ThemeInstallCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $configFactory = $this->getConfigFactory();
-
         $config = $configFactory->getEditable('system.theme');
 
         $themeHandler = $this->getThemeHandler();
         $themeHandler->refreshInfo();
         $theme = $input->getArgument('theme');
-        $default = $input->getOption('set-default');
-
-        if ($default && count($theme) > 1) {
-            $output->writeln(
-                '[-] <error>' . $this->trans('commands.theme.install.messages.invalid-theme-default')
-                .'</error>'
-            );
-
-            return;
-        }
-
 
         $themes  = $themeHandler->rebuildThemeData();
         $themesAvailable = [];
@@ -118,10 +101,10 @@ class ThemeInstallCommand extends ContainerAwareCommand
         $themesUnavailable = [];
 
         foreach ($theme as $themeName) {
-            if (isset($themes[$themeName]) && $themes[$themeName]->status == 0) {
-                $themesAvailable[] = $themes[$themeName]->info['name'];
-            } elseif (isset($themes[$themeName]) && $themes[$themeName]->status == 1) {
-                $themesInstalled[] = $themes[$themeName]->info['name'];
+            if (isset($themes[$themeName]) && $themes[$themeName]->status == 1) {
+                $themesAvailable[$themeName] = $themes[$themeName]->info['name'];
+            } elseif (isset($themes[$themeName]) && $themes[$themeName]->status == 0) {
+                $themesUninstalled[] = $themes[$themeName]->info['name'];
             } else {
                 $themesUnavailable[] = $themeName;
             }
@@ -129,59 +112,72 @@ class ThemeInstallCommand extends ContainerAwareCommand
 
         if (count($themesAvailable) > 0) {
             try {
-                if ($themeHandler->install($theme)) {
-                    if (count($themesAvailable) > 1) {
+                foreach ($themesAvailable as $themeKey => $themeName) {
+                    if ($themeKey === $config->get('default')) {
                         $output->writeln(
-                            '[+] <info>' .
+                            '[+] <error>' .
                             sprintf(
-                                $this->trans('commands.theme.install.messages.themes-success'),
+                                $this->trans('commands.theme.uninstall.messages.error-default-theme'),
                                 implode(',', $themesAvailable)
                             )
-                            . '</info>'
+                            . '</error>'
                         );
-                    } else {
-                        if ($default) {
-                            // Set the default theme.
-                            $config->set('default', $theme[0])->save();
-                            $output->writeln(
-                                '[+] <info>' .
-                                sprintf(
-                                    $this->trans('commands.theme.install.messages.theme-default-success'),
-                                    $themesAvailable[0]
-                                )
-                                . '</info>'
-                            );
-                        } else {
-                            $output->writeln(
-                                '[+] <info>' .
-                                sprintf(
-                                    $this->trans('commands.theme.install.messages.theme-success'),
-                                    $themesAvailable[0]
-                                )
-                                . '</info>'
-                            );
-                        }
+
+                        return;
+                    }
+
+                    if ($themeKey === $config->get('admin')) {
+                        $output->writeln(
+                            '[+] <error>' .
+                            sprintf(
+                                $this->trans('commands.theme.uninstall.messages.error-admin-theme'),
+                                implode(',', $themesAvailable)
+                            )
+                            . '</error>'
+                        );
+                        return;
                     }
                 }
+
+                $themeHandler->uninstall($theme);
+
+                if (count($themesAvailable) > 1) {
+                    $output->writeln(
+                        '[+] <info>' .
+                        sprintf(
+                            $this->trans('commands.theme.uninstall.messages.themes-success'),
+                            implode(',', $themesAvailable)
+                        )
+                        . '</info>'
+                    );
+                } else {
+                    $output->writeln(
+                        '[+] <info>' .
+                        sprintf(
+                            $this->trans('commands.theme.uninstall.messages.theme-success'),
+                            array_shift($themesAvailable)
+                        )
+                        . '</info>'
+                    );
+                }
             } catch (UnmetDependenciesException $e) {
-                print 'error3';
                 $output->writeln(
                     '[+] <error>'.
                     sprintf(
-                        $this->trans('commands.theme.install.messages.success'),
-                        $theme
+                        $this->trans('commands.theme.uninstall.messages.dependencies'),
+                        $e->getMessage()
                     )
                     .'</error>'
                 );
                 drupal_set_message($e->getTranslatedMessage($this->getStringTranslation(), $theme), 'error');
             }
-        } elseif (empty($themesAvailable) && count($themesInstalled) > 0) {
-            if (count($themesInstalled) > 1) {
+        } elseif (empty($themesAvailable) && count($themesUninstalled) > 0) {
+            if (count($themesUninstalled) > 1) {
                 $output->writeln(
                     '[-] <info>' .
                     sprintf(
-                        $this->trans('commands.theme.install.messages.themes-nothing'),
-                        implode(',', $themesInstalled)
+                        $this->trans('commands.theme.uninstall.messages.themes-nothing'),
+                        implode(',', $themesUninstalled)
                     )
                     . '</info>'
                 );
@@ -189,8 +185,8 @@ class ThemeInstallCommand extends ContainerAwareCommand
                 $output->writeln(
                     '[-] <info>' .
                     sprintf(
-                        $this->trans('commands.theme.install.messages.theme-nothing'),
-                        implode(',', $themesInstalled)
+                        $this->trans('commands.theme.uninstall.messages.theme-nothing'),
+                        implode(',', $themesUninstalled)
                     )
                     . '</info>'
                 );
@@ -200,7 +196,7 @@ class ThemeInstallCommand extends ContainerAwareCommand
                 $output->writeln(
                     '[-] <error>' .
                     sprintf(
-                        $this->trans('commands.theme.install.messages.themes-missing'),
+                        $this->trans('commands.theme.uninstall.messages.themes-missing'),
                         implode(',', $themesUnavailable)
                     )
                     . '</error>'
@@ -209,7 +205,7 @@ class ThemeInstallCommand extends ContainerAwareCommand
                 $output->writeln(
                     '[-] <error>' .
                     sprintf(
-                        $this->trans('commands.theme.install.messages.theme-missing'),
+                        $this->trans('commands.theme.uninstall.messages.theme-missing'),
                         implode(',', $themesUnavailable)
                     )
                     . '</error>'
