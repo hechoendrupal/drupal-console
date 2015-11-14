@@ -14,13 +14,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Command;
 use Symfony\Component\Finder\Finder;
 
-class ElephpantCommand extends Command
+class DrupliconCommand extends Command
 {
     protected function configure()
     {
         $this
-            ->setName('elephpant')
-            ->setDescription($this->trans('application.commands.elephpant.description'));
+            ->setName('druplicon')
+            ->setDescription($this->trans('application.commands.druplicon.description'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -28,7 +28,7 @@ class ElephpantCommand extends Command
         $renderer = $this->getRenderHelper();
 
         $directory = sprintf(
-            '%stemplates/core/elephpants/',
+            '%stemplates/core/druplicon/',
             $this->getApplication()->getDirectoryRoot()
         );
 
@@ -45,7 +45,7 @@ class ElephpantCommand extends Command
 
         $elephpant = $renderer->render(
             sprintf(
-                'core/elephpant/%s',
+                'core/druplicon/%s',
                 $templates[array_rand($templates)]
             )
         );
