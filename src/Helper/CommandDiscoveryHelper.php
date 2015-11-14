@@ -138,6 +138,8 @@ class CommandDiscoveryHelper extends Helper
             ->in($directory)
             ->depth('< 2');
 
+        $finder->exclude('Autowire');
+
         if (!$this->develop) {
             $finder->exclude('Develop');
         }

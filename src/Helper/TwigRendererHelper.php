@@ -50,7 +50,7 @@ class TwigRendererHelper extends Helper
      *
      * @return string
      */
-    public function render($template, $parameters)
+    public function render($template, $parameters = [])
     {
         if (!$this->engine) {
             $this->engine = new \Twig_Environment(
