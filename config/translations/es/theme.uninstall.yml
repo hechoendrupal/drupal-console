@@ -1,20 +1,20 @@
-description: 'Desinstalar uno o varios temas en la aplicación'
+description: 'Desinstalar tema o temas en la aplicación'
 questions:
-    theme: 'Nombre del tema (pulse <return> para terminar de agregar temas)'
-    invalid-theme: 'Tema inválido %s'
+    theme: 'nombre del tema (presione <enter> para detener el agregado de temas)'
+    invalid-theme: '%s tema no válido'
 options:
-    theme: 'Los temas para desinstalar deben estar separados por coma'
+    theme: 'El tema o temas para ser desinstalado deben ser separados por comas'
 messages:
-    no-themes: 'Debes ingresar uno o varios temas para desinstalar.'
-    themes-missing: "No ha sido posible desinstalar los temas %s debido a que no están disponibles"
-    theme-missing: "No ha sido posible desinstalar el tema %s debido a que no está disponible"
-    missing-dependencies: 'No ha sido posible desinstalar los temas %s debido a dependencias faltantes %s'
-    themes-nothing: 'No se ha ejecutado ninguna operación. Todos los temas ya están %s ya están desinstalados'
-    theme-nothing: 'No se ha ejecutado ninguna operación. El tema %s ya está desinstalado'
-    dependencies: '¿Faltan algunas dependencias: %s?'
-    theme-success: 'El tema %s ha sido desinstalado exitosamente.'
-    themes-success: 'Los temas %s han sido desinstalados exitosamente.'
-    installed-themes: 'Sólo los temas instalados serán listados en "autocomplete"'
-    invalid-theme-default: 'La opción por defecto sólo es válida para un tema'
+    no-themes: 'Debe proveer uno o varios temas para desinstalar.'
+    themes-missing: "Imposible desinstalar los temas %s debido a que no estan disponibles"
+    theme-missing: "Imposible desinstalar el tema %s debido a que no esta disponible"
+    missing-dependencies: 'Imposible desinstalar los temas %s debido a la falta de dependencias %s'
+    themes-nothing: 'Nada que hacer. Todos los temas %s ya estan desinstalados'
+    theme-nothing: 'Nada que hacer. El tema %s ya esta desinstalado'
+    dependencies: 'Hay algunas dependencias incumplidas: %s?'
+    theme-success: 'El tema %s ha sido desinstalado satisfactoriamente'
+    themes-success: 'Los temas %s fueron desinstalados satisfactoriamente'
+    installed-themes: 'Solo temas instalados serán listados en autocompletar'
+    invalid-theme-default: 'La opción por defecto solo es válida para un tema'
     error-default-theme:  'El tema %s es el tema por defecto y no puede ser desinstalado.'
     error-admin-theme: 'El tema %s es el tema de administración y no puede ser desinstalado.'
