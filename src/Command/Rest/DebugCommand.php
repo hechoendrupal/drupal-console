@@ -2,18 +2,19 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\RestDebugCommand.
+ * Contains \Drupal\Console\Command\Rest\DebugCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Rest;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Component\Serialization\Yaml;
 
-class RestDebugCommand extends ContainerAwareCommand
+class DebugCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
