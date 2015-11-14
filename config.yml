@@ -14,3 +14,6 @@ application:
         elephpant:
           class: '\Drupal\Console\Command\Autowire\ElephpantCommand'
           helperset: true
+        druplicon:
+          class: '\Drupal\Console\Command\Autowire\DrupliconCommand'
+          helperset: true
