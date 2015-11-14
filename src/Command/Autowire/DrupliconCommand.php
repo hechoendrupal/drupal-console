@@ -43,13 +43,13 @@ class DrupliconCommand extends Command
             $templates[] = $template->getRelativePathname();
         }
 
-        $elephpant = $renderer->render(
+        $druplicon = $renderer->render(
             sprintf(
                 'core/druplicon/%s',
                 $templates[array_rand($templates)]
             )
         );
 
-        $output->writeln($elephpant);
+        $output->writeln($druplicon);
     }
 }
