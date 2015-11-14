@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\UpdateExecuteCommand.
+ * Contains \Drupal\Console\Command\Update\ExecuteCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Update;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -13,8 +13,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\views\Entity\View;
 use Drupal\Component\Serialization\Yaml;
+use Drupal\Console\Command\ContainerAwareCommand;
 
-class UpdateExecuteCommand extends ContainerAwareCommand
+class ExecuteCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
