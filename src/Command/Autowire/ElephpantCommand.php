@@ -28,7 +28,7 @@ class ElephpantCommand extends Command
         $renderer = $this->getRenderHelper();
 
         $directory = sprintf(
-            '%stemplates/core/elephpants/',
+            '%stemplates/core/elephpant/',
             $this->getApplication()->getDirectoryRoot()
         );
 
