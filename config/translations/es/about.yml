@@ -10,4 +10,4 @@ messages:
     version-supported: 'Versión de Drupal 8 soportada <info>%s</info>'
     documentation: 'Consulta la documentación de Drupal Console en <comment>%s</comment>'
     support: 'Soporte para Drupal Console en el canal de Gitter <comment>%s</comment>'
-    supporting-organizations: 'Patrocinadores'
+    supporting-organizations: Patrocinadores

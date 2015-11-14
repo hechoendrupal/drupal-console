@@ -3,3 +3,4 @@ application:
   language: en
   editor: vi
   temp: /tmp
+  develop: false
