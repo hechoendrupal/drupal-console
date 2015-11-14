@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Autowire\ElephpantCommand.
+ * Contains \Drupal\Console\Command\Exclude\ElephpantCommand.
  */
 
-namespace Drupal\Console\Command\Autowire;
+namespace Drupal\Console\Command\Exclude;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
