@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Develop\GenerateDocCommand.
+ * Contains \Drupal\Console\Command\Develop\GenerateDocDashCommand.
  */
 
 namespace Drupal\Console\Command\Develop;
