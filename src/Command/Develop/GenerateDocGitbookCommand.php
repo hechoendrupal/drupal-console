@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Develop\GenerateDocCommand.
+ * Contains \Drupal\Console\Command\Develop\GenerateDocGitbookCommand.
  */
 
 namespace Drupal\Console\Command\Develop;
@@ -110,17 +110,19 @@ class GenerateDocGitbookCommand extends ContainerAwareCommand
             'command_list' => $command_list,
             'options' => $options,
             'arguments' => $arguments,
-            'messages' => array(
-                'title' =>  $this->trans('commands.generate.doc.gitbook.output.available-commands.title'),
-                'note' =>  $this->trans('commands.generate.doc.gitbook.output.available-commands.note'),
-                'note_description' =>  $this->trans('commands.generate.doc.gitbook.output.available-commands.note-description'),
-                'command' =>  $this->trans('commands.generate.doc.gitbook.output.available-commands.command'),
-                'options' => $this->trans('commands.generate.doc.gitbook.output.command.options'),
-                'option' => $this->trans('commands.generate.doc.gitbook.output.command.options'),
-                'details' => $this->trans('commands.generate.doc.gitbook.output.command.details'),
-                'arguments' => $this->trans('commands.generate.doc.gitbook.output.command.arguments'),
-                'argument' => $this->trans('commands.generate.doc.gitbook.output.command.argument'),
-            )
+            'messages' => [
+                'title' =>  $this->trans('commands.generate.doc.gitbook.messages.title'),
+                'note' =>  $this->trans('commands.generate.doc.gitbook.messages.note'),
+                'note_description' =>  $this->trans('commands.generate.doc.gitbook.messages.note-description'),
+                'command' =>  $this->trans('commands.generate.doc.gitbook.messages.command'),
+                'options' => $this->trans('commands.generate.doc.gitbook.messages.options'),
+                'option' => $this->trans('commands.generate.doc.gitbook.messages.options'),
+                'details' => $this->trans('commands.generate.doc.gitbook.messages.details'),
+                'arguments' => $this->trans('commands.generate.doc.gitbook.messages.arguments'),
+                'argument' => $this->trans('commands.generate.doc.gitbook.messages.argument'),
+                'examples' => $this->trans('commands.generate.doc.gitbook.messages.examples')
+            ],
+            'examples' => []
         ];
 
         $this->renderFile(
@@ -146,22 +148,50 @@ class GenerateDocGitbookCommand extends ContainerAwareCommand
         $options = $input->getOptions();
         $arguments = $input->getArguments();
 
+        $commandKey = str_replace(':', '.', $command->getName());
+
+        $examples = [];
+        $index = 0;
+        while (true) {
+            $description = sprintf(
+                'commands.%s.examples.%s.description',
+                $commandKey,
+                $index
+            );
+            $execution = sprintf(
+                'commands.%s.examples.%s.execution',
+                $commandKey,
+                $index
+            );
+
+            if ($description != $this->trans($description)) {
+                $examples[] = [
+                    'description' => $this->trans($description),
+                    'execution' => $this->trans($execution)
+                ];
+            } else {
+                break;
+            }
+            $index++;
+        }
+
         $parameters = [
             'options' => $options,
             'arguments' => $arguments,
             'command' => $command->getName(),
             'description' => $command->getDescription(),
             'aliases' => $command->getAliases(),
-            'messages' => array(
-                'command_description' => sprintf($this->trans('commands.generate.doc.output.command.command_description'), $command->getName(), $command->getDescription()),
-                'usage' =>  $this->trans('commands.generate.doc.output.command.usage'),
-                'options' => $this->trans('commands.generate.doc.output.command.options'),
-                'option' => $this->trans('commands.generate.doc.output.command.options'),
-                'details' => $this->trans('commands.generate.doc.output.command.details'),
-                'arguments' => $this->trans('commands.generate.doc.output.command.arguments'),
-                'argument' => $this->trans('commands.generate.doc.output.command.argument'),
-            )
-
+            'messages' => [
+                'command_description' => sprintf($this->trans('commands.generate.doc.gitbook.messages.command_description'), $command->getName(), $command->getDescription()),
+                'usage' =>  $this->trans('commands.generate.doc.gitbook.messages.usage'),
+                'options' => $this->trans('commands.generate.doc.gitbook.messages.options'),
+                'option' => $this->trans('commands.generate.doc.gitbook.messages.options'),
+                'details' => $this->trans('commands.generate.doc.gitbook.messages.details'),
+                'arguments' => $this->trans('commands.generate.doc.gitbook.messages.arguments'),
+                'argument' => $this->trans('commands.generate.doc.gitbook.messages.argument'),
+                'examples' => $this->trans('commands.generate.doc.gitbook.messages.examples')
+            ],
+            'examples' => $examples
         ];
 
         $this->renderFile(
