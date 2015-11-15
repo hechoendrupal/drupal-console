@@ -5,13 +5,14 @@
  * Contains \Drupal\Console\Command\RouterDebugCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Router;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Command\ContainerAwareCommand;
 
-class RouterDebugCommand extends ContainerAwareCommand
+class DebugCommand extends ContainerAwareCommand
 {
     protected function configure()
     {

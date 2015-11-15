@@ -1,17 +1,18 @@
 <?php
 /**
  * @file
- * Contains \Drupal\Console\Command\UserPasswordResetCommand.
+ * Contains \Drupal\Console\Command\User\PasswordResetCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\User;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ConfirmationTrait;
+use Drupal\Console\Command\ContainerAwareCommand;
 
-class UserPasswordResetCommand extends ContainerAwareCommand
+class PasswordResetCommand extends ContainerAwareCommand
 {
     use ConfirmationTrait;
 

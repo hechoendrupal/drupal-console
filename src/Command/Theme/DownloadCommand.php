@@ -2,19 +2,20 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\ModuleDownloadCommand.
+ * Contains \Drupal\Console\Command\Theme\DownloadCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Theme;
 
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Command\Command;
 use Alchemy\Zippy\Zippy;
 
-class ThemeDownloadCommand extends Command
+class DownloadCommand extends Command
 {
     protected function configure()
     {

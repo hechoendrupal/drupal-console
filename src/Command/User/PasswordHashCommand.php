@@ -2,17 +2,18 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\UserPasswordHashCommand.
+ * Contains \Drupal\Console\Command\User\PasswordHashCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\User;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ConfirmationTrait;
+use Drupal\Console\Command\ContainerAwareCommand;
 
-class UserPasswordHashCommand extends ContainerAwareCommand
+class PasswordHashCommand extends ContainerAwareCommand
 {
     use ConfirmationTrait;
 

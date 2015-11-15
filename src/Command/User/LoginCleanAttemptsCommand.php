@@ -2,17 +2,18 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\UserLoginCleanAttemptsCommand.
+ * Contains \Drupal\Console\Command\User\LoginCleanAttemptsCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\User;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ConfirmationTrait;
+use Drupal\Console\Command\ContainerAwareCommand;
 
-class UserLoginCleanAttemptsCommand extends ContainerAwareCommand
+class LoginCleanAttemptsCommand extends ContainerAwareCommand
 {
     use ConfirmationTrait;
 
