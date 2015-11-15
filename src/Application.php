@@ -267,9 +267,9 @@ class Application extends BaseApplication
             )
         );
 
-        foreach ($autoWireForcedCommands as $autowireForcedCommand) {
-            $command = new $autowireForcedCommand['class'](
-                $autoWireNameCommand['helperset']?$this->getHelperSet():null
+        foreach ($autoWireForcedCommands as $autoWireForcedCommand) {
+            $command = new $autoWireForcedCommand['class'](
+                $autoWireForcedCommand['helperset']?$this->getHelperSet():null
             );
             $this->add($command);
         }
