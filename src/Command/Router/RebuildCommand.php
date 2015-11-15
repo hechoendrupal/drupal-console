@@ -5,12 +5,13 @@
  * Contains \Drupal\Console\Command\RouterRebuildCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Router;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Command\ContainerAwareCommand;
 
-class RouterRebuildCommand extends ContainerAwareCommand
+class RebuildCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
