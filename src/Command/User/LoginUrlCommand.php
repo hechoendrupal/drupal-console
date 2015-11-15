@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\UserLoginUrlCommand.
+ * Contains Drupal\Console\Command\User\LoginUrlCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\User;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,7 +18,7 @@ use Drupal\Console\Command\ContainerAwareCommand;
  *
  * @package Drupal\Console
  */
-class UserLoginUrlCommand extends ContainerAwareCommand
+class LoginUrlCommand extends ContainerAwareCommand
 {
     /**
      * {@inheritdoc}
