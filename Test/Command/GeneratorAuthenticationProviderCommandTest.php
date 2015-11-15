@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GeneratorAuthenticationProviderCommand;
+use Drupal\Console\Command\Generate\AuthenticationProviderCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\AuthenticationProviderDataProviderTrait;
 
@@ -26,7 +26,7 @@ class GeneratorAuthenticationProviderCommandTest extends GenerateCommandTest
         $module,
         $class_name
     ) {
-        $command = new GeneratorAuthenticationProviderCommand($this->getHelperSet());
+        $command = new AuthenticationProviderCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 
