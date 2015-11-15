@@ -1,10 +1,10 @@
-description: 'Override config value in active configuration.'
+description: 'Переопределить значения конфига в активной конфигурации.'
 arguments:
-    config-name: 'Configuration name.'
-    key: Key
-    value: Value
+    config-name: 'Имя конфигурации.'
+    key: Ключ
+    value: Значение
 messages:
-    configuration: 'Configuration name'
-    configuration-key: 'Configuration key'
-    original: 'Original Value'
-    updated: 'Override Value'
+    configuration: 'Имя конфигурации.'
+    configuration-key: 'Ключ конфигурации'
+    original: 'Оригинальное значение'
+    updated: 'Переопределяемое значение'
