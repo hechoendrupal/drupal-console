@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\MigrateDebugCommand.
+ * Contains \Drupal\Console\Command\Yaml\DiffCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Yaml;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -14,8 +14,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Yaml;
+use Drupal\Console\Command\Command;
 
-class YamlDiffCommand extends Command
+class DiffCommand extends Command
 {
     protected function configure()
     {
