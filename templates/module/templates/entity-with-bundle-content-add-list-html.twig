@@ -1,0 +1,23 @@
+{{ '{#' }}
+/**
+ * @file
+ * Default theme implementation to present a list of custom content entity types/bundles.
+ *
+ * Available variables:
+ * - types: A collection of all the available custom entity types/bundles.
+ *   Each type/bundle contains the following:
+ *   - link: A link to add a content entity of this type.
+ *   - description: A description of this content entity types/bundle.
+ *
+ * @see template_preprocess_{{ entity_name }}_content_add_list()
+ *
+ * @ingroup themeable
+ */
+{{ '#}' }}
+{{ '{%' }} spaceless {{ '%}' }}
+  <dl>
+    {{ '{%' }} for type in types {{ '%}' }}
+      <dt>{{ '{{' }} type.link {{ '}}' }}</dt>
+    {{ '{%' }} endfor {{ '%}' }}
+  </dl>
+{{ '{%' }} endspaceless {{ '%}' }}

@@ -15,7 +15,9 @@ use Drupal\Console\Generator\Generator;
 
 abstract class GeneratorCommand extends ContainerAwareCommand
 {
-    private $generator;
+    // @todo: temporarily allow this to be reset, until we can properly chain
+    // commands.
+    protected $generator;
 
     // only useful for unit tests
     public function setGenerator(Generator $generator)
