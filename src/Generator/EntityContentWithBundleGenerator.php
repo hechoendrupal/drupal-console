@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Generator;
 
-class EntityContentGenerator extends Generator
+class EntityContentWithBundleGenerator extends Generator
 {
     /**
      * Generator Entity.
@@ -17,7 +17,7 @@ class EntityContentGenerator extends Generator
      * @param string $entity_class Entity class name
      * @param string $label        Entity label
      */
-    public function generate($module, $entity_name, $entity_class, $label, $bundle_entity_type = NULL)
+    public function generate($module, $entity_name, $entity_class, $label, $bundle_entity_type)
     {
         $parameters = [
           'module' => $module,
@@ -27,8 +27,18 @@ class EntityContentGenerator extends Generator
           'bundle_entity_type' => $bundle_entity_type
         ];
 
+        $controller_class = $entity_class . 'AddController';
         $this->renderFile(
-            'module/routing-entity-content.yml.twig',
+          'module/src/Controller/controller-add-page.php.twig',
+          $this->getSite()->getControllerPath($module).'/'.$controller_class .'.php',
+          $parameters + array(
+              'class_name' => $controller_class,
+            'services' => [],
+          )
+        );
+
+        $this->renderFile(
+            'module/routing-entity-content-with-bundle.yml.twig',
             $this->getSite()->getModulePath($module).'/'.$module.'.routing.yml',
             $parameters,
             FILE_APPEND
@@ -42,7 +52,7 @@ class EntityContentGenerator extends Generator
         );
 
         $this->renderFile(
-            'module/links.menu-entity-content.yml.twig',
+            'module/links.menu-entity-content-with-bundle.yml.twig',
             $this->getSite()->getModulePath($module).'/'.$module.'.links.menu.yml',
             $parameters,
             FILE_APPEND
@@ -56,7 +66,7 @@ class EntityContentGenerator extends Generator
         );
 
         $this->renderFile(
-            'module/links.action-entity-content.yml.twig',
+            'module/links.action-entity-content-with-bundle.yml.twig',
             $this->getSite()->getModulePath($module).'/'.$module.'.links.action.yml',
             $parameters,
             FILE_APPEND
@@ -111,7 +121,7 @@ class EntityContentGenerator extends Generator
         );
 
         $this->renderFile(
-            'module/entity-content-page.php.twig',
+            'module/entity-content-with-bundle-page.php.twig',
             $this->getSite()->getModulePath($module).'/'.$entity_name.'.page.inc',
             $parameters
         );
@@ -122,8 +132,32 @@ class EntityContentGenerator extends Generator
             $parameters
         );
 
+        $this->renderFile(
+          'module/templates/entity-with-bundle-content-add-list-html.twig',
+          $this->getSite()->getTemplatePath($module).'/'.str_replace('_', '-', $entity_name).'-content-add-list.html.twig',
+          $parameters
+        );
+
+        // Check for hook_theme() in module file and warn ...
+        $module_filename = $this->getSite()->getModulePath($module).'/'.$module.'.module';
+        if (($module_file_contents = file_get_contents($module_filename)) &&
+          strpos($module_file_contents, 'function ' . $module . '_theme') !== FALSE
+        ) {
+            echo "================\nWarning:\n================\n" .
+              "It looks like you have a hook_theme already declared!\n".
+              "Please manually merge the two hook_theme() implementations in $module_filename!\n";
+        }
+
+        $this->renderFile(
+          'module/src/Entity/entity-content-with-bundle.theme.php.twig',
+          $this->getSite()->getModulePath($module).'/'.$module.'.module',
+          $parameters,
+          FILE_APPEND
+        );
+
+
         $content = $this->getRenderHelper()->render(
-            'module/src/Entity/entity-content.theme.php.twig',
+            'module/src/Entity/entity-content-with-bundle.theme.php.twig',
             $parameters
         );
 

@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Generator;
 
-class EntityConfigGenerator extends Generator
+class EntityConfigBundleGenerator extends Generator
 {
     /**
      * Generator Entity.

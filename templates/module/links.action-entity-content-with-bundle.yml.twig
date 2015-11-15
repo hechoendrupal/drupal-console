@@ -1,0 +1,6 @@
+entity.{{ entity_name }}.add_form:
+  route_name: '{{ entity_name }}.add_page'
+  title: 'Add {{ label }}'
+  appears_on:
+    - entity.{{ entity_name }}.collection
+    - entity.{{ entity_name }}.canonical

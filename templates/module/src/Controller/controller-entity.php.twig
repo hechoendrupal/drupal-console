@@ -1,0 +1,123 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+Drupal\{{module}}\Controller\{{ class_name }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Controller;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Controller\ControllerBase;
+{% if services is not empty %}
+use Symfony\Component\DependencyInjection\ContainerInterface;
+{% endif %}
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Class {{ class_name }}.
+ *
+ * @package Drupal\{{ module }}\Controller
+ */
+class {{ class_name }} extends ControllerBase {% endblock %}
+{% block class_construct %}
+{% if services is not empty %}
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct({{ servicesAsParameters(services)|join(', ') }}) {
+{{ serviceClassInitialization(services) }}
+  }
+
+{% endif %}
+{% endblock %}
+{% block class_create %}
+{% if services is not empty %}
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+{{ serviceClassInjection(services) }}
+    );
+  }
+
+{% endif %}
+{% endblock %}
+{% block class_methods %}
+{% block add_page %}
+    /**
+    * Displays add content links for available entity type bundles.
+    *
+    * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+    *   A render array for a list of the node types that can be added; however,
+    *   if there is only one node type defined for the site, the function
+    *   will return a RedirectResponse to the node add page for that one node
+    *   type.
+    */
+    public function addPage() {
+        $content = array();
+
+        // Only use node types the user has access to.
+        foreach ($this->entityManager()->getStorage('node_type')->loadMultiple() as $type) {
+            if ($this->entityManager()->getAccessControlHandler('node')->createAccess($type->id())) {
+                $content[$type->id()] = $type;
+            }
+        }
+
+        // Bypass the node/add listing if only one content type is available.
+        if (count($content) == 1) {
+            $type = array_shift($content);
+            return $this->redirect('node.add', array('node_type' => $type->id()));
+        }
+
+        return array(
+            '#theme' => 'node_add_list',
+            '#content' => $content,
+        );
+    }
+
+    /**
+    * Provides the node submission form.
+        *
+    * @param \Drupal\node\NodeTypeInterface $node_type
+    *   The node type entity for the node.
+    *
+    * @return array
+    *   A node submission form.
+    */
+    public function add(EntityTypeInterface $entity_type) {
+        $node = $this->entityManager()->getStorage('node')->create(array(
+            'type' => $node_type->id(),
+        ));
+
+        $form = $this->entityFormBuilder()->getForm($node);
+
+        return $form;
+    }
+
+
+{% for route in routes %}
+  /**
+   * {{ route.method | capitalize }}.
+   *
+   * @return string
+   *   Return Hello string.
+   */
+  public function {{route.method}}({{ argumentsFromRoute(route.route)|join(', ') }}) {
+{% if argumentsFromRoute(route.route) is not empty %}
+    return [
+        '#type' => 'markup',
+        '#markup' => $this->t('Implement method: {{route.method}} with parameter(s): {{ argumentsFromRoute(route.route)|join(', ') }}')
+    ];
+{% else %}
+    return [
+        '#type' => 'markup',
+        '#markup' => $this->t('Implement method: {{route.method}}')
+    ];
+{% endif %}
+  }
+{% endfor %}
+{% endblock %}
