@@ -5,4 +5,4 @@ arguments:
 questions:
     resource-id: 'REST क्रमांक'
 messages:
-    invalid-rest-id: 'REST क्रमांक %s is invalid'
+    invalid-rest-id: 'REST क्रमांक %sअमान्य है।'
