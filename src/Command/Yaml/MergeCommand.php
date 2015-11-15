@@ -2,18 +2,19 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\MigrateDebugCommand.
+ * Contains \Drupal\Console\Command\Yaml\MergeCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Yaml;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
+use Drupal\Console\Command\Command;
 
-class YamlMergeCommand extends Command
+class MergeCommand extends Command
 {
     protected function configure()
     {
