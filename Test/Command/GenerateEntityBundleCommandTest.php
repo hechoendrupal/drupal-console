@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GenerateEntityBundleCommand;
+use Drupal\Console\Command\Generate\EntityBundleCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\EntityBundleDataProviderTrait;
 
@@ -28,7 +28,7 @@ class GenerateEntityBundleCommandTest extends GenerateCommandTest
         $bundle_name,
         $bundle_title
     ) {
-        $command = new GenerateEntityBundleCommand($this->getHelperSet());
+        $command = new EntityBundleCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 

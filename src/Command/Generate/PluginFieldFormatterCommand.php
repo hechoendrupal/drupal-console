@@ -2,19 +2,20 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\GeneratorPluginFieldTypeCommand.
+ * Contains \Drupal\Console\Command\Generate\PluginFieldFormatterCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Generate;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Generator\PluginFieldTypeGenerator;
+use Drupal\Console\Generator\PluginFieldFormatterGenerator;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\ConfirmationTrait;
+use Drupal\Console\Command\GeneratorCommand;
 
-class GeneratorPluginFieldTypeCommand extends GeneratorCommand
+class PluginFieldFormatterCommand extends GeneratorCommand
 {
     use ModuleTrait;
     use ConfirmationTrait;
@@ -22,45 +23,33 @@ class GeneratorPluginFieldTypeCommand extends GeneratorCommand
     protected function configure()
     {
         $this
-            ->setName('generate:plugin:fieldtype')
-            ->setDescription($this->trans('commands.generate.plugin.fieldtype.description'))
-            ->setHelp($this->trans('commands.generate.plugin.fieldtype.help'))
+            ->setName('generate:plugin:fieldformatter')
+            ->setDescription($this->trans('commands.generate.plugin.fieldformatter.description'))
+            ->setHelp($this->trans('commands.generate.plugin.fieldformatter.help'))
             ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
                 'class-name',
                 '',
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.plugin.fieldtype.options.class-name')
+                $this->trans('commands.generate.plugin.fieldformatter.options.class-name')
             )
             ->addOption(
                 'label',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.fieldtype.options.label')
+                $this->trans('commands.generate.plugin.fieldformatter.options.label')
             )
             ->addOption(
                 'plugin-id',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.fieldtype.options.plugin-id')
+                $this->trans('commands.generate.plugin.fieldformatter.options.plugin-id')
             )
             ->addOption(
-                'description',
+                'field-type',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.fieldtype.options.description')
-            )
-            ->addOption(
-                'default-widget',
-                '',
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.fieldtype.options.default-widget')
-            )
-            ->addOption(
-                'default-formatter',
-                '',
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.fieldtype.options.default-formatter')
+                $this->trans('commands.generate.plugin.fieldformatter.options.field-type')
             );
     }
 
@@ -80,16 +69,13 @@ class GeneratorPluginFieldTypeCommand extends GeneratorCommand
         $class_name = $input->getOption('class-name');
         $label = $input->getOption('label');
         $plugin_id = $input->getOption('plugin-id');
-        $description = $input->getOption('description');
-        $default_widget = $input->getOption('default-widget');
-        $default_formatter = $input->getOption('default-formatter');
+        $field_type = $input->getOption('field-type');
 
         $this
             ->getGenerator()
-            ->generate($module, $class_name, $label, $plugin_id, $description, $default_widget, $default_formatter);
+            ->generate($module, $class_name, $label, $plugin_id, $field_type);
 
-
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery'], false);
+        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -110,10 +96,10 @@ class GeneratorPluginFieldTypeCommand extends GeneratorCommand
             $class_name = $dialog->ask(
                 $output,
                 $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.fieldtype.questions.class-name'),
-                    'ExampleFieldType'
+                    $this->trans('commands.generate.plugin.fieldformatter.questions.class-name'),
+                    'ExampleFieldFormatter'
                 ),
-                'ExampleFieldType'
+                'ExampleFieldFormatter'
             );
         }
         $input->setOption('class-name', $class_name);
@@ -125,7 +111,7 @@ class GeneratorPluginFieldTypeCommand extends GeneratorCommand
         if (!$label) {
             $label = $dialog->ask(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.plugin.fieldtype.questions.label'), $default_label),
+                $dialog->getQuestion($this->trans('commands.generate.plugin.fieldformatter.questions.label'), $default_label),
                 $default_label
             );
         }
@@ -140,7 +126,7 @@ class GeneratorPluginFieldTypeCommand extends GeneratorCommand
             $plugin_id = $dialog->ask(
                 $output,
                 $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.fieldtype.questions.plugin-id'),
+                    $this->trans('commands.generate.plugin.fieldformatter.questions.plugin-id'),
                     $machine_name
                 ),
                 $machine_name
@@ -148,51 +134,23 @@ class GeneratorPluginFieldTypeCommand extends GeneratorCommand
         }
         $input->setOption('plugin-id', $plugin_id);
 
-        // --description option
-        $description = $input->getOption('description');
-        if (!$description) {
-            $description = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.fieldtype.questions.description'),
-                    'My Field Type'
-                ),
-                'My Field Type'
-            );
-        }
-        $input->setOption('description', $description);
-
-        // --default-widget option
-        $field_type = $input->getOption('default-widget');
+        // --field type option
+        $field_type = $input->getOption('field-type');
         if (!$field_type) {
             $field_type = $dialog->ask(
                 $output,
                 $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.fieldtype.questions.default-widget'),
+                    $this->trans('commands.generate.plugin.fieldformatter.questions.field-type'),
                     ''
                 ),
                 ''
             );
         }
-        $input->setOption('default-widget', $field_type);
-
-        // --default-formatter option
-        $field_type = $input->getOption('default-formatter');
-        if (!$field_type) {
-            $field_type = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.fieldtype.questions.default-formatter'),
-                    ''
-                ),
-                ''
-            );
-        }
-        $input->setOption('default-formatter', $field_type);
+        $input->setOption('field-type', $field_type);
     }
 
     protected function createGenerator()
     {
-        return new PluginFieldTypeGenerator();
+        return new PluginFieldFormatterGenerator();
     }
 }
