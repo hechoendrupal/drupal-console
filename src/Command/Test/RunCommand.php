@@ -2,18 +2,19 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\TestDebugCommand.
+ * Contains \Drupal\Console\Command\Test\DebugCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Test;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Utility\Timer;
+use Drupal\Console\Command\ContainerAwareCommand;
 
-class TestRunCommand extends ContainerAwareCommand
+class RunCommand extends ContainerAwareCommand
 {
     /**
      * {@inheritdoc}
