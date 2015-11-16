@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 8fd8c425506d5c0f18686bfb4415c50a81e6013d
 description: 'Desinstalar tema o temas en la aplicación'
 questions:
     theme: 'nombre del tema (presione <enter> para detener el agregado de temas)'
