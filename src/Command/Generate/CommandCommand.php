@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\GeneratorCommandCommand.
+ * Contains \Drupal\Console\Command\Generate\CommandCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Command\ConfirmationTrait;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,8 +13,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Generator\CommandGenerator;
+use Drupal\Console\Command\GeneratorCommand;
 
-class GeneratorCommandCommand extends GeneratorCommand
+class CommandCommand extends GeneratorCommand
 {
     use ModuleTrait;
     use ConfirmationTrait;

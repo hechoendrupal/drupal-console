@@ -2,21 +2,23 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\GenerateEntityBundleCommand.
+ * Contains Drupal\Console\Command\Generate\EntityBundleCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\ServicesTrait;
+use Drupal\Console\Command\GeneratorCommand;
 use Drupal\Console\Generator\ContentTypeGenerator;
 use Drupal\Console\Generator\EntityBundleGenerator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GenerateEntityBundleCommand extends GeneratorCommand
+
+class EntityBundleCommand extends GeneratorCommand
 {
     use ModuleTrait;
     use ServicesTrait;

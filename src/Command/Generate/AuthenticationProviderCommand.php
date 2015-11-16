@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\GeneratorAuthenticationProviderCommand.
+ * Contains \Drupal\Console\Command\Generate\AuthenticationProviderCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Generate;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -13,10 +13,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ServicesTrait;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\FormTrait;
+use Drupal\Console\Command\GeneratorCommand;
 use Drupal\Console\Generator\AuthenticationProviderGenerator;
 use Drupal\Console\Command\ConfirmationTrait;
 
-class GeneratorAuthenticationProviderCommand extends GeneratorCommand
+class AuthenticationProviderCommand extends GeneratorCommand
 {
     use ServicesTrait;
     use ModuleTrait;
