@@ -12,17 +12,17 @@
 [{{ command.name }}]({{ command.name|replace(':','-') }}.md) | {{ command.description }}
 {% endfor %}
 {% endfor %}
-
 {% if options|length>0 %}
+
 ## {{ messages.options }}
-{{ messages.option }} | {{ messages.option }}
+{{ messages.option }} | {{ messages.details }}
 -------|-------------
 {% for option in options %}
 --{{ option.name }} | {{ option.description }}
 {% endfor %}
 {% endif %}
-
 {% if arguments|length>0 %}
+
 ## {{ messages.arguments }}
 {{ messages.argument }} | {{ messages.details }}
 ---------|-------------
