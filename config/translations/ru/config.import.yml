@@ -1,10 +1,10 @@
-description: 'Import configuration to current application.'
+description: 'Импорт конфигурации в текущее приложение.'
 arguments:
-    file: 'Configuration file path.'
-    remove-files: 'Remove files after syncronization.'
-    config-file: 'Configuration file path.'
-    copy-only: 'Copy only configuration files in staging directory.'
+    file: 'Путь к файлу конфигурации.'
+    remove-files: 'Удалить файлы после синхронизации.'
+    config-file: 'Путь к файлу конфигурации.'
+    copy-only: 'Копировать только конфигурационные файлы в директории staging.'
 messages:
-    config_files_imported: 'List of config files.'
-    imported: 'All config files were copied to staging directory and imported.'
-    copied: 'All config files were copied to staging directory.'
+    config_files_imported: 'Список конфигурационных файлов.'
+    imported: 'Все конфиг файлы были скопированы в директорию staging и импортированы.'
+    copied: 'Все конфиг файлы были скопированы в директорию staging.'
