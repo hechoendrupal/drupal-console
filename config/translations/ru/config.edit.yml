@@ -1,8 +1,8 @@
-description: 'Edit the selected configuration.'
+description: 'Редактирование выбранной конфигурации.'
 arguments:
-    config-name: 'Configuration name.'
-    editor: Editor.
+    config-name: 'Имя конфигурации.'
+    editor: Редактор.
 questions:
-    config-name: 'Choose a configuration unit'
+    config-name: 'Выберите конфигурацию'
 messages:
-    no-directory: 'An error occurred while creating your directory at'
+    no-directory: 'Ошибка создания директории'
