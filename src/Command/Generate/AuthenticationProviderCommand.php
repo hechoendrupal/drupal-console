@@ -32,10 +32,10 @@ class AuthenticationProviderCommand extends GeneratorCommand
             ->setHelp($this->trans('commands.generate.authentication.provider.help'))
             ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
-                'class-name',
+                'class',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.authentication.provider.options.class-name')
+                $this->trans('commands.generate.authentication.provider.options.class')
             )
             ->addOption(
                 'provider-id',
@@ -58,11 +58,11 @@ class AuthenticationProviderCommand extends GeneratorCommand
         }
 
         $module = $input->getOption('module');
-        $class_name = $input->getOption('class-name');
+        $class = $input->getOption('class');
         $provider_id = $input->getOption('provider-id');
 
         $this->getGenerator()
-            ->generate($module, $class_name, $provider_id);
+            ->generate($module, $class, $provider_id);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -79,13 +79,13 @@ class AuthenticationProviderCommand extends GeneratorCommand
         }
         $input->setOption('module', $module);
 
-        // --class-name option
-        $class_name = $input->getOption('class-name');
-        if (!$class_name) {
-            $class_name = $dialog->askAndValidate(
+        // --class option
+        $class = $input->getOption('class');
+        if (!$class) {
+            $class = $dialog->askAndValidate(
                 $output,
                 $dialog->getQuestion(
-                    $this->trans('commands.generate.authentication.provider.options.class-name'),
+                    $this->trans('commands.generate.authentication.provider.options.class'),
                     'DefaultAuthenticationProvider'
                 ),
                 function ($value) use ($stringUtils) {
@@ -107,7 +107,7 @@ class AuthenticationProviderCommand extends GeneratorCommand
                 $output,
                 $dialog->getQuestion(
                     $this->trans('commands.generate.authentication.provider.options.provider-id'),
-                    $stringUtils->camelCaseToUnderscore($class_name)
+                    $stringUtils->camelCaseToUnderscore($class)
                 ),
                 function ($value) use ($stringUtils) {
                     if (!strlen(trim($value))) {
@@ -117,11 +117,11 @@ class AuthenticationProviderCommand extends GeneratorCommand
                     return $stringUtils->camelCaseToUnderscore($value);
                 },
                 false,
-                $stringUtils->camelCaseToUnderscore($class_name)
+                $stringUtils->camelCaseToUnderscore($class)
             );
         }
 
-        $input->setOption('class-name', $class_name);
+        $input->setOption('class', $class);
         $input->setOption('provider-id', $provider_id);
     }
 
