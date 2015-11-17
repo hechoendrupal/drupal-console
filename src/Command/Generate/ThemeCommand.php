@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\GeneratorModuleCommand.
+ * Contains \Drupal\Console\Command\Generate\ThemeCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Command\ThemeBreakpointTrait;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,11 +15,12 @@ use Drupal\Console\Command\ThemeRegionTrait;
 use Drupal\Console\Command\ThemeBreakpointTraitT;
 use Drupal\Console\Generator\ThemeGenerator;
 use Drupal\Console\Command\ConfirmationTrait;
+use Drupal\Console\Command\GeneratorCommand;
 
 /**
  *
  */
-class GeneratorThemeCommand extends GeneratorCommand
+class ThemeCommand extends GeneratorCommand
 {
     use ConfirmationTrait;
     use ThemeRegionTrait;
