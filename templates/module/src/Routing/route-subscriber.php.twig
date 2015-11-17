@@ -14,27 +14,16 @@ use Symfony\Component\Routing\RouteCollection;
 {% endblock %}
 
 {% block class_declaration %}
-    /**
-    * Class {{ class }}.
-    *
-    * @package Drupal\{{module}}\Routing
-    * Listens to the dynamic route events.
-    */
-    class {{ class }} extends RouteSubscriberBase{% endblock %}
+/**
+ * Class {{ class }}.
+ *
+ * @package Drupal\{{module}}\Routing
+ * Listens to the dynamic route events.
+ */
+class {{ class }} extends RouteSubscriberBase {% endblock %}
 {% block class_methods %}
   /**
    * {@inheritdoc}
    */
   protected function alterRoutes(RouteCollection $collection) {
-    // $route = $collection->get('route.name');
-    if ($route) {
-      $route->setDefaults([
-        '_title' => '',
-        // '_controller' =>
-      ]);
-      $route->setRequirements([
-        '_permission' => 'access content',
-      ]);
-    }
-  }
-{% endblock %}
+  }{% endblock %}
