@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GeneratorModuleCommand;
+use Drupal\Console\Command\Generate\ModuleCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\ModuleDataProviderTrait;
 
@@ -40,7 +40,7 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
         $composer,
         $dependencies
     ) {
-        $command = new GeneratorModuleCommand($this->getHelperSet());
+        $command = new ModuleCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 
