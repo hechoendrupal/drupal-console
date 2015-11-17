@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\GeneratorPluginBlockCommand.
+ * Contains \Drupal\Console\Command\Generate\PluginBlockCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Generate;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -15,8 +15,9 @@ use Drupal\Console\Command\ServicesTrait;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\FormTrait;
 use Drupal\Console\Command\ConfirmationTrait;
+use Drupal\Console\Command\GeneratorCommand;
 
-class GeneratorPluginBlockCommand extends GeneratorCommand
+class PluginBlockCommand extends GeneratorCommand
 {
     use ServicesTrait;
     use ModuleTrait;
