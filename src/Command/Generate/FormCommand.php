@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\GeneratorFormCommand.
+ * Contains Drupal\Console\Command\Generate\FormCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Generate;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -14,8 +14,9 @@ use Drupal\Console\Command\ServicesTrait;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\FormTrait;
 use Drupal\Console\Generator\FormGenerator;
+use Drupal\Console\Command\GeneratorCommand;
 
-abstract class GeneratorFormCommand extends GeneratorCommand
+abstract class FormCommand extends GeneratorCommand
 {
     use ModuleTrait;
     use ServicesTrait;
