@@ -3,8 +3,10 @@
 services:
 {% endif %}
   {{ name | lower }}:
-    class: Drupal\{{module}}\{{ class }}
+    class: {{ class_path }}
+{% if services is defined %}
     arguments: [{{ servicesAsParametersKeys(services)|join(', ') }}]
+{% endif %}
 {% if tags is defined %}
     tags:
       - { {{ tagsAsArray(tags)|join(', ') }} }

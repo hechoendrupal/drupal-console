@@ -301,6 +301,16 @@ class SiteHelper extends Helper
     }
 
     /**
+     * @param string $moduleName
+     * @return string
+     */
+    public function getRoutingPath($moduleName)
+    {
+        return $this->getModulePath($moduleName).'/src/Routing';
+    }
+
+
+    /**
      * {@inheritdoc}
      */
     public function getName()
