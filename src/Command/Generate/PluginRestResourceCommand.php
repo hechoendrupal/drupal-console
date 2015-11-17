@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\GeneratorPluginRestResourceCommand.
+ * Contains \Drupal\Console\Command\Generate\PluginRestResourceCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Generate;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -16,8 +16,9 @@ use Drupal\Console\Command\FormTrait;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Drupal\Console\Generator\PluginRestResourceGenerator;
 use Drupal\Console\Command\ConfirmationTrait;
+use Drupal\Console\Command\GeneratorCommand;
 
-class GeneratorPluginRestResourceCommand extends GeneratorCommand
+class PluginRestResourceCommand extends GeneratorCommand
 {
     use ServicesTrait;
     use ModuleTrait;
