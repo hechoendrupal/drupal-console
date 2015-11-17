@@ -2,38 +2,34 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Generator\ServiceGenerator.
+ * Contains \Drupal\Console\Generator\RouteSubscriberGenerator.
  */
 
 namespace Drupal\Console\Generator;
 
-class EventSubscriberGenerator extends Generator
+class RouteSubscriberGenerator extends Generator
 {
     /**
      * Generator Service.
      *
-     * @param string $module   Module name
-     * @param string $name     Service name
-     * @param string $class    Class name
-     * @param string $events
-     * @param array  $services List of services
+     * @param string $module Module name
+     * @param string $name   Service name
+     * @param string $class  Class name
      */
-    public function generate($module, $name, $class, $events, $services)
+    public function generate($module, $name, $class)
     {
         $parameters = [
           'module' => $module,
           'name' => $name,
           'class' => $class,
-          'class_path' => sprintf('Drupal\%s\EventSubscriber\%s', $module, $class),
-          'events' => $events,
-          'services' => $services,
+          'class_path' => sprintf('Drupal\%s\Routing\%s', $module, $class),
           'tags' => array('name' => 'event_subscriber'),
           'file_exists' => file_exists($this->getSite()->getModulePath($module).'/'.$module.'.services.yml'),
         ];
 
         $this->renderFile(
-            'module/src/event-subscriber.php.twig',
-            $this->getSite()->getSourcePath($module).'/EventSubscriber/'.$class.'.php',
+            'module/src/Routing/route-subscriber.php.twig',
+            $this->getSite()->getRoutingPath($module).'/'.$class.'.php',
             $parameters
         );
 

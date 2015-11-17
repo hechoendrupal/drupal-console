@@ -21,12 +21,13 @@ class ServiceGenerator extends Generator
     public function generate($module, $name, $class, $interface, $services)
     {
         $parameters = [
-          'module' => $module,
-          'name' => $name,
-          'class' => $class,
-          'interface' => $interface,
-          'services' => $services,
-          'file_exists' => file_exists($this->getSite()->getModulePath($module).'/'.$module.'.services.yml'),
+            'module' => $module,
+            'name' => $name,
+            'class' => $class,
+            'class_path' => sprintf('Drupal\%s\%s', $module, $class),
+            'interface' => $interface,
+            'services' => $services,
+            'file_exists' => file_exists($this->getSite()->getModulePath($module).'/'.$module.'.services.yml'),
         ];
 
         $this->renderFile(
