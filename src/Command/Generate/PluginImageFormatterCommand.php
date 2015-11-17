@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\GeneratorPluginFieldFormatterCommand.
+ * Contains \Drupal\Console\Command\Generate\PluginFieldFormatterCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Generate;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -13,8 +13,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\PluginImageFormatterGenerator;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\ConfirmationTrait;
+use Drupal\Console\Command\GeneratorCommand;
 
-class GeneratorPluginImageFormatterCommand extends GeneratorCommand
+class PluginImageFormatterCommand extends GeneratorCommand
 {
     use ModuleTrait;
     use ConfirmationTrait;
