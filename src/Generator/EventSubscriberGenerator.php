@@ -12,11 +12,11 @@ class EventSubscriberGenerator extends Generator
     /**
      * Generator Service.
      *
-     * @param string $module    Module name
-     * @param string $name      Service name
-     * @param string $class     Class name
-     * @param string $interface If TRUE an interface for this service is generated
-     * @param array  $services  List of services
+     * @param string $module   Module name
+     * @param string $name     Service name
+     * @param string $class    Class name
+     * @param string $events
+     * @param array  $services List of services
      */
     public function generate($module, $name, $class, $events, $services)
     {
@@ -24,6 +24,7 @@ class EventSubscriberGenerator extends Generator
           'module' => $module,
           'name' => $name,
           'class' => $class,
+          'class_path' => sprintf('Drupal\%s\EventSubscriber\%s', $module, $class),
           'events' => $events,
           'services' => $services,
           'tags' => array('name' => 'event_subscriber'),
@@ -36,11 +37,6 @@ class EventSubscriberGenerator extends Generator
             $parameters
         );
 
-        // Fixed module path to be used in services
-        $parameters['module'] = sprintf(
-            '%s\EventSubscriber',
-            $module
-        );
         $this->renderFile(
             'module/services.yml.twig',
             $this->getSite()->getModulePath($module).'/'.$module.'.services.yml',

@@ -120,8 +120,8 @@ class GeneratorEventSubscriberCommand extends GeneratorCommand
         if (!$class) {
             $class = $dialog->ask(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.event.subscriber.questions.class-name'), ucfirst($module) .  'DefaultSubscriber'),
-                ucfirst($module) .  'DefaultSubscriber'
+                $dialog->getQuestion($this->trans('commands.generate.event.subscriber.questions.class-name'), 'DefaultSubscriber'),
+                'DefaultSubscriber'
             );
         }
         $input->setOption('class', $class);
