@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\GeneratorPluginBlockCommand.
+ * Contains \Drupal\Console\Command\Generate\PluginRulesActionCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Generator\PluginRulesActionGenerator;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,8 +15,9 @@ use Drupal\Console\Command\ServicesTrait;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\FormTrait;
 use Drupal\Console\Command\ConfirmationTrait;
+use Drupal\Console\Command\GeneratorCommand;
 
-class GeneratorPluginRulesActionCommand extends GeneratorCommand
+class PluginRulesActionCommand extends GeneratorCommand
 {
     use ServicesTrait;
     use ModuleTrait;
