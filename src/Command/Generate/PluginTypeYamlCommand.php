@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\GeneratorPluginTypeYamlCommand.
+ * Contains \Drupal\Console\Command\Generate\PluginTypeYamlCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Generator\PluginTypeYamlGenerator;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,8 +15,9 @@ use Drupal\Console\Command\ServicesTrait;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\FormTrait;
 use Drupal\Console\Command\ConfirmationTrait;
+use Drupal\Console\Command\GeneratorCommand;
 
-class GeneratorPluginTypeYamlCommand extends GeneratorCommand
+class PluginTypeYamlCommand extends GeneratorCommand
 {
     use ServicesTrait;
     use ModuleTrait;
