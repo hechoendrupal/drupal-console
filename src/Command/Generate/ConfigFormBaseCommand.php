@@ -2,12 +2,14 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\GeneratorFormBaseCommand.
+ * Contains Drupal\Console\Command\Generate\FormBaseCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Generate;
 
-class GeneratorConfigFormBaseCommand extends GeneratorFormCommand
+use Drupal\Console\Command\Generate\FormCommand;
+
+class ConfigFormBaseCommand extends FormCommand
 {
     protected function configure()
     {
