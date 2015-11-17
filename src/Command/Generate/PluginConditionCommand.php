@@ -5,7 +5,7 @@
  * Contains \Drupal\Console\Command\GeneratorPluginFieldFormatterCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Generate;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -15,7 +15,7 @@ use Drupal\Console\Generator\PluginConditionGenerator;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\ConfirmationTrait;
 
-class GeneratorPluginConditionCommand extends GeneratorCommand
+class PluginConditionCommand extends GeneratorCommand
 {
     use ModuleTrait;
     use ConfirmationTrait;
