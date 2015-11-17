@@ -41,7 +41,7 @@ commands:
   - command: generate:authentication:provider
     options:
       module: example
-      class-name: ExampleAuthenticationProvider
+      class: ExampleAuthenticationProvider
   - command: generate:plugin:block
     options:
       module: example
