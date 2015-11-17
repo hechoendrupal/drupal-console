@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\GeneratorPluginFieldWidgetCommand.
+ * Contains \Drupal\Console\Command\Generate\PluginFieldWidgetCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Generate;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -13,8 +13,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\PluginFieldWidgetGenerator;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\ConfirmationTrait;
+use Drupal\Console\Command\GeneratorCommand;
 
-class GeneratorPluginFieldWidgetCommand extends GeneratorCommand
+class PluginFieldWidgetCommand extends GeneratorCommand
 {
     use ModuleTrait;
     use ConfirmationTrait;
