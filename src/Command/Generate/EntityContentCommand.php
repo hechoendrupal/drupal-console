@@ -5,9 +5,12 @@
  * Contains \Drupal\Console\Command\GeneratorEntityContentCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Generate;
 
-class GeneratorEntityContentCommand extends GeneratorEntityCommand
+use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Command\GeneratorEntityCommand;
+
+class EntityContentCommand extends GeneratorEntityCommand
 {
     protected function configure()
     {
