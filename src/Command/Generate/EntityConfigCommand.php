@@ -7,9 +7,9 @@
 
 namespace Drupal\Console\Command\Generate;
 
-use Drupal\Console\Command\GeneratorEntityCommand;
+use Drupal\Console\Command\Generate\EntityCommand;
 
-class EntityConfigCommand extends GeneratorEntityCommand
+class EntityConfigCommand extends EntityCommand
 {
     protected function configure()
     {

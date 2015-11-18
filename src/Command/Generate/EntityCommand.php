@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\GeneratorEntityCommand.
+ * Contains \Drupal\Console\Command\Generate\EntityCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Generate;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -13,8 +13,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Generator\EntityConfigGenerator;
 use Drupal\Console\Generator\EntityContentGenerator;
+use Drupal\Console\Command\GeneratorCommand;
 
-abstract class GeneratorEntityCommand extends GeneratorCommand
+abstract class EntityCommand extends GeneratorCommand
 {
     use ModuleTrait;
     private $entityType;
