@@ -38,8 +38,8 @@ class {{ class_name }} extends ControllerBase {% endblock %}
 {% block class_create %}
 
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public static function create(ContainerInterface $container) {
       /** @var EntityManagerInterface $entity_manager */
       $entity_manager = $container->get('entity.manager');
@@ -50,6 +50,16 @@ class {{ class_name }} extends ControllerBase {% endblock %}
     }
 {% endblock %}
 {% block class_methods %}
+    /**
+     * Displays add links for available bundles/types for entity {{ entity_name }} .
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *   The current request object.
+     *
+     * @return array
+     *   A render array for a list of the {{ entity_name }} bundles/types that can be added or
+     *   if there is only one type/bunlde defined for the site, the function returns the add page for that bundle/type.
+     */
     public function add(Request $request) {
       $types = $this->typeStorage->loadMultiple();
       if ($types && count($types) == 1) {
@@ -67,6 +77,17 @@ class {{ class_name }} extends ControllerBase {% endblock %}
       return array('#theme' => '{{ entity_name }}_content_add_list', '#content' => $types);
     }
 
+    /**
+     * Presents the creation form for {{ entity_name }} entities of given bundle/type.
+     *
+     * @param EntityInterface ${{ bundle_entity_type }}
+     *   The custom bundle to add.
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *   The current request object.
+     *
+     * @return array
+     *   A form array as expected by drupal_render().
+     */
     public function addForm(EntityInterface ${{ bundle_entity_type }}, Request $request) {
       $entity = $this->storage->create(array(
         'type' => ${{ bundle_entity_type }}->id()
@@ -74,6 +95,15 @@ class {{ class_name }} extends ControllerBase {% endblock %}
       return $this->entityFormBuilder()->getForm($entity);
     }
 
+    /**
+     * Provides the page title for this controller.
+     *
+     * @param EntityInterface ${{ bundle_entity_type }}
+     *   The custom bundle/type being added.
+     *
+     * @return string
+     *   The page title.
+     */
     public function getAddFormTitle(EntityInterface ${{ bundle_entity_type }}) {
       return t('Create of bundle @label',
         array('@label' => ${{ bundle_entity_type }}->label())

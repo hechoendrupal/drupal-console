@@ -42,14 +42,20 @@ use Drupal\user\UserInterface;
  *   },
  *   base_table = "{{ entity_name }}",
  *   admin_permission = "administer {{ entity_class }} entity",
+{% if bundle_entity_type %}
  *   entity_keys = {
  *     "id" = "id",
-{% if bundle_entity_type %}
- *    "bundle" = "type",
-{% endif %}
+ *     "bundle" = "type",
  *     "label" = "name",
  *     "uuid" = "uuid"
  *   },
+{% else %}
+ *   entity_keys = {
+ *     "id" = "id",
+ *     "label" = "name",
+ *     "uuid" = "uuid"
+ *   },
+{% endif %}
  *   links = {
  *     "canonical" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
  *     "edit-form" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
@@ -61,7 +67,6 @@ use Drupal\user\UserInterface;
 {% else %}
  *   field_ui_base_route = "{{ entity_name }}.settings"
 {% endif %}
-
  * )
  */
 class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}Interface {% endblock %}
