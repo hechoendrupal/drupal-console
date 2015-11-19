@@ -14,3 +14,4 @@ messages:
     details: Detalles
     arguments: 'Argumentos disponibles'
     argument: Argumento
+    examples: Examples
