@@ -10,7 +10,6 @@ namespace Drupal\Console\EventSubscriber;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Drupal\Console\Command\GeneratorCommand;
 
 class ShowTerminateMessageListener implements EventSubscriberInterface
 {

@@ -96,7 +96,6 @@ class PluginConditionCommand extends GeneratorCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $dialog = $this->getDialogHelper();
-        $context_repository = $this->getContextRepository();
 
         $entity_manager = $this->getEntityManager();
 

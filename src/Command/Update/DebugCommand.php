@@ -7,12 +7,8 @@
 
 namespace Drupal\Console\Command\Update;
 
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\views\Entity\View;
-use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Command\ContainerAwareCommand;
 
 class DebugCommand extends ContainerAwareCommand
@@ -98,7 +94,7 @@ class DebugCommand extends ContainerAwareCommand
 
         foreach ($updates as $module => $module_updates) {
             foreach ($module_updates['pending'] as $update_n => $update) {
-                list(, $description) = split($update_n . " - ", $update);
+                list(, $description) = explode($update_n . " - ", $update);
                 $table->addRow(
                     [
                         $module,
