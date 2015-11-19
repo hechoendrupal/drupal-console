@@ -13,7 +13,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
-use Symfony\Component\Yaml\Yaml;
 use Drupal\Console\Command\Command;
 
 class DiffCommand extends Command
@@ -62,10 +61,8 @@ class DiffCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $yaml = new Parser();
-        $dumper = new Dumper();
         $message = $this->getMessageHelper();
 
-        $final_yaml = array();
         $yaml_left = $input->getArgument('yaml-left');
         $yaml_right = $input->getArgument('yaml-right');
 
@@ -113,7 +110,7 @@ class DiffCommand extends Command
         $nested_array = $this->getNestedArrayHelper();
 
         $statisticts = ['total' => 0, 'equal'=> 0 , 'diff' => 0];
-        $diff = $nested_array->array_diff($yaml_left_parsed, $yaml_right_parsed, $negate, $statisticts);
+        $diff = $nested_array->arrayDiff($yaml_left_parsed, $yaml_right_parsed, $negate, $statisticts);
 
 
         $table = $this->getTableHelper();
@@ -146,9 +143,9 @@ class DiffCommand extends Command
         // FLAT YAML file to display full yaml to be used with command yaml:update:key or yaml:update:value
         $diff_flatten = array();
         $key_flatten = '';
-        $nested_array->yaml_flatten_array($diff, $diff_flatten, $key_flatten);
+        $nested_array->yamlFlattenArray($diff, $diff_flatten, $key_flatten);
 
-        if ($limit != null) {
+        if ($limit !== null) {
             if (!$offset) {
                 $offset = 0;
             }
