@@ -1,0 +1,8 @@
+description: 'Sync language translations'
+arguments:
+    language: 'Language for instance es or Spanish'
+messages:
+    checking: 'Checking %s translation for project %s'
+    downloading: 'Downloading %s translation for project %s'
+    importing: 'Importing %s translation for project %s'
+    invalid-language: 'Language %s is invalid'
