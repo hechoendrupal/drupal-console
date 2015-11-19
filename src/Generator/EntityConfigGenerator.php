@@ -16,8 +16,9 @@ class EntityConfigGenerator extends Generator
      * @param string $entity_name  Entity machine name
      * @param string $entity_class Entity class name
      * @param string $label        Entity label
+     * @param string $bundle_of    Entity machine name of the content entity this config entity acts as a bundle for.
      */
-    public function generate($module, $entity_name, $entity_class, $label, $bundle_of = NULL)
+    public function generate($module, $entity_name, $entity_class, $label, $bundle_of = null)
     {
         $parameters = [
           'module' => $module,
@@ -26,6 +27,7 @@ class EntityConfigGenerator extends Generator
           'label' => $label,
           'bundle_of' => $bundle_of,
         ];
+
         $this->renderFile(
             'module/config/schema/entity.schema.yml.twig',
             $this->getSite()->getModulePath($module).'/config/schema/'.$entity_name.'.schema.yml',

@@ -10,31 +10,32 @@ namespace Drupal\Console\Generator;
 class EntityContentWithBundleGenerator extends Generator
 {
     /**
-     * Generator Entity.
+     * Generator Entity (with bundle).
      *
      * @param string $module       Module name
      * @param string $entity_name  Entity machine name
      * @param string $entity_class Entity class name
      * @param string $label        Entity label
+     * @param string $bundle_entity_type (Config) entity type acting as bundle
      */
     public function generate($module, $entity_name, $entity_class, $label, $bundle_entity_type)
     {
         $parameters = [
-          'module' => $module,
-          'entity_name' => $entity_name,
-          'entity_class' => $entity_class,
-          'label' => $label,
-          'bundle_entity_type' => $bundle_entity_type
+            'module' => $module,
+            'entity_name' => $entity_name,
+            'entity_class' => $entity_class,
+            'label' => $label,
+            'bundle_entity_type' => $bundle_entity_type
         ];
 
         $controller_class = $entity_class . 'AddController';
         $this->renderFile(
-          'module/src/Controller/controller-add-page.php.twig',
-          $this->getSite()->getControllerPath($module).'/'.$controller_class .'.php',
-          $parameters + array(
-              'class_name' => $controller_class,
-            'services' => [],
-          )
+            'module/src/Controller/controller-add-page.php.twig',
+            $this->getSite()->getControllerPath($module).'/'.$controller_class .'.php',
+            $parameters + array(
+                'class_name' => $controller_class,
+                'services' => [],
+            )
         );
 
         $this->renderFile(
@@ -140,8 +141,9 @@ class EntityContentWithBundleGenerator extends Generator
 
         // Check for hook_theme() in module file and warn ...
         $module_filename = $this->getSite()->getModulePath($module).'/'.$module.'.module';
-        if (($module_file_contents = file_get_contents($module_filename)) &&
-          strpos($module_file_contents, 'function ' . $module . '_theme') !== FALSE
+        if (
+          ($module_file_contents = file_get_contents($module_filename)) &&
+          strpos($module_file_contents, 'function ' . $module . '_theme') !== false
         ) {
             echo "================\nWarning:\n================\n" .
               "It looks like you have a hook_theme already declared!\n".
