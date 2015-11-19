@@ -8,8 +8,8 @@ options:
     set-default: 'Establecer como tema por defecto'
 messages:
     no-themes: 'Debe proveer uno o varios temas para activar.'
-    themes-missing: "Imposible instalar temas %s debido a que no estan disponibles"
-    theme-missing: "Imposible instalar tema %s debido a que no esta disponible"
+    themes-missing: 'Imposible instalar temas %s debido a que no estan disponibles'
+    theme-missing: 'Imposible instalar tema %s debido a que no esta disponible'
     missing-dependencies: 'Imposible instalar temas %s debido a la falta de dependencias %s'
     themes-nothing: 'Nada que hacer. Todos los temas %s ya estan instalados'
     theme-nothing: 'Nada que hacer. El tema %s ya esta instalado'

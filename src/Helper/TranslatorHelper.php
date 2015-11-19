@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Helper;
 
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
