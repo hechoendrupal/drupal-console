@@ -5,15 +5,14 @@
  * Contains \Drupal\Console\Command\GeneratorEntityContentCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Generator\EntityConfigGenerator;
 use Drupal\Console\Generator\EntityContentWithBundleGenerator;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GeneratorEntityContentWithBundleCommand extends GeneratorEntityCommand
+class EntityContentWithBundleCommand extends EntityCommand
 {
     protected function configure()
     {
