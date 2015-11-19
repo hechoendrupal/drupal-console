@@ -11,6 +11,6 @@ messages:
     remote-age: 'रिमोट उम्र'
     info: सूचना
     no-translation-files: 'विकास के लिए कोई अनुवाद फ़ाइलें नही हैं |'
-    file-not-found: 'फ़ाइल यहा नही मिली %s और ना ही यहा मिली %s |'
+    file-not-found: "File not found at %s. execute locale:translation:sync to download it."
     local-file-not-found: 'फ़ाइल यहा नही मिली %s'
     translation-not-determined: 'अनुवाद फ़ाइल स्थान निर्धारित नहीं किया जा सकता है।'

@@ -14,14 +14,14 @@ use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Command\Locale\LocaleTrait;
 
-class LanguageAddCommand extends ContainerAwareCommand
+class LanguageDeleteCommand extends ContainerAwareCommand
 {
     use LocaleTrait;
 
     protected function configure()
     {
         $this
-            ->setName('locale:language:add')
+            ->setName('locale:language:delete')
             ->setDescription($this->trans('commands.locale.language.add.description'))
             ->addArgument(
                 'language',
@@ -41,13 +41,14 @@ class LanguageAddCommand extends ContainerAwareCommand
 
         $language = $input->getArgument('language');
 
+        $languagesObjects = locale_translatable_language_list();
         $languages = $this->getLanguages();
 
-
         if (isset($languages[$language])) {
-            $langcode = $language;
+            $languageEntity = $languages[$language];
         } elseif (array_search($language, $languages)) {
             $langcode = array_search($language, $languages);
+            $languageEntity = $languagesObjects[$langcode];
         } else {
             $messageHelper->addErrorMessage(
                 sprintf(
@@ -59,14 +60,13 @@ class LanguageAddCommand extends ContainerAwareCommand
         }
 
         try {
-            $language = ConfigurableLanguage::createFromLangcode($langcode);
-            $language->type = LOCALE_TRANSLATION_REMOTE;
-            $language->save();
+            $configurable_language_storage = $this->getEntityManager()->getStorage('configurable_language');
+            $language = $configurable_language_storage->load($languageEntity->getId())->delete();
 
             $messageHelper->addinfoMessage(
                 sprintf(
-                    $this->trans('commands.locale.language.add.messages.language-add-sucessfully'),
-                    $language->getName()
+                    $this->trans('commands.locale.language.add.messages.language-delete-sucessfully'),
+                    $languageEntity->getName()
                 )
             );
         } catch (Exception $e) {

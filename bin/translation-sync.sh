@@ -51,7 +51,26 @@ if [ $# -eq 0 ]; then
       fi
 	done
 fi  
-  
-if [ $# -eq 1 ] || [ $# -gt 3 ]; then
+
+if [ $# -eq 1 ]; then
+  for dir in ./*
+    do
+      if [[ "$dir" != "./en" ]]; then
+        filepath=`basename en/$1.yml`
+        if [ ! -f $dir/$filepath ]; then
+          echo "File $dir/$filepath not found!"
+          echo "coping en/$filepath to $dir/$filepath"
+          command="cp en/$filepath $dir/$filepath"
+          $command
+        else
+          echo "console.dev yaml:merge $dir/$filepath en/$filepath $dir/$filepath"
+          command="console.dev yaml:merge $dir/$filepath en/$filepath $dir/$filepath"
+          $command
+        fi
+      fi
+	done
+fi
+
+if [ $# -gt 3 ]; then
     echo "'$ translation-sync.sh' or '$ translation-sync.sh en es' or '$ translation-sync.sh en es about.yml'"
 fi
