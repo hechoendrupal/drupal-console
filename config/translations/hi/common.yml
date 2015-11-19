@@ -34,3 +34,4 @@ status:
     disabled: 'अक्षम'
 messages:
     canceled: 'उत्पन्न रद्द कर दिया गया'
+    drupal-core: 'Drupal Core'

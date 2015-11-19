@@ -34,3 +34,4 @@ status:
     disabled: Dezactivat
 messages:
     canceled: 'Generated Cancelled'
+    drupal-core: 'Drupal Core'

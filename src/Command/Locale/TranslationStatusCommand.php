@@ -14,6 +14,8 @@ use Drupal\Console\Command\ContainerAwareCommand;
 
 class TranslationStatusCommand extends ContainerAwareCommand
 {
+    use LocaleTrait;
+
     protected function configure()
     {
         $this
@@ -55,8 +57,6 @@ class TranslationStatusCommand extends ContainerAwareCommand
 
         $this->getModuleHandler()->loadInclude('locale', 'compare.inc');
 
-        $project_data = locale_translation_build_projects();
-
         if (!$languages) {
             $output->writeln('[+] <info>'.$this->trans('commands.locale.translation.status.messages.no-languages') .'</info>');
 
@@ -66,85 +66,25 @@ class TranslationStatusCommand extends ContainerAwareCommand
             return;
         }
 
-        if ($languages && $status) {
+        if ($languages) {
             $table->setlayout($table::LAYOUT_COMPACT);
 
-            $status_report = [];
-            foreach ($status as $project_id => $project) {
-                foreach ($project as $langcode => $project_info) {
-                    $info = $this->createInfoString($project_info);
+            $projectsStatus = $this->projectsStatus();
 
-                    if ($project_info->type == LOCALE_TRANSLATION_LOCAL || $project_info->type == LOCALE_TRANSLATION_REMOTE) {
-                        $local = isset($project_info->files[LOCALE_TRANSLATION_LOCAL]) ? $project_info->files[LOCALE_TRANSLATION_LOCAL] : null;
-                        $remote = isset($project_info->files[LOCALE_TRANSLATION_REMOTE]) ? $project_info->files[LOCALE_TRANSLATION_REMOTE] : null;
-
-                        // Remove info because type was found
-                        $info = '';
-                    }
-
-                    $local_age = $local->timestamp? \Drupal::service('date.formatter')->formatTimeDiffSince($local->timestamp): '';
-                    $remote_age = $remote->timestamp? \Drupal::service('date.formatter')->formatTimeDiffSince($remote->timestamp): '';
-                    $project_name = $project_info->name == 'drupal' ? $this->trans('commands.common.messages.drupal-core') : $project_data[$project_info->name]->info['name'];
-                    $status_report[$langcode][] = [$project_name, $project_info->version, $local_age, $remote_age ,$info ];
-                }
-            }
-
-            print $language_filter;
-
-            foreach ($status_report as $langcode => $rows) {
+            foreach ($projectsStatus as $langcode => $rows) {
+                $table->setRows(array());
                 if ($language_filter !='' and !($language_filter == $langcode || strtolower($language_filter) == strtolower($languages[$langcode]->getName()))) {
                     continue;
                 }
                 $output->writeln('[+] <info>'.$languages[$langcode]->getName() .'</info>');
                 foreach ($rows as $row) {
+                    if ($row[0] == 'drupal') {
+                        $row[0] = $this->trans('commands.common.messages.drupal-core');
+                    }
                     $table->addRow($row);
                 }
+                $table->render($output);
             }
         }
-
-        $table->render($output);
-    }
-
-    /**
-     * Provides debug info for projects in case translation files are not found.
-     *
-     * Translations files are being fetched either from Drupal translation server
-     * and local files or only from the local filesystem depending on the
-     * "Translation source" setting at admin/config/regional/translate/settings.
-     * This method will produce debug information including the respective path(s)
-     * based on this setting.
-     *
-     * Translations for development versions are never fetched, so the debug info
-     * for that is a fixed message.
-     *
-     * @param array $project_info
-     *   An array which is the project information of the source.
-     *
-     * @return string
-     *   The string which contains debug information.
-     */
-    protected function createInfoString($project_info)
-    {
-        $remote_path = isset($project_info->files['remote']->uri) ? $project_info->files['remote']->uri : false;
-        $local_path = isset($project_info->files['local']->uri) ? $project_info->files['local']->uri : false;
-
-        if (strpos($project_info->version, 'dev') !== false) {
-            return $this->trans('commands.locale.translation.status.messages.no-translation-files');
-        }
-        if (locale_translation_use_remote_source() && $remote_path && $local_path) {
-            return sprintf(
-                $this->trans('commands.locale.translation.status.messages.file-not-found'),
-                $remote_path,
-                $local_path
-            );
-        } elseif ($local_path) {
-            return
-                sprintf(
-                    $this->trans('commands.locale.translation.status.messages.local-file-not-found'),
-                    $local_path
-                );
-        }
-
-        return $this->trans('commands.locale.translation.status.messages.translation-not-determined');
     }
 }
