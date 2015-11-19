@@ -52,7 +52,7 @@ class LanguageDeleteCommand extends ContainerAwareCommand
         } else {
             $messageHelper->addErrorMessage(
                 sprintf(
-                    $this->trans('commands.locale.language.add.messages.invalid-language'),
+                    $this->trans('commands.locale.language.delete.messages.invalid-language'),
                     $language
                 )
             );
@@ -65,7 +65,7 @@ class LanguageDeleteCommand extends ContainerAwareCommand
 
             $messageHelper->addinfoMessage(
                 sprintf(
-                    $this->trans('commands.locale.language.add.messages.language-deleted-sucessfully'),
+                    $this->trans('commands.locale.language.delete.messages.language-deleted-sucessfully'),
                     $languageEntity->getName()
                 )
             );
