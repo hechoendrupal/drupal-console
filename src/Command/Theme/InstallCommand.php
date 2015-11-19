@@ -7,12 +7,12 @@
 
 namespace Drupal\Console\Command\Theme;
 
-use Drupal\Core\Config\PreExistingConfigException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Core\Config\UnmetDependenciesException;
 
 class InstallCommand extends ContainerAwareCommand
 {

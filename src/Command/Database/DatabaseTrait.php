@@ -25,7 +25,7 @@ trait DatabaseTrait
      *
      * @return mixed
      */
-    public function dbTypeQuestion(InputInterface $input, OutputInterface $output, QuestionHelper $question)
+    public function dbTypeQuestion(InputInterface $input, OutputInterface $output)
     {
         $questionHelper = $this->getQuestionHelper();
 

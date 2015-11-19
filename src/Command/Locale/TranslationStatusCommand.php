@@ -73,7 +73,7 @@ class TranslationStatusCommand extends ContainerAwareCommand
 
             foreach ($projectsStatus as $langcode => $rows) {
                 $table->setRows(array());
-                if ($language_filter !='' and !($language_filter == $langcode || strtolower($language_filter) == strtolower($languages[$langcode]->getName()))) {
+                if ($language_filter !='' && !($language_filter == $langcode || strtolower($language_filter) == strtolower($languages[$langcode]->getName()))) {
                     continue;
                 }
                 $output->writeln('[+] <info>'.$languages[$langcode]->getName() .'</info>');
