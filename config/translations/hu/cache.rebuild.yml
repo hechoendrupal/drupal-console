@@ -8,3 +8,10 @@ messages:
     invalid_cache: 'A "%s" gyorsítótár név helytelen.'
 questions:
     cache: 'Gyorsítótár kiválasztása.'
+examples:
+    -
+        description: 'Rebuild all caches'
+        execution: 'drupal cr all'
+    -
+        description: 'Rebuild discovery cache'
+        execution: 'drupal cr discovery'

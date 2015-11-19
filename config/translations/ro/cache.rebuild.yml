@@ -8,3 +8,10 @@ messages:
     invalid_cache: 'Cache-ul "%s" este invalid.'
 questions:
     cache: 'Selectează cache-ul.'
+examples:
+    -
+        description: 'Rebuild all caches'
+        execution: 'drupal cr all'
+    -
+        description: 'Rebuild discovery cache'
+        execution: 'drupal cr discovery'
