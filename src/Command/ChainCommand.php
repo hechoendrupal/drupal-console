@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command;
 
-use Drupal\Console\Config;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
