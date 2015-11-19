@@ -8,13 +8,9 @@
 namespace Drupal\Console\Command\Multisite;
 
 use Drupal\Console\Command\Command;
-use Drupal\Console\Console\Application;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Yaml\Dumper;
 
 /**
  * Class SiteDebugCommand
