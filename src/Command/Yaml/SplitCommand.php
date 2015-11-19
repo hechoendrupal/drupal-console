@@ -13,7 +13,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
-use Symfony\Component\Yaml\Yaml;
 use Drupal\Console\Command\Command;
 
 class SplitCommand extends Command
@@ -63,8 +62,6 @@ class SplitCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $yaml = new Parser();
-        $dumper = new Dumper();
-        $messageHelper = $this->getMessageHelper();
 
         $yaml_file = $input->getArgument('yaml-file');
         $indent_level = $input->getOption('indent-level');
@@ -117,7 +114,7 @@ class SplitCommand extends Command
             $key_flatten = '';
             $initial_level = 1;
 
-            $nested_array->yaml_split_array($yaml_file_parsed, $yaml_split, $indent_level, $key_flatten, $initial_level, $exclude_parents_key);
+            $nested_array->yamlSplitArray($yaml_file_parsed, $yaml_split, $indent_level, $key_flatten, $initial_level, $exclude_parents_key);
         }
 
         $this->writeSplittedFile($yaml_split, $file_output_prefix, $file_output_suffix, $output);
