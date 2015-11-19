@@ -14,3 +14,4 @@ messages:
     file-not-found: 'File not found at %s nor at %s'
     local-file-not-found: 'File not found at %s'
     translation-not-determined: 'Translation file location could not be determined.'
+    translation-project-updated: Updated
