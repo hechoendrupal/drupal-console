@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\MigrateDebugCommand.
+ * Contains \Drupal\Console\Command\Locale\LanguageAddCommand.
  */
 
 namespace Drupal\Console\Command\Locale;
@@ -36,7 +36,8 @@ class LanguageAddCommand extends ContainerAwareCommand
     {
         $messageHelper = $this->getMessageHelper();
         $moduleHandler = $this->getModuleHandler();
-        $moduleHandler->loadInclude('locale', 'inc','locale.translation');
+        $moduleHandler->loadInclude('locale', 'inc', 'locale.translation');
+        $moduleHandler->loadInclude('locale', 'module');
 
         $language = $input->getArgument('language');
 
@@ -49,18 +50,24 @@ class LanguageAddCommand extends ContainerAwareCommand
             $langcode = array_search($language, $languages);
         } else {
             $messageHelper->addErrorMessage(
-                sprintf($this->trans('commands.locale.language.add.messages.invalid-language'),
-                    $language)
+                sprintf(
+                    $this->trans('commands.locale.language.add.messages.invalid-language'),
+                    $language
+                )
             );
             return;
         }
 
         try {
-            ConfigurableLanguage::createFromLangcode($langcode)->save();
+            $language = ConfigurableLanguage::createFromLangcode($langcode);
+            $language->type = LOCALE_TRANSLATION_REMOTE;
+            $language->save();
 
             $messageHelper->addinfoMessage(
-                sprintf($this->trans('commands.locale.language.add.messages.language-add-sucessfully'),
-                    $language)
+                sprintf(
+                    $this->trans('commands.locale.language.add.messages.language-add-sucessfully'),
+                    $language->getName()
+                )
             );
         } catch (Exception $e) {
             $messageHelper->addErrorMessage(

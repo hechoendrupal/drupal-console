@@ -60,7 +60,6 @@ class DownloadCommand extends Command
             try {
                 $html = $httpClient->getHtml($project_release_d8);
             } catch (\Exception $e) {
-                print_r($e->getMessage());
                 $output->writeln('[+] <error>'.$e->getMessage().'</error>');
 
                 return;

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Develop\GenerateDocCommand.
+ * Contains \Drupal\Console\Command\Develop\GenerateDocDashCommand.
  */
 
 namespace Drupal\Console\Command\Develop;
@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
 
 class GenerateDocDashCommand extends ContainerAwareCommand
