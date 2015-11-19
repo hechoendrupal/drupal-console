@@ -18,6 +18,8 @@ use Drupal\Core\Database\Database;
 use Drupal\Core\Database\Connection;
 use Drupal\migrate\Entity\Migration;
 use Drupal\migrate\Plugin\MigratePluginManager;
+use Drupal\migrate\Plugin\RequirementsInterface;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 
 class SetupCommand extends ContainerAwareCommand
 {

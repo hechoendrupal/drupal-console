@@ -113,7 +113,7 @@ class FormAlterCommand extends GeneratorCommand
             }
         }
 
-        if ($moduleHandler->moduleExists('webprofiler') and isset($forms[$form_id])) {
+        if ($moduleHandler->moduleExists('webprofiler') && isset($forms[$form_id])) {
             ;
             $this->metadata['class'] = $forms[$form_id]['class']['class'];
             $this->metadata['method'] = $forms[$form_id]['class']['method'];
