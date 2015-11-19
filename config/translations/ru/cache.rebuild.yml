@@ -8,3 +8,10 @@ messages:
     invalid_cache: 'Невалидный кеш "%s".'
 questions:
     cache: 'Выберите кеш.'
+examples:
+    -
+        description: 'Rebuild all caches'
+        execution: 'drupal cr all'
+    -
+        description: 'Rebuild discovery cache'
+        execution: 'drupal cr discovery'

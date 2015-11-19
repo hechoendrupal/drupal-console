@@ -1,7 +1,7 @@
 description: 'Редактирование выбранной конфигурации.'
 arguments:
     config-name: 'Имя конфигурации.'
-    editor: Редактор.
+    editor: 'Редактор.'
 questions:
     config-name: 'Выберите конфигурацию'
 messages:
