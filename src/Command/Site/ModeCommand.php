@@ -201,7 +201,7 @@ class ModeCommand extends ContainerAwareCommand
             'twig.config' => [
                 'debug' => ['dev' => true, 'prod' => false],
                 'auto_reload' =>['dev' => true, 'prod' => false],
-                'cache' => ['dev' => false, 'prod' => true]
+                'cache' => ['dev' => true, 'prod' => true]
             ]
         ];
 
