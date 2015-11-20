@@ -129,15 +129,13 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
       ->setLabel(t('ID'))
       ->setDescription(t('The ID of the {{ label }} entity.'))
       ->setReadOnly(TRUE);
-
-    {% if bundle_entity_type %}
+{% if bundle_entity_type %}
     $fields['type'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Type'))
       ->setDescription(t('The {{ label }} type/bundle.'))
       ->setSetting('target_type', '{{ bundle_entity_type }}')
       ->setRequired(TRUE);
-    {% endif %}
-
+{% endif %}
     $fields['uuid'] = BaseFieldDefinition::create('uuid')
       ->setLabel(t('UUID'))
       ->setDescription(t('The UUID of the {{ label }} entity.'))
