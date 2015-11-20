@@ -90,11 +90,12 @@ class PluginBlockCommand extends GeneratorCommand
         $theme_regions = system_region_list($theme, REGIONS_VISIBLE);
 
 
-        if(!empty($theme_region) && !isset($theme_regions[$theme_region])) {
+        if (!empty($theme_region) && !isset($theme_regions[$theme_region])) {
             $message->addErrorMessage(
                 sprintf(
                     $this->trans('commands.generate.plugin.block.messages.invalid-theme-region'),
-                    $theme_region)
+                    $theme_region
+                )
             );
 
             return 1;
@@ -109,7 +110,7 @@ class PluginBlockCommand extends GeneratorCommand
 
         $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery']);
 
-        if($theme_region) {
+        if ($theme_region) {
             // Load block to set theme region
 
             $block = $this->getEntityManager()->getStorage('block')->create(array('id'=> $plugin_id, 'plugin' => $plugin_id, 'theme' => $theme));
@@ -181,7 +182,7 @@ class PluginBlockCommand extends GeneratorCommand
             $theme_region =  $dialog->askAndValidate(
                 $output,
                 $dialog->getQuestion($this->trans('commands.generate.plugin.block.options.theme-region'), ''),
-                function ($region) use($theme_regions) {
+                function ($region) use ($theme_regions) {
                     return array_search($region, $theme_regions);
                 },
                 false,
