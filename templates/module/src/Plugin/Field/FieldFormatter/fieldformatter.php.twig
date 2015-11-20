@@ -9,7 +9,7 @@ namespace Drupal\{{ module }}\Plugin\Field\FieldFormatter;
 {% endblock %}
 
 {% block use_class %}
-use Drupal\Component\Utility\SafeMarkup;
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
@@ -88,6 +88,6 @@ class {{ class_name }} extends FormatterBase {% endblock %}
   protected function viewValue(FieldItemInterface $item) {
     // The text value has no text format assigned to it, so the user input
     // should equal the output, including newlines.
-    return nl2br(SafeMarkup::checkPlain($item->value));
+    return nl2br(Html::escape($item->value));
   }
 {% endblock %}
