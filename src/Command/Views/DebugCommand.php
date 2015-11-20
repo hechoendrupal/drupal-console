@@ -218,7 +218,6 @@ class DebugCommand extends ContainerAwareCommand
             $definition = $displayManager->getDefinition($display['display_plugin']);
             if (!empty($definition['admin'])) {
                 // Cast the admin label to a string since it is an object.
-                // @see \Drupal\Core\StringTranslation\TranslationWrapper
                 $displays[$definition['id']]['name'] = (string) $definition['admin'];
                 $displays[$definition['id']]['description'] = (string) $definition['help'];
             }
