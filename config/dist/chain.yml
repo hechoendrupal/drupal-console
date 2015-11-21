@@ -22,6 +22,51 @@ commands:
       form-id: example_form
       inputs: false
       routing: true
+  - command: generate:form:alter
+    options:
+      module: example
+      form-id: '1234'
+      inputs:
+        -
+          name: nombre
+          type: textfield
+          label: Nombre
+          options: ''
+          description: 'Ejemplo de nombre'
+          maxlength: '36'
+          size: '10'
+          default_value: null
+          weight: null
+        -
+          name: apellido_paterno
+          type: textfield
+          label: 'Apellido Paterno'
+          options: ''
+          description: 'Ejemplo de apellido paterno'
+          maxlength: '30'
+          size: '15'
+          default_value: null
+          weight: null
+        -
+          name: apellido_materno
+          type: textfield
+          label: 'Apellido Materno'
+          options: ''
+          description: 'Ejemplo de apellido materno'
+          maxlength: '40'
+          size: '15'
+          default_value: null
+          weight: null
+        -
+          name: edad
+          type: number
+          label: Edad
+          options: ''
+          description: 'Ejemplo de edad'
+          maxlength: null
+          size: null
+          default_value: '18'
+          weight: '6'
   - command: generate:entity:content
     options:
       module: example
@@ -32,6 +77,11 @@ commands:
       module: example
       entity-class: Bar
       entity-name: bar
+  - command: generate:entity:bundle
+    options:
+      module: example
+      bundle-name: default
+      bundle-title: default
   - command: generate:command
     options:
       module: example
@@ -69,7 +119,112 @@ commands:
       class: ExampleService
       name: example.service
       interface: yes
+  - command: generate:doc
+    options:
+      path: doc/
+  - command: generate:event:subscriber
+    options:
+      module: example
+      name: example.default
+      class: ExampleDefaultSubscriber
+  - command: generate:permissions
+    options:
+      module: example
+      permissions:
+        -
+          permission: 'access content'
+          title: 'Access content'
+          description: 'Allow access to my content'
+          restrict_access: none
+  - command: generate:plugin:condition
+    options:
+      module: example
+      class-name: ExampleCondition
+      label: 'Example condition'
+      plugin-id: example_condition
+      context-definition-id: language
+      context-definition-label: Language
+      context-definition-required: true
+  - command: generate:plugin:field
+    options:
+      module: example
+      type-class-name: ExampleFieldType
+      type-label: 'Example field type'
+      type-plugin-id: example_field_type
+      type-description: 'My Field Type'
+      formatter-class-name: ExampleFormatterType
+      formatter-label: 'Example formatter type'
+      formatter-plugin-id: example_formatter_type
+      widget-class-name: ExampleWidgetType
+      widget-label: 'Example widget type'
+      widget-plugin-id: example_widget_type
+      field-type: example_field_type
+      default-widget: example_widget_type
+      default-formatter: example_formatter_type
+  - command: generate:plugin:fieldwidget
+    options:
+      module: example
+      class-name: ExampleFieldWidget
+      label: 'Example field widget'
+      plugin-id: example_field_widget
+  - command: generate:plugin:fieldtype
+    options:
+      module: example
+      class-name: ExampleFieldType
+      label: 'Example field type'
+      plugin-id: example_field_type
+      description: 'My Field Type'
+      default-widget: example_field_widget
+  - command: generate:plugin:fieldformatter
+    options:
+      module: example
+      class-name: ExampleFieldFormatter
+      label: 'Example field formatter'
+      plugin-id: example_field_formatter
+      field-type: example_field_type
+  - command: generate:plugin:imageformatter
+    options:
+      module: example
+      class-name: ExampleImageFormatter
+      label: 'Example image formatter'
+      plugin-id: example_image_formatter
+  - command: generate:plugin:rulesaction
+    options:
+      module: example
+      class-name: DefaultAction
+      label: 'Default action'
+      plugin-id: default_action
+      type: user
+      category: default_action
+      context: default_action
+  - command: generate:plugin:type:annotation
+    options:
+      module: example
+      class-name: ExamplePlugin
+      machine-name: example_plugin
+      label: 'Example plugin'
+  - command: generate:plugin:type:yaml
+    options:
+      module: example
+      class-name: ExamplePlugin
+      plugin-name: example_plugin
+      plugin-file-name: example.plugin
+  - command: generate:plugin:views:field
+    options:
+      module: example
+      class-name: CustomViewsField
+      title: 'Custom views field'
+      description: 'My awesome custom views field plugin.'
+  - command: generate:theme
+    options:
+      theme: ExampleTheme
+      machine-name: exampletheme
+      theme-path: /themes/custom
+      description: 'My Awesome Module'
+      core: 8.x
+      package: Other
+      global-library: global-styling
+      base-theme: stable
   - command: module:install
     arguments:
       module: [example]
-
