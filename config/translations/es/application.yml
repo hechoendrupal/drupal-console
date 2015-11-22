@@ -36,6 +36,7 @@ console:
             no-interaction: 'No hacer ninguna pregunta interactiva'
     options:
         version: '<info>%s</info> versión <comment>%s</comment>'
+
 site:
     messages:
         path: 'Ruta del sitio'
