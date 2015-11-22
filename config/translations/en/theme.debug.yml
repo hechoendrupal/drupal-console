@@ -8,7 +8,7 @@ messages:
     version: 'Version'
     installed: 'Installed'
     uninstalled: 'Uninstalled'
-    default_theme: 'Default theme'
+    default-theme: 'Default theme'
     properties: 'Properties'
     regions: 'Regions'
     invalid-theme: "Theme %s is invalid"

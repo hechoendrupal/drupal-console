@@ -48,34 +48,34 @@ class DebugCommand extends ContainerAwareCommand
 
         $themes = $this->getThemeHandler()->rebuildThemeData();
 
-        foreach ($themes as $theme_id => $theme) {
-            $status = $this->getThemeStatus($theme_id);
-            $table->addRow([$theme_id, $theme->info['name'], $status, $theme->info['version']]);
+        foreach ($themes as $themeId => $theme) {
+            $status = $this->getThemeStatus($themeId);
+            $table->addRow([$themeId, $theme->info['name'], $status, $theme->info['version']]);
         }
         $table->render($output);
     }
 
-    protected function getTheme($theme_id, $output, $table)
+    protected function getTheme($themeId, $output, $table)
     {
         $theme = null;
         $message = $this->getMessageHelper();
         $themes = $this->getThemeHandler()->rebuildThemeData();
 
-        if (isset($themes[$theme_id])) {
-            $theme = $themes[$theme_id];
+        if (isset($themes[$themeId])) {
+            $theme = $themes[$themeId];
         } else {
-            foreach ($themes as $them_available_id => $theme_available) {
-                if ($theme_available->info['name'] == $theme_id) {
-                    $theme_id = $them_available_id;
-                    $theme = $theme_available;
+            foreach ($themes as $themeAvailableId => $themeAvailable) {
+                if ($themeAvailable->info['name'] == $themeId) {
+                    $themeId = $themeAvailableId;
+                    $theme = $themeAvailable;
                     break;
                 }
             }
         }
 
         if ($theme) {
-            $theme = $themes[$theme_id];
-            $status = $this->getThemeStatus($theme_id);
+            $theme = $themes[$themeId];
+            $status = $this->getThemeStatus($themeId);
 
             $table->setHeaders(
                 [
@@ -83,7 +83,6 @@ class DebugCommand extends ContainerAwareCommand
                     $this->trans('commands.theme.debug.messages.theme-properties'),
                 ]
             );
-            $table->setlayout($table::LAYOUT_COMPACT);
 
             $table->addRow(['<info>' . $theme->info['name'] . '</info>']);
             $table->addRow(
@@ -108,7 +107,7 @@ class DebugCommand extends ContainerAwareCommand
             $message->addErrorMessage(
                 sprintf(
                     $this->trans('commands.theme.debug.messages.invalid-theme'),
-                    $theme_id
+                    $themeId
                 )
             );
         }
@@ -117,11 +116,11 @@ class DebugCommand extends ContainerAwareCommand
     protected function getThemeStatus($theme)
     {
         $configFactory = $this->getConfigFactory();
-        $default_theme = $configFactory->get('system.theme')->get('default');
+        $defaultTheme = $configFactory->get('system.theme')->get('default');
 
         $status = ($theme->status)?$this->trans('commands.theme.debug.messages.installed'):$this->trans('commands.theme.debug.messages.uninstalled');
-        if ($default_theme == $theme) {
-            $status = $this->trans('commands.theme.debug.messages.default_theme');
+        if ($defaultTheme == $theme) {
+            $status = $this->trans('commands.theme.debug.messages.default-theme');
         }
 
         return $status;
