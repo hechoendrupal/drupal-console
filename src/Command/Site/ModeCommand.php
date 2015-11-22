@@ -179,6 +179,13 @@ class ModeCommand extends ContainerAwareCommand
             $config->getUserHomeDir()
         );
 
+        if (!file_exists($configFile)) {
+            $configFile = sprintf(
+                '%s/config/dist/site.mode.yml',
+                $this->getApplication()->getDirectoryRoot()
+            );
+        }
+
         $siteModeConfiguration = $config->getFileContents($configFile);
         $configKeys = array_keys($siteModeConfiguration);
 
