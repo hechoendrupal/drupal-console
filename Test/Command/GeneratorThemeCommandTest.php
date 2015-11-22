@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GeneratorThemeCommand;
+use Drupal\Console\Command\Generate\ThemeCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\ThemeDataProviderTrait;
 
@@ -42,7 +42,7 @@ class GeneratorThemeCommandTest extends GenerateCommandTest
         $regions,
         $breakpoints
     ) {
-        $command = new GeneratorThemeCommand($this->getHelperSet());
+        $command = new ThemeCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 

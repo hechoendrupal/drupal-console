@@ -1,6 +1,6 @@
-description: 'Import the selected configuration.'
+description: 'Импорт выбранной конфигурации.'
 arguments:
-    config-name: 'Configuration name.'
-    input-file: 'Path to the import files.'
+    config-name: 'Имя конфигурации.'
+    input-file: 'Путь для файлов импорта.'
 messages:
-    empty-value: 'Value can not be empty'
+    empty-value: 'Значение не может быть пустым'

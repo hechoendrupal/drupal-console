@@ -1,45 +1,45 @@
-description: 'Export current application configuration.'
+description: 'Экспорт конфигурации из текущего приложения.'
 arguments:
-    directory: 'Define export directory to save configuration output.'
+    directory: 'Задать директорию для экспорта конфигурации.'
 messages:
-    directory: 'Your configuration export file was stored in %s'
+    directory: 'Ваша конфигурация был экспортирована в %s'
 content:
     type:
-        description: 'Export a specific content type and their fields.'
+        description: 'Экспорт выбранного типа материала и его полей.'
         arguments:
-            content_type: 'Content Type to be exported'
+            content_type: 'Тип материала для экспорта'
         questions:
-            content_type: 'Content Type to be exported'
-            optional-config: 'Export content type in module as an optional configuration'
+            content_type: 'Тип материала для экспорта'
+            optional-config: 'Экспорт типа материала в модуль как опциональную конфигурацию'
         messages:
-            content_type_exported: 'Exporting content type'
+            content_type_exported: 'Экспорт типа материала'
         options:
-            optional-config: 'Export content type as an optional YAML configuration in your module'
+            optional-config: 'Экспорт типа материала в модуль как опциональную YAML конфигурацию'
 single:
-    description: 'Export single configuration as yml file.'
+    description: 'Экспорт конфигурации в yml файл.'
     arguments:
-        config-name: 'Configuration name.'
+        config-name: 'Имя конфигурации.'
     options:
         simple-configuration: 'Simple configuration'
     questions:
-        config-type: 'Configuration type'
-        config-name: 'Configuration name'
+        config-type: 'Тип конфигурации'
+        config-name: 'Имя конфигурации.'
     messages:
-        config-not-found: 'Configuration name not found.'
-        export: 'Configuration was exported at file %s.'
-        invalid-config-type: 'Invalid config type, please select one of the list'
-        invalid-config-name: 'Invalid config name, please select one of the list'
+        config-not-found: 'Имя конфигурации не найдено.'
+        export: 'Конфигурация была экспортирована в файл %s.'
+        invalid-config-type: 'Неверный тип конфигурации, пожалуйста, выберите один из списка'
+        invalid-config-name: 'Неверное имя конфигурации, пожалуйста, выберите один из списка'
 view:
-    description: 'Export a view in YAML format inside a provided module to reuse in other website.'
+    description: 'Экспорт представления в YAML формат внутри модуля для повторного использования на другом сайте.'
     messages:
-        view_exported: 'Exporting view'
-        depencies-included: 'The following module dependencies were included at %s'
+        view_exported: 'Экспорт представления'
+        depencies-included: 'Следующие зависимости модуля были включены в %s'
     questions:
-        view: 'View to be exported'
-        optional-config: 'Export view in module as an optional configuration'
-        include-module-dependencies: 'Include view module dependencies in module info YAML file'
+        view: 'Представление для экспорта'
+        optional-config: 'Экспорт представления в модуль как опциональную конфигурацию'
+        include-module-dependencies: 'Включить зависимости модуля представления в YAML файл'
     arguments:
-        view-id: 'View ID'
+        view-id: 'ID представления'
     options:
-        optional-config: 'Export view as an optional YAML configuration in your module'
-        include-module-dependencies: 'Include module dependencies in module info YAML file'
+        optional-config: 'Экспорт представления в модуль как опциональную YAML конфигурацию'
+        include-module-dependencies: 'Включить зависимости модуля в YAML файл'

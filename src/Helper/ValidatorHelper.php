@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Helper;
 
-use Symfony\Component\Console\Helper\HelperInterface;
 use Drupal\Core\Cache\Cache;
 use Drupal\Console\Helper\Helper;
 

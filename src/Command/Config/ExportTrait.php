@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\Config;
 
-use Symfony\Component\Console\Helper\HelperInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Dumper;
 
