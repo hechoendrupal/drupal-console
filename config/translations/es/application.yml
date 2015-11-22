@@ -5,15 +5,26 @@ console:
         env: 'Nombre del ambiente.'
         no-debug: 'Desactivar el modo de depuración.'
         learning: 'Generar código con explicaciones.'
+<<<<<<< HEAD
         generate-chain: 'Imprimir opciones y argumentos como YAML para ser usado el comando chain'
         generate-inline: 'Imprimir opciones y argumentos de ejecución como llamada inline para ser usados en el futuro'
         root: 'Define the Drupal root to be use in command execution'
     messages:
         completed: '¡Ya puede empezar a usar el código generado!'
+=======
+        generate-chain: 'Imprimir opciones y argumentos como yaml para ser usado el comando chain'
+        generate-inline: 'Imprimir opciones y argumentos como llamada inline para ser usado en el futuro'
+    messages:
+        completed: 'Ahora puede empezar a usar el código generado!'
+>>>>>>> 73aa967f3f6d74c9690175be3b7177fb108ac853
         chain:
             generated: 'A continuación puede observar la representación en YAML del último comando ejecutado, puede copiarlo en ~/.console/chain/sample.yml para ejecutarlo en una secuencia de comandos'
         inline:
+<<<<<<< HEAD
             generated: 'A continuación puede encontrar la representación inline de este comando para volver a ejecutarlo más tarde'
+=======
+            generated: 'A continuación puede observar la representación inline representation de este comando para re-ejecutarlo más tarde'
+>>>>>>> 73aa967f3f6d74c9690175be3b7177fb108ac853
         generated: '¡Ya puede empezar a usar el código generado!'
         files:
             generated: '¡Ya puede comenzar a usar el código generado!'
@@ -27,13 +38,22 @@ console:
             command: 'El comando a ejecutar'
             help: 'Muestra este mensaje de ayuda'
             quiet: 'No mostrar ningún mensaje'
+<<<<<<< HEAD
             verbose: 'Aumentar la verbosidad de los mensajes: 1 para salida normal, 2 para una salida más explícita y 3 para debug'
             version: 'Muestra la versión de esta aplicación'
+=======
+            verbose: 'Aumentar la verbosidad de los mensajes: 1 para una salida normal, 2 para una salida verbosa y 3 para debug'
+            version: 'Mostrar la versión de esta aplicación'
+>>>>>>> 73aa967f3f6d74c9690175be3b7177fb108ac853
             ansi: 'Forzar salida ANSI'
             no-ansi: 'Deshabilitar salida ANSI'
             no-interaction: 'No hacer ninguna pregunta interactiva'
     options:
+<<<<<<< HEAD
         version: '<info>%s</info> versión <comment>%s</comment>'
+=======
+        version: 'versión <info>%s</info> <comment>%s</comment>'
+>>>>>>> 73aa967f3f6d74c9690175be3b7177fb108ac853
 site:
     messages:
         path: 'Ruta del sitio'
