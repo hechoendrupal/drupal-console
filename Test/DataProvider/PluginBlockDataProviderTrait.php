@@ -16,7 +16,7 @@ trait PluginBlockDataProviderTrait
         $this->setUpTemporalDirectory();
 
         return [
-          ['Foo',  'foo' . rand(), 'foo', 'bar', null, 'inputs'],
+          ['Foo',  'foo' . rand(), 'foo', 'bar', null, '', 'inputs'],
         ];
     }
 }
