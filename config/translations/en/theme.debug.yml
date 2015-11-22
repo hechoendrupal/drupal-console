@@ -12,3 +12,4 @@ messages:
     properties: 'Properties'
     regions: 'Regions'
     invalid-theme: "Theme %s is invalid"
+    theme-properties: 'Properties'
