@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Helper;
 
-use Symfony\Component\Console\Helper\HelperInterface;
 use Drupal\Core\Cache\Cache;
 use Drupal\Console\Helper\Helper;
 
@@ -262,5 +261,27 @@ class ValidatorHelper extends Helper
         }
 
         return $this->caches;
+    }
+
+    /**
+     * Validate if module is installed.
+     *
+     * @param string $module Module name
+     *
+     * @return string
+     */
+    public function validateModuleInstalled($module)
+    {
+        $modules = $this->getSite()->getModules(false, true, true, true, true);
+        if (!in_array($module, $modules)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Module "%s" is not installed. Try module:install to install it.',
+                    $module
+                )
+            );
+        }
+
+        return $module;
     }
 }

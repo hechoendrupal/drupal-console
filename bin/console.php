@@ -64,7 +64,7 @@ $helpers = [
     'message' => new MessageHelper(),
     'chain' => new ChainCommandHelper(),
     'drupal' => new DrupalHelper(),
-    'commandDiscovery' => new CommandDiscoveryHelper(),
+    'commandDiscovery' => new CommandDiscoveryHelper($config->get('application.develop')),
     'remote' => new RemoteHelper(),
     'httpClient' => new HttpClientHelper(),
 ];

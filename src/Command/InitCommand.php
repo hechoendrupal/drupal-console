@@ -12,24 +12,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\AutocompleteGenerator;
 use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Finder\Finder;
 
 class InitCommand extends Command
 {
-    private $files = [
-        [
-            'source' => 'config/dist/config.yml',
-            'destination' => 'config.yml',
-        ],
-        [
-            'source' => 'config/dist/chain.yml',
-            'destination' => 'chain/sample.yml',
-        ],
-        [
-            'source' => 'config/dist/site.yml',
-            'destination' => 'sites/sample.yml'
-        ]
-    ];
-
     /**
      * {@inheritdoc}
      */
@@ -54,8 +40,7 @@ class InitCommand extends Command
         $application = $this->getApplication();
         $config = $application->getConfig();
         $message = $this->getMessageHelper();
-        $basePath = __DIR__.'/../../';
-        $userPath = $config->getUserHomeDir().'/.console/';
+        $userPath = sprintf('%s/.console/', $config->getUserHomeDir());
         $copiedFiles = [];
 
         $override = false;
@@ -63,11 +48,23 @@ class InitCommand extends Command
             $override = $input->getOption('override');
         }
 
-        foreach ($this->files as $file) {
-            $source = $basePath.$file['source'];
-            $destination = $userPath.'/'.$file['destination'];
+        $finder = new Finder();
+        $finder->in(sprintf('%s/config/dist', $application->getDirectoryRoot()));
+        $finder->name("*.yml");
+
+        foreach ($finder as $configFile) {
+            $source = sprintf(
+                '%s/config/dist/%s',
+                $application->getDirectoryRoot(),
+                $configFile->getRelativePathname()
+            );
+            $destination = sprintf(
+                '%s/%s',
+                $userPath,
+                $configFile->getRelativePathname()
+            );
             if ($this->copyFile($source, $destination, $override)) {
-                $copiedFiles[] = $file['destination'];
+                $copiedFiles[] = $configFile->getRelativePathname();
             }
         }
 

@@ -1,0 +1,22 @@
+description: 'Load and create the relevant migrations for a provided legacy database'
+options:
+    db-type: 'Drupal Database type'
+    db-host: 'Database Host'
+    db-name: 'Database Name'
+    db-user: 'Database User'
+    db-pass: 'Database Pass'
+    db-prefix: 'Database Prefix'
+    db-port: 'Database Port'
+questions:
+    db-type: 'Drupal Database type'
+    db-host: 'Database Host'
+    db-name: 'Database Name'
+    db-user: 'Database User'
+    db-pass: 'Database Pass'
+    db-prefix: 'Database Prefix'
+    db-port: 'Database Port'
+messages:
+    not-drupal: 'Source database does not contain a recognizable Drupal version.'
+    migrations-created: '%s migrations were created successfully for %s.'
+    migrations-not-found: 'There aren''t migrations available'
+    migrations-already-exist: 'All migrations available are already created'

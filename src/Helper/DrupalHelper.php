@@ -7,17 +7,14 @@
 
 namespace Drupal\Console\Helper;
 
-use Composer\Autoload\ClassLoader;
 use Drupal\Console\Helper\Helper;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
-use Drupal\Core\Installer\InstallerKernel;
 use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\Core\Language\Language;
 use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Site\Settings;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml\Parser;
 
 /**
@@ -28,7 +25,7 @@ class DrupalHelper extends Helper
 {
     const DRUPAL_AUTOLOAD = 'autoload.php';
 
-    const DRUPAL_SETTINGS = 'sites/default/settings.php';
+    const DEFAULT_SETTINGS_PHP = 'sites/default/settings.php';
 
     /**
      * @var string
@@ -87,7 +84,7 @@ class DrupalHelper extends Helper
      */
     private function isSettingsFile()
     {
-        $settingsPath = sprintf('%s/%s', $this->root, self::DRUPAL_SETTINGS);
+        $settingsPath = sprintf('%s/%s', $this->root, self::DEFAULT_SETTINGS_PHP);
 
         return file_exists($settingsPath);
     }
@@ -155,7 +152,7 @@ class DrupalHelper extends Helper
     /**
      * @return mixed array
      */
-    public function getStandardtLanguages()
+    public function getStandardLanguages()
     {
         $standard_languages = LanguageManager::getStandardLanguageList();
         $languages = [];

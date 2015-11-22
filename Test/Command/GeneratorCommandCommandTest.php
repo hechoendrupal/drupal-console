@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GeneratorCommandCommand;
+use Drupal\Console\Command\Generate\CommandCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\CommandDataProviderTrait;
 
@@ -30,7 +30,7 @@ class GeneratorCommandCommandTest extends GenerateCommandTest
         $class,
         $containerAware
     ) {
-        $command = new GeneratorCommandCommand($this->getHelperSet());
+        $command = new CommandCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 

@@ -1,0 +1,18 @@
+description: 'Сравнение двух YAML файлов и определение различий между ними'
+arguments:
+    yaml-left: 'Базовый YAML файл для сравнения'
+    yaml-right: 'YAML файл сравниваемый с базовым, для выявления различий'
+options:
+    stats: 'Print statistics about YAML files comparation'
+    negate: 'Определить режим разности или сравнения, возможные значения TRUE/FALSE или 0/1'
+    limit: 'Ограничить результат до числа'
+    offset: 'Смещение стартовой позиции'
+questions:
+    yaml-left: 'Путь к базовому YAML файлу для сравнения'
+    yaml-right: 'Путь к сравниваемому YAML файлу'
+messages:
+    key: 'YAML ключ'
+    value: 'YAML значение'
+    total: 'Total: %s'
+    diff: 'Diff: %s'
+    equal: 'Equal: %s'
