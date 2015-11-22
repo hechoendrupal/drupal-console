@@ -8,7 +8,6 @@
 namespace Drupal\Console\Command\Site;
 
 use Drupal\Console\Command\Command;
-use Drupal\Console\Console\Application;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

@@ -27,27 +27,17 @@ trait ConnectTrait
             return;
         }
 
-        $db = $connectionInfo[$database];
-        if ($db['driver'] !== 'mysql') {
+        $databaseConnection = $connectionInfo[$database];
+        if ($databaseConnection['driver'] !== 'mysql') {
             $message->addErrorMessage(
                 sprintf(
                     $this->trans('commands.database.connect.messages.database-not-supported'),
-                    $db['driver']
+                    $databaseConnection['driver']
                 )
             );
             return;
         }
 
-        $connection = sprintf(
-            '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
-            $db['driver'],
-            $db['database'],
-            $db['username'],
-            $db['password'],
-            $db['host'],
-            $db['port']
-        );
-
-        return $connection;
+        return $databaseConnection;
     }
 }

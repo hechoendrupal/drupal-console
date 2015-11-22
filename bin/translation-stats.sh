@@ -53,16 +53,16 @@ if [ $# -eq 0 ]; then
             do
               filepath=`basename $f`
               if [ ! -f $dir/$filepath ]; then
-                echo "File $2/$filepath not found!"
+                echo "File $dir/$filepath not found!"
               else
-                #echo "console.dev yaml:diff --stats $1/$filepath $2/$filepath"
+                #echo "console.dev yaml:diff --stats $1/$filepath $dir/$filepath"
                 command="console.dev yaml:diff --stats en/$filepath $dir/$filepath"
                 stat=`$command`
                 total=`echo $stat | cut -f2 -d: | cut -f1 -dD`
                 diff=`echo $stat | cut -f3 -d: | cut -f1 -dE`
                 equal=`echo $stat | cut -f4 -d:`
                 percentage=`echo "scale=1; $diff/$total*100" | bc`
-                #echo "$2/$filepath Stats: Total: $total Diff: $diff Equal: $equal Percentage Translation: $percentage"
+                #echo "$dir/$filepath Stats: Total: $total Diff: $diff Equal: $equal Percentage Translation: $percentage"
                 translation_total=`echo "scale=1; $translation_total + $total" | bc`
                 translation_diff=`echo "scale=1; $translation_diff + $diff" | bc`
                 translation_equal=`echo "scale=1; $translation_equal + $equal" | bc`
