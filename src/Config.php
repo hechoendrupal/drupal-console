@@ -26,6 +26,7 @@ class Config
 
         $this->loadFile(__DIR__.'/../config.yml');
         $this->loadFile($this->getUserHomeDir().'/.console/config.yml');
+        $this->loadFile($this->getUserHomeDir().'/.console/aliases.yml');
     }
 
     /**
@@ -152,7 +153,6 @@ class Config
     public function loadTarget($target)
     {
         $site = null;
-        $environment = null;
         if (strpos($target, '.')) {
             $site = explode('.', $target)[0];
         }

@@ -5,32 +5,23 @@ console:
         env: 'Nombre del ambiente.'
         no-debug: 'Desactivar el modo de depuración.'
         learning: 'Generar código con explicaciones.'
-<<<<<<< HEAD
         generate-chain: 'Imprimir opciones y argumentos como YAML para ser usado el comando chain'
         generate-inline: 'Imprimir opciones y argumentos de ejecución como llamada inline para ser usados en el futuro'
-        root: 'Define the Drupal root to be use in command execution'
+        root: 'Define la raíz de Drupal que se utilizará en la ejecución de los comandos'
+        uri: 'URI del sitio en Drupal que se usará (para ambientes en multi-site o cuando esta usando un puerto alternativo)'
     messages:
         completed: '¡Ya puede empezar a usar el código generado!'
-=======
-        generate-chain: 'Imprimir opciones y argumentos como yaml para ser usado el comando chain'
-        generate-inline: 'Imprimir opciones y argumentos como llamada inline para ser usado en el futuro'
-    messages:
-        completed: 'Ahora puede empezar a usar el código generado!'
->>>>>>> 73aa967f3f6d74c9690175be3b7177fb108ac853
         chain:
-            generated: 'A continuación puede observar la representación en YAML del último comando ejecutado, puede copiarlo en ~/.console/chain/sample.yml para ejecutarlo en una secuencia de comandos'
+            generated: 'A continuación puedes observar la representación en YAML del último comando ejecutado, puede copiarlo en ~/.console/chain/sample.yml para ejecutarlo en una secuencia de comandos'
         inline:
-<<<<<<< HEAD
-            generated: 'A continuación puede encontrar la representación inline de este comando para volver a ejecutarlo más tarde'
-=======
-            generated: 'A continuación puede observar la representación inline representation de este comando para re-ejecutarlo más tarde'
->>>>>>> 73aa967f3f6d74c9690175be3b7177fb108ac853
-        generated: '¡Ya puede empezar a usar el código generado!'
+            generated: 'A continuación puedes encontrar la representación inline de este comando para volver a ejecutarlo más tarde'
+        generated: '¡Ya puedes empezar a usar el código generado!'
         files:
-            generated: '¡Ya puede comenzar a usar el código generado!'
+            generated: '¡Ya puedes comenzar a usar el código generado!'
             copied: 'Los archivos fueron copiados'
         learning:
             route: "Con el fin de crear páginas es necesario definir rutas para ellas.\nUna ruta asigna una URL a un controlador. Se define con qué función\no método será llamado cuando se accede a una URL.\nSi el usuario accede la ruta http://drupal8.dev/{{ route }},\nel sistema buscará una ruta con ese camino. En este caso, si encuentra una\nejecutará la devolución de la llamada _controller.\nEn este caso, la devolución de llamada es definida como un nombre de clase\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\ny un método (\"{{ method_name }}\")."
+        autocomplete: "Bash or Zsh: Add this line to your shell configuration file:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Create a symbolic link\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
     errors:
         invalid-command: 'El comando "%s" no está definido.'
     input:
@@ -38,22 +29,14 @@ console:
             command: 'El comando a ejecutar'
             help: 'Muestra este mensaje de ayuda'
             quiet: 'No mostrar ningún mensaje'
-<<<<<<< HEAD
-            verbose: 'Aumentar la verbosidad de los mensajes: 1 para salida normal, 2 para una salida más explícita y 3 para debug'
+            verbose: 'Aumentar el detalle de los mensajes: 1 para salida normal, 2 para una salida más explícita y 3 para debug'
             version: 'Muestra la versión de esta aplicación'
-=======
-            verbose: 'Aumentar la verbosidad de los mensajes: 1 para una salida normal, 2 para una salida verbosa y 3 para debug'
-            version: 'Mostrar la versión de esta aplicación'
->>>>>>> 73aa967f3f6d74c9690175be3b7177fb108ac853
             ansi: 'Forzar salida ANSI'
             no-ansi: 'Deshabilitar salida ANSI'
             no-interaction: 'No hacer ninguna pregunta interactiva'
     options:
-<<<<<<< HEAD
         version: '<info>%s</info> versión <comment>%s</comment>'
-=======
-        version: 'versión <info>%s</info> <comment>%s</comment>'
->>>>>>> 73aa967f3f6d74c9690175be3b7177fb108ac853
+
 site:
     messages:
         path: 'Ruta del sitio'

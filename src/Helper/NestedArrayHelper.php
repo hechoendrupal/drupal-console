@@ -8,7 +8,6 @@
 namespace Drupal\Console\Helper;
 
 use Symfony\Component\Console\Helper\DialogHelper as BaseDialogHelper;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class NestedArrayHelper extends BaseDialogHelper
 {
@@ -190,24 +189,38 @@ class NestedArrayHelper extends BaseDialogHelper
      * @param bool   $negate if Negate is true only if values are equal are returned.
      * @return array
      */
-    public function array_diff($array1, $array2, $negate = false)
+    public function arrayDiff($array1, $array2, $negate = false, &$statisticts)
     {
         $result = array();
         foreach ($array1 as $key => $val) {
             if (isset($array2[$key])) {
                 if (is_array($val) && $array2[$key]) {
-                    $result[$key] = $this->array_diff($val, $array2[$key], $negate);
+                    $result[$key] = $this->arrayDiff($val, $array2[$key], $negate, $statisticts);
                     if (empty($result[$key])) {
                         unset($result[$key]);
                     }
-                } elseif ($val == $array2[$key] && $negate) {
-                    $result[$key] = $array2[$key];
-                } elseif ($val != $array2[$key] and !$negate) {
-                    $result[$key] = $array2[$key];
+                } else {
+                    $statisticts['total'] += 1;
+                    if ($val == $array2[$key] && $negate) {
+                        $result[$key] = $array2[$key];
+                        $statisticts['equal'] += 1;
+                    } elseif ($val != $array2[$key] && $negate) {
+                        $statisticts['diff'] += 1;
+                    } elseif ($val != $array2[$key] && !$negate) {
+                        $result[$key] = $array2[$key];
+                        $statisticts['diff'] += 1;
+                    } elseif ($val == $array2[$key] && !$negate) {
+                        $result[$key] = $array2[$key];
+                        $statisticts['equal'] += 1;
+                    }
                 }
             } else {
-                if (isset($array2[$key])) {
-                    $result[$key] = $array2[$key];
+                if (is_array($val)) {
+                    $statisticts['diff'] += count($val, COUNT_RECURSIVE);
+                    $statisticts['total'] += count($val, COUNT_RECURSIVE);
+                } else {
+                    $statisticts['diff'] +=1;
+                    $statisticts['total'] += 1;
                 }
             }
         }
@@ -221,7 +234,7 @@ class NestedArrayHelper extends BaseDialogHelper
      * @param array  $flatten_array
      * @param string $key_flatten
      */
-    public function yaml_flatten_array(array &$array, &$flatten_array, &$key_flatten = '')
+    public function yamlFlattenArray(array &$array, &$flatten_array, &$key_flatten = '')
     {
         foreach ($array as $key => $value) {
             if (!empty($key_flatten)) {
@@ -230,7 +243,7 @@ class NestedArrayHelper extends BaseDialogHelper
             $key_flatten.= $key;
 
             if (is_array($value)) {
-                $this->yaml_flatten_array($value, $flatten_array, $key_flatten);
+                $this->yamlFlattenArray($value, $flatten_array, $key_flatten);
             } else {
                 if (!empty($value)) {
                     $flatten_array[$key_flatten] = $value;
@@ -251,7 +264,7 @@ class NestedArrayHelper extends BaseDialogHelper
      * @param int   $key_level
      * @param bool  $exclude_parents_key
      */
-    public function yaml_split_array(array &$array, array &$split_array, $indent_level = '', &$key_flatten, &$key_level, $exclude_parents_key)
+    public function yamlSplitArray(array &$array, array &$split_array, $indent_level = '', &$key_flatten, &$key_level, $exclude_parents_key)
     {
         foreach ($array as $key => $value) {
             if (!$exclude_parents_key && !empty($key_flatten)) {
@@ -275,7 +288,7 @@ class NestedArrayHelper extends BaseDialogHelper
             } else {
                 if (is_array($value)) {
                     $key_level++;
-                    $this->yaml_split_array($value, $split_array, $indent_level, $key_flatten, $key_level, $exclude_parents_key);
+                    $this->yamlSplitArray($value, $split_array, $indent_level, $key_flatten, $key_level, $exclude_parents_key);
                 }
             }
         }

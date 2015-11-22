@@ -32,3 +32,6 @@ errors:
 status:
     enabled: Enabled
     disabled: Disabled
+messages:
+    canceled: 'Generated Cancelled'
+    drupal-core: 'Drupal Core'

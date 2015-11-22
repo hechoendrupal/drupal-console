@@ -4,4 +4,5 @@ options:
     form-id: 'ID-ul formului de alterat'
 messages:
     inputs: "Puteți adăuga câmpuri noi în scopul de a modifica structura form-ului.\nAceasta este opțional, apăsați <info>enter</info> pentru a <info>continua</info>"
-    loading-forms: Loading forms definition from Webprofiler module
+    loading-forms: 'Loading forms definition from Webprofiler module'
+    hide-form-elements: 'Optionally you can select form items for hide'

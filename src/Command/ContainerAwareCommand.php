@@ -24,7 +24,7 @@ abstract class ContainerAwareCommand extends Command
      *
      * @return array list of modules
      */
-    public function getMigrations($group = false)
+    public function getMigrations($tag = false)
     {
         $entity_manager = $this->getEntityManager();
         $migration_storage = $entity_manager->getStorage('migration');
@@ -32,8 +32,8 @@ abstract class ContainerAwareCommand extends Command
         $entity_query_service = $this->getEntityQuery();
         $query = $entity_query_service->get('migration');
 
-        if ($group) {
-            $query->condition('migration_groups.*', $group);
+        if ($tag) {
+            $query->condition('migration_tags.*', $tag);
         }
 
         $results = $query->execute();
@@ -42,9 +42,8 @@ abstract class ContainerAwareCommand extends Command
 
         $migrations = array();
         foreach ($migration_entities as $migration) {
-            $migrations[$migration->id()]['version'] = ucfirst($migration->migration_groups[0]);
-            $label = str_replace($migrations[$migration->id()]['version'], '', $migration->label());
-            $migrations[$migration->id()]['description'] = ucwords($label);
+            $migrations[$migration->id()]['tags'] = implode(', ', $migration->migration_tags);
+            $migrations[$migration->id()]['description'] = ucwords($migration->label());
         }
 
         return $migrations;
@@ -301,6 +300,7 @@ abstract class ContainerAwareCommand extends Command
     {
         return $this->getContainer()->get('system.manager');
     }
+
 
     /**
      * @return array
