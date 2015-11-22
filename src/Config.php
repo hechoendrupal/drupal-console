@@ -153,7 +153,6 @@ class Config
     public function loadTarget($target)
     {
         $site = null;
-        $environment = null;
         if (strpos($target, '.')) {
             $site = explode('.', $target)[0];
         }

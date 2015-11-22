@@ -9,8 +9,8 @@ messages:
     canonical_url: 'प्रामाणिक URL'
     status: स्थिति
     provider: प्रदाता
-    enabled: सक्षम है
-    disabled: अक्षम है
+    enabled: 'सक्षम है'
+    disabled: 'अक्षम है'
     rest-state: 'REST स्टेट्स'
     supported-formats: 'समर्थित प्रारूप'
     supported_auth: 'समर्थित प्रमाणन प्रदाता'

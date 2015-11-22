@@ -6,8 +6,8 @@ options:
     theme: 'El tema o temas para ser desinstalado deben ser separados por comas'
 messages:
     no-themes: 'Debe proveer uno o varios temas para desinstalar.'
-    themes-missing: "Imposible desinstalar los temas %s debido a que no estan disponibles"
-    theme-missing: "Imposible desinstalar el tema %s debido a que no esta disponible"
+    themes-missing: 'Imposible desinstalar los temas %s debido a que no estan disponibles'
+    theme-missing: 'Imposible desinstalar el tema %s debido a que no esta disponible'
     missing-dependencies: 'Imposible desinstalar los temas %s debido a la falta de dependencias %s'
     themes-nothing: 'Nada que hacer. Todos los temas %s ya estan desinstalados'
     theme-nothing: 'Nada que hacer. El tema %s ya esta desinstalado'
@@ -16,5 +16,5 @@ messages:
     themes-success: 'Los temas %s fueron desinstalados satisfactoriamente'
     installed-themes: 'Solo temas instalados serán listados en autocompletar'
     invalid-theme-default: 'La opción por defecto solo es válida para un tema'
-    error-default-theme:  'El tema %s es el tema por defecto y no puede ser desinstalado.'
+    error-default-theme: 'El tema %s es el tema por defecto y no puede ser desinstalado.'
     error-admin-theme: 'El tema %s es el tema de administración y no puede ser desinstalado.'

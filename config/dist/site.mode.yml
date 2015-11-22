@@ -38,5 +38,5 @@ services:
       dev: true
       prod: false
     cache:
-      dev: false
+      dev: true
       prod: true

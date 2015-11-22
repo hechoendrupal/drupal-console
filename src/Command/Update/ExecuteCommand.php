@@ -8,11 +8,8 @@
 namespace Drupal\Console\Command\Update;
 
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\views\Entity\View;
-use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Command\ContainerAwareCommand;
 
 class ExecuteCommand extends ContainerAwareCommand
@@ -79,7 +76,7 @@ class ExecuteCommand extends ContainerAwareCommand
 
         foreach ($updates as $module_name => $module_updates) {
             foreach ($module_updates['pending'] as $update_number => $update) {
-                if ($module != 'all' && $update_n != null and $update_n != $update_number) {
+                if ($module != 'all' && $update_n !== null && $update_n != $update_number) {
                     continue;
                 }
 

@@ -30,8 +30,6 @@ class DebugCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $moduleHandler = $this->getModuleHandler();
-
         $drupal_version = $input->getArgument('tag');
 
         $table = $this->getTableHelper();

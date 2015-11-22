@@ -17,7 +17,6 @@ use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\EventsTrait;
 use Drupal\Console\Command\GeneratorCommand;
 
-
 class EventSubscriberCommand extends GeneratorCommand
 {
     use EventsTrait;

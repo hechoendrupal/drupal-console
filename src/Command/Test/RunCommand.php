@@ -141,7 +141,7 @@ class RunCommand extends ContainerAwareCommand
             $current_group = null;
             $current_status = null;
 
-            $messages = $this->simpletest_script_load_messages_by_test_ids(array($test_id));
+            $messages = $this->simpletestScriptLoadMessagesByTestIds(array($test_id));
 
             foreach ($messages as $message) {
                 if ($current_class === null || $current_class != $message->test_class) {
@@ -177,7 +177,7 @@ class RunCommand extends ContainerAwareCommand
     /*
      * Get Simletests log after execution
      */
-    protected function simpletest_script_load_messages_by_test_ids($test_ids)
+    protected function simpletestScriptLoadMessagesByTestIds($test_ids)
     {
         $results = array();
 
