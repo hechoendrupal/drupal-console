@@ -9,7 +9,6 @@ namespace Drupal\Console\Helper;
 
 use Composer\Autoload\ClassLoader;
 use Drupal\Console\Helper\Helper;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Drupal\Core\DrupalKernel;

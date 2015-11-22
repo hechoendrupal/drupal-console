@@ -9,11 +9,8 @@ namespace Drupal\Console\Command\Views;
 
 use Herrera\Json\Exception\Exception;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\views\Entity\View;
-use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Command\ContainerAwareCommand;
 
 class EnableCommand extends ContainerAwareCommand

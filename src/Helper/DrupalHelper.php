@@ -7,17 +7,14 @@
 
 namespace Drupal\Console\Helper;
 
-use Composer\Autoload\ClassLoader;
 use Drupal\Console\Helper\Helper;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
-use Drupal\Core\Installer\InstallerKernel;
 use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\Core\Language\Language;
 use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Site\Settings;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml\Parser;
 
 /**

@@ -107,7 +107,6 @@ class DebugCommand extends ContainerAwareCommand
         );
 
         $displays = $this->getDisplaysList($view);
-        $paths = $this->getDisplayPaths($view);
 
         $output->writeln(
             '<info>'.sprintf(
@@ -148,11 +147,11 @@ class DebugCommand extends ContainerAwareCommand
         $table->setlayout($table::LAYOUT_COMPACT);
 
         foreach ($views as $view) {
-            if ($status != -1 and $view->status() != $status) {
+            if ($status != -1 && $view->status() != $status) {
                 continue;
             }
 
-            if (isset($tag) and $view->get('tag') != $tag) {
+            if (isset($tag) && $view->get('tag') != $tag) {
                 continue;
             }
             $table->addRow(
@@ -193,7 +192,7 @@ class DebugCommand extends ContainerAwareCommand
                     $all_paths[] = '/'.$path;
                 }
 
-                if ($display_id != null && $display_id == $display->getBaseId()) {
+                if ($display_id !== null && $display_id == $display->getBaseId()) {
                     return '/'.$path;
                 }
             }
@@ -219,7 +218,6 @@ class DebugCommand extends ContainerAwareCommand
             $definition = $displayManager->getDefinition($display['display_plugin']);
             if (!empty($definition['admin'])) {
                 // Cast the admin label to a string since it is an object.
-                // @see \Drupal\Core\StringTranslation\TranslationWrapper
                 $displays[$definition['id']]['name'] = (string) $definition['admin'];
                 $displays[$definition['id']]['description'] = (string) $definition['help'];
             }
