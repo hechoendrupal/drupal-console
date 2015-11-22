@@ -1,0 +1,42 @@
+configurations:
+  system.performance:
+    cache.page.use_internal:
+      dev: false
+      prod: true
+    css.preprocess:
+      dev: false
+      prod: true
+    css.gzip:
+      dev: false
+      prod: true
+    js.preprocess:
+      dev: false
+      prod: true
+    js.gzip:
+      dev: false
+      prod: true
+    response.gzip:
+      dev: false
+      prod: true
+  views.settings:
+    ui.show.sql_query.enabled:
+      dev: true
+      prod: false
+    ui.show.performance_statistics:
+      dev: true
+      prod: false
+  system.logging:
+    error_level:
+      dev: all
+      prod: none
+services:
+  twig.config:
+    debug:
+      dev: true
+      prod: false
+    auto_reload:
+      dev: true
+      prod: false
+    cache:
+      dev: true
+      prod: true
