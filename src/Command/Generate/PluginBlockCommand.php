@@ -50,6 +50,12 @@ class PluginBlockCommand extends GeneratorCommand
                 $this->trans('commands.generate.plugin.block.options.plugin-id')
             )
             ->addOption(
+                'theme-region',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.plugin.block.options.theme-region')
+            )
+            ->addOption(
                 'inputs',
                 '',
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
@@ -64,6 +70,7 @@ class PluginBlockCommand extends GeneratorCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $dialog = $this->getDialogHelper();
+        $message = $this->getMessageHelper();
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmationQuestion
         if ($this->confirmationQuestion($input, $output, $dialog)) {
@@ -75,7 +82,24 @@ class PluginBlockCommand extends GeneratorCommand
         $label = $input->getOption('label');
         $plugin_id = $input->getOption('plugin-id');
         $services = $input->getOption('services');
+        $theme_region = $input->getOption('theme-region');
         $inputs = $input->getOption('inputs');
+
+        $configFactory = $this->getConfigFactory();
+        $theme = $configFactory->get('system.theme')->get('default');
+        $theme_regions = system_region_list($theme, REGIONS_VISIBLE);
+
+
+        if (!empty($theme_region) && !isset($theme_regions[$theme_region])) {
+            $message->addErrorMessage(
+                sprintf(
+                    $this->trans('commands.generate.plugin.block.messages.invalid-theme-region'),
+                    $theme_region
+                )
+            );
+
+            return 1;
+        }
 
         // @see use Drupal\Console\Command\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
@@ -85,12 +109,23 @@ class PluginBlockCommand extends GeneratorCommand
             ->generate($module, $class_name, $label, $plugin_id, $build_services, $inputs);
 
         $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery']);
+
+        if ($theme_region) {
+            // Load block to set theme region
+
+            $block = $this->getEntityManager()->getStorage('block')->create(array('id'=> $plugin_id, 'plugin' => $plugin_id, 'theme' => $theme));
+            $block->setRegion($theme_region);
+            $block->save();
+        }
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $dialog = $this->getDialogHelper();
-
+        $configFactory = $this->getConfigFactory();
+        $theme = $configFactory->get('system.theme')->get('default');
+        $theme_regions = system_region_list($theme, REGIONS_VISIBLE);
+        
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
@@ -140,6 +175,22 @@ class PluginBlockCommand extends GeneratorCommand
             );
         }
         $input->setOption('plugin-id', $plugin_id);
+
+        // --theme-region option
+        $theme_region = $input->getOption('theme-region');
+        if (!$theme_region) {
+            $theme_region =  $dialog->askAndValidate(
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.plugin.block.options.theme-region'), ''),
+                function ($region) use ($theme_regions) {
+                    return array_search($region, $theme_regions);
+                },
+                false,
+                '',
+                $theme_regions
+            );
+        }
+        $input->setOption('theme-region', $theme_region);
 
         // --services option
         // @see Drupal\Console\Command\ServicesTrait::servicesQuestion
