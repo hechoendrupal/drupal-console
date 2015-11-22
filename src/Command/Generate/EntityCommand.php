@@ -42,17 +42,18 @@ abstract class EntityCommand extends GeneratorCommand
      */
     protected function configure()
     {
+      if ('EntityContent' == $this->entityType) {
         $this
             ->setName($this->commandName)
             ->setDescription(
                 sprintf(
-                    $this->trans('commands.generate.entity.description'),
+                    $this->trans('commands.generate.entity.content.description'),
                     $this->entityType
                 )
             )
             ->setHelp(
                 sprintf(
-                    $this->trans('commands.generate.entity.help'),
+                    $this->trans('commands.generate.entity.content.help'),
                     $this->commandName,
                     $this->entityType
                 )
@@ -62,20 +63,58 @@ abstract class EntityCommand extends GeneratorCommand
                 'entity-class',
                 null,
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.entity.options.entity-class')
+                $this->trans('commands.generate.entity.content.options.entity-class')
             )
             ->addOption(
                 'entity-name',
                 null,
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.entity.options.entity-name')
+                $this->trans('commands.generate.entity.content.options.entity-name')
             )
             ->addOption(
                 'label',
                 null,
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.entity.options.label')
+                $this->trans('commands.generate.entity.content.options.label')
             );
+      }
+      else {
+        $this
+            ->setName($this->commandName)
+            ->setDescription(
+                sprintf(
+                    $this->trans('commands.generate.entity.config.description'),
+                    $this->entityType
+                )
+            )
+            ->setHelp(
+                sprintf(
+                    $this->trans('commands.generate.entity.config.help'),
+                    $this->commandName,
+                    $this->entityType
+                )
+            )
+            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'entity-class',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.generate.entity.config.options.entity-class')
+            )
+            ->addOption(
+                'entity-name',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.generate.entity.config.options.entity-name')
+            )
+            ->addOption(
+                'label',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.generate.entity.config.options.label')
+            );
+      }
+
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
