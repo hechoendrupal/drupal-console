@@ -26,6 +26,8 @@ questions:
         description: विवरण
         default-value: 'डिफ़ॉल्ट निधि'
         weight: 'इनपुट आइटम के लिए वजन'
+        title: Title
+        fieldset: Fieldset
 errors:
     module-dependency: 'मॉड्यूल निर्भरता "%s" अनुपस्थित है'
     class-name-empty: 'क्लास का नाम खली नही रह सकता'
