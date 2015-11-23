@@ -72,32 +72,32 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('{{module_name}}.{{class_name_short}}');
-    {% for input in inputs %}
-      {% if input.fieldset|length %}
-        $form['{{ input.fieldset }}']['{{ input.name }}'] = array(
-      {% else %}
-        $form['{{ input.name }}'] = array(
-      {% endif %}
+{% for input in inputs %}
+{% if input.fieldset|length %}
+    $form['{{ input.fieldset }}']['{{ input.name }}'] = array(
+{% else %}
+    $form['{{ input.name }}'] = array(
+{% endif %}
       '#type' => '{{ input.type }}',
       '#title' => $this->t('{{ input.label }}'),
-      {% if input.description|length %}
-        '#description' => $this->t('{{ input.description }}'),
-      {% endif %}
-      {% if input.options|length %}
-        '#options' => {{ input.options }},
-      {% endif %}
-      {% if input.maxlength|length %}
-        '#maxlength' => {{ input.maxlength }},
-      {% endif %}
-      {% if input.size|length %}
-        '#size' => {{ input.size }},
-      {% endif %}
-      {% if input.type != 'password_confirm' and input.type != 'fieldset' %}
-        '#default_value' => $config->get('{{ input.name }}'),
-      {% endif %}
-      );
-    {% endfor %}
-  return parent::buildForm($form, $form_state);
+{% if input.description|length %}
+      '#description' => $this->t('{{ input.description }}'),
+{% endif %}
+{% if input.options|length %}
+      '#options' => {{ input.options }},
+{% endif %}
+{% if input.maxlength|length %}
+      '#maxlength' => {{ input.maxlength }},
+{% endif %}
+{% if input.size|length %}
+      '#size' => {{ input.size }},
+{% endif %}
+{% if input.type != 'password_confirm' and input.type != 'fieldset' %}
+      '#default_value' => $config->get('{{ input.name }}'),
+{% endif %}
+    );
+{% endfor %}
+    return parent::buildForm($form, $form_state);
   }
 
   /**
@@ -114,9 +114,9 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
     parent::submitForm($form, $form_state);
 
     $this->config('{{module_name}}.{{class_name_short}}')
-    {% for input in inputs %}
+{% for input in inputs %}
       ->set('{{ input.name }}', $form_state->getValue('{{ input.name }}'))
-    {% endfor %}
-    ->save();
+{% endfor %}
+      ->save();
   }
 {% endblock %}
