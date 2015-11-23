@@ -21,3 +21,5 @@ questions:
 messages:
     installing: 'Se începe instalarea proiectului Drupal 8.'
     installed: 'Instalarea proiectului Drupa 8 a fost finalizată cu succes.'
+    using-current-database: 'Using %s database with name %s and user %s'
+    already-installed: 'Drupal is already installed, try truncating your database and run again site:install'
