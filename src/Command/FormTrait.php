@@ -92,16 +92,16 @@ trait FormTrait
                     $input_machine_name
                 );
 
-                if($input_type == 'fieldset') {
+                if ($input_type == 'fieldset') {
                     $fieldsets[$input_machine_name] = $input_label;
                 }
 
                 $input_fieldset = '';
-                if($input_type != 'fieldset' && !empty($fieldsets)) {
+                if ($input_type != 'fieldset' && !empty($fieldsets)) {
                     $input_fieldset = $dialog->askAndValidate(
                         $output,
                         $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.fieldset'), '', ':'),
-                        function ($fieldset)  {
+                        function ($fieldset) {
                             return $fieldset;
                         },
                         false,
