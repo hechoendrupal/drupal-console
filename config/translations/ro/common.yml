@@ -26,6 +26,8 @@ questions:
         description: Descriere
         default-value: 'Valoare din oficiu'
         weight: 'Weight pentru itemul introdus'
+        title: Title
+        fieldset: Fieldset
 errors:
     module-dependency: 'Lipsesc dependințele modulului "%s"'
     class-name-empty: 'Numele Clasei nu poate fi gol'
