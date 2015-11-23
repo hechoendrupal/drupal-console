@@ -26,6 +26,8 @@ questions:
         description: Descripción
         default-value: 'Valor por defecto'
         weight: 'Peso para el elemento ''input''.'
+        title: Title
+        fieldset: Fieldset
 errors:
     module-dependency: 'Depencia "%s" del modulo faltante'
     class-name-empty: 'El nombre de la Clase no puede estar vacío.'
