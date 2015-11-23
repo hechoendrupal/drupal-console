@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command;
 
-class GeneratorFormBaseCommand extends GeneratorFormCommand
+class FormBaseCommand extends FormCommand
 {
     protected function configure()
     {
