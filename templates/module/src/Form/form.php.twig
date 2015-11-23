@@ -79,9 +79,6 @@ class {{ class_name }} extends FormBase {% endblock %}
 {% if input.size|length %}
       '#size' => {{ input.size }},
 {% endif %}
-{% if input.type != 'password_confirm' and input.type != 'fieldset' %}
-      '#default_value' => $config->get('{{ input.name }}'),
-{% endif %}
     );
 {% endfor %}
 
