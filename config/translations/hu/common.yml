@@ -26,6 +26,8 @@ questions:
         description: Leírás
         default-value: 'Alapértelmezett érték'
         weight: 'A bemeneti elem súlya'
+        title: Title
+        fieldset: Fieldset
 errors:
     module-dependency: 'Hiányzó modul függőség "%s"'
     class-name-empty: 'A Class neve nem lehet üres'

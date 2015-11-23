@@ -4,8 +4,8 @@ if [ $# -eq 3 ]; then
   if [ ! -f $2/$3 ]; then
       echo "File $2/$3 not found!"
   else
-      echo "console.dev yaml:diff --stats $2/$3 $1/$3"
-      command="console.dev yaml:diff --stats $2/$3 $1/$3"
+      echo "drupal yaml:diff --stats $2/$3 $1/$3"
+      command="drupal yaml:diff --stats $2/$3 $1/$3"
       stat=`$command`
       total=`echo $stat | cut -f2 -d: | cut -f1 -dD`
       diff=`echo $stat | cut -f3 -d: | cut -f1 -dE`
@@ -25,8 +25,8 @@ if [ $# -eq 2 ]; then
       if [ ! -f $2/$filepath ]; then
         echo "File $2/$filepath not found!"
       else
-        #echo "console.dev yaml:diff --stats $1/$filepath $2/$filepath"
-        command="console.dev yaml:diff --stats $1/$filepath $2/$filepath"
+        #echo "drupal yaml:diff --stats $1/$filepath $2/$filepath"
+        command="drupal yaml:diff --stats $1/$filepath $2/$filepath"
         stat=`$command`
         total=`echo $stat | cut -f2 -d: | cut -f1 -dD`
         diff=`echo $stat | cut -f3 -d: | cut -f1 -dE`
@@ -55,8 +55,8 @@ if [ $# -eq 0 ]; then
               if [ ! -f $dir/$filepath ]; then
                 echo "File $dir/$filepath not found!"
               else
-                #echo "console.dev yaml:diff --stats $1/$filepath $dir/$filepath"
-                command="console.dev yaml:diff --stats en/$filepath $dir/$filepath"
+                #echo "drupal yaml:diff --stats $1/$filepath $dir/$filepath"
+                command="drupal yaml:diff --stats en/$filepath $dir/$filepath"
                 stat=`$command`
                 total=`echo $stat | cut -f2 -d: | cut -f1 -dD`
                 diff=`echo $stat | cut -f3 -d: | cut -f1 -dE`

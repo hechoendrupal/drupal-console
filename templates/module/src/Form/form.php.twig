@@ -60,10 +60,16 @@ class {{ class_name }} extends FormBase {% endblock %}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 {% for input in inputs %}
+{% if input.fieldset|length %}
+    $form['{{ input.fieldset }}']['{{ input.name }}'] = array(
+{% else %}
     $form['{{ input.name }}'] = array(
+{% endif %}
       '#type' => '{{ input.type }}',
       '#title' => $this->t('{{ input.label }}'),
+{% if input.description|length %}
       '#description' => $this->t('{{ input.description }}'),
+{% endif %}
 {% if input.options|length %}
       '#options' => {{ input.options }},
 {% endif %}
@@ -72,6 +78,9 @@ class {{ class_name }} extends FormBase {% endblock %}
 {% endif %}
 {% if input.size|length %}
       '#size' => {{ input.size }},
+{% endif %}
+{% if input.type != 'password_confirm' and input.type != 'fieldset' %}
+      '#default_value' => $config->get('{{ input.name }}'),
 {% endif %}
     );
 {% endfor %}

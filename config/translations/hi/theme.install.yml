@@ -13,7 +13,7 @@ messages:
     missing-dependencies: 'Unable to install themes %s due to missing dependencies %s'
     themes-nothing: 'Nothing to do. All themes %s are already installed'
     theme-nothing: 'Nothing to do. Themes %s is already installed'
-    dependencies: 'Are you sure you want to install dependencies: %s?'
+    dependencies: 'क्या आप मोड्यूल निर्भरता %s को स्थापित करना चाहते है??'
     theme-success: 'The %s theme has been installed successfully'
     themes-success: 'The themes %s were installed successfully'
     theme-default-success: 'The %s theme has been installed successfully as default theme'

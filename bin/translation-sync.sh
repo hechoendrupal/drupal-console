@@ -7,8 +7,8 @@ if [ $# -eq 3 ]; then
       command="cp $1/$3 $2/$3"
       $command
   else
-      echo "console.dev yaml:merge $2/$3 $1/$3 $2/$3"
-      command="console.dev yaml:merge $2/$3 $1/$3 $2/$3"
+      echo "drupal yaml:merge $2/$3 $1/$3 $2/$3"
+      command="drupal yaml:merge $2/$3 $1/$3 $2/$3"
       $command
    fi
 fi
@@ -23,8 +23,8 @@ if [ $# -eq 2 ]; then
         command="cp $1/$filepath $2/$filepath"
         $command
       else
-        echo "console.dev yaml:merge $2/$filepath $1/$filepath $2/$filepath"
-        command="console.dev yaml:merge $2/$filepath $1/$filepath $2/$filepath"
+        echo "drupal yaml:merge $2/$filepath $1/$filepath $2/$filepath"
+        command="drupal yaml:merge $2/$filepath $1/$filepath $2/$filepath"
         $command
       fi
    done
@@ -43,8 +43,8 @@ if [ $# -eq 0 ]; then
               command="cp en/$filepath $dir/$filepath"
               $command
             else
-              echo "console.dev yaml:merge $dir/$filepath en/$filepath $dir/$filepath"
-              command="console.dev yaml:merge $dir/$filepath en/$filepath $dir/$filepath"
+              echo "drupal yaml:merge $dir/$filepath en/$filepath $dir/$filepath"
+              command="drupal yaml:merge $dir/$filepath en/$filepath $dir/$filepath"
               $command
             fi
           done
@@ -63,8 +63,8 @@ if [ $# -eq 1 ]; then
           command="cp en/$filepath $dir/$filepath"
           $command
         else
-          echo "console.dev yaml:merge $dir/$filepath en/$filepath $dir/$filepath"
-          command="console.dev yaml:merge $dir/$filepath en/$filepath $dir/$filepath"
+          echo "drupal yaml:merge $dir/$filepath en/$filepath $dir/$filepath"
+          command="drupal yaml:merge $dir/$filepath en/$filepath $dir/$filepath"
           $command
         fi
       fi
