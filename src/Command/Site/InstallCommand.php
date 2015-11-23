@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
+use Drupal\Core\Installer\Exception\AlreadyInstalledException;
 use Drupal\Console\Command\Database\DatabaseTrait;
 use Drupal\Console\Command\Command;
 
@@ -163,61 +164,83 @@ class InstallCommand extends Command
             $input->setOption('langcode', array_search($langcode, $languages));
         }
 
-        // --db-type option
-        $db_type = $input->getOption('db-type');
-        if (!$db_type) {
-            $db_type = $this->dbTypeQuestion($input, $output, $question);
-        }
-        $input->setOption('db-type', $db_type);
+        // Use default database setting if is available
+        $database = \Drupal\Core\Database\Database::getConnectionInfo();
+        if (empty($database['default'])) {
 
-        // --db-file option
-        $db_file = $input->getOption('db-file');
-        if ($db_type == 'sqlite' && !$db_file) {
-            $db_file = $this->dbFileQuestion($output, $dialog);
-            $input->setOption('db-file', $db_file);
+            // --db-type option
+            $db_type = $input->getOption('db-type');
+            if (!$db_type) {
+                $db_type = $this->dbTypeQuestion($input, $output, $question);
+            }
+            $input->setOption('db-type', $db_type);
+
+            // --db-file option
+            $db_file = $input->getOption('db-file');
+            if ($db_type == 'sqlite' && !$db_file) {
+                $db_file = $this->dbFileQuestion($output, $dialog);
+                $input->setOption('db-file', $db_file);
+            } else {
+                // --db-host option
+                $db_host = $input->getOption('db-host');
+                if (!$db_host) {
+                    $db_host = $this->dbHostQuestion($output, $dialog);
+                }
+                $input->setOption('db-host', $db_host);
+
+                // --db-name option
+                $db_name = $input->getOption('db-name');
+                if (!$db_name) {
+                    $db_name = $this->dbNameQuestion($output, $dialog);
+                }
+                $input->setOption('db-name', $db_name);
+
+                // --db-user option
+                $db_user = $input->getOption('db-user');
+                if (!$db_user) {
+                    $db_user = $this->dbUserQuestion($output, $dialog);
+                }
+                $input->setOption('db-user', $db_user);
+
+                // --db-pass option
+                $db_pass = $input->getOption('db-pass');
+                if (!$db_pass) {
+                    $db_pass = $this->dbPassQuestion($output, $dialog);
+                }
+                $input->setOption('db-pass', $db_pass);
+
+                // --db-port prefix
+                $db_port = $input->getOption('db-port');
+                if (!$db_port) {
+                    $db_port = $this->dbPortQuestion($output, $dialog);
+                }
+                $input->setOption('db-port', $db_port);
+            }
+
+            // --db-prefix
+            $db_prefix = $input->getOption('db-prefix');
+            if (!$db_prefix) {
+                $db_prefix = $this->dbPrefixQuestion($output, $dialog);
+            }
+            $input->setOption('db-prefix', $db_prefix);
         } else {
-            // --db-host option
-            $db_host = $input->getOption('db-host');
-            if (!$db_host) {
-                $db_host = $this->dbHostQuestion($output, $dialog);
-            }
-            $input->setOption('db-host', $db_host);
-
-            // --db-name option
-            $db_name = $input->getOption('db-name');
-            if (!$db_name) {
-                $db_name = $this->dbNameQuestion($output, $dialog);
-            }
-            $input->setOption('db-name', $db_name);
-
-            // --db-user option
-            $db_user = $input->getOption('db-user');
-            if (!$db_user) {
-                $db_user = $this->dbUserQuestion($output, $dialog);
-            }
-            $input->setOption('db-user', $db_user);
-
-            // --db-pass option
-            $db_pass = $input->getOption('db-pass');
-            if (!$db_pass) {
-                $db_pass = $this->dbPassQuestion($output, $dialog);
-            }
-            $input->setOption('db-pass', $db_pass);
-
-            // --db-port prefix
-            $db_port = $input->getOption('db-port');
-            if (!$db_port) {
-                $db_port = $this->dbPortQuestion($output, $dialog);
-            }
-            $input->setOption('db-port', $db_port);
+            $input->setOption('db-type', $database['default']['driver']);
+            $input->setOption('db-host', $database['default']['host']);
+            $input->setOption('db-name', $database['default']['database']);
+            $input->setOption('db-user', $database['default']['username']);
+            $input->setOption('db-pass', $database['default']['password']);
+            $input->setOption('db-port', $database['default']['port']);
+            $input->setOption('db-prefix', $database['default']['prefix']['default']);
+            $output->writeln(
+                '[-] <info>'.
+                sprintf(
+                    $this->trans('commands.site.install.messages.using-current-database'),
+                    $database['default']['driver'],
+                    $database['default']['database'],
+                    $database['default']['username']
+                ) . '</info>'
+            );
         }
-
-        // --db-prefix
-        $db_prefix = $input->getOption('db-prefix');
-        if (!$db_prefix) {
-            $db_prefix = $this->dbPrefixQuestion($output, $dialog);
-        }
-        $input->setOption('db-prefix', $db_prefix);
 
 
         // --site-name option
@@ -404,11 +427,15 @@ class InstallCommand extends Command
         ]
         ];
 
-        $output->writeln('[-] <info>'.$this->trans('commands.site.install.messages.installing').'</info>');
+        $output->writeln('[-] <info>'. $this->trans('commands.site.install.messages.installing').'</info>');
 
         try {
             install_drupal($drupal->getAutoLoadClass(), $settings);
+        } catch (AlreadyInstalledException $e) {
+            $output->writeln('[-] <error>' . $this->trans('commands.site.install.messages.already-installed') . '</error>');
+            return;
         } catch (\Exception $e) {
+            //print_r($e);
             $output->writeln('[-] <error>' . $e->getMessage() . '</error>');
             return;
         }
