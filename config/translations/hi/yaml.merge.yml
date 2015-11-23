@@ -1,11 +1,11 @@
-description: 'Merge one or more YAML files in a new YAML file. Latest values are preserved.'
+description: 'एक या एक से ज़्यादा YAML फाइलो को एक YAML फाइल में विलय करें। नवीनीकरण निधि सुरक्षित रहेंगे।'
 arguments:
     yaml-files: 'Path of YAML files to merge'
     yaml-destination: 'Path of new YAML file to store result of merge.'
 questions:
     yaml-destination: 'Path of new YAML file to store result of merge.'
-    file: 'Path to file to merge'
-    other-file: 'Path to file to merge (empty to start with merge process)'
+    file: 'विलय करने वाली फाइल का मार्ग'
+    other-file: 'विलय करने वाली फाइल का मार्ग (empty to start with merge process)'
     invalid-file: 'Path of file cannot be empty'
     file-already-added: 'Path of file was already added'
 messages:

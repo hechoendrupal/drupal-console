@@ -1,6 +1,6 @@
-description: 'Run Test unit from tests available for application'
+description: 'अनुप्रयोग के उपलब्ध परीक्षणों मे से परिक्षण यूनिट को चलायें'
 arguments:
-    test-class: 'Test Class'
+    test-class: 'परिक्षण क्लास'
 messages:
     missing-dependency: 'Test can''t be executed due a missing dependency'
     phpunit-pending: 'Logic to execute PHPUnit test is not implemented yet.'
