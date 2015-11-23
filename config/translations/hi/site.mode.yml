@@ -1,11 +1,11 @@
-description: 'Switch system performance configuration'
+description: 'प्रणाली की कार्य-निष्पादन व्यवस्था को बदलें'
 arguments:
     environment: 'Environment name (dev|prod)'
 messages:
-    configuration: 'Configuration name'
-    configuration-key: 'Configuration key'
-    original: 'Original Value'
-    updated: 'Override Value'
+    configuration: 'व्यवस्था का नाम'
+    configuration-key: 'व्यवस्था की कुंजी'
+    original: 'मूल निधि'
+    updated: 'चढ़ाई निधि'
     invalid-env: 'Invalid environment'
     new-services-settings: 'New services settings'
     service: Service
