@@ -1,6 +1,6 @@
-description: 'Switch site into maintenance mode'
+description: 'साइट को अनुरक्षरण विधि में बदले'
 arguments:
-    mode: 'Site maintenance mode'
+    mode: 'साइट अनुरक्षरण विधि'
 messages:
     maintenance-on: 'Operating in maintenance mode on'
     maintenance-off: 'Operating in maintenance mode off'
