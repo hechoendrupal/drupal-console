@@ -228,7 +228,7 @@ class Application extends BaseApplication
 
         if (true === $input->hasParameterOption(['--shell', '-s'])) {
             $this->runShell($input);
-            return;
+            return 0;
         }
 
         if (true === $input->hasParameterOption(array('--generate-doc', '--gd'))) {
@@ -240,7 +240,7 @@ class Application extends BaseApplication
             );
         }
 
-        parent::doRun($input, $output);
+        return parent::doRun($input, $output);
     }
 
     /**
