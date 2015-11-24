@@ -1,31 +1,31 @@
-description: 'Generate documentations for Commands'
+description: 'Generează documentațiile pentru Comenzi'
 options:
-    path: 'The path to render the documentation'
+    path: 'Calea de randare a documentației'
 messages:
-    missing_path: 'The path is missing'
-    title: 'Available Drupal Console Commands'
-    note: Note
-    note-description: 'Drupal Console commands *must* be run from the root of a Drupal 8 installation'
-    command: 'Drupal Console Command'
-    command_description: 'The **%s** command %s'
-    usage: Usage
-    options: 'Available options'
-    option: Option
-    details: Details
-    arguments: 'Available arguments'
-    argument: Argument
-    examples: Examples
+    missing_path: 'Calea lipsește'
+    title: 'Comenzi pentru Consola de Drupal disponibile'
+    note: 'Notă'
+    note-description: 'Comenzile Consolei de Drupal *trebuie* să fie rulate din rădăcina instalării Drupal 8'
+    command: 'Comanda Consolei Drupal'
+    command_description: '**%s** comanda %s'
+    usage: 'Folosire'
+    options: 'Opțiuni disponibile'
+    option: 'Opțiune'
+    details: 'Detalii'
+    arguments: 'Argumente disponibile'
+    argument: 'Argument'
+    examples: 'Exemple'
 output:
     available-commands:
-        title: 'Available Drupal Console Commands'
-        note: Note
-        note-description: 'Drupal Console commands *must* be run from the root of a Drupal 8 installation'
-        command: 'Drupal Console Command'
+        title: 'Comenzi pentru Consola de Drupal disponibile'
+        note: 'Notă'
+        note-description: 'Comenzile Consolei de Drupal *trebuie* să fie rulate din rădăcina instalării Drupal 8'
+        command: 'Comanda Consolei Drupal'
     command:
-        command_description: 'The **%s** command %s'
-        usage: Usage
-        options: 'Available options'
-        option: Option
-        details: Details
-        arguments: 'Available arguments'
-        argument: Argument
+        command_description: '**%s** comanda %s'
+        usage: 'Folosire'
+        options: 'Opțiuni disponibile'
+        option: 'Opțiune'
+        details: 'Detalii'
+        arguments: 'Argumente disponibile'
+        argument: 'Exemple'
