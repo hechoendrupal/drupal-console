@@ -26,14 +26,14 @@ questions:
         description: Descripción
         default-value: 'Valor por defecto'
         weight: 'Peso para el elemento ''input''.'
-        title: Title
-        fieldset: Fieldset
+        title: Título
+        fieldset: 'Conjunto de campos'
 errors:
     module-dependency: 'Depencia "%s" del modulo faltante'
     class-name-empty: 'El nombre de la Clase no puede estar vacío.'
 status:
-    enabled: Enabled
-    disabled: Disabled
+    enabled: Habilitado
+    disabled: Deshabilitado
 messages:
-    canceled: 'Generated Cancelled'
-    drupal-core: 'Drupal Core'
+    canceled: 'Generación Cancelada'
+    drupal-core: 'Core de Drupal'

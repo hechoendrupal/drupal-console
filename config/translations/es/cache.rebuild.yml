@@ -10,7 +10,7 @@ questions:
     cache: 'Seleccione una caché.'
 examples:
     -
-        description: 'Rebuild all caches'
+        description: 'Reconstruir todas las cachés'
         execution: 'drupal cr all'
     -
         description: 'Rebuild discovery cache'
