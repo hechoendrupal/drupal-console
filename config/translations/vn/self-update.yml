@@ -1,0 +1,5 @@
+description: 'Cập nhật console vào phiên bản mới nhất.'
+help: 'Cập nhật câu lệnh console vào phiên bản mới nhất.'
+messages:
+    success: 'Console vừa được cập nhật vào phiên bản mới nhất.'
+    current-version: 'Phiên bản mới nhất %s, đã được cài đặt trong hệ thống của bạn.'

@@ -1,0 +1,7 @@
+description: 'Thi hành chuỗi câu lệnh'
+options:
+    file: 'Người dùng định nghĩa file đang chứa những câu lệnh để thực thi'
+messages:
+    missing_file: 'Bạn phải cung cấp một file với đường dẫn và tên hợp lệ'
+    invalid_file: 'File "%s" không tồn tại'
+    module_install: 'câu lệnh là không thể chạy bên trong một chuỗi hàng đợi và phải được thực thi ngay lập tức'

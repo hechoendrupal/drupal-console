@@ -1,0 +1,8 @@
+description: 'Tiến hành một hàm cụ thể cập nhật N trong một module, hoặc tiến hành tất cả'
+options:
+    update-n: 'Hàm cụ thể cập nhật N để được tiến hành'
+messages:
+    no-module-updates: 'Không có các cập nhật có sẵn cho module %s'
+    executing-update: 'Đang tiến hành hàm cập nhật %s của module %s'
+    module-update-function-not-found: 'Module %s không có hàm cập nhật cho %s'
+    executing-required-previous-updates: 'Đang tiến hành các cập nhật được yêu cầu trước'

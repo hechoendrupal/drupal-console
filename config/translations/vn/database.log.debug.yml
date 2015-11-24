@@ -1,0 +1,18 @@
+description: 'Hiển thị các dấu sự kiện hiện tại cho ứng dụng'
+arguments:
+    event-id: 'DBlog sự kiện ID'
+options:
+    type: 'Sự kiện được lọc bời một kiểu chỉ định'
+    severity: 'Sự kiện được lọc bời một cấp chỉ định của severity'
+    user-id: 'Sự kiện được lọc bời một user id cụ thể'
+    limit: 'Limit results to a specific number'
+    offset: 'Starting point of a limit'
+messages:
+    event-id: 'Event ID'
+    type: Type
+    date: Date
+    message: Message
+    user: User
+    severity: Severity
+    invalid-severity: 'Severity type is invalid, filter was ignored'
+    not-found: 'DBLog event %s wasn''t found'

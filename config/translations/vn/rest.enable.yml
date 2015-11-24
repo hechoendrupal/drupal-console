@@ -1,0 +1,14 @@
+description: 'Bật một tài nguyên Rest cho ứng dụng'
+arguments:
+    resource-id: 'Rest ID'
+    states: 'Trạng thái REST để bật cho tài nguyên Rest'
+    authorizations: 'Nhà cung cấp ủy quyền đã bật cho tài nguyên Rest'
+questions:
+    resource-id: 'Rest ID'
+messages:
+    invalid-rest-id: 'Rest ID %s không hợp lệ'
+    formats: 'Tuần tự hóa các định dạng có thể sử dụng được'
+    authentication-providers: 'Các nhà cung cấp ủy quyền hiện có'
+    selected-state: 'Trạng thái được lựa chọn'
+    selected-formats: 'Các định dạng được lựa chọn'
+    selected-authentication-providers: 'Các nhà cung cấp ủy quyền được lựa chọn'

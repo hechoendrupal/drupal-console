@@ -1,0 +1,12 @@
+description: 'Xóa các đăng nhập thử không thành công cho một tài khoản.'
+help: '<info>user:login:clear:attempts</info> tạo lại các đăng nhập thử không thành công cho một tài khoản.'
+options:
+    user-id: 'ID người dùng.'
+questions:
+    uid: 'Nhập ID người dùng.'
+    numeric-uid: 'Người dùng id phải là một số nguyên.'
+    invalid-uid: 'Người dùng id phải lớn hơn 0.'
+messages:
+    successful: 'Các đăng nhập thử đã được xóa thành công cho người dùng id %s.'
+errors:
+    invalid-user: 'Không thể tải thực thể người dùng (Uid: %s).'

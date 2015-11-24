@@ -1,0 +1,3 @@
+description: 'Hiển thị cấu hình hiện tại'
+arguments:
+    config-name: 'Tên cấu hình'

@@ -1,0 +1,7 @@
+description: 'Restore structure and contents of MySQL databases and tables'
+arguments:
+    database: 'Khoá cơ sở dữ liệu từ tệp settings.php'
+options:
+    file: 'Tên cho tệp sao lưu cơ sở dữ liệu của bạn'
+messages:
+    success: 'Cơ sở dữ liệu đã được nhập vào từ :'

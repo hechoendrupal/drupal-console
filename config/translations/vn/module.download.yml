@@ -1,0 +1,11 @@
+description: 'Tải module hoặc các modules trong ứng dụng'
+options:
+    version: 'Phiên bản Module i.e 1.x-dev'
+messages:
+    no-releases: ' Không có bất kỳ bản phát hành nào cho module %s'
+    getting-releases: 'Đang tìm kiếm các bản phát hành cho module %s'
+    downloading: 'Đang tải module %s bản phát hành %s'
+    downloaded: 'Module %s phiên bản %s đã được tải xuống thành công tại %s'
+    select-release: 'Vui lòng chọn bản phát hành phù hợp'
+    outside-drupal: 'Drupal root can''t be determined. Use --root to set the destination, current folder will be used instead of.'
+    error-creating-folder: 'Error crearing folder %s, please check your permssions'

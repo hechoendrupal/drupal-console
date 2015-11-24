@@ -1,0 +1,10 @@
+description: 'Nhập cấu hình tới ứng dụng hiện tại'
+arguments:
+    file: 'Cấu hình đường dẫn file'
+    remove-files: 'Xoá file sau khi đồng bộ.'
+    config-file: 'Cấu hình đường dẫn file'
+    copy-only: 'Chỉ copy các file cấu hình trong thư mục staging'
+messages:
+    config_files_imported: 'Danh sách của các file cấu hình'
+    imported: 'Tất cả các file cấu hình đã được sao chép tới thư mục staging và dược import'
+    copied: 'Tất cả các file cấu hình đã được sao chép tới thư mục staging'
