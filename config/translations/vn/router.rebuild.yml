@@ -1,0 +1,6 @@
+description: 'Xây dựng lại định tuyến cho ứng dụng'
+arguments:
+    route-name: 'Các tên của định tuyến'
+messages:
+    rebuilding: ' Xây dựng lại định tuyến, vui lòng chờ trong ít phút'
+    completed: 'Xây dựng lại các định tuyến đã xong.'

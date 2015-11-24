@@ -1,0 +1,4 @@
+description: 'Thi hành cron implementation từ một module chỉ định hoặc tất cả để thực thi tất cả các lệnh thi hành'
+messages:
+    module-invalid: 'Module %s không cài đặt cron'
+    executing-cron: 'Đang thực thi chức năng của module %s'

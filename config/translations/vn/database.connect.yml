@@ -1,0 +1,8 @@
+description: 'Launch a DB client if it''s available'
+arguments:
+    database: 'Khoá cơ sở dữ liệu từ tệp settings.php'
+messages:
+    database-not-found: 'Thông tin kết nối cơ sở dữ liệu %s đã không được tìm thấy'
+    database-not-supported: 'Loại cơ sở dữ liệu %s chưa được hỗ trợ'
+    database-client-not-found: 'Database client %s wasn''t found'
+    connection: 'Kết nối: %s'

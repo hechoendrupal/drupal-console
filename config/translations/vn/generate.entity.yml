@@ -1,0 +1,12 @@
+description: 'Generate a new entity'
+help: ''
+options:
+    module: common.options.module
+    entity-class: 'Tên lớp của thực thể'
+    entity-name: 'Nhập tên thực thể'
+    label: 'The label'
+questions:
+    module: common.questions.module
+    entity-class: 'Enter the class of your new entity'
+    entity-name: 'Enter the name of your new entity'
+    label: 'Enter the label of your new entity'

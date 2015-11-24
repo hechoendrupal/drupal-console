@@ -1,0 +1,17 @@
+description: 'Xây dựng lại và làm sạch tất cả cache trên trang.'
+options:
+    cache: 'Chỉ xóa một cache được chỉ định'
+messages:
+    welcome: 'Chào mừng tới vùng cache: xây dựng lại lệnh'
+    rebuild: 'Đang xây dựng lại cache(s), xin vui lòng đợi trong giây lát.'
+    completed: 'Đã thực hiện việc dọn dẹp cache(s).'
+    invalid_cache: 'Cache "%s" là không hợp lệ.'
+questions:
+    cache: 'Chọn cache.'
+examples:
+    -
+        description: 'Build lại toàn bộ cache'
+        execution: 'drupal cr all'
+    -
+        description: 'Build lại discovery cache'
+        execution: 'drupal cr discovery'

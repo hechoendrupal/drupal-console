@@ -1,0 +1,47 @@
+console:
+    arguments:
+        drupal: 'đường dẫn tới Drupal root'
+        shell: 'Khởi động shell'
+        env: 'Tên môi trường'
+        no-debug: 'Tắt chế độ debug'
+        learning: 'Sinh ra chi tiết mã thực thi'
+        generate-chain: 'In các lựa chọn thi hành và các đối số dạng yaml, để sử dụng trong chuỗi lệnh'
+        generate-inline: 'In các lựa chọn thi hành và các đối số dạng inline, để sử dụng sau'
+        root: 'Định nghĩa Drupal root dùng để thực thi lệnh'
+        uri: 'Đường dẫn site Drupal được dùng (cho môi trường multisite hoặc khi chạy trên một cổng thay thế)'
+    messages:
+        completed: 'Dòng lệnh đã được thực thi thành công!'
+        chain:
+            generated: 'Như sau bạn có thể tìm được file yaml của dòng lệnh thi hành cuối cùng, ví dụ copy in ~/.console/chain/sample.yml sẽ được chạy trong một chuỗi dòng lệnh theo thứ tự gọi'
+        inline:
+            generated: 'Như này bạn có thấy dạng inline của dòng lệnh thi hành và có thể gọi nó lại'
+        generated: 'Bạn có thể bắt đầu sử dụng code mới khởi tạo'
+        files:
+            generated: 'Các files được khởi tạo hoặc đã tải lên'
+            copied: 'Các files đã được sao chép'
+        learning:
+            route: 'Thứ tự để tạo ra các trang, nó là cần thiết để định nghĩa các tuyến đường cho chúng. Các bản đồ của route, một địa chỉ đường dẫn tới một bộ phận kiểm tra. Nó định nghĩa với các chức năng hoặc phương pháp sẽ được gọi khi một địa chỉ đường dẫn được truy cập.Nếu người dùng truy cập http://drupal8.dev/{{ route }}, hệ thống rounting sẽ tìm kiếm một tuyến đường với đường dẫn đó. Trong trường hợp này nó sẽ tìm một cái phù hợp, và thi hành gọi lại the _controller. Trong trường hợp này sự gọi lại là một định nghĩa như một tên lớp ("\Drupal\{{ module }}\Controller\{{ class_name }}") and a method ("{{ route.method }}").'
+        autocomplete: "Bash or Zsh: Thêm dòng này vào file cấu hình của bạn:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Create a symbolic link\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
+    errors:
+        invalid-command: 'Command"%s" là chưa được định nghĩa'
+    input:
+        definition:
+            command: 'Câu lệnh để thực thi'
+            help: 'Hiển thị thông báo giúp đỡ'
+            quiet: 'Đừng đưa ra bất cứ thông báo nào'
+            verbose: 'Tăng độ dài của các thông báo: 1 cho đầu ra thông thường, 2 cho những đầu ra dài hơn và 3 cho tìm kiếm lỗi'
+            version: 'Hiển thị phiên bản ứng dụng'
+            ansi: 'hiệu lực ANSI đầu ra'
+            no-ansi: 'Tắt ANSI đầu ra'
+            no-interaction: 'Đừng yêu cầu bất kỳ câu hỏi tương tác nào'
+    options:
+        version: '<info>%s</info> version <comment>%s</comment>'
+site:
+    messages:
+        path: 'đường dẫn site'
+    errors:
+        directory: 'theo thứ tự liệt kê tất cả các câu lệnh có có sẵn để dùng, bạn nên chạy những thứ này vào bên trong một thư mục gốc'
+        settings: 'theo thứ tự liệt kê tất cả các câu lệnh bạn có sẵn để dùng, bạn nên cài đặt drupal trước'
+user:
+    messages:
+        path: 'đường dẫn về trang home của người dùng'

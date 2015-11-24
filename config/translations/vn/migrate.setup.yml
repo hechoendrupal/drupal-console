@@ -1,0 +1,22 @@
+description: 'Load and create the relevant migrations for a provided legacy database'
+options:
+    db-type: 'Drupal Database type'
+    db-host: 'Máy chủ cơ sở dữ liệu'
+    db-name: 'Tên cơ sở dữ liệu'
+    db-user: 'Người dùng cơ sở dữ liệu'
+    db-pass: 'Mật khẩu cơ sở dữ liệu'
+    db-prefix: 'Tiền tố cơ sở dữ liệu'
+    db-port: 'Cổng vào cơ sở dữ liệu'
+questions:
+    db-type: 'Drupal Database type'
+    db-host: 'Máy chủ cơ sở dữ liệu'
+    db-name: 'Tên cơ sở dữ liệu'
+    db-user: 'Người dùng cơ sở dữ liệu'
+    db-pass: 'Mật khẩu cơ sở dữ liệu'
+    db-prefix: 'Tiền tố cơ sở dữ liệu'
+    db-port: 'Cổng vào cơ sở dữ liệu'
+messages:
+    not-drupal: 'Source database does not contain a recognizable Drupal version.'
+    migrations-created: '%s migrations were created successfully for %s.'
+    migrations-not-found: 'There aren''t migrations available'
+    migrations-already-exist: 'All migrations available are already created'

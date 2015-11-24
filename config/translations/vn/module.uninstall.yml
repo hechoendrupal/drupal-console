@@ -1,0 +1,8 @@
+description: 'Gỡ bỏ module hoặc các module trong ứng dụng'
+options:
+    module: 'Module or modules to be uninstalled should be separated by a comma'
+messages:
+    no-modules: 'Bạn phải cung cấp module hoặc các modules để gỡ bỏ.'
+    dependents: 'Không thể gỡ bỏ các modules %s vì chúng được yêu cầu bởi %s'
+    nothing: 'Không có gì để thực hiện. Tất cả các module đã được gỡ bỏ'
+    success: 'Các module sau đã được gỡ bỏ thành công: %s'

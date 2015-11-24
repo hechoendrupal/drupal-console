@@ -1,0 +1,8 @@
+description: 'Thay đổi chế độ bảo trì hệ thống'
+arguments:
+    mode: 'Chế độ bảo trì hệ thống'
+messages:
+    maintenance-on: 'Đang bật chế độ bảo trì'
+    maintenance-off: 'Đang tắt chế độ bảo trì'
+errors:
+    invalid-mode: 'Chế độ bảo trì không hợp lệ'

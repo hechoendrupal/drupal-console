@@ -1,0 +1,17 @@
+description: 'Cài đặt module hoặc các module trong ứng dụng'
+questions:
+    module: ' Tên Module (ấn <return> để dừng việc cài đặt thêm module)'
+    invalid-module: 'Module %s không hợp lệ'
+options:
+    module: 'Module hoặc các module cần bật cách nhau bằng dấu phẩy'
+    overwrite-config: 'Ghi đè phần thiết lập nếu cần thiết'
+messages:
+    no-modules: 'Bạn phải cung cấp module hoặc các module cần bật.'
+    missing: 'Không thể cài đặt các module %s vì thiếu các module %s'
+    missing-dependencies: 'Không thể cài đặt các module %s vì thiếu các phần phụ thuộc %s'
+    nothing: 'Không có gì để thực hiện. Tất cả các module đã được cài đặt'
+    dependencies: 'Bạn có muốn cài đặt các phần phụ thuộc: %s?'
+    success: 'Các module sau đã được cài đặt thành công: %s'
+    disabled-modules: 'Chỉ các module đã ngắt sẽ được liệt kê trong phần hiển thị tự động'
+    config-conflict-overwrite: 'Các đối tượng phần cấu hình này sẽ bị ghi đè trong phần cấu hình đã thiết lập'
+    config-conflict: 'Các đối tượng phần cấu hình này đã tồn tại trong thiết lập của hệ thống, phần cài đặt không thể thực hiện'
