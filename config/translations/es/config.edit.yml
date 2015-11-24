@@ -3,6 +3,6 @@ arguments:
     config-name: 'Nombre de la configuración.'
     editor: Editor.
 questions:
-    config-name: 'Choose a configuration unit'
+    config-name: 'Escoje una unidad de configuración'
 messages:
     no-directory: 'Ha acurrido un eror mientras se creaba el directorio en'
