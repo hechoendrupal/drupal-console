@@ -1,26 +1,26 @@
-description: 'Vizualizeaza statutul de instalare (Drupal Installation status)'
+description: 'Vizualizează statutul de instalare (Drupal Installation status)'
 messages:
-    application: Application
-    system: 'System Info'
+    application: Aplicaţie
+    system: 'Informaţii de sistem'
     hash_salt: 'Hash salt'
-    console: 'Console version'
-    database: 'Database connection'
+    console: 'Versiunea consolei'
+    database: 'Conexiune la baza de date'
     driver: Driver
-    host: Host
+    host: Gazda
     port: Port
-    username: Username
-    password: Password
-    theme: Themes
-    connection: Connection
-    theme_default: 'Default theme'
-    theme_admin: 'Admin theme'
-    directory: Directories
-    directory_root: 'Site root directory'
-    directory_temporary: 'Site temporary directory'
-    directory_theme_default: 'Default theme directory'
-    directory_theme_admin: 'Admin theme directory'
-    configuration: Configuration
-    active: 'Active config path'
-    staging: 'Staging config path'
-    themes: Themes
-    directories: Directories
+    username: 'Nume de utilizator'
+    password: Parola
+    theme: Teme
+    connection: Conexiune
+    theme_default: 'Tema implicită'
+    theme_admin: 'Tema de administrare'
+    directory: Director
+    directory_root: 'Directorul de baza al saitului'
+    directory_temporary: 'Directorul temporar al saitului'
+    directory_theme_default: 'Directorul temei implicite'
+    directory_theme_admin: 'Directorul temei de administrare'
+    configuration: Configurare
+    active: 'Calea către configurarile active'
+    staging: 'Calea către configurările în aşteptare'
+    themes: Teme
+    directories: Directoare

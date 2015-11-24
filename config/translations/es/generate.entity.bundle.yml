@@ -1,13 +1,13 @@
-description: 'Generate a new content type (node / entity bundle)'
-help: 'Use: generate:contenttype <fancy> <Fancy> to create a new content type name with the machine name of fancy and the human-readable name of Fancy.'
-welcome: 'Welcome to the Drupal Content Type generator'
+description: 'Genera un nuevo tipo de contenido (nodo / entity bundle)'
+help: 'Use: generate:contenttype <fancy> <Fancy> para crear un nuevo nombre de tipo de contenido con el nombre máquina de fancy y el nombre amigable de Fancy.'
+welcome: 'Bienvenido al generador de tipos de contenido para Drupal'
 options:
     module: common.options.module
-    bundle-name: 'The content type''s machine name'
-    bundle-title: 'The content type''s human-readable name'
+    bundle-name: 'El nombre máquina del tipo de contenido'
+    bundle-title: 'El nombre amigable del tipo de contenido'
 questions:
     module: common.questions.module
-    bundle-name: 'Enter the machine name of your new content type'
-    bundle-title: 'Enter the human-readable name of your new content type'
+    bundle-name: 'Introduzca el nombre máquina de su nuevo tipo de contenido'
+    bundle-title: 'Introduzca un nombre amigable para su nuevo tipo de contenido'
 message:
-    error-state1: placeholder
+    error-state1: marcador de posición

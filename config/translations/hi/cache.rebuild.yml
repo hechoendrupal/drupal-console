@@ -1,0 +1,17 @@
+description: 'सभी साइट caches को पुनर्निर्माण और साफ़ करें।'
+options:
+    cache: 'केवल एक विशेष cache साफ़ करें।'
+messages:
+    welcome: 'cache:rebuild कमाण्ड में आपका स्वागत है।'
+    rebuild: 'Caches का पुनर्निर्माण चल रहा है, कृपया प्रतीक्षा करें।'
+    completed: 'Caches को साफ कर दिया गया।'
+    invalid_cache: 'Cache "%s" अमान्य है।'
+questions:
+    cache: 'Cache का चयन करें।'
+examples:
+    -
+        description: 'Rebuild all caches'
+        execution: 'drupal cr all'
+    -
+        description: 'Rebuild discovery cache'
+        execution: 'drupal cr discovery'

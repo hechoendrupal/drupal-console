@@ -1,45 +1,45 @@
-description: 'वर्तमान एप्लीकेशन विन्यास का निर्यात करें.'
+description: 'Export current application configuration.'
 arguments:
-    directory: 'विन्यास आउटपुट को सुरक्षित करने क लिए निर्यात डायरेक्टरी की परिभाषा दें.'
+    directory: 'Define export directory to save configuration output.'
 messages:
-    directory: 'आपकी विन्यास निर्यात फाइल को %s में सुरक्षित किया गया था'
+    directory: 'Your configuration export file was stored in %s'
 content:
     type:
-        description: 'एक विशेष सामग्री प्ररूप और उनके क्षेत्रों का निर्यात करें.'
+        description: 'किसी विशेष कंटेंट प्रकार और उनके खानो का निर्यात करें।'
         arguments:
-            content_type: 'निर्यात किए जाने वाले कंटेंट प्ररूप'
+            content_type: 'निर्यात किए जाने वाला कंटेंट प्रकार'
         questions:
-            content_type: 'Content Type to be exported'
-            optional-config: 'Export content type in module as an optional configuration'
+            content_type: 'निर्यात किए जाने वाला कंटेंट प्रकार'
+            optional-config: 'ऐच्छिक व्यवस्था स्वरूप मॉड्यूल में कंटेंट प्रकार निर्यात करें'
         messages:
-            content_type_exported: 'Exporting content type'
+            content_type_exported: 'कंटेंट प्रकार निर्यात हो रहा है'
         options:
-            optional-config: 'Export content type as an optional YAML configuration in your module'
+            optional-config: 'ऐच्छिक YAML व्यवस्था स्वरूप मॉड्यूल में कंटेंट प्रकार निर्यात करें'
 single:
-    description: 'अकेली विन्यास फाइल का बतौर yml फाइल निर्यात करें.'
+    description: 'एक व्यवस्था को yml फाइल के जैसे निर्यात करें।'
     arguments:
-        config-name: 'विन्यास नाम.'
+        config-name: 'व्यवस्था का नाम।'
     options:
-        simple-configuration: 'साधारण विन्यास'
+        simple-configuration: 'सामान्य व्यवस्था'
     questions:
-        config-type: 'विन्यास प्ररूप'
-        config-name: 'विन्यास नाम'
+        config-type: 'व्यवस्था प्रकार'
+        config-name: 'व्यवस्था का नाम'
     messages:
-        config-not-found: 'विन्यास नाम नहीं मिला.'
-        export: 'विन्यास को %s फाइल पर निर्यात किया गया था.'
-        invalid-config-type: 'विन्यास प्ररूप अमान्य है, सूची में से एक का चयन करें'
-        invalid-config-name: 'विन्यास प्ररूप अमान्य है, सूची में से एक का चयन करें'
+        config-not-found: 'व्यवस्था नही मिला।'
+        export: 'व्यवस्था को %s फाइल में निर्यात कर दिया गया।'
+        invalid-config-type: 'व्यवस्था प्रकार अमान्य है, कृपया सूचि में से एक चुने'
+        invalid-config-name: 'व्यवस्था का नाम अमान्य है, कृपया सूचि में से एक चुने'
 view:
-    description: 'एक दृश्य को दूसरी वेबसाइट में परयोग करने के लिए, दिए गए मॉड्यूल के अंदर yml फार्मेट में निर्यात करें.'
+    description: 'एक व्यू को YAML संरूप में निर्यात करें ताकि वो किसी दूसरे वेबसाइट में पुनर्प्रयोग किया जाये।'
     messages:
-        view_exported: 'Exporting view'
-        depencies-included: 'The following module dependencies were included at %s'
+        view_exported: 'ऐच्छिक व्यवस्था स्वरूप मॉड्यूल में व्यू निर्यात करें निर्यात कर रहा है'
+        depencies-included: 'निम्नलिखित मॉड्यूल निर्भरता को %s में सम्मिलित कर दिया गया'
     questions:
-        view: 'View to be exported'
-        optional-config: 'Export view in module as an optional configuration'
-        include-module-dependencies: 'Include view module dependencies in module info YAML file'
+        view: 'निर्यात किया जाने वाला व्यू'
+        optional-config: 'ऐच्छिक व्यवस्था स्वरूप मॉड्यूल में व्यू निर्यात करें'
+        include-module-dependencies: 'व्यू मॉड्यूल निर्भरता को मॉड्यूल info YAML फाइल में सम्मिलित करें'
     arguments:
-        view-id: 'आईडी देखें'
+        view-id: 'व्यू क्रमांक'
     options:
-        optional-config: 'Export view as an optional YAML configuration in your module'
-        include-module-dependencies: 'Include module dependencies in module info YAML file'
+        optional-config: 'व्यू को ऐच्छिक YAML व्यवस्था स्वरूप अपने मॉड्यूल में निर्यात करें'
+        include-module-dependencies: 'व्यू मॉड्यूल निर्भरता को मॉड्यूल info YAML फाइल में सम्मिलित करें'

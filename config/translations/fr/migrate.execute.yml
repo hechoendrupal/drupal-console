@@ -3,6 +3,7 @@ arguments:
     id: 'Migration Id'
 options:
     site-url: 'Site Source URL'
+    db-file: 'Database File'
     db-host: 'Database Host'
     db-name: 'Database Name'
     db-user: 'Database User'
@@ -12,9 +13,10 @@ options:
     exclude: 'Migration id(s) to exclude'
 questions:
     id: 'Migration Id'
-    exclude-id: 'Migration Id to exlude (press <return> to stop adding migrations)'
+    exclude-id: 'Migration Id to exclude (press <return> to stop adding migrations to exclude)'
     other-id: 'Other migration id (press <return> to stop adding migrations)'
     site-url: 'Source Site URL'
+    db-file: 'Database File'
     db-host: 'Database Host'
     db-name: 'Database Name'
     db-user: 'Database User'

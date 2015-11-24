@@ -1,6 +1,8 @@
-description: 'Uninstall module or modules in the application'
+description: 'Desinstala un módulo o varios en la aplicación'
+options:
+    module: 'Los módulos a ser desinstalado(s) deben ser separados por una coma'
 messages:
-    no-modules: 'You must provide module or modules to enable.'
-    dependents: 'Unable to uninstall modules %s because are required by %s'
-    nothing: 'Nothing to do. All modules are already uninstalled'
-    success: 'Modules %s were uninstalled successfully'
+    no-modules: 'Debe indicar por lo menos un módulo a desinstalar.'
+    dependents: 'Imposible desinstalar los módulos %s porque son requeridos por %s'
+    nothing: 'Nada que hacer. Todos los módulos ya están desinstalados'
+    success: 'Los módulos %s fueron desinstalados con éxito'

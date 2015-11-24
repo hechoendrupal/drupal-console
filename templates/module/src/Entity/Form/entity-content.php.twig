@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-Drupal\{{module}}\Entity\Form\{{ entity_class }}Form.
+\Drupal\{{module}}\Entity\Form\{{ entity_class }}Form.
 {% endblock %}
 
 {% block namespace_class %}
@@ -33,7 +33,7 @@ class {{ entity_class }}Form extends ContentEntityForm {% endblock %}
     $form['langcode'] = array(
       '#title' => $this->t('Language'),
       '#type' => 'language_select',
-      '#default_value' => $entity->getUntranslated()->language()->getId(),
+      '#default_value' => $entity->langcode->value,
       '#languages' => Language::STATE_ALL,
     );
 

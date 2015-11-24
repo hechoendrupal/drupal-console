@@ -1,44 +1,47 @@
 console:
     arguments:
-        drupal: 'Path to Drupal root.'
-        shell: 'Launch the shell.'
-        env: 'The Environment name.'
-        no-debug: 'Switches off debug mode.'
-        learning: 'Generate a verbose code output.'
-        generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
-        generate-inline: 'Print execution options and arguments as inline call to be use in the future'
+        drupal: 'Drupal根目录路径。'
+        shell: 启动命令行。
+        env: 环境名称。
+        no-debug: '关闭调试模式。'
+        learning: '生成冗长的代码输出。'
+        generate-chain: '把执行选项和参数以yaml格式打印出来，作为连串命令'
+        generate-inline: 把执行选项和参数以直接调用的形式打印出来，为未来使用
+        root: 'Define the Drupal root to be use in command execution'
+        uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
     messages:
-        completed: 'The command was executed successfully!'
+        completed: 此命令执行成功！
         chain:
-            generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
+            generated: '以下你可以找到以yaml呈现的你的最后一条执行命令。例如，被执行的一系列命令里有 ~/.console/chain/sample.yml'
         inline:
-            generated: 'Following you can find the inline representation of this command to re-execute this command later'
-        generated: 'You can now start using the generated code!'
+            generated: '以下你可以找到直接调用的你的最后一条执行命令，可再次执行'
+        generated: '你可以现在开始使用生成的代码！'
         files:
-            generated: 'Generated or updated files'
-            copied: 'Copied files'
+            generated: '被生成的或者被更新的文件'
+            copied: 被复制的文件
         learning:
-            route: "In order to to create pages it is necessary to define routes for them.\nA route maps a URL path to a controller. It defines with what function\nor method will be called when a URL is accessed.\nIf the user accesses http://drupal8.dev/{{ route }}, the routing\nsystem will look for a route with that path. In this case it will find a\nmatch, and execute the _controller callback. In this case the callback is\ndefined as a classname\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nand a method (\"{{ route.method }}\")."
+            route: "为了创建页面，必须先定义这些页面的路线。\n路线是把一个URL定义到一个控制器上。当这个URL被访问，它定义了功能或方法。\n 如果用户访问http://drupal8.dev/{{ route }}, 这个路线系统将查找相关路线，因此它会执行_controller callback。 这里的callback被定义为一个类名(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\n和一个方法 (\"{{ route.method }}\")."
+        autocomplete: "Bash or Zsh: Add this line to your shell configuration file:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Create a symbolic link\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
     errors:
-        invalid-command: 'Command "%s" is not defined.'
+        invalid-command: '命令 "%s" 没有被定义过。'
     input:
         definition:
             command: 要执行的命令
             help: 显示此帮助消息
-            quiet: 'Do not output any message'
-            verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
-            version: 'Display this application version'
-            ansi: 'Force ANSI output'
-            no-ansi: 'Disable ANSI output'
-            no-interaction: 'Do not ask any interactive question'
+            quiet: 不要输出任何消息
+            verbose: '增大信息的描述性：选项1） 正常输出，选项2）更多描述性输出，选项3）调试输出'
+            version: 显示此应用版本
+            ansi: 强制ANSI输出
+            no-ansi: '关闭ANSI输出'
+            no-interaction: 不要询问任何交互式问题
     options:
         version: '<info>%s</info> 版本 <comment>%s</comment>'
 site:
     messages:
-        path: 'Site path'
+        path: 站点路径
     errors:
-        directory: 'In order to list all of the available commands, you should run this inside a drupal root directory.'
-        settings: 'In order to list all of the available commands you should install drupal first.'
+        directory: '为显示所有可用命令，你应该在Drupal根目录下执行此命令。'
+        settings: '为显示所有可用命令，你应该先安装Drupal。'
 user:
     messages:
-        path: 'User home path'
+        path: 用户home路径

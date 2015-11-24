@@ -5,42 +5,42 @@ messages:
     directory: 'Votre exportation de configuration a été sauvegardée dans %s'
 content:
     type:
-        description: 'Export a specific content type and their fields.'
+        description: 'Exporte un type de contenu ainsi que ses champs.'
         arguments:
-            content_type: 'Content Type to be exported'
+            content_type: 'Type de contenu à exporter'
         questions:
-            content_type: 'Content Type to be exported'
-            optional-config: 'Export content type in module as an optional configuration'
+            content_type: 'Type de contenu à exporter'
+            optional-config: 'Exporter le type de contenu dans un module comme une configuration optionnelle'
         messages:
-            content_type_exported: 'Exporting content type'
-            configuration_exported: 'The following configuration files were generated'
+            content_type_exported: 'Export du type de contenu'
+            configuration_exported: 'Les fichiers de configuration suivants ont été générés'
         options:
-            optional-config: 'Export content type as an optional YAML configuration in your module'
+            optional-config: 'Exporte le type de contenu dans un module comme une configuration optionnelle au sein du module'
 single:
-    description: 'Export single configuration as yml file.'
+    description: 'Exporte une seule configuration dans un fichier yml.'
     arguments:
-        config-name: 'Configuration name.'
+        config-name: 'Nom de la configuration.'
     options:
-        simple-configuration: 'Simple configuration'
+        simple-configuration: 'Configuration simple'
     questions:
-        config-type: 'Configuration type'
-        config-name: 'Configuration name'
+        config-type: 'Type de configuration'
+        config-name: 'Nom de la configuration'
     messages:
-        config-not-found: 'Configuration name not found.'
-        export: 'Configuration was exported at file %s.'
-        invalid-config-type: 'Invalid config type, please select one of the list'
-        invalid-config-name: 'Invalid config name, please select one of the list'
+        config-not-found: 'La configuration n''a pas été trouvée.'
+        export: 'La configuration a été exporté dans le fichier %s.'
+        invalid-config-type: 'Type de configuration non valide, merci de sélectionner un élément de la liste'
+        invalid-config-name: 'Nom de configuration non valide, merci de sélectionner un élément de la liste'
 view:
-    description: 'Export a view in YAML format inside a provided module to reuse in other website.'
+    description: 'Exporte une vue vue dans le format YAML au sein d''un module pour la réutiliser sur un autre site.'
     messages:
-        view_exported: 'Exporting view'
-        depencies-included: 'The following module dependencies were included at %s'
+        view_exported: 'Export de la vue'
+        depencies-included: 'Les dépendances de modules suivantes ont été ajoutées dans %s'
     questions:
-        view: 'View to be exported'
-        optional-config: 'Export view in module as an optional configuration'
-        include-module-dependencies: 'Include view module dependencies in module info YAML file'
+        view: 'Vue à exporter'
+        optional-config: 'Exporter la vue dans un module comme une configuration optionnelle'
+        include-module-dependencies: 'Ajouter le module views comme dépendance dans le fichier info YAML du module'
     arguments:
-        view-id: 'View ID'
+        view-id: 'Identifiant de la vue'
     options:
-        optional-config: 'Export view as an optional YAML configuration in your module'
-        include-module-dependencies: 'Include module dependencies in module info YAML file'
+        optional-config: 'Export la vue dans un module comme une configuration optionnelle dans votre module'
+        include-module-dependencies: 'Include les dépendances de module dans le fichier info YAML du module'

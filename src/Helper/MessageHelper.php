@@ -7,24 +7,10 @@
 
 namespace Drupal\Console\Helper;
 
-use Symfony\Component\Console\Helper\Helper;
-use Drupal\Console\Helper\TranslatorHelper;
+use Drupal\Console\Helper\Helper;
 
 class MessageHelper extends Helper
 {
-    /**
-     * @param TranslatorHelper $translator
-     */
-    public function __construct(TranslatorHelper $translator)
-    {
-        $this->translator = $translator;
-    }
-
-    /**
-     * @var TranslatorHelper
-     */
-    protected $translator;
-
     /**
      * @var string
      */
@@ -41,6 +27,10 @@ class MessageHelper extends Helper
      * @var string
      */
     const MESSAGE_SUCCESS = 'success';
+    /**
+     * @var string
+     */
+    const MESSAGE_DEFAULT = 'default';
 
     /**
      * @var array
@@ -50,6 +40,7 @@ class MessageHelper extends Helper
         self::MESSAGE_WARNING,
         self::MESSAGE_INFO,
         self::MESSAGE_SUCCESS,
+        self::MESSAGE_DEFAULT,
     ];
 
     /**
@@ -109,17 +100,26 @@ class MessageHelper extends Helper
         if ($type == self::MESSAGE_SUCCESS) {
             $style = 'bg=green;fg=white';
         }
-        $output->writeln(
-            [
+        if ($type == self::MESSAGE_DEFAULT) {
+            $style = 'fg=green';
+        }
+
+        $outputMessage = [
             '',
-            $this->getHelperSet()->get('formatter')->formatBlock(
+            $this->getFormatterHelper()->formatBlock(
                 $message,
                 $style,
                 false
             ),
             '',
-            ]
-        );
+        ];
+
+        if ($type == self::MESSAGE_DEFAULT) {
+            unset($outputMessage[2]);
+            unset($outputMessage[0]);
+        }
+
+        $output->writeln($outputMessage);
     }
 
     /**
@@ -129,6 +129,14 @@ class MessageHelper extends Helper
     private function addMessage($message, $type)
     {
         $this->messages[$type][] = $message;
+    }
+
+    /**
+     * @param string $message
+     */
+    public function addDefaultMessage($message)
+    {
+        $this->addMessage($message, self::MESSAGE_DEFAULT);
     }
 
     /**
@@ -174,7 +182,7 @@ class MessageHelper extends Helper
             $files,
             'application.console.messages.files.generated',
             'application.site.messages.path',
-            DRUPAL_ROOT
+            $this->getDrupalHelper()->getRoot()
         );
     }
 
@@ -208,13 +216,13 @@ class MessageHelper extends Helper
 
         $this->showMessage(
             $output,
-            $this->translator->trans($headerKey)
+            $this->getTranslator()->trans($headerKey)
         );
 
         $output->writeln(
             sprintf(
                 '<info>%s:</info> <comment>%s</comment>',
-                $this->translator->trans($pathKey),
+                $this->getTranslator()->trans($pathKey),
                 $path
             )
         );

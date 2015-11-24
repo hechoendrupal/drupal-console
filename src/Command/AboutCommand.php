@@ -7,8 +7,6 @@
 
 namespace Drupal\Console\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -24,6 +22,7 @@ class AboutCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $renderer = $this->getRenderHelper();
+        $application = $this->getApplication();
 
         $features = [
           $this->trans('commands.about.messages.welcome-feature-learn'),
@@ -34,12 +33,12 @@ class AboutCommand extends Command
         $consoleVersion = sprintf(
             '%s <info>%s</info>',
             $this->trans('commands.site.status.messages.console'),
-            $this->getApplication()->getVersion()
+            $application->getVersion()
         );
 
         $supportedVersion = sprintf(
             $this->trans('commands.about.messages.version-supported'),
-            'Drupal 8 Beta 15'
+            $application::DRUPAL_VERSION
         );
 
         $links = [

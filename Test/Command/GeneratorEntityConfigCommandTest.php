@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GeneratorEntityConfigCommand;
+use Drupal\Console\Command\Generate\EntityConfigCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\EntityConfigDataProviderTrait;
 
@@ -30,8 +30,7 @@ class GeneratorEntityConfigCommandTest extends GenerateCommandTest
         $entity_class,
         $label
     ) {
-        $command = new GeneratorEntityConfigCommand($this->getHelperSet());
-        $command->setContainer($this->getContainer());
+        $command = new EntityConfigCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 

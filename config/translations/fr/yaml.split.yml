@@ -1,9 +1,11 @@
-description: 'Split a YAML file using indent as separator criteria'
+description: 'Divise un fichier YAML en utilisant un séparateur'
 arguments:
-    yaml-file: 'Path of YAML file to be splitted'
+    yaml-file: 'Chemin vers le fichier YAML à diviser'
 options:
-    indent-level: 'Split YAML file using a specific indent level'
-    exclude-parents-key: 'Exclude parents key in file name generated'
+    indent-level: 'Divise le fichier YAML en utilisant un niveau d''indentation spécifique'
+    exclude-parents-key: 'Exlure les clé parentes des noms de fichiers générés'
+    starting-key: 'Clé YAML à partir de laquelle démmarer la division'
 messages:
-    generating-split: 'Generating new files'
-    split-generated: 'File %s was generated'
+    generating-split: 'Génération des nouveaux fichiers'
+    split-generated: 'Le fichier %s a été généré'
+    invalid-key: 'La clé fournie comme clé de départ n''a pas été trouvée, combinez avec l''option indent-level à la valeur 0 afin d''extraire les valeurs'

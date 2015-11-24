@@ -1,8 +1,10 @@
-description: 'Import configuration to current application.'
+description: 'Konfiguráció importálása az aktuális aplikációba.'
 arguments:
-    config-file: 'Configuration file path.'
-    copy-only: 'Copy only configuration files in staging directory.'
+    file: 'Configuration file path.'
+    remove-files: 'Remove files after syncronization.'
+    config-file: 'Konfigurációs fájl útvonala.'
+    copy-only: 'Csak a konfigurációs fájlok mentése az átmeneti könyvtárba.'
 messages:
-    config_files_imported: 'List of config files.'
-    copied: 'All config files were copied to staging directory.'
-    imported: 'All config files were copied to staging directory and imported.'
+    config_files_imported: 'Konfigurációs fájlok listája.'
+    imported: 'Az összes konfigurációs fájl át lett másolva és importálva lett az átmeneti könyvtárba.'
+    copied: 'Az összes konfigurációs fájl át lett másolva az átmeneti könyvtárba.'

@@ -1,9 +1,9 @@
-description: 'Displays current routes for the application'
+description: 'Muestra las rutas actuales de la aplicación'
 arguments:
-    route-name: 'Route names'
+    route-name: 'Nombres de ruta'
 messages:
-    name: 'Route name'
-    path: 'Class path'
-    pattern: Pattern
-    defaults: Defaults
-    options: Options
+    name: 'Nombre de ruta'
+    path: 'Directorio de la clase'
+    pattern: Patrón
+    defaults: 'Valores por defecto'
+    options: Opciones

@@ -1,0 +1,21 @@
+description: 'Instalar tema o temas en la aplicación'
+questions:
+    theme: 'nombre del tema (presione <enter> para detener el agregado de temas)'
+    invalid-theme: '%s tema no válido'
+options:
+    theme: 'tema o temas que serán activados deberían estar separados por comas'
+    overwrite-config: 'Sobrescribir la configuración activa si es necesario'
+    set-default: 'Establecer como tema por defecto'
+messages:
+    no-themes: 'Debe proveer uno o varios temas para activar.'
+    themes-missing: 'Imposible instalar temas %s debido a que no estan disponibles'
+    theme-missing: 'Imposible instalar tema %s debido a que no esta disponible'
+    missing-dependencies: 'Imposible instalar temas %s debido a la falta de dependencias %s'
+    themes-nothing: 'Nada que hacer. Todos los temas %s ya estan instalados'
+    theme-nothing: 'Nada que hacer. El tema %s ya esta instalado'
+    dependencies: 'Esta seguro que quiere instalar las dependencias: %s?'
+    theme-success: 'El tema %s ha sido instalado satisfactoriamente'
+    themes-success: 'Los temas %s fueron instalados satisfactoriamente'
+    theme-default-success: 'El tema %s ha sido instalado satisfactoriamente como tema por defecto'
+    disabled-themes: 'Solo desactivar temas que serán listados en autocompletar'
+    invalid-theme-default: 'La opción por defecto es válida solo para un tema'

@@ -26,9 +26,14 @@ questions:
         description: Description
         default-value: 'Default value'
         weight: 'Weight for input item'
+        title: Title
+        fieldset: Fieldset
 errors:
     module-dependency: 'Missing module dependency "%s"'
     class-name-empty: 'The Class name can not be empty'
 status:
     enabled: Enabled
     disabled: Disabled
+messages:
+    canceled: 'Generated Cancelled'
+    drupal-core: 'Drupal Core'

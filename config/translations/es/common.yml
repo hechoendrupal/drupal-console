@@ -1,34 +1,39 @@
 options:
-    events: 'Load events from the container'
+    events: 'Cargar eventos desde el contenedor.'
     module: 'Nombre del módulo.'
-    services: 'Cargar servicios desde el ''container''.'
+    services: 'Cargar servicios desde el contenedor.'
     tags: 'Asignar etiquetas de servicio desde el contenedor.'
-    inputs: 'Crear campos de entradas de formulario.'
+    inputs: 'Crear campos de entrada en un formulario.'
     permissions: 'Crear permisos.'
 questions:
     module: 'Escriba el nombre del módulo'
-    confirm: 'Confirmar generacion'
+    confirm: '¿Confirmas generación?'
     canceled: 'Comando de generacion cancelado.'
     events:
-        message: "\nType the event name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
-        name: 'Enter event name'
+        message: "\nEscribe el nombre del evento o usa la tecla flecha hacia arriba o flecha hacia abajo.\nEsto es opcional, presione <info>enter</info> para <info>continuar</info>\n"
+        name: 'Introduzca el nombre del evento'
     services:
         confirm: 'Deseas cargar los servicios del contenedor'
-        message: "\nEscriba el nombre del servicio o use la tecla keyup o keydown.\nEsto es opcional, presione <info>enter</info para <info>continuar</info>\n"
+        message: "\nEscribe el nombre del servicio o usa la tecla flecha hacia arriba o flecha hacia abajo.\nEsto es opcional, presione <info>enter</info para <info>continuar</info>\n"
         name: 'Introduzca su servicio'
     inputs:
-        confirm: 'Quieres generar una estrctura de formulario'
-        label: 'Etiquita del campo de entrada'
-        machine_name: 'Introduzca el nombre de maquina'
-        permission: 'Quieres generar permisos'
+        confirm: '¿Deseas generar la estructura de un formulario?'
+        label: 'Etiqueta del campo de entrada'
+        machine_name: 'Introduzca el nombre de máquina'
+        permission: '¿Deseas generar permisos?'
         type: Tipo
         invalid: 'El campo de tipo "%s" es inválido.'
         description: Descripción
-        default-value: 'Default value'
-        weight: 'Weight for input item'
+        default-value: 'Valor por defecto'
+        weight: 'Peso para el elemento ''input''.'
+        title: Título
+        fieldset: 'Conjunto de campos'
 errors:
     module-dependency: 'Depencia "%s" del modulo faltante'
-    class-name-empty: 'El nombre de la Clase no puede estér psavia'
+    class-name-empty: 'El nombre de la Clase no puede estar vacío.'
 status:
-    enabled: Enabled
-    disabled: Disabled
+    enabled: Habilitado
+    disabled: Deshabilitado
+messages:
+    canceled: 'Generación Cancelada'
+    drupal-core: 'Core de Drupal'

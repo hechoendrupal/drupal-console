@@ -10,20 +10,12 @@ namespace Drupal\Console\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Generator\AutocompleteGenerator;
+use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Finder\Finder;
 
 class InitCommand extends Command
 {
-    private $files = [
-      [
-        'source' => 'config/dist/config.yml',
-        'destination' => 'config.yml',
-      ],
-      [
-        'source' => 'config/dist/chain.yml',
-        'destination' => 'chain/sample.yml',
-      ],
-    ];
-
     /**
      * {@inheritdoc}
      */
@@ -48,8 +40,7 @@ class InitCommand extends Command
         $application = $this->getApplication();
         $config = $application->getConfig();
         $message = $this->getMessageHelper();
-        $basePath = __DIR__.'/../../';
-        $userPath = $config->getUserHomeDir().'/.console/';
+        $userPath = sprintf('%s/.console/', $config->getUserHomeDir());
         $copiedFiles = [];
 
         $override = false;
@@ -57,19 +48,74 @@ class InitCommand extends Command
             $override = $input->getOption('override');
         }
 
-        foreach ($this->files as $file) {
-            $source = $basePath.$file['source'];
-            $destination = $userPath.'/'.$file['destination'];
+        $finder = new Finder();
+        $finder->in(sprintf('%s/config/dist', $application->getDirectoryRoot()));
+        $finder->name("*.yml");
+
+        foreach ($finder as $configFile) {
+            $source = sprintf(
+                '%s/config/dist/%s',
+                $application->getDirectoryRoot(),
+                $configFile->getRelativePathname()
+            );
+            $destination = sprintf(
+                '%s/%s',
+                $userPath,
+                $configFile->getRelativePathname()
+            );
             if ($this->copyFile($source, $destination, $override)) {
-                $copiedFiles[] = $file['destination'];
+                $copiedFiles[] = $configFile->getRelativePathname();
             }
         }
 
         if ($copiedFiles) {
             $message->showCopiedFiles($output, $copiedFiles);
         }
+
+        $this->createAutocomplete();
+        $output->writeln($this->trans('application.console.messages.autocomplete'));
     }
 
+    protected function createAutocomplete()
+    {
+        $generator = new AutocompleteGenerator();
+        $generator->setHelperSet($this->getHelperSet());
+
+        $application = $this->getApplication();
+        $config = $application->getConfig();
+        $userPath = $config->getUserHomeDir().'/.console/';
+
+        $processBuilder = new ProcessBuilder(array('bash'));
+        $process = $processBuilder->getProcess();
+        $process->setCommandLine('echo $_');
+        $process->run();
+        $fullPathExecutable = explode('/', $process->getOutput());
+        $executable = trim(end($fullPathExecutable));
+        $process->stop();
+
+        $generator->generate($userPath, $executable);
+    }
+
+    protected function getSkeletonDirs()
+    {
+        $module = $this->getModule();
+        if ($module != 'AppConsole') {
+            $drupal = $this->getDrupalHelper();
+            $drupal_root = $drupal->getRoot();
+            $skeletonDirs[] = $drupal_root.drupal_get_path('module', $module).'/templates';
+        }
+
+        $skeletonDirs[] = __DIR__.'/../../templates';
+
+        return $skeletonDirs;
+    }
+
+    /**
+     * @param string $source
+     * @param string $destination
+     * @param string $override
+     * @return bool
+     */
     public function copyFile($source, $destination, $override)
     {
         if (file_exists($destination) && !$override) {

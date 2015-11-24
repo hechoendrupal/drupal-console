@@ -1,4 +1,4 @@
-description: 'Enable a View'
+description: 'Activează un View'
 messages:
     disabled-successfully: 'View %s was enabled successfully.'
-disabled-successfully: 'View %s was enabled successfully.'
+    enabled-successfully: 'View-ul %s a fost activat cu succes.'

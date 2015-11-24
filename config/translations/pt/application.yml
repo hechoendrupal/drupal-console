@@ -7,6 +7,8 @@ console:
         learning: 'Generate a verbose code output.'
         generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
         generate-inline: 'Print execution options and arguments as inline call to be use in the future'
+        root: 'Define the Drupal root to be use in command execution'
+        uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
     messages:
         completed: 'The command was executed succesfully!'
         chain:
@@ -19,6 +21,7 @@ console:
             copied: 'Copied files'
         learning:
             route: "In order to to create pages it is necessary to define routes for them.\nA route maps a URL path to a controller. It defines with what function\nor method will be called when a URL is accessed.\nIf the user accesses http://drupal8.dev/{{ route }}, the routing\nsystem will look for a route with that path. In this case it will find a\nmatch, and execute the _controller callback. In this case the callback is\ndefined as a classname\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nand a method (\"{{ method_name }}\")."
+        autocomplete: "Bash or Zsh: Add this line to your shell configuration file:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Create a symbolic link\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
     errors:
         invalid-command: 'Command "%s" is not defined.'
     input:

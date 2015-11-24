@@ -7,4 +7,5 @@ messages:
     downloading: '%s modul %s kiadásának letöltése'
     downloaded: 'Module %s version %s was downloaded successfully at %s'
     select-release: 'Please select your favorite release'
-    installed: '%s modul sikeresen telepítve lett'
+    outside-drupal: 'Drupal root can''t be determined. Use --root to set the destination, current folder will be used instead of.'
+    error-creating-folder: 'Error crearing folder %s, please check your permssions'

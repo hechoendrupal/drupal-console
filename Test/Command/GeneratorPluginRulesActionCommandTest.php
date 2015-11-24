@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GeneratorPluginRulesActionCommand;
+use Drupal\Console\Command\Generate\PluginRulesActionCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\PluginRulesActionDataProviderTrait;
 
@@ -36,8 +36,7 @@ class GeneratorPluginRulesActionCommandTest extends GenerateCommandTest
         $context,
         $type
     ) {
-        $command = new GeneratorPluginRulesActionCommand($this->getHelperSet());
-        $command->setContainer($this->getContainer());
+        $command = new PluginRulesActionCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 

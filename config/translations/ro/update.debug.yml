@@ -1,11 +1,11 @@
-description: 'Display current updates available for the application'
+description: 'Afişează actualizările disponibile pentru aplicaţie.'
 messages:
-    no-updates: 'No pending updates'
-    severity: Severity
-    title: Title
-    value: Value
-    description: Description
-    requirements-error: 'The following requirement weren''t completed'
-    module-list: 'Modules with pending updates'
-    module: Module
+    no-updates: 'Nu sunt actualizări în aşteptare.'
+    severity: Severitate
+    title: Titlu
+    value: Valoare
+    description: Descriere
+    requirements-error: 'Următoarele cerinţe nu au fost îndeplinite.'
+    module-list: 'Module cu actualizări în aşteptare.'
+    module: Modul
     update-n: 'Update N'

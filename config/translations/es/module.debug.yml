@@ -1,13 +1,13 @@
-description: 'Display current modules available for application'
+description: 'Muestra los módulos actualmente disponibles para la aplicación'
 options:
-    status: 'Module status [enabled|disabled]'
-    type: 'Module type [core|no-core]'
+    status: 'Estado del módulo [habilitado|deshabilitado]'
+    type: 'Tipo de módulo [core|no-core]'
 messages:
     id: ID
-    name: Name
-    status: Status
-    origin: Origin
-    package: Package
-    enabled: Enabled
-    disabled: Disabled
-    schema-version: 'Schema version'
+    name: Nombre
+    status: Estado
+    origin: Origen
+    package: Paquete
+    enabled: Habilitado
+    disabled: Deshabilitado
+    schema-version: 'Versión del Schema'
