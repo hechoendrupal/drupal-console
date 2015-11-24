@@ -1,6 +1,6 @@
 description: 'Displays current themes for the application'
 artguments:
-    theme: 'Specific theme to debug '
+    theme: 'Specific theme to debug'
 messages:
     theme-id: 'Id'
     theme-name: 'Name'

@@ -1,9 +1,9 @@
-description: 'List all known local and remote sites.'
-help: 'The <info>site:debug</info> list all known local and remote sites.'
+description: 'Listează toate siturile locale sau la distanță.'
+help: 'Lista <info>site:debug</info> tuturor situriloe locale și îndepărtate.'
 messages:
-    site: Site
-    host: Host
-    root: Root
-    directory-not-found: 'Sites local directory not found'
-    private-key: 'Error with private key'
-    connect-error: 'Error connecting to remote machine'
+    site: 'Sit'
+    host: 'Gazdă'
+    root: 'Rădăcină'
+    directory-not-found: 'Directorul local al sitului nu a fost găsit'
+    private-key: 'Eroare la cheia privată'
+    connect-error: 'Eroare la conectarea la mașina aflată la distanță'

@@ -1,12 +1,12 @@
-description: 'Generate a new config entity'
+description: 'Generează o entitate de configurare nouă'
 help: ''
 options:
     module: common.options.module
-    entity-class: 'The config entity class'
-    entity-name: 'The config entity name'
-    label: 'The label'
+    entity-class: 'Clasa entității de configurare'
+    entity-name: 'Numele entității de configurare'
+    label: 'Eticheta'
 questions:
     module: common.questions.module
-    entity-class: 'Enter the class of your new config entity'
-    entity-name: 'Enter the name of your new config entity'
-    label: 'Enter the label of your new config entity'
+    entity-class: 'Introduceți clasa noii dvs. entități de configurare'
+    entity-name: 'Introduceți numele noii dvs. entități de configurare'
+    label: 'Introduceți eticheta noii dvs. entități de configurare'
