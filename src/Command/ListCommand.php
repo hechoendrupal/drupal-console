@@ -39,7 +39,10 @@ class ListCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if ($input->getOption('xml')) {
-            @trigger_error('The --xml option was deprecated in version 2.7 and will be removed in version 3.0. Use the --format option instead.', E_USER_DEPRECATED);
+            $output->writeln(
+                '<info>The --xml option was deprecated in version 2.7 and will be removed in version 3.0. Use the --format option instead.</info>',
+                E_USER_DEPRECATED
+            );
             $input->setOption('format', 'xml');
         }
         $helper = new DescriptorHelper();

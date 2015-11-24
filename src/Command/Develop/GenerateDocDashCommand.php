@@ -182,9 +182,8 @@ PLIST;
         );
     }
 
-    private function registerCommand($command, $path)
+    private function registerCommand($command)
     {
-        // ->query("INSERT OR IGNORE INTO searchIndex(name, type, path) VALUES (\"$name\",\"$class\",\"$href\")");
         try {
             $statement = $this->sqlite->prepare('INSERT OR IGNORE INTO searchIndex(name, type, path) VALUES (:name, :type, :path)');
             $statement->bindValue(':name', $command->getName(), SQLITE3_TEXT);
@@ -196,7 +195,7 @@ PLIST;
                 SQLITE3_TEXT
             );
             $statement->execute();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
     }

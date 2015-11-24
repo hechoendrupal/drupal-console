@@ -10,7 +10,6 @@ namespace Drupal\Console\Command\Database;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Database;
 use Symfony\Component\Console\Helper\HelperInterface;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
@@ -19,9 +18,8 @@ trait DatabaseTrait
 {
     protected $database;
     /**
-     * @param InputInterface          $input
-     * @param OutputInterface         $output
-     * @param QuestionHelperInterface $question
+     * @param InputInterface  $input
+     * @param OutputInterface $output
      *
      * @return mixed
      */
