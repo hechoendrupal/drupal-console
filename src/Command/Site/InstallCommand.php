@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
+use Drupal\Core\Database\Database;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
 use Drupal\Console\Command\Database\DatabaseTrait;
 use Drupal\Console\Command\Command;
@@ -165,7 +166,7 @@ class InstallCommand extends Command
         }
 
         // Use default database setting if is available
-        $database = \Drupal\Core\Database\Database::getConnectionInfo();
+        $database = Database::getConnectionInfo();
         if (empty($database['default'])) {
 
             // --db-type option
