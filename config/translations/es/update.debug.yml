@@ -1,11 +1,11 @@
 description: 'Muestra las actualizaciones actualmente disponibles para la aplicación'
 messages:
     no-updates: 'No hay actualizaciones pendientes'
-    severity: Severity
-    title: Title
-    value: Value
-    description: Description
+    severity: Severidad
+    title: Título
+    value: Valor
+    description: Descripción
     requirements-error: 'El siguiente requisito no fue satisfecho'
     module-list: 'Módulos con actualizaciones pendientes'
-    module: Module
+    module: Módulo
     update-n: 'Actualizar N'

@@ -1,5 +1,5 @@
-description: 'Remove events from DBLog table, filters are available'
+description: 'Eliminar eventos de la tabla DBLog, filtros disponibles'
 messages:
-    event-deleted: 'Event %s was deleted'
-    clear-error: 'Clear process fail, please check used filters'
-    clear-sucess: 'Clear of events was successfully'
+    event-deleted: 'Evento %s fue eliminado'
+    clear-error: 'Proceso de eliminación falló, por favor revise los filtros utilizados'
+    clear-sucess: 'La eliminación de eventos fue exitosa'
