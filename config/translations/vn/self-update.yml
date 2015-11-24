@@ -1,5 +1,5 @@
-description: 'Update the console to latest version.'
-help: 'Update the console command to the latest version.'
+description: 'Cập nhật console vào phiên bản mới nhất.'
+help: 'Cập nhật câu lệnh console vào phiên bản mới nhất.'
 messages:
-    success: 'The console has been updated to the latest version.'
-    current-version: 'The latest version %s, was already installed on your system.'
+    success: 'Console vừa được cập nhật vào phiên bản mới nhất.'
+    current-version: 'Phiên bản mới nhất %s, đã được cài đặt trong hệ thống của bạn.'

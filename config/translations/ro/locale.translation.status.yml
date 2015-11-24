@@ -1,17 +1,17 @@
-description: 'List available translation updates'
+description: 'Listează actualizările de traducere disponibile'
 arguments:
-    language: 'Language for instance es or Spanish'
+    language: 'Limba, de exemplu, es sau Spanish'
 messages:
-    no-languages: 'No translatable languages available. Add a language first.'
-    up-to-date: 'All translations up to date.'
-    no-translations: 'No translation status available. Check manually'
-    project: Project
-    version: Version
-    local-age: 'Local age'
-    remote-age: 'Remote age'
-    info: Information
-    no-translation-files: 'No translation files are provided for development releases.'
-    file-not-found: 'File not found at %s nor at %s'
-    local-file-not-found: 'File not found at %s'
-    translation-not-determined: 'Translation file location could not be determined.'
-    translation-project-updated: Updated
+    no-languages: 'Nici o limbă translatabilă disponibilă. Mai întâi adăugați o limbă.'
+    up-to-date: 'Toate traducerile la zi.'
+    no-translations: 'Nici un status de traducere disponibil. Verificați manual'
+    project: 'Proiect'
+    version: 'Versiune'
+    local-age: 'Vârsta locală'
+    remote-age: 'Vârsta îndepărtată'
+    info: 'Informații'
+    no-translation-files: 'Nu sunt oferite fișiere de traducere pentru dezvoltare.'
+    file-not-found: 'Fișierul nu a fost găsit la %s nici la %s'
+    local-file-not-found: 'Fișierul nu a fost găsit la %s'
+    translation-not-determined: 'Locația fișierului de traducere nu a putut fi determinată.'
+    translation-project-updated: 'Actualizat'

@@ -1,20 +1,21 @@
-description: 'Run Test unit from tests available for application'
+description: 'Chạy các kiểm tra đơn vị từ chương trình kiểm tra có sẵn trong ứng dụng'
 arguments:
-    test-class: 'Test Class'
+    test-class: 'Kiểm tra Class'
 messages:
-    missing-dependency: 'Test can''t be executed due a missing dependency'
-    phpunit-pending: 'Logic to execute PHPUnit test is not implemented yet.'
-    starting-test: 'Starting test'
-    test-duration: 'Test duration'
-    test-pass: 'Test passes'
-    test-fail: 'Test fails'
-    test-exception: 'Test exceptions'
-    test-debug: 'Test debugs'
-    url-required: 'URL option is required to run test'
-    test-summary: 'Test Summary'
-    group: Group
-    status: Status
+    missing-dependency: 'Kiểm tra không thể thực hiện vì thiếu phần phụ thuộc'
+    phpunit-pending: 'Logic để thực hiện kiểm tra PHPUnit chưa được triển khai.'
+    starting-test: 'Đang bắt đầu kiểm tra'
+    test-duration: 'Kiểm tra quá trình'
+    test-pass: 'Kiểm tra các phần đã thông qua'
+    test-fail: 'Kiểm tra phần lỗi'
+    test-exception: 'Kiểm tra các ngoại lệ'
+    test-debug: 'Kiểm tra phần chỉnh lỗi'
+    url-required: 'Yêu cầu lựa chọn URL để chạy phần kiểm tra'
+    test-summary: 'Kiểm tra tóm tắt'
+    group: Nhóm
+    status: Trạng thái
     file: File
-    method: Method
-    line: Line
-    message: Message
+    method: Phương thức
+    line: Dòng
+    message: Tin nhắn
+

@@ -1,6 +1,6 @@
 description: 'Switch system performance configuration'
 arguments:
-    environment: 'Environment name (dev|prod)'
+    environment: 'Environment name [dev|prod]'
 messages:
     configuration: 'Configuration name'
     configuration-key: 'Configuration key'

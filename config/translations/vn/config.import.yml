@@ -1,10 +1,10 @@
-description: 'Import configuration to current application.'
+description: 'Nhập cấu hình tới ứng dụng hiện tại'
 arguments:
-    file: 'Configuration file path.'
-    remove-files: 'Remove files after syncronization.'
-    config-file: 'Configuration file path.'
-    copy-only: 'Copy only configuration files in staging directory.'
+    file: 'Cấu hình đường dẫn file'
+    remove-files: 'Xoá file sau khi đồng bộ.'
+    config-file: 'Cấu hình đường dẫn file'
+    copy-only: 'Chỉ copy các file cấu hình trong thư mục staging'
 messages:
-    config_files_imported: 'List of config files.'
-    imported: 'All config files were copied to staging directory and imported.'
-    copied: 'All config files were copied to staging directory.'
+    config_files_imported: 'Danh sách của các file cấu hình'
+    imported: 'Tất cả các file cấu hình đã được sao chép tới thư mục staging và dược import'
+    copied: 'Tất cả các file cấu hình đã được sao chép tới thư mục staging'

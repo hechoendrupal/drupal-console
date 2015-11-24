@@ -1,7 +1,7 @@
-description: 'Generate an Authentication Provider'
-help: 'The <info>generate:authentication:provider</info> command helps you generate a new Authentication Provider.'
+description: 'Phát sinh một người cung cấp xác nhận'
+help: 'The <info>generate:authentication:provider</info> Câu lệnh giúp bạn phát sinh một người cung cấp xác nhận mới.'
 options:
-    class: 'Authentication Provider class'
-    provider-id: 'Provider ID'
-    class-name: 'Authentication Provider class'
+    class: 'Lớp người cung cấp xác nhận'
+    provider-id: 'ID người cung cấp'
+    class-name: 'Lớp người cung cấp xác nhận'
 module: common.options.module

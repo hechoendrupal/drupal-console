@@ -1,6 +1,6 @@
 description: 'Generează un tip de conținut nou (nod / entitate)'
-help: 'Folosește: generate:contenttype <fancy> <Fancy> pentru a crea un nou tip de conținut cu fancy pentru numele de mașină și lizibil pentru om cu Fancy.'
-welcome: 'Bine ați venit la Generatorul de Content Type-uri Drupal'
+help: 'Folosiți: generate:contenttype <fancy> <Fancy> pentru a crea un nou tip de conținut cu fancy pentru numele de mașină și lizibil pentru om cu Fancy.'
+welcome: 'Bine ați venit la Generatorul de Tipuri de Conținut Drupal'
 options:
     module: common.options.module
     bundle-name: 'Numele mașină pentru tipul de conținut'
@@ -10,4 +10,4 @@ questions:
     bundle-name: 'Introduceți numele mașină pentru noul dumneavoastră tip de conținut.'
     bundle-title: 'Introduceți numele lizibil pentru noul dumneavoastră tip de conținut.'
 message:
-    error-state1: placeholder
+    error-state1: substituent

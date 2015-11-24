@@ -1,7 +1,7 @@
-description: 'Dump structure and contents of MySQL databases and tables'
+description: 'Descărcați structura și conținutul bazei de date MySQL și tabelele acesteia'
 arguments:
-    database: 'Database key from settings.php'
+    database: 'Cheia bazei de date din fișierul settings.php'
 options:
-    file: ' The filename for your database backup'
+    file: 'Numele fișierului pentru backup-ul bazei dvs. de date'
 messages:
-    success: 'Database exported to:'
+    success: 'Baza de date a fost exportată la:'
