@@ -182,7 +182,6 @@ class DrupalHelper extends Helper
         // Create a minimal mocked container to support calls to t() in the pre-kernel
         // base system verification code paths below. The strings are not actually
         // used or output for these calls.
-        // @todo Separate API level checks from UI-facing error messages.
         $container = new ContainerBuilder();
         $container->setParameter('language.default_values', Language::$defaultValues);
         $container
