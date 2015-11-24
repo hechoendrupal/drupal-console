@@ -1,6 +1,6 @@
-description: 'Download theme in application'
+description: 'Descarcă tema în aplicație'
 options:
-    version: 'Theme version i.e 1.x-dev'
+    version: 'Versiunea temei, de exv'
 messages:
     no-releases: 'There aren''t any releases for theme %s'
     getting-releases: 'Getting releases for theme %s'
