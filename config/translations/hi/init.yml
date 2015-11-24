@@ -1,1 +1,3 @@
-description: 'Copy configuration files to user home directory.'
+description: 'व्यवस्था फाइलो को उपभोगक्ता के होम डायरेक्टरी में प्रतिरुप करें।'
+options:
+    override: 'Override configurations files'

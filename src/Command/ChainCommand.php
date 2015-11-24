@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command;
 
-use Drupal\Console\Config;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -73,8 +72,10 @@ class ChainCommand extends ContainerAwareCommand
             return 1;
         }
 
-        $chainData = new Config($file);
-        $commands = $chainData->get('commands');
+        $configData = $this->getApplication()->getConfig()->getFileContents($file);
+        if (array_key_exists('commands', $configData)) {
+            $commands = $configData['commands'];
+        }
 
         foreach ($commands as $command) {
             $moduleInputs = [];

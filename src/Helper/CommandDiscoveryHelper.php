@@ -7,7 +7,7 @@
 namespace Drupal\Console\Helper;
 
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Console\Helper\Helper;
+use Drupal\Console\Helper\Helper;
 
 /**
  * Class CommandDiscovery
@@ -24,6 +24,20 @@ class CommandDiscoveryHelper extends Helper
      * @var array
      */
     protected $disabledModules = [];
+
+    /**
+     * @var bool
+     */
+    protected $develop = false;
+
+    /**
+     * CommandDiscoveryHelper constructor.
+     * @param bool $develop
+     */
+    public function __construct($develop)
+    {
+        $this->develop = $develop;
+    }
 
     /**
      * @param string $applicationRoot
@@ -69,11 +83,13 @@ class CommandDiscoveryHelper extends Helper
      */
     public function getCustomCommands()
     {
-        $modules = $this->getHelperSet()->get('site')->getModules();
+        $modules = $this->getSite()->getModules(true, false, false, true, false);
 
-        foreach ($this->disabledModules as $disabledModule) {
-            if (array_key_exists($disabledModule, $modules)) {
-                unset($modules[$disabledModule]);
+        if ($this->disabledModules) {
+            foreach ($this->disabledModules as $disabledModule) {
+                if (array_key_exists($disabledModule, $modules)) {
+                    unset($modules[$disabledModule]);
+                }
             }
         }
 
@@ -87,22 +103,22 @@ class CommandDiscoveryHelper extends Helper
     private function discoverCommands($modules)
     {
         $commands = [];
-        foreach ($modules as $module => $extension) {
-            if ($module === 'Console') {
+        foreach ($modules as $moduleName => $module) {
+            if ($moduleName === 'Console') {
                 $directory = sprintf(
                     '%s/src/Command',
-                    $extension['path']
+                    $module['path']
                 );
             } else {
                 $directory = sprintf(
                     '%s/%s/src/Command',
-                    $modules = $this->getHelperSet()->get('drupal')->getRoot(),
-                    $extension->getPath()
+                    $this->getDrupalHelper()->getRoot(),
+                    $module->getPath()
                 );
             }
 
             if (is_dir($directory)) {
-                $commands = array_merge($commands, $this->extractCommands($directory, $module));
+                $commands = array_merge($commands, $this->extractCommands($directory, $moduleName));
             }
         }
 
@@ -122,13 +138,22 @@ class CommandDiscoveryHelper extends Helper
             ->in($directory)
             ->depth('< 2');
 
+        $finder->exclude('Autowire');
+
+        if (!$this->develop) {
+            $finder->exclude('Develop');
+        }
+
         $commands = [];
 
         foreach ($finder as $file) {
             $className = sprintf(
                 'Drupal\%s\Command\%s',
                 $module,
-                $file->getBasename('.php')
+                str_replace(
+                    ['/', '.php'], ['\\', ''],
+                    $file->getRelativePathname()
+                )
             );
             $command = $this->validateCommand($className, $module);
             if ($command) {
@@ -160,25 +185,20 @@ class CommandDiscoveryHelper extends Helper
             return;
         }
 
-        if (!$this->getHelperSet()->get('drupal')->isInstalled() && $reflectionClass->isSubclassOf('Drupal\\Console\\Command\\ContainerAwareCommand')) {
+        if (!$this->getDrupalHelper()->isInstalled() && $reflectionClass->isSubclassOf('Drupal\\Console\\Command\\ContainerAwareCommand')) {
             return;
         }
 
         if ($reflectionClass->getConstructor()->getNumberOfRequiredParameters() > 0) {
             if ($module != 'Console') {
-                $this->getHelperSet()->get('translator')->addResourceTranslationsByModule($module);
+                $this->getTranslator()->addResourceTranslationsByModule($module);
             }
             $command = $reflectionClass->newInstance($this->getHelperSet());
         } else {
             $command = $reflectionClass->newInstance();
         }
-        $command->setModule($module);
 
-        if ($reflectionClass->isSubclassOf('Drupal\\Console\\Command\\ContainerAwareCommand')) {
-            $kernel = $this->getHelperSet()->get('kernel')->getKernel();
-            $container = $kernel->getContainer();
-            $command->setContainer($container);
-        }
+        $command->setModule($module);
 
         return $command;
     }

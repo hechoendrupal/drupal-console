@@ -1,7 +1,8 @@
-description: 'Display current migration available for the application'
+description: 'Muestra la migración actual disponible para la aplicación'
 arguments:
-    drupal-version: 'Drupal Version'
+    tag: 'Etiqueta de migración'
 messages:
-    id: 'Migration Id'
-    description: Description
-    version: Version
+    id: 'ID de la migración'
+    description: Descripción
+    no-migrations: 'No hay migraciones disponibles, intente ejecutar el comando: migrate:setup:migrations'
+    tags: Etiquetas

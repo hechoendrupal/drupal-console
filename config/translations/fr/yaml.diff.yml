@@ -1,14 +1,18 @@
-description: 'Compare two YAML files do determined differences between them'
+description: 'Compare deux fichiers YAML afin de trouver les différences'
 arguments:
-    yaml-left: 'YAML file used as base to compare'
-    yaml-right: 'YAML file used to determine missing or differences with base YAML file'
+    yaml-left: 'Fichier YAML de base'
+    yaml-right: 'Fichier YAML à comparer avec le fichier de base'
 options:
-    negate: 'Define mode diff or equal comparation, possible values TRUE/FALSE or 0/1'
-    limit: 'Limit results to a specific number'
-    offset: 'Starting point of a limit'
+    stats: 'Print statistics about YAML files comparation'
+    negate: 'Défini le mode de comparaison inverse, met en valeur ce qui est identique, les valeurs possibles sont TRUE/FALSE ou 0/1'
+    limit: 'Limiter le nombre de résultats'
+    offset: 'Décalage de départ'
 questions:
-    yaml-left: 'Path of YAML file to be use as base in comparation.'
-    yaml-right: 'Path of YAML file to be compare.'
+    yaml-left: 'Chemin du fichier YAML de base'
+    yaml-right: 'Chemin du fichier YAML à comparer avec le fichier de base'
 messages:
-    key: 'YAML Key'
-    value: 'YAML Value'
+    key: 'Clé YAML'
+    value: 'Valeur YAML'
+    total: 'Total: %s'
+    diff: 'Diff: %s'
+    equal: 'Equal: %s'

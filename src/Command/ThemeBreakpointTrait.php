@@ -20,7 +20,7 @@ trait ThemeBreakpointTrait
    */
     public function breakpointQuestion(OutputInterface $output, HelperInterface $dialog)
     {
-        $stringUtils = $this->getStringUtils();
+        $stringUtils = $this->getStringHelper();
         $validators = $this->getValidator();
 
         $breakpoints = [];

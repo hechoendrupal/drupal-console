@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GeneratorPluginFieldCommand;
+use Drupal\Console\Command\Generate\PluginFieldCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\PluginFieldDataProviderTrait;
 
@@ -50,8 +50,7 @@ class GeneratorPluginFieldCommandTest extends GenerateCommandTest
         $default_widget,
         $default_formatter
     ) {
-        $command = new GeneratorPluginFieldCommand($this->getHelperSet());
-        $command->setContainer($this->getContainer());
+        $command = new PluginFieldCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 

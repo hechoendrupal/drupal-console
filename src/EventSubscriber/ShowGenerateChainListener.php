@@ -2,12 +2,11 @@
 
 /**
  * @file
- * Contains \Drupal\Console\EventSubscriber\ShowGeneratedFiles.
+ * Contains \Drupal\Console\EventSubscriber\ShowGenerateChainListener.
  */
 
 namespace Drupal\Console\EventSubscriber;
 
-use Drupal\Console\Helper\TranslatorHelper;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -42,9 +41,8 @@ class ShowGenerateChainListener implements EventSubscriberInterface
         $this->skipArguments[] = $command_name;
 
         $application = $command->getApplication();
-        $messageHelper = $application->getHelperSet()->get('message');
-        /* @var TranslatorHelper */
-        $translatorHelper = $application->getHelperSet()->get('translator');
+        $messageHelper = $application->getMessageHelper();
+        $translatorHelper = $application->getTranslator();
 
         if ($event->getExitCode() != 0) {
             return;
@@ -81,8 +79,17 @@ class ShowGenerateChainListener implements EventSubscriberInterface
 
             $yaml = $dumper->dump($yaml, 10);
 
+            $yaml = str_replace(
+                sprintf('\'%s\'', $command_name),
+                $command_name,
+                $yaml
+            );
+
             // Print yaml output and message
-            $messageHelper->showMessage($output, $translatorHelper->trans('application.console.messages.chain.generated'));
+            $messageHelper->showMessage(
+                $output,
+                $translatorHelper->trans('application.console.messages.chain.generated')
+            );
 
             $output->writeln($yaml);
         }

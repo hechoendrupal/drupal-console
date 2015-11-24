@@ -1,4 +1,4 @@
-description: 'Generate an event subscriber'
+description: 'Genera un suscriptor de eventos'
 questions:
-    class-name: 'Class name'
-    callback-name: 'Callback function name to handle event'
+    class-name: 'Nombre de la clase'
+    callback-name: 'Nombre de la función de callback para manejar el evento'

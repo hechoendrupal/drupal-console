@@ -1,18 +1,18 @@
-description: 'Display current views resources for the application'
+description: 'Afişează resursele curente ale view-ului pentru aplicatie.'
 arguments:
-    view-id: 'View ID'
-    view-tag: 'View tag'
-    view-status: 'View status (Enabled|Disabled)'
+    view-id: ID
+    view-tag: etichetă
+    view-status: 'status (Enabled|Disabled)'
 messages:
-    view-id: 'View ID'
-    view-name: 'View name'
-    description: Description
-    tag: Tag
+    view-id: ID
+    view-name: Nume
+    description: Descriere
+    tag: Etichetă
     status: Status
-    path: Path
-    not-found: 'View %s wasn''t found.'
-    display-list: 'Display list'
+    path: Calea
+    not-found: 'View-ul %s nu a fost găsit.'
+    display-list: 'Afişează lista'
     display-id: ID
-    display-name: Name
-    display-description: Description
-    display-paths: Paths
+    display-name: Nume
+    display-description: Descriere
+    display-paths: Calea

@@ -7,8 +7,8 @@
 
 namespace Drupal\Console\Helper;
 
-use Symfony\Component\Console\Helper\Helper;
-use Drupal\Console\Console\Shell;
+use Drupal\Console\Helper\Helper;
+use Drupal\Console\Shell;
 
 class ShellHelper extends Helper
 {

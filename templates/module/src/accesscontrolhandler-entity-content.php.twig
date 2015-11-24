@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-Drupal\{{module}}\{{ entity_class }}AccessControlHandler.
+\Drupal\{{module}}\{{ entity_class }}AccessControlHandler.
 {% endblock %}
 
 {% block namespace_class %}
@@ -26,7 +26,7 @@ class {{ entity_class }}AccessControlHandler extends EntityAccessControlHandler 
   /**
    * {@inheritdoc}
    */
-  protected function checkAccess(EntityInterface $entity, $operation, $langcode, AccountInterface $account) {
+  protected function checkAccess(EntityInterface $entity, $operation, AccountInterface $account) {
 
     switch ($operation) {
       case 'view':

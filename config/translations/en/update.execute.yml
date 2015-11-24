@@ -1,4 +1,4 @@
-description: 'Execute a specfic Update N function in a module, or execute all'
+description: 'Execute a specific Update N function in a module, or execute all'
 options:
     update-n: 'Specific Update N function to be executed'
 messages:

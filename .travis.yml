@@ -21,7 +21,6 @@ before_script:
   - composer self-update
   - composer install --no-dev
   - curl -LSs https://box-project.github.io/box2/installer.php | php
-  - composer global require drush/drush:dev-master
   - composer global require drupal/coder:~8.1
 
 script:
@@ -29,11 +28,10 @@ script:
   - phpunit
   - php box.phar build
   - php console.phar --version
-  - php console.phar list
-  - ~/.composer/vendor/bin/drush dl drupal-8.0.0-beta16 --drupal-project-rename=drupal8.dev
+  - php console.phar site:new drupal8.dev 8.0.0 --no-interaction
   - cd drupal8.dev
-  - ~/.composer/vendor/bin/drush site-install standard --yes --account-name=root --account-pass=toor --db-url=sqlite:$PROJECT_DIR/drupal8.dev/sites/default/files/console.sqlite
-  - php ../console.phar chain --file=$PROJECT_DIR/config/dist/chain.yml
+  - php ../console.phar site:install standard --langcode=en --db-type=sqlite --db-file=sites/default/files/.ht.sqlite --site-name="Drupal 8 Site Install" --site-mail=admin@example.com --account-name=admin --account-mail=admin@example.com --account-pass=admin --no-interaction
+  - php ../console.phar chain --file=$PROJECT_DIR/config/dist/chain/sample.yml
   - ~/.composer/vendor/bin/phpcs --warning-severity=0 --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml $PROJECT_DIR/drupal8.dev/modules/custom/example
 
 notifications:

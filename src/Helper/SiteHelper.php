@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Helper;
 
-use Symfony\Component\Console\Helper\Helper;
+use Drupal\Console\Helper\Helper;
 use Drupal\Console\Utils\DrupalExtensionDiscovery;
 
 /**
@@ -23,29 +23,24 @@ class SiteHelper extends Helper
     private $modules;
 
     /**
-     * @var array
-     */
-    private $noCoreModules;
-
-    /**
      * @var string
      */
-    private $sitePath;
+    private $siteRoot;
 
     /**
      * @return string
      */
-    public function getSitePath()
+    public function getSiteRoot()
     {
-        return $this->sitePath;
+        return $this->siteRoot;
     }
 
     /**
-     * @param string $sitePath
+     * @param string $siteRoot
      */
-    public function setSitePath($sitePath)
+    public function setSiteRoot($siteRoot)
     {
-        $this->sitePath = $sitePath;
+        $this->siteRoot = $siteRoot;
     }
 
     /**
@@ -54,7 +49,7 @@ class SiteHelper extends Helper
     private function discoverModules()
     {
         /*
-         * @todo Remove DrupalExtensionDiscovery subclass once
+         * @see Remove DrupalExtensionDiscovery subclass once
          * https://www.drupal.org/node/2503927 is fixed.
          */
         $discovery = new DrupalExtensionDiscovery(\Drupal::root());
@@ -63,27 +58,71 @@ class SiteHelper extends Helper
         return $discovery->scan('module');
     }
 
-    public function getNoCoreModules()
+    /**
+     * @return array
+     */
+    private function getInstalledModules()
     {
-        if (!$this->noCoreModules) {
-            $this->getModules();
+        $kernel = $this->getKernelHelper()->getKernel();
+        if (!$kernel) {
+            return [];
         }
-
-        return $this->noCoreModules;
+        $container = $kernel->getContainer();
+        if (!$container) {
+            return [];
+        }
+        $configFactory = $container->get('config.factory');
+        if (!$configFactory) {
+            return [];
+        }
+        $coreExtension = $configFactory->get('core.extension');
+        if (!$coreExtension) {
+            return [];
+        }
+        return $coreExtension->get('module') ?: [];
     }
 
-    public function getModules($reset=false)
-    {
+    /**
+     * @param bool|false $reset
+     * @param bool|false $installedOnly
+     * @param bool|true  $showCore
+     * @param bool|true  $showNoCore
+     * @param bool|false $nameOnly
+     * @return array
+     */
+    public function getModules(
+        $reset = false,
+        $installedOnly = false,
+        $showCore = true,
+        $showNoCore = true,
+        $nameOnly = false
+    ) {
+        $installedModules = $this->getInstalledModules();
+        $modules = [];
+
         if (!$this->modules || $reset) {
             $this->modules = $this->discoverModules();
-            foreach ($this->modules as $module) {
-                if ($module->origin != 'core') {
-                    $this->noCoreModules[] = $module->getName();
-                }
+        }
+
+        foreach ($this->modules as $module) {
+            $name = $module->getName();
+            if ($installedOnly && !array_key_exists($name, $installedModules)) {
+                continue;
+            }
+            if (!$showCore && $module->origin == 'core') {
+                continue;
+            }
+            if (!$showNoCore && $module->origin != 'core') {
+                continue;
+            }
+            if ($nameOnly) {
+                $modules[] = $name;
+            } else {
+                $modules[$name] = $module;
             }
         }
 
-        return $this->modules;
+        return $modules;
     }
 
     /**
@@ -99,7 +138,7 @@ class SiteHelper extends Helper
 
         $modulePath = sprintf(
             '%s/%s',
-            $this->sitePath,
+            $this->siteRoot,
             $this->modules[$moduleName]->getPath()
         );
 
@@ -107,7 +146,7 @@ class SiteHelper extends Helper
             $modulePath = str_replace(
                 sprintf(
                     '%s/',
-                    $this->sitePath
+                    $this->siteRoot
                 ),
                 '',
                 $modulePath
@@ -260,6 +299,16 @@ class SiteHelper extends Helper
     {
         return $this->getModulePath($moduleName).'/config/translations';
     }
+
+    /**
+     * @param string $moduleName
+     * @return string
+     */
+    public function getRoutingPath($moduleName)
+    {
+        return $this->getModulePath($moduleName).'/src/Routing';
+    }
+
 
     /**
      * {@inheritdoc}

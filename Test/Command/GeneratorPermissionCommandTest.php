@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GeneratorPermissionCommand;
+use Drupal\Console\Command\Generate\PermissionCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\PermissionDataProviderTrait;
 
@@ -26,20 +26,18 @@ class GeneratorPermissionCommandTest extends GenerateCommandTest
         $module,
         $permissions
     ) {
-
-        $command = new GeneratorPermissionCommand($this->getHelperSet());
-        $command->setContainer($this->getContainer());
+        $command = new PermissionCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 
         $commandTester = new CommandTester($command);
 
         $code = $commandTester->execute(
-          [
+            [
             '--module'        => $module,
             '--permissions'   => $permissions,
-          ],
-          ['interactive' => false]
+            ],
+            ['interactive' => false]
         );
 
         $this->assertEquals(0, $code);

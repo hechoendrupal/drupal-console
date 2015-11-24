@@ -1,5 +1,5 @@
 options:
-    events: 'Load events from the container'
+    events: 'Esemémnyek betöltése a tárolóból'
     module: 'A Modul neve.'
     services: 'Service betöltése a container-ből.'
     tags: 'Service tag-ek hozzárendelése a container-hez.'
@@ -10,8 +10,8 @@ questions:
     confirm: 'Létrehozás megerősítése'
     canceled: 'Létrehozás parancs megszakítva.'
     events:
-        message: "\nType the event name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
-        name: 'Enter event name'
+        message: "\nEsemény neve vagy használja a le/fel billentyűt.\nEz opcionális, <info>enter</info> a <info>folytatáshoz</info>\n"
+        name: 'Esemény neve'
     services:
         confirm: 'Betölthető service a container-be'
         message: "\nService neve vagy fel és le billentyűk.\nEz opcionális, <info>enter</info> a <info>folytatáshoz</info>\n"
@@ -24,11 +24,16 @@ questions:
         type: Típus
         invalid: 'Mező típus "%s" helytelen.'
         description: Leírás
-        default-value: 'Default value'
-        weight: 'Weight for input item'
+        default-value: 'Alapértelmezett érték'
+        weight: 'A bemeneti elem súlya'
+        title: Title
+        fieldset: Fieldset
 errors:
     module-dependency: 'Hiányzó modul függőség "%s"'
     class-name-empty: 'A Class neve nem lehet üres'
 status:
     enabled: Enabled
     disabled: Disabled
+messages:
+    canceled: 'Generated Cancelled'
+    drupal-core: 'Drupal Core'

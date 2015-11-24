@@ -1,1 +1,3 @@
-description: 'Copy configuration files to user home directory.'
+description: 'Copiază fişierele de configurare în directorul de bază al utilizatorului.'
+options:
+    override: 'Override configurations files'

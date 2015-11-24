@@ -1,45 +1,48 @@
 console:
     arguments:
-        drupal: 'Path to Drupal root.'
-        shell: 'Launch the shell.'
-        env: 'The Environment name.'
-        no-debug: 'Switches off debug mode.'
-        learning: 'Generate a verbose code output.'
-        generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
-        generate-inline: 'Print execution options and arguments as inline call to be use in the future'
+        drupal: 'Drupal gyökérkönyvtára felé vezető útvonal.'
+        shell: 'Shell indítása.'
+        env: 'A Környezet neve.'
+        no-debug: 'Hibakeresés mód leállítása.'
+        learning: 'Részletes kimeneti kód generálása.'
+        generate-chain: 'Végrehajtási lehetőségek és argumentumok nyomtatása mint yaml kimenet amit késöbb egy parancsláncba használhat fel'
+        generate-inline: 'Végrehajtási lehetőségek és argumentumok nyomtatása beágyazott hívásként amit késöbb felhasználhat'
+        root: 'Define the Drupal root to be use in command execution'
+        uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
     messages:
         completed: 'A parancs futása sikeres volt!'
         chain:
-            generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
+            generated: 'A következőkben megtalálható az utolsó parancs yaml reprezentációja, amit bemásolhat egy ~/.console/chain/sample.yml fájlba ahhoz hogy egy parancssoron belül lehessen futtatni'
         inline:
-            generated: 'Following you can find the inline representation of this command to re-execute this command later'
-        generated: 'Aou can now start using the generated code!'
+            generated: 'A következőkben megtalálhatja ennek a kódnak a beágyazott ábrázolását ha később ezt a parancsot futtani szeretné'
+        generated: 'Most kezdheti használni a generált kódot!'
         files:
-            generated: 'Generated or updated files'
-            copied: 'Copied files'
+            generated: 'Generált vagy frissített fájlok'
+            copied: 'Másolt fájlok'
         learning:
             route: "Oldalak létrehozásához szükséges útvonal (route) meghatározása.\nA route határozza meg, hogy egy adott URL-t mely Controllernek adjuk át.\nMely metődust hív meg az adtt URL.\nHa a felhasználó betölti a http://drupal8.dev/{{ route }}, a route\nrendszer ellenőtzi, hogy mely route tartozik az URL-hez. Találat esetén\nvégrehajtja a _controller hívást. A hívás osztálynévként van definiálva\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nmetódus neve: (\"{{ method_name }}\")."
+        autocomplete: "Bash or Zsh: Add this line to your shell configuration file:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Create a symbolic link\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
     errors:
         invalid-command: 'A "%s" parancs nincs definiálva.'
     input:
         definition:
-            command: 'The command to execute'
-            help: 'Display this help message'
-            quiet: 'Do not output any message'
-            verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
-            version: 'Display this application version'
-            ansi: 'Force ANSI output'
-            no-ansi: 'Disable ANSI output'
-            no-interaction: 'Do not ask any interactive question'
+            command: 'A parancs amit végrehajt'
+            help: 'Kimeneti űzenet megjelentése'
+            quiet: 'Kimeneti űzenet tíltása'
+            verbose: 'Üzenetek gyakoriságának növelése: 1 normál kimenet, 2 részletes kimenet és 3 hibakeresésre'
+            version: 'Alkalmazás verzió megjelenítése'
+            ansi: 'ANSI kimenet kényszerítése'
+            no-ansi: 'ANSI kimenet letiltása'
+            no-interaction: 'Ne kérdezzen interaktiv kérdést'
     options:
         version: '<info>%s</info> version <comment>%s</comment>'
 site:
     messages:
         path: 'Elérési útvonal'
     errors:
-        directory: 'In order to list all of the available commands, you should run this inside a drupal root directory.'
+        directory: 'Ahhoz hogy az egész elérhető parancsot megjelenítsük, ezt a parancsot egy drupal gyökérkönyvtárból kell futtani.'
         settings: 'Az összes elérhető parancs megjelenítéséhez először a drupalt telepíteni kell.'
-        directorz: 'Az összes elérhető parancs megjelnítéséhez a console-nak a drupal könyvtárból kell futnia.'
+        directorz: 'Az összes elérhető parancs megjelenítéséhez a console-nak a drupal könyvtárból kell futnia.'
 user:
     messages:
-        path: 'User home path'
+        path: 'Felhasználói kezdő útvonal'

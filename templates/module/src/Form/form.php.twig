@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-Drupal\{{module_name}}\Form\{{ class_name }}.
+\Drupal\{{module_name}}\Form\{{ class_name }}.
 {% endblock %}
 
 {% block namespace_class %}
@@ -56,7 +56,7 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
    */
   protected function getEditableConfigNames() {
     return [
-      '{{module_name}}.{{class_name_short}}_config'
+      '{{module_name}}.{{class_name_short}}'
     ];
   }
 
@@ -71,12 +71,18 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = $this->config('{{module_name}}.{{class_name_short}}_config');
+    $config = $this->config('{{module_name}}.{{class_name_short}}');
 {% for input in inputs %}
+{% if input.fieldset|length %}
+    $form['{{ input.fieldset }}']['{{ input.name }}'] = array(
+{% else %}
     $form['{{ input.name }}'] = array(
+{% endif %}
       '#type' => '{{ input.type }}',
       '#title' => $this->t('{{ input.label }}'),
+{% if input.description|length %}
       '#description' => $this->t('{{ input.description }}'),
+{% endif %}
 {% if input.options|length %}
       '#options' => {{ input.options }},
 {% endif %}
@@ -86,7 +92,7 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
 {% if input.size|length %}
       '#size' => {{ input.size }},
 {% endif %}
-{% if input.type != 'password_confirm' %}
+{% if input.type != 'password_confirm' and input.type != 'fieldset' %}
       '#default_value' => $config->get('{{ input.name }}'),
 {% endif %}
     );
@@ -108,7 +114,7 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
 
-    $this->config('{{module_name}}.{{class_name_short}}_config')
+    $this->config('{{module_name}}.{{class_name_short}}')
 {% for input in inputs %}
       ->set('{{ input.name }}', $form_state->getValue('{{ input.name }}'))
 {% endfor %}

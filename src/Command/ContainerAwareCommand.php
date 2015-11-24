@@ -2,48 +2,29 @@
 
 namespace Drupal\Console\Command;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Drupal\Core\Extension\ExtensionDiscovery;
-
-abstract class ContainerAwareCommand extends Command implements ContainerAwareInterface
+abstract class ContainerAwareCommand extends Command
 {
-    private $container;
-
     private $services;
 
     private $events;
 
-    private $route_provider;
-
     /**
-     * @return ContainerInterface
+     * Gets the current container.
+     *
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface
+     *   A ContainerInterface instance.
      */
     protected function getContainer()
     {
-        if (null === $this->container) {
-            $this->container = $this->getKernelHelper()->getKernel()->getContainer();
-        }
-
-        return $this->container;
+        return $this->getKernelHelper()->getKernel()->getContainer();
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
-
-    /**
-     * [getModules description].
-     *
-     * @param bool $core Return core modules
+     * @param bool $group
      *
      * @return array list of modules
      */
-    public function getMigrations($group = false)
+    public function getMigrations($tag = false)
     {
         $entity_manager = $this->getEntityManager();
         $migration_storage = $entity_manager->getStorage('migration');
@@ -51,8 +32,8 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         $entity_query_service = $this->getEntityQuery();
         $query = $entity_query_service->get('migration');
 
-        if ($group) {
-            $query->condition('migration_groups.*', $group);
+        if ($tag) {
+            $query->condition('migration_tags.*', $tag);
         }
 
         $results = $query->execute();
@@ -61,9 +42,8 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
         $migrations = array();
         foreach ($migration_entities as $migration) {
-            $migrations[$migration->id()]['version'] = ucfirst($migration->migration_groups[0]);
-            $label = str_replace($migrations[$migration->id()]['version'], '', $migration->label());
-            $migrations[$migration->id()]['description'] = ucwords($label);
+            $migrations[$migration->id()]['tags'] = implode(', ', $migration->migration_tags);
+            $migrations[$migration->id()]['description'] = ucwords($migration->label());
         }
 
         return $migrations;
@@ -78,7 +58,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     /**
      * [geRest get a list of Rest Resouces].
      *
-     * @param bool $status return Rest Resources by status
+     * @param bool $rest_status return Rest Resources by status
      *
      * @return array list of rest resources
      */
@@ -137,11 +117,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
     public function getRouteProvider()
     {
-        if (null === $this->route_provider) {
-            $this->route_provider = $this->getContainer()->get('router.route_provider');
-        }
-
-        return $this->route_provider;
+        return $this->getContainer()->get('router.route_provider');
     }
 
     /**
@@ -241,6 +217,26 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         return $this->getContainer()->get('plugin.manager.views.display');
     }
 
+    public function getWebprofilerForms()
+    {
+        $profiler = $this->getContainer()->get('profiler');
+        $tokens = $profiler->find(null, null, 1000, null, '', '');
+
+        $forms = array();
+        foreach ($tokens as $token) {
+            $token = [$token['token']];
+            $profile = $profiler->loadProfile($token);
+            $formCollector = $profile->getCollector('forms');
+            $collectedForms = $formCollector->getForms();
+            if (empty($forms)) {
+                $forms = $collectedForms;
+            } elseif (!empty($collectedForms)) {
+                $forms = array_merge($forms, $collectedForms);
+            }
+        }
+        return $forms;
+    }
+
     public function getEntityQuery()
     {
         return $this->getContainer()->get('entity.query');
@@ -305,6 +301,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         return $this->getContainer()->get('system.manager');
     }
 
+
     /**
      * @return array
      */
@@ -340,7 +337,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
     public function validateModuleExist($module_name)
     {
-        return $this->getValidator()->validateModuleExist($module_name, $this->getSite()->getNoCoreModules());
+        return $this->getValidator()->validateModuleExist($module_name);
     }
 
     public function validateServiceExist($service_name, $services = null)
@@ -355,7 +352,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     public function validateModule($machine_name)
     {
         $machine_name = $this->validateMachineName($machine_name);
-        $modules = array_merge($this->getSite()->getModules(true), $this->getSite()->getModules(false));
+        $modules = $this->getSite()->getModules(false, false, true, true, true);
         if (in_array($machine_name, $modules)) {
             throw new \InvalidArgumentException(sprintf('Module "%s" already exist.', $machine_name));
         }

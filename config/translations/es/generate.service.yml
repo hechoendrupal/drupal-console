@@ -1,15 +1,15 @@
-description: 'Generate service'
-help: 'The <info>generate:service</info> command helps you generate a new service.'
-welcome: 'Welcome to the Drupal service generator'
+description: 'Genera un servicio'
+help: 'El comando <info>generate:service</info> le ayuda a crear un nuevo servicio.'
+welcome: 'Bienvenido al generador de servicios para Drupal'
 options:
     module: common.options.module
-    service-name: 'Service name'
-    class-name: 'Class name'
-    interface: Interface
+    service-name: 'Nombre del servicio'
+    class-name: 'Nombre de la clase'
+    interface: Interfaz
     services: common.questions.services
 questions:
     module: common.questions.module
-    service-name: 'Enter the service name'
-    class-name: 'Enter the Class name'
-    interface: 'Create an interface'
+    service-name: 'Introduzca el nombre del servicio'
+    class-name: 'Introduzca el nombre de la clase'
+    interface: 'Crear una interfaz'
     services: common.options.services
