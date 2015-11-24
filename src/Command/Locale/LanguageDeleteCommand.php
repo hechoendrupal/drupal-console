@@ -69,7 +69,7 @@ class LanguageDeleteCommand extends ContainerAwareCommand
                     $languageEntity->getName()
                 )
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $messageHelper->addErrorMessage(
                 $e->getMessage()
             );
