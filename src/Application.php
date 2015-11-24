@@ -27,11 +27,11 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '0.9.7';
+    const VERSION = '0.9.8';
     /**
      * @var string
      */
-    const DRUPAL_VERSION = 'Drupal 8 RC-3';
+    const DRUPAL_VERSION = 'Drupal 8.0.0';
     /**
      * @var Drupal\Console\Config
      */
