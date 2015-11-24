@@ -65,9 +65,7 @@ class EntityContentCommand extends EntityCommand
         $label = $input->getOption('label');
         $has_bundles = $input->getOption('has-bundles');
 
-        if ($has_bundles) {
-            $bundle_entity_name = $entity_name . '_type';
-        }
+        $bundle_entity_name = $has_bundles ? $entity_name . '_type' : null;
 
         $this
             ->getGenerator()
