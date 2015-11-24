@@ -1,5 +1,5 @@
 description: 'Rulează drush din consolă.'
-help: 'Utilizează modul interactiv pentru o experiență mai bună --shell.'
+help: 'Utilizați modul interactiv pentru o experiență mai bună --shell.'
 arguments:
     args: 'Argumentele pentru Drush.'
 messages:

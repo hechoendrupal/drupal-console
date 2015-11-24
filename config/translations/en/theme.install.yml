@@ -4,7 +4,7 @@ questions:
     invalid-theme: 'Invalid theme %s'
 options:
     theme: 'theme or themes to be installed should be separated by a comma'
-    overwrite-config: 'Overwrite configuration active if necessary'
+    overwrite-config: 'Overwrite active configuration if necessary'
     set-default: 'Set theme as default theme'
 messages:
     no-themes: 'You must provide theme or themes to install.'
