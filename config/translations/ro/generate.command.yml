@@ -6,14 +6,14 @@ options:
     controller-title: 'Titlul controlerului.'
     class-name: 'Numele Clasei "Command"'
     name: 'Numele comenzii.'
-    container-aware: 'Când este executa00000
+    container-aware: 'Când este executată comanda este conștientă de instalarea de drupal a sitului'
     command: 'Numele comenzii (Trebuie să se termine în cuvântul "Command").'
     container: 'Accesează serviciile containerului'
 questions:
     module: common.questions.module
     class-name: 'Introduceți Numele clasei'
-    name: 'Enter the Command name.'
-    container-aware: 'Is the command aware of the drupal site installation when executed?.'
+    name: 'Inroduceți Numele comenzii.'
+    container-aware: 'Când este executată comanda este conștientă de instalarea de drupal a sitului?'
     command: 'Introduceți Numele comenzii'
     container: 'Aveți nevoie să accesați serviciile containerului'
     controller-title: 'Titlul controlerului'
