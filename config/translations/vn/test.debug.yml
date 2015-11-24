@@ -1,15 +1,16 @@
-description: 'List Test Units available for the application.'
-help: 'Update the console command to the latest version.'
+description: 'Danh sách kiểm tra các đơn vị có sẵn của ứng dụng.'
+help: 'Cập nhật các câu lệnh console vào phiên bản mới nhất.'
 arguments:
-    test-class: 'Test Class'
+    test-class: 'Kiểm tra Class'
 options:
-    group: Group
+    group: Nhóm
 messages:
-    class: 'Test Class'
-    description: Description
-    group: Group
-    type: 'Test Type'
-    success: 'The console has been updated to the latest version.'
-    missing-dependency: 'Missing dependency'
-    methods: 'Test methods'
-    not-found: 'Debug wasn''t found, try enclosure test id between double quotes.'
+    class: 'Kiểm tra Class'
+    description: Mô tả
+    group: Nhóm
+    type: 'Kiểm tra theo Loại'
+    success: 'Console vừa được cập nhật vào phiên bản mới nhất.'
+    missing-dependency: 'Thiếu phần phụ thuộc'
+    methods: 'Kiểm tra các phương thức'
+    not-found: 'Bắt lỗi đã không được tìm thấy, thử cách li test id giữa dấu ngoặc kép.'
+
