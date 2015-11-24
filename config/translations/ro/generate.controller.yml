@@ -1,21 +1,21 @@
 description: 'Generează și Înregistrează un controller'
-help: 'Comanda <info>generate:controller</info> te va ajuta să generezi un controller nou.'
+help: 'Comanda <info>generate:controller</info> vă va ajuta să generați un controller nou.'
 welcome: 'Bine ați venit la Generatorul de Controllere Drupal'
 options:
     module: common.options.module
-    class-name: 'Numele Clasei pentru "Controller"'
-    controller-title: 'Title of the controller'
+    class-name: 'Numele clasei Controller'
+    controller-title: 'Titlul controlerului'
     method-name: 'Numele metodei'
-    route: 'Calea către "route"'
+    route: 'Calea rutei'
     services: common.options.services
-    test: 'Generează o clasă de test'
+    test: 'Generați o clasă de test'
 questions:
     module: common.questions.module
-    class-name: 'Introduceți numele clasei pentru "Controller"'
+    class-name: 'Introduceți numele clasei Controller'
     method-name: 'Introduceți numele metodei'
-    route: 'Introduceți calea spre "route"'
+    route: 'Introduceți calea rutei'
     services: common.questions.services
-    test: 'Doriți să generați o clasă "Unit Test"'
+    test: 'Doriți să generați o clasă de test unit'
     other-controller-title: 'Titlul controllerului (necompletat pentru a începe cu generarea codului)'
     controller-title: 'Titlul controllerului'
 messages:
