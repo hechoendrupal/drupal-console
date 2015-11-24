@@ -1,8 +1,8 @@
-description: 'Launch a DB client if it''s available'
+description: 'Lansează un client DB dacă este disponibil'
 arguments:
-    database: 'Database key from settings.php'
+    database: 'Cheia bazei de date din fișierul settings.php'
 messages:
-    database-not-found: 'Database %s connection info wasn''t found'
-    database-not-supported: 'Database type %s is not supported yet'
-    database-client-not-found: 'Database client %s wans''t found'
-    executing: 'Executing: %s'
+    database-not-found: 'Informațiile conexiunii bazei de date %s nu au fost găsite'
+    database-not-supported: 'Tipul bazei de date %s nu are suport încă'
+    database-client-not-found: 'Clientul bazei de date %s nu a fost găsit'
+    executing: 'Executare: %s'
