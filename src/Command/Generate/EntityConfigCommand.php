@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use Drupal\Console\Command\Generate\EntityCommand;
+use Drupal\Console\Generator\EntityConfigGenerator;
 
 class EntityConfigCommand extends EntityCommand
 {
@@ -65,5 +66,10 @@ class EntityConfigCommand extends EntityCommand
         $this
             ->getGenerator()
             ->generate($module, $entity_name, $entity_class, $label, $bundle_of);
+    }
+
+    protected function createGenerator()
+    {
+        return new EntityConfigGenerator();
     }
 }

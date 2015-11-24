@@ -69,7 +69,7 @@ class LanguageAddCommand extends ContainerAwareCommand
                     $language->getName()
                 )
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $messageHelper->addErrorMessage(
                 $e->getMessage()
             );

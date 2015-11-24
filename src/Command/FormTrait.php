@@ -32,6 +32,7 @@ trait FormTrait
               'checkboxes',
               'date',
               'datetime',
+              'fieldset',
               'email',
               'number',
               'password',
@@ -45,11 +46,32 @@ trait FormTrait
             ];
 
             $inputs = [];
+            $fieldsets = [];
             while (true) {
+
+                // Type input
+                $input_type = $dialog->askAndValidate(
+                    $output,
+                    $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.type'), 'textfield', ':'),
+                    function ($input) use ($input_types) {
+                        if (!in_array($input, $input_types)) {
+                            throw new \InvalidArgumentException(
+                                sprintf($this->trans('commands.common.questions.inputs.invalid'), $input)
+                            );
+                        }
+
+                        return $input;
+                    },
+                    false,
+                    'textfield',
+                    $input_types
+                );
+
                 // Label for input
+                $inputLabelMessage = $input_type == 'fieldset'?$this->trans('commands.common.questions.inputs.title'):$this->trans('commands.common.questions.inputs.label');
                 $input_label = $dialog->ask(
                     $output,
-                    $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.label'), '', ':'),
+                    $dialog->getQuestion('  '.$inputLabelMessage, '', ':'),
                     null
                 );
 
@@ -70,23 +92,25 @@ trait FormTrait
                     $input_machine_name
                 );
 
-                // Type input
-                $input_type = $dialog->askAndValidate(
-                    $output,
-                    $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.type'), 'textfield', ':'),
-                    function ($input) use ($input_types) {
-                        if (!in_array($input, $input_types)) {
-                            throw new \InvalidArgumentException(
-                                sprintf($this->trans('commands.common.questions.inputs.invalid'), $input)
-                            );
-                        }
+                if ($input_type == 'fieldset') {
+                    $fieldsets[$input_machine_name] = $input_label;
+                }
 
-                        return $input;
-                    },
-                    false,
-                    'textfield',
-                    $input_types
-                );
+                $input_fieldset = '';
+                if ($input_type != 'fieldset' && !empty($fieldsets)) {
+                    $input_fieldset = $dialog->askAndValidate(
+                        $output,
+                        $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.fieldset'), '', ':'),
+                        function ($fieldset) {
+                            return $fieldset;
+                        },
+                        false,
+                        '',
+                        $fieldsets
+                    );
+
+                    $input_fieldset = array_search($input_fieldset, $fieldsets);
+                }
 
                 $maxlength = null;
                 $size = null;
@@ -140,12 +164,14 @@ trait FormTrait
                     null
                 );
 
-                // Default value for input
-                $default_value = $dialog->ask(
-                    $output,
-                    $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.default-value'), '', ':'),
-                    null
-                );
+                if ($input_type != 'fieldset') {
+                    // Default value for input
+                    $default_value = $dialog->ask(
+                        $output,
+                        $dialog->getQuestion('  ' . $this->trans('commands.common.questions.inputs.default-value'), '', ':'),
+                        null
+                    );
+                }
 
                 // Weight for input
                 $weight = $dialog->ask(
@@ -164,7 +190,8 @@ trait FormTrait
                     'maxlength' => $maxlength,
                     'size' => $size,
                     'default_value' => $default_value,
-                    'weight' => $weight
+                    'weight' => $weight,
+                    'fieldset' => $input_fieldset,
                     )
                 );
             }

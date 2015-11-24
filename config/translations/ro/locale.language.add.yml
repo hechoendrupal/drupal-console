@@ -1,4 +1,4 @@
-description: 'Add a language to be supported by your site'
+description: 'Adaugă o limbă ce va avea suport pe situl dvs.'
 messages:
-    invalid-language: 'Language %s it''s an invalid language'
-    language-add-sucessfully: 'Language %s was added successfully.'
+    invalid-language: 'Limba %s nu este o limbă validă'
+    language-add-sucessfully: 'Limba %s a fost adăugată cu succes.'

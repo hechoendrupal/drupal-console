@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\GeneratorEntityContentCommand.
+ * Contains \Drupal\Console\Command\Generate\EntityContentCommand.
  */
 
 namespace Drupal\Console\Command\Generate;
@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Generate\EntityCommand;
+use Drupal\Console\Generator\EntityContentGenerator;
 
 class EntityContentCommand extends EntityCommand
 {
@@ -81,5 +82,10 @@ class EntityContentCommand extends EntityCommand
                 '--bundle-of' => $entity_name
             ]);
         }
+    }
+
+    protected function createGenerator()
+    {
+        return new EntityContentGenerator();
     }
 }

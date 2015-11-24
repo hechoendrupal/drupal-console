@@ -4,11 +4,11 @@ arguments:
     test-class: 'Clase del test'
     test-id: 'ID del test unitario'
 options:
-    group: Group
+    group: Grupo
 messages:
     class: 'Clase del test'
-    description: Description
-    group: Group
+    description: Descripción
+    group: Grupo
     type: 'Tipo de test'
     success: 'La consola ha sido actualizada a su última versión.'
     missing-dependency: 'Dependencia incumplida'

@@ -1,8 +1,8 @@
 description: 'Muestra la migración actual disponible para la aplicación'
 arguments:
-    tag: 'Migrate tag'
+    tag: 'Etiqueta de migración'
 messages:
     id: 'ID de la migración'
-    description: Description
-    no-migrations: 'There aren''t migrations available try to execute command: migrate:setup:migrations'
-    tags: Tags
+    description: Descripción
+    no-migrations: 'No hay migraciones disponibles, intente ejecutar el comando: migrate:setup:migrations'
+    tags: Etiquetas

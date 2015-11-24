@@ -171,10 +171,10 @@ class DebugCommand extends ContainerAwareCommand
      * Gets a list of paths assigned to the view.
      *
      * @param \Drupal\views\Entity\View $view
-     *                                        The view entity.
+     *      The view entity.
      *
      * @return array
-     *               An array of paths for this view.
+     *      An array of paths for this view.
      */
     protected function getDisplayPaths(View $view, $display_id = null)
     {
@@ -185,8 +185,8 @@ class DebugCommand extends ContainerAwareCommand
             if ($display->hasPath()) {
                 $path = $display->getPath();
                 if (strpos($path, '%') === false) {
-                    // @todo Views should expect and store a leading /. See:
-                    //   https://www.drupal.org/node/2423913
+                    //  @see Views should expect and store a leading /. See:
+                    //  https://www.drupal.org/node/2423913
                     $all_paths[] = '/'.$path;
                 } else {
                     $all_paths[] = '/'.$path;
@@ -218,7 +218,6 @@ class DebugCommand extends ContainerAwareCommand
             $definition = $displayManager->getDefinition($display['display_plugin']);
             if (!empty($definition['admin'])) {
                 // Cast the admin label to a string since it is an object.
-                // @see \Drupal\Core\StringTranslation\TranslationWrapper
                 $displays[$definition['id']]['name'] = (string) $definition['admin'];
                 $displays[$definition['id']]['description'] = (string) $definition['help'];
             }

@@ -1,4 +1,4 @@
-description: 'Display current updates available for the application'
+description: 'अनुप्रयोग के उपलब्ध नवीनीकरणो को दिखाएँ'
 messages:
     no-updates: 'No pending updates'
     severity: Severity
