@@ -1,15 +1,15 @@
-description: 'Displays current themes for the application'
+description: 'Afișează temele curente pentru aplicație'
 artguments:
-    theme: 'Specific theme to debug '
+    theme: 'O anumită temă ce va fi depanată'
 messages:
-    theme-id: Id
-    theme-name: Name
-    status: Status
-    version: Version
-    installed: Installed
-    uninstalled: Uninstalled
-    default-theme: 'Default theme'
-    properties: Properties
-    regions: Regions
-    invalid-theme: 'Theme %s is invalid'
-    theme-properties: Properties
+    theme-id: 'Id'
+    theme-name: 'Nume'
+    status: 'Status'
+    version: 'Versiune'
+    installed: 'Instalat'
+    uninstalled: 'Dezinstalat'
+    default-theme: 'Tema implicită'
+    properties: 'Proprietăți'
+    regions: 'Regiuni'
+    invalid-theme: 'Tema %s nu este validă'
+    theme-properties: 'Proprietăți'

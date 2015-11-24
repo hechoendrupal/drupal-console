@@ -1,4 +1,4 @@
-description: 'DElete a language to be supported by your site'
+description: 'Ștergeți o limbă ce are suport pe situl dvs.'
 messages:
-    invalid-language: 'Language %s it''s an invalid language'
-    language-deleted-sucessfully: 'Language %s was deleted successfully.'
+    invalid-language: 'Limba %s nu este o limbă validă'
+    language-deleted-sucessfully: 'Limba %s a fost ștearsă cu succes.'

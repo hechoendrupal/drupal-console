@@ -1,7 +1,7 @@
-description: 'List all multisites available in system'
-help: 'The <info>multisite:debug</info> list all known multi sites.'
+description: 'Listează toate multi siturile disponibile în sistem'
+help: 'Lista <info>multisite:debug</info> tuturor multi siturilor cunoscute.'
 messages:
-    no-multisites: 'There aren''t multisites configured'
-    site: Site
-    directory: Directory
-    site-format: 'Sites are written using the format: <port>.<domain>.<path>'
+    no-multisites: 'Nu există multi situri configurate'
+    site: 'Sit'
+    directory: 'Director'
+    site-format: 'Siturile sunt scrise folosind formatul: <port>.<domain>.<path>'
