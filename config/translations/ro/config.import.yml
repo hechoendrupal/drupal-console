@@ -1,9 +1,9 @@
 description: 'Importă configurarea pentru aplicația curentă.'
 arguments:
-    file: 'Configuration file path.'
-    remove-files: 'Remove files after syncronization.'
+    file: 'Calea către fișierul de configurare.'
+    remove-files: 'Eliminați fișierele după sincronizare.'
     config-file: 'Calea către fișierul de configurare.'
-    copy-only: 'Copiază doar fișierele de configurare în directorul de așteptare.'
+    copy-only: 'Copiați doar fișierele de configurare în directorul de așteptare.'
 messages:
     config_files_imported: 'Lista tuturor fișierelor de configurare.'
     imported: 'Toate fișierele de configurare au fost copiate în directorul de așteptare și apoi importate.'
