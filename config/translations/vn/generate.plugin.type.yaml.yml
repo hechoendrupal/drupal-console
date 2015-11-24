@@ -1,13 +1,14 @@
-description: 'Generate a plugin type with Yaml discovery'
-help: 'The <info>generate:plugin:type:yaml</info> command helps you generate a new Plugin type that uses Yaml discovery.'
-welcome: 'Welcome to the Drupal Plugin Type generator'
+description: ' Phát sinh một plugin với Yaml discovery'
+help: 'Câu lệnh <info>generate:plugin:type:yaml</info> giúp bạn phát sinh một kiểu plugin mới mà sử dụng Yaml discovery.'
+welcome: 'Chào mừng bạn đến với Drupal Plugin Type generator'
 options:
     module: common.options.module
-    class-name: 'Plugin type class name'
-    plugin-name: 'Plugin type machine name'
-    plugin-file-name: 'Plugin file name'
+    class-name: 'Tên lớp của kiểu plugin'
+    plugin-name: 'Tên máy của kiểu plugin'
+    plugin-file-name: 'Tên file plugin'
 questions:
     module: common.questions.module
-    class-name: 'Enter the plugin type class name'
-    plugin-name: 'Enter the plugin type machine name'
-    plugin-file-name: 'Enter the plugin file name (e.g. MODULE.plugin.filename.yml)'
+    class-name: 'Nhập tên lớp của kiểu plugin'
+    plugin-name: 'Nhập tên máy của kiểu plugin'
+    plugin-file-name: 'Nhập tên file plugin (e.g.  MODULE.plugin.filename.yml)'
+
