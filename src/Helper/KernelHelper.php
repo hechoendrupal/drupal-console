@@ -104,7 +104,6 @@ class KernelHelper extends Helper
     public function getKernel()
     {
         // Add support for Acquia Dev Desktop sites on Mac OS X
-        // @TODO: Check if this condition works in Windows
         $devdesktop_dir = getenv('HOME') . "/.acquia/DevDesktop/DrupalSettings";
         if (file_exists($devdesktop_dir)) {
             $_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR'] = $devdesktop_dir;
