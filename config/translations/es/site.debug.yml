@@ -1,9 +1,9 @@
-description: 'List all known local and remote sites.'
-help: 'The <info>site:debug</info> list all known local and remote sites.'
+description: 'Enlista todos los sitios, locales y remotos, conocidos.'
+help: '<info>site:debug</info> enlista todos los sitios, locales y remotos, conocidos.'
 messages:
-    site: Site
+    site: Sitio
     host: Host
-    root: Root
-    directory-not-found: 'Sites local directory not found'
-    private-key: 'Error with private key'
-    connect-error: 'Error connecting to remote machine'
+    root: Raíz
+    directory-not-found: 'Directorio local de sitios no encontrado'
+    private-key: 'Error con la clave privada'
+    connect-error: 'Error al conectar con la máquina remota'
