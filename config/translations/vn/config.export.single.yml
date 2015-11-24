@@ -1,13 +1,13 @@
-description: 'Export single configuration as yml file.'
+description: 'Xuất cấu hình đơn giản như yml file'
 arguments:
-    config-name: 'Configuration name.'
+    config-name: 'Tên cấu hình'
 options:
-    simple-configuration: 'Simple configuration'
+    simple-configuration: 'Cấu hình đơn giản'
 questions:
-    config-type: 'Configuration type'
-    config-name: 'Configuration name'
+    config-type: 'Kiểu cấu hình'
+    config-name: 'Tên cấu hình'
 messages:
-    config-not-found: 'Configuration name not found.'
+    config-not-found: 'Tên cấu hình không được tìm thấy'
     export: 'Configuration was exported at file %s.'
-    invalid-config-type: 'Invalid config type, please select one of the list'
-    invalid-config-name: 'Invalid config name, please select one of the list'
+    invalid-config-type: 'kiểu cấu hình không hợp lệ, vui lòng chọn một trong danh sách'
+    invalid-config-name: 'tên cấu hình không hợp lệ, vui lòng chọn một trong danh sách'

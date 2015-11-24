@@ -1,17 +1,18 @@
 description: 'Generate a new "%s"'
-help: 'The <info>"%s"</info> command helps you generate a new "%s"'
-welcome: 'Welcome to the Drupal form generator'
+help: 'Câu lệnh <info>"%s"</info>  giúp bạn phát sinh một "%s" '
+welcome: 'Chào mừng bạn tới Drupal form generator'
 options:
     module: common.options.module
-    class-name: 'The form class name'
-    form-id: 'The Form id'
+    class-name: 'Tên lớp của form'
+    form-id: 'ID của form'
     services: common.options.services
     inputs: common.options.inputs
-    routing: 'Update routing'
+    routing: 'Cập nhật tuyến đường'
 questions:
     module: common.questions.module
-    class-name: 'Enter the Form Class name'
-    form-id: 'Enter the Form id'
+    class-name: 'Nhập tên lớp của form'
+    form-id: 'Nhập id của form'
     services: common.questions.services
     inputs: common.questions.inputs
-    routing: 'Update routing file'
+    routing: 'Cập nhật đường dẫn của flie'
+
