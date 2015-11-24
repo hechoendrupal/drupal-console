@@ -8,7 +8,7 @@ options:
     plugin-id: 'ID del plugin'
     inputs: common.options.inputs
     services: common.options.services
-    theme-region: 'Theme region to render Plugin Block'
+    theme-region: 'Región del tema para renderizar el plugin de bloque'
 questions:
     module: common.questions.module
     class-name: 'Introduzca un nombre de clase para el plugin'
@@ -18,4 +18,4 @@ questions:
     services: common.questions.services
 messages:
     inputs: "\nPuede añadir campos de tipo input para crear configuraciones particulares en cada bloque.\nEsto es opcional, pulse <info>enter</info> para <info>continuar</info>"
-    invalid-theme-region: 'Region %s is invalid'
+    invalid-theme-region: 'Región %s no es válida'
