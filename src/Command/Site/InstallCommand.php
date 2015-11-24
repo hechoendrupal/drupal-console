@@ -436,7 +436,6 @@ class InstallCommand extends Command
             $output->writeln('[-] <error>' . $this->trans('commands.site.install.messages.already-installed') . '</error>');
             return;
         } catch (\Exception $e) {
-            //print_r($e);
             $output->writeln('[-] <error>' . $e->getMessage() . '</error>');
             return;
         }
