@@ -19,6 +19,7 @@ use Drupal\Core\Database\Connection;
 use Drupal\migrate\Entity\Migration;
 use Drupal\migrate\Plugin\MigratePluginManager;
 use Drupal\migrate\Plugin\RequirementsInterface;
+use Drupal\migrate\Exception\RequirementsException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 
 class SetupCommand extends ContainerAwareCommand
@@ -195,9 +196,9 @@ class SetupCommand extends ContainerAwareCommand
                     $migration_ids[] = $migration->id();
                 }
             }
-                // Migrations which are not applicable given the source and destination
-                // site configurations (e.g., what modules are enabled) will be silently
-                // ignored.
+            // Migrations which are not applicable given the source and destination
+            // site configurations (e.g., what modules are enabled) will be silently
+            // ignored.
             catch (RequirementsException $e) {
                 $output->writeln(
                     '[-] <error>'.
