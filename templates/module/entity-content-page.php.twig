@@ -31,8 +31,8 @@ function template_preprocess_{{ entity_name | machine_name }}(array &$variables)
     $variables['content'][$key] = $variables['elements'][$key];
   }
 }
-
 {% if bundle_entity_type %}
+
 /**
 * Prepares variables for a custom entity type creation list templates.
 *
