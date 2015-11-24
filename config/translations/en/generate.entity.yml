@@ -5,8 +5,12 @@ options:
     entity-class: 'The entity class'
     entity-name: 'The entity name'
     label: 'The label'
+    has-bundles: 'Entity has bundles'
+    bundle-of: 'Acts as bundle for content entities'
 questions:
     module: common.questions.module
     entity-class: 'Enter the class of your new entity'
     entity-name: 'Enter the name of your new entity'
     label: 'Enter the label of your new entity'
+    has-bundles: 'Do you want this (content) entity to have bundles'
+    bundle-of: 'Name of the content entity you want this (config) entity to act as a bundle for'
