@@ -1,4 +1,4 @@
-description: 'List of modules implementing a cron'
+description: '有调用cron方法的模块列表'
 messages:
-    module-list: 'Modules implementing a cron method'
-    module: Module
+    module-list: '有调用cron方法的模块'
+    module: 模块
