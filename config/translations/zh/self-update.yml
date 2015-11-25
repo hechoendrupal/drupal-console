@@ -1,5 +1,5 @@
-description: 'Update the console to latest version.'
-help: 'Update the console command to the latest version.'
+description: '更新console到最新版本.'
+help: '更新console命令到最新版本.'
 messages:
-    success: 'The console has been updated to the latest version.'
-    current-version: 'The latest version %s, was already installed on your system.'
+    success: '成功更新console到最新版本.'
+    current-version: 'console到最新版本%s早已安装在系统中.'
