@@ -22,6 +22,7 @@ class ConfigFormBaseGeneratorTest extends GeneratorTest
      * @param $services
      * @param $inputs
      * @param $form_id
+     * @param $form_type
      * @param $update_routing
      *
      * @dataProvider commandData
@@ -32,6 +33,7 @@ class ConfigFormBaseGeneratorTest extends GeneratorTest
         $services,
         $inputs,
         $form_id,
+        $form_type,
         $update_routing
     ) {
         $generator = new FormGenerator();
@@ -45,6 +47,7 @@ class ConfigFormBaseGeneratorTest extends GeneratorTest
             $services,
             $inputs,
             $form_id,
+            $form_type,
             $update_routing
         );
 
