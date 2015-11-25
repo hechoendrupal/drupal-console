@@ -1,5 +1,5 @@
 description: 'Displays current themes for the application'
-artguments:
+arguments:
     theme: 'Specific theme to debug '
 messages:
     theme-id: 'Id'
