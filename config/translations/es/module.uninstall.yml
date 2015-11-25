@@ -1,6 +1,6 @@
 description: 'Desinstala un módulo o varios en la aplicación'
 options:
-    module: 'Module or modules to be uninstalled should be separated by a comma'
+    module: 'Los módulos a ser desinstalado(s) deben ser separados por una coma'
 messages:
     no-modules: 'Debe indicar por lo menos un módulo a desinstalar.'
     dependents: 'Imposible desinstalar los módulos %s porque son requeridos por %s'

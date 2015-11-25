@@ -2,7 +2,7 @@ description: 'Generate documentations for Commands'
 options:
     path: 'The path to render the documentation'
 messages:
-    missing_path: 'The path is missing'
+    missing_path: 'thiếu đường dẫn'
     title: 'Available Drupal Console Commands'
     note: Note
     note-description: 'Drupal Console commands *must* be run from the root of a Drupal 8 installation'

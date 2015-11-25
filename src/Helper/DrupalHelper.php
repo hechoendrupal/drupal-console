@@ -86,7 +86,18 @@ class DrupalHelper extends Helper
     {
         $settingsPath = sprintf('%s/%s', $this->root, self::DEFAULT_SETTINGS_PHP);
 
-        return file_exists($settingsPath);
+        if (!file_exists($settingsPath)) {
+            return false;
+        }
+
+        $databases = [];
+        include_once $settingsPath;
+
+        if (!$databases) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -140,12 +151,14 @@ class DrupalHelper extends Helper
     public function loadLegacyFile($legacyFile)
     {
         $legacyFile = realpath(
-            sprintf('%s/%s', $this->getDrupalHelper()->getRoot(), $legacyFile)
+            sprintf('%s/%s', $this->root, $legacyFile)
         );
+
         if (file_exists($legacyFile)) {
             include_once $legacyFile;
             return true;
         }
+
         return false;
     }
 
@@ -169,7 +182,6 @@ class DrupalHelper extends Helper
         // Create a minimal mocked container to support calls to t() in the pre-kernel
         // base system verification code paths below. The strings are not actually
         // used or output for these calls.
-        // @todo Separate API level checks from UI-facing error messages.
         $container = new ContainerBuilder();
         $container->setParameter('language.default_values', Language::$defaultValues);
         $container

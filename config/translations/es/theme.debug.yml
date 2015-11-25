@@ -1,15 +1,15 @@
-description: 'Displays current themes for the application'
+description: 'Despliega los temas actuales para la aplicación'
 arguments:
-    theme: 'Specific theme to debug '
+    theme: 'Tema específico a depurar '
 messages:
     theme-id: Id
-    theme-name: Name
-    status: Status
-    version: Version
-    installed: Installed
-    uninstalled: Uninstalled
-    default-theme: 'Default theme'
-    properties: Properties
-    regions: Regions
-    invalid-theme: 'Theme %s is invalid'
-    theme-properties: Properties
+    theme-name: Nombre
+    status: Estado
+    version: Versión
+    installed: Instalado
+    uninstalled: Desinstalado
+    default-theme: 'Tema por defecto'
+    properties: Propiedades
+    regions: Regiones
+    invalid-theme: 'Tema %s no es válido'
+    theme-properties: Propiedades

@@ -1,5 +1,5 @@
-description: 'Generate the DrupalConsole.docset package for Dash'
+description: 'Generați pachetul DrupalConsole.docset pentru Dash'
 options:
-    path: 'The path to the directory where the docset will be saved.'
+    path: 'Calea către directorul unde docset-ul va fi salvat.'
 messages:
-    missing_path: 'the path is missing'
+    missing_path: 'calea lipsește'

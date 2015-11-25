@@ -1,5 +1,5 @@
 description: 'Generate an implementation of hook_form_alter() or hook_form_FORM_ID_alter'
-help: 'The <info>"%s"</info> command helps you generate a new "%s"'
+help: ' The <info>"%s"</info> câu lệnh giúp bạn phát sinh một "%s" mới'
 options:
     form-id: 'Form ID to alter'
 messages:

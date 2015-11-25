@@ -49,7 +49,7 @@ class SiteHelper extends Helper
     private function discoverModules()
     {
         /*
-         * @todo Remove DrupalExtensionDiscovery subclass once
+         * @see Remove DrupalExtensionDiscovery subclass once
          * https://www.drupal.org/node/2503927 is fixed.
          */
         $discovery = new DrupalExtensionDiscovery(\Drupal::root());
