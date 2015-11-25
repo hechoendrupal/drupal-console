@@ -8,6 +8,8 @@
 /bin/pdepend
 /bin/php-cs-fixer
 /bin/phpmd
+/bin/jsonlint.bat
+/bin/validate-json.bat
 
 # Binaries
 /box.phar
