@@ -7,8 +7,8 @@ console:
         learning: 'Generarea unui cod verbal.'
         generate-chain: 'Printează opțiunile și argumentele de execuție în format yaml pentru a fi folosit în comandă înlănțuită'
         generate-inline: 'Printează opțiunile și argumentele de execuție în apel inline pentru a fi folosit pe viitor'
-        root: 'Define the Drupal root to be use in command execution'
-        uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
+        root: 'Definiți rădăcina Drupal care va fi folosită la executarea comenzilor'
+        uri: 'URI-ul sitului Drupal care va fi folosit (pentru medii multi-sit sau când rulează pe un port alternativ)'
     messages:
         completed: 'Comanda a fost executată cu succes!'
         chain:
