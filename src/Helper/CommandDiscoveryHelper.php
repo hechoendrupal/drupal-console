@@ -62,8 +62,9 @@ class CommandDiscoveryHelper extends Helper
     {
         $consoleCommands = $this->getConsoleCommands();
         $customCommands = $this->getCustomCommands();
+        $customThemeCommands = $this->getCustomThemeCommands();
 
-        return array_merge($consoleCommands, $customCommands);
+        return array_merge($consoleCommands, $customCommands, );
     }
 
     /**
@@ -71,11 +72,11 @@ class CommandDiscoveryHelper extends Helper
      */
     public function getConsoleCommands()
     {
-        $modules = ['Console' => [
+        $sources = ['Console' => [
             'path' => $this->applicationRoot]
         ];
 
-        return $this->discoverCommands($modules);
+        return $this->discoverCommands($sources);
     }
 
     /**
@@ -83,42 +84,43 @@ class CommandDiscoveryHelper extends Helper
      */
     public function getCustomCommands()
     {
-        $modules = $this->getSite()->getModules(true, false, false, true, false);
+        $sources = $this->getSite()->getModules(true, false, false, true, false);
+        $sources = $this->getSite()->getThemes(true, false, false);
 
         if ($this->disabledModules) {
             foreach ($this->disabledModules as $disabledModule) {
-                if (array_key_exists($disabledModule, $modules)) {
-                    unset($modules[$disabledModule]);
+                if (array_key_exists($disabledModule, $sources)) {
+                    unset($sources[$disabledModule]);
                 }
             }
         }
 
-        return $this->discoverCommands($modules);
+        return $this->discoverCommands($sources);
     }
 
     /**
-     * @param $modules
+     * @param $sources
      * @return array
      */
-    private function discoverCommands($modules)
+    private function discoverCommands($sources)
     {
         $commands = [];
-        foreach ($modules as $moduleName => $module) {
-            if ($moduleName === 'Console') {
+        foreach ($sources as $sourceName => $source) {
+            if ($sourceName === 'Console') {
                 $directory = sprintf(
                     '%s/src/Command',
-                    $module['path']
+                    $source['path']
                 );
             } else {
                 $directory = sprintf(
                     '%s/%s/src/Command',
                     $this->getDrupalHelper()->getRoot(),
-                    $module->getPath()
+                    $source->getPath()
                 );
             }
 
             if (is_dir($directory)) {
-                $commands = array_merge($commands, $this->extractCommands($directory, $moduleName));
+                $commands = array_merge($commands, $this->extractCommands($directory, $sourceName));
             }
         }
 
@@ -127,10 +129,10 @@ class CommandDiscoveryHelper extends Helper
 
     /**
      * @param $directory
-     * @param $module
+     * @param $source
      * @return array
      */
-    private function extractCommands($directory, $module)
+    private function extractCommands($directory, $source)
     {
         $finder = new Finder();
         $finder->files()
@@ -149,13 +151,13 @@ class CommandDiscoveryHelper extends Helper
         foreach ($finder as $file) {
             $className = sprintf(
                 'Drupal\%s\Command\%s',
-                $module,
+                $source,
                 str_replace(
                     ['/', '.php'], ['\\', ''],
                     $file->getRelativePathname()
                 )
             );
-            $command = $this->validateCommand($className, $module);
+            $command = $this->validateCommand($className, $source);
             if ($command) {
                 $commands[] = $command;
             }
@@ -166,10 +168,10 @@ class CommandDiscoveryHelper extends Helper
 
     /**
      * @param $className
-     * @param $module
+     * @param $source
      * @return mixed
      */
-    private function validateCommand($className, $module)
+    private function validateCommand($className, $source)
     {
         if (!class_exists($className)) {
             return;
@@ -190,15 +192,15 @@ class CommandDiscoveryHelper extends Helper
         }
 
         if ($reflectionClass->getConstructor()->getNumberOfRequiredParameters() > 0) {
-            if ($module != 'Console') {
-                $this->getTranslator()->addResourceTranslationsByModule($module);
+            if ($source != 'Console') {
+                $this->getTranslator()->addResourceTranslationsBySource($source);
             }
             $command = $reflectionClass->newInstance($this->getHelperSet());
         } else {
             $command = $reflectionClass->newInstance();
         }
 
-        $command->setModule($module);
+        $command->setSource($source);
 
         return $command;
     }
