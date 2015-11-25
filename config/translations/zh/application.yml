@@ -7,8 +7,8 @@ console:
         learning: '生成冗长的代码输出。'
         generate-chain: '把执行选项和参数以yaml格式打印出来，作为连串命令'
         generate-inline: 把执行选项和参数以直接调用的形式打印出来，为未来使用
-        root: 'Define the Drupal root to be use in command execution'
-        uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
+        root: '定义命令要执行的Drupal根目录'
+        uri: 'Drupal网站的URI(用于多网站架构或者其他网站端口号)'
     messages:
         completed: 此命令执行成功！
         chain:
@@ -21,7 +21,7 @@ console:
             copied: 被复制的文件
         learning:
             route: "为了创建页面，必须先定义这些页面的路线。\n路线是把一个URL定义到一个控制器上。当这个URL被访问，它定义了功能或方法。\n 如果用户访问http://drupal8.dev/{{ route }}, 这个路线系统将查找相关路线，因此它会执行_controller callback。 这里的callback被定义为一个类名(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\n和一个方法 (\"{{ route.method }}\")."
-        autocomplete: "Bash or Zsh: Add this line to your shell configuration file:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Create a symbolic link\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
+        autocomplete: "Bash or Zsh: 在Shell脚本配置文件中加上这一行:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Create a symbolic link\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
     errors:
         invalid-command: '命令 "%s" 没有被定义过。'
     input:
