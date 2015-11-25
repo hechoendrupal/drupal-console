@@ -1,5 +1,5 @@
 description: 'Afișează temele curente pentru aplicație'
-artguments:
+arguments:
     theme: 'O anumită temă ce va fi depanată'
 messages:
     theme-id: 'Id'
