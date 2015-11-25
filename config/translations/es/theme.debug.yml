@@ -1,5 +1,5 @@
 description: 'Despliega los temas actuales para la aplicación'
-artguments:
+arguments:
     theme: 'Tema específico a depurar '
 messages:
     theme-id: Id
