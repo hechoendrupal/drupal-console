@@ -1,4 +1,4 @@
-description: 'Split a YAML file using indent as separator criteria'
+description: 'इंडेंट द्वारा विभाजन मानदंड से एक YAML फाइल को अलग करें।'
 arguments:
     yaml-file: 'Path of YAML file to be splitted'
 options:

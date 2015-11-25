@@ -45,8 +45,7 @@ class RunCommand extends ContainerAwareCommand
      */
     protected function setEnvironment($url)
     {
-        global $base_url;
-
+        $base_url;
         $host = 'localhost';
         $path = '';
         $port = '80';

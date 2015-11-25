@@ -1,6 +1,6 @@
-description: 'Import the selected configuration.'
+description: 'Import cấu hình đã được chọn.'
 arguments:
-    config-name: 'Configuration name.'
-    input-file: 'Path to the import files.'
+    config-name: 'Tên cấu hình.'
+    input-file: 'Đường dẫn tới các file import.'
 messages:
-    empty-value: 'Value can not be empty'
+    empty-value: 'Giá trị không thể để trống'

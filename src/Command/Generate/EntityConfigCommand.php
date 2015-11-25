@@ -8,6 +8,7 @@
 namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Command\Generate\EntityCommand;
+use Drupal\Console\Generator\EntityConfigGenerator;
 
 class EntityConfigCommand extends EntityCommand
 {
@@ -16,5 +17,10 @@ class EntityConfigCommand extends EntityCommand
         $this->setEntityType('EntityConfig');
         $this->setCommandName('generate:entity:config');
         parent::configure();
+    }
+
+    protected function createGenerator()
+    {
+        return new EntityConfigGenerator();
     }
 }

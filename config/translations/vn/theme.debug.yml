@@ -3,13 +3,13 @@ arguments:
     theme: 'Specific theme to debug '
 messages:
     theme-id: Id
-    theme-name: Name
-    status: Status
-    version: Version
-    installed: Installed
-    uninstalled: Uninstalled
-    default-theme: 'Default theme'
+    theme-name: Tên
+    status: Trạng thái
+    version: Phiên bản
+    installed: Cài đặt
+    uninstalled: Gỡ bỏ
+    default-theme: 'Hiển thị mặc định'
     properties: Properties
-    regions: Regions
+    regions: Các vùng
     invalid-theme: 'Theme %s is invalid'
     theme-properties: Properties

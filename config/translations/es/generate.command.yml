@@ -5,15 +5,15 @@ options:
     module: common.options.module
     controller-title: 'Título del controlador'
     class-name: 'Nombre de la Clase de Comandos'
-    name: 'The Command name.'
-    container-aware: 'Is the command aware of the drupal site installation when executed'
+    name: 'Nombre del comando.'
+    container-aware: 'Conoce el comando acerca de la instalación del sitio drupal cuando sea ejecutado'
     command: 'Nombre del Comando'
     container: 'Acceso al contenedor de servicios'
 questions:
     module: common.questions.module
     class-name: 'Introduzca el nombre de la Clase de Comandos'
-    name: 'Enter the Command name.'
-    container-aware: 'Is the command aware of the drupal site installation when executed?.'
+    name: 'Ingrese el nombre del comando.'
+    container-aware: 'Conoce el comando acerca de la instalación del sitio drupal cuando sea ejecutado?.'
     command: 'Introduzca el nombre del Comando'
     container: 'Necesita acceder al contenedor de servicios'
     controller-title: 'Título del controlador'

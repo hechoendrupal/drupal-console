@@ -10,6 +10,7 @@ namespace Drupal\Console\Command\Site;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Yaml\Yaml;
 use Drupal\Console\Command\ContainerAwareCommand;
 
 class ModeCommand extends ContainerAwareCommand
@@ -31,15 +32,17 @@ class ModeCommand extends ContainerAwareCommand
         $table = $this->getTableHelper();
         $environment = $input->getArgument('environment');
 
-        $configurationOverrideResult = [];
-
         if (in_array($environment, array('dev', 'prod'))) {
-            $configurationOverrideResult = $this->overrideConfigurations($environment, $output);
+            $loadedConfigurations = $this->loadConfigurations($environment);
         } else {
             $output->writeln(
                 ' <error>'.$this->trans('commands.site.mode.messages.invalid-env').'</error>'
             );
         }
+
+        $configurationOverrideResult = $this->overrideConfigurations(
+            $loadedConfigurations['configurations']
+        );
 
         foreach ($configurationOverrideResult as $configName => $result) {
             $output->writeln(
@@ -60,10 +63,13 @@ class ModeCommand extends ContainerAwareCommand
             $table->setlayout($table::LAYOUT_COMPACT);
             $table->setRows($result);
             $table->render($output);
-            print "\n";
+            $output->writeln('');
         }
 
-        $servicesOverrideResult = $this->overrideServices($environment, $output);
+        $servicesOverrideResult = $this->overrideServices(
+            $loadedConfigurations['services'],
+            $output
+        );
 
         if (!empty($servicesOverrideResult)) {
             $output->writeln(
@@ -85,10 +91,9 @@ class ModeCommand extends ContainerAwareCommand
         $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 
-    protected function overrideConfigurations($env)
+    protected function overrideConfigurations($configurations)
     {
         $result = [];
-        $configurations = $this->getConfigurations($env);
         foreach ($configurations as $configName => $options) {
             $config = $this->getConfigFactory()->getEditable($configName);
             foreach ($options as $key => $value) {
@@ -114,17 +119,19 @@ class ModeCommand extends ContainerAwareCommand
         return $result;
     }
 
-    protected function overrideServices($env, $output)
+    protected function overrideServices($servicesSettings, $output)
     {
-        $services_settings = $this->getServicesSettings($env);
+        $directory = sprintf(
+            '%s/%s',
+            $this->getDrupalHelper()->getRoot(),
+            \Drupal::service('site.path')
+        );
 
-        $directory = $this->getDrupalHelper()->getRoot() . '/' .  \Drupal::service('site.path');
-
-        $settings_services_file = $directory . '/services.yml';
-        if (!file_exists($settings_services_file)) {
+        $settingsServicesFile = $directory . '/services.yml';
+        if (!file_exists($settingsServicesFile)) {
             // Copying default services
-            $default_services_file = $this->getDrupalHelper()->getRoot() . '/sites/default/default.services.yml';
-            if (!copy($default_services_file, $directory . '/services.yml')) {
+            $defaultServicesFile = $this->getDrupalHelper()->getRoot() . '/sites/default/default.services.yml';
+            if (!copy($defaultServicesFile, $settingsServicesFile)) {
                 $output->writeln(
                     ' <error>'. $this->trans('commands.site.mode.messages.error-copying-file') . ': ' . $directory . '/services.yml' .'</error>'
                 );
@@ -132,12 +139,11 @@ class ModeCommand extends ContainerAwareCommand
             }
         }
 
-        $yaml = new \Symfony\Component\Yaml\Yaml();
-        $content = file_get_contents($directory . '/services.yml');
-        $services = $yaml->parse($content);
+        $yaml = new Yaml();
+        $services = $yaml->parse(file_get_contents($settingsServicesFile));
 
         $result = [];
-        foreach ($services_settings as $service => $parameters) {
+        foreach ($servicesSettings as $service => $parameters) {
             foreach ($parameters as $parameter => $value) {
                 $services['parameters'][$service][$parameter] = $value;
                 // Set values for output
@@ -150,7 +156,7 @@ class ModeCommand extends ContainerAwareCommand
             }
         }
 
-        if (file_put_contents($directory . '/services.yml', $yaml->dump($services))) {
+        if (file_put_contents($settingsServicesFile, $yaml->dump($services))) {
             $output->writeln(
                 '<info>' . sprintf($this->trans('commands.site.mode.messages.services-file-overwritten'), $directory . '/services.yml') . '</info>'
             );
@@ -165,53 +171,34 @@ class ModeCommand extends ContainerAwareCommand
         return $result;
     }
 
-    protected function getConfigurations($env)
+    protected function loadConfigurations($env)
     {
-        $settings =  [
-            'system.performance' => array(
-                'cache.page.use_internal' => array('dev' => false, 'prod' => true),
-                'css.preprocess' => array('dev' => false, 'prod' => true),
-                'css.gzip' => array('dev' => false, 'prod' => true),
-                'js.preprocess' => array('dev' => false, 'prod' => true),
-                'js.gzip' => array('dev' => false, 'prod' => true),
-                'response.gzip' => array('dev' => false, 'prod' => true),
-            ),
-            'views.settings' => array(
-                'ui.show.sql_query.enabled' => array('dev' => true, 'prod' => false),
-                'ui.show.performance_statistics' => array('dev' => true, 'prod' => false),
-            ),
-            'system.logging' => array(
-                'error_level' => array('dev' => ERROR_REPORTING_DISPLAY_ALL, 'prod' => ERROR_REPORTING_HIDE),
-            )
-        ];
+        $config = $this->getApplication()->getConfig();
+        $configFile = sprintf(
+            '%s/.console/site.mode.yml',
+            $config->getUserHomeDir()
+        );
 
-        $configuration_settings = [];
-        foreach ($settings as $setting => $parameters) {
-            foreach ($parameters as $parameter => $value) {
-                $configuration_settings[$setting][$parameter] = $value[$env];
+        if (!file_exists($configFile)) {
+            $configFile = sprintf(
+                '%s/config/dist/site.mode.yml',
+                $this->getApplication()->getDirectoryRoot()
+            );
+        }
+
+        $siteModeConfiguration = $config->getFileContents($configFile);
+        $configKeys = array_keys($siteModeConfiguration);
+
+        $configurationSettings = [];
+        foreach ($configKeys as $configKey) {
+            $siteModeConfigurationItem = $siteModeConfiguration[$configKey];
+            foreach ($siteModeConfigurationItem as $setting => $parameters) {
+                foreach ($parameters as $parameter => $value) {
+                    $configurationSettings[$configKey][$setting][$parameter] = $value[$env];
+                }
             }
         }
 
-        return $configuration_settings;
-    }
-
-    protected function getServicesSettings($env)
-    {
-        $settings = [
-            'twig.config' => [
-                'debug' => ['dev' => true, 'prod' => false],
-                'auto_reload' =>['dev' => true, 'prod' => false],
-                'cache' => ['dev' => true, 'prod' => true]
-            ]
-        ];
-
-        $environment_settings = [];
-        foreach ($settings as $setting => $parameters) {
-            foreach ($parameters as $parameter => $value) {
-                $environment_settings[$setting][$parameter] = $value[$env];
-            }
-        }
-
-        return $environment_settings;
+        return $configurationSettings;
     }
 }

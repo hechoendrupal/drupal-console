@@ -27,11 +27,11 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '0.9.7';
+    const VERSION = '0.9.8';
     /**
      * @var string
      */
-    const DRUPAL_VERSION = 'Drupal 8 RC-3';
+    const DRUPAL_VERSION = 'Drupal 8.0.0';
     /**
      * @var Drupal\Console\Config
      */
@@ -228,7 +228,7 @@ class Application extends BaseApplication
 
         if (true === $input->hasParameterOption(['--shell', '-s'])) {
             $this->runShell($input);
-            return;
+            return 0;
         }
 
         if (true === $input->hasParameterOption(array('--generate-doc', '--gd'))) {
@@ -240,7 +240,7 @@ class Application extends BaseApplication
             );
         }
 
-        parent::doRun($input, $output);
+        return parent::doRun($input, $output);
     }
 
     /**

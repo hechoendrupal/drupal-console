@@ -1,10 +1,10 @@
-description: 'Display current log events for the application'
+description: 'Hiển thị các dấu sự kiện hiện tại cho ứng dụng'
 arguments:
-    event-id: 'DBLog event ID'
+    event-id: 'DBlog sự kiện ID'
 options:
-    type: 'Filter events by a specific type'
-    severity: 'Filter events by a specific level of severity'
-    user-id: 'Filter events by a specific user id'
+    type: 'Sự kiện được lọc bời một kiểu chỉ định'
+    severity: 'Sự kiện được lọc bời một cấp chỉ định của severity'
+    user-id: 'Sự kiện được lọc bời một user id cụ thể'
     limit: 'Limit results to a specific number'
     offset: 'Starting point of a limit'
 messages:

@@ -1,6 +1,6 @@
 description: 'Returns a one time user login url.'
 options:
-    user-id: 'User ID.'
+    user-id: 'ID người dùng.'
 messages:
     url: 'One time login for @name: @url'
 errors:
