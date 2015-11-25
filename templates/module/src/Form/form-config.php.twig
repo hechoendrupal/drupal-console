@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-\Drupal\{{module_name}}\Form\{{ class_name }}.
+Drupal\{{module_name}}\Form\{{ class_name }}.
 {% endblock %}
 
 {% block namespace_class %}
@@ -9,9 +9,10 @@ namespace Drupal\{{module_name}}\Form;
 {% endblock %}
 
 {% block use_class %}
-use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 {% if services is not empty %}
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 {% endif %}
 {% endblock %}
@@ -22,13 +23,15 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @package Drupal\{{module_name}}\Form
  */
-class {{ class_name }} extends FormBase {% endblock %}
+class {{ class_name }} extends ConfigFormBase {% endblock %}
 {% block class_construct %}
 {% if services is not empty %}
   public function __construct(
-    {{ servicesAsParameters(services)|join(',\n    ') }}
-  ) {
-{{ serviceClassInitialization(services) }}
+    ConfigFactoryInterface $config_factory,
+      {{ servicesAsParameters(services)|join(',\n    ') }}
+    ) {
+    parent::__construct($config_factory);
+    {{ serviceClassInitialization(services) }}
   }
 
 {% endif %}
@@ -39,14 +42,23 @@ class {{ class_name }} extends FormBase {% endblock %}
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('config.factory'),
-{{ serviceClassInjection(services) }}
+      {{ serviceClassInjection(services) }}
     );
   }
 
 {% endif %}
 {% endblock %}
 
-{% block class_methods %}
+  {% block class_methods %}
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getEditableConfigNames() {
+    return [
+      '{{module_name}}.{{class_name_short}}',
+    ];
+  }
 
   /**
    * {@inheritdoc}
@@ -59,6 +71,7 @@ class {{ class_name }} extends FormBase {% endblock %}
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    $config = $this->config('{{module_name}}.{{class_name_short}}');
 {% for input in inputs %}
 {% if input.fieldset|length %}
     $form['{{ input.fieldset }}']['{{ input.name }}'] = array(
@@ -79,16 +92,31 @@ class {{ class_name }} extends FormBase {% endblock %}
 {% if input.size|length %}
       '#size' => {{ input.size }},
 {% endif %}
+{% if input.type != 'password_confirm' and input.type != 'fieldset' %}
+      '#default_value' => $config->get('{{ input.name }}'),
+{% endif %}
     );
 {% endfor %}
+    return parent::buildForm($form, $form_state);
+  }
 
-    return $form;
+  /**
+   * {@inheritdoc}
+   */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    parent::validateForm($form, $form_state);
   }
 
   /**
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    parent::submitForm($form, $form_state);
 
+    $this->config('{{module_name}}.{{class_name_short}}')
+{% for input in inputs %}
+      ->set('{{ input.name }}', $form_state->getValue('{{ input.name }}'))
+{% endfor %}
+      ->save();
   }
 {% endblock %}

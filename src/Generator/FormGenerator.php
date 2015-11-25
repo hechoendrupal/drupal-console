@@ -15,9 +15,10 @@ class FormGenerator extends Generator
      * @param  $services
      * @param  $inputs
      * @param  $form_id
+     * @param  $form_type
      * @param  $update_routing
      */
-    public function generate($module, $class_name, $form_id, $services, $inputs, $update_routing)
+    public function generate($module, $class_name, $form_id, $form_type, $services, $inputs, $update_routing)
     {
         $class_name_short = substr($class_name, -4) == 'Form' ? str_replace('Form', '', $class_name) : $class_name;
         $parameters = array(
@@ -29,19 +30,25 @@ class FormGenerator extends Generator
           'class_name_short' => strtolower($class_name_short),
         );
 
+        if ($form_type == 'ConfigFormBase') {
+          $template = 'module/src/Form/form-config.php.twig';
+          if ($update_routing) {
+            $this->renderFile(
+              'module/routing-form.yml.twig',
+              $this->getSite()->getModulePath($module).'/'.$module.'.routing.yml',
+              $parameters,
+              FILE_APPEND
+            );
+          }
+        }
+        else {
+          $template = 'module/src/Form/form.php.twig';
+        }
+
         $this->renderFile(
-            'module/src/Form/form.php.twig',
+            $template,
             $this->getSite()->getFormPath($module).'/'.$class_name.'.php',
             $parameters
         );
-
-        if ($update_routing) {
-            $this->renderFile(
-                'module/routing-form.yml.twig',
-                $this->getSite()->getModulePath($module).'/'.$module.'.routing.yml',
-                $parameters,
-                FILE_APPEND
-            );
-        }
     }
 }
