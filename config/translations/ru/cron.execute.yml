@@ -1,4 +1,4 @@
-description: 'Execute cron implementations by module or execute all crons'
+description: 'Выполнить реализацию крона для модуля иои выполнить все крон-задачи'
 messages:
-    module-invalid: 'Module %s doesn''t have an implementation of cron'
-    executing-cron: 'Executing cron function of module %s'
+    module-invalid: 'В модуле %s не найдена реализация крона'
+    executing-cron: 'Выполнение крон-задачи в модуле %s'

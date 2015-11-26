@@ -22,14 +22,6 @@ function {{ machine_name }}_preprocess_html(array &$variables) {
  * Implements hook_page_attachments_alter().
  */
 function {{ machine_name }}_page_attachments_alter(array &$page) {
-  // Disabling browser zoom on mobile devices.
-  /*foreach ($page['#attached']['html_head'] as &$meta_arr) {
-    if (array_search('viewport', $meta_arr)) {
-      $meta_arr[0]['#attributes']['content'] .= ', maximum-scale=1.0, user-scalable=0';
-    }
-  }*/
-
-
   // Tell IE to use latest rendering engine (not to use compatibility mode).
   /*$ie_edge = [
     '#type' => 'html_tag',
