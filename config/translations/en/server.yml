@@ -11,4 +11,4 @@ examples:
   - description: Passing address argument to use a different port number
     execution: drupal server 127.0.0.1:8089
   - description: Running default address argument values, using --root option to define the Drupal root
-    execution: drupal --root=/Users/jmolivas/develop/drupal/sites/drupal8.dev server
+    execution: drupal --root=/var/www/drupal8.dev server
