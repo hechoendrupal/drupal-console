@@ -1,4 +1,4 @@
-description: 'Rebuild and clear all site caches.'
+description: '重建及清除所有站点缓存'
 options:
     cache: 'Only clear a specific cache.'
 messages:
