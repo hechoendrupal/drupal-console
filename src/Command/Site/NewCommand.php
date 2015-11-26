@@ -15,6 +15,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Alchemy\Zippy\Zippy;
 use Drupal\Console\Command\Command;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class NewCommand extends Command
 {
@@ -29,6 +30,8 @@ class NewCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output = new SymfonyStyle($input, $output);
+
         $httpClient = $this->getHttpClientHelper();
 
         $site_name = $input->getArgument('site-name');
@@ -124,11 +127,11 @@ class NewCommand extends Command
                 );
             }
 
-            $output->writeln(
-                '[+] <info>' . sprintf(
+            $output->success(
+                sprintf(
                     $this->trans('commands.site.new.messages.downloaded'),
                     $release_selected, $site_name
-                ) . '</info>'
+                )
             );
         } catch (\Exception $e) {
             $output->writeln('[+] <error>' . $e->getMessage() . '</error>');

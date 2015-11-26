@@ -45,6 +45,25 @@ class CallCommandListener implements EventSubscriberInterface
                 $input->setInteractive($chainedCommand['interactive']);
             }
             $callCommand->run($input, $output);
+
+            $drupal = $application->getDrupalHelper();
+            if ($chainedCommand['name'] === 'site:new') {
+                if ($chainedCommand['inputs']['site-name']) {
+                    $siteRoot = sprintf(
+                        '%s/%s', getcwd(),
+                        $chainedCommand['inputs']['site-name']
+                    );
+                    chdir($siteRoot);
+                }
+                $drupal->isValidRoot(getcwd());
+                $drupal->getAutoLoadClass();
+                $application->prepare($drupal);
+            }
+
+            if ($chainedCommand['name'] === 'site:install') {
+                $drupal->isValidRoot(getcwd());
+                $application->prepare($drupal);
+            }
         }
     }
 
