@@ -159,8 +159,7 @@ class Application extends BaseApplication
         }
 
         if ($targetConfig && $targetConfig['remote']) {
-            $remoteHelper = $this->getRemoteHelper();
-            $remoteResult = $remoteHelper->executeCommand(
+            $remoteResult = $this->getRemoteHelper()->executeCommand(
                 $commandName,
                 $target,
                 $targetConfig,
@@ -178,15 +177,20 @@ class Application extends BaseApplication
         $uri = $input->getParameterOption(array('--uri', '-l'));
         $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
 
+        if (!$env) {
+            $this->env = $env;
+        }
+
         $debug = getenv('DRUPAL_DEBUG') !== '0'
           && !$input->hasParameterOption(array('--no-debug', ''))
           && $env !== 'prod';
 
-        $message = $this->getMessageHelper();
+        if ($debug) {
+            Debug::enable();
+        }
+
         $drupal = $this->getDrupalHelper();
-        $site = $this->getSite();
-        $commandDiscovery = $this->getCommandDiscoveryHelper();
-        $commandDiscovery->setApplicationRoot($this->getDirectoryRoot());
+        $this->getCommandDiscoveryHelper()->setApplicationRoot($this->getDirectoryRoot());
         $recursive = false;
 
         if (!$root) {
@@ -195,36 +199,20 @@ class Application extends BaseApplication
         }
 
         if (!$drupal->isValidRoot($root, $recursive)) {
-            $commands = $commandDiscovery->getConsoleCommands();
+            $commands = $this->getCommandDiscoveryHelper()->getConsoleCommands();
             if (!$commandName) {
-                $message->addWarningMessage(
+                $this->getMessageHelper()->addWarningMessage(
                     $this->trans('application.site.errors.directory')
                 );
             }
+            $this->registerCommands($commands);
         } else {
-            chdir($drupal->getRoot());
-            $site->setSiteRoot($drupal->getRoot());
+            $this->getKernelHelper()->setRequestUri($uri);
+            $this->getKernelHelper()->setDebug($debug);
+            $this->getKernelHelper()->setEnvironment($this->env);
 
-            if ($drupal->isValidInstance()) {
-                $this->bootDrupal($env, $debug, $drupal, $uri);
-            }
-
-            if ($drupal->isInstalled()) {
-                $disabledModules = $this->config->get('application.disable.modules');
-                $commandDiscovery->setDisabledModules($disabledModules);
-
-                $commands = $commandDiscovery->getCommands();
-            } else {
-                $commands = $commandDiscovery->getConsoleCommands();
-                if (!$commandName) {
-                    $message->addWarningMessage(
-                        $this->trans('application.site.errors.settings')
-                    );
-                }
-            }
+            $this->prepare($drupal);
         }
-
-        $this->registerCommands($commands, $drupal);
 
         if (true === $input->hasParameterOption(['--shell', '-s'])) {
             $this->runShell($input);
@@ -241,6 +229,31 @@ class Application extends BaseApplication
         }
 
         return parent::doRun($input, $output);
+    }
+
+    public function prepare($drupal)
+    {
+        chdir($drupal->getRoot());
+        $this->getSite()->setSiteRoot($drupal->getRoot());
+
+        if ($drupal->isValidInstance()) {
+            $this->bootDrupal($drupal);
+        }
+
+        if ($drupal->isInstalled()) {
+            $disabledModules = $this->config->get('application.disable.modules');
+            $this->getCommandDiscoveryHelper()->setDisabledModules($disabledModules);
+            $commands = $this->getCommandDiscoveryHelper()->getCommands();
+        } else {
+            $commands = $this->getCommandDiscoveryHelper()->getConsoleCommands();
+            if (!$commandName) {
+                $this->getMessageHelper()->addWarningMessage(
+                    $this->trans('application.site.errors.settings')
+                );
+            }
+        }
+
+        $this->registerCommands($commands);
     }
 
     /**
@@ -304,24 +317,12 @@ class Application extends BaseApplication
     }
 
     /**
-     * @param string     $env
-     * @param bool|false $debug
      * @param $drupal
-     * @param string     $uri
      */
-    private function bootDrupal($env = 'prod', $debug = false, $drupal, $uri = '')
+    public function bootDrupal($drupal)
     {
-        if ($debug) {
-            Debug::enable();
-        }
-
-        $kernelHelper = $this->getKernelHelper();
-
-        $kernelHelper->setRequestUri($uri);
-        $kernelHelper->setDebug($debug);
-        $kernelHelper->setEnvironment($env);
-        $kernelHelper->setClassLoader($drupal->getAutoLoadClass());
-        $kernelHelper->bootKernel();
+        $this->getKernelHelper()->setClassLoader($drupal->getAutoLoadClass());
+        $this->getKernelHelper()->bootKernel();
     }
 
     /**
