@@ -1,18 +1,18 @@
-description: 'Display current log events for the application'
+description: 'Показать лог событий приложения'
 arguments:
-    event-id: 'DBLog event ID'
+    event-id: 'ID события в DBLog'
 options:
-    type: 'Filter events by a specific type'
-    severity: 'Filter events by a specific level of severity'
-    user-id: 'Filter events by a specific user id'
-    limit: 'Limit results to a specific number'
-    offset: 'Starting point of a limit'
+    type: 'Фильтрация событий по типу'
+    severity: 'Фильтрация событий по уровню важности'
+    user-id: 'Фильтрация событий по ID пользователя'
+    limit: 'Ограничить кол-во результатов заданным числом'
+    offset: 'Смещение стартовой позиции'
 messages:
     event-id: 'Event ID'
-    type: Type
-    date: Date
-    message: Message
-    user: User
-    severity: Severity
-    invalid-severity: 'Severity type is invalid, filter was ignored'
-    not-found: 'DBLog event %s wasn''t found'
+    type: Тип
+    date: Дата
+    message: Сообщение
+    user: Пользователь
+    severity: Важность
+    invalid-severity: 'Тип важности задан неверно, фильтры проигнорированы'
+    not-found: 'DBLog событие %s не было найдено'
