@@ -55,7 +55,9 @@
         "alchemy/zippy": "0.2.*@dev",
         "phpseclib/phpseclib": "2.*",
         "stecman/symfony-console-completion": "^0.5.1",
-        "guzzlehttp/guzzle": "~6.1"
+        "guzzlehttp/guzzle": "~6.1",
+        "yosymfony/httpserver": "1.2.x-dev",
+        "dflydev/apache-mime-types": "1.0.*",
     },
     "bin": ["bin/console"],
     "config": {
