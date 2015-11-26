@@ -1,3 +1,3 @@
-description: 'Release cron system lock to run cron again'
+description: 'Снимает блокировку с крона для повторного запуска'
 messages:
-    released: 'Cron lock was released sucessfully'
+    released: 'Блокировка крона была успешно снята'
