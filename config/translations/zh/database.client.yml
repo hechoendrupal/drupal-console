@@ -1,5 +1,5 @@
-description: 'Launch a DB client if it''s available'
+description: '开启可行的数据库用户端'
 arguments:
-    database: 'Database key from settings.php'
+    database: '从settings.php文件里取得的数据库键'
 messages:
-    executing: 'Executing: %s'
+    executing: '执行: %s'
