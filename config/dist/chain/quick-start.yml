@@ -17,3 +17,4 @@ commands:
         generate-inline: true
     arguments:
         profile: standard
+  - command: server
