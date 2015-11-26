@@ -21,7 +21,8 @@ class GenerateDocGitbookCommand extends ContainerAwareCommand
       'help',
       'init',
       'list',
-      'self-update'
+      'self-update',
+      'server'
     ];
 
     /**

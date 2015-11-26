@@ -72,4 +72,3 @@ commands:
   - command: module:install
     arguments:
       module: [example]
-
