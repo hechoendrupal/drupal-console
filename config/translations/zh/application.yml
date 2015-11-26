@@ -7,8 +7,8 @@ console:
         learning: '生成冗长的代码输出。'
         generate-chain: '把执行选项和参数以yaml格式打印出来，作为连串命令'
         generate-inline: 把执行选项和参数以直接调用的形式打印出来，为未来使用
-        root: 'Define the Drupal root to be use in command execution'
-        uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
+        root: '定义命令执行时的Drupal根目录'
+        uri: 'Drupal网站使用的URI(为运行于一个特定端口的多站点环境)'
     messages:
         completed: 此命令执行成功！
         chain:
