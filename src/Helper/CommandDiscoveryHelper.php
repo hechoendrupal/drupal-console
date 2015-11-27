@@ -64,7 +64,7 @@ class CommandDiscoveryHelper extends Helper
         $customModuleCommands = $this->getCustomCommands();
         $customThemeCommands = $this->getCustomCommands('themes');
 
-        return array_merge($consoleCommands, $customModuleCommands, $customThemeCommands);
+        return array_merge($consoleCommands, array_merge($customModuleCommands, $customThemeCommands));
     }
 
     /**
