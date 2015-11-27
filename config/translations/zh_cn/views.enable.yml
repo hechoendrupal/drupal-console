@@ -1,4 +1,4 @@
-description: 'Enable a View'
+description: '启动视图'
 messages:
-    disabled-successfully: 'View %s was enabled successfully.'
-disabled-successfully: 'View %s was enabled successfully.'
+    disabled-successfully: '成功启动视图%s.'
+disabled-successfully: '成功启动视图%s.'
