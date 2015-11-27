@@ -29,7 +29,7 @@ class DebugCommand extends ContainerAwareCommand
         $table = $this->getTableHelper();
         $table->setlayout($table::LAYOUT_COMPACT);
         if ($theme) {
-            $this->getTheme($theme, $output, $table);
+            $this->getThemeForDebug($theme, $output, $table);
         } else {
             $this->getAllThemes($output, $table);
         }
@@ -55,7 +55,7 @@ class DebugCommand extends ContainerAwareCommand
         $table->render($output);
     }
 
-    protected function getTheme($themeId, $output, $table)
+    protected function getThemeForDebug($themeId, $output, $table)
     {
         $theme = null;
         $message = $this->getMessageHelper();
