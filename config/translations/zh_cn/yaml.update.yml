@@ -1,16 +1,16 @@
 value:
-    description: 'Update a value for a specific key in a YAML file.'
+    description: '更新YAML文件中的一个键值.'
     arguments:
-        yaml-file: 'Path of YAML file to update'
-        yaml-key: 'YAML key to update'
-        yaml-value: 'YAML value to update'
+        yaml-file: '要更新的YAML文件的路径'
+        yaml-key: '要更新的YAML键'
+        yaml-value: '要更新的YAML值'
     messages:
-        updated: 'YAML file %s was updated successfully'
+        updated: '成功更新%sYAML文件'
 key:
-    description: 'Replace a YAML key in a YAML file.'
+    description: '替换YAML文件中的一个YAML键.'
     arguments:
-        yaml-file: 'Path of YAML file to update'
-        yaml-key: 'YAML key to be replace'
-        yaml-new-key: 'YAML new key'
+        yaml-file: '要更新的YAML文件的路径'
+        yaml-key: '要更新的YAML键'
+        yaml-new-key: '新的YAML键'
     messages:
-        updated: 'YAML file %s was updated successfully'
+        updated: '成功更新%sYAML文件'
