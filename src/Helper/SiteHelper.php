@@ -57,7 +57,7 @@ class SiteHelper extends Helper
 
         return $discovery->scan('module');
     }
-    
+
     /**
      * @return \Drupal\Core\Extension\Extension[]
      */
