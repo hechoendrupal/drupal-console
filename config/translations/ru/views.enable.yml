@@ -1,3 +1,3 @@
-description: 'Enable a View'
+description: 'Включить представление'
 messages:
-    disabled-successfully: 'View %s was enabled successfully.'
+    disabled-successfully: 'Представление %s было включено успешно.'
