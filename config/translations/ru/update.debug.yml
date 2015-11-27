@@ -1,11 +1,11 @@
-description: 'Display current updates available for the application'
+description: 'Отобрахить обновления доступные для приложения'
 messages:
-    no-updates: 'No pending updates'
-    severity: Severity
-    title: Title
-    value: Value
-    description: Description
-    requirements-error: 'The following requirement weren''t completed'
-    module-list: 'Modules with pending updates'
-    module: Module
-    update-n: 'Update N'
+    no-updates: 'Нет отложенных обновления'
+    severity: Важность
+    title: Заголовок
+    value: Значение
+    description: Описание
+    requirements-error: 'Следующие требование не были завершены'
+    module-list: 'Модули с отложенными обновлениями'
+    module: Модуль
+    update-n: 'update_N хук'
