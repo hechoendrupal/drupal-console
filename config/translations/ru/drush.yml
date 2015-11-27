@@ -1,6 +1,6 @@
-description: 'Run drush from console.'
-help: 'Use the interactive mode for a better experience --shell.'
+description: 'Запуск drush из консоли.'
+help: 'Для запуска в интерактивном режиме используйте --shell.'
 arguments:
-    args: 'Drush arguments.'
+    args: 'Аргументы drush.'
 messages:
-    not_found: 'Drush command not found.'
+    not_found: 'Команда drush не найдена.'
