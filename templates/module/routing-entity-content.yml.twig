@@ -1,7 +1,7 @@
 
 # {{ entity_class }} routing definition
 entity.{{ entity_name }}.canonical:
-  path: '/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}'
+  path: '/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}'
   defaults:
     _entity_view: '{{ entity_name }}'
     _title: '{{ label }}'
@@ -11,7 +11,7 @@ entity.{{ entity_name }}.canonical:
     _admin_route: TRUE
 
 entity.{{ entity_name }}.collection:
-  path: '/admin/{{ entity_name }}'
+  path: '/admin/structure/{{ entity_name }}'
   defaults:
     _entity_list: '{{ entity_name }}'
     _title: '{{ label }} list'
@@ -23,7 +23,7 @@ entity.{{ entity_name }}.collection:
 {# Note: a content entity with bundles will add via a dedicated controller. #}
 {% if not bundle_entity_type %}
 entity.{{ entity_name }}.add_form:
-  path: '/admin/{{ entity_name }}/add'
+  path: '/admin/structure/{{ entity_name }}/add'
   defaults:
     _entity_form: {{ entity_name }}.add
     _title: 'Add {{ label }}'
@@ -34,7 +34,7 @@ entity.{{ entity_name }}.add_form:
 
 {% endif %}
 entity.{{ entity_name }}.edit_form:
-  path: '/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit'
+  path: '/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit'
   defaults:
     _entity_form: {{ entity_name }}.edit
     _title: 'Edit {{ label }}'
@@ -44,7 +44,7 @@ entity.{{ entity_name }}.edit_form:
     _admin_route: TRUE
 
 entity.{{ entity_name }}.delete_form:
-  path: '/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete'
+  path: '/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete'
   defaults:
     _entity_form: {{ entity_name }}.delete
     _title: 'Delete {{ label }}'
@@ -66,7 +66,7 @@ entity.{{ entity_name }}.delete_form:
     _admin_route: TRUE
 {% else %}
 {{ entity_name }}.add_page:
-  path: '/admin/{{ entity_name }}/add'
+  path: '/admin/structure/{{ entity_name }}/add'
   defaults:
     _controller: '\Drupal\{{ module }}\Controller\{{ entity_class }}AddController::add'
     _title: 'Add {{ label }}'
@@ -74,7 +74,7 @@ entity.{{ entity_name }}.delete_form:
     _permission: 'add {{ entity_name }} entities'
 
 entity.{{ entity_name }}.add_form:
-  path: '/admin/{{ entity_name }}/add/{{ '{'~bundle_entity_type~'}' }}'
+  path: '/admin/structure/{{ entity_name }}/add/{{ '{'~bundle_entity_type~'}' }}'
   defaults:
     _controller: '\Drupal\{{ module }}\Controller\{{ entity_class }}AddController::addForm'
     _title_callback: '\Drupal\{{ module }}\Controller\{{ entity_class }}AddController::getAddFormTitle'
