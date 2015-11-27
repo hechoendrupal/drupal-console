@@ -1,9 +1,9 @@
-description: 'Displays current routes for the application'
+description: '显示当前程序的路线'
 arguments:
-    route-name: 'Route names'
+    route-name: '路线名'
 messages:
-    name: 'Route name'
-    path: 'Class path'
-    pattern: Pattern
-    defaults: Defaults
-    options: Options
+    name: '路线名'
+    path: '类路径'
+    pattern: 模式
+    defaults: 缺省值
+    options: 选项

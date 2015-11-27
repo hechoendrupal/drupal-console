@@ -1,11 +1,11 @@
-description: 'Display current updates available for the application'
+description: '显示目前有的程序更新'
 messages:
-    no-updates: 'No pending updates'
-    severity: Severity
-    title: Title
-    value: Value
-    description: Description
-    requirements-error: 'The following requirement weren''t completed'
-    module-list: 'Modules with pending updates'
-    module: Module
-    update-n: 'Update N'
+    no-updates: '没有将要的跟新'
+    severity: 严重等级
+    title: 题目
+    value: 值
+    description: 简介
+    requirements-error: '下列要求没有完成'
+    module-list: '需要更新的模块'
+    module: 模块
+    update-n: '更新 N'
