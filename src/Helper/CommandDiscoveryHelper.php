@@ -61,10 +61,10 @@ class CommandDiscoveryHelper extends Helper
     public function getCommands()
     {
         $consoleCommands = $this->getConsoleCommands();
-        $customCommands = $this->getCustomCommands();
-        $customThemeCommands = $this->getCustomThemeCommands();
+        $customModuleCommands = $this->getCustomCommands();
+        $customThemeCommands = $this->getCustomCommands('themes');
 
-        return array_merge($consoleCommands, $customCommands, );
+        return array_merge($consoleCommands, $customModuleCommands, $customThemeCommands);
     }
 
     /**
@@ -82,17 +82,23 @@ class CommandDiscoveryHelper extends Helper
     /**
      * @return array
      */
-    public function getCustomCommands()
+    public function getCustomCommands($type = 'modules')
     {
-        $sources = $this->getSite()->getModules(true, false, false, true, false);
-        $sources = $this->getSite()->getThemes(true, false, false);
+        $sources = [];
 
-        if ($this->disabledModules) {
-            foreach ($this->disabledModules as $disabledModule) {
+        if ($type === 'modules') {
+          $sources = $this->getSite()->getModules(true, false, false, true, false);
+
+            if ($this->disabledModules) {
+              foreach ($this->disabledModules as $disabledModule) {
                 if (array_key_exists($disabledModule, $sources)) {
-                    unset($sources[$disabledModule]);
+                  unset($sources[$disabledModule]);
                 }
+              }
             }
+        }
+        else if ($type === 'themes') {
+            $sources = $this->getSite()->getThemes(true, false, false);
         }
 
         return $this->discoverCommands($sources);
@@ -120,7 +126,12 @@ class CommandDiscoveryHelper extends Helper
             }
 
             if (is_dir($directory)) {
-                $commands = array_merge($commands, $this->extractCommands($directory, $sourceName));
+                if (strpos($directory, 'modules') !== 'false') {
+                  $commands = array_merge($commands, $this->extractCommands($directory, $sourceName));
+                }
+                else if (strpos($directory, 'themes') !== 'false') {
+                  $commands = array_merge($commands, $this->extractCommands($directory, $sourceName, 'theme'));
+                }
             }
         }
 
@@ -130,9 +141,10 @@ class CommandDiscoveryHelper extends Helper
     /**
      * @param $directory
      * @param $source
+     * @param $type
      * @return array
      */
-    private function extractCommands($directory, $source)
+    private function extractCommands($directory, $source, $type = 'module')
     {
         $finder = new Finder();
         $finder->files()
@@ -157,7 +169,7 @@ class CommandDiscoveryHelper extends Helper
                     $file->getRelativePathname()
                 )
             );
-            $command = $this->validateCommand($className, $source);
+            $command = $this->validateCommand($className, $source, $type);
             if ($command) {
                 $commands[] = $command;
             }
@@ -169,9 +181,10 @@ class CommandDiscoveryHelper extends Helper
     /**
      * @param $className
      * @param $source
+     * @param $type
      * @return mixed
      */
-    private function validateCommand($className, $source)
+    private function validateCommand($className, $source, $type)
     {
         if (!class_exists($className)) {
             return;
@@ -192,7 +205,7 @@ class CommandDiscoveryHelper extends Helper
         }
 
         if ($reflectionClass->getConstructor()->getNumberOfRequiredParameters() > 0) {
-            if ($source != 'Console') {
+            if ($source != 'Console' && $type === 'module') {
                 $this->getTranslator()->addResourceTranslationsBySource($source);
             }
             $command = $reflectionClass->newInstance($this->getHelperSet());
@@ -200,7 +213,12 @@ class CommandDiscoveryHelper extends Helper
             $command = $reflectionClass->newInstance();
         }
 
-        $command->setSource($source);
+        if ($type === 'module') {
+          $command->setModule($source);
+        }
+        else if ($type === 'theme') {
+          $command->setTheme($source);
+        }
 
         return $command;
     }
