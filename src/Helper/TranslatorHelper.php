@@ -206,6 +206,77 @@ class TranslatorHelper extends Helper
     }
 
     /**
+     * @param $theme
+     */
+    public function addResourceTranslationsByTheme($theme)
+    {
+      $resource = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('theme', $theme).
+        '/config/translations/console.'.$this->language.'.yml';
+
+      if (file_exists($resource)) {
+        $this->addResource($resource);
+      } else {
+        // Try to load the language fallback
+        $resource_fallback = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('theme', $theme).
+          '/config/translations/console.en.yml';
+        if (file_exists($resource_fallback)) {
+          $this->addResource($resource_fallback);
+        }
+      }
+    }
+
+    /**
+     * @param $theme
+     * @param $messages
+     */
+    public function writeTranslationsByTheme($theme, $messages)
+    {
+      $currentMessages = $this->getMessagesByModule($theme);
+
+      $language = 'en';
+      $resource = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('theme', $theme).
+        '/config/translations/';
+
+      $messageCatalogue = new MessageCatalogue($language);
+      if ($currentMessages && $currentMessages['messages']) {
+        $messageCatalogue->add($currentMessages['messages'], 'console');
+      }
+      $messageCatalogue->add($messages, 'console');
+
+      $translatorWriter = new TranslationWriter();
+      $translatorWriter->addDumper('yaml', new YamlFileDumper());
+      $translatorWriter->writeTranslations(
+        $messageCatalogue,
+        'yaml',
+        ['path' => $resource, 'nest-level' => 10, 'indent' => 2]
+      );
+    }
+
+    /**
+     * @param $theme
+     * @return array
+     */
+    protected function getMessagesByTheme($theme)
+    {
+      $resource = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('theme', $theme).
+        '/config/translations/console.'.$this->language.'.yml';
+
+      if (file_exists($resource)) {
+        $themeTranslator = new Translator($this->language);
+        $themeTranslator->addLoader('yaml', new YamlFileLoader());
+        $themeTranslator->addResource(
+          'yaml',
+          $resource,
+          $this->language
+        );
+
+        return $themeTranslator->getMessages($this->language);
+      }
+
+      return [];
+    }
+
+    /**
      * @param $key
      * @return string
      */

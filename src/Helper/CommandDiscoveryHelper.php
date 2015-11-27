@@ -206,7 +206,12 @@ class CommandDiscoveryHelper extends Helper
 
         if ($reflectionClass->getConstructor()->getNumberOfRequiredParameters() > 0) {
             if ($source != 'Console' && $type === 'module') {
-                $this->getTranslator()->addResourceTranslationsBySource($source);
+                if ($type === 'module') {
+                  $this->getTranslator()->addResourceTranslationsByModule($source);
+                }
+                else if ($type === 'theme') {
+                  $this->getTranslator()->addResourceTranslationsByTheme($source);
+                }
             }
             $command = $reflectionClass->newInstance($this->getHelperSet());
         } else {
