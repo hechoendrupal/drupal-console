@@ -12,7 +12,7 @@ options:
     base-theme: 'Tema base (por ejemplo: classy, seven)'
     global-library: 'Nombre de la librería de estilo global'
     regions: Regiones
-    breakpoints: Puntos de quiebre
+    breakpoints: 'Puntos de quiebre'
     base_theme: 'Tema base (por ejemplo: classy, seven)'
 questions:
     theme: 'Introduzca el nombre del nuevo tema'

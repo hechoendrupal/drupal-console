@@ -38,4 +38,3 @@ warnings:
     module-unavailable: ' Cảnh báo những module sau đây là không thể sử dụng được trên môi trườn local của bạn "%s"'
 errors:
     directory-exists: 'Thư mục đích "%s" không được để trống.'
-

@@ -1,4 +1,3 @@
-
 description: 'Xây dựng lại và làm sạch tất cả cache trên trang.'
 options:
     cache: 'Chỉ xóa một cache được chỉ định'
@@ -13,3 +12,6 @@ examples:
     -
         description: 'Build lại toàn bộ cache'
         execution: 'drupal cr all'
+    -
+        description: 'Rebuild discovery cache'
+        execution: 'drupal cr discovery'

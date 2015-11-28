@@ -10,4 +10,4 @@ questions:
     bundle-name: 'Introduzca el nombre máquina de su nuevo tipo de contenido'
     bundle-title: 'Introduzca un nombre amigable para su nuevo tipo de contenido'
 message:
-    error-state1: marcador de posición
+    error-state1: 'marcador de posición'
