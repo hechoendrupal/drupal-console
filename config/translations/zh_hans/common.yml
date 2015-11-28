@@ -1,39 +1,39 @@
 options:
-    events: 'Load events from the container'
-    module: 'The Module name.'
-    services: 'Load services from the container.'
-    tags: 'Set service tags from the container.'
-    inputs: 'Create inputs in a form.'
-    permissions: 'Create permissions.'
+    events: '从容器中导入事件'
+    module: '模块名称.'
+    services: '从容器中导入服务.'
+    tags: '从容器中设置服务标签。'
+    inputs: '创建表单中的输入项。'
+    permissions: '创建权限。'
 questions:
-    module: 'Enter the module name'
-    confirm: 'Do you confirm generation'
-    canceled: 'Command generation canceled.'
+    module: '输入模块名称'
+    confirm: '确定生成'
+    canceled: '生成命令已经取消。'
     events:
-        message: "\nType the event name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
-        name: 'Enter event name'
+        message: "\n使用上下键输入事件名称。\n这是可选的, 点击 <info>回车</info> <info>继续</info>\n"
+        name: '输入事件名称'
     services:
-        confirm: 'Do you want to load services from the container'
-        message: "\nType the service name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
-        name: 'Enter your service'
+        confirm: '确定从容器中导入服务'
+        message: "\n使用上下键输入服务名称。\n这是可选的, 点击 <info>回车</info> <info>继续</info>\n"
+        name: '输入你的服务'
     inputs:
-        confirm: 'Do you want to generate a form structure'
-        label: 'Input label'
-        machine_name: 'Input machine name'
-        permission: 'Do you want to generate permissions'
-        type: Type
-        invalid: 'Field Type "%s" is invalid.'
-        description: Description
-        default-value: 'Default value'
-        weight: 'Weight for input item'
-        title: Title
-        fieldset: Fieldset
+        confirm: '确定生成表单结构'
+        label: '输入标签'
+        machine_name: '输入机器名'
+        permission: '要生成权限吗'
+        type: 类型
+        invalid: '字段类型"%s"无效。'
+        description: 描述
+        default-value: '默认值'
+        weight: '权重'
+        title: 标签
+        fieldset: 字段集
 errors:
-    module-dependency: 'Missing module dependency "%s"'
-    class-name-empty: 'The Class name can not be empty'
+    module-dependency: '模块依赖丢失 "%s"'
+    class-name-empty: '类名不能为空'
 status:
-    enabled: Enabled
-    disabled: Disabled
+    enabled: 启用
+    disabled: 禁用
 messages:
-    canceled: 'Generated Cancelled'
-    drupal-core: 'Drupal Core'
+    canceled: '生成已取消'
+    drupal-core: 'Drupal 核心'
