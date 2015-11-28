@@ -6,4 +6,3 @@ messages:
     executing-update: 'Đang tiến hành hàm cập nhật %s của module %s'
     module-update-function-not-found: 'Module %s không có hàm cập nhật cho %s'
     executing-required-previous-updates: 'Đang tiến hành các cập nhật được yêu cầu trước'
-

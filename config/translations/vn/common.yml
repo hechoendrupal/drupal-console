@@ -23,7 +23,7 @@ questions:
         permission: 'Bạn muốn tạo ra các quyền không?'
         type: Kiểu
         invalid: 'Kiểu field "%s" is không hợp lệ.'
-        description: Mô tả
+        description: 'Mô tả'
         default-value: 'Default value'
         weight: 'Trọng số cho đầu vào'
         title: Title
@@ -32,8 +32,8 @@ errors:
     module-dependency: 'Thiếu module dependency "%s"'
     class-name-empty: 'Tên của lớp không thể để trống'
 status:
-    enabled: Cho phép
-    disabled: Không cho phép
+    enabled: 'Cho phép'
+    disabled: 'Không cho phép'
 messages:
     canceled: 'Đã huỷ sinh mã'
     drupal-core: 'Nhập Drupal phiên bản lõi'

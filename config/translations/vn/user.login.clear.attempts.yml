@@ -10,4 +10,3 @@ messages:
     successful: 'Các đăng nhập thử đã được xóa thành công cho người dùng id %s.'
 errors:
     invalid-user: 'Không thể tải thực thể người dùng (Uid: %s).'
-

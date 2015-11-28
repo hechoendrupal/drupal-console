@@ -2,7 +2,7 @@ description: 'Ghi đè giá trị cấu hình trong cấu hình đang hoạt đ�
 arguments:
     config-name: 'Tên cấu hình.'
     key: Khóa
-    value: Giá trị
+    value: 'Giá trị'
 messages:
     configuration: 'Tên cấu hình'
     configuration-key: 'Cấu hình khóa'
