@@ -3,4 +3,3 @@ options:
     path: 'The path to the directory where the docset will be saved.'
 messages:
     missing_path: 'thiếu đường dẫn'
-

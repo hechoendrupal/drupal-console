@@ -7,8 +7,8 @@ messages:
     id: 'Rest ID'
     label: Label
     canonical_url: 'Canonical URL'
-    status: Trạng thái
-    provider: Nhà cung cấp
+    status: 'Trạng thái'
+    provider: 'Nhà cung cấp'
     enabled: Bật
     disabled: Tắt
     rest-state: 'Các trạng thái REST'
