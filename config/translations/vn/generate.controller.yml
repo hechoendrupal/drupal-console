@@ -25,4 +25,3 @@ messages:
     method-name-already-added: 'Tên phương pháp đã được thêm rồi'
     invalid-route: 'Tuyến đường không thể được để trống'
     route-already-added: 'Tuyến đường đã được thêm rồi'
-

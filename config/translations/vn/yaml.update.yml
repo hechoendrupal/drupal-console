@@ -14,4 +14,3 @@ key:
         yaml-new-key: 'Khóa mới YAML'
     messages:
         updated: 'File YAML %s đã được cập nhật thành công'
-

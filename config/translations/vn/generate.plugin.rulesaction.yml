@@ -20,4 +20,3 @@ questions:
     services: common.questions.services
     category: 'Nhập vào danh mục plugin'
     context: 'Nhập vào ngữ cảnh plugin'
-

@@ -4,6 +4,6 @@ arguments:
 messages:
     name: 'Tên định tuyến'
     path: 'Đường dẫn của Lớp'
-    pattern: Mô hình
-    defaults: Mặc định
-    options: Lựa chọn
+    pattern: 'Mô hình'
+    defaults: 'Mặc định'
+    options: 'Lựa chọn'

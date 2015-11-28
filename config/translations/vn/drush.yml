@@ -4,4 +4,3 @@ arguments:
     args: 'Các đối số Drush.'
 messages:
     not_found: 'Câu lệnh drush không được tìm thấy.'
-

@@ -15,4 +15,3 @@ messages:
     disabled-modules: 'Chỉ các module đã ngắt sẽ được liệt kê trong phần hiển thị tự động'
     config-conflict-overwrite: 'Các đối tượng phần cấu hình này sẽ bị ghi đè trong phần cấu hình đã thiết lập'
     config-conflict: 'Các đối tượng phần cấu hình này đã tồn tại trong thiết lập của hệ thống, phần cài đặt không thể thực hiện'
-
