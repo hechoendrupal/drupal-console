@@ -9,7 +9,6 @@ options:
     services: common.questions.services
 questions:
     module: common.questions.module
-
     service-name: 'Nhập tên dịch vụ'
     class-name: 'Nhập tên Class'
     interface: 'Tạo một giao diện người dùng'

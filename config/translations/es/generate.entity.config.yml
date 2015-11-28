@@ -5,8 +5,10 @@ options:
     entity-class: 'Clase the la entidad de configuración'
     entity-name: 'Nombre the la entidad de configuración'
     label: Etiqueta
+    bundle-of: 'Acts as bundle for content entities'
 questions:
     module: common.questions.module
     entity-class: 'Ingrese la clase de la nueva entidad de configuración'
     entity-name: 'Ingrese el nombre de la nueva entidad de configuración'
     label: 'Ingrese la etiqueta de la nueva entidad de configuración'
+    bundle-of: 'Name of the content entity you want this (config) entity to act as a bundle for'

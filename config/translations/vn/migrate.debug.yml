@@ -3,8 +3,7 @@ arguments:
     tag: 'Migrate tag'
 messages:
     id: 'Id của phần chuyển đổi dữ liệu'
-    description: Mô tả
+    description: 'Mô tả'
     no-migrations: 'There aren''t migrations available try to execute command: migrate:setup:migrations'
     tags: Tags
-    version: Phiên bản 
-
+    version: 'Phiên bản'
