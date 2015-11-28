@@ -1,7 +1,7 @@
-description: 'Chain command execution'
+description: 'Chain命令执行'
 options:
-    file: 'User defined file containing commands to get executed.'
+    file: '用户已定义的文件包含需执行的命令.'
 messages:
-    missing_file: 'You must provide a valid file path and name.'
-    invalid_file: 'The file "%s" does not exists.'
-    module_install: 'module:install command is not runnable inside a chain queue and must be run independently.'
+    missing_file: '您必须提供一个正确的文件路径及名称.'
+    invalid_file: '文件"%s"不存在.'
+    module_install: '模块:安装命令在chain queue里不能执行,必须独立运行.'
