@@ -18,4 +18,3 @@ questions:
     container: 'Bạn cần truy cập vùng dịch vụ phải không?'
 messages:
     title-not-empty: 'Tiêu đề không thể để trống'
-

@@ -11,4 +11,3 @@ questions:
     class-name: 'Nhập tên lớp của kiểu plugin'
     machine-name: 'Nhập tên máy của kiểu plugin'
     label: 'Nhập nhãn của kiểu plugin'
-

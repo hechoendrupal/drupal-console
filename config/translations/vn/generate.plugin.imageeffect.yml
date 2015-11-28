@@ -13,4 +13,3 @@ questions:
     label: 'Nhập nhãn của plugin'
     plugin-id: 'Nhập plugin id'
     description: 'Nhập mô tả cho plugin'
-

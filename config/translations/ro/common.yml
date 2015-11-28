@@ -21,13 +21,13 @@ questions:
         label: 'Introduceți eticheta'
         machine_name: 'Introduceți numele mașină'
         permission: 'Doriți să generați permisiuni'
-        type: 'Tip'
+        type: Tip
         invalid: 'Tipul câmpului "%s" este incorect.'
-        description: 'Descriere'
+        description: Descriere
         default-value: 'Valoare implicită'
         weight: 'Greutatea elementului introdus'
-        title: 'Titlu'
-        fieldset: 'Fieldset'
+        title: Titlu
+        fieldset: Fieldset
 errors:
     module-dependency: 'Lipsesc dependințele modulului "%s"'
     class-name-empty: 'Numele Clasei nu poate fi lăsat necompletat'

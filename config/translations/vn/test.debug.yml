@@ -6,11 +6,10 @@ options:
     group: Nhóm
 messages:
     class: 'Kiểm tra Class'
-    description: Mô tả
+    description: 'Mô tả'
     group: Nhóm
     type: 'Kiểm tra theo Loại'
     success: 'Console vừa được cập nhật vào phiên bản mới nhất.'
     missing-dependency: 'Thiếu phần phụ thuộc'
     methods: 'Kiểm tra các phương thức'
     not-found: 'Bắt lỗi đã không được tìm thấy, thử cách li test id giữa dấu ngoặc kép.'
-
