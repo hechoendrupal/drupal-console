@@ -1,10 +1,10 @@
 description: 'Export a specific content type and their fields.'
 arguments:
-    content_type: 'Content Type to be exported'
+    content_type: '要导出的内容类型'
 questions:
-    content_type: 'Content Type to be exported'
-    optional-config: 'Export content type in module as an optional configuration'
+    content_type: '要导出的内容类型'
+    optional-config: '导出模块的内容类型作为额外的配置'
 messages:
-    content_type_exported: 'Exporting content type'
+    content_type_exported: '正在导出内容类型'
 options:
-    optional-config: 'Export content type as an optional YAML configuration in your module'
+    optional-config: '导出内容类型作为您的模块中一个额外的YAML配置'
