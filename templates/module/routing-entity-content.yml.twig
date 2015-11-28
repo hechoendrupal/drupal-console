@@ -20,6 +20,8 @@ entity.{{ entity_name }}.collection:
   options:
     _admin_route: TRUE
 
+{# Note: a content entity with bundles will add via a dedicated controller. #}
+{% if not bundle_entity_type %}
 entity.{{ entity_name }}.add_form:
   path: '/admin/{{ entity_name }}/add'
   defaults:
@@ -30,6 +32,7 @@ entity.{{ entity_name }}.add_form:
   options:
     _admin_route: TRUE
 
+{% endif %}
 entity.{{ entity_name }}.edit_form:
   path: '/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit'
   defaults:
@@ -50,6 +53,8 @@ entity.{{ entity_name }}.delete_form:
   options:
     _admin_route: TRUE
 
+{# Note: a content entity with bundles will have the settings configured on the bundle (config) entity. #}
+{% if not bundle_entity_type %}
 {{ entity_name }}.settings:
   path: 'admin/structure/{{ entity_name }}'
   defaults:
@@ -59,4 +64,22 @@ entity.{{ entity_name }}.delete_form:
     _permission: 'administer {{ label|lower }} entities'
   options:
     _admin_route: TRUE
+{% else %}
+{{ entity_name }}.add_page:
+  path: '/admin/{{ entity_name }}/add'
+  defaults:
+    _controller: '\Drupal\{{ module }}\Controller\{{ entity_class }}AddController::add'
+    _title: 'Add {{ label }}'
+  requirements:
+    _permission: 'add {{ entity_name }} entities'
 
+entity.{{ entity_name }}.add_form:
+  path: '/admin/{{ entity_name }}/add/{{ '{'~bundle_entity_type~'}' }}'
+  defaults:
+    _controller: '\Drupal\{{ module }}\Controller\{{ entity_class }}AddController::addForm'
+    _title_callback: '\Drupal\{{ module }}\Controller\{{ entity_class }}AddController::getAddFormTitle'
+  options:
+    _admin_route: TRUE
+  requirements:
+    _permission: 'add {{ entity_name }} entities'
+{% endif %}

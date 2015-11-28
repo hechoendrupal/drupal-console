@@ -80,16 +80,7 @@ abstract class EntityCommand extends GeneratorCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $entityType = $this->getStringHelper()->camelCaseToUnderscore($this->entityType);
-
-        $module = $input->getOption('module');
-        $entity_class = $input->getOption('entity-class');
-        $entity_name = $input->getOption('entity-name');
-        $label = $input->getOption('label');
-
-        $this
-            ->getGenerator()
-            ->generate($module, $entity_name, $entity_class, $label, $entityType);
+        // Operations defined in EntityConfigCommand and EntityContentCommand.
     }
 
     /**
