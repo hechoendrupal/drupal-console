@@ -1,39 +1,39 @@
 options:
-    events: 'ä»å®¹å™¨ä¸­å¯¼å…¥äº‹ä»¶'
-    module: 'æ¨¡å—åç§°.'
-    services: 'ä»å®¹å™¨ä¸­å¯¼å…¥æœåŠ¡.'
-    tags: 'ä»å®¹å™¨ä¸­è®¾ç½®æœåŠ¡æ ‡ç­¾ã€‚'
-    inputs: 'åˆ›å»ºè¡¨å•ä¸­çš„è¾“å…¥é¡¹ã€‚'
-    permissions: 'åˆ›å»ºæƒé™ã€‚'
+    events: '´ÓÈİÆ÷ÖĞµ¼ÈëÊÂ¼ş'
+    module: 'Ä£¿éÃû³Æ.'
+    services: '´ÓÈİÆ÷ÖĞµ¼Èë·şÎñ.'
+    tags: '´ÓÈİÆ÷ÖĞÉèÖÃ·şÎñµÄ±êÇ©.'
+    inputs: 'ÔÚÒ»¸ö±íµ¥ÖĞ´´½¨ÊäÈë.'
+    permissions: '´´½¨ÊÚÈ¨.'
 questions:
-    module: 'è¾“å…¥æ¨¡å—åç§°'
-    confirm: 'ç¡®å®šç”Ÿæˆ'
-    canceled: 'ç”Ÿæˆå‘½ä»¤å·²ç»å–æ¶ˆã€‚'
+    module: 'ÊäÈëÄ£¿éÃû³Æ'
+    confirm: 'ÄúÈ·ÈÏ´´½¨'
+    canceled: 'ÃüÁî´´½¨È¡Ïû.'
     events:
-        message: "\nä½¿ç”¨ä¸Šä¸‹é”®è¾“å…¥äº‹ä»¶åç§°ã€‚\nè¿™æ˜¯å¯é€‰çš„, ç‚¹å‡» <info>å›è½¦</info> <info>ç»§ç»­</info>\n"
-        name: 'è¾“å…¥äº‹ä»¶åç§°'
+        message: "\nType the event name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
+        name: 'ÊäÈëÊÂ¼şÃû³Æ'
     services:
-        confirm: 'ç¡®å®šä»å®¹å™¨ä¸­å¯¼å…¥æœåŠ¡'
-        message: "\nä½¿ç”¨ä¸Šä¸‹é”®è¾“å…¥æœåŠ¡åç§°ã€‚\nè¿™æ˜¯å¯é€‰çš„, ç‚¹å‡» <info>å›è½¦</info> <info>ç»§ç»­</info>\n"
-        name: 'è¾“å…¥ä½ çš„æœåŠ¡'
+        confirm: 'ÄúĞèÒª´ÓÈİÆ÷ÖĞÔØÈë·şÎñ'
+        message: "\nType the service name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
+        name: 'ÊäÈëÄúµÄ·şÎñ'
     inputs:
-        confirm: 'ç¡®å®šç”Ÿæˆè¡¨å•ç»“æ„'
-        label: 'è¾“å…¥æ ‡ç­¾'
-        machine_name: 'è¾“å…¥æœºå™¨å'
-        permission: 'è¦ç”Ÿæˆæƒé™å—'
-        type: ç±»å‹
-        invalid: 'å­—æ®µç±»å‹"%s"æ— æ•ˆã€‚'
-        description: æè¿°
-        default-value: 'é»˜è®¤å€¼'
-        weight: 'æƒé‡'
-        title: æ ‡ç­¾
-        fieldset: å­—æ®µé›†
+        confirm: 'ÄúÏ£Íû´´½¨Ò»¸ö±í¸ñ½á¹¹'
+        label: 'ÊäÈë±êÇ©'
+        machine_name: 'ÊäÈë»úÆ÷Ãû'
+        permission: 'ÄúÏ£Íû´´½¨È¨ÏŞ'
+        type: ÀàĞÍ
+        invalid: '×Ö¶ÎÀàĞÍ "%s" ²»ÕıÈ·.'
+        description: ÃèÊö
+        default-value: 'Ä¬ÈÏÖµ'
+        weight: 'ÊäÈë×é¼şµÄÈ¨ÖØ'
+        title: ±êÌâ
+        fieldset: ×Ö¶Î×é
 errors:
-    module-dependency: 'æ¨¡å—ä¾èµ–ä¸¢å¤± "%s"'
-    class-name-empty: 'ç±»åä¸èƒ½ä¸ºç©º'
+    module-dependency: 'È±Ê§ĞèÒªµÄÄ£¿é "%s"'
+    class-name-empty: 'ClassÃû²»ÄÜÎª¿Õ'
 status:
-    enabled: å¯ç”¨
-    disabled: ç¦ç”¨
+    enabled: ÆôÓÃ
+    disabled: ½ûÓÃ
 messages:
-    canceled: 'ç”Ÿæˆå·²å–æ¶ˆ'
-    drupal-core: 'Drupal æ ¸å¿ƒ'
+    canceled: '´´½¨ÒÑÈ¡Ïû'
+    drupal-core: 'DrupalºËĞÄ'
