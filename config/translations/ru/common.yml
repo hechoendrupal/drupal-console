@@ -1,39 +1,39 @@
 options:
-    events: 'Load events from the container'
-    module: 'The Module name.'
-    services: 'Load services from the container.'
-    tags: 'Set service tags from the container.'
-    inputs: 'Create inputs in a form.'
-    permissions: 'Create permissions.'
+    events: 'Загрузить события из контейнера'
+    module: 'Имя модуля.'
+    services: 'Загрузка сервисов из контейнера.'
+    tags: 'Задать теги сервисов из контейнера.'
+    inputs: 'Создание полей ввода в форме.'
+    permissions: 'Создание правил доступа.'
 questions:
-    module: 'Enter the module name'
-    confirm: 'Do you confirm generation?'
-    canceled: 'Command generation canceled.'
+    module: 'Введите имя модуля'
+    confirm: 'ВЫ точно хотите сгенерировать это?'
+    canceled: 'Генерация отменана.'
     events:
-        message: "\nType the event name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
-        name: 'Enter event name'
+        message: "\nВведите имя события или нажмите клавишу вверх или вниз\nЭто не обязательное действие, нажмите <info>ввод</info> для <info>продолжения</info>\n"
+        name: 'Введите имя события'
     services:
-        confirm: 'Do you want to load services from the container'
-        message: "\nType the service name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
-        name: 'Enter your service'
+        confirm: 'Вы хотите загрузить сервис из контейнера?'
+        message: "\nВведите имя сервиса или нажмите клавишу вверх или вниз\nЭто не обязательное действие, нажмите <info>ввод</info> для <info>продолжения</info>\n"
+        name: 'Введите ваш сервис'
     inputs:
-        confirm: 'Do you want to generate a form structure?'
-        label: 'Input label'
-        machine_name: 'Input machine name'
-        permission: 'Do you want to generate permissions?'
+        confirm: 'Вы хотите сгенерировать форму?'
+        label: 'Метка поля ввода'
+        machine_name: 'Машинное имя поля ввода'
+        permission: 'Вы хотите сгенерировать правила доступа?'
         type: Type
-        invalid: 'Field Type "%s" is invalid.'
-        description: Description
-        default-value: 'Default value'
-        weight: 'Weight for input item'
-        title: Title
-        fieldset: Fieldset
+        invalid: 'Тип поля "%s" неверен.'
+        description: Описание
+        default-value: 'Значение по-умолчанию'
+        weight: 'Вес для поля ввода'
+        title: Заголовок
+        fieldset: 'Набор полей'
 errors:
-    module-dependency: 'Missing module dependency "%s"'
-    class-name-empty: 'The Class name can not be empty'
+    module-dependency: 'Зависимость "%s" модуля  отсутствует'
+    class-name-empty: 'Имя класса не может быть пустым'
 status:
-    enabled: Enabled
-    disabled: Disabled
+    enabled: Включено
+    disabled: Выключено
 messages:
-    canceled: 'Generated Cancelled'
-    drupal-core: 'Drupal Core'
+    canceled: 'Генерация отменена'
+    drupal-core: 'Ядро Drupal'

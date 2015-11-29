@@ -1,13 +1,13 @@
-description: 'Export single configuration as yml file.'
+description: '导出单一配置文件并以yml格式保存.'
 arguments:
-    config-name: 'Configuration name.'
+    config-name: '配置名称.'
 options:
-    simple-configuration: 'Simple configuration'
+    simple-configuration: '单一配置'
 questions:
-    config-type: 'Configuration type'
-    config-name: 'Configuration name'
+    config-type: '配置类型'
+    config-name: '配置名称'
 messages:
-    config-not-found: 'Configuration name not found.'
-    export: 'Configuration was exported at file %s.'
-    invalid-config-type: 'Invalid config type, please select one of the list'
-    invalid-config-name: 'Invalid config name, please select one of the list'
+    config-not-found: '配置名称未找到.'
+    export: '配置已导出至文件%s.'
+    invalid-config-type: '不正确的配置类型,请选择列表之一'
+    invalid-config-name: '不正确的配置名,请选择列表之一'

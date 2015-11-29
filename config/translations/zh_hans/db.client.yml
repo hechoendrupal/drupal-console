@@ -1,8 +1,8 @@
-description: 'Launch a DB client if it''s available'
+description: '如果可用启动一个数据库客户端'
 arguments:
-    database: 'Database key from settings.php'
+    database: 'settings.php的数据库key'
 messages:
-    database-not-found: 'Database %s connection info wasn''t found'
-    database-not-supported: 'Database type %s is not supported yet'
-    database-client-not-found: 'Database client %s wans''t found'
-    executing: 'Executing: %s'
+    database-not-found: '数据库%s连接信息未找到'
+    database-not-supported: '数据库类型%s尚未支持'
+    database-client-not-found: '数据库客户端%s未找到'
+    executing: '执行: %s'
