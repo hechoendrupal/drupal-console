@@ -1,9 +1,0 @@
-description: '显示当前程序的路线'
-arguments:
-    route-name: '路线名'
-messages:
-    name: '路线名'
-    path: '类路径'
-    pattern: 模式
-    defaults: 缺省值
-    options: 选项

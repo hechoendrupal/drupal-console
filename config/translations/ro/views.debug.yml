@@ -6,13 +6,13 @@ arguments:
 messages:
     view-id: 'ID-ul view-ului'
     view-name: 'Numele view-ului'
-    description: 'Descriere'
-    tag: 'Etichetă'
-    status: 'Status'
-    path: 'Cale'
+    description: Descriere
+    tag: Etichetă
+    status: Status
+    path: Cale
     not-found: 'View-ul %s nu a fost găsit.'
     display-list: 'Lista de afișare'
-    display-id: 'ID'
-    display-name: 'Nume'
-    display-description: 'Descriere'
-    display-paths: 'Căi'
+    display-id: ID
+    display-name: Nume
+    display-description: Descriere
+    display-paths: Căi

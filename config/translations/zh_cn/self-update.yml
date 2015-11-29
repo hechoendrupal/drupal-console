@@ -1,5 +1,0 @@
-description: '更新console到最新版本.'
-help: '更新console命令到最新版本.'
-messages:
-    success: '成功更新console到最新版本.'
-    current-version: 'console到最新版本%s早已安装在系统中.'
