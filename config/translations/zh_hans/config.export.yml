@@ -1,46 +1,46 @@
-description: 'Export current application configuration.'
+description: '导出当前应用设置.'
 arguments:
-    directory: 'Define export directory to save configuration output.'
+    directory: '定义导出目录以保存设置输入.'
 messages:
-    directory: 'Your configuration export file was stored in %s'
+    directory: '您的设置导出文件存放于%s'
 content:
     type:
-        description: 'Export a specific content type and their fields.'
+        description: '导出特定内容类型以及它们的字段.'
         arguments:
-            content_type: 'Content Type to be exported'
+            content_type: '要导出的内容类型'
         questions:
-            content_type: 'Content Type to be exported'
-            optional-config: 'Export content type in module as an optional configuration'
+            content_type: '要导出的内容类型'
+            optional-config: '在模块中导出内容类型作为一个额外的配置'
         messages:
-            content_type_exported: 'Exporting content type'
-            configuration_exported: 'The following configuration files were generated'
+            content_type_exported: '正在导出内容类型'
+            configuration_exported: '下列配置文件已创建'
         options:
-            optional-config: 'Export content type as an optional YAML configuration in your module'
+            optional-config: '导出内容类型作为一个您模块中额外的YAML配置'
 single:
-    description: 'Export single configuration as yml file.'
+    description: '以yml文件导出单独的配置.'
     arguments:
-        config-name: 'Configuration name.'
+        config-name: '配置名称.'
     options:
-        simple-configuration: 'Simple configuration'
+        simple-configuration: '单独的配置'
     questions:
-        config-type: 'Configuration type'
-        config-name: 'Configuration name'
+        config-type: '配置类型'
+        config-name: '配置名称'
     messages:
-        config-not-found: 'Configuration name not found.'
-        export: 'Configuration was exported at file %s.'
-        invalid-config-type: 'Invalid config type, please select one of the list'
-        invalid-config-name: 'Invalid config name, please select one of the list'
+        config-not-found: '配置名称未找到.'
+        export: '配置导出至文件%s.'
+        invalid-config-type: '不正确的配置类型,请选择列表之一'
+        invalid-config-name: '不正确的配置名称,请选择列表之一'
 view:
-    description: 'Export a view in YAML format inside a provided module to reuse in other website.'
+    description: '在提供模块中以YAML格式导出一个视图以用于其它网站中.'
     messages:
-        view_exported: 'Exporting view'
-        depencies-included: 'The following module dependencies were included at %s'
+        view_exported: '导出视图'
+        depencies-included: '以下模块依赖关系包括于%s'
     questions:
-        view: 'View to be exported'
-        optional-config: 'Export view in module as an optional configuration'
-        include-module-dependencies: 'Include view module dependencies in module info YAML file'
+        view: '要导出的视图'
+        optional-config: '作为额外配置导出模块中的视图'
+        include-module-dependencies: '包括模块信息YAML文件中的视图模块依赖关系'
     arguments:
-        view-id: 'View ID'
+        view-id: '视图ID'
     options:
-        optional-config: 'Export view as an optional YAML configuration in your module'
-        include-module-dependencies: 'Include module dependencies in module info YAML file'
+        optional-config: '以模块中额外的YAML文件导出视图'
+        include-module-dependencies: '在模块信息YAML文件包括模块依赖关系'
