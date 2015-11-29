@@ -1,8 +1,8 @@
-description: 'Edit the selected configuration.'
+description: '编辑选中的配置.'
 arguments:
-    config-name: 'Configuration name.'
-    editor: Editor.
+    config-name: '配置名称.'
+    editor: 编辑器.
 questions:
-    config-name: 'Choose a configuration unit'
+    config-name: '选择一个配置单元'
 messages:
-    no-directory: 'An error occurred while creating your directory at'
+    no-directory: '创建您的目录出错'
