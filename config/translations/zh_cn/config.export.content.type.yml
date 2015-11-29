@@ -1,4 +1,4 @@
-description: 'Export a specific content type and their fields.'
+description: '导出特定内容类型以及他们的字段.'
 arguments:
     content_type: '要导出的内容类型'
 questions:

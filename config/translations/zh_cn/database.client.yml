@@ -1,4 +1,4 @@
-description: '开启可行的数据库用户端'
+description: '启动可用的数据库客户端'
 arguments:
     database: '从settings.php文件里取得的数据库键'
 messages:
