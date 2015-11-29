@@ -4,12 +4,12 @@ arguments:
 messages:
     theme-id: Id
     theme-name: Tên
-    status: Trạng thái
-    version: Phiên bản
-    installed: Cài đặt
-    uninstalled: Gỡ bỏ
+    status: 'Trạng thái'
+    version: 'Phiên bản'
+    installed: 'Cài đặt'
+    uninstalled: 'Gỡ bỏ'
     default-theme: 'Hiển thị mặc định'
     properties: Properties
-    regions: Các vùng
+    regions: 'Các vùng'
     invalid-theme: 'Theme %s is invalid'
     theme-properties: Properties

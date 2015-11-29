@@ -2,7 +2,7 @@ description: 'List all known local and remote sites.'
 help: 'The <info>site:debug</info> list all known local and remote sites.'
 messages:
     site: Site
-    host: Máy chủ
+    host: 'Máy chủ'
     root: Root
     directory-not-found: 'Sites local directory not found'
     private-key: 'Error with private key'

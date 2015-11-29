@@ -11,4 +11,3 @@ questions:
     class-name: 'Nhập tên lớp của kiểu plugin'
     plugin-name: 'Nhập tên máy của kiểu plugin'
     plugin-file-name: 'Nhập tên file plugin (e.g.  MODULE.plugin.filename.yml)'
-

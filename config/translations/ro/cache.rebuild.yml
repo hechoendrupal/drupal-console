@@ -9,7 +9,9 @@ messages:
 questions:
     cache: 'Selectează cache-ul.'
 examples:
-    - description: 'Reconstruiți tot cache-ul'
-      execution: 'drupal cr all'
-    - description: 'Reconstruiți discovery cache'
-      execution: 'drupal cr discovery'
+    -
+        description: 'Reconstruiți tot cache-ul'
+        execution: 'drupal cr all'
+    -
+        description: 'Reconstruiți discovery cache'
+        execution: 'drupal cr discovery'
