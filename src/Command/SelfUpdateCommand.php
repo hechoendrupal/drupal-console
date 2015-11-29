@@ -15,7 +15,6 @@ use Drupal\Console\Application;
 
 class SelfUpdateCommand extends Command
 {
-
     /**
      * {@inheritdoc}
      */
@@ -32,7 +31,6 @@ class SelfUpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         $updateStrategy = new GithubStrategy();
         $updateStrategy->setPackageName('drupal/console');
         $updateStrategy->setStability(GithubStrategy::STABLE);
@@ -42,17 +40,20 @@ class SelfUpdateCommand extends Command
         $updater = new Updater(null, false);
         $updater->setStrategyObject($updateStrategy);
         if ($updater->update()) {
-            $output->writeln(sprintf(
-              $this->trans('commands.self-update.messages.success'),
-              $updater->getOldVersion(),
-              $updater->getNewVersion()
-            ));
-        }
-        else {
-            $output->writeln(sprintf(
-              $this->trans('commands.self-update.messages.current-version'),
-              $updater->getOldVersion()
-            ));
+            $output->writeln(
+                sprintf(
+                    $this->trans('commands.self-update.messages.success'),
+                    $updater->getOldVersion(),
+                    $updater->getNewVersion()
+                )
+            );
+        } else {
+            $output->writeln(
+                sprintf(
+                    $this->trans('commands.self-update.messages.current-version'),
+                    $updater->getOldVersion()
+                )
+            );
         }
 
         // Recommended by Commerce Guys CLI
