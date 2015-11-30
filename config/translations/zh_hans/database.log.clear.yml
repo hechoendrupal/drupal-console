@@ -1,5 +1,5 @@
-description: '可以使用过滤器选择在数据库日志里删除事件日志'
+description: 'Remove events from DBLog table, filters are available'
 messages:
-    event-deleted: '事件%s被删除'
-    clear-error: '清除过程失败，请检查过滤设置'
-    clear-sucess: '清除事件成功'
+    event-deleted: 'Event %s was deleted'
+    clear-error: 'Clear process fail, please check used filters'
+    clear-sucess: 'Clear of events was successfully'
