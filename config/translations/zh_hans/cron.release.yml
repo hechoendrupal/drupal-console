@@ -1,3 +1,3 @@
-description: '解除Cron系统锁定以重新运行Cron'
+description: 'Release cron system lock to run cron again'
 messages:
-    released: 'Cron锁定成功解除'
+    released: 'Cron lock was released sucessfully'
