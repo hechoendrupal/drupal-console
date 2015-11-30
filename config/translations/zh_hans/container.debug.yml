@@ -1,4 +1,4 @@
-description: 显示当前程序服务。
+description: 'Displays current services for an application.'
 messages:
-    service_id: 服务ID
-    class_name: 类名
+    service_id: 'Service ID'
+    class_name: 'Class Name'
