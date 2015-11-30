@@ -1,10 +1,6 @@
-description: '导入所选配置.'
+description: 'Import the selected configuration.'
 arguments:
-    config-name: '配置名.'
-    input-file: '导入文件的路径.'
+    config-name: 'Configuration name.'
+    input-file: 'Path to the import files.'
 messages:
-<<<<<<< HEAD:config/translations/zh_cn/config.import-single.yml
-    empty-value: '该值不能为空'
-=======
-    empty-value: 这值不能为空值
->>>>>>> refs/remotes/hechoendrupal/master:config/translations/zh_hans/config.import-single.yml
+    empty-value: 'Value can not be empty'
