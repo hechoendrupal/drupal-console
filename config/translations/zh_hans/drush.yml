@@ -1,6 +1,6 @@
-description: '在控制台内运行drush.'
-help: '使用此互动模式以获得更好的体验 --shell.'
+description: 'Run drush from console.'
+help: 'Use the interactive mode for a better experience --shell.'
 arguments:
     args: 'Drush arguments.'
 messages:
-    not_found: '找不到Drush命令.'
+    not_found: 'Drush command not found.'
