@@ -1,10 +1,10 @@
-description: '改变应用中的配置值。'
+description: 'Override config value in active configuration.'
 arguments:
-    config-name: '配置名'
-    key: 键
-    value: 值
+    config-name: 'Configuration name.'
+    key: Key
+    value: Value
 messages:
-    configuration: '配置名'
-    configuration-key: '配置键'
-    original: 原始值
-    updated: 改写的值
+    configuration: 'Configuration name'
+    configuration-key: 'Configuration key'
+    original: 'Original Value'
+    updated: 'Override Value'
