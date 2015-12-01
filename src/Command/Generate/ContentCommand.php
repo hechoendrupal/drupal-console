@@ -15,10 +15,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\Yaml\Dumper;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Component\Utility\Random;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\field\FieldConfigInterface;
 use Drupal\node\Entity\Node;
-use Faker\Factory;
-use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Plugin\PluginBase;
+
 
 class ContentCommand extends ContainerAwareCommand
 {
@@ -48,10 +52,10 @@ class ContentCommand extends ContainerAwareCommand
                 $this->trans('commands.generate.content.arguments.limit')
             )
             ->addOption(
-                'title_words_limit',
+                'title_words_min',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.content.arguments.title-words-limit')
+                $this->trans('commands.generate.content.arguments.title-words-min')
             )
             ->addOption(
                 'initial_creation_date',
@@ -116,15 +120,15 @@ class ContentCommand extends ContainerAwareCommand
         }
         $input->setOption('limit', $limit);
 
-        $titleWordsLimit = $input->getOption('title_words_limit');
-        if (!$titleWordsLimit) {
-            $titleWordsLimit = $dialog->ask(
+        $titleWordsMin = $input->getOption('title_words_min');
+        if (!$titleWordsMin) {
+            $titleWordsMin = $dialog->ask(
                 $output,
-                $dialog->getQuestion($this->trans('commands.generate.content.questions.title-words-limit'), ''),
+                $dialog->getQuestion($this->trans('commands.generate.content.questions.title-words-min'), ''),
                 ''
             );
         }
-        $input->setOption('title_words_limit', $titleWordsLimit);
+        $input->setOption('title_words_min', $titleWordsMin);
 
         $initialCreationDate = $input->getOption('initial_creation_date');
         if (!$initialCreationDate) {
@@ -146,7 +150,7 @@ class ContentCommand extends ContainerAwareCommand
 
         $contentTypes = $input->getArgument('content_types');
         $limit = $input->getOption('limit');
-        $titleWordsLimit = $input->getOption('title_words_limit');
+        $titleWordsMin = $input->getOption('title_words_min');
         $initialCreationDate = $input->getOption('initial_creation_date');
 
         if (!$limit) {
@@ -157,14 +161,13 @@ class ContentCommand extends ContainerAwareCommand
         print_r($contentTypes);
         print '\n';*/
 
-
         $this->getContentTypes();
 
         //print_r($this->contentTypes);
 
         if ($contenTypes = array_intersect(array_keys($this->contentTypes), $contentTypes)) {
             for ($i=0; $i<$limit; $i++) {
-                $this->createNode($contenTypes[array_rand($contenTypes)], $titleWordsLimit, $initialCreationDate, $output, $dialog);
+                $this->createNode($contenTypes[array_rand($contenTypes)], $titleWordsMin, $initialCreationDate, $output, $dialog);
             }
         } else {
             $output->writeln(
@@ -205,17 +208,18 @@ class ContentCommand extends ContainerAwareCommand
         return $fields;
     }
 
-    protected function createNode($contentType, $titleWordsLimit, $initialCreationDate,  $output, $dialog)
+    protected function createNode($contentType, $titleWordsMin, $initialCreationDate,  $output, $dialog)
     {
-        $this->uids = $this->getUsers();
+        $random = new Random();
 
-        $faker = Factory::create();
+        $nodeStorage = $this->getEntityManager()->getStorage('node');
+        $this->uids = $this->getUsers();
 
         $fields = $this->getFields($contentType);
 
-        $title = $titleWordsLimit?$faker->sentence($titleWordsLimit, false): $faker->sentence;
+        $title = $titleWordsMin?$random->sentences(mt_rand(1, $titleWordsMin), TRUE): $random->sentences(1, TRUE);
 
-        $node = [
+        $nodeInfo = [
             'type' => $contentType,
             'uid' => $this->uids[array_rand($this->uids)],
             'title' => $title,
@@ -225,7 +229,7 @@ class ContentCommand extends ContainerAwareCommand
             'langcode' => ''
         ];
 
-        $entity = entity_create('node', $node);
+        $entity = Node::create($nodeInfo);
 
         $initialTimeStamp = strtotime($initialCreationDate);
         $created = $initialTimeStamp?REQUEST_TIME - mt_rand(0, (REQUEST_TIME - $initialTimeStamp)):REQUEST_TIME;
@@ -233,22 +237,34 @@ class ContentCommand extends ContainerAwareCommand
         $entity->setCreatedTime($created);
 
         foreach ($fields as $field) {
-            $fieldName = $field->getName();
+            $fieldName = $field->getFieldStorageDefinition()->getName();
+            print $fieldName . "\n";
             $required = $field->isRequired();
-            $cardinality = $cardinality = $field->getFieldStorageDefinition();
+            $cardinality = $field->getFieldStorageDefinition()->getCardinality();
+            print $cardinality . "\n";
 
             if ($cardinality == FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED) {
-                if ($required) {
-                    // Always set at least one value, due generate content objective is testing files
-                    $cardinality = rand(1, 5);
-                }
+                // Always set at least one value, due generate content objective is testing files
+                $cardinality = rand(1, 5);
             }
 
             $entity->$fieldName->generateSampleItems($cardinality);
+
+            //print_r($entity);
         }
 
+        //$entity->comment->generateSampleItems();
+
+        print_r($entity->field_image->getValue());
+        print_r($entity->body->getValue());
+
         try {
-            $entity->save();
+            print_r(get_class($entity));
+            print_r($entity->getEntityTypeId());
+
+            $return = $entity->save();
+
+            print 'Save return:' . $return;
 
             $output->writeln(
                 $dialog->getFormatterHelper()->formatBlock(
