@@ -46,6 +46,18 @@ class ContentCommand extends ContainerAwareCommand
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.content.arguments.limit')
+            )
+            ->addOption(
+                'title_words_limit',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.content.arguments.title-words-limit')
+            )
+            ->addOption(
+                'initial_creation_date',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.content.arguments.start-creation-date')
             );
     }
 
@@ -103,6 +115,26 @@ class ContentCommand extends ContainerAwareCommand
             );
         }
         $input->setOption('limit', $limit);
+
+        $titleWordsLimit = $input->getOption('title_words_limit');
+        if (!$titleWordsLimit) {
+            $titleWordsLimit = $dialog->ask(
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.content.questions.title-words-limit'), ''),
+                ''
+            );
+        }
+        $input->setOption('title_words_limit', $titleWordsLimit);
+
+        $initialCreationDate = $input->getOption('initial_creation_date');
+        if (!$initialCreationDate) {
+            $initialCreationDate = $dialog->ask(
+                $output,
+                $dialog->getQuestion($this->trans('commands.generate.content.questions.initial-creation-date'), ''),
+                ''
+            );
+        }
+        $input->setOption('initial_creation_date', $initialCreationDate);
     }
 
     /**
@@ -114,6 +146,8 @@ class ContentCommand extends ContainerAwareCommand
 
         $contentTypes = $input->getArgument('content_types');
         $limit = $input->getOption('limit');
+        $titleWordsLimit = $input->getOption('title_words_limit');
+        $initialCreationDate = $input->getOption('initial_creation_date');
 
         if (!$limit) {
             $limit = 10;
@@ -130,7 +164,7 @@ class ContentCommand extends ContainerAwareCommand
 
         if ($contenTypes = array_intersect(array_keys($this->contentTypes), $contentTypes)) {
             for ($i=0; $i<$limit; $i++) {
-                $this->createNode($contenTypes[array_rand($contenTypes)], $output, $dialog);
+                $this->createNode($contenTypes[array_rand($contenTypes)], $titleWordsLimit, $initialCreationDate, $output, $dialog);
             }
         } else {
             $output->writeln(
@@ -171,7 +205,7 @@ class ContentCommand extends ContainerAwareCommand
         return $fields;
     }
 
-    protected function createNode($contentType, $output, $dialog)
+    protected function createNode($contentType, $titleWordsLimit, $initialCreationDate,  $output, $dialog)
     {
         $this->uids = $this->getUsers();
 
@@ -179,13 +213,24 @@ class ContentCommand extends ContainerAwareCommand
 
         $fields = $this->getFields($contentType);
 
+        $title = $titleWordsLimit?$faker->sentence($titleWordsLimit, false): $faker->sentence;
+
         $node = [
             'type' => $contentType,
             'uid' => $this->uids[array_rand($this->uids)],
-            'title' => $faker->sentence,
+            'title' => $title,
+            'revision' => mt_rand(0, 1),
+            'status' => TRUE,
+            'promote' => mt_rand(0, 1),
+            'langcode' => ''
         ];
 
         $entity = entity_create('node', $node);
+
+        $initialTimeStamp = strtotime($initialCreationDate);
+        $created = $initialTimeStamp?REQUEST_TIME - mt_rand(0, (REQUEST_TIME - $initialTimeStamp)):REQUEST_TIME;
+
+        $entity->setCreatedTime($created);
 
         foreach ($fields as $field) {
             $fieldName = $field->getName();
