@@ -5,9 +5,13 @@ arguments:
   content-types: 'Content types to be used content generation'
 options:
     limit: 'How many contents will be created'
+    title-words-limit: 'How many words will be used in title'
+    initial-creation-date: 'Initial date range of creation for content'
 questions:
     content-type: 'Content type to be used content generation'
     limit: 'How many contents will be created'
+    title-words-limit: 'How many words will be used in title (empty for ramdom)'
+    initial-creation-date: 'Initial date range of creation for content'
 messages:
     invalid-content-types: 'Content types %s are invalid'
     generated-content-type: 'New %s was generated with title: %s'
