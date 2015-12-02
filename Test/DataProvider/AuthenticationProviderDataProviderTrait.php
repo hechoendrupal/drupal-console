@@ -13,7 +13,7 @@ trait AuthenticationProviderDataProviderTrait
      */
     public function commandData()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
 
         return [
           ['Foo', 'foo' . rand(), 0],

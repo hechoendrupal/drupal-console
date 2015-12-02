@@ -13,7 +13,7 @@ trait EntityBundleDataProviderTrait
      */
     public function commandData()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
         
         return [
           ['foo', 'default_type', 'default']

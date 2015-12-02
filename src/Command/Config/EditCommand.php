@@ -49,8 +49,8 @@ class EditCommand extends ContainerAwareCommand
         $editor = $input->getArgument('editor');
         $config = $this->getConfigFactory()->getEditable($configName);
         $configSystem = $this->getConfigFactory()->get('system.file');
-        $temporalyDirectory = $configSystem->get('path.temporary') ?: '/tmp';
-        $configFile = $temporalyDirectory.'/config-edit/'.$configName.'.yml';
+        $temporaryDirectory = $configSystem->get('path.temporary') ?: '/tmp';
+        $configFile = $temporaryDirectory.'/config-edit/'.$configName.'.yml';
         $ymlFile = new Parser();
         $fileSystem = new Filesystem();
 
@@ -59,7 +59,7 @@ class EditCommand extends ContainerAwareCommand
         }
 
         try {
-            $fileSystem->mkdir($temporalyDirectory);
+            $fileSystem->mkdir($temporaryDirectory);
             $fileSystem->dumpFile($configFile, $this->getYamlConfig($configName));
         } catch (IOExceptionInterface $e) {
             throw new \Exception($this->trans('commands.config.edit.messages.no-directory').' '.$e->getPath());
