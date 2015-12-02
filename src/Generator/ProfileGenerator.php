@@ -12,14 +12,13 @@ class ProfileGenerator extends Generator
     public function generate(
         $profile,
         $machine_name,
+        $profile_path,
         $description,
         $core,
         $dependencies,
         $distribution
     ) {
-        $drupal = $this->getDrupalHelper();
-        $drupal_root = $drupal->getRoot();
-        $dir = $drupal_root . '/profiles/' . $machine_name;
+        $dir = $profile_path . '/' . $machine_name;
 
         if (file_exists($dir)) {
             if (!is_dir($dir)) {
