@@ -22,6 +22,7 @@ class ProfileGeneratorTest extends GeneratorTest
      *
      * @param $profile
      * @param $machine_name
+     * @param $profile_path
      * @param $description
      * @param $core
      * @param $dependencies
