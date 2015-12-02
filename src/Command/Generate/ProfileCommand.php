@@ -255,7 +255,7 @@ class ProfileCommand extends GeneratorCommand
                         return $distribution;
                     },
                     false,
-                    null,
+                    'My Kick-ass Distribution',
                     null
                 );
             }
