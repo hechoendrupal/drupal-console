@@ -21,10 +21,10 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
 
     protected function setup()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
     }
 
-    public function setUpTemporalDirectory()
+    public function setUpTemporaryDirectory()
     {
         $this->dir = sys_get_temp_dir() . "/modules";
     }
