@@ -17,7 +17,10 @@ class ProfileGenerator extends Generator
         $dependencies,
         $distribution
     ) {
-        $dir = '/profiles/' . $machine_name;
+        $drupal = $this->getDrupalHelper();
+        $drupal_root = $drupal->getRoot();
+        $dir = $drupal_root . '/profiles/' . $machine_name;
+
         if (file_exists($dir)) {
             if (!is_dir($dir)) {
                 throw new \RuntimeException(
