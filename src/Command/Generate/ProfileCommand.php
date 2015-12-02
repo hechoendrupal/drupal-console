@@ -83,6 +83,7 @@ class ProfileCommand extends GeneratorCommand
         $description = $input->getOption('description');
         $core = $input->getOption('core');
         $distribution = $input->getOption('distribution');
+        $profile_path = $this->getDrupalHelper()->getRoot() . '/profiles';
 
         // Check if all module dependencies are available.
         $dependencies = $validators->validateModuleDependencies($input->getOption('dependencies'));
@@ -103,6 +104,7 @@ class ProfileCommand extends GeneratorCommand
         $generator->generate(
             $profile,
             $machine_name,
+            $profile_path,
             $description,
             $core,
             $dependencies,
