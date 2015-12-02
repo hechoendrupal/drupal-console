@@ -151,7 +151,7 @@ trait FormTrait
                     $input_options = array_filter(array_map('trim', explode(',', $input_options)));
                     // Create array format for options
                     foreach ($input_options as $key => $value) {
-                        $input_options_output[$key] = "\$this->t('".$value."') => \$this->t('".$value."')";
+                        $input_options_output[$key] = "'$value' => \$this->t('".$value."')";
                     }
 
                     $input_options = 'array('.implode(', ', $input_options_output).')';
