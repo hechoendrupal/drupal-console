@@ -54,7 +54,7 @@ class InstallCommand extends ContainerAwareCommand
                 if ($theme->status) {
                     continue;
                 }
-                
+
                 $theme_list[$theme_id] = $theme->getName();
             }
 
