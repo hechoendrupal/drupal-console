@@ -13,7 +13,7 @@ trait ThemeDataProviderTrait
      */
     public function commandData()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
 
         return [
           ['Foo', rand(), $this->dir.'/themes/custom', 'bar', 'Other', '8.x', 'sd', 'global-styling', false, false]

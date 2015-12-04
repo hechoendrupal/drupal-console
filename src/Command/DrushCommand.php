@@ -10,7 +10,7 @@ namespace Drupal\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Command;
 
 class DrushCommand extends Command
@@ -36,8 +36,7 @@ class DrushCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /* @var $output \Symfony\Component\Console\Style\OutputStyle */
-        $output = new SymfonyStyle($input, $output);
+        $output = new DrupalStyle($input, $output);
 
         $args = '';
         if ($arguments = $input->getArgument('args')) {

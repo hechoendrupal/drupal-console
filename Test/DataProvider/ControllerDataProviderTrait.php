@@ -13,7 +13,7 @@ trait ControllerDataProviderTrait
      */
     public function commandData()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
 
         $routes = [
           ['title' => 'Foo Controller', 'method' => 'index', 'route' => 'index']
