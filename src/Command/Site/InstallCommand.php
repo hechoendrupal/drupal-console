@@ -17,6 +17,7 @@ use Drupal\Core\Database\Database;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
 use Drupal\Console\Command\Database\DatabaseTrait;
 use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
 
 class InstallCommand extends Command
 {
@@ -121,6 +122,8 @@ class InstallCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
+        $output = new DrupalStyle($input, $output);
+
         $validator_required = function ($value) {
             if (!strlen(trim($value))) {
                 throw new \Exception('The option can not be empty');
@@ -129,7 +132,6 @@ class InstallCommand extends Command
             return $value;
         };
 
-        $dialog = $this->getDialogHelper();
         $question = $this->getQuestionHelper();
 
         $profiles = $this->getProfiles();
@@ -137,14 +139,9 @@ class InstallCommand extends Command
         // <profile> option
         $profile = $input->getArgument('profile');
         if (!$profile) {
-            $profile = $question->ask(
-                $input,
-                $output,
-                new ChoiceQuestion(
-                    $this->trans('commands.site.install.questions.profile'),
-                    array_combine(array_values($profiles), array_values($profiles)),
-                    1
-                )
+            $profile = $output->choice(
+                $this->trans('commands.site.install.questions.profile'),
+                array_combine(array_values($profiles), array_values($profiles))
             );
             $input->setArgument('profile', array_search($profile, $profiles));
         }
@@ -154,13 +151,10 @@ class InstallCommand extends Command
         if (!$langcode) {
             $languages = $this->getLanguages();
             $defaultLanguage = $this->getDefaultLanguage();
-            $langcode = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.site.install.questions.langcode'), $languages[$defaultLanguage]),
-                $validator_required,
-                false,
-                $languages[$defaultLanguage],
-                $languages
+            $langcode = $output->choiceNoList(
+                $this->trans('commands.site.install.questions.langcode'),
+                $languages,
+                $languages[$defaultLanguage]
             );
             $input->setOption('langcode', array_search($langcode, $languages));
         }
@@ -172,48 +166,48 @@ class InstallCommand extends Command
             // --db-type option
             $db_type = $input->getOption('db-type');
             if (!$db_type) {
-                $db_type = $this->dbTypeQuestion($input, $output, $question);
+                $db_type = $this->dbTypeQuestion($output);
             }
             $input->setOption('db-type', $db_type);
 
             // --db-file option
             $db_file = $input->getOption('db-file');
             if ($db_type == 'sqlite' && !$db_file) {
-                $db_file = $this->dbFileQuestion($output, $dialog);
+                $db_file = $this->dbFileQuestion($output);
                 $input->setOption('db-file', $db_file);
             } else {
                 // --db-host option
                 $db_host = $input->getOption('db-host');
                 if (!$db_host) {
-                    $db_host = $this->dbHostQuestion($output, $dialog);
+                    $db_host = $this->dbHostQuestion($output);
                 }
                 $input->setOption('db-host', $db_host);
 
                 // --db-name option
                 $db_name = $input->getOption('db-name');
                 if (!$db_name) {
-                    $db_name = $this->dbNameQuestion($output, $dialog);
+                    $db_name = $this->dbNameQuestion($output);
                 }
                 $input->setOption('db-name', $db_name);
 
                 // --db-user option
                 $db_user = $input->getOption('db-user');
                 if (!$db_user) {
-                    $db_user = $this->dbUserQuestion($output, $dialog);
+                    $db_user = $this->dbUserQuestion($output);
                 }
                 $input->setOption('db-user', $db_user);
 
                 // --db-pass option
                 $db_pass = $input->getOption('db-pass');
                 if (!$db_pass) {
-                    $db_pass = $this->dbPassQuestion($output, $dialog);
+                    $db_pass = $this->dbPassQuestion($output);
                 }
                 $input->setOption('db-pass', $db_pass);
 
                 // --db-port prefix
                 $db_port = $input->getOption('db-port');
                 if (!$db_port) {
-                    $db_port = $this->dbPortQuestion($output, $dialog);
+                    $db_port = $this->dbPortQuestion($output);
                 }
                 $input->setOption('db-port', $db_port);
             }
@@ -221,7 +215,7 @@ class InstallCommand extends Command
             // --db-prefix
             $db_prefix = $input->getOption('db-prefix');
             if (!$db_prefix) {
-                $db_prefix = $this->dbPrefixQuestion($output, $dialog);
+                $db_prefix = $this->dbPrefixQuestion($output);
             }
             $input->setOption('db-prefix', $db_prefix);
         } else {
@@ -233,7 +227,7 @@ class InstallCommand extends Command
             $input->setOption('db-port', $database['default']['port']);
             $input->setOption('db-prefix', $database['default']['prefix']['default']);
             $output->writeln(
-                '[-] <info>'.
+                '<info>'.
                 sprintf(
                     $this->trans('commands.site.install.messages.using-current-database'),
                     $database['default']['driver'],
@@ -243,69 +237,58 @@ class InstallCommand extends Command
             );
         }
 
-
         // --site-name option
         $site_name = $input->getOption('site-name');
         if (!$site_name) {
-            $site_name = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.site.install.questions.site-name'), 'Drupal 8 Site Install'),
-                $validator_required,
-                false,
-                'Drupal 8 Site Install'
+            $site_name = $output->ask(
+                $this->trans('commands.site.install.questions.site-name'),
+                'Drupal 8 Site Install',
+                $validator_required
             );
+            $input->setOption('site-name', $site_name);
         }
-        $input->setOption('site-name', $site_name);
 
         // --site-mail option
         $site_mail = $input->getOption('site-mail');
         if (!$site_mail) {
-            $site_mail = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.site.install.questions.site-mail'), 'admin@example.com'),
-                $validator_required,
-                false,
-                'admin@example.com'
+            $site_mail = $output->ask(
+                $this->trans('commands.site.install.questions.site-mail'),
+                'admin@example.com',
+                $validator_required
             );
+            $input->setOption('site-mail', $site_mail);
         }
-        $input->setOption('site-mail', $site_mail);
 
         // --account-name option
         $account_name = $input->getOption('account-name');
         if (!$account_name) {
-            $account_name = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.site.install.questions.account-name'), 'admin'),
-                $validator_required,
-                false,
-                'admin'
+            $account_name = $output->ask(
+                $this->trans('commands.site.install.questions.account-name'),
+                'admin',
+                $validator_required
             );
+            $input->setOption('account-name', $account_name);
         }
-        $input->setOption('account-name', $account_name);
 
         // --account-mail option
         $account_mail = $input->getOption('account-mail');
         if (!$account_mail) {
-            $account_mail = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.site.install.questions.account-mail'), 'admin@example.com'),
-                $validator_required,
-                false,
-                'admin@example.com'
+            $account_mail = $output->ask(
+                $this->trans('commands.site.install.questions.account-mail'),
+                'admin@example.com',
+                $validator_required
             );
+            $input->setOption('account-mail', $account_mail);
         }
-        $input->setOption('account-mail', $account_mail);
 
         // --account-pass option
         $account_pass = $input->getOption('account-pass');
         if (!$account_pass) {
-            $account_pass = $dialog->askHiddenResponse(
-                $output,
-                $dialog->getQuestion($this->trans('commands.site.install.questions.account-pass'), ''),
-                ''
+            $account_pass = $output->askHidden(
+                $this->trans('commands.site.install.questions.account-pass')
             );
+            $input->setOption('account-pass', $account_pass);
         }
-        $input->setOption('account-pass', $account_pass);
     }
 
     /**

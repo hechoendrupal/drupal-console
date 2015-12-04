@@ -11,14 +11,14 @@ commands:
   - command: generate:controller
     options:
       module: example
-      class-name: ExampleController
-      method-name: index
+      class: ExampleController
+      method: index
       route: /example/index
       services: [twig]
   - command: generate:form:config
     options:
       module: example
-      class-name: ExampleForm
+      class: ExampleForm
       form-id: example_form
       inputs: false
       routing: true
@@ -45,20 +45,20 @@ commands:
   - command: generate:plugin:block
     options:
       module: example
-      class-name: ExampleBlock
+      class: ExampleBlock
       label: Example plugin block
       plugin-id: example_block
   - command: generate:plugin:imageeffect
     options:
       module: example
-      class-name: ExampleImageEffect
+      class: ExampleImageEffect
       plugin-id: example_image_effect
       label: Example image effect
       description: Example image effect
   - command: generate:plugin:rest:resource
     options:
       module: example
-      class-name: ExampleRestResource
+      class: ExampleRestResource
       plugin-id: example_rest_resource
       plugin-label: Example Rest Resource
       plugin-url: example_rest_resource

@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Command\ModuleTrait;
+use Drupal\Console\Style\DrupalStyle;
 
 class ExportViewCommand extends ContainerAwareCommand
 {
@@ -57,15 +58,15 @@ class ExportViewCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output, $dialog);
+            $module = $this->moduleQuestion($output);
+            $input->setOption('module', $module);
         }
-        $input->setOption('module', $module);
 
         // view-id argument
         $viewId = $input->getArgument('view-id');
@@ -78,47 +79,30 @@ class ExportViewCommand extends ContainerAwareCommand
                 $viewList[$view->get('id')] = $view->get('label');
             }
 
-            $viewId = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.views.export.questions.view'), ''),
-                function ($view) use ($viewList) {
-                    if (!in_array($view, array_values($viewList))) {
-                        throw new \InvalidArgumentException(
-                            sprintf(
-                                'View "%s" is invalid.',
-                                $view
-                            )
-                        );
-                    }
-
-                    return array_search($view, $viewList);
-                },
-                false,
-                '',
+            $viewId = $output->choiceNoList(
+                $this->trans('commands.views.export.questions.view'),
                 $viewList
             );
+            $input->setArgument('view-id', $viewId);
         }
-        $input->setArgument('view-id', $viewId);
 
         $optionalConfig = $input->getOption('optional-config');
         if (!$optionalConfig) {
-            $optionalConfig = $dialog->askConfirmation(
-                $output,
-                $dialog->getQuestion($this->trans('commands.config.export.view.questions.optional-config'), 'yes', '?'),
+            $optionalConfig = $output->confirm(
+                $this->trans('commands.config.export.view.questions.optional-config'),
                 true
             );
+            $input->setOption('optional-config', $optionalConfig);
         }
-        $input->setOption('optional-config', $optionalConfig);
 
         $includeModuleDependencies = $input->getOption('include-module-dependencies');
         if (!$includeModuleDependencies) {
-            $includeModuleDependencies = $dialog->askConfirmation(
-                $output,
-                $dialog->getQuestion($this->trans('commands.config.export.view.questions.include-module-dependencies'), 'yes', '?'),
+            $includeModuleDependencies = $output->confirm(
+                $this->trans('commands.config.export.view.questions.include-module-dependencies'),
                 true
             );
+            $input->setOption('include-module-dependencies', $includeModuleDependencies);
         }
-        $input->setOption('include-module-dependencies', $includeModuleDependencies);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

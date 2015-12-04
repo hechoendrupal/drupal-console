@@ -43,7 +43,7 @@ class GeneratorFormCommandTest extends GenerateCommandTest
         $code = $commandTester->execute(
             [
             '--module'              => $module,
-            '--class-name'          => $class_name,
+            '--class'          => $class_name,
             '--services'            => $services,
             '--inputs'              => $inputs,
             '--form-id'             => $form_id,

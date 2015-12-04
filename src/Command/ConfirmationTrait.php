@@ -7,36 +7,30 @@
 
 namespace Drupal\Console\Command;
 
-use Symfony\Component\Console\Helper\HelperInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputInterface;
+use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class ConfirmationTrait
+ * @package Drupal\Console\Command
+ */
 trait ConfirmationTrait
 {
     /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     * @param HelperInterface $dialog
+     * @param DrupalStyle $output
      *
-     * @return mixed
+     * @return bool
      */
-    public function confirmationQuestion(InputInterface $input, OutputInterface $output, HelperInterface $dialog)
+    public function confirmGeneration(DrupalStyle $output)
     {
-        if ($input->isInteractive()) {
-            if (!$dialog->askConfirmation(
-                $output,
-                $dialog->getQuestion($this->trans('commands.common.questions.confirm'), 'yes', '?'),
-                true
-            )
-            ) {
-                $output->writeln('<error>'.$this->trans('commands.common.messages.canceled').'</error>');
+        $confirmation = $output->confirm(
+            $this->trans('commands.common.questions.confirm'),
+            true
+        );
 
-                return true;
-            }
-
-            return false;
+        if (!$confirmation) {
+            $output->warning($this->trans('commands.common.messages.canceled'));
         }
 
-        return false;
+        return $confirmation;
     }
 }

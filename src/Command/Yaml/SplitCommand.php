@@ -14,6 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
 use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
 
 class SplitCommand extends Command
 {
@@ -61,6 +62,8 @@ class SplitCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output = new DrupalStyle($input, $output);
+
         $yaml = new Parser();
 
         $yaml_file = $input->getArgument('yaml-file');
@@ -80,15 +83,21 @@ class SplitCommand extends Command
             $yaml_file_parsed = $yaml->parse(file_get_contents($yaml_file));
 
             if (empty($yaml_file_parsed)) {
-                $output->writeln(
-                    '[+] <info>'.sprintf(
+                $output->error(
+                    sprintf(
                         $this->trans('commands.yaml.merge.messages.wrong-parse'),
                         $yaml_file_parsed
-                    ).'</info>'
+                    )
                 );
             }
         } catch (\Exception $e) {
-            $output->writeln('[+] <error>'.$this->trans('commands.yaml.merge.messages.error-parsing').': '.$e->getMessage().'</error>');
+            $output->error(
+                sprintf(
+                    '%s: %s',
+                    $this->trans('commands.yaml.merge.messages.error-parsing'),
+                    $e->getMessage()
+                )
+            );
 
             return;
         }
@@ -100,7 +109,7 @@ class SplitCommand extends Command
             if ($nested_array->keyExists($yaml_file_parsed, $parents)) {
                 $yaml_file_parsed = $nested_array->getValue($yaml_file_parsed,  $parents);
             } else {
-                $output->writeln('[+] <error>'.$this->trans('commands.yaml.merge.messages.invalid-key').'</error>');
+                $output->error($this->trans('commands.yaml.merge.messages.invalid-key'));
             }
 
             if ($indent_level == 0) {
@@ -125,6 +134,8 @@ class SplitCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
+        $output = new DrupalStyle($input, $output);
+
         $validator_filename = function ($value) {
             if (!strlen(trim($value))) {
                 throw new \Exception(' You must provide a valid file path.');
@@ -133,23 +144,19 @@ class SplitCommand extends Command
             return $value;
         };
 
-        $dialog = $this->getDialogHelper();
-
         // --yaml-left option
         $yaml_file = $input->getArgument('yaml-file');
         if (!$yaml_file) {
-            $yaml_file = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.yaml.diff.questions.yaml-left'), ''),
-                $validator_filename,
-                false,
-                null
+            $yaml_file = $output->ask(
+                $this->trans('commands.yaml.diff.questions.yaml-left'),
+                '',
+                $validator_filename
             );
         }
         $input->setArgument('yaml-file', $yaml_file);
     }
 
-    protected function writeSplittedFile($yaml_splitted, $file_output_prefix = '', $file_output_suffix = '', $output)
+    protected function writeSplittedFile($yaml_splitted, $file_output_prefix = '', $file_output_suffix = '', DrupalStyle $output)
     {
         $dumper = new Dumper();
 
@@ -172,7 +179,13 @@ class SplitCommand extends Command
             try {
                 $yaml = $dumper->dump($value, 10);
             } catch (\Exception $e) {
-                $output->writeln('[+] <error>'.$this->trans('commands.yaml.merge.messages.error-generating').': '.$e->getMessage().'</error>');
+                $output->error(
+                    sprintf(
+                        '%s: %s',
+                        $this->trans('commands.yaml.merge.messages.error-generating'),
+                        $e->getMessage()
+                    )
+                );
 
                 return;
             }
@@ -180,16 +193,22 @@ class SplitCommand extends Command
             try {
                 file_put_contents($filename, $yaml);
             } catch (\Exception $e) {
-                $output->writeln('[+] <error>'.$this->trans('commands.yaml.merge.messages.error-writing').': '.$e->getMessage().'</error>');
+                $output->error(
+                    sprintf(
+                        '%s: %s',
+                        $this->trans('commands.yaml.merge.messages.error-writing'),
+                        $e->getMessage()
+                    )
+                );
 
                 return;
             }
 
-            $output->writeln(
-                '    [-] <info>'.sprintf(
+            $output->success(
+                sprintf(
                     $this->trans('commands.yaml.split.messages.split-generated'),
                     $filename
-                ).'</info>'
+                )
             );
         }
     }

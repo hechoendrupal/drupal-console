@@ -10,6 +10,7 @@ namespace Drupal\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Drupal\Console\Command\Command;
 
 class DrushCommand extends Command
@@ -35,6 +36,9 @@ class DrushCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        /* @var $output \Symfony\Component\Console\Style\OutputStyle */
+        $output = new SymfonyStyle($input, $output);
+
         $args = '';
         if ($arguments = $input->getArgument('args')) {
             $args .= ' '.implode(' ', $arguments);
@@ -44,9 +48,9 @@ class DrushCommand extends Command
         if (`which drush`) {
             system('drush'.$c_args);
         } else {
-            $this->getMessageHelper()->addErrorMessage(
-                $this->trans('commands.drush.message.not_found')
-            );
+            $output->error($this->trans('commands.drush.message.not_found'));
+
+            return;
         }
     }
 }

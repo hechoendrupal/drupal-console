@@ -12,14 +12,16 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
+use Drupal\user\Entity\User;
 
 class LoginCleanAttemptsCommand extends ContainerAwareCommand
 {
     use ConfirmationTrait;
 
     /**
-   * {@inheritdoc}
-   */
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this->
@@ -30,12 +32,12 @@ class LoginCleanAttemptsCommand extends ContainerAwareCommand
     }
 
     /**
-   * Verify if given User ID is valid value for question uid.
-   *
-   * @param  int $uid User ID to check.
-   * @return int A valid User ID.
-   * @throws \Symfony\Component\Process\Exception\InvalidArgumentException
-   */
+     * Verify if given User ID is valid value for question uid.
+     *
+     * @param  int $uid User ID to check.
+     * @return int A valid User ID.
+     * @throws \Symfony\Component\Process\Exception\InvalidArgumentException
+     */
     public function validateQuestionsUid($uid)
     {
         // Check if $uid is numeric.
@@ -57,34 +59,31 @@ class LoginCleanAttemptsCommand extends ContainerAwareCommand
     }
 
     /**
-   * {@inheritdoc}
-   */
+     * {@inheritdoc}
+     */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
+        $output = new DrupalStyle($input, $output);
 
         // Check if $uid argument is already set.
         if (!$uid = $input->getArgument('uid')) {
-
-            // Retrieve dialog helper.
-            $dialog = $this->getDialogHelper();
-
             // Request $uid argument.
-            $uid = $dialog->askAndValidate(
-                $output, $dialog->getQuestion($this->trans('commands.user.login.clear.attempts.questions.uid'), 1), array($this, 'validateQuestionsUid'), false, 1
+            $uid = $output->ask(
+                $this->trans('commands.user.login.clear.attempts.questions.uid'),
+                1,
+                $this->validateQuestionsUid($uid)
             );
+            $input->setArgument('uid', $uid);
         }
-        // Define $uid argument.
-        $input->setArgument('uid', $uid);
     }
 
     /**
    * {@inheritdoc}
    */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, DrupalStyle $output)
     {
-        $messageHelper = $this->getMessageHelper();
         $uid = $input->getArgument('uid');
-        $account = \Drupal\user\Entity\User::load($uid);
+        $account = User::load($uid);
 
         if (!$account) {
             // Error loading User entity.
@@ -111,7 +110,7 @@ class LoginCleanAttemptsCommand extends ContainerAwareCommand
             ->execute();
 
         // Command executed successful.
-        $messageHelper->addSuccessMessage(
+        $output->success(
             sprintf(
                 $this->trans('commands.user.login.clear.attempts.messages.successful'),
                 $uid

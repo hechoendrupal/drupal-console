@@ -78,14 +78,6 @@ trait HelperTrait
     }
 
     /**
-     * @return \Drupal\Console\Helper\DialogHelper
-     */
-    public function getDialogHelper()
-    {
-        return $this->getHelperSet()->get('dialog');
-    }
-
-    /**
      * @return \Symfony\Component\Console\Helper\QuestionHelper
      */
     public function getQuestionHelper()
@@ -110,7 +102,7 @@ trait HelperTrait
     }
 
     /**
-     * @return \Symfony\Component\Console\Helper\QuestionHelper
+     * @return \Symfony\Component\Console\Helper\TableHelper
      */
     public function getTableHelper()
     {

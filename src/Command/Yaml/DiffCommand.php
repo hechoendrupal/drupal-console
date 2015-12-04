@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Parser;
 use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
 
 class DiffCommand extends Command
 {
@@ -183,32 +184,28 @@ class DiffCommand extends Command
             return $value;
         };
 
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
         // --yaml-left option
         $yaml_left = $input->getArgument('yaml-left');
         if (!$yaml_left) {
-            $yaml_left = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.yaml.diff.questions.yaml-left'), ''),
-                $validator_filename,
-                false,
-                null
+            $yaml_left = $output->ask(
+                $this->trans('commands.yaml.diff.questions.yaml-left'),
+                null,
+                $validator_filename
             );
+            $input->setArgument('yaml-left', $yaml_left);
         }
-        $input->setArgument('yaml-left', $yaml_left);
 
         // --yaml-right option
         $yaml_right = $input->getArgument('yaml-right');
         if (!$yaml_right) {
-            $yaml_right = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.yaml.diff.questions.yaml-right'), ''),
-                $validator_filename,
-                false,
-                null
+            $yaml_right = $output->ask(
+                $this->trans('commands.yaml.diff.questions.yaml-right'),
+                null,
+                $validator_filename
             );
+            $input->setArgument('yaml-right', $yaml_right);
         }
-        $input->setArgument('yaml-right', $yaml_right);
     }
 }
