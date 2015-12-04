@@ -27,39 +27,17 @@ class AboutCommand extends Command
         $application = $this->getApplication();
 
         $aboutTitle = sprintf(
-            '%s (%s)',
+            '%s (%s) | Supports Drupal %s',
             $this->trans('commands.site.status.messages.console'),
-            $application->getVersion()
+            $application->getVersion(),
+            $application::DRUPAL_VERSION
         );
 
         $output->setDecorated(false);
         $output->title($aboutTitle);
         $output->setDecorated(true);
 
-        $output->writeln(
-            $this->trans('commands.about.messages.welcome')
-        );
-
-        $features = [
-          $this->trans('commands.about.messages.welcome-feature-learn'),
-          $this->trans('commands.about.messages.welcome-feature-generate'),
-          $this->trans('commands.about.messages.welcome-feature-interact')
-        ];
-
-        $output->listing(
-            array_map(
-                function ($element) {
-                    return sprintf('<comment>%s</comment>', $element);
-                },
-                $features
-            )
-        );
-
         $commands = [
-            'move-phar' => [
-                $this->trans('commands.common.messages.move-phar'),
-                'mv console.phar /usr/local/bin/drupal'
-            ],
             'init' => [
                 $this->trans('commands.init.description'),
                 'drupal init [--override]'
@@ -74,6 +52,12 @@ class AboutCommand extends Command
                     'drupal site:new drupal8.dev %s',
                     $application::DRUPAL_VERSION
                 )
+            ],
+            'site-install' => [
+            $this->trans('commands.site.install.description'),
+            sprintf(
+                'drupal site:install'
+            )
             ],
             'links' => [
                 $this->trans('commands.list.description'),
