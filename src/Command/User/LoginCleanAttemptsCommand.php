@@ -78,9 +78,9 @@ class LoginCleanAttemptsCommand extends ContainerAwareCommand
     }
 
     /**
-   * {@inheritdoc}
-   */
-    protected function execute(InputInterface $input, DrupalStyle $output)
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $uid = $input->getArgument('uid');
         $account = User::load($uid);

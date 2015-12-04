@@ -14,9 +14,9 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class EditCommand extends ContainerAwareCommand
 {
@@ -85,8 +85,7 @@ class EditCommand extends ContainerAwareCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        /* @var $output \Symfony\Component\Console\Style\OutputStyle */
-        $output = new SymfonyStyle($input, $output);
+        $output = new DrupalStyle($input, $output);
 
         $configName = $input->getArgument('config-name');
         if (!$configName) {
