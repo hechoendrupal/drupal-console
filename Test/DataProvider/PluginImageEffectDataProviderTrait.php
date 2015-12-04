@@ -13,7 +13,7 @@ trait PluginImageEffectDataProviderTrait
      */
     public function commandData()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
 
         return [
           ['Foo',  'foo' . rand(), 'foo', 'bar', 'description'],

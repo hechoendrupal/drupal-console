@@ -13,7 +13,7 @@ trait FormDataProviderTrait
      */
     public function commandData()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
         
         return [
           ['Foo', 'foo' . rand(), 'id' . rand(), null, null, 'FormBase', true]

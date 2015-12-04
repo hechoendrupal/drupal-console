@@ -64,7 +64,7 @@ class PasswordHashCommand extends ContainerAwareCommand
     /**
      * {@inheritdoc}
      */
-    protected function interact(InputInterface $input, DrupalStyle $output)
+    protected function interact(InputInterface $input, OutputInterface $output)
     {
         $output = new DrupalStyle($input, $output);
 

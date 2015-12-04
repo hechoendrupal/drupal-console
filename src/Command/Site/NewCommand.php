@@ -13,9 +13,9 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Alchemy\Zippy\Zippy;
 use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
 
 class NewCommand extends Command
 {
@@ -30,7 +30,7 @@ class NewCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new SymfonyStyle($input, $output);
+        $output = new DrupalStyle($input, $output);
 
         $httpClient = $this->getHttpClientHelper();
 

@@ -7,23 +7,28 @@
 
 namespace Drupal\Console\Helper;
 
+use \Psr\Log\LoggerInterface;
+use \Psr\Log\LoggerTrait;
+use \Psr\Log\LogLevel;
 use Drupal\Console\Helper\Helper;
 use Drupal\Console\Style\DrupalStyle;
 
-class MessageHelper extends Helper
+class MessageHelper extends Helper implements LoggerInterface
 {
+    use LoggerTrait;
+
     /**
      * @var string
      */
-    const MESSAGE_ERROR = 'error';
+    const MESSAGE_ERROR = LogLevel::ERROR;
     /**
      * @var string
      */
-    const MESSAGE_WARNING = 'warning';
+    const MESSAGE_WARNING = LogLevel::WARNING;
     /**
      * @var string
      */
-    const MESSAGE_INFO = 'info';
+    const MESSAGE_INFO = LogLevel::INFO;
     /**
      * @var string
      */
@@ -31,7 +36,7 @@ class MessageHelper extends Helper
     /**
      * @var string
      */
-    const MESSAGE_DEFAULT = 'default';
+    const MESSAGE_DEFAULT = LogLevel::NOTICE;
 
     /**
      * @var array
@@ -121,6 +126,13 @@ class MessageHelper extends Helper
         }
 
         $output->writeln($outputMessage);
+    }
+
+    /**
+     *  @inheritdoc
+     */
+    public function log($level, $message, array $context = array()) {
+        $this->addMessage($message, $type);
     }
 
     /**
