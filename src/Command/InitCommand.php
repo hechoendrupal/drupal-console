@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\AutocompleteGenerator;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Drupal\Console\Style\DrupalStyle;
 
 class InitCommand extends Command
 {
@@ -38,8 +38,7 @@ class InitCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /* @var $output \Symfony\Component\Console\Style\OutputStyle */
-        $output = new SymfonyStyle($input, $output);
+        $output = new DrupalStyle($input, $output);
 
         $application = $this->getApplication();
         $config = $application->getConfig();
