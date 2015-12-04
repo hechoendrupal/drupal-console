@@ -52,9 +52,10 @@ class InstallCommand extends ContainerAwareCommand
                     continue;
                 }
 
-                if (!empty($theme->status == 1)) {
+                if ($theme->status) {
                     continue;
                 }
+
                 $theme_list[$theme_id] = $theme->getName();
             }
 
