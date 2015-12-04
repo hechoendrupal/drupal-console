@@ -8,6 +8,7 @@
 namespace Drupal\Console\Helper;
 
 use Drupal\Console\Helper\Helper;
+use Drupal\Console\Style\DrupalStyle;
 
 class MessageHelper extends Helper
 {
@@ -214,10 +215,7 @@ class MessageHelper extends Helper
             return;
         }
 
-        $this->showMessage(
-            $output,
-            $this->getTranslator()->trans($headerKey)
-        );
+        $output->writeln($this->getTranslator()->trans($headerKey));
 
         $output->writeln(
             sprintf(

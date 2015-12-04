@@ -1,3 +1,4 @@
+/.rules
 # Composer
 /vendor
 /bin/phpunit

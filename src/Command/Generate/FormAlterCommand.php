@@ -17,6 +17,7 @@ use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\FormTrait;
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class FormAlterCommand extends GeneratorCommand
 {
@@ -53,21 +54,20 @@ class FormAlterCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
-        // @see use Drupal\Console\Command\ConfirmationTrait::confirmationQuestion
-        if ($this->confirmationQuestion($input, $output, $dialog)) {
+        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        if ($input->isInteractive() && $this->confirmGeneration($output)) {
             return;
         }
 
         $module = $input->getOption('module');
-        $form_id = $input->getOption('form-id');
+        $formId = $input->getOption('form-id');
         $inputs = $input->getOption('inputs');
-
 
         $this
             ->getGenerator()
-            ->generate($module, $form_id, $inputs, $this->metadata);
+            ->generate($module, $formId, $inputs, $this->metadata);
 
         $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
@@ -76,7 +76,8 @@ class FormAlterCommand extends GeneratorCommand
     {
         $this->metadata = [];
 
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
+
         $moduleHandler = $this->getModuleHandler();
         $drupal = $this->getDrupalHelper();
         $questionHelper = $this->getQuestionHelper();
@@ -85,41 +86,34 @@ class FormAlterCommand extends GeneratorCommand
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output, $dialog);
+            $module = $this->moduleQuestion($output);
         }
         $input->setOption('module', $module);
 
-        // --class-name option
-        $form_id = $input->getOption('form-id');
-        if (!$form_id) {
+        // --form-id option
+        $formId = $input->getOption('form-id');
+        if (!$formId) {
             $forms = [];
             // Get form ids from webprofiler
             if ($moduleHandler->moduleExists('webprofiler')) {
-                $output->writeln('[-] <info>'.$this->trans('commands.generate.form.alter.messages.loading-forms').'</info>');
+                $output->writeln('<info>'.$this->trans('commands.generate.form.alter.messages.loading-forms').'</info>');
                 $forms = $this->getWebprofilerForms();
             }
 
             if (!empty($forms)) {
-                $form_id = $dialog->askAndValidate(
-                    $output,
-                    $dialog->getQuestion($this->trans('commands.generate.form.alter.options.form-id'), current(array_keys($forms))),
-                    function ($form) {
-                        return $form;
-                    },
-                    false,
-                    '',
-                    array_combine(array_keys($forms), array_keys($forms))
+                $formId = $output->choiceNoList(
+                    $this->trans('commands.generate.form.alter.options.form-id'),
+                    array_keys($forms)
                 );
             }
         }
 
-        if ($moduleHandler->moduleExists('webprofiler') && isset($forms[$form_id])) {
-            ;
-            $this->metadata['class'] = $forms[$form_id]['class']['class'];
-            $this->metadata['method'] = $forms[$form_id]['class']['method'];
-            $this->metadata['file'] = str_replace($drupal->getRoot(), '', $forms[$form_id]['class']['file']);
+        if ($moduleHandler->moduleExists('webprofiler') && isset($forms[$formId])) {
+            $this->metadata['class'] = $forms[$formId]['class']['class'];
+            $this->metadata['method'] = $forms[$formId]['class']['method'];
+            $this->metadata['file'] = str_replace($drupal->getRoot(), '', $forms[$formId]['class']['file']);
 
-            $formItems = array_keys($forms[$form_id]['form']);
+            $formItems = array_keys($forms[$formId]['form']);
 
             $question = new ChoiceQuestion(
                 $this->trans('commands.generate.form.alter.messages.hide-form-elements'),
@@ -139,12 +133,12 @@ class FormAlterCommand extends GeneratorCommand
             $this->metadata['unset'] = array_filter(array_map('trim', explode(',', $formItemsToHide)));
         }
 
-        $input->setOption('form-id', $form_id);
+        $input->setOption('form-id', $formId);
 
         $output->writeln($this->trans('commands.generate.form.alter.messages.inputs'));
 
         // @see Drupal\Console\Command\FormTrait::formQuestion
-        $form = $this->formQuestion($output, $dialog);
+        $form = $this->formQuestion($output);
         $input->setOption('inputs', $form);
     }
 
