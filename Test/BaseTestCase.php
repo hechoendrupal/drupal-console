@@ -4,7 +4,6 @@ namespace Drupal\Console\Test;
 
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Helper\HelperSet;
-use Drupal\Console\Helper\DialogHelper;
 use Drupal\Console\Helper\TwigRendererHelper;
 use Drupal\Console\Helper\HelperTrait;
 
@@ -32,9 +31,6 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
     public function getHelperSet($input = null)
     {
         if (!$this->helperSet) {
-            $dialog = new DialogHelper();
-            $dialog->setInputStream($this->getInputStream($input));
-
             $stringHelper = $this->getMockBuilder('Drupal\Console\Helper\StringHelper')
                 ->disableOriginalConstructor()
                 ->setMethods(['createMachineName'])
@@ -86,7 +82,6 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
                 [
                     'formatter' => new FormatterHelper(),
                     'renderer' => new TwigRendererHelper(),
-                    'dialog' => $dialog,
                     'string' => $stringHelper,
                     'validator' => $validator,
                     'translator' => $translator,

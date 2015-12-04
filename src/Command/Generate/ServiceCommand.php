@@ -15,6 +15,7 @@ use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Generator\ServiceGenerator;
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class ServiceCommand extends GeneratorCommand
 {
@@ -68,10 +69,10 @@ class ServiceCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
-        // @see use Drupal\Console\Command\ConfirmationTrait::confirmationQuestion
-        if ($this->confirmationQuestion($input, $output, $dialog)) {
+        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        if ($this->confirmGeneration($output)) {
             return;
         }
 
@@ -96,59 +97,53 @@ class ServiceCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output, $dialog);
+            $module = $this->moduleQuestion($output);
+            $input->setOption('module', $module);
         }
-        $input->setOption('module', $module);
 
         // --name option
         $name = $input->getOption('name');
         if (!$name) {
-            $name = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.service.questions.service-name'),
-                    $module.'.default'
-                ),
+            $name = $output->ask(
+                $this->trans('commands.generate.service.questions.service-name'),
                 $module.'.default'
             );
+            $input->setOption('name', $name);
         }
-        $input->setOption('name', $name);
 
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.service.questions.class-name'), 'DefaultService'),
+            $class = $output->ask(
+                $this->trans('commands.generate.service.questions.class'),
                 'DefaultService'
             );
+            $input->setOption('class', $class);
         }
-        $input->setOption('class', $class);
 
         // --interface option
         $interface = $input->getOption('interface');
         if (!$interface) {
-            $interface = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.service.questions.interface'), 'yes', '?'),
+            $interface = $output->confirm(
+                $this->trans('commands.generate.service.questions.interface'),
                 true
             );
+            $input->setOption('interface', $interface);
         }
-        $input->setOption('interface', $interface);
 
         // --services option
         $services = $input->getOption('services');
         if (!$services) {
             // @see Drupal\Console\Command\ServicesTrait::servicesQuestion
-            $services = $this->servicesQuestion($output, $dialog);
+            $services = $this->servicesQuestion($output);
+            $input->setOption('services', $services);
         }
-        $input->setOption('services', $services);
     }
 
     protected function createGenerator()

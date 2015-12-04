@@ -40,7 +40,7 @@ class GeneratorPluginImageFormatterCommandTest extends GenerateCommandTest
         $code = $commandTester->execute(
             [
               '--module'         => $module,
-              '--class-name'     => $class_name,
+              '--class'     => $class_name,
               '--label'          => $plugin_label,
               '--plugin-id'      => $plugin_id
             ],

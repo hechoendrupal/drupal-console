@@ -47,7 +47,7 @@ class LoginUrlCommand extends ContainerAwareCommand
 
         if (!$user) {
             $text = $this->trans('commands.user.login.url.errors.invalid-user');
-            $text = SafeMarkup::format($text, ['@uid' => $uid]);
+            $text = SafeMarkup::format($text, [':uid' => $uid]);
             $message->addErrorMessage($text);
             return;
         }

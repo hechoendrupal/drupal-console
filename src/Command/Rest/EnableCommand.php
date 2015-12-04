@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class EnableCommand extends ContainerAwareCommand
 {
@@ -31,7 +32,8 @@ class EnableCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
+
         $questionHelper = $this->getQuestionHelper();
         $resource_id = $input->getArgument('resource-id');
         $rest_resources = $this->getRestResources();
@@ -41,14 +43,8 @@ class EnableCommand extends ContainerAwareCommand
         );
 
         if (!$resource_id) {
-            $resource_id = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.rest.enable.arguments.resource-id'), ''),
-                function ($resource_id) use ($rest_resources_ids) {
-                    return $this->validateRestResource($resource_id, $rest_resources_ids, $this->getTranslator());
-                },
-                false,
-                '',
+            $resource_id = $output->choiceNoList(
+                $this->trans('commands.rest.enable.arguments.resource-id'),
                 $rest_resources_ids
             );
         }
@@ -61,17 +57,14 @@ class EnableCommand extends ContainerAwareCommand
         $plugin = $resourcePluginManager->getInstance(array('id' => $resource_id));
 
         $states = $plugin->availableMethods();
-        $question = new ChoiceQuestion(
-            $this->trans('commands.rest.enable.arguments.states'),
-            array_combine($states, $states),
-            '0'
-        );
 
-        $state = $questionHelper->ask($input, $output, $question);
+        $state = $output->choice(
+            $this->trans('commands.rest.enable.arguments.states'),
+            array_combine($states)
+        );
         $output->writeln($this->trans('commands.rest.enable.messages.selected-state').' '.$state);
 
         // Get serializer formats available and generate the question.
-
         $formats = $this->getSerializerFormats();
         $question = new ChoiceQuestion(
             $this->trans('commands.rest.enable.messages.formats'),

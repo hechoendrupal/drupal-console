@@ -15,6 +15,7 @@ use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\FormTrait;
 use Drupal\Console\Generator\FormGenerator;
 use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 abstract class FormCommand extends GeneratorCommand
 {
@@ -54,10 +55,10 @@ abstract class FormCommand extends GeneratorCommand
             )
             ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
-                'class-name',
+                'class',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.form.options.class-name')
+                $this->trans('commands.generate.form.options.class')
             )
             ->addOption(
                 'form-id',
@@ -78,7 +79,7 @@ abstract class FormCommand extends GeneratorCommand
         $module = $input->getOption('module');
         $services = $input->getOption('services');
         $update_routing = $input->getOption('routing');
-        $class_name = $input->getOption('class-name');
+        $class_name = $input->getOption('class');
         $form_id = $input->getOption('form-id');
         $form_type = $this->formType;
 
@@ -98,64 +99,59 @@ abstract class FormCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output, $dialog);
+            $module = $this->moduleQuestion($output);
+            $input->setOption('module', $module);
         }
-        $input->setOption('module', $module);
 
-        // --class-name option
-        $class_name = $input->getOption('class-name');
-        if (!$class_name) {
-            $class_name = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.form.questions.class-name'), 'DefaultForm'),
+        // --class option
+        $className = $input->getOption('class');
+        if (!$className) {
+            $className = $output->ask(
+                $this->trans('commands.generate.form.questions.class'),
                 'DefaultForm'
             );
+            $input->setOption('class', $className);
         }
-        $input->setOption('class-name', $class_name);
 
         // --form-id option
-        $form_id = $input->getOption('form-id');
-        if (!$form_id) {
-            $form_id = $this->getStringHelper()->camelCaseToMachineName($class_name);
-            $form_id = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.form.questions.form-id'), $form_id),
-                $form_id
+        $formId = $input->getOption('form-id');
+        if (!$formId) {
+            $formId = $output->ask(
+                $this->trans('commands.generate.form.questions.form-id'),
+                $this->getStringHelper()->camelCaseToMachineName($className)
             );
+            $input->setOption('form-id', $formId);
         }
-        $input->setOption('form-id', $form_id);
 
         // --services option
         // @see use Drupal\Console\Command\ServicesTrait::servicesQuestion
-        $services_collection = $this->servicesQuestion($output, $dialog);
-        $input->setOption('services', $services_collection);
+        $services = $this->servicesQuestion($output);
+        $input->setOption('services', $services);
 
         // --inputs option
         $inputs = $input->getOption('inputs');
         if (!$inputs) {
             // @see \Drupal\Console\Command\FormTrait::formQuestion
-            $inputs = $this->formQuestion($output, $dialog);
+            $inputs = $this->formQuestion($output);
+            $input->setOption('inputs', $inputs);
         }
-        $input->setOption('inputs', $inputs);
 
         // --routing option for ConfigFormBase
         if ($this->formType == 'ConfigFormBase') {
-          $routing = $input->getOption('routing');
-          if (!$routing && $dialog->askConfirmation(
-              $output,
-              $dialog->getQuestion($this->trans('commands.generate.form.questions.routing'), 'yes', '?'),
-              true
-            )
-          ) {
-            $routing = true;
-          }
-          $input->setOption('routing', $routing);
+            $routing = $input->getOption('routing');
+            if (!$routing) {
+                $routing = $output->confirm(
+                    $this->trans('commands.generate.form.questions.routing'),
+                    true
+                );
+                $input->setOption('routing', $routing);
+            }
         }
     }
 

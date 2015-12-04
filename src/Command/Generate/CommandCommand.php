@@ -14,6 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Generator\CommandGenerator;
 use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class CommandCommand extends GeneratorCommand
 {
@@ -34,7 +35,7 @@ class CommandCommand extends GeneratorCommand
                 'class',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.command.options.class-name')
+                $this->trans('commands.generate.command.options.class')
             )
             ->addOption(
                 'name',
@@ -55,9 +56,9 @@ class CommandCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
-        if ($this->confirmationQuestion($input, $output, $dialog)) {
+        if ($input->isInteractive() && $this->confirmGeneration($output)) {
             return;
         }
 
@@ -76,52 +77,46 @@ class CommandCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output, $dialog);
+            $module = $this->moduleQuestion($output);
+            $input->setOption('module', $module);
         }
-        $input->setOption('module', $module);
 
-        // --command
+        // --name
         $name = $input->getOption('name');
         if (!$name) {
-            $name = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.command.questions.name'), $module.':default'),
-                $module.':default'
+            $name = $output->ask(
+                $this->trans('commands.generate.command.questions.name'),
+                sprintf('%s:default', $module)
             );
+            $input->setOption('name', $name);
         }
-        $input->setOption('name', $name);
 
-        // --class-name option
+        // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.command.questions.class-name'), 'DefaultCommand'),
+            $class = $output->ask(
+                $this->trans('commands.generate.command.questions.class'),
+                'DefaultCommand',
                 function ($class) {
                     return $this->getValidator()->validateCommandName($class);
-                },
-                false,
-                'DefaultCommand',
-                null
+                }
             );
             $input->setOption('class', $class);
         }
 
-        // --container option
+        // --container-aware option
         $containerAware = $input->getOption('container-aware');
-        if (!$containerAware && $dialog->askConfirmation(
-            $output,
-            $dialog->getQuestion($this->trans('commands.generate.command.questions.container-aware'), 'yes', '?'),
-            true
-        )
-        ) {
-            $containerAware = true;
+        if (!$containerAware) {
+            $output->confirm(
+                $this->trans('commands.generate.command.questions.container-aware'),
+                true
+            );
         }
         $input->setOption('container-aware', $containerAware);
     }
