@@ -15,6 +15,7 @@ use Drupal\Console\Command\PermissionTrait;
 use Drupal\Console\Generator\PermissionGenerator;
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class PermissionCommand extends GeneratorCommand
 {
@@ -68,23 +69,23 @@ class PermissionCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output, $dialog);
+            $module = $this->moduleQuestion($output);
+            $input->setOption('module', $module);
         }
-        $input->setOption('module', $module);
 
         // --permissions option
         $permissions = $input->getOption('permissions');
         if (!$permissions) {
             // @see \Drupal\Console\Command\PermissionTrait::permissionQuestion
-            $permissions = $this->permissionQuestion($output, $dialog);
+            $permissions = $this->permissionQuestion($output);
+            $input->setOption('permissions', $permissions);
         }
-        $input->setOption('permissions', $permissions);
     }
 
     /**

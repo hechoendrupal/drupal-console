@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Core\Config\UnmetDependenciesException;
+use Drupal\Console\Style\DrupalStyle;
 
 class InstallCommand extends ContainerAwareCommand
 {
@@ -37,12 +38,12 @@ class InstallCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
+        $output = new DrupalStyle($input, $output);
+
         $theme = $input->getArgument('theme');
 
         if (!$theme) {
             $theme_list = [];
-
-            $dialog = $this->getDialogHelper();
 
             $themes = $this->getThemeHandler()->rebuildThemeData();
 
@@ -60,20 +61,8 @@ class InstallCommand extends ContainerAwareCommand
             $output->writeln('[+] <info>'.$this->trans('commands.theme.install.messages.disabled-themes').'</info>');
 
             while (true) {
-                $theme_name = $dialog->askAndValidate(
-                    $output,
-                    $dialog->getQuestion($this->trans('commands.theme.install.questions.theme'), ''),
-                    function ($theme_id) use ($theme_list) {
-                        if ($theme_id == '' || $theme_list[$theme_id]) {
-                            return $theme_id;
-                        } else {
-                            throw new \InvalidArgumentException(
-                                sprintf($this->trans('commands.theme.install.questions.invalid-theme'), $theme_id)
-                            );
-                        }
-                    },
-                    false,
-                    '',
+                $theme_name = $output->choiceNoList(
+                    $this->trans('commands.theme.install.questions.theme'),
                     array_keys($theme_list)
                 );
 

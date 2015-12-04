@@ -17,6 +17,7 @@ use Drupal\migrate\Entity\MigrationInterface;
 use Drupal\migrate\MigrateExecutable;
 use Drupal\Console\Utils\MigrateExecuteMessageCapture;
 use Drupal\Console\Command\Database\DatabaseTrait;
+use Drupal\Console\Style\DrupalStyle;
 
 class ExecuteCommand extends ContainerAwareCommand
 {
@@ -94,6 +95,8 @@ class ExecuteCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
+        $output = new DrupalStyle($input, $output);
+
         $validator_required = function ($value) {
             if (!strlen(trim($value))) {
                 throw new \Exception('The option can not be empty');
@@ -102,73 +105,65 @@ class ExecuteCommand extends ContainerAwareCommand
             return $value;
         };
 
-        $dialog = $this->getDialogHelper();
-        $question = $this->getQuestionHelper();
-
         // --site-url option
         $site_url = $input->getOption('site-url');
         if (!$site_url) {
-            $site_url = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.migrate.execute.questions.site-url'),
-                    'http://www.example.com'
-                ),
-                $validator_required,
-                false,
-                'http://www.example.com'
+            $site_url = $output->ask(
+                $this->trans('commands.migrate.execute.questions.site-url'),
+                'http://www.example.com',
+                $validator_required
             );
+            $input->setOption('site-url', $site_url);
         }
-        $input->setOption('site-url', $site_url);
 
         // --db-type option
         $db_type = $input->getOption('db-type');
         if (!$db_type) {
-            $db_type = $this->dbTypeQuestion($input, $output, $question);
+            $db_type = $this->dbTypeQuestion($output);
+            $input->setOption('db-type', $db_type);
         }
-        $input->setOption('db-type', $db_type);
 
         // --db-host option
         $db_host = $input->getOption('db-host');
         if (!$db_host) {
-            $db_host = $this->dbHostQuestion($output, $dialog);
+            $db_host = $this->dbHostQuestion($output);
+            $input->setOption('db-host', $db_host);
         }
-        $input->setOption('db-host', $db_host);
 
         // --db-name option
         $db_name = $input->getOption('db-name');
         if (!$db_name) {
-            $db_name = $this->dbNameQuestion($output, $dialog);
+            $db_name = $this->dbNameQuestion($output);
+            $input->setOption('db-name', $db_name);
         }
-        $input->setOption('db-name', $db_name);
 
         // --db-user option
         $db_user = $input->getOption('db-user');
         if (!$db_user) {
-            $db_user = $this->dbUserQuestion($output, $dialog);
+            $db_user = $this->dbUserQuestion($output);
+            $input->setOption('db-user', $db_user);
         }
-        $input->setOption('db-user', $db_user);
 
         // --db-pass option
         $db_pass = $input->getOption('db-pass');
         if (!$db_pass) {
-            $db_pass = $this->dbPassQuestion($output, $dialog);
+            $db_pass = $this->dbPassQuestion($output);
+            $input->setOption('db-pass', $db_pass);
         }
-        $input->setOption('db-pass', $db_pass);
 
         // --db-prefix
         $db_prefix = $input->getOption('db-prefix');
         if (!$db_prefix) {
-            $db_prefix = $this->dbPrefixQuestion($output, $dialog);
+            $db_prefix = $this->dbPrefixQuestion($output);
+            $input->setOption('db-prefix', $db_prefix);
         }
-        $input->setOption('db-prefix', $db_prefix);
 
         // --db-port prefix
         $db_port = $input->getOption('db-port');
         if (!$db_port) {
-            $db_port = $this->dbPortQuestion($output, $dialog);
+            $db_port = $this->dbPortQuestion($output);
+            $input->setOption('db-port', $db_port);
         }
-        $input->setOption('db-port', $db_port);
 
         $this->registerMigrateDB($input, $output);
         $this->migrateConnection = $this->getDBConnection($output, 'default', 'migrate');
@@ -190,24 +185,13 @@ class ExecuteCommand extends ContainerAwareCommand
         $migration_id = $input->getArgument('migration-ids');
         if (!$migration_id) {
             $migrations_list += array('all' => 'All');
-            $migrations_ids = array();
+            $migrations_ids = [];
 
             while (true) {
-                $migration_id = $dialog->askAndValidate(
-                    $output,
-                    $dialog->getQuestion((count($migrations_ids) == 0 ? $this->trans('commands.migrate.execute.questions.id') : $this->trans('commands.migrate.execute.questions.other-id')), 'all'),
-                    function ($migration) use ($migrations_list) {
-                        if (isset($migrations_list[$migration])) {
-                            return $migration;
-                        } else {
-                            throw new \InvalidArgumentException(
-                                sprintf($this->trans('commands.migrate.execute.questions.invalid-migration-id'), $migration)
-                            );
-                        }
-                    },
-                    false,
-                    'all',
-                    array_keys($migrations_list)
+                $migration_id = $output->choice(
+                    $this->trans('commands.migrate.execute.questions.id'),
+                    $migrations_list,
+                    'all'
                 );
 
                 if (empty($migration_id) || $migration_id == 'all') {
@@ -228,32 +212,20 @@ class ExecuteCommand extends ContainerAwareCommand
         if (!$exclude_ids) {
             unset($migrations_list['all']);
             while (true) {
-                $exclude_id = $dialog->askAndValidate(
-                    $output,
-                    $dialog->getQuestion($this->trans('commands.migrate.execute.questions.exclude-id'), null),
-                    function ($exclude) use ($migrations_list) {
-                        if (empty($exclude) || isset($migrations_list[$exclude])) {
-                            return $exclude;
-                        } else {
-                            throw new \InvalidArgumentException(
-                                sprintf($this->trans('commands.migrate.execute.questions.invalid-migration-id'), '@@'.$exclude)
-                            );
-                        }
-                    },
-                    false,
-                    null,
+                $exclude_id = $output->choiceNoList(
+                    $this->trans('commands.migrate.execute.questions.exclude-id'),
                     array_keys($migrations_list)
                 );
 
                 if (empty($exclude_id)) {
                     break;
                 } else {
+                    unset($migrations_list[$exclude_id]);
                     $exclude_ids[] = $exclude_id;
                 }
             }
+            $input->setOption('exclude', $exclude_ids);
         }
-
-        $input->setOption('exclude', $exclude_ids);
     }
 
     /**

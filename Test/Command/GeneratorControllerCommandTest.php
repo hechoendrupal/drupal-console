@@ -22,7 +22,6 @@ class GeneratorControllerCommandTest extends GenerateCommandTest
      * @param $routes
      * @param $test
      * @param $services
-     * @param $class_machine_name
      *
      * @dataProvider commandData
      */
@@ -42,9 +41,9 @@ class GeneratorControllerCommandTest extends GenerateCommandTest
         $code = $commandTester->execute(
             [
             '--module'            => $module,
-            '--class-name'        => $class_name,
-            '--controller-title'  => $routes[0]['title'],
-            '--method-name'       => $routes[0]['method'],
+            '--class'             => $class_name,
+            '--title'             => $routes[0]['title'],
+            '--method'            => $routes[0]['method'],
             '--route'             => $routes[0]['route'],
             '--test'              => $test,
             '--services'          => $services,
