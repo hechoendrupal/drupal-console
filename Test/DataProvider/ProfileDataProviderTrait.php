@@ -13,7 +13,7 @@ trait ProfileDataProviderTrait
      */
     public function commandData()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
 
         return [
           // Profile name, machine name, description, core version,
