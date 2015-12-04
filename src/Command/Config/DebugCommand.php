@@ -10,10 +10,10 @@ namespace Drupal\Console\Command\Config;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Helper\Table;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class DebugCommand extends ContainerAwareCommand
 {
@@ -37,8 +37,7 @@ class DebugCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /* @var $output \Symfony\Component\Console\Style\OutputStyle */
-        $output = new SymfonyStyle($input, $output);
+        $output = new DrupalStyle($input, $output);
 
         $table = new Table($output);
         $table->setStyle('compact');
