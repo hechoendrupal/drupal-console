@@ -1,6 +1,6 @@
-description: 'Run drush from console.'
-help: 'Use the interactive mode for a better experience --shell.'
+description: '在 Drupal Console 中运行 Drush'
+help: '使用交互模式提升用户体验（参数：--shell）'
 arguments:
-    args: 'Drush arguments.'
+    args: 'Drush 参数'
 messages:
-    not_found: 'Drush command not found.'
+    not_found: 'Drush 命令没有找到'
