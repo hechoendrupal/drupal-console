@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Debug\Debug;
 use Drupal\Console\Helper\HelperTrait;
+use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class Application
@@ -143,6 +144,7 @@ class Application extends BaseApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
+        $output = new DrupalStyle($input, $output);
         $root = null;
         $config = $this->getConfig();
         $target = $input->getParameterOption(['--target'], null);
