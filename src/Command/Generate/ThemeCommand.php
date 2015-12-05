@@ -101,7 +101,8 @@ class ThemeCommand extends GeneratorCommand
 
         $validators = $this->getValidator();
 
-        if ($input->isInteractive() && $this->confirmGeneration($output)) {
+        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        if (!$this->confirmGeneration($output)) {
             return;
         }
 
