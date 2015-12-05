@@ -235,9 +235,9 @@ class ProfileCommand extends GeneratorCommand
 
         $distribution = $input->getOption('distribution');
         if (!$distribution) {
-            if ($output->ask(
+            if ($output->confirm(
                 $this->trans('commands.generate.profile.questions.distribution'),
-                true
+                false
             )) {
                 $distribution = $output->ask(
                     $this->trans('commands.generate.profile.options.distribution'),
