@@ -2,7 +2,6 @@
 
 namespace Drupal\Console;
 
-use Composer\Autoload\ClassLoader;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputArgument;
@@ -72,9 +71,6 @@ class Application extends BaseApplication
 
         $this->getDefinition()->addOption(
             new InputOption('--root', null, InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.root'))
-        );
-        $this->getDefinition()->addOption(
-            new InputOption('--shell', '-s', InputOption::VALUE_NONE, $this->trans('application.console.arguments.shell'))
         );
         $this->getDefinition()->addOption(
             new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.env'), $this->env)
@@ -216,11 +212,6 @@ class Application extends BaseApplication
             $this->prepare($drupal);
         }
 
-        if (true === $input->hasParameterOption(['--shell', '-s'])) {
-            $this->runShell($input);
-            return 0;
-        }
-
         if (true === $input->hasParameterOption(array('--generate-doc', '--gd'))) {
             $command = $this->get($commandName);
             $command->addOption(
@@ -325,20 +316,6 @@ class Application extends BaseApplication
     {
         $this->getKernelHelper()->setClassLoader($drupal->getAutoLoadClass());
         $this->getKernelHelper()->bootKernel();
-    }
-
-    /**
-     * @param InputInterface $input
-     */
-    protected function runShell(InputInterface $input)
-    {
-        /**
-         * @var \Drupal\Console\Helper\ShellHelper $shell
-         */
-        $shell = $this->getShellHelper()->getShell();
-
-        $shell->setProcessIsolation($input->hasParameterOption(array('--process-isolation')));
-        $shell->run();
     }
 
     /**
