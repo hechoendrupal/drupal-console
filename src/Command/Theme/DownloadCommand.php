@@ -21,8 +21,8 @@ class DownloadCommand extends Command
     {
         $this
             ->setName('theme:download')
-            ->setDescription($this->trans('commands.theme.install.description'))
-            ->addArgument('theme', InputArgument::REQUIRED, $this->trans('commands.theme.install.options.theme'))
+            ->setDescription($this->trans('commands.theme.download.description'))
+            ->addArgument('theme', InputArgument::REQUIRED, $this->trans('commands.theme.download.options.theme'))
             ->addArgument('version', InputArgument::OPTIONAL, $this->trans('commands.theme.download.options.version'));
     }
 
