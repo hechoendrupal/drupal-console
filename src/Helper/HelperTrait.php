@@ -102,14 +102,6 @@ trait HelperTrait
     }
 
     /**
-     * @return \Symfony\Component\Console\Helper\TableHelper
-     */
-    public function getTableHelper()
-    {
-        return $this->getHelperSet()->get('table');
-    }
-
-    /**
      * @return \Drupal\Console\Helper\CommandDiscoveryHelper
      */
     public function getCommandDiscoveryHelper()

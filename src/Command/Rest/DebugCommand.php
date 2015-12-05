@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Helper\Table;
 use Drupal\Component\Serialization\Yaml;
 
 class DebugCommand extends ContainerAwareCommand
@@ -41,8 +42,8 @@ class DebugCommand extends ContainerAwareCommand
         $resource_id = $input->getArgument('resource-id');
         $status = $input->getOption('authorization');
 
-        $table = $this->getTableHelper();
-        $table->setlayout($table::LAYOUT_COMPACT);
+        $table = new Table($output);
+        $table->setStyle('compact');
 
         if ($resource_id) {
             $this->getRestByID($output, $table, $resource_id);
@@ -52,9 +53,8 @@ class DebugCommand extends ContainerAwareCommand
     }
 
     /**
-     *
      * @param $output         OutputInterface
-     * @param $table          TableHelper
+     * @param $table          Table
      * @param $resource_id    String
      */
     private function getRestByID($output, $table, $resource_id)
@@ -89,7 +89,7 @@ class DebugCommand extends ContainerAwareCommand
 
         $output->writeln($configurationEncoded);
 
-        $table->render($output);
+        $table->render();
 
         $table->setHeaders(
             [
@@ -109,7 +109,7 @@ class DebugCommand extends ContainerAwareCommand
             );
         }
 
-        $table->render($output);
+        $table->render();
     }
 
     protected function getAllRestResources($status, $output, $table)
@@ -126,7 +126,7 @@ class DebugCommand extends ContainerAwareCommand
             ]
         );
 
-        $table->setlayout($table::LAYOUT_COMPACT);
+        $table->setStyle('compact');
 
         foreach ($rest_resources as $status => $resources) {
             foreach ($resources as $id => $resource) {
@@ -141,6 +141,6 @@ class DebugCommand extends ContainerAwareCommand
                 );
             }
         }
-        $table->render($output);
+        $table->render();
     }
 }

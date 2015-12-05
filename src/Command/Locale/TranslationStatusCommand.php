@@ -10,6 +10,7 @@ namespace Drupal\Console\Command\Locale;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Command\ContainerAwareCommand;
 
 class TranslationStatusCommand extends ContainerAwareCommand
@@ -34,8 +35,8 @@ class TranslationStatusCommand extends ContainerAwareCommand
     {
         $language = $input->getArgument('language');
 
-        $table = $this->getHelperSet()->get('table');
-        $table->setlayout($table::LAYOUT_COMPACT);
+        $table = new Table($output);
+        $table->setStyle('compact');
 
         $this->displayUpdates($language, $output, $table);
     }
@@ -67,7 +68,7 @@ class TranslationStatusCommand extends ContainerAwareCommand
         }
 
         if ($languages) {
-            $table->setlayout($table::LAYOUT_COMPACT);
+            $table->setStyle('compact');
 
             $projectsStatus = $this->projectsStatus();
 
@@ -83,7 +84,7 @@ class TranslationStatusCommand extends ContainerAwareCommand
                     }
                     $table->addRow($row);
                 }
-                $table->render($output);
+                $table->render();
             }
         }
     }

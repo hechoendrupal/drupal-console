@@ -94,9 +94,6 @@ class LogClearCommand extends ContainerAwareCommand
 
     protected function clearEvents($event_type, $event_severity, $user_id,  $output)
     {
-        $table = $this->getTableHelper();
-        $table->setlayout($table::LAYOUT_COMPACT);
-
         $connection = $this->getDatabase();
         $severity = RfcLogLevel::getLevels();
 
