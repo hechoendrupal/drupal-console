@@ -10,6 +10,7 @@ namespace Drupal\Console\Command\Module;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Command\ContainerAwareCommand;
 
 class DebugCommand extends ContainerAwareCommand
@@ -44,8 +45,8 @@ class DebugCommand extends ContainerAwareCommand
             $type = null;
         }
 
-        $table = $this->getTableHelper();
-        $table->setlayout($table::LAYOUT_COMPACT);
+        $table = new Table($output);
+        $table->setStyle('compact');
         $this->getAllModules($status, $type, $output, $table);
     }
 
@@ -64,7 +65,7 @@ class DebugCommand extends ContainerAwareCommand
             ]
         );
 
-        $table->setlayout($table::LAYOUT_COMPACT);
+        $table->setStyle('compact');
 
         $modules = system_rebuild_module_data();
         foreach ($modules as $module_id => $module) {
@@ -91,6 +92,6 @@ class DebugCommand extends ContainerAwareCommand
             );
         }
 
-        $table->render($output);
+        $table->render();
     }
 }

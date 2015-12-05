@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Parser;
+use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -113,8 +114,8 @@ class DiffCommand extends Command
         $diff = $nested_array->arrayDiff($yaml_left_parsed, $yaml_right_parsed, $negate, $statisticts);
 
 
-        $table = $this->getTableHelper();
-        $table->setlayout($table::LAYOUT_COMPACT);
+        $table = new Table($output);
+        $table->setStyle('compact');
 
         if ($stats) {
             $message->addInfoMessage(
@@ -168,7 +169,7 @@ class DiffCommand extends Command
             );
         }
 
-        $table->render($output);
+        $table->render();
     }
 
     /**

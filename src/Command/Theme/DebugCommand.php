@@ -10,6 +10,7 @@ namespace Drupal\Console\Command\Theme;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Command\ContainerAwareCommand;
 
 class DebugCommand extends ContainerAwareCommand
@@ -26,8 +27,8 @@ class DebugCommand extends ContainerAwareCommand
     {
         $theme = $input->getArgument('theme');
 
-        $table = $this->getTableHelper();
-        $table->setlayout($table::LAYOUT_COMPACT);
+        $table = new Table($output);
+        $table->setStyle('compact');
         if ($theme) {
             $this->getTheme($theme, $output, $table);
         } else {
@@ -52,7 +53,7 @@ class DebugCommand extends ContainerAwareCommand
             $status = $this->getThemeStatus($themeId);
             $table->addRow([$themeId, $theme->info['name'], $status, $theme->info['version']]);
         }
-        $table->render($output);
+        $table->render();
     }
 
     protected function getTheme($themeId, $output, $table)
@@ -102,7 +103,7 @@ class DebugCommand extends ContainerAwareCommand
             $table->addRow([' <comment>+ ' . $this->trans('commands.theme.debug.messages.regions') . '</comment>']);
             $table = $this->addThemeAttributes($theme->info['regions'], $table);
 
-            $table->render($output);
+            $table->render();
         } else {
             $message->addErrorMessage(
                 sprintf(
