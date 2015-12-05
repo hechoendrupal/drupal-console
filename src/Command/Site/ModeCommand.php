@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Command\ContainerAwareCommand;
 
 class ModeCommand extends ContainerAwareCommand
@@ -29,7 +30,9 @@ class ModeCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $table = $this->getTableHelper();
+        $table = new Table($output);
+        $table->setStyle('compact');
+
         $environment = $input->getArgument('environment');
 
         if (in_array($environment, array('dev', 'prod'))) {
@@ -60,9 +63,8 @@ class ModeCommand extends ContainerAwareCommand
                     $this->trans('commands.site.mode.messages.updated'),
                 ]
             );
-            $table->setlayout($table::LAYOUT_COMPACT);
             $table->setRows($result);
-            $table->render($output);
+            $table->render();
             $output->writeln('');
         }
 
@@ -83,9 +85,9 @@ class ModeCommand extends ContainerAwareCommand
                     $this->trans('commands.site.mode.messages.service-value'),
                 ]
             );
-            $table->setlayout($table::LAYOUT_COMPACT);
+            $table->setStyle('compact');
             $table->setRows($servicesOverrideResult);
-            $table->render($output);
+            $table->render();
         }
 
         $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
