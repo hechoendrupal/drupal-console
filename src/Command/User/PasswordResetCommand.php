@@ -11,6 +11,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\user\Entity\User;
+use Drupal\Console\Style\DrupalStyle;
 
 class PasswordResetCommand extends ContainerAwareCommand
 {
@@ -34,10 +36,11 @@ class PasswordResetCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $messageHelper = $this->getMessageHelper();
+        $output = new DrupalStyle($input, $output);
+
         $uid = $input->getArgument('user');
 
-        $user = \Drupal\user\Entity\User::load($uid);
+        $user = User::load($uid);
 
         if (!$user) {
             throw new \InvalidArgumentException(
@@ -68,7 +71,7 @@ class PasswordResetCommand extends ContainerAwareCommand
             throw new \InvalidArgumentException($e->getMessage());
         }
 
-        $messageHelper->addSuccessMessage(
+        $output->success(
             sprintf(
                 $this->trans('commands.user.password.reset.messages.reset-successful'),
                 $uid
@@ -81,13 +84,13 @@ class PasswordResetCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
         $user = $input->getArgument('user');
         if (!$user) {
-            $user = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.user.password.reset.questions.user'), ''),
+            $user = $output->ask(
+                $this->trans('commands.user.password.reset.questions.user'),
+                '',
                 function ($uid) {
                     $uid = (int) $uid;
                     if (is_int($uid) && $uid > 0) {
@@ -97,19 +100,16 @@ class PasswordResetCommand extends ContainerAwareCommand
                             sprintf($this->trans('commands.user.password.reset.questions.invalid-uid'), $uid)
                         );
                     }
-                },
-                false,
-                '',
-                null
+                }
             );
+            $input->setArgument('user', $user);
         }
-        $input->setArgument('user', $user);
 
         $password = $input->getArgument('password');
         if (!$password) {
-            $password = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.user.password.hash.questions.password'), ''),
+            $password = $output->ask(
+                $this->trans('commands.user.password.hash.questions.password'),
+                '',
                 function ($pass) {
                     if (!empty($pass)) {
                         return $pass;
@@ -118,12 +118,10 @@ class PasswordResetCommand extends ContainerAwareCommand
                             sprintf($this->trans('commands.user.password.hash.questions.invalid-pass'), $pass)
                         );
                     }
-                },
-                false,
-                '',
-                null
+                }
             );
+
+            $input->setArgument('password', $password);
         }
-        $input->setArgument('password', $password);
     }
 }

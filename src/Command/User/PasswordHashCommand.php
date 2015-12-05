@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class PasswordHashCommand extends ContainerAwareCommand
 {
@@ -65,15 +66,15 @@ class PasswordHashCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
         $passwords = $input->getArgument('password');
         if (!$passwords) {
             $passwords = [];
             while (true) {
-                $password = $dialog->askAndValidate(
-                    $output,
-                    $dialog->getQuestion(count($passwords) > 0 ? $this->trans('commands.user.password.hash.questions.other-password') : $this->trans('commands.user.password.hash.questions.password'), ''),
+                $password = $output->ask(
+                    $this->trans('commands.user.password.hash.questions.password'),
+                    '',
                     function ($pass) use ($passwords) {
                         if (!empty($pass) || count($passwords) >= 1) {
                             return $pass;
@@ -82,10 +83,7 @@ class PasswordHashCommand extends ContainerAwareCommand
                                 sprintf($this->trans('commands.user.password.hash.questions.invalid-pass'), $pass)
                             );
                         }
-                    },
-                    false,
-                    '',
-                    null
+                    }
                 );
 
                 if (empty($password)) {
@@ -94,8 +92,8 @@ class PasswordHashCommand extends ContainerAwareCommand
 
                 $passwords[] = $password;
             }
-        }
 
-        $input->setArgument('password', $passwords);
+            $input->setArgument('password', $passwords);
+        }
     }
 }

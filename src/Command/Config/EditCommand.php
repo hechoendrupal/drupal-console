@@ -16,7 +16,7 @@ use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Question\ChoiceQuestion;
+use Drupal\Console\Style\DrupalStyle;
 
 class EditCommand extends ContainerAwareCommand
 {
@@ -49,8 +49,8 @@ class EditCommand extends ContainerAwareCommand
         $editor = $input->getArgument('editor');
         $config = $this->getConfigFactory()->getEditable($configName);
         $configSystem = $this->getConfigFactory()->get('system.file');
-        $temporalyDirectory = $configSystem->get('path.temporary') ?: '/tmp';
-        $configFile = $temporalyDirectory.'/config-edit/'.$configName.'.yml';
+        $temporaryDirectory = $configSystem->get('path.temporary') ?: '/tmp';
+        $configFile = $temporaryDirectory.'/config-edit/'.$configName.'.yml';
         $ymlFile = new Parser();
         $fileSystem = new Filesystem();
 
@@ -59,7 +59,7 @@ class EditCommand extends ContainerAwareCommand
         }
 
         try {
-            $fileSystem->mkdir($temporalyDirectory);
+            $fileSystem->mkdir($temporaryDirectory);
             $fileSystem->dumpFile($configFile, $this->getYamlConfig($configName));
         } catch (IOExceptionInterface $e) {
             throw new \Exception($this->trans('commands.config.edit.messages.no-directory').' '.$e->getPath());
@@ -85,20 +85,16 @@ class EditCommand extends ContainerAwareCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $helper = $this->getHelper('question');
+        $output = new DrupalStyle($input, $output);
 
         $configName = $input->getArgument('config-name');
         if (!$configName) {
             $configFactory = $this->getConfigFactory();
             $configNames = $configFactory->listAll();
-
-            $question = new ChoiceQuestion(
+            $configName = $output->choice(
                 'Choose a configuration',
-                $configNames,
-                null
+                $configNames
             );
-
-            $configName = $helper->ask($input, $output, $question);
         }
 
         $input->setArgument('config-name', $configName);

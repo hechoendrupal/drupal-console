@@ -12,9 +12,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Component\Yaml\Dumper;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class ExportContentTypeCommand extends ContainerAwareCommand
 {
@@ -35,9 +34,9 @@ class ExportContentTypeCommand extends ContainerAwareCommand
             ->setDescription($this->trans('commands.config.export.content.type.description'))
             ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addArgument(
-                'content_type',
+                'content-type',
                 InputArgument::REQUIRED,
-                $this->trans('commands.config.export.content.type.arguments.content_type')
+                $this->trans('commands.config.export.content.type.arguments.content-type')
             )->addOption(
                 'optional-config',
                 '',
@@ -53,58 +52,41 @@ class ExportContentTypeCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output, $dialog);
+            $module = $this->moduleQuestion($output);
         }
         $input->setOption('module', $module);
 
-        // --content type argument
-        $content_type = $input->getArgument('content_type');
-        if (!$content_type) {
+        // --content-type argument
+        $contentType = $input->getArgument('content-type');
+        if (!$contentType) {
             $entity_manager = $this->getEntityManager();
             $bundles_entities = $entity_manager->getStorage('node_type')->loadMultiple();
             $bundles = array();
             foreach ($bundles_entities as $entity) {
-                $bundles[$entity->id()] = $entity->label();
+                $bundles[] = $entity->label();
             }
 
-            $content_type = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.config.export.content.type.questions.content_type'), ''),
-                function ($bundle) use ($bundles) {
-                    if (!in_array($bundle, array_values($bundles))) {
-                        throw new \InvalidArgumentException(
-                            sprintf(
-                                'Content type "%s" is invalid.',
-                                $bundle
-                            )
-                        );
-                    }
-
-                    return array_search($bundle, $bundles);
-                },
-                false,
-                '',
+            $contentType = $output->choice(
+                $this->trans('commands.config.export.content.type.questions.content-type'),
                 $bundles
             );
-
-            $optionalConfig = $input->getOption('optional-config');
-            if (!$optionalConfig) {
-                $optionalConfig = $dialog->askConfirmation(
-                    $output,
-                    $dialog->getQuestion($this->trans('commands.config.export.content.type.questions.optional-config'), 'yes', '?'),
-                    true
-                );
-            }
-            $input->setOption('optional-config', $optionalConfig);
         }
+        $input->setArgument('content-type', $contentType);
 
-        $input->setArgument('content_type', $content_type);
+        $optionalConfig = $input->getOption('optional-config');
+        if (!$optionalConfig) {
+            $optionalConfig = $output->confirm(
+                $this->trans('commands.config.export.content.type.questions.optional-config'),
+                true
+            );
+        }
+        $input->setOption('optional-config', $optionalConfig);
     }
 
     /**
@@ -116,26 +98,26 @@ class ExportContentTypeCommand extends ContainerAwareCommand
         $this->configStorage = $this->getConfigStorage();
 
         $module = $input->getOption('module');
-        $content_type = $input->getArgument('content_type');
+        $contentType = $input->getArgument('content_type');
         $optionalConfig = $input->getOption('optional-config');
 
-        $content_type_definition = $this->entity_manager->getDefinition('node_type');
-        $content_type_name = $content_type_definition->getConfigPrefix() . '.' . $content_type;
+        $contentTypeDefinition = $this->entity_manager->getDefinition('node_type');
+        $contentTypeName = $contentTypeDefinition->getConfigPrefix() . '.' . $contentType;
 
-        $content_type_name_config = $this->getConfiguration($content_type_name);
+        $contentTypeNameConfig = $this->getConfiguration($contentTypeName);
 
-        $this->configExport[$content_type_name] = array('data' => $content_type_name_config, 'optional' => $optionalConfig);
+        $this->configExport[$contentTypeName] = array('data' => $contentTypeNameConfig, 'optional' => $optionalConfig);
 
-        $this->getFields($content_type, $optionalConfig);
+        $this->getFields($contentType, $optionalConfig);
 
-        $this->getFormDisplays($content_type, $optionalConfig);
+        $this->getFormDisplays($contentType, $optionalConfig);
 
-        $this->getViewDisplays($content_type, $optionalConfig);
+        $this->getViewDisplays($contentType, $optionalConfig);
 
         $this->exportConfig($module, $output, $this->trans('commands.config.export.content.type.messages.content_type_exported'));
     }
 
-    protected function getFields($content_type, $optional = false)
+    protected function getFields($contentType, $optional = false)
     {
         $fields_definition = $this->entity_manager->getDefinition('field_config');
 
@@ -144,7 +126,7 @@ class ExportContentTypeCommand extends ContainerAwareCommand
             $field_name = $fields_definition->getConfigPrefix() . '.' . $field->id();
             $field_name_config = $this->getConfiguration($field_name);
             // Only select fields related with content type
-            if ($field_name_config['bundle'] == $content_type) {
+            if ($field_name_config['bundle'] == $contentType) {
                 $this->configExport[$field_name] = array('data' => $field_name_config, 'optional' => $optional);
                 // Include dependencies in export files
                 if ($dependencies = $this->fetchDependencies($field_name_config, 'config')) {
@@ -154,7 +136,7 @@ class ExportContentTypeCommand extends ContainerAwareCommand
         }
     }
 
-    protected function getFormDisplays($content_type, $optional = false)
+    protected function getFormDisplays($contentType, $optional = false)
     {
         $form_display_definition = $this->entity_manager->getDefinition('entity_form_display');
         $form_display_storage = $this->entity_manager->getStorage('entity_form_display');
@@ -162,7 +144,7 @@ class ExportContentTypeCommand extends ContainerAwareCommand
             $form_display_name = $form_display_definition->getConfigPrefix() . '.' . $form_display->id();
             $form_display_name_config = $this->getConfiguration($form_display_name);
             // Only select fields related with content type
-            if ($form_display_name_config['bundle'] == $content_type) {
+            if ($form_display_name_config['bundle'] == $contentType) {
                 $this->configExport[$form_display_name] = array('data' => $form_display_name_config, 'optional' => $optional);
                 // Include dependencies in export files
                 if ($dependencies = $this->fetchDependencies($form_display_name_config, 'config')) {
@@ -172,7 +154,7 @@ class ExportContentTypeCommand extends ContainerAwareCommand
         }
     }
 
-    protected function getViewDisplays($content_type, $optional = false)
+    protected function getViewDisplays($contentType, $optional = false)
     {
         $view_display_definition = $this->entity_manager->getDefinition('entity_view_display');
         $view_display_storage = $this->entity_manager->getStorage('entity_view_display');
@@ -180,7 +162,7 @@ class ExportContentTypeCommand extends ContainerAwareCommand
             $view_display_name = $view_display_definition->getConfigPrefix() . '.' . $view_display->id();
             $view_display_name_config = $this->getConfiguration($view_display_name);
             // Only select fields related with content type
-            if ($view_display_name_config['bundle'] == $content_type) {
+            if ($view_display_name_config['bundle'] == $contentType) {
                 $this->configExport[$view_display_name] = array('data' => $view_display_name_config, 'optional' => $optional);
                 // Include dependencies in export files
                 if ($dependencies = $this->fetchDependencies($view_display_name_config, 'config')) {

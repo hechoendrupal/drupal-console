@@ -16,6 +16,7 @@ use Drupal\Console\Command\FormTrait;
 use Drupal\Console\Command\GeneratorCommand;
 use Drupal\Console\Generator\AuthenticationProviderGenerator;
 use Drupal\Console\Command\ConfirmationTrait;
+use Drupal\Console\Style\DrupalStyle;
 
 class AuthenticationProviderCommand extends GeneratorCommand
 {
@@ -50,10 +51,10 @@ class AuthenticationProviderCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
-        // @see use Drupal\Console\Command\ConfirmationTrait::confirmationQuestion
-        if ($this->confirmationQuestion($input, $output, $dialog)) {
+        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        if ($input->isInteractive() && $this->confirmGeneration($output)) {
             return;
         }
 
@@ -67,7 +68,7 @@ class AuthenticationProviderCommand extends GeneratorCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
         $stringUtils = $this->getStringHelper();
 
@@ -75,54 +76,44 @@ class AuthenticationProviderCommand extends GeneratorCommand
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output, $dialog);
+            $module = $this->moduleQuestion($output);
+            $input->setOption('module', $module);
         }
-        $input->setOption('module', $module);
 
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.authentication.provider.options.class'),
-                    'DefaultAuthenticationProvider'
+            $class = $output->ask(
+                $this->trans(
+                    'commands.generate.authentication.provider.options.class'
                 ),
+                'DefaultAuthenticationProvider',
                 function ($value) use ($stringUtils) {
                     if (!strlen(trim($value))) {
                         throw new \Exception('The Class name can not be empty');
                     }
 
                     return $stringUtils->humanToCamelCase($value);
-                },
-                false,
-                'DefaultAuthenticationProvider'
+                }
             );
+            $input->setOption('class', $class);
         }
-
         // --provider-id option
         $provider_id = $input->getOption('provider-id');
         if (!$provider_id) {
-            $provider_id = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.authentication.provider.options.provider-id'),
-                    $stringUtils->camelCaseToUnderscore($class)
-                ),
+            $provider_id = $output->ask(
+                $this->trans('commands.generate.authentication.provider.options.provider-id'),
+                $stringUtils->camelCaseToUnderscore($class),
                 function ($value) use ($stringUtils) {
                     if (!strlen(trim($value))) {
                         throw new \Exception('The Class name can not be empty');
                     }
 
                     return $stringUtils->camelCaseToUnderscore($value);
-                },
-                false,
-                $stringUtils->camelCaseToUnderscore($class)
+                }
             );
+            $input->setOption('provider-id', $provider_id);
         }
-
-        $input->setOption('class', $class);
-        $input->setOption('provider-id', $provider_id);
     }
 
     protected function createGenerator()
