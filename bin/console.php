@@ -1,8 +1,6 @@
 <?php
 
-use Drupal\Console\Shell;
 use Drupal\Console\Application;
-use Drupal\Console\Helper\ShellHelper;
 use Drupal\Console\Helper\KernelHelper;
 use Drupal\Console\Helper\StringHelper;
 use Drupal\Console\Helper\ValidatorHelper;
@@ -53,7 +51,6 @@ $application->setDirectoryRoot($consoleRoot);
 $helpers = [
     'nested-array' => new NestedArrayHelper(),
     'kernel' => new KernelHelper(),
-    'shell' => new ShellHelper(new Shell($application)),
     'string' => new StringHelper(),
     'validator' => new ValidatorHelper(),
     'translator' => $translatorHelper,
