@@ -71,10 +71,9 @@ class ProfileGenerator extends Generator
         );
 
         $this->renderFile(
-          'profile/install.twig',
-          $dir . '/' . $machine_name . '.install',
-          $parameters
+            'profile/install.twig',
+            $dir . '/' . $machine_name . '.install',
+            $parameters
         );
     }
-
 }
