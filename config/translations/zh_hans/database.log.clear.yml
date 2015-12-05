@@ -1,5 +1,5 @@
 description: 'Remove events from DBLog table, filters are available'
 messages:
-    event-deleted: 'Event %s was deleted'
-    clear-error: 'Clear process fail, please check used filters'
-    clear-sucess: 'Clear of events was successfully'
+    event-deleted: '事件 %s 已删除'
+    clear-error: '清除过程失败，请检查所使用的过滤器'
+    clear-sucess: '清除事件成功'

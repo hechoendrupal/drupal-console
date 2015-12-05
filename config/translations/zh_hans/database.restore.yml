@@ -2,6 +2,6 @@ description: "Restore structure and contents of MySQL databases and tables"
 arguments:
   database: "Database key from settings.php"
 options:
-  file: 'The filename for your database backup file'
+  file: '数据库备份文件文件名'
 messages:
-    success: "Database imported from:"
+    success: "数据库导入成功，导入的文件："
