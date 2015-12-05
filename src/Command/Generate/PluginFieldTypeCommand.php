@@ -14,6 +14,7 @@ use Drupal\Console\Generator\PluginFieldTypeGenerator;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class PluginFieldTypeCommand extends GeneratorCommand
 {
@@ -28,10 +29,10 @@ class PluginFieldTypeCommand extends GeneratorCommand
             ->setHelp($this->trans('commands.generate.plugin.fieldtype.help'))
             ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
-                'class-name',
+                'class',
                 '',
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.plugin.fieldtype.options.class-name')
+                $this->trans('commands.generate.plugin.fieldtype.options.class')
             )
             ->addOption(
                 'label',
@@ -70,15 +71,15 @@ class PluginFieldTypeCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
-        // @see use Drupal\Console\Command\ConfirmationTrait::confirmationQuestion
-        if ($this->confirmationQuestion($input, $output, $dialog)) {
+        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        if ($input->isInteractive() && $this->confirmGeneration($output)) {
             return;
         }
 
         $module = $input->getOption('module');
-        $class_name = $input->getOption('class-name');
+        $class_name = $input->getOption('class');
         $label = $input->getOption('label');
         $plugin_id = $input->getOption('plugin-id');
         $description = $input->getOption('description');
@@ -95,101 +96,73 @@ class PluginFieldTypeCommand extends GeneratorCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output, $dialog);
+            $module = $this->moduleQuestion($output);
+            $input->setOption('module', $module);
         }
-        $input->setOption('module', $module);
 
-        // --class-name option
-        $class_name = $input->getOption('class-name');
+        // --class option
+        $class_name = $input->getOption('class');
         if (!$class_name) {
-            $class_name = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.fieldtype.questions.class-name'),
-                    'ExampleFieldType'
-                ),
+            $class_name = $output->ask(
+                $this->trans('commands.generate.plugin.fieldtype.questions.class'),
                 'ExampleFieldType'
             );
+            $input->setOption('class', $class_name);
         }
-        $input->setOption('class-name', $class_name);
 
-        $default_label = $this->getStringHelper()->camelCaseToHuman($class_name);
-
-        // --plugin label option
+        // --label option
         $label = $input->getOption('label');
         if (!$label) {
-            $label = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.plugin.fieldtype.questions.label'), $default_label),
-                $default_label
+            $label = $output->ask(
+                $this->trans('commands.generate.plugin.fieldtype.questions.label'),
+                $this->getStringHelper()->camelCaseToHuman($class_name)
             );
+            $input->setOption('label', $label);
         }
-        $input->setOption('label', $label);
 
-        $machine_name = $this->getStringHelper()->camelCaseToUnderscore($class_name);
-
-        // --name option
+        // --plugin-id option
         $plugin_id = $input->getOption('plugin-id');
-
         if (!$plugin_id) {
-            $plugin_id = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.fieldtype.questions.plugin-id'),
-                    $machine_name
-                ),
-                $machine_name
+            $plugin_id = $output->ask(
+                $this->trans('commands.generate.plugin.fieldtype.questions.plugin-id'),
+                $this->getStringHelper()->camelCaseToUnderscore($class_name)
             );
+            $input->setOption('plugin-id', $plugin_id);
         }
-        $input->setOption('plugin-id', $plugin_id);
 
         // --description option
         $description = $input->getOption('description');
         if (!$description) {
-            $description = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.fieldtype.questions.description'),
-                    'My Field Type'
-                ),
+            $description = $output->ask(
+                $this->trans('commands.generate.plugin.fieldtype.questions.description'),
                 'My Field Type'
             );
+            $input->setOption('description', $description);
         }
-        $input->setOption('description', $description);
 
         // --default-widget option
-        $field_type = $input->getOption('default-widget');
-        if (!$field_type) {
-            $field_type = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.fieldtype.questions.default-widget'),
-                    ''
-                ),
-                ''
+        $default_widget = $input->getOption('default-widget');
+        if (!$default_widget) {
+            $default_widget = $output->ask(
+                $this->trans('commands.generate.plugin.fieldtype.questions.default-widget')
             );
+            $input->setOption('default-widget', $default_widget);
         }
-        $input->setOption('default-widget', $field_type);
 
         // --default-formatter option
-        $field_type = $input->getOption('default-formatter');
-        if (!$field_type) {
-            $field_type = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.fieldtype.questions.default-formatter'),
-                    ''
-                ),
-                ''
+        $default_formatter = $input->getOption('default-formatter');
+        if (!$default_formatter) {
+            $default_formatter = $output->ask(
+                $this->trans('commands.generate.plugin.fieldtype.questions.default-formatter')
             );
+            $input->setOption('default-formatter', $default_formatter);
         }
-        $input->setOption('default-formatter', $field_type);
     }
 
     protected function createGenerator()

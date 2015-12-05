@@ -13,10 +13,9 @@ class FormAlterGenerator extends Generator
      * Generator Plugin Block.
      *
      * @param $module
-     * @param $class_name
-     * @param $label
-     * @param $plugin_id
-     * @param $services
+     * @param $form_id
+     * @param $inputs
+     * @param $metadata
      */
     public function generate($module, $form_id, $inputs, $metadata)
     {

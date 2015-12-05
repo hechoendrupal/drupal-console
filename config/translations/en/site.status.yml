@@ -3,7 +3,7 @@ messages:
     application: Application
     system: 'System Info'
     hash_salt: 'Hash salt'
-    console: 'Drupal Console version'
+    console: 'Drupal Console'
     database: 'Database connection'
     driver: Driver
     host: Host
