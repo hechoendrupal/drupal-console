@@ -1,17 +1,17 @@
-description: 'Display current rest resource for the application'
+description: '显示当前 REST 资源'
 arguments:
-    resource-id: 'Rest ID'
+    resource-id: 'REST 资源 ID'
 options:
-    status: 'Rest resource status enabled | disabled'
+    status: 'REST 资源状态 enabled | disabled'
 messages:
-    id: 'Rest ID'
-    label: Label
+    id: 'REST 资源 ID'
+    label: '标签'
     canonical_url: 'Canonical URL'
-    status: Status
-    provider: Provider
-    enabled: Enabled
-    disabled: Disabled
-    rest-state: 'REST States'
-    supported-formats: 'Supported Formats'
+    status: '状态'
+    provider: 'Provider'
+    enabled: '启用'
+    disabled: '禁用'
+    rest-state: 'REST 状态'
+    supported-formats: '支持格式'
     supported_auth: 'Supported Authentication Providers'
-    not-found: 'Rest resource %s not found'
+    not-found: 'REST 资源 %s 没有找到'
