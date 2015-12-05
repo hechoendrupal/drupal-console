@@ -1,26 +1,34 @@
 console:
     arguments:
-        drupal: 'Path to Drupal root.'
-        shell: 'Launch the shell.'
-        env: 'The Environment name.'
-        no-debug: 'Switches off debug mode.'
-        learning: 'Generate a verbose code output.'
-        generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
-        generate-inline: 'Print execution options and arguments as inline call to be use in the future'
-        root: 'Define the Drupal root to be use in command execution'
-        uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
+        drupal: 'Drupal 根目录所在路径'
+        shell: '运行 Shell.'
+        env: '.'
+        no-debug: '关闭调试模式'
+        learning: '生成详细的代码输出'
+        generate-chain: '以 YAML 格式打印命令执行时的选项和参数，用于链式命令'
+        generate-inline: '将命令执行时的选项和参数打印成一行，以便后续使用'
+        root: '定义 Drupal 根目录，命令执行时使用'
+        uri: 'Drupal 网站的 URI( 用于多站点环境或运行在不同的端口)'
     messages:
-        completed: 'The command was executed successfully!'
+        completed: '命令执行成功！'
         chain:
             generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
         inline:
             generated: 'Following you can find the inline representation of this command to re-execute this command later'
-        generated: 'You can now start using the generated code!'
+        generated: '代码生成完毕！'
         files:
-            generated: 'Generated or updated files'
-            copied: 'Copied files'
+            generated: '生成或更新文件'
+            copied: '已复制文件'
         learning:
-            route: "In order to to create pages it is necessary to define routes for them.\nA route maps a URL path to a controller. It defines with what function\nor method will be called when a URL is accessed.\nIf the user accesses http://drupal8.dev/{{ route }}, the routing\nsystem will look for a route with that path. In this case it will find a\nmatch, and execute the _controller callback. In this case the callback is\ndefined as a classname\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nand a method (\"{{ route.method }}\")."
+            route: |
+                    创建页面时，要为它们定义路由。
+                    一条路由将一个 URL 映射到一个控制器。
+                    控制器定义了访问一个 URL 时，其中的哪个函数或方法将被执行。
+                    如果用户访问的是 http://drupal8.dev/{{ route }}，
+                    路由系统将为该路径查找一条对应的路由。
+                    在这个例子中，路由系统会查找到一条匹配的路由，然后执行 _controller 回调。
+                    在这个例子中， 回调被定义为一个类名（\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")
+                    和一个方法 （\"{{ route.method }}\"）
         autocomplete: |
                     初始化完成！
 
@@ -29,25 +37,25 @@ console:
                     如果您使用的是 Fish（Friendly Interactive Shell），请创建一个软链接：
                     <info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>
     errors:
-        invalid-command: 'Command "%s" is not defined.'
+        invalid-command: '命令 "%s" 没有定义'
     input:
         definition:
-            command: 'The command to execute'
-            help: 'Display this help message'
-            quiet: 'Do not output any message'
-            verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
-            version: 'Display this application version'
-            ansi: 'Force ANSI output'
-            no-ansi: 'Disable ANSI output'
-            no-interaction: 'Do not ask any interactive question'
+            command: '执行的命令'
+            help: '显示帮助'
+            quiet: '静默模式，不输出任何消息'
+            verbose: '消息输出。 v：正常输出，vv：详细输出，vvv：调试输出'
+            version: '显示程序版本'
+            ansi: '强制 ANSI 输出'
+            no-ansi: '禁用 ANSI 输出'
+            no-interaction: '无交互问题'
     options:
-        version: '<info>%s</info> version <comment>%s</comment>'
+        version: '<info>%s</info> 版本 <comment>%s</comment>'
 site:
     messages:
-        path: 'Site path'
+        path: '网站路径'
     errors:
-        directory: 'In order to list all of the available commands, you should run this inside a drupal root directory.'
-        settings: 'In order to list all of the available commands you should install drupal first.'
+        directory: '在 Drupal 根目录下运行，才能显示所有可用命令'
+        settings: '安装 Drupal 后，才能显示所有可用命令'
 user:
     messages:
-        path: 'User home path'
+        path: '用户本地主目录'

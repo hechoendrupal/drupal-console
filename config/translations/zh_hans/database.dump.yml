@@ -2,6 +2,6 @@ description: "Dump structure and contents of MySQL databases and tables"
 arguments:
   database: "Database key from settings.php"
 options:
-  file: ' The filename for your database backup'
+  file: '数据库备份文件名称'
 messages:
-    success: "Database exported to:"
+    success: "数据库已导出到："

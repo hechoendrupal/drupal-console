@@ -6,7 +6,7 @@ options:
     inputs: 'Create inputs in a form.'
     permissions: 'Create permissions.'
 questions:
-    module: 'Enter the module name'
+    module: '输入模块名称'
     confirm: 'Do you confirm generation?'
     canceled: 'Command generation canceled.'
     events:
