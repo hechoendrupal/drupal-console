@@ -62,7 +62,7 @@ class PluginImageEffectCommand extends GeneratorCommand
         $output = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if ($input->isInteractive() && $this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($output)) {
             return;
         }
 

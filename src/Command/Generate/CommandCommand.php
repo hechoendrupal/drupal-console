@@ -58,7 +58,8 @@ class CommandCommand extends GeneratorCommand
     {
         $output = new DrupalStyle($input, $output);
 
-        if ($input->isInteractive() && $this->confirmGeneration($output)) {
+        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        if (!$this->confirmGeneration($output)) {
             return;
         }
 

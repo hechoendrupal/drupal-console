@@ -55,8 +55,8 @@ class PluginImageFormatterCommand extends GeneratorCommand
     {
         $output = new DrupalStyle($input, $output);
 
-        // @see use Drupal\Console\Command\ConfirmationTrait::confirmationQuestion
-        if ($input->isInteractive() && $this->confirmGeneration($output)) {
+        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        if (!$this->confirmGeneration($output)) {
             return;
         }
 
