@@ -33,11 +33,12 @@ class SelfUpdateCommand extends Command
     {
         $output = new DrupalStyle($input, $output);
         $application = $this->getApplication();
+        $pharName = 'drupal.phar';
 
         $updateStrategy = new GithubStrategy();
         $updateStrategy->setPackageName('drupal/console');
         $updateStrategy->setStability(GithubStrategy::STABLE);
-        $updateStrategy->setPharName('drupal.phar');
+        $updateStrategy->setPharName($pharName);
         $updateStrategy->setCurrentLocalVersion($application::VERSION);
 
         $updater = new Updater(null, false);
@@ -47,11 +48,11 @@ class SelfUpdateCommand extends Command
                 sprintf(
                     $this->trans('commands.self-update.messages.success'),
                     $updater->getOldVersion(),
-                    $updater->getNewVersion()
+                    $pharName
                 )
             );
         } else {
-            $output->caution(
+            $output->warning(
                 sprintf(
                     $this->trans('commands.self-update.messages.current-version'),
                     $updater->getOldVersion()
