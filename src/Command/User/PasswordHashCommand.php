@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Style\DrupalStyle;
 
 class PasswordHashCommand extends ContainerAwareCommand
@@ -39,7 +40,7 @@ class PasswordHashCommand extends ContainerAwareCommand
 
         $passHandler = $this->getPassHandler();
 
-        $table = $this->getTableHelper();
+        $table = new Table($output);
         $table->setHeaders(
             [
                 $this->trans('commands.user.password.hash.messages.password'),
@@ -47,7 +48,7 @@ class PasswordHashCommand extends ContainerAwareCommand
             ]
         );
 
-        $table->setlayout($table::LAYOUT_COMPACT);
+        $table->setStyle('compact');
 
         foreach ($passwords as $password) {
             $table->addRow(
@@ -58,7 +59,7 @@ class PasswordHashCommand extends ContainerAwareCommand
             );
         }
 
-        $table->render($output);
+        $table->render();
     }
 
     /**

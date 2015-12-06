@@ -94,7 +94,8 @@ class ModuleCommand extends GeneratorCommand
         $validators = $this->getValidator();
         $messageHelper = $this->getMessageHelper();
 
-        if ($input->isInteractive() && $this->confirmGeneration($output)) {
+        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        if (!$this->confirmGeneration($output)) {
             return;
         }
 

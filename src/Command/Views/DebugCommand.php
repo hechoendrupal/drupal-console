@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\Table;
 use Drupal\views\Entity\View;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Command\ContainerAwareCommand;
@@ -53,8 +54,8 @@ class DebugCommand extends ContainerAwareCommand
         } else {
             $view_status = -1;
         }
-        $table = $this->getTableHelper();
-        $table->setlayout($table::LAYOUT_COMPACT);
+        $table = new Table($output);
+        $table->setStyle('compact');
 
         if ($view_id) {
             $this->geViewByID($output, $table, $view_id);
@@ -95,7 +96,7 @@ class DebugCommand extends ContainerAwareCommand
 
         $output->writeln($configurationEncoded);
 
-        $table->render($output);
+        $table->render();
 
         $table->setHeaders(
             [
@@ -126,7 +127,7 @@ class DebugCommand extends ContainerAwareCommand
             );
         }
 
-        $table->render($output);
+        $table->render();
     }
 
     protected function getAllViews($tag, $status, $output, $table)
@@ -144,7 +145,7 @@ class DebugCommand extends ContainerAwareCommand
             ]
         );
 
-        $table->setlayout($table::LAYOUT_COMPACT);
+        $table->setStyle('compact');
 
         foreach ($views as $view) {
             if ($status != -1 && $view->status() != $status) {
@@ -164,7 +165,7 @@ class DebugCommand extends ContainerAwareCommand
                 ]
             );
         }
-        $table->render($output);
+        $table->render();
     }
 
     /**

@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Component\Utility\Unicode;
 use Drupal\Component\Serialization\Yaml;
@@ -121,8 +122,8 @@ class LogDebugCommand extends ContainerAwareCommand
 
     protected function getAllEvents($event_type, $event_severity, $user_id, $offset, $limit, $output)
     {
-        $table = $this->getTableHelper();
-        $table->setlayout($table::LAYOUT_COMPACT);
+        $table = new Table($output);
+        $table->setStyle('compact');
 
         $connection = $this->getDatabase();
         $date_formatter = $this->getDateFormatter();
@@ -184,8 +185,6 @@ class LogDebugCommand extends ContainerAwareCommand
             ]
         );
 
-        $table->setlayout($table::LAYOUT_COMPACT);
-
         foreach ($result as $dblog) {
             $user= $user_storage->load($dblog->uid);
 
@@ -201,7 +200,7 @@ class LogDebugCommand extends ContainerAwareCommand
             );
         }
 
-        $table->render($output);
+        $table->render();
     }
 
     /**
