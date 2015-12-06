@@ -13,6 +13,7 @@ use Drupal\Console\Generator\ProfileGenerator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Style\DrupalStyle;
 
 class ProfileCommand extends GeneratorCommand
 {
@@ -70,11 +71,12 @@ class ProfileCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
+
         $validators = $this->getValidator();
         $messageHelper = $this->getMessageHelper();
 
-        if ($this->confirmationQuestion($input, $output, $dialog)) {
+        if (!$this->confirmGeneration($output)) {
             return;
         }
 
@@ -154,115 +156,96 @@ class ProfileCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
+        $output = new DrupalStyle($input, $output);
+
         $stringUtils = $this->getStringHelper();
         $validators = $this->getValidator();
-        $dialog = $this->getDialogHelper();
 
         try {
             // A profile is technically also a module, so we can use the same
             // validator to check the name.
-            $input->getOption('profile') ? $this->validateModuleName($input->getOption('profile')) : null;
+            $profile = $input->getOption('profile') ? $this->validateModuleName($input->getOption('profile')) : null;
         } catch (\Exception $error) {
-            $output->writeln($dialog->getFormatterHelper()->formatBlock($error->getMessage(), 'error'));
+            $output->error($error->getMessage());
+
+            return;
         }
 
-        $profile = $input->getOption('profile');
         if (!$profile) {
-            $profile = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.profile.questions.profile'), ''),
+            $profile = $output->ask(
+                $this->trans('commands.generate.profile.questions.profile'),
+                '',
                 function ($profile) use ($validators) {
                     return $validators->validateModuleName($profile);
-                },
-                false,
-                null,
-                null
+                }
             );
+            $input->setOption('profile', $profile);
         }
-        $input->setOption('profile', $profile);
 
         try {
             $machine_name = $input->getOption('machine-name') ? $this->validateModule($input->getOption('machine-name')) : null;
         } catch (\Exception $error) {
-            $output->writeln($dialog->getFormatterHelper()->formatBlock($error->getMessage(), 'error'));
+            $output->error($error->getMessage());
+
+            return;
         }
 
         if (!$machine_name) {
-            $machine_name = $stringUtils->createMachineName($profile);
-            $machine_name = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.profile.questions.machine-name'), $machine_name),
+            $machine_name = $output->ask(
+                $this->trans('commands.generate.profile.questions.machine-name'),
+                $stringUtils->createMachineName($profile),
                 function ($machine_name) use ($validators) {
                     return $validators->validateMachineName($machine_name);
-                },
-                false,
-                $machine_name,
-                null
+                }
             );
             $input->setOption('machine-name', $machine_name);
         }
 
         $description = $input->getOption('description');
         if (!$description) {
-            $description = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.profile.questions.description'), 'My Useful Profile'),
+            $description = $output->ask(
+                $this->trans('commands.generate.profile.questions.description'),
                 'My Useful Profile'
             );
+            $input->setOption('description', $description);
         }
-        $input->setOption('description', $description);
 
         $core = $input->getOption('core');
         if (!$core) {
-            $core = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.profile.questions.core'), '8.x'),
+            $core = $output->ask(
+                $this->trans('commands.generate.profile.questions.core'),
                 '8.x'
             );
+            $input->setOption('core', $core);
         }
-        $input->setOption('core', $core);
 
         $dependencies = $input->getOption('dependencies');
         if (!$dependencies) {
-            if ($dialog->askConfirmation(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.profile.questions.dependencies'), 'no', '?'),
-                false
+            if ($output->confirm(
+                $this->trans('commands.generate.profile.questions.dependencies'),
+                true
             )) {
-                $dependencies = $dialog->askAndValidate(
-                    $output,
-                    $dialog->getQuestion($this->trans('commands.generate.profile.options.dependencies'), ''),
-                    function ($dependencies) {
-                        return $dependencies;
-                    },
-                    false,
-                    null,
-                    null
+                $dependencies = $output->ask(
+                    $this->trans('commands.generate.profile.options.dependencies'),
+                    ''
                 );
             }
+            $input->setOption('dependencies', $dependencies);
         }
-        $input->setOption('dependencies', $dependencies);
 
         $distribution = $input->getOption('distribution');
         if (!$distribution) {
-            if ($dialog->askConfirmation(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.profile.questions.distribution'), 'no', '?'),
+            if ($output->confirm(
+                $this->trans('commands.generate.profile.questions.distribution'),
                 false
             )) {
-                $distribution = $dialog->askAndValidate(
-                    $output,
-                    $dialog->getQuestion($this->trans('commands.generate.profile.options.distribution'), 'My Kick-ass Distribution'),
-                    function ($distribution) {
-                        return $distribution;
-                    },
-                    false,
-                    'My Kick-ass Distribution',
-                    null
+                $distribution = $output->ask(
+                    $this->trans('commands.generate.profile.options.distribution'),
+                    'My Kick-ass Distribution'
                 );
+                $input->setOption('distribution', $distribution);
             }
         }
-        $input->setOption('distribution', $distribution);
     }
 
     /**
@@ -272,5 +255,4 @@ class ProfileCommand extends GeneratorCommand
     {
         return new ProfileGenerator();
     }
-
 }

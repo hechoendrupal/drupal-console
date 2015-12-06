@@ -102,27 +102,11 @@ trait HelperTrait
     }
 
     /**
-     * @return \Symfony\Component\Console\Helper\TableHelper
-     */
-    public function getTableHelper()
-    {
-        return $this->getHelperSet()->get('table');
-    }
-
-    /**
      * @return \Drupal\Console\Helper\CommandDiscoveryHelper
      */
     public function getCommandDiscoveryHelper()
     {
         return $this->getHelperSet()->get('commandDiscovery');
-    }
-
-    /**
-     * @return \Drupal\Console\Helper\ShellHelper
-     */
-    public function getShellHelper()
-    {
-        return $this->getHelperSet()->get('shell');
     }
 
     /**
