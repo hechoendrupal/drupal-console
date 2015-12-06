@@ -160,7 +160,7 @@ class ControllerCommand extends GeneratorCommand
                 );
             }
 
-            if ($title==false) {
+            if ($title===false) {
                 break;
             }
 
