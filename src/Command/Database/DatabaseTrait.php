@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Database;
 
+use Symfony\Component\Console\Input\InputInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Database;
 use Drupal\Console\Style\DrupalStyle;
@@ -251,8 +252,8 @@ trait DatabaseTrait
     }
 
     /**
-     * @param \Drupal\Console\Command\Database\InputInterface $input
-     * @param \Drupal\Console\Style\DrupalStyle               $output
+     * @param InputInterface $input
+     * @param DrupalStyle    $output
      */
     protected function registerMigrateDB(InputInterface $input, DrupalStyle $output)
     {

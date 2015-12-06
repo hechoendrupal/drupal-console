@@ -174,6 +174,7 @@ class InstallCommand extends ContainerAwareCommand
             return;
         } catch (\Exception $e) {
             $output->error($e->getMessage());
+
             return;
         }
 
