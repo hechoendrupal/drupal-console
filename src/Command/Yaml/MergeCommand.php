@@ -40,7 +40,6 @@ class MergeCommand extends Command
 
         $yaml = new Parser();
         $dumper = new Dumper();
-        $messageHelper = $this->getMessageHelper();
 
         $final_yaml = array();
         $yaml_destination = $input->getArgument('yaml-destination');
