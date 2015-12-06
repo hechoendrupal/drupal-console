@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Humbug\SelfUpdate\Strategy\GithubStrategy;
 use Humbug\SelfUpdate\Updater;
-use Drupal\Console\Application;
+use Drupal\Console\Style\DrupalStyle;
 
 class SelfUpdateCommand extends Command
 {
@@ -31,24 +31,28 @@ class SelfUpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output = new DrupalStyle($input, $output);
+        $application = $this->getApplication();
+        $pharName = 'drupal.phar';
+
         $updateStrategy = new GithubStrategy();
         $updateStrategy->setPackageName('drupal/console');
         $updateStrategy->setStability(GithubStrategy::STABLE);
-        $updateStrategy->setPharName('console.phar');
-        $updateStrategy->setCurrentLocalVersion(Application::VERSION);
+        $updateStrategy->setPharName($pharName);
+        $updateStrategy->setCurrentLocalVersion($application::VERSION);
 
         $updater = new Updater(null, false);
         $updater->setStrategyObject($updateStrategy);
         if ($updater->update()) {
-            $output->writeln(
+            $output->success(
                 sprintf(
                     $this->trans('commands.self-update.messages.success'),
                     $updater->getOldVersion(),
-                    $updater->getNewVersion()
+                    $pharName
                 )
             );
         } else {
-            $output->writeln(
+            $output->warning(
                 sprintf(
                     $this->trans('commands.self-update.messages.current-version'),
                     $updater->getOldVersion()
@@ -56,13 +60,6 @@ class SelfUpdateCommand extends Command
             );
         }
 
-        // Recommended by Commerce Guys CLI
-        // https://github.com/platformsh/platformsh-cli/blob/7a122d3f3226d5e6ed0a0b74803158c51b31ad5e/src/Command/Self/SelfUpdateCommand.php#L72-L77
-        // Errors appear if new classes are instantiated after this stage
-        // (namely, Symfony's ConsoleTerminateEvent). This suggests PHP
-        // can't read files properly from the overwritten Phar, or perhaps it's
-        // because the autoloader's name has changed. We avoid the problem by
-        // terminating now.
-        exit;
+        $this->getApplication()->setDispatcher(null);
     }
 }
