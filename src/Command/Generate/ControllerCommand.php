@@ -133,7 +133,6 @@ class ControllerCommand extends GeneratorCommand
             $input->setOption('class', $class_name);
         }
 
-        //        $i =0;
         $routes = [];
         while (true) {
             // --title option
