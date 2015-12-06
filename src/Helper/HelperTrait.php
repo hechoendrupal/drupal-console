@@ -110,14 +110,6 @@ trait HelperTrait
     }
 
     /**
-     * @return \Drupal\Console\Helper\ShellHelper
-     */
-    public function getShellHelper()
-    {
-        return $this->getHelperSet()->get('shell');
-    }
-
-    /**
      * @return \Symfony\Component\Console\Helper\FormatterHelper
      */
     public function getFormatterHelper()
