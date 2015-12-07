@@ -1,10 +1,10 @@
-description: '导出指定内容类型及其字段'
+description: '导出一个指定的内容类型及其字段'
 arguments:
-    content_type: '导出的内容类型'
+    content_type: '内容类型'
 questions:
-    content_type: '导出的内容类型'
+    content_type: '内容类型'
     optional-config: 'Export content type in module as an optional configuration'
 messages:
-    content_type_exported: '正在导出'
+    content_type_exported: '正在导出内容类型'
 options:
     optional-config: 'Export content type as an optional YAML configuration in your module'
