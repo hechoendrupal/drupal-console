@@ -3,14 +3,14 @@ help: 'Comanda <info>generate:plugin:rest:resource</info> vă va ajuta să gener
 welcome: 'Bine ați venit la generatorul de pluginuri pentru resurse REST Drupal'
 options:
     module: common.options.module
-    class-name: 'Clasa pluginului de tip resursă REST'
+    class: 'Clasa pluginului de tip resursă REST'
     plugin-id: 'Id-ul pluginului de tip resursă REST'
     plugin-label: 'Eticheta pluginului de tip resursă REST'
     plugin-url: 'URL-ul pluginului de tip resursă REST'
     plugin-states: 'Stările pluginului de tip resursă REST'
 questions:
     module: common.questions.module
-    class-name: 'Introduceți numele pluginului de tip resursă rest'
+    class: 'Introduceți numele pluginului de tip resursă rest'
     plugin-id: 'Introduceți id-ul pluginului de tip resursă rest'
     plugin-label: 'Introduceți eticheta pluginului de tip resursă rest'
     plugin-url: 'Introduceți url-ul pluginului de tip resursă rest'

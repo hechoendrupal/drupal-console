@@ -3,14 +3,14 @@ help: 'Câu lệnh <info>generate:plugin:rest:resource</info> giúp bạn phát 
 welcome: 'Chào mừng bạn đến với Drupal Plugin Rest Resource '
 options:
     module: common.options.module
-    class-name: 'Lớp plugin rest resource'
+    class: 'Lớp plugin rest resource'
     plugin-id: 'Plugin Rest Resource id'
     plugin-label: 'Nhãn của Plugin Rest Resource'
     plugin-url: 'Plugin tài nguyên còn lại URL'
     plugin-states: 'Tình trạng tài nguyên còn lại'
 questions:
     module: common.questions.module
-    class-name: 'Nhập vào tên của tài nguyên còn lại'
+    class: 'Nhập vào tên của tài nguyên còn lại'
     plugin-id: 'Nhập vào tài nguyên id'
     plugin-label: 'Nhập vào nhãn của tài nguyên còn lại'
     plugin-url: 'Nhập vào đường dẫn url của tài nguyên còn lại'

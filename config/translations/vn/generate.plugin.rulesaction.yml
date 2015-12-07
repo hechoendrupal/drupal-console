@@ -3,7 +3,7 @@ help: 'Câu lệnh <info>generate:plugin:rulesaction</info> giúp bạn phát si
 welcome: 'Chào mừng bạn đến với Drupal Plugin Rules Action '
 options:
     module: common.options.module
-    class-name: 'Tên lớp của plugin'
+    class: 'Tên lớp của plugin'
     label: 'Nhãn của plugin'
     plugin-id: 'Plugin id'
     inputs: common.options.inputs
@@ -13,7 +13,7 @@ options:
     type: 'Kiểu hành vi (user or node)'
 questions:
     module: common.questions.module
-    class-name: 'Nhập tên lớp của plugin'
+    class: 'Nhập tên lớp của plugin'
     label: 'Nhập nhãn của plugin'
     plugin-id: 'Nhập vào plugin id'
     inputs: common.questions.inputs

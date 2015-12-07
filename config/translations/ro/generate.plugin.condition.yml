@@ -3,7 +3,7 @@ help: 'Comanda <info>generate:plugin:conditon</info> te va ajuta să creezi o co
 welcome: 'Bine ați venit la generatorul de condiții pentru extensii Drupal'
 options:
     module: common.options.module
-    class-name: 'Numele clasei pentru condiția extensiei'
+    class: 'Numele clasei pentru condiția extensiei'
     label: 'Eticheta pentru condiția extensiei'
     plugin-id: 'ID-ul condiției extensiei'
     context-definition-id: 'ID-ul definirii contextului'
@@ -11,7 +11,7 @@ options:
     context-definition-required: 'Definirea contextului este obligatorie (ADEVĂRAT/FALS)'
 questions:
     module: common.questions.module
-    class-name: 'Introduceți numele clasei pentru condiția extensiei'
+    class: 'Introduceți numele clasei pentru condiția extensiei'
     label: 'Introduceți eticheta pentru condiția extensiei'
     plugin-id: 'Introduceți ID-ul condiției extensiei'
     context-type: 'Tip de conținut'
