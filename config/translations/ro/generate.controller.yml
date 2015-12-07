@@ -3,7 +3,7 @@ help: 'Comanda <info>generate:controller</info> vă va ajuta să generați un co
 welcome: 'Bine ați venit la Generatorul de Controllere Drupal'
 options:
     module: common.options.module
-    class-name: 'Numele clasei Controller'
+    class: 'Numele clasei Controller'
     controller-title: 'Titlul controlerului'
     method-name: 'Numele metodei'
     route: 'Calea rutei'
@@ -11,7 +11,7 @@ options:
     test: 'Generați o clasă de test'
 questions:
     module: common.questions.module
-    class-name: 'Introduceți numele clasei Controller'
+    class: 'Introduceți numele clasei Controller'
     method-name: 'Introduceți numele metodei'
     route: 'Introduceți calea rutei'
     services: common.questions.services

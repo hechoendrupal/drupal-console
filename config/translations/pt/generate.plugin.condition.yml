@@ -3,7 +3,7 @@ help: 'The <info>generate:plugin:conditon</info> command helps you generate a pl
 welcome: 'Welcome to the Drupal Plugin Condition generator'
 options:
     module: common.options.module
-    class-name: 'Plugin condition class name'
+    class: 'Plugin condition class name'
     label: 'Plugin condition label'
     plugin-id: 'Plugin condition id'
     context-definition-id: 'Context definition ID'
@@ -11,7 +11,7 @@ options:
     context-definition-required: 'Context definition is requiered (TRUE/FALSE)'
 questions:
     module: common.questions.module
-    class-name: 'Enter the plugin condition class name'
+    class: 'Enter the plugin condition class name'
     label: 'Enter the plugin condition label'
     plugin-id: 'Enter the plugin condition id'
     context-type: 'Context type'
