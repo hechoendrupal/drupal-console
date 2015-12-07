@@ -76,7 +76,8 @@ $dispatcher->addSubscriber(new CallCommandListener());
 $dispatcher->addSubscriber(new ShowGenerateChainListener());
 $dispatcher->addSubscriber(new ShowGenerateInlineListener());
 $dispatcher->addSubscriber(new ShowTerminateMessageListener());
-
 $application->setDispatcher($dispatcher);
-$application->setDefaultCommand('about');
+
+$defaultCommand = $config->get('application.command')?:'about';
+$application->setDefaultCommand($defaultCommand);
 $application->run();
