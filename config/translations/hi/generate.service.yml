@@ -4,12 +4,12 @@ welcome: 'Drupal सर्विस उत्पादक में आपका
 options:
     module: common.options.module
     service-name: 'सर्विस का नाम'
-    class-name: 'क्लास का नाम'
+    class: 'क्लास का नाम'
     interface: इंटरफ़ेस
     services: common.questions.services
 questions:
     module: common.questions.module
     service-name: 'सर्विस का नाम दर्ज करें'
-    class-name: 'क्लास का नाम दर्ज करें'
+    class: 'क्लास का नाम दर्ज करें'
     interface: 'एक नया इंटरफ़ेस बनाएं'
     services: common.options.services
