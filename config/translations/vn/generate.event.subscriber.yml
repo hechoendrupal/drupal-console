@@ -1,4 +1,4 @@
 description: 'Generate an event subscriber'
 questions:
-    class-name: 'Tên lớp'
+    class: 'Tên lớp'
     callback-name: 'Callback function name to handle event'
