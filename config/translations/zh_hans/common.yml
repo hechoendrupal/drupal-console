@@ -36,6 +36,6 @@ status:
     disabled: '禁用'
 messages:
     canceled: '生成命令已取消'
-    drupal-core: 'Drupal 核心Drupal Core'
+    drupal-core: 'Drupal 核心'
     move-phar: '在您的系统中，任何地方都可以访问 Drupal Console'
     quick-start: '下载、安装 Drupal 8 以及启动服务器一条龙'
