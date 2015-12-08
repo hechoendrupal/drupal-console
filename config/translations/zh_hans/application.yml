@@ -12,9 +12,9 @@ console:
     messages:
         completed: '命令执行成功！'
         chain:
-            generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
+            generated: '您可以在下面找到以 yaml 格式表示的您上次执行的命令。例如：拷贝进 ~/.console/chain/sample.yml 作为链式命令的一部分执行'
         inline:
-            generated: 'Following you can find the inline representation of this command to re-execute this command later'
+            generated: '您可以在下面找到以单行方式表示的当前命令，您可以稍后再次执行'
         generated: '代码生成完毕！'
         files:
             generated: '生成或更新文件'
