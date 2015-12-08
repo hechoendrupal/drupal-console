@@ -27,13 +27,13 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '0.9.8';
+    const VERSION = '0.9.9';
     /**
      * @var string
      */
-    const DRUPAL_VERSION = '8.0.0';
+    const DRUPAL_VERSION = '8.0.1';
     /**
-     * @var Drupal\Console\Config
+     * @var \Drupal\Console\Config
      */
     protected $config;
     /**
@@ -46,7 +46,7 @@ class Application extends BaseApplication
      */
     protected $env;
     /**
-     * @var TranslatorHelper
+     * @var \Drupal\Console\Helper\TranslatorHelper
      */
     protected $translator;
 
@@ -56,7 +56,7 @@ class Application extends BaseApplication
     protected $commandName;
 
     /**
-     * Create a new application extended from \Symfony\Component\Console\Application.
+     * Create a new application.
      *
      * @param $config
      * @param $translator

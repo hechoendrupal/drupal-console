@@ -3,13 +3,13 @@ help: 'Câu lệnh <info>generate:plugin:fieldformatter</info>giúp bạn phát 
 welcome: 'Chào mừng bạn đến với Drupal Field Formatter Plugin generator'
 options:
     module: common.options.module
-    class-name: ' Tên lớp Plugin'
+    class: ' Tên lớp Plugin'
     label: 'Nhãn của Plugin'
     plugin-id: 'Plugin id'
     field-type: 'Kiểu filed của plugin có thể được sử dụng chung'
 questions:
     module: common.questions.module
-    class-name: 'Nhập vào tên lớp của plugin'
+    class: 'Nhập vào tên lớp của plugin'
     label: 'Nhập nhãn plugin'
     plugin-id: 'Nhập plugin id'
     field-type: 'Nhập vào field type mà plugin có thể sử dụng chung'

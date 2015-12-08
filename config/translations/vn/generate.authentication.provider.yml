@@ -3,5 +3,5 @@ help: 'The <info>generate:authentication:provider</info> Câu lệnh giúp bạn
 options:
     class: 'Lớp người cung cấp xác nhận'
     provider-id: 'ID người cung cấp'
-    class-name: 'Lớp người cung cấp xác nhận'
+    class: 'Lớp người cung cấp xác nhận'
 module: common.options.module

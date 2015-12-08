@@ -132,8 +132,6 @@ class InstallCommand extends Command
             return $value;
         };
 
-        $question = $this->getQuestionHelper();
-
         $profiles = $this->getProfiles();
 
         // <profile> option

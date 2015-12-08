@@ -3,7 +3,7 @@ help: 'Comanda <info>generate:plugin:block</info> vă va ajuta să creați un no
 welcome: 'Bine ați venit la generatorul de plugin-uri de tip bloc Drupal'
 options:
     module: common.options.module
-    class-name: 'Numele clasei pluginului'
+    class: 'Numele clasei pluginului'
     label: 'Eticheta pluginului'
     plugin-id: 'ID-ul pluginului'
     inputs: common.options.inputs
@@ -11,7 +11,7 @@ options:
     theme-region: 'Regiunea temei unde va fi randat Pluginul de tip bloc'
 questions:
     module: common.questions.module
-    class-name: 'Introduceți numele clasei pluginului'
+    class: 'Introduceți numele clasei pluginului'
     label: 'Introduceți eticheta pluginului'
     plugin-id: 'Introduceți ID-ul pluginului'
     inputs: common.questions.inputs
