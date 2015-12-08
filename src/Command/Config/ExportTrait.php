@@ -72,7 +72,7 @@ trait ExportTrait
 
             $configDirectory = sprintf(
                 '%s/%s',
-                $this->getSite()->getSiteRoot(),
+                $this->getKernelHelper()->getSitePath(),
                 $configDirectory
             );
 
@@ -84,7 +84,7 @@ trait ExportTrait
             file_put_contents(
                 sprintf(
                     '%s/%s',
-                    $this->getSite()->getSiteRoot(),
+                    $this->getKernelHelper()->getSitePath(),
                     $configFile
                 ),
                 $yamlConfig

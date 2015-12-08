@@ -4,6 +4,7 @@ application:
   editor: vim
   temp: /tmp
   develop: false
+  command: about
   remote:
     user: root
     port: 22

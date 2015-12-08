@@ -22,6 +22,6 @@
         "Herrera\\Box\\Compactor\\Php"
     ],
     "main": "bin/console",
-    "output": "console.phar",
+    "output": "drupal.phar",
     "stub": true
 }

@@ -3,7 +3,7 @@ help: 'Comanda <info>generate:plugin:fieldtype</info> te ajută să generezi o e
 welcome: 'Bine ați venit la generatorul pentru extensii de tipuri de câmp Drupal'
 options:
     module: common.options.module
-    class-name: 'Numele clasei pentru extensie'
+    class: 'Numele clasei pentru extensie'
     label: 'Eticheta extensiei'
     plugin-id: 'ID-ul extensiei'
     description: 'Descrierea extensiei'
@@ -11,7 +11,7 @@ options:
     default-formatter: 'Valoarea implicită a acestei extensii pentru formatarea câmpului'
 questions:
     module: common.questions.module
-    class-name: 'Introduceți numele clasei pentru extensie'
+    class: 'Introduceți numele clasei pentru extensie'
     label: 'Introduceți eticheta extensiei'
     plugin-id: 'Introduceți ID-ul extensiei'
     description: 'Introduceți descrierea extensiei'
