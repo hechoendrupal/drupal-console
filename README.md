@@ -39,15 +39,15 @@ You can ask for support at Drupal Console gitter chat room [http://bit.ly/consol
 ## Installing Drupal Console
 ```
 # Run this in your terminal to get the latest Console version:
-curl -LSs http://drupalconsole.com/installer | php
+curl http://drupalconsole.com/installer -L -o drupal.phar
 
 # Or if you don't have curl:
-php -r "readfile('http://drupalconsole.com/installer');" | php
+php -r "readfile('http://drupalconsole.com/installer');" > drupal.phar
 
 # You can place this file anywhere you wish.
 # If you put it in your PATH, you can access it globally.
-# For example: move console.phar and rename it, 'drupal':
-mv console.phar /usr/local/bin/drupal
+# For example: move drupal.phar
+mv drupal.phar /usr/local/bin/drupal
 
 # Show all available commands.
 drupal list
