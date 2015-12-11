@@ -1,4 +1,4 @@
-description: 'DElete a language to be supported by your site'
+description: '删除一种语言'
 messages:
-    invalid-language: 'Language %s it''s an invalid language'
-    language-deleted-sucessfully: 'Language %s was deleted successfully.'
+    invalid-language: '语言 %s 不是一种有效语言'
+    language-deleted-sucessfully: '语言 %s 被成功删除'
