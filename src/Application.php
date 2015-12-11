@@ -3,6 +3,7 @@
 namespace Drupal\Console;
 
 use Symfony\Component\Console\Application as BaseApplication;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -10,6 +11,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Debug\Debug;
 use Drupal\Console\Helper\HelperTrait;
+use Drupal\Console\Helper\DrupalHelper;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -224,7 +226,12 @@ class Application extends BaseApplication
         return parent::doRun($input, $output);
     }
 
-    public function prepare($drupal)
+    /**
+     * Prepare drupal.
+     *
+     * @param DrupalHelper $drupal
+     */
+    public function prepare(DrupalHelper $drupal)
     {
         chdir($drupal->getRoot());
         $this->getSite()->setSiteRoot($drupal->getRoot());
@@ -359,6 +366,15 @@ class Application extends BaseApplication
         foreach ($helpers as $alias => $helper) {
             $defaultHelperSet->set($helper, is_int($alias) ? null : $alias);
         }
+    }
+
+    /**
+     * Remove dispatcher.
+     */
+    public function removeDispatcher()
+    {
+        $dispatcher = new EventDispatcher();
+        $this->setDispatcher($dispatcher);
     }
 
     /**
