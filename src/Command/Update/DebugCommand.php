@@ -9,6 +9,7 @@ namespace Drupal\Console\Command\Update;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Command\ContainerAwareCommand;
 
 class DebugCommand extends ContainerAwareCommand
@@ -22,8 +23,8 @@ class DebugCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $table = $this->getTableHelper();
-        $table->setlayout($table::LAYOUT_COMPACT);
+        $table = new Table($output);
+        $table->setStyle('compact');
 
         $this->getDrupalHelper()->loadLegacyFile('/core/includes/update.inc');
         $this->getDrupalHelper()->loadLegacyFile('/core/includes/install.inc');
@@ -64,7 +65,7 @@ class DebugCommand extends ContainerAwareCommand
                 }
             }
 
-            $table->render($output);
+            $table->render();
             return;
         }
 
@@ -105,6 +106,6 @@ class DebugCommand extends ContainerAwareCommand
             }
         }
 
-        $table->render($output);
+        $table->render();
     }
 }

@@ -1,0 +1,4 @@
+description: 启动视图
+messages:
+    disabled-successfully: 成功启动视图%s.
+disabled-successfully: 成功启动视图%s.

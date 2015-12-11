@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class DisableCommand extends ContainerAwareCommand
 {
@@ -30,7 +31,8 @@ class DisableCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
+
         $resource_id = $input->getArgument('resource-id');
         $rest_resources = $this->getRestResources();
         $rest_resources_ids = array_merge(
@@ -39,14 +41,8 @@ class DisableCommand extends ContainerAwareCommand
         );
 
         if (!$resource_id) {
-            $resource_id = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.rest.disable.arguments.resource-id'), ''),
-                function ($resource_id) use ($rest_resources_ids) {
-                    return $this->validateRestResource($resource_id, $rest_resources_ids, $this->getTranslator());
-                },
-                false,
-                '',
+            $resource_id = $output->choice(
+                $this->trans('commands.rest.disable.arguments.resource-id'),
                 $rest_resources_ids
             );
         }

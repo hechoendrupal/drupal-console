@@ -1,5 +1,0 @@
-description: '可以使用过滤器选择在数据库日志里删除事件日志'
-messages:
-    event-deleted: '事件%s被删除'
-    clear-error: '清除过程失败，请检查过滤设置'
-    clear-sucess: '清除事件成功'

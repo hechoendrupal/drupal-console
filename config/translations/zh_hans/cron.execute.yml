@@ -1,0 +1,4 @@
+description: '执行模块中的定时任务或全部定时任务'
+messages:
+    module-invalid: '模块 %s 没有实现定时任务'
+    executing-cron: '执行模块 %s 中的定时任务'

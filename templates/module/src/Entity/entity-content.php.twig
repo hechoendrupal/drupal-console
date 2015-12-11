@@ -42,17 +42,31 @@ use Drupal\user\UserInterface;
  *   },
  *   base_table = "{{ entity_name }}",
  *   admin_permission = "administer {{ entity_class }} entity",
+{% if bundle_entity_type %}
+ *   entity_keys = {
+ *     "id" = "id",
+ *     "bundle" = "type",
+ *     "label" = "name",
+ *     "uuid" = "uuid"
+ *   },
+{% else %}
  *   entity_keys = {
  *     "id" = "id",
  *     "label" = "name",
  *     "uuid" = "uuid"
  *   },
+{% endif %}
  *   links = {
  *     "canonical" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
  *     "edit-form" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
  *     "delete-form" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete"
  *   },
+{% if bundle_entity_type %}
+ *   bundle_entity_type = "{{ bundle_entity_type }}",
+ *   field_ui_base_route = "entity.{{ bundle_entity_type }}.edit_form"
+{% else %}
  *   field_ui_base_route = "{{ entity_name }}.settings"
+{% endif %}
  * )
  */
 class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}Interface {% endblock %}
@@ -115,7 +129,13 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
       ->setLabel(t('ID'))
       ->setDescription(t('The ID of the {{ label }} entity.'))
       ->setReadOnly(TRUE);
-
+{% if bundle_entity_type %}
+    $fields['type'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Type'))
+      ->setDescription(t('The {{ label }} type/bundle.'))
+      ->setSetting('target_type', '{{ bundle_entity_type }}')
+      ->setRequired(TRUE);
+{% endif %}
     $fields['uuid'] = BaseFieldDefinition::create('uuid')
       ->setLabel(t('UUID'))
       ->setDescription(t('The UUID of the {{ label }} entity.'))

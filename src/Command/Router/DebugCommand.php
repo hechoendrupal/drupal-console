@@ -10,6 +10,7 @@ namespace Drupal\Console\Command\Router;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Command\ContainerAwareCommand;
 
 class DebugCommand extends ContainerAwareCommand
@@ -29,8 +30,8 @@ class DebugCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $route_name = $input->getArgument('route-name');
-        $table = $this->getTableHelper();
-        $table->setlayout($table::LAYOUT_COMPACT);
+        $table = new Table($output);
+        $table->setStyle('compact');
         if ($route_name) {
             $this->getRouteByNames($route_name, $output, $table);
         } else {
@@ -49,11 +50,11 @@ class DebugCommand extends ContainerAwareCommand
             $this->trans('commands.router.debug.messages.path'),
             ]
         );
-        $table->setlayout($table::LAYOUT_COMPACT);
+        $table->setStyle('compact');
         foreach ($routes as $route_name => $route) {
             $table->addRow([$route_name, $route->getPath()]);
         }
-        $table->render($output);
+        $table->render();
     }
 
     protected function getRouteByNames($route_name, $output, $table)
@@ -66,7 +67,7 @@ class DebugCommand extends ContainerAwareCommand
             $this->trans('commands.router.debug.messages.options'),
             ]
         );
-        $table->setlayout($table::LAYOUT_COMPACT);
+        $table->setStyle('compact');
 
         foreach ($routes as $name => $route) {
             $table->addRow(['<info>'.$name.'</info>']);
@@ -83,7 +84,7 @@ class DebugCommand extends ContainerAwareCommand
             $table->addRow([' <comment>+ '.$this->trans('commands.router.debug.messages.options').'</comment>']);
             $table = $this->addRouteAttributes($route->getOptions(), $table);
         }
-        $table->render($output);
+        $table->render();
     }
 
     protected function addRouteAttributes($attr, $table)

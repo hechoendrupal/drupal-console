@@ -1,0 +1,13 @@
+description: '导出单个配置为 YAML 格式文件'
+arguments:
+    config-name: '配置名称'
+options:
+    simple-configuration: '简单配置'
+questions:
+    config-type: '配置类型'
+    config-name: '配置名称'
+messages:
+    config-not-found: '配置名称没有找到'
+    export: '导出的配置文件在： %s'
+    invalid-config-type: '无效配置类型，请从列表中选择一个'
+    invalid-config-name: '无效配置名称，请从列表中选择一个'

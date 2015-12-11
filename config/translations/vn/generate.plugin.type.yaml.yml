@@ -3,12 +3,11 @@ help: 'Câu lệnh <info>generate:plugin:type:yaml</info> giúp bạn phát sinh
 welcome: 'Chào mừng bạn đến với Drupal Plugin Type generator'
 options:
     module: common.options.module
-    class-name: 'Tên lớp của kiểu plugin'
+    class: 'Tên lớp của kiểu plugin'
     plugin-name: 'Tên máy của kiểu plugin'
     plugin-file-name: 'Tên file plugin'
 questions:
     module: common.questions.module
-    class-name: 'Nhập tên lớp của kiểu plugin'
+    class: 'Nhập tên lớp của kiểu plugin'
     plugin-name: 'Nhập tên máy của kiểu plugin'
     plugin-file-name: 'Nhập tên file plugin (e.g.  MODULE.plugin.filename.yml)'
-

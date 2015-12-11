@@ -3,7 +3,7 @@ help: 'The <info>generate:controller</info> câu lệnh giúp bạn phát sinh m
 welcome: 'Chào mừng tới Drupal Controller generator'
 options:
     module: common.options.module
-    class-name: 'Tên lớp của controller.'
+    class: 'Tên lớp của controller.'
     controller-title: 'Tiêu đề của controller'
     method-name: 'Tên của phương pháp'
     route: 'Tuyến đường'
@@ -11,7 +11,7 @@ options:
     test: 'Phát sinh một lớp kiểm thử'
 questions:
     module: common.questions.module
-    class-name: 'Nhập vào tên lớp của trình điều khiển'
+    class: 'Nhập vào tên lớp của trình điều khiển'
     method-name: 'Nhập vào tên của phương pháp'
     route: 'Nhập vào đường dẫn'
     services: common.questions.services
@@ -25,4 +25,3 @@ messages:
     method-name-already-added: 'Tên phương pháp đã được thêm rồi'
     invalid-route: 'Tuyến đường không thể được để trống'
     route-already-added: 'Tuyến đường đã được thêm rồi'
-

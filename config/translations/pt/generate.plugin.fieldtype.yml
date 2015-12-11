@@ -3,7 +3,7 @@ help: 'The <info>generate:plugin:fieldtype</info> command helps you generate a n
 welcome: 'Welcome to the Drupal Field Type Plugin generator'
 options:
     module: common.options.module
-    class-name: 'Plugin class name'
+    class: 'Plugin class name'
     label: 'Plugin label'
     plugin-id: 'Plugin id'
     description: 'Plugin Description'
@@ -11,7 +11,7 @@ options:
     default-formatter: 'Default field formatter of this plugin'
 questions:
     module: common.questions.module
-    class-name: 'Enter the plugin class name'
+    class: 'Enter the plugin class name'
     label: 'Enter the plugin label'
     plugin-id: 'Enter the plugin id'
     description: 'Enter the plugin Description'

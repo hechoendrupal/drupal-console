@@ -13,6 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\AutocompleteGenerator;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Finder\Finder;
+use Drupal\Console\Style\DrupalStyle;
 
 class InitCommand extends Command
 {
@@ -37,6 +38,8 @@ class InitCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output = new DrupalStyle($input, $output);
+
         $application = $this->getApplication();
         $config = $application->getConfig();
         $message = $this->getMessageHelper();
@@ -73,6 +76,7 @@ class InitCommand extends Command
         }
 
         $this->createAutocomplete();
+        $output->newLine(1);
         $output->writeln($this->trans('application.console.messages.autocomplete'));
     }
 
@@ -99,10 +103,10 @@ class InitCommand extends Command
     protected function getSkeletonDirs()
     {
         $module = $this->getModule();
-        if ($module != 'AppConsole') {
+        if ($module != 'Console') {
             $drupal = $this->getDrupalHelper();
-            $drupal_root = $drupal->getRoot();
-            $skeletonDirs[] = $drupal_root.drupal_get_path('module', $module).'/templates';
+            $drupalRoot = $drupal->getRoot();
+            $skeletonDirs[] = $drupalRoot.drupal_get_path('module', $module).'/templates';
         }
 
         $skeletonDirs[] = __DIR__.'/../../templates';

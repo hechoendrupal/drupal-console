@@ -9,4 +9,3 @@ questions:
     module: common.questions.module
     name: ' Nhập tên dịch vụ'
     class: ' Nhập tên Class'
-

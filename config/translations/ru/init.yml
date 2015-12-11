@@ -1,3 +1,3 @@
-description: 'Copy configuration files to user home directory.'
+description: 'Копирование конфигурационных файлов в домашнюю директорию пользователя.'
 options:
-    override: 'Override configurations files'
+    override: 'Перезапись конфигурационных файлов'

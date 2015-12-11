@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 abstract class EntityCommand extends GeneratorCommand
 {
@@ -80,16 +81,7 @@ abstract class EntityCommand extends GeneratorCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $entityType = $this->getStringHelper()->camelCaseToUnderscore($this->entityType);
-
-        $module = $input->getOption('module');
-        $entity_class = $input->getOption('entity-class');
-        $entity_name = $input->getOption('entity-name');
-        $label = $input->getOption('label');
-
-        $this
-            ->getGenerator()
-            ->generate($module, $entity_name, $entity_class, $label, $entityType);
+        // Operations defined in EntityConfigCommand and EntityContentCommand.
     }
 
     /**
@@ -97,64 +89,55 @@ abstract class EntityCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
+
+        $commandKey = str_replace(':', '.', $this->commandName);
         $utils = $this->getStringHelper();
 
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output, $dialog);
+            $module = $this->moduleQuestion($output);
+            $input->setOption('module', $module);
         }
-        $input->setOption('module', $module);
 
         // --entity-class option
-        $entity_class = $input->getOption('entity-class');
-        if (!$entity_class) {
-            $entity_class = 'DefaultEntity';
-            $entity_class = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.'.$commandKey.'.questions.entity-class'), $entity_class),
-                function ($entity_class) {
-                    return $this->validateSpaces($entity_class);
-                },
-                false,
-                $entity_class,
-                null
+        $entityClass = $input->getOption('entity-class');
+        if (!$entityClass) {
+            $entityClass = $output->ask(
+                $this->trans('commands.'.$commandKey.'.questions.entity-class'),
+                'DefaultEntity',
+                function ($entityClass) {
+                    return $this->validateSpaces($entityClass);
+                }
             );
-        }
-        $input->setOption('entity-class', $entity_class);
 
-        $machine_name = $utils->camelCaseToMachineName($entity_class);
+            $input->setOption('entity-class', $entityClass);
+        }
 
         // --entity-name option
-        $entity_name = $input->getOption('entity-name');
-        if (!$entity_name) {
-            $entity_name = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.'.$commandKey.'.questions.entity-name'), $machine_name),
-                function ($machine_name) {
-                    return $this->validateMachineName($machine_name);
-                },
-                false,
-                $machine_name,
-                null
+        $entityName = $input->getOption('entity-name');
+        if (!$entityName) {
+            $entityName = $output->ask(
+                $this->trans('commands.'.$commandKey.'.questions.entity-name'),
+                $utils->camelCaseToMachineName($entityClass),
+                function ($entityName) {
+                    return $this->validateMachineName($entityName);
+                }
             );
+            $input->setOption('entity-name', $entityName);
         }
-        $input->setOption('entity-name', $entity_name);
-
-        $default_label = $utils->camelCaseToHuman($entity_class);
 
         // --label option
         $label = $input->getOption('label');
         if (!$label) {
-            $label = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.'.$commandKey.'.questions.label'), $default_label),
-                $default_label
+            $label = $output->ask(
+                $this->trans('commands.'.$commandKey.'.questions.label'),
+                $utils->camelCaseToHuman($entityClass)
             );
+            $input->setOption('label', $label);
         }
-        $input->setOption('label', $label);
     }
 
     protected function createGenerator()

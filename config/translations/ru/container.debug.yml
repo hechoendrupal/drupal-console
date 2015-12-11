@@ -1,4 +1,4 @@
-description: 'Displays current services for an application.'
+description: 'Отображает сервисы приложения.'
 messages:
-    service_id: 'Service ID'
-    class_name: 'Class Name'
+    service_id: 'ID Сервиса'
+    class_name: 'Имя класса'

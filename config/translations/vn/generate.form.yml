@@ -3,16 +3,15 @@ help: 'Câu lệnh <info>"%s"</info>  giúp bạn phát sinh một "%s" '
 welcome: 'Chào mừng bạn tới Drupal form generator'
 options:
     module: common.options.module
-    class-name: 'Tên lớp của form'
+    class: 'Tên lớp của form'
     form-id: 'ID của form'
     services: common.options.services
     inputs: common.options.inputs
     routing: 'Cập nhật tuyến đường'
 questions:
     module: common.questions.module
-    class-name: 'Nhập tên lớp của form'
+    class: 'Nhập tên lớp của form'
     form-id: 'Nhập id của form'
     services: common.questions.services
     inputs: common.questions.inputs
     routing: 'Cập nhật đường dẫn của flie'
-

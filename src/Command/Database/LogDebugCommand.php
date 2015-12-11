@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Component\Utility\Unicode;
 use Drupal\Component\Serialization\Yaml;
@@ -48,6 +49,12 @@ class LogDebugCommand extends ContainerAwareCommand
                 $this->trans('commands.database.log.debug.options.user-id')
             )
             ->addOption(
+                'reverse',
+                false,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.database.log.debug.options.reverse')
+            )
+            ->addOption(
                 'limit',
                 null,
                 InputOption::VALUE_OPTIONAL,
@@ -68,13 +75,14 @@ class LogDebugCommand extends ContainerAwareCommand
         $event_type = $input->getOption('type');
         $event_severity = $input->getOption('severity');
         $user_id = $input->getOption('user-id');
+        $reverse = $input->getOption('reverse');
         $limit = $input->getOption('limit');
         $offset = $input->getOption('offset');
 
         if ($event_id) {
             $this->getEventDetails($output, $event_id);
         } else {
-            $this->getAllEvents($event_type, $event_severity, $user_id, $offset, $limit, $output);
+            $this->getAllEvents($event_type, $event_severity, $user_id, $reverse, $offset, $limit, $output);
         }
     }
 
@@ -119,10 +127,10 @@ class LogDebugCommand extends ContainerAwareCommand
         $output->writeln($configurationEncoded);
     }
 
-    protected function getAllEvents($event_type, $event_severity, $user_id, $offset, $limit, $output)
+    protected function getAllEvents($event_type, $event_severity, $user_id, $reverse, $offset, $limit, $output)
     {
-        $table = $this->getTableHelper();
-        $table->setlayout($table::LAYOUT_COMPACT);
+        $table = new Table($output);
+        $table->setStyle('compact');
 
         $connection = $this->getDatabase();
         $date_formatter = $this->getDateFormatter();
@@ -163,6 +171,10 @@ class LogDebugCommand extends ContainerAwareCommand
             $query->condition('uid', $user_id);
         }
 
+        if ($reverse) {
+            $query->orderBy('wid', 'DESC');
+        }
+
         if (!$offset) {
             $offset = 0;
         }
@@ -184,8 +196,6 @@ class LogDebugCommand extends ContainerAwareCommand
             ]
         );
 
-        $table->setlayout($table::LAYOUT_COMPACT);
-
         foreach ($result as $dblog) {
             $user= $user_storage->load($dblog->uid);
 
@@ -201,7 +211,7 @@ class LogDebugCommand extends ContainerAwareCommand
             );
         }
 
-        $table->render($output);
+        $table->render();
     }
 
     /**

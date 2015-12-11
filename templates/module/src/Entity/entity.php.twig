@@ -30,6 +30,9 @@ use Drupal\{{ module }}\{{ entity_class }}Interface;
  *   },
  *   config_prefix = "{{ entity_name }}",
  *   admin_permission = "administer site configuration",
+{% if bundle_of %}
+ *   bundle_of = "{{ bundle_of }}",
+{% endif %}
  *   entity_keys = {
  *     "id" = "id",
  *     "label" = "label",

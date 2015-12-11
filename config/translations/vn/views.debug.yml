@@ -6,14 +6,13 @@ arguments:
 messages:
     view-id: 'View ID'
     view-name: 'Tên View'
-    description: Mô tả
+    description: 'Mô tả'
     tag: Tag
-    status: Trạng thái
-    path: Đường dẫn
+    status: 'Trạng thái'
+    path: 'Đường dẫn'
     not-found: 'View %s đã không được tìm thấy.'
     display-list: 'Danh sách hiển thị'
     display-id: ID
     display-name: Tên
-    display-description: Mô tả
-    display-paths: Các đường dẫn
-
+    display-description: 'Mô tả'
+    display-paths: 'Các đường dẫn'
