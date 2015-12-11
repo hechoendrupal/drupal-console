@@ -1,15 +1,15 @@
-description: 'List Test Units available for the application.'
+description: '列出可用单元测试'
 help: 'Update the console command to the latest version.'
 arguments:
-    test-class: 'Test Class'
+    test-class: '测试类'
 options:
-    group: Group
+    group: '组'
 messages:
-    class: 'Test Class'
-    description: Description
-    group: Group
-    type: 'Test Type'
+    class: '测试类'
+    description: '描述'
+    group: '组'
+    type: '测试类型'
     success: 'The console has been updated to the latest version.'
-    missing-dependency: 'Missing dependency'
-    methods: 'Test methods'
-    not-found: 'Debug wasn''t found, try enclosure test id between double quotes.'
+    missing-dependency: '依赖缺失'
+    methods: '测试方法'
+    not-found: 'Debug 没有找到，将测试 ID 放进双引号再试'
