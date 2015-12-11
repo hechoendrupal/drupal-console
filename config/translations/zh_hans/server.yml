@@ -2,7 +2,7 @@ description: '运行 PHP 内建 Web 服务器'
 arguments:
   address: '地址:端口'
 messages:
-  executing: '正在执行 PHP %s'.
+  executing: '正在执行 PHP %s'
 errors:
   binary: '找不到 PHP 库，服务器无法运行'
 examples:
