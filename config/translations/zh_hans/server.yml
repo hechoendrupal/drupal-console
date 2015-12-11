@@ -1,14 +1,14 @@
-description: 'Runs PHP built-in web server'
+description: '运行 PHP 内建 Web 服务器'
 arguments:
-  address: The address:port values
+  address: '地址:端口'
 messages:
-  executing: Executing php from %s.
+  executing: '正在执行 PHP %s'.
 errors:
-  binary: Unable to find PHP binary to run server.
+  binary: '找不到 PHP 库，服务器无法运行'
 examples:
-  - description: Run using default address argument value 127.0.0.1.8088
-    execution: drupal server
-  - description: Passing address argument to use a different port number
-    execution: drupal server 127.0.0.1:8089
-  - description: Running default address argument values, using --root option to define the Drupal root
-    execution: drupal --root=/var/www/drupal8.dev server
+  - description: '使用默认地址：127.0.0.1.8088 运行服务器'
+    execution: 'drupal server'
+  - description: '以不同端口作为地址参数'
+    execution: 'Drupal 服务器 127.0.0.1:8089'
+  - description: '使用默认地址参数，并使用 --root 选项指定 Drupal 根目录'
+    execution: 'drupal --root=/var/www/drupal8.dev server'
