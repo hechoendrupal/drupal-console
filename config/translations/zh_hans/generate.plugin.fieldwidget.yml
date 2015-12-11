@@ -1,15 +1,15 @@
-description: 'Generate field widget plugin.'
-help: 'The <info>generate:plugin:fieldwidget</info> command helps you generate a new field widget plugin.'
-welcome: 'Welcome to the Drupal Field Widget Plugin generator'
+description: '生成字段 Widget 插件'
+help: '<info>generate:plugin:fieldwidget</info> 命令帮助您生成一个新的 Widget 插件'
+welcome: '欢迎使用 Drupal 字段 Widget 插件生成器'
 options:
     module: common.options.module
-    class: 'Plugin class name'
-    label: 'Plugin label'
-    plugin-id: 'Plugin id'
-    field-type: 'Field type the plugin can be used with'
+    class: '插件类名'
+    label: '插件标签'
+    plugin-id: '插件 ID'
+    field-type: '字段类型，可以和该插件一起使用的字段类型'
 questions:
     module: common.questions.module
-    class: 'Enter the plugin class name'
-    label: 'Enter the plugin label'
-    plugin-id: 'Enter the plugin id'
-    field-type: 'Enter the field type the plugin can be used with'
+    class: '输入插件类名'
+    label: '输入插件标签'
+    plugin-id: '输入插件 ID'
+    field-type: '输入字段类型，可以和该插件一起使用的字段类型'

@@ -1,13 +1,13 @@
-description: 'Generate a plugin type with Yaml discovery'
-help: 'The <info>generate:plugin:type:yaml</info> command helps you generate a new Plugin type that uses Yaml discovery.'
-welcome: 'Welcome to the Drupal Plugin Type generator'
+description: '生成创建类型，它使用 YAML 发现'
+help: '<info>generate:plugin:type:yaml</info> 命令帮助您生成一个新的插件类型，它使用 YAML 发现'
+welcome: '欢迎使用 Drupal 插件类型生成器'
 options:
     module: common.options.module
-    class: 'Plugin type class name'
-    plugin-name: 'Plugin type machine name'
-    plugin-file-name: 'Plugin file name'
+    class: '插件类型类名'
+    plugin-name: '插件类型机读名称'
+    plugin-file-name: '插件文件名'
 questions:
     module: common.questions.module
-    class: 'Enter the plugin type class name'
-    plugin-name: 'Enter the plugin type machine name'
-    plugin-file-name: 'Enter the plugin file name (e.g. MODULE.plugin.filename.yml)'
+    class: '输入插件类型类名'
+    plugin-name: '输入插件类型机读名称'
+    plugin-file-name: '输入插件文件名（比如：MODULE.plugin.filename.yml）'
