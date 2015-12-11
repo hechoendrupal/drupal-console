@@ -1,11 +1,11 @@
-description: 'Generate a RouteSubscriber'
-help: 'The <info>generate:service</info> command helps you generate a new RouteSubscriber.'
-welcome: 'Welcome to the Drupal RouteSubscriber generator.'
+description: '生成一个路由订阅者'
+help: '<info>generate:service</info> 命令帮助您生成一个新的路由订阅者'
+welcome: '欢迎使用 Drupal 路由订阅者生成器'
 options:
     module: common.options.module
-    name: 'Service name'
-    class: 'Class name'
+    name: '服务名称'
+    class: '类名'
 questions:
     module: common.questions.module
-    name: 'Enter the service name'
-    class: 'Enter the Class name'
+    name: '输入服务名称'
+    class: '输入类名'

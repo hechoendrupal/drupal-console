@@ -1,8 +1,8 @@
-description: 'Generate an implementation of hook_form_alter() or hook_form_FORM_ID_alter'
-help: 'The <info>"%s"</info> command helps you generate a new "%s"'
+description: '生成 hook_form_alter() 或 hook_form_FORM_ID_alter 的一个实现'
+help: '<info>"%s"</info> 命令帮助您生成一个新 "%s"'
 options:
-    form-id: 'Form ID to alter'
+    form-id: '表单 ID'
 messages:
-    inputs: "You can add form fields to modify form.\nThis is optional, press <info>enter</info> to <info>continue</info>"
-    loading-forms: 'Loading forms definition from Webprofiler module'
-    hide-form-elements: 'Optionally you can select form items for hide'
+    inputs: "您可以添加表单字段修改表单\n这是可选的，按下 <info>enter</info> 键 <info>continue</info>"
+    loading-forms: '从 Webprofiler 模块导入表单定义'
+    hide-form-elements: '您可以选择要隐藏的表单项'
