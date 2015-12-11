@@ -1,47 +1,47 @@
 console:
     arguments:
-        drupal: 'Path to Drupal root.'
-        shell: 'Launch the shell.'
-        env: 'The Environment name.'
-        no-debug: 'Switches off debug mode.'
-        learning: 'Generate a verbose code output.'
-        generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
-        generate-inline: 'Print execution options and arguments as inline call to be use in the future'
-        root: 'Define the Drupal root to be use in command execution'
-        uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
+        drupal: 'Caminho da raiz do drupal.'
+        shell: 'Iniciar o shell.'
+        env: 'Nome do ambiente.'
+        no-debug: 'Desligar o modo de depuração.'
+        learning: 'Gerar código com explicações.'
+        generate-chain: 'Imprimir opções e argumentos como YAML para ser usado o comando chain'
+        generate-inline: 'Imprimir opções e argumentos de execução como chamada inline para ser usado no futuro'
+        root: 'Define a rais do Drupal que utilizará os comandos em execução.'
+        uri: 'URI do site Drupal para usar (para ambientes multisites ou quando usado em uma porta alternativa)'
     messages:
-        completed: 'The command was executed succesfully!'
+        completed: 'O comando foi executado com sucesso!'
         chain:
-            generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
+            generated: 'A seguir, você pode encontrar a representação YAML do último comando executado, ou seja, pode copiar em ~/.console/chain/sample.yml para executar dentro de uma seqüência de comandos'
         inline:
-            generated: 'Following you can find the inline representation of this command to re-execute this command later'
-        generated: 'You can now start using the generated code!'
+            generated: 'A seguir, você pode encontrar a representação inline deste comando para re-executar este comando mais tarde'
+        generated: 'Você pode começar a usar o código de gerado!'
         files:
-            generated: 'Generated or updated files'
-            copied: 'Copied files'
+            generated: 'Gerar ou atualizar arquivos'
+            copied: 'Copiar arquivos'
         learning:
-            route: "In order to to create pages it is necessary to define routes for them.\nA route maps a URL path to a controller. It defines with what function\nor method will be called when a URL is accessed.\nIf the user accesses http://drupal8.dev/{{ route }}, the routing\nsystem will look for a route with that path. In this case it will find a\nmatch, and execute the _controller callback. In this case the callback is\ndefined as a classname\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nand a method (\"{{ method_name }}\")."
-        autocomplete: "Bash or Zsh: Add this line to your shell configuration file:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Create a symbolic link\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
+            route: "Com a finalidade de criar páginas é necessário criar rotas para elas.\nUma rota relaciona uma URL a um controlador. Isso define qual função\nou método será chamado quando uma URL é acessada.\nSe o usuário acessar http://drupal8.dev/{{ route }}, o sistema buscará uma rota para esse caminho. Neste caso, se encontrar uma rota\n, e executará a chamada controller. Neste caso a chamada é \ndefinida como um nome de classe\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\ne um método (\"{{ method_name }}\")."
+        autocomplete: "Bash or Zsh: Adiciona está linha para arquivo de configuração do shell:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Criar um link simbólico\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
     errors:
-        invalid-command: 'Command "%s" is not defined.'
+        invalid-command: 'Comando "%s" não está definido.'
     input:
         definition:
-            command: 'The command to execute'
-            help: 'Display this help message'
-            quiet: 'Do not output any message'
-            verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
-            version: 'Display this application version'
-            ansi: 'Force ANSI output'
-            no-ansi: 'Disable ANSI output'
-            no-interaction: 'Do not ask any interactive question'
+            command: 'O comando para executar.'
+            help: 'Exibir mensagens de ajuda.'
+            quiet: 'Não exibir nenhuma mensagem.'
+            verbose: 'Detalhar as mensagens de saída: 1 para normal, 2 para  mais detalhes e 3 para debug.'
+            version: 'Mostra a versão desta aplicação.'
+            ansi: 'Forçar saida ANSI'
+            no-ansi: 'Desabilitar saída ANSI'
+            no-interaction: 'Não exibir perguntas de interação.'
     options:
-        version: '<info>%s</info> version <comment>%s</comment>'
+        version: '<info>%s</info> versão <comment>%s</comment>'
 site:
     messages:
-        path: 'Site path'
+        path: 'Endereço do site'
     errors:
-        directory: 'In order to list all of the available commands, you should run this inside a drupal root directory.'
-        settings: 'In order to list all of the available commands you should install drupal first.'
+        directory: 'Para listar todos os comandos disponíveis, você deve estar em um diretório raiz do Drupal.'
+        settings: 'Para listar todos os comandos disponíveis, você deve instalar um Drupal primeiro.'
 user:
     messages:
-        path: 'User home path'
+        path: 'Endereço da home do usuário.'
