@@ -84,58 +84,58 @@ class SetupCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
-        $question = $this->getQuestionHelper();
-
         // --db-type option
         $db_type = $input->getOption('db-type');
         if (!$db_type) {
-            $db_type = $this->dbTypeQuestion($input, $output, $question);
+            $db_type = $this->dbTypeQuestion($output);
+            $input->setOption('db-type', $db_type);
         }
-        $input->setOption('db-type', $db_type);
+
 
         // --db-host option
         $db_host = $input->getOption('db-host');
         if (!$db_host) {
-            $db_host = $this->dbHostQuestion($output, $dialog);
+            $db_host = $this->dbHostQuestion($output);
+            $input->setOption('db-host', $db_host);
         }
-        $input->setOption('db-host', $db_host);
 
         // --db-name option
         $db_name = $input->getOption('db-name');
         if (!$db_name) {
-            $db_name = $this->dbNameQuestion($output, $dialog);
+            $db_name = $this->dbNameQuestion($output);
+            $input->setOption('db-name', $db_name);
         }
-        $input->setOption('db-name', $db_name);
+
 
         // --db-user option
         $db_user = $input->getOption('db-user');
         if (!$db_user) {
-            $db_user = $this->dbUserQuestion($output, $dialog);
+            $db_user = $this->dbUserQuestion($output);
+            $input->setOption('db-user', $db_user);
         }
-        $input->setOption('db-user', $db_user);
 
         // --db-pass option
         $db_pass = $input->getOption('db-pass');
         if (!$db_pass) {
-            $db_pass = $this->dbPassQuestion($output, $dialog);
+            $db_pass = $this->dbPassQuestion($output);
+            $input->setOption('db-pass', $db_pass);
         }
-        $input->setOption('db-pass', $db_pass);
 
         // --db-prefix
         $db_prefix = $input->getOption('db-prefix');
         if (!$db_prefix) {
-            $db_prefix = $this->dbPrefixQuestion($output, $dialog);
+            $db_prefix = $this->dbPrefixQuestion($output);
+            $input->setOption('db-prefix', $db_prefix);
         }
-        $input->setOption('db-prefix', $db_prefix);
 
         // --db-port prefix
         $db_port = $input->getOption('db-port');
         if (!$db_port) {
-            $db_port = $this->dbPortQuestion($output, $dialog);
+            $db_port = $this->dbPortQuestion($output);
+            $input->setOption('db-port', $db_port);
         }
-        $input->setOption('db-port', $db_port);
     }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $template_storage = \Drupal::service('migrate.template_storage');

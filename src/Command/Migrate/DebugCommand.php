@@ -10,6 +10,7 @@ namespace Drupal\Console\Command\Migrate;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Command\ContainerAwareCommand;
 
 class DebugCommand extends ContainerAwareCommand
@@ -32,8 +33,8 @@ class DebugCommand extends ContainerAwareCommand
     {
         $drupal_version = $input->getArgument('tag');
 
-        $table = $this->getTableHelper();
-        $table->setlayout($table::LAYOUT_COMPACT);
+        $table = new Table($output);
+        $table->setStyle('compact');
         $this->getAllMigrations($drupal_version, $output, $table);
     }
 
@@ -49,7 +50,7 @@ class DebugCommand extends ContainerAwareCommand
             ]
         );
 
-        $table->setlayout($table::LAYOUT_COMPACT);
+        $table->setStyle('compact');
 
         if (empty($migrations)) {
             $output->writeln(
@@ -64,7 +65,7 @@ class DebugCommand extends ContainerAwareCommand
             foreach ($migrations as $migration_id => $migration) {
                 $table->addRow([$migration_id, $migration['description'], $migration['tags']]);
             }
-            $table->render($output);
+            $table->render();
         }
     }
 }

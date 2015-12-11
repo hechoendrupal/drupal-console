@@ -1,0 +1,3 @@
+description: '显示当前配置'
+arguments:
+    config-name: '配置名称'

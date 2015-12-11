@@ -1,5 +1,0 @@
-description: '开启可行的数据库用户端'
-arguments:
-    database: '从settings.php文件里取得的数据库键'
-messages:
-    executing: '执行: %s'

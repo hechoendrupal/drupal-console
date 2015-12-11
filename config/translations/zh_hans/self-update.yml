@@ -1,0 +1,5 @@
+description: '更新项目到最新版本'
+help: '更新项目到最新版本'
+messages:
+    success: '成功将项目从 %s 版本更新到最新版本 %s'
+    current-version: '当前版本已经是最新版本'

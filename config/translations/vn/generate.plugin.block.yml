@@ -3,7 +3,7 @@ help: 'The <info>generate:plugin:block</info> command helps you generate a new P
 welcome: 'Welcome to the Drupal Plugin Block generator'
 options:
     module: common.options.module
-    class-name: 'Plugin class name'
+    class: 'Plugin class name'
     label: 'Plugin label'
     plugin-id: 'Plugin id'
     inputs: common.options.inputs
@@ -11,7 +11,7 @@ options:
     theme-region: 'Theme region to render Plugin Block'
 questions:
     module: common.questions.module
-    class-name: 'Enter the plugin class name'
+    class: 'Enter the plugin class name'
     label: 'Enter the plugin label'
     plugin-id: 'Enter the plugin id'
     inputs: common.questions.inputs

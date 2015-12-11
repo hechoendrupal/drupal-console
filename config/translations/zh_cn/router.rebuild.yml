@@ -1,6 +1,0 @@
-description: '为程序重建路线'
-arguments:
-    route-name: '路线名'
-messages:
-    rebuilding: '重建路线中，请稍后'
-    completed: '重建路线结束.'

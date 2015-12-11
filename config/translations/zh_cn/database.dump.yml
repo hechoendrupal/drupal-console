@@ -1,7 +1,0 @@
-description: '输出MySQL数据库的数据及其结构'
-arguments:
-    database: '从settings.php文件里取得的数据库键'
-options:
-    file: '备份数据库的文件名'
-messages:
-    success: '数据库导出到:'

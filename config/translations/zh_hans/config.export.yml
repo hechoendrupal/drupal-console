@@ -1,0 +1,5 @@
+description: '导出当前应用/网站配置'
+arguments:
+    directory: '导出配置存放目录'
+messages:
+    directory: '导出配置存放目录：'

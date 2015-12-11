@@ -1,3 +1,0 @@
-description: '解开系统Cron锁来重新运行Cron'
-messages:
-    released: 'Cron锁成功解开'

@@ -36,4 +36,3 @@ messages:
     destination-error: 'Lỗi đích đến của cơ sở dữ liệu'
     source-error: 'Lỗi nguồn cơ sở dữ liệu'
     no-migrations: 'Không có sự chuyển đổi dữ liệu nào được tiến hành'
-

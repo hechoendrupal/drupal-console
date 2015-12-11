@@ -5,8 +5,10 @@ options:
     entity-class: 'The content entity class'
     entity-name: 'The content entity name'
     label: 'The label'
+    has-bundles: 'Entity has bundles'
 questions:
     module: common.questions.module
     entity-class: 'Enter the class of your new content entity'
     entity-name: 'Enter the name of your new content entity'
     label: 'Enter the label of your new content entity'
+    has-bundles: 'Do you want this (content) entity to have bundles'

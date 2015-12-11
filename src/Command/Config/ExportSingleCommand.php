@@ -10,7 +10,9 @@ namespace Drupal\Console\Command\Config;
 use Drupal\Component\Serialization\Yaml;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\ContainerAwareCommand;
 
 class ExportSingleCommand extends ContainerAwareCommand
@@ -31,9 +33,10 @@ class ExportSingleCommand extends ContainerAwareCommand
                 InputArgument::REQUIRED,
                 $this->trans('commands.config.export.single.arguments.config-name')
             )
-            ->addArgument(
+            ->addOption(
                 'directory',
-                InputArgument::OPTIONAL,
+                '',
+                InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.config.export.arguments.directory')
             );
     }
@@ -109,64 +112,30 @@ class ExportSingleCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
         $config_types = $this->getConfigTypes();
 
         $config_name = $input->getArgument('config-name');
         if (!$config_name) {
-            // Type input
-            $config_type = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion('  '. $this->trans('commands.config.export.single.questions.config-type'), $this->trans('commands.config.export.single.options.simple-configuration'), ':'),
-                function ($input) use ($config_types) {
-                    if (!in_array($input, $config_types)) {
-                        throw new \InvalidArgumentException(
-                            sprintf($this->trans('commands.config.export.single.messages.invalid-config-type'), $input)
-                        );
-                    }
+            $config_type = $output->choiceNoList(
+                $this->trans('commands.config.export.single.questions.config-type'),
+                array_keys($config_types),
+                $this->trans('commands.config.export.single.options.simple-configuration')
+            );
+            $config_names = $this->getConfigNames($config_type);
 
-                    return $input;
-                },
-                false,
-                $this->trans('commands.config.export.single.options.simple-configuration'),
-                $config_types
+            $config_name = $output->choiceNoList(
+                $this->trans('commands.config.export.single.questions.config-name'),
+                array_keys($config_names)
             );
 
-            $config_type_key = array_search($config_type, $config_types);
-
-            $config_names = $this->getConfigNames($config_type_key);
-
-            $config_name = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion('  '. $this->trans('commands.config.export.single.questions.config-name'), current($config_names), ':'),
-                function ($input) use ($config_names) {
-                    if (!in_array($input, $config_names)) {
-                        throw new \InvalidArgumentException(
-                            sprintf($this->trans('commands.config.export.single.messages.invalid-config-name'), $input)
-                        );
-                    }
-
-                    return $input;
-                },
-                false,
-                current($config_names),
-                $config_names
-            );
-
-            // Calculate internal config ID
-            $config_name_key = array_search($config_name, $config_names);
-
-            if ($config_type_key !== 'system.simple') {
-                $definition = $this->entityManager->getDefinition($config_type_key);
-                $name = $definition->getConfigPrefix() . '.' . $config_name_key;
-            }
-            // The config name is used directly for simple configuration.
-            else {
-                $name =$config_name_key;
+            if ($config_type !== 'system.simple') {
+                $definition = $this->entityManager->getDefinition($config_type);
+                $config_name = $definition->getConfigPrefix() . '.' . $config_name;
             }
 
-            $input->setArgument('config-name', $name);
+            $input->setArgument('config-name', $config_name);
         }
     }
 
@@ -176,30 +145,29 @@ class ExportSingleCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $directory = $input->getArgument('directory');
+        $directory = $input->getOption('directory');
 
         if (!$directory) {
-            $config = $this->getConfigFactory()->get('system.file');
-            $directory = $config->get('path.temporary') ?: file_directory_temp();
-            $directory .= '/'.CONFIG_STAGING_DIRECTORY;
+            $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
         }
 
         if (!is_dir($directory)) {
             mkdir($directory, 0777, true);
         }
 
-        $config_name = $input->getArgument('config-name');
-        $config_export_file = $directory . '/' . $config_name.'.yml';
+        $configName = $input->getArgument('config-name');
 
-        file_unmanaged_delete($config_export_file);
+        $configExportFile = $directory . '/' . $configName.'.yml';
 
-        $config = $this->getConfigFactory()->getEditable($config_name);
+        file_unmanaged_delete($configExportFile);
+
+        $config = $this->getConfigFactory()->getEditable($configName);
 
         if ($config) {
             $yaml = Yaml::encode($config->getRawData());
             // Save release file
-            file_put_contents($config_export_file, $yaml);
-            $output->writeln('[+] <info>'.sprintf($this->trans('commands.config.export.single.messages.export'), $config_export_file).'</info>');
+            file_put_contents($configExportFile, $yaml);
+            $output->writeln('[+] <info>'.sprintf($this->trans('commands.config.export.single.messages.export'), $configExportFile).'</info>');
         } else {
             $output->writeln('[+] <error>'.$this->trans('commands.config.export.single.messages.config-not-found').'</error>');
         }

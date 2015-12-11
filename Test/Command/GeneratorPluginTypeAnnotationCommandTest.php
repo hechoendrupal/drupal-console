@@ -39,7 +39,7 @@ class GeneratorPluginTypeAnnotationCommandTest extends GenerateCommandTest
         $code = $commandTester->execute(
             [
               '--module'            => $module,
-              '--class-name'        => $class_name,
+              '--class'        => $class_name,
               '--machine-name'      => $machine_name,
               '--label'             => $label
             ],

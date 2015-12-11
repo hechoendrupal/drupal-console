@@ -16,6 +16,7 @@ use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\FormTrait;
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class PluginTypeAnnotationCommand extends GeneratorCommand
 {
@@ -32,10 +33,10 @@ class PluginTypeAnnotationCommand extends GeneratorCommand
             ->setHelp($this->trans('commands.generate.plugin.type.annotation.help'))
             ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
-                'class-name',
+                'class',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.type.annotation.options.class-name')
+                $this->trans('commands.generate.plugin.type.annotation.options.class')
             )
             ->addOption(
                 'machine-name',
@@ -57,7 +58,7 @@ class PluginTypeAnnotationCommand extends GeneratorCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $module = $input->getOption('module');
-        $class_name = $input->getOption('class-name');
+        $class_name = $input->getOption('class');
         $machine_name = $input->getOption('machine-name');
         $label = $input->getOption('label');
 
@@ -67,61 +68,45 @@ class PluginTypeAnnotationCommand extends GeneratorCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output, $dialog);
+            $module = $this->moduleQuestion($output);
+            $input->setOption('module', $module);
         }
-        $input->setOption('module', $module);
 
-        // --class-name option
-        $class_name = $input->getOption('class-name');
+        // --class option
+        $class_name = $input->getOption('class');
         if (!$class_name) {
-            $class_name = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.type.annotation.options.class-name'),
-                    'ExamplePlugin'
-                ),
+            $class_name = $output->ask(
+                $this->trans('commands.generate.plugin.type.annotation.options.class'),
                 'ExamplePlugin'
             );
+            $input->setOption('class', $class_name);
         }
-        $input->setOption('class-name', $class_name);
-
-        $default_machine_name = $this->getStringHelper()->camelCaseToUnderscore($class_name);
 
         // --machine-name option
         $machine_name = $input->getOption('machine-name');
         if (!$machine_name) {
-            $machine_name = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.type.annotation.options.machine-name'),
-                    $default_machine_name
-                ),
-                $default_machine_name
+            $machine_name = $output->ask(
+                $this->trans('commands.generate.plugin.type.annotation.options.machine-name'),
+                $this->getStringHelper()->camelCaseToUnderscore($class_name)
             );
+            $input->setOption('machine-name', $machine_name);
         }
-        $input->setOption('machine-name', $machine_name);
-
-        $default_label = $this->getStringHelper()->camelCaseToHuman($class_name);
 
         // --label option
         $label = $input->getOption('label');
         if (!$label) {
-            $label = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.type.annotation.options.label'),
-                    $default_label
-                ),
-                $default_label
+            $label = $output->ask(
+                $this->trans('commands.generate.plugin.type.annotation.options.label'),
+                $this->getStringHelper()->camelCaseToHuman($class_name)
             );
+            $input->setOption('label', $label);
         }
-        $input->setOption('label', $label);
     }
 
     protected function createGenerator()

@@ -13,6 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\ModuleGenerator;
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class ModuleCommand extends GeneratorCommand
 {
@@ -88,22 +89,24 @@ class ModuleCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
+
         $validators = $this->getValidator();
         $messageHelper = $this->getMessageHelper();
 
-        if ($this->confirmationQuestion($input, $output, $dialog)) {
+        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        if (!$this->confirmGeneration($output)) {
             return;
         }
 
         $module = $validators->validateModuleName($input->getOption('module'));
 
         $drupal = $this->getDrupalHelper();
-        $drupal_root = $drupal->getRoot();
-        $module_path = $drupal_root.$input->getOption('module-path');
-        $module_path = $validators->validateModulePath($module_path, true);
+        $drupalRoot = $drupal->getRoot();
+        $modulePath = $drupalRoot.$input->getOption('module-path');
+        $modulePath = $validators->validateModulePath($modulePath, true);
 
-        $machine_name = $validators->validateMachineName($input->getOption('machine-name'));
+        $machineName = $validators->validateMachineName($input->getOption('machine-name'));
         $description = $input->getOption('description');
         $core = $input->getOption('core');
         $package = $input->getOption('package');
@@ -130,8 +133,8 @@ class ModuleCommand extends GeneratorCommand
         $generator = $this->getGenerator();
         $generator->generate(
             $module,
-            $machine_name,
-            $module_path,
+            $machineName,
+            $modulePath,
             $description,
             $core,
             $package,
@@ -149,34 +152,34 @@ class ModuleCommand extends GeneratorCommand
     private function checkDependencies(array $dependencies)
     {
         $client = $this->getHttpClient();
-        $local_modules = array();
+        $localModules = array();
 
         $modules = system_rebuild_module_data();
         foreach ($modules as $module_id => $module) {
-            array_push($local_modules, basename($module->subpath));
+            array_push($localModules, basename($module->subpath));
         }
 
-        $checked_dependecies = array(
-          'local_modules' => array(),
-          'drupal_modules' => array(),
-          'no_modules' => array(),
-        );
+        $checkDependencies = [
+          'local_modules' => [],
+          'drupal_modules' => [],
+          'no_modules' => [],
+        ];
 
         foreach ($dependencies as $module) {
-            if (in_array($module, $local_modules)) {
-                $checked_dependecies['local_modules'][] = $module;
+            if (in_array($module, $localModules)) {
+                $checkDependencies['local_modules'][] = $module;
             } else {
                 $response = $client->head('https://www.drupal.org/project/'.$module);
                 $header_link = explode(';', $response->getHeader('link'));
                 if (empty($header_link[0])) {
-                    $checked_dependecies['no_modules'][] = $module;
+                    $checkDependencies['no_modules'][] = $module;
                 } else {
-                    $checked_dependecies['drupal_modules'][] = $module;
+                    $checkDependencies['drupal_modules'][] = $module;
                 }
             }
         }
 
-        return $checked_dependecies;
+        return $checkDependencies;
     }
 
     /**
@@ -184,91 +187,82 @@ class ModuleCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
+        $output = new DrupalStyle($input, $output);
+
         $stringUtils = $this->getStringHelper();
         $validators = $this->getValidator();
-        $dialog = $this->getDialogHelper();
+        $drupal = $this->getDrupalHelper();
 
         try {
-            $module = $input->getOption('module') ? $this->validateModuleName($input->getOption('module')) : null;
+            $module = $input->getOption('module') ?
+              $this->validateModuleName(
+                  $input->getOption('module')
+              ) : null;
         } catch (\Exception $error) {
-            $output->writeln($dialog->getFormatterHelper()->formatBlock($error->getMessage(), 'error'));
+            $output->error($error->getMessage());
+
+            return;
         }
 
-        $module = $input->getOption('module');
         if (!$module) {
-            $module = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.module.questions.module'), ''),
+            $module = $output->ask(
+                $this->trans('commands.generate.module.questions.module'),
+                null,
                 function ($module) use ($validators) {
                     return $validators->validateModuleName($module);
-                },
-                false,
-                null,
-                null
+                }
             );
         }
         $input->setOption('module', $module);
 
         try {
-            $machine_name = $input->getOption('machine-name') ? $this->validateModule($input->getOption('machine-name')) : null;
+            $machineName = $input->getOption('machine-name') ?
+              $this->validateModule(
+                  $input->getOption('machine-name')
+              ) : null;
         } catch (\Exception $error) {
-            $output->writeln($dialog->getFormatterHelper()->formatBlock($error->getMessage(), 'error'));
+            $output->error($error->getMessage());
         }
 
-        if (!$machine_name) {
-            $machine_name = $stringUtils->createMachineName($module);
-            $machine_name = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.module.questions.machine-name'), $machine_name),
+        if (!$machineName) {
+            $machineName = $output->ask(
+                $this->trans('commands.generate.module.questions.machine-name'),
+                $stringUtils->createMachineName($module),
                 function ($machine_name) use ($validators) {
                     return $validators->validateMachineName($machine_name);
-                },
-                false,
-                $machine_name,
-                null
+                }
             );
-            $input->setOption('machine-name', $machine_name);
+            $input->setOption('machine-name', $machineName);
         }
 
-        $module_path = $input->getOption('module-path');
-        $drupal = $this->getDrupalHelper();
-        $drupal_root = $drupal->getRoot();
-
-        if (!$module_path) {
-            $module_path_default = '/modules/custom';
-
-            $module_path = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.module.questions.module-path'),
-                    $module_path_default
-                ),
-                function ($module_path) use ($drupal_root, $machine_name) {
-                    $module_path = ($module_path[0] != '/' ? '/' : '').$module_path;
-                    $full_path = $drupal_root.$module_path.'/'.$machine_name;
-                    if (file_exists($full_path)) {
+        $modulePath = $input->getOption('module-path');
+        if (!$modulePath) {
+            $drupalRoot = $drupal->getRoot();
+            $modulePath = $output->ask(
+                $this->trans('commands.generate.module.questions.module-path'),
+                '/modules/custom',
+                function ($modulePath) use ($drupalRoot, $machineName) {
+                    $modulePath = ($modulePath[0] != '/' ? '/' : '').$modulePath;
+                    $fullPath = $drupalRoot.$modulePath.'/'.$machineName;
+                    if (file_exists($fullPath)) {
                         throw new \InvalidArgumentException(
                             sprintf(
                                 $this->trans('commands.generate.module.errors.directory-exists'),
-                                $full_path
+                                $fullPath
                             )
                         );
-                    } else {
-                        return $module_path;
                     }
-                },
-                false,
-                $module_path_default,
-                null
+
+                    return $modulePath;
+                }
             );
         }
-        $input->setOption('module-path', $module_path);
+        $input->setOption('module-path', $modulePath);
 
         $description = $input->getOption('description');
         if (!$description) {
-            $description = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.module.questions.description'), 'My Awesome Module'),
+            $description = $output->ask(
+                $this->trans('commands.generate.module.questions.description'),
                 'My Awesome Module'
             );
         }
@@ -276,9 +270,8 @@ class ModuleCommand extends GeneratorCommand
 
         $package = $input->getOption('package');
         if (!$package) {
-            $package = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.module.questions.package'), 'Other'),
+            $package = $output->ask(
+                $this->trans('commands.generate.module.questions.package'),
                 'Other'
             );
         }
@@ -286,53 +279,40 @@ class ModuleCommand extends GeneratorCommand
 
         $core = $input->getOption('core');
         if (!$core) {
-            $core = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.module.questions.core'), '8.x'),
+            $core = $output->ask(
+                $this->trans('commands.generate.module.questions.core'), '8.x',
                 '8.x'
             );
         }
         $input->setOption('core', $core);
 
         $feature = $input->getOption('feature');
-        if (!$feature && $dialog->askConfirmation(
-            $output,
-            $dialog->getQuestion($this->trans('commands.generate.module.questions.feature'), 'no', '?'),
-            false
-        )
-        ) {
-            $feature = true;
+        if (!$feature) {
+            $feature = $output->confirm(
+                $this->trans('commands.generate.module.questions.feature'),
+                false
+            );
         }
         $input->setOption('feature', $feature);
 
         $composer = $input->getOption('composer');
-        if (!$composer && $dialog->askConfirmation(
-            $output,
-            $dialog->getQuestion($this->trans('commands.generate.module.questions.composer'), 'no', '?'),
-            false
-        )
-        ) {
-            $composer = true;
+        if (!$composer) {
+            $composer = $output->confirm(
+                $this->trans('commands.generate.module.questions.composer'),
+                true
+            );
         }
         $input->setOption('composer', $composer);
 
         $dependencies = $input->getOption('dependencies');
         if (!$dependencies) {
-            if ($dialog->askConfirmation(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.module.questions.dependencies'), 'no', '?'),
+            $addDependencies = $output->confirm(
+                $this->trans('commands.generate.module.questions.dependencies'),
                 false
-            )
-            ) {
-                $dependencies = $dialog->askAndValidate(
-                    $output,
-                    $dialog->getQuestion($this->trans('commands.generate.module.options.dependencies'), ''),
-                    function ($dependencies) {
-                        return $dependencies;
-                    },
-                    false,
-                    null,
-                    null
+            );
+            if ($addDependencies) {
+                $dependencies = $output->ask(
+                    $this->trans('commands.generate.module.options.dependencies')
                 );
             }
         }

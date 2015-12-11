@@ -7,192 +7,170 @@
 
 namespace Drupal\Console\Command\Database;
 
+use Symfony\Component\Console\Input\InputInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Database;
-use Symfony\Component\Console\Helper\HelperInterface;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ChoiceQuestion;
+use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class DatabaseTrait
+ * @package Drupal\Console\Command\Database
+ */
 trait DatabaseTrait
 {
     protected $database;
+
     /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
+     * @param DrupalStyle $output
      *
      * @return mixed
      */
-    public function dbTypeQuestion(InputInterface $input, OutputInterface $output)
+    public function dbTypeQuestion(DrupalStyle $output)
     {
-        $questionHelper = $this->getQuestionHelper();
-
         $databases = $this->getDatabaseTypes();
-        $db_type = $questionHelper->ask(
-            $input,
-            $output,
-            new ChoiceQuestion(
-                $this->trans('commands.migrate.setup.migrations.questions.db-type'),
-                array_combine(array_column($databases, 'name'), array_column($databases, 'name')),
-                current(array_column($databases, 'name'))
-            )
+        $dbType = $output->ask(
+            $this->trans('commands.migrate.setup.migrations.questions.db-type'),
+            array_combine(array_column($databases, 'name'), array_column($databases, 'name')),
+            current(array_column($databases, 'name'))
         );
 
         // find current database type selected to set the proper driver id
         foreach ($databases as $db_index => $database) {
-            if ($database['name'] == $db_type) {
-                $db_type = $db_index;
+            if ($database['name'] == $dbType) {
+                $dbType = $db_index;
             }
         }
 
-        return $db_type;
+        return $dbType;
     }
 
     /**
-     * @param OutputInterface $output
-     * @param HelperInterface $dialog
+     * @param DrupalStyle $output
      *
      * @return mixed
      */
-    public function dbFileQuestion(OutputInterface $output, HelperInterface $dialog)
+    public function dbFileQuestion(DrupalStyle $output)
     {
-        return $dialog->askAndValidate(
-            $output,
-            $dialog->getQuestion($this->trans('commands.migrate.execute.questions.db-file'), 'sites/default/files/.ht.sqlite'),
+        return $output->ask(
+            $this->trans('commands.migrate.execute.questions.db-file'),
+            'sites/default/files/.ht.sqlite',
             function ($value) {
                 if (!strlen(trim($value))) {
                     throw new \Exception('The option can not be empty');
                 }
 
                 return $value;
-            },
-            false,
-            'sites/default/files/.ht.sqlite'
+            }
         );
     }
 
     /**
-     * @param OutputInterface $output
-     * @param HelperInterface $dialog
+     * @param DrupalStyle $output
      *
      * @return mixed
      */
-    public function dbHostQuestion(OutputInterface $output, HelperInterface $dialog)
+    public function dbHostQuestion(DrupalStyle $output)
     {
-        return $dialog->askAndValidate(
-            $output,
-            $dialog->getQuestion($this->trans('commands.migrate.execute.questions.db-host'), '127.0.0.1'),
+        return $output->ask(
+            $this->trans('commands.migrate.execute.questions.db-host'),
+            '127.0.0.1',
             function ($value) {
                 if (!strlen(trim($value))) {
                     throw new \Exception('The option can not be empty');
                 }
 
                 return $value;
-            },
-            false,
-            '127.0.0.1'
+            }
         );
     }
 
     /**
-     * @param OutputInterface $output
-     * @param HelperInterface $dialog
+     * @param DrupalStyle $output
      *
      * @return mixed
      */
-    public function dbNameQuestion(OutputInterface $output, HelperInterface $dialog)
+    public function dbNameQuestion(DrupalStyle $output)
     {
-        return $dialog->askAndValidate(
-            $output,
-            $dialog->getQuestion($this->trans('commands.migrate.execute.questions.db-name'), ''),
+        return $output->ask(
+            $this->trans('commands.migrate.execute.questions.db-name'),
+            null,
             function ($value) {
                 if (!strlen(trim($value))) {
                     throw new \Exception('The option can not be empty');
                 }
 
                 return $value;
-            },
-            false,
-            null
+            }
         );
     }
 
     /**
-     * @param OutputInterface $output
-     * @param HelperInterface $dialog
+     * @param DrupalStyle $output
      *
      * @return mixed
      */
-    public function dbUserQuestion(OutputInterface $output, HelperInterface $dialog)
+    public function dbUserQuestion(DrupalStyle $output)
     {
-        return $dialog->askAndValidate(
-            $output,
-            $dialog->getQuestion($this->trans('commands.migrate.execute.questions.db-user'), ''),
+        return $output->ask(
+            $this->trans('commands.migrate.execute.questions.db-user'),
+            null,
             function ($value) {
                 if (!strlen(trim($value))) {
                     throw new \Exception('The option can not be empty');
                 }
 
                 return $value;
-            },
-            false,
-            null
+            }
         );
     }
 
     /**
-     * @param OutputInterface $output
-     * @param HelperInterface $dialog
+     * @param DrupalStyle $output
      *
      * @return mixed
      */
-    public function dbPassQuestion(OutputInterface $output, HelperInterface $dialog)
+    public function dbPassQuestion(DrupalStyle $output)
     {
-        return $dialog->askHiddenResponse(
-            $output,
-            $dialog->getQuestion($this->trans('commands.migrate.execute.questions.db-pass'), ''),
-            ''
+        return $output->askHidden(
+            $this->trans('commands.migrate.execute.questions.db-pass')
         );
     }
 
     /**
-     * @param OutputInterface $output
-     * @param HelperInterface $dialog
+     * @param DrupalStyle $output
      *
      * @return mixed
      */
-    public function dbPrefixQuestion(OutputInterface $output, HelperInterface $dialog)
+    public function dbPrefixQuestion(DrupalStyle $output)
     {
-        return $dialog->ask(
-            $output,
-            $dialog->getQuestion($this->trans('commands.migrate.execute.questions.db-prefix'), ''),
-            ''
+        return $output->ask(
+            $this->trans('commands.migrate.execute.questions.db-prefix')
         );
     }
 
     /**
-     * @param OutputInterface $output
-     * @param HelperInterface $dialog
+     * @param DrupalStyle $output
      *
      * @return mixed
      */
-    public function dbPortQuestion(OutputInterface $output, HelperInterface $dialog)
+    public function dbPortQuestion(DrupalStyle $output)
     {
-        return $dialog->askAndValidate(
-            $output,
-            $dialog->getQuestion($this->trans('commands.migrate.execute.questions.db-port'), '3306'),
+        return $output->ask(
+            $this->trans('commands.migrate.execute.questions.db-port'),
+            '3306',
             function ($value) {
                 if (!strlen(trim($value))) {
                     throw new \Exception('The option can not be empty');
                 }
 
                 return $value;
-            },
-            false,
-            '3306'
+            }
         );
     }
 
+    /**
+     * @return mixed
+     */
     protected function getDatabaseTypes()
     {
         $drupal = $this->getDrupalHelper();
@@ -243,23 +221,41 @@ trait DatabaseTrait
         return $version_string ? substr($version_string, 0, 1) : false;
     }
 
+    /**
+     * @return mixed
+     */
     protected function getDBInfo()
     {
         return $this->database;
     }
 
-    protected function getDBConnection(OutputInterface $output, $target, $key)
+    /**
+     * @param \Drupal\Console\Style\DrupalStyle $output
+     * @param $target
+     * @param $key
+     */
+    protected function getDBConnection(DrupalStyle $output, $target, $key)
     {
         try {
             return Database::getConnection($target, $key);
         } catch (\Exception $e) {
-            $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.destination-error').': '.$e->getMessage().'</error>');
+            $output->error(
+                sprintf(
+                    '%s: %s',
+                    $this->trans('commands.migrate.execute.messages.destination-error'),
+                    $e->getMessage()
+                )
+            );
 
             return;
         }
     }
 
-    protected function registerMigrateDB(InputInterface $input, OutputInterface $output)
+    /**
+     * @param InputInterface $input
+     * @param DrupalStyle    $output
+     */
+    protected function registerMigrateDB(InputInterface $input, DrupalStyle $output)
     {
         $db_type = $input->getOption('db-type');
         $db_host = $input->getOption('db-host');
@@ -275,17 +271,24 @@ trait DatabaseTrait
         \Drupal::setContainer($this->getContainer());
     }
 
+
     /**
-     * @param OutputInterface $output
-     * @param string          $key
-     * @param sting           $target
-     * @param array           $info
+     * @param DrupalStyle $output
+     * @param $key
+     * @param $target
+     * @param $db_type
+     * @param $db_name
+     * @param $db_user
+     * @param $db_pass
+     * @param $db_prefix
+     * @param $db_port
+     * @param $db_host
      */
-    protected function addDBConnection($output, $key, $target, $db_type, $db_name, $db_user, $db_pass, $db_prefix, $db_port, $db_host)
+    protected function addDBConnection(DrupalStyle $output, $key, $target, $db_type, $db_name, $db_user, $db_pass, $db_prefix, $db_port, $db_host)
     {
         $databases = $this->getDatabaseTypes();
 
-        $this->database = array(
+        $this->database = [
             'database' => $db_name,
             'username' => $db_user,
             'password' => $db_pass,
@@ -294,12 +297,18 @@ trait DatabaseTrait
             'host' => $db_host,
             'namespace' => $databases[$db_type]['namespace'],
             'driver' => $db_type,
-        );
+        ];
 
         try {
             return Database::addConnectionInfo($key, $target, $this->database);
         } catch (\Exception $e) {
-            $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.source-error').': '.$e->getMessage().'</error>');
+            $output->error(
+                sprintf(
+                    '%s: %s',
+                    $this->trans('commands.migrate.execute.messages.source-error'),
+                    $e->getMessage()
+                )
+            );
 
             return;
         }

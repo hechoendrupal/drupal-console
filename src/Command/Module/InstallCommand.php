@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class InstallCommand extends ContainerAwareCommand
 {
@@ -32,54 +33,43 @@ class InstallCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
+        $output = new DrupalStyle($input, $output);
+
         $module = $input->getArgument('module');
 
         if (!$module) {
-            $module_list = [];
-
-            $dialog = $this->getDialogHelper();
+            $moduleList = [];
 
             $modules = system_rebuild_module_data();
-            foreach ($modules as $module_id => $module) {
+            foreach ($modules as $moduleId => $module) {
                 if ($module->status == 1) {
                     continue;
                 }
 
-                $module_list[$module_id] = $module->info['name'];
+                $moduleList[$moduleId] = $module->info['name'];
             }
+            $moduleList[] = '';
 
-            $output->writeln('[+] <info>'.$this->trans('commands.module.install.messages.disabled-modules').'</info>');
+            $output->writeln($this->trans('commands.module.install.messages.disabled-modules'));
 
             while (true) {
-                $module_name = $dialog->askAndValidate(
-                    $output,
-                    $dialog->getQuestion($this->trans('commands.module.install.questions.module'), ''),
-                    function ($module_id) use ($module_list) {
-                        if ($module_id == '' || $module_list[$module_id]) {
-                            return $module_id;
-                        } else {
-                            throw new \InvalidArgumentException(
-                                sprintf($this->trans('commands.module.install.questions.invalid-module'), $module_id)
-                            );
-                        }
-                    },
-                    false,
-                    '',
-                    array_keys($module_list)
+                $moduleName = $output->choiceNoList(
+                    $this->trans('commands.module.install.questions.module'),
+                    array_keys($moduleList)
                 );
 
-                if (empty($module_name)) {
+                if (empty($moduleName)) {
                     break;
                 }
 
-                $module_list_install[] = $module_name;
+                $moduleListInstall[] = $moduleName;
 
-                if (array_search($module_name, $module_list_install, true) >= 0) {
-                    unset($module_list[$module_name]);
+                if (array_search($moduleName, $moduleListInstall, true) >= 0) {
+                    unset($moduleList[$moduleName]);
                 }
             }
 
-            $input->setArgument('module', $module_list_install);
+            $input->setArgument('module', $moduleListInstall);
         }
 
         $overwrite_config = $input->getOption('overwrite-config');
@@ -89,6 +79,8 @@ class InstallCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output = new DrupalStyle($input, $output);
+
         $extension_config = $this->getConfigFactory()->getEditable('core.extension');
 
         $this->moduleInstaller = $this->getModuleInstaller();
@@ -103,12 +95,12 @@ class InstallCommand extends ContainerAwareCommand
 
         // Determine if some module request is missing
         if ($missing_modules = array_diff_key($module_list, $module_data)) {
-            $output->writeln(
-                '[+] <error>'.sprintf(
+            $output->error(
+                sprintf(
                     $this->trans('commands.module.install.messages.missing'),
                     implode(', ', $modules),
                     implode(', ', $missing_modules)
-                ).'</error>'
+                )
             );
 
             return true;
@@ -117,9 +109,9 @@ class InstallCommand extends ContainerAwareCommand
         // Only process currently uninstalled modules.
         $installed_modules = $extension_config->get('module') ?: array();
         if (!$module_list = array_diff_key($module_list, $installed_modules)) {
-            $output->writeln('[+] <info>'.$this->trans('commands.module.install.messages.nothing').'</info>');
+            $output->warning($this->trans('commands.module.install.messages.nothing'));
 
-            return true;
+            return;
         }
 
         // Calculate dependencies and missing dependencies
@@ -141,12 +133,12 @@ class InstallCommand extends ContainerAwareCommand
 
         // Error if there are missing dependencies
         if (!empty($missing_dependencies)) {
-            $output->writeln(
-                '[+] <error>'.sprintf(
+            $output->error(
+                sprintf(
                     $this->trans('commands.module.install.messages.missing-dependencies'),
                     implode(', ', $modules),
                     implode(', ', $missing_dependencies)
-                ).'</error>'
+                )
             );
 
             return true;
@@ -154,18 +146,13 @@ class InstallCommand extends ContainerAwareCommand
 
         // Confirm if user want to install dependencies uninstalled
         if ($dependencies) {
-            $dialog = $this->getDialogHelper();
-            if (!$dialog->askConfirmation(
-                $output,
-                $dialog->getQuestion(
-                    sprintf(
-                        $this->trans('commands.module.install.messages.dependencies'),
-                        implode(', ', $dependencies)
-                    ), n
+            if (!$output->confirm(
+                sprintf(
+                    $this->trans('commands.module.install.messages.dependencies'),
+                    implode(', ', $dependencies)
                 ),
                 false
-            )
-            ) {
+            )) {
                 return;
             }
         }
@@ -175,18 +162,19 @@ class InstallCommand extends ContainerAwareCommand
             // Install the modules.
             $this->moduleInstaller->install($module_list);
             system_rebuild_module_data();
-            $output->writeln(
-                '[+] <info>'.sprintf(
+            $output->success(
+                sprintf(
                     $this->trans('commands.module.install.messages.success'),
                     implode(', ', array_merge($modules, $dependencies))
-                ).'</info>'
+                )
             );
         } catch (PreExistingConfigException $e) {
             $this->overwriteConfig($e, $module_list, $modules, $dependencies, $overwrite_config, $output);
 
             return;
         } catch (\Exception $e) {
-            $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
+            $output->error($e->getMessage());
+
             return;
         }
 
@@ -197,14 +185,14 @@ class InstallCommand extends ContainerAwareCommand
     protected function overwriteConfig(PreExistingConfigException $e, $module_list, $modules, $dependencies, $overwrite_config, $output)
     {
         if ($overwrite_config) {
-            $output->writeln('[+] <info>' .  $this->trans('commands.module.install.messages.config-conflict-overwrite') . '</info>');
+            $output->writeln('<info>' .  $this->trans('commands.module.install.messages.config-conflict-overwrite') . '</info>');
         } else {
-            $output->writeln('[+] <info>' .  $this->trans('commands.module.install.messages.config-conflict') . '</info>');
+            $output->writeln('<info>' .  $this->trans('commands.module.install.messages.config-conflict') . '</info>');
         }
 
         $configObjects = $e->getConfigObjects();
         foreach (current($configObjects) as $config) {
-            $output->writeln('[-] <info>' . $config . '</info>');
+            $output->writeln('<info>' . $config . '</info>');
             $config = $this->getConfigFactory()->getEditable($config);
             $config->delete();
         }
@@ -219,13 +207,13 @@ class InstallCommand extends ContainerAwareCommand
             $this->moduleInstaller->install($module_list);
             system_rebuild_module_data();
             $output->writeln(
-                '[+] <info>'.sprintf(
+                '<info>'.sprintf(
                     $this->trans('commands.module.install.messages.success'),
                     implode(', ', array_merge($modules, $dependencies))
                 ).'</info>'
             );
         } catch (\Exception $e) {
-            $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
+            $output->error($e->getMessage());
             return;
         }
     }

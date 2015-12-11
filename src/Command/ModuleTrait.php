@@ -7,30 +7,24 @@
 
 namespace Drupal\Console\Command;
 
-use Symfony\Component\Console\Helper\HelperInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Style\DrupalStyle;
 
 trait ModuleTrait
 {
     /**
-     * @param OutputInterface $output
-     * @param HelperInterface $dialog
+     * @param DrupalStyle $output
      *
      * @return mixed
      */
-    public function moduleQuestion(OutputInterface $output, HelperInterface $dialog)
+    public function moduleQuestion(DrupalStyle $output)
     {
         $modules = $this->getSite()->getModules(false, false, false, true, true);
 
-        return $dialog->askAndValidate(
-            $output,
-            $dialog->getQuestion($this->trans('commands.common.questions.module'), ''),
-            function ($module) {
-                return $this->validateModuleExist($module);
-            },
-            false,
-            '',
+        $module = $output->choiceNoList(
+            $this->trans('commands.common.questions.module'),
             $modules
         );
+
+        return $module;
     }
 }

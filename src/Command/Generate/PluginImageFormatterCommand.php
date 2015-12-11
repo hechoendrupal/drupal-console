@@ -14,6 +14,7 @@ use Drupal\Console\Generator\PluginImageFormatterGenerator;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class PluginImageFormatterCommand extends GeneratorCommand
 {
@@ -28,10 +29,10 @@ class PluginImageFormatterCommand extends GeneratorCommand
             ->setHelp($this->trans('commands.generate.plugin.imageformatter.help'))
             ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
-                'class-name',
+                'class',
                 '',
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.plugin.imageformatter.options.class-name')
+                $this->trans('commands.generate.plugin.imageformatter.options.class')
             )
             ->addOption(
                 'label',
@@ -52,15 +53,15 @@ class PluginImageFormatterCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
-        // @see use Drupal\Console\Command\ConfirmationTrait::confirmationQuestion
-        if ($this->confirmationQuestion($input, $output, $dialog)) {
+        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        if (!$this->confirmGeneration($output)) {
             return;
         }
 
         $module = $input->getOption('module');
-        $class_name = $input->getOption('class-name');
+        $class_name = $input->getOption('class');
         $label = $input->getOption('label');
         $plugin_id = $input->getOption('plugin-id');
 
@@ -73,59 +74,45 @@ class PluginImageFormatterCommand extends GeneratorCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output, $dialog);
+            $module = $this->moduleQuestion($output);
         }
         $input->setOption('module', $module);
 
-        // --class-name option
-        $class_name = $input->getOption('class-name');
+        // --class option
+        $class_name = $input->getOption('class');
         if (!$class_name) {
-            $class_name = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.imageformatter.questions.class-name'),
-                    'ExampleImageFormatter'
-                ),
+            $class_name = $output->ask(
+                $this->trans('commands.generate.plugin.imageformatter.questions.class'),
                 'ExampleImageFormatter'
             );
+            $input->setOption('class', $class_name);
         }
-        $input->setOption('class-name', $class_name);
 
-        $default_label = $this->getStringHelper()->camelCaseToHuman($class_name);
-
-        // --plugin label option
+        // --label option
         $label = $input->getOption('label');
         if (!$label) {
-            $label = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.plugin.imageformatter.questions.label'), $default_label),
-                $default_label
+            $label = $output->ask(
+                $this->trans('commands.generate.plugin.imageformatter.questions.label'),
+                $this->getStringHelper()->camelCaseToHuman($class_name)
             );
+            $input->setOption('label', $label);
         }
-        $input->setOption('label', $label);
 
-        $machine_name = $this->getStringHelper()->camelCaseToUnderscore($class_name);
-
-        // --name option
+        // --plugin-id option
         $plugin_id = $input->getOption('plugin-id');
-
         if (!$plugin_id) {
-            $plugin_id = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.imageformatter.questions.plugin-id'),
-                    $machine_name
-                ),
-                $machine_name
+            $plugin_id = $output->ask(
+                $this->trans('commands.generate.plugin.imageformatter.questions.plugin-id'),
+                $this->getStringHelper()->camelCaseToUnderscore($class_name)
             );
+            $input->setOption('plugin-id', $plugin_id);
         }
-        $input->setOption('plugin-id', $plugin_id);
     }
 
     protected function createGenerator()

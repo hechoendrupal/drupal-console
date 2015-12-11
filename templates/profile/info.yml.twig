@@ -1,0 +1,16 @@
+name: {{ profile }}
+type: {{ type }}
+description: {{ description }}
+core: {{ core }}
+{% if distribution %}
+
+distribution:
+  name: {{ distribution }}
+{% endif %}
+{% if dependencies %}
+
+dependencies:
+{% for dependency in dependencies %}
+  - {{ dependency }}
+{% endfor %}
+{% endif %}

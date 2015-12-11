@@ -1,10 +1,7 @@
 <?php
 
-use Drupal\Console\Shell;
 use Drupal\Console\Application;
-use Drupal\Console\Helper\ShellHelper;
 use Drupal\Console\Helper\KernelHelper;
-use Drupal\Console\Helper\DialogHelper;
 use Drupal\Console\Helper\StringHelper;
 use Drupal\Console\Helper\ValidatorHelper;
 use Drupal\Console\Helper\TranslatorHelper;
@@ -54,8 +51,6 @@ $application->setDirectoryRoot($consoleRoot);
 $helpers = [
     'nested-array' => new NestedArrayHelper(),
     'kernel' => new KernelHelper(),
-    'shell' => new ShellHelper(new Shell($application)),
-    'dialog' => new DialogHelper(),
     'string' => new StringHelper(),
     'validator' => new ValidatorHelper(),
     'translator' => $translatorHelper,
@@ -81,7 +76,8 @@ $dispatcher->addSubscriber(new CallCommandListener());
 $dispatcher->addSubscriber(new ShowGenerateChainListener());
 $dispatcher->addSubscriber(new ShowGenerateInlineListener());
 $dispatcher->addSubscriber(new ShowTerminateMessageListener());
-
 $application->setDispatcher($dispatcher);
-$application->setDefaultCommand('about');
+
+$defaultCommand = $config->get('application.command')?:'about';
+$application->setDefaultCommand($defaultCommand);
 $application->run();

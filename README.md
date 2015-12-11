@@ -18,7 +18,7 @@ Drupal Console
 [![Build Status](https://travis-ci.org/hechoendrupal/DrupalConsole.svg?branch=master)](https://travis-ci.org/hechoendrupal/DrupalConsole)
 [![Latest Stable Version](https://poser.pugx.org/drupal/console/v/stable.svg)](https://packagist.org/packages/drupal/console)
 [![Latest Unstable Version](https://poser.pugx.org/drupal/console/v/unstable.svg)](https://packagist.org/packages/drupal/console)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE.txt)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
 
 The Drupal Console is a suite of tools that you run on a command line interface (CLI)
@@ -39,15 +39,15 @@ You can ask for support at Drupal Console gitter chat room [http://bit.ly/consol
 ## Installing Drupal Console
 ```
 # Run this in your terminal to get the latest Console version:
-curl -LSs http://drupalconsole.com/installer | php
+curl http://drupalconsole.com/installer -L -o drupal.phar
 
 # Or if you don't have curl:
-php -r "readfile('http://drupalconsole.com/installer');" | php
+php -r "readfile('http://drupalconsole.com/installer');" > drupal.phar
 
 # You can place this file anywhere you wish.
 # If you put it in your PATH, you can access it globally.
-# For example: move console.phar and rename it, 'drupal':
-mv console.phar /usr/local/bin/drupal
+# For example: move drupal.phar
+mv drupal.phar /usr/local/bin/drupal
 
 # Show all available commands.
 drupal list

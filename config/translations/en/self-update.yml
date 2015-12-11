@@ -1,5 +1,5 @@
-description: 'Update the console to latest version.'
-help: 'Update the console command to the latest version.'
+description: 'Update project to the latest version.'
+help: 'Update project to the latest version'
 messages:
-    success: 'The console has been updated to the latest version.'
+    success: 'Updated from version %s to version %s.'
     current-version: 'The latest version %s, was already installed on your system.'
