@@ -2,8 +2,8 @@ console:
     arguments:
         drupal: 'Drupal 根目录所在路径'
         shell: '运行 Shell.'
-        env: '.'
-        no-debug: '关闭调试模式'
+        env: '环境名称'
+        no-debug: '禁用调试'
         learning: '生成详细的代码输出'
         generate-chain: '以 YAML 格式打印命令执行时的选项和参数，用于链式命令'
         generate-inline: '将命令执行时的选项和参数打印成一行，以便后续使用'
