@@ -60,6 +60,6 @@ class SelfUpdateCommand extends Command
             );
         }
 
-        $this->getApplication()->setDispatcher(null);
+        $this->getApplication()->removeDispatcher();
     }
 }
