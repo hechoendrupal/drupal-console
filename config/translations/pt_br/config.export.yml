@@ -1,46 +1,46 @@
-description: 'Export current application configuration.'
+description: 'Exportar a configuração atual da aplicação.'
 arguments:
-    directory: 'Define export directory to save configuration output.'
+    directory: 'Escolha o diretório onde a configuração exportada será salva.'
 messages:
-    directory: 'Your configuration export file was stored in %s'
+    directory: 'A configuração exportada foi salva em %s'
 content:
     type:
-        description: 'Export a specific content type and their fields.'
+        description: 'Exportar um content-type específico e todos os seus fields.'
         arguments:
-            content_type: 'Content Type to be exported'
+            content_type: 'Content-type a ser exportado'
         questions:
-            content_type: 'Content Type to be exported'
-            optional-config: 'Export content type in module as an optional configuration'
+            content_type: 'Content-type a ser exportado'
+            optional-config: 'Exportar o content-type no módulo como uma configuração opcional'
         messages:
-            content_type_exported: 'Exporting content type'
-            configuration_exported: 'The following configuration files were generated'
+            content_type_exported: 'Exportando content-type'
+            configuration_exported: 'Os seguintes arquivos de configuração foram gerados'
         options:
-            optional-config: 'Export content type as an optional YAML configuration in your module'
+            optional-config: 'Exportar o content-type como uma configuração YAML opcional em seu módulo.'
 single:
-    description: 'Export single configuration as yml file.'
+    description: 'Exportar uma configuração única como um arquivo YML.'
     arguments:
-        config-name: 'Configuration name.'
+        config-name: 'Nome da configuração'
     options:
-        simple-configuration: 'Simple configuration'
+        simple-configuration: 'Configuração simples'
     questions:
-        config-type: 'Configuration type'
-        config-name: 'Configuration name'
+        config-type: 'Tipo de configuração'
+        config-name: 'Nome da configuração'
     messages:
-        config-not-found: 'Configuration name not found.'
-        export: 'Configuration was exported at file %s.'
-        invalid-config-type: 'Invalid config type, please select one of the list'
-        invalid-config-name: 'Invalid config name, please select one of the list'
+        config-not-found: 'O nome da visualização não foi encontrado.'
+        export: 'Configuração exportada no arquivo %s.'
+        invalid-config-type: 'Tipo de configuração inválido. Por favor, selecione um tipo da lista.'
+        invalid-config-name: 'Nome de configuração inválido. Por favor, selecione um nome da lista.'
 view:
-    description: 'Export a view in YAML format inside a provided module to reuse in other website.'
+    description: 'Exportar uma view no formato YAML em um módulo, para reutilizar em outro website.'
     messages:
-        view_exported: 'Exporting view'
-        depencies-included: 'The following module dependencies were included at %s'
+        view_exported: 'Exportando View'
+        depencies-included: 'As seguintes dependências foram incluídas em %s'
     questions:
-        view: 'View to be exported'
-        optional-config: 'Export view in module as an optional configuration'
-        include-module-dependencies: 'Include view module dependencies in module info YAML file'
+        view: 'View a ser exportada'
+        optional-config: 'Exportar view no módulo como uma configuração opcional'
+        include-module-dependencies: 'Incluir as dependências da view em um arquivo YAML de informação do módulo'
     arguments:
-        view-id: 'View ID'
+        view-id: 'ID da view'
     options:
-        optional-config: 'Export view as an optional YAML configuration in your module'
-        include-module-dependencies: 'Include module dependencies in module info YAML file'
+        optional-config: 'Exportar a view como uma configuração YAML opcional em seu módulo'
+        include-module-dependencies: 'Incluir as dependências do módulo em um arquivo YAML de informação do módulo'
