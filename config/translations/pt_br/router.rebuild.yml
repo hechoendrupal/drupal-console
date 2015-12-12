@@ -1,0 +1,6 @@
+description: 'Reconstruir rotas de uma aplicação'
+arguments:
+    route-name: 'Nomas das rotas'
+messages:
+    rebuilding: 'Reconstruindo rotas, favor aguarde um momento'
+    completed: 'Reconstrução de rota(s) finalizada.'

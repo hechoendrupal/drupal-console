@@ -1,0 +1,7 @@
+description: 'Execução de comandos em sequência'
+options:
+    file: 'Arquivo definido pelo usuário contendo comandos para ser executados em sequência'
+messages:
+    missing_file: 'Você deve fornecer um nome e caminho de arquivo válido.'
+    invalid_file: 'O arquivo "%s" não existe.'
+    module_install: 'comando module:install não é executável dentro de uma sequência de comandos e deve ser executado de forma independente.'
