@@ -374,9 +374,11 @@ class InstallCommand extends Command
 
     protected function runInstaller($output, $profile, $langcode, $site_name, $site_mail, $account_name, $account_mail, $account_pass, $database)
     {
+
         $drupal = $this->getDrupalHelper();
         $drupal->loadLegacyFile('/core/includes/install.core.inc');
 
+        $driver = (string) $database['driver'];
         $settings = [
         'parameters' => [
             'profile' => $profile,
@@ -384,8 +386,8 @@ class InstallCommand extends Command
         ],
         'forms' => [
             'install_settings_form' => [
-                'driver' => $database['driver'],
-                $database['driver'] => $database,
+                'driver' => $driver,
+                $driver => $database,
                 'op' => 'Save and continue',
             ],
             'install_configure_form' => [
