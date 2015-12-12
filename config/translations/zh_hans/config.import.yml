@@ -1,7 +1,7 @@
-description: 'Import configuration to current application.'
+description: '导入配置到当前程序.'
 arguments:
-    file: 'Configuration file path.'
-    remove-files: 'Remove files after syncronization.'
+    file: '配置文件路径.'
+    remove-files: '同步化后删除文件.'
 messages:
-    config_files_imported: 'List of config files.'
-    imported: 'Configutation imported successfully.'
+    config_files_imported: '列出配置文件.'
+    imported: '成功导入配置文件.'

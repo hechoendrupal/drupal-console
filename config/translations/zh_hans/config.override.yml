@@ -1,10 +1,10 @@
-description: 'Override config value in active configuration.'
+description: '覆盖当前使用中的配置值.'
 arguments:
-    config-name: 'Configuration name.'
-    key: Key
-    value: Value
+    config-name: '配置名.'
+    key: 键
+    value: 值
 messages:
-    configuration: 'Configuration name'
-    configuration-key: 'Configuration key'
-    original: 'Original Value'
-    updated: 'Override Value'
+    configuration: '配置名'
+    configuration-key: '配置键'
+    original: '起始值'
+    updated: '覆盖值'
