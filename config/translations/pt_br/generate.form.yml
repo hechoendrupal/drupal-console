@@ -1,0 +1,17 @@
+description: 'Cria um novo "%s"'
+help: 'O comando <info>"%s"</info> ajuda você a criar um novo "%s"'
+welcome: 'Bem-vindo ao Criador de formulário do Drupal.'
+options:
+    module: common.options.module
+    class: 'O nome da classe do Formulário'
+    form-id: 'O id do formulário'
+    services: common.options.services
+    inputs: common.options.inputs
+    routing: 'Atualizar roteamento'
+questions:
+    module: common.questions.module
+    class: 'Digite o nome da classe do fomrulário'
+    form-id: 'Digite o id do formulário'
+    services: common.questions.services
+    inputs: common.questions.inputs
+    routing: 'Arquivo de atualização de roteamento'

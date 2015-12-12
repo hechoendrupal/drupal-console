@@ -1,0 +1,10 @@
+description: 'Import configuration to current application.'
+arguments:
+    file: 'Configuration file path.'
+    remove-files: 'Remove files after syncronization.'
+    config-file: 'Configuration file path.'
+    copy-only: 'Copy only configuration files in staging directory.'
+messages:
+    config_files_imported: 'List of config files.'
+    imported: 'All config files were copied to staging directory and imported.'
+    copied: 'All config files were copied to staging directory.'
