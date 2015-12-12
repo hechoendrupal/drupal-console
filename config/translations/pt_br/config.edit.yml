@@ -1,8 +1,8 @@
-description: 'Edite a configuração selecionada.'
+fdescription: 'Edite a configuração selecionada.'
 arguments:
     config-name: 'Nome da configuração.'
     editor: Editor.
 questions:
-    config-name: 'Choose a configuration unit'
+    config-name: 'Escolha uma unidade de configuração'
 messages:
-    no-directory: 'An error occurred while creating your directory at'
+    no-directory: 'Ocorreu um erro durante a criação de seu diretório em'
