@@ -1,19 +1,19 @@
-description: 'Generate plugin rest resource'
-help: 'The <info>generate:plugin:rest:resource</info> command helps you generate a new rest resource.'
-welcome: 'Welcome to the Drupal Plugin Rest Resource generator'
+description: '生成插件REST资源'
+help: '<info>generate:plugin:rest:resource</info>命令帮助生成一个新的REST资源.'
+welcome: '欢迎光临Drupal插件REST资源生成器'
 options:
     module: common.options.module
-    class: 'Plugin Rest Resource class'
-    plugin-id: 'Plugin Rest Resource id'
-    plugin-label: 'Plugin Rest Resource Label'
-    plugin-url: 'Plugin Rest Resource URL'
-    plugin-states: 'Plugin Rest Resource States'
+    class: '插件REST资源类'
+    plugin-id: '插件REST资源id'
+    plugin-label: '插件REST资源标签'
+    plugin-url: '插件REST资源URL链接'
+    plugin-states: '插件REST资源状态'
 questions:
     module: common.questions.module
-    class: 'Enter the plugin rest resource name'
-    plugin-id: 'Enter the plugin rest resource id'
-    plugin-label: 'Enter the plugin rest resource label'
-    plugin-url: 'Enter the plugin rest resource url'
-    plugin-states: 'Please select what REST States implement in your resource (GET is selected by default)'
+    class: '输入插件REST资源名'
+    plugin-id: '输入插件REST资源id'
+    plugin-label: '输入插件REST资源标签'
+    plugin-url: '输入插件REST资源url'
+    plugin-states: '请选择启用资源的REST状态(GET为缺省状态)'
 messages:
-    selected-states: 'States selected'
+    selected-states: '选择的状态'
