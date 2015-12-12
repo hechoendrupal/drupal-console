@@ -132,7 +132,10 @@ trait DatabaseTrait
     public function dbPassQuestion(DrupalStyle $output)
     {
         return $output->askHidden(
-            $this->trans('commands.migrate.execute.questions.db-pass')
+            $this->trans('commands.migrate.execute.questions.db-pass'),
+            function () {
+                return true;
+            }
         );
     }
 
