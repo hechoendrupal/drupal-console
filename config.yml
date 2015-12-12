@@ -1,6 +1,6 @@
 application:
   environment: prod
-  language: en
+  language: pt
   editor: vi
   temp: /tmp
   develop: false

@@ -1,6 +1,6 @@
-description: 'Edit the selected configuration.'
+description: 'Edite a configuração selecionada.'
 arguments:
-    config-name: 'Configuration name.'
+    config-name: 'Nome da configuração.'
     editor: Editor.
 questions:
     config-name: 'Choose a configuration unit'
