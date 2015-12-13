@@ -9,6 +9,8 @@
 
 {% block use_class %}
 use Drupal\Core\Render\Element;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
 {% endblock %}
 
 {% block file_methods %}
@@ -49,7 +51,7 @@ function template_preprocess_{{ entity_name }}_content_add_list(&$variables) {
   $query = \Drupal::request()->query->all();
   foreach ($variables['content'] as $type) {
     $variables['types'][$type->id()] = array(
-      'link' => \Drupal::l($type->label(), new \Drupal\Core\Url('entity.{{ entity_name }}.add_form', array(
+      'link' => Link::fromTextAndUrl($type->label(), new Url('entity.{{ entity_name }}.add_form', array(
         '{{ entity_name }}_type' => $type->id()
       ), array('query' => $query))),
       'description' => array(
