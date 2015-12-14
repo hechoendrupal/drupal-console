@@ -11,40 +11,94 @@ use Drupal\Console\Helper\DrupalChoiceQuestionHelper;
 
 class DrupalStyle extends SymfonyStyle
 {
+    /**
+     * @var InputInterface
+     */
     private $input;
 
     /**
-   * @param InputInterface  $input
-   * @param OutputInterface $output
-   */
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     */
     public function __construct(InputInterface $input, OutputInterface $output)
     {
         $this->input = $input;
         parent::__construct($input, $output);
     }
 
-    public function choiceNoList($question, array $choices, $default = null)
+    /**
+     * @param string $question
+     * @param array  $choices
+     * @param mixed  $default
+     * @param bool   $allowEmpty
+     *
+     * @return string
+     */
+    public function choiceNoList($question, array $choices, $default = null, $allowEmpty = false)
     {
-        if (is_null($default)) {
-            $values = array_flip($choices);
-            $default = current($values);
+        if ($allowEmpty) {
+            $default = ' ';
         }
-        //
 
+        if (is_null($default)) {
+            $default = current($choices);
+        }
 
-        return $this->askChoiceQuestion(new ChoiceQuestion($question, $choices, $default));
+        if (!in_array($default, $choices)) {
+            $choices[] = $default;
+        }
+
+        if (null !== $default) {
+            $values = array_flip($choices);
+            $default = $values[$default];
+        }
+
+        return trim($this->askChoiceQuestion(new ChoiceQuestion($question, $choices, $default)));
     }
 
     /**
-   * @param Question $question
-   *
-   * @return string
-   */
-    public function askChoiceQuestion(Question $question)
+     * @param ChoiceQuestion $question
+     *
+     * @return string
+     */
+    public function askChoiceQuestion(ChoiceQuestion $question)
     {
         $questionHelper = new DrupalChoiceQuestionHelper();
         $answer = $questionHelper->ask($this->input, $this, $question);
 
         return $answer;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return string
+     */
+    public function askHiddenEmpty($question)
+    {
+        $question = new Question($question, ' ');
+        $question->setHidden(true);
+
+        return trim($this->askQuestion($question));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return string
+     */
+    public function askEmpty($question)
+    {
+        $question = new Question($question, ' ');
+
+        return trim($this->askQuestion($question));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function info($message)
+    {
+        $this->block($message, 'INFO', 'fg=white;bg=yellow', ' ', true);
     }
 }
