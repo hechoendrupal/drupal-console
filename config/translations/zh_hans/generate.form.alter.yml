@@ -1,8 +1,8 @@
-description: '生成 hook_form_alter() 或 hook_form_FORM_ID_alter 的一个实现'
-help: '<info>"%s"</info> 命令帮助您生成一个新 "%s"'
+description: '生成hook_form_alter()或hook_form_FORM_ID_alter的实现程序'
+help: '<info>"%s"</info>命令帮你生成一个新的"%s"'
 options:
-    form-id: '表单 ID'
+    form-id: '要改换的表格ID'
 messages:
-    inputs: "您可以添加表单字段修改表单\n这是可选的，按下 <info>enter</info> 键 <info>continue</info>"
-    loading-forms: '从 Webprofiler 模块导入表单定义'
-    hide-form-elements: '您可以选择要隐藏的表单项'
+    inputs: "你可以在表格里加一个域\n这个是可选可不选的，按回车继续"
+    loading-forms: '从Webprofiler模块中装载表格的属性'
+    hide-form-elements: '你可以选择隐藏的表格项目'
