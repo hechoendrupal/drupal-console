@@ -1,8 +1,8 @@
-description: 'Switch site into maintenance mode'
+description: '切换到维护模式'
 arguments:
-    mode: 'Site maintenance mode'
+    mode: '网站维护模式'
 messages:
-    maintenance-on: 'Operating in maintenance mode on'
-    maintenance-off: 'Operating in maintenance mode off'
+    maintenance-on: '打开维护模式'
+    maintenance-off: '关闭维护模式'
 errors:
-    invalid-mode: 'Invalid maintenance mode'
+    invalid-mode: '无效维护模式'

@@ -1,10 +1,10 @@
-description: 'Override config value in active configuration.'
+description: '覆写配置'
 arguments:
-    config-name: 'Configuration name.'
-    key: Key
-    value: Value
+    config-name: '配置名称'
+    key: '键'
+    value: '值'
 messages:
-    configuration: 'Configuration name'
-    configuration-key: 'Configuration key'
-    original: 'Original Value'
-    updated: 'Override Value'
+    configuration: '配置名称'
+    configuration-key: '配置的键'
+    original: '原始值'
+    updated: '新值'

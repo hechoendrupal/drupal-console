@@ -1,17 +1,17 @@
-description: 'Generate a new "%s"'
-help: 'The <info>"%s"</info> command helps you generate a new "%s"'
-welcome: 'Welcome to the Drupal form generator'
+description: '生成一个新 "%s"'
+help: '<info>"%s"</info> 命令帮助您生成一个新 "%s"'
+welcome: '欢迎使用 Drupal 表单生成器'
 options:
     module: common.options.module
-    class: 'The form class name'
-    form-id: 'The Form id'
+    class: '表单类名'
+    form-id: '表单 ID'
     services: common.options.services
     inputs: common.options.inputs
-    routing: 'Update routing'
+    routing: '更新路由'
 questions:
     module: common.questions.module
-    class: 'Enter the Form Class name'
-    form-id: 'Enter the Form id'
+    class: '输入表单类名'
+    form-id: '输入表单 ID'
     services: common.questions.services
     inputs: common.questions.inputs
-    routing: 'Update routing file'
+    routing: '更新路由文件'

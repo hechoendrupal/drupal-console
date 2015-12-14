@@ -1,20 +1,20 @@
-description: 'Run Test unit from tests available for application'
+description: '运行可用单元测试'
 arguments:
-    test-class: 'Test Class'
+    test-class: '测试类'
 messages:
-    missing-dependency: 'Test can''t be executed due a missing dependency'
-    phpunit-pending: 'Logic to execute PHPUnit test is not implemented yet.'
-    starting-test: 'Starting test'
-    test-duration: 'Test duration'
-    test-pass: 'Test passes'
-    test-fail: 'Test fails'
-    test-exception: 'Test exceptions'
-    test-debug: 'Test debugs'
-    url-required: 'URL option is required to run test'
-    test-summary: 'Test Summary'
-    group: Group
-    status: Status
-    file: File
-    method: Method
+    missing-dependency: '测试不能执行，由于依赖缺失'
+    phpunit-pending: '执行 PHPUnit 测试的逻辑还没有实现'
+    starting-test: '已开始测试'
+    test-duration: '测试耗时'
+    test-pass: '测试通过'
+    test-fail: '测试失败'
+    test-exception: '测试意外'
+    test-debug: '测试调试'
+    url-required: 'URL 选项对于运行测试是必须的'
+    test-summary: '测试总结'
+    group: '组'
+    status: '状态'
+    file: '文件'
+    method: '方法'
     line: Line
-    message: Message
+    message: '消息'
