@@ -1,18 +1,18 @@
-description: 'Display current log events for the application'
+description: '显示当前日志事件'
 arguments:
-    event-id: 'DBLog event ID'
+    event-id: 'DBLog 事件 ID'
 options:
-    type: 'Filter events by a specific type'
-    severity: 'Filter events by a specific level of severity'
-    user-id: 'Filter events by a specific user id'
-    limit: 'Limit results to a specific number'
-    offset: 'Starting point of a limit'
+    type: '通过一个指定的类型过滤事件'
+    severity: '通过一个指定的等级过滤事件'
+    user-id: '通过一个指定的用户 ID 过滤事件'
+    limit: '限制指定数量的输出'
+    offset: '限制输出的开始位置'
 messages:
-    event-id: 'Event ID'
-    type: Type
-    date: Date
-    message: Message
-    user: User
-    severity: Severity
-    invalid-severity: 'Severity type is invalid, filter was ignored'
-    not-found: 'DBLog event %s wasn''t found'
+    event-id: '事件 ID'
+    type: '类型'
+    date: '日期'
+    message: '消息'
+    user: '用户'
+    severity: '等级'
+    invalid-severity: '等级类型无效，过滤器被忽略'
+    not-found: 'DBLog 事件 %s 未找到'
