@@ -4,7 +4,7 @@ application:
       cache:
         rebuild:
             - cr
-      themem:
+      theme:
         download:
             - td
       module:
