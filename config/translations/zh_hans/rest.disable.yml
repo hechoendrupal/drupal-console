@@ -1,8 +1,8 @@
-description: 'Disable a rest resource for the application'
+description: '禁用 REST 资源'
 arguments:
-    resource-id: 'Rest ID'
-    states: 'REST States to disable for Rest resource'
+    resource-id: 'REST ID'
+    states: '为当前 REST 资源禁用的 REST 状态'
 questions:
-    resource-id: 'Rest ID'
+    resource-id: 'REST ID'
 messages:
-    invalid-rest-id: 'Rest ID %s is invalid'
+    invalid-rest-id: 'REST ID %s 无效'
