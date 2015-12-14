@@ -28,16 +28,16 @@ trait DatabaseTrait
     public function dbTypeQuestion(DrupalStyle $output)
     {
         $databases = $this->getDatabaseTypes();
-        $dbType = $output->ask(
+
+        $dbType = $output->choice(
             $this->trans('commands.migrate.setup.migrations.questions.db-type'),
-            array_combine(array_column($databases, 'name'), array_column($databases, 'name')),
-            current(array_column($databases, 'name'))
+            array_column($databases, 'name')
         );
 
         // find current database type selected to set the proper driver id
-        foreach ($databases as $db_index => $database) {
+        foreach ($databases as $dbIndex => $database) {
             if ($database['name'] == $dbType) {
-                $dbType = $db_index;
+                $dbType = $dbIndex;
             }
         }
 
@@ -53,14 +53,7 @@ trait DatabaseTrait
     {
         return $output->ask(
             $this->trans('commands.migrate.execute.questions.db-file'),
-            'sites/default/files/.ht.sqlite',
-            function ($value) {
-                if (!strlen(trim($value))) {
-                    throw new \Exception('The option can not be empty');
-                }
-
-                return $value;
-            }
+            'sites/default/files/.ht.sqlite'
         );
     }
 
@@ -73,14 +66,7 @@ trait DatabaseTrait
     {
         return $output->ask(
             $this->trans('commands.migrate.execute.questions.db-host'),
-            '127.0.0.1',
-            function ($value) {
-                if (!strlen(trim($value))) {
-                    throw new \Exception('The option can not be empty');
-                }
-
-                return $value;
-            }
+            '127.0.0.1'
         );
     }
 
@@ -92,15 +78,7 @@ trait DatabaseTrait
     public function dbNameQuestion(DrupalStyle $output)
     {
         return $output->ask(
-            $this->trans('commands.migrate.execute.questions.db-name'),
-            null,
-            function ($value) {
-                if (!strlen(trim($value))) {
-                    throw new \Exception('The option can not be empty');
-                }
-
-                return $value;
-            }
+            $this->trans('commands.migrate.execute.questions.db-name')
         );
     }
 
@@ -112,15 +90,7 @@ trait DatabaseTrait
     public function dbUserQuestion(DrupalStyle $output)
     {
         return $output->ask(
-            $this->trans('commands.migrate.execute.questions.db-user'),
-            null,
-            function ($value) {
-                if (!strlen(trim($value))) {
-                    throw new \Exception('The option can not be empty');
-                }
-
-                return $value;
-            }
+            $this->trans('commands.migrate.execute.questions.db-user')
         );
     }
 
@@ -131,11 +101,8 @@ trait DatabaseTrait
      */
     public function dbPassQuestion(DrupalStyle $output)
     {
-        return $output->askHidden(
-            $this->trans('commands.migrate.execute.questions.db-pass'),
-            function () {
-                return true;
-            }
+        return $output->askHiddenEmpty(
+            $this->trans('commands.migrate.execute.questions.db-pass')
         );
     }
 
@@ -146,11 +113,8 @@ trait DatabaseTrait
      */
     public function dbPrefixQuestion(DrupalStyle $output)
     {
-        return $output->ask(
-            $this->trans('commands.migrate.execute.questions.db-prefix'),
-            function () {
-                return true;
-            }
+        return $output->askEmpty(
+            $this->trans('commands.migrate.execute.questions.db-prefix')
         );
     }
 
@@ -163,14 +127,7 @@ trait DatabaseTrait
     {
         return $output->ask(
             $this->trans('commands.migrate.execute.questions.db-port'),
-            '3306',
-            function ($value) {
-                if (!strlen(trim($value))) {
-                    throw new \Exception('The option can not be empty');
-                }
-
-                return $value;
-            }
+            '3306'
         );
     }
 
