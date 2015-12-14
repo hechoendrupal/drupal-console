@@ -47,8 +47,13 @@ trait FormTrait
                 $input_type = $output->choiceNoList(
                     $this->trans('commands.common.questions.inputs.type'),
                     $input_types,
-                    'textfield'
+                    'textfield',
+                    true
                 );
+
+                if (empty($input_type)) {
+                    break;
+                }
 
                 // Label for input
                 $inputLabelMessage = $input_type == 'fieldset'?$this->trans('commands.common.questions.inputs.title'):$this->trans('commands.common.questions.inputs.label');
@@ -56,10 +61,6 @@ trait FormTrait
                     $inputLabelMessage,
                     null
                 );
-
-                if (empty($input_label)) {
-                    break;
-                }
 
                 // Machine name
                 $input_machine_name = $this->getStringHelper()->createMachineName($input_label);
@@ -77,7 +78,9 @@ trait FormTrait
                 if ($input_type != 'fieldset' && !empty($fieldSets)) {
                     $inputFieldSet = $output->choiceNoList(
                         $this->trans('commands.common.questions.inputs.fieldset'),
-                        $fieldSets
+                        $fieldSets,
+                        null,
+                        true
                     );
 
                     $inputFieldSet = array_search($inputFieldSet, $fieldSets);
@@ -87,18 +90,20 @@ trait FormTrait
                 $size = null;
                 if (in_array($input_type, array('textfield', 'password', 'password_confirm'))) {
                     $maxlength = $output->ask(
-                        'Maximum amount of characters'
+                        'Maximum amount of characters',
+                        '64'
                     );
 
                     $size = $output->ask(
                         'Width of the textfield (in characters)',
-                        null
+                        '64'
                     );
                 }
 
                 if ($input_type == 'select') {
-                    $size = $output->ask(
-                        'Size of multiselect box (in lines)'
+                    $size = $output->askEmpty(
+                        'Size of multiselect box (in lines)',
+                        '5'
                     );
                 }
 
@@ -122,20 +127,21 @@ trait FormTrait
                 }
 
                 // Description for input
-                $input_description = $output->ask(
+                $input_description = $output->askEmpty(
                     $this->trans('commands.common.questions.inputs.description')
                 );
 
                 if ($input_type != 'fieldset') {
                     // Default value for input
-                    $default_value = $output->ask(
+                    $default_value = $output->askEmpty(
                         $this->trans('commands.common.questions.inputs.default-value')
                     );
                 }
 
                 // Weight for input
                 $weight = $output->ask(
-                    $this->trans('commands.common.questions.inputs.weight')
+                    $this->trans('commands.common.questions.inputs.weight'),
+                    '0'
                 );
 
                 array_push(
@@ -158,6 +164,6 @@ trait FormTrait
             return $inputs;
         }
 
-        return;
+        return null;
     }
 }
