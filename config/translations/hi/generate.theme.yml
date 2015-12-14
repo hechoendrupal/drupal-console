@@ -9,7 +9,7 @@ options:
     core: 'मूल संस्करण'
     package: 'थीम पैकेज'
     composer: 'composer.json फाइल डालें'
-    base-theme: 'आधार थीम (i.e. classy, seven)'
+    base-theme: 'आधार थीम (i.e. classy, stable)'
     global-library: 'वैश्विक स्टाइल पुस्तकालय नाम'
     regions: क्षेत्र
     breakpoints: 'ब्रेक पॉइंट्स'

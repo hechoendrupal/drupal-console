@@ -34,7 +34,8 @@ trait ServicesTrait
                     ' '
                 );
 
-                if (empty(trim($service))) {
+                $service = trim($service);
+                if (empty($service)) {
                     break;
                 }
 

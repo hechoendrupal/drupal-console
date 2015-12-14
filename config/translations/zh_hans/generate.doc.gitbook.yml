@@ -1,31 +1,31 @@
-description: 'Generate documentations for Commands'
+description: '生成命令文档'
 options:
-    path: 'The path to render the documentation'
+    path: '呈现文档的路径'
 messages:
-    missing_path: 'The path is missing'
-    title: 'Available Drupal Console Commands'
-    note: Note
-    note-description: 'Drupal Console commands *must* be run from the root of a Drupal 8 installation'
-    command: 'Drupal Console Command'
-    command_description: 'The **%s** command %s'
-    usage: Usage
-    options: 'Available options'
-    option: Option
-    details: Details
-    arguments: 'Available arguments'
-    argument: Argument
-    examples: Examples
+    missing_path: '路径丢失'
+    title: '可用 Drupal Console 命令'
+    note: '备注'
+    note-description: 'Drupal Console 命令*必须*在 Drupal 8 安装目录里运行'
+    command: 'Drupal Console 命令'
+    command_description: '**%s** 命令 %s'
+    usage: '用法'
+    options: '可用选项'
+    option: '选项'
+    details: '详细'
+    arguments: '可用参数'
+    argument: '参数'
+    examples: '例子'
 output:
     available-commands:
-        title: 'Available Drupal Console Commands'
-        note: Note
-        note-description: 'Drupal Console commands *must* be run from the root of a Drupal 8 installation'
-        command: 'Drupal Console Command'
+        title: '可用 Drupal Console 命令'
+        note: '备注'
+        note-description: 'Drupal Console 命令*必须*在 Drupal 8 安装目录里运行'
+        command: 'Drupal Console 命令'
     command:
-        command_description: 'The **%s** command %s'
-        usage: Usage
-        options: 'Available options'
-        option: Option
-        details: Details
-        arguments: 'Available arguments'
-        argument: Argument
+        command_description: '**%s** 命令 %s'
+        usage: '用法'
+        options: '可用选项'
+        option: '选项'
+        details: '详细'
+        arguments: '可用参数'
+        argument: '参数'
