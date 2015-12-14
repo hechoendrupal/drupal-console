@@ -9,7 +9,7 @@ options:
     core: '核心版本'
     package: '主题包'
     composer: '添加一个 composer.json 文件'
-    base-theme: '基主题（如：classy, seven）'
+    base-theme: '基主题（如：classy, stable）'
     global-library: '全局样式库名称'
     regions: '区域'
     breakpoints: '断点'
