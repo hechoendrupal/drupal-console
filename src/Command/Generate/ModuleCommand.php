@@ -212,8 +212,8 @@ class ModuleCommand extends GeneratorCommand
                     return $validators->validateModuleName($module);
                 }
             );
+            $input->setOption('module', $module);
         }
-        $input->setOption('module', $module);
 
         try {
             $machineName = $input->getOption('machine-name') ?
