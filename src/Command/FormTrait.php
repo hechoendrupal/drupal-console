@@ -47,7 +47,7 @@ trait FormTrait
                 $input_type = $output->choiceNoList(
                     $this->trans('commands.common.questions.inputs.type'),
                     $input_types,
-                    'textfield',
+                    null,
                     true
                 );
 
