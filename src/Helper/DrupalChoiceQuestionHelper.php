@@ -17,10 +17,6 @@ class DrupalChoiceQuestionHelper extends SymfonyQuestionHelper
         $default = $question->getDefault();
         $choices = $question->getChoices();
 
-        if (!$default) {
-            $default = current(array_keys($choices));
-        }
-
         $text = sprintf(' <info>%s</info> [<comment>%s</comment>]:', $text, $choices[$default]);
 
         $output->writeln($text);
