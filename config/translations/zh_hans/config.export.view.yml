@@ -1,13 +1,13 @@
-description: 'Export a view in YAML format inside a provided module to reuse in other website.'
+description: '导出一个视窗配置到一个模块里的YAML格式文件，这样其他网站也可以使用它.'
 messages:
-    view_exported: 'Exporting view'
-    depencies-included: 'The following module dependencies were included at %s'
+    view_exported: '导出视窗配置'
+    depencies-included: '模块依赖组件包括在%s'
 questions:
-    view: 'View to be exported'
-    optional-config: 'Export view in module as an optional configuration'
-    include-module-dependencies: 'Include view module dependencies in module info YAML file'
+    view: '需导出的视窗'
+    optional-config: '是否导出视窗到一个模块里是一个选项'
+    include-module-dependencies: '在YAML文件里包含视窗模块所依赖的组件'
 arguments:
-    view-id: 'View ID'
+    view-id: '视窗ID'
 options:
-    optional-config: 'Export view as an optional YAML configuration in your module'
-    include-module-dependencies: 'Include module dependencies in module info YAML file'
+    optional-config: '把导出视窗作为一个YAML文件配置的选项'
+    include-module-dependencies: '在模块配置YAML文件里包含视窗模块所依赖的组件'
