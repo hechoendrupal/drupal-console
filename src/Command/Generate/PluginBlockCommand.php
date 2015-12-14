@@ -171,8 +171,11 @@ class PluginBlockCommand extends GeneratorCommand
         if (!$themeRegion) {
             $themeRegion =  $output->choiceNoList(
                 $this->trans('commands.generate.plugin.block.options.theme-region'),
-                $themeRegions
+                array_values($themeRegions),
+                null,
+                true
             );
+            $themeRegion = array_search($themeRegion, $themeRegions);
             $input->setOption('theme-region', $themeRegion);
         }
 
