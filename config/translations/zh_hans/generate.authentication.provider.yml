@@ -1,7 +1,6 @@
-description: 'Generate an Authentication Provider'
-help: 'The <info>generate:authentication:provider</info> command helps you generate a new Authentication Provider.'
+description: '生成一个认证提供者'
+help: '<info>generate:authentication:provider</info> 命令帮助您生成一个新的认证提供者'
 options:
-    class: 'Authentication Provider class'
-    provider-id: 'Provider ID'
-    class: 'Authentication Provider class'
+    class: '认证提供者类'
+    provider-id: '提供者 ID'
 module: common.options.module

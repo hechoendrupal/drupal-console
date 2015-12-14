@@ -4,3 +4,9 @@ application:
       cache:
         rebuild:
             - cr
+      theme:
+        download:
+            - td
+      module:
+        download:
+            - md
