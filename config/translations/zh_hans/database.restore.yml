@@ -1,6 +1,6 @@
-description: "还原 MySQL 的数据库及其表的结构和内容"
+description: "恢复数据库，结构以及数据"
 arguments:
-  database: "数据库配置在 settings.php 文件中的键"
+  database: "settings.php文件里的数据库键"
 options:
   file: '数据库备份文件文件名'
 messages:

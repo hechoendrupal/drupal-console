@@ -1,18 +1,18 @@
-description: '显示当前日志事件'
+description: '显示程序的当前事件日志'
 arguments:
-    event-id: 'DBLog 事件 ID'
+    event-id: 'DBLog事件ID'
 options:
-    type: '通过一个指定的类型过滤事件'
-    severity: '通过一个指定的等级过滤事件'
-    user-id: '通过一个指定的用户 ID 过滤事件'
-    limit: '限制指定数量的输出'
-    offset: '限制输出的开始位置'
+    type: '根据类型过滤事件'
+    severity: '根据严重等级过滤事件'
+    user-id: '根据用户ID过滤事件'
+    limit: '限制显示的结果数目'
+    offset: '限制的起始点'
 messages:
-    event-id: '事件 ID'
-    type: '类型'
-    date: '日期'
-    message: '消息'
-    user: '用户'
-    severity: '等级'
-    invalid-severity: '等级类型无效，过滤器被忽略'
-    not-found: 'DBLog 事件 %s 未找到'
+    event-id: '事件ID'
+    type: 类型
+    date: 日期
+    message: 消息
+    user: 用户
+    severity: 严重等级
+    invalid-severity: '严重等级定义不对，过滤器被忽略'
+    not-found: 'DBLog事件%s没找到'

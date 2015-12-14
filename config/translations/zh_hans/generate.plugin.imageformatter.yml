@@ -1,12 +1,12 @@
-description: '生成图像格式化器插件'
-help: '<info>generate:plugin:imageformatter</info> 命令帮助您生成一个新的图像格式化器插件'
+description: '生成图像显示插件.'
+help: '<info>generate:plugin:imageformatter</info>命令帮你生成图像显示插件.'
 options:
     module: common.options.module
     class: '插件类名'
     label: '插件标签'
-    plugin-id: '插件 ID'
+    plugin-id: '插件id'
 questions:
     module: common.questions.module
     class: '输入插件类名'
     label: '输入插件标签'
-    plugin-id: '输入插件 ID'
+    plugin-id: '输入插件ID'
