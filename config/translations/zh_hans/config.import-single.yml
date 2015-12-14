@@ -1,6 +1,6 @@
-description: 'Import the selected configuration.'
+description: '导入选中的配置'
 arguments:
-    config-name: 'Configuration name.'
-    input-file: 'Path to the import files.'
+    config-name: '配置名称'
+    input-file: '导入文件的路径'
 messages:
-    empty-value: 'Value can not be empty'
+    empty-value: '值不能为空'

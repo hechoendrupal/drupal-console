@@ -1,6 +1,6 @@
-description: "Launch a DB client if it's available"
+description: "运行一个数据库客户端"
 arguments:
-  database: "Database key from settings.php"
+  database: "数据库配置在 settings.php 文件中的键"
 messages:
     database-not-found: "数据库 %s 链接信息没有找到"
     database-not-supported: '该类型数据库 %s 还没有被支持'

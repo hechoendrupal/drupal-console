@@ -1,6 +1,6 @@
-description: "Dump structure and contents of MySQL databases and tables"
+description: "Dump MySQL 中的数据库及其表结构和内容"
 arguments:
-  database: "Database key from settings.php"
+  database: "数据库配置在 settings.php 文件中的键"
 options:
   file: '数据库备份文件名称'
 messages:
