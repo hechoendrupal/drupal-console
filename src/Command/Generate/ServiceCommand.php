@@ -72,7 +72,7 @@ class ServiceCommand extends GeneratorCommand
         $output = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if ($this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($output)) {
             return;
         }
 
