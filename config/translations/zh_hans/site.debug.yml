@@ -1,9 +1,9 @@
-description: 'List all known local and remote sites.'
-help: 'The <info>site:debug</info> list all known local and remote sites.'
+description: '列出所有已知本地和远程网站'
+help: '<info>site:debug</info> 命令列出所有已知本地和远程网站'
 messages:
-    site: Site
-    host: Host
-    root: Root
-    directory-not-found: 'Sites local directory not found'
-    private-key: 'Error with private key'
-    connect-error: 'Error connecting to remote machine'
+    site: '网站'
+    host: '主机'
+    root: '根目录'
+    directory-not-found: '网站本地目录没有找到'
+    private-key: '私有键错误'
+    connect-error: '连接远程机器出错'

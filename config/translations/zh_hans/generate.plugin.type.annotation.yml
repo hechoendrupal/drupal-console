@@ -1,13 +1,13 @@
-description: 'Generate a plugin type with annotation discovery'
-help: 'The <info>generate:plugin:type:annotation</info> command helps you generate a new Plugin type that uses annotation discovery.'
-welcome: 'Welcome to the Drupal Plugin Type generator'
+description: '创建插件类型，它使用标记发现'
+help: '<info>generate:plugin:type:annotation</info> 命令帮助您生成一个新的插件类型，它使用标记发现'
+welcome: '欢迎使用 Drupal 插件类型生成器'
 options:
     module: common.options.module
-    class: 'Plugin type class name'
-    machine-name: 'Plugin type machine name'
-    label: 'Plugin type label'
+    class: '插件类型类名'
+    machine-name: '插件类型机读名称'
+    label: '插件类型标签'
 questions:
     module: common.questions.module
-    class: 'Enter the plugin type class name'
-    machine-name: 'Enter the plugin type machine name'
-    label: 'Enter the plugin type label'
+    class: '输入插件类型类名'
+    machine-name: '输入插件类型机读名称'
+    label: '输入插件类型标签'

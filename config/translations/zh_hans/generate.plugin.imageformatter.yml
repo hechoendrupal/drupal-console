@@ -1,12 +1,12 @@
-description: 'Generate image formatter plugin.'
-help: 'The <info>generate:plugin:imageformatter</info> command helps you generate a new image formatter plugin.'
+description: '生成图像格式化器插件'
+help: '<info>generate:plugin:imageformatter</info> 命令帮助您生成一个新的图像格式化器插件'
 options:
     module: common.options.module
-    class: 'Plugin class name'
-    label: 'Plugin label'
-    plugin-id: 'Plugin id'
+    class: '插件类名'
+    label: '插件标签'
+    plugin-id: '插件 ID'
 questions:
     module: common.questions.module
-    class: 'Enter the plugin class name'
-    label: 'Enter the plugin label'
-    plugin-id: 'Enter the plugin id'
+    class: '输入插件类名'
+    label: '输入插件标签'
+    plugin-id: '输入插件 ID'
