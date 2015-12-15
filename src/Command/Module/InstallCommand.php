@@ -48,14 +48,15 @@ class InstallCommand extends ContainerAwareCommand
 
                 $moduleList[$moduleId] = $module->info['name'];
             }
-            $moduleList[] = '';
 
             $output->writeln($this->trans('commands.module.install.messages.disabled-modules'));
 
             while (true) {
                 $moduleName = $output->choiceNoList(
                     $this->trans('commands.module.install.questions.module'),
-                    array_keys($moduleList)
+                    array_keys($moduleList),
+                    null,
+                    true
                 );
 
                 if (empty($moduleName)) {
