@@ -44,10 +44,11 @@ curl http://drupalconsole.com/installer -L -o drupal.phar
 # Or if you don't have curl:
 php -r "readfile('http://drupalconsole.com/installer');" > drupal.phar
 
-# You can place this file anywhere you wish.
-# If you put it in your PATH, you can access it globally.
-# For example: move drupal.phar
+# Accessing from anywhere on your system:
 mv drupal.phar /usr/local/bin/drupal
+
+# Apply executable permissions on the downloaded file:
+chmod +x /usr/local/bin/drupal
 
 # Show all available commands.
 drupal list
@@ -59,8 +60,25 @@ drupal init
 drupal generate:module
 ```
 
-## Using Drupal Console
-![image](http://drupalconsole.com/assets/img/console-global.gif)
+## Getting the project to contribute
+
+### Fork
+Fork your own copy of the [Console](https://github.com/hechoendrupal/DrupalConsole/fork) repository to your account
+
+### Clone
+Get a copy of your recently cloned version of console in your machine.
+```
+$ git clone git@github.com:[your-git-user-here]/DrupalConsole.git
+```
+
+### Install dependencies
+Now that you have cloned the project, you need to download dependencies via Composer.
+
+```
+$ cd /path/to/DrupalConsole
+$ composer install
+```
+
 
 ## Enabling Autocomplete
 ```
