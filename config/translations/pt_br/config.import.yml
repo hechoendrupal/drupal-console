@@ -1,10 +1,10 @@
-description: 'Import configuration to current application.'
+description: 'Importar configuração do estado atual da aplicação.'
 arguments:
-    file: 'Configuration file path.'
-    remove-files: 'Remove files after syncronization.'
-    config-file: 'Configuration file path.'
-    copy-only: 'Copy only configuration files in staging directory.'
+    file: 'Endereço do arquivo de configuração.'
+    remove-files: 'Remover arquivos após a sincronização.'
+    config-file: 'Endereço do arquivo de configuração.'
+    copy-only: 'Copiar arquivos de configuração somente no diretório de staging.'
 messages:
-    config_files_imported: 'List of config files.'
-    imported: 'All config files were copied to staging directory and imported.'
-    copied: 'All config files were copied to staging directory.'
+    config_files_imported: 'Lista de arquivos de configuração.'
+    imported: 'Todos os arquivos de configuração foram copiados para o diretório de staging e importados.'
+    copied: 'Todos os arquivos de configuração foram copiados para o diretório de staging.'
