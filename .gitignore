@@ -16,6 +16,7 @@
 /box.phar
 /console.phar
 /drupal.phar
+/drupal.phar.version
 
 # Test
 /phpunit.xml
