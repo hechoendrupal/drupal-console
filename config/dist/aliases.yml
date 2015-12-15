@@ -1,273 +1,287 @@
 application:
-  aliases:
+  default:
     commands:
       cache:
         rebuild:
+          aliases:
             - cr
       theme:
         download:
-           - td
+          aliases:
+            - td
       module:
         download:
+          aliases:
             - md
       config:
         debug:
-          - cde
-      config:
+          aliases:
+            - cde
         edit:
-          - cdit
-      config:
+          aliases:
+            - cdit
         export:
-           - ce
-      config:
-        export:
+          aliases:
+            - ce
           content:
             type:
-              - cect
-      config:
-        export:
+              aliases:
+                - cect
           single:
-            - ces
-      config:
-        export:
+            aliases:
+              - ces
           view:
-            - cev
-      config:
+            aliases:
+              - cev
         import:
-          - ci
-      config:
-        import:
+          aliases:
+            - ci
           single:
-            - cis
+            aliases:
+              - cis
       config:
         override:
-          - co
+          aliases:
+            - co
       container:
         debug:
-          - cod
+          aliases:
+            - cod
       cron:
         execute:
-          - cre
-      cron:
+          aliases:
+            - cre
         release:
-          - crr
+          aliases:
+            - crr
       dblog:
         clear:
-          - dbc
-      dblog:
+          aliases:
+            - dbc
         debug:
-          - dbb
+          aliases:
+            - dbb
       generate:
         authentication:
           provider:
-            - gap
-      generate:
+            aliases:
+              - gap
         command:
-          - gcm
-      generate:
+          aliases:
+            - gcm
         controller:
-          - gcn
-      generate:
+          aliases:
+            - gcn
         doc:
-          - gdc
-      generate:
+          dash:
+            aliases:
+              - gdd
+          gitbook:
+            aliases:
+              - gdg
         entity:
           bundle:
-            - geb
-      generate:
-          entity:
-            config:
-                - gecg
-      generate:
-        entity:
+            aliases:
+              - geb
+          config:
+            aliases:
+              - gecg
           content:
+            aliases:
               - gect
-      generate:
         event:
           subscriber:
-            - ges
-      generate:
+            aliases:
+              - ges
         form:
           alter:
-            - gfa
-      generate:
+            aliases:
+              - gfa
         form:
           config:
-            - gfc
-      generate:
+            aliases:
+              - gfc
         module:
-          - gm
-      generate:
+          aliases:
+            - gm
         permissions:
-          - gp
-      generate:
+          aliases:
+            - gp
         plugin:
           block:
-            - gpb
-      generate:
+            aliases:
+              - gpb
         plugin:
           condition:
-            - gpc
-      generate:
+            aliases:
+              - gpc
         plugin:
           field:
-            - gpf
-      generate:
+            aliases:
+              - gpf
         plugin:
           fieldformatter:
-            - gpff
-      generate:
+            aliases:
+              - gpff
         plugin:
           fieldtype:
-            - gpft
-      generate:
+            aliases:
+              - gpft
         plugin:
           fieldwidget:
-            - gpfw
-      generate:
+            aliases:
+              - gpfw
         plugin:
           imageeffect:
-            - gpie
-      generate:
+            aliases:
+              - gpie
         plugin:
           imageformatter:
-            - gpif
-      generate:
+            aliases:
+              - gpif
         plugin:
           rest:
             resource:
-              - gprr
-      generate:
+              aliases:
+                - gprr
         plugin:
           rulesaction:
-            - gpra
-      generate:
+            aliases:
+              - gpra
         plugin:
           type:
             annotation:
-              - gpta
-      generate:
+              aliases:
+                - gpta
         plugin:
           type:
             yaml:
-              - gpty
-      generate:
+              aliases:
+                - gpty
         plugin:
           views:
             field:
+              aliases:
                 - gpvf
-      generate:
         service:
-          - gs
-      generate:
+          aliases:
+            - gs
         theme:
-           - gt
+          aliases:
+            - gt
       migrate:
         debug:
-          - mid
-      migrate:
+          aliases:
+            - mid
         execute:
-          - mie
-      migrate:
+          aliases:
+            - mie
         load:
-          - mil
+          aliases:
+            - mil
       module:
         debug:
-          - mod
-      module:
+          aliases:
+            - mod
         download:
-          - modo
-      module:
+          aliases:
+            - modo
         install:
-          - moi
-      module:
+          aliases:
+            - moi
         uninstall:
-          - mou
+          aliases:
+            - mou
       rest:
         debug:
-          - rede
-      rest:
+          aliases:
+            - rede
         disable:
-          - redi
-      rest:
+          aliases:
+            - redi
         enable:
-          - ree
+          aliases:
+            - ree
       router:
         debug:
-          - rod
-      router:
+          aliases:
+            - rod
         rebuild:
-          - ror
+          aliases:
+            - ror
       site:
         debug:
-          - sd
-      site:
+          aliases:
+            - sd
         install:
-          - si
-      site:
+          aliases:
+            - si
         maintenance:
-          - sma
-      site:
+          aliases:
+            - sma
         mode:
-          - smo
-      site:
+          aliases:
+            - smo
         new:
-          - sn
-      site:
+          aliases:
+            - sn
         status:
-          - ss
+          aliases:
+            - ss
       test:
         debug:
-          - td
-      test:
+          aliases:
+            - td
         run:
-          - tr
+          aliases:
+            - tr
       update:
         debug:
-          - upd
-      update:
+          aliases:
+            - upd
         execute:
-          - upe
+          aliases:
+            - upe
       user:
         login:
-         clear:
-           attempts:
-            - uslca
-      user:
-        login:
+          clear:
+            attempts:
+              aliases:
+                - uslca
           url:
-          - uslu
-      user:
+            aliases:
+              - uslu
         password:
           hash:
-            - usph
-      user:
-        password:
+            aliases:
+              - usph
           reset:
-            - uspr
+            aliases:
+              - uspr
       views:
         debug:
-          - vde
-      views:
+          aliases:
+            - vde
         disable:
-          - vdi
-      views:
+          aliases:
+            - vdi
         enable:
-          - ve
+          aliases:
+            - ve
       yaml:
         diff:
-          - yd
-      yaml:
+          aliases:
+            - yd
         merge:
-          - ym
-      yaml:
+          aliases:
+            - ym
         split:
-          - ys
-      yaml:
+          aliases:
+            - ys
         update:
           key:
-            - yu
-      yaml:
-        update:
+            aliases:
+              - yu
           value:
-            - yuv
+            aliases:
+              - yuv

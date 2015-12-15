@@ -304,12 +304,12 @@ class Application extends BaseApplication
 
     /**
      * @param $command
-     * @return array
+     * @return array|null
      */
     private function getCommandAliases($command)
     {
         $aliasKey = sprintf(
-            'application.aliases.commands.%s',
+            'application.default.commands.%s.aliases',
             str_replace(':', '.', $command->getName())
         );
 
@@ -317,9 +317,9 @@ class Application extends BaseApplication
     }
 
     /**
-     * @param $drupal
+     * @param DrupalHelper $drupal
      */
-    public function bootDrupal($drupal)
+    public function bootDrupal(DrupalHelper $drupal)
     {
         $this->getKernelHelper()->setClassLoader($drupal->getAutoLoadClass());
         $this->getKernelHelper()->bootKernel();
