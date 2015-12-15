@@ -17,6 +17,7 @@ use Drupal\Core\Database\Database;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Parser;
+use Composer\Autoload\ClassLoader;
 
 /**
  * Class DrupalHelper
@@ -131,7 +132,7 @@ class DrupalHelper extends Helper
     }
 
     /**
-     * @return string
+     * @return Classloader
      */
     public function getAutoLoadClass()
     {
