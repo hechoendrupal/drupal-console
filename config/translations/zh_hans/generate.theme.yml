@@ -11,8 +11,8 @@ options:
     composer: '加composer.json文件'
     base-theme: '基础外观主题 (例如： classy, seven)'
     global-library: '全局格式库名'
-    regions: 区域
-    breakpoints: 断点
+    regions: '区域'
+    breakpoints: '断点'
 questions:
     theme: '输入一个新的外观主题名'
     machine-name: '输入外观主题的机器名'
@@ -20,7 +20,7 @@ questions:
     description: '输入外观主题介绍'
     core: '输入Drupal内核版本'
     package: '输入包名'
-    dependencies: '你要加依赖模块吗
+    dependencies: '你要加依赖模块吗'
     invalid-theme: '外观主题%s不可用'
     global-library: '输入一个全局的格式库名'
     regions: '你要生成一个主题的区域吗？'
