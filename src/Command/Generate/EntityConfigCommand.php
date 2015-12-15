@@ -26,7 +26,7 @@ class EntityConfigCommand extends EntityCommand
             'bundle-of',
             null,
             InputOption::VALUE_NONE,
-            $this->trans('commands.generate.entity.options.bundle-of')
+            $this->trans('commands.generate.entity.config.options.bundle-of')
         );
     }
 
@@ -43,7 +43,7 @@ class EntityConfigCommand extends EntityCommand
         $bundle_of = $input->getOption('bundle-of');
         if (!$bundle_of) {
             $bundle_of = $output->confirm(
-                $this->trans('commands.generate.entity.questions.bundle-of'),
+                $this->trans('commands.generate.entity.config.questions.bundle-of'),
                 false
             );
             $input->setOption('bundle-of', $bundle_of);
