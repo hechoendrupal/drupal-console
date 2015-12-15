@@ -99,6 +99,14 @@ class DrupalStyle extends SymfonyStyle
      */
     public function info($message)
     {
-        $this->block($message, 'INFO', 'fg=white;bg=yellow', ' ', true);
+        $this->writeln(sprintf('<info> %s</info>', $message));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function comment($message)
+    {
+        $this->writeln(sprintf('<comment> %s</comment>', $message));
     }
 }
