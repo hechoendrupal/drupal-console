@@ -119,6 +119,11 @@ class UpdateCommand extends Command
             )
         );
 
-        $this->getApplication()->removeDispatcher();
+        // Errors appear if new classes are instantiated after this stage
+        // (namely, Symfony's ConsoleTerminateEvent). This suggests PHP
+        // can't read files properly from the overwritten Phar, or perhaps it's
+        // because the autoloader's name has changed. We avoid the problem by
+        // terminating now.
+        exit;
     }
 }
