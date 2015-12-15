@@ -29,7 +29,7 @@ class EntityContentCommand extends EntityCommand
             'has-bundles',
             null,
             InputOption::VALUE_NONE,
-            $this->trans('commands.generate.entity.options.has-bundles')
+            $this->trans('commands.generate.entity.content.options.has-bundles')
         );
     }
 
@@ -45,7 +45,7 @@ class EntityContentCommand extends EntityCommand
         $bundle_of = $input->getOption('has-bundles');
         if (!$bundle_of) {
             $bundle_of = $output->confirm(
-                $this->trans('commands.generate.entity.questions.has-bundles'),
+                $this->trans('commands.generate.entity.content.questions.has-bundles'),
                 false
             );
             $input->setOption('has-bundles', $bundle_of);
