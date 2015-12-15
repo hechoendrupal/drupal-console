@@ -1,5 +1,5 @@
-description: 'Launch a DB client if it''s available'
+description: 'Iniciar um cliente de banco de dados se ele está disponível'
 arguments:
-    database: 'Database key from settings.php'
+    database: 'Senha do banco de dados em settings.php'
 messages:
-    executing: 'Executing: %s'
+    executing: 'Executando: %s'
