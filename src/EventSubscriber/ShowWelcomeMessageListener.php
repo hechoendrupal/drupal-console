@@ -35,7 +35,7 @@ class ShowWelcomeMessageListener implements EventSubscriberInterface
         $welcomeMessage = $translatorHelper->trans($welcomeMessageKey);
 
         if ($welcomeMessage != $welcomeMessageKey) {
-            $output->title($welcomeMessage);
+            $output->text($welcomeMessage);
         }
     }
 
