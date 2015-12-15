@@ -22,7 +22,7 @@ class AboutCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $application = $this->getApplication();
 
@@ -33,9 +33,9 @@ class AboutCommand extends Command
             $application::DRUPAL_VERSION
         );
 
-        $output->setDecorated(false);
-        $output->title($aboutTitle);
-        $output->setDecorated(true);
+        $io->setDecorated(false);
+        $io->title($aboutTitle);
+        $io->setDecorated(true);
 
         $commands = [
             'init' => [
@@ -66,16 +66,16 @@ class AboutCommand extends Command
         ];
 
         foreach ($commands as $command => $commandInfo) {
-            $output->writeln($commandInfo[0]);
-            $output->newLine();
-            $output->writeln(sprintf('  <comment>%s</comment>', $commandInfo[1]));
-            $output->newLine();
+            $io->writeln($commandInfo[0]);
+            $io->newLine();
+            $io->comment(sprintf('  %s', $commandInfo[1]));
+            $io->newLine();
         }
 
-        $output->setDecorated(false);
-        $output->section($this->trans('commands.self-update.description'));
-        $output->setDecorated(true);
-        $output->writeln('  <comment>drupal self-update</comment>');
-        $output->newLine();
+        $io->setDecorated(false);
+        $io->section($this->trans('commands.self-update.description'));
+        $io->setDecorated(true);
+        $io->comment('  drupal self-update');
+        $io->newLine();
     }
 }
