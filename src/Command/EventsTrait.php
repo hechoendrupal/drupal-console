@@ -26,7 +26,9 @@ trait EventsTrait
         while (true) {
             $event = $output->choiceNoList(
                 $this->trans('commands.common.questions.events.name'),
-                $events
+                $events,
+                null,
+                true
             );
 
             if (empty($event)) {

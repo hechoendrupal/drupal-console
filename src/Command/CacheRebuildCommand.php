@@ -85,13 +85,11 @@ class CacheRebuildCommand extends ContainerAwareCommand
         if (!$cache) {
             $caches = $validators->getCaches();
             $cache_keys = array_keys($caches);
-            $cache_keys[] = 'all';
 
             $cache = $output->choiceNoList(
                 $this->trans('commands.cache.rebuild.questions.cache'),
                 $cache_keys,
-                'all',
-                true
+                'all'
             );
         }
         $input->setArgument('cache', $cache);
