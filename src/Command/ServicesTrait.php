@@ -26,12 +26,12 @@ trait ServicesTrait
             $output->writeln($this->trans('commands.common.questions.services.message'));
 
             $services = $this->getServices();
-            $services[] = ' ';
             while (true) {
                 $service = $output->choiceNoList(
                     $this->trans('commands.common.questions.services.name'),
                     $services,
-                    ' '
+                    null,
+                    true
                 );
 
                 $service = trim($service);
