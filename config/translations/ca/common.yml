@@ -1,0 +1,41 @@
+options:
+    events: 'Load events from the container'
+    module: 'The Module name.'
+    services: 'Load services from the container.'
+    tags: 'Set service tags from the container.'
+    inputs: 'Create inputs in a form.'
+    permissions: 'Create permissions.'
+questions:
+    module: 'Enter the module name'
+    confirm: 'Do you confirm generation?'
+    canceled: 'Command generation canceled.'
+    events:
+        message: "\nType the event name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
+        name: 'Enter event name'
+    services:
+        confirm: 'Do you want to load services from the container'
+        message: "\nType the service name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
+        name: 'Enter your service'
+    inputs:
+        confirm: 'Do you want to generate a form structure?'
+        label: 'Input label'
+        machine_name: 'Input machine name'
+        permission: 'Do you want to generate permissions?'
+        type: Type
+        invalid: 'Field Type "%s" is invalid.'
+        description: Description
+        default-value: 'Default value'
+        weight: 'Weight for input item'
+        title: 'Title'
+        fieldset: 'Fieldset'
+errors:
+    module-dependency: 'Missing module dependency "%s"'
+    class-name-empty: 'The Class name can not be empty'
+status:
+    enabled: Enabled
+    disabled: Disabled
+messages:
+    canceled: 'The generation was cancelled'
+    drupal-core: 'Drupal Core'
+    move-phar: 'Accessing console from anywhere on your system'
+    quick-start: 'Download, install and serve Drupal 8'

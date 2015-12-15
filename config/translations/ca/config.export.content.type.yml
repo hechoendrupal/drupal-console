@@ -1,0 +1,10 @@
+description: 'Export a specific content type and their fields.'
+arguments:
+    content-type: 'Content Type to be exported'
+questions:
+    content-type: 'Content Type to be exported'
+    optional-config: 'Export content type in module as an optional configuration'
+messages:
+    content_type_exported: 'Exporting content type'
+options:
+    optional-config: 'Export content type as an optional YAML configuration in your module'
