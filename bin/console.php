@@ -78,6 +78,12 @@ $dispatcher->addSubscriber(new ShowGenerateInlineListener());
 $dispatcher->addSubscriber(new ShowTerminateMessageListener());
 $application->setDispatcher($dispatcher);
 
-$defaultCommand = $config->get('application.command')?:'about';
+$defaultCommand = 'about';
+if ($config->get('application.command')
+    && $application->has($config->get('application.command'))
+) {
+    $defaultCommand = $config->get('application.command');
+}
+
 $application->setDefaultCommand($defaultCommand);
 $application->run();
