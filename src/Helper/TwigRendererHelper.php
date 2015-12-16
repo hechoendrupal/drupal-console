@@ -208,9 +208,9 @@ class TwigRendererHelper extends Helper
                 }
 
                 $message = implode("\n", $returnValues);
-                $environment->setLoader(new \Twig_Loader_String());
+                $template = $environment->createTemplate($message);
 
-                return $environment->render($message, $context);
+                return $template->render($context);
             }, [
             'needs_environment' => true,
             'needs_context' => true,

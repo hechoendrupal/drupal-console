@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Generate\EntityCommand;
 use Drupal\Console\Generator\EntityContentGenerator;
+use Drupal\Console\Style\DrupalStyle;
 
 class EntityContentCommand extends EntityCommand
 {
@@ -28,7 +29,7 @@ class EntityContentCommand extends EntityCommand
             'has-bundles',
             null,
             InputOption::VALUE_NONE,
-            $this->trans('commands.generate.entity.options.has-bundles')
+            $this->trans('commands.generate.entity.content.options.has-bundles')
         );
     }
 
@@ -38,20 +39,17 @@ class EntityContentCommand extends EntityCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         parent::interact($input, $output);
-
-        $dialog = $this->getDialogHelper();
-        $utils = $this->getStringHelper();
+        $output = new DrupalStyle($input, $output);
 
         // --bundle-of option
         $bundle_of = $input->getOption('has-bundles');
         if (!$bundle_of) {
-            $bundle_of = $dialog->askConfirmation(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.entity.questions.has-bundles'), 'no', '?'),
-                FALSE
+            $bundle_of = $output->confirm(
+                $this->trans('commands.generate.entity.content.questions.has-bundles'),
+                false
             );
+            $input->setOption('has-bundles', $bundle_of);
         }
-        $input->setOption('has-bundles', $bundle_of);
     }
 
     /**
@@ -72,13 +70,15 @@ class EntityContentCommand extends EntityCommand
             ->generate($module, $entity_name, $entity_class, $label, $bundle_entity_name);
 
         if ($has_bundles) {
-            $this->getChain()->addCommand('generate:entity:config', [
+            $this->getChain()->addCommand(
+                'generate:entity:config', [
                 '--module' => $module,
                 '--entity-class' => $entity_class . 'Type',
                 '--entity-name' => $entity_name . '_type',
                 '--label' => $label . ' type',
                 '--bundle-of' => $entity_name
-            ]);
+                ]
+            );
         }
     }
 

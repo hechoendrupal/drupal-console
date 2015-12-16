@@ -14,6 +14,7 @@ use Drupal\Console\Generator\PluginViewsFieldGenerator;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class PluginViewsFieldCommand extends GeneratorCommand
 {
@@ -28,10 +29,10 @@ class PluginViewsFieldCommand extends GeneratorCommand
             ->setHelp($this->trans('commands.generate.plugin.views.field.help'))
             ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
-                'class-name',
+                'class',
                 '',
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.plugin.views.field.options.class-name')
+                $this->trans('commands.generate.plugin.views.field.options.class')
             )
             ->addOption(
                 'title',
@@ -52,15 +53,15 @@ class PluginViewsFieldCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
-        // @see use Drupal\Console\Command\ConfirmationTrait::confirmationQuestion
-        if ($this->confirmationQuestion($input, $output, $dialog)) {
+        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        if (!$this->confirmGeneration($output)) {
             return;
         }
 
         $module = $input->getOption('module');
-        $class_name = $input->getOption('class-name');
+        $class_name = $input->getOption('class');
         $class_machine_name = $this->getStringHelper()->camelCaseToUnderscore($class_name);
         $title = $input->getOption('title');
         $description = $input->getOption('description');
@@ -74,53 +75,45 @@ class PluginViewsFieldCommand extends GeneratorCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output, $dialog);
+            $module = $this->moduleQuestion($output);
+            $input->setOption('module', $module);
         }
-        $input->setOption('module', $module);
 
-        // --class-name option
-        $class_name = $input->getOption('class-name');
+        // --class option
+        $class_name = $input->getOption('class');
         if (!$class_name) {
-            $class_name = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.views.field.questions.class-name'),
-                    'CustomViewsField'
-                ),
+            $class_name = $output->ask(
+                $this->trans('commands.generate.plugin.views.field.questions.class'),
                 'CustomViewsField'
             );
         }
-        $input->setOption('class-name', $class_name);
+        $input->setOption('class', $class_name);
 
-        $default_label = $this->getStringHelper()->camelCaseToHuman($class_name);
-
-        // --plugin title option
+        // --title option
         $title = $input->getOption('title');
         if (!$title) {
-            $title = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.plugin.views.field.questions.title'), $default_label),
-                $default_label
+            $title = $output->ask(
+                $this->trans('commands.generate.plugin.views.field.questions.title'),
+                $this->getStringHelper()->camelCaseToHuman($class_name)
             );
+            $input->setOption('title', $title);
         }
-        $input->setOption('title', $title);
 
-        // --plugin title option
+        // --description option
         $description = $input->getOption('description');
         if (!$description) {
-            $description = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.plugin.views.field.questions.description'), $this->trans('commands.generate.plugin.views.field.questions.description_default')),
+            $description = $output->ask(
+                $this->trans('commands.generate.plugin.views.field.questions.description'),
                 $this->trans('commands.generate.plugin.views.field.questions.description_default')
             );
+            $input->setOption('description', $description);
         }
-        $input->setOption('description', $description);
     }
 
     protected function createGenerator()

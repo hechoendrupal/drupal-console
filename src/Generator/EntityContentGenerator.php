@@ -12,13 +12,13 @@ class EntityContentGenerator extends Generator
     /**
      * Generator Entity.
      *
-     * @param string $module       Module name
-     * @param string $entity_name  Entity machine name
-     * @param string $entity_class Entity class name
-     * @param string $label        Entity label
+     * @param string $module             Module name
+     * @param string $entity_name        Entity machine name
+     * @param string $entity_class       Entity class name
+     * @param string $label              Entity label
      * @param string $bundle_entity_type (Config) entity type acting as bundle
      */
-    public function generate($module, $entity_name, $entity_class, $label, $bundle_entity_type = NULL)
+    public function generate($module, $entity_name, $entity_class, $label, $bundle_entity_type = null)
     {
         $parameters = [
             'module' => $module,
@@ -107,19 +107,19 @@ class EntityContentGenerator extends Generator
 
         $this->renderFile(
             'module/src/Entity/Form/entity-settings.php.twig',
-            $this->getSite()->getFormPath($module).$entity_class.'SettingsForm.php',
+            $this->getSite()->getFormPath($module).'/'.$entity_class.'SettingsForm.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/Entity/Form/entity-content.php.twig',
-            $this->getSite()->getFormPath($module).$entity_class.'Form.php',
+            $this->getSite()->getFormPath($module).'/'.$entity_class.'Form.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/Entity/Form/entity-content-delete.php.twig',
-            $this->getSite()->getFormPath($module).$entity_class.'DeleteForm.php',
+            $this->getSite()->getFormPath($module).'/'.$entity_class.'DeleteForm.php',
             $parameters
         );
 

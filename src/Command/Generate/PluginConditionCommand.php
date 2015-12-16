@@ -15,6 +15,7 @@ use Drupal\Console\Generator\PluginConditionGenerator;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class PluginConditionCommand extends GeneratorCommand
 {
@@ -29,10 +30,10 @@ class PluginConditionCommand extends GeneratorCommand
             ->setHelp($this->trans('commands.generate.plugin.condition.help'))
             ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
-                'class-name',
+                'class',
                 '',
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.plugin.condition.options.class-name')
+                $this->trans('commands.generate.plugin.condition.options.class')
             )
             ->addOption(
                 'label',
@@ -71,15 +72,15 @@ class PluginConditionCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
-        // @see use Drupal\Console\Command\ConfirmationTrait::confirmationQuestion
-        if ($this->confirmationQuestion($input, $output, $dialog)) {
+        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        if (!$this->confirmGeneration($output)) {
             return;
         }
 
         $module = $input->getOption('module');
-        $class_name = $input->getOption('class-name');
+        $class_name = $input->getOption('class');
         $label = $input->getOption('label');
         $plugin_id = $input->getOption('plugin-id');
         $context_definition_id = $input->getOption('context-definition-id');
@@ -95,7 +96,7 @@ class PluginConditionCommand extends GeneratorCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
         $entity_manager = $this->getEntityManager();
 
@@ -105,53 +106,39 @@ class PluginConditionCommand extends GeneratorCommand
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output, $dialog);
+            $module = $this->moduleQuestion($output);
         }
         $input->setOption('module', $module);
 
-        // --class-name option
-        $class_name = $input->getOption('class-name');
-        if (!$class_name) {
-            $class_name = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.condition.questions.class-name'),
-                    'ExampleCondition'
-                ),
+        // --class option
+        $class = $input->getOption('class');
+        if (!$class) {
+            $class = $output->ask(
+                $this->trans('commands.generate.plugin.condition.questions.class'),
                 'ExampleCondition'
             );
+            $input->setOption('class', $class);
         }
-        $input->setOption('class-name', $class_name);
-
-        $default_label = $this->getStringHelper()->camelCaseToHuman($class_name);
 
         // --plugin label option
         $label = $input->getOption('label');
         if (!$label) {
-            $label = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.plugin.condition.questions.label'), $default_label),
-                $default_label
+            $label = $output->ask(
+                $this->trans('commands.generate.plugin.condition.questions.label'),
+                $this->getStringHelper()->camelCaseToHuman($class)
             );
+            $input->setOption('label', $label);
         }
-        $input->setOption('label', $label);
 
-        $machine_name = $this->getStringHelper()->camelCaseToUnderscore($class_name);
-
-        // --name option
-        $plugin_id = $input->getOption('plugin-id');
-
-        if (!$plugin_id) {
-            $plugin_id = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.condition.questions.plugin-id'),
-                    $machine_name
-                ),
-                $machine_name
+        // --plugin-id option
+        $pluginId = $input->getOption('plugin-id');
+        if (!$pluginId) {
+            $pluginId = $output->ask(
+                $this->trans('commands.generate.plugin.condition.questions.plugin-id'),
+                $this->getStringHelper()->camelCaseToUnderscore($class)
             );
+            $input->setOption('plugin-id', $pluginId);
         }
-        $input->setOption('plugin-id', $plugin_id);
 
         $context_definition_id = $input->getOption('context-definition-id');
         if (!$context_definition_id) {
@@ -196,24 +183,21 @@ class PluginConditionCommand extends GeneratorCommand
 
         $context_definition_label = $input->getOption('context-definition-label');
         if (!$context_definition_label) {
-            $context_definition_label = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.plugin.condition.questions.context-definition-label'), $context_definition_id_value),
-                $context_definition_id_value
+            $context_definition_label = $output->ask(
+                $this->trans('commands.generate.plugin.condition.questions.context-definition-label'),
+                $context_definition_id_value?:null
             );
+            $input->setOption('context-definition-label', $context_definition_label);
         }
-        $input->setOption('context-definition-label', $context_definition_label);
 
         $context_definition_required = $input->getOption('context-definition-required');
         if (empty($context_definition_required)) {
-            $context_definition_required = $dialog->askConfirmation(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.plugin.condition.questions.context-definition-required'), 'yes', '?'),
+            $context_definition_required = $output->confirm(
+                $this->trans('commands.generate.plugin.condition.questions.context-definition-required'),
                 true
             );
+            $input->setOption('context-definition-required', $context_definition_required);
         }
-
-        $input->setOption('context-definition-required', $context_definition_required);
     }
 
     protected function createGenerator()

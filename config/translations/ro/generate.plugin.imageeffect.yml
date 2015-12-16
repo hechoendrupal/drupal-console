@@ -3,13 +3,13 @@ help: 'Comanda <info>generate:plugin:imageeffect</info> vă va ajuta să genera�
 welcome: 'Bine ați venit la generatorul de pluginuri pentru efecte de imagini Drupal'
 options:
     module: common.options.module
-    class-name: 'Numele clasei pluginului'
+    class: 'Numele clasei pluginului'
     label: 'Eticheta pluginului'
     plugin-id: 'Id-ul pluginului'
     description: 'Descrierea pluginului'
 questions:
     module: common.questions.module
-    class-name: 'Introduceți numele clasei pluginului'
+    class: 'Introduceți numele clasei pluginului'
     label: 'Introduceți eticheta pluginului'
     plugin-id: 'Introduceți ID-ul pluginului'
     description: 'Introduceți descrierea pluginului'

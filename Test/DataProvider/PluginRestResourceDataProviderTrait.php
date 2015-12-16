@@ -13,7 +13,7 @@ trait PluginRestResourceDataProviderTrait
      */
     public function commandData()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
 
         return [
           ['Foo', 'foo' . rand(), 'Foo', 'pluginID' . rand(), 'url', 'states'],

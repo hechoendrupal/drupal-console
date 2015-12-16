@@ -1,24 +1,24 @@
-description: 'View current Drupal Installation status'
+description: '当前Drupal安装状态'
 messages:
-    application: Application
-    system: 'System Info'
-    hash_salt: 'Hash salt'
-    console: 'Console version'
-    database: 'Database connection'
-    driver: Driver
-    host: Host
-    port: Port
-    username: Username
-    password: Password
-    theme: Themes
-    connection: Connection
-    theme_default: 'Default theme'
-    theme_admin: 'Admin theme'
-    directory: Directories
-    directory_root: 'Site root directory'
-    directory_temporary: 'Site temporary directory'
-    directory_theme_default: 'Default theme directory'
-    directory_theme_admin: 'Admin theme directory'
-    configuration: Configuration
-    active: 'Active config path'
-    staging: 'Staging config path'
+    application: 应用程序
+    system: '系统信息'
+    hash_salt: '哈希盐'
+    console: '控制台版本'
+    database: '数据库连接'
+    driver: 驱动器
+    host: 服务器
+    port: 端口
+    username: 用户名
+    password: 密码
+    theme: 显示主题
+    connection: 连接
+    theme_default: '预选主题'
+    theme_admin: '管理员主题'
+    directory: 目录
+    directory_root: '网站根目录'
+    directory_temporary: '网站临时目录'
+    directory_theme_default: '网站主题目录'
+    directory_theme_admin: '管理员主题目录'
+    configuration: 配置
+    active: '有效配置路径'
+    staging: '中间站（Staging）配置路径'

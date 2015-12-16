@@ -7,9 +7,9 @@
 
 namespace Drupal\Console\Helper;
 
-use Symfony\Component\Console\Helper\DialogHelper as BaseDialogHelper;
+use Drupal\Console\Helper\Helper;
 
-class NestedArrayHelper extends BaseDialogHelper
+class NestedArrayHelper extends Helper
 {
     /**
      * Based on drupal class Drupal\Component\Utility\NestedArray

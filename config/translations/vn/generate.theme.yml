@@ -9,7 +9,7 @@ options:
     core: 'Phiên bản lõi'
     package: 'Gói theme'
     composer: 'Thêm 1 file composer.json'
-    base-theme: 'Theme cơ sở (i.e. classy, seven)'
+    base-theme: 'Theme cơ sở (i.e. classy, stable)'
     global-library: 'Tên thư viện style chung'
     regions: Regions
     breakpoints: Breakpoints

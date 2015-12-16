@@ -16,6 +16,7 @@ use Drupal\Console\Generator\EntityBundleGenerator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Style\DrupalStyle;
 
 class EntityBundleCommand extends GeneratorCommand
 {
@@ -49,9 +50,10 @@ class EntityBundleCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
-        if ($this->confirmationQuestion($input, $output, $dialog)) {
+        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        if (!$this->confirmGeneration($output)) {
             return;
         }
 
@@ -74,47 +76,41 @@ class EntityBundleCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output, $dialog);
+            $module = $this->moduleQuestion($output);
+            $input->setOption('module', $module);
         }
-        $input->setOption('module', $module);
 
         // --bundle-name option
-        $bundle_name = $input->getOption('bundle-name');
-        if (!$bundle_name) {
-            $bundleName = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.entity.bundle.questions.bundle-name'), 'default'),
-                function ($bundle_name) {
-                    return $this->validateClassName($bundle_name);
-                },
-                false,
+        $bundleName = $input->getOption('bundle-name');
+        if (!$bundleName) {
+            $bundleName = $output->ask(
+                $this->trans('commands.generate.entity.bundle.questions.bundle-name'),
                 'default',
-                null
+                function ($bundleName) {
+                    return $this->validateClassName($bundleName);
+                }
             );
+            $input->setOption('bundle-name', $bundleName);
         }
-        $input->setOption('bundle-name', $bundleName);
 
         // --bundle-title option
         $bundleTitle = $input->getOption('bundle-title');
         if (!$bundleTitle) {
-            $bundleTitle = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.entity.bundle.questions.bundle-title'), 'default'),
+            $bundleTitle = $output->ask(
+                $this->trans('commands.generate.entity.bundle.questions.bundle-title'),
+                'default',
                 function ($bundle_title) {
                     return $this->getValidator()->validateBundleTitle($bundle_title);
-                },
-                false,
-                'default',
-                null
+                }
             );
+            $input->setOption('bundle-title', $bundleTitle);
         }
-        $input->setOption('bundle-title', $bundleTitle);
     }
 
     /**

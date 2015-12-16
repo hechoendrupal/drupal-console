@@ -1,3 +1,6 @@
+# deprecation-detector
+/.rules
+
 # Composer
 /vendor
 /bin/phpunit
@@ -12,6 +15,8 @@
 # Binaries
 /box.phar
 /console.phar
+/drupal.phar
+/drupal.phar.version
 
 # Test
 /phpunit.xml

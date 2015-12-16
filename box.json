@@ -7,8 +7,9 @@
         "templates"
     ],
     "files": [
+        "LICENSE",
         "config.yml",
-        "bin/console.php",
+        "bin/drupal.php",
         "vendor/autoload.php"
     ],
     "finder": [
@@ -21,7 +22,8 @@
     "compactors": [
         "Herrera\\Box\\Compactor\\Php"
     ],
-    "main": "bin/console",
-    "output": "console.phar",
+    "compression": "GZ",
+    "main": "bin/drupal",
+    "output": "drupal.phar",
     "stub": true
 }

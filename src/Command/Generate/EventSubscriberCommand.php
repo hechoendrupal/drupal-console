@@ -16,6 +16,7 @@ use Drupal\Console\Generator\EventSubscriberGenerator;
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\EventsTrait;
 use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class EventSubscriberCommand extends GeneratorCommand
 {
@@ -65,10 +66,10 @@ class EventSubscriberCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
-        // @see use Drupal\Console\Command\ConfirmationTrait::confirmationQuestion
-        if ($this->confirmationQuestion($input, $output, $dialog)) {
+        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        if (!$this->confirmGeneration($output)) {
             return;
         }
 
@@ -93,56 +94,51 @@ class EventSubscriberCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output, $dialog);
+            $module = $this->moduleQuestion($output);
+            $input->setOption('module', $module);
         }
-        $input->setOption('module', $module);
 
         // --service-name option
         $name = $input->getOption('name');
         if (!$name) {
-            $name = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.service.questions.service-name'),
-                    $module.'.default'
-                ),
-                $module.'.default'
+            $name = $output->ask(
+                $this->trans('commands.generate.service.questions.service-name'),
+                sprintf('%s.default', $module)
             );
+            $input->setOption('name', $name);
         }
-        $input->setOption('name', $name);
 
-        // --class-name option
+        // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.event.subscriber.questions.class-name'), 'DefaultSubscriber'),
+            $class = $output->ask(
+                $this->trans('commands.generate.event.subscriber.questions.class'),
                 'DefaultSubscriber'
             );
+            $input->setOption('class', $class);
         }
-        $input->setOption('class', $class);
 
         // --events option
         $events = $input->getOption('events');
         if (!$events) {
             // @see Drupal\Console\Command\ServicesTrait::servicesQuestion
-            $events = $this->eventsQuestion($output, $dialog);
+            $events = $this->eventsQuestion($output);
+            $input->setOption('events', $events);
         }
-        $input->setOption('events', $events);
 
         // --services option
         $services = $input->getOption('services');
         if (!$services) {
             // @see Drupal\Console\Command\ServicesTrait::servicesQuestion
-            $services = $this->servicesQuestion($output, $dialog);
+            $services = $this->servicesQuestion($output);
+            $input->setOption('services', $services);
         }
-        $input->setOption('services', $services);
     }
 
     protected function createGenerator()

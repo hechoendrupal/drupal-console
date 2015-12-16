@@ -50,12 +50,12 @@ class DumpCommand extends ContainerAwareCommand
         $database = $input->getArgument('database');
         $file = $input->getOption('file');
 
-        $databaseConnection = $this->resolveConnection($message, $database, $output);
+        $databaseConnection = $this->resolveConnection($message, $database);
 
         if (!$file) {
             $file = sprintf(
                 '%s/%s.sql',
-                $this->getSite()->getSitePath(),
+                $this->getSite()->getSiteRoot(),
                 $databaseConnection['database']
             );
         }

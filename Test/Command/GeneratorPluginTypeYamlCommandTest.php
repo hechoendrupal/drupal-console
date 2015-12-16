@@ -39,7 +39,7 @@ class GeneratorPluginTypeYamlCommandTest extends GenerateCommandTest
         $code = $commandTester->execute(
             [
               '--module'            => $module,
-              '--class-name'        => $plugin_class,
+              '--class'        => $plugin_class,
               '--plugin-name'       => $plugin_name,
               '--plugin-file-name'  => $plugin_file_name
             ],

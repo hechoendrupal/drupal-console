@@ -7,15 +7,15 @@
 
 namespace Drupal\Console\Command\Generate;
 
-use Drupal\Console\Command\ThemeBreakpointTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ThemeRegionTrait;
-use Drupal\Console\Command\ThemeBreakpointTraitT;
+use Drupal\Console\Command\ThemeBreakpointTrait;
 use Drupal\Console\Generator\ThemeGenerator;
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 /**
  *
@@ -97,10 +97,12 @@ class ThemeCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
+
         $validators = $this->getValidator();
 
-        if ($this->confirmationQuestion($input, $output, $dialog)) {
+        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        if (!$this->confirmGeneration($output)) {
             return;
         }
 
@@ -140,68 +142,59 @@ class ThemeCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
+        $output = new DrupalStyle($input, $output);
+
         $stringUtils = $this->getStringHelper();
         $validators = $this->getValidator();
-        $dialog = $this->getDialogHelper();
+        $drupal = $this->getDrupalHelper();
+        $drupalRoot = $drupal->getRoot();
 
         try {
             $theme = $input->getOption('theme') ? $this->validateModuleName($input->getOption('theme')) : null;
         } catch (\Exception $error) {
-            $output->writeln($dialog->getFormatterHelper()->formatBlock($error->getMessage(), 'error'));
+            $output->error($error->getMessage());
+
+            return;
         }
 
-        $theme = $input->getOption('theme');
         if (!$theme) {
-            $theme = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.theme.questions.theme'), ''),
-                function ($module) use ($validators) {
-                    return $validators->validateModuleName($module);
-                },
-                false,
-                null,
-                null
+            $theme = $output->ask(
+                $this->trans('commands.generate.theme.questions.theme'),
+                '',
+                function ($theme) use ($validators) {
+                    return $validators->validateModuleName($theme);
+                }
             );
+            $input->setOption('theme', $theme);
         }
-        $input->setOption('theme', $theme);
 
         try {
             $machine_name = $input->getOption('machine-name') ? $this->validateModule($input->getOption('machine-name')) : null;
         } catch (\Exception $error) {
-            $output->writeln($dialog->getFormatterHelper()->formatBlock($error->getMessage(), 'error'));
+            $output->error($error->getMessage());
+
+            return;
         }
 
         if (!$machine_name) {
-            $machine_name = $stringUtils->createMachineName($theme);
-            $machine_name = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.module.questions.machine-name'), $machine_name),
+            $machine_name = $output->ask(
+                $this->trans('commands.generate.module.questions.machine-name'),
+                $stringUtils->createMachineName($theme),
                 function ($machine_name) use ($validators) {
                     return $validators->validateMachineName($machine_name);
-                },
-                false,
-                $machine_name,
-                null
+                }
             );
             $input->setOption('machine-name', $machine_name);
         }
 
         $theme_path = $input->getOption('theme-path');
-        $drupal = $this->getDrupalHelper();
-        $drupal_root = $drupal->getRoot();
-
         if (!$theme_path) {
-            $theme_path_default = '/themes/custom';
-
-            $theme_path = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.theme.questions.theme-path'),
-                    $theme_path_default
-                ),
-                function ($theme_path) use ($drupal_root, $machine_name) {
+            $theme_path = $output->ask(
+                $this->trans('commands.generate.theme.questions.theme-path'),
+                '/themes/custom',
+                function ($theme_path) use ($drupalRoot, $machine_name) {
                     $theme_path = ($theme_path[0] != '/' ? '/' : '') . $theme_path;
-                    $full_path = $drupal_root . $theme_path . '/' . $machine_name;
+                    $full_path = $drupalRoot . $theme_path . '/' . $machine_name;
                     if (file_exists($full_path)) {
                         throw new \InvalidArgumentException(
                             sprintf(
@@ -212,109 +205,85 @@ class ThemeCommand extends GeneratorCommand
                     } else {
                         return $theme_path;
                     }
-                },
-                false,
-                $theme_path_default,
-                null
+                }
             );
+            $input->setOption('theme-path', $theme_path);
         }
-        $input->setOption('theme-path', $theme_path);
 
         $description = $input->getOption('description');
         if (!$description) {
-            $description = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.theme.questions.description'), 'My Awesome Theme'),
-                'My Awesome Module'
+            $description = $output->ask(
+                $this->trans('commands.generate.theme.questions.description'),
+                'My Awesome theme'
             );
+            $input->setOption('description', $description);
         }
-        $input->setOption('description', $description);
 
         $package = $input->getOption('package');
         if (!$package) {
-            $package = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.theme.questions.package'), 'Other'),
+            $package = $output->ask(
+                $this->trans('commands.generate.theme.questions.package'),
                 'Other'
             );
+            $input->setOption('package', $package);
         }
-        $input->setOption('package', $package);
 
         $core = $input->getOption('core');
         if (!$core) {
-            $core = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.theme.questions.core'), '8.x'),
+            $core = $output->ask(
+                $this->trans('commands.generate.theme.questions.core'),
                 '8.x'
             );
+            $input->setOption('core', $core);
         }
-        $input->setOption('core', $core);
-
-        $themeHandler = $this->getThemeHandler();
-
-        $themes = $themeHandler->rebuildThemeData();
-        uasort($themes, 'system_sort_modules_by_info_name');
 
         $base_theme = $input->getOption('base-theme');
         if (!$base_theme) {
-            $base_theme = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.theme.options.base-theme'), ''),
-                function ($base_theme) use ($themes) {
-                    if ($base_theme == '' || isset($themes[$base_theme])) {
-                        return $base_theme;
-                    } else {
-                        throw new \InvalidArgumentException(
-                            sprintf($this->trans('commands.generate.theme.questions.invalid-theme'), $base_theme)
-                        );
-                    }
-                },
-                false,
-                null,
+            $themeHandler = $this->getThemeHandler();
+            $themes = $themeHandler->rebuildThemeData();
+            uasort($themes, 'system_sort_modules_by_info_name');
+
+            $base_theme = $output->choiceNoList(
+                $this->trans('commands.generate.theme.options.base-theme'),
                 array_keys($themes)
             );
+            $input->setOption('base-theme', $base_theme);
         }
-        $input->setOption('base-theme', $base_theme);
 
         $global_library = $input->getOption('global-library');
         if (!$global_library) {
-            $global_library = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.theme.questions.global-library'), 'global-styling'),
+            $global_library = $output->ask(
+                $this->trans('commands.generate.theme.questions.global-library'),
                 'global-styling'
             );
+            $input->setOption('global-library', $global_library);
         }
-        $input->setOption('global-library', $global_library);
 
         // --regions option.
         $regions = $input->getOption('regions');
         if (!$regions) {
-            if ($dialog->askConfirmation(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.theme.questions.regions'), 'no', '?'),
-                false
-            )
-            ) {
+            if ($output->confirm(
+                $this->trans('commands.generate.theme.questions.regions'),
+                true
+            )) {
                 // @see \Drupal\Console\Command\ThemeRegionTrait::regionQuestion
-                $regions = $this->regionQuestion($output, $dialog);
+                $regions = $this->regionQuestion($output);
+                $input->setOption('regions', $regions);
             }
         }
-        $input->setOption('regions', $regions);
 
         // --breakpoints option.
         $breakpoints = $input->getOption('breakpoints');
         if (!$breakpoints) {
-            if ($dialog->askConfirmation(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.theme.questions.breakpoints'), 'no', '?'),
-                false
-            )
-            ) {
+            if ($output->confirm(
+                $this->trans('commands.generate.theme.questions.breakpoints'),
+                true
+            )) {
                 // @see \Drupal\Console\Command\ThemeRegionTrait::regionQuestion
-                $breakpoints = $this->breakpointQuestion($output, $dialog);
+                $breakpoints = $this->breakpointQuestion($output);
+                $input->setOption('breakpoints', $breakpoints);
             }
         }
-        $input->setOption('breakpoints', $breakpoints);
     }
 
     /**

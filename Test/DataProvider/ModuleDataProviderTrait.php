@@ -13,7 +13,7 @@ trait ModuleDataProviderTrait
      */
     public function commandData()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
 
         return [
           ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, false, null],

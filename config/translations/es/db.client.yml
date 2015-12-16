@@ -1,8 +1,0 @@
-description: 'Lanza un cliente de base de datos si está disponible'
-arguments:
-    database: 'Clave de la base de datos en el settings.php'
-messages:
-    database-not-found: 'La información de conexión de la base de datos %s no se ha encontrado'
-    database-not-supported: 'El tipo de la base de datos %s no está soportado todavía'
-    database-client-not-found: 'No se ha encontrado el cliente de la base de datos %s'
-    executing: 'Ejecutando: %s'

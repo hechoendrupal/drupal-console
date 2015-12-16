@@ -43,7 +43,7 @@ class GeneratorPluginRestResourceCommandTest extends GenerateCommandTest
         $code = $commandTester->execute(
             [
               '--module'         => $module,
-              '--class-name'     => $class_name,
+              '--class'     => $class_name,
               '--plugin-id'      => $plugin_id,
               '--plugin-label'   => $plugin_label,
               '--plugin-url'     => $plugin_url,

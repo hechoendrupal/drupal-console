@@ -1,0 +1,10 @@
+description: 'Sobrescrever valor de configuração ativa.'
+arguments:
+    config-name: 'Nome da configuração.'
+    key: Chave
+    value: Valor
+messages:
+    configuration: 'Nome da configuração'
+    configuration-key: 'Chave da configuração'
+    original: 'Valor original'
+    updated: 'Valor sobrescrito'
