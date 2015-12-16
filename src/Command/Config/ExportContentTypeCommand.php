@@ -98,7 +98,7 @@ class ExportContentTypeCommand extends ContainerAwareCommand
         $this->configStorage = $this->getConfigStorage();
 
         $module = $input->getOption('module');
-        $contentType = $input->getArgument('content_type');
+        $contentType = $input->getArgument('content-type');
         $optionalConfig = $input->getOption('optional-config');
 
         $contentTypeDefinition = $this->entity_manager->getDefinition('node_type');
