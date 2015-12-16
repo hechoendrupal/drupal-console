@@ -26,10 +26,10 @@ class RebuildCommand extends ContainerAwareCommand
         $output = new DrupalStyle($input, $output);
         $output->newLine();
         $output->writeln(
-          sprintf(
-            '<comment>%s</comment>',
-            $this->trans('commands.router.rebuild.messages.rebuilding')
-          )
+            sprintf(
+                '<comment>%s</comment>',
+                $this->trans('commands.router.rebuild.messages.rebuilding')
+            )
         );
         $container = $this->getContainer();
         $router_builder = $container->get('router.builder');
