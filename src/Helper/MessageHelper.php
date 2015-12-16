@@ -131,7 +131,8 @@ class MessageHelper extends Helper implements LoggerInterface
     /**
      *  @inheritdoc
      */
-    public function log($level, $message, array $context = array()) {
+    public function log($level, $message, array $context = array())
+    {
         $this->addMessage($message, $type);
     }
 
