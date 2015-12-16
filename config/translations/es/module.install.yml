@@ -3,7 +3,7 @@ questions:
     module: 'Nombre del módulo (pulse <return> para dejar de añadir módulos)'
     invalid-module: 'El módulo %s es inválido'
 options:
-    module: 'Separe con una coma el módulo o módulos que vayan a ser activados'
+    module: 'Separe con un espacio el módulo o módulos que vayan a ser activados'
     overwrite-config: 'Sobreescribir la configuración actual si es necesario'
 messages:
     no-modules: 'Debes especificar uno o varios módulos para habilitarlos.'
