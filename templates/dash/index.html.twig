@@ -19,14 +19,11 @@
     directory, the installer will take care of downloading the necesary files to run drupal console on you computer.
 </p>
 <h4 id="using-curl">Using curl:</h4>
-<pre><code>$ curl -LSs http://drupalconsole.com/installer | php
+<pre><code>$ curl https://drupalconsole.com/installer -L -o drupal.phar
     </code></pre>
 <h4 id="or-if-you-dont-have-curl">Or if you don't have curl:</h4>
-<pre><code>$ php -r "readfile('http://drupalconsole.com/installer');" | php
+<pre><code>php -r "readfile('https://drupalconsole.com/installer');" > drupal.phar
     </code></pre>
-<p>The installer script will simply check some php.ini settings, warn you if they are set
-    incorrectly, and then download the latest console.phar in the current directory.
-</p>
 <h4 id="you-can-now-execute-console-using">Example:</h4>
 <pre><code>$ php console.phar generate:module
     </code></pre>
@@ -36,8 +33,11 @@
 <h4 id="access-console-from-anywhere-on-your-system">Access console from anywhere on your system</h4>
 <pre><code>$ mv console.phar /usr/local/bin/drupal
     </code></pre>
+<h4 id="apply-executable-permissions-on-the-downloaded-file">Apply executable permissions on the downloaded file:</h4>
+<pre><code>$ chmod +x /usr/local/bin/drupal
+    </code></pre>
 <h4 id="you-can-now-execute-console-using">You can now execute console using:</h4>
-<pre><code>$ drupal generate:module
+<pre><code>$ drupal
     </code></pre>
 <p><strong>NOTE:</strong> The name <code>drupal</code> is just an alias you can name it
     anything you like.

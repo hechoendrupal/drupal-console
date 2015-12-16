@@ -16,5 +16,5 @@ messages:
    Update using: composer global update
    Or you can switch to a Phar install recommended
    composer global remove drupal/console
-   curl http://drupalconsole.com/installer -L -o drupal.phar
+   curl https://drupalconsole.com/installer -L -o drupal.phar
 

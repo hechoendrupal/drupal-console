@@ -39,10 +39,10 @@ You can ask for support at Drupal Console gitter chat room [http://bit.ly/consol
 ## Installing Drupal Console
 ```
 # Run this in your terminal to get the latest Console version:
-curl http://drupalconsole.com/installer -L -o drupal.phar
+curl https://drupalconsole.com/installer -L -o drupal.phar
 
 # Or if you don't have curl:
-php -r "readfile('http://drupalconsole.com/installer');" > drupal.phar
+php -r "readfile('https://drupalconsole.com/installer');" > drupal.phar
 
 # Accessing from anywhere on your system:
 mv drupal.phar /usr/local/bin/drupal
@@ -54,7 +54,7 @@ chmod +x /usr/local/bin/drupal
 drupal list
 
 # Copy configuration files.
-drupal init
+drupal init [--override]
 
 # Generate a module.
 drupal generate:module
@@ -78,7 +78,6 @@ Now that you have cloned the project, you need to download dependencies via Comp
 $ cd /path/to/DrupalConsole
 $ composer install
 ```
-
 
 ## Enabling Autocomplete
 ```
