@@ -7,6 +7,7 @@
         "templates"
     ],
     "files": [
+        "LICENSE",
         "config.yml",
         "bin/drupal.php",
         "vendor/autoload.php"
@@ -21,6 +22,7 @@
     "compactors": [
         "Herrera\\Box\\Compactor\\Php"
     ],
+    "compression": "GZ",
     "main": "bin/drupal",
     "output": "drupal.phar",
     "stub": true
