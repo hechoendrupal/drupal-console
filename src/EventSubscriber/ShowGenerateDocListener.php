@@ -47,7 +47,9 @@ class ShowGenerateDocListener implements EventSubscriberInterface
               'options' => $options,
               'arguments' => $arguments,
               'command' => $command->getName(),
-                'messages' => array(
+              'aliases' => $command->getAliases(),
+              'examples' => [],
+              'messages' => [
                     'command_description' => sprintf($application->trans('commands.generate.doc.command.command_description'), $command->getName(), $command->getDescription()),
                     'usage' =>  $application->trans('commands.generate.doc.command.usage'),
                     'options' => $application->trans('commands.generate.doc.command.options'),
@@ -55,7 +57,7 @@ class ShowGenerateDocListener implements EventSubscriberInterface
                     'details' => $application->trans('commands.generate.doc.command.details'),
                     'arguments' => $application->trans('commands.generate.doc.command.arguments'),
                     'argument' => $application->trans('commands.generate.doc.command.argument'),
-                )
+              ]
             ];
 
             $renderedDoc = $application->getRenderHelper()->render(
