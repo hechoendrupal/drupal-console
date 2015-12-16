@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class ExportCommand extends ContainerAwareCommand
 {
@@ -43,7 +44,8 @@ class ExportCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $messageHelper = $this->getMessageHelper();
+        $output = new DrupalStyle($input, $output);
+
         $directory = $input->getOption('directory');
         $tar = $input->getOption('tar');
         $archiveTar = new ArchiveTar();
@@ -87,17 +89,15 @@ class ExportCommand extends ContainerAwareCommand
                 file_put_contents($configFileName, $ymlData);
             }
         } catch (\Exception $e) {
-            $output->writeln('[+] <error>'.$e->getMessage().'</error>');
-
-            return;
+            $output->writeln(
+                sprintf(
+                    '<error>%s</error>',
+                    $e->getMessage()
+                )
+            );
         }
 
-        $messageHelper->addSuccessMessage(
-            sprintf($this->trans('commands.config.export.messages.directory'))
-        );
-
-        $messageHelper->addSuccessMessage(
-            $directory
-        );
+        $output->success($this->trans('commands.config.export.messages.directory'));
+        $output->writeln($directory);
     }
 }

@@ -59,14 +59,14 @@ class GeneratorPluginFieldCommandTest extends GenerateCommandTest
         $code = $commandTester->execute(
             [
               '--module'                => $module,
-              '--type-class-name'       => $type_class_name,
+              '--type-class'            => $type_class_name,
               '--type-label'            => $type_label,
               '--type-plugin-id'        => $type_plugin_id,
               '--type-description'      => $type_description,
-              '--formatter-class-name'  => $formatter_class_name,
+              '--formatter-class'       => $formatter_class_name,
               '--formatter-label'       => $formatter_label,
               '--formatter-plugin-id'   => $formatter_plugin_id,
-              '--widget-class-name'     => $widget_class_name,
+              '--widget-class'          => $widget_class_name,
               '--widget-label'          => $widget_label,
               '--widget-plugin-id'      => $widget_plugin_id,
               '--field-type'            => $field_type,

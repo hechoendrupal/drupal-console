@@ -3,7 +3,7 @@ help: 'El comando <info>generate:controller</info> le ayuda a generar un nuevo c
 welcome: 'Bienvenido al generador de controlador de Drupal'
 options:
     module: common.options.module
-    class-name: 'Nombre de la clase del controlador'
+    class: 'Nombre de la clase del controlador'
     controller-title: 'Título del controllador'
     method-name: 'El nombre del método de acción'
     route: 'El directorio de la ruta'
@@ -11,7 +11,7 @@ options:
     test: 'Generar una clase de prueba'
 questions:
     module: common.questions.module
-    class-name: 'Escriba el nombre de la clase del Controlador'
+    class: 'Escriba el nombre de la clase del Controlador'
     method-name: 'Escriba nombre del método de acción'
     route: 'Escriba el directorio de la ruta'
     services: common.questions.services

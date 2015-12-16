@@ -1,13 +1,13 @@
-description: 'Display current modules available for application'
+description: '显示当前可用模块'
 options:
-    status: 'Module status [enabled|disabled]'
-    type: 'Module type [core|no-core]'
+    status: '模块状态 [enabled|disabled]'
+    type: '模块类型 [core|no-core]'
 messages:
     id: ID
-    name: Name
-    status: Status
+    name: '名称'
+    status: '状态'
     origin: Origin
-    package: Package
-    enabled: Enabled
-    disabled: Disabled
+    package: '包'
+    enabled: '启用'
+    disabled: '禁用'
     schema-version: 'Schema version'

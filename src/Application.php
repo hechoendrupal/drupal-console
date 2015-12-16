@@ -2,8 +2,8 @@
 
 namespace Drupal\Console;
 
-use Composer\Autoload\ClassLoader;
 use Symfony\Component\Console\Application as BaseApplication;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,6 +11,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Debug\Debug;
 use Drupal\Console\Helper\HelperTrait;
+use Drupal\Console\Helper\DrupalHelper;
+use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class Application
@@ -27,13 +29,13 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '0.9.8';
+    const VERSION = '0.9.10';
     /**
      * @var string
      */
-    const DRUPAL_VERSION = 'Drupal 8.0.0';
+    const DRUPAL_VERSION = '8.0.1';
     /**
-     * @var Drupal\Console\Config
+     * @var \Drupal\Console\Config
      */
     protected $config;
     /**
@@ -46,7 +48,7 @@ class Application extends BaseApplication
      */
     protected $env;
     /**
-     * @var TranslatorHelper
+     * @var \Drupal\Console\Helper\TranslatorHelper
      */
     protected $translator;
 
@@ -56,7 +58,7 @@ class Application extends BaseApplication
     protected $commandName;
 
     /**
-     * Create a new application extended from \Symfony\Component\Console\Application.
+     * Create a new application.
      *
      * @param $config
      * @param $translator
@@ -71,9 +73,6 @@ class Application extends BaseApplication
 
         $this->getDefinition()->addOption(
             new InputOption('--root', null, InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.root'))
-        );
-        $this->getDefinition()->addOption(
-            new InputOption('--shell', '-s', InputOption::VALUE_NONE, $this->trans('application.console.arguments.shell'))
         );
         $this->getDefinition()->addOption(
             new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.env'), $this->env)
@@ -143,6 +142,7 @@ class Application extends BaseApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
+        $output = new DrupalStyle($input, $output);
         $root = null;
         $config = $this->getConfig();
         $target = $input->getParameterOption(['--target'], null);
@@ -214,11 +214,6 @@ class Application extends BaseApplication
             $this->prepare($drupal);
         }
 
-        if (true === $input->hasParameterOption(['--shell', '-s'])) {
-            $this->runShell($input);
-            return 0;
-        }
-
         if (true === $input->hasParameterOption(array('--generate-doc', '--gd'))) {
             $command = $this->get($commandName);
             $command->addOption(
@@ -231,7 +226,12 @@ class Application extends BaseApplication
         return parent::doRun($input, $output);
     }
 
-    public function prepare($drupal)
+    /**
+     * Prepare drupal.
+     *
+     * @param DrupalHelper $drupal
+     */
+    public function prepare(DrupalHelper $drupal)
     {
         chdir($drupal->getRoot());
         $this->getSite()->setSiteRoot($drupal->getRoot());
@@ -304,12 +304,12 @@ class Application extends BaseApplication
 
     /**
      * @param $command
-     * @return array
+     * @return array|null
      */
     private function getCommandAliases($command)
     {
         $aliasKey = sprintf(
-            'application.aliases.commands.%s',
+            'application.default.commands.%s.aliases',
             str_replace(':', '.', $command->getName())
         );
 
@@ -317,26 +317,12 @@ class Application extends BaseApplication
     }
 
     /**
-     * @param $drupal
+     * @param DrupalHelper $drupal
      */
-    public function bootDrupal($drupal)
+    public function bootDrupal(DrupalHelper $drupal)
     {
         $this->getKernelHelper()->setClassLoader($drupal->getAutoLoadClass());
         $this->getKernelHelper()->bootKernel();
-    }
-
-    /**
-     * @param InputInterface $input
-     */
-    protected function runShell(InputInterface $input)
-    {
-        /**
-         * @var \Drupal\Console\Helper\ShellHelper $shell
-         */
-        $shell = $this->getShellHelper()->getShell();
-
-        $shell->setProcessIsolation($input->hasParameterOption(array('--process-isolation')));
-        $shell->run();
     }
 
     /**
@@ -380,6 +366,15 @@ class Application extends BaseApplication
         foreach ($helpers as $alias => $helper) {
             $defaultHelperSet->set($helper, is_int($alias) ? null : $alias);
         }
+    }
+
+    /**
+     * Remove dispatcher.
+     */
+    public function removeDispatcher()
+    {
+        $dispatcher = new EventDispatcher();
+        $this->setDispatcher($dispatcher);
     }
 
     /**

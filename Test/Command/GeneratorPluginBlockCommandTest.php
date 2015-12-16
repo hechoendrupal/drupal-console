@@ -45,7 +45,7 @@ class GeneratorPluginBlockCommandTest extends GenerateCommandTest
         $code = $commandTester->execute(
             [
               '--module'         => $module,
-              '--class-name'     => $class_name,
+              '--class'     => $class_name,
               '--label'          => $label,
               '--plugin-id'      => $plugin_id,
               '--services'       => $services,

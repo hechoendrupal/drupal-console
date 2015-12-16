@@ -10,9 +10,9 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-
 use Drupal\Console\Command\Generate\EntityCommand;
 use Drupal\Console\Generator\EntityConfigGenerator;
+use Drupal\Console\Style\DrupalStyle;
 
 class EntityConfigCommand extends EntityCommand
 {
@@ -26,7 +26,7 @@ class EntityConfigCommand extends EntityCommand
             'bundle-of',
             null,
             InputOption::VALUE_NONE,
-            $this->trans('commands.generate.entity.options.bundle-of')
+            $this->trans('commands.generate.entity.config.options.bundle-of')
         );
     }
 
@@ -37,19 +37,17 @@ class EntityConfigCommand extends EntityCommand
     {
         parent::interact($input, $output);
 
-        $dialog = $this->getDialogHelper();
-        $utils = $this->getStringHelper();
+        $output = new DrupalStyle($input, $output);
 
         // --bundle-of option
         $bundle_of = $input->getOption('bundle-of');
         if (!$bundle_of) {
-            $bundle_of = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.entity.questions.bundle-of'), '', '?'),
-                FALSE
+            $bundle_of = $output->confirm(
+                $this->trans('commands.generate.entity.config.questions.bundle-of'),
+                false
             );
+            $input->setOption('bundle-of', $bundle_of);
         }
-        $input->setOption('bundle-of', $bundle_of);
     }
 
     /**

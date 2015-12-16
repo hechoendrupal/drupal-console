@@ -27,6 +27,9 @@ use Drupal\user\UserInterface;
  * @ContentEntityType(
  *   id = "{{ entity_name }}",
  *   label = @Translation("{{ label }}"),
+{% if bundle_entity_type %}
+ *   bundle_label = @Translation("{{ label }} type"),
+{% endif %}
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\{{ module }}\{{ entity_class }}ListBuilder",
@@ -47,15 +50,17 @@ use Drupal\user\UserInterface;
  *     "id" = "id",
  *     "bundle" = "type",
  *     "label" = "name",
- *     "status" = "status",
- *     "uuid" = "uuid"
+ *     "uuid" = "uuid",
+ *     "uid" = "user_id",
+ *     "langcode" = "langcode",
  *   },
 {% else %}
  *   entity_keys = {
  *     "id" = "id",
  *     "label" = "name",
- *     "status" = "status",
- *     "uuid" = "uuid"
+ *     "uuid" = "uuid",
+ *     "uid" = "user_id",
+ *     "langcode" = "langcode",
  *   },
 {% endif %}
  *   links = {

@@ -1,4 +1,4 @@
-description: 'Add a language to be supported by your site'
+description: '添加一种语言'
 messages:
-    invalid-language: 'Language %s it''s an invalid language'
-    language-add-sucessfully: 'Language %s was added successfully.'
+    invalid-language: '语言 %s 不是一种有效语言'
+    language-add-sucessfully: '语言 %s 添加成功'

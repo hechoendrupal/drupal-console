@@ -13,9 +13,11 @@ use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\Core\Language\Language;
 use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Site\Settings;
+use Drupal\Core\Database\Database;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Parser;
+use Composer\Autoload\ClassLoader;
 
 /**
  * Class DrupalHelper
@@ -68,7 +70,6 @@ class DrupalHelper extends Helper
             $this->root = $root;
             $this->autoLoad = $autoLoad;
             $this->validInstance = true;
-            $this->installed = $this->isSettingsFile();
             return true;
         }
 
@@ -80,24 +81,19 @@ class DrupalHelper extends Helper
     }
 
     /**
-     * @return bool
+     * @return void
      */
-    private function isSettingsFile()
+    private function checkConnectionInfo()
     {
         $settingsPath = sprintf('%s/%s', $this->root, self::DEFAULT_SETTINGS_PHP);
 
         if (!file_exists($settingsPath)) {
-            return false;
+            return;
         }
 
-        $databases = [];
-        include_once $settingsPath;
-
-        if (!$databases) {
-            return false;
+        if (Database::getConnectionInfo()) {
+            $this->installed = true;
         }
-
-        return true;
     }
 
     /**
@@ -113,6 +109,9 @@ class DrupalHelper extends Helper
      */
     public function isInstalled()
     {
+        if (!$this->installed) {
+            $this->checkConnectionInfo();
+        }
         return $this->installed;
     }
 
@@ -133,7 +132,7 @@ class DrupalHelper extends Helper
     }
 
     /**
-     * @return string
+     * @return Classloader
      */
     public function getAutoLoadClass()
     {

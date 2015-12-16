@@ -31,18 +31,17 @@ class FormGenerator extends Generator
         );
 
         if ($form_type == 'ConfigFormBase') {
-          $template = 'module/src/Form/form-config.php.twig';
-          if ($update_routing) {
-            $this->renderFile(
-              'module/routing-form.yml.twig',
-              $this->getSite()->getModulePath($module).'/'.$module.'.routing.yml',
-              $parameters,
-              FILE_APPEND
-            );
-          }
-        }
-        else {
-          $template = 'module/src/Form/form.php.twig';
+            $template = 'module/src/Form/form-config.php.twig';
+            if ($update_routing) {
+                $this->renderFile(
+                    'module/routing-form.yml.twig',
+                    $this->getSite()->getModulePath($module).'/'.$module.'.routing.yml',
+                    $parameters,
+                    FILE_APPEND
+                );
+            }
+        } else {
+            $template = 'module/src/Form/form.php.twig';
         }
 
         $this->renderFile(

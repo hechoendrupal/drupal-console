@@ -78,14 +78,6 @@ trait HelperTrait
     }
 
     /**
-     * @return \Drupal\Console\Helper\DialogHelper
-     */
-    public function getDialogHelper()
-    {
-        return $this->getHelperSet()->get('dialog');
-    }
-
-    /**
      * @return \Symfony\Component\Console\Helper\QuestionHelper
      */
     public function getQuestionHelper()
@@ -110,27 +102,11 @@ trait HelperTrait
     }
 
     /**
-     * @return \Symfony\Component\Console\Helper\QuestionHelper
-     */
-    public function getTableHelper()
-    {
-        return $this->getHelperSet()->get('table');
-    }
-
-    /**
      * @return \Drupal\Console\Helper\CommandDiscoveryHelper
      */
     public function getCommandDiscoveryHelper()
     {
         return $this->getHelperSet()->get('commandDiscovery');
-    }
-
-    /**
-     * @return \Drupal\Console\Helper\ShellHelper
-     */
-    public function getShellHelper()
-    {
-        return $this->getHelperSet()->get('shell');
     }
 
     /**

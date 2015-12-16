@@ -1,0 +1,8 @@
+description: 'Switch site into maintenance mode'
+arguments:
+    mode: 'Site maintenance mode'
+messages:
+    maintenance-on: 'Operating in maintenance mode on'
+    maintenance-off: 'Operating in maintenance mode off'
+errors:
+    invalid-mode: 'Invalid maintenance mode'

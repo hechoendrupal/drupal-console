@@ -17,6 +17,7 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Drupal\Console\Generator\PluginRestResourceGenerator;
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class PluginRestResourceCommand extends GeneratorCommand
 {
@@ -33,10 +34,10 @@ class PluginRestResourceCommand extends GeneratorCommand
             ->setHelp($this->trans('commands.generate.plugin.rest.resource.help'))
             ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
-                'class-name',
+                'class',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.rest.resource.options.class-name')
+                $this->trans('commands.generate.plugin.rest.resource.options.class')
             )
             ->addOption(
                 'name',
@@ -75,15 +76,15 @@ class PluginRestResourceCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
-        // @see use Drupal\Console\Command\ConfirmationTrait::confirmationQuestion
-        if ($this->confirmationQuestion($input, $output, $dialog)) {
+        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        if (!$this->confirmGeneration($output)) {
             return;
         }
 
         $module = $input->getOption('module');
-        $class_name = $input->getOption('class-name');
+        $class_name = $input->getOption('class');
         $plugin_id = $input->getOption('plugin-id');
         $plugin_label = $input->getOption('plugin-label');
         $plugin_url = $input->getOption('plugin-url');
@@ -97,7 +98,7 @@ class PluginRestResourceCommand extends GeneratorCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $output = new DrupalStyle($input, $output);
 
         $stringUtils = $this->getStringHelper();
 
@@ -105,77 +106,55 @@ class PluginRestResourceCommand extends GeneratorCommand
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output, $dialog);
+            $module = $this->moduleQuestion($output);
+            $input->setOption('module', $module);
         }
-        $input->setOption('module', $module);
 
-        // --class-name option
-        $class_name = $input->getOption('class-name');
+        // --class option
+        $class_name = $input->getOption('class');
         if (!$class_name) {
-            $class_name = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.rest.resource.questions.class-name'),
-                    'DefaultRestResource'
-                ),
-                function ($value) use ($stringUtils) {
-                    if (!strlen(trim($value))) {
+            $class_name = $output->ask(
+                $this->trans('commands.generate.plugin.rest.resource.questions.class'),
+                'DefaultRestResource',
+                function ($class_name) use ($stringUtils) {
+                    if (!strlen(trim($class_name))) {
                         throw new \Exception('The Class name can not be empty');
                     }
 
-                    return $stringUtils->humanToCamelCase($value);
-                },
-                false,
-                'DefaultRestResource'
+                    return $stringUtils->humanToCamelCase($class_name);
+                }
             );
+            $input->setOption('class', $class_name);
         }
-        $input->setOption('class-name', $class_name);
-
-        $machine_name = $stringUtils->camelCaseToUnderscore($class_name);
-
-        // --plugin-label option
-        $plugin_id = $input->getOption('plugin-id');
-        if (!$plugin_id) {
-            $plugin_id = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.rest.resource.questions.plugin-id'),
-                    $machine_name
-                ),
-                $machine_name
-            );
-        }
-        $input->setOption('plugin-id', $plugin_id);
-
-        $default_label = $this->getStringHelper()->camelCaseToHuman($class_name);
 
         // --plugin-id option
+        $plugin_id = $input->getOption('plugin-id');
+        if (!$plugin_id) {
+            $plugin_id = $output->ask(
+                $this->trans('commands.generate.plugin.rest.resource.questions.plugin-id'),
+                $stringUtils->camelCaseToUnderscore($class_name)
+            );
+            $input->setOption('plugin-id', $plugin_id);
+        }
+
+        // --plugin-label option
         $plugin_label = $input->getOption('plugin-label');
         if (!$plugin_label) {
-            $plugin_label = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.rest.resource.questions.plugin-label'),
-                    $default_label
-                ),
-                $default_label
+            $plugin_label = $output->ask(
+                $this->trans('commands.generate.plugin.rest.resource.questions.plugin-label'),
+                $this->getStringHelper()->camelCaseToHuman($class_name)
             );
+            $input->setOption('plugin-label', $plugin_label);
         }
-        $input->setOption('plugin-label', $plugin_label);
 
         // --plugin-url option
         $plugin_url = $input->getOption('plugin-url');
         if (!$plugin_url) {
-            $plugin_url = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.plugin.rest.resource.questions.plugin-url'),
-                    $machine_name
-                ),
-                $machine_name
+            $plugin_url = $output->ask(
+                $this->trans('commands.generate.plugin.rest.resource.questions.plugin-url')
             );
+            $input->setOption('plugin-url', $plugin_url);
         }
-        $input->setOption('plugin-url', $plugin_url);
 
         // --plugin-states option
         $plugin_states = $input->getOption('plugin-states');

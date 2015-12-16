@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\Table;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Command\ContainerAwareCommand;
 
@@ -50,8 +51,8 @@ class DebugCommand extends ContainerAwareCommand
         $test_class = $input->getArgument('test-class');
         $group = $input->getOption('group');
 
-        $table = $this->getTableHelper();
-        $table->setlayout($table::LAYOUT_COMPACT);
+        $table = new Table($output);
+        $table->setStyle('compact');
 
         if ($test_class) {
             $this->getTestByID($output, $table, $test_class);
@@ -94,7 +95,7 @@ class DebugCommand extends ContainerAwareCommand
 
             $configurationEncoded = Yaml::encode($test_details);
             $table->addRow([$configurationEncoded]);
-            $table->render($output);
+            $table->render();
 
             if ($class) {
                 $methods = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
@@ -142,6 +143,6 @@ class DebugCommand extends ContainerAwareCommand
             }
         }
 
-        $table->render($output);
+        $table->render();
     }
 }
