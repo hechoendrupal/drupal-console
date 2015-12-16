@@ -37,6 +37,7 @@ class EnableCommand extends ContainerAwareCommand
         $questionHelper = $this->getQuestionHelper();
         $resource_id = $input->getArgument('resource-id');
         $rest_resources = $this->getRestResources();
+
         $rest_resources_ids = array_merge(
             array_keys($rest_resources['enabled']),
             array_keys($rest_resources['disabled'])
@@ -60,7 +61,7 @@ class EnableCommand extends ContainerAwareCommand
 
         $state = $output->choice(
             $this->trans('commands.rest.enable.arguments.states'),
-            array_combine($states)
+            $states
         );
         $output->writeln($this->trans('commands.rest.enable.messages.selected-state').' '.$state);
 
@@ -68,7 +69,7 @@ class EnableCommand extends ContainerAwareCommand
         $formats = $this->getSerializerFormats();
         $question = new ChoiceQuestion(
             $this->trans('commands.rest.enable.messages.formats'),
-            array_combine($formats, $formats),
+            $formats,
             '0'
         );
 
@@ -86,7 +87,7 @@ class EnableCommand extends ContainerAwareCommand
 
         $question = new ChoiceQuestion(
             $this->trans('commands.rest.enable.messages.authentication-providers'),
-            array_combine(array_keys($authentication_providers), array_keys($authentication_providers)),
+            array_keys($authentication_providers),
             '0'
         );
 
