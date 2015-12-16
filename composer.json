@@ -57,7 +57,7 @@
         "guzzlehttp/guzzle": "~6.1",
         "padraic/phar-updater": "~1.0@dev"
     },
-    "bin": ["bin/console"],
+    "bin": ["bin/drupal"],
     "config": {
         "bin-dir": "bin/"
     },
