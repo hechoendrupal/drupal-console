@@ -9,6 +9,15 @@ application:
         download:
           aliases:
             - td
+        debug:
+          aliases:
+            - tde
+        install:
+          aliases:
+            - ti
+        uninstall:
+          aliases:
+            - tu
       module:
         download:
           aliases:
