@@ -1,7 +1,7 @@
-description: 'Dump structure and contents of MySQL databases and tables'
+description: 'Dump da estrutura e conteúdos da base de dados e tabelas MySQL'
 arguments:
-    database: 'Database key from settings.php'
+    database: 'Senha da base de dados em settings.php'
 options:
-    file: ' The filename for your database backup'
+    file: ' O nome do arquivo de backup do banco de dados'
 messages:
-    success: 'Database exported to:'
+    success: 'Exportar base de dados para:'

@@ -1,10 +1,10 @@
-description: 'Override config value in active configuration.'
+description: 'Sobrescrever valor de configuração ativa.'
 arguments:
-    config-name: 'Configuration name.'
-    key: Key
-    value: Value
+    config-name: 'Nome da configuração.'
+    key: Chave
+    value: Valor
 messages:
-    configuration: 'Configuration name'
-    configuration-key: 'Configuration key'
-    original: 'Original Value'
-    updated: 'Override Value'
+    configuration: 'Nome da configuração'
+    configuration-key: 'Chave da configuração'
+    original: 'Valor original'
+    updated: 'Valor sobrescrito'
