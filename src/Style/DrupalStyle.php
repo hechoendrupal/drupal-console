@@ -7,6 +7,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Helper\DrupalChoiceQuestionHelper;
 
 class DrupalStyle extends SymfonyStyle
@@ -108,5 +109,34 @@ class DrupalStyle extends SymfonyStyle
     public function comment($message)
     {
         $this->writeln(sprintf('<comment> %s</comment>', $message));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function table(array $headers, array $rows, $style = 'symfony-style-guide')
+    {
+        $headers = array_map(
+            function ($value) {
+                return sprintf('<info>%s</info>', $value);
+            }, $headers
+        );
+
+        if (!is_array(current($rows))) {
+            $rows = array_map(
+                function ($row) {
+                    return [$row];
+                },
+                $rows
+            );
+        }
+
+        $table = new Table($this);
+        $table->setHeaders($headers);
+        $table->setRows($rows);
+        $table->setStyle($style);
+
+        $table->render();
+        $this->newLine();
     }
 }
