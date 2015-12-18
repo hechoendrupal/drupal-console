@@ -1,7 +1,7 @@
-description: 'Generate an Authentication Provider'
-help: 'The <info>generate:authentication:provider</info> command helps you generate a new Authentication Provider.'
+description: 'Gerar um provedor de autenticação'
+help: 'O comando <info>generate:authentication:provider</info> ajuda a gerar um novo provedor de autenticação.'
 options:
-    class: 'Authentication Provider class'
-    provider-id: 'Provider ID'
-    class: 'Authentication Provider class'
+    class: 'Classe do provedor de autenticação'
+    provider-id: 'ID do Provedor'
+    class: 'Classe do provedor de autenticação'
 module: common.options.module
