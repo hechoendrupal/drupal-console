@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Command\ContainerAwareCommand;
-use Drupal\Core\Site\Settings;
 
 /**
  *  This command provides a view of the current drupal installation.
@@ -86,6 +85,10 @@ class StatusCommand extends ContainerAwareCommand
     protected function getSystemData()
     {
         $systemManager = $this->getSystemManager();
+        if (!$systemManager) {
+            return [];
+        }
+
         $requirements = $systemManager->listRequirements();
         $systemData = [];
 
@@ -99,17 +102,10 @@ class StatusCommand extends ContainerAwareCommand
             $systemData['system'][$title] = $requirement['value'];
         }
 
-        $kernelHelper = $this->getKernelHelper();
-        $drupal = $this->getDrupalHelper();
-
-        Settings::initialize(
-            $drupal->getRoot(),
-            $kernelHelper->getSitePath(),
-            $kernelHelper->getClassLoader()
-        );
+        $settings = $this->getSettings();
 
         try {
-            $hashSalt = Settings::getHashSalt();
+            $hashSalt = $settings->getHashSalt();
         } catch (\Exception $e) {
             $hashSalt = '';
         }
@@ -123,8 +119,8 @@ class StatusCommand extends ContainerAwareCommand
     protected function getConnectionData()
     {
         $connectionInfo = $this->getConnectionInfo();
-        $connectionData = [];
 
+        $connectionData = [];
         foreach ($this->connectionInfoKeys as $connectionInfoKey) {
             $connectionKey = $this->trans('commands.site.status.messages.'.$connectionInfoKey);
             $connectionData['database'][$connectionKey] = $connectionInfo['default'][$connectionInfoKey];
@@ -164,9 +160,21 @@ class StatusCommand extends ContainerAwareCommand
         $configFactory = $this->getConfigFactory();
         $systemTheme = $configFactory->get('system.theme');
 
-        $themeHandler = $this->getThemeHandler();
-        $themeDefault = $themeHandler->getTheme($systemTheme->get('default'));
-        $themeAdmin = $themeHandler->getTheme($systemTheme->get('admin'));
+        $themeDefaultDirectory = '';
+        $themeAdminDirectory = '';
+        try {
+            $themeHandler = $this->getThemeHandler();
+            $themeDefault = $themeHandler->getTheme(
+                $systemTheme->get('default')
+            );
+            $themeDefaultDirectory = sprintf('/%s', $themeDefault->getpath());
+
+            $themeAdmin = $themeHandler->getTheme(
+                $systemTheme->get('admin')
+            );
+            $themeAdminDirectory = sprintf('/%s', $themeAdmin->getpath());
+        } catch (\Exception $e) {
+        }
 
         $systemFile = $this->getConfigFactory()->get('system.file');
 
@@ -174,8 +182,8 @@ class StatusCommand extends ContainerAwareCommand
           'directory' => [
             $this->trans('commands.site.status.messages.directory_root') => $drupal_root,
             $this->trans('commands.site.status.messages.directory_temporary') => $systemFile->get('path.temporary'),
-            $this->trans('commands.site.status.messages.directory_theme_default') => '/'.$themeDefault->getpath(),
-            $this->trans('commands.site.status.messages.directory_theme_admin') => '/'.$themeAdmin->getpath(),
+            $this->trans('commands.site.status.messages.directory_theme_default') => $themeDefaultDirectory,
+            $this->trans('commands.site.status.messages.directory_theme_admin') => $themeAdminDirectory,
           ],
         ];
     }
