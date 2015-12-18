@@ -111,6 +111,11 @@ class DrupalStyle extends SymfonyStyle
         $this->writeln(sprintf('<comment> %s</comment>', $message));
     }
 
+    public function commentBlock($message)
+    {
+        $this->block($message, null, 'bg=yellow;', ' ', true);
+    }
+
     /**
      * {@inheritdoc}
      */
