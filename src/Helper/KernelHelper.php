@@ -85,7 +85,7 @@ class KernelHelper extends Helper
     {
         if (!$this->booted) {
             $kernel = $this->getKernel();
-            if ($this->getDrupalHelper()->isInstalled()) {
+            if ($this->getDrupalHelper()->isConnectionInfo()) {
                 $kernel->boot();
                 $kernel->preHandle($this->request);
                 $container = $kernel->getContainer();
