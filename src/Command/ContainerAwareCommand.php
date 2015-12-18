@@ -2,10 +2,19 @@
 
 namespace Drupal\Console\Command;
 
+use Drupal\Core\Database\Database;
+use Drupal\Core\Site\Settings;
+
 abstract class ContainerAwareCommand extends Command
 {
+    /**
+     * @var array
+     */
     private $services;
 
+    /**
+     * @var array
+     */
     private $events;
 
     /**
@@ -16,11 +25,19 @@ abstract class ContainerAwareCommand extends Command
      */
     protected function getContainer()
     {
+        if (!$this->getKernelHelper()) {
+            return null;
+        }
+
+        if (!$this->getKernelHelper()->getKernel()) {
+            return null;
+        }
+
         return $this->getKernelHelper()->getKernel()->getContainer();
     }
 
     /**
-     * @param bool $group
+     * @param bool $tag
      *
      * @return array list of modules
      */
@@ -51,8 +68,12 @@ abstract class ContainerAwareCommand extends Command
 
     public function getRestDrupalConfig()
     {
-        return $this->getConfigFactory()
-            ->get('rest.settings')->get('resources') ?: [];
+        $configFactory = $this->getConfigFactory();
+        if (!$configFactory) {
+            return null;
+        }
+
+        return $configFactory->get('rest.settings')->get('resources') ?: [];
     }
 
     /**
@@ -117,7 +138,7 @@ abstract class ContainerAwareCommand extends Command
 
     public function getRouteProvider()
     {
-        return $this->getContainer()->get('router.route_provider');
+        return $this->hasGetService('router.route_provider');
     }
 
     /**
@@ -146,7 +167,7 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getConfigFactory()
     {
-        return $this->getContainer()->get('config.factory');
+        return $this->hasGetService('config.factory');
     }
 
     /**
@@ -154,12 +175,12 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getState()
     {
-        return $this->getContainer()->get('state');
+        return $this->hasGetService('state');
     }
 
     public function getConfigStorage()
     {
-        return $this->getContainer()->get('config.storage');
+        return $this->hasGetService('config.storage');
     }
 
     /**
@@ -167,7 +188,7 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getDatabase()
     {
-        return $this->getContainer()->get('database');
+        return $this->hasGetService('database');
     }
 
     /**
@@ -175,7 +196,7 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getDateFormatter()
     {
-        return $this->getContainer()->get('date.formatter');
+        return $this->hasGetService('date.formatter');
     }
 
     /**
@@ -183,7 +204,7 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getConfigManager()
     {
-        return $this->getContainer()->get('config.manager');
+        return $this->hasGetService('config.manager');
     }
 
     /**
@@ -191,17 +212,17 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getEventDispatcher()
     {
-        return $this->getContainer()->get('event_dispatcher');
+        return $this->hasGetService('event_dispatcher');
     }
 
     public function getEntityManager()
     {
-        return $this->getContainer()->get('entity.manager');
+        return $this->hasGetService('entity.manager');
     }
 
     public function getCron()
     {
-        return $this->getContainer()->get('cron');
+        return $this->hasGetService('cron');
     }
 
     /**
@@ -209,17 +230,17 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getDatabaseLockBackend()
     {
-        return $this->getContainer()->get('lock');
+        return $this->hasGetService('lock');
     }
 
     public function getViewDisplayManager()
     {
-        return $this->getContainer()->get('plugin.manager.views.display');
+        return $this->hasGetService('plugin.manager.views.display');
     }
 
     public function getWebprofilerForms()
     {
-        $profiler = $this->getContainer()->get('profiler');
+        $profiler = $this->hasGetService('profiler');
         $tokens = $profiler->find(null, null, 1000, null, '', '');
 
         $forms = array();
@@ -239,27 +260,27 @@ abstract class ContainerAwareCommand extends Command
 
     public function getEntityQuery()
     {
-        return $this->getContainer()->get('entity.query');
+        return $this->hasGetService('entity.query');
     }
 
     public function getModuleInstaller()
     {
-        return $this->getContainer()->get('module_installer');
+        return $this->hasGetService('module_installer');
     }
 
     public function getModuleHandler()
     {
-        return $this->getContainer()->get('module_handler');
+        return $this->hasGetService('module_handler');
     }
 
     public function getPluginManagerRest()
     {
-        return $this->getContainer()->get('plugin.manager.rest');
+        return $this->hasGetService('plugin.manager.rest');
     }
 
     public function getContextRepository()
     {
-        return $this->getContainer()->get('context.repository');
+        return $this->hasGetService('context.repository');
     }
 
     /**
@@ -269,28 +290,32 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getTestDiscovery()
     {
-        return $this->getContainer()->get('test_discovery');
+        return $this->hasGetService('test_discovery');
     }
 
     public function getHttpClient()
     {
-        return $this->getContainer()->get('http_client');
+        return $this->hasGetService('http_client');
     }
 
     public function getSerializerFormats()
     {
-        return $this->getContainer()->getParameter('serializer.formats');
+        $container = $this->getContainer();
+        if (!$container) {
+            return null;
+        }
+        return $container->getParameter('serializer.formats');
     }
 
     public function getStringTanslation()
     {
-        return $this->getContainer()->get('string_translation');
+        return $this->hasGetService('string_translation');
     }
 
 
     public function getAuthenticationProviders()
     {
-        return $this->getContainer()->get('authentication_collector')->getSortedProviders();
+        return $this->hasGetService('authentication_collector')->getSortedProviders();
     }
 
     /**
@@ -298,16 +323,39 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getSystemManager()
     {
-        return $this->getContainer()->get('system.manager');
+        return $this->hasGetService('system.manager');
     }
-
 
     /**
      * @return array
      */
     public function getConnectionInfo()
     {
-        return \Drupal\Core\Database\Database::getConnectionInfo();
+        return  Database::getConnectionInfo();
+    }
+
+    /**
+     * @return \Drupal\Core\Site\Settings
+     */
+    public function getSettings()
+    {
+        if ($settings = $this->hasGetService('settings')) {
+            return $settings;
+        }
+
+        $kernelHelper = $this->getKernelHelper();
+        $drupal = $this->getDrupalHelper();
+        if ($kernelHelper && $drupal) {
+            $settings = Settings::initialize(
+                $drupal->getRoot(),
+                $kernelHelper->getSitePath(),
+                $kernelHelper->getClassLoader()
+            );
+
+            return $settings;
+        }
+
+        return null;
     }
 
     /**
@@ -315,7 +363,7 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getThemeHandler()
     {
-        return $this->getContainer()->get('theme_handler');
+        return $this->hasGetService('theme_handler');
     }
 
     /**
@@ -323,7 +371,20 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getPassHandler()
     {
-        return $this->getContainer()->get('password');
+        return $this->hasGetService('password');
+    }
+
+    private function hasGetService($serviceId)
+    {
+        if (!$this->getContainer()) {
+            return null;
+        }
+
+        if ($this->getContainer()->has($serviceId)) {
+            return $this->getContainer()->get($serviceId);
+        }
+
+        return null;
     }
 
     public function validateEventExist($event_name, $events = null)
