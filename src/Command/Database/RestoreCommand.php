@@ -14,6 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\ProcessBuilder;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Command\Database\ConnectTrait;
+use Drupal\Console\Style\DrupalStyle;
 
 class RestoreCommand extends ContainerAwareCommand
 {
@@ -30,7 +31,8 @@ class RestoreCommand extends ContainerAwareCommand
             ->addArgument(
                 'database',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.database.restore.arguments.database')
+                $this->trans('commands.database.restore.arguments.database'),
+                'default'
             )
             ->addOption(
                 'file',
@@ -46,44 +48,52 @@ class RestoreCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $message = $this->getMessageHelper();
+        $io = new DrupalStyle($input, $output);
+
         $database = $input->getArgument('database');
+        $learning = $input->getOption('learning');
         $file = $input->getOption('file');
 
-        $databaseConnection = $this->resolveConnection($message, $database, $output);
+        $databaseConnection = $this->resolveConnection($io, $database);
 
         if (!$file) {
-            $message->addErrorMessage(
+            $io->error(
                 $this->trans('commands.database.restore.messages.no-file')
             );
             return;
         }
 
-        $processBuilder = new ProcessBuilder([]);
-        $processBuilder->setArguments(['--show-warnings']);
-        $process = $processBuilder->getProcess();
-        $process->setTty('true');
-        $process->setCommandLine(
-            sprintf(
-                'mysql --user=%s --password=%s %s < %s',
-                $databaseConnection['username'],
-                $databaseConnection['password'],
-                $databaseConnection['database'],
-                $file
-            )
+        $command = sprintf(
+            'mysql --user=%s --password=%s --host=%s --port=%s %s < %s',
+            $databaseConnection['username'],
+            $databaseConnection['password'],
+            $databaseConnection['host'],
+            $databaseConnection['port'],
+            $databaseConnection['database'],
+            $file
         );
+
+        if ($learning) {
+            $io->commentBlock($command);
+        }
+
+        $processBuilder = new ProcessBuilder(['-v']);
+        $process = $processBuilder->getProcess();
+        $process->setWorkingDirectory($this->getDrupalHelper()->getRoot());
+        $process->setTty('true');
+        $process->setCommandLine($command);
         $process->run();
 
         if (!$process->isSuccessful()) {
             throw new \RuntimeException($process->getErrorOutput());
         }
 
-        $message->addDefaultMessage(
-            $this->trans('commands.database.restore.messages.success')
-        );
-
-        $message->addDefaultMessage(
-            $file
+        $io->success(
+            sprintf(
+                '%s %s',
+                $this->trans('commands.database.restore.messages.success'),
+                $file
+            )
         );
     }
 }
