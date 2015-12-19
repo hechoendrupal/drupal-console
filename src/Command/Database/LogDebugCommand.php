@@ -194,11 +194,11 @@ class LogDebugCommand extends ContainerAwareCommand
             $this->trans('commands.database.log.debug.messages.severity'),
         ];
 
-        $tableBody = [];
+        $tableRows = [];
         foreach ($result as $dblog) {
             $user= $userStorage->load($dblog->uid);
 
-            $tableBody[] = [
+            $tableRows[] = [
                 $dblog->wid,
                 $dblog->type,
                 $dateFormatter->format($dblog->timestamp, 'short'),
@@ -210,7 +210,7 @@ class LogDebugCommand extends ContainerAwareCommand
 
         $io->table(
             $tableHeader,
-            $tableBody
+            $tableRows
         );
 
         return true;

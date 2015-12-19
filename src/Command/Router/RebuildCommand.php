@@ -23,17 +23,18 @@ class RebuildCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
-        $output->newLine();
-        $output->writeln(
-            sprintf(
-                '<comment>%s</comment>',
-                $this->trans('commands.router.rebuild.messages.rebuilding')
-            )
+        $io = new DrupalStyle($input, $output);
+
+        $io->newLine();
+        $io->comment(
+            $this->trans('commands.router.rebuild.messages.rebuilding')
         );
-        $container = $this->getContainer();
-        $router_builder = $container->get('router.builder');
+
+        $router_builder = $this->getRouterBuilder();
         $router_builder->rebuild();
-        $output->success($this->trans('commands.router.rebuild.messages.completed'));
+
+        $io->success(
+            $this->trans('commands.router.rebuild.messages.completed')
+        );
     }
 }
