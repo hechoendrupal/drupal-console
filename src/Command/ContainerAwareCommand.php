@@ -141,6 +141,11 @@ abstract class ContainerAwareCommand extends Command
         return $this->hasGetService('router.route_provider');
     }
 
+    public function getRouterBuilder()
+    {
+        return $this->hasGetService('router.builder');
+    }
+
     /**
      * @param $rest
      * @param $rest_resources_ids

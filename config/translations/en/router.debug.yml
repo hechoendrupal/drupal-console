@@ -3,7 +3,8 @@ arguments:
     route-name: 'Route names'
 messages:
     name: 'Route name'
-    path: 'Class path'
-    pattern: Pattern
+    class: 'Class path'
+    route: Route
+    path: Path
     defaults: Defaults
     options: Options
