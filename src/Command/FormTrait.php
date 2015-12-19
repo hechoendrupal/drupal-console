@@ -22,24 +22,17 @@ trait FormTrait
             $this->trans('commands.common.questions.inputs.confirm'),
             true
         )) {
-            $input_types = [
-              'color',
-              'checkbox',
-              'checkboxes',
-              'date',
-              'datetime',
-              'fieldset',
-              'email',
-              'number',
-              'password',
-              'password_confirm',
-              'range',
-              'radios',
-              'select',
-              'tel',
-              'textarea',
-              'textfield',
-            ];
+            $input_types = array();
+            $elementInfoManager = \Drupal::service('plugin.manager.element_info');
+            foreach ($elementInfoManager->getDefinitions() as $definition) {
+                $type = $definition['id'];
+                $elementInfo = $elementInfoManager->getInfo($type);
+                if (isset($elementInfo['#input']) && $elementInfo['#input']) {
+                    if (!in_array($type, $input_types)) {
+                        $input_types[] = $type;
+                    }
+                }
+            }
 
             $inputs = [];
             $fieldSets = [];
