@@ -37,7 +37,7 @@ class ServerCommand extends Command
         if (false === strpos($address, ':')) {
             $address = sprintf(
                 '%s:8088',
-                $addres
+                $address
             );
         }
 
