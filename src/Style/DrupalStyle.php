@@ -98,17 +98,27 @@ class DrupalStyle extends SymfonyStyle
     /**
      * {@inheritdoc}
      */
-    public function info($message)
+    public function info($message, $newLine = true)
     {
-        $this->writeln(sprintf('<info> %s</info>', $message));
+        $message = sprintf('<info> %s</info>', $message);
+        if ($newLine) {
+            $this->writeln($message);
+        } else {
+            $this->write($message);
+        }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function comment($message)
+    public function comment($message, $newLine = true)
     {
-        $this->writeln(sprintf('<comment> %s</comment>', $message));
+        $message = sprintf('<comment> %s</comment>', $message);
+        if ($newLine) {
+            $this->writeln($message);
+        } else {
+            $this->write($message);
+        }
     }
 
     public function commentBlock($message)
