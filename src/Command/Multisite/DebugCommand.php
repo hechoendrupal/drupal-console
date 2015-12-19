@@ -8,6 +8,7 @@
 namespace Drupal\Console\Command\Multisite;
 
 use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -35,43 +36,44 @@ class DebugCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $message = $this->getMessageHelper();
-        $application = $this->getApplication();
+        $io = new DrupalStyle($input, $output);
 
-        $sites = array();
-        // Include Multi site settings
-        include $this->getDrupalHelper()->getRoot() . '/sites/sites.php';
+        $sites = [];
 
+        $multiSiteFile = sprintf(
+            '%s/sites/sites.php',
+            $this->getDrupalHelper()->getRoot()
+        );
 
-        if (empty($sites)) {
-            $message->addErrorMessage(
+        if (file_exists($multiSiteFile)) {
+            include $multiSiteFile;
+        }
+
+        if (!$sites) {
+            $io->error(
                 $this->trans('commands.multisite.debug.messages.no-multisites')
             );
+
             return;
         }
 
-
-        $message->addInfoMessage(
+        $io->info(
             $this->trans('commands.multisite.debug.messages.site-format')
         );
 
-        $table = new Table($output);
+        $tableHeader = [
+            $this->trans('commands.multisite.debug.messages.site'),
+            $this->trans('commands.multisite.debug.messages.directory'),
+        ];
 
-        $table->setHeaders(
-            [
-                $this->trans('commands.multisite.debug.messages.site'),
-                $this->trans('commands.multisite.debug.messages.directory'),
-            ]
-        );
-
+        $tableRows = [];
         foreach ($sites as $site => $directory) {
-            $table->addRow(
-                [
-                  $site,
-                    $this->getDrupalHelper()->getRoot()  . '/' . $directory
-                ]
-            );
+            $tableRows[] = [
+                $site,
+                $this->getDrupalHelper()->getRoot()  . '/' . $directory
+            ];
         }
-        $table->render();
+
+        $io->table($tableHeader, $tableRows);
     }
 }

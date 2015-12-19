@@ -10,8 +10,9 @@ namespace Drupal\Console\Command\Router;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
+use Drupal\Component\Serialization\Yaml;
 
 class DebugCommand extends ContainerAwareCommand
 {
@@ -29,74 +30,85 @@ class DebugCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
+
         $route_name = $input->getArgument('route-name');
-        $table = new Table($output);
-        $table->setStyle('compact');
+
         if ($route_name) {
-            $this->getRouteByNames($route_name, $output, $table);
+            $this->getRouteByNames($io, $route_name);
         } else {
-            $this->getAllRoutes($output, $table);
+            $this->getAllRoutes($io);
         }
     }
 
-    protected function getAllRoutes($output, $table)
+    protected function getAllRoutes(DrupalStyle $io)
     {
-        $rp = $this->getRouteProvider();
-        $routes = $rp->getAllRoutes();
+        $routeProvider = $this->getRouteProvider();
+        $routes = $routeProvider->getAllRoutes();
 
-        $table->setHeaders(
-            [
+        $tableHeader = [
             $this->trans('commands.router.debug.messages.name'),
             $this->trans('commands.router.debug.messages.path'),
-            ]
-        );
-        $table->setStyle('compact');
+        ];
+
+        $tableRows = [];
         foreach ($routes as $route_name => $route) {
-            $table->addRow([$route_name, $route->getPath()]);
+            $tableRows[] = [$route_name, $route->getPath()];
         }
-        $table->render();
+
+        $io->table($tableHeader, $tableRows, 'compact');
     }
 
-    protected function getRouteByNames($route_name, $output, $table)
+    protected function getRouteByNames(DrupalStyle $io, $route_name)
     {
         $rp = $this->getRouteProvider();
         $routes = $rp->getRoutesByNames($route_name);
-        $table->setHeaders(
-            [
-            $this->trans('commands.router.debug.messages.name'),
-            $this->trans('commands.router.debug.messages.options'),
-            ]
-        );
-        $table->setStyle('compact');
 
         foreach ($routes as $name => $route) {
-            $table->addRow(['<info>'.$name.'</info>']);
-            $table->addRow(
-                [
-                ' <comment>+ '.$this->trans('commands.router.debug.messages.pattern').'</comment>',
+            $tableHeader = [
+                $this->trans('commands.router.debug.messages.route'),
+                '<info>'.$name.'</info>'
+            ];
+            $tableRows = [];
+
+            $tableRows[] = [
+                '<comment>'.$this->trans('commands.router.debug.messages.path').'</comment>',
                 $route->getPath(),
-                ]
-            );
+            ];
 
-            $table->addRow([' <comment>+ '.$this->trans('commands.router.debug.messages.defaults').'</comment>']);
-            $table = $this->addRouteAttributes($route->getDefaults(), $table);
+            $tableRows[] = ['<comment>'.$this->trans('commands.router.debug.messages.defaults').'</comment>'];
+            $attributes = $this->addRouteAttributes($route->getDefaults());
+            foreach ($attributes as $attribute) {
+                $tableRows[] = $attribute;
+            }
 
-            $table->addRow([' <comment>+ '.$this->trans('commands.router.debug.messages.options').'</comment>']);
-            $table = $this->addRouteAttributes($route->getOptions(), $table);
+            $tableRows[] = ['<comment>'.$this->trans('commands.router.debug.messages.options').'</comment>'];
+            $options = $this->addRouteAttributes($route->getOptions());
+            foreach ($options as $option) {
+                $tableRows[] = $option;
+            }
+
+            $io->table($tableHeader, $tableRows, 'compact');
         }
-        $table->render();
     }
 
-    protected function addRouteAttributes($attr, $table)
+    protected function addRouteAttributes($attr, $attributes = null)
     {
         foreach ($attr as $key => $value) {
             if (is_array($value)) {
-                $table = $this->addRouteAttributes($value, $table);
+                $attributes[] = [
+                  ' '.$key,
+                  str_replace(
+                      '- ',
+                      '',
+                      Yaml::encode($value)
+                  )
+                ];
             } else {
-                $table->addRow(['  <comment>- </comment>'.$key, $value]);
+                $attributes[] = [' '.$key, $value];
             }
         }
 
-        return $table;
+        return $attributes;
     }
 }
