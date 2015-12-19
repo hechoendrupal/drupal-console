@@ -1,0 +1,6 @@
+description: "Executar drush des de la consola."
+help: "Utilitzi el mode interactiu per a una millor experiència --shell"
+arguments:
+    args: "Arguments de drush"
+messages:
+    not_found: "No s'ha trobat el comandament de drush"
