@@ -21,15 +21,15 @@ trait DatabaseTrait
     protected $database;
 
     /**
-     * @param DrupalStyle $output
+     * @param DrupalStyle $io
      *
      * @return mixed
      */
-    public function dbTypeQuestion(DrupalStyle $output)
+    public function dbTypeQuestion(DrupalStyle $io)
     {
         $databases = $this->getDatabaseTypes();
 
-        $dbType = $output->choice(
+        $dbType = $io->choice(
             $this->trans('commands.migrate.setup.migrations.questions.db-type'),
             array_column($databases, 'name')
         );
@@ -45,87 +45,87 @@ trait DatabaseTrait
     }
 
     /**
-     * @param DrupalStyle $output
+     * @param DrupalStyle $io
      *
      * @return mixed
      */
-    public function dbFileQuestion(DrupalStyle $output)
+    public function dbFileQuestion(DrupalStyle $io)
     {
-        return $output->ask(
+        return $io->ask(
             $this->trans('commands.migrate.execute.questions.db-file'),
             'sites/default/files/.ht.sqlite'
         );
     }
 
     /**
-     * @param DrupalStyle $output
+     * @param DrupalStyle $io
      *
      * @return mixed
      */
-    public function dbHostQuestion(DrupalStyle $output)
+    public function dbHostQuestion(DrupalStyle $io)
     {
-        return $output->ask(
+        return $io->ask(
             $this->trans('commands.migrate.execute.questions.db-host'),
             '127.0.0.1'
         );
     }
 
     /**
-     * @param DrupalStyle $output
+     * @param DrupalStyle $io
      *
      * @return mixed
      */
-    public function dbNameQuestion(DrupalStyle $output)
+    public function dbNameQuestion(DrupalStyle $io)
     {
-        return $output->ask(
+        return $io->ask(
             $this->trans('commands.migrate.execute.questions.db-name')
         );
     }
 
     /**
-     * @param DrupalStyle $output
+     * @param DrupalStyle $io
      *
      * @return mixed
      */
-    public function dbUserQuestion(DrupalStyle $output)
+    public function dbUserQuestion(DrupalStyle $io)
     {
-        return $output->ask(
+        return $io->ask(
             $this->trans('commands.migrate.execute.questions.db-user')
         );
     }
 
     /**
-     * @param DrupalStyle $output
+     * @param DrupalStyle $io
      *
      * @return mixed
      */
-    public function dbPassQuestion(DrupalStyle $output)
+    public function dbPassQuestion(DrupalStyle $io)
     {
-        return $output->askHiddenEmpty(
+        return $io->askHiddenEmpty(
             $this->trans('commands.migrate.execute.questions.db-pass')
         );
     }
 
     /**
-     * @param DrupalStyle $output
+     * @param DrupalStyle $io
      *
      * @return mixed
      */
-    public function dbPrefixQuestion(DrupalStyle $output)
+    public function dbPrefixQuestion(DrupalStyle $io)
     {
-        return $output->askEmpty(
+        return $io->askEmpty(
             $this->trans('commands.migrate.execute.questions.db-prefix')
         );
     }
 
     /**
-     * @param DrupalStyle $output
+     * @param DrupalStyle $io
      *
      * @return mixed
      */
-    public function dbPortQuestion(DrupalStyle $output)
+    public function dbPortQuestion(DrupalStyle $io)
     {
-        return $output->ask(
+        return $io->ask(
             $this->trans('commands.migrate.execute.questions.db-port'),
             '3306'
         );
@@ -138,9 +138,7 @@ trait DatabaseTrait
     {
         $drupal = $this->getDrupalHelper();
 
-        $databases = $drupal->getDatabaseTypes();
-
-        return $databases;
+        return $drupal->getDatabaseTypes();
     }
 
     /**
@@ -193,16 +191,16 @@ trait DatabaseTrait
     }
 
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $output
+     * @param \Drupal\Console\Style\DrupalStyle $io
      * @param $target
      * @param $key
      */
-    protected function getDBConnection(DrupalStyle $output, $target, $key)
+    protected function getDBConnection(DrupalStyle $io, $target, $key)
     {
         try {
             return Database::getConnection($target, $key);
         } catch (\Exception $e) {
-            $output->error(
+            $io->error(
                 sprintf(
                     '%s: %s',
                     $this->trans('commands.migrate.execute.messages.destination-error'),
@@ -216,19 +214,19 @@ trait DatabaseTrait
 
     /**
      * @param InputInterface $input
-     * @param DrupalStyle    $output
+     * @param DrupalStyle    $io
      */
-    protected function registerMigrateDB(InputInterface $input, DrupalStyle $output)
+    protected function registerMigrateDB(InputInterface $input, DrupalStyle $io)
     {
-        $db_type = $input->getOption('db-type');
-        $db_host = $input->getOption('db-host');
-        $db_name = $input->getOption('db-name');
-        $db_user = $input->getOption('db-user');
-        $db_pass = $input->getOption('db-pass');
-        $db_prefix = $input->getOption('db-prefix');
-        $db_port = $input->getOption('db-port');
+        $dbType = $input->getOption('db-type');
+        $dbHost = $input->getOption('db-host');
+        $dbName = $input->getOption('db-name');
+        $dbUser = $input->getOption('db-user');
+        $dbPass = $input->getOption('db-pass');
+        $dbPrefix = $input->getOption('db-prefix');
+        $dbPort = $input->getOption('db-port');
 
-        $this->addDBConnection($output, 'migrate', 'default', $db_type, $db_name, $db_user, $db_pass, $db_prefix, $db_port, $db_host);
+        $this->addDBConnection($io, 'migrate', 'default', $dbType, $dbName, $dbUser, $dbPass, $dbPrefix, $dbPort, $dbHost);
 
         // Set static container to static Drupal method to get services available Issue: https://github.com/hechoendrupal/DrupalConsole/issues/1129
         \Drupal::setContainer($this->getContainer());
@@ -236,36 +234,36 @@ trait DatabaseTrait
 
 
     /**
-     * @param DrupalStyle $output
+     * @param DrupalStyle $io
      * @param $key
      * @param $target
-     * @param $db_type
-     * @param $db_name
-     * @param $db_user
-     * @param $db_pass
-     * @param $db_prefix
-     * @param $db_port
-     * @param $db_host
+     * @param $dbType
+     * @param $dbName
+     * @param $dbUser
+     * @param $dbPass
+     * @param $dbPrefix
+     * @param $dbPort
+     * @param $dbHost
      */
-    protected function addDBConnection(DrupalStyle $output, $key, $target, $db_type, $db_name, $db_user, $db_pass, $db_prefix, $db_port, $db_host)
+    protected function addDBConnection(DrupalStyle $io, $key, $target, $dbType, $dbName, $dbUser, $dbPass, $dbPrefix, $dbPort, $dbHost)
     {
         $databases = $this->getDatabaseTypes();
 
         $this->database = [
-            'database' => $db_name,
-            'username' => $db_user,
-            'password' => $db_pass,
-            'prefix' => $db_prefix,
-            'port' => $db_port,
-            'host' => $db_host,
-            'namespace' => $databases[$db_type]['namespace'],
-            'driver' => $db_type,
+            'database' => $dbName,
+            'username' => $dbUser,
+            'password' => $dbPass,
+            'prefix' => $dbPrefix,
+            'port' => $dbPort,
+            'host' => $dbHost,
+            'namespace' => $databases[$dbType]['namespace'],
+            'driver' => $dbType,
         ];
 
         try {
             return Database::addConnectionInfo($key, $target, $this->database);
         } catch (\Exception $e) {
-            $output->error(
+            $io->error(
                 sprintf(
                     '%s: %s',
                     $this->trans('commands.migrate.execute.messages.source-error'),
