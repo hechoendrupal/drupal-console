@@ -14,6 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\ProcessBuilder;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Command\Database\ConnectTrait;
+use Drupal\Console\Style\DrupalStyle;
 
 class DumpCommand extends ContainerAwareCommand
 {
@@ -30,7 +31,8 @@ class DumpCommand extends ContainerAwareCommand
             ->addArgument(
                 'database',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.database.dump.arguments.database')
+                $this->trans('commands.database.dump.arguments.database'),
+                'default'
             )
             ->addOption(
                 'file',
@@ -46,11 +48,13 @@ class DumpCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $message = $this->getMessageHelper();
+        $io = new DrupalStyle($input, $output);
+
         $database = $input->getArgument('database');
         $file = $input->getOption('file');
+        $learning = $input->getOption('learning');
 
-        $databaseConnection = $this->resolveConnection($message, $database);
+        $databaseConnection = $this->resolveConnection($io, $database);
 
         if (!$file) {
             $file = sprintf(
@@ -60,32 +64,36 @@ class DumpCommand extends ContainerAwareCommand
             );
         }
 
-        $processBuilder = new ProcessBuilder([]);
-        $processBuilder->setArguments(['–lock-all-tables']);
-        $process = $processBuilder->getProcess();
-        $process->setTty('true');
-        $process->setCommandLine(
-            sprintf(
-                'mysqldump --user=%s --password=%s %s > %s',
-                $databaseConnection['username'],
-                $databaseConnection['password'],
-                $databaseConnection['database'],
-                $file
-            )
+        $command = sprintf(
+            'mysqldump --user=%s --password=%s --host=%s --port=%s %s > %s',
+            $databaseConnection['username'],
+            $databaseConnection['password'],
+            $databaseConnection['host'],
+            $databaseConnection['port'],
+            $databaseConnection['database'],
+            $file
         );
 
+        if ($learning) {
+            $io->commentBlock($command);
+        }
+
+        $processBuilder = new ProcessBuilder(['–lock-all-tables']);
+        $process = $processBuilder->getProcess();
+        $process->setTty('true');
+        $process->setCommandLine($command);
         $process->run();
 
         if (!$process->isSuccessful()) {
             throw new \RuntimeException($process->getErrorOutput());
         }
 
-        $message->addDefaultMessage(
-            $this->trans('commands.database.dump.messages.success')
-        );
-
-        $message->addDefaultMessage(
-            $file
+        $io->success(
+            sprintf(
+                '%s %s',
+                $this->trans('commands.database.dump.messages.success'),
+                $file
+            )
         );
     }
 }
