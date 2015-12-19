@@ -13,6 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\ProcessBuilder;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Command\Database\ConnectTrait;
+use Drupal\Console\Style\DrupalStyle;
 
 class ClientCommand extends ContainerAwareCommand
 {
@@ -29,7 +30,8 @@ class ClientCommand extends ContainerAwareCommand
             ->addArgument(
                 'database',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.database.client.arguments.database')
+                $this->trans('commands.database.client.arguments.database'),
+                'default'
             )
             ->setHelp($this->trans('commands.database.client.help'));
     }
@@ -39,10 +41,12 @@ class ClientCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $message = $this->getMessageHelper();
-        $database = $input->getArgument('database');
+        $io = new DrupalStyle($input, $output);
 
-        $databaseConnection = $this->resolveConnection($message, $database, $output);
+        $database = $input->getArgument('database');
+        $learning = $input->getOption('learning');
+
+        $databaseConnection = $this->resolveConnection($io, $database);
 
         $connection = sprintf(
             '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
@@ -54,13 +58,14 @@ class ClientCommand extends ContainerAwareCommand
             $databaseConnection['port']
         );
 
-        $message->showMessage(
-            $output,
-            sprintf(
-                $this->trans('commands.database.client.messages.executing'),
-                $connection
-            )
-        );
+        if ($learning) {
+            $io->commentBlock(
+                sprintf(
+                    $this->trans('commands.database.client.messages.connection'),
+                    $connection
+                )
+            );
+        }
 
         $processBuilder = new ProcessBuilder([]);
         $processBuilder->setArguments(explode(' ', $connection));

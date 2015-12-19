@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Command\Database\ConnectTrait;
+use Drupal\Console\Style\DrupalStyle;
 
 class ConnectCommand extends ContainerAwareCommand
 {
@@ -28,7 +29,8 @@ class ConnectCommand extends ContainerAwareCommand
             ->addArgument(
                 'database',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.database.connect.arguments.database')
+                $this->trans('commands.database.connect.arguments.database'),
+                'default'
             )
             ->setHelp($this->trans('commands.database.connect.help'));
     }
@@ -38,10 +40,10 @@ class ConnectCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $message = $this->getMessageHelper();
-        $database = $input->getArgument('database');
+        $io = new DrupalStyle($input, $output);
 
-        $databaseConnection = $this->resolveConnection($message, $database, $output);
+        $database = $input->getArgument('database');
+        $databaseConnection = $this->resolveConnection($io, $database);
 
         $connection = sprintf(
             '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
@@ -53,8 +55,7 @@ class ConnectCommand extends ContainerAwareCommand
             $databaseConnection['port']
         );
 
-        $message->showMessage(
-            $output,
+        $io->commentBlock(
             sprintf(
                 $this->trans('commands.database.connect.messages.connection'),
                 $connection
