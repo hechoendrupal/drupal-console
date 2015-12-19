@@ -78,13 +78,13 @@ class NewCommand extends Command
             }
 
             if (empty($releases)) {
-                $io->error($this->trans('commands.module.site.new.no-releases'));
+                $io->error($this->trans('commands.site.new.messages.no-releases'));
 
                 return;
             }
 
             $releaseSelected = $io->choice(
-                'Please select your favorite release',
+                $this->trans('commands.site.new.messages.release'),
                 array_keys($releases)
             );
         }
