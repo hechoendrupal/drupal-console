@@ -3,19 +3,19 @@ help: 'O comando <info>generate:command</info> te ajuda a criar um novo comando.
 welcome: 'Bem-vindo ao Criador de comandos do Drupal.'
 options:
     module: common.options.module
-    controller-title: 'Controller title'
+    controller-title: 'Título do Controller'
     class: 'Nome da classe do comando'
-    name: 'The Command name.'
-    container-aware: 'Is the command aware of the drupal site installation when executed'
+    name: 'Nome do comando.'
+    container-aware: 'Conhece o comando ciente da instalação do site Drupal quando executado'
     command: 'Nome do comando'
     container: 'Acessa o container de serviços'
 questions:
     module: common.questions.module
     class: 'Digite o nome da classe do comando.'
-    name: 'Enter the Command name.'
-    container-aware: 'Is the command aware of the drupal site installation when executed?.'
+    name: 'Digite o nome do comando.'
+    container-aware: 'Conhece o comando ciente da instalação do site Drupal quando executado?.'
     command: 'Digite o nome do comando.'
     container: 'Você precisa de acesso o container de serviços?'
-    controller-title: 'Controller title'
+    controller-title: 'Título do Controller'
 messages:
-    title-not-empty: 'Title cannot be empty'
+    title-not-empty: 'Titúlo não pode ser vazio'
