@@ -38,7 +38,7 @@ class InitCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $application = $this->getApplication();
         $config = $application->getConfig();
@@ -72,12 +72,12 @@ class InitCommand extends Command
         }
 
         if ($copiedFiles) {
-            $message->showCopiedFiles($output, $copiedFiles);
+            $message->showCopiedFiles($io, $copiedFiles);
         }
 
         $this->createAutocomplete();
-        $output->newLine(1);
-        $output->writeln($this->trans('application.console.messages.autocomplete'));
+        $io->newLine(1);
+        $io->writeln($this->trans('application.console.messages.autocomplete'));
     }
 
     protected function createAutocomplete()
