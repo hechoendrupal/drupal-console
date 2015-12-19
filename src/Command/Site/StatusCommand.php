@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\SiteStatusCommand.
+ * Contains \Drupal\Console\Command\Site\StatusCommand.
  */
 
 namespace Drupal\Console\Command\Site;
@@ -10,11 +10,11 @@ namespace Drupal\Console\Command\Site;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 /**
- *  This command provides a view of the current drupal installation.
+ *  This command provides a report of the current drupal installation.
  *
  *  @category site
  */
@@ -59,6 +59,8 @@ class StatusCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
+
         $systemData = $this->getSystemData();
         $connectionData = $this->getConnectionData();
         $themeInfo = $this->getThemeData();
@@ -74,7 +76,7 @@ class StatusCommand extends ContainerAwareCommand
         $format = $input->getOption('format');
 
         if ('table' === $format) {
-            $this->showDataAsTable($output, $siteData);
+            $this->showDataAsTable($io, $siteData);
         }
 
         if ('json' === $format) {
@@ -188,31 +190,22 @@ class StatusCommand extends ContainerAwareCommand
         ];
     }
 
-    protected function showDataAsTable($output, $siteData)
+    protected function showDataAsTable(DrupalStyle $io, $siteData)
     {
         if (empty($siteData)) {
             return [];
         }
-
-        $table = new Table($output);
-        $table->setStyle('compact');
+        $io->newLine();
         foreach ($this->groups as $group) {
+            $tableRows = [];
             $groupData = $siteData[$group];
-            $table->addRow(
-                [
-                    sprintf(
-                        '<comment>%s</comment>',
-                        $this->trans('commands.site.status.messages.'.$group)
-                    ),
-                    null,
-                ]
-            );
+            $io->comment($this->trans('commands.site.status.messages.'.$group));
 
             foreach ($groupData as $key => $item) {
-                $table->addRow([$key, $item]);
+                $tableRows[] = [$key, $item];
             }
-        }
 
-        $table->render($output);
+            $io->table([], $tableRows, 'compact');
+        }
     }
 }

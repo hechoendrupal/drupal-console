@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\SiteModeCommand.
+ * Contains \Drupal\Console\Command\Site\MaintenanceCommand.
  */
 
 namespace Drupal\Console\Command\Site;
@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class MaintenanceCommand extends ContainerAwareCommand
 {
@@ -28,6 +29,8 @@ class MaintenanceCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
+
         $state = $this->getState();
 
         $mode = $input->getArgument('mode');
@@ -49,12 +52,7 @@ class MaintenanceCommand extends ContainerAwareCommand
             $cacheRebuild = false;
         }
 
-        $output->writeln(
-            sprintf(
-                '[+] <info>%s:</info>',
-                $this->trans($modeMessage)
-            )
-        );
+        $io->info($this->trans($modeMessage));
 
         if ($cacheRebuild) {
             $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
