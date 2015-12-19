@@ -22,7 +22,9 @@ trait FormTrait
             $this->trans('commands.common.questions.inputs.confirm'),
             true
         )) {
-            $input_types = array();
+            $input_types = [
+                'fieldset',
+            ];
             $elementInfoManager = \Drupal::service('plugin.manager.element_info');
             foreach ($elementInfoManager->getDefinitions() as $definition) {
                 $type = $definition['id'];
@@ -33,6 +35,7 @@ trait FormTrait
                     }
                 }
             }
+            sort($input_types);
 
             $inputs = [];
             $fieldSets = [];
