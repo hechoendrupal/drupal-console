@@ -23,7 +23,7 @@ trait ConnectTrait
                 )
             );
 
-            return;
+            return null;
         }
 
         $databaseConnection = $connectionInfo[$database];
@@ -35,7 +35,7 @@ trait ConnectTrait
                 )
             );
 
-            return;
+            return null;
         }
 
         return $databaseConnection;
