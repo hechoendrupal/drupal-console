@@ -56,9 +56,9 @@ entity.{{ entity_name }}.delete_form:
 {# Note: a content entity with bundles will have the settings configured on the bundle (config) entity. #}
 {% if not bundle_entity_type %}
 {{ entity_name }}.settings:
-  path: 'admin/structure/{{ entity_name }}'
+  path: '/admin/structure/{{ entity_name }}/settings'
   defaults:
-   _form: '\Drupal\{{ module }}\Entity\Form\{{ entity_class }}SettingsForm'
+   _form: '\Drupal\{{ module }}\Form\{{ entity_class }}SettingsForm'
    _title: '{{ label }} settings'
   requirements:
     _permission: 'administer {{ label|lower }} entities'
