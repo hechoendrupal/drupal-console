@@ -25,7 +25,12 @@ trait FormTrait
             $input_types = [
                 'fieldset',
             ];
-            $elementInfoManager = \Drupal::service('plugin.manager.element_info');
+
+            $elementInfoManager = $this->hasGetService('plugin.manager.element_info');
+            if (!$elementInfoManager) {
+                return false;
+            }
+
             foreach ($elementInfoManager->getDefinitions() as $definition) {
                 $type = $definition['id'];
                 $elementInfo = $elementInfoManager->getInfo($type);
