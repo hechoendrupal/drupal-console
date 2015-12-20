@@ -27,6 +27,7 @@ class ListCommand extends Command
             ->setDescription($this->trans('commands.list.description'))
             ->setHelp($this->trans('commands.list.help'));
     }
+
     /**
      * {@inheritdoc}
      */
@@ -34,6 +35,7 @@ class ListCommand extends Command
     {
         return $this->createDefinition();
     }
+
     /**
      * {@inheritdoc}
      */
@@ -57,6 +59,7 @@ class ListCommand extends Command
             )
         );
     }
+
     /**
      * {@inheritdoc}
      */

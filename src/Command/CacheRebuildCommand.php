@@ -12,8 +12,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class CacheRebuildCommand
+ * @package Drupal\Console\Command
+ */
 class CacheRebuildCommand extends ContainerAwareCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -26,6 +33,9 @@ class CacheRebuildCommand extends ContainerAwareCommand
             );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
@@ -71,6 +81,9 @@ class CacheRebuildCommand extends ContainerAwareCommand
         $io->success($this->trans('commands.cache.rebuild.messages.completed'));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);

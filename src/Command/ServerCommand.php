@@ -16,6 +16,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class ServerCommand extends Command
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -29,6 +32,9 @@ class ServerCommand extends Command
             );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
