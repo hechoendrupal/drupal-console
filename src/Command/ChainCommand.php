@@ -12,6 +12,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class ChainCommand
+ * @package Drupal\Console\Command
+ */
 class ChainCommand extends Command
 {
     /**
@@ -72,6 +76,7 @@ class ChainCommand extends Command
         }
 
         $configData = $this->getApplication()->getConfig()->getFileContents($file);
+        $commands = [];
         if (array_key_exists('commands', $configData)) {
             $commands = $configData['commands'];
         }

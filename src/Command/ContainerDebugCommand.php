@@ -39,6 +39,7 @@ class ContainerDebugCommand extends ContainerAwareCommand
             $this->trans('commands.container.debug.messages.service_id'),
             $this->trans('commands.container.debug.messages.class_name')
         ];
+
         $tableRows = [];
         foreach ($services as $serviceId) {
             $service = $this->getContainer()->get($serviceId);
