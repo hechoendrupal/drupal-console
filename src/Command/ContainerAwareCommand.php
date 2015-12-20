@@ -379,7 +379,7 @@ abstract class ContainerAwareCommand extends Command
         return $this->hasGetService('password');
     }
 
-    private function hasGetService($serviceId)
+    public function hasGetService($serviceId)
     {
         if (!$this->getContainer()) {
             return null;
