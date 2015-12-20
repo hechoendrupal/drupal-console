@@ -31,7 +31,7 @@ class ServerCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new SymfonyStyle($input, $output);
+        $io = new SymfonyStyle($input, $output);
 
         $address = $input->getArgument('address');
         if (false === strpos($address, ':')) {
@@ -43,11 +43,11 @@ class ServerCommand extends Command
 
         $finder = new PhpExecutableFinder();
         if (false === $binary = $finder->find()) {
-            $output->error($this->trans('commands.server.errors.binary'));
+            $io->error($this->trans('commands.server.errors.binary'));
             return;
         }
 
-        $output->success(
+        $io->success(
             sprintf(
                 $this->trans('commands.server.messages.executing'),
                 $binary
@@ -61,7 +61,7 @@ class ServerCommand extends Command
         $process->run();
 
         if (!$process->isSuccessful()) {
-            throw new \RuntimeException($process->getErrorOutput());
+            $io->error($process->getErrorOutput());
         }
     }
 }

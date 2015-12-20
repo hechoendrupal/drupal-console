@@ -28,7 +28,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $this->getDrupalHelper()->loadLegacyFile('/core/includes/utility.inc');
 
@@ -39,23 +39,19 @@ class CacheRebuildCommand extends ContainerAwareCommand
 
         $validated_cache = $validators->validateCache($cache);
         if (!$validated_cache) {
-            $output->error(
+            $io->error(
                 sprintf(
                     $this->trans('commands.cache.rebuild.messages.invalid_cache'),
                     $cache
                 )
             );
+
             return;
         }
 
         // Start rebuilding cache
-        $output->newLine();
-        $output->writeln(
-            sprintf(
-                '<comment>%s</comment>',
-                $this->trans('commands.cache.rebuild.messages.rebuild')
-            )
-        );
+        $io->newLine();
+        $io->comment($this->trans('commands.cache.rebuild.messages.rebuild'));
 
         // Get data needed to rebuild cache
         $kernelHelper = $this->getKernelHelper();
@@ -72,26 +68,26 @@ class CacheRebuildCommand extends ContainerAwareCommand
             $caches[$cache]->deleteAll();
         }
 
-        $output->success($this->trans('commands.cache.rebuild.messages.completed'));
+        $io->success($this->trans('commands.cache.rebuild.messages.completed'));
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
-
-        $validators = $this->getValidator();
+        $io = new DrupalStyle($input, $output);
 
         $cache = $input->getArgument('cache');
         if (!$cache) {
+            $validators = $this->getValidator();
             $caches = $validators->getCaches();
             $cache_keys = array_keys($caches);
 
-            $cache = $output->choiceNoList(
+            $cache = $io->choiceNoList(
                 $this->trans('commands.cache.rebuild.questions.cache'),
                 $cache_keys,
                 'all'
             );
+
+            $input->setArgument('cache', $cache);
         }
-        $input->setArgument('cache', $cache);
     }
 }
