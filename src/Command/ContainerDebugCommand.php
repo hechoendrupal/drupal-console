@@ -9,11 +9,17 @@ namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class ContainerDebugCommand
+ * @package Drupal\Console\Command
+ */
 class ContainerDebugCommand extends ContainerAwareCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -21,24 +27,25 @@ class ContainerDebugCommand extends ContainerAwareCommand
             ->setDescription($this->trans('commands.container.debug.description'));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
         $services = $this->getServices();
-        $table = new Table($output);
 
-        $table->setHeaders(
-            [
-                $this->trans('commands.container.debug.messages.service_id'),
-                $this->trans('commands.container.debug.messages.class_name')
-            ]
-        );
-        $table->setStyle('compact');
+        $tableHeader = [
+            $this->trans('commands.container.debug.messages.service_id'),
+            $this->trans('commands.container.debug.messages.class_name')
+        ];
+        $tableRows = [];
         foreach ($services as $serviceId) {
             $service = $this->getContainer()->get($serviceId);
             $class = get_class($service);
-            $table->addRow([$serviceId, $class]);
+            $tableRows[] = [$serviceId, $class];
         }
-        $table->render();
+
+        $io->table($tableHeader, $tableRows, 'compact');
     }
 }
