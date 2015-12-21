@@ -1,7 +1,7 @@
-description: "Dump structure and contents of MySQL databases and tables"
+description: "Volcat d'estructura, continguts i taules de la base de dades MySQL"
 arguments:
-  database: "Database key from settings.php"
+  database: "Clau de la base de dades des de settings.php"
 options:
-  file: ' The filename for your database backup'
+  file: " Nom del fitxer de la còpia de la base de dades"
 messages:
-    success: "Database exported to:"
+    success: "Base de dades exportada a:"
