@@ -29,7 +29,7 @@ class DebugCommand extends ContainerAwareCommand
 
         $theme = $input->getArgument('theme');
         if ($theme) {
-            $this->themeDetail($theme, $io);
+            $this->themeDetail($io, $theme);
         } else {
             $this->themeList($io);
         }
@@ -38,10 +38,10 @@ class DebugCommand extends ContainerAwareCommand
     protected function themeList(DrupalStyle $io)
     {
         $tableHeader = [
-        $this->trans('commands.theme.debug.messages.theme-id'),
-        $this->trans('commands.theme.debug.messages.theme-name'),
-        $this->trans('commands.theme.debug.messages.status'),
-        $this->trans('commands.theme.debug.messages.version'),
+            $this->trans('commands.theme.debug.messages.theme-id'),
+            $this->trans('commands.theme.debug.messages.theme-name'),
+            $this->trans('commands.theme.debug.messages.status'),
+            $this->trans('commands.theme.debug.messages.version'),
         ];
 
         $themes = $this->getThemeHandler()->rebuildThemeData();
@@ -49,12 +49,12 @@ class DebugCommand extends ContainerAwareCommand
         foreach ($themes as $themeId => $theme) {
             $status = $this->getThemeStatus($themeId);
             $tableRows[] = [
-            $themeId, $theme->info['name'],
-            $status, $theme->info['version'],
+                $themeId, $theme->info['name'],
+                $status, $theme->info['version'],
             ];
         }
 
-        $io->table($tableHeader, $tableRows, 'compact');
+        $io->table($tableHeader, $tableRows);
     }
 
     protected function themeDetail(DrupalStyle $io, $themeId)
@@ -78,29 +78,27 @@ class DebugCommand extends ContainerAwareCommand
             $theme = $themes[$themeId];
             $status = $this->getThemeStatus($themeId);
 
-            $tableHeader = [
-            $this->trans('commands.theme.debug.messages.theme-id'),
-            $this->trans('commands.theme.debug.messages.theme-properties'),
-            ];
-            $tableRows = [
-            [
-            '<info>' . $theme->info['name'] . '</info>',
-            ],
-            [
-            ' <comment>+ ' . $this->trans('commands.theme.debug.messages.status') . '</comment>',
-            $status,
-            ],
-            [
-            ' <comment>+ ' . $this->trans('commands.theme.debug.messages.version') . '</comment>',
-            $theme->info['version'],
-            ],
-            [
-            ' <comment>+ ' . $this->trans('commands.theme.debug.messages.regions') . '</comment>',
-            ]
-            ];
-            $tableRows = $this->addThemeAttributes($theme->info['regions'], $tableRows);
+            $io->info($theme->info['name']);
 
-            $io->table($tableHeader, $tableRows, 'compact');
+            $io->comment(
+                sprintf(
+                    '%s : ',
+                    $this->trans('commands.theme.debug.messages.status')
+                ),
+                false
+            );
+            $io->writeln($status);
+            $io->comment(
+                sprintf(
+                    '%s : ',
+                    $this->trans('commands.theme.debug.messages.version')
+                ),
+                false
+            );
+            $io->writeln($theme->info['version']);
+            $io->comment($this->trans('commands.theme.debug.messages.regions'));
+            $tableRows = $this->addThemeAttributes($theme->info['regions'], $tableRows);
+            $io->table([], $tableRows);
         } else {
             $io->error(
                 sprintf(
@@ -124,15 +122,15 @@ class DebugCommand extends ContainerAwareCommand
         return $status;
     }
 
-    protected function addThemeAttributes($attr, $tableRows)
+    protected function addThemeAttributes($attr, $tableRows = [])
     {
         foreach ($attr as $key => $value) {
             if (is_array($value)) {
                 $tableRows = $this->addThemeAttributes($value, $tableRows);
             } else {
                 $tableRows[] = [
-                '  <comment>- </comment>'.$key,
-                $value,
+                    $key,
+                    $value,
                 ];
             }
         }
