@@ -1,7 +1,7 @@
-description: "Restore structure and contents of MySQL databases and tables"
+description: "Restaurar l'estructura, continguts i taules de la base de dades MySQL"
 arguments:
-  database: "Database key from settings.php"
+  database: "Clau de la base de dades des de settings.php"
 options:
-  file: 'The filename for your database backup file'
+  file: "El nom del fitxer de la seva còpia de la base de dades"
 messages:
-    success: "Database imported from:"
+    success: "Base de dades importada des de:"

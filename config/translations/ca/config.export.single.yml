@@ -1,13 +1,13 @@
-description: 'Export single configuration as yml file.'
+description: "Exportar configuració con a fitxer yml"
 arguments:
-    config-name: 'Configuration name.'
+    config-name: "Nom de la configuració."
 options:
-    simple-configuration: 'Simple configuration'
+    simple-configuration: "Configuració simple"
 questions:
-    config-type: 'Configuration type'
-    config-name: 'Configuration name'
+    config-type: "Tipus de configuració"
+    config-name: "Nom de la configuració"
 messages:
-    config-not-found: 'Configuration name not found.'
-    export: 'Configuration was exported at file %s.'
-    invalid-config-type: 'Invalid config type, please select one of the list'
-    invalid-config-name: 'Invalid config name, please select one of the list'
+    config-not-found: "No s'ha trobat el nom de la configuració."
+    export: "La configuració ha sigut exportada al fitxer %s"
+    invalid-config-type: "El tipus de configuració no es vàlid, si us plau selecciona un de la llista"
+    invalid-config-name: "El nom de la configuració no es válid, si us play selecciona un de la llista"
