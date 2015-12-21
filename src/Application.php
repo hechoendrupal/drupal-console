@@ -322,7 +322,7 @@ class Application extends BaseApplication
     public function bootDrupal(DrupalHelper $drupal)
     {
         $this->getKernelHelper()->setClassLoader($drupal->getAutoLoadClass());
-        $this->getKernelHelper()->bootKernel();
+        $drupal->setInstalled($this->getKernelHelper()->bootKernel());
     }
 
     /**

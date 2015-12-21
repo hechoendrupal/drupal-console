@@ -12,6 +12,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class ChainCommand
+ * @package Drupal\Console\Command
+ */
 class ChainCommand extends Command
 {
     /**
@@ -35,7 +39,7 @@ class ChainCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $interactive = false;
 
@@ -50,7 +54,7 @@ class ChainCommand extends Command
         }
 
         if (!$file) {
-            $output->error($this->trans('commands.chain.messages.missing_file'));
+            $io->error($this->trans('commands.chain.messages.missing_file'));
 
             return;
         }
@@ -61,7 +65,7 @@ class ChainCommand extends Command
         }
 
         if (!file_exists($file)) {
-            $output->error(
+            $io->error(
                 sprintf(
                     $this->trans('commands.chain.messages.invalid_file'),
                     $file
@@ -72,6 +76,7 @@ class ChainCommand extends Command
         }
 
         $configData = $this->getApplication()->getConfig()->getFileContents($file);
+        $commands = [];
         if (array_key_exists('commands', $configData)) {
             $commands = $configData['commands'];
         }

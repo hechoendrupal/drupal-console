@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\State;
 
-use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -59,20 +58,22 @@ class OverrideCommand extends ContainerAwareCommand
         }
 
         if ($key && $value) {
-            $table = new Table($io);
             $state = $this->getState();
             $originalValue = Yaml::encode($state->get($key));
             $overrideValue = is_array($value)?Yaml::encode($value):$value;
             $state->set($key, $overrideValue);
-            $table->setHeaders(
-                [
-                    $this->trans('commands.state.override.messages.key'),
-                    $this->trans('commands.state.override.messages.original'),
-                    $this->trans('commands.state.override.messages.override')
-                ]
+            $tableHeaders = [
+                $this->trans('commands.state.override.messages.key'),
+                $this->trans('commands.state.override.messages.original'),
+                $this->trans('commands.state.override.messages.override')
+            ];
+
+            $tableRows[] = [$key, $originalValue, $overrideValue];
+
+            $io->table(
+                $tableHeaders,
+                $tableRows
             );
-            $table->addRow([$key, $originalValue, $overrideValue]);
-            $table->render();
         }
     }
 }

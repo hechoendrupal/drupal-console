@@ -1,18 +1,18 @@
-description: 'Display current log events for the application'
+description: 'Exibir eventos de log atuais do aplicativo'
 arguments:
-    event-id: 'DBLog event ID'
+    event-id: 'DBLog evento ID'
 options:
-    type: 'Filter events by a specific type'
-    severity: 'Filter events by a specific level of severity'
-    user-id: 'Filter events by a specific user id'
-    limit: 'Limit results to a specific number'
-    offset: 'Starting point of a limit'
+    type: 'Filtrar eventos por um tipo específico'
+    severity: 'Filtrar eventos por um nível específico de severidade'
+    user-id: 'Filtrar eventos por um id de usuário específico'
+    limit: 'Limite os resultados a um número específico'
+    offset: 'Ponto de partida de um limite'
 messages:
-    event-id: 'Event ID'
-    type: Type
-    date: Date
-    message: Message
-    user: User
-    severity: Severity
-    invalid-severity: 'Severity type is invalid, filter was ignored'
-    not-found: 'DBLog event %s wasn''t found'
+    event-id: 'ID do evento'
+    type: Tipo
+    date: Data
+    message: Mensagem
+    user: Usuário
+    severity: Severidade
+    invalid-severity: 'O tipo de severidade é inválido, o filtro foi ignorado'
+    not-found: 'Evento DBLog %s não foi encontrado.'

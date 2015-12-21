@@ -16,6 +16,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class ServerCommand extends Command
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -29,25 +32,28 @@ class ServerCommand extends Command
             );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new SymfonyStyle($input, $output);
+        $io = new SymfonyStyle($input, $output);
 
         $address = $input->getArgument('address');
         if (false === strpos($address, ':')) {
             $address = sprintf(
                 '%s:8088',
-                $addres
+                $address
             );
         }
 
         $finder = new PhpExecutableFinder();
         if (false === $binary = $finder->find()) {
-            $output->error($this->trans('commands.server.errors.binary'));
+            $io->error($this->trans('commands.server.errors.binary'));
             return;
         }
 
-        $output->success(
+        $io->success(
             sprintf(
                 $this->trans('commands.server.messages.executing'),
                 $binary
@@ -61,7 +67,7 @@ class ServerCommand extends Command
         $process->run();
 
         if (!$process->isSuccessful()) {
-            throw new \RuntimeException($process->getErrorOutput());
+            $io->error($process->getErrorOutput());
         }
     }
 }

@@ -32,7 +32,7 @@ class DrupalHelper extends Helper
     /**
      * @var string
      */
-    private $root = false;
+    private $root = null;
 
     /**
      * @var string
@@ -42,12 +42,12 @@ class DrupalHelper extends Helper
     /**
      * @var bool
      */
-    private $installed = false;
+    private $validInstance = false;
 
     /**
      * @var bool
      */
-    private $validInstance = false;
+    private $installed = false;
 
     /**
      * @param  string $root
@@ -81,19 +81,21 @@ class DrupalHelper extends Helper
     }
 
     /**
-     * @return void
+     * @return bool
      */
-    private function checkConnectionInfo()
+    public function isConnectionInfo()
     {
         $settingsPath = sprintf('%s/%s', $this->root, self::DEFAULT_SETTINGS_PHP);
 
         if (!file_exists($settingsPath)) {
-            return;
+            return false;
         }
 
         if (Database::getConnectionInfo()) {
-            $this->installed = true;
+            return true;
         }
+
+        return false;
     }
 
     /**
@@ -109,10 +111,15 @@ class DrupalHelper extends Helper
      */
     public function isInstalled()
     {
-        if (!$this->installed) {
-            $this->checkConnectionInfo();
-        }
         return $this->installed;
+    }
+
+    /**
+     * @param bool $installed
+     */
+    public function setInstalled($installed)
+    {
+        $this->installed = $installed;
     }
 
     /**

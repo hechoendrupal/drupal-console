@@ -11,8 +11,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class AboutCommand
+ * @package Drupal\Console\Command
+ */
 class AboutCommand extends Command
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -20,6 +27,9 @@ class AboutCommand extends Command
             ->setDescription($this->trans('commands.about.description'));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);

@@ -7,35 +7,35 @@
 
 namespace Drupal\Console\Command\Database;
 
+use Drupal\Console\Style\DrupalStyle;
+
 trait ConnectTrait
 {
-    public function resolveConnection($message, $database)
+    public function resolveConnection(DrupalStyle $io, $database = 'default')
     {
-        if (!$database) {
-            $database = 'default';
-        }
-
         $connectionInfo = $this->getConnectionInfo();
 
         if (!$connectionInfo || !isset($connectionInfo[$database])) {
-            $message->addErrorMessage(
+            $io->error(
                 sprintf(
                     $this->trans('commands.database.connect.messages.database-not-found'),
                     $database
                 )
             );
-            return;
+
+            return null;
         }
 
         $databaseConnection = $connectionInfo[$database];
         if ($databaseConnection['driver'] !== 'mysql') {
-            $message->addErrorMessage(
+            $io->error(
                 sprintf(
                     $this->trans('commands.database.connect.messages.database-not-supported'),
                     $databaseConnection['driver']
                 )
             );
-            return;
+
+            return null;
         }
 
         return $databaseConnection;

@@ -11,12 +11,12 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Component\Utility\Unicode;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Logger\RfcLogLevel;
+use Drupal\Console\Style\DrupalStyle;
 
 class LogDebugCommand extends ContainerAwareCommand
 {
@@ -64,119 +64,119 @@ class LogDebugCommand extends ContainerAwareCommand
                 'offset',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.database.log.debug.options.offset')
+                $this->trans('commands.database.log.debug.options.offset'),
+                0
             );
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $event_id = $input->getArgument('event-id');
-        $event_type = $input->getOption('type');
-        $event_severity = $input->getOption('severity');
-        $user_id = $input->getOption('user-id');
+        $io = new DrupalStyle($input, $output);
+
+        $eventId = $input->getArgument('event-id');
+        $eventType = $input->getOption('type');
+        $eventSeverity = $input->getOption('severity');
+        $userId = $input->getOption('user-id');
         $reverse = $input->getOption('reverse');
         $limit = $input->getOption('limit');
         $offset = $input->getOption('offset');
 
-        if ($event_id) {
-            $this->getEventDetails($output, $event_id);
+        if ($eventId) {
+            $this->getEventDetails($io, $eventId);
         } else {
-            $this->getAllEvents($event_type, $event_severity, $user_id, $reverse, $offset, $limit, $output);
+            $this->getAllEvents($io, $eventType, $eventSeverity, $userId, $reverse, $offset, $limit);
         }
     }
 
     /**
-     * @param $output
-     * @param $event_id
+     * @param $io
+     * @param $eventId
      * @return bool
      */
-    private function getEventDetails($output, $event_id)
+    private function getEventDetails(DrupalStyle $io, $eventId)
     {
         $connection = $this->getDatabase();
-        $date_formatter = $this->getDateFormatter();
-        $user_storage = $this->getEntityManager()->getStorage('user');
+        $dateFormatter = $this->getDateFormatter();
+        $userStorage = $this->getEntityManager()->getStorage('user');
         $severity = RfcLogLevel::getLevels();
 
-        $dblog = $connection->query('SELECT w.*, u.uid FROM {watchdog} w LEFT JOIN {users} u ON u.uid = w.uid WHERE w.wid = :id', array(':id' => $event_id))->fetchObject();
+        $dblog = $connection->query('SELECT w.*, u.uid FROM {watchdog} w LEFT JOIN {users} u ON u.uid = w.uid WHERE w.wid = :id', array(':id' => $eventId))->fetchObject();
 
 
-        if (empty($dblog)) {
-            $output->writeln(
-                '[+] <error>'.sprintf(
+        if (!$dblog) {
+            $io->error(
+                sprintf(
                     $this->trans('commands.database.log.debug.messages.not-found'),
-                    $event_id
-                ).'</error>'
+                    $eventId
+                )
             );
 
             return false;
         }
 
-        $user= $user_storage->load($dblog->uid);
+        $user= $userStorage->load($dblog->uid);
 
-        $configuration = array();
-        $configuration[$this->trans('commands.database.log.debug.messages.event-id')] = $event_id;
-        $configuration[$this->trans('commands.database.log.debug.messages.type')] = $dblog->type;
-        $configuration[$this->trans('commands.database.log.debug.messages.date')] = $date_formatter->format($dblog->timestamp, 'short');
-        $configuration[$this->trans('commands.database.log.debug.messages.user')] = $user->getUsername() . ' (' . $user->id() .')';
-        $configuration[$this->trans('commands.database.log.debug.messages.severity')] = (string) $severity[$dblog->severity];
-        $configuration[$this->trans('commands.database.log.debug.messages.message')] = Html::decodeEntities(strip_tags($this->formatMessage($dblog)));
+        $configuration = [
+            $this->trans('commands.database.log.debug.messages.event-id') => $eventId,
+            $this->trans('commands.database.log.debug.messages.type') => $dblog->type,
+            $this->trans('commands.database.log.debug.messages.date') => $dateFormatter->format($dblog->timestamp, 'short'),
+            $this->trans('commands.database.log.debug.messages.user') => $user->getUsername() . ' (' . $user->id() .')',
+            $this->trans('commands.database.log.debug.messages.severity') => (string) $severity[$dblog->severity],
+            $this->trans('commands.database.log.debug.messages.message') => Html::decodeEntities(strip_tags($this->formatMessage($dblog)))
+        ];
 
-        $configurationEncoded = Yaml::encode($configuration);
+        $io->writeln(Yaml::encode($configuration));
 
-        $output->writeln($configurationEncoded);
+        return true;
     }
 
-    protected function getAllEvents($event_type, $event_severity, $user_id, $reverse, $offset, $limit, $output)
+    protected function getAllEvents(DrupalStyle $io, $eventType, $eventSeverity, $userId, $reverse, $offset, $limit)
     {
-        $table = new Table($output);
-        $table->setStyle('compact');
-
         $connection = $this->getDatabase();
-        $date_formatter = $this->getDateFormatter();
-        $user_storage = $this->getEntityManager()->getStorage('user');
+        $dateFormatter = $this->getDateFormatter();
+        $userStorage = $this->getEntityManager()->getStorage('user');
         $severity = RfcLogLevel::getLevels();
 
         $query = $connection->select('watchdog', 'w');
         $query->fields(
-            'w', array(
-            'wid',
-            'uid',
-            'severity',
-            'type',
-            'timestamp',
-            'message',
-            'variables',
-            )
+            'w',
+            [
+                'wid',
+                'uid',
+                'severity',
+                'type',
+                'timestamp',
+                'message',
+                'variables',
+            ]
         );
 
-        if (!empty($event_type)) {
-            $query->condition('type', $event_type);
+        if ($eventType) {
+            $query->condition('type', $eventType);
         }
 
-        if (!empty($event_severity) && in_array($event_severity, $severity)) {
-            $query->condition('severity', array_search($event_severity, $severity));
-        } elseif (!empty($event_severity)) {
-            $output->writeln(
-                '[-] <error>' .
-                sprintf(
-                    $this->trans('commands.database.log.debug.messages.invalid-severity'),
-                    $event_severity
-                )
-                . '</error>'
-            );
+        if ($eventSeverity) {
+            if (!in_array($eventSeverity, $severity)) {
+                $io->error(
+                    sprintf(
+                        $this->trans('commands.database.log.debug.messages.invalid-severity'),
+                        $eventSeverity
+                    )
+                );
+
+                return false;
+            }
+
+            $query->condition('severity', array_search($eventSeverity, $severity));
         }
 
-        if (!empty($user_id)) {
-            $query->condition('uid', $user_id);
+        if ($userId) {
+            $query->condition('uid', $userId);
         }
 
         if ($reverse) {
             $query->orderBy('wid', 'DESC');
-        }
-
-        if (!$offset) {
-            $offset = 0;
         }
 
         if ($limit) {
@@ -185,33 +185,35 @@ class LogDebugCommand extends ContainerAwareCommand
 
         $result = $query->execute();
 
-        $table->setHeaders(
-            [
-              $this->trans('commands.database.log.debug.messages.event-id'),
-              $this->trans('commands.database.log.debug.messages.type'),
-              $this->trans('commands.database.log.debug.messages.date'),
-              $this->trans('commands.database.log.debug.messages.message'),
-              $this->trans('commands.database.log.debug.messages.user'),
-              $this->trans('commands.database.log.debug.messages.severity'),
-            ]
-        );
+        $tableHeader = [
+            $this->trans('commands.database.log.debug.messages.event-id'),
+            $this->trans('commands.database.log.debug.messages.type'),
+            $this->trans('commands.database.log.debug.messages.date'),
+            $this->trans('commands.database.log.debug.messages.message'),
+            $this->trans('commands.database.log.debug.messages.user'),
+            $this->trans('commands.database.log.debug.messages.severity'),
+        ];
 
+        $tableRows = [];
         foreach ($result as $dblog) {
-            $user= $user_storage->load($dblog->uid);
+            $user= $userStorage->load($dblog->uid);
 
-            $table->addRow(
-                [
-                    $dblog->wid,
-                    $dblog->type,
-                    $date_formatter->format($dblog->timestamp, 'short'),
-                    Unicode::truncate(Html::decodeEntities(strip_tags($this->formatMessage($dblog))), 56, true, true),
-                    $user->getUsername() . ' (' . $user->id() .')',
-                    $severity[$dblog->severity]
-                ]
-            );
+            $tableRows[] = [
+                $dblog->wid,
+                $dblog->type,
+                $dateFormatter->format($dblog->timestamp, 'short'),
+                Unicode::truncate(Html::decodeEntities(strip_tags($this->formatMessage($dblog))), 56, true, true),
+                $user->getUsername() . ' (' . $user->id() .')',
+                $severity[$dblog->severity]
+            ];
         }
 
-        $table->render();
+        $io->table(
+            $tableHeader,
+            $tableRows
+        );
+
+        return true;
     }
 
     /**
@@ -227,21 +229,19 @@ class LogDebugCommand extends ContainerAwareCommand
      */
     public function formatMessage($event)
     {
-        $string_translation = $this->getStringTanslation();
+        $stringTranslation = $this->getStringTanslation();
+        $message = false;
 
         // Check for required properties.
         if (isset($event->message) && isset($event->variables)) {
             // Messages without variables or user specified text.
             if ($event->variables === 'N;') {
-                $message = $event->message;
+                return $event->message;
             }
-            // Message to translate with injected variables.
-            else {
-                $message = $string_translation->translate($event->message, unserialize($event->variables));
-            }
-        } else {
-            $message = false;
+
+            return $stringTranslation->translate($event->message, unserialize($event->variables));
         }
+
         return $message;
     }
 }
