@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class ExecuteCommand extends ContainerAwareCommand
 {
@@ -25,6 +26,8 @@ class ExecuteCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
+
         $this->getDrupalHelper()->loadLegacyFile('/core/includes/install.inc');
         $this->getDrupalHelper()->loadLegacyFile('/core/includes/update.inc');
 
@@ -39,13 +42,10 @@ class ExecuteCommand extends ContainerAwareCommand
         $updates = update_get_update_list();
         if ($module != 'all') {
             if (!isset($updates[$module])) {
-                $output->writeln(
-                    '[-] <error>' .
-                    sprintf(
+                $io->error(sprintf(
                         $this->trans('commands.update.execute.messages.no-module-updates'),
                         $module
                     )
-                    . '</error>'
                 );
                 return;
             } else {
@@ -53,25 +53,17 @@ class ExecuteCommand extends ContainerAwareCommand
                 $updates = [$module => $updates[$module]];
 
                 if ($update_n && !isset($updates[$module]['pending'][$update_n])) {
-                    $output->writeln(
-                        '[-] <info>' .
-                        sprintf(
+                    $io->info(sprintf(
                             $this->trans('commands.update.execute.messages.module-update-function-not-found'),
                             $module,
                             $update_n
                         )
-                        . '</info>'
                     );
                 }
             }
         }
 
-
-        $output->writeln(
-            '[-] <info>' .
-            $this->trans('commands.site.maintenance.description')
-            . '</info>'
-        );
+        $io->info($this->trans('commands.site.maintenance.description'));
         \Drupal::state()->set('system.maintenance_mode', true);
 
         foreach ($updates as $module_name => $module_updates) {
@@ -82,32 +74,21 @@ class ExecuteCommand extends ContainerAwareCommand
 
                 //Executing all pending updates
                 if ($update_n > $module_updates['start']) {
-                    $output->writeln(
-                        '[-] <info>' .
-                        $this->trans('commands.update.execute.messages.executing-required-previous-updates')
-                        . '</info>'
-                    );
+                    $io->info($this->trans('commands.update.execute.messages.executing-required-previous-updates'));
                 }
                 for ($update_index=$module_updates['start']; $update_index<=$update_number; $update_index++) {
-                    $output->writeln(
-                        '[-] <info>' .
-                        sprintf(
+                    $io->info(sprintf(
                             $this->trans('commands.update.execute.messages.executing-update'),
                             $update_index,
                             $module_name
                         )
-                        . '</info>'
                     );
 
                     try {
                         $module_handler->invoke($module_name, 'update_'  . $update_index);
                     } catch (\Exception $e) {
                         watchdog_exception('update', $e);
-                        $output->writeln(
-                            '<error>' .
-                            $e->getMessage() .
-                            '</error>'
-                        );
+                        $io->error($e->getMessage());
                     }
 
                     //Update module schema version
@@ -117,11 +98,7 @@ class ExecuteCommand extends ContainerAwareCommand
         }
 
         \Drupal::state()->set('system.maintenance_mode', false);
-        $output->writeln(
-            '[-] <info>' .
-            $this->trans('commands.site.maintenance.messages.maintenance-off')
-            . '</info>'
-        );
+        $io->info($this->trans('commands.site.maintenance.messages.maintenance-off'));
 
         $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
     }
