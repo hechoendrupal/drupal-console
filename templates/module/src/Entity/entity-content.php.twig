@@ -44,7 +44,7 @@ use Drupal\user\UserInterface;
  *     "access" = "Drupal\{{ module }}\{{ entity_class }}AccessControlHandler",
  *   },
  *   base_table = "{{ entity_name }}",
- *   admin_permission = "administer {{ entity_class }} entity",
+ *   admin_permission = "administer {{ entity_class }} entities",
 {% if bundle_entity_type %}
  *   entity_keys = {
  *     "id" = "id",
@@ -77,9 +77,11 @@ use Drupal\user\UserInterface;
  * )
  */
 class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}Interface {% endblock %}
+
 {% block use_trait %}
   use EntityChangedTrait;
 {% endblock %}
+
 {% block class_methods %}
   /**
    * {@inheritdoc}
@@ -91,11 +93,43 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
     );
   }
 
+{% if bundle_entity_type %}
+  /**
+   * {@inheritdoc}
+   */
+  public function getType() {
+    return $this->bundle();
+  }
+
+{% endif %}
+  /**
+   * {@inheritdoc}
+   */
+  public function getName() {
+    return $this->get('name')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setName($name) {
+    $this->set('name', $name);
+    return $this;
+  }
+
   /**
    * {@inheritdoc}
    */
   public function getCreatedTime() {
     return $this->get('created')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setCreatedTime($timestamp) {
+    $this->set('created', $timestamp);
+    return $this;
   }
 
   /**
@@ -125,6 +159,21 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
    */
   public function setOwner(UserInterface $account) {
     $this->set('user_id', $account->id());
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isPublished() {
+    return (bool) $this->getEntityKey('status');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setPublished($published) {
+    $this->set('status', $published ? NODE_PUBLISHED : NODE_NOT_PUBLISHED);
     return $this;
   }
 
@@ -193,6 +242,11 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
       ))
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
+
+    $fields['status'] = BaseFieldDefinition::create('boolean')
+      ->setLabel(t('Publishing status'))
+      ->setDescription(t('A boolean indicating whether the {{ label }} is published.'))
+      ->setDefaultValue(TRUE);
 
     $fields['langcode'] = BaseFieldDefinition::create('language')
       ->setLabel(t('Language code'))
