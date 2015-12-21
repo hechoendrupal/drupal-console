@@ -1,4 +1,4 @@
-description: 'Displays current services for an application.'
+description: "Mostra el serveis actuals de l'aplicació."
 messages:
-    service_id: 'Service ID'
-    class_name: 'Class Name'
+    service_id: "ID del servei"
+    class_name: "Nom de la clase"

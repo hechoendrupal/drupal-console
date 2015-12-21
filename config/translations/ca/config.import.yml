@@ -1,7 +1,7 @@
-description: 'Import configuration to current application.'
+description: "Importa la configuració a l'aplicació actual."
 arguments:
-    file: 'Configuration file path.'
-    remove-files: 'Remove files after syncronization.'
+    file: "Ruta del fitxer de configuració."
+    remove-files: "Eliminar fitxers despres de la sincronització."
 messages:
-    config_files_imported: 'List of config files.'
-    imported: 'Configutation imported successfully.'
+    config_files_imported: "Llistat de fitxers de configuració."
+    imported: "La configuració s'ha importat correctament."

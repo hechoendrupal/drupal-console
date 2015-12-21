@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Helper;
 
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
@@ -14,6 +15,7 @@ use Symfony\Component\Translation\Loader\ArrayLoader;
 use Symfony\Component\Translation\Writer\TranslationWriter;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Yaml\Parser;
+use Symfony\Component\Yaml\Exception\ParseException;
 use Drupal\Console\Helper\Helper;
 use Drupal\Console\Utils\YamlFileDumper;
 
@@ -85,11 +87,23 @@ class TranslatorHelper extends Helper
             $resource = $languageDirectory . '/' . $file->getBasename();
             $filename = $file->getBasename('.yml');
             // Handle application file different than commands
+
             if ($filename == 'application') {
-                $this->writeTranslationByFile($resource, 'application');
+                try {
+                    $this->writeTranslationByFile($resource, 'application');
+                } catch (ParseException $e) {
+                    print_r('application.yml' . ' ' . $e->getMessage());
+                    exit(0);
+                }
+
             } else {
                 $key = 'commands.' . $filename;
-                $this->writeTranslationByFile($resource, $key);
+                try {
+                    $this->writeTranslationByFile($resource, $key);
+                } catch (ParseException $e) {
+                    print_r($key . '.yml ' . $e->getMessage());
+                    exit(0);
+                }
             }
         }
     }

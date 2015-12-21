@@ -1,19 +1,19 @@
-description: 'Display current log events for the application'
+description: "Mostrar el registre d'esdeveniments actual de l'aplicació"
 arguments:
-    event-id: 'DBLog event ID'
+    event-id: "ID de l'esdeveniment DBLog"
 options:
-    type: 'Filter events by a specific type'
-    severity: 'Filter events by a specific level of severity'
-    user-id: 'Filter events by a specific user id'
-    reverse: 'Reverse the order of events'
-    limit: 'Limit results to a specific number'
-    offset: 'Starting point of a limit'
+    type: "Filtrar registre d'esdeveniments per tipus"
+    severity: "Filtrar registre d'esdeveniments per nivell de severitat"
+    user-id: "Filtrar registre d'esdeveniments per ID d'usuari"
+    reverse: "Invertir l'ordre dels esdeveniments"
+    limit: "Limitar el número de resultats"
+    offset: "Punt inicial del límit"
 messages:
-    event-id: 'Event ID'
-    type: Type
-    date: Date
-    message: Message
-    user: User
-    severity: Severity
-    invalid-severity: 'Severity type is invalid, filter was ignored'
-    not-found: 'DBLog event %s wasn''t found'
+    event-id: "ID de l'esdeveniment"
+    type: Tipus
+    date: Data
+    message: Missatge
+    user: Usuari
+    severity: Severitat
+    invalid-severity: "El tipus de severitat es invàlid, el filtre serà ignorat"
+    not-found: "No s'ha trobat l'esdeveniment DBLog %s"

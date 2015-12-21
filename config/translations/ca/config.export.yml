@@ -1,5 +1,5 @@
-description: 'Export current application configuration.'
+description: "Exporta la configuració actual de l'aplicació"
 arguments:
-    directory: 'Define export directory to save configuration output.'
+    directory: "Defineix el directori d'exportació per desar la configuració."
 messages:
-    directory: 'The configuration was exported at:'
+    directory: "La configuració ha sigut exportada a:"

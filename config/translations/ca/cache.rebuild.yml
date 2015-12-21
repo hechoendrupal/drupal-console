@@ -1,15 +1,14 @@
-description: 'Rebuild and clear all site caches.'
+description: "Reconstrueix i esborra tota la memòria cau (cache) del lloc web."
 options:
-    cache: 'Only clear a specific cache.'
+    cache: "Esborrar una memòria cau (cache) específica."
 messages:
-    welcome: 'Welcome to the cache:rebuild command'
-    rebuild: 'Rebuilding cache(s), wait a moment please.'
-    completed: 'Done clearing cache(s).'
-    invalid_cache: 'Cache "%s" is invalid.'
+    welcome: "Benvingut al comandament cache:rebuild command"
+    rebuild: "Reconstrucció de la memòria cau, esperi un moment si us plau."
+    completed: "Memòria cau esborrada correctament."
+    invalid_cache: "La memòria cau \"%s\" es invàlida."
 questions:
-    cache: 'Select cache.'
+    cache: "Selecciona la memòria cau."
 examples:
-    - description: Rebuild all caches
+    - description: "Reconstruir tota la memòria cau."
       execution: drupal cr all
-    - description: Rebuild discovery cache
-      execution: drupal cr discovery
+    - description: "Reconstruir la memòria cau \"discovery\""
