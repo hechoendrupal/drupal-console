@@ -57,6 +57,19 @@ class DrupalStyle extends SymfonyStyle
         return trim($this->askChoiceQuestion(new ChoiceQuestion($question, $choices, $default)));
     }
 
+    public function choice($question, array $choices, $default = null, $multiple = false)
+    {
+        if (null !== $default) {
+            $values = array_flip($choices);
+            $default = $values[$default];
+        }
+
+        $choiceQuestion = new ChoiceQuestion($question, $choices, $default);
+        $choiceQuestion->setMultiselect($multiple);
+
+        return $this->askQuestion($choiceQuestion);
+    }
+
     /**
      * @param ChoiceQuestion $question
      *
