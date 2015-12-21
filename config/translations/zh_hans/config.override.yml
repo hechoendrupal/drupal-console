@@ -6,5 +6,5 @@ arguments:
 messages:
     configuration: '配置名'
     configuration-key: '配置键'
-    original: '起始值'
-    updated: '覆盖值'
+    original: 起始值
+    updated: 覆盖值

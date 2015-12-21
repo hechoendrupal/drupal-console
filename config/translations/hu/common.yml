@@ -37,3 +37,5 @@ status:
 messages:
     canceled: 'Generated Cancelled'
     drupal-core: 'Drupal Core'
+    move-phar: 'Accessing console from anywhere on your system'
+    quick-start: 'Download, install and serve Drupal 8'

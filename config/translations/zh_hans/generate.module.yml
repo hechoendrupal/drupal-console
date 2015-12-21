@@ -1,11 +1,11 @@
-description: '生成一个模块.'
+description: 生成一个模块.
 help: '<info>generate:module</info>命令帮助你生成一个新的模块'
-welcome: '欢迎到Drupal模块生成器'
+welcome: 欢迎到Drupal模块生成器
 options:
-    module: '模块名'
+    module: 模块名
     machine-name: '模块名 (只能用小写英文字母和下划线)'
-    module-path: '模块路径'
-    description: '模块说明'
+    module-path: 模块路径
+    description: 模块说明
     core: '内核版本'
     feature: 'Set module compatible with Features module'
     package: 'Module package'

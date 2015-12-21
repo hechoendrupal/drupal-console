@@ -1,7 +1,7 @@
-description: "Restaurar l'estructura, continguts i taules de la base de dades MySQL"
+description: 'Restaurar l''estructura, continguts i taules de la base de dades MySQL'
 arguments:
-  database: "Clau de la base de dades des de settings.php"
+    database: 'Clau de la base de dades des de settings.php'
 options:
-  file: "El nom del fitxer de la seva còpia de la base de dades"
+    file: 'El nom del fitxer de la seva còpia de la base de dades'
 messages:
-    success: "Base de dades importada des de:"
+    success: 'Base de dades importada des de:'
