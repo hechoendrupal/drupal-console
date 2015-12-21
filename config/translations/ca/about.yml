@@ -1,13 +1,14 @@
-description: 'Display basic information about Drupal Console project'
+description: "Mostra l'informació bàsica sobre el projecte Drupal Console"
 messages:
-    welcome: 'The Drupal Console is a suite of tools that you run on the CLI to:'
-    welcome-feature-generate: 'Generate boilerplate code.'
-    welcome-feature-interact: 'Interact with a Drupal 8 installation.'
-    welcome-feature-learn: 'Learn Drupal 8.'
-    links: 'Project links'
-    landing: 'Landing page - %s'
-    change-log: 'Change log at - %s'
-    documentation: 'Documentation at - %s'
-    support: 'Support chat room - %s'
-    supporting-organizations: 'Supporting organizations'
-    version-supported: 'Drupal supported version <info>%s</info>'
+    welcome: "Drupal Console es un conjunt d'eines que s'executen a la consola per:"
+    welcome-feature-generate: "Generar codi repetitiu."
+    welcome-feature-interact: "Interactuar amb una instal·lació de Drupal 8."
+    welcome-feature-learn: "Aprendre Drupal 8."
+    links: "Enllaços del projecte"
+    landing: "Lloc web - %s"
+    change-log: "Registre de canvis a - %s"
+    documentation: "Documentació a - %s"
+    support: "Xat d'assistència de Drupal Console - %s"
+    supporting-organizations: "Patrocinadors"
+    version-supported: "Versió de Drupal compatible <info>%s</info>"
+

@@ -1,41 +1,41 @@
 options:
-    events: 'Load events from the container'
-    module: 'The Module name.'
-    services: 'Load services from the container.'
-    tags: 'Set service tags from the container.'
-    inputs: 'Create inputs in a form.'
-    permissions: 'Create permissions.'
+    events: "Carregar esdeveniments des del contenidor"
+    module: "Nom del mòdul."
+    services: "Carregar serveis des del contenidor."
+    tags: "Definir etiqueta des del contenidor."
+    inputs: "Crear camp entrada (input) en un formulari."
+    permissions: "Crear permisos"
 questions:
-    module: 'Enter the module name'
-    confirm: 'Do you confirm generation?'
-    canceled: 'Command generation canceled.'
+    module: "Introduir el nome del módul"
+    confirm: "¿Confirma la generació?"
+    canceled: "Comandament de generació cancel·lat."
     events:
-        message: "\nType the event name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
-        name: 'Enter event name'
+        message: "\nTecleja l'esdeveniment o utilitza les tecles de desplaçament.\nAixò es opcional, prem <info>enter</info> per <info>continuar</info>\n"
+        name: "Introduir el nom de l'esdeveniment"
     services:
-        confirm: 'Do you want to load services from the container'
-        message: "\nType the service name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
-        name: 'Enter your service'
+        confirm: "¿Vols carregar els serveis del contenidor?"
+        message: "\Tecleja el nom del servei o utilitza les tecles de desplaçament.\nAixò es opcional, prem <info>enter</info> per <info>continuar</info>\n"
+        name: "Tecleja el teu servei"
     inputs:
-        confirm: 'Do you want to generate a form structure?'
-        label: 'Input label'
-        machine_name: 'Input machine name'
-        permission: 'Do you want to generate permissions?'
-        type: Type
-        invalid: 'Field Type "%s" is invalid.'
-        description: Description
-        default-value: 'Default value'
-        weight: 'Weight for input item'
-        title: 'Title'
-        fieldset: 'Fieldset'
+        confirm: "¿Vols generar una estructura de formulari?"
+        label: "Etiqueta del camp d'entrada"
+        machine_name: "Nom màquina del camp d'entrada"
+        permission: "¿Vols generar els permissos?"
+        type: "Tipus"
+        invalid: "El camp de tipus \"%s\" no es vàlid"
+        description: "Descripció"
+        default-value: "Valor predeterminat"
+        weight: "Pes per l'element d'entrada (weight)"
+        title: "Títol"
+        fieldset: "Conjunt de camps (fieldset)"
 errors:
-    module-dependency: 'Missing module dependency "%s"'
-    class-name-empty: 'The Class name can not be empty'
+    module-dependency: "Falta la dependència del mòdul \"%s\""
+    class-name-empty: "El nom de la clase no pot estar buida"
 status:
-    enabled: Enabled
-    disabled: Disabled
+    enabled: "Habilitat"
+    disabled: "Deshabilitat"
 messages:
-    canceled: 'The generation was cancelled'
-    drupal-core: 'Drupal Core'
-    move-phar: 'Accessing console from anywhere on your system'
-    quick-start: 'Download, install and serve Drupal 8'
+    canceled: "La generació ha sigut cancel·lada"
+    drupal-core: "Drupal Core"
+    move-phar: "Accedir a la consola des de qualsevol lloc en el teu sistema"
+    quick-start: "Descarrega, instal·lar i servir Drupal 8"
