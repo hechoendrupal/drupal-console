@@ -32,9 +32,8 @@ class EnableCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
-        $questionHelper = $this->getQuestionHelper();
         $resource_id = $input->getArgument('resource-id');
         $rest_resources = $this->getRestResources();
 
@@ -44,7 +43,7 @@ class EnableCommand extends ContainerAwareCommand
         );
 
         if (!$resource_id) {
-            $resource_id = $output->choiceNoList(
+            $resource_id = $io->choiceNoList(
                 $this->trans('commands.rest.enable.arguments.resource-id'),
                 $rest_resources_ids
             );
@@ -59,23 +58,22 @@ class EnableCommand extends ContainerAwareCommand
 
         $states = $plugin->availableMethods();
 
-        $state = $output->choice(
+        $state = $io->choice(
             $this->trans('commands.rest.enable.arguments.states'),
             $states
         );
-        $output->writeln($this->trans('commands.rest.enable.messages.selected-state').' '.$state);
+        $io->writeln($this->trans('commands.rest.enable.messages.selected-state').' '.$state);
 
         // Get serializer formats available and generate the question.
-        $formats = $this->getSerializerFormats();
-        $question = new ChoiceQuestion(
+        $serializedFormats = $this->getSerializerFormats();
+        $formats = $io->choice(
             $this->trans('commands.rest.enable.messages.formats'),
-            $formats,
-            '0'
+            $serializedFormats,
+            '0',
+            true
         );
 
-        $question->setMultiselect(true);
-        $formats = $questionHelper->ask($input, $output, $question);
-        $output->writeln(
+        $io->writeln(
             $this->trans('commands.rest.enable.messages.selected-formats').' '.implode(
                 ', ',
                 $formats
@@ -83,27 +81,26 @@ class EnableCommand extends ContainerAwareCommand
         );
 
         // Get Authentication Provider and generate the question
-        $authentication_providers = $this->getAuthenticationProviders();
+        $authenticationProviders = $this->getAuthenticationProviders();
 
-        $question = new ChoiceQuestion(
+        $authenticationProvidersSelected = $io->choice(
             $this->trans('commands.rest.enable.messages.authentication-providers'),
-            array_keys($authentication_providers),
-            '0'
+            array_keys($authenticationProviders),
+            '0',
+            true
         );
 
-        $question->setMultiselect(true);
-        $authentication_providers = $questionHelper->ask($input, $output, $question);
-        $output->writeln(
+        $io->writeln(
             $this->trans('commands.rest.enable.messages.selected-authentication-providers').' '.implode(
                 ', ',
-                $authentication_providers
+                $authenticationProvidersSelected
             )
         );
 
         $rest_settings = $this->getRestDrupalConfig();
 
         $rest_settings[$resource_id][$state]['supported_formats'] = $formats;
-        $rest_settings[$resource_id][$state]['supported_auth'] = $authentication_providers;
+        $rest_settings[$resource_id][$state]['supported_auth'] = $authenticationProvidersSelected;
 
         $config = $this->getConfigFactory()
             ->getEditable('rest.settings');
