@@ -14,6 +14,7 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Command;
 use Alchemy\Zippy\Zippy;
+use Drupal\Console\Style\DrupalStyle;
 
 class DownloadCommand extends Command
 {
@@ -28,6 +29,7 @@ class DownloadCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
         $httpClient = $this->getHttpClientHelper();
 
         $theme = $input->getArgument('theme');
@@ -38,17 +40,17 @@ class DownloadCommand extends Command
             $release_selected = $version;
         } else {
             // Getting Theme page header and parse to get theme Node
-            $output->writeln(
-                '[+] <info>'.sprintf(
+            $io->info(
+                sprintf(
                     $this->trans('commands.theme.download.messages.getting-releases'),
                     implode(',', array($theme))
-                ).'</info>'
+                )
             );
 
             try {
                 $link = $httpClient->getHeader('https://www.drupal.org/project/'.$theme, 'link');
             } catch (\Exception $e) {
-                $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
+                $io->error($e->getMessage());
                 return;
             }
 
@@ -60,7 +62,7 @@ class DownloadCommand extends Command
             try {
                 $html = $httpClient->getHtml($project_release_d8);
             } catch (\Exception $e) {
-                $output->writeln('[+] <error>'.$e->getMessage().'</error>');
+                $io->error($e->getMessage());
 
                 return;
             }
@@ -83,11 +85,11 @@ class DownloadCommand extends Command
             }
 
             if (empty($releases)) {
-                $output->writeln(
-                    '[+] <error>'.sprintf(
+                $io->error(
+                    sprintf(
                         $this->trans('commands.theme.download.messages.no-releases'),
                         implode(',', array($theme))
-                    ).'</error>'
+                    )
                 );
 
                 return;
@@ -106,14 +108,12 @@ class DownloadCommand extends Command
         }
 
         // Start the process to download the zip file of release and copy in contrib folter
-        $output->writeln(
-            '[-] <info>'.
+        $io->info(
             sprintf(
                 $this->trans('commands.theme.download.messages.downloading'),
                 $theme,
                 $release_selected
-            ).
-            '</info>'
+            )
         );
 
         $release_file_path = 'http://ftp.drupal.org/files/projects/'.$theme.'-'.$release_selected.'.tar.gz';
@@ -130,14 +130,12 @@ class DownloadCommand extends Command
             if ($drupalRoot) {
                 $theme_contrib_path = $drupalRoot . '/themes/contrib';
             } else {
-                $output->writeln(
-                    '[-] <info>'.
+                $io->info(
                     sprintf(
                         $this->trans('commands.theme.download.messages.outside-drupal'),
                         $theme,
                         $release_selected
-                    ).
-                    '</info>'
+                    )
                 );
                 $theme_contrib_path = getcwd() . '/themes/contrib';
             }
@@ -145,9 +143,7 @@ class DownloadCommand extends Command
             // Create directory if does not exist
             if (!file_exists($theme_contrib_path)) {
                 if (!mkdir($theme_contrib_path, 0777, true)) {
-                    $output->writeln(
-                        ' <error>'. $this->trans('commands.theme.download.messages.error-creating-folder') . ': ' . $theme_contrib_path .'</error>'
-                    );
+                    $io->error($this->trans('commands.theme.download.messages.error-creating-folder') . ': ' . $theme_contrib_path);
                     return;
                 }
             }
@@ -159,16 +155,16 @@ class DownloadCommand extends Command
 
             unlink($destination);
 
-            $output->writeln(
-                '[-] <info>'.sprintf(
+            $io->info(
+                sprintf(
                     $this->trans('commands.theme.download.messages.downloaded'),
                     $theme,
                     $release_selected,
                     $theme_contrib_path
-                ).'</info>'
+                )
             );
         } catch (\Exception $e) {
-            $output->writeln('[+] <error>'.$e->getMessage().'</error>');
+            $io->error($e->getMessage());
 
             return;
         }

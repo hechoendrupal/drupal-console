@@ -3,10 +3,10 @@ help: '<info>generate:plugin:fieldformatter</info> 命令帮助您生成一个�
 welcome: '欢迎使用 Drupal 字段格式化器生成器'
 options:
     module: common.options.module
-    class: '插件类名'
+    class: 插件类名
     label: '插件标签'
     plugin-id: '插件 ID'
-    field-type: '字段类型，能与该插件一起使用的字段类型'
+    field-type: 字段类型，能与该插件一起使用的字段类型
 questions:
     module: common.questions.module
     class: '输入插件类名'

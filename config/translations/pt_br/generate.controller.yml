@@ -4,24 +4,28 @@ welcome: 'Bem-vindo ao Criador de controller do Drupal.'
 options:
     module: common.options.module
     class: 'Nome da classe do Controller'
-    controller-title: 'Title of the controller'
-    method-name: 'O nome do método'
+    title: 'Title of the controller'
+    method: 'The action method name'
     route: 'O caminho da rota'
     services: common.options.services
     test: 'Criar uma classe de teste'
+    controller-title: 'Title of the controller'
+    method-name: 'O nome do método'
 questions:
     module: common.questions.module
     class: 'Digite o nome da classe do Controller'
-    method-name: 'Digite o nome do método'
+    controller: 'Controller title'
+    method: 'Enter the action method name'
     route: 'Digite o caminho da rota'
     services: common.questions.services
     test: 'Você deseja criar uma classe de teste unitário?'
+    method-name: 'Digite o nome do método'
     other-controller-title: 'Título do controller (deixe vazio para começar com a geração de código)'
     controller-title: 'Título do controller'
 messages:
-    invalid-controller-title: 'Título não pode ser vazio'
     title-already-added: 'Título já foi adicionado'
-    invalid-method-name: 'O nome do método não pode ser vazio'
     method-name-already-added: 'Method name was already added'
-    invalid-route: 'A rota não pode ser vazia'
     route-already-added: 'A rota já foi adicionada'
+    invalid-controller-title: 'Título não pode ser vazio'
+    invalid-method-name: 'O nome do método não pode ser vazio'
+    invalid-route: 'A rota não pode ser vazia'

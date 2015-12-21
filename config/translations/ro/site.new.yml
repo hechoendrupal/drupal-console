@@ -3,6 +3,7 @@ arguments:
     site-name: 'Numele saitului'
     version: 'Versiunea de Drupal care va fi descărcată'
 messages:
+    release: 'Please select a release'
     getting-releases: 'Se preiau versiunile de Drupal'
     downloading: 'Se descarcă Drupal %s'
     extracting: 'Se extrag fişierele pentru Drupal %s'

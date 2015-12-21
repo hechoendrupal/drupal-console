@@ -4,24 +4,28 @@ welcome: 'Bienvenue dans le générateur de contrôleur Drupal'
 options:
     module: common.options.module
     class: 'Nom du Controller'
-    controller-title: 'Title of the controller'
-    method-name: 'Nom de la méthode d''action'
+    title: 'Title of the controller'
+    method: 'The action method name'
     route: 'La route de l''action'
     services: common.options.services
     test: 'Générer une classe de test'
+    controller-title: 'Title of the controller'
+    method-name: 'Nom de la méthode d''action'
 questions:
     module: common.questions.module
     class: 'Veuillez renseigner le nom de la classe de votre controlleur'
-    method-name: 'Veuillez renseigner le nom de la méthode d''action'
+    controller: 'Controller title'
+    method: 'Enter the action method name'
     route: 'Veuillez renseigner le chemin de la route'
     services: common.questions.services
     test: 'Voulez-vous générer une classe de test unitaire'
+    method-name: 'Veuillez renseigner le nom de la méthode d''action'
     other-controller-title: 'Controller title (empty to start with code generation)'
     controller-title: 'Controller title'
 messages:
-    invalid-controller-title: 'Title cannot be empty'
     title-already-added: 'Title was already added'
-    invalid-method-name: 'Method name cannot be empty'
     method-name-already-added: 'Method name was already added'
-    invalid-route: 'Route cannot be empty'
     route-already-added: 'Route was already added'
+    invalid-controller-title: 'Title cannot be empty'
+    invalid-method-name: 'Method name cannot be empty'
+    invalid-route: 'Route cannot be empty'

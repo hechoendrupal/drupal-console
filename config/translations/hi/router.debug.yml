@@ -3,7 +3,9 @@ arguments:
     route-name: 'मार्ग के नाम'
 messages:
     name: 'मार्ग के नाम'
+    class: 'Class path'
+    route: Route
     path: 'क्लास का पथ'
-    pattern: साँचा
     defaults: डिफ़ॉल्ट
     options: विकल्प
+    pattern: साँचा

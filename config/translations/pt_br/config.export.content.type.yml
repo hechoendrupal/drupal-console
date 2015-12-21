@@ -1,9 +1,11 @@
 description: 'Exportar um tipo de conteúdo específico e os seus campos.'
 arguments:
+    content-type: 'Content Type to be exported'
     content_type: 'Tipo de conteúdo para ser exportado.'
 questions:
-    content_type: 'Tipo de conteúdo para ser exportado.'
+    content-type: 'Content Type to be exported'
     optional-config: 'Exportar um tipo de conteúdo em um módulo como uma configuração opcional.'
+    content_type: 'Tipo de conteúdo para ser exportado.'
 messages:
     content_type_exported: 'Exportando tipo de conteúdo'
 options:
