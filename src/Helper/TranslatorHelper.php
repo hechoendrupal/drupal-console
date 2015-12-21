@@ -92,8 +92,7 @@ class TranslatorHelper extends Helper
                 try {
                     $this->writeTranslationByFile($resource, 'application');
                 } catch (ParseException $e) {
-                    print_r('application.yml' . ' ' . $e->getMessage());
-                    exit(0);
+                    print 'application.yml' . ' ' . $e->getMessage();
                 }
 
             } else {
@@ -101,8 +100,7 @@ class TranslatorHelper extends Helper
                 try {
                     $this->writeTranslationByFile($resource, $key);
                 } catch (ParseException $e) {
-                    print_r($key . '.yml ' . $e->getMessage());
-                    exit(0);
+                    print $key . '.yml ' . $e->getMessage();
                 }
             }
         }
