@@ -1,4 +1,4 @@
-description: '链式执行命令'
+description: 链式执行命令
 options:
     file: '用户提供的文件，其中包含着将被链式执行的命令'
 messages:

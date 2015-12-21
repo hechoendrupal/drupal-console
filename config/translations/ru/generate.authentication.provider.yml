@@ -3,5 +3,4 @@ help: 'The <info>generate:authentication:provider</info> command helps you gener
 options:
     class: 'Authentication Provider class'
     provider-id: 'Provider ID'
-    class: 'Authentication Provider class'
 module: common.options.module

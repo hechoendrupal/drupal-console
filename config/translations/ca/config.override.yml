@@ -1,10 +1,10 @@
-description: "Sobreescriure el valor de la configuració activa."
+description: 'Sobreescriure el valor de la configuració activa.'
 arguments:
-    config-name: "Nom de la configuració."
-    key: "Clau"
-    value: "Valor"
+    config-name: 'Nom de la configuració.'
+    key: Clau
+    value: Valor
 messages:
-    configuration: "Nom de la configuració"
-    configuration-key: "Clau de la configuració"
-    original: "Valor original"
-    updated: "Valor sobreescrit"
+    configuration: 'Nom de la configuració'
+    configuration-key: 'Clau de la configuració'
+    original: 'Valor original'
+    updated: 'Valor sobreescrit'

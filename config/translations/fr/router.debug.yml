@@ -3,7 +3,9 @@ arguments:
     route-name: 'Noms des routes'
 messages:
     name: 'nom de la toute'
+    class: 'Class path'
+    route: Route
     path: 'Chemin de la path'
-    pattern: Motif
     defaults: Défault
     options: Options
+    pattern: Motif

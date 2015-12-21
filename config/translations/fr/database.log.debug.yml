@@ -5,6 +5,7 @@ options:
     type: 'Filter events by a specific type'
     severity: 'Filter events by a specific level of severity'
     user-id: 'Filter events by a specific user id'
+    reverse: 'Reverse the order of events'
     limit: 'Limit results to a specific number'
     offset: 'Starting point of a limit'
 messages:

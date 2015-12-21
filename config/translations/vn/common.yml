@@ -37,3 +37,5 @@ status:
 messages:
     canceled: 'Đã huỷ sinh mã'
     drupal-core: 'Nhập Drupal phiên bản lõi'
+    move-phar: 'Accessing console from anywhere on your system'
+    quick-start: 'Download, install and serve Drupal 8'

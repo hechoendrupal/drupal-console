@@ -3,6 +3,7 @@ arguments:
     site-name: 'Site name'
     version: 'किसी विशेष Drupal के संस्करण को डाउनलोड करें'
 messages:
+    release: 'Please select a release'
     getting-releases: 'Getting releases for Drupal'
     downloading: 'Drupal डाउनलोड हो रहा है %s'
     extracting: 'Drupal के लिये फाइल संग्रह हो रहा है %s'

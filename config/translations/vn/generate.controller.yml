@@ -4,24 +4,28 @@ welcome: 'Chào mừng tới Drupal Controller generator'
 options:
     module: common.options.module
     class: 'Tên lớp của controller.'
-    controller-title: 'Tiêu đề của controller'
-    method-name: 'Tên của phương pháp'
+    title: 'Title of the controller'
+    method: 'The action method name'
     route: 'Tuyến đường'
     services: common.options.services
     test: 'Phát sinh một lớp kiểm thử'
+    controller-title: 'Tiêu đề của controller'
+    method-name: 'Tên của phương pháp'
 questions:
     module: common.questions.module
     class: 'Nhập vào tên lớp của trình điều khiển'
-    method-name: 'Nhập vào tên của phương pháp'
+    controller: 'Controller title'
+    method: 'Enter the action method name'
     route: 'Nhập vào đường dẫn'
     services: common.questions.services
     test: 'Bạn có muốn phát sinh một lớp đơn vị kiểm tra?'
+    method-name: 'Nhập vào tên của phương pháp'
     other-controller-title: 'Tiêu đề trình điều khiển (để trống để bắt đầu với đoạn mã phát sinh)'
     controller-title: 'Tên trình điều khiển'
 messages:
-    invalid-controller-title: 'Tiêu đề không thể để trống'
     title-already-added: 'Tiêu đề đã được thêm rồi'
-    invalid-method-name: 'Tên phương pháp không thẻ được để trống'
     method-name-already-added: 'Tên phương pháp đã được thêm rồi'
-    invalid-route: 'Tuyến đường không thể được để trống'
     route-already-added: 'Tuyến đường đã được thêm rồi'
+    invalid-controller-title: 'Tiêu đề không thể để trống'
+    invalid-method-name: 'Tên phương pháp không thẻ được để trống'
+    invalid-route: 'Tuyến đường không thể được để trống'
