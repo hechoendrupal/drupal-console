@@ -3,5 +3,4 @@ help: '<info>generate:authentication:provider</info> कमाण्ड आप�
 options:
     class: 'Authentication Provider class'
     provider-id: 'प्रदाता क्रमांक'
-    class: 'प्रमाणन प्रदाता क्लास'
 module: common.options.module

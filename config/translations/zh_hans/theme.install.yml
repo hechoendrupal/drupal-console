@@ -3,9 +3,9 @@ questions:
     theme: '主题名称（按下 <return> 键结束添加主题）'
     invalid-theme: '无效主题 %s'
 options:
-    theme: '一个或多个主题，主题之间使用逗号分隔'
+    theme: 一个或多个主题，主题之间使用逗号分隔
     overwrite-config: '覆写配置'
-    set-default: '设置主题为默认主题'
+    set-default: 设置主题为默认主题
 messages:
     no-themes: '必须提供一个或多个主题才能启用'
     themes-missing: '不能安装主题 %s，由于它们不可用'

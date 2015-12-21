@@ -10,4 +10,4 @@ questions:
     bundle-name: 'Digite o nome de máquina para seu novo tipo de conteúdo'
     bundle-title: 'Digite o nome amigável para seu novo tipo de conteúdo'
 message:
-    error-state1: 'placeholder'
+    error-state1: placeholder

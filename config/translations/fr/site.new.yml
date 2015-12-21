@@ -3,6 +3,7 @@ arguments:
     site-name: 'Nom du site'
     version: 'Version de Drupal à télécharger'
 messages:
+    release: 'Please select a release'
     getting-releases: 'Récupération des versions de Drupal'
     downloading: 'Télechargement de Drupal %s'
     extracting: 'Extraction des fichiers de Drupal %s'

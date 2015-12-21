@@ -1,5 +1,5 @@
 description: '在 Drupal Console 中运行 Drush'
-help: '使用交互模式提升用户体验（参数：--shell）'
+help: 使用交互模式提升用户体验（参数：--shell）
 arguments:
     args: 'Drush 参数'
 messages:

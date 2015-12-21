@@ -5,6 +5,7 @@ options:
     type: 'Sự kiện được lọc bời một kiểu chỉ định'
     severity: 'Sự kiện được lọc bời một cấp chỉ định của severity'
     user-id: 'Sự kiện được lọc bời một user id cụ thể'
+    reverse: 'Reverse the order of events'
     limit: 'Limit results to a specific number'
     offset: 'Starting point of a limit'
 messages:

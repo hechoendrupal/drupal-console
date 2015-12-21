@@ -3,7 +3,9 @@ arguments:
     route-name: 'Útvonal neve'
 messages:
     name: 'Útvonal neve'
+    class: 'Class path'
+    route: Route
     path: 'Class elérési útvonala'
-    pattern: Minta
     defaults: Alapértelmezés
     options: Opciók
+    pattern: Minta
