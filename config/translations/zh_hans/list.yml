@@ -1,15 +1,7 @@
-description: '列出当前可用命令'
-help: |
-        列出所有命令：
-        <info>php %command.full_name%</info>
-        显示特定命名空间下的命令：
-        <info>php %command.full_name% test</info>
-        使用 <comment>--format</comment> 选项指定输出格式：
-        <info>php %command.full_name% --format=xml</info>
-        获取原生格式的命令列表（对于 embedding command runner 很有用）：
-        <info>php %command.full_name% --raw</info>
+description: 列出当前可用命令
+help: "列出所有命令：\n<info>php %command.full_name%</info>\n显示特定命名空间下的命令：\n<info>php %command.full_name% test</info>\n使用 <comment>--format</comment> 选项指定输出格式：\n<info>php %command.full_name% --format=xml</info>\n获取原生格式的命令列表（对于 embedding command runner 很有用）：\n<info>php %command.full_name% --raw</info>\n"
 arguments:
-    namespace: '命名空间名称'
+    namespace: 命名空间名称
 options:
     xml: '输出命令清单为 XML 格式'
     raw: '输出命令清单为原生格式'
