@@ -10,6 +10,7 @@ namespace Drupal\Console\Command\Exclude;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Finder\Finder;
 
 class ElephpantCommand extends Command
@@ -23,6 +24,8 @@ class ElephpantCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
+
         $renderer = $this->getRenderHelper();
 
         $directory = sprintf(
@@ -48,6 +51,6 @@ class ElephpantCommand extends Command
             )
         );
 
-        $output->writeln($elephpant);
+        $io->writeln($elephpant);
     }
 }

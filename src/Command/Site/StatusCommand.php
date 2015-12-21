@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\SiteStatusCommand.
+ * Contains \Drupal\Console\Command\Site\StatusCommand.
  */
 
 namespace Drupal\Console\Command\Site;
@@ -10,12 +10,11 @@ namespace Drupal\Console\Command\Site;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Command\ContainerAwareCommand;
-use Drupal\Core\Site\Settings;
+use Drupal\Console\Style\DrupalStyle;
 
 /**
- *  This command provides a view of the current drupal installation.
+ *  This command provides a report of the current drupal installation.
  *
  *  @category site
  */
@@ -60,6 +59,8 @@ class StatusCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
+
         $systemData = $this->getSystemData();
         $connectionData = $this->getConnectionData();
         $themeInfo = $this->getThemeData();
@@ -75,7 +76,7 @@ class StatusCommand extends ContainerAwareCommand
         $format = $input->getOption('format');
 
         if ('table' === $format) {
-            $this->showDataAsTable($output, $siteData);
+            $this->showDataAsTable($io, $siteData);
         }
 
         if ('json' === $format) {
@@ -86,6 +87,10 @@ class StatusCommand extends ContainerAwareCommand
     protected function getSystemData()
     {
         $systemManager = $this->getSystemManager();
+        if (!$systemManager) {
+            return [];
+        }
+
         $requirements = $systemManager->listRequirements();
         $systemData = [];
 
@@ -99,17 +104,10 @@ class StatusCommand extends ContainerAwareCommand
             $systemData['system'][$title] = $requirement['value'];
         }
 
-        $kernelHelper = $this->getKernelHelper();
-        $drupal = $this->getDrupalHelper();
-
-        Settings::initialize(
-            $drupal->getRoot(),
-            $kernelHelper->getSitePath(),
-            $kernelHelper->getClassLoader()
-        );
+        $settings = $this->getSettings();
 
         try {
-            $hashSalt = Settings::getHashSalt();
+            $hashSalt = $settings->getHashSalt();
         } catch (\Exception $e) {
             $hashSalt = '';
         }
@@ -123,8 +121,8 @@ class StatusCommand extends ContainerAwareCommand
     protected function getConnectionData()
     {
         $connectionInfo = $this->getConnectionInfo();
-        $connectionData = [];
 
+        $connectionData = [];
         foreach ($this->connectionInfoKeys as $connectionInfoKey) {
             $connectionKey = $this->trans('commands.site.status.messages.'.$connectionInfoKey);
             $connectionData['database'][$connectionKey] = $connectionInfo['default'][$connectionInfoKey];
@@ -164,9 +162,21 @@ class StatusCommand extends ContainerAwareCommand
         $configFactory = $this->getConfigFactory();
         $systemTheme = $configFactory->get('system.theme');
 
-        $themeHandler = $this->getThemeHandler();
-        $themeDefault = $themeHandler->getTheme($systemTheme->get('default'));
-        $themeAdmin = $themeHandler->getTheme($systemTheme->get('admin'));
+        $themeDefaultDirectory = '';
+        $themeAdminDirectory = '';
+        try {
+            $themeHandler = $this->getThemeHandler();
+            $themeDefault = $themeHandler->getTheme(
+                $systemTheme->get('default')
+            );
+            $themeDefaultDirectory = sprintf('/%s', $themeDefault->getpath());
+
+            $themeAdmin = $themeHandler->getTheme(
+                $systemTheme->get('admin')
+            );
+            $themeAdminDirectory = sprintf('/%s', $themeAdmin->getpath());
+        } catch (\Exception $e) {
+        }
 
         $systemFile = $this->getConfigFactory()->get('system.file');
 
@@ -174,37 +184,28 @@ class StatusCommand extends ContainerAwareCommand
           'directory' => [
             $this->trans('commands.site.status.messages.directory_root') => $drupal_root,
             $this->trans('commands.site.status.messages.directory_temporary') => $systemFile->get('path.temporary'),
-            $this->trans('commands.site.status.messages.directory_theme_default') => '/'.$themeDefault->getpath(),
-            $this->trans('commands.site.status.messages.directory_theme_admin') => '/'.$themeAdmin->getpath(),
+            $this->trans('commands.site.status.messages.directory_theme_default') => $themeDefaultDirectory,
+            $this->trans('commands.site.status.messages.directory_theme_admin') => $themeAdminDirectory,
           ],
         ];
     }
 
-    protected function showDataAsTable($output, $siteData)
+    protected function showDataAsTable(DrupalStyle $io, $siteData)
     {
         if (empty($siteData)) {
             return [];
         }
-
-        $table = new Table($output);
-        $table->setStyle('compact');
+        $io->newLine();
         foreach ($this->groups as $group) {
+            $tableRows = [];
             $groupData = $siteData[$group];
-            $table->addRow(
-                [
-                    sprintf(
-                        '<comment>%s</comment>',
-                        $this->trans('commands.site.status.messages.'.$group)
-                    ),
-                    null,
-                ]
-            );
+            $io->comment($this->trans('commands.site.status.messages.'.$group));
 
             foreach ($groupData as $key => $item) {
-                $table->addRow([$key, $item]);
+                $tableRows[] = [$key, $item];
             }
-        }
 
-        $table->render($output);
+            $io->table([], $tableRows, 'compact');
+        }
     }
 }

@@ -9,7 +9,6 @@ namespace Drupal\Console\Command\Cron;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -24,30 +23,17 @@ class DebugCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
-        $table = new Table($output);
-        $table->setStyle('compact');
-
+        $io = new DrupalStyle($input, $output);
         $module_handler = $this->getModuleHandler();
 
-        $output->section(
+        $io->section(
             $this->trans('commands.cron.debug.messages.module-list')
         );
 
-        $table->setHeaders(
-            [
-                $this->trans('commands.cron.debug.messages.module'),
-            ]
+        $io->table(
+            [$this->trans('commands.cron.debug.messages.module')],
+            $module_handler->getImplementations('cron'),
+            'compact'
         );
-
-        foreach ($module_handler->getImplementations('cron') as $module) {
-            $table->addRow(
-                [
-                    $module,
-                ]
-            );
-        }
-
-        $table->render();
     }
 }

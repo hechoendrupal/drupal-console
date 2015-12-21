@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\SiteModeCommand.
+ * Contains \Drupal\Console\Command\Site\ModeCommand.
  */
 
 namespace Drupal\Console\Command\Site;
@@ -11,8 +11,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
-use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class ModeCommand extends ContainerAwareCommand
 {
@@ -30,17 +30,15 @@ class ModeCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $table = new Table($output);
-        $table->setStyle('compact');
+        $io = new DrupalStyle($input, $output);
 
         $environment = $input->getArgument('environment');
 
+        $loadedConfigurations = [];
         if (in_array($environment, array('dev', 'prod'))) {
             $loadedConfigurations = $this->loadConfigurations($environment);
         } else {
-            $output->writeln(
-                ' <error>'.$this->trans('commands.site.mode.messages.invalid-env').'</error>'
-            );
+            $io->error($this->trans('commands.site.mode.messages.invalid-env'));
         }
 
         $configurationOverrideResult = $this->overrideConfigurations(
@@ -48,46 +46,38 @@ class ModeCommand extends ContainerAwareCommand
         );
 
         foreach ($configurationOverrideResult as $configName => $result) {
-            $output->writeln(
-                sprintf(
-                    ' <info>%s:</info> <comment>%s</comment>',
-                    $this->trans('commands.site.mode.messages.configuration'),
-                    $configName
-                )
+            $io->info(
+                $this->trans('commands.site.mode.messages.configuration') . ':',
+                false
             );
+            $io->comment($configName);
 
-            $table->setHeaders(
-                [
-                    $this->trans('commands.site.mode.messages.configuration-key'),
-                    $this->trans('commands.site.mode.messages.original'),
-                    $this->trans('commands.site.mode.messages.updated'),
-                ]
-            );
-            $table->setRows($result);
-            $table->render();
-            $output->writeln('');
+            $tableHeader = [
+                $this->trans('commands.site.mode.messages.configuration-key'),
+                $this->trans('commands.site.mode.messages.original'),
+                $this->trans('commands.site.mode.messages.updated'),
+            ];
+
+            $io->table($tableHeader, $result);
         }
 
         $servicesOverrideResult = $this->overrideServices(
             $loadedConfigurations['services'],
-            $output
+            $io
         );
 
         if (!empty($servicesOverrideResult)) {
-            $output->writeln(
-                ' <info>' .  $this->trans('commands.site.mode.messages.new-services-settings') . '</info>'
+            $io->info(
+                $this->trans('commands.site.mode.messages.new-services-settings')
             );
 
-            $table->setHeaders(
-                [
-                    $this->trans('commands.site.mode.messages.service'),
-                    $this->trans('commands.site.mode.messages.service-parameter'),
-                    $this->trans('commands.site.mode.messages.service-value'),
-                ]
-            );
-            $table->setStyle('compact');
-            $table->setRows($servicesOverrideResult);
-            $table->render();
+            $tableHeaders = [
+                $this->trans('commands.site.mode.messages.service'),
+                $this->trans('commands.site.mode.messages.service-parameter'),
+                $this->trans('commands.site.mode.messages.service-value'),
+            ];
+
+            $io->table($tableHeaders, $servicesOverrideResult);
         }
 
         $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
@@ -121,7 +111,7 @@ class ModeCommand extends ContainerAwareCommand
         return $result;
     }
 
-    protected function overrideServices($servicesSettings, $output)
+    protected function overrideServices($servicesSettings, DrupalStyle $io)
     {
         $directory = sprintf(
             '%s/%s',
@@ -134,9 +124,14 @@ class ModeCommand extends ContainerAwareCommand
             // Copying default services
             $defaultServicesFile = $this->getDrupalHelper()->getRoot() . '/sites/default/default.services.yml';
             if (!copy($defaultServicesFile, $settingsServicesFile)) {
-                $output->writeln(
-                    ' <error>'. $this->trans('commands.site.mode.messages.error-copying-file') . ': ' . $directory . '/services.yml' .'</error>'
+                $io->error(
+                    sprintf(
+                        '%s: %s /services.yml',
+                        $this->trans('commands.site.mode.messages.error-copying-file'),
+                        $directory
+                    )
                 );
+
                 return [];
             }
         }
@@ -159,13 +154,21 @@ class ModeCommand extends ContainerAwareCommand
         }
 
         if (file_put_contents($settingsServicesFile, $yaml->dump($services))) {
-            $output->writeln(
-                '<info>' . sprintf($this->trans('commands.site.mode.messages.services-file-overwritten'), $directory . '/services.yml') . '</info>'
+            $io->commentBlock(
+                sprintf(
+                    $this->trans('commands.site.mode.messages.services-file-overwritten'),
+                    $settingsServicesFile
+                )
             );
         } else {
-            $output->writeln(
-                ' <error>'. $this->trans('commands.site.mode.messages.error-writing-file') . ': ' . $directory . '/services.yml' .'</error>'
+            $io->error(
+                sprintf(
+                    '%s : %s/services.yml',
+                    $this->trans('commands.site.mode.messages.error-writing-file'),
+                    $directory
+                )
             );
+
             return [];
         }
 

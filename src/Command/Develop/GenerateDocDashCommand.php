@@ -204,7 +204,6 @@ PLIST;
         $template,
         $target,
         $parameters,
-        $flag = null,
         $renderer
     ) {
         $filesystem = new Filesystem();

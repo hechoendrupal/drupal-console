@@ -14,14 +14,12 @@ use Drupal\Console\Command\ContainerAwareCommand;
 
 class GenerateDocGitbookCommand extends ContainerAwareCommand
 {
-    private $single_commands = [
+    private $singleCommands = [
       'about',
       'chain',
-      'drush',
       'help',
       'init',
       'list',
-      'self-update',
       'server'
     ];
 
@@ -66,7 +64,7 @@ class GenerateDocGitbookCommand extends ContainerAwareCommand
         $application = $this->getApplication();
         $command_list = [];
 
-        foreach ($this->single_commands as $single_command) {
+        foreach ($this->singleCommands as $single_command) {
             $command = $application->find($single_command);
             $command_list['none'][] = [
                 'name' => $command->getName(),

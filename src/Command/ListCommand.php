@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Drupal\Console\Helper\DescriptorHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
 
 class ListCommand extends Command
 {
@@ -26,6 +27,7 @@ class ListCommand extends Command
             ->setDescription($this->trans('commands.list.description'))
             ->setHelp($this->trans('commands.list.help'));
     }
+
     /**
      * {@inheritdoc}
      */
@@ -33,27 +35,31 @@ class ListCommand extends Command
     {
         return $this->createDefinition();
     }
+
     /**
      * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
+
         if ($input->getOption('xml')) {
-            $output->writeln(
-                '<info>The --xml option was deprecated in version 2.7 and will be removed in version 3.0. Use the --format option instead.</info>',
+            $io->info(
+                'The --xml option was deprecated in version 2.7 and will be removed in version 3.0. Use the --format option instead',
                 E_USER_DEPRECATED
             );
             $input->setOption('format', 'xml');
         }
         $helper = new DescriptorHelper();
         $helper->describe(
-            $output, $this->getApplication(), array(
+            $io, $this->getApplication(), array(
             'format' => $input->getOption('format'),
             'raw_text' => $input->getOption('raw'),
             'namespace' => $input->getArgument('namespace'),
             )
         );
     }
+
     /**
      * {@inheritdoc}
      */

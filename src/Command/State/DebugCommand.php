@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\State;
 
-use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -47,31 +46,17 @@ class DebugCommand extends ContainerAwareCommand
 
         if ($key) {
             $state = $this->getState();
-            $io->writeln(
-                sprintf(
-                    '<info>%s:</info>',
-                    $key
-                )
-            );
+            $io->info($key);
             $io->writeln(Yaml::encode($state->get($key)));
+
             return;
         }
-        $this->showAllStateKeys($io);
-    }
 
-    /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
-     */
-    private function showAllStateKeys(DrupalStyle $io)
-    {
-        $table = new Table($io);
-        $table->setStyle('compact');
-        $table->setHeaders([$this->trans('commands.state.debug.messages.key')]);
-        $keyValue = $this->getContainer()->get('keyvalue');
+        $tableHeader = [$this->trans('commands.state.debug.messages.key')];
+
+        $keyValue = $this->hasGetService('keyvalue');
         $keyStoreStates = array_keys($keyValue->get('state')->getAll());
-        foreach ($keyStoreStates as $key => $keyStoreState) {
-            $table->addRow([$keyStoreState]);
-        }
-        $table->render();
+
+        $io->table($tableHeader, $keyStoreStates);
     }
 }

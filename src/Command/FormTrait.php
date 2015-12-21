@@ -23,23 +23,24 @@ trait FormTrait
             true
         )) {
             $input_types = [
-              'color',
-              'checkbox',
-              'checkboxes',
-              'date',
-              'datetime',
-              'fieldset',
-              'email',
-              'number',
-              'password',
-              'password_confirm',
-              'range',
-              'radios',
-              'select',
-              'tel',
-              'textarea',
-              'textfield',
+                'fieldset',
             ];
+
+            $elementInfoManager = $this->hasGetService('plugin.manager.element_info');
+            if (!$elementInfoManager) {
+                return false;
+            }
+
+            foreach ($elementInfoManager->getDefinitions() as $definition) {
+                $type = $definition['id'];
+                $elementInfo = $elementInfoManager->getInfo($type);
+                if (isset($elementInfo['#input']) && $elementInfo['#input']) {
+                    if (!in_array($type, $input_types)) {
+                        $input_types[] = $type;
+                    }
+                }
+            }
+            sort($input_types);
 
             $inputs = [];
             $fieldSets = [];

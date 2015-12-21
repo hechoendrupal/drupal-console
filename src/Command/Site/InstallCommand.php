@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Command\MigrateExecuteCommand.
+ * Contains \Drupal\AppConsole\Command\Site\InstallCommand.
  */
 
 namespace Drupal\Console\Command\Site;
@@ -122,13 +122,13 @@ class InstallCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // profile option
         $profile = $input->getArgument('profile');
         if (!$profile) {
             $profiles = $this->getProfiles();
-            $profile = $output->choice(
+            $profile = $io->choice(
                 $this->trans('commands.site.install.questions.profile'),
                 array_values($profiles)
             );
@@ -141,7 +141,7 @@ class InstallCommand extends Command
             $languages = $this->getLanguages();
             $defaultLanguage = $this->getDefaultLanguage();
 
-            $langcode = $output->choiceNoList(
+            $langcode = $io->choiceNoList(
                 $this->trans('commands.site.install.questions.langcode'),
                 $languages,
                 $languages[$defaultLanguage]
@@ -157,48 +157,48 @@ class InstallCommand extends Command
             // --db-type option
             $dbType = $input->getOption('db-type');
             if (!$dbType) {
-                $dbType = $this->dbTypeQuestion($output);
+                $dbType = $this->dbTypeQuestion($io);
                 $input->setOption('db-type', $dbType);
             }
 
             // --db-file option
             $dbFile = $input->getOption('db-file');
             if ($dbType == 'sqlite' && !$dbFile) {
-                $dbFile = $this->dbFileQuestion($output);
+                $dbFile = $this->dbFileQuestion($io);
                 $input->setOption('db-file', $dbFile);
             } else {
                 // --db-host option
                 $dbHost = $input->getOption('db-host');
                 if (!$dbHost) {
-                    $dbHost = $this->dbHostQuestion($output);
+                    $dbHost = $this->dbHostQuestion($io);
                     $input->setOption('db-host', $dbHost);
                 }
 
                 // --db-name option
                 $dbName = $input->getOption('db-name');
                 if (!$dbName) {
-                    $dbName = $this->dbNameQuestion($output);
+                    $dbName = $this->dbNameQuestion($io);
                     $input->setOption('db-name', $dbName);
                 }
 
                 // --db-user option
                 $dbUser = $input->getOption('db-user');
                 if (!$dbUser) {
-                    $dbUser = $this->dbUserQuestion($output);
+                    $dbUser = $this->dbUserQuestion($io);
                     $input->setOption('db-user', $dbUser);
                 }
 
                 // --db-pass option
                 $dbPass = $input->getOption('db-pass');
                 if (!$dbPass) {
-                    $dbPass = $this->dbPassQuestion($output);
+                    $dbPass = $this->dbPassQuestion($io);
                     $input->setOption('db-pass', $dbPass);
                 }
 
                 // --db-port prefix
                 $dbPort = $input->getOption('db-port');
                 if (!$dbPort) {
-                    $dbPort = $this->dbPortQuestion($output);
+                    $dbPort = $this->dbPortQuestion($io);
                     $input->setOption('db-port', $dbPort);
                 }
             }
@@ -206,7 +206,7 @@ class InstallCommand extends Command
             // --db-prefix
             $dbPrefix = $input->getOption('db-prefix');
             if (!$dbPrefix) {
-                $dbPrefix = $this->dbPrefixQuestion($output);
+                $dbPrefix = $this->dbPrefixQuestion($io);
                 $input->setOption('db-prefix', $dbPrefix);
             }
         } else {
@@ -217,7 +217,7 @@ class InstallCommand extends Command
             $input->setOption('db-pass', $database['default']['password']);
             $input->setOption('db-port', $database['default']['port']);
             $input->setOption('db-prefix', $database['default']['prefix']['default']);
-            $output->info(
+            $io->info(
                 sprintf(
                     $this->trans('commands.site.install.messages.using-current-database'),
                     $database['default']['driver'],
@@ -230,7 +230,7 @@ class InstallCommand extends Command
         // --site-name option
         $site_name = $input->getOption('site-name');
         if (!$site_name) {
-            $site_name = $output->ask(
+            $site_name = $io->ask(
                 $this->trans('commands.site.install.questions.site-name'),
                 'Drupal 8 Site Install'
             );
@@ -240,7 +240,7 @@ class InstallCommand extends Command
         // --site-mail option
         $site_mail = $input->getOption('site-mail');
         if (!$site_mail) {
-            $site_mail = $output->ask(
+            $site_mail = $io->ask(
                 $this->trans('commands.site.install.questions.site-mail'),
                 'admin@example.com'
             );
@@ -250,7 +250,7 @@ class InstallCommand extends Command
         // --account-name option
         $account_name = $input->getOption('account-name');
         if (!$account_name) {
-            $account_name = $output->ask(
+            $account_name = $io->ask(
                 $this->trans('commands.site.install.questions.account-name'),
                 'admin'
             );
@@ -260,7 +260,7 @@ class InstallCommand extends Command
         // --account-mail option
         $account_mail = $input->getOption('account-mail');
         if (!$account_mail) {
-            $account_mail = $output->ask(
+            $account_mail = $io->ask(
                 $this->trans('commands.site.install.questions.account-mail'),
                 'admin@example.com'
             );
@@ -270,7 +270,7 @@ class InstallCommand extends Command
         // --account-pass option
         $account_pass = $input->getOption('account-pass');
         if (!$account_pass) {
-            $account_pass = $output->askHidden(
+            $account_pass = $io->askHidden(
                 $this->trans('commands.site.install.questions.account-pass')
             );
             $input->setOption('account-pass', $account_pass);

@@ -13,9 +13,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Core\Logger\RfcLogLevel;
+use Drupal\Console\Style\DrupalStyle;
 
 class LogClearCommand extends ContainerAwareCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -46,98 +50,109 @@ class LogClearCommand extends ContainerAwareCommand
             );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $event_id = $input->getArgument('event-id');
-        $event_type = $input->getOption('type');
-        $event_severity = $input->getOption('severity');
-        $user_id = $input->getOption('user-id');
+        $io = new DrupalStyle($input, $output);
 
-        if ($event_id) {
-            $this->clearEvent($output, $event_id);
+        $eventId = $input->getArgument('event-id');
+        $eventType = $input->getOption('type');
+        $eventSeverity = $input->getOption('severity');
+        $userId = $input->getOption('user-id');
+
+        if ($eventId) {
+            $this->clearEvent($io, $eventId);
         } else {
-            $this->clearEvents($event_type, $event_severity, $user_id, $output);
+            $this->clearEvents($io, $eventType, $eventSeverity, $userId);
         }
     }
 
+
     /**
-     * @param $output
-     * @param $event_id
+     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param $eventId
      * @return bool
      */
-    private function clearEvent($output, $event_id)
+    private function clearEvent(DrupalStyle $io, $eventId)
     {
         $connection = $this->getDatabase();
 
-        $result = $connection->delete('watchdog')->condition('wid', $event_id)->execute();
+        $result = $connection->delete('watchdog')->condition('wid', $eventId)->execute();
 
         if (!$result) {
-            $output->writeln(
-                '[+] <error>'.sprintf(
+            $io->error(
+                sprintf(
                     $this->trans('commands.database.log.clear.messages.not-found'),
-                    $event_id
-                ).'</error>'
+                    $eventId
+                )
             );
 
             return false;
-        } else {
-            $output->writeln(
-                '[+] <info>'.sprintf(
-                    $this->trans('commands.database.log.clear.messages.event-deleted'),
-                    $event_id
-                ).'</info>'
-            );
-
-            return true;
         }
+
+        $io->success(
+            sprintf(
+                $this->trans('commands.database.log.clear.messages.event-deleted'),
+                $eventId
+            )
+        );
+
+        return true;
     }
 
-    protected function clearEvents($event_type, $event_severity, $user_id,  $output)
+    /**
+     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param $eventType
+     * @param $eventSeverity
+     * @param $userId
+     * @return bool
+     */
+    protected function clearEvents(DrupalStyle $io, $eventType, $eventSeverity, $userId)
     {
         $connection = $this->getDatabase();
         $severity = RfcLogLevel::getLevels();
 
         $query = $connection->delete('watchdog');
 
-        if (!empty($event_type)) {
-            $query->condition('type', $event_type);
+        if ($eventType) {
+            $query->condition('type', $eventType);
         }
 
-        if (!empty($event_severity) && in_array($event_severity, $severity)) {
-            $query->condition('severity', array_search($event_severity, $severity));
-        } elseif (!empty($event_severity)) {
-            $output->writeln(
-                '[-] <error>' .
-                sprintf(
-                    $this->trans('commands.database.log.clear.messages.invalid-severity'),
-                    $event_severity
-                )
-                . '</error>'
-            );
+        if ($eventSeverity) {
+            if (!in_array($eventSeverity, $severity)) {
+                $io->error(
+                    sprintf(
+                        $this->trans('commands.database.log.clear.messages.invalid-severity'),
+                        $eventSeverity
+                    )
+                );
+
+                return false;
+            }
+
+            $query->condition('severity', array_search($eventSeverity, $severity));
         }
 
-        if (!empty($user_id)) {
-            $query->condition('uid', $user_id);
+        if ($userId) {
+            $query->condition('uid', $userId);
         }
 
         $result = $query->execute();
 
         if (!$result) {
-            $output->writeln(
-                '[+] <error>'.
+            $io->error(
                 $this->trans('commands.database.log.clear.messages.clear-error')
-                .'</error>'
             );
 
             return false;
-        } else {
-            $output->writeln(
-                '[+] <info>'.
-                $this->trans('commands.database.log.clear.messages.clear-sucess')
-                .'</info>'
-            );
-
-            return true;
         }
+
+        $io->success(
+            $this->trans('commands.database.log.clear.messages.clear-sucess')
+        );
+
+        return true;
     }
 }
