@@ -37,3 +37,5 @@ status:
 messages:
     canceled: 'Fișierele generate au fost anulate'
     drupal-core: 'Nucleu Drupal'
+    move-phar: 'Accessing console from anywhere on your system'
+    quick-start: 'Download, install and serve Drupal 8'

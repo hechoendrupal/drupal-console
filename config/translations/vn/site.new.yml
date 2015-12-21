@@ -3,6 +3,7 @@ arguments:
     site-name: 'Tên site'
     version: 'Phiên bản cụ thể của Drupal để tải xuống'
 messages:
+    release: 'Please select a release'
     getting-releases: 'Nhận các bản mới phát hành của Drupal'
     downloading: 'Đang tải Drupal %s'
     extracting: 'Đang giải nén file Drupal %s'

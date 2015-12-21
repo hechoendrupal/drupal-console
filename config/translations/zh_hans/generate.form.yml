@@ -3,15 +3,17 @@ help: '<info>"%s"</info>命令帮助你生成新的"%s"'
 welcome: '欢迎到Drupal表格生成器'
 options:
     module: common.options.module
-    class-name: '表格类名'
+    class: 'The form class name'
     form-id: '表格ID'
     services: common.options.services
     inputs: common.options.inputs
-    routing: '更新路径'
+    routing: 更新路径
+    class-name: '表格类名'
 questions:
     module: common.questions.module
-    class-name: '输入表格类名'
+    class: 'Enter the Form Class name'
     form-id: '输入表格ID'
     services: common.questions.services
     inputs: common.questions.inputs
-    routing: '更新路径文件'
+    routing: 更新路径文件
+    class-name: '输入表格类名'

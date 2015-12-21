@@ -4,24 +4,28 @@ welcome: 'Üdvözlet a Drupal Controller létrehozásában'
 options:
     module: common.options.module
     class: 'Controller Class neve'
-    controller-title: 'Title of the controller'
-    method-name: 'Az akció metódus neve'
+    title: 'Title of the controller'
+    method: 'The action method name'
     route: 'Az elérési útvonal'
     services: common.options.services
     test: 'Teszt osztály létrehozása'
+    controller-title: 'Title of the controller'
+    method-name: 'Az akció metódus neve'
 questions:
     module: common.questions.module
     class: 'Controller Class nevének megadása'
-    method-name: 'Az akció metódus nevének megadása'
+    controller: 'Controller title'
+    method: 'Enter the action method name'
     route: 'Az elérési útvonal megadása'
     services: common.questions.services
     test: 'Unit teszt osztály létrehozása'
+    method-name: 'Az akció metódus nevének megadása'
     other-controller-title: 'Controller title (empty to start with code generation)'
     controller-title: 'Controller title'
 messages:
-    invalid-controller-title: 'Title cannot be empty'
     title-already-added: 'Title was already added'
-    invalid-method-name: 'Method name cannot be empty'
     method-name-already-added: 'Method name was already added'
-    invalid-route: 'Route cannot be empty'
     route-already-added: 'Route was already added'
+    invalid-controller-title: 'Title cannot be empty'
+    invalid-method-name: 'Method name cannot be empty'
+    invalid-route: 'Route cannot be empty'

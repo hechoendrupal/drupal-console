@@ -1,0 +1,6 @@
+description: 'Show the current State keys.'
+help: 'Show the current State keys.'
+arguments:
+  key: 'The State key to debug.'
+messages:
+  key: 'The State key'

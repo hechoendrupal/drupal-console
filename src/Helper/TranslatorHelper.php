@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Helper;
 
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
@@ -14,6 +15,7 @@ use Symfony\Component\Translation\Loader\ArrayLoader;
 use Symfony\Component\Translation\Writer\TranslationWriter;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Yaml\Parser;
+use Symfony\Component\Yaml\Exception\ParseException;
 use Drupal\Console\Helper\Helper;
 use Drupal\Console\Utils\YamlFileDumper;
 
@@ -85,11 +87,20 @@ class TranslatorHelper extends Helper
             $resource = $languageDirectory . '/' . $file->getBasename();
             $filename = $file->getBasename('.yml');
             // Handle application file different than commands
+
             if ($filename == 'application') {
-                $this->writeTranslationByFile($resource, 'application');
+                try {
+                    $this->writeTranslationByFile($resource, 'application');
+                } catch (ParseException $e) {
+                    print 'application.yml' . ' ' . $e->getMessage();
+                }
             } else {
                 $key = 'commands.' . $filename;
-                $this->writeTranslationByFile($resource, $key);
+                try {
+                    $this->writeTranslationByFile($resource, $key);
+                } catch (ParseException $e) {
+                    print $key . '.yml ' . $e->getMessage();
+                }
             }
         }
     }
@@ -210,19 +221,19 @@ class TranslatorHelper extends Helper
      */
     public function addResourceTranslationsByTheme($theme)
     {
-      $resource = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('theme', $theme).
+        $resource = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('theme', $theme).
         '/config/translations/console.'.$this->language.'.yml';
 
-      if (file_exists($resource)) {
-        $this->addResource($resource);
-      } else {
-        // Try to load the language fallback
-        $resource_fallback = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('theme', $theme).
-          '/config/translations/console.en.yml';
-        if (file_exists($resource_fallback)) {
-          $this->addResource($resource_fallback);
+        if (file_exists($resource)) {
+            $this->addResource($resource);
+        } else {
+            // Try to load the language fallback
+            $resource_fallback = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('theme', $theme).
+            '/config/translations/console.en.yml';
+            if (file_exists($resource_fallback)) {
+                $this->addResource($resource_fallback);
+            }
         }
-      }
     }
 
     /**
@@ -231,25 +242,25 @@ class TranslatorHelper extends Helper
      */
     public function writeTranslationsByTheme($theme, $messages)
     {
-      $currentMessages = $this->getMessagesByModule($theme);
+        $currentMessages = $this->getMessagesByModule($theme);
 
-      $language = 'en';
-      $resource = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('theme', $theme).
+        $language = 'en';
+        $resource = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('theme', $theme).
         '/config/translations/';
 
-      $messageCatalogue = new MessageCatalogue($language);
-      if ($currentMessages && $currentMessages['messages']) {
-        $messageCatalogue->add($currentMessages['messages'], 'console');
-      }
-      $messageCatalogue->add($messages, 'console');
+        $messageCatalogue = new MessageCatalogue($language);
+        if ($currentMessages && $currentMessages['messages']) {
+            $messageCatalogue->add($currentMessages['messages'], 'console');
+        }
+        $messageCatalogue->add($messages, 'console');
 
-      $translatorWriter = new TranslationWriter();
-      $translatorWriter->addDumper('yaml', new YamlFileDumper());
-      $translatorWriter->writeTranslations(
-        $messageCatalogue,
-        'yaml',
-        ['path' => $resource, 'nest-level' => 10, 'indent' => 2]
-      );
+        $translatorWriter = new TranslationWriter();
+        $translatorWriter->addDumper('yaml', new YamlFileDumper());
+        $translatorWriter->writeTranslations(
+            $messageCatalogue,
+            'yaml',
+            ['path' => $resource, 'nest-level' => 10, 'indent' => 2]
+        );
     }
 
     /**
@@ -258,22 +269,22 @@ class TranslatorHelper extends Helper
      */
     protected function getMessagesByTheme($theme)
     {
-      $resource = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('theme', $theme).
+        $resource = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('theme', $theme).
         '/config/translations/console.'.$this->language.'.yml';
 
-      if (file_exists($resource)) {
-        $themeTranslator = new Translator($this->language);
-        $themeTranslator->addLoader('yaml', new YamlFileLoader());
-        $themeTranslator->addResource(
-          'yaml',
-          $resource,
-          $this->language
-        );
+        if (file_exists($resource)) {
+            $themeTranslator = new Translator($this->language);
+            $themeTranslator->addLoader('yaml', new YamlFileLoader());
+            $themeTranslator->addResource(
+                'yaml',
+                $resource,
+                $this->language
+            );
 
-        return $themeTranslator->getMessages($this->language);
-      }
+            return $themeTranslator->getMessages($this->language);
+        }
 
-      return [];
+        return [];
     }
 
     /**

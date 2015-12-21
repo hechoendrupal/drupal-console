@@ -1,5 +1,15 @@
 description: 'Cập nhật console vào phiên bản mới nhất.'
 help: 'Cập nhật câu lệnh console vào phiên bản mới nhất.'
+options:
+    major: 'Update to a new major version, if available.'
+    manifest: 'Override the manifest file path.'
+    current-version: 'Override the version to update from.'
+questions:
+    update: 'Update from version %s to version %s.'
 messages:
+    not-phar: 'This instance of the CLI was not installed as a Phar archive.'
+    update: 'Updating to version %s.'
     success: 'Console vừa được cập nhật vào phiên bản mới nhất.'
+    check: 'Checking for updates from version: %s'
     current-version: 'Phiên bản mới nhất %s, đã được cài đặt trong hệ thống của bạn.'
+    instructions: "Update using: composer global update\nOr you can switch to a Phar install recommended\ncomposer global remove drupal/console\ncurl https://drupalconsole.com/installer -L -o drupal.phar\n"
