@@ -131,13 +131,6 @@ class CommandDiscoveryHelper extends Helper
                 }
 
                 $commands = array_merge($commands, $this->extractCommands($directory, $sourceName, $sourceType));
-
-                //                if (strpos($directory, 'modules') !== 'false') {
-                //                  $commands = array_merge($commands, $this->extractCommands($directory, $sourceName));
-                //                }
-                //                else if (strpos($directory, 'themes') !== 'false') {
-                //                  $commands = array_merge($commands, $this->extractCommands($directory, $sourceName, 'theme'));
-                //                }
             }
         }
 
@@ -177,7 +170,6 @@ class CommandDiscoveryHelper extends Helper
             );
 
             if ($type!='module') {
-                $commandPath = $file->getPathname();
                 include $file->getPathname();
             }
 
