@@ -9,7 +9,6 @@ namespace Drupal\Console\Command\Rest;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
@@ -69,7 +68,7 @@ class EnableCommand extends ContainerAwareCommand
         $formats = $io->choice(
             $this->trans('commands.rest.enable.messages.formats'),
             $serializedFormats,
-            '0',
+            0,
             true
         );
 
@@ -86,7 +85,7 @@ class EnableCommand extends ContainerAwareCommand
         $authenticationProvidersSelected = $io->choice(
             $this->trans('commands.rest.enable.messages.authentication-providers'),
             array_keys($authenticationProviders),
-            '0',
+            0,
             true
         );
 
