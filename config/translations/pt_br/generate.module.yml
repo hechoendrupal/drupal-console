@@ -7,11 +7,11 @@ options:
     module-path: 'O caminho do módulo'
     description: 'Descrição do módulo'
     core: 'Versão do core'
-    feature: 'Set module compatible with Features module'
+    feature: 'Definir módulo compatível com o módulo Features
     package: 'Pacote do módulo'
     controller: 'Controller padrão'
-    composer: 'Add a composer.json file'
-    dependencies: 'Module dependencies separated by commas (i.e. context, panels)'
+    composer: 'Adicionar um arquivo composer.json'
+    dependencies: 'Dependências do módulo separados por vírgulas (i.e. context, panels)'
     test: 'Criar uma classe de teste'
     structure: 'Gerar estrutura de diretório'
 questions:
@@ -23,11 +23,11 @@ questions:
     package: 'Digite o nome do pacote'
     feature: 'Define module as feature'
     controller: 'Você deseja criar um Controller padrão'
-    composer: 'Do you want to add a composer.json file to your module'
-    dependencies: 'Would you like to add module dependencies'
+    composer: 'Você quer adicionar um composer.json file para seu módulo'
+    dependencies: 'Você gostaria de adicionar dependências de módulo'
     test: 'Você deseja criar uma classe de teste unitário'
     structure: 'Você deseja criar a estrutura de diretório'
 warnings:
-    module-unavailable: 'Warning The following modules are not already available in your local environment "%s"'
+    module-unavailable: 'Aviso: Os seguintes módulos não estão disponíveis no seu ambiente local "%s"'
 errors:
-    directory-exists: 'The target directory "%s" is not empty.'
+    directory-exists: 'O diretório de destino "%s" não está vazio.'
