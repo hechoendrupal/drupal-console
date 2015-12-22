@@ -59,6 +59,21 @@ class SiteHelper extends Helper
     }
 
     /**
+     * @return \Drupal\Core\Extension\Extension[]
+     */
+    private function discoverThemes()
+    {
+        /*
+         * @see Remove DrupalExtensionDiscovery subclass once
+         * https://www.drupal.org/node/2503927 is fixed.
+         */
+        $discovery = new DrupalExtensionDiscovery(\Drupal::root());
+        $discovery->reset();
+
+        return $discovery->scan('theme');
+    }
+
+    /**
      * @return array
      */
     private function getInstalledModules()
@@ -80,6 +95,30 @@ class SiteHelper extends Helper
             return [];
         }
         return $coreExtension->get('module') ?: [];
+    }
+    
+    /**
+     * @return array
+     */
+    private function getInstalledThemes()
+    {
+        $kernel = $this->getKernelHelper()->getKernel();
+        if (!$kernel) {
+            return [];
+        }
+        $container = $kernel->getContainer();
+        if (!$container) {
+            return [];
+        }
+        $configFactory = $container->get('config.factory');
+        if (!$configFactory) {
+            return [];
+        }
+        $coreExtension = $configFactory->get('core.extension');
+        if (!$coreExtension) {
+            return [];
+        }
+        return $coreExtension->get('theme') ?: [];
     }
 
     /**
@@ -123,6 +162,39 @@ class SiteHelper extends Helper
         }
 
         return $modules;
+    }
+    
+    /**
+     * @param bool|false $reset
+     * @param bool|false $installedOnly
+     * @param bool|false $nameOnly
+     * @return array
+     */
+    public function getThemes(
+        $reset = false,
+        $installedOnly = false,
+        $nameOnly = false
+    ) {
+        $installedThemes = $this->getInstalledThemes();
+        $themes = [];
+
+        if (!$this->themes || $reset) {
+            $this->themes = $this->discoverThemes();
+        }
+
+        foreach ($this->themes as $theme) {
+            $name = $theme->getName();
+            if ($installedOnly && !array_key_exists($name, $installedThemes)) {
+                continue;
+            }
+            if ($nameOnly) {
+                $themes[] = $name;
+            } else {
+                $themes[$name] = $theme;
+            }
+        }
+
+        return $themes;
     }
 
     /**

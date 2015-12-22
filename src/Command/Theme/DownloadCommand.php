@@ -40,7 +40,8 @@ class DownloadCommand extends Command
             $release_selected = $version;
         } else {
             // Getting Theme page header and parse to get theme Node
-            $io->info(sprintf(
+            $io->info(
+                sprintf(
                     $this->trans('commands.theme.download.messages.getting-releases'),
                     implode(',', array($theme))
                 )
@@ -84,7 +85,8 @@ class DownloadCommand extends Command
             }
 
             if (empty($releases)) {
-                $io->error(sprintf(
+                $io->error(
+                    sprintf(
                         $this->trans('commands.theme.download.messages.no-releases'),
                         implode(',', array($theme))
                     )
@@ -106,7 +108,8 @@ class DownloadCommand extends Command
         }
 
         // Start the process to download the zip file of release and copy in contrib folter
-        $io->info(sprintf(
+        $io->info(
+            sprintf(
                 $this->trans('commands.theme.download.messages.downloading'),
                 $theme,
                 $release_selected
@@ -127,7 +130,8 @@ class DownloadCommand extends Command
             if ($drupalRoot) {
                 $theme_contrib_path = $drupalRoot . '/themes/contrib';
             } else {
-                $io->info(sprintf(
+                $io->info(
+                    sprintf(
                         $this->trans('commands.theme.download.messages.outside-drupal'),
                         $theme,
                         $release_selected
@@ -151,7 +155,8 @@ class DownloadCommand extends Command
 
             unlink($destination);
 
-            $io->info(sprintf(
+            $io->info(
+                sprintf(
                     $this->trans('commands.theme.download.messages.downloaded'),
                     $theme,
                     $release_selected,
