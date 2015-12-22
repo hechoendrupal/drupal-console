@@ -7,7 +7,7 @@ options:
     module-path: 'O caminho do módulo'
     description: 'Descrição do módulo'
     core: 'Versão do core'
-    feature: 'Definir módulo compatível com o módulo Features
+    feature: 'Definir módulo compatível com o módulo Features'
     package: 'Pacote do módulo'
     controller: 'Controller padrão'
     composer: 'Adicionar um arquivo composer.json'
