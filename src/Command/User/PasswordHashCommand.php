@@ -71,7 +71,7 @@ class PasswordHashCommand extends ContainerAwareCommand
                 $password = $io->ask(
                     $this->trans('commands.user.password.hash.questions.password'),
                     '',
-                    function ($pass) use ($passwords) {
+                    function ($pass) use ($passwords, $io) {
                         if (!empty($pass) || count($passwords) >= 1) {
                             if ($pass == '') {
 
@@ -80,18 +80,22 @@ class PasswordHashCommand extends ContainerAwareCommand
 
                             return $pass;
                         } else {
-                            throw new \InvalidArgumentException(
+                            $io->error(
                                 sprintf($this->trans('commands.user.password.hash.questions.invalid-pass'), $pass)
                             );
+
+                            return false;
                         }
                     }
                 );
 
-                if (!is_string($password)) {
+                if ($password && !is_string($password)) {
                     break;
                 }
 
-                $passwords[] = $password;
+                if (is_string($password)) {
+                    $passwords[] = $password;
+                }
             }
 
             $input->setArgument('password', $passwords);
