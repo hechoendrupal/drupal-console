@@ -31,7 +31,7 @@ class DisableCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $resource_id = $input->getArgument('resource-id');
         $rest_resources = $this->getRestResources();
@@ -41,7 +41,7 @@ class DisableCommand extends ContainerAwareCommand
         );
 
         if (!$resource_id) {
-            $resource_id = $output->choice(
+            $resource_id = $io->choice(
                 $this->trans('commands.rest.disable.arguments.resource-id'),
                 $rest_resources_ids
             );
