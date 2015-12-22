@@ -10,7 +10,7 @@ messages:
     tag: Tag
     status: Status
     path: Path
-    not-found: 'View %s wasn''t found.'
+    not-found: 'View %s wasn\'t found.'
     display-list: 'Display list'
     display-id: ID
     display-name: Name
