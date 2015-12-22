@@ -63,12 +63,12 @@ class LoginCleanAttemptsCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // Check if $uid argument is already set.
         if (!$uid = $input->getArgument('uid')) {
             // Request $uid argument.
-            $uid = $output->ask(
+            $uid = $io->ask(
                 $this->trans('commands.user.login.clear.attempts.questions.uid'),
                 1,
                 $this->validateQuestionsUid($uid)
@@ -82,6 +82,8 @@ class LoginCleanAttemptsCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
+
         $uid = $input->getArgument('uid');
         $account = User::load($uid);
 
@@ -110,7 +112,7 @@ class LoginCleanAttemptsCommand extends ContainerAwareCommand
             ->execute();
 
         // Command executed successful.
-        $output->success(
+        $io->success(
             sprintf(
                 $this->trans('commands.user.login.clear.attempts.messages.successful'),
                 $uid
