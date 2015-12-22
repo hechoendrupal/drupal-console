@@ -95,8 +95,7 @@ class DownloadCommand extends Command
 
             $release_selected = $io->choice(
                 $this->trans('commands.module.download.messages.select-release'),
-                array_keys($releases),
-                '0'
+                array_keys($releases)
             );
         }
 
