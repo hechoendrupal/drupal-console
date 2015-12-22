@@ -14,7 +14,7 @@ questions:
         name: 'Introduir el nom de l\'esdeveniment'
     services:
         confirm: '¿Vols carregar els serveis del contenidor?'
-        message: "\\Tecleja el nom del servei o utilitza les tecles de desplaçament.\nAixò es opcional, prem <info>enter</info> per <info>continuar</info>\n"
+        message: "\nTecleja el nom del servei o utilitza les tecles de desplaçament.\nAixò es opcional, prem <info>enter</info> per <info>continuar</info>\n"
         name: 'Tecleja el teu servei'
     inputs:
         confirm: '¿Vols generar una estructura de formulari?'
