@@ -42,7 +42,8 @@ class ExecuteCommand extends ContainerAwareCommand
         $updates = update_get_update_list();
         if ($module != 'all') {
             if (!isset($updates[$module])) {
-                $io->error(sprintf(
+                $io->error(
+                    sprintf(
                         $this->trans('commands.update.execute.messages.no-module-updates'),
                         $module
                     )
@@ -53,7 +54,8 @@ class ExecuteCommand extends ContainerAwareCommand
                 $updates = [$module => $updates[$module]];
 
                 if ($update_n && !isset($updates[$module]['pending'][$update_n])) {
-                    $io->info(sprintf(
+                    $io->info(
+                        sprintf(
                             $this->trans('commands.update.execute.messages.module-update-function-not-found'),
                             $module,
                             $update_n
@@ -64,7 +66,9 @@ class ExecuteCommand extends ContainerAwareCommand
         }
 
         $io->info($this->trans('commands.site.maintenance.description'));
-        \Drupal::state()->set('system.maintenance_mode', true);
+
+        $state = $this->hasGetService('state');
+        $state->set('system.maintenance_mode', true);
 
         foreach ($updates as $module_name => $module_updates) {
             foreach ($module_updates['pending'] as $update_number => $update) {
@@ -77,7 +81,8 @@ class ExecuteCommand extends ContainerAwareCommand
                     $io->info($this->trans('commands.update.execute.messages.executing-required-previous-updates'));
                 }
                 for ($update_index=$module_updates['start']; $update_index<=$update_number; $update_index++) {
-                    $io->info(sprintf(
+                    $io->info(
+                        sprintf(
                             $this->trans('commands.update.execute.messages.executing-update'),
                             $update_index,
                             $module_name
@@ -97,7 +102,7 @@ class ExecuteCommand extends ContainerAwareCommand
             }
         }
 
-        \Drupal::state()->set('system.maintenance_mode', false);
+        $state->set('system.maintenance_mode', false);
         $io->info($this->trans('commands.site.maintenance.messages.maintenance-off'));
 
         $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
