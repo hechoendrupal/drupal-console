@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Utility\Timer;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class RunCommand extends ContainerAwareCommand
 {
@@ -92,6 +93,7 @@ class RunCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
 
         //Registers namespaces for disabled modules.
         $this->getTestDiscovery()->registerTestNamespaces();
@@ -101,7 +103,7 @@ class RunCommand extends ContainerAwareCommand
         $url = $input->getOption('url');
 
         if (!$url) {
-            $output->writeln('[+] <error>'. $this->trans('commands.test.run.messages.url-required') .'</error>');
+            $io->error($this->trans('commands.test.run.messages.url-required'));
             return;
         }
 
@@ -113,27 +115,27 @@ class RunCommand extends ContainerAwareCommand
           ->execute();
 
         if (is_subclass_of($test_class, 'PHPUnit_Framework_TestCase')) {
-            $output->writeln('[+] <info>'. $this->trans('commands.test.run.messages.phpunit-pending')  .'</info>');
+            $io->info($this->trans('commands.test.run.messages.phpunit-pending'));
             return;
         } else {
             $test = new $test_class($test_id);
-            $output->writeln('[+] <info>'. $this->trans('commands.test.run.messages.starting-test')  .'</info>');
+            $io->info($this->trans('commands.test.run.messages.starting-test'));
             Timer::start('run-tests');
 
             $test->run();
 
             $end = Timer::stop('run-tests');
 
-            $output->writeln('[+] <info>'. $this->trans('commands.test.run.messages.test-duration') . ': ' .  \Drupal::service('date.formatter')->formatInterval($end['time'] / 1000)  . '</info>');
-            $output->writeln('[+] <info>'. $this->trans('commands.test.run.messages.test-pass') . ': ' . $test->results['#pass'] . '</info>');
-            $output->writeln('[+] <error>'. $this->trans('commands.test.run.messages.test-fail') . ': ' . $test->results['#fail'] . '</error>');
-            $output->writeln('[+] <error>'. $this->trans('commands.test.run.messages.test-exception') . ': ' . $test->results['#exception'] . '</error>');
-            $output->writeln('[+] <info>'. $this->trans('commands.test.run.messages.test-debug') . ': ' . $test->results['#debug'] . '</info>');
+            $io->simple($this->trans('commands.test.run.messages.test-duration') . ': ' .  \Drupal::service('date.formatter')->formatInterval($end['time'] / 1000));
+            $io->simple($this->trans('commands.test.run.messages.test-pass') . ': ' . $test->results['#pass']);
+            $io->commentBlock($this->trans('commands.test.run.messages.test-fail') . ': ' . $test->results['#fail']);
+            $io->commentBlock($this->trans('commands.test.run.messages.test-exception') . ': ' . $test->results['#exception']);
+            $io->simple($this->trans('commands.test.run.messages.test-debug') . ': ' . $test->results['#debug']);
 
             $this->getModuleHandler()->invokeAll('test_finished', array($test->results));
 
             print "\n";
-            $output->writeln($this->trans('commands.test.run.messages.test-summary'));
+            $io->info($this->trans('commands.test.run.messages.test-summary'));
             print "\n";
 
             $current_class = null;
@@ -145,7 +147,7 @@ class RunCommand extends ContainerAwareCommand
             foreach ($messages as $message) {
                 if ($current_class === null || $current_class != $message->test_class) {
                     $current_class = $message->test_class;
-                    $output->writeln('[+] <info>' . $message->test_class . '</info>');
+                    $io->comment($message->test_class);
                 }
 
                 if ($current_group === null || $current_group != $message->message_group) {
@@ -155,18 +157,18 @@ class RunCommand extends ContainerAwareCommand
                 if ($current_status === null || $current_status != $message->status) {
                     $current_status =  $message->status;
                     if ($message->status == 'fail') {
-                        $output->writeln('[+] <error>' . $this->trans('commands.test.run.messages.group') . ':' . $message->message_group . ' ' . $this->trans('commands.test.run.messages.status') . ':' . $message->status . '</error>');
+                        $io->error($this->trans('commands.test.run.messages.group') . ':' . $message->message_group . ' ' . $this->trans('commands.test.run.messages.status') . ':' . $message->status);
                         print "\n";
                     } else {
-                        $output->writeln('[+] <info>' . $this->trans('commands.test.run.messages.group') . ':' . $message->message_group . ' ' . $this->trans('commands.test.run.messages.status') . ':' . $message->status . '</info>');
+                        $io->info($this->trans('commands.test.run.messages.group') . ':' . $message->message_group . ' ' . $this->trans('commands.test.run.messages.status') . ':' . $message->status);
                         print "\n";
                     }
                 }
 
-                $output->writeln('[-] <info>' . $this->trans('commands.test.run.messages.file') . ': ' . str_replace($this->getDrupalHelper()->getRoot(), '', $message->file) . '</info>');
-                $output->writeln('[-] <info>' . $this->trans('commands.test.run.messages.method') . ': ' . $message->function . '</info>');
-                $output->writeln('[-] <info>' . $this->trans('commands.test.run.messages.line') . ': ' . $message->line . '</info>');
-                $output->writeln('[-] <info>' . $this->trans('commands.test.run.messages.message') . ': ' . $message->message . '</info>');
+                $io->simple($this->trans('commands.test.run.messages.file') . ': ' . str_replace($this->getDrupalHelper()->getRoot(), '', $message->file));
+                $io->simple($this->trans('commands.test.run.messages.method') . ': ' . $message->function);
+                $io->simple($this->trans('commands.test.run.messages.line') . ': ' . $message->line);
+                $io->simple($this->trans('commands.test.run.messages.message') . ': ' . $message->message);
                 print "\n";
             }
             return;
