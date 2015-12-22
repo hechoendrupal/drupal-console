@@ -78,8 +78,6 @@ class DebugCommand extends ContainerAwareCommand
         $configuration[] = [$this->trans('commands.rest.debug.messages.status'), (isset($config[$resource['id']])) ? $this->trans('commands.rest.debug.messages.enabled') : $this->trans('commands.rest.debug.messages.disabled')];
         $configuration[] = [$this->trans('commands.rest.debug.messages.provider', $resource['provider'])];
 
-        $configurationEncoded = Yaml::encode($configuration);
-
         $io->comment($resource_id);
 
         $io->table([], $configuration);
