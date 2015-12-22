@@ -1,5 +1,5 @@
 description: 'Generate a new config entity'
-help: \'
+help: ''
 options:
     module: common.options.module
     entity-class: 'The config entity class'
