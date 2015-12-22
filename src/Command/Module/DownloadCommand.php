@@ -14,6 +14,7 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Output\OutputInterface;
 use Alchemy\Zippy\Zippy;
 use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
 
 class DownloadCommand extends Command
 {
@@ -28,6 +29,7 @@ class DownloadCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
         $httpClient = $this->getHttpClientHelper();
 
         $module = $input->getArgument('module');
@@ -38,17 +40,17 @@ class DownloadCommand extends Command
             $release_selected = $version;
         } else {
             // Getting Module page header and parse to get module Node
-            $output->writeln(
-                '[+] <info>'.sprintf(
+            $io->info(
+                sprintf(
                     $this->trans('commands.module.download.messages.getting-releases'),
                     implode(',', array($module))
-                ).'</info>'
+                )
             );
 
             try {
                 $link = $httpClient->getHeader('https://www.drupal.org/project/'.$module, 'link');
             } catch (\Exception $e) {
-                $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
+                $io->error($e->getMessage());
                 return;
             }
 
@@ -60,8 +62,7 @@ class DownloadCommand extends Command
             try {
                 $html = $httpClient->getHtml($project_release_d8);
             } catch (\Exception $e) {
-                $output->writeln('[+] <error>'.$e->getMessage().'</error>');
-
+                $io->error($e->getMessage());
                 return;
             }
 
@@ -83,37 +84,29 @@ class DownloadCommand extends Command
             }
 
             if (empty($releases)) {
-                $output->writeln(
-                    '[+] <error>'.sprintf(
+                $io->error(
+                    sprintf(
                         $this->trans('commands.module.download.messages.no-releases'),
                         implode(',', array($module))
-                    ).'</error>'
+                    )
                 );
-
                 return;
             }
 
-            // List module releases to enable user to select his favorite release
-            $questionHelper = $this->getQuestionHelper();
-
-            $question = new ChoiceQuestion(
+            $release_selected = $io->choice(
                 $this->trans('commands.module.download.messages.select-release'),
-                array_combine(array_keys($releases), array_keys($releases)),
-                '0'
+                array_keys($releases)
             );
-
-            $release_selected = $questionHelper->ask($input, $output, $question);
         }
 
         // Start the process to download the zip file of release and copy in contrib folter
-        $output->writeln(
-            '[-] <info>'.
+
+        $io->info(
             sprintf(
                 $this->trans('commands.module.download.messages.downloading'),
                 $module,
                 $release_selected
-            ).
-            '</info>'
+            )
         );
 
         $release_file_path = 'http://ftp.drupal.org/files/projects/'.$module.'-'.$release_selected.'.tar.gz';
@@ -130,14 +123,12 @@ class DownloadCommand extends Command
             if ($drupalRoot) {
                 $module_contrib_path = $drupalRoot . '/modules/contrib';
             } else {
-                $output->writeln(
-                    '[-] <info>'.
+                $io->info(
                     sprintf(
                         $this->trans('commands.module.download.messages.outside-drupal'),
                         $module,
                         $release_selected
-                    ).
-                    '</info>'
+                    )
                 );
                 $module_contrib_path = getcwd() . '/modules/contrib';
             }
@@ -145,9 +136,7 @@ class DownloadCommand extends Command
             // Create directory if does not exist
             if (!file_exists($module_contrib_path)) {
                 if (!mkdir($module_contrib_path, 0777, true)) {
-                    $output->writeln(
-                        ' <error>'. $this->trans('commands.module.download.messages.error-creating-folder') . ': ' . $module_contrib_path .'</error>'
-                    );
+                    $io->error($this->trans('commands.module.download.messages.error-creating-folder') . ': ' . $module_contrib_path);
                     return;
                 }
             }
@@ -159,17 +148,16 @@ class DownloadCommand extends Command
 
             unlink($destination);
 
-            $output->writeln(
-                '[-] <info>'.sprintf(
+            $io->info(
+                sprintf(
                     $this->trans('commands.module.download.messages.downloaded'),
                     $module,
                     $release_selected,
                     $module_contrib_path
-                ).'</info>'
+                )
             );
         } catch (\Exception $e) {
-            $output->writeln('[+] <error>'.$e->getMessage().'</error>');
-
+            $io->error($e->getMessage());
             return;
         }
 
