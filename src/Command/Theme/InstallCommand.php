@@ -121,7 +121,8 @@ class InstallCommand extends ContainerAwareCommand
             try {
                 if ($themeHandler->install($theme)) {
                     if (count($themesAvailable) > 1) {
-                        $io->info(sprintf(
+                        $io->info(
+                            sprintf(
                                 $this->trans('commands.theme.install.messages.themes-success'),
                                 implode(',', $themesAvailable)
                             )
@@ -130,13 +131,15 @@ class InstallCommand extends ContainerAwareCommand
                         if ($default) {
                             // Set the default theme.
                             $config->set('default', $theme[0])->save();
-                            $io->info(sprintf(
+                            $io->info(
+                                sprintf(
                                     $this->trans('commands.theme.install.messages.theme-default-success'),
                                     $themesAvailable[0]
                                 )
                             );
                         } else {
-                            $io->info(sprintf(
+                            $io->info(
+                                sprintf(
                                     $this->trans('commands.theme.install.messages.theme-success'),
                                     $themesAvailable[0]
                                 )
@@ -145,7 +148,8 @@ class InstallCommand extends ContainerAwareCommand
                     }
                 }
             } catch (UnmetDependenciesException $e) {
-                $io->error(sprintf(
+                $io->error(
+                    sprintf(
                         $this->trans('commands.theme.install.messages.success'),
                         $theme
                     )
@@ -154,13 +158,15 @@ class InstallCommand extends ContainerAwareCommand
             }
         } elseif (empty($themesAvailable) && count($themesInstalled) > 0) {
             if (count($themesInstalled) > 1) {
-                $io->info(sprintf(
+                $io->info(
+                    sprintf(
                         $this->trans('commands.theme.install.messages.themes-nothing'),
                         implode(',', $themesInstalled)
                     )
                 );
             } else {
-                $io->info(sprintf(
+                $io->info(
+                    sprintf(
                         $this->trans('commands.theme.install.messages.theme-nothing'),
                         implode(',', $themesInstalled)
                     )
@@ -168,13 +174,15 @@ class InstallCommand extends ContainerAwareCommand
             }
         } else {
             if (count($themesUnavailable) > 1) {
-                $io->error(sprintf(
+                $io->error(
+                    sprintf(
                         $this->trans('commands.theme.install.messages.themes-missing'),
                         implode(',', $themesUnavailable)
                     )
                 );
             } else {
-                $io->error(sprintf(
+                $io->error(
+                    sprintf(
                         $this->trans('commands.theme.install.messages.theme-missing'),
                         implode(',', $themesUnavailable)
                     )
