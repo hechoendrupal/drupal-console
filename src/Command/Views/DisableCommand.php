@@ -14,8 +14,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class DisableCommand
+ * @package Drupal\Console\Command\Views
+ */
 class DisableCommand extends ContainerAwareCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -28,18 +35,21 @@ class DisableCommand extends ContainerAwareCommand
             );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
 
-        $view_id = $input->getArgument('view-id');
+        $viewId = $input->getArgument('view-id');
 
-        $entity_manager = $this->getEntityManager();
+        $entityManager = $this->getEntityManager();
 
-        $view = $entity_manager->getStorage('view')->load($view_id);
+        $view = $entityManager->getStorage('view')->load($viewId);
 
         if (empty($view)) {
-            $io->error(sprintf($this->trans('commands.views.debug.messages.not-found'), $view_id));
+            $io->error(sprintf($this->trans('commands.views.debug.messages.not-found'), $viewId));
             return;
         }
 
