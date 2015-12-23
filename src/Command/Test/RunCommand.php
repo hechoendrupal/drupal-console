@@ -47,8 +47,6 @@ class RunCommand extends ContainerAwareCommand
     protected function setEnvironment($url)
     {
         $base_url;
-        $host = 'localhost';
-        $path = '';
         $port = '80';
 
         $parsed_url = parse_url($url);
@@ -98,7 +96,7 @@ class RunCommand extends ContainerAwareCommand
         //Registers namespaces for disabled modules.
         $this->getTestDiscovery()->registerTestNamespaces();
 
-        $test_class = $input->getArgument('test-class');
+        $testClass = $input->getArgument('test-class');
 
         $url = $input->getOption('url');
 
@@ -110,15 +108,15 @@ class RunCommand extends ContainerAwareCommand
         $this->setEnvironment($url);
 
         // Create simpletest test id
-        $test_id = db_insert('simpletest_test_id')
+        $testId = db_insert('simpletest_test_id')
           ->useDefaults(array('test_id'))
           ->execute();
 
-        if (is_subclass_of($test_class, 'PHPUnit_Framework_TestCase')) {
+        if (is_subclass_of($testClass, 'PHPUnit_Framework_TestCase')) {
             $io->info($this->trans('commands.test.run.messages.phpunit-pending'));
             return;
         } else {
-            $test = new $test_class($test_id);
+            $test = new $testClass($testId);
             $io->info($this->trans('commands.test.run.messages.starting-test'));
             Timer::start('run-tests');
 
@@ -134,34 +132,34 @@ class RunCommand extends ContainerAwareCommand
 
             $this->getModuleHandler()->invokeAll('test_finished', array($test->results));
 
-            print "\n";
+            $io->newLine();
             $io->info($this->trans('commands.test.run.messages.test-summary'));
-            print "\n";
+            $io->newLine();
 
-            $current_class = null;
-            $current_group = null;
-            $current_status = null;
+            $currentClass = null;
+            $currentGroup = null;
+            $currentStatus = null;
 
-            $messages = $this->simpletestScriptLoadMessagesByTestIds(array($test_id));
+            $messages = $this->simpletestScriptLoadMessagesByTestIds(array($testId));
 
             foreach ($messages as $message) {
-                if ($current_class === null || $current_class != $message->test_class) {
-                    $current_class = $message->test_class;
+                if ($currentClass === null || $currentClass != $message->test_class) {
+                    $currentClass = $message->test_class;
                     $io->comment($message->test_class);
                 }
 
-                if ($current_group === null || $current_group != $message->message_group) {
-                    $current_group =  $message->message_group;
+                if ($currentGroup === null || $currentGroup != $message->message_group) {
+                    $currentGroup =  $message->message_group;
                 }
 
-                if ($current_status === null || $current_status != $message->status) {
-                    $current_status =  $message->status;
+                if ($currentStatus === null || $currentStatus != $message->status) {
+                    $currentStatus =  $message->status;
                     if ($message->status == 'fail') {
                         $io->error($this->trans('commands.test.run.messages.group') . ':' . $message->message_group . ' ' . $this->trans('commands.test.run.messages.status') . ':' . $message->status);
-                        print "\n";
+                        $io->newLine();
                     } else {
                         $io->info($this->trans('commands.test.run.messages.group') . ':' . $message->message_group . ' ' . $this->trans('commands.test.run.messages.status') . ':' . $message->status);
-                        print "\n";
+                        $io->newLine();
                     }
                 }
 
@@ -169,7 +167,7 @@ class RunCommand extends ContainerAwareCommand
                 $io->simple($this->trans('commands.test.run.messages.method') . ': ' . $message->function);
                 $io->simple($this->trans('commands.test.run.messages.line') . ': ' . $message->line);
                 $io->simple($this->trans('commands.test.run.messages.message') . ': ' . $message->message);
-                print "\n";
+                $io->newLine();
             }
             return;
         }
