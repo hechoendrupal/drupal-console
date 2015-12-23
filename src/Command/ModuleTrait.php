@@ -22,7 +22,7 @@ trait ModuleTrait
      */
     public function moduleQuestion(DrupalStyle $io)
     {
-        $modules = $this->getSite()->getModules(false, false, false, true, true);
+        $modules = $this->getSite()->getModules(false, true, true, false, true, true);
 
         if (empty($modules)) {
             throw new \Exception('No modules available, execute `generate:module` command to generate one.');
