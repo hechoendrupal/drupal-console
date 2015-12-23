@@ -12,9 +12,17 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class DisableCommand
+ * @package Drupal\Console\Command\Views
+ */
 class DisableCommand extends ContainerAwareCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -27,34 +35,30 @@ class DisableCommand extends ContainerAwareCommand
             );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $view_id = $input->getArgument('view-id');
+        $io = new DrupalStyle($input, $output);
 
-        $entity_manager = $this->getEntityManager();
+        $viewId = $input->getArgument('view-id');
 
-        $view = $entity_manager->getStorage('view')->load($view_id);
+        $entityManager = $this->getEntityManager();
+
+        $view = $entityManager->getStorage('view')->load($viewId);
 
         if (empty($view)) {
-            $output->writeln(
-                '[+] <error>'.sprintf(
-                    $this->trans('commands.views.debug.messages.not-found'),
-                    $view_id
-                ).'</error>'
-            );
+            $io->error(sprintf($this->trans('commands.views.debug.messages.not-found'), $viewId));
             return;
         }
 
         try {
             $view->disable()->save();
 
-            $output->writeln(
-                '[-] <info>'. sprintf($this->trans('commands.views.disable.messages.disabled-successfully'), $view->get('label')) . '</info>'
-            );
+            $io->info(sprintf($this->trans('commands.views.disable.messages.disabled-successfully'), $view->get('label')));
         } catch (Exception $e) {
-            $output->writeln(
-                '[+] <error>'. $e->getMessage() . '</error>'
-            );
+            $io->error($e->getMessage());
         }
     }
 }
