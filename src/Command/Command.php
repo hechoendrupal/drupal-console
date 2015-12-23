@@ -59,7 +59,7 @@ abstract class Command extends BaseCommand
      */
     public function getTheme()
     {
-      return $this->theme;
+        return $this->theme;
     }
 
     /**
@@ -67,7 +67,7 @@ abstract class Command extends BaseCommand
      */
     public function setTheme($theme)
     {
-      $this->theme = $theme;
+        $this->theme = $theme;
     }
 
     /**

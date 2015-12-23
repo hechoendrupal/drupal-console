@@ -43,11 +43,11 @@ class UninstallCommand extends ContainerAwareCommand
         // Determine if some module request is missing
         if ($missing_modules = array_diff_key($module_list, $module_data)) {
             $io->error(
-              sprintf(
-                $this->trans('commands.module.uninstall.messages.missing'),
-                implode(', ', $modules),
-                implode(', ', $missing_modules)
-              )
+                sprintf(
+                    $this->trans('commands.module.uninstall.messages.missing'),
+                    implode(', ', $modules),
+                    implode(', ', $missing_modules)
+                )
             );
 
             return true;
@@ -75,11 +75,11 @@ class UninstallCommand extends ContainerAwareCommand
         // Error if there are missing dependencies
         if (!empty($dependents)) {
             $io->error(
-              sprintf(
-                $this->trans('commands.module.uninstall.messages.dependents'),
-                implode(', ', $modules),
-                implode(', ', $dependents)
-              )
+                sprintf(
+                    $this->trans('commands.module.uninstall.messages.dependents'),
+                    implode(', ', $modules),
+                    implode(', ', $dependents)
+                )
             );
 
             return true;
@@ -91,10 +91,10 @@ class UninstallCommand extends ContainerAwareCommand
             $moduleInstaller->uninstall($module_list);
 
             $io->info(
-              sprintf(
-                $this->trans('commands.module.uninstall.messages.success'),
-                implode(', ', $modules)
-              )
+                sprintf(
+                    $this->trans('commands.module.uninstall.messages.success'),
+                    implode(', ', $modules)
+                )
             );
         } catch (\Exception $e) {
             $io->error($e->getMessage());
