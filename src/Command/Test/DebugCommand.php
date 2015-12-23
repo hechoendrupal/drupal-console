@@ -53,11 +53,11 @@ class DebugCommand extends ContainerAwareCommand
         //Registers namespaces for disabled modules.
         $this->getTestDiscovery()->registerTestNamespaces();
 
-        $test_class = $input->getArgument('test-class');
+        $testClass = $input->getArgument('test-class');
         $group = $input->getOption('group');
 
-        if ($test_class) {
-            $this->testDetail($io, $test_class);
+        if ($testClass) {
+            $this->testDetail($io, $testClass);
         } else {
             $this->testList($io, $group);
         }
@@ -65,45 +65,45 @@ class DebugCommand extends ContainerAwareCommand
 
     private function testDetail(DrupalStyle $io, $test_class)
     {
-        $testing_groups = $this->getTestDiscovery()->getTestClasses(null);
+        $testingGroups = $this->getTestDiscovery()->getTestClasses(null);
 
-        $test_details = null;
-        foreach ($testing_groups as $testing_group => $tests) {
+        $testDetails = null;
+        foreach ($testingGroups as $testing_group => $tests) {
             foreach ($tests as $key => $test) {
                 if ($test['name'] == $test_class) {
-                    $test_details = $test;
+                    $testDetails = $test;
                     break;
                 }
             }
-            if ($test_details !== null) {
+            if ($testDetails !== null) {
                 break;
             }
         }
 
         $class = null;
-        if ($test_details) {
+        if ($testDetails) {
             $class = new \ReflectionClass($test['name']);
-            if (is_subclass_of($test_details['name'], 'PHPUnit_Framework_TestCase')) {
-                $test_details['type'] = 'phpunit';
+            if (is_subclass_of($testDetails['name'], 'PHPUnit_Framework_TestCase')) {
+                $testDetails['type'] = 'phpunit';
             } else {
-                $test_details = $this->getTestDiscovery()->getTestInfo($test_details['name']);
-                $test_details['type'] = 'simpletest';
+                $testDetails = $this->getTestDiscovery()->getTestInfo($testDetails['name']);
+                $testDetails['type'] = 'simpletest';
             }
 
-            $io->comment($test_details['name']);
+            $io->comment($testDetails['name']);
 
-            $test_info = [];
-            foreach ($test_details as $key => $value) {
-                $test_info [] = [$key, $value];
+            $testInfo = [];
+            foreach ($testDetails as $key => $value) {
+                $testInfo [] = [$key, $value];
             }
 
-            $io->table([], $test_info);
+            $io->table([], $testInfo);
 
             if ($class) {
                 $methods = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
                 $io->info($this->trans('commands.test.debug.messages.methods'));
                 foreach ($methods as $method) {
-                    if ($method->class == $test_details['name'] && strpos($method->name, 'test') === 0) {
+                    if ($method->class == $testDetails['name'] && strpos($method->name, 'test') === 0) {
                         $io->simple($method->name);
                     }
                 }
@@ -115,7 +115,7 @@ class DebugCommand extends ContainerAwareCommand
 
     protected function testList(DrupalStyle $io, $group)
     {
-        $testing_groups = $this->getTestDiscovery()->getTestClasses(null);
+        $testingGroups = $this->getTestDiscovery()->getTestClasses(null);
 
         $tableHeader = [
           $this->trans('commands.test.debug.messages.class'),
@@ -124,7 +124,7 @@ class DebugCommand extends ContainerAwareCommand
         ];
 
         $tableRows = [];
-        foreach ($testing_groups as $testing_group => $tests) {
+        foreach ($testingGroups as $testing_group => $tests) {
             if (!empty($group) && $group != $testing_group) {
                 continue;
             }
