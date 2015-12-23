@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class EnableCommand extends ContainerAwareCommand
 {
@@ -29,31 +30,22 @@ class EnableCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
         $view_id = $input->getArgument('view-id');
 
         $entity_manager = $this->getEntityManager();
         $view = $entity_manager->getStorage('view')->load($view_id);
 
         if (empty($view)) {
-            $output->writeln(
-                '[+] <error>'.sprintf(
-                    $this->trans('commands.views.debug.messages.not-found'),
-                    $view_id
-                ).'</error>'
-            );
+            $io->error(sprintf($this->trans('commands.views.debug.messages.not-found'), $view_id));
             return;
         }
 
         try {
             $view->enable()->save();
-
-            $output->writeln(
-                '[-] <info>'. sprintf($this->trans('commands.views.enable.messages.disabled-successfully'), $view->get('label')) . '</info>'
-            );
+            $io->info(sprintf($this->trans('commands.views.enable.messages.disabled-successfully'), $view->get('label')));
         } catch (Exception $e) {
-            $output->writeln(
-                '[+] <error>'. $e->getMessage() . '</error>'
-            );
+            $io->error($e->getMessage());
         }
     }
 }
