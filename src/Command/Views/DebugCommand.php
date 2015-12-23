@@ -11,13 +11,20 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\Table;
 use Drupal\views\Entity\View;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class DebugCommand
+ * @package Drupal\Console\Command\Views
+ */
 class DebugCommand extends ContainerAwareCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -41,8 +48,12 @@ class DebugCommand extends ContainerAwareCommand
             );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
         $view_id = $input->getArgument('view-id');
         $view_tag = $input->getOption('tag');
         $view_status = $input->getOption('status');
@@ -54,99 +65,84 @@ class DebugCommand extends ContainerAwareCommand
         } else {
             $view_status = -1;
         }
-        $table = new Table($output);
-        $table->setStyle('compact');
 
         if ($view_id) {
-            $this->geViewByID($output, $table, $view_id);
+            $this->viewDetail($io, $view_id);
         } else {
-            $this->getAllViews($view_tag, $view_status, $output, $table);
+            $this->viewList($io, $view_tag, $view_status);
         }
     }
 
+
     /**
-     * @param $output         OutputInterface
-     * @param $table          TableHelper
-     * @param $resource_id    String
+     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param $view_id
+     * @return bool
      */
-    private function geViewByID($output, $table, $view_id)
+    private function viewDetail(DrupalStyle $io, $view_id)
     {
         $entity_manager = $this->getEntityManager();
         $view = $entity_manager->getStorage('view')->load($view_id);
 
         if (empty($view)) {
-            $output->writeln(
-                '[+] <error>'.sprintf(
-                    $this->trans('commands.views.debug.messages.not-found'),
-                    $view_id
-                ).'</error>'
-            );
+            $io->error(sprintf($this->trans('commands.views.debug.messages.not-found'), $view_id));
 
             return false;
         }
 
         $configuration = array();
-        $configuration[$this->trans('commands.views.debug.messages.view-id')] = $view->get('id');
-        $configuration[$this->trans('commands.views.debug.messages.view-name')] = (string) $view->get('label');
-        $configuration[$this->trans('commands.views.debug.messages.tag')] = $view->get('tag');
-        $configuration[$this->trans('commands.views.debug.messages.status')] = $view->status() ? $this->trans('commands.common.status.enabled') : $this->trans('commands.common.status.disabled');
-        $configuration[$this->trans('commands.views.debug.messages.description')] = $view->get('description');
+        $configuration [] = [$this->trans('commands.views.debug.messages.view-id'), $view->get('id')];
+        $configuration [] = [$this->trans('commands.views.debug.messages.view-name'), (string) $view->get('label')];
+        $configuration [] = [$this->trans('commands.views.debug.messages.tag'), $view->get('tag')];
+        $configuration [] = [$this->trans('commands.views.debug.messages.status'), $view->status() ? $this->trans('commands.common.status.enabled') : $this->trans('commands.common.status.disabled')];
+        $configuration [] = [$this->trans('commands.views.debug.messages.description'), $view->get('description')];
 
-        $configurationEncoded = Yaml::encode($configuration);
+        $io->comment($view_id);
 
-        $output->writeln($configurationEncoded);
+        $io->table([], $configuration);
 
-        $table->render();
+        $tableHeader = [
+          $this->trans('commands.views.debug.messages.display-id'),
+          $this->trans('commands.views.debug.messages.display-name'),
+          $this->trans('commands.views.debug.messages.display-description'),
+          $this->trans('commands.views.debug.messages.display-paths'),
+        ];
+        $displays = $this->viewDisplayList($view);
 
-        $table->setHeaders(
-            [
-            $this->trans('commands.views.debug.messages.display-id'),
-            $this->trans('commands.views.debug.messages.display-name'),
-            $this->trans('commands.views.debug.messages.display-description'),
-            $this->trans('commands.views.debug.messages.display-paths'),
-            ]
-        );
+        $io->info(sprintf($this->trans('commands.views.debug.messages.display-list'), $view_id));
 
-        $displays = $this->getDisplaysList($view);
-
-        $output->writeln(
-            '<info>'.sprintf(
-                $this->trans('commands.views.debug.messages.display-list'),
-                $view_id
-            ).'</info>'
-        );
-
+        $tableRows = [];
         foreach ($displays as $display_id => $display) {
-            $table->addRow(
-                [
-                $display_id,
-                $display['name'],
-                $display['description'],
-                $this->getDisplayPaths($view, $display_id),
-                ]
-            );
+            $tableRows[] = [
+              $display_id,
+              $display['name'],
+              $display['description'],
+              $this->viewDisplayPaths($view, $display_id),
+            ];
         }
 
-        $table->render();
+        $io->table($tableHeader, $tableRows, 'compact');
     }
 
-    protected function getAllViews($tag, $status, $output, $table)
+    /**
+     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param $tag
+     * @param $status
+     */
+    protected function viewList(DrupalStyle $io, $tag, $status)
     {
         $entity_manager = $this->getEntityManager();
         $views = $entity_manager->getStorage('view')->loadMultiple();
 
-        $table->setHeaders(
-            [
-              $this->trans('commands.views.debug.messages.view-id'),
-              $this->trans('commands.views.debug.messages.view-name'),
-              $this->trans('commands.views.debug.messages.tag'),
-              $this->trans('commands.views.debug.messages.status'),
-              $this->trans('commands.views.debug.messages.path'),
-            ]
-        );
+        $tableHeader = [
+          $this->trans('commands.views.debug.messages.view-id'),
+          $this->trans('commands.views.debug.messages.view-name'),
+          $this->trans('commands.views.debug.messages.tag'),
+          $this->trans('commands.views.debug.messages.status'),
+          $this->trans('commands.views.debug.messages.path')
+        ];
 
-        $table->setStyle('compact');
-
+        $tableRows = [];
         foreach ($views as $view) {
             if ($status != -1 && $view->status() != $status) {
                 continue;
@@ -155,29 +151,24 @@ class DebugCommand extends ContainerAwareCommand
             if (isset($tag) && $view->get('tag') != $tag) {
                 continue;
             }
-            $table->addRow(
-                [
-                $view->get('id'),
-                $view->get('label'),
-                $view->get('tag'),
-                $view->status() ? $this->trans('commands.common.status.enabled') : $this->trans('commands.common.status.disabled'),
-                $this->getDisplayPaths($view),
-                ]
-            );
+            $tableRows[] = [
+              $view->get('id'),
+              $view->get('label'),
+              $view->get('tag'),
+              $view->status() ? $this->trans('commands.common.status.enabled') : $this->trans('commands.common.status.disabled'),
+              $this->viewDisplayPaths($view),
+            ];
         }
-        $table->render();
+        $io->table($tableHeader, $tableRows, 'compact');
     }
 
+
     /**
-     * Gets a list of paths assigned to the view.
-     *
      * @param \Drupal\views\Entity\View $view
-     *      The view entity.
-     *
-     * @return array
-     *      An array of paths for this view.
+     * @param null                      $display_id
+     * @return string
      */
-    protected function getDisplayPaths(View $view, $display_id = null)
+    protected function viewDisplayPaths(View $view, $display_id = null)
     {
         $all_paths = array();
         $executable = $view->getExecutable();
@@ -203,15 +194,10 @@ class DebugCommand extends ContainerAwareCommand
     }
 
     /**
-     * Gets a list of displays included in the view.
-     *
-     * @param \Drupal\Core\Entity\View $view
-     *                                       The view entity instance to get a list of displays for.
-     *
+     * @param \Drupal\views\Entity\View $view
      * @return array
-     *               An array of display types that this view includes.
      */
-    protected function getDisplaysList(View $view)
+    protected function viewDisplayList(View $view)
     {
         $displayManager = $this->getViewDisplayManager();
         $displays = array();
