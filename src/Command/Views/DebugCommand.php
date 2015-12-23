@@ -16,8 +16,15 @@ use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class DebugCommand
+ * @package Drupal\Console\Command\Views
+ */
 class DebugCommand extends ContainerAwareCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -41,6 +48,9 @@ class DebugCommand extends ContainerAwareCommand
             );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
@@ -63,10 +73,11 @@ class DebugCommand extends ContainerAwareCommand
         }
     }
 
+
     /**
-     * @param $output         OutputInterface
-     * @param $table          TableHelper
-     * @param $resource_id    String
+     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param $view_id
+     * @return bool
      */
     private function viewDetail(DrupalStyle $io, $view_id)
     {
@@ -113,6 +124,11 @@ class DebugCommand extends ContainerAwareCommand
         $io->table($tableHeader, $tableRows, 'compact');
     }
 
+    /**
+     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param $tag
+     * @param $status
+     */
     protected function viewList(DrupalStyle $io, $tag, $status)
     {
         $entity_manager = $this->getEntityManager();
@@ -146,14 +162,11 @@ class DebugCommand extends ContainerAwareCommand
         $io->table($tableHeader, $tableRows, 'compact');
     }
 
+
     /**
-     * Gets a list of paths assigned to the view.
-     *
      * @param \Drupal\views\Entity\View $view
-     *      The view entity.
-     *
-     * @return array
-     *      An array of paths for this view.
+     * @param null                      $display_id
+     * @return string
      */
     protected function viewDisplayPaths(View $view, $display_id = null)
     {
@@ -181,13 +194,8 @@ class DebugCommand extends ContainerAwareCommand
     }
 
     /**
-     * Gets a list of displays included in the view.
-     *
-     * @param \Drupal\Core\Entity\View $view
-     *                                       The view entity instance to get a list of displays for.
-     *
+     * @param \Drupal\views\Entity\View $view
      * @return array
-     *               An array of display types that this view includes.
      */
     protected function viewDisplayList(View $view)
     {
