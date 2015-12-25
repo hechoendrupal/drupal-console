@@ -157,6 +157,7 @@ class InstallCommand extends ContainerAwareCommand
         foreach ($modules as $moduleName) {
             $module = $moduleList[$moduleName];
             $moduleConfig = $config->getFileContents($module->getPathname());
+            $moduleConfig['dependencies'] = (is_null($moduleConfig['dependencies'])) ? array() : $moduleConfig['dependencies'];
 
             $dependencies = array_unique(
                 array_merge(
