@@ -55,8 +55,7 @@
         "phpseclib/phpseclib": "2.*",
         "stecman/symfony-console-completion": "^0.5.1",
         "guzzlehttp/guzzle": "~6.1",
-        "padraic/phar-updater": "~1.0@dev",
-        "fzaninotto/faker": "~1.5"
+        "padraic/phar-updater": "~1.0@dev"
     },
     "bin": ["bin/drupal"],
     "config": {

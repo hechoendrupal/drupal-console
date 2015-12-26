@@ -7,31 +7,21 @@
 
 namespace Drupal\Console\Command\Generate;
 
-use Drupal\Console\Command\ModuleTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Component\Yaml\Dumper;
 use Drupal\Console\Command\ContainerAwareCommand;
-use Drupal\Component\Utility\Random;
-use Drupal\Core\Field\FieldStorageDefinitionInterface;
-use Drupal\field\FieldConfigInterface;
-use Drupal\node\Entity\Node;
-use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Plugin\PluginBase;
+use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\Content;
 
-
+/**
+ * Class ContentCommand
+ * @package Drupal\Console\Command\Generate
+ */
 class ContentCommand extends ContainerAwareCommand
 {
-    protected $entityManager;
-    protected $configStorage;
-    protected $contentTypes = [];
-    protected $contentTypesObject = [];
-    protected $uids;
-
     /**
      * {@inheritdoc}
      */
@@ -41,9 +31,9 @@ class ContentCommand extends ContainerAwareCommand
             ->setName('generate:content')
             ->setDescription($this->trans('commands.generate.content.description'))
             ->addArgument(
-                'content_types',
+                'content-types',
                 InputArgument::IS_ARRAY,
-                $this->trans('commands.generate.content.arguments.content_types')
+                $this->trans('commands.generate.content.arguments.content-types')
             )
             ->addOption(
                 'limit',
@@ -52,16 +42,16 @@ class ContentCommand extends ContainerAwareCommand
                 $this->trans('commands.generate.content.arguments.limit')
             )
             ->addOption(
-                'title_words_min',
+                'title-words',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.content.arguments.title-words-min')
+                $this->trans('commands.generate.content.arguments.title-words')
             )
             ->addOption(
-                'initial_creation_date',
+                'time-range',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.content.arguments.start-creation-date')
+                $this->trans('commands.generate.content.arguments.time-range')
             );
     }
 
@@ -70,75 +60,59 @@ class ContentCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
-
-        $this->getContentTypes();
+        $io = new DrupalStyle($input, $output);
 
         // --content type argument
-        $contenTypes = $input->getArgument('content_types');
-        if (!$contenTypes) {
-            $bundles = $this->contentTypes;
-            $contentTypes = [];
-            while (true) {
-                $contentType = $dialog->askAndValidate(
-                    $output,
-                    $dialog->getQuestion($this->trans('commands.generate.content.questions.content-type'), ''),
-                    function ($bundle) use ($bundles) {
-                        if (!empty($bundle) && !in_array($bundle, array_values($bundles))) {
-                            throw new \InvalidArgumentException(
-                                sprintf(
-                                    'Content type "%s" is invalid.',
-                                    $bundle
-                                )
-                            );
-                        }
+        $contentTypes = $input->getArgument('content-types');
+        if (!$contentTypes) {
+            $bundles = $this->getDrupalApi()->getBundles();
+            $contentTypes = $io->choice(
+                $this->trans('commands.generate.content.questions.content-type'),
+                array_values($bundles),
+                null,
+                true
+            );
 
-                        return array_search($bundle, $bundles);
-                    },
-                    false,
-                    '',
-                    $bundles
-                );
+            $contentTypes = array_map(
+                function ($contentType) use ($bundles) {
+                    return array_search($contentType, $bundles);
+                },
+                $contentTypes
+            );
 
-                if (empty($contentType) and count($contentTypes) > 0) {
-                    break;
-                } elseif (!empty($contentType)) {
-                    $contentTypes[] = $contentType;
-                }
-            }
+            $input->setArgument('content-types', $contentTypes);
         }
-
-        $input->setArgument('content_types', $contentTypes);
 
         $limit = $input->getOption('limit');
         if (!$limit) {
-            $limit = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.content.questions.limit'), '10'),
-                '10'
+            $limit = $io->ask(
+                $this->trans('commands.generate.content.questions.limit'),
+                10
             );
+            $input->setOption('limit', $limit);
         }
-        $input->setOption('limit', $limit);
 
-        $titleWordsMin = $input->getOption('title_words_min');
+        $titleWordsMin = $input->getOption('title-words');
         if (!$titleWordsMin) {
-            $titleWordsMin = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.content.questions.title-words-min'), ''),
-                ''
+            $titleWordsMin = $io->ask(
+                $this->trans('commands.generate.content.questions.title-words'),
+                5
             );
-        }
-        $input->setOption('title_words_min', $titleWordsMin);
 
-        $initialCreationDate = $input->getOption('initial_creation_date');
-        if (!$initialCreationDate) {
-            $initialCreationDate = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.content.questions.initial-creation-date'), ''),
-                ''
-            );
+            $input->setOption('title-words', $titleWordsMin);
         }
-        $input->setOption('initial_creation_date', $initialCreationDate);
+
+        $timeRange = $input->getOption('time-range');
+        if (!$timeRange) {
+            $timeRanges = $this->getTimeRange();
+
+            $timeRange = $io->choice(
+                $this->trans('commands.generate.content.questions.time-range'),
+                array_values($timeRanges)
+            );
+
+            $input->setOption('time-range',  array_search($timeRange, $timeRanges));
+        }
     }
 
     /**
@@ -146,155 +120,48 @@ class ContentCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $io = new DrupalStyle($input, $output);
 
-        $contentTypes = $input->getArgument('content_types');
-        $limit = $input->getOption('limit');
-        $titleWordsMin = $input->getOption('title_words_min');
-        $initialCreationDate = $input->getOption('initial_creation_date');
+        /* @var Content $contentGenerator */
+        $contentGenerator = $this->getDrupalApi()->getContentGenerator();
 
-        if (!$limit) {
-            $limit = 10;
-        }
+        $contentTypes = $input->getArgument('content-types');
+        $limit = $input->getOption('limit')?:10;
+        $titleWords = $input->getOption('title-words')?:5;
+        $timeRange = $input->getOption('time-range')?:'N';
 
-        /*print 'Content types:';
-        print_r($contentTypes);
-        print '\n';*/
+        $nodes = $contentGenerator->createNode(
+            $contentTypes,
+            $limit,
+            $titleWords,
+            $timeRange
+        );
 
-        $this->getContentTypes();
+        $tableHeader = [
+          $this->trans('commands.generate.content.messages.content-type'),
+          $this->trans('commands.generate.content.messages.title'),
+        ];
 
-        //print_r($this->contentTypes);
+        $io->success($this->trans('commands.generate.content.messages.generated-content'));
+        $io->table($tableHeader, $nodes['success']);
 
-        if ($contenTypes = array_intersect(array_keys($this->contentTypes), $contentTypes)) {
-            for ($i=0; $i<$limit; $i++) {
-                $this->createNode($contenTypes[array_rand($contenTypes)], $titleWordsMin, $initialCreationDate, $output, $dialog);
-            }
-        } else {
-            $output->writeln(
-                $dialog->getFormatterHelper()->formatBlock(
-                    sprintf(
-                        $this->trans('commands.generate.content.messages.invalid-content-type'),
-                        implode(",", $contenTypes)
-                    ), 'error'
-                )
-            );
-        }
         return;
     }
 
-    protected function getContentTypes()
+    /**
+     * @return array
+     */
+    private function getTimeRange()
     {
-        if (empty($this->contentTypes)) {
-            $this->entityManager = $this->getEntityManager();
-
-            $bundles_entities = $this->entityManager->getStorage('node_type')->loadMultiple();
-
-            foreach ($bundles_entities as $entity) {
-                $this->contentTypes[$entity->id()] = $entity->label();
-                $this->contentTypesObject[$entity->id()] = $entity;
-            }
-        }
-
-        return $this->contentTypes;
-    }
-    protected function getFields($contentType)
-    {
-        $fields = array_filter(
-            $this->entityManager->getFieldDefinitions('node', $contentType), function ($field_definition) {
-                return $field_definition instanceof FieldConfigInterface;
-            }
-        );
-
-        return $fields;
-    }
-
-    protected function createNode($contentType, $titleWordsMin, $initialCreationDate,  $output, $dialog)
-    {
-        $random = new Random();
-
-        $nodeStorage = $this->getEntityManager()->getStorage('node');
-        $this->uids = $this->getUsers();
-
-        $fields = $this->getFields($contentType);
-
-        $title = $titleWordsMin?$random->sentences(mt_rand(1, $titleWordsMin), TRUE): $random->sentences(1, TRUE);
-
-        $nodeInfo = [
-            'type' => $contentType,
-            'uid' => $this->uids[array_rand($this->uids)],
-            'title' => $title,
-            'revision' => mt_rand(0, 1),
-            'status' => TRUE,
-            'promote' => mt_rand(0, 1),
-            'langcode' => ''
+        $timeRanges = [
+            1 => sprintf('N | %s', $this->trans('commands.generate.content.questions.time-ranges.0')),
+            3600 => sprintf('H | %s', $this->trans('commands.generate.content.questions.time-ranges.1')),
+            86400 => sprintf('D | %s', $this->trans('commands.generate.content.questions.time-ranges.2')),
+            604800 => sprintf('W | %s', $this->trans('commands.generate.content.questions.time-ranges.3')),
+            2592000 => sprintf('M | %s', $this->trans('commands.generate.content.questions.time-ranges.4')),
+            31536000 => sprintf('Y | %s', $this->trans('commands.generate.content.questions.time-ranges.5'))
         ];
 
-        $entity = Node::create($nodeInfo);
-
-        $initialTimeStamp = strtotime($initialCreationDate);
-        $created = $initialTimeStamp?REQUEST_TIME - mt_rand(0, (REQUEST_TIME - $initialTimeStamp)):REQUEST_TIME;
-
-        $entity->setCreatedTime($created);
-
-        foreach ($fields as $field) {
-            $fieldName = $field->getFieldStorageDefinition()->getName();
-            print $fieldName . "\n";
-            $required = $field->isRequired();
-            $cardinality = $field->getFieldStorageDefinition()->getCardinality();
-            print $cardinality . "\n";
-
-            if ($cardinality == FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED) {
-                // Always set at least one value, due generate content objective is testing files
-                $cardinality = rand(1, 5);
-            }
-
-            $entity->$fieldName->generateSampleItems($cardinality);
-
-            //print_r($entity);
-        }
-
-        //$entity->comment->generateSampleItems();
-
-        print_r($entity->field_image->getValue());
-        print_r($entity->body->getValue());
-
-        try {
-            print_r(get_class($entity));
-            print_r($entity->getEntityTypeId());
-
-            $return = $entity->save();
-
-            print 'Save return:' . $return;
-
-            $output->writeln(
-                $dialog->getFormatterHelper()->formatBlock(
-                    sprintf(
-                        $this->trans('commands.generate.content.messages.generated-content-type'),
-                        ucfirst($contentType),
-                        $entity->getTitle()
-                    ), 'info'
-                )
-            );
-        } catch (\Exception $error) {
-            $output->writeln(
-                $dialog->getFormatterHelper()->formatBlock(
-                    $error->getMessage(), 'error'
-                )
-            );
-        }
-    }
-
-    /**
-     * Retrive 50 uids of enabled users from the database using Entity Query
-     */
-    protected function getUsers()
-    {
-        $query = $this->getEntityQuery()->get('user');
-        $query->pager(50);
-        $query->condition('status', true);
-
-        $users = $query->execute();
-
-        return $users;
+        return $timeRanges;
     }
 }

@@ -372,7 +372,7 @@ abstract class ContainerAwareCommand extends Command
     }
 
     /**
-     * @return \Drupal\Core\Extension\ThemeHandlerInterface
+     * @return \Drupal\user\MigratePassword
      */
     public function getPassHandler()
     {
