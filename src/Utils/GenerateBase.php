@@ -65,7 +65,7 @@ abstract class GenerateBase
      * @param
      * @param $entity
      */
-    public function generateFieldSampleData($entity)
+    protected function generateFieldSampleData($entity)
     {
         $fields = $this->getFields($entity);
 

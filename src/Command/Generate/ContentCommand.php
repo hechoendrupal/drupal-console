@@ -14,7 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Utils\Content;
 
 /**
  * Class ContentCommand
@@ -122,7 +121,6 @@ class ContentCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        /* @var Content $contentGenerator */
         $contentGenerator = $this->getDrupalApi()->getContentGenerator();
 
         $contentTypes = $input->getArgument('content-types');
