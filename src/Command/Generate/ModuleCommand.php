@@ -281,7 +281,18 @@ class ModuleCommand extends GeneratorCommand
         if (!$core) {
             $core = $output->ask(
                 $this->trans('commands.generate.module.questions.core'), '8.x',
-                '8.x'
+                function ($core) {
+                    if (!preg_match('/^[0-9]+\.x$/', $core)) {
+                        throw new \InvalidArgumentException(
+                            sprintf(
+                                $this->trans('commands.generate.module.errors.invalid-core'),
+                                $core
+                            )
+                        );
+                    }
+
+                    return $core;
+                }
             );
         }
         $input->setOption('core', $core);
