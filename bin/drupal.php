@@ -25,6 +25,7 @@ use Drupal\Console\Helper\DrupalHelper;
 use Drupal\Console\Helper\CommandDiscoveryHelper;
 use Drupal\Console\Helper\RemoteHelper;
 use Drupal\Console\Helper\HttpClientHelper;
+use Drupal\Console\Helper\DrupalApiHelper;
 
 set_time_limit(0);
 
@@ -62,6 +63,7 @@ $helpers = [
     'commandDiscovery' => new CommandDiscoveryHelper($config->get('application.develop')),
     'remote' => new RemoteHelper(),
     'httpClient' => new HttpClientHelper(),
+    'api' => new DrupalApiHelper(),
 ];
 
 $application->addHelpers($helpers);
