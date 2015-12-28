@@ -58,13 +58,13 @@ class ExportViewCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output);
+            $module = $this->moduleQuestion($io);
             $input->setOption('module', $module);
         }
 
@@ -79,8 +79,8 @@ class ExportViewCommand extends ContainerAwareCommand
                 $viewList[$view->get('id')] = $view->get('label');
             }
 
-            $viewId = $output->choiceNoList(
-                $this->trans('commands.views.export.questions.view'),
+            $viewId = $io->choiceNoList(
+                $this->trans('commands.config.export.view.questions.view'),
                 $viewList
             );
             $input->setArgument('view-id', $viewId);
@@ -88,7 +88,7 @@ class ExportViewCommand extends ContainerAwareCommand
 
         $optionalConfig = $input->getOption('optional-config');
         if (!$optionalConfig) {
-            $optionalConfig = $output->confirm(
+            $optionalConfig = $io->confirm(
                 $this->trans('commands.config.export.view.questions.optional-config'),
                 true
             );
@@ -97,7 +97,7 @@ class ExportViewCommand extends ContainerAwareCommand
 
         $includeModuleDependencies = $input->getOption('include-module-dependencies');
         if (!$includeModuleDependencies) {
-            $includeModuleDependencies = $output->confirm(
+            $includeModuleDependencies = $io->confirm(
                 $this->trans('commands.config.export.view.questions.include-module-dependencies'),
                 true
             );
@@ -107,6 +107,8 @@ class ExportViewCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
+
         $this->entityManager = $this->getEntityManager();
         $this->configStorage = $this->getConfigStorage();
 
@@ -130,10 +132,10 @@ class ExportViewCommand extends ContainerAwareCommand
         // Include module dependencies in export files if export is not optional
         if ($includeModuleDependencies) {
             if ($dependencies = $this->fetchDependencies($viewNameConfig, 'module')) {
-                $this->exportModuleDependencies($output, $module, $dependencies);
+                $this->exportModuleDependencies($io, $module, $dependencies);
             }
         }
 
-        $this->exportConfig($module, $output, $this->trans('commands.views.export.messages.view_exported'));
+        $this->exportConfig($module, $io, $this->trans('commands.views.export.messages.view_exported'));
     }
 }
