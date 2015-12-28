@@ -2,45 +2,46 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Utils\GenerateBase.
+ * Contains \Drupal\Console\Utils\Generate\Base.
  */
 
-namespace Drupal\Console\Utils;
+namespace Drupal\Console\Utils\Create;
 
 use Drupal\Component\Utility\Random;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\field\FieldConfigInterface;
 use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Datetime\DateFormatterInterface;
 
 /**
  * Class ContentNode
  * @package Drupal\Console\Utils
  */
-abstract class GenerateBase
+abstract class Base
 {
-    /**
- * @var EntityManagerInterface 
-*/
+    /* @var EntityManagerInterface */
     protected $entityManager = null;
 
-    /**
- * @var array 
-*/
+    /* @var DateFormatterInterface */
+    protected $dateFormatter = null;
+
+    /* @var array */
     protected $users = [];
 
-    /**
- * @var Random $random 
-*/
+    /* @var Random $random */
     protected $random = null;
 
     /**
      * ContentNode constructor.
      * @param EntityManagerInterface $entityManager
+     * @param DateFormatterInterface $dateFormatter
      */
     public function __construct(
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        DateFormatterInterface $dateFormatter
     ) {
         $this->entityManager = $entityManager;
+        $this->dateFormatter = $dateFormatter;
     }
 
     /**
