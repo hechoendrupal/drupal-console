@@ -8,7 +8,7 @@
 namespace Drupal\Console\Helper;
 
 use Drupal\Console\Helper\Helper;
-use Drupal\Console\Utils\Content;
+use Drupal\Console\Utils\Create\Nodes;
 
 /**
  * Class DrupalApiHelper
@@ -19,16 +19,17 @@ class DrupalApiHelper extends Helper
     protected $bundles = [];
 
     /**
-     * @return \Drupal\Console\Utils\Content
+     * @return \Drupal\Console\Utils\Create\Nodes
      */
-    public function getContentGenerator()
+    public function getCreateNodes()
     {
-        $contentNode = new Content(
+        $createNodes = new Nodes(
             $this->hasGetService('entity.manager'),
+            $this->hasGetService('date.formatter'),
             $this->getBundles()
         );
 
-        return $contentNode;
+        return $createNodes;
     }
 
     /**

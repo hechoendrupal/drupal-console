@@ -2,35 +2,38 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Utils\ContentNode.
+ * Contains \Drupal\Console\Utils\Create\Nodes.
  */
 
-namespace Drupal\Console\Utils;
+namespace Drupal\Console\Utils\Create;
 
+use Drupal\Console\Utils\Create\Base;
 use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Datetime\DateFormatterInterface;
 
 /**
  * Class ContentNode
  * @package Drupal\Console\Utils
  */
-class Content extends GenerateBase
+class Nodes extends Base
 {
-    /**
-   * @var array
-   */
+    /* @var array */
     protected $bundles = [];
 
     /**
      * ContentNode constructor.
+     *
      * @param EntityManagerInterface $entityManager
+     * @param DateFormatterInterface $dateFormatter
      * @param array                  $bundles
      */
     public function __construct(
         EntityManagerInterface $entityManager,
+        DateFormatterInterface $dateFormatter,
         $bundles
     ) {
         $this->bundles = $bundles;
-        parent::__construct($entityManager);
+        parent::__construct($entityManager, $dateFormatter);
     }
 
     /**
@@ -70,8 +73,14 @@ class Content extends GenerateBase
             try {
                 $node->save();
                 $nodes['success'][] = [
+                    'nid' => $node->id(),
                     'node_type' => $this->bundles[$contentType],
-                    'title' => $node->getTitle()
+                    'title' => $node->getTitle(),
+                    'created' => $this->dateFormatter->format(
+                        $node->getCreatedTime(),
+                        'custom',
+                        'Y-m-d h:i:s'
+                    )
                 ];
             } catch (\Exception $error) {
                 $nodes['error'][] = [

@@ -2,16 +2,15 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Generate\ContentCommand.
+ * Contains \Drupal\Console\Command\Create\NodesCommand.
  */
 
-namespace Drupal\Console\Command\Generate;
+namespace Drupal\Console\Command\Create;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerAware;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -19,7 +18,7 @@ use Drupal\Console\Style\DrupalStyle;
  * Class ContentCommand
  * @package Drupal\Console\Command\Generate
  */
-class ContentCommand extends ContainerAwareCommand
+class NodesCommand extends ContainerAwareCommand
 {
     /**
      * {@inheritdoc}
@@ -27,30 +26,30 @@ class ContentCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('generate:content')
-            ->setDescription($this->trans('commands.generate.content.description'))
+            ->setName('create:nodes')
+            ->setDescription($this->trans('commands.create.nodes.description'))
             ->addArgument(
                 'content-types',
                 InputArgument::IS_ARRAY,
-                $this->trans('commands.generate.content.arguments.content-types')
+                $this->trans('commands.create.nodes.arguments.content-types')
             )
             ->addOption(
                 'limit',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.content.arguments.limit')
+                $this->trans('commands.create.nodes.arguments.limit')
             )
             ->addOption(
                 'title-words',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.content.arguments.title-words')
+                $this->trans('commands.create.nodes.arguments.title-words')
             )
             ->addOption(
                 'time-range',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.content.arguments.time-range')
+                $this->trans('commands.create.nodes.arguments.time-range')
             );
     }
 
@@ -66,7 +65,7 @@ class ContentCommand extends ContainerAwareCommand
         if (!$contentTypes) {
             $bundles = $this->getDrupalApi()->getBundles();
             $contentTypes = $io->choice(
-                $this->trans('commands.generate.content.questions.content-type'),
+                $this->trans('commands.create.nodes.questions.content-type'),
                 array_values($bundles),
                 null,
                 true
@@ -85,7 +84,7 @@ class ContentCommand extends ContainerAwareCommand
         $limit = $input->getOption('limit');
         if (!$limit) {
             $limit = $io->ask(
-                $this->trans('commands.generate.content.questions.limit'),
+                $this->trans('commands.create.nodes.questions.limit'),
                 10
             );
             $input->setOption('limit', $limit);
@@ -94,7 +93,7 @@ class ContentCommand extends ContainerAwareCommand
         $titleWordsMin = $input->getOption('title-words');
         if (!$titleWordsMin) {
             $titleWordsMin = $io->ask(
-                $this->trans('commands.generate.content.questions.title-words'),
+                $this->trans('commands.create.nodes.questions.title-words'),
                 5
             );
 
@@ -106,7 +105,7 @@ class ContentCommand extends ContainerAwareCommand
             $timeRanges = $this->getTimeRange();
 
             $timeRange = $io->choice(
-                $this->trans('commands.generate.content.questions.time-range'),
+                $this->trans('commands.create.nodes.questions.time-range'),
                 array_values($timeRanges)
             );
 
@@ -121,14 +120,14 @@ class ContentCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $contentGenerator = $this->getDrupalApi()->getContentGenerator();
+        $createNodes = $this->getDrupalApi()->getCreateNodes();
 
         $contentTypes = $input->getArgument('content-types');
         $limit = $input->getOption('limit')?:10;
         $titleWords = $input->getOption('title-words')?:5;
         $timeRange = $input->getOption('time-range')?:'N';
 
-        $nodes = $contentGenerator->createNode(
+        $nodes = $createNodes->createNode(
             $contentTypes,
             $limit,
             $titleWords,
@@ -136,12 +135,20 @@ class ContentCommand extends ContainerAwareCommand
         );
 
         $tableHeader = [
-          $this->trans('commands.generate.content.messages.content-type'),
-          $this->trans('commands.generate.content.messages.title'),
+          $this->trans('commands.create.nodes.messages.node-id'),
+          $this->trans('commands.create.nodes.messages.content-type'),
+          $this->trans('commands.create.nodes.messages.title'),
+          $this->trans('commands.create.nodes.messages.created'),
         ];
 
-        $io->success($this->trans('commands.generate.content.messages.generated-content'));
         $io->table($tableHeader, $nodes['success']);
+
+        $io->success(
+            sprintf(
+                $this->trans('commands.create.nodes.messages.generated-content'),
+                $limit
+            )
+        );
 
         return;
     }
@@ -152,12 +159,12 @@ class ContentCommand extends ContainerAwareCommand
     private function getTimeRange()
     {
         $timeRanges = [
-            1 => sprintf('N | %s', $this->trans('commands.generate.content.questions.time-ranges.0')),
-            3600 => sprintf('H | %s', $this->trans('commands.generate.content.questions.time-ranges.1')),
-            86400 => sprintf('D | %s', $this->trans('commands.generate.content.questions.time-ranges.2')),
-            604800 => sprintf('W | %s', $this->trans('commands.generate.content.questions.time-ranges.3')),
-            2592000 => sprintf('M | %s', $this->trans('commands.generate.content.questions.time-ranges.4')),
-            31536000 => sprintf('Y | %s', $this->trans('commands.generate.content.questions.time-ranges.5'))
+            1 => sprintf('N | %s', $this->trans('commands.create.nodes.questions.time-ranges.0')),
+            3600 => sprintf('H | %s', $this->trans('commands.create.nodes.questions.time-ranges.1')),
+            86400 => sprintf('D | %s', $this->trans('commands.create.nodes.questions.time-ranges.2')),
+            604800 => sprintf('W | %s', $this->trans('commands.create.nodes.questions.time-ranges.3')),
+            2592000 => sprintf('M | %s', $this->trans('commands.create.nodes.questions.time-ranges.4')),
+            31536000 => sprintf('Y | %s', $this->trans('commands.create.nodes.questions.time-ranges.5'))
         ];
 
         return $timeRanges;
