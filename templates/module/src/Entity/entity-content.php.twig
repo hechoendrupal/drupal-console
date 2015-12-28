@@ -250,7 +250,12 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
 
     $fields['langcode'] = BaseFieldDefinition::create('language')
       ->setLabel(t('Language code'))
-      ->setDescription(t('The language code for the {{ label }} entity.'));
+      ->setDescription(t('The language code for the {{ label }} entity.'))
+      ->setDisplayOptions('form', array(
+        'type' => 'language_select',
+        'weight' => 10,
+      ))
+      ->setDisplayConfigurable('form', TRUE);
 
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))
