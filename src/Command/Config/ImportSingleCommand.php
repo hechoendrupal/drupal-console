@@ -12,6 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Parser;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class ImportSingleCommand extends ContainerAwareCommand
 {
@@ -38,6 +39,8 @@ class ImportSingleCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
+
         $configName = $input->getArgument('config-name');
         $fileName = $input->getArgument('input-file');
         $config = $this->getConfigFactory()->getEditable($configName);
@@ -50,12 +53,9 @@ class ImportSingleCommand extends ContainerAwareCommand
         }
 
         if (empty($value)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "<error>%s</error>",
-                    $this->trans('commands.config.import-single.messages.empty-value')
-                )
-            );
+            $io->error($this->trans('commands.config.import-single.messages.empty-value'));
+
+            return;
         }
 
         $config->setData($value);
