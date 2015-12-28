@@ -149,20 +149,17 @@ class InstallCommand extends ContainerAwareCommand
     protected function calculateDependencies($modules)
     {
         $dependencies = [];
-
-        $config = $this->getApplication()->getConfig();
-        $moduleList = $this->getSite()->getModules(true, true, true, true, true, false);
+        $moduleList = \system_rebuild_module_data();
         $validator = $this->getValidator();
 
         foreach ($modules as $moduleName) {
             $module = $moduleList[$moduleName];
-            $moduleConfig = $config->getFileContents($module->getPathname());
 
             $dependencies = array_unique(
                 array_merge(
                     $dependencies,
                     $validator->getUninstalledModules(
-                        array_values($moduleConfig['dependencies'])
+                        array_keys($module->requires)?:[]
                     )
                 )
             );
