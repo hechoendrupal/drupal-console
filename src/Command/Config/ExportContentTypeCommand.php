@@ -52,13 +52,13 @@ class ExportContentTypeCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output);
+            $module = $this->moduleQuestion($io);
         }
         $input->setOption('module', $module);
 
@@ -72,7 +72,7 @@ class ExportContentTypeCommand extends ContainerAwareCommand
                 $bundles[] = $entity->label();
             }
 
-            $contentType = $output->choice(
+            $contentType = $io->choice(
                 $this->trans('commands.config.export.content.type.questions.content-type'),
                 $bundles
             );
@@ -81,7 +81,7 @@ class ExportContentTypeCommand extends ContainerAwareCommand
 
         $optionalConfig = $input->getOption('optional-config');
         if (!$optionalConfig) {
-            $optionalConfig = $output->confirm(
+            $optionalConfig = $io->confirm(
                 $this->trans('commands.config.export.content.type.questions.optional-config'),
                 true
             );
@@ -94,6 +94,8 @@ class ExportContentTypeCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
+
         $this->entity_manager = $this->getEntityManager();
         $this->configStorage = $this->getConfigStorage();
 
@@ -114,7 +116,7 @@ class ExportContentTypeCommand extends ContainerAwareCommand
 
         $this->getViewDisplays($contentType, $optionalConfig);
 
-        $this->exportConfig($module, $output, $this->trans('commands.config.export.content.type.messages.content_type_exported'));
+        $this->exportConfig($module, $io, $this->trans('commands.config.export.content.type.messages.content_type_exported'));
     }
 
     protected function getFields($contentType, $optional = false)
