@@ -10,6 +10,7 @@ namespace Drupal\Console\Command\Config;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+//remove bellow line
 use Symfony\Component\Console\Helper\Table;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Command\ContainerAwareCommand;
@@ -37,16 +38,23 @@ class DebugCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
-        $table = new Table($output);
-        $table->setStyle('compact');
+        $tableHeader = [];
+
+        $tableRows = [];
+        foreach () {
+          $tableRows[] = [];
+        }
+
+        $io->table($tableHeader, $tableRows, 'compact');
+    
 
         $configName = $input->getArgument('config-name');
         if (!$configName) {
-            $this->getAllConfigurations($output, $table);
+            $this->getAllConfigurations($io, $table);
         } else {
-            $this->getConfigurationByName($output, $table, $configName);
+            $this->getConfigurationByName($io, $table, $configName);
         }
     }
 
