@@ -59,7 +59,7 @@ class MergeCommand extends Command
                     sprintf(
                         '%s: %s',
                         $this->trans('commands.yaml.merge.messages.error-parsing'),
-                        $e->getMessage().'</error>'
+                        $e->getMessage()
                     )
                 );
 
@@ -123,9 +123,8 @@ class MergeCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         $validator_filename = function ($value) use ($io) {
-            if (!strlen(trim($value))) {
-                // @todo: translate
-                $io->error(' You must provide a valid file path.');
+            if (!strlen(trim($value)) || !is_file($value)) {
+                $io->error($this->trans('commands.common.errors.invalid-file-path'));
 
                 return false;
             }
