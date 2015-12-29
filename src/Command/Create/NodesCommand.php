@@ -145,7 +145,7 @@ class NodesCommand extends ContainerAwareCommand
 
         $io->success(
             sprintf(
-                $this->trans('commands.create.nodes.messages.generated-content'),
+                $this->trans('commands.create.nodes.messages.created-nodes'),
                 $limit
             )
         );
