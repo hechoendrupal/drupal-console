@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Helper;
 
+use Symfony\Component\DomCrawler\Crawler;
 use Drupal\Console\Helper\Helper;
 use Drupal\Console\Utils\Create\Nodes;
 use Drupal\Console\Utils\Create\Terms;
@@ -17,6 +18,7 @@ use Drupal\Console\Utils\Create\Terms;
  */
 class DrupalApiHelper extends Helper
 {
+    /* @var array */
     protected $bundles = [];
     protected $vocabularies = [];
 
@@ -116,6 +118,66 @@ class DrupalApiHelper extends Helper
         }
 
         return $this->getKernelHelper()->getKernel()->getContainer();
+    }
+
+    /**
+     * @param $module
+     * @return array
+     * @throws \Exception
+     */
+    public function getProjectReleases($module)
+    {
+        if (!$module) {
+            return [];
+        }
+
+        $projectPageContent = $this->getHttpClientHelper()->getUrlAsString(
+            sprintf(
+                'https://updates.drupal.org/release-history/%s/8.x',
+                $module
+            )
+        );
+
+        if (!$projectPageContent) {
+            throw new \Exception('Invalid path.');
+        }
+
+        $releases = [];
+        $crawler = new Crawler($projectPageContent);
+        foreach ($crawler->filterXPath('./project/releases/release/version') as $element) {
+            $releases[] = $element->nodeValue;
+        }
+
+        return $releases;
+    }
+
+    /**
+     * @param $project
+     * @param $release
+     * @param null    $destination
+     * @return null|string
+     */
+    public function downloadProjectRelease($project, $release, $destination = null)
+    {
+        if (!$destination) {
+            $destination = sprintf(
+                '%s/%s.tar.gz',
+                sys_get_temp_dir(),
+                $project
+            );
+        }
+
+        $releaseFilePath = sprintf(
+            'http://ftp.drupal.org/files/projects/%s-%s.tar.gz',
+            $project,
+            $release
+        );
+
+        if ($this->getHttpClientHelper()->downloadFile($releaseFilePath, $destination)) {
+            return $destination;
+        }
+
+        return null;
     }
 
     /**
