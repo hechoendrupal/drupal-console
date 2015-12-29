@@ -36,7 +36,7 @@ class MergeCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $yaml = new Parser();
         $dumper = new Dumper();
@@ -46,7 +46,7 @@ class MergeCommand extends Command
         $yaml_files = $input->getArgument('yaml-files');
 
         if (count($yaml_files) < 2) {
-            $output->error($this->trans('commands.yaml.merge.messages.two-files-required'));
+            $io->error($this->trans('commands.yaml.merge.messages.two-files-required'));
 
             return;
         }
@@ -55,18 +55,19 @@ class MergeCommand extends Command
             try {
                 $yaml_parsed = $yaml->parse(file_get_contents($yaml_file));
             } catch (\Exception $e) {
-                $output->error(
+                $io->error(
                     sprintf(
                         '%s: %s',
                         $this->trans('commands.yaml.merge.messages.error-parsing'),
-                        $e->getMessage().'</error>'
+                        $e->getMessage()
                     )
                 );
+
                 return;
             }
 
             if (empty($yaml_parsed)) {
-                $output->error(
+                $io->error(
                     sprintf(
                         $this->trans('commands.yaml.merge.messages.wrong-parse'),
                         $yaml_file
@@ -81,7 +82,7 @@ class MergeCommand extends Command
         try {
             $yaml = $dumper->dump($final_yaml, 10);
         } catch (\Exception $e) {
-            $output->error(
+            $io->error(
                 sprintf(
                     '%s: %s',
                     $this->trans('commands.yaml.merge.messages.error-generating'),
@@ -95,7 +96,7 @@ class MergeCommand extends Command
         try {
             file_put_contents($yaml_destination, $yaml);
         } catch (\Exception $e) {
-            $output->error(
+            $io->error(
                 sprintf(
                     '%s: %s',
                     $this->trans('commands.yaml.merge.messages.error-writing'),
@@ -106,7 +107,7 @@ class MergeCommand extends Command
             return;
         }
 
-        $output->success(
+        $io->success(
             sprintf(
                 $this->trans('commands.yaml.merge.messages.merged'),
                 $yaml_destination
@@ -119,11 +120,13 @@ class MergeCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
-        $validator_filename = function ($value) {
-            if (!strlen(trim($value))) {
-                throw new \Exception(' You must provide a valid file path.');
+        $validator_filename = function ($value) use ($io) {
+            if (!strlen(trim($value)) || !is_file($value)) {
+                $io->error($this->trans('commands.common.errors.invalid-file-path'));
+
+                return false;
             }
 
             return $value;
@@ -132,11 +135,18 @@ class MergeCommand extends Command
         // --yaml-destination option
         $yaml_destination = $input->getArgument('yaml-destination');
         if (!$yaml_destination) {
-            $yaml_destination = $output->ask(
-                $this->trans('commands.yaml.merge.questions.yaml-destination'),
-                '',
-                $validator_filename
-            );
+            while (true) {
+                $yaml_destination = $io->ask(
+                    $this->trans('commands.yaml.merge.questions.yaml-destination'),
+                    '',
+                    $validator_filename
+                );
+
+                if ($yaml_destination) {
+                    break;
+                }
+            }
+
             $input->setArgument('yaml-destination', $yaml_destination);
         }
 
@@ -145,29 +155,37 @@ class MergeCommand extends Command
             $yaml_files = array();
 
             while (true) {
-                $yaml_file = $output->ask(
+                $yaml_file = $io->ask(
                     $this->trans('commands.yaml.merge.questions.file'),
                     '',
-                    function ($file) use ($yaml_files) {
+                    function ($file) use ($yaml_files, $io) {
                         if (count($yaml_files) < 2 && empty($file)) {
-                            throw new \InvalidArgumentException(
-                                sprintf($this->trans('commands.yaml.merge.questions.invalid-file'), $file)
-                            );
+                            $io->error($this->trans('commands.yaml.merge.questions.invalid-file'));
+
+                            return false;
                         } elseif (in_array($file, $yaml_files)) {
-                            throw new \InvalidArgumentException(
+                            $io->error(
                                 sprintf($this->trans('commands.yaml.merge.questions.file-already-added'), $file)
                             );
+
+                            return false;
+                        } elseif ($file == '') {
+                            return true;
                         } else {
                             return $file;
                         }
                     }
                 );
 
-                if (empty($yaml_file)) {
+                if ($yaml_file && !is_string($yaml_file)) {
                     break;
                 }
-                $yaml_files[] = $yaml_file;
+
+                if ($yaml_file) {
+                    $yaml_files[] = $yaml_file;
+                }
             }
+
             $input->setArgument('yaml-files', $yaml_files);
         }
     }
