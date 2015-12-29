@@ -10,8 +10,8 @@ namespace Drupal\Console\Command\Locale;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class TranslationStatusCommand extends ContainerAwareCommand
 {
@@ -33,25 +33,16 @@ class TranslationStatusCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
         $language = $input->getArgument('language');
+        $tableHeader = [
+          $this->trans('commands.locale.translation.status.messages.project'),
+          $this->trans('commands.locale.translation.status.messages.version'),
+          $this->trans('commands.locale.translation.status.messages.local-age'),
+          $this->trans('commands.locale.translation.status.messages.remote-age'),
+          $this->trans('commands.locale.translation.status.messages.info'),
+        ];
 
-        $table = new Table($output);
-        $table->setStyle('compact');
-
-        $this->displayUpdates($language, $output, $table);
-    }
-
-    protected function displayUpdates($language_filter, $output, $table)
-    {
-        $table->setHeaders(
-            [
-                $this->trans('commands.locale.translation.status.messages.project'),
-                $this->trans('commands.locale.translation.status.messages.version'),
-                $this->trans('commands.locale.translation.status.messages.local-age'),
-                $this->trans('commands.locale.translation.status.messages.remote-age'),
-                $this->trans('commands.locale.translation.status.messages.info'),
-            ]
-        );
 
         $languages = locale_translatable_language_list();
         $status = locale_translation_get_status();
@@ -59,32 +50,28 @@ class TranslationStatusCommand extends ContainerAwareCommand
         $this->getModuleHandler()->loadInclude('locale', 'compare.inc');
 
         if (!$languages) {
-            $output->writeln('[+] <info>'.$this->trans('commands.locale.translation.status.messages.no-languages') .'</info>');
-
+            $io->info($this->trans('commands.locale.translation.status.messages.no-languages'));
             return;
         } elseif (empty($status)) {
-            $output->writeln('[+] <info>'.$this->trans('commands.locale.translation.status.messages.no-translations') .'</info>');
+            $io->info($this->trans('commands.locale.translation.status.messages.no-translations'));
             return;
         }
-
         if ($languages) {
-            $table->setStyle('compact');
-
             $projectsStatus = $this->projectsStatus();
 
             foreach ($projectsStatus as $langcode => $rows) {
-                $table->setRows(array());
-                if ($language_filter !='' && !($language_filter == $langcode || strtolower($language_filter) == strtolower($languages[$langcode]->getName()))) {
+                $tableRows = [];
+                if ($language !='' && !($language == $langcode || strtolower($language) == strtolower($languages[$langcode]->getName()))) {
                     continue;
                 }
-                $output->writeln('[+] <info>'.$languages[$langcode]->getName() .'</info>');
+                $io->info($languages[$langcode]->getName());
                 foreach ($rows as $row) {
                     if ($row[0] == 'drupal') {
                         $row[0] = $this->trans('commands.common.messages.drupal-core');
                     }
-                    $table->addRow($row);
+                    $tableRows[] = $row;
                 }
-                $table->render();
+                $io->table($tableHeader, $tableRows, 'compact');
             }
         }
     }
