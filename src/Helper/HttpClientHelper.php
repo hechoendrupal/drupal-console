@@ -18,13 +18,9 @@ class HttpClientHelper extends Helper
 {
     public function downloadFile($url, $destination)
     {
-        try {
-            $this->getClient()->get($url, array('sink' => $destination));
+        $this->getClient()->get($url, array('sink' => $destination));
 
-            return true;
-        } catch (\Exception $e) {
-            return false;
-        }
+        return file_exists($destination);
     }
 
     public function getUrlAsString($url)
