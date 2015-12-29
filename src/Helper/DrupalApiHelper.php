@@ -9,6 +9,7 @@ namespace Drupal\Console\Helper;
 
 use Drupal\Console\Helper\Helper;
 use Drupal\Console\Utils\Create\Nodes;
+use Drupal\Console\Utils\Create\Terms;
 
 /**
  * Class DrupalApiHelper
@@ -17,6 +18,7 @@ use Drupal\Console\Utils\Create\Nodes;
 class DrupalApiHelper extends Helper
 {
     protected $bundles = [];
+    protected $vocabularies = [];
 
     /**
      * @return \Drupal\Console\Utils\Create\Nodes
@@ -30,6 +32,20 @@ class DrupalApiHelper extends Helper
         );
 
         return $createNodes;
+    }
+
+    /**
+     * @return \Drupal\Console\Utils\Create\Nodes
+     */
+    public function getCreateTerms()
+    {
+        $createTerms = new Terms(
+            $this->hasGetService('entity.manager'),
+            $this->hasGetService('date.formatter'),
+            $this->getVocabularies()
+        );
+
+        return $createTerms;
     }
 
     /**
@@ -47,6 +63,23 @@ class DrupalApiHelper extends Helper
         }
 
         return $this->bundles;
+    }
+
+    /**
+     * @return array
+     */
+    public function getVocabularies()
+    {
+        if (!$this->vocabularies) {
+            $entityManager = $this->hasGetService('entity.manager');
+            $vocabularies = $entityManager->getStorage('taxonomy_vocabulary')->loadMultiple();
+
+            foreach ($vocabularies as $vocabulary) {
+                $this->vocabularies[$vocabulary->id()] = $vocabulary->label();
+            }
+        }
+
+        return $this->vocabularies;
     }
 
     /**

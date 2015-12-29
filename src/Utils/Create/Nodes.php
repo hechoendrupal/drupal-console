@@ -10,9 +10,10 @@ namespace Drupal\Console\Utils\Create;
 use Drupal\Console\Utils\Create\Base;
 use Drupal\Core\Entity\EntityManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
+use Drupal\Core\Language\LanguageInterface;
 
 /**
- * Class ContentNode
+ * Class Nodes
  * @package Drupal\Console\Utils
  */
 class Nodes extends Base
@@ -64,7 +65,7 @@ class Nodes extends Base
                     'revision' => mt_rand(0, 1),
                     'status' => true,
                     'promote' => mt_rand(0, 1),
-                    'langcode' => 'en'
+                    'langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED
                 ]
             );
 
