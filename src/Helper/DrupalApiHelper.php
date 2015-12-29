@@ -8,6 +8,7 @@
 namespace Drupal\Console\Helper;
 
 use Drupal\Console\Helper\Helper;
+use Drupal\Console\Utils\Create\Nodes;
 use Drupal\Console\Utils\Create\Terms;
 
 /**
