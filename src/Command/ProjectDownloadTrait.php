@@ -9,6 +9,8 @@ namespace Drupal\Console\Command;
 
 use Drupal\Console\Style\DrupalStyle;
 use Alchemy\Zippy\Zippy;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 /**
  * Class ProjectDownloadTrait
@@ -26,6 +28,12 @@ trait ProjectDownloadTrait
     public function downloadProject(DrupalStyle $io, $project, $version, $type)
     {
         $commandKey = str_replace(':', '.', $this->getName());
+
+        $siteName = null;
+        if ($type == 'core') {
+            $siteName = $project;
+            $project = 'drupal';
+        }
 
         $io->comment(
             sprintf(
@@ -72,7 +80,48 @@ trait ProjectDownloadTrait
                         sprintf('%s/%s', $projectPath, $project)
                     )
                 );
+            } else {
+                $downloadPath = sprintf('%sdrupal-%s', $projectPath, $version);
+                $copyPath = sprintf('%s%s', $projectPath, $siteName);
+
+                $io->commentBlock($projectPath);
+                $io->commentBlock($downloadPath);
+                $io->commentBlock($copyPath);
+
+                try {
+                    $fileSystem = new Filesystem();
+                    $fileSystem->rename($downloadPath, $copyPath);
+                } catch (IOExceptionInterface $e) {
+                    $io->commentBlock(
+                      sprintf(
+                        $this->trans('commands.site.new.messages.downloaded'),
+                        $version,
+                        $downloadPath
+                      )
+                    );
+
+                    $io->error(
+                      sprintf(
+                        $this->trans('commands.site.new.messages.error-copying'),
+                        $e->getPath()
+                      )
+                    );
+
+                    return;
+                }
+
+                $io->success(
+                  sprintf(
+                    $this->trans('commands.site.new.messages.downloaded'),
+                    $version,
+                    $copyPath
+                  )
+                );
             }
+
+
+
+
         } catch (\Exception $e) {
             $io->error($e->getMessage());
 
