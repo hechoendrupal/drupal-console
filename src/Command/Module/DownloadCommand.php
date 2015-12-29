@@ -67,7 +67,7 @@ class DownloadCommand extends Command
 
             $crawler = new Crawler($html);
             $releases = [];
-            foreach ($crawler->filter('span.file a') as $element) {
+            foreach ($crawler->filterXPath('.//*/div[2]/div[2]/div/table/tbody/tr[1]/td[1]/span[@class=\'file\']/a') as $element) {
                 if (strpos($element->nodeValue, '.tar.gz') > 0) {
                     $release_name = str_replace(
                         '.tar.gz',
