@@ -93,35 +93,31 @@ trait ProjectDownloadTrait
                     $fileSystem->rename($downloadPath, $copyPath);
                 } catch (IOExceptionInterface $e) {
                     $io->commentBlock(
-                      sprintf(
-                        $this->trans('commands.site.new.messages.downloaded'),
-                        $version,
-                        $downloadPath
-                      )
+                        sprintf(
+                            $this->trans('commands.site.new.messages.downloaded'),
+                            $version,
+                            $downloadPath
+                        )
                     );
 
                     $io->error(
-                      sprintf(
-                        $this->trans('commands.site.new.messages.error-copying'),
-                        $e->getPath()
-                      )
+                        sprintf(
+                            $this->trans('commands.site.new.messages.error-copying'),
+                            $e->getPath()
+                        )
                     );
 
                     return;
                 }
 
                 $io->success(
-                  sprintf(
-                    $this->trans('commands.site.new.messages.downloaded'),
-                    $version,
-                    $copyPath
-                  )
+                    sprintf(
+                        $this->trans('commands.site.new.messages.downloaded'),
+                        $version,
+                        $copyPath
+                    )
                 );
             }
-
-
-
-
         } catch (\Exception $e) {
             $io->error($e->getMessage());
 
