@@ -128,7 +128,7 @@ class DrupalApiHelper extends Helper
     {
         if (!$destination) {
             $destination = sprintf(
-                '%s.tar.gz',
+                '%s/%s.tar.gz',
                 sys_get_temp_dir(),
                 $project
             );
