@@ -18,14 +18,24 @@ class HttpClientHelper extends Helper
 {
     public function downloadFile($url, $destination)
     {
-        $this->getClient()->get($url, array('sink' => $destination));
+        try {
+            $this->getClient()->get($url, array('sink' => $destination));
+
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
-    public function getHtml($url)
+    public function getUrlAsString($url)
     {
         $response = $this->getClient()->get($url);
 
-        return (string) $response->getBody();
+        if ($response->getStatusCode() == 200) {
+            return (string) $response->getBody();
+        }
+
+        return null;
     }
 
     public function getHeader($url, $header)
