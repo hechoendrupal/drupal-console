@@ -15,7 +15,7 @@ use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
- * Class ContentCommand
+ * Class NodesCommand
  * @package Drupal\Console\Command\Generate
  */
 class NodesCommand extends ContainerAwareCommand
