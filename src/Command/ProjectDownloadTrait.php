@@ -49,6 +49,8 @@ trait ProjectDownloadTrait
                 $version
             );
 
+            $io->commentBlock($destination);
+
             $drupal = $this->getDrupalHelper();
             $projectPath = sprintf(
                 '%s/%s',
