@@ -35,7 +35,6 @@ class LanguageDeleteCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $messageHelper = $this->getMessageHelper();
         $moduleHandler = $this->getModuleHandler();
         $moduleHandler->loadInclude('locale', 'inc', 'locale.translation');
         $moduleHandler->loadInclude('locale', 'module');
