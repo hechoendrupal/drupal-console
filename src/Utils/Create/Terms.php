@@ -57,7 +57,8 @@ class Terms extends Base
             $vocabulary = Vocabulary::load($vocabularies[array_rand($vocabularies)]);
             $filter_formats = filter_formats();
             $format = array_pop($filter_formats);
-            $term = entity_create('taxonomy_term', $values + array(
+            $term = entity_create(
+                'taxonomy_term', $values + array(
                     'name' => $this->getRandom()->sentences(mt_rand(1, $nameWords), true),
                     'description' => array(
                         'value' => $this->getRandom()->sentences(),
@@ -66,7 +67,8 @@ class Terms extends Base
                     ),
                     'vid' => $vocabulary->id(),
                     'langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED,
-                ));
+                )
+            );
 
 
             try {
@@ -76,7 +78,6 @@ class Terms extends Base
                     'vocabulary' => $vocabulary->get('name'),
                     'name' => $term->getName(),
                 ];
-
             } catch (\Exception $error) {
                 $terms['error'][] = [
                     'vocabulary' => $vocabularies[$vocabulary],

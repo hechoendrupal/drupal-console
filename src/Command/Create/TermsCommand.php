@@ -107,18 +107,20 @@ class TermsCommand extends ContainerAwareCommand
         // Validate provided vocabularies
         $vids = $input->getArgument('vocabularies');
 
-        $invalidVids = array_filter(array_map(
-            function ($vid) use ($vocabularies) {
-                if(!isset($vocabularies[$vid])) {
-                    return $vid;
-                } else {
-                    return null;
-                }
-            },
-            $vids
-        ));
+        $invalidVids = array_filter(
+            array_map(
+                function ($vid) use ($vocabularies) {
+                    if (!isset($vocabularies[$vid])) {
+                        return $vid;
+                    } else {
+                        return null;
+                    }
+                },
+                $vids
+            )
+        );
 
-        if(!empty($invalidVids)) {
+        if (!empty($invalidVids)) {
             $io->error(
                 sprintf(
                     $this->trans('commands.create.terms.messages.invalid-vocabularies'),
