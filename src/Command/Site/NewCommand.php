@@ -9,6 +9,8 @@ namespace Drupal\Console\Command\Site;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Drupal\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\ProjectDownloadTrait;
@@ -47,7 +49,39 @@ class NewCommand extends Command
         $siteName = $input->getArgument('site-name');
         $version = $input->getArgument('version');
 
-        $this->downloadProject($io, $siteName, $version, 'core');
+        $projectPath = $this->downloadProject($io, 'drupal', $version, 'core');
+        $downloadPath = sprintf('%sdrupal-%s', $projectPath, $version);
+        $copyPath = sprintf('%s%s', $projectPath, $siteName);
+
+        try {
+            $fileSystem = new Filesystem();
+            $fileSystem->rename($downloadPath, $copyPath);
+        } catch (IOExceptionInterface $e) {
+            $io->commentBlock(
+                sprintf(
+                    $this->trans('commands.site.new.messages.downloaded'),
+                    $version,
+                    $downloadPath
+                )
+            );
+
+            $io->error(
+                sprintf(
+                    $this->trans('commands.site.new.messages.error-copying'),
+                    $e->getPath()
+                )
+            );
+
+            return;
+        }
+
+        $io->success(
+            sprintf(
+                $this->trans('commands.site.new.messages.downloaded'),
+                $version,
+                $copyPath
+            )
+        );
     }
 
     /**

@@ -29,12 +29,6 @@ trait ProjectDownloadTrait
     {
         $commandKey = str_replace(':', '.', $this->getName());
 
-        $siteName = null;
-        if ($type == 'core') {
-            $siteName = $project;
-            $project = 'drupal';
-        }
-
         $io->comment(
             sprintf(
                 $this->trans('commands.'.$commandKey.'.messages.downloading'),
@@ -48,8 +42,6 @@ trait ProjectDownloadTrait
                 $project,
                 $version
             );
-
-            $io->commentBlock($destination);
 
             $drupal = $this->getDrupalHelper();
             $projectPath = sprintf(
@@ -80,43 +72,6 @@ trait ProjectDownloadTrait
                         $project,
                         $version,
                         sprintf('%s/%s', $projectPath, $project)
-                    )
-                );
-            } else {
-                $downloadPath = sprintf('%sdrupal-%s', $projectPath, $version);
-                $copyPath = sprintf('%s%s', $projectPath, $siteName);
-
-                $io->commentBlock($projectPath);
-                $io->commentBlock($downloadPath);
-                $io->commentBlock($copyPath);
-
-                try {
-                    $fileSystem = new Filesystem();
-                    $fileSystem->rename($downloadPath, $copyPath);
-                } catch (IOExceptionInterface $e) {
-                    $io->commentBlock(
-                        sprintf(
-                            $this->trans('commands.site.new.messages.downloaded'),
-                            $version,
-                            $downloadPath
-                        )
-                    );
-
-                    $io->error(
-                        sprintf(
-                            $this->trans('commands.site.new.messages.error-copying'),
-                            $e->getPath()
-                        )
-                    );
-
-                    return;
-                }
-
-                $io->success(
-                    sprintf(
-                        $this->trans('commands.site.new.messages.downloaded'),
-                        $version,
-                        $copyPath
                     )
                 );
             }
