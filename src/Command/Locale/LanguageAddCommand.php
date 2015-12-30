@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\Console\Command\ContainerAwareCommand;
-use Drupal\Console\Command\Locale\LocaleTrait;
+use Drupal\Console\Style\DrupalStyle;
 
 class LanguageAddCommand extends ContainerAwareCommand
 {
@@ -34,7 +34,7 @@ class LanguageAddCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $messageHelper = $this->getMessageHelper();
+        $io = new DrupalStyle($input, $output);
         $moduleHandler = $this->getModuleHandler();
         $moduleHandler->loadInclude('locale', 'inc', 'locale.translation');
         $moduleHandler->loadInclude('locale', 'module');
@@ -49,12 +49,7 @@ class LanguageAddCommand extends ContainerAwareCommand
         } elseif (array_search($language, $languages)) {
             $langcode = array_search($language, $languages);
         } else {
-            $messageHelper->addErrorMessage(
-                sprintf(
-                    $this->trans('commands.locale.language.add.messages.invalid-language'),
-                    $language
-                )
-            );
+            $io->error(sprintf($this->trans('commands.locale.language.add.messages.invalid-language'), $language));
             return;
         }
 
@@ -63,16 +58,9 @@ class LanguageAddCommand extends ContainerAwareCommand
             $language->type = LOCALE_TRANSLATION_REMOTE;
             $language->save();
 
-            $messageHelper->addinfoMessage(
-                sprintf(
-                    $this->trans('commands.locale.language.add.messages.language-add-sucessfully'),
-                    $language->getName()
-                )
-            );
+            $io->info(sprintf($this->trans('commands.locale.language.add.messages.language-add-sucessfully'), $language->getName()));
         } catch (\Exception $e) {
-            $messageHelper->addErrorMessage(
-                $e->getMessage()
-            );
+            $io->error($e->getMessage());
         }
     }
 }
