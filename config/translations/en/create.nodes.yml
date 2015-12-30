@@ -1,5 +1,5 @@
 description: 'Create dummy nodes for your Drupal 8 application.'
-help: 'The <info>create:nodes</info> command helps you create fake terms.'
+help: 'The <info>create:nodes</info> command helps you create dummy terms.'
 welcome: 'Welcome to the Drupal nodes generator'
 arguments:
   content-types: 'Content type(s) to be used in node creation'
