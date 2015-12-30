@@ -21,14 +21,13 @@ Drupal Console
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
 
-The Drupal Console is a suite of tools that you run on a command line interface (CLI)
-to generate boilerplate code and interact with a Drupal 8 installation.
+The Drupal Console is a CLI tool, to generate boilerplate code, interact and debug Drupal 8.
 
 ## Change Log
 All notable changes to this project will be documented in the [releases page](https://github.com/hechoendrupal/DrupalConsole/releases) 
 
 ## Supported Drupal version
-The Drupal 8 supported version is [Drupal 8.0.0](http://ftp.drupal.org/files/projects/drupal-8.0.0.tar.gz).
+The Drupal 8 supported version is [Drupal 8.0.1](http://ftp.drupal.org/files/projects/drupal-8.0.1.tar.gz).
 
 ## Drupal Console documentation
 You can read or download the Drupal Console documentation at [bit.ly/console-book](http://bit.ly/console-book).
@@ -54,11 +53,13 @@ chmod +x /usr/local/bin/drupal
 drupal list
 
 # Copy configuration files.
-drupal init [--override]
+drupal init --override
 
 # Generate a module.
 drupal generate:module
 ```
+
+More information about using this project at the [official documentation](https://hechoendrupal.gitbooks.io/drupal-console/content/en/using/project.html).
 
 ## Getting the project to contribute
 
@@ -78,6 +79,8 @@ Now that you have cloned the project, you need to download dependencies via Comp
 $ cd /path/to/DrupalConsole
 $ composer install
 ```
+
+More information about how to contribute with this project at the [official documentation](https://hechoendrupal.gitbooks.io/drupal-console/content/en/contributing/new-features.html).
 
 ## Enabling Autocomplete
 ```
