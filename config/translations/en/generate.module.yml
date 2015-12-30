@@ -28,4 +28,5 @@ questions:
 warnings:
     module-unavailable: 'Warning The following modules are not already available in your local environment "%s"'
 errors:
+    invalid-core: 'The core version "%s" is invalid.'
     directory-exists: 'The target directory "%s" is not empty.'
