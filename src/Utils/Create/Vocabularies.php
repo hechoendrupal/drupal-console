@@ -14,13 +14,13 @@ use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Language\LanguageInterface;
 
 /**
- * Class Terms
+ * Class Vocabularies
  * @package Drupal\Console\Utils
  */
 class Vocabularies extends Base
 {
     /**
-     * Terms constructor.
+     * Vocabularies constructor.
      *
      * @param EntityManagerInterface $entityManager
      * @param DateFormatterInterface $dateFormatter
@@ -33,9 +33,8 @@ class Vocabularies extends Base
     }
 
     /**
-     * Create and returns an array of new Terms.
+     * Create and returns an array of new Vocabularies.
      *
-     * @param $vocabularies
      * @param $limit
      * @param $nameWords
      *
@@ -49,21 +48,18 @@ class Vocabularies extends Base
         for ($i=0; $i<$limit; $i++) {
 
             // Create a vocabulary.
-            $vocabulary = entity_create(
-                'taxonomy_vocabulary', array(
-                'name' => $this->getRandom()->sentences(mt_rand(1, $nameWords), true),
-                'description' => $this->getRandom()->sentences(),
-                'vid' => Unicode::strtolower($this->getRandom()->name()),
-                'langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED,
-                'weight' => mt_rand(0, 10),
-                'id' => null,
-                )
+            $vocabulary = $this->entityManager->getStorage('taxonomy_vocabulary')->create(
+                [
+                    'name' => $this->getRandom()->sentences(mt_rand(1, $nameWords), true),
+                    'description' => $this->getRandom()->sentences(),
+                    'vid' => Unicode::strtolower($this->getRandom()->name()),
+                    'langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED,
+                    'weight' => mt_rand(0, 10),
+                ]
             );
-
 
             try {
                 $vocabulary->save();
-                ;
                 $vocabularies['success'][] = [
                     'vid' => $vocabulary->id(),
                     'vocabulary' => $vocabulary->get('name'),
