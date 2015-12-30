@@ -53,10 +53,10 @@ A brief description of the proposed fix.
 - Known workarounds.
 
 ### Minimum Requirements
-This project requires Drupal 8 Beta15.
+This project requires Drupal 8.
 
 ### Support
-**Do not open issue for support question, only features and bugs.** For question please visit our [ DrupalConsole Gitter room](https://gitter.im/hechoendrupal/DrupalConsole).
+**Do not open issue for support question, only features and bugs.** For question please visit our [DrupalConsole Gitter room](https://gitter.im/hechoendrupal/DrupalConsole).
 
 ### Documentation
 There's been some amazing Drupal Community work done around DrupalConsole. Many of your questions can be answered in our [DrupalConsole Book](https://www.gitbook.com/book/hechoendrupal/drupal-console/details).
