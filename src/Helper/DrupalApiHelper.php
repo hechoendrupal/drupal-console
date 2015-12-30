@@ -37,7 +37,7 @@ class DrupalApiHelper extends Helper
     }
 
     /**
-     * @return \Drupal\Console\Utils\Create\Nodes
+     * @return \Drupal\Console\Utils\Create\Terms
      */
     public function getCreateTerms()
     {

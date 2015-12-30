@@ -11,7 +11,6 @@ use Drupal\Console\Utils\Create\Base;
 use Drupal\Core\Entity\EntityManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Language\LanguageInterface;
-use Drupal\taxonomy\Entity\Vocabulary;
 
 /**
  * Class Terms
@@ -23,7 +22,7 @@ class Terms extends Base
     protected $vocabularies = [];
 
     /**
-     * ContentNode constructor.
+     * Terms constructor.
      *
      * @param EntityManagerInterface $entityManager
      * @param DateFormatterInterface $dateFormatter
@@ -39,10 +38,11 @@ class Terms extends Base
     }
 
     /**
-     * @param $contentTypes
+     * Create and returns an array of new Terms.
+     *
+     * @param $vocabularies
      * @param $limit
-     * @param $titleWords
-     * @param $timeRange
+     * @param $nameWords
      *
      * @return array
      */
@@ -52,35 +52,30 @@ class Terms extends Base
         $nameWords
     ) {
         $terms = [];
-        $values = [];
         for ($i=0; $i<$limit; $i++) {
-            $vocabulary = Vocabulary::load($vocabularies[array_rand($vocabularies)]);
-            $filter_formats = filter_formats();
-            $format = array_pop($filter_formats);
-            $term = entity_create(
-                'taxonomy_term', $values + array(
+            $vocabulary = $vocabularies[array_rand($vocabularies)];
+            $term = $this->entityManager->getStorage('taxonomy_term')->create(
+                [
+                    'vid' => $vocabulary,
                     'name' => $this->getRandom()->sentences(mt_rand(1, $nameWords), true),
                     'description' => array(
                         'value' => $this->getRandom()->sentences(),
-                        // Use the first available text format.
-                        'format' => $format->id(),
+                        'format' => 'full_html',
                     ),
-                    'vid' => $vocabulary->id(),
                     'langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED,
-                )
+                ]
             );
-
 
             try {
                 $term->save();
                 $terms['success'][] = [
                     'tid' => $term->id(),
-                    'vocabulary' => $vocabulary->get('name'),
+                    'vocabulary' => $this->vocabularies[$vocabulary],
                     'name' => $term->getName(),
                 ];
             } catch (\Exception $error) {
                 $terms['error'][] = [
-                    'vocabulary' => $vocabularies[$vocabulary],
+                    'vocabulary' => $this->vocabularies[$vocabulary],
                     'name' => $term->getName(),
                     'error' => $error->getMessage()
                 ];
