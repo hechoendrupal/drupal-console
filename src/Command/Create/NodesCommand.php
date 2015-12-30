@@ -60,7 +60,6 @@ class NodesCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        // --content type argument
         $contentTypes = $input->getArgument('content-types');
         if (!$contentTypes) {
             $bundles = $this->getDrupalApi()->getBundles();
@@ -90,14 +89,14 @@ class NodesCommand extends ContainerAwareCommand
             $input->setOption('limit', $limit);
         }
 
-        $titleWordsMin = $input->getOption('title-words');
-        if (!$titleWordsMin) {
-            $titleWordsMin = $io->ask(
+        $titleWords = $input->getOption('title-words');
+        if (!$titleWords) {
+            $titleWords = $io->ask(
                 $this->trans('commands.create.nodes.questions.title-words'),
                 5
             );
 
-            $input->setOption('title-words', $titleWordsMin);
+            $input->setOption('title-words', $titleWords);
         }
 
         $timeRange = $input->getOption('time-range');
