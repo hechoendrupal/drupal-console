@@ -1,0 +1,21 @@
+description: 'View current Drupal Installation status'
+messages:
+    application: Application
+    system: 'System Info'
+    hash_salt: 'Hash salt'
+    console: 'Drupal Console'
+    database: 'Database connection'
+    driver: Driver
+    host: Host
+    port: Port
+    username: Username
+    password: Password
+    theme: Themes
+    connection: Connection
+    theme_default: 'Default theme'
+    theme_admin: 'Admin theme'
+    directory: Directories
+    directory_root: 'Site root directory'
+    directory_temporary: 'Site temporary directory'
+    directory_theme_default: 'Default theme directory'
+    directory_theme_admin: 'Admin theme directory'
