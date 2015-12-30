@@ -11,6 +11,7 @@ use Symfony\Component\DomCrawler\Crawler;
 use Drupal\Console\Helper\Helper;
 use Drupal\Console\Utils\Create\Nodes;
 use Drupal\Console\Utils\Create\Terms;
+use Drupal\Console\Utils\Create\Vocabularies;
 
 /**
  * Class DrupalApiHelper
@@ -50,6 +51,18 @@ class DrupalApiHelper extends Helper
         return $createTerms;
     }
 
+    /**
+     * @return \Drupal\Console\Utils\Create\Vocabularies
+     */
+    public function getCreateVocabularies()
+    {
+        $createVocabularies = new Vocabularies(
+            $this->hasGetService('entity.manager'),
+            $this->hasGetService('date.formatter')
+        );
+
+        return $createVocabularies;
+    }
     /**
      * @return array
      */
