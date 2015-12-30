@@ -1,5 +1,5 @@
 description: 'Create dummy terms for your Drupal 8 application.'
-help: 'The <info>create:nodes</info> command helps you create fake terns.'
+help: 'The <info>create:nodes</info> command helps you create dummy terms.'
 welcome: 'Welcome to the Drupal terms creator'
 arguments:
   vocabularies: 'Vocabularie(s) to be used in terms creation'
