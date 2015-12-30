@@ -22,7 +22,7 @@ class Nodes extends Base
     protected $bundles = [];
 
     /**
-     * ContentNode constructor.
+     * Nodes constructor.
      *
      * @param EntityManagerInterface $entityManager
      * @param DateFormatterInterface $dateFormatter
