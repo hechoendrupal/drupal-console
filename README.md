@@ -97,9 +97,6 @@ $ sudo ln -s /path/to/DrupalConsole/bin/drupal /usr/local/bin/drupal
 
 **NOTE:** The name `drupal` is just an alias you can name it anything you like.
 
-
-
-
 More information about how to contribute with this project at the [official documentation](https://hechoendrupal.gitbooks.io/drupal-console/content/en/contributing/new-features.html).
 
 ## Enabling Autocomplete
