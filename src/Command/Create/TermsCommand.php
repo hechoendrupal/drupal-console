@@ -54,7 +54,6 @@ class TermsCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        // --content type argument
         $vocabularies = $input->getArgument('vocabularies');
         if (!$vocabularies) {
             $vocabularies = $this->getDrupalApi()->getVocabularies();
@@ -84,14 +83,14 @@ class TermsCommand extends ContainerAwareCommand
             $input->setOption('limit', $limit);
         }
 
-        $nameWordsMin = $input->getOption('name-words');
-        if (!$nameWordsMin) {
-            $nameWordsMin = $io->ask(
+        $nameWords = $input->getOption('name-words');
+        if (!$nameWords) {
+            $nameWords = $io->ask(
                 $this->trans('commands.create.terms.questions.name-words'),
                 5
             );
 
-            $input->setOption('name-words', $nameWordsMin);
+            $input->setOption('name-words', $nameWords);
         }
     }
 
@@ -102,41 +101,13 @@ class TermsCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $vocabularies = $this->getDrupalApi()->getVocabularies();
-
-        // Validate provided vocabularies
-        $vids = $input->getArgument('vocabularies');
-
-        $invalidVids = array_filter(
-            array_map(
-                function ($vid) use ($vocabularies) {
-                    if (!isset($vocabularies[$vid])) {
-                        return $vid;
-                    } else {
-                        return null;
-                    }
-                },
-                $vids
-            )
-        );
-
-        if (!empty($invalidVids)) {
-            $io->error(
-                sprintf(
-                    $this->trans('commands.create.terms.messages.invalid-vocabularies'),
-                    implode(',', $invalidVids)
-                )
-            );
-            return;
-        }
-
+        $vocabularies = $input->getArgument('vocabularies');
         $limit = $input->getOption('limit')?:10;
         $nameWords = $input->getOption('name-words')?:5;
 
-
         $createTerms = $this->getDrupalApi()->getCreateTerms();
         $terms = $createTerms->createTerm(
-            $vids,
+            $vocabularies,
             $limit,
             $nameWords
         );
@@ -157,22 +128,5 @@ class TermsCommand extends ContainerAwareCommand
         );
 
         return;
-    }
-
-    /**
-     * @return array
-     */
-    private function getTimeRange()
-    {
-        $timeRanges = [
-            1 => sprintf('N | %s', $this->trans('commands.create.nodes.questions.time-ranges.0')),
-            3600 => sprintf('H | %s', $this->trans('commands.create.nodes.questions.time-ranges.1')),
-            86400 => sprintf('D | %s', $this->trans('commands.create.nodes.questions.time-ranges.2')),
-            604800 => sprintf('W | %s', $this->trans('commands.create.nodes.questions.time-ranges.3')),
-            2592000 => sprintf('M | %s', $this->trans('commands.create.nodes.questions.time-ranges.4')),
-            31536000 => sprintf('Y | %s', $this->trans('commands.create.nodes.questions.time-ranges.5'))
-        ];
-
-        return $timeRanges;
     }
 }
