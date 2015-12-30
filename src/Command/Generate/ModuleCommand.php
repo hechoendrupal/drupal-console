@@ -282,7 +282,8 @@ class ModuleCommand extends GeneratorCommand
             $core = $output->ask(
                 $this->trans('commands.generate.module.questions.core'), '8.x',
                 function ($core) {
-                    if (!preg_match('/^[0-9]+\.x$/', $core)) {
+                    // Only allow 8.x and higher as core version.
+                    if (!preg_match('/^([0-9]+)\.x$/', $core, $matches) || ($matches[1] < 8)) {
                         throw new \InvalidArgumentException(
                             sprintf(
                                 $this->trans('commands.generate.module.errors.invalid-core'),
