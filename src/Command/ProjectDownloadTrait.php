@@ -9,8 +9,6 @@ namespace Drupal\Console\Command;
 
 use Drupal\Console\Style\DrupalStyle;
 use Alchemy\Zippy\Zippy;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 /**
  * Class ProjectDownloadTrait
