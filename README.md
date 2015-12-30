@@ -80,6 +80,23 @@ $ cd /path/to/DrupalConsole
 $ composer install
 ```
 
+### Running the project
+After using Composer to download dependencies, you can run the project by executing:
+
+```
+$ bin/drupal
+```
+
+### Create a symbolic link
+
+You can run this command to easily access the Drupal Console from anywhere on your system:
+
+```
+$ sudo ln -s /path/to/DrupalConsole/bin/drupal /usr/local/bin/drupal
+```
+
+**NOTE:** The name `drupal` is just an alias you can name it anything you like.
+
 More information about how to contribute with this project at the [official documentation](https://hechoendrupal.gitbooks.io/drupal-console/content/en/contributing/new-features.html).
 
 ## Enabling Autocomplete
