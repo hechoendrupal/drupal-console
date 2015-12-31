@@ -17,7 +17,7 @@ use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class UsersCommand
- * @package Drupal\Console\Command\Generate
+ * @package Drupal\Console\Command\Create
  */
 class UsersCommand extends ContainerAwareCommand
 {
@@ -141,24 +141,15 @@ class UsersCommand extends ContainerAwareCommand
           $this->trans('commands.create.users.messages.created'),
         ];
 
-        if (isset($users['success'])) {
+        if ($users['success']) {
             $io->table($tableHeader, $users['success']);
 
             $io->success(
-                sprintf(
-                    $this->trans('commands.create.users.messages.created-users'),
-                    $limit
-                )
-            );
-        } else {
-            $io->error(
-                sprintf(
-                    $this->trans('commands.create.users.messages.error'),
-                    $users['error'][0]['error']
-                )
+              sprintf(
+                $this->trans('commands.create.users.messages.created-users'),
+                $limit
+              )
             );
         }
-
-        return;
     }
 }

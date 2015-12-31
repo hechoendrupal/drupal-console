@@ -2,13 +2,15 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\ServicesTrait.
+ * Contains Drupal\Console\Command\CreateTrait.
  */
 
 namespace Drupal\Console\Command;
 
-use Drupal\Console\Style\DrupalStyle;
-
+/**
+ * Class CreateTrait
+ * @package Drupal\Console\Command
+ */
 trait CreateTrait
 {
     /**
