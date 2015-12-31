@@ -13,8 +13,6 @@ use Drupal\Console\Utils\Create\Nodes;
 use Drupal\Console\Utils\Create\Terms;
 use Drupal\Console\Utils\Create\Vocabularies;
 use Drupal\Console\Utils\Create\Users;
-use Drupal\user\Entity\Role;
-use Drupal\user\RoleInterface;
 
 /**
  * Class DrupalApiHelper
@@ -69,7 +67,7 @@ class DrupalApiHelper extends Helper
     }
 
     /**
-     * @return \Drupal\Console\Utils\Create\Nodes
+     * @return \Drupal\Console\Utils\Create\Users
      */
     public function getCreateUsers()
     {
@@ -105,9 +103,9 @@ class DrupalApiHelper extends Helper
     public function getRoles()
     {
         if (!$this->roles) {
-            $roles = Role::loadMultiple();
-
-            unset($roles[RoleInterface::ANONYMOUS_ID]);
+            $entityManager = $this->hasGetService('entity.manager');
+            $roles = $entityManager->getStorage('user_role')->loadMultiple();
+            unset($roles['anonymous']);
 
             foreach ($roles as $role) {
                 $this->roles[$role->id()] = $role->label();

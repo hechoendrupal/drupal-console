@@ -22,6 +22,6 @@ questions:
 messages:
     user-id: 'User Id'
     roles: 'Roles'
-    usernam: 'Username'
+    username: 'Username'
     created: 'Created Time'
     created-users: 'Created %s users successfully'

@@ -16,25 +16,31 @@ use Drupal\user\Entity\Role;
 
 /**
  * Class Users
- * @package Drupal\Console\Utils
+ * @package Drupal\Console\Utils\Create
  */
 class Users extends Base
 {
+    /* @var array */
+    protected $roles = [];
+
     /**
-     * Vocabularies constructor.
+     * Users constructor.
      *
      * @param EntityManagerInterface $entityManager
      * @param DateFormatterInterface $dateFormatter
+     * @param array                  $roles
      */
     public function __construct(
         EntityManagerInterface $entityManager,
-        DateFormatterInterface $dateFormatter
+        DateFormatterInterface $dateFormatter,
+        $roles
     ) {
+        $this->roles = $roles;
         parent::__construct($entityManager, $dateFormatter);
     }
 
     /**
-     * Create and returns an array of new Vocabularies.
+     * Create and returns an array of new Users.
      *
      * @param $roles
      * @param $limit
@@ -49,22 +55,15 @@ class Users extends Base
         $password,
         $timeRange
     ) {
-        $user = [];
+        $users = [];
         for ($i=0; $i<$limit; $i++) {
-
-            // Create a vocabulary.
             $username = $this->getRandom()->word(mt_rand(6, 12));
 
-            if (!$password) {
-                $pass = $this->getRandom()->word(mt_rand(8, 16));
-            } else {
-                $pass = $password;
-            }
             $user = $this->entityManager->getStorage('user')->create(
                 [
                     'name' => $username,
                     'mail' => $username . '@example.com',
-                    'pass' => $pass,
+                    'pass' => $password?:$this->getRandom()->word(mt_rand(8, 16)),
                     'status' => mt_rand(0, 1),
                     'roles' => $roles[array_rand($roles)],
                     'created' => REQUEST_TIME - mt_rand(0, $timeRange),
@@ -74,27 +73,20 @@ class Users extends Base
             try {
                 $user->save();
 
-                $username = $user->get('name')->getValue();
-
-                $rids = $user->getRoles();
-                $roles = [];
-                foreach ($rids as $rid) {
-                    $role = Role::load($rid);
-                    if ($role) {
-                        $roles[$rid] = $role->get('label');
-                    }
+                $userRoles = [];
+                foreach ($user->getRoles() as $userRole) {
+                    $userRoles[] = $this->roles[$userRole];
                 }
 
                 $users['success'][] = [
                     'user-id' => $user->id(),
-                    'username' => $username[0]['value'],
-                    'roles' => implode(',', $roles),
+                    'username' => $user->getUsername(),
+                    'roles' => implode(', ', $userRoles),
                     'created' => $this->dateFormatter->format(
                         $user->getCreatedTime(),
                         'custom',
                         'Y-m-d h:i:s'
                     )
-
                 ];
             } catch (\Exception $error) {
                 $users['error'][] = [
