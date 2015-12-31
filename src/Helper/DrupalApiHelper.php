@@ -12,6 +12,7 @@ use Drupal\Console\Helper\Helper;
 use Drupal\Console\Utils\Create\Nodes;
 use Drupal\Console\Utils\Create\Terms;
 use Drupal\Console\Utils\Create\Vocabularies;
+use Drupal\Console\Utils\Create\Users;
 
 /**
  * Class DrupalApiHelper
@@ -21,6 +22,7 @@ class DrupalApiHelper extends Helper
 {
     /* @var array */
     protected $bundles = [];
+    protected $roles = [];
     protected $vocabularies = [];
 
     /**
@@ -63,6 +65,21 @@ class DrupalApiHelper extends Helper
 
         return $createVocabularies;
     }
+
+    /**
+     * @return \Drupal\Console\Utils\Create\Users
+     */
+    public function getCreateUsers()
+    {
+        $createUsers = new Users(
+            $this->hasGetService('entity.manager'),
+            $this->hasGetService('date.formatter'),
+            $this->getRoles()
+        );
+
+        return $createUsers;
+    }
+
     /**
      * @return array
      */
@@ -78,6 +95,24 @@ class DrupalApiHelper extends Helper
         }
 
         return $this->bundles;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoles()
+    {
+        if (!$this->roles) {
+            $entityManager = $this->hasGetService('entity.manager');
+            $roles = $entityManager->getStorage('user_role')->loadMultiple();
+            unset($roles['anonymous']);
+
+            foreach ($roles as $role) {
+                $this->roles[$role->id()] = $role->label();
+            }
+        }
+
+        return $this->roles;
     }
 
     /**

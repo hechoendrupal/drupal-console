@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Command\CreateTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -20,6 +21,8 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class NodesCommand extends ContainerAwareCommand
 {
+    use CreateTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -150,22 +153,5 @@ class NodesCommand extends ContainerAwareCommand
         );
 
         return;
-    }
-
-    /**
-     * @return array
-     */
-    private function getTimeRange()
-    {
-        $timeRanges = [
-            1 => sprintf('N | %s', $this->trans('commands.create.nodes.questions.time-ranges.0')),
-            3600 => sprintf('H | %s', $this->trans('commands.create.nodes.questions.time-ranges.1')),
-            86400 => sprintf('D | %s', $this->trans('commands.create.nodes.questions.time-ranges.2')),
-            604800 => sprintf('W | %s', $this->trans('commands.create.nodes.questions.time-ranges.3')),
-            2592000 => sprintf('M | %s', $this->trans('commands.create.nodes.questions.time-ranges.4')),
-            31536000 => sprintf('Y | %s', $this->trans('commands.create.nodes.questions.time-ranges.5'))
-        ];
-
-        return $timeRanges;
     }
 }
