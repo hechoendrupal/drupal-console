@@ -11,7 +11,7 @@ questions:
     roles: 'Select role(s) to be used on user creation'
     limit: 'Enter how many users would you like to generate'
     password: 'Enter the password to be set to users created'
-    time-range: 'How far back in time should the nodes be dated?'
+    time-range: 'How far back in time should the users be dated?'
     time-ranges:
         - 'Now'
         - '1 hour ago'
