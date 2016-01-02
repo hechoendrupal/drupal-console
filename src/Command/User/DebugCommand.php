@@ -44,43 +44,6 @@ class DebugCommand extends ContainerAwareCommand
     /**
      * {@inheritdoc}
      */
-    protected function interact(InputInterface $input, OutputInterface $output)
-    {
-        $io = new DrupalStyle($input, $output);
-
-        $roles = $input->getArgument('roles');
-        if (!$roles) {
-            $systemRoles = $this->getDrupalApi()->getRoles();
-            $roles = $io->choice(
-                $this->trans('commands.user.debug.questions.roles'),
-                array_values($systemRoles),
-                null,
-                true
-            );
-
-            $roles = array_map(
-                function ($role) use ($systemRoles) {
-                    return array_search($role, $systemRoles);
-                },
-                $roles
-            );
-
-            $input->setArgument('roles', $roles);
-        }
-
-        $limit = $input->getOption('limit');
-        if (!$limit) {
-            $limit = $io->ask(
-                $this->trans('commands.user.debug.questions.limit'),
-                25
-            );
-            $input->setOption('limit', $limit);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $entity_manager = $this->getEntityManager();
@@ -91,12 +54,20 @@ class DebugCommand extends ContainerAwareCommand
         $systemRoles = $this->getDrupalApi()->getRoles();
 
         $roles = $input->getArgument('roles');
-        $limit = $input->getOption('limit')?:25;
+        $limit = $input->getOption('limit');
 
         $entity_query_service = $this->getEntityQuery();
         $query = $entity_query_service->get('user');
-        $query->condition('roles', $roles, 'IN');
-        $query->range(0, $limit);
+        $query->condition('uid', 0, '>');
+        $query->sort('uid');
+
+        if ($roles) {
+            $query->condition('roles', $roles, 'IN');
+        }
+
+        if ($limit) {
+            $query->range(0, $limit);
+        }
 
         $results = $query->execute();
 
