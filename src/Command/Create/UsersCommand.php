@@ -145,10 +145,10 @@ class UsersCommand extends ContainerAwareCommand
             $io->table($tableHeader, $users['success']);
 
             $io->success(
-              sprintf(
-                $this->trans('commands.create.users.messages.created-users'),
-                $limit
-              )
+                sprintf(
+                    $this->trans('commands.create.users.messages.created-users'),
+                    $limit
+                )
             );
         }
     }
