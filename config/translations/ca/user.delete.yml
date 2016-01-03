@@ -1,7 +1,7 @@
 description: 'Delete users for the application'
 help: 'The <info>user:delete</info> command helps you delete users.'
 welcome: 'Welcome to the Drupal user delete'
-arguments:
+options:
     user-id: 'User id to be deleted'
     roles: 'Roles associated to users to be deleted'
 questions:
