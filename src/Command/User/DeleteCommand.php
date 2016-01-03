@@ -63,6 +63,7 @@ class DeleteCommand extends ContainerAwareCommand
 
         if (!$userId && !$roles) {
             $systemRoles = $this->getDrupalApi()->getRoles();
+            unset($systemRoles['authenticated']);
             $roles = $io->choice(
                 $this->trans('commands.user.delete.questions.roles'),
                 array_values($systemRoles),
