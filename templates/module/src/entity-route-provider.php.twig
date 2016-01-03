@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-\Drupal\{{ module }}\{{ entity_class }}RouteProvider.
+\Drupal\{{ module }}\{{ entity_class }}HtmlRouteProvider.
 {% endblock %}
 
 {% block namespace_class %}
@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Route;
  * @see Drupal\Core\Entity\Routing\AdminHtmlRouteProvider
  * @see Drupal\Core\Entity\Routing\DefaultHtmlRouteProvider
  */
-class {{ entity_class }}RouteProvider extends AdminHtmlRouteProvider {% endblock %}
+class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endblock %}
 {% block class_methods %}
   /**
    * {@inheritdoc}

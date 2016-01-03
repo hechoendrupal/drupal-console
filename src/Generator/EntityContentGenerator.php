@@ -88,7 +88,7 @@ class EntityContentGenerator extends Generator
 
         $this->renderFile(
             'module/src/entity-content-route-provider.php.twig',
-            $this->getSite()->getSourcePath($module).'/'.$entity_class.'RouteProvider.php',
+            $this->getSite()->getSourcePath($module).'/'.$entity_class.'HtmlRouteProvider.php',
             $parameters
         );
 
