@@ -10,8 +10,8 @@ namespace Drupal\Console\Command\Migrate;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class DebugCommand extends ContainerAwareCommand
 {
@@ -31,14 +31,33 @@ class DebugCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
         $drupal_version = $input->getArgument('tag');
 
-        $table = new Table($output);
-        $table->setStyle('compact');
-        $this->getAllMigrations($drupal_version, $output, $table);
+        $migrations = $this->getMigrations($drupal_version);
+
+        $tableHeader = [
+          $this->trans('commands.migrate.debug.messages.id'),
+          $this->trans('commands.migrate.debug.messages.description'),
+          $this->trans('commands.migrate.debug.messages.tags'),
+        ];
+
+        $tableRows = [];
+        if (empty($migrations)) {
+            $io->error(
+                sprintf(
+                    $this->trans('commands.migrate.debug.messages.no-migrations'),
+                    count($migrations)
+                )
+            );
+        }
+        foreach ($migrations as $migration_id => $migration) {
+            $tableRows[] = [$migration_id, $migration['description'], $migration['tags']];
+        }
+        $io->table($tableHeader, $tableRows, 'compact');
     }
 
-    protected function getAllMigrations($drupal_version, $output, $table)
+    /*protected function getAllMigrations($drupal_version, $output, $table)
     {
         $migrations = $this->getMigrations($drupal_version);
 
@@ -67,5 +86,5 @@ class DebugCommand extends ContainerAwareCommand
             }
             $table->render();
         }
-    }
+    }*/
 }
