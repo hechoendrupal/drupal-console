@@ -43,11 +43,11 @@ use Drupal\user\UserInterface;
  *     },
  *     "access" = "Drupal\{{ module }}\{{ entity_class }}AccessControlHandler",
  *     "route_provider" = {
- *       "html" = "Drupal\{{ module }}\{{ entity_class }}RouteProvider",
+ *       "html" = "Drupal\{{ module }}\{{ entity_class }}HtmlRouteProvider",
  *     },
  *   },
  *   base_table = "{{ entity_name }}",
- *   admin_permission = "administer {{ entity_class }} entities",
+ *   admin_permission = "administer {{ label|lower }} entities",
 {% if bundle_entity_type %}
  *   entity_keys = {
  *     "id" = "id",

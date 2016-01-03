@@ -62,7 +62,7 @@ class EntityConfigGenerator extends Generator
 
         $this->renderFile(
             'module/src/entity-route-provider.php.twig',
-            $this->getSite()->getSourcePath($module).'/'.$entity_class.'RouteProvider.php',
+            $this->getSite()->getSourcePath($module).'/'.$entity_class.'HtmlRouteProvider.php',
             $parameters
         );
 
