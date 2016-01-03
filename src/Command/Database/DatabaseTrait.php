@@ -30,7 +30,7 @@ trait DatabaseTrait
         $databases = $this->getDatabaseTypes();
 
         $dbType = $io->choice(
-            $this->trans('commands.migrate.setup.migrations.questions.db-type'),
+            $this->trans('commands.migrate.setup.questions.db-type'),
             array_column($databases, 'name')
         );
 
