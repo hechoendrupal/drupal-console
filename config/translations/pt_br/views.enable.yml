@@ -1,4 +1,3 @@
-description: 'Enable a View'
+description: 'Habilitar uma View'
 messages:
-    disabled-successfully: 'View %s was enabled successfully.'
-disabled-successfully: 'View %s was enabled successfully.'
+    disabled-successfully: 'A View %s foi habilitada com sucesso.'
