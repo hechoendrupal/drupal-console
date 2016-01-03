@@ -35,10 +35,11 @@ class DeleteCommand extends ContainerAwareCommand
                 InputArgument::OPTIONAL,
                 $this->trans('commands.user.delete.arguments.user-id')
             )
-            ->addArgument(
+            ->addOption(
                 'roles',
-                InputArgument::IS_ARRAY,
-                $this->trans('commands.user.delete.arguments.roles')
+                '',
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                $this->trans('commands.user.debug.options.roles')
             );
     }
 
@@ -58,7 +59,7 @@ class DeleteCommand extends ContainerAwareCommand
             $input->setArgument('user-id', $userId);
         }
 
-        $roles = $input->getArgument('roles');
+        $roles = $input->getOption('roles');
 
         if (!$userId && !$roles) {
             $systemRoles = $this->getDrupalApi()->getRoles();
@@ -76,7 +77,7 @@ class DeleteCommand extends ContainerAwareCommand
                 $roles
             );
 
-            $input->setArgument('roles', $roles);
+            $input->setOption('roles', $roles);
         }
     }
 
@@ -124,7 +125,7 @@ class DeleteCommand extends ContainerAwareCommand
             return;
         }
 
-        $roles = $input->getArgument('roles');
+        $roles = $input->getOption('roles');
 
         if ($roles) {
             $entity_manager = $this->getEntityManager();
@@ -133,10 +134,7 @@ class DeleteCommand extends ContainerAwareCommand
             $tableHeader = [
                 $this->trans('commands.user.debug.messages.user-id'),
                 $this->trans('commands.user.debug.messages.username'),
-                $this->trans('commands.user.debug.messages.roles'),
-                $this->trans('commands.user.debug.messages.status'),
             ];
-
 
             $entity_query_service = $this->getEntityQuery();
             $query = $entity_query_service->get('user');
@@ -145,13 +143,10 @@ class DeleteCommand extends ContainerAwareCommand
 
             $results = $query->execute();
 
-
-
             $users = $userStorage->loadMultiple($results);
-            $usersDeleted = 0;
+            $tableRows = [];
             foreach ($users as $user_id => $user) {
                 $tableRows[] = [$user_id, $user->getUsername()];
-                $usersDeleted++;
                 try {
                     $user->delete();
                 } catch (\Exception $e) {
@@ -165,7 +160,7 @@ class DeleteCommand extends ContainerAwareCommand
             $io->info(
                 sprintf(
                     $this->trans('commands.user.delete.messages.users-deleted'),
-                    $usersDeleted
+                    count($tableRows)
                 )
             );
         }
