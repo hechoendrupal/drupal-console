@@ -4,28 +4,28 @@ options:
 messages:
     missing_path: 'पथ अनुपस्थित है'
     title: 'उपलब्ध Drupal कंसोल कमाण्डें'
-    note: Note
+    note: नोट 
     note-description: 'Drupal कंसोल कमाण्डें Drupal 8 के स्थापना रूट से चलायी जाए'
     command: 'Drupal कंसोल कमाण्ड' 
     command_description: 'The **%s** command %s'
-    usage: Usage
+    usage: प्रयोग 
     options: 'उपलब्ध विकल्प'
-    option: Option
-    details: Details
+    option: विकल्प
+    details: विवरण 
     arguments: 'उपलब्ध तर्कों  '
-    argument: Argument
-    examples: Examples
+    argument: तर्क 
+    examples: उदाहरण 
 output:
     available-commands:
         title: 'उपलब्ध Drupal कंसोल कमाण्डें  '
-        note: Note
+        note: नोट 
         note-description: 'Drupal कंसोल कमाण्डें Drupal 8 के स्थापना रूट से चलायी जाए'
         command: 'Drupal कंसोल कमाण्ड'
     command:
         command_description: 'The **%s** command %s'
-        usage: Usage
+        usage: प्रयोग 
         options: 'उपलब्ध विकल्प'
-        option: Option
-        details: Details
+        option: विकल्प 
+        details: विवरण 
         arguments: 'उपलब्ध तर्कों '
-        argument: Argument
+        argument: तर्क 
