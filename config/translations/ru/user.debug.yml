@@ -1,9 +1,8 @@
 description: 'Displays current users for the application'
 help: 'The <info>user:debug</info> command helps you get current users.'
 welcome: 'Welcome to the Drupal user debug'
-arguments:
-    roles: 'Roles to filter debug'
 options:
+    roles: 'Roles to filter debug'
     limit: 'How many users would you listed in debug'
 questions:
     roles: 'Select role(s) to be used to filter user debug list'
