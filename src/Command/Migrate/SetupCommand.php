@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Migrate;
 
+use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -138,17 +139,14 @@ class SetupCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $template_storage = \Drupal::service('migrate.template_storage');
+        $io = new DrupalStyle($input, $output);
+        $template_storage = $this->hasGetService('migrate.template_storage');
 
         $this->registerMigrateDB($input, $output);
         $this->migrateConnection = $this->getDBConnection($output, 'default', 'migrate');
 
         if (!$drupal_version = $this->getLegacyDrupalVersion($this->migrateConnection)) {
-            $output->writeln(
-                '[-] <error>'.
-                $this->trans('commands.migrate.setup.questions.not-drupal')
-                .'</error>'
-            );
+            $io->error($this->trans('commands.migrate.setup.questions.not-drupal'));
             return;
         }
 
@@ -163,7 +161,7 @@ class SetupCommand extends ContainerAwareCommand
         $migration_templates = $template_storage->findTemplatesByTag($version_tag);
 
         $migrations = [];
-        $builderManager = \Drupal::service('plugin.manager.migrate.builder');
+        $builderManager = $this->hasGetService('plugin.manager.migrate.builder');
         foreach ($migration_templates as $template_id => $template) {
             if (isset($template['builder'])) {
                 $variants = $builderManager
@@ -200,49 +198,35 @@ class SetupCommand extends ContainerAwareCommand
             // site configurations (e.g., what modules are enabled) will be silently
             // ignored.
             catch (RequirementsException $e) {
-                $output->writeln(
-                    '[-] <error>'.
-                    $e->getMessage()
-                    .'</error>'
-                );
+                $io->error($e->getMessage());
             } catch (PluginNotFoundException $e) {
-                $output->writeln(
-                    '[-] <error>'.
-                    $e->getMessage()
-                    .'</error>'
-                );
+                $io->error($e->getMessage());
             }
         }
 
         if (empty($migration_ids)) {
             if (empty($migrations)) {
-                $output->writeln(
-                    '[-] <info>' .
+                $io->info(
                     sprintf(
                         $this->trans('commands.migrate.setup.messages.migrations-not-found'),
                         count($migrations)
                     )
-                    . '</info>'
                 );
             } else {
-                $output->writeln(
-                    '[-] <error>' .
+                $io->error(
                     sprintf(
                         $this->trans('commands.migrate.setup.messages.migrations-already-exist'),
                         count($migrations)
                     )
-                    . '</error>'
                 );
             }
         } else {
-            $output->writeln(
-                '[-] <info>' .
+            $io->info(
                 sprintf(
                     $this->trans('commands.migrate.setup.messages.migrations-created'),
                     count($migrations),
                     $version_tag
                 )
-                . '</info>'
             );
         }
     }
