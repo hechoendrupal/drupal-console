@@ -41,13 +41,6 @@ class EntityContentGenerator extends Generator
         }
 
         $this->renderFile(
-            'module/routing-entity-content.yml.twig',
-            $this->getSite()->getModulePath($module).'/'.$module.'.routing.yml',
-            $parameters,
-            FILE_APPEND
-        );
-
-        $this->renderFile(
             'module/permissions-entity-content.yml.twig',
             $this->getSite()->getModulePath($module).'/'.$module.'.permissions.yml',
             $parameters,
@@ -90,6 +83,12 @@ class EntityContentGenerator extends Generator
         $this->renderFile(
             'module/src/Entity/entity-content.php.twig',
             $this->getSite()->getEntityPath($module).'/'.$entity_class.'.php',
+            $parameters
+        );
+
+        $this->renderFile(
+            'module/src/entity-content-route-provider.php.twig',
+            $this->getSite()->getSourcePath($module).'/'.$entity_class.'RouteProvider.php',
             $parameters
         );
 
