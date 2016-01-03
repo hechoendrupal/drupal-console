@@ -35,13 +35,6 @@ class EntityConfigGenerator extends Generator
         );
 
         $this->renderFile(
-            'module/routing-entity.yml.twig',
-            $this->getSite()->getModulePath($module).'/'.$module.'.routing.yml',
-            $parameters,
-            FILE_APPEND
-        );
-
-        $this->renderFile(
             'module/links.menu-entity-config.yml.twig',
             $this->getSite()->getModulePath($module).'/'.$module.'.links.menu.yml',
             $parameters,
@@ -64,6 +57,12 @@ class EntityConfigGenerator extends Generator
         $this->renderFile(
             'module/src/Entity/entity.php.twig',
             $this->getSite()->getEntityPath($module).'/'.$entity_class.'.php',
+            $parameters
+        );
+
+        $this->renderFile(
+            'module/src/entity-route-provider.php.twig',
+            $this->getSite()->getSourcePath($module).'/'.$entity_class.'RouteProvider.php',
             $parameters
         );
 
