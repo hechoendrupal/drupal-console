@@ -58,7 +58,9 @@ class {{ entity_class }}RouteProvider extends AdminHtmlRouteProvider {% endblock
       $route
         ->setDefaults([
           '_entity_list' => $entity_type_id,
-          '_title' => $entity_type->getLabel(),
+          // Make sure this is not a TranslatableMarkup object as the
+          // TitleResolver translates this string again.
+          '_title' => (string) $entity_type->getLabel(),
         ])
         ->setRequirement('_permission', 'administer site configuration')
         ->setOption('_admin_route', TRUE);
