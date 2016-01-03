@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\User;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -28,10 +27,11 @@ class DebugCommand extends ContainerAwareCommand
         $this
             ->setName('user:debug')
             ->setDescription($this->trans('commands.user.debug.description'))
-            ->addArgument(
+            ->addOption(
                 'roles',
-                InputArgument::IS_ARRAY,
-                $this->trans('commands.user.debug.arguments.roles')
+                null,
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.user.debug.options.roles')
             )
             ->addOption(
                 'limit',
@@ -46,23 +46,21 @@ class DebugCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $entity_manager = $this->getEntityManager();
-        $userStorage = $entity_manager->getStorage('user');
-
         $io = new DrupalStyle($input, $output);
-
-        $systemRoles = $this->getDrupalApi()->getRoles();
-
-        $roles = $input->getArgument('roles');
+        $roles = $input->getOption('roles');
         $limit = $input->getOption('limit');
 
-        $entity_query_service = $this->getEntityQuery();
-        $query = $entity_query_service->get('user');
+        $entityManager = $this->getEntityManager();
+        $userStorage = $entityManager->getStorage('user');
+        $systemRoles = $this->getDrupalApi()->getRoles();
+
+        $entityQuery = $this->getEntityQuery();
+        $query = $entityQuery->get('user');
         $query->condition('uid', 0, '>');
         $query->sort('uid');
 
         if ($roles) {
-            $query->condition('roles', $roles, 'IN');
+            $query->condition('roles', is_array($roles)?$roles:[$roles], 'IN');
         }
 
         if ($limit) {
@@ -70,7 +68,6 @@ class DebugCommand extends ContainerAwareCommand
         }
 
         $results = $query->execute();
-
         $users = $userStorage->loadMultiple($results);
 
         $tableHeader = [
@@ -81,16 +78,16 @@ class DebugCommand extends ContainerAwareCommand
         ];
 
         $tableRows = [];
-        foreach ($users as $user_id => $user) {
+        foreach ($users as $userId => $user) {
             $userRoles = [];
             foreach ($user->getRoles() as $userRole) {
                 $userRoles[] = $systemRoles[$userRole];
             }
 
             $status = $user->isActive()?$this->trans('commands.common.status.enabled'):$this->trans('commands.common.status.disabled');
-            $tableRows[] = [$user_id, $user->getUsername(), implode(', ', $userRoles), $status];
+            $tableRows[] = [$userId, $user->getUsername(), implode(', ', $userRoles), $status];
         }
 
-        $io->table($tableHeader, $tableRows, 'compact');
+        $io->table($tableHeader, $tableRows);
     }
 }

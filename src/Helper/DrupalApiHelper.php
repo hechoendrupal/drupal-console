@@ -22,7 +22,11 @@ class DrupalApiHelper extends Helper
 {
     /* @var array */
     protected $bundles = [];
+
+    /* @var array */
     protected $roles = [];
+
+    /* @var array */
     protected $vocabularies = [];
 
     /**
@@ -98,15 +102,22 @@ class DrupalApiHelper extends Helper
     }
 
     /**
+     * @param bool|FALSE $reset
+     * @param bool|FALSE $authenticated
+     * @param bool|FALSE $anonymous
      * @return array
      */
-    public function getRoles()
+    public function getRoles($reset=false, $authenticated=true, $anonymous=false)
     {
-        if (!$this->roles) {
+        if ($reset || !$this->roles) {
             $entityManager = $this->hasGetService('entity.manager');
             $roles = $entityManager->getStorage('user_role')->loadMultiple();
-            unset($roles['anonymous']);
-
+            if (!$authenticated) {
+                unset($roles['authenticated']);
+            }
+            if (!$anonymous) {
+                unset($roles['anonymous']);
+            }
             foreach ($roles as $role) {
                 $this->roles[$role->id()] = $role->label();
             }
