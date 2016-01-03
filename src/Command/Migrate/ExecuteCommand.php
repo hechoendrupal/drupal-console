@@ -179,18 +179,20 @@ class ExecuteCommand extends ContainerAwareCommand
 
         $version_tag = 'Drupal ' . $drupal_version;
         // Get migrations available
-        $migrations_list = $this->getMigrations($version_tag);
+        $migrations_list = $this->getMigrations($version_tag, true);
 
         // --migration-id prefix
         $migration_id = $input->getArgument('migration-ids');
         if (!$migration_id) {
-            $migrations_list += array('all' => 'All');
+            //            $migrations_list['all'] = 'all';
             $migrations_ids = [];
 
+            //            var_export($migrations_list);
+
             while (true) {
-                $migration_id = $output->choice(
+                $migration_id = $output->choiceNoList(
                     $this->trans('commands.migrate.execute.questions.id'),
-                    $migrations_list,
+                    array_keys($migrations_list),
                     'all'
                 );
 
@@ -214,7 +216,9 @@ class ExecuteCommand extends ContainerAwareCommand
             while (true) {
                 $exclude_id = $output->choiceNoList(
                     $this->trans('commands.migrate.execute.questions.exclude-id'),
-                    array_keys($migrations_list)
+                    array_keys($migrations_list),
+                    null,
+                    true
                 );
 
                 if (empty($exclude_id)) {
@@ -233,6 +237,8 @@ class ExecuteCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
+
         $migration_ids = $input->getArgument('migration-ids');
         $exclude_ids = $input->getOption('exclude');
         if (!empty($exclude_ids)) {
@@ -251,11 +257,7 @@ class ExecuteCommand extends ContainerAwareCommand
         }
 
         if (!$drupal_version = $this->getLegacyDrupalVersion($this->migrateConnection)) {
-            $output->writeln(
-                '[-] <error>'.
-                $this->trans('commands.migrate.setup.migrations.questions.not-drupal')
-                .'</error>'
-            );
+            $io->error($this->trans('commands.migrate.setup.migrations.questions.not-drupal'));
             return;
         }
 
@@ -270,15 +272,15 @@ class ExecuteCommand extends ContainerAwareCommand
         $entity_manager = $this->getEntityManager();
         $migration_storage = $entity_manager->getStorage('migration');
         if (count($migrations) == 0) {
-            $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.no-migrations').'</error>');
+            $io->error($this->trans('commands.migrate.execute.messages.no-migrations'));
             return;
         }
         foreach ($migrations as $migration_id) {
-            $output->writeln(
-                '[+] <info>'.sprintf(
+            $io->info(
+                sprintf(
                     $this->trans('commands.migrate.execute.messages.processing'),
                     $migration_id
-                ).'</info>'
+                )
             );
             $migration = $migration_storage->load($migration_id);
 
@@ -288,43 +290,43 @@ class ExecuteCommand extends ContainerAwareCommand
                 $migration_status = $executable->import();
                 switch ($migration_status) {
                 case MigrationInterface::RESULT_COMPLETED:
-                    $output->writeln(
-                        '[+] <info>'.sprintf(
+                    $io->info(
+                        sprintf(
                             $this->trans('commands.migrate.execute.messages.imported'),
                             $migration_id
-                        ).'</info>'
+                        )
                     );
                     break;
                 case MigrationInterface::RESULT_INCOMPLETE:
-                    $output->writeln(
-                        '[+] <info>'.sprintf(
+                    $io->info(
+                        sprintf(
                             $this->trans('commands.migrate.execute.messages.importing-incomplete'),
                             $migration_id
-                        ).'</info>'
+                        )
                     );
                     break;
                 case MigrationInterface::RESULT_STOPPED:
-                    $output->writeln(
-                        '[+] <error>'.sprintf(
+                    $io->error(
+                        sprintf(
                             $this->trans('commands.migrate.execute.messages.import-stopped'),
                             $migration_id
-                        ).'</error>'
+                        )
                     );
                     break;
                 case MigrationInterface::RESULT_FAILED:
-                    $output->writeln(
-                        '[+] <error>'.sprintf(
+                    $io->error(
+                        sprintf(
                             $this->trans('commands.migrate.execute.messages.import-fail'),
                             $migration_id
-                        ).'</error>'
+                        )
                     );
                     break;
                 case MigrationInterface::RESULT_SKIPPED:
-                    $output->writeln(
-                        '[+] <error>'.sprintf(
+                    $io->error(
+                        sprintf(
                             $this->trans('commands.migrate.execute.messages.import-skipped'),
                             $migration_id
-                        ).'</error>'
+                        )
                     );
                     break;
                 case MigrationInterface::RESULT_DISABLED:
@@ -332,7 +334,7 @@ class ExecuteCommand extends ContainerAwareCommand
                     break;
                 }
             } else {
-                $output->writeln('[+] <error>'.$this->trans('commands.migrate.execute.messages.fail-load').'</error>');
+                $io->error($this->trans('commands.migrate.execute.messages.fail-load'));
             }
         }
     }
