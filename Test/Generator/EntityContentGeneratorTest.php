@@ -43,13 +43,13 @@ class EntityContentGeneratorTest extends GeneratorTest
         );
 
         $files = [
-          $generator->getSite()->getModulePath($module).'/'.$module.'.routing.yml',
           $generator->getSite()->getModulePath($module).'/'.$module.'.permissions.yml',
           $generator->getSite()->getModulePath($module).'/'.$module.'.links.menu.yml',
           $generator->getSite()->getModulePath($module).'/'.$module.'.links.task.yml',
           $generator->getSite()->getModulePath($module).'/'.$module.'.links.action.yml',
           $generator->getSite()->getSourcePath($module).'/'.$entity_class.'Interface.php',
           $generator->getSite()->getSourcePath($module).'/'.$entity_class.'AccessControlHandler.php',
+          $generator->getSite()->getSourcePath($module).'/'.$entity_class.'HtmlRouteProvider.php',
           $generator->getSite()->getEntityPath($module).'/'.$entity_class.'.php',
           $generator->getSite()->getEntityPath($module).'/'.$entity_class.'ViewsData.php',
           $generator->getSite()->getSourcePath($module).'/'.$entity_class.'ListBuilder.php',
