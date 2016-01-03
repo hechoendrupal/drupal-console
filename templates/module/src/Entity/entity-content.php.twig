@@ -69,7 +69,8 @@ use Drupal\user\UserInterface;
  *   links = {
  *     "canonical" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
  *     "edit-form" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
- *     "delete-form" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete"
+ *     "delete-form" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete",
+ *     "collection" = "/admin/{{ entity_name }}",
  *   },
 {% if bundle_entity_type %}
  *   bundle_entity_type = "{{ bundle_entity_type }}",
