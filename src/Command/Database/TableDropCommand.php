@@ -14,6 +14,10 @@ use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Database\ConnectTrait;
 
+/**
+ * Class TableDropCommand
+ * @package Drupal\Console\Command\Database
+ */
 class TableDropCommand extends ContainerAwareCommand
 {
     use ConnectTrait;
