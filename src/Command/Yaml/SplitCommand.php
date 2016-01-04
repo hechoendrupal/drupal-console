@@ -62,7 +62,7 @@ class SplitCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $yaml = new Parser();
 
@@ -83,15 +83,17 @@ class SplitCommand extends Command
             $yaml_file_parsed = $yaml->parse(file_get_contents($yaml_file));
 
             if (empty($yaml_file_parsed)) {
-                $output->error(
+                $io->error(
                     sprintf(
                         $this->trans('commands.yaml.merge.messages.wrong-parse'),
-                        $yaml_file_parsed
+                        $yaml_file
                     )
                 );
+
+                return;
             }
         } catch (\Exception $e) {
-            $output->error(
+            $io->error(
                 sprintf(
                     '%s: %s',
                     $this->trans('commands.yaml.merge.messages.error-parsing'),
@@ -109,7 +111,7 @@ class SplitCommand extends Command
             if ($nested_array->keyExists($yaml_file_parsed, $parents)) {
                 $yaml_file_parsed = $nested_array->getValue($yaml_file_parsed,  $parents);
             } else {
-                $output->error($this->trans('commands.yaml.merge.messages.invalid-key'));
+                $io->error($this->trans('commands.yaml.merge.messages.invalid-key'));
             }
 
             if ($indent_level == 0) {
@@ -126,7 +128,7 @@ class SplitCommand extends Command
             $nested_array->yamlSplitArray($yaml_file_parsed, $yaml_split, $indent_level, $key_flatten, $initial_level, $exclude_parents_key);
         }
 
-        $this->writeSplittedFile($yaml_split, $file_output_prefix, $file_output_suffix, $output);
+        $this->writeSplittedFile($yaml_split, $file_output_prefix, $file_output_suffix, $io);
     }
 
     /**
@@ -134,11 +136,13 @@ class SplitCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
-        $validator_filename = function ($value) {
-            if (!strlen(trim($value))) {
-                throw new \Exception(' You must provide a valid file path.');
+        $validator_filename = function ($value) use ($io) {
+            if (!strlen(trim($value)) || !is_file($value)) {
+                $io->error($this->trans('commands.common.errors.invalid-file-path'));
+
+                return false;
             }
 
             return $value;
@@ -147,24 +151,27 @@ class SplitCommand extends Command
         // --yaml-left option
         $yaml_file = $input->getArgument('yaml-file');
         if (!$yaml_file) {
-            $yaml_file = $output->ask(
-                $this->trans('commands.yaml.diff.questions.yaml-left'),
-                '',
-                $validator_filename
-            );
+            while (true) {
+                $yaml_file = $io->ask(
+                    $this->trans('commands.yaml.diff.questions.yaml-left'),
+                    '',
+                    $validator_filename
+                );
+
+                if ($yaml_file) {
+                    break;
+                }
+            }
+
+            $input->setArgument('yaml-file', $yaml_file);
         }
-        $input->setArgument('yaml-file', $yaml_file);
     }
 
-    protected function writeSplittedFile($yaml_splitted, $file_output_prefix = '', $file_output_suffix = '', DrupalStyle $output)
+    protected function writeSplittedFile($yaml_splitted, $file_output_prefix = '', $file_output_suffix = '', DrupalStyle $io)
     {
         $dumper = new Dumper();
 
-        $output->writeln(
-            '[+] <info>'.
-            $this->trans('commands.yaml.split.messages.generating-split')
-            .'</info>'
-        );
+        $io->info($this->trans('commands.yaml.split.messages.generating-split'));
 
         foreach ($yaml_splitted as $key => $value) {
             if ($file_output_prefix) {
@@ -179,7 +186,7 @@ class SplitCommand extends Command
             try {
                 $yaml = $dumper->dump($value, 10);
             } catch (\Exception $e) {
-                $output->error(
+                $io->error(
                     sprintf(
                         '%s: %s',
                         $this->trans('commands.yaml.merge.messages.error-generating'),
@@ -193,7 +200,7 @@ class SplitCommand extends Command
             try {
                 file_put_contents($filename, $yaml);
             } catch (\Exception $e) {
-                $output->error(
+                $io->error(
                     sprintf(
                         '%s: %s',
                         $this->trans('commands.yaml.merge.messages.error-writing'),
@@ -204,7 +211,7 @@ class SplitCommand extends Command
                 return;
             }
 
-            $output->success(
+            $io->success(
                 sprintf(
                     $this->trans('commands.yaml.split.messages.split-generated'),
                     $filename

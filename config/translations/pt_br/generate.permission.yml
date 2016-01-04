@@ -1,12 +1,12 @@
-description: 'Generate module permissions'
-help: 'The <info>generate:permissions</info> command helps you generate new permissions'
+description: 'Gerar permissões ao módulo'
+help: 'O comando <info>generate:permissions</info> ajuda você gerar novas permissões'
 options:
     module: common.options.module
-    permission: 'Enter a permission'
+    permission: 'Digite uma permissão'
 questions:
     module: common.questions.module
-    permission: 'Enter a permission'
-    title: 'Enter a title for the permision'
-    description: 'Enter a description for the permision'
-    restrict-access: 'Restrict Access'
-    add: 'Do you want add another permission'
+    permission: 'Digite uma permissão'
+    title: 'Digite um título para a permissão'
+    description: 'Digite a descrição para a permissão'
+    restrict-access: 'Acesso Restrito'
+    add: 'Você quer adicionar outra permissão'

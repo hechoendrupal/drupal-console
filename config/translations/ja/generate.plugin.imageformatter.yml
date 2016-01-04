@@ -1,0 +1,12 @@
+description: 'Generate image formatter plugin.'
+help: 'The <info>generate:plugin:imageformatter</info> command helps you generate a new image formatter plugin.'
+options:
+    module: common.options.module
+    class: 'Plugin class name'
+    label: 'Plugin label'
+    plugin-id: 'Plugin id'
+questions:
+    module: common.questions.module
+    class: 'Enter the plugin class name'
+    label: 'Enter the plugin label'
+    plugin-id: 'Enter the plugin id'

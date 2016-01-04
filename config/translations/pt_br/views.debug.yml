@@ -1,18 +1,18 @@
-description: 'Display current views resources for the application'
+description: 'Exibir informações sobre a View atual'
 arguments:
-    view-id: 'View ID'
-    view-tag: 'View tag'
-    view-status: 'View status (Enabled|Disabled)'
+    view-id: 'ID da View'
+    view-tag: 'Tag da View'
+    view-status: 'Status da View (Habilitado|Desabilitado)'
 messages:
-    view-id: 'View ID'
-    view-name: 'View name'
-    description: Description
+    view-id: 'ID da View'
+    view-name: 'Nome da View'
+    description: Descrição
     tag: Tag
     status: Status
-    path: Path
-    not-found: 'View wasn''t found'
-    display-list: 'Display list'
-    display-id: ID
-    display-name: Name
-    display-description: Description
-    display-paths: Paths
+    path: Caminho
+    not-found: 'A view não foi encontrada'
+    display-list: 'Lista de displays'
+    display-id: 'ID do display'
+    display-name: 'Nome do display'
+    display-description: 'Descrição do display'
+    display-paths: 'Caminho do display'

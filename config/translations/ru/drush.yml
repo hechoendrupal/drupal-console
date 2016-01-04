@@ -1,6 +1,0 @@
-description: 'Запуск drush из консоли.'
-help: 'Для запуска в интерактивном режиме используйте --shell.'
-arguments:
-    args: 'Аргументы drush.'
-messages:
-    not_found: 'Команда drush не найдена.'

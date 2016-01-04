@@ -36,29 +36,33 @@ class PasswordResetCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $uid = $input->getArgument('user');
 
         $user = User::load($uid);
 
         if (!$user) {
-            throw new \InvalidArgumentException(
+            $io->error(
                 sprintf(
                     $this->trans('commands.user.password.reset.errors.invalid-user'),
                     $uid
                 )
             );
+
+            return;
         }
 
         $password = $input->getArgument('password');
         if (!$password) {
-            throw new \InvalidArgumentException(
+            $io->error(
                 sprintf(
                     $this->trans('commands.user.password.reset.errors.empty-password'),
                     $uid
                 )
             );
+
+            return;
         }
 
         try {
@@ -68,10 +72,12 @@ class PasswordResetCommand extends ContainerAwareCommand
             $this->getChain()
                 ->addCommand('user:login:clear:attempts', ['uid' => $uid]);
         } catch (\Exception $e) {
-            throw new \InvalidArgumentException($e->getMessage());
+            $io->error($e->getMessage());
+
+            return;
         }
 
-        $output->success(
+        $io->success(
             sprintf(
                 $this->trans('commands.user.password.reset.messages.reset-successful'),
                 $uid
@@ -84,42 +90,65 @@ class PasswordResetCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $user = $input->getArgument('user');
         if (!$user) {
-            $user = $output->ask(
-                $this->trans('commands.user.password.reset.questions.user'),
-                '',
-                function ($uid) {
-                    $uid = (int) $uid;
-                    if (is_int($uid) && $uid > 0) {
-                        return $uid;
-                    } else {
-                        throw new \InvalidArgumentException(
-                            sprintf($this->trans('commands.user.password.reset.questions.invalid-uid'), $uid)
-                        );
+            while (true) {
+                $user = $io->ask(
+                    $this->trans('commands.user.password.reset.questions.user'),
+                    '',
+                    function ($uid) use ($io) {
+                        if ($uid) {
+                            $uid = (int) $uid;
+                            if (is_int($uid) && $uid > 0) {
+                                return $uid;
+                            } else {
+                                $io->error(
+                                    sprintf($this->trans('commands.user.password.reset.questions.invalid-uid'), $uid)
+                                );
+
+                                return false;
+                            }
+                        }
                     }
+                );
+
+                if ($user) {
+                    break;
                 }
-            );
+            }
+
             $input->setArgument('user', $user);
         }
 
         $password = $input->getArgument('password');
         if (!$password) {
-            $password = $output->ask(
-                $this->trans('commands.user.password.hash.questions.password'),
-                '',
-                function ($pass) {
-                    if (!empty($pass)) {
-                        return $pass;
-                    } else {
-                        throw new \InvalidArgumentException(
-                            sprintf($this->trans('commands.user.password.hash.questions.invalid-pass'), $pass)
-                        );
+            while (true) {
+                $password = $io->ask(
+                    $this->trans('commands.user.password.hash.questions.password'),
+                    '',
+                    function ($pass) use ($io) {
+                        if ($pass) {
+                            if (!empty($pass)) {
+                                return $pass;
+                            } else {
+                                $io->error(
+                                    sprintf($this->trans('commands.user.password.hash.questions.invalid-pass'), $pass)
+                                );
+
+                                return false;
+                            }
+                        }
+
                     }
+                );
+
+                if ($password) {
+                    break;
                 }
-            );
+            }
+
 
             $input->setArgument('password', $password);
         }

@@ -38,10 +38,11 @@ abstract class ContainerAwareCommand extends Command
 
     /**
      * @param bool $tag
+     * @param bool $flatList
      *
      * @return array list of modules
      */
-    public function getMigrations($tag = false)
+    public function getMigrations($tag = false, $flatList = false)
     {
         $entity_manager = $this->getEntityManager();
         $migration_storage = $entity_manager->getStorage('migration');
@@ -59,8 +60,12 @@ abstract class ContainerAwareCommand extends Command
 
         $migrations = array();
         foreach ($migration_entities as $migration) {
-            $migrations[$migration->id()]['tags'] = implode(', ', $migration->migration_tags);
-            $migrations[$migration->id()]['description'] = ucwords($migration->label());
+            if ($flatList) {
+                $migrations[$migration->id()] = ucwords($migration->label());
+            } else {
+                $migrations[$migration->id()]['tags'] = implode(', ', $migration->migration_tags);
+                $migrations[$migration->id()]['description'] = ucwords($migration->label());
+            }
         }
 
         return $migrations;
@@ -372,7 +377,7 @@ abstract class ContainerAwareCommand extends Command
     }
 
     /**
-     * @return \Drupal\Core\Extension\ThemeHandlerInterface
+     * @return \Drupal\user\MigratePassword
      */
     public function getPassHandler()
     {
@@ -418,7 +423,7 @@ abstract class ContainerAwareCommand extends Command
     public function validateModule($machine_name)
     {
         $machine_name = $this->validateMachineName($machine_name);
-        $modules = $this->getSite()->getModules(false, false, true, true, true);
+        $modules = $this->getSite()->getModules(false, true, true, true, true, true);
         if (in_array($machine_name, $modules)) {
             throw new \InvalidArgumentException(sprintf('Module "%s" already exist.', $machine_name));
         }

@@ -28,6 +28,11 @@ class SiteHelper extends Helper
     private $siteRoot;
 
     /**
+     * @var string
+     */
+    private $installedModules;
+
+    /**
      * @return string
      */
     public function getSiteRoot()
@@ -73,28 +78,40 @@ class SiteHelper extends Helper
         return $discovery->scan('theme');
     }
 
+
     /**
+     * @param bool|FALSE $reset
      * @return array
      */
-    private function getInstalledModules()
+    private function getInstalledModules($reset = false)
     {
+        if ($this->installedModules && !$reset) {
+            return $this->installedModules;
+        }
+
         $kernel = $this->getKernelHelper()->getKernel();
         if (!$kernel) {
             return [];
         }
+
         $container = $kernel->getContainer();
         if (!$container) {
             return [];
         }
+
         $configFactory = $container->get('config.factory');
         if (!$configFactory) {
             return [];
         }
+
         $coreExtension = $configFactory->get('core.extension');
         if (!$coreExtension) {
             return [];
         }
-        return $coreExtension->get('module') ?: [];
+
+        $this->installedModules = $coreExtension->get('module') ?: [];
+
+        return $this->installedModules;
     }
     
     /**
@@ -123,7 +140,8 @@ class SiteHelper extends Helper
 
     /**
      * @param bool|false $reset
-     * @param bool|false $installedOnly
+     * @param bool|true  $showInstalled
+     * @param bool|false $showUninstalled
      * @param bool|true  $showCore
      * @param bool|true  $showNoCore
      * @param bool|false $nameOnly
@@ -131,12 +149,13 @@ class SiteHelper extends Helper
      */
     public function getModules(
         $reset = false,
-        $installedOnly = false,
+        $showInstalled = true,
+        $showUninstalled = false,
         $showCore = true,
         $showNoCore = true,
         $nameOnly = false
     ) {
-        $installedModules = $this->getInstalledModules();
+        $installedModules = $this->getInstalledModules($reset);
         $modules = [];
 
         if (!$this->modules || $reset) {
@@ -145,7 +164,10 @@ class SiteHelper extends Helper
 
         foreach ($this->modules as $module) {
             $name = $module->getName();
-            if ($installedOnly && !array_key_exists($name, $installedModules)) {
+            if (array_key_exists($name, $installedModules) && !$showInstalled) {
+                continue;
+            }
+            if (!array_key_exists($name, $installedModules) && !$showUninstalled) {
                 continue;
             }
             if (!$showCore && $module->origin == 'core') {

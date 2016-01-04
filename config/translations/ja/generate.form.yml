@@ -1,0 +1,17 @@
+description: 'Generate a new "%s"'
+help: 'The <info>"%s"</info> command helps you generate a new "%s"'
+welcome: 'Welcome to the Drupal form generator'
+options:
+    module: common.options.module
+    class: 'The form class name'
+    form-id: 'The Form id'
+    services: common.options.services
+    inputs: common.options.inputs
+    routing: 'Update routing'
+questions:
+    module: common.questions.module
+    class: 'Enter the Form Class name'
+    form-id: 'Enter the Form id'
+    services: common.questions.services
+    inputs: common.questions.inputs
+    routing: 'Update routing file'

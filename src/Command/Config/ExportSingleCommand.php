@@ -112,20 +112,20 @@ class ExportSingleCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $config_types = $this->getConfigTypes();
 
         $config_name = $input->getArgument('config-name');
         if (!$config_name) {
-            $config_type = $output->choiceNoList(
+            $config_type = $io->choiceNoList(
                 $this->trans('commands.config.export.single.questions.config-type'),
                 array_keys($config_types),
                 $this->trans('commands.config.export.single.options.simple-configuration')
             );
             $config_names = $this->getConfigNames($config_type);
 
-            $config_name = $output->choiceNoList(
+            $config_name = $io->choiceNoList(
                 $this->trans('commands.config.export.single.questions.config-name'),
                 array_keys($config_names)
             );
@@ -145,6 +145,8 @@ class ExportSingleCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
+
         $directory = $input->getOption('directory');
 
         if (!$directory) {
@@ -167,9 +169,11 @@ class ExportSingleCommand extends ContainerAwareCommand
             $yaml = Yaml::encode($config->getRawData());
             // Save release file
             file_put_contents($configExportFile, $yaml);
-            $output->writeln('[+] <info>'.sprintf($this->trans('commands.config.export.single.messages.export'), $configExportFile).'</info>');
+            $io->info(
+                sprintf($this->trans('commands.config.export.single.messages.export'), $configExportFile)
+            );
         } else {
-            $output->writeln('[+] <error>'.$this->trans('commands.config.export.single.messages.config-not-found').'</error>');
+            $io->error($this->trans('commands.config.export.single.messages.config-not-found'));
         }
     }
 }

@@ -361,6 +361,7 @@ class InstallCommand extends Command
         $drupal = $this->getDrupalHelper();
         $drupal->loadLegacyFile('/core/includes/install.core.inc');
 
+        $driver = (string) $database['driver'];
         $settings = [
             'parameters' => [
                 'profile' => $input->getArgument('profile'),
@@ -368,8 +369,8 @@ class InstallCommand extends Command
             ],
             'forms' => [
                 'install_settings_form' => [
-                    'driver' => $database['driver'],
-                    $database['driver'] => $database,
+                    'driver' => $driver,
+                    $driver => $database,
                     'op' => 'Save and continue',
                 ],
                 'install_configure_form' => [
