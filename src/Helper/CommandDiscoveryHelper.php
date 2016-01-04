@@ -87,7 +87,7 @@ class CommandDiscoveryHelper extends Helper
         $sources = [];
 
         if ($type === 'modules') {
-            $sources = $this->getSite()->getModules(true, false, false, true, false);
+            $sources = $this->getSite()->getModules(true, true, false, false, true, false);
 
             if ($this->disabledModules) {
                 foreach ($this->disabledModules as $disabledModule) {

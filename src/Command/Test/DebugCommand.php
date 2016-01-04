@@ -11,10 +11,14 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\Table;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class DebugCommand
+ * @package Drupal\Console\Command\Test
+ */
 class DebugCommand extends ContainerAwareCommand
 {
     /**
@@ -45,90 +49,82 @@ class DebugCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
         //Registers namespaces for disabled modules.
         $this->getTestDiscovery()->registerTestNamespaces();
 
-        $test_class = $input->getArgument('test-class');
+        $testClass = $input->getArgument('test-class');
         $group = $input->getOption('group');
 
-        $table = new Table($output);
-        $table->setStyle('compact');
-
-        if ($test_class) {
-            $this->getTestByID($output, $table, $test_class);
+        if ($testClass) {
+            $this->testDetail($io, $testClass);
         } else {
-            $this->getAllTests($output, $table, $group);
+            $this->testList($io, $group);
         }
     }
 
-    /**
-     * @param $output         OutputInterface
-     * @param $table          TableHelper
-     * @param $config_name    String
-     */
-    private function getTestByID($output, $table, $test_class)
+    private function testDetail(DrupalStyle $io, $test_class)
     {
-        $testing_groups = $this->getTestDiscovery()->getTestClasses(null);
+        $testingGroups = $this->getTestDiscovery()->getTestClasses(null);
 
-        $test_details = null;
-        foreach ($testing_groups as $testing_group => $tests) {
+        $testDetails = null;
+        foreach ($testingGroups as $testing_group => $tests) {
             foreach ($tests as $key => $test) {
                 if ($test['name'] == $test_class) {
-                    $test_details = $test;
+                    $testDetails = $test;
                     break;
                 }
             }
-            if ($test_details !== null) {
+            if ($testDetails !== null) {
                 break;
             }
         }
 
         $class = null;
-        if ($test_details) {
+        if ($testDetails) {
             $class = new \ReflectionClass($test['name']);
-            if (is_subclass_of($test_details['name'], 'PHPUnit_Framework_TestCase')) {
-                $test_details['type'] = 'phpunit';
+            if (is_subclass_of($testDetails['name'], 'PHPUnit_Framework_TestCase')) {
+                $testDetails['type'] = 'phpunit';
             } else {
-                $test_details = $this->getTestDiscovery()->getTestInfo($test_details['name']);
-                $test_details['type'] = 'simpletest';
+                $testDetails = $this->getTestDiscovery()->getTestInfo($testDetails['name']);
+                $testDetails['type'] = 'simpletest';
             }
 
-            $configurationEncoded = Yaml::encode($test_details);
-            $table->addRow([$configurationEncoded]);
-            $table->render();
+            $io->comment($testDetails['name']);
+
+            $testInfo = [];
+            foreach ($testDetails as $key => $value) {
+                $testInfo [] = [$key, $value];
+            }
+
+            $io->table([], $testInfo);
 
             if ($class) {
                 $methods = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
-                $output->writeln('[+] <info>'. $this->trans('commands.test.debug.messages.methods').'</info>');
+                $io->info($this->trans('commands.test.debug.messages.methods'));
                 foreach ($methods as $method) {
-                    if ($method->class == $test_details['name'] && strpos($method->name, 'test') === 0) {
-                        $output->writeln('[-] <info>'. $method->name .'</info>');
+                    if ($method->class == $testDetails['name'] && strpos($method->name, 'test') === 0) {
+                        $io->simple($method->name);
                     }
                 }
             }
         } else {
-            $output->writeln('[+] <error>'. $this->trans('commands.test.debug.messages.not-found').'</error>');
+            $io->error($this->trans('commands.test.debug.messages.not-found'));
         }
     }
 
-    /**
-     * @param $output         OutputInterface
-     * @param $table          TableHelper
-     * @param $config_name    String
-     */
-    protected function getAllTests($output, $table, $group)
+    protected function testList(DrupalStyle $io, $group)
     {
-        $testing_groups = $this->getTestDiscovery()->getTestClasses(null);
+        $testingGroups = $this->getTestDiscovery()->getTestClasses(null);
 
-        $table->setHeaders(
-            [
-            $this->trans('commands.test.debug.messages.class'),
-            $this->trans('commands.test.debug.messages.group'),
-            $this->trans('commands.test.debug.messages.type'),
-            ]
-        );
+        $tableHeader = [
+          $this->trans('commands.test.debug.messages.class'),
+          $this->trans('commands.test.debug.messages.group'),
+          $this->trans('commands.test.debug.messages.type')
+        ];
 
-        foreach ($testing_groups as $testing_group => $tests) {
+        $tableRows = [];
+        foreach ($testingGroups as $testing_group => $tests) {
             if (!empty($group) && $group != $testing_group) {
                 continue;
             }
@@ -139,10 +135,13 @@ class DebugCommand extends ContainerAwareCommand
                 } else {
                     $test['type'] = 'simpletest';
                 }
-                $table->addRow(array($test['name'], $test['group'], $test['type']));
+                $tableRows[] =[
+                  $test['name'],
+                  $test['group'],
+                  $test['type']
+                ];
             }
         }
-
-        $table->render();
+        $io->table($tableHeader, $tableRows, 'compact');
     }
 }

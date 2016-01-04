@@ -167,4 +167,17 @@ class DrupalStyle extends SymfonyStyle
         $table->render();
         $this->newLine();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function simple($message, $newLine = true)
+    {
+        $message = sprintf(' %s', $message);
+        if ($newLine) {
+            $this->writeln($message);
+        } else {
+            $this->write($message);
+        }
+    }
 }

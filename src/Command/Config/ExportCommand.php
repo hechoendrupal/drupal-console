@@ -44,7 +44,7 @@ class ExportCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $directory = $input->getOption('directory');
         $tar = $input->getOption('tar');
@@ -89,15 +89,10 @@ class ExportCommand extends ContainerAwareCommand
                 file_put_contents($configFileName, $ymlData);
             }
         } catch (\Exception $e) {
-            $output->writeln(
-                sprintf(
-                    '<error>%s</error>',
-                    $e->getMessage()
-                )
-            );
+            $io->error($e->getMessage());
         }
 
-        $output->success($this->trans('commands.config.export.messages.directory'));
-        $output->writeln($directory);
+        $io->success($this->trans('commands.config.export.messages.directory'));
+        $io->simple($directory);
     }
 }

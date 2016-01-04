@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Helper\Table;
 use Drupal\Console\Style\DrupalStyle;
 
 class PasswordHashCommand extends ContainerAwareCommand
@@ -36,30 +35,26 @@ class PasswordHashCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
+
         $passwords = $input->getArgument('password');
 
         $passHandler = $this->getPassHandler();
 
-        $table = new Table($output);
-        $table->setHeaders(
-            [
-                $this->trans('commands.user.password.hash.messages.password'),
-                $this->trans('commands.user.password.hash.messages.hash'),
-            ]
-        );
+        $tableHeader = [
+            $this->trans('commands.user.password.hash.messages.password'),
+            $this->trans('commands.user.password.hash.messages.hash'),
+        ];
 
-        $table->setStyle('compact');
-
+        $tableRows = [];
         foreach ($passwords as $password) {
-            $table->addRow(
-                [
-                    $password,
-                    $passHandler->hash($password),
-                ]
-            );
+            $tableRows[] = [
+                $password,
+                $passHandler->hash($password),
+            ];
         }
 
-        $table->render();
+        $io->table($tableHeader, $tableRows, 'compact');
     }
 
     /**
@@ -67,31 +62,39 @@ class PasswordHashCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $passwords = $input->getArgument('password');
         if (!$passwords) {
             $passwords = [];
             while (true) {
-                $password = $output->ask(
+                $password = $io->ask(
                     $this->trans('commands.user.password.hash.questions.password'),
                     '',
-                    function ($pass) use ($passwords) {
+                    function ($pass) use ($passwords, $io) {
                         if (!empty($pass) || count($passwords) >= 1) {
+                            if ($pass == '') {
+                                return true;
+                            }
+
                             return $pass;
                         } else {
-                            throw new \InvalidArgumentException(
+                            $io->error(
                                 sprintf($this->trans('commands.user.password.hash.questions.invalid-pass'), $pass)
                             );
+
+                            return false;
                         }
                     }
                 );
 
-                if (empty($password)) {
+                if ($password && !is_string($password)) {
                     break;
                 }
 
-                $passwords[] = $password;
+                if (is_string($password)) {
+                    $passwords[] = $password;
+                }
             }
 
             $input->setArgument('password', $passwords);

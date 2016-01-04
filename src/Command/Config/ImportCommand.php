@@ -13,6 +13,7 @@ use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Finder\Finder;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Core\Archiver\ArchiveTar;
+use Drupal\Console\Style\DrupalStyle;
 
 class ImportCommand extends ContainerAwareCommand
 {
@@ -43,6 +44,8 @@ class ImportCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
+
         $configFile = $input->getOption('file');
         $removeFiles = $input->getOption('remove-files');
         $configSyncDir = config_get_config_directory(
@@ -52,24 +55,23 @@ class ImportCommand extends ContainerAwareCommand
         if ($configFile) {
             $archiveTar = new ArchiveTar($configFile, 'gz');
 
-            $output->writeln(
+            $io->simple(
                 $this->trans(
                     'commands.config.import.messages.config_files_imported'
                 )
             );
 
             foreach ($archiveTar->listContent() as $file) {
-                $output->writeln(
-                    '[-] <info>' . $file['filename'] . '</info>'
+                $io->info(
+                    '[-] ' . $file['filename']
                 );
             }
 
             try {
                 $archiveTar->extract($configSyncDir . '/');
             } catch (\Exception $e) {
-                $output->writeln(
-                    '[+] <error>' . $e->getMessage() . '</error>'
-                );
+                $io->error($e->getMessage());
+
                 return;
             }
         }
@@ -100,10 +102,12 @@ class ImportCommand extends ContainerAwareCommand
             try {
                 $config->save();
             } catch (\Exception $e) {
-                $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
+                $io->error($e->getMessage());
+
+                return;
             }
         }
 
-        $output->writeln(sprintf($this->trans('commands.config.import.messages.imported'), CONFIG_SYNC_DIRECTORY));
+        $io->simple(sprintf($this->trans('commands.config.import.messages.imported'), CONFIG_SYNC_DIRECTORY));
     }
 }

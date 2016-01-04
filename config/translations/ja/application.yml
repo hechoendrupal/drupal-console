@@ -1,0 +1,53 @@
+console:
+    arguments:
+        drupal: 'Path to Drupal root.'
+        shell: 'Launch the shell.'
+        env: 'The Environment name.'
+        no-debug: 'Switches off debug mode.'
+        learning: 'Generate a verbose code output.'
+        generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
+        generate-inline: 'Print execution options and arguments as inline call to be use in the future'
+        root: 'Define the Drupal root to be use in command execution'
+        uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
+    messages:
+        completed: 'The command was executed successfully!'
+        chain:
+            generated: 'Following you can find the yaml representation of your last command execution, i.e copy in ~/.console/chain/sample.yml to execute inside a sequence of commands'
+        inline:
+            generated: 'Following you can find the inline representation of this command to re-execute this command later'
+        generated: 'You can now start using the generated code!'
+        files:
+            generated: 'Generated or updated files'
+            copied: 'Copied files'
+        learning:
+            route: "In order to to create pages it is necessary to define routes for them.\nA route maps a URL path to a controller. It defines with what function\nor method will be called when a URL is accessed.\nIf the user accesses http://drupal8.dev/{{ route }}, the routing\nsystem will look for a route with that path. In this case it will find a\nmatch, and execute the _controller callback. In this case the callback is\ndefined as a classname\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nand a method (\"{{ route.method }}\")."
+        autocomplete: |
+                    Bash or Zsh: Add this line to your shell configuration file:
+                    <info>source "$HOME/.console/console.rc" 2>/dev/null</info>
+
+                    Fish: Create a symbolic link
+                    <info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>
+
+    errors:
+        invalid-command: 'Command "%s" is not defined.'
+    input:
+        definition:
+            command: 'The command to execute'
+            help: 'Display this help message'
+            quiet: 'Do not output any message'
+            verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
+            version: 'Display this application version'
+            ansi: 'Force ANSI output'
+            no-ansi: 'Disable ANSI output'
+            no-interaction: 'Do not ask any interactive question'
+    options:
+        version: '<info>%s</info> version <comment>%s</comment>'
+site:
+    messages:
+        path: 'Site path'
+    errors:
+        directory: 'In order to list all of the available commands, you should run this inside a drupal root directory.'
+        settings: 'In order to list all of the available commands you should install drupal first.'
+user:
+    messages:
+        path: 'User home path'

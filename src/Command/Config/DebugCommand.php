@@ -10,8 +10,6 @@ namespace Drupal\Console\Command\Config;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-//remove bellow line
-use Symfony\Component\Console\Helper\Table;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
@@ -40,55 +38,59 @@ class DebugCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $tableHeader = [];
-
-        $tableRows = [];
-        foreach () {
-          $tableRows[] = [];
-        }
-
-        $io->table($tableHeader, $tableRows, 'compact');
-    
-
         $configName = $input->getArgument('config-name');
         if (!$configName) {
-            $this->getAllConfigurations($io, $table);
+            $this->getAllConfigurations($io);
         } else {
-            $this->getConfigurationByName($io, $table, $configName);
+            $this->getConfigurationByName($io, $configName);
         }
     }
 
     /**
-     * @param $output         OutputInterface
-     * @param $table          Table
+     * @param $io         DrupalStyle
      */
-    private function getAllConfigurations($output, $table)
+    private function getAllConfigurations(DrupalStyle $io)
     {
         $configFactory = $this->getConfigFactory();
         $names = $configFactory->listAll();
-        $table->setHeaders([$this->trans('commands.config.debug.arguments.config-name')]);
+        $tableHeader = [
+            $this->trans('commands.config.debug.arguments.config-name'),
+        ];
+        $tableRows = [];
         foreach ($names as $name) {
-            $table->addRow([$name]);
+            $tableRows[] = [
+                $name,
+            ];
         }
-        $table->render($output);
+
+        $io->table($tableHeader, $tableRows, 'compact');
     }
 
     /**
-     * @param $output         OutputInterface
-     * @param $table          TableHelper
+     * @param $io             DrupalStyle
      * @param $config_name    String
      */
-    private function getConfigurationByName($output, $table, $config_name)
+    private function getConfigurationByName(DrupalStyle $io, $config_name)
     {
         $configStorage = $this->getConfigStorage();
+
         if ($configStorage->exists($config_name)) {
-            $table->setHeaders([$config_name]);
+            $tableHeader = [
+                $config_name,
+            ];
 
             $configuration = $configStorage->read($config_name);
             $configurationEncoded = Yaml::encode($configuration);
+            $tableRows = [];
+            $tableRows[] = [
+                $configurationEncoded,
+            ];
 
-            $table->addRow([$configurationEncoded]);
+            $io->table($tableHeader, $tableRows, 'compact');
+        } else {
+            $io->error(
+                sprintf($this->trans('commands.config.debug.errors.config-not-exists'), $config_name)
+            );
         }
-        $table->render($output);
     }
 }
