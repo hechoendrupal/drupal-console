@@ -102,7 +102,7 @@ class ThemeCommand extends GeneratorCommand
         $validators = $this->getValidator();
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($io)) {
             return;
         }
 
