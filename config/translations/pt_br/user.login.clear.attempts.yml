@@ -1,12 +1,12 @@
-description: 'Clear login failed attempts for an account.'
-help: 'The <info>user:login:clear:attempts</info> reset login failed attempts for an account.'
+description: 'Limpar tentativas falhas de login para um usuário.'
+help: 'O comando <info>user:login:clear:attempts</info> reseta as tentativas falhas de login para um usuário.'
 options:
-    user-id: 'User ID.'
+    user-id: 'ID do usuário.'
 questions:
-    uid: 'Enter User ID.'
-    numeric-uid: 'User id must be an integer.'
-    invalid-uid: 'User id must be upper than zero.'
+    uid: 'Digite o ID do usuário.'
+    numeric-uid: 'O ID do usuário deve ser inteiro.'
+    invalid-uid: 'O ID do usuário deve ser maior que zero.'
 messages:
-    successful: 'Login attempts was clean sucessfully for user id %s.'
+    successful: 'Tentativas falhas de login do usuário %s foram resetadas com sucesso.'
 errors:
-    invalid-user: 'Cannot load user entity (Uid: %s).'
+    invalid-user: 'Não foi possível carregar o usuário (ID do usuário: %s).'
