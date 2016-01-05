@@ -51,10 +51,10 @@ class AuthenticationProviderCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($io)) {
             return;
         }
 
@@ -68,7 +68,7 @@ class AuthenticationProviderCommand extends GeneratorCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $stringUtils = $this->getStringHelper();
 
@@ -83,7 +83,7 @@ class AuthenticationProviderCommand extends GeneratorCommand
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $output->ask(
+            $class = $io->ask(
                 $this->trans(
                     'commands.generate.authentication.provider.options.class'
                 ),
@@ -101,7 +101,7 @@ class AuthenticationProviderCommand extends GeneratorCommand
         // --provider-id option
         $provider_id = $input->getOption('provider-id');
         if (!$provider_id) {
-            $provider_id = $output->ask(
+            $provider_id = $io->ask(
                 $this->trans('commands.generate.authentication.provider.options.provider-id'),
                 $stringUtils->camelCaseToUnderscore($class),
                 function ($value) use ($stringUtils) {
