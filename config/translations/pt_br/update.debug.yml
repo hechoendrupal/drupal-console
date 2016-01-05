@@ -1,11 +1,11 @@
-description: 'Display current updates available for the application'
+description: 'Exibir atualizações necessários para a aplicação'
 messages:
-    no-updates: 'No pending updates'
-    severity: Severity
-    title: Title
-    value: Value
-    description: Description
-    requirements-error: 'The following requirement weren''t completed'
-    module-list: 'Modules with pending updates'
-    module: Module
+    no-updates: 'Nenhuma atualização pendente'
+    severity: Severidade
+    title: Título
+    value: Valor
+    description: Descrição
+    requirements-error: 'O seguinte requerimento não foi completado'
+    module-list: 'Módulos com atualizações pendentes'
+    module: Módulo
     update-n: 'Update N'
