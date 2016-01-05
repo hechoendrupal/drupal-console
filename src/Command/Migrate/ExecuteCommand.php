@@ -197,7 +197,8 @@ class ExecuteCommand extends ContainerAwareCommand
                 );
 
                 if (empty($migration_id) || $migration_id == 'all') {
-                    if ($migration_id == 'all') {
+                    // Only add all if it's the first option
+                    if (empty($migrations_ids) && $migration_id == 'all') {
                         $migrations_ids[] = $migration_id;
                     }
                     break;
