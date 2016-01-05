@@ -97,12 +97,12 @@ class ThemeCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $validators = $this->getValidator();
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($io)) {
             return;
         }
 
@@ -142,7 +142,7 @@ class ThemeCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $stringUtils = $this->getStringHelper();
         $validators = $this->getValidator();
@@ -152,13 +152,13 @@ class ThemeCommand extends GeneratorCommand
         try {
             $theme = $input->getOption('theme') ? $this->validateModuleName($input->getOption('theme')) : null;
         } catch (\Exception $error) {
-            $output->error($error->getMessage());
+            $io->error($error->getMessage());
 
             return;
         }
 
         if (!$theme) {
-            $theme = $output->ask(
+            $theme = $io->ask(
                 $this->trans('commands.generate.theme.questions.theme'),
                 '',
                 function ($theme) use ($validators) {
@@ -171,13 +171,13 @@ class ThemeCommand extends GeneratorCommand
         try {
             $machine_name = $input->getOption('machine-name') ? $this->validateModule($input->getOption('machine-name')) : null;
         } catch (\Exception $error) {
-            $output->error($error->getMessage());
+            $io->error($error->getMessage());
 
             return;
         }
 
         if (!$machine_name) {
-            $machine_name = $output->ask(
+            $machine_name = $io->ask(
                 $this->trans('commands.generate.module.questions.machine-name'),
                 $stringUtils->createMachineName($theme),
                 function ($machine_name) use ($validators) {
@@ -189,7 +189,7 @@ class ThemeCommand extends GeneratorCommand
 
         $theme_path = $input->getOption('theme-path');
         if (!$theme_path) {
-            $theme_path = $output->ask(
+            $theme_path = $io->ask(
                 $this->trans('commands.generate.theme.questions.theme-path'),
                 '/themes/custom',
                 function ($theme_path) use ($drupalRoot, $machine_name) {
@@ -212,7 +212,7 @@ class ThemeCommand extends GeneratorCommand
 
         $description = $input->getOption('description');
         if (!$description) {
-            $description = $output->ask(
+            $description = $io->ask(
                 $this->trans('commands.generate.theme.questions.description'),
                 'My Awesome theme'
             );
@@ -221,7 +221,7 @@ class ThemeCommand extends GeneratorCommand
 
         $package = $input->getOption('package');
         if (!$package) {
-            $package = $output->ask(
+            $package = $io->ask(
                 $this->trans('commands.generate.theme.questions.package'),
                 'Other'
             );
@@ -230,7 +230,7 @@ class ThemeCommand extends GeneratorCommand
 
         $core = $input->getOption('core');
         if (!$core) {
-            $core = $output->ask(
+            $core = $io->ask(
                 $this->trans('commands.generate.theme.questions.core'),
                 '8.x'
             );
@@ -243,7 +243,7 @@ class ThemeCommand extends GeneratorCommand
             $themes = $themeHandler->rebuildThemeData();
             uasort($themes, 'system_sort_modules_by_info_name');
 
-            $base_theme = $output->choiceNoList(
+            $base_theme = $io->choiceNoList(
                 $this->trans('commands.generate.theme.options.base-theme'),
                 array_keys($themes)
             );
@@ -252,7 +252,7 @@ class ThemeCommand extends GeneratorCommand
 
         $global_library = $input->getOption('global-library');
         if (!$global_library) {
-            $global_library = $output->ask(
+            $global_library = $io->ask(
                 $this->trans('commands.generate.theme.questions.global-library'),
                 'global-styling'
             );
@@ -262,7 +262,7 @@ class ThemeCommand extends GeneratorCommand
         // --regions option.
         $regions = $input->getOption('regions');
         if (!$regions) {
-            if ($output->confirm(
+            if ($io->confirm(
                 $this->trans('commands.generate.theme.questions.regions'),
                 true
             )) {
@@ -275,7 +275,7 @@ class ThemeCommand extends GeneratorCommand
         // --breakpoints option.
         $breakpoints = $input->getOption('breakpoints');
         if (!$breakpoints) {
-            if ($output->confirm(
+            if ($io->confirm(
                 $this->trans('commands.generate.theme.questions.breakpoints'),
                 true
             )) {
