@@ -3,6 +3,7 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Drupal Console](#drupal-console)
+  - [Required PHP version](#required-php-version)
   - [Supported Drupal version](#supported-drupal-version)
   - [Drupal Console documentation](#drupal-console-documentation)
   - [Installing Drupal Console](#installing-drupal-console)
@@ -25,6 +26,9 @@ The Drupal Console is a CLI tool, to generate boilerplate code, interact and deb
 
 ## Change Log
 All notable changes to this project will be documented in the [releases page](https://github.com/hechoendrupal/DrupalConsole/releases) 
+
+## Required PHP version
+PHP 5.5.9 or higher is required to use the Drupal Console application.
 
 ## Supported Drupal version
 The Drupal 8 supported version is [Drupal 8.0.1](http://ftp.drupal.org/files/projects/drupal-8.0.1.tar.gz).
