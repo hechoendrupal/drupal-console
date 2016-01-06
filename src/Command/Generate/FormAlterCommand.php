@@ -14,6 +14,7 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Drupal\Console\Generator\FormAlterGenerator;
 use Drupal\Console\Command\ServicesTrait;
 use Drupal\Console\Command\ModuleTrait;
+use Drupal\Console\Command\MenuTrait;
 use Drupal\Console\Command\FormTrait;
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
@@ -24,6 +25,7 @@ class FormAlterCommand extends GeneratorCommand
     use ServicesTrait;
     use ModuleTrait;
     use FormTrait;
+    use MenuTrait;
     use ConfirmationTrait;
 
     protected $metadata;
