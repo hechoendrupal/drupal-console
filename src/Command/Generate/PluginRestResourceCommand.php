@@ -169,7 +169,7 @@ class PluginRestResourceCommand extends GeneratorCommand
 
             $question->setMultiselect(true);
             $plugin_states = $questionHelper->ask($input, $output, $question);
-            $output->writeln(
+            $io->info(
                 $this->trans('commands.generate.plugin.rest.resource.messages.selected-states').' '.implode(
                     ', ',
                     $plugin_states
