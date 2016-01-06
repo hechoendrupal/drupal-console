@@ -27,6 +27,8 @@ class UninstallCommand extends ContainerAwareCommand
     {
         $io =  new DrupalStyle($input, $output);
 
+        $this->getDrupalHelper()->loadLegacyFile('/core/modules/system/system.module');
+
         $extension_config = $this->getConfigFactory()->getEditable('core.extension');
 
         $moduleInstaller = $this->getModuleInstaller();
