@@ -28,6 +28,8 @@ class DebugCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
+        $this->getDrupalHelper()->loadLegacyFile('/core/modules/system/system.module');
+
         $status = $input->getOption('status');
         $type = $input->getOption('type');
 

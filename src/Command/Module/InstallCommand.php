@@ -148,8 +148,10 @@ class InstallCommand extends ContainerAwareCommand
 
     protected function calculateDependencies($modules)
     {
+        $this->getDrupalHelper()->loadLegacyFile('/core/modules/system/system.module');
+
         $dependencies = [];
-        $moduleList = \system_rebuild_module_data();
+        $moduleList = system_rebuild_module_data();
         $validator = $this->getValidator();
 
         foreach ($modules as $moduleName) {

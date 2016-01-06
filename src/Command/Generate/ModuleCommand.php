@@ -151,6 +151,7 @@ class ModuleCommand extends GeneratorCommand
      */
     private function checkDependencies(array $dependencies)
     {
+        $this->getDrupalHelper()->loadLegacyFile('/core/modules/system/system.module');
         $client = $this->getHttpClient();
         $localModules = array();
 
