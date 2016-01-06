@@ -70,10 +70,10 @@ class PluginRulesActionCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($io)) {
             return;
         }
 
@@ -94,7 +94,7 @@ class PluginRulesActionCommand extends GeneratorCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
@@ -107,7 +107,7 @@ class PluginRulesActionCommand extends GeneratorCommand
         // --class option
         $class_name = $input->getOption('class');
         if (!$class_name) {
-            $class_name = $output->ask(
+            $class_name = $io->ask(
                 $this->trans('commands.generate.plugin.rulesaction.options.class'),
                 'DefaultAction'
             );
@@ -117,7 +117,7 @@ class PluginRulesActionCommand extends GeneratorCommand
         // --label option
         $label = $input->getOption('label');
         if (!$label) {
-            $label = $output->ask(
+            $label = $io->ask(
                 $this->trans('commands.generate.plugin.rulesaction.options.label'),
                 $this->getStringHelper()->camelCaseToHuman($class_name)
             );
@@ -127,7 +127,7 @@ class PluginRulesActionCommand extends GeneratorCommand
         // --plugin-id option
         $plugin_id = $input->getOption('plugin-id');
         if (!$plugin_id) {
-            $plugin_id = $output->ask(
+            $plugin_id = $io->ask(
                 $this->trans('commands.generate.plugin.rulesaction.options.plugin-id'),
                 $this->getStringHelper()->camelCaseToUnderscore($class_name)
             );
@@ -137,7 +137,7 @@ class PluginRulesActionCommand extends GeneratorCommand
         // --type option
         $type = $input->getOption('type');
         if (!$type) {
-            $type = $output->ask(
+            $type = $io->ask(
                 $this->trans('commands.generate.plugin.rulesaction.options.type'),
                 'user'
             );
@@ -147,7 +147,7 @@ class PluginRulesActionCommand extends GeneratorCommand
         // --category option
         $category = $input->getOption('category');
         if (!$category) {
-            $category = $output->ask(
+            $category = $io->ask(
                 $this->trans('commands.generate.plugin.rulesaction.options.category'),
                 $this->getStringHelper()->camelCaseToUnderscore($class_name)
             );
@@ -157,7 +157,7 @@ class PluginRulesActionCommand extends GeneratorCommand
         // --context option
         $context = $input->getOption('context');
         if (!$context) {
-            $context = $output->ask(
+            $context = $io->ask(
                 $this->trans('commands.generate.plugin.rulesaction.options.context'),
                 $this->getStringHelper()->camelCaseToUnderscore($class_name)
             );
