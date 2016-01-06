@@ -53,10 +53,10 @@ class PluginViewsFieldCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($io)) {
             return;
         }
 
@@ -75,7 +75,7 @@ class PluginViewsFieldCommand extends GeneratorCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
@@ -88,7 +88,7 @@ class PluginViewsFieldCommand extends GeneratorCommand
         // --class option
         $class_name = $input->getOption('class');
         if (!$class_name) {
-            $class_name = $output->ask(
+            $class_name = $io->ask(
                 $this->trans('commands.generate.plugin.views.field.questions.class'),
                 'CustomViewsField'
             );
@@ -98,7 +98,7 @@ class PluginViewsFieldCommand extends GeneratorCommand
         // --title option
         $title = $input->getOption('title');
         if (!$title) {
-            $title = $output->ask(
+            $title = $io->ask(
                 $this->trans('commands.generate.plugin.views.field.questions.title'),
                 $this->getStringHelper()->camelCaseToHuman($class_name)
             );
@@ -108,7 +108,7 @@ class PluginViewsFieldCommand extends GeneratorCommand
         // --description option
         $description = $input->getOption('description');
         if (!$description) {
-            $description = $output->ask(
+            $description = $io->ask(
                 $this->trans('commands.generate.plugin.views.field.questions.description'),
                 $this->trans('commands.generate.plugin.views.field.questions.description_default')
             );
