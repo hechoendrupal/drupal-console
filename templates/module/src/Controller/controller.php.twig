@@ -58,7 +58,7 @@ class {{ class_name }} extends ControllerBase {% endblock %}
 {% if argumentsFromRoute(route.route) is not empty %}
     return [
         '#type' => 'markup',
-        '#markup' => $this->t('Implement method: {{route.method}} with parameter(s): {{ argumentsFromRoute(route.route)|join(', ') }}')
+        '#markup' => $this->t("Implement method: {{route.method}} with parameter(s): {{ argumentsFromRoute(route.route)|join(', ') }}")
     ];
 {% else %}
     return [
