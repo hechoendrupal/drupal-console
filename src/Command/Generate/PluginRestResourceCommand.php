@@ -76,10 +76,10 @@ class PluginRestResourceCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($io)) {
             return;
         }
 
@@ -98,7 +98,7 @@ class PluginRestResourceCommand extends GeneratorCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $stringUtils = $this->getStringHelper();
 
@@ -113,7 +113,7 @@ class PluginRestResourceCommand extends GeneratorCommand
         // --class option
         $class_name = $input->getOption('class');
         if (!$class_name) {
-            $class_name = $output->ask(
+            $class_name = $io->ask(
                 $this->trans('commands.generate.plugin.rest.resource.questions.class'),
                 'DefaultRestResource',
                 function ($class_name) use ($stringUtils) {
@@ -130,7 +130,7 @@ class PluginRestResourceCommand extends GeneratorCommand
         // --plugin-id option
         $plugin_id = $input->getOption('plugin-id');
         if (!$plugin_id) {
-            $plugin_id = $output->ask(
+            $plugin_id = $io->ask(
                 $this->trans('commands.generate.plugin.rest.resource.questions.plugin-id'),
                 $stringUtils->camelCaseToUnderscore($class_name)
             );
@@ -140,7 +140,7 @@ class PluginRestResourceCommand extends GeneratorCommand
         // --plugin-label option
         $plugin_label = $input->getOption('plugin-label');
         if (!$plugin_label) {
-            $plugin_label = $output->ask(
+            $plugin_label = $io->ask(
                 $this->trans('commands.generate.plugin.rest.resource.questions.plugin-label'),
                 $this->getStringHelper()->camelCaseToHuman($class_name)
             );
@@ -150,7 +150,7 @@ class PluginRestResourceCommand extends GeneratorCommand
         // --plugin-url option
         $plugin_url = $input->getOption('plugin-url');
         if (!$plugin_url) {
-            $plugin_url = $output->ask(
+            $plugin_url = $io->ask(
                 $this->trans('commands.generate.plugin.rest.resource.questions.plugin-url')
             );
             $input->setOption('plugin-url', $plugin_url);
@@ -160,7 +160,7 @@ class PluginRestResourceCommand extends GeneratorCommand
         $plugin_states = $input->getOption('plugin-states');
         if (!$plugin_states) {
             $questionHelper = $this->getQuestionHelper();
-            $states = array_combine(array('GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'), array('GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'));
+            $states = array('GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS');
             $question = new ChoiceQuestion(
                 $this->trans('commands.generate.plugin.rest.resource.questions.plugin-states'),
                 $states,
