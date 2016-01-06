@@ -78,7 +78,7 @@ class RouteSubscriberCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
@@ -91,7 +91,7 @@ class RouteSubscriberCommand extends GeneratorCommand
         // --name option
         $name = $input->getOption('name');
         if (!$name) {
-            $name = $output->ask(
+            $name = $io->ask(
                 $this->trans('commands.generate.routesubscriber.questions.name'),
                 $module.'.route_subscriber'
             );
@@ -101,7 +101,7 @@ class RouteSubscriberCommand extends GeneratorCommand
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $output->ask(
+            $class = $io->ask(
                 $this->trans('commands.generate.routesubscriber.questions.class'),
                 'RouteSubscriber'
             );
