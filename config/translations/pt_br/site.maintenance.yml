@@ -1,8 +1,8 @@
-description: 'Switch site into maintenance mode'
+description: 'Habilitar/Desabilitar modo de manutenção'
 arguments:
-    mode: 'Site maintenance mode'
+    mode: 'Site em modo de manutenção'
 messages:
-    maintenance-on: 'Operating in maintenance mode on'
-    maintenance-off: 'Operating in maintenance mode off'
+    maintenance-on: 'Modo de manutenção habilitado'
+    maintenance-off: 'Modo de manutenção desabilitado'
 errors:
-    invalid-mode: 'Invalid maintance mode'
+    invalid-mode: 'Modo de manutenção inválido'
