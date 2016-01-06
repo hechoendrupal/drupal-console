@@ -1,12 +1,12 @@
-description: 'Override a State key.'
-help: 'Override a State key.'
+description: 'Sobrescrever a chave de Estado.'
+help: 'Sobrescrever a chave de Estado.'
 arguments:
-  key: 'The State key to override.'
-  value: 'The State value to set.'
+  key: 'A chave de Estado a ser sobrescrita.'
+  value: 'O valor do Estado a ser definido.'
 messages:
-  key: 'State key'
-  original: 'Original value'
-  override: 'Override value'
+  key: 'Chave do Estado'
+  original: 'Valor original'
+  override: 'Valor a ser sobrescrito'
 errors:
-    no-key: 'You must provide a State key to override.'
-    no-value: 'You must provide a State value to set.'
+    no-key: 'Você deve definir uma chave de Estado a ser sobrescrito.'
+    no-value: 'Você deve definir um valor para o Estado.'
