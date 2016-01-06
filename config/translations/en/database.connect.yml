@@ -1,4 +1,4 @@
-description: "Launch a DB client if it's available"
+description: "Shows DB connection"
 arguments:
   database: "Database key from settings.php"
 messages:
