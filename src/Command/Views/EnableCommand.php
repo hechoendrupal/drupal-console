@@ -49,7 +49,8 @@ class EnableCommand extends ContainerAwareCommand
             $io->error(
                 sprintf(
                     $this->trans('commands.views.debug.messages.not-found'),
-                  $viewId)
+                    $viewId
+                )
             );
             return;
         }
@@ -59,7 +60,7 @@ class EnableCommand extends ContainerAwareCommand
             $io->success(
                 sprintf(
                     $this->trans('commands.views.enable.messages.disabled-enable'),
-                  $view->get('label')
+                    $view->get('label')
                 )
             );
         } catch (Exception $e) {
