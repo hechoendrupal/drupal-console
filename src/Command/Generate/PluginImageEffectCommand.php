@@ -59,10 +59,10 @@ class PluginImageEffectCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($io)) {
             return;
         }
 
@@ -81,7 +81,7 @@ class PluginImageEffectCommand extends GeneratorCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
@@ -94,7 +94,7 @@ class PluginImageEffectCommand extends GeneratorCommand
         // --class option
         $class_name = $input->getOption('class');
         if (!$class_name) {
-            $class_name = $output->ask(
+            $class_name = $io->ask(
                 $this->trans('commands.generate.plugin.imageeffect.questions.class'),
                 'DefaultImageEffect'
             );
@@ -104,7 +104,7 @@ class PluginImageEffectCommand extends GeneratorCommand
         // --label option
         $label = $input->getOption('label');
         if (!$label) {
-            $label = $output->ask(
+            $label = $io->ask(
                 $this->trans('commands.generate.plugin.imageeffect.questions.label'),
                 $this->getStringHelper()->camelCaseToHuman($class_name)
             );
@@ -114,7 +114,7 @@ class PluginImageEffectCommand extends GeneratorCommand
         // --plugin-id option
         $plugin_id = $input->getOption('plugin-id');
         if (!$plugin_id) {
-            $plugin_id = $output->ask(
+            $plugin_id = $io->ask(
                 $this->trans('commands.generate.plugin.imageeffect.questions.plugin-id'),
                 $this->getStringHelper()->camelCaseToUnderscore($class_name)
             );
@@ -124,7 +124,7 @@ class PluginImageEffectCommand extends GeneratorCommand
         // --description option
         $description = $input->getOption('description');
         if (!$description) {
-            $description = $output->ask(
+            $description = $io->ask(
                 $this->trans('commands.generate.plugin.imageeffect.questions.description'),
                 'My Image Effect'
             );
