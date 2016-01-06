@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\Views;
 
-use Herrera\Json\Exception\Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -47,13 +46,23 @@ class EnableCommand extends ContainerAwareCommand
         $view = $entityManager->getStorage('view')->load($viewId);
 
         if (empty($view)) {
-            $io->error(sprintf($this->trans('commands.views.debug.messages.not-found'), $viewId));
+            $io->error(
+                sprintf(
+                    $this->trans('commands.views.debug.messages.not-found'),
+                    $viewId
+                )
+            );
             return;
         }
 
         try {
             $view->enable()->save();
-            $io->info(sprintf($this->trans('commands.views.enable.messages.disabled-successfully'), $view->get('label')));
+            $io->success(
+                sprintf(
+                    $this->trans('commands.views.enable.messages.disabled-enable'),
+                    $view->get('label')
+                )
+            );
         } catch (Exception $e) {
             $io->error($e->getMessage());
         }
