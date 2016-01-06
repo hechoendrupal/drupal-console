@@ -14,11 +14,13 @@ options:
 questions:
     module: common.questions.module
     class: 'Nhập vào tên lớp của trình điều khiển'
-    controller: 'Controller title'
     method: 'Enter the action method name'
     route: 'Nhập vào đường dẫn'
     services: common.questions.services
     test: 'Bạn có muốn phát sinh một lớp đơn vị kiểm tra?'
+    title: 'Enter the Controller method title'
+    controller-add: 'Do you want add another contoller method'
+    controller: 'Controller title'
     method-name: 'Nhập vào tên của phương pháp'
     other-controller-title: 'Tiêu đề trình điều khiển (để trống để bắt đầu với đoạn mã phát sinh)'
     controller-title: 'Tên trình điều khiển'
