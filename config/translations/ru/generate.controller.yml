@@ -14,11 +14,13 @@ options:
 questions:
     module: common.questions.module
     class: 'Enter the Controller class name'
-    controller: 'Controller title'
     method: 'Enter the action method name'
     route: 'Enter the route path'
     services: common.questions.services
     test: 'Do you want to generate a unit test class'
+    title: 'Enter the Controller method title'
+    controller-add: 'Do you want add another contoller method'
+    controller: 'Controller title'
     method-name: 'Enter the action method name'
     other-controller-title: 'Controller title (empty to start with code generation)'
     controller-title: 'Controller title'

@@ -14,11 +14,13 @@ options:
 questions:
     module: common.questions.module
     class: 'Introduceți numele clasei Controller'
-    controller: 'Controller title'
     method: 'Enter the action method name'
     route: 'Introduceți calea rutei'
     services: common.questions.services
     test: 'Doriți să generați o clasă de test unit'
+    title: 'Enter the Controller method title'
+    controller-add: 'Do you want add another contoller method'
+    controller: 'Controller title'
     method-name: 'Introduceți numele metodei'
     other-controller-title: 'Titlul controllerului (necompletat pentru a începe cu generarea codului)'
     controller-title: 'Titlul controllerului'
