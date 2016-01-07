@@ -28,4 +28,5 @@ questions:
 warnings:
     module-unavailable: 'Advertencia: Los siguientes módulos ya no están disponibles en tu entorno local "%s"'
 errors:
+    invalid-core: 'The core version "%s" is invalid.'
     directory-exists: 'El directorio apuntado "%s" no está vacío'

@@ -1,7 +1,7 @@
-description: "Restore structure and contents of MySQL databases and tables"
+description: 'Restore structure and contents of MySQL databases and tables'
 arguments:
-  database: "Database key from settings.php"
+    database: 'Database key from settings.php'
 options:
-  file: 'The filename for your database backup file'
+    file: 'The filename for your database backup file'
 messages:
-    success: "Database imported from:"
+    success: 'Database imported from:'
