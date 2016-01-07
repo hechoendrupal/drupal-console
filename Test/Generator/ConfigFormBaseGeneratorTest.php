@@ -24,6 +24,10 @@ class ConfigFormBaseGeneratorTest extends GeneratorTest
      * @param $form_id
      * @param $form_type
      * @param $update_routing
+     * @param $menu_link_gen
+     * @param $menu_link_title
+     * @param $menu_parent
+     * @param $menu_link_desc
      *
      * @dataProvider commandData
      */
@@ -34,7 +38,11 @@ class ConfigFormBaseGeneratorTest extends GeneratorTest
         $inputs,
         $form_id,
         $form_type,
-        $update_routing
+        $update_routing,
+        $menu_link_gen,
+        $menu_link_title,
+        $menu_parent,
+        $menu_link_desc
     ) {
         $generator = new FormGenerator();
         $this->getRenderHelper()->setSkeletonDirs($this->getSkeletonDirs());
@@ -48,7 +56,11 @@ class ConfigFormBaseGeneratorTest extends GeneratorTest
             $inputs,
             $form_id,
             $form_type,
-            $update_routing
+            $update_routing,
+            $menu_link_gen,
+            $menu_link_title,
+            $menu_parent,
+            $menu_link_desc
         );
 
         $this->assertTrue(
