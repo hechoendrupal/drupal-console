@@ -1,4 +1,5 @@
 description: 'Habilita una vista'
 messages:
+    enabled-successfully: 'View %s was enabled successfully.'
     disabled-successfully: 'La vista %s ha sido habilitada con éxito.'
 disabled-successfully: 'La vista %s ha sido habilitada con éxito.'

@@ -12,9 +12,9 @@ messages:
     test-debug: 'Informações de debug dos testes'
     url-required: 'URL obrigatória para rodar o teste'
     test-summary: 'Sumário do teste'
-    group: 'Grupo'
-    status: 'Status'
-    file: 'Arquivo'
-    method: 'Método'
-    line: 'Linha'
-    message: 'Mensagem'
+    group: Grupo
+    status: Status
+    file: Arquivo
+    method: Método
+    line: Linha
+    message: Mensagem

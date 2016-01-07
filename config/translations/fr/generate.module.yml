@@ -28,4 +28,5 @@ questions:
 warnings:
     module-unavailable: 'Attention, les modules suivants ne sont pas disponible dans votre installation locale : "%s"'
 errors:
+    invalid-core: 'The core version "%s" is invalid.'
     directory-exists: 'Le dossier cible "%s" n''est pas vide'
