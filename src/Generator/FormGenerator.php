@@ -59,13 +59,13 @@ class FormGenerator extends Generator
         );
 
 
-        if ($menu_link_gen == TRUE) {
+        if ($menu_link_gen == true) {
             $this->renderFile(
-              'module/links.menu.yml.twig',
-              $this->getSite()
-                ->getModulePath($module) . '/' . $module . '.links.menu.yml',
-              $parameters,
-              FILE_APPEND
+                'module/links.menu.yml.twig',
+                $this->getSite()
+                    ->getModulePath($module) . '/' . $module . '.links.menu.yml',
+                $parameters,
+                FILE_APPEND
             );
         }
     }
