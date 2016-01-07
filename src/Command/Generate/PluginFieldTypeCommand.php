@@ -71,10 +71,10 @@ class PluginFieldTypeCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($io)) {
             return;
         }
 
@@ -96,7 +96,7 @@ class PluginFieldTypeCommand extends GeneratorCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
@@ -109,7 +109,7 @@ class PluginFieldTypeCommand extends GeneratorCommand
         // --class option
         $class_name = $input->getOption('class');
         if (!$class_name) {
-            $class_name = $output->ask(
+            $class_name = $io->ask(
                 $this->trans('commands.generate.plugin.fieldtype.questions.class'),
                 'ExampleFieldType'
             );
@@ -119,7 +119,7 @@ class PluginFieldTypeCommand extends GeneratorCommand
         // --label option
         $label = $input->getOption('label');
         if (!$label) {
-            $label = $output->ask(
+            $label = $io->ask(
                 $this->trans('commands.generate.plugin.fieldtype.questions.label'),
                 $this->getStringHelper()->camelCaseToHuman($class_name)
             );
@@ -129,7 +129,7 @@ class PluginFieldTypeCommand extends GeneratorCommand
         // --plugin-id option
         $plugin_id = $input->getOption('plugin-id');
         if (!$plugin_id) {
-            $plugin_id = $output->ask(
+            $plugin_id = $io->ask(
                 $this->trans('commands.generate.plugin.fieldtype.questions.plugin-id'),
                 $this->getStringHelper()->camelCaseToUnderscore($class_name)
             );
@@ -139,7 +139,7 @@ class PluginFieldTypeCommand extends GeneratorCommand
         // --description option
         $description = $input->getOption('description');
         if (!$description) {
-            $description = $output->ask(
+            $description = $io->ask(
                 $this->trans('commands.generate.plugin.fieldtype.questions.description'),
                 'My Field Type'
             );
@@ -149,7 +149,7 @@ class PluginFieldTypeCommand extends GeneratorCommand
         // --default-widget option
         $default_widget = $input->getOption('default-widget');
         if (!$default_widget) {
-            $default_widget = $output->ask(
+            $default_widget = $io->askEmpty(
                 $this->trans('commands.generate.plugin.fieldtype.questions.default-widget')
             );
             $input->setOption('default-widget', $default_widget);
@@ -158,7 +158,7 @@ class PluginFieldTypeCommand extends GeneratorCommand
         // --default-formatter option
         $default_formatter = $input->getOption('default-formatter');
         if (!$default_formatter) {
-            $default_formatter = $output->ask(
+            $default_formatter = $io->askEmpty(
                 $this->trans('commands.generate.plugin.fieldtype.questions.default-formatter')
             );
             $input->setOption('default-formatter', $default_formatter);
