@@ -31,16 +31,10 @@ use Drupal\Core\TypedData\DataDefinition;
  *   default_widget = "{{ default_widget }}"{% if default_widget and default_formatter %},
 {% endif %}
 {% else %}
-
- *   Create and/or assign a default_widget.
- *   ex. default_widget = "field_widget"
 {% endif %}
 {%  if default_formatter %}
  *   default_formatter = "{{ default_formatter }}"
 {% else %}
-
- *   Create and/or assign a default_formatter.
- *   ex. default_formatter = "field_formatter"
 {%  endif %}
  * )
  */
