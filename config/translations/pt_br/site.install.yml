@@ -1,7 +1,7 @@
 description: 'Instalar um projeto Drupal'
 arguments:
     profile: 'Perfil de instalação a ser instalado'
-    langcode: 'Idioma'
+    langcode: Idioma
     db-type: 'Tipo de banco de dados'
     db-file: 'Arquivo de configurações do banco de dados'
     site-name: 'Nome do site'

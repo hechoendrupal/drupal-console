@@ -3,10 +3,11 @@ arguments:
     site-name: 'Site name'
     version: 'किसी विशेष Drupal के संस्करण को डाउनलोड करें'
 messages:
-    release: 'Please select a release'
+    select-release: 'Select a core release'
     getting-releases: 'Getting releases for Drupal'
     downloading: 'Drupal डाउनलोड हो रहा है %s'
     extracting: 'Drupal के लिये फाइल संग्रह हो रहा है %s'
     no-releases: 'There aren''t any releases available for Drupal'
     downloaded: 'Drupal %s को डायरेक्टरी %s में डाउनलोड कर लिया गया'
     error-copying: 'An error occurred while renaming your directory at %s'
+    release: 'Please select a release'

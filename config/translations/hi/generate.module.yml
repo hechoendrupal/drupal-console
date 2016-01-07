@@ -28,4 +28,5 @@ questions:
 warnings:
     module-unavailable: 'चेतावनी, निम्नलिखित मॉड्यूल पहले से ही अपने स्थानीय वातावरण में उपलब्ध नहीं हैं "%s"'
 errors:
+    invalid-core: 'The core version "%s" is invalid.'
     directory-exists: 'लक्ष्य निर्देशिका "%s" खाली नहीं है।'

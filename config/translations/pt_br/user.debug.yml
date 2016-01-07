@@ -10,5 +10,5 @@ questions:
 messages:
     user-id: 'ID do usuário'
     username: 'Nome de usuário'
-    roles: 'Papéis'
-    status: 'Status'
+    roles: Papéis
+    status: Status

@@ -5,11 +5,11 @@ messages:
     theme-id: 'Id do tema'
     theme-name: 'Nome do tema'
     status: Status
-    version: 'Versão'
-    installed: 'Instalado'
-    uninstalled: 'Desinstalado'
+    version: Versão
+    installed: Instalado
+    uninstalled: Desinstalado
     default-theme: 'Tema padrão'
-    properties: 'Propriedades'
-    regions: 'Regiões'
+    properties: Propriedades
+    regions: Regiões
     invalid-theme: 'O tema %s é inválido'
-    theme-properties: 'Propriedades'
+    theme-properties: Propriedades
