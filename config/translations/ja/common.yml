@@ -26,8 +26,8 @@ questions:
         description: Description
         default-value: 'Default value'
         weight: 'Weight for input item'
-        title: 'Title'
-        fieldset: 'Fieldset'
+        title: Title
+        fieldset: Fieldset
 errors:
     module-dependency: 'Missing module dependency "%s"'
     class-name-empty: 'The Class name can not be empty'
@@ -39,4 +39,4 @@ messages:
     canceled: 'The generation was cancelled'
     drupal-core: 'Drupal Core'
     move-phar: 'Accessing console from anywhere on your system'
-    quick-start: 'Drupal8をダウンロードし、インストールする'
+    quick-start: Drupal8をダウンロードし、インストールする

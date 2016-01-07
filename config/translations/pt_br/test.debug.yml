@@ -4,10 +4,10 @@ arguments:
     test-class: 'Classe do teste'
     test-id: 'ID do teste unitário'
 options:
-    group: 'Grupo'
+    group: Grupo
 messages:
     class: 'Classe do teste'
-    description: 'Descrição'
+    description: Descrição
     group: Grupo
     type: 'Tipo do teste'
     success: 'O console foi atualizado para a última versão disponível.'

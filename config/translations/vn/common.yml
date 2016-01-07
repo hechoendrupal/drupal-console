@@ -31,6 +31,7 @@ questions:
 errors:
     module-dependency: 'Thiếu module dependency "%s"'
     class-name-empty: 'Tên của lớp không thể để trống'
+    invalid-file-path: 'You must provide a valid file path'
 status:
     enabled: 'Cho phép'
     disabled: 'Không cho phép'

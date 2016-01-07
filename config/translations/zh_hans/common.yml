@@ -31,6 +31,7 @@ questions:
 errors:
     module-dependency: '模块依赖 "%s" 丢失'
     class-name-empty: 类名不能为空
+    invalid-file-path: 'You must provide a valid file path'
 status:
     enabled: 启用
     disabled: 禁用

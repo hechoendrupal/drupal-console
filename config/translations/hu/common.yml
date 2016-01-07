@@ -31,6 +31,7 @@ questions:
 errors:
     module-dependency: 'Hiányzó modul függőség "%s"'
     class-name-empty: 'A Class neve nem lehet üres'
+    invalid-file-path: 'You must provide a valid file path'
 status:
     enabled: Enabled
     disabled: Disabled
