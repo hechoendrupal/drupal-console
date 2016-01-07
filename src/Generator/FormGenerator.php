@@ -17,8 +17,11 @@ class FormGenerator extends Generator
      * @param  $form_id
      * @param  $form_type
      * @param  $update_routing
+     * @param  $link
+     * @param  $parent
+     * @param  $description
      */
-    public function generate($module, $class_name, $form_id, $form_type, $services, $inputs, $update_routing)
+    public function generate($module, $class_name, $form_id, $form_type, $services, $inputs, $update_routing, $link, $parent, $description)
     {
         $class_name_short = substr($class_name, -4) == 'Form' ? str_replace('Form', '', $class_name) : $class_name;
         $parameters = array(
@@ -28,6 +31,9 @@ class FormGenerator extends Generator
           'module_name' => $module,
           'form_id' => $form_id,
           'class_name_short' => strtolower($class_name_short),
+          'route_name' => $class_name,
+          'parent' => $parent,
+          'description' => $description,
         );
 
         if ($form_type == 'ConfigFormBase') {
@@ -49,5 +55,16 @@ class FormGenerator extends Generator
             $this->getSite()->getFormPath($module).'/'.$class_name.'.php',
             $parameters
         );
+
+
+        if ($link == TRUE) {
+            $this->renderFile(
+              'module/links.menu.yml.twig',
+              $this->getSite()
+                ->getModulePath($module) . '/' . $module . '.links.menu.yml',
+              $parameters,
+              FILE_APPEND
+            );
+        }
     }
 }
