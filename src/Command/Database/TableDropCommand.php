@@ -46,6 +46,7 @@ class TableDropCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
         $database = $input->getArgument('database');
+        $yes = $input->getOption('yes');
         $databaseConnection = $this->resolveConnection($io, $database);
 
         if ($io->confirm(
@@ -53,8 +54,8 @@ class TableDropCommand extends ContainerAwareCommand
                 $this->trans('commands.database.table.drop.question.drop-tables'),
                 $databaseConnection['database']
             ),
-            false
-        )) {
+            true
+        ) || $yes) {
             $databaseService = $this->hasGetService('database');
             $schema = $databaseService->schema();
             $tables = $schema->findTables('%');

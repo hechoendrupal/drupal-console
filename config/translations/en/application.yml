@@ -9,6 +9,7 @@ console:
         generate-inline: 'Print execution options and arguments as inline call to be use in the future'
         root: 'Define the Drupal root to be use in command execution'
         uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
+        yes: 'Skip confirmation and proceed.'
     messages:
         completed: 'The command was executed successfully!'
         chain:

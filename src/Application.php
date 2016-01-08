@@ -98,6 +98,9 @@ class Application extends BaseApplication
         $this->getDefinition()->addOption(
             new InputOption('--uri', '-l', InputOption::VALUE_REQUIRED, $this->trans('application.console.arguments.uri'))
         );
+        $this->getDefinition()->addOption(
+            new InputOption('--yes', '-y', InputOption::VALUE_NONE, $this->trans('application.console.arguments.yes'))
+        );
     }
 
     /**
