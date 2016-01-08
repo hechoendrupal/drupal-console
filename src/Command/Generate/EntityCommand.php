@@ -89,7 +89,7 @@ abstract class EntityCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $commandKey = str_replace(':', '.', $this->commandName);
         $utils = $this->getStringHelper();
@@ -98,14 +98,14 @@ abstract class EntityCommand extends GeneratorCommand
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output);
+            $module = $this->moduleQuestion($io);
             $input->setOption('module', $module);
         }
 
         // --entity-class option
         $entityClass = $input->getOption('entity-class');
         if (!$entityClass) {
-            $entityClass = $output->ask(
+            $entityClass = $io->ask(
                 $this->trans('commands.'.$commandKey.'.questions.entity-class'),
                 'DefaultEntity',
                 function ($entityClass) {
@@ -119,7 +119,7 @@ abstract class EntityCommand extends GeneratorCommand
         // --entity-name option
         $entityName = $input->getOption('entity-name');
         if (!$entityName) {
-            $entityName = $output->ask(
+            $entityName = $io->ask(
                 $this->trans('commands.'.$commandKey.'.questions.entity-name'),
                 $utils->camelCaseToMachineName($entityClass),
                 function ($entityName) {
@@ -132,7 +132,7 @@ abstract class EntityCommand extends GeneratorCommand
         // --label option
         $label = $input->getOption('label');
         if (!$label) {
-            $label = $output->ask(
+            $label = $io->ask(
                 $this->trans('commands.'.$commandKey.'.questions.label'),
                 $utils->camelCaseToHuman($entityClass)
             );
