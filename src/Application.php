@@ -72,10 +72,10 @@ class Application extends BaseApplication
         parent::__construct($this::NAME, $this::VERSION);
 
         $this->getDefinition()->addOption(
-            new InputOption('--root', null, InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.root'))
+          new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.env'), $this->env)
         );
         $this->getDefinition()->addOption(
-            new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.env'), $this->env)
+            new InputOption('--root', null, InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.root'))
         );
         $this->getDefinition()->addOption(
             new InputOption('--no-debug', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.no-debug'))
@@ -84,16 +84,16 @@ class Application extends BaseApplication
             new InputOption('--learning', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.learning'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--generate-chain', '--gc', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-chain'))
+            new InputOption('--generate-chain', '-gc', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-chain'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--generate-inline', '--gi', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-inline'))
+            new InputOption('--generate-inline', '-gi', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-inline'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--generate-doc', '--gd', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc'))
+            new InputOption('--generate-doc', '-gd', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--target', '--t', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.target'))
+            new InputOption('--target', '-t', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.target'))
         );
         $this->getDefinition()->addOption(
             new InputOption('--uri', '-l', InputOption::VALUE_REQUIRED, $this->trans('application.console.arguments.uri'))
