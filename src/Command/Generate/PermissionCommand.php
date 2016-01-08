@@ -69,8 +69,6 @@ class PermissionCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
-
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
