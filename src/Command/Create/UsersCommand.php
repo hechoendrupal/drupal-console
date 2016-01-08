@@ -29,7 +29,7 @@ class UsersCommand extends ContainerAwareCommand
     {
         $this
             ->setName('create:users')
-            ->setDescription($this->trans('commands.create.vocabularies.description'))
+            ->setDescription($this->trans('commands.create.users.description'))
             ->addArgument(
                 'roles',
                 InputArgument::IS_ARRAY,
