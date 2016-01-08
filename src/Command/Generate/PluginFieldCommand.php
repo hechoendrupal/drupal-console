@@ -113,10 +113,11 @@ class PluginFieldCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
+        $utils = $this->getStringHelper();
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($io)) {
             return;
         }
 
@@ -164,7 +165,7 @@ class PluginFieldCommand extends GeneratorCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
@@ -177,7 +178,7 @@ class PluginFieldCommand extends GeneratorCommand
         // --type-class option
         $typeClass = $input->getOption('type-class');
         if (!$typeClass) {
-            $typeClass = $output->ask(
+            $typeClass = $io->ask(
                 $this->trans('commands.generate.plugin.field.questions.type-class'),
                 'ExampleFieldType'
             );
@@ -187,9 +188,9 @@ class PluginFieldCommand extends GeneratorCommand
         // --type-label option
         $label = $input->getOption('type-label');
         if (!$label) {
-            $label = $output->ask(
+            $label = $io->ask(
                 $this->trans('commands.generate.plugin.field.questions.type-label'),
-                $this->getStringHelper()->camelCaseToHuman($widgetClass)
+                $this->getStringHelper()->camelCaseToHuman($typeClass)
             );
             $input->setOption('type-label', $label);
         }
@@ -197,9 +198,9 @@ class PluginFieldCommand extends GeneratorCommand
         // --type-plugin-id option
         $plugin_id = $input->getOption('type-plugin-id');
         if (!$plugin_id) {
-            $plugin_id = $output->ask(
+            $plugin_id = $io->ask(
                 $this->trans('commands.generate.plugin.field.questions.type-plugin-id'),
-                $this->getStringHelper()->camelCaseToUnderscore($widgetClass)
+                $this->getStringHelper()->camelCaseToUnderscore($typeClass)
             );
             $input->setOption('type-plugin-id', $plugin_id);
         }
@@ -207,7 +208,7 @@ class PluginFieldCommand extends GeneratorCommand
         // --type-description option
         $description = $input->getOption('type-description');
         if (!$description) {
-            $description = $output->ask(
+            $description = $io->ask(
                 $this->trans('commands.generate.plugin.field.questions.type-description'),
                 'My Field Type'
             );
@@ -217,7 +218,7 @@ class PluginFieldCommand extends GeneratorCommand
         // --widget-class option
         $widgetClass = $input->getOption('widget-class');
         if (!$widgetClass) {
-            $widgetClass = $output->ask(
+            $widgetClass = $io->ask(
                 $this->trans('commands.generate.plugin.field.questions.widget-class'),
                 'ExampleWidgetType'
             );
@@ -227,7 +228,7 @@ class PluginFieldCommand extends GeneratorCommand
         // --widget-label option
         $widgetLabel = $input->getOption('widget-label');
         if (!$widgetLabel) {
-            $widgetLabel = $output->ask(
+            $widgetLabel = $io->ask(
                 $this->trans('commands.generate.plugin.field.questions.widget-label'),
                 $this->getStringHelper()->camelCaseToHuman($widgetClass)
             );
@@ -237,7 +238,7 @@ class PluginFieldCommand extends GeneratorCommand
         // --widget-plugin-id option
         $widget_plugin_id = $input->getOption('widget-plugin-id');
         if (!$widget_plugin_id) {
-            $widget_plugin_id = $output->ask(
+            $widget_plugin_id = $io->ask(
                 $this->trans('commands.generate.plugin.field.questions.widget-plugin-id'),
                 $this->getStringHelper()->camelCaseToUnderscore($widgetClass)
             );
@@ -247,7 +248,7 @@ class PluginFieldCommand extends GeneratorCommand
         // --formatter-class option
         $formatterClass = $input->getOption('formatter-class');
         if (!$formatterClass) {
-            $formatterClass = $output->ask(
+            $formatterClass = $io->ask(
                 $this->trans('commands.generate.plugin.field.questions.formatter-class'),
                 'ExampleFormatterType'
             );
@@ -257,7 +258,7 @@ class PluginFieldCommand extends GeneratorCommand
         // --formatter-label option
         $formatterLabel = $input->getOption('formatter-label');
         if (!$formatterLabel) {
-            $formatterLabel = $output->ask(
+            $formatterLabel = $io->ask(
                 $this->trans('commands.generate.plugin.field.questions.formatter-label'),
                 $this->getStringHelper()->camelCaseToHuman($widgetClass)
             );
@@ -267,7 +268,7 @@ class PluginFieldCommand extends GeneratorCommand
         // --formatter-plugin-id option
         $formatter_plugin_id = $input->getOption('formatter-plugin-id');
         if (!$formatter_plugin_id) {
-            $formatter_plugin_id = $output->ask(
+            $formatter_plugin_id = $io->ask(
                 $this->trans('commands.generate.plugin.field.questions.formatter-plugin-id'),
                 $this->getStringHelper()->camelCaseToUnderscore($widgetClass)
             );
@@ -277,7 +278,7 @@ class PluginFieldCommand extends GeneratorCommand
         // --field-type option
         $field_type = $input->getOption('field-type');
         if (!$field_type) {
-            $field_type = $output->ask(
+            $field_type = $io->ask(
                 $this->trans('commands.generate.plugin.field.questions.field-type'),
                 $plugin_id
             );
@@ -287,7 +288,7 @@ class PluginFieldCommand extends GeneratorCommand
         // --default-widget option
         $default_widget = $input->getOption('default-widget');
         if (!$default_widget) {
-            $default_widget = $output->ask(
+            $default_widget = $io->askEmpty(
                 $this->trans('commands.generate.plugin.field.questions.default-widget'),
                 $widget_plugin_id
             );
@@ -297,7 +298,7 @@ class PluginFieldCommand extends GeneratorCommand
         // --default-formatter option
         $default_formatter = $input->getOption('default-formatter');
         if (!$default_formatter) {
-            $default_formatter = $output->ask(
+            $default_formatter = $io->askEmpty(
                 $this->trans('commands.generate.plugin.field.questions.default-formatter'),
                 $formatter_plugin_id
             );
