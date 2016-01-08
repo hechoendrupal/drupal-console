@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ServicesTrait;
 use Drupal\Console\Command\ModuleTrait;
+use Drupal\Console\Command\MenuTrait;
 use Drupal\Console\Command\FormTrait;
 use Drupal\Console\Generator\FormGenerator;
 use Drupal\Console\Command\GeneratorCommand;
@@ -22,6 +23,7 @@ abstract class FormCommand extends GeneratorCommand
     use ModuleTrait;
     use ServicesTrait;
     use FormTrait;
+    use MenuTrait;
 
     private $formType;
     private $commandName;
@@ -68,7 +70,16 @@ abstract class FormCommand extends GeneratorCommand
             )
             ->addOption('services', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.services'))
             ->addOption('inputs', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.inputs'))
-            ->addOption('routing', '', InputOption::VALUE_NONE, $this->trans('commands.generate.form.options.routing'));
+            ->addOption('routing', '', InputOption::VALUE_NONE, $this->trans('commands.generate.form.options.routing'))
+            ->addOption(
+                'menu_link_gen',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.form.options.menu_link_gen')
+            )
+            ->addOption('menu_link_title', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.form.options.menu_link_title'))
+            ->addOption('menu_parent', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.form.options.menu_parent'))
+            ->addOption('menu_link_desc', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.form.options.menu_link_desc'));
     }
 
     /**
@@ -82,6 +93,10 @@ abstract class FormCommand extends GeneratorCommand
         $class_name = $input->getOption('class');
         $form_id = $input->getOption('form-id');
         $form_type = $this->formType;
+        $menu_link_gen = $input->getOption('menu_link_gen');
+        $menu_parent = $input->getOption('menu_parent');
+        $menu_link_title = $input->getOption('menu_link_title');
+        $menu_link_desc = $input->getOption('menu_link_desc');
 
         // if exist form generate config file
         $inputs = $input->getOption('inputs');
@@ -89,7 +104,7 @@ abstract class FormCommand extends GeneratorCommand
 
         $this
             ->getGenerator()
-            ->generate($module, $class_name, $form_id, $form_type, $build_services, $inputs, $update_routing);
+            ->generate($module, $class_name, $form_id, $form_type, $build_services, $inputs, $update_routing, $menu_link_gen, $menu_link_title, $menu_parent, $menu_link_desc);
 
         $this->getChain()->addCommand('router:rebuild');
     }
@@ -151,6 +166,21 @@ abstract class FormCommand extends GeneratorCommand
                     true
                 );
                 $input->setOption('routing', $routing);
+            }
+        }
+
+        // --link option for links.menu
+        if ($this->formType == 'ConfigFormBase') {
+            $menu_options = $this->menuQuestion($output, $className);
+            $menu_link_gen = $input->getOption('menu_link_gen');
+            $menu_link_title = $input->getOption('menu_link_title');
+            $menu_parent = $input->getOption('menu_parent');
+            $menu_link_desc = $input->getOption('menu_link_desc');
+            if (!$menu_link_gen || !$menu_link_title || !$menu_parent || !$menu_link_desc) {
+                $input->setOption('menu_link_gen', $menu_options['menu_link_gen']);
+                $input->setOption('menu_link_title', $menu_options['menu_link_title']);
+                $input->setOption('menu_parent', $menu_options['menu_parent']);
+                $input->setOption('menu_link_desc', $menu_options['menu_link_desc']);
             }
         }
     }
