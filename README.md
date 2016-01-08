@@ -19,7 +19,7 @@ Drupal Console
 [![Build Status](https://travis-ci.org/hechoendrupal/DrupalConsole.svg?branch=master)](https://travis-ci.org/hechoendrupal/DrupalConsole)
 [![Latest Stable Version](https://poser.pugx.org/drupal/console/v/stable.svg)](https://packagist.org/packages/drupal/console)
 [![Latest Unstable Version](https://poser.pugx.org/drupal/console/v/unstable.svg)](https://packagist.org/packages/drupal/console)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)
+[![Software License](https://img.shields.io/badge/license-GPL%202.0+-blue.svg)](https://packagist.org/packages/drupal/console)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
 
 The Drupal Console is a CLI tool, to generate boilerplate code, interact and debug Drupal 8.
@@ -124,3 +124,5 @@ ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish
 [![FFW](https://www.drupal.org/files/ffw-logo.png)](https://ffwagency.com)  
 [![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)  
 [![Anexus](https://www.drupal.org/files/anexus-logo.png)](http://www.anexusit.com/)
+
+> Drupal is a registered trademark of Dries Buytaert.
