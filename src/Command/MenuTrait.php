@@ -22,7 +22,7 @@ trait MenuTrait
    * @return string
    * @throws \Exception
    */
-    public function menuQuestion(DrupalStyle $io, string $className)
+    public function menuQuestion(DrupalStyle $io, $className)
     {
         if ($io->confirm(
             $this->trans('commands.generate.form.questions.menu_link_gen'),
