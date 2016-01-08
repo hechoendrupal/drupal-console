@@ -99,7 +99,7 @@ abstract class FormCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
@@ -112,7 +112,7 @@ abstract class FormCommand extends GeneratorCommand
         // --class option
         $className = $input->getOption('class');
         if (!$className) {
-            $className = $output->ask(
+            $className = $io->ask(
                 $this->trans('commands.generate.form.questions.class'),
                 'DefaultForm'
             );
@@ -122,7 +122,7 @@ abstract class FormCommand extends GeneratorCommand
         // --form-id option
         $formId = $input->getOption('form-id');
         if (!$formId) {
-            $formId = $output->ask(
+            $formId = $io->ask(
                 $this->trans('commands.generate.form.questions.form-id'),
                 $this->getStringHelper()->camelCaseToMachineName($className)
             );
@@ -146,7 +146,7 @@ abstract class FormCommand extends GeneratorCommand
         if ($this->formType == 'ConfigFormBase') {
             $routing = $input->getOption('routing');
             if (!$routing) {
-                $routing = $output->confirm(
+                $routing = $io->confirm(
                     $this->trans('commands.generate.form.questions.routing'),
                     true
                 );
