@@ -16,7 +16,7 @@ trait ConfigFormBaseDataProviderTrait
         $this->setUpTemporaryDirectory();
 
         return [
-          ['Foo', 'foo' . rand(), 'Bar', null, null, 'ConfigFormBase', null],
+          ['Foo', 'foo' . rand(), 'Bar', null, null, 'ConfigFormBase', null, true, 'Foo', 'system.admin_config_development', 'foo'],
         ];
     }
 }
