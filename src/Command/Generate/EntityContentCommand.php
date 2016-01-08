@@ -39,12 +39,12 @@ class EntityContentCommand extends EntityCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         parent::interact($input, $output);
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // --bundle-of option
         $bundle_of = $input->getOption('has-bundles');
         if (!$bundle_of) {
-            $bundle_of = $output->confirm(
+            $bundle_of = $io->confirm(
                 $this->trans('commands.generate.entity.content.questions.has-bundles'),
                 false
             );
