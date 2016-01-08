@@ -70,10 +70,10 @@ class PluginBlockCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($io)) {
             return 1;
         }
 
@@ -90,7 +90,7 @@ class PluginBlockCommand extends GeneratorCommand
         $themeRegions = \system_region_list($theme, REGIONS_VISIBLE);
 
         if (!empty($theme_region) && !isset($themeRegions[$theme_region])) {
-            $output->error(
+            $io->error(
                 sprintf(
                     $this->trans('commands.generate.plugin.block.messages.invalid-theme-region'),
                     $theme_region
@@ -119,7 +119,7 @@ class PluginBlockCommand extends GeneratorCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $configFactory = $this->getConfigFactory();
         $theme = $configFactory->get('system.theme')->get('default');
@@ -136,7 +136,7 @@ class PluginBlockCommand extends GeneratorCommand
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $output->ask(
+            $class = $io->ask(
                 $this->trans('commands.generate.plugin.block.options.class'),
                 'DefaultBlock',
                 function ($class) {
@@ -149,7 +149,7 @@ class PluginBlockCommand extends GeneratorCommand
         // --label option
         $label = $input->getOption('label');
         if (!$label) {
-            $label = $output->ask(
+            $label = $io->ask(
                 $this->trans('commands.generate.plugin.block.options.label'),
                 $this->getStringHelper()->camelCaseToHuman($class)
             );
@@ -159,7 +159,7 @@ class PluginBlockCommand extends GeneratorCommand
         // --plugin-id option
         $pluginId = $input->getOption('plugin-id');
         if (!$pluginId) {
-            $pluginId = $output->ask(
+            $pluginId = $io->ask(
                 $this->trans('commands.generate.plugin.block.options.plugin-id'),
                 $this->getStringHelper()->camelCaseToUnderscore($class)
             );
