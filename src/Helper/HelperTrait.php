@@ -132,4 +132,12 @@ trait HelperTrait
     {
         return $this->getHelperSet()->get('httpClient');
     }
+
+    /**
+     * @return \Drupal\Console\Helper\DrupalApiHelper
+     */
+    public function getDrupalApi()
+    {
+        return $this->getHelperSet()->get('api');
+    }
 }

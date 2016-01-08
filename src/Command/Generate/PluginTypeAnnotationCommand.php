@@ -68,7 +68,7 @@ class PluginTypeAnnotationCommand extends GeneratorCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
@@ -81,7 +81,7 @@ class PluginTypeAnnotationCommand extends GeneratorCommand
         // --class option
         $class_name = $input->getOption('class');
         if (!$class_name) {
-            $class_name = $output->ask(
+            $class_name = $io->ask(
                 $this->trans('commands.generate.plugin.type.annotation.options.class'),
                 'ExamplePlugin'
             );
@@ -91,7 +91,7 @@ class PluginTypeAnnotationCommand extends GeneratorCommand
         // --machine-name option
         $machine_name = $input->getOption('machine-name');
         if (!$machine_name) {
-            $machine_name = $output->ask(
+            $machine_name = $io->ask(
                 $this->trans('commands.generate.plugin.type.annotation.options.machine-name'),
                 $this->getStringHelper()->camelCaseToUnderscore($class_name)
             );

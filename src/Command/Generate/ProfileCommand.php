@@ -71,12 +71,12 @@ class ProfileCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $validators = $this->getValidator();
         $messageHelper = $this->getMessageHelper();
 
-        if (!$this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($io)) {
             return;
         }
 
@@ -92,7 +92,7 @@ class ProfileCommand extends GeneratorCommand
         if ($dependencies) {
             $checked_dependencies = $this->checkDependencies($dependencies['success']);
             if (!empty($checked_dependencies['no_modules'])) {
-                $messageHelper->addWarningMessage(
+                $io->info(
                     sprintf(
                         $this->trans('commands.generate.profile.warnings.module-unavailable'),
                         implode(', ', $checked_dependencies['no_modules'])
@@ -120,6 +120,7 @@ class ProfileCommand extends GeneratorCommand
      */
     private function checkDependencies(array $dependencies)
     {
+        $this->getDrupalHelper()->loadLegacyFile('/core/modules/system/system.module');
         $client = $this->getHttpClient();
         $local_modules = array();
 
@@ -156,7 +157,7 @@ class ProfileCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $stringUtils = $this->getStringHelper();
         $validators = $this->getValidator();
@@ -166,13 +167,13 @@ class ProfileCommand extends GeneratorCommand
             // validator to check the name.
             $profile = $input->getOption('profile') ? $this->validateModuleName($input->getOption('profile')) : null;
         } catch (\Exception $error) {
-            $output->error($error->getMessage());
+            $io->error($error->getMessage());
 
             return;
         }
 
         if (!$profile) {
-            $profile = $output->ask(
+            $profile = $io->ask(
                 $this->trans('commands.generate.profile.questions.profile'),
                 '',
                 function ($profile) use ($validators) {
@@ -185,13 +186,13 @@ class ProfileCommand extends GeneratorCommand
         try {
             $machine_name = $input->getOption('machine-name') ? $this->validateModule($input->getOption('machine-name')) : null;
         } catch (\Exception $error) {
-            $output->error($error->getMessage());
+            $io->error($error->getMessage());
 
             return;
         }
 
         if (!$machine_name) {
-            $machine_name = $output->ask(
+            $machine_name = $io->ask(
                 $this->trans('commands.generate.profile.questions.machine-name'),
                 $stringUtils->createMachineName($profile),
                 function ($machine_name) use ($validators) {
@@ -203,7 +204,7 @@ class ProfileCommand extends GeneratorCommand
 
         $description = $input->getOption('description');
         if (!$description) {
-            $description = $output->ask(
+            $description = $io->ask(
                 $this->trans('commands.generate.profile.questions.description'),
                 'My Useful Profile'
             );
@@ -212,7 +213,7 @@ class ProfileCommand extends GeneratorCommand
 
         $core = $input->getOption('core');
         if (!$core) {
-            $core = $output->ask(
+            $core = $io->ask(
                 $this->trans('commands.generate.profile.questions.core'),
                 '8.x'
             );
@@ -221,7 +222,7 @@ class ProfileCommand extends GeneratorCommand
 
         $dependencies = $input->getOption('dependencies');
         if (!$dependencies) {
-            if ($output->confirm(
+            if ($io->confirm(
                 $this->trans('commands.generate.profile.questions.dependencies'),
                 true
             )) {
@@ -235,7 +236,7 @@ class ProfileCommand extends GeneratorCommand
 
         $distribution = $input->getOption('distribution');
         if (!$distribution) {
-            if ($output->confirm(
+            if ($io->confirm(
                 $this->trans('commands.generate.profile.questions.distribution'),
                 false
             )) {

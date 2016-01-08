@@ -1,4 +1,4 @@
-description: "Dump structure and contents of MySQL databases and tables"
+description: "Dump structure and contents of a database"
 arguments:
   database: "Database key from settings.php"
 options:

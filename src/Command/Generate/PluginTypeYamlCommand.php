@@ -68,7 +68,7 @@ class PluginTypeYamlCommand extends GeneratorCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
@@ -81,7 +81,7 @@ class PluginTypeYamlCommand extends GeneratorCommand
         // --class option
         $class_name = $input->getOption('class');
         if (!$class_name) {
-            $class_name = $output->ask(
+            $class_name = $io->ask(
                 $this->trans('commands.generate.plugin.type.yaml.options.class'),
                 'ExamplePlugin'
             );
@@ -91,7 +91,7 @@ class PluginTypeYamlCommand extends GeneratorCommand
         // --plugin-name option
         $plugin_name = $input->getOption('plugin-name');
         if (!$plugin_name) {
-            $plugin_name = $output->ask(
+            $plugin_name = $io->ask(
                 $this->trans('commands.generate.plugin.type.yaml.options.plugin-name'),
                 $this->getStringHelper()->camelCaseToUnderscore($class_name)
             );
@@ -101,7 +101,7 @@ class PluginTypeYamlCommand extends GeneratorCommand
         // --plugin-file-name option
         $plugin_file_name = $input->getOption('plugin-file-name');
         if (!$plugin_file_name) {
-            $plugin_file_name = $output->ask(
+            $plugin_file_name = $io->ask(
                 $this->trans('commands.generate.plugin.type.yaml.options.plugin-file-name'),
                 strtr($plugin_name, '_-', '..')
             );

@@ -31,6 +31,7 @@ questions:
 errors:
     module-dependency: 'Depencia "%s" del modulo faltante'
     class-name-empty: 'El nombre de la Clase no puede estar vacío.'
+    invalid-file-path: 'You must provide a valid file path'
 status:
     enabled: Habilitado
     disabled: Deshabilitado

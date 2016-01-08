@@ -45,6 +45,8 @@ class EditCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
+
         $configName = $input->getArgument('config-name');
         $editor = $input->getArgument('editor');
         $config = $this->getConfigFactory()->getEditable($configName);
@@ -55,14 +57,18 @@ class EditCommand extends ContainerAwareCommand
         $fileSystem = new Filesystem();
 
         if (!$configName) {
-            throw new \Exception($this->trans('commands.config.edit.messages.no-config'));
+            $io->error($this->trans('commands.config.edit.messages.no-config'));
+
+            return;
         }
 
         try {
             $fileSystem->mkdir($temporaryDirectory);
             $fileSystem->dumpFile($configFile, $this->getYamlConfig($configName));
         } catch (IOExceptionInterface $e) {
-            throw new \Exception($this->trans('commands.config.edit.messages.no-directory').' '.$e->getPath());
+            $io->error($this->trans('commands.config.edit.messages.no-directory').' '.$e->getPath());
+
+            return;
         }
         if (!$editor) {
             $editor = $this->getEditor();
@@ -79,25 +85,25 @@ class EditCommand extends ContainerAwareCommand
             $fileSystem->remove($configFile);
         }
         if (!$process->isSuccessful()) {
-            throw new \RuntimeException($process->getErrorOutput());
+            $io->error($process->getErrorOutput());
         }
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $configName = $input->getArgument('config-name');
         if (!$configName) {
             $configFactory = $this->getConfigFactory();
             $configNames = $configFactory->listAll();
-            $configName = $output->choice(
+            $configName = $io->choice(
                 'Choose a configuration',
                 $configNames
             );
-        }
 
-        $input->setArgument('config-name', $configName);
+            $input->setArgument('config-name', $configName);
+        }
     }
 
     /**

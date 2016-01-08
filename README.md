@@ -3,6 +3,7 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Drupal Console](#drupal-console)
+  - [Required PHP version](#required-php-version)
   - [Supported Drupal version](#supported-drupal-version)
   - [Drupal Console documentation](#drupal-console-documentation)
   - [Installing Drupal Console](#installing-drupal-console)
@@ -21,14 +22,16 @@ Drupal Console
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
 
-The Drupal Console is a suite of tools that you run on a command line interface (CLI)
-to generate boilerplate code and interact with a Drupal 8 installation.
+The Drupal Console is a CLI tool, to generate boilerplate code, interact and debug Drupal 8.
 
 ## Change Log
 All notable changes to this project will be documented in the [releases page](https://github.com/hechoendrupal/DrupalConsole/releases) 
 
+## Required PHP version
+PHP 5.5.9 or higher is required to use the Drupal Console application.
+
 ## Supported Drupal version
-The Drupal 8 supported version is [Drupal 8.0.0](http://ftp.drupal.org/files/projects/drupal-8.0.0.tar.gz).
+The Drupal 8 supported version is [Drupal 8.0.1](http://ftp.drupal.org/files/projects/drupal-8.0.1.tar.gz).
 
 ## Drupal Console documentation
 You can read or download the Drupal Console documentation at [bit.ly/console-book](http://bit.ly/console-book).
@@ -54,11 +57,13 @@ chmod +x /usr/local/bin/drupal
 drupal list
 
 # Copy configuration files.
-drupal init [--override]
+drupal init --override
 
 # Generate a module.
 drupal generate:module
 ```
+
+More information about using this project at the [official documentation](https://hechoendrupal.gitbooks.io/drupal-console/content/en/using/project.html).
 
 ## Getting the project to contribute
 
@@ -78,6 +83,25 @@ Now that you have cloned the project, you need to download dependencies via Comp
 $ cd /path/to/DrupalConsole
 $ composer install
 ```
+
+### Running the project
+After using Composer to download dependencies, you can run the project by executing:
+
+```
+$ bin/drupal
+```
+
+### Create a symbolic link
+
+You can run this command to easily access the Drupal Console from anywhere on your system:
+
+```
+$ sudo ln -s /path/to/DrupalConsole/bin/drupal /usr/local/bin/drupal
+```
+
+**NOTE:** The name `drupal` is just an alias you can name it anything you like.
+
+More information about how to contribute with this project at the [official documentation](https://hechoendrupal.gitbooks.io/drupal-console/content/en/contributing/new-features.html).
 
 ## Enabling Autocomplete
 ```

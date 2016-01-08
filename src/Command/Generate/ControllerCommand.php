@@ -63,10 +63,10 @@ class ControllerCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($io)) {
             return;
         }
 
@@ -110,7 +110,8 @@ class ControllerCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
+        $utils = $this->getStringHelper();
 
         // --module option
         $module = $input->getOption('module');
@@ -121,16 +122,16 @@ class ControllerCommand extends GeneratorCommand
         }
 
         // --class option
-        $class_name = $input->getOption('class');
-        if (!$class_name) {
-            $class_name = $output->ask(
+        $className = $input->getOption('class');
+        if (!$className) {
+            $className = $io->ask(
                 $this->trans('commands.generate.controller.questions.class'),
                 'DefaultController',
-                function ($class_name) {
-                    return $this->validateClassName($class_name);
+                function ($className) {
+                    return $this->validateClassName($className);
                 }
             );
-            $input->setOption('class', $class_name);
+            $input->setOption('class', $className);
         }
 
         $routes = [];
@@ -138,9 +139,9 @@ class ControllerCommand extends GeneratorCommand
             // --title option
             $title = $input->getOption('title');
             if (!$title) {
-                $title = $output->ask(
+                $title = $io->ask(
                     $this->trans('commands.generate.controller.questions.title'),
-                    '',
+                    $utils->camelCaseToHuman($className),
                     function ($title) use ($routes) {
                         if (!empty($routes) && empty($title)) {
                             return false;
@@ -167,13 +168,13 @@ class ControllerCommand extends GeneratorCommand
             // --method option
             $method = $input->getOption('method');
             if (!$method) {
-                $method = $output->ask(
+                $method = $io->ask(
                     $this->trans('commands.generate.controller.questions.method'),
                     'index',
                     function ($method) use ($routes) {
                         if (in_array($method, array_column($routes, 'method'))) {
                             throw new \InvalidArgumentException(
-                                sprintf($this->trans('commands.generate.controller.messages.method-already-added'), $title)
+                                sprintf($this->trans('commands.generate.controller.messages.method-already-added'), $method)
                             );
                         }
 
@@ -185,13 +186,13 @@ class ControllerCommand extends GeneratorCommand
             // --route option option
             $route = $input->getOption('route');
             if (!$route) {
-                $route = $output->ask(
+                $route = $io->ask(
                     $this->trans('commands.generate.controller.questions.route'),
                     sprintf('%s/%s/hello/{name}', $module, $method),
                     function ($route) use ($routes) {
                         if (in_array($route, array_column($routes, 'route'))) {
                             throw new \InvalidArgumentException(
-                                sprintf($this->trans('commands.generate.controller.messages.route-already-added'), $new_route)
+                                sprintf($this->trans('commands.generate.controller.messages.route-already-added'), $route)
                             );
                         }
 
@@ -205,6 +206,13 @@ class ControllerCommand extends GeneratorCommand
               'method' => $method,
               'route' => $route
             ];
+
+            if (!$output->confirm(
+                $this->trans('commands.generate.controller.questions.controller-add'),
+                true
+            )) {
+                break;
+            }
         }
 
         $input->setOption('title', array_column($routes, 'title'));
@@ -214,7 +222,7 @@ class ControllerCommand extends GeneratorCommand
         // --test option
         $test = $input->getOption('test');
         if (!$test) {
-            $test = $output->confirm(
+            $test = $io->confirm(
                 $this->trans('commands.generate.controller.questions.test'),
                 true
             );

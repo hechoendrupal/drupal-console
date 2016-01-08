@@ -35,18 +35,13 @@ trait ExportTrait
 
     /**
      * @param $module
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param \Drupal\Console\Style\DrupalStyle $io
      */
-    protected function exportConfig($module, OutputInterface $output, $message)
+    protected function exportConfig($module, \Drupal\Console\Style\DrupalStyle $io, $message)
     {
         $dumper = new Dumper();
 
-        $output->writeln(
-            sprintf(
-                '[+] <info>%s</info>',
-                $message
-            )
-        );
+        $io->info($message);
 
         foreach ($this->configExport as $fileName => $config) {
             $yamlConfig = $dumper->dump($config['data'], 10);
@@ -63,12 +58,7 @@ trait ExportTrait
                 $fileName
             );
 
-            $output->writeln(
-                sprintf(
-                    '- <info>%s</info>',
-                    $configFile
-                )
-            );
+            $io->info('- ' . $configFile);
 
             $configDirectory = sprintf(
                 '%s/%s',
@@ -113,7 +103,7 @@ trait ExportTrait
         }
     }
 
-    protected function exportModuleDependencies($output, $module, $dependencies)
+    protected function exportModuleDependencies($io, $module, $dependencies)
     {
         $yaml = new \Symfony\Component\Yaml\Yaml();
         $info_file = file_get_contents($this->getSite()->getModuleInfoFile($module));
@@ -126,25 +116,22 @@ trait ExportTrait
         }
 
         if (file_put_contents($this->getSite()->getModuleInfoFile($module), $yaml->dump($info_yaml))) {
-            $output->writeln(
-                '<info>[+] ' .
+            $io->info(
+                '[+] ' .
                 sprintf(
                     $this->trans('commands.config.export.view.messages.depencies-included'),
                     $this->getSite()->getModuleInfoFile($module)
-                ) . '</info>'
+                )
             );
 
             foreach ($dependencies as $dependency) {
-                $output->writeln(
-                    '<info>    [-] ' . $dependency . '</info>'
+                $io->info(
+                    '   [-] ' . $dependency
                 );
             }
-
-            $output->writeln('');
         } else {
-            $output->writeln(
-                ' <error>'. $this->trans('commands.site.mode.messages.error-writing-file') . ': ' . $this->getSite()->getModuleInfoFile($module) .'</error>'
-            );
+            $io->error($this->trans('commands.site.mode.messages.error-writing-file') . ': ' . $this->getSite()->getModuleInfoFile($module));
+
             return [];
         }
     }

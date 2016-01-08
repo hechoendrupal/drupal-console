@@ -69,10 +69,10 @@ class ServiceCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($io)) {
             return;
         }
 
@@ -97,7 +97,7 @@ class ServiceCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
@@ -110,7 +110,7 @@ class ServiceCommand extends GeneratorCommand
         // --name option
         $name = $input->getOption('name');
         if (!$name) {
-            $name = $output->ask(
+            $name = $io->ask(
                 $this->trans('commands.generate.service.questions.service-name'),
                 $module.'.default'
             );
@@ -120,7 +120,7 @@ class ServiceCommand extends GeneratorCommand
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $output->ask(
+            $class = $io->ask(
                 $this->trans('commands.generate.service.questions.class'),
                 'DefaultService'
             );
@@ -130,7 +130,7 @@ class ServiceCommand extends GeneratorCommand
         // --interface option
         $interface = $input->getOption('interface');
         if (!$interface) {
-            $interface = $output->confirm(
+            $interface = $io->confirm(
                 $this->trans('commands.generate.service.questions.interface'),
                 true
             );

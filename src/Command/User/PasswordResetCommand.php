@@ -94,7 +94,6 @@ class PasswordResetCommand extends ContainerAwareCommand
 
         $user = $input->getArgument('user');
         if (!$user) {
-
             while (true) {
                 $user = $io->ask(
                     $this->trans('commands.user.password.reset.questions.user'),
@@ -125,8 +124,7 @@ class PasswordResetCommand extends ContainerAwareCommand
 
         $password = $input->getArgument('password');
         if (!$password) {
-
-            while(true) {
+            while (true) {
                 $password = $io->ask(
                     $this->trans('commands.user.password.hash.questions.password'),
                     '',

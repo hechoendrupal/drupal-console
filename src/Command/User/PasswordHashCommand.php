@@ -74,7 +74,6 @@ class PasswordHashCommand extends ContainerAwareCommand
                     function ($pass) use ($passwords, $io) {
                         if (!empty($pass) || count($passwords) >= 1) {
                             if ($pass == '') {
-
                                 return true;
                             }
 
