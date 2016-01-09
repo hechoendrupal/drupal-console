@@ -2,4 +2,4 @@ description: 'Muestra la configuración actual.'
 arguments:
     config-name: 'Nombre de la configuración.'
 errors:
-    config-not-exists: 'The configuration "%s" does not exists.'
+    config-not-exists: 'La configuración "%s" no existe.'

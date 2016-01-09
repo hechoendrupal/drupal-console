@@ -31,7 +31,7 @@ questions:
 errors:
     module-dependency: 'Depencia "%s" del modulo faltante'
     class-name-empty: 'El nombre de la Clase no puede estar vacío.'
-    invalid-file-path: 'You must provide a valid file path'
+    invalid-file-path: 'Debe proporcionar una ruta de archivo válida'
 status:
     enabled: Habilitado
     disabled: Deshabilitado
@@ -39,4 +39,4 @@ messages:
     canceled: 'Generación Cancelada'
     drupal-core: 'Core de Drupal'
     move-phar: 'Accessing console from anywhere on your system'
-    quick-start: 'Download, install and serve Drupal 8'
+    quick-start: 'Descargar, instalar y servir Drupal 8'

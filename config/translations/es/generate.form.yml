@@ -1,5 +1,5 @@
 description: 'Generar un nuevo "%s"'
-help: 'El <info>"%s"</info> comando le ayuda a generar un nuevo "%s"'
+help: 'El comando <info>"%s"</info> le ayuda a generar un nuevo "%s"'
 welcome: 'Bienvenido al generador de formularios de Drupal'
 options:
     module: common.options.module
