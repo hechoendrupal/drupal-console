@@ -72,10 +72,10 @@ class PluginConditionCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($io)) {
             return;
         }
 
@@ -96,7 +96,7 @@ class PluginConditionCommand extends GeneratorCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $entity_manager = $this->getEntityManager();
 
@@ -113,7 +113,7 @@ class PluginConditionCommand extends GeneratorCommand
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $output->ask(
+            $class = $io->ask(
                 $this->trans('commands.generate.plugin.condition.questions.class'),
                 'ExampleCondition'
             );
@@ -123,7 +123,7 @@ class PluginConditionCommand extends GeneratorCommand
         // --plugin label option
         $label = $input->getOption('label');
         if (!$label) {
-            $label = $output->ask(
+            $label = $io->ask(
                 $this->trans('commands.generate.plugin.condition.questions.label'),
                 $this->getStringHelper()->camelCaseToHuman($class)
             );
@@ -133,7 +133,7 @@ class PluginConditionCommand extends GeneratorCommand
         // --plugin-id option
         $pluginId = $input->getOption('plugin-id');
         if (!$pluginId) {
-            $pluginId = $output->ask(
+            $pluginId = $io->ask(
                 $this->trans('commands.generate.plugin.condition.questions.plugin-id'),
                 $this->getStringHelper()->camelCaseToUnderscore($class)
             );
@@ -183,7 +183,7 @@ class PluginConditionCommand extends GeneratorCommand
 
         $context_definition_label = $input->getOption('context-definition-label');
         if (!$context_definition_label) {
-            $context_definition_label = $output->ask(
+            $context_definition_label = $io->ask(
                 $this->trans('commands.generate.plugin.condition.questions.context-definition-label'),
                 $context_definition_id_value?:null
             );
@@ -192,7 +192,7 @@ class PluginConditionCommand extends GeneratorCommand
 
         $context_definition_required = $input->getOption('context-definition-required');
         if (empty($context_definition_required)) {
-            $context_definition_required = $output->confirm(
+            $context_definition_required = $io->confirm(
                 $this->trans('commands.generate.plugin.condition.questions.context-definition-required'),
                 true
             );

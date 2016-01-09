@@ -78,7 +78,7 @@ class FormAlterCommand extends GeneratorCommand
     {
         $this->metadata = [];
 
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $moduleHandler = $this->getModuleHandler();
         $drupal = $this->getDrupalHelper();
@@ -103,7 +103,7 @@ class FormAlterCommand extends GeneratorCommand
             }
 
             if (!empty($forms)) {
-                $formId = $output->choiceNoList(
+                $formId = $io->choiceNoList(
                     $this->trans('commands.generate.form.alter.options.form-id'),
                     array_keys($forms)
                 );

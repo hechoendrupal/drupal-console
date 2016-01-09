@@ -66,10 +66,10 @@ class EventSubscriberCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($io)) {
             return;
         }
 
@@ -94,7 +94,7 @@ class EventSubscriberCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
@@ -107,7 +107,7 @@ class EventSubscriberCommand extends GeneratorCommand
         // --service-name option
         $name = $input->getOption('name');
         if (!$name) {
-            $name = $output->ask(
+            $name = $io->ask(
                 $this->trans('commands.generate.service.questions.service-name'),
                 sprintf('%s.default', $module)
             );
@@ -117,7 +117,7 @@ class EventSubscriberCommand extends GeneratorCommand
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $output->ask(
+            $class = $io->ask(
                 $this->trans('commands.generate.event.subscriber.questions.class'),
                 'DefaultSubscriber'
             );
@@ -136,7 +136,7 @@ class EventSubscriberCommand extends GeneratorCommand
         $services = $input->getOption('services');
         if (!$services) {
             // @see Drupal\Console\Command\ServicesTrait::servicesQuestion
-            $services = $this->servicesQuestion($output);
+            $services = $this->servicesQuestion($io);
             $input->setOption('services', $services);
         }
     }
