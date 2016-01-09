@@ -1,27 +1,27 @@
-description: 'Create dummy users for your Drupal 8 application.'
-help: 'The <info>create:users</info> command helps you create dummy users.'
-welcome: 'Welcome to the Drupal users generator'
+description: 'Crea usuarios de prueba para tu Drupal 8.'
+help: 'El comando <info>create:users</info> le ayuda a crear usuarios de relleno para pruebas.'
+welcome: 'Bienvanido al generador de usuarios para Drupal 8'
 arguments:
-    roles: 'Role(s) to be used in user creation'
+    roles: 'Role(s) que serán usados en la creación de usuarios'
 options:
-    limit: 'How many users would you like to create'
-    password: 'Password to be set to users created'
-    time-range: 'How far back in time should the users be dated'
+    limit: 'Cuántos usuarios le gustaría crear'
+    password: 'Contraseña de los usuarios creados'
+    time-range: 'Cuanta antelación debe tener la fecha de creación de los usuarios'
 questions:
-    roles: 'Select role(s) to be used on user creation'
-    limit: 'Enter how many users would you like to generate'
-    password: 'Enter the password to be set to users created'
-    time-range: 'How far back in time should the users be dated?'
+    roles: 'Seleccione los role(s) con los que serán generados los usuarios'
+    limit: 'Introduzca cuántos usuarios le gustaría crear'
+    password: 'Introduzca la contraseña con la que se generarán los usuarios'
+    time-range: 'Cuanta antelación debe tener la fecha de creación de los usuarios'
     time-ranges:
-        - Now
-        - '1 hour ago'
-        - '1 day ago'
-        - '1 week ago'
-        - '1 month ago'
-        - '1 year ago'
+        - Ahora
+        - 'Hace una hora'
+        - 'Hace un día'
+        - 'Hace una semana'
+        - 'Hace un mes'
+        - 'Hace un año'
 messages:
-    user-id: 'User Id'
+    user-id: 'Id de usuario'
     roles: Roles
-    username: Username
-    created: 'Created Time'
-    created-users: 'Created %s users successfully'
+    username: 'Nombre de usuario'
+    created: 'Fecha de creación'
+    created-users: 'Han sido creados %s usuarios con éxito'
