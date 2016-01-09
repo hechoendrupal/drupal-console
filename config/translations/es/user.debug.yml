@@ -1,14 +1,14 @@
-description: 'Displays current users for the application'
-help: 'The <info>user:debug</info> command helps you get current users.'
-welcome: 'Welcome to the Drupal user debug'
+description: 'Muestra los usuarios actuales del sitio'
+help: 'El comando <info>user:debug</info> le ayuda a obtener un listado de los usuarios existentes.'
+welcome: 'Bienvenido a la herramienta para depurar usuarios en Drupal 8'
 options:
-    roles: 'Roles to filter debug'
-    limit: 'How many users would you listed in debug'
+    roles: 'Indique los roles con los que filtrar el listado de usuarios'
+    limit: 'Cuántos usuarios le gustaría listar'
 questions:
-    roles: 'Select role(s) to be used to filter user debug list'
-    limit: 'Enter how many users would you like to show'
+    roles: 'Seleccione los role(s) que serán usados para filtrar la lista de usuarios'
+    limit: 'Introduzca cuántos usuarios le gustaría que fueran mostrados'
 messages:
-    user-id: 'User ID'
-    username: Username
+    user-id: 'ID de usuario'
+    username: 'Nombre de usuario'
     roles: Roles
-    status: Status
+    status: Estado

@@ -1,7 +1,7 @@
-description: "Show all tables in a given database."
-help: 'The <info>database:table:debug</info> command helps you debug database tables.'
+description: "Muestra todas las tablas de una base de datos dada."
+help: 'El comando <info>database:table:debug</info> le ayuda a debuguear las tablas de su base de datos.'
 arguments:
-  database: "Database key from settings.php"
+  database: "Índice de la base de datos del settings.php"
 messages:
-  table-show: 'Showing tables for %s database'
-  table: 'Table'
+  table-show: 'Mostrando las tablas de la base de datos %s'
+  table: 'Tabla'
