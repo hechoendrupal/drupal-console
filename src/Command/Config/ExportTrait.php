@@ -60,23 +60,13 @@ trait ExportTrait
 
             $io->info('- ' . $configFile);
 
-            $configDirectory = sprintf(
-                '%s/%s',
-                $this->getKernelHelper()->getSitePath(),
-                $configDirectory
-            );
-
             // Create directory if doesn't exist
             if (!file_exists($configDirectory)) {
                 mkdir($configDirectory, 0755, true);
             }
 
             file_put_contents(
-                sprintf(
-                    '%s/%s',
-                    $this->getKernelHelper()->getSitePath(),
-                    $configFile
-                ),
+                $configFile,
                 $yamlConfig
             );
         }
