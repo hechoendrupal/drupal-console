@@ -1,0 +1,5 @@
+description: 'Displays current key:value on settings file.'
+help: 'The <info>generate:plugin:type:yaml</info> command helps you displaying current key:value on settings file.'
+welcome: 'Welcome to the Drupal Settings Debug'
+messages:
+    current: 'Current Key:value on settings file'
