@@ -26,7 +26,6 @@ class ValidateDependenciesListener implements EventSubscriberInterface
         $output = $event->getOutput();
 
         $application = $command->getApplication();
-        $messageHelper = $application->getMessageHelper();
         $translatorHelper = $application->getTranslator();
 
         if (!$command instanceof Command) {
@@ -37,12 +36,12 @@ class ValidateDependenciesListener implements EventSubscriberInterface
 
         if ($dependencies) {
             foreach ($dependencies as $dependency) {
-                if ($application->getValidator()->validateModuleInstalled($dependency) === false) {
+                if (!$application->getValidator()->isModuleInstalled($dependency)) {
                     $errorMessage = sprintf(
                         $translatorHelper->trans('commands.common.errors.module-dependency'),
                         $dependency
                     );
-                    $messageHelper->showMessage($output, $errorMessage, 'error');
+                    $output->error($errorMessage);
                     $event->disableCommand();
                 }
             }
