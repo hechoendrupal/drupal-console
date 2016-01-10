@@ -1,5 +1,5 @@
-description: 'Update project to the latest version.'
-help: 'Update project to the latest version.'
+description: 'Drupal Consoleを最新バージョンに更新する'
+help: 'Drupal Consoleを最新バージョンに更新する'
 options:
     major: 'Update to a new major version, if available.'
     manifest: 'Override the manifest file path.'

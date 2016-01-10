@@ -1,4 +1,4 @@
-description: 'Create a new Drupal project'
+description: 'Drupalプロジェクトを新規作成する'
 arguments:
     site-name: 'Site name'
     version: 'Specific Drupal version to download'
