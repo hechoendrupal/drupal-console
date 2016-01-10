@@ -2,17 +2,17 @@ console:
     arguments:
         drupal: 'Chemin vers la racine de Drupal.'
         shell: 'Lance le terminal.'
-        env: 'Nom de l''environement.'
+        env: 'Nom de l''environnement.'
         no-debug: 'Désactive le mode "debug".'
         learning: 'Affiche plus d''informations.'
         generate-chain: 'Affiche les commandes ainsi que leurs paramètres sous le format yaml pour être réutilisé dans une commande chainée'
         generate-inline: 'Affiche les commandes ainsi que leurs paramètres sur une ligne pour une réutilisation future'
         root: 'Définir la racine de l'instance de drupal à utiliser'
-        uri: 'Définir l'URI du site Drupal à utilser (dans le cas d''un environement multisite ou lors de l'usage d''un port non standard)'
+        uri: 'Définir l'URI du site Drupal à utilser (dans le cas d''un environnement multisite ou lors de l'usage d''un port non standard)'
     messages:
         completed: 'La commande a été correctement exécutée'
         chain:
-            generated: 'Voici sous le format yaml la dernière commande exécutée, copiez-la par exemple dans ~/.console/chain/sample.yml pour l''executer au sein d''une séquence'
+            generated: 'Voici sous le format yaml la dernière commande exécutée, copiez-la par exemple dans ~/.console/chain/sample.yml pour l''exécuter au sein d''une séquence'
         inline:
             generated: 'Voici la dernière commande exécutée pour une pour une réutilisation future'
         generated: 'Vous pouvez maintenant commencer à utiliser le code généré !'
@@ -26,7 +26,7 @@ console:
         invalid-command: 'La commande "%s" n''existe pas.'
     input:
         definition:
-            command: 'Commande à executer'
+            command: 'Commande à exécuter'
             help: 'Affiche ce message d''aide'
             quiet: 'N''affiche aucune message'
             verbose: 'Augmente la verbosité des commandes : 1 pour le mode normal, 2 pour plus d''informations et 3 pour le mode "debug"'
