@@ -9,5 +9,5 @@ questions:
 arguments:
     view-id: 'Identifiant de la vue'
 options:
-    optional-config: 'Export la vue dans un module comme une configuration optionnelle dans votre module'
-    include-module-dependencies: 'Include les dépendances de module dans le fichier info YAML du module'
+    optional-config: 'Exporter la vue dans un module comme une configuration optionnelle dans votre module'
+    include-module-dependencies: 'Inclure les dépendances de module dans le fichier info YAML du module'
