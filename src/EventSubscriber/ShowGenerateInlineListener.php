@@ -24,6 +24,7 @@ class ShowGenerateInlineListener implements EventSubscriberInterface
     ];
 
     private $skipArguments = [
+        'command'
     ];
     /**
      * @param ConsoleTerminateEvent $event
@@ -40,7 +41,6 @@ class ShowGenerateInlineListener implements EventSubscriberInterface
         $this->skipArguments[] = $command_name;
 
         $application = $command->getApplication();
-        $messageHelper = $application->getMessageHelper();
         $translatorHelper = $application->getTranslator();
 
         if ($event->getExitCode() != 0) {
@@ -88,10 +88,8 @@ class ShowGenerateInlineListener implements EventSubscriberInterface
                 $inline.= ' --' . $option_id . '=' . $option;
             }
 
-
             // Print yaml output and message
-            $messageHelper->showMessage(
-                $output,
+            $output->writeln(
                 $translatorHelper->trans('application.console.messages.inline.generated')
             );
 
