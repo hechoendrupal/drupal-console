@@ -1,13 +1,13 @@
-description: 'Export single configuration as yml file.'
+description: 'Exporte une unique configuration sous la forme d''un fichier YAML.'
 arguments:
-    config-name: 'Configuration name.'
+    config-name: 'Nom de la configuration.'
 options:
-    simple-configuration: 'Simple configuration'
+    simple-configuration: 'Configuration simple'
 questions:
-    config-type: 'Configuration type'
-    config-name: 'Configuration name'
+    config-type: 'Type de configuration'
+    config-name: 'Nom de la configuration'
 messages:
-    config-not-found: 'Configuration name not found.'
-    export: 'Configuration was exported at file %s.'
-    invalid-config-type: 'Invalid config type, please select one of the list'
-    invalid-config-name: 'Invalid config name, please select one of the list'
+    config-not-found: 'la configuration n''a pas été trouvée.'
+    export: 'La configuration a été exportée dans le fichier %s.'
+    invalid-config-type: 'Type de configuration invalide, veuillez en choisir un élément de la liste'
+    invalid-config-name: 'Nom de configuration invalide, veuillez en choisir un élément de la liste'
