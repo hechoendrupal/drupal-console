@@ -356,13 +356,13 @@ abstract class ContainerAwareCommand extends Command
         $kernelHelper = $this->getKernelHelper();
         $drupal = $this->getDrupalHelper();
         if ($kernelHelper && $drupal) {
-            $settings = Settings::initialize(
+            Settings::initialize(
                 $drupal->getRoot(),
                 $kernelHelper->getSitePath(),
                 $kernelHelper->getClassLoader()
             );
 
-            return $settings;
+            return Settings::getInstance();
         }
 
         return null;
