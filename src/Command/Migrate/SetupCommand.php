@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Migrate;
 
+use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,7 +22,6 @@ use Drupal\migrate\Plugin\MigratePluginManager;
 use Drupal\migrate\Plugin\RequirementsInterface;
 use Drupal\migrate\Exception\RequirementsException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
-use Drupal\Console\Style\DrupalStyle;
 
 class SetupCommand extends ContainerAwareCommand
 {
@@ -82,6 +82,7 @@ class SetupCommand extends ContainerAwareCommand
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.migrate.setup.options.files-directory')
             );
+
         $this->addDependency('migrate');
     }
 
@@ -89,8 +90,7 @@ class SetupCommand extends ContainerAwareCommand
      * {@inheritdoc}
      */
     protected function interact(InputInterface $input, OutputInterface $output)
-    {   
-
+    {
         $io = new DrupalStyle($input, $output);
 
         // --db-type option
@@ -144,7 +144,7 @@ class SetupCommand extends ContainerAwareCommand
             $input->setOption('db-port', $db_port);
         }
 
-        // --files-directory
+         // --files-directory
         $files_directory = $input->getOption('files-directory');
         if (!$files_directory) {
             $files_directory = $io->ask(
@@ -153,34 +153,34 @@ class SetupCommand extends ContainerAwareCommand
            );
             $input->setOption('files-directory', $files_directory);
         }
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $template_storage = \Drupal::service('migrate.template_storage');
+        $io = new DrupalStyle($input, $output);
+        $template_storage = $this->hasGetService('migrate.template_storage');
         $source_base_path = $input->getOption('files-directory');
 
         $this->registerMigrateDB($input, $output);
         $this->migrateConnection = $this->getDBConnection($output, 'default', 'migrate');
 
         if (!$drupal_version = $this->getLegacyDrupalVersion($this->migrateConnection)) {
-            $output->writeln(
-                '[-] <error>'.
-                $this->trans('commands.migrate.setup.questions.not-drupal')
-                .'</error>'
-            );
+            $io->error($this->trans('commands.migrate.setup.questions.not-drupal'));
             return;
         }
 
         $database_state['key'] = 'upgrade';
         $database_state['database'] = $this->getDBInfo();
         $database_state_key = 'migrate_upgrade_' . $drupal_version;
+
         \Drupal::state()->set($database_state_key, $database_state);
 
         $version_tag = 'Drupal ' . $drupal_version;
 
         $migration_templates = $template_storage->findTemplatesByTag($version_tag);
+
+        $migrations = [];
+        $builderManager = $this->hasGetService('migrate.migration_builder');
         foreach ($migration_templates as $id => $template) {
           $migration_templates[$id]['source']['database_state_key'] = $database_state_key;
           // Configure file migrations so they can find the files.
@@ -196,9 +196,8 @@ class SetupCommand extends ContainerAwareCommand
         // Let the builder service create our migration configuration entities from
         // the templates, expanding them to multiple entities where necessary.
         /** @var \Drupal\migrate\MigrationBuilder $builder */
-       $builder = \Drupal::service('migrate.migration_builder');
-       $migrations = $builder->createMigrations($migration_templates);
-       foreach ($migrations as $migration) {
+        $migrations = $builderManager->createMigrations($migration_templates);
+        foreach ($migrations as $migration) {
             try {
                 if ($migration->getSourcePlugin() instanceof RequirementsInterface) {
                     $migration->getSourcePlugin()->checkRequirements();
@@ -216,49 +215,35 @@ class SetupCommand extends ContainerAwareCommand
             // site configurations (e.g., what modules are enabled) will be silently
             // ignored.
             catch (RequirementsException $e) {
-                $output->writeln(
-                    '[-] <error>'.
-                    $e->getMessage()
-                    .'</error>'
-                );
+                $io->error($e->getMessage());
             } catch (PluginNotFoundException $e) {
-                $output->writeln(
-                    '[-] <error>'.
-                    $e->getMessage()
-                    .'</error>'
-                );
+                $io->error($e->getMessage());
             }
         }
 
         if (empty($migration_ids)) {
             if (empty($migrations)) {
-                $output->writeln(
-                    '[-] <info>' .
+                $io->info(
                     sprintf(
                         $this->trans('commands.migrate.setup.messages.migrations-not-found'),
                         count($migrations)
                     )
-                    . '</info>'
                 );
             } else {
-                $output->writeln(
-                    '[-] <error>' .
+                $io->error(
                     sprintf(
                         $this->trans('commands.migrate.setup.messages.migrations-already-exist'),
                         count($migrations)
                     )
-                    . '</error>'
                 );
             }
         } else {
-            $output->writeln(
-                '[-] <info>' .
+            $io->info(
                 sprintf(
                     $this->trans('commands.migrate.setup.messages.migrations-created'),
                     count($migrations),
                     $version_tag
                 )
-                . '</info>'
             );
         }
     }
