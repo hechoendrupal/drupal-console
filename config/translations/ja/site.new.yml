@@ -1,10 +1,10 @@
-description: 'Drupalプロジェクトを新規作成する'
+description: Drupalプロジェクトを新規作成する
 arguments:
-    site-name: 'サイト名'
-    version: 'ダウンロードするDrupalのバージョン'
+    site-name: サイト名
+    version: ダウンロードするDrupalのバージョン
 messages:
-    select-release: 'コアのリリースを選択'
-    getting-releases: 'Drupalのリリースを取得中'
+    select-release: コアのリリースを選択
+    getting-releases: Drupalのリリースを取得中
     downloading: '%s %s をダウンロードしています'
     extracting: 'Drupal %s のファイルを展開しています'
     no-releases: 'There aren''t any releases available for Drupal'

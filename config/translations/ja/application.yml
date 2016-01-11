@@ -1,14 +1,17 @@
 console:
     arguments:
-        drupal: 'Path to Drupal root.'
-        shell: 'Launch the shell.'
         env: 'The Environment name.'
         no-debug: 'Switches off debug mode.'
         learning: 'Generate a verbose code output.'
         generate-chain: 'Print execution options and arguments as yaml output to be used in chain command'
         generate-inline: 'Print execution options and arguments as inline call to be use in the future'
+        generate-doc: 'Shows command options and arguments as markdown'
         root: 'Define the Drupal root to be use in command execution'
         uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
+        'yes': 'Skip confirmation and proceed'
+        target: 'Site name you want to interact with (for local or remote sites)'
+        drupal: 'Path to Drupal root.'
+        shell: 'Launch the shell.'
     messages:
         completed: 'The command was executed successfully!'
         chain:
