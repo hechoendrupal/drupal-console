@@ -70,19 +70,11 @@ trait HelperTrait
     }
 
     /**
-     * @return \Drupal\Console\Helper\MessageHelper
+     * @return \Drupal\Console\Helper\ShowFileHelper
      */
-    public function getMessageHelper()
+    public function getShowFileHelper()
     {
-        return $this->getHelperSet()->get('message');
-    }
-
-    /**
-     * @return \Symfony\Component\Console\Helper\QuestionHelper
-     */
-    public function getQuestionHelper()
-    {
-        return $this->getHelperSet()->get('question');
+        return $this->getHelperSet()->get('showFile');
     }
 
     /**
@@ -107,14 +99,6 @@ trait HelperTrait
     public function getCommandDiscoveryHelper()
     {
         return $this->getHelperSet()->get('commandDiscovery');
-    }
-
-    /**
-     * @return \Symfony\Component\Console\Helper\FormatterHelper
-     */
-    public function getFormatterHelper()
-    {
-        return $this->getHelperSet()->get('formatter');
     }
 
     /**

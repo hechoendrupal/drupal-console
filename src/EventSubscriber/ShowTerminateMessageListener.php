@@ -22,12 +22,17 @@ class ShowTerminateMessageListener implements EventSubscriberInterface
          * @var \Drupal\Console\Command\Command $command
          */
         $command = $event->getCommand();
-        $output = $event->getOutput();
+
+        /**
+         * @var \Drupal\Console\Style\DrupalStyle $io
+         */
+        $io = $event->getOutput();
 
         $application = $command->getApplication();
-        $messageHelper = $application->getMessageHelper();
 
-        $messageHelper->showMessages($output);
+        if ($errorMessage = $application->getErrorMessage()) {
+            $io->warning($errorMessage);
+        }
 
         if ($event->getExitCode() != 0) {
             return;

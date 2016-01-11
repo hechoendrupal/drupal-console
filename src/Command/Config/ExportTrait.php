@@ -7,8 +7,9 @@
 
 namespace Drupal\Console\Command\Config;
 
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Dumper;
+use \Symfony\Component\Yaml\Yaml;
+use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class ConfigExportTrait
@@ -34,10 +35,10 @@ trait ExportTrait
     }
 
     /**
-     * @param $module
-     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param string      $module
+     * @param DrupalStyle $io
      */
-    protected function exportConfig($module, \Drupal\Console\Style\DrupalStyle $io, $message)
+    protected function exportConfig($module, DrupalStyle $io, $message)
     {
         $dumper = new Dumper();
 
@@ -95,7 +96,7 @@ trait ExportTrait
 
     protected function exportModuleDependencies($io, $module, $dependencies)
     {
-        $yaml = new \Symfony\Component\Yaml\Yaml();
+        $yaml = new Yaml();
         $info_file = file_get_contents($this->getSite()->getModuleInfoFile($module));
         $info_yaml = $yaml->parse($info_file);
 

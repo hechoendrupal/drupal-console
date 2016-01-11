@@ -12,12 +12,16 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class ShowWelcomeMessageListener
+ * @package Drupal\Console\EventSubscriber
+ */
 class ShowWelcomeMessageListener implements EventSubscriberInterface
 {
     /**
      * @param ConsoleCommandEvent $event
      */
-    public function showMessage(ConsoleCommandEvent $event)
+    public function showWelcomeMessage(ConsoleCommandEvent $event)
     {
         /**
          * @var \Drupal\Console\Command\Command $command
@@ -44,6 +48,6 @@ class ShowWelcomeMessageListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return [ConsoleEvents::COMMAND => 'showMessage'];
+        return [ConsoleEvents::COMMAND => 'showWelcomeMessage'];
     }
 }
