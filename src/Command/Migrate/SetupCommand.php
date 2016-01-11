@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\Migrate;
 
-use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,6 +21,7 @@ use Drupal\migrate\Plugin\MigratePluginManager;
 use Drupal\migrate\Plugin\RequirementsInterface;
 use Drupal\migrate\Exception\RequirementsException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
+use Drupal\Console\Style\DrupalStyle;
 
 class SetupCommand extends ContainerAwareCommand
 {
@@ -75,8 +75,13 @@ class SetupCommand extends ContainerAwareCommand
                 '',
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.migrate.setup.options.db-port')
+            )
+            ->addOption(
+                'files-directory',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.migrate.setup.options.files-directory')
             );
-
         $this->addDependency('migrate');
     }
 
@@ -84,7 +89,10 @@ class SetupCommand extends ContainerAwareCommand
      * {@inheritdoc}
      */
     protected function interact(InputInterface $input, OutputInterface $output)
-    {
+    {   
+
+        $io = new DrupalStyle($input, $output);
+
         // --db-type option
         $db_type = $input->getOption('db-type');
         if (!$db_type) {
@@ -135,52 +143,62 @@ class SetupCommand extends ContainerAwareCommand
             $db_port = $this->dbPortQuestion($output);
             $input->setOption('db-port', $db_port);
         }
+
+        // --files-directory
+        $files_directory = $input->getOption('files-directory');
+        if (!$files_directory) {
+            $files_directory = $io->ask(
+              $this->trans('commands.migrate.setup.questions.files-directory'),
+              ''
+            );
+            $input->setOption('files-directory', $files_directory);
+        }
+
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-        $template_storage = $this->hasGetService('migrate.template_storage');
+        $template_storage = \Drupal::service('migrate.template_storage');
+        $source_base_path = $input->getOption('files-directory');
 
         $this->registerMigrateDB($input, $output);
         $this->migrateConnection = $this->getDBConnection($output, 'default', 'migrate');
 
         if (!$drupal_version = $this->getLegacyDrupalVersion($this->migrateConnection)) {
-            $io->error($this->trans('commands.migrate.setup.questions.not-drupal'));
+            $output->writeln(
+                '[-] <error>'.
+                $this->trans('commands.migrate.setup.questions.not-drupal')
+                .'</error>'
+            );
             return;
         }
 
         $database_state['key'] = 'upgrade';
         $database_state['database'] = $this->getDBInfo();
         $database_state_key = 'migrate_upgrade_' . $drupal_version;
-
         \Drupal::state()->set($database_state_key, $database_state);
 
         $version_tag = 'Drupal ' . $drupal_version;
 
         $migration_templates = $template_storage->findTemplatesByTag($version_tag);
-
-        $migrations = [];
-        $builderManager = $this->hasGetService('plugin.manager.migrate.builder');
-        foreach ($migration_templates as $template_id => $template) {
-            if (isset($template['builder'])) {
-                $variants = $builderManager
-                    ->createInstance($template['builder']['plugin'], $template['builder'])
-                    ->buildMigrations($template);
-            } else {
-                $variants = array(Migration::create($template));
+        foreach ($migration_templates as $id => $template) {
+          $migration_templates[$id]['source']['database_state_key'] = $database_state_key;
+          // Configure file migrations so they can find the files.
+          if ($template['destination']['plugin'] == 'entity:file') {
+            if ($source_base_path) {
+              // Make sure we have a single trailing slash.
+              $source_base_path = rtrim($source_base_path, '/') . '/';
+              $migration_templates[$id]['destination']['source_base_path'] = $source_base_path;
             }
-
-            /**
-             * @var \Drupal\migrate\Entity\MigrationInterface[] $variants
-             */
-            foreach ($variants as $variant) {
-                $variant->set('template', $template_id);
-            }
-            $migrations = array_merge($migrations, $variants);
+          }
         }
 
-        foreach ($migrations as $migration) {
+        // Let the builder service create our migration configuration entities from
+        // the templates, expanding them to multiple entities where necessary.
+        /** @var \Drupal\migrate\MigrationBuilder $builder */
+       $builder = \Drupal::service('migrate.migration_builder');
+       $migrations = $builder->createMigrations($migration_templates);
+       foreach ($migrations as $migration) {
             try {
                 if ($migration->getSourcePlugin() instanceof RequirementsInterface) {
                     $migration->getSourcePlugin()->checkRequirements();
@@ -198,35 +216,49 @@ class SetupCommand extends ContainerAwareCommand
             // site configurations (e.g., what modules are enabled) will be silently
             // ignored.
             catch (RequirementsException $e) {
-                $io->error($e->getMessage());
+                $output->writeln(
+                    '[-] <error>'.
+                    $e->getMessage()
+                    .'</error>'
+                );
             } catch (PluginNotFoundException $e) {
-                $io->error($e->getMessage());
+                $output->writeln(
+                    '[-] <error>'.
+                    $e->getMessage()
+                    .'</error>'
+                );
             }
         }
 
         if (empty($migration_ids)) {
             if (empty($migrations)) {
-                $io->info(
+                $output->writeln(
+                    '[-] <info>' .
                     sprintf(
                         $this->trans('commands.migrate.setup.messages.migrations-not-found'),
                         count($migrations)
                     )
+                    . '</info>'
                 );
             } else {
-                $io->error(
+                $output->writeln(
+                    '[-] <error>' .
                     sprintf(
                         $this->trans('commands.migrate.setup.messages.migrations-already-exist'),
                         count($migrations)
                     )
+                    . '</error>'
                 );
             }
         } else {
-            $io->info(
+            $output->writeln(
+                '[-] <info>' .
                 sprintf(
                     $this->trans('commands.migrate.setup.messages.migrations-created'),
                     count($migrations),
                     $version_tag
                 )
+                . '</info>'
             );
         }
     }
