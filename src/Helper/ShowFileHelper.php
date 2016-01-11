@@ -91,6 +91,6 @@ class ShowFileHelper extends Helper
      */
     public function getName()
     {
-        return 'message';
+        return 'showFile';
     }
 }
