@@ -26,4 +26,3 @@ messages:
     created: 'Created Time'
     invalid-content-types: 'Content types %s are invalid'
     created-nodes: 'Created %s nodes successfully'
-    
