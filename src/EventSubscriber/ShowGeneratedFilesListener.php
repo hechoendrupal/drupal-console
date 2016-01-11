@@ -26,7 +26,7 @@ class ShowGeneratedFilesListener implements EventSubscriberInterface
         $output = $event->getOutput();
 
         $application = $command->getApplication();
-        $messageHelper = $application->getMessageHelper();
+        $showFileHelper = $application->getShowFileHelper();
 
         if ($event->getExitCode() != 0) {
             return;
@@ -39,7 +39,7 @@ class ShowGeneratedFilesListener implements EventSubscriberInterface
         if ($command instanceof GeneratorCommand) {
             $files = $command->getGenerator()->getFiles();
             if ($files) {
-                $messageHelper->showGeneratedFiles($output, $files);
+                $showFileHelper->generatedFiles($output, $files);
             }
         }
     }

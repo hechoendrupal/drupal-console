@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ServicesTrait;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\FormTrait;
-use Symfony\Component\Console\Question\ChoiceQuestion;
 use Drupal\Console\Generator\PluginRestResourceGenerator;
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
@@ -159,21 +158,12 @@ class PluginRestResourceCommand extends GeneratorCommand
         // --plugin-states option
         $plugin_states = $input->getOption('plugin-states');
         if (!$plugin_states) {
-            $questionHelper = $this->getQuestionHelper();
             $states = array('GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS');
-            $question = new ChoiceQuestion(
+            $plugin_states = $io->choice(
                 $this->trans('commands.generate.plugin.rest.resource.questions.plugin-states'),
                 $states,
-                '0'
-            );
-
-            $question->setMultiselect(true);
-            $plugin_states = $questionHelper->ask($input, $output, $question);
-            $io->info(
-                $this->trans('commands.generate.plugin.rest.resource.messages.selected-states').' '.implode(
-                    ', ',
-                    $plugin_states
-                )
+                null,
+                true
             );
 
             $input->setOption('plugin-states', $plugin_states);

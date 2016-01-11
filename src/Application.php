@@ -58,6 +58,11 @@ class Application extends BaseApplication
     protected $commandName;
 
     /**
+     * @var string
+     */
+    protected $errorMessage;
+
+    /**
      * Create a new application.
      *
      * @param $config
@@ -149,6 +154,7 @@ class Application extends BaseApplication
         $root = null;
         $config = $this->getConfig();
         $target = $input->getParameterOption(['--target'], null);
+        $commandName = null;
 
         if ($input) {
             $commandName = $this->getCommandName($input);
@@ -204,9 +210,7 @@ class Application extends BaseApplication
         if (!$drupal->isValidRoot($root, $recursive)) {
             $commands = $this->getCommandDiscoveryHelper()->getConsoleCommands();
             if (!$commandName) {
-                $this->getMessageHelper()->addWarningMessage(
-                    $this->trans('application.site.errors.directory')
-                );
+                $this->errorMessage = $this->trans('application.site.errors.directory');
             }
             $this->registerCommands($commands);
         } else {
@@ -249,11 +253,7 @@ class Application extends BaseApplication
             $commands = $this->getCommandDiscoveryHelper()->getCommands();
         } else {
             $commands = $this->getCommandDiscoveryHelper()->getConsoleCommands();
-            if (!$commandName) {
-                $this->getMessageHelper()->addWarningMessage(
-                    $this->trans('application.site.errors.settings')
-                );
-            }
+            $this->errorMessage = $this->trans('application.site.errors.settings');
         }
 
         $this->registerCommands($commands);
@@ -388,5 +388,13 @@ class Application extends BaseApplication
     public function trans($key)
     {
         return $this->translator->trans($key);
+    }
+
+    /**
+     * @return string
+     */
+    public function getErrorMessage()
+    {
+        return $this->errorMessage;
     }
 }

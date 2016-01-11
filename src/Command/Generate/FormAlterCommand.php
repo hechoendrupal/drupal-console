@@ -10,7 +10,6 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ChoiceQuestion;
 use Drupal\Console\Generator\FormAlterGenerator;
 use Drupal\Console\Command\ServicesTrait;
 use Drupal\Console\Command\ModuleTrait;
@@ -82,7 +81,6 @@ class FormAlterCommand extends GeneratorCommand
 
         $moduleHandler = $this->getModuleHandler();
         $drupal = $this->getDrupalHelper();
-        $questionHelper = $this->getQuestionHelper();
 
         // --module option
         $module = $input->getOption('module');
@@ -119,21 +117,13 @@ class FormAlterCommand extends GeneratorCommand
 
             $formItems = array_keys($forms[$formId]['form']);
 
-            $question = new ChoiceQuestion(
+            $formItemsToHide = $io->choice(
                 $this->trans('commands.generate.form.alter.messages.hide-form-elements'),
-                array_combine($formItems, $formItems),
-                '0'
+                $formItems,
+                null,
+                true
             );
 
-            $question->setMultiselect(true);
-
-            $question->setValidator(
-                function ($answer) {
-                    return $answer;
-                }
-            );
-
-            $formItemsToHide = $questionHelper->ask($input, $output, $question);
             $this->metadata['unset'] = array_filter(array_map('trim', explode(',', $formItemsToHide)));
         }
 

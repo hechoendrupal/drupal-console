@@ -8,17 +8,12 @@
 namespace Drupal\Console\Command\Migrate;
 
 use Drupal\Console\Style\DrupalStyle;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ChoiceQuestion;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Command\Database\DatabaseTrait;
-use Drupal\Core\Database\Database;
-use Drupal\Core\Database\Connection;
 use Drupal\migrate\Entity\Migration;
-use Drupal\migrate\Plugin\MigratePluginManager;
 use Drupal\migrate\Plugin\RequirementsInterface;
 use Drupal\migrate\Exception\RequirementsException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;

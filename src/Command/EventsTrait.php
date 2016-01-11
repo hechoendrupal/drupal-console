@@ -9,10 +9,14 @@ namespace Drupal\Console\Command;
 
 use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class EventsTrait
+ * @package Drupal\Console\Command
+ */
 trait EventsTrait
 {
     /**
-     * @param DrupalStyle $output
+     * @param DrupalStyle $io
      *
      * @return mixed
      */
