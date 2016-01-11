@@ -75,6 +75,12 @@ class SetupCommand extends ContainerAwareCommand
                 '',
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.migrate.setup.options.db-port')
+            )
+            ->addOption(
+                'files-directory',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.migrate.setup.options.files-directory')
             );
 
         $this->addDependency('migrate');
@@ -85,6 +91,8 @@ class SetupCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
+
         // --db-type option
         $db_type = $input->getOption('db-type');
         if (!$db_type) {
@@ -135,12 +143,23 @@ class SetupCommand extends ContainerAwareCommand
             $db_port = $this->dbPortQuestion($output);
             $input->setOption('db-port', $db_port);
         }
+
+         // --files-directory
+        $files_directory = $input->getOption('files-directory');
+        if (!$files_directory) {
+            $files_directory = $io->ask(
+              $this->trans('commands.migrate.setup.questions.files-directory'),
+              ''
+           );
+            $input->setOption('files-directory', $files_directory);
+        }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
         $template_storage = $this->hasGetService('migrate.template_storage');
+        $source_base_path = $input->getOption('files-directory');
 
         $this->registerMigrateDB($input, $output);
         $this->migrateConnection = $this->getDBConnection($output, 'default', 'migrate');
@@ -161,25 +180,23 @@ class SetupCommand extends ContainerAwareCommand
         $migration_templates = $template_storage->findTemplatesByTag($version_tag);
 
         $migrations = [];
-        $builderManager = $this->hasGetService('plugin.manager.migrate.builder');
-        foreach ($migration_templates as $template_id => $template) {
-            if (isset($template['builder'])) {
-                $variants = $builderManager
-                    ->createInstance($template['builder']['plugin'], $template['builder'])
-                    ->buildMigrations($template);
-            } else {
-                $variants = array(Migration::create($template));
+        $builderManager = $this->hasGetService('migrate.migration_builder');
+        foreach ($migration_templates as $id => $template) {
+          $migration_templates[$id]['source']['database_state_key'] = $database_state_key;
+          // Configure file migrations so they can find the files.
+          if ($template['destination']['plugin'] == 'entity:file') {
+            if ($source_base_path) {
+              // Make sure we have a single trailing slash.
+              $source_base_path = rtrim($source_base_path, '/') . '/';
+              $migration_templates[$id]['destination']['source_base_path'] = $source_base_path;
             }
-
-            /**
-             * @var \Drupal\migrate\Entity\MigrationInterface[] $variants
-             */
-            foreach ($variants as $variant) {
-                $variant->set('template', $template_id);
-            }
-            $migrations = array_merge($migrations, $variants);
+          }
         }
 
+        // Let the builder service create our migration configuration entities from
+        // the templates, expanding them to multiple entities where necessary.
+        /** @var \Drupal\migrate\MigrationBuilder $builder */
+        $migrations = $builderManager->createMigrations($migration_templates);
         foreach ($migrations as $migration) {
             try {
                 if ($migration->getSourcePlugin() instanceof RequirementsInterface) {
