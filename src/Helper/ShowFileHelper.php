@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\MessageHelper.
+ * Contains Drupal\Console\Command\ShowFileHelper.
  */
 
 namespace Drupal\Console\Helper;
@@ -10,6 +10,10 @@ namespace Drupal\Console\Helper;
 use Drupal\Console\Helper\Helper;
 use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class ShowFileHelper
+ * @package Drupal\Console\Helper
+ */
 class ShowFileHelper extends Helper
 {
     /**
