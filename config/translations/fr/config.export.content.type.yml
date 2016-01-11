@@ -9,4 +9,4 @@ questions:
 messages:
     content_type_exported: 'Export du type de contenu'
 options:
-    optional-config: 'Export du type de contenu dans votre module sous la forme d'un fichier YAML de configuration optionnelle'
+    optional-config: "Export du type de contenu dans votre module sous la forme d'un fichier YAML de configuration optionnelle"
