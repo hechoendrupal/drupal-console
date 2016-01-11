@@ -92,7 +92,6 @@ class ModuleCommand extends GeneratorCommand
         $io = new DrupalStyle($input, $output);
 
         $validators = $this->getValidator();
-        $messageHelper = $this->getMessageHelper();
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
@@ -120,7 +119,7 @@ class ModuleCommand extends GeneratorCommand
         if ($dependencies) {
             $checked_dependencies = $this->checkDependencies($dependencies['success']);
             if (!empty($checked_dependencies['no_modules'])) {
-                $messageHelper->addWarningMessage(
+                $io->warning(
                     sprintf(
                         $this->trans('commands.generate.module.warnings.module-unavailable'),
                         implode(', ', $checked_dependencies['no_modules'])

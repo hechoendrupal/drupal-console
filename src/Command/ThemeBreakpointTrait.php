@@ -12,18 +12,18 @@ use Drupal\Console\Style\DrupalStyle;
 trait ThemeBreakpointTrait
 {
     /**
-     * @param DrupalStyle $output
+     * @param DrupalStyle $io
      *
      * @return mixed
      */
-    public function breakpointQuestion(DrupalStyle $output)
+    public function breakpointQuestion(DrupalStyle $io)
     {
         $stringUtils = $this->getStringHelper();
         $validators = $this->getValidator();
 
         $breakpoints = [];
         while (true) {
-            $breakPointName = $output->ask(
+            $breakPointName = $io->ask(
                 $this->trans('commands.generate.theme.questions.breakpoint-name'),
                 'narrow',
                 function ($breakPointName) use ($validators) {
@@ -32,7 +32,7 @@ trait ThemeBreakpointTrait
             );
 
             $breakPointLabel = $stringUtils->createMachineName($breakPointName);
-            $breakPointLabel = $output->ask(
+            $breakPointLabel = $io->ask(
                 $this->trans('commands.generate.theme.questions.breakpoint-label'),
                 $breakPointLabel,
                 function ($breakPointLabel) use ($validators) {
@@ -40,17 +40,17 @@ trait ThemeBreakpointTrait
                 }
             );
 
-            $breakPointMediaQuery = $output->ask(
+            $breakPointMediaQuery = $io->ask(
                 $this->trans('commands.generate.theme.questions.breakpoint-media-query'),
                 'all and (min-width: 560px) and (max-width: 850px)'
             );
 
-            $breakPointWeight = $output->ask(
+            $breakPointWeight = $io->ask(
                 $this->trans('commands.generate.theme.questions.breakpoint-weight'),
                 '1'
             );
 
-            $breakPointMultipliers = $output->ask(
+            $breakPointMultipliers = $io->ask(
                 $this->trans('commands.generate.theme.questions.breakpoint-multipliers'),
                 '1x'
             );
@@ -66,7 +66,7 @@ trait ThemeBreakpointTrait
                 ]
             );
 
-            if (!$output->confirm(
+            if (!$io->confirm(
                 $this->trans('commands.generate.theme.questions.breakpoint-add'),
                 true
             )) {
