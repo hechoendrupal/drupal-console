@@ -7,7 +7,7 @@ options:
     db-pass: 'Database Pass'
     db-prefix: 'Database Prefix'
     db-port: 'Database Port'
-    files-directory: 'File Directory'
+    files-directory: 'Files Directory'
 questions:
     db-type: 'Drupal Database type'
     db-host: 'Database Host'
