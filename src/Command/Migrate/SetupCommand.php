@@ -150,7 +150,7 @@ class SetupCommand extends ContainerAwareCommand
             $files_directory = $io->ask(
               $this->trans('commands.migrate.setup.questions.files-directory'),
               ''
-            );
+           );
             $input->setOption('files-directory', $files_directory);
         }
 
