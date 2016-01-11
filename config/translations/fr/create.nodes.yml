@@ -1,4 +1,4 @@
-description: 'Créer des nodes "Lorem ipsum" pour votre application Drupal 8.'
+description: 'Créer des nodes factices pour votre application Drupal 8.'
 help: 'La commande <info>create:nodes</info> vous assiste dans la génération de contenu factice de type "Lorem ipsum".'
 welcome: 'Bienvenue dans le générateur de nodes Drupal'
 arguments:
