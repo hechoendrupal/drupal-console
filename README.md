@@ -31,7 +31,7 @@ All notable changes to this project will be documented in the [releases page](ht
 PHP 5.5.9 or higher is required to use the Drupal Console application.
 
 ## Supported Drupal version
-The Drupal 8 supported version is [Drupal 8.0.1](http://ftp.drupal.org/files/projects/drupal-8.0.1.tar.gz).
+The Drupal 8 supported version is [Drupal 8.0.2](http://ftp.drupal.org/files/projects/drupal-8.0.2.tar.gz).
 
 ## Drupal Console documentation
 You can read or download the Drupal Console documentation at [bit.ly/console-book](http://bit.ly/console-book).
