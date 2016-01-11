@@ -1,14 +1,17 @@
 console:
     arguments:
-        drupal: 'Caminho da raiz do drupal.'
-        shell: 'Iniciar o shell.'
         env: 'Nome do ambiente.'
         no-debug: 'Desligar o modo de depuração.'
         learning: 'Gerar código com explicações.'
         generate-chain: 'Imprimir opções e argumentos como YAML para ser usado o comando chain'
         generate-inline: 'Imprimir opções e argumentos de execução como chamada inline para ser usado no futuro'
+        generate-doc: 'Shows command options and arguments as markdown'
         root: 'Define a rais do Drupal que utilizará os comandos em execução.'
         uri: 'URI do site Drupal para usar (para ambientes multisites ou quando usado em uma porta alternativa)'
+        'yes': 'Skip confirmation and proceed'
+        target: 'Site name you want to interact with (for local or remote sites)'
+        drupal: 'Caminho da raiz do drupal.'
+        shell: 'Iniciar o shell.'
     messages:
         completed: 'O comando foi executado com sucesso!'
         chain:

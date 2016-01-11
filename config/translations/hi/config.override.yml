@@ -8,3 +8,7 @@ messages:
     configuration-key: 'व्यवस्था की कुंजी'
     original: 'मूल निधि'
     updated: 'चढ़ाई निधि'
+examples:
+    -
+        description: 'Définir la valeur de "flood" du module Contact à 10.'
+        execution: 'drupal config:override contact.settings flood.limit 10'

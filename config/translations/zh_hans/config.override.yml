@@ -8,3 +8,7 @@ messages:
     configuration-key: '配置键'
     original: 起始值
     updated: 覆盖值
+examples:
+    -
+        description: 'Définir la valeur de "flood" du module Contact à 10.'
+        execution: 'drupal config:override contact.settings flood.limit 10'
