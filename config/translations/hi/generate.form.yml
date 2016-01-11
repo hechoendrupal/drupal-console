@@ -15,6 +15,10 @@ questions:
     services: common.questions.services
     inputs: common.questions.inputs
     routing: 'राउटिंग फाइल अवगत करें'
+    menu_link_gen: 'Generate a menu link'
+    menu_link_title: 'A title for the menu link'
+    menu_parent: 'Menu parent'
+    menu_link_desc: 'A description for the menu link'
 alter:
     description: 'एक hook_form_alter() या hook_form_FORM_ID_alter कार्यान्वयन उत्पन्न करें'
     help: '<info>%s</info> कमाण्ड एक नया %s उत्पन्न करने में मदद करता है'
