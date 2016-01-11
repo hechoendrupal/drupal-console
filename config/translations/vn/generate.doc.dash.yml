@@ -1,5 +1,5 @@
-description: 'Generate the DrupalConsole.docset package for Dash'
+description: 'Tạo gói DrupalConsole.docset cho Dash'
 options:
-    path: 'The path to the directory where the docset will be saved.'
+    path: 'Đường dẫn đến thư mục mà docset sẽ được lưu.'
 messages:
     missing_path: 'thiếu đường dẫn'

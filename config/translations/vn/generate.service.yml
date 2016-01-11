@@ -1,15 +1,15 @@
 description: 'Tạo dịch vụ'
 help: ' Câu lệnh <info>generate:service</info> giúp bạn tạo một dịch vụ mới.'
-welcome: 'Chào mừng bạn đến với phần tạo dịch vụ Drupal'
+welcome: 'Chào mừng đến với phần tạo dịch vụ Drupal'
 options:
     module: common.options.module
     service-name: 'Tên dịch vụ'
-    class-name: 'Tên Class'
+    class: 'Tên lớp'
     interface: Interface
     services: common.questions.services
 questions:
     module: common.questions.module
     service-name: 'Nhập tên dịch vụ'
-    class-name: 'Nhập tên Class'
+    class: 'Nhập tên lớp'
     interface: 'Tạo một giao diện người dùng'
     services: common.options.services

@@ -1,15 +1,15 @@
-description: 'Danh sách kiểm tra các đơn vị có sẵn của ứng dụng.'
-help: 'Cập nhật các câu lệnh console vào phiên bản mới nhất.'
+description: 'Danh sách các đơn vị thử nghiệm có sẵn của ứng dụng.'
+help: 'Cập nhật các câu lệnh console lên phiên bản mới nhất.'
 arguments:
-    test-class: 'Kiểm tra Class'
+    test-class: 'Lớp thử nghiệm'
 options:
     group: Nhóm
 messages:
-    class: 'Kiểm tra Class'
+    class: 'Lớp thử nghiệm'
     description: Mô tả
     group: Nhóm
-    type: 'Kiểm tra theo Loại'
-    success: 'Console vừa được cập nhật vào phiên bản mới nhất.'
+    type: 'Loại thử nghiệm'
+    success: 'Console vừa được cập nhật lên phiên bản mới nhất.'
     missing-dependency: 'Thiếu phần phụ thuộc'
-    methods: 'Kiểm tra các phương thức'
+    methods: 'Các phương thức thử nghiệm'
     not-found: 'Bắt lỗi đã không được tìm thấy, thử cách li test id giữa dấu ngoặc kép.'

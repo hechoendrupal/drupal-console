@@ -1,27 +1,23 @@
-description: 'Phát sinh và đăng ký một trình điều khiển'
-help: 'The <info>generate:controller</info> câu lệnh giúp bạn phát sinh một trình điều khiển mới.'
+description: 'Tạo và đăng ký một trình điều khiển'
+help: 'Câu lệnh <info>generate:controller</info> giúp bạn tạo một trình điều khiển mới.'
 welcome: 'Chào mừng tới Drupal Controller generator'
 options:
     module: common.options.module
-    class-name: 'Tên lớp của controller.'
-    controller-title: 'Tiêu đề của controller'
-    method-name: 'Tên của phương pháp'
-    route: 'Tuyến đường'
+    class: 'Tên lớp của trình điều khiển'
+    title: 'Tiêu đề của trình điều khiển'
+    method: 'Tên phương pháp thực hiện'
+    route: 'Đường dẫn'
     services: common.options.services
-    test: 'Phát sinh một lớp kiểm thử'
+    test: 'Tạo một lớp thử nghiệm'
 questions:
     module: common.questions.module
-    class-name: 'Nhập vào tên lớp của trình điều khiển'
-    method-name: 'Nhập vào tên của phương pháp'
-    route: 'Nhập vào đường dẫn'
+    class: 'Nhập vào tên lớp của trình điều khiển'
+    controller: 'Tiêu đề của trình điều khiển'
+    method: 'Nhập tên phương pháp thực hiện'
+    route: 'Nhập đường dẫn'
     services: common.questions.services
-    test: 'Bạn có muốn phát sinh một lớp đơn vị kiểm tra?'
-    other-controller-title: 'Tiêu đề trình điều khiển (để trống để bắt đầu với đoạn mã phát sinh)'
-    controller-title: 'Tên trình điều khiển'
+    test: 'Bạn có muốn tạo một lớp đơn vị thử nghiệm?'
 messages:
-    invalid-controller-title: 'Tiêu đề không thể để trống'
-    title-already-added: 'Tiêu đề đã được thêm rồi'
-    invalid-method-name: 'Tên phương pháp không thẻ được để trống'
-    method-name-already-added: 'Tên phương pháp đã được thêm rồi'
-    invalid-route: 'Tuyến đường không thể được để trống'
-    route-already-added: 'Tuyến đường đã được thêm rồi'
+    title-already-added: 'Tiêu đề đã được thêm'
+    method-name-already-added: 'Tên phương pháp đã được thêm'
+    route-already-added: 'Đường dẫn đã được thêm'

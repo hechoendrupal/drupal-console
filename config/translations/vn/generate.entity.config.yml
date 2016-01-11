@@ -1,12 +1,14 @@
-description: 'Generate a new config entity'
+description: 'Tạo một config entity mới'
 help: ''
 options:
     module: common.options.module
-    entity-class: 'The config entity class'
-    entity-name: 'The config entity name'
-    label: 'The label'
+    entity-class: 'Lớp config entity'
+    entity-name: 'Tên config entity'
+    label: 'Nhãn'
+    bundle-of: 'Các hành động bundle cho nội dung entities'
 questions:
     module: common.questions.module
-    entity-class: 'Enter the class of your new config entity'
-    entity-name: 'Enter the name of your new config entity'
-    label: 'Enter the label of your new config entity'
+    entity-class: 'Nhập lớp của config entity mới của bạn'
+    entity-name: 'Nhập tên của config entity mới của bạn'
+    label: 'Nhập nhãn của config entity mới của bạn'
+    bundle-of: 'Tên của nội dung entity bạn muốn (config) entity này hành động như một bundle cho'

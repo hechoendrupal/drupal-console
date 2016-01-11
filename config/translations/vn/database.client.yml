@@ -2,4 +2,4 @@ description: 'Launch a DB client if it''s available'
 arguments:
     database: 'Khoá cơ sở dữ liệu từ tệp settings.php'
 messages:
-    executing: 'Đang thực hiện: %s'
+    connection: 'Connection: %s'

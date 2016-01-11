@@ -1,0 +1,21 @@
+description: 'Tạo một profile.'
+help: 'Câu lệnh <info>generate:profile</info> giúp bạn tạo một profile cài đặt mới.'
+welcome: 'Chào mừng đến với Drupal installation profile generator'
+options:
+    profile: 'Tên profile'
+    machine-name: 'Tên máy (chỉ chữ thường và gạch dưới)'
+    description: 'Mô tả profile'
+    core: 'Phiên bản core'
+    dependencies: 'Sự phụ thuộc của module chia ra bởi dấu phẩy (ví dụ context, panels)'
+    distribution: 'Tên distribution'
+questions:
+    profile: 'Nhập tên của profile mới'
+    machine-name: 'Nhập tên máy'
+    description: 'Nhập mô tả'
+    core: 'Nhập phiên bản Drupal Core'
+    dependencies: 'Bạn có muốn thêm sự phụ thuộc của module không'
+    distribution: 'Profile cài đặt này có dự định là distribution không'
+warnings:
+    module-unavailable: 'Cảnh báo các modules sau chưa có sẵn trong môi trường cục bộ "%s" của bạn không'
+errors:
+    directory-exists: 'Thư mục đích "%s" không trống.'
