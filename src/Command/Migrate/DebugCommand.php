@@ -56,35 +56,4 @@ class DebugCommand extends ContainerAwareCommand
         }
         $io->table($tableHeader, $tableRows, 'compact');
     }
-
-    /*protected function getAllMigrations($drupal_version, $output, $table)
-    {
-        $migrations = $this->getMigrations($drupal_version);
-
-        $table->setHeaders(
-            [
-            $this->trans('commands.migrate.debug.messages.id'),
-            $this->trans('commands.migrate.debug.messages.description'),
-            $this->trans('commands.migrate.debug.messages.tags'),
-            ]
-        );
-
-        $table->setStyle('compact');
-
-        if (empty($migrations)) {
-            $output->writeln(
-                '[-] <error>' .
-                sprintf(
-                    $this->trans('commands.migrate.debug.messages.no-migrations'),
-                    count($migrations)
-                )
-                . '</error>'
-            );
-        } else {
-            foreach ($migrations as $migration_id => $migration) {
-                $table->addRow([$migration_id, $migration['description'], $migration['tags']]);
-            }
-            $table->render();
-        }
-    }*/
 }

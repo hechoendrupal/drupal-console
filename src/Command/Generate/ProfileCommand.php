@@ -74,7 +74,6 @@ class ProfileCommand extends GeneratorCommand
         $io = new DrupalStyle($input, $output);
 
         $validators = $this->getValidator();
-        $messageHelper = $this->getMessageHelper();
 
         if (!$this->confirmGeneration($io)) {
             return;

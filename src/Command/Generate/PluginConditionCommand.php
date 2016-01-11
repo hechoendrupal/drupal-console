@@ -10,7 +10,6 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ChoiceQuestion;
 use Drupal\Console\Generator\PluginConditionGenerator;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\ConfirmationTrait;
@@ -142,39 +141,32 @@ class PluginConditionCommand extends GeneratorCommand
 
         $context_definition_id = $input->getOption('context-definition-id');
         if (!$context_definition_id) {
-            $questionHelper = $this->getQuestionHelper();
-
             $context_type = array('language' => 'Language', "entity" => "Entity");
-            $question = new ChoiceQuestion(
+            $context_type_sel = $io->choice(
                 $this->trans('commands.generate.plugin.condition.questions.context-type'),
-                $context_type,
-                current($context_type)
+                array_values($context_type)
             );
-            $context_type_sel = $questionHelper->ask($input, $output, $question);
+            $context_type_sel = array_search($context_type_sel, $context_type);
 
             if ($context_type_sel == 'language') {
                 $context_definition_id = $context_type_sel;
                 $context_definition_id_value = ucfirst($context_type_sel);
             } else {
-                $options = array_keys($entity_types);
-                $options = array_combine($options, $options);
-                $question = new ChoiceQuestion(
+                $content_entity_types_sel = $io->choice(
                     $this->trans('commands.generate.plugin.condition.questions.context-entity-type'),
-                    $options,
-                    current($options)
+                    array_keys($entity_types)
                 );
-                $content_entity_types_sel = $questionHelper->ask($input, $output, $question);
 
-                $options = $entity_types[$content_entity_types_sel];
-                $options = array_combine($options, $options);
-                $question = new ChoiceQuestion(
+                $contextDefinitionIdList = $entity_types[$content_entity_types_sel];
+                $context_definition_id_sel = $io->choice(
                     $this->trans('commands.generate.plugin.condition.questions.context-definition-id'),
-                    $options,
-                    current($options)
+                    array_values($contextDefinitionIdList)
                 );
-                $context_definition_id_sel = $questionHelper->ask($input, $output, $question);
 
-                $context_definition_id_value = array_search($context_definition_id_sel, $entity_types[$content_entity_types_sel]);
+                $context_definition_id_value = array_search(
+                    $context_definition_id_sel,
+                    $contextDefinitionIdList
+                );
 
                 $context_definition_id = 'entity:' . $context_definition_id_value;
             }

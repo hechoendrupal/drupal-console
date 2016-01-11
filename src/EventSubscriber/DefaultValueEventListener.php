@@ -10,6 +10,7 @@ namespace Drupal\Console\EventSubscriber;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Drupal\Console\Command\Command;
 
 class DefaultValueEventListener implements EventSubscriberInterface
 {
@@ -24,9 +25,7 @@ class DefaultValueEventListener implements EventSubscriberInterface
      */
     public function setDefaultValues(ConsoleCommandEvent $event)
     {
-        /**
-         * @var \Drupal\Console\Command\Command $command
-         */
+        /* @var Command $command */
         $command = $event->getCommand();
         $application = $command->getApplication();
         $config = $application->getConfig();
