@@ -11,6 +11,7 @@ use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
 
 class ValidateDependenciesListener implements EventSubscriberInterface
 {
@@ -19,11 +20,10 @@ class ValidateDependenciesListener implements EventSubscriberInterface
      */
     public function validateDependencies(ConsoleCommandEvent $event)
     {
-        /**
-         * @var \Drupal\Console\Command\Command $command
-         */
+        /* @var Command $command */
         $command = $event->getCommand();
-        $output = $event->getOutput();
+        /* @var DrupalStyle $io */
+        $io = $event->getOutput();
 
         $application = $command->getApplication();
         $translatorHelper = $application->getTranslator();
@@ -32,16 +32,14 @@ class ValidateDependenciesListener implements EventSubscriberInterface
             return;
         }
 
-        $dependencies = $command->getDependencies();
-
-        if ($dependencies) {
+        if ($dependencies = $command->getDependencies()) {
             foreach ($dependencies as $dependency) {
                 if (!$application->getValidator()->isModuleInstalled($dependency)) {
                     $errorMessage = sprintf(
                         $translatorHelper->trans('commands.common.errors.module-dependency'),
                         $dependency
                     );
-                    $output->error($errorMessage);
+                    $io->error($errorMessage);
                     $event->disableCommand();
                 }
             }

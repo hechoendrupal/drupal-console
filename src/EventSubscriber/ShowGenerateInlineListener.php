@@ -10,6 +10,8 @@ namespace Drupal\Console\EventSubscriber;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
 
 class ShowGenerateInlineListener implements EventSubscriberInterface
 {
@@ -31,11 +33,11 @@ class ShowGenerateInlineListener implements EventSubscriberInterface
      */
     public function showGenerateInline(ConsoleTerminateEvent $event)
     {
-        /**
-         * @var \Drupal\Console\Command\Command $command
-         */
+        /* @var Command $command */
         $command = $event->getCommand();
-        $output = $event->getOutput();
+        /* @var DrupalStyle $io */
+        $io = $event->getOutput();
+
         $command_name = $command->getName();
 
         $this->skipArguments[] = $command_name;
@@ -89,11 +91,11 @@ class ShowGenerateInlineListener implements EventSubscriberInterface
             }
 
             // Print yaml output and message
-            $output->writeln(
+            $io->writeln(
                 $translatorHelper->trans('application.console.messages.inline.generated')
             );
 
-            $output->writeln('$ drupal' . $inline);
+            $io->writeln('$ drupal' . $inline);
         }
     }
 
