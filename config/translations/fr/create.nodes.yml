@@ -1,29 +1,29 @@
-description: 'Create dummy nodes for your Drupal 8 application.'
-help: 'The <info>create:nodes</info> command helps you generate fake terms.'
-welcome: 'Welcome to the Drupal nodes generator'
+description: 'Créer des nodes "Lorem ipsum" pour votre application Drupal 8.'
+help: 'La commande <info>create:nodes</info> vous assiste dans la génération de contenu factice de type "Lorem ipsum".'
+welcome: 'Bienvenue dans le générateur de nodes Drupal'
 arguments:
-    content-types: 'Content type(s) to be used in node creation'
+    content-types: 'Le(s) type(s) de contentu à utiliser pour la création de nodes'
 options:
-    limit: 'How many nodes would you like to create'
-    title-words: 'Maximum number of words in node titles'
-    time-range: 'How far back in time should the nodes be dated'
+    limit: 'Combien de nodes voulez-vous générer'
+    title-words: 'Nombre de mots maximum des titres'
+    time-range: 'De combien de temps au maximum doivent dater les nodes générées'
 questions:
-    content-type: 'Select content type(s) to be used on node creation'
-    limit: 'Enter how many nodes would you like to generate'
-    title-words: 'Enter the maximum number of words in titles'
-    time-range: 'How far back in time should the nodes be dated?'
+    content-type: 'Sélectionnez le(s) type(s) de contenu à utiliser lors de la génération des nodes'
+    limit: 'Entrez le nombre de nodes que vous souhaitez générer'
+    title-words: 'Entrez le nombre maximums de mots que doivent contenir les titres'
+    time-range: "Quel doit être l'age maximum des nodes générées?"
     time-ranges:
-        - Now
-        - '1 hour ago'
-        - '1 day ago'
-        - '1 week ago'
-        - '1 month ago'
-        - '1 year ago'
+        - "Maintenant"
+        - 'Une heure'
+        - 'Une journée'
+        - 'Une semaine'
+        - 'Un mois'
+        - 'Un an'
 messages:
-    node-id: 'Node Id'
-    content-type: 'Content type'
-    title: Title
-    created: 'Created Time'
-    invalid-content-types: 'Content types %s are invalid'
-    created-nodes: 'Created %s nodes successfully'
-    generated-content: 'Created %s nodes successfully'
+    node-id: 'Identifiant de la node'
+    content-type: 'Type de contenu'
+    title: 'Titre'
+    created: 'Date de création'
+    invalid-content-types: 'Les types de contenu %s ne sont pas valides'
+    created-nodes: '%s nodes crées avec succès'
+    generated-content: 'Génération de %s nodes avec succès'
