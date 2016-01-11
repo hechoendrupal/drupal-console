@@ -10,11 +10,11 @@ questions:
     confirm: 'Confirmez-vous la génération'
     canceled: 'Génération de commande annulée.'
     events:
-        message: "\nEntrez le nom de l''événement ou utilisez les flèches "haut" ou "bas".\nFacultatif, appuyez sur <info>entrer</info> afin de continuer\n"
+        message: "\nEntrez le nom de l''événement ou utilisez les flèches \"haut\" ou \"bas\".\nFacultatif, appuyez sur <info>entrer</info> afin de continuer\n"
         name: 'Entrez un nom d''événement'
     services:
         confirm: 'Voulez-vous charger les services formant le container'
-        message: "\nEntrez le nom du service ou utilisez les flèches "haut" ou "bas".\nFacultatif, appuyez sur<info>enter</info> afin de continuer\n"
+        message: "\nEntrez le nom du service ou utilisez les flèches \"haut\" ou \"bas\".\nFacultatif, appuyez sur<info>enter</info> afin de continuer\n"
         name: 'Entrez votre service'
     inputs:
         confirm: 'Voulez-vous générer une structure de formulaire'
