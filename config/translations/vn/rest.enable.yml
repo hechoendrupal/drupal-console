@@ -1,8 +1,8 @@
-description: 'Bật một tài nguyên Rest cho ứng dụng'
+description: 'Bật một rest resource cho ứng dụng'
 arguments:
     resource-id: 'Rest ID'
-    states: 'Trạng thái REST để bật cho tài nguyên Rest'
-    authorizations: 'Nhà cung cấp ủy quyền đã bật cho tài nguyên Rest'
+    states: 'Trạng thái REST để bật cho Rest resource'
+    authorizations: 'Nhà cung cấp ủy quyền đã bật cho Rest resource'
 questions:
     resource-id: 'Rest ID'
 messages:

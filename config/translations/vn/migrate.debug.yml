@@ -4,6 +4,5 @@ arguments:
 messages:
     id: 'Id của phần chuyển đổi dữ liệu'
     description: Mô tả
-    no-migrations: 'There aren''t migrations available try to execute command: migrate:setup:migrations'
+    no-migrations: "Không có sẵn các phần chuyển đổi cố thực thi dòng lệnh: migrate:setup:migrations"
     tags: Tags
-    version: Phiên bản 

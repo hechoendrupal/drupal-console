@@ -1,9 +1,9 @@
-description: 'List all known local and remote sites.'
-help: 'The <info>site:debug</info> list all known local and remote sites.'
+description: 'Liệt kê tất cả các sites cục bộ và từ xa đã biết.'
+help: 'Lệnh <info>site:debug</info> liệt kê tất cả các sites cục bộ và từ xa đã biết.'
 messages:
     site: Site
-    host: Máy chủ
+    host: Host
     root: Root
-    directory-not-found: 'Sites local directory not found'
-    private-key: 'Error with private key'
-    connect-error: 'Error connecting to remote machine'
+    directory-not-found: 'Không tìm thấy các sites thư mục cục bộ'
+    private-key: 'Lỗi với key cá nhân'
+    connect-error: 'Lỗi khi kết nối đến máy từ xa'

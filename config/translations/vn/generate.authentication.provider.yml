@@ -1,7 +1,6 @@
-description: 'Phát sinh một người cung cấp xác nhận'
-help: 'The <info>generate:authentication:provider</info> Câu lệnh giúp bạn phát sinh một người cung cấp xác nhận mới.'
+description: 'Tạo ra một Authentication Provider'
+help: 'The <info>generate:authentication:provider</info> Câu lệnh giúp bạn tạo ra một Authentication Provider mới.'
 options:
-    class: 'Lớp người cung cấp xác nhận'
-    provider-id: 'ID người cung cấp'
-    class-name: 'Lớp người cung cấp xác nhận'
+    class: 'Lớp Authentication Provider'
+    provider-id: 'Provider ID'
 module: common.options.module

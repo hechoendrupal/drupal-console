@@ -1,15 +1,15 @@
-description: 'Phát sinh plugin hiệu ứng hình ảnh'
-help: ' Câu lệnh <info>generate:plugin:imageeffect</info> giúp bạn phát sinh một plugin hiệu ứng hình ảnh mới.'
-welcome: 'Chào mừng bạn đến với Drupal Image Effect Plugin'
+description: 'Tạo plugin hiệu ứng hình ảnh'
+help: ' Câu lệnh <info>generate:plugin:imageeffect</info> giúp bạn tạo một plugin hiệu ứng hình ảnh mới.'
+welcome: 'Chào mừng đến với Drupal Image Effect Plugin'
 options:
     module: common.options.module
-    class-name: 'Tên lớp plugin'
+    class: 'Tên lớp plugin'
     label: 'Nhãn plugin'
     plugin-id: 'Plugin id'
-    description: 'Mô tả Plugin'
+    description: 'Mô tả plugin'
 questions:
     module: common.questions.module
-    class-name: 'Nhập tên lớp plugin'
-    label: 'Nhập nhãn của plugin'
+    class: 'Nhập tên lớp plugin'
+    label: 'Nhập nhãn plugin'
     plugin-id: 'Nhập plugin id'
-    description: 'Nhập mô tả cho plugin'
+    description: 'Nhập mô tả plugin'

@@ -9,9 +9,7 @@ messages:
 questions:
     cache: 'Chọn cache.'
 examples:
-    -
-        description: 'Build lại toàn bộ cache'
-        execution: 'drupal cr all'
-    -
-        description: 'Build lại discovery cache'
-        execution: 'drupal cr discovery'
+    - description: Xây dựng lại all caches
+      execution: drupal cr all
+    - description: Xây dựng lại discovery cache
+      execution: drupal cr discovery

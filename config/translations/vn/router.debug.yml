@@ -3,7 +3,8 @@ arguments:
     route-name: 'Các tên của định tuyến'
 messages:
     name: 'Tên định tuyến'
-    path: 'Đường dẫn của Lớp'
-    pattern: Mô hình
-    defaults: Mặc định
-    options: Lựa chọn
+    class: 'Class path'
+    route: Route
+    path: Path
+    defaults: Defaults
+    options: Options
