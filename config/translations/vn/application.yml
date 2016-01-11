@@ -1,14 +1,17 @@
 console:
     arguments:
-        drupal: 'đường dẫn tới Drupal root'
-        shell: 'Khởi động shell'
         env: 'Tên môi trường'
         no-debug: 'Tắt chế độ debug'
         learning: 'Sinh ra chi tiết mã thực thi'
         generate-chain: 'In các lựa chọn thi hành và các đối số dạng yaml, để sử dụng trong chuỗi lệnh'
         generate-inline: 'In các lựa chọn thi hành và các đối số dạng inline, để sử dụng sau'
+        generate-doc: 'Shows command options and arguments as markdown'
         root: 'Định nghĩa Drupal root dùng để thực thi lệnh'
         uri: 'Đường dẫn site Drupal được dùng (cho môi trường multisite hoặc khi chạy trên một cổng thay thế)'
+        'yes': 'Skip confirmation and proceed'
+        target: 'Site name you want to interact with (for local or remote sites)'
+        drupal: 'đường dẫn tới Drupal root'
+        shell: 'Khởi động shell'
     messages:
         completed: 'Dòng lệnh đã được thực thi thành công!'
         chain:
