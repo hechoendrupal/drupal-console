@@ -1,4 +1,4 @@
-description: 'Surcharge la valeur d''une configuration dans la configuration active.'
+description: "Surcharge la valeur d'une configuration dans la configuration active."
 arguments:
     config-name: 'Nom de la configuration.'
     key: Clé
