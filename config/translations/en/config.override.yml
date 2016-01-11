@@ -1,13 +1,13 @@
-description: 'Surcharge la valeur d''une configuration dans la configuration active.'
+description: 'Override config value in active configuration.'
 arguments:
-    config-name: 'Nom de la configuration.'
-    key: Clé
-    value: Valeur
+    config-name: 'Configuration name.'
+    key: Key
+    value: Value
 messages:
-    configuration: 'Nom de la configuration'
-    configuration-key: 'Clé de la configuration'
-    original: 'Valeur originale'
-    updated: 'Nouvelle valeur'
+    configuration: 'Configuration name'
+    configuration-key: 'Configuration key'
+    original: 'Original Value'
+    updated: 'Override Value'
 examples:
-    - description: Définir la valeur de "flood" du module Contact à 10.
+    - description: Set the Contact module flood limit to 10.
       execution: drupal config:override contact.settings flood.limit 10
