@@ -1,0 +1,8 @@
+description: 生成hook_form_alter()或hook_form_FORM_ID_alter的实现程序
+help: '<info>"%s"</info>命令帮你生成一个新的"%s"'
+options:
+    form-id: '要改换的表格ID'
+messages:
+    inputs: "你可以在表格里加一个域\n这个是可选可不选的，按回车继续"
+    loading-forms: '从Webprofiler模块中装载表格的属性'
+    hide-form-elements: '你可以选择隐藏的表格项目'

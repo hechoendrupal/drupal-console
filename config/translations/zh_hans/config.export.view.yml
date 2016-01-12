@@ -1,0 +1,13 @@
+description: '导出一个视窗配置到一个模块里的YAML格式文件，这样其他网站也可以使用它.'
+messages:
+    view_exported: '导出视窗配置'
+    depencies-included: '模块依赖组件包括在%s'
+questions:
+    view: 需导出的视窗
+    optional-config: 是否导出视窗到一个模块里是一个选项
+    include-module-dependencies: '在YAML文件里包含视窗模块所依赖的组件'
+arguments:
+    view-id: 视窗ID
+options:
+    optional-config: '把导出视窗作为一个YAML文件配置的选项'
+    include-module-dependencies: '在模块配置YAML文件里包含视窗模块所依赖的组件'

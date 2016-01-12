@@ -1,0 +1,13 @@
+description: 显示当前可用模块
+options:
+    status: '模块状态 [enabled|disabled]'
+    type: '模块类型 [core|no-core]'
+messages:
+    id: ID
+    name: 名称
+    status: 状态
+    origin: Origin
+    package: '包'
+    enabled: 启用
+    disabled: 禁用
+    schema-version: 'Schema version'

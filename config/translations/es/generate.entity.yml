@@ -1,0 +1,12 @@
+description: 'Genera una nueva entidad'
+help: ''
+options:
+    module: common.options.module
+    entity-class: 'El nombre de la clase'
+    entity-name: 'El nombre de la entidad'
+    label: 'La etiqueta'
+questions:
+    module: common.questions.module
+    entity-class: 'Introduzca la clase de la nueva entidad'
+    entity-name: 'Introduzca el nombre de la nueva entidad'
+    label: 'Introduzca la etiqueta de la nueva entidad'

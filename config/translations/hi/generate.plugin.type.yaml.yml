@@ -1,0 +1,13 @@
+description: 'प्लगिन प्रकार युक्त YAML प्रकाशन उत्पन्न करें'
+help: '<info>generate:plugin:type:yaml</info> कमाण्ड आपको नया प्लगिन प्रकार युक्त YAML प्रकाशन उत्पन्न करने में मदद करता है।'
+welcome: 'Drupal प्लगिन प्रकार उत्पादक मे स्वागत'
+options:
+    module: common.options.module
+    class: 'प्लगिन प्रकार क्लास नाम'
+    plugin-name: 'प्लगिन प्रकार यांत्रिक नाम'
+    plugin-file-name: 'प्लगिन फ़ाइल नाम'
+questions:
+    module: common.questions.module
+    class: 'प्लगिन प्रकार क्लास नाम दर्ज करें'
+    plugin-name: 'प्लगिन प्रकार यांत्रिक नाम दर्ज करें'
+    plugin-file-name: 'प्लगिन फ़ाइल नाम दर्ज करें (e.g. MODULE.plugin.filename.yml)'

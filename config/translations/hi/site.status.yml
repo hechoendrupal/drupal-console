@@ -1,0 +1,24 @@
+description: 'वर्तमान Drupal स्थापना के स्थिति को देखें'
+messages:
+    application: Application
+    system: 'प्रणाली की जानकारी'
+    hash_salt: 'हैश साल्ट'
+    console: 'Drupal console का संस्करण'
+    database: 'डाटाबेस जोड़'
+    driver: Driver
+    host: Host
+    port: Port
+    username: Username
+    password: Password
+    theme: Themes
+    connection: Connection
+    theme_default: 'डीफाल्ट थीम'
+    theme_admin: 'प्रबंधक थीम'
+    directory: Directories
+    directory_root: 'साइट रूट डायरेक्टरी'
+    directory_temporary: 'साइट अस्थायी डायरेक्टरी'
+    directory_theme_default: 'डीफाल्ट थीम directory'
+    directory_theme_admin: 'प्रबंधक थीम directory'
+    configuration: Configuration
+    active: 'सक्रिय समाकृति का पथ'
+    staging: 'स्टेजिंग समाकृति का पथ'

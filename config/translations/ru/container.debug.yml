@@ -1,0 +1,4 @@
+description: 'Отображает сервисы приложения.'
+messages:
+    service_id: 'ID Сервиса'
+    class_name: 'Имя класса'

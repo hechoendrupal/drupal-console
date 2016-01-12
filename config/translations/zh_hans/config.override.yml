@@ -1,0 +1,14 @@
+description: '覆盖当前使用中的配置值.'
+arguments:
+    config-name: '配置名.'
+    key: 键
+    value: 值
+messages:
+    configuration: '配置名'
+    configuration-key: '配置键'
+    original: 起始值
+    updated: 覆盖值
+examples:
+    -
+        description: 'Définir la valeur de "flood" du module Contact à 10.'
+        execution: 'drupal config:override contact.settings flood.limit 10'

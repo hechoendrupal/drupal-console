@@ -26,6 +26,7 @@ class ModuleGeneratorTest extends GeneratorTest
      * @param $description
      * @param $core
      * @param $package
+     * @param $feature
      * @param $composer
      * @param $dependencies
      *
@@ -38,13 +39,14 @@ class ModuleGeneratorTest extends GeneratorTest
         $description,
         $core,
         $package,
+        $feature,
         $composer,
         $dependencies
     ) {
         $generator = new ModuleGenerator();
-        $this->getHelperSet()->get('renderer')->setSkeletonDirs($this->getSkeletonDirs());
-        $this->getHelperSet()->get('renderer')->setTranslator($this->getTranslatorHelper());
-        $generator->setHelpers($this->getHelperSet());
+        $this->getRenderHelper()->setSkeletonDirs($this->getSkeletonDirs());
+        $this->getRenderHelper()->setTranslator($this->getTranslatorHelper());
+        $generator->setHelperSet($this->getHelperSet());
 
         $generator->generate(
             $module,
@@ -53,6 +55,7 @@ class ModuleGeneratorTest extends GeneratorTest
             $description,
             $core,
             $package,
+            $feature,
             $composer,
             $dependencies
         );

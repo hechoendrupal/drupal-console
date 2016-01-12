@@ -1,0 +1,10 @@
+description: 'वर्तमान अनुप्रयोग में व्यवस्था आयात करें।'
+arguments:
+    file: 'Configuration file path.'
+    remove-files: 'Remove files after syncronization.'
+    config-file: 'व्यवस्था फाइल का पथ।'
+    copy-only: 'सिर्फ व्यवस्था फाइलो को स्टेजिंग डायरेक्टरी में नकल करें।'
+messages:
+    config_files_imported: 'व्यवस्था फाइलों कि सूचि।'
+    imported: 'सारे समाकृत फाइलो को स्टेजिंग डायरेक्टरी में प्रतिरूप और आयात कर दिया गया है।'
+    copied: 'सारे समाकृत फाइलो को स्टेजिंग डायरेक्टरी में प्रतिरूप कर दिया गया है।'

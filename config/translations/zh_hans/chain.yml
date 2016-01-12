@@ -1,0 +1,7 @@
+description: 链式执行命令
+options:
+    file: '用户提供的文件，其中包含着将被链式执行的命令'
+messages:
+    missing_file: '您必须提供一个正确的文件路径及其名称'
+    invalid_file: '文件"%s"不存在.'
+    module_install: 'module:install 命令不能通过链式的方式执行，必须单独运行'

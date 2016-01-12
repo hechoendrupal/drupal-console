@@ -13,10 +13,10 @@ trait FormDataProviderTrait
      */
     public function commandData()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
         
         return [
-          ['Foo', 'foo' . rand(), 'id' . rand(), null, null, true]
+          ['Foo', 'foo' . rand(), 'id' . rand(), null, null, 'FormBase', true, true, 'foo', 'system.admin_config_development', 'foo']
         ];
     }
 }

@@ -1,0 +1,8 @@
+description: 切换网站到维护模式
+arguments:
+    mode: 网站维护模式
+messages:
+    maintenance-on: 网站维护模式
+    maintenance-off: 非网站维护模式
+errors:
+    invalid-mode: '无效网站维护模式'

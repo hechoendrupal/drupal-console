@@ -1,0 +1,17 @@
+description: 'Instala un módulo o varios en la aplicación'
+questions:
+    module: 'Nombre del módulo (pulse <return> para dejar de añadir módulos)'
+    invalid-module: 'El módulo %s es inválido'
+options:
+    module: 'Separe con un espacio el módulo o módulos que vayan a ser activados'
+    overwrite-config: 'Sobreescribir la configuración actual si es necesario'
+messages:
+    no-modules: 'Debes especificar uno o varios módulos para habilitarlos.'
+    missing: 'Imposible instalar los módulos %s ya que faltan los módulos %s'
+    missing-dependencies: 'Imposible instalar los módulos %s debido a dependencias incumplidas %s'
+    nothing: 'Nada que hacer. Todos los módulos ya están instalados'
+    dependencies: 'Está seguro que quiere instalar las dependencias %s?'
+    success: 'Los módulos %s fueron instalados con éxito'
+    disabled-modules: 'En el autocompletado sólo se muestran módulos deshabilitados'
+    config-conflict-overwrite: 'Estos objetos de configuración serán sobreescritos en su configuración actual'
+    config-conflict: 'Estos objetos de configuración ya existen en la configuración actual, la instalación no es posible'

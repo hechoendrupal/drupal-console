@@ -1,0 +1,17 @@
+description: 'Instaleaza Module'
+questions:
+    module: 'Numele modulului (apasaţi <return> pentru a nu maia dăuga module)'
+    invalid-module: 'Modulul %s este invalid.'
+options:
+    module: 'Modulul/Modulele trebuie sa fie separate prin virgula'
+    overwrite-config: 'Suprascrie configurările active dacă este necesar.'
+messages:
+    no-modules: 'Trebuie sa introduci nume de Modul/Module.'
+    missing: 'Modulele %s nu pot fi instalate din cauza ca Modulele %s lipsesc'
+    missing-dependencies: 'Modulele %s nu pot fi instalate din cauza dependentelor %s'
+    nothing: 'Toate Modulele sunt deja instalate'
+    dependencies: 'Esti sigur ca vreai sa instalezi dependentile: %s?'
+    success: 'Modulele %s au fost instalate cu succes'
+    disabled-modules: 'Doar modulele dezactivate vor fi afişate în autocompletare.'
+    config-conflict-overwrite: 'Aceste configurări vor fi suprascrise în configurările active.'
+    config-conflict: 'Aceste configurări exista deja în configurările active, instalarea nu este posibilă.'

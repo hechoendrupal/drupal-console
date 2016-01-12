@@ -1,0 +1,6 @@
+description: 重建路由
+arguments:
+    route-name: 路由名称
+messages:
+    rebuilding: 正在重建路由，请稍候
+    completed: 路由重建完成

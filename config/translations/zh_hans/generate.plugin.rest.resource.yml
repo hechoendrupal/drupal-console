@@ -1,0 +1,19 @@
+description: 生成插件REST资源
+help: '<info>generate:plugin:rest:resource</info>命令帮助生成一个新的REST资源.'
+welcome: '欢迎光临Drupal插件REST资源生成器'
+options:
+    module: common.options.module
+    class: 插件REST资源类
+    plugin-id: 插件REST资源id
+    plugin-label: '插件REST资源标签'
+    plugin-url: 插件REST资源URL链接
+    plugin-states: 插件REST资源状态
+questions:
+    module: common.questions.module
+    class: '输入插件REST资源名'
+    plugin-id: '输入插件REST资源id'
+    plugin-label: '输入插件REST资源标签'
+    plugin-url: '输入插件REST资源url'
+    plugin-states: 请选择启用资源的REST状态(GET为缺省状态)
+messages:
+    selected-states: 选择的状态

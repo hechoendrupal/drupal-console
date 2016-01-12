@@ -1,0 +1,11 @@
+description: 生成模块权限
+help: '<info>generate:permissions</info> 命令帮助您生成新权限'
+options:
+    module: common.options.module
+questions:
+    module: common.questions.module
+    permission: '输入一个权限'
+    title: '输入权限标题'
+    description: '输入权限描述'
+    restrict-access: 限制访问
+    add: '您想再添加一个权限吗？'

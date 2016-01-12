@@ -1,0 +1,20 @@
+description: 'Aplikációban levő téma vagy témák eltávolítása'
+questions:
+    theme: 'téma neve (nyomja meg a <return> ahhoz hogy befejezze a témák hozzáadását)'
+    invalid-theme: '%s érvénytelen téma'
+options:
+    theme: 'Eltávolítandó témát vagy témákat vesszővel kell elválasztani'
+messages:
+    no-themes: 'Adja meg az eltávolításra szánt témát vagy témákat.'
+    themes-missing: 'Nem lehetséges a %s témák eltávolítása mivel nem elérhetők'
+    theme-missing: 'Nem lehetséges a %s téma eltávolítása mivel nem elérhető'
+    missing-dependencies: 'Nem lehetséges a %s témák eltávolítása mivel vannak hiányzó függőségek.'
+    themes-nothing: 'Nincs mit tenni. Minden %s téma már el van távolítva'
+    theme-nothing: 'Nincs mit tenni. A %s téma már el van távolítva'
+    dependencies: 'Van egy pár hiányzó függőség: %s?'
+    theme-success: 'A %s téma sikeresen eltávolítva'
+    themes-success: 'A %s témák sikeresen eltávolítva'
+    installed-themes: 'Csak telepített témák lesznek listázva az automatikus listázásba'
+    invalid-theme-default: 'Az alapértelmezett opció csak egy témára érvényes'
+    error-default-theme: 'A %s téma az alapértelmezett téma és nem lehetséges ennek eltávolítása.'
+    error-admin-theme: 'A %s téma az adminisztrációs téma és nem lehetséges ennek eltávolítása.'

@@ -1,0 +1,15 @@
+description: 列出可用的程序测试.
+help: 更新控制台到最新版本.
+arguments:
+    test-class: 测试类
+options:
+    group: 组
+messages:
+    class: 测试类
+    description: 简介
+    group: 组
+    type: 测试类型
+    success: 这个控制台被更新到最新版本.
+    missing-dependency: '找不到所依赖的其他部件'
+    methods: 测试方法
+    not-found: '没找到调试，试着在测试ID上加双引号.'

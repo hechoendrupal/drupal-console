@@ -7,12 +7,16 @@
 
 namespace Drupal\Console\Command;
 
-use Drupal\Console\Config;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Drupal\Console\Style\DrupalStyle;
 
-class ChainCommand extends ContainerAwareCommand
+/**
+ * Class ChainCommand
+ * @package Drupal\Console\Command
+ */
+class ChainCommand extends Command
 {
     /**
      * {@inheritdoc}
@@ -35,7 +39,7 @@ class ChainCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $message = $this->getHelperSet()->get('message');
+        $io = new DrupalStyle($input, $output);
 
         $interactive = false;
 
@@ -50,11 +54,9 @@ class ChainCommand extends ContainerAwareCommand
         }
 
         if (!$file) {
-            $message->addErrorMessage(
-                $this->trans('commands.chain.messages.missing_file')
-            );
+            $io->error($this->trans('commands.chain.messages.missing_file'));
 
-            return 1;
+            return;
         }
 
         if (strpos($file, '~') === 0) {
@@ -63,18 +65,21 @@ class ChainCommand extends ContainerAwareCommand
         }
 
         if (!file_exists($file)) {
-            $message->addErrorMessage(
+            $io->error(
                 sprintf(
                     $this->trans('commands.chain.messages.invalid_file'),
                     $file
                 )
             );
 
-            return 1;
+            return;
         }
 
-        $chainData = new Config($file);
-        $commands = $chainData->get('commands');
+        $configData = $this->getApplication()->getConfig()->getFileContents($file);
+        $commands = [];
+        if (array_key_exists('commands', $configData)) {
+            $commands = $configData['commands'];
+        }
 
         foreach ($commands as $command) {
             $moduleInputs = [];
@@ -89,7 +94,7 @@ class ChainCommand extends ContainerAwareCommand
                 $moduleInputs['--'.$key] = is_null($value) ? '' : $value;
             }
 
-            $this->getHelper('chain')
+            $this->getChain()
                 ->addCommand($command['command'], $moduleInputs, $interactive, $learning);
         }
     }

@@ -1,0 +1,5 @@
+description: 'Authentication Provider létrehozása'
+help: 'A <info>generate:authentication:provider</info> parancs új Authentication Provider létrehozásában segít.'
+options: null
+module: common.options.module
+class: 'Authentication Provider class neve'

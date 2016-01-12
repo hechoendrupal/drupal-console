@@ -11,3 +11,4 @@ messages:
     support: 'Hỗ trợ tại phòng chat Drupal Console gitter <comment>%s</comment>'
     supporting-organizations: 'Các tổ chức đang hỗ trợ'
     version-supported: 'Phiên bản hỗ trợ của Drupal 8 là<info>%s</info>'
+    list: 'Thi hành câu lệnh <info>list</info> để có một danh sách tất cả các câu lệnh hiện có.'

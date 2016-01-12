@@ -1,0 +1,12 @@
+description: 'Felhasználói fiókba való sikertelen belépések tőrlése.'
+help: 'A <info>user:login:clear:attempts</info> felhasználói fiókba való sikertelen belépések visszaálítása.'
+options:
+    user-id: 'Felhasználói azonosító.'
+questions:
+    uid: 'Adja meg a felhasználói azonosítót.'
+    numeric-uid: 'A felhasználói azonosító egész szám kell legyen.'
+    invalid-uid: 'A felhasználói azonosító nagyobb kell legyen mint nulla.'
+messages:
+    successful: 'Sikertelen belépési kisérlet sikeresen törölve a %s felhasználói azonosítónak.'
+errors:
+    invalid-user: 'Felhasználói entitás betöltése sikertelen (Uid: %s).'

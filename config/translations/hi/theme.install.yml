@@ -1,0 +1,21 @@
+description: 'Install theme or themes in the application'
+questions:
+    theme: 'theme name (press <return> to stop adding themes)'
+    invalid-theme: 'Invalid theme %s'
+options:
+    theme: 'theme or themes to be enabled should be separated by a comma'
+    overwrite-config: 'Overwrite configuration active if necessary'
+    set-default: 'Set theme as default theme'
+messages:
+    no-themes: 'You must provide theme or themes to enable.'
+    themes-missing: 'Unable to install themes %s due they aren''t available'
+    theme-missing: 'Unable to install theme %s due is not available'
+    missing-dependencies: 'Unable to install themes %s due to missing dependencies %s'
+    themes-nothing: 'Nothing to do. All themes %s are already installed'
+    theme-nothing: 'Nothing to do. Themes %s is already installed'
+    dependencies: 'क्या आप मोड्यूल निर्भरता %s को स्थापित करना चाहते है??'
+    theme-success: 'The %s theme has been installed successfully'
+    themes-success: 'The themes %s were installed successfully'
+    theme-default-success: 'The %s theme has been installed successfully as default theme'
+    disabled-themes: 'Only disabled themes will be listed in autocomplete'
+    invalid-theme-default: 'Option default is only valid for one theme'

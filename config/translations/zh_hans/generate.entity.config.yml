@@ -1,0 +1,14 @@
+description: '创建新的配置实体'
+help: ''
+options:
+    module: common.options.module
+    entity-class: '配置实体类名'
+    entity-name: '配置实体名称'
+    label: '标签'
+    bundle-of: 'Acts as bundle for content entities'
+questions:
+    module: common.questions.module
+    entity-class: '输入新配置实体的类名'
+    entity-name: '输入新配置实体的名称'
+    label: '输入新配置实体的标签'
+    bundle-of: 'Name of the content entity you want this (config) entity to act as a bundle for'

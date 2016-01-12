@@ -1,0 +1,12 @@
+description: 'Generează o entitate nouă'
+help: ''
+options:
+    module: common.options.module
+    entity-class: 'Clasa entității'
+    entity-name: 'Numele entității'
+    label: 'Eticheta'
+questions:
+    module: common.questions.module
+    entity-class: 'Introduceți clasa noii dvs. entități'
+    entity-name: 'Introduceți numele noii dvs. entități'
+    label: 'Introduceți eticheta noii dvs. entități'

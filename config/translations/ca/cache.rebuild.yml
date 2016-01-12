@@ -1,0 +1,17 @@
+description: 'Reconstrueix i esborra tota la memòria cau (cache) del lloc web.'
+options:
+    cache: 'Esborrar una memòria cau (cache) específica.'
+messages:
+    welcome: 'Benvingut al comandament cache:rebuild command'
+    rebuild: 'Reconstrucció de la memòria cau, esperi un moment si us plau.'
+    completed: 'Memòria cau esborrada correctament.'
+    invalid_cache: 'La memòria cau "%s" es invàlida.'
+questions:
+    cache: 'Selecciona la memòria cau.'
+examples:
+    -
+        description: 'Reconstruir tota la memòria cau.'
+        execution: 'drupal cr all'
+    -
+        description: 'Reconstruir la memòria cau "discovery"'
+        execution: 'drupal cr discovery'

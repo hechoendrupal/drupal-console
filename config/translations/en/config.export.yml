@@ -1,0 +1,5 @@
+description: 'Export current application configuration.'
+arguments:
+    directory: 'Define export directory to save configuration output.'
+messages:
+    directory: 'The configuration was exported at:'

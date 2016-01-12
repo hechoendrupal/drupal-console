@@ -1,0 +1,8 @@
+description: 'Iniciar um cliente de banco de dados se ele está disponível'
+arguments:
+    database: 'Senha do banco de dados em settings.php'
+messages:
+    database-not-found: 'Informação de conexão com a base de dados %s não foi encontrada'
+    database-not-supported: 'Tipo de banco de dados  %s ainda não é suportado'
+    database-client-not-found: 'Cliente de banco de dados %s ñão foi encontrado'
+    connection: 'Conexão: %s'

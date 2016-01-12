@@ -1,0 +1,31 @@
+description: 'कमाण्डो के लिए प्रलेखन उत्पन्न करें'
+options:
+    path: 'प्रलेखन को  प्रस्तुत करने के लिए पथ'
+messages:
+    missing_path: 'पथ अनुपस्थित है'
+    title: 'उपलब्ध Drupal कंसोल कमाण्डें'
+    note: नोट
+    note-description: 'Drupal कंसोल कमाण्डें Drupal 8 के स्थापना रूट से चलायी जाए'
+    command: 'Drupal कंसोल कमाण्ड'
+    command_description: 'The **%s** command %s'
+    usage: प्रयोग
+    options: 'उपलब्ध विकल्प'
+    option: विकल्प
+    details: विवरण
+    arguments: 'उपलब्ध तर्कों  '
+    argument: तर्क
+    examples: उदाहरण
+output:
+    available-commands:
+        title: 'उपलब्ध Drupal कंसोल कमाण्डें  '
+        note: नोट
+        note-description: 'Drupal कंसोल कमाण्डें Drupal 8 के स्थापना रूट से चलायी जाए'
+        command: 'Drupal कंसोल कमाण्ड'
+    command:
+        command_description: 'The **%s** command %s'
+        usage: प्रयोग
+        options: 'उपलब्ध विकल्प'
+        option: विकल्प
+        details: विवरण
+        arguments: 'उपलब्ध तर्कों '
+        argument: तर्क

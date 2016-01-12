@@ -1,0 +1,21 @@
+description: 'Generează o condiție pentru extensie.'
+help: 'Comanda <info>generate:plugin:conditon</info> te va ajuta să creezi o condiție pentru extensie.'
+welcome: 'Bine ați venit la generatorul de condiții pentru extensii Drupal'
+options:
+    module: common.options.module
+    class: 'Numele clasei pentru condiția extensiei'
+    label: 'Eticheta pentru condiția extensiei'
+    plugin-id: 'ID-ul condiției extensiei'
+    context-definition-id: 'ID-ul definirii contextului'
+    context-definition-label: 'Eticheta definirii contextului'
+    context-definition-required: 'Definirea contextului este obligatorie (ADEVĂRAT/FALS)'
+questions:
+    module: common.questions.module
+    class: 'Introduceți numele clasei pentru condiția extensiei'
+    label: 'Introduceți eticheta pentru condiția extensiei'
+    plugin-id: 'Introduceți ID-ul condiției extensiei'
+    context-type: 'Tip de conținut'
+    context-entity-type: 'Tipul definirii contextului'
+    context-definition-id: 'ID-ul definirii contextului'
+    context-definition-label: 'Eticheta definirii contextului'
+    context-definition-required: 'Definirea contextului este obligatorie'

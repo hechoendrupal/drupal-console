@@ -13,8 +13,8 @@ messages:
     url-required: 'Yêu cầu lựa chọn URL để chạy thử nghiệm'
     test-summary: 'Kiểm tra tóm tắt'
     group: Nhóm
-    status: Trạng thái
+    status: 'Trạng thái'
     file: File
-    method: Phương thức
+    method: 'Phương thức'
     line: Dòng
     message: Tin nhắn

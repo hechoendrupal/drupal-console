@@ -1,0 +1,12 @@
+description: 'Сброс неудачных попыток входа в аккаунт.'
+help: 'Команда <info>user:login:clear:attempts</info> сбрасывает неудачные попытки входа в аккаунт.'
+options:
+    user-id: 'ID пользователя.'
+questions:
+    uid: 'Введите ID пользователя.'
+    numeric-uid: 'ID пользователя должен быть числом.'
+    invalid-uid: 'ID пользователя должен быть больше нуля.'
+messages:
+    successful: 'Попытки входа были успешно очищены для пользователя с ID %s.'
+errors:
+    invalid-user: 'Не удалось загрузить пользователя (Uid: %s).'

@@ -1,0 +1,7 @@
+description: 'Восстановление структуры и контента MySQL БД и таблиц'
+arguments:
+    database: 'Ключ БД из settings.php'
+options:
+    file: 'Имя файла бекапа вашей БД'
+messages:
+    success: 'БД была импортирована из:'

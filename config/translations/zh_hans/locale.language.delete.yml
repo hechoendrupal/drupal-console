@@ -1,0 +1,4 @@
+description: '删除一种语言'
+messages:
+    invalid-language: '语言 %s 不是一种有效语言'
+    language-deleted-sucessfully: '语言 %s 被成功删除'

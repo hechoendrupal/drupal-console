@@ -1,0 +1,8 @@
+description: 'Modul vagy modulok eltávolítása'
+options:
+    module: 'Module or modules to be uninstalled should be separated by a comma'
+messages:
+    no-modules: 'Eltávolítani kívánt modul vagy modulok megadása kötelező.'
+    dependents: '%s nem távolítható el, mert függősége más moduloknak: %s'
+    nothing: 'Nincs teendő, minden modul már el lett távolítva.'
+    success: '%s Sikeresen el lett távolítva'

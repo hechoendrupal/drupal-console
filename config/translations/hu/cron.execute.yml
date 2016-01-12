@@ -1,0 +1,4 @@
+description: 'Cron megvalósitás futtatása egy bizonyos modulból vagy az összesből'
+messages:
+    module-invalid: '%s modulnak nincs cron megvalósitása'
+    executing-cron: '%s modul cron függvényének a futtatása'

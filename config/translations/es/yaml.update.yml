@@ -1,0 +1,16 @@
+value:
+    description: 'Actualiza un valor de una clave específica en un archivo YAML.'
+    arguments:
+        yaml-file: 'Ruta del archivo YAML que será actualizado'
+        yaml-key: 'Clave YAML a actualizar'
+        yaml-value: 'Valor YAML a actualizar'
+    messages:
+        updated: 'El archivo YAML %s ha sido actualizado con éxito.'
+key:
+    description: 'Reemplaza una clave en un archivo YAML.'
+    arguments:
+        yaml-file: 'Ruta del archivo YAML a actualizar'
+        yaml-key: 'Clave YAML que será reemplazada'
+        yaml-new-key: 'Nueva clave YAML'
+    messages:
+        updated: 'El archivo YAML %s fue actualizado exitosamente.'

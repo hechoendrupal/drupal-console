@@ -1,0 +1,6 @@
+description: 'Importe la configuration sélectionnée.'
+arguments:
+    config-name: 'Nom de la configuration.'
+    input-file: 'Chemin vers les fichiers à importer.'
+messages:
+    empty-value: 'Cette valeur ne peut être vide'

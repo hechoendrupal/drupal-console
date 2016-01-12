@@ -1,0 +1,7 @@
+description: 'Importe une configuration dans le site courant.'
+arguments:
+    file: 'Chemin vers le fichier de configuration.'
+    remove-files: 'Supprimer les fichiers après la synchronisation.'
+messages:
+    config_files_imported: 'Liste des fichiers de configuration.'
+    imported: 'L''ensemble des fichiers de configuration ont été copiés dans le repertoire contenant la configuration "staging" et importés.'

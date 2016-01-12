@@ -1,0 +1,3 @@
+description: 'Copiază fişierele de configurare în directorul de bază al utilizatorului.'
+options:
+    override: 'Suprascrie fișierele de configurare'

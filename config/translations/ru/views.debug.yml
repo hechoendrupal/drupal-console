@@ -1,0 +1,18 @@
+description: 'Отображение текущих ресурсов представлений приложения'
+arguments:
+    view-id: 'ID Представления'
+    view-tag: 'Тег представления'
+    view-status: 'Статус представления (Вкл.|Выкл.)'
+messages:
+    view-id: 'ID Представления'
+    view-name: 'Имя представления'
+    description: Описание
+    tag: Тег
+    status: Статус
+    path: Путь
+    not-found: 'Представление %s не найдено.'
+    display-list: 'Список дисплеев'
+    display-id: ID
+    display-name: Имя
+    display-description: Описание
+    display-paths: Пути

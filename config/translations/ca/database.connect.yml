@@ -1,0 +1,8 @@
+description: 'Llançar un client de base de dades si està disponible'
+arguments:
+    database: 'Clau de la base de dades des de settings.php'
+messages:
+    database-not-found: 'Les dades de la connexió de la base de dades %s no ha sigut trobada'
+    database-not-supported: 'El tipus de base de dades %s encara no està soportada'
+    database-client-not-found: 'El client de la base de dades %s no ha sigut trobat'
+    connection: 'Connexió: %s'

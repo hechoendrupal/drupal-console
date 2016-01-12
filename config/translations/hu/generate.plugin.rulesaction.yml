@@ -1,0 +1,22 @@
+description: 'Generate a plugin rule action'
+help: 'A <info>generate:plugin:rulesaction</info> parancs új Rula akció létrehozásában segít.'
+welcome: 'Üdvözlet a Drupal Rules Akció Beépülő létrehozásában'
+options:
+    module: common.options.module
+    class: 'Beépülő class neve'
+    label: 'Beépülő címke'
+    plugin-id: 'Beépülő id'
+    inputs: common.options.inputs
+    services: common.options.services
+    category: 'Beépülő kategória'
+    context: 'Beépülő kontextus'
+    type: 'Action Type (user or node)'
+questions:
+    module: common.questions.module
+    class: 'Beépülő class nevének megadása'
+    label: 'Beépülő címke megadása'
+    plugin-id: 'Beépülő id megadása'
+    inputs: common.questions.inputs
+    services: common.questions.services
+    category: 'Beépülő kategória megadása'
+    context: 'Beépülő kontextus megadása'

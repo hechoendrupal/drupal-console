@@ -1,0 +1,42 @@
+options:
+    events: 'Загрузить события из контейнера'
+    module: 'Имя модуля.'
+    services: 'Загрузка сервисов из контейнера.'
+    tags: 'Задать теги сервисов из контейнера.'
+    inputs: 'Создание полей ввода в форме.'
+    permissions: 'Создание правил доступа.'
+questions:
+    module: 'Введите имя модуля'
+    confirm: 'ВЫ точно хотите сгенерировать это?'
+    canceled: 'Генерация отменана.'
+    events:
+        message: "\nВведите имя события или нажмите клавишу вверх или вниз\nЭто не обязательное действие, нажмите <info>ввод</info> для <info>продолжения</info>\n"
+        name: 'Введите имя события'
+    services:
+        confirm: 'Вы хотите загрузить сервис из контейнера?'
+        message: "\nВведите имя сервиса или нажмите клавишу вверх или вниз\nЭто не обязательное действие, нажмите <info>ввод</info> для <info>продолжения</info>\n"
+        name: 'Введите ваш сервис'
+    inputs:
+        confirm: 'Вы хотите сгенерировать форму?'
+        label: 'Метка поля ввода'
+        machine_name: 'Машинное имя поля ввода'
+        permission: 'Вы хотите сгенерировать правила доступа?'
+        type: Type
+        invalid: 'Тип поля "%s" неверен.'
+        description: Описание
+        default-value: 'Значение по-умолчанию'
+        weight: 'Вес для поля ввода'
+        title: Заголовок
+        fieldset: 'Набор полей'
+errors:
+    module-dependency: 'Зависимость "%s" модуля  отсутствует'
+    class-name-empty: 'Имя класса не может быть пустым'
+    invalid-file-path: 'You must provide a valid file path'
+status:
+    enabled: Включено
+    disabled: Выключено
+messages:
+    canceled: 'Генерация отменена'
+    drupal-core: 'Ядро Drupal'
+    move-phar: 'Accessing console from anywhere on your system'
+    quick-start: 'Download, install and serve Drupal 8'

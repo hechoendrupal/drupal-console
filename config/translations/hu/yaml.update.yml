@@ -1,0 +1,16 @@
+value:
+    description: 'Egy bizonyos kulcs értékének a frissítése egy YAML fájlban.'
+    arguments:
+        yaml-file: 'Frissítendő YAML fájl útvonala'
+        yaml-key: 'Frissítendő YAML kulcs'
+        yaml-value: 'Frissítendő YAML érték'
+    messages:
+        updated: '%s YAML fájl sikeresen frissült'
+key:
+    description: 'YAML kulcs cseréje egy YAML fájlban.'
+    arguments:
+        yaml-file: 'Frissítendő YAML fájl útvonala'
+        yaml-key: 'A lecserélt YAML kulcs'
+        yaml-new-key: 'Új YAML kulcs'
+    messages:
+        updated: '%s YAML fájl sikeresen frissült'

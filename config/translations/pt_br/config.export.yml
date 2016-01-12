@@ -1,0 +1,46 @@
+description: 'Exportar a configuração atual da aplicação.'
+arguments:
+    directory: 'Escolha o diretório onde a configuração exportada será salva.'
+messages:
+    directory: 'A configuração exportada foi salva em %s'
+content:
+    type:
+        description: 'Exportar um content-type específico e todos os seus fields.'
+        arguments:
+            content_type: 'Content-type a ser exportado'
+        questions:
+            content_type: 'Content-type a ser exportado'
+            optional-config: 'Exportar o content-type no módulo como uma configuração opcional'
+        messages:
+            content_type_exported: 'Exportando content-type'
+            configuration_exported: 'Os seguintes arquivos de configuração foram gerados'
+        options:
+            optional-config: 'Exportar o content-type como uma configuração YAML opcional em seu módulo.'
+single:
+    description: 'Exportar uma configuração única como um arquivo YML.'
+    arguments:
+        config-name: 'Nome da configuração'
+    options:
+        simple-configuration: 'Configuração simples'
+    questions:
+        config-type: 'Tipo de configuração'
+        config-name: 'Nome da configuração'
+    messages:
+        config-not-found: 'O nome da visualização não foi encontrado.'
+        export: 'Configuração exportada no arquivo %s.'
+        invalid-config-type: 'Tipo de configuração inválido. Por favor, selecione um tipo da lista.'
+        invalid-config-name: 'Nome de configuração inválido. Por favor, selecione um nome da lista.'
+view:
+    description: 'Exportar uma view no formato YAML em um módulo, para reutilizar em outro website.'
+    messages:
+        view_exported: 'Exportando View'
+        depencies-included: 'As seguintes dependências foram incluídas em %s'
+    questions:
+        view: 'View a ser exportada'
+        optional-config: 'Exportar view no módulo como uma configuração opcional'
+        include-module-dependencies: 'Incluir as dependências da view em um arquivo YAML de informação do módulo'
+    arguments:
+        view-id: 'ID da view'
+    options:
+        optional-config: 'Exportar a view como uma configuração YAML opcional em seu módulo'
+        include-module-dependencies: 'Incluir as dependências do módulo em um arquivo YAML de informação do módulo'

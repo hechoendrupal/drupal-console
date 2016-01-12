@@ -1,0 +1,7 @@
+description: 'Возвращает одноразовый url для входа.'
+options:
+    user-id: 'ID пользователя.'
+messages:
+    url: 'Одноразовый вход для @name: @url'
+errors:
+    invalid-user: 'Не удалось загрузить пользователя (Uid: %s).'

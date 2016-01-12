@@ -1,0 +1,21 @@
+description: 生成插件条件
+help: '<info>generate:plugin:conditon</info> 命令帮助您生成一个插件条件'
+welcome: '欢迎使用 Drupal 插件条件生成器'
+options:
+    module: common.options.module
+    class: 插件条件类名
+    label: '插件条件标签'
+    plugin-id: '插件条件 ID'
+    context-definition-id: '上下文定义 ID'
+    context-definition-label: '上下文定义标签'
+    context-definition-required: '上下文定义是必须的（TURE 或 FALSE）'
+questions:
+    module: common.questions.module
+    class: '输入插件条件类名'
+    label: '输入插件条件标签'
+    plugin-id: '输入插件条件 ID'
+    context-type: 上下文类型
+    context-entity-type: 上下文实体类型
+    context-definition-id: '上下文定义 ID'
+    context-definition-label: '上下文定义标签'
+    context-definition-required: '上下文定义是必须的'

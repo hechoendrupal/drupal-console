@@ -1,0 +1,7 @@
+description: 导出数据库
+arguments:
+    database: settings.php文件里的数据库键
+options:
+    file: 数据库备份文件名称
+messages:
+    success: 数据库已导出到：

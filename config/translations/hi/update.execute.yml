@@ -1,0 +1,8 @@
+description: 'मोड्यूल के किसी विशेष नवीनीकरण N फंक्शन को चलायें या सभी को चलायें।'
+options:
+    update-n: 'Specific Update N function to be executed'
+messages:
+    no-module-updates: 'There aren''t updates available for module %s'
+    executing-update: 'Executing update function %s of module %s'
+    module-update-function-not-found: 'Module %s doesn''t have a function update for %s'
+    executing-required-previous-updates: 'Executing required previous updates'

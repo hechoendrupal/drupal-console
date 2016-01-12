@@ -1,0 +1,11 @@
+description: 下载模块
+options:
+    version: 模块版本，例如：1.x-dev
+messages:
+    no-releases: '模块 %s 没有发布任何版本'
+    getting-releases: '获取模块 %s 的发布版本'
+    downloading: '正在下载模块 %s %s'
+    downloaded: '模块 %s %s 下载成功，保存在 %s'
+    select-release: 版本选择
+    outside-drupal: '找不到 Drupal 根目录。使用 --root 进行设置，否则使用当前目录'
+    error-creating-folder: '创建文件夹 %s 失败，请检查权限'

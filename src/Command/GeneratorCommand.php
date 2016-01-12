@@ -29,9 +29,9 @@ abstract class GeneratorCommand extends ContainerAwareCommand
     {
         if (null === $this->generator) {
             $this->generator = $this->createGenerator();
-            $this->getHelperSet()->get('renderer')->setSkeletonDirs($this->getSkeletonDirs());
-            $this->getHelperSet()->get('renderer')->setTranslator($this->translator);
-            $this->generator->setHelpers($this->getHelperSet());
+            $this->getRenderHelper()->setSkeletonDirs($this->getSkeletonDirs());
+            $this->getRenderHelper()->setTranslator($this->getTranslator());
+            $this->generator->setHelperSet($this->getHelperSet());
         }
 
         return $this->generator;
@@ -41,9 +41,10 @@ abstract class GeneratorCommand extends ContainerAwareCommand
     {
         $module = $this->getModule();
         if ($module != 'Console') {
-            $drupal = $this->getHelperSet()->get('drupal');
-            $drupalRoot = $drupal->getDrupalRoot();
-            $skeletonDirs[] = $drupalRoot.drupal_get_path('module', $module).'/templates';
+            $skeletonDirs[] = sprintf(
+                '%s/templates',
+                $this->getSite()->getModulePath($module)
+            );
         }
 
         $skeletonDirs[] = __DIR__.'/../../templates';

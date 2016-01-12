@@ -1,0 +1,17 @@
+description: 'Перестроить и очистить весь кеш сайта.'
+options:
+    cache: 'Очистить только конкретный кеш.'
+messages:
+    welcome: 'Добро пожаловать в команду cache:rebuild'
+    rebuild: 'Перестроение кеша(-ей), пожалуйста, подождите.'
+    completed: 'Очистка кеша(-ей) выполнена.'
+    invalid_cache: 'Невалидный кеш "%s".'
+questions:
+    cache: 'Выберите кеш.'
+examples:
+    -
+        description: 'Rebuild all caches'
+        execution: 'drupal cr all'
+    -
+        description: 'Rebuild discovery cache'
+        execution: 'drupal cr discovery'

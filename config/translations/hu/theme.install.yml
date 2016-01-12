@@ -1,0 +1,21 @@
+description: 'Aplikációban levő téma vagy témák telepítése'
+questions:
+    theme: 'Téma neve (nyomja meg a <return> ahhoz hogy befejezze a témák hozzáadását)'
+    invalid-theme: '%s érvénytelen téma'
+options:
+    theme: 'Telepítendő témát vagy témákat vesszővel kell elválasztani'
+    overwrite-config: 'Overwrite configuration active if necessary'
+    set-default: 'A téma alapértelmezettként való beállitása'
+messages:
+    no-themes: 'Adja meg a telepítésre szánt témát vagy témákat.'
+    themes-missing: 'Nem lehetséges a %s témák telepítése mivel nem elérhetők'
+    theme-missing: 'Nem lehetséges a %s téma telepítése mivel nem elérhető'
+    missing-dependencies: 'Nem lehetséges a %s témák telepítése mivel vannak %s hiányzó függőségek.'
+    themes-nothing: 'Nincs mit tenni. Minden %s téma már fel van telepítve'
+    theme-nothing: 'Nincs mit tenni. A %s téma már fel van telepítve'
+    dependencies: 'Biztos benne hogy fel akarja telepíteni a függőségeket: %s?'
+    theme-success: 'A %s téma sikeresen telepí'
+    themes-success: 'A %s témák sikeresen telepítve'
+    theme-default-success: 'A %s téma sikeresen telepítve volt mint alapértelmezett téma'
+    disabled-themes: 'Csak tiltott témák lesznek listázva az automatikus listázásba'
+    invalid-theme-default: 'Alapértelmezett opció csak egy témára érvényes'

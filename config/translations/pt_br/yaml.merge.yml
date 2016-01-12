@@ -1,0 +1,17 @@
+description: 'Combinar um ou mais arquivos YAML em um único novo arquivo. Os últimos valores serão preservados.'
+arguments:
+    yaml-files: 'Caminho dos arquivos YAML a serem combinados'
+    yaml-destination: 'Caminhos do novo arquivo YAML a ser armazenado a combinação dos arquivos selecionados.'
+questions:
+    yaml-destination: 'Caminhos do novo arquivo YAML a ser armazenado a combinação dos arquivos selecionados.'
+    file: 'Caminho do arquivo a ser combinado'
+    other-file: 'Caminho do arquivo a ser combinado (deixe vazio para iniciar o processo de junção dos arquivos)'
+    invalid-file: 'O caminho do arquivo não pode ser vazio'
+    file-already-added: 'O caminho especificado para o arquivo já foi incluído'
+messages:
+    wrong-parse: 'O arquivo YAML "%s" está vazio ou o arquivo não existe.'
+    error-parsing: 'Um erro ocorreu na leitura do arquivo YAML %s.'
+    two-files-required: 'É necessário ao menos dois arquivos para iniciar a combinação dos arquivos.'
+    error-generating: 'Ocorreu um erro ao gerar um novo arquivo YAML.'
+    error-writing: 'Erro ao escrever o novo arquivo YAML.'
+    merged: 'Novo arquivo %s foi criado com sucesso após a combinação dos arquivos YAML.'

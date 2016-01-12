@@ -33,8 +33,8 @@ errors:
     class-name-empty: 'Tên của lớp không thể để trống'
     invalid-file-path: 'Bạn phải cung cấp một đường dẫn file hợp lệ'
 status:
-    enabled: Cho phép
-    disabled: Không cho phép
+    enabled: 'Cho phép'
+    disabled: 'Không cho phép'
 messages:
     canceled: 'Đã huỷ sinh mã'
     drupal-core: 'Nhập Drupal phiên bản lõi'

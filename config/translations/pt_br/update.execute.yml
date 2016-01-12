@@ -1,0 +1,8 @@
+description: 'Executar uma função especifica de atualização (Update N) de um módulo especifico, ou executar todas'
+options:
+    update-n: 'Especificar a função Update N a ser executada'
+messages:
+    no-module-updates: 'Não a atualizações disponíveis para o módulo %s'
+    executing-update: 'Executando a função %s do módulo %s'
+    module-update-function-not-found: 'O módulo %s não contém função de atualização %s'
+    executing-required-previous-updates: 'Executando atualizações anteriores necessárias'

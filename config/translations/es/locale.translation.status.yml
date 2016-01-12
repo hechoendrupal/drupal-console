@@ -1,0 +1,17 @@
+description: 'Lista de traducciones disponibles actualizadas'
+arguments:
+    language: 'Idioma por ejemplo es o Español'
+messages:
+    no-languages: 'No hay idioma traducible, Añada un idioma primero.'
+    up-to-date: 'Todas las traducciones actualizadas.'
+    no-translations: 'No hay status de traducción disponible. Checar manualmente'
+    project: Proyecto
+    version: Versión
+    local-age: 'Edad local'
+    remote-age: 'Edad remota'
+    info: Información
+    no-translation-files: 'No se han proporcionado archivos de traducción para las versiones de desarrollo.'
+    file-not-found: 'Archivo no encontrado en  %s ni en  %s'
+    local-file-not-found: 'Archivo no encontrado en  %s'
+    translation-not-determined: 'La ubicación del archivo de traducción no pudo ser determinada.'
+    translation-project-updated: Actualizado

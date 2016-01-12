@@ -1,0 +1,8 @@
+description: 'Lansează un client DB dacă acesta este disponibil'
+arguments:
+    database: 'Cheia bazei de date din fișierul settings.php'
+messages:
+    database-not-found: 'Informațiile conexiunii la baza de date %s nu au fost găsite'
+    database-not-supported: 'Tipul bazei de date %s nu are suport încă'
+    database-client-not-found: 'Clientul bazei de date %s nu a fost găsit'
+    connection: 'Conexiune: %s'

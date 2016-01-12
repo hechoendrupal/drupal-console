@@ -1,0 +1,7 @@
+description: 恢复数据库，结构以及数据
+arguments:
+    database: settings.php文件里的数据库键
+options:
+    file: 数据库备份文件文件名
+messages:
+    success: '数据库导入成功，导入的文件：'

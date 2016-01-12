@@ -1,0 +1,74 @@
+commands:
+  - command: generate:module
+    options:
+      module: Example module
+      machine-name: example
+      module-path: /modules/custom/
+      description: My example module
+      core: 8.x
+      package: Test
+      dependencies:
+  - command: generate:controller
+    options:
+      module: example
+      class: ExampleController
+      method: index
+      route: /example/index
+      services: [twig]
+  - command: generate:form:config
+    options:
+      module: example
+      class: ExampleForm
+      form-id: example_form
+      inputs: false
+      routing: true
+  - command: generate:entity:content
+    options:
+      module: example
+      entity-class: Foo
+      entity-name: foo
+  - command: generate:entity:config
+    options:
+      module: example
+      entity-class: Bar
+      entity-name: bar
+  - command: generate:command
+    options:
+      module: example
+      name: ExampleCommand
+      name: example:command
+      container-aware: false
+  - command: generate:authentication:provider
+    options:
+      module: example
+      class: ExampleAuthenticationProvider
+  - command: generate:plugin:block
+    options:
+      module: example
+      class: ExampleBlock
+      label: Example plugin block
+      plugin-id: example_block
+  - command: generate:plugin:imageeffect
+    options:
+      module: example
+      class: ExampleImageEffect
+      plugin-id: example_image_effect
+      label: Example image effect
+      description: Example image effect
+  - command: generate:plugin:rest:resource
+    options:
+      module: example
+      class: ExampleRestResource
+      plugin-id: example_rest_resource
+      plugin-label: Example Rest Resource
+      plugin-url: example_rest_resource
+      plugin-states: 0, 1, 2
+  - command: generate:service
+    options:
+      module: example
+      class: ExampleService
+      name: example.service
+      interface: yes
+  - command: module:install
+    arguments:
+      module: [example]

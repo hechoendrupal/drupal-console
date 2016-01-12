@@ -1,0 +1,15 @@
+description: 'अनुप्रयोग की सारी उपलब्ध परिक्षण यूनिटो को दिखाएँ।'
+help: 'कंसोल कमाण्ड को नवीनतम संस्करण में अवगत करें।'
+arguments:
+    test-class: 'परिक्षण क्लास'
+options:
+    group: Group
+messages:
+    class: 'परिक्षण क्लास'
+    description: Description
+    group: Group
+    type: 'परिक्षण प्रकार'
+    success: 'कंसोल को नवीनतम संस्करण में अवगत कर दिया गया है।'
+    missing-dependency: 'Missing dependency'
+    methods: 'परिक्षण मेथड'
+    not-found: 'Debug wasn''t found, try enclosure test id between double quotes.'

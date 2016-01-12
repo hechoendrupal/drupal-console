@@ -1,0 +1,8 @@
+description: 'Dezinstalează un modul sau mai multe din aplicaţie.'
+options:
+    module: 'Modulul sau modulele care urmează a fi dezinstalate ar trebui separate de o virgulă'
+messages:
+    no-modules: 'Trebuie să introduceți un modul sau mai multe pentru a le dezinstala.'
+    dependents: 'Modulele %s nu pot fi dezinstalate deoarece sunt necesare pentru %s'
+    nothing: 'Nimic de făcut.Toate modulele sunt deja dezinstalate'
+    success: 'Următorul(arele) modul(e): %s au fost dezinstalate cu succes'

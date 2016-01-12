@@ -10,8 +10,9 @@ namespace Drupal\Console\EventSubscriber;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\Console\Input\ArrayInput;
-use Drupal\Console\Command\Command;
 use Symfony\Component\Console\ConsoleEvents;
+use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
 
 class CallCommandListener implements EventSubscriberInterface
 {
@@ -20,40 +21,49 @@ class CallCommandListener implements EventSubscriberInterface
      */
     public function callCommands(ConsoleTerminateEvent $event)
     {
-        /**
-         * @var \Drupal\Console\Command\Command $command
-         */
+        /* @var Command $command */
         $command = $event->getCommand();
-        $output = $event->getOutput();
+        /* @var DrupalStyle $io */
+        $io = $event->getOutput();
 
         if (!$command instanceof Command) {
             return;
         }
 
-        $commands = $command->getHelper('chain')->getCommands();
+        $application = $command->getApplication();
+        $commands = $application->getChain()->getCommands();
 
         if (!$commands) {
             return;
         }
 
-        $application = $command->getApplication();
         foreach ($commands as $chainedCommand) {
-            if ($chainedCommand['name'] == 'module:install') {
-                $messageHelper = $application->getHelperSet()->get('message');
-                $translatorHelper = $application->getHelperSet()->get('translator');
-                $messageHelper->addErrorMessage(
-                    $translatorHelper->trans('commands.chain.messages.module_install')
-                );
-                continue;
-            }
-
             $callCommand = $application->find($chainedCommand['name']);
 
             $input = new ArrayInput($chainedCommand['inputs']);
             if (!is_null($chainedCommand['interactive'])) {
                 $input->setInteractive($chainedCommand['interactive']);
             }
-            $callCommand->run($input, $output);
+            $callCommand->run($input, $io);
+
+            $drupal = $application->getDrupalHelper();
+            if ($chainedCommand['name'] === 'site:new') {
+                if ($chainedCommand['inputs']['site-name']) {
+                    $siteRoot = sprintf(
+                        '%s/%s', getcwd(),
+                        $chainedCommand['inputs']['site-name']
+                    );
+                    chdir($siteRoot);
+                }
+                $drupal->isValidRoot(getcwd());
+                $drupal->getAutoLoadClass();
+                $application->prepare($drupal);
+            }
+
+            if ($chainedCommand['name'] === 'site:install') {
+                $drupal->isValidRoot(getcwd());
+                $application->prepare($drupal);
+            }
         }
     }
 

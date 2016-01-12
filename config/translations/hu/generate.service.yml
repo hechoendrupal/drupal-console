@@ -1,0 +1,15 @@
+description: 'Service létrehozása'
+help: 'A <info>generate:service</info> új service létrehozásában segít.'
+welcome: 'Üdvözlet az új service létrehozásában'
+options:
+    module: common.options.module
+    service-name: 'Service neve'
+    class: 'Class neve'
+    interface: Interfész
+    services: common.questions.services
+questions:
+    module: common.questions.module
+    service-name: 'Service nevének megadása'
+    class: 'Class nevének megadása'
+    interface: 'Interfész létrehozása'
+    services: common.options.services

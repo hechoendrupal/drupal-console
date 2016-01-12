@@ -1,0 +1,17 @@
+description: '安装模块'
+questions:
+    module: '模块名称 (按下 <return> 键结束添加模块）'
+    invalid-module: '无效模块 %s'
+options:
+    module: 一个或多个模块，模块之间使用逗号分隔
+    overwrite-config: '覆写配置'
+messages:
+    no-modules: '必须提供一个或多个模块才能启用'
+    missing: '不能安装模块 %s，由于 %s 丢失'
+    missing-dependencies: '不能安装模块 %s，由于其依赖 %s 丢失'
+    nothing: '不需要做任何操作，所有模块已经安装'
+    dependencies: '您确定要安装依赖：%s?'
+    success: '以下模块成功安装：%s'
+    disabled-modules: '仅被禁用的模块才会出现在自动完成列表中'
+    config-conflict-overwrite: '这些配置对象将覆写进您的活动配置中'
+    config-conflict: '这些配置对象已经在您的活动配置中存在，安装不可行'

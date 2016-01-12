@@ -1,0 +1,33 @@
+description: 'Generează și Înregistrează un controller'
+help: 'Comanda <info>generate:controller</info> vă va ajuta să generați un controller nou.'
+welcome: 'Bine ați venit la Generatorul de Controllere Drupal'
+options:
+    module: common.options.module
+    class: 'Numele clasei Controller'
+    title: 'Title of the controller'
+    method: 'The action method name'
+    route: 'Calea rutei'
+    services: common.options.services
+    test: 'Generați o clasă de test'
+    controller-title: 'Titlul controlerului'
+    method-name: 'Numele metodei'
+questions:
+    module: common.questions.module
+    class: 'Introduceți numele clasei Controller'
+    method: 'Enter the action method name'
+    route: 'Introduceți calea rutei'
+    services: common.questions.services
+    test: 'Doriți să generați o clasă de test unit'
+    title: 'Enter the Controller method title'
+    controller-add: 'Do you want add another contoller method'
+    controller: 'Controller title'
+    method-name: 'Introduceți numele metodei'
+    other-controller-title: 'Titlul controllerului (necompletat pentru a începe cu generarea codului)'
+    controller-title: 'Titlul controllerului'
+messages:
+    title-already-added: 'Titlul a fost adăugat în prealabil'
+    method-name-already-added: 'Numele metodei a fost adăugat în prealabil'
+    route-already-added: 'Ruta a fost adăugată în prealabil'
+    invalid-controller-title: 'Titlul nu poate fi necompletat'
+    invalid-method-name: 'Numele metodei nu poate fi necompletat'
+    invalid-route: 'Ruta nu poate fi necompletată'

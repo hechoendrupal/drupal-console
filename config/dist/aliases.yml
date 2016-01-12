@@ -1,0 +1,296 @@
+application:
+  default:
+    commands:
+      cache:
+        rebuild:
+          aliases:
+            - cr
+      theme:
+        download:
+          aliases:
+            - td
+        debug:
+          aliases:
+            - tde
+        install:
+          aliases:
+            - ti
+        uninstall:
+          aliases:
+            - tu
+      module:
+        download:
+          aliases:
+            - md
+      config:
+        debug:
+          aliases:
+            - cde
+        edit:
+          aliases:
+            - cdit
+        export:
+          aliases:
+            - ce
+          content:
+            type:
+              aliases:
+                - cect
+          single:
+            aliases:
+              - ces
+          view:
+            aliases:
+              - cev
+        import:
+          aliases:
+            - ci
+          single:
+            aliases:
+              - cis
+      config:
+        override:
+          aliases:
+            - co
+      container:
+        debug:
+          aliases:
+            - cod
+      cron:
+        execute:
+          aliases:
+            - cre
+        release:
+          aliases:
+            - crr
+      dblog:
+        clear:
+          aliases:
+            - dbc
+        debug:
+          aliases:
+            - dbb
+      generate:
+        authentication:
+          provider:
+            aliases:
+              - gap
+        command:
+          aliases:
+            - gcm
+        controller:
+          aliases:
+            - gcn
+        doc:
+          dash:
+            aliases:
+              - gdd
+          gitbook:
+            aliases:
+              - gdg
+        entity:
+          bundle:
+            aliases:
+              - geb
+          config:
+            aliases:
+              - gecg
+          content:
+            aliases:
+              - gect
+        event:
+          subscriber:
+            aliases:
+              - ges
+        form:
+          alter:
+            aliases:
+              - gfa
+        form:
+          config:
+            aliases:
+              - gfc
+        module:
+          aliases:
+            - gm
+        permissions:
+          aliases:
+            - gp
+        plugin:
+          block:
+            aliases:
+              - gpb
+        plugin:
+          condition:
+            aliases:
+              - gpc
+        plugin:
+          field:
+            aliases:
+              - gpf
+        plugin:
+          fieldformatter:
+            aliases:
+              - gpff
+        plugin:
+          fieldtype:
+            aliases:
+              - gpft
+        plugin:
+          fieldwidget:
+            aliases:
+              - gpfw
+        plugin:
+          imageeffect:
+            aliases:
+              - gpie
+        plugin:
+          imageformatter:
+            aliases:
+              - gpif
+        plugin:
+          rest:
+            resource:
+              aliases:
+                - gprr
+        plugin:
+          rulesaction:
+            aliases:
+              - gpra
+        plugin:
+          type:
+            annotation:
+              aliases:
+                - gpta
+        plugin:
+          type:
+            yaml:
+              aliases:
+                - gpty
+        plugin:
+          views:
+            field:
+              aliases:
+                - gpvf
+        service:
+          aliases:
+            - gs
+        theme:
+          aliases:
+            - gt
+      migrate:
+        debug:
+          aliases:
+            - mid
+        execute:
+          aliases:
+            - mie
+        load:
+          aliases:
+            - mil
+      module:
+        debug:
+          aliases:
+            - mod
+        download:
+          aliases:
+            - modo
+        install:
+          aliases:
+            - moi
+        uninstall:
+          aliases:
+            - mou
+      rest:
+        debug:
+          aliases:
+            - rede
+        disable:
+          aliases:
+            - redi
+        enable:
+          aliases:
+            - ree
+      router:
+        debug:
+          aliases:
+            - rod
+        rebuild:
+          aliases:
+            - ror
+      site:
+        debug:
+          aliases:
+            - sd
+        install:
+          aliases:
+            - si
+        maintenance:
+          aliases:
+            - sma
+        mode:
+          aliases:
+            - smo
+        new:
+          aliases:
+            - sn
+        status:
+          aliases:
+            - ss
+      test:
+        debug:
+          aliases:
+            - td
+        run:
+          aliases:
+            - tr
+      update:
+        debug:
+          aliases:
+            - upd
+        execute:
+          aliases:
+            - upe
+      user:
+        login:
+          clear:
+            attempts:
+              aliases:
+                - uslca
+          url:
+            aliases:
+              - uslu
+        password:
+          hash:
+            aliases:
+              - usph
+          reset:
+            aliases:
+              - uspr
+      views:
+        debug:
+          aliases:
+            - vde
+        disable:
+          aliases:
+            - vdi
+        enable:
+          aliases:
+            - ve
+      yaml:
+        diff:
+          aliases:
+            - yd
+        merge:
+          aliases:
+            - ym
+        split:
+          aliases:
+            - ys
+        update:
+          key:
+            aliases:
+              - yu
+          value:
+            aliases:
+              - yuv

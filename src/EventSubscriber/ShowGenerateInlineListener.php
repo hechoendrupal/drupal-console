@@ -2,15 +2,16 @@
 
 /**
  * @file
- * Contains \Drupal\Console\EventSubscriber\ShowGeneratedFiles.
+ * Contains \Drupal\Console\EventSubscriber\ShowGenerateInlineListener.
  */
 
 namespace Drupal\Console\EventSubscriber;
 
-use Drupal\Console\Helper\TranslatorHelper;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
 
 class ShowGenerateInlineListener implements EventSubscriberInterface
 {
@@ -25,27 +26,25 @@ class ShowGenerateInlineListener implements EventSubscriberInterface
     ];
 
     private $skipArguments = [
+        'command'
     ];
     /**
      * @param ConsoleTerminateEvent $event
      */
     public function showGenerateInline(ConsoleTerminateEvent $event)
     {
-        /**
-         * @var \Drupal\Console\Command\Command $command
-         */
+        /* @var Command $command */
         $command = $event->getCommand();
-        $output = $event->getOutput();
+        /* @var DrupalStyle $io */
+        $io = $event->getOutput();
+
         $command_name = $command->getName();
 
         $this->skipArguments[] = $command_name;
 
         $application = $command->getApplication();
-        $messageHelper = $application->getHelperSet()->get('message');
-        /**
-         * @var TranslatorHelper
-         */
-        $translatorHelper = $application->getHelperSet()->get('translator');
+        $translatorHelper = $application->getTranslator();
+
         if ($event->getExitCode() != 0) {
             return;
         }
@@ -91,11 +90,12 @@ class ShowGenerateInlineListener implements EventSubscriberInterface
                 $inline.= ' --' . $option_id . '=' . $option;
             }
 
-
             // Print yaml output and message
-            $messageHelper->showMessage($output, $translatorHelper->trans('application.console.messages.inline.generated'));
+            $io->writeln(
+                $translatorHelper->trans('application.console.messages.inline.generated')
+            );
 
-            $output->writeln('$ drupal' . $inline);
+            $io->writeln('$ drupal' . $inline);
         }
     }
 

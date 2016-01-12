@@ -1,0 +1,8 @@
+description: 卸载模块
+options:
+    module: 要卸载的模块，模块之间请使用逗号分隔
+messages:
+    no-modules: '请输入模块，才能卸载'
+    dependents: '模块 %s 不能卸载，它被 %s 所依赖'
+    nothing: 任何事都不用做，所有模块都已经被卸载了
+    success: 以下模块被成功卸载：%s

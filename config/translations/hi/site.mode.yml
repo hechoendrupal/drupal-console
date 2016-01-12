@@ -1,0 +1,16 @@
+description: 'प्रणाली की कार्य-निष्पादन व्यवस्था को बदलें'
+arguments:
+    environment: 'Environment name (dev|prod)'
+messages:
+    configuration: 'व्यवस्था का नाम'
+    configuration-key: 'व्यवस्था की कुंजी'
+    original: 'मूल निधि'
+    updated: 'चढ़ाई निधि'
+    invalid-env: 'Invalid environment'
+    new-services-settings: 'New services settings'
+    service: Service
+    service-parameter: Parameter
+    service-value: Value
+    error-copying-file: 'Error copying file'
+    error-writing-file: 'Error copying file'
+    services-file-overwritten: 'Services files %s was overwritten'

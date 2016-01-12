@@ -1,0 +1,4 @@
+description: 'Execută cron-ul direct dintr-un modul sau din toate'
+messages:
+    module-invalid: 'Modulul %s nu are o implementare pentru cron'
+    executing-cron: 'Executarea funcțiilor din modulul %s'

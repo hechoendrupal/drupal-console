@@ -1,0 +1,16 @@
+description: 'Cambiar la configuración de rendimiento del sistema'
+arguments:
+    environment: 'Nombre de entorno'
+messages:
+    configuration: 'Nombre de la configuración'
+    configuration-key: 'Clave de la configuración'
+    original: 'Valor original'
+    updated: 'Sobreescribir valor'
+    invalid-env: 'Entorno inválido'
+    new-services-settings: 'Configuración de nuevos servicios'
+    service: Servicio
+    service-parameter: Parámetro
+    service-value: Valor
+    error-copying-file: 'Error copiando el archivo'
+    error-writing-file: 'Error copiando el archivo'
+    services-file-overwritten: 'El archivo de servicios %s ha sido sobreescrito'

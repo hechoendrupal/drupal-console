@@ -1,0 +1,7 @@
+description: 'List all multisites available in system'
+help: 'The <info>multisite:debug</info> list all known multi sites.'
+messages:
+    no-multisites: 'There aren''t multisites configured'
+    site: Site
+    directory: Directory
+    site-format: 'Sites are written using the format: <port>.<domain>.<path>'

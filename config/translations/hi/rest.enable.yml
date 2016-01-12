@@ -1,0 +1,14 @@
+description: 'अनुप्रयोग के रेस्ट साधन को चालू करे'
+arguments:
+    resource-id: 'Rest आईडी'
+    states: 'चालू किये जाने वाले रेस्ट साधन की रेस्ट स्थिति'
+    authorizations: 'प्रमाणन प्रदाता जो रेस्ट साधन के लिए चालू है'
+questions:
+    resource-id: 'Rest आईडी'
+messages:
+    invalid-rest-id: 'रेस्ट आईडी %s अमान्य है'
+    formats: 'उपलब्ध अनुक्रमण आरूप'
+    authentication-providers: 'उपलब्ध प्रमाणीकरण प्रदाता'
+    selected-state: 'चयनित राज्य स्टेट'
+    selected-formats: 'चयनित प्रारूपों'
+    selected-authentication-providers: 'चयनित प्रमाणीकरण प्रदाता'

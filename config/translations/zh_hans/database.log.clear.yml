@@ -1,0 +1,5 @@
+description: '在DBLog表中删除事件日志，可以使用过滤器'
+messages:
+    event-deleted: '事件 %s 已删除'
+    clear-error: '清除过程失败，请检查所使用的过滤器'
+    clear-sucess: '清除事件成功'

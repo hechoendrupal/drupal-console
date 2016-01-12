@@ -1,0 +1,6 @@
+description: 启动一个可用数据库客户端
+arguments:
+    database: settings.php文件里的数据库键
+messages:
+    connection: 'Connection: %s'
+    executing: 执行中：%s

@@ -1,0 +1,7 @@
+description: 'Muestra todas las tablas de una base de datos dada.'
+help: 'El comando <info>database:table:debug</info> le ayuda a debuguear las tablas de su base de datos.'
+arguments:
+    database: 'Índice de la base de datos del settings.php'
+messages:
+    table-show: 'Mostrando las tablas de la base de datos %s'
+    table: Tabla

@@ -1,0 +1,12 @@
+description: 'Descarcă modulul sau modulele pentru aplicație'
+options:
+    version: 'Versiunea modulului (ex.: 1.x-dev)'
+messages:
+    no-releases: 'Nu există nici o versiune pentru modulul %s'
+    getting-releases: 'Obținerea versiunilor pentru modulul %s'
+    downloading: 'Se descarcă modulul %s cu versiunea %s'
+    downloaded: 'Modulul %s cu versiunea %s a fost descărcat cu succes la %s'
+    select-release: 'Vă rugăm să selectați versiunea dorită'
+    outside-drupal: 'Rădăcina Drupal nu poate fi determinată. Folosiți --root pentru a seta destinația, folderul curent va fi folosit în loc de.'
+    error-creating-folder: 'Eroare la crearea folderului %s, vă rugăm să vă verificați permisiunile'
+    installed: 'Modulul %s a fost instalat cu succes'

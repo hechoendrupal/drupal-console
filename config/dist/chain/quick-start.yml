@@ -1,0 +1,20 @@
+commands:
+  - command: site:new
+    arguments:
+      site-name: drupal8.dev
+      version: 8.0.1
+  - command: site:install
+    options:
+        root: /Users/jmolivas/develop/drupal/sites/drupal8.dev
+        langcode: en
+        db-type: sqlite
+        db-file: sites/default/files/.ht.sqlite
+        site-name: 'Drupal 8 Quick Start'
+        site-mail: admin@example.com
+        account-name: admin
+        account-mail: admin@example.com
+        account-pass: admin
+        generate-inline: true
+    arguments:
+        profile: standard
+  - command: server

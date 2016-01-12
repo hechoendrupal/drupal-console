@@ -1,0 +1,19 @@
+description: 'Afișează evenimentele curente, de intrare în jurnal, pentru aplicație'
+arguments:
+    event-id: 'ID-ul evenimentului DBLog'
+options:
+    type: 'Filtrați evenimentele după un anumit tip'
+    severity: 'Filtrați evenimentele după un anumit nivel de severitate'
+    user-id: 'Filtrați evenimentele după un anumit id de utilizator'
+    reverse: 'Reverse the order of events'
+    limit: 'Limitați rezultatele la un anumit număr'
+    offset: 'Punctul de început al unei limite'
+messages:
+    event-id: 'ID-ul evenimentului'
+    type: Tip
+    date: Dată
+    message: Mesaj
+    user: Utilizator
+    severity: Severitate
+    invalid-severity: 'Tipul de severitate nu este valid, filtrul a fost ignorat'
+    not-found: 'Evenimentul DBLog %s nu a fost găsit'

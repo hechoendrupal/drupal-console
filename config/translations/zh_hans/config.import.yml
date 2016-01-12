@@ -1,0 +1,7 @@
+description: '导入配置到当前程序.'
+arguments:
+    file: '配置文件路径.'
+    remove-files: '同步化后删除文件.'
+messages:
+    config_files_imported: '列出配置文件.'
+    imported: '成功导入配置文件.'

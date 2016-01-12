@@ -1,0 +1,12 @@
+description: '导出一个指定的内容类型及其字段'
+arguments:
+    content-type: 'Content Type to be exported'
+    content_type: '内容类型'
+questions:
+    content-type: 'Content Type to be exported'
+    optional-config: '导出内容类型进模块作为一个可选配置'
+    content_type: '内容类型'
+messages:
+    content_type_exported: '正在导出内容类型'
+options:
+    optional-config: '导出内容类型作为模块中的一个可选 YAML 配置'

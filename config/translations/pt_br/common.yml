@@ -1,0 +1,42 @@
+options:
+    events: 'Carrega eventos do container'
+    module: 'O nome do módulo.'
+    services: 'Carrega serviços do container.'
+    tags: 'Define tags de serviço do container.'
+    inputs: 'Cria entradas de formulário.'
+    permissions: 'Criar permissões.'
+questions:
+    module: 'Digite o nome do módulo'
+    confirm: 'Você confirma a criação'
+    canceled: 'Criação de comando cancelada.'
+    events:
+        message: "\nDigite o nome do evento ou use as setas para cima e para baixo.\nIsto é opicional, pressione <info>enter</info> para <info>continuar</info>\n"
+        name: 'Digite o nome do evento'
+    services:
+        confirm: 'Você deseja carregar serviços do container?'
+        message: "\nDigite o nome do serviço ou use as setas para cima e para baixo\nIsto é opcional, pressione <info>enter</info> para <info>continuar</info>\n"
+        name: 'Digite seu serviço'
+    inputs:
+        confirm: 'Você deseja de gerar uma estrutura de formulário?'
+        label: 'Label do input'
+        machine_name: 'Nome de máquina do input'
+        permission: 'Você quer gerar permissões?'
+        type: Tipo
+        invalid: 'Tipo de campo "%s" inválido.'
+        description: Descrição
+        default-value: 'Valor padrão'
+        weight: 'Peso para o elemento input'
+        title: Título
+        fieldset: Fieldset
+errors:
+    module-dependency: 'Dependência do módulo ausente "%s"'
+    class-name-empty: 'O nome da classe não pode ser vazio'
+    invalid-file-path: 'You must provide a valid file path'
+status:
+    enabled: Habilitado
+    disabled: Desabilitado
+messages:
+    canceled: 'Gerador cancelado'
+    drupal-core: 'Drupal Core'
+    move-phar: 'Accessing console from anywhere on your system'
+    quick-start: 'Download, install and serve Drupal 8'
