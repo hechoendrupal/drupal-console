@@ -14,7 +14,7 @@ class DrupalExtensionDiscovery extends ExtensionDiscovery
     /**
      * Reset internal static cache.
      */
-    public function reset()
+    public static function reset()
     {
         static::$files = array();
     }
