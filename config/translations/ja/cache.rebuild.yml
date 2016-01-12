@@ -1,17 +1,17 @@
-description: 'Rebuild and clear all site caches.'
+description: 'キャッシュの再生成とクリア'
 options:
-    cache: 'Only clear a specific cache.'
+    cache: 'クリアするキャッシュ名'
 messages:
     welcome: 'Welcome to the cache:rebuild command'
-    rebuild: 'Rebuilding cache(s), wait a moment please.'
-    completed: 'Done clearing cache(s).'
-    invalid_cache: 'Cache "%s" is invalid.'
+    rebuild: 'キャッシュを再生成しています、しばらくお待ちください。'
+    completed: 'キャッシュのクリアが完了しました。'
+    invalid_cache: 'キャッシュ "%s" は不正な値です。'
 questions:
-    cache: 'Select cache.'
+    cache: 'キャッシュを選択'
 examples:
     -
-        description: 'Rebuild all caches'
+        description: '全てのキャッシュを再生成'
         execution: 'drupal cr all'
     -
-        description: 'Rebuild discovery cache'
+        description: 'discoveryキャッシュを再生成'
         execution: 'drupal cr discovery'
