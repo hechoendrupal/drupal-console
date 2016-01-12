@@ -1,14 +1,14 @@
-description: 'Displays current users for the application'
-help: 'The <info>user:debug</info> command helps you get current users.'
-welcome: 'Welcome to the Drupal user debug'
+description: 'एप्लीकेशन के लिए करंट यूजरस को प्रदर्शित करता है'
+help: '<info>user:debug</info> कमांड करंट यूजरस को पाने में मदद करता है।'
+welcome: 'द्रुपल के यूजर डिबग करने के लिए आपका स्वागत है'
 options:
-    roles: 'Roles to filter debug'
-    limit: 'How many users would you listed in debug'
+    roles: 'रोल्स से फिल्टर डिबग'
+    limit: 'डिबग में आप कितने यूजरस के सूचीबद्ध में होंगे'
 questions:
-    roles: 'Select role(s) to be used to filter user debug list'
-    limit: 'Enter how many users would you like to show'
+    roles: 'यूजर डिबग सूची को फ़िल्टर करने के लिए चयनित रोल(स) इस्तेमाल किया जाता है'
+    limit: 'आप कितने यूजरस को दिखाना चाहेंगे एंटर करे'
 messages:
-    user-id: 'User ID'
-    username: Username
-    roles: Roles
-    status: Status
+    user-id: 'यूजर आईडी'
+    username: यूजरनाम
+    roles: रोल्स
+    status: स्टेटस
