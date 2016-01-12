@@ -43,10 +43,7 @@ class ChainCommand extends Command
 
         $interactive = false;
 
-        $learning = false;
-        if ($input->hasOption('learning')) {
-            $learning = $input->getOption('learning');
-        }
+        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
 
         $file = null;
         if ($input->hasOption('file')) {
