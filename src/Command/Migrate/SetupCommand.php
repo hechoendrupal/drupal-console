@@ -143,9 +143,9 @@ class SetupCommand extends ContainerAwareCommand
         $files_directory = $input->getOption('files-directory');
         if (!$files_directory) {
             $files_directory = $io->ask(
-              $this->trans('commands.migrate.setup.questions.files-directory'),
-              ''
-           );
+                $this->trans('commands.migrate.setup.questions.files-directory'),
+                ''
+            );
             $input->setOption('files-directory', $files_directory);
         }
     }
@@ -153,7 +153,7 @@ class SetupCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $template_storage = $this->hasGetService('migrate.template_storage');
+        $template_storage = $this->getService('migrate.template_storage');
         $source_base_path = $input->getOption('files-directory');
 
         $this->registerMigrateDB($input, $output);
@@ -175,22 +175,24 @@ class SetupCommand extends ContainerAwareCommand
         $migration_templates = $template_storage->findTemplatesByTag($version_tag);
 
         $migrations = [];
-        $builderManager = $this->hasGetService('migrate.migration_builder');
+        $builderManager = $this->getService('migrate.migration_builder');
         foreach ($migration_templates as $id => $template) {
-          $migration_templates[$id]['source']['database_state_key'] = $database_state_key;
-          // Configure file migrations so they can find the files.
-          if ($template['destination']['plugin'] == 'entity:file') {
-            if ($source_base_path) {
-              // Make sure we have a single trailing slash.
-              $source_base_path = rtrim($source_base_path, '/') . '/';
-              $migration_templates[$id]['destination']['source_base_path'] = $source_base_path;
+            $migration_templates[$id]['source']['database_state_key'] = $database_state_key;
+            // Configure file migrations so they can find the files.
+            if ($template['destination']['plugin'] == 'entity:file') {
+                if ($source_base_path) {
+                    // Make sure we have a single trailing slash.
+                    $source_base_path = rtrim($source_base_path, '/') . '/';
+                    $migration_templates[$id]['destination']['source_base_path'] = $source_base_path;
+                }
             }
-          }
         }
 
         // Let the builder service create our migration configuration entities from
         // the templates, expanding them to multiple entities where necessary.
-        /** @var \Drupal\migrate\MigrationBuilder $builder */
+        /**
+ * @var \Drupal\migrate\MigrationBuilder $builder 
+*/
         $migrations = $builderManager->createMigrations($migration_templates);
         foreach ($migrations as $migration) {
             try {

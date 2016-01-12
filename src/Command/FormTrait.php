@@ -30,7 +30,7 @@ trait FormTrait
                 'fieldset',
             ];
 
-            $elementInfoManager = $this->hasGetService('plugin.manager.element_info');
+            $elementInfoManager = $this->getService('plugin.manager.element_info');
             if (!$elementInfoManager) {
                 return false;
             }
