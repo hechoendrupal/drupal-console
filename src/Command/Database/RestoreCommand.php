@@ -51,8 +51,8 @@ class RestoreCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         $database = $input->getArgument('database');
-        $learning = $input->getOption('learning');
         $file = $input->getOption('file');
+        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
 
         $databaseConnection = $this->resolveConnection($io, $database);
 

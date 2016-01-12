@@ -87,10 +87,7 @@ class ControllerCommand extends GeneratorCommand
             $routes[$i]['route'] = (strpos($route[$i], '/') === 0) ? $route[$i] : '/' . $route[$i] ;
         }
 
-        $learning = false;
-        if ($input->hasOption('learning')) {
-            $learning = $input->getOption('learning');
-        }
+        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
 
         // @see use Drupal\Console\Command\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);

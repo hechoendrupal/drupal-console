@@ -54,10 +54,7 @@ class PermissionCommand extends GeneratorCommand
         $module = $input->getOption('module');
         $permissions = $input->getOption('permissions');
 
-        $learning = false;
-        if ($input->hasOption('learning')) {
-            $learning = $input->getOption('learning');
-        }
+        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
 
         $generator = $this->getGenerator();
         $generator->setLearning($learning);
