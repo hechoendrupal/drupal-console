@@ -1,17 +1,20 @@
-description: 'Runs PHP built-in web server'
-arguments:
-    address: 'The address:port values'
-messages:
-    executing: 'Executing php from %s.'
-errors:
-    binary: 'Unable to find PHP binary to run server.'
-examples:
+
+विवरण: 'पीएचपी निर्मित वॆब सरवर चलाता हॆ'
+तर्क:
+    पता :'पता:पोर्ट मूल्य'
+संदेश:
+    क्रियान्वित: '%s से पीएचपी क्रियान्वित.'
+त्रुटियां:
+    बाइनरी: 'पीएचपी बाइनरी चलतॆ सर्वर मॆ खोजनॆ मॆ असफल.'
+उदाहरण:
     -
-        description: 'Run using default address argument value 127.0.0.1.8088'
-        execution: 'drupal server'
+        विवरण: 'डिफ़ॉल्ट पता तर्क मूल्य 127.0.0.1.8088 कॆ साथ चलऎ'
+        क्रियान्वयन: 'दृपल सर्वर'
     -
-        description: 'Passing address argument to use a different port number'
-        execution: 'drupal server 127.0.0.1:8089'
+        विवरण: 'अलग पोर्ट मूल्य का उपयोग कॆ लियॆ पता तर्क भॆजॆ'
+        क्रियान्वयन: 'दृपल सर्वर 127.0.0.1:8089'
     -
-        description: 'Running default address argument values, using --root option to define the Drupal root'
-        execution: 'drupal --root=/var/www/drupal8.dev server'
+        विवरण: 'दृपल का root परिभाषित कारनॆ वालॆ --root विकल्प का उपयोग करकॆ डिफ़ॉल्ट पता तर्क मूल्य चलायॆ'
+        क्रियान्वयन: 'दृपल --root=/var/www/drupal8.dev सर्वर'
+
+
