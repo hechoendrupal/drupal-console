@@ -1,0 +1,46 @@
+description: 'Exportă configurările curente ale aplicației.'
+arguments:
+    directory: 'Indică calea de salvare pentru configurările exportate.'
+messages:
+    directory: 'Fișierul de configurări a fost salvat în %s'
+content:
+    type:
+        description: 'Exportă un anumit tip de conținut și câmpurile aferente.'
+        arguments:
+            content_type: 'Tipul de conținut ce urmează a fi exportat'
+        questions:
+            content_type: 'Tipul de conținut ce urmează a fi exportat'
+            optional-config: 'Exportă tipul de conținut într-un modul ca și o configurare opțională'
+        messages:
+            content_type_exported: 'Tip de conținut exportat'
+            configuration_exported: 'Următorul fișier de configurare a fost generat'
+        options:
+            optional-config: 'Exportă tipul de conținut ca un fișier opțional de configurare YAML în modulul tău'
+single:
+    description: 'Exportă o singură configurare ca fișier YAML.'
+    arguments:
+        config-name: 'Numele configurării.'
+    options:
+        simple-configuration: 'Configurare simplă'
+    questions:
+        config-type: 'Tipul configurării'
+        config-name: 'Numele configurării'
+    messages:
+        config-not-found: 'Numele configurării nu a fost găsit.'
+        export: 'Configurarea a fost exportată la fișierul %s.'
+        invalid-config-type: 'Tip de configurare invalid, vă rugăm să selectați unul din listă'
+        invalid-config-name: 'Numele configurării invalid, vă rugăm să selectați unul din listă'
+view:
+    description: 'Exportă un view în format YAML în cadrul unui modul pentru a fi reutilizat într-un alt website.'
+    messages:
+        view_exported: 'Exportă view'
+        depencies-included: 'Dependințele modulului au fost incluse la %s'
+    questions:
+        view: 'View-ul de exportat'
+        optional-config: 'Exportă view-ul într-un modul ca o configurare opțională'
+        include-module-dependencies: 'Include modulul views ca dependință în fișierul info YAML'
+    arguments:
+        view-id: 'View ID'
+    options:
+        optional-config: 'Exportă view-ul ca un fișier de configurare YAML în modul'
+        include-module-dependencies: 'Include dependințele modulului în fișierul info YAML'

@@ -1,0 +1,13 @@
+description: 'Genera un tipo de plugin con descubrimiento YAML'
+help: 'El comando <info>generate:plugin:type:yaml</info> le ayuda a generar un nuevo tipo de plugin que usa descubrimiento YAML.'
+welcome: 'Bienvenido al generador de tipos de plugin para Drupal'
+options:
+    module: common.options.module
+    class: 'Nombre de la clase del tipo de plugin'
+    plugin-name: 'Nombre máquina del tipo de plugin'
+    plugin-file-name: 'Nombre del archivo del plugin'
+questions:
+    module: common.questions.module
+    class: 'Introduzca el nombre de la clase del tipo de plugin'
+    plugin-name: 'Introduzca el nombre máquina del tipo de plugin'
+    plugin-file-name: 'Introduzca el archivo del plugin (por ejemplo, MODULO.plugin.archivo.yml)'

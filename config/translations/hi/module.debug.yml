@@ -1,0 +1,13 @@
+description: 'अनुप्रयोग के उपलब्ध मोड्यूलो को दिखाएँ'
+options:
+    status: 'मोड्यूल स्थिति [चालू है | बंद है]'
+    type: 'मोड्यूल प्रकार [मूल|मूल नही]'
+messages:
+    id: क्रमांक
+    name: नाम
+    status: स्थिति
+    origin: स्रोत
+    package: पैकेज
+    enabled: सक्षम
+    disabled: 'अक्षम'
+    schema-version: 'स्कीमा संस्करण'

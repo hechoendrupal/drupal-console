@@ -1,0 +1,19 @@
+description: 生成字段类型插件
+help: '<info>generate:plugin:fieldtype</info> 命令帮助您生成一个新的字段类型插件'
+welcome: '欢迎使用 Drupal 字段类型插件生成器'
+options:
+    module: common.options.module
+    class: 插件类名
+    label: '插件标签'
+    plugin-id: '插件 ID'
+    description: 插件描述
+    default-widget: 该插件的默认字段
+    default-formatter: '该插件的默认字段格式化器'
+questions:
+    module: common.questions.module
+    class: '输入插件类名'
+    label: '输入插件标签'
+    plugin-id: '输入插件 ID'
+    description: '输入插件描述'
+    default-widget: '输入该插件的默认字段'
+    default-formatter: '输入该插件的默认字段格式化器'

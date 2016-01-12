@@ -31,9 +31,9 @@ class EntityContentGeneratorTest extends GeneratorTest
         $label
     ) {
         $generator = new EntityContentGenerator();
-        $this->getHelperSet()->get('renderer')->setSkeletonDirs($this->getSkeletonDirs());
-        $this->getHelperSet()->get('renderer')->setTranslator($this->getTranslatorHelper());
-        $generator->setHelpers($this->getHelperSet());
+        $this->getRenderHelper()->setSkeletonDirs($this->getSkeletonDirs());
+        $this->getRenderHelper()->setTranslator($this->getTranslatorHelper());
+        $generator->setHelperSet($this->getHelperSet());
 
         $generator->generate(
             $module,
@@ -53,9 +53,9 @@ class EntityContentGeneratorTest extends GeneratorTest
           $generator->getSite()->getEntityPath($module).'/'.$entity_class.'.php',
           $generator->getSite()->getEntityPath($module).'/'.$entity_class.'ViewsData.php',
           $generator->getSite()->getSourcePath($module).'/'.$entity_class.'ListBuilder.php',
-          $generator->getSite()->getEntityPath($module).'/Form/'.$entity_class.'SettingsForm.php',
-          $generator->getSite()->getEntityPath($module).'/Form/'.$entity_class.'Form.php',
-          $generator->getSite()->getEntityPath($module).'/Form/'.$entity_class.'DeleteForm.php',
+          $generator->getSite()->getFormPath($module).'/'.$entity_class.'SettingsForm.php',
+          $generator->getSite()->getFormPath($module).'/'.$entity_class.'Form.php',
+          $generator->getSite()->getFormPath($module).'/'.$entity_class.'DeleteForm.php',
           $generator->getSite()->getModulePath($module).'/'.$entity_name.'.page.inc',
           $generator->getSite()->getTemplatePath($module).'/'.$entity_name.'.html.twig',
         ];

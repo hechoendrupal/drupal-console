@@ -1,0 +1,7 @@
+description: 返回一次性登录链接.
+options:
+    user-id: 用户ID
+messages:
+    url: '用户@name一次性登录连接: @url'
+errors:
+    invalid-user: '没法载入用户实体(ID: @uid).'

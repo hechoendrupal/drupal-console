@@ -1,0 +1,14 @@
+description: 'Gerar uma nova entidade de configuração'
+help: ''
+options:
+    module: common.options.module
+    entity-class: 'Classe da entidade de configuração'
+    entity-name: 'Nome da entidade de configuração'
+    label: 'O rótulo'
+    bundle-of: 'Atua como um bundle de entidades de conteúdo'
+questions:
+    module: common.questions.module
+    entity-class: 'Digite a classe de sua nova entidade de configuração'
+    entity-name: 'Digite o nome da sua nova entidade de configuração'
+    label: 'Digite o rótulo de sua nova entidade de configuração'
+    bundle-of: 'Nome da entidade de conteúdo, que a entidade de configuração deve atuar como um bundle'

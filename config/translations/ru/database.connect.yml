@@ -1,0 +1,8 @@
+description: 'Запуск клиента БД, если он доступен'
+arguments:
+    database: 'Ключ БД из settings.php'
+messages:
+    database-not-found: 'Сведения о подключении БД %s не найдены'
+    database-not-supported: 'БД типа %s еще не поддерживается'
+    database-client-not-found: 'Клиент БД %s не найден'
+    connection: 'Соединение: %s'

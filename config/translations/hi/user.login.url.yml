@@ -1,0 +1,7 @@
+description: 'एक बार काम करने वाली उपभोग्ता लोगिन URL देता है।'
+options:
+    user-id: 'User ID.'
+messages:
+    url: '@name: @url के लिये एक बार लोगिन'
+errors:
+    invalid-user: 'Cannot load user entity (User ID: @uid).'

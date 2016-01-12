@@ -1,0 +1,17 @@
+description: 'Lista los tests unitarios disponibles para la aplicación.'
+help: 'Actualizar el comando de consola a su última versión.'
+arguments:
+    test-class: 'Clase del test'
+    test-id: 'ID del test unitario'
+options:
+    group: Grupo
+messages:
+    class: 'Clase del test'
+    description: Descripción
+    group: Grupo
+    type: 'Tipo de test'
+    success: 'La consola ha sido actualizada a su última versión.'
+    missing-dependency: 'Dependencia incumplida'
+    methods: 'Métodos de test'
+    not-found: 'Imposible encontrar debug, intente poner el id del test entre comillas dobles.'
+    id: 'ID del test unitario'

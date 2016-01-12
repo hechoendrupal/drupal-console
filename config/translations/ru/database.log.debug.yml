@@ -1,0 +1,19 @@
+description: 'Показать лог событий приложения'
+arguments:
+    event-id: 'ID события в DBLog'
+options:
+    type: 'Фильтрация событий по типу'
+    severity: 'Фильтрация событий по уровню важности'
+    user-id: 'Фильтрация событий по ID пользователя'
+    reverse: 'Reverse the order of events'
+    limit: 'Ограничить кол-во результатов заданным числом'
+    offset: 'Смещение стартовой позиции'
+messages:
+    event-id: 'Event ID'
+    type: Тип
+    date: Дата
+    message: Сообщение
+    user: Пользователь
+    severity: Важность
+    invalid-severity: 'Тип важности задан неверно, фильтры проигнорированы'
+    not-found: 'DBLog событие %s не было найдено'

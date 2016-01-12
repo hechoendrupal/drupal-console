@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GeneratorControllerCommand;
+use Drupal\Console\Command\Generate\ControllerCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\ControllerDataProviderTrait;
 
@@ -22,36 +22,33 @@ class GeneratorControllerCommandTest extends GenerateCommandTest
      * @param $routes
      * @param $test
      * @param $services
-     * @param $class_machine_name
      *
      * @dataProvider commandData
      */
     public function testGenerateController(
-      $module,
-      $class_name,
-      $routes,
-      $test,
-      $services
+        $module,
+        $class_name,
+        $routes,
+        $test,
+        $services
     ) {
-
-        $command = new GeneratorControllerCommand($this->getTranslatorHelper());
-        $command->setContainer($this->getContainer());
+        $command = new ControllerCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 
         $commandTester = new CommandTester($command);
 
         $code = $commandTester->execute(
-          [
+            [
             '--module'            => $module,
-            '--class-name'        => $class_name,
-            '--controller-title'  => $routes[0]['title'],
-            '--method-name'       => $routes[0]['method'],
+            '--class'             => $class_name,
+            '--title'             => $routes[0]['title'],
+            '--method'            => $routes[0]['method'],
             '--route'             => $routes[0]['route'],
             '--test'              => $test,
             '--services'          => $services,
-          ],
-          ['interactive' => false]
+            ],
+            ['interactive' => false]
         );
 
         $this->assertEquals(0, $code);
@@ -60,9 +57,9 @@ class GeneratorControllerCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-          ->getMockBuilder('Drupal\Console\Generator\ControllerGenerator')
-          ->disableOriginalConstructor()
-          ->setMethods(['generate'])
-          ->getMock();
+            ->getMockBuilder('Drupal\Console\Generator\ControllerGenerator')
+            ->disableOriginalConstructor()
+            ->setMethods(['generate'])
+            ->getMock();
     }
 }

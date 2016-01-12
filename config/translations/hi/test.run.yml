@@ -1,0 +1,20 @@
+description: 'अनुप्रयोग के उपलब्ध परीक्षणों मे से परिक्षण यूनिट को चलायें'
+arguments:
+    test-class: 'परिक्षण क्लास'
+messages:
+    missing-dependency: 'Test can''t be executed due a missing dependency'
+    phpunit-pending: 'Logic to execute PHPUnit test is not implemented yet.'
+    starting-test: 'Starting test'
+    test-duration: 'Test duration'
+    test-pass: 'Test passes'
+    test-fail: 'Test fails'
+    test-exception: 'Test exceptions'
+    test-debug: 'Test debugs'
+    url-required: 'URL option is required to run test'
+    test-summary: 'Test Summary'
+    group: Group
+    status: Status
+    file: File
+    method: Method
+    line: Line
+    message: Message

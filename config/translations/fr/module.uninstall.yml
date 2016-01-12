@@ -1,0 +1,8 @@
+description: 'Uninstall module or modules in the application'
+options:
+    module: 'Module or modules to be uninstalled should be separated by a comma'
+messages:
+    no-modules: 'You must provide module or modules to enable.'
+    dependents: 'Unable to uninstall modules %s because are required by %s'
+    nothing: 'Nothing to do. All modules are already uninstalled'
+    success: 'Modules %s were uninstalled successfully'

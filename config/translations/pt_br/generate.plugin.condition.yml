@@ -1,0 +1,21 @@
+description: 'Criar um plugin de condition.'
+help: 'O comando <info>generate:plugin:conditon</info> ajuda você a criar um plugin de condition.'
+welcome: 'Bem-vindo ao Criador de plugin de Condition do Drupal'
+options:
+    module: common.options.module
+    class: 'Nome da classe do plugin'
+    label: 'Label do plugin'
+    plugin-id: 'Id do plugin'
+    context-definition-id: 'ID da definição de contexto'
+    context-definition-label: 'Label da definição de contexto'
+    context-definition-required: 'A definição de contexto é obrigatória (TRUE/FALSE)'
+questions:
+    module: common.questions.module
+    class: 'Digite o nome da classe do plugin'
+    label: 'Digite a label do plugin'
+    plugin-id: 'Digite o id do plugin'
+    context-type: 'Tipo de Contexto'
+    context-entity-type: 'Tipo de entidade de contexto'
+    context-definition-id: 'ID da definição de contexto'
+    context-definition-label: 'Label da definição de contexto'
+    context-definition-required: 'Definição de contexto é obrigatória'

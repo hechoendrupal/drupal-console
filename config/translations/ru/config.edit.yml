@@ -1,0 +1,8 @@
+description: 'Редактирование выбранной конфигурации.'
+arguments:
+    config-name: 'Имя конфигурации.'
+    editor: 'Редактор.'
+questions:
+    config-name: 'Выберите конфигурацию'
+messages:
+    no-directory: 'Ошибка создания директории'

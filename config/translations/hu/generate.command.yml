@@ -1,0 +1,21 @@
+description: 'Console parancsok létrehozása.'
+help: 'A <info>generate:command</info> parancs új parancsok létrehozásában segít.'
+welcome: 'Üdvözlet a Drupal Parancs létrehozásban'
+options:
+    module: common.options.module
+    controller-title: 'Controller title'
+    class: 'Parancs Class neve'
+    name: 'The Command name.'
+    container-aware: 'Is the command aware of the drupal site installation when executed'
+    command: 'Parancs neve'
+    container: 'services container elérése'
+questions:
+    module: common.questions.module
+    class: 'Parancs Class nevének megadása'
+    name: 'Enter the Command name.'
+    container-aware: 'Is the command aware of the drupal site installation when executed?.'
+    command: 'Parancs nevének megadása'
+    container: 'Service container elérése szükséges'
+    controller-title: 'Controller title'
+messages:
+    title-not-empty: 'Title cannot be empty'

@@ -1,0 +1,17 @@
+description: '运行PHP内建的网站服务器'
+arguments:
+    address: 'IP地址:端口号'
+messages:
+    executing: 从%s执行PHP.
+errors:
+    binary: 在服务器电脑上找不到PHP程序。
+examples:
+    -
+        description: 用缺省地址和端口127.0.0.1.8088
+        execution: Drupal服务器
+    -
+        description: '用其他端口的地址'
+        execution: 'Drupal服务器127.0.0.1:8089'
+    -
+        description: 运行缺省地址参数，用--root选项来定义Drupal的root
+        execution: 'Drupal --root=/var/www/drupal8.dev server'

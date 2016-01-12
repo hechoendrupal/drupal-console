@@ -1,9 +1,10 @@
 {
     "name": "drupal/console",
-    "description": "Drupal Console",
-    "keywords": ["Drupal", "Console", "Development"],
+    "description": "The Drupal Console is a command line interface to generate boilerplate code and interact with a Drupal 8 installation.",
+    "keywords": ["Drupal", "Console", "Development", "Symfony"],
+    "homepage": "http://drupalconsole.com/",
     "type": "project",
-    "license": "MIT",
+    "license": "GPL-2.0+",
     "authors": [
         {
             "name":      "David Flores",
@@ -16,12 +17,26 @@
             "homepage":  "http://jmolivas.com"
         },
         {
+            "name":      "Eduardo Garcia",
+            "email":     "enzo@enzolutions.com",
+            "homepage":  "http://enzolutions.com/"
+        },
+        {
+            "name":      "Omar Aguirre",
+            "email":     "omersguchigu@gmail.com"
+        },
+        {
             "name":      "Drupal Console Contributors",
             "homepage":  "https://github.com/hechoendrupal/DrupalConsole/graphs/contributors"
         }
     ],
+    "support": {
+        "issues": "https://github.com/hechoendrupal/DrupalConsole/issues",
+        "forum": "https://gitter.im/hechoendrupal/DrupalConsole",
+        "docs": "https://hechoendrupal.gitbooks.io/drupal-console/"
+    },
     "require": {
-        "php": ">=5.4.5",
+        "php": ">=5.5.9",
         "composer/installers": "~1.0",
         "symfony/config": "2.7.*",
         "symfony/console": "2.7.*",
@@ -34,13 +49,15 @@
         "symfony/http-foundation": "2.7.*",
         "symfony/translation": "2.7.*",
         "symfony/yaml": "2.7.*",
-        "twig/twig": "~1.18",
-        "herrera-io/phar-update": "1.*",
+        "twig/twig": "^1.23.1",
         "symfony/dom-crawler": "2.7.*",
         "alchemy/zippy": "0.2.*@dev",
-        "kriswallsmith/buzz": ">=0.15"
+        "phpseclib/phpseclib": "2.*",
+        "stecman/symfony-console-completion": "^0.5.1",
+        "guzzlehttp/guzzle": "~6.1",
+        "padraic/phar-updater": "~1.0@dev"
     },
-    "bin": ["bin/console"],
+    "bin": ["bin/drupal"],
     "config": {
         "bin-dir": "bin/"
     },

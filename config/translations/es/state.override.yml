@@ -1,0 +1,12 @@
+description: 'Sobreescribir una clave de Estado.'
+help: 'Sobreescribir una clave de Estado.'
+arguments:
+    key: 'La clave de Estado que será sobreescrita.'
+    value: 'El valor de Estado a establecer.'
+messages:
+    key: 'Clave de Estado'
+    original: 'Valor original'
+    override: 'Valor para sobreescribir'
+errors:
+    no-key: 'Debes indicar una clave de Estado para poder sobreescribirla.'
+    no-value: 'Debes indicar un valor de Estado para poder establecerlo.'

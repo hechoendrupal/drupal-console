@@ -1,0 +1,4 @@
+description: 'Enable a View'
+messages:
+    enabled-successfully: 'View %s was enabled successfully.'
+    disabled-successfully: 'View %s was enabled successfully.'

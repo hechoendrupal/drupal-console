@@ -1,0 +1,7 @@
+description: 'Lista todos los sitios múltiples disponibles en el sistema'
+help: '<info>multisite:debug</info> enlista todos los sitios múltiples conocidos.'
+messages:
+    no-multisites: 'No hay sitios múltiples configurados'
+    site: Sitio
+    directory: Directorio
+    site-format: 'Los sitios son escritos usando el formato: <port>.<domain>.<path>'

@@ -1,0 +1,19 @@
+description: 'REST erőforrás beépülő létrehozása'
+help: 'A <info>generate:plugin:rest:resource</info> parancs új REST erőforrás beépülő létrehozásában segít.'
+welcome: 'Üdvözlet a REST erőforrás beépülő létrehozásában'
+options:
+    module: common.options.module
+    class: 'REST erőforrás beépülő class'
+    plugin-id: 'REST erőforrás beépülő azonosító'
+    plugin-label: 'REST erőforrás beépülő címke'
+    plugin-url: 'REST erőforrás beépülő url'
+    plugin-states: 'REST erőforrás beépülő States'
+questions:
+    module: common.questions.module
+    class: 'REST erőforrás beépülő class nevének megadása'
+    plugin-id: 'REST erőforrás beépülő azonosító megadása'
+    plugin-label: 'REST erőforrás beépülő címke megadása'
+    plugin-url: 'REST erőforrás beépülő url megadása'
+    plugin-states: 'REST State megadása (GET alapértelmezetten kiválasztott)'
+messages:
+    selected-states: 'Kiválasztott State'

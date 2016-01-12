@@ -1,0 +1,11 @@
+description: 'Afişează actualizările disponibile pentru aplicaţie.'
+messages:
+    no-updates: 'Nu sunt actualizări în aşteptare.'
+    severity: Severitate
+    title: Titlu
+    value: Valoare
+    description: Descriere
+    requirements-error: 'Următoarele cerinţe nu au fost îndeplinite.'
+    module-list: 'Module cu actualizări în aşteptare.'
+    module: Modul
+    update-n: 'Actualizați N'

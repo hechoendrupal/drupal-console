@@ -1,0 +1,5 @@
+description: '生成一个事件订阅'
+questions:
+    class: 'Class name'
+    callback-name: 事件的回调函数名
+    class-name: 类名

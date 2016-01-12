@@ -1,0 +1,22 @@
+description: '导入或创建数据库迁移'
+options:
+    db-type: 'Drupal 数据库类型'
+    db-host: 数据库主机
+    db-name: 数据库名称
+    db-user: 数据库用户
+    db-pass: '数据库密码'
+    db-prefix: 数据库前缀
+    db-port: 数据库端口
+questions:
+    db-type: 'Drupal 数据库类型'
+    db-host: 数据库主机
+    db-name: 数据库名称
+    db-user: 数据库用户
+    db-pass: '数据库密码'
+    db-prefix: 数据库前缀
+    db-port: 数据库端口
+messages:
+    not-drupal: '来源数据库不包含可识别的 Drupal 版本'
+    migrations-created: '%s 迁移创建成功 %s.'
+    migrations-not-found: '无可用迁移'
+    migrations-already-exist: 所有可用迁移已经被创建

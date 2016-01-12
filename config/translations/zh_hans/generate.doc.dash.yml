@@ -1,0 +1,5 @@
+description: '生成 DrupalConsole.docset 包，提供给 Dash'
+options:
+    path: '保存 Docset 的文件夹路径'
+messages:
+    missing_path: 路径丢失

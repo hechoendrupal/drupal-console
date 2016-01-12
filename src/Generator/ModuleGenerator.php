@@ -7,19 +7,35 @@
 
 namespace Drupal\Console\Generator;
 
+/**
+ * Class ModuleGenerator
+ * @package Drupal\Console\Generator
+ */
 class ModuleGenerator extends Generator
 {
+    /**
+     * @param $module
+     * @param $machineName
+     * @param $dir
+     * @param $description
+     * @param $core
+     * @param $package
+     * @param $feature
+     * @param $composer
+     * @param $dependencies
+     */
     public function generate(
         $module,
-        $machine_name,
+        $machineName,
         $dir,
         $description,
         $core,
         $package,
+        $feature,
         $composer,
         $dependencies
     ) {
-        $dir .= '/'.$machine_name;
+        $dir .= '/'.$machineName;
         if (file_exists($dir)) {
             if (!is_dir($dir)) {
                 throw new \RuntimeException(
@@ -50,23 +66,24 @@ class ModuleGenerator extends Generator
 
         $parameters = array(
           'module' => $module,
-          'machine_name' => $machine_name,
+          'machine_name' => $machineName,
           'type' => 'module',
           'core' => $core,
           'description' => $description,
           'package' => $package,
+          'feature' => $feature,
           'dependencies' => $dependencies,
         );
 
         $this->renderFile(
             'module/info.yml.twig',
-            $dir.'/'.$machine_name.'.info.yml',
+            $dir.'/'.$machineName.'.info.yml',
             $parameters
         );
 
         $this->renderFile(
             'module/module.twig',
-            $dir.'/'.$machine_name.'.module',
+            $dir.'/'.$machineName.'.module',
             $parameters
         );
 

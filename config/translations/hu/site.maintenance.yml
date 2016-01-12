@@ -1,0 +1,8 @@
+description: 'Oldal átállítása karbantartási módba'
+arguments:
+    mode: 'Karbantartási mód'
+messages:
+    maintenance-on: 'Karbantartási mód be'
+    maintenance-off: 'Karbantartási mód ki'
+errors:
+    invalid-mode: 'Helytelen karbantartási mód'

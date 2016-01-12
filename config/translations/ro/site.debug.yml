@@ -1,0 +1,9 @@
+description: 'Listează toate siturile locale sau la distanță.'
+help: 'Lista <info>site:debug</info> tuturor situriloe locale și îndepărtate.'
+messages:
+    site: Sit
+    host: Gazdă
+    root: Rădăcină
+    directory-not-found: 'Directorul local al sitului nu a fost găsit'
+    private-key: 'Eroare la cheia privată'
+    connect-error: 'Eroare la conectarea la mașina aflată la distanță'

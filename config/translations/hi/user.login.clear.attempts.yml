@@ -1,0 +1,12 @@
+description: 'किसी अकाउंट की असफल लोगिन प्रयासो को साफ़ करें।'
+help: '<info>user:login:clear:attempts</info> किसी अकाउंट की असफल लोगिन प्रयासों को साफ़ करता है।'
+options:
+    user-id: 'User ID.'
+questions:
+    uid: 'उपभोग्ता क्रमांक दर्ज करें।'
+    numeric-uid: 'User id must be an integer.'
+    invalid-uid: 'User id must be upper than zero.'
+messages:
+    successful: 'उपभोग्ता क्रमांक %s के सारे लोगिन प्रयासों को साफ़ कर दिया गया।'
+errors:
+    invalid-user: 'Cannot load user entity (Uid: %s).'

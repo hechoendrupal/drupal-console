@@ -1,0 +1,14 @@
+description: 'Exibir informações básicas sobre projeto Drupal Console'
+messages:
+    welcome: 'O Drupal Console é um conjunto de ferramentas que executam no CLI para:'
+    welcome-feature-generate: 'Gerar um código repetitivo'
+    welcome-feature-interact: 'Interagir com uma instalação do Drupal 8.'
+    welcome-feature-learn: 'Aprenda Drupal 8.'
+    links: 'Project links'
+    landing: 'Página do projeto <comment>%s</comment>'
+    change-log: 'Changelog do projeto em<comment>%s</comment>'
+    documentation: 'Consulte a documentação do Drupal Console em <comment>%s</comment>'
+    support: 'Suporte para Drupal Console em Gitter<comment>%s</comment>'
+    supporting-organizations: Patrocinadores
+    version-supported: 'A versão do Drupal 8 suportada é <info>%s</info>'
+    list: 'Execute o comando <info>list</info> para obter uma lista de todos os comandos disponíveis.'

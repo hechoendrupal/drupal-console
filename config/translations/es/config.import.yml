@@ -1,0 +1,10 @@
+description: 'Importa la configuración del estado actual de la aplicación.'
+arguments:
+    file: 'Ruta al archivo de configuración.'
+    remove-files: 'Remover archivos luego de la sincronización.'
+    config-file: 'Ruta del archivo de configuración.'
+    copy-only: 'Copiar los archivos de configuración sólo en el directorio de ''staging''.'
+messages:
+    config_files_imported: 'Listado de archivos de configuración.'
+    imported: 'Todos los archivos de configuración han sido importados y copiados al directorio de ''staging''.'
+    copied: 'Todos los archivos de configuración han sido copiados al directorio de ''staging''.'

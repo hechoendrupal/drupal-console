@@ -1,0 +1,33 @@
+description: 'एक कंट्रोलर को उत्पन्न और पंजीकृत करें'
+help: '<info>generate:controller</info> कमाण्ड आपको एक नया कंट्रोलर उत्पन्न करने में मदद करता है।'
+welcome: 'Drupal कंट्रोलर उत्पादक में आपका स्वागत है'
+options:
+    module: common.options.module
+    class: 'कंट्रोलर क्लास का नाम'
+    title: 'Title of the controller'
+    method: 'The action method name'
+    route: मार्ग
+    services: common.options.services
+    test: 'एक परिक्षण क्लास उत्पन्न करें'
+    controller-title: 'Title of the controller'
+    method-name: 'प्रक्रिया मेथड का नाम'
+questions:
+    module: common.questions.module
+    class: 'कंट्रोलर क्लास का नाम दर्ज करें'
+    method: 'Enter the action method name'
+    route: 'मार्ग दर्ज करें'
+    services: common.questions.services
+    test: 'क्या आप यूनिट परिक्षण क्लास उत्पन्न करना चाहते है'
+    title: 'Enter the Controller method title'
+    controller-add: 'Do you want add another contoller method'
+    controller: 'Controller title'
+    method-name: 'प्रक्रिया मेथड का नाम दर्ज करें'
+    other-controller-title: 'कंट्रोलर शीर्षक (कोड उत्पन्न करने के लिए खाली)'
+    controller-title: 'कंट्रोलर शीर्षक'
+messages:
+    title-already-added: 'शीर्षक पहले ही जोड़ दिया गया है'
+    method-name-already-added: 'मेथड का नाम पहले ही जोड़ दिया गया है'
+    route-already-added: 'मार्ग पहले ही जोड़ दिया गया है'
+    invalid-controller-title: 'शीर्षक खाली नही हो सकता'
+    invalid-method-name: 'मेथड का नाम खाली नही हो सकता'
+    invalid-route: 'मार्ग खाली नही हो सकता'

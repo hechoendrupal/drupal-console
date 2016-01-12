@@ -1,0 +1,21 @@
+description: 'Instalează tema sau temele în aplicație'
+questions:
+    theme: 'numele temei (apăsați <return> pentru a opri adăugarea temelor)'
+    invalid-theme: 'Tema %s nu este validă'
+options:
+    theme: 'tema sau temele ce urmează a fi instalate trebuie separate printr-o virgulă'
+    overwrite-config: 'Suprascrieți configurarea activă dacă este necesar'
+    set-default: 'Setați tema ca și temă implicită'
+messages:
+    no-themes: 'Trebuie să oferiți una sau mai multe teme pentru instalare.'
+    themes-missing: 'Imposibil de instalat temele %s datorită faptului că nu sunt disponibile'
+    theme-missing: 'Imposibil de instalat tema %s due datorită faptului că nu este disponibilă'
+    missing-dependencies: 'Imposibil de instalat temele %s datorită faptului că lipsesc dependințele %s'
+    themes-nothing: 'Nimic de făcut. Toate temele %s sunt deja instalate'
+    theme-nothing: 'Nimic de făcut. Tema %s este deja instalată'
+    dependencies: 'Sunteți sigur că doriți să instalați dependințele: %s?'
+    theme-success: 'Tema %s a fost instalată cu succes'
+    themes-success: 'Temele %s au fost instalate cu succes'
+    theme-default-success: 'Tema %s a fost instalată cu succes ca și temă implicită'
+    disabled-themes: 'Doar temele dezinstalate vor fi listate în lista cu autocompletare'
+    invalid-theme-default: 'Opțiunea de a fi implicită este valabilă doar pentru o singură temă'

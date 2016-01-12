@@ -1,0 +1,17 @@
+description: 'Fusionne un ou plusieurs fichiers YAML en un nouveau. Les valeurs les plus récentes sont conservées.'
+arguments:
+    yaml-files: 'Chemin des fichiers YAML à fusionner'
+    yaml-destination: 'Chemin du nouveau fichier YAML résultant de la fusion.'
+questions:
+    yaml-destination: 'Entrez le chemin du nouveau fichier qui résultera de la fusion.'
+    file: 'Chemin du premier fichier à fusionner'
+    other-file: 'Chemin d''un autre fichier à fusionner (laissez vide pour démarrer la fusion)'
+    invalid-file: 'Le chemin du fichier ne peut être vide'
+    file-already-added: 'Ce fichier est déjà présent dans la fusion'
+messages:
+    wrong-parse: 'Le fichier YAML "%s" est vide ou n''existe pas.'
+    error-parsing: 'Une erreur est survenue lors du parcours du fichier YAML %s.'
+    two-files-required: 'Deux fichiers minimum sont nécessaires.'
+    error-generating: 'Une erreur est survenue lors de la génération.'
+    error-writing: 'Une erreur est survenue lors de l''écriture du fichier fusionné.'
+    merged: 'Le nouveau fichier %s à été créé correctement après la fusion des fichiers YAML.'

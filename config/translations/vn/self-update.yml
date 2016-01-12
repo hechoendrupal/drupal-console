@@ -17,4 +17,3 @@ messages:
    Hoặc bạn có thể chuyển sang Phar cài đặt được đề nghị
    composer global remove drupal/console
    curl https://drupalconsole.com/installer -L -o drupal.phar
-

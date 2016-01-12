@@ -1,0 +1,4 @@
+description: 显示程序的当前服务.
+messages:
+    service_id: 服务ID
+    class_name: 类名

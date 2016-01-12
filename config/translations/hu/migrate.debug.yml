@@ -1,0 +1,8 @@
+description: 'Elérhető migrációk megjelenítése'
+arguments:
+    tag: 'Migrate tag'
+messages:
+    id: 'Migráció Id'
+    description: Leírás
+    no-migrations: 'There aren''t migrations available try to execute command: migrate:setup:migrations'
+    tags: Tags

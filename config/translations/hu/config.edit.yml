@@ -1,0 +1,8 @@
+description: 'Kiválasztott beállítások szerkesztése.'
+arguments:
+    config-name: 'Beállítás neve.'
+    editor: 'Szerkesztő program.'
+questions:
+    config-name: 'Choose a configuration unit'
+messages:
+    no-directory: 'A következő könyvtár létrehozása közben hiba lépett fel:'

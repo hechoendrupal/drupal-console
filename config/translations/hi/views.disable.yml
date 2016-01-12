@@ -1,0 +1,3 @@
+description: 'एक व्यू बंद करें'
+messages:
+    disabled-successfully: 'View %s was disabled successfully.'

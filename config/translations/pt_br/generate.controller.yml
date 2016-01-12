@@ -1,0 +1,33 @@
+description: 'Cria e Registra um controller'
+help: 'O comando <info>generate:controller</info> ajuda você a criar um novo controller.'
+welcome: 'Bem-vindo ao Criador de controller do Drupal.'
+options:
+    module: common.options.module
+    class: 'Nome da classe do Controller'
+    title: 'Title of the controller'
+    method: 'The action method name'
+    route: 'O caminho da rota'
+    services: common.options.services
+    test: 'Criar uma classe de teste'
+    controller-title: 'Title of the controller'
+    method-name: 'O nome do método'
+questions:
+    module: common.questions.module
+    class: 'Digite o nome da classe do Controller'
+    method: 'Enter the action method name'
+    route: 'Digite o caminho da rota'
+    services: common.questions.services
+    test: 'Você deseja criar uma classe de teste unitário?'
+    title: 'Enter the Controller method title'
+    controller-add: 'Do you want add another contoller method'
+    controller: 'Controller title'
+    method-name: 'Digite o nome do método'
+    other-controller-title: 'Título do controller (deixe vazio para começar com a geração de código)'
+    controller-title: 'Título do controller'
+messages:
+    title-already-added: 'Título já foi adicionado'
+    method-name-already-added: 'Method name was already added'
+    route-already-added: 'A rota já foi adicionada'
+    invalid-controller-title: 'Título não pode ser vazio'
+    invalid-method-name: 'O nome do método não pode ser vazio'
+    invalid-route: 'A rota não pode ser vazia'

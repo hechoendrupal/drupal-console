@@ -1,0 +1,20 @@
+description: '生成 Console 命令'
+help: '<info>generate:command</info> 命令帮助您生成一个新命令'
+welcome: '欢迎使用 Drupal 命令生成器'
+options:
+    module: common.options.module
+    controller-title: '控制器标题'
+    class: 命令类名
+    name: 命令名称
+    container-aware: '这条命令需要在 Drupal 网站所在目录里执行吗？'
+    command: 命令名称
+    container: 访问服务容器
+questions:
+    module: common.questions.module
+    class: '输入命令类名'
+    name: '输入命令名称'
+    container-aware: '这条命令需要在 Drupal 网站所在目录里执行吗？'
+    command: '输入命令名称'
+    container: 您需要访问服务容器吗？
+messages:
+    title-not-empty: '标题不能为空'

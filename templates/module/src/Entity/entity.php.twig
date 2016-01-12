@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-Drupal\{{ module }}\Entity\{{ entity_class }}.
+\Drupal\{{ module }}\Entity\{{ entity_class }}.
 {% endblock %}
 
 {% block namespace_class %}
@@ -9,7 +9,7 @@ namespace Drupal\{{ module }}\Entity;
 {% endblock %}
 
 {% block use_class %}
-use Drupal\Core\Config\Entity\ConfigEntityBase;
+use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
 use Drupal\{{ module }}\{{ entity_class }}Interface;
 {% endblock %}
 
@@ -30,6 +30,9 @@ use Drupal\{{ module }}\{{ entity_class }}Interface;
  *   },
  *   config_prefix = "{{ entity_name }}",
  *   admin_permission = "administer site configuration",
+{% if bundle_of %}
+ *   bundle_of = "{{ bundle_of }}",
+{% endif %}
  *   entity_keys = {
  *     "id" = "id",
  *     "label" = "label",
@@ -43,7 +46,7 @@ use Drupal\{{ module }}\{{ entity_class }}Interface;
  *   }
  * )
  */
-class {{ entity_class }} extends ConfigEntityBase implements {{ entity_class }}Interface {% endblock %}
+class {{ entity_class }} extends ConfigEntityBundleBase implements {{ entity_class }}Interface {% endblock %}
 {% block class_methods %}
   /**
    * The {{ label }} ID.

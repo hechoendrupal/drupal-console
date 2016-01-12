@@ -1,0 +1,16 @@
+description: 'Список команд'
+help: "Команда <info>%command.name%</info> возвращает список всех команд:\n<info>php %command.full_name%</info>\nВы также можете отобразить команды для конкретного пространства имен:\n<info>php %command.full_name% test</info>\nВы также можете вывести информацию в других форматах используя опцию <comment>--format</comment>:\n<info>php %command.full_name% --format=xml</info>\nТакже можно получить список команд в исходном виде (может использоваться для встраивания запуска команд):\n<info>php %command.full_name% --raw</info>\n"
+arguments:
+    namespace: 'Пространство имен'
+options:
+    xml: 'Вывести список в XML формате'
+    raw: 'Вывести список в исходном формате'
+    format: 'Формат вывода (txt, xml, json, или md)'
+messages:
+    usage: "<comment>Использование:</comment>\n"
+    usage_details: "  команда [опции] [аргументы]\n\n"
+    arguments: '<comment>Аргументы:</comment>'
+    options: '<comment>Опции:</comment>'
+    help: '<comment>Помощь:</comment>'
+    comment: '<comment>Доступные команды для пространства имен "%s":</comment>'
+    available-commands: '<comment>Доступные команды:</comment>'

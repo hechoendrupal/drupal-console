@@ -1,0 +1,6 @@
+description: 'Iniciar um cliente de banco de dados se ele está disponível'
+arguments:
+    database: 'Senha do banco de dados em settings.php'
+messages:
+    connection: 'Connection: %s'
+    executing: 'Executando: %s'

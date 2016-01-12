@@ -1,0 +1,21 @@
+description: 生成一个方案.
+help: '<info>generate:profile</info>命令帮助生成一个新的安装方案.'
+welcome: '欢迎到Drupal安装方案生成器'
+options:
+    profile: 方案名
+    machine-name: '机器名(只允许下划线和小写英文字母)'
+    description: 方案介绍
+    core: 'Drupal内核版本'
+    dependencies: '依赖模块用逗号隔开(例如： context, panels)'
+    distribution: 'Drupal安装套餐名'
+questions:
+    profile: '输入新方案的名字'
+    machine-name: '输入机器名'
+    description: '输入介绍'
+    core: '输入Drupal内核版本'
+    dependencies: '你要加依赖模块吗'
+    distribution: '有打算将这个安装方案上传为Drupal安装套餐吗'
+warnings:
+    module-unavailable: '警告：在当前环境"%s"里下列模块没找到'
+errors:
+    directory-exists: '目标目录"%s"不是空的.'

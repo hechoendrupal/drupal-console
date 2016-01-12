@@ -1,0 +1,6 @@
+description: '导入所选配置.'
+arguments:
+    config-name: '配置名.'
+    input-file: '导入文件的路径.'
+messages:
+    empty-value: 值不能为空

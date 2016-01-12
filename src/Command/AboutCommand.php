@@ -7,13 +7,19 @@
 
 namespace Drupal\Console\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class AboutCommand
+ * @package Drupal\Console\Command
+ */
 class AboutCommand extends Command
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -21,59 +27,65 @@ class AboutCommand extends Command
             ->setDescription($this->trans('commands.about.description'));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln(
-            $this->trans('commands.about.messages.welcome')
+        $io = new DrupalStyle($input, $output);
+
+        $application = $this->getApplication();
+
+        $aboutTitle = sprintf(
+            '%s (%s) | Supports Drupal %s',
+            $this->trans('commands.site.status.messages.console'),
+            $application->getVersion(),
+            $application::DRUPAL_VERSION
         );
 
-        $output->writeln("    <comment>" . $this->trans('commands.about.messages.welcome-feature-learn') . "</comment>");
-        $output->writeln("    <comment>" . $this->trans('commands.about.messages.welcome-feature-generate') . "</comment>");
-        $output->writeln("    <comment>" . $this->trans('commands.about.messages.welcome-feature-interact') . "</comment>");
-        $output->writeln("");
+        $io->setDecorated(false);
+        $io->title($aboutTitle);
+        $io->setDecorated(true);
 
-        $output->writeln(
+        $commands = [
+            'init' => [
+                $this->trans('commands.init.description'),
+                'drupal init --override'
+            ],
+            'quick-start' => [
+                $this->trans('commands.common.messages.quick-start'),
+                'drupal chain --file=~/.console/chain/quick-start.yml'
+            ],
+            'site-new' => [
+                $this->trans('commands.site.new.description'),
+                sprintf(
+                    'drupal site:new drupal8.dev %s',
+                    $application::DRUPAL_VERSION
+                )
+            ],
+            'site-install' => [
+            $this->trans('commands.site.install.description'),
             sprintf(
-                $this->trans('commands.about.messages.version-supported'),
-                'Drupal 8 Beta 15'
+                'drupal site:install'
             )
-        );
+            ],
+            'links' => [
+                $this->trans('commands.list.description'),
+                'drupal list',
+            ]
+        ];
 
-        $output->writeln("");
+        foreach ($commands as $command => $commandInfo) {
+            $io->writeln($commandInfo[0]);
+            $io->newLine();
+            $io->comment(sprintf('  %s', $commandInfo[1]));
+            $io->newLine();
+        }
 
-        $output->writeln(
-            $this->trans('commands.about.messages.list')
-        );
-
-        $output->writeln("");
-
-        $output->writeln(
-            sprintf(
-                $this->trans('commands.about.messages.change-log'),
-                'http://bit.ly/console-releases'
-            )
-        );
-
-        $output->writeln(
-            sprintf(
-                $this->trans('commands.about.messages.documentation'),
-                'http://bit.ly/console-book'
-            )
-        );
-
-        $output->writeln(
-            sprintf(
-                $this->trans('commands.about.messages.support'),
-                'http://bit.ly/console-support'
-            )
-        );
-
-        $output->writeln("");
-
-        $output->writeln("<info>" . $this->trans('commands.about.messages.supporting-organizations') . "</info>");
-
-        $output->writeln("    <comment>Indava (http://www.indava.com/)</comment>");
-        $output->writeln("    <comment>Anexus (https://anexusit.com)</comment>");
-        $output->writeln("    <comment>FFW (https://ffwagency.com)</comment>");
+        $io->setDecorated(false);
+        $io->section($this->trans('commands.self-update.description'));
+        $io->setDecorated(true);
+        $io->comment('  drupal self-update');
+        $io->newLine();
     }
 }

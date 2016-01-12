@@ -1,0 +1,45 @@
+description: 'Экспорт конфигурации из текущего приложения.'
+arguments:
+    directory: 'Задать директорию для экспорта конфигурации.'
+messages:
+    directory: 'Ваша конфигурация был экспортирована в %s'
+content:
+    type:
+        description: 'Экспорт выбранного типа материала и его полей.'
+        arguments:
+            content_type: 'Тип материала для экспорта'
+        questions:
+            content_type: 'Тип материала для экспорта'
+            optional-config: 'Экспорт типа материала в модуль как опциональную конфигурацию'
+        messages:
+            content_type_exported: 'Экспорт типа материала'
+        options:
+            optional-config: 'Экспорт типа материала в модуль как опциональную YAML конфигурацию'
+single:
+    description: 'Экспорт конфигурации в yml файл.'
+    arguments:
+        config-name: 'Имя конфигурации.'
+    options:
+        simple-configuration: 'Simple configuration'
+    questions:
+        config-type: 'Тип конфигурации'
+        config-name: 'Имя конфигурации.'
+    messages:
+        config-not-found: 'Имя конфигурации не найдено.'
+        export: 'Конфигурация была экспортирована в файл %s.'
+        invalid-config-type: 'Неверный тип конфигурации, пожалуйста, выберите один из списка'
+        invalid-config-name: 'Неверное имя конфигурации, пожалуйста, выберите один из списка'
+view:
+    description: 'Экспорт представления в YAML формат внутри модуля для повторного использования на другом сайте.'
+    messages:
+        view_exported: 'Экспорт представления'
+        depencies-included: 'Следующие зависимости модуля были включены в %s'
+    questions:
+        view: 'Представление для экспорта'
+        optional-config: 'Экспорт представления в модуль как опциональную конфигурацию'
+        include-module-dependencies: 'Включить зависимости модуля представления в YAML файл'
+    arguments:
+        view-id: 'ID представления'
+    options:
+        optional-config: 'Экспорт представления в модуль как опциональную YAML конфигурацию'
+        include-module-dependencies: 'Включить зависимости модуля в YAML файл'

@@ -2,16 +2,16 @@
 
 /**
  * @file
- * Contains \Drupal\Console\EventSubscriber\ShowWelcomeMessage.
+ * Contains \Drupal\Console\EventSubscriber\ValidateDependenciesListener.
  */
 
 namespace Drupal\Console\EventSubscriber;
 
-use Drupal\Console\Helper\TranslatorHelper;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
 
 class ValidateDependenciesListener implements EventSubscriberInterface
 {
@@ -20,33 +20,26 @@ class ValidateDependenciesListener implements EventSubscriberInterface
      */
     public function validateDependencies(ConsoleCommandEvent $event)
     {
-        /**
-         * @var \Drupal\Console\Command\Command $command
-         */
+        /* @var Command $command */
         $command = $event->getCommand();
-        $output = $event->getOutput();
+        /* @var DrupalStyle $io */
+        $io = $event->getOutput();
 
         $application = $command->getApplication();
-        $messageHelper = $application->getHelperSet()->get('message');
-        /**
-         * @var TranslatorHelper
-         */
-        $translatorHelper = $application->getHelperSet()->get('translator');
+        $translatorHelper = $application->getTranslator();
 
         if (!$command instanceof Command) {
             return;
         }
 
-        $dependencies = $command->getDependencies();
-
-        if ($dependencies) {
+        if ($dependencies = $command->getDependencies()) {
             foreach ($dependencies as $dependency) {
-                if (\Drupal::moduleHandler()->moduleExists($dependency) === false) {
+                if (!$application->getValidator()->isModuleInstalled($dependency)) {
                     $errorMessage = sprintf(
                         $translatorHelper->trans('commands.common.errors.module-dependency'),
                         $dependency
                     );
-                    $messageHelper->showMessage($output, $errorMessage, 'error');
+                    $io->error($errorMessage);
                     $event->disableCommand();
                 }
             }

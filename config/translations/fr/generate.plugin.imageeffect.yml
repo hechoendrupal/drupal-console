@@ -1,0 +1,15 @@
+description: 'Générer l''image en effet plugin'
+help: 'Le <info> generate: plugin: imageeffect </ info> commande aide à générer un nouveau plugin d''effet d''image..'
+welcome: 'Bienvenue au Drupal image Effet Plugin générateur'
+options:
+    module: common.options.module
+    class: 'Nom de la classe plugin'
+    label: 'Label plugin'
+    plugin-id: 'Plugin id'
+    description: 'Description plugin'
+questions:
+    module: common.questions.module
+    class: 'Entrez le nom de la classe plugin'
+    label: 'Entrez le label plugin'
+    plugin-id: 'Entrez le plugin id'
+    description: 'Enter the plugin Description'

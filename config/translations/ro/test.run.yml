@@ -1,0 +1,20 @@
+description: 'Execută un test dintre testele disponibile in aplicaţie.'
+arguments:
+    test-class: 'Clasa de test'
+messages:
+    missing-dependency: 'Testul nu poate fi executat datorită unor lipsuri de dependinţe.'
+    phpunit-pending: 'Logica pentru execuţie a testului PHPUnit nu este implementată încă.'
+    starting-test: 'Se începe testul'
+    test-duration: 'Durata testului'
+    test-pass: 'Teste reuşite'
+    test-fail: 'Teste eşuate'
+    test-exception: Excepţii
+    test-debug: 'Teste depanate'
+    url-required: 'Opţiunea URL este necesară pentru a rula testul.'
+    test-summary: 'Rezumatul testului.'
+    group: Grup
+    status: Status
+    file: Fişier
+    method: Metoda
+    line: Linie
+    message: Mesaj

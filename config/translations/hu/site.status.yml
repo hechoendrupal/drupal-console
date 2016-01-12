@@ -1,0 +1,24 @@
+description: 'A jelenlegi Drupal telepítés állapotának megtekintése'
+messages:
+    application: Applikáció
+    system: 'Rendszer Információk'
+    hash_salt: 'Hash salt'
+    console: 'Console version'
+    database: 'Adatbázis kapcsolat'
+    driver: Meghajtó
+    host: Host
+    port: Port
+    username: 'Felhasználói név'
+    password: Jelszó
+    theme: Sminkek
+    connection: Kapcsolat
+    theme_default: 'Alapértelmezett smink'
+    theme_admin: 'Admin smink'
+    directory: Könyvtárak
+    directory_root: 'Oldal gyökérkönyvtára'
+    directory_temporary: 'Oldal ideiglenes könyvtára'
+    directory_theme_default: 'Alapértelmezett smink könyvtár'
+    directory_theme_admin: 'Admin smink könyvtár'
+    configuration: Configuration
+    active: 'Active config path'
+    staging: 'Staging config path'

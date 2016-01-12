@@ -1,0 +1,13 @@
+description: 'Gera um novo tipo de conteúdo (node / entity bundle)'
+help: 'Use: generate:contenttype <fancy> <Fancy> para criar um nome novo tipo de conteúdo com o nome da máquina de fancy e o nome amigável de Fancy.'
+welcome: 'Bem-vindo ao gerador de tipo de conteúdo para Drupal'
+options:
+    module: common.options.module
+    bundle-name: 'O tipo de conteúdo''s nome de máquina'
+    bundle-title: 'O nome amigável do tipo de conteúdo'
+questions:
+    module: common.questions.module
+    bundle-name: 'Digite o nome de máquina para seu novo tipo de conteúdo'
+    bundle-title: 'Digite o nome amigável para seu novo tipo de conteúdo'
+message:
+    error-state1: placeholder

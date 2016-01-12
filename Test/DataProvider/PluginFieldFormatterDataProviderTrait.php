@@ -13,7 +13,7 @@ trait PluginFieldFormatterDataProviderTrait
      */
     public function commandData()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
 
         return [
           ['Foo',  'foo' . rand(), 'bar', 'bar' . rand(), 'foo-bar']

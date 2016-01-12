@@ -2,41 +2,41 @@
 
 /**
  * @file
- * Contains \Drupal\Console\EventSubscriber\ShowWelcomeMessage.
+ * Contains \Drupal\Console\EventSubscriber\ShowWelcomeMessageListener.
  */
 
 namespace Drupal\Console\EventSubscriber;
 
-use Drupal\Console\Helper\TranslatorHelper;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class ShowWelcomeMessageListener
+ * @package Drupal\Console\EventSubscriber
+ */
 class ShowWelcomeMessageListener implements EventSubscriberInterface
 {
     /**
      * @param ConsoleCommandEvent $event
      */
-    public function showMessage(ConsoleCommandEvent $event)
+    public function showWelcomeMessage(ConsoleCommandEvent $event)
     {
-        /**
-         * @var \Drupal\Console\Command\Command $command
-         */
+        /* @var Command $command */
         $command = $event->getCommand();
-        $output = $event->getOutput();
+        /* @var DrupalStyle $io */
+        $io = $event->getOutput();
 
         $application = $command->getApplication();
-        $messageHelper = $application->getHelperSet()->get('message');
-        /**
-         * @var TranslatorHelper
-         */
-        $translatorHelper = $application->getHelperSet()->get('translator');
+        $translatorHelper = $application->getTranslator();
 
         $welcomeMessageKey = 'commands.'.str_replace(':', '.', $command->getName()).'.welcome';
         $welcomeMessage = $translatorHelper->trans($welcomeMessageKey);
 
         if ($welcomeMessage != $welcomeMessageKey) {
-            $messageHelper->showMessage($output, $welcomeMessage);
+            $io->text($welcomeMessage);
         }
     }
 
@@ -45,6 +45,6 @@ class ShowWelcomeMessageListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return [ConsoleEvents::COMMAND => 'showMessage'];
+        return [ConsoleEvents::COMMAND => 'showWelcomeMessage'];
     }
 }

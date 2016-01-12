@@ -1,0 +1,14 @@
+description: 'Generar una nueva entidad de contenido'
+help: ''
+options:
+    module: common.options.module
+    entity-class: 'Clase de la entidad de contenido'
+    entity-name: 'Nombre de la entidad de contenido'
+    label: Etiqueta
+    has-bundles: 'La entidad tiene bundles'
+questions:
+    module: common.questions.module
+    entity-class: 'Ingrese la clase de la nueva entidad de contenido'
+    entity-name: 'Ingrese el nombre de la nueva entidad de contenido'
+    label: 'Ingrese la etiqueta de la nueva entidad de contenido'
+    has-bundles: 'Desea que esta entidad de contenido tenga bundles'

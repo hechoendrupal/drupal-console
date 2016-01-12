@@ -1,0 +1,5 @@
+description: 'Eliminați evenimentele din tabelul DBLog, sunt disponibile filtre'
+messages:
+    event-deleted: 'Evenimentul %s a fost șters'
+    clear-error: 'Procesul de curățare a eșuat, vă rugăm să verificați filtrele folosite'
+    clear-sucess: 'Procesul de curățare al evenimentelor s-a terminat cu succes'

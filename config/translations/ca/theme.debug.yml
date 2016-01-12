@@ -1,0 +1,15 @@
+description: 'Displays current themes for the application'
+arguments:
+    theme: 'Specific theme to debug'
+messages:
+    theme-id: Id
+    theme-name: Name
+    status: Status
+    version: Version
+    installed: Installed
+    uninstalled: Uninstalled
+    default-theme: 'Default theme'
+    properties: Properties
+    regions: Regions
+    invalid-theme: 'Theme %s is invalid'
+    theme-properties: Properties

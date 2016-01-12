@@ -1,0 +1,45 @@
+description: 'Export current application configuration.'
+arguments:
+    directory: 'Define export directory to save configuration output.'
+messages:
+    directory: 'Your configuration export file was stored in %s'
+content:
+    type:
+        description: 'किसी विशेष कंटेंट प्रकार और उनके खानो का निर्यात करें।'
+        arguments:
+            content_type: 'निर्यात किए जाने वाला कंटेंट प्रकार'
+        questions:
+            content_type: 'निर्यात किए जाने वाला कंटेंट प्रकार'
+            optional-config: 'ऐच्छिक व्यवस्था स्वरूप मॉड्यूल में कंटेंट प्रकार निर्यात करें'
+        messages:
+            content_type_exported: 'कंटेंट प्रकार निर्यात हो रहा है'
+        options:
+            optional-config: 'ऐच्छिक YAML व्यवस्था स्वरूप मॉड्यूल में कंटेंट प्रकार निर्यात करें'
+single:
+    description: 'एक व्यवस्था को yml फाइल के जैसे निर्यात करें।'
+    arguments:
+        config-name: 'व्यवस्था का नाम।'
+    options:
+        simple-configuration: 'सामान्य व्यवस्था'
+    questions:
+        config-type: 'व्यवस्था प्रकार'
+        config-name: 'व्यवस्था का नाम'
+    messages:
+        config-not-found: 'व्यवस्था नही मिला।'
+        export: 'व्यवस्था को %s फाइल में निर्यात कर दिया गया।'
+        invalid-config-type: 'व्यवस्था प्रकार अमान्य है, कृपया सूचि में से एक चुने'
+        invalid-config-name: 'व्यवस्था का नाम अमान्य है, कृपया सूचि में से एक चुने'
+view:
+    description: 'एक व्यू को YAML संरूप में निर्यात करें ताकि वो किसी दूसरे वेबसाइट में पुनर्प्रयोग किया जाये।'
+    messages:
+        view_exported: 'ऐच्छिक व्यवस्था स्वरूप मॉड्यूल में व्यू निर्यात करें निर्यात कर रहा है'
+        depencies-included: 'निम्नलिखित मॉड्यूल निर्भरता को %s में सम्मिलित कर दिया गया'
+    questions:
+        view: 'निर्यात किया जाने वाला व्यू'
+        optional-config: 'ऐच्छिक व्यवस्था स्वरूप मॉड्यूल में व्यू निर्यात करें'
+        include-module-dependencies: 'व्यू मॉड्यूल निर्भरता को मॉड्यूल info YAML फाइल में सम्मिलित करें'
+    arguments:
+        view-id: 'व्यू क्रमांक'
+    options:
+        optional-config: 'व्यू को ऐच्छिक YAML व्यवस्था स्वरूप अपने मॉड्यूल में निर्यात करें'
+        include-module-dependencies: 'व्यू मॉड्यूल निर्भरता को मॉड्यूल info YAML फाइल में सम्मिलित करें'

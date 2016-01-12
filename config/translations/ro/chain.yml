@@ -1,0 +1,7 @@
+description: 'Execuție comandă înlănțuită'
+options:
+    file: 'Fişier definit de utilizator ce conţine comenzi care urmează să fie executate.'
+messages:
+    missing_file: 'Trebuie să furnizați o cale către fișier și un nume valid.'
+    invalid_file: 'Fișierul "%s" nu există.'
+    module_install: 'comanda module:install nu poate fi executată în interiorul unei cozi de așteptare și trebuie executată imediat.'

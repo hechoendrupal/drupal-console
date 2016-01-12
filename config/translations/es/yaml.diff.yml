@@ -1,0 +1,18 @@
+description: 'Compara dos archivos YAML para encontrar las diferencias entre ambos'
+arguments:
+    yaml-left: 'Fichero YAML base para comparar'
+    yaml-right: 'Fichero YAML en el que determinar carencias o diferencias comparado con el archivo base YAML'
+options:
+    stats: 'Despliega estadísticas acerca de la comparación de archivos YAML'
+    negate: 'Definir el modo de la comparación (diferencia o igualdad), valores posibles son TRUE/FALSE o 0/1'
+    limit: 'Limitar resultados a un número específico'
+    offset: 'Punto de empiece del límite'
+questions:
+    yaml-left: 'Ruta del archivo YAML que será usado como base en la comparación.'
+    yaml-right: 'Ruta del archivo YAML que será comparado.'
+messages:
+    key: 'Clave YAML'
+    value: 'Valor YAML'
+    total: 'Total: %s'
+    diff: 'Diferentes: %s'
+    equal: 'Iguales: %s'
