@@ -1,4 +1,4 @@
-description: 'Restore structure and contents of MySQL databases and tables'
+description: 'Khôi phục cấu trúc và content của một cơ sở dữ liệu'
 arguments:
     database: 'Khoá cơ sở dữ liệu từ tệp settings.php'
 options:

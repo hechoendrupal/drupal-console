@@ -1,16 +1,14 @@
-description: 'Displays current users for the application'
-help: 'The <info>user:debug</info> command helps you get current users.'
-welcome: 'Welcome to the Drupal user debug'
+description: 'Hiển thị các người dùng hiện tại cho ứng dụng'
+help: 'Lệnh <info>user:debug</info> giúp bạn có được các người dùng hiện tại.'
+welcome: 'Chào mừng đến với Drupal user debug'
 options:
-    roles: 'Roles to filter debug'
-    limit: 'How many users would you listed in debug'
+    roles: 'Các vai trò để lọc debug'
+    limit: 'Bạn muốn liệt kê bao nhiêu người dùng trong debug'
 questions:
-    roles: 'Select role(s) to be used to filter user debug list'
-    limit: 'Enter how many users would you like to show'
+    roles: '(Các) Vai trò sẽ được sử dụng để lọc danh sách người dùng debug'
+    limit: 'Nhập số người dùng bạn muốn hiển thị'
 messages:
-    user-id: 'User ID'
-    username: Username
-    roles: Roles
-    status: Status
-arguments:
-    roles: 'Roles to filter debug'
+    user-id: 'ID người dùng'
+    username: 'Tên người dùng'
+    roles: 'Vai trò'
+    status: 'Trạng thái'

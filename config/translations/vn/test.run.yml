@@ -1,20 +1,20 @@
-description: 'Chạy các kiểm tra đơn vị từ chương trình kiểm tra có sẵn trong ứng dụng'
+description: 'Chạy đơn vị thử nghiệm từ các thử nghiệm có sẵn cho ứng dụng'
 arguments:
-    test-class: 'Kiểm tra Class'
+    test-class: 'Lớp thử nghiệm'
 messages:
-    missing-dependency: 'Kiểm tra không thể thực hiện vì thiếu phần phụ thuộc'
-    phpunit-pending: 'Logic để thực hiện kiểm tra PHPUnit chưa được triển khai.'
-    starting-test: 'Đang bắt đầu kiểm tra'
-    test-duration: 'Kiểm tra quá trình'
-    test-pass: 'Kiểm tra các phần đã thông qua'
-    test-fail: 'Kiểm tra phần lỗi'
-    test-exception: 'Kiểm tra các ngoại lệ'
-    test-debug: 'Kiểm tra phần chỉnh lỗi'
-    url-required: 'Yêu cầu lựa chọn URL để chạy phần kiểm tra'
+    missing-dependency: 'Thử nghiệm không thể thực hiện vì thiếu phần phụ thuộc'
+    phpunit-pending: 'Logic để thực hiện thử nghiệm PHPUnit chưa được triển khai.'
+    starting-test: 'Đang bắt đầu thử nghiệm'
+    test-duration: 'Thời gian thử nghiệm'
+    test-pass: 'Thử nghiệm đã thông qua'
+    test-fail: 'Thử nghiệm thất bại'
+    test-exception: 'Thử nghiệm các ngoại lệ'
+    test-debug: 'Thử nghiệm phần chỉnh lỗi'
+    url-required: 'Yêu cầu lựa chọn URL để chạy thử nghiệm'
     test-summary: 'Kiểm tra tóm tắt'
     group: Nhóm
     status: 'Trạng thái'
     file: File
     method: 'Phương thức'
     line: Dòng
-    message: 'Tin nhắn'
+    message: Tin nhắn

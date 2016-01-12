@@ -1,4 +1,4 @@
-description: 'DElete a language to be supported by your site'
+description: Xóa một ngôn ngữ được hỗ trợ bởi site cuuar bạn
 messages:
-    invalid-language: 'Language %s it''s an invalid language'
-    language-deleted-sucessfully: 'Language %s was deleted successfully.'
+    invalid-language: "Ngôn ngữ %s là ngôn ngữ không hợp lệ"
+    language-deleted-sucessfully: "Ngôn ngữ %s được thêm thành công"

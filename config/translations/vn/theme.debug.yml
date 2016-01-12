@@ -1,15 +1,15 @@
-description: 'Displays current themes for the application'
+description: 'Hiển thị các themes hiện tại cho ứng dụng'
 arguments:
-    theme: 'Specific theme to debug '
+    theme: 'Theme nhất định để chỉnh lỗi'
 messages:
-    theme-id: Id
-    theme-name: Tên
+    theme-id: 'Id'
+    theme-name: 'Tên'
     status: 'Trạng thái'
     version: 'Phiên bản'
     installed: 'Cài đặt'
     uninstalled: 'Gỡ bỏ'
     default-theme: 'Hiển thị mặc định'
-    properties: Properties
+    properties: 'Properties'
     regions: 'Các vùng'
-    invalid-theme: 'Theme %s is invalid'
-    theme-properties: Properties
+    invalid-theme: 'Theme %s không hợp lệ'
+    theme-properties: 'Properties'

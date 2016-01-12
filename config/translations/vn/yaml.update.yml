@@ -1,5 +1,5 @@
 value:
-    description: 'Cập nhật một giá trị cho một khóa cụ thể trong file YAML.'
+    description: 'Cập nhật một giá trị cho một key cụ thể trong file YAML.'
     arguments:
         yaml-file: 'Đường dẫn của file YAML để cập nhật'
         yaml-key: 'Khóa YAML để cập nhật'
@@ -7,10 +7,10 @@ value:
     messages:
         updated: 'File YAML %s đã được cập nhật thành công'
 key:
-    description: 'Thay thế một khóa YAML trong một file YAML.'
+    description: 'Thay thế một key YAML trong một file YAML.'
     arguments:
         yaml-file: 'Đường dẫn của file YAML để cập nhật'
-        yaml-key: 'Khóa YAML để thay thế'
-        yaml-new-key: 'Khóa mới YAML'
+        yaml-key: 'Key YAML để thay thế'
+        yaml-new-key: 'Key mới YAML'
     messages:
         updated: 'File YAML %s đã được cập nhật thành công'
