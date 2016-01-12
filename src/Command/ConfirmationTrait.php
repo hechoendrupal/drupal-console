@@ -17,11 +17,16 @@ trait ConfirmationTrait
 {
     /**
      * @param DrupalStyle $io
+     * @param bool        $yes
      *
      * @return bool
      */
-    public function confirmGeneration(DrupalStyle $io)
+    public function confirmGeneration(DrupalStyle $io, $yes = false)
     {
+        if ($yes) {
+            return $yes;
+        }
+
         $confirmation = $io->confirm(
             $this->trans('commands.common.questions.confirm'),
             true
