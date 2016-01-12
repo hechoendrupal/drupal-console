@@ -1,6 +1,6 @@
-description: 'Show the current State keys.'
-help: 'Show the current State keys.'
+description: 'Hiển thị State keys hiện tại.'
+help: 'Hiển thị State keys hiện tại.'
 arguments:
-    key: 'The State key to debug.'
+  key: 'State key để debug.'
 messages:
-    key: 'The State key'
+  key: 'The State key'

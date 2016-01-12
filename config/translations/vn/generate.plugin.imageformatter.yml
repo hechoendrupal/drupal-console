@@ -8,5 +8,5 @@ options:
 questions:
     module: common.questions.module
     class: 'Nhập tên lớp của plugin'
-    label: 'Nhập nhãn của plugin '
+    label: 'Nhập nhãn của plugin'
     plugin-id: 'Nhập plugin id'

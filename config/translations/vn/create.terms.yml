@@ -1,18 +1,18 @@
-description: 'Create dummy terms for your Drupal 8 application.'
-help: 'The <info>create:nodes</info> command helps you generate fake nodes.'
-welcome: 'Welcome to the Drupal terms creator'
+description: 'Tạo dummy terms cho ứng dụng Drupal 8 của bạn.'
+help: 'Câu lệnh <info>create:nodes</info> giúp bạn generate fake nodes.'
+welcome: 'Chào mừng đến với Drupal terms creator'
 arguments:
-    vocabularies: 'Vocabularie(s) to be used in terms creation'
+  vocabularies: 'Vocabularie(s) được sử dụng trong terms creation'
 options:
-    limit: 'How many terms would you like to create'
+    limit: 'Bao nhiêu terms bạn muốn tạo?'
     name-words: 'Maximum number of words in term names'
 questions:
-    vocabularies: 'Select vocabularie(s) to be used on terms creation'
-    limit: 'Enter how many terms would you like to create'
-    name-words: 'Enter the maximum number of words in term names'
+    vocabularies: 'Chọn vocabularie(s) để sử dụng trong terms creation'
+    limit: 'Nhập vào số lượng terms muốn tạo'
+    name-words: 'Nhập vào maximum number của từ trong term names'
 messages:
     term-id: 'Term Id'
-    vocabulary: Vocabulary
-    name: Name
-    invalid-vocabularies: 'Vocabularie(s) %s are invalid'
-    created-terms: 'Created %s terms successfully'
+    vocabulary: 'Vocabulary'
+    name: 'Name'
+    invalid-vocabularies: 'Vocabularie(s) %s là không hợp lệ'
+    created-terms: 'Đã tạo %s terms thành công'
