@@ -82,7 +82,7 @@ class PluginFieldFormatterCommand extends GeneratorCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $fieldTypePluginManager = $this->hasGetService('plugin.manager.field.field_type');
+        $fieldTypePluginManager = $this->getService('plugin.manager.field.field_type');
 
         // --module option
         $module = $input->getOption('module');

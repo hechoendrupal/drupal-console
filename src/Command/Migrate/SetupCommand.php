@@ -153,7 +153,7 @@ class SetupCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $template_storage = $this->hasGetService('migrate.template_storage');
+        $template_storage = $this->getService('migrate.template_storage');
         $source_base_path = $input->getOption('files-directory');
 
         $this->registerMigrateDB($input, $output);
@@ -175,7 +175,7 @@ class SetupCommand extends ContainerAwareCommand
         $migration_templates = $template_storage->findTemplatesByTag($version_tag);
 
         $migrations = [];
-        $builderManager = $this->hasGetService('migrate.migration_builder');
+        $builderManager = $this->getService('migrate.migration_builder');
         foreach ($migration_templates as $id => $template) {
           $migration_templates[$id]['source']['database_state_key'] = $database_state_key;
           // Configure file migrations so they can find the files.

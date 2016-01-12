@@ -56,7 +56,7 @@ class TableDropCommand extends ContainerAwareCommand
             ),
             true
         ) || $yes) {
-            $databaseService = $this->hasGetService('database');
+            $databaseService = $this->getService('database');
             $schema = $databaseService->schema();
             $tables = $schema->findTables('%');
             $tableRows = [];
