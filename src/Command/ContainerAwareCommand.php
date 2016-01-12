@@ -390,7 +390,8 @@ abstract class ContainerAwareCommand extends Command
      * @param $serviceId
      * @return mixed
      */
-    public function hasGetService($serviceId) {
+    public function hasGetService($serviceId)
+    {
         return $this->getService($serviceId);
     }
 
