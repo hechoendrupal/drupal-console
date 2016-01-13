@@ -1,5 +1,5 @@
-description: 'Mise à jour de la console.'
-help: 'Permet de mettre à jour la console Drupal vers la dernière version.'
+description: 'Mise à jour de Drupal Console.'
+help: 'Permet de mettre à jour la Drupal Console vers la dernière version.'
 options:
     major: 'Update to a new major version, if available.'
     manifest: 'Override the manifest file path.'
