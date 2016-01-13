@@ -26,7 +26,10 @@ use Drupal\{{ module }}\{{ entity_class }}Interface;
  *       "add" = "Drupal\{{ module }}\Form\{{ entity_class }}Form",
  *       "edit" = "Drupal\{{ module }}\Form\{{ entity_class }}Form",
  *       "delete" = "Drupal\{{ module }}\Form\{{ entity_class }}DeleteForm"
- *     }
+ *     },
+ *     "route_provider" = {
+ *       "html" = "Drupal\{{ module }}\{{ entity_class }}HtmlRouteProvider",
+ *     },
  *   },
  *   config_prefix = "{{ entity_name }}",
  *   admin_permission = "administer site configuration",
@@ -40,9 +43,10 @@ use Drupal\{{ module }}\{{ entity_class }}Interface;
  *   },
  *   links = {
  *     "canonical" = "/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
+ *     "add-form" = "/admin/structure/{{ entity_name }}/add",
  *     "edit-form" = "/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
  *     "delete-form" = "/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete",
- *     "collection" = "/admin/structure/visibility_group"
+ *     "collection" = "/admin/structure/{{ entity_name }}"
  *   }
  * )
  */
