@@ -62,7 +62,6 @@ class ShowGenerateChainListener implements EventSubscriberInterface
             return;
         }
 
-        // get the input instance
         $input = $event->getInput();
 
         if ($input->getOption('generate-chain')) {

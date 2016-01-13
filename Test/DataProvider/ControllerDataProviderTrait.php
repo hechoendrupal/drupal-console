@@ -16,7 +16,7 @@ trait ControllerDataProviderTrait
         $this->setUpTemporaryDirectory();
 
         $routes = [
-          ['title' => 'Foo Controller', 'method' => 'index', 'route' => 'index']
+          ['title' => 'Foo Controller', 'method' => 'index', 'path' => '/hello/{name}']
         ];
 
         return [
