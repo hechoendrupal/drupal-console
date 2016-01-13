@@ -4,29 +4,33 @@ welcome: 'Welcome to the Drupal Controller generator'
 options:
     module: common.options.module
     class: 'Controller Class name'
+    routes: 'The routes, must be an array containing [title, method, path]'
+    services: common.options.services
+    test: 'Generate a test class'
     title: 'Title of the controller'
     method: 'The action method name'
     route: 'The route path'
-    services: common.options.services
-    test: 'Generate a test class'
     controller-title: 'Title of the controller'
     method-name: 'The action method name'
 questions:
     module: common.questions.module
     class: 'Enter the Controller class name'
+    title: 'Enter the Controller method title'
     method: 'Enter the action method name'
-    route: 'Enter the route path'
+    path: 'Enter the route path'
     services: common.questions.services
     test: 'Do you want to generate a unit test class'
-    title: 'Enter the Controller method title'
+    route: 'Enter the route path'
     controller-add: 'Do you want add another contoller method'
     controller: 'Controller title'
     method-name: 'Enter the action method name'
     other-controller-title: 'Controller title (empty to start with code generation)'
     controller-title: 'Controller title'
 messages:
+    title-empty: 'Title must contain a value'
     title-already-added: 'Title was already added'
     method-name-already-added: 'Method name was already added'
+    path-already-added: 'Path was already added'
     route-already-added: 'Route was already added'
     invalid-controller-title: 'Title cannot be empty'
     invalid-method-name: 'Method name cannot be empty'
