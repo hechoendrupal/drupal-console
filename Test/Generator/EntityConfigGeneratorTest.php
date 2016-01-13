@@ -44,10 +44,10 @@ class EntityConfigGeneratorTest extends GeneratorTest
 
         $files = [
           $generator->getSite()->getModulePath($module).'/config/schema/'.$entity_name.'.schema.yml',
-          $generator->getSite()->getModulePath($module).'/'.$module.'.routing.yml',
           $generator->getSite()->getModulePath($module).'/'.$module.'.links.menu.yml',
           $generator->getSite()->getModulePath($module).'/'.$module.'.links.action.yml',
           $generator->getSite()->getSourcePath($module).'/'.$entity_class.'Interface.php',
+          $generator->getSite()->getSourcePath($module).'/'.$entity_class.'HtmlRouteProvider.php',
           $generator->getSite()->getEntityPath($module).'/'.$entity_class.'.php',
           $generator->getSite()->getFormPath($module).'/'.$entity_class.'Form.php',
           $generator->getSite()->getFormPath($module).'/'.$entity_class.'DeleteForm.php',

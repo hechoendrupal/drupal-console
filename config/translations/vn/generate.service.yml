@@ -1,6 +1,6 @@
 description: 'Tạo dịch vụ'
 help: ' Câu lệnh <info>generate:service</info> giúp bạn tạo một dịch vụ mới.'
-welcome: 'Chào mừng bạn đến với phần tạo dịch vụ Drupal'
+welcome: 'Chào mừng đến với phần tạo dịch vụ Drupal'
 options:
     module: common.options.module
     service-name: 'Tên dịch vụ'

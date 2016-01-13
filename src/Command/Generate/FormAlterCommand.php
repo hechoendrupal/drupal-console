@@ -10,7 +10,6 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ChoiceQuestion;
 use Drupal\Console\Generator\FormAlterGenerator;
 use Drupal\Console\Command\ServicesTrait;
 use Drupal\Console\Command\ModuleTrait;
@@ -56,10 +55,10 @@ class FormAlterCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($io)) {
             return;
         }
 
@@ -82,13 +81,12 @@ class FormAlterCommand extends GeneratorCommand
 
         $moduleHandler = $this->getModuleHandler();
         $drupal = $this->getDrupalHelper();
-        $questionHelper = $this->getQuestionHelper();
 
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output);
+            $module = $this->moduleQuestion($io);
         }
         $input->setOption('module', $module);
 
@@ -98,7 +96,9 @@ class FormAlterCommand extends GeneratorCommand
             $forms = [];
             // Get form ids from webprofiler
             if ($moduleHandler->moduleExists('webprofiler')) {
-                $output->writeln('<info>'.$this->trans('commands.generate.form.alter.messages.loading-forms').'</info>');
+                $io->info(
+                    $this->trans('commands.generate.form.alter.messages.loading-forms')
+                );
                 $forms = $this->getWebprofilerForms();
             }
 
@@ -117,30 +117,22 @@ class FormAlterCommand extends GeneratorCommand
 
             $formItems = array_keys($forms[$formId]['form']);
 
-            $question = new ChoiceQuestion(
+            $formItemsToHide = $io->choice(
                 $this->trans('commands.generate.form.alter.messages.hide-form-elements'),
-                array_combine($formItems, $formItems),
-                '0'
+                $formItems,
+                null,
+                true
             );
 
-            $question->setMultiselect(true);
-
-            $question->setValidator(
-                function ($answer) {
-                    return $answer;
-                }
-            );
-
-            $formItemsToHide = $questionHelper->ask($input, $output, $question);
             $this->metadata['unset'] = array_filter(array_map('trim', explode(',', $formItemsToHide)));
         }
 
         $input->setOption('form-id', $formId);
 
-        $output->writeln($this->trans('commands.generate.form.alter.messages.inputs'));
+        $io->writeln($this->trans('commands.generate.form.alter.messages.inputs'));
 
         // @see Drupal\Console\Command\FormTrait::formQuestion
-        $form = $this->formQuestion($output);
+        $form = $this->formQuestion($io);
         $input->setOption('inputs', $form);
     }
 

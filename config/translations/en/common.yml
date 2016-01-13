@@ -29,7 +29,7 @@ questions:
         title: 'Title'
         fieldset: 'Fieldset'
 errors:
-    module-dependency: 'Missing module dependency "%s"'
+    module-dependency: 'Missing module dependency "%s" is not installed. Try module:install to install it.'
     class-name-empty: 'The Class name can not be empty'
     invalid-file-path: 'You must provide a valid file path'
 status:

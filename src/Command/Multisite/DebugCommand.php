@@ -9,7 +9,6 @@ namespace Drupal\Console\Command\Multisite;
 
 use Drupal\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
-use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

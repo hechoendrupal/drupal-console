@@ -9,5 +9,5 @@ messages:
     origin: 'Nguồn gốc'
     package: Package
     enabled: Bật
-    disabled: Tắ
+    disabled: Tắt
     schema-version: 'Phiên bản Schema'

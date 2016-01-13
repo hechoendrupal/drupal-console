@@ -27,9 +27,7 @@ class ShowGenerateDocListener implements EventSubscriberInterface
      */
     public function showGenerateDoc(ConsoleCommandEvent $event)
     {
-        /**
-         * @var \Drupal\Console\Command\Command $command
-         */
+        /* @var \Drupal\Console\Command\Command $command */
         $command = $event->getCommand();
 
         $application = $command->getApplication();
