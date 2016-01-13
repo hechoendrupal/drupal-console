@@ -53,21 +53,15 @@ class ShowGenerateInlineListener implements EventSubscriberInterface
             return;
         }
 
-        // get the input instance
         $input = $event->getInput();
 
-        //Get options list
-        $options = array_filter($input->getOptions());
-
-        if (isset($options['generate-inline']) && $options['generate-inline'] == 1) {
-            // Remove unnecessary options
+        if ($input->getOption('generate-inline')) {
+            $options = array_filter($input->getOptions());
             foreach ($this->skipOptions as $remove_option) {
                 unset($options[$remove_option]);
             }
 
-            // Get argument list
             $arguments = array_filter($input->getArguments());
-            // Remove unnecessary arguments
             foreach ($this->skipArguments as $remove_argument) {
                 unset($arguments[$remove_argument]);
             }
@@ -83,19 +77,46 @@ class ShowGenerateInlineListener implements EventSubscriberInterface
                 $inline .= " $argument";
             }
 
-            foreach ($options as $option_id => $option) {
-                if (strstr($option, ' ')) {
-                    $option = '"' . $option . '"';
+            // Refactor and remove nested levels. Then apply to arguments.
+            foreach ($options as $optionName => $optionValue) {
+                if (is_array($optionValue)) {
+                    foreach ($optionValue as $optionItem) {
+                        if (is_array($optionItem)) {
+                            $inlineValue = implode(
+                                ' ', array_map(
+                                    function ($v, $k) {
+                                        return $k . ':' . $v;
+                                    },
+                                    $optionItem,
+                                    array_keys($optionItem)
+                                )
+                            );
+                        } else {
+                            $inlineValue = $optionItem;
+                        }
+                        $inline .= ' --' . $optionName . '="' . $inlineValue . '"';
+                    }
+                } else {
+                    if (is_bool($optionValue)) {
+                        $inline.= ' --' . $optionName;
+                    } else {
+                        $inline.= ' --' . $optionName . '="' . $optionValue . '"';
+                    }
                 }
-                $inline.= ' --' . $option_id . '=' . $option;
             }
 
             // Print yaml output and message
-            $io->writeln(
+            $io->commentBlock(
                 $translatorHelper->trans('application.console.messages.inline.generated')
             );
 
-            $io->writeln('$ drupal' . $inline);
+            $io->writeln(
+                sprintf(
+                    '$ drupal %s %s',
+                    $command_name,
+                    $inline
+                )
+            );
         }
     }
 
