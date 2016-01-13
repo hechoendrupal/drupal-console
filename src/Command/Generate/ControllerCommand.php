@@ -29,7 +29,12 @@ class ControllerCommand extends GeneratorCommand
             ->setName('generate:controller')
             ->setDescription($this->trans('commands.generate.controller.description'))
             ->setHelp($this->trans('commands.generate.controller.help'))
-            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'module',
+                '',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            )
             ->addOption(
                 'class',
                 '',
@@ -76,7 +81,7 @@ class ControllerCommand extends GeneratorCommand
         $test = $input->getOption('test');
         $services = $input->getOption('services');
 
-        // Refactor as Trait to validate array argument/option passed inline.
+        // Refactor as Trait to share array argument/option validation passed inline.
         $overrideRoutes = false;
         foreach ($routes as $key => $route) {
             if (!is_array($route)) {
