@@ -12,24 +12,24 @@ use Drupal\Console\Style\DrupalStyle;
 trait ThemeRegionTrait
 {
     /**
-   * @param DrupalStyle $output
+   * @param DrupalStyle $io
    *
    * @return mixed
    */
-    public function regionQuestion(DrupalStyle $output)
+    public function regionQuestion(DrupalStyle $io)
     {
         $stringUtils = $this->getStringHelper();
         $validators = $this->getValidator();
 
         $regions = [];
         while (true) {
-            $regionName = $output->ask(
+            $regionName = $io->ask(
                 $this->trans('commands.generate.theme.questions.region-name'),
                 'Content'
             );
 
             $regionMachineName = $stringUtils->createMachineName($regionName);
-            $regionMachineName = $output->ask(
+            $regionMachineName = $io->ask(
                 $this->trans('commands.generate.theme.questions.region-machine-name'),
                 $regionMachineName,
                 function ($regionMachineName) use ($validators) {
@@ -45,7 +45,7 @@ trait ThemeRegionTrait
                 ]
             );
 
-            if (!$output->confirm(
+            if (!$io->confirm(
                 $this->trans('commands.generate.theme.questions.region-add'),
                 true
             )) {

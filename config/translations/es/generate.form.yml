@@ -1,5 +1,5 @@
 description: 'Generar un nuevo "%s"'
-help: 'El <info>"%s"</info> comando le ayuda a generar un nuevo "%s"'
+help: 'El comando <info>"%s"</info> le ayuda a generar un nuevo "%s"'
 welcome: 'Bienvenido al generador de formularios de Drupal'
 options:
     module: common.options.module
@@ -15,3 +15,7 @@ questions:
     services: common.questions.services
     inputs: common.questions.inputs
     routing: 'Actualizar el archivo de routing'
+    menu_link_gen: 'Generate a menu link'
+    menu_link_title: 'A title for the menu link'
+    menu_parent: 'Menu parent'
+    menu_link_desc: 'A description for the menu link'

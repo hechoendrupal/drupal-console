@@ -1,14 +1,17 @@
 console:
     arguments:
-        drupal: 'Drupal रूट का पथ।'
-        shell: 'शेल चालु करें।'
         env: 'पर्यावरण का नाम।'
         no-debug: 'डिबग विधि को बंद कर देता है।'
         learning: 'शब्दबहुल कोड उत्पन्न करें।'
         generate-chain: 'निष्पादन विकल्प में प्रिंट और तर्क को YAML आउटपुट के रूप में श्रृंखला कमांड में इस्तेमाल किया जाएगा'
         generate-inline: 'निष्पादन विकल्प में प्रिंट और तर्क को इनलाइन कॉल के रूप में भविष्य में उपयोग किया जाएगा'
+        generate-doc: 'Shows command options and arguments as markdown'
         root: 'कमाण्ड चलाने के लिए Drupal रूट परिभाषित करें'
         uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
+        'yes': 'Skip confirmation and proceed'
+        target: 'Site name you want to interact with (for local or remote sites)'
+        drupal: 'Drupal रूट का पथ।'
+        shell: 'शेल चालु करें।'
     messages:
         completed: 'कमाण्ड सफलतापूर्वक चलाया गया!'
         chain:

@@ -1,8 +1,8 @@
-description: 'Hiển thị tài nguyên rest hiện có cho ứng dụng'
+description: 'Hiển thị rest resource hiện có cho ứng dụng'
 arguments:
     resource-id: 'Rest ID'
 options:
-    status: ' Trạng thái tài nguyên Rest bật | tắt'
+    status: ' Trạng thái rest resource bật | tắt'
 messages:
     id: 'Rest ID'
     label: Label
@@ -14,4 +14,4 @@ messages:
     rest-state: 'Các trạng thái REST'
     supported-formats: 'Các định dạng hỗ trợ'
     supported_auth: 'Các nhà cũng cáp ủy quyền hỗ trợ'
-    not-found: 'Tài nguyên Rest %s không tìm thấy'
+    not-found: 'Không tìm thấy rest resource %s'

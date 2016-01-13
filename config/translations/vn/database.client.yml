@@ -3,4 +3,3 @@ arguments:
     database: 'Khoá cơ sở dữ liệu từ tệp settings.php'
 messages:
     connection: 'Connection: %s'
-    executing: 'Đang thực hiện: %s'

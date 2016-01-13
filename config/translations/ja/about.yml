@@ -1,13 +1,13 @@
-description: 'Display basic information about Drupal Console project'
+description: 'Drupal Consoleプロジェクトについての基本情報を表示'
 messages:
-    welcome: 'The Drupal Console is a suite of tools that you run on the CLI to:'
-    welcome-feature-generate: 'Generate boilerplate code.'
-    welcome-feature-interact: 'Interact with a Drupal 8 installation.'
-    welcome-feature-learn: 'Learn Drupal 8.'
-    links: 'Project links'
-    landing: 'Landing page - %s'
-    change-log: 'Change log at - %s'
-    documentation: 'Documentation at - %s'
-    support: 'Support chat room - %s'
-    supporting-organizations: 'Supporting organizations'
-    version-supported: 'Drupal supported version <info>%s</info>'
+    welcome: 'Drupal Consoleは以下のような機能を持つCLIツールです。'
+    welcome-feature-generate: ボイラプレートコードを生成
+    welcome-feature-interact: Drupal8を対話的にインストール
+    welcome-feature-learn: Drupal8について学ぶ
+    links: プロジェクトへのリンク
+    landing: 'ランディングページ - %s'
+    change-log: '変更履歴 - %s'
+    documentation: 'ドキュメント %s'
+    support: 'サポートチャットルーム - %s'
+    supporting-organizations: 支援団体
+    version-supported: 'サポート対象のDrupalバージョン <info>%s</info>'

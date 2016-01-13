@@ -10,7 +10,6 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ChoiceQuestion;
 use Drupal\Console\Generator\PluginFieldWidgetGenerator;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\ConfirmationTrait;
@@ -83,7 +82,7 @@ class PluginFieldWidgetCommand extends GeneratorCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $fieldTypePluginManager = $this->hasGetService('plugin.manager.field.field_type');
+        $fieldTypePluginManager = $this->getService('plugin.manager.field.field_type');
 
         // --module option
         $module = $input->getOption('module');
@@ -134,15 +133,10 @@ class PluginFieldWidgetCommand extends GeneratorCommand
                 }
             }
 
-            $questionHelper = $this->getQuestionHelper();
-
-            $question = new ChoiceQuestion(
+            $field_type  = $io->choice(
                 $this->trans('commands.generate.plugin.fieldwidget.questions.field-type'),
-                $field_type_options,
-                0
+                $field_type_options
             );
-
-            $field_type = $questionHelper->ask($input, $output, $question);
 
             $input->setOption('field-type', $field_type);
         }

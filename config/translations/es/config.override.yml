@@ -8,3 +8,7 @@ messages:
     configuration-key: 'Clave de la configuración.'
     original: 'Valor original'
     updated: 'Valor sobreescrito.'
+examples:
+    -
+        description: 'Définir la valeur de "flood" du module Contact à 10.'
+        execution: 'drupal config:override contact.settings flood.limit 10'

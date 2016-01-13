@@ -1,15 +1,15 @@
-description: ' Phát sinh một formatter plugin.'
-help: 'Câu lệnh <info>generate:plugin:fieldformatter</info>giúp bạn phát sinh một field formatter plugin mới.'
-welcome: 'Chào mừng bạn đến với Drupal Field Formatter Plugin generator'
+description: 'Tạo một formatter plugin.'
+help: 'Câu lệnh <info>generate:plugin:fieldformatter</info> giúp bạn tạo một field formatter plugin mới.'
+welcome: 'Chào mừng đến với Drupal Field Formatter Plugin generator'
 options:
     module: common.options.module
-    class: ' Tên lớp Plugin'
-    label: 'Nhãn của Plugin'
+    class: 'Tên lớp plugin'
+    label: 'Nhãn plugin'
     plugin-id: 'Plugin id'
-    field-type: 'Kiểu filed của plugin có thể được sử dụng chung'
+    field-type: 'Loại field mà plugin có thể được sử dụng với'
 questions:
     module: common.questions.module
-    class: 'Nhập vào tên lớp của plugin'
+    class: 'Nhập tên lớp plugin'
     label: 'Nhập nhãn plugin'
     plugin-id: 'Nhập plugin id'
-    field-type: 'Nhập vào field type mà plugin có thể sử dụng chung'
+    field-type: 'Nhập field type mà plugin có thể sử dụng với'

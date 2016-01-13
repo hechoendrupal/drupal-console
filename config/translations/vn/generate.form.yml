@@ -1,5 +1,5 @@
-description: 'Generate a new "%s"'
-help: 'Câu lệnh <info>"%s"</info>  giúp bạn phát sinh một "%s" '
+description: 'Tạo một "%s" mới'
+help: 'Câu lệnh <info>"%s"</info> giúp bạn tạo một "%s" mới'
 welcome: 'Chào mừng bạn tới Drupal form generator'
 options:
     module: common.options.module
@@ -7,7 +7,7 @@ options:
     form-id: 'ID của form'
     services: common.options.services
     inputs: common.options.inputs
-    routing: 'Cập nhật tuyến đường'
+    routing: 'Cập nhật đường dẫn'
 questions:
     module: common.questions.module
     class: 'Nhập tên lớp của form'
@@ -15,3 +15,7 @@ questions:
     services: common.questions.services
     inputs: common.questions.inputs
     routing: 'Cập nhật đường dẫn của flie'
+    menu_link_gen: 'Generate a menu link'
+    menu_link_title: 'A title for the menu link'
+    menu_parent: 'Menu parent'
+    menu_link_desc: 'A description for the menu link'

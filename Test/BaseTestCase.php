@@ -2,7 +2,6 @@
 
 namespace Drupal\Console\Test;
 
-use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Helper\HelperSet;
 use Drupal\Console\Helper\TwigRendererHelper;
 use Drupal\Console\Helper\HelperTrait;
@@ -51,12 +50,6 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
 
             $translator = $this->getTranslatorHelper();
 
-            $message = $this
-                ->getMockBuilder('Drupal\Console\Helper\MessageHelper')
-                ->disableOriginalConstructor()
-                ->setMethods(['showMessages', 'showMessage'])
-                ->getMock();
-
             $chain = $this
                 ->getMockBuilder('Drupal\Console\Helper\ChainCommandHelper')
                 ->disableOriginalConstructor()
@@ -80,13 +73,11 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
 
             $this->helperSet = new HelperSet(
                 [
-                    'formatter' => new FormatterHelper(),
                     'renderer' => new TwigRendererHelper(),
                     'string' => $stringHelper,
                     'validator' => $validator,
                     'translator' => $translator,
                     'site' => $siteHelper,
-                    'message' => $message,
                     'chain' => $chain,
                     'drupal' => $drupal,
                 ]

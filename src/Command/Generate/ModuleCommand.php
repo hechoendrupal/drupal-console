@@ -89,13 +89,12 @@ class ModuleCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $validators = $this->getValidator();
-        $messageHelper = $this->getMessageHelper();
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($io)) {
             return;
         }
 
@@ -120,7 +119,7 @@ class ModuleCommand extends GeneratorCommand
         if ($dependencies) {
             $checked_dependencies = $this->checkDependencies($dependencies['success']);
             if (!empty($checked_dependencies['no_modules'])) {
-                $messageHelper->addWarningMessage(
+                $io->warning(
                     sprintf(
                         $this->trans('commands.generate.module.warnings.module-unavailable'),
                         implode(', ', $checked_dependencies['no_modules'])
@@ -188,7 +187,7 @@ class ModuleCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $stringUtils = $this->getStringHelper();
         $validators = $this->getValidator();
@@ -200,13 +199,13 @@ class ModuleCommand extends GeneratorCommand
                   $input->getOption('module')
               ) : null;
         } catch (\Exception $error) {
-            $output->error($error->getMessage());
+            $io->error($error->getMessage());
 
             return;
         }
 
         if (!$module) {
-            $module = $output->ask(
+            $module = $io->ask(
                 $this->trans('commands.generate.module.questions.module'),
                 null,
                 function ($module) use ($validators) {
@@ -222,11 +221,11 @@ class ModuleCommand extends GeneratorCommand
                   $input->getOption('machine-name')
               ) : null;
         } catch (\Exception $error) {
-            $output->error($error->getMessage());
+            $io->error($error->getMessage());
         }
 
         if (!$machineName) {
-            $machineName = $output->ask(
+            $machineName = $io->ask(
                 $this->trans('commands.generate.module.questions.machine-name'),
                 $stringUtils->createMachineName($module),
                 function ($machine_name) use ($validators) {
@@ -239,7 +238,7 @@ class ModuleCommand extends GeneratorCommand
         $modulePath = $input->getOption('module-path');
         if (!$modulePath) {
             $drupalRoot = $drupal->getRoot();
-            $modulePath = $output->ask(
+            $modulePath = $io->ask(
                 $this->trans('commands.generate.module.questions.module-path'),
                 '/modules/custom',
                 function ($modulePath) use ($drupalRoot, $machineName) {
@@ -262,7 +261,7 @@ class ModuleCommand extends GeneratorCommand
 
         $description = $input->getOption('description');
         if (!$description) {
-            $description = $output->ask(
+            $description = $io->ask(
                 $this->trans('commands.generate.module.questions.description'),
                 'My Awesome Module'
             );
@@ -271,7 +270,7 @@ class ModuleCommand extends GeneratorCommand
 
         $package = $input->getOption('package');
         if (!$package) {
-            $package = $output->ask(
+            $package = $io->ask(
                 $this->trans('commands.generate.module.questions.package'),
                 'Other'
             );
@@ -280,7 +279,7 @@ class ModuleCommand extends GeneratorCommand
 
         $core = $input->getOption('core');
         if (!$core) {
-            $core = $output->ask(
+            $core = $io->ask(
                 $this->trans('commands.generate.module.questions.core'), '8.x',
                 function ($core) {
                     // Only allow 8.x and higher as core version.
@@ -301,7 +300,7 @@ class ModuleCommand extends GeneratorCommand
 
         $feature = $input->getOption('feature');
         if (!$feature) {
-            $feature = $output->confirm(
+            $feature = $io->confirm(
                 $this->trans('commands.generate.module.questions.feature'),
                 false
             );
@@ -310,7 +309,7 @@ class ModuleCommand extends GeneratorCommand
 
         $composer = $input->getOption('composer');
         if (!$composer) {
-            $composer = $output->confirm(
+            $composer = $io->confirm(
                 $this->trans('commands.generate.module.questions.composer'),
                 true
             );
@@ -319,12 +318,12 @@ class ModuleCommand extends GeneratorCommand
 
         $dependencies = $input->getOption('dependencies');
         if (!$dependencies) {
-            $addDependencies = $output->confirm(
+            $addDependencies = $io->confirm(
                 $this->trans('commands.generate.module.questions.dependencies'),
                 false
             );
             if ($addDependencies) {
-                $dependencies = $output->ask(
+                $dependencies = $io->ask(
                     $this->trans('commands.generate.module.options.dependencies')
                 );
             }

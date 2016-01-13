@@ -58,15 +58,16 @@ class CommandCommand extends GeneratorCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io)) {
-            return;
-        }
-
         $module = $input->getOption('module');
         $class = $input->getOption('class');
         $name = $input->getOption('name');
         $containerAware = $input->getOption('container-aware');
+        $yes = $input->hasOption('yes')?$input->getOption('yes'):false;
+
+        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        if (!$this->confirmGeneration($io, $yes)) {
+            return;
+        }
 
         $this
             ->getGenerator()

@@ -69,7 +69,7 @@ class ExportContentTypeCommand extends ContainerAwareCommand
             $bundles_entities = $entity_manager->getStorage('node_type')->loadMultiple();
             $bundles = array();
             foreach ($bundles_entities as $entity) {
-                $bundles[] = $entity->label();
+                $bundles[$entity->id()] = $entity->label();
             }
 
             $contentType = $io->choice(

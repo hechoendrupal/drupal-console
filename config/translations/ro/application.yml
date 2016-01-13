@@ -1,14 +1,17 @@
 console:
     arguments:
-        drupal: 'Calea către rădăcina Drupal.'
-        shell: 'Lansați shell-ul.'
         env: 'Numele mediului de lucru.'
         no-debug: 'Oprește modul de depanare.'
         learning: 'Generarea unui cod verbal.'
         generate-chain: 'Printează opțiunile și argumentele de execuție în format yaml pentru a fi folosit în comandă înlănțuită'
         generate-inline: 'Printează opțiunile și argumentele de execuție în apel inline pentru a fi folosit pe viitor'
+        generate-doc: 'Shows command options and arguments as markdown'
         root: 'Definiți rădăcina Drupal care va fi folosită la executarea comenzilor'
         uri: 'URI-ul sitului Drupal care va fi folosit (pentru medii multi-sit sau când rulează pe un port alternativ)'
+        'yes': 'Skip confirmation and proceed'
+        target: 'Site name you want to interact with (for local or remote sites)'
+        drupal: 'Calea către rădăcina Drupal.'
+        shell: 'Lansați shell-ul.'
     messages:
         completed: 'Comanda a fost executată cu succes!'
         chain:

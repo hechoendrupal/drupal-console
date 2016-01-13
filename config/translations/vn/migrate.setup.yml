@@ -16,7 +16,7 @@ questions:
     db-prefix: 'Tiền tố cơ sở dữ liệu'
     db-port: 'Cổng vào cơ sở dữ liệu'
 messages:
-    not-drupal: 'Source database does not contain a recognizable Drupal version.'
-    migrations-created: '%s migrations were created successfully for %s.'
-    migrations-not-found: 'There aren''t migrations available'
-    migrations-already-exist: 'All migrations available are already created'
+    not-drupal: 'Source database không chứa đựng một recognizable Drupal version.'
+    migrations-created: '%s migrations đã được tạo thành công cho %s.'
+    migrations-not-found: 'Không có migrations nào sẵn có'
+    migrations-already-exist: 'Tất cả migrations sẵn có đã được tạo'

@@ -67,7 +67,7 @@ class ExecuteCommand extends ContainerAwareCommand
 
         $io->info($this->trans('commands.site.maintenance.description'));
 
-        $state = $this->hasGetService('state');
+        $state = $this->getService('state');
         $state->set('system.maintenance_mode', true);
 
         foreach ($updates as $module_name => $module_updates) {
