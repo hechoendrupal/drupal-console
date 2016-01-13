@@ -7,6 +7,7 @@ options:
     db-pass: 'Database Pass'
     db-prefix: 'Database Prefix'
     db-port: 'Database Port'
+    files-directory: 'Files Directory'
 questions:
     db-type: 'Drupal Database type'
     db-host: 'Database Host'
@@ -15,6 +16,7 @@ questions:
     db-pass: 'Database Pass'
     db-prefix: 'Database Prefix'
     db-port: 'Database Port'
+    files-directory: 'Files Directory'
 messages:
     not-drupal: 'Source database does not contain a recognizable Drupal version.'
     migrations-created: '%s migrations were created successfully for %s.'

@@ -6,7 +6,7 @@ options:
     group: Nhóm
 messages:
     class: 'Lớp thử nghiệm'
-    description: Mô tả
+    description: 'Mô tả'
     group: Nhóm
     type: 'Loại thử nghiệm'
     success: 'Console vừa được cập nhật lên phiên bản mới nhất.'
