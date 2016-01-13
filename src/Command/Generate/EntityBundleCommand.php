@@ -50,21 +50,17 @@ class EntityBundleCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($io)) {
             return;
         }
 
         $module = $input->getOption('module');
         $bundleName = $input->getOption('bundle-name');
         $bundleTitle = $input->getOption('bundle-title');
-
-        $learning = false;
-        if ($input->hasOption('learning')) {
-            $learning = $input->getOption('learning');
-        }
+        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
 
         $generator = $this->getGenerator();
         $generator->setLearning($learning);
@@ -76,20 +72,20 @@ class EntityBundleCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output);
+            $module = $this->moduleQuestion($io);
             $input->setOption('module', $module);
         }
 
         // --bundle-name option
         $bundleName = $input->getOption('bundle-name');
         if (!$bundleName) {
-            $bundleName = $output->ask(
+            $bundleName = $io->ask(
                 $this->trans('commands.generate.entity.bundle.questions.bundle-name'),
                 'default',
                 function ($bundleName) {
@@ -102,7 +98,7 @@ class EntityBundleCommand extends GeneratorCommand
         // --bundle-title option
         $bundleTitle = $input->getOption('bundle-title');
         if (!$bundleTitle) {
-            $bundleTitle = $output->ask(
+            $bundleTitle = $io->ask(
                 $this->trans('commands.generate.entity.bundle.questions.bundle-title'),
                 'default',
                 function ($bundle_title) {

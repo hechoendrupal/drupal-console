@@ -18,8 +18,8 @@ questions:
     route: 'Escriba el directorio de la ruta'
     services: common.questions.services
     test: 'Desea generar una clase de prueba unitaria'
-    title: 'Enter the Controller method title'
-    controller-add: 'Do you want add another contoller method'
+    title: 'Introduzca el título de metodo del Controller'
+    controller-add: 'Desea añadir otro método de controlador'
     controller: 'Título del controlador'
     method-name: 'Escriba nombre del método de acción'
     other-controller-title: 'Título del controlador (déjelo vacío para iniciar la generación de código)'

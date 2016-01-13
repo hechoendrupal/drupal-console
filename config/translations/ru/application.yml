@@ -1,14 +1,17 @@
 console:
     arguments:
-        drupal: 'Путь к корневой директории Drupal.'
-        shell: 'Запуск командной оболочки.'
         env: 'Имя среды окружения.'
         no-debug: 'Выключение режима отладки.'
         learning: 'Генерация подробного вывода.'
         generate-chain: 'Вывести опции и аргументы выполняемой команды как yaml для передаче по цепочке.'
         generate-inline: 'Вывести опции и аргументы выполняемой команды одной строкой для использования позднее.'
+        generate-doc: 'Shows command options and arguments as markdown'
         root: 'Указать корневую директорию Drupal для выполнения команд.'
         uri: 'URI сайта Drupal (в случае мультисайтингового окружения или запуска на альтернативном порту).'
+        'yes': 'Skip confirmation and proceed'
+        target: 'Site name you want to interact with (for local or remote sites)'
+        drupal: 'Путь к корневой директории Drupal.'
+        shell: 'Запуск командной оболочки.'
     messages:
         completed: 'Команда была выполнена успешно!'
         chain:

@@ -9,22 +9,26 @@ namespace Drupal\Console\Command;
 
 use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class EventsTrait
+ * @package Drupal\Console\Command
+ */
 trait EventsTrait
 {
     /**
-     * @param DrupalStyle $output
+     * @param DrupalStyle $io
      *
      * @return mixed
      */
-    public function eventsQuestion(DrupalStyle $output)
+    public function eventsQuestion(DrupalStyle $io)
     {
         $eventCollection = [];
-        $output->writeln($this->trans('commands.common.questions.events.message'));
+        $io->info($this->trans('commands.common.questions.events.message'));
 
         $events = $this->getEvents();
 
         while (true) {
-            $event = $output->choiceNoList(
+            $event = $io->choiceNoList(
                 $this->trans('commands.common.questions.events.name'),
                 $events,
                 null,
@@ -36,7 +40,7 @@ trait EventsTrait
             }
 
             $callbackSuggestion = str_replace('.', '_', $event);
-            $callback = $output->ask(
+            $callback = $io->ask(
                 $this->trans('commands.generate.event.subscriber.questions.callback-name'),
                 $callbackSuggestion
             );

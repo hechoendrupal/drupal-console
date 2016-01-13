@@ -52,7 +52,7 @@ class DumpCommand extends ContainerAwareCommand
 
         $database = $input->getArgument('database');
         $file = $input->getOption('file');
-        $learning = $input->getOption('learning');
+        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
 
         $databaseConnection = $this->resolveConnection($io, $database);
 

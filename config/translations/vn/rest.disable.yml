@@ -1,7 +1,7 @@
 description: 'Tắt một tài nguyên rest cho ứng dụng'
 arguments:
     resource-id: 'Rest ID'
-    states: ' Các trạng thái REST cần tắt cho tài nguyên Rest'
+    states: 'Các trạng thái REST cần tắt cho Rest resource'
 questions:
     resource-id: 'Rest ID'
 messages:

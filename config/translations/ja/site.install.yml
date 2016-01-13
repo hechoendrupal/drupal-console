@@ -1,25 +1,25 @@
-description: 'Install a Drupal project'
+description: Drupalプロジェクトをインストールする
 arguments:
-    profile: 'Drupal Profile to be install'
-    langcode: 'Drupal language'
-    db-type: 'Drupal Database type to be use in install'
-    db-file: 'Drupal Database file to be use in install'
-    site-name: 'Drupal site name'
-    site-mail: 'Drupal site mail'
-    account-name: 'Drupal administrator account name'
-    account-mail: 'Drupal administrator account mail'
-    account-pass: 'Drupal administrator account password'
+    profile: Drupalのプロファイル
+    langcode: Drupalの言語
+    db-type: インストールに使用するデータベースのタイプ
+    db-file: インストールに使用するデータベースのファイル
+    site-name: Drupalのサイト名
+    site-mail: Drupalサイトのメールアドレス
+    account-name: '管理者アカウントの名前'
+    account-mail: '管理者アカウントのメールアドレス'
+    account-pass: '管理者アカウントのパスワード'
 questions:
-    profile: 'Select Drupal profile to be installed'
-    langcode: 'Select language for your Drupal installation'
+    profile: インストールするDrupalのプロファイルを選択
+    langcode: インストールするDrupalの言語を選択
     db-type: 'Select Drupal Database type to be use in install'
-    site-name: 'Provide your Drupal site name'
-    site-mail: 'Provide your Drupal site mail'
-    account-name: 'Provide your Drupal administrator account name'
-    account-mail: 'Provide your Drupal administrator account mail'
-    account-pass: 'Provide your Drupal administrator account password'
+    site-name: 'Drupalのサイト名を入力してください'
+    site-mail: 'Drupalサイトのメールアドレスを入力してください'
+    account-name: '管理者アカウントの名前を入力してください'
+    account-mail: '管理者アカウントのメールアドレスを入力してください'
+    account-pass: '管理者アカウントのパスワードを入力してください'
 messages:
-    installing: 'Starting Drupal 8 install process'
-    installed: 'Your Drupal 8 installation was completed sucessfully'
+    installing: 'Drupal 8のインストールプロセスを開始しています。'
+    installed: 'Drupal 8のインストールが正常に完了しました。'
     using-current-database: 'Using %s database with name %s and user %s'
-    already-installed: 'Drupal is already installed, try truncating your database and run again site:install'
+    already-installed: 'Drupalはすでにインストールされています。データベースから全てのデータを削除し、もう一度site:installを実行してください。'

@@ -10,7 +10,6 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ChoiceQuestion;
 use Drupal\Console\Generator\PluginConditionGenerator;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\ConfirmationTrait;
@@ -72,10 +71,10 @@ class PluginConditionCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($io)) {
             return;
         }
 
@@ -96,7 +95,7 @@ class PluginConditionCommand extends GeneratorCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $entity_manager = $this->getEntityManager();
 
@@ -113,7 +112,7 @@ class PluginConditionCommand extends GeneratorCommand
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $output->ask(
+            $class = $io->ask(
                 $this->trans('commands.generate.plugin.condition.questions.class'),
                 'ExampleCondition'
             );
@@ -123,7 +122,7 @@ class PluginConditionCommand extends GeneratorCommand
         // --plugin label option
         $label = $input->getOption('label');
         if (!$label) {
-            $label = $output->ask(
+            $label = $io->ask(
                 $this->trans('commands.generate.plugin.condition.questions.label'),
                 $this->getStringHelper()->camelCaseToHuman($class)
             );
@@ -133,7 +132,7 @@ class PluginConditionCommand extends GeneratorCommand
         // --plugin-id option
         $pluginId = $input->getOption('plugin-id');
         if (!$pluginId) {
-            $pluginId = $output->ask(
+            $pluginId = $io->ask(
                 $this->trans('commands.generate.plugin.condition.questions.plugin-id'),
                 $this->getStringHelper()->camelCaseToUnderscore($class)
             );
@@ -142,39 +141,32 @@ class PluginConditionCommand extends GeneratorCommand
 
         $context_definition_id = $input->getOption('context-definition-id');
         if (!$context_definition_id) {
-            $questionHelper = $this->getQuestionHelper();
-
             $context_type = array('language' => 'Language', "entity" => "Entity");
-            $question = new ChoiceQuestion(
+            $context_type_sel = $io->choice(
                 $this->trans('commands.generate.plugin.condition.questions.context-type'),
-                $context_type,
-                current($context_type)
+                array_values($context_type)
             );
-            $context_type_sel = $questionHelper->ask($input, $output, $question);
+            $context_type_sel = array_search($context_type_sel, $context_type);
 
             if ($context_type_sel == 'language') {
                 $context_definition_id = $context_type_sel;
                 $context_definition_id_value = ucfirst($context_type_sel);
             } else {
-                $options = array_keys($entity_types);
-                $options = array_combine($options, $options);
-                $question = new ChoiceQuestion(
+                $content_entity_types_sel = $io->choice(
                     $this->trans('commands.generate.plugin.condition.questions.context-entity-type'),
-                    $options,
-                    current($options)
+                    array_keys($entity_types)
                 );
-                $content_entity_types_sel = $questionHelper->ask($input, $output, $question);
 
-                $options = $entity_types[$content_entity_types_sel];
-                $options = array_combine($options, $options);
-                $question = new ChoiceQuestion(
+                $contextDefinitionIdList = $entity_types[$content_entity_types_sel];
+                $context_definition_id_sel = $io->choice(
                     $this->trans('commands.generate.plugin.condition.questions.context-definition-id'),
-                    $options,
-                    current($options)
+                    array_values($contextDefinitionIdList)
                 );
-                $context_definition_id_sel = $questionHelper->ask($input, $output, $question);
 
-                $context_definition_id_value = array_search($context_definition_id_sel, $entity_types[$content_entity_types_sel]);
+                $context_definition_id_value = array_search(
+                    $context_definition_id_sel,
+                    $contextDefinitionIdList
+                );
 
                 $context_definition_id = 'entity:' . $context_definition_id_value;
             }
@@ -183,7 +175,7 @@ class PluginConditionCommand extends GeneratorCommand
 
         $context_definition_label = $input->getOption('context-definition-label');
         if (!$context_definition_label) {
-            $context_definition_label = $output->ask(
+            $context_definition_label = $io->ask(
                 $this->trans('commands.generate.plugin.condition.questions.context-definition-label'),
                 $context_definition_id_value?:null
             );
@@ -192,7 +184,7 @@ class PluginConditionCommand extends GeneratorCommand
 
         $context_definition_required = $input->getOption('context-definition-required');
         if (empty($context_definition_required)) {
-            $context_definition_required = $output->confirm(
+            $context_definition_required = $io->confirm(
                 $this->trans('commands.generate.plugin.condition.questions.context-definition-required'),
                 true
             );

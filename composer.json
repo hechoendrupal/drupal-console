@@ -1,10 +1,10 @@
 {
     "name": "drupal/console",
-    "description": "The Drupal Console is a command line interface to generate boilerplate code and interact with a Drupal 8 installation.",
+    "description": "The Drupal Console is a CLI tool to generate boilerplate code, interact and debug Drupal 8.",
     "keywords": ["Drupal", "Console", "Development", "Symfony"],
     "homepage": "http://drupalconsole.com/",
     "type": "project",
-    "license": "MIT",
+    "license": "GPL-2.0+",
     "authors": [
         {
             "name":      "David Flores",

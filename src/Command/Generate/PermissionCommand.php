@@ -54,10 +54,7 @@ class PermissionCommand extends GeneratorCommand
         $module = $input->getOption('module');
         $permissions = $input->getOption('permissions');
 
-        $learning = false;
-        if ($input->hasOption('learning')) {
-            $learning = $input->getOption('learning');
-        }
+        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
 
         $generator = $this->getGenerator();
         $generator->setLearning($learning);
@@ -69,8 +66,6 @@ class PermissionCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
-
         // --module option
         $module = $input->getOption('module');
         if (!$module) {

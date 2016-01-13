@@ -37,12 +37,12 @@ class EntityConfigCommand extends EntityCommand
     {
         parent::interact($input, $output);
 
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // --bundle-of option
         $bundle_of = $input->getOption('bundle-of');
         if (!$bundle_of) {
-            $bundle_of = $output->confirm(
+            $bundle_of = $io->confirm(
                 $this->trans('commands.generate.entity.config.questions.bundle-of'),
                 false
             );

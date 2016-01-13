@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class GenerateDocDashCommand extends ContainerAwareCommand
 {
@@ -75,7 +76,7 @@ PLIST;
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $message = $this->getMessageHelper();
+        $io = new DrupalStyle($input, $output);
         $renderer = $this->getRenderHelper();
 
         $path = null;
@@ -84,7 +85,7 @@ PLIST;
         }
 
         if (!$path) {
-            $message->addErrorMessage(
+            $io->error(
                 $this->trans('commands.generate.doc.dash.messages.missing_path')
             );
 
