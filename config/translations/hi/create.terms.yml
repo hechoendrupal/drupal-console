@@ -1,18 +1,18 @@
-description: 'Create dummy terms for your Drupal 8 application.'
-help: 'The <info>create:nodes</info> command helps you generate fake nodes.'
-welcome: 'Welcome to the Drupal terms creator'
+description: 'अपने द्रुपल 8 एप्लीकेशन के लिए डमी शर्ते बनाएँ।'
+help: '<info>create:nodes</info> कमांड आपको नकली नोड बनाने में मदद करता है।'
+welcome: 'द्रुपल टर्म क्रियेटर में आपका स्वागत है'
 arguments:
-    vocabularies: 'Vocabularie(s) to be used in terms creation'
+    vocabularies: 'टर्म्ज़ के निर्माण में प्रयोग की जाने वाली वोकेबुलरी(स)'
 options:
-    limit: 'How many terms would you like to create'
-    name-words: 'Maximum number of words in term names'
+    limit: 'आप कितने टर्म्ज़ बनाना चाहते हैं'
+    name-words: 'टर्म नेम्स में शब्दों की अधिकतम संख्या'
 questions:
-    vocabularies: 'Select vocabularie(s) to be used on terms creation'
-    limit: 'Enter how many terms would you like to create'
-    name-words: 'Enter the maximum number of words in term names'
+    vocabularies: 'टर्म्ज़ बनाने मैं इस्तेमाल किये जाने वाली वोकेबुलरी(स) चुनें'
+    limit: 'आप कितने टर्म्ज़ बनाना चाहते हैं दर्ज करें'
+    name-words: 'टर्म नेम्स में शब्दों की अधिकतम संख्या लिखें'
 messages:
-    term-id: 'Term Id'
-    vocabulary: Vocabulary
-    name: Name
-    invalid-vocabularies: 'Vocabularie(s) %s are invalid'
-    created-terms: 'Created %s terms successfully'
+    term-id: 'टर्म आयडी'
+    vocabulary: वोकेबुलरी
+    name: नाम
+    invalid-vocabularies: 'वोकेबुलरी(स) %s अमान्य हैं'
+    created-terms: '%s टर्म्ज़ सफलतापूर्वक बने'
