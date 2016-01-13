@@ -9,16 +9,20 @@ namespace Drupal\Console\Command;
 
 use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class FormTrait
+ * @package Drupal\Console\Command
+ */
 trait FormTrait
 {
     /**
-     * @param DrupalStyle $output
+     * @param DrupalStyle $io
      *
      * @return mixed
      */
-    public function formQuestion(DrupalStyle $output)
+    public function formQuestion(DrupalStyle $io)
     {
-        if ($output->confirm(
+        if ($io->confirm(
             $this->trans('commands.common.questions.inputs.confirm'),
             true
         )) {
@@ -26,7 +30,7 @@ trait FormTrait
                 'fieldset',
             ];
 
-            $elementInfoManager = $this->hasGetService('plugin.manager.element_info');
+            $elementInfoManager = $this->getService('plugin.manager.element_info');
             if (!$elementInfoManager) {
                 return false;
             }
@@ -45,7 +49,7 @@ trait FormTrait
             $inputs = [];
             $fieldSets = [];
             while (true) {
-                $input_type = $output->choiceNoList(
+                $input_type = $io->choiceNoList(
                     $this->trans('commands.common.questions.inputs.type'),
                     $input_types,
                     null,
@@ -58,7 +62,7 @@ trait FormTrait
 
                 // Label for input
                 $inputLabelMessage = $input_type == 'fieldset'?$this->trans('commands.common.questions.inputs.title'):$this->trans('commands.common.questions.inputs.label');
-                $input_label = $output->ask(
+                $input_label = $io->ask(
                     $inputLabelMessage,
                     null
                 );
@@ -66,7 +70,7 @@ trait FormTrait
                 // Machine name
                 $input_machine_name = $this->getStringHelper()->createMachineName($input_label);
 
-                $input_name = $output->ask(
+                $input_name = $io->ask(
                     $this->trans('commands.common.questions.inputs.machine_name'),
                     $input_machine_name
                 );
@@ -77,7 +81,7 @@ trait FormTrait
 
                 $inputFieldSet = '';
                 if ($input_type != 'fieldset' && !empty($fieldSets)) {
-                    $inputFieldSet = $output->choiceNoList(
+                    $inputFieldSet = $io->choiceNoList(
                         $this->trans('commands.common.questions.inputs.fieldset'),
                         $fieldSets,
                         null,
@@ -90,19 +94,19 @@ trait FormTrait
                 $maxlength = null;
                 $size = null;
                 if (in_array($input_type, array('textfield', 'password', 'password_confirm'))) {
-                    $maxlength = $output->ask(
+                    $maxlength = $io->ask(
                         'Maximum amount of characters',
                         '64'
                     );
 
-                    $size = $output->ask(
+                    $size = $io->ask(
                         'Width of the textfield (in characters)',
                         '64'
                     );
                 }
 
                 if ($input_type == 'select') {
-                    $size = $output->askEmpty(
+                    $size = $io->askEmpty(
                         'Size of multiselect box (in lines)',
                         '5'
                     );
@@ -110,7 +114,7 @@ trait FormTrait
 
                 $input_options = '';
                 if (in_array($input_type, array('checkboxes', 'radios', 'select'))) {
-                    $input_options = $output->ask(
+                    $input_options = $io->ask(
                         'Input options separated by comma'
                     );
                 }
@@ -128,19 +132,19 @@ trait FormTrait
                 }
 
                 // Description for input
-                $input_description = $output->askEmpty(
+                $input_description = $io->askEmpty(
                     $this->trans('commands.common.questions.inputs.description')
                 );
 
                 if ($input_type != 'fieldset') {
                     // Default value for input
-                    $default_value = $output->askEmpty(
+                    $default_value = $io->askEmpty(
                         $this->trans('commands.common.questions.inputs.default-value')
                     );
                 }
 
                 // Weight for input
-                $weight = $output->ask(
+                $weight = $io->ask(
                     $this->trans('commands.common.questions.inputs.weight'),
                     '0'
                 );

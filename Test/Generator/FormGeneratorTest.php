@@ -68,10 +68,10 @@ class FormGeneratorTest extends GeneratorTest
             sprintf('%s does not exist', $class_name.'.php')
         );
 
-        if ($update_routing) {
+        if ($form_type == 'ConfigFormBase' && $update_routing) {
             $this->assertTrue(
                 file_exists($generator->getSite()->getModulePath($module).'/'.$module.'.routing.yml'),
-                sprintf('%s does not exist', $class_name.'.php')
+                sprintf('%s does not exist', $module.'.routing.yml')
             );
         }
     }

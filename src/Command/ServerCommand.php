@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Drupal\Console\Style\DrupalStyle;
 
 class ServerCommand extends Command
 {
@@ -37,7 +37,7 @@ class ServerCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new SymfonyStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         $address = $input->getArgument('address');
         if (false === strpos($address, ':')) {

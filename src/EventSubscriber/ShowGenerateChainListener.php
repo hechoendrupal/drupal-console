@@ -11,6 +11,8 @@ use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Yaml\Dumper;
+use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class ShowGenerateChainListener
@@ -44,9 +46,11 @@ class ShowGenerateChainListener implements EventSubscriberInterface
             return;
         }
 
-        /* @var \Drupal\Console\Command\Command $command */
+        /* @var Command $command */
         $command = $event->getCommand();
-        $output = $event->getOutput();
+        /* @var DrupalStyle $io */
+        $io = $event->getOutput();
+
         $command_name = $command->getName();
 
         $this->skipArguments[] = $command_name;
@@ -58,7 +62,6 @@ class ShowGenerateChainListener implements EventSubscriberInterface
             return;
         }
 
-        // get the input instance
         $input = $event->getInput();
 
         if ($input->getOption('generate-chain')) {
@@ -72,28 +75,28 @@ class ShowGenerateChainListener implements EventSubscriberInterface
                 unset($arguments[$remove_argument]);
             }
 
-            $yaml = [];
+            $commandDefinition = [];
             if ($options) {
-                $yaml[$command_name]['options'] = $options;
+                $commandDefinition[$command_name]['options'] = $options;
             }
             if ($arguments) {
-                $yaml[$command_name]['arguments'] = $arguments;
+                $commandDefinition[$command_name]['arguments'] = $arguments;
             }
 
             $dumper = new Dumper();
-            $yaml = $dumper->dump($yaml, 10);
+            $yml = $dumper->dump($commandDefinition, 10);
 
-            $yaml = str_replace(
+            $yml = str_replace(
                 sprintf('\'%s\':', $command_name),
                 sprintf('  - command: %s', $command_name),
-                $yaml
+                $yml
             );
 
-            $output->commentBlock(
+            $io->commentBlock(
                 $translatorHelper->trans('application.console.messages.chain.generated')
             );
 
-            $output->writeln($yaml);
+            $io->writeln($yml);
         }
     }
 

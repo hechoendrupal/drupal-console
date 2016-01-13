@@ -10,23 +10,24 @@ namespace Drupal\Console\EventSubscriber;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Drupal\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class ShowWelcomeMessageListener
+ * @package Drupal\Console\EventSubscriber
+ */
 class ShowWelcomeMessageListener implements EventSubscriberInterface
 {
     /**
      * @param ConsoleCommandEvent $event
      */
-    public function showMessage(ConsoleCommandEvent $event)
+    public function showWelcomeMessage(ConsoleCommandEvent $event)
     {
-        /**
-         * @var \Drupal\Console\Command\Command $command
-         */
+        /* @var Command $command */
         $command = $event->getCommand();
-        $input = $event->getInput();
-        $output = $event->getOutput();
-
-        $output = new DrupalStyle($input, $output);
+        /* @var DrupalStyle $io */
+        $io = $event->getOutput();
 
         $application = $command->getApplication();
         $translatorHelper = $application->getTranslator();
@@ -35,7 +36,7 @@ class ShowWelcomeMessageListener implements EventSubscriberInterface
         $welcomeMessage = $translatorHelper->trans($welcomeMessageKey);
 
         if ($welcomeMessage != $welcomeMessageKey) {
-            $output->text($welcomeMessage);
+            $io->text($welcomeMessage);
         }
     }
 
@@ -44,6 +45,6 @@ class ShowWelcomeMessageListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return [ConsoleEvents::COMMAND => 'showMessage'];
+        return [ConsoleEvents::COMMAND => 'showWelcomeMessage'];
     }
 }

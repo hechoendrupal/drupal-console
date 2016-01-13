@@ -1,4 +1,4 @@
-description: 'Hiển thị các views hiện tại nguồn tài nguyên cho ứng dụng'
+description: 'Hiển thị các views resources hiện tại cho ứng dụng'
 arguments:
     view-id: 'View ID'
     view-tag: 'View tag'
@@ -8,10 +8,10 @@ messages:
     view-name: 'Tên View'
     description: 'Mô tả'
     tag: Tag
-    status: 'Trạng thái'
-    path: 'Đường dẫn'
-    not-found: 'View %s đã không được tìm thấy.'
-    display-list: 'Danh sách hiển thị'
+    status: Trạng thái
+    path: Đường dẫn
+    not-found: 'Không tìm thấy view %s.'
+    display-list: 'Hiển thị danh sách'
     display-id: ID
     display-name: Tên
     display-description: 'Mô tả'

@@ -65,20 +65,26 @@ class ModuleCommand extends GeneratorCommand
                 $this->trans('commands.generate.module.options.package')
             )
             ->addOption(
+                'module-file',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.generate.module.options.module-file')
+            )
+            ->addOption(
                 'feature',
-                false,
+                '',
                 InputOption::VALUE_NONE,
                 $this->trans('commands.generate.module.options.feature')
             )
             ->addOption(
                 'composer',
-                false,
+                '',
                 InputOption::VALUE_NONE,
                 $this->trans('commands.generate.module.options.composer')
             )
             ->addOption(
                 'dependencies',
-                false,
+                '',
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.module.options.dependencies')
             );
@@ -90,12 +96,12 @@ class ModuleCommand extends GeneratorCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
+        $yes = $input->hasOption('yes')?$input->getOption('yes'):false;
 
         $validators = $this->getValidator();
-        $messageHelper = $this->getMessageHelper();
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io)) {
+        if (!$this->confirmGeneration($io, $yes)) {
             return;
         }
 
@@ -110,17 +116,17 @@ class ModuleCommand extends GeneratorCommand
         $description = $input->getOption('description');
         $core = $input->getOption('core');
         $package = $input->getOption('package');
+        $moduleFile = $input->getOption('module-file');
         $feature = $input->getOption('feature');
         $composer = $input->getOption('composer');
-        /*
-         * Modules Dependencies
-         */
+
+         // Modules Dependencies, re-factor and share with other commands
         $dependencies = $validators->validateModuleDependencies($input->getOption('dependencies'));
         // Check if all module dependencies are available
         if ($dependencies) {
             $checked_dependencies = $this->checkDependencies($dependencies['success']);
             if (!empty($checked_dependencies['no_modules'])) {
-                $messageHelper->addWarningMessage(
+                $io->warning(
                     sprintf(
                         $this->trans('commands.generate.module.warnings.module-unavailable'),
                         implode(', ', $checked_dependencies['no_modules'])
@@ -138,12 +144,12 @@ class ModuleCommand extends GeneratorCommand
             $description,
             $core,
             $package,
+            $moduleFile,
             $feature,
             $composer,
             $dependencies
         );
     }
-
 
     /**
      * @param  array $dependencies
@@ -273,7 +279,7 @@ class ModuleCommand extends GeneratorCommand
         if (!$package) {
             $package = $io->ask(
                 $this->trans('commands.generate.module.questions.package'),
-                'Other'
+                'Custom'
             );
         }
         $input->setOption('package', $package);
@@ -296,8 +302,17 @@ class ModuleCommand extends GeneratorCommand
                     return $core;
                 }
             );
+            $input->setOption('core', $core);
         }
-        $input->setOption('core', $core);
+
+        $moduleFile = $input->getOption('module-file');
+        if (!$moduleFile) {
+            $moduleFile = $io->confirm(
+                $this->trans('commands.generate.module.questions.module-file'),
+                false
+            );
+            $input->setOption('module-file', $moduleFile);
+        }
 
         $feature = $input->getOption('feature');
         if (!$feature) {
@@ -305,8 +320,8 @@ class ModuleCommand extends GeneratorCommand
                 $this->trans('commands.generate.module.questions.feature'),
                 false
             );
+            $input->setOption('feature', $feature);
         }
-        $input->setOption('feature', $feature);
 
         $composer = $input->getOption('composer');
         if (!$composer) {
@@ -314,8 +329,8 @@ class ModuleCommand extends GeneratorCommand
                 $this->trans('commands.generate.module.questions.composer'),
                 true
             );
+            $input->setOption('composer', $composer);
         }
-        $input->setOption('composer', $composer);
 
         $dependencies = $input->getOption('dependencies');
         if (!$dependencies) {
@@ -328,8 +343,8 @@ class ModuleCommand extends GeneratorCommand
                     $this->trans('commands.generate.module.options.dependencies')
                 );
             }
+            $input->setOption('dependencies', $dependencies);
         }
-        $input->setOption('dependencies', $dependencies);
     }
 
     /**

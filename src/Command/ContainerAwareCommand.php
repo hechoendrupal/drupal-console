@@ -143,12 +143,12 @@ abstract class ContainerAwareCommand extends Command
 
     public function getRouteProvider()
     {
-        return $this->hasGetService('router.route_provider');
+        return $this->getService('router.route_provider');
     }
 
     public function getRouterBuilder()
     {
-        return $this->hasGetService('router.builder');
+        return $this->getService('router.builder');
     }
 
     /**
@@ -177,7 +177,7 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getConfigFactory()
     {
-        return $this->hasGetService('config.factory');
+        return $this->getService('config.factory');
     }
 
     /**
@@ -185,12 +185,12 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getState()
     {
-        return $this->hasGetService('state');
+        return $this->getService('state');
     }
 
     public function getConfigStorage()
     {
-        return $this->hasGetService('config.storage');
+        return $this->getService('config.storage');
     }
 
     /**
@@ -198,7 +198,7 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getDatabase()
     {
-        return $this->hasGetService('database');
+        return $this->getService('database');
     }
 
     /**
@@ -206,7 +206,7 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getDateFormatter()
     {
-        return $this->hasGetService('date.formatter');
+        return $this->getService('date.formatter');
     }
 
     /**
@@ -214,7 +214,7 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getConfigManager()
     {
-        return $this->hasGetService('config.manager');
+        return $this->getService('config.manager');
     }
 
     /**
@@ -222,17 +222,17 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getEventDispatcher()
     {
-        return $this->hasGetService('event_dispatcher');
+        return $this->getService('event_dispatcher');
     }
 
     public function getEntityManager()
     {
-        return $this->hasGetService('entity.manager');
+        return $this->getService('entity.manager');
     }
 
     public function getCron()
     {
-        return $this->hasGetService('cron');
+        return $this->getService('cron');
     }
 
     /**
@@ -240,17 +240,17 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getDatabaseLockBackend()
     {
-        return $this->hasGetService('lock');
+        return $this->getService('lock');
     }
 
     public function getViewDisplayManager()
     {
-        return $this->hasGetService('plugin.manager.views.display');
+        return $this->getService('plugin.manager.views.display');
     }
 
     public function getWebprofilerForms()
     {
-        $profiler = $this->hasGetService('profiler');
+        $profiler = $this->getService('profiler');
         $tokens = $profiler->find(null, null, 1000, null, '', '');
 
         $forms = array();
@@ -270,27 +270,27 @@ abstract class ContainerAwareCommand extends Command
 
     public function getEntityQuery()
     {
-        return $this->hasGetService('entity.query');
+        return $this->getService('entity.query');
     }
 
     public function getModuleInstaller()
     {
-        return $this->hasGetService('module_installer');
+        return $this->getService('module_installer');
     }
 
     public function getModuleHandler()
     {
-        return $this->hasGetService('module_handler');
+        return $this->getService('module_handler');
     }
 
     public function getPluginManagerRest()
     {
-        return $this->hasGetService('plugin.manager.rest');
+        return $this->getService('plugin.manager.rest');
     }
 
     public function getContextRepository()
     {
-        return $this->hasGetService('context.repository');
+        return $this->getService('context.repository');
     }
 
     /**
@@ -300,12 +300,12 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getTestDiscovery()
     {
-        return $this->hasGetService('test_discovery');
+        return $this->getService('test_discovery');
     }
 
     public function getHttpClient()
     {
-        return $this->hasGetService('http_client');
+        return $this->getService('http_client');
     }
 
     public function getSerializerFormats()
@@ -319,13 +319,13 @@ abstract class ContainerAwareCommand extends Command
 
     public function getStringTanslation()
     {
-        return $this->hasGetService('string_translation');
+        return $this->getService('string_translation');
     }
 
 
     public function getAuthenticationProviders()
     {
-        return $this->hasGetService('authentication_collector')->getSortedProviders();
+        return $this->getService('authentication_collector')->getSortedProviders();
     }
 
     /**
@@ -333,7 +333,7 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getSystemManager()
     {
-        return $this->hasGetService('system.manager');
+        return $this->getService('system.manager');
     }
 
     /**
@@ -349,7 +349,7 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getSettings()
     {
-        if ($settings = $this->hasGetService('settings')) {
+        if ($settings = $this->getService('settings')) {
             return $settings;
         }
 
@@ -373,7 +373,7 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getThemeHandler()
     {
-        return $this->hasGetService('theme_handler');
+        return $this->getService('theme_handler');
     }
 
     /**
@@ -381,10 +381,25 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getPassHandler()
     {
-        return $this->hasGetService('password');
+        return $this->getService('password');
     }
 
+    /**
+     * @deprecated
+     *
+     * @param $serviceId
+     * @return mixed
+     */
     public function hasGetService($serviceId)
+    {
+        return $this->getService($serviceId);
+    }
+
+    /**
+     * @param $serviceId
+     * @return mixed
+     */
+    public function getService($serviceId)
     {
         if (!$this->getContainer()) {
             return null;

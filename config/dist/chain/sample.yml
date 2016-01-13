@@ -6,22 +6,48 @@ commands:
       module-path: /modules/custom/
       description: My example module
       core: 8.x
-      package: Test
+      package: Custom
       dependencies:
   - command: generate:controller
     options:
       module: example
-      class: ExampleController
-      method: index
-      route: /example/index
-      services: [twig]
+      class: HelloWorldController
+      routes:
+        - title: 'Hello World'
+          method: hello
+          path: 'example/hello/{name}'
+      test: true
   - command: generate:form:config
     options:
       module: example
-      class: ExampleForm
-      form-id: example_form
-      inputs: false
+      class: SettingsForm
+      form-id: settings_form
+      inputs:
+        - name: foo_field
+          type: textfield
+          label: 'Foo field'
+          options: ''
+          description: ''
+          maxlength: '64'
+          size: '64'
+          default_value: ''
+          weight: '0'
+          fieldset: ''
+        - name: bar_number
+          type: number
+          label: 'Bar number'
+          options: ''
+          description: ''
+          maxlength: null
+          size: null
+          default_value: ''
+          weight: '0'
+          fieldset: ''
       routing: true
+      menu_link_gen: true
+      menu_link_title: SettingsForm
+      menu_parent: system.admin_config_system
+      menu_link_desc: 'A description for the menu entry'
   - command: generate:entity:content
     options:
       module: example
@@ -35,7 +61,7 @@ commands:
   - command: generate:command
     options:
       module: example
-      name: ExampleCommand
+      class: ExampleCommand
       name: example:command
       container-aware: false
   - command: generate:authentication:provider
