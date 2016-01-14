@@ -3,19 +3,19 @@ console:
         env: 'Nom de l''environnement.'
         no-debug: 'Désactive le mode "debug".'
         learning: 'Affiche plus d''informations.'
-        generate-chain: 'Affiche les commandes ainsi que leurs paramètres sous le format yaml pour être réutilisé dans une commande chainée'
+        generate-chain: 'Affiche les commandes ainsi que leurs paramètres sous le format yaml pour être réutilisé dans une commande chaînée'
         generate-inline: 'Affiche les commandes ainsi que leurs paramètres sur une ligne pour une réutilisation future'
-        generate-doc: 'Shows command options and arguments as markdown'
-        root: 'Définir la racine de l''instance de drupal à utiliser'
-        uri: 'Définir l''URI du site Drupal à utiliser (dans le cas d''''un environnement multisite ou lors de l''usage d''''un port non standard)'
-        'yes': 'Skip confirmation and proceed'
-        target: 'Site name you want to interact with (for local or remote sites)'
+        generate-doc: 'Affiche les options et paramètres de la commande sous le format markdown'
+        root: "Définir la racine de l'instance de drupal à utiliser"
+        uri: "Définir l'URI du site Drupal à utiliser (dans le cas d'un environnement multisite ou lors de l'usage d'un port non standard)"
+        'yes': 'Passe la confirmation et lance le processus'
+        target: 'Nom du site avec lequel vous voulez interagir (Pour les sites locaux ou distants)'
         drupal: 'Chemin vers la racine de Drupal.'
         shell: 'Lance le terminal.'
     messages:
         completed: 'La commande a été correctement exécutée'
         chain:
-            generated: 'Voici sous le format yaml la dernière commande exécutée, copiez-la par exemple dans ~/.console/chain/sample.yml pour l''exécuter au sein d''une séquence'
+            generated: "Voici sous le format yaml la dernière commande exécutée, copiez-la par exemple dans ~/.console/chain/sample.yml pour l'exécuter au sein d'une séquence"
         inline:
             generated: 'Voici la dernière commande exécutée pour une pour une réutilisation future'
         generated: 'Vous pouvez maintenant commencer à utiliser le code généré !'
@@ -43,8 +43,8 @@ site:
     messages:
         path: 'Chemin du site'
     errors:
-        directory: 'Afin de lister l''ensemble des commandes disponibles, vous devez lancer cette commande à la racine du dossier drupal.'
-        settings: 'Afin de lister l''ensemble des commandes disponibles vous devez commencer par installer drupal.'
+        directory: "Afin de lister l'ensemble des commandes disponibles, vous devez lancer cette commande à la racine du dossier drupal."
+        settings: "Afin de lister l'ensemble des commandes disponibles vous devez commencer par installer drupal."
 user:
     messages:
-        path: 'Dossier "Home" de l''utilisateur'
+        path: "Dossier personnel de l'utilisateur"
