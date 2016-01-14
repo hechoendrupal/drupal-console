@@ -2,7 +2,7 @@ description: 'Tạo dummy users cho ứng dụng Drupal 8 của bạn.'
 help: 'Câu lệnh <info>create:users</info> giúp bạn tạo dummy users.'
 welcome: 'Chào mừng đến với Drupal users generator'
 arguments:
-  roles: 'Role(s) được sử dụng trong user creation'
+    roles: 'Role(s) được sử dụng trong user creation'
 options:
     limit: 'Bạn muốn tạo bao nhiêu user?'
     password: 'Password to be set to users created'
@@ -21,7 +21,7 @@ questions:
         - 'Cách đây 1 năm'
 messages:
     user-id: 'User Id'
-    roles: 'Roles'
-    username: 'Username'
+    roles: Roles
+    username: Username
     created: 'Created Time'
     created-users: 'Users %s đã được tạo thành công'

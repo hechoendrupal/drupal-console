@@ -9,10 +9,11 @@ options:
     core: 'Core version'
     feature: 'Set module compatible with Features module'
     package: 'Module package'
-    controller: 'Default Controller'
+    module-file: 'Add a .module file'
     composer: 'Add a composer.json file'
     dependencies: 'Module dependencies separated by commas (i.e. context, panels)'
     test: 'Generate a test class'
+    controller: 'Default Controller'
 questions:
     module: 'Enter the new module name'
     machine-name: 'Enter the module machine name'
@@ -21,10 +22,11 @@ questions:
     core: 'Enter Drupal Core version'
     package: 'Enter package name'
     feature: 'Define module as feature'
-    controller: 'Do you want to generate a default Controller'
+    module-file: 'Do you want to generate a .module file'
     composer: 'Do you want to add a composer.json file to your module'
     dependencies: 'Would you like to add module dependencies'
     test: 'Do you want to generate a unit test class'
+    controller: 'Do you want to generate a default Controller'
 warnings:
     module-unavailable: 'Warning The following modules are not already available in your local environment "%s"'
 errors:
