@@ -184,7 +184,7 @@ class DrupalApiHelper extends Helper
      * @return array
      * @throws \Exception
      */
-    public function getProjectReleases($module)
+    public function getProjectReleases($module, $limit = 100)
     {
         if (!$module) {
             return [];
@@ -205,6 +205,10 @@ class DrupalApiHelper extends Helper
         $crawler = new Crawler($projectPageContent);
         foreach ($crawler->filterXPath('./project/releases/release/version') as $element) {
             $releases[] = $element->nodeValue;
+        }
+
+        if (count($releases)>$limit) {
+            array_splice($releases, $limit);
         }
 
         return $releases;
