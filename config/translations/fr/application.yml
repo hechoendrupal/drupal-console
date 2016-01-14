@@ -43,8 +43,8 @@ site:
     messages:
         path: 'Chemin du site'
     errors:
-        directory: 'Afin de lister l''ensemble des commandes disponibles, vous devez lancer cette commande à la racine du dossier drupal.'
-        settings: 'Afin de lister l''ensemble des commandes disponibles vous devez commencer par installer drupal.'
+        directory: "Afin de lister l'ensemble des commandes disponibles, vous devez lancer cette commande à la racine du dossier drupal."
+        settings: "Afin de lister l'ensemble des commandes disponibles vous devez commencer par installer drupal."
 user:
     messages:
         path: "Dossier personnel de l'utilisateur"
