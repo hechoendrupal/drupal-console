@@ -228,12 +228,13 @@ class Application extends BaseApplication
             $this->prepare($drupal);
         }
 
-        if (true === $input->hasParameterOption(array('--generate-doc', '--gd'))) {
+        if (true === $input->hasParameterOption(['--generate-doc', '--gd'])) {
             $command = $this->get($commandName);
             $command->addOption(
                 'generate-doc',
                 '--gd',
-                InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc')
+                InputOption::VALUE_NONE,
+                $this->trans('application.console.arguments.generate-doc')
             );
         }
 
