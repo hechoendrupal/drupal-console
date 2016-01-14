@@ -9,10 +9,11 @@ options:
     core: 'Drupal verzió'
     feature: 'Set module compatible with Features module'
     package: 'Modul csomag'
-    controller: 'Alapértelmezett Controller'
+    module-file: 'Add a .module file'
     composer: 'Add a composer.json file'
     dependencies: 'Modul függőségek vesszővel elválasztva (pl. context, panels)'
     test: 'Teszt osztály létrehozása'
+    controller: 'Alapértelmezett Controller'
 questions:
     module: 'Modul nevének megadása'
     machine-name: 'Modul gépi nevének megadása'
@@ -21,10 +22,11 @@ questions:
     core: 'Drupal Core verzió megadása'
     package: 'Csomag nevének megadása'
     feature: 'Define module as feature'
-    controller: 'Alapértelmezett Controller szükséges'
+    module-file: 'Do you want to generate a .module file'
     composer: 'Do you want to add a composer.json file to your module'
     dependencies: 'Modul függőségek hozzáadása szükséges'
     test: 'Unit teszt osztály létrehozható'
+    controller: 'Alapértelmezett Controller szükséges'
 warnings:
     module-unavailable: 'Figyelem, a következő modulok még nem elérhetőek a helyi Drual telepítésben: "%s"'
 errors:
