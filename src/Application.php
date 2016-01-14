@@ -106,6 +106,13 @@ class Application extends BaseApplication
         $this->getDefinition()->addOption(
             new InputOption('--yes', '-y', InputOption::VALUE_NONE, $this->trans('application.console.arguments.yes'))
         );
+
+        $options = $config->get('application.default.global.options')?:[];
+        foreach ($options as $key => $option) {
+            if ($this->getDefinition()->hasOption($key)) {
+                $_SERVER['argv'][] = sprintf('--%s', $key);
+            }
+        }
     }
 
     /**
