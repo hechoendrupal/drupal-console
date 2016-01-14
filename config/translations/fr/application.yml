@@ -9,7 +9,7 @@ console:
         root: 'Définir la racine de l''instance de drupal à utiliser'
         uri: 'Définir l''URI du site Drupal à utiliser (dans le cas d''''un environnement multisite ou lors de l''usage d''''un port non standard)'
         'yes': 'Skip confirmation and proceed'
-        target: 'Site name you want to interact with (for local or remote sites)'
+        target: 'Nom du site avec lequel vous voulez intéragir (Pour les sites locaux ou distants)'
         drupal: 'Chemin vers la racine de Drupal.'
         shell: 'Lance le terminal.'
     messages:
