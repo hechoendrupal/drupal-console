@@ -1,11 +1,10 @@
 commands:
   - command: site:new
     arguments:
-      site-name: drupal8.dev
-      version: 8.0.1
+      directory: drupal8.dev
+      version: 8.0.2
   - command: site:install
     options:
-        root: /Users/jmolivas/develop/drupal/sites/drupal8.dev
         langcode: en
         db-type: sqlite
         db-file: sites/default/files/.ht.sqlite
