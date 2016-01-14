@@ -47,4 +47,4 @@ site:
         settings: 'Afin de lister l''ensemble des commandes disponibles vous devez commencer par installer drupal.'
 user:
     messages:
-        path: 'Dossier "Home" de l''utilisateur'
+        path: "Dossier personnel de l'utilisateur"
