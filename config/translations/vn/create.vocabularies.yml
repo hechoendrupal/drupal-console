@@ -9,6 +9,6 @@ questions:
     name-words: 'Nhập vào maximum number của từ trong vocabulary names'
 messages:
     vocabulary-id: 'Vocabulary Id'
-    name: 'Name'
+    name: Name
     created-terms: 'Vocabularies %s đã được tạo thành công.'
     error: 'Lỗi khi đang tạo vocabularies: %s'

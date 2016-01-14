@@ -9,7 +9,7 @@ options:
     limit: 'Giới hạn kết quả cho một số cụ thể'
     offset: 'Điểm bắt đầu của một giới hạn'
 messages:
-    event-id: Event ID
+    event-id: 'Event ID'
     type: Type
     date: Date
     message: Message

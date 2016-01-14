@@ -2,7 +2,7 @@ description: 'Tạo dummy nodes cho ứng dụng Drupal 8 của bạn.'
 help: 'Câu lệnh <info>create:nodes</info> giúp bạn tạo dummy terms.'
 welcome: 'Chào mừng bạn đến Drupal nodes generator'
 arguments:
-  content-types: 'Content type(s) được sử dụng trong node creation'
+    content-types: 'Content type(s) được sử dụng trong node creation'
 options:
     limit: 'Bạn muốn tạo bao nhiêu node?'
     title-words: 'Maximum number of words in node titles'
@@ -22,7 +22,8 @@ questions:
 messages:
     node-id: 'Node Id'
     content-type: 'Content type'
-    title: 'Title'
+    title: Title
     created: 'Created Time'
     invalid-content-types: 'Content types %s là không hợp lệ'
+    created-nodes: 'Created %s nodes successfully'
     generated-content: 'Đã tạo %s nodes thành công'

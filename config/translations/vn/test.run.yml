@@ -17,4 +17,4 @@ messages:
     file: File
     method: 'Phương thức'
     line: Dòng
-    message: Tin nhắn
+    message: 'Tin nhắn'
