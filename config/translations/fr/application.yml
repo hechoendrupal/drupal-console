@@ -15,7 +15,7 @@ console:
     messages:
         completed: 'La commande a été correctement exécutée'
         chain:
-            generated: 'Voici sous le format yaml la dernière commande exécutée, copiez-la par exemple dans ~/.console/chain/sample.yml pour l''exécuter au sein d''une séquence'
+            generated: "Voici sous le format yaml la dernière commande exécutée, copiez-la par exemple dans ~/.console/chain/sample.yml pour l'exécuter au sein d'une séquence"
         inline:
             generated: 'Voici la dernière commande exécutée pour une pour une réutilisation future'
         generated: 'Vous pouvez maintenant commencer à utiliser le code généré !'
