@@ -39,4 +39,4 @@ messages:
     canceled: 'Génération annulée'
     drupal-core: 'Coeur de drupal'
     move-phar: 'Accéder à la console depuis n''importe quel endroit de votre système'
-    quick-start: 'Télécharge, installe et lance le serveur pour Drupal 8'
+    quick-start: 'Télécharge, installe et lance un serveur pour Drupal 8'
