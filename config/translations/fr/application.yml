@@ -3,10 +3,10 @@ console:
         env: 'Nom de l''environnement.'
         no-debug: 'Désactive le mode "debug".'
         learning: 'Affiche plus d''informations.'
-        generate-chain: 'Affiche les commandes ainsi que leurs paramètres sous le format yaml pour être réutilisé dans une commande chainée'
+        generate-chain: 'Affiche les commandes ainsi que leurs paramètres sous le format yaml pour être réutilisé dans une commande chaînée'
         generate-inline: 'Affiche les commandes ainsi que leurs paramètres sur une ligne pour une réutilisation future'
         generate-doc: 'Affiche les options et paramètres de la commande sous le format markdown'
-        root: 'Définir la racine de l''instance de drupal à utiliser'
+        root: "Définir la racine de l'instance de drupal à utiliser"
         uri: 'Définir l''URI du site Drupal à utiliser (dans le cas d''''un environnement multisite ou lors de l''usage d''''un port non standard)'
         'yes': 'Passe la confirmation et lance le processus'
         target: 'Nom du site avec lequel vous voulez interagir (Pour les sites locaux ou distants)'
