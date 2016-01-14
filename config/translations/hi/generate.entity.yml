@@ -1,12 +1,12 @@
-description: 'Generate a new entity'
+description: 'एक नई एंटिटी उत्पन्न करें'
 help: ''
 options:
     module: common.options.module
-    entity-class: 'The entity class'
-    entity-name: 'The entity name'
-    label: 'The label'
+    entity-class: 'एंटिटी क्लास'
+    entity-name: 'एंटिटी नाम'
+    label: 'लेबल'
 questions:
     module: common.questions.module
-    entity-class: 'Enter the class of your new entity'
-    entity-name: 'Enter the name of your new entity'
-    label: 'Enter the label of your new entity'
+    entity-class: 'अपनी नई एंटिटी की क्लास लिखें'
+    entity-name: 'अपनी नई एंटिटी का नाम लिखें'
+    label: 'अपनी नई एंटिटी का लेबल लिखें'
