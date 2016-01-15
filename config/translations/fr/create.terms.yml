@@ -12,7 +12,7 @@ questions:
     name-words: 'Entrez le nombre maximum de mots que doivent contenir les noms des termes'
 messages:
     term-id: 'Identifiant du terme'
-    vocabulary: 'Vocabulaire'
-    name: 'Nom'
+    vocabulary: Vocabulaire
+    name: Nom
     invalid-vocabularies: 'Le(s) vocabulaire(s) %s est/sont pas valide(s)'
     created-terms: 'Génération de %s termes avec succès'
