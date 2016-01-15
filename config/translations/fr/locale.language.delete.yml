@@ -1,4 +1,4 @@
 description: 'Supprime une langue de votre site'
 messages:
-    invalid-language: "Le code langue %s n'est pas valide"
+    invalid-language: 'Le code langue %s n''est pas valide'
     language-deleted-sucessfully: 'La langue %s a été correctement supprimée.'
