@@ -9,6 +9,7 @@ namespace Drupal\Console\Command\Module;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
@@ -25,12 +26,13 @@ class DownloadCommand extends Command
             ->setDescription($this->trans('commands.module.download.description'))
             ->addArgument(
                 'module',
-                InputArgument::REQUIRED,
+                InputArgument::IS_ARRAY,
                 $this->trans('commands.module.download.options.module')
             )
-            ->addArgument(
+            ->addOption(
                 'version',
-                InputArgument::OPTIONAL,
+                '',
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.module.download.options.version'),
                 null
             );
@@ -44,7 +46,7 @@ class DownloadCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         $module = $input->getArgument('module');
-        $version = $input->getArgument('version');
+        $version = $input->getOption('version');
 
         $this->downloadProject($io, $module, $version, 'module');
 
@@ -59,11 +61,11 @@ class DownloadCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         $module = $input->getArgument('module');
-        $version = $input->getArgument('version');
+        $version = $input->getOption('version');
 
         if (!$version) {
             $version = $this->releasesQuestion($io, $module);
-            $input->setArgument('version', $version);
+            $input->setOption('version', $version);
         }
     }
 }
