@@ -13,10 +13,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Command\ProjectDownloadTrait;
 use Drupal\Console\Style\DrupalStyle;
+
 
 class InstallCommand extends ContainerAwareCommand
 {
+    use ProjectDownloadTrait;
+
     protected function configure()
     {
         $this
@@ -77,15 +81,14 @@ class InstallCommand extends ContainerAwareCommand
 
         $invalidModules = $validator->getInvalidModules($modules);
         if ($invalidModules) {
-            $io->error(
-                sprintf(
-                    $this->trans('commands.module.install.messages.missing'),
-                    implode(', ', $modules),
-                    implode(', ', $invalidModules)
-                )
-            );
+            foreach($invalidModules as $invalidModule) {
+                $io->info($this->trans('commands.module.install.messages.getting-missing-modules'));
 
-            return;
+                $version = $this->releasesQuestion($io, $invalidModule);
+                $this->downloadProject($io, $invalidModule, $version, 'module');
+            }
+            // Clear module cache
+            $this->clearCache($io);
         }
 
         $unInstalledModules = $validator->getUninstalledModules($modules);
@@ -98,6 +101,7 @@ class InstallCommand extends ContainerAwareCommand
         $dependencies = $this->calculateDependencies($unInstalledModules);
 
         $missingDependencies = $validator->getInvalidModules($dependencies);
+
         if ($missingDependencies) {
             $io->error(
                 sprintf(
@@ -137,6 +141,9 @@ class InstallCommand extends ContainerAwareCommand
 
             return;
         } catch (\Exception $e) {
+            print 'here';
+            print "\n";
+            print get_class($e);
             $io->error($e->getMessage());
 
             return;
@@ -206,5 +213,27 @@ class InstallCommand extends ContainerAwareCommand
             $io->error($e->getMessage());
             return;
         }
+    }
+
+    protected function clearCache($io) {
+        // Clear the static cache of system_rebuild_module_data() to pick up the
+        // new module, since it merges the installation status of modules into
+        // its statically cached list.
+        drupal_static_reset('system_rebuild_module_data');
+
+        $module_data = system_rebuild_module_data();
+
+        print_r(array_keys($module_data));
+        /*
+        $this->getDrupalHelper()->loadLegacyFile('/core/includes/utility.inc');
+
+        // Get data needed to rebuild cache
+        $kernelHelper = $this->getKernelHelper();
+        $classLoader = $kernelHelper->getClassLoader();
+        $request = $kernelHelper->getRequest();
+
+        drupal_rebuild($classLoader, $request);
+
+        $io->success($this->trans('commands.cache.rebuild.messages.completed'));*/
     }
 }
