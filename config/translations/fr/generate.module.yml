@@ -1,5 +1,5 @@
 description: 'Générer un module.'
-help: "La commande <info>generate:module</info> vous assiste dans la génération d'un nouveau module"
+help: 'La commande <info>generate:module</info> vous assiste dans la génération d''un nouveau module'
 welcome: 'Bienvenue sur le générateur de modules Drupal'
 options:
     module: 'Le nom du module'
@@ -30,5 +30,5 @@ questions:
 warnings:
     module-unavailable: 'Attention, les modules suivants ne sont pas disponible dans votre installation locale : "%s"'
 errors:
-    invalid-core: "La version de Drupal core \"%s\" n'est pas valide."
-    directory-exists: "Le dossier cible \"%s\" n'est pas vide"
+    invalid-core: 'La version de Drupal core "%s" n''est pas valide.'
+    directory-exists: 'Le dossier cible "%s" n''est pas vide'
