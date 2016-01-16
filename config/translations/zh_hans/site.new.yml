@@ -1,7 +1,8 @@
 description: 生成一个新的Drupal项目
 arguments:
-    site-name: 站名
+    directory: 'Directory when downloading Drupal'
     version: 下载特定的Drupal版本
+    site-name: 站名
 messages:
     select-release: 'Select a core release'
     getting-releases: 取得Drupal发布的版本
@@ -11,3 +12,5 @@ messages:
     downloaded: '下载Drupal %s到目录%s'
     error-copying: 重命名目录%s时出错
     release: 'Please select a release'
+questions:
+    directory: 'Enter the directory name when downloading Drupal'

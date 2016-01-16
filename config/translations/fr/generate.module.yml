@@ -9,7 +9,7 @@ options:
     core: 'Version de core.'
     feature: 'Set module compatible with Features module'
     package: 'Paquet <em>package</em> du module'
-    module-file: 'Add a .module file'
+    module-file: 'Ajouter un fichier .module'
     composer: 'Ajouter un fichier composer.json'
     dependencies: 'Dépendences du modules (par exemple : context, galleria, panels)'
     test: 'Générer une classe de test'
@@ -21,8 +21,8 @@ questions:
     description: 'Entrez la description du module'
     core: 'Entrez la version core Drupal'
     package: 'Entrez le nom du paquet'
-    feature: 'Définir le module comme une fonctionnalité <em>feature</em>'
-    module-file: 'Do you want to generate a .module file'
+    feature: 'Définir le module comme une fonctionnalité (feature)'
+    module-file: 'Voulez-vous générer un fichier .module'
     composer: 'Voulez-vous ajouter un fichier composer.json file à votre module'
     dependencies: 'Voulez-vous ajouter des dépendances à votre module'
     test: 'Voulez-vous générer une classe de test unitaire'
@@ -30,5 +30,5 @@ questions:
 warnings:
     module-unavailable: 'Attention, les modules suivants ne sont pas disponible dans votre installation locale : "%s"'
 errors:
-    invalid-core: 'The core version "%s" is invalid.'
+    invalid-core: 'La version de Drupal core "%s" n''est pas valide.'
     directory-exists: 'Le dossier cible "%s" n''est pas vide'

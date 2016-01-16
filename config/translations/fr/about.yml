@@ -1,6 +1,6 @@
 description: 'Affiche les informations concernant le projet Drupal Console'
 messages:
-    welcome: 'Drupal Console est ensemble d''outils à utiliser depuis le terminal permettant de :'
+    welcome: 'Drupal Console est un ensemble d''outils à utiliser depuis le terminal permettant de :'
     welcome-feature-generate: 'Générer une structure de code.'
     welcome-feature-interact: 'Interagir avec votre installation de Drupal 8.'
     welcome-feature-learn: 'Apprendre Drupal 8.'

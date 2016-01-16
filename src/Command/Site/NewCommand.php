@@ -28,9 +28,9 @@ class NewCommand extends Command
             ->setName('site:new')
             ->setDescription($this->trans('commands.site.new.description'))
             ->addArgument(
-                'site-name',
+                'directory',
                 InputArgument::REQUIRED,
-                $this->trans('commands.site.new.arguments.site-name')
+                $this->trans('commands.site.new.arguments.directory')
             )
             ->addArgument(
                 'version',
@@ -46,12 +46,12 @@ class NewCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $siteName = $input->getArgument('site-name');
+        $directory = $input->getArgument('directory');
         $version = $input->getArgument('version');
 
         $projectPath = $this->downloadProject($io, 'drupal', $version, 'core');
         $downloadPath = sprintf('%sdrupal-%s', $projectPath, $version);
-        $copyPath = sprintf('%s%s', $projectPath, $siteName);
+        $copyPath = sprintf('%s%s', $projectPath, $directory);
 
         try {
             $fileSystem = new Filesystem();
@@ -91,8 +91,15 @@ class NewCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $version = $input->getArgument('version');
+        $directory = $input->getArgument('directory');
+        if (!$directory) {
+            $directory = $io->ask(
+                $this->trans('commands.site.new.questions.directory')
+            );
+            $input->setArgument('directory', $directory);
+        }
 
+        $version = $input->getArgument('version');
         if (!$version) {
             $version = $this->releasesQuestion($io, 'drupal');
             $input->setArgument('version', $version);

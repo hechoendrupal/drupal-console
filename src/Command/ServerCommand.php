@@ -14,6 +14,10 @@ use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class ServerCommand
+ * @package Drupal\Console\Command
+ */
 class ServerCommand extends Command
 {
     /**
@@ -38,6 +42,7 @@ class ServerCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
+        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
 
         $address = $input->getArgument('address');
         if (false === strpos($address, ':')) {
@@ -53,6 +58,19 @@ class ServerCommand extends Command
             return;
         }
 
+        $router = $this->getRouterPath();
+        $cli = sprintf(
+            '%s %s %s %s',
+            $binary,
+            '-S',
+            $address,
+            $router
+        );
+
+        if ($learning) {
+            $io->commentBlock($cli);
+        }
+
         $io->success(
             sprintf(
                 $this->trans('commands.server.messages.executing'),
@@ -60,7 +78,7 @@ class ServerCommand extends Command
             )
         );
 
-        $processBuilder = new ProcessBuilder([$binary, '-S', $address]);
+        $processBuilder = new ProcessBuilder(explode(' ', $cli));
         $process = $processBuilder->getProcess();
         $process->setWorkingDirectory($this->getDrupalHelper()->getRoot());
         $process->setTty('true');
@@ -69,5 +87,31 @@ class ServerCommand extends Command
         if (!$process->isSuccessful()) {
             $io->error($process->getErrorOutput());
         }
+    }
+
+    /**
+     * @return null|string
+     */
+    private function getRouterPath()
+    {
+        $router = sprintf(
+            '%s/.console/router.php',
+            $this->getApplication()->getConfig()->getUserHomeDir()
+        );
+
+        if (file_exists($router)) {
+            return $router;
+        }
+
+        $router = sprintf(
+            '%s/config/dist/router.php',
+            $this->getApplication()->getDirectoryRoot()
+        );
+
+        if (file_exists($router)) {
+            return $router;
+        }
+
+        return null;
     }
 }
