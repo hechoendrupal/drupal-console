@@ -15,7 +15,7 @@ messages:
     disabled-modules: 'Only disabled modules will be listed in autocomplete'
     config-conflict-overwrite: 'These configuration objects will be overwritten in your active configuration'
     config-conflict: 'These configuration objects already exist in active configuration, installation is not possible'
-    getting-missing-modules: 'Some modules requested to install are not available, running download process to get those module'
+    getting-missing-modules: 'Some modules requested to install are not available, running download process to get those modules'
     getting-releases: 'Getting releases for module %s'
     select-release: 'Please select your favorite release'
     downloading: 'Downloading module %s release %s'
