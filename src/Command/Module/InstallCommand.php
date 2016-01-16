@@ -81,21 +81,12 @@ class InstallCommand extends ContainerAwareCommand
 
         $invalidModules = $validator->getInvalidModules($modules);
         if ($invalidModules) {
-            if(count($invalidModules) > 1) {
-                $io->info(
+            $io->info(
                 sprintf(
                     $this->trans('commands.module.install.messages.getting-missing-modules'),
                     implode(',', $invalidModules)
-                    )
-                );
-            } else {
-                $io->info(
-                    sprintf(
-                        $this->trans('commands.module.install.messages.getting-missing-module'),
-                        $invalidModules[0]
-                    )
-                );
-            }
+                )
+            );
             foreach($invalidModules as $invalidModule) {
                 $version = $this->releasesQuestion($io, $invalidModule);
                 if($version) {
