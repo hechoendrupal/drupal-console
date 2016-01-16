@@ -7,7 +7,7 @@ options:
     overwrite-config: 'Overwrite configuration active if necessary'
 messages:
     no-modules: 'Engedélyezni kívánt modul vagy modulok megadása kötelező.'
-    missing: '%s modulok telepítése sikertelen hiányzó modulok miatt: %s'
+    missing: 'Unable to install module(s) %s due to missing module(s) %s'
     missing-dependencies: '%s modulok nem telepíthetők hiányzó függőségek miatt: %s'
     nothing: 'Nincs teendő, minden modul már telepítve volt.'
     dependencies: 'Biztosan telepíthetők a következő függőségek: %s?'

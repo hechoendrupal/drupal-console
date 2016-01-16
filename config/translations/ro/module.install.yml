@@ -7,7 +7,7 @@ options:
     overwrite-config: 'Suprascrie configurările active dacă este necesar.'
 messages:
     no-modules: 'Trebuie sa introduci nume de Modul/Module.'
-    missing: 'Modulele %s nu pot fi instalate din cauza ca Modulele %s lipsesc'
+    missing: 'Unable to install module(s) %s due to missing module(s) %s'
     missing-dependencies: 'Modulele %s nu pot fi instalate din cauza dependentelor %s'
     nothing: 'Toate Modulele sunt deja instalate'
     dependencies: 'Esti sigur ca vreai sa instalezi dependentile: %s?'
