@@ -1,27 +1,27 @@
-description: 'Create dummy users for your Drupal 8 application.'
-help: 'The <info>create:users</info> command helps you create dummy users.'
-welcome: 'Welcome to the Drupal users generator'
+description: 'अपने द्रुपल 8 एप्लीकेशन के लिए डमी यूजरस बनाएँ।'
+help: '<info>create:users</info> कमांड आपको डमी यूजरस को बनाने में मदद करता है।'
+welcome: 'द्रुपल यूजरस जनरेटर में आपका स्वागत है।'
 arguments:
-    roles: 'Role(s) to be used in user creation'
+    roles: 'रोल(स) का उपयोग यूजर क्रिएशन में किया जाता है।'
 options:
-    limit: 'How many users would you like to create'
-    password: 'Password to be set to users created'
-    time-range: 'How far back in time should the users be dated'
+    limit: 'कितने भी यूजरस आप बना सकते है'
+    password: 'पासवर्ड क्रिएटेड यूजरस के लिए स्थापित किया जाता है'
+    time-range: 'कितनी अवधि में यूजरस दिनांकित किया जाना चाहिए'
 questions:
-    roles: 'Select role(s) to be used on user creation'
-    limit: 'Enter how many users would you like to generate'
-    password: 'Enter the password to be set to users created'
-    time-range: 'How far back in time should the users be dated?'
+    roles: 'यूजरस क्रिएशन में रोल(स) चुनने का इस्तेमाल किया जाता है'
+    limit: 'कितने यूजरस जेनरेट करना है आप एंटर करे'
+    password: 'क्रिएटेड यूजरस के लिए पासवर्ड एंटर करे'
+    time-range: 'कितनी अवधि में यूजरस दिनांकित किया जाना चाहिए?'
     time-ranges:
-        - Now
-        - '1 hour ago'
-        - '1 day ago'
-        - '1 week ago'
-        - '1 month ago'
-        - '1 year ago'
+        - 'अभी'
+        - '1 घंटे पहले'
+        - '1 दिन पहले'
+        - '1 सप्ताह पहले'
+        - '1 महीने पहले'
+        - '1 साल पहले'
 messages:
-    user-id: 'User Id'
-    roles: Roles
-    username: Username
-    created: 'Created Time'
-    created-users: 'Created %s users successfully'
+    user-id: 'यूजर ऑयडी'
+    roles: रोल्स
+    username: यूजरनाम
+    created: 'क्रिएटेड समय'
+    created-users: 'क्रिएटेड %s सफलतापूर्वक यूजरस'

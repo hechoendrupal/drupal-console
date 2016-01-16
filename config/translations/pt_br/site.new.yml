@@ -1,7 +1,8 @@
 description: 'Criar um novo projeto Drupal'
 arguments:
-    site-name: 'Nome do site'
+    directory: 'Directory when downloading Drupal'
     version: 'Versão do drupal a ser baixada'
+    site-name: 'Nome do site'
 messages:
     select-release: 'Select a core release'
     getting-releases: 'Carregando versões do Drupal'
@@ -11,3 +12,5 @@ messages:
     downloaded: 'Drupal %s foi baixado no diretório %s'
     error-copying: 'Um erro ocorreu ao renomear o diretório em %s'
     release: 'Por favor selecione uma versão'
+questions:
+    directory: 'Enter the directory name when downloading Drupal'

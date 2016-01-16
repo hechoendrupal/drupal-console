@@ -29,7 +29,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '0.10.4';
+    const VERSION = '0.10.5';
     /**
      * @var string
      */
@@ -106,6 +106,13 @@ class Application extends BaseApplication
         $this->getDefinition()->addOption(
             new InputOption('--yes', '-y', InputOption::VALUE_NONE, $this->trans('application.console.arguments.yes'))
         );
+
+        $options = $config->get('application.default.global.options')?:[];
+        foreach ($options as $key => $option) {
+            if ($this->getDefinition()->hasOption($key)) {
+                $_SERVER['argv'][] = sprintf('--%s', $key);
+            }
+        }
     }
 
     /**
@@ -221,12 +228,13 @@ class Application extends BaseApplication
             $this->prepare($drupal);
         }
 
-        if (true === $input->hasParameterOption(array('--generate-doc', '--gd'))) {
+        if (true === $input->hasParameterOption(['--generate-doc', '--gd'])) {
             $command = $this->get($commandName);
             $command->addOption(
                 'generate-doc',
                 '--gd',
-                InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc')
+                InputOption::VALUE_NONE,
+                $this->trans('application.console.arguments.generate-doc')
             );
         }
 

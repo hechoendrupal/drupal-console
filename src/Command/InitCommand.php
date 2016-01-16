@@ -53,7 +53,6 @@ class InitCommand extends Command
 
         $finder = new Finder();
         $finder->in(sprintf('%s/config/dist', $application->getDirectoryRoot()));
-        $finder->name("*.yml");
 
         foreach ($finder as $configFile) {
             $source = sprintf(
