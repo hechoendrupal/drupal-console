@@ -16,7 +16,6 @@ use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Command\ProjectDownloadTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-
 class InstallCommand extends ContainerAwareCommand
 {
     use ProjectDownloadTrait;
@@ -87,14 +86,13 @@ class InstallCommand extends ContainerAwareCommand
                     implode(',', $invalidModules)
                 )
             );
-            foreach($invalidModules as $invalidModule) {
+            foreach ($invalidModules as $invalidModule) {
                 $version = $this->releasesQuestion($io, $invalidModule);
-                if($version) {
+                if ($version) {
                     $this->downloadProject($io, $invalidModule, $version, 'module');
                 } else {
                     // Remove module if version if not available
                     unset($modules[array_search($invalidModule, $modules)]);
-
                 }
             }
 
@@ -102,7 +100,7 @@ class InstallCommand extends ContainerAwareCommand
         }
 
         // finish install process if modules were removed due missing version
-        if(empty($modules)) {
+        if (empty($modules)) {
             return;
         }
 

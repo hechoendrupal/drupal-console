@@ -7,7 +7,7 @@ options:
     overwrite-config: 'Ghi đè phần thiết lập nếu cần thiết'
 messages:
     no-modules: 'Bạn phải cung cấp module hoặc các module được bật.'
-    missing: 'Không thể cài đặt các module %s vì thiếu các module %s'
+    missing: 'Unable to install module(s) %s due to missing module(s) %s'
     missing-dependencies: 'Không thể cài đặt các module %s vì thiếu các phần phụ thuộc %s'
     nothing: 'Không có gì để thực hiện. Tất cả các module đã được cài đặt'
     dependencies: 'Bạn có muốn cài đặt các phần phụ thuộc: %s?'

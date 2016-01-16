@@ -7,7 +7,7 @@ options:
     overwrite-config: 'Overwrite configuration active if necessary'
 messages:
     no-modules: 'You must provide module or modules to enable.'
-    missing: 'Unable to install modules %s due to missing modules %s'
+    missing: 'Unable to install module(s) %s due to missing module(s) %s'
     missing-dependencies: 'Unable to install modules %s due to missing dependencies %s'
     nothing: 'Nothing to do. All modules are already installed'
     dependencies: 'Are you sure you want to install dependencies: %s?'
