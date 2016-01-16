@@ -51,7 +51,7 @@ class SiteHelper extends Helper
     /**
      * @return \Drupal\Core\Extension\Extension[]
      */
-    private function discoverModules()
+    public function discoverModules()
     {
         /*
          * @see Remove DrupalExtensionDiscovery subclass once
