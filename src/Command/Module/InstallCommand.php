@@ -141,8 +141,7 @@ class InstallCommand extends ContainerAwareCommand
 
             return;
         } catch (\Exception $e) {
-            print 'here';
-            print "\n";
+            print 'göei';
             print get_class($e);
             $io->error($e->getMessage());
 
@@ -223,7 +222,7 @@ class InstallCommand extends ContainerAwareCommand
 
         $module_data = system_rebuild_module_data();
 
-        print_r(array_keys($module_data));
+        //print_r(array_keys($module_data));
         /*
         $this->getDrupalHelper()->loadLegacyFile('/core/includes/utility.inc');
 
