@@ -81,14 +81,38 @@ class InstallCommand extends ContainerAwareCommand
 
         $invalidModules = $validator->getInvalidModules($modules);
         if ($invalidModules) {
-            foreach($invalidModules as $invalidModule) {
-                $io->info($this->trans('commands.module.install.messages.getting-missing-modules'));
-
-                $version = $this->releasesQuestion($io, $invalidModule);
-                $this->downloadProject($io, $invalidModule, $version, 'module');
+            if(count($invalidModules) > 1) {
+                $io->info(
+                sprintf(
+                    $this->trans('commands.module.install.messages.getting-missing-modules'),
+                    implode(',', $invalidModules)
+                    )
+                );
+            } else {
+                $io->info(
+                    sprintf(
+                        $this->trans('commands.module.install.messages.getting-missing-module'),
+                        $invalidModules[0]
+                    )
+                );
             }
-            // Clear module cache
-            $this->clearCache($io);
+            foreach($invalidModules as $invalidModule) {
+                $version = $this->releasesQuestion($io, $invalidModule);
+                if($version) {
+                    $this->downloadProject($io, $invalidModule, $version, 'module');
+                } else {
+                    // Remove module if version if not available
+                    unset($modules[array_search($invalidModule, $modules)]);
+
+                }
+            }
+
+            $this->getSite()->discoverModules();
+        }
+
+        // finish install process if modules were removed due missing version
+        if(empty($modules)) {
+            return;
         }
 
         $unInstalledModules = $validator->getUninstalledModules($modules);
@@ -141,8 +165,6 @@ class InstallCommand extends ContainerAwareCommand
 
             return;
         } catch (\Exception $e) {
-            print 'göei';
-            print get_class($e);
             $io->error($e->getMessage());
 
             return;
@@ -212,27 +234,5 @@ class InstallCommand extends ContainerAwareCommand
             $io->error($e->getMessage());
             return;
         }
-    }
-
-    protected function clearCache($io) {
-        // Clear the static cache of system_rebuild_module_data() to pick up the
-        // new module, since it merges the installation status of modules into
-        // its statically cached list.
-        drupal_static_reset('system_rebuild_module_data');
-
-        $module_data = system_rebuild_module_data();
-
-        //print_r(array_keys($module_data));
-        /*
-        $this->getDrupalHelper()->loadLegacyFile('/core/includes/utility.inc');
-
-        // Get data needed to rebuild cache
-        $kernelHelper = $this->getKernelHelper();
-        $classLoader = $kernelHelper->getClassLoader();
-        $request = $kernelHelper->getRequest();
-
-        drupal_rebuild($classLoader, $request);
-
-        $io->success($this->trans('commands.cache.rebuild.messages.completed'));*/
     }
 }
