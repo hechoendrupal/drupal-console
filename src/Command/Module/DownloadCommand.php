@@ -63,7 +63,7 @@ class DownloadCommand extends Command
 
         if (!$version) {
             $version = $this->releasesQuestion($io, $module);
-            $input->getArgument('version', $version);
+            $input->setArgument('version', $version);
         }
     }
 }
