@@ -1,7 +1,7 @@
-description: 'Dump structure and contents of MySQL databases and tables'
+description: 'डंप संरचना और MYSQL का कंटेंट डेटाबेसेस और टेबल्स'
 arguments:
-    database: 'Database key from settings.php'
+    database: 'Settings.php से डाटाबेस कुंजी'
 options:
-    file: ' The filename for your database backup'
+    file: 'अपने डेटाबेस बैकअप के लिए फ़ाइल नाम'
 messages:
-    success: 'Database exported to:'
+    success: 'डाटाबेस का निर्यात:'
