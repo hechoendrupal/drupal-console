@@ -1,4 +1,4 @@
-description: 'लॉन्च एक डीबी क्लाइंट अगर यह उपलब्ध है'
+description: 'लॉन्च एक DB क्लाइंट अगर यह उपलब्ध है'
 arguments:
     database: 'Settings.php से डाटाबेस कुंज'
 messages:
