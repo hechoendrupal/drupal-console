@@ -9,6 +9,7 @@ namespace Drupal\Console\Command\Module;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
@@ -20,7 +21,8 @@ class UninstallCommand extends ContainerAwareCommand
         $this
             ->setName('module:uninstall')
             ->setDescription($this->trans('commands.module.uninstall.description'))
-            ->addArgument('module', InputArgument::REQUIRED, $this->trans('commands.module.uninstall.options.module'));
+            ->addArgument('module', InputArgument::REQUIRED, $this->trans('commands.module.uninstall.options.module'))
+            ->addOption('force', InputOption::VALUE_NONE, $this->trans('commands.module.uninstall.options.force'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -63,28 +65,33 @@ class UninstallCommand extends ContainerAwareCommand
             return true;
         }
 
-        // Calculate $dependents
-        $dependents = array();
-        while (list($module) = each($module_list)) {
-            foreach (array_keys($module_data[$module]->required_by) as $dependent) {
-                // Skip already uninstalled modules.
-                if (isset($installed_modules[$dependent]) && !isset($module_list[$dependent]) && $dependent != $profile) {
-                    $dependents[] = $dependent;
+        $force = $input->hasOption('force');
+
+        if ($force) {
+            // Calculate $dependents
+            $dependents = array();
+            while (list($module) = each($module_list)) {
+                foreach (array_keys($module_data[$module]->required_by) as $dependent) {
+                    // Skip already uninstalled modules.
+                    if (isset($installed_modules[$dependent]) && !isset($module_list[$dependent]) && $dependent != $profile) {
+                        $dependents[] = $dependent;
+                    }
                 }
             }
-        }
 
-        // Error if there are missing dependencies
-        if (!empty($dependents)) {
-            $io->error(
-                sprintf(
+            // Error if there are missing dependencies
+            if (!empty($dependents)) {
+                $io->error(
+                  sprintf(
                     $this->trans('commands.module.uninstall.messages.dependents'),
                     implode(', ', $modules),
                     implode(', ', $dependents)
-                )
-            );
+                  )
+                );
 
-            return true;
+                return true;
+            }
+
         }
 
         // Installing modules
