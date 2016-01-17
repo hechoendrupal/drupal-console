@@ -1,4 +1,4 @@
-description: 'माय स्क्ल डाटाबेस और टेबल्स ले कंटेंट और संरचना को रिस्टोर करे'
+description: 'MYSQL डाटाबेस और टेबल्स ले कंटेंट और संरचना को रिस्टोर करे'
 arguments:
     database: 'Settings.php से डाटाबेस कुंजी'
 options:
