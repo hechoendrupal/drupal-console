@@ -1,7 +1,7 @@
-description: 'Restore structure and contents of MySQL databases and tables'
+description: 'माय स्क्ल डाटाबेस और टेबल्स ले कंटेंट और संरचना को रिस्टोर करे'
 arguments:
-    database: 'Database key from settings.php'
+    database: 'Settings.php से डाटाबेस कुंजी'
 options:
-    file: 'The filename for your database backup file'
+    file: 'अपने डेटाबेस बैकअप फ़ाइल के लिए फ़ाइल नाम'
 messages:
-    success: 'Database imported from:'
+    success: 'डेटाबेस इम्पोर्टेड फ्रॉम:'
