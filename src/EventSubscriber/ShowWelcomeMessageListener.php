@@ -28,7 +28,12 @@ class ShowWelcomeMessageListener implements EventSubscriberInterface
         $command = $event->getCommand();
 
         $input = $command->getDefinition();
+
         if ($input->hasOption('generate-doc')) {
+            return;
+        }
+
+        if ($input->hasOption('no-interaction')) {
             return;
         }
 
