@@ -122,9 +122,13 @@ class UsersCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         $roles = $input->getArgument('roles');
-        $limit = $input->getOption('limit')?:10;
+        $limit = $input->getOption('limit')?:25;
         $password = $input->getOption('password');
-        $timeRange = $input->getOption('time-range')?:'N';
+        $timeRange = $input->getOption('time-range')?:31536000;
+
+        if (!$roles) {
+            $roles = $this->getDrupalApi()->getRoles();
+        }
 
         $createUsers = $this->getDrupalApi()->getCreateUsers();
         $users = $createUsers->createUser(
