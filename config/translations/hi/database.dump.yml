@@ -1,4 +1,4 @@
-description: 'डंप संरचना और मायसीक्यूल का कंटेंट डेटाबेसेस और टेबल्स'
+description: 'डंप संरचना और MYSQL का कंटेंट डेटाबेसेस और टेबल्स'
 arguments:
     database: 'Settings.php से डाटाबेस कुंजी'
 options:

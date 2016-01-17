@@ -3,5 +3,5 @@ help: '<info>database:table:debug</info> कमांड आप को डेट
 arguments:
     database: 'Settings.php से डाटाबेस कुंज'
 messages:
-    table-show: '%S डेटाबेस के लिए टेबल दिखाओ'
+    table-show: '%s डेटाबेस के लिए टेबल दिखाओ'
     table: टेबल
