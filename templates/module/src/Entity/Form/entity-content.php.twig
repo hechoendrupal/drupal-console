@@ -51,6 +51,6 @@ class {{ entity_class }}Form extends ContentEntityForm {% endblock %}
           '%label' => $entity->label(),
         ]));
     }
-    $form_state->setRedirect('entity.{{ entity_name }}.edit_form', ['{{ entity_name }}' => $entity->id()]);
+    $form_state->setRedirect('entity.{{ entity_name }}.canonical', ['{{ entity_name }}' => $entity->id()]);
   }
 {% endblock %}
