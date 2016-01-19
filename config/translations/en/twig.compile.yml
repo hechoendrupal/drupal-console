@@ -1,0 +1,4 @@
+description: 'Compile twig templates in theme registry.'
+messages:
+    welcome: 'Welcome to the twig.compile command'
+    completed: 'Done compiling twig templates.'
