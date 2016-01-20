@@ -1,13 +1,13 @@
-description: 'Export a view in YAML format inside a provided module to reuse in other website.'
+description: 'अन्य वेबसाइट में पुन: उपयोग करने के लिए एक प्रोवाइडेड मॉड्यूल के अंदर YAML फॉर्मेट में एक व्यू एक्सपोर्ट करे।'
 messages:
-    view_exported: 'Exporting view'
-    depencies-included: 'The following module dependencies were included at %s'
+    view_exported: 'एक्सपोर्टिंग व्यू '
+    depencies-included: 'निम्नलिखित मॉड्यूल निर्भरता %s में शामिल थे'
 questions:
-    view: 'View to be exported'
-    optional-config: 'Export view in module as an optional configuration'
-    include-module-dependencies: 'Include view module dependencies in module info YAML file'
+    view: 'व्यू एक्सपोर्ट किया जायेगा'
+    optional-config: 'एक वैकल्पिक कॉन्फ़िगरेशन के रूप में मॉड्यूल में व्यू एक्सपोर्ट करे'
+    include-module-dependencies: 'मॉड्यूल इन्फो YAML फाइल में व्यू मॉड्यूल निर्भरता को शामिल करें'
 arguments:
-    view-id: 'View ID'
+    view-id: 'व्यू आईडी'
 options:
-    optional-config: 'Export view as an optional YAML configuration in your module'
-    include-module-dependencies: 'Include module dependencies in module info YAML file'
+    optional-config: 'अपने मॉड्यूल में एक वैकल्पिक YAML कॉन्फ़िगरेशन के रूप में व्यू एक्सपोर्ट करे'
+    include-module-dependencies: 'मॉड्यूल इन्फो YAML फाइल में व्यू मॉड्यूल निर्भरता को शामिल करें'

@@ -1,4 +1,4 @@
-description: 'अपने द्रुपल 8 एप्लीकेशन के लिए डमी यूजरस बनाएँ।'
+description: 'अपने Drupal 8 एप्लीकेशन के लिए डमी यूजरस बनाएँ।'
 help: '<info>create:users</info> कमांड आपको डमी यूजरस को बनाने में मदद करता है।'
 welcome: 'द्रुपल यूजरस जनरेटर में आपका स्वागत है।'
 arguments:
@@ -20,7 +20,7 @@ questions:
         - '1 महीने पहले'
         - '1 साल पहले'
 messages:
-    user-id: 'यूजर ऑयडी'
+    user-id: 'यूजर आईडी'
     roles: रोल्स
     username: यूजरनाम
     created: 'क्रिएटेड समय'
