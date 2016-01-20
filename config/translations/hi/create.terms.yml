@@ -1,6 +1,6 @@
-description: 'अपने drupal 8 एप्लीकेशन के लिए डमी शर्ते बनाएँ।'
-help: '<info>create:nodes</info> कमांड आपको नकली नोड बनाने में मदद करता है।'
-welcome: 'drupal टर्म क्रियेटर में आपका स्वागत है'
+description: 'अपने Drupal 8 एप्लीकेशन के लिए डमी टर्म्ज़ बनाएँ।'
+help: '<info>create:nodes</info> कमांड आपको नकली टर्म्ज़ बनाने में मदद करता है।'
+welcome: 'Drupal टर्म क्रियेटर में आपका स्वागत है'
 arguments:
     vocabularies: 'टर्म्ज़ के निर्माण में प्रयोग की जाने वाली वोकेबुलरी(स)'
 options:
@@ -11,7 +11,7 @@ questions:
     limit: 'आप कितने टर्म्ज़ बनाना चाहते हैं दर्ज करें'
     name-words: 'टर्म नेम्स में शब्दों की अधिकतम संख्या लिखें'
 messages:
-    term-id: 'टर्म आयडी'
+    term-id: 'टर्म आईडी'
     vocabulary: वोकेबुलरी
     name: नाम
     invalid-vocabularies: 'वोकेबुलरी(स) %s अमान्य हैं'
