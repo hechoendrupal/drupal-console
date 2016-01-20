@@ -33,7 +33,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const DRUPAL_VERSION = '8.0.2';
+    const DRUPAL_SUPPORTED_VERSION = '8.0.2';
     /**
      * @var \Drupal\Console\Config
      */

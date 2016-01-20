@@ -19,6 +19,8 @@ messages:
     directory_temporary: 'साइट अस्थायी डायरेक्टरी'
     directory_theme_default: 'डीफाल्ट थीम directory'
     directory_theme_admin: 'प्रबंधक थीम directory'
+    current_version: 'Current Drupal version (%s)'
+    not_installed: 'Drupal is not installed'
     configuration: Configuration
     active: 'सक्रिय समाकृति का पथ'
     staging: 'स्टेजिंग समाकृति का पथ'

@@ -19,6 +19,8 @@ messages:
     directory_temporary: 'Directorio temporal del sitio'
     directory_theme_default: 'Directorio del tema por defecto'
     directory_theme_admin: 'Directorio del tema de administración'
+    current_version: 'Current Drupal version (%s)'
+    not_installed: 'Drupal is not installed'
     configuration: Configuration
     active: 'Ruta de la configuración activa'
     staging: 'Ruta de la configuración de staging'
