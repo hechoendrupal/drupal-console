@@ -1,12 +1,12 @@
-description: 'Override a State key.'
-help: 'Override a State key.'
+description: 'स्थिति की मौलिक को ओवरराइड करे'
+help: 'स्थिति की मौलिक को ओवरराइड करे'
 arguments:
-    key: 'The State key to override.'
-    value: 'The State value to set.'
+    key: 'स्थिति की मौलिक को ओवरराइड करे'
+    value: 'स्थिति की मूल्य को ओवरराइड करे'
 messages:
-    key: 'State key'
-    original: 'Original value'
-    override: 'Override value'
+    key: 'स्थिति मौलिक'
+    original: 'मूल मूल्य'
+    override: 'मूल मूल्य'
 errors:
-    no-key: 'You must provide a State key to override.'
-    no-value: 'You must provide a State value to set.'
+    no-key: 'आप ओवरराइड करने के लिए स्थिति की मौलिक प्रदान करनी चाहिए'
+    no-value: 'आप स्थापित करने के लिए मूल मूल्य प्रदान करनी चाहिए।'
