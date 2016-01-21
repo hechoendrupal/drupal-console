@@ -4,7 +4,7 @@ options:
     module: common.options.module
     entity-class: 'Lớp config entity'
     entity-name: 'Tên config entity'
-    label: 'Nhãn'
+    label: Nhãn
     has-bundles: 'Entity có các bundles'
 questions:
     module: common.questions.module

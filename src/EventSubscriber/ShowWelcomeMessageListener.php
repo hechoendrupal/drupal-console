@@ -26,6 +26,17 @@ class ShowWelcomeMessageListener implements EventSubscriberInterface
     {
         /* @var Command $command */
         $command = $event->getCommand();
+
+        $input = $command->getDefinition();
+
+        if ($input->hasOption('generate-doc')) {
+            return;
+        }
+
+        if ($input->hasOption('no-interaction')) {
+            return;
+        }
+
         /* @var DrupalStyle $io */
         $io = $event->getOutput();
 

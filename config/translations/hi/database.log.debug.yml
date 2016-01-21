@@ -1,19 +1,19 @@
-description: 'Display current log events for the application'
+description: 'एप्लीकेशन के लिए वर्तमान लॉग इवेंट्स को प्रदर्शित करे'
 arguments:
-    event-id: 'DBLog event ID'
+    event-id: 'DBLog इवेंट आईडी'
 options:
-    type: 'Filter events by a specific type'
-    severity: 'Filter events by a specific level of severity'
-    user-id: 'Filter events by a specific user id'
-    reverse: 'Reverse the order of events'
-    limit: 'Limit results to a specific number'
-    offset: 'Starting point of a limit'
+    type: 'एक विशिष्ट टाइप द्वारा इवेंट्स फ़िल्टर'
+    severity: 'गंभीरता का एक विशिष्ट स्तर द्वारा फ़िल्टर इवेंट्स'
+    user-id: 'एक विशिष्ट यूजर आईडी के आधार पर फ़िल्टर इवेंट्स'
+    reverse: 'इवेंट्स के कमांड रिवर्स'
+    limit: 'एक विशिष्ट संख्या को सीमा परिणाम'
+    offset: 'एक सीमा का शुरूआती पॉइंट्स'
 messages:
-    event-id: 'Event ID'
-    type: Type
-    date: Date
-    message: Message
-    user: User
-    severity: Severity
-    invalid-severity: 'Severity type is invalid, filter was ignored'
-    not-found: 'DBLog event %s wasn''t found'
+    event-id: 'इवेंट आईडी'
+    type: टाइप
+    date: दिनांक
+    message: मैसेज
+    user: यूजर
+    severity: सेवेरिटी
+    invalid-severity: 'सेवेरिटी टाइप अमान्य है, फिल्टर को नजरअंदाज कर दिया गया था'
+    not-found: 'DBLog इवेंट %s नहीं मिला था'

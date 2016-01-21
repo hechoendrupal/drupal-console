@@ -1,14 +1,14 @@
-description: 'Create dummy vocabularies for your Drupal 8 application.'
-help: 'The <info>create:vocabularies</info> command helps you create dummy vocabularies.'
-welcome: 'Welcome to the Drupal vocabularies creator'
+description: 'अपने Drupal 8 एप्लीकेशन के लिए डमी वोकैब्युलरीस बनाएँ।'
+help: '<info>create:vocabularies</info> कमांड आपको डमी वोकैब्युलरीस बनाने में मदद करता है।'
+welcome: 'Drupal वोकैब्युलरीस के क्रिएटर में आपका स्वागत है'
 options:
-    limit: 'How many vocabularies would you like to create'
-    name-words: 'Maximum number of words in vocabulary names'
+    limit: 'आप कितने वोकैब्युलरीस बनाना चाहते है'
+    name-words: 'वोकैब्युलरी के नाम में शब्दों की अधिकतम संख्या'
 questions:
-    limit: 'Enter how many vocabularies would you like to create'
-    name-words: 'Enter the maximum number of words in vocabulary names'
+    limit: 'आप कितने वोकैब्युलरीस बनाना चाहते है एंटर करे'
+    name-words: 'वोकैब्युलरी के नाम में शब्दों की अधिकतम संख्या एंटर करे'
 messages:
-    vocabulary-id: 'Vocabulary Id'
-    name: Name
-    created-terms: 'Created %s vocabularies successfully'
-    error: 'Error creating vocabularies: %s'
+    vocabulary-id: 'वोकैब्युलरी आईडी'
+    name: नाम
+    created-terms: '%s वोकैब्युलरीस सफलतापूर्वक बने'
+    error: 'क्रिएटिंग वोकैब्युलरीस एरर: %s'
