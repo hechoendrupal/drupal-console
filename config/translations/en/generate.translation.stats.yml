@@ -1,0 +1,4 @@
+description: 'Generate translate stats'
+arguments:
+  language: 'Language to generate translation stats against English'
+messages:
