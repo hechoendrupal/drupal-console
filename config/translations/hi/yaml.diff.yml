@@ -1,7 +1,7 @@
 description: 'दो YAML फाइल का अंतर देखने के लिये उनकी तुलना करें'
 arguments:
-    yaml-left: 'YAML file used as base to compare'
-    yaml-right: 'YAML file used to determine missing or differences with base YAML file'
+    yaml-left: 'YAML तुलना करने के लिए आधार के रूप में इस्तेमाल किया जाता हे'
+    yaml-right: 'YAML फाइल गायब या आधार YAML फ़ाइल के साथ मतभेदों को निर्धारित करने के लिए प्रयोग किया जाता है'
 options:
     stats: 'Print statistics about YAML files comparation'
     negate: 'विधि अंतर या समान तुलना दर्ज करें, सम्भवत निधि TRUE/FALSE या 0/1'
