@@ -6,7 +6,7 @@ options:
     machine-name: 'मशीन का नाम (लोअरकेस और अंडरस्कोर केवल)'
     description: 'प्रोफाइल विवरण'
     core: 'कोर संस्करण'
-    dependencies: 'मॉड्यूल निर्भरता अल्पविराम से अलग किया जाता है'
+    dependencies: 'मॉड्यूल निर्भरता अल्पविराम से अलग किया जाता है (जेसे context, panels)'
     distribution: 'वितरण नाम'
 questions:
     profile: 'नई प्रोफ़ाइल का नाम दर्ज करे'
