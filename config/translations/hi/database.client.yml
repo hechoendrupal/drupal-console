@@ -1,6 +1,6 @@
-description: 'Launch a DB client if it''s available'
+description: 'लॉन्च एक DB क्लाइंट अगर यह उपलब्ध है'
 arguments:
-    database: 'Database key from settings.php'
+    database: 'Settings.php से डाटाबेस कुंजी'
 messages:
     connection: 'Connection: %s'
     executing: 'Executing: %s'

@@ -48,10 +48,10 @@ class CallCommandListener implements EventSubscriberInterface
 
             $drupal = $application->getDrupalHelper();
             if ($chainedCommand['name'] === 'site:new') {
-                if ($chainedCommand['inputs']['site-name']) {
+                if ($chainedCommand['inputs']['directory']) {
                     $siteRoot = sprintf(
                         '%s/%s', getcwd(),
-                        $chainedCommand['inputs']['site-name']
+                        $chainedCommand['inputs']['directory']
                     );
                     chdir($siteRoot);
                 }

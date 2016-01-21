@@ -1,5 +1,5 @@
 description: 'कमांड की सूची'
-help: "<info>%command.name%</info> कमांड सभी कमांड को सूचीबद्ध करता है:\n<info>php %command.full_name%</info>\nआप भी एक विशिष्ट नाम स्थान के लिए आदेशों को प्रदर्शित कर सकते हैं:\n<info>php %command.full_name% test</info>\nआप अन्य स्वरूपों में उत्पादन जानकारी भी कर सकते हैं <comment>--format</comment> विकल्प का उपयोग करके :\n<info>php %command.full_name% --format=xml</info>\nयह (कमांड धावक एम्बेड करने के लिए उपयोगी) आदेशों के कच्चे सूची प्राप्त करने के लिए भी संभव है:\n<info>php %command.full_name% --raw</info>\n"
+help: "<info>%command.name%</info> कमांड सभी कमांड को सूचीबद्ध करता है:\n<info>php %command.full_name%</info>\nआप भी एक विशिष्ट नेमस्पेस के लिए कमांड को प्रदर्शित कर सकते हैं:\n<info>php %command.full_name% test</info>\nआप अन्य स्वरूपों में उत्पादन जानकारी भी कर सकते हैं <comment>--format</comment> विकल्प का उपयोग करके :\n<info>php %command.full_name% --format=xml</info>\nयह (कमांड धावक एम्बेड करने के लिए उपयोगी) कमांड के कच्चे सूची प्राप्त करने के लिए भी संभव है:\n<info>php %command.full_name% --raw</info>\n"
 arguments:
     namespace: 'नेमस्पेस का नाम'
 options:

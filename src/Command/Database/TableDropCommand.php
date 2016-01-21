@@ -46,7 +46,8 @@ class TableDropCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
         $database = $input->getArgument('database');
-        $yes = $input->getOption('yes');
+        $yes = $input->hasOption('yes')?$input->getOption('yes'):false;
+
         $databaseConnection = $this->resolveConnection($io, $database);
 
         if ($io->confirm(
@@ -56,7 +57,7 @@ class TableDropCommand extends ContainerAwareCommand
             ),
             true
         ) || $yes) {
-            $databaseService = $this->hasGetService('database');
+            $databaseService = $this->getService('database');
             $schema = $databaseService->schema();
             $tables = $schema->findTables('%');
             $tableRows = [];

@@ -29,7 +29,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '0.10.3';
+    const VERSION = '0.10.6';
     /**
      * @var string
      */
@@ -106,6 +106,13 @@ class Application extends BaseApplication
         $this->getDefinition()->addOption(
             new InputOption('--yes', '-y', InputOption::VALUE_NONE, $this->trans('application.console.arguments.yes'))
         );
+
+        $options = $config->get('application.default.global.options')?:[];
+        foreach ($options as $key => $option) {
+            if ($this->getDefinition()->hasOption($key)) {
+                $_SERVER['argv'][] = sprintf('--%s', $key);
+            }
+        }
     }
 
     /**
@@ -116,16 +123,16 @@ class Application extends BaseApplication
     protected function getDefaultInputDefinition()
     {
         return new InputDefinition(
-            array(
-            new InputArgument('command', InputArgument::REQUIRED, $this->trans('application.console.input.definition.command')),
-            new InputOption('--help', '-h', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.help')),
-            new InputOption('--quiet', '-q', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.quiet')),
-            new InputOption('--verbose', '-v|vv|vvv', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.verbose')),
-            new InputOption('--version', '-V', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.version')),
-            new InputOption('--ansi', '', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.ansi')),
-            new InputOption('--no-ansi', '', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.no-ansi')),
-            new InputOption('--no-interaction', '-n', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.no-interaction')),
-            )
+            [
+                new InputArgument('command', InputArgument::REQUIRED, $this->trans('application.console.input.definition.command')),
+                new InputOption('--help', '-h', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.help')),
+                new InputOption('--quiet', '-q', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.quiet')),
+                new InputOption('--verbose', '-v|vv|vvv', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.verbose')),
+                new InputOption('--version', '-V', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.version')),
+                new InputOption('--ansi', '', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.ansi')),
+                new InputOption('--no-ansi', '', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.no-ansi')),
+                new InputOption('--no-interaction', '-n', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.no-interaction')),
+            ]
         );
     }
 
@@ -181,17 +188,18 @@ class Application extends BaseApplication
 
         if (!$target) {
             $root = $input->getParameterOption(['--root'], null);
+            $root = (strrpos('/', $root)===0)?$root:sprintf('%s/%s', getcwd(), $root);
         }
 
-        $uri = $input->getParameterOption(array('--uri', '-l'));
-        $env = $input->getParameterOption(array('--env', '-e'), getenv('DRUPAL_ENV') ?: 'prod');
+        $uri = $input->getParameterOption(['--uri', '-l']);
+        $env = $input->getParameterOption(['--env', '-e'], getenv('DRUPAL_ENV') ?: 'prod');
 
         if (!$env) {
             $this->env = $env;
         }
 
         $debug = getenv('DRUPAL_DEBUG') !== '0'
-          && !$input->hasParameterOption(array('--no-debug', ''))
+          && !$input->hasParameterOption(['--no-debug', ''])
           && $env !== 'prod';
 
         if ($debug) {
@@ -221,13 +229,19 @@ class Application extends BaseApplication
             $this->prepare($drupal);
         }
 
-        if (true === $input->hasParameterOption(array('--generate-doc', '--gd'))) {
-            $command = $this->get($commandName);
-            $command->addOption(
-                'generate-doc',
-                '--gd',
-                InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc')
-            );
+        $parameterOptions = [
+            'no-interaction' => ['--no-interaction', '-n' ],
+            'generate-doc' => ['--generate-doc', '-gd' ]
+        ];
+        $command = null;
+        foreach ($parameterOptions as $optionName => $parameterOption) {
+            if (true === $input->hasParameterOption($parameterOption)) {
+                if (!$command) {
+                    $command = $this->get($commandName);
+                }
+                $option = $this->getDefinition()->getOption($optionName);
+                $command->getDefinition()->addOption($option);
+            }
         }
 
         return parent::doRun($input, $output);

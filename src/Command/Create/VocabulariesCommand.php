@@ -53,7 +53,7 @@ class VocabulariesCommand extends ContainerAwareCommand
         if (!$limit) {
             $limit = $io->ask(
                 $this->trans('commands.create.vocabularies.questions.limit'),
-                10
+                25
             );
             $input->setOption('limit', $limit);
         }
@@ -76,7 +76,7 @@ class VocabulariesCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $limit = $input->getOption('limit')?:10;
+        $limit = $input->getOption('limit')?:25;
         $nameWords = $input->getOption('name-words')?:5;
 
         $createVocabularies = $this->getDrupalApi()->getCreateVocabularies();

@@ -1,8 +1,6 @@
 description: 'Tải module hoặc các modules trong ứng dụng'
 options:
     version: 'Phiên bản Module i.e 1.x-dev'
-options:
-    module: 'Module hoặc các modules được tải xuống cần được chia ra bởi dấu phẩy'
 messages:
     no-releases: 'Không có bất kỳ bản phát hành nào cho module %s'
     getting-releases: 'Đang tìm kiếm các bản phát hành cho module %s'

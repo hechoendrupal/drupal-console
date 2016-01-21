@@ -5,7 +5,7 @@
 {{ yaml_comment('application.console.messages.learning.route') }}
 {% endif %}
 {{ module }}.{{ class_machine_name }}_{{ route.method }}:
-  path: '{{ route.route }}'
+  path: '{{ route.path }}'
   defaults:
     _controller: '\Drupal\{{ module }}\Controller\{{ class_name }}::{{ route.method }}'
     _title: '{{route.title}}'
