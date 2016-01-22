@@ -7,7 +7,7 @@ options:
     overwrite-config: '覆写配置'
 messages:
     no-modules: '必须提供一个或多个模块才能启用'
-    missing: '不能安装模块 %s，由于 %s 丢失'
+    missing: 'Unable to install module(s) %s due to missing module(s) %s'
     missing-dependencies: '不能安装模块 %s，由于其依赖 %s 丢失'
     nothing: '不需要做任何操作，所有模块已经安装'
     dependencies: '您确定要安装依赖：%s?'
@@ -15,3 +15,9 @@ messages:
     disabled-modules: '仅被禁用的模块才会出现在自动完成列表中'
     config-conflict-overwrite: '这些配置对象将覆写进您的活动配置中'
     config-conflict: '这些配置对象已经在您的活动配置中存在，安装不可行'
+    getting-missing-modules: 'One or more modules %s are not available, running download process to get those modules'
+    getting-releases: 'Getting releases for module %s'
+    select-release: 'Please select your favorite release'
+    downloading: 'Downloading module %s release %s'
+    downloaded: 'Module %s version %s was downloaded successfully at %s'
+    no-releases: 'There aren''t any releases for module %s'

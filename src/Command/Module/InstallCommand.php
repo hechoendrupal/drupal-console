@@ -13,10 +13,13 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Command\ProjectDownloadTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class InstallCommand extends ContainerAwareCommand
 {
+    use ProjectDownloadTrait;
+
     protected function configure()
     {
         $this
@@ -77,14 +80,27 @@ class InstallCommand extends ContainerAwareCommand
 
         $invalidModules = $validator->getInvalidModules($modules);
         if ($invalidModules) {
-            $io->error(
+            $io->info(
                 sprintf(
-                    $this->trans('commands.module.install.messages.missing'),
-                    implode(', ', $modules),
-                    implode(', ', $invalidModules)
+                    $this->trans('commands.module.install.messages.getting-missing-modules'),
+                    implode(',', $invalidModules)
                 )
             );
+            foreach ($invalidModules as $invalidModule) {
+                $version = $this->releasesQuestion($io, $invalidModule);
+                if ($version) {
+                    $this->downloadProject($io, $invalidModule, $version, 'module');
+                } else {
+                    // Remove module if version if not available
+                    unset($modules[array_search($invalidModule, $modules)]);
+                }
+            }
 
+            $this->getSite()->discoverModules();
+        }
+
+        // finish install process if modules were removed due missing version
+        if (empty($modules)) {
             return;
         }
 
@@ -98,6 +114,7 @@ class InstallCommand extends ContainerAwareCommand
         $dependencies = $this->calculateDependencies($unInstalledModules);
 
         $missingDependencies = $validator->getInvalidModules($dependencies);
+
         if ($missingDependencies) {
             $io->error(
                 sprintf(
