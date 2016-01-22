@@ -1,4 +1,4 @@
-description: 'Run Test unit from tests available for application'
+description: 'ユニットテストの実行'
 arguments:
     test-class: 'Test Class'
 messages:
@@ -10,7 +10,7 @@ messages:
     test-fail: 'Test fails'
     test-exception: 'Test exceptions'
     test-debug: 'Test debugs'
-    url-required: 'URL option is required to run test'
+    url-required: 'テストを実行するには --url オプションを指定してください。'
     test-summary: 'Test Summary'
     group: Group
     status: Status
