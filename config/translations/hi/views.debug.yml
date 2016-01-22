@@ -5,14 +5,14 @@ arguments:
     view-status: 'View status (Enabled|Disabled)'
 messages:
     view-id: 'View ID'
-    view-name: 'View name'
-    description: Description
+    view-name: 'View का नाम'
+    description: विवरण
     tag: Tag
-    status: Status
+    status: स्थिति
     path: Path
     not-found: 'View %s wasn''t found.'
     display-list: 'Display list'
     display-id: ID
-    display-name: Name
-    display-description: Description
+    display-name: नाम
+    display-description: विवरण
     display-paths: Paths
