@@ -26,17 +26,17 @@ questions:
         description: विवरण
         default-value: 'डिफ़ॉल्ट निधि'
         weight: 'इनपुट आइटम के लिए वजन'
-        title: Title
+        title: शीर्षक
         fieldset: Fieldset
 errors:
     module-dependency: 'मॉड्यूल निर्भरता "%s" अनुपस्थित है'
     class-name-empty: 'क्लास का नाम खली नही रह सकता'
-    invalid-file-path: 'You must provide a valid file path'
+    invalid-file-path: 'आप कौ एक वैध फ़ाइल पथ प्रदान करनी चाहिए'
 status:
     enabled: सक्षम
     disabled: 'अक्षम'
 messages:
     canceled: 'उत्पन्न रद्द कर दिया गया'
     drupal-core: 'Drupal Core'
-    move-phar: 'Accessing console from anywhere on your system'
+    move-phar: 'आपके सिस्टम पर कहीं से console तक पहुँचने'
     quick-start: 'Download, install and serve Drupal 8'

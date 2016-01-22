@@ -10,7 +10,7 @@ messages:
     port: Port
     username: Username
     password: Password
-    theme: Themes
+    theme: विषय
     connection: Connection
     theme_default: 'डीफाल्ट थीम'
     theme_admin: 'प्रबंधक थीम'

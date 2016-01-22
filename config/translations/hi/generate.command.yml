@@ -12,7 +12,7 @@ options:
 questions:
     module: common.questions.module
     class: 'कमाण्ड क्लास का नाम दर्ज करें'
-    name: 'Enter the Command name.'
+    name: 'कमाण्ड के नाम दर्ज करें।'
     container-aware: 'Is the command aware of the drupal site installation when executed?.'
     command: 'कमाण्ड का नाम दर्ज करें'
     container: 'क्या आप को सर्विसेज़ कंटेनर तक पहुचने की आवश्यकता है'
