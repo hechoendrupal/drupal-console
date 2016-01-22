@@ -42,7 +42,8 @@ class {{ entity_class }}AccessControlHandler extends EntityAccessControlHandler 
         return AccessResult::allowedIfHasPermission($account, 'delete {{ label|lower }} entities');
     }
 
-    return AccessResult::allowed();
+    // Unknown operation, no opinion.
+    return AccessResult::neutral();
   }
 
   /**
