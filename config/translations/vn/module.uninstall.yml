@@ -6,3 +6,4 @@ messages:
     dependents: 'Không thể gỡ bỏ các modules %s vì chúng được yêu cầu bởi %s'
     nothing: 'Không có gì để thực hiện. Tất cả các module đã được gỡ bỏ'
     success: 'Các module sau đã được gỡ bỏ thành công: %s'
+    missing: 'Unable to install modules %s due to missing modules %s'

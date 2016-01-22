@@ -6,3 +6,4 @@ messages:
     dependents: '%s nem távolítható el, mert függősége más moduloknak: %s'
     nothing: 'Nincs teendő, minden modul már el lett távolítva.'
     success: '%s Sikeresen el lett távolítva'
+    missing: 'Unable to install modules %s due to missing modules %s'
