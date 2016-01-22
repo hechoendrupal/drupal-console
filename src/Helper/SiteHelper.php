@@ -411,4 +411,14 @@ class SiteHelper extends Helper
     {
         return 'site';
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDrupalVersion()
+    {
+        $projects = $this->getDrupalApi()->getService('update.manager')->getProjects();
+
+        return $projects['drupal']['info']['version'];
+    }
 }
