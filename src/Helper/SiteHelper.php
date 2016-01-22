@@ -417,7 +417,7 @@ class SiteHelper extends Helper
      */
     public function getDrupalVersion()
     {
-        $projects = \Drupal::service('update.manager')->getProjects();
+        $projects = $this->getDrupalApi()->getService('update.manager')->getProjects();
 
         return $projects['drupal']['info']['version'];
     }
