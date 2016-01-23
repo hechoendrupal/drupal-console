@@ -1,4 +1,4 @@
-description: 'List of modules implementing a cron'
+description: 'cronを実装しているモジュールの一覧を表示'
 messages:
-    module-list: 'Modules implementing a cron method'
-    module: Module
+    module-list: 'cronを実装しているモジュール'
+    module: モジュール
