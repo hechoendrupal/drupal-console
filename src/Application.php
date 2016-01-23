@@ -229,12 +229,13 @@ class Application extends BaseApplication
             $this->prepare($drupal);
         }
 
-        $parameterOptions = [
-            'no-interaction' => ['--no-interaction', '-n' ],
-            'generate-doc' => ['--generate-doc', '-gd' ]
-        ];
+        $parameterOptions = $this->getDefinition()->getOptions();
         $command = null;
         foreach ($parameterOptions as $optionName => $parameterOption) {
+            $parameterOption = [
+                sprintf('--%s', $parameterOption->getName()),
+                sprintf('-%s', $parameterOption->getShortcut())
+            ];
             if (true === $input->hasParameterOption($parameterOption)) {
                 if (!$command) {
                     $command = $this->get($commandName);

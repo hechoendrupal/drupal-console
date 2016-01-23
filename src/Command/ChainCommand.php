@@ -91,8 +91,21 @@ class ChainCommand extends Command
                 $moduleInputs['--'.$key] = is_null($value) ? '' : $value;
             }
 
+            $parameterOptions = $input->getOptions();
+            unset($parameterOptions['file']);
+            foreach ($parameterOptions as $key => $value) {
+                if ($value===true) {
+                    $moduleInputs['--' . $key] = true;
+                }
+            }
+
             $this->getChain()
-                ->addCommand($command['command'], $moduleInputs, $interactive, $learning);
+                ->addCommand(
+                    $command['command'],
+                    $moduleInputs,
+                    $interactive,
+                    $learning
+                );
         }
     }
 }
