@@ -112,7 +112,6 @@ class InstallCommand extends ContainerAwareCommand
         }
 
         $dependencies = $this->calculateDependencies($unInstalledModules);
-
         $missingDependencies = $validator->getInvalidModules($dependencies);
 
         if ($missingDependencies) {
