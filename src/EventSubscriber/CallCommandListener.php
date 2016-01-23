@@ -44,6 +44,8 @@ class CallCommandListener implements EventSubscriberInterface
             if (!is_null($chainedCommand['interactive'])) {
                 $input->setInteractive($chainedCommand['interactive']);
             }
+
+            $io->text($chainedCommand['name']);
             $callCommand->run($input, $io);
 
             $drupal = $application->getDrupalHelper();
