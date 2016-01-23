@@ -74,6 +74,7 @@ class InstallCommand extends ContainerAwareCommand
 
         $modules = $input->getArgument('module');
         $overwriteConfig = $input->getOption('overwrite-config');
+        $yes = $input->hasOption('yes')?$input->getOption('yes'):false;
 
         $validator = $this->getValidator();
         $moduleInstaller = $this->getModuleInstaller();
@@ -123,18 +124,20 @@ class InstallCommand extends ContainerAwareCommand
                 )
             );
 
-            return true;
+            return;
         }
 
         if ($dependencies) {
-            if (!$io->confirm(
-                sprintf(
-                    $this->trans('commands.module.install.messages.dependencies'),
-                    implode(', ', $dependencies)
-                ),
-                false
-            )) {
-                return;
+            if (!$yes) {
+                if (!$io->confirm(
+                    sprintf(
+                        $this->trans('commands.module.install.messages.dependencies'),
+                        implode(', ', $dependencies)
+                    ),
+                    false
+                )) {
+                    return;
+                }
             }
         }
 
