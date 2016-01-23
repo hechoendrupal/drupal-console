@@ -68,7 +68,7 @@ class TranslationStatsCommand extends Command
         }
 
         if ($language) {
-            $languages = $languages[$language];
+            $languages = [$language => $languages[$language]];
         }
 
         $stats = $this->calculateStats($io, $language, $languages, $appRoot);
