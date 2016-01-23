@@ -29,7 +29,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '0.10.6';
+    const VERSION = '0.10.5';
     /**
      * @var string
      */
@@ -188,7 +188,7 @@ class Application extends BaseApplication
 
         if (!$target) {
             $root = $input->getParameterOption(['--root'], null);
-            $root = (strrpos('/', $root)===0)?$root:sprintf('%s/%s', getcwd(), $root);
+            $root = (strpos($root, '/')===0)?$root:sprintf('%s/%s', getcwd(), $root);
         }
 
         $uri = $input->getParameterOption(['--uri', '-l']);
@@ -229,18 +229,18 @@ class Application extends BaseApplication
             $this->prepare($drupal);
         }
 
-        $parameterOptions = [
-            'no-interaction' => ['--no-interaction', '-n' ],
-            'generate-doc' => ['--generate-doc', '-gd' ]
-        ];
-        $command = null;
-        foreach ($parameterOptions as $optionName => $parameterOption) {
-            if (true === $input->hasParameterOption($parameterOption)) {
-                if (!$command) {
-                    $command = $this->get($commandName);
+        if ($commandName && $this->has($commandName)) {
+            $command = $this->get($commandName);
+            $parameterOptions = $this->getDefinition()->getOptions();
+            foreach ($parameterOptions as $optionName => $parameterOption) {
+                $parameterOption = [
+                    sprintf('--%s', $parameterOption->getName()),
+                    sprintf('-%s', $parameterOption->getShortcut())
+                ];
+                if (true === $input->hasParameterOption($parameterOption)) {
+                    $option = $this->getDefinition()->getOption($optionName);
+                    $command->getDefinition()->addOption($option);
                 }
-                $option = $this->getDefinition()->getOption($optionName);
-                $command->getDefinition()->addOption($option);
             }
         }
 

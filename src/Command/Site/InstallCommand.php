@@ -393,7 +393,7 @@ class InstallCommand extends Command
             ]
         ];
 
-        $output->writeln($this->trans('commands.site.install.messages.installing'));
+        $output->info($this->trans('commands.site.install.messages.installing'));
 
         try {
             install_drupal($drupal->getAutoLoadClass(), $settings);

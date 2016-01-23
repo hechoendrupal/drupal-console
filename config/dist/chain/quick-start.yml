@@ -13,7 +13,6 @@ commands:
         account-name: admin
         account-mail: admin@example.com
         account-pass: admin
-        generate-inline: true
     arguments:
         profile: standard
   - command: server
