@@ -1,5 +1,5 @@
-description: 'Show the current State keys.'
-help: 'Show the current State keys.'
+description: 'State key を表示'
+help: 'State key を表示する。'
 arguments:
     key: 'The State key to debug.'
 messages:

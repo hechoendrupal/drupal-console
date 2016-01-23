@@ -1,5 +1,5 @@
-description: 'Override a State key.'
-help: 'Override a State key.'
+description: 'State keyをオーバーライドする'
+help: 'State keyをオーバーライドする。'
 arguments:
     key: 'The State key to override.'
     value: 'The State value to set.'
