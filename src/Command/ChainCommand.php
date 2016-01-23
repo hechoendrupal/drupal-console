@@ -61,6 +61,10 @@ class ChainCommand extends Command
             $file = realpath(preg_replace('/~/', $home, $file, 1));
         }
 
+        if (!(strpos($file, '/') === 0)) {
+            $file = sprintf('%s/%s', getcwd(), $file);
+        }
+
         if (!file_exists($file)) {
             $io->error(
                 sprintf(
