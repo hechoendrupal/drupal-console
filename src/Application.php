@@ -29,7 +29,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '0.10.6';
+    const VERSION = '0.10.5';
     /**
      * @var string
      */
@@ -229,19 +229,18 @@ class Application extends BaseApplication
             $this->prepare($drupal);
         }
 
-        $parameterOptions = $this->getDefinition()->getOptions();
-        $command = null;
-        foreach ($parameterOptions as $optionName => $parameterOption) {
-            $parameterOption = [
-                sprintf('--%s', $parameterOption->getName()),
-                sprintf('-%s', $parameterOption->getShortcut())
-            ];
-            if (true === $input->hasParameterOption($parameterOption)) {
-                if (!$command) {
-                    $command = $this->get($commandName);
+        if ($commandName && $this->has($commandName)) {
+            $command = $this->get($commandName);
+            $parameterOptions = $this->getDefinition()->getOptions();
+            foreach ($parameterOptions as $optionName => $parameterOption) {
+                $parameterOption = [
+                    sprintf('--%s', $parameterOption->getName()),
+                    sprintf('-%s', $parameterOption->getShortcut())
+                ];
+                if (true === $input->hasParameterOption($parameterOption)) {
+                    $option = $this->getDefinition()->getOption($optionName);
+                    $command->getDefinition()->addOption($option);
                 }
-                $option = $this->getDefinition()->getOption($optionName);
-                $command->getDefinition()->addOption($option);
             }
         }
 
