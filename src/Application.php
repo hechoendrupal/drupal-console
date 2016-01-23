@@ -188,7 +188,7 @@ class Application extends BaseApplication
 
         if (!$target) {
             $root = $input->getParameterOption(['--root'], null);
-            $root = (strrpos('/', $root)===0)?$root:sprintf('%s/%s', getcwd(), $root);
+            $root = (strpos($root, '/')===0)?$root:sprintf('%s/%s', getcwd(), $root);
         }
 
         $uri = $input->getParameterOption(['--uri', '-l']);
