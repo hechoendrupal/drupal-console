@@ -1,11 +1,11 @@
-description: 'Merge one or more YAML files in a new YAML file. Latest values are preserved.'
+description: 'Merge two or more YAML files in a new YAML file. Latest values are preserved.'
 arguments:
     yaml-files: 'Path of YAML files to merge'
     yaml-destination: 'Path of new YAML file to store the result of merge.'
 questions:
     yaml-destination: 'Path of new YAML file to store the result of merge.'
     file: 'Path to the file to merge'
-    other-file: 'Path to the file to merge (empty to start with merge process)'
+    other-file: 'Path to the file to merge (cannot be empty to start the merge process)'
     invalid-file: 'Path of file cannot be empty'
     file-already-added: 'Path of file was already added'
 messages:
