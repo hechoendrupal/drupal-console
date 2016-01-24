@@ -21,7 +21,7 @@ questions:
     services: common.questions.services
     test: 'Você deseja criar uma classe de teste unitário?'
     route: 'Digite o caminho da rota'
-    controller-add: 'Do you want add another contoller method'
+    controller-add: 'Do you want to add another contoller method'
     controller: 'Controller title'
     method-name: 'Digite o nome do método'
     other-controller-title: 'Título do controller (deixe vazio para começar com a geração de código)'

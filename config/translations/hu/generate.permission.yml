@@ -9,4 +9,4 @@ questions:
     title: 'Enter a title for the permision'
     description: 'Enter a description for the permision'
     restrict-access: 'Restrict Access'
-    add: 'Do you want add another permission'
+    add: 'Do you want to add another permission'
