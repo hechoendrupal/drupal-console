@@ -1,9 +1,9 @@
-description: 'List all known local and remote sites.'
-help: 'The <info>site:debug</info> list all known local and remote sites.'
+description: 'Minden ismert helyi és távoli webhely listázása.'
+help: 'A <info>site:debug</info> parancs minden ismert helyi és távoli webhelyet felsorol.'
 messages:
-    site: Site
-    host: Host
-    root: Root
-    directory-not-found: 'Sites local directory not found'
-    private-key: 'Error with private key'
-    connect-error: 'Error connecting to remote machine'
+  site: Webhely
+  host: Gazdagép
+  root: Gyökér
+  directory-not-found: 'Nem található a hely helyi könyvtára'
+  private-key: 'Hiba a privát kulccsal'
+  connect-error: 'Hiba történt a csatlakozáskor a távoli géphez'
