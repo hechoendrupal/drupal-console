@@ -1,11 +1,11 @@
-description: 'Display current updates available for the application'
+description: 'Az alkalmazás jelenleg elérhető frissítéseinek megjelenítése'
 messages:
-    no-updates: 'No pending updates'
-    severity: Severity
-    title: Title
-    value: Value
-    description: Description
-    requirements-error: 'The following requirement weren''t completed'
-    module-list: 'Modules with pending updates'
-    module: Module
+    no-updates: 'Nincs függőben lévő frissítés'
+    severity: Súlyosság
+    title: Cím
+    value: Érték
+    description: Leírás
+    requirements-error: 'A következő követelmény nem teljesült'
+    module-list: 'Függőben lévő frissítésekkel rendelkező modulok'
+    module: Modul
     update-n: 'Update N'

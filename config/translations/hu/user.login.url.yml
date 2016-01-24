@@ -1,7 +1,7 @@
-description: 'Egyszer használatos felhasználói bejelentkezési URL-címet ad vissza.'
+description: 'Egyszer hasznÃ¡latos felhasznÃ¡lÃ³i bejelentkezÃ©si URL-cÃ­met ad vissza.'
 options:
-    user-id: 'Felhasználói azonosító.'
+    user-id: 'FelhasznÃ¡lÃ³i azonosÃ­tÃ³.'
 messages:
-    url: 'Egyszer használatos bejelentkezési azonosító @name számára: @url'
+    url: 'Egyszer hasznÃ¡latos bejelentkezÃ©si azonosÃ­tÃ³ @name szÃ¡mÃ¡ra: @url'
 errors:
-    invalid-user: 'Nem tölthetõ be a felhasználó entitás (felhasználói azonosító: @uid).'
+    invalid-user: 'Nem tÃ¶lthetÅ‘ be a felhasznÃ¡lÃ³ entitÃ¡s (felhasznÃ¡lÃ³i azonosÃ­tÃ³: @uid).'

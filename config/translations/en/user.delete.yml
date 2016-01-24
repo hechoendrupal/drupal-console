@@ -6,7 +6,7 @@ options:
     roles: 'Roles associated to users to be deleted'
 questions:
     user-id: 'User id to be deleted (empty to skip)'
-    roles: 'Select role(s) associated to used to be deleted'
+    roles: 'Select role(s) associated with users to be deleted'
 messages:
     user-id: 'User ID'
     username: 'Username'
