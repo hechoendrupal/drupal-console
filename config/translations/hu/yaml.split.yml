@@ -1,11 +1,11 @@
-description: 'YAML-fájl felosztása a behúzást elválasztási feltételként használva'
+description: 'YAML-fÃ¡jl felosztÃ¡sa a behÃºzÃ¡st elvÃ¡lasztÃ¡si feltÃ©telkÃ©nt hasznÃ¡lva'
 arguments:
-    yaml-file: 'A felosztandó YAML-fájl útvonala'
+    yaml-file: 'A felosztandÃ³ YAML-fÃ¡jl Ãºtvonala'
 options:
-    indent-level: 'YAML-fájl felosztása adott behúzási szint használatával'
-    exclude-parents-key: 'A parents kulcs kihagyása az elõállított fájlból'
-    starting-key: 'A felosztás kezdetéül szolgáló YAML-kulcs - részleges elemek kinyerésére használható'
+    indent-level: 'YAML-fÃ¡jl felosztÃ¡sa adott behÃºzÃ¡si szint hasznÃ¡latÃ¡val'
+    exclude-parents-key: 'A parents kulcs kihagyÃ¡sa az elÅ‘Ã¡llÃ­tott fÃ¡jlbÃ³l'
+    starting-key: 'A felosztÃ¡s kezdetÃ©Ã¼l szolgÃ¡lÃ³ YAML-kulcs - rÃ©szleges elemek kinyerÃ©sÃ©re hasznÃ¡lhatÃ³'
 messages:
-    generating-split: 'Új fájlok létrehozása'
-    split-generated: 'Létrejött a következõ fájl: %s'
-    invalid-key: 'Nem található a megadott YAML-kulcs, az értékek kinyeréséhez 0 behúzási szinttel kell kombinálni'
+    generating-split: 'Ãšj fÃ¡jlok lÃ©trehozÃ¡sa'
+    split-generated: 'LÃ©trejÃ¶tt a kÃ¶vetkezÅ‘ fÃ¡jl: %s'
+    invalid-key: 'Nem talÃ¡lhatÃ³ a megadott YAML-kulcs, az Ã©rtÃ©kek kinyerÃ©sÃ©hez 0 behÃºzÃ¡si szinttel kell kombinÃ¡lni'
