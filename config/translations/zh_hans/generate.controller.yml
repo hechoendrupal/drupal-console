@@ -21,7 +21,7 @@ questions:
     services: common.questions.services
     test: '您要生成一个单元测试类吗？'
     route: '输入路由路径'
-    controller-add: 'Do you want add another contoller method'
+    controller-add: 'Do you want to add another contoller method'
     controller: 'Controller title'
     method-name: '输入 Action 方法名'
     other-controller-title: '控制器标题（empty to start with code generation）'
