@@ -20,6 +20,6 @@ questions:
     account-pass: 'Provide your Drupal administrator account password'
 messages:
     installing: 'Starting Drupal 8 install process'
-    installed: 'Your Drupal 8 installation was completed sucessfully'
+    installed: 'Your Drupal 8 installation was completed successfully'
     using-current-database: 'Using %s database with name %s and user %s'
     already-installed: 'Drupal is already installed, try truncating your database and run again site:install'

@@ -58,7 +58,7 @@ class LanguageAddCommand extends ContainerAwareCommand
             $language->type = LOCALE_TRANSLATION_REMOTE;
             $language->save();
 
-            $io->info(sprintf($this->trans('commands.locale.language.add.messages.language-add-sucessfully'), $language->getName()));
+            $io->info(sprintf($this->trans('commands.locale.language.add.messages.language-add-successfully'), $language->getName()));
         } catch (\Exception $e) {
             $io->error($e->getMessage());
         }
