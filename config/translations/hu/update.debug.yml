@@ -1,11 +1,11 @@
-description: 'Az alkalmazás jelenleg elérhetõ frissítéseinek megjelenítése'
+description: 'Az alkalmazÃ¡s jelenleg elÃ©rhetÅ‘ frissÃ­tÃ©seinek megjelenÃ­tÃ©se'
 messages:
-    no-updates: 'Nincs függõben lévõ frissítés'
-    severity: Súlyosság
-    title: Cím
-    value: Érték
-    description: Leírás
-    requirements-error: 'A következõ követelmény nem teljesült'
-    module-list: 'Függõben lévõ frissítésekkel rendelkezõ modulok'
+    no-updates: 'Nincs fÃ¼ggÅ‘ben lÃ©vÅ‘ frissÃ­tÃ©s'
+    severity: SÃºlyossÃ¡g
+    title: CÃ­m
+    value: Ã‰rtÃ©k
+    description: LeÃ­rÃ¡s
+    requirements-error: 'A kÃ¶vetkezÅ‘ kÃ¶vetelmÃ©ny nem teljesÃ¼lt'
+    module-list: 'FÃ¼ggÅ‘ben lÃ©vÅ‘ frissÃ­tÃ©sekkel rendelkezÅ‘ modulok'
     module: Modul
     update-n: 'Update N'

@@ -1,20 +1,20 @@
-description: 'Az alkalmazás sminkjének vagy sminkjeinek eltávolítása'
+description: 'Az alkalmazÃ¡s sminkjÃ©nek vagy sminkjeinek eltÃ¡volÃ­tÃ¡sa'
 questions:
-    theme: 'Smink neve (a <return> megnyomásával fejezhetõ be a sminkek hozzáadása)'
-    invalid-theme: 'Érvénytelen smink: %s'
+    theme: 'Smink neve (a <return> megnyomÃ¡sÃ¡val fejezhetÅ‘ be a sminkek hozzÃ¡adÃ¡sa)'
+    invalid-theme: 'Ã‰rvÃ©nytelen smink: %s'
 options:
-    theme: 'Az eltávolítandó sminkeket vesszõvel kell elválasztani'
+    theme: 'Az eltÃ¡volÃ­tandÃ³ sminkeket vesszÅ‘vel kell elvÃ¡lasztani'
 messages:
-    no-themes: 'Meg kell adni az eltávolítandó sminket vagy sminkeket.'
-    themes-missing: "Nem lehet eltávolítani %s sminkeket, mert nem érhetõk el"
-    theme-missing: "%s smink nem távolítható el, mert nem érhetõ el"
-    missing-dependencies: '%s sminkek nem távolíthatók el, mert függõségek hiányoznak: %s'
-    themes-nothing: 'Nincs teendõ. Már minden smink el van távolítva: %s'
-    theme-nothing: 'Nincs teendõ. %s smink már el van távolítva.'
-    dependencies: 'Néhány függõség nem teljesül: %s?'
-    theme-success: '%s smink eltávolítása sikerült'
-    themes-success: '%s sminkek eltávolítása sikerült'
-    installed-themes: 'Csak telepített sminkek lesznek listázva az automatikus kiegészítésben'
-    invalid-theme-default: 'Az alapértelmezett beállítás csak egy sminknél érvényes'
-    error-default-theme:  '%s smink az alapértelmezés, ezért nem távolítható el.'
-    error-admin-theme: '%s smink az adminisztrátori smink, ezért nem távolítható el.'
+    no-themes: 'Meg kell adni az eltÃ¡volÃ­tandÃ³ sminket vagy sminkeket.'
+    themes-missing: "Nem lehet eltÃ¡volÃ­tani %s sminkeket, mert nem Ã©rhetÅ‘k el"
+    theme-missing: "%s smink nem tÃ¡volÃ­thatÃ³ el, mert nem Ã©rhetÅ‘ el"
+    missing-dependencies: '%s sminkek nem tÃ¡volÃ­thatÃ³k el, mert fÃ¼ggÅ‘sÃ©gek hiÃ¡nyoznak: %s'
+    themes-nothing: 'Nincs teendÅ‘. MÃ¡r minden smink el van tÃ¡volÃ­tva: %s'
+    theme-nothing: 'Nincs teendÅ‘. %s smink mÃ¡r el van tÃ¡volÃ­tva.'
+    dependencies: 'NÃ©hÃ¡ny fÃ¼ggÅ‘sÃ©g nem teljesÃ¼l: %s?'
+    theme-success: '%s smink eltÃ¡volÃ­tÃ¡sa sikerÃ¼lt'
+    themes-success: '%s sminkek eltÃ¡volÃ­tÃ¡sa sikerÃ¼lt'
+    installed-themes: 'Csak telepÃ­tett sminkek lesznek listÃ¡zva az automatikus kiegÃ©szÃ­tÃ©sben'
+    invalid-theme-default: 'Az alapÃ©rtelmezett beÃ¡llÃ­tÃ¡s csak egy sminknÃ©l Ã©rvÃ©nyes'
+    error-default-theme:  '%s smink az alapÃ©rtelmezÃ©s, ezÃ©rt nem tÃ¡volÃ­thatÃ³ el.'
+    error-admin-theme: '%s smink az adminisztrÃ¡tori smink, ezÃ©rt nem tÃ¡volÃ­thatÃ³ el.'

@@ -1,11 +1,11 @@
-description: 'Smink letöltése az alkalmazásban'
+description: 'Smink letÃ¶ltÃ©se az alkalmazÃ¡sban'
 options:
-    version: 'Smink verziója, pl. 1.x-dev'
+    version: 'Smink verziÃ³ja, pl. 1.x-dev'
 messages:
-    no-releases: '%s sminknek nincs semmilyen kiadása'
-    getting-releases: '%s smink kiadásainak beolvasása'
-    downloading: '%s smink %s kiadásának letöltése'
-    downloaded: '%s smink %s verziójának letöltése sikerült: %s'
-    select-release: 'Válassza ki a kedvenc kiadását'
-    outside-drupal: "A Drupal gyökerét nem lehet meghatározni. A --root használatával beállítható a cél, ehelyett az aktuális mappa lesz használatban."
-    error-creating-folder: 'Hiba történt %s mappa létrehozásakor, ellenõrizni kell az engedélyeket'
+    no-releases: '%s sminknek nincs semmilyen kiadÃ¡sa'
+    getting-releases: '%s smink kiadÃ¡sainak beolvasÃ¡sa'
+    downloading: '%s smink %s kiadÃ¡sÃ¡nak letÃ¶ltÃ©se'
+    downloaded: '%s smink %s verziÃ³jÃ¡nak letÃ¶ltÃ©se sikerÃ¼lt: %s'
+    select-release: 'VÃ¡lassza ki a kedvenc kiadÃ¡sÃ¡t'
+    outside-drupal: "A Drupal gyÃ¶kerÃ©t nem lehet meghatÃ¡rozni. A --root hasznÃ¡latÃ¡val beÃ¡llÃ­thatÃ³ a cÃ©l, ehelyett az aktuÃ¡lis mappa lesz hasznÃ¡latban."
+    error-creating-folder: 'Hiba tÃ¶rtÃ©nt %s mappa lÃ©trehozÃ¡sakor, ellenÅ‘rizni kell az engedÃ©lyeket'

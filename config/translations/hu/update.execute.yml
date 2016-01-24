@@ -1,8 +1,8 @@
-description: 'Egy modul adott Update N függvényének végrehajtása, vagy az összes végrehajtása'
+description: 'Egy modul adott Update N fÃ¼ggvÃ©nyÃ©nek vÃ©grehajtÃ¡sa, vagy az Ã¶sszes vÃ©grehajtÃ¡sa'
 options:
-    update-n: 'Végrehajtandó adott Update N függvény'
+    update-n: 'VÃ©grehajtandÃ³ adott Update N fÃ¼ggvÃ©ny'
 messages:
-    no-module-updates: 'Nincs rendelkezésre álló frissítés %s modulhoz'
-    executing-update: '%s modul %s update függvényének végrehajtása'
-    module-update-function-not-found: '%s modul nem rendelkezik update függvénnyel a következõhöz: %s'
-    executing-required-previous-updates: 'Szükséges korábbi frissítések végrehajtása'
+    no-module-updates: 'Nincs rendelkezÃ©sre Ã¡llÃ³ frissÃ­tÃ©s %s modulhoz'
+    executing-update: '%s modul %s update fÃ¼ggvÃ©nyÃ©nek vÃ©grehajtÃ¡sa'
+    module-update-function-not-found: '%s modul nem rendelkezik update fÃ¼ggvÃ©nnyel a kÃ¶vetkezÅ‘hÃ¶z: %s'
+    executing-required-previous-updates: 'SzÃ¼ksÃ©ges korÃ¡bbi frissÃ­tÃ©sek vÃ©grehajtÃ¡sa'
