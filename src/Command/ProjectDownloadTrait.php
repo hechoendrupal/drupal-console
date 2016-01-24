@@ -98,7 +98,7 @@ trait ProjectDownloadTrait
             )
         );
 
-        $releases = $this->getDrupalApi()->getProjectReleases($project);
+        $releases = $this->getDrupalApi()->getProjectReleases($project, 15);
 
         if (!$releases) {
             $io->error(

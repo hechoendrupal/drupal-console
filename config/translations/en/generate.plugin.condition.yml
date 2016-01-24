@@ -8,7 +8,7 @@ options:
     plugin-id: 'Plugin condition id'
     context-definition-id: 'Context definition ID'
     context-definition-label: 'Context definition label'
-    context-definition-required: 'Context definition is requiered (TRUE/FALSE)'
+    context-definition-required: 'Context definition is required (TRUE/FALSE)'
 questions:
     module: common.questions.module
     class: 'Enter the plugin condition class name'
@@ -18,4 +18,4 @@ questions:
     context-entity-type: 'Context entity type'
     context-definition-id: 'Context definition ID'
     context-definition-label: 'Context definition label'
-    context-definition-required: 'Context definition is requiered'
+    context-definition-required: 'Context definition is required'

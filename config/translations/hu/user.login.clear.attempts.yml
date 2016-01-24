@@ -1,12 +1,12 @@
-description: 'Felhasználói fiókba való sikertelen belépések tőrlése.'
-help: 'A <info>user:login:clear:attempts</info> felhasználói fiókba való sikertelen belépések visszaálítása.'
+description: 'Egy fiók sikertelen bejelentkezési kísérleteinek törlése.'
+help: 'A <info>user:login:clear:attempts</info> parancs visszaállítja egy fiók sikertelen bejelentkezési kísérleteit.'
 options:
     user-id: 'Felhasználói azonosító.'
 questions:
-    uid: 'Adja meg a felhasználói azonosítót.'
-    numeric-uid: 'A felhasználói azonosító egész szám kell legyen.'
-    invalid-uid: 'A felhasználói azonosító nagyobb kell legyen mint nulla.'
+    uid: 'Felhasználói azonosító megadása.'
+    numeric-uid: 'A felhasználói azonosítónak egész számnak kell lennie.'
+    invalid-uid: 'A felhasználói azonosítónak nullánál nagyobb számnak kell lennie.'
 messages:
-    successful: 'Sikertelen belépési kisérlet sikeresen törölve a %s felhasználói azonosítónak.'
+    successful: 'Sikerült %s felhasználói azonosító bejelentkezési kísérleteinek törlése.'
 errors:
-    invalid-user: 'Felhasználói entitás betöltése sikertelen (Uid: %s).'
+    invalid-user: 'A felhasználó entitás nem tölthető be (Uid: %s).'

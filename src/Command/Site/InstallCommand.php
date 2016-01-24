@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ChoiceQuestion;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
 use Drupal\Console\Command\Database\DatabaseTrait;
@@ -394,7 +393,7 @@ class InstallCommand extends Command
             ]
         ];
 
-        $output->writeln($this->trans('commands.site.install.messages.installing'));
+        $output->info($this->trans('commands.site.install.messages.installing'));
 
         try {
             install_drupal($drupal->getAutoLoadClass(), $settings);

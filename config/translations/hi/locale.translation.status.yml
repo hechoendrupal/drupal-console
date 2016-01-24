@@ -1,6 +1,6 @@
-description: 'List available translation updates'
+description: 'सूची उपलब्ध अनुवाद अपडेट'
 arguments:
-    language: 'Language for instance es or Spanish'
+    language: 'भाषा उदाहरण es या Spanish'
 messages:
     no-languages: 'अनुवाद के लायक़ कोई भाषा उपलब्‍ध नही है | पहले भाषा डालें |'
     up-to-date: 'सब अनुवाद आधुनिक हैं |'
@@ -14,4 +14,4 @@ messages:
     file-not-found: 'फ़ाइल यहा नही मिली %s और ना ही यहा मिली %s |'
     local-file-not-found: 'फ़ाइल यहा नही मिली %s'
     translation-not-determined: 'अनुवाद फ़ाइल स्थान निर्धारित नहीं किया जा सकता है।'
-    translation-project-updated: Updated
+    translation-project-updated: 'Updated'

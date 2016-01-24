@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\ModuleTrait.
+ * Contains Drupal\Console\Command\MenuTrait.
  */
 
 namespace Drupal\Console\Command;
@@ -16,12 +16,11 @@ use Drupal\Console\Style\DrupalStyle;
 trait MenuTrait
 {
     /**
-   * @param \Drupal\Console\Style\DrupalStyle $io
-   * @param $className
-   *  The form class name
-   * @return string
-   * @throws \Exception
-   */
+     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param string                            $className The form class name
+     * @return string
+     * @throws \Exception
+     */
     public function menuQuestion(DrupalStyle $io, $className)
     {
         if ($io->confirm(

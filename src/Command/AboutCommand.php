@@ -36,11 +36,24 @@ class AboutCommand extends Command
 
         $application = $this->getApplication();
 
+        $drupal = $this->getDrupalHelper();
+
+        // Provide drupal version if it's installed
+        $drupalVersion = $this->trans('commands.site.status.messages.not_installed');
+        if($drupal->isInstalled()) {
+
+            $drupalVersion = sprintf(
+                $this->trans('commands.site.status.messages.current_version'),
+                $this->getSite()->getDrupalVersion()
+            );
+        }
+
         $aboutTitle = sprintf(
-            '%s (%s) | Supports Drupal %s',
+            '%s (%s) | Supports Drupal (%s) | %s',
             $this->trans('commands.site.status.messages.console'),
             $application->getVersion(),
-            $application::DRUPAL_VERSION
+            $application::DRUPAL_SUPPORTED_VERSION,
+            $drupalVersion
         );
 
         $io->setDecorated(false);
@@ -60,7 +73,7 @@ class AboutCommand extends Command
                 $this->trans('commands.site.new.description'),
                 sprintf(
                     'drupal site:new drupal8.dev %s',
-                    $application::DRUPAL_VERSION
+                    $application::DRUPAL_SUPPORTED_VERSION
                 )
             ],
             'site-install' => [

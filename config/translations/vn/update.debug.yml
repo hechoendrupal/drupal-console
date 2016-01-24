@@ -1,7 +1,7 @@
 description: 'Hiển thị các cập nhật có sẵn cho ứng dụng'
 messages:
     no-updates: 'Không có cập nhật nào đang chờ'
-    severity: 'Tính nghiêm trọng'
+    severity: 'Mức độ nghiêm trọng'
     title: 'Tiêu đề'
     value: 'Giá trị'
     description: 'Mô tả'

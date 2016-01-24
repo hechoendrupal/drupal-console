@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\Confirmation.
+ * Contains Drupal\Console\Command\ConfirmationTrait.
  */
 
 namespace Drupal\Console\Command;
@@ -16,19 +16,24 @@ use Drupal\Console\Style\DrupalStyle;
 trait ConfirmationTrait
 {
     /**
-     * @param DrupalStyle $output
+     * @param DrupalStyle $io
+     * @param bool        $yes
      *
      * @return bool
      */
-    public function confirmGeneration(DrupalStyle $output)
+    public function confirmGeneration(DrupalStyle $io, $yes = false)
     {
-        $confirmation = $output->confirm(
+        if ($yes) {
+            return $yes;
+        }
+
+        $confirmation = $io->confirm(
             $this->trans('commands.common.questions.confirm'),
             true
         );
 
         if (!$confirmation) {
-            $output->warning($this->trans('commands.common.messages.canceled'));
+            $io->warning($this->trans('commands.common.messages.canceled'));
         }
 
         return $confirmation;

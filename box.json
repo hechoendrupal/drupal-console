@@ -7,7 +7,6 @@
         "templates"
     ],
     "files": [
-        "LICENSE",
         "config.yml",
         "bin/drupal.php",
         "vendor/autoload.php"

@@ -1,7 +1,7 @@
-description: 'Visszatérít egy egyszeri belépésre alkalmas webcímet.'
+description: 'Egyszer használatos felhasználói bejelentkezési URL-címet ad vissza.'
 options:
     user-id: 'Felhasználói azonosító.'
 messages:
-    url: 'Egyszeri belépés @name: @url'
+    url: 'Egyszer használatos bejelentkezési azonosító @name számára: @url'
 errors:
-    invalid-user: 'Nem lehetséges a felhasználó entitás betöltése (Felhasználói azonsító: @uid).'
+    invalid-user: 'Nem tölthető be a felhasználó entitás (felhasználói azonosító: @uid).'

@@ -51,7 +51,7 @@ class SiteHelper extends Helper
     /**
      * @return \Drupal\Core\Extension\Extension[]
      */
-    private function discoverModules()
+    public function discoverModules()
     {
         /*
          * @see Remove DrupalExtensionDiscovery subclass once
@@ -403,6 +403,15 @@ class SiteHelper extends Helper
         return $this->getModulePath($moduleName).'/src/Routing';
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getDrupalVersion()
+    {
+        $projects = $this->getDrupalApi()->getService('update.manager')->getProjects();
+
+        return $projects['drupal']['info']['version'];
+    }
 
     /**
      * {@inheritdoc}

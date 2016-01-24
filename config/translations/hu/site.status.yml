@@ -19,6 +19,8 @@ messages:
     directory_temporary: 'Oldal ideiglenes könyvtára'
     directory_theme_default: 'Alapértelmezett smink könyvtár'
     directory_theme_admin: 'Admin smink könyvtár'
+    current_version: 'Current Drupal version (%s)'
+    not_installed: 'Drupal is not installed'
     configuration: Configuration
     active: 'Active config path'
     staging: 'Staging config path'

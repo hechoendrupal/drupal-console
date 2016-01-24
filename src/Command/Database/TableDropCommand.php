@@ -46,35 +46,40 @@ class TableDropCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
         $database = $input->getArgument('database');
-        $yes = $input->getOption('yes');
+        $yes = $input->hasOption('yes')?$input->getOption('yes'):false;
+
         $databaseConnection = $this->resolveConnection($io, $database);
 
-        if ($io->confirm(
-            sprintf(
-                $this->trans('commands.database.table.drop.question.drop-tables'),
-                $databaseConnection['database']
-            ),
-            true
-        ) || $yes) {
-            $databaseService = $this->hasGetService('database');
-            $schema = $databaseService->schema();
-            $tables = $schema->findTables('%');
-            $tableRows = [];
-
-            foreach ($tables as $table) {
-                if ($schema->dropTable($table)) {
-                    $tableRows['success'][] = [$table];
-                } else {
-                    $tableRows['error'][] = [$table];
-                }
-            }
-
-            $io->success(
+        if (!$yes) {
+            if (!$io->confirm(
                 sprintf(
-                    $this->trans('commands.database.table.drop.messages.table-drop'),
-                    count($tableRows['success'])
-                )
-            );
+                    $this->trans('commands.database.table.drop.question.drop-tables'),
+                    $databaseConnection['database']
+                ),
+                true
+            )) {
+                return 1;
+            }
         }
+
+        $databaseService = $this->getService('database');
+        $schema = $databaseService->schema();
+        $tables = $schema->findTables('%');
+        $tableRows = [];
+
+        foreach ($tables as $table) {
+            if ($schema->dropTable($table)) {
+                $tableRows['success'][] = [$table];
+            } else {
+                $tableRows['error'][] = [$table];
+            }
+        }
+
+        $io->success(
+            sprintf(
+                $this->trans('commands.database.table.drop.messages.table-drop'),
+                count($tableRows['success'])
+            )
+        );
     }
 }

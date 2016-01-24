@@ -19,6 +19,8 @@ messages:
     directory_temporary: 网站临时目录
     directory_theme_default: 网站主题目录
     directory_theme_admin: 管理员主题目录
+    current_version: 'Current Drupal version (%s)'
+    not_installed: 'Drupal is not installed'
     configuration: '配置'
     active: '有效配置路径'
     staging: '中间站（Staging）配置路径'

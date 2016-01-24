@@ -48,7 +48,7 @@ class TableDebugCommand extends ContainerAwareCommand
         $database = $input->getArgument('database');
         $databaseConnection = $this->resolveConnection($io, $database);
 
-        $databaseService = $this->hasGetService('database');
+        $databaseService = $this->getService('database');
         $schema = $databaseService->schema();
         $tables = $schema->findTables('%');
 

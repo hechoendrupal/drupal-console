@@ -10,8 +10,8 @@ questions:
     cache: 'Chọn cache.'
 examples:
     -
-        description: 'Build lại toàn bộ cache'
+        description: 'Xây dựng lại all caches'
         execution: 'drupal cr all'
     -
-        description: 'Rebuild discovery cache'
+        description: 'Xây dựng lại discovery cache'
         execution: 'drupal cr discovery'

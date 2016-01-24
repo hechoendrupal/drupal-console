@@ -1,10 +1,10 @@
-description: 'Runs PHP built-in web server'
+description: 'Chạy PHP built-in web server'
 arguments:
     address: 'The address:port values'
 messages:
-    executing: 'Executing php from %s.'
+    executing: 'Đang thực hiện php từ %s.'
 errors:
-    binary: 'Unable to find PHP binary to run server.'
+    binary: 'Không tìm thấy PHP binary để chạy server.'
 examples:
     -
         description: 'Run using default address argument value 127.0.0.1.8088'
