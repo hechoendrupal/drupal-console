@@ -138,15 +138,15 @@ class DiffCommand extends Command
             return;
         }
         // FLAT YAML file to display full yaml to be used with command yaml:update:key or yaml:update:value
-        $diff_flatten = array();
-        $key_flatten = '';
-        $nestedArray->yamlFlattenArray($diff, $diff_flatten, $key_flatten);
+        $diffFlatten = array();
+        $keyFlatten = '';
+        $nestedArray->yamlFlattenArray($diff, $diffFlatten, $keyFlatten);
 
         if ($limit !== null) {
             if (!$offset) {
                 $offset = 0;
             }
-            $diff_flatten = array_slice($diff_flatten, $offset, $limit);
+            $diff_flatten = array_slice($diffFlatten, $offset, $limit);
         }
 
         $tableHeader = [
@@ -155,10 +155,10 @@ class DiffCommand extends Command
         ];
 
         $tableRows = [];
-        foreach ($diff_flatten as $yaml_key => $yaml_value) {
+        foreach ($diff_flatten as $yamlKey => $yamlValue) {
             $tableRows[] = [
-                $yaml_key,
-                $yaml_value
+                $yamlKey,
+                $yamlValue
             ];
         }
 
