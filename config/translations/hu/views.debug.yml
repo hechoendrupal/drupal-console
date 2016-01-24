@@ -1,18 +1,18 @@
-description: 'Alkalmazás aktuális views erõforrásainak megjelenítése'
+description: 'AlkalmazÃ¡s aktuÃ¡lis views erÅ‘forrÃ¡sainak megjelenÃ­tÃ©se'
 arguments:
-    view-id: 'Nézet azonosítója'
-    view-tag: 'Nézet címkéje'
-    view-status: 'Nézet állapota (engedélyezett|tiltott)'
+    view-id: 'NÃ©zet azonosÃ­tÃ³ja'
+    view-tag: 'NÃ©zet cÃ­mkÃ©je'
+    view-status: 'NÃ©zet Ã¡llapota (engedÃ©lyezett|tiltott)'
 messages:
-    view-id: 'Nézet azonosítója'
-    view-name: 'Nézet neve'
-    description: Leírás
-    tag: Címke
-    status: Állapot
-    path: Útvonal
-    not-found: 'Nem található a következõ nézet: %s.'
-    display-list: 'Lista megjelenítése'
-    display-id: Azonosító
-    display-name: Név
-    display-description: Leírás
-    display-paths: Útvonalak
+    view-id: 'NÃ©zet azonosÃ­tÃ³ja'
+    view-name: 'NÃ©zet neve'
+    description: LeÃ­rÃ¡s
+    tag: CÃ­mke
+    status: Ãllapot
+    path: Ãštvonal
+    not-found: 'Nem talÃ¡lhatÃ³ a kÃ¶vetkezÅ‘ nÃ©zet: %s.'
+    display-list: 'Lista megjelenÃ­tÃ©se'
+    display-id: AzonosÃ­tÃ³
+    display-name: NÃ©v
+    display-description: LeÃ­rÃ¡s
+    display-paths: Ãštvonalak
