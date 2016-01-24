@@ -1,21 +1,21 @@
-description: 'Smink vagy sminkek telepítése az alkalmazásba'
+description: 'Smink vagy sminkek telepÃ­tÃ©se az alkalmazÃ¡sba'
 questions:
-    theme: 'Smink neve (a <return> megnyomásával fejezhetõ be a sminkek hozzáadása)'
-    invalid-theme: 'Érvénytelen smink: %s'
+    theme: 'Smink neve (a <return> megnyomÃ¡sÃ¡val fejezhetÅ‘ be a sminkek hozzÃ¡adÃ¡sa)'
+    invalid-theme: 'Ã‰rvÃ©nytelen smink: %s'
 options:
-    theme: 'A telepítendõ sminkeket vesszõvel kell elválasztani'
-    overwrite-config: 'Az aktív konfiguráció felülírása, ha szükséges'
-    set-default: 'Smink beállítása alapértelmezettként'
+    theme: 'A telepÃ­tendÅ‘ sminkeket vesszÅ‘vel kell elvÃ¡lasztani'
+    overwrite-config: 'Az aktÃ­v konfigurÃ¡ciÃ³ felÃ¼lÃ­rÃ¡sa, ha szÃ¼ksÃ©ges'
+    set-default: 'Smink beÃ¡llÃ­tÃ¡sa alapÃ©rtelmezettkÃ©nt'
 messages:
-    no-themes: 'Meg kell adni telepítendõ sminket vagy sminkeket.'
-    themes-missing: "Nem telepíthetõk %s sminkek, mert nem érhetõk el"
-    theme-missing: "Nem telepíthetõ %s smink, mert nem érhetõ el"
-    missing-dependencies: 'Nem telepíthetõk %s sminkek, mert függõségek hiányoznak: %s'
-    themes-nothing: 'Nincs teendõ. Már minden smink telepítve van: %s'
-    theme-nothing: 'Nincs teendõ. %s smink már telepítve van.'
-    dependencies: 'Néhány függõség nem teljesül: %s?'
-    theme-success: '%s smink telepítése sikerült'
-    themes-success: '%s sminkek telepítése sikerült'
-    theme-default-success: 'Sikerült %s smink telepítése alapértelmezett sminkként'
-    disabled-themes: 'Csak nem telepített sminkek lesznek listázva az automatikus kiegészítésben'
-    invalid-theme-default: 'Az alapértelmezett beállítás csak egy sminknél érvényes'
+    no-themes: 'Meg kell adni telepÃ­tendÅ‘ sminket vagy sminkeket.'
+    themes-missing: "Nem telepÃ­thetÅ‘k %s sminkek, mert nem Ã©rhetÅ‘k el"
+    theme-missing: "Nem telepÃ­thetÅ‘ %s smink, mert nem Ã©rhetÅ‘ el"
+    missing-dependencies: 'Nem telepÃ­thetÅ‘k %s sminkek, mert fÃ¼ggÅ‘sÃ©gek hiÃ¡nyoznak: %s'
+    themes-nothing: 'Nincs teendÅ‘. MÃ¡r minden smink telepÃ­tve van: %s'
+    theme-nothing: 'Nincs teendÅ‘. %s smink mÃ¡r telepÃ­tve van.'
+    dependencies: 'NÃ©hÃ¡ny fÃ¼ggÅ‘sÃ©g nem teljesÃ¼l: %s?'
+    theme-success: '%s smink telepÃ­tÃ©se sikerÃ¼lt'
+    themes-success: '%s sminkek telepÃ­tÃ©se sikerÃ¼lt'
+    theme-default-success: 'SikerÃ¼lt %s smink telepÃ­tÃ©se alapÃ©rtelmezett sminkkÃ©nt'
+    disabled-themes: 'Csak nem telepÃ­tett sminkek lesznek listÃ¡zva az automatikus kiegÃ©szÃ­tÃ©sben'
+    invalid-theme-default: 'Az alapÃ©rtelmezett beÃ¡llÃ­tÃ¡s csak egy sminknÃ©l Ã©rvÃ©nyes'

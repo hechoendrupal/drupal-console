@@ -1,15 +1,15 @@
-description: 'Megjeleníti az alkalmazás aktuális sminkjeit'
+description: 'MegjelenÃ­ti az alkalmazÃ¡s aktuÃ¡lis sminkjeit'
 arguments:
-    theme: 'Adott smink, ahol hibakeresést kell végezni'
+    theme: 'Adott smink, ahol hibakeresÃ©st kell vÃ©gezni'
 messages:
-    theme-id: 'Azonosító'
-    theme-name: 'Név'
-    status: 'Állapot'
-    version: 'Verzió'
-    installed: 'Telepítve'
-    uninstalled: 'Nincs telepítve'
-    default-theme: 'Alapértelmezett smink'
-    properties: 'Tulajdonságok'
-    regions: 'Régiók'
-    invalid-theme: "%s nem érvényes smink"
-    theme-properties: 'Tulajdonságok'
+    theme-id: 'AzonosÃ­tÃ³'
+    theme-name: 'NÃ©v'
+    status: 'Ãllapot'
+    version: 'VerziÃ³'
+    installed: 'TelepÃ­tve'
+    uninstalled: 'Nincs telepÃ­tve'
+    default-theme: 'AlapÃ©rtelmezett smink'
+    properties: 'TulajdonsÃ¡gok'
+    regions: 'RÃ©giÃ³k'
+    invalid-theme: "%s nem Ã©rvÃ©nyes smink"
+    theme-properties: 'TulajdonsÃ¡gok'
