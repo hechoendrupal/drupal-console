@@ -4,5 +4,5 @@ arguments:
 messages:
     database-not-found: "Database %s connection info wasn't found"
     database-not-supported: 'Database type %s is not supported yet'
-    database-client-not-found: "Database client %s wans't found"
+    database-client-not-found: "Database client %s wasn't found"
     connection: "Connection: %s"

@@ -6,3 +6,4 @@ messages:
     dependents: 'Modulele %s nu pot fi dezinstalate deoarece sunt necesare pentru %s'
     nothing: 'Nimic de făcut.Toate modulele sunt deja dezinstalate'
     success: 'Următorul(arele) modul(e): %s au fost dezinstalate cu succes'
+    missing: 'Unable to install modules %s due to missing modules %s'

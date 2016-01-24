@@ -78,7 +78,7 @@ class TermsCommand extends ContainerAwareCommand
         if (!$limit) {
             $limit = $io->ask(
                 $this->trans('commands.create.terms.questions.limit'),
-                10
+                25
             );
             $input->setOption('limit', $limit);
         }
@@ -102,8 +102,12 @@ class TermsCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         $vocabularies = $input->getArgument('vocabularies');
-        $limit = $input->getOption('limit')?:10;
+        $limit = $input->getOption('limit')?:25;
         $nameWords = $input->getOption('name-words')?:5;
+
+        if (!$vocabularies) {
+            $vocabularies = array_keys($this->getDrupalApi()->getVocabularies());
+        }
 
         $createTerms = $this->getDrupalApi()->getCreateTerms();
         $terms = $createTerms->createTerm(
@@ -126,7 +130,5 @@ class TermsCommand extends ContainerAwareCommand
                 $limit
             )
         );
-
-        return;
     }
 }

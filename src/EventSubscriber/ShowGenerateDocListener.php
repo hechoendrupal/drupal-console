@@ -10,6 +10,8 @@ namespace Drupal\Console\EventSubscriber;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class ShowGenerateDocListener
@@ -27,21 +29,20 @@ class ShowGenerateDocListener implements EventSubscriberInterface
      */
     public function showGenerateDoc(ConsoleCommandEvent $event)
     {
-        /**
-         * @var \Drupal\Console\Command\Command $command
-         */
+        /* @var Command $command */
         $command = $event->getCommand();
 
-        $application = $command->getApplication();
+        /* @var DrupalStyle $io */
+        $io = $event->getOutput();
 
         $input = $command->getDefinition();
-        $options = $input->getOptions();
-        $arguments = $input->getArguments();
-
-        if (isset($options['generate-doc'])) {
+        if ($input->hasOption('generate-doc')) {
+            $options = $input->getOptions();
             foreach ($this->skipOptions as $remove_option) {
                 unset($options[$remove_option]);
             }
+
+            $arguments = $input->getArguments();
 
             $parameters = [
               'options' => $options,
@@ -50,23 +51,22 @@ class ShowGenerateDocListener implements EventSubscriberInterface
               'aliases' => $command->getAliases(),
               'examples' => [],
               'messages' => [
-                    'command_description' => sprintf($application->trans('commands.generate.doc.command.command_description'), $command->getName(), $command->getDescription()),
-                    'usage' =>  $application->trans('commands.generate.doc.command.usage'),
-                    'options' => $application->trans('commands.generate.doc.command.options'),
-                    'option' => $application->trans('commands.generate.doc.command.options'),
-                    'details' => $application->trans('commands.generate.doc.command.details'),
-                    'arguments' => $application->trans('commands.generate.doc.command.arguments'),
-                    'argument' => $application->trans('commands.generate.doc.command.argument'),
+                    'command_description' => sprintf($command->trans('commands.generate.doc.command.command_description'), $command->getName(), $command->getDescription()),
+                    'usage' =>  $command->trans('commands.generate.doc.command.usage'),
+                    'options' => $command->trans('commands.generate.doc.command.options'),
+                    'option' => $command->trans('commands.generate.doc.command.options'),
+                    'details' => $command->trans('commands.generate.doc.command.details'),
+                    'arguments' => $command->trans('commands.generate.doc.command.arguments'),
+                    'argument' => $command->trans('commands.generate.doc.command.argument'),
               ]
             ];
 
-            $renderedDoc = $application->getRenderHelper()->render(
+            $renderedDoc = $command->getRenderHelper()->render(
                 'gitbook/generate-doc.md.twig',
                 $parameters
             );
 
-            $output = $event->getOutput();
-            $output->writeln($renderedDoc);
+            $io->writeln($renderedDoc);
 
             $event->disableCommand();
         }

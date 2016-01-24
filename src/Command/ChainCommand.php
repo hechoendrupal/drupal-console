@@ -43,10 +43,7 @@ class ChainCommand extends Command
 
         $interactive = false;
 
-        $learning = false;
-        if ($input->hasOption('learning')) {
-            $learning = $input->getOption('learning');
-        }
+        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
 
         $file = null;
         if ($input->hasOption('file')) {
@@ -62,6 +59,10 @@ class ChainCommand extends Command
         if (strpos($file, '~') === 0) {
             $home = rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/');
             $file = realpath(preg_replace('/~/', $home, $file, 1));
+        }
+
+        if (!(strpos($file, '/') === 0)) {
+            $file = sprintf('%s/%s', getcwd(), $file);
         }
 
         if (!file_exists($file)) {
@@ -94,8 +95,21 @@ class ChainCommand extends Command
                 $moduleInputs['--'.$key] = is_null($value) ? '' : $value;
             }
 
+            $parameterOptions = $input->getOptions();
+            unset($parameterOptions['file']);
+            foreach ($parameterOptions as $key => $value) {
+                if ($value===true) {
+                    $moduleInputs['--' . $key] = true;
+                }
+            }
+
             $this->getChain()
-                ->addCommand($command['command'], $moduleInputs, $interactive, $learning);
+                ->addCommand(
+                    $command['command'],
+                    $moduleInputs,
+                    $interactive,
+                    $learning
+                );
         }
     }
 }

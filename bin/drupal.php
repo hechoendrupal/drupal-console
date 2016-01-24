@@ -10,7 +10,7 @@ use Drupal\Console\Config;
 use Drupal\Console\Helper\SiteHelper;
 use Drupal\Console\EventSubscriber\ShowGeneratedFilesListener;
 use Drupal\Console\EventSubscriber\ShowWelcomeMessageListener;
-use Drupal\Console\Helper\MessageHelper;
+use Drupal\Console\Helper\ShowFileHelper;
 use Drupal\Console\Helper\ChainCommandHelper;
 use Drupal\Console\EventSubscriber\CallCommandListener;
 use Drupal\Console\EventSubscriber\ShowGenerateChainListener;
@@ -57,7 +57,7 @@ $helpers = [
     'translator' => $translatorHelper,
     'site' => new SiteHelper(),
     'renderer' => new TwigRendererHelper(),
-    'message' => new MessageHelper(),
+    'showFile' => new ShowFileHelper(),
     'chain' => new ChainCommandHelper(),
     'drupal' => new DrupalHelper(),
     'commandDiscovery' => new CommandDiscoveryHelper($config->get('application.develop')),

@@ -42,7 +42,7 @@ class InitCommand extends Command
 
         $application = $this->getApplication();
         $config = $application->getConfig();
-        $message = $this->getMessageHelper();
+        $showFileHelper = $application->getShowFileHelper();
         $userPath = sprintf('%s/.console/', $config->getUserHomeDir());
         $copiedFiles = [];
 
@@ -53,7 +53,6 @@ class InitCommand extends Command
 
         $finder = new Finder();
         $finder->in(sprintf('%s/config/dist', $application->getDirectoryRoot()));
-        $finder->name("*.yml");
 
         foreach ($finder as $configFile) {
             $source = sprintf(
@@ -72,7 +71,7 @@ class InitCommand extends Command
         }
 
         if ($copiedFiles) {
-            $message->showCopiedFiles($io, $copiedFiles);
+            $showFileHelper->copiedFiles($io, $copiedFiles);
         }
 
         $this->createAutocomplete();

@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Style\DrupalStyle;
 
 class GenerateDocGitbookCommand extends ContainerAwareCommand
 {
@@ -45,7 +46,8 @@ class GenerateDocGitbookCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $message = $this->getMessageHelper();
+        $io = new DrupalStyle($input, $output);
+
         $renderer = $this->getRenderHelper();
 
         $path = null;
@@ -54,7 +56,7 @@ class GenerateDocGitbookCommand extends ContainerAwareCommand
         }
 
         if (!$path) {
-            $message->addErrorMessage(
+            $io->error(
                 $this->trans('commands.generate.doc.gitbook.messages.missing_path')
             );
 

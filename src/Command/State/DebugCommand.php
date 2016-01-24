@@ -54,7 +54,7 @@ class DebugCommand extends ContainerAwareCommand
 
         $tableHeader = [$this->trans('commands.state.debug.messages.key')];
 
-        $keyValue = $this->hasGetService('keyvalue');
+        $keyValue = $this->getService('keyvalue');
         $keyStoreStates = array_keys($keyValue->get('state')->getAll());
 
         $io->table($tableHeader, $keyStoreStates);

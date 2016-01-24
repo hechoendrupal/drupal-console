@@ -40,13 +40,11 @@ class GeneratorControllerCommandTest extends GenerateCommandTest
 
         $code = $commandTester->execute(
             [
-            '--module'            => $module,
-            '--class'             => $class_name,
-            '--title'             => $routes[0]['title'],
-            '--method'            => $routes[0]['method'],
-            '--route'             => $routes[0]['route'],
-            '--test'              => $test,
-            '--services'          => $services,
+                '--module'            => $module,
+                '--class'             => $class_name,
+                '--routes'            => $routes,
+                '--test'              => $test,
+                '--services'          => $services,
             ],
             ['interactive' => false]
         );

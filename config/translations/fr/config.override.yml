@@ -1,4 +1,4 @@
-description: 'Surplanter la valeur de configuration dans la configuration active.'
+description: 'Surcharge la valeur d''une configuration dans la configuration active.'
 arguments:
     config-name: 'Nom de la configuration.'
     key: Clé
@@ -6,5 +6,9 @@ arguments:
 messages:
     configuration: 'Nom de la configuration'
     configuration-key: 'Clé de la configuration'
-    original: 'Valeur d''origine'
+    original: 'Valeur originale'
     updated: 'Nouvelle valeur'
+examples:
+    -
+        description: 'Définir la valeur de "flood" du module Contact à 10.'
+        execution: 'drupal config:override contact.settings flood.limit 10'

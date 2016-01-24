@@ -1,17 +1,17 @@
-description: 'Delete users for the application'
-help: 'The <info>user:delete</info> command helps you delete users.'
-welcome: 'Welcome to the Drupal user delete'
+description: 'Felhasználók törlése az alkalmazásból'
+help: 'A <info>user:delete</info> paranccsal törölhetők felhasználók.'
+welcome: 'Üdvözlet a Drupal felhasználók törlése programban'
 options:
-    user-id: 'User id to be deleted'
-    roles: 'Roles associated to users to be deleted'
+    user-id: 'Törölni kívánt felhasználói azonosító'
+    roles: 'A törölni kívánt felhasználókkal társított szerepkörök'
 questions:
-    user-id: 'User id to be deleted (empty to skip)'
-    roles: 'Select role(s) associated to used to be deleted'
+    user-id: 'Törölni kívánt felhasználói azonosító (a kihagyásához üresen kell hagyni)'
+    roles: 'Ki kell választani a törölni kívánt felhasználókkal társított szerepköröket'
 messages:
-    user-id: 'User ID'
-    username: Username
-    user-deleted: 'User %s was deleted sucessfully'
-    users-deleted: '%s users were deleted sucessfully'
+    user-id: 'Felhasználói azonosító'
+    username: Felhasználónév
+    user-deleted: '%s felhasználó törlése sikerült'
+    users-deleted: '%s felhasználók törlése sikerült'
 errors:
-    invalid-user-id: 'User id %s is invalid'
-    invalid-user: 'User id %s is invalid'
+    invalid-user-id: '%s felhasználói azonosító érvénytelen'
+    invalid-user: '%s felhasználói azonosító érvénytelen'

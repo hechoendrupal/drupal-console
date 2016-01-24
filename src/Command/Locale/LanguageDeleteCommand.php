@@ -65,7 +65,7 @@ class LanguageDeleteCommand extends ContainerAwareCommand
 
             $io->info(
                 sprintf(
-                    $this->trans('commands.locale.language.delete.messages.language-deleted-sucessfully'),
+                    $this->trans('commands.locale.language.delete.messages.language-deleted-successfully'),
                     $languageEntity->getName()
                 )
             );

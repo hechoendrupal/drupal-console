@@ -1,14 +1,17 @@
 console:
     arguments:
-        drupal: 'Drupal gyökérkönyvtára felé vezető útvonal.'
-        shell: 'Shell indítása.'
         env: 'A Környezet neve.'
         no-debug: 'Hibakeresés mód leállítása.'
         learning: 'Részletes kimeneti kód generálása.'
         generate-chain: 'Végrehajtási lehetőségek és argumentumok nyomtatása mint yaml kimenet amit késöbb egy parancsláncba használhat fel'
         generate-inline: 'Végrehajtási lehetőségek és argumentumok nyomtatása beágyazott hívásként amit késöbb felhasználhat'
-        root: 'Define the Drupal root to be use in command execution'
+        generate-doc: 'Shows command options and arguments as markdown'
+        root: 'Define the Drupal root to be used in command execution'
         uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
+        'yes': 'Skip confirmation and proceed'
+        target: 'Site name you want to interact with (for local or remote sites)'
+        drupal: 'Drupal gyökérkönyvtára felé vezető útvonal.'
+        shell: 'Shell indítása.'
     messages:
         completed: 'A parancs futása sikeres volt!'
         chain:

@@ -17,3 +17,16 @@ application:
         druplicon:
           class: '\Drupal\Console\Command\Exclude\DrupliconCommand'
           helperset: true
+  languages:
+      en: 'English'
+      es: 'Español'
+      ca: 'Catalan'
+      fr: 'Français'
+      hi: 'हिन्दी'
+      hu: 'Magyar'
+      ja: '日本語'
+      pt_br: 'Português (br)'
+      ro: 'Romanian'
+      ru: 'pусский язык'
+      vn: 'Tiếng Việt'
+      zh_hans: '简体中文'

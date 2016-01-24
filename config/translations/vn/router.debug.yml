@@ -5,7 +5,6 @@ messages:
     name: 'Tên định tuyến'
     class: 'Class path'
     route: Route
-    path: 'Đường dẫn của Lớp'
-    defaults: 'Mặc định'
-    options: 'Lựa chọn'
-    pattern: 'Mô hình'
+    path: Path
+    defaults: Defaults
+    options: Options

@@ -1,0 +1,6 @@
+commands:
+# Create dummy data
+  - command: create:users
+  - command: create:vocabularies
+  - command: create:terms
+  - command: create:nodes

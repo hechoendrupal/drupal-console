@@ -20,6 +20,7 @@ class ModuleGenerator extends Generator
      * @param $description
      * @param $core
      * @param $package
+     * @param $moduleFile
      * @param $feature
      * @param $composer
      * @param $dependencies
@@ -31,6 +32,7 @@ class ModuleGenerator extends Generator
         $description,
         $core,
         $package,
+        $moduleFile,
         $feature,
         $composer,
         $dependencies
@@ -81,11 +83,13 @@ class ModuleGenerator extends Generator
             $parameters
         );
 
-        $this->renderFile(
-            'module/module.twig',
-            $dir.'/'.$machineName.'.module',
-            $parameters
-        );
+        if ($moduleFile) {
+            $this->renderFile(
+                'module/module.twig',
+                $dir . '/' . $machineName . '.module',
+                $parameters
+            );
+        }
 
         if ($composer) {
             $this->renderFile(

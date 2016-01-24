@@ -1,14 +1,14 @@
-description: 'Generate a new content entity'
+description: 'Tạo một content entity mới'
 help: ''
 options:
     module: common.options.module
-    entity-class: 'The content entity class'
-    entity-name: 'The content entity name'
-    label: 'The label'
-    has-bundles: 'Entity has bundles'
+    entity-class: 'Lớp config entity'
+    entity-name: 'Tên config entity'
+    label: Nhãn
+    has-bundles: 'Entity có các bundles'
 questions:
     module: common.questions.module
-    entity-class: 'Enter the class of your new content entity'
-    entity-name: 'Enter the name of your new content entity'
-    label: 'Enter the label of your new content entity'
-    has-bundles: 'Do you want this (content) entity to have bundles'
+    entity-class: 'Nhập lớp của config entity mới của bạn'
+    entity-name: 'Nhập tên của config entity mới của bạn'
+    label: 'Nhập nhãn của config entity mới của bạn'
+    has-bundles: 'Bạn có muốn (content) entity này có bundles không'

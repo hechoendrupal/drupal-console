@@ -52,15 +52,17 @@ class DumpCommand extends ContainerAwareCommand
 
         $database = $input->getArgument('database');
         $file = $input->getOption('file');
-        $learning = $input->getOption('learning');
+        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
 
         $databaseConnection = $this->resolveConnection($io, $database);
 
         if (!$file) {
+            $date = new \DateTime();
             $file = sprintf(
-                '%s/%s.sql',
+                '%s/%s-%s.sql',
                 $this->getSite()->getSiteRoot(),
-                $databaseConnection['database']
+                $databaseConnection['database'],
+                $date->format('Y-m-d-h-i-s')
             );
         }
 

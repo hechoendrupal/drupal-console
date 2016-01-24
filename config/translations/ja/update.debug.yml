@@ -1,6 +1,6 @@
-description: 'Display current updates available for the application'
-messages:
-    no-updates: 'No pending updates'
+description: '利用可能なアップデートを表示'
+message:
+    no-updates: '適用されていないアップデートはありません。'
     severity: Severity
     title: Title
     value: Value

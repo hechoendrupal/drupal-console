@@ -1,7 +1,7 @@
-description: 'Dump structure and contents of MySQL databases and tables'
+description: 'Dump cấu trúc và nội dung của 1 cơ sở dữ liệu'
 arguments:
-    database: 'Database key from settings.php'
+    database: 'Database key từ settings.php'
 options:
-    file: ' The filename for your database backup'
+    file: ' Tên file cho database backup của bạn'
 messages:
     success: 'Database exported to:'
