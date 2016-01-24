@@ -26,14 +26,14 @@ questions:
     regions: 'Do you want to generate the theme regions'
     region-name: 'Enter region name'
     region-machine-name: 'Enter region machine name'
-    region-add: 'Do you want add another region'
+    region-add: 'Do you want to add another region'
     breakpoints: 'Do you want to generate the theme breakpoints'
     breakpoint-name: 'Enter breakpoint name'
     breakpoint-label: 'Enter breakpoint label'
     breakpoint-media-query: 'Enter breakpoint media query'
     breakpoint-weight: 'Enter breakpoint weight'
     breakpoint-multipliers: 'Enter breakpoint multipliers'
-    breakpoint-add: 'Do you want add another breakpoint'
+    breakpoint-add: 'Do you want to add another breakpoint'
 warnings:
     module-unavailable: 'Warning The following modules are not already available in your local environment "%s"'
 errors:
