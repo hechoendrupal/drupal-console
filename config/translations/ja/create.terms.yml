@@ -1,18 +1,18 @@
-description: 'Create dummy terms for your Drupal 8 application.'
+description: 'Drupal 8 アプリケーションにダミーのタームを追加'
 help: 'The <info>create:nodes</info> command helps you create fake terns.'
 welcome: 'Welcome to the Drupal terms creator'
 arguments:
-    vocabularies: 'Vocabularie(s) to be used in terms creation'
+    vocabularies: '作成するタームのボキャブラリー (複数指定可)'
 options:
-    limit: 'How many terms would you like to create'
-    name-words: 'Maximum number of words in term names'
+    limit: '作成するタームの数'
+    name-words: 'タームの名前に設定するの単語の最大数'
 questions:
-    vocabularies: 'Select vocabularie(s) to be used on terms creation'
-    limit: 'Enter how many terms would you like to create'
-    name-words: 'Enter the maximum number of words in term names'
+    vocabularies: '作成するタームのボキャブラリーを選択してください'
+    limit: '作成するタームの数を入力してください'
+    name-words: 'タームの名前に設定するの単語の最大数'
 messages:
-    term-id: 'Term Id'
-    vocabulary: Vocabulary
-    name: Name
-    invalid-vocabularies: 'Vocabularie(s) %s are invalid'
-    created-terms: 'Created %s terms successfully'
+    term-id: 'タームID'
+    vocabulary: 'ボキャブラリー'
+    name: '名前'
+    invalid-vocabularies: 'ボキャブラリー %s は不正な値です。'
+    created-terms: '%s 個のタームを作成しました。'

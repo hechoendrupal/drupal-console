@@ -21,7 +21,7 @@ questions:
     services: common.questions.services
     test: 'Do you want to generate a unit test class'
     route: 'Enter the route path'
-    controller-add: 'Do you want add another contoller method'
+    controller-add: 'Do you want to add another contoller method'
     controller: 'Controller title'
     method-name: 'Enter the action method name'
     other-controller-title: 'Controller title (empty to start with code generation)'
