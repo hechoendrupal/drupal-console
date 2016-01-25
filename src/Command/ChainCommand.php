@@ -61,6 +61,10 @@ class ChainCommand extends Command
             $file = realpath(preg_replace('/~/', $home, $file, 1));
         }
 
+        if (!(strpos($file, '/') === 0)) {
+            $file = sprintf('%s/%s', getcwd(), $file);
+        }
+
         if (!file_exists($file)) {
             $io->error(
                 sprintf(
@@ -91,8 +95,21 @@ class ChainCommand extends Command
                 $moduleInputs['--'.$key] = is_null($value) ? '' : $value;
             }
 
+            $parameterOptions = $input->getOptions();
+            unset($parameterOptions['file']);
+            foreach ($parameterOptions as $key => $value) {
+                if ($value===true) {
+                    $moduleInputs['--' . $key] = true;
+                }
+            }
+
             $this->getChain()
-                ->addCommand($command['command'], $moduleInputs, $interactive, $learning);
+                ->addCommand(
+                    $command['command'],
+                    $moduleInputs,
+                    $interactive,
+                    $learning
+                );
         }
     }
 }

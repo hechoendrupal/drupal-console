@@ -1,5 +1,5 @@
-description: 'Clear login failed attempts for an account.'
-help: 'The <info>user:login:clear:attempts</info> reset login failed attempts for an account.'
+description: 'Clear failed login attempts for an account.'
+help: 'The <info>user:login:clear:attempts</info> command resets the failed login attempts for an account.'
 options:
     user-id: 'User ID.'
 questions:
@@ -7,6 +7,6 @@ questions:
     numeric-uid: 'User id must be an integer.'
     invalid-uid: 'User id must be upper than zero.'
 messages:
-    successful: 'Login attempts was clean successfully for user id %s.'
+    successful: 'Login attempts were successfully cleared for user id %s.'
 errors:
     invalid-user: 'Cannot load user entity (Uid: %s).'

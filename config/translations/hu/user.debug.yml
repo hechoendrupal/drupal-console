@@ -1,14 +1,14 @@
-description: 'Displays current users for the application'
-help: 'The <info>user:debug</info> command helps you get current users.'
-welcome: 'Welcome to the Drupal user debug'
+description: 'Megjeleníti az alkalmazás aktuális felhasználóit'
+help: 'A <info>user:debug</info> paranccsal olvashatók be az aktuális felhasználók.'
+welcome: 'Üdvözlet a Drupal felhasználók hibakeresése programban'
 options:
-    roles: 'Roles to filter debug'
-    limit: 'How many users would you listed in debug'
+    roles: 'Szerepek szűrése a hibakereséshez'
+    limit: 'Hány felhasználó jelenjen meg a hibakeresésben'
 questions:
-    roles: 'Select role(s) to be used to filter user debug list'
-    limit: 'Enter how many users would you like to show'
+    roles: 'Ki kell választani a felhasználók hibakeresési listájának szűrésére használandó szerepköröket'
+    limit: 'Meg kell adni, hogy hány felhasználó jelenjen meg'
 messages:
-    user-id: 'User ID'
-    username: Username
-    roles: Roles
-    status: Status
+    user-id: 'Felhasználói azonosító'
+    username: 'Felhasználónév'
+    roles: 'Szerepkörök'
+    status: 'Állapot'
