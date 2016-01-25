@@ -1,4 +1,4 @@
-description: 'キャッシュの再生成とクリア'
+description: 'キャッシュのクリアと再生成'
 options:
     cache: 'クリアするキャッシュ名'
 messages:
