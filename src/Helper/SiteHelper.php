@@ -403,15 +403,6 @@ class SiteHelper extends Helper
         return $this->getModulePath($moduleName).'/src/Routing';
     }
 
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'site';
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -420,5 +411,13 @@ class SiteHelper extends Helper
         $projects = $this->getDrupalApi()->getService('update.manager')->getProjects();
 
         return $projects['drupal']['info']['version'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'site';
     }
 }
