@@ -2,3 +2,4 @@ description: 'Cron megvalósitás futtatása egy bizonyos modulból vagy az öss
 messages:
     module-invalid: '%s modulnak nincs cron megvalósitása'
     executing-cron: '%s modul cron függvényének a futtatása'
+    success: 'All cron implementations requested were executed successfully'

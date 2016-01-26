@@ -11,8 +11,8 @@ questions:
     yaml-left: 'Összehasonlításként használandó YAML-fájl útvonala.'
     yaml-right: 'Az összehasonlítandó YAML-fájl útvonala.'
 messages:
-    key: 'YAML-kulcs'
-    value: 'YAML-érték'
+    key: YAML-kulcs
+    value: YAML-érték
     total: 'Összesen: %s'
     diff: 'Különböző: %s'
     equal: 'Azonos: %s'

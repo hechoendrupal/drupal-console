@@ -1,10 +1,13 @@
 description: 'Instala un módulo o varios en la aplicación'
+arguments:
+    module: 'Module or modules to be enabled should be separated by a space'
+options:
+    latest: 'Default to download most recent version'
+    module: 'Separe con un espacio el módulo o módulos que vayan a ser activados'
+    overwrite-config: 'Sobreescribir la configuración actual si es necesario'
 questions:
     module: 'Nombre del módulo (pulse <return> para dejar de añadir módulos)'
     invalid-module: 'El módulo %s es inválido'
-options:
-    module: 'Separe con un espacio el módulo o módulos que vayan a ser activados'
-    overwrite-config: 'Sobreescribir la configuración actual si es necesario'
 messages:
     no-modules: 'Debes especificar uno o varios módulos para habilitarlos.'
     missing: 'Imposible instalar los módulos %s ya que faltan los módulos %s'
@@ -21,3 +24,4 @@ messages:
     downloading: 'Downloading module %s release %s'
     downloaded: 'Module %s version %s was downloaded successfully at %s'
     no-releases: 'There aren''t any releases for module %s'
+    installing: 'Installing module(s) %s'
