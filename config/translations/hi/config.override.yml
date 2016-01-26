@@ -9,5 +9,6 @@ messages:
     original: 'मूल निधि'
     updated: 'चढ़ाई निधि'
 examples:
-    - description: '"flood" मॉड्यूल संपर्क 10 का मूल्य निर्धारित किया है।'
-      execution: 'drupal config:override contact.settings flood.limit 10'
+    -
+        description: '"flood" मॉड्यूल संपर्क 10 का मूल्य निर्धारित किया है।'
+        execution: 'drupal config:override contact.settings flood.limit 10'

@@ -1,0 +1,12 @@
+description: 'Determine pending translation string in a language or a specific file in a language'
+arguments:
+  language: 'Language to determine pending translations against English'
+options:
+  file: 'Specific file to determine pending translations against English'
+messages:
+  invalid-language: 'Language %s is invalid'
+  language: 'Language'
+  pending-translations: 'Pending translation to %s at file %s'
+  missing-file: "Language %s doens't have file %s, try executing translation:sync command"
+  success-language: 'There are %s pending traslations for %s'
+  success-language-file: 'There are %s pending traslations for %s at file %s'
