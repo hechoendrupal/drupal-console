@@ -16,8 +16,8 @@ options:
   format: 'A kimeneti formátum (txt, xml, json vagy md)'
 
 messages:
-  usage: "<comment>Használat:</comment> "
-  usage_details: "  parancs [beállítások] [argumentumok]  "
+  usage: '<comment>Használat:</comment>'
+  usage_details: '  parancs [beállítások] [argumentumok]  '
   arguments: '<comment>Argumentumok:</comment>'
   options: '<comment>Beállítások:</comment>'
   help: '<comment>Súgó:</comment>'

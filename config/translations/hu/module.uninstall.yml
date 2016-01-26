@@ -1,4 +1,4 @@
-description: 'Modul vagy modulok eltávolítása az alkalmazásból'
+description: 'Modul vagy modulok eltávolítása'
 options:
     module: 'Az eltávolítani kívánt modulokat vesszővel kell elválasztani'
 messages:
