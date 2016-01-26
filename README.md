@@ -59,8 +59,8 @@ drupal list
 # Copy configuration files.
 drupal init --override
 
-# Generate a module.
-drupal generate:module
+# Update to the latest version.
+drupal self-update
 ```
 
 More information about using this project at the [official documentation](https://hechoendrupal.gitbooks.io/drupal-console/content/en/using/project.html).
