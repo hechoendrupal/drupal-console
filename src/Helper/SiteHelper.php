@@ -155,7 +155,7 @@ class SiteHelper extends Helper
         $showNoCore = true,
         $nameOnly = false
     ) {
-        $installedModules = $this->getInstalledModules($reset);
+        //        $installedModules = $this->getInstalledModules($reset);
         $modules = [];
 
         if (!$this->modules || $reset) {
@@ -164,10 +164,10 @@ class SiteHelper extends Helper
 
         foreach ($this->modules as $module) {
             $name = $module->getName();
-            if (array_key_exists($name, $installedModules) && !$showInstalled) {
+            if (!$showInstalled && $module->status) {
                 continue;
             }
-            if (!array_key_exists($name, $installedModules) && !$showUninstalled) {
+            if (!$showUninstalled && !$module->status) {
                 continue;
             }
             if (!$showCore && $module->origin == 'core') {
