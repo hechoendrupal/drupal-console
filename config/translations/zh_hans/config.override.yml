@@ -1,14 +1,13 @@
-description: '覆盖当前使用中的配置值.'
+description: '覆写活动配置'
 arguments:
-    config-name: '配置名.'
-    key: 键
-    value: 值
+    config-name: '配置名称'
+    key: '键'
+    value: '值'
 messages:
-    configuration: '配置名'
-    configuration-key: '配置键'
-    original: 起始值
-    updated: 覆盖值
+    configuration: '配置名称'
+    configuration-key: '配置的键'
+    original: '原始值'
+    updated: '覆写后的值'
 examples:
-    -
-        description: 'Définir la valeur de "flood" du module Contact à 10.'
-        execution: 'drupal config:override contact.settings flood.limit 10'
+    - description: 设置 Contact 模块 flood limit 为 10.
+      execution: drupal config:override contact.settings flood.limit 10
