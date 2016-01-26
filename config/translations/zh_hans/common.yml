@@ -17,7 +17,7 @@ questions:
         message: "\n输入服务名称或使用上下键。\n这是选填的，按下 <info>enter</info> 键 <info>continue</info>\n"
         name: '输入服务名称'
     inputs:
-        confirm: 生成一个表单元素？
+        confirm: '生成一个表单元素？'
         label: '输入标签'
         machine_name: '输入机器名'
         permission: 生成权限？
