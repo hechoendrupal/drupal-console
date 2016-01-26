@@ -122,11 +122,12 @@ class SiteHelper extends Helper
 
         foreach ($this->modules as $module) {
             $name = $module->getName();
+            $isInstalled = ($module->status)?true:false;
 
-            if (!$showInstalled && $module->status === 1) {
+            if (!$showInstalled && $isInstalled) {
                 continue;
             }
-            if (!$showUninstalled && $module->status === 0) {
+            if (!$showUninstalled && !$isInstalled) {
                 continue;
             }
             if (!$showCore && $module->origin == 'core') {
