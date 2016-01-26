@@ -21,6 +21,7 @@ class EntityContentGeneratorTest extends GeneratorTest
      * @param $entity_name
      * @param $entity_class
      * @param $label
+     * @param $base_path
      *
      * @dataProvider commandData
      */
@@ -28,7 +29,8 @@ class EntityContentGeneratorTest extends GeneratorTest
         $module,
         $entity_name,
         $entity_class,
-        $label
+        $label,
+        $base_path
     ) {
         $generator = new EntityContentGenerator();
         $this->getRenderHelper()->setSkeletonDirs($this->getSkeletonDirs());
@@ -39,7 +41,8 @@ class EntityContentGeneratorTest extends GeneratorTest
             $module,
             $entity_name,
             $entity_class,
-            $label
+            $label,
+            $base_path
         );
 
         $files = [
