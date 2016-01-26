@@ -1,6 +1,6 @@
-description: 生成插件REST资源
-help: '<info>generate:plugin:rest:resource</info>命令帮助生成一个新的REST资源.'
-welcome: '欢迎光临Drupal插件REST资源生成器'
+description: 生成 REST资源插件
+help: '命令 <info>generate:plugin:rest:resource</info> 用于生成 REST 资源插件'
+welcome: '欢迎使用 Drupa REST 资源插件生成器'
 options:
     module: common.options.module
     class: 插件REST资源类

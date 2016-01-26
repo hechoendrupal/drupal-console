@@ -1,4 +1,4 @@
-description: '重建以及清除所有站点缓存'
+description: '重建缓存'
 options:
     cache: '仅清除一个特定的缓存'
 messages:
