@@ -1,10 +1,13 @@
 description: '安装模块'
+arguments:
+    module: 'Module or modules to be enabled should be separated by a space'
+options:
+    latest: 'Default to download most recent version'
+    module: 一个或多个模块，模块之间使用逗号分隔
+    overwrite-config: '覆写配置'
 questions:
     module: '模块名称 (按下 <return> 键结束添加模块）'
     invalid-module: '无效模块 %s'
-options:
-    module: 一个或多个模块，模块之间使用逗号分隔
-    overwrite-config: '覆写配置'
 messages:
     no-modules: '必须提供一个或多个模块才能启用'
     missing: 'Unable to install module(s) %s due to missing module(s) %s'
@@ -21,3 +24,4 @@ messages:
     downloading: 'Downloading module %s release %s'
     downloaded: 'Module %s version %s was downloaded successfully at %s'
     no-releases: 'There aren''t any releases for module %s'
+    installing: 'Installing module(s) %s'
