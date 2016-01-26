@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\Module;
 
-use Drupal\Core\Config\PreExistingConfigException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,17 +15,33 @@ use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Command\ProjectDownloadTrait;
 use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class InstallCommand
+ * @package Drupal\Console\Command\Module
+ */
 class InstallCommand extends ContainerAwareCommand
 {
     use ProjectDownloadTrait;
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
             ->setName('module:install')
             ->setDescription($this->trans('commands.module.install.description'))
-            ->addArgument('module', InputArgument::IS_ARRAY, $this->trans('commands.module.install.options.module'))
-            ->addOption('overwrite-config', '', InputOption::VALUE_NONE, $this->trans('commands.module.install.options.overwrite-config'));
+            ->addArgument(
+                'module',
+                InputArgument::IS_ARRAY,
+                $this->trans('commands.module.install.arguments.module')
+            )
+            ->addOption(
+                'latest',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.module.install.options.latest')
+            );
     }
 
     /**
@@ -37,31 +52,9 @@ class InstallCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         $module = $input->getArgument('module');
-
         if (!$module) {
-            $moduleList = [];
-            $modules = $this->getSite()->getModules(true, false, true, true, true, true);
-
-            while (true) {
-                $moduleName = $io->choiceNoList(
-                    $this->trans('commands.module.install.questions.module'),
-                    $modules,
-                    null,
-                    true
-                );
-
-                if (empty($moduleName)) {
-                    break;
-                }
-
-                $moduleList[] = $moduleName;
-
-                if (array_search($moduleName, $moduleList, true) >= 0) {
-                    unset($modules[array_search($moduleName, $modules)]);
-                }
-            }
-
-            $input->setArgument('module', $moduleList);
+            $module = $this->modulesQuestion($io);
+            $input->setArgument('module', $module);
         }
     }
 
@@ -73,157 +66,59 @@ class InstallCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         $modules = $input->getArgument('module');
-        $overwriteConfig = $input->getOption('overwrite-config');
-        $yes = $input->hasOption('yes')?$input->getOption('yes'):false;
+        $latest = $input->getOption('latest');
 
-        $validator = $this->getValidator();
-        $moduleInstaller = $this->getModuleInstaller();
+        $this->getDrupalHelper()->loadLegacyFile(
+            'core/includes/bootstrap.inc'
+        );
 
-        $invalidModules = $validator->getInvalidModules($modules);
+        $resultList = $this->downloadModules($io, $modules, $latest);
+
+        $invalidModules = $resultList['invalid'];
+        $unInstalledModules = $resultList['uninstalled'];
+
         if ($invalidModules) {
-            $io->info(
-                sprintf(
-                    $this->trans('commands.module.install.messages.getting-missing-modules'),
-                    implode(',', $invalidModules)
-                )
-            );
             foreach ($invalidModules as $invalidModule) {
-                $version = $this->releasesQuestion($io, $invalidModule);
-                if ($version) {
-                    $this->downloadProject($io, $invalidModule, $version, 'module');
-                } else {
-                    // Remove module if version if not available
-                    unset($modules[array_search($invalidModule, $modules)]);
-                }
+                unset($modules[array_search($invalidModule, $modules)]);
+                $io->error(
+                    sprintf(
+                        'Invalid module name: %s',
+                        $invalidModule
+                    )
+                );
             }
-
-            $this->getSite()->discoverModules();
         }
 
-        // finish install process if modules were removed due missing version
-        if (empty($modules)) {
-            return;
-        }
-
-        $unInstalledModules = $validator->getUninstalledModules($modules);
         if (!$unInstalledModules) {
             $io->warning($this->trans('commands.module.install.messages.nothing'));
 
-            return;
+            return 0;
         }
 
-        $dependencies = $this->calculateDependencies($unInstalledModules);
-        $missingDependencies = $validator->getInvalidModules($dependencies);
-
-        if ($missingDependencies) {
-            $io->error(
+        try {
+            $io->comment(
                 sprintf(
-                    $this->trans('commands.module.install.messages.missing-dependencies'),
-                    implode(', ', $modules),
-                    implode(', ', $missingDependencies)
+                    $this->trans('commands.module.install.messages.installing'),
+                    implode(', ', $unInstalledModules)
                 )
             );
 
-            return;
-        }
+            $moduleInstaller = $this->getModuleInstaller();
+            drupal_static_reset('system_rebuild_module_data');
 
-        if ($dependencies) {
-            if (!$yes) {
-                if (!$io->confirm(
-                    sprintf(
-                        $this->trans('commands.module.install.messages.dependencies'),
-                        implode(', ', $dependencies)
-                    ),
-                    false
-                )) {
-                    return;
-                }
-            }
-        }
-
-        $moduleList = array_merge($unInstalledModules, $dependencies);
-
-        try {
-            $moduleInstaller->install($moduleList);
+            $moduleInstaller->install($unInstalledModules, true);
             $io->success(
                 sprintf(
                     $this->trans('commands.module.install.messages.success'),
-                    implode(', ', $moduleList)
+                    implode(', ', $unInstalledModules)
                 )
             );
-        } catch (PreExistingConfigException $e) {
-            $this->overwriteConfig($io, $e, $moduleList, $overwriteConfig);
-
-            return;
         } catch (\Exception $e) {
             $io->error($e->getMessage());
 
-            return;
+            return 1;
         }
 
-        // Run cache rebuild to see changes in Web UI
         $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
-    }
-
-    protected function calculateDependencies($modules)
-    {
-        $this->getDrupalHelper()->loadLegacyFile('/core/modules/system/system.module');
-
-        $dependencies = [];
-        $moduleList = system_rebuild_module_data();
-        $validator = $this->getValidator();
-
-        foreach ($modules as $moduleName) {
-            $module = $moduleList[$moduleName];
-
-            $dependencies = array_unique(
-                array_merge(
-                    $dependencies,
-                    $validator->getUninstalledModules(
-                        array_keys($module->requires)?:[]
-                    )
-                )
-            );
-        }
-
-        return $dependencies;
-    }
-
-    protected function overwriteConfig(
-        DrupalStyle $io,
-        PreExistingConfigException $e,
-        $moduleList,
-        $overwriteConfig
-    ) {
-        if ($overwriteConfig) {
-            $io->info($this->trans('commands.module.install.messages.config-conflict-overwrite'));
-        } else {
-            $io->info($this->trans('commands.module.install.messages.config-conflict'));
-        }
-
-        $configObjects = $e->getConfigObjects();
-        foreach (current($configObjects) as $config) {
-            $io->info($config);
-            $config = $this->getConfigFactory()->getEditable($config);
-            $config->delete();
-        }
-
-        if (!$overwriteConfig) {
-            return;
-        }
-
-        try {
-            $moduleInstaller = $this->getModuleInstaller();
-            $moduleInstaller->install($moduleList);
-            $io->info(
-                sprintf(
-                    $this->trans('commands.module.install.messages.success'),
-                    implode(', ', $moduleList)
-                )
-            );
-        } catch (\Exception $e) {
-            $io->error($e->getMessage());
-            return;
-        }
     }
 }

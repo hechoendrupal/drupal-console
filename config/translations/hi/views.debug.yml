@@ -12,7 +12,7 @@ messages:
     path: Path
     not-found: 'View %s wasn''t found.'
     display-list: 'Display list'
-    display-id: 'ID'
-    display-name: 'नाम'
-    display-description: 'विवरण'
-    display-paths: 'Paths'
+    display-id: ID
+    display-name: नाम
+    display-description: विवरण
+    display-paths: Paths
