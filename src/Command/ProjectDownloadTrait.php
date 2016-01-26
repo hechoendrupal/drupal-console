@@ -16,6 +16,108 @@ use Alchemy\Zippy\Zippy;
  */
 trait ProjectDownloadTrait
 {
+    public function modulesQuestion(DrupalStyle $io)
+    {
+        $moduleList = [];
+        $modules = $this->getSite()->getModules(true, false, true, true, true, true);
+
+        while (true) {
+            $moduleName = $io->choiceNoList(
+                $this->trans('commands.module.install.questions.module'),
+                $modules,
+                null,
+                true
+            );
+
+            if (empty($moduleName)) {
+                break;
+            }
+
+            $moduleList[] = $moduleName;
+
+            if (array_search($moduleName, $moduleList, true) >= 0) {
+                unset($modules[array_search($moduleName, $modules)]);
+            }
+        }
+
+        return $moduleList;
+    }
+
+    private function downloadModules(DrupalStyle $io, $modules, $latest, $resultList = [])
+    {
+        if (!$resultList) {
+            $resultList = [
+              'invalid' => [],
+              'uninstalled' => [],
+              'dependencies' => []
+            ];
+        }
+        drupal_static_reset('system_rebuild_module_data');
+
+        $validator = $this->getValidator();
+        $missingModules = $validator->getMissingModules($modules);
+
+        $invalidModules = [];
+        if ($missingModules) {
+            $io->info(
+                sprintf(
+                    $this->trans('commands.module.install.messages.getting-missing-modules'),
+                    implode(', ', $missingModules)
+                )
+            );
+            foreach ($missingModules as $missingModule) {
+                $version = $this->releasesQuestion($io, $missingModule, $latest);
+                if ($version) {
+                    $this->downloadProject($io, $missingModule, $version, 'module');
+                } else {
+                    $invalidModules[] = $missingModule;
+                    unset($modules[array_search($missingModule, $modules)]);
+                }
+                $this->getSite()->discoverModules();
+            }
+        }
+
+        $unInstalledModules = $validator->getUninstalledModules($modules);
+
+        $dependencies = $this->calculateDependencies($unInstalledModules);
+
+        $resultList = [
+          'invalid' => array_unique(array_merge($resultList['invalid'], $invalidModules)),
+          'uninstalled' => array_unique(array_merge($resultList['uninstalled'], $unInstalledModules)),
+          'dependencies' => array_unique(array_merge($resultList['dependencies'], $dependencies))
+        ];
+
+        if (!$dependencies) {
+            return $resultList;
+        }
+
+        return $this->downloadModules($io, $dependencies, $latest, $resultList);
+    }
+
+    protected function calculateDependencies($modules)
+    {
+        $this->getDrupalHelper()->loadLegacyFile('/core/modules/system/system.module');
+        $moduleList = system_rebuild_module_data();
+
+        $dependencies = [];
+        $validator = $this->getValidator();
+
+        foreach ($modules as $moduleName) {
+            $module = $moduleList[$moduleName];
+
+            $dependencies = array_unique(
+                array_merge(
+                    $dependencies,
+                    $validator->getUninstalledModules(
+                        array_keys($module->requires)?:[]
+                    )
+                )
+            );
+        }
+
+        return array_diff($dependencies, $modules);
+    }
+
     /**
      * @param \Drupal\Console\Style\DrupalStyle $io
      * @param $project
@@ -84,10 +186,11 @@ trait ProjectDownloadTrait
 
     /**
      * @param \Drupal\Console\Style\DrupalStyle $io
-     * @param $project
+     * @param string                            $project
+     * @param bool                              $latest
      * @return string
      */
-    public function releasesQuestion(DrupalStyle $io, $project)
+    public function releasesQuestion(DrupalStyle $io, $project, $latest = false)
     {
         $commandKey = str_replace(':', '.', $this->getName());
 
@@ -98,7 +201,7 @@ trait ProjectDownloadTrait
             )
         );
 
-        $releases = $this->getDrupalApi()->getProjectReleases($project, 15);
+        $releases = $this->getDrupalApi()->getProjectReleases($project, $latest?1:15);
 
         if (!$releases) {
             $io->error(
@@ -109,6 +212,10 @@ trait ProjectDownloadTrait
             );
 
             return null;
+        }
+
+        if ($latest) {
+            return $releases[0];
         }
 
         $version = $io->choice(
