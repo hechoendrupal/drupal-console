@@ -1,8 +1,8 @@
-description: '未翻译检测'
+description: 未翻译检测
 arguments:
     language: '语言代码'
 options:
-    file: '检测的文件'
+    file: 检测的文件
 messages:
     invalid-language: '语言代码 %s 无效'
     language: Language
