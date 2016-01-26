@@ -10,8 +10,8 @@ questions:
     cache: 'Cache का चयन करें।'
 examples:
     -
-        description: 'Rebuild all caches'
-        execution: 'drupal cr all'
+        description: 'सभी caches के पुनर्निर्माण '
+        execution: 'Drupal cr all'
     -
-        description: 'Rebuild discovery cache'
-        execution: 'drupal cr discovery'
+        description: 'डिस्कवरी caches के पुनर्निर्माण'
+        execution: 'Drupal cr discovery'
