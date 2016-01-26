@@ -1,5 +1,5 @@
-description: '生成 Console 命令'
-help: '<info>generate:command</info> 命令帮助您生成一个新命令'
+description: '生成新 Console 命令'
+help: '命令 <info>generate:command</info> 用于生成一个新命令'
 welcome: '欢迎使用 Drupal 命令生成器'
 options:
     module: common.options.module

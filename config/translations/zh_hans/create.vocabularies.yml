@@ -1,14 +1,14 @@
-description: 'Create dummy vocabularies for your Drupal 8 application.'
-help: 'The <info>create:vocabularies</info> command helps you create dummy vocabularies.'
-welcome: 'Welcome to the Drupal vocabularies creator'
+description: '生成词汇表'
+help: '命令 <info>create:vocabularies</info> 用于生成词汇表'
+welcome: '欢迎使用 Drupal 词汇表生成器'
 options:
-    limit: 'How many vocabularies would you like to create'
-    name-words: 'Maximum number of words in vocabulary names'
+    limit: '生成多少个词汇表'
+    name-words: '词汇表名称允许的最多单词数量'
 questions:
-    limit: 'Enter how many vocabularies would you like to create'
-    name-words: 'Enter the maximum number of words in vocabulary names'
+    limit: '数量生成词汇表的数量'
+    name-words: '输入词汇表名称允许的最多单词数量'
 messages:
-    vocabulary-id: 'Vocabulary Id'
-    name: Name
-    created-terms: 'Created %s vocabularies successfully'
-    error: 'Error creating vocabularies: %s'
+    vocabulary-id: '词汇表 Id'
+    name: '名称'
+    created-terms: '创建 %s 词汇表成功'
+    error: '创建词汇表出错：%s'

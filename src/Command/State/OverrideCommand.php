@@ -27,7 +27,7 @@ class OverrideCommand extends ContainerAwareCommand
     {
         $this
             ->setName('state:override')
-            ->setDescription($this->trans('commands.state.debug.description'))
+            ->setDescription($this->trans('commands.state.override.description'))
             ->addArgument(
                 'key',
                 InputArgument::OPTIONAL,

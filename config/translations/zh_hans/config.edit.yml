@@ -1,4 +1,4 @@
-description: '编辑选中配置'
+description: '编辑配置'
 arguments:
     config-name: '配置名称'
     editor: 编辑器
