@@ -1,5 +1,8 @@
 description: 'मोड्यूल या मोड्यूलो को डाउनलोड करें'
+arguments:
+    module: 'Module or modules to be enabled should be separated by a space'
 options:
+    latest: 'Default to download most recent version'
     version: 'मोड्यूल संस्करण अथवा 1.x-dev'
 messages:
     no-releases: 'मॉड्यूल %s के लिए कोई रिलीस उपलब्ध नहीं है|'
