@@ -162,7 +162,7 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
       $route = new Route("/admin/structure/{$entity_type->id()}/settings");
       $route
         ->setDefaults([
-          '_form' => 'Drupal\{{ module }}\Controller\{{ entity_class }}SettingsForm',
+          '_form' => 'Drupal\{{ module }}\Form\{{ entity_class }}SettingsForm',
           '_title' => "{$entity_type->getLabel()} settings",
         ])
         ->setRequirement('_permission', $entity_type->getAdminPermission())
