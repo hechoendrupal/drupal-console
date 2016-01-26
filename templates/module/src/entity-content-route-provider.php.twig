@@ -94,6 +94,7 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
       $route = new Route($entity_type->getLinkTemplate('add-form'));
       // Content entities with bundles are added via a dedicated controller.
       if ($bundle_entity_type_id = $entity_type->getBundleEntityType()) {
+        $route = new Route($entity_type->getLinkTemplate('add-form') . '/{' . $bundle_entity_type_id . '}');
         $route
           ->setDefaults([
             '_controller' => 'Drupal\{{ module }}\Controller\{{ entity_class }}AddController::addForm',
