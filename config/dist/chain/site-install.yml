@@ -16,9 +16,6 @@ commands:
       account-pass: admin # default pass
     arguments:
       profile: standard
-  - command: cache:rebuild
-    arguments:
-      cache: all
 # Install modules
   - command: module:install
     arguments:
@@ -30,3 +27,7 @@ commands:
         - token
         - ctools
         - pathauto
+# Rebuild cahes
+  - command: cache:rebuild
+    arguments:
+        cache: all
