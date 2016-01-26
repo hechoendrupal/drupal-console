@@ -17,7 +17,7 @@ console:
         chain:
             generated: '刚刚执行的命令，以 YAML 格式表示，如下：（可以将其添加到文件中作为链式命令的一部分。如添加到： ~/.console/chain/sample.yml）'
         inline:
-            generated: '刚刚执行的命令，表示成一行命令，如下：（可以拷贝它，用于再次执行）'
+            generated: 刚刚执行的命令，表示成一行命令，如下：（可以拷贝它，用于再次执行）
         generated: '代码生成完毕！'
         files:
             generated: 生成或更新文件

@@ -1,6 +1,6 @@
 description: 生成新模块
 help: '命令 <info>generate:module</info> 用于生成新模块'
-welcome: 欢迎使用 Drupal 模块生成器
+welcome: '欢迎使用 Drupal 模块生成器'
 options:
     module: 模块名
     machine-name: '模块名 (只能用小写英文字母和下划线)'
