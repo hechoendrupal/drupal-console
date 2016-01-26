@@ -4,7 +4,7 @@ options:
     module: common.options.module
     entity-class: 'कंटेंट एंटिटि कक्षा'
     entity-name: 'कंटेंट एंटिटि नाम'
-    label: 'लेबल'
+    label: लेबल
     has-bundles: 'एंटिटि मॆ बंडल हे'
 questions:
     module: common.questions.module

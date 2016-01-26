@@ -3,13 +3,13 @@ help: 'कंसोल कमाण्ड को नवीनतम संस्
 arguments:
     test-class: 'परिक्षण क्लास'
 options:
-    group: Group
+    group: समूह
 messages:
     class: 'परिक्षण क्लास'
-    description: Description
-    group: Group
+    description: विवरण
+    group: समूह
     type: 'परिक्षण प्रकार'
     success: 'कंसोल को नवीनतम संस्करण में अवगत कर दिया गया है।'
-    missing-dependency: 'Missing dependency'
+    missing-dependency: 'मिसिंग डिपेंडेंसी'
     methods: 'परिक्षण मेथड'
-    not-found: 'Debug wasn''t found, try enclosure test id between double quotes.'
+    not-found: 'डीबग नहीं मिला था, डबल quotes के बीच एनक्लोसुर टेस्ट आईडी का प्रयास करें।'

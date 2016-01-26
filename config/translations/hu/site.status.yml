@@ -1,10 +1,10 @@
 description: 'Aktuális Drupal-telepítés állapotának megtekintése'
 messages:
     application: Alkalmazás
-    system: 'Rendszerinformáció'
+    system: Rendszerinformáció
     hash_salt: 'Hash salt'
     console: 'Drupal Console'
-    database: 'Adatbázis-kapcsolat'
+    database: Adatbázis-kapcsolat
     driver: IllesztőprogramDriver
     host: Gazdagép
     port: Port

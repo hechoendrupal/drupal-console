@@ -1,6 +1,6 @@
-description: 'Show the current State keys.'
-help: 'Show the current State keys.'
+description: 显示当前状态的键(s)
+help: 显示当前状态的键(s)
 arguments:
-    key: 'The State key to debug.'
+    key: 状态的键
 messages:
-    key: 'The State key'
+    key: 状态的键

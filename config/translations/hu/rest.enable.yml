@@ -1,10 +1,10 @@
 description: 'Az alkalmazás REST-erőforrásának engedélyezése'
 arguments:
-    resource-id: 'REST-azonosító'
+    resource-id: REST-azonosító
     states: 'A REST-erőforrás engedélyezendő REST-állapotai'
     authorizations: 'A REST-erőforráshoz engedélyezett jogosultságszolgáltatók'
 questions:
-    resource-id: 'REST-azonosító'
+    resource-id: REST-azonosító
 messages:
     invalid-rest-id: '%s REST-azonosító érvénytelen'
     formats: 'Rendelkezésre álló szerializálási formátumok'

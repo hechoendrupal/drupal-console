@@ -9,6 +9,6 @@ questions:
     limit: 'Meg kell adni, hogy hány felhasználó jelenjen meg'
 messages:
     user-id: 'Felhasználói azonosító'
-    username: 'Felhasználónév'
-    roles: 'Szerepkörök'
-    status: 'Állapot'
+    username: Felhasználónév
+    roles: Szerepkörök
+    status: Állapot

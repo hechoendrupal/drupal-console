@@ -1,4 +1,4 @@
-description: '导出单个配置为 YAML 格式文件'
+description: '导出单个配置'
 arguments:
     config-name: '配置名称'
 options:

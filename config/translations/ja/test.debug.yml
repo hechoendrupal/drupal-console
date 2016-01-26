@@ -1,4 +1,4 @@
-description: 'ユニットテストの一覧を表示'
+description: ユニットテストの一覧を表示
 help: 'Update the console command to the latest version.'
 arguments:
     test-class: 'Test Class'
