@@ -16,4 +16,4 @@ options:
     raw: 'To output raw command list'
     format: 'The output format (txt, xml, json, or md)'
 messages:
-    deprecated: 'The <comment>--xml</comment> option was deprecated in version 2.7 and will be removed in version 3.0. Use the <comment>--format</comment> option instead',
+    deprecated: 'The <comment>--xml</comment> option was deprecated in version 2.7 and will be removed in version 3.0. Use the <comment>--format</comment> option instead'
