@@ -13,7 +13,7 @@ messages:
   check: 'Elérhető frissítések ellenőrzése a következő verzióról: %s'
   current-version: 'A legfrissebb verzió (%s) már telepítve van a rendszeren.'
   instructions: |
-   Frissíteni kell a „composer global update” segítségével
+   'Frissíteni kell a \"composer global update\" segítségével
    Esetleg át lehet váltani egy javasolt Phar telepítésre
    composer global remove drupal/console
-   curl https://drupalconsole.com/installer -L -o drupal.phar
+   curl https://drupalconsole.com/installer -L -o drupal.phar'
