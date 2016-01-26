@@ -1,4 +1,4 @@
-description: 'ユニットテストの実行'
+description: ユニットテストの実行
 arguments:
     test-class: 'Test Class'
 messages:

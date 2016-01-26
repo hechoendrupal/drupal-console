@@ -2,3 +2,4 @@ description: 'Выполнить реализацию крона для моду
 messages:
     module-invalid: 'В модуле %s не найдена реализация крона'
     executing-cron: 'Выполнение крон-задачи в модуле %s'
+    success: 'All cron implementations requested were executed successfully'

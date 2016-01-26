@@ -1,4 +1,4 @@
-description: '创建新的内容实体'
+description: '生成新内容实体'
 help: ''
 options:
     module: common.options.module
