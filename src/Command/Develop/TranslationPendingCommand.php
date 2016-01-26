@@ -148,14 +148,6 @@ class TranslationPendingCommand extends Command
                 $diff = $nestedArray->arrayDiff($englishFileParsed, $resourceTranslatedParsed, true, $diffStatistics);
 
                 if (!empty($diff)) {
-                    $io->writeln(
-                        sprintf(
-                            $this->trans('commands.translation.pending.messages.pending-translations'),
-                            $languageName,
-                            $file->getBasename()
-                        )
-                    );
-
                     $diffFlatten = array();
                     $keyFlatten = '';
                     $nestedArray->yamlFlattenArray($diff, $diffFlatten, $keyFlatten);
@@ -167,18 +159,40 @@ class TranslationPendingCommand extends Command
 
                     $tableRows = [];
                     foreach ($diffFlatten as $yamlKey => $yamlValue) {
-                        $tableRows[] = [
-                            $yamlKey,
-                            $yamlValue
-                        ];
+                        if($this->isYamlKey($yamlValue)) {
+                            unset($diffFlatten[$yamlKey]);
+                        } else {
+                            $tableRows[] = [
+                                $yamlKey,
+                                $yamlValue
+                            ];
+                        }
                     }
 
-                    $io->table($tableHeader, $tableRows, 'compact');
-                    $pendingTranslations+= count($diffFlatten);
+                    if(count($diffFlatten)) {
+                        $io->writeln(
+                            sprintf(
+                                $this->trans('commands.translation.pending.messages.pending-translations'),
+                                $languageName,
+                                $file->getBasename()
+                            )
+                        );
+
+                        $io->table($tableHeader, $tableRows, 'compact');
+                        $pendingTranslations+= count($diffFlatten);
+                    }
                 }
             }
         }
 
         return $pendingTranslations;
+    }
+
+    protected function isYamlKey($value) {
+        if(!strstr($value, ' ') && strstr($value, '.')) {
+            return true;
+        }
+
+        return false;
     }
 }
