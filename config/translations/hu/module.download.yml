@@ -1,4 +1,4 @@
-description: 'Modul vagy modulok letöltése az alkalmazásba'
+description: 'Modul vagy modulok letöltése'
 arguments:
     module: 'Az engedélyezendő modulokat szóközzel kell elválasztani'
 options:
