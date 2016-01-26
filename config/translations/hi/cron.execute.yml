@@ -2,3 +2,4 @@ description: 'क्रॉन लागू करने वाले किस�
 messages:
     module-invalid: 'मोड्यूल %s क्रॉन लागू नही कर रहा'
     executing-cron: 'मोड्यूल %s का क्रॉन फंक्शन चल रहा है'
+    success: 'All cron implementations requested were executed successfully'

@@ -1,6 +1,6 @@
-description: 'テーマをダウンロード'
+description: テーマをダウンロード
 options:
-  version: 'テーマのバージョン (例: 1.x-dev)'
+    version: 'テーマのバージョン (例: 1.x-dev)'
 messages:
     no-releases: 'テーマ %s のリリースが存在しません。'
     getting-releases: 'テーマ %s のリリースを取得しています。'

@@ -8,8 +8,8 @@ options:
     set-default: 'Smink beállítása alapértelmezettként'
 messages:
     no-themes: 'Meg kell adni telepítendő sminket vagy sminkeket.'
-    themes-missing: "Nem telepíthetők %s sminkek, mert nem érhetők el"
-    theme-missing: "Nem telepíthető %s smink, mert nem érhető el"
+    themes-missing: 'Nem telepíthetők %s sminkek, mert nem érhetők el'
+    theme-missing: 'Nem telepíthető %s smink, mert nem érhető el'
     missing-dependencies: 'Nem telepíthetők %s sminkek, mert függőségek hiányoznak: %s'
     themes-nothing: 'Nincs teendő. Már minden smink telepítve van: %s'
     theme-nothing: 'Nincs teendő. %s smink már telepítve van.'

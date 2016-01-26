@@ -1,10 +1,13 @@
 description: 'मोड्यूल या मोड्यूलो को अनुप्रयोग में स्थापित करें'
+arguments:
+    module: 'Module or modules to be enabled should be separated by a space'
+options:
+    latest: 'Default to download most recent version'
+    module: 'चालू करने वाले मोड्यूल या मोड्यूलो को अल्पविराम से विभाजित करें'
+    overwrite-config: 'यदि आवश्यक हो तो सक्रिय ओवरराइट विन्यास'
 questions:
     module: 'मोड्यूल का नाम (<return> दबाएं अगर आप और मोड्यूल नही डालना चाहते'
     invalid-module: '%s अमान्य मोड्यूल है|'
-options:
-    module: 'चालू करने वाले मोड्यूल या मोड्यूलो को अल्पविराम से विभाजित करें'
-    overwrite-config: 'यदि आवश्यक हो तो सक्रिय ओवरराइट विन्यास'
 messages:
     no-modules: 'मॉड्यूल सक्षम करने क लिए प्रदान कीजिए |'
     missing: 'Unable to install module(s) %s due to missing module(s) %s'
@@ -21,3 +24,4 @@ messages:
     downloading: 'Downloading module %s release %s'
     downloaded: 'Module %s version %s was downloaded successfully at %s'
     no-releases: 'There aren''t any releases for module %s'
+    installing: 'Installing module(s) %s'
