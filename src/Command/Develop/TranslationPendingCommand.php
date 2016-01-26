@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Develop;
 
+use Drupal\Console\Command\TranslationTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,6 +19,7 @@ use Drupal\Console\Style\DrupalStyle;
 
 class TranslationPendingCommand extends Command
 {
+    use TranslationTrait;
     /**
      * {@inheritdoc}
      */
@@ -186,13 +188,5 @@ class TranslationPendingCommand extends Command
         }
 
         return $pendingTranslations;
-    }
-
-    protected function isYamlKey($value) {
-        if(!strstr($value, ' ') && strstr($value, '.')) {
-            return true;
-        }
-
-        return false;
     }
 }
