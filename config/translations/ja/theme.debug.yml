@@ -1,4 +1,4 @@
-description: 'Displays current themes for the application'
+description: 'テーマの情報を表示'
 arguments:
     theme: 'Specific theme to debug'
 messages:
