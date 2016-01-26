@@ -1,12 +1,12 @@
-description: 'Override a State key.'
-help: 'Override a State key.'
+description: '覆写状态键的值'
+help: '覆写一个状态键'
 arguments:
-    key: 'The State key to override.'
-    value: 'The State value to set.'
+    key: '覆写的键'
+    value: '赋的新值'
 messages:
-    key: 'State key'
-    original: 'Original value'
-    override: 'Override value'
+    key: '状态键'
+    original: '原始值'
+    override: '覆写值'
 errors:
-    no-key: 'You must provide a State key to override.'
-    no-value: 'You must provide a State value to set.'
+    no-key: '覆写必须提供一个状态键'
+    no-value: '必须提供一个覆写值'

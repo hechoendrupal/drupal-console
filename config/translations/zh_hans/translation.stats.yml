@@ -1,9 +1,10 @@
-description: 'Generate translate stats'
+description: '生成翻译统计'
 arguments:
-  language: 'Language to generate translation stats against English'
+    language: '语言代码'
 options:
-  format: 'Define output format table|markdown'
+    format: '定义输出格式，table 或 markdown'
 messages:
-  invalid-language: 'Language %s is invalid'
-  language: 'Language'
-  percentage: 'Percentage'
+    invalid-language: '语言代码 %s 无效'
+    language: '语言'
+    percentage: '百分比'
+

@@ -7,20 +7,20 @@ options:
     permissions: 创建权限
 questions:
     module: '输入模块名称'
-    confirm: 您确定开始生成吗？
+    confirm: 确定开始生成吗？
     canceled: 生成命令已取消
     events:
         message: "\n输入事件名称或使用上下键。\n这是选填的，按下 <info>enter</info> 键 <info>continue</info>\n"
         name: '输入事件名称'
     services:
-        confirm: '您想要从容器中导入服务吗？'
+        confirm: '从容器中导入服务？'
         message: "\n输入服务名称或使用上下键。\n这是选填的，按下 <info>enter</info> 键 <info>continue</info>\n"
         name: '输入服务名称'
     inputs:
-        confirm: 您想要生成一个表单结构吗？
+        confirm: 生成一个表单元素？
         label: '输入标签'
         machine_name: '输入机器名'
-        permission: 您想要生成权限吗？
+        permission: 生成权限？
         type: 类型
         invalid: '字段类型 "%s" 无效'
         description: 描述
@@ -31,7 +31,7 @@ questions:
 errors:
     module-dependency: '模块依赖 "%s" 丢失'
     class-name-empty: 类名不能为空
-    invalid-file-path: 'You must provide a valid file path'
+    invalid-file-path: '必须提供一个有效的文件路径'
 status:
     enabled: 启用
     disabled: 禁用

@@ -1,5 +1,5 @@
-description: '生成字段类型，Widget 以及格式化器插件'
-help: '<info>generate:plugin:field</info> 命令帮助您生成一系列完整的字段插件：字段类型，字段格式化器，字段 Widget'
+description: '生成字段类型、Widget和格式化器的插件'
+help: '命令 <info>generate:plugin:field</info> 用于生成字段类型、格式化器和 Widget 的插件'
 welcome: '欢迎使用 Drupal 字段插件生成器'
 options:
     module: common.options.module

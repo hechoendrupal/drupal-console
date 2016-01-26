@@ -1,5 +1,5 @@
 description: '生成字段 Widget 插件'
-help: '<info>generate:plugin:fieldwidget</info> 命令帮助您生成一个新的 Widget 插件'
+help: '命令 <info>generate:plugin:fieldwidget</info> 用于生成字段 Widget 插件'
 welcome: '欢迎使用 Drupal 字段 Widget 插件生成器'
 options:
     module: common.options.module
