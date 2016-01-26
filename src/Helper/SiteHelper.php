@@ -28,11 +28,6 @@ class SiteHelper extends Helper
     private $siteRoot;
 
     /**
-     * @var string
-     */
-    private $installedModules;
-
-    /**
      * @return string
      */
     public function getSiteRoot()
@@ -78,42 +73,6 @@ class SiteHelper extends Helper
         return $discovery->scan('theme');
     }
 
-
-    /**
-     * @param bool|FALSE $reset
-     * @return array
-     */
-    private function getInstalledModules($reset = false)
-    {
-        if ($this->installedModules && !$reset) {
-            return $this->installedModules;
-        }
-
-        $kernel = $this->getKernelHelper()->getKernel();
-        if (!$kernel) {
-            return [];
-        }
-
-        $container = $kernel->getContainer();
-        if (!$container) {
-            return [];
-        }
-
-        $configFactory = $container->get('config.factory');
-        if (!$configFactory) {
-            return [];
-        }
-
-        $coreExtension = $configFactory->get('core.extension');
-        if (!$coreExtension) {
-            return [];
-        }
-
-        $this->installedModules = $coreExtension->get('module') ?: [];
-
-        return $this->installedModules;
-    }
-    
     /**
      * @return array
      */
@@ -155,7 +114,6 @@ class SiteHelper extends Helper
         $showNoCore = true,
         $nameOnly = false
     ) {
-        //        $installedModules = $this->getInstalledModules($reset);
         $modules = [];
 
         if (!$this->modules || $reset) {
@@ -164,10 +122,11 @@ class SiteHelper extends Helper
 
         foreach ($this->modules as $module) {
             $name = $module->getName();
-            if (!$showInstalled && $module->status) {
+
+            if (!$showInstalled && $module->status === 1) {
                 continue;
             }
-            if (!$showUninstalled && !$module->status) {
+            if (!$showUninstalled && $module->status === 0) {
                 continue;
             }
             if (!$showCore && $module->origin == 'core') {
