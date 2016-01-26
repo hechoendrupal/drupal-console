@@ -27,7 +27,7 @@ class DownloadCommand extends Command
             ->addArgument(
                 'module',
                 InputArgument::IS_ARRAY,
-                $this->trans('commands.module.download.options.module')
+                $this->trans('commands.module.download.arguments.module')
             )
             ->addOption(
                 'latest',

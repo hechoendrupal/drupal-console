@@ -34,7 +34,7 @@ class InstallCommand extends ContainerAwareCommand
             ->addArgument(
                 'module',
                 InputArgument::IS_ARRAY,
-                $this->trans('commands.module.install.options.module')
+                $this->trans('commands.module.install.arguments.module')
             )
             ->addOption(
                 'latest',
