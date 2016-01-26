@@ -78,9 +78,6 @@ trait ProjectDownloadTrait
         }
 
         $unInstalledModules = $validator->getUninstalledModules($modules);
-        if (!$unInstalledModules) {
-            $io->warning($this->trans('commands.module.install.messages.nothing'));
-        }
 
         $dependencies = $this->calculateDependencies($unInstalledModules);
 
