@@ -1,5 +1,8 @@
 description: 'Modul vagy modulok letöltése'
+arguments:
+    module: 'Module or modules to be enabled should be separated by a space'
 options:
+    latest: 'Default to download most recent version'
     version: 'Module version i.e 1.x-dev'
 messages:
     no-releases: 'Nincs elérhető kiadás: %s'
