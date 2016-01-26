@@ -143,6 +143,17 @@ class EntityContentGenerator extends Generator
 
             // Check for hook_theme() in module file and warn ...
             $module_filename = $this->getSite()->getModulePath($module).'/'.$module.'.module';
+            // Check if the module file exists.
+            if (!file_exists($module_filename)) {
+                $this->renderFile(
+                    'module/module.twig',
+                    $this->getSite()->getModulePath($module).'/'.$module . '.module',
+                    [
+                        'machine_name' => $module,
+                        'description' => '',
+                    ]
+                );
+            }
             $module_file_contents = file_get_contents($module_filename);
             if (strpos($module_file_contents, 'function ' . $module . '_theme') !== false) {
                 echo "================\nWarning:\n================\n" .
