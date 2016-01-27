@@ -6,4 +6,3 @@ arguments:
 messages:
     config_files_imported: 'List of config files.'
     imported: 'Configuration imported successfully.'
-    file_and_directory_error: 'Please use only one of either the file or directory options.'
