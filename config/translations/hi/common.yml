@@ -37,6 +37,6 @@ status:
     disabled: 'अक्षम'
 messages:
     canceled: 'उत्पन्न रद्द कर दिया गया'
-    drupal-core: 'Drupal Core'
+    drupal-core: 'Drupal कोर'
     move-phar: 'आपके सिस्टम पर कहीं से console तक पहुँचने'
     quick-start: 'डाउनलोड, स्थापित और Drupal 8 की सेवा'

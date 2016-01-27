@@ -7,7 +7,7 @@ options:
     db-pass: 'डेटाबेस पासवर्ड'
     db-prefix: 'डेटाबेस उपसर्ग'
     db-port: 'डेटाबेस पोर्ट'
-    files-directory: 'Files Directory'
+    files-directory: 'फाइल्स डायरेक्टरी'
 questions:
     db-type: 'Drupal डेटाबेस प्रकार'
     db-host: 'मेजबान डेटाबेस'
@@ -16,7 +16,7 @@ questions:
     db-pass: 'डेटाबेस पासवर्ड'
     db-prefix: 'डेटाबेस उपसर्ग'
     db-port: 'डेटाबेस पोर्ट'
-    files-directory: 'Files Directory'
+    files-directory: 'फाइल्स डायरेक्टरी'
 messages:
     not-drupal: 'स्रोत डेटाबेस एक पहचानने पहचानने योग्य Drupal संस्करण नहीं है'
     migrations-created: '%s माइग्रेशन सफलतापूर्वक %s के लिए बना दी गई|'
