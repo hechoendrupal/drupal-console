@@ -29,13 +29,13 @@ class ExportCommand extends ContainerAwareCommand
                 'directory',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.config.export.options.directory')
+                $this->trans('commands.config.export.arguments.directory')
             )
             ->addOption(
                 'tar',
                 false,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.config.export.options.tar')
+                $this->trans('commands.config.export.arguments.tar')
             );
     }
 
