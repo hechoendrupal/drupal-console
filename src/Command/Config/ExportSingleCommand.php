@@ -50,6 +50,12 @@ class ExportSingleCommand extends ContainerAwareCommand
                 '',
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.config.export.arguments.directory')
+            )
+            ->addOption(
+                'include-dependencies',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.config.export.single.options.include-dependencies')
             );
     }
 
