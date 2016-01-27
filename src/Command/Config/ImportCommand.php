@@ -32,6 +32,12 @@ class ImportCommand extends ContainerAwareCommand
                 $this->trans('commands.config.import.arguments.file')
             )
             ->addOption(
+                'directory',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.config.import.arguments.directory')
+            )
+            ->addOption(
                 'remove-files',
                 false,
                 InputOption::VALUE_NONE,
