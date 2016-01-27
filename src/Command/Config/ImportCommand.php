@@ -108,11 +108,6 @@ class ImportCommand extends ContainerAwareCommand
             }
         }
 
-        $io->success(
-            sprintf(
-                $this->trans('commands.config.import.messages.imported'),
-                CONFIG_SYNC_DIRECTORY
-            )
-        );
+        $io->success($this->trans('commands.config.import.messages.imported'));
     }
 }
