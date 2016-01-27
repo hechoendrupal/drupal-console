@@ -177,21 +177,57 @@ class ExportSingleCommand extends ContainerAwareCommand
 
         $configName = $input->getArgument('config-name');
 
-        $configExportFile = $directory . '/' . $configName.'.yml';
+        $configNames = [$configName];
+        if ($input->getOption('include-dependencies')) {
+            $configNames += $this->getConfigDependencies($configName);
+        }
+        foreach ($configNames as $configName) {
+            $config = $this->getConfigFactory()->getEditable($configName);
 
-        file_unmanaged_delete($configExportFile);
+            $configExportFile = $directory . '/' . $configName.'.yml';
 
-        $config = $this->getConfigFactory()->getEditable($configName);
+            file_unmanaged_delete($configExportFile);
 
-        if ($config) {
-            $yaml = Yaml::encode($config->getRawData());
-            // Save release file
-            file_put_contents($configExportFile, $yaml);
-            $io->info(
-                sprintf($this->trans('commands.config.export.single.messages.export'), $configExportFile)
-            );
-        } else {
-            $io->error($this->trans('commands.config.export.single.messages.config-not-found'));
+            if ($config) {
+                $yaml = Yaml::encode($config->getRawData());
+                // Save configuration file.
+                file_put_contents($configExportFile, $yaml);
+                $io->info(
+                  sprintf($this->trans('commands.config.export.single.messages.export'), $configExportFile)
+                );
+            } else {
+                $io->error($this->trans('commands.config.export.single.messages.config-not-found'));
+            }
         }
     }
+
+    /**
+     * @param string $configName
+     *   The name of the configuration item to get dependencies for.
+     *
+     * @return array
+     *   An array of dependent configuration item names.
+     */
+    protected function getConfigDependencies($configName) {
+        $dependencyManager = $this->getConfigManager()->getConfigDependencyManager();
+        // Compute dependent config.
+        $dependent_list = $dependencyManager->getDependentEntities('config', $configName);
+        $dependents = [];
+        foreach ($dependent_list as $config_name => $item) {
+            if (!isset($dependents[$config_name])) {
+                $dependents[$config_name] = $config_name;
+            }
+            // Grab any dependent graph paths.
+            if (isset($item['reverse_paths'])) {
+                foreach ($item['reverse_paths'] as $dependent_name => $value) {
+                    if ($value && !isset($dependents[$dependent_name])) {
+                        $dependents[$dependent_name] = $dependent_name;
+                    }
+                }
+            }
+        }
+
+        return $dependents;
+    }
+
 }
