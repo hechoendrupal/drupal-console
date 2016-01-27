@@ -55,9 +55,15 @@ class ImportCommand extends ContainerAwareCommand
         $archiveFile = $input->getOption('file');
         $directory = $input->getOption('directory');
         $removeFiles = $input->getOption('remove-files');
-        $configSyncDir = config_get_config_directory(
-            CONFIG_SYNC_DIRECTORY
-        );
+
+        if ($directory) {
+            $configSyncDir = $directory;
+        }
+        else {
+            $configSyncDir = config_get_config_directory(
+              CONFIG_SYNC_DIRECTORY
+            );
+        }
 
         if ($archiveFile) {
             $this->extractTar($io, $archiveFile, $configSyncDir);
