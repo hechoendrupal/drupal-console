@@ -1,4 +1,4 @@
-description: 'Switch system performance configuration'
+description: 'システムのパフォーマンス設定を切り替える'
 arguments:
     environment: 'Environment name [dev, prod]'
 messages:
@@ -11,6 +11,6 @@ messages:
     service: Service
     service-parameter: Parameter
     service-value: Value
-    error-copying-file: 'Error copying file'
-    error-writing-file: 'Error copying file'
+    error-copying-file: 'ファイルのコピー中にエラーが発生しました'
+    error-writing-file: 'ファイルの書き込み中にエラーが発生しました'
     services-file-overwritten: 'Services files %s was overwritten'
