@@ -53,6 +53,10 @@ class ImportCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         $configFile = $input->getOption('file');
+        $directory = $input->getOption('directory');
+        if ($configFile && $directory) {
+            throw new \InvalidArgumentException($this->trans('commands.config.import.messages.file_and_directory_error'));
+        }
         $removeFiles = $input->getOption('remove-files');
         $configSyncDir = config_get_config_directory(
             CONFIG_SYNC_DIRECTORY
