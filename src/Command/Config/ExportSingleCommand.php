@@ -202,6 +202,8 @@ class ExportSingleCommand extends ContainerAwareCommand
     }
 
     /**
+     * Returns all configuration depedencies for a configuration item.
+     *
      * @param string $configName
      *   The name of the configuration item to get dependencies for.
      *
