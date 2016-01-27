@@ -66,7 +66,7 @@ class ImportCommand extends ContainerAwareCommand
         }
 
         if ($archiveFile) {
-            $this->extractTar($io, $archiveFile, $configSyncDir);
+            $this->extractArchive($io, $archiveFile, $configSyncDir);
         }
 
         $finder = new Finder();
@@ -120,7 +120,7 @@ class ImportCommand extends ContainerAwareCommand
      * @throws \Exception
      *   If something went wrong during extraction.
      */
-    private function extractTar(DrupalStyle $io, $archiveFile, $configDir) {
+    private function extractArchive(DrupalStyle $io, $archiveFile, $configDir) {
         $archiveTar = new ArchiveTar($archiveFile, 'gz');
 
         $io->simple(
