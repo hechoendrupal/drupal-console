@@ -17,9 +17,21 @@ use Drupal\Console\Command\ContainerAwareCommand;
 
 class ExportSingleCommand extends ContainerAwareCommand
 {
+    /**
+     * @var \Drupal\Core\Entity\EntityManager
+     */
     protected $entityManager;
+
+    /**
+     * @var []
+     */
     protected $definitions;
+
+    /**
+     * @var \Drupal\Core\Config\StorageInterface
+     */
     protected $configStorage;
+
     /**
      * {@inheritdoc}
      */
