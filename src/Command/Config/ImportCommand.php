@@ -52,9 +52,9 @@ class ImportCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $configFile = $input->getOption('file');
+        $archiveFile = $input->getOption('file');
         $directory = $input->getOption('directory');
-        if ($configFile && $directory) {
+        if ($archiveFile && $directory) {
             throw new \InvalidArgumentException($this->trans('commands.config.import.messages.file_and_directory_error'));
         }
         $removeFiles = $input->getOption('remove-files');
@@ -62,28 +62,8 @@ class ImportCommand extends ContainerAwareCommand
             CONFIG_SYNC_DIRECTORY
         );
 
-        if ($configFile) {
-            $archiveTar = new ArchiveTar($configFile, 'gz');
-
-            $io->simple(
-                $this->trans(
-                    'commands.config.import.messages.config_files_imported'
-                )
-            );
-
-            foreach ($archiveTar->listContent() as $file) {
-                $io->info(
-                    '[-] ' . $file['filename']
-                );
-            }
-
-            try {
-                $archiveTar->extract($configSyncDir . '/');
-            } catch (\Exception $e) {
-                $io->error($e->getMessage());
-
-                return;
-            }
+        if ($archiveFile) {
+            $this->extractTar($io, $archiveFile, $configSyncDir);
         }
 
         $finder = new Finder();
@@ -119,5 +99,45 @@ class ImportCommand extends ContainerAwareCommand
         }
 
         $io->success($this->trans('commands.config.import.messages.imported'));
+    }
+
+    /**
+     * Extracts the contents of the archive file into the config directory.
+     *
+     * @param DrupalStyle $io
+     *   IO object to print messages.
+     * @param string $archiveFile
+     *   The archive file to extract
+     * @param string $configDir
+     *   The directory to extract the files into.
+     *
+     * @return \Drupal\Core\Archiver\ArchiveTar
+     *   The initialised object.
+     *
+     * @throws \Exception
+     *   If something went wrong during extraction.
+     */
+    private function extractTar(DrupalStyle $io, $archiveFile, $configDir) {
+        $archiveTar = new ArchiveTar($archiveFile, 'gz');
+
+        $io->simple(
+          $this->trans(
+            'commands.config.import.messages.config_files_imported'
+          )
+        );
+
+        foreach ($archiveTar->listContent() as $file) {
+            $io->info(
+              '[-] ' . $file['filename']
+            );
+        }
+
+        try {
+            $archiveTar->extract($configDir . '/');
+        } catch (\Exception $e) {
+            $io->error($e->getMessage());
+
+            return;
+        }
     }
 }
