@@ -12,4 +12,4 @@ messages:
     success: 'Frissítve %s verzióról %s verzióra.'
     check: 'Elérhető frissítések ellenőrzése a következő verzióról: %s'
     current-version: 'A legfrissebb verzió (%s) már telepítve van a rendszeren.'
-    instructions: "Frissíteni kell a „composer global update” segítségével\nEsetleg át lehet váltani egy javasolt Phar telepítésre\ncomposer global remove drupal/console\ncurl https://drupalconsole.com/installer -L -o drupal.phar"
+    instructions: 'Frissíteni kell a "composer global update" segítségével\nEsetleg át lehet váltani egy javasolt Phar telepítésre\ncomposer global remove drupal/console\ncurl https://drupalconsole.com/installer -L -o drupal.phar'
