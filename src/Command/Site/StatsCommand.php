@@ -170,7 +170,7 @@ class StatsCommand extends ContainerAwareCommand
 
         $tableHeader =[
             $this->trans('commands.site.stats.messages.stat-name'),
-            $this->trans('commands.site.stats.messages.stat-amount'),
+            $this->trans('commands.site.stats.messages.stat-quantity'),
         ];
 
         $tableRows = [];
