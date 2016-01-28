@@ -27,7 +27,7 @@ class FormAlterCommand extends GeneratorCommand
     use MenuTrait;
     use ConfirmationTrait;
 
-    protected $metadata;
+    protected $metadata = ['unset' => []];
 
     protected function configure()
     {
@@ -75,8 +75,6 @@ class FormAlterCommand extends GeneratorCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $this->metadata = [];
-
         $io = new DrupalStyle($input, $output);
 
         $moduleHandler = $this->getModuleHandler();
