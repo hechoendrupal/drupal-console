@@ -35,20 +35,22 @@ function {{ module }}_form_alter(&$form, FormStateInterface $form_state, $form_i
     $form['{{ input.name }}'] = array(
       '#type' => '{{ input.type }}',
       '#title' => t('{{ input.label }}'),
+    {%- if input.description is defined -%}
       '#description' => t('{{ input.description }}'),
-{% if input.options|length %}
+    {% endif %}
+{%- if input.options is defined and input.options|length -%}
       '#options' => {{ input.options }},
 {% endif %}
-{% if input.maxlength|length %}
+{%- if input.maxlength|length -%}
       '#maxlength' => {{ input.maxlength }},
 {% endif %}
-{% if input.size|length %}
+{%- if input.size|length -%}
       '#size' => {{ input.size }},
 {% endif %}
-{% if input.default_value|length %}
+{%- if input.default_value is defined and input.default_value|length -%}
       '#default_value' => '{{ input.default_value }}',
 {% endif %}
-{% if input.weight|length %}
+{%- if input.weight is defined and input.weight|length -%}
       '#weight' => '{{ input.weight }}',
 {% endif %}
     );
