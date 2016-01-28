@@ -6,7 +6,7 @@ console:
         generate-chain: 'Shows command options and arguments as yaml output to be used in chain command'
         generate-inline: 'Shows command options and arguments as inline command'
         generate-doc: 'Shows command options and arguments as markdown'
-        root: 'Define the Drupal root to be use in command execution'
+        root: 'Define the Drupal root to be used in command execution'
         uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
         yes: 'Skip confirmation and proceed'
         target: 'Site name you want to interact with (for local or remote sites)'

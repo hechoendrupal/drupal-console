@@ -1,14 +1,14 @@
-description: 'Generate a new config entity'
+description: 'एक नया कॉन्फिग एंटिटि उत्पन्न करे'
 help: ''
 options:
     module: common.options.module
-    entity-class: 'The config entity class'
-    entity-name: 'The config entity name'
-    label: 'The label'
-    bundle-of: 'Acts as bundle for content entities'
+    entity-class: 'कॉन्फिग इकाई वर्ग'
+    entity-name: 'कॉन्फिग इकाई नाम'
+    label: लेबल
+    bundle-of: 'कंटेंट एंटिटि के लिए बंडल के रूप में कार्य करता है    '
 questions:
     module: common.questions.module
-    entity-class: 'Enter the class of your new config entity'
-    entity-name: 'Enter the name of your new config entity'
-    label: 'Enter the label of your new config entity'
-    bundle-of: 'Name of the content entity you want this (config) entity to act as a bundle for'
+    entity-class: 'अपने नए कॉन्फिग एंटिटि की कक्षा दे'
+    entity-name: 'अपने नए कॉन्फिग एंटिटि का नाम दर्ज करे'
+    label: 'अपने नए कॉन्फिग एंटिटि के लेबल दर्ज करे'
+    bundle-of: 'कंटेंट एंटिटि का नाम आप इस (कॉन्फिग) इकाई के लिए एक बंडल के रूप में कार्य करना चाहते हैं'

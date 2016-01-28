@@ -1,8 +1,8 @@
-description: 'Edit the selected configuration.'
+description: コンフィグレーションの編集
 arguments:
-    config-name: 'Configuration name.'
-    editor: Editor.
+    config-name: コンフィグレーションの名前
+    editor: 編集に使用するエディタの名前
 questions:
-    config-name: 'Choose a configuration unit'
+    config-name: 編集するコンフィグレーションを選択
 messages:
-    no-directory: 'An error occurred while creating your directory at'
+    no-directory: ディレクトリを作成中にエラーが発生しました。

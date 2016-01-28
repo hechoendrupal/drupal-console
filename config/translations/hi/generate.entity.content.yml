@@ -1,14 +1,14 @@
-description: 'Generate a new content entity'
+description: 'एक नई कंटेंट एंटिटि बनाए'
 help: ''
 options:
     module: common.options.module
-    entity-class: 'The content entity class'
-    entity-name: 'The content entity name'
-    label: 'The label'
-    has-bundles: 'Entity has bundles'
+    entity-class: 'कंटेंट एंटिटि कक्षा'
+    entity-name: 'कंटेंट एंटिटि नाम'
+    label: लेबल
+    has-bundles: 'एंटिटि मॆ बंडल हे'
 questions:
     module: common.questions.module
-    entity-class: 'Enter the class of your new content entity'
-    entity-name: 'Enter the name of your new content entity'
-    label: 'Enter the label of your new content entity'
-    has-bundles: 'Do you want this (content) entity to have bundles'
+    entity-class: 'अपने नई कंटेंट एंटिटि की कक्षा लिखॆ'
+    entity-name: 'अपने नई कंटेंट एंटिटि का नाम लिखॆ'
+    label: 'अपने नई कंटेंट एंटिटि का लेबल लिखॆ'
+    has-bundles: 'आप (कंटेंट) एंटिटि  मे बंडल चाहते हैं'

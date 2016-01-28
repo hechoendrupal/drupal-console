@@ -1,14 +1,14 @@
-description: 'Create dummy vocabularies for your Drupal 8 application.'
+description: 'Drupal 8 アプリケーションにダミーのボキャブラリーを追加'
 help: 'The <info>create:vocabularies</info> command helps you create dummy vocabularies.'
 welcome: 'Welcome to the Drupal vocabularies creator'
 options:
-    limit: 'How many vocabularies would you like to create'
-    name-words: 'Maximum number of words in vocabulary names'
+    limit: 作成するボキャブラリーの数
+    name-words: ボキャブラリーの名前に設定するの単語の最大数
 questions:
-    limit: 'Enter how many vocabularies would you like to create'
-    name-words: 'Enter the maximum number of words in vocabulary names'
+    limit: '作成するボキャブラリーの数を入力してください'
+    name-words: ボキャブラリーの名前に設定するの単語の最大数
 messages:
-    vocabulary-id: 'Vocabulary Id'
-    name: Name
-    created-terms: 'Created %s vocabularies successfully'
-    error: 'Error creating vocabularies: %s'
+    vocabulary-id: ボキャブラリーID
+    name: 名前
+    created-terms: '%s 個のボキャブラリーを作成しました。'
+    error: 'ボキャブラリー %s の作成に失敗しました。'

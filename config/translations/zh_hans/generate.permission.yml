@@ -1,5 +1,5 @@
 description: 生成模块权限
-help: '<info>generate:permissions</info> 命令帮助您生成新权限'
+help: '命令 <info>generate:permissions</info> 用于生成新权限'
 options:
     module: common.options.module
 questions:

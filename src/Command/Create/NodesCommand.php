@@ -87,7 +87,7 @@ class NodesCommand extends ContainerAwareCommand
         if (!$limit) {
             $limit = $io->ask(
                 $this->trans('commands.create.nodes.questions.limit'),
-                10
+                25
             );
             $input->setOption('limit', $limit);
         }
@@ -125,9 +125,13 @@ class NodesCommand extends ContainerAwareCommand
         $createNodes = $this->getDrupalApi()->getCreateNodes();
 
         $contentTypes = $input->getArgument('content-types');
-        $limit = $input->getOption('limit')?:10;
+        $limit = $input->getOption('limit')?:25;
         $titleWords = $input->getOption('title-words')?:5;
-        $timeRange = $input->getOption('time-range')?:'N';
+        $timeRange = $input->getOption('time-range')?:31536000;
+
+        if (!$contentTypes) {
+            $contentTypes = array_keys($this->getDrupalApi()->getBundles());
+        }
 
         $nodes = $createNodes->createNode(
             $contentTypes,

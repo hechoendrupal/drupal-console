@@ -81,9 +81,9 @@ class DiffCommand extends Command
         }
 
         try {
-            $yaml_left_parsed = $yaml->parse(file_get_contents($yaml_left));
+            $yamlLeftParsed = $yaml->parse(file_get_contents($yaml_left));
 
-            if (empty($yaml_left_parsed)) {
+            if (empty($yamlLeftParsed)) {
                 $io->error(
                     sprintf(
                         $this->trans('commands.yaml.merge.messages.wrong-parse'),
@@ -92,9 +92,9 @@ class DiffCommand extends Command
                 );
             }
 
-            $yaml_right_parsed = $yaml->parse(file_get_contents($yaml_right));
+            $yamlRightParsed = $yaml->parse(file_get_contents($yaml_right));
 
-            if (empty($yaml_right_parsed)) {
+            if (empty($yamlRightParsed)) {
                 $io->error(
                     sprintf(
                         $this->trans('commands.yaml.merge.messages.wrong-parse'),
@@ -108,45 +108,45 @@ class DiffCommand extends Command
             return;
         }
 
-        $nested_array = $this->getNestedArrayHelper();
+        $nestedArray = $this->getNestedArrayHelper();
 
-        $statisticts = ['total' => 0, 'equal'=> 0 , 'diff' => 0];
-        $diff = $nested_array->arrayDiff($yaml_left_parsed, $yaml_right_parsed, $negate, $statisticts);
+        $statistics = ['total' => 0, 'equal'=> 0 , 'diff' => 0];
+        $diff = $nestedArray->arrayDiff($yamlLeftParsed, $yamlRightParsed, $negate, $statistics);
 
         if ($stats) {
             $io->info(
                 sprintf(
                     $this->trans('commands.yaml.diff.messages.total'),
-                    $statisticts['total']
+                    $statistics['total']
                 )
             );
 
             $io->info(
                 sprintf(
                     $this->trans('commands.yaml.diff.messages.diff'),
-                    $statisticts['diff']
+                    $statistics['diff']
                 )
             );
 
             $io->info(
                 sprintf(
                     $this->trans('commands.yaml.diff.messages.equal'),
-                    $statisticts['equal']
+                    $statistics['equal']
                 )
             );
 
             return;
         }
         // FLAT YAML file to display full yaml to be used with command yaml:update:key or yaml:update:value
-        $diff_flatten = array();
-        $key_flatten = '';
-        $nested_array->yamlFlattenArray($diff, $diff_flatten, $key_flatten);
+        $diffFlatten = array();
+        $keyFlatten = '';
+        $nestedArray->yamlFlattenArray($diff, $diffFlatten, $keyFlatten);
 
         if ($limit !== null) {
             if (!$offset) {
                 $offset = 0;
             }
-            $diff_flatten = array_slice($diff_flatten, $offset, $limit);
+            $diff_flatten = array_slice($diffFlatten, $offset, $limit);
         }
 
         $tableHeader = [
@@ -155,10 +155,10 @@ class DiffCommand extends Command
         ];
 
         $tableRows = [];
-        foreach ($diff_flatten as $yaml_key => $yaml_value) {
+        foreach ($diff_flatten as $yamlKey => $yamlValue) {
             $tableRows[] = [
-                $yaml_key,
-                $yaml_value
+                $yamlKey,
+                $yamlValue
             ];
         }
 

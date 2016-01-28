@@ -3,8 +3,8 @@ arguments:
     yaml-file: 'Path of YAML file to be splitted'
 options:
     indent-level: 'Split YAML file using a specific indent level'
-    exclude-parents-key: 'Exclude parents key in file name generated'
-    starting-key: 'YAML Key from where start split useful to extract partial elements'
+    exclude-parents-key: 'Exclude the "parents" key from the generated file'
+    starting-key: 'YAML Key from where start split - useful to extract partial elements'
 messages:
     generating-split: 'Generating new files'
     split-generated: 'File %s was generated'

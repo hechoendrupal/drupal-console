@@ -1,5 +1,5 @@
-description: 'Export current application configuration.'
+description: 現在のアプリケーションのコンフィグレーションをエクスポート
 arguments:
-    directory: 'Define export directory to save configuration output.'
+    directory: コンフィグレーションをエクスポートするエクスポートするディレクトリ
 messages:
-    directory: 'The configuration was exported at:'
+    directory: 'コンフィグレーションは以下のディレクトリにエクスポートされました:'

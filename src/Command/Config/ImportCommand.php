@@ -29,13 +29,13 @@ class ImportCommand extends ContainerAwareCommand
                 'file',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.config.import.option.file')
+                $this->trans('commands.config.import.arguments.file')
             )
             ->addOption(
                 'remove-files',
                 false,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.config.import.option.keep-files')
+                $this->trans('commands.config.import.arguments.remove-files')
             );
     }
 
@@ -108,6 +108,11 @@ class ImportCommand extends ContainerAwareCommand
             }
         }
 
-        $io->simple(sprintf($this->trans('commands.config.import.messages.imported'), CONFIG_SYNC_DIRECTORY));
+        $io->success(
+            sprintf(
+                $this->trans('commands.config.import.messages.imported'),
+                CONFIG_SYNC_DIRECTORY
+            )
+        );
     }
 }

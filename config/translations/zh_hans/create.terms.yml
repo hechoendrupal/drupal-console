@@ -1,18 +1,18 @@
-description: 'Create dummy terms for your Drupal 8 application.'
-help: 'The <info>create:nodes</info> command helps you generate fake nodes.'
-welcome: 'Welcome to the Drupal terms creator'
+description: 生成分类术语
+help: '命令 <info>create:terms</info> 用于生成分类术语'
+welcome: 欢迎使用分类术语生成器
 arguments:
-    vocabularies: 'Vocabularie(s) to be used in terms creation'
+    vocabularies: 用于生成分类术语的词汇表(s)
 options:
-    limit: 'How many terms would you like to create'
-    name-words: 'Maximum number of words in term names'
+    limit: 生成多少个分类术语
+    name-words: '分类术语名称允许的最多单词数量'
 questions:
-    vocabularies: 'Select vocabularie(s) to be used on terms creation'
-    limit: 'Enter how many terms would you like to create'
-    name-words: 'Enter the maximum number of words in term names'
+    vocabularies: 选择用于生成分类术语的词汇表(s)
+    limit: '输入生成分类术语的数量'
+    name-words: '输入分类术语名称允许的最多单词数量'
 messages:
-    term-id: 'Term Id'
-    vocabulary: Vocabulary
-    name: Name
-    invalid-vocabularies: 'Vocabularie(s) %s are invalid'
-    created-terms: 'Created %s terms successfully'
+    term-id: '分类术语 Id'
+    vocabulary: 词汇表
+    name: 名称
+    invalid-vocabularies: '词汇表(s) %s 无效'
+    created-terms: '生成 %s 分类词汇成功'

@@ -21,7 +21,7 @@ questions:
     services: common.questions.services
     test: 'Doriți să generați o clasă de test unit'
     route: 'Introduceți calea rutei'
-    controller-add: 'Do you want add another contoller method'
+    controller-add: 'Do you want to add another contoller method'
     controller: 'Controller title'
     method-name: 'Introduceți numele metodei'
     other-controller-title: 'Titlul controllerului (necompletat pentru a începe cu generarea codului)'

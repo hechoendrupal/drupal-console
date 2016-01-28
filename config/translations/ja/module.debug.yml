@@ -1,7 +1,7 @@
-description: 'Display current modules available for application'
+description: アプリケーションで利用可能なモジュールの一覧を表示
 options:
-    status: 'Module status [enabled|disabled]'
-    type: 'Module type [core|no-core]'
+    status: 'モジュールのステータス [enabled|disabled]'
+    type: 'モジュールのタイプ [core|no-core]'
 messages:
     id: ID
     name: Name

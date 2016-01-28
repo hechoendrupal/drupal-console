@@ -1,5 +1,5 @@
-description: 'Show the current configuration.'
+description: 現在のコンフィグレーションを表示
 arguments:
-    config-name: 'Configuration name.'
+    config-name: コンフィグレーションの名前
 errors:
-    config-not-exists: 'The configuration "%s" does not exists.'
+    config-not-exists: 'コンフィグレーション "%s" は存在しません'

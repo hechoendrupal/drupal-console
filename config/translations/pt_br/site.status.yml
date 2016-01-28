@@ -19,6 +19,8 @@ messages:
     directory_temporary: 'Diretório de arquivos temporários'
     directory_theme_default: 'Diretório do tema padrão'
     directory_theme_admin: 'Diretório do tema administrativo'
+    current_version: 'Current Drupal version (%s)'
+    not_installed: 'Drupal is not installed'
     configuration: Configuração
     active: 'Diretório da configuração ativa'
     staging: 'Diretório da configuração de Staging (Ambiente de teste)'

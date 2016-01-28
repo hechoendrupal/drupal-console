@@ -1,8 +1,9 @@
-description: 'Uninstall module or modules in the application'
+description: モジュールをアンインストール
 options:
-    module: 'Module or modules to be uninstalled should be separated by a comma'
+    module: 'アンインストールするモジュール (複数指定する場合はカンマで区切り)'
 messages:
-    no-modules: 'You must provide module or modules to uninstall.'
-    dependents: 'Unable to uninstall modules %s because are required by %s'
-    nothing: 'Nothing to do. All modules are already uninstalled'
-    success: 'The following module(s) were uninstalled successfully: %s'
+    no-modules: 'モジュールは必ず指定してください。'
+    dependents: 'モジュール %s は %s で利用されているためアンインストールできません。'
+    nothing: モジュールはすでにアンインストールされています。
+    success: 'モジュール %s がアンインストールされました。'
+    missing: 'Unable to install modules %s due to missing modules %s'
