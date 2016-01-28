@@ -2,7 +2,7 @@ description: 'Show the current stats of website.'
 help: 'Show the current stats of website.'
 messages:
   stat-name: 'Name'
-  stat-amount: 'Amount'
+  stat-quantity: 'Quantity'
   node-type: 'Node:%s'
   comments: 'Comments'
   vocabulary: 'Vocabularies'
