@@ -41,11 +41,22 @@ class AboutCommand extends Command
         // Provide drupal version if it's installed
         $drupalVersion = $this->trans('commands.site.status.messages.not_installed');
         if($drupal->isInstalled()) {
-
+          try {
             $drupalVersion = sprintf(
-                $this->trans('commands.site.status.messages.current_version'),
-                $this->getSite()->getDrupalVersion()
+              $this->trans('commands.site.status.messages.current_version'),
+              $this->getSite()->getDrupalVersion()
             );
+          } catch (Exception $e) {
+              $io->error(
+                sprintf(
+                  '%s: %s',
+                  $this->trans('commands.site.status.messages.not_enabled'),
+                  $e->getMessage()
+                )
+              );
+          }
+
+
         }
 
         $aboutTitle = sprintf(
