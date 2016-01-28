@@ -169,8 +169,8 @@ class StatsCommand extends ContainerAwareCommand
         $application = $this->getApplication();
 
         $tableHeader =[
-            $this->trans('commands.site.stats.messages.assets-type'),
-            $this->trans('commands.site.stats.messages.assets-amount'),
+            $this->trans('commands.site.stats.messages.stat-name'),
+            $this->trans('commands.site.stats.messages.stat-amount'),
         ];
 
         $tableRows = [];

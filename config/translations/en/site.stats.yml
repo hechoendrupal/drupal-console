@@ -1,8 +1,8 @@
 description: 'Show the current stats of website.'
 help: 'Show the current stats of website.'
 messages:
-  assets-type: 'Type'
-  assets-amount: 'Amount'
+  stat-name: 'Name'
+  stat-amount: 'Amount'
   node-type: 'Node:%s'
   comments: 'Comments'
   vocabulary: 'Vocabularies'
