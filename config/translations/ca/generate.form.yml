@@ -14,7 +14,7 @@ questions:
     form-id: 'ID del formaulari'
     services: common.questions.services
     inputs: common.questions.inputs
-    routing: 'Actualitzant el fitxer de routing''
+    routing: 'Actualitzant el fitxer de routing'
     menu_link_gen: 'Generar un enllaç de menú'
     menu_link_title: 'El títol per l\''enllaç de menú'
     menu_parent: 'Menú pare'
