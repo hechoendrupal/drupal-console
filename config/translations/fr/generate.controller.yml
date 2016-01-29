@@ -21,7 +21,7 @@ questions:
     services: common.questions.services
     test: 'Voulez-vous générer une classe de test unitaire'
     route: 'Veuillez renseigner le chemin de la route'
-    controller-add: 'Do you want add another contoller method'
+    controller-add: 'Do you want to add another contoller method'
     controller: 'Controller title'
     method-name: 'Veuillez renseigner le nom de la méthode d''action'
     other-controller-title: 'Controller title (empty to start with code generation)'

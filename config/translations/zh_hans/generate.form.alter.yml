@@ -1,5 +1,5 @@
-description: 生成hook_form_alter()或hook_form_FORM_ID_alter的实现程序
-help: '<info>"%s"</info>命令帮你生成一个新的"%s"'
+description: '生成 hook_form_alter() 或 hook_form_FORM_ID_alter 实现'
+help: '命令 <info>"%s"</info> 用于生成一个新的 "%s"'
 options:
     form-id: '要改换的表格ID'
 messages:

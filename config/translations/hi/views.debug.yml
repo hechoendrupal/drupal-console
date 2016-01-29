@@ -1,18 +1,18 @@
 description: 'अनुप्रयोग के वर्तमान व्यूज साधनो को दिखाएँ'
 arguments:
-    view-id: 'View ID'
-    view-tag: 'View tag'
-    view-status: 'View status (Enabled|Disabled)'
+    view-id: 'व्यू आईडी'
+    view-tag: 'व्यू टैग'
+    view-status: 'व्यू स्टेटस (Enabled|Disabled)'
 messages:
-    view-id: 'View ID'
-    view-name: 'View का नाम'
+    view-id: 'व्यू आईडी'
+    view-name: 'व्यू का नाम'
     description: विवरण
-    tag: Tag
+    tag: टैग
     status: स्थिति
-    path: Path
-    not-found: 'View %s wasn''t found.'
-    display-list: 'Display list'
-    display-id: 'ID'
-    display-name: 'नाम'
-    display-description: 'विवरण'
-    display-paths: 'Paths'
+    path: पाथ
+    not-found: 'व्यू %s नहीं मिला था।'
+    display-list: 'प्रदर्शन की सूची'
+    display-id: आईडी
+    display-name: नाम
+    display-description: विवरण
+    display-paths: पाथ

@@ -23,14 +23,14 @@ class SiteHelper extends Helper
     private $modules;
 
     /**
-     * @var string
+     * @var array
      */
-    private $siteRoot;
+    private $themes;
 
     /**
      * @var string
      */
-    private $installedModules;
+    private $siteRoot;
 
     /**
      * @return string
@@ -78,42 +78,6 @@ class SiteHelper extends Helper
         return $discovery->scan('theme');
     }
 
-
-    /**
-     * @param bool|FALSE $reset
-     * @return array
-     */
-    private function getInstalledModules($reset = false)
-    {
-        if ($this->installedModules && !$reset) {
-            return $this->installedModules;
-        }
-
-        $kernel = $this->getKernelHelper()->getKernel();
-        if (!$kernel) {
-            return [];
-        }
-
-        $container = $kernel->getContainer();
-        if (!$container) {
-            return [];
-        }
-
-        $configFactory = $container->get('config.factory');
-        if (!$configFactory) {
-            return [];
-        }
-
-        $coreExtension = $configFactory->get('core.extension');
-        if (!$coreExtension) {
-            return [];
-        }
-
-        $this->installedModules = $coreExtension->get('module') ?: [];
-
-        return $this->installedModules;
-    }
-    
     /**
      * @return array
      */
@@ -155,7 +119,6 @@ class SiteHelper extends Helper
         $showNoCore = true,
         $nameOnly = false
     ) {
-        $installedModules = $this->getInstalledModules($reset);
         $modules = [];
 
         if (!$this->modules || $reset) {
@@ -164,10 +127,16 @@ class SiteHelper extends Helper
 
         foreach ($this->modules as $module) {
             $name = $module->getName();
-            if (array_key_exists($name, $installedModules) && !$showInstalled) {
+
+            $isInstalled = false;
+            if (property_exists($module, 'status')) {
+                $isInstalled = ($module->status)?true:false;
+            }
+
+            if (!$showInstalled && $isInstalled) {
                 continue;
             }
-            if (!array_key_exists($name, $installedModules) && !$showUninstalled) {
+            if (!$showUninstalled && !$isInstalled) {
                 continue;
             }
             if (!$showCore && $module->origin == 'core') {
