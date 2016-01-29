@@ -6,7 +6,7 @@ options:
     controller-title: 'Títol del controlador.'
     class: 'La Classe que descriu el comandament. (Ha d\''acabar amb la paraula \''Commmand\'').'
     name: 'Nom del comandament.'
-    container-aware: 'Es el comandament conscient de l'instal·lació de Drupal quan s\''executa'
+    container-aware: 'Es el comandament conscient de l\''instal·lació de Drupal quan s\''executa'
 questions:
     module: common.questions.module
     class: 'Tecleja la classe del comandament. (Ha d\''acabar amb la paraula \''Command\'').'
