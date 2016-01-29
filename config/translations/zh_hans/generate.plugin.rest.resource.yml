@@ -1,4 +1,4 @@
-description: 生成 REST资源插件
+description: '生成 REST资源插件'
 help: '命令 <info>generate:plugin:rest:resource</info> 用于生成 REST 资源插件'
 welcome: '欢迎使用 Drupa REST 资源插件生成器'
 options:
