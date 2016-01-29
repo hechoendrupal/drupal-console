@@ -22,7 +22,7 @@ class ExecuteCommand extends ContainerAwareCommand
             ->setDescription($this->trans('commands.cron.execute.description'))
             ->addArgument(
                 'module',
-                InputArgument::REQUIRED,
+                InputArgument::IS_ARRAY | InputArgument::REQUIRED,
                 $this->trans('commands.common.options.module')
             );
     }
@@ -31,12 +31,10 @@ class ExecuteCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $module = $input->getArgument('module');
+        $modules = $input->getArgument('module');
         $module_handler = $this->getModuleHandler();
 
-        if ($module != 'all') {
-            $modules = [$module];
-        } else {
+        if (in_array('all', $modules)) {
             $modules = $module_handler->getImplementations('cron');
         }
 
@@ -65,5 +63,7 @@ class ExecuteCommand extends ContainerAwareCommand
         }
 
         $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
+
+        $io->success($this->trans('commands.cron.execute.messages.success'));
     }
 }

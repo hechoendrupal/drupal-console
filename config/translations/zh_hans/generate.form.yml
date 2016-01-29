@@ -1,6 +1,6 @@
-description: '生成新的"%s"'
-help: '<info>"%s"</info>命令帮助你生成新的"%s"'
-welcome: '欢迎到Drupal表格生成器'
+description: '生成新 "%s"'
+help: '命令 <info>"%s"</info> 用于生成新的"%s"'
+welcome: '欢迎使用 Drupal 表单生成器'
 options:
     module: common.options.module
     class: 'The form class name'

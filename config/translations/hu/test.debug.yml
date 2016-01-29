@@ -1,17 +1,15 @@
-description: 'Elérhető unit tesztek megjelenítése.'
-help: 'Console parancs frissítése a legújabb verzióra.'
+description: 'Az alkalmazás egységtesztjeinek listázása.'
+help: 'A legújabb verzióra frissíti a console parancsot.'
 arguments:
-    test-class: 'Test Class'
-    test-id: 'Unit Teszt ID'
+    test-class: 'Tesztosztály'
 options:
-    group: Csoport
+    group: 'Csoport'
 messages:
-    class: 'Test Class'
-    description: Leírás
-    group: Csoport
-    type: 'Test Type'
-    success: 'A console sikeresen frissítve lett a legújabb verzióra.'
-    missing-dependency: 'Missing dependency'
-    methods: 'Test methods'
-    not-found: 'Debug wans''t found, try enclosure test id between double quotes.'
-    id: 'Unit Teszt ID'
+    class: 'Tesztosztály'
+    description: 'Leírás'
+    group: 'Csoport'
+    type: 'Teszttípus'
+    success: 'A konzol a legfrissebb verzióra frissült.'
+    missing-dependency: 'Hiányzó függőség'
+    methods: 'Tesztmetódusok'
+    not-found: 'A hibakeresés nem található, meg kell próbálni dupla idézőjelek közé tenni a tesztazonosítót.'

@@ -1,4 +1,5 @@
-description: 'Execute cron implementations by module or execute all crons'
+description: 'モジュール単位、もしくは全てのcronを実行'
 messages:
-    module-invalid: 'Module %s doesn''t have an implementation of cron'
-    executing-cron: 'Executing cron function of module %s'
+    module-invalid: 'モジュール %s はcronを実装していません。'
+    executing-cron: 'モジュール %s のcronを実行中'
+    success: 'All cron implementations requested were executed successfully'

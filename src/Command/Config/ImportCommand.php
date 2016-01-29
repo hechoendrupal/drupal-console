@@ -29,13 +29,13 @@ class ImportCommand extends ContainerAwareCommand
                 'file',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.config.import.option.file')
+                $this->trans('commands.config.import.arguments.file')
             )
             ->addOption(
                 'remove-files',
                 false,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.config.import.option.keep-files')
+                $this->trans('commands.config.import.arguments.remove-files')
             );
     }
 

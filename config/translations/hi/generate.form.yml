@@ -4,25 +4,25 @@ welcome: 'Drupal फॉर्म उत्पादक में आपका �
 options:
     module: common.options.module
     class: 'फॉर्म क्लास का नाम'
-    form-id: 'The Form id'
+    form-id: 'फॉर्म आईडी'
     services: common.options.services
     inputs: common.options.inputs
     routing: 'राउटिंग अवगत करें'
 questions:
     module: common.questions.module
     class: 'फॉर्म क्लास का नाम दर्ज करें'
-    form-id: 'Form id दर्ज करें'
+    form-id: 'फॉर्म आईडी दर्ज करें'
     services: common.questions.services
     inputs: common.questions.inputs
     routing: 'राउटिंग फाइल अवगत करें'
-    menu_link_gen: 'Generate a menu link'
-    menu_link_title: 'A title for the menu link'
-    menu_parent: 'Menu parent'
-    menu_link_desc: 'A description for the menu link'
+    menu_link_gen: 'एक मेनू लिंक उत्पन्न'
+    menu_link_title: 'मेनू लिंक के लिए एक शीर्षक'
+    menu_parent: 'मेनू पैरेंट'
+    menu_link_desc: 'मेनू लिंक के लिए एक विवरण'
 alter:
     description: 'एक hook_form_alter() या hook_form_FORM_ID_alter कार्यान्वयन उत्पन्न करें'
     help: '<info>%s</info> कमाण्ड एक नया %s उत्पन्न करने में मदद करता है'
     options:
-        form-id: 'Form ID को बदलने के लिए'
+        form-id: 'फॉर्म आईड को बदलने के लिए'
     messages:
         inputs: "फॉर्म को बदलने लिए फॉर्म में आप खाने डाल सकते हैं।\nइच्छानुसार <info>जारी</info> रखने के लिए <info>enter</info> कुंजी दबाएँ"

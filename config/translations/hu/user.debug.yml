@@ -1,4 +1,4 @@
-description: 'Megjeleníti az alkalmazás aktuális felhasználóit'
+description: 'Megjeleníti az aktuális felhasználókat'
 help: 'A <info>user:debug</info> paranccsal olvashatók be az aktuális felhasználók.'
 welcome: 'Üdvözlet a Drupal felhasználók hibakeresése programban'
 options:
