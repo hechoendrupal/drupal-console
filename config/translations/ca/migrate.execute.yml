@@ -27,7 +27,7 @@ questions:
 messages:
     processing: 'Processing Migration "%s"'
     imported: 'Migration "%s" was imported correctly'
-    fail-load: 'Migration "%s" can\''t be loaded'
+    fail-load: 'Migration "%s" can''t be loaded'
     importing-incomplete: 'Importing migration "%s"'
     import-stopped: 'Import "%s" stopped by request'
     import-fail: 'Import "%s" failed'

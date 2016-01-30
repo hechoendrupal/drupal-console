@@ -1,5 +1,5 @@
 description: 'Generar connectors de tipus de camp, plugin i formatador'
-help: 'El comandament <info>generate:plugin:field</info> t\''ajuda a generar un joc complet de connectors de camps: tipus de camp, formatador de camp i plugin de camp.'
+help: 'El comandament <info>generate:plugin:field</info> t''ajuda a generar un joc complet de connectors de camps: tipus de camp, formatador de camp i plugin de camp.'
 welcome: 'Benvingut al generador de connectors de camp per Drupal'
 options:
     module: common.options.module
