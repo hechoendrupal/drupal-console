@@ -1,0 +1,5 @@
+description: 'List user Drupal Console configuration.'
+messages:
+    config-key: 'Config key'
+    config-value: 'Config value'
+    config-file: 'User Drupal Console config file %s'
