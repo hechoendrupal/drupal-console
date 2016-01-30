@@ -1,5 +1,5 @@
 description: 'Crear vocabulari dummy per la teva aplicació Drupal 8.'
-help: 'El comandament <info>create:vocabularies</info> t\''ajuda a crear vocabulari dummy.'
+help: 'El comandament <info>create:vocabularies</info> t''ajuda a crear vocabulari dummy.'
 welcome: 'Benvingut al creador de vocabulari de Drupal 8'
 options:
     limit: 'Quants vocabularis voldries crear'
@@ -10,5 +10,5 @@ questions:
 messages:
     vocabulary-id: 'Id de vocabbulari'
     name: Nom
-    created-terms: 'S\''han creat %s vocabularis correctament'
-    error: 'S\''ha produït un error creant el vocabulari: %s'
+    created-terms: 'S''han creat %s vocabularis correctament'
+    error: 'S''ha produït un error creant el vocabulari: %s'

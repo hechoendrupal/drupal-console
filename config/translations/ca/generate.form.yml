@@ -1,5 +1,5 @@
 description: 'Generar un nou "%s"'
-help: 'El comandament <info>"%s"</info> t\''ajuda a generar un nou "%s"'
+help: 'El comandament <info>"%s"</info> t''ajuda a generar un nou "%s"'
 welcome: 'Benvingut al generador de formaularis de Drupal'
 options:
     module: common.options.module
@@ -16,6 +16,6 @@ questions:
     inputs: common.questions.inputs
     routing: 'Actualitzant el fitxer de routing'
     menu_link_gen: 'Generar un enllaç de menú'
-    menu_link_title: 'El títol per l\''enllaç de menú'
+    menu_link_title: 'El títol per l''enllaç de menú'
     menu_parent: 'Menú pare'
-    menu_link_desc: 'La descripció per l\''enllaç de menú'
+    menu_link_desc: 'La descripció per l''enllaç de menú'
