@@ -1,4 +1,4 @@
-description: '创建新的配置实体'
+description: '生成新配置实体'
 help: ''
 options:
     module: common.options.module

@@ -1,4 +1,4 @@
-description: '安装Drupal'
+description: '安装 Drupal'
 arguments:
     profile: '要安装的Drupal配置档案'
     langcode: Drupal语言

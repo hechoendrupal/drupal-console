@@ -23,6 +23,11 @@ class SiteHelper extends Helper
     private $modules;
 
     /**
+     * @var array
+     */
+    private $themes;
+
+    /**
      * @var string
      */
     private $siteRoot;
@@ -122,7 +127,11 @@ class SiteHelper extends Helper
 
         foreach ($this->modules as $module) {
             $name = $module->getName();
-            $isInstalled = ($module->status)?true:false;
+
+            $isInstalled = false;
+            if (property_exists($module, 'status')) {
+                $isInstalled = ($module->status)?true:false;
+            }
 
             if (!$showInstalled && $isInstalled) {
                 continue;

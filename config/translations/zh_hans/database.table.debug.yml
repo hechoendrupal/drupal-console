@@ -1,7 +1,7 @@
-description: 'Show all tables in a given database.'
-help: 'The <info>database:table:debug</info> command helps you debug database tables.'
+description: 显示数据库所有表
+help: '命令 <info>database:table:debug</info> 用于调试数据库表'
 arguments:
-    database: 'Database key from settings.php'
+    database: 'settings.php 文件中 Database 的键'
 messages:
-    table-show: 'Showing tables for %s database'
-    table: Table
+    table-show: '数据库 %s 中的表'
+    table: 表

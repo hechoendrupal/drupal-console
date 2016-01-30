@@ -1,4 +1,4 @@
-description: 'Az alkalmazás REST-erőforrásának letiltása'
+description: 'REST-erőforrás letiltása'
 arguments:
     resource-id: 'REST-azonosító'
     states: 'A REST-erőforrás letiltandó REST-állapotai'

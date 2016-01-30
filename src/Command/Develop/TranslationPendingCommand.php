@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Develop;
 
+use Drupal\Console\Command\TranslationTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,6 +19,7 @@ use Drupal\Console\Style\DrupalStyle;
 
 class TranslationPendingCommand extends Command
 {
+    use TranslationTrait;
     /**
      * {@inheritdoc}
      */
@@ -148,14 +150,6 @@ class TranslationPendingCommand extends Command
                 $diff = $nestedArray->arrayDiff($englishFileParsed, $resourceTranslatedParsed, true, $diffStatistics);
 
                 if (!empty($diff)) {
-                    $io->writeln(
-                        sprintf(
-                            $this->trans('commands.translation.pending.messages.pending-translations'),
-                            $languageName,
-                            $file->getBasename()
-                        )
-                    );
-
                     $diffFlatten = array();
                     $keyFlatten = '';
                     $nestedArray->yamlFlattenArray($diff, $diffFlatten, $keyFlatten);
@@ -167,14 +161,28 @@ class TranslationPendingCommand extends Command
 
                     $tableRows = [];
                     foreach ($diffFlatten as $yamlKey => $yamlValue) {
-                        $tableRows[] = [
-                            $yamlKey,
-                            $yamlValue
-                        ];
+                        if($this->isYamlKey($yamlValue)) {
+                            unset($diffFlatten[$yamlKey]);
+                        } else {
+                            $tableRows[] = [
+                                $yamlKey,
+                                $yamlValue
+                            ];
+                        }
                     }
 
-                    $io->table($tableHeader, $tableRows, 'compact');
-                    $pendingTranslations+= count($diffFlatten);
+                    if(count($diffFlatten)) {
+                        $io->writeln(
+                            sprintf(
+                                $this->trans('commands.translation.pending.messages.pending-translations'),
+                                $languageName,
+                                $file->getBasename()
+                            )
+                        );
+
+                        $io->table($tableHeader, $tableRows, 'compact');
+                        $pendingTranslations+= count($diffFlatten);
+                    }
                 }
             }
         }
