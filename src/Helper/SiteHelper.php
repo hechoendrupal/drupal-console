@@ -377,9 +377,25 @@ class SiteHelper extends Helper
      */
     public function getDrupalVersion()
     {
-        $projects = $this->getDrupalApi()->getService('update.manager')->getProjects();
+        $version = $this->getTranslator()->trans('commands.site.status.messages.not_available');
 
-        return $projects['drupal']['info']['version'];
+        $systemManager = $this->getDrupalApi()->getService('system.manager');
+        if ($systemManager) {
+            $requirements = $systemManager->listRequirements();
+            $drupalVersion = current(
+                array_filter(
+                    $requirements, function ($v, $k) {
+                        if ($v['title'] == 'Drupal') {
+                            return true;
+                        }
+                    }
+                )
+            );
+
+            $version = $drupalVersion['value'];
+        }
+
+        return $version;
     }
 
     /**
