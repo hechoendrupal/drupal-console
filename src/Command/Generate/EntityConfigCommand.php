@@ -36,18 +36,6 @@ class EntityConfigCommand extends EntityCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         parent::interact($input, $output);
-
-        $io = new DrupalStyle($input, $output);
-
-        // --bundle-of option
-        $bundle_of = $input->getOption('bundle-of');
-        if (!$bundle_of) {
-            $bundle_of = $io->confirm(
-                $this->trans('commands.generate.entity.config.questions.bundle-of'),
-                false
-            );
-            $input->setOption('bundle-of', $bundle_of);
-        }
     }
 
     /**

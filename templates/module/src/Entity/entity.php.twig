@@ -9,7 +9,11 @@ namespace Drupal\{{ module }}\Entity;
 {% endblock %}
 
 {% block use_class %}
+{% if bundle_of %}
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
+{% else %}
+use Drupal\Core\Config\Entity\ConfigEntityBase;
+{% endif %}
 use Drupal\{{ module }}\{{ entity_class }}Interface;
 {% endblock %}
 
@@ -50,7 +54,7 @@ use Drupal\{{ module }}\{{ entity_class }}Interface;
  *   }
  * )
  */
-class {{ entity_class }} extends ConfigEntityBundleBase implements {{ entity_class }}Interface {% endblock %}
+class {{ entity_class }} extends {% if bundle_of %}ConfigEntityBundleBase{% else %}ConfigEntityBase{% endif %} implements {{ entity_class }}Interface {% endblock %}
 {% block class_methods %}
   /**
    * The {{ label }} ID.
