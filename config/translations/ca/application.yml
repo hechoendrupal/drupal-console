@@ -40,19 +40,19 @@ console:
         options:
             version: '<info>%s</info> versió <comment>%s</comment>'
     errors:
-        invalid-command: 'Command "%s" is not defined.'
+        invalid-command: 'El comandament "%s" no s\''ha definit.'
     input:
         definition:
-            command: 'The command to execute'
-            help: 'Display this help message'
-            quiet: 'Do not output any message'
-            verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
-            version: 'Display this application version'
-            ansi: 'Force ANSI output'
-            no-ansi: 'Disable ANSI output'
-            no-interaction: 'Do not ask any interactive question'
+            command: 'El comandament a executar'
+            help: 'Mostra aquest missatge d\''ajuda'
+            quiet: 'No mostrar cap missatge'
+            verbose: 'Augmentar el detall dels missatges: 1 per una sortida normal, 2 per obtenir més detall i 3 per depurar'
+            version: 'Mostra la versió d\''aquesta applicació'
+            ansi: 'Forçar la sortida ANSI'
+            no-ansi: 'Deshabilitar la sortida ANSI'
+            no-interaction: 'No preguntar res de forma interactiva'
     options:
-        version: '<info>%s</info> version <comment>%s</comment>'
+        version: '<info>%s</info> versió <comment>%s</comment>'
 site:
     messages:
         path: 'Ruta del lloc web'
