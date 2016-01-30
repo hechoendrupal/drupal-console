@@ -87,6 +87,24 @@ class Config
     }
 
     /**
+     * @param $prefixes
+     * @param $value
+     * @return mixed
+     */
+    public function setConfigValue($prefixes, $value)
+    {
+        $ref = &$this->config;
+        foreach ($prefixes as $prefix) {
+            $previous = &$ref;
+            if(isset($this->config[$prefix])) {
+                $ref = &$this->config[$prefix];
+            }
+        }
+
+        $previous[$prefix] = $value;
+    }
+
+    /**
      * @param string $key
      * @param string $default
      * @return array|mixed|null|string
@@ -111,6 +129,13 @@ class Config
         }
 
         return $config;
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public function getConfig() {
+        return $this->config;
     }
 
     /**
@@ -176,4 +201,6 @@ class Config
         }
         return $targetConfig;
     }
+
+
 }
