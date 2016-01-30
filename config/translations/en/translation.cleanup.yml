@@ -4,5 +4,5 @@ arguments:
 messages:
   invalid-language: 'Language %s is invalid'
   language: 'Language'
-  file-deleted: 'File %s was deleted from %s due is no longer required.'
-  success: 'Unncessary files were cleanup'
+  file-deleted: 'File %s was deleted from %s because it is no longer required.'
+  success: 'Unnecessary files were cleaned up'

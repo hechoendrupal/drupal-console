@@ -4,7 +4,7 @@ arguments:
 messages:
     name: 'Útvonal neve'
     class: 'Osztályútvonal'
-    route: Útvonal
-    path: Elérési út
-    defaults: Alapértelmezések
-    options: Beállítások
+    route: 'Útvonal'
+    path: 'Elérési út'
+    defaults: 'Alapértelmezések'
+    options: 'Beállítások'

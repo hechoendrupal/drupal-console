@@ -20,7 +20,7 @@ application:
   languages:
       en: 'English'
       es: 'Español'
-      ca: 'Catalan'
+      ca: 'Català'
       fr: 'Français'
       hi: 'हिन्दी'
       hu: 'Magyar'

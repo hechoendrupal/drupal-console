@@ -1,16 +1,16 @@
-description: 'Alkalmazás aktuális REST-erőforrásának megjelenítése'
+description: 'Aktuális REST-erőforrás megjelenítése'
 arguments:
     resource-id: 'REST-azonosító'
 options:
     status: 'Engedélyezett | tilott állapotú REST-erőforrás'
 messages:
     id: 'REST-azonosító'
-    label: Címke
+    label: 'Címke'
     canonical_url: 'Kanonikus URL'
-    status: Állapot
-    provider: Szolgáltató
-    enabled: Engedélyezett
-    disabled: Tiltott
+    status: 'Állapot'
+    provider: 'Szolgáltató'
+    enabled: 'Engedélyezett'
+    disabled: 'Tiltott'
     rest-state: 'REST-állapotok'
     supported-formats: 'Támogatott formátumok'
     supported_auth: 'Támogatott hitelesítésszolgáltatók'

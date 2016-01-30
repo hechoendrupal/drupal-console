@@ -27,7 +27,7 @@ questions:
         default-value: 'डिफ़ॉल्ट निधि'
         weight: 'इनपुट आइटम के लिए वजन'
         title: शीर्षक
-        fieldset: Fieldset
+        fieldset: 'फील्ड सेट'
 errors:
     module-dependency: 'मॉड्यूल निर्भरता "%s" अनुपस्थित है'
     class-name-empty: 'क्लास का नाम खली नही रह सकता'
@@ -37,6 +37,6 @@ status:
     disabled: 'अक्षम'
 messages:
     canceled: 'उत्पन्न रद्द कर दिया गया'
-    drupal-core: 'Drupal Core'
+    drupal-core: 'Drupal कोर'
     move-phar: 'आपके सिस्टम पर कहीं से console तक पहुँचने'
-    quick-start: 'Download, install and serve Drupal 8'
+    quick-start: 'डाउनलोड, स्थापित और Drupal 8 की सेवा'

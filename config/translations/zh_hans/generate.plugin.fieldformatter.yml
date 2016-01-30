@@ -1,5 +1,5 @@
 description: '生成字段格式化器插件'
-help: '<info>generate:plugin:fieldformatter</info> 命令帮助您生成一个新的格式化器插件'
+help: '命令 <info>generate:plugin:fieldformatter</info> 用于生成字段格式化器插件'
 welcome: '欢迎使用 Drupal 字段格式化器生成器'
 options:
     module: common.options.module

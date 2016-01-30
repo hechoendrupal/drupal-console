@@ -8,7 +8,7 @@ options:
     plugin-id: 'प्लगिन id'
     inputs: common.options.inputs
     services: common.options.services
-    theme-region: 'Theme region to render Plugin Block'
+    theme-region: 'Theme रीजन से प्लगइन ब्लॉक रेंडर करने के लिए'
 questions:
     module: common.questions.module
     class: 'प्लगिन का क्लास नाम दर्ज करें'
@@ -18,4 +18,4 @@ questions:
     services: common.questions.services
 messages:
     inputs: "\nब्लॉक की विशेष व्यवस्था बनाने के लिए आप निवेश खाने डाल सकते हैं।\nइच्छानुसार <info>जारी</info> रखने के लिए <info>enter</info> कुंजी दबाएँ"
-    invalid-theme-region: 'Region %s is invalid'
+    invalid-theme-region: '%s रीजन अमान्य है'

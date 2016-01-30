@@ -1,6 +1,6 @@
-description: 生成一个插件区块
-help: '<info>generate:plugin:block</info> 命令帮助您生成一个新插件区块'
-welcome: '欢迎使用 Drupal 插件区块生成器'
+description: 生成区块插件
+help: '命令 <info>generate:plugin:block</info> 用于生成新区块插件'
+welcome: '欢迎使用 Drupal 区块插件生成器'
 options:
     module: common.options.module
     class: 插件类名
