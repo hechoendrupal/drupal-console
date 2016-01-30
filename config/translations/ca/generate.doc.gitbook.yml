@@ -2,7 +2,7 @@ description: 'Generar documentació per els comandaments'
 options:
     path: 'Ruta on renderitzar la documentació'
 messages:
-    missing_path: 'La ruta s\'ha perdut'
+    missing_path: 'La ruta s''ha perdut'
     title: 'Comandaments disponibles de Drupal'
     note: Nota
     note-description: 'Els comandaments de Drupal Console *han* de ser executats a la rel de la\''instal·lació de Drupal 8'
