@@ -1,6 +1,6 @@
-description: 'アプリケーションのテーマの情報を表示'
+description: 'テーマの情報を表示'
 arguments:
-    theme: 'Specific theme to debug'
+    theme: '表示するテーマの名前'
 messages:
     theme-id: Id
     theme-name: Name

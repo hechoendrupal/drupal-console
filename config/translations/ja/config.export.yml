@@ -1,4 +1,4 @@
-description: 現在のアプリケーションのコンフィグレーションをエクスポート
+description: コンフィグレーションをエクスポート
 arguments:
     directory: コンフィグレーションをエクスポートするエクスポートするディレクトリ
 messages:

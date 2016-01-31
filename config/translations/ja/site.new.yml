@@ -1,6 +1,6 @@
 description: Drupalプロジェクトを新規作成する
 arguments:
-    directory: 'Directory when downloading Drupal'
+    directory: 'Drupalをダウンロードするディレクトリ'
     version: ダウンロードするDrupalのバージョン
     site-name: サイト名
 messages:
@@ -8,8 +8,8 @@ messages:
     getting-releases: Drupalのリリースを取得中
     downloading: '%s %s をダウンロードしています'
     extracting: 'Drupal %s のファイルを展開しています'
-    no-releases: 'There aren''t any releases available for Drupal'
+    no-releases: '利用可能なDrupalのリリースが見つかりません。'
     downloaded: 'Drupal %s は %s にダウンロードされました'
     error-copying: 'ディレクトリを %s にリネーム中にエラーが発生しました'
 questions:
-    directory: 'Enter the directory name when downloading Drupal'
+    directory: 'Drupalをダウンロードするディレクトリを入力してください'
