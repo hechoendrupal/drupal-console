@@ -1,4 +1,4 @@
-description: 'Display current views resources for the application'
+description: 'Viewsのリソースを表示する'
 arguments:
     view-id: 'View ID'
     view-tag: 'View tag'
@@ -10,7 +10,7 @@ messages:
     tag: Tag
     status: Status
     path: Path
-    not-found: 'View %s wasn''t found.'
+    not-found: 'ビュー %s が見つかりませんでした。'
     display-list: 'Display list'
     display-id: ID
     display-name: Name
