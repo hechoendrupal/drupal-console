@@ -1,4 +1,4 @@
-description: 'アプリケーションにテーマをダウンロード'
+description: 'テーマをダウンロード'
 options:
     version: 'テーマのバージョン (例: 1.x-dev)'
 messages:

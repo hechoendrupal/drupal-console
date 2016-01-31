@@ -1,5 +1,5 @@
 description: マルチサイトの一覧を表示
-help: 'The <info>multisite:debug</info> list all known multi sites.'
+help: '<info>multisite:debug</info> はマルチサイトの一覧を表示します。'
 messages:
     no-multisites: マルチサイトが設定されていません。
     site: Site

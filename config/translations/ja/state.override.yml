@@ -1,12 +1,12 @@
-description: 'State keyをオーバーライドする'
-help: 'State keyをオーバーライドする。'
+description: 'ステートキーをオーバーライドする'
+help: 'ステートキーをオーバーライドする。'
 arguments:
-    key: 'オーバーライドするState key'
-    value: 'セットするState value'
+    key: 'オーバーライドするステートキー'
+    value: 'セットする値'
 messages:
-    key: 'State key'
+    key: 'ステートキー'
     original: 'Original value'
     override: 'Override value'
 errors:
-    no-key: 'オーバーライドするState keyは必ず指定してください。'
+    no-key: 'オーバーライドするステートキーは必ず指定してください。'
     no-value: 'セットするState valueは必ず指定してください。'

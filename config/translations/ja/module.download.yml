@@ -1,4 +1,4 @@
-description: アプリケーションにモジュールをインストール
+description: モジュールをインストール
 arguments:
     module: 'モジュール名 (複数してする場合はスペース区切り)'
 options:

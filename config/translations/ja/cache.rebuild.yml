@@ -13,5 +13,5 @@ examples:
         description: '全てのキャッシュを再生成'
         execution: 'drupal cr all'
     -
-        description: discoveryキャッシュを再生成
+        description: discovery キャッシュを再生成
         execution: 'drupal cr discovery'

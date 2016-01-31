@@ -1,6 +1,6 @@
-description: 'State key を表示'
-help: 'State key を表示する。'
+description: 'ステートキーを表示'
+help: 'ステートキーを表示する。'
 arguments:
-    key: 'The State key to debug.'
+    key: '表示するステートキー'
 messages:
-    key: 'The State key'
+    key: 'ステートキー'
