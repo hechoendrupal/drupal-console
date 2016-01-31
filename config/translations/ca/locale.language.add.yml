@@ -1,4 +1,4 @@
-description: 'Add a language to be supported by your site'
+description: 'Afegir un idioma per el teu lloc web'
 messages:
-    invalid-language: 'Language %s it''s an invalid language'
-    language-add-successfully: 'Language %s was added successfully.'
+    invalid-language: 'L''idioma %s es invàlid'
+    language-add-successfully: 'L''idioma %s s''ha afegit correctament.'
