@@ -1,12 +1,10 @@
 description: 'Экспорт выбранного типа материала и его полей.'
 arguments:
-    content-type: 'Content Type to be exported'
-    content_type: 'Тип материала для экспорта'
+    content-type: 'Тип материала для экспорта'
 questions:
-    content-type: 'Content Type to be exported'
-    optional-config: 'Экспорт типа материала в модуль как опциональную конфигурацию'
-    content_type: 'Тип материала для экспорта'
+    content-type: 'Тип материала для экспорта'
+    optional-config: 'Экспорт типа материала в модуль как дополнительную конфигурацию'
 messages:
     content_type_exported: 'Экспорт типа материала'
 options:
-    optional-config: 'Экспорт типа материала в модуль как опциональную YAML конфигурацию'
+    optional-config: 'Экспорт типа материала как дополнительную YAML конфигурацию в ваш модуль'
