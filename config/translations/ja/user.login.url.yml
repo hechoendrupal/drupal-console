@@ -1,7 +1,7 @@
-description: 'Returns a one-time user login url.'
+description: 'ワンタイムログインURLを生成する'
 options:
-    user-id: 'User ID.'
+    user-id: 'ユーザーID'
 messages:
-    url: 'One-time login for @name: @url'
+    url: '@name のワンタイムログインURL: @url'
 errors:
-    invalid-user: 'Cannot load user entity (User ID: @uid).'
+    invalid-user: 'ユーザーエンティティがロードできませんでした (User ID: @uid)。'

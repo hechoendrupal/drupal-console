@@ -1,5 +1,5 @@
-description: 'Drupal 8 アプリケーションにダミーのユーザーを追加'
-help: 'The <info>create:users</info> command helps you create dummy users.'
+description: 'ダミーのユーザーを追加'
+help: '<info>create:users</info> コマンドはダミーのユーザーを追加します。'
 welcome: 'Welcome to the Drupal users generator'
 arguments:
     roles: '作成するユーザーのロール (複数指定可)'
