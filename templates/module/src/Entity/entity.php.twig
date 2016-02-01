@@ -46,11 +46,11 @@ use Drupal\{{ module }}\{{ entity_class }}Interface;
  *     "uuid" = "uuid"
  *   },
  *   links = {
- *     "canonical" = "/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
- *     "add-form" = "/admin/structure/{{ entity_name }}/add",
- *     "edit-form" = "/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
- *     "delete-form" = "/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete",
- *     "collection" = "/admin/structure/{{ entity_name }}"
+ *     "canonical" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
+ *     "add-form" = "{{ base_path }}/{{ entity_name }}/add",
+ *     "edit-form" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
+ *     "delete-form" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete",
+ *     "collection" = "{{ base_path }}/{{ entity_name }}"
  *   }
  * )
  */
