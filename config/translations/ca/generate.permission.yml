@@ -1,5 +1,5 @@
 kdescription: 'Generar permisos del mòdul'
-help: 'El comandament <info>generate:permissions</info> t\''ajuda a generar nous permisos'
+help: 'El comandament <info>generate:permissions</info> t''ajuda a generar nous permisos'
 options:
     module: common.options.module
 questions:
