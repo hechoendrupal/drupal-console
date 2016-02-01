@@ -62,12 +62,13 @@ class EntityContentCommand extends EntityCommand
         $entity_name = $input->getOption('entity-name');
         $label = $input->getOption('label');
         $has_bundles = $input->getOption('has-bundles');
+        $base_path = $input->getOption('base-path');
 
         $bundle_entity_name = $has_bundles ? $entity_name . '_type' : null;
 
         $this
             ->getGenerator()
-            ->generate($module, $entity_name, $entity_class, $label, $bundle_entity_name);
+            ->generate($module, $entity_name, $entity_class, $label, $base_path, $bundle_entity_name);
 
         if ($has_bundles) {
             $this->getChain()->addCommand(

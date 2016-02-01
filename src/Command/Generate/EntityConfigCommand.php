@@ -48,10 +48,11 @@ class EntityConfigCommand extends EntityCommand
         $entity_name = $input->getOption('entity-name');
         $label = $input->getOption('label');
         $bundle_of = $input->getOption('bundle-of');
+        $base_path = $input->getOption('base-path');
 
         $this
             ->getGenerator()
-            ->generate($module, $entity_name, $entity_class, $label, $bundle_of);
+            ->generate($module, $entity_name, $entity_class, $label, $base_path, $bundle_of);
     }
 
     protected function createGenerator()
