@@ -7,16 +7,13 @@
 
 namespace Drupal\Console\Command\Site;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Yaml\Dumper;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
- * Class SiteDebugCommand
+ * Class StatisticsCommand
  * @package Drupal\Console\Command\Site
  */
 class StatisticsCommand extends ContainerAwareCommand
@@ -39,30 +36,27 @@ class StatisticsCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $assets = [];
 
-        //$assets[$this->trans('commands.site.assets.messages.nodes')] =
-        $this->getNodeCount($assets);
-        $assets[$this->trans('commands.site.statistics.messages.comments')] = $this->getCommentCount();
-        $assets[$this->trans('commands.site.statistics.messages.vocabulary')] = $this->getTaxonomyVocabularyCount();
-        $assets[$this->trans('commands.site.statistics.messages.taxonomy-terms')] = $this->getTaxonomyTermCount();
-        $assets[$this->trans('commands.site.statistics.messages.files')] = $this->getFileCount();
-        $assets[$this->trans('commands.site.statistics.messages.users')] = $this->getUserCount();
-        $assets[$this->trans('commands.site.statistics.messages.modules-enabled')] = $this->getModuleCount(true);
-        $assets[$this->trans('commands.site.statistics.messages.modules-disabled')] = $this->getModuleCount(false);
-        $assets[$this->trans('commands.site.statistics.messages.themes-enabled')] = $this->getThemeCount(true);
-        $assets[$this->trans('commands.site.statistics.messages.themes-disabled')] = $this->getThemeCount(false);
+        $statistics = $this->getNodeCount();
+        $statistics[$this->trans('commands.site.statistics.messages.comments')] = $this->getCommentCount();
+        $statistics[$this->trans('commands.site.statistics.messages.vocabulary')] = $this->getTaxonomyVocabularyCount();
+        $statistics[$this->trans('commands.site.statistics.messages.taxonomy-terms')] = $this->getTaxonomyTermCount();
+        $statistics[$this->trans('commands.site.statistics.messages.files')] = $this->getFileCount();
+        $statistics[$this->trans('commands.site.statistics.messages.users')] = $this->getUserCount();
+        $statistics[$this->trans('commands.site.statistics.messages.modules-enabled')] = $this->getModuleCount(true);
+        $statistics[$this->trans('commands.site.statistics.messages.modules-disabled')] = $this->getModuleCount(false);
+        $statistics[$this->trans('commands.site.statistics.messages.themes-enabled')] = $this->getThemeCount(true);
+        $statistics[$this->trans('commands.site.statistics.messages.themes-disabled')] = $this->getThemeCount(false);
 
-        $this->assetsList($io, $assets);
+        $this->statisticsList($io, $statistics);
     }
 
     /**
+     * @return mixed
      */
-    private function getNodeCount(&$assets)
+    private function getNodeCount()
     {
-        //$entityQuery = $this->getEntityQuery()->get('node')->count();
-        //$nodes = $entityQuery->execute();
-
+        $nodes = [];
         $entityQuery = $this->getEntityQuery()->get('node_type');
         $nodeTypes = $entityQuery->execute();
 
@@ -72,15 +66,14 @@ class StatisticsCommand extends ContainerAwareCommand
                 $this->trans('commands.site.statistics.messages.node-type'),
                 $nodeType
             );
-            $assets[$key] = $nodesPerType;
+            $nodes[$key] = $nodesPerType;
         }
 
-        return $nodesPerType;
+        return $nodes;
     }
 
-
-
     /**
+     * @return mixed
      */
     private function getCommentCount()
     {
@@ -90,8 +83,8 @@ class StatisticsCommand extends ContainerAwareCommand
         return $comments;
     }
 
-
     /**
+     * @return mixed
      */
     private function getTaxonomyVocabularyCount()
     {
@@ -100,7 +93,9 @@ class StatisticsCommand extends ContainerAwareCommand
 
         return $vocabularies;
     }
+
     /**
+     * @return mixed
      */
     private function getTaxonomyTermCount()
     {
@@ -111,6 +106,7 @@ class StatisticsCommand extends ContainerAwareCommand
     }
 
     /**
+     * @return mixed
      */
     private function getFileCount()
     {
@@ -121,6 +117,7 @@ class StatisticsCommand extends ContainerAwareCommand
     }
 
     /**
+     * @return mixed
      */
     private function getUserCount()
     {
@@ -131,6 +128,8 @@ class StatisticsCommand extends ContainerAwareCommand
     }
 
     /**
+     * @param bool|TRUE $status
+     * @return int
      */
     private function getModuleCount($status = true)
     {
@@ -146,6 +145,8 @@ class StatisticsCommand extends ContainerAwareCommand
     }
 
     /**
+     * @param bool|TRUE $status
+     * @return int
      */
     private function getThemeCount($status = true)
     {
@@ -162,19 +163,17 @@ class StatisticsCommand extends ContainerAwareCommand
 
     /**
      * @param DrupalStyle $io
-     * @param mixes       $assets
+     * @param mixed       $statistics
      */
-    private function assetsList(DrupalStyle $io, $assets)
+    private function statisticsList(DrupalStyle $io, $statistics)
     {
-        $application = $this->getApplication();
-
         $tableHeader =[
             $this->trans('commands.site.statistics.messages.stat-name'),
             $this->trans('commands.site.statistics.messages.stat-quantity'),
         ];
 
         $tableRows = [];
-        foreach ($assets as $type => $amount) {
+        foreach ($statistics as $type => $amount) {
             $tableRows[] = [
               $type,
               $amount
