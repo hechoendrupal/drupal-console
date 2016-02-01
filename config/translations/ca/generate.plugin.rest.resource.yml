@@ -1,19 +1,20 @@
-description: 'Generate plugin rest resource'
-help: 'The <info>generate:plugin:rest:resource</info> command helps you generate a new rest resource.'
-welcome: 'Welcome to the Drupal Plugin Rest Resource generator'
+description: 'Generar plugin de recursos Rest'
+help: 'El comandament <info>generate:plugin:rest:resource</info> t''ajuda a generar un nou plugin de recursos Rest.'
+welcome: 'Benvingut al generador de plugin de recursos Rest de Drupal'
 options:
     module: common.options.module
-    class: 'Plugin Rest Resource class'
-    plugin-id: 'Plugin Rest Resource id'
-    plugin-label: 'Plugin Rest Resource Label'
-    plugin-url: 'Plugin Rest Resource URL'
-    plugin-states: 'Plugin Rest Resource States'
+    class: 'Classe del plugin de recursos Rest'
+    plugin-id: 'Id del plugin de recursos Rest'
+    plugin-label: 'Etiqueta del plugin de recursos Rest'
+    plugin-url: 'URL del plugin de recursos Rest'
+    plugin-states: 'Estats del plugin de recursos Rest'
 questions:
     module: common.questions.module
-    class: 'Enter the plugin rest resource name'
-    plugin-id: 'Enter the plugin rest resource id'
-    plugin-label: 'Enter the plugin rest resource label'
-    plugin-url: 'Enter the plugin rest resource url'
+    class: 'Introdueix el nom del plugin de recursos Rest'
+    plugin-id: 'Introdueix l''Id del plugin de recursos Rest'
+    plugin-label: 'Introdueix l''etiqueta del plugin de recursos Rest'
+    plugin-url: 'Introdueix la URL del plugin de recursos Rest'
     plugin-states: 'Please select what REST States implement in your resource (GET is selected by default)'
+    plugin-states: 'Si us plau sel·lecciona quin estat REST implementa el teu recurs (GET es el predeterminat)'
 messages:
-    selected-states: 'States selected'
+    selected-states: 'Estats sel·leccionats'

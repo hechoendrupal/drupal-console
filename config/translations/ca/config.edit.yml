@@ -5,4 +5,4 @@ arguments:
 questions:
     config-name: 'Tria una unitat de configuració'
 messages:
-    no-directory: 'S\''ha produït un error mentre es creava el directori'
+    no-directory: 'S''ha produït un error mentre es creava el directori'

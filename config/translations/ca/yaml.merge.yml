@@ -9,7 +9,7 @@ questions:
     invalid-file: 'Path of file cannot be empty'
     file-already-added: 'Path of file was already added'
 messages:
-    wrong-parse: 'YAML file "%s" is empty or doesn\''t exist.'
+    wrong-parse: 'YAML file "%s" is empty or doesn''t exist.'
     error-parsing: 'An error occurs during parsing of YAML file "%s".'
     two-files-required: 'At least two files are required.'
     error-generating: 'Error generating merged YAML file.'

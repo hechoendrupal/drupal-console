@@ -2,4 +2,4 @@ description: 'Executar implementació de cron per mòdul o executar-los tots'
 messages:
     module-invalid: 'El mòdul %s no te una implementació de cron'
     executing-cron: 'Executant funció de cron del mòdul %s'
-    success: 'All cron implementations requested were executed successfully'
+    success: 'Totes les implementacions solicitades s''han executat correctament'

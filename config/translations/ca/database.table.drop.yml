@@ -1,9 +1,9 @@
-description: 'Esborrar les taules d\''una base de dades.'
-help: 'El comandament <info>database:table:drop</info> t\''ajuda a esborrar les taules d\''una base de dades.'
+description: 'Esborrar les taules d''una base de dades.'
+help: 'El comandament <info>database:table:drop</info> t''ajuda a esborrar les taules d''una base de dades.'
 arguments:
     database: 'Clau de la base de dades de settings.php'
 question:
     drop-tables: 'Si us plau confirma que vols esborrar totes les taules de la base de dades %s?'
 messages:
     table: Table
-    table-drop: 'S\''han esborrat les taules de %s correctament'
+    table-drop: 'S''han esborrat les taules de %s correctament'

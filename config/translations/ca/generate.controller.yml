@@ -1,5 +1,5 @@
 description: 'Generar i registrar un controlador'
-help: 'El comandament <info>generate:controller</info> t\''ajuda a generar un nou controlador.'
+help: 'El comandament <info>generate:controller</info> t''ajuda a generar un nou controlador.'
 welcome: 'Benvingut al generador de controladors de Drupal'
 options:
     module: common.options.module
