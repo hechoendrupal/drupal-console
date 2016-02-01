@@ -4,11 +4,13 @@ options:
     module: common.options.module
     entity-class: 'La classe de l''entitat de contingut'
     entity-name: 'El nom de l''entitat de contigut'
-    label: 'Etiqueta'
+    label: Etiqueta
     has-bundles: 'L''entitat conté bundles'
+    base-path: 'The base-path for the content entity routes'
 questions:
     module: common.questions.module
     entity-class: 'Introdueix la classe de la nova entitat de contingut'
     entity-name: 'Introdueix el nom de la nova entitat de contingut'
     label: 'Introdueix l''etiqueta de la nova entitat de contingut'
     has-bundles: 'Vols que aquest contingut tingui bundles'
+    base-path: 'Enter the base-path for the content entity routes'

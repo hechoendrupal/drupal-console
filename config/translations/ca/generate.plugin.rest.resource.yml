@@ -15,6 +15,5 @@ questions:
     plugin-label: 'Introdueix l''etiqueta del plugin de recursos Rest'
     plugin-url: 'Introdueix la URL del plugin de recursos Rest'
     plugin-states: 'Please select what REST States implement in your resource (GET is selected by default)'
-    plugin-states: 'Si us plau sel·lecciona quin estat REST implementa el teu recurs (GET es el predeterminat)'
 messages:
     selected-states: 'Estats sel·leccionats'

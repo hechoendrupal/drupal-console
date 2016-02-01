@@ -8,10 +8,10 @@ messages:
     note-description: 'Els comandaments de Drupal Console *han* de ser executats a la rel de la''instal·lació de Drupal 8'
     command: 'Commandaments de Drupal Console'
     command_description: 'El comandament **%s** executa %s'
-    usage: 'Ús'
+    usage: Ús
     options: 'Opcions disponibles'
-    option: 'Opció'
-    details: 'Detalls'
+    option: Opció
+    details: Detalls
     arguments: 'Arguments disponibles'
     argument: Argument
     examples: Exemples

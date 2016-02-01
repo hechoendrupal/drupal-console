@@ -1,10 +1,10 @@
-description: 'ステートキーをオーバーライドする'
-help: 'ステートキーをオーバーライドする。'
+description: ステートキーをオーバーライドする
+help: ステートキーをオーバーライドする。
 arguments:
-    key: 'オーバーライドするステートキー'
-    value: 'セットする値'
+    key: オーバーライドするステートキー
+    value: セットする値
 messages:
-    key: 'ステートキー'
+    key: ステートキー
     original: 'Original value'
     override: 'Override value'
 errors:

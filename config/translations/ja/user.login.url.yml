@@ -1,6 +1,6 @@
 description: 'ワンタイムログインURLを生成する'
 options:
-    user-id: 'ユーザーID'
+    user-id: ユーザーID
 messages:
     url: '@name のワンタイムログインURL: @url'
 errors:

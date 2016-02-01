@@ -1,7 +1,7 @@
 description: ユニットテストの一覧を表示
 help: 'Update the console command to the latest version.'
 arguments:
-    test-class: 'テストクラス'
+    test-class: テストクラス
 options:
     group: Group
 messages:

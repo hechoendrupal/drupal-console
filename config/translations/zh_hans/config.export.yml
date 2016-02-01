@@ -1,5 +1,6 @@
 description: '导出配置'
 arguments:
     directory: '导出配置存放目录'
+    tar: 'If set, the configuration will be exported to an archive file.'
 messages:
     directory: '导出配置存放目录：'

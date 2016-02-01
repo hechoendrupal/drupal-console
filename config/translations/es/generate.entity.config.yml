@@ -6,9 +6,11 @@ options:
     entity-name: 'Nombre de la entidad de configuración'
     label: Etiqueta
     bundle-of: 'Actua como un bundle de entidades de contenido'
+    base-path: 'The base-path for the config entity routes'
 questions:
     module: common.questions.module
     entity-class: 'Ingrese la clase de la nueva entidad de configuración'
     entity-name: 'Ingrese el nombre de la nueva entidad de configuración'
     label: 'Ingrese la etiqueta de la nueva entidad de configuración'
     bundle-of: 'Nombre de la entidad de contenido para la que esta entidad de configuración debe actuar como un bundle'
+    base-path: 'Enter the base-path for the config entity routes'
