@@ -1,6 +1,6 @@
-description: アプリケーションにモジュールをインストール
+description: モジュールをインストール
 arguments:
-    module: 'Module or modules to be enabled should be separated by a space'
+    module: 'モジュール名 (複数してする場合はスペース区切り)'
 options:
     latest: 'Default to download most recent version'
     version: 'モジュールのバージョン (例: 1.x-dev)'
