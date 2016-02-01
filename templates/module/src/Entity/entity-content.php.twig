@@ -70,7 +70,11 @@ use Drupal\user\UserInterface;
 {% endif %}
  *   links = {
  *     "canonical" = "/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
+{% if bundle_entity_type %}
+ *     "add-form" = "/admin/structure/{{ entity_name }}/add/{{ '{'~bundle_entity_type~'}' }}",
+{% else %}
  *     "add-form" = "/admin/structure/{{ entity_name }}/add",
+{% endif %}
  *     "edit-form" = "/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
  *     "delete-form" = "/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete",
  *     "collection" = "/admin/structure/{{ entity_name }}",
