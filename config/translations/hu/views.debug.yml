@@ -6,13 +6,13 @@ arguments:
 messages:
     view-id: 'Nézet azonosítója'
     view-name: 'Nézet neve'
-    description: 'Leírás'
-    tag: 'Címke'
-    status: 'Állapot'
-    path: 'Útvonal'
+    description: Leírás
+    tag: Címke
+    status: Állapot
+    path: Útvonal
     not-found: 'Nem található a következő nézet: %s.'
     display-list: 'Lista megjelenítése'
-    display-id: 'Azonosító'
-    display-name: 'Név'
-    display-description: 'Leírás'
-    display-paths: 'Útvonalak'
+    display-id: Azonosító
+    display-name: Név
+    display-description: Leírás
+    display-paths: Útvonalak

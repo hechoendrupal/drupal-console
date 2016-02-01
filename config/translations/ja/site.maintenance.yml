@@ -1,8 +1,8 @@
-description: 'サイトをメンテナンスモードに切り替える'
+description: サイトをメンテナンスモードに切り替える
 arguments:
-    mode: 'メンテナンスモード'
+    mode: メンテナンスモード
 messages:
-    maintenance-on: 'メンテナンスモードをonにしています。'
-    maintenance-off: 'メンテナンスモードをoffにしています。'
+    maintenance-on: メンテナンスモードをonにしています。
+    maintenance-off: メンテナンスモードをoffにしています。
 errors:
-    invalid-mode: 'modeの値が不正です。'
+    invalid-mode: modeの値が不正です。

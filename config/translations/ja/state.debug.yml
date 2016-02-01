@@ -1,6 +1,6 @@
-description: 'ステートキーを表示'
-help: 'ステートキーを表示する。'
+description: ステートキーを表示
+help: ステートキーを表示する。
 arguments:
-    key: '表示するステートキー'
+    key: 表示するステートキー
 messages:
-    key: 'ステートキー'
+    key: ステートキー
