@@ -6,9 +6,11 @@ options:
     entity-name: 'Nombre de la entidad de contenido'
     label: Etiqueta
     has-bundles: 'La entidad tiene bundles'
+    base-path: 'The base-path for the content entity routes'
 questions:
     module: common.questions.module
     entity-class: 'Ingrese la clase de la nueva entidad de contenido'
     entity-name: 'Ingrese el nombre de la nueva entidad de contenido'
     label: 'Ingrese la etiqueta de la nueva entidad de contenido'
     has-bundles: 'Desea que esta entidad de contenido tenga bundles'
+    base-path: 'Enter the base-path for the content entity routes'

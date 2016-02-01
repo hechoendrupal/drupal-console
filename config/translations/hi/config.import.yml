@@ -1,6 +1,7 @@
 description: 'वर्तमान अनुप्रयोग में व्यवस्था आयात करें।'
 arguments:
     file: 'विन्यास फ़ाइल पथ।'
+    directory: 'Path to a directory of configuration to import.'
     remove-files: 'Syncronization के बाद फ़ाइलें निकालें।'
     config-file: 'व्यवस्था फाइल का पथ।'
     copy-only: 'सिर्फ व्यवस्था फाइलो को स्टेजिंग डायरेक्टरी में नकल करें।'

@@ -21,6 +21,7 @@ messages:
     directory_theme_admin: 'प्रबंधक थीम डायरेक्टरी'
     current_version: 'वर्तमान Drupal वर्शन (%s)'
     not_installed: 'Drupal इनस्टॉल नहीं है'
+    not_available: 'Not available'
     configuration: कॉन्फ़िगरेशन
     active: 'सक्रिय समाकृति का पथ'
     staging: 'स्टेजिंग समाकृति का पथ'

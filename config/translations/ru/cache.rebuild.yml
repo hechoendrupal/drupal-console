@@ -9,7 +9,9 @@ messages:
 questions:
     cache: 'Выберите кеш.'
 examples:
-    - description: 'Перестроить все кеши'
-      execution: 'drupal cr all'
-    - description: 'Перестроить кеш отображения'
-      execution: 'drupal cr discovery'
+    -
+        description: 'Перестроить все кеши'
+        execution: 'drupal cr all'
+    -
+        description: 'Перестроить кеш отображения'
+        execution: 'drupal cr discovery'
