@@ -37,7 +37,14 @@ class StatisticsCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $statistics = $this->getNodeCount();
+        $bundles = $this->getDrupalApi()->getBundles();
+        foreach ($bundles as $bundleType => $bundleName) {
+            $key = sprintf(
+                $this->trans('commands.site.statistics.messages.node-type'),
+                $bundleName
+            );
+            $statistics[$key] = $this->getNodeTypeCount($bundleType);
+        }
         $statistics[$this->trans('commands.site.statistics.messages.comments')] = $this->getCommentCount();
         $statistics[$this->trans('commands.site.statistics.messages.vocabulary')] = $this->getTaxonomyVocabularyCount();
         $statistics[$this->trans('commands.site.statistics.messages.taxonomy-terms')] = $this->getTaxonomyTermCount();
@@ -51,23 +58,15 @@ class StatisticsCommand extends ContainerAwareCommand
         $this->statisticsList($io, $statistics);
     }
 
+
     /**
+     * @param $nodeType
      * @return mixed
      */
-    private function getNodeCount()
+    private function getNodeTypeCount($nodeType)
     {
-        $nodes = [];
-        $entityQuery = $this->getEntityQuery()->get('node_type');
-        $nodeTypes = $entityQuery->execute();
-
-        foreach ($nodeTypes as $nodeType) {
-            $nodesPerType = $this->getEntityQuery()->get('node')->condition('type', $nodeType)->count()->execute();
-            $key = sprintf(
-                $this->trans('commands.site.statistics.messages.node-type'),
-                $nodeType
-            );
-            $nodes[$key] = $nodesPerType;
-        }
+        $nodesPerType = $this->getEntityQuery()->get('node')->condition('type', $nodeType)->count();
+        $nodes = $nodesPerType->execute();
 
         return $nodes;
     }
@@ -133,15 +132,11 @@ class StatisticsCommand extends ContainerAwareCommand
      */
     private function getModuleCount($status = true)
     {
-        $modules = system_rebuild_module_data();
-        $moduleCount = 0;
-        foreach ($modules as $module_id => $module) {
-            if ($module->status == $status) {
-                $moduleCount++;
-            }
+        if ($status) {
+            return count($this->getSite()->getModules(true));
         }
 
-        return $moduleCount;
+        return count($this->getSite()->getModules(true, false, true));
     }
 
     /**
@@ -150,15 +145,11 @@ class StatisticsCommand extends ContainerAwareCommand
      */
     private function getThemeCount($status = true)
     {
-        $themes = $this->getThemeHandler()->rebuildThemeData();
-        $themeCount =0;
-        foreach ($themes as $themeId => $theme) {
-            if ($theme->status == $status) {
-                $themeCount++;
-            }
+        if ($status) {
+            return count($this->getSite()->getThemes(true));
         }
 
-        return $themeCount;
+        return count($this->getSite()->getThemes(true, false, true));
     }
 
     /**
