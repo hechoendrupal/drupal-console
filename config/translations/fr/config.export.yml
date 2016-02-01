@@ -1,6 +1,7 @@
 description: 'Exporter la configuration actuelle de l''application.'
 arguments:
     directory: 'Définit le répertoire de sauvegarde de la configuration.'
+    tar: 'If set, the configuration will be exported to an archive file.'
 messages:
     directory: 'Votre exportation de configuration a été sauvegardée dans %s'
 content:

@@ -1,15 +1,15 @@
 description: 'Az alkalmazás egységtesztjeinek listázása.'
 help: 'A legújabb verzióra frissíti a console parancsot.'
 arguments:
-    test-class: 'Tesztosztály'
+    test-class: Tesztosztály
 options:
-    group: 'Csoport'
+    group: Csoport
 messages:
-    class: 'Tesztosztály'
-    description: 'Leírás'
-    group: 'Csoport'
-    type: 'Teszttípus'
+    class: Tesztosztály
+    description: Leírás
+    group: Csoport
+    type: Teszttípus
     success: 'A konzol a legfrissebb verzióra frissült.'
     missing-dependency: 'Hiányzó függőség'
-    methods: 'Tesztmetódusok'
+    methods: Tesztmetódusok
     not-found: 'A hibakeresés nem található, meg kell próbálni dupla idézőjelek közé tenni a tesztazonosítót.'

@@ -1,4 +1,4 @@
-description: 'Viewsのリソースを表示する'
+description: Viewsのリソースを表示する
 arguments:
     view-id: 'View ID'
     view-tag: 'View tag'
