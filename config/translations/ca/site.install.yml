@@ -10,9 +10,9 @@ arguments:
     account-mail: 'Compte de correu de l''usuari administrador de Drupal'
     account-pass: 'Contrasenya de l''usuari administrador de Drupal'
 questions:
-    profile: 'Sel·lecciona el perfil Drupal a insla·lar
-    langcode: 'Sel·lecciona l''idioma de l''instal·lació de Drupal'
-    db-type: 'Sel·lecciona el tipus de base de dades de l''instal·lació'
+    profile: 'Selecciona el perfil Drupal a insla·lar'
+    langcode: 'Selecciona l''idioma de l''instal·lació de Drupal'
+    db-type: 'Selecciona el tipus de base de dades de l''instal·lació'
     site-name: 'Introdueix el nom del teu lloc Drupal'
     site-mail: 'Introdueix el compte de correu del teu lloc Drupal'
     account-name: 'Introdueix l''usuari administrador del lloc Drupal'

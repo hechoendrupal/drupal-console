@@ -4,7 +4,7 @@ arguments:
     version: 'Especifica un versió a descarregar'
     site-name: 'Site name'
 messages:
-    select-release: 'Sel·lecciona la versió del Core'
+    select-release: 'Selecciona la versió del Core'
     getting-releases: 'Obtenint versions de Drupal'
     downloading: 'Descarregant Drupal %s'
     extracting: 'Obtenint els fitxers de Drupal %s'
