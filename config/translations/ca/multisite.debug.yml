@@ -1,4 +1,4 @@
-description: 'Mostra tots el multisites disponibles al sistema'
+description: 'Mostra tots el multisites disponibles del sistema'
 help: 'El comandament <info>multisite:debug</info> mostra tots el multisites coneguts.'
 messages:
     no-multisites: 'No hi ha cap multisite configurat'
