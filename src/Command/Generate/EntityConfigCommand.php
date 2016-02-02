@@ -36,18 +36,6 @@ class EntityConfigCommand extends EntityCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         parent::interact($input, $output);
-
-        $io = new DrupalStyle($input, $output);
-
-        // --bundle-of option
-        $bundle_of = $input->getOption('bundle-of');
-        if (!$bundle_of) {
-            $bundle_of = $io->confirm(
-                $this->trans('commands.generate.entity.config.questions.bundle-of'),
-                false
-            );
-            $input->setOption('bundle-of', $bundle_of);
-        }
     }
 
     /**
@@ -60,10 +48,11 @@ class EntityConfigCommand extends EntityCommand
         $entity_name = $input->getOption('entity-name');
         $label = $input->getOption('label');
         $bundle_of = $input->getOption('bundle-of');
+        $base_path = $input->getOption('base-path');
 
         $this
             ->getGenerator()
-            ->generate($module, $entity_name, $entity_class, $label, $bundle_of);
+            ->generate($module, $entity_name, $entity_class, $label, $base_path, $bundle_of);
     }
 
     protected function createGenerator()

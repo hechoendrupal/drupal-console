@@ -3,11 +3,11 @@ options:
     status: 'Modul állapota [engedélyezett|tiltott]'
     type: 'Modul típusa [alaprendszer|nem alaprendszer]'
 messages:
-    id: 'Azonosító'
-    name: 'Név'
-    status: 'Állapot'
-    origin: 'Eredet'
-    package: 'Csomag'
-    enabled: 'Engedélyezett'
-    disabled: 'Tiltott'
-    schema-version: 'Sémaverzió'
+    id: Azonosító
+    name: Név
+    status: Állapot
+    origin: Eredet
+    package: Csomag
+    enabled: Engedélyezett
+    disabled: Tiltott
+    schema-version: Sémaverzió

@@ -1,5 +1,5 @@
 description: 'Generar mòdul'
-help: 'El comandament <info>generate:module</info> t\''ajuda a generar un nou mòdul.'
+help: 'El comandament <info>generate:module</info> t''ajuda a generar un nou mòdul.'
 welcome: 'Benvingut al generador de mòduls de Drupal'
 options:
     module: 'Nom del mòdul'
@@ -9,11 +9,11 @@ options:
     core: 'Versió del core'
     feature: 'Definir-ho compatible amb el mòdul Features'
     package: 'Paquet del mòdul'
-    controller: 'Controllador predeterminat'
+    module-file: 'Add a .module file'
     composer: 'Afegir fitxer composer.json'
     dependencies: 'Dependències del mòdul separades per comes (p.e. context, panels)'
     test: 'Generar classe de prova'
-    controller: 'Controlador predeterminat'
+    controller: 'Controllador predeterminat'
 questions:
     module: 'Nom del nou mòdul'
     machine-name: 'Nom màquina de mòdul'
@@ -22,11 +22,11 @@ questions:
     core: 'Versió del core de Drupal'
     package: 'Nom del paquet'
     feature: 'Definir-ho com a feature'
-    controller: 'Vols generar un controlador predeterminat'
+    module-file: 'Do you want to generate a .module file'
     composer: 'Vols afegir un fitxer composer.json al mòdul'
     dependencies: 'Vols afegir dependències al mòdul'
     test: 'Vols generar una clase de prova (unit test class)'
-    controller: 'Vols generar un controlador predeterminat?'
+    controller: 'Vols generar un controlador predeterminat'
 warnings:
     module-unavailable: 'Avís El següent mòdul ja no està disponible al teu entorn local "%s"'
 errors:

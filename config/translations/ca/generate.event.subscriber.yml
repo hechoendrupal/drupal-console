@@ -1,4 +1,4 @@
-description: 'Generar subscriptor d\''esdeveniments'
+description: 'Generar subscriptor d''esdeveniments'
 questions:
     class: 'Nom de la classe'
-    callback-name: 'Nom de la funció de retorn per gestionar l\''esdeveniment'
+    callback-name: 'Nom de la funció de retorn per gestionar l''esdeveniment'

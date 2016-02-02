@@ -1,6 +1,6 @@
 description: 'Importar la configuració seleccionada.'
 arguments:
     config-name: 'Nom de la configuració.'
-    input-file: 'Ruta del fitxers d\''importació.'
+    input-file: 'Ruta del fitxers d''importació.'
 messages:
     empty-value: 'El valor no pot estar buit'

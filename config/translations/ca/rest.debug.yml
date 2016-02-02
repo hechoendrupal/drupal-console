@@ -1,17 +1,17 @@
-description: 'Display current rest resource for the application'
+description: 'Mostra el recurs Rest actual per l''aplicació'
 arguments:
     resource-id: 'Rest ID'
 options:
-    status: 'Rest resource status enabled | disabled'
+    status: 'Rest resource status habilitat | deshabilitat'
 messages:
-    id: 'Rest ID'
-    label: Label
+    id: 'ID Rest'
+    label: Etiqueta
     canonical_url: 'Canonical URL'
-    status: Status
-    provider: Provider
-    enabled: Enabled
-    disabled: Disabled
-    rest-state: 'REST States'
-    supported-formats: 'Supported Formats'
-    supported_auth: 'Supported Authentication Providers'
-    not-found: 'Rest resource %s not found'
+    status: Estat
+    provider: Proveïdor
+    enabled: Habilitat
+    disabled: Deshabilitat
+    rest-state: 'Estats REST'
+    supported-formats: 'Formats compatibles'
+    supported_auth: 'Proveïdors d''autenticació compatibles'
+    not-found: 'No s''ha trobat el recurs Rest %s'

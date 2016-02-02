@@ -1,5 +1,5 @@
-description: 'Drupal 8 アプリケーションにダミーのボキャブラリーを追加'
-help: 'The <info>create:vocabularies</info> command helps you create dummy vocabularies.'
+description: 'ダミーのボキャブラリーを追加'
+help: '<info>create:vocabularies</info> コマンドはダミーのボキャブラリーを追加します。'
 welcome: 'Welcome to the Drupal vocabularies creator'
 options:
     limit: 作成するボキャブラリーの数
