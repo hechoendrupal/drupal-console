@@ -115,7 +115,7 @@ class Application extends BaseApplication
         }
 
 
-        if (count($_SERVER['argv'])>1 && stripos($_SERVER['argv'][1],'@')===0) {
+        if (count($_SERVER['argv'])>1 && stripos($_SERVER['argv'][1], '@')===0) {
             $_SERVER['argv'][1] = sprintf(
                 '--target=%s',
                 substr($_SERVER['argv'][1], 1)
