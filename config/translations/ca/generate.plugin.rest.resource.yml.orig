@@ -14,6 +14,10 @@ questions:
     plugin-id: 'Introdueix l''Id del plugin de recursos Rest'
     plugin-label: 'Introdueix l''etiqueta del plugin de recursos Rest'
     plugin-url: 'Introdueix la URL del plugin de recursos Rest'
+    plugin-states: 'Please select what REST States implement in your resource (GET is selected by default)'
+<<<<<<< HEAD
     plugin-states: 'Si us plau selecciona quin estat REST implementa el teu recurs (GET es el predeterminat)'
+=======
+>>>>>>> upstream/master
 messages:
     selected-states: 'Estats seleccionats'

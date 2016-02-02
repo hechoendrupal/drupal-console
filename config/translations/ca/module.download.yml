@@ -9,6 +9,6 @@ messages:
     getting-releases: 'Obtenint versions per el mòdul %s'
     downloading: 'Descarregant el mòdul %s versió %s'
     downloaded: 'El mòdul %s versió %s s''ha descarregat correctament a %s'
-    select-release: 'Si us play sel·lecciona la teva versió preferida'
+    select-release: 'Si us play selecciona la teva versió preferida'
     outside-drupal: 'L''arrel de Drupal no s''ha trobat. Utilitza --root per definir un destí, el directori actual s''utilitzarà en qualsevol cas.'
     error-creating-folder: 'Error creant el directori %s, si us plau comprova els permíssos'

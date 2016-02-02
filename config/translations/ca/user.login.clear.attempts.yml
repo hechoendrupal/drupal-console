@@ -1,12 +1,12 @@
-description: 'Clear login failed attempts for an account.'
-help: 'The <info>user:login:clear:attempts</info> reset login failed attempts for an account.'
+description: 'Esborrar intents de connexió d''un compte.'
+help: 'El comandament <info>user:login:clear:attempts</info> reinicialitza els intents de connexió d''un compte.'
 options:
-    user-id: 'User ID.'
+    user-id: 'ID d''usuari.'
 questions:
-    uid: 'Enter User ID.'
-    numeric-uid: 'User id must be an integer.'
-    invalid-uid: 'User id must be upper than zero.'
+    uid: 'Introdueix l''ID d''usuari.'
+    numeric-uid: 'L''ID d''usuari ha de ser un enter.'
+    invalid-uid: 'L''ID d''usuari ha de ser superior a zero.'
 messages:
-    successful: 'Login attempts was clean successfully for user id %s.'
+    successful: 'S''han esborrat els intent de connexió per l''usuari %s.'
 errors:
-    invalid-user: 'Cannot load user entity (Uid: %s).'
+    invalid-user: 'No es possible carregar l''entitat del usuari (Uid: %s).'
