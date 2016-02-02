@@ -1,17 +1,17 @@
-description: 'Delete users for the application'
-help: 'The <info>user:delete</info> command helps you delete users.'
+description: ユーザーを削除
+help: '<info>user:delete</info> コマンドはユーザーを削除します。'
 welcome: 'Welcome to the Drupal user delete'
 options:
-    user-id: 'User id to be deleted'
-    roles: 'Roles associated to users to be deleted'
+    user-id: 削除するユーザーID
+    roles: 削除するユーザーに関連付けられたロール
 questions:
-    user-id: 'User id to be deleted (empty to skip)'
-    roles: 'Select role(s) associated to used to be deleted'
+    user-id: '削除するユーザーID (空の場合はスキップ)'
+    roles: '削除するユーザーに関連付けられたロールを選択してください'
 messages:
-    user-id: 'User ID'
-    username: Username
-    user-deleted: 'User %s was deleted successfully'
-    users-deleted: '%s users were deleted successfully'
+    user-id: ユーザーID
+    username: ユーザー名
+    user-deleted: 'ユーザー %s は削除されました。'
+    users-deleted: 'ロールID: %s のユーザーは削除されました。'
 errors:
-    invalid-user-id: 'User id %s is invalid'
-    invalid-user: 'User id %s is invalid'
+    invalid-user-id: 'ユーザーID %s は不正な値です。'
+    invalid-user: 'ユーザーID %s は不正な値です。'

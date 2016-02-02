@@ -12,7 +12,7 @@ arguments:
 questions:
     profile: インストールするDrupalのプロファイルを選択
     langcode: インストールするDrupalの言語を選択
-    db-type: 'Select Drupal Database type to be used in install'
+    db-type: 'インストールに使用するデータベースのタイプを選択してください'
     site-name: 'Drupalのサイト名を入力してください'
     site-mail: 'Drupalサイトのメールアドレスを入力してください'
     account-name: '管理者アカウントの名前を入力してください'

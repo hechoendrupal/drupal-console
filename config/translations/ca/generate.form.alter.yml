@@ -1,5 +1,5 @@
 description: 'Generar una implementació de hook_form_alter() o hook_form_FORM_ID_alter'
-help: 'El comandament <info>"%s"</info> t\''ajuda a generar un nou "%s"'
+help: 'El comandament <info>"%s"</info> t''ajuda a generar un nou "%s"'
 options:
     form-id: 'ID del formulari a alterar'
 messages:

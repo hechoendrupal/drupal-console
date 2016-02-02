@@ -21,7 +21,7 @@ questions:
         label: 'Метка поля ввода'
         machine_name: 'Машинное имя поля ввода'
         permission: 'Вы хотите создать права доступа?'
-        type: 'Тип'
+        type: Тип
         invalid: 'Тип поля "%s" неверен.'
         description: Описание
         default-value: 'Значение по-умолчанию'
