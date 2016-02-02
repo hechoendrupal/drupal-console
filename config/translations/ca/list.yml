@@ -1,4 +1,4 @@
-description: 'Llista tots els commandaments disponibles'
+description: 'Llista tots els comandaments disponibles'
 help: "El comandament <info>%command.name%</info> llista tots els comandaments:\n<info>php %command.full_name%</info>\nTambé pots mostrar el commandaments per un namespace en particular:\n<info>php %command.full_name% test</info>\nTambé pots mostrar l'informació en altres formats utilitzant l'opció <comment>--format</comment>:\n<info>php %command.full_name% --format=xml</info>\nTambé es possible obtenir una llista en brut dels comandaments (útil per incrustar un executador de comandaments):\n<info>php %command.full_name% --raw</info>\n"
 arguments:
     namespace: 'Nom del namespace'

@@ -8,7 +8,7 @@ help: |
 
         <info>php %command.full_name% --format=xml list</info>
 
-        Per mostrar una llista dels commandaments disponibles, utilitza el comandament <info>list</info>.
+        Per mostrar una llista dels comandaments disponibles, utilitza el comandament <info>list</info>.
 arguments:
     command_name: 'Nom el comandament'
 options:
