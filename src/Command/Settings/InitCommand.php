@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Console\ConfigDebugCommand.
+ * Contains \Drupal\Console\Command\Settings/InitCommand.
  */
 
-namespace Drupal\Console\Command\Console;
+namespace Drupal\Console\Command\Settings;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -16,7 +16,7 @@ use Symfony\Component\Finder\Finder;
 use Drupal\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 
-class ConfigDebugCommand extends Command
+class InitCommand extends Command
 {
     /**
      * {@inheritdoc}
@@ -24,8 +24,15 @@ class ConfigDebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('console:config:debug')
-            ->setDescription($this->trans('commands.console.config.debug.description'));
+            ->setName('settings:init')
+            ->setDescription($this->trans('commands.settings.init.description'))
+            ->addOption(
+                'override',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.settings.init.options.override')
+            )
+            ->setAliases(['init']);
     }
 
     /**
@@ -34,45 +41,45 @@ class ConfigDebugCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $nestedArray = $this->getNestedArrayHelper();
 
         $application = $this->getApplication();
         $config = $application->getConfig();
-
+        $showFileHelper = $application->getShowFileHelper();
         $userPath = sprintf('%s/.console/', $config->getUserHomeDir());
+        $copiedFiles = [];
 
-        $configApplication = $config->get('application');
-
-        unset($configApplication['autowire']);
-        unset($configApplication['languages']);
-        unset($configApplication['default']);
-
-        $configApplicationFlatten = array();
-        $keyFlatten = '';
-        $nestedArray->yamlFlattenArray($configApplication, $configApplicationFlatten, $keyFlatten);
-
-
-        $tableHeader = [
-            $this->trans('commands.console.config.debug.messages.config-key'),
-            $this->trans('commands.console.config.debug.messages.config-value'),
-        ];
-
-        $tableRows = [];
-        foreach ($configApplicationFlatten as $yamlKey => $yamlValue) {
-            $tableRows[] = [
-                $yamlKey,
-                $yamlValue
-            ];
+        $override = false;
+        if ($input->hasOption('override')) {
+            $override = $input->getOption('override');
         }
 
-        $io->info(
-            sprintf(
-                $this->trans('commands.console.config.debug.messages.config-file'),
-                $userPath . 'config.yml'
-            )
-        );
+        $finder = new Finder();
+        $finder->in(sprintf('%s/config/dist', $application->getDirectoryRoot()));
+        $finder->files();
 
-        $io->table($tableHeader, $tableRows, 'compact');
+        foreach ($finder as $configFile) {
+            $source = sprintf(
+                '%s/config/dist/%s',
+                $application->getDirectoryRoot(),
+                $configFile->getRelativePathname()
+            );
+            $destination = sprintf(
+                '%s/%s',
+                $userPath,
+                $configFile->getRelativePathname()
+            );
+            if ($this->copyFile($source, $destination, $override)) {
+                $copiedFiles[] = $configFile->getRelativePathname();
+            }
+        }
+
+        if ($copiedFiles) {
+            $showFileHelper->copiedFiles($io, $copiedFiles);
+        }
+
+        $this->createAutocomplete();
+        $io->newLine(1);
+        $io->writeln($this->trans('application.console.messages.autocomplete'));
     }
 
     protected function createAutocomplete()
@@ -104,7 +111,7 @@ class ConfigDebugCommand extends Command
             $skeletonDirs[] = $drupalRoot.drupal_get_path('module', $module).'/templates';
         }
 
-        $skeletonDirs[] = __DIR__.'/../../templates';
+        $skeletonDirs[] = __DIR__ . '/../../templates';
 
         return $skeletonDirs;
     }
