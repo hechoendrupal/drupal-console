@@ -1,4 +1,4 @@
-description: 'Список модулей реализующих крон'
+description: 'Список модулей реализующих cron'
 messages:
-    module-list: 'Модули, реализующие крон метод '
-    module: Модуль
+    module-list: 'Модули, реализующие cron метод'
+    module: 'Модуль'
