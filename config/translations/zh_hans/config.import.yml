@@ -1,6 +1,7 @@
 description: '导入配置'
 arguments:
     file: '配置文件路径'
+    directory: 'Path to a directory of configuration to import.'
     remove-files: '同步后删除文件.'
 messages:
     config_files_imported: '列出配置文件.'

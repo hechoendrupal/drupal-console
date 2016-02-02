@@ -8,7 +8,7 @@ messages:
     label: Etiqueta
     canonical_url: 'Canonical URL'
     status: Estat
-    provider: 'Proveïdor'
+    provider: Proveïdor
     enabled: Habilitat
     disabled: Deshabilitat
     rest-state: 'Estats REST'

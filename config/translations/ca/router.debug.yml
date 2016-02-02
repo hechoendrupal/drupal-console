@@ -8,4 +8,4 @@ messages:
     path: 'Ruta de la classe'
     defaults: Predeterminats
     options: Opcions
-    pattern: 'Patró'
+    pattern: Patró

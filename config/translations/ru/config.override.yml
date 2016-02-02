@@ -1,4 +1,4 @@
-description: 'Переопределить значения конфига в активной конфигурации.'
+description: 'Переопределить значение конфигурации в активной конфигурации.'
 arguments:
     config-name: 'Имя конфигурации.'
     key: Ключ
@@ -10,5 +10,5 @@ messages:
     updated: 'Переопределяемое значение'
 examples:
     -
-        description: 'Définir la valeur de "flood" du module Contact à 10.'
+        description: 'Установить лимит флуда до 10 для модуля Contact'
         execution: 'drupal config:override contact.settings flood.limit 10'

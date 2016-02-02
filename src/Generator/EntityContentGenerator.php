@@ -16,9 +16,10 @@ class EntityContentGenerator extends Generator
      * @param string $entity_name        Entity machine name
      * @param string $entity_class       Entity class name
      * @param string $label              Entity label
+     * @param string $base_path          Base path
      * @param string $bundle_entity_type (Config) entity type acting as bundle
      */
-    public function generate($module, $entity_name, $entity_class, $label, $bundle_entity_type = null)
+    public function generate($module, $entity_name, $entity_class, $label, $base_path, $bundle_entity_type = null)
     {
         $parameters = [
             'module' => $module,
@@ -26,6 +27,7 @@ class EntityContentGenerator extends Generator
             'entity_class' => $entity_class,
             'label' => $label,
             'bundle_entity_type' => $bundle_entity_type,
+            'base_path' => $base_path,
         ];
 
         if ($bundle_entity_type) {
@@ -143,6 +145,17 @@ class EntityContentGenerator extends Generator
 
             // Check for hook_theme() in module file and warn ...
             $module_filename = $this->getSite()->getModulePath($module).'/'.$module.'.module';
+            // Check if the module file exists.
+            if (!file_exists($module_filename)) {
+                $this->renderFile(
+                    'module/module.twig',
+                    $this->getSite()->getModulePath($module).'/'.$module . '.module',
+                    [
+                        'machine_name' => $module,
+                        'description' => '',
+                    ]
+                );
+            }
             $module_file_contents = file_get_contents($module_filename);
             if (strpos($module_file_contents, 'function ' . $module . '_theme') !== false) {
                 echo "================\nWarning:\n================\n" .

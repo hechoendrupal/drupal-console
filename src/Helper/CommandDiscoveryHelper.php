@@ -97,7 +97,7 @@ class CommandDiscoveryHelper extends Helper
                 }
             }
         } elseif ($type === 'themes') {
-            $sources = $this->getSite()->getThemes(true, false, false);
+            $sources = $this->getSite()->getThemes(true, true, false, false);
         }
 
         return $this->discoverCommands($sources);

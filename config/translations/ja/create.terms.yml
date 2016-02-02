@@ -1,5 +1,5 @@
-description: 'Drupal 8 アプリケーションにダミーのタームを追加'
-help: 'The <info>create:nodes</info> command helps you create fake terns.'
+description: 'ダミーのタームを追加'
+help: '<info>create:nodes</info> コマンドはダミーのタームを追加します。'
 welcome: 'Welcome to the Drupal terms creator'
 arguments:
     vocabularies: '作成するタームのボキャブラリー (複数指定可)'

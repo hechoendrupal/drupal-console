@@ -5,4 +5,4 @@ arguments:
 questions:
     config-name: 'Выберите конфигурацию'
 messages:
-    no-directory: 'Ошибка создания директории'
+    no-directory: 'Произошла ошибка во время создания каталога'

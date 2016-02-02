@@ -2,6 +2,7 @@ description: 'Exportar configuració con a fitxer yml'
 arguments:
     config-name: 'Nom de la configuració.'
 options:
+    include-dependencies: 'Export dependencies of the configuration as well.'
     simple-configuration: 'Configuració simple'
 questions:
     config-type: 'Tipus de configuració'
