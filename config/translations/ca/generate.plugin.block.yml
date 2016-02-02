@@ -1,4 +1,4 @@
-description: 'Generate a plugin block'
+description: 'Generar un connector de bloc (Plugin Block)'
 help: 'El comandament <info>generate:plugin:block</info> t''ajuda a generar un nou connector de bloc'
 welcome: 'Benvingut al generador de connectors de bloc de Drupal'
 options:

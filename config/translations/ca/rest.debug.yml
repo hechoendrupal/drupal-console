@@ -1,6 +1,6 @@
 description: 'Mostra el recurs Rest actual per l''aplicació'
 arguments:
-    resource-id: 'Rest ID'
+    resource-id: 'ID Rest'
 options:
     status: 'Rest resource status habilitat | deshabilitat'
 messages:

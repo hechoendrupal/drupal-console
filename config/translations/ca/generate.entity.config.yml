@@ -5,14 +5,14 @@ options:
     entity-class: 'Classe de l''entitat de continguts'
     entity-name: 'Nom de l''entitat de continguts'
     label: Etiqueta
-    bundle-of: 'Acts as bundle for content entities'
-    base-path: 'The base-path for the config entity routes'
+    bundle-of: 'Actua com a ''bundle'' per l''entitat de continguts'
+    base-path: 'La ruta base per la configuració de rutes d''entitats'
     has-bundles: 'L''entitat conté bundles'
 questions:
     module: common.questions.module
     entity-class: 'Tecleja la classe de la nova entitat de continguts'
     entity-name: 'Tecleja el nom de la nova entitat de continguts'
     label: 'Tecleja l''etiqueta de la nova entitat de continguts'
-    bundle-of: 'Name of the content entity you want this (config) entity to act as a bundle for'
-    base-path: 'Enter the base-path for the config entity routes'
+    bundle-of: 'Nom de l''entitat de contingut per la qual vols que actui com a bundle d''aquesta entitat '
+    base-path: 'Introdueix la ruta base per la configuració de rutes d''entitats'
     has-bundles: 'Vols que aquesta entitat de continguts tingui bundles'

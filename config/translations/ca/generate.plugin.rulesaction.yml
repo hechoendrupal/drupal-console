@@ -3,9 +3,9 @@ help: 'El comandament <info>generate:plugin:rulesaction</info> t''ajuda a genera
 welcome: 'Benvingut al generador de plugin d''acció de regles'
 options:
     module: common.options.module
-    class: 'Plugin class name'
-    label: 'Plugin label'
-    plugin-id: 'Plugin id'
+    class: 'Nom de la clase del plugin'
+    label: 'Etiqueta del plugin'
+    plugin-id: 'Id del plugin'
     inputs: common.options.inputs
     services: common.options.services
     category: 'Categoría del plugin'

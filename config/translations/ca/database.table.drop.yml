@@ -5,5 +5,5 @@ arguments:
 question:
     drop-tables: 'Si us plau confirma que vols esborrar totes les taules de la base de dades %s?'
 messages:
-    table: Table
+    table: Taula
     table-drop: 'S''han esborrat les taules de %s correctament'
