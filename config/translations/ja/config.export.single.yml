@@ -2,6 +2,7 @@ description: 単一のコンフィグレーションをymlファイルとして�
 arguments:
     config-name: コンフィグレーション名
 options:
+    include-dependencies: 'Export dependencies of the configuration as well.'
     simple-configuration: 'Simple configuration'
 questions:
     config-type: 'Configuration type'

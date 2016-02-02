@@ -11,21 +11,21 @@ questions:
     canceled: 'Comandament de generació cancel·lat.'
     events:
         message: "\nTecleja l'esdeveniment o utilitza les tecles de desplaçament.\nAixò es opcional, prem <info>enter</info> per <info>continuar</info>\n"
-        name: 'Introduir el nom de l\''esdeveniment'
+        name: 'Introduir el nom de l''esdeveniment'
     services:
         confirm: '¿Vols carregar els serveis del contenidor?'
         message: "\nTecleja el nom del servei o utilitza les tecles de desplaçament.\nAixò es opcional, prem <info>enter</info> per <info>continuar</info>\n"
         name: 'Tecleja el teu servei'
     inputs:
         confirm: '¿Vols generar una estructura de formulari?'
-        label: 'Etiqueta del camp d\''entrada'
-        machine_name: 'Nom màquina del camp d\''entrada'
+        label: 'Etiqueta del camp d''entrada'
+        machine_name: 'Nom màquina del camp d''entrada'
         permission: '¿Vols generar els permissos?'
         type: Tipus
         invalid: 'El camp de tipus "%s" no es vàlid'
         description: Descripció
         default-value: 'Valor predeterminat'
-        weight: 'Pes per l\''element d\''entrada (weight)'
+        weight: 'Pes per l''element d''entrada (weight)'
         title: Títol
         fieldset: 'Conjunt de camps (fieldset)'
 errors:

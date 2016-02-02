@@ -1,11 +1,11 @@
 description: 'Az alkalmazás jelenleg elérhető frissítéseinek megjelenítése'
 messages:
     no-updates: 'Nincs függőben lévő frissítés'
-    severity: 'Súlyosság'
-    title: 'Cím'
-    value: 'Érték'
-    description: 'Leírás'
+    severity: Súlyosság
+    title: Cím
+    value: Érték
+    description: Leírás
     requirements-error: 'A következő követelmény nem teljesült'
     module-list: 'Függőben lévő frissítésekkel rendelkező modulok'
-    module: 'Modul'
+    module: Modul
     update-n: 'Update N'

@@ -9,7 +9,7 @@ questions:
     roles: 'Ki kell választani a törölni kívánt felhasználókkal társított szerepköröket'
 messages:
     user-id: 'Felhasználói azonosító'
-    username: 'Felhasználónév'
+    username: Felhasználónév
     user-deleted: '%s felhasználó törölve'
     users-deleted: '%s felhasználók törölve'
 errors:
