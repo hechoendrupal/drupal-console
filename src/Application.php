@@ -113,6 +113,14 @@ class Application extends BaseApplication
                 $_SERVER['argv'][] = sprintf('--%s', $key);
             }
         }
+
+
+        if (count($_SERVER['argv'])>1 && stripos($_SERVER['argv'][1],'@')===0) {
+            $_SERVER['argv'][1] = sprintf(
+                '--target=%s',
+                substr($_SERVER['argv'][1], 1)
+            );
+        }
     }
 
     /**
