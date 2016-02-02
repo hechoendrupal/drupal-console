@@ -1,4 +1,4 @@
-description: 'Enable a View'
+description: 'Habilitar vistes'
 messages:
-    enabled-successfully: 'View %s was enabled successfully.'
-    disabled-successfully: 'View %s was enabled successfully.'
+    enabled-successfully: 'La vista %s s''ha habilitat correctament.'
+    disabled-successfully: 'La vista %s s''ha deshabilitat correctament.'
