@@ -1,5 +1,5 @@
 application:
-  default:
+  aliases:
     commands:
       cache:
         rebuild:
