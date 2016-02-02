@@ -4,4 +4,4 @@ arguments:
     database: 'Clau de la base de dades de settings.php'
 messages:
     table-show: 'Mostrant les taules de la base de dades %s'
-    table: Table
+    table: Taula

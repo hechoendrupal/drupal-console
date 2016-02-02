@@ -31,7 +31,7 @@ questions:
 errors:
     module-dependency: 'Falta la dependència del mòdul "%s"'
     class-name-empty: 'El nom de la clase no pot estar buida'
-    invalid-file-path: 'You must provide a valid file path'
+    invalid-file-path: 'Has de proporcionar una ruta de fotxer vàlida'
 status:
     enabled: Habilitat
     disabled: Deshabilitat

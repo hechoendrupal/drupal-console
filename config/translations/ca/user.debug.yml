@@ -6,7 +6,7 @@ options:
     limit: 'Quants usuaris voldries mostrar'
 questions:
     roles: 'Selecciona els rols que s''utlitzaran per filtrar la llista de depuració d''usuaris'
-    limit: 'Enter how many users would you like to show'
+    limit: 'Introdueix el número d''usuaris que vols mostrar'
 messages:
     user-id: 'ID d''usuari'
     username: 'Nom d''usuari'

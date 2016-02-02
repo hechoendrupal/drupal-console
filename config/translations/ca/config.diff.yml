@@ -1,14 +1,14 @@
-description: 'Ouput configuration items that are different in active configuration compared with a directory.'
+description: 'Sortida dels items de conffiguració que son diferents a la configuració activa comparada amb un directori.'
 arguments:
-    directory: 'The directory to diff against. If ommitted, choose from Drupal config directories.'
+    directory: 'Directori contra el que comparar. Si s''omet, escull des de els directoris de configuració de Drupal.'
 options:
-    reverse: 'See the changes in reverse (i.e diff a directory to the active configuration).'
+    reverse: 'Veure canvis invertits (p.e compara un directori amb la configuració activa).'
 questions:
-    directories: 'Config directory:'
+    directories: 'Directori de configuració:'
 table:
     headers:
-      collection: 'Collection'
-      config-name: 'Configuration item'
-      operation: 'Operation'
+      collection: 'Col·lecció'
+      config-name: 'Item de configuració'
+      operation: 'Operació'
 messages:
-    no-changes: 'There are no changes.'
+    no-changes: 'No hi han canvis.'

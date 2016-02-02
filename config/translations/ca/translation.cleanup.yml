@@ -3,6 +3,6 @@ arguments:
     language: 'Fitxers de l''idioma a netejar contra l''anglès'
 messages:
     invalid-language: 'L''idioma %s es invàlid'
-    language: Language
+    language: Idioma
     file-deleted: 'El fitxer %s s''ha eliminat de %s degut a que ja no es necessari.'
     success: 'Fitxers innecessaris a esborrar'

@@ -11,8 +11,8 @@ questions:
     limit: 'Quants termes voldries crerar'
     name-words: 'Introdueix el màxim de paraules dels noms del termes'
 messages:
-    term-id: 'Term Id'
+    term-id: 'ID del term'
     vocabulary: Vocabulari
-    name: Name
+    name: Nom
     invalid-vocabularies: 'El vocabulari(s) %s es invàlid'
     created-terms: 'S''han creat %s termes correctament'
