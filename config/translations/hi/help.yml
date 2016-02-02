@@ -1,14 +1,5 @@
 description: 'एक कमांड के लिए मदद प्रदर्शित करता है'
-help: |
-        <info>%command.name%</info> कमांड किसी दिए गए कमांड के लिए मदद प्रदर्शित करता है:
-
-        <info>php %command.full_name% list</info>
-
-        आप <comment>--format</comment> विकल्प का उपयोग करके अन्य स्वरूपों में उत्पादन मदद भी कर सकते हैं:
-
-        <info>php %command.full_name% --format=xml list</info>
-
-        उपलब्ध कमांड की सूची प्रदर्शित करने के लिए <info>list</info> कमांड का इस्तेमाल करें।
+help: "<info>%command.name%</info> कमांड किसी दिए गए कमांड के लिए मदद प्रदर्शित करता है:\n\n<info>php %command.full_name% list</info>\n\nआप <comment>--format</comment> विकल्प का उपयोग करके अन्य स्वरूपों में उत्पादन मदद भी कर सकते हैं:\n\n<info>php %command.full_name% --format=xml list</info>\n\nउपलब्ध कमांड की सूची प्रदर्शित करने के लिए <info>list</info> कमांड का इस्तेमाल करें।\n"
 arguments:
     command_name: 'कमांड का नाम'
 options:

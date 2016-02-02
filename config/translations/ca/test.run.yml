@@ -2,7 +2,7 @@ description: 'Run Test unit from tests available for application'
 arguments:
     test-class: 'Test Class'
 messages:
-    missing-dependency: 'Test can\''t be executed due a missing dependency'
+    missing-dependency: 'Test can''t be executed due a missing dependency'
     phpunit-pending: 'Logic to execute PHPUnit test is not implemented yet.'
     starting-test: 'Starting test'
     test-duration: 'Test duration'

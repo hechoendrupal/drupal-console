@@ -59,7 +59,7 @@ class EnableCommand extends ContainerAwareCommand
             $view->enable()->save();
             $io->success(
                 sprintf(
-                    $this->trans('commands.views.enable.messages.disabled-enable'),
+                    $this->trans('commands.views.enable.messages.enabled-successfully'),
                     $view->get('label')
                 )
             );

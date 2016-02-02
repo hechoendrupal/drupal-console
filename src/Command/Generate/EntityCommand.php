@@ -72,6 +72,12 @@ abstract class EntityCommand extends GeneratorCommand
                 $this->trans('commands.'.$commandKey.'.options.entity-name')
             )
             ->addOption(
+                'base-path',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.' . $commandKey . '.options.base-path')
+            )
+            ->addOption(
                 'label',
                 null,
                 InputOption::VALUE_REQUIRED,
@@ -138,9 +144,35 @@ abstract class EntityCommand extends GeneratorCommand
             );
             $input->setOption('label', $label);
         }
+
+        // --base-path option
+        $base_path = $input->getOption('base-path');
+        if (!$base_path) {
+            $base_path = $this->getDefaultBasePath();
+        }
+        $base_path = $io->ask(
+            $this->trans('commands.'.$commandKey.'.questions.base-path'),
+            $base_path
+        );
+        if (substr($base_path, 0, 1) !== '/') {
+            // Base path must start with a leading '/'.
+            $base_path = '/' . $base_path;
+        }
+        $input->setOption('base-path', $base_path);
     }
 
     protected function createGenerator()
     {
+    }
+
+    /**
+     * Gets default base path.
+     *
+     * @return string
+     *   Default base path.
+     */
+    protected function getDefaultBasePath()
+    {
+        return '/admin/structure';
     }
 }
