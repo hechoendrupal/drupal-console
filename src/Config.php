@@ -96,7 +96,7 @@ class Config
         $ref = &$this->config;
         foreach ($prefixes as $prefix) {
             $previous = &$ref;
-            if(isset($this->config[$prefix])) {
+            if (isset($this->config[$prefix])) {
                 $ref = &$this->config[$prefix];
             }
         }
@@ -134,7 +134,8 @@ class Config
     /**
      * @return array|mixed
      */
-    public function getConfig() {
+    public function getConfig()
+    {
         return $this->config;
     }
 
@@ -201,6 +202,4 @@ class Config
         }
         return $targetConfig;
     }
-
-
 }

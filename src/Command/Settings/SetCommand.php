@@ -92,7 +92,7 @@ class SetCommand extends Command
             return;
         }
 
-        $config->setConfigValue(['application', 'language'], $settingValue);
+        $config->setConfigValue($parents, $settingValue);
 
         $io->success(
             sprintf(
