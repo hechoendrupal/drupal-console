@@ -13,4 +13,4 @@ messages:
     service-value: Valor
     error-copying-file: 'Error durant la còpia del fitxer'
     error-writing-file: 'Error durant la còpia del fitxer'
-    services-file-overwritten: 'S''ha sobreescrit el fitxer de serveis %s was overwritten'
+    services-file-overwritten: 'S''ha sobreescrit el fitxer de serveis %s'
