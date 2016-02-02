@@ -2,6 +2,7 @@ description: 'Exporte une unique configuration sous la forme d''un fichier YAML.
 arguments:
     config-name: 'Nom de la configuration.'
 options:
+    include-dependencies: 'Export dependencies of the configuration as well.'
     simple-configuration: 'Configuration simple'
 questions:
     config-type: 'Type de configuration'

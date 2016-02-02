@@ -37,11 +37,8 @@ class AboutCommand extends Command
         $application = $this->getApplication();
 
         $drupal = $this->getDrupalHelper();
-
-        // Provide drupal version if it's installed
         $drupalVersion = $this->trans('commands.site.status.messages.not_installed');
-        if($drupal->isInstalled()) {
-
+        if ($drupal->isInstalled()) {
             $drupalVersion = sprintf(
                 $this->trans('commands.site.status.messages.current_version'),
                 $this->getSite()->getDrupalVersion()

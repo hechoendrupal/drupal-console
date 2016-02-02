@@ -1,6 +1,7 @@
 description: 'Konfiguráció importálása az aktuális aplikációba.'
 arguments:
     file: 'Configuration file path.'
+    directory: 'Path to a directory of configuration to import.'
     remove-files: 'Remove files after syncronization.'
     config-file: 'Konfigurációs fájl útvonala.'
     copy-only: 'Csak a konfigurációs fájlok mentése az átmeneti könyvtárba.'

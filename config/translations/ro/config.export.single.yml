@@ -2,6 +2,7 @@ description: 'Exportați o configurare unică ca și un fișier yml .'
 arguments:
     config-name: 'Numele configurării.'
 options:
+    include-dependencies: 'Export dependencies of the configuration as well.'
     simple-configuration: 'Configurare unică'
 questions:
     config-type: 'Tipul configurării'

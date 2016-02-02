@@ -2,7 +2,8 @@ description: 'Экспорт конфигурации в yml файл.'
 arguments:
     config-name: 'Имя конфигурации.'
 options:
-    simple-configuration: 'Simple configuration'
+    include-dependencies: 'Export dependencies of the configuration as well.'
+    simple-configuration: 'Простая конфигурация'
 questions:
     config-type: 'Тип конфигурации'
     config-name: 'Имя конфигурации.'

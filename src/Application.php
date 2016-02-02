@@ -29,7 +29,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '0.10.6';
+    const VERSION = '0.10.7';
     /**
      * @var string
      */
@@ -89,13 +89,13 @@ class Application extends BaseApplication
             new InputOption('--learning', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.learning'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--generate-chain', '-gc', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-chain'))
+            new InputOption('--generate-chain', '-c', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-chain'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--generate-inline', '-gi', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-inline'))
+            new InputOption('--generate-inline', '-i', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-inline'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--generate-doc', '-gd', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc'))
+            new InputOption('--generate-doc', '-d', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc'))
         );
         $this->getDefinition()->addOption(
             new InputOption('--target', '-t', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.target'))
