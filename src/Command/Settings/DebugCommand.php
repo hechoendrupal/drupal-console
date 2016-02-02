@@ -8,16 +8,15 @@
 namespace Drupal\Console\Command\Settings;
 
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Yaml\Dumper;
+use Drupal\Console\Generator\AutocompleteGenerator;
+use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Finder\Finder;
+use Drupal\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\ContainerAwareCommand;
 
-/**
- * Class DebugCommand
- * @package Drupal\Console\Command\Settings
- */
-class DebugCommand extends ContainerAwareCommand
+class DebugCommand extends Command
 {
     /**
      * {@inheritdoc}
@@ -26,8 +25,7 @@ class DebugCommand extends ContainerAwareCommand
     {
         $this
             ->setName('settings:debug')
-            ->setDescription($this->trans('commands.settings.debug.description'))
-            ->setHelp($this->trans('commands.settings.debug.help'));
+            ->setDescription($this->trans('commands.settings.debug.description'));
     }
 
     /**
@@ -36,19 +34,44 @@ class DebugCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
+        $nestedArray = $this->getNestedArrayHelper();
 
-        $settings = $this->getSettings();
-        $settingKeys = array_keys($settings->getAll());
-        $dumper = new Dumper();
+        $application = $this->getApplication();
+        $config = $application->getConfig();
 
-        $io->newLine();
-        $io->info($this->trans('commands.settings.debug.messages.current'));
-        $io->newLine();
+        $userPath = sprintf('%s/.console/', $config->getUserHomeDir());
 
-        foreach ($settingKeys as $settingKey) {
-            $io->comment($settingKey, false);
-            $io->simple($dumper->dump($settings->get($settingKey), 10));
+        $configApplication = $config->get('application');
+
+        unset($configApplication['autowire']);
+        unset($configApplication['languages']);
+        unset($configApplication['aliases']);
+
+        $configApplicationFlatten = array();
+        $keyFlatten = '';
+        $nestedArray->yamlFlattenArray($configApplication, $configApplicationFlatten, $keyFlatten);
+
+
+        $tableHeader = [
+            $this->trans('commands.settings.debug.messages.config-key'),
+            $this->trans('commands.settings.debug.messages.config-value'),
+        ];
+
+        $tableRows = [];
+        foreach ($configApplicationFlatten as $yamlKey => $yamlValue) {
+            $tableRows[] = [
+                $yamlKey,
+                $yamlValue
+            ];
         }
-        $io->newLine();
+
+        $io->info(
+            sprintf(
+                $this->trans('commands.settings.debug.messages.config-file'),
+                $userPath . 'config.yml'
+            )
+        );
+
+        $io->table($tableHeader, $tableRows, 'compact');
     }
 }
