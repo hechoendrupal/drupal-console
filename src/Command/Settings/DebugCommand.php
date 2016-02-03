@@ -39,18 +39,16 @@ class DebugCommand extends Command
         $application = $this->getApplication();
         $config = $application->getConfig();
 
-        $userPath = sprintf('%s/.console/', $config->getUserHomeDir());
-
         $configApplication = $config->get('application');
 
         unset($configApplication['autowire']);
         unset($configApplication['languages']);
         unset($configApplication['aliases']);
+        unset($configApplication['default']);
 
-        $configApplicationFlatten = array();
+        $configApplicationFlatten = [];
         $keyFlatten = '';
         $nestedArray->yamlFlattenArray($configApplication, $configApplicationFlatten, $keyFlatten);
-
 
         $tableHeader = [
             $this->trans('commands.settings.debug.messages.config-key'),
@@ -67,12 +65,15 @@ class DebugCommand extends Command
 
         $io->newLine();
         $io->info(
-            sprintf('%s :', $this->trans('commands.settings.debug.messages.config-file')),
+            sprintf(
+                '%s :',
+                $this->trans('commands.settings.debug.messages.config-file')
+            ),
             false
         );
 
         $io->comment(
-            sprintf('%sconfig.yml', $userPath),
+            sprintf('%s/.console/config.yml', $config->getUserHomeDir()),
             true
         );
 
