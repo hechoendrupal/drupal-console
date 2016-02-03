@@ -1,7 +1,7 @@
-description: 'Returns a one-time user login url.'
+description: 'Retorna la ''one-time login url'' d''un usuari.'
 options:
-    user-id: 'User ID.'
+    user-id: 'ID d''usuari.'
 messages:
-    url: 'One-time login for @name: @url'
+    url: 'One-time login per @name: @url'
 errors:
-    invalid-user: 'Cannot load user entity (User ID: @uid).'
+    invalid-user: 'No es possible carregar l''entitat d''usuari (ID d''usuari: @uid).'

@@ -1,16 +1,16 @@
-description: 'Switch system performance configuration'
+description: 'Canviar la configuració de rendiment del sistema'
 arguments:
-    environment: 'Environment name [dev, prod]'
+    environment: 'Nom de l''entorn [dev, prod]'
 messages:
-    configuration: 'Configuration name'
-    configuration-key: 'Configuration key'
-    original: 'Original Value'
-    updated: 'Override Value'
-    invalid-env: 'Invalid environment'
-    new-services-settings: 'New services settings'
-    service: Service
-    service-parameter: Parameter
-    service-value: Value
-    error-copying-file: 'Error copying file'
-    error-writing-file: 'Error copying file'
-    services-file-overwritten: 'Services files %s was overwritten'
+    configuration: 'Nom de la configuració'
+    configuration-key: 'Clau de la configuració'
+    original: 'Valor original'
+    updated: 'Subtituir valor'
+    invalid-env: 'Entorn invàlid'
+    new-services-settings: 'Configuració del nou servei'
+    service: Servei
+    service-parameter: Parametre
+    service-value: Valor
+    error-copying-file: 'Error durant la còpia del fitxer'
+    error-writing-file: 'Error durant la còpia del fitxer'
+    services-file-overwritten: 'S''ha sobreescrit el fitxer de serveis %s'
