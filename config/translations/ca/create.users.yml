@@ -22,6 +22,6 @@ questions:
 messages:
     user-id: 'ID d''usuari'
     roles: Rols
-    username: 'Nom d''usuari''
+    username: 'Nom d''usuari'
     created: 'Data de creació'
     created-users: 'S''han creat %s usuaris correctament'
