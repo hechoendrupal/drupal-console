@@ -18,3 +18,4 @@ messages:
     method: 方法
     line: 行（线）
     message: 消息
+    invalid-class: 'Testing class %s doesn''t exists'
