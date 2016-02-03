@@ -1,5 +1,0 @@
-description: '配置文件调试'
-help: '命令 <info>settings:debug</info> 用于显示配置文件中的键值对'
-welcome: '欢迎使用 Drupal 配置调试命令'
-messages:
-    current: '配置文件里的当前 Key:Value'
