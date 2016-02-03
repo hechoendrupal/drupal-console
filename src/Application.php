@@ -29,7 +29,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '0.10.7';
+    const VERSION = '0.10.8';
     /**
      * @var string
      */
@@ -112,6 +112,14 @@ class Application extends BaseApplication
             if ($this->getDefinition()->hasOption($key)) {
                 $_SERVER['argv'][] = sprintf('--%s', $key);
             }
+        }
+
+
+        if (count($_SERVER['argv'])>1 && stripos($_SERVER['argv'][1], '@')===0) {
+            $_SERVER['argv'][1] = sprintf(
+                '--target=%s',
+                substr($_SERVER['argv'][1], 1)
+            );
         }
     }
 

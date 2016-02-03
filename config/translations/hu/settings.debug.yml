@@ -1,5 +1,5 @@
-description: 'A settings fájl aktuális kulcs:érték beállításainak megjelenítése.'
-help: 'A <info>settings:debug</info> parancs megjeleníti a settings fájl aktuális kulcs:érték beállításait.'
-welcome: 'Üdvözlet a Drupal Settings hibakeresési parancsban'
+description: 'List user Drupal Console settings.'
 messages:
-    current: 'A settings fájl aktuális kulcs:érték beállításai'
+    config-key: 'Config key'
+    config-value: 'Config value'
+    config-file: 'Config file'
