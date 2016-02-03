@@ -2,10 +2,10 @@ description: 'Mostra les actualitzacions disponibles per l''aplicació'
 messages:
     no-updates: 'No hi han actualitzacions pendents'
     severity: Severitat
-    title: 'Títol'
+    title: Títol
     value: Valor
-    description: 'Descripció'
+    description: Descripció
     requirements-error: 'El següent requeriment no s''ha completat'
     module-list: 'Mòduls amb actualitzacions pendents'
-    module: 'Mòdul'
+    module: Mòdul
     update-n: 'Update N'
