@@ -30,15 +30,16 @@ class DebugCommand extends ContainerAwareCommand
             ->setName('test:debug')
             ->setDescription($this->trans('commands.test.debug.description'))
             ->addArgument(
-                'test-class',
+                'group',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.test.debug.arguments.test-class')
+                $this->trans('commands.test.debug.options.group'),
+                null
             )
             ->addOption(
-                'group',
+                'test-class',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.test.debug.options.group')
+                $this->trans('commands.test.debug.arguments.test-class')
             );
 
         $this->addDependency('simpletest');
@@ -53,8 +54,8 @@ class DebugCommand extends ContainerAwareCommand
         //Registers namespaces for disabled modules.
         $this->getTestDiscovery()->registerTestNamespaces();
 
-        $testClass = $input->getArgument('test-class');
-        $group = $input->getOption('group');
+        $testClass = $input->getOption('test-class');
+        $group = $input->getArgument('group');
 
         if ($testClass) {
             $this->testDetail($io, $testClass);
@@ -117,14 +118,30 @@ class DebugCommand extends ContainerAwareCommand
     {
         $testingGroups = $this->getTestDiscovery()->getTestClasses(null);
 
-        $tableHeader = [
-          $this->trans('commands.test.debug.messages.class'),
-          $this->trans('commands.test.debug.messages.group'),
-          $this->trans('commands.test.debug.messages.type')
-        ];
+        if(empty($group)) {
+            $tableHeader = [$this->trans('commands.test.debug.messages.group')];
+        } else {
+            $tableHeader = [
+                $this->trans('commands.test.debug.messages.class'),
+                $this->trans('commands.test.debug.messages.type')
+            ];
+
+            $io->writeln(
+                sprintf(
+                    '%s: %s',
+                    $this->trans('commands.test.debug.messages.group'),
+                    $group
+                )
+            );
+        }
 
         $tableRows = [];
         foreach ($testingGroups as $testing_group => $tests) {
+            if(empty($group)) {
+                $tableRows[] =[$testing_group];
+                continue;
+            }
+
             if (!empty($group) && $group != $testing_group) {
                 continue;
             }
@@ -137,11 +154,23 @@ class DebugCommand extends ContainerAwareCommand
                 }
                 $tableRows[] =[
                   $test['name'],
-                  $test['group'],
                   $test['type']
                 ];
             }
         }
         $io->table($tableHeader, $tableRows, 'compact');
+
+        if($group) {
+            $io->success(
+                sprintf(
+                    $this->trans('commands.test.debug.messages.success-group'),
+                    $group
+                )
+            );
+        } else {
+            $io->success(
+                $this->trans('commands.test.debug.messages.success-groups')
+            );
+        }
     }
 }
