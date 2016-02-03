@@ -1,4 +1,4 @@
-description: 'Mostra l''ajuda per un comandament'
+description: 'Mostrar l''ajuda per un comandament'
 help: |
         El comandament <info>%command.name%</info> mostra :
 

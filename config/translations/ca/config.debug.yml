@@ -1,4 +1,4 @@
-description: 'Mostra la configuració actual'
+description: 'Mostrar la configuració actual'
 arguments:
     config-name: 'Nom de la configuració'
 errors:
