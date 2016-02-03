@@ -30,10 +30,10 @@ console:
         input:
             definition:
                 command: 'El comandament a executar'
-                help: 'Mostra aquest missatge d''ajuda'
+                help: 'Mostrar aquest missatge d''ajuda'
                 quiet: 'No mostrar cap missatge'
                 verbose: 'Aumenta el detall dels missatges: 1 per la sortida normal, 2 per més detall (verbose) i 3 per depurar (debug)'
-                version: 'Mostra la versió de l''aplicació'
+                version: 'Mostrar la versió de l''aplicació'
                 ansi: 'Forçar sortida ANSI'
                 no-ansi: 'Deshabilitar la sortida ANSI'
                 no-interaction: 'No fer cap pregunta interactiva'
@@ -44,10 +44,10 @@ console:
     input:
         definition:
             command: 'El comandament a executar'
-            help: 'Mostra aquest missatge d''ajuda'
+            help: 'Mostrar aquest missatge d''ajuda'
             quiet: 'No mostrar cap missatge'
             verbose: 'Augmentar el detall dels missatges: 1 per una sortida normal, 2 per obtenir més detall i 3 per depurar'
-            version: 'Mostra la versió d''aquesta applicació'
+            version: 'Mostrar la versió d''aquesta applicació'
             ansi: 'Forçar la sortida ANSI'
             no-ansi: 'Deshabilitar la sortida ANSI'
             no-interaction: 'No preguntar res de forma interactiva'

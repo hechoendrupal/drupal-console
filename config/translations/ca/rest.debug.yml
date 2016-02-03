@@ -1,4 +1,4 @@
-description: 'Mostra el recurs Rest actual per l''aplicació'
+description: 'Mostrar l''actual recurs Rest de l''aplicació'
 arguments:
     resource-id: 'ID Rest'
 options:

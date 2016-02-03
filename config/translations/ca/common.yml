@@ -1,3 +1,4 @@
+
 options:
     events: 'Carregar esdeveniments des del contenidor'
     module: 'Nom del mòdul.'
@@ -31,7 +32,7 @@ questions:
 errors:
     module-dependency: 'Falta la dependència del mòdul "%s"'
     class-name-empty: 'El nom de la clase no pot estar buida'
-    invalid-file-path: 'Has de proporcionar una ruta de fotxer vàlida'
+    invalid-file-path: 'Has de proporcionar una ruta de fitxer vàlida'
 status:
     enabled: Habilitat
     disabled: Deshabilitat

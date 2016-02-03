@@ -1,4 +1,4 @@
-description: 'Mostra els temes actuals per l''aplicació'
+description: 'Mostrar els temes actuals per l''aplicació'
 arguments:
     theme: 'Especifica el tema a depurar'
 messages:
