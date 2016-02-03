@@ -20,7 +20,7 @@ messages:
     config-conflict: 'Aquests objectes de configuració ja existeixen en la configuració activa. No es possible l''instal·lació'
     getting-missing-modules: 'Un o més mòduls %s no estan disponibles, executar el procés de descarrega per obtenir-los'
     getting-releases: 'Obtenint versions del mòdul %s'
-    select-release: 'Si us plau sel·lecciona un versió'
+    select-release: 'Si us plau selecciona un versió'
     downloading: 'Descarregant el mòdul %s versió %s'
     downloaded: 'El mòdul %s versió %s s''ha descarregat correctament a %s'
     no-releases: 'No hi ha cap versió disponible per el mòdul  %s'

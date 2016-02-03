@@ -1,6 +1,6 @@
-description: 'Show the current State keys.'
-help: 'Show the current State keys.'
+description: 'Mostrar l''estat actual de les claus.'
+help: 'Mostrar l''estat actual de les claus.'
 arguments:
-    key: 'The State key to debug.'
+    key: 'L''estat de la clau a depurar.'
 messages:
-    key: 'The State key'
+    key: 'L''estat de la clau'

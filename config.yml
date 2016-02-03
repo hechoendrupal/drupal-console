@@ -1,9 +1,4 @@
 application:
-  environment: prod
-  language: en
-  editor: vi
-  temp: /tmp
-  develop: false
   autowire:
     commands:
       forced:
