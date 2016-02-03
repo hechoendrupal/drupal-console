@@ -334,7 +334,7 @@ class Application extends BaseApplication
     private function getCommandAliases($command)
     {
         $aliasKey = sprintf(
-            'application.aliases.commands.%s.aliases',
+            'application.default.commands.%s.aliases',
             str_replace(':', '.', $command->getName())
         );
 
