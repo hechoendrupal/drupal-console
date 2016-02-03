@@ -9,16 +9,16 @@ namespace Drupal\Console\Command\Settings;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Generator\AutocompleteGenerator;
-use Symfony\Component\Process\ProcessBuilder;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
 use Drupal\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class SetCommand
+ * @package Drupal\Console\Command\Settings
+ */
 class SetCommand extends Command
 {
     /**

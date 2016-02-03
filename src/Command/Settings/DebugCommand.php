@@ -8,14 +8,14 @@
 namespace Drupal\Console\Command\Settings;
 
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Generator\AutocompleteGenerator;
-use Symfony\Component\Process\ProcessBuilder;
-use Symfony\Component\Finder\Finder;
 use Drupal\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class DebugCommand
+ * @package Drupal\Console\Command\Settings
+ */
 class DebugCommand extends Command
 {
     /**
@@ -65,12 +65,18 @@ class DebugCommand extends Command
             ];
         }
 
+        $io->newLine();
         $io->info(
-            sprintf(
-                $this->trans('commands.settings.debug.messages.config-file'),
-                $userPath . 'config.yml'
-            )
+            sprintf('%s :', $this->trans('commands.settings.debug.messages.config-file')),
+            false
         );
+
+        $io->comment(
+            sprintf('%sconfig.yml', $userPath),
+            true
+        );
+
+        $io->newLine();
 
         $io->table($tableHeader, $tableRows, 'compact');
     }

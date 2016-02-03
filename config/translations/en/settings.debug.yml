@@ -2,4 +2,4 @@ description: 'List user Drupal Console settings.'
 messages:
     config-key: 'Config key'
     config-value: 'Config value'
-    config-file: 'User Drupal Console config file %s'
+    config-file: 'Config file'
