@@ -14,4 +14,6 @@ messages:
     missing-dependency: 'Dependência não encontrada'
     methods: 'Métodos do teste'
     not-found: 'Debug não foi encontrado, certifique-se de definir o ID do teste entre aspas duplas.'
+    success-groups: 'All testing groups were listed sucessfully, use the group argument to filter Test unit by group i.e $ drupal test:debug Url'
+    success-group: 'All test units for group %s were listed sucessfully'
     id: 'ID do teste unitário'
