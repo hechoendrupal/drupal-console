@@ -25,6 +25,7 @@ class Config
         $this->config = [];
 
         $this->loadFile(__DIR__.'/../config.yml');
+        $this->loadFile(__DIR__.'/../config/dist/config.yml');
         $this->loadFile($this->getUserHomeDir().'/.console/config.yml');
         $this->loadFile(__DIR__.'/../config/dist/aliases.yml');
         $this->loadFile($this->getUserHomeDir().'/.console/aliases.yml');
