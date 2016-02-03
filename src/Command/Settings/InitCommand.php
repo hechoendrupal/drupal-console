@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\InitCommand.
+ * Contains \Drupal\Console\Command\Settings/InitCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Settings;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -13,6 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\AutocompleteGenerator;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Finder\Finder;
+use Drupal\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 
 class InitCommand extends Command
@@ -23,14 +24,15 @@ class InitCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('init')
-            ->setDescription($this->trans('commands.init.description'))
+            ->setName('settings:init')
+            ->setDescription($this->trans('commands.settings.init.description'))
             ->addOption(
                 'override',
                 null,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.init.options.override')
-            );
+                $this->trans('commands.settings.init.options.override')
+            )
+            ->setAliases(['init']);
     }
 
     /**
@@ -109,7 +111,7 @@ class InitCommand extends Command
             $skeletonDirs[] = $drupalRoot.drupal_get_path('module', $module).'/templates';
         }
 
-        $skeletonDirs[] = __DIR__.'/../../templates';
+        $skeletonDirs[] = __DIR__ . '/../../templates';
 
         return $skeletonDirs;
     }
