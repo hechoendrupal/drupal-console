@@ -1,0 +1,105 @@
+<?php
+
+/**
+ * @file
+ * Contains \Drupal\Console\Command\Settings\SetCommand.
+ */
+
+namespace Drupal\Console\Command\Settings;
+
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Generator\AutocompleteGenerator;
+use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Yaml\Dumper;
+use Symfony\Component\Yaml\Parser;
+use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
+
+class SetCommand extends Command
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        $this
+            ->setName('settings:set')
+            ->addArgument(
+                'setting-name',
+                InputArgument::REQUIRED,
+                $this->trans('commands.settings.set.arguments.setting-name'),
+                null
+            )
+            ->addArgument(
+                'setting-value',
+                InputArgument::REQUIRED,
+                $this->trans('commands.settings.set.arguments.setting-value'),
+                null
+            )
+            ->setDescription($this->trans('commands.settings.set.description'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $io = new DrupalStyle($input, $output);
+        $yaml = new Parser();
+        $dumper = new Dumper();
+
+        $settingName = $input->getArgument('setting-name');
+        $settingValue = $input->getArgument('setting-value');
+
+        $nestedArray = $this->getNestedArrayHelper();
+
+        $application = $this->getApplication();
+        $config = $application->getConfig();
+
+        $userConfigFile = sprintf(
+            '%s/.console/config.yml',
+            $config->getUserHomeDir()
+        );
+
+        try {
+            $userConfigFileParsed = $yaml->parse(file_get_contents($userConfigFile));
+        } catch (\Exception $e) {
+            $io->error($this->trans('commands.settings.set.messages.error-parsing').': '.$e->getMessage());
+            return;
+        }
+
+        $parents = array_merge(['application'], explode(".", $settingName));
+
+        $nestedArray->setValue($userConfigFileParsed, $parents, $settingValue, true);
+
+        try {
+            $userConfigFileDump = $dumper->dump($userConfigFileParsed, 10);
+        } catch (\Exception $e) {
+            $io->error($this->trans('commands.settings.set.messages.error-generating').': '.$e->getMessage());
+
+            return;
+        }
+
+        try {
+            file_put_contents($userConfigFile, $userConfigFileDump);
+        } catch (\Exception $e) {
+            $io->error($this->trans('commands.settings.set.messages.error-writing').': '.$e->getMessage());
+
+            return;
+        }
+
+        $config->setConfigValue($parents, $settingValue);
+
+        $io->success(
+            sprintf(
+                $this->trans('commands.settings.set.messages.success'),
+                $settingName,
+                $settingValue
+            )
+        );
+    }
+}
