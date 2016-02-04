@@ -5,11 +5,11 @@ console:
         learning: 'Generar código con explicaciones.'
         generate-chain: 'Imprimir opciones y argumentos como YAML para ser usado el comando chain'
         generate-inline: 'Imprimir opciones y argumentos de ejecución como llamada inline para ser usados en el futuro'
-        generate-doc: 'Shows command options and arguments as markdown'
+        generate-doc: 'Muestra las opciones del comando y sus argumentos como markdown'
         root: 'Define la raíz de Drupal que se utilizará en la ejecución de los comandos'
         uri: 'URI del sitio en Drupal que se usará (para ambientes en multi-site o cuando esta usando un puerto alternativo)'
-        'yes': 'Skip confirmation and proceed'
-        target: 'Site name you want to interact with (for local or remote sites)'
+        'yes': 'Saltar confirmación y ejecutar directamente'
+        target: 'Nombre del sitio con el que desea interactuar (sitio remoto o local)'
         drupal: 'Ruta a la raíz de Drupal'
         shell: 'Iniciar el shell.'
     messages:
@@ -23,9 +23,8 @@ console:
             generated: '¡Ya puedes comenzar a usar el código generado!'
             copied: 'Los archivos fueron copiados'
         learning:
-            route: "Con el fin de crear páginas es necesario definir rutas para ellas.\nUna ruta asigna una URL a un controlador. Se define con qué función\no método será llamado cuando se accede a una URL.\nSi el usuario accede la ruta http://drupal8.dev/{{ route.path }},\nel sistema buscará una ruta con ese camino. En este caso, si encuentra una\nejecutará la devolución de la llamada _controller.\nEn este caso, la devolución de llamada es definida como un nombre de clase\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\ny un método (\"{{ route.method }}\")."
-        autocomplete: "Bash o Zsh: Agregar ésta línea al archivo de configuración del shell:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Crear un link simbólico\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
-    errors:
+            route: "Con el fin de crear páginas es necesario definir rutas para ellas.\nUna ruta asigna una URL a un controlador. Se define con qué función\no método será llamado cuando se accede a una URL.\nSi el usuario accede la ruta http://drupal8.dev/{{ route }},\nel sistema buscará una ruta con ese camino. En este caso, si encuentra una\nejecutará la devolución de la llamada _controller.\nEn este caso, la devolución de llamada es definida como un nombre de clase\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\ny un método (\"{{ method_name }}\")."
+        autocomplete: "Bash o Zsh: Agregar esta línea al archivo de configuración del shell:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Crear un link simbólico\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
         invalid-command: 'El comando "%s" no está definido.'
     input:
         definition:

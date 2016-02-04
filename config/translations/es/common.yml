@@ -38,5 +38,5 @@ status:
 messages:
     canceled: 'Generación Cancelada'
     drupal-core: 'Core de Drupal'
-    move-phar: 'Accessing console from anywhere on your system'
+    move-phar: 'Accediendo a la consola desde cualquier lugar en su sistema'
     quick-start: 'Descargar, instalar y servir Drupal 8'
