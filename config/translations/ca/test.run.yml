@@ -15,6 +15,7 @@ messages:
     group: Grup
     status: Estat
     file: Fitxer
-    method: 'Mètode'
-    line: 'Línia'
+    method: Mètode
+    line: Línia
     message: Missatge
+    invalid-class: 'Testing class %s doesn''t exists'
