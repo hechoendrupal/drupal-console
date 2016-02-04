@@ -6,4 +6,4 @@ messages:
   error-parsing: 'An error occurs during parsing of YAML file "%s".'
   error-generating: 'Error setting new language in config file.'
   error-writing: 'Error writing config file.'
-  success: 'Setting %s was set to %s for Drupal Console'
+  success: 'Configuración %s fué actualizada a %s'
