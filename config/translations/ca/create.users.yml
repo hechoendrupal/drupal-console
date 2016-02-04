@@ -10,7 +10,7 @@ options:
 questions:
     roles: 'Seleccioneu el rol utilitzat en la creació d''usuaris'
     limit: 'Introduexi el número d''usuaris que voldries crear'
-    password: 'Introdueix la contrasenya per els usuaris creats'
+    password: 'Introduïu la contrasenya per els usuaris creats'
     time-range: 'Quant de temps enrere ha de ser la data dels usuaris?'
     time-ranges:
         - Ara

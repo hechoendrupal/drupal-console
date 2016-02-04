@@ -8,6 +8,6 @@ options:
     label: 'Etiqueta del plugin'
 questions:
     module: common.questions.module
-    class: 'Introdueix el nom de la classe del plugin'
-    machine-name: 'Introdueix el nom màquina del plugin'
-    label: 'Introdueix l''etiqueta del plugin'
+    class: 'Introduïu el nom de la classe del plugin'
+    machine-name: 'Introduïu el nom màquina del plugin'
+    label: 'Introduïu l''etiqueta del plugin'

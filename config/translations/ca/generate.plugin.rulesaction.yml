@@ -13,10 +13,10 @@ options:
     type: 'Tipus d''acció (usuari o node)'
 questions:
     module: common.questions.module
-    class: 'Introdueix el nom de la classe del plugin'
-    label: 'Introdueix l''etiqueta del plugin'
-    plugin-id: 'Introdueix l''Id del plugin'
+    class: 'Introduïu el nom de la classe del plugin'
+    label: 'Introduïu l''etiqueta del plugin'
+    plugin-id: 'Introduïu l''Id del plugin'
     inputs: common.questions.inputs
     services: common.questions.services
-    category: 'Introdueix la categoría del plugin'
-    context: 'Introdueix el context del plugin'
+    category: 'Introduïu la categoría del plugin'
+    context: 'Introduïu el context del plugin'

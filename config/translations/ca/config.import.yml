@@ -1,4 +1,4 @@
-description: 'Importa la configuració a l''aplicació actual.'
+description: 'Importar la configuració a l''aplicació actual.'
 arguments:
     file: 'Ruta del fitxer de configuració.'
     directory: 'Ruta la directori de la configuració a importar.'
