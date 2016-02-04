@@ -6,4 +6,4 @@ messages:
     root: Arrel
     directory-not-found: 'No s''ha trobat el directori de llocs local'
     private-key: 'S''ha produït un error amb la clau privada'
-    connect-error: 'S'ha produït un error connectant-se amb la màquina remota'
+    connect-error: 'S''ha produït un error connectant-se amb la màquina remota'
