@@ -4,7 +4,7 @@ help: |
 
         <info>php %command.full_name% list</info>
 
-        També pots mostrar l'ajuda en altres formats utlitzant l'opció <comment>--format</comment>:
+        També es pot mostrar l'ajuda en altres formats utlitzant l'opció <comment>--format</comment>:
 
         <info>php %command.full_name% --format=xml list</info>
 

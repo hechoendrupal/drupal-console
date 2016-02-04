@@ -8,7 +8,7 @@ options:
     title-words: 'Màxim de pararules dels títols de nodes'
     time-range: 'Quant de temps enrere ha de ser la data dels nodes'
 questions:
-    content-type: 'Selecciona els tipus de continguts utilitzats en la creació de nodes'
+    content-type: 'Seleccioneu els tipus de continguts utilitzats en la creació de nodes'
     limit: 'Introdueix el número de nodes que t''agradaria crear'
     title-words: 'Màxim de pararules dels títols de nodes'
     time-range: 'Quant de temps enrere ha de ser la data dels nodes?'
@@ -24,6 +24,6 @@ messages:
     content-type: 'Tipus de contingut'
     title: 'Títol'
     created: 'Data de creació'
-    invalid-content-types: 'El tipus de contingut %s es invàlid'
+    invalid-content-types: 'No és vàlid el tipus de contingut %s'
     created-nodes: 'S''han creat %s nodes correctament'
     generated-content: 'S''han creat %s nodes correctament'

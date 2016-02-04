@@ -7,7 +7,7 @@ options:
     label: 'Etiqueta del plugin'
     plugin-id: 'Id del plugin'
     description: 'Descripció del plugin'
-    default-widget: 'Widget de camp predeterminat d''aquest plugin'
+    default-widget: 'Giny de camp predeterminat d''aquest plugin'
     default-formatter: 'Formatador de camp predeterminat d''aquest plugin'
 questions:
     module: common.questions.module
@@ -15,5 +15,5 @@ questions:
     label: 'Introdueix l''etiqueta del plugin'
     plugin-id: 'Introdueix l''Id del plugin'
     description: 'Introdueix la descripció del plugin'
-    default-widget: 'Introdueix el widget de camp predeterminat d''aquest plugin'
+    default-widget: 'Introdueix el giny de camp predeterminat d''aquest plugin'
     default-formatter: 'Introdueix el formatador de camp predeterminat d''aquest plugin'

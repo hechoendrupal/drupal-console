@@ -15,9 +15,9 @@ console:
     messages:
         completed: '¡El comandament s''ha executat correctament!'
         chain:
-            generated: 'A continuació pots trobar la representació YAML de l''últim comandament executat, pots copiar-ho a ~/.console/chain/sample.yml per executar-ho dins d''una seqüència de comandaments'
+            generated: 'A continuació es pot trobar la representació YAML de l''últim comandament executat, pots copiar-ho a ~/.console/chain/sample.yml per executar-ho dins d''una seqüència de comandaments'
         inline:
-            generated: 'A continuació pots trobar la representació inserida (inline) d''aquest comandament per tornar a executar-ho més tard.'
+            generated: 'A continuació es pot trobar la representació inserida (inline) d''aquest comandament per tornar a executar-ho més tard.'
         generated: '¡Ja pots començar a utilitzar el codi generat!'
         files:
             generated: 'Arxius generats o actualitzats'
