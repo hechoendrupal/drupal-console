@@ -18,3 +18,4 @@ messages:
     method: मेथड
     line: लाइन
     message: संदेश
+    invalid-class: 'Testing class %s doesn''t exists'
