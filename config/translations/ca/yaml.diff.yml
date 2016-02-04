@@ -1,4 +1,4 @@
-description: 'Compara dos fitxers YAML amb l''objectiu de trobar diferències.'
+description: 'Comparar dos fitxers YAML.'
 arguments:
     yaml-left: 'Fitxer YAML utilitzat com va base per la comparació'
     yaml-right: 'Fitxer YAML utilitzat per trobar diferències amb el fitxer YAML base'

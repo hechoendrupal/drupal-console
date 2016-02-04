@@ -8,6 +8,6 @@ options:
     plugin-file-name: 'Nom del fitxer del plugin'
 questions:
     module: common.questions.module
-    class: 'Introdueix el nom de la classe del tipus de plugin'
-    plugin-name: 'Introdueix el nom màquina del tipus de plugin'
-    plugin-file-name: 'Introdueix el nom del fitxer (p.e. MODULE.plugin.nomdelfitxer.yml)'
+    class: 'Introduïu el nom de la classe del tipus de plugin'
+    plugin-name: 'Introduïu el nom màquina del tipus de plugin'
+    plugin-file-name: 'Introduïu el nom del fitxer (p.e. MODULE.plugin.nomdelfitxer.yml)'

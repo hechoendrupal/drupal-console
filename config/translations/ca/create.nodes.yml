@@ -9,7 +9,7 @@ options:
     time-range: 'Quant de temps enrere ha de ser la data dels nodes'
 questions:
     content-type: 'Seleccioneu els tipus de continguts utilitzats en la creació de nodes'
-    limit: 'Introdueix el número de nodes que t''agradaria crear'
+    limit: 'Introduïu el número de nodes que t''agradaria crear'
     title-words: 'Màxim de pararules dels títols de nodes'
     time-range: 'Quant de temps enrere ha de ser la data dels nodes?'
     time-ranges:

@@ -4,13 +4,13 @@ help: |
 
         <info>php %command.full_name% list</info>
 
-        També es pot mostrar l'ajuda en altres formats utlitzant l'opció <comment>--format</comment>:
+        Utilitzeu l'opció <comment>--format</comment> per mostrar l'ajuda en altres formats:
 
         <info>php %command.full_name% --format=xml list</info>
 
-        Per mostrar una llista dels comandaments disponibles, utilitza el comandament <info>list</info>.
+        Utilitzeu el comandament <info>list</info> per mostrar una llista dels comandaments disponibles.
 arguments:
-    command_name: 'Nom el comandament'
+    command_name: 'Nom del comandament'
 options:
     xml: 'LLista la sortida com a XML'
     raw: 'Sortida del comandament en brut'

@@ -10,10 +10,10 @@ options:
     plugin-states: 'Estats del plugin de recursos Rest'
 questions:
     module: common.questions.module
-    class: 'Introdueix el nom del plugin de recursos Rest'
-    plugin-id: 'Introdueix l''Id del plugin de recursos Rest'
-    plugin-label: 'Introdueix l''etiqueta del plugin de recursos Rest'
-    plugin-url: 'Introdueix la URL del plugin de recursos Rest'
+    class: 'Introduïu el nom del plugin de recursos Rest'
+    plugin-id: 'Introduïu l''Id del plugin de recursos Rest'
+    plugin-label: 'Introduïu l''etiqueta del plugin de recursos Rest'
+    plugin-url: 'Introduïu la URL del plugin de recursos Rest'
     plugin-states: 'Seleccioneu quin estat REST implementa el teu recurs (GET es el predeterminat)'
 messages:
     selected-states: 'Estats seleccionats'

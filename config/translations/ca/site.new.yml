@@ -13,4 +13,4 @@ messages:
     error-copying: 'Hi ha hagut un error al renombrar el directori %s'
     release: 'Seleccioneu la versió'
 questions:
-    directory: 'Introdueix el nom del directori de descàrrega de Drupal'
+    directory: 'Introduïu el nom del directori de descàrrega de Drupal'

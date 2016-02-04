@@ -14,5 +14,5 @@ questions:
     entity-name: 'Tecleja el nom de la nova entitat de continguts'
     label: 'Tecleja l''etiqueta de la nova entitat de continguts'
     bundle-of: 'Nom de l''entitat de contingut per la qual vols que actui com a bundle d''aquesta entitat '
-    base-path: 'Introdueix la ruta base per la configuració de rutes d''entitats'
+    base-path: 'Introduïu la ruta base per la configuració de rutes d''entitats'
     has-bundles: 'Vols que aquesta entitat de continguts tingui bundles'

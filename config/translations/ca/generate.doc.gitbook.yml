@@ -1,4 +1,4 @@
-description: 'Generar documentació per els comandaments'
+description: 'Generar la documentació per els comandaments'
 options:
     path: 'Ruta on renderitzar la documentació'
 messages:

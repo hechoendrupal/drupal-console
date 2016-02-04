@@ -1,4 +1,4 @@
-description: 'Desinstal·lar temes de l''alicació'
+description: 'Desinstal·lar els temes de l''aplicació'
 questions:
     theme: 'Nom del tema (prem <return> per aturar l''adició de temes)'
     invalid-theme: 'El tema no és vàlid %s'

@@ -9,7 +9,7 @@ options:
 questions:
     vocabularies: 'Seleccioneu el vocabulari(s) utilitzats en la creació de termes'
     limit: 'Quants termes voldries crerar'
-    name-words: 'Introdueix el màxim de paraules dels noms del termes'
+    name-words: 'Introduïu el màxim de paraules dels noms del termes'
 messages:
     term-id: 'ID del term'
     vocabulary: Vocabulari

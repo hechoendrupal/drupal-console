@@ -9,10 +9,10 @@ options:
     dependencies: 'Dependències del mòdul separades per comes (p.e. context, panels)'
     distribution: 'Nom de la distribució'
 questions:
-    profile: 'Introdueix el nom del nou perfil'
-    machine-name: 'Introdueix el nom màquina del perfil'
-    description: 'Introdueix la descripció del perfil'
-    core: 'Introdueix la versió del Core de Drupal'
+    profile: 'Introduïu el nom del nou perfil'
+    machine-name: 'Introduïu el nom màquina del perfil'
+    description: 'Introduïu la descripció del perfil'
+    core: 'Introduïu la versió del Core de Drupal'
     dependencies: 'Vols afegir dependències del mòdul'
     distribution: 'Es aquest un perfil d''instal·lació destinat a ser una distribució'
 warnings:
