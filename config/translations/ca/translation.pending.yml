@@ -4,7 +4,7 @@ arguments:
 options:
     file: 'Determinar idioma pendent de traduccions contra l''anglès'
 messages:
-    invalid-language: 'L''idioma %s es invàlid'
+    invalid-language: 'L''idioma %s no es vàlid'
     language: Idioma
     pending-translations: 'Traduccions pendents %s al fitxer %s'
     missing-file: 'L''idioma %s no te un fitxer %s, prova executant translation:sync command'

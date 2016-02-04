@@ -18,4 +18,4 @@ questions:
 warnings:
     module-unavailable: 'Advertència Els següents mòduls no estan disponibles al teu entorn local "%s"'
 errors:
-    directory-exists: 'El directori de destí "%s" no esta buit.'
+    directory-exists: 'El directori de destí "%s" no és buit.'

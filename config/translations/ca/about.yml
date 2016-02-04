@@ -1,4 +1,4 @@
-description: 'Mostra l''informació bàsica sobre el projecte Drupal Console'
+description: 'Mostrar l''informació bàsica sobre el projecte Drupal Console'
 messages:
     welcome: 'Drupal Console es un conjunt d''eines que s''executen a la consola per:'
     welcome-feature-generate: 'Generar codi repetitiu.'

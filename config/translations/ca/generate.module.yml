@@ -30,5 +30,5 @@ questions:
 warnings:
     module-unavailable: 'Avís El següent mòdul ja no està disponible al teu entorn local "%s"'
 errors:
-    invalid-core: 'La versió del core "%s" es invàlida'
-    directory-exists: 'El directori de destinació "%s" no està buit.'
+    invalid-core: 'La versió del core "%s" no és vàlida'
+    directory-exists: 'El directori de destinació "%s" no és buit.'
