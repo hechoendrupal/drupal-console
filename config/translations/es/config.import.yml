@@ -1,8 +1,8 @@
 description: 'Importa la configuración del estado actual de la aplicación.'
 arguments:
     file: 'Ruta al archivo de configuración.'
-    directory: 'Path to a directory of configuration to import.'
-    remove-files: 'Remover archivos luego de la sincronización.'
+    directory: 'Ruta al directorio de configuración a importar.'
+    remove-files: 'Eliminar archivos tras la sincronización.'
     config-file: 'Ruta del archivo de configuración.'
     copy-only: 'Copiar los archivos de configuración sólo en el directorio de ''staging''.'
 messages:

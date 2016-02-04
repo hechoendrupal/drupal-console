@@ -8,4 +8,4 @@ questions:
     title: 'Introduzca un título para el permiso'
     description: 'Introduzca una descripción para el permiso'
     restrict-access: 'Restringir acceso'
-    add: 'Quieres añadir otro permiso'
+    add: 'Desea añadir otro permiso'
