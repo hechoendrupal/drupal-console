@@ -357,7 +357,7 @@ class SiteHelper extends Helper
             $requirements = $systemManager->listRequirements();
             $drupalVersion = current(
                 array_filter(
-                    $requirements, function ($v, $k) {
+                    $requirements, function ($v) {
                         if ($v['title'] == 'Drupal') {
                             return true;
                         }

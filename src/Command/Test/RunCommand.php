@@ -30,6 +30,11 @@ class RunCommand extends ContainerAwareCommand
                 InputArgument::REQUIRED,
                 $this->trans('commands.test.run.arguments.test-class')
             )
+            ->addArgument(
+                'test-methods',
+                InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
+                $this->trans('commands.test.run.arguments.test-methods')
+            )
             ->addOption(
                 'url',
                 '',
@@ -46,7 +51,7 @@ class RunCommand extends ContainerAwareCommand
      */
     protected function setEnvironment($url)
     {
-        $base_url;
+        $base_url = '';
         $port = '80';
 
         $parsed_url = parse_url($url);
@@ -97,6 +102,7 @@ class RunCommand extends ContainerAwareCommand
         $this->getTestDiscovery()->registerTestNamespaces();
 
         $testClass = $input->getArgument('test-class');
+        $testMethods = $input->getArgument('test-methods');
 
         $url = $input->getOption('url');
 
@@ -116,8 +122,7 @@ class RunCommand extends ContainerAwareCommand
             $io->info($this->trans('commands.test.run.messages.phpunit-pending'));
             return;
         } else {
-
-            if(!class_exists($testClass)) {
+            if (!class_exists($testClass)) {
                 $io->error(
                     sprintf(
                         $this->trans('commands.test.run.messages.invalid-class'),
@@ -132,7 +137,7 @@ class RunCommand extends ContainerAwareCommand
             $io->info($this->trans('commands.test.run.messages.starting-test'));
             Timer::start('run-tests');
 
-            $test->run();
+            $test->run($testMethods);
 
             $end = Timer::stop('run-tests');
 
