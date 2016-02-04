@@ -7,12 +7,12 @@ options:
     limit: 'Quants termes voldries crear'
     name-words: 'Màxim de paraules dels noms del termes'
 questions:
-    vocabularies: 'Selecciona el vocabulari(s) utilitzats en la creació de termes'
+    vocabularies: 'Seleccioneu el vocabulari(s) utilitzats en la creació de termes'
     limit: 'Quants termes voldries crerar'
     name-words: 'Introdueix el màxim de paraules dels noms del termes'
 messages:
     term-id: 'ID del term'
     vocabulary: Vocabulari
     name: Nom
-    invalid-vocabularies: 'El vocabulari(s) %s es invàlid'
+    invalid-vocabularies: 'El vocabulari(s) %s no és vàlid'
     created-terms: 'S''han creat %s termes correctament'

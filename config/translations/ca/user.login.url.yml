@@ -1,7 +1,7 @@
-description: 'Retorna la ''one-time login url'' d''un usuari.'
+description: 'Retorna la ''one-time login url'' del usuari.'
 options:
-    user-id: 'ID d''usuari.'
+    user-id: 'ID del usuari.'
 messages:
     url: 'One-time login per @name: @url'
 errors:
-    invalid-user: 'No es possible carregar l''entitat d''usuari (ID d''usuari: @uid).'
+    invalid-user: 'No es pot carregar l''entitat del usuari (ID del usuari: @uid).'

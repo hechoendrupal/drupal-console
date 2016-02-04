@@ -8,7 +8,7 @@ messages:
     driver: Controlador
     host: Host
     port: Port
-    username: 'Nom d''usuari'
+    username: 'Nom del usuari'
     password: Contrasenya
     theme: Tema
     connection: 'Connexió'

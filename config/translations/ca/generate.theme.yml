@@ -21,7 +21,7 @@ questions:
     core: 'Introdueix la versió del Core de Drupal'
     package: 'Introdueix el nom del paquet'
     dependencies: 'Vosl afegir dependències al mòdul'
-    invalid-theme: 'El tema %s seleccionat es invàlid'
+    invalid-theme: 'El tema %s seleccionat no és vàlid'
     global-library: 'Introdueix el nom global de l''estil de la llibrería'
     regions: 'Vols generar regions del tema'
     region-name: 'Introdueix la regió del tema'
@@ -37,4 +37,4 @@ questions:
 warnings:
     module-unavailable: 'Advertència El següents mòduls no estan disponibles al teu entorn local "%s"'
 errors:
-    directory-exists: 'El directori de destí "%s" no esta buit.'
+    directory-exists: 'El directori de destí "%s" no és buit.'

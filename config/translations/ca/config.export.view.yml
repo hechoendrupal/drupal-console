@@ -1,4 +1,4 @@
-description: 'Exporta un vista amb el format YAML en un mòdul per reutilitzar-ho en un altre lloc web.'
+description: 'Exportar un vista amb el format YAML en un mòdul per reutilitzar-ho en un altre lloc web.'
 messages:
     view_exported: 'Exportant la vista'
     depencies-included: 'S''han inclòs les següents dependències del mòdul en %s'

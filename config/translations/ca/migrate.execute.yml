@@ -23,7 +23,7 @@ questions:
     db-pass: 'COntrasenya de la base de dades'
     db-prefix: 'Prefix de la base de dades'
     db-port: 'Port de la base de dades'
-    invalid-migration-id: 'L''Id de la migració "%s" es invàlid'
+    invalid-migration-id: 'L''Id de la migració "%s" no és vàlid'
 messages:
     processing: 'Processant la migració "%s"'
     imported: 'La migració "%s" ha sigut importada correctament'
@@ -33,6 +33,6 @@ messages:
     import-fail: 'L''importació "%s" ha fallat'
     import-skipped: 'L''importació "%s" s''ha omès per dependències incompletes'
     wrong-source: 'L''actualització des de aquesta versió de Drupal no es compatible.'
-    destination-error: 'Error de destí de la base de dades'
-    source-error: 'Error d''origen de la base de dades'
+    destination-error: 'Hi ha un error al destí de la base de dades'
+    source-error: 'Hi ha un error d''origen de la base de dades'
     no-migrations: 'No hi han migracions disponibles per executar'

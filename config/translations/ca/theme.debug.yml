@@ -1,4 +1,4 @@
-description: 'Mostra els temes actuals per l''aplicació'
+description: 'Mostrar els temes actuals per l''aplicació'
 arguments:
     theme: 'Especifica el tema a depurar'
 messages:
@@ -11,5 +11,5 @@ messages:
     default-theme: 'Tema predeterminat'
     properties: Propietats
     regions: Regions
-    invalid-theme: 'El tema %s es invàlid'
+    invalid-theme: 'El tema %s no és vàlid'
     theme-properties: Propietats
