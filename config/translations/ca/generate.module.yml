@@ -1,4 +1,4 @@
-description: 'Generar mòdul'
+description: 'Generar un mòdul'
 help: 'El comandament <info>generate:module</info> t''ajuda a generar un nou mòdul.'
 welcome: 'Benvingut al generador de mòduls de Drupal'
 options:

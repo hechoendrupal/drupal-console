@@ -9,7 +9,7 @@ options:
     field-type: 'Tipus de camp amb el qual el plugin pot ser utilitzat'
 questions:
     module: common.questions.module
-    class: 'Introdueix el nom de la classe del plugin'
-    label: 'Introdueix l''etiqueta del plugin'
-    plugin-id: 'Introdueix l''id del plugin'
-    field-type: 'Introdueix el tipus de camp amb el qual el plugin pot ser utilitzat'
+    class: 'Introduïu el nom de la classe del plugin'
+    label: 'Introduïu l''etiqueta del plugin'
+    plugin-id: 'Introduïu l''id del plugin'
+    field-type: 'Introduïu el tipus de camp amb el qual el plugin pot ser utilitzat'

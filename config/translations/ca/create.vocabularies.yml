@@ -5,7 +5,7 @@ options:
     limit: 'Quants vocabularis voldries crear'
     name-words: 'Màxim de paraules utilitzades al nom del vocabulari'
 questions:
-    limit: 'Introdueix el número de vocabularis que voldries crear'
+    limit: 'Introduïu el número de vocabularis que voldries crear'
     name-words: 'Màxim de paraules utilitzades al nom del vocabulari'
 messages:
     vocabulary-id: 'Id de vocabbulari'

@@ -9,7 +9,7 @@ options:
     description: 'Descripció del plugin'
 questions:
     module: common.questions.module
-    class: 'Introdueix el nom de la classe del plugin'
-    label: 'Introdueix l''etiqueta del plugin'
-    plugin-id: 'Introdueix l''Id del plugin'
-    description: 'Introdueix la descripció del plugin'
+    class: 'Introduïu el nom de la classe del plugin'
+    label: 'Introduïu l''etiqueta del plugin'
+    plugin-id: 'Introduïu l''Id del plugin'
+    description: 'Introduïu la descripció del plugin'
