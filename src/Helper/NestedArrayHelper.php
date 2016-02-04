@@ -249,6 +249,9 @@ class NestedArrayHelper extends Helper
                 if (!empty($value)) {
                     $flatten_array[$key_flatten] = $value;
                     $key_flatten = substr($key_flatten, 0, strrpos($key_flatten, "."));
+                } else {
+                    // Return to previous key
+                    $key_flatten = substr($key_flatten, 0, strrpos($key_flatten, "."));
                 }
             }
         }

@@ -3,10 +3,10 @@ arguments:
     id: 'Költöztetési azonosító(k)'
 options:
     site-url: 'Webhely forrás URL-címe'
-    db-file: 'Adatbázisfájl'
-    db-host: 'Adatbázis-gazdagép'
+    db-file: Adatbázisfájl
+    db-host: Adatbázis-gazdagép
     db-name: 'Adatbázis neve'
-    db-user: 'Adatbázis-felhasználó'
+    db-user: Adatbázis-felhasználó
     db-pass: 'Adatbázis jelszó'
     db-prefix: 'Adatbázis előtag'
     db-port: 'Adatbázis port'
@@ -16,10 +16,10 @@ questions:
     exclude-id: 'Kizárandó költöztetési azonosító (a <return> megnyomásával állítható le a kizárandó költöztetések hozzáadása)'
     other-id: 'Más költöztetési azonosító (a <return> megnyomásával állítható le a költöztetések hozzáadása)'
     site-url: 'Forrás webhely URL'
-    db-file: 'Adatbázisfájl'
-    db-host: 'Adatbázis-gazdagép'
+    db-file: Adatbázisfájl
+    db-host: Adatbázis-gazdagép
     db-name: 'Adatbázis neve'
-    db-user: 'Adatbázis-felhasználó'
+    db-user: Adatbázis-felhasználó
     db-pass: 'Adatbázis jelszó'
     db-prefix: 'Adatbázis előtag'
     db-port: 'Adatbázis port'

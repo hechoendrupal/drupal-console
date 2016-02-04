@@ -2,6 +2,7 @@ description: 'yml फाइल के रूप में सिंगल कॉ
 arguments:
     config-name: 'कॉन्फ़िगरेशन नाम'
 options:
+    include-dependencies: 'Export dependencies of the configuration as well.'
     simple-configuration: 'सरल कॉन्फ़िगरेशन'
 questions:
     config-type: 'कॉन्फ़िगरेशन टाइप'

@@ -1,5 +1,5 @@
-description: 'Drupal 8 アプリケーションにダミーのノードを追加'
-help: 'The <info>create:nodes</info> command helps you create fake terms.'
+description: 'ダミーのノードを追加'
+help: '<info>create:nodes</info> コマンドはダミーのノードを追加します。'
 welcome: 'Welcome to the Drupal nodes generator'
 arguments:
     content-types: '作成するノードのコンテンツタイプ (複数指定可)'

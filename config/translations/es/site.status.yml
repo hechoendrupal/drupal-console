@@ -21,6 +21,7 @@ messages:
     directory_theme_admin: 'Directorio del tema de administración'
     current_version: 'Current Drupal version (%s)'
     not_installed: 'Drupal is not installed'
+    not_available: 'Not available'
     configuration: Configuration
     active: 'Ruta de la configuración activa'
     staging: 'Ruta de la configuración de staging'

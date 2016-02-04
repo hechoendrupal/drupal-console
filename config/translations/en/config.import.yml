@@ -1,6 +1,7 @@
 description: 'Import configuration to current application.'
 arguments:
-    file: 'Configuration file path.'
+    file: 'Path to an archive file of configuration to import.'
+    directory: 'Path to a directory of configuration to import.'
     remove-files: 'Remove files after synchronization.'
 messages:
     config_files_imported: 'List of config files.'

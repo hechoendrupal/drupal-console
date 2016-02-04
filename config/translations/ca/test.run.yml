@@ -1,20 +1,21 @@
-description: 'Run Test unit from tests available for application'
+description: 'Executa els Test Units disponibles per l''aplicació'
 arguments:
-    test-class: 'Test Class'
+    test-class: 'Classe Test'
 messages:
-    missing-dependency: 'Test can\''t be executed due a missing dependency'
-    phpunit-pending: 'Logic to execute PHPUnit test is not implemented yet.'
-    starting-test: 'Starting test'
-    test-duration: 'Test duration'
-    test-pass: 'Test passes'
-    test-fail: 'Test fails'
-    test-exception: 'Test exceptions'
-    test-debug: 'Test debugs'
-    url-required: 'URL option is required to run test'
-    test-summary: 'Test Summary'
-    group: Group
-    status: Status
-    file: File
-    method: Method
-    line: Line
-    message: Message
+    missing-dependency: 'No es possible executar el Test degut a dependències perdudes'
+    phpunit-pending: 'La lògica per executar PHPUnit test encara no s''ha implementat.'
+    starting-test: 'Començant el test'
+    test-duration: 'Duració del test'
+    test-pass: 'Test aprovat'
+    test-fail: 'Test erroni'
+    test-exception: 'Excepcions del test'
+    test-debug: 'Depuració del test'
+    url-required: 'Es requereix l''opció URL per executar el test'
+    test-summary: 'Resum del test'
+    group: Grup
+    status: Estat
+    file: Fitxer
+    method: Mètode
+    line: Línia
+    message: Missatge
+    invalid-class: 'Testing class %s doesn''t exists'

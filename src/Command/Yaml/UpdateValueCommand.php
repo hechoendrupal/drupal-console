@@ -55,7 +55,6 @@ class UpdateValueCommand extends Command
             $yaml_parsed = $yaml->parse(file_get_contents($yaml_file));
         } catch (\Exception $e) {
             $io->error($this->trans('commands.yaml.merge.messages.error-parsing').': '.$e->getMessage());
-
             return;
         }
 

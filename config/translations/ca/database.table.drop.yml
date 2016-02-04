@@ -1,9 +1,9 @@
-description: 'Drop all tables in a given database.'
-help: 'The <info>database:table:drop</info> command helps you drop database tables.'
+description: 'Esborrar les taules d''una base de dades.'
+help: 'El comandament <info>database:table:drop</info> t''ajuda a esborrar les taules d''una base de dades.'
 arguments:
-    database: 'Database key from settings.php'
+    database: 'Clau de la base de dades de settings.php'
 question:
-    drop-tables: 'Confirm you really want to drop all tables in the database %s?'
+    drop-tables: 'Si us plau confirma que vols esborrar totes les taules de la base de dades %s?'
 messages:
     table: Table
-    table-drop: 'Drop %s tables successfully'
+    table-drop: 'S''han esborrat les taules de %s correctament'

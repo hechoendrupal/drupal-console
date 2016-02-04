@@ -1,16 +1,16 @@
-description: 'Lists all available commands'
-help: "The <info>%command.name%</info> command lists all commands:\n<info>php %command.full_name%</info>\nYou can also display the commands for a specific namespace:\n<info>php %command.full_name% test</info>\nYou can also output the information in other formats by using the <comment>--format</comment> option:\n<info>php %command.full_name% --format=xml</info>\nIt's also possible to get raw list of commands (useful for embedding command runner):\n<info>php %command.full_name% --raw</info>\n"
+description: 'Llista tots els comandaments disponibles'
+help: "El comandament <info>%command.name%</info> llista tots els comandaments:\n<info>php %command.full_name%</info>\nTambé pots mostrar el commandaments per un namespace en particular:\n<info>php %command.full_name% test</info>\nTambé pots mostrar l'informació en altres formats utilitzant l'opció <comment>--format</comment>:\n<info>php %command.full_name% --format=xml</info>\nTambé es possible obtenir una llista en brut dels comandaments (útil per incrustar un executador de comandaments):\n<info>php %command.full_name% --raw</info>\n"
 arguments:
-    namespace: 'The namespace name'
+    namespace: 'Nom del namespace'
 options:
-    xml: 'To output list as XML'
-    raw: 'To output raw command list'
-    format: 'The output format (txt, xml, json, or md)'
+    xml: 'Mostrar una llista com a XML'
+    raw: 'Mostra una llista de comandaments en brut'
+    format: 'Format de sortida (txt, xml, json, or md)'
 messages:
-    usage: "<comment>Usage:</comment>\n"
-    usage_details: "  command [options] [arguments]\n\n"
+    usage: "<comment>Ús:</comment>\n"
+    usage_details: "  comandament [opcions] [arguments]\n\n"
     arguments: '<comment>Arguments:</comment>'
-    options: '<comment>Options:</comment>'
-    help: '<comment>Help:</comment>'
-    comment: '<comment>Available commands for the "%s" namespace:</comment>'
-    available-commands: '<comment>Available commands:</comment>'
+    options: '<comment>Opcions:</comment>'
+    help: '<comment>Ajuda:</comment>'
+    comment: '<comment>Comandaments disponibles per el ''namespace'' "%s":</comment>'
+    available-commands: '<comment>Comandaments disponibles:</comment>'
