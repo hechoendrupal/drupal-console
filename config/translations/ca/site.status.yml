@@ -1,6 +1,6 @@
 description: 'Veure l''estat actual de l''instal·lació de Drupal'
 messages:
-    application: 'Aplicació'
+    application: Aplicació
     system: 'Informació del sistema'
     hash_salt: 'Hash salt'
     console: 'Drupal Console'
