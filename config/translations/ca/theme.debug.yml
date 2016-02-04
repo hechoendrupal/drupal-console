@@ -5,8 +5,8 @@ messages:
     theme-id: ID
     theme-name: Nom
     status: Estat
-    version: 'Versió'
-    installed: 'Instal·lat'
+    version: Versió
+    installed: Instal·lat
     uninstalled: 'No instal·lat'
     default-theme: 'Tema predeterminat'
     properties: Propietats

@@ -6,10 +6,12 @@ options:
     group: Grup
 messages:
     class: 'Classe test'
-    description: 'Descripció'
+    description: Descripció
     group: Grup
     type: 'Tipus de test'
     success: 'La consola s''ha actualitzat a l''última versió.'
     missing-dependency: 'Dependències perdudes'
     methods: 'Mètodes de test'
     not-found: 'No s''ha trobat el depurador, prova envoltar l''id test entre cometes dobles.'
+    success-groups: 'All testing groups were listed sucessfully, use the group argument to filter Test unit by group i.e $ drupal test:debug Url'
+    success-group: 'All test units for group %s were listed sucessfully'
