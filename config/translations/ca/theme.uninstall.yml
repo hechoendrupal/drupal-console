@@ -1,14 +1,14 @@
 description: 'Desinstal·lar temes de l''alicació'
 questions:
     theme: 'Nom del tema (prem <return> per aturar l''adició de temes)'
-    invalid-theme: 'Tema invàlid %s'
+    invalid-theme: 'El tema no és vàlid %s'
 options:
     theme: 'Els temes a desinstal·lar han d''estar separats per comes'
 messages:
     no-themes: 'Has de proporcionar els temes a desinstal·lar.'
-    themes-missing: 'No es possible desintal·lar el temes %s perquè no estan disponibles'
-    theme-missing: 'No es possible desinstal·lar el tema %s perquè no està disponible'
-    missing-dependencies: 'No es possible desintal·lar el temes %s degut a dependències perdudes %s'
+    themes-missing: 'No es pot desintal·lar el temes %s perquè no estan disponibles'
+    theme-missing: 'No es pot desinstal·lar el tema %s perquè no està disponible'
+    missing-dependencies: 'No es pot desintal·lar el temes %s degut a dependències perdudes %s'
     themes-nothing: 'Res a fer. El temes %s ja estan desinstal·lats'
     theme-nothing: 'Res a fer. El tema %s ja està desinstal·lat'
     dependencies: 'Hi han algunes dependències insatisfetes: %s?'

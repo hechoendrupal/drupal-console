@@ -23,7 +23,7 @@ questions:
         machine_name: 'Nom màquina del camp d''entrada'
         permission: '¿Vols generar els permissos?'
         type: Tipus
-        invalid: 'El camp de tipus "%s" no es vàlid'
+        invalid: 'El camp de tipus "%s" no és vàlid'
         description: Descripció
         default-value: 'Valor predeterminat'
         weight: 'Pes per l''element d''entrada (weight)'

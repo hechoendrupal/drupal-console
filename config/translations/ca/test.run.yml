@@ -2,7 +2,7 @@ description: 'Executa els Test Units disponibles per l''aplicació'
 arguments:
     test-class: 'Classe Test'
 messages:
-    missing-dependency: 'No es possible executar el Test degut a dependències perdudes'
+    missing-dependency: 'No es pot executar el Test degut a dependències perdudes'
     phpunit-pending: 'La lògica per executar PHPUnit test encara no s''ha implementat.'
     starting-test: 'Començant el test'
     test-duration: 'Duració del test'

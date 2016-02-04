@@ -3,6 +3,6 @@ help: 'El comandament <info>"%s"</info> t''ajuda a generar un nou "%s"'
 options:
     form-id: 'ID del formulari a alterar'
 messages:
-    inputs: "Pots afegir camps per modificar el formulari.\nAixò es opcional, tecleja <info>enter</info> per <info>continuar</info>"
+    inputs: "Es poden afegir camps per modificar el formulari.\nAixò es opcional, tecleja <info>enter</info> per <info>continuar</info>"
     loading-forms: 'Carregant definició dels formularis des del mòdul Webprofiler'
     hide-form-elements: 'Opcionalment pot seleccionar elements de formulari per ocultar-los'

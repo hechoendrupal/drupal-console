@@ -3,11 +3,11 @@ options:
     cache: 'Esborrar una memòria cau (cache) específica.'
 messages:
     welcome: 'Benvingut al comandament cache:rebuild command'
-    rebuild: 'Reconstrucció de la memòria cau, esperi un moment si us plau.'
-    completed: 'Memòria cau esborrada correctament.'
-    invalid_cache: 'La memòria cau "%s" es invàlida.'
+    rebuild: 'Reconstrucció de la memòria cau, esperi un moment.'
+    completed: 'S''ha esborrat la memòria cau correctament.'
+    invalid_cache: 'La memòria cau "%s" no es vàlida.'
 questions:
-    cache: 'Selecciona la memòria cau.'
+    cache: 'Seleccioneu la memòria cau.'
 examples:
     -
         description: 'Reconstruir tota la memòria cau.'

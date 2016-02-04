@@ -9,7 +9,7 @@ questions:
     invalid-file: 'La ruta al fitxer no pot estar buida'
     file-already-added: 'La ruta al fitxer ja s''ha afegit'
 messages:
-    wrong-parse: 'El fitxer YAML "%s" està buit o no existeix.'
+    wrong-parse: 'El fitxer YAML "%s" és buit o no existeix.'
     error-parsing: 'S''ha produït un error al analitzar el fitxer YAML "%s".'
     two-files-required: 'Es requereixen al menys dos fitxers.'
     error-generating: 'S''ha produït un error combinant el fitxer YAML.'
