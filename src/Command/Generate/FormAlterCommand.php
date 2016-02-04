@@ -27,7 +27,7 @@ class FormAlterCommand extends GeneratorCommand
     use MenuTrait;
     use ConfirmationTrait;
 
-    protected $metadata;
+    protected $metadata = ['unset' => []];
 
     protected function configure()
     {
@@ -66,6 +66,11 @@ class FormAlterCommand extends GeneratorCommand
         $formId = $input->getOption('form-id');
         $inputs = $input->getOption('inputs');
 
+        //validate if input is an array
+        if(!is_array($inputs[0])) {
+            $inputs= $this->explodeInlineArray($inputs);
+        }
+
         $this
             ->getGenerator()
             ->generate($module, $formId, $inputs, $this->metadata);
@@ -75,8 +80,6 @@ class FormAlterCommand extends GeneratorCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $this->metadata = [];
-
         $io = new DrupalStyle($input, $output);
 
         $moduleHandler = $this->getModuleHandler();
@@ -115,6 +118,17 @@ class FormAlterCommand extends GeneratorCommand
             $this->metadata['method'] = $forms[$formId]['class']['method'];
             $this->metadata['file'] = str_replace($drupal->getRoot(), '', $forms[$formId]['class']['file']);
 
+            foreach($forms[$formId]['form'] as $itemKey => $item) {
+                if ($item['#type'] == 'hidden') {
+                    unset($forms[$formId]['form'][$itemKey]);
+                }
+            }
+
+            unset($forms[$formId]['form']['form_build_id']);
+            unset($forms[$formId]['form']['form_token']);
+            unset($forms[$formId]['form']['form_id']);
+            unset($forms[$formId]['form']['actions']);
+
             $formItems = array_keys($forms[$formId]['form']);
 
             $formItemsToHide = $io->choice(
@@ -124,16 +138,44 @@ class FormAlterCommand extends GeneratorCommand
                 true
             );
 
-            $this->metadata['unset'] = array_filter(array_map('trim', explode(',', $formItemsToHide)));
+            $this->metadata['unset'] = array_filter(array_map('trim',  $formItemsToHide));
+
+            print_r($this->metadata['unset']);
         }
 
         $input->setOption('form-id', $formId);
 
-        $io->writeln($this->trans('commands.generate.form.alter.messages.inputs'));
-
         // @see Drupal\Console\Command\FormTrait::formQuestion
-        $form = $this->formQuestion($io);
-        $input->setOption('inputs', $form);
+        $inputs = $input->getOption('inputs');
+
+        if(empty($inputs)) {
+            $io->writeln($this->trans('commands.generate.form.alter.messages.inputs'));
+            $inputs = $this->formQuestion($io);
+        } else {
+            $inputs= $this->explodeInlineArray($inputs);
+        }
+
+        $input->setOption('inputs', $inputs);
+    }
+
+    /**
+     * @{@inheritdoc}
+     */
+    public function explodeInlineArray($inlineInputs) {
+        $inputs = [];
+        foreach($inlineInputs as $inlineInput) {
+            $explodeInput = explode(" ", $inlineInput);
+            $parameters = [];
+            foreach($explodeInput as $inlineParameter ) {
+                list($key, $value) = explode(":", $inlineParameter);
+                if(!empty($value)) {
+                    $parameters[$key] = $value;
+                }
+            }
+            $inputs[] = $parameters;
+        }
+
+        return $inputs;
     }
 
     protected function createGenerator()

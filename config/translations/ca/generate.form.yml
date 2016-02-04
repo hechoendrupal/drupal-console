@@ -1,21 +1,21 @@
-description: 'Generate a new "%s"'
-help: 'The <info>"%s"</info> command helps you generate a new "%s"'
-welcome: 'Welcome to the Drupal form generator'
+description: 'Generar un nou "%s"'
+help: 'El comandament <info>"%s"</info> t''ajuda a generar un nou "%s"'
+welcome: 'Benvingut al generador de formaularis de Drupal'
 options:
     module: common.options.module
-    class: 'The form class name'
-    form-id: 'The Form id'
+    class: 'Nom de la classe del formulari'
+    form-id: 'ID del formulari'
     services: common.options.services
     inputs: common.options.inputs
-    routing: 'Update routing'
+    routing: 'Actualitzant ruta'
 questions:
     module: common.questions.module
-    class: 'Enter the Form Class name'
-    form-id: 'Enter the Form id'
+    class: 'Nom de la classe del formulari'
+    form-id: 'ID del formaulari'
     services: common.questions.services
     inputs: common.questions.inputs
-    routing: 'Update routing file'
-    menu_link_gen: 'Generate a menu link'
-    menu_link_title: 'A title for the menu link'
-    menu_parent: 'Menu parent'
-    menu_link_desc: 'A description for the menu link'
+    routing: 'Actualitzant el fitxer de routing'
+    menu_link_gen: 'Generar un enllaç de menú'
+    menu_link_title: 'El títol per l''enllaç de menú'
+    menu_parent: 'Menú pare'
+    menu_link_desc: 'La descripció per l''enllaç de menú'

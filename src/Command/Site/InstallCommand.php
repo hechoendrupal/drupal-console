@@ -261,7 +261,7 @@ class InstallCommand extends Command
         if (!$account_mail) {
             $account_mail = $io->ask(
                 $this->trans('commands.site.install.questions.account-mail'),
-                'admin@example.com'
+                $site_mail
             );
             $input->setOption('account-mail', $account_mail);
         }

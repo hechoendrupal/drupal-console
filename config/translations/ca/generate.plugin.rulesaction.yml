@@ -1,6 +1,6 @@
-description: 'Generate a plugin rule action'
-help: 'The <info>generate:plugin:rulesaction</info> command helps you generate a new Plugin rule action.'
-welcome: 'Welcome to the Drupal Plugin Rules Action generator'
+description: 'Generar un plugin d''acció de regla'
+help: 'El comandament <info>generate:plugin:rulesaction</info> t''ajuda a generar un nou plugin d''acció de regla.'
+welcome: 'Benvingut al generador de plugin d''acció de regles'
 options:
     module: common.options.module
     class: 'Plugin class name'
@@ -8,15 +8,15 @@ options:
     plugin-id: 'Plugin id'
     inputs: common.options.inputs
     services: common.options.services
-    category: 'Plugin category'
-    context: 'Plugin context'
-    type: 'Action Type (user or node)'
+    category: 'Categoría del plugin'
+    context: 'Context del plugin'
+    type: 'Tipus d''acció (usuari o node)'
 questions:
     module: common.questions.module
-    class: 'Enter the plugin class name'
-    label: 'Enter the plugin label'
-    plugin-id: 'Enter the plugin id'
+    class: 'Introdueix el nom de la classe del plugin'
+    label: 'Introdueix l''etiqueta del plugin'
+    plugin-id: 'Introdueix l''Id del plugin'
     inputs: common.questions.inputs
     services: common.questions.services
-    category: 'Enter plugin category'
-    context: 'Enter plugin context'
+    category: 'Introdueix la categoría del plugin'
+    context: 'Introdueix el context del plugin'

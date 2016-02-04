@@ -1,17 +1,17 @@
-description: 'Generate documentations for Commands'
+description: 'Generar documentació per els comandaments'
 options:
-    path: 'The path to render the documentation'
+    path: 'Ruta on renderitzar la documentació'
 messages:
-    missing_path: 'The path is missing'
-    title: 'Available Drupal Console Commands'
-    note: Note
-    note-description: 'Drupal Console commands *must* be run from the root of a Drupal 8 installation'
-    command: 'Drupal Console Command'
-    command_description: 'The **%s** command %s'
-    usage: Usage
-    options: 'Available options'
-    option: Option
-    details: Details
-    arguments: 'Available arguments'
+    missing_path: 'La ruta s''ha perdut'
+    title: 'Comandaments disponibles de Drupal'
+    note: Nota
+    note-description: 'Els comandaments de Drupal Console *han* de ser executats a la rel de la''instal·lació de Drupal 8'
+    command: 'Comandaments de Drupal Console'
+    command_description: 'El comandament **%s** executa %s'
+    usage: Ús
+    options: 'Opcions disponibles'
+    option: Opció
+    details: Detalls
+    arguments: 'Arguments disponibles'
     argument: Argument
-    examples: Examples
+    examples: Exemples

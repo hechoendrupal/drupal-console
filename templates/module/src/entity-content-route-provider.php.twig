@@ -38,10 +38,11 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
     if ($add_form_route = $this->getAddFormRoute($entity_type)) {
       $collection->add("entity.{$entity_type_id}.add_form", $add_form_route);
     }
+{% if bundle_entity_type %}
 
-    if ($add_page_route = $this->getAddPageRoute($entity_type)) {
-      $collection->add("$entity_type_id.add_page", $add_page_route);
-    }
+    $add_page_route = $this->getAddPageRoute($entity_type);
+    $collection->add("$entity_type_id.add_page", $add_page_route);
+{% endif %}
 
     if ($settings_form_route = $this->getSettingsFormRoute($entity_type)) {
       $collection->add("$entity_type_id.settings", $settings_form_route);
@@ -92,29 +93,30 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
       ];
 
       $route = new Route($entity_type->getLinkTemplate('add-form'));
+{% if bundle_entity_type %}
+      $bundle_entity_type_id = $entity_type->getBundleEntityType();
       // Content entities with bundles are added via a dedicated controller.
-      if ($bundle_entity_type_id = $entity_type->getBundleEntityType()) {
-        $route
-          ->setDefaults([
-            '_controller' => 'Drupal\{{ module }}\Controller\{{ entity_class }}AddController::addForm',
-            '_title_callback' => 'Drupal\{{ module }}\Controller\{{ entity_class }}AddController::getAddFormTitle',
-          ])
-          ->setRequirement('_entity_create_access', $entity_type_id . ':{' . $bundle_entity_type_id . '}');
-        $parameters[$bundle_entity_type_id] = ['type' => 'entity:' . $bundle_entity_type_id];
+      $route
+        ->setDefaults([
+          '_controller' => 'Drupal\{{ module }}\Controller\{{ entity_class }}AddController::addForm',
+          '_title_callback' => 'Drupal\{{ module }}\Controller\{{ entity_class }}AddController::getAddFormTitle',
+        ])
+        ->setRequirement('_entity_create_access', $entity_type_id . ':{' . $bundle_entity_type_id . '}');
+      $parameters[$bundle_entity_type_id] = ['type' => 'entity:' . $bundle_entity_type_id];
+{% else %}
+      // Use the add form handler, if available, otherwise default.
+      $operation = 'default';
+      if ($entity_type->getFormClass('add')) {
+        $operation = 'add';
       }
-      else {
-        // Use the add form handler, if available, otherwise default.
-        $operation = 'default';
-        if ($entity_type->getFormClass('add')) {
-          $operation = 'add';
-        }
-        $route
-          ->setDefaults([
-            '_entity_form' => "{$entity_type_id}.{$operation}",
-            '_title' => "Add {$entity_type->getLabel()}",
-          ])
-          ->setRequirement('_entity_create_access', $entity_type_id);
-      }
+      $route
+        ->setDefaults([
+          '_entity_form' => "{$entity_type_id}.{$operation}",
+          '_title' => "Add {$entity_type->getLabel()}",
+        ])
+        ->setRequirement('_entity_create_access', $entity_type_id);
+{% endif %}
+
       $route
         ->setOption('parameters', $parameters)
         ->setOption('_admin_route', TRUE);
@@ -122,6 +124,7 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
       return $route;
     }
   }
+{% if bundle_entity_type %}
 
   /**
    * Gets the add page route.
@@ -133,19 +136,18 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
    *   The generated route, if available.
    */
   protected function getAddPageRoute(EntityTypeInterface $entity_type) {
-    if ($entity_type->getBundleEntityType()) {
-      $route = new Route("/admin/structure/{$entity_type->id()}/add");
-      $route
-        ->setDefaults([
-          '_controller' => 'Drupal\{{ module }}\Controller\{{ entity_class }}AddController::add',
-          '_title' => "Add {$entity_type->getLabel()}",
-        ])
-        ->setRequirement('_entity_create_access', $entity_type->id())
-        ->setOption('_admin_route', TRUE);
+    $route = new Route("/admin/structure/{$entity_type->id()}/add");
+    $route
+      ->setDefaults([
+        '_controller' => 'Drupal\{{ module }}\Controller\{{ entity_class }}AddController::add',
+        '_title' => "Add {$entity_type->getLabel()}",
+      ])
+      ->setRequirement('_entity_create_access', $entity_type->id())
+      ->setOption('_admin_route', TRUE);
 
-      return $route;
-    }
+    return $route;
   }
+{% endif %}
 
   /**
    * Gets the settings form route.
@@ -161,7 +163,7 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
       $route = new Route("/admin/structure/{$entity_type->id()}/settings");
       $route
         ->setDefaults([
-          '_form' => 'Drupal\{{ module }}\Controller\{{ entity_class }}SettingsForm',
+          '_form' => 'Drupal\{{ module }}\Form\{{ entity_class }}SettingsForm',
           '_title' => "{$entity_type->getLabel()} settings",
         ])
         ->setRequirement('_permission', $entity_type->getAdminPermission())
