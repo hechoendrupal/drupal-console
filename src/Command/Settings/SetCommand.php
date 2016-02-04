@@ -93,6 +93,9 @@ class SetCommand extends Command
         }
 
         $config->setConfigValue($parents, $settingValue);
+        if ($settingName == 'language') {
+            $this->getTranslator()->loadResource($settingValue, $application->getDirectoryRoot());
+        }
 
         $io->success(
             sprintf(
