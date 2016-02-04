@@ -7,5 +7,5 @@ options:
     class: 'Nom de la classe'
 questions:
     module: common.questions.module
-    name: 'Introdueix el nom del servei'
-    class: 'Introdueix el nom de classe'
+    name: 'Introduïu el nom del servei'
+    class: 'Introduïu el nom de classe'

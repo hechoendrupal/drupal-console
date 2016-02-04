@@ -1,13 +1,13 @@
-description: 'Executar servidor PHP integrat'
+description: 'Executar el servidor PHP integrat'
 arguments:
-    address: 'L''adreça:port value'
+    address: 'Adreça:port valor'
 messages:
     executing: 'Executant php des de %s.'
 errors:
     binary: 'No es troba el binari PHP per executar el servidor.'
 examples:
     -
-        description: 'Executar utilitzant l''argument de l''adreça predeterminat 127.0.0.1.8088'
+        description: 'Executar el servidor utilitzant l''argument de l''adreça predeterminat 127.0.0.1.8088'
         execution: 'drupal server'
     -
         description: 'Enviar l''argument de l''adreça per utilitzar un número de port diferent'

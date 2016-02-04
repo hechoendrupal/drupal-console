@@ -9,8 +9,8 @@ options:
     base-path: 'La ruta base per les rutes de l''entitat de continguts'
 questions:
     module: common.questions.module
-    entity-class: 'Introdueix la classe de la nova entitat de contingut'
-    entity-name: 'Introdueix el nom de la nova entitat de contingut'
-    label: 'Introdueix l''etiqueta de la nova entitat de contingut'
+    entity-class: 'Introduïu la classe de la nova entitat de contingut'
+    entity-name: 'Introduïu el nom de la nova entitat de contingut'
+    label: 'Introduïu l''etiqueta de la nova entitat de contingut'
     has-bundles: 'Vols que aquest contingut tingui bundles'
-    base-path: 'Introdueix la ruta base per les rutes de l''entitat de contigut'
+    base-path: 'Introduïu la ruta base per les rutes de l''entitat de contigut'

@@ -1,4 +1,4 @@
-description: 'Exportar configuració con a fitxer yml'
+description: 'Exportar la configuració com a fitxer YML'
 arguments:
     config-name: 'Nom de la configuració.'
 options:
