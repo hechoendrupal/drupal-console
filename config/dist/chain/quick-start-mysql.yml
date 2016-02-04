@@ -1,4 +1,9 @@
 commands:
+# Download Drupal
+  - command: site:new
+    arguments:
+      directory: drupal8.dev
+      version: 8.0.3
 # Install Drupal
   - command: site:install
     options:
@@ -16,18 +21,5 @@ commands:
       account-pass: admin # default pass
     arguments:
       profile: standard
-# Install modules
-  - command: module:install
-    arguments:
-      module:
-        - admin_toolbar
-        - admin_toolbar_tools
-        - disqus
-        - big_pipe
-        - token
-        - ctools
-        - pathauto
-# Rebuild caches
-  - command: cache:rebuild
-    arguments:
-        cache: all
+# Start php built-in server
+  - command: server
