@@ -1,9 +1,9 @@
-description: 'Change a specific setting value in DrupalConsole config file'
+description: 'Cambia un valor de configuración específico en el archivo de configuración de DrupalConsole'
 arguments:
-  setting-name: 'Setting name in yaml flatten format to set a value in Drupal Console config file'
-  setting-value: 'Setting value to set in Drupal Console config file'
+  setting-name: 'Dispone un nombre para un valor en formato YAML en el archivo de configuración de Drupal Console'
+  setting-value: 'Dispone un valor en el archivo de configuración de Drupal Console'
 messages:
-  error-parsing: 'An error occurs during parsing of YAML file "%s".'
-  error-generating: 'Error setting new language in config file.'
-  error-writing: 'Error writing config file.'
-  success: 'Setting %s was set to %s for Drupal Console'
+  error-parsing: 'Ha ocurrido un error al parsear el archivo YAML "%s".'
+  error-generating: 'Error disponiendo el nuevo idioma en el archivo de configuración.'
+  error-writing: 'Error al escribir el archivo de configuración.'
+  success: 'La configuración %s fué actualizada a %s'

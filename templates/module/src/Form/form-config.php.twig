@@ -73,29 +73,29 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('{{module_name}}.{{class_name_short}}');
 {% for input in inputs %}
-{% if input.fieldset is defined  %}
+{% if input.fieldset is defined and input.fieldset is not empty %}
     $form['{{ input.fieldset }}']['{{ input.name }}'] = array(
 {% else %}
-    $form['{{ input.name }}'] = array(
+    $form['{{ input.name }}'] = [
 {% endif %}
       '#type' => '{{ input.type }}',
       '#title' => $this->t('{{ input.label }}'),
-{% if input.description is defined %}
+{% if input.description is defined and input.description is not empty %}
       '#description' => $this->t('{{ input.description }}'),
 {% endif %}
-{% if input.options is defined %}
+{% if input.options is defined and input.options is not empty %}
       '#options' => {{ input.options }},
 {% endif %}
-{% if input.maxlength is defined %}
+{% if input.maxlength is defined and input.maxlength is not empty %}
       '#maxlength' => {{ input.maxlength }},
 {% endif %}
-{% if input.size is defined   %}
+{% if input.size is defined and input.size is not empty %}
       '#size' => {{ input.size }},
 {% endif %}
 {% if input.type != 'password_confirm' and input.type != 'fieldset' %}
       '#default_value' => $config->get('{{ input.name }}'),
 {% endif %}
-    );
+    ];
 {% endfor %}
     return parent::buildForm($form, $form_state);
   }
