@@ -1,8 +1,10 @@
 commands:
+# Download Drupal
   - command: site:new
     arguments:
       directory: drupal8.dev
-      version: 8.0.2
+      version: 8.0.3
+# Install Drupal
   - command: site:install
     options:
         langcode: en
@@ -15,4 +17,5 @@ commands:
         account-pass: admin
     arguments:
         profile: standard
+# Start php built-in server
   - command: server

@@ -9,7 +9,7 @@ commands:
       file: ../drupal.sql # default database backup file
 # Import configuration
   - command: config:import
-# Rebuild cahes
+# Rebuild caches
   - command: cache:rebuild
     arguments:
         cache: all
