@@ -1,6 +1,6 @@
 description: 'Generar un nou "%s"'
 help: 'El comandament <info>"%s"</info> t''ajuda a generar un nou "%s"'
-welcome: 'Benvingut al generador de formaularis de Drupal'
+welcome: 'Us donem la benvinguda al generador de formaularis de Drupal'
 options:
     module: common.options.module
     class: 'Nom de la classe del formulari'

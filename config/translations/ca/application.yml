@@ -3,8 +3,8 @@ console:
         env: 'Nom de l''entorn.'
         no-debug: 'Desactivar el mode de depuració (debug).'
         learning: 'Generar codi detalladament (verbose).'
-        generate-chain: 'Imprimir les opcions d''execució i els arguments com una sortida de YAML per ser utilitzats amb el comandament "chain".'
-        generate-inline: 'Imprimir les opcions d''execució i els arguments com inserits (inline) per ser utilitzats en un futur'
+        generate-chain: 'Imprimir les opcions d''execució i els arguments com una sortida YAML per ser utilitzats amb el comandament "chain".'
+        generate-inline: 'Imprimir les opcions d''execució i els arguments com inserits (inline) per ser utilitzats en un futur.'
         generate-doc: 'Mostrar les opcions i arguments dels comandaments com a "markdown"'
         root: 'Definir la ruta arrel de Drupal on s''executaran els comandaments'
         uri: 'URI del lloc web Drupal que s''utilitzarà (per entorns "multisite" o quan s''utilitza un port alternatiu)'
@@ -15,9 +15,9 @@ console:
     messages:
         completed: '¡El comandament s''ha executat correctament!'
         chain:
-            generated: 'A continuació pots trobar la representació YAML de l''últim comandament executat, pots copiar-ho a ~/.console/chain/sample.yml per executar-ho dins d''una seqüència de comandaments'
+            generated: 'A continuació es pot trobar la representació YAML de l''últim comandament executat, pots copiar-ho a ~/.console/chain/sample.yml per executar-ho dins d''una seqüència de comandaments'
         inline:
-            generated: 'A continuació pots trobar la representació inserida (inline) d''aquest comandament per tornar a executar-ho més tard.'
+            generated: 'A continuació es pot trobar la representació inserida (inline) d''aquest comandament per tornar a executar-ho més tard.'
         generated: '¡Ja pots començar a utilitzar el codi generat!'
         files:
             generated: 'Arxius generats o actualitzats'
@@ -30,10 +30,10 @@ console:
         input:
             definition:
                 command: 'El comandament a executar'
-                help: 'Mostra aquest missatge d''ajuda'
+                help: 'Mostrar aquest missatge d''ajuda'
                 quiet: 'No mostrar cap missatge'
                 verbose: 'Aumenta el detall dels missatges: 1 per la sortida normal, 2 per més detall (verbose) i 3 per depurar (debug)'
-                version: 'Mostra la versió de l''aplicació'
+                version: 'Mostrar la versió de l''aplicació'
                 ansi: 'Forçar sortida ANSI'
                 no-ansi: 'Deshabilitar la sortida ANSI'
                 no-interaction: 'No fer cap pregunta interactiva'
@@ -44,10 +44,10 @@ console:
     input:
         definition:
             command: 'El comandament a executar'
-            help: 'Mostra aquest missatge d''ajuda'
+            help: 'Mostrar aquest missatge d''ajuda'
             quiet: 'No mostrar cap missatge'
             verbose: 'Augmentar el detall dels missatges: 1 per una sortida normal, 2 per obtenir més detall i 3 per depurar'
-            version: 'Mostra la versió d''aquesta applicació'
+            version: 'Mostrar la versió d''aquesta aplicació'
             ansi: 'Forçar la sortida ANSI'
             no-ansi: 'Deshabilitar la sortida ANSI'
             no-interaction: 'No preguntar res de forma interactiva'

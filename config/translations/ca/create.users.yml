@@ -1,16 +1,16 @@
 description: 'Crear usuaris dummy per la teva aplicació Drupal 8.'
 help: 'El comandament <info>create:users</info> t''ajuda a crear usuaris dummy.'
-welcome: 'Benvingut al generador d''usuaris de Drupal 8'
+welcome: 'Us donem la benvinguda al generador d''usuaris de Drupal 8'
 arguments:
     roles: 'Rol(s) utilitzats en la creació d''usuaris'
 options:
-    limit: 'Quants usuaris voldries crear'
+    limit: 'Quants usuaris voldrieu crear'
     password: 'La contrasenya que s''utilitzarà per els usuaris creats'
     time-range: 'Quant de temps enrere ha de ser la data dels usuaris'
 questions:
-    roles: 'Selecciona el rol utilitzat en la creació d''usuaris'
-    limit: 'Introduexi el número d''usuaris que voldries crear'
-    password: 'Introdueix la contrasenya per els usuaris creats'
+    roles: 'Seleccioneu el rol utilitzat en la creació d''usuaris'
+    limit: 'Introduexi el número d''usuaris que voldrieu crear'
+    password: 'Introduïu la contrasenya per els usuaris creats'
     time-range: 'Quant de temps enrere ha de ser la data dels usuaris?'
     time-ranges:
         - Ara
@@ -20,8 +20,8 @@ questions:
         - 'Fa 1 mes'
         - 'Fa 1 any'
 messages:
-    user-id: 'User Id'
-    roles: Roles
-    username: Username
+    user-id: 'ID del usuari'
+    roles: Rols
+    username: 'Nom del usuari'
     created: 'Data de creació'
     created-users: 'S''han creat %s usuaris correctament'
