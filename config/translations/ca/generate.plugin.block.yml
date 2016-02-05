@@ -1,6 +1,6 @@
 description: 'Generar un connector de bloc (Plugin Block)'
 help: 'El comandament <info>generate:plugin:block</info> t''ajuda a generar un nou connector de bloc'
-welcome: 'Benvingut al generador de connectors de bloc de Drupal'
+welcome: 'Us donem la benvinguda al generador de connectors de bloc de Drupal'
 options:
     module: common.options.module
     class: 'Nom de la classe del connector'

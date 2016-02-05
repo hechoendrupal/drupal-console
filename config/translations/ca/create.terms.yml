@@ -1,6 +1,6 @@
 description: 'Crear termes dummy per la teva aplicació Drupal 8.'
 help: 'El comandament <info>create:nodes</info> t''ajuda a generar termes falsos.'
-welcome: 'Benvingut al generador de termes de Drupal'
+welcome: 'Us donem la benvinguda al generador de termes de Drupal'
 arguments:
     vocabularies: 'Vocabulari utilitzat en la creació termes'
 options:

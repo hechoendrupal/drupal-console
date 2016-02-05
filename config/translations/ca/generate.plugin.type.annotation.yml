@@ -1,6 +1,6 @@
 description: 'Generar un tipus de plugin amb descobriment d''anotació'
 help: 'El comandament <info>generate:plugin:type:annotation</info> t''ajuda a generar un nou tipus de plugin amb descobriment d''anotació.'
-welcome: 'Benvingut al generador de tipus de plugin de Drupal'
+welcome: 'Us donem la benvinguda al generador de tipus de plugin de Drupal'
 options:
     module: common.options.module
     class: 'Nom de la classe del plugin'
