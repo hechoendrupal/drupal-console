@@ -4,11 +4,11 @@ welcome: 'Us donem la benvinguda al generador de termes de Drupal'
 arguments:
     vocabularies: 'Vocabulari utilitzat en la creació termes'
 options:
-    limit: 'Quants termes voldries crear'
+    limit: 'Quants termes voldrieu crear'
     name-words: 'Màxim de paraules dels noms del termes'
 questions:
     vocabularies: 'Seleccioneu el vocabulari(s) utilitzats en la creació de termes'
-    limit: 'Quants termes voldries crerar'
+    limit: 'Quants termes voldrieu crerar'
     name-words: 'Introduïu el màxim de paraules dels noms del termes'
 messages:
     term-id: 'ID del term'

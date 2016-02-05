@@ -7,6 +7,6 @@ messages:
     invalid-language: 'L''idioma %s no es vàlid'
     language: Idioma
     pending-translations: 'Traduccions pendents %s al fitxer %s'
-    missing-file: 'L''idioma %s no te un fitxer %s, prova executant translation:sync command'
+    missing-file: 'L''idioma %s no te un fitxer %s, proveu executant translation:sync command'
     success-language: 'Hi han %s traduccions pendents per %s'
     success-language-file: 'Hi han %s traduccions pendents de %s al fitxer %s'
