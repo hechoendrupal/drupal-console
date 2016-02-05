@@ -1,8 +1,8 @@
 description: 'Descarga un módulo o varios en la aplicación'
 arguments:
-    module: 'Module or modules to be enabled should be separated by a space'
+    module: 'El módulo o los módulos que vayan a ser habilitados deben ir separados por un espacio'
 options:
-    latest: 'Default to download most recent version'
+    latest: 'Valor por defecto que descarga la versión más reciente'
     version: 'Versión del módulo. Por ejemplo: 1.x-dev'
 messages:
     no-releases: 'No hay ninguna descarga disponible del módulo %s'

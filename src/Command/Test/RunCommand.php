@@ -122,8 +122,7 @@ class RunCommand extends ContainerAwareCommand
             $io->info($this->trans('commands.test.run.messages.phpunit-pending'));
             return;
         } else {
-
-            if(!class_exists($testClass)) {
+            if (!class_exists($testClass)) {
                 $io->error(
                     sprintf(
                         $this->trans('commands.test.run.messages.invalid-class'),

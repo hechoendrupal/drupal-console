@@ -14,6 +14,6 @@ messages:
     missing-dependency: 'Dependencia incumplida'
     methods: 'Métodos de test'
     not-found: 'Imposible encontrar debug, intente poner el id del test entre comillas dobles.'
-    success-groups: 'All testing groups were listed sucessfully, use the group argument to filter Test unit by group i.e $ drupal test:debug Url'
-    success-group: 'All test units for group %s were listed sucessfully'
+    success-groups: 'Todos los grupos de testeo han sido listados con éxito, utilice un argumento de grupo para filtrar los tests unitarios por grupo, por ejemplo: $ drupal test:debug Url'
+    success-group: 'Todos los tests unitarios para el grupo %s han sido listados satisfactoriamente'
     id: 'ID del test unitario'
