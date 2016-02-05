@@ -1,14 +1,14 @@
-description: 'Create dummy vocabularies for your Drupal 8 application.'
-help: 'The <info>create:vocabularies</info> command helps you create dummy vocabularies.'
-welcome: 'Welcome to the Drupal vocabularies creator'
+description: 'Создание фиктивных словарей для Drupal 8.'
+help: 'Команда <info>create:vocabularies</info> поможет вам создать фиктивные словари.'
+welcome: 'Добро пожаловать в генератор Drupal словарей'
 options:
-    limit: 'How many vocabularies would you like to create'
-    name-words: 'Maximum number of words in vocabulary names'
+    limit: 'Сколько словарей вы хотите создать'
+    name-words: 'Максимальное количество слов в именах словарей'
 questions:
-    limit: 'Enter how many vocabularies would you like to create'
-    name-words: 'Enter the maximum number of words in vocabulary names'
+    limit: 'Введите значение количества словарей, которые вы хотите создать'
+    name-words: 'Введите максимальное количество слов в именах словарей'
 messages:
-    vocabulary-id: 'Vocabulary Id'
-    name: Name
-    created-terms: 'Created %s vocabularies successfully'
-    error: 'Error creating vocabularies: %s'
+    vocabulary-id: 'Идентификатор словаря'
+    name: 'Имя'
+    created-terms: '%s слоаварей создано успешно.'
+    error: 'Ошибка при создании словарей: %s'
