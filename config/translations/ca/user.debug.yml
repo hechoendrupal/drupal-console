@@ -3,7 +3,7 @@ help: 'El comandament <info>user:debug</info> t''ajuda a obtenir els usuaris act
 welcome: 'Us donem la benvinguda al depurador d''usuaris de Drupal'
 options:
     roles: 'Rols per filtrar la depuració'
-    limit: 'Quants usuaris voldries mostrar'
+    limit: 'Quants usuaris voldrieu mostrar'
 questions:
     roles: 'Seleccioneu els rols que s''utlitzaran per filtrar la llista de depuració d''usuaris'
     limit: 'Introduïu el número d''usuaris que vols mostrar'

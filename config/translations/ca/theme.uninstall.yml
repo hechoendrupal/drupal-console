@@ -15,6 +15,6 @@ messages:
     theme-success: 'El tema %s s''ha desinstal·lat correctament'
     themes-success: 'Els temes %s s''han desinstal·lat correctament'
     installed-themes: 'Només el temes instal·lats es mostraran a la compleció automàtica'
-    invalid-theme-default: 'L''opció predeterminada només es vàlida per un sol tema'
+    invalid-theme-default: 'L''opció predeterminada només és vàlida per un tema'
     error-default-theme: 'El tema %s es el predeterminat i no pot ser desinstal·lat.'
     error-admin-theme: 'El tema %s es el tema d''administració i no pot ser desinstal·lat.'
