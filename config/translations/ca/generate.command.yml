@@ -1,6 +1,6 @@
 description: 'Generar comandaments per la consola'
 help: 'El comandament <info>generate:command</info> t''ajuda a generar nous comandaments.'
-welcome: 'Benvingut al generador de comandaments de Drupal'
+welcome: 'Us donem la benvinguda al generador de comandaments de Drupal'
 options:
     module: 'El nom del mòdul (que contindrá el comandament)'
     controller-title: 'Títol del controlador.'
