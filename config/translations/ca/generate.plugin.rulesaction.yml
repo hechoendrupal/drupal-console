@@ -1,6 +1,6 @@
 description: 'Generar un plugin d''acció de regla'
 help: 'El comandament <info>generate:plugin:rulesaction</info> t''ajuda a generar un nou plugin d''acció de regla.'
-welcome: 'Benvingut al generador de plugin d''acció de regles'
+welcome: 'Us donem la benvinguda al generador de plugin d''acció de regles'
 options:
     module: common.options.module
     class: 'Nom de la clase del plugin'

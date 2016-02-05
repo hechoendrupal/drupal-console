@@ -1,6 +1,6 @@
 description: 'Generar plugin de recursos Rest'
 help: 'El comandament <info>generate:plugin:rest:resource</info> t''ajuda a generar un nou plugin de recursos Rest.'
-welcome: 'Benvingut al generador de plugin de recursos Rest de Drupal'
+welcome: 'Us donem la benvinguda al generador de plugin de recursos Rest de Drupal'
 options:
     module: common.options.module
     class: 'Classe del plugin de recursos Rest'

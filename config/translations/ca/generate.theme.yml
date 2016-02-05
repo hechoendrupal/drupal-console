@@ -1,6 +1,6 @@
 description: 'Generar un tema.'
 help: 'El comandament <info>generate:theme</info> t''ajuda a crear un nou tema.'
-welcome: 'Benvingut al generador de temes de Drupal'
+welcome: 'Us donem la benvinguda al generador de temes de Drupal'
 options:
     theme: 'Nom del tema'
     machine-name: 'Nom màquina del tema (només minúscules i caràcter de subratllat)'

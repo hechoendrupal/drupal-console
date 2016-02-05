@@ -1,6 +1,6 @@
 description: 'Generar plugin de tipus de camp.'
 help: 'El comandament <info>generate:plugin:fieldtype</info> t''ajuda a generar un plugin de tipus de camp.'
-welcome: 'Benvingut al generador de plugin de tipus de camp'
+welcome: 'Us donem la benvinguda al generador de plugin de tipus de camp'
 options:
     module: common.options.module
     class: 'Nom de la classe del plugin'

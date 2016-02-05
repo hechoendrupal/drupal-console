@@ -1,6 +1,6 @@
 description: 'Genera un tipus de plugin amb descobriment de Yaml'
 help: 'El comandament <info>generate:plugin:type:yaml</info> t''ajuda a generar un nou tipus de plugin que utilitza descobriment de Yaml.'
-welcome: 'Benvingut al generador de tipus de plugin de Drupal'
+welcome: 'Us donem la benvinguda al generador de tipus de plugin de Drupal'
 options:
     module: common.options.module
     class: 'Nom de classe del tipus de plugin'

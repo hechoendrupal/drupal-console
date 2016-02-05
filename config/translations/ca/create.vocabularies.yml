@@ -1,6 +1,6 @@
 description: 'Crear vocabulari dummy per la teva aplicació Drupal 8.'
 help: 'El comandament <info>create:vocabularies</info> t''ajuda a crear vocabulari dummy.'
-welcome: 'Benvingut al creador de vocabulari de Drupal 8'
+welcome: 'Us donem la benvinguda al creador de vocabulari de Drupal 8'
 options:
     limit: 'Quants vocabularis voldries crear'
     name-words: 'Màxim de paraules utilitzades al nom del vocabulari'

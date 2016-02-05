@@ -1,6 +1,6 @@
 description: 'Generar un perfil.'
 help: 'El comandament <info>generate:profile</info> t''ajuda a generar un nou perfil d''instal·lació.'
-welcome: 'Benvingut al generador de perfil d''instal·lació de Drupal'
+welcome: 'Us donem la benvinguda al generador de perfil d''instal·lació de Drupal'
 options:
     profile: 'Nom del perfil'
     machine-name: 'Nom màquina del perfil (només minúscules)'

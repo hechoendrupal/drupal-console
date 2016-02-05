@@ -1,6 +1,6 @@
 description: 'Mostrar els usuaris actuals de l''aplicació'
 help: 'El comandament <info>user:debug</info> t''ajuda a obtenir els usuaris actuals.'
-welcome: 'Benvingut al depurador d''usuaris de Drupal'
+welcome: 'Us donem la benvinguda al depurador d''usuaris de Drupal'
 options:
     roles: 'Rols per filtrar la depuració'
     limit: 'Quants usuaris voldries mostrar'

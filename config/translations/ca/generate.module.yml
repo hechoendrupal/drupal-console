@@ -1,6 +1,6 @@
 description: 'Generar un mòdul'
 help: 'El comandament <info>generate:module</info> t''ajuda a generar un nou mòdul.'
-welcome: 'Benvingut al generador de mòduls de Drupal'
+welcome: 'Us donem la benvinguda al generador de mòduls de Drupal'
 options:
     module: 'Nom del mòdul'
     machine-name: 'Nom màquina del mòdul (només minúscules i caràcter de subratllat)'
