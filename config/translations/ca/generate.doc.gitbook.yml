@@ -5,8 +5,8 @@ messages:
     missing_path: 'La ruta s''ha perdut'
     title: 'Comandaments disponibles de Drupal'
     note: Nota
-    note-description: 'Els comandaments de Drupal Console *han* de ser executats a la rel de la''instal·lació de Drupal 8'
-    command: 'Comandaments de Drupal Console'
+    note-description: 'Els comandaments de DrupalConsole *han* de ser executats a la rel de la''instal·lació de Drupal 8'
+    command: 'Comandaments de DrupalConsole'
     command_description: 'El comandament **%s** executa %s'
     usage: 'Ús'
     options: 'Opcions disponibles'

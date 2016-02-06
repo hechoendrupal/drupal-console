@@ -3,7 +3,7 @@ messages:
     application: Aplicació
     system: 'Informació del sistema'
     hash_salt: 'Hash salt'
-    console: 'Drupal Console'
+    console: 'DrupalConsole'
     database: 'Connexió de la base de dades'
     driver: Controlador
     host: Host
