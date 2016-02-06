@@ -4,7 +4,7 @@ arguments:
 options:
     latest: 'Default to download most recent version'
 messages:
-    no-releases: 'There aren''t any releases for module %s'
+    no-releases: "There aren't any releases for module %s"
     getting-releases: 'Getting releases for module %s'
     downloading: 'Downloading module %s release %s'
     downloaded: 'Module %s version %s was downloaded successfully at %s'
