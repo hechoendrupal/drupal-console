@@ -6,7 +6,7 @@ options:
     class: 'Nom de la classe del controlador'
     routes: 'Les rutes tenen de ser matrius i contenir [títol, mètode, ruta]'
     services: common.options.services
-    test: 'Generar una classe de prova'
+    test: 'Generar una classe de verificació'
     title: 'Títol del controlador'
     method: 'Nom del métode'
     route: 'La ruta del directori'
@@ -17,7 +17,7 @@ questions:
     method: 'Nom del métode'
     path: 'Introduïu la ruta'
     services: common.questions.services
-    test: '¿Vols generar una clase de prova (unit test class)'
+    test: '¿Vols generar una clase de verificació (Unit Test Class)'
     controller: 'Títol del controlador'
     route: 'La ruta del directori'
 messages:

@@ -1,4 +1,4 @@
-description: 'Llista tots els llocs locals i remots coneguts.'
+description: 'Llistar tots els llocs locals i remots coneguts.'
 help: 'El comandament <info>site:debug</info> llista tots el llocs locals i remots coneguts.'
 messages:
     site: Lloc
