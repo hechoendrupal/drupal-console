@@ -11,7 +11,7 @@ namespace Drupal\{{module}}\Authentication\Provider;
 {% block use_class %}
 use Drupal\Core\Authentication\AuthenticationProviderInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -33,11 +33,11 @@ class {{ class }} implements AuthenticationProviderInterface {% endblock %}
    */
   protected $configFactory;
   /**
-   * The entity manager.
+   * The entity type manager.
    *
-   * @var \Drupal\Core\Entity\EntityManagerInterface
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
-  protected $entityManager;
+  protected $entityTypeManager;
 {% endblock %}
 
 {% block class_construct %}
@@ -46,12 +46,12 @@ class {{ class }} implements AuthenticationProviderInterface {% endblock %}
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory.
-   * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
-   *   The entity manager service.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager service.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, EntityManagerInterface $entity_manager) {
+  public function __construct(ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager) {
     $this->configFactory = $config_factory;
-    $this->entityManager = $entity_manager;
+    $this->entityTypeManager = $entity_type_manager;
   }
 {% endblock %}
 
@@ -81,7 +81,7 @@ class {{ class }} implements AuthenticationProviderInterface {% endblock %}
     $consumer_ip = $request->getClientIp(TRUE);
     if (in_array($consumer_ip, $ips)) {
       // Return Anonymous user.
-      return $this->entityManager->getStorage('user')->load(0);
+      return $this->entityTypeManager->getStorage('user')->load(0);
     }
     else {
       throw new AccessDeniedHttpException();
