@@ -61,8 +61,8 @@ class {{ class_name }} extends ControllerBase {% endblock %}
         $content = array();
 
         // Only use node types the user has access to.
-        foreach ($this->entityManager()->getStorage('node_type')->loadMultiple() as $type) {
-            if ($this->entityManager()->getAccessControlHandler('node')->createAccess($type->id())) {
+        foreach ($this->entityTypeManager()->getStorage('node_type')->loadMultiple() as $type) {
+            if ($this->entityTypeManager()->getAccessControlHandler('node')->createAccess($type->id())) {
                 $content[$type->id()] = $type;
             }
         }
@@ -89,7 +89,7 @@ class {{ class_name }} extends ControllerBase {% endblock %}
     *   A node submission form.
     */
     public function add(EntityTypeInterface $entity_type) {
-        $node = $this->entityManager()->getStorage('node')->create(array(
+        $node = $this->entityTypeManager()->getStorage('node')->create(array(
             'type' => $node_type->id(),
         ));
 
