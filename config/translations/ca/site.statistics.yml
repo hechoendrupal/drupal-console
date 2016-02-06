@@ -1,4 +1,4 @@
-description: 'Show the current statistics of website.'
+description: 'Mostrar les estadístiques del lloc web.'
 help: 'Show the current statistics of website.'
 messages:
   stat-name: 'Name'

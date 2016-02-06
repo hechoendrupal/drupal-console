@@ -1,10 +1,10 @@
 description: 'Generar i registrar un controlador'
 help: 'El comandament <info>generate:controller</info> t''ajuda a generar un nou controlador.'
-welcome: 'Benvingut al generador de controladors de Drupal'
+welcome: 'Us donem la benvinguda al generador de controladors de Drupal'
 options:
     module: common.options.module
     class: 'Nom de la classe del controlador'
-    routes: 'The routes, must be an array containing [title, method, path]'
+    routes: 'Les rutes tenen de ser matrius i contenir [títol, mètode, ruta]'
     services: common.options.services
     test: 'Generar una classe de prova'
     title: 'Títol del controlador'
@@ -12,17 +12,17 @@ options:
     route: 'La ruta del directori'
 questions:
     module: common.questions.module
-    class: 'Tecleja el nom de la classe del controlador'
-    title: 'Enter the Controller method title (leave empty and press enter when done)'
+    class: 'Introduïu el nom de la classe del controlador'
+    title: 'Introduïu el títol del mètode del controlador (leave empty and press enter when done)'
     method: 'Nom del métode'
-    path: 'Enter the route path'
+    path: 'Introduïu la ruta'
     services: common.questions.services
     test: '¿Vols generar una clase de prova (unit test class)'
     controller: 'Títol del controlador'
     route: 'La ruta del directori'
 messages:
-    title-empty: 'Title must contain a value'
+    title-empty: 'El títol no pot estar buit'
     title-already-added: 'El títol ja existeix'
     method-name-already-added: 'El métode ja existeix'
-    path-already-added: 'Path was already added'
+    path-already-added: 'La ruta ja existeix'
     route-already-added: 'La ruta ja existeix'

@@ -5,4 +5,4 @@ arguments:
 questions:
     resource-id: 'ID Rest'
 messages:
-    invalid-rest-id: 'l''ID Rest %s es invàlid'
+    invalid-rest-id: 'l''ID Rest %s no és vàlid'

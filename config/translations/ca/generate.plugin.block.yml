@@ -1,6 +1,6 @@
-description: 'Generate a plugin block'
+description: 'Generar un connector de bloc (Plugin Block)'
 help: 'El comandament <info>generate:plugin:block</info> t''ajuda a generar un nou connector de bloc'
-welcome: 'Benvingut al generador de connectors de bloc de Drupal'
+welcome: 'Us donem la benvinguda al generador de connectors de bloc de Drupal'
 options:
     module: common.options.module
     class: 'Nom de la classe del connector'
@@ -17,6 +17,6 @@ questions:
     inputs: common.questions.inputs
     services: common.questions.services
 messages:
-    inputs: "\nPots afegir camps d''entrada per crear configuracions especials al connector.\nAixò es opcional, tecleja <info>enter</info> per <info>continuar</info>"
-    invalid-theme-region: 'La regió %s es invàlida'
+    inputs: "\nEs poden afegir camps d''entrada per crear configuracions especials al connector.\nAixò es opcional, tecleja <info>enter</info> per <info>continuar</info>"
+    invalid-theme-region: 'La regió %s no és vàlida'
 kdescription: 'Generar un connector de bloc (Plugin block)'

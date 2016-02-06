@@ -1,4 +1,4 @@
-description: 'Exporta un tipus de contingut i els seus camps.'
+description: 'Exportar un tipus de contingut i els seus camps.'
 arguments:
     content-type: 'El tipus de contingut que serà exportat'
 questions:

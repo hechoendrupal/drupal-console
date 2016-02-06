@@ -6,11 +6,11 @@ messages:
     configuration-key: 'Clau de la configuració'
     original: 'Valor original'
     updated: 'Subtituir valor'
-    invalid-env: 'Entorn invàlid'
+    invalid-env: 'L''entorn no és vàlid'
     new-services-settings: 'Configuració del nou servei'
     service: Servei
     service-parameter: Parametre
     service-value: Valor
-    error-copying-file: 'Error durant la còpia del fitxer'
-    error-writing-file: 'Error durant la còpia del fitxer'
+    error-copying-file: 'S''ha produït un error durant la còpia del fitxer'
+    error-writing-file: 'S''ha produït un error durant la còpia del fitxer'
     services-file-overwritten: 'S''ha sobreescrit el fitxer de serveis %s'
