@@ -57,7 +57,7 @@ site:
     messages:
         path: 'Ruta del lloc web'
     errors:
-        directory: 'Per llistar tots el comandaments disponibles, executar això dins del directori arrel de Drupal.'
+        directory: 'Per llistar tots el comandaments disponibles, executar aquest comandament dins del directori arrel de Drupal.'
         settings: 'Per llistar tots el comandaments disponibles, es necessari instal·lar Drupal.'
 user:
     messages:
