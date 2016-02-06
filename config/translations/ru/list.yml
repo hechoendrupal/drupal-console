@@ -1,16 +1,25 @@
-description: 'Список команд'
-help: "Команда <info>%command.name%</info> возвращает список всех команд:\n<info>php %command.full_name%</info>\nВы также можете отобразить команды для конкретного пространства имен:\n<info>php %command.full_name% test</info>\nВы также можете вывести информацию в других форматах используя опцию <comment>--format</comment>:\n<info>php %command.full_name% --format=xml</info>\nТакже можно получить список команд в исходном виде (может использоваться для встраивания запуска команд):\n<info>php %command.full_name% --raw</info>\n"
+description: 'Списки всех доступных команд'
+help: |
+  Команда <info>%command.name%</info> возвращает список всех команд:
+  <info>php %command.full_name%</info>
+  Вы также можете отобразить команды для конкретного пространства имен:
+  <info>php %command.full_name% test</info>
+  Вы также можете вывести информацию в других форматах используя параметр <comment>--format</comment>:
+  <info>php %command.full_name% --format=xml</info>
+  Также можно получить список команд в исходном формате (может использоваться для встраиваемых запусков команд):
+  <info>php %command.full_name% --raw</info>
 arguments:
-    namespace: 'Пространство имен'
+  namespace: 'Пространство имен'
 options:
-    xml: 'Вывести список в XML формате'
-    raw: 'Вывести список в исходном формате'
-    format: 'Формат вывода (txt, xml, json, или md)'
+  xml: 'Для вывода списка в формате XML'
+  raw: 'Для вывода списка команд в исходном формате'
+  format: 'Формат вывода (txt, xml, json, или md)'
+
 messages:
-    usage: "<comment>Использование:</comment>\n"
-    usage_details: "  команда [опции] [аргументы]\n\n"
-    arguments: '<comment>Аргументы:</comment>'
-    options: '<comment>Опции:</comment>'
-    help: '<comment>Помощь:</comment>'
-    comment: '<comment>Доступные команды для пространства имен "%s":</comment>'
-    available-commands: '<comment>Доступные команды:</comment>'
+  usage: "<comment>Использование:</comment>\n"
+  usage_details: "  команда [параметры] [аргументы]\n\n"
+  arguments: '<comment>Аргументы:</comment>'
+  options: '<comment>Параметры:</comment>'
+  help: '<comment>Помощь:</comment>'
+  comment: '<comment>Доступные команды для пространства имен "%s:</comment>'
+  available-commands: '<comment>Доступные команды:</comment>'

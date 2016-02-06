@@ -13,7 +13,7 @@ arguments:
     command_name: 'Имя команды'
 options:
     xml: 'Для вывода списка в формате XML'
-    raw: 'Для вывода необработанного списка команд'
+    raw: 'Для вывода списка команд в исходном формате'
     format: 'Формат вывода (txt, xml, json, или md)'
 messages:
     deprecated: 'Параметр <comment>--xml</comment> устарел начиная с версии 2.7 и будет удален в версии 3.0. Используйте параметр <comment>--format</comment> взамен.'
