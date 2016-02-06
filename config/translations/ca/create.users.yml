@@ -20,7 +20,7 @@ questions:
         - 'Fa 1 mes'
         - 'Fa 1 any'
 messages:
-    user-id: 'ID del usuari'
+    user-id: 'Identificador del usuari'
     roles: Rols
     username: 'Nom del usuari'
     created: 'Data de creació'

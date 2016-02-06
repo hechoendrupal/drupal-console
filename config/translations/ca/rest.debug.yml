@@ -1,10 +1,10 @@
 description: 'Mostrar l''actual recurs Rest de l''aplicació'
 arguments:
-    resource-id: 'ID Rest'
+    resource-id: 'Identificador Rest'
 options:
     status: 'Rest resource status habilitat | deshabilitat'
 messages:
-    id: 'ID Rest'
+    id: 'Identificador Rest'
     label: Etiqueta
     canonical_url: 'Canonical URL'
     status: Estat

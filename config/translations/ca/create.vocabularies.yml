@@ -8,7 +8,7 @@ questions:
     limit: 'Introduïu el número de vocabularis que voldrieu crear'
     name-words: 'Màxim de paraules utilitzades al nom del vocabulari'
 messages:
-    vocabulary-id: 'Id de vocabbulari'
+    vocabulary-id: 'Id de vocabulari'
     name: Nom
     created-terms: 'S''han creat %s vocabularis correctament'
     error: 'S''ha produït un error creant el vocabulari: %s'
