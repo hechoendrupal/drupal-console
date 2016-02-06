@@ -1,5 +1,5 @@
-description: 'Generate module permissions'
-help: 'El comandament <info>generate:permissions</info> t''ajuda a generar nous permisos'
+description: 'Generar els permisos del mòdul'
+help: 'El comandament <info>generate:permissions</info> t''ajuda a generar permisos'
 options:
     module: common.options.module
 questions:

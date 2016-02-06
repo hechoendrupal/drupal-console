@@ -3,7 +3,7 @@ help: 'El comandament <info>database:table:drop</info> t''ajuda a esborrar les t
 arguments:
     database: 'Clau de la base de dades de settings.php'
 question:
-    drop-tables: 'Si us plau confirma que vols esborrar totes les taules de la base de dades %s?'
+    drop-tables: 'Confirma que vols esborrar totes les taules de la base de dades %s?'
 messages:
-    table: Table
+    table: Taula
     table-drop: 'S''han esborrat les taules de %s correctament'

@@ -1,6 +1,6 @@
 description: 'Genera un tipus de plugin amb descobriment de Yaml'
 help: 'El comandament <info>generate:plugin:type:yaml</info> t''ajuda a generar un nou tipus de plugin que utilitza descobriment de Yaml.'
-welcome: 'Benvingut al generador de tipus de plugin de Drupal'
+welcome: 'Us donem la benvinguda al generador de tipus de plugin de Drupal'
 options:
     module: common.options.module
     class: 'Nom de classe del tipus de plugin'
@@ -8,6 +8,6 @@ options:
     plugin-file-name: 'Nom del fitxer del plugin'
 questions:
     module: common.questions.module
-    class: 'Introdueix el nom de la classe del tipus de plugin'
-    plugin-name: 'Introdueix el nom màquina del tipus de plugin'
-    plugin-file-name: 'Introdueix el nom del fitxer (p.e. MODULE.plugin.nomdelfitxer.yml)'
+    class: 'Introduïu el nom de la classe del tipus de plugin'
+    plugin-name: 'Introduïu el nom màquina del tipus de plugin'
+    plugin-file-name: 'Introduïu el nom del fitxer (p.e. MODULE.plugin.nomdelfitxer.yml)'

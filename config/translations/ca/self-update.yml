@@ -12,4 +12,4 @@ messages:
     success: 'Actualitzada la versió %s fins la versió %s.'
     check: 'Verificant actulitzacions des de la versió: %s'
     current-version: 'L''última versió %s, ja esta instal·lada.'
-    instructions: "Per actualitzar utilitza: composer global update\nEs recomana pots canviar a Phar install\ncomposer global remove drupal/console\ncurl https://drupalconsole.com/installer -L -o drupal.phar\n"
+    instructions: "Per actualitzar utilitza: composer global update\nEs recomana canviar a Phar install\ncomposer global remove drupal/console\ncurl https://drupalconsole.com/installer -L -o drupal.phar\n"
