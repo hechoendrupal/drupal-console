@@ -11,5 +11,5 @@ questions:
     module: common.questions.module
     class: 'Introduïu el nom de la classe del plugin'
     label: 'Introduïu l''etiqueta del plugin'
-    plugin-id: 'Introduïu l''Id del plugin'
+    plugin-id: 'Introduïu l''identificador del plugin'
     field-type: 'Introduïu el tipus de camp amb el que el plugin es pot utilitzar'

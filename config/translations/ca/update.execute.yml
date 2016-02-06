@@ -4,5 +4,5 @@ options:
 messages:
     no-module-updates: 'No han actualitzacions pendents per el mòdul %s'
     executing-update: 'S''esta executant l''actualització %s del mòdul %s'
-    module-update-function-not-found: 'El mòdul %s no te cap funció d''actualització per %s'
+    module-update-function-not-found: 'El mòdul %s no té cap funció d''actualització per %s'
     executing-required-previous-updates: 'S''estan executant les actualitzacions requerides'

@@ -4,9 +4,9 @@ options:
     module: common.options.module
     class: 'Nom de la classe del plugin'
     label: 'Etiqueta del plugin'
-    plugin-id: 'ID del plugin'
+    plugin-id: 'Identificador del plugin'
 questions:
     module: common.questions.module
     class: 'Introduïu el nom de la classe del plugin'
     label: 'Introduïu l''etiqueta del plugin'
-    plugin-id: 'Introduïu l''Id del plugin'
+    plugin-id: 'Introduïu l''identificador del plugin'

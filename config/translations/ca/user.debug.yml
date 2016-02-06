@@ -8,7 +8,7 @@ questions:
     roles: 'Seleccioneu els rols que s''utlitzaran per filtrar la llista de depuració d''usuaris'
     limit: 'Introduïu el número d''usuaris que vols mostrar'
 messages:
-    user-id: 'ID del usuari'
+    user-id: 'Identificador del usuari'
     username: 'Nom del usuari'
     roles: Rols
     status: Estat
