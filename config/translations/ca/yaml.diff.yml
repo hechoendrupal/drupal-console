@@ -14,5 +14,5 @@ messages:
     key: 'Clau YAML'
     value: 'Valor YAML'
     total: 'Total: %s'
-    diff: 'Diff: %s'
-    equal: 'Equal: %s'
+    diff: 'Diferències: %s'
+    equal: 'Igualtat: %s'

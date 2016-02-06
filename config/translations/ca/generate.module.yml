@@ -12,7 +12,7 @@ options:
     module-file: 'Afegir un fitxer .module'
     composer: 'Afegir fitxer composer.json'
     dependencies: 'Dependències del mòdul separades per comes (p.e. context, panels)'
-    test: 'Generar classe de prova'
+    test: 'Generar classe de verificació'
     controller: 'Controllador predeterminat'
 questions:
     module: 'Nom del nou mòdul'
@@ -25,7 +25,7 @@ questions:
     module-file: 'Vols generar un fitxer .module'
     composer: 'Vols afegir un fitxer composer.json al mòdul'
     dependencies: 'Vols afegir dependències al mòdul'
-    test: 'Vols generar una clase de prova (unit test class)'
+    test: 'Vols generar una clase de verificació (Unit Test Class)'
     controller: 'Vols generar un controlador predeterminat'
 warnings:
     module-unavailable: 'Avís El següent mòdul ja no està disponible al teu entorn local "%s"'

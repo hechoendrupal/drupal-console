@@ -1,4 +1,4 @@
-description: 'Retorna la ''one-time login url'' del usuari.'
+description: 'Generar la ''one-time login url'' del usuari.'
 options:
     user-id: 'ID del usuari.'
 messages:
