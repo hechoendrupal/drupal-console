@@ -22,4 +22,3 @@ messages:
     migrations-created: '%s migrations were created successfully for %s.'
     migrations-not-found: "There aren't migrations available"
     migrations-already-exist: 'All migrations available are already created'
-
