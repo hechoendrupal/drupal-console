@@ -6,7 +6,7 @@ options:
     module: 'Module or modules to be enabled should be separated by a comma'
     overwrite-config: 'Overwrite configuration active if necessary'
 questions:
-    module: 'Module name (press <return> to stop adding modules)'
+    module: 'Module name (press <ввод> to stop adding modules)'
     invalid-module: 'Invalid module %s'
 messages:
     no-modules: 'You must provide module or modules to enable.'
