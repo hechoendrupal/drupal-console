@@ -2,6 +2,6 @@ description: "Dump structure and contents of a database"
 arguments:
   database: "Database key from settings.php"
 options:
-  file: ' The filename for your database backup'
+  file: 'The filename for your database backup'
 messages:
     success: "Database exported to:"
