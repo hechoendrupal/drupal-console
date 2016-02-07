@@ -4,11 +4,11 @@ console:
         no-debug: 'Desactivar el mode de depuració (debug).'
         learning: 'Generar codi detalladament (verbose).'
         generate-chain: 'Imprimir les opcions d''execució i els arguments com una sortida YAML per ser utilitzats amb el comandament "chain".'
-        generate-inline: 'Imprimir les opcions d''execució i els arguments com inserits (inline) per ser utilitzats en un futur.'
+        generate-inline: 'Imprimir les opcions d''execució i els arguments com inserits per ser utilitzats en un futur.'
         generate-doc: 'Mostrar les opcions i arguments dels comandaments com a "markdown"'
         root: 'Definir la ruta arrel de Drupal on s''executaran els comandaments'
         uri: 'URI del lloc web Drupal que s''utilitzarà (per entorns "multisite" o quan s''utilitza un port alternatiu)'
-        'yes': 'Continuar ometent la confirmació'
+        'yes': 'Ometre la confirmació'
         target: 'El nom del lloc web amb el qual vols interactuar (llocs locals o remots)'
         drupal: 'Ruta a l''arrel de Drupal.'
         shell: 'Iniciar l''intèrpret d''ordres.'
@@ -57,7 +57,7 @@ site:
     messages:
         path: 'Ruta del lloc web'
     errors:
-        directory: 'Per llistar tots el comandaments disponibles, executar això dins del directori arrel de Drupal.'
+        directory: 'Per llistar tots el comandaments disponibles, executar aquest comandament dins del directori arrel de Drupal.'
         settings: 'Per llistar tots el comandaments disponibles, es necessari instal·lar Drupal.'
 user:
     messages:

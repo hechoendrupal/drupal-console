@@ -2,7 +2,7 @@ description: 'Mostrar els temes actuals per l''aplicació'
 arguments:
     theme: 'Especifica el tema a depurar'
 messages:
-    theme-id: ID
+    theme-id: Identificador
     theme-name: Nom
     status: Estat
     version: Versió
