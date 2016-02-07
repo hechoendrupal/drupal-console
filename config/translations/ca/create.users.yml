@@ -1,5 +1,5 @@
-description: 'Crear usuaris dummy per la teva aplicació Drupal 8.'
-help: 'El comandament <info>create:users</info> t''ajuda a crear usuaris dummy.'
+description: 'Crear usuaris ''dummy'' per la teva aplicació Drupal 8.'
+help: 'El comandament <info>create:users</info> t''ajuda a crear usuaris falsos.'
 welcome: 'Us donem la benvinguda al generador d''usuaris de Drupal 8'
 arguments:
     roles: 'Rol(s) utilitzats en la creació d''usuaris'
@@ -20,7 +20,7 @@ questions:
         - 'Fa 1 mes'
         - 'Fa 1 any'
 messages:
-    user-id: 'ID del usuari'
+    user-id: 'Identificador del usuari'
     roles: Rols
     username: 'Nom del usuari'
     created: 'Data de creació'

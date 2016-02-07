@@ -5,17 +5,17 @@ options:
     module: common.options.module
     class: 'Nom de la classe del connector de condició'
     label: 'Etiqueta del connector de condició'
-    plugin-id: 'ID del connector de condició'
-    context-definition-id: 'ID de la definició del context'
+    plugin-id: 'Identificador del connector de condició'
+    context-definition-id: 'Identificador de la definició del context'
     context-definition-label: 'Etiqueta de la definició del context'
     context-definition-required: 'La definició del context es necessària (TRUE/FLASE)'
 questions:
     module: common.questions.module
     class: 'Nom de la classe del connector de condició'
     label: 'Etiqueta del connector de condició'
-    plugin-id: 'ID del connector de condició'
+    plugin-id: 'Identificador del connector de condició'
     context-type: 'Tipus de context'
     context-entity-type: 'Tipus d''entitat de context'
-    context-definition-id: 'ID definició del context'
+    context-definition-id: 'Identificador definició del context'
     context-definition-label: 'Etiqueta de la definició del context'
     context-definition-required: 'La definició del context es necessària'

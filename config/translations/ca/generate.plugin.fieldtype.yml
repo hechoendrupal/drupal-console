@@ -13,7 +13,7 @@ questions:
     module: common.questions.module
     class: 'Introduïu el nom de la classe del plugin'
     label: 'Introduïu l''etiqueta del plugin'
-    plugin-id: 'Introduïu l''Id del plugin'
+    plugin-id: 'Introduïu l''identificador del plugin'
     description: 'Introduïu la descripció del plugin'
     default-widget: 'Introduïu el giny de camp predeterminat d''aquest plugin'
     default-formatter: 'Introduïu el formatador de camp predeterminat d''aquest plugin'
