@@ -167,9 +167,6 @@ class Application extends BaseApplication
     {
         $output = new DrupalStyle($input, $output);
 
-        $requirementChecker = $this->getContainerHelper()->get('requirement_checker');
-        $checks = $requirementChecker->validate();
-
         $root = null;
         $config = $this->getConfig();
         $target = $input->getParameterOption(['--target'], null);
