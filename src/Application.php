@@ -166,6 +166,7 @@ class Application extends BaseApplication
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         $output = new DrupalStyle($input, $output);
+
         $root = null;
         $config = $this->getConfig();
         $target = $input->getParameterOption(['--target'], null);
