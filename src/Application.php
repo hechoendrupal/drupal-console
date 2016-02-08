@@ -34,10 +34,7 @@ class Application extends BaseApplication
      * @var string
      */
     const DRUPAL_SUPPORTED_VERSION = '8.0.3';
-    /**
-     * @var \Drupal\Console\Config
-     */
-    protected $config;
+
     /**
      * @var string
      */
@@ -65,17 +62,14 @@ class Application extends BaseApplication
     /**
      * Create a new application.
      *
-     * @param $config
-     * @param $translator
+     * @param $helpers
      */
-    public function __construct($config, $translator)
+    public function __construct($helpers)
     {
-        $this->config = $config;
-        $this->translator = $translator;
-        $this->env = $config->get('application.environment');
-
         parent::__construct($this::NAME, $this::VERSION);
+        $this->addHelpers($helpers);
 
+        $this->env = $this->getConfig()->get('application.environment');
         $this->getDefinition()->addOption(
             new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.env'), $this->env)
         );
@@ -107,13 +101,12 @@ class Application extends BaseApplication
             new InputOption('--yes', '-y', InputOption::VALUE_NONE, $this->trans('application.console.arguments.yes'))
         );
 
-        $options = $config->get('application.default.global.options')?:[];
+        $options = $this->getConfig()->get('application.default.global.options')?:[];
         foreach ($options as $key => $option) {
             if ($this->getDefinition()->hasOption($key)) {
                 $_SERVER['argv'][] = sprintf('--%s', $key);
             }
         }
-
 
         if (count($_SERVER['argv'])>1 && stripos($_SERVER['argv'][1], '@')===0) {
             $_SERVER['argv'][1] = sprintf(
@@ -167,6 +160,9 @@ class Application extends BaseApplication
     {
         $output = new DrupalStyle($input, $output);
 
+        $requirementChecker = $this->getContainerHelper()->get('requirement_checker');
+        $checks = $requirementChecker->validate();
+
         $root = null;
         $config = $this->getConfig();
         $target = $input->getParameterOption(['--target'], null);
@@ -203,7 +199,7 @@ class Application extends BaseApplication
         $uri = $input->getParameterOption(['--uri', '-l']);
         $env = $input->getParameterOption(['--env', '-e'], getenv('DRUPAL_ENV') ?: 'prod');
 
-        if (!$env) {
+        if ($env) {
             $this->env = $env;
         }
 
@@ -271,7 +267,7 @@ class Application extends BaseApplication
         }
 
         if ($drupal->isInstalled()) {
-            $disabledModules = $this->config->get('application.disable.modules');
+            $disabledModules = $this->getConfig()->get('application.disable.modules');
             $this->getCommandDiscoveryHelper()->setDisabledModules($disabledModules);
             $commands = $this->getCommandDiscoveryHelper()->getCommands();
         } else {
@@ -339,7 +335,7 @@ class Application extends BaseApplication
             str_replace(':', '.', $command->getName())
         );
 
-        return $this->config->get($aliasKey);
+        return $this->getConfig()->get($aliasKey);
     }
 
     /**
@@ -356,15 +352,11 @@ class Application extends BaseApplication
      */
     public function getConfig()
     {
-        return $this->config;
-    }
+        if ($this->getContainerHelper()) {
+            return $this->getContainerHelper()->get('config');
+        }
 
-    /**
-     * @param mixed $config
-     */
-    public function setConfig($config)
-    {
-        $this->config = $config;
+        return null;
     }
 
     /**
@@ -388,7 +380,7 @@ class Application extends BaseApplication
      */
     public function addHelpers(array $helpers)
     {
-        $defaultHelperSet = $this->getHelperSet();
+        $defaultHelperSet = $this->getHelperSet()?:$this->getDefaultHelperSet();
         foreach ($helpers as $alias => $helper) {
             $defaultHelperSet->set($helper, is_int($alias) ? null : $alias);
         }
@@ -410,7 +402,11 @@ class Application extends BaseApplication
      */
     public function trans($key)
     {
-        return $this->translator->trans($key);
+        if ($translator = $this->getTranslator()) {
+            return $translator->trans($key);
+        }
+
+        return null;
     }
 
     /**

@@ -20,8 +20,18 @@ class Config
      */
     protected $config = [];
 
-    public function __construct()
+    /**
+     * @var Parser
+     */
+    protected $parser;
+
+    /**
+     * Config constructor.
+     * @param Parser $parser
+     */
+    public function __construct(Parser $parser)
     {
+        $this->parser = $parser;
         $this->config = [];
 
         $this->loadFile(__DIR__.'/../config.yml');
@@ -40,8 +50,7 @@ class Config
     public function getFileContents($file)
     {
         if (file_exists($file)) {
-            $parser = new Parser();
-            return $parser->parse(file_get_contents($file));
+            return $this->parser->parse(file_get_contents($file));
         }
 
         return [];
