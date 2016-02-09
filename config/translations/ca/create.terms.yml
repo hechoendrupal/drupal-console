@@ -1,4 +1,4 @@
-description: 'Crear termes ''dummy'' per la teva aplicació Drupal 8.'
+description: 'Crear termes ''dummy'' per l''aplicació Drupal 8.'
 help: 'El comandament <info>create:nodes</info> t''ajuda a generar termes falsos.'
 welcome: 'Us donem la benvinguda al generador de termes de Drupal'
 arguments:
@@ -15,4 +15,4 @@ messages:
     vocabulary: Vocabulari
     name: Nom
     invalid-vocabularies: 'El vocabulari(s) %s no és vàlid'
-    created-terms: 'S''han creat %s termes correctament'
+    created-terms: 'S''han creat correctament %s termes'
