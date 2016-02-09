@@ -20,7 +20,7 @@ application:
       hi: 'हिन्दी'
       hu: 'Magyar'
       ja: '日本語'
-      pt_br: 'Português (br)'
+      pt_br: 'Português'
       ro: 'Romanian'
       ru: 'pусский язык'
       vn: 'Tiếng Việt'
