@@ -1,4 +1,4 @@
-description: 'Exporta un vista amb el format YAML en un mòdul per reutilitzar-ho en un altre lloc web.'
+description: 'Exportar una vista amb el format YAML en un mòdul per reutilitzar-lo en un altre lloc web.'
 messages:
     view_exported: 'Exportant la vista'
     depencies-included: 'S''han inclòs les següents dependències del mòdul en %s'
@@ -7,7 +7,7 @@ questions:
     optional-config: 'Exporta la vista en un mòdul com a configuració opcional'
     include-module-dependencies: 'Incloure les dependències del mòdul en un fitxer YAML'
 arguments:
-    view-id: 'ID de la vista'
+    view-id: 'Identificador de la vista'
 options:
     optional-config: 'Exportar vista com a configuració YAML opcional en el teu mòdul'
     include-module-dependencies: 'Incloure les dependències del mòdul en un fitxer YAML'

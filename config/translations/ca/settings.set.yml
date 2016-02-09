@@ -1,9 +1,9 @@
-description: 'Change a specific setting value in DrupalConsole config file'
+description: 'Canviar un valor especific al fitxer de configuració de Drupal Console'
 arguments:
-  setting-name: 'Setting name in yaml flatten format to set a value in Drupal Console config file'
-  setting-value: 'Setting value to set in Drupal Console config file'
+  setting-name: 'Nom de la configuració en text sense format del fitxer YAML amb el valor del fitxer de configuració'
+  setting-value: 'El valor a establir al fitxer de configuració'
 messages:
-  error-parsing: 'An error occurs during parsing of YAML file "%s".'
-  error-generating: 'Error setting new language in config file.'
-  error-writing: 'Error writing config file.'
-  success: 'Setting %s was set to %s for Drupal Console'
+  error-parsing: 'S''ha produït un error analitzant el fitxer YAML "%s".'
+  error-generating: 'S''ha produït un error del nou idioma al fitxer de configuració.'
+  error-writing: 'S''ha produït un error al escriure el fitxer de configuració.'
+  success: 'El valor %s s''ha definit com %s'

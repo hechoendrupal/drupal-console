@@ -1,5 +1,5 @@
 value:
-    description: 'Actualitzar un valor per un clau determinada en un fitxer YAML.'
+    description: 'Actualitzar un valor per una clau determinada d''un fitxer YAML.'
     arguments:
         yaml-file: 'Ruta la fitxer YAML per actualitzar'
         yaml-key: 'Clau YAML per actualitzar'
@@ -13,4 +13,4 @@ key:
         yaml-key: 'Clau YAML per reemplaçar'
         yaml-new-key: 'Nova clau YAML'
     messages:
-        updated: 'El fitxer YAML %s s''ha actualitzat correctament.'
+        updated: 'S''actualitzat correctament el fitxer YAML %s'

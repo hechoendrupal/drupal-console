@@ -1,17 +1,17 @@
-description: 'List available translation updates'
+description: 'Список доступных обновлений переводов'
 arguments:
-    language: 'Language for instance es or Spanish'
+  language: 'Язык, например: es или Spanish'
 messages:
-    no-languages: 'No translatable languages available. Add a language first.'
-    up-to-date: 'All translations up to date.'
-    no-translations: 'No translation status available. Check manually'
-    project: Project
-    version: Version
-    local-age: 'Local age'
-    remote-age: 'Remote age'
-    info: Information
-    no-translation-files: 'No translation files are provided for development releases.'
-    file-not-found: 'File not found at %s nor at %s'
-    local-file-not-found: 'File not found at %s'
-    translation-not-determined: 'Translation file location could not be determined.'
-    translation-project-updated: Updated
+  no-languages: "Нет доступных языков для перевода. Добавьте язык сначала."
+  up-to-date: "Все переводы в актуальном состоянии."
+  no-translations: 'Нет доступного статуса переводов. Проверьте вручную'
+  project: 'Проект'
+  version: 'Версия'
+  local-age: 'Локальный возраст'
+  remote-age: 'Удаленный возраст'
+  info: 'Информация'
+  no-translation-files: 'Файлы переводов для dev релизов не предоставлены.'
+  file-not-found: "Файл не найден в %s и не в %s"
+  local-file-not-found: "Файл не найден в %s"
+  translation-not-determined: "Расположение файла переводов не может быть определено."
+  translation-project-updated: 'Обновлен'

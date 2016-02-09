@@ -3,7 +3,7 @@ options:
     status: 'Estat del mòdul [habilitat|deshabilitat]'
     type: 'Tipus de mòdul [core|no-core]'
 messages:
-    id: ID
+    id: Identificador
     name: Nom
     status: Estat
     origin: Origen

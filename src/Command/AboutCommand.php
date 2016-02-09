@@ -59,7 +59,7 @@ class AboutCommand extends Command
 
         $commands = [
             'init' => [
-                $this->trans('commands.init.description'),
+                $this->trans('commands.settings.init.description'),
                 'drupal init --override'
             ],
             'quick-start' => [

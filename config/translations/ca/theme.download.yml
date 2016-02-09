@@ -6,6 +6,6 @@ messages:
     getting-releases: 'Obtenint versions per el tema %s'
     downloading: 'Descarregant tema %s versió %s'
     downloaded: 'El tema %s version %s s''ha descarregat correctament a %s'
-    select-release: 'Si us plau selecciona una versió'
+    select-release: 'Seleccioneu una versió'
     outside-drupal: 'No s''ha pogut determinar l''arrel de Drupal. Per definir el destí utilitza --root, en qualsevol cas serà utilitzat el directori actual.'
-    error-creating-folder: 'Error creant el directori %s, si us plau verifica el permisos'
+    error-creating-folder: 'S''ha produït un error creant el directori %s, verifica el permisos'

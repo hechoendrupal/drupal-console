@@ -1,14 +1,14 @@
-description: 'Ouput configuration items that are different in active configuration compared with a directory.'
+description: 'Выводит элементы активной конфигурации, которые отличаются в сравнении с каталогом.'
 arguments:
-    directory: 'The directory to diff against. If ommitted, choose from Drupal config directories.'
+    directory: 'Каталог для сравнения. Если не выбрано, будет выбран каталог конфигураций Drupal.'
 options:
-    reverse: 'See the changes in reverse (i.e diff a directory to the active configuration).'
+    reverse: 'Посмотреть обратные изменения (т.е. сравнение каталога с активной конфигурацией).'
 questions:
-    directories: 'Config directory:'
+    directories: 'Каталог конфигурации:'
 table:
     headers:
-        collection: Collection
-        config-name: 'Configuration item'
-        operation: Operation
+      collection: 'Коллекция'
+      config-name: 'Элемент конфигурации'
+      operation: 'Операция'
 messages:
-    no-changes: 'There are no changes.'
+    no-changes: 'Нет никаких изменений.'

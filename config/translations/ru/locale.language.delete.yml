@@ -1,4 +1,4 @@
-description: 'DElete a language to be supported by your site'
+description: 'Удалить поддержку языка с вашего сайта'
 messages:
-    invalid-language: 'Language %s it''s an invalid language'
-    language-deleted-successfully: 'Language %s was deleted successfully.'
+  invalid-language: 'Язык %s является недопустимым языком'
+  language-deleted-successfully: 'Язык %s был удален успешно.'

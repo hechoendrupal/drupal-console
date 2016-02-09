@@ -1,18 +1,18 @@
-description: 'Create dummy terms for your Drupal 8 application.'
-help: 'The <info>create:nodes</info> command helps you generate fake nodes.'
-welcome: 'Welcome to the Drupal terms creator'
+description: 'Создание фиктивных терминов для Drupal 8.'
+help: 'Команда <info>create:terms</info> поможет вам создать фиктивные термины.'
+welcome: 'Добро пожаловать в генератор Drupal терминов'
 arguments:
-    vocabularies: 'Vocabularie(s) to be used in terms creation'
+  vocabularies: 'Словари, которые будут использованы при создании терминов'
 options:
-    limit: 'How many terms would you like to create'
-    name-words: 'Maximum number of words in term names'
+    limit: 'Сколько терминов вы хотите создать'
+    name-words: 'Максимальное количество слов в именах терминов'
 questions:
-    vocabularies: 'Select vocabularie(s) to be used on terms creation'
-    limit: 'Enter how many terms would you like to create'
-    name-words: 'Enter the maximum number of words in term names'
+    vocabularies: 'Выберите словари, которые будут использованы при создании терминов'
+    limit: 'Введите значение количества терминов, которые вы хотите создать'
+    name-words: 'Введите максимальное количество слов в именах терминов'
 messages:
-    term-id: 'Term Id'
-    vocabulary: Vocabulary
-    name: Name
-    invalid-vocabularies: 'Vocabularie(s) %s are invalid'
-    created-terms: 'Created %s terms successfully'
+    term-id: 'Идентификатор термина'
+    vocabulary: 'Словарь'
+    name: 'Имя'
+    invalid-vocabularies: 'Словари %s недопустимы'
+    created-terms: '%s терминов создано успешно.'

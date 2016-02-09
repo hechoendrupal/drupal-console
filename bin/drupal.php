@@ -6,7 +6,6 @@ use Drupal\Console\Helper\StringHelper;
 use Drupal\Console\Helper\ValidatorHelper;
 use Drupal\Console\Helper\TranslatorHelper;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Drupal\Console\Config;
 use Drupal\Console\Helper\SiteHelper;
 use Drupal\Console\EventSubscriber\ShowGeneratedFilesListener;
 use Drupal\Console\EventSubscriber\ShowWelcomeMessageListener;
@@ -26,6 +25,10 @@ use Drupal\Console\Helper\CommandDiscoveryHelper;
 use Drupal\Console\Helper\RemoteHelper;
 use Drupal\Console\Helper\HttpClientHelper;
 use Drupal\Console\Helper\DrupalApiHelper;
+use Drupal\Console\Helper\ContainerHelper;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 set_time_limit(0);
 
@@ -41,13 +44,14 @@ if (file_exists($consoleRoot.'/vendor/autoload.php')) {
     exit(1);
 }
 
-$config = new Config();
+$container = new ContainerBuilder();
+$loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
+$loader->load('services.yml');
+
+$config = $container->get('config');
 
 $translatorHelper = new TranslatorHelper();
 $translatorHelper->loadResource($config->get('application.language'), $consoleRoot);
-
-$application = new Application($config, $translatorHelper);
-$application->setDirectoryRoot($consoleRoot);
 
 $helpers = [
     'nested-array' => new NestedArrayHelper(),
@@ -64,9 +68,11 @@ $helpers = [
     'remote' => new RemoteHelper(),
     'httpClient' => new HttpClientHelper(),
     'api' => new DrupalApiHelper(),
+    'container' => new ContainerHelper($container),
 ];
 
-$application->addHelpers($helpers);
+$application = new Application($helpers);
+$application->setDirectoryRoot($consoleRoot);
 
 $dispatcher = new EventDispatcher();
 $dispatcher->addSubscriber(new ValidateDependenciesListener());

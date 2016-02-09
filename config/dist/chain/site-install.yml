@@ -27,7 +27,7 @@ commands:
         - token
         - ctools
         - pathauto
-# Rebuild cahes
+# Rebuild caches
   - command: cache:rebuild
     arguments:
         cache: all
