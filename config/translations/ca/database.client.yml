@@ -3,4 +3,4 @@ arguments:
     database: 'Clau de la base de dades des de settings.php'
 messages:
     connection: 'Connexió: %s'
-    executing: 'Executant: %s'
+    executing: 'S''esta executant: %s'

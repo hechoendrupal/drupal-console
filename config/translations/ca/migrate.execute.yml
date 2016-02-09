@@ -1,6 +1,6 @@
 description: 'Executar la migració disponible per l''aplicació'
 arguments:
-    id: 'Id(s) de la migració'
+    id: 'Identificador(s) de la migració'
 options:
     site-url: 'URL de lloc d''origen'
     db-file: 'Fitxer de la base de dades'
@@ -10,11 +10,11 @@ options:
     db-pass: 'COntrasenya de la base de dades'
     db-prefix: 'Prefix de la base de dades'
     db-port: 'Por de la base de dades'
-    exclude: 'Id(s) a excluir de la migració'
+    exclude: 'Identificadors(s) a excluir de la migració'
 questions:
-    id: 'Id de la migració'
-    exclude-id: 'Id de la migració a excluir (prem <return> per aturar l''adició de migracions a excluir)'
-    other-id: 'Altres Id de migració (prem <return> per aturar l''adició de migracions)'
+    id: 'Identificador de la migració'
+    exclude-id: 'Identificador de la migració a excluir (prem <return> per aturar l''adició de migracions a excluir)'
+    other-id: 'Altres Identificadors de migració (prem <return> per aturar l''adició de migracions)'
     site-url: 'URL del lloc d''origen'
     db-file: 'Fitxer de la base de dades'
     db-host: 'Nom del host'
@@ -23,7 +23,7 @@ questions:
     db-pass: 'COntrasenya de la base de dades'
     db-prefix: 'Prefix de la base de dades'
     db-port: 'Port de la base de dades'
-    invalid-migration-id: 'L''Id de la migració "%s" es invàlid'
+    invalid-migration-id: 'L''Identificador de la migració "%s" no és vàlid'
 messages:
     processing: 'Processant la migració "%s"'
     imported: 'La migració "%s" ha sigut importada correctament'
@@ -33,6 +33,6 @@ messages:
     import-fail: 'L''importació "%s" ha fallat'
     import-skipped: 'L''importació "%s" s''ha omès per dependències incompletes'
     wrong-source: 'L''actualització des de aquesta versió de Drupal no es compatible.'
-    destination-error: 'Error de destí de la base de dades'
-    source-error: 'Error d''origen de la base de dades'
+    destination-error: 'Hi ha un error al destí de la base de dades'
+    source-error: 'Hi ha un error d''origen de la base de dades'
     no-migrations: 'No hi han migracions disponibles per executar'

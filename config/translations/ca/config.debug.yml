@@ -1,5 +1,5 @@
-description: 'Mostra la configuració actual'
+description: 'Mostrar la configuració actual'
 arguments:
     config-name: 'Nom de la configuració'
 errors:
-    config-not-exists: 'The configuration "%s" does not exists.'
+    config-not-exists: 'No existeix la configuració "%s".'

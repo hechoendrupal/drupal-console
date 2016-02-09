@@ -1,6 +1,5 @@
-description: 'Запуск клиента БД, если он доступен'
+description: 'Запуск клиента базы данных, если он доступен'
 arguments:
-    database: 'Ключ БД из settings.php'
+  database: 'Ключ базы данных из settings.php'
 messages:
-    connection: 'Connection: %s'
-    executing: 'Выполнение: %s'
+    connection: "Соединение: %s"

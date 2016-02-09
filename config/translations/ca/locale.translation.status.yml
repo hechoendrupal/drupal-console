@@ -1,10 +1,10 @@
-description: 'LLista les actualitzacions de traduccions disponibles'
+description: 'LListar les actualitzacions de les traduccions disponibles'
 arguments:
-    language: 'Idioma per exemple ca o Català'
+    language: 'Idioma (p.e. ca o Català)'
 messages:
     no-languages: 'No hi han treaduccions disponibles. Afegeix un idioma primer.'
     up-to-date: 'Totes les traduccions estan actualitzades.'
-    no-translations: 'L''estat de les traduccions no esta disponible. Comprova-ho manualment. '
+    no-translations: 'L''estat de les traduccions no està disponible. Comprova-ho manualment. '
     project: Projecte
     version: Versió
     local-age: 'Edad local'

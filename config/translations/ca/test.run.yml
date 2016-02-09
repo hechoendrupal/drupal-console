@@ -1,21 +1,21 @@
 description: 'Executa els Test Units disponibles per l''aplicació'
 arguments:
-    test-class: 'Classe Test'
+    test-class: 'Classe de verificació'
 messages:
-    missing-dependency: 'No es possible executar el Test degut a dependències perdudes'
-    phpunit-pending: 'La lògica per executar PHPUnit test encara no s''ha implementat.'
-    starting-test: 'Començant el test'
-    test-duration: 'Duració del test'
-    test-pass: 'Test aprovat'
-    test-fail: 'Test erroni'
-    test-exception: 'Excepcions del test'
-    test-debug: 'Depuració del test'
-    url-required: 'Es requereix l''opció URL per executar el test'
-    test-summary: 'Resum del test'
+    missing-dependency: 'No es pot executar la verificació perquè falten dependències'
+    phpunit-pending: 'No s''ha implementat la lògica per executar la verificació.'
+    starting-test: 'Ha començat la verificació'
+    test-duration: 'Durada de la verificació'
+    test-pass: 'S''ha aprovat la verificació'
+    test-fail: 'S''ha produït un error en la verificació'
+    test-exception: 'Excepcions de la verificació'
+    test-debug: 'Depuració de la verificació'
+    url-required: 'L''opció URL és requerida per executar la verificació'
+    test-summary: 'Resum de la verificació'
     group: Grup
     status: Estat
     file: Fitxer
     method: Mètode
     line: Línia
     message: Missatge
-    invalid-class: 'Testing class %s doesn''t exists'
+    invalid-class: 'La classe de verificació %s ja existeix'

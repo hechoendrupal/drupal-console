@@ -1,9 +1,9 @@
-description: 'Generate translate stats'
+description: 'Genera estadísticas de traducción'
 arguments:
-    language: 'Language to generate translation stats against English'
+    language: 'Idioma para generar estadísticas de traducción contra el inglés'
 options:
-    format: 'Define output format table|markdown'
+    format: 'Define el formato de salida ( table|markdown )'
 messages:
-    invalid-language: 'Language %s is invalid'
-    language: Language
-    percentage: Percentage
+    invalid-language: 'El idioma %s no es válido'
+    language: Idioma
+    percentage: 'Tanto por ciento'

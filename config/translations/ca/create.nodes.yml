@@ -1,15 +1,15 @@
-description: 'Crear nodes dummy per la teva aplicació Drupal 8.'
+description: 'Crear nodes ''dummy'' per la teva aplicació Drupal 8.'
 help: 'El comandament <info>create:nodes</info> t''ajuda a generar termes falsos.'
-welcome: 'Benvingut al generador de nodes de Drupal'
+welcome: 'Us donem la benvinguda al generador de nodes de Drupal'
 arguments:
     content-types: 'Tipus de continguts utilitzats en la creació de nodes'
 options:
-    limit: 'Quants nodes voldries crear'
+    limit: 'Quants nodes voldrieu crear'
     title-words: 'Màxim de pararules dels títols de nodes'
     time-range: 'Quant de temps enrere ha de ser la data dels nodes'
 questions:
-    content-type: 'Selecciona els tipus de continguts utilitzats en la creació de nodes'
-    limit: 'Introdueix el número de nodes que t''agradaria crear'
+    content-type: 'Seleccioneu els tipus de continguts utilitzats en la creació de nodes'
+    limit: 'Introduïu el número de nodes que t''agradaria crear'
     title-words: 'Màxim de pararules dels títols de nodes'
     time-range: 'Quant de temps enrere ha de ser la data dels nodes?'
     time-ranges:
@@ -20,10 +20,10 @@ questions:
         - 'Fa 1 mes'
         - 'Fa 1 any'
 messages:
-    node-id: 'Node Id'
+    node-id: 'Identificador del node'
     content-type: 'Tipus de contingut'
-    title: Títol
+    title: 'Títol'
     created: 'Data de creació'
-    invalid-content-types: 'El tipus de contingut %s es invàlid'
+    invalid-content-types: 'No és vàlid el tipus de contingut %s'
     created-nodes: 'S''han creat %s nodes correctament'
     generated-content: 'S''han creat %s nodes correctament'

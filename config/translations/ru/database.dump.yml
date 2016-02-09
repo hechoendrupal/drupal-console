@@ -1,7 +1,7 @@
-description: 'Дамп структуры и контента MySQL БД и таблиц'
+description: 'Дамп структуры и содержимого базы данных'
 arguments:
-    database: 'Ключ БД из settings.php'
+  database: 'Ключ базы данных из settings.php'
 options:
-    file: 'Имя файла бекапа вашей БД'
+  file: 'Имя файла резервной копии базы данных'
 messages:
-    success: 'БД была экспортирована в:'
+    success: "База данных экспортирована в:"
