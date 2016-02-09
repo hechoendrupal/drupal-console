@@ -20,7 +20,7 @@ questions:
         - 'Fa 1 mes'
         - 'Fa 1 any'
 messages:
-    node-id: 'Id del node'
+    node-id: 'Identificador del node'
     content-type: 'Tipus de contingut'
     title: 'Títol'
     created: 'Data de creació'
