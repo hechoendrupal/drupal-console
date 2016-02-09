@@ -79,7 +79,7 @@ class DumpCommand extends ContainerAwareCommand
           );
         } elseif($databaseConnection['driver'] == 'pgsql'){
           $command = sprintf(
-            'PGPASSWORD="%s" pg_dump -U %s -w --host=%s --port=%s %s > %s',
+            'PGPASSWORD="%s" pg_dumpall -w -U %s -h %s -p %s -l %s -f %s',
             $databaseConnection['password'],
             $databaseConnection['username'],
             $databaseConnection['host'],
