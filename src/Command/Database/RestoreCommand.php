@@ -74,14 +74,13 @@ class RestoreCommand extends ContainerAwareCommand
           );
         } elseif($databaseConnection['driver'] == 'pgsql'){
           $command = sprintf(
-            //'PGPASSWORD="%s" pg_restore -U %s --host=%s --port=%s -C -d cat %s | psql dbnaem %s',
-          'PGPASSWORD="%s" psql -w -U %s -h %s -p %s -f %s %s',
+            'PGPASSWORD="%s" psql -w -U %s -h %s -p %s -d %s -f %s',
             $databaseConnection['password'],
-         $databaseConnection['username'],
-           $databaseConnection['host'],
+            $databaseConnection['username'],
+            $databaseConnection['host'],
             $databaseConnection['port'],
-            $file,
-            $databaseConnection['database']
+            $databaseConnection['database'],
+            $file
           );
         }
 
