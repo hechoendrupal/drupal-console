@@ -105,8 +105,23 @@ class GenerateDocGitbookCommand extends ContainerAwareCommand
         }
 
         $input = $application->getDefinition();
-        $options = $input->getOptions();
-        $arguments = $input->getArguments();
+        $option_list = $input->getOptions();
+        $argument_list = $input->getArguments();
+        $options = [];
+        foreach ($option_list as $option) {
+            $options[] = [
+                'name' => $option->getName(),
+                'description' => $this->trans('application.options.'.$option->getName())
+            ];
+        }
+        $arguments = [];
+        foreach ($argument_list as $argument) {
+            $arguments[] = [
+              'name' => $argument->getName(),
+              'description' => $this->trans('application.arguments.'.$argument->getName())
+            ];
+        }
+
         $parameters = [
             'command_list' => $command_list,
             'options' => $options,
@@ -174,6 +189,11 @@ class GenerateDocGitbookCommand extends ContainerAwareCommand
                 break;
             }
             $index++;
+        }
+
+        if ($commandKey == 'generate.doc.gitbook') {
+            $options = [$input->getOption('path')];
+            $arguments = [];
         }
 
         $parameters = [
