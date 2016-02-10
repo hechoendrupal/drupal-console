@@ -4,11 +4,11 @@ messages:
     system: 'Informació del sistema'
     hash_salt: 'Hash salt'
     console: 'Drupal Console'
-    database: 'Connexió de la base de dades'
+    database: 'Base de dades'
     driver: Controlador
-    host: Host
+    host: 'Amfitrió'
     port: Port
-    username: 'Nom del usuari'
+    username: 'Nom de l''usuari'
     password: Contrasenya
     theme: Tema
     connection: 'Connexió'

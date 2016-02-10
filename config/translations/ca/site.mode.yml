@@ -5,11 +5,11 @@ messages:
     configuration: 'Nom de la configuració'
     configuration-key: 'Clau de la configuració'
     original: 'Valor original'
-    updated: 'Subtituir valor'
+    updated: 'Substituir valor'
     invalid-env: 'L''entorn no és vàlid'
     new-services-settings: 'Configuració del nou servei'
     service: Servei
-    service-parameter: Parametre
+    service-parameter: 'Paràmetre'
     service-value: Valor
     error-copying-file: 'S''ha produït un error durant la còpia del fitxer'
     error-writing-file: 'S''ha produït un error durant la còpia del fitxer'
