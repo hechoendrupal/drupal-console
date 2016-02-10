@@ -55,3 +55,7 @@ commands:
   - command: generate:doc:gitbook
     options:
         path: /Users/enzo/www/DrupalConsoleBook/zh_hans
+  - command: settings:set
+    arguments:
+        setting-name: language
+        setting-value: en

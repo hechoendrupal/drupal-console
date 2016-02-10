@@ -3,7 +3,7 @@ requirements:
     required: 5.5.9
   configurations:
     required:
-      - date.timezone: "America/Los_Angeles"
+      - date.timezone: "America/Tijuana"
       - memory_limit: 1024M
     recomended:
   extensions:
