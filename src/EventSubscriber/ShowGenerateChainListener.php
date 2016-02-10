@@ -93,7 +93,7 @@ class ShowGenerateChainListener implements EventSubscriberInterface
             );
 
             $io->commentBlock(
-                $translatorHelper->trans('application.console.messages.chain.generated')
+                $translatorHelper->trans('application.messages.chain.generated')
             );
 
             $io->writeln($yml);
