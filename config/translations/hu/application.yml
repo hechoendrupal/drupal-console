@@ -1,44 +1,38 @@
-console:
-    arguments:
-        env: 'A Környezet neve.'
-        no-debug: 'Hibakeresés mód leállítása.'
-        learning: 'Részletes kimeneti kód generálása.'
-        generate-chain: 'Végrehajtási lehetőségek és argumentumok nyomtatása mint yaml kimenet amit késöbb egy parancsláncba használhat fel'
-        generate-inline: 'Végrehajtási lehetőségek és argumentumok nyomtatása beágyazott hívásként amit késöbb felhasználhat'
-        generate-doc: 'Shows command options and arguments as markdown'
-        root: 'Define the Drupal root to be used in command execution'
-        uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
-        'yes': 'Skip confirmation and proceed'
-        target: 'Site name you want to interact with (for local or remote sites)'
-        drupal: 'Drupal gyökérkönyvtára felé vezető útvonal.'
-        shell: 'Shell indítása.'
-    messages:
-        completed: 'A parancs futása sikeres volt!'
-        chain:
-            generated: 'A következőkben megtalálható az utolsó parancs yaml reprezentációja, amit bemásolhat egy ~/.console/chain/sample.yml fájlba ahhoz hogy egy parancssoron belül lehessen futtatni'
-        inline:
-            generated: 'A következőkben megtalálhatja ennek a kódnak a beágyazott ábrázolását ha később ezt a parancsot futtani szeretné'
-        generated: 'Most kezdheti használni a generált kódot!'
-        files:
-            generated: 'Generált vagy frissített fájlok'
-            copied: 'Másolt fájlok'
-        learning:
-            route: "Oldalak létrehozásához szükséges útvonal (route) meghatározása.\nA route határozza meg, hogy egy adott URL-t mely Controllernek adjuk át.\nMely metődust hív meg az adtt URL.\nHa a felhasználó betölti a http://drupal8.dev/{{ route }}, a route\nrendszer ellenőtzi, hogy mely route tartozik az URL-hez. Találat esetén\nvégrehajtja a _controller hívást. A hívás osztálynévként van definiálva\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nmetódus neve: (\"{{ method_name }}\")."
-        autocomplete: "Bash or Zsh: Add this line to your shell configuration file:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Create a symbolic link\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
-    errors:
-        invalid-command: 'A "%s" parancs nincs definiálva.'
-    input:
-        definition:
-            command: 'A parancs amit végrehajt'
-            help: 'Kimeneti űzenet megjelentése'
-            quiet: 'Kimeneti űzenet tíltása'
-            verbose: 'Üzenetek gyakoriságának növelése: 1 normál kimenet, 2 részletes kimenet és 3 hibakeresésre'
-            version: 'Alkalmazás verzió megjelenítése'
-            ansi: 'ANSI kimenet kényszerítése'
-            no-ansi: 'ANSI kimenet letiltása'
-            no-interaction: 'Ne kérdezzen interaktiv kérdést'
-    options:
-        version: '<info>%s</info> version <comment>%s</comment>'
+options:
+    env: 'A Környezet neve.'
+    no-debug: 'Hibakeresés mód leállítása.'
+    learning: 'Részletes kimeneti kód generálása.'
+    generate-chain: 'Végrehajtási lehetőségek és argumentumok nyomtatása mint yaml kimenet amit késöbb egy parancsláncba használhat fel'
+    generate-inline: 'Végrehajtási lehetőségek és argumentumok nyomtatása beágyazott hívásként amit késöbb felhasználhat'
+    generate-doc: 'Shows command options and arguments as markdown'
+    root: 'Define the Drupal root to be used in command execution'
+    uri: 'URI of the Drupal site to use (for multisite environments or when running on an alternate port)'
+    'yes': 'Skip confirmation and proceed'
+    target: 'Site name you want to interact with (for local or remote sites)'
+    help: 'Display this help message'
+    quiet: 'Do not output any message'
+    verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
+    version: '<info>%s</info> version <comment>%s</comment>'
+    ansi: 'Force ANSI output'
+    no-ansi: 'Disable ANSI output'
+    no-interaction: 'Do not ask any interactive question'
+arguments:
+    command: 'The command to execute'
+messages:
+    completed: 'A parancs futása sikeres volt!'
+    chain:
+        generated: 'A következőkben megtalálható az utolsó parancs yaml reprezentációja, amit bemásolhat egy ~/.console/chain/sample.yml fájlba ahhoz hogy egy parancssoron belül lehessen futtatni'
+    inline:
+        generated: 'A következőkben megtalálhatja ennek a kódnak a beágyazott ábrázolását ha később ezt a parancsot futtani szeretné'
+    generated: 'Most kezdheti használni a generált kódot!'
+    files:
+        generated: 'Generált vagy frissített fájlok'
+        copied: 'Másolt fájlok'
+    learning:
+        route: "Oldalak létrehozásához szükséges útvonal (route) meghatározása.\nA route határozza meg, hogy egy adott URL-t mely Controllernek adjuk át.\nMely metődust hív meg az adtt URL.\nHa a felhasználó betölti a http://drupal8.dev/{{ route }}, a route\nrendszer ellenőtzi, hogy mely route tartozik az URL-hez. Találat esetén\nvégrehajtja a _controller hívást. A hívás osztálynévként van definiálva\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nmetódus neve: (\"{{ method_name }}\")."
+    autocomplete: "Bash or Zsh: Add this line to your shell configuration file:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Create a symbolic link\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
+errors:
+    invalid-command: 'A "%s" parancs nincs definiálva.'
 site:
     messages:
         path: 'Elérési útvonal'

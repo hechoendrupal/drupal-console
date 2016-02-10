@@ -65,7 +65,7 @@ class RequirementChecker
                 if ($defaultValue) {
                     ini_set($configuration, $defaultValue);
                     $this->checkResult['configurations']['required']['override'] = [
-                    $configuration => $defaultValue
+                        $configuration => $defaultValue
                     ];
                     continue;
                 }
