@@ -35,10 +35,10 @@ errors:
     invalid-command: 'El comandament "%s" no s''ha definit.'
 site:
     messages:
-        path: 'Ruta del lloc web'
+        path: 'Camí del lloc web'
     errors:
         directory: 'Per llistar tots el comandaments disponibles, executar aquest comandament dins del directori arrel de Drupal.'
         settings: 'Per llistar tots el comandaments disponibles, es necessari instal·lar Drupal.'
 user:
     messages:
-        path: 'Ruta del directori principal de l''usuari (home)'
+        path: 'Camí del directori arrel de l''usuari'
