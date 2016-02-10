@@ -1,5 +1,5 @@
 requirements:
-  php-version:
+  php:
     required: 5.5.9
   configurations:
     required:
@@ -25,4 +25,3 @@ requirements:
     recommended:
       - mysql
       - sqlite3
-      - ssh2
