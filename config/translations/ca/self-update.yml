@@ -2,7 +2,7 @@ description: 'Actualitzar el projecte a l''última versió.'
 help: 'Actualitzar el projecte a l''última versió.'
 options:
     major: 'Actualitzar el projecte a l''última versió, si està disponible.'
-    manifest: 'Anul·lar la ruta del fitxer manifest .'
+    manifest: 'Anul·lar el camí del fitxer manifest.'
     current-version: 'Anul·lar la versió a actualitzar des de.'
 questions:
     update: 'Actualitzar des de la versió %s fins la versió %s.'

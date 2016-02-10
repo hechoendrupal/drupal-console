@@ -20,6 +20,6 @@ questions:
     account-pass: 'Introduïu la contrasenya per l''usuari administrador del lloc Drupal'
 messages:
     installing: 'Començant el procés d''instal·lació de Drupal 8'
-    installed: 'La teva instal·lació de Drupal 8 s''ha completat correctament'
+    installed: 'L''instal·lació de Drupal 8 s''ha completat correctament'
     using-current-database: 'Utilitzant la base de dades %s amb el nom %s i l''usuari %s'
-    already-installed: 'Drupal ja està instal·lat, prova esborrant la teva base de dades utilitzant database:table:drop i despres executa un altre cop site:install'
+    already-installed: 'Drupal ja està instal·lat, prova esborrant la base de dades utilitzant database:table:drop i despres executa un altre cop site:install'
