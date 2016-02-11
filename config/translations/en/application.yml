@@ -16,6 +16,7 @@ options:
     ansi: 'Force ANSI output'
     no-ansi: 'Disable ANSI output'
     no-interaction: 'Do not ask any interactive question'
+    check-fix: 'Attempt to fix any missing configuration.'
 arguments:
     command: 'The command to execute'
 messages:

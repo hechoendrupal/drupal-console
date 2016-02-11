@@ -36,6 +36,7 @@ class CheckCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
         $requirementChecker = $this->getContainerHelper()->get('requirement_checker');
+        $requirementChecker->validate($this->getApplication()->getDirectoryRoot().'/requirements.yml');
         $checks = $requirementChecker->getCheckResult();
 
         if (!$checks['php']['valid']) {
