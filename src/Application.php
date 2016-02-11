@@ -153,74 +153,6 @@ class Application extends BaseApplication
         return '<info>Drupal Console</info>';
     }
 
-
-    private function validateRequirements(DrupalStyle $io)
-    {
-        $requirementChecker = $this->getContainerHelper()->get('requirement_checker');
-        $checks = $requirementChecker->validate($this->getDirectoryRoot().'/requirements.yml');
-        $isValid = true;
-
-        if (!$checks['php']['valid']) {
-            $isValid = false;
-            $io->error(
-                sprintf(
-                    $this->trans('application.requirements.php_invalid'),
-                    $checks['php']['current'],
-                    $checks['php']['required']
-                )
-            );
-        }
-
-        if ($extensions = $checks['extensions']['required']['missing']) {
-            foreach ($extensions as $extension) {
-                $io->error(
-                    sprintf(
-                        $this->trans('application.requirements.extension_missing'),
-                        $extension
-                    )
-                );
-                $isValid = false;
-            }
-        }
-
-        if ($extensions = $checks['extensions']['recommended']['missing']) {
-            foreach ($extensions as $extension) {
-                $io->commentBlock(
-                    sprintf(
-                        $this->trans('application.requirements.extension_recommended'),
-                        $extension
-                    )
-                );
-            }
-        }
-
-        if ($configurations = $checks['configurations']['required']['missing']) {
-            foreach ($configurations as $configuration) {
-                $io->error(
-                    sprintf(
-                        $this->trans('application.requirements.configuration_missing'),
-                        $configuration
-                    )
-                );
-                $isValid = false;
-            }
-        }
-
-        if ($configurations = $checks['configurations']['required']['overwritten']) {
-            foreach ($configurations as $configuration => $overwritten) {
-                $io->commentBlock(
-                    sprintf(
-                        $this->trans('application.requirements.configuration_overwritten'),
-                        $configuration,
-                        $overwritten
-                    )
-                );
-            }
-        }
-
-        return $isValid;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -228,14 +160,9 @@ class Application extends BaseApplication
     {
         $output = new DrupalStyle($input, $output);
 
-        if (!$this->validateRequirements($output)) {
-            return 1;
-        }
-
         $root = null;
         $config = $this->getConfig();
         $target = $input->getParameterOption(['--target'], null);
-        $commandName = null;
 
         if ($input) {
             $commandName = $this->getCommandName($input);
@@ -316,6 +243,13 @@ class Application extends BaseApplication
                     $command->getDefinition()->addOption($option);
                 }
             }
+        }
+
+        $requirementChecker = $this->getContainerHelper()->get('requirement_checker');
+        $requirementChecker->validate($this->getDirectoryRoot().'/requirements.yml');
+        if (!$requirementChecker->isValid()) {
+            $command = $this->find('settings:check');
+            return $this->doRunCommand($command, $input, $output);
         }
 
         return parent::doRun($input, $output);

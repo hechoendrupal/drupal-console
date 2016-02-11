@@ -72,8 +72,10 @@ class CommandDiscoveryHelper extends Helper
      */
     public function getConsoleCommands()
     {
-        $sources = ['Console' => [
-            'path' => $this->applicationRoot]
+        $sources = [
+            'Console' => [
+                'path' => $this->applicationRoot
+            ]
         ];
 
         return $this->discoverCommands($sources);

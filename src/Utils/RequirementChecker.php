@@ -15,7 +15,6 @@ class RequirementChecker
      */
     protected $parser;
 
-
     /**
      * @var array
      */
@@ -25,6 +24,11 @@ class RequirementChecker
      * @var array
      */
     protected $checkResult = [];
+
+    /**
+     * @var bool
+     */
+    protected $valid = true;
 
     /**
      * RequirementChecker constructor.
@@ -41,7 +45,8 @@ class RequirementChecker
         $currentPHP = phpversion();
         $this->checkResult['php']['required'] = $requiredPHP;
         $this->checkResult['php']['current'] = $currentPHP;
-        $this->checkResult['php']['valid'] = version_compare($currentPHP, $requiredPHP, '>=');
+        $this->valid = (version_compare($currentPHP, $requiredPHP) >= 0);
+        $this->checkResult['php']['valid'] = $this->valid;
     }
 
     private function checkRequiredExtensions()
@@ -49,6 +54,7 @@ class RequirementChecker
         $this->checkResult['extensions']['required']['missing'] = [];
         foreach ($this->requirements['requirements']['extensions']['required'] as $extension) {
             if (!extension_loaded($extension)) {
+                $this->valid = false;
                 $this->checkResult['extensions']['required']['missing'][] = $extension;
             }
         }
@@ -83,7 +89,7 @@ class RequirementChecker
                     ];
                     continue;
                 }
-
+                $this->valid = false;
                 $this->checkResult['configurations']['required']['missing'][] = $configuration;
             }
         }
@@ -107,5 +113,21 @@ class RequirementChecker
         }
 
         return $this->checkResult;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCheckResult()
+    {
+        return $this->checkResult;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValid()
+    {
+        return $this->valid;
     }
 }
