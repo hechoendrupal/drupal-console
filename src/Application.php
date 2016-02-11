@@ -104,6 +104,9 @@ class Application extends BaseApplication
         $this->getDefinition()->addOption(
             new InputOption('--yes', '-y', InputOption::VALUE_NONE, $this->trans('application.options.yes'))
         );
+        $this->getDefinition()->addOption(
+            new InputOption('--check-fix', '-f', InputOption::VALUE_NONE, $this->trans('application.options.check-fix'))
+        );
 
         $options = $this->getConfig()->get('application.default.global.options')?:[];
         foreach ($options as $key => $option) {
@@ -248,11 +251,13 @@ class Application extends BaseApplication
             }
         }
 
-        $requirementChecker = $this->getContainerHelper()->get('requirement_checker');
-        $requirementChecker->validate($this->getDirectoryRoot().'/requirements.yml');
-        if (!$requirementChecker->isValid()) {
-            $command = $this->find('settings:check');
-            return $this->doRunCommand($command, $input, $output);
+        if ($input->hasParameterOption(['--check-fix', '-f'])) {
+            $requirementChecker = $this->getContainerHelper()->get('requirement_checker');
+            $requirementChecker->validate($this->getDirectoryRoot().'/requirements.yml');
+            if (!$requirementChecker->isValid()) {
+                $command = $this->find('settings:check');
+                return $this->doRunCommand($command, $input, $output);
+            }
         }
 
         return parent::doRun($input, $output);
