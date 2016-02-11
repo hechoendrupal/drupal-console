@@ -160,13 +160,9 @@ class Application extends BaseApplication
     {
         $output = new DrupalStyle($input, $output);
 
-        $requirementChecker = $this->getContainerHelper()->get('requirement_checker');
-        $checks = $requirementChecker->validate();
-
         $root = null;
         $config = $this->getConfig();
         $target = $input->getParameterOption(['--target'], null);
-        $commandName = null;
 
         if ($input) {
             $commandName = $this->getCommandName($input);
@@ -247,6 +243,13 @@ class Application extends BaseApplication
                     $command->getDefinition()->addOption($option);
                 }
             }
+        }
+
+        $requirementChecker = $this->getContainerHelper()->get('requirement_checker');
+        $requirementChecker->validate($this->getDirectoryRoot().'/requirements.yml');
+        if (!$requirementChecker->isValid()) {
+            $command = $this->find('settings:check');
+            return $this->doRunCommand($command, $input, $output);
         }
 
         return parent::doRun($input, $output);
