@@ -151,12 +151,11 @@ class Application extends BaseApplication
     public function getLongVersion()
     {
         if ('UNKNOWN' !== $this->getName() && 'UNKNOWN' !== $this->getVersion()) {
-            return sprintf($this->trans('application.options.version'), $this->getName(), $this->getVersion());
+            return sprintf($this->trans('application.messages.version'), $this->getName(), $this->getVersion());
         }
 
         return '<info>Drupal Console</info>';
     }
-
     /**
      * {@inheritdoc}
      */
