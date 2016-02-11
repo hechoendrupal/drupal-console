@@ -26,10 +26,12 @@ class Application extends BaseApplication
      * @var string
      */
     const NAME = 'Drupal Console';
+
     /**
      * @var string
      */
     const VERSION = '0.10.9';
+
     /**
      * @var string
      */
@@ -39,11 +41,13 @@ class Application extends BaseApplication
      * @var string
      */
     protected $directoryRoot;
+
     /**
      * @var string
      * The Drupal environment.
      */
     protected $env;
+
     /**
      * @var \Drupal\Console\Helper\TranslatorHelper
      */
