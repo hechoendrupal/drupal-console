@@ -2,19 +2,20 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\ChainCommand.
+ * Contains \Drupal\Console\Command\Chain\ChainCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Chain;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Command;
 
 /**
  * Class ChainCommand
- * @package Drupal\Console\Command
+ * @package Drupal\Console\Command\Chain
  */
 class ChainCommand extends Command
 {

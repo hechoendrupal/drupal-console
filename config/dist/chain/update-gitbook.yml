@@ -1,0 +1,61 @@
+commands:
+  - command: settings:set
+    arguments:
+        setting-name: language
+        setting-value: en
+  - command: generate:doc:gitbook
+    options:
+        path: /Users/enzo/www/DrupalConsoleBook/en
+  - command: settings:set
+    arguments:
+        setting-name: language
+        setting-value: es
+  - command: generate:doc:gitbook
+    options:
+        path: /Users/enzo/www/DrupalConsoleBook/es
+  - command: settings:set
+    arguments:
+        setting-name: language
+        setting-value: hi
+  - command: generate:doc:gitbook
+    options:
+        path: /Users/enzo/www/DrupalConsoleBook/hi
+  - command: settings:set
+    arguments:
+        setting-name: language
+        setting-value: hu
+  - command: generate:doc:gitbook
+    options:
+        path: /Users/enzo/www/DrupalConsoleBook/hu
+  - command: settings:set
+    arguments:
+        setting-name: language
+        setting-value: pt_br
+  - command: generate:doc:gitbook
+    options:
+        path: /Users/enzo/www/DrupalConsoleBook/pt_br
+  - command: settings:set
+    arguments:
+        setting-name: language
+        setting-value: ro
+  - command: generate:doc:gitbook
+    options:
+        path: /Users/enzo/www/DrupalConsoleBook/ro
+  - command: settings:set
+    arguments:
+        setting-name: language
+        setting-value: vn
+  - command: generate:doc:gitbook
+    options:
+        path: /Users/enzo/www/DrupalConsoleBook/vn
+  - command: settings:set
+    arguments:
+        setting-name: language
+        setting-value: zh_hans
+  - command: generate:doc:gitbook
+    options:
+        path: /Users/enzo/www/DrupalConsoleBook/zh_hans
+  - command: settings:set
+    arguments:
+        setting-name: language
+        setting-value: en
