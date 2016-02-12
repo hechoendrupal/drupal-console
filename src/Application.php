@@ -248,7 +248,13 @@ class Application extends BaseApplication
             }
         }
 
-        if ($commandName != 'check' && $commandName != 'settings:check' && $config->get('application.checked') != 'true') {
+        $skipCheck = [
+          'check',
+          'settings:check',
+          'init',
+          'settings:check'
+        ];
+        if (!in_array($commandName, $skipCheck) && $config->get('application.checked') != 'true') {
             $requirementChecker = $this->getContainerHelper()->get('requirement_checker');
             $requirementChecker->validate($this->getDirectoryRoot().'/requirements.yml');
             if (!$requirementChecker->isValid()) {
