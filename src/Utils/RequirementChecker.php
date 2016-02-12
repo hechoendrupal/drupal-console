@@ -31,6 +31,11 @@ class RequirementChecker
     protected $valid = true;
 
     /**
+     * @var bool
+     */
+    protected $overwritten = false;
+
+    /**
      * RequirementChecker constructor.
      * @param $parser
      */
@@ -54,8 +59,8 @@ class RequirementChecker
         $this->checkResult['extensions']['required']['missing'] = [];
         foreach ($this->requirements['requirements']['extensions']['required'] as $extension) {
             if (!extension_loaded($extension)) {
-                $this->valid = false;
                 $this->checkResult['extensions']['required']['missing'][] = $extension;
+                $this->valid = false;
             }
         }
     }
@@ -87,6 +92,7 @@ class RequirementChecker
                     $this->checkResult['configurations']['required']['overwritten'] = [
                         $configuration => $defaultValue
                     ];
+                    $this->overwritten = true;
                     continue;
                 }
                 $this->valid = false;
@@ -121,6 +127,14 @@ class RequirementChecker
     public function getCheckResult()
     {
         return $this->checkResult;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isOverwritten()
+    {
+        return $this->overwritten;
     }
 
     /**
