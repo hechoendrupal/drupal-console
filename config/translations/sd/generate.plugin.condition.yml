@@ -1,0 +1,21 @@
+description: 'Generate a plugin condition.'
+help: 'The <info>generate:plugin:conditon</info> command helps you generate a plugin condition.'
+welcome: 'Welcome to the Drupal Plugin Condition generator'
+options:
+    module: common.options.module
+    class: 'Plugin condition class name'
+    label: 'Plugin condition label'
+    plugin-id: 'Plugin condition id'
+    context-definition-id: 'Context definition ID'
+    context-definition-label: 'Context definition label'
+    context-definition-required: 'Context definition is required (TRUE/FALSE)'
+questions:
+    module: common.questions.module
+    class: 'Enter the plugin condition class name'
+    label: 'Enter the plugin condition label'
+    plugin-id: 'Enter the plugin condition id'
+    context-type: 'Context type'
+    context-entity-type: 'Context entity type'
+    context-definition-id: 'Context definition ID'
+    context-definition-label: 'Context definition label'
+    context-definition-required: 'Context definition is required'
