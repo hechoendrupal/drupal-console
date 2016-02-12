@@ -98,7 +98,7 @@ class CheckCommand extends Command
             }
         }
 
-        if ($requirementChecker->isValid()) {
+        if ($requirementChecker->isValid() && !$requirementChecker->isOverwritten()) {
             $io->success(
                 $this->trans('commands.settings.check.messages.success')
             );
