@@ -248,7 +248,7 @@ class Application extends BaseApplication
             }
         }
 
-        if ($config->get('application.checked') != 'true') {
+        if ($commandName != 'check' && $commandName != 'settings:check' && $config->get('application.checked') != 'true') {
             $requirementChecker = $this->getContainerHelper()->get('requirement_checker');
             $requirementChecker->validate($this->getDirectoryRoot().'/requirements.yml');
             if (!$requirementChecker->isValid()) {
