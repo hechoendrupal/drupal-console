@@ -36,8 +36,10 @@ class CheckCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
         $requirementChecker = $this->getContainerHelper()->get('requirement_checker');
-        $requirementChecker->validate($this->getApplication()->getDirectoryRoot().'/requirements.yml');
         $checks = $requirementChecker->getCheckResult();
+        if (!$checks) {
+            $checks = $requirementChecker->validate($this->getApplication()->getDirectoryRoot().'/requirements.yml');
+        }
 
         if (!$checks['php']['valid']) {
             $io->error(
@@ -98,7 +100,7 @@ class CheckCommand extends Command
             }
         }
 
-        if ($requirementChecker->isValid()) {
+        if ($requirementChecker->isValid() && !$requirementChecker->isOverwritten()) {
             $io->success(
                 $this->trans('commands.settings.check.messages.success')
             );
