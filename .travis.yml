@@ -31,6 +31,7 @@ script:
   - phpunit
   - php box.phar build
   - php drupal.phar init
+  - php drupal.phar check
   - php drupal.phar site:new drupal8.dev 8.0.3 --no-interaction
   - cd drupal8.dev
   - php ../drupal.phar site:install standard --langcode=en --db-type=sqlite --db-file=sites/default/files/.ht.sqlite --site-name="Drupal 8 Site Install" --site-mail=admin@example.com --account-name=admin --account-mail=admin@example.com --account-pass=admin --no-interaction
