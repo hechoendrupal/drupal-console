@@ -38,7 +38,12 @@ class CheckCommand extends Command
         $requirementChecker = $this->getContainerHelper()->get('requirement_checker');
         $checks = $requirementChecker->getCheckResult();
         if (!$checks) {
-            $checks = $requirementChecker->validate($this->getApplication()->getDirectoryRoot().'/requirements.yml');
+            $phpCheckFile = $this->getApplication()->getConfig()->getUserHomeDir().'/.console/phpcheck.yml';
+            if (!file_exists($phpCheckFile)) {
+                $phpCheckFile = $this->getApplication()->getDirectoryRoot().'config/dist/phpcheck.yml';
+            }
+            $requirementChecker->validate($phpCheckFile);
+            $checks = $requirementChecker->validate($phpCheckFile);
         }
 
         if (!$checks['php']['valid']) {
