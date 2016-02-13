@@ -6,7 +6,7 @@ options:
 messages:
     id: 'Identificador Rest'
     label: Etiqueta
-    canonical_url: 'Canonical URL'
+    canonical_url: 'URL canònica'
     status: Estat
     provider: Proveïdor
     enabled: Habilitat
