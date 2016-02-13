@@ -19,6 +19,7 @@ env:
     - PROJECT_DIR=/home/project
 
 before_script:
+  - phpenv config-rm xdebug.ini
   # This fixes a fail when install Drupal.
   - echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer self-update
