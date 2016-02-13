@@ -109,6 +109,14 @@ class CheckCommand extends Command
             $io->success(
                 $this->trans('commands.settings.check.messages.success')
             );
+            $this->getChain()->addCommand(
+                'settings:set',
+                [
+                    'setting-name' => 'checked',
+                    'setting-value' => 'true',
+                    '--quiet'
+                ]
+            );
         }
 
         return $requirementChecker->isValid();
