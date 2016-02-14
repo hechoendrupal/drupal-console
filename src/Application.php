@@ -256,7 +256,11 @@ class Application extends BaseApplication
         ];
         if (!in_array($commandName, $skipCheck) && $config->get('application.checked') != 'true') {
             $requirementChecker = $this->getContainerHelper()->get('requirement_checker');
-            $requirementChecker->validate($this->getDirectoryRoot().'/requirements.yml');
+            $phpCheckFile = $this->getConfig()->getUserHomeDir().'/.console/phpcheck.yml';
+            if (!file_exists($phpCheckFile)) {
+                $phpCheckFile = $this->getDirectoryRoot().'config/dist/phpcheck.yml';
+            }
+            $requirementChecker->validate($phpCheckFile);
             if (!$requirementChecker->isValid()) {
                 $command = $this->find('settings:check');
                 return $this->doRunCommand($command, $input, $output);
