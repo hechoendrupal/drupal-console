@@ -66,8 +66,8 @@ class DrupalHelper extends Helper
             return false;
         }
 
-        $autoLoad = sprintf('%s%s', $root, self::DRUPAL_AUTOLOAD);
-        $index = sprintf('%s%s', $root, self::DRUPAL_INDEX);
+        $autoLoad = sprintf('%s/%s', $root, self::DRUPAL_AUTOLOAD);
+        $index = sprintf('%s/%s', $root, self::DRUPAL_INDEX);
 
         if (file_exists($autoLoad) && file_exists($index)) {
             $this->root = $root;
