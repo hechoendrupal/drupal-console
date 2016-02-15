@@ -1,6 +1,6 @@
-description: 'Drupal कंसोल प्रकल्पाची प्रार्थमिक माहिती प्रदर्शित करावी'
+description: 'Drupal Console प्रकल्पाची प्रार्थमिक माहिती प्रदर्शित करावी'
 messages:
-    welcome: 'Drupal कंसोल हे एक अशा घटकांचे समूह आहे जे CLI वर चालते, त्यामुळे:'
+    welcome: 'Drupal Console हे एक अशा घटकांचे समूह आहे जे CLI वर चालते, त्यामुळे:'
     welcome-feature-generate: 'ओषण-पट्ट कोड़ची निर्मिती होते.'
     welcome-feature-interact: 'Drupal 8 प्रतिष्ठापने सोबत परस्पर संवाद साधा.'
     welcome-feature-learn: 'Drupal 8 शिका.'
