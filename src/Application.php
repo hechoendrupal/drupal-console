@@ -164,11 +164,11 @@ class Application extends BaseApplication
         $output = new DrupalStyle($input, $output);
 
         $root = null;
+        $commandName = null;
         $config = $this->getConfig();
         $target = $input->getParameterOption(['--target'], null);
 
-        if ($input) {
-            $commandName = $this->getCommandName($input);
+        if ($input && $commandName = $this->getCommandName($input)) {
             $this->commandName = $commandName;
         }
 
@@ -289,10 +289,9 @@ class Application extends BaseApplication
      */
     public function prepare(DrupalHelper $drupal)
     {
-        chdir($drupal->getRoot());
-        $this->getSite()->setSiteRoot($drupal->getRoot());
-
         if ($drupal->isValidInstance()) {
+            chdir($drupal->getRoot());
+            $this->getSite()->setSiteRoot($drupal->getRoot());
             $this->bootDrupal($drupal);
         }
 
