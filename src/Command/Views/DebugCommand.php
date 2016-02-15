@@ -121,7 +121,7 @@ class DebugCommand extends ContainerAwareCommand
             ];
         }
 
-        $io->table($tableHeader, $tableRows, 'compact');
+        $io->table($tableHeader, $tableRows);
     }
 
     /**
