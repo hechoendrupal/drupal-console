@@ -289,10 +289,9 @@ class Application extends BaseApplication
      */
     public function prepare(DrupalHelper $drupal)
     {
-        chdir($drupal->getRoot());
-        $this->getSite()->setSiteRoot($drupal->getRoot());
-
         if ($drupal->isValidInstance()) {
+            chdir($drupal->getRoot());
+            $this->getSite()->setSiteRoot($drupal->getRoot());
             $this->bootDrupal($drupal);
         }
 
