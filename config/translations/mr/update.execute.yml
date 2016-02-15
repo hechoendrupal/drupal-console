@@ -1,8 +1,9 @@
-description: 'Execute a specific Update N function in a module, or execute all'
+description: 'विभागाची एक विशिष्ट सुधारणा N कार्य चालवा, किंवा सर्व कार्ये चालवा'
 options:
-    update-n: 'Specific Update N function to be executed'
+    update-n: 'विशिष्ट सुधारणा कार्याची अंमलबजावणी करण्यासाठी'
 messages:
-    no-module-updates: 'There aren''t updates available for module %s'
-    executing-update: 'Executing update function %s of module %s'
-    module-update-function-not-found: 'Module %s doesn''t have a function update for %s'
-    executing-required-previous-updates: 'Executing required previous updates'
+    no-module-updates: 'विभागासाठी सुधारणा उपलब्ध नाहीत %s'
+    executing-update: 'विभाग %s सुधारणा कार्य  %s चालू आहे'
+    module-update-function-not-found: '%s विभागात %s सुधारणेला कार्य नाही'
+    executing-required-previous-updates: 'मागील आवश्यक सुधारणाची अंमलबजावणी चालू'
+
