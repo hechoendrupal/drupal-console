@@ -221,7 +221,7 @@ class Application extends BaseApplication
 
         if (!$drupal->isValidRoot($root, $recursive)) {
             $commands = $this->getCommandDiscoveryHelper()->getConsoleCommands();
-            if (!$commandName) {
+            if ($commandName == 'list') {
                 $this->errorMessage = $this->trans('application.site.errors.directory');
             }
             $this->registerCommands($commands);
@@ -230,7 +230,7 @@ class Application extends BaseApplication
             $this->getKernelHelper()->setDebug($debug);
             $this->getKernelHelper()->setEnvironment($this->env);
 
-            $this->prepare($drupal);
+            $this->prepare($drupal, $commandName);
         }
 
         if ($commandName && $this->has($commandName)) {
@@ -286,8 +286,9 @@ class Application extends BaseApplication
      * Prepare drupal.
      *
      * @param DrupalHelper $drupal
+     * @param string       $commandName
      */
-    public function prepare(DrupalHelper $drupal)
+    public function prepare(DrupalHelper $drupal, $commandName = null)
     {
         if ($drupal->isValidInstance()) {
             chdir($drupal->getRoot());
@@ -301,7 +302,11 @@ class Application extends BaseApplication
             $commands = $this->getCommandDiscoveryHelper()->getCommands();
         } else {
             $commands = $this->getCommandDiscoveryHelper()->getConsoleCommands();
-            $this->errorMessage = $this->trans('application.site.errors.settings');
+            if ($commandName == 'list') {
+                $this->errorMessage = $this->trans(
+                    'application.site.errors.settings'
+                );
+            }
         }
 
         $this->registerCommands($commands);
