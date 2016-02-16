@@ -165,6 +165,7 @@ class Application extends BaseApplication
 
         $root = null;
         $commandName = null;
+        $recursive = false;
         $config = $this->getConfig();
         $target = $input->getParameterOption(['--target'], null);
 
@@ -190,8 +191,8 @@ class Application extends BaseApplication
             return 0;
         }
 
-        if (!$target) {
-            $root = $input->getParameterOption(['--root'], null);
+        if (!$target && $input->hasParameterOption(['--root'])) {
+            $root = $input->getParameterOption(['--root']);
             $root = (strpos($root, '/')===0)?$root:sprintf('%s/%s', getcwd(), $root);
         }
 
@@ -212,7 +213,6 @@ class Application extends BaseApplication
 
         $drupal = $this->getDrupalHelper();
         $this->getCommandDiscoveryHelper()->setApplicationRoot($this->getDirectoryRoot());
-        $recursive = false;
 
         if (!$root) {
             $root = getcwd();
