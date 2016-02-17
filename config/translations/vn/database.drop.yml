@@ -1,5 +1,5 @@
 description: 'Drop tất cả các tables trong 1 cơ sở dữ liệu được đưa ra.'
-help: 'Câu lệnh <info>database:table:drop</info> giúp bạn drop database tables.'
+help: 'Câu lệnh <info>database:drop</info> giúp bạn drop database tables.'
 arguments:
     database: 'Database key from settings.php'
 question:

@@ -1,5 +1,5 @@
 description: 'एक दिए गए डेटाबेस में सभी टेबल्स ड्राप।'
-help: '<info>database:table:drop</info> कमांड आप को डेटाबेस टेबल्स ड्राप करने में मदद करता है।'
+help: '<info>database:drop</info> कमांड आप को डेटाबेस टेबल्स ड्राप करने में मदद करता है।'
 arguments:
     database: 'Settings.php से डाटाबेस कुंज'
 question:

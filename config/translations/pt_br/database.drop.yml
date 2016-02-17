@@ -1,5 +1,5 @@
 description: 'Drop all tables in a given database.'
-help: 'The <info>database:table:drop</info> command helps you drop database tables.'
+help: 'The <info>database:drop</info> command helps you drop database tables.'
 arguments:
     database: 'Database key from settings.php'
 question:
