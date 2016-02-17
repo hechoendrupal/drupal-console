@@ -1,16 +1,16 @@
-description: 'Generate a new config entity'
+description: 'Új konfigurációs entitás létrehozása'
 help: ''
 options:
     module: common.options.module
-    entity-class: 'The config entity class'
-    entity-name: 'The config entity name'
-    label: 'The label'
-    bundle-of: 'Acts as bundle for content entities'
-    base-path: 'The base-path for the config entity routes'
+    entity-class: 'A konfigurációs entitás osztálya'
+    entity-name: 'A konfigurációs entitás neve'
+    label: 'A felirat'
+    bundle-of: 'A tartalomentitások mezőkötegeként funkcionál'
+    base-path: 'A konfigurációs entitások útvonalainak alapútvonala'
 questions:
     module: common.questions.module
-    entity-class: 'Enter the class of your new config entity'
-    entity-name: 'Enter the name of your new config entity'
-    label: 'Enter the label of your new config entity'
-    bundle-of: 'Name of the content entity you want this (config) entity to act as a bundle for'
-    base-path: 'Enter the base-path for the config entity routes'
+    entity-class: 'Meg kell adni az új konfigurációs entitás osztályát'
+    entity-name: 'Meg kell adni az új konfigurációs entitás nevét'
+    label: 'Meg kell adni az új konfigurációs entitás feliratát'
+    bundle-of: 'Annak a tartalomentitásnak a neve, amelyhez ez a konfigurációs entitás a mezőcsoportként fog funkcionálni'
+    base-path: 'Meg kell adni a konfigurációs entitások útvonalainak alapútvonalát'
