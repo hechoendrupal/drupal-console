@@ -40,4 +40,30 @@ trait ConnectTrait
 
         return $databaseConnection;
     }
+
+    public function getRedBeanConnection($database = 'default')
+    {
+        $redBean = $this->getContainerHelper()->get('redbean');
+
+        $connectionInfo = $this->getConnectionInfo();
+        $databaseConnection = $connectionInfo[$database];
+        if ($databaseConnection['driver'] == 'mysql') {
+            $dsn = sprintf(
+                'mysql:host=%s;dbname=%s',
+                $databaseConnection['host'],
+                $databaseConnection['database']
+            );
+
+            $redBean->setup(
+                $dsn,
+                $databaseConnection['username'],
+                $databaseConnection['password'],
+                true
+            );
+
+            return $redBean;
+        }
+
+        return null;
+    }
 }
