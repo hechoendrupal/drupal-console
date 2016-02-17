@@ -1,5 +1,5 @@
 description: 'Удалить все таблицы в данной базе данных.'
-help: 'Команда <info>database:table:drop</info> поможет вам удалить таблицы базы данных.'
+help: 'Команда <info>database:drop</info> поможет вам удалить таблицы базы данных.'
 arguments:
   database: "Ключ баы данных из settings.php"
 question:
