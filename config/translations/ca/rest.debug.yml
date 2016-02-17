@@ -1,14 +1,14 @@
-description: 'Mostra el recurs Rest actual per l''aplicació'
+description: 'Mostrar l''actual recurs Rest de l''aplicació'
 arguments:
-    resource-id: 'Rest ID'
+    resource-id: 'Identificador Rest'
 options:
     status: 'Rest resource status habilitat | deshabilitat'
 messages:
-    id: 'ID Rest'
+    id: 'Identificador Rest'
     label: Etiqueta
     canonical_url: 'Canonical URL'
     status: Estat
-    provider: 'Proveïdor'
+    provider: Proveïdor
     enabled: Habilitat
     disabled: Deshabilitat
     rest-state: 'Estats REST'

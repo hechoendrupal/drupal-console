@@ -6,9 +6,11 @@ options:
     entity-name: 'कंटेंट एंटिटि नाम'
     label: लेबल
     has-bundles: 'एंटिटि मॆ बंडल हे'
+    base-path: 'कॉन्फिग एंटिटी रुट्स के लिए बेस पथ'
 questions:
     module: common.questions.module
     entity-class: 'अपने नई कंटेंट एंटिटि की कक्षा लिखॆ'
     entity-name: 'अपने नई कंटेंट एंटिटि का नाम लिखॆ'
     label: 'अपने नई कंटेंट एंटिटि का लेबल लिखॆ'
     has-bundles: 'आप (कंटेंट) एंटिटि  मे बंडल चाहते हैं'
+    base-path: 'कॉन्फिग एंटिटी रुट्स के लिए बेस पथ दर्ज करे'

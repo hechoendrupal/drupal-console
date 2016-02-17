@@ -1,0 +1,3 @@
+description: 'Copiar els fitxers de configuració al directori arrel de l''usuari.'
+options:
+    override: 'Sobreescriure els fitxers de configuració'

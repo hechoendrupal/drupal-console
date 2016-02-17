@@ -1,7 +1,7 @@
-description: 'アカウントのログイン試行履歴をクリア'
+description: アカウントのログイン試行履歴をクリア
 help: '<info>user:login:clear:attempts</info> コマンドはアカウントのログイン試行履歴をリセットします。'
 options:
-    user-id: 'ユーザーID'
+    user-id: ユーザーID
 questions:
     uid: 'ユーザーIDを入力してください'
     numeric-uid: 'ユーザーIDは整数で入力してください'

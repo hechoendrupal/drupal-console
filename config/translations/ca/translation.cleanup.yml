@@ -1,8 +1,8 @@
-description: 'Clenaup translation files'
+description: 'Netejar el fitxer de traduccions'
 arguments:
-    language: 'Language to cleanup files against English'
+    language: 'Fitxers de l''idioma a netejar contra l''anglès'
 messages:
-    invalid-language: 'Language %s is invalid'
-    language: Language
-    file-deleted: 'File %s was deleted from %s due is no longer required.'
-    success: 'Unncessary files were cleanup'
+    invalid-language: 'L''idioma %s no és vàlid'
+    language: Idioma
+    file-deleted: 'El fitxer %s s''ha eliminat de %s degut a que ja no es necessari.'
+    success: 'Fitxers innecessaris a esborrar'

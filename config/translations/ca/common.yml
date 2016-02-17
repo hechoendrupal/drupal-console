@@ -1,3 +1,4 @@
+
 options:
     events: 'Carregar esdeveniments des del contenidor'
     module: 'Nom del mòdul.'
@@ -22,7 +23,7 @@ questions:
         machine_name: 'Nom màquina del camp d''entrada'
         permission: '¿Vols generar els permissos?'
         type: Tipus
-        invalid: 'El camp de tipus "%s" no es vàlid'
+        invalid: 'El camp de tipus "%s" no és vàlid'
         description: Descripció
         default-value: 'Valor predeterminat'
         weight: 'Pes per l''element d''entrada (weight)'
@@ -31,7 +32,7 @@ questions:
 errors:
     module-dependency: 'Falta la dependència del mòdul "%s"'
     class-name-empty: 'El nom de la clase no pot estar buida'
-    invalid-file-path: 'You must provide a valid file path'
+    invalid-file-path: 'Has de proporcionar una ruta de fitxer vàlida'
 status:
     enabled: Habilitat
     disabled: Deshabilitat
@@ -39,4 +40,4 @@ messages:
     canceled: 'La generació ha sigut cancel·lada'
     drupal-core: 'Drupal Core'
     move-phar: 'Accedir a la consola des de qualsevol lloc en el teu sistema'
-    quick-start: 'Descarrega, instal·lar i servir Drupal 8'
+    quick-start: 'Descarregar, instal·lar i servir Drupal 8'

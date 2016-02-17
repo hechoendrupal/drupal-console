@@ -1,13 +1,13 @@
-description: 'Display current modules available for application'
+description: 'Отображение текущих модулей доступных для приложения'
 options:
-    status: 'Module status [enabled|disabled]'
-    type: 'Module type [core|no-core]'
+    status: 'Статус модуля [включен|выключен]'
+    type: 'Тип модуля [ядро|не ядро]'
 messages:
-    id: ID
-    name: Name
-    status: Status
-    origin: Origin
-    package: Package
-    enabled: Enabled
-    disabled: Disabled
-    schema-version: 'Schema version'
+    id: 'Идентификатор'
+    name: 'Имя'
+    status: 'Статус'
+    origin: 'Источник'
+    package: 'Пакет'
+    enabled: 'Включен'
+    disabled: 'Выключен'
+    schema-version: 'Версия схемы'

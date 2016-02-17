@@ -1,16 +1,16 @@
 value:
-    description: 'Update a value for a specific key in a YAML file.'
+    description: 'Actualitzar un valor per una clau determinada d''un fitxer YAML.'
     arguments:
-        yaml-file: 'Path of YAML file to update'
-        yaml-key: 'YAML key to update'
-        yaml-value: 'YAML value to update'
+        yaml-file: 'Ruta la fitxer YAML per actualitzar'
+        yaml-key: 'Clau YAML per actualitzar'
+        yaml-value: 'Valor YAML per actualitzar'
     messages:
-        updated: 'YAML file %s was updated successfully.'
+        updated: 'El fitxer YAML %s s''ha actualitzat correctament.'
 key:
-    description: 'Replace a YAML key in a YAML file.'
+    description: 'Reemplaçar una clau YAML en un fitxer YAML.'
     arguments:
-        yaml-file: 'Path of YAML file to update'
-        yaml-key: 'YAML key to be replaced'
-        yaml-new-key: 'YAML new key'
+        yaml-file: 'Ruta del fitxer YAML per actualitzar'
+        yaml-key: 'Clau YAML per reemplaçar'
+        yaml-new-key: 'Nova clau YAML'
     messages:
-        updated: 'YAML file %s was updated successfully.'
+        updated: 'S''actualitzat correctament el fitxer YAML %s'

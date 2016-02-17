@@ -1,14 +1,14 @@
-description: 'Displays current users for the application'
-help: 'The <info>user:debug</info> command helps you get current users.'
-welcome: 'Welcome to the Drupal user debug'
+description: 'Mostrar els usuaris actuals de l''aplicació'
+help: 'El comandament <info>user:debug</info> t''ajuda a obtenir els usuaris actuals.'
+welcome: 'Us donem la benvinguda al depurador d''usuaris de Drupal'
 options:
-    roles: 'Roles to filter debug'
-    limit: 'How many users would you listed in debug'
+    roles: 'Rols per filtrar la depuració'
+    limit: 'Quants usuaris voldrieu mostrar'
 questions:
-    roles: 'Select role(s) to be used to filter user debug list'
-    limit: 'Enter how many users would you like to show'
+    roles: 'Seleccioneu els rols que s''utlitzaran per filtrar la llista de depuració d''usuaris'
+    limit: 'Introduïu el número d''usuaris que vols mostrar'
 messages:
-    user-id: 'User ID'
-    username: Username
-    roles: Roles
-    status: Status
+    user-id: 'Identificador del usuari'
+    username: 'Nom del usuari'
+    roles: Rols
+    status: Estat

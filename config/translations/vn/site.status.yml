@@ -21,6 +21,7 @@ messages:
     directory_theme_admin: 'Thư mục lưu phần hiển thị quản trị'
     current_version: 'Current Drupal version (%s)'
     not_installed: 'Drupal is not installed'
+    not_available: 'Not available'
     configuration: 'Phần thiết lập'
     active: 'Đường dẫn cho phần thiết lập bản hoạt động'
     staging: 'Đường dẫn cho phần thiết lập bản thử nghiệm'

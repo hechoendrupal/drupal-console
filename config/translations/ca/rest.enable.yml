@@ -1,14 +1,14 @@
-description: 'Habilitar un resurs Rest per l''aplicació'
+description: 'Habilitar un recurs Rest per l''aplicació'
 arguments:
-    resource-id: 'ID Rest'
+    resource-id: 'Identificador Rest'
     states: 'Estats REST a habilitar per el recurs'
     authorizations: 'Proveïdors d''autenticació habilitats per el recurs'
 questions:
-    resource-id: 'ID Rest'
+    resource-id: 'Identificador Rest'
 messages:
-    invalid-rest-id: 'El ID %s es invàlid'
+    invalid-rest-id: 'L''identificador %s no es vàlid'
     formats: 'Formats de serialització disponibles'
     authentication-providers: 'Proveïdors d''autenticació disponibles'
-    selected-state: 'Estats sel·leccionats'
-    selected-formats: 'Formats sel·leccionats'
-    selected-authentication-providers: 'Proveïdors d''autenticació sel·leccionats'
+    selected-state: 'Estats seleccionats'
+    selected-formats: 'Formats seleccionats'
+    selected-authentication-providers: 'Proveïdors d''autenticació seleccionats'

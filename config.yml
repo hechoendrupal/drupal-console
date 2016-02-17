@@ -1,9 +1,4 @@
 application:
-  environment: prod
-  language: en
-  editor: vi
-  temp: /tmp
-  develop: false
   autowire:
     commands:
       forced:
@@ -30,3 +25,4 @@ application:
       ru: 'pусский язык'
       vn: 'Tiếng Việt'
       zh_hans: '简体中文'
+      mr: 'मराठी'

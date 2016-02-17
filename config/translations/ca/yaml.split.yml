@@ -1,11 +1,11 @@
-description: 'Split a YAML file using indent as separator criteria'
+description: 'Dividir un fitxer YAML utilitzant una indentació com a criteri de separació'
 arguments:
-    yaml-file: 'Path of YAML file to be splitted'
+    yaml-file: 'Directori del fitxer YAML a dividir'
 options:
-    indent-level: 'Split YAML file using a specific indent level'
-    exclude-parents-key: 'Exclude parents key in file name generated'
-    starting-key: 'YAML Key from where start split useful to extract partial elements'
+    indent-level: 'Dividir un fitxer YAML utilitzant una indentació determinada'
+    exclude-parents-key: 'Excloure claus parells en el nom del fitxer generat'
+    starting-key: 'Clau YAML des d''on començar a dividir per extreure els elements parcials'
 messages:
-    generating-split: 'Generating new files'
-    split-generated: 'File %s was generated'
-    invalid-key: 'Provided key as stating YAML key wasn''t found, combine with indent-level 0 to extract values'
+    generating-split: 'S''estan generant els nous fitxers'
+    split-generated: 'S''ha generat el fitxer %s'
+    invalid-key: 'No s''ha trobat la clau proporcionada con a indicador de clau YAML. Per extreure els valors, es combinen amb nivell/indentació 0.'

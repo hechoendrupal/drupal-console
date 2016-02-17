@@ -1,6 +1,7 @@
 description: 'Jelenlegi alkalmazás beállításainak exportálása.'
 arguments:
     directory: 'Export könyvtár meghatározása a beállítások mentéséhez.'
+    tar: 'If set, the configuration will be exported to an archive file.'
 messages:
     directory: 'A beállítások export fájl mentése megtörtént: %s'
 content:

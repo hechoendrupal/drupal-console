@@ -5,10 +5,12 @@ options:
     entity-class: 'Clase de la entidad de configuración'
     entity-name: 'Nombre de la entidad de configuración'
     label: Etiqueta
-    bundle-of: 'Actua como un bundle de entidades de contenido'
+    bundle-of: 'Actúa como un bundle de entidades de contenido'
+    base-path: 'El directorio raíz para las rutas de la entidad de configuración'
 questions:
     module: common.questions.module
-    entity-class: 'Ingrese la clase de la nueva entidad de configuración'
-    entity-name: 'Ingrese el nombre de la nueva entidad de configuración'
-    label: 'Ingrese la etiqueta de la nueva entidad de configuración'
+    entity-class: 'Introduzca la clase de la nueva entidad de configuración'
+    entity-name: 'Introduzca el nombre de la nueva entidad de configuración'
+    label: 'Introduzca la etiqueta de la nueva entidad de configuración'
     bundle-of: 'Nombre de la entidad de contenido para la que esta entidad de configuración debe actuar como un bundle'
+    base-path: 'Introduzca la el directorio raíz para las rutas de la entidad de configuración'

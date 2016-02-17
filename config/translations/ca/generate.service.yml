@@ -1,6 +1,6 @@
-description: 'Generar servei'
+description: 'Generar un servei'
 help: 'El comandament <info>generate:service</info> t''ajuda a generar un nou servei.'
-welcome: 'Benvingut al generado de serveis de Drupal'
+welcome: 'Us donem la benvinguda al generador de serveis de Drupal'
 options:
     module: common.options.module
     service-name: 'Nom del servei'
@@ -9,7 +9,7 @@ options:
     services: common.questions.services
 questions:
     module: common.questions.module
-    service-name: 'Inrtodueix el nom del servei'
-    class: 'Introdueix el nom de la classe'
+    service-name: 'Introduïu el nom del servei'
+    class: 'Introduïu el nom de la classe'
     interface: 'Crear una interfície'
     services: common.options.services
