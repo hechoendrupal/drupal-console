@@ -5,3 +5,5 @@ arguments:
 messages:
   table-show: 'Showing tables for %s database'
   table: 'Table'
+  column: 'Column'
+  type: 'Type'
