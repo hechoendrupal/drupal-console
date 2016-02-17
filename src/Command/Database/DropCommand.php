@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Database\TableDropCommand.
+ * Contains \Drupal\Console\Command\Database\DropCommand.
  */
 
 namespace Drupal\Console\Command\Database;
@@ -15,10 +15,10 @@ use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Database\ConnectTrait;
 
 /**
- * Class TableDropCommand
+ * Class DropCommand
  * @package Drupal\Console\Command\Database
  */
-class TableDropCommand extends ContainerAwareCommand
+class DropCommand extends ContainerAwareCommand
 {
     use ConnectTrait;
 
@@ -28,15 +28,15 @@ class TableDropCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('database:table:drop')
-            ->setDescription($this->trans('commands.database.table.drop.description'))
+            ->setName('database:drop')
+            ->setDescription($this->trans('commands.database.drop.description'))
             ->addArgument(
                 'database',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.database.table.drop.arguments.database'),
+                $this->trans('commands.database.drop.arguments.database'),
                 'default'
             )
-            ->setHelp($this->trans('commands.database.table.drop.help'));
+            ->setHelp($this->trans('commands.database.drop.help'));
     }
 
     /**
@@ -53,7 +53,7 @@ class TableDropCommand extends ContainerAwareCommand
         if (!$yes) {
             if (!$io->confirm(
                 sprintf(
-                    $this->trans('commands.database.table.drop.question.drop-tables'),
+                    $this->trans('commands.database.drop.question.drop-tables'),
                     $databaseConnection['database']
                 ),
                 true
@@ -77,7 +77,7 @@ class TableDropCommand extends ContainerAwareCommand
 
         $io->success(
             sprintf(
-                $this->trans('commands.database.table.drop.messages.table-drop'),
+                $this->trans('commands.database.drop.messages.table-drop'),
                 count($tableRows['success'])
             )
         );
