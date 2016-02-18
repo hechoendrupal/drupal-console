@@ -1,4 +1,4 @@
-description: 'Install a Drupal project'
+description: 'Pasang proyek Drupal'
 arguments:
     profile: 'Drupal Profile to be installed'
     langcode: 'Drupal language'
