@@ -1,4 +1,4 @@
-description: 'Lists all available commands'
+description: 'Daftar perintah-perintah yang tersedia'
 help: |
   The <info>%command.name%</info> command lists all commands:
   <info>php %command.full_name%</info>

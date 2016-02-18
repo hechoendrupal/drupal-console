@@ -1,4 +1,4 @@
-description: 'Create a new Drupal project'
+description: 'Buat proyek Drupal baru'
 arguments:
     directory: 'Directory when downloading Drupal'
     version: 'Drupal version to download'
