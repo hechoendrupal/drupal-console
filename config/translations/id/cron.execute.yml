@@ -1,4 +1,4 @@
-description: 'Jalankan implementasi cron oleh module atau jalankan semua cron'
+description: 'Jalankan implementasi cron oleh modul atau jalankan semua cron-cron'
 messages:
     module-invalid: 'Modul %s tidak memiliki implementasi cron'
     executing-cron: 'Menjalankan fungsi cron dari modul %s'
