@@ -1,3 +1,3 @@
-description: 'Copy configuration files to user home directory.'
+description: 'Salin file-file konfigurasi ke dalam direktori "home" pengguna.'
 options:
-    override: 'Override configurations files'
+    override: 'Override file-file konfigurasi'

@@ -1,4 +1,4 @@
-description: 'Update project to the latest version.'
+description: 'Perbaharui proyek ke dalam versi terbaru.'
 help: 'Update project to the latest version.'
 options:
   major: 'Update to a new major version, if available.'
