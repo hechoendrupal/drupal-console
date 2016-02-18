@@ -20,5 +20,5 @@ messages:
     directory_theme_default: 'Default theme directory'
     directory_theme_admin: 'Admin theme directory'
     current_version: 'Current Drupal version (%s)'
-    not_installed: 'Drupal tidak ter-install'
+    not_installed: 'Drupal tidak terpasang'
     not_available: 'Not available'
