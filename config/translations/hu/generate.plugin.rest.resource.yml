@@ -1,19 +1,19 @@
-description: 'REST erőforrás beépülő létrehozása'
-help: 'A <info>generate:plugin:rest:resource</info> parancs új REST erőforrás beépülő létrehozásában segít.'
-welcome: 'Üdvözlet a REST erőforrás beépülő létrehozásában'
+description: 'REST-erőforrás bővítmény létrehozása'
+help: 'A <info>generate:plugin:rest:resource</info> parancs új REST-erőforrás létrehozását segíti.'
+welcome: 'Üdvözlet a Drupal REST-erőforrás bővítmény előállítóban'
 options:
     module: common.options.module
-    class: 'REST erőforrás beépülő class'
-    plugin-id: 'REST erőforrás beépülő azonosító'
-    plugin-label: 'REST erőforrás beépülő címke'
-    plugin-url: 'REST erőforrás beépülő url'
-    plugin-states: 'REST erőforrás beépülő States'
+    class: 'REST-erőforrás bővítményosztály'
+    plugin-id: 'REST-erőforrás bővítmény azonosítója'
+    plugin-label: 'REST-erőforrás bővítmény címkéje'
+    plugin-url: 'REST-erőforrás bővítmény URL-címe'
+    plugin-states: 'REST-erőforrás bővítmény állapotok'
 questions:
     module: common.questions.module
-    class: 'REST erőforrás beépülő class nevének megadása'
-    plugin-id: 'REST erőforrás beépülő azonosító megadása'
-    plugin-label: 'REST erőforrás beépülő címke megadása'
-    plugin-url: 'REST erőforrás beépülő url megadása'
-    plugin-states: 'REST State megadása (GET alapértelmezetten kiválasztott)'
+    class: 'Meg kell adni a REST-erőforrás bővítmény nevét'
+    plugin-id: 'Meg kell adni a REST-erőforrás bővítmény azonosítóját'
+    plugin-label: 'Meg kell adno a REST-erőforrás bővítmény feliratát'
+    plugin-url: 'Meg kell adni a REST-erőforrás bővítmény URL-címét'
+    plugin-states: 'Ki kell választani, hogy az erőforrás milyen REST-állapotokat valósít meg (alapértelmezés szerint a GET van kiválasztva)'
 messages:
-    selected-states: 'Kiválasztott State'
+    selected-states: 'Kiválasztott állapotok'

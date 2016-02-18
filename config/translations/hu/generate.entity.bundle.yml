@@ -1,13 +1,13 @@
-description: 'Generate a new content type (node / entity bundle)'
-help: 'Use: generate:contenttype <fancy> <Fancy> to create a new content type name with the machine name of fancy and the human-readable name of Fancy.'
-welcome: 'Welcome to the Drupal Content Type generator'
+description: 'Új tartalomtípus létrehozása (tartalom / mezőköteg)'
+help: 'Használat: generate:contenttype <fancy> <Fancy> Ez ''fancy'' programok által használt nevű és ''Fancy'' felhasználók által olvasható nevű tartalomtípust hoz létre.'
+welcome: 'Üdvözlet a Drupal tartalomtípus előállítóban'
 options:
     module: common.options.module
-    bundle-name: 'The content type''s machine name'
-    bundle-title: 'The content type''s human-readable name'
+    bundle-name: 'A tartalomtípus programok által használt neve'
+    bundle-title: 'A tartalomtípus felhasználók által olvasható neve'
 questions:
     module: common.questions.module
-    bundle-name: 'Enter the machine name of your new content type'
-    bundle-title: 'Enter the human-readable name of your new content type'
+    bundle-name: 'Meg kell adni az új tartalomtípus programok által használt nevét'
+    bundle-title: 'Meg kell adni az új tartalomtípus felhasználók által olvasható nevét'
 message:
-    error-state1: placeholder
+    error-state1: helyőrző
