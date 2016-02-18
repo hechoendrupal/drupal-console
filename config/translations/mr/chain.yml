@@ -1,7 +1,7 @@
-description: 'Chain command execution'
+description: 'साखळी आदेशाची अंमलबजावणी करावी.'
 options:
-    file: 'User defined file containing commands to get executed.'
+    file: 'आदेश समाविष्ट असलेल्या वापरकर्ता परिभाषित फाइलची अंमलबजावणी.'
 messages:
-    missing_file: 'You must provide a valid file path and name.'
-    invalid_file: 'The file "%s" does not exists.'
-    module_install: 'module:install command is not runnable inside a chain queue and must be run independently.'
+    missing_file: 'आपण एक वैध फाइल पथ आणि नाव प्रदान करणे आवश्यक आहे.'
+    invalid_file: 'फाइल "%s" अस्तित्वात नाही.'
+    module_install: 'module:install आदेश साखळी रांग आता runnable नाही आहे आणि स्वतंत्रपणे चालविणे आवश्यक आहे.'
