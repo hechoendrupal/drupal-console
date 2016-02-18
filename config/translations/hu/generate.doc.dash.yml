@@ -1,5 +1,5 @@
-description: 'Generate the DrupalConsole.docset package for Dash'
+description: 'DrupalConsole.docset csomag létrehozása a Dash számára'
 options:
-    path: 'The path to the directory where the docset will be saved.'
+    path: 'A docset mentési könyvtárának útvonala.'
 messages:
-    missing_path: 'the path is missing'
+        missing_path: 'Az útvonal hiányzik'
