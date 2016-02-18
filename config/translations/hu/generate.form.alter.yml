@@ -1,8 +1,8 @@
-description: 'Generate an implementation of hook_form_alter() or hook_form_FORM_ID_alter'
-help: 'The <info>"%s"</info> command helps you generate a new "%s"'
+description: 'A hook_form_alter() vagy hook_form_FORM_ID_alter megvalósításának létrehozása'
+help: 'A <info>"%s"</info> parancs új "%s" létrehozását segíti'
 options:
-    form-id: 'Form ID to alter'
+    form-id: 'A módosítandó formazonosító'
 messages:
-    inputs: "You can add form fields to modify form.\nThis is optional, press <info>enter</info> to <info>continue</info>"
-    loading-forms: 'Loading forms definition from Webprofiler module'
-    hide-form-elements: 'Optionally you can select form items for hide'
+    inputs: "Felvehetők űrlapmezők a módosítandó űrlapba. Ez nem kötelező, az <info>enter</info> megnyomásával <info>folytatható</info> a művelet"
+    loading-forms: A Webprofiler modul űrlapmeghatározásainak betöltése
+    hide-form-elements: 'Opcionálisan kiválaszthatók elrejtendő űrlapelemek'
