@@ -1,5 +1,5 @@
-description: 'Show the current configuration.'
+description: 'Tunjukkan konfigurasi saat ini.'
 arguments:
-    config-name: 'Configuration name.'
+    config-name: 'Nama konfigurasi.'
 errors:
-    config-not-exists: 'The configuration "%s" does not exists.'
+    config-not-exists: 'Konfigurasi "%s" tidak ada.'
