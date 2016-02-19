@@ -1,0 +1,4 @@
+description: 'List image styles on the site'
+messages:
+    styles-list: 'Styles defined in the site'
+    styles: Style
