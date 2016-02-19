@@ -21,25 +21,50 @@ class StylesDebugCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
-      $this
+        $this
         ->setName('image:styles:debug')
         ->setDescription($this->trans('commands.image.styles.debug.description'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-      $io = new DrupalStyle($input, $output);
-      $module_handler = $this->getModuleHandler();
+        $io = new DrupalStyle($input, $output);
 
-      $io->section(
-        $this->trans('commands.image.styles.debug.messages.styles-list')
-      );
+        $image_handler = $this->entityTypeManager()->getStorage('image_style');
 
-      $io->table(
-        [$this->trans('commands.image.styles.debug.messages.styles')],
-        $module_handler->getImplementations('image'),
-        'compact'
-      );
+        $io->section(
+            $this->trans('commands.image.styles.debug.messages.styles-list')
+        );
+
+        if ($image_handler) {
+            $this->imageStyleList($io, $image_handler);
+        }
+    }
+
+    /**
+     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param $image_handler
+     */
+    protected function imageStyleList(DrupalStyle $io, $image_handler)
+    {
+
+        $tableHeader = [
+          $this->trans('commands.image.styles.debug.messages.styles-label'),
+          $this->trans('commands.image.styles.debug.messages.styles-name')
+        ];
+
+        foreach($image_handler->loadMultiple() as $styles) {
+            $tableRows[] = [
+              $styles->get('label'),
+              $styles->get('name')
+            ];
+        }
+
+        $io->table(
+          $tableHeader,
+          $tableRows,
+          'compact'
+        );
     }
 
 }
