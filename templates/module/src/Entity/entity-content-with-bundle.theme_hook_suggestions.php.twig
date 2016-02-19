@@ -1,0 +1,18 @@
+{% block hook_theme_suggestions_hook %}
+
+/**
+* Implements hook_theme_suggestions_HOOK().
+*/
+function {{ module }}_theme_suggestions_{{ entity_name }}(array $variables) {
+  $suggestions = array();
+  $entity = $variables['elements']['#{{ entity_name }}'];
+  $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
+
+  $suggestions[] = '{{ entity_name }}__' . $sanitized_view_mode;
+  $suggestions[] = '{{ entity_name }}__' . $entity->bundle();
+  $suggestions[] = '{{ entity_name }}__' . $entity->bundle() . '__' . $sanitized_view_mode;
+  $suggestions[] = '{{ entity_name }}__' . $entity->id();
+  $suggestions[] = '{{ entity_name }}__' . $entity->id() . '__' . $sanitized_view_mode;
+  return $suggestions;
+}
+{% endblock %}
