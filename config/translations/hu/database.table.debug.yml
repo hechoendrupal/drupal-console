@@ -1,7 +1,9 @@
-description: 'Show all tables in a given database.'
-help: 'The <info>database:table:debug</info> command helps you debug database tables.'
+description: "Adott adatbázis összes táblájának megjelenítése."
+help: 'A <info>database:table:debug</info> parancs adatbázistáblák hibakeresését segíti.'
 arguments:
-    database: 'Database key from settings.php'
+  database: "Adatbáziskulcs a settings.php fájlból"
 messages:
-    table-show: 'Showing tables for %s database'
-    table: Table
+  table-show: '%s adatbázis tábláinak megjelenítése'
+  table: 'Tábla'
+  column: 'Oszlop'
+  type: 'Típus'
