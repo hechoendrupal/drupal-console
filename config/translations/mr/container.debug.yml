@@ -1,4 +1,4 @@
-description: 'Displays current services for an application.'
+description: 'अनुप्रयोग चालू सेवा दाखवा.'
 messages:
-    service_id: 'Service ID'
-    class_name: 'Class Name'
+    service_id: 'सर्विस क्रमांक'
+    class_name: 'क्लासचे नाव'
