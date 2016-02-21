@@ -1,14 +1,14 @@
-description: 'Ouput configuration items that are different in active configuration compared with a directory.'
+description: 'एक निर्देशिका तुलनेत सक्रिय संरचना भिन्न आहेत की आउटपुट कॉन्फिगरेशन आयटम.'
 arguments:
-    directory: 'The directory to diff against. If omitted, choose from Drupal config directories.'
+    directory: 'विरुद्ध फरक डिरेक्टरी. वगळल्यास, Drupal कॉनफिग संचयीका निवडा.'
 options:
-    reverse: 'See the changes in reverse (i.e diff a directory to the active configuration).'
+    reverse: 'उलट मध्ये बदल पहा (दुसऱ्या शब्दात सांगायचे म्हणजे सक्रिय कॉन्फिगरेशन निर्देशिकाचे फरक).'
 questions:
-    directories: 'Config directory:'
+    directories: 'कॉन्फिग निर्देशिका:'
 table:
     headers:
-      collection: 'Collection'
-      config-name: 'Configuration item'
-      operation: 'Operation'
+      collection: 'संग्रह'
+      config-name: 'संरचना आयटम'
+      operation: 'ऑपरेशन'
 messages:
-    no-changes: 'There are no changes.'
+    no-changes: 'कोणतेही बदल नाहीत.'
