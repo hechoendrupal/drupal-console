@@ -1,14 +1,14 @@
-description: 'Ouput configuration items that are different in active configuration compared with a directory.'
+description: 'Az aktív konfigurációt egy könyvtárral összehasonlítva az eltérő konfigurációs elemek.'
 arguments:
-    directory: 'The directory to diff against. If omitted, choose from Drupal config directories.'
+    directory: 'A könyvtár, amivel az összehasonlítást végezni kell. Ha nincs megadva, akkor a program a Drupal konfigurációs könyvtárakból választ.'
 options:
-    reverse: 'See the changes in reverse (i.e diff a directory to the active configuration).'
+    reverse: 'Módosítások megtekintése fordítva (vagyis egy könyvtár összehasonlítása az aktív konfigurációval).'
 questions:
-    directories: 'Config directory:'
+    directories: 'Konfigurációs könyvtár:'
 table:
     headers:
-        collection: Collection
-        config-name: 'Configuration item'
-        operation: Operation
+      collection: 'Gyűjtemény'
+      config-name: 'Konfigurációs elem'
+      operation: 'Művelet'
 messages:
-    no-changes: 'There are no changes.'
+    no-changes: 'Nincs változás.'

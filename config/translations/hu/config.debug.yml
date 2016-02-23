@@ -1,5 +1,5 @@
-description: 'Jelenlegi beállítások megjelenítése.'
+description: 'Aktuális konfiguráció megjelenítése.'
 arguments:
-    config-name: 'Beállítás neve.'
+    config-name: 'A konfiguráció neve.'
 errors:
-    config-not-exists: 'The configuration "%s" does not exists.'
+    config-not-exists: 'Nem létezik a konfiguráció: "%s".'
