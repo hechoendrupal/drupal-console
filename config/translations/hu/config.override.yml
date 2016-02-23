@@ -1,14 +1,13 @@
-description: 'Beállítás felülírása.'
+description: 'Az aktív konfiguráció értékének felülbírálása.'
 arguments:
-    config-name: 'Beállítás neve.'
+    config-name: 'A konfiguráció neve.'
     key: Kulcs
     value: Érték
 messages:
-    configuration: 'Beállítás neve'
-    configuration-key: 'Beállítás kulcs'
-    original: 'Beállítás érték'
-    updated: 'Érték felülírása'
+    configuration: 'Konfiguráció neve'
+    configuration-key: 'Konfiguráció kulcsa'
+    original: 'Eredeti érték'
+    updated: 'Felülbírálás értéke'
 examples:
-    -
-        description: 'Définir la valeur de "flood" du module Contact à 10.'
-        execution: 'drupal config:override contact.settings flood.limit 10'
+    - description: A Contact modul elárasztási korlátjának beállítása 10 értékre.
+      execution: drupal config:override contact.settings flood.limit 10

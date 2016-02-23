@@ -6,7 +6,7 @@ arguments:
 messages:
     key: Állapotkulcs
     original: 'Eredeti érték'
-    override: 'Érték felülbírálása'
+    override: 'Felülbírálás értéke'
 errors:
     no-key: 'Meg kell adni a felülbírálandó állapotkulcsot.'
     no-value: 'Meg kell adni a beállítandó állapotkulcsot.'
