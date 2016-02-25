@@ -188,6 +188,9 @@ abstract class ContainerAwareCommand extends Command
         return $this->getService('state');
     }
 
+    /**
+     * @return \Drupal\Core\Config\StorageInterface
+     */
     public function getConfigStorage()
     {
         return $this->getService('config.storage');
@@ -225,6 +228,9 @@ abstract class ContainerAwareCommand extends Command
         return $this->getService('event_dispatcher');
     }
 
+    /**
+     * @return \Drupal\Core\Entity\EntityManager
+     */
     public function getEntityManager()
     {
         return $this->getService('entity.manager');

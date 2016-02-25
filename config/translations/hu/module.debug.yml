@@ -1,13 +1,13 @@
-description: 'Elérhető modulok megjelenítése'
+description: 'Az alkalmazáshoz elérhető aktuális modulok megjelenítése'
 options:
-    status: 'Modul állapot [engedélyezett|tiltott]'
-    type: 'Module típus [core|no-core]'
+    status: 'Modul állapota [engedélyezett|tiltott]'
+    type: 'Modul típusa [alaprendszer|nem alaprendszer]'
 messages:
-    id: ID
+    id: Azonosító
     name: Név
     status: Állapot
-    origin: Származás
+    origin: Eredet
     package: Csomag
     enabled: Engedélyezett
     disabled: Tiltott
-    schema-version: 'Schema version'
+    schema-version: Sémaverzió

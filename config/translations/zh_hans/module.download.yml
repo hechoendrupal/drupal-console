@@ -1,5 +1,8 @@
 description: 下载模块
+arguments:
+    module: 'Module or modules to be enabled should be separated by a space'
 options:
+    latest: 'Default to download most recent version'
     version: 模块版本，例如：1.x-dev
 messages:
     no-releases: '模块 %s 没有发布任何版本'

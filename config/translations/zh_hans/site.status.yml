@@ -21,6 +21,7 @@ messages:
     directory_theme_admin: 管理员主题目录
     current_version: 'Current Drupal version (%s)'
     not_installed: 'Drupal is not installed'
+    not_available: 'Not available'
     configuration: '配置'
     active: '有效配置路径'
     staging: '中间站（Staging）配置路径'

@@ -1,11 +1,11 @@
 description: 'Aktuális Drupal-telepítés állapotának megtekintése'
 messages:
     application: Alkalmazás
-    system: 'Rendszerinformáció'
+    system: Rendszerinformáció
     hash_salt: 'Hash salt'
     console: 'Drupal Console'
-    database: 'Adatbázis-kapcsolat'
-    driver: IllesztőprogramDriver
+    database: Adatbázis-kapcsolat
+    driver: Illesztőprogram
     host: Gazdagép
     port: Port
     username: Felhasználónév
@@ -21,3 +21,4 @@ messages:
     directory_theme_admin: 'Adminisztrátori smink könyvtára'
     current_version: 'Aktuális Drupal verzió (%s)'
     not_installed: 'A Drupal nincs telepítve'
+    not_available: 'Not available'

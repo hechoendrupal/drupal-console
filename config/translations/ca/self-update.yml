@@ -1,15 +1,15 @@
-description: 'Update project to the latest version.'
-help: 'Update project to the latest version.'
+description: 'Actualitzar el projecte a l''última versió.'
+help: 'Actualitzar el projecte a l''última versió.'
 options:
-    major: 'Update to a new major version, if available.'
-    manifest: 'Override the manifest file path.'
-    current-version: 'Override the version to update from.'
+    major: 'Actualitzar el projecte a l''última versió, si està disponible.'
+    manifest: 'Anul·lar el camí del fitxer manifest.'
+    current-version: 'Anul·lar la versió a actualitzar des de.'
 questions:
-    update: 'Update from version %s to version %s.'
+    update: 'Actualitzar des de la versió %s fins la versió %s.'
 messages:
-    not-phar: 'This instance of the CLI was not installed as a Phar archive.'
-    update: 'Updating to version %s.'
-    success: 'Updated from version %s to version %s.'
-    check: 'Checking for updates from version: %s'
-    current-version: 'The latest version %s, was already installed on your system.'
-    instructions: "Update using: composer global update\nOr you can switch to a Phar install recommended\ncomposer global remove drupal/console\ncurl https://drupalconsole.com/installer -L -o drupal.phar\n"
+    not-phar: 'No s''ha instal·lat aquesta instància de CLI com a un fitxer Phar.'
+    update: 'Actualitzant la versió %s.'
+    success: 'Actualitzada la versió %s fins la versió %s.'
+    check: 'Verificant actualitzacions des de la versió: %s'
+    current-version: 'L''última versió %s, ja està instal·lada.'
+    instructions: "Per actualitzar utilitza: composer global update\nEs recomana canviar a Phar install\ncomposer global remove drupal/console\ncurl https://drupalconsole.com/installer -L -o drupal.phar\n"

@@ -1,22 +1,22 @@
-description: 'Generate a plugin rule action'
-help: 'A <info>generate:plugin:rulesaction</info> parancs új Rula akció létrehozásában segít.'
-welcome: 'Üdvözlet a Drupal Rules Akció Beépülő létrehozásában'
+description: 'Szabályművelet bővítmény létrehozása'
+help: 'A<info>generate:plugin:rulesaction</info> parancs új szabályművelet bővítmény létrehozását segíti.'
+welcome: 'Üdvözlet a Drupal szabályművelet bővítmény előállítóban'
 options:
     module: common.options.module
-    class: 'Beépülő class neve'
-    label: 'Beépülő címke'
-    plugin-id: 'Beépülő id'
+    class: 'Bővítményosztály neve'
+    label: 'Bővítmény felirata'
+    plugin-id: 'Bővítmény azonosítója'
     inputs: common.options.inputs
     services: common.options.services
-    category: 'Beépülő kategória'
-    context: 'Beépülő kontextus'
-    type: 'Action Type (user or node)'
+    category: 'Bővítmény kategóriája'
+    context: 'Bővítmény kontextusa'
+    type: 'Művelet típusa (felhasználó vagy tartalom)'
 questions:
     module: common.questions.module
-    class: 'Beépülő class nevének megadása'
-    label: 'Beépülő címke megadása'
-    plugin-id: 'Beépülő id megadása'
+    class: 'Meg kell adni a bővítmény osztálynevét'
+    label: 'Meg kell adni a bővítmény feliratát'
+    plugin-id: 'Meg kell adni a bővítmény azonosítóját'
     inputs: common.questions.inputs
     services: common.questions.services
-    category: 'Beépülő kategória megadása'
-    context: 'Beépülő kontextus megadása'
+    category: 'Meg kell adni a bővítmény kategóriáját'
+    context: 'Meg kell adni a bővítmény kontextusát'

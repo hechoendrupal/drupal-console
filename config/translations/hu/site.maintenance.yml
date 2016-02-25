@@ -1,4 +1,4 @@
-description: 'Webhely átváltása karbantartási módba'
+description: 'Webhely karbantartási módba állítása'
 arguments:
     mode: 'Webhely karbantartási módja'
 messages:

@@ -1,13 +1,14 @@
-description: 'Export single configuration as yml file.'
+description: 'Egyetlen konfigurációs fájl exportálása yml-fájlként.'
 arguments:
-    config-name: 'Configuration name.'
+    config-name: 'A konfiguráció neve.'
 options:
-    simple-configuration: 'Simple configuration'
+    include-dependencies: 'A konfiguráció függőségei is legyenek exportálva.'
+    simple-configuration: 'Egyszerű konfiguráció'
 questions:
-    config-type: 'Configuration type'
-    config-name: 'Configuration name'
+    config-type: 'Konfiguráció típusa'
+    config-name: 'Konfiguráció neve'
 messages:
-    config-not-found: 'Configuration name not found.'
-    export: 'Configuration was exported at file %s.'
-    invalid-config-type: 'Invalid config type, please select one of the list'
-    invalid-config-name: 'Invalid config name, please select one of the list'
+    config-not-found: 'Nem található a konfigurációnév.'
+    export: 'Megtörtént a konfiguráció exportálása a következő fájlba: %s.'
+    invalid-config-type: 'Érvénytelen konfigurációs típus, ki kell választani egyet a listából'
+    invalid-config-name: 'Érvénytelen konfigurációnév, ki kell választani egyet a listából'

@@ -1,10 +1,10 @@
 description: 'PHPのbuilt-in web serverでDrupalを実行'
 arguments:
-    address: 'IPアドレスとポート番号'
+    address: IPアドレスとポート番号
 messages:
     executing: 'Executing php from %s.'
 errors:
-    binary: 'サーバーを起動するためのphpが見つかりません。'
+    binary: サーバーを起動するためのphpが見つかりません。
 examples:
     -
         description: 'Run using default address argument value 127.0.0.1.8088'

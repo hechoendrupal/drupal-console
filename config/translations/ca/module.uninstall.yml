@@ -1,9 +1,9 @@
-description: 'Uninstall module or modules in the application'
+description: 'Desintal·lar mòdul(s) en l''aplicació'
 options:
-    module: 'Module or modules to be uninstalled should be separated by a comma'
+    module: 'Els mòduls per desinstal·lar separats per comes'
 messages:
-    no-modules: 'You must provide module or modules to uninstall.'
-    dependents: 'Unable to uninstall modules %s because are required by %s'
-    nothing: 'Nothing to do. All modules are already uninstalled'
-    success: 'The following module(s) were uninstalled successfully: %s'
-    missing: 'Unable to install modules %s due to missing modules %s'
+    no-modules: 'Has de proporcionar un mòdul per desintal·lar.'
+    dependents: 'No es poden desinstal·lar els mòduls %s perquè son requerits per %s'
+    nothing: 'Res a fer. Tots el mòduls ja estan desinstal·lats'
+    success: 'Els següents mòduls s''han desinstal·lat correctament: %s'
+    missing: 'No es poden instal·lar els mòduls %s degut als mòduls faltants %s'

@@ -2,6 +2,7 @@ description: 'Xuất cấu hình đơn giản như yml file'
 arguments:
     config-name: 'Tên cấu hình'
 options:
+    include-dependencies: 'Export dependencies of the configuration as well.'
     simple-configuration: 'Cấu hình đơn giản'
 questions:
     config-type: 'Kiểu cấu hình'

@@ -12,9 +12,10 @@ messages:
     test-debug: 'टेस्ट डिबग'
     url-required: 'URL विकल्प परीक्षण चलाने के लिए आवश्यक है'
     test-summary: 'टेस्ट सारांश'
-    group: Group
+    group: ग्रुप
     status: स्थिति
-    file: File
-    method: Method
-    line: Line
+    file: फाइल
+    method: मेथड
+    line: लाइन
     message: संदेश
+    invalid-class: 'परीक्षण क्लास %स मौजूद नहीं करता है'

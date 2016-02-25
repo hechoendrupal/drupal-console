@@ -1,14 +1,16 @@
-description: 'Generate a new content entity'
+description: 'Generar una entitat de contingut'
 help: ''
 options:
     module: common.options.module
-    entity-class: 'The content entity class'
-    entity-name: 'The content entity name'
-    label: 'The label'
-    has-bundles: 'Entity has bundles'
+    entity-class: 'La classe de l''entitat de contingut'
+    entity-name: 'El nom de l''entitat de contigut'
+    label: Etiqueta
+    has-bundles: 'L''entitat conté bundles'
+    base-path: 'El camí base per les rutes de l''entitat de continguts'
 questions:
     module: common.questions.module
-    entity-class: 'Enter the class of your new content entity'
-    entity-name: 'Enter the name of your new content entity'
-    label: 'Enter the label of your new content entity'
-    has-bundles: 'Do you want this (content) entity to have bundles'
+    entity-class: 'Introduïu la classe de la nova entitat de contingut'
+    entity-name: 'Introduïu el nom de la nova entitat de contingut'
+    label: 'Introduïu l''etiqueta de la nova entitat de contingut'
+    has-bundles: 'Vols que aquest contingut tingui bundles'
+    base-path: 'Introduïu el camí base per les rutes de l''entitat de contigut'

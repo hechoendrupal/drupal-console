@@ -1,15 +1,17 @@
-description: 'List Test Units available for the application.'
-help: 'Update the console command to the latest version.'
+description: 'Llistar els Test Units disponibles per l''aplicació.'
+help: 'Actualitzar la consola a l''última versió.'
 arguments:
-    test-class: 'Test Class'
+    test-class: 'Classe de verificació'
 options:
-    group: Group
+    group: Grup
 messages:
-    class: 'Test Class'
-    description: Description
-    group: Group
-    type: 'Test Type'
-    success: 'The console has been updated to the latest version.'
-    missing-dependency: 'Missing dependency'
-    methods: 'Test methods'
-    not-found: 'Debug wasn\''t found, try enclosure test id between double quotes.'
+    class: 'Classe de verificació'
+    description: 'Descripció'
+    group: Grup
+    type: 'Tipus de verificació'
+    success: 'La consola s''ha actualitzat a l''última versió.'
+    missing-dependency: 'Dependències perdudes'
+    methods: 'Mètodes de verificació'
+    not-found: 'No s''ha trobat el depurador, prova envoltar amb l''identificador de la verificació entre cometes dobles.'
+    success-groups: 'S''han llistat correctament els grups de verificació, utilitzeu l''argument del grup per filtrar-los: p.e. $ drupal test:debug Url'
+    success-group: 'S''han llistat correctament els grups de verificació %s'

@@ -1,8 +1,8 @@
-description: 'Elérhető migrációk megjelenítése'
+description: 'Az elérhető aktuális költöztetések megjelenítése'
 arguments:
-    tag: 'Migrate tag'
+    tag: 'Költöztetési címke'
 messages:
-    id: 'Migráció Id'
+    id: 'Költöztetési azonosító'
     description: Leírás
-    no-migrations: 'There aren''t migrations available try to execute command: migrate:setup:migrations'
-    tags: Tags
+    no-migrations: 'Nincsenek rendelkezésre álló költöztetések, meg kell próbálni a  "migrate:setup:migrations" parancs végrehajtását'
+    tags: Címkék

@@ -1,4 +1,4 @@
-description: 'Delete a language to be supported by your site'
+description: 'Esborrar un idioma del teu lloc web'
 messages:
-    invalid-language: 'Language %s it\''s an invalid language'
-    language-deleted-successfully: 'Language %s was deleted successfully.'
+    invalid-language: 'L''idioma %s no és vàlid'
+    language-deleted-successfully: 'L''idioma %s s''ha esborrat correctament.'

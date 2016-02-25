@@ -1,6 +1,7 @@
 description: 'Exportă configurările curente ale aplicației.'
 arguments:
     directory: 'Indică calea de salvare pentru configurările exportate.'
+    tar: 'If set, the configuration will be exported to an archive file.'
 messages:
     directory: 'Fișierul de configurări a fost salvat în %s'
 content:

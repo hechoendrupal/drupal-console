@@ -1,12 +1,12 @@
-description: 'Override a State key.'
-help: 'Override a State key.'
+description: 'Anul·lar l''estat de la clau.'
+help: 'Anul·lar l''estat de la clau.'
 arguments:
-    key: 'The State key to override.'
-    value: 'The State value to set.'
+    key: 'L''estat de la clau a anul·lar.'
+    value: 'El valor de l''estat a definir.'
 messages:
-    key: 'State key'
-    original: 'Original value'
-    override: 'Override value'
+    key: 'L''estat de la clau'
+    original: 'Valor original'
+    override: 'Anul·lar valor'
 errors:
-    no-key: 'You must provide a State key to override.'
-    no-value: 'You must provide a State value to set.'
+    no-key: 'Has de proporcionar l''estat de la clau a anul·lar.'
+    no-value: 'Has de proporcionar el valor de l''estat a definir.'

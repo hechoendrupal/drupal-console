@@ -12,4 +12,4 @@ messages:
     success: 'कंसोल को नवीनतम संस्करण में अवगत कर दिया गया है।'
     check: 'संस्करण से अपडेट के लिए जांच की जा रही है: %s'
     current-version: 'नवीनतम संस्करण %s पहले से ही आपके सिस्टम पर स्थापित किया गया था।'
-    instructions: "Update using: composer global update\nOr you can switch to a Phar install recommended\ncomposer global remove drupal/console\ncurl https://drupalconsole.com/installer -L -o drupal.phar\n"
+    instructions: "अपडेट का उपयोग: कंपोजर ग्लोबल अपडेट \n या आप एक फार इनस्टॉल रेकमेंडेड के लिए स्विच कर सकते हैं \n composer global remove drupal/console\n curl https://drupalconsole.com/installer -L -o drupal.phar\n"

@@ -1,6 +1,6 @@
-description: 'ユニットテストの実行'
+description: ユニットテストの実行
 arguments:
-    test-class: 'Test Class'
+    test-class: テストクラス
 messages:
     missing-dependency: 'Test can''t be executed due a missing dependency'
     phpunit-pending: 'Logic to execute PHPUnit test is not implemented yet.'
@@ -18,3 +18,4 @@ messages:
     method: Method
     line: Line
     message: Message
+    invalid-class: 'Testing class %s doesn''t exists'

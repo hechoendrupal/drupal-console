@@ -1,27 +1,27 @@
-description: 'Create dummy users for your Drupal 8 application.'
-help: 'The <info>create:users</info> command helps you create dummy users.'
-welcome: 'Welcome to the Drupal users generator'
+description: 'Crear usuaris ''dummy'' per l''aplicació Drupal 8.'
+help: 'El comandament <info>create:users</info> t''ajuda a crear usuaris falsos.'
+welcome: 'Us donem la benvinguda al generador d''usuaris de Drupal 8'
 arguments:
-    roles: 'Role(s) to be used in user creation'
+    roles: 'Rol(s) utilitzats en la creació d''usuaris'
 options:
-    limit: 'How many users would you like to create'
-    password: 'Password to be set to users created'
-    time-range: 'How far back in time should the users be dated'
+    limit: 'Quants usuaris voldrieu crear'
+    password: 'La contrasenya que s''utilitzarà per els usuaris creats'
+    time-range: 'Quant de temps enrere ha de ser la data dels usuaris'
 questions:
-    roles: 'Select role(s) to be used on user creation'
-    limit: 'Enter how many users would you like to generate'
-    password: 'Enter the password to be set to users created'
-    time-range: 'How far back in time should the users be dated?'
+    roles: 'Seleccioneu el rol utilitzat en la creació d''usuaris'
+    limit: 'Introduexi el número d''usuaris que voldrieu crear'
+    password: 'Introduïu la contrasenya per els usuaris creats'
+    time-range: 'Quant de temps enrere ha de ser la data dels usuaris?'
     time-ranges:
-        - Now
-        - '1 hour ago'
-        - '1 day ago'
-        - '1 week ago'
-        - '1 month ago'
-        - '1 year ago'
+        - Ara
+        - 'Fa 1 hora'
+        - 'Fa 1 dia'
+        - 'Fa 1 setmana'
+        - 'Fa 1 mes'
+        - 'Fa 1 any'
 messages:
-    user-id: 'User Id'
-    roles: Roles
-    username: Username
-    created: 'Created Time'
-    created-users: 'Created %s users successfully'
+    user-id: 'Identificador del usuari'
+    roles: Rols
+    username: 'Nom del usuari'
+    created: 'Data de creació'
+    created-users: 'S''han creat %s usuaris correctament'

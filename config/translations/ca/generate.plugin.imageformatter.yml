@@ -1,12 +1,12 @@
-description: 'Generate image formatter plugin.'
-help: 'The <info>generate:plugin:imageformatter</info> command helps you generate a new image formatter plugin.'
+description: 'Generar un connector formatador de camp.'
+help: 'El comandament <info>generate:plugin:imageformatter</info> t''ajuda a genera un nou connector formatador de camp.'
 options:
     module: common.options.module
-    class: 'Plugin class name'
-    label: 'Plugin label'
-    plugin-id: 'Plugin id'
+    class: 'Nom de la classe del connector'
+    label: 'Etiqueta del connector'
+    plugin-id: 'Identificador del connector'
 questions:
     module: common.questions.module
-    class: 'Enter the plugin class name'
-    label: 'Enter the plugin label'
-    plugin-id: 'Enter the plugin id'
+    class: 'Introduïu el nom de la classe del connector'
+    label: 'Introduïu l''etiqueta del connector'
+    plugin-id: 'Introduïu l''identificador del connector'

@@ -2,5 +2,5 @@ description: 'लॉन्च एक DB क्लाइंट अगर यह �
 arguments:
     database: 'Settings.php से डाटाबेस कुंजी'
 messages:
-    connection: 'Connection: %s'
-    executing: 'Executing: %s'
+    connection: 'कनेक्शन: %s'
+    executing: 'निष्पादित कर: %s'

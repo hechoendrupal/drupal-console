@@ -18,7 +18,11 @@ trait HelperTrait
      */
     public function getTranslator()
     {
-        return $this->getHelperSet()->get('translator');
+        if ($this->getHelperSet()->has('translator')) {
+            return $this->getHelperSet()->get('translator');
+        }
+
+        return null;
     }
 
     /**
@@ -123,5 +127,13 @@ trait HelperTrait
     public function getDrupalApi()
     {
         return $this->getHelperSet()->get('api');
+    }
+
+    /**
+     * @return \Drupal\Console\Helper\ContainerHelper
+     */
+    public function getContainerHelper()
+    {
+        return $this->getHelperSet()->get('container');
     }
 }

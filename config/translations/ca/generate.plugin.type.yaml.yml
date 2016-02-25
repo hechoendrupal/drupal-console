@@ -1,13 +1,13 @@
-description: 'Generate a plugin type with Yaml discovery'
-help: 'The <info>generate:plugin:type:yaml</info> command helps you generate a new Plugin type that uses Yaml discovery.'
-welcome: 'Welcome to the Drupal Plugin Type generator'
+description: 'Generar un tipus de connector amb descobriment de YAML'
+help: 'El comandament <info>generate:plugin:type:yaml</info> t''ajuda a generar un nou tipus de connector amb descobriment de YAML.'
+welcome: 'Us donem la benvinguda al generador de tipus de connector de Drupal'
 options:
     module: common.options.module
-    class: 'Plugin type class name'
-    plugin-name: 'Plugin type machine name'
-    plugin-file-name: 'Plugin file name'
+    class: 'Nom de classe del tipus de connector'
+    plugin-name: 'Nom màquina de la classe del tipus de connector'
+    plugin-file-name: 'Nom del fitxer del connector'
 questions:
     module: common.questions.module
-    class: 'Enter the plugin type class name'
-    plugin-name: 'Enter the plugin type machine name'
-    plugin-file-name: 'Enter the plugin file name (e.g. MODULE.plugin.filename.yml)'
+    class: 'Introduïu el nom de la classe del tipus de connector'
+    plugin-name: 'Introduïu el nom màquina del tipus de connector'
+    plugin-file-name: 'Introduïu el nom del fitxer (p.e. MODULE.plugin.nomdelfitxer.yml)'

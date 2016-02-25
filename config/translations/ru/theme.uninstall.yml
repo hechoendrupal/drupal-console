@@ -1,6 +1,6 @@
 description: 'Uninstall theme or themes in the application'
 questions:
-    theme: 'theme name (press <return> to stop adding themes)'
+    theme: 'theme name (press <ввод> to stop adding themes)'
     invalid-theme: 'Invalid theme %s'
 options:
     theme: 'theme or themes to be uninstalled should be separated by a comma'

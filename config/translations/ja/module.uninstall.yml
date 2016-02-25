@@ -1,8 +1,9 @@
-description: 'モジュールをアンインストール'
+description: モジュールをアンインストール
 options:
     module: 'アンインストールするモジュール (複数指定する場合はカンマで区切り)'
 messages:
     no-modules: 'モジュールは必ず指定してください。'
     dependents: 'モジュール %s は %s で利用されているためアンインストールできません。'
-    nothing: 'モジュールはすでにアンインストールされています。'
+    nothing: モジュールはすでにアンインストールされています。
     success: 'モジュール %s がアンインストールされました。'
+    missing: 'Unable to install modules %s due to missing modules %s'

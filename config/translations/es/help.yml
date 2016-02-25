@@ -1,0 +1,10 @@
+description: 'Muestra ayuda para un comando dado'
+help: "El comando <info>%command.name%</info> muestra la ayuda para un comando dado:\n\n<info>php %command.full_name% list</info>\n\nTambién puede mostrar la ayuda en otros formatos usando la opción <comment>--format</comment>:\n\n<info>php %command.full_name% --format=xml list</info>\n\nPara mostrar el listado de comandos disponibles, por favor, use el comando <info>list</info>.\n"
+arguments:
+    command_name: 'El nombre del comando'
+options:
+    xml: 'Mostrar el listado como XML'
+    raw: 'Mostrar el listado como datos en bruto'
+    format: 'El formato de salida (txt, xml, json, o md)'
+messages:
+    deprecated: 'La opción <comment>--xml</comment> ha sido deprecada en la versión 2.7 y será eliminada en la versión 3.0. Use la opción <comment>--format</comment> en su lugar'

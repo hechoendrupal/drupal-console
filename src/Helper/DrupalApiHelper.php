@@ -222,6 +222,11 @@ class DrupalApiHelper extends Helper
      */
     public function downloadProjectRelease($project, $release, $destination = null)
     {
+        if (!$release) {
+            $releases = $this->getProjectReleases($project, 1);
+            $release = current($releases);
+        }
+
         if (!$destination) {
             $destination = sprintf(
                 '%s/%s.tar.gz',

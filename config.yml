@@ -1,9 +1,4 @@
 application:
-  environment: prod
-  language: en
-  editor: vi
-  temp: /tmp
-  develop: false
   autowire:
     commands:
       forced:
@@ -20,13 +15,17 @@ application:
   languages:
       en: 'English'
       es: 'Español'
-      ca: 'Catalan'
+      ca: 'Català'
       fr: 'Français'
       hi: 'हिन्दी'
       hu: 'Magyar'
       ja: '日本語'
-      pt_br: 'Português (br)'
+      pt_br: 'Português'
       ro: 'Romanian'
       ru: 'pусский язык'
       vn: 'Tiếng Việt'
       zh_hans: '简体中文'
+      mr: 'मराठी'
+      pa: 'ਪੰਜਾਬੀ'
+      id: 'Bahasa Indonesia'
+      gu: 'ગુજરાત'

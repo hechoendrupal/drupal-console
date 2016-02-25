@@ -72,8 +72,10 @@ class CommandDiscoveryHelper extends Helper
      */
     public function getConsoleCommands()
     {
-        $sources = ['Console' => [
-            'path' => $this->applicationRoot]
+        $sources = [
+            'Console' => [
+                'path' => $this->applicationRoot
+            ]
         ];
 
         return $this->discoverCommands($sources);
@@ -97,7 +99,7 @@ class CommandDiscoveryHelper extends Helper
                 }
             }
         } elseif ($type === 'themes') {
-            $sources = $this->getSite()->getThemes(true, false, false);
+            $sources = $this->getSite()->getThemes(true, true, false, false);
         }
 
         return $this->discoverCommands($sources);

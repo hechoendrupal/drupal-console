@@ -1,6 +1,6 @@
-description: 'Felhasználók törlése az alkalmazásból'
+description: 'Felhasználók törlése'
 help: 'A <info>user:delete</info> paranccsal törölhetők felhasználók.'
-welcome: 'Üdvözlet a Drupal felhasználók törlése programban'
+welcome: 'Üdvözlet a Drupal felhasználótörlő programban'
 options:
     user-id: 'Törölni kívánt felhasználói azonosító'
     roles: 'A törölni kívánt felhasználókkal társított szerepkörök'
@@ -10,8 +10,8 @@ questions:
 messages:
     user-id: 'Felhasználói azonosító'
     username: Felhasználónév
-    user-deleted: '%s felhasználó törlése sikerült'
-    users-deleted: '%s felhasználók törlése sikerült'
+    user-deleted: '%s felhasználó törölve'
+    users-deleted: '%s felhasználók törölve'
 errors:
     invalid-user-id: '%s felhasználói azonosító érvénytelen'
     invalid-user: '%s felhasználói azonosító érvénytelen'

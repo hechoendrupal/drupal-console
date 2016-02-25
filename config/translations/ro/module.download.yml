@@ -1,5 +1,8 @@
 description: 'Descarcă modulul sau modulele pentru aplicație'
+arguments:
+    module: 'Module or modules to be enabled should be separated by a space'
 options:
+    latest: 'Default to download most recent version'
     version: 'Versiunea modulului (ex.: 1.x-dev)'
 messages:
     no-releases: 'Nu există nici o versiune pentru modulul %s'

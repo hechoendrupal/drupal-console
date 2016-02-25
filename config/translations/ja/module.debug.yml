@@ -1,4 +1,4 @@
-description: 'アプリケーションで利用可能なモジュールの一覧を表示'
+description: 利用可能なモジュールの一覧を表示
 options:
     status: 'モジュールのステータス [enabled|disabled]'
     type: 'モジュールのタイプ [core|no-core]'

@@ -1,6 +1,6 @@
 description: 'Egységteszt futtatása az alkalmazás számára elérhető tesztek közül'
 arguments:
-    test-class: 'Tesztosztály'
+    test-class: Tesztosztály
 messages:
     missing-dependency: 'A teszt hiányzó függőség miatt nem hajtható végre'
     phpunit-pending: 'A PHPUnit teszt végrehajtási logikája még nincs megvalósítva.'
@@ -8,7 +8,7 @@ messages:
     test-duration: 'Teszt időtartama'
     test-pass: 'Sikeres tesztek'
     test-fail: 'Meghiúsult tesztek'
-    test-exception: 'Tesztkivételek'
+    test-exception: Tesztkivételek
     test-debug: 'Teszt hibakeresése'
     url-required: 'A teszt futtatásához meg kell adni az URL-címet'
     test-summary: 'Teszt összegzése'
@@ -18,3 +18,4 @@ messages:
     method: Metódus
     line: Sor
     message: Üzenet
+    invalid-class: 'Testing class %s doesn''t exists'

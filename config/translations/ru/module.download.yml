@@ -1,11 +1,13 @@
-description: 'Download module or modules in application'
+description: 'Скачать модуль или модули в приложение'
+arguments:
+    module: 'Модуль или модули, которые будут включены должны быть разделены пробелом'
 options:
-    version: 'Module version i.e 1.x-dev'
+    latest: 'По умолчанию загружать самую последнюю версию'
 messages:
-    no-releases: 'There aren''t any releases for module %s'
-    getting-releases: 'Getting releases for module %s'
-    downloading: 'Downloading module %s release %s'
-    downloaded: 'Module %s version %s was downloaded successfully at %s'
-    select-release: 'Please select your favorite release'
-    outside-drupal: 'Drupal root can''t be determined. Use --root to set the destination, current folder will be used instead of.'
-    error-creating-folder: 'Error crearing folder %s, please check your permssions'
+    no-releases: 'Нет никаких релизов для модуля %s'
+    getting-releases: 'Получение релизов для модуля %s'
+    downloading: 'Загрузка модуля %s релиз %s'
+    downloaded: 'Модуль %s версии %s был загружен успешно в %s'
+    select-release: 'Пожалуйста, выберите желаемый релиз'
+    outside-drupal: "Drupal root не может быть определен. Используйте --root, чтобы установить пункт назначения, текущая папка будет использована в обратном случае"
+    error-creating-folder: 'Ошибка создания папки %s, пожалуйста, проверьте ваши права доступа'

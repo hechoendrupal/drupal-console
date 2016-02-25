@@ -1,6 +1,9 @@
-description: 'アプリケーションにモジュールをインストール'
+description: モジュールをインストール
+arguments:
+    module: 'モジュール名 (複数してする場合はスペース区切り)'
 options:
-  version: 'モジュールのバージョン (例: 1.x-dev)'
+    latest: 'Default to download most recent version'
+    version: 'モジュールのバージョン (例: 1.x-dev)'
 messages:
     no-releases: 'モジュール %s のバージョンが見つかりません'
     getting-releases: 'モジュール %s のバージョン一覧を取得中'

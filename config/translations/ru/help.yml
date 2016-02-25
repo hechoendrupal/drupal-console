@@ -1,0 +1,19 @@
+description: 'Показывает справку для команды'
+help: |
+        Команда <info>%command.name%</info> показывает справку для данной команды:
+
+        <info>php %command.full_name% list</info>
+
+        Вы также можете выводить справку в других форматах используя параметр <comment>--format</comment>:
+
+        <info>php %command.full_name% --format=xml list</info>
+
+        Для отображения списка доступных команд, пожалуйста, используйте команду <info>list</info>.
+arguments:
+    command_name: 'Имя команды'
+options:
+    xml: 'Для вывода списка в формате XML'
+    raw: 'Для вывода списка команд в исходном формате'
+    format: 'Формат вывода (txt, xml, json, или md)'
+messages:
+    deprecated: 'Параметр <comment>--xml</comment> устарел начиная с версии 2.7 и будет удален в версии 3.0. Используйте параметр <comment>--format</comment> взамен.'

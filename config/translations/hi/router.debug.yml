@@ -3,8 +3,8 @@ arguments:
     route-name: 'मार्ग के नाम'
 messages:
     name: 'मार्ग के नाम'
-    class: 'Class path'
-    route: Route
+    class: 'क्लास पाथ'
+    route: रूट
     path: 'क्लास का पथ'
     defaults: डिफ़ॉल्ट
     options: विकल्प

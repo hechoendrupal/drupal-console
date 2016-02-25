@@ -1,14 +1,16 @@
-description: 'Generate a new content entity'
+description: 'Új tartalom entitás létrehozása'
 help: ''
 options:
     module: common.options.module
-    entity-class: 'The content entity class'
-    entity-name: 'The content entity name'
-    label: 'The label'
-    has-bundles: 'Entity has bundles'
+    entity-class: 'A tartalom entitás osztály'
+    entity-name: 'A tartalom entitás neve'
+    label: 'A felirat'
+    has-bundles: 'Az entitás nem rendelkezik mezőcsoportokkal'
+    base-path: 'A tartalom entitás útvonalak alapútvonala'
 questions:
     module: common.questions.module
-    entity-class: 'Enter the class of your new content entity'
-    entity-name: 'Enter the name of your new content entity'
-    label: 'Enter the label of your new content entity'
-    has-bundles: 'Do you want this (content) entity to have bundles'
+    entity-class: 'Meg kell adni az új tartalom entitás osztályát'
+    entity-name: 'Meg kell adni az új tartalom entitás nevét'
+    label: 'Meg kell adni az új tartalom entitás feliratát'
+    has-bundles: 'Ez a tartalom entitás rendelkezzen mezőcsoportokkal?'
+    base-path: 'Meg kell adni a tartalom entitás útvonalak alapútvonalát'

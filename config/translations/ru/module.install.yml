@@ -1,10 +1,13 @@
 description: 'Install module or modules in the application'
-questions:
-    module: 'Module name (press <return> to stop adding modules)'
-    invalid-module: 'Invalid module %s'
+arguments:
+    module: 'Module or modules to be enabled should be separated by a space'
 options:
+    latest: 'Default to download most recent version'
     module: 'Module or modules to be enabled should be separated by a comma'
     overwrite-config: 'Overwrite configuration active if necessary'
+questions:
+    module: 'Module name (press <ввод> to stop adding modules)'
+    invalid-module: 'Invalid module %s'
 messages:
     no-modules: 'You must provide module or modules to enable.'
     missing: 'Unable to install module(s) %s due to missing module(s) %s'
@@ -21,3 +24,4 @@ messages:
     downloading: 'Downloading module %s release %s'
     downloaded: 'Module %s version %s was downloaded successfully at %s'
     no-releases: 'There aren''t any releases for module %s'
+    installing: 'Installing module(s) %s'

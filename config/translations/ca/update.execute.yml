@@ -1,8 +1,8 @@
-description: 'Execute a specific Update N function in a module, or execute all'
+description: 'Executar una funció Update N en un mòdul, o executar-les totes'
 options:
-    update-n: 'Specific Update N function to be executed'
+    update-n: 'Funció Update N a executar'
 messages:
-    no-module-updates: 'There aren\''t updates available for module %s'
-    executing-update: 'Executing update function %s of module %s'
-    module-update-function-not-found: 'Module %s doesn\''t have a function update for %s'
-    executing-required-previous-updates: 'Executing required previous updates'
+    no-module-updates: 'No han actualitzacions pendents per el mòdul %s'
+    executing-update: 'S''esta executant l''actualització %s del mòdul %s'
+    module-update-function-not-found: 'El mòdul %s no té cap funció d''actualització per %s'
+    executing-required-previous-updates: 'S''estan executant les actualitzacions requerides'

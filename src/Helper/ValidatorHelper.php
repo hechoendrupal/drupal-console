@@ -280,9 +280,9 @@ class ValidatorHelper extends Helper
      * @param $moduleList
      * @return array
      */
-    public function getInvalidModules($moduleList)
+    public function getMissingModules($moduleList)
     {
-        $modules = $this->getSite()->getModules(false, true, true, true, true, true);
+        $modules = $this->getSite()->getModules(true, true, true, true, true, true);
 
         return array_diff($moduleList, $modules);
     }
@@ -327,7 +327,7 @@ class ValidatorHelper extends Helper
      */
     public function getUninstalledModules($moduleList)
     {
-        $modules = $this->getSite()->getModules(false, true, false, true, true, true);
+        $modules = $this->getSite()->getModules(true, true, false, true, true, true);
 
         return array_diff($moduleList, $modules);
     }

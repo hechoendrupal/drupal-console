@@ -1,8 +1,8 @@
-description: 'Disable a rest resource for the application'
+description: 'Deshabilitar el recurs Rest per l''aplicació'
 arguments:
-    resource-id: 'Rest ID'
-    states: 'REST States to disable for Rest resource'
+    resource-id: 'Identificador Rest'
+    states: 'Estats REST a deshabilitar per el recurs'
 questions:
-    resource-id: 'Rest ID'
+    resource-id: 'Identificador Rest'
 messages:
-    invalid-rest-id: 'Rest ID %s is invalid'
+    invalid-rest-id: 'l''identificador Rest %s no és vàlid'

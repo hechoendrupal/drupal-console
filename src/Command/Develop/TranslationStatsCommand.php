@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Develop;
 
+use Drupal\Console\Command\TranslationTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,6 +19,7 @@ use Drupal\Console\Style\DrupalStyle;
 
 class TranslationStatsCommand extends Command
 {
+    use TranslationTrait;
     /**
      * {@inheritdoc}
      */
@@ -76,7 +78,8 @@ class TranslationStatsCommand extends Command
         if ($format == 'table') {
             $tableHeaders = [
                 $this->trans('commands.translation.stats.messages.language'),
-                $this->trans('commands.translation.stats.messages.percentage')
+                $this->trans('commands.translation.stats.messages.percentage'),
+                $this->trans('commands.translation.stats.messages.iso')
             ];
 
             $io->table($tableHeaders, $stats);
@@ -144,11 +147,25 @@ class TranslationStatsCommand extends Command
                 }
 
                 $diffStatistics = ['total' => 0, 'equal' => 0, 'diff' => 0];
-                $nestedArray->arrayDiff($englishFileParsed, $resourceTranslatedParsed, false, $diffStatistics);
+                $diff = $nestedArray->arrayDiff($englishFileParsed, $resourceTranslatedParsed, true, $diffStatistics);
+
+                $yamlKeys = 0;
+                if (!empty($diff)) {
+                    $diffFlatten = array();
+                    $keyFlatten = '';
+                    $nestedArray->yamlFlattenArray($diff, $diffFlatten, $keyFlatten);
+
+                    // Determine how many yaml keys were returned as values
+                    foreach ($diffFlatten as $yamlKey => $yamlValue) {
+                        if ($this->isYamlKey($yamlValue)) {
+                            $yamlKeys++;
+                        }
+                    }
+                }
 
                 $statistics[$langCode]['total'] += $diffStatistics['total'];
-                $statistics[$langCode]['equal'] += $diffStatistics['equal'];
-                $statistics[$langCode]['diff'] += $diffStatistics['diff'];
+                $statistics[$langCode]['equal'] += ($diffStatistics['equal'] - $yamlKeys);
+                $statistics[$langCode]['diff'] += $diffStatistics['diff'] + $yamlKeys;
             }
         }
 
@@ -157,7 +174,8 @@ class TranslationStatsCommand extends Command
             $index = isset($languages[$langCode])? $languages[$langCode]: $langCode;
             $stats[] = [
                 'name' => $index,
-                'percentage' => round($statistic['diff']/$statistic['total']*100, 2)
+                'percentage' => round($statistic['diff']/$statistic['total']*100, 2),
+                'iso' => $langCode
             ];
         }
 

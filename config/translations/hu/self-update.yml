@@ -1,15 +1,15 @@
-description: 'Console frissítése a legújabb verzióra.'
-help: 'Console parancs frissítése a legújabb elérhető verzióra.'
+description: 'Projekt frissítése a legújabb verzióra.'
+help: 'Projekt frissítése a legújabb verzióra.'
 options:
-    major: 'Update to a new major version, if available.'
-    manifest: 'Override the manifest file path.'
-    current-version: 'Override the version to update from.'
+    major: 'Frissítés új főverzióra, ha az elérhető.'
+    manifest: 'A jegyzékfájl útvonalának felülbírálása.'
+    current-version: 'A frissítendő verzió felülbírálása.'
 questions:
-    update: 'Update from version %s to version %s.'
+    update: 'Frissítés %s verzióról %s verzióra.'
 messages:
-    not-phar: 'This instance of the CLI was not installed as a Phar archive.'
-    update: 'Updating to version %s.'
-    success: 'A console frissítve lett a legújabb verzióra.'
-    check: 'Checking for updates from version: %s'
-    current-version: 'The latest version %s, was already installed on your system.'
-    instructions: "Update using: composer global update\nOr you can switch to a Phar install recommended\ncomposer global remove drupal/console\ncurl https://drupalconsole.com/installer -L -o drupal.phar\n"
+    not-phar: 'A parancssori felület példdányának telepítése nem Phar archívumként történt.'
+    update: 'Frissítés %s verzióra.'
+    success: 'Frissítve %s verzióról %s verzióra.'
+    check: 'Elérhető frissítések ellenőrzése a következő verzióról: %s'
+    current-version: 'A legfrissebb verzió (%s) már telepítve van a rendszeren.'
+    instructions: 'Frissíteni kell a "composer global update" segítségével\nEsetleg át lehet váltani egy javasolt Phar telepítésre\ncomposer global remove drupal/console\ncurl https://drupalconsole.com/installer -L -o drupal.phar'

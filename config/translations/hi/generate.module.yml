@@ -9,7 +9,7 @@ options:
     core: 'मूल संस्करण'
     feature: 'मोड्यूल को फीचर्स मोड्यूल के उपयुक्त बनाएं'
     package: 'मोड्यूल पैकेज'
-    module-file: 'Add a .module file'
+    module-file: 'एक .module फ़ाइल जोड़ें'
     composer: 'composer.json फाइल डालें'
     dependencies: 'मोड्यूल निर्भरता को अल्पविराम से विभाजित करें (अथवा context, panels)'
     test: 'एक परीक्षण क्लास बनाएं'
@@ -22,7 +22,7 @@ questions:
     core: 'Drupal मूल संस्करण दर्ज करें'
     package: 'पैकेज नाम दर्ज करें'
     feature: 'मोड्यूल को फीचर सा परिभाषित करें'
-    module-file: 'Do you want to generate a .module file'
+    module-file: 'आप एक .module फ़ाइल उत्पन्न करना चाहते हैं'
     composer: 'क्या आप अपने मोड्यूल में composer.json फाइल डालना चाहते हैं'
     dependencies: 'क्या आप मोड्यूल निर्भरता दर्ज करना चाहेंगे'
     test: 'क्या आप एक परीक्षण क्लास उत्पन्न करना चाहते हैं'
@@ -30,5 +30,5 @@ questions:
 warnings:
     module-unavailable: 'चेतावनी, निम्नलिखित मॉड्यूल पहले से ही अपने स्थानीय वातावरण में उपलब्ध नहीं हैं "%s"'
 errors:
-    invalid-core: 'The core version "%s" is invalid.'
+    invalid-core: 'कोर संस्करण "%s" अमान्य है।'
     directory-exists: 'लक्ष्य निर्देशिका "%s" खाली नहीं है।'

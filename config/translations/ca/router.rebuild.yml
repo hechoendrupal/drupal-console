@@ -1,6 +1,6 @@
-description: 'Rebuild routes for the application'
+description: 'Reconstruir rutes per l''aplicació'
 arguments:
-    route-name: 'Route names'
+    route-name: 'Nom de les rutes'
 messages:
-    rebuilding: 'Rebuilding routes, wait a moment please'
-    completed: 'Done rebuilding route(s).'
+    rebuilding: 'Reconstruint rutes, esperi'
+    completed: 'Reconstrucció de les rutes realitzades.'

@@ -22,7 +22,7 @@ Drupal Console
 [![Software License](https://img.shields.io/badge/license-GPL%202.0+-blue.svg)](https://packagist.org/packages/drupal/console)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
 
-The Drupal Console is a CLI tool to generate boilerplate code, interact and debug Drupal 8.
+The Drupal Console is a CLI tool to generate boilerplate code for, interact with, and debug Drupal 8.
 
 ## Change Log
 All notable changes to this project will be documented in the [releases page](https://github.com/hechoendrupal/DrupalConsole/releases) 
@@ -59,8 +59,8 @@ drupal list
 # Copy configuration files.
 drupal init --override
 
-# Generate a module.
-drupal generate:module
+# Update to the latest version.
+drupal self-update
 ```
 
 More information about using this project at the [official documentation](https://hechoendrupal.gitbooks.io/drupal-console/content/en/using/project.html).

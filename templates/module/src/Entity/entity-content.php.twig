@@ -56,6 +56,7 @@ use Drupal\user\UserInterface;
  *     "uuid" = "uuid",
  *     "uid" = "user_id",
  *     "langcode" = "langcode",
+ *     "status" = "status",
  *   },
 {% else %}
  *   entity_keys = {
@@ -64,14 +65,19 @@ use Drupal\user\UserInterface;
  *     "uuid" = "uuid",
  *     "uid" = "user_id",
  *     "langcode" = "langcode",
+ *     "status" = "status",
  *   },
 {% endif %}
  *   links = {
- *     "canonical" = "/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
- *     "add-form" = "/admin/structure/{{ entity_name }}/add",
- *     "edit-form" = "/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
- *     "delete-form" = "/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete",
- *     "collection" = "/admin/structure/{{ entity_name }}",
+ *     "canonical" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
+{% if bundle_entity_type %}
+ *     "add-form" = "{{ base_path }}/{{ entity_name }}/add/{{ '{'~bundle_entity_type~'}' }}",
+{% else %}
+ *     "add-form" = "{{ base_path }}/{{ entity_name }}/add",
+{% endif %}
+ *     "edit-form" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
+ *     "delete-form" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete",
+ *     "collection" = "{{ base_path }}/{{ entity_name }}",
  *   },
 {% if bundle_entity_type %}
  *   bundle_entity_type = "{{ bundle_entity_type }}",

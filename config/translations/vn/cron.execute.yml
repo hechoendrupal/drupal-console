@@ -2,3 +2,4 @@ description: 'Thi hành cron implementation từ một module chỉ định ho�
 messages:
     module-invalid: 'Module %s không cài đặt cron'
     executing-cron: 'Đang thực thi chức năng của module %s'
+    success: 'All cron implementations requested were executed successfully'

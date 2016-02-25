@@ -5,15 +5,15 @@ options:
     module: common.options.module
     controller-title: 'कंट्रोलर का शीर्षक'
     class: 'कमाण्ड क्लास का नाम'
-    name: 'The Command name.'
-    container-aware: 'Is the command aware of the drupal site installation when executed'
+    name: 'कमाण्ड का नाम।'
+    container-aware: 'Drupal साइट स्थापना के बारे में कमांड पता है जब एक्सेक्युट होगा?'
     command: 'कमाण्ड का नाम (यह "Command" से अंत होना चाहिए)'
     container: 'सर्विसेज़ कंटेनर तक पहुचेँ'
 questions:
     module: common.questions.module
     class: 'कमाण्ड क्लास का नाम दर्ज करें'
     name: 'कमाण्ड के नाम दर्ज करें।'
-    container-aware: 'Is the command aware of the drupal site installation when executed?.'
+    container-aware: 'Drupal साइट स्थापना के बारे में कमांड पता है जब एक्सेक्युट होगा?'
     command: 'कमाण्ड का नाम दर्ज करें'
     container: 'क्या आप को सर्विसेज़ कंटेनर तक पहुचने की आवश्यकता है'
 messages:

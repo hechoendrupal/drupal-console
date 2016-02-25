@@ -1,15 +1,18 @@
-description: 'モジュールをインストール'
+description: モジュールをインストール
+arguments:
+    module: 'Module or modules to be enabled should be separated by a space'
+options:
+    latest: 'Default to download most recent version'
+    module: 'モジュール名 (複数指定する場合はスペース区切り)'
+    overwrite-config: 'Overwrite configuration active if necessary'
 questions:
     module: 'モジュール名 (複数指定する場合はスペース区切り)'
     invalid-module: 'Invalid module %s'
-options:
-    module: 'モジュール名 (複数指定する場合はスペース区切り)'
-    overwrite-config: 'Overwrite configuration active if necessary'
 messages:
     no-modules: 'You must provide module or modules to enable.'
     missing: 'Unable to install module(s) %s due to missing module(s) %s'
     missing-dependencies: 'Unable to install modules %s due to missing dependencies %s'
-    nothing: 'モジュールはすでにインストールされています。'
+    nothing: モジュールはすでにインストールされています。
     dependencies: '依存している次のモジュールをインストールしますか？: %s?'
     success: 'モジュール %s がインストールされました。'
     disabled-modules: 'Only disabled modules will be listed in autocomplete'
@@ -21,3 +24,4 @@ messages:
     downloading: 'Downloading module %s release %s'
     downloaded: 'Module %s version %s was downloaded successfully at %s'
     no-releases: 'There aren''t any releases for module %s'
+    installing: 'Installing module(s) %s'

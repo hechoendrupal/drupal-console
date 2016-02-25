@@ -1,10 +1,13 @@
 description: 'Instaleaza Module'
+arguments:
+    module: 'Module or modules to be enabled should be separated by a space'
+options:
+    latest: 'Default to download most recent version'
+    module: 'Modulul/Modulele trebuie sa fie separate prin virgula'
+    overwrite-config: 'Suprascrie configurările active dacă este necesar.'
 questions:
     module: 'Numele modulului (apasaţi <return> pentru a nu maia dăuga module)'
     invalid-module: 'Modulul %s este invalid.'
-options:
-    module: 'Modulul/Modulele trebuie sa fie separate prin virgula'
-    overwrite-config: 'Suprascrie configurările active dacă este necesar.'
 messages:
     no-modules: 'Trebuie sa introduci nume de Modul/Module.'
     missing: 'Unable to install module(s) %s due to missing module(s) %s'
@@ -21,3 +24,4 @@ messages:
     downloading: 'Downloading module %s release %s'
     downloaded: 'Module %s version %s was downloaded successfully at %s'
     no-releases: 'There aren''t any releases for module %s'
+    installing: 'Installing module(s) %s'

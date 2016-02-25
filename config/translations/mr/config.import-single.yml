@@ -1,0 +1,6 @@
+description: 'निवडलेले संरचना आयात करा.'
+arguments:
+    config-name: 'संरचने नाव.'
+    input-file: 'फाइल्स आयात करण्याचे मार्ग.'
+messages:
+    empty-value: 'मूल्य रिक्त असू शकत नाही'

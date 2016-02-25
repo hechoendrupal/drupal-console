@@ -3,31 +3,14 @@ application:
   language: en
   editor: vim
   temp: /tmp
-  develop: false
+  develop: 'false'
   command: about
+  checked: 'false'
   remote:
     user: root
     port: 22
     console: /usr/local/bin/drupal
-    options: --ansi
-    arguments:
     keys:
       public: ~/.ssh/id_rsa.pub
       private: ~/.ssh/id_rsa
       passphrase: ~/.ssh/passphrase.txt
-  disable:
-    modules:
-#      - module_name
-#      - module_name
-  default:
-    global:
-      options:
-        # learning: true
-        # generate-inline: true
-        # generate-chain: true
-        # yes: true
-    commands:
-      generate:
-        controller:
-          options:
-#            module: module_name
