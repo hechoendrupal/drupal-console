@@ -1,4 +1,4 @@
-description: 'List available chain files.'
+description: 'チェーンファイルの一覧を表示'
 messages:
-    directory: Directory
+    directory: 'Directory'
     file: 'Chain file name.'
