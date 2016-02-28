@@ -1,0 +1,6 @@
+{{ module_name }}:
+{% for input in inputs %}
+{% if input.default_value is defined and input.default_value|length %}
+  {{ input.name }}: "{{ input.default_value }}"
+{% endif %}
+{% endfor %}
