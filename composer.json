@@ -51,7 +51,7 @@
         "symfony/yaml": "2.7.*",
         "twig/twig": "^1.23.1",
         "symfony/dom-crawler": "2.7.*",
-        "alchemy/zippy": "0.2.*@dev",
+        "alchemy/zippy": "~0.3.5",
         "phpseclib/phpseclib": "2.*",
         "stecman/symfony-console-completion": "^0.5.1",
         "guzzlehttp/guzzle": "~6.1",
