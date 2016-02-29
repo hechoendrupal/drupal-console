@@ -1,7 +1,7 @@
 {% extends "base/file.php.twig" %}
 
 {% block file_path %}
-{{ entity_name }}.page.inc.{% endblock %}
+{{ entity_name }}.page.inc{% endblock %}
 {% block extra_info %}
  *
  * Page callback for {{ label }} entities.
@@ -9,8 +9,6 @@
 
 {% block use_class %}
 use Drupal\Core\Render\Element;
-use Drupal\Core\Link;
-use Drupal\Core\Url;
 {% endblock %}
 
 {% block file_methods %}
