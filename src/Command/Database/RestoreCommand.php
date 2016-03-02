@@ -62,8 +62,8 @@ class RestoreCommand extends ContainerAwareCommand
             );
             return;
         }
-
-        $command = sprintf(
+        if($databaseConnection['driver'] == 'mysql'){
+          $command = sprintf(
             'mysql --user=%s --password=%s --host=%s --port=%s %s < %s',
             $databaseConnection['username'],
             $databaseConnection['password'],
@@ -71,7 +71,18 @@ class RestoreCommand extends ContainerAwareCommand
             $databaseConnection['port'],
             $databaseConnection['database'],
             $file
-        );
+          );
+        } elseif($databaseConnection['driver'] == 'pgsql'){
+          $command = sprintf(
+            'PGPASSWORD="%s" psql -w -U %s -h %s -p %s -d %s -f %s',
+            $databaseConnection['password'],
+            $databaseConnection['username'],
+            $databaseConnection['host'],
+            $databaseConnection['port'],
+            $databaseConnection['database'],
+            $file
+          );
+        }
 
         if ($learning) {
             $io->commentBlock($command);
