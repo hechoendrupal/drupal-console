@@ -71,7 +71,7 @@ class DebugCommand extends ContainerAwareCommand
 
         $resource = $plugin->getPluginDefinition();
 
-        $configuration = array();
+        $configuration = [];
         $configuration[] = [$this->trans('commands.rest.debug.messages.id'), $resource['id']];
         $configuration[] = [$this->trans('commands.rest.debug.messages.label'), (string) $resource['label']];
         $configuration[] = [$this->trans('commands.rest.debug.messages.canonical_url'), $resource['uri_paths']['canonical']];
@@ -79,10 +79,9 @@ class DebugCommand extends ContainerAwareCommand
         $configuration[] = [$this->trans('commands.rest.debug.messages.provider', $resource['provider'])];
 
         $io->comment($resource_id);
+        $io->newLine();
 
-        $io->table([], $configuration);
-
-
+        $io->table([], $configuration, 'compact');
 
         $tableHeader = [
           $this->trans('commands.rest.debug.messages.rest-state'),
@@ -99,7 +98,7 @@ class DebugCommand extends ContainerAwareCommand
               ];
         }
 
-        $io->table($tableHeader, $tableRows, 'compact');
+        $io->table($tableHeader, $tableRows);
     }
 
     protected function restList(DrupalStyle $io, $status)

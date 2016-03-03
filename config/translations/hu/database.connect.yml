@@ -1,8 +1,8 @@
-description: 'Launch a DB client if it''s available'
+description: "Megjeleníti az adatbázis-kapcsolatot"
 arguments:
-    database: 'Database key from settings.php'
+  database: "Adatbáziskulcs a settings.php fájlból"
 messages:
-    database-not-found: 'Database %s connection info wasn''t found'
-    database-not-supported: 'Database type %s is not supported yet'
-    database-client-not-found: 'Database client %s wans''t found'
-    connection: 'Connection: %s'
+    database-not-found: "Nem találhatók %s adatbázis kapcsolatinformációi"
+    database-not-supported: 'Még nem támogatott adatbázistípus: %s'
+    database-client-not-found: "Nem található az adatbázisügyfél:  %s"
+    connection: "Kapcsolat: %s"

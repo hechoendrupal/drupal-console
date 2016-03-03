@@ -1,21 +1,22 @@
 description: 'Új "%s" létrehozása'
-help: 'A <info>"%s"</info> parancs új "%s" létrehozásában segít'
-welcome: 'Üdvözlet a Drupal Form létrehozásában'
+help: 'A <info>"%s"</info> parancs új "%s" létrehozását segíti'
+welcome: 'Üdvözlet a Drupal űrlap előállítóban'
 options:
     module: common.options.module
-    class: 'A Form Class neve'
-    form-id: 'A Form ID'
+    class: 'Az űrlap osztályának neve'
+    form-id: 'Az űrlap-azonosító'
     services: common.options.services
     inputs: common.options.inputs
-    routing: 'Routing frissítése'
+    routing: 'Útvonal frissítése'
+
 questions:
     module: common.questions.module
-    class: 'Form Class nevének megadása'
-    form-id: 'Form ID megadása'
+    class: 'Meg kell adni az űrlap osztályának nevét'
+    form-id: 'Meg kell adni az űrlap-azonosítót'
     services: common.questions.services
     inputs: common.questions.inputs
-    routing: 'Routing fájl frissítése'
-    menu_link_gen: 'Generate a menu link'
-    menu_link_title: 'A title for the menu link'
-    menu_parent: 'Menu parent'
-    menu_link_desc: 'A description for the menu link'
+    routing: 'Útvonalfájl frissítése'
+    menu_link_gen: 'Menühivatkozás létrehozása'
+    menu_link_title: 'A menühivatkozás címe'
+    menu_parent: 'Szülő a menüben'
+    menu_link_desc: 'A menühivatkozás leírása'

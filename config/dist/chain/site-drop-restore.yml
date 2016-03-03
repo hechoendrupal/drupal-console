@@ -1,6 +1,6 @@
 commands:
 # Drop database
-  - command: database:table:drop
+  - command: database:drop
     arguments:
       database: default
 # Restore Database

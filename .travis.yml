@@ -19,6 +19,7 @@ env:
     - PROJECT_DIR=/home/project
 
 before_script:
+  - phpenv config-rm xdebug.ini
   # This fixes a fail when install Drupal.
   - echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer self-update
@@ -30,7 +31,8 @@ script:
   - if [ -n "${TRAVIS_BUILD_DIR+1}" ]; then PROJECT_DIR=$TRAVIS_BUILD_DIR; fi
   - phpunit
   - php box.phar build
-  - php drupal.phar --version
+  - php drupal.phar init
+  - php drupal.phar check
   - php drupal.phar site:new drupal8.dev 8.0.3 --no-interaction
   - cd drupal8.dev
   - php ../drupal.phar site:install standard --langcode=en --db-type=sqlite --db-file=sites/default/files/.ht.sqlite --site-name="Drupal 8 Site Install" --site-mail=admin@example.com --account-name=admin --account-mail=admin@example.com --account-pass=admin --no-interaction
