@@ -1,4 +1,4 @@
-description: 'Mostrar la migració actual disponible per l''aplicació'
+description: 'Mostrar les migracions disponibles per l''aplicació'
 arguments:
     tag: 'Etiqueta de la migració'
 messages:

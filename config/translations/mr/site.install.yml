@@ -22,4 +22,4 @@ messages:
     installing: 'Starting Drupal 8 install process'
     installed: 'Your Drupal 8 installation was completed successfully'
     using-current-database: 'Using %s database with name %s and user %s'
-    already-installed: 'Drupal is already installed, try dropping your database using database:table:drop and then run site:install again'
+    already-installed: 'Drupal is already installed, try dropping your database using database:drop and then run site:install again'

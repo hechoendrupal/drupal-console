@@ -1,12 +1,10 @@
-description: 'Export a specific content type and their fields.'
+description: 'Adott tartalomtípus és mezőinek exportálása.'
 arguments:
-    content-type: 'Content Type to be exported'
-    content_type: 'Content Type to be exported'
+    content-type: 'Az exportálni kívánt tartalomtípus'
 questions:
-    content-type: 'Content Type to be exported'
-    optional-config: 'Export content type in module as an optional configuration'
-    content_type: 'Content Type to be exported'
+    content-type: 'Az exportálni kívánt tartalomtípus'
+    optional-config: 'Tartalomtípus exportálása modulba nem kötelező konfigurációként'
 messages:
-    content_type_exported: 'Exporting content type'
+    content_type_exported: 'Tartalomtípus exportálása'
 options:
-    optional-config: 'Export content type as an optional YAML configuration in your module'
+    optional-config: 'Tartalomtípus exportálása a modulba nem kötelező YAML-konfigurációként'

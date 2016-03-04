@@ -5,6 +5,7 @@ application:
   temp: /tmp
   develop: 'false'
   command: about
+  checked: 'false'
   remote:
     user: root
     port: 22

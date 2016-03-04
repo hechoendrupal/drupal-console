@@ -1,5 +1,5 @@
-description: 'Show the current configuration.'
+description: 'चालू संरचना दाखवा.'
 arguments:
-    config-name: 'Configuration name.'
+    config-name: 'संरचने नाव.'
 errors:
-    config-not-exists: 'The configuration "%s" does not exists.'
+    config-not-exists: 'संरचना "%s" अस्तित्वात नाही.'

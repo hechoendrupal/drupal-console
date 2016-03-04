@@ -66,6 +66,10 @@ class CallCommandListener implements EventSubscriberInterface
                 $drupal->isValidRoot(getcwd());
                 $application->prepare($drupal);
             }
+
+            if ($chainedCommand['name'] === 'settings:set') {
+                $application->prepare($drupal);
+            }
         }
     }
 

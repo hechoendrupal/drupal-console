@@ -1,14 +1,14 @@
-description: 'Create dummy vocabularies for your Drupal 8 application.'
-help: 'The <info>create:vocabularies</info> command helps you create dummy vocabularies.'
-welcome: 'Welcome to the Drupal vocabularies creator'
+description: 'Tesztszótárak létrehozása egy Drupal 8 alkalmazáshoz.'
+help: 'A <info>create:vocabularies</info> parancs tesztszótárak létrehozását segíti.'
+welcome: 'Üdvözlet a Drupal szótár előállítóban'
 options:
-    limit: 'How many vocabularies would you like to create'
-    name-words: 'Maximum number of words in vocabulary names'
+    limit: 'Hány szótár jöjjön létre?'
+    name-words: 'A szótárak nevében használt szavak maximális száma'
 questions:
-    limit: 'Enter how many vocabularies would you like to create'
-    name-words: 'Enter the maximum number of words in vocabulary names'
+    limit: 'Meg kell adni, hány szótár jöjjön létre'
+    name-words: 'Meg kell adni a szótárak neveiben használt szavak maximális számát'
 messages:
-    vocabulary-id: 'Vocabulary Id'
-    name: Name
-    created-terms: 'Created %s vocabularies successfully'
-    error: 'Error creating vocabularies: %s'
+    vocabulary-id: 'Szótár azonosítója'
+    name: 'Név'
+    created-terms: '%s szótár sikeresen létrejött'
+    error: 'Hiba történt a szótárak létrehozásakor: %s'

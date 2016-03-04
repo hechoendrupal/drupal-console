@@ -1,0 +1,15 @@
+description: 'Generate service'
+help: 'The <info>generate:service</info> command helps you generate a new service.'
+welcome: 'Welcome to the Drupal service generator'
+options:
+    module: common.options.module
+    service-name: 'Service name'
+    class: 'Class name'
+    interface: Interface
+    services: common.questions.services
+questions:
+    module: common.questions.module
+    service-name: 'Enter the service name'
+    class: 'Enter the Class name'
+    interface: 'Create an interface'
+    services: common.options.services

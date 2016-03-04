@@ -9,6 +9,6 @@ questions:
     config-name: 'Nom de la configuració'
 messages:
     config-not-found: 'No s''ha trobat el nom de la configuració.'
-    export: 'La configuració ha sigut exportada al fitxer %s'
+    export: 'S''ha exportat la configuració al fitxer %s'
     invalid-config-type: 'El tipus de configuració no és vàlid, seleccioneu un de la llista'
     invalid-config-name: 'El nom de la configuració no és válid, seleccioneu un de la llista'

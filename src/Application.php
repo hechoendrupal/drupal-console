@@ -26,10 +26,12 @@ class Application extends BaseApplication
      * @var string
      */
     const NAME = 'Drupal Console';
+
     /**
      * @var string
      */
-    const VERSION = '0.10.9';
+    const VERSION = '0.10.12';
+
     /**
      * @var string
      */
@@ -39,11 +41,13 @@ class Application extends BaseApplication
      * @var string
      */
     protected $directoryRoot;
+
     /**
      * @var string
      * The Drupal environment.
      */
     protected $env;
+
     /**
      * @var \Drupal\Console\Helper\TranslatorHelper
      */
@@ -71,34 +75,34 @@ class Application extends BaseApplication
 
         $this->env = $this->getConfig()->get('application.environment');
         $this->getDefinition()->addOption(
-            new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.env'), $this->env)
+            new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, $this->trans('application.options.env'), $this->env)
         );
         $this->getDefinition()->addOption(
-            new InputOption('--root', null, InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.root'))
+            new InputOption('--root', null, InputOption::VALUE_OPTIONAL, $this->trans('application.options.root'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--no-debug', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.no-debug'))
+            new InputOption('--no-debug', null, InputOption::VALUE_NONE, $this->trans('application.options.no-debug'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--learning', null, InputOption::VALUE_NONE, $this->trans('application.console.arguments.learning'))
+            new InputOption('--learning', null, InputOption::VALUE_NONE, $this->trans('application.options.learning'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--generate-chain', '-c', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-chain'))
+            new InputOption('--generate-chain', '-c', InputOption::VALUE_NONE, $this->trans('application.options.generate-chain'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--generate-inline', '-i', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-inline'))
+            new InputOption('--generate-inline', '-i', InputOption::VALUE_NONE, $this->trans('application.options.generate-inline'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--generate-doc', '-d', InputOption::VALUE_NONE, $this->trans('application.console.arguments.generate-doc'))
+            new InputOption('--generate-doc', '-d', InputOption::VALUE_NONE, $this->trans('application.options.generate-doc'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--target', '-t', InputOption::VALUE_OPTIONAL, $this->trans('application.console.arguments.target'))
+            new InputOption('--target', '-t', InputOption::VALUE_OPTIONAL, $this->trans('application.options.target'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--uri', '-l', InputOption::VALUE_REQUIRED, $this->trans('application.console.arguments.uri'))
+            new InputOption('--uri', '-l', InputOption::VALUE_REQUIRED, $this->trans('application.options.uri'))
         );
         $this->getDefinition()->addOption(
-            new InputOption('--yes', '-y', InputOption::VALUE_NONE, $this->trans('application.console.arguments.yes'))
+            new InputOption('--yes', '-y', InputOption::VALUE_NONE, $this->trans('application.options.yes'))
         );
 
         $options = $this->getConfig()->get('application.default.global.options')?:[];
@@ -125,14 +129,14 @@ class Application extends BaseApplication
     {
         return new InputDefinition(
             [
-                new InputArgument('command', InputArgument::REQUIRED, $this->trans('application.console.input.definition.command')),
-                new InputOption('--help', '-h', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.help')),
-                new InputOption('--quiet', '-q', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.quiet')),
-                new InputOption('--verbose', '-v|vv|vvv', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.verbose')),
-                new InputOption('--version', '-V', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.version')),
-                new InputOption('--ansi', '', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.ansi')),
-                new InputOption('--no-ansi', '', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.no-ansi')),
-                new InputOption('--no-interaction', '-n', InputOption::VALUE_NONE, $this->trans('application.console.input.definition.no-interaction')),
+                new InputArgument('command', InputArgument::REQUIRED, $this->trans('application.arguments.command')),
+                new InputOption('--help', '-h', InputOption::VALUE_NONE, $this->trans('application.options.help')),
+                new InputOption('--quiet', '-q', InputOption::VALUE_NONE, $this->trans('application.options.quiet')),
+                new InputOption('--verbose', '-v|vv|vvv', InputOption::VALUE_NONE, $this->trans('application.options.verbose')),
+                new InputOption('--version', '-V', InputOption::VALUE_NONE, $this->trans('application.options.version')),
+                new InputOption('--ansi', '', InputOption::VALUE_NONE, $this->trans('application.options.ansi')),
+                new InputOption('--no-ansi', '', InputOption::VALUE_NONE, $this->trans('application.options.no-ansi')),
+                new InputOption('--no-interaction', '-n', InputOption::VALUE_NONE, $this->trans('application.options.no-interaction')),
             ]
         );
     }
@@ -147,12 +151,11 @@ class Application extends BaseApplication
     public function getLongVersion()
     {
         if ('UNKNOWN' !== $this->getName() && 'UNKNOWN' !== $this->getVersion()) {
-            return sprintf($this->trans('application.console.options.version'), $this->getName(), $this->getVersion());
+            return sprintf($this->trans('application.messages.version'), $this->getName(), $this->getVersion());
         }
 
         return '<info>Drupal Console</info>';
     }
-
     /**
      * {@inheritdoc}
      */
@@ -160,16 +163,13 @@ class Application extends BaseApplication
     {
         $output = new DrupalStyle($input, $output);
 
-        $requirementChecker = $this->getContainerHelper()->get('requirement_checker');
-        $checks = $requirementChecker->validate();
-
         $root = null;
+        $commandName = null;
+        $recursive = false;
         $config = $this->getConfig();
         $target = $input->getParameterOption(['--target'], null);
-        $commandName = null;
 
-        if ($input) {
-            $commandName = $this->getCommandName($input);
+        if ($input && $commandName = $this->getCommandName($input)) {
             $this->commandName = $commandName;
         }
 
@@ -191,8 +191,8 @@ class Application extends BaseApplication
             return 0;
         }
 
-        if (!$target) {
-            $root = $input->getParameterOption(['--root'], null);
+        if (!$target && $input->hasParameterOption(['--root'])) {
+            $root = $input->getParameterOption(['--root']);
             $root = (strpos($root, '/')===0)?$root:sprintf('%s/%s', getcwd(), $root);
         }
 
@@ -213,7 +213,6 @@ class Application extends BaseApplication
 
         $drupal = $this->getDrupalHelper();
         $this->getCommandDiscoveryHelper()->setApplicationRoot($this->getDirectoryRoot());
-        $recursive = false;
 
         if (!$root) {
             $root = getcwd();
@@ -222,7 +221,7 @@ class Application extends BaseApplication
 
         if (!$drupal->isValidRoot($root, $recursive)) {
             $commands = $this->getCommandDiscoveryHelper()->getConsoleCommands();
-            if (!$commandName) {
+            if ($commandName == 'list') {
                 $this->errorMessage = $this->trans('application.site.errors.directory');
             }
             $this->registerCommands($commands);
@@ -231,7 +230,7 @@ class Application extends BaseApplication
             $this->getKernelHelper()->setDebug($debug);
             $this->getKernelHelper()->setEnvironment($this->env);
 
-            $this->prepare($drupal);
+            $this->prepare($drupal, $commandName);
         }
 
         if ($commandName && $this->has($commandName)) {
@@ -249,6 +248,37 @@ class Application extends BaseApplication
             }
         }
 
+        $skipCheck = [
+          'check',
+          'settings:check',
+          'init',
+          'settings:check'
+        ];
+        if (!in_array($commandName, $skipCheck) && $config->get('application.checked') != 'true') {
+            $requirementChecker = $this->getContainerHelper()->get('requirement_checker');
+            $phpCheckFile = $this->getConfig()->getUserHomeDir().'/.console/phpcheck.yml';
+            if (!file_exists($phpCheckFile)) {
+                $phpCheckFile = $this->getDirectoryRoot().'config/dist/phpcheck.yml';
+            }
+            $requirementChecker->validate($phpCheckFile);
+            if (!$requirementChecker->isValid()) {
+                $command = $this->find('settings:check');
+                return $this->doRunCommand($command, $input, $output);
+            }
+            if ($requirementChecker->isOverwritten()) {
+                $this->getChain()->addCommand('settings:check');
+            } else {
+                $this->getChain()->addCommand(
+                    'settings:set',
+                    [
+                        'setting-name' => 'checked',
+                        'setting-value' => 'true',
+                        '--quiet'
+                    ]
+                );
+            }
+        }
+
         return parent::doRun($input, $output);
     }
 
@@ -256,13 +286,13 @@ class Application extends BaseApplication
      * Prepare drupal.
      *
      * @param DrupalHelper $drupal
+     * @param string       $commandName
      */
-    public function prepare(DrupalHelper $drupal)
+    public function prepare(DrupalHelper $drupal, $commandName = null)
     {
-        chdir($drupal->getRoot());
-        $this->getSite()->setSiteRoot($drupal->getRoot());
-
         if ($drupal->isValidInstance()) {
+            chdir($drupal->getRoot());
+            $this->getSite()->setSiteRoot($drupal->getRoot());
             $this->bootDrupal($drupal);
         }
 
@@ -272,7 +302,11 @@ class Application extends BaseApplication
             $commands = $this->getCommandDiscoveryHelper()->getCommands();
         } else {
             $commands = $this->getCommandDiscoveryHelper()->getConsoleCommands();
-            $this->errorMessage = $this->trans('application.site.errors.settings');
+            if ($commandName == 'list') {
+                $this->errorMessage = $this->trans(
+                    'application.site.errors.settings'
+                );
+            }
         }
 
         $this->registerCommands($commands);

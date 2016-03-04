@@ -1,5 +1,5 @@
-description: "Launch a DB client if it's available"
+description: "DB पक्षकार उपलब्ध असेल तर सुर्वाथ करा"
 arguments:
-  database: "Database key from settings.php"
+  database: "settings.php मधून डेटाबेसची चावी"
 messages:
-    connection: "Connection: %s"
+    connection: "संधान: %s"
