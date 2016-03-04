@@ -1,11 +1,8 @@
-description: 'Konfiguráció importálása az aktuális aplikációba.'
+description: 'Konfiguráció importálása az aktuális alkalmazásba.'
 arguments:
-    file: 'Configuration file path.'
-    directory: 'Path to a directory of configuration to import.'
-    remove-files: 'Remove files after syncronization.'
-    config-file: 'Konfigurációs fájl útvonala.'
-    copy-only: 'Csak a konfigurációs fájlok mentése az átmeneti könyvtárba.'
+    file: 'Az importálni kívánt archívumfájl útvonala.'
+    directory: 'Az importálni kívánt konfiguráció könyvtárának útvonala.'
+    remove-files: 'Fájlok eltávolítása a szinkronizáció után.'
 messages:
     config_files_imported: 'Konfigurációs fájlok listája.'
-    imported: 'Az összes konfigurációs fájl át lett másolva és importálva lett az átmeneti könyvtárba.'
-    copied: 'Az összes konfigurációs fájl át lett másolva az átmeneti könyvtárba.'
+    imported: 'A konfiguráció importálása sikeres volt.'

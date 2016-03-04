@@ -1,4 +1,3 @@
-
 options:
     events: 'Carregar esdeveniments des del contenidor'
     module: 'Nom del mòdul.'
@@ -31,13 +30,13 @@ questions:
         fieldset: 'Conjunt de camps (fieldset)'
 errors:
     module-dependency: 'Falta la dependència del mòdul "%s"'
-    class-name-empty: 'El nom de la clase no pot estar buida'
+    class-name-empty: 'El nom de la clase no pot estar buit'
     invalid-file-path: 'Has de proporcionar una ruta de fitxer vàlida'
 status:
     enabled: Habilitat
     disabled: Deshabilitat
 messages:
-    canceled: 'La generació ha sigut cancel·lada'
+    canceled: 'S''ha cancel·lat la generació'
     drupal-core: 'Drupal Core'
     move-phar: 'Accedir a la consola des de qualsevol lloc en el teu sistema'
     quick-start: 'Descarregar, instal·lar i servir Drupal 8'

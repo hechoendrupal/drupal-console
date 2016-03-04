@@ -7,5 +7,9 @@ services:
     arguments: ["@parser"]
   requirement_checker:
     class:  Drupal\Console\Utils\RequirementChecker
-    arguments: ["@config"]
+    arguments: ["@parser"]
     lazy:   true
+  redbean:
+    class:  RedBeanPHP\R
+    lazy:   true
+

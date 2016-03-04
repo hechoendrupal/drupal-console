@@ -1,8 +1,8 @@
-description: 'Edit the selected configuration.'
+description: 'निवडलेले संरचना संपादित करा.'
 arguments:
-    config-name: 'Configuration name.'
-    editor: Editor.
+    config-name: 'संरचने नाव.'
+    editor: संपादक.
 questions:
-    config-name: 'Choose a configuration unit'
+    config-name: 'संरचना माप निवडा.'
 messages:
-    no-directory: 'An error occurred while creating your directory at'
+    no-directory: 'आपल्या डिरेक्ट्री निर्माण करताना त्रुटी आली.'

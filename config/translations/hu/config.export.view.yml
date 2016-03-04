@@ -1,13 +1,13 @@
-description: 'Export a view in YAML format inside a provided module to reuse in other website.'
+description: 'Nézet exportálása YAML-formátumban egy megadott modulba, hogy újra lehessen használni más weboldalon.'
 messages:
-    view_exported: 'Exporting view'
-    depencies-included: 'The following module dependencies were included at %s'
+    view_exported: 'Nézet exportálása'
+    depencies-included: 'A következő modulfüggőségek állnak fenn: %s'
 questions:
-    view: 'View to be exported'
-    optional-config: 'Export view in module as an optional configuration'
-    include-module-dependencies: 'Include view module dependencies in module info YAML file'
+    view: 'Exportálni kívánt nézet'
+    optional-config: 'Nézet exportálása modulba nem kötelező konfigurációként'
+    include-module-dependencies: 'Nézet modulfüggőségeinek tartalmazása a modul info.yml fájljában'
 arguments:
-    view-id: 'View ID'
+    view-id: 'Nézet azonosítója'
 options:
-    optional-config: 'Export view as an optional YAML configuration in your module'
-    include-module-dependencies: 'Include module dependencies in module info YAML file'
+    optional-config: 'Nézet exportálása a modulba nem kötelező YAML-konfigurációként'
+    include-module-dependencies: 'Modulfüggőségeinek tartalmazása a modul info.yml fájljában'

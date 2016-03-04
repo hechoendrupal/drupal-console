@@ -1,19 +1,19 @@
-description: 'Display current log events for the application'
+description: 'Az alkalmazás aktuális naplóeseményeinek megjelenítése'
 arguments:
-    event-id: 'DBLog event ID'
+    event-id: 'DBLog eseményazonosító'
 options:
-    type: 'Filter events by a specific type'
-    severity: 'Filter events by a specific level of severity'
-    user-id: 'Filter events by a specific user id'
-    reverse: 'Reverse the order of events'
-    limit: 'Limit results to a specific number'
-    offset: 'Starting point of a limit'
+    type: 'Események szűrése típus alapján'
+    severity: 'Események szűrése súlyossági szintjük alapján'
+    user-id: 'Események szűrése felhasználói azonosító alapján'
+    reverse: 'Események sorrendjének megfordítása'
+    limit: 'Egy adott számra korlátozza a találatok számát'
+    offset: 'Egy korlát kezdőpontja'
 messages:
-    event-id: 'Event ID'
-    type: Type
-    date: Date
-    message: Message
-    user: User
-    severity: Severity
-    invalid-severity: 'Severity type is invalid, filter was ignored'
-    not-found: 'DBLog event %s wasn''t found'
+    event-id: Eseményazonosító
+    type: Típus
+    date: Dátum
+    message: Üzenet
+    user: Felhasználó
+    severity: Súlyosság
+    invalid-severity: 'A súlyosság típusa érvénytelen, a szűrő figyelmen kívül maradt'
+    not-found: 'Nem található a DBLog esemény: %s'

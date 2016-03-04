@@ -1,8 +1,8 @@
-description: 'Kiválasztott beállítások szerkesztése.'
+description: 'Szerkeszteni kell a kiválasztott konfigurációt.'
 arguments:
-    config-name: 'Beállítás neve.'
-    editor: 'Szerkesztő program.'
+    config-name: 'A konfiguráció neve.'
+    editor: Szerkesztő.
 questions:
-    config-name: 'Choose a configuration unit'
+    config-name: 'Ki kell választani egy konfigurációs egységet'
 messages:
-    no-directory: 'A következő könyvtár létrehozása közben hiba lépett fel:'
+    no-directory: 'Hiba történt a könyvtár létrehozásakor a következő helyen:'

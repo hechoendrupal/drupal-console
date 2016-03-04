@@ -1,0 +1,7 @@
+description: 'Chain command execution'
+options:
+    file: 'User defined file containing commands to get executed.'
+messages:
+    missing_file: 'You must provide a valid file path and name.'
+    invalid_file: 'The file "%s" does not exists.'
+    module_install: 'module:install command is not runnable inside a chain queue and must be run independently.'
