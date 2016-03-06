@@ -1,0 +1,15 @@
+services:
+  parser:
+    class: Symfony\Component\Yaml\Parser
+    lazy:   true
+  config:
+    class:  Drupal\Console\Config
+    arguments: ["@parser"]
+  requirement_checker:
+    class:  Drupal\Console\Utils\RequirementChecker
+    arguments: ["@parser"]
+    lazy:   true
+  redbean:
+    class:  RedBeanPHP\R
+    lazy:   true
+

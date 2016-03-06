@@ -1,0 +1,96 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\{{ entity_class }}Interface.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}};
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityChangedInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\user\EntityOwnerInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides an interface for defining {{ label }} entities.
+ *
+ * @ingroup {{module}}
+ */
+interface {{ entity_class }}Interface extends ContentEntityInterface, EntityChangedInterface, EntityOwnerInterface {% endblock %}
+{% block class_methods %}
+  // Add get/set methods for your configuration properties here.
+
+{% if bundle_entity_type %}
+  /**
+   * Gets the {{ label }} type.
+   *
+   * @return string
+   *   The {{ label }} type.
+   */
+  public function getType();
+
+{% endif %}
+  /**
+   * Gets the {{ label }} name.
+   *
+   * @return string
+   *   Name of the {{ label }}.
+   */
+  public function getName();
+
+  /**
+   * Sets the {{ label }} name.
+   *
+   * @param string $name
+   *   The {{ label }} name.
+   *
+   * @return \Drupal\{{ module }}\{{ entity_class }}Interface
+   *   The called {{ label }} entity.
+   */
+  public function setName($name);
+
+  /**
+   * Gets the {{ label }} creation timestamp.
+   *
+   * @return int
+   *   Creation timestamp of the {{ label }}.
+   */
+  public function getCreatedTime();
+
+  /**
+   * Sets the {{ label }} creation timestamp.
+   *
+   * @param int $timestamp
+   *   The {{ label }} creation timestamp.
+   *
+   * @return \Drupal\{{ module }}\{{ entity_class }}Interface
+   *   The called {{ label }} entity.
+   */
+  public function setCreatedTime($timestamp);
+
+  /**
+   * Returns the {{ label }} published status indicator.
+   *
+   * Unpublished {{ label }} are only visible to restricted users.
+   *
+   * @return bool
+   *   TRUE if the {{ label }} is published.
+   */
+  public function isPublished();
+
+  /**
+   * Sets the published status of a {{ label }}.
+   *
+   * @param bool $published
+   *   TRUE to set this {{ label }} to published, FALSE to set it to unpublished.
+   *
+   * @return \Drupal\{{ module }}\{{ entity_class }}Interface
+   *   The called {{ label }} entity.
+   */
+  public function setPublished($published);
+{% endblock %}

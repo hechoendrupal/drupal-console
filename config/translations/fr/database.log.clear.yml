@@ -1,0 +1,5 @@
+description: 'Vide la table DBLog contenant les événements, avec possibilité de fitrer'
+messages:
+    event-deleted: 'L''événement %s a été supprimé'
+    clear-error: 'Processus de vidage échoué, veuillez vérifier les filtres utilisés'
+    clear-sucess: 'Vidage de la table des événements réussie'

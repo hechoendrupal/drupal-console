@@ -1,0 +1,36 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{ module }}\Entity\{{ entity_class }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }}\Entity;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\views\EntityViewsData;
+use Drupal\views\EntityViewsDataInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides Views data for {{ label }} entities.
+ */
+class {{ entity_class }}ViewsData extends EntityViewsData implements EntityViewsDataInterface {% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public function getViewsData() {
+    $data = parent::getViewsData();
+
+    $data['{{ entity_name }}']['table']['base'] = array(
+      'field' => 'id',
+      'title' => $this->t('{{ label }}'),
+      'help' => $this->t('The {{ label }} ID.'),
+    );
+
+    return $data;
+  }
+{% endblock %}

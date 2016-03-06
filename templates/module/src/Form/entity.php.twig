@@ -1,0 +1,76 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{ module }}\Form\{{ entity_class }}Form.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }}\Form;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityForm;
+use Drupal\Core\Form\FormStateInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Class {{ entity_class }}Form.
+ *
+ * @package Drupal\{{ module }}\Form
+ */
+class {{ entity_class }}Form extends EntityForm {% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public function form(array $form, FormStateInterface $form_state) {
+    $form = parent::form($form, $form_state);
+
+    ${{ entity_name | machine_name }} = $this->entity;
+    $form['label'] = array(
+      '#type' => 'textfield',
+      '#title' => $this->t('Label'),
+      '#maxlength' => 255,
+      '#default_value' => ${{ entity_name | machine_name }}->label(),
+      '#description' => $this->t("Label for the {{ label }}."),
+      '#required' => TRUE,
+    );
+
+    $form['id'] = array(
+      '#type' => 'machine_name',
+      '#default_value' => ${{ entity_name | machine_name }}->id(),
+      '#machine_name' => array(
+        'exists' => '\Drupal\{{ module }}\Entity\{{ entity_class }}::load',
+      ),
+      '#disabled' => !${{ entity_name | machine_name }}->isNew(),
+    );
+
+    /* You will need additional form elements for your custom properties. */
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function save(array $form, FormStateInterface $form_state) {
+    ${{ entity_name | machine_name }} = $this->entity;
+    $status = ${{ entity_name | machine_name }}->save();
+
+    switch ($status) {
+      case SAVED_NEW:
+        drupal_set_message($this->t('Created the %label {{ label }}.', [
+          '%label' => ${{ entity_name | machine_name }}->label(),
+        ]));
+        break;
+
+      default:
+        drupal_set_message($this->t('Saved the %label {{ label }}.', [
+          '%label' => ${{ entity_name | machine_name }}->label(),
+        ]));
+    }
+    $form_state->setRedirectUrl(${{ entity_name | machine_name }}->urlInfo('collection'));
+  }
+{% endblock %}

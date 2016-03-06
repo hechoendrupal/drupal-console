@@ -1,0 +1,18 @@
+description: 'Create dummy terms for your Drupal 8 application.'
+help: 'The <info>create:nodes</info> command helps you generate fake nodes.'
+welcome: 'Welcome to the Drupal terms creator'
+arguments:
+    vocabularies: 'Vocabularie(s) to be used in terms creation'
+options:
+    limit: 'How many terms would you like to create'
+    name-words: 'Maximum number of words in term names'
+questions:
+    vocabularies: 'Select vocabularie(s) to be used on terms creation'
+    limit: 'Enter how many terms would you like to create'
+    name-words: 'Enter the maximum number of words in term names'
+messages:
+    term-id: 'Term Id'
+    vocabulary: Vocabulary
+    name: Name
+    invalid-vocabularies: 'Vocabularie(s) %s are invalid'
+    created-terms: 'Created %s terms successfully'

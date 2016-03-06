@@ -1,0 +1,11 @@
+description: 'Genera un plugin de campo de vista personalizado.'
+help: 'El comando <info>generate:plugin:views:field</info> le ayuda a generar un nuevo plugin de campo personalizado de vista.'
+options:
+    class: 'Nombre de la clase del plugin de campo de vista'
+    title: 'Views plugin field title Título del plugin de campo de vista'
+    description: 'Descripción del plugin de campo de vista'
+questions:
+    class: 'Nombre de la clase del plugin de campo de vista'
+    title: 'Título del plugin de campo de vista'
+    description: 'Descripcion del plugin de campo de vista'
+    description_default: 'Mi fantástico plugin de campo de vista personalizado.'

@@ -1,0 +1,13 @@
+description: 'Nézet exportálása YAML-formátumban egy megadott modulba, hogy újra lehessen használni más weboldalon.'
+messages:
+    view_exported: 'Nézet exportálása'
+    depencies-included: 'A következő modulfüggőségek állnak fenn: %s'
+questions:
+    view: 'Exportálni kívánt nézet'
+    optional-config: 'Nézet exportálása modulba nem kötelező konfigurációként'
+    include-module-dependencies: 'Nézet modulfüggőségeinek tartalmazása a modul info.yml fájljában'
+arguments:
+    view-id: 'Nézet azonosítója'
+options:
+    optional-config: 'Nézet exportálása a modulba nem kötelező YAML-konfigurációként'
+    include-module-dependencies: 'Modulfüggőségeinek tartalmazása a modul info.yml fájljában'

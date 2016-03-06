@@ -1,0 +1,11 @@
+description: 'Smink letöltése az alkalmazásban'
+options:
+    version: 'Smink verziója, pl. 1.x-dev'
+messages:
+    no-releases: '%s sminknek nincs semmilyen kiadása'
+    getting-releases: '%s smink kiadásainak beolvasása'
+    downloading: '%s smink %s kiadásának letöltése'
+    downloaded: '%s smink %s verziójának letöltése sikerült: %s'
+    select-release: 'Válassza ki a kedvenc kiadását'
+    outside-drupal: 'A Drupal gyökerét nem lehet meghatározni. A --root használatával beállítható a cél, ehelyett az aktuális mappa lesz használatban.'
+    error-creating-folder: 'Hiba történt %s mappa létrehozásakor, ellenőrizni kell az engedélyeket'

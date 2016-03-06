@@ -1,0 +1,13 @@
+description: 'Bővítménytípus létrehozása magyarázatészleléssel'
+help: 'A <info>generate:plugin:type:annotation</info> parancs magyarázatészlelést használó új bővítménytípus létrehozását segíti.'
+welcome: 'Üdvözlet a Drupal bővítménytípus előállítóban'
+options:
+    module: common.options.module
+    class: 'Bővítménytípus osztályneve'
+    machine-name: 'Bővítménytípus programok által használt neve'
+    label: 'Bővítménytípus felirata'
+questions:
+    module: common.questions.module
+    class: 'Meg kell adni a bővítménytípus osztálynevét'
+    machine-name: 'Meg kell adni a bővítménytípus programok által használt nevét'
+    label: 'Meg kell adni a bővítménytípus feliratát'

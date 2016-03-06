@@ -1,0 +1,21 @@
+description: 'Instal·lar temes per l''aplicació'
+questions:
+    theme: 'Nom del tema (prem <return> per aturar l''adició)'
+    invalid-theme: 'El tema %s no és vàlid'
+options:
+    theme: 'Els temes a instal·lar han d''estar separats per comes'
+    overwrite-config: 'Sobreescriure la configuració activa si es necesari'
+    set-default: 'Definir tema com a predeterminat'
+messages:
+    no-themes: 'Has de proporcionar els temes a instal·lar..'
+    themes-missing: 'No es pot instal·lar els temes %s perquè no estan disponibles'
+    theme-missing: 'No es pot instal·lar el tema %s perquè no està disponible'
+    missing-dependencies: 'No es pot instal·lar el tema %s degut a dependències perdudes %s'
+    themes-nothing: 'Res a fer. Tots el temes %s ja estan instal·lats'
+    theme-nothing: 'Res a fer. El tema %s ja està instal·lat'
+    dependencies: 'Hi han algunes dependències insatisfetes: %s?'
+    theme-success: 'El tema %s s''ha instal·lat correctament'
+    themes-success: 'Els temes %s s''han instal·lat correctament'
+    theme-default-success: 'El tema %s s''ha instal·lat correctament com a predeterminat'
+    disabled-themes: 'Només els temes no instal·lats es mostraran a la compleció automàtica.'
+    invalid-theme-default: 'L''opció predeterminada només és vàlida per un sol tema'

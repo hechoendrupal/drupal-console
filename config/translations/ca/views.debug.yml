@@ -1,0 +1,18 @@
+description: 'Mostrar els recursos de vistes actuals de l''aplicació'
+arguments:
+    view-id: 'Identificador de la vista'
+    view-tag: 'Etiqueta de la vista'
+    view-status: 'Estat de la vista (Habilitat|Deshabilitat)'
+messages:
+    view-id: 'Identificador de la vista'
+    view-name: 'Nom de la vista'
+    description: Descripció
+    tag: Etiqueta
+    status: Estat
+    path: Camí
+    not-found: 'No s''ha trobat la vista %s.'
+    display-list: 'Mostrar llista'
+    display-id: Identificador
+    display-name: Nom
+    display-description: Descripció
+    display-paths: Rutes

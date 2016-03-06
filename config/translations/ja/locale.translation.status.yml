@@ -1,0 +1,17 @@
+description: 利用可能な翻訳のアップデートを表示
+arguments:
+    language: 'es や Spanish のような言語名'
+messages:
+    no-languages: '翻訳可能な言語がありません。先に言語を追加してください。'
+    up-to-date: '全ての翻訳は最新です。'
+    no-translations: 'No translation status available. Check manually'
+    project: Project
+    version: Version
+    local-age: 'Local age'
+    remote-age: 'Remote age'
+    info: Information
+    no-translation-files: 'development releases 向けの翻訳ファイルは提供されていません。'
+    file-not-found: '%s もしくは %s にファイルが見つかりません。'
+    local-file-not-found: '%s にファイルが見つかりません。'
+    translation-not-determined: 翻訳ファイルのパスを決定できませんでした。
+    translation-project-updated: Updated

@@ -1,0 +1,22 @@
+description: 'प्लगिन रुल प्रक्रिया उत्पन्न करें'
+help: '<info>generate:plugin:rulesaction</info> कमाण्ड आपको नया प्लगिन रुल प्रक्रिया उत्पन्न करने में मदद करता है।'
+welcome: 'Drupal प्लगिन रुल प्रक्रिया उत्पादक में आपका स्वागत है'
+options:
+    module: common.options.module
+    class: 'प्लगिन का क्लास नाम'
+    label: 'प्लगिन उप-शीर्षक'
+    plugin-id: 'प्लगिन id'
+    inputs: common.options.inputs
+    services: common.options.services
+    category: 'प्लगिन श्रेणी'
+    context: 'प्लगिन प्रसंग'
+    type: 'प्रक्रिया प्रकार (उपभोक्ता अथवा नोड)'
+questions:
+    module: common.questions.module
+    class: 'प्लगिन का क्लास नाम दर्ज करें'
+    label: 'प्लगिन का उप-शीर्षक दर्ज करें'
+    plugin-id: 'प्लगिन id दर्ज करें'
+    inputs: common.questions.inputs
+    services: common.questions.services
+    category: 'प्लगिन श्रेणी दर्ज करें'
+    context: 'प्लगिन प्रसंग दर्ज करें'

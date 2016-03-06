@@ -1,0 +1,13 @@
+description: 'Generar un tipus de connector amb descobriment d''anotació'
+help: 'El comandament <info>generate:plugin:type:annotation</info> t''ajuda a generar un nou tipus de connector amb descobriment d''anotació.'
+welcome: 'Us donem la benvinguda al generador de tipus de connector de Drupal'
+options:
+    module: common.options.module
+    class: 'Nom de la classe del conenctor'
+    machine-name: 'Nom màquina del connector'
+    label: 'Etiqueta del connector'
+questions:
+    module: common.questions.module
+    class: 'Introduïu el nom de la classe del connector'
+    machine-name: 'Introduïu el nom màquina del connector'
+    label: 'Introduïu l''etiqueta del connector'

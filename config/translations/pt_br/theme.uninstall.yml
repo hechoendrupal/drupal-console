@@ -1,0 +1,20 @@
+description: 'Desinstalar tema(s) da aplicação'
+questions:
+    theme: 'nome do tema (deixe vazio para continuar)'
+    invalid-theme: 'Tema inválido %s'
+options:
+    theme: 'os temas a serem desinstalados devem ser separados por vírgula'
+messages:
+    no-themes: 'Digite um nome de tema válido a ser desinstalado.'
+    themes-missing: 'Não foi possível desinstalar os temas %s pois os mesmos não estão disponíveis'
+    theme-missing: 'Não foi possível desinstalar o tema %s pois o mesmo não está disponível'
+    missing-dependencies: 'Não foi possível desinstalar os temas %s pois as dependências %s não estão disponíveis'
+    themes-nothing: 'Os temas %s já estão desinstalados'
+    theme-nothing: 'O tema %s já está desinstalado'
+    dependencies: 'Há algumas dependências %s não encontradas'
+    theme-success: 'O %s tema foi desinstalado com sucesso'
+    themes-success: 'Os %s temas foram desinstalados com sucesso'
+    installed-themes: 'Somente temas instalados serão listados no automcomplete'
+    invalid-theme-default: 'Opção padrão só é válida para um único tema'
+    error-default-theme: 'O tema %s não pode ser desinstalado pois é o tema padrão'
+    error-admin-theme: 'O tema %s não pode ser desinstalado pois é o tema administrativo.'

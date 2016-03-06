@@ -1,0 +1,5 @@
+description: 运行数据库客户端
+arguments:
+    database: 'settings.php 文件中 Database 的键'
+messages:
+    connection: 连接：%s

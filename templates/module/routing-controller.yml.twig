@@ -1,0 +1,15 @@
+{% if class_name is defined %}
+
+{% for route in routes %}
+{% if learning is defined and learning %}
+{{ yaml_comment('application.messages.learning.route') }}
+{% endif %}
+{{ module }}.{{ class_machine_name }}_{{ route.method }}:
+  path: '{{ route.path }}'
+  defaults:
+    _controller: '\Drupal\{{ module }}\Controller\{{ class_name }}::{{ route.method }}'
+    _title: '{{route.title}}'
+  requirements:
+    _permission: 'access content'
+{% endfor %}
+{% endif %}

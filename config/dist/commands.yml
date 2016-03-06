@@ -1,0 +1,17 @@
+application:
+  disable:
+    modules:
+#      - module_name
+#      - module_name
+  default:
+    global:
+      options:
+         learning: true
+        # generate-inline: true
+        # generate-chain: true
+        # yes: true
+    commands:
+      generate:
+        controller:
+          options:
+#            module: module_name

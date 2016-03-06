@@ -1,0 +1,17 @@
+description: 'Remover usuários da aplicação'
+help: 'O comando <info>user:delete</info> possibilita a remoção de usuários.'
+welcome: 'Bem vindo ao processo de remoção de usuários do Drupal'
+options:
+    user-id: 'ID do usuário a ser deletado'
+    roles: 'Papéis associados ao usuários que serão deletados'
+questions:
+    user-id: 'ID do usuário a ser deletado (deixe vazio para continuar)'
+    roles: 'Selecione os papéis dos usuários a serem deletados'
+messages:
+    user-id: 'ID do usuário'
+    username: 'Nome de usuário'
+    user-deleted: 'O usuário %s foi deletado com sucesso'
+    users-deleted: 'Os usuários %s foram deletados com sucesso'
+errors:
+    invalid-user-id: 'ID do usuário %s não foi encontrado'
+    invalid-user: 'ID do usuário %s não foi encontrado'

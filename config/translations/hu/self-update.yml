@@ -1,0 +1,15 @@
+description: 'Projekt frissítése a legújabb verzióra.'
+help: 'Projekt frissítése a legújabb verzióra.'
+options:
+    major: 'Frissítés új főverzióra, ha az elérhető.'
+    manifest: 'A jegyzékfájl útvonalának felülbírálása.'
+    current-version: 'A frissítendő verzió felülbírálása.'
+questions:
+    update: 'Frissítés %s verzióról %s verzióra.'
+messages:
+    not-phar: 'A parancssori felület példdányának telepítése nem Phar archívumként történt.'
+    update: 'Frissítés %s verzióra.'
+    success: 'Frissítve %s verzióról %s verzióra.'
+    check: 'Elérhető frissítések ellenőrzése a következő verzióról: %s'
+    current-version: 'A legfrissebb verzió (%s) már telepítve van a rendszeren.'
+    instructions: 'Frissíteni kell a "composer global update" segítségével\nEsetleg át lehet váltani egy javasolt Phar telepítésre\ncomposer global remove drupal/console\ncurl https://drupalconsole.com/installer -L -o drupal.phar'

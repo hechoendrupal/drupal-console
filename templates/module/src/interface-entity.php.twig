@@ -1,0 +1,22 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\{{ entity_class }}Interface.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}};
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Config\Entity\ConfigEntityInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides an interface for defining {{ label }} entities.
+ */
+interface {{ entity_class }}Interface extends ConfigEntityInterface {% endblock %}
+{% block class_methods %}
+  // Add get/set methods for your configuration properties here.
+{% endblock %}

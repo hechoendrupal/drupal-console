@@ -1,0 +1,23 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{ module }}\Plugin\{{ class_name }}Base.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }}\Plugin;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Component\Plugin\PluginBase;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Base class for {{ label }} plugins.
+ */
+abstract class {{ class_name }}Base extends PluginBase implements {{ class_name }}Interface {% endblock %}
+{% block class_methods %}
+
+  // Add common methods and abstract methods for your plugin type here.
+{% endblock %}

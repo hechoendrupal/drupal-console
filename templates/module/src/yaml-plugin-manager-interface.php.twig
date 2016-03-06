@@ -1,0 +1,22 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{ module }}\{{ plugin_class }}ManagerInterface.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }};
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Component\Plugin\PluginManagerInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Defines an interface for {{ plugin_name }} managers.
+ */
+interface {{ plugin_class }}ManagerInterface extends PluginManagerInterface {% endblock %}
+{% block class_methods %}
+    // Add getters and other public methods for {{ plugin_name }} managers.
+{% endblock %}

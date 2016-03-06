@@ -1,0 +1,6 @@
+description: 'Import cấu hình đã được chọn.'
+arguments:
+    config-name: 'Tên cấu hình.'
+    input-file: 'Đường dẫn tới các file import.'
+messages:
+    empty-value: 'Giá trị không thể để trống'

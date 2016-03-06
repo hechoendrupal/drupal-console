@@ -1,0 +1,12 @@
+description: 'Clear login failed attempts for an account.'
+help: 'The <info>user:login:clear:attempts</info> reset login failed attempts for an account.'
+options:
+    user-id: 'User ID.'
+questions:
+    uid: 'Enter User ID.'
+    numeric-uid: 'User id must be an integer.'
+    invalid-uid: 'User id must be upper than zero.'
+messages:
+    successful: 'Login attempts was clean successfully for user id %s.'
+errors:
+    invalid-user: 'Cannot load user entity (Uid: %s).'

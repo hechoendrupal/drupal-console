@@ -1,0 +1,18 @@
+description: 'Generar una nova entitat de continguts'
+help: ''
+options:
+    module: common.options.module
+    entity-class: 'Classe de l''entitat de continguts'
+    entity-name: 'Nom de l''entitat de continguts'
+    label: Etiqueta
+    bundle-of: 'Actua com a ''bundle'' per l''entitat de continguts'
+    base-path: 'El camí base per la configuració de rutes d''entitats'
+    has-bundles: 'L''entitat conté bundles'
+questions:
+    module: common.questions.module
+    entity-class: 'Tecleja la classe de la nova entitat de continguts'
+    entity-name: 'Tecleja el nom de la nova entitat de continguts'
+    label: 'Tecleja l''etiqueta de la nova entitat de continguts'
+    bundle-of: 'Nom de l''entitat de contingut per la qual vols que actui com a bundle d''aquesta entitat '
+    base-path: 'Introduïu el camí base per la configuració de les rutes d''entitats'
+    has-bundles: 'Vols que aquesta entitat de continguts tingui bundles'

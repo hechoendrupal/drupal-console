@@ -1,0 +1,15 @@
+{% if name is defined %}
+{% if not file_exists %}
+services:
+{% endif %}
+  {{ name | lower }}:
+    class: {{ class_path }}
+{% if services is defined %}
+    arguments: [{{ servicesAsParametersKeys(services)|join(', ') }}]
+{% endif %}
+{% if tags is defined %}
+    tags:
+      - { {{ tagsAsArray(tags)|join(', ') }} }
+{% endif %}
+{% endif %}
+

@@ -1,0 +1,14 @@
+description: 現在のユーザーを表示
+help: '<info>user:debug</info> コマンドは現在のユーザーを表示します。'
+welcome: 'Welcome to the Drupal user debug'
+options:
+    roles: フィルターに使用するロール
+    limit: 表示するユーザー数
+questions:
+    roles: 'ユーザーのフィルターに使用するロールを選択してください'
+    limit: '表示するユーザー数を入力してください'
+messages:
+    user-id: ユーザーID
+    username: ユーザー名
+    roles: ロール
+    status: スターテス

@@ -1,0 +1,7 @@
+<?php
+
+$loader = require __DIR__ . '/vendor/autoload.php';
+
+$loader->setPsr4('Drupal\\Console\\Test\\', __DIR__ . '/Test');
+
+return $loader;

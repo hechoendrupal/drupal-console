@@ -1,0 +1,130 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\Plugin\Block\{{class_name}}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Plugin\Block;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Block\BlockBase;
+{% if inputs %}
+use Drupal\Core\Form\FormStateInterface;
+{% endif %}
+{% if services is not empty %}
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+{% endif %}
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides a '{{class_name}}' block.
+ *
+ * @Block(
+ *  id = "{{plugin_id}}",
+ *  admin_label = @Translation("{{label}}"),
+ * )
+ */
+class {{class_name}} extends BlockBase {% if services is not empty %}implements ContainerFactoryPluginInterface {% endif %}
+{% endblock %}
+
+{% block class_construct %}
+{% if services is not empty %}
+  /**
+   * Construct.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param string $plugin_definition
+   *   The plugin implementation definition.
+   */
+  public function __construct(
+        array $configuration,
+        $plugin_id,
+        $plugin_definition,
+        {{ servicesAsParameters(services)|join(', \n\t') }}
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+{{ serviceClassInitialization(services) }}
+  }
+
+{% endif %}
+{% endblock %}
+
+{% block class_create %}
+{% if services is not empty %}
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+{{ serviceClassInjection(services) }}
+    );
+  }
+
+{% endif %}
+{% endblock %}
+
+{% block class_methods %}
+
+{% if inputs %}
+  /**
+   * {@inheritdoc}
+   */
+  public function blockForm($form, FormStateInterface $form_state) {
+{% for input in inputs %}
+    $form['{{ input.name }}'] = array(
+      '#type' => '{{ input.type }}',
+      '#title' => $this->t('{{ input.label }}'),
+      '#description' => $this->t('{{ input.description }}'),
+{% if input.options|length %}
+      '#options' => {{ input.options }},
+{% endif %}
+      '#default_value' => isset($this->configuration['{{ input.name }}']) ? $this->configuration['{{ input.name }}'] : '{{ input.default_value }}',
+{% if input.maxlength|length %}
+      '#maxlength' => {{ input.maxlength }},
+{% endif %}
+{% if input.size|length %}
+      '#size' => {{ input.size }},
+{% endif %}
+{% if input.weight|length %}
+      '#weight' => '{{ input.weight }}',
+{% endif %}
+    );
+{% endfor %}
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockSubmit($form, FormStateInterface $form_state) {
+{% for input in inputs %}
+    $this->configuration['{{ input.name }}'] = $form_state->getValue('{{ input.name }}');
+{% endfor %}
+  }
+{% endif %}
+
+  /**
+   * {@inheritdoc}
+   */
+  public function build() {
+    $build = [];
+{% for input in inputs %}
+    $build['{{plugin_id}}_{{ input.name }}']['#markup'] = '<p>' . $this->configuration['{{ input.name }}'] . '</p>';
+{% else %}
+    $build['{{plugin_id}}']['#markup'] = 'Implement {{class_name}}.';
+{% endfor %}
+
+    return $build;
+  }
+{% endblock %}

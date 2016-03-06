@@ -1,0 +1,19 @@
+description: 'Desplegar eventos registrados al momento para la aplicación'
+arguments:
+    event-id: 'ID del evento DBLog'
+options:
+    type: 'Filtrar eventos por un tipo específico'
+    severity: 'Filtrar eventos por un nivel de severidad específico'
+    user-id: 'Filtrar eventos por un id de usuario específico'
+    reverse: 'Reverse the order of events'
+    limit: 'Limitar los resultados a un número específico'
+    offset: 'Punto inicial de un límite'
+messages:
+    event-id: 'ID de evento'
+    type: Tipo
+    date: Fecha
+    message: Mensaje
+    user: Usuario
+    severity: Severidad
+    invalid-severity: 'Tipo de severidad no es válido, el filtro fue ignorado'
+    not-found: 'Evento DBLog no fue encontrado'

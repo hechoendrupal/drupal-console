@@ -1,0 +1,19 @@
+name: {{ theme }}
+type: {{ type }}
+description: {{ description }}
+package: {{ package }}
+core: {{ core }}
+libraries:
+  - {{ machine_name }}/{{ global_library }}
+
+base theme: {{ base_theme }}
+{% if base_theme == 'classy' %}
+#Using Classy as a base theme https://www.drupal.org/theme-guide/8/classy
+{% endif %}
+
+{% if regions %}
+regions:
+{% for region in regions %}
+  {{ region.region_machine_name }}: {{ region.region_name }}
+{% endfor %}
+{% endif %}

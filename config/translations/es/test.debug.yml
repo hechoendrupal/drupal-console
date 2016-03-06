@@ -1,0 +1,19 @@
+description: 'Lista los tests unitarios disponibles para la aplicación.'
+help: 'Actualizar el comando de consola a su última versión.'
+arguments:
+    test-class: 'Clase del test'
+    test-id: 'ID del test unitario'
+options:
+    group: Grupo
+messages:
+    class: 'Clase del test'
+    description: Descripción
+    group: Grupo
+    type: 'Tipo de test'
+    success: 'La consola ha sido actualizada a su última versión.'
+    missing-dependency: 'Dependencia incumplida'
+    methods: 'Métodos de test'
+    not-found: 'Imposible encontrar debug, intente poner el id del test entre comillas dobles.'
+    success-groups: 'Todos los grupos de testeo han sido listados con éxito, utilice un argumento de grupo para filtrar los tests unitarios por grupo, por ejemplo: $ drupal test:debug Url'
+    success-group: 'Todos los tests unitarios para el grupo %s han sido listados satisfactoriamente'
+    id: 'ID del test unitario'

@@ -1,0 +1,21 @@
+description: 'Générer un bloc de plugin'
+help: 'Le <info> generate: plugin: bloc </ info> commande aide à générer un nouveau bloc de Plugin.'
+welcome: 'Bienvenue au générateur drupal block Plugin'
+options:
+    module: common.options.module
+    class: 'Nom de la classe plugin'
+    label: 'Label plugin'
+    plugin-id: 'Plugin id'
+    inputs: common.options.inputs
+    services: common.options.services
+    theme-region: 'Theme region to render Plugin Block'
+questions:
+    module: common.questions.module
+    class: 'Entrez le nom de la classe plugin'
+    label: 'Entrez le label plugin'
+    plugin-id: 'Entrez le plugin id'
+    inputs: common.questions.inputs
+    services: common.questions.services
+messages:
+    inputs: "\nVous pouvez ajouter des champs d'entrée pour créer des configurations spéciales dans chaque bloc.\nCette option est facultative, appuyez sur <info> Entrée </ info> à <info> continuer </ info>"
+    invalid-theme-region: 'Region %s is invalid'

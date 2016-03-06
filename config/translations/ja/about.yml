@@ -1,0 +1,13 @@
+description: 'Drupal Consoleプロジェクトについての基本情報を表示'
+messages:
+    welcome: 'Drupal Consoleは以下のような機能を持つCLIツールです。'
+    welcome-feature-generate: ボイラプレートコードを生成
+    welcome-feature-interact: Drupal8を対話的にインストール
+    welcome-feature-learn: Drupal8について学ぶ
+    links: プロジェクトへのリンク
+    landing: 'ランディングページ - %s'
+    change-log: '変更履歴 - %s'
+    documentation: 'ドキュメント %s'
+    support: 'サポートチャットルーム - %s'
+    supporting-organizations: 支援団体
+    version-supported: 'サポート対象のDrupalバージョン <info>%s</info>'

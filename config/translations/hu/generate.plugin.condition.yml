@@ -1,0 +1,21 @@
+description: 'Feltételbővítmény létrehozása.'
+help: 'A <info>generate:plugin:conditon</info> parancs feltételbővítmény létrehozását segíti.'
+welcome: 'Üdvözlet a Drupal feltételbővítmény előállítóban'
+options:
+    module: common.options.module
+    class: 'Feltételbővítmény osztályneve'
+    label: 'Feltételbővítmény felirata'
+    plugin-id: 'Feltételbővítmény azonosítója'
+    context-definition-id: 'Kontextusmeghatározás azonosítója'
+    context-definition-label: 'Kontextusmeghatározás felirata'
+    context-definition-required: 'A kontextusmeghatározás kötelező (TRUE/FALSE)'
+questions:
+    module: common.questions.module
+    class: 'Meg kell adni a feltételbővítmény osztálynevét'
+    label: 'Meg kell adni a feltételbővítmény feliratát'
+    plugin-id: 'Meg kell adni a feltételbővítmény azonosítóját'
+    context-type: 'Kontextus típusa'
+    context-entity-type: 'Kontextusentitás típusa'
+    context-definition-id: 'Kontextusmeghatározás azonosítója'
+    context-definition-label: 'Kontextusmeghatározás felirata'
+    context-definition-required: 'A kontextusmeghatározás kötelező'

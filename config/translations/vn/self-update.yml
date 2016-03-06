@@ -1,0 +1,15 @@
+description: 'Cập nhật dự án lên phiên bản mới nhất.'
+help: 'Cập nhật dự án lên phiên bản mới nhất.'
+options:
+    major: 'Cập nhật lên phiên bản chính mới, nếu có sẵn.'
+    manifest: 'Ghi đè lên các đường dẫn tập tin rõ ràng.'
+    current-version: 'Ghi đè lên phiên bản cập nhật từ.'
+questions:
+    update: 'Cập nhật từ phiên bản %s lên phiên bản %s.'
+messages:
+    not-phar: 'Trường hợp CLI này đã không được cài đặt dưới dạng Phar archive.'
+    update: 'Cập nhật lên phiên bản %s.'
+    success: 'Đã cập nhật từ phiên bản %s lên phiên bản %s.'
+    check: 'Đang kiểm tra các cập nhật từ phiên bản: %s'
+    current-version: 'Phiên bản mới nhất %s, đã được cài đặt trong hệ thống của bạn.'
+    instructions: "Cập nhật bằng cách: composer global update\nHoặc bạn có thể chuyển sang Phar cài đặt được đề nghị\ncomposer global remove drupal/console\ncurl https://drupalconsole.com/installer -L -o drupal.phar"

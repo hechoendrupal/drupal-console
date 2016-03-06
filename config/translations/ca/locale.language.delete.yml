@@ -1,0 +1,4 @@
+description: 'Esborrar un idioma del teu lloc web'
+messages:
+    invalid-language: 'L''idioma %s no és vàlid'
+    language-deleted-successfully: 'L''idioma %s s''ha esborrat correctament.'

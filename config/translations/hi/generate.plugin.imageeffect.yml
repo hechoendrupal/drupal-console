@@ -1,0 +1,15 @@
+description: 'छवि प्रभाव प्लगिन उत्पन्न करें'
+help: '<info>generate:plugin:imageeffect</info> कमाण्ड आपको एक नया छवि प्रभाव प्लगिन उत्पन्न करने में मदद करता है।'
+welcome: 'Drupal छवि प्रभाव प्लगिन उत्पादक में आपका स्वागत है'
+options:
+    module: common.options.module
+    class: 'प्लगिन का क्लास नाम'
+    label: 'प्लगिन उप-शीर्षक'
+    plugin-id: 'प्लगिन id'
+    description: 'प्लगिन विवरण'
+questions:
+    module: common.questions.module
+    class: 'प्लगिन का क्लास नाम दर्ज करें'
+    label: 'प्लगिन का उप-शीर्षक दर्ज करें'
+    plugin-id: 'प्लगिन id दर्ज करें'
+    description: 'प्लगिन का विवरण दर्ज करें'

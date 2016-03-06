@@ -1,0 +1,19 @@
+description: 'प्लगिन रेस्ट साधन उत्पन्न करें'
+help: '<info>generate:plugin:rest:resource</info> कमाण्ड आपको एक नया रेस्ट साधन उत्पन्न करने में मदद करता है।'
+welcome: 'Drupal प्लगिन रेस्ट साधन उत्पादक में आपका स्वागत है'
+options:
+    module: common.options.module
+    class: 'प्लगिन रेस्ट साधन क्लास'
+    plugin-id: 'प्लगिन रेस्ट साधन'
+    plugin-label: 'प्लगिन रेस्ट साधन उप-शीर्षक'
+    plugin-url: 'प्लगिन रेस्ट साधन URL'
+    plugin-states: 'प्लगिन रेस्ट साधन स्थिति'
+questions:
+    module: common.questions.module
+    class: 'प्लगिन रेस्ट साधन का नाम दर्ज करें'
+    plugin-id: 'प्लगिन रेस्ट साधन id दर्ज करें'
+    plugin-label: 'प्लगिन रेस्ट साधन उप-शीर्षक दर्ज करें'
+    plugin-url: 'प्लगिन रेस्ट साधन URL दर्ज करें'
+    plugin-states: 'अपने साधन में रेस्ट स्थिति लागू के लिए चयन करें ( GET डिफ़ॉल्ट रूप से चुना जाता है)'
+messages:
+    selected-states: 'स्थिति चयनित'

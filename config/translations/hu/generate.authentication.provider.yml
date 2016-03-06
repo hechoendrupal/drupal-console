@@ -1,0 +1,6 @@
+description: 'Hitelesítésszolgáltató létrehozása'
+help: 'A <info>generate:authentication:provider</info> parancs új hitelesítésszolgáltató létrehozását segíti.'
+options:
+    class: 'Hitelesítésszolgáltató osztály'
+    provider-id: 'Szolgáltató azonosítója'
+module: common.options.module

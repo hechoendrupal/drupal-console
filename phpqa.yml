@@ -1,0 +1,72 @@
+application:
+  method:
+    git:
+      enabled: true
+      exception: false
+    composer:
+      enabled: true
+      exception: false
+  analyzer:
+    parallel-lint:
+      enabled: true
+      exception: true
+      options:
+        e: 'php'
+        exclude: vendor/
+      arguments:
+    php-cs-fixer:
+      enabled: true
+      exception: false
+      file:
+        config-file: .php_cs
+        single-execution: false
+      options:
+        level: psr2
+      arguments:
+      prefixes:
+        - fix
+      postfixes:
+    phpcbf:
+      enabled: true
+      exception: false
+      options:
+        standard: PSR2
+        severity: 0
+        ignore: /vendor
+      arguments:
+        - '-n'
+    phpcs:
+      enabled: true
+      exception: false
+      options:
+        standard: PSR2
+        severity: 0
+        ignore: /vendor
+      arguments:
+        - '-n'
+    phpmd:
+      enabled: false
+      exception: false
+      options:
+      arguments:
+      prefixes:
+      postfixes:
+        - 'text'
+        - 'cleancode'
+    phploc:
+      enabled: false
+      exception: false
+    phpcpd:
+      enabled: false
+      exception: false
+    phpdcd:
+      enabled: false
+      exception: false
+    phpunit:
+      enabled: true
+      exception: true
+      file:
+        configuration: phpunit.xml.dist
+        single-execution: true
+      options:
+      arguments:

@@ -1,0 +1,22 @@
+description: 'Kontroller létrehozása és regisztrálása'
+help: 'A <info>generate:controller</info> parancs új kontroller létrehozását segíti.'
+welcome: 'Üdvözlet a Drupal kontroller előállítóban'
+options:
+    module: common.options.module
+    class: 'Kontroller osztályneve'
+    routes: 'Az útvonalak, [title, method, path] tartalmú tömbnek kell lennie'
+    services: common.options.services
+    test: 'Tesztosztály létrehozása'
+questions:
+    module: common.questions.module
+    class: 'Meg kell adni a kontroller osztálynevét'
+    title: 'Meg kell adni a kontroller metódus címét (üresen hagyható, és megnyomható az enter gomb)'
+    method: 'Meg kell adni a művelet metódusnevét'
+    path: 'Meg kell adni az útvonalat'
+    services: common.questions.services
+    test: 'Létrejöjjön egységteszt osztály?'
+messages:
+    title-empty: 'A címnek értéket kell tartalmaznia'
+    title-already-added: 'A cím hozzáadása már megtörtént'
+    method-name-already-added: 'A metódusnév hozzáadása már megtörtént'
+    path-already-added: 'Az útvonal hozzáadása már megtörtént'

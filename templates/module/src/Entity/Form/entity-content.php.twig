@@ -1,0 +1,56 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\Form\{{ entity_class }}Form.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Form;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Entity\ContentEntityForm;
+use Drupal\Core\Form\FormStateInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Form controller for {{ label }} edit forms.
+ *
+ * @ingroup {{module}}
+ */
+class {{ entity_class }}Form extends ContentEntityForm {% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(array $form, FormStateInterface $form_state) {
+    /* @var $entity \Drupal\{{module}}\Entity\{{ entity_class }} */
+    $form = parent::buildForm($form, $form_state);
+    $entity = $this->entity;
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function save(array $form, FormStateInterface $form_state) {
+    $entity = $this->entity;
+    $status = parent::save($form, $form_state);
+
+    switch ($status) {
+      case SAVED_NEW:
+        drupal_set_message($this->t('Created the %label {{ label }}.', [
+          '%label' => $entity->label(),
+        ]));
+        break;
+
+      default:
+        drupal_set_message($this->t('Saved the %label {{ label }}.', [
+          '%label' => $entity->label(),
+        ]));
+    }
+    $form_state->setRedirect('entity.{{ entity_name }}.canonical', ['{{ entity_name }}' => $entity->id()]);
+  }
+{% endblock %}

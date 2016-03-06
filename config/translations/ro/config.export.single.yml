@@ -1,0 +1,14 @@
+description: 'Exportați o configurare unică ca și un fișier yml .'
+arguments:
+    config-name: 'Numele configurării.'
+options:
+    include-dependencies: 'Export dependencies of the configuration as well.'
+    simple-configuration: 'Configurare unică'
+questions:
+    config-type: 'Tipul configurării'
+    config-name: 'Numele configurării'
+messages:
+    config-not-found: 'Numele configurării nu a fost găsit.'
+    export: 'Configurarea a fost exportată la fișierul %s.'
+    invalid-config-type: 'Tipul configurării nu este valid, vă rugăm să selectați unul din listă'
+    invalid-config-name: 'Numele configurării nu este valid, vă rugăm să selectați unul din listă'

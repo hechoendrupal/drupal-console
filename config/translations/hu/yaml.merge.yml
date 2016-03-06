@@ -1,0 +1,17 @@
+description: 'YAML-fájlok összevonása egy új YAML-fájlba. A legfrissebb értékek maradnak meg.'
+arguments:
+    yaml-files: 'Az összevonni kívánt YAML-fájlok útvonala'
+    yaml-destination: 'Az összevonás eredményét tároló új YAML-fájl útvonala.'
+questions:
+    yaml-destination: 'Az összevonás eredményét tároló új YAML-fájl útvonala.'
+    file: 'Az összevonni kívánt fájl útvonala'
+    other-file: 'Az összevonni kívánt fájl útvonala (üresen kell hagyni az összevonási folyamat elindításához)'
+    invalid-file: 'A fájl útvonala nem lehet üres'
+    file-already-added: 'A fájl útvonala már hozzá lett adva'
+messages:
+    wrong-parse: 'Üres vagy nem létezik a következő YAML-fájl: %s'
+    error-parsing: 'Hiba történt a következő YAML-fájl értelmezésekor: %s'
+    two-files-required: 'Legalább két fájlt meg kell adni.'
+    error-generating: 'Hiba történt az összevont YAML-fájl előállításakor.'
+    error-writing: 'Hiba történt az összevont YAML-fájl kiírásakor.'
+    merged: 'A YAML-fájlok összevonása után sikeresen létrejött a következő új fájl: %s'

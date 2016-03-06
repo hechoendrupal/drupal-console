@@ -1,0 +1,17 @@
+description: 'Lanza el servidor web PHP interno'
+arguments:
+    address: 'Los valores dirección:puerto'
+messages:
+    executing: 'Ejecutando php desde %s.'
+errors:
+    binary: 'Ha sido imposible encontrar el binario PHP para ejecutar el servidor.'
+examples:
+    -
+        description: 'Corre usando el valor de dirección por defecto 127.0.0.1.8088'
+        execution: 'drupal server'
+    -
+        description: 'Pasar una dirección para usar un número de puerto diferente'
+        execution: 'drupal server 127.0.0.1:8089'
+    -
+        description: 'Ejecutando la dirección por defecto, usando la opción --root para indicar la ruta raíz de Drupal'
+        execution: 'drupal --root=/var/www/drupal8.dev server'

@@ -1,14 +1,25 @@
-# OS
-.DS_Store
-Thumbs.db
+# deprecation-detector
+/.rules
 
-# IDEs
-.idea/
-.buildpath
-.project
-.settings/
+# Composer
+/vendor
+/bin/phpunit
+/bin/jsonlint
+/bin/phpcbf
+/bin/phpcs
+/bin/validate-json
+/bin/pdepend
+/bin/php-cs-fixer
+/bin/phpmd
 
-#Composer
-vendor
-bin/phpunit
+# Binaries
+/box.phar
+/console.phar
+/drupal.phar
+/drupal.phar.version
 
+# Test
+/phpunit.xml
+
+# Drupal
+/core

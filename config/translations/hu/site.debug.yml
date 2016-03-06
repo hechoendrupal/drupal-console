@@ -1,0 +1,9 @@
+description: 'Minden ismert helyi és távoli webhely listázása.'
+help: 'A <info>site:debug</info> parancs minden ismert helyi és távoli webhelyet felsorol.'
+messages:
+    site: Webhely
+    host: Gazdagép
+    root: Gyökér
+    directory-not-found: 'Nem található a hely helyi könyvtára'
+    private-key: 'Hiba a privát kulccsal'
+    connect-error: 'Hiba történt a csatlakozáskor a távoli géphez'

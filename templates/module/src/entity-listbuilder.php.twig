@@ -1,0 +1,40 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\{{ entity_class }}ListBuilder.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}};
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
+use Drupal\Core\Entity\EntityInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides a listing of {{ label }} entities.
+ */
+class {{ entity_class }}ListBuilder extends ConfigEntityListBuilder {% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public function buildHeader() {
+    $header['label'] = $this->t('{{ label }}');
+    $header['id'] = $this->t('Machine name');
+    return $header + parent::buildHeader();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildRow(EntityInterface $entity) {
+    $row['label'] = $entity->label();
+    $row['id'] = $entity->id();
+    // You probably want a few more properties here...
+    return $row + parent::buildRow($entity);
+  }
+{% endblock %}

@@ -1,0 +1,17 @@
+description: '显示当前 REST 资源'
+arguments:
+    resource-id: 'REST 资源 ID'
+options:
+    status: 'REST 资源状态 enabled | disabled'
+messages:
+    id: 'REST 资源 ID'
+    label: '标签'
+    canonical_url: 'Canonical URL'
+    status: 状态
+    provider: Provider
+    enabled: 启用
+    disabled: 禁用
+    rest-state: 'REST 状态'
+    supported-formats: '支持格式'
+    supported_auth: '支持的认证提供者'
+    not-found: 'REST 资源 %s 没有找到'

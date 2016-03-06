@@ -1,0 +1,8 @@
+description: 'Hiển thị phần chuyển đổi dữ liệu hiện có cho ứng dựng'
+arguments:
+    tag: 'Migrate tag'
+messages:
+    id: 'Id của phần chuyển đổi dữ liệu'
+    description: 'Mô tả'
+    no-migrations: 'Không có sẵn các phần chuyển đổi cố thực thi dòng lệnh: migrate:setup:migrations'
+    tags: Tags

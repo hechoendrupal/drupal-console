@@ -1,0 +1,15 @@
+description: 'Mező felületi elem bővítmény létrehozása'
+help: 'A <info>generate:plugin:fieldwidget</info> parancs új mező felületi elem bővítmény létrehozását segíti.'
+welcome: 'Üdvözlet a Drupal mező felületi elem bővítmény előállítóban'
+options:
+    module: common.options.module
+    class: 'Bővítmény osztályneve'
+    label: 'Bővítmény felirata'
+    plugin-id: 'Bővítmény azonosítója'
+    field-type: 'A mezőtípus, amivel a bővítmény használható'
+questions:
+    module: common.questions.module
+    class: 'Meg kell adni a bővítmény osztálynevét'
+    label: 'Meg kell adni a bővítmény feliratát'
+    plugin-id: 'Meg kell adni a bővítmény azonosítóját'
+    field-type: 'Meg kell adni a mezőtípust, amivel a bővítmény használható'

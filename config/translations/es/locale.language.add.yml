@@ -1,0 +1,4 @@
+description: 'Añadir un idioma que sea soportado en el sitio'
+messages:
+    invalid-language: 'El idioma %s, no es idioma válido'
+    language-add-successfully: 'El idioma %s fue agregado exitósamente.'

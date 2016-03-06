@@ -1,0 +1,14 @@
+description: 'Tạo dummy vocabularies cho ứng dụng Drupal 8 của bạn.'
+help: 'Câu lệnh <info>create:vocabularies</info> giúp bạn tạo dummy vocabularies.'
+welcome: 'Chào mừng đến với Drupal vocabularies creator'
+options:
+    limit: 'Bạn muốn tạo bao nhiêu vocabularies?'
+    name-words: 'Maximum number của từ trong vocabulary names'
+questions:
+    limit: 'Nhập vào số lượng vocabularies bạn muốn tạo'
+    name-words: 'Nhập vào maximum number của từ trong vocabulary names'
+messages:
+    vocabulary-id: 'Vocabulary Id'
+    name: Name
+    created-terms: 'Vocabularies %s đã được tạo thành công.'
+    error: 'Lỗi khi đang tạo vocabularies: %s'

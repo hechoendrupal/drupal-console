@@ -1,0 +1,29 @@
+description: 'Generate & Register a controller'
+help: 'The <info>generate:controller</info> command helps you generate a new controller.'
+welcome: 'Welcome to the Drupal Controller generator'
+options:
+    module: common.options.module
+    class: 'Controller Class name'
+    routes: 'The routes, must be an array containing [title, method, path]'
+    services: common.options.services
+    test: 'Generate a test class'
+    title: 'Title of the controller'
+    method: 'The action method name'
+    route: 'The route path'
+questions:
+    module: common.questions.module
+    class: 'Enter the Controller class name'
+    title: 'Enter the Controller method title'
+    method: 'Enter the action method name'
+    path: 'Enter the route path'
+    services: common.questions.services
+    test: 'Do you want to generate a unit test class'
+    route: 'Enter the route path'
+    controller-add: 'Do you want to add another contoller method'
+    controller: 'Controller title'
+messages:
+    title-empty: 'Title must contain a value'
+    title-already-added: 'Title was already added'
+    method-name-already-added: 'Method name was already added'
+    path-already-added: 'Path was already added'
+    route-already-added: 'Route was already added'
