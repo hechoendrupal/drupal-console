@@ -10,7 +10,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Parser;
-use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -78,20 +77,5 @@ class ImportSingleCommand extends ContainerAwareCommand
             );
             $input->setArgument('name', $name);
         }
-    }
-    /**
-     * @param $config_name String
-     *
-     * @return array
-     */
-    protected function getYamlConfig($config_name)
-    {
-        $configStorage = $this->getConfigStorage();
-        if ($configStorage->exists($config_name)) {
-            $configuration = $configStorage->read($config_name);
-            $configurationEncoded = Yaml::encode($configuration);
-        }
-
-        return $configurationEncoded;
     }
 }
