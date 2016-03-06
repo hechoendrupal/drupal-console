@@ -4,7 +4,7 @@
  * Contains \Drupal\Console\Command\Config\DeleteCommand.
  */
 
-namespace Drupal\Console\Command\Config;
+namespace Drupal\Console\Command\State;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,12 +20,12 @@ class DeleteCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('config:delete')
-            ->setDescription($this->trans('commands.config.delete.description'))
+            ->setName('state:delete')
+            ->setDescription($this->trans('commands.state.delete.description'))
             ->addArgument(
                 'name',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.config.delete.arguments.name')
+                $this->trans('commands.state.delete.arguments.name')
             );
     }
 
@@ -37,10 +37,10 @@ class DeleteCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
         $name = $input->getArgument('name');
         if (!$name) {
-            $configFactory = $this->getService('config.factory');
-            $names = $configFactory->listAll();
+            $keyValue = $this->getService('keyvalue');
+            $names = array_keys($keyValue->get('state')->getAll());
             $name = $io->choiceNoList(
-                $this->trans('commands.config.delete.arguments.name'),
+                $this->trans('commands.state.delete.arguments.name'),
                 $names
             );
             $input->setArgument('name', $name);
@@ -53,19 +53,18 @@ class DeleteCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $configFactory = $this->getService('config.factory');
+        $state = $this->getState();
         $name = $input->getArgument('name');
         if (!$name) {
-            $io->error($this->trans('commands.config.delete.messages.enter-name'));
+            $io->error($this->trans('commands.state.delete.messages.enter-name'));
 
             return 1;
         }
 
-        $configStorage = $this->getService('config.storage');
-        if (!$configStorage->exists($name)) {
+        if (!$state->get($name)) {
             $io->error(
                 sprintf(
-                    $this->trans('commands.config.delete.messages.config-not-exists'),
+                    $this->trans('commands.state.delete.messages.state-not-exists'),
                     $name
                 )
             );
@@ -74,7 +73,7 @@ class DeleteCommand extends ContainerAwareCommand
         }
 
         try {
-            $configFactory->getEditable($name)->delete();
+            $state->delete($name);
         } catch (\Exception $e) {
             $io->error($e->getMessage());
 
@@ -83,7 +82,7 @@ class DeleteCommand extends ContainerAwareCommand
 
         $io->success(
             sprintf(
-                $this->trans('commands.config.delete.messages.deleted'),
+                $this->trans('commands.state.delete.messages.deleted'),
                 $name
             )
         );
