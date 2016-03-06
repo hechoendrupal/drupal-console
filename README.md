@@ -1,125 +1,136 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-                          Drupal Console
-	
-  What is it?
-  -----------
-  The Drupal Console is a suite of tools run from a command line interface (CLI) 
-  to generate boilerplate code for interact and debug with Drupal 8. 
-  From the ground up, it has been built to utilize the same modern PHP 
-  practices which were introduced in Drupal 8.
+- [Drupal Console](#drupal-console)
+  - [Required PHP version](#required-php-version)
+  - [Supported Drupal version](#supported-drupal-version)
+  - [Drupal Console documentation](#documentation)
+  - [Installing Drupal Console](#installing-drupal-console)
+  - [Using Drupal Console](#using-drupal-console)
+  - [Supporting organizations](#supporting-organizations)
 
-  The Drupal Console makes use of the Symfony Console and other third party 
-  components which allows you to automatically generate most of the code needed 
-  for a Drupal 8 module. In addition, Drupal Console helps you interact with 
-  your Drupal installation 
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-  The Latest Version
-  ------------------
-  Details of the latest version can be found on the Drupal Console
-  project page under https://drupalconsole.com/.
+Drupal Console
+=============================================
 
-  Releases Page
-  ------------------  
-  All notable changes to this project will be documented in the 
-  [releases page](https://github.com/hechoendrupal/DrupalConsole/releases) 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/hechoendrupal/DrupalConsole)
+[![Build Status](https://travis-ci.org/hechoendrupal/DrupalConsole.svg?branch=master)](https://travis-ci.org/hechoendrupal/DrupalConsole)
+[![Latest Stable Version](https://poser.pugx.org/drupal/console/v/stable.svg)](https://packagist.org/packages/drupal/console)
+[![Latest Unstable Version](https://poser.pugx.org/drupal/console/v/unstable.svg)](https://packagist.org/packages/drupal/console)
+[![Software License](https://img.shields.io/badge/license-GPL%202.0+-blue.svg)](https://packagist.org/packages/drupal/console)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
 
-  Documentation
-  -------------  
-  The most up-to-date documentation can be found at [bit.ly/console-book]
-  (http://bit.ly/console-book).
+The Drupal Console is a suite of tools run from a command line interface (CLI) to generate boilerplate code for interact and debug with Drupal 8. From the ground up, it has been built to utilize the same modern PHP 
+practices which were introduced in Drupal 8.
 
-  More information about using this project at the [official documentation]
-  (https://hechoendrupal.gitbooks.io/drupal-console/content/en/using/project.html).  
+The Drupal Console makes use of the Symfony Console and other third party components which allows you to automatically generate most of the code needed for a Drupal 8 module. In addition, Drupal Console helps you interact with your Drupal installation 
 
-  Required PHP Version
-  -------------------- 
-  PHP 5.5.9 or higher is required to use the Drupal Console application.
+## The Last Version
+Details of the latest version can be found on the Drupal Console project page under https://drupalconsole.com/.
 
-  Installation
-  ------------  
+## Releases Page
+All notable changes to this project will be documented in the [releases page](https://github.com/hechoendrupal/DrupalConsole/releases) 
 
-    - Run this in your terminal to get the latest Console version:
-      curl https://drupalconsole.com/installer -L -o drupal.phar
+## Documentation
+The most up-to-date documentation can be found at [bit.ly/console-book](http://bit.ly/console-book).
 
-  	- Or if you don't have curl:
-	  php -r "readfile('https://drupalconsole.com/installer');" > drupal.phar
+More information about using this project at the [official documentation](https://hechoendrupal.gitbooks.io/drupal-console/content/en/using/project.html). 
 
-  	- Accessing from anywhere on your system:
-  	  mv drupal.phar /usr/local/bin/drupal
+## Required PHP Version
+PHP 5.5.9 or higher is required to use the Drupal Console application.
 
-  	- Apply executable permissions on the downloaded file:
-  	  chmod +x /usr/local/bin/drupal
+## Supported Drupal Version
+The Drupal 8 supported version is [Drupal 8.0.2](http://ftp.drupal.org/files/projects/drupal-8.0.2.tar.gz).
 
-	- Show all available commands.
-	  drupal list
+## Installing Drupal Console
+```
+# Run this in your terminal to get the latest Console version:
+curl https://drupalconsole.com/installer -L -o drupal.phar
 
-	- Copy configuration files.
-	  drupal init --override
+# Or if you don't have curl:
+php -r "readfile('https://drupalconsole.com/installer');" > drupal.phar
 
-	- Update to the latest version.
-	  drupal self-update
+# Accessing from anywhere on your system:
+mv drupal.phar /usr/local/bin/drupal
 
-  Support
-  ------------ 
-  You can ask for support at Drupal Console gitter chat room 
-  [http://bit.ly/console-support](http://bit.ly/console-support).  
+# Apply executable permissions on the downloaded file:
+chmod +x /usr/local/bin/drupal
 
-  Getting The Project To Contribute
-  ---------------------------------   
+# Show all available commands.
+drupal list
 
-	- Fork
-	  Fork your own copy of the [Console](https://github.com/hechoendrupal/DrupalConsole/fork) 
-	  repository to your account
+# Copy configuration files.
+drupal init --override
 
-	- Clone
-	  Get a copy of your recently cloned version of console in your machine.
-	  $ git clone git@github.com:[your-git-user-here]/DrupalConsole.git
+# Update to the latest version.
+drupal self-update
+```
+## Drupal Console support
+You can ask for support at Drupal Console gitter chat room [http://bit.ly/console-support](http://bit.ly/console-support).
 
-	- Install dependencies
-      Now that you have cloned the project, you need to download dependencies via 
-      Composer.
+More information about using this project at the [official documentation](https://hechoendrupal.gitbooks.io/drupal-console/content/en/using/project.html).
 
-	  $ cd /path/to/DrupalConsole
-      $ composer install
+## Getting the project to contribute
 
-	- Running the project
-	  After using Composer to download dependencies, you can run the project by 
-	  executing.
+### Fork
+Fork your own copy of the [Console](https://github.com/hechoendrupal/DrupalConsole/fork) repository to your account
 
-	  $ bin/drupal
+### Clone
+Get a copy of your recently cloned version of console in your machine.
+```
+$ git clone git@github.com:[your-git-user-here]/DrupalConsole.git
+```
 
-	- Create a symbolic link
-	  You can run this command to easily access the Drupal Console from anywhere 
-	  on your system.
+### Install dependencies
+Now that you have cloned the project, you need to download dependencies via Composer.
 
-	  $ sudo ln -s /path/to/DrupalConsole/bin/drupal /usr/local/bin/drupal
+```
+$ cd /path/to/DrupalConsole
+$ composer install
+```
 
-	  NOTE: The name `drupal` is just an alias you can name it anything you like.
+### Running the project
+After using Composer to download dependencies, you can run the project by executing:
 
-  More information about how to contribute with this project at the [official documentation]
-  (https://hechoendrupal.gitbooks.io/drupal-console/content/en/contributing/new-features.html).
+```
+$ bin/drupal
+```
 
-  Enabling Autocomplete
-  ---------------------  
-  You can enable autocomplete by executing drupal init
+### Create a symbolic link
 
-  Bash: Bash support depends on the http://bash-completion.alioth.debian.org/
-  project which can be installed with your package manager of choice. Then add 
-  this line to your shell configuration file.
-  source "$HOME/.console/console.rc" 2>/dev/null
+You can run this command to easily access the Drupal Console from anywhere on your system:
 
-  Zsh: Add this line to your shell configuration file.
-  source "$HOME/.console/console.rc" 2>/dev/null
+```
+$ sudo ln -s /path/to/DrupalConsole/bin/drupal /usr/local/bin/drupal
+```
 
-  Fish: Create a symbolic link
-  ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish
+**NOTE:** The name `drupal` is just an alias you can name it anything you like.
 
-  Supporting Organizations
-  ------------------------
+More information about how to contribute with this project at the [official documentation](https://hechoendrupal.gitbooks.io/drupal-console/content/en/contributing/new-features.html).
 
-	- [![FFW](https://www.drupal.org/files/ffw-logo.png)](https://ffwagency.com)  
-	- [![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)  
-	- [![Anexus](https://www.drupal.org/files/anexus-logo.png)](http://www.anexusit.com/)  
+## Enabling Autocomplete
+```
+# You can enable autocomplete by executing
+drupal init
+
+# Bash: Bash support depends on the http://bash-completion.alioth.debian.org/
+# project which can be installed with your package manager of choice. Then add 
+# this line to your shell configuration file.
+source "$HOME/.console/console.rc" 2>/dev/null
+
+# Zsh: Add this line to your shell configuration file.
+source "$HOME/.console/console.rc" 2>/dev/null
+
+# Fish: Create a symbolic link
+ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish
+```
+
+## Supporting organizations
+[![FFW](https://www.drupal.org/files/ffw-logo.png)](https://ffwagency.com)  
+[![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)  
+[![Anexus](https://www.drupal.org/files/anexus-logo.png)](http://www.anexusit.com/)
 
 
-  > Drupal is a registered trademark of Dries Buytaert.
+> Drupal is a registered trademark of Dries Buytaert.
