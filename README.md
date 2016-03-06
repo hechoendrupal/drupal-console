@@ -6,8 +6,7 @@
   - [Required PHP version](#required-php-version)
   - [Supported Drupal version](#supported-drupal-version)
   - [Drupal Console documentation](#documentation)
-  - [Installing Drupal Console](#installing-drupal-console)
-  - [Using Drupal Console](#using-drupal-console)
+  - [Installing Drupal Console](#installing-drupal-console)  
   - [Supporting organizations](#supporting-organizations)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
