@@ -1,0 +1,11 @@
+description: 'Separă un fişier YAML folosind indentarea ca şi criteriu de separare.'
+arguments:
+    yaml-file: 'Calea către fişierul YAML care va fi separat'
+options:
+    indent-level: 'Separă fişierul YAML folosind un nivel specific de indentare'
+    exclude-parents-key: 'Exclude cheia părinte din numele fişierului generat'
+    starting-key: 'Cheia YAML de unde se va începe separarea. Este utilă pentru a extrage fragmente de elemente.'
+messages:
+    generating-split: 'Generează fişiere noi'
+    split-generated: 'Fişierul %s a fost generat'
+    invalid-key: 'Cheia YAML introdusă ca început de seprarea este invalidă. Combine with indent-level 0 to extract values'

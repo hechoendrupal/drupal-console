@@ -1,0 +1,17 @@
+description: 'LListar les actualitzacions de les traduccions disponibles'
+arguments:
+    language: 'Idioma (p.e. ca o Català)'
+messages:
+    no-languages: 'No hi han treaduccions disponibles. Afegeix un idioma primer.'
+    up-to-date: 'Totes les traduccions estan actualitzades.'
+    no-translations: 'L''estat de les traduccions no està disponible. Comprova-ho manualment. '
+    project: Projecte
+    version: Versió
+    local-age: 'Edad local'
+    remote-age: 'Edad remota'
+    info: Informació
+    no-translation-files: 'No es proporcionen fitxers de traducció per llançaments de desenvolupament.'
+    file-not-found: 'No s''ha trobat el fitxer a %s ni a %s'
+    local-file-not-found: 'No s''ha trobat el fitxer a %s'
+    translation-not-determined: 'L''ubicació de la traducció no s''ha trobat.'
+    translation-project-updated: Actualitzat

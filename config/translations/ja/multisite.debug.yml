@@ -1,0 +1,7 @@
+description: マルチサイトの一覧を表示
+help: '<info>multisite:debug</info> はマルチサイトの一覧を表示します。'
+messages:
+    no-multisites: マルチサイトが設定されていません。
+    site: Site
+    directory: Directory
+    site-format: 'Sites are written using the format: <port>.<domain>.<path>'

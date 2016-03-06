@@ -1,0 +1,281 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{ module }}\Entity\{{ entity_class }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }}\Entity;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Entity\ContentEntityBase;
+use Drupal\Core\Entity\EntityChangedTrait;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\{{ module }}\{{ entity_class }}Interface;
+use Drupal\user\UserInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Defines the {{ label }} entity.
+ *
+ * @ingroup {{ module }}
+ *
+ * @ContentEntityType(
+ *   id = "{{ entity_name }}",
+ *   label = @Translation("{{ label }}"),
+{% if bundle_entity_type %}
+ *   bundle_label = @Translation("{{ label }} type"),
+{% endif %}
+ *   handlers = {
+ *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
+ *     "list_builder" = "Drupal\{{ module }}\{{ entity_class }}ListBuilder",
+ *     "views_data" = "Drupal\{{ module }}\Entity\{{ entity_class }}ViewsData",
+ *
+ *     "form" = {
+ *       "default" = "Drupal\{{ module }}\Form\{{ entity_class }}Form",
+ *       "add" = "Drupal\{{ module }}\Form\{{ entity_class }}Form",
+ *       "edit" = "Drupal\{{ module }}\Form\{{ entity_class }}Form",
+ *       "delete" = "Drupal\{{ module }}\Form\{{ entity_class }}DeleteForm",
+ *     },
+ *     "access" = "Drupal\{{ module }}\{{ entity_class }}AccessControlHandler",
+ *     "route_provider" = {
+ *       "html" = "Drupal\{{ module }}\{{ entity_class }}HtmlRouteProvider",
+ *     },
+ *   },
+ *   base_table = "{{ entity_name }}",
+ *   admin_permission = "administer {{ label|lower }} entities",
+{% if bundle_entity_type %}
+ *   entity_keys = {
+ *     "id" = "id",
+ *     "bundle" = "type",
+ *     "label" = "name",
+ *     "uuid" = "uuid",
+ *     "uid" = "user_id",
+ *     "langcode" = "langcode",
+ *     "status" = "status",
+ *   },
+{% else %}
+ *   entity_keys = {
+ *     "id" = "id",
+ *     "label" = "name",
+ *     "uuid" = "uuid",
+ *     "uid" = "user_id",
+ *     "langcode" = "langcode",
+ *     "status" = "status",
+ *   },
+{% endif %}
+ *   links = {
+ *     "canonical" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
+{% if bundle_entity_type %}
+ *     "add-form" = "{{ base_path }}/{{ entity_name }}/add/{{ '{'~bundle_entity_type~'}' }}",
+{% else %}
+ *     "add-form" = "{{ base_path }}/{{ entity_name }}/add",
+{% endif %}
+ *     "edit-form" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
+ *     "delete-form" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete",
+ *     "collection" = "{{ base_path }}/{{ entity_name }}",
+ *   },
+{% if bundle_entity_type %}
+ *   bundle_entity_type = "{{ bundle_entity_type }}",
+ *   field_ui_base_route = "entity.{{ bundle_entity_type }}.edit_form"
+{% else %}
+ *   field_ui_base_route = "{{ entity_name }}.settings"
+{% endif %}
+ * )
+ */
+class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}Interface {% endblock %}
+
+{% block use_trait %}
+  use EntityChangedTrait;
+{% endblock %}
+
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public static function preCreate(EntityStorageInterface $storage_controller, array &$values) {
+    parent::preCreate($storage_controller, $values);
+    $values += array(
+      'user_id' => \Drupal::currentUser()->id(),
+    );
+  }
+
+{% if bundle_entity_type %}
+  /**
+   * {@inheritdoc}
+   */
+  public function getType() {
+    return $this->bundle();
+  }
+
+{% endif %}
+  /**
+   * {@inheritdoc}
+   */
+  public function getName() {
+    return $this->get('name')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setName($name) {
+    $this->set('name', $name);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCreatedTime() {
+    return $this->get('created')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setCreatedTime($timestamp) {
+    $this->set('created', $timestamp);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getOwner() {
+    return $this->get('user_id')->entity;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getOwnerId() {
+    return $this->get('user_id')->target_id;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setOwnerId($uid) {
+    $this->set('user_id', $uid);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setOwner(UserInterface $account) {
+    $this->set('user_id', $account->id());
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isPublished() {
+    return (bool) $this->getEntityKey('status');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setPublished($published) {
+    $this->set('status', $published ? NODE_PUBLISHED : NODE_NOT_PUBLISHED);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
+    $fields['id'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('ID'))
+      ->setDescription(t('The ID of the {{ label }} entity.'))
+      ->setReadOnly(TRUE);
+{% if bundle_entity_type %}
+    $fields['type'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Type'))
+      ->setDescription(t('The {{ label }} type/bundle.'))
+      ->setSetting('target_type', '{{ bundle_entity_type }}')
+      ->setRequired(TRUE);
+{% endif %}
+    $fields['uuid'] = BaseFieldDefinition::create('uuid')
+      ->setLabel(t('UUID'))
+      ->setDescription(t('The UUID of the {{ label }} entity.'))
+      ->setReadOnly(TRUE);
+
+    $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Authored by'))
+      ->setDescription(t('The user ID of author of the {{ label }} entity.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'user')
+      ->setSetting('handler', 'default')
+      ->setDefaultValueCallback('Drupal\node\Entity\Node::getCurrentUserId')
+      ->setTranslatable(TRUE)
+      ->setDisplayOptions('view', array(
+        'label' => 'hidden',
+        'type' => 'author',
+        'weight' => 0,
+      ))
+      ->setDisplayOptions('form', array(
+        'type' => 'entity_reference_autocomplete',
+        'weight' => 5,
+        'settings' => array(
+          'match_operator' => 'CONTAINS',
+          'size' => '60',
+          'autocomplete_type' => 'tags',
+          'placeholder' => '',
+        ),
+      ))
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
+
+    $fields['name'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Name'))
+      ->setDescription(t('The name of the {{ label }} entity.'))
+      ->setSettings(array(
+        'max_length' => 50,
+        'text_processing' => 0,
+      ))
+      ->setDefaultValue('')
+      ->setDisplayOptions('view', array(
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => -4,
+      ))
+      ->setDisplayOptions('form', array(
+        'type' => 'string_textfield',
+        'weight' => -4,
+      ))
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
+
+    $fields['status'] = BaseFieldDefinition::create('boolean')
+      ->setLabel(t('Publishing status'))
+      ->setDescription(t('A boolean indicating whether the {{ label }} is published.'))
+      ->setDefaultValue(TRUE);
+
+    $fields['langcode'] = BaseFieldDefinition::create('language')
+      ->setLabel(t('Language code'))
+      ->setDescription(t('The language code for the {{ label }} entity.'))
+      ->setDisplayOptions('form', array(
+        'type' => 'language_select',
+        'weight' => 10,
+      ))
+      ->setDisplayConfigurable('form', TRUE);
+
+    $fields['created'] = BaseFieldDefinition::create('created')
+      ->setLabel(t('Created'))
+      ->setDescription(t('The time that the entity was created.'));
+
+    $fields['changed'] = BaseFieldDefinition::create('changed')
+      ->setLabel(t('Changed'))
+      ->setDescription(t('The time that the entity was last edited.'));
+
+    return $fields;
+  }
+{% endblock %}

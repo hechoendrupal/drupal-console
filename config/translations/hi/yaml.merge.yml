@@ -1,0 +1,17 @@
+description: 'एक या एक से ज़्यादा YAML फाइलो को एक YAML फाइल में विलय करें। नवीनीकरण निधि सुरक्षित रहेंगे।'
+arguments:
+    yaml-files: 'YAML फ़ाइलें का पथ प्रदान करे के लिए'
+    yaml-destination: 'YAML फ़ाइलें का पथ परिणाम स्टोर करने के लिए'
+questions:
+    yaml-destination: 'YAML फ़ाइलें का पथ परिणाम स्टोर करने के लिए'
+    file: 'विलय करने वाली फाइल का मार्ग'
+    other-file: 'विलय करने वाली फाइल का मार्ग (empty to start with merge process)'
+    invalid-file: 'फ़ाइल का पथ खाली नहीं हो सकता'
+    file-already-added: 'फ़ाइल का पथ पहले से ही जोड़ा गया है'
+messages:
+    wrong-parse: 'Yaml फ़ाइल ''%s'' खाली है या फ़ाइल मौजूद नहीं है'
+    error-parsing: 'एक त्रुटि YAML फ़ाइल की पार्सिंग के दौरान है "%s" '
+    two-files-required: 'कम से कम दो फ़ाइलों आवश्यक हैं'
+    error-generating: 'YAML विलय में त्रुटि है'
+    error-writing: 'YAML फ़ाइल के विलय करने मे त्रुटि है'
+    merged: 'नई फ़ाइल "%s" बनाया गया था सफलतापूर्वक YAML फ़ाइलें विलय के बाद'

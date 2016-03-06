@@ -1,0 +1,7 @@
+description: 'Execució de comandaments en secuència'
+options:
+    file: 'El fitxer definit per l''usuari que conté el comandaments que s''executaran.'
+messages:
+    missing_file: 'Ha de proveir un nom de fitxer i ruta vàlida.'
+    invalid_file: 'No existeix l fitxer "%s".'
+    module_install: 'El comandament module:install no es pot executar dins d''una seqüència i s''ha d''executar independentment.'

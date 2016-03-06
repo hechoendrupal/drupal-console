@@ -1,0 +1,5 @@
+description: 'Eliminar esdeveniments de la taula DBLog, filtre disponible'
+messages:
+    event-deleted: 'S''ha esborrat l''esdeveniment %s'
+    clear-error: 'El procés de neteja a fallat, verifica els filtres utilitzats'
+    clear-sucess: 'S''ha completat correctament el procés de neteja'

@@ -1,0 +1,18 @@
+description: 'दो YAML फाइल का अंतर देखने के लिये उनकी तुलना करें'
+arguments:
+    yaml-left: 'YAML तुलना करने के लिए आधार के रूप में इस्तेमाल किया जाता हे'
+    yaml-right: 'YAML फाइल गायब या आधार YAML फ़ाइल के साथ मतभेदों को निर्धारित करने के लिए प्रयोग किया जाता है'
+options:
+    stats: 'YAML फाइल्स comparation की तुलना में Print statistics'
+    negate: 'विधि अंतर या समान तुलना दर्ज करें, सम्भवत निधि TRUE/FALSE या 0/1'
+    limit: 'परिणामों कि संख्या सीमित करें'
+    offset: 'सीमा का प्रारंभिक बिंदु'
+questions:
+    yaml-left: 'Path of YAML तुलना में आधार के रूप में फ़ाइल इस्तेमाल किया जाता है।'
+    yaml-right: 'Path of YAML तुलना करने के लिए फ़ाइल।'
+messages:
+    key: 'YAML कुंजी'
+    value: 'YAML निधि'
+    total: 'कुल: %s'
+    diff: 'रचनाकार: %s'
+    equal: 'बराबर: %s'

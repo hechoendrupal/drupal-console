@@ -1,0 +1,11 @@
+description: 'Descarregar tema per l''aplicació'
+options:
+    version: 'Versió del tema p.e 1.x-dev'
+messages:
+    no-releases: 'No hi han versions per el tema %s'
+    getting-releases: 'Obtenint versions per el tema %s'
+    downloading: 'Descarregant tema %s versió %s'
+    downloaded: 'El tema %s version %s s''ha descarregat correctament a %s'
+    select-release: 'Seleccioneu una versió'
+    outside-drupal: 'No s''ha pogut determinar l''arrel de Drupal. Per definir el destí utilitza --root, en qualsevol cas serà utilitzat el directori actual.'
+    error-creating-folder: 'S''ha produït un error creant el directori %s, verifica el permisos'

@@ -1,0 +1,4 @@
+description: 'Liste des modules implémentants une tâche cron'
+messages:
+    module-list: 'Modules implémentants une tâche cron'
+    module: Module

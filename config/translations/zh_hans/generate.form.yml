@@ -1,0 +1,23 @@
+description: '生成新 "%s"'
+help: '命令 <info>"%s"</info> 用于生成新的"%s"'
+welcome: '欢迎使用 Drupal 表单生成器'
+options:
+    module: common.options.module
+    class: 'The form class name'
+    form-id: '表格ID'
+    services: common.options.services
+    inputs: common.options.inputs
+    routing: 更新路径
+    class-name: '表格类名'
+questions:
+    module: common.questions.module
+    class: 'Enter the Form Class name'
+    form-id: '输入表格ID'
+    services: common.questions.services
+    inputs: common.questions.inputs
+    routing: 更新路径文件
+    menu_link_gen: 'Generate a menu link'
+    menu_link_title: 'A title for the menu link'
+    menu_parent: 'Menu parent'
+    menu_link_desc: 'A description for the menu link'
+    class-name: '输入表格类名'

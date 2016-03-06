@@ -1,0 +1,7 @@
+description: 'एक बार काम करने वाली उपभोग्ता लोगिन URL देता है।'
+options:
+    user-id: 'यूजर आईड।'
+messages:
+    url: '@name: @url के लिये एक बार लोगिन'
+errors:
+    invalid-user: 'यूजर एंटिटी लोड नहीं कर सकता (User ID: @uid).'

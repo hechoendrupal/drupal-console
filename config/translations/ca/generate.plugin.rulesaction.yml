@@ -1,0 +1,22 @@
+description: 'Generar un connector d''acció de regla'
+help: 'El comandament <info>generate:plugin:rulesaction</info> t''ajuda a generar un nou connector d''acció de regla.'
+welcome: 'Us donem la benvinguda al generador de connector d''acció de regles'
+options:
+    module: common.options.module
+    class: 'Nom de la clase del connector'
+    label: 'Etiqueta del connector'
+    plugin-id: 'Identificador del connector'
+    inputs: common.options.inputs
+    services: common.options.services
+    category: 'Categoría del connector'
+    context: 'Context del connector'
+    type: 'Tipus d''acció (usuari o node)'
+questions:
+    module: common.questions.module
+    class: 'Introduïu el nom de la classe del connector'
+    label: 'Introduïu l''etiqueta del connector'
+    plugin-id: 'Introduïu l''identificador del connector'
+    inputs: common.questions.inputs
+    services: common.questions.services
+    category: 'Introduïu la categoría del connector'
+    context: 'Introduïu el context del connector'

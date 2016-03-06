@@ -1,0 +1,19 @@
+description: 'REST-erőforrás bővítmény létrehozása'
+help: 'A <info>generate:plugin:rest:resource</info> parancs új REST-erőforrás létrehozását segíti.'
+welcome: 'Üdvözlet a Drupal REST-erőforrás bővítmény előállítóban'
+options:
+    module: common.options.module
+    class: 'REST-erőforrás bővítményosztály'
+    plugin-id: 'REST-erőforrás bővítmény azonosítója'
+    plugin-label: 'REST-erőforrás bővítmény címkéje'
+    plugin-url: 'REST-erőforrás bővítmény URL-címe'
+    plugin-states: 'REST-erőforrás bővítmény állapotok'
+questions:
+    module: common.questions.module
+    class: 'Meg kell adni a REST-erőforrás bővítmény nevét'
+    plugin-id: 'Meg kell adni a REST-erőforrás bővítmény azonosítóját'
+    plugin-label: 'Meg kell adno a REST-erőforrás bővítmény feliratát'
+    plugin-url: 'Meg kell adni a REST-erőforrás bővítmény URL-címét'
+    plugin-states: 'Ki kell választani, hogy az erőforrás milyen REST-állapotokat valósít meg (alapértelmezés szerint a GET van kiválasztva)'
+messages:
+    selected-states: 'Kiválasztott állapotok'

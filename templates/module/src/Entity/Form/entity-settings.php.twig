@@ -1,0 +1,64 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\Form\{{ entity_class }}SettingsForm.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Form;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormStateInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Class {{ entity_class }}SettingsForm.
+ *
+ * @package Drupal\{{module}}\Form
+ *
+ * @ingroup {{module}}
+ */
+class {{ entity_class }}SettingsForm extends FormBase {% endblock %}
+{% block class_methods %}
+  /**
+   * Returns a unique string identifying the form.
+   *
+   * @return string
+   *   The unique string identifying the form.
+   */
+  public function getFormId() {
+    return '{{ entity_class }}_settings';
+  }
+
+  /**
+   * Form submission handler.
+   *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   */
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    // Empty implementation of the abstract submit class.
+  }
+
+
+  /**
+   * Defines the settings form for {{ label }} entities.
+   *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   *
+   * @return array
+   *   Form definition array.
+   */
+  public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['{{ entity_class }}_settings']['#markup'] = 'Settings form for {{ label }} entities. Manage field settings here.';
+    return $form;
+  }
+{% endblock %}

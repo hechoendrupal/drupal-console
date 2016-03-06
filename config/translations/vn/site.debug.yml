@@ -1,0 +1,9 @@
+description: 'Liệt kê tất cả các sites cục bộ và từ xa đã biết.'
+help: 'Lệnh <info>site:debug</info> liệt kê tất cả các sites cục bộ và từ xa đã biết.'
+messages:
+    site: Site
+    host: Host
+    root: Root
+    directory-not-found: 'Không tìm thấy các sites thư mục cục bộ'
+    private-key: 'Lỗi với key cá nhân'
+    connect-error: 'Lỗi khi kết nối đến máy từ xa'

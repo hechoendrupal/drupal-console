@@ -1,0 +1,6 @@
+description: 'Aktuális alkalmazáskonfiguráció exportálása.'
+arguments:
+    directory: 'Meg kell adni az exportálási könyvtárt a konfigurációs kimenet mentéséhez.'
+    tar: 'Ha be van állítva, akkor a konfiguráció archívumfájlba lesz exportálva.'
+messages:
+    directory: 'Megtörtént a konfiguráció exportálása:'

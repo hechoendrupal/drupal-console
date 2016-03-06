@@ -1,0 +1,38 @@
+description: 'Az alkalmazáshoz elérhető költöztetés végrehajtása'
+arguments:
+    id: 'Költöztetési azonosító(k)'
+options:
+    site-url: 'Webhely forrás URL-címe'
+    db-file: Adatbázisfájl
+    db-host: Adatbázis-gazdagép
+    db-name: 'Adatbázis neve'
+    db-user: Adatbázis-felhasználó
+    db-pass: 'Adatbázis jelszó'
+    db-prefix: 'Adatbázis előtag'
+    db-port: 'Adatbázis port'
+    exclude: 'Kizárandó költöztetési azonosító(k)'
+questions:
+    id: 'Költöztetési azonosító'
+    exclude-id: 'Kizárandó költöztetési azonosító (a <return> megnyomásával állítható le a kizárandó költöztetések hozzáadása)'
+    other-id: 'Más költöztetési azonosító (a <return> megnyomásával állítható le a költöztetések hozzáadása)'
+    site-url: 'Forrás webhely URL'
+    db-file: Adatbázisfájl
+    db-host: Adatbázis-gazdagép
+    db-name: 'Adatbázis neve'
+    db-user: Adatbázis-felhasználó
+    db-pass: 'Adatbázis jelszó'
+    db-prefix: 'Adatbázis előtag'
+    db-port: 'Adatbázis port'
+    invalid-migration-id: 'Érvénytelen %s költöztetési azonosító'
+messages:
+    processing: '%s költöztetés feldolgozása'
+    imported: '%s költöztetés importálása sikerült'
+    fail-load: '%s költöztetés nem tölthető be'
+    importing-incomplete: '%s költöztetés importálása'
+    import-stopped: '%s importálás kérésre leállítva'
+    import-fail: '%s importálás meghiúsult'
+    import-skipped: '%s importálás nem teljesült függőségek miatt kihagyva'
+    wrong-source: 'Nem támogatott a frissítés a Drupal ezen verziójáról.'
+    destination-error: 'Hibás adatbáziscél'
+    source-error: 'Hibás adatbázisforrás'
+    no-migrations: 'Nincsenek rendelkezésre álló végrehajtandó költöztetések'

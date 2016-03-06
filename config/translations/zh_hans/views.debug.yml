@@ -1,0 +1,18 @@
+description: 'Display current views resources for the application'
+arguments:
+    view-id: 视图ID
+    view-tag: '视图标签'
+    view-status: 视图状态(已启动|未启动)
+messages:
+    view-id: 视图ID
+    view-name: 视图名字
+    description: 简介
+    tag: '标签'
+    status: 状态
+    path: 路径
+    not-found: 没找到视图%s.
+    display-list: 显示列表
+    display-id: ID
+    display-name: 名字
+    display-description: 简介
+    display-paths: 路径

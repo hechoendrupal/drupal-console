@@ -1,0 +1,9 @@
+description: 'Enlista todos los sitios, locales y remotos, conocidos.'
+help: '<info>site:debug</info> enlista todos los sitios, locales y remotos, conocidos.'
+messages:
+    site: Sitio
+    host: Host
+    root: Raíz
+    directory-not-found: 'Directorio local de sitios no encontrado'
+    private-key: 'Error con la clave privada'
+    connect-error: 'Error al conectar con la máquina remota'

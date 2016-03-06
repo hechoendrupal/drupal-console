@@ -1,0 +1,41 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{ module }}\Plugin\{{ class_name }}Manager.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }}\Plugin;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Plugin\DefaultPluginManager;
+use Drupal\Core\Cache\CacheBackendInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides the {{ label }} plugin manager.
+ */
+class {{ class_name }}Manager extends DefaultPluginManager {% endblock %}
+{% block class_methods %}
+
+  /**
+   * Constructor for {{ class_name }}Manager objects.
+   *
+   * @param \Traversable $namespaces
+   *   An object that implements \Traversable which contains the root paths
+   *   keyed by the corresponding namespace to look for plugin implementations.
+   * @param \Drupal\Core\Cache\CacheBackendInterface $cache_backend
+   *   Cache backend instance to use.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler to invoke the alter hook with.
+   */
+  public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
+    parent::__construct('Plugin/{{ class_name }}', $namespaces, $module_handler, 'Drupal\{{ module }}\Plugin\{{ class_name }}Interface', 'Drupal\{{ module }}\Annotation\{{ class_name }}');
+
+    $this->alterInfo('{{ module }}_{{ machine_name }}_info');
+    $this->setCacheBackend($cache_backend, '{{ module }}_{{ machine_name }}_plugins');
+  }
+{% endblock %}

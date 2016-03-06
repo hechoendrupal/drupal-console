@@ -1,0 +1,12 @@
+description: 'Limpia intentos de inicio de sesión fallidos para una cuenta.'
+help: 'El commando <info>clean:login:failed</info> restablece los intentos fallidos de inicio de sesión para una cuenta.'
+options:
+    user-id: 'Id de usuario.'
+questions:
+    uid: 'Introduzca un id de usuario.'
+    numeric-uid: 'El id de usuario debe ser válido.'
+    invalid-uid: 'El id de usuario debe ser mayor que cero.'
+messages:
+    successful: 'Los intentos de inicio de sesión fueron restablecidos satisfactoriamente para el id del usuario %s.'
+errors:
+    invalid-user: 'No se puede cargar la entidad de usuario (Uid: %s).'

@@ -1,0 +1,7 @@
+description: 显示数据库所有表
+help: '命令 <info>database:table:debug</info> 用于调试数据库表'
+arguments:
+    database: 'settings.php 文件中 Database 的键'
+messages:
+    table-show: '数据库 %s 中的表'
+    table: 表

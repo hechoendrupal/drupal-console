@@ -1,0 +1,15 @@
+description: 'Képhatás bővítmény létrehozása'
+help: 'A <info>generate:plugin:imageeffect</info> parancs új képhatás bővítmény létrehozását segíti.'
+welcome: 'Üdvözlet a Drupal képhatás bővítmény előállítóban'
+options:
+    module: common.options.module
+    class: 'Bővítmény osztályneve'
+    label: 'Bővítmény felirata'
+    plugin-id: 'Bővítmény azonosítója'
+    description: 'Bővítmény leírása'
+questions:
+    module: common.questions.module
+    class: 'Meg kell adni a bővítmény osztálynevét'
+    label: 'Meg kell adni a bővítmény feliratát'
+    plugin-id: 'Meg kell adni a bővítmény azonosítóját'
+    description: 'Meg kell adni a bővítmény leírását'

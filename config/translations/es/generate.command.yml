@@ -1,0 +1,21 @@
+description: 'Genera un comando para la consola.'
+help: 'El comando <info>generate:command</info> le ayudará a generar un nuevo comando.'
+welcome: 'Bienvenido al generador de Comandos de Drupal'
+options:
+    module: common.options.module
+    controller-title: 'Título del controlador'
+    class: 'Nombre de la Clase de Comandos'
+    name: 'Nombre del comando.'
+    container-aware: 'Conoce el comando acerca de la instalación del sitio drupal cuando sea ejecutado'
+    command: 'Nombre del Comando'
+    container: 'Acceso al contenedor de servicios'
+questions:
+    module: common.questions.module
+    class: 'Introduzca el nombre de la Clase de Comandos'
+    name: 'Ingrese el nombre del comando.'
+    container-aware: 'Conoce el comando acerca de la instalación del sitio drupal cuando sea ejecutado?.'
+    command: 'Introduzca el nombre del Comando'
+    container: 'Necesita acceder al contenedor de servicios'
+    controller-title: 'Título del controlador'
+messages:
+    title-not-empty: 'el Título no puede estar vacío'

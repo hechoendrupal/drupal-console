@@ -1,0 +1,27 @@
+description: モジュールをインストール
+arguments:
+    module: 'Module or modules to be enabled should be separated by a space'
+options:
+    latest: 'Default to download most recent version'
+    module: 'モジュール名 (複数指定する場合はスペース区切り)'
+    overwrite-config: 'Overwrite configuration active if necessary'
+questions:
+    module: 'モジュール名 (複数指定する場合はスペース区切り)'
+    invalid-module: 'Invalid module %s'
+messages:
+    no-modules: 'You must provide module or modules to enable.'
+    missing: 'Unable to install module(s) %s due to missing module(s) %s'
+    missing-dependencies: 'Unable to install modules %s due to missing dependencies %s'
+    nothing: モジュールはすでにインストールされています。
+    dependencies: '依存している次のモジュールをインストールしますか？: %s?'
+    success: 'モジュール %s がインストールされました。'
+    disabled-modules: 'Only disabled modules will be listed in autocomplete'
+    config-conflict-overwrite: 'These configuration objects will be overwritten in your active configuration'
+    config-conflict: 'These configuration objects already exist in active configuration, installation is not possible'
+    getting-missing-modules: 'One or more modules %s are not available, running download process to get those modules'
+    getting-releases: 'Getting releases for module %s'
+    select-release: 'Please select your favorite release'
+    downloading: 'Downloading module %s release %s'
+    downloaded: 'Module %s version %s was downloaded successfully at %s'
+    no-releases: 'There aren''t any releases for module %s'
+    installing: 'Installing module(s) %s'

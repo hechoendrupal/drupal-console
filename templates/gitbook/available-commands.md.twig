@@ -1,0 +1,32 @@
+# {{ messages.title }}
+
+**{{ messages.note }}:** {{ messages.note_description }}.
+
+{{ messages.command }} | {{ messages.details }}
+------------ | -------------
+{% for namespace, commands in command_list %}
+{% if namespace != 'none' %}
+**{{ namespace }}**  |
+{% endif %}
+{% for command in commands %}
+[{{ command.name }}]({{ command.name|replace(':','-') }}.md) | {{ command.description }}
+{% endfor %}
+{% endfor %}
+{% if options|length>0 %}
+
+## {{ messages.options }}
+{{ messages.option }} | {{ messages.details }}
+-------|-------------
+{% for option in options %}
+--{{ option.name }} | {{ option.description }}
+{% endfor %}
+{% endif %}
+{% if arguments|length>0 %}
+
+## {{ messages.arguments }}
+{{ messages.argument }} | {{ messages.details }}
+---------|-------------
+{% for argument in arguments %}
+{{ argument.name }} | {{ argument.description }}
+{% endfor %}
+{% endif %}

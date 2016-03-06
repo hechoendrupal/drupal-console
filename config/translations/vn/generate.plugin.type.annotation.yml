@@ -1,0 +1,13 @@
+description: 'Tạo một kiểu plugin với annotation discovery'
+help: 'Câu lệnh <info>generate:plugin:type:annotation</info> giúp bạn tạo một kiểu Plugin mới mà sử dụng annotation discovery.'
+welcome: 'Chào mừng đến với Drupal Plugin Type'
+options:
+    module: common.options.module
+    class: 'Nhập tên lớp kiểu plugin'
+    machine-name: 'Nhập tên máy kiểu plugin'
+    label: 'Nhập nhãn kiểu plugin'
+questions:
+    module: common.questions.module
+    class: 'Nhập tên lớp kiểu plugin'
+    machine-name: 'Nhập tên máy kiểu plugin'
+    label: 'Nhập nhãn kiểu plugin'

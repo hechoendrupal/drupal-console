@@ -1,0 +1,24 @@
+# {{ label }} routing definition
+{# Note: a content entity with bundles will have the settings configured on the bundle (config) entity. #}
+{% if not bundle_entity_type %}
+{{ entity_name }}.settings_tab:
+  route_name: {{ entity_name }}.settings
+  title: 'Settings'
+  base_route: {{ entity_name }}.settings
+{% endif %}
+entity.{{ entity_name }}.canonical:
+  route_name: entity.{{ entity_name }}.canonical
+  base_route: entity.{{ entity_name }}.canonical
+  title: 'View'
+
+entity.{{ entity_name }}.edit_form:
+  route_name: entity.{{ entity_name }}.edit_form
+  base_route: entity.{{ entity_name }}.canonical
+  title: Edit
+
+entity.{{ entity_name }}.delete_form:
+  route_name:  entity.{{ entity_name }}.delete_form
+  base_route:  entity.{{ entity_name }}.canonical
+  title: Delete
+  weight: 10
+

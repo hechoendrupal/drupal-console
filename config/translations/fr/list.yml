@@ -1,0 +1,16 @@
+description: 'Liste les commandes'
+help: "La commande <info>%command.name%</info> liste l'ensemble des commandes :\n<info>php %command.full_name%</info>\nVous pouvez aussi afficher la liste pour un namespace specifique :\n<info>php %command.full_name% test</info>\nVous pouvez aussi afficher la sortie dans un autre format en utilisant l'option <comment>--format</comment> :\n<info>php %command.full_name% --format=xml</info>\nEnfin il est possible d'obtenir une liste brute de l'ensemble des commandes :\n<info>php %command.full_name% --raw</info>\n"
+arguments:
+    namespace: 'Le nom du namespace '
+options:
+    xml: 'Afficher la liste sous le format XML'
+    raw: 'Afficher la liste sous un format brut'
+    format: 'Le format de sortie (txt, xml, json, or md)'
+messages:
+    usage: "<comment>Usage:</comment>\n"
+    usage_details: "  Commande [options] [paramètres]\n\n"
+    arguments: '<comment>Paramètres :</comment>'
+    options: '<comment>Options :</comment>'
+    help: '<comment>Aide :</comment>'
+    comment: '<comment>Commandes disponibles dans le namespace "%s" :</comment>'
+    available-commands: '<comment>Commandes disponibles :</comment>'

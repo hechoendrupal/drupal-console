@@ -1,0 +1,21 @@
+description: 'Génère une commande utilisable via la console'
+help: 'la commande <info>generate:command</info> vous permet de générer une nouvelle commande.'
+welcome: 'Bienvenue dans le générateur de commande Drupal'
+options:
+    module: common.options.module
+    controller-title: 'Controller title'
+    class: 'Nom de la classe de la commande'
+    name: 'The Command name.'
+    container-aware: 'Is the command aware of the drupal site installation when executed'
+    command: 'Nom de la commande'
+    container: 'Access the services container'
+questions:
+    module: common.questions.module
+    class: 'Veuillez renseigner le nom de pour la classe de la commande'
+    name: 'Enter the Command name.'
+    container-aware: 'Is the command aware of the drupal site installation when executed?.'
+    command: 'Veuillez renseigner le nom de la commande'
+    container: 'Avez-vous besoin accéder au conteneur de services'
+    controller-title: 'Controller title'
+messages:
+    title-not-empty: 'Title cannot be empty'

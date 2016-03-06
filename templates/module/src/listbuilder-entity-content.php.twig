@@ -1,0 +1,54 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\{{ entity_class }}ListBuilder.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}};
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityListBuilder;
+use Drupal\Core\Routing\LinkGeneratorTrait;
+use Drupal\Core\Url;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Defines a class to build a listing of {{ label }} entities.
+ *
+ * @ingroup {{ module }}
+ */
+class {{ entity_class }}ListBuilder extends EntityListBuilder {% endblock %}
+{% block use_trait %}
+  use LinkGeneratorTrait;
+{% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public function buildHeader() {
+    $header['id'] = $this->t('{{ label }} ID');
+    $header['name'] = $this->t('Name');
+    return $header + parent::buildHeader();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildRow(EntityInterface $entity) {
+    /* @var $entity \Drupal\{{module}}\Entity\{{ entity_class }} */
+    $row['id'] = $entity->id();
+    $row['name'] = $this->l(
+      $entity->label(),
+      new Url(
+        'entity.{{ entity_name }}.edit_form', array(
+          '{{ entity_name }}' => $entity->id(),
+        )
+      )
+    );
+    return $row + parent::buildRow($entity);
+  }
+{% endblock %}

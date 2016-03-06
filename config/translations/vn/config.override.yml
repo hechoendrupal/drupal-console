@@ -1,0 +1,14 @@
+description: 'Ghi đè giá trị cấu hình trong cấu hình đang hoạt động'
+arguments:
+    config-name: 'Tên cấu hình.'
+    key: Khóa
+    value: 'Giá trị'
+messages:
+    configuration: 'Tên cấu hình'
+    configuration-key: 'Cấu hình khóa'
+    original: 'Giá trị gốc'
+    updated: 'Ghi đè giá trị'
+examples:
+    -
+        description: 'Définir la valeur de "flood" du module Contact à 10.'
+        execution: 'drupal config:override contact.settings flood.limit 10'

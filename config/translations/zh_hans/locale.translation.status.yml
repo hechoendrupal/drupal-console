@@ -1,0 +1,17 @@
+description: 列出可用翻译更新
+arguments:
+    language: '语言，如 zh-hans'
+messages:
+    no-languages: '无可翻译的语言，请先添加一种语言'
+    up-to-date: 所有翻译都是最新的
+    no-translations: '无翻译状态可用。请手动检查'
+    project: 项目
+    version: 版本
+    local-age: '本地 age'
+    remote-age: '远程 age'
+    info: 信息
+    no-translation-files: '无翻译文件提供给开发版本'
+    file-not-found: '文件在 %s，%s 都没有找到'
+    local-file-not-found: '文件 %s 没有找到'
+    translation-not-determined: 翻译文件位置未能确定
+    translation-project-updated: 更新完毕

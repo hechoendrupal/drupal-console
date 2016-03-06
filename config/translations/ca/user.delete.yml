@@ -1,0 +1,17 @@
+description: 'Eliminar usuaris de l''aplicació'
+help: 'El comandament <info>user:delete</info> t''ajuda a eliminar usuaris.'
+welcome: 'Us donem la benvinguda a l''utilitat per eliminar usuaris de Drupal'
+options:
+    user-id: 'Identificador del usuari a eliminar'
+    roles: 'Rols vinculats als usuaris a eliminar'
+questions:
+    user-id: 'Identificador del usuari a eliminar (deixar buit per ometre)'
+    roles: 'Seleccioneu el rols vinculats als usuaris a eliminar'
+messages:
+    user-id: 'Identificador del usuari'
+    username: 'Nom del usuari'
+    user-deleted: 'L''usuari %s s''ha esborrat correctament'
+    users-deleted: '%s usuaris eliminats correctament'
+errors:
+    invalid-user-id: 'L''Identificador de l''usuari %s no és vàlid'
+    invalid-user: 'L''usuari %s no és vàlid'

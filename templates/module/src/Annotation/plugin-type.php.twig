@@ -1,0 +1,42 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{ module }}\Annotation\{{ class_name }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }}\Annotation;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Component\Annotation\Plugin;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Defines a {{ label }} item annotation object.
+ *
+ * @see \Drupal\{{ module }}\Plugin\{{ class_name }}Manager
+ * @see plugin_api
+ *
+ * @Annotation
+ */
+class {{ class_name }} extends Plugin {% endblock %}
+{% block class_methods %}
+
+  /**
+   * The plugin ID.
+   *
+   * @var string
+   */
+  public $id;
+
+  /**
+   * The label of the plugin.
+   *
+   * @var \Drupal\Core\Annotation\Translation
+   *
+   * @ingroup plugin_translatable
+   */
+  public $label;
+{% endblock %}

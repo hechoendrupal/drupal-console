@@ -1,0 +1,17 @@
+description: 'Reconstruire l''ensemble des caches du site.'
+options:
+    cache: 'Reconstruire un cache spécifique.'
+messages:
+    welcome: 'Bienvenue sur la commande cache:rebuild'
+    rebuild: 'Reconstruction du/des cache(s), veuillez patienter.'
+    completed: 'Reconstruction des caches terminées'
+    invalid_cache: 'Le cache "%s" n''est pas valide.'
+questions:
+    cache: 'Sélectionner un cache.'
+examples:
+    -
+        description: 'Reconstruire l''ensemble des caches'
+        execution: 'drupal cr all'
+    -
+        description: 'Reconstruire le cache "discovery"'
+        execution: 'drupal cr discovery'

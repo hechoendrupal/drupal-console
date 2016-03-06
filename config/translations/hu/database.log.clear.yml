@@ -1,0 +1,5 @@
+description: 'Események eltávolítása a DBLog táblából, rendelkezésre állnak szűrők'
+messages:
+    event-deleted: '%s esemény törölve'
+    clear-error: 'A törlési művelet meghiúsult, ellenőrizni kell a használt szűrőket'
+    clear-sucess: 'Az események törlése sikeres volt'

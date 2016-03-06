@@ -1,0 +1,29 @@
+description: 'Vizualizează statutul de instalare (Drupal Installation status)'
+messages:
+    application: Aplicaţie
+    system: 'Informaţii de sistem'
+    hash_salt: 'Hash salt'
+    console: 'Versiunea consolei'
+    database: 'Conexiune la baza de date'
+    driver: Driver
+    host: Gazda
+    port: Port
+    username: 'Nume de utilizator'
+    password: Parola
+    theme: Teme
+    connection: Conexiune
+    theme_default: 'Tema implicită'
+    theme_admin: 'Tema de administrare'
+    directory: Director
+    directory_root: 'Directorul de baza al saitului'
+    directory_temporary: 'Directorul temporar al saitului'
+    directory_theme_default: 'Directorul temei implicite'
+    directory_theme_admin: 'Directorul temei de administrare'
+    current_version: 'Current Drupal version (%s)'
+    not_installed: 'Drupal is not installed'
+    not_available: 'Not available'
+    configuration: Configurare
+    active: 'Calea către configurarile active'
+    staging: 'Calea către configurările în aşteptare'
+    themes: Teme
+    directories: Directoare

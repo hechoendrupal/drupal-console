@@ -1,0 +1,3 @@
+description: 'Nézet letiltása'
+messages:
+    disabled-successfully: '%s nézet letiltva.'

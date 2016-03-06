@@ -1,0 +1,37 @@
+description: 'Générer & enregistrer un contrôleur'
+help: 'La commande <info>generate:controller</ info> vous assiste dans la création d''un nouveau controller'
+welcome: 'Bienvenue dans le générateur de contrôleur Drupal'
+options:
+    module: common.options.module
+    class: 'Nom du Controller'
+    routes: 'The routes, must be an array containing [title, method, path]'
+    services: common.options.services
+    test: 'Générer une classe de test'
+    title: 'Title of the controller'
+    method: 'The action method name'
+    route: 'La route de l''action'
+    controller-title: 'Title of the controller'
+    method-name: 'Nom de la méthode d''action'
+questions:
+    module: common.questions.module
+    class: 'Veuillez renseigner le nom de la classe de votre controlleur'
+    title: 'Enter the Controller method title'
+    method: 'Enter the action method name'
+    path: 'Enter the route path'
+    services: common.questions.services
+    test: 'Voulez-vous générer une classe de test unitaire'
+    route: 'Veuillez renseigner le chemin de la route'
+    controller-add: 'Do you want to add another contoller method'
+    controller: 'Controller title'
+    method-name: 'Veuillez renseigner le nom de la méthode d''action'
+    other-controller-title: 'Controller title (empty to start with code generation)'
+    controller-title: 'Controller title'
+messages:
+    title-empty: 'Title must contain a value'
+    title-already-added: 'Title was already added'
+    method-name-already-added: 'Method name was already added'
+    path-already-added: 'Path was already added'
+    route-already-added: 'Route was already added'
+    invalid-controller-title: 'Title cannot be empty'
+    invalid-method-name: 'Method name cannot be empty'
+    invalid-route: 'Route cannot be empty'

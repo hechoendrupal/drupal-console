@@ -1,0 +1,12 @@
+description: 'Anul·lar l''estat de la clau.'
+help: 'Anul·lar l''estat de la clau.'
+arguments:
+    key: 'L''estat de la clau a anul·lar.'
+    value: 'El valor de l''estat a definir.'
+messages:
+    key: 'L''estat de la clau'
+    original: 'Valor original'
+    override: 'Anul·lar valor'
+errors:
+    no-key: 'Has de proporcionar l''estat de la clau a anul·lar.'
+    no-value: 'Has de proporcionar el valor de l''estat a definir.'

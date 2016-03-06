@@ -1,0 +1,16 @@
+description: 'प्रणाली की कार्य-निष्पादन व्यवस्था को बदलें'
+arguments:
+    environment: 'एनवायरनमेंट नाम (dev|prod)'
+messages:
+    configuration: 'व्यवस्था का नाम'
+    configuration-key: 'व्यवस्था की कुंजी'
+    original: 'मूल निधि'
+    updated: 'चढ़ाई निधि'
+    invalid-env: 'एनवायरनमेंट अमान्य'
+    new-services-settings: 'नई सर्विसेज सेटिंग्स'
+    service: सर्विस
+    service-parameter: पैरामीटर
+    service-value: वैल्यू
+    error-copying-file: 'एरर नकल के फ़ाइल'
+    error-writing-file: 'एरर नकल के फ़ाइल'
+    services-file-overwritten: 'सर्विसेज %s फ़ाइल ओवरराइट था'

@@ -1,0 +1,8 @@
+description: 'चयनित व्यवस्था को बदलें।'
+arguments:
+    config-name: 'व्यवस्था का नाम।'
+    editor: संपादक।
+questions:
+    config-name: 'एक विन्यास इकाई चुनें'
+messages:
+    no-directory: 'डायरेक्टरी बनाते समय यहाँ एक त्रुटि पाया गया'

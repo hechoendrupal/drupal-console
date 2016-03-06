@@ -1,0 +1,23 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{ module }}\Plugin\{{ class_name }}Interface.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }}\Plugin;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Component\Plugin\PluginInspectionInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Defines an interface for {{ label }} plugins.
+ */
+interface {{ class_name }}Interface extends PluginInspectionInterface {% endblock %}
+{% block class_methods %}
+
+  // Add get/set methods for your plugin type here.
+{% endblock %}

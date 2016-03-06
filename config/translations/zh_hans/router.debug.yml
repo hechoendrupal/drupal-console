@@ -1,0 +1,11 @@
+description: 显示路由
+arguments:
+    route-name: 路由名称
+messages:
+    name: 路由名称
+    class: 'Class path'
+    route: Route
+    path: 类路径
+    defaults: 默认
+    options: 选项
+    pattern: 模式

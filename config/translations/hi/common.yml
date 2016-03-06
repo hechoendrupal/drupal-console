@@ -1,0 +1,42 @@
+options:
+    events: 'घटनाओ को container से लोड करें।'
+    module: 'मोड्यूल का नाम।'
+    services: 'सर्विसेज़ को container से लोड करें।'
+    tags: 'container से सर्विस टैगो को सेट करें।'
+    inputs: 'एक फॉर्म के लिए आदानो को बनाएँ।'
+    permissions: 'अनुमतियों को बनाएँ।'
+questions:
+    module: 'मोड्यूल का नाम डालें।'
+    confirm: 'क्या आप उत्पन्न की पुष्टि करते हैं।'
+    canceled: 'कमाण्ड उत्पन्न रद्द करें।'
+    events:
+        message: "\nघटना का नाम डालें या कुंजी दबाएँ।\nइच्छानुसार <info>जारी</info> रखने के लिए <info>कुंजी</info> दबाएँ\n"
+        name: 'घटना का नाम दर्ज करें।'
+    services:
+        confirm: 'क्या आप सेवाएं कंटेनर से भरना चाहेंगे।'
+        message: "\nसर्विस का नाम दें या कुंजी दबाएँ।\nइच्छानुसार <info>जारी</info> रखने के लिए <info>enter</info> कुंजी दबाएँ\n"
+        name: 'अपनी सेवाएँ दर्ज करें।'
+    inputs:
+        confirm: 'क्या आप फोर्म का खाका उतपन्न करना चाहेंगे?'
+        label: 'उप-शीर्षक निवेश करें।'
+        machine_name: 'यांत्रिक नाम निवेश करें।'
+        permission: 'क्या आप अनुमतियां उत्पन्न करना चाहते हैं।'
+        type: प्रकार
+        invalid: 'खाना प्रकार "%s" असामान्य हैं।'
+        description: विवरण
+        default-value: 'डिफ़ॉल्ट निधि'
+        weight: 'इनपुट आइटम के लिए वजन'
+        title: शीर्षक
+        fieldset: 'फील्ड सेट'
+errors:
+    module-dependency: 'मॉड्यूल निर्भरता "%s" अनुपस्थित है'
+    class-name-empty: 'क्लास का नाम खली नही रह सकता'
+    invalid-file-path: 'आप कौ एक वैध फ़ाइल पथ प्रदान करनी चाहिए'
+status:
+    enabled: सक्षम
+    disabled: 'अक्षम'
+messages:
+    canceled: 'उत्पन्न रद्द कर दिया गया'
+    drupal-core: 'Drupal कोर'
+    move-phar: 'आपके सिस्टम पर कहीं से console तक पहुँचने'
+    quick-start: 'डाउनलोड, स्थापित और Drupal 8 की सेवा'

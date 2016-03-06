@@ -1,0 +1,10 @@
+entity.{{ entity_name }}.add_form:
+{# Note: a content entity with bundles will add via a dedicated controller. #}
+{% if not bundle_entity_type %}
+  route_name: entity.{{ entity_name }}.add_form
+{% else %}
+  route_name: '{{ entity_name }}.add_page'
+{% endif %}
+  title: 'Add {{ label }}'
+  appears_on:
+    - entity.{{ entity_name }}.collection

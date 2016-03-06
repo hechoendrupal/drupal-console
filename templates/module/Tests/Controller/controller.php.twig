@@ -1,0 +1,46 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\Tests\{{ class_name }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Tests;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\simpletest\WebTestBase;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides automated tests for the {{module}} module.
+ */
+class {{class_name}}Test extends WebTestBase {% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public static function getInfo() {
+    return array(
+      'name' => "{{module}} {{class_name}}'s controller functionality",
+      'description' => 'Test Unit for module {{module}} and controller {{class_name}}.',
+      'group' => 'Other',
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setUp() {
+    parent::setUp();
+  }
+
+  /**
+   * Tests {{module}} functionality.
+   */
+  public function test{{class_name}}() {
+    // Check that the basic functions of module {{module}}.
+    $this->assertEquals(TRUE, TRUE, 'Test Unit Generated via App Console.');
+  }
+{% endblock %}

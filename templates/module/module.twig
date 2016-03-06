@@ -1,0 +1,25 @@
+{% extends "base/file.php.twig" %}
+
+{% block file_path %}{{machine_name}}.module.{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Routing\RouteMatchInterface;
+{% endblock %}
+
+{% block file_methods %}
+/**
+ * Implements hook_help().
+ */
+function {{machine_name}}_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the {{ machine_name }} module.
+    case 'help.page.{{ machine_name }}':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('{{ description|escape }}') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+{% endblock %}

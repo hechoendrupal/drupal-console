@@ -1,0 +1,8 @@
+description: 'साइट को मेंटेनेंस मोड में बदले'
+arguments:
+    mode: 'साइट मेंटेनेंस मोड'
+messages:
+    maintenance-on: 'मेंटेनेंस मोड ओन में परिचालन'
+    maintenance-off: 'मेंटेनेंस मोड ऑफ में परिचालन'
+errors:
+    invalid-mode: 'अमान्य मेंटेनेंस मोड'

@@ -1,0 +1,19 @@
+description: 'Tạo field type plugin.'
+help: 'Dòng lệnh <info>generate:plugin:fieldtype</info> giúp bạn tạo một field type plugin mới.'
+welcome: 'Chào mừng đến với Drupal Field Type Plugin generator'
+options:
+    module: common.options.module
+    class: 'Tên lớp plugin'
+    label: 'Nhãn plugin'
+    plugin-id: 'Plugin id'
+    description: 'Mô tả plugin'
+    default-widget: 'Field widget mặc định của plugin này'
+    default-formatter: 'Field formatter mặc định của plugin này'
+questions:
+    module: common.questions.module
+    class: 'Nhập tên lớp plugin'
+    label: 'Nhập nhãn plugin'
+    plugin-id: 'Nhập plugin id'
+    description: 'Nhập mô tả plugin'
+    default-widget: 'Nhập field widget mặc định của plugin này'
+    default-formatter: 'Nhập field formatter mặc định của plugin này'

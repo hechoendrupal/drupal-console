@@ -1,0 +1,94 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module_name}}\Form\{{ class_name }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module_name}}\Form;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormStateInterface;
+{% if services is not empty %}
+use Symfony\Component\DependencyInjection\ContainerInterface;
+{% endif %}
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Class {{ class_name }}.
+ *
+ * @package Drupal\{{module_name}}\Form
+ */
+class {{ class_name }} extends FormBase {% endblock %}
+{% block class_construct %}
+{% if services is not empty %}
+  public function __construct(
+    {{ servicesAsParameters(services)|join(',\n    ') }}
+  ) {
+{{ serviceClassInitialization(services) }}
+  }
+
+{% endif %}
+{% endblock %}
+
+{% block class_create %}
+{% if services is not empty %}
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('config.factory'),
+{{ serviceClassInjection(services) }}
+    );
+  }
+
+{% endif %}
+{% endblock %}
+
+{% block class_methods %}
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getFormId() {
+    return '{{form_id}}';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(array $form, FormStateInterface $form_state) {
+{% for input in inputs %}
+{% if input.fieldset|length %}
+    $form['{{ input.fieldset }}']['{{ input.name }}'] = array(
+{% else %}
+    $form['{{ input.name }}'] = array(
+{% endif %}
+      '#type' => '{{ input.type }}',
+      '#title' => $this->t('{{ input.label }}'),
+{% if input.description|length %}
+      '#description' => $this->t('{{ input.description }}'),
+{% endif %}
+{% if input.options|length %}
+      '#options' => {{ input.options }},
+{% endif %}
+{% if input.maxlength|length %}
+      '#maxlength' => {{ input.maxlength }},
+{% endif %}
+{% if input.size|length %}
+      '#size' => {{ input.size }},
+{% endif %}
+    );
+{% endfor %}
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+
+  }
+{% endblock %}

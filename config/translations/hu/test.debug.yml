@@ -1,0 +1,17 @@
+description: 'Az alkalmazás egységtesztjeinek listázása.'
+help: 'A legújabb verzióra frissíti a console parancsot.'
+arguments:
+    test-class: Tesztosztály
+options:
+    group: Csoport
+messages:
+    class: Tesztosztály
+    description: Leírás
+    group: Csoport
+    type: Teszttípus
+    success: 'A konzol a legfrissebb verzióra frissült.'
+    missing-dependency: 'Hiányzó függőség'
+    methods: Tesztmetódusok
+    not-found: 'A hibakeresés nem található, meg kell próbálni dupla idézőjelek közé tenni a tesztazonosítót.'
+    success-groups: 'All testing groups were listed sucessfully, use the group argument to filter Test unit by group i.e $ drupal test:debug Url'
+    success-group: 'All test units for group %s were listed sucessfully'

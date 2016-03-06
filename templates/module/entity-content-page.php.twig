@@ -1,0 +1,68 @@
+{% extends "base/file.php.twig" %}
+
+{% block file_path %}
+{{ entity_name }}.page.inc.{% endblock %}
+{% block extra_info %}
+ *
+ * Page callback for {{ label }} entities.
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Render\Element;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
+{% endblock %}
+
+{% block file_methods %}
+/**
+ * Prepares variables for {{ label }} templates.
+ *
+ * Default template: {{ entity_name }}.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing the user information and any
+ *   - attributes: HTML attributes for the containing element.
+ */
+function template_preprocess_{{ entity_name | machine_name }}(array &$variables) {
+  // Fetch {{ entity_class }} Entity Object.
+  ${{ entity_name | machine_name }} = $variables['elements']['#{{ entity_name }}'];
+
+  // Helpful $content variable for templates.
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
+{% if bundle_entity_type %}
+
+/**
+* Prepares variables for a custom entity type creation list templates.
+*
+* Default template: {{ entity_name }}-content-add-list.html.twig.
+*
+* @param array $variables
+*   An associative array containing:
+*   - content: An array of {{ entity_name }}-types.
+*
+* @see block_content_add_page()
+*/
+function template_preprocess_{{ entity_name }}_content_add_list(&$variables) {
+  $variables['types'] = array();
+  $query = \Drupal::request()->query->all();
+  foreach ($variables['content'] as $type) {
+    $variables['types'][$type->id()] = array(
+      'link' => Link::fromTextAndUrl($type->label(), new Url('entity.{{ entity_name }}.add_form', array(
+        '{{ entity_name }}_type' => $type->id()
+      ), array('query' => $query))),
+      'description' => array(
+      '#markup' => $type->label(),
+      ),
+      'title' => $type->label(),
+      'localized_options' => array(
+      'query' => $query,
+      ),
+    );
+  }
+}
+{% endif %}
+{% endblock %}

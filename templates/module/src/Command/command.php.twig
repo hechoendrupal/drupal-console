@@ -1,0 +1,72 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\Command\{{ class }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Command;
+{% endblock %}
+
+{% block use_class %}
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+{% if container_aware %}
+use Drupal\Console\Command\ContainerAwareCommand;
+{% else %}
+use Drupal\Console\Command\Command;
+{% endif %}
+use Drupal\Console\Style\DrupalStyle;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Class {{ class }}.
+ *
+ * @package Drupal\{{module}}
+ */
+class {{ class }} extends {% if container_aware %}ContainerAwareCommand{% else %}Command{% endif %} {% endblock %}
+
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  protected function configure() {
+    $this
+      ->setName('{{ name }}')
+      ->setDescription($this->trans('{{ command_key }}.description'))
+      ->addArgument('name', InputArgument::OPTIONAL, $this->trans('{{ command_key }}.arguments.name'))
+      ->addOption('yell', NULL, InputOption::VALUE_NONE, $this->trans('{{ command_key }}.options.yell'));
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function execute(InputInterface $input, OutputInterface $output) {
+
+    $io = new DrupalStyle($input, $output);
+
+    $name = $input->getArgument('name');
+    if ($name) {
+      $text = 'Hello ' . $name;
+    }
+    else {
+      $text = 'Hello';
+    }
+
+    $text = sprintf(
+      '%s, %s: %s',
+      $text,
+      'I am a new generated command for the module',
+      $this->getModule()
+    );
+
+    if ($input->getOption('yell')) {
+      $text = strtoupper($text);
+    }
+
+    $io->info($text);
+  }
+{% endblock %}

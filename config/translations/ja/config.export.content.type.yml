@@ -1,0 +1,10 @@
+description: コンテンツタイプとフィールドをエクスポート
+arguments:
+    content-type: エクスポートするコンテンツタイプ
+questions:
+    content-type: エクスポートするコンテンツタイプ
+    optional-config: 'コンテンツタイプをoptional configurationとしてエクスポート'
+messages:
+    content_type_exported: コンテンツタイプをエクスポートしています。
+options:
+    optional-config: 'Export content type as an optional YAML configuration in your module'

@@ -1,102 +1,128 @@
-Drupal App Console | The symfony console in Drupal
-==============
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-Drupal 8 has changed a lot the way we develop websites, the idea of this project is to provide similar functionality as the Symfony console, providing a scaffolding tool to automate the creation of modules using the terminal to automatically generate the directory structure for controllers, forms, services and required files.
+- [Drupal Console](#drupal-console)
+  - [Required PHP version](#required-php-version)
+  - [Supported Drupal version](#supported-drupal-version)
+  - [Drupal Console documentation](#drupal-console-documentation)
+  - [Installing Drupal Console](#installing-drupal-console)
+  - [Using Drupal Console](#using-drupal-console)
+  - [Supporting organizations](#supporting-organizations)
 
-The DrupalAppConsole not is a competition of Drush it’s your new best friend.
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-### Steps for install:
+Drupal Console
+=============================================
 
-```bash
-$ cd path/to/drupal8.dev
-$ curl -sS https://getcomposer.org/installer | php
-$ COMPOSER_BIN_DIR=bin php composer.phar require hechoendrupal/drupal-app-console:dev-master
-$ ./bin/console --help
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/hechoendrupal/DrupalConsole)
+[![Build Status](https://travis-ci.org/hechoendrupal/DrupalConsole.svg?branch=master)](https://travis-ci.org/hechoendrupal/DrupalConsole)
+[![Latest Stable Version](https://poser.pugx.org/drupal/console/v/stable.svg)](https://packagist.org/packages/drupal/console)
+[![Latest Unstable Version](https://poser.pugx.org/drupal/console/v/unstable.svg)](https://packagist.org/packages/drupal/console)
+[![Software License](https://img.shields.io/badge/license-GPL%202.0+-blue.svg)](https://packagist.org/packages/drupal/console)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
+
+The Drupal Console is a CLI tool to generate boilerplate code for, interact with, and debug Drupal 8.
+
+## Change Log
+All notable changes to this project will be documented in the [releases page](https://github.com/hechoendrupal/DrupalConsole/releases) 
+
+## Required PHP version
+PHP 5.5.9 or higher is required to use the Drupal Console application.
+
+## Supported Drupal version
+The Drupal 8 supported version is [Drupal 8.0.2](http://ftp.drupal.org/files/projects/drupal-8.0.2.tar.gz).
+
+## Drupal Console documentation
+You can read or download the Drupal Console documentation at [bit.ly/console-book](http://bit.ly/console-book).
+
+## Drupal Console support
+You can ask for support at Drupal Console gitter chat room [http://bit.ly/console-support](http://bit.ly/console-support).
+
+## Installing Drupal Console
+```
+# Run this in your terminal to get the latest Console version:
+curl https://drupalconsole.com/installer -L -o drupal.phar
+
+# Or if you don't have curl:
+php -r "readfile('https://drupalconsole.com/installer');" > drupal.phar
+
+# Accessing from anywhere on your system:
+mv drupal.phar /usr/local/bin/drupal
+
+# Apply executable permissions on the downloaded file:
+chmod +x /usr/local/bin/drupal
+
+# Show all available commands.
+drupal list
+
+# Copy configuration files.
+drupal init --override
+
+# Update to the latest version.
+drupal self-update
 ```
 
-### Usage
+More information about using this project at the [official documentation](https://hechoendrupal.gitbooks.io/drupal-console/content/en/using/project.html).
 
-#### Generate module structure
-```bash
-$ ./bin/console generate:module
-                                          
-  Welcome to the Drupal module generator  
-                                          
-Module name: module_name
-Description [My Awesome Module]: My awesome module 
-Package [Other]: My Package
-Do you want to generate a routing file [yes]? yes
-Do you want to generate the whole directory structure [no]? yes
-Do you confirm generation [yes]? 
+## Getting the project to contribute
 
-$ tree modules/module_name/
-modules/module_name/
-├── config
-├── lib
-│   └── Drupal
-│       └── module_name
-│           ├── Controller
-│           ├── Form
-│           ├── Plugin
-│           │   └── Block
-│           └── Tests
-├── templates
-├── tests
-├── module_name.info.yml
-├── module_name.module
-└── module_name.routing.yml
+### Fork
+Fork your own copy of the [Console](https://github.com/hechoendrupal/DrupalConsole/fork) repository to your account
 
-11 directories, 3 files
+### Clone
+Get a copy of your recently cloned version of console in your machine.
+```
+$ git clone git@github.com:[your-git-user-here]/DrupalConsole.git
 ```
 
-#### Generate controller structure
-```bash
-$ ./bin/console generate:controller
-
-  Welcome to the Drupal controller generator  
-                                              
-Enter your module: : module_name
-Enter the controller name [DefaultControler]: FrontController
-Enter your service: : twig
-Enter your service: : database
-Enter your service: : config.factory
-Enter your service: : config.context
-Enter your service: : 
-Update routing file? [yes]? 
-
-$ cat modules/module_name/lib/Drupal/module_name/Controller/FrontController.php
-```
-
-#### Generate form structure
-```bash
-
-  Welcome to the Drupal form generator  
-                                        
-Enter your module : module_name
-Enter the form name [DefaultForm]: 
-Do you like asdd service? [yes]? 
- Enter your service: twig
- Enter your service: config.factory
- Enter your service: 
-Do you like generate a form structure? [yes]? 
- Input label: User
-  Input machine name [user]: 
-  Type: text
- Input label: Password
-  Input machine name [password]: 
-  Type: password
- Input label: Send
-  Input machine name [send]: 
-  Type: submit
- Input label: 
- Do you like generate config file? [yes]? 
-Update routing file? [yes]? 
+### Install dependencies
+Now that you have cloned the project, you need to download dependencies via Composer.
 
 ```
+$ cd /path/to/DrupalConsole
+$ composer install
+```
 
-#### Next Step
-* Enable module
-* Open Browser and load `http://drupal8.dev/module_name/hello/Drupal`
+### Running the project
+After using Composer to download dependencies, you can run the project by executing:
 
-#### Video
-[How to install & use youtube video no audio](http://www.youtube.com/watch?v=NkHT2KctR-Y)
+```
+$ bin/drupal
+```
+
+### Create a symbolic link
+
+You can run this command to easily access the Drupal Console from anywhere on your system:
+
+```
+$ sudo ln -s /path/to/DrupalConsole/bin/drupal /usr/local/bin/drupal
+```
+
+**NOTE:** The name `drupal` is just an alias you can name it anything you like.
+
+More information about how to contribute with this project at the [official documentation](https://hechoendrupal.gitbooks.io/drupal-console/content/en/contributing/new-features.html).
+
+## Enabling Autocomplete
+```
+# You can enable autocomplete by executing
+drupal init
+
+# Bash: Bash support depends on the http://bash-completion.alioth.debian.org/
+# project which can be installed with your package manager of choice. Then add 
+# this line to your shell configuration file.
+source "$HOME/.console/console.rc" 2>/dev/null
+
+# Zsh: Add this line to your shell configuration file.
+source "$HOME/.console/console.rc" 2>/dev/null
+
+# Fish: Create a symbolic link
+ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish
+```
+
+## Supporting organizations
+[![FFW](https://www.drupal.org/files/ffw-logo.png)](https://ffwagency.com)  
+[![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)  
+[![Anexus](https://www.drupal.org/files/anexus-logo.png)](http://www.anexusit.com/)
+
+> Drupal is a registered trademark of Dries Buytaert.

@@ -1,0 +1,17 @@
+description: 'Merge một hoặc nhiều files YAML vào trong một file YAML mới. Giá trị mới nhất được duy trì.'
+arguments:
+    yaml-files: 'Đường dẫn của các files YAML để merge'
+    yaml-destination: 'Đường dẫn của file mới YAML để lưu kết quả của merge.'
+questions:
+    yaml-destination: 'Đường dẫn của file mới YAML để lưu kết quả của merge.'
+    file: 'Đường dẫn tới file để merge'
+    other-file: 'Đường dẫn tới file để merge (để trống để bắt đầu với tiến trình merge)'
+    invalid-file: 'Đường dẫn tới file không thể để trống'
+    file-already-added: 'Đường dẫn của file đã được thêm vào'
+messages:
+    wrong-parse: 'File YAML "%s" trống hoặc không tồn tại.'
+    error-parsing: 'Một lỗi xảy ra trong quá trình phân tích câu từ của file Yaml "%s".'
+    two-files-required: 'Yêu cầu ít nhất hai files.'
+    error-generating: 'Lỗi khi tạo file YAML đã merge.'
+    error-writing: 'Lỗi ghi file YAML đã merge.'
+    merged: 'File mới "%s" đã được tạo thành công sau khi merge các files YAML.'

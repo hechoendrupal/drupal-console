@@ -1,0 +1,17 @@
+description: 'Hiển thị rest resource hiện có cho ứng dụng'
+arguments:
+    resource-id: 'Rest ID'
+options:
+    status: ' Trạng thái rest resource bật | tắt'
+messages:
+    id: 'Rest ID'
+    label: Label
+    canonical_url: 'Canonical URL'
+    status: 'Trạng thái'
+    provider: 'Nhà cung cấp'
+    enabled: Bật
+    disabled: Tắt
+    rest-state: 'Các trạng thái REST'
+    supported-formats: 'Các định dạng hỗ trợ'
+    supported_auth: 'Các nhà cũng cáp ủy quyền hỗ trợ'
+    not-found: 'Không tìm thấy rest resource %s'

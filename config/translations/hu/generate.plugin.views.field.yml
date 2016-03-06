@@ -1,0 +1,11 @@
+description: 'Egyéni nézetmező bővítmény létrehozása.'
+help: 'A <info>generate:plugin:views:field</info> parancs új egyéni nézetmező bővítmény létrehozását segíti.'
+options:
+    class: 'Nézetmező bővítmény osztályneve'
+    title: 'Nézetmező bővítmény címe'
+    description: 'Nézetmező bővítmény leírása'
+questions:
+    class: 'Nézetmező bővítmény osztályneve'
+    title: 'Nézetmező bővítmény címe'
+    description: 'Nézetmező bővítmény leírása'
+    description_default: 'A remek egyéni nézetmező bővítményem.'

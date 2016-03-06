@@ -1,0 +1,12 @@
+description: 'Állapotkulcs felülbírálása.'
+help: 'Állapotkulcs felülbírálása.'
+arguments:
+    key: 'A felülbírálandó állapotkulcs.'
+    value: 'A beállítandó állapotkulcs.'
+messages:
+    key: Állapotkulcs
+    original: 'Eredeti érték'
+    override: 'Felülbírálás értéke'
+errors:
+    no-key: 'Meg kell adni a felülbírálandó állapotkulcsot.'
+    no-value: 'Meg kell adni a beállítandó állapotkulcsot.'

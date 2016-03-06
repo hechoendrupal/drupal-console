@@ -1,0 +1,27 @@
+description: 'वर्तमान Drupal स्थापना के स्थिति को देखें'
+messages:
+    application: एप्लीकेशन
+    system: 'प्रणाली की जानकारी'
+    hash_salt: 'हैश साल्ट'
+    console: 'Drupal कंसोल का संस्करण'
+    database: 'डाटाबेस जोड़'
+    driver: ड्राइवर
+    host: होस्ट
+    port: पोर्ट
+    username: यूजरनाम
+    password: पासवर्ड
+    theme: विषय
+    connection: कनेक्शन
+    theme_default: 'डीफाल्ट थीम'
+    theme_admin: 'प्रबंधक थीम'
+    directory: डायरेक्ट्रीज
+    directory_root: 'साइट रूट डायरेक्टरी'
+    directory_temporary: 'साइट अस्थायी डायरेक्टरी'
+    directory_theme_default: 'डीफाल्ट थीम डायरेक्टरी'
+    directory_theme_admin: 'प्रबंधक थीम डायरेक्टरी'
+    current_version: 'वर्तमान Drupal वर्शन (%s)'
+    not_installed: 'Drupal इनस्टॉल नहीं है'
+    not_available: 'अनुपलब्ध'
+    configuration: कॉन्फ़िगरेशन
+    active: 'सक्रिय समाकृति का पथ'
+    staging: 'स्टेजिंग समाकृति का पथ'

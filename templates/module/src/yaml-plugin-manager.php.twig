@@ -1,0 +1,76 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{ module }}\{{ plugin_class }}Manager.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }};
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Component\Plugin\Exception\PluginException;
+use Drupal\Core\Cache\CacheBackendInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Plugin\DefaultPluginManager;
+use Drupal\Core\Plugin\Discovery\ContainerDerivativeDiscoveryDecorator;
+use Drupal\Core\Plugin\Discovery\YamlDiscovery;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides the default {{ plugin_name }} manager.
+ */
+class {{ plugin_class }}Manager extends DefaultPluginManager implements {{ plugin_class }}ManagerInterface {% endblock %}
+{% block class_methods %}
+  /**
+   * Provides default values for all {{ plugin_name }} plugins.
+   *
+   * @var array
+   */
+  protected $defaults = array(
+    // Add required and optional plugin properties.
+    'id' => '',
+    'label' => '',
+  );
+
+  /**
+   * Constructs a {{ plugin_class }}Manager object.
+   *
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler.
+   * @param \Drupal\Core\Cache\CacheBackendInterface $cache_backend
+   *   Cache backend instance to use.
+   */
+  public function __construct(ModuleHandlerInterface $module_handler, CacheBackendInterface $cache_backend) {
+    // Add more services as required.
+    $this->moduleHandler = $module_handler;
+    $this->setCacheBackend($cache_backend, '{{ plugin_name }}', array('{{ plugin_name }}'));
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getDiscovery() {
+    if (!isset($this->discovery)) {
+      $this->discovery = new YamlDiscovery('{{ plugin_file_name }}', $this->moduleHandler->getModuleDirectories());
+      $this->discovery->addTranslatableProperty('label', 'label_context');
+      $this->discovery = new ContainerDerivativeDiscoveryDecorator($this->discovery);
+    }
+    return $this->discovery;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function processDefinition(&$definition, $plugin_id) {
+    parent::processDefinition($definition, $plugin_id);
+
+    // You can add validation of the plugin definition here.
+    if (empty($definition['id'])) {
+      throw new PluginException(sprintf('Example plugin property (%s) definition "is" is required.', $plugin_id));
+    }
+  }
+
+  // Add other methods here as defined in the {{ plugin_class }}ManagerInterface.
+{% endblock %}

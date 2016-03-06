@@ -1,0 +1,4 @@
+description: サイトでサポートする言語を削除
+messages:
+    invalid-language: '言語 %s は不正な値です。'
+    language-deleted-successfully: '言語 %s は削除されました。'

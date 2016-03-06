@@ -1,0 +1,17 @@
+description: 'Danh sách các đơn vị thử nghiệm có sẵn của ứng dụng.'
+help: 'Cập nhật các câu lệnh console lên phiên bản mới nhất.'
+arguments:
+    test-class: 'Lớp thử nghiệm'
+options:
+    group: Nhóm
+messages:
+    class: 'Lớp thử nghiệm'
+    description: 'Mô tả'
+    group: Nhóm
+    type: 'Loại thử nghiệm'
+    success: 'Console vừa được cập nhật lên phiên bản mới nhất.'
+    missing-dependency: 'Thiếu phần phụ thuộc'
+    methods: 'Các phương thức thử nghiệm'
+    not-found: 'Bắt lỗi đã không được tìm thấy, thử cách li test id giữa dấu ngoặc kép.'
+    success-groups: 'All testing groups were listed sucessfully, use the group argument to filter Test unit by group i.e $ drupal test:debug Url'
+    success-group: 'All test units for group %s were listed sucessfully'

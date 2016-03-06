@@ -1,0 +1,21 @@
+description: 'Cài đặt theme hoặc các themes trong ứng dụng'
+questions:
+    theme: 'Tên theme (nhấn <return> để dừng thêm themes)'
+    invalid-theme: 'Theme %s không hợp lệ'
+options:
+    theme: 'Theme hay các themes được bật nên được chia ra bởi dấu phẩy'
+    overwrite-config: 'Cấu hình ghi đè sẽ hoạt động nếu cần thiết'
+    set-default: 'Thiết lập theme thành theme mặc định'
+messages:
+    no-themes: 'Bạn phải cung cấp theme hay các themes để bật.'
+    themes-missing: 'Không cài đặt được các themes %s do chúng không có sẵn'
+    theme-missing: 'Không cài đặt được theme %s do không có sẵn'
+    missing-dependencies: 'Không cài đặt được các themes %s do thiếu các phần phụ thuộc %s'
+    themes-nothing: 'Không có gì để thực hiện. Tất cả themes %s đã được cài đặt'
+    theme-nothing: 'Không có gì để thực hiện. Theme %s đã được cài đặt'
+    dependencies: 'Bạn có chắc muốn cài đặt các phần phụ thuộc: %s?'
+    theme-success: 'Theme %s đã được cài đặt thành công'
+    themes-success: 'Các themes %s đã được cài đặt thành công'
+    theme-default-success: 'Theme %s đã được cài đặt thành công thành theme mặc định'
+    disabled-themes: 'Chỉ các themes đã bị tắt sẽ được liệt kê trong tự động hoàn thành'
+    invalid-theme-default: 'Tùy chỉnh mặc định chỉ phù hợp cho một theme'

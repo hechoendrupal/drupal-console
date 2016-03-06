@@ -1,0 +1,8 @@
+description: 'Nhập cấu hình tới ứng dụng hiện tại'
+arguments:
+    file: 'Cấu hình đường dẫn file'
+    directory: 'Path to a directory of configuration to import.'
+    remove-files: 'Xoá file sau khi đồng bộ.'
+messages:
+    config_files_imported: 'Danh sách của các file cấu hình'
+    imported: 'Cấu hình đã được import thành công.'

@@ -1,0 +1,16 @@
+# {{ label }} menu items definition
+entity.{{ entity_name }}.collection:
+  title: '{{ label }} list'
+  route_name: entity.{{ entity_name }}.collection
+  description: 'List {{ label }} entities'
+  parent: system.admin_structure
+  weight: 100
+
+{# Note: a content entity with bundles will have the settings configured on the bundle (config) entity. #}
+{% if not bundle_entity_type %}
+{{ entity_name }}.admin.structure.settings:
+  title: {{ label }} settings
+  description: 'Configure {{ label }} entities'
+  route_name: {{ entity_name }}.settings
+  parent: system.admin_structure
+{% endif %}

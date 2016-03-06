@@ -1,0 +1,16 @@
+description: 'Tạo một dự án Drupal mới'
+arguments:
+    directory: 'Directory when downloading Drupal'
+    version: 'Phiên bản cụ thể của Drupal để tải xuống'
+    site-name: 'Tên site'
+messages:
+    select-release: 'Xin hãy chọn một bản phát hành'
+    getting-releases: 'Nhận các bản mới phát hành của Drupal'
+    downloading: 'Đang tải xuống Drupal %s'
+    extracting: 'Đang giải nén file Drupal %s'
+    no-releases: 'Không có bất kỳ bản mới phát hành nào của Drupal'
+    downloaded: 'Drupal %s đã được tải xuống thư mục %s'
+    error-copying: 'Một lỗi đã xảy ra trong khi thay đổi tên thư mục tại %s'
+    release: 'Please select a release'
+questions:
+    directory: 'Enter the directory name when downloading Drupal'

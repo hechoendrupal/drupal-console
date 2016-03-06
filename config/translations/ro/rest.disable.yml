@@ -1,0 +1,8 @@
+description: 'Dezactiveaza o resursă REST'
+arguments:
+    resource-id: 'ID-ul resursei'
+    states: 'Stările REST care vor fi dezactivate pentru resursa REST'
+questions:
+    resource-id: 'ID-ul resursei.'
+messages:
+    invalid-rest-id: 'ID-ule resursei %s este incorect'

@@ -1,0 +1,12 @@
+description: '清空一个用户的登录尝试数据。'
+help: '重设一个帐号的<info>user:login:clear:attempts</info>登录失败记录.'
+options:
+    user-id: 用户ID.
+questions:
+    uid: '输入用户ID.'
+    numeric-uid: '用户ID必须是整数'
+    invalid-uid: '用户ID必须大于零.'
+messages:
+    successful: '用户（ID： %s）的登录尝试数据清空。'
+errors:
+    invalid-user: '没法载入用户ID%s的用户实体。'

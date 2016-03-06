@@ -1,0 +1,20 @@
+description: 'Xóa người dùng cho ứng dụng'
+help: 'Lệnh <info>user:delete</info> giúp bạn xóa người dùng.'
+welcome: 'Chào mừng đến với Drupal user delete'
+options:
+    user-id: 'User id to be deleted'
+    roles: 'Roles associated to users to be deleted'
+questions:
+    user-id: 'id người dùng sẽ bị xóa (trống bỏ qua)'
+    roles: 'Chọn (các) vai trò liên quan đến người dùng sẽ bị xóa'
+messages:
+    user-id: 'ID người dùng'
+    username: 'Tên người dùng'
+    user-deleted: 'Đã xóa thành công người dùng %s'
+    users-deleted: 'Các người dùng %s đã được xóa thành công'
+errors:
+    invalid-user-id: 'id người dùng %s không hợp lệ'
+    invalid-user: 'id người dùng %s không hợp lệ'
+arguments:
+    user-id: 'id người dùng sẽ bị xóa'
+    roles: 'Vai trò liên quan đến người dùng sẽ bị xóa'

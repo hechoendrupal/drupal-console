@@ -1,0 +1,8 @@
+description: 'Tạo một implementation của hook_form_alter() hoặc hook_form_FORM_ID_alter'
+help: 'Câu lệnh <info>"%s"</info> giúp bạn tạo một "%s" mới'
+options:
+    form-id: 'Từ ID đến alter'
+messages:
+    inputs: "Bạn có thể thêm một số trường để sửa đổi form.\nThis là tùy chọn, nhấn <info>enter</info> đến <info>continue</info>"
+    loading-forms: 'Loading forms definition from Webprofiler module'
+    hide-form-elements: 'Bạn có thể tùy ý lựa chọn form items để ẩn'

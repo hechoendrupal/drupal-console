@@ -1,0 +1,8 @@
+{% for breakpoint in breakpoints %}
+{{ machine_name }}.{{ breakpoint.breakpoint_name }}:
+  label: {{ breakpoint.breakpoint_label }}
+  mediaQuery: '{{ breakpoint.breakpoint_media_query }}'
+  weight: {{ breakpoint.breakpoint_weight }}
+  multipliers:
+    - {{ breakpoint.breakpoint_multipliers }}
+{% endfor %}

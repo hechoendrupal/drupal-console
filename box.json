@@ -1,0 +1,29 @@
+{
+    "alias": "console.phar",
+    "chmod": "0755",
+    "directories": [
+        "config",
+        "src",
+        "templates"
+    ],
+    "files": [
+        "config.yml",
+        "services.yml",
+        "bin/drupal.php",
+        "vendor/autoload.php"
+    ],
+    "finder": [
+        {
+            "name": "/(\\.php|\\.json|\\.yml|\\.twig)$/",
+            "exclude": ["Tests","tests", "docs"],
+            "in": "vendor"
+        }
+    ],
+    "compactors": [
+        "Herrera\\Box\\Compactor\\Php"
+    ],
+    "compression": "GZ",
+    "main": "bin/drupal",
+    "output": "drupal.phar",
+    "stub": true
+}
