@@ -61,7 +61,6 @@ class DeleteCommand extends ContainerAwareCommand
             return 1;
         }
 
-        
         $configStorage = $this->getService('config.storage');
         if (!$configStorage->exists($name)) {
             $io->error(
