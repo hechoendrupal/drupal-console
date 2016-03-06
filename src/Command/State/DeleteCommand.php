@@ -61,17 +61,16 @@ class DeleteCommand extends ContainerAwareCommand
             return 1;
         }
 
-        //        $keyValue = $this->getService('keyvalue');
-        //        if (!$keyValue->exists($name)) {
-        //            $io->error(
-        ////                sprintf(
-        ////                    $this->trans('commands.state.delete.messages.state-not-exists'),
-        ////                    $name
-        ////                )
-        //            );
-        //
-        //            return 1;
-        //        }
+        if (!$state->get($name)) {
+            $io->error(
+                sprintf(
+                    $this->trans('commands.state.delete.messages.state-not-exists'),
+                    $name
+                )
+            );
+
+            return 1;
+        }
 
         try {
             $state->delete($name);
