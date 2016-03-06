@@ -24,7 +24,7 @@ Drupal Console
 
 The Drupal Console is a CLI tool to generate boilerplate code, interact and debug Drupal 8.
 
-## The Last Version
+## Latest Version
 Details of the latest version can be found on the Drupal Console project page under https://drupalconsole.com/.
 
 ## Releases Page
@@ -64,12 +64,12 @@ drupal init --override
 # Update to the latest version.
 drupal self-update
 ```
-## Drupal Console support
+## Drupal Console Support
 You can ask for support at Drupal Console gitter chat room [http://bit.ly/console-support](http://bit.ly/console-support).
 
 More information about using this project at the [official documentation](https://hechoendrupal.gitbooks.io/drupal-console/content/en/using/project.html).
 
-## Getting the project to contribute
+## Getting The Project To Contribute
 
 ### Fork
 Fork your own copy of the [Console](https://github.com/hechoendrupal/DrupalConsole/fork) repository to your account
@@ -124,7 +124,7 @@ source "$HOME/.console/console.rc" 2>/dev/null
 ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish
 ```
 
-## Supporting organizations
+## Supporting Organizations
 [![FFW](https://www.drupal.org/files/ffw-logo.png)](https://ffwagency.com)  
 [![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)  
 [![Anexus](https://www.drupal.org/files/anexus-logo.png)](http://www.anexusit.com/)
