@@ -23,14 +23,14 @@ class ImportSingleCommand extends ContainerAwareCommand
     {
         $this
             ->setName('config:import:single')
-            ->setDescription($this->trans('commands.config.import-single.description'))
+            ->setDescription($this->trans('commands.config.import.single.description'))
             ->addArgument(
-                'config-name', InputArgument::REQUIRED,
-                $this->trans('commands.config.import-single.arguments.config-name')
+                'name', InputArgument::REQUIRED,
+                $this->trans('commands.config.import.single.arguments.name')
             )
             ->addArgument(
                 'input-file', InputArgument::OPTIONAL,
-                $this->trans('commands.config.import-single.arguments.input-file')
+                $this->trans('commands.config.import.single.arguments.input-file')
             );
     }
 
@@ -41,7 +41,7 @@ class ImportSingleCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $configName = $input->getArgument('config-name');
+        $configName = $input->getArgument('name');
         $fileName = $input->getArgument('input-file');
         $config = $this->getConfigFactory()->getEditable($configName);
         $ymlFile = new Parser();
@@ -53,7 +53,7 @@ class ImportSingleCommand extends ContainerAwareCommand
         }
 
         if (empty($value)) {
-            $io->error($this->trans('commands.config.import-single.messages.empty-value'));
+            $io->error($this->trans('commands.config.import.single.messages.empty-value'));
 
             return;
         }
@@ -62,6 +62,23 @@ class ImportSingleCommand extends ContainerAwareCommand
         $config->save();
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        $io = new DrupalStyle($input, $output);
+        $name = $input->getArgument('name');
+        if (!$name) {
+            $configFactory = $this->getService('config.factory');
+            $names = $configFactory->listAll();
+            $name = $io->choiceNoList(
+                $this->trans('commands.config.import.single.arguments.name'),
+                $names
+            );
+            $input->setArgument('name', $name);
+        }
+    }
     /**
      * @param $config_name String
      *
