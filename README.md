@@ -5,9 +5,8 @@
 - [Drupal Console](#drupal-console)
   - [Required PHP version](#required-php-version)
   - [Supported Drupal version](#supported-drupal-version)
-  - [Drupal Console documentation](#drupal-console-documentation)
-  - [Installing Drupal Console](#installing-drupal-console)
-  - [Using Drupal Console](#using-drupal-console)
+  - [Drupal Console documentation](#documentation)
+  - [Installing Drupal Console](#installing-drupal-console)  
   - [Supporting organizations](#supporting-organizations)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -22,22 +21,24 @@ Drupal Console
 [![Software License](https://img.shields.io/badge/license-GPL%202.0+-blue.svg)](https://packagist.org/packages/drupal/console)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
 
-The Drupal Console is a CLI tool to generate boilerplate code for, interact with, and debug Drupal 8.
+The Drupal Console is a CLI tool to generate boilerplate code, interact and debug Drupal 8.
 
-## Change Log
+## Latest Version
+Details of the latest version can be found on the Drupal Console project page under https://drupalconsole.com/.
+
+## Releases Page
 All notable changes to this project will be documented in the [releases page](https://github.com/hechoendrupal/DrupalConsole/releases) 
 
-## Required PHP version
+## Documentation
+The most up-to-date documentation can be found at [bit.ly/console-book](http://bit.ly/console-book).
+
+More information about using this project at the [official documentation](https://hechoendrupal.gitbooks.io/drupal-console/content/en/using/project.html). 
+
+## Required PHP Version
 PHP 5.5.9 or higher is required to use the Drupal Console application.
 
-## Supported Drupal version
+## Supported Drupal Version
 The Drupal 8 supported version is [Drupal 8.0.2](http://ftp.drupal.org/files/projects/drupal-8.0.2.tar.gz).
-
-## Drupal Console documentation
-You can read or download the Drupal Console documentation at [bit.ly/console-book](http://bit.ly/console-book).
-
-## Drupal Console support
-You can ask for support at Drupal Console gitter chat room [http://bit.ly/console-support](http://bit.ly/console-support).
 
 ## Installing Drupal Console
 ```
@@ -62,10 +63,12 @@ drupal init --override
 # Update to the latest version.
 drupal self-update
 ```
+## Drupal Console Support
+You can ask for support at Drupal Console gitter chat room [http://bit.ly/console-support](http://bit.ly/console-support).
 
 More information about using this project at the [official documentation](https://hechoendrupal.gitbooks.io/drupal-console/content/en/using/project.html).
 
-## Getting the project to contribute
+## Getting The Project To Contribute
 
 ### Fork
 Fork your own copy of the [Console](https://github.com/hechoendrupal/DrupalConsole/fork) repository to your account
@@ -120,9 +123,10 @@ source "$HOME/.console/console.rc" 2>/dev/null
 ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish
 ```
 
-## Supporting organizations
+## Supporting Organizations
 [![FFW](https://www.drupal.org/files/ffw-logo.png)](https://ffwagency.com)  
 [![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)  
 [![Anexus](https://www.drupal.org/files/anexus-logo.png)](http://www.anexusit.com/)
+
 
 > Drupal is a registered trademark of Dries Buytaert.
