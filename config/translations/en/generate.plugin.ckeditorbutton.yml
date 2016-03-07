@@ -1,0 +1,15 @@
+description: 'Generate CKEditor button plugin.'
+help: 'The <info>generate:plugin:ckeditorbutton</info> command helps you generate a new CKEditor button plugin.'
+welcome: 'Welcome to the Drupal CKEditor Button Plugin generator'
+options:
+    module: common.options.module
+    class: 'Plugin class name'
+    label: 'Plugin label'
+    plugin-id: 'Plugin id. NOTE: This should correspond to the CKEditor plugin name.'
+    description: 'Plugin Description'
+questions:
+    module: common.questions.module
+    class: 'Enter the plugin class name'
+    label: 'Enter the plugin label'
+    plugin-id: 'Enter the plugin id. NOTE: This should correspond to the CKEditor plugin name.'
+    description: 'Enter the plugin Description'

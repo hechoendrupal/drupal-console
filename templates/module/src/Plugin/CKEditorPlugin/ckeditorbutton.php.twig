@@ -1,0 +1,75 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+    \Drupal\{{ module }}\Plugin\CKEditorPlugin\{{ class_name }}.
+{% endblock %}
+
+{% block namespace_class %}
+    namespace Drupal\{{ module }}\Plugin\CKEditorPlugin;
+{% endblock %}
+
+{% block use_class %}
+    use Drupal\ckeditor\CKEditorPluginBase;
+    use Drupal\editor\Entity\Editor;
+{% endblock %}
+
+{% block class_declaration %}
+    /**
+    * Defines the "{{ plugin_id }}" plugin.
+    *
+    * @CKEditorPlugin(
+    *   id = "{{ plugin_id }}",
+    *   label = @Translation("{{ label }}"),
+    *   module = "{{ module }}"
+    * )
+    */
+    class {{ class_name }} extends CKEditorPluginBase {% endblock %}
+{% block class_methods %}
+    /**
+    * {@inheritdoc}
+    */
+    public function getButtons() {
+      $path = drupal_get_path('module', '{{ module }}') . '/js/{{ plugin_id }}';
+      return array(
+        '{{ label }}' => array(
+          'label' => t('{{ label }}'),
+          'image' => $path . '/images/icon.png',
+        ),
+      );
+    }
+
+    /**
+    * {@inheritdoc}
+    */
+    public function getFile() {
+      return drupal_get_path('module', '{{ module }}') . '/js/{{ plugin_id }}/plugin.js';
+    }
+
+    /**
+    * {@inheritdoc}
+    */
+    function isInternal() {
+      return FALSE;
+    }
+
+    /**
+    * {@inheritdoc}
+    */
+    function getDependencies(Editor $editor) {
+      return array();
+    }
+
+    /**
+    * {@inheritdoc}
+    */
+    function getLibraries(Editor $editor) {
+      return array();
+    }
+
+    /**
+    * {@inheritdoc}
+    */
+    public function getConfig(Editor $editor) {
+      return array();
+    }
+{% endblock %}
