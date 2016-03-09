@@ -17,6 +17,7 @@ application:
       es: 'Español'
       ca: 'Català'
       fr: 'Français'
+      ko: '한국어'
       hi: 'हिन्दी'
       hu: 'Magyar'
       ja: '日本語'
