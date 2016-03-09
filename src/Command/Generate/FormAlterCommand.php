@@ -139,8 +139,6 @@ class FormAlterCommand extends GeneratorCommand
             );
 
             $this->metadata['unset'] = array_filter(array_map('trim',  $formItemsToHide));
-
-            print_r($this->metadata['unset']);
         }
 
         $input->setOption('form-id', $formId);

@@ -12,10 +12,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Parser;
 use Drupal\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+
 
 class TranslationPendingCommand extends Command
 {
@@ -124,7 +126,7 @@ class TranslationPendingCommand extends Command
 
             foreach ($languages as $langCode => $languageName) {
                 $languageDir = $appRoot . 'config/translations/' . $langCode;
-                if (isset($language) and $langCode != $language) {
+                if (isset($language) && $langCode != $language) {
                     continue;
                 }
 

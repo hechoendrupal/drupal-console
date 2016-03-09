@@ -124,6 +124,6 @@ class UpdateCommand extends Command
         // can't read files properly from the overwritten Phar, or perhaps it's
         // because the autoloader's name has changed. We avoid the problem by
         // terminating now.
-        exit;
+        throw new Exception('Unexpected instantiation');
     }
 }

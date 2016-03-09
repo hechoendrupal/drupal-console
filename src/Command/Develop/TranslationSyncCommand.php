@@ -105,7 +105,7 @@ class TranslationSyncCommand extends Command
 
             foreach ($languages as $langCode => $languageName) {
                 $languageDir = $appRoot . 'config/translations/' . $langCode;
-                if (isset($language) and $langCode != $language) {
+                if (isset($language) && $langCode != $language) {
                     continue;
                 }
                 if (!isset($statistics[$langCode])) {
