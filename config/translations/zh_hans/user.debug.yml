@@ -1,6 +1,6 @@
-description: 'Displays current users for the application'
-help: 'The <info>user:debug</info> command helps you get current users.'
-welcome: 'Welcome to the Drupal user debug'
+description: '显示当前用户的程序'
+help: '<info>user:debug</info>命令帮助取得当前用户.'
+welcome: '欢迎到用户调试'
 options:
     roles: 用于过滤用户的角色
     limit: 指定显示的用户数量

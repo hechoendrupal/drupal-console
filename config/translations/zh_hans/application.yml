@@ -9,15 +9,15 @@ options:
     uri: 'Drupal 网站的 URI( 用于多站点环境或运行在不同的端口)'
     'yes': 跳过确认并继续
     target: 与之交互的站点名字（本地或远程网站）
-    help: 'Display this help message'
-    quiet: 'Do not output any message'
-    verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
+    help: '显示这个帮助信息'
+    quiet: '不显示任何帮助信息'
+    verbose: '输出信息控制: 1 普通输出, 2 详细输出 and 3 调试信息输出'
     version: '<info>%s</info> 版本 <comment>%s</comment>'
-    ansi: 'Force ANSI output'
-    no-ansi: 'Disable ANSI output'
-    no-interaction: 'Do not ask any interactive question'
+    ansi: '启用 ANSI 输出'
+    no-ansi: '停止 ANSI 输出'
+    no-interaction: '非交互式'
 arguments:
-    command: 'The command to execute'
+    command: '要执行的命令'
 messages:
     completed: 命令执行成功！
     chain:

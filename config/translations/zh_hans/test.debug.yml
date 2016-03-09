@@ -14,4 +14,4 @@ messages:
     methods: 测试方法
     not-found: '没找到调试，试着在测试ID上加双引号.'
     success-groups: 'All testing groups were listed sucessfully, use the group argument to filter Test unit by group i.e $ drupal test:debug Url'
-    success-group: 'All test units for group %s were listed sucessfully'
+    success-group: '成功列出组（%s）所有测试单位'

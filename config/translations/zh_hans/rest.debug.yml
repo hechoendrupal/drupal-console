@@ -2,13 +2,13 @@ description: '显示当前 REST 资源'
 arguments:
     resource-id: 'REST 资源 ID'
 options:
-    status: 'REST 资源状态 enabled | disabled'
+    status: 'REST 资源状态 启用 | 停用'
 messages:
     id: 'REST 资源 ID'
     label: '标签'
-    canonical_url: 'Canonical URL'
+    canonical_url: '规范网址'
     status: 状态
-    provider: Provider
+    provider: 提供者
     enabled: 启用
     disabled: 禁用
     rest-state: 'REST 状态'

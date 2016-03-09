@@ -1,11 +1,11 @@
 description: 更新项目到最新版本
 help: 更新项目到最新版本
 options:
-    major: 'Update to a new major version, if available.'
+    major: '如果有，更新到最近主版本.'
     manifest: 'Override the manifest file path.'
     current-version: 'Override the version to update from.'
 questions:
-    update: 'Update from version %s to version %s.'
+    update: '从版本%s更新到版本%s.'
 messages:
     not-phar: 'This instance of the CLI was not installed as a Phar archive.'
     update: 'Updating to version %s.'

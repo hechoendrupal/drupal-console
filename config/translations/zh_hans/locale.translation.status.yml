@@ -7,8 +7,8 @@ messages:
     no-translations: '无翻译状态可用。请手动检查'
     project: 项目
     version: 版本
-    local-age: '本地 age'
-    remote-age: '远程 age'
+    local-age: '本地年龄'
+    remote-age: '远程年龄'
     info: 信息
     no-translation-files: '无翻译文件提供给开发版本'
     file-not-found: '文件在 %s，%s 都没有找到'

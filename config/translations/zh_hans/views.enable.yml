@@ -1,5 +1,5 @@
 description: 启动视图
 messages:
-    enabled-successfully: 'View %s was enabled successfully.'
+    enabled-successfully: '成功启动视图%s.'
     disabled-successfully: 成功启动视图%s.
 disabled-successfully: 成功启动视图%s.
