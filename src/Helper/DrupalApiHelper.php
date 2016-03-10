@@ -9,6 +9,7 @@ namespace Drupal\Console\Helper;
 
 use Symfony\Component\DomCrawler\Crawler;
 use Drupal\Console\Utils\Create\Nodes;
+use Drupal\Console\Utils\Create\Comments;
 use Drupal\Console\Utils\Create\Terms;
 use Drupal\Console\Utils\Create\Vocabularies;
 use Drupal\Console\Utils\Create\Users;
@@ -40,6 +41,19 @@ class DrupalApiHelper extends Helper
         );
 
         return $createNodes;
+    }
+
+    /**
+     * @return \Drupal\Console\Utils\Create\Comments
+     */
+    public function getCreateComments()
+    {
+        $createComments = new Comments(
+            $this->getService('entity.manager'),
+            $this->getService('date.formatter')
+        );
+
+        return $createComments;
     }
 
     /**
