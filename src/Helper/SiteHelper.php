@@ -428,29 +428,11 @@ class SiteHelper extends Helper
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getDrupalVersion()
     {
-        $version = $this->getTranslator()->trans('commands.site.status.messages.not_available');
-
-        $systemManager = $this->getDrupalApi()->getService('system.manager');
-        if ($systemManager) {
-            $requirements = $systemManager->listRequirements();
-            $drupalVersion = current(
-                array_filter(
-                    $requirements, function ($v) {
-                        if ($v['title'] == 'Drupal') {
-                            return true;
-                        }
-                    }
-                )
-            );
-
-            $version = $drupalVersion['value'];
-        }
-
-        return $version;
+        return \Drupal::VERSION;
     }
 
     /**
