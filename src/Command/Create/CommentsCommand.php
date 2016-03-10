@@ -66,7 +66,7 @@ class CommentsCommand extends ContainerAwareCommand
         $nodeId  = $input->getArgument('node-id');
         if (!$nodeId) {
             $nodeId = $io->ask(
-                $this->trans('Node ID where the comments will be created')
+                $this->trans('commands.create.comments.questions.node-id')
             );
             $input->setArgument('node-id', $nodeId);
         }
@@ -111,7 +111,7 @@ class CommentsCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
         $createComments = $this->getDrupalApi()->getCreateComments();
 
-        $nodeId = $input->getArgument('node-id');
+        $nodeId = $input->getArgument('node-id')?:1;
         $limit = $input->getOption('limit')?:25;
         $titleWords = $input->getOption('title-words')?:5;
         $timeRange = $input->getOption('time-range')?:31536000;
@@ -124,6 +124,7 @@ class CommentsCommand extends ContainerAwareCommand
         );
 
         $tableHeader = [
+            $this->trans('commands.create.comments.messages.node-id'),
             $this->trans('commands.create.comments.messages.comment-id'),
             $this->trans('commands.create.comments.messages.title'),
             $this->trans('commands.create.comments.messages.created'),

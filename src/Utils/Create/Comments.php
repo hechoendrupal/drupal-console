@@ -2,41 +2,35 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Utils\Create\Nodes.
+ * Contains \Drupal\Console\Utils\Create\Comments.
  */
 
 namespace Drupal\Console\Utils\Create;
 
-use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
-use Drupal\Core\Language\LanguageInterface;
-use Drupal\node\Entity\Node;
-use Drupal\comment\Entity\Comment;
 
 /**
  * Class Nodes
- * @package Drupal\Console\Utils
+ * @package Drupal\Console\Utils\Create
  */
 class Comments extends Base
 {
-    /* @var array */
-    protected $bundles = [];
-
     /**
      * Comments constructor.
      *
-     * @param EntityManagerInterface $entityManager
-     * @param DateFormatterInterface $dateFormatter
+     * @param EntityTypeManagerInterface    $entityTypeManager
+     * @param DateFormatterInterface        $dateFormatter
      */
     public function __construct(
-        EntityManagerInterface $entityManager,
+        EntityTypeManagerInterface $entityTypeManager,
         DateFormatterInterface $dateFormatter
     ) {
-        parent::__construct($entityManager, $dateFormatter);
+        parent::__construct($entityTypeManager, $dateFormatter);
     }
 
     /**
-     * @param $nid,
+     * @param $nid
      * @param $limit
      * @param $titleWords
      * @param $timeRange
@@ -50,11 +44,10 @@ class Comments extends Base
         $timeRange
     ) {
         $comments = [];
-        $node = Node::load($nid);
 
         for ($i=0; $i<$limit; $i++) {
-            $comment = Comment::create([
-                'entity_id' => $node->id(),
+            $comment = $this->entityTypeManager->getStorage('comment')->create([
+                'entity_id' => $nid,
                 'entity_type' => 'node',
                 'field_name' => 'comment',
                 'created' => REQUEST_TIME - mt_rand(0, $timeRange),
@@ -70,6 +63,7 @@ class Comments extends Base
             try {
                 $comment->save();
                 $comments['success'][] = [
+                    'nid' => $nid,
                     'cid' => $comment->id(),
                     'title' => $comment->getSubject(),
                     'created' => $this->dateFormatter->format(

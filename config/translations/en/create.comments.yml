@@ -8,6 +8,7 @@ options:
     title-words: 'Maximum number of words in comment titles'
     time-range: 'How far back in time should the comments be dated'
 questions:
+    node-id: 'Node ID where the comments will be created'
     content-type: 'Select content type(s) to be used on comment creation'
     limit: 'Enter how many comments would you like to generate'
     title-words: 'Enter the maximum number of words in titles'
@@ -20,6 +21,7 @@ questions:
         - '1 month ago'
         - '1 year ago'
 messages:
+    node-id: 'Node Id'
     comment-id: 'Comment Id'
     content-type: 'Content type'
     title: 'Title'
