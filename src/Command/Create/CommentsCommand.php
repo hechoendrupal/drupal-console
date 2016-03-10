@@ -1,12 +1,11 @@
 <?php
 /**
  * @file
- * Contains \Drupal\Console\Command\Create\NodesCommand.
+ * Contains \Drupal\Console\Command\Create\CommentsCommand.
  */
 
 namespace Drupal\Console\Command\Create;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -32,9 +31,9 @@ class CommentsCommand extends ContainerAwareCommand
             ->setName('create:comments')
             ->setDescription($this->trans('commands.create.comments.description'))
             ->addArgument(
-                'entity-id',
+                'node-id',
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.create.comments.arguments.entity-id'),
+                $this->trans('commands.create.comments.arguments.node-id'),
                 null
             )
             ->addOption(
@@ -64,12 +63,12 @@ class CommentsCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $entityId  = $input->getArgument('entity-id');
-        if (!$entityId) {
-            $entityId = $io->ask(
-                $this->trans('Entity ID where the comments will be created')
+        $nodeId  = $input->getArgument('node-id');
+        if (!$nodeId) {
+            $nodeId = $io->ask(
+                $this->trans('Node ID where the comments will be created')
             );
-            $input->setArgument('entity-id', $entityId);
+            $input->setArgument('node-id', $nodeId);
         }
 
         $limit = $input->getOption('limit');
@@ -112,7 +111,7 @@ class CommentsCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
         $createComments = $this->getDrupalApi()->getCreateComments();
 
-        $nodeId = $input->getArgument('entity-id');
+        $nodeId = $input->getArgument('node-id');
         $limit = $input->getOption('limit')?:25;
         $titleWords = $input->getOption('title-words')?:5;
         $timeRange = $input->getOption('time-range')?:31536000;

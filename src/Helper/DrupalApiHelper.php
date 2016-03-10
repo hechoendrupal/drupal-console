@@ -8,7 +8,6 @@
 namespace Drupal\Console\Helper;
 
 use Symfony\Component\DomCrawler\Crawler;
-use Drupal\Console\Helper\Helper;
 use Drupal\Console\Utils\Create\Nodes;
 use Drupal\Console\Utils\Create\Comments;
 use Drupal\Console\Utils\Create\Terms;
