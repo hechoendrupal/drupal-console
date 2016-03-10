@@ -11,7 +11,6 @@ use Drupal\Console\Utils\Create\Base;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Language\LanguageInterface;
-use Drupal\node\Entity\Node;
 
 /**
  * Class Nodes
@@ -26,8 +25,8 @@ class Nodes extends Base
      * Nodes constructor.
      *
      * @param EntityTypeManagerInterface $entityTypeManager
-     * @param DateFormatterInterface $dateFormatter
-     * @param array                  $bundles
+     * @param DateFormatterInterface     $dateFormatter
+     * @param array                      $bundles
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,

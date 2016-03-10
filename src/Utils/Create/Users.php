@@ -8,11 +8,8 @@
 namespace Drupal\Console\Utils\Create;
 
 use Drupal\Console\Utils\Create\Base;
-use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
-use Drupal\Core\Language\LanguageInterface;
-use Drupal\user\Entity\Role;
 
 /**
  * Class Users
@@ -27,8 +24,8 @@ class Users extends Base
      * Users constructor.
      *
      * @param EntityTypeManagerInterface $entityTypeManager
-     * @param DateFormatterInterface $dateFormatter
-     * @param array                  $roles
+     * @param DateFormatterInterface     $dateFormatter
+     * @param array                      $roles
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
