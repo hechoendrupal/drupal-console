@@ -19,8 +19,8 @@ class Comments extends Base
     /**
      * Comments constructor.
      *
-     * @param EntityTypeManagerInterface    $entityTypeManager
-     * @param DateFormatterInterface        $dateFormatter
+     * @param EntityTypeManagerInterface $entityTypeManager
+     * @param DateFormatterInterface     $dateFormatter
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
@@ -46,7 +46,8 @@ class Comments extends Base
         $comments = [];
 
         for ($i=0; $i<$limit; $i++) {
-            $comment = $this->entityTypeManager->getStorage('comment')->create([
+            $comment = $this->entityTypeManager->getStorage('comment')->create(
+                [
                 'entity_id' => $nid,
                 'entity_type' => 'node',
                 'field_name' => 'comment',
@@ -56,7 +57,8 @@ class Comments extends Base
                 'subject' => $this->getRandom()->sentences(mt_rand(1, $titleWords), true),
                 'language' => 'und',
                 'comment_body' => ['und' => ['random body']],
-            ]);
+                ]
+            );
 
             $this->generateFieldSampleData($comment);
 

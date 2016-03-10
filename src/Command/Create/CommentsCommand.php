@@ -13,7 +13,6 @@ use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Command\CreateTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-
 /**
  * Class CommentsCommand
  * @package Drupal\Console\Command\Generate
@@ -141,5 +140,4 @@ class CommentsCommand extends ContainerAwareCommand
 
         return;
     }
-
 }

@@ -24,8 +24,8 @@ class Users extends Base
      * Users constructor.
      *
      * @param EntityTypeManagerInterface $entityTypeManager
-     * @param DateFormatterInterface $dateFormatter
-     * @param array                  $roles
+     * @param DateFormatterInterface     $dateFormatter
+     * @param array                      $roles
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,

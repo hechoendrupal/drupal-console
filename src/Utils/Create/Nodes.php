@@ -25,8 +25,8 @@ class Nodes extends Base
      * Nodes constructor.
      *
      * @param EntityTypeManagerInterface $entityTypeManager
-     * @param DateFormatterInterface $dateFormatter
-     * @param array                  $bundles
+     * @param DateFormatterInterface     $dateFormatter
+     * @param array                      $bundles
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
