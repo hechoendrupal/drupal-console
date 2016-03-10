@@ -10,7 +10,7 @@ namespace Drupal\Console\Utils\Create;
 use Drupal\Component\Utility\Random;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\field\FieldConfigInterface;
-use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
 
 /**
@@ -19,8 +19,8 @@ use Drupal\Core\Datetime\DateFormatterInterface;
  */
 abstract class Base
 {
-    /* @var EntityManagerInterface */
-    protected $entityManager = null;
+    /* @var EntityTypeManagerInterface */
+    protected $entityTypeManager = null;
 
     /* @var DateFormatterInterface */
     protected $dateFormatter = null;
@@ -33,14 +33,14 @@ abstract class Base
 
     /**
      * ContentNode constructor.
-     * @param EntityManagerInterface $entityManager
+     * @param EntityTypeManagerInterface $entityTypeManager
      * @param DateFormatterInterface $dateFormatter
      */
     public function __construct(
-        EntityManagerInterface $entityManager,
+        EntityTypeManagerInterface $entityTypeManager,
         DateFormatterInterface $dateFormatter
     ) {
-        $this->entityManager = $entityManager;
+        $this->entityTypeManager = $entityTypeManager;
         $this->dateFormatter = $dateFormatter;
     }
 
@@ -54,7 +54,7 @@ abstract class Base
         $bundle = $entity->bundle();
 
         $fields = array_filter(
-            $this->entityManager->getFieldDefinitions($entityTypeId, $bundle), function ($fieldDefinition) {
+            $this->entityTypeManager->getFieldDefinitions($entityTypeId, $bundle), function ($fieldDefinition) {
                 return $fieldDefinition instanceof FieldConfigInterface;
             }
         );
@@ -106,7 +106,7 @@ abstract class Base
     protected function getUserId()
     {
         if (!$this->users) {
-            $userStorage = $this->entityManager->getStorage('user');
+            $userStorage = $this->entityTypeManager->getStorage('user');
 
             $this->users = $userStorage->loadByProperties(['status' => true]);
         }

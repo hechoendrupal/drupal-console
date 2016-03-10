@@ -9,7 +9,7 @@ namespace Drupal\Console\Utils\Create;
 
 use Drupal\Console\Utils\Create\Base;
 use Drupal\Component\Utility\Unicode;
-use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\user\Entity\Role;
@@ -26,17 +26,17 @@ class Users extends Base
     /**
      * Users constructor.
      *
-     * @param EntityManagerInterface $entityManager
+     * @param EntityTypeManagerInterface $entityTypeManager
      * @param DateFormatterInterface $dateFormatter
      * @param array                  $roles
      */
     public function __construct(
-        EntityManagerInterface $entityManager,
+        EntityTypeManagerInterface $entityTypeManager,
         DateFormatterInterface $dateFormatter,
         $roles
     ) {
         $this->roles = $roles;
-        parent::__construct($entityManager, $dateFormatter);
+        parent::__construct($entityTypeManager, $dateFormatter);
     }
 
     /**
@@ -59,7 +59,7 @@ class Users extends Base
         for ($i=0; $i<$limit; $i++) {
             $username = $this->getRandom()->word(mt_rand(6, 12));
 
-            $user = $this->entityManager->getStorage('user')->create(
+            $user = $this->entityTypeManager->getStorage('user')->create(
                 [
                     'name' => $username,
                     'mail' => $username . '@example.com',

@@ -8,9 +8,10 @@
 namespace Drupal\Console\Utils\Create;
 
 use Drupal\Console\Utils\Create\Base;
-use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\node\Entity\Node;
 
 /**
  * Class Nodes
@@ -24,17 +25,17 @@ class Nodes extends Base
     /**
      * Nodes constructor.
      *
-     * @param EntityManagerInterface $entityManager
+     * @param EntityTypeManagerInterface $entityTypeManager
      * @param DateFormatterInterface $dateFormatter
      * @param array                  $bundles
      */
     public function __construct(
-        EntityManagerInterface $entityManager,
+        EntityTypeManagerInterface $entityTypeManager,
         DateFormatterInterface $dateFormatter,
         $bundles
     ) {
         $this->bundles = $bundles;
-        parent::__construct($entityManager, $dateFormatter);
+        parent::__construct($entityTypeManager, $dateFormatter);
     }
 
     /**
@@ -54,7 +55,7 @@ class Nodes extends Base
         $nodes = [];
         for ($i=0; $i<$limit; $i++) {
             $contentType = $contentTypes[array_rand($contentTypes)];
-            $node = $this->entityManager->getStorage('node')->create(
+            $node = $this->entityTypeManager->getStorage('node')->create(
                 [
                     'nid' => null,
                     'type' => $contentType,
