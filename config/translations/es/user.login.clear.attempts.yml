@@ -1,5 +1,5 @@
 description: 'Limpia intentos de inicio de sesión fallidos para una cuenta.'
-help: 'El commando <info>clean:login:failed</info> restablece los intentos fallidos de inicio de sesión para una cuenta.'
+help: 'El commando <info>user:login:clear:attempts</info> restablece los intentos fallidos de inicio de sesión para una cuenta.'
 options:
     user-id: 'Id de usuario.'
 questions:
