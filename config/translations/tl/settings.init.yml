@@ -1,0 +1,3 @@
+description: 'Salin file-file konfigurasi ke dalam direktori "home" pengguna.'
+options:
+    override: 'Override file-file konfigurasi'
