@@ -121,7 +121,7 @@ class PluginCKEditorButtonCommand extends GeneratorCommand
         if (!$plugin_id) {
             $plugin_id = $io->ask(
               $this->trans('commands.generate.plugin.ckeditorbutton.questions.plugin-id'),
-              $this->getStringHelper()->camelCaseToUnderscore($class_name)
+              $this->getStringHelper()->camelCaseToLowerCase($label)
             );
             $input->setOption('plugin-id', $plugin_id);
         }
