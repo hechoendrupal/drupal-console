@@ -28,7 +28,7 @@
     * {@inheritdoc}
     */
     public function getButtons() {
-      $path = drupal_get_path('module', '{{ module }}') . '/js/{{ plugin_id }}';
+      $path = drupal_get_path('module', '{{ module }}') . '/js/plugins/{{ plugin_id }}';
       return array(
         '{{ button_name }}' => array(
           'label' => t('{{ label }}'),
@@ -41,7 +41,7 @@
     * {@inheritdoc}
     */
     public function getFile() {
-      return drupal_get_path('module', '{{ module }}') . '/js/{{ plugin_id }}/plugin.js';
+      return drupal_get_path('module', '{{ module }}') . '/js/plugins/{{ plugin_id }}/plugin.js';
     }
 
     /**
