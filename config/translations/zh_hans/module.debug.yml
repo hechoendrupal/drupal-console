@@ -10,4 +10,4 @@ messages:
     package: '包'
     enabled: 启用
     disabled: 禁用
-    schema-version: 'Schema version'
+    schema-version: 'Schema 版本'
