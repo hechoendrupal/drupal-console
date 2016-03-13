@@ -16,7 +16,7 @@ trait PluginCKEditorButtonDataProviderTrait
         $this->setUpTemporaryDirectory();
 
         return [
-          ['Foo',  'foo' . rand(), 'foo', 'bar'],
+          ['Foo',  'foo' . rand(), 'foo', 'bar', 'Baz'],
         ];
     }
 }

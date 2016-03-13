@@ -50,6 +50,12 @@ class PluginCKEditorButtonCommand extends GeneratorCommand
             '',
             InputOption::VALUE_OPTIONAL,
             $this->trans('commands.generate.plugin.ckeditorbutton.options.plugin-id')
+          )
+          ->addOption(
+            'button-name',
+            '',
+            InputOption::VALUE_REQUIRED,
+            $this->trans('commands.generate.plugin.ckeditorbutton.options.button-name')
           );
     }
 
@@ -69,10 +75,11 @@ class PluginCKEditorButtonCommand extends GeneratorCommand
         $class_name = $input->getOption('class');
         $label = $input->getOption('label');
         $plugin_id = $input->getOption('plugin-id');
+        $button_name = $input->getOption('button-name');
 
         $this
           ->getGenerator()
-          ->generate($module, $class_name, $label, $plugin_id);
+          ->generate($module, $class_name, $label, $plugin_id, $button_name);
 
         $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery'], false);
     }
@@ -118,6 +125,16 @@ class PluginCKEditorButtonCommand extends GeneratorCommand
             );
             $input->setOption('plugin-id', $plugin_id);
         }
+
+        // --button-name option
+        $button_name = $input->getOption('button-name');
+        if (!$button_name) {
+          $button_name = $io->ask(
+            $this->trans('commands.generate.plugin.ckeditorbutton.questions.button-name'),
+            $this->getStringHelper()->anyCaseToUcFirst($plugin_id)
+          );
+          $input->setOption('button-name', $button_name);
+      }
     }
 
     protected function createGenerator()

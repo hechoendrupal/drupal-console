@@ -20,6 +20,7 @@ class PluginCKEditorButtonGeneratorTest extends GeneratorTest
      * @param $class_name
      * @param $label
      * @param $plugin_id
+     * @param $button_name
      *
      * @dataProvider commandData
      */
@@ -27,7 +28,8 @@ class PluginCKEditorButtonGeneratorTest extends GeneratorTest
         $module,
         $class_name,
         $label,
-        $plugin_id
+        $plugin_id,
+        $button_name
     ) {
         $generator = new PluginCKEditorButtonGenerator();
         $this->getRenderHelper()->setSkeletonDirs($this->getSkeletonDirs());
@@ -38,7 +40,8 @@ class PluginCKEditorButtonGeneratorTest extends GeneratorTest
             $module,
             $class_name,
             $label,
-            $plugin_id
+            $plugin_id,
+            $button_name
         );
 
         $this->assertTrue(
