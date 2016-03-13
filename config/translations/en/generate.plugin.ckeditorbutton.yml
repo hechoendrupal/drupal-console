@@ -7,11 +7,9 @@ options:
     label: 'Plugin label'
     plugin-id: 'Plugin id. NOTE: This should correspond to the CKEditor plugin name. First argument of CKEDITOR.plugins.add() function in plugin.js file'
     button-name: 'Button name. NOTE: This should correspond to the CKEditor button name. First argument of editor.ui.addButton() or editor.ui.addRichCombo() functions in plugin.js file'
-    description: 'Plugin Description'
 questions:
     module: common.questions.module
     class: 'Enter the plugin class name'
     label: 'Enter the plugin label'
     plugin-id: 'Enter the plugin id. NOTE: This should correspond to the CKEditor plugin name. First argument of CKEDITOR.plugins.add() function in plugin.js file'
     button-name: 'Enter the button name. NOTE: This should correspond to the CKEditor button name. First argument of editor.ui.addButton() or editor.ui.addRichCombo() functions in plugin.js file'
-    description: 'Enter the plugin Description'
