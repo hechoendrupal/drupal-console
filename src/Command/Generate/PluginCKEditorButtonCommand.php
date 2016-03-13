@@ -42,13 +42,13 @@ class PluginCKEditorButtonCommand extends GeneratorCommand
           ->addOption(
             'label',
             '',
-            InputOption::VALUE_OPTIONAL,
+            InputOption::VALUE_REQUIRED,
             $this->trans('commands.generate.plugin.ckeditorbutton.options.label')
           )
           ->addOption(
             'plugin-id',
             '',
-            InputOption::VALUE_OPTIONAL,
+            InputOption::VALUE_REQUIRED,
             $this->trans('commands.generate.plugin.ckeditorbutton.options.plugin-id')
           )
           ->addOption(
