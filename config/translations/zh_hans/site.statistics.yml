@@ -10,6 +10,6 @@ messages:
   files: 'Files'
   users: 'Users'
   modules-enabled: '启用的模块'
-  modules-disabled: '停用的模块'
+  modules-disabled: '禁用的模块'
   themes-enabled: '启用的主题'
-  themes-disabled: '停用的主题'
+  themes-disabled: '禁用的主题'

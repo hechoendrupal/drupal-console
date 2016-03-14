@@ -2,7 +2,7 @@ description: '显示当前 REST 资源'
 arguments:
     resource-id: 'REST 资源 ID'
 options:
-    status: 'REST 资源状态 启用 | 停用'
+    status: 'REST 资源状态 启用 | 禁用'
 messages:
     id: 'REST 资源 ID'
     label: '标签'

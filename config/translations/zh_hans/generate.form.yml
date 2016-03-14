@@ -16,7 +16,7 @@ questions:
     services: common.questions.services
     inputs: common.questions.inputs
     routing: 更新路由文件
-    menu_link_gen: '生成一个菜单链接'
+    menu_link_gen: '生成菜单链接'
     menu_link_title: '菜单链接标题'
-    menu_parent: '菜单父链接'
+    menu_parent: '父级菜单'
     menu_link_desc: '菜单链接描述'
