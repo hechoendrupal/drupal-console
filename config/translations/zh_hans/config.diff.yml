@@ -1,14 +1,14 @@
-description: 'Ouput configuration items that are different in active configuration compared with a directory.'
+description: '输出选取目录中和使用中不同的配置项目.'
 arguments:
-    directory: 'The directory to diff against. If omitted, choose from Drupal config directories.'
+    directory: '要对比的目录. 缺省使用配置目录.'
 options:
-    reverse: 'See the changes in reverse (i.e diff a directory to the active configuration).'
+    reverse: '反向显示差异(就是说：从一个目录到使用配置的比较).'
 questions:
-    directories: 'Config directory:'
+    directories: '配置目录:'
 table:
     headers:
-        collection: Collection
-        config-name: 'Configuration item'
-        operation: Operation
+        collection: 集合
+        config-name: '配置项'
+        operation: 操作
 messages:
-    no-changes: 'There are no changes.'
+    no-changes: '没有更改.'

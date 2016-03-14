@@ -13,7 +13,6 @@ options:
     composer: '添加一个 composer.json 文件'
     dependencies: '模块依赖，以逗号分隔 (例如： context, panels)'
     test: '生成一个测试类'
-    controller: '默认控制器'
 questions:
     module: '输入新模块名称'
     machine-name: '输入新模块名称机器名'
@@ -26,7 +25,6 @@ questions:
     composer: '要添加一个 a composer.json 文件吗？'
     dependencies: '添加模块依赖'
     test: '要生成一个单元测试类吗？'
-    controller: '要生成一个默认控制器吗？'
 warnings:
     module-unavailable: '警告：以下模块 "%s" 在你的本地环境中不可用'
 errors:

@@ -2,7 +2,7 @@ description: '导出单个配置'
 arguments:
     config-name: '配置名称'
 options:
-    include-dependencies: 'Export dependencies of the configuration as well.'
+    include-dependencies: '同时输出其他相关配置.'
     simple-configuration: '简单配置'
 questions:
     config-type: '配置类型'

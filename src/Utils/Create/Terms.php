@@ -8,7 +8,7 @@
 namespace Drupal\Console\Utils\Create;
 
 use Drupal\Console\Utils\Create\Base;
-use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Language\LanguageInterface;
 
@@ -24,17 +24,17 @@ class Terms extends Base
     /**
      * Terms constructor.
      *
-     * @param EntityManagerInterface $entityManager
+     * @param EntityTypeManagerInterface $entityTypeManager
      * @param DateFormatterInterface $dateFormatter
      * @param array                  $vocabularies
      */
     public function __construct(
-        EntityManagerInterface $entityManager,
+        EntityTypeManagerInterface $entityTypeManager,
         DateFormatterInterface $dateFormatter,
         $vocabularies
     ) {
         $this->vocabularies = $vocabularies;
-        parent::__construct($entityManager, $dateFormatter);
+        parent::__construct($entityTypeManager, $dateFormatter);
     }
 
     /**
@@ -54,7 +54,7 @@ class Terms extends Base
         $terms = [];
         for ($i=0; $i<$limit; $i++) {
             $vocabulary = $vocabularies[array_rand($vocabularies)];
-            $term = $this->entityManager->getStorage('taxonomy_term')->create(
+            $term = $this->entityTypeManager->getStorage('taxonomy_term')->create(
                 [
                     'vid' => $vocabulary,
                     'name' => $this->getRandom()->sentences(mt_rand(1, $nameWords), true),
