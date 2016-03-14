@@ -25,7 +25,7 @@ class ShowFileHelper extends Helper
         $this->showFiles(
             $io,
             $files,
-            'application.console.messages.files.generated',
+            'application.messages.files.generated',
             'application.site.messages.path',
             $this->getDrupalHelper()->getRoot()
         );
@@ -40,7 +40,7 @@ class ShowFileHelper extends Helper
         $this->showFiles(
             $io,
             $files,
-            'application.console.messages.files.copied',
+            'application.messages.files.copied',
             'application.user.messages.path',
             rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/\\').'/.console/'
         );

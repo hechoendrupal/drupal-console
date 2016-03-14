@@ -1,4 +1,4 @@
-description: 'Llançar un client de base de dades si està disponible'
+description: 'Executar un client de base de dades'
 arguments:
     database: 'Clau de la base de dades des de settings.php'
 messages:

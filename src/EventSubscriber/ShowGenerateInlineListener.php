@@ -107,7 +107,7 @@ class ShowGenerateInlineListener implements EventSubscriberInterface
 
             // Print yaml output and message
             $io->commentBlock(
-                $translatorHelper->trans('application.console.messages.inline.generated')
+                $translatorHelper->trans('application.messages.inline.generated')
             );
 
             $io->writeln(

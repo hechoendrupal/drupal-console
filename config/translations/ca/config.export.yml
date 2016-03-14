@@ -3,4 +3,4 @@ arguments:
     directory: 'Defineix el directori d''exportació per desar la configuració.'
     tar: 'La configuració s''exportarà a un fitxer si s''ha definit.'
 messages:
-    directory: 'La configuració ha sigut exportada a:'
+    directory: 'S''ha exportat la configuració a:'

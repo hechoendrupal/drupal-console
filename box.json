@@ -8,6 +8,7 @@
     ],
     "files": [
         "config.yml",
+        "services.yml",
         "bin/drupal.php",
         "vendor/autoload.php"
     ],

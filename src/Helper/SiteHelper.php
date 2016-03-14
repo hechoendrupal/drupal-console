@@ -20,6 +20,11 @@ class SiteHelper extends Helper
     /**
      * @var array
      */
+    private $extensions;
+
+    /**
+     * @var array
+     */
     private $modules;
 
     /**
@@ -49,9 +54,10 @@ class SiteHelper extends Helper
     }
 
     /**
+     * @param string $type
      * @return \Drupal\Core\Extension\Extension[]
      */
-    public function discoverModules()
+    public function discoverExtensions($type = 'module')
     {
         $this->getDrupalHelper()->loadLegacyFile('/core/modules/system/system.module');
         system_rebuild_module_data();
@@ -63,9 +69,79 @@ class SiteHelper extends Helper
         $discovery = new DrupalExtensionDiscovery(\Drupal::root());
         $discovery->reset();
 
-        return $discovery->scan('module');
+        return $discovery->scan($type);
     }
 
+    /**
+     * @return \Drupal\Core\Extension\Extension[]
+     */
+    public function discoverModules()
+    {
+        return $this->discoverExtensions();
+    }
+
+    /**
+     * @return \Drupal\Core\Extension\Extension[]
+     */
+    public function discoverProfiles()
+    {
+        return $this->discoverExtensions('profile');
+    }
+
+    /**
+     * @param string     $type
+     * @param bool|false $reset
+     * @param bool|true  $showInstalled
+     * @param bool|false $showUninstalled
+     * @param bool|true  $showCore
+     * @param bool|true  $showNoCore
+     * @param bool|false $nameOnly
+     * @return array
+     */
+    public function getExtensions(
+        $type = 'module',
+        $reset = false,
+        $showInstalled = true,
+        $showUninstalled = false,
+        $showCore = true,
+        $showNoCore = true,
+        $nameOnly = false
+    ) {
+        $extensions = [];
+
+        if (!$this->extensions[$type] || $reset) {
+            $this->extensions[$type] = $this->discoverExtensions($type);
+        }
+
+        foreach ($this->extensions[$type] as $extension) {
+            $name = $extension->getName();
+
+            $isInstalled = false;
+            if (property_exists($extension, 'status')) {
+                $isInstalled = ($extension->status)?true:false;
+            }
+            if (!$showInstalled && $isInstalled) {
+                continue;
+            }
+            if (!$showUninstalled && !$isInstalled) {
+                continue;
+            }
+            if (!$showCore && $extension->origin == 'core') {
+                continue;
+            }
+            if (!$showNoCore && $extension->origin != 'core') {
+                continue;
+            }
+            if ($nameOnly) {
+                $extensions[] = $name;
+            } else {
+                $extensions[$name] = $extension;
+            }
+        }
+
+        return $extensions;
+    }
+    
     /**
      * @param bool|false $reset
      * @param bool|true  $showInstalled
@@ -83,41 +159,42 @@ class SiteHelper extends Helper
         $showNoCore = true,
         $nameOnly = false
     ) {
-        $modules = [];
-
-        if (!$this->modules || $reset) {
-            $this->modules = $this->discoverModules();
-        }
-
-        foreach ($this->modules as $module) {
-            $name = $module->getName();
-
-            $isInstalled = false;
-            if (property_exists($module, 'status')) {
-                $isInstalled = ($module->status)?true:false;
-            }
-            if (!$showInstalled && $isInstalled) {
-                continue;
-            }
-            if (!$showUninstalled && !$isInstalled) {
-                continue;
-            }
-            if (!$showCore && $module->origin == 'core') {
-                continue;
-            }
-            if (!$showNoCore && $module->origin != 'core') {
-                continue;
-            }
-            if ($nameOnly) {
-                $modules[] = $name;
-            } else {
-                $modules[$name] = $module;
-            }
-        }
-
-        return $modules;
+        return $this->getExtensions('module', $reset, $showInstalled, $showUninstalled, $showCore, $showNoCore, $nameOnly);
     }
-    
+
+    /**
+     * @param bool|false $reset
+     * @param bool|true  $showInstalled
+     * @param bool|false $showUninstalled
+     * @param bool|true  $showCore
+     * @param bool|true  $showNoCore
+     * @param bool|false $nameOnly
+     * @return array
+     */
+    public function getProfiles(
+        $reset = false,
+        $showInstalled = true,
+        $showUninstalled = false,
+        $showCore = true,
+        $showNoCore = true,
+        $nameOnly = false
+    ) {
+        return $this->getExtensions('profile', $reset, $showInstalled, $showUninstalled, $showCore, $showNoCore, $nameOnly);
+    }
+
+    /**
+     * @param bool|false $reset
+     * @param bool|false $nameOnly
+     * @return \Drupal\Core\Extension\Extension The currently enabled profile.
+     */
+    public function getProfile(
+        $reset = false,
+        $nameOnly = false
+    ) {
+        $profiles = $this->getProfiles($reset, true, false, true, true, $nameOnly);
+        return reset($profiles);
+    }
+
     /**
      * @param bool|false $reset
      * @param bool|false $showInstalled
@@ -170,6 +247,11 @@ class SiteHelper extends Helper
     {
         if (!$this->modules || !$this->modules[$moduleName]) {
             $this->modules = $this->discoverModules();
+        }
+
+        // Profiles are also modules. If the module is not found, try profiles.
+        if (empty($this->modules[$moduleName])) {
+            $this->modules = $this->discoverProfiles();
         }
 
         $modulePath = sprintf(
@@ -346,29 +428,11 @@ class SiteHelper extends Helper
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getDrupalVersion()
     {
-        $version = $this->getTranslator()->trans('commands.site.status.messages.not_available');
-
-        $systemManager = $this->getDrupalApi()->getService('system.manager');
-        if ($systemManager) {
-            $requirements = $systemManager->listRequirements();
-            $drupalVersion = current(
-                array_filter(
-                    $requirements, function ($v) {
-                        if ($v['title'] == 'Drupal') {
-                            return true;
-                        }
-                    }
-                )
-            );
-
-            $version = $drupalVersion['value'];
-        }
-
-        return $version;
+        return \Drupal::VERSION;
     }
 
     /**

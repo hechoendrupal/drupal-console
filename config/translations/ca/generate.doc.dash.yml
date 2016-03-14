@@ -1,11 +1,11 @@
 description: 'Generar la documentació per els comandaments'
 options:
-    path: 'Ruta on exportar la documentació'
+    path: 'Camí on exportar la documentació'
 messages:
-    missing_path: 'No es troba la ruta'
+    missing_path: 'No es troba el camí'
     title: 'Comandaments disponibles de Drupal Console'
     note: Nota
-    note-description: 'El comandaments de Drupal Console s''han d''executar al directori arrel (root) d''una instal·lació de Drupal 8.'
+    note-description: 'El comandaments de Drupal Console s''han d''executar al directori arrel de l''instal·lació de Drupal 8.'
     command: 'Comandament de Drupal Console'
     command_description: 'El comandament **%s** %s'
     usage: Ús

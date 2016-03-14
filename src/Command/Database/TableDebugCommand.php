@@ -9,6 +9,7 @@ namespace Drupal\Console\Command\Database;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
@@ -30,11 +31,18 @@ class TableDebugCommand extends ContainerAwareCommand
         $this
             ->setName('database:table:debug')
             ->setDescription($this->trans('commands.database.table.debug.description'))
-            ->addArgument(
+            ->addOption(
                 'database',
-                InputArgument::OPTIONAL,
+                '',
+                InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.database.table.debug.arguments.database'),
                 'default'
+            )
+            ->addArgument(
+                'table',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.database.table.debug.arguments.table'),
+                null
             )
             ->setHelp($this->trans('commands.database.table.debug.help'));
     }
@@ -45,8 +53,31 @@ class TableDebugCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $database = $input->getArgument('database');
+        $database = $input->getOption('database');
+        $table = $input->getArgument('table');
+
         $databaseConnection = $this->resolveConnection($io, $database);
+
+        if ($table) {
+            $redBean = $this->getRedBeanConnection($database);
+            $tableInfo = $redBean->inspect($table);
+
+            $tableHeader = [
+                $this->trans('commands.database.table.debug.messages.column'),
+                $this->trans('commands.database.table.debug.messages.type')
+            ];
+            $tableRows = [];
+            foreach ($tableInfo as $column => $type) {
+                $tableRows[] = [
+                    'column' => $column,
+                    'type' => $type
+                ];
+            }
+
+            $io->table($tableHeader, $tableRows);
+
+            return 0;
+        }
 
         $databaseService = $this->getService('database');
         $schema = $databaseService->schema();

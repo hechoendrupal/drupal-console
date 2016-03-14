@@ -3,7 +3,7 @@ arguments:
   setting-name: 'Setting name in yaml flatten format to set a value in Drupal Console config file'
   setting-value: 'Setting value to set in Drupal Console config file'
 messages:
-  error-parsing: 'An error occurs during parsing of YAML file "%s".'
-  error-generating: 'Error setting new language in config file.'
-  error-writing: 'Error writing config file.'
+  error-parsing: '处理YAML文件"%s"时出错.'
+  error-generating: '在配置文件中设置语言出错.'
+  error-writing: '写入配置文件出错.'
   success: 'Setting %s was set to %s for Drupal Console'

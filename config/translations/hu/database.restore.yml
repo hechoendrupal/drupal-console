@@ -1,7 +1,7 @@
-description: 'Restore structure and contents of MySQL databases and tables'
+description: "Adatbázis szerkezetének és tartalmának visszaállítása."
 arguments:
-    database: 'Database key from settings.php'
+  database: "Adatbáziskulcs a settings.php fájlból"
 options:
-    file: 'The filename for your database backup file'
+  file: 'Az adatbázis biztonsági mentésének fájlneve'
 messages:
-    success: 'Database imported from:'
+    success: "Adatbázis importálva innen:"

@@ -29,6 +29,8 @@ class DrupalHelper extends Helper
 
     const DEFAULT_SETTINGS_PHP = 'sites/default/settings.php';
 
+    const DRUPAL_INDEX = 'index.php';
+
     /**
      * @var string
      */
@@ -65,8 +67,9 @@ class DrupalHelper extends Helper
         }
 
         $autoLoad = sprintf('%s/%s', $root, self::DRUPAL_AUTOLOAD);
+        $index = sprintf('%s/%s', $root, self::DRUPAL_INDEX);
 
-        if (file_exists($autoLoad)) {
+        if (file_exists($autoLoad) && file_exists($index)) {
             $this->root = $root;
             $this->autoLoad = $autoLoad;
             $this->validInstance = true;

@@ -1,0 +1,8 @@
+description: 'Edit the selected configuration.'
+arguments:
+    config-name: 'Configuration name.'
+    editor: Editor.
+questions:
+    config-name: 'Choose a configuration unit'
+messages:
+    no-directory: 'An error occurred while creating your directory at'

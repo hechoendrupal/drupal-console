@@ -16,4 +16,4 @@ options:
     raw: 'Sortida del comandament en brut'
     format: 'El format de la sortida (txt, xml, json, or md)'
 messages:
-    deprecated: 'L''opció <comment>--xml</comment> option esta desfasada en la versió 2.7 i serà eliminada en la versió 3.0. Utilitza en el seu lloc l''opció <comment>--format</comment>'
+    deprecated: 'L''opció <comment>--xml</comment> està desfasada en la versió 2.7 i serà eliminada en la versió 3.0. Utilitzeu en el seu lloc l''opció <comment>--format</comment>'

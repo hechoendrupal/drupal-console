@@ -4,10 +4,10 @@ arguments:
     yaml-destination: 'Directori del nou fitxer YAML per emmagatzemar el resultat de la combinació.'
 questions:
     yaml-destination: 'Directori del nou fitxer YAML per emmagatzemar el resultat de la combinació.'
-    file: 'Ruta al fitxer a combinar'
-    other-file: 'Ruta al fitxer a combinar (buit per començar el procés de combinació)'
-    invalid-file: 'La ruta al fitxer no pot estar buida'
-    file-already-added: 'La ruta al fitxer ja s''ha afegit'
+    file: 'Camí al fitxer a combinar'
+    other-file: 'Camí al fitxer a combinar (buit per començar el procés de combinació)'
+    invalid-file: 'El camí al fitxer no pot estar buit'
+    file-already-added: 'Ja s''ha afegit el camí al fitxer'
 messages:
     wrong-parse: 'El fitxer YAML "%s" és buit o no existeix.'
     error-parsing: 'S''ha produït un error al analitzar el fitxer YAML "%s".'

@@ -1,4 +1,4 @@
-description: 'Crear nodes ''dummy'' per la teva aplicació Drupal 8.'
+description: 'Crear nodes ''dummy'' per l''aplicació Drupal 8.'
 help: 'El comandament <info>create:nodes</info> t''ajuda a generar termes falsos.'
 welcome: 'Us donem la benvinguda al generador de nodes de Drupal'
 arguments:
@@ -20,10 +20,10 @@ questions:
         - 'Fa 1 mes'
         - 'Fa 1 any'
 messages:
-    node-id: 'Id del node'
+    node-id: 'Identificador del node'
     content-type: 'Tipus de contingut'
     title: 'Títol'
     created: 'Data de creació'
     invalid-content-types: 'No és vàlid el tipus de contingut %s'
-    created-nodes: 'S''han creat %s nodes correctament'
-    generated-content: 'S''han creat %s nodes correctament'
+    created-nodes: 'S''han creat correctament %s nodes'
+    generated-content: 'S''han creat correctament %s nodes'

@@ -1,0 +1,5 @@
+description: 'चालू संरचना दाखवा.'
+arguments:
+    config-name: 'संरचने नाव.'
+errors:
+    config-not-exists: 'संरचना "%s" अस्तित्वात नाही.'

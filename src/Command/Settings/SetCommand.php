@@ -65,11 +65,21 @@ class SetCommand extends Command
             $config->getUserHomeDir()
         );
 
+        if (!file_exists($userConfigFile)) {
+            $io->warning(
+                sprintf(
+                    $this->trans('commands.settings.set.messages.missing-file'),
+                    $userConfigFile
+                )
+            );
+            return 0;
+        }
+
         try {
             $userConfigFileParsed = $yaml->parse(file_get_contents($userConfigFile));
         } catch (\Exception $e) {
             $io->error($this->trans('commands.settings.set.messages.error-parsing').': '.$e->getMessage());
-            return;
+            return 1;
         }
 
         $parents = array_merge(['application'], explode(".", $settingName));
@@ -91,8 +101,6 @@ class SetCommand extends Command
 
             return;
         }
-
-        $config->setConfigValue($parents, $settingValue);
 
         if ($settingName == 'language') {
             $this->getTranslator()->loadResource($settingValue, $application->getDirectoryRoot());

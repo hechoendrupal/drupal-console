@@ -20,8 +20,18 @@ class Config
      */
     protected $config = [];
 
-    public function __construct()
+    /**
+     * @var Parser
+     */
+    protected $parser;
+
+    /**
+     * Config constructor.
+     * @param Parser $parser
+     */
+    public function __construct(Parser $parser)
     {
+        $this->parser = $parser;
         $this->config = [];
 
         $this->loadFile(__DIR__.'/../config.yml');
@@ -40,8 +50,7 @@ class Config
     public function getFileContents($file)
     {
         if (file_exists($file)) {
-            $parser = new Parser();
-            return $parser->parse(file_get_contents($file));
+            return $this->parser->parse(file_get_contents($file));
         }
 
         return [];
@@ -87,24 +96,6 @@ class Config
 
         $previous[$parent] = $resource;
         return $parentsArray;
-    }
-
-    /**
-     * @param $prefixes
-     * @param $value
-     * @return mixed
-     */
-    public function setConfigValue($prefixes, $value)
-    {
-        $ref = &$this->config;
-        foreach ($prefixes as $prefix) {
-            $previous = &$ref;
-            if (isset($this->config[$prefix])) {
-                $ref = &$this->config[$prefix];
-            }
-        }
-
-        $previous[$prefix] = $value;
     }
 
     /**

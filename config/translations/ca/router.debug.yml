@@ -2,9 +2,9 @@ description: 'Mostrar les rutes actuals per l''aplicació'
 arguments:
     route-name: 'Noms de les rutes'
 messages:
-    name: 'Nom de la ruta'
-    class: 'Ruta de la class'
-    route: Routa
+    name: 'Nom del camí'
+    class: 'Ruta de la classe'
+    route: Ruta
     path: 'Ruta de la classe'
     defaults: Predeterminats
     options: Opcions

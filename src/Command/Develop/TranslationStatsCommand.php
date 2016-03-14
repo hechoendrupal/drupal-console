@@ -78,7 +78,8 @@ class TranslationStatsCommand extends Command
         if ($format == 'table') {
             $tableHeaders = [
                 $this->trans('commands.translation.stats.messages.language'),
-                $this->trans('commands.translation.stats.messages.percentage')
+                $this->trans('commands.translation.stats.messages.percentage'),
+                $this->trans('commands.translation.stats.messages.iso')
             ];
 
             $io->table($tableHeaders, $stats);
@@ -173,7 +174,8 @@ class TranslationStatsCommand extends Command
             $index = isset($languages[$langCode])? $languages[$langCode]: $langCode;
             $stats[] = [
                 'name' => $index,
-                'percentage' => round($statistic['diff']/$statistic['total']*100, 2)
+                'percentage' => round($statistic['diff']/$statistic['total']*100, 2),
+                'iso' => $langCode
             ];
         }
 

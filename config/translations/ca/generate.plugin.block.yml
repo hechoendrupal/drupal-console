@@ -1,4 +1,4 @@
-description: 'Generar un connector de bloc (Plugin Block)'
+description: 'Generar un connector de bloc'
 help: 'El comandament <info>generate:plugin:block</info> t''ajuda a generar un nou connector de bloc'
 welcome: 'Us donem la benvinguda al generador de connectors de bloc de Drupal'
 options:
@@ -19,4 +19,4 @@ questions:
 messages:
     inputs: "\nEs poden afegir camps d''entrada per crear configuracions especials al connector.\nAixò es opcional, tecleja <info>enter</info> per <info>continuar</info>"
     invalid-theme-region: 'La regió %s no és vàlida'
-kdescription: 'Generar un connector de bloc (Plugin block)'
+kdescription: 'Generar un connector de bloc'
