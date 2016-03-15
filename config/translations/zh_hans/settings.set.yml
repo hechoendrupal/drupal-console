@@ -1,9 +1,9 @@
-description: 'Change a specific setting value in DrupalConsole config file'
+description: '改变 DrupalConsole 配置文件中的配置'
 arguments:
-  setting-name: 'Setting name in yaml flatten format to set a value in Drupal Console config file'
-  setting-value: 'Setting value to set in Drupal Console config file'
+  setting-name: '配置名称'
+  setting-value: '要设置的值'
 messages:
   error-parsing: '处理YAML文件"%s"时出错.'
   error-generating: '在配置文件中设置语言出错.'
   error-writing: '写入配置文件出错.'
-  success: 'Setting %s was set to %s for Drupal Console'
+  success: 'Drupal Console 的配置 %s 成功设置为 %s'
