@@ -1,6 +1,6 @@
-description: '删除应用程序的用户'
-help: '<info>user:delete</info>命令帮助删除用户.'
-welcome: '欢迎到Drupal用户删除命令'
+description: '删除网站用户(s)'
+help: '<info>user:delete</info>命令用于删除用户(s)'
+welcome: '欢迎使用 Drupal 用户删除命令'
 options:
     user-id: '要删除的用户ID'
     roles: '要删除用户的角色'

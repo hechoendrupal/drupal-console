@@ -3,21 +3,20 @@ help: '命令 <info>"%s"</info> 用于生成新的"%s"'
 welcome: '欢迎使用 Drupal 表单生成器'
 options:
     module: common.options.module
-    class: '表格类名'
-    form-id: '表格ID'
+    class: '表单 类名'
+    form-id: '表单 ID'
     services: common.options.services
     inputs: common.options.inputs
-    routing: 更新路径
-    class-name: '表格类名'
+    routing: 更新路由
+
 questions:
     module: common.questions.module
-    class: '输入表格类名'
-    form-id: '输入表格ID'
+    class: '输入表单类名'
+    form-id: '输入表单 ID'
     services: common.questions.services
     inputs: common.questions.inputs
-    routing: 更新路径文件
-    menu_link_gen: '生成菜单连接'
-    menu_link_title: '菜单连接标题'
-    menu_parent: '上一级菜单'
-    menu_link_desc: '菜单连接说明'
-    class-name: '输入表格类名'
+    routing: 更新路由文件
+    menu_link_gen: '生成菜单链接'
+    menu_link_title: '菜单链接标题'
+    menu_parent: '父级菜单'
+    menu_link_desc: '菜单链接描述'
