@@ -169,6 +169,20 @@ class EntityContentGenerator extends Generator
                 $parameters,
                 FILE_APPEND
             );
+
+            if (strpos($module_file_contents, 'function ' . $module . '_theme_suggestions_' . $entity_name) !== false) {
+                echo "================\nWarning:\n================\n" .
+                  "It looks like you have a hook_theme_suggestions_HOOK already declared!\n".
+                  "Please manually merge the two hook_theme_suggestions_HOOK() implementations in $module_filename!\n";
+            }
+
+            $this->renderFile(
+              'module/src/Entity/entity-content-with-bundle.theme_hook_suggestions.php.twig',
+              $this->getSite()->getModulePath($module).'/'.$module.'.module',
+              $parameters,
+              FILE_APPEND
+            );
+
         }
 
         $content = $this->getRenderHelper()->render(
