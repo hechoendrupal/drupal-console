@@ -8,6 +8,7 @@
 namespace Drupal\Console\Generator;
 
 use Drupal\Console\Helper\HelperTrait;
+use Drupal\Console\Style\DrupalStyle;
 
 class Generator
 {
@@ -27,6 +28,11 @@ class Generator
      * @var array
      */
     private $helperSet;
+
+    /**
+     * @var DrupalStyle $io
+     */
+    protected $io;
 
     /**
      * @param string $template
@@ -89,5 +95,13 @@ class Generator
     public function isLearning()
     {
         return $this->learning;
+    }
+
+    /**
+     * @param DrupalStyle $io
+     */
+    public function setIo($io)
+    {
+        $this->io = $io;
     }
 }

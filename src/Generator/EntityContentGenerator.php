@@ -158,9 +158,13 @@ class EntityContentGenerator extends Generator
             }
             $module_file_contents = file_get_contents($module_filename);
             if (strpos($module_file_contents, 'function ' . $module . '_theme') !== false) {
-                echo "================\nWarning:\n================\n" .
-                  "It looks like you have a hook_theme already declared!\n".
-                  "Please manually merge the two hook_theme() implementations in $module_filename!\n";
+                $this->io->warning(
+                    [
+                    "It looks like you have a hook_theme already declared",
+                    "Please manually merge the two hook_theme() implementations in",
+                    $module_filename
+                    ]
+                );
             }
 
             $this->renderFile(
@@ -171,18 +175,21 @@ class EntityContentGenerator extends Generator
             );
 
             if (strpos($module_file_contents, 'function ' . $module . '_theme_suggestions_' . $entity_name) !== false) {
-                echo "================\nWarning:\n================\n" .
-                  "It looks like you have a hook_theme_suggestions_HOOK already declared!\n".
-                  "Please manually merge the two hook_theme_suggestions_HOOK() implementations in $module_filename!\n";
+                $this->io->warning(
+                    [
+                    "It looks like you have a hook_theme_suggestions_HOOK already declared",
+                    "Please manually merge the two hook_theme_suggestions_HOOK() implementations in",
+                    $module_filename
+                    ]
+                );
             }
 
             $this->renderFile(
-              'module/src/Entity/entity-content-with-bundle.theme_hook_suggestions.php.twig',
-              $this->getSite()->getModulePath($module).'/'.$module.'.module',
-              $parameters,
-              FILE_APPEND
+                'module/src/Entity/entity-content-with-bundle.theme_hook_suggestions.php.twig',
+                $this->getSite()->getModulePath($module).'/'.$module.'.module',
+                $parameters,
+                FILE_APPEND
             );
-
         }
 
         $content = $this->getRenderHelper()->render(
@@ -191,8 +198,12 @@ class EntityContentGenerator extends Generator
         );
 
         if ($this->isLearning()) {
-            echo 'Add this to your hook_theme:'.PHP_EOL;
-            echo $content;
+            $this->io->commentBlock(
+                [
+                'Add this to your hook_theme:',
+                $content
+                ]
+            );
         }
     }
 }

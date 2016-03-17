@@ -63,12 +63,15 @@ class EntityContentCommand extends EntityCommand
         $label = $input->getOption('label');
         $has_bundles = $input->getOption('has-bundles');
         $base_path = $input->getOption('base-path');
-
+        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
         $bundle_entity_name = $has_bundles ? $entity_name . '_type' : null;
 
-        $this
-            ->getGenerator()
-            ->generate($module, $entity_name, $entity_class, $label, $base_path, $bundle_entity_name);
+        $io = new DrupalStyle($input, $output);
+        $generator = $this->getGenerator();
+        $generator->setIo($io);
+        $generator->setLearning($learning);
+
+        $generator->generate($module, $entity_name, $entity_class, $label, $base_path, $bundle_entity_name);
 
         if ($has_bundles) {
             $this->getChain()->addCommand(
