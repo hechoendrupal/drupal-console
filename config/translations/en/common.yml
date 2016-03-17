@@ -5,6 +5,7 @@ options:
     tags: 'Set service tags from the container.'
     inputs: 'Create inputs in a form.'
     permissions: 'Create permissions.'
+    image-style: 'The Images Styles name.'
 questions:
     module: 'Enter the module name'
     confirm: 'Do you confirm generation?'

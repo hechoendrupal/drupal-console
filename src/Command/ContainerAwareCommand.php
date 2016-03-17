@@ -236,6 +236,14 @@ abstract class ContainerAwareCommand extends Command
         return $this->getService('entity.manager');
     }
 
+    /**
+     * @return \Drupal\Core\Entity\EntityTypeManagerInterface;
+     */
+    public function entityTypeManager()
+    {
+        return $this->getService('entity_type.manager');
+    }
+
     public function getCron()
     {
         return $this->getService('cron');
