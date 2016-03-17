@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Parser;
 use Drupal\Console\Command\Command;
@@ -124,7 +125,7 @@ class TranslationPendingCommand extends Command
 
             foreach ($languages as $langCode => $languageName) {
                 $languageDir = $appRoot . 'config/translations/' . $langCode;
-                if (isset($language) and $langCode != $language) {
+                if (isset($language) && $langCode != $language) {
                     continue;
                 }
 
@@ -161,7 +162,7 @@ class TranslationPendingCommand extends Command
 
                     $tableRows = [];
                     foreach ($diffFlatten as $yamlKey => $yamlValue) {
-                        if($this->isYamlKey($yamlValue)) {
+                        if ($this->isYamlKey($yamlValue)) {
                             unset($diffFlatten[$yamlKey]);
                         } else {
                             $tableRows[] = [
@@ -171,7 +172,7 @@ class TranslationPendingCommand extends Command
                         }
                     }
 
-                    if(count($diffFlatten)) {
+                    if (count($diffFlatten)) {
                         $io->writeln(
                             sprintf(
                                 $this->trans('commands.translation.pending.messages.pending-translations'),

@@ -25,8 +25,8 @@ class Terms extends Base
      * Terms constructor.
      *
      * @param EntityTypeManagerInterface $entityTypeManager
-     * @param DateFormatterInterface $dateFormatter
-     * @param array                  $vocabularies
+     * @param DateFormatterInterface     $dateFormatter
+     * @param array                      $vocabularies
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
