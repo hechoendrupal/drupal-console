@@ -1,0 +1,13 @@
+{{ module_name }}:
+{% for input in inputs %}
+{% if input.default_value is defined and input.default_value|length %}
+{% if input.default_value is iterable %}
+  {{ input.name }}:
+{% for value in input.default_value %}
+    - {{ value }}
+{% endfor %}
+{% else %}
+  {{ input.name }}: "{{ input.default_value }}"
+{% endif %}
+{% endif %}
+{% endfor %}
