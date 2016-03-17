@@ -59,7 +59,7 @@ class PluginsDebugCommand extends ContainerAwareCommand
 
         $rows = [];
         foreach ($plugins as &$plugin) {
-            if($type && $plugin['type'] != $type) {
+            if ($type && $plugin['type'] != $type) {
                 continue;
             }
 

@@ -58,10 +58,9 @@ class ImportCommand extends ContainerAwareCommand
 
         if ($directory) {
             $configSyncDir = $directory;
-        }
-        else {
+        } else {
             $configSyncDir = config_get_config_directory(
-              CONFIG_SYNC_DIRECTORY
+                CONFIG_SYNC_DIRECTORY
             );
         }
 
@@ -109,9 +108,9 @@ class ImportCommand extends ContainerAwareCommand
      *
      * @param DrupalStyle $io
      *   IO object to print messages.
-     * @param string $archiveFile
+     * @param string      $archiveFile
      *   The archive file to extract
-     * @param string $configDir
+     * @param string      $configDir
      *   The directory to extract the files into.
      *
      * @return \Drupal\Core\Archiver\ArchiveTar
@@ -120,18 +119,19 @@ class ImportCommand extends ContainerAwareCommand
      * @throws \Exception
      *   If something went wrong during extraction.
      */
-    private function extractArchive(DrupalStyle $io, $archiveFile, $configDir) {
+    private function extractArchive(DrupalStyle $io, $archiveFile, $configDir)
+    {
         $archiveTar = new ArchiveTar($archiveFile, 'gz');
 
         $io->simple(
-          $this->trans(
-            'commands.config.import.messages.config_files_imported'
-          )
+            $this->trans(
+                'commands.config.import.messages.config_files_imported'
+            )
         );
 
         foreach ($archiveTar->listContent() as $file) {
             $io->info(
-              '[-] ' . $file['filename']
+                '[-] ' . $file['filename']
             );
         }
 

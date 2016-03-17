@@ -17,7 +17,6 @@ use Drupal\Console\Style\DrupalStyle;
 
 class DiffCommand extends ContainerAwareCommand
 {
-
     /**
      * A static array map of operations -> color strings.
      *
@@ -47,7 +46,7 @@ class DiffCommand extends ContainerAwareCommand
             )
             ->addOption(
                 'reverse',
-                NULL,
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.config.diff.options.reverse')
             );
@@ -86,8 +85,7 @@ class DiffCommand extends ContainerAwareCommand
 
         if ($input->getOption('reverse')) {
             $config_comparer = new StorageComparer($source_storage, $active_storage, $config_manager);
-        }
-        else {
+        } else {
             $config_comparer = new StorageComparer($active_storage, $source_storage, $config_manager);
         }
         if (!$config_comparer->createChangelist()->hasChanges()) {
@@ -96,7 +94,7 @@ class DiffCommand extends ContainerAwareCommand
 
         $change_list = [];
         foreach ($config_comparer->getAllCollectionNames() as $collection) {
-            $change_list[$collection] = $config_comparer->getChangelist(NULL, $collection);
+            $change_list[$collection] = $config_comparer->getChangelist(null, $collection);
         }
 
         $this->outputDiffTable($io, $change_list);
@@ -107,7 +105,7 @@ class DiffCommand extends ContainerAwareCommand
      *
      * @param DrupalStyle $io
      *   The io.
-     * @param array $change_list
+     * @param array       $change_list
      *   The list of changes from the StorageComparer.
      */
     protected function outputDiffTable(DrupalStyle $io, array $change_list)
@@ -120,7 +118,7 @@ class DiffCommand extends ContainerAwareCommand
         $rows = [];
         foreach ($change_list as $collection => $changes) {
             foreach ($changes as $operation => $configs) {
-                foreach($configs as $config) {
+                foreach ($configs as $config) {
                     $rows[] = [
                         $collection,
                         $config,
@@ -131,5 +129,4 @@ class DiffCommand extends ContainerAwareCommand
         }
         $io->table($header, $rows);
     }
-
 }

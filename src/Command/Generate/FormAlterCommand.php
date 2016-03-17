@@ -67,7 +67,7 @@ class FormAlterCommand extends GeneratorCommand
         $inputs = $input->getOption('inputs');
 
         //validate if input is an array
-        if(!is_array($inputs[0])) {
+        if (!is_array($inputs[0])) {
             $inputs= $this->explodeInlineArray($inputs);
         }
 
@@ -118,7 +118,7 @@ class FormAlterCommand extends GeneratorCommand
             $this->metadata['method'] = $forms[$formId]['class']['method'];
             $this->metadata['file'] = str_replace($drupal->getRoot(), '', $forms[$formId]['class']['file']);
 
-            foreach($forms[$formId]['form'] as $itemKey => $item) {
+            foreach ($forms[$formId]['form'] as $itemKey => $item) {
                 if ($item['#type'] == 'hidden') {
                     unset($forms[$formId]['form'][$itemKey]);
                 }
@@ -146,7 +146,7 @@ class FormAlterCommand extends GeneratorCommand
         // @see Drupal\Console\Command\FormTrait::formQuestion
         $inputs = $input->getOption('inputs');
 
-        if(empty($inputs)) {
+        if (empty($inputs)) {
             $io->writeln($this->trans('commands.generate.form.alter.messages.inputs'));
             $inputs = $this->formQuestion($io);
         } else {
@@ -159,14 +159,15 @@ class FormAlterCommand extends GeneratorCommand
     /**
      * @{@inheritdoc}
      */
-    public function explodeInlineArray($inlineInputs) {
+    public function explodeInlineArray($inlineInputs)
+    {
         $inputs = [];
-        foreach($inlineInputs as $inlineInput) {
+        foreach ($inlineInputs as $inlineInput) {
             $explodeInput = explode(" ", $inlineInput);
             $parameters = [];
-            foreach($explodeInput as $inlineParameter ) {
+            foreach ($explodeInput as $inlineParameter) {
                 list($key, $value) = explode(":", $inlineParameter);
-                if(!empty($value)) {
+                if (!empty($value)) {
                     $parameters[$key] = $value;
                 }
             }

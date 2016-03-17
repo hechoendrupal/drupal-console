@@ -138,12 +138,12 @@ trait FormTrait
 
                 // Default value for input
                 switch ($input_type) {
-                    case 'checkboxes':
-                        $question = 'commands.common.questions.inputs.default-value.checkboxes';
-                        break;
-                    default:
-                        $question = 'commands.common.questions.inputs.default-value.default-value';
-                        break;
+                case 'checkboxes':
+                    $question = 'commands.common.questions.inputs.default-value.checkboxes';
+                    break;
+                default:
+                    $question = 'commands.common.questions.inputs.default-value.default-value';
+                    break;
                 }
                 if ($input_type != 'fieldset') {
                     $default_value = $io->askEmpty(

@@ -34,7 +34,7 @@ abstract class Base
     /**
      * ContentNode constructor.
      * @param EntityTypeManagerInterface $entityTypeManager
-     * @param DateFormatterInterface $dateFormatter
+     * @param DateFormatterInterface     $dateFormatter
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,

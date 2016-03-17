@@ -18,7 +18,6 @@ use Symfony\Component\Yaml\Parser;
 use Drupal\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 
-
 class TranslationPendingCommand extends Command
 {
     use TranslationTrait;
@@ -163,7 +162,7 @@ class TranslationPendingCommand extends Command
 
                     $tableRows = [];
                     foreach ($diffFlatten as $yamlKey => $yamlValue) {
-                        if($this->isYamlKey($yamlValue)) {
+                        if ($this->isYamlKey($yamlValue)) {
                             unset($diffFlatten[$yamlKey]);
                         } else {
                             $tableRows[] = [
@@ -173,7 +172,7 @@ class TranslationPendingCommand extends Command
                         }
                     }
 
-                    if(count($diffFlatten)) {
+                    if (count($diffFlatten)) {
                         $io->writeln(
                             sprintf(
                                 $this->trans('commands.translation.pending.messages.pending-translations'),

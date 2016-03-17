@@ -24,39 +24,39 @@ class PluginCKEditorButtonCommand extends GeneratorCommand
     protected function configure()
     {
         $this
-          ->setName('generate:plugin:ckeditorbutton')
-          ->setDescription($this->trans('commands.generate.plugin.ckeditorbutton.description'))
-          ->setHelp($this->trans('commands.generate.plugin.ckeditorbutton.help'))
-          ->addOption(
-            'module',
-            '',
-            InputOption::VALUE_REQUIRED,
-            $this->trans('commands.common.options.module')
-          )
-          ->addOption(
-            'class',
-            '',
-            InputOption::VALUE_REQUIRED,
-            $this->trans('commands.generate.plugin.ckeditorbutton.options.class')
-          )
-          ->addOption(
-            'label',
-            '',
-            InputOption::VALUE_REQUIRED,
-            $this->trans('commands.generate.plugin.ckeditorbutton.options.label')
-          )
-          ->addOption(
-            'plugin-id',
-            '',
-            InputOption::VALUE_REQUIRED,
-            $this->trans('commands.generate.plugin.ckeditorbutton.options.plugin-id')
-          )
-          ->addOption(
-            'button-name',
-            '',
-            InputOption::VALUE_REQUIRED,
-            $this->trans('commands.generate.plugin.ckeditorbutton.options.button-name')
-          );
+            ->setName('generate:plugin:ckeditorbutton')
+            ->setDescription($this->trans('commands.generate.plugin.ckeditorbutton.description'))
+            ->setHelp($this->trans('commands.generate.plugin.ckeditorbutton.help'))
+            ->addOption(
+                'module',
+                '',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            )
+            ->addOption(
+                'class',
+                '',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.generate.plugin.ckeditorbutton.options.class')
+            )
+            ->addOption(
+                'label',
+                '',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.generate.plugin.ckeditorbutton.options.label')
+            )
+            ->addOption(
+                'plugin-id',
+                '',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.generate.plugin.ckeditorbutton.options.plugin-id')
+            )
+            ->addOption(
+                'button-name',
+                '',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.generate.plugin.ckeditorbutton.options.button-name')
+            );
     }
 
     /**
@@ -78,8 +78,8 @@ class PluginCKEditorButtonCommand extends GeneratorCommand
         $button_name = $input->getOption('button-name');
 
         $this
-          ->getGenerator()
-          ->generate($module, $class_name, $label, $plugin_id, $button_name);
+            ->getGenerator()
+            ->generate($module, $class_name, $label, $plugin_id, $button_name);
 
         $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery'], false);
     }
@@ -100,8 +100,8 @@ class PluginCKEditorButtonCommand extends GeneratorCommand
         $class_name = $input->getOption('class');
         if (!$class_name) {
             $class_name = $io->ask(
-              $this->trans('commands.generate.plugin.ckeditorbutton.questions.class'),
-              'DefaultCKEditorButton'
+                $this->trans('commands.generate.plugin.ckeditorbutton.questions.class'),
+                'DefaultCKEditorButton'
             );
             $input->setOption('class', $class_name);
         }
@@ -110,8 +110,8 @@ class PluginCKEditorButtonCommand extends GeneratorCommand
         $label = $input->getOption('label');
         if (!$label) {
             $label = $io->ask(
-              $this->trans('commands.generate.plugin.ckeditorbutton.questions.label'),
-              $this->getStringHelper()->camelCaseToHuman($class_name)
+                $this->trans('commands.generate.plugin.ckeditorbutton.questions.label'),
+                $this->getStringHelper()->camelCaseToHuman($class_name)
             );
             $input->setOption('label', $label);
         }
@@ -120,8 +120,8 @@ class PluginCKEditorButtonCommand extends GeneratorCommand
         $plugin_id = $input->getOption('plugin-id');
         if (!$plugin_id) {
             $plugin_id = $io->ask(
-              $this->trans('commands.generate.plugin.ckeditorbutton.questions.plugin-id'),
-              $this->getStringHelper()->camelCaseToLowerCase($label)
+                $this->trans('commands.generate.plugin.ckeditorbutton.questions.plugin-id'),
+                $this->getStringHelper()->camelCaseToLowerCase($label)
             );
             $input->setOption('plugin-id', $plugin_id);
         }
@@ -129,12 +129,12 @@ class PluginCKEditorButtonCommand extends GeneratorCommand
         // --button-name option
         $button_name = $input->getOption('button-name');
         if (!$button_name) {
-          $button_name = $io->ask(
-            $this->trans('commands.generate.plugin.ckeditorbutton.questions.button-name'),
-            $this->getStringHelper()->anyCaseToUcFirst($plugin_id)
-          );
-          $input->setOption('button-name', $button_name);
-      }
+            $button_name = $io->ask(
+                $this->trans('commands.generate.plugin.ckeditorbutton.questions.button-name'),
+                $this->getStringHelper()->anyCaseToUcFirst($plugin_id)
+            );
+            $input->setOption('button-name', $button_name);
+        }
     }
 
     protected function createGenerator()

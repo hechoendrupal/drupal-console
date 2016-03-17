@@ -16,8 +16,9 @@ trait TranslationTrait
      *
      * @return mixed
      */
-    protected function isYamlKey($value) {
-        if(!strstr($value, ' ') && strstr($value, '.')) {
+    protected function isYamlKey($value)
+    {
+        if (!strstr($value, ' ') && strstr($value, '.')) {
             return true;
         }
 
