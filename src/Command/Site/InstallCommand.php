@@ -165,7 +165,8 @@ class InstallCommand extends Command
             if ($dbType == 'sqlite' && !$dbFile) {
                 $dbFile = $this->dbFileQuestion($io);
                 $input->setOption('db-file', $dbFile);
-            } else {
+            }
+            if ($dbType != 'sqlite') {
                 // --db-host option
                 $dbHost = $input->getOption('db-host');
                 if (!$dbHost) {
