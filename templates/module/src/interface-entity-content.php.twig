@@ -11,7 +11,6 @@ namespace Drupal\{{module}};
 {% block use_class %}
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityChangedInterface;
-use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\user\EntityOwnerInterface;
 {% endblock %}
 
@@ -24,7 +23,6 @@ use Drupal\user\EntityOwnerInterface;
 interface {{ entity_class }}Interface extends ContentEntityInterface, EntityChangedInterface, EntityOwnerInterface {% endblock %}
 {% block class_methods %}
   // Add get/set methods for your configuration properties here.
-
 {% if bundle_entity_type %}
   /**
    * Gets the {{ label }} type.
