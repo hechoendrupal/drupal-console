@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
 
-
 /**
  * Class StylesDebugCommand
  * @package Drupal\Console\Command\Image
@@ -22,8 +21,8 @@ class StylesDebugCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-        ->setName('image:styles:debug')
-        ->setDescription($this->trans('commands.image.styles.debug.description'));
+            ->setName('image:styles:debug')
+            ->setDescription($this->trans('commands.image.styles.debug.description'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -32,7 +31,8 @@ class StylesDebugCommand extends ContainerAwareCommand
 
         $image_handler = $this->entityTypeManager()->getStorage('image_style');
 
-        $io->section(
+        $io->newLine();
+        $io->comment(
             $this->trans('commands.image.styles.debug.messages.styles-list')
         );
 
@@ -47,24 +47,21 @@ class StylesDebugCommand extends ContainerAwareCommand
      */
     protected function imageStyleList(DrupalStyle $io, $image_handler)
     {
-
         $tableHeader = [
-          $this->trans('commands.image.styles.debug.messages.styles-label'),
-          $this->trans('commands.image.styles.debug.messages.styles-name')
+          $this->trans('commands.image.styles.debug.messages.styles-name'),
+          $this->trans('commands.image.styles.debug.messages.styles-label')
         ];
 
-        foreach($image_handler->loadMultiple() as $styles) {
+        foreach ($image_handler->loadMultiple() as $styles) {
             $tableRows[] = [
-              $styles->get('label'),
-              $styles->get('name')
+              $styles->get('name'),
+              $styles->get('label')
             ];
         }
 
         $io->table(
-          $tableHeader,
-          $tableRows,
-          'compact'
+            $tableHeader,
+            $tableRows
         );
     }
-
 }
