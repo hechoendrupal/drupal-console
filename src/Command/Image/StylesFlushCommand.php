@@ -17,15 +17,37 @@ class StylesFlushCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-          ->setName('image:styles:flush')
-          ->setDescription($this->trans('commands.image.styles.flush.description'))
-          ->addArgument(
-            'styles',
-            InputArgument::IS_ARRAY | InputArgument::REQUIRED,
-            $this->trans('commands.common.options.image-style')
-          );
+            ->setName('image:styles:flush')
+            ->setDescription($this->trans('commands.image.styles.flush.description'))
+            ->addArgument(
+                'styles',
+                InputArgument::IS_ARRAY | InputArgument::REQUIRED,
+                $this->trans('commands.image.styles.flush.options.image-style')
+            );
     }
 
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        $io = new DrupalStyle($input, $output);
+        $styles = $input->getArgument('styles');
+        if (!$styles) {
+            $image_handler = $this->entityTypeManager()->getStorage('image_style');
+            $styleList = $image_handler->loadMultiple();
+            $styleNames = [];
+            foreach ($styleList as $style) {
+                $styleNames[] = $style->get('name');
+            }
+
+            $styles = $io->choice(
+                $this->trans('commands.image.styles.flush.questions.image-style'),
+                $styleNames,
+                null,
+                true
+            );
+
+            $input->setArgument('styles', $styles);
+        }
+    }
     /**
      * {@inheritdoc}
      */
@@ -48,12 +70,11 @@ class StylesFlushCommand extends ContainerAwareCommand
 
         foreach ($styles as $style) {
             try {
-
                 $io->info(
-                  sprintf(
-                    $this->trans('commands.image.styles.flush.messages.executing-flush'),
-                    $style
-                  )
+                    sprintf(
+                        $this->trans('commands.image.styles.flush.messages.executing-flush'),
+                        $style
+                    )
                 );
 
                 $image_handler->load($style)->flush();
