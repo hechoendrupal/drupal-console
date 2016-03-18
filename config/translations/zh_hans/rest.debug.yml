@@ -6,9 +6,9 @@ options:
 messages:
     id: 'REST 资源 ID'
     label: '标签'
-    canonical_url: '规范网址'
+    canonical_url: 规范网址
     status: 状态
-    provider: 提供者
+    provider: '提供者'
     enabled: 启用
     disabled: 禁用
     rest-state: 'REST 状态'

@@ -3,8 +3,8 @@ help: 'A <info>generate:service</info> parancs új RouteSubscriber létrehozás�
 welcome: 'Üdvözlet a Drupal RouteSubscriber előállítóban.'
 options:
     module: common.options.module
-    name: 'Szolgáltatásnév'
-    class: 'Osztálynév'
+    name: Szolgáltatásnév
+    class: Osztálynév
 questions:
     module: common.questions.module
     name: 'Meg kell adni a szolgáltatásnevet'

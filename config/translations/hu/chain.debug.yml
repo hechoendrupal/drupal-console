@@ -1,4 +1,4 @@
 description: 'Rendelkezésre álló láncolt fájlok felsorolása.'
 messages:
-    directory: 'Könyvtár'
+    directory: Könyvtár
     file: 'Láncolt fájl neve.'

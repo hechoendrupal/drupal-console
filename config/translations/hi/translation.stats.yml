@@ -7,3 +7,4 @@ messages:
     invalid-language: 'भाषा %s अवैध है'
     language: भाषा
     percentage: प्रतिशत
+    iso: 'ISO Code'

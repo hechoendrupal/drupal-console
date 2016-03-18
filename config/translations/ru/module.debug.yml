@@ -3,11 +3,11 @@ options:
     status: 'Статус модуля [включен|выключен]'
     type: 'Тип модуля [ядро|не ядро]'
 messages:
-    id: 'Идентификатор'
-    name: 'Имя'
-    status: 'Статус'
-    origin: 'Источник'
-    package: 'Пакет'
-    enabled: 'Включен'
-    disabled: 'Выключен'
+    id: Идентификатор
+    name: Имя
+    status: Статус
+    origin: Источник
+    package: Пакет
+    enabled: Включен
+    disabled: Выключен
     schema-version: 'Версия схемы'

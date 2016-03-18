@@ -26,8 +26,8 @@ questions:
         description: Leírás
         default-value: 'Alapértelmezett érték'
         weight: 'A beviteli elem súlya'
-        title: 'Cím'
-        fieldset: 'Mezőcsoport'
+        title: Cím
+        fieldset: Mezőcsoport
 errors:
     module-dependency: 'Nincs telepítve egy hiányzó modulfüggőség: "%s". A telepítés a module:install paranccsal hajtható végre.'
     class-name-empty: 'Az osztálynév nem lehet üres'

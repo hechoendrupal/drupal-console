@@ -1,6 +1,7 @@
 description: 'अनुप्रयोग के उपलब्ध परीक्षणों मे से परिक्षण यूनिट को चलायें'
 arguments:
     test-class: 'परिक्षण क्लास'
+    test-methods: 'Test method(s) to be run'
 messages:
     missing-dependency: 'टेस्ट एक लापता निर्भरता की वजह से निष्पादित नहीं किया जा सकता'
     phpunit-pending: 'PHPUnit परीक्षण निष्पादित करने के लिए तर्क अभी तक लागू नहीं किया गया है.'

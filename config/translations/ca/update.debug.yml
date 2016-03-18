@@ -4,7 +4,7 @@ messages:
     severity: Severitat
     title: Títol
     value: Valor
-    description: 'Descripció'
+    description: Descripció
     requirements-error: 'No s''ha completat el següent requeriment'
     module-list: 'Mòduls amb actualitzacions pendents'
     module: Mòdul

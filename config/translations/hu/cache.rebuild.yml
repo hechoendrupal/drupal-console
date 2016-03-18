@@ -9,7 +9,9 @@ messages:
 questions:
     cache: 'Gyorsítótár kiválasztása.'
 examples:
-    - description: Összes gyorsítótár újraépítése
-      execution: drupal cr all
-    - description: Felderítési gyorsítótár újraépítése
-      execution: drupal cr discovery
+    -
+        description: 'Összes gyorsítótár újraépítése'
+        execution: 'drupal cr all'
+    -
+        description: 'Felderítési gyorsítótár újraépítése'
+        execution: 'drupal cr discovery'

@@ -7,3 +7,4 @@ messages:
     invalid-language: 'Language %s is invalid'
     language: Language
     percentage: Percentage
+    iso: 'ISO Code'

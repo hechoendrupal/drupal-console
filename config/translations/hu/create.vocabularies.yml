@@ -9,6 +9,6 @@ questions:
     name-words: 'Meg kell adni a szótárak neveiben használt szavak maximális számát'
 messages:
     vocabulary-id: 'Szótár azonosítója'
-    name: 'Név'
+    name: Név
     created-terms: '%s szótár sikeresen létrejött'
     error: 'Hiba történt a szótárak létrehozásakor: %s'

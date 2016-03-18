@@ -16,6 +16,7 @@ options:
     ansi: 'Force ANSI output'
     no-ansi: 'Disable ANSI output'
     no-interaction: 'Do not ask any interactive question'
+    check-fix: 'Attempt to fix any missing configuration.'
 arguments:
     command: 'The command to execute'
 messages:
@@ -31,6 +32,7 @@ messages:
     learning:
         route: "Для создания страниц необходимо определить маршруты для них.\nМаршрут сопостовляет URL-путь с контроллером. Он определяет какая функция\nили метод будет вызван при переходе по URL.\nЕсли пользователь переходит на http://drupal8.dev/{{ route.path }}, система\nмаршрутизации попытается найти маршрут для этого пути. В данном случае будет найдено\nсоответствие, и выполнит обратный вызов _controller. В данном случае обратный вызов\nопределен как класс\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nи метод (\"{{ route.method }}\")."
     autocomplete: "Bash or Zsh: Добавьте эту строку в конфигурационный файл вашей командной оболочки:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Создайте символьную ссылку\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
+    version: '<info>%s</info> version <comment>%s</comment>'
 errors:
     invalid-command: 'Команда "%s" не определена.'
 site:

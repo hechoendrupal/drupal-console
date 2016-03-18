@@ -8,7 +8,7 @@ options:
     description: 'A modul leírása'
     core: 'Drupal alaprendszer verziója'
     feature: 'A modul legyen kompatibilis a Features modullal'
-    package: 'Modulcsomag'
+    package: Modulcsomag
     module-file: '.module fájl hozzáadása'
     composer: 'composer.json fájl hozzáadása'
     dependencies: 'Modulfüggőségek vesszővel elválasztva (pl. context, panels)'

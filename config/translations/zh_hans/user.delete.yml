@@ -8,7 +8,7 @@ questions:
     user-id: '要删除的用户ID(可以不输入)'
     roles: '选择要删除用户的角色'
 messages:
-    user-id: '用户ID'
+    user-id: 用户ID
     username: 用户名
     user-deleted: '成功删除用户%s'
     users-deleted: '成功删除%s用户'
