@@ -7,3 +7,4 @@ messages:
     invalid-language: 'L''idioma %s no és vàlid'
     language: Idioma
     percentage: Percentatge
+    iso: 'ISO Code'

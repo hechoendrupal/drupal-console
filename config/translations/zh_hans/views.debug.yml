@@ -1,4 +1,4 @@
-description: '显示网站当前视图资源'
+description: 显示网站当前视图资源
 arguments:
     view-id: 视图ID
     view-tag: '视图标签'

@@ -5,3 +5,5 @@ arguments:
 messages:
     table-show: '%s डेटाबेस के लिए टेबल दिखाओ'
     table: टेबल
+    column: Column
+    type: Type

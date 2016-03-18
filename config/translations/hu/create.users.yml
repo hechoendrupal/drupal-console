@@ -2,7 +2,7 @@ description: 'Tesztfelhasználók létrehozása egy Drupal 8 alkalmazáshoz.'
 help: 'A <info>create:users</info> parancs tesztfelhasználók létrehozását segíti.'
 welcome: 'Üdvözlet a Drupal felhasználó előállítóban'
 arguments:
-  roles: 'A felhasználók létrehozásakor használandó szerepkörök'
+    roles: 'A felhasználók létrehozásakor használandó szerepkörök'
 options:
     limit: 'Hány felhasználó jöjjön létre'
     password: 'A létrehozott felhasználókhoz beállított jelszó'
@@ -13,7 +13,7 @@ questions:
     password: 'Meg kell adni a létrehozott felhasználókhoz beállított jelszót'
     time-range: 'Mennyire legyen visszadátumozva a felhasználók létrehozása?'
     time-ranges:
-        - 'Most'
+        - Most
         - '1 órával ezelőtt'
         - '1 nappal ezelőtt'
         - '1 héttel ezelőtt'
@@ -21,7 +21,7 @@ questions:
         - '1 évvel ezelőtt'
 messages:
     user-id: 'Felhasználói azonosító'
-    roles: 'Szerepkörök'
-    username: 'Felhasználónév'
+    roles: Szerepkörök
+    username: Felhasználónév
     created: 'Létrehozás időpontja'
     created-users: '%s felhasználó sikeresen létrejött'

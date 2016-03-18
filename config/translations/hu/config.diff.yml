@@ -7,8 +7,8 @@ questions:
     directories: 'Konfigurációs könyvtár:'
 table:
     headers:
-      collection: 'Gyűjtemény'
-      config-name: 'Konfigurációs elem'
-      operation: 'Művelet'
+        collection: Gyűjtemény
+        config-name: 'Konfigurációs elem'
+        operation: Művelet
 messages:
     no-changes: 'Nincs változás.'

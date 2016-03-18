@@ -1,4 +1,4 @@
-description: '显示网站的当前用户(s)'
+description: 显示网站的当前用户(s)
 help: '<info>user:debug</info>命令用于获取当前用户(s)'
 welcome: '欢迎使用 Drupal 用户调试'
 options:

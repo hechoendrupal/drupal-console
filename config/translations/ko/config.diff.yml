@@ -7,8 +7,8 @@ questions:
     directories: '설정 디렉토리:'
 table:
     headers:
-      collection: '콜렉션'
-      config-name: '설정 항목'
-      operation: '작업'
+        collection: '콜렉션'
+        config-name: '설정 항목'
+        operation: '작업'
 messages:
     no-changes: '차이점이 없습니다.'

@@ -1,12 +1,3 @@
-console:
-    arguments:
-        env: 'पर्यावरणांचे नाव'
-        no-debug: 'डिबग मोड ला बंद करा'
-        learning: 'पाल्हाळीक कोड़ची निर्मिती करा'
-        generate-chain: 'साखळी आदेशामध्ये yaml आऊटपुट वापरले जाते जे आदेश पर्याय आणी वितर्क आहे'
-        generate-inline: 'आदेश पर्याय आणी वितर्क यांस इनलाइन आदेश असे दाखवा'
-        generate-doc: 'आदेश पर्याय आणी वितर्क यांस मार्क्डोव्न असे दाखवा'
-        root: 'आदेश चालविण्या करीता Drupal रूट परिभाषित करा'
 options:
     env: 'पर्यावरणांचे नाव'
     no-debug: 'डिबग मोड ला बंद करा'
@@ -16,7 +7,7 @@ options:
     generate-doc: 'आदेश पर्याय आणी वितर्क यांस मार्क्डोव्न असे दाखवा'
     root: 'आदेश चालविण्या करीता Drupal रूट परिभाषित करा'
     uri: 'Drupal साइटच्या यूआरआई चा वापर ( अनेक वातावरणांसाठी किंवा एक पर्यायी port वर चालवण्यासाठी ) होते.'
-    yes: 'खात्री वगळा आणि पुढे चालू ठेवा'
+    'yes': 'खात्री वगळा आणि पुढे चालू ठेवा'
     target: 'साइट चे नावं आपण ( स्थानिक किंवा दूरस्थ ) संभाषण साधण्यासाठी करतो'
     help: 'मदतीचे संदेश प्रदर्शित करा'
     quiet: 'कोणतेही संदेश उत्पादीत करू नये'
@@ -25,6 +16,7 @@ options:
     ansi: 'सक्षम ANSI आउटपुट'
     no-ansi: 'अक्षम ANSI आउटपुट'
     no-interaction: 'कोणत्याही परस्पर प्रश्न विचारू नका'
+    check-fix: 'Attempt to fix any missing configuration.'
 arguments:
     command: 'चालविण्याजोगी आदेश'
 messages:
@@ -40,6 +32,7 @@ messages:
     learning:
         route: "पृष्ठे तयार करण्यासाठी त्यांना मार्ग व्याख्यीत करणे आवश्यक आहे.\nA URL पथला एक कंट्रोलर नकाशे मार्ग करण्यासाठी. कोणते कार्य अथवा पद्धत बोलावली जावी जेव्हा URL द्वारे प्रवेश प्राप्त होते हे व्याख्यीत केले आहे.\nउपयोक्ता जर हे http://drupal8.dev/{{ route.path }}  प्रवेश केला तर,\nराउटिंग प्रणाली त्या पाथसाठी एक मार्ग दाखवेल.\nअसे असल्यास तो सामना सापडेल, आणि _controller कॉलबॅक कार्यान्वित करेल. या प्रकरणात कॉलबॅक मध्ये\nएका क्लास्स्नामे चा रुपात परिभाषित आहे\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nआणि एक पद्धत (\"{{ route.method }}\")."
     autocomplete: "Bash or Zsh: ही ओळ आपल्या shell configuration फाईल मध्ये जोडावी:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: एक सिंबॉलिक लिंक बनवा\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
+    version: '<info>%s</info> version <comment>%s</comment>'
 errors:
     invalid-command: 'आदेश "%s" परिभाषित केलेले नाही.'
 site:
@@ -51,3 +44,12 @@ site:
 user:
     messages:
         path: 'वापरकर्ता गृह पाथ'
+console:
+    arguments:
+        env: 'पर्यावरणांचे नाव'
+        no-debug: 'डिबग मोड ला बंद करा'
+        learning: 'पाल्हाळीक कोड़ची निर्मिती करा'
+        generate-chain: 'साखळी आदेशामध्ये yaml आऊटपुट वापरले जाते जे आदेश पर्याय आणी वितर्क आहे'
+        generate-inline: 'आदेश पर्याय आणी वितर्क यांस इनलाइन आदेश असे दाखवा'
+        generate-doc: 'आदेश पर्याय आणी वितर्क यांस मार्क्डोव्न असे दाखवा'
+        root: 'आदेश चालविण्या करीता Drupal रूट परिभाषित करा'

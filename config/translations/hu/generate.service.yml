@@ -3,8 +3,8 @@ help: 'A <info>generate:service</info> parancs új szolgáltatás létrehozásá
 welcome: 'Üdvözlet a Drupal szolgáltatás előállítóban'
 options:
     module: common.options.module
-    service-name: 'Szolgáltatásnév'
-    class: 'Osztálynév'
+    service-name: Szolgáltatásnév
+    class: Osztálynév
     interface: Interfész
     services: common.questions.services
 questions:

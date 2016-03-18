@@ -5,3 +5,5 @@ options:
     file: 'Tên cho tệp sao lưu cơ sở dữ liệu của bạn'
 messages:
     success: 'Cơ sở dữ liệu đã được nhập vào từ :'
+    no-file: 'Missing file option'
+help: 'Restore structure and contents of a database.'

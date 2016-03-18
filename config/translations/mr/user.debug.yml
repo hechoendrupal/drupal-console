@@ -10,5 +10,5 @@ questions:
 messages:
     user-id: 'वापरकर्ता आयडी'
     username: 'वापरकर्ता नाव'
-    roles: 'भूमिका'
-    status: 'स्थिती'
+    roles: भूमिका
+    status: स्थिती

@@ -7,3 +7,4 @@ messages:
     invalid-language: '语言代码 %s 无效'
     language: 语言
     percentage: 百分比
+    iso: 'ISO Code'

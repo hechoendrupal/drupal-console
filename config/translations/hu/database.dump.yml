@@ -1,7 +1,7 @@
-description: "Adatbázis szerkezetének és tartalmának kiíratása"
+description: 'Adatbázis szerkezetének és tartalmának kiíratása'
 arguments:
-  database: "Adatbáziskulcs a settings.php fájlból"
+    database: 'Adatbáziskulcs a settings.php fájlból'
 options:
-  file: 'Az adatbázis biztonsági mentésének fájlneve'
+    file: 'Az adatbázis biztonsági mentésének fájlneve'
 messages:
-    success: "Az adatbázis exportálási helye:"
+    success: 'Az adatbázis exportálási helye:'

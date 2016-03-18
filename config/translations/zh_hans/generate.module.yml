@@ -12,7 +12,7 @@ options:
     module-file: '添加一个 .module 文件'
     composer: '添加一个 composer.json 文件'
     dependencies: '模块依赖，以逗号分隔 (例如： context, panels)'
-    test: '生成一个测试类'
+    test: 生成一个测试类
 questions:
     module: '输入新模块名称'
     machine-name: '输入新模块名称机器名'

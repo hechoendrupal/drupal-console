@@ -7,18 +7,18 @@ options:
     generate-doc: '显示命令选项和参数为 markdown 格式'
     root: '定义 Drupal 根目录，命令执行时使用'
     uri: 'Drupal 网站的 URI( 用于多站点环境或运行在不同的端口)'
-    yes: '跳过确认并继续'
+    'yes': 跳过确认并继续
     target: 与之交互的站点名字（本地或远程网站）
-    help: '显示这个帮助信息'
-    quiet: '不显示任何帮助信息'
+    help: 显示这个帮助信息
+    quiet: 不显示任何帮助信息
     verbose: '输出信息控制: 1 普通输出, 2 详细输出 and 3 调试信息输出'
     version: '<info>%s</info> 版本 <comment>%s</comment>'
     ansi: '强制 ANSI 输出'
     no-ansi: '禁用 ANSI 输出'
-    no-interaction: '非交互式'
+    no-interaction: 非交互式
     check-fix: '尝试修复任何缺失配置'
 arguments:
-    command: '要执行的命令'
+    command: 要执行的命令
 messages:
     completed: 命令执行成功！
     chain:
