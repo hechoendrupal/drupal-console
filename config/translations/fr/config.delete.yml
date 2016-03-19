@@ -1,7 +1,7 @@
-description: 'Delete configuration'
+description: 'Supprimer la configuration'
 arguments:
-    name: 'Configuration name.'
+    name: 'Nom de la configuration'
 messages:
-    enter-name: 'Configuration name must contain a value.'
-    config-not-exists: 'The configuration "%s" does not exists.'
-    deleted: 'Configuration "%s" sucessfully deleted.'
+    enter-name: 'Le nom de la configuration ne peut pas être vide.'
+    config-not-exists: 'La configuration "%s" n''existe pas.'
+    deleted: 'La configuration "%s" a été supprimée.'
