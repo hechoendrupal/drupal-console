@@ -6,4 +6,4 @@ options:
 messages:
     success: 'Base de données restorée depuis :'
     no-file: 'Missing file option'
-help: 'Restore structure and contents of a database.'
+help: 'Restaurer une structure et les contenus d''une base de données.'
