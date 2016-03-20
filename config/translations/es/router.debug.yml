@@ -3,8 +3,8 @@ arguments:
     route-name: 'Nombres de ruta'
 messages:
     name: 'Nombre de ruta'
-    class: 'Class path'
-    route: Route
+    class: 'Ruta al archivo de la clase'
+    route: Ruta
     path: 'Directorio de la clase'
     defaults: 'Valores por defecto'
     options: Opciones

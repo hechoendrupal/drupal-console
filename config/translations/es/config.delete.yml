@@ -1,7 +1,7 @@
-description: 'Delete configuration'
+description: 'Eliminar configuración'
 arguments:
-    name: 'Configuration name.'
+    name: 'Nombre de la configuración.'
 messages:
-    enter-name: 'Configuration name must contain a value.'
-    config-not-exists: 'The configuration "%s" does not exists.'
-    deleted: 'Configuration "%s" sucessfully deleted.'
+    enter-name: 'El nombre de la configuración debe contener un valor.'
+    config-not-exists: 'La configuración "%s" no existe.'
+    deleted: 'La configuración "%s" ha sido eliminada con éxito.'
