@@ -27,4 +27,4 @@ messages:
     title: 'Titre'
     created: 'Date de création'
     invalid-content-types: 'Les types de contenus %s sont invalides'
-    created-comments: 'Génération de %s commentaires avec succès''
+    created-comments: 'Génération de %s commentaires avec succès'''
