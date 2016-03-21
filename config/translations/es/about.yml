@@ -4,7 +4,7 @@ messages:
     welcome-feature-generate: 'Generar código repetitivo'
     welcome-feature-interact: 'Interactuar con una instalación de Drupal 8'
     welcome-feature-learn: 'Aprender Drupal 8.'
-    links: 'Project links'
+    links: 'Enlaces del proyecto'
     landing: 'Página del proyecto <comment>%s</comment>'
     change-log: 'Changelog del proyecto en <comment>%s</comment>'
     documentation: 'Consulta la documentación de Drupal Console en <comment>%s</comment>'

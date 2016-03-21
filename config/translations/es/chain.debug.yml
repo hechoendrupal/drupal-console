@@ -1,4 +1,4 @@
-description: 'List available chain files.'
+description: 'Lista las secuencias de comandos disponibles.'
 messages:
-    directory: 'Directory'
-    file: 'Chain file name.'
+    directory: 'Directorio'
+    file: 'Nombre de archivo que contiene la secuencia.'

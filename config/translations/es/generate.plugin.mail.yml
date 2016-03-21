@@ -1,17 +1,17 @@
-description: 'Generate a plugin mail'
-help: 'The <info>generate:plugin:mail</info> command helps you generate a new Plugin mail.'
-welcome: 'Welcome to the Drupal Plugin Mail generator'
+description: 'Genera un plugin de correo'
+help: 'El comando <info>generate:plugin:mail</info> ayuda a generar un plugin de correo.'
+welcome: 'Bienvenido al generador de correo'
 options:
     module: common.options.module
-    class: 'Plugin class name'
-    label: 'Plugin label'
-    plugin-id: 'Plugin id'
+    class: 'Nombre de la clase para el plugin'
+    label: 'Etiqueta del plugin'
+    plugin-id: 'ID del plugin'
     inputs: common.options.inputs
     services: common.options.services
 questions:
     module: common.questions.module
-    class: 'Enter the plugin class name'
-    label: 'Enter the plugin label'
-    plugin-id: 'Enter the plugin id'
+    class: 'Introduzca el nombre de la clase'
+    label: 'Introduzca la etiqueta'
+    plugin-id: 'Introduzca el ID del plugin'
     inputs: common.questions.inputs
     services: common.questions.services

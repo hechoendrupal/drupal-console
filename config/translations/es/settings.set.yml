@@ -4,7 +4,7 @@ arguments:
     setting-value: 'Dispone un valor en el archivo de configuración de Drupal Console'
 messages:
     error-parsing: 'Ha ocurrido un error al parsear el archivo YAML "%s".'
-    error-generating: 'Error disponiendo el nuevo idioma en el archivo de configuración.'
+    error-generating: 'Error estableciendo el nuevo idioma en el archivo de configuración.'
     error-writing: 'Error al escribir el archivo de configuración.'
     success: 'La configuración %s fué actualizada a %s'
-    missing-file: 'The %s config file is missing, try executing `drupal init`'
+    missing-file: 'El archivo de configuración %s no está disponible, intenta ejecutando `drupal init`'

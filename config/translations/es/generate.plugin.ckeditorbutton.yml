@@ -1,15 +1,15 @@
-description: 'Generate CKEditor button plugin.'
-help: 'The <info>generate:plugin:ckeditorbutton</info> command helps you generate a new CKEditor button plugin.'
-welcome: 'Welcome to the Drupal CKEditor Button Plugin generator'
+description: 'Genera un plugin de botón para CKEditor.'
+help: 'El comando <info>generate:plugin:ckeditorbutton</info> ayuda a generar un plugin de botón para CKEditor.'
+welcome: 'Bienvenido al generador de botón para CKEditor'
 options:
     module: common.options.module
-    class: 'Plugin class name'
-    label: 'Plugin label'
-    plugin-id: 'Plugin ID. NOTE: This corresponds to the CKEditor plugin name. It is the first argument of the CKEDITOR.plugins.add() function in the plugin.js file.'
-    button-name: 'Button name. NOTE: This corresponds to the CKEditor button name. They are the first argument of the editor.ui.addButton() or editor.ui.addRichCombo() functions in the plugin.js file.'
+    class: 'Nombre de la clase para el plugin'
+    label: 'Etiqueta del plugin'
+    plugin-id: 'ID del plugin. NOTA: Este corresponde al nombre del plugin de CKEditor. Es el primer argumento de la función CKEDITOR.plugins.add() en el archivo plugin.js.'
+    button-name: 'Nombre del botón. NOTA: Este corresponde al nombre del botón de CKEditor. Son el primer argumento de las funciones editor.ui.addButton() o editor.ui.addRichCombo() en el archivo plugin.js.'
 questions:
     module: common.questions.module
-    class: 'Enter the plugin class name'
-    label: 'Enter the plugin label'
-    plugin-id: 'Enter the plugin ID. NOTE: This corresponds to the CKEditor plugin name. It is the first argument of the CKEDITOR.plugins.add() function in the plugin.js file.'
-    button-name: 'Enter the button name. NOTE: This corresponds to the CKEditor button name. They are the first argument of the editor.ui.addButton() or editor.ui.addRichCombo() functions in the plugin.js file.'
+    class: 'Introduzca el nombre de la clase'
+    label: 'Introduzca la etiqueta'
+    plugin-id: 'Introduzca el ID del plugin. NOTA: Este corresponde al nombre del plugin de CKEditor. Es el primer argumento de la función CKEDITOR.plugins.add() en el archivo plugin.js.'
+    button-name: 'Introduzca el nombre del botón. NOTA: Este corresponde al nombre del botón de CKEditor. Son el primer argumento de las funciones editor.ui.addButton() o editor.ui.addRichCombo() en el archivo plugin.js.'

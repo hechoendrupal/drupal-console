@@ -15,7 +15,7 @@ questions:
     services: common.questions.services
     inputs: common.questions.inputs
     routing: 'Actualizar el archivo de routing'
-    menu_link_gen: 'Generate a menu link'
-    menu_link_title: 'A title for the menu link'
-    menu_parent: 'Menu parent'
-    menu_link_desc: 'A description for the menu link'
+    menu_link_gen: 'Generar un enlace de menú'
+    menu_link_title: 'Título para el enlace de menú'
+    menu_parent: 'Menú padre'
+    menu_link_desc: 'Descripción para el enlace de menú'

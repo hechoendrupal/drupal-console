@@ -9,9 +9,7 @@ messages:
 questions:
     cache: 'Seleccione una caché.'
 examples:
-    -
-        description: 'Reconstruir todas las cachés'
-        execution: 'drupal cr all'
-    -
-        description: 'Rebuild discovery cache'
-        execution: 'drupal cr discovery'
+    - description: 'Reconstruir todas las cachés'
+      execution: 'drupal cr all'
+    - description: 'Reconstruir la caché "discovery"'
+      execution: 'drupal cr discovery'
