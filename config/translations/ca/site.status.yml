@@ -6,12 +6,12 @@ messages:
     console: 'Drupal Console'
     database: 'Base de dades'
     driver: Controlador
-    host: 'Amfitrió'
+    host: Amfitrió
     port: Port
     username: 'Nom de l''usuari'
     password: Contrasenya
     theme: Tema
-    connection: 'Connexió'
+    connection: Connexió
     theme_default: 'Tema predeterminat'
     theme_admin: 'Tema d''administració'
     directory: Directori

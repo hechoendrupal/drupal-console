@@ -11,7 +11,7 @@ use Drupal\Console\Style\DrupalStyle;
 
 trait ConnectTrait
 {
-    protected $supportedDrivers = Array('mysql','pgsql');
+    protected $supportedDrivers = array('mysql','pgsql');
 
     public function resolveConnection(DrupalStyle $io, $database = 'default')
     {
@@ -29,7 +29,7 @@ trait ConnectTrait
         }
 
         $databaseConnection = $connectionInfo[$database];
-        if (!in_array($databaseConnection['driver'],$this->supportedDrivers)) {
+        if (!in_array($databaseConnection['driver'], $this->supportedDrivers)) {
             $io->error(
                 sprintf(
                     $this->trans('commands.database.connect.messages.database-not-supported'),

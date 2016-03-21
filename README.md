@@ -54,11 +54,20 @@ mv drupal.phar /usr/local/bin/drupal
 # Apply executable permissions on the downloaded file:
 chmod +x /usr/local/bin/drupal
 
-# Show all available commands.
-drupal list
-
 # Copy configuration files.
 drupal init --override
+
+# Show all available commands.
+drupal check
+
+# Download, install and serve Drupal 8:
+drupal chain --file=~/.console/chain/quick-start.yml
+
+# Create a new Drupal 8 project:
+drupal site:new drupal8.dev 8.0.0
+
+# Lists all available commands:
+drupal list
 
 # Update to the latest version.
 drupal self-update

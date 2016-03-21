@@ -118,7 +118,7 @@ class DebugCommand extends ContainerAwareCommand
     {
         $testingGroups = $this->getTestDiscovery()->getTestClasses(null);
 
-        if(empty($group)) {
+        if (empty($group)) {
             $tableHeader = [$this->trans('commands.test.debug.messages.group')];
         } else {
             $tableHeader = [
@@ -137,7 +137,7 @@ class DebugCommand extends ContainerAwareCommand
 
         $tableRows = [];
         foreach ($testingGroups as $testing_group => $tests) {
-            if(empty($group)) {
+            if (empty($group)) {
                 $tableRows[] =[$testing_group];
                 continue;
             }
@@ -160,7 +160,7 @@ class DebugCommand extends ContainerAwareCommand
         }
         $io->table($tableHeader, $tableRows, 'compact');
 
-        if($group) {
+        if ($group) {
             $io->success(
                 sprintf(
                     $this->trans('commands.test.debug.messages.success-group'),

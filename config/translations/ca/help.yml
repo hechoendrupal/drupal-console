@@ -1,14 +1,5 @@
 description: 'Mostrar l''ajuda per un comandament'
-help: |
-        El comandament <info>%command.name%</info> mostra :
-
-        <info>php %command.full_name% list</info>
-
-        Utilitzeu l'opció <comment>--format</comment> per mostrar l'ajuda en altres formats:
-
-        <info>php %command.full_name% --format=xml list</info>
-
-        Utilitzeu el comandament <info>list</info> per mostrar una llista dels comandaments disponibles.
+help: "El comandament <info>%command.name%</info> mostra :\n\n<info>php %command.full_name% list</info>\n\nUtilitzeu l'opció <comment>--format</comment> per mostrar l'ajuda en altres formats:\n\n<info>php %command.full_name% --format=xml list</info>\n\nUtilitzeu el comandament <info>list</info> per mostrar una llista dels comandaments disponibles.\n"
 arguments:
     command_name: 'Nom del comandament'
 options:

@@ -9,7 +9,9 @@ messages:
 questions:
     cache: '캐시를 선택하세요.'
 examples:
-    - description: 모든 캐시 재생성
-      execution: drupal cr all
-    - description: 탐색 캐시 재생성
-      execution: drupal cr discovery
+    -
+        description: '모든 캐시 재생성'
+        execution: 'drupal cr all'
+    -
+        description: '탐색 캐시 재생성'
+        execution: 'drupal cr discovery'

@@ -26,8 +26,8 @@ questions:
         description: Description
         default-value: 'Default value'
         weight: 'Weight for input item'
-        title: 'Title'
-        fieldset: 'Fieldset'
+        title: Title
+        fieldset: Fieldset
 errors:
     module-dependency: 'Missing module dependency "%s" is not installed. Try module:install to install it.'
     class-name-empty: 'The Class name can not be empty'

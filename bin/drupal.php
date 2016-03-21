@@ -34,10 +34,10 @@ set_time_limit(0);
 
 $consoleRoot = __DIR__.'/../';
 
-if (file_exists($consoleRoot.'/vendor/autoload.php')) {
-    include_once $consoleRoot.'/vendor/autoload.php';
-} elseif (file_exists($consoleRoot.'/../../autoload.php')) {
-    include_once $consoleRoot.'/../../autoload.php';
+if (file_exists($consoleRoot.'vendor/autoload.php')) {
+    include_once $consoleRoot.'vendor/autoload.php';
+} elseif (file_exists($consoleRoot.'../../autoload.php')) {
+    include_once $consoleRoot.'../../autoload.php';
 } else {
     echo 'Something goes wrong with your archive'.PHP_EOL.
         'Try downloading again'.PHP_EOL;

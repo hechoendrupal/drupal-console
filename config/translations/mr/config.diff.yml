@@ -7,8 +7,8 @@ questions:
     directories: 'कॉन्फिग निर्देशिका:'
 table:
     headers:
-      collection: 'संग्रह'
-      config-name: 'संरचना आयटम'
-      operation: 'ऑपरेशन'
+        collection: संग्रह
+        config-name: 'संरचना आयटम'
+        operation: ऑपरेशन
 messages:
     no-changes: 'कोणतेही बदल नाहीत.'

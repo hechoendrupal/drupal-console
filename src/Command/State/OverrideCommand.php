@@ -39,7 +39,31 @@ class OverrideCommand extends ContainerAwareCommand
                 $this->trans('commands.state.override.arguments.value')
             );
     }
+    /**
+     * {@inheritdoc}
+     */
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        $io = new DrupalStyle($input, $output);
+        $key = $input->getArgument('key');
+        $value = $input->getArgument('value');
 
+        if (!$key) {
+            $keyValue = $this->getService('keyvalue');
+            $names = array_keys($keyValue->get('state')->getAll());
+            $key = $io->choiceNoList(
+                $this->trans('commands.state.override.arguments.key'),
+                $names
+            );
+            $input->setArgument('key', $key);
+        }
+        if (!$value) {
+            $value = $io->ask(
+                $this->trans('commands.state.override.arguments.value')
+            );
+            $input->setArgument('value', $value);
+        }
+    }
     /**
      * {@inheritdoc}
      */

@@ -10,10 +10,10 @@ options:
     offset: 'Смещение стартовой позиции'
 messages:
     event-id: 'Идентификатор события'
-    type: 'Тип'
-    date: 'Дата'
-    message: 'Сообщение'
-    user: 'Пользователь'
-    severity: 'Важность'
+    type: Тип
+    date: Дата
+    message: Сообщение
+    user: Пользователь
+    severity: Важность
     invalid-severity: 'Тип важности задан неверно, фильтр проигнорирован'
     not-found: 'DBLog событие %s не было найдено'

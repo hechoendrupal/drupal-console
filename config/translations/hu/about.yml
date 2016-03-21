@@ -4,7 +4,7 @@ messages:
     welcome-feature-generate: 'Sablonkód létrehozása.'
     welcome-feature-interact: 'Drupal 8 telepítés kezelése.'
     welcome-feature-learn: 'A Drupal 8 megismerése.'
-    links: 'Projekthivatkozások'
+    links: Projekthivatkozások
     landing: 'Céloldal: %s'
     change-log: 'Változtatási napló: %s'
     documentation: 'Dokumentáció: %s'

@@ -9,7 +9,9 @@ messages:
 questions:
     cache: 'cache निवडा.'
 examples:
-    - description: 'सर्व caches पुन्हानिर्मिती करा'
-      execution: drupal cr all
-    - description: 'discovery cache पुन्हा निर्मिती कर'
-      execution: drupal cr discovery
+    -
+        description: 'सर्व caches पुन्हानिर्मिती करा'
+        execution: 'drupal cr all'
+    -
+        description: 'discovery cache पुन्हा निर्मिती कर'
+        execution: 'drupal cr discovery'

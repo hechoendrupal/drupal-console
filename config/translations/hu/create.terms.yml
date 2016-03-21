@@ -2,7 +2,7 @@ description: 'Tesztkifejezések létrehozása egy Drupal 8 alkalmazáshoz.'
 help: 'A <info>create:terms</info> parancs tesztkifejezések létrehozását segíti.'
 welcome: 'Üdvözlet a Drupal kifejezés előállítóban'
 arguments:
-  vocabularies: 'A kifejezések létrehozásakor használandó szótárak'
+    vocabularies: 'A kifejezések létrehozásakor használandó szótárak'
 options:
     limit: 'Hány szó jöjjön létre'
     name-words: 'A kifejezések által tartalmazott szavak maximális száma'
@@ -12,7 +12,7 @@ questions:
     name-words: 'Meg kell adni a kifejezések nevei által tartalmazott szavak maximális számát'
 messages:
     term-id: 'Kifejezés azonosítója'
-    vocabulary: 'Szótár'
-    name: 'Név'
+    vocabulary: Szótár
+    name: Név
     invalid-vocabularies: 'Érvénytelen szótárak: %s'
     created-terms: '%s kifejezés sikeresen létrejött'

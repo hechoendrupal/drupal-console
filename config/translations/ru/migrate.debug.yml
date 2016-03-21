@@ -3,6 +3,6 @@ arguments:
     tag: 'Тег миграции'
 messages:
     id: 'Идентификатор миграции'
-    description: 'Описание'
-    no-migrations: "Нет доступных миграций, попробуйте выполнить команду: migrate:setup:migrations"
-    tags: 'Теги'
+    description: Описание
+    no-migrations: 'Нет доступных миграций, попробуйте выполнить команду: migrate:setup:migrations'
+    tags: Теги

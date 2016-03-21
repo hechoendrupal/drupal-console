@@ -6,13 +6,13 @@ arguments:
 messages:
     view-id: 'Идентификатор представления'
     view-name: 'Имя представления'
-    description: 'Описание'
-    tag: 'Тег'
-    status: 'Статус'
-    path: 'Путь'
+    description: Описание
+    tag: Тег
+    status: Статус
+    path: Путь
     not-found: 'Представление %s не найдено.'
     display-list: 'Список дисплеев'
-    display-id: 'Идентификатор'
-    display-name: 'Имя'
-    display-description: 'Описание'
-    display-paths: 'Пути'
+    display-id: Идентификатор
+    display-name: Имя
+    display-description: Описание
+    display-paths: Пути

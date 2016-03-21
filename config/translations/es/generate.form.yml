@@ -17,5 +17,5 @@ questions:
     routing: 'Actualizar el archivo de routing'
     menu_link_gen: 'Generar un enlace de menú'
     menu_link_title: 'Título para el enlace de menú'
-    menu_parent: 'Menu padre'
+    menu_parent: 'Menú padre'
     menu_link_desc: 'Descripción para el enlace de menú'

@@ -9,5 +9,6 @@ messages:
     original: 'Eredeti érték'
     updated: 'Felülbírálás értéke'
 examples:
-    - description: A Contact modul elárasztási korlátjának beállítása 10 értékre.
-      execution: drupal config:override contact.settings flood.limit 10
+    -
+        description: 'A Contact modul elárasztási korlátjának beállítása 10 értékre.'
+        execution: 'drupal config:override contact.settings flood.limit 10'

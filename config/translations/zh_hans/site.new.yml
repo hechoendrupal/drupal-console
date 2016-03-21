@@ -1,6 +1,6 @@
 description: 生成一个新的Drupal项目
 arguments:
-    directory: '下载Drupal的目录'
+    directory: 下载Drupal的目录
     version: 下载特定的Drupal版本
     site-name: 站名
 messages:
@@ -11,6 +11,6 @@ messages:
     no-releases: 没有可用Drupal版本
     downloaded: '下载Drupal %s到目录%s'
     error-copying: 重命名目录%s时出错
-    release: '请选择一个版本'
+    release: 请选择一个版本
 questions:
     directory: '输入下载Drupal的目录'

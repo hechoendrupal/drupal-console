@@ -6,7 +6,7 @@ options:
     group: Grup
 messages:
     class: 'Classe de verificació'
-    description: 'Descripció'
+    description: Descripció
     group: Grup
     type: 'Tipus de verificació'
     success: 'La consola s''ha actualitzat a l''última versió.'

@@ -5,3 +5,5 @@ arguments:
 messages:
     table-show: '数据库 %s 中的表'
     table: 表
+    column: Column
+    type: Type

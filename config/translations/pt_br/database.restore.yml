@@ -5,3 +5,5 @@ options:
     file: 'O nome do arquivo de backup do banco de dados'
 messages:
     success: 'Importar banco de dados para:'
+    no-file: 'Missing file option'
+help: 'Restore structure and contents of a database.'

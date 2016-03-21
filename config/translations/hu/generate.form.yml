@@ -8,7 +8,6 @@ options:
     services: common.options.services
     inputs: common.options.inputs
     routing: 'Útvonal frissítése'
-
 questions:
     module: common.questions.module
     class: 'Meg kell adni az űrlap osztályának nevét'

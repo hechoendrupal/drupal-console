@@ -126,7 +126,7 @@ class ModeCommand extends ContainerAwareCommand
             if (!copy($defaultServicesFile, $settingsServicesFile)) {
                 $io->error(
                     sprintf(
-                        '%s: %s /services.yml',
+                        '%s: %s/services.yml',
                         $this->trans('commands.site.mode.messages.error-copying-file'),
                         $directory
                     )

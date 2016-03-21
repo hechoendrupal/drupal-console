@@ -9,6 +9,6 @@ messages:
     original: 'Valor original'
     updated: 'Valor sobreescrito.'
 examples:
-    -
-        description: 'Définir el valor de "flood" del módulo de contacto en 10.'
-        execution: 'drupal config:override contact.settings flood.limit 10'
+
+    - description: 'Definir el valor de "flood" del módulo Contacto a 10.'
+      execution: 'drupal config:override contact.settings flood.limit 10'

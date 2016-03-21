@@ -7,7 +7,7 @@ options:
     db-pass: '数据库密码'
     db-prefix: 数据库前缀
     db-port: 数据库端口
-    files-directory: '文件目录'
+    files-directory: 文件目录
 questions:
     db-type: 'Drupal 数据库类型'
     db-host: 数据库主机
@@ -16,7 +16,7 @@ questions:
     db-pass: '数据库密码'
     db-prefix: 数据库前缀
     db-port: 数据库端口
-    files-directory: '文件目录'
+    files-directory: 文件目录
 messages:
     not-drupal: '来源数据库不包含可识别的 Drupal 版本'
     migrations-created: '%s 迁移创建成功 %s.'

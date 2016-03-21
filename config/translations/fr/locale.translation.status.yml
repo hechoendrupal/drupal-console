@@ -1,10 +1,10 @@
-description: 'List available translation updates'
+description: 'Liste des mises à jour de traduction disponibles'
 arguments:
-    language: 'Language for instance es or Spanish'
+    language: 'Langue, par exemple : es ou Espagnol'
 messages:
-    no-languages: 'No translatable languages available. Add a language first.'
+    no-languages: 'Pas de langue traductible disponible. Ajouter d''abord une langue.'
     up-to-date: 'All translations up to date.'
-    no-translations: 'No translation status available. Check manually'
+    no-translations: 'Pas de status de traduction disponible. Vérifier manuellement'
     project: Project
     version: Version
     local-age: 'Local age'

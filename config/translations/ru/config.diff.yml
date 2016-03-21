@@ -7,8 +7,8 @@ questions:
     directories: 'Каталог конфигурации:'
 table:
     headers:
-      collection: 'Коллекция'
-      config-name: 'Элемент конфигурации'
-      operation: 'Операция'
+        collection: Коллекция
+        config-name: 'Элемент конфигурации'
+        operation: Операция
 messages:
     no-changes: 'Нет никаких изменений.'

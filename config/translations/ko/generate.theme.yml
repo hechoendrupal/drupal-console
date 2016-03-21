@@ -12,7 +12,7 @@ options:
     base-theme: '베이스 테마 (예를 들어 classy, stable)'
     global-library: '전역 스타일링 라이브러리 이름'
     regions: 지역
-    breakpoints: 분절점
+    breakpoints: '분절점'
 questions:
     theme: '새로운 테마명을 입력하세요'
     machine-name: '테마 기계명을 입력하세요'

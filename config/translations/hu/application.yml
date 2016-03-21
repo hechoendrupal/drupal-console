@@ -7,7 +7,7 @@ options:
     generate-doc: 'A parancsbeállításokat és argumentumokat markdown szövegként jeleníti meg'
     root: 'A parancs végrehajtásakor használt Drupal gyökérkönyvtárt adja meg'
     uri: 'A használandó Drupal webhely URI-címe (multisite vagy másodlagos porton futó környezetek esetén)'
-    yes: 'Megerősítés kihagyása és a művelet folytatása'
+    'yes': 'Megerősítés kihagyása és a művelet folytatása'
     target: 'A kezelni kívánt webhely neve (helyi vagy távoli webhelyek esetén)'
     help: 'A súgóüzenet megjelenítése'
     quiet: 'Ne írjon ki semmilyen üzenetet'
@@ -31,12 +31,7 @@ messages:
         copied: 'Másolt fájlok'
     learning:
         route: "Oldalak létrehozásához meg kell adni útvonalakat ahhoz.\nAz útvonal URL elérési utat képez le egy kontrollerre. Azt határozza meg, hogy milyen függvény\nvagy metódus meghívására kerül sor egy URL elérésekor.\nHa a felhasználó a http://drupal8.dev/{{ route.path }} útvonalat nyitja meg,\nakkor az útvonalkezelő rendszer ilyen elérési úttal rendelkező útvonalat keres. Ebben az esetben egyezést fog találni,\nés végrehajtja a _controller visszahívandó metódust. Ebben az esetben a visszahívás\nosztálynévként\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nés metódusként (\"{{ route.method }}\") van megadva."
-    autocomplete: |
-                Bash vagy Zsh: Fel kell venni ezt a sort a shell konfigurációs fájljába:
-                <info>source "$HOME/.console/console.rc" 2>/dev/null</info>
-
-                Fish: Létre kell hozni egy szimbolikus hivatkozást
-                <info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>
+    autocomplete: "Bash vagy Zsh: Fel kell venni ezt a sort a shell konfigurációs fájljába:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Létre kell hozni egy szimbolikus hivatkozást\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
     version: '<info>%s</info> version <comment>%s</comment>'
 errors:
     invalid-command: '"%s" parancs nincs megadva.'

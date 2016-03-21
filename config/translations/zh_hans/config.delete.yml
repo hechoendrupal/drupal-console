@@ -1,0 +1,7 @@
+description: '删除配置'
+arguments:
+    name: '配置名称'
+messages:
+    enter-name: '配置名称必须包含值'
+    config-not-exists: '配置 "%s" 不存在'
+    deleted: '配置 "%s" 删除成功'

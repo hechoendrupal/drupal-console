@@ -10,7 +10,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Parser;
-use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -23,14 +22,14 @@ class ImportSingleCommand extends ContainerAwareCommand
     {
         $this
             ->setName('config:import:single')
-            ->setDescription($this->trans('commands.config.import-single.description'))
+            ->setDescription($this->trans('commands.config.import.single.description'))
             ->addArgument(
-                'config-name', InputArgument::REQUIRED,
-                $this->trans('commands.config.import-single.arguments.config-name')
+                'name', InputArgument::REQUIRED,
+                $this->trans('commands.config.import.single.arguments.name')
             )
             ->addArgument(
                 'input-file', InputArgument::OPTIONAL,
-                $this->trans('commands.config.import-single.arguments.input-file')
+                $this->trans('commands.config.import.single.arguments.input-file')
             );
     }
 
@@ -41,7 +40,7 @@ class ImportSingleCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $configName = $input->getArgument('config-name');
+        $configName = $input->getArgument('name');
         $fileName = $input->getArgument('input-file');
         $config = $this->getConfigFactory()->getEditable($configName);
         $ymlFile = new Parser();
@@ -53,7 +52,7 @@ class ImportSingleCommand extends ContainerAwareCommand
         }
 
         if (empty($value)) {
-            $io->error($this->trans('commands.config.import-single.messages.empty-value'));
+            $io->error($this->trans('commands.config.import.single.messages.empty-value'));
 
             return;
         }
@@ -63,18 +62,20 @@ class ImportSingleCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param $config_name String
-     *
-     * @return array
+     * {@inheritdoc}
      */
-    protected function getYamlConfig($config_name)
+    protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $configStorage = $this->getConfigStorage();
-        if ($configStorage->exists($config_name)) {
-            $configuration = $configStorage->read($config_name);
-            $configurationEncoded = Yaml::encode($configuration);
+        $io = new DrupalStyle($input, $output);
+        $name = $input->getArgument('name');
+        if (!$name) {
+            $configFactory = $this->getService('config.factory');
+            $names = $configFactory->listAll();
+            $name = $io->choiceNoList(
+                $this->trans('commands.config.import.single.arguments.name'),
+                $names
+            );
+            $input->setArgument('name', $name);
         }
-
-        return $configurationEncoded;
     }
 }

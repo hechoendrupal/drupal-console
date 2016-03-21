@@ -22,7 +22,7 @@ questions:
 messages:
     node-id: 'Identificador del node'
     content-type: 'Tipus de contingut'
-    title: 'Títol'
+    title: Títol
     created: 'Data de creació'
     invalid-content-types: 'No és vàlid el tipus de contingut %s'
     created-nodes: 'S''han creat correctament %s nodes'

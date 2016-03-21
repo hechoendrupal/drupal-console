@@ -30,12 +30,12 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '0.10.12';
+    const VERSION = '0.10.14';
 
     /**
      * @var string
      */
-    const DRUPAL_SUPPORTED_VERSION = '8.0.3';
+    const DRUPAL_SUPPORTED_VERSION = '8.0.x';
 
     /**
      * @var string

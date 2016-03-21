@@ -5,3 +5,5 @@ options:
     file: 'El nom del fitxer de la seva còpia de la base de dades'
 messages:
     success: 'Base de dades importada des de:'
+    no-file: 'Missing file option'
+help: 'Restore structure and contents of a database.'

@@ -111,11 +111,11 @@ class CommandDiscoveryHelper extends Helper
      */
     public function loadCustomThemeGenerators()
     {
-      $sources = [];
+        $sources = [];
 
-      $sources = $this->getSite()->getThemes(true, true, false, false);
+        $sources = $this->getSite()->getThemes(true, true, false, false);
 
-      $this->discoverThemeGenerators($sources);
+        $this->discoverThemeGenerators($sources);
     }
 
     /**
@@ -157,17 +157,17 @@ class CommandDiscoveryHelper extends Helper
      */
     private function discoverThemeGenerators($sources)
     {
-      foreach ($sources as $sourceName => $source) {
-        $directory = sprintf(
-          '%s/%s/src/Generator',
-          $this->getDrupalHelper()->getRoot(),
-          $source->getPath()
-        );
+        foreach ($sources as $sourceName => $source) {
+            $directory = sprintf(
+                '%s/%s/src/Generator',
+                $this->getDrupalHelper()->getRoot(),
+                $source->getPath()
+            );
 
-        if (is_dir($directory)) {
-          $this->extractThemeGenerators($directory, $sourceName);
+            if (is_dir($directory)) {
+                $this->extractThemeGenerators($directory, $sourceName);
+            }
         }
-      }
     }
 
     /**
@@ -221,30 +221,30 @@ class CommandDiscoveryHelper extends Helper
      */
     private function extractThemeGenerators($directory, $source)
     {
-      $finder = new Finder();
-      $finder->files()
-        ->name('*Generator.php')
-        ->in($directory)
-        ->depth('< 2');
+        $finder = new Finder();
+        $finder->files()
+            ->name('*Generator.php')
+            ->in($directory)
+            ->depth('< 2');
 
-      $finder->exclude('Exclude');
+        $finder->exclude('Exclude');
 
-      if (!$this->develop) {
-        $finder->exclude('Develop');
-      }
+        if (!$this->develop) {
+            $finder->exclude('Develop');
+        }
 
-      foreach ($finder as $file) {
-        $className = sprintf(
-          'Drupal\%s\Generator\%s',
-          $source,
-          str_replace(
-            ['/', '.php'], ['\\', ''],
-            $file->getRelativePathname()
-          )
-        );
+        foreach ($finder as $file) {
+            $className = sprintf(
+                'Drupal\%s\Generator\%s',
+                $source,
+                str_replace(
+                    ['/', '.php'], ['\\', ''],
+                    $file->getRelativePathname()
+                )
+            );
 
-        include $file->getPathname();
-      }
+            include $file->getPathname();
+        }
     }
 
     /**

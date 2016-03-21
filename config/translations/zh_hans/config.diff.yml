@@ -11,4 +11,4 @@ table:
         config-name: '配置项'
         operation: 操作
 messages:
-    no-changes: '没有更改.'
+    no-changes: 没有更改.

@@ -12,4 +12,3 @@ messages:
     error-copying: 'An error occurred while renaming directory as %s'
 questions:
     directory: 'Enter the directory name when downloading Drupal'
-

@@ -24,7 +24,9 @@ questions:
         type: Type
         invalid: 'Field Type "%s" is invalid.'
         description: Description
-        default-value: 'Default value'
+        default-value:
+            default-value: 'Default value'
+            checkboxes: 'Default value(s) separated by commas'
         weight: 'Weight for input item'
         title: 'Title'
         fieldset: 'Fieldset'

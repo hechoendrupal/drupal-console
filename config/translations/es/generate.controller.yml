@@ -15,7 +15,7 @@ options:
 questions:
     module: common.questions.module
     class: 'Escriba el nombre de la clase del Controlador'
-    title: 'Introduzca el título de metodo del Controller'
+    title: 'Introduzca el título de metodo del Controlador'
     method: 'Introduzca el nombre del método de acción'
     path: 'Introduzca el path de la ruta'
     services: common.questions.services

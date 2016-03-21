@@ -5,3 +5,5 @@ arguments:
 messages:
     table-show: 'Mostrant les taules de la base de dades %s'
     table: Taula
+    column: Column
+    type: Type

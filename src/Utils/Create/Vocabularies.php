@@ -23,7 +23,7 @@ class Vocabularies extends Base
      * Vocabularies constructor.
      *
      * @param EntityTypeManagerInterface $entityManager
-     * @param DateFormatterInterface $dateFormatter
+     * @param DateFormatterInterface     $dateFormatter
      */
     public function __construct(
         EntityTypeManagerInterface $entityManager,

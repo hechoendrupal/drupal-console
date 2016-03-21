@@ -193,7 +193,7 @@ class ExportSingleCommand extends ContainerAwareCommand
                 // Save configuration file.
                 file_put_contents($configExportFile, $yaml);
                 $io->info(
-                  sprintf($this->trans('commands.config.export.single.messages.export'), $configExportFile)
+                    sprintf($this->trans('commands.config.export.single.messages.export'), $configExportFile)
                 );
             } else {
                 $io->error($this->trans('commands.config.export.single.messages.config-not-found'));
@@ -210,7 +210,8 @@ class ExportSingleCommand extends ContainerAwareCommand
      * @return array
      *   An array of dependent configuration item names.
      */
-    protected function getConfigDependencies($configName) {
+    protected function getConfigDependencies($configName)
+    {
         $dependencyManager = $this->getConfigManager()->getConfigDependencyManager();
         // Compute dependent config.
         $dependent_list = $dependencyManager->getDependentEntities('config', $configName);
@@ -231,5 +232,4 @@ class ExportSingleCommand extends ContainerAwareCommand
 
         return $dependents;
     }
-
 }
