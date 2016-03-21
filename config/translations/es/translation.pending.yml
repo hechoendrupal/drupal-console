@@ -5,7 +5,7 @@ options:
     file: 'Archivo específico con el que determinar las traducciones pendientes contra el inglés'
 messages:
     invalid-language: 'El idioma %s no es válido'
-    language: Language
+    language: Idioma
     pending-translations: 'Traducción pendiente del %s en el fichero %s'
     missing-file: 'El idioma %s no tiene el archivo %s, intentando ejecutar el comando translation:sync'
     success-language: 'Hay traducciones pendientes de %s para %s'
