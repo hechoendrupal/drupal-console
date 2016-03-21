@@ -4,7 +4,7 @@ welcome: 'Bienvenido al generador de controlador de Drupal'
 options:
     module: common.options.module
     class: 'Nombre de la clase del controlador'
-    routes: 'The routes, must be an array containing [title, method, path]'
+    routes: 'Las rutas, debe ser un array conteniendo [título, método, path]'
     services: common.options.services
     test: 'Generar una clase de prueba'
     title: 'Título del controlador'
@@ -17,7 +17,7 @@ questions:
     class: 'Escriba el nombre de la clase del Controlador'
     title: 'Introduzca el título de metodo del Controller'
     method: 'Introduzca el nombre del método de acción'
-    path: 'Enter the route path'
+    path: 'Introduzca el path de la ruta'
     services: common.questions.services
     test: 'Desea generar una clase de prueba unitaria'
     route: 'Escriba el directorio de la ruta'
@@ -27,10 +27,10 @@ questions:
     other-controller-title: 'Título del controlador (déjelo vacío para iniciar la generación de código)'
     controller-title: 'Escriba el título del controlador'
 messages:
-    title-empty: 'Title must contain a value'
+    title-empty: 'El título no puede estar vacío'
     title-already-added: 'El título ya ha sido añadido'
     method-name-already-added: 'El nombre del método ya ha sido añadido'
-    path-already-added: 'Path was already added'
+    path-already-added: 'El path ya ha sido añadido'
     route-already-added: 'La ruta ya ha sido añadida'
     invalid-controller-title: 'El título no puede estar vacío'
     invalid-method-name: 'El nombre del método no puede estar vacío'
