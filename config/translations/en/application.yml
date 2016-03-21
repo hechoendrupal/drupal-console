@@ -10,8 +10,8 @@ options:
     yes: 'Skip confirmation and proceed'
     target: 'Site name you want to interact with (for local or remote sites)'
     help: 'Display this help message'
-    quiet: 'Do not output any message'
-    verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
+    quiet: 'Suppress all output from the command'
+    verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output, and 3 for debug'
     version: 'Display this application version'
     ansi: 'Force ANSI output'
     no-ansi: 'Disable ANSI output'
@@ -39,7 +39,7 @@ messages:
                 <info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>
     version: '<info>%s</info> version <comment>%s</comment>'
 errors:
-    invalid-command: 'Command "%s" is not defined.'
+    invalid-command: 'Command "%s" do not exist.'
 site:
     messages:
         path: 'Site path'

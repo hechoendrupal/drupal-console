@@ -35,7 +35,7 @@ class TableDebugCommand extends ContainerAwareCommand
                 'database',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.database.table.debug.arguments.database'),
+                $this->trans('commands.database.table.debug.options.database'),
                 'default'
             )
             ->addArgument(
