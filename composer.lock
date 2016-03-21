@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8c36786a248129b5c99f94f3c8127cbb",
-    "content-hash": "a64e519ee7c72bfd22ba24e16f0b52be",
+    "hash": "40687ac7e2b194603ed0c1eda352da0d",
+    "content-hash": "aaa905caa62a54f9cd6f98f0b401bbac",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -235,16 +235,16 @@
         },
         {
             "name": "gabordemooij/redbean",
-            "version": "dev-master",
+            "version": "v4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gabordemooij/redbean.git",
-                "reference": "d52ce49dcea7d0ce4231deccb12f6a5ced977e3c"
+                "reference": "f1f572ddac226d047d730444927794321ee9aca6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gabordemooij/redbean/zipball/d52ce49dcea7d0ce4231deccb12f6a5ced977e3c",
-                "reference": "d52ce49dcea7d0ce4231deccb12f6a5ced977e3c",
+                "url": "https://api.github.com/repos/gabordemooij/redbean/zipball/f1f572ddac226d047d730444927794321ee9aca6",
+                "reference": "f1f572ddac226d047d730444927794321ee9aca6",
                 "shasum": ""
             },
             "require": {
@@ -272,7 +272,7 @@
             "keywords": [
                 "orm"
             ],
-            "time": "2016-01-31 09:19:47"
+            "time": "2015-12-28 19:46:34"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1516,7 +1516,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "padraic/phar-updater": 20,
-        "gabordemooij/redbean": 20
+        "gabordemooij/redbean": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
