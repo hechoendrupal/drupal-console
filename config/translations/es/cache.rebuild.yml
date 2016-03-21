@@ -13,5 +13,5 @@ examples:
         description: 'Reconstruir todas las cachés'
         execution: 'drupal cr all'
     -
-        description: 'Rebuild discovery cache'
+        description: 'Reconstruir la caché de descubrimiento'
         execution: 'drupal cr discovery'
