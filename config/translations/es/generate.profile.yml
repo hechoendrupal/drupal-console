@@ -1,6 +1,6 @@
 description: 'Genera un perfil.'
 help: 'El comando <info>generate:profile</info> le ayuda a generar un nuevo perfil de instalación.'
-welcome: 'Welcome to the Drupal installation profile generator'
+welcome: 'Bienvenido al generador de perfil de instalación'
 options:
     profile: 'Nombre del perfil'
     machine-name: 'Nombre-máquina (sólo minúsculas y guiones bajos)'
