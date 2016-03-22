@@ -6,4 +6,4 @@ messages:
     dependents: 'Imposible desinstalar los módulos %s porque son requeridos por %s'
     nothing: 'Nada que hacer. Todos los módulos ya están desinstalados'
     success: 'Los módulos %s fueron desinstalados con éxito'
-    missing: 'No es posible instalar los módulos %s porque los siguientes módulos no existen %s'
+    missing: 'Imposible instalar los módulos %s debido a que faltan los siguientes módulos: %s'

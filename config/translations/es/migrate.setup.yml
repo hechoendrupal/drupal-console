@@ -7,7 +7,7 @@ options:
     db-pass: 'Contraseña de base de datos'
     db-prefix: 'Prefijo de base de datos'
     db-port: Puerto
-    files-directory: 'Directorio "files"'
+    files-directory: 'Directorio de archivos'
 questions:
     db-type: 'Tipo de base de datos de Drupal'
     db-host: '"Host" de base de datos'
@@ -16,7 +16,7 @@ questions:
     db-pass: 'Contraseña de base de datos'
     db-prefix: 'Prefijo de base de datos'
     db-port: Puerto
-    files-directory: 'Directorio "files"'
+    files-directory: 'Directorio de archivos'
 messages:
     not-drupal: 'La base de datos no contiene una versión reconocible de Drupal.'
     migrations-created: '%s migraciones fueron creadas exitosamente por %s.'

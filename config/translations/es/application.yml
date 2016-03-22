@@ -10,7 +10,7 @@ options:
     'yes': 'Saltar confirmación y ejecutar directamente'
     target: 'Nombre del sitio con el que desea interactuar (sitio remoto o local)'
     help: 'Muestra este mensaje de ayuda'
-    quiet: 'Suprime la salida el comando'
+    quiet: 'No mostrar ningún mensaje'
     verbose: 'Aumenta la verbosidad de los mensajes: 1 para la salida normal, 2 para mayor verbosidad y 3 para depurar'
     version: '<info>%s</info> versión <comment>%s</comment>'
     ansi: 'Forzar salida ANSI'
@@ -19,6 +19,7 @@ options:
     check-fix: 'Intentar corregir cualquier configuración faltante.'
 arguments:
     command: 'El comando a ejecutar'
+
 messages:
     completed: '¡Ya puede empezar a usar el código generado!'
     chain:
@@ -34,7 +35,8 @@ messages:
     autocomplete: "Bash o Zsh: Agregar esta línea al archivo de configuración del shell:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Crear un link simbólico\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
     version: '<info>%s</info> versión <comment>%s</comment>'
 errors:
-    invalid-command: 'El comando "%s" no existe.'
+    invalid-command: 'El comando "%s" no está definido.'
+
 site:
     messages:
         path: 'Ruta del sitio'

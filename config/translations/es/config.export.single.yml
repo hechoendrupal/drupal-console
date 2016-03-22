@@ -2,7 +2,7 @@ description: 'Exportar configuración como fichero yml.'
 arguments:
     config-name: 'Nombre de la configuración.'
 options:
-    include-dependencies: 'También exportar dependencias de la configuración.'
+    include-dependencies: 'Exportar dependencias de la configuración también.'
     simple-configuration: 'Configuración simple'
 questions:
     config-type: 'Tipo de configuración'

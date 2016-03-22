@@ -19,4 +19,4 @@ messages:
     method: Método
     line: Línea
     message: Mensaje
-    invalid-class: 'La clase de prueba %s no existe'
+    invalid-class: 'La clase de Testing %s no existe'
