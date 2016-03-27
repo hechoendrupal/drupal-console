@@ -5,10 +5,10 @@ arguments:
 messages:
     select-release: 'Alaprendszer kiadásának kiválasztása'
     getting-releases: 'Drupal kiadásainak beolvasása'
-    downloading: '%s %s letöltése'
-    extracting: 'Drupal %s fájljainak kibontása'
+    downloading: '%s "%s" letöltése'
+    extracting: 'Drupal "%s" fájljainak kibontása'
     no-releases: 'Nincs rendelkezésre álló Drupal kiadás'
-    downloaded: 'A Drupal %s letöltése sikerült a következő könyvtárba: %s'
-    error-copying: 'Hiba történt a könyvtár átnevezésekor %s névre'
+    downloaded: 'A Drupal "%s" letöltése sikerült a következő könyvtárba: %s'
+    error-copying: 'Hiba történt a könyvtár átnevezésekor "%s" névre'
 questions:
     directory: 'Meg kell adni a Drupal letöltésekor használt könyvtár nevét'

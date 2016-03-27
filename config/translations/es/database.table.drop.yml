@@ -6,4 +6,4 @@ question:
     drop-tables: 'Confirma que realmente quiere eliminar todas las tablas de la base de datos %s?'
 messages:
     table: Tabla
-    table-drop: 'Han sido eliminadas %s tablas con éxito'
+    table-drop: 'Han sido eliminadas "%s" tablas con éxito'

@@ -6,7 +6,7 @@ arguments:
 questions:
     resource-id: 'REST ID'
 messages:
-    invalid-rest-id: 'REST ID %s 无效'
+    invalid-rest-id: 'REST ID "%s" 无效'
     formats: '可用序列化格式'
     authentication-providers: '可用认证提供者'
     selected-state: 选中的状态

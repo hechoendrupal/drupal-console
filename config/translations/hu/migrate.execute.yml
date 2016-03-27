@@ -23,7 +23,7 @@ questions:
     db-pass: 'Adatbázis jelszó'
     db-prefix: 'Adatbázis előtag'
     db-port: 'Adatbázis port'
-    invalid-migration-id: 'Érvénytelen %s költöztetési azonosító'
+    invalid-migration-id: 'Érvénytelen "%s" költöztetési azonosító'
 messages:
     processing: '%s költöztetés feldolgozása'
     imported: '%s költöztetés importálása sikerült'

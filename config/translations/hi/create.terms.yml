@@ -14,5 +14,5 @@ messages:
     term-id: 'टर्म आईडी'
     vocabulary: वोकेबुलरी
     name: नाम
-    invalid-vocabularies: 'वोकेबुलरी(स) %s अमान्य हैं'
+    invalid-vocabularies: 'वोकेबुलरी(स) "%s" अमान्य हैं'
     created-terms: '%s टर्म्ज़ सफलतापूर्वक बने'

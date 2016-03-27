@@ -16,4 +16,4 @@ messages:
     user: User
     severity: Severity
     invalid-severity: 'Severity type không hợp lệ, filter đã bị ignored'
-    not-found: 'DBLog event %s đã không được tìm thấy'
+    not-found: 'DBLog event "%s" đã không được tìm thấy'

@@ -7,6 +7,6 @@ questions:
     numeric-uid: 'A felhasználói azonosítónak egész számnak kell lennie.'
     invalid-uid: 'A felhasználói azonosítónak nullánál nagyobb számnak kell lennie.'
 messages:
-    successful: 'Sikerült %s felhasználói azonosító bejelentkezési kísérleteinek törlése.'
+    successful: 'Sikerült "%s" felhasználói azonosító bejelentkezési kísérleteinek törlése.'
 errors:
     invalid-user: 'A felhasználó entitás nem tölthető be (Uid: %s).'

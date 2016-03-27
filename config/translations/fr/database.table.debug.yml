@@ -3,7 +3,7 @@ help: 'The <info>database:table:debug</info> command helps you debug database ta
 arguments:
     database: 'Database key from settings.php'
 messages:
-    table-show: 'Showing tables for %s database'
+    table-show: 'Showing tables for "%s" database'
     table: Table
     column: Column
     type: Type

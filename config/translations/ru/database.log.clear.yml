@@ -6,6 +6,6 @@ options:
     severity: 'Filter events by a specific level of severity'
     user-id: 'Filter events by a specific user id'
 messages:
-    event-deleted: 'Событие %s было удалено'
+    event-deleted: 'Событие "%s" было удалено'
     clear-error: 'Сбой процесса очистки, пожалуйста, проверьте используемые фильтры'
     clear-sucess: 'События успешно очищены'

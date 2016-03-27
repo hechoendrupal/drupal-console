@@ -4,7 +4,7 @@ arguments:
 options:
     format: 'Defineix el format de sortida table|markdown'
 messages:
-    invalid-language: 'L''idioma %s no és vàlid'
+    invalid-language: 'L''idioma "%s" no és vàlid'
     language: Idioma
     percentage: Percentatge
     iso: 'ISO Code'

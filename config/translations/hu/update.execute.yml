@@ -2,7 +2,7 @@ description: 'Egy modul adott Update N függvényének végrehajtása, vagy az �
 options:
     update-n: 'Végrehajtandó adott Update N függvény'
 messages:
-    no-module-updates: 'Nincs rendelkezésre álló frissítés %s modulhoz'
-    executing-update: '%s modul %s update függvényének végrehajtása'
+    no-module-updates: 'Nincs rendelkezésre álló frissítés "%s" modulhoz'
+    executing-update: '%s modul "%s" update függvényének végrehajtása'
     module-update-function-not-found: '%s modul nem rendelkezik update függvénnyel a következőhöz: %s'
     executing-required-previous-updates: 'Szükséges korábbi frissítések végrehajtása'

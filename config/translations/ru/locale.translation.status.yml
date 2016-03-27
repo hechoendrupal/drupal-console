@@ -11,7 +11,7 @@ messages:
     remote-age: 'Удаленный возраст'
     info: Информация
     no-translation-files: 'Файлы переводов для dev релизов не предоставлены.'
-    file-not-found: 'Файл не найден в %s и не в %s'
+    file-not-found: 'Файл не найден в "%s" и не в %s'
     local-file-not-found: 'Файл не найден в %s'
     translation-not-determined: 'Расположение файла переводов не может быть определено.'
     translation-project-updated: Обновлен

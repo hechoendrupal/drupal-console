@@ -1,5 +1,5 @@
-description: 'एक नया %s उत्पन्न करें'
-help: '<info>%s</info> कमाण्ड एक नया %s उत्पन्न करने में मदद करता है'
+description: 'एक नया "%s" उत्पन्न करें'
+help: '<info>%s</info> कमाण्ड एक नया "%s" उत्पन्न करने में मदद करता है'
 welcome: 'Drupal फॉर्म उत्पादक में आपका स्वागत है'
 options:
     module: common.options.module
@@ -21,7 +21,7 @@ questions:
     menu_link_desc: 'मेनू लिंक के लिए एक विवरण'
 alter:
     description: 'एक hook_form_alter() या hook_form_FORM_ID_alter कार्यान्वयन उत्पन्न करें'
-    help: '<info>%s</info> कमाण्ड एक नया %s उत्पन्न करने में मदद करता है'
+    help: '<info>%s</info> कमाण्ड एक नया "%s" उत्पन्न करने में मदद करता है'
     options:
         form-id: 'फॉर्म आईड को बदलने के लिए'
     messages:

@@ -19,6 +19,6 @@ questions:
     files-directory: 'फाइल्स डायरेक्टरी'
 messages:
     not-drupal: 'स्रोत डेटाबेस एक पहचानने पहचानने योग्य Drupal संस्करण नहीं है'
-    migrations-created: '%s माइग्रेशन सफलतापूर्वक %s के लिए बना दी गई|'
+    migrations-created: '%s माइग्रेशन सफलतापूर्वक "%s" के लिए बना दी गई|'
     migrations-not-found: 'माइग्रेशन उपलब्ध नहीं हैं|'
     migrations-already-exist: 'उपलब्ध माइग्रेशन पहले से ही बना दी गई हैं|'

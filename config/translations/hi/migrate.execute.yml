@@ -26,7 +26,7 @@ questions:
     invalid-migration-id: 'माइग्रेशन क्रमांक "%s" अमान्य है|'
 messages:
     processing: '%s प्रोसेसिंग माइग्रेशन'
-    imported: 'माइग्रेशन %s सफलतापूर्वक इम्पोर्ट किया गया'
+    imported: 'माइग्रेशन "%s" सफलतापूर्वक इम्पोर्ट किया गया'
     fail-load: 'माइग्रेशन "%s" लोड नहीं किया जा सकता'
     importing-incomplete: '"%s" माइग्रेशन इम्पोर्ट किया जा रहा है'
     import-stopped: '"%s" अनुरोध द्वारा बंद कर दिया'

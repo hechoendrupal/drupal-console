@@ -4,7 +4,7 @@ arguments:
 options:
     format: 'Define output format table|markdown'
 messages:
-    invalid-language: 'Language %s is invalid'
+    invalid-language: 'Language "%s" is invalid'
     language: Language
     percentage: Percentage
     iso: 'ISO Code'

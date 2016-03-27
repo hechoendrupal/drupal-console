@@ -5,4 +5,4 @@ arguments:
 questions:
     resource-id: 'REST ID'
 messages:
-    invalid-rest-id: 'REST ID %s 无效'
+    invalid-rest-id: 'REST ID "%s" 无效'

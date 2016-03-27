@@ -9,7 +9,7 @@ messages:
     downloading: 'Đang tải xuống Drupal %s'
     extracting: 'Đang giải nén file Drupal %s'
     no-releases: 'Không có bất kỳ bản mới phát hành nào của Drupal'
-    downloaded: 'Drupal %s đã được tải xuống thư mục %s'
+    downloaded: 'Drupal "%s" đã được tải xuống thư mục %s'
     error-copying: 'Một lỗi đã xảy ra trong khi thay đổi tên thư mục tại %s'
     release: 'Please select a release'
 questions:

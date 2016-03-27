@@ -18,4 +18,4 @@ questions:
     services: common.questions.services
 messages:
     inputs: "\n您可以添加输入字段创建区别的特殊配置\n这是可选的，按下 <info>enter</info> 键 <info>continue</info>"
-    invalid-theme-region: '区域 %s 无效'
+    invalid-theme-region: '区域 "%s" 无效'

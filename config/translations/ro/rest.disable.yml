@@ -5,4 +5,4 @@ arguments:
 questions:
     resource-id: 'ID-ul resursei.'
 messages:
-    invalid-rest-id: 'ID-ule resursei %s este incorect'
+    invalid-rest-id: 'ID-ule resursei "%s" este incorect'

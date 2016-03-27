@@ -25,5 +25,5 @@ messages:
     title: Títol
     created: 'Data de creació'
     invalid-content-types: 'No és vàlid el tipus de contingut %s'
-    created-nodes: 'S''han creat correctament %s nodes'
-    generated-content: 'S''han creat correctament %s nodes'
+    created-nodes: 'S''han creat correctament "%s" nodes'
+    generated-content: 'S''han creat correctament "%s" nodes'

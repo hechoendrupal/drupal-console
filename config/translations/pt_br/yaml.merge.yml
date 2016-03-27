@@ -14,4 +14,4 @@ messages:
     two-files-required: 'É necessário ao menos dois arquivos para iniciar a combinação dos arquivos.'
     error-generating: 'Ocorreu um erro ao gerar um novo arquivo YAML.'
     error-writing: 'Erro ao escrever o novo arquivo YAML.'
-    merged: 'Novo arquivo %s foi criado com sucesso após a combinação dos arquivos YAML.'
+    merged: 'Novo arquivo "%s" foi criado com sucesso após a combinação dos arquivos YAML.'

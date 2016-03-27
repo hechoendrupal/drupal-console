@@ -4,9 +4,9 @@ arguments:
 options:
     file: 'Determinar idioma pendent de traduccions contra l''anglès'
 messages:
-    invalid-language: 'L''idioma %s no es vàlid'
+    invalid-language: 'L''idioma "%s" no es vàlid'
     language: Idioma
-    pending-translations: 'Traduccions pendents %s al fitxer %s'
-    missing-file: 'L''idioma %s no té un fitxer %s, proveu executant translation:sync command'
-    success-language: 'Hi han %s traduccions pendents per l''idioma %s'
-    success-language-file: 'Hi han %s traduccions pendents de %s al fitxer %s'
+    pending-translations: 'Traduccions pendents "%s" al fitxer %s'
+    missing-file: 'L''idioma "%s" no té un fitxer %s, proveu executant translation:sync command'
+    success-language: 'Hi han "%s" traduccions pendents per l''idioma %s'
+    success-language-file: 'Hi han "%s" traduccions pendents de "%s" al fitxer %s'

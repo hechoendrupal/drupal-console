@@ -9,7 +9,7 @@ messages:
     downloading: 'Se descarcă Drupal %s'
     extracting: 'Se extrag fişierele pentru Drupal %s'
     no-releases: 'Nu sunt versiuni disponibile pentru Drupal.'
-    downloaded: 'Drupal %s a fost descarcat in directorul %s'
+    downloaded: 'Drupal "%s" a fost descarcat in directorul %s'
     error-copying: 'A apărut o eroare în timpul redenumirii directorului la %s'
     release: 'Please select a release'
 questions:
