@@ -70,7 +70,7 @@ class ChainCommand extends Command
         }
 
         $file = $io->choice(
-            'Select chain to execute',
+            $this->trans('commands.chain.questions.chain-file'),
             array_values($files)
         );
 
