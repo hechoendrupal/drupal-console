@@ -30,6 +30,7 @@ class ExecuteCommand extends ContainerAwareCommand
 
         $this->getDrupalHelper()->loadLegacyFile('/core/includes/install.inc');
         $this->getDrupalHelper()->loadLegacyFile('/core/includes/update.inc');
+        $updateRegistry = $this->getService('update.post_update_registry');
 
         $module = $input->getArgument('module');
         $update_n = $input->getArgument('update-n');
@@ -40,6 +41,10 @@ class ExecuteCommand extends ContainerAwareCommand
         update_fix_compatibility();
 
         $updates = update_get_update_list();
+        $postUpdates = $updateRegistry->getPendingUpdateInformation();
+        var_dump($updates);
+        var_dump($postUpdates);
+
         if ($module != 'all') {
             if (!isset($updates[$module])) {
                 $io->error(
@@ -71,6 +76,7 @@ class ExecuteCommand extends ContainerAwareCommand
         $state->set('system.maintenance_mode', true);
 
         foreach ($updates as $module_name => $module_updates) {
+
             foreach ($module_updates['pending'] as $update_number => $update) {
                 if ($module != 'all' && $update_n !== null && $update_n != $update_number) {
                     continue;
@@ -91,6 +97,44 @@ class ExecuteCommand extends ContainerAwareCommand
 
                     try {
                         $module_handler->invoke($module_name, 'update_'  . $update_index);
+                    } catch (\Exception $e) {
+                        watchdog_exception('update', $e);
+                        $io->error($e->getMessage());
+                    }
+
+                    //Update module schema version
+                    drupal_set_installed_schema_version($module_name, $update_index);
+                }
+            }
+        }
+
+        foreach ($postUpdates as $module_name => $module_updates) {
+
+            foreach ($module_updates['pending'] as $update_number => $update) {
+                if ($module != 'all' && $update_n !== null && $update_n != $update_number) {
+                    continue;
+                }
+
+                //Executing all pending updates
+                if ($update_n > $module_updates['start']) {
+                    $io->info($this->trans('commands.update.execute.messages.executing-required-previous-updates'));
+                }
+                for ($update_index=$module_updates['start']; $update_index<=$update_number; $update_index++) {
+                    $io->info(
+                      sprintf(
+                        $this->trans('commands.update.execute.messages.executing-update'),
+                        $update_index,
+                        $module_name
+                      )
+                    );
+
+                    try {
+                        $function = sprintf(
+                            '%s_post_update_%s',
+                            $module_name,
+                            $update_index
+                        );
+                        update_invoke_post_update($function);
                     } catch (\Exception $e) {
                         watchdog_exception('update', $e);
                         $io->error($e->getMessage());
