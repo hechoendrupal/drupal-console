@@ -42,8 +42,6 @@ class ExecuteCommand extends ContainerAwareCommand
 
         $updates = update_get_update_list();
         $postUpdates = $updateRegistry->getPendingUpdateInformation();
-        var_dump($updates);
-        var_dump($postUpdates);
 
         if ($module != 'all') {
             if (!isset($updates[$module])) {
@@ -76,7 +74,6 @@ class ExecuteCommand extends ContainerAwareCommand
         $state->set('system.maintenance_mode', true);
 
         foreach ($updates as $module_name => $module_updates) {
-
             foreach ($module_updates['pending'] as $update_number => $update) {
                 if ($module != 'all' && $update_n !== null && $update_n != $update_number) {
                     continue;
@@ -109,7 +106,6 @@ class ExecuteCommand extends ContainerAwareCommand
         }
 
         foreach ($postUpdates as $module_name => $module_updates) {
-
             foreach ($module_updates['pending'] as $update_number => $update) {
                 if ($module != 'all' && $update_n !== null && $update_n != $update_number) {
                     continue;
@@ -121,11 +117,11 @@ class ExecuteCommand extends ContainerAwareCommand
                 }
                 for ($update_index=$module_updates['start']; $update_index<=$update_number; $update_index++) {
                     $io->info(
-                      sprintf(
-                        $this->trans('commands.update.execute.messages.executing-update'),
-                        $update_index,
-                        $module_name
-                      )
+                        sprintf(
+                            $this->trans('commands.update.execute.messages.executing-update'),
+                            $update_index,
+                            $module_name
+                        )
                     );
 
                     try {
@@ -134,14 +130,12 @@ class ExecuteCommand extends ContainerAwareCommand
                             $module_name,
                             $update_index
                         );
+                        drupal_flush_all_caches();
                         update_invoke_post_update($function);
                     } catch (\Exception $e) {
                         watchdog_exception('update', $e);
                         $io->error($e->getMessage());
                     }
-
-                    //Update module schema version
-                    drupal_set_installed_schema_version($module_name, $update_index);
                 }
             }
         }

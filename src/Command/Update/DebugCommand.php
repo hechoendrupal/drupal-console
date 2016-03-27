@@ -38,6 +38,8 @@ class DebugCommand extends ContainerAwareCommand
         $requirements = update_check_requirements();
         $severity = drupal_requirements_severity($requirements);
 
+        $io->newLine();
+
         if ($severity == REQUIREMENT_ERROR || ($severity == REQUIREMENT_WARNING)) {
             $io->info($this->trans('commands.update.debug.messages.requirements-error'));
 
@@ -60,7 +62,7 @@ class DebugCommand extends ContainerAwareCommand
                 }
             }
 
-            $io->table($tableHeader, $tableRows, 'compact');
+            $io->table($tableHeader, $tableRows);
 
             return;
         }
@@ -91,7 +93,7 @@ class DebugCommand extends ContainerAwareCommand
             }
         }
 
-        $io->table($tableHeader, $tableRows, 'compact');
+        $io->table($tableHeader, $tableRows);
 
         $tableHeader = [
           $this->trans('commands.update.debug.messages.module'),
@@ -112,6 +114,6 @@ class DebugCommand extends ContainerAwareCommand
             }
         }
 
-        $io->table($tableHeader, $tableRows, 'compact');
+        $io->table($tableHeader, $tableRows);
     }
 }
