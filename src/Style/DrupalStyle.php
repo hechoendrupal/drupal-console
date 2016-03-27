@@ -138,10 +138,10 @@ class DrupalStyle extends SymfonyStyle
     public function commentBlock($message)
     {
         $this->block(
-          $message, null,
-          'bg=yellow;fg=black',
-          ' ',
-          true
+            $message, null,
+            'bg=yellow;fg=black',
+            ' ',
+            true
         );
     }
 
