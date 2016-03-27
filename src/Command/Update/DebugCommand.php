@@ -27,13 +27,18 @@ class DebugCommand extends ContainerAwareCommand
 
         $this->getDrupalHelper()->loadLegacyFile('/core/includes/update.inc');
         $this->getDrupalHelper()->loadLegacyFile('/core/includes/install.inc');
+        $updateRegistry = $this->getService('update.post_update_registry');
 
         drupal_load_updates();
         update_fix_compatibility();
 
         $updates = update_get_update_list();
+        $postUpdates = $updateRegistry->getPendingUpdateInformation();
+
         $requirements = update_check_requirements();
         $severity = drupal_requirements_severity($requirements);
+
+        $io->newLine();
 
         if ($severity == REQUIREMENT_ERROR || ($severity == REQUIREMENT_WARNING)) {
             $io->info($this->trans('commands.update.debug.messages.requirements-error'));
@@ -57,7 +62,7 @@ class DebugCommand extends ContainerAwareCommand
                 }
             }
 
-            $io->table($tableHeader, $tableRows, 'compact');
+            $io->table($tableHeader, $tableRows);
 
             return;
         }
@@ -88,6 +93,27 @@ class DebugCommand extends ContainerAwareCommand
             }
         }
 
-        $io->table($tableHeader, $tableRows, 'compact');
+        $io->table($tableHeader, $tableRows);
+
+        $tableHeader = [
+          $this->trans('commands.update.debug.messages.module'),
+          $this->trans('commands.update.debug.messages.post-update'),
+          $this->trans('commands.update.debug.messages.description')
+        ];
+
+        $io->info($this->trans('commands.update.debug.messages.module-list-post-update'));
+
+        $tableRows = [];
+        foreach ($postUpdates as $module => $module_updates) {
+            foreach ($module_updates['pending'] as $postUpdateFunction => $message) {
+                $tableRows[] = [
+                  $module,
+                  $postUpdateFunction,
+                  $message,
+                ];
+            }
+        }
+
+        $io->table($tableHeader, $tableRows);
     }
 }
