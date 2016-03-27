@@ -22,7 +22,7 @@ class UninstallCommand extends ContainerAwareCommand
             ->setName('module:uninstall')
             ->setDescription($this->trans('commands.module.uninstall.description'))
             ->addArgument('module', InputArgument::REQUIRED, $this->trans('commands.module.uninstall.options.module'))
-            ->addOption('force', InputOption::VALUE_NONE, $this->trans('commands.module.uninstall.options.force'));
+            ->addOption('force', '', InputOption::VALUE_NONE, $this->trans('commands.module.uninstall.options.force'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -65,9 +65,9 @@ class UninstallCommand extends ContainerAwareCommand
             return true;
         }
 
-        $force = $input->hasOption('force');
+        $force = $input->getOption('force');
 
-        if ($force) {
+        if (!$force) {
             // Calculate $dependents
             $dependents = array();
             while (list($module) = each($module_list)) {
