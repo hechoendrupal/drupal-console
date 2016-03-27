@@ -7,3 +7,5 @@ messages:
     nothing: 'Nothing to do. All modules are already uninstalled'
     success: 'The following module(s) were uninstalled successfully: %s'
     missing: 'Unable to uninstall modules %s due to missing modules %s'
+    force: 'Do you want to ignore dependencies and forcefully uninstall the module?'
+    missing: 'Unable to install modules %s due to missing modules %s'
