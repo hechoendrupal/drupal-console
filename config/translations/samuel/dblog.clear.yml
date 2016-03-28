@@ -1,5 +1,0 @@
-description: 'Remove events from DBLog table, filters are available'
-messages:
-    event-deleted: 'Event %s was deleted'
-    clear-error: "I'm tryin' real hard to be the shepherd"
-    clear-sucess: 'Clear of events was successfully'
