@@ -1,13 +1,13 @@
-description: 'Generate a new content type (node / entity bundle)'
-help: 'Use: generate:contenttype <fancy> <Fancy> to create a new content type name with the machine name of fancy and the human-readable name of Fancy.'
-welcome: 'Welcome to the Drupal Content Type generator'
+description: 'Tạo một loại nội dung mới (node / entity bundle)'
+help: 'Sử dụng: generate:contenttype <fancy> <Fancy> để tạo một loại nội dung mới với tên máy của sự mô phỏng và tên có thể đọc được của sự mô phỏng.'
+welcome: 'Chào mừng tới Drupal Content Type generator'
 options:
     module: common.options.module
-    bundle-name: 'The content type''s machine name'
-    bundle-title: 'The content type''s human-readable name'
+    bundle-name: 'Tên máy của loại nội dung'
+    bundle-title: 'Tên có thể đọc được của loại nội dung'
 questions:
     module: common.questions.module
-    bundle-name: 'Enter the machine name of your new content type'
-    bundle-title: 'Enter the human-readable name of your new content type'
+    bundle-name: 'Nhập tên máy của loại nội dung mới của bạn'
+    bundle-title: 'Nhập tên có thể đọc được của loại nội dung mới'
 message:
     error-state1: placeholder

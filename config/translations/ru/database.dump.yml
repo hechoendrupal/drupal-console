@@ -1,0 +1,7 @@
+description: 'Дамп структуры и содержимого базы данных'
+arguments:
+    database: 'Ключ базы данных из settings.php'
+options:
+    file: 'Имя файла резервной копии базы данных'
+messages:
+    success: 'База данных экспортирована в:'

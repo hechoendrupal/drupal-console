@@ -1,19 +1,19 @@
-description: 'Generează o extensie pentru o resursă REST'
-help: 'Comanda <info>generate:plugin:rest:resource</info> te va ajuta sa generezi o noua extensie pentru o resursă REST.'
-welcome: 'Bine ai venit in generatorul de extensii pentru resurse REST'
+description: 'Generează un plugin de tip resursă REST'
+help: 'Comanda <info>generate:plugin:rest:resource</info> vă va ajuta să generați o nouă resursă REST.'
+welcome: 'Bine ați venit la generatorul de pluginuri pentru resurse REST Drupal'
 options:
     module: common.options.module
-    class-name: 'Numele clasei pentru plugin.'
-    plugin-id: 'Id-ul pentru plugin.'
-    plugin-label: 'Eticheta pentru plugin.'
-    plugin-url: 'URL pentru plugin.'
-    plugin-states: 'Stările pentru plugin.'
+    class: 'Clasa pluginului de tip resursă REST'
+    plugin-id: 'Id-ul pluginului de tip resursă REST'
+    plugin-label: 'Eticheta pluginului de tip resursă REST'
+    plugin-url: 'URL-ul pluginului de tip resursă REST'
+    plugin-states: 'Stările pluginului de tip resursă REST'
 questions:
     module: common.questions.module
-    class-name: 'Introdu numele pentru plugin.'
-    plugin-id: 'Introdu Id-ul pentru plugin.'
-    plugin-label: 'Introdu eticheta pentru plugin.'
-    plugin-url: 'Introdu URL pentru plugin.'
-    plugin-states: 'Selectează care stări REST vor fi implementate în resursa dumneavoastră(GET este selectat implicit)'
+    class: 'Introduceți numele pluginului de tip resursă rest'
+    plugin-id: 'Introduceți id-ul pluginului de tip resursă rest'
+    plugin-label: 'Introduceți eticheta pluginului de tip resursă rest'
+    plugin-url: 'Introduceți url-ul pluginului de tip resursă rest'
+    plugin-states: 'Vă rugăm să selectați care stări REST vor fi implementate în resursa dvs. (GET este selectat implicit)'
 messages:
     selected-states: 'Stările selectate'

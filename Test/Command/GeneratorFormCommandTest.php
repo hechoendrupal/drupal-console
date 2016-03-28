@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GeneratorFormCommand;
+use Drupal\Console\Command\Generate\FormCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\FormDataProviderTrait;
 
@@ -43,7 +43,7 @@ class GeneratorFormCommandTest extends GenerateCommandTest
         $code = $commandTester->execute(
             [
             '--module'              => $module,
-            '--class-name'          => $class_name,
+            '--class'          => $class_name,
             '--services'            => $services,
             '--inputs'              => $inputs,
             '--form-id'             => $form_id,
@@ -58,7 +58,7 @@ class GeneratorFormCommandTest extends GenerateCommandTest
     private function getGeneratorConfig()
     {
         return $this
-            ->getMockBuilder('Drupal\Console\Command\GeneratorConfigFormBaseCommand')
+            ->getMockBuilder('Drupal\Console\Command\Generate\ConfigFormBaseCommand')
             ->setMethods(['getModules', 'getServices', '__construct'])
             ->setConstructorArgs([$this->getHelperSet()])
             ->getMock();

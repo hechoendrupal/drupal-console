@@ -1,11 +1,11 @@
-description: 'Download theme in application'
+description: 'Descarcă tema în aplicație'
 options:
-    version: 'Theme version i.e 1.x-dev'
+    version: 'Versiunea temei, de ex: 1.x-dev'
 messages:
-    no-releases: 'There aren''t any releases for theme %s'
-    getting-releases: 'Getting releases for theme %s'
-    downloading: 'Downloading theme %s release %s'
-    downloaded: 'Theme %s version %s was downloaded successfully at %s'
-    select-release: 'Please select your favorite release'
-    outside-drupal: "Drupal root can't be determined. Use --root to set the destination, current folder will be used instead of."
-    error-creating-folder: 'Error crearing folder %s, please check your permssions'
+    no-releases: 'Nu sunt variante de lansare pentru tema %s'
+    getting-releases: 'Obțineți variantele de lansare pentru tema %s'
+    downloading: 'Descărcarea temei %s, varianta de lansare %s'
+    downloaded: 'Tema %s, cu versiunea %s was, a fost descărcată cu succes la %s'
+    select-release: 'Vă rugăm să selectați varianta de lansare preferată de dvs.'
+    outside-drupal: 'Calea rădăcinii Drupal nu poate fi determinată. Folosiți --root pentru a seta destinația, folderul curent va fi folosit în loc de.'
+    error-creating-folder: 'Eroare la crearea folderului %s, vă rugăm să vă verificați permisiunile'

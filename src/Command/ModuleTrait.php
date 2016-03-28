@@ -7,30 +7,37 @@
 
 namespace Drupal\Console\Command;
 
-use Symfony\Component\Console\Helper\HelperInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class ModuleTrait
+ * @package Drupal\Console\Command
+ */
 trait ModuleTrait
 {
     /**
-     * @param OutputInterface $output
-     * @param HelperInterface $dialog
-     *
-     * @return mixed
+     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param bool|true                         $showProfile
+     * @return string
+     * @throws \Exception
      */
-    public function moduleQuestion(OutputInterface $output, HelperInterface $dialog)
+    public function moduleQuestion(DrupalStyle $io, $showProfile = true)
     {
-        $modules = $this->getSite()->getModules(false, false, false, true, true);
+        $modules = $this->getSite()->getModules(false, true, true, false, true, true);
 
-        return $dialog->askAndValidate(
-            $output,
-            $dialog->getQuestion($this->trans('commands.common.questions.module'), ''),
-            function ($module) {
-                return $this->validateModuleExist($module);
-            },
-            false,
-            '',
+        if ($showProfile) {
+            $modules[] = $this->getSite()->getProfile(false, true);
+        }
+
+        if (empty($modules)) {
+            throw new \Exception('No modules available, execute `generate:module` command to generate one.');
+        }
+
+        $module = $io->choiceNoList(
+            $this->trans('commands.common.questions.module'),
             $modules
         );
+
+        return $module;
     }
 }

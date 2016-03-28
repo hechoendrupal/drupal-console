@@ -1,0 +1,6 @@
+description: コンフィグレーションをエクスポート
+arguments:
+    directory: コンフィグレーションをエクスポートするエクスポートするディレクトリ
+    tar: 'If set, the configuration will be exported to an archive file.'
+messages:
+    directory: 'コンフィグレーションは以下のディレクトリにエクスポートされました:'

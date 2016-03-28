@@ -1,0 +1,29 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\Routing\{{ class }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Routing;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Routing\RouteSubscriberBase;
+use Symfony\Component\Routing\RouteCollection;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Class {{ class }}.
+ *
+ * @package Drupal\{{module}}\Routing
+ * Listens to the dynamic route events.
+ */
+class {{ class }} extends RouteSubscriberBase {% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  protected function alterRoutes(RouteCollection $collection) {
+  }{% endblock %}

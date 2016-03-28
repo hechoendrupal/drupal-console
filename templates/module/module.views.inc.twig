@@ -1,5 +1,7 @@
 {% extends "base/file.php.twig" %}
-{% block file_path %}{{ module }}\{{ module }}.views.inc{% endblock %}
+
+{% block file_path %}{{ module }}\{{ module }}.views.inc.{% endblock %}
+
 {% block extra_info %} * Provide a custom views field data that isn't tied to any other module.{% endblock %}
 
 {% block use_class %}

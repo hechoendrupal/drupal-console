@@ -1,46 +1,46 @@
-console:
-    arguments:
-        drupal: 'Drupal gyökérkönyvtára felé vezető útvonal.'
-        shell: 'Shell indítása.'
-        env: 'A Környezet neve.'
-        no-debug: 'Hibakeresés mód leállítása.'
-        learning: 'Részletes kimeneti kód generálása.'
-        generate-chain: 'Végrehajtási lehetőségek és argumentumok nyomtatása mint yaml kimenet amit késöbb egy parancsláncba használhat fel'
-        generate-inline: 'Végrehajtási lehetőségek és argumentumok nyomtatása beágyazott hívásként amit késöbb felhasználhat'
-        root: 'Define the Drupal root to be use in command execution'
-    messages:
-        completed: 'A parancs futása sikeres volt!'
-        chain:
-            generated: 'A következőkben megtalálható az utolsó parancs yaml reprezentációja, amit bemásolhat egy ~/.console/chain/sample.yml fájlba ahhoz hogy egy parancssoron belül lehessen futtatni'
-        inline:
-            generated: 'A következőkben megtalálhatja ennek a kódnak a beágyazott ábrázolását ha később ezt a parancsot futtani szeretné'
-        generated: 'Most kezdheti használni a generált kódot!'
-        files:
-            generated: 'Generált vagy frissített fájlok'
-            copied: 'Másolt fájlok'
-        learning:
-            route: "Oldalak létrehozásához szükséges útvonal (route) meghatározása.\nA route határozza meg, hogy egy adott URL-t mely Controllernek adjuk át.\nMely metődust hív meg az adtt URL.\nHa a felhasználó betölti a http://drupal8.dev/{{ route }}, a route\nrendszer ellenőtzi, hogy mely route tartozik az URL-hez. Találat esetén\nvégrehajtja a _controller hívást. A hívás osztálynévként van definiálva\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nmetódus neve: (\"{{ method_name }}\")."
-    errors:
-        invalid-command: 'A "%s" parancs nincs definiálva.'
-    input:
-        definition:
-            command: 'A parancs amit végrehajt'
-            help: 'Kimeneti űzenet megjelentése'
-            quiet: 'Kimeneti űzenet tíltása'
-            verbose: 'Üzenetek gyakoriságának növelése: 1 normál kimenet, 2 részletes kimenet és 3 hibakeresésre'
-            version: 'Alkalmazás verzió megjelenítése'
-            ansi: 'ANSI kimenet kényszerítése'
-            no-ansi: 'ANSI kimenet letiltása'
-            no-interaction: 'Ne kérdezzen interaktiv kérdést'
-    options:
-        version: '<info>%s</info> version <comment>%s</comment>'
+options:
+    env: 'A környezet neve'
+    no-debug: 'Kikapcsolja a hibakeresési módot'
+    learning: 'Részletes kódkimenet létrehozása'
+    generate-chain: 'A parancspbeállításokat és argumentumokat a chain parancsban használandó yaml-kimenetként jeleníti meg'
+    generate-inline: 'A parancsbeállításokat és argumentumokat beágyazott parancsként jeleníti meg'
+    generate-doc: 'A parancsbeállításokat és argumentumokat markdown szövegként jeleníti meg'
+    root: 'A parancs végrehajtásakor használt Drupal gyökérkönyvtárt adja meg'
+    uri: 'A használandó Drupal webhely URI-címe (multisite vagy másodlagos porton futó környezetek esetén)'
+    'yes': 'Megerősítés kihagyása és a művelet folytatása'
+    target: 'A kezelni kívánt webhely neve (helyi vagy távoli webhelyek esetén)'
+    help: 'A súgóüzenet megjelenítése'
+    quiet: 'Ne írjon ki semmilyen üzenetet'
+    verbose: 'Az üzenetek részletességi szintjének növelése: 1: normális kimenet, 2: részletesebb kimenet, és 3: hibakeresés'
+    version: 'Az alkalmazás verziójának megjelenítése'
+    ansi: 'ANSI kimenet kényszerítése'
+    no-ansi: 'ANSI kimenet tiltása'
+    no-interaction: 'Ne tegyen fel semmilyen kérdést'
+    check-fix: 'Kísérelje meg a hiányzó konfigurációk javítását'
+arguments:
+    command: 'A végrehajtandó parancs'
+messages:
+    completed: 'A parancs végrehajtása sikerült!'
+    chain:
+        generated: 'A parancs yaml ábrázolása. A használathoz a `~/.console/chain/sample.yml` fájl másolható a `chain` paranccsal történő használathoz. Ügyelni kell arra, hogy a fájl `commands` gyökérkulccsal kezdődjön:'
+    inline:
+        generated: 'A parancs beágyazott ábrázolása:'
+    generated: 'Most már megkezdhető a létrehozott kód használata!'
+    files:
+        generated: 'Létrehozott vagy frissített fájlok'
+        copied: 'Másolt fájlok'
+    learning:
+        route: "Oldalak létrehozásához meg kell adni útvonalakat ahhoz.\nAz útvonal URL elérési utat képez le egy kontrollerre. Azt határozza meg, hogy milyen függvény\nvagy metódus meghívására kerül sor egy URL elérésekor.\nHa a felhasználó a http://drupal8.dev/{{ route.path }} útvonalat nyitja meg,\nakkor az útvonalkezelő rendszer ilyen elérési úttal rendelkező útvonalat keres. Ebben az esetben egyezést fog találni,\nés végrehajtja a _controller visszahívandó metódust. Ebben az esetben a visszahívás\nosztálynévként\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nés metódusként (\"{{ route.method }}\") van megadva."
+    autocomplete: "Bash vagy Zsh: Fel kell venni ezt a sort a shell konfigurációs fájljába:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Létre kell hozni egy szimbolikus hivatkozást\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
+    version: '<info>%s</info> version <comment>%s</comment>'
+errors:
+    invalid-command: '"%s" parancs nincs megadva.'
 site:
     messages:
-        path: 'Elérési útvonal'
+        path: 'Webhely útvonala'
     errors:
-        directory: 'Ahhoz hogy az egész elérhető parancsot megjelenítsük, ezt a parancsot egy drupal gyökérkönyvtárból kell futtani.'
-        settings: 'Az összes elérhető parancs megjelenítéséhez először a drupalt telepíteni kell.'
-        directorz: 'Az összes elérhető parancs megjelenítéséhez a console-nak a drupal könyvtárból kell futnia.'
+        directory: 'Az összes rendelkezésre álló parancs felsorolásához ezt egy Drupal gyökérkönyvtárban kell futtatni.'
+        settings: 'Az összes rendelkezésre álló parancs felsorolásához először telepíteni kell a Drupalt.'
 user:
     messages:
-        path: 'Felhasználói kezdő útvonal'
+        path: 'Felhasználó saját könyvtárának útvonala'

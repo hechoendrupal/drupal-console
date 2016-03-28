@@ -1,0 +1,13 @@
+description: 'Export 1 view trong YAML format inside 1 module được cung cấp để sử dụng lại trên các website khác.'
+messages:
+    view_exported: 'Đang export view'
+    depencies-included: 'Những module dependencies theo sau đã được bao gồm ở %s'
+questions:
+    view: 'View đã được export'
+    optional-config: 'Export view trong module như một cấu hình lựa chọn'
+    include-module-dependencies: 'Include view module dependencies in module info YAML file'
+arguments:
+    view-id: 'View ID'
+options:
+    optional-config: 'Export view như một lựa chọn YAML configuration trong module của bạn'
+    include-module-dependencies: 'Bao gồm module dependencies trong module info YAML file'

@@ -1,0 +1,24 @@
+description: 'Cargar y crear las migraciones pertinentes para una base de datos heredada'
+options:
+    db-type: 'Tipo de base de datos de Drupal'
+    db-host: '"Host" de base de datos'
+    db-name: 'Nombre de base de datos'
+    db-user: 'Usuario de base de datos'
+    db-pass: 'Contraseña de base de datos'
+    db-prefix: 'Prefijo de base de datos'
+    db-port: Puerto
+    files-directory: 'Directorio de archivos'
+questions:
+    db-type: 'Tipo de base de datos de Drupal'
+    db-host: '"Host" de base de datos'
+    db-name: 'Nombre de base de datos'
+    db-user: 'Usuario de base de datos'
+    db-pass: 'Contraseña de base de datos'
+    db-prefix: 'Prefijo de base de datos'
+    db-port: Puerto
+    files-directory: 'Directorio de archivos'
+messages:
+    not-drupal: 'La base de datos no contiene una versión reconocible de Drupal.'
+    migrations-created: '%s migraciones fueron creadas exitosamente por %s.'
+    migrations-not-found: 'No hay migraciones disponibles'
+    migrations-already-exist: 'Todas las migraciones disponibles ya fueron creadas.'

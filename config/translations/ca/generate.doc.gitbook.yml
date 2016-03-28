@@ -1,0 +1,17 @@
+description: 'Generar la documentació per els comandaments'
+options:
+    path: 'Camí on renderitzar la documentació'
+messages:
+    missing_path: 'S''ha perdut el camí'
+    title: 'Comandaments disponibles de Drupal'
+    note: Nota
+    note-description: 'Els comandaments de Drupal Console *han* de ser executats a la rel de la''instal·lació de Drupal 8'
+    command: 'Comandaments de Drupal Console'
+    command_description: 'El comandament **%s** executa %s'
+    usage: Ús
+    options: 'Opcions disponibles'
+    option: Opció
+    details: Detalls
+    arguments: 'Arguments disponibles'
+    argument: Argument
+    examples: Exemples

@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GeneratorPluginImageFormatterCommand;
+use Drupal\Console\Command\Generate\PluginImageFormatterCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\PluginImageFormatterDataProviderTrait;
 
@@ -31,7 +31,7 @@ class GeneratorPluginImageFormatterCommandTest extends GenerateCommandTest
         $plugin_label,
         $plugin_id
     ) {
-        $command = new GeneratorPluginImageFormatterCommand($this->getHelperSet());
+        $command = new PluginImageFormatterCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 
@@ -40,7 +40,7 @@ class GeneratorPluginImageFormatterCommandTest extends GenerateCommandTest
         $code = $commandTester->execute(
             [
               '--module'         => $module,
-              '--class-name'     => $class_name,
+              '--class'     => $class_name,
               '--label'          => $plugin_label,
               '--plugin-id'      => $plugin_id
             ],

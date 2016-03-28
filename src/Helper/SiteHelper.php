@@ -20,71 +20,132 @@ class SiteHelper extends Helper
     /**
      * @var array
      */
+    private $extensions;
+
+    /**
+     * @var array
+     */
     private $modules;
+
+    /**
+     * @var array
+     */
+    private $themes;
 
     /**
      * @var string
      */
-    private $sitePath;
+    private $siteRoot;
 
     /**
      * @return string
      */
-    public function getSitePath()
+    public function getSiteRoot()
     {
-        return $this->sitePath;
+        return $this->siteRoot;
     }
 
     /**
-     * @param string $sitePath
+     * @param string $siteRoot
      */
-    public function setSitePath($sitePath)
+    public function setSiteRoot($siteRoot)
     {
-        $this->sitePath = $sitePath;
+        $this->siteRoot = $siteRoot;
     }
 
     /**
+     * @param string $type
      * @return \Drupal\Core\Extension\Extension[]
      */
-    private function discoverModules()
+    public function discoverExtensions($type = 'module')
     {
+        $this->getDrupalHelper()->loadLegacyFile('/core/modules/system/system.module');
+        system_rebuild_module_data();
+
         /*
-         * @todo Remove DrupalExtensionDiscovery subclass once
+         * @see Remove DrupalExtensionDiscovery subclass once
          * https://www.drupal.org/node/2503927 is fixed.
          */
         $discovery = new DrupalExtensionDiscovery(\Drupal::root());
         $discovery->reset();
 
-        return $discovery->scan('module');
+        return $discovery->scan($type);
     }
 
     /**
+     * @return \Drupal\Core\Extension\Extension[]
+     */
+    public function discoverModules()
+    {
+        return $this->discoverExtensions();
+    }
+
+    /**
+     * @return \Drupal\Core\Extension\Extension[]
+     */
+    public function discoverProfiles()
+    {
+        return $this->discoverExtensions('profile');
+    }
+
+    /**
+     * @param string     $type
+     * @param bool|false $reset
+     * @param bool|true  $showInstalled
+     * @param bool|false $showUninstalled
+     * @param bool|true  $showCore
+     * @param bool|true  $showNoCore
+     * @param bool|false $nameOnly
      * @return array
      */
-    private function getInstalledModules()
-    {
-        $kernel = $this->getKernelHelper()->getKernel();
-        if (!$kernel) {
-            return [];
-        }
-        $container = $kernel->getContainer();
-        if (!$container) {
-            return [];
-        }
-        $configFactory = $container->get('config.factory');
-        if (!$configFactory) {
-            return [];
-        }
-        $coreExtension = $configFactory->get('core.extension');
-        if (!$coreExtension) {
-            return [];
-        }
-        return $coreExtension->get('module') ?: [];
-    }
+    public function getExtensions(
+        $type = 'module',
+        $reset = false,
+        $showInstalled = true,
+        $showUninstalled = false,
+        $showCore = true,
+        $showNoCore = true,
+        $nameOnly = false
+    ) {
+        $extensions = [];
 
+        if (!$this->extensions[$type] || $reset) {
+            $this->extensions[$type] = $this->discoverExtensions($type);
+        }
+
+        foreach ($this->extensions[$type] as $extension) {
+            $name = $extension->getName();
+
+            $isInstalled = false;
+            if (property_exists($extension, 'status')) {
+                $isInstalled = ($extension->status)?true:false;
+            }
+            if (!$showInstalled && $isInstalled) {
+                continue;
+            }
+            if (!$showUninstalled && !$isInstalled) {
+                continue;
+            }
+            if (!$showCore && $extension->origin == 'core') {
+                continue;
+            }
+            if (!$showNoCore && $extension->origin != 'core') {
+                continue;
+            }
+            if ($nameOnly) {
+                $extensions[] = $name;
+            } else {
+                $extensions[$name] = $extension;
+            }
+        }
+
+        return $extensions;
+    }
+    
     /**
      * @param bool|false $reset
-     * @param bool|false $installedOnly
+     * @param bool|true  $showInstalled
+     * @param bool|false $showUninstalled
      * @param bool|true  $showCore
      * @param bool|true  $showNoCore
      * @param bool|false $nameOnly
@@ -92,37 +153,89 @@ class SiteHelper extends Helper
      */
     public function getModules(
         $reset = false,
-        $installedOnly = false,
+        $showInstalled = true,
+        $showUninstalled = false,
         $showCore = true,
         $showNoCore = true,
         $nameOnly = false
     ) {
-        $installedModules = $this->getInstalledModules();
-        $modules = [];
+        return $this->getExtensions('module', $reset, $showInstalled, $showUninstalled, $showCore, $showNoCore, $nameOnly);
+    }
 
-        if (!$this->modules || $reset) {
-            $this->modules = $this->discoverModules();
+    /**
+     * @param bool|false $reset
+     * @param bool|true  $showInstalled
+     * @param bool|false $showUninstalled
+     * @param bool|true  $showCore
+     * @param bool|true  $showNoCore
+     * @param bool|false $nameOnly
+     * @return array
+     */
+    public function getProfiles(
+        $reset = false,
+        $showInstalled = true,
+        $showUninstalled = false,
+        $showCore = true,
+        $showNoCore = true,
+        $nameOnly = false
+    ) {
+        return $this->getExtensions('profile', $reset, $showInstalled, $showUninstalled, $showCore, $showNoCore, $nameOnly);
+    }
+
+    /**
+     * @param bool|false $reset
+     * @param bool|false $nameOnly
+     * @return \Drupal\Core\Extension\Extension The currently enabled profile.
+     */
+    public function getProfile(
+        $reset = false,
+        $nameOnly = false
+    ) {
+        $profiles = $this->getProfiles($reset, true, false, true, true, $nameOnly);
+        return reset($profiles);
+    }
+
+    /**
+     * @param bool|false $reset
+     * @param bool|false $showInstalled
+     * @param bool|false $showUninstalled
+     * @param bool|false $nameOnly
+     * @return array
+     */
+    public function getThemes(
+        $reset = false,
+        $showInstalled = true,
+        $showUninstalled = false,
+        $nameOnly = false
+    ) {
+        $themes = [];
+
+        if (!$this->themes || $reset) {
+            $this->themes = $this->getDrupalApi()->getService('theme_handler')->rebuildThemeData();
         }
 
-        foreach ($this->modules as $module) {
-            $name = $module->getName();
-            if ($installedOnly && !array_key_exists($name, $installedModules)) {
+        foreach ($this->themes as $theme) {
+            $name = $theme->getName();
+
+            $isInstalled = false;
+            if (property_exists($theme, 'status')) {
+                $isInstalled = ($theme->status)?true:false;
+            }
+            if (!$showInstalled && $isInstalled) {
                 continue;
             }
-            if (!$showCore && $module->origin == 'core') {
+            if (!$showUninstalled && !$isInstalled) {
                 continue;
             }
-            if (!$showNoCore && $module->origin != 'core') {
-                continue;
-            }
+
             if ($nameOnly) {
-                $modules[] = $name;
+                $themes[] = $name;
             } else {
-                $modules[] = $module;
+                $themes[$name] = $theme;
             }
         }
 
-        return $modules;
+        return $themes;
     }
 
     /**
@@ -136,9 +249,14 @@ class SiteHelper extends Helper
             $this->modules = $this->discoverModules();
         }
 
+        // Profiles are also modules. If the module is not found, try profiles.
+        if (empty($this->modules[$moduleName])) {
+            $this->modules = $this->discoverProfiles();
+        }
+
         $modulePath = sprintf(
             '%s/%s',
-            $this->sitePath,
+            $this->siteRoot,
             $this->modules[$moduleName]->getPath()
         );
 
@@ -146,7 +264,7 @@ class SiteHelper extends Helper
             $modulePath = str_replace(
                 sprintf(
                     '%s/',
-                    $this->sitePath
+                    $this->siteRoot
                 ),
                 '',
                 $modulePath
@@ -298,6 +416,23 @@ class SiteHelper extends Helper
     public function getTranslationsPath($moduleName)
     {
         return $this->getModulePath($moduleName).'/config/translations';
+    }
+
+    /**
+     * @param string $moduleName
+     * @return string
+     */
+    public function getRoutingPath($moduleName)
+    {
+        return $this->getModulePath($moduleName).'/src/Routing';
+    }
+
+    /**
+     * @return string
+     */
+    public function getDrupalVersion()
+    {
+        return \Drupal::VERSION;
     }
 
     /**

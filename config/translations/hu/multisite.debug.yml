@@ -1,0 +1,7 @@
+description: 'A rendszeren elérhető multisite-ok listázása'
+help: 'A <info>multisite:debug</info> parancs minden ismert multisite-ot felsorol.'
+messages:
+    no-multisites: 'Nincs beállított multisite'
+    site: Webhely
+    directory: Könyvtár
+    site-format: 'A webhelyek formátuma a következő: <port>.<tartomány>.<útvonal>'

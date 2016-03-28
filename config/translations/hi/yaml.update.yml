@@ -1,16 +1,16 @@
 value:
-    description: 'Update a value for a specific key in a YAML file.'
+    description: 'YAML फाइल में किसी विशेष कुंजी के निधि को अवगत करें।'
     arguments:
-        yaml-file: 'Path of YAML file to update'
-        yaml-key: 'YAML key to update'
-        yaml-value: 'YAML value to update'
+        yaml-file: 'YAML फ़ाइल के पथ अद्यतन करने के लिए'
+        yaml-key: 'YAML कुंजी अद्यतन करने के लिए'
+        yaml-value: 'YAML कुंजी अद्यतन करने के लिए'
     messages:
-        updated: 'YAML file %s was updated successfully'
+        updated: 'YAML फाइल %s सफलतापूर्वक अवगत कर लिया गया'
 key:
-    description: 'Replace a YAML key in a YAML file.'
+    description: 'YAML फाइल में YAML कुंजी को बदले।'
     arguments:
-        yaml-file: 'Path of YAML file to update'
-        yaml-key: 'YAML key to be replace'
-        yaml-new-key: 'YAML new key'
+        yaml-file: 'YAML फ़ाइल के पथ अद्यतन करने के लिए'
+        yaml-key: 'YAML कुंजी का स्थान लेने के लिए'
+        yaml-new-key: 'YAML नायी कुंजी'
     messages:
-        updated: 'YAML file %s was updated successfully'
+        updated: 'YAML फाइल %s सफलतापूर्वक अवगत कर लिया गया'

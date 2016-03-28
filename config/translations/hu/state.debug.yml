@@ -1,0 +1,6 @@
+description: 'Az aktuális állapotkulcsok megjelenítése.'
+help: 'Az aktuális állapotkulcsok megjelenítése.'
+arguments:
+    key: 'Az állapotkulcs, amelyen hibakeresést kell végezni.'
+messages:
+    key: 'Az állapotkulcs'

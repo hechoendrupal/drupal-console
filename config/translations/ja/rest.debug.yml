@@ -1,0 +1,17 @@
+description: 'Display current rest resource for the application'
+arguments:
+    resource-id: 'Rest ID'
+options:
+    status: 'Rest resource status enabled | disabled'
+messages:
+    id: 'Rest ID'
+    label: Label
+    canonical_url: 'Canonical URL'
+    status: Status
+    provider: Provider
+    enabled: Enabled
+    disabled: Disabled
+    rest-state: 'REST States'
+    supported-formats: 'Supported Formats'
+    supported_auth: 'Supported Authentication Providers'
+    not-found: 'Rest resource %s not found'

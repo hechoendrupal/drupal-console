@@ -26,6 +26,20 @@ class CommandDiscoveryHelper extends Helper
     protected $disabledModules = [];
 
     /**
+     * @var bool
+     */
+    protected $develop = false;
+
+    /**
+     * CommandDiscoveryHelper constructor.
+     * @param bool $develop
+     */
+    public function __construct($develop)
+    {
+        $this->develop = $develop;
+    }
+
+    /**
      * @param string $applicationRoot
      */
     public function setApplicationRoot($applicationRoot)
@@ -47,9 +61,11 @@ class CommandDiscoveryHelper extends Helper
     public function getCommands()
     {
         $consoleCommands = $this->getConsoleCommands();
-        $customCommands = $this->getCustomCommands();
+        $customModuleCommands = $this->getCustomCommands();
+        $customThemeCommands = $this->getCustomCommands('themes');
+        $this->loadCustomThemeGenerators();
 
-        return array_merge($consoleCommands, $customCommands);
+        return array_merge($consoleCommands, array_merge($customModuleCommands, $customThemeCommands));
     }
 
     /**
@@ -57,52 +73,79 @@ class CommandDiscoveryHelper extends Helper
      */
     public function getConsoleCommands()
     {
-        $modules = ['Console' => [
-            'path' => $this->applicationRoot]
+        $sources = [
+            'Console' => [
+                'path' => $this->applicationRoot
+            ]
         ];
 
-        return $this->discoverCommands($modules);
+        return $this->discoverCommands($sources);
     }
 
     /**
      * @return array
      */
-    public function getCustomCommands()
+    public function getCustomCommands($type = 'modules')
     {
-        $modules = $this->getSite()->getModules();
+        $sources = [];
 
-        foreach ($this->disabledModules as $disabledModule) {
-            if (array_key_exists($disabledModule, $modules)) {
-                unset($modules[$disabledModule]);
+        if ($type === 'modules') {
+            $sources = $this->getSite()->getModules(true, true, false, false, true, false);
+
+            if ($this->disabledModules) {
+                foreach ($this->disabledModules as $disabledModule) {
+                    if (array_key_exists($disabledModule, $sources)) {
+                        unset($sources[$disabledModule]);
+                    }
+                }
             }
+        } elseif ($type === 'themes') {
+            $sources = $this->getSite()->getThemes(true, true, false, false);
         }
 
-        return $this->discoverCommands($modules);
+        return $this->discoverCommands($sources);
     }
 
     /**
-     * @param $modules
      * @return array
      */
-    private function discoverCommands($modules)
+    public function loadCustomThemeGenerators()
+    {
+        $sources = [];
+
+        $sources = $this->getSite()->getThemes(true, true, false, false);
+
+        $this->discoverThemeGenerators($sources);
+    }
+
+    /**
+     * @param $sources
+     * @return array
+     */
+    private function discoverCommands($sources)
     {
         $commands = [];
-        foreach ($modules as $module => $extension) {
-            if ($module === 'Console') {
+        foreach ($sources as $sourceName => $source) {
+            if ($sourceName === 'Console') {
                 $directory = sprintf(
                     '%s/src/Command',
-                    $extension['path']
+                    $source['path']
                 );
             } else {
                 $directory = sprintf(
                     '%s/%s/src/Command',
-                    $modules = $this->getDrupalHelper()->getRoot(),
-                    $extension->getPath()
+                    $this->getDrupalHelper()->getRoot(),
+                    $source->getPath()
                 );
             }
 
             if (is_dir($directory)) {
-                $commands = array_merge($commands, $this->extractCommands($directory, $module));
+                $sourceType = 'module';
+                if (!is_array($source)) {
+                    $sourceType = $source->getType();
+                }
+
+                $commands = array_merge($commands, $this->extractCommands($directory, $sourceName, $sourceType));
             }
         }
 
@@ -110,11 +153,30 @@ class CommandDiscoveryHelper extends Helper
     }
 
     /**
+     * @param $sources
+     */
+    private function discoverThemeGenerators($sources)
+    {
+        foreach ($sources as $sourceName => $source) {
+            $directory = sprintf(
+                '%s/%s/src/Generator',
+                $this->getDrupalHelper()->getRoot(),
+                $source->getPath()
+            );
+
+            if (is_dir($directory)) {
+                $this->extractThemeGenerators($directory, $sourceName);
+            }
+        }
+    }
+
+    /**
      * @param $directory
-     * @param $module
+     * @param $source
+     * @param $type
      * @return array
      */
-    private function extractCommands($directory, $module)
+    private function extractCommands($directory, $source, $type)
     {
         $finder = new Finder();
         $finder->files()
@@ -122,18 +184,29 @@ class CommandDiscoveryHelper extends Helper
             ->in($directory)
             ->depth('< 2');
 
+        $finder->exclude('Exclude');
+
+        if (!$this->develop) {
+            $finder->exclude('Develop');
+        }
+
         $commands = [];
 
         foreach ($finder as $file) {
             $className = sprintf(
                 'Drupal\%s\Command\%s',
-                $module,
+                $source,
                 str_replace(
                     ['/', '.php'], ['\\', ''],
                     $file->getRelativePathname()
                 )
             );
-            $command = $this->validateCommand($className, $module);
+
+            if ($type!='module') {
+                include $file->getPathname();
+            }
+
+            $command = $this->validateCommand($className, $source, $type);
             if ($command) {
                 $commands[] = $command;
             }
@@ -143,11 +216,44 @@ class CommandDiscoveryHelper extends Helper
     }
 
     /**
+     * @param $directory
+     * @param $source
+     */
+    private function extractThemeGenerators($directory, $source)
+    {
+        $finder = new Finder();
+        $finder->files()
+            ->name('*Generator.php')
+            ->in($directory)
+            ->depth('< 2');
+
+        $finder->exclude('Exclude');
+
+        if (!$this->develop) {
+            $finder->exclude('Develop');
+        }
+
+        foreach ($finder as $file) {
+            $className = sprintf(
+                'Drupal\%s\Generator\%s',
+                $source,
+                str_replace(
+                    ['/', '.php'], ['\\', ''],
+                    $file->getRelativePathname()
+                )
+            );
+
+            include $file->getPathname();
+        }
+    }
+
+    /**
      * @param $className
-     * @param $module
+     * @param $source
+     * @param $type
      * @return mixed
      */
-    private function validateCommand($className, $module)
+    private function validateCommand($className, $source, $type)
     {
         if (!class_exists($className)) {
             return;
@@ -168,15 +274,23 @@ class CommandDiscoveryHelper extends Helper
         }
 
         if ($reflectionClass->getConstructor()->getNumberOfRequiredParameters() > 0) {
-            if ($module != 'Console') {
-                $this->getTranslator()->addResourceTranslationsByModule($module);
+            if ($source != 'Console') {
+                if ($type === 'module') {
+                    $this->getTranslator()->addResourceTranslationsByModule($source);
+                } elseif ($type === 'theme') {
+                    $this->getTranslator()->addResourceTranslationsByTheme($source);
+                }
             }
             $command = $reflectionClass->newInstance($this->getHelperSet());
         } else {
             $command = $reflectionClass->newInstance();
         }
 
-        $command->setModule($module);
+        if ($type === 'module') {
+            $command->setModule($source);
+        } elseif ($type === 'theme') {
+            $command->setTheme($source);
+        }
 
         return $command;
     }

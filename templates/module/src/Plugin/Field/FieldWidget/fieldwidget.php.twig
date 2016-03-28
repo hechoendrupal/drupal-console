@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-Drupal\{{ module }}\Plugin\Field\FieldWidget\{{ class_name }}.
+\Drupal\{{ module }}\Plugin\Field\FieldWidget\{{ class_name }}.
 {% endblock %}
 
 {% block namespace_class %}
@@ -26,7 +26,7 @@ use Drupal\Core\Form\FormStateInterface;
  *   }
 {% else %}
 
- *   @todo: At least one field_types annotation array entry is necessary to display this formatter in the UI.
+ *   At least one field_types annotation array entry is necessary to display this formatter in the UI.
  *   ex. field_types = { "field_type" }
 {% endif %}
  * )

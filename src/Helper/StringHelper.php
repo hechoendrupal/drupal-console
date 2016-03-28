@@ -20,6 +20,8 @@ class StringHelper extends Helper
     // This REGEX captures spaces around words
     const REGEX_SPACES = '/\s\s+/';
 
+    const MAX_MACHINE_NAME = 32;
+
     /**
      * Replaces non alphanumeric characters with underscores.
      *
@@ -31,6 +33,10 @@ class StringHelper extends Helper
     {
         $machine_name = preg_replace(self::REGEX_MACHINE_NAME_CHARS, '_', strtolower($name));
         $machine_name = trim($machine_name, '_');
+
+        if (strlen($machine_name) > self::MAX_MACHINE_NAME) {
+            $machine_name = substr($machine_name, 0, self::MAX_MACHINE_NAME);
+        }
 
         return $machine_name;
     }

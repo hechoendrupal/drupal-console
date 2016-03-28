@@ -7,94 +7,69 @@
 
 namespace Drupal\Console\Command;
 
-use Symfony\Component\Console\Helper\HelperInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Style\DrupalStyle;
 
 trait ThemeBreakpointTrait
 {
     /**
-   * @param OutputInterface $output
-   * @param HelperInterface $dialog
-   *
-   * @return mixed
-   */
-    public function breakpointQuestion(OutputInterface $output, HelperInterface $dialog)
+     * @param DrupalStyle $io
+     *
+     * @return mixed
+     */
+    public function breakpointQuestion(DrupalStyle $io)
     {
         $stringUtils = $this->getStringHelper();
         $validators = $this->getValidator();
 
         $breakpoints = [];
         while (true) {
-            $breakpoint_name = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.theme.questions.breakpoint-name'), 'narrow'),
-                function ($breakpoint_name) use ($validators) {
-                    return $validators->validateMachineName($breakpoint_name);
-                },
-                false,
+            $breakPointName = $io->ask(
+                $this->trans('commands.generate.theme.questions.breakpoint-name'),
                 'narrow',
-                null
+                function ($breakPointName) use ($validators) {
+                    return $validators->validateMachineName($breakPointName);
+                }
             );
 
-            $breakpoint_label = $stringUtils->createMachineName($breakpoint_name);
-            $breakpoint_label = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.theme.questions.breakpoint-label'), $breakpoint_label),
-                function ($breakpoint_label) use ($validators) {
-                    return $validators->validateMachineName($breakpoint_label);
-                },
-                false,
-                $breakpoint_label,
-                null
+            $breakPointLabel = $stringUtils->createMachineName($breakPointName);
+            $breakPointLabel = $io->ask(
+                $this->trans('commands.generate.theme.questions.breakpoint-label'),
+                $breakPointLabel,
+                function ($breakPointLabel) use ($validators) {
+                    return $validators->validateMachineName($breakPointLabel);
+                }
             );
 
-            $breakpoint_media_query = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.theme.questions.breakpoint-media-query'),
-                    'all and (min-width: 560px) and (max-width: 850px)'
-                ),
+            $breakPointMediaQuery = $io->ask(
+                $this->trans('commands.generate.theme.questions.breakpoint-media-query'),
                 'all and (min-width: 560px) and (max-width: 850px)'
             );
 
-            $breakpoint_weight = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.theme.questions.breakpoint-weight'),
-                    '1'
-                ),
+            $breakPointWeight = $io->ask(
+                $this->trans('commands.generate.theme.questions.breakpoint-weight'),
                 '1'
             );
 
-            $breakpoint_multipliers = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.theme.questions.breakpoint-multipliers'),
-                    '1x'
-                ),
+            $breakPointMultipliers = $io->ask(
+                $this->trans('commands.generate.theme.questions.breakpoint-multipliers'),
                 '1x'
             );
 
             array_push(
-                $breakpoints, array(
-                'breakpoint_name' => $breakpoint_name,
-                'breakpoint_label' => $breakpoint_label,
-                'breakpoint_media_query' => $breakpoint_media_query,
-                'breakpoint_weight' => $breakpoint_weight,
-                'breakpoint_multipliers' => $breakpoint_multipliers
-                )
+                $breakpoints,
+                [
+                    'breakpoint_name' => $breakPointName,
+                    'breakpoint_label' => $breakPointLabel,
+                    'breakpoint_media_query' => $breakPointMediaQuery,
+                    'breakpoint_weight' => $breakPointWeight,
+                    'breakpoint_multipliers' => $breakPointMultipliers
+                ]
             );
 
-            if (!$dialog->askConfirmation(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.theme.questions.breakpoint-add'),
-                    'yes',
-                    '?'
-                ),
+            if (!$io->confirm(
+                $this->trans('commands.generate.theme.questions.breakpoint-add'),
                 true
-            )
-            ) {
+            )) {
                 break;
             }
         }

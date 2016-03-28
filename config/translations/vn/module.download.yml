@@ -1,11 +1,14 @@
-description: 'Download module or modules in application'
+description: 'Tải module hoặc các modules trong ứng dụng'
+arguments:
+    module: 'Module or modules to be enabled should be separated by a space'
 options:
-    version: 'Module version i.e 1.x-dev'
+    latest: 'Default to download most recent version'
+    version: 'Phiên bản Module i.e 1.x-dev'
 messages:
-    no-releases: 'There aren''t any releases for module %s'
-    getting-releases: 'Getting releases for module %s'
-    downloading: 'Downloading module %s release %s'
-    downloaded: 'Module %s version %s was downloaded successfully at %s'
-    select-release: 'Please select your favorite release'
-    outside-drupal: "Drupal root can't be determined. Use --root to set the destination, current folder will be used instead of."
-    error-creating-folder: 'Error crearing folder %s, please check your permssions'
+    no-releases: 'Không có bất kỳ bản phát hành nào cho module %s'
+    getting-releases: 'Đang tìm kiếm các bản phát hành cho module %s'
+    downloading: 'Đang tải module %s bản phát hành %s'
+    downloaded: 'Module %s phiên bản %s đã được tải xuống thành công tại %s'
+    select-release: 'Vui lòng chọn bản phát hành phù hợp'
+    outside-drupal: 'Không xác định được thư mục root của Drupal. Sử dụng --root để thiết lập đích đến, thư mục hiện tại sẽ được sử dụng thay thế.'
+    error-creating-folder: 'Lỗi khi tạo thư mục %s, xin hãy kiểm tra lại các permssions'

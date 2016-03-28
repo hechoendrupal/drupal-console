@@ -1,13 +1,13 @@
-description: 'Display current modules available for application'
+description: 'Hiển thị các module hiện có cho ứng dụng'
 options:
-    status: 'Module status [enabled|disabled]'
-    type: 'Module type [core|no-core]'
+    status: 'Trạng thái module [enabled|disabled]'
+    type: 'Loại Module [core|no-core]'
 messages:
     id: ID
-    name: Name
-    status: Status
-    origin: Origin
+    name: Tên
+    status: 'Trạng thái'
+    origin: 'Nguồn gốc'
     package: Package
-    enabled: Enabled
-    disabled: Disabled
-    schema-version: 'Schema version'
+    enabled: Bật
+    disabled: Tắt
+    schema-version: 'Phiên bản Schema'

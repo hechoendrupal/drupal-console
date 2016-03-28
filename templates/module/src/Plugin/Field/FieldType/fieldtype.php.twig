@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-Drupal\{{ module }}\Plugin\Field\FieldType\{{ class_name }}.
+\Drupal\{{ module }}\Plugin\Field\FieldType\{{ class_name }}.
 {% endblock %}
 
 {% block namespace_class %}
@@ -14,7 +14,7 @@ use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemBase;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\StringTranslation\TranslationWrapper;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\TypedData\DataDefinition;
 {% endblock %}
 
@@ -31,16 +31,10 @@ use Drupal\Core\TypedData\DataDefinition;
  *   default_widget = "{{ default_widget }}"{% if default_widget and default_formatter %},
 {% endif %}
 {% else %}
-
- *   @todo: Create and/or assign a default_widget.
- *   ex. default_widget = "field_widget"
 {% endif %}
 {%  if default_formatter %}
  *   default_formatter = "{{ default_formatter }}"
 {% else %}
-
- *   @todo: Create and/or assign a default_formatter.
- *   ex. default_formatter = "field_formatter"
 {%  endif %}
  * )
  */
@@ -61,9 +55,9 @@ class {{ class_name }} extends FieldItemBase {% endblock %}
    * {@inheritdoc}
    */
   public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
-    // Prevent early t() calls by using the TranslationWrapper.
+    // Prevent early t() calls by using the TranslatableMarkup.
     $properties['value'] = DataDefinition::create('string')
-      ->setLabel(new TranslationWrapper('Text value'))
+      ->setLabel(new TranslatableMarkup('Text value'))
       ->setSetting('case_sensitive', $field_definition->getSetting('case_sensitive'))
       ->setRequired(TRUE);
 

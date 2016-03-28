@@ -1,0 +1,16 @@
+value:
+    description: '更新 YAML 文件中的指定键对应的值'
+    arguments:
+        yaml-file: '要更新的 YAML 文件路径'
+        yaml-key: '要更新的 YAML 文件中的键'
+        yaml-value: 键对应的值
+    messages:
+        updated: '成功更新 YAML 文件 %s'
+key:
+    description: '替换 YAML 文件中一个键本身的值'
+    arguments:
+        yaml-file: '要更新的 YAML 文件路径'
+        yaml-key: 要替换的键
+        yaml-new-key: 新键
+    messages:
+        updated: '成功更新 YAML 文件 %s'

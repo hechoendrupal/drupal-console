@@ -1,9 +1,10 @@
-description: 'Elérhető útvonalak megjelenítése'
+description: 'Megjeleníti az alkalmazás aktuális útvonalait'
 arguments:
-    route-name: 'Útvonal neve'
+    route-name: Útvonalnevek
 messages:
     name: 'Útvonal neve'
-    path: 'Class elérési útvonala'
-    pattern: Minta
-    defaults: Alapértelmezés
-    options: Opciók
+    class: Osztályútvonal
+    route: Útvonal
+    path: 'Elérési út'
+    defaults: Alapértelmezések
+    options: Beállítások

@@ -8,4 +8,4 @@ messages:
     requirements-error: 'Următoarele cerinţe nu au fost îndeplinite.'
     module-list: 'Module cu actualizări în aşteptare.'
     module: Modul
-    update-n: 'Update N'
+    update-n: 'Actualizați N'

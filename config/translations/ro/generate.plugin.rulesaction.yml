@@ -3,7 +3,7 @@ help: 'Comanda <info>generate:plugin:rulesaction</info> ajuta la generarea unui 
 welcome: 'Bun venit la "Drupal Plugin Rules Action generator"'
 options:
     module: common.options.module
-    class-name: 'Numele clasei pluginului'
+    class: 'Numele clasei pluginului'
     label: 'Eticheta pluginului'
     plugin-id: 'ID-ul pluginului'
     inputs: common.options.inputs
@@ -13,7 +13,7 @@ options:
     type: 'Tip de acţiune (user sau node)'
 questions:
     module: common.questions.module
-    class-name: 'Introduceţi numele clasei pluginului'
+    class: 'Introduceţi numele clasei pluginului'
     label: 'Introduceţi eticheta pluginului.'
     plugin-id: 'Introduceţi ID-ul pluginului.'
     inputs: common.questions.inputs

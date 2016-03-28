@@ -9,11 +9,11 @@ options:
     core: 'Core version'
     package: 'Theme package'
     composer: 'Add a composer.json file'
-    base-theme: 'Base theme (i.e. classy, seven)'
+    base-theme: 'Base theme (i.e. classy, stable)'
     global-library: 'Global styling library name'
     regions: Regions
     breakpoints: Breakpoints
-    base_theme: 'Base theme (i.e. classy, seven)'
+    base_theme: 'Base theme (i.e. classy, stable)'
 questions:
     theme: 'Enter the new theme name'
     machine-name: 'Enter the theme machine name'
@@ -27,14 +27,14 @@ questions:
     regions: 'Do you want to generate the theme regions'
     region-name: 'Enter region name'
     region-machine-name: 'Enter region machine name'
-    region-add: 'Do you want add another region'
+    region-add: 'Do you want to add another region'
     breakpoints: 'Do you want to generate the theme breakpoints'
     breakpoint-name: 'Enter breakpoint name'
     breakpoint-label: 'Enter breakpoint label'
     breakpoint-media-query: 'Enter breakpoint media query'
     breakpoint-weight: 'Enter breakpoint weight'
     breakpoint-multipliers: 'Enter breakpoint multipliers'
-    breakpoint-add: 'Do you want add another breakpoint'
+    breakpoint-add: 'Do you want to add another breakpoint'
 warnings:
     module-unavailable: 'Attention, les modules suivants ne sont pas disponible dans votre installation locale : "%s"'
 errors:

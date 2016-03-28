@@ -1,0 +1,5 @@
+description: 'Launch a DB client if it''s available'
+arguments:
+    database: 'Khoá cơ sở dữ liệu từ tệp settings.php'
+messages:
+    connection: 'Connection: %s'

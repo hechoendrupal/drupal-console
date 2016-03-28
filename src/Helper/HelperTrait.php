@@ -18,7 +18,11 @@ trait HelperTrait
      */
     public function getTranslator()
     {
-        return $this->getHelperSet()->get('translator');
+        if ($this->getHelperSet()->has('translator')) {
+            return $this->getHelperSet()->get('translator');
+        }
+
+        return null;
     }
 
     /**
@@ -70,27 +74,11 @@ trait HelperTrait
     }
 
     /**
-     * @return \Drupal\Console\Helper\MessageHelper
+     * @return \Drupal\Console\Helper\ShowFileHelper
      */
-    public function getMessageHelper()
+    public function getShowFileHelper()
     {
-        return $this->getHelperSet()->get('message');
-    }
-
-    /**
-     * @return \Drupal\Console\Helper\DialogHelper
-     */
-    public function getDialogHelper()
-    {
-        return $this->getHelperSet()->get('dialog');
-    }
-
-    /**
-     * @return \Symfony\Component\Console\Helper\QuestionHelper
-     */
-    public function getQuestionHelper()
-    {
-        return $this->getHelperSet()->get('question');
+        return $this->getHelperSet()->get('showFile');
     }
 
     /**
@@ -110,35 +98,11 @@ trait HelperTrait
     }
 
     /**
-     * @return \Symfony\Component\Console\Helper\QuestionHelper
-     */
-    public function getTableHelper()
-    {
-        return $this->getHelperSet()->get('table');
-    }
-
-    /**
      * @return \Drupal\Console\Helper\CommandDiscoveryHelper
      */
     public function getCommandDiscoveryHelper()
     {
         return $this->getHelperSet()->get('commandDiscovery');
-    }
-
-    /**
-     * @return \Drupal\Console\Helper\ShellHelper
-     */
-    public function getShellHelper()
-    {
-        return $this->getHelperSet()->get('shell');
-    }
-
-    /**
-     * @return \Symfony\Component\Console\Helper\FormatterHelper
-     */
-    public function getFormatterHelper()
-    {
-        return $this->getHelperSet()->get('formatter');
     }
 
     /**
@@ -155,5 +119,21 @@ trait HelperTrait
     public function getHttpClientHelper()
     {
         return $this->getHelperSet()->get('httpClient');
+    }
+
+    /**
+     * @return \Drupal\Console\Helper\DrupalApiHelper
+     */
+    public function getDrupalApi()
+    {
+        return $this->getHelperSet()->get('api');
+    }
+
+    /**
+     * @return \Drupal\Console\Helper\ContainerHelper
+     */
+    public function getContainerHelper()
+    {
+        return $this->getHelperSet()->get('container');
     }
 }

@@ -7,117 +7,115 @@
 
 namespace Drupal\Console\Command;
 
-use Symfony\Component\Console\Helper\HelperInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class FormTrait
+ * @package Drupal\Console\Command
+ */
 trait FormTrait
 {
     /**
-     * @param OutputInterface $output
-     * @param HelperInterface $dialog
+     * @param DrupalStyle $io
      *
      * @return mixed
      */
-    public function formQuestion(OutputInterface $output, HelperInterface $dialog)
+    public function formQuestion(DrupalStyle $io)
     {
-        if ($dialog->askConfirmation(
-            $output,
-            $dialog->getQuestion($this->trans('commands.common.questions.inputs.confirm'), 'yes', '?'),
+        if ($io->confirm(
+            $this->trans('commands.common.questions.inputs.confirm'),
             true
-        )
-        ) {
+        )) {
             $input_types = [
-              'color',
-              'checkbox',
-              'checkboxes',
-              'date',
-              'datetime',
-              'email',
-              'number',
-              'password',
-              'password_confirm',
-              'range',
-              'radios',
-              'select',
-              'tel',
-              'textarea',
-              'textfield',
+                'fieldset',
             ];
 
+            $elementInfoManager = $this->getService('plugin.manager.element_info');
+            if (!$elementInfoManager) {
+                return false;
+            }
+
+            foreach ($elementInfoManager->getDefinitions() as $definition) {
+                $type = $definition['id'];
+                $elementInfo = $elementInfoManager->getInfo($type);
+                if (isset($elementInfo['#input']) && $elementInfo['#input']) {
+                    if (!in_array($type, $input_types)) {
+                        $input_types[] = $type;
+                    }
+                }
+            }
+            sort($input_types);
+
             $inputs = [];
+            $fieldSets = [];
             while (true) {
-                // Label for input
-                $input_label = $dialog->ask(
-                    $output,
-                    $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.label'), '', ':'),
-                    null
+                $input_type = $io->choiceNoList(
+                    $this->trans('commands.common.questions.inputs.type'),
+                    $input_types,
+                    null,
+                    true
                 );
 
-                if (empty($input_label)) {
+                if (empty($input_type)) {
                     break;
                 }
+
+                // Label for input
+                $inputLabelMessage = $input_type == 'fieldset'?$this->trans('commands.common.questions.inputs.title'):$this->trans('commands.common.questions.inputs.label');
+                $input_label = $io->ask(
+                    $inputLabelMessage,
+                    null
+                );
 
                 // Machine name
                 $input_machine_name = $this->getStringHelper()->createMachineName($input_label);
 
-                $input_name = $dialog->ask(
-                    $output,
-                    $dialog->getQuestion(
-                        '  '.$this->trans('commands.common.questions.inputs.machine_name'),
-                        $input_machine_name,
-                        ':'
-                    ),
+                $input_name = $io->ask(
+                    $this->trans('commands.common.questions.inputs.machine_name'),
                     $input_machine_name
                 );
 
-                // Type input
-                $input_type = $dialog->askAndValidate(
-                    $output,
-                    $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.type'), 'textfield', ':'),
-                    function ($input) use ($input_types) {
-                        if (!in_array($input, $input_types)) {
-                            throw new \InvalidArgumentException(
-                                sprintf($this->trans('commands.common.questions.inputs.invalid'), $input)
-                            );
-                        }
+                if ($input_type == 'fieldset') {
+                    $fieldSets[$input_machine_name] = $input_label;
+                }
 
-                        return $input;
-                    },
-                    false,
-                    'textfield',
-                    $input_types
-                );
+                $inputFieldSet = '';
+                if ($input_type != 'fieldset' && !empty($fieldSets)) {
+                    $inputFieldSet = $io->choiceNoList(
+                        $this->trans('commands.common.questions.inputs.fieldset'),
+                        $fieldSets,
+                        null,
+                        true
+                    );
+
+                    $inputFieldSet = array_search($inputFieldSet, $fieldSets);
+                }
 
                 $maxlength = null;
                 $size = null;
                 if (in_array($input_type, array('textfield', 'password', 'password_confirm'))) {
-                    $maxlength = $dialog->ask(
-                        $output,
-                        $dialog->getQuestion('  Maximum amount of character', '', ':'),
-                        null
+                    $maxlength = $io->ask(
+                        'Maximum amount of characters',
+                        '64'
                     );
 
-                    $size = $dialog->ask(
-                        $output,
-                        $dialog->getQuestion('  Width of the textfield (in characters)', '', ':'),
-                        null
+                    $size = $io->ask(
+                        'Width of the textfield (in characters)',
+                        '64'
                     );
                 }
 
                 if ($input_type == 'select') {
-                    $size = $dialog->ask(
-                        $output,
-                        $dialog->getQuestion('  Size of multiselect box (in lines)', '', ':'),
-                        null
+                    $size = $io->askEmpty(
+                        'Size of multiselect box (in lines)',
+                        '5'
                     );
                 }
 
                 $input_options = '';
                 if (in_array($input_type, array('checkboxes', 'radios', 'select'))) {
-                    $input_options = $dialog->ask(
-                        $output,
-                        $dialog->getQuestion('  Input options separated by comma', '', ':'),
-                        null
+                    $input_options = $io->ask(
+                        'Input options separated by comma'
                     );
                 }
 
@@ -127,51 +125,66 @@ trait FormTrait
                     $input_options = array_filter(array_map('trim', explode(',', $input_options)));
                     // Create array format for options
                     foreach ($input_options as $key => $value) {
-                        $input_options_output[$key] = "\$this->t('".$value."') => \$this->t('".$value."')";
+                        $input_options_output[$key] = "'$value' => \$this->t('".$value."')";
                     }
 
                     $input_options = 'array('.implode(', ', $input_options_output).')';
                 }
 
                 // Description for input
-                $input_description = $dialog->ask(
-                    $output,
-                    $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.description'), '', ':'),
-                    null
+                $input_description = $io->askEmpty(
+                    $this->trans('commands.common.questions.inputs.description')
                 );
 
                 // Default value for input
-                $default_value = $dialog->ask(
-                    $output,
-                    $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.default-value'), '', ':'),
-                    null
-                );
+                switch ($input_type) {
+                case 'checkboxes':
+                    $question = 'commands.common.questions.inputs.default-value.checkboxes';
+                    break;
+                default:
+                    $question = 'commands.common.questions.inputs.default-value.default-value';
+                    break;
+                }
+                if ($input_type != 'fieldset') {
+                    $default_value = $io->askEmpty(
+                        $this->trans($question)
+                    );
+                }
+                if ($input_type == 'checkboxes') {
+                    // Prepare options as an array
+                    if (strlen(trim($default_value))) {
+                        // remove spaces in options and empty options
+                        $default_options = array_filter(array_map('trim', explode(',', $default_value)));
+                        $default_value = $default_options;
+                    }
+                }
 
                 // Weight for input
-                $weight = $dialog->ask(
-                    $output,
-                    $dialog->getQuestion('  '.$this->trans('commands.common.questions.inputs.weight'), '', ':'),
-                    null
+                $weight = $io->ask(
+                    $this->trans('commands.common.questions.inputs.weight'),
+                    '0'
                 );
 
                 array_push(
-                    $inputs, array(
-                    'name' => $input_name,
-                    'type' => $input_type,
-                    'label' => $input_label,
-                    'options' => $input_options,
-                    'description' => $input_description,
-                    'maxlength' => $maxlength,
-                    'size' => $size,
-                    'default_value' => $default_value,
-                    'weight' => $weight
-                    )
+                    $inputs,
+                    [
+                        'name' => $input_name,
+                        'type' => $input_type,
+                        'label' => $input_label,
+                        'options' => $input_options,
+                        'description' => $input_description,
+                        'maxlength' => $maxlength,
+                        'size' => $size,
+                        'default_value' => $default_value,
+                        'weight' => $weight,
+                        'fieldset' => $inputFieldSet,
+                    ]
                 );
             }
 
             return $inputs;
         }
 
-        return;
+        return null;
     }
 }

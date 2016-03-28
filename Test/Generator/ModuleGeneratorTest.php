@@ -26,6 +26,7 @@ class ModuleGeneratorTest extends GeneratorTest
      * @param $description
      * @param $core
      * @param $package
+     * @param $moduleFile
      * @param $feature
      * @param $composer
      * @param $dependencies
@@ -39,6 +40,7 @@ class ModuleGeneratorTest extends GeneratorTest
         $description,
         $core,
         $package,
+        $moduleFile,
         $feature,
         $composer,
         $dependencies
@@ -55,20 +57,21 @@ class ModuleGeneratorTest extends GeneratorTest
             $description,
             $core,
             $package,
+            $moduleFile,
             $feature,
             $composer,
             $dependencies
         );
 
-        $files = [
-          $machine_name . '.info.yml',
-          $machine_name . '.module',
-        ];
+        $this->assertTrue(
+            file_exists($module_path . '/' . $machine_name . '/' . $machine_name . '.info.yml'),
+            sprintf('%s has been generated', $module_path . '/' . $machine_name . '.info.yml')
+        );
 
-        foreach ($files as $file) {
+        if ($moduleFile) {
             $this->assertTrue(
-                file_exists($module_path . '/' . $machine_name . '/' . $file),
-                sprintf('%s has been generated', $module_path . '/' . $machine_name . '/' . $file)
+                file_exists($module_path . '/' . $machine_name . '/' . $machine_name . '.module'),
+                sprintf('%s has been generated', $module_path . '/' . $machine_name . '/' . $machine_name . '.module')
             );
         }
 

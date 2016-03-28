@@ -1,0 +1,15 @@
+description: 'Mostrar les estadístiques del lloc web.'
+help: 'Mostrar les estadístiques del lloc web.'
+messages:
+    stat-name: Nom
+    stat-quantity: Quantitat
+    node-type: 'Node:%s'
+    comments: Commentaris
+    vocabulary: Vocabularis
+    taxonomy-terms: 'Termes de taxonomia'
+    files: Fitxers
+    users: Usuaris
+    modules-enabled: 'Mòduls habilitats'
+    modules-disabled: 'Mòduls deshabilitats'
+    themes-enabled: 'Temes habilitats'
+    themes-disabled: 'Temes deshabilitats'

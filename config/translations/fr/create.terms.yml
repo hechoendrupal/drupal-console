@@ -1,0 +1,18 @@
+description: 'Génère des termes de taxonomy factices pour votre application Drupal 8.'
+help: 'La commande <info>create:terms</info> vous assiste dans la génération de termes de taxonomie factices de type "Lorem ipsum".'
+welcome: 'Bievenue dans le générateur de termes de taxonomie Drupal'
+arguments:
+    vocabularies: 'Vocabulaire(s) à utiliser lors de la génération des termes'
+options:
+    limit: 'Combien de termes voulez-vous générer'
+    name-words: 'Nombre maximums de mots des noms des termes'
+questions:
+    vocabularies: 'Sélectionnez le(s) vocabulaire(s) qui contiendra(ont) les termes générés'
+    limit: 'Entrez le nombres de termes à générer'
+    name-words: 'Entrez le nombre maximum de mots que doivent contenir les noms des termes'
+messages:
+    term-id: 'Identifiant du terme'
+    vocabulary: Vocabulaire
+    name: Nom
+    invalid-vocabularies: 'Le(s) vocabulaire(s) %s est/sont pas valide(s)'
+    created-terms: 'Génération de %s termes avec succès'

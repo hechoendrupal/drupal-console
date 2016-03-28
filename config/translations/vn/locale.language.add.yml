@@ -1,0 +1,4 @@
+description: 'Thêm một ngôn ngữ được hỗ trợ bởi site của bạn'
+messages:
+    invalid-language: 'Ngôn ngữ %s là ngôn ngữ không hợp lệ'
+    language-add-successfully: 'Ngôn ngữ %s được thêm thành công.'

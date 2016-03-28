@@ -1,0 +1,11 @@
+description: 'DBLog टेबल से इवेंट्स निकालें, फिल्टर उपलब्ध हैं'
+arguments:
+    event-id: 'DBLog event ID'
+options:
+    type: 'Filter events by a specific type'
+    severity: 'Filter events by a specific level of severity'
+    user-id: 'Filter events by a specific user id'
+messages:
+    event-deleted: 'इवेंट %s हटाया गया था'
+    clear-error: 'स्पष्ट प्रोसेस विफल रहा है, कृपया इस्तेमाल किये गए फिल्टर की जाँच करे'
+    clear-sucess: 'इवेंट्स की सफाई सफलतापूर्वक था'

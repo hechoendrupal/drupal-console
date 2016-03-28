@@ -1,0 +1,5 @@
+description: 'モジュール単位、もしくは全てのcronを実行'
+messages:
+    module-invalid: 'モジュール %s はcronを実装していません。'
+    executing-cron: 'モジュール %s のcronを実行中'
+    success: '全てのcronが正常に実行されました。'

@@ -1,8 +1,8 @@
-description: 'Execute a specfic Update N function in a module, or execute all'
+description: 'Egy modul adott Update N függvényének végrehajtása, vagy az összes végrehajtása'
 options:
-    update-n: 'Specific Update N function to be executed'
+    update-n: 'Végrehajtandó adott Update N függvény'
 messages:
-    no-module-updates: 'There aren''t updates available for module %s'
-    executing-update: 'Executing update function %s of module %s'
-    module-update-function-not-found: 'Module %s doesn''t have a function update for %s'
-    executing-required-previous-updates: 'Executing required previous updates'
+    no-module-updates: 'Nincs rendelkezésre álló frissítés %s modulhoz'
+    executing-update: '%s modul %s update függvényének végrehajtása'
+    module-update-function-not-found: '%s modul nem rendelkezik update függvénnyel a következőhöz: %s'
+    executing-required-previous-updates: 'Szükséges korábbi frissítések végrehajtása'

@@ -11,6 +11,8 @@ use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
 
 class ShowGeneratedFilesListener implements EventSubscriberInterface
 {
@@ -19,14 +21,13 @@ class ShowGeneratedFilesListener implements EventSubscriberInterface
      */
     public function showGeneratedFiles(ConsoleTerminateEvent $event)
     {
-        /**
-         * @var \Drupal\Console\Command\Command $command
-         */
+        /* @var Command $command */
         $command = $event->getCommand();
-        $output = $event->getOutput();
+        /* @var DrupalStyle $io */
+        $io = $event->getOutput();
 
         $application = $command->getApplication();
-        $messageHelper = $application->getMessageHelper();
+        $showFileHelper = $application->getShowFileHelper();
 
         if ($event->getExitCode() != 0) {
             return;
@@ -39,7 +40,7 @@ class ShowGeneratedFilesListener implements EventSubscriberInterface
         if ($command instanceof GeneratorCommand) {
             $files = $command->getGenerator()->getFiles();
             if ($files) {
-                $messageHelper->showGeneratedFiles($output, $files);
+                $showFileHelper->generatedFiles($io, $files);
             }
         }
     }

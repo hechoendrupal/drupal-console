@@ -1,0 +1,15 @@
+description: 'Despliega los temas actuales para la aplicación'
+arguments:
+    theme: 'Tema específico a depurar '
+messages:
+    theme-id: Id
+    theme-name: Nombre
+    status: Estado
+    version: Versión
+    installed: Instalado
+    uninstalled: Desinstalado
+    default-theme: 'Tema por defecto'
+    properties: Propiedades
+    regions: Regiones
+    invalid-theme: 'Tema %s no es válido'
+    theme-properties: Propiedades

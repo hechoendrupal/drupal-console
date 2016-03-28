@@ -1,0 +1,9 @@
+description: 'Llistar tots els llocs locals i remots coneguts.'
+help: 'El comandament <info>site:debug</info> llista tots el llocs locals i remots coneguts.'
+messages:
+    site: Lloc
+    host: Amfitrió
+    root: Arrel
+    directory-not-found: 'No s''ha trobat el directori de llocs local'
+    private-key: 'S''ha produït un error amb la clau privada'
+    connect-error: 'S''ha produït un error connectant-se amb la màquina remota'

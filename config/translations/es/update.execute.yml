@@ -5,4 +5,4 @@ messages:
     no-module-updates: 'No hay actualizaciones disponibles para el módulo %s'
     executing-update: 'Ejecutando función de actualización %s del módulo %s'
     module-update-function-not-found: 'El módulo %s no tiene una función de actualización para %s'
-    executing-required-previous-updates: 'Ejecutando las actualizaciones previas requeridas' 
+    executing-required-previous-updates: 'Ejecutando las actualizaciones previas requeridas'

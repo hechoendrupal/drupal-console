@@ -2,12 +2,11 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Utils\Validators.
+ * Contains \Drupal\Console\Helper\ValidatorHelper.
  */
 
 namespace Drupal\Console\Helper;
 
-use Symfony\Component\Console\Helper\HelperInterface;
 use Drupal\Core\Cache\Cache;
 use Drupal\Console\Helper\Helper;
 
@@ -132,28 +131,6 @@ class ValidatorHelper extends Helper
     }
 
     /**
-     * Validate if module name exist.
-     *
-     * @param string $module Module name
-     *
-     * @return string
-     */
-    public function validateModuleExist($module)
-    {
-        $modules = $this->getSite()->getModules(false, false, true, true, true);
-        if (!in_array($module, $modules)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Module "%s" is not in your application. Try generate:module to create it.',
-                    $module
-                )
-            );
-        }
-
-        return $module;
-    }
-
-    /**
      * Validate if service name exist.
      *
      * @param string $service  Service name
@@ -262,5 +239,96 @@ class ValidatorHelper extends Helper
         }
 
         return $this->caches;
+    }
+
+    /**
+     * Validate if module name exist.
+     *
+     * @param string $moduleName Module name
+     *
+     * @return string
+     */
+    public function validateModuleExist($moduleName)
+    {
+        if (!$this->isModule($moduleName)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Module "%s" is not in your application. Try generate:module to create it.',
+                    $moduleName
+                )
+            );
+        }
+
+        return $moduleName;
+    }
+
+    /**
+     * Check if module name exist.
+     *
+     * @param string $moduleName Module name
+     *
+     * @return string
+     */
+    public function isModule($moduleName)
+    {
+        $modules = $this->getSite()->getModules(false, true, true, true, true, true);
+
+        return in_array($moduleName, $modules);
+    }
+
+    /**
+     * @param $moduleList
+     * @return array
+     */
+    public function getMissingModules($moduleList)
+    {
+        $modules = $this->getSite()->getModules(true, true, true, true, true, true);
+
+        return array_diff($moduleList, $modules);
+    }
+
+    /**
+     * Validate if module is installed.
+     *
+     * @param string $moduleName Module name
+     *
+     * @return string
+     */
+    public function validateModuleInstalled($moduleName)
+    {
+        if (!$this->isModuleInstalled($moduleName)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Module "%s" is not installed. Try module:install to install it.',
+                    $moduleName
+                )
+            );
+        }
+
+        return $moduleName;
+    }
+
+    /**
+     * Check if module is installed.
+     *
+     * @param  $moduleName
+     * @return bool
+     */
+    public function isModuleInstalled($moduleName)
+    {
+        $modules = $this->getSite()->getModules(false, true, false, true, true, true);
+
+        return in_array($moduleName, $modules);
+    }
+
+    /**
+     * @param $moduleList
+     * @return array
+     */
+    public function getUninstalledModules($moduleList)
+    {
+        $modules = $this->getSite()->getModules(true, true, false, true, true, true);
+
+        return array_diff($moduleList, $modules);
     }
 }

@@ -1,6 +1,7 @@
 description: 'Exporter la configuration actuelle de l''application.'
 arguments:
     directory: 'Définit le répertoire de sauvegarde de la configuration.'
+    tar: 'If set, the configuration will be exported to an archive file.'
 messages:
     directory: 'Votre exportation de configuration a été sauvegardée dans %s'
 content:
@@ -15,7 +16,7 @@ content:
             content_type_exported: 'Export du type de contenu'
             configuration_exported: 'Les fichiers de configuration suivants ont été générés'
         options:
-            optional-config: 'Exporte le type de contenu dans un module comme une configuration optionnelle au sein du module'
+            optional-config: 'Exporter le type de contenu dans un module comme une configuration optionnelle au sein du module'
 single:
     description: 'Exporte une seule configuration dans un fichier yml.'
     arguments:
@@ -42,5 +43,5 @@ view:
     arguments:
         view-id: 'Identifiant de la vue'
     options:
-        optional-config: 'Export la vue dans un module comme une configuration optionnelle dans votre module'
-        include-module-dependencies: 'Include les dépendances de module dans le fichier info YAML du module'
+        optional-config: 'Exporter la vue dans un module comme une configuration optionnelle dans votre module'
+        include-module-dependencies: 'Ajouter les dépendances dans le fichier info YAML du module'

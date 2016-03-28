@@ -1,11 +1,11 @@
-description: 'Split a YAML file using indent as separator criteria'
+description: 'इंडेंट द्वारा विभाजन मानदंड से एक YAML फाइल को अलग करें।'
 arguments:
-    yaml-file: 'Path of YAML file to be splitted'
+    yaml-file: 'YAML फ़ाइल का पथ विभाजित करें'
 options:
-    indent-level: 'Split YAML file using a specific indent level'
-    exclude-parents-key: 'Exclude parents key in file name generated'
-    starting-key: 'YAML Key from where start split useful to extract partial elements'
+    indent-level: 'YAML फ़ाइल का विभाजन एक विशिष्ट मांगपत्र स्तर पर करे'
+    exclude-parents-key: 'उत्पन्न फ़ाइल नाम में मौलिक को बाहर निकालें'
+    starting-key: 'YAML मौलिक जहां से आंशिक तत्वों को निकालने के लिए उपयोगी विभाजन शुरू हे'
 messages:
-    generating-split: 'Generating new files'
-    split-generated: 'File %s was generated'
-    invalid-key: 'Provided key as stating YAML key wasn''t found, combine with indent-level 0 to extract values'
+    generating-split: 'नई फ़ाइलें सृजन'
+    split-generated: 'फ़ाइल %s उत्पन्न किया गया हे'
+    invalid-key: 'प्रदान की मौलिक YAML नहीं मिला था मूल्यों को मांगपत्र स्तर के 0 के साथ गठबंधन'

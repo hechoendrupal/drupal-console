@@ -1,0 +1,5 @@
+description: 'Adatbázisügyfél indítása, ha az elérhető'
+arguments:
+    database: 'Adatbáziskulcs a settings.php fájlból'
+messages:
+    connection: 'Kapcsolat: %s'

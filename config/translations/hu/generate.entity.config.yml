@@ -1,0 +1,16 @@
+description: 'Új konfigurációs entitás létrehozása'
+help: ''
+options:
+    module: common.options.module
+    entity-class: 'A konfigurációs entitás osztálya'
+    entity-name: 'A konfigurációs entitás neve'
+    label: 'A felirat'
+    bundle-of: 'A tartalomentitások mezőkötegeként funkcionál'
+    base-path: 'A konfigurációs entitások útvonalainak alapútvonala'
+questions:
+    module: common.questions.module
+    entity-class: 'Meg kell adni az új konfigurációs entitás osztályát'
+    entity-name: 'Meg kell adni az új konfigurációs entitás nevét'
+    label: 'Meg kell adni az új konfigurációs entitás feliratát'
+    bundle-of: 'Annak a tartalomentitásnak a neve, amelyhez ez a konfigurációs entitás a mezőcsoportként fog funkcionálni'
+    base-path: 'Meg kell adni a konfigurációs entitások útvonalainak alapútvonalát'

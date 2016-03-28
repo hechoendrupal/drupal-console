@@ -7,7 +7,7 @@ options:
     theme-path: 'Calea spre temă'
     description: 'Descrierea temei'
     core: 'Versiunea nucleului'
-    package: 'Pachetul'
+    package: Pachetul
     composer: 'Adaugă un fişier composer.json'
     base-theme: 'Tema de bază (ex.: classy, seven)'
     global-library: 'Numele librariei de stilizare globală'

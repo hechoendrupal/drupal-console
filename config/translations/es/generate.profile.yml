@@ -1,0 +1,21 @@
+description: 'Genera un perfil.'
+help: 'El comando <info>generate:profile</info> le ayuda a generar un nuevo perfil de instalación.'
+welcome: 'Bienvenido al generador de perfil de instalación'
+options:
+    profile: 'Nombre del perfil'
+    machine-name: 'Nombre-máquina (sólo minúsculas y guiones bajos)'
+    description: 'Descripción del perfil'
+    core: 'Versión del core'
+    dependencies: 'Dependencias de módulos separadas por comas (p. ej. context, panels)'
+    distribution: 'Nombre de la distribución'
+questions:
+    profile: 'Introduzca el nombre del nuevo perfil'
+    machine-name: 'Introduzca el nombre-máquina'
+    description: 'Introduzca la descripción'
+    core: 'Introduzca la versión del core de Drupal'
+    dependencies: 'Le gustaría añadir dependencias de módulos'
+    distribution: 'Este perfil de instalación está destinado a ser una nueva distribución'
+warnings:
+    module-unavailable: 'Advertencia: Los siguientes módulos no están disponibles en su entorno local "%s"'
+errors:
+    directory-exists: 'El directorio de destino "%s" no está vacío.'

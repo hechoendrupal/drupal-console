@@ -22,7 +22,12 @@ class FormGeneratorTest extends GeneratorTest
      * @param $services
      * @param $inputs
      * @param $form_id
+     * @param $form_type
      * @param $update_routing
+     * @param $menu_link_gen
+     * @param $menu_link_title
+     * @param $menu_parent
+     * @param $menu_link_desc
      *
      * @dataProvider commandData
      */
@@ -32,7 +37,12 @@ class FormGeneratorTest extends GeneratorTest
         $services,
         $inputs,
         $form_id,
-        $update_routing
+        $form_type,
+        $update_routing,
+        $menu_link_gen,
+        $menu_link_title,
+        $menu_parent,
+        $menu_link_desc
     ) {
         $generator = new FormGenerator();
         $this->getRenderHelper()->setSkeletonDirs($this->getSkeletonDirs());
@@ -45,7 +55,12 @@ class FormGeneratorTest extends GeneratorTest
             $services,
             $inputs,
             $form_id,
-            $update_routing
+            $form_type,
+            $update_routing,
+            $menu_link_gen,
+            $menu_link_title,
+            $menu_parent,
+            $menu_link_desc
         );
 
         $this->assertTrue(
@@ -53,10 +68,10 @@ class FormGeneratorTest extends GeneratorTest
             sprintf('%s does not exist', $class_name.'.php')
         );
 
-        if ($update_routing) {
+        if ($form_type == 'ConfigFormBase' && $update_routing) {
             $this->assertTrue(
                 file_exists($generator->getSite()->getModulePath($module).'/'.$module.'.routing.yml'),
-                sprintf('%s does not exist', $class_name.'.php')
+                sprintf('%s does not exist', $module.'.routing.yml')
             );
         }
     }

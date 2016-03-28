@@ -5,7 +5,7 @@ options:
 questions:
     module: common.questions.module
     permission: 'Entrez une permission'
-    title: 'Enter a title for the permision'
-    description: 'Enter a description for the permision'
-    restrict-access: 'Restrict Access'
-    add: 'Do you want add another permission'
+    title: 'Entrez un titre pour la permission'
+    description: 'Entrez la description de la permission'
+    restrict-access: 'Restraindre l''accès'
+    add: 'Voulez-vous ajouter une autre permission ?'

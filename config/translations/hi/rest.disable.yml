@@ -1,8 +1,8 @@
-description: 'Disable a rest resource for the application'
+description: 'अनुप्रयोग में REST संसाधन अक्षम करें|'
 arguments:
-    resource-id: 'Rest ID'
-    states: 'REST States to disable for Rest resource'
+    resource-id: 'REST क्रमांक'
+    states: 'REST स्टेट को REST संसाधन के लिए अक्षम हैं|'
 questions:
-    resource-id: 'Rest ID'
+    resource-id: 'REST क्रमांक'
 messages:
-    invalid-rest-id: 'Rest ID %s is invalid'
+    invalid-rest-id: 'REST क्रमांक %sअमान्य है।'

@@ -13,24 +13,26 @@ class AuthenticationProviderGenerator extends Generator
      * Generator Plugin Block.
      *
      * @param $module
-     * @param $class_name
+     * @param $class
+     * @param $provider_id
      */
-    public function generate($module, $class_name, $provider_id)
+    public function generate($module, $class, $provider_id)
     {
         $parameters = [
           'module' => $module,
-          'class_name' => $class_name,
+          'class' => $class,
         ];
 
         $this->renderFile(
             'module/src/Authentication/Provider/authentication-provider.php.twig',
-            $this->getSite()->getAuthenticationPath($module, 'Provider').'/'.$class_name.'.php',
+            $this->getSite()->getAuthenticationPath($module, 'Provider').'/'.$class.'.php',
             $parameters
         );
 
         $parameters = [
           'module' => $module,
-          'class' => 'Authentication\\Provider\\'.$class_name,
+          'class' => $class,
+          'class_path' => sprintf('Drupal\%s\Authentication\Provider\%s', $module, $class),
           'name' => 'authentication.'.$module,
           'services' => [
             ['name' => 'config.factory'],

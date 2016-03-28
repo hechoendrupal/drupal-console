@@ -8,3 +8,6 @@ messages:
     configuration-key: 'Configuration key'
     original: 'Original Value'
     updated: 'Override Value'
+examples:
+    - description: Set the Contact module flood limit to 10.
+      execution: drupal config:override contact.settings flood.limit 10

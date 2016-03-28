@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-Drupal\{{ module }}\Entity\{{ entity_class }}.
+\Drupal\{{ module }}\Entity\{{ entity_class }}.
 {% endblock %}
 
 {% block namespace_class %}
@@ -27,38 +27,72 @@ use Drupal\user\UserInterface;
  * @ContentEntityType(
  *   id = "{{ entity_name }}",
  *   label = @Translation("{{ label }}"),
+{% if bundle_entity_type %}
+ *   bundle_label = @Translation("{{ label }} type"),
+{% endif %}
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\{{ module }}\{{ entity_class }}ListBuilder",
  *     "views_data" = "Drupal\{{ module }}\Entity\{{ entity_class }}ViewsData",
  *
  *     "form" = {
- *       "default" = "Drupal\{{ module }}\Entity\Form\{{ entity_class }}Form",
- *       "add" = "Drupal\{{ module }}\Entity\Form\{{ entity_class }}Form",
- *       "edit" = "Drupal\{{ module }}\Entity\Form\{{ entity_class }}Form",
- *       "delete" = "Drupal\{{ module }}\Entity\Form\{{ entity_class }}DeleteForm",
+ *       "default" = "Drupal\{{ module }}\Form\{{ entity_class }}Form",
+ *       "add" = "Drupal\{{ module }}\Form\{{ entity_class }}Form",
+ *       "edit" = "Drupal\{{ module }}\Form\{{ entity_class }}Form",
+ *       "delete" = "Drupal\{{ module }}\Form\{{ entity_class }}DeleteForm",
  *     },
  *     "access" = "Drupal\{{ module }}\{{ entity_class }}AccessControlHandler",
+ *     "route_provider" = {
+ *       "html" = "Drupal\{{ module }}\{{ entity_class }}HtmlRouteProvider",
+ *     },
  *   },
  *   base_table = "{{ entity_name }}",
- *   admin_permission = "administer {{ entity_class }} entity",
+ *   admin_permission = "administer {{ label|lower }} entities",
+{% if bundle_entity_type %}
+ *   entity_keys = {
+ *     "id" = "id",
+ *     "bundle" = "type",
+ *     "label" = "name",
+ *     "uuid" = "uuid",
+ *     "uid" = "user_id",
+ *     "langcode" = "langcode",
+ *     "status" = "status",
+ *   },
+{% else %}
  *   entity_keys = {
  *     "id" = "id",
  *     "label" = "name",
- *     "uuid" = "uuid"
+ *     "uuid" = "uuid",
+ *     "uid" = "user_id",
+ *     "langcode" = "langcode",
+ *     "status" = "status",
  *   },
+{% endif %}
  *   links = {
- *     "canonical" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
- *     "edit-form" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
- *     "delete-form" = "/admin/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete"
+ *     "canonical" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
+{% if bundle_entity_type %}
+ *     "add-form" = "{{ base_path }}/{{ entity_name }}/add/{{ '{'~bundle_entity_type~'}' }}",
+{% else %}
+ *     "add-form" = "{{ base_path }}/{{ entity_name }}/add",
+{% endif %}
+ *     "edit-form" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
+ *     "delete-form" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete",
+ *     "collection" = "{{ base_path }}/{{ entity_name }}",
  *   },
+{% if bundle_entity_type %}
+ *   bundle_entity_type = "{{ bundle_entity_type }}",
+ *   field_ui_base_route = "entity.{{ bundle_entity_type }}.edit_form"
+{% else %}
  *   field_ui_base_route = "{{ entity_name }}.settings"
+{% endif %}
  * )
  */
 class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}Interface {% endblock %}
+
 {% block use_trait %}
   use EntityChangedTrait;
 {% endblock %}
+
 {% block class_methods %}
   /**
    * {@inheritdoc}
@@ -70,11 +104,43 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
     );
   }
 
+{% if bundle_entity_type %}
+  /**
+   * {@inheritdoc}
+   */
+  public function getType() {
+    return $this->bundle();
+  }
+
+{% endif %}
+  /**
+   * {@inheritdoc}
+   */
+  public function getName() {
+    return $this->get('name')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setName($name) {
+    $this->set('name', $name);
+    return $this;
+  }
+
   /**
    * {@inheritdoc}
    */
   public function getCreatedTime() {
     return $this->get('created')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setCreatedTime($timestamp) {
+    $this->set('created', $timestamp);
+    return $this;
   }
 
   /**
@@ -110,12 +176,33 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
   /**
    * {@inheritdoc}
    */
+  public function isPublished() {
+    return (bool) $this->getEntityKey('status');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setPublished($published) {
+    $this->set('status', $published ? NODE_PUBLISHED : NODE_NOT_PUBLISHED);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields['id'] = BaseFieldDefinition::create('integer')
       ->setLabel(t('ID'))
       ->setDescription(t('The ID of the {{ label }} entity.'))
       ->setReadOnly(TRUE);
-
+{% if bundle_entity_type %}
+    $fields['type'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Type'))
+      ->setDescription(t('The {{ label }} type/bundle.'))
+      ->setSetting('target_type', '{{ bundle_entity_type }}')
+      ->setRequired(TRUE);
+{% endif %}
     $fields['uuid'] = BaseFieldDefinition::create('uuid')
       ->setLabel(t('UUID'))
       ->setDescription(t('The UUID of the {{ label }} entity.'))
@@ -167,9 +254,19 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
 
+    $fields['status'] = BaseFieldDefinition::create('boolean')
+      ->setLabel(t('Publishing status'))
+      ->setDescription(t('A boolean indicating whether the {{ label }} is published.'))
+      ->setDefaultValue(TRUE);
+
     $fields['langcode'] = BaseFieldDefinition::create('language')
       ->setLabel(t('Language code'))
-      ->setDescription(t('The language code for the {{ label }} entity.'));
+      ->setDescription(t('The language code for the {{ label }} entity.'))
+      ->setDisplayOptions('form', array(
+        'type' => 'language_select',
+        'weight' => 10,
+      ))
+      ->setDisplayConfigurable('form', TRUE);
 
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))

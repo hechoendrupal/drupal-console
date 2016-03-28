@@ -1,0 +1,15 @@
+description: 'テーマの情報を表示'
+arguments:
+    theme: 表示するテーマの名前
+messages:
+    theme-id: Id
+    theme-name: Name
+    status: Status
+    version: Version
+    installed: Installed
+    uninstalled: Uninstalled
+    default-theme: 'Default theme'
+    properties: Properties
+    regions: Regions
+    invalid-theme: 'テーマ %s は不正な値です。'
+    theme-properties: Properties

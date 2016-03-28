@@ -1,8 +1,8 @@
-description: 'Switch site into maintenance mode'
+description: 'Chuyển site sang chế độ bảo trì'
 arguments:
-    mode: 'Site maintenance mode'
+    mode: 'Chế độ bảo trì site'
 messages:
-    maintenance-on: 'Operating in maintenance mode on'
-    maintenance-off: 'Operating in maintenance mode off'
+    maintenance-on: 'Đang bật chế độ bảo trì'
+    maintenance-off: 'Đang tắt chế độ bảo trì'
 errors:
-    invalid-mode: 'Invalid maintenance mode'
+    invalid-mode: 'Chế độ bảo trì không hợp lệ'

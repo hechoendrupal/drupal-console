@@ -1,17 +1,16 @@
-description: 'Console parancsok létrehozása.'
-help: 'A <info>generate:command</info> parancs új parancsok létrehozásában segít.'
-welcome: 'Üdvözlet a Drupal Parancs létrehozásban'
+description: 'Parancsok létrehozása a konzolhoz.'
+help: 'A <info>generate:command</info> parancs új parancs létrehozását segíti.'
+welcome: 'Üdvözlet a Drupal parancs előállítóban'
 options:
-    module: common.options.module
-    controller-title: 'Controller title'
-    class-name: 'Parancs Class neve'
-    command: 'Parancs neve'
-    container: 'services container elérése'
+    module: 'A modul neve (ami a parancsot tartalmazni fogja).'
+    controller-title: 'A kontroller címe.'
+    class: 'A parancsot leíró osztály. (A ''Command'' szóra kell végződnie).'
+    name: 'A parancs neve.'
+    container-aware: 'A parancs ismeri-e a drupal telepítési helyét a végrehajtáskor'
 questions:
     module: common.questions.module
-    class-name: 'Parancs Class nevének megadása'
-    command: 'Parancs nevének megadása'
-    container: 'Service container elérése szükséges'
-    controller-title: 'Controller title'
+    class: 'Meg kell adni a parancs osztályát. (A ''Command'' szóra kell végződnie).'
+    name: 'Meg kell adni a parancs nevét.'
+    container-aware: 'A parancs ismeri-e a drupal telepítési helyét a végrehajtásakor?'
 messages:
-    title-not-empty: 'Title cannot be empty'
+    title-not-empty: 'A cím nem lehet üres'

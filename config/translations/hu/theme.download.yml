@@ -1,11 +1,11 @@
-description: 'Download theme in application'
+description: 'Smink letöltése az alkalmazásban'
 options:
-    version: 'Theme version i.e 1.x-dev'
+    version: 'Smink verziója, pl. 1.x-dev'
 messages:
-    no-releases: 'There aren''t any releases for theme %s'
-    getting-releases: 'Getting releases for theme %s'
-    downloading: 'Downloading theme %s release %s'
-    downloaded: 'Theme %s version %s was downloaded successfully at %s'
-    select-release: 'Please select your favorite release'
-    outside-drupal: "Drupal root can't be determined. Use --root to set the destination, current folder will be used instead of."
-    error-creating-folder: 'Error crearing folder %s, please check your permssions'
+    no-releases: '%s sminknek nincs semmilyen kiadása'
+    getting-releases: '%s smink kiadásainak beolvasása'
+    downloading: '%s smink %s kiadásának letöltése'
+    downloaded: '%s smink %s verziójának letöltése sikerült: %s'
+    select-release: 'Válassza ki a kedvenc kiadását'
+    outside-drupal: 'A Drupal gyökerét nem lehet meghatározni. A --root használatával beállítható a cél, ehelyett az aktuális mappa lesz használatban.'
+    error-creating-folder: 'Hiba történt %s mappa létrehozásakor, ellenőrizni kell az engedélyeket'

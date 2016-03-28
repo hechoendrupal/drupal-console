@@ -1,0 +1,10 @@
+description: '명령어에 대한 도움말을 보여줍니다.'
+help: "<info>%command.name%</info> 명령어는 요청한 명령어에 대한 도움말을 표시합니다:\n\n<info>php %command.full_name% list</info>\n\n<comment>--format</comment> 옵션을 통해 도움말을 다른 형식으로 출력할 수 있습니다.:\n\n<info>php %command.full_name% --format=xml list</info>\n\n사용할 수 있는 명령어 목록을 표시하려면 <info>list</info> 명령어를 사용하세요.\n"
+arguments:
+    command_name: '명령어 이름'
+options:
+    xml: '목록을 XML로 출력'
+    raw: '명령어 목록을 그대로 출력'
+    format: '출력 형식 (txt, xml, json, md)'
+messages:
+    deprecated: '<comment>--xml</comment> 옵션은 2.7 버전부터 사용하지 않고 3.0 버전에는 삭제합니다. 대산 <comment>--format</comment> 옵션을 사용하세요.'

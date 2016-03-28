@@ -1,16 +1,16 @@
-description: 'Switch system performance configuration'
+description: 'Chuyển đổi cấu hình hiệu năng của hệ thống'
 arguments:
-    environment: 'Environment name (dev|prod)'
+    environment: 'Tên môi trường (dev|prod)'
 messages:
-    configuration: 'Configuration name'
-    configuration-key: 'Configuration key'
-    original: 'Original Value'
-    updated: 'Override Value'
-    invalid-env: 'Invalid environment'
-    new-services-settings: 'New services settings'
-    service: Service
-    service-parameter: Parameter
-    service-value: Value
-    error-copying-file: 'Error copying file'
-    error-writing-file: 'Error copying file'
-    services-file-overwritten: 'Services files %s was overwritten'
+    configuration: 'Tên phần cấu hình'
+    configuration-key: 'Chìa khóa phần cấu hình'
+    original: 'Giá trị gốc'
+    updated: 'Ghi đè giá trị'
+    invalid-env: 'Môi trường không hợp lệ'
+    new-services-settings: 'Cài đặt các dịch vụ mới'
+    service: 'Dịch vụ'
+    service-parameter: 'Tham số'
+    service-value: 'Giá trị'
+    error-copying-file: 'Lỗi sao chép file'
+    error-writing-file: 'Lỗi sao chép file'
+    services-file-overwritten: 'Các files dịch vụ %s đã bị ghi đè'

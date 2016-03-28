@@ -7,13 +7,19 @@
 
 namespace Drupal\Console\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class AboutCommand
+ * @package Drupal\Console\Command
+ */
 class AboutCommand extends Command
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -21,66 +27,75 @@ class AboutCommand extends Command
             ->setDescription($this->trans('commands.about.description'));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $renderer = $this->getRenderHelper();
+        $io = new DrupalStyle($input, $output);
+
         $application = $this->getApplication();
 
-        $features = [
-          $this->trans('commands.about.messages.welcome-feature-learn'),
-          $this->trans('commands.about.messages.welcome-feature-generate'),
-          $this->trans('commands.about.messages.welcome-feature-interact')
-        ];
+        $drupal = $this->getDrupalHelper();
+        $drupalVersion = $this->trans('commands.site.status.messages.not_installed');
+        if ($drupal->isInstalled()) {
+            $drupalVersion = sprintf(
+                $this->trans('commands.site.status.messages.current_version'),
+                $this->getSite()->getDrupalVersion()
+            );
+        }
 
-        $consoleVersion = sprintf(
-            '%s <info>%s</info>',
+        $aboutTitle = sprintf(
+            '%s (%s) | Supports Drupal (%s) | %s',
             $this->trans('commands.site.status.messages.console'),
-            $application->getVersion()
+            $application->getVersion(),
+            $application::DRUPAL_SUPPORTED_VERSION,
+            $drupalVersion
         );
 
-        $supportedVersion = sprintf(
-            $this->trans('commands.about.messages.version-supported'),
-            $application::DRUPAL_VERSION
-        );
+        $io->setDecorated(false);
+        $io->title($aboutTitle);
+        $io->setDecorated(true);
 
-        $links = [
-          sprintf(
-              $this->trans('commands.about.messages.landing'),
-              'http://drupalconsole.com'
-          ),
-          sprintf(
-              $this->trans('commands.about.messages.change-log'),
-              'http://bit.ly/console-releases'
-          ),
-          sprintf(
-              $this->trans('commands.about.messages.documentation'),
-              'http://bit.ly/console-book'
-          ),
-          sprintf(
-              $this->trans('commands.about.messages.support'),
-              'http://bit.ly/console-support'
-          )
+        $commands = [
+            'init' => [
+                $this->trans('commands.settings.init.description'),
+                'drupal init --override'
+            ],
+            'quick-start' => [
+                $this->trans('commands.common.messages.quick-start'),
+                'drupal chain --file=~/.console/chain/quick-start.yml'
+            ],
+            'site-new' => [
+                $this->trans('commands.site.new.description'),
+                sprintf(
+                    'drupal site:new drupal8.dev %s',
+                    $application::DRUPAL_SUPPORTED_VERSION
+                )
+            ],
+            'site-install' => [
+            $this->trans('commands.site.install.description'),
+            sprintf(
+                'drupal site:install'
+            )
+            ],
+            'links' => [
+                $this->trans('commands.list.description'),
+                'drupal list',
+            ]
         ];
 
-        $organizations = [
-            'Indava (http://www.indava.com/)',
-            'Anexus (https://anexusit.com)',
-            'FFW (https://ffwagency.com)'
-        ];
+        foreach ($commands as $command => $commandInfo) {
+            $io->writeln($commandInfo[0]);
+            $io->newLine();
+            $io->comment(sprintf('  %s', $commandInfo[1]));
+            $io->newLine();
+        }
 
-        $parameters = [
-          'title' =>  $this->trans('commands.about.messages.welcome'),
-          'features' => $features,
-          'console_version' => $consoleVersion,
-          'supported_version' => $supportedVersion,
-          'list_command' => $this->trans('commands.about.messages.list'),
-          'links' => $links,
-          'supporting_organizations' => $this->trans('commands.about.messages.supporting-organizations'),
-          'organizations' => $organizations
-        ];
-
-        $about = $renderer->render('core/about.twig', $parameters);
-
-        $output->writeln($about);
+        $io->setDecorated(false);
+        $io->section($this->trans('commands.self-update.description'));
+        $io->setDecorated(true);
+        $io->comment('  drupal self-update');
+        $io->newLine();
     }
 }

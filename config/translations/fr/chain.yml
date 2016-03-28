@@ -4,4 +4,4 @@ options:
 messages:
     missing_file: 'Vous devez fournir un chemin et nom de fichier valide.'
     invalid_file: 'Le fichier "%s" n''existe pas.'
-    module_install: 'La commande module:install ne peut être lancé dans une séquence et doit être lancée indépendemment.'
+    module_install: 'La commande module:install ne peut être lancé dans une séquence et doit être lancée indépendamment.'

@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-Drupal\{{ module }}\Plugin\Field\FieldFormatter\{{ class_name }}.
+\Drupal\{{ module }}\Plugin\Field\FieldFormatter\{{ class_name }}.
 {% endblock %}
 
 {% block namespace_class %}
@@ -19,6 +19,7 @@ use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGeneratorInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Cache\Cache;
 {% endblock %}
 
 {% block class_declaration %}

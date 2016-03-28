@@ -1,4 +1,4 @@
-description: 'Alkalmazáshoz tartozó service megjelenítése.'
+description: 'Egy alkalmazás aktuális szolgáltatásait jeleníti meg.'
 messages:
-    service_id: 'Service ID'
-    class_name: 'Class név'
+    service_id: 'Szolgáltatás azonosítója'
+    class_name: Osztálynév

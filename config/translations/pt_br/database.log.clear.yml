@@ -1,0 +1,11 @@
+description: 'Remove eventos da tabela DBLog, filtros disponíveis'
+arguments:
+    event-id: 'DBLog event ID'
+options:
+    type: 'Filter events by a specific type'
+    severity: 'Filter events by a specific level of severity'
+    user-id: 'Filter events by a specific user id'
+messages:
+    event-deleted: 'Evento %s foi removido'
+    clear-error: 'O processo de limpeza falhou, por favor revise os filtros utilizados'
+    clear-sucess: 'Eventos removidos com sucesso'

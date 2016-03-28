@@ -1,15 +1,15 @@
-description: 'Service létrehozása'
-help: 'A <info>generate:service</info> új service létrehozásában segít.'
-welcome: 'Üdvözlet az új service létrehozásában'
+description: 'Szolgáltatás létrehozása'
+help: 'A <info>generate:service</info> parancs új szolgáltatás létrehozását segíti.'
+welcome: 'Üdvözlet a Drupal szolgáltatás előállítóban'
 options:
     module: common.options.module
-    service-name: 'Service neve'
-    class-name: 'Class neve'
+    service-name: Szolgáltatásnév
+    class: Osztálynév
     interface: Interfész
     services: common.questions.services
 questions:
     module: common.questions.module
-    service-name: 'Service nevének megadása'
-    class-name: 'Class nevének megadása'
+    service-name: 'Meg kell adni a szolgáltatásnevet'
+    class: 'Meg kell adni az osztálynevet'
     interface: 'Interfész létrehozása'
     services: common.options.services

@@ -1,0 +1,4 @@
+description: 'आपकी साइट के द्वारा समर्थित एक भाषा को हटाएँ'
+messages:
+    invalid-language: 'भाषा %s यह एक अवैध भाषा है'
+    language-deleted-successfully: 'भाषा %s सफलतापूर्वक नष्ट कर दी गई थी।'

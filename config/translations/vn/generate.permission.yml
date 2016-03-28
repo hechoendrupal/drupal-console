@@ -1,11 +1,11 @@
-description: 'Generate module permissions'
-help: 'The <info>generate:permissions</info> command helps you generate new permissions'
+description: 'Tạo module permissions'
+help: 'Dòng lệnh <info>generate:permissions</info> giúp bạn tạo các permissions mới'
 options:
     module: common.options.module
 questions:
     module: common.questions.module
-    permission: 'Enter a permission'
-    title: 'Enter a title for the permission'
-    description: 'Enter a description for the permission'
-    restrict-access: 'Restrict Access'
-    add: 'Do you want add another permission'
+    permission: 'Nhập một permission'
+    title: 'Nhập tiêu đề cho permission'
+    description: 'Nhập mô tả cho permission'
+    restrict-access: 'Hạn chế truy cập'
+    add: 'Bạn có muốn thêm một permission khác'

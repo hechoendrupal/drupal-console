@@ -1,9 +1,11 @@
-description: 'Displays current routes for the application'
+description: 'अनुप्रयोग के वर्तमान मार्गों को दिखाएँ'
 arguments:
-    route-name: 'Route names'
+    route-name: 'मार्ग के नाम'
 messages:
-    name: 'Route name'
-    path: 'Class path'
-    pattern: Pattern
-    defaults: Defaults
-    options: Options
+    name: 'मार्ग के नाम'
+    class: 'क्लास पाथ'
+    route: रूट
+    path: 'क्लास का पथ'
+    defaults: डिफ़ॉल्ट
+    options: विकल्प
+    pattern: साँचा

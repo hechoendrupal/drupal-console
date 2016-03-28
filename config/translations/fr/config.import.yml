@@ -1,8 +1,8 @@
-description: 'Import configuration to current application.'
+description: 'Importe une configuration dans le site courant.'
 arguments:
-    config-file: 'Configuration file path.'
-    copy-only: 'Copy only configuration files in staging directory.'
+    file: 'Chemin vers le fichier de configuration.'
+    directory: 'Path to a directory of configuration to import.'
+    remove-files: 'Supprimer les fichiers après la synchronisation.'
 messages:
-    config_files_imported: 'List of config files.'
-    copied: 'All config files were copied to staging directory.'
-    imported: 'All config files were copied to staging directory and imported.'
+    config_files_imported: 'Liste des fichiers de configuration.'
+    imported: 'L''ensemble des fichiers de configuration ont été copiés dans le repertoire contenant la configuration "staging" et importés.'

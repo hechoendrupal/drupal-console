@@ -9,10 +9,11 @@ options:
     core: 'Versiunea nucleului'
     feature: 'Setează modulul să fie compatibil cu modulul Features'
     package: 'Pachetul modulului'
-    controller: 'Controller-ul implicit'
+    module-file: 'Add a .module file'
     composer: 'Adaugă un fișier composer.json'
     dependencies: 'Dependințele modulului trebuie să fie separate prin virgulă (ex. context, panels)'
     test: 'Generează o clasă pentru testare'
+    controller: 'Controller-ul implicit'
 questions:
     module: 'Introduceți numele noului modul'
     machine-name: 'Introduceți numele mașină pentru modul'
@@ -21,11 +22,13 @@ questions:
     core: 'Introduceți versiunea nucleului de Drupal'
     package: 'Introduceți numele pachetului'
     feature: 'Definiți modulul ca și feature'
-    controller: 'Doriți să generați un Controller implicit'
+    module-file: 'Do you want to generate a .module file'
     composer: 'Doriți să adăugați un fișier composer.json la modul'
     dependencies: 'Doriți să adăugați dependințe pentru modul'
     test: 'Doriți să generați o clasă pentru "unit test"'
+    controller: 'Doriți să generați un Controller implicit'
 warnings:
     module-unavailable: 'Avertizare! Următoarele module nu sunt disponibile în proiectul tău local "%s"'
 errors:
+    invalid-core: 'The core version "%s" is invalid.'
     directory-exists: 'Directorul indicat "%s" nu este gol.'

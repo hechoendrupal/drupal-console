@@ -1,6 +1,9 @@
 description: 'Modul vagy modulok eltávolítása'
+options:
+    module: 'Az eltávolítani kívánt modulokat vesszővel kell elválasztani'
 messages:
-    no-modules: 'Eltávolítani kívánt modul vagy modulok megadása kötelező.'
-    dependents: '%s nem távolítható el, mert függősége más moduloknak: %s'
-    nothing: 'Nincs teendő, minden modul már el lett távolítva.'
-    success: '%s Sikeresen el lett távolítva'
+    no-modules: 'Meg kell adni az eltávolítani kívánt modulokat.'
+    dependents: 'Nem lehet eltávolítani %s modulokat, mert azokra szükségük van a következő moduloknak: %s.'
+    nothing: 'Nincs teendő. Már minden modul el van távolítva.'
+    success: 'A következő modulok eltávolítása sikerült: %s'
+    missing: 'Nem távolíthatók el a következő modulok: %s, mert az alábbi modulok hiányoznak: %s'

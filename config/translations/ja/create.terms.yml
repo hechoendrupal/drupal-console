@@ -1,0 +1,18 @@
+description: 'ダミーのタームを追加'
+help: '<info>create:nodes</info> コマンドはダミーのタームを追加します。'
+welcome: 'Welcome to the Drupal terms creator'
+arguments:
+    vocabularies: '作成するタームのボキャブラリー (複数指定可)'
+options:
+    limit: '作成するタームの数'
+    name-words: 'タームの名前に設定するの単語の最大数'
+questions:
+    vocabularies: '作成するタームのボキャブラリーを選択してください'
+    limit: '作成するタームの数を入力してください'
+    name-words: 'タームの名前に設定するの単語の最大数'
+messages:
+    term-id: 'タームID'
+    vocabulary: ボキャブラリー
+    name: 名前
+    invalid-vocabularies: 'ボキャブラリー %s は不正な値です。'
+    created-terms: '%s 個のタームを作成しました。'

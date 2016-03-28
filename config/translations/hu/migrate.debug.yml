@@ -1,7 +1,8 @@
-description: 'Elérhető migrációk megjelenítése'
+description: 'Az elérhető aktuális költöztetések megjelenítése'
 arguments:
-    drupal-version: 'Drupal Verzió'
+    tag: 'Költöztetési címke'
 messages:
-    id: 'Migráció Id'
+    id: 'Költöztetési azonosító'
     description: Leírás
-    version: Verzió
+    no-migrations: 'Nincsenek rendelkezésre álló költöztetések, meg kell próbálni a  "migrate:setup:migrations" parancs végrehajtását'
+    tags: Címkék

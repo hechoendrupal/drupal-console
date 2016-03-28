@@ -1,0 +1,5 @@
+description: 'Показывает текущую конфигурацию.'
+arguments:
+    config-name: 'Имя конфигурации.'
+errors:
+    config-not-exists: 'Конфигурация "%s" не существует.'

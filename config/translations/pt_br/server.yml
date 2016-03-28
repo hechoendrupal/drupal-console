@@ -1,0 +1,17 @@
+description: 'Executar o servidor PHP atual'
+arguments:
+    address: 'Valores de endereço:porta'
+messages:
+    executing: 'Executado PHP de %s.'
+errors:
+    binary: 'Não foi possível encontrar o arquivo binário do PHP a ser executado.'
+examples:
+    -
+        description: 'Executar com o endereço padrão 127.0.0.1.8088'
+        execution: 'drupal server'
+    -
+        description: 'Executar passando um endereço e porta diferentes'
+        execution: 'drupal server 127.0.0.1:8089'
+    -
+        description: 'Executar com os argumentos padrões, porém usando a opção --root para definir o diretório raíz do site'
+        execution: 'drupal --root=/var/www/drupal8.dev server'

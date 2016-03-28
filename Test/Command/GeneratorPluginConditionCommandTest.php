@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GeneratorPluginConditionCommand;
+use Drupal\Console\Command\Generate\PluginConditionCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\PluginConditionDataProviderTrait;
 
@@ -36,7 +36,7 @@ class GeneratorPluginConditionCommandTest extends GenerateCommandTest
         $context_definition_label,
         $context_definition_required
     ) {
-        $command = new GeneratorPluginConditionCommand($this->getHelperSet());
+        $command = new PluginConditionCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 
@@ -45,7 +45,7 @@ class GeneratorPluginConditionCommandTest extends GenerateCommandTest
         $code = $commandTester->execute(
             [
               '--module'                      => $module,
-              '--class-name'                  => $class_name,
+              '--class'                  => $class_name,
               '--label'                       => $label,
               '--plugin-id'                   => $plugin_id,
               '--context-definition-id'       => $context_definition_id,

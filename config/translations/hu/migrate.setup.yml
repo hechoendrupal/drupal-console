@@ -1,0 +1,24 @@
+description: 'Adott örökölt adatbázis fontos költöztetéseinek betöltése és létrehozása'
+options:
+    db-type: 'Drupal adatbázis típusa'
+    db-host: Adatbázis-gazdagép
+    db-name: 'Adatbázis neve'
+    db-user: Adatbázis-felhasználó
+    db-pass: 'Adatbázis jelszó'
+    db-prefix: 'Adatbázis előtag'
+    db-port: 'Adatbázis port'
+    files-directory: 'Fájlok könyvtára'
+questions:
+    db-type: 'Drupal adatbázis típusa'
+    db-host: Adatbázis-gazdagép
+    db-name: 'Adatbázis neve'
+    db-user: Adatbázis-felhasználó
+    db-pass: 'Adatbázis jelszó'
+    db-prefix: 'Adatbázis előtag'
+    db-port: 'Adatbázis port'
+    files-directory: 'Fájlok könyvtára'
+messages:
+    not-drupal: 'A forrás adatbázis nem tartalmaz felismerhető Drupal verziót.'
+    migrations-created: '%s költöztetés sikeresen létrejött a következőhöz: %s.'
+    migrations-not-found: 'Nem állnak rendelkezésre költöztetések'
+    migrations-already-exist: 'Már minden rendelkezésre álló költöztetés létre van hozva'

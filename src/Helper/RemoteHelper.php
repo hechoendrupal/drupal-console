@@ -57,8 +57,8 @@ class RemoteHelper extends Helper
             return $this->getTranslator()->trans('commands.site.debug.messages.private-key');
         }
 
-        $ssh = new SSH2($targetConfig['host']);
-        if (!$ssh->login('root', $key)) {
+        $ssh = new SSH2($targetConfig['host'], $targetConfig['port']);
+        if (!$ssh->login($targetConfig['user'], $key)) {
             return $this->getTranslator()->trans('commands.site.debug.messages.error-connect');
         } else {
             return $ssh->exec($remoteCommand);

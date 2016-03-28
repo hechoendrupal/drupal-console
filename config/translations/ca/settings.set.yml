@@ -1,0 +1,10 @@
+description: 'Canviar un valor especific al fitxer de configuració de Drupal Console'
+arguments:
+    setting-name: 'Nom de la configuració en text sense format del fitxer YAML amb el valor del fitxer de configuració'
+    setting-value: 'El valor a establir al fitxer de configuració'
+messages:
+    error-parsing: 'S''ha produït un error analitzant el fitxer YAML "%s".'
+    error-generating: 'S''ha produït un error del nou idioma al fitxer de configuració.'
+    error-writing: 'S''ha produït un error al escriure el fitxer de configuració.'
+    success: 'El valor %s s''ha definit com %s'
+    missing-file: 'The %s config file is missing, try executing `drupal init`'

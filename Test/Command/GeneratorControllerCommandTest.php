@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GeneratorControllerCommand;
+use Drupal\Console\Command\Generate\ControllerCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\ControllerDataProviderTrait;
 
@@ -22,7 +22,6 @@ class GeneratorControllerCommandTest extends GenerateCommandTest
      * @param $routes
      * @param $test
      * @param $services
-     * @param $class_machine_name
      *
      * @dataProvider commandData
      */
@@ -33,7 +32,7 @@ class GeneratorControllerCommandTest extends GenerateCommandTest
         $test,
         $services
     ) {
-        $command = new GeneratorControllerCommand($this->getHelperSet());
+        $command = new ControllerCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 
@@ -41,13 +40,11 @@ class GeneratorControllerCommandTest extends GenerateCommandTest
 
         $code = $commandTester->execute(
             [
-            '--module'            => $module,
-            '--class-name'        => $class_name,
-            '--controller-title'  => $routes[0]['title'],
-            '--method-name'       => $routes[0]['method'],
-            '--route'             => $routes[0]['route'],
-            '--test'              => $test,
-            '--services'          => $services,
+                '--module'            => $module,
+                '--class'             => $class_name,
+                '--routes'            => $routes,
+                '--test'              => $test,
+                '--services'          => $services,
             ],
             ['interactive' => false]
         );

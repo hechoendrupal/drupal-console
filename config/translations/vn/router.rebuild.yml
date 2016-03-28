@@ -1,6 +1,6 @@
-description: 'Rebuild routes for the application'
+description: 'Xây dựng lại định tuyến cho ứng dụng'
 arguments:
-    route-name: 'Route names'
+    route-name: 'Các tên của định tuyến'
 messages:
-    rebuilding: 'Rebuilding routes, wait a moment please'
-    completed: 'Done rebuilding route(s).'
+    rebuilding: ' Xây dựng lại định tuyến, xin chờ trong ít phút'
+    completed: 'Xây dựng lại các định tuyến đã xong.'

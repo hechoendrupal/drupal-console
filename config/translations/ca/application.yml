@@ -1,0 +1,46 @@
+options:
+    env: 'Nom de l''entorn'
+    no-debug: 'Desactivar el mode de depuració.'
+    learning: 'Generar codi detallat.'
+    generate-chain: 'Imprimir les opcions d''execució i els arguments com una sortida YAML per ser utilitzats amb el comandament "chain".'
+    generate-inline: 'Imprimir les opcions d''execució i els arguments com inserits per ser utilitzats en un futur.'
+    generate-doc: 'Mostrar les opcions i arguments dels comandaments com a "markdown"'
+    root: 'Definir el camí arrel de Drupal on s''executaran els comandaments'
+    uri: 'URI del lloc web Drupal que s''utilitzarà (per entorns "multisite" o quan s''utilitza un port alternatiu)'
+    'yes': 'Ometre la confirmació'
+    target: 'El nom del lloc web amb el qual vols interactuar (locals o remot)'
+    help: 'Mostrar aquest missatge d''ajuda'
+    quiet: 'No mostrar aquest missatge'
+    verbose: 'Augmentar el detall dels missatges: 1 per una sortida normal, 2 per una sortida més detallada i 3 per depurar'
+    version: '<info>%s</info> versió <comment>%s</comment>'
+    ansi: 'Forçar sortida ANSI'
+    no-ansi: 'Deshabilitar sortida ANSI'
+    no-interaction: 'No fer cap pregunta de forma interactiva'
+    check-fix: 'Attempt to fix any missing configuration.'
+arguments:
+    command: 'El comandament a executar'
+messages:
+    completed: 'El comandament s''ha executat correctament'
+    chain:
+        generated: 'A continuació es pot trobar la representació YAML de l''últim comandament executat, pots copiar-ho a ~/.console/chain/sample.yml per executar-ho dins d''una seqüència de comandaments'
+    inline:
+        generated: 'A continuació es pot trobar la representació inserida d''aquest comandament per tornar a executar-lo més tard.'
+    generated: 'Ja pots començar a utilitzar el codi generat'
+    files:
+        generated: 'Fitxers generats o actualitzats'
+        copied: 'Fitxers copiats'
+    learning:
+        route: "Amb l'objectiu de crear les pàgines, es necessari definir les rutes.\nUna ruta assigna una URL a un controlador. Es defineix quina funció\no mètode serà cridat quan s'accedeix a una URL.\nSi l'usuari accedeix a http://drupal8.dev/{{ route }},\nel sistema buscarà aquesta ruta. En aquest cas, si la troba, executarà la crida de retorn. Es aquest cas la crida es definida com a nom de clase\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\ni un mètode (\"{{ method_name }}\")."
+    autocomplete: "Bash o Zsh: Afegir aquesta línia a l'arxiu de configuració de l'interpret d'ordres:\\<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Crear un enllaç simbòlic\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
+    version: '<info>%s</info> version <comment>%s</comment>'
+errors:
+    invalid-command: 'No s''ha definit el comandament "%s".'
+site:
+    messages:
+        path: 'Camí del lloc web'
+    errors:
+        directory: 'Per llistar tots el comandaments disponibles, executar aquest comandament dins del directori arrel de Drupal.'
+        settings: 'Per llistar tots el comandaments disponibles, es necessari instal·lar Drupal.'
+user:
+    messages:
+        path: 'Camí del directori arrel de l''usuari'

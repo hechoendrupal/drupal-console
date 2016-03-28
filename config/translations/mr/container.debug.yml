@@ -1,0 +1,4 @@
+description: 'अनुप्रयोग चालू सेवा दाखवा.'
+messages:
+    service_id: 'सर्विस क्रमांक'
+    class_name: 'क्लासचे नाव'

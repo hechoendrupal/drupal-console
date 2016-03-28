@@ -1,0 +1,11 @@
+description: 'Tạo một RouteSubscriber'
+help: 'Câu lệnh <info>generate:service</info> giúp bạn tạo một RouteSubscriber mới.'
+welcome: 'Chào mừng đến với Drupal RouteSubscriber generator.'
+options:
+    module: common.options.module
+    name: 'Tên dịch vụ'
+    class: 'Tên lớp'
+questions:
+    module: common.questions.module
+    name: ' Nhập tên dịch vụ'
+    class: ' Nhập tên lớp'

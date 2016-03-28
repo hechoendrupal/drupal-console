@@ -1,0 +1,6 @@
+description: 'Executar un client de base de dades'
+arguments:
+    database: 'Clau de la base de dades des de settings.php'
+messages:
+    connection: 'Connexió: %s'
+    executing: 'S''esta executant: %s'

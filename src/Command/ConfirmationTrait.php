@@ -2,41 +2,40 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\Confirmation.
+ * Contains Drupal\Console\Command\ConfirmationTrait.
  */
 
 namespace Drupal\Console\Command;
 
-use Symfony\Component\Console\Helper\HelperInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputInterface;
+use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class ConfirmationTrait
+ * @package Drupal\Console\Command
+ */
 trait ConfirmationTrait
 {
     /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     * @param HelperInterface $dialog
+     * @param DrupalStyle $io
+     * @param bool        $yes
      *
-     * @return mixed
+     * @return bool
      */
-    public function confirmationQuestion(InputInterface $input, OutputInterface $output, HelperInterface $dialog)
+    public function confirmGeneration(DrupalStyle $io, $yes = false)
     {
-        if ($input->isInteractive()) {
-            if (!$dialog->askConfirmation(
-                $output,
-                $dialog->getQuestion($this->trans('commands.common.questions.confirm'), 'yes', '?'),
-                true
-            )
-            ) {
-                $output->writeln('<error>'.$this->trans('commands.common.messages.canceled').'</error>');
-
-                return true;
-            }
-
-            return false;
+        if ($yes) {
+            return $yes;
         }
 
-        return false;
+        $confirmation = $io->confirm(
+            $this->trans('commands.common.questions.confirm'),
+            true
+        );
+
+        if (!$confirmation) {
+            $io->warning($this->trans('commands.common.messages.canceled'));
+        }
+
+        return $confirmation;
     }
 }

@@ -1,0 +1,14 @@
+description: 'Az aktív konfigurációt egy könyvtárral összehasonlítva az eltérő konfigurációs elemek.'
+arguments:
+    directory: 'A könyvtár, amivel az összehasonlítást végezni kell. Ha nincs megadva, akkor a program a Drupal konfigurációs könyvtárakból választ.'
+options:
+    reverse: 'Módosítások megtekintése fordítva (vagyis egy könyvtár összehasonlítása az aktív konfigurációval).'
+questions:
+    directories: 'Konfigurációs könyvtár:'
+table:
+    headers:
+        collection: Gyűjtemény
+        config-name: 'Konfigurációs elem'
+        operation: Művelet
+messages:
+    no-changes: 'Nincs változás.'

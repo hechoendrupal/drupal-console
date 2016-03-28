@@ -1,0 +1,3 @@
+description: ビューを有効化する
+messages:
+    enabled-successfully: 'ビュー %s は有効化されました。'

@@ -13,10 +13,10 @@ trait PluginBlockDataProviderTrait
      */
     public function commandData()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
 
         return [
-          ['Foo',  'foo' . rand(), 'foo', 'bar', null, 'inputs'],
+          ['Foo',  'foo' . rand(), 'foo', 'bar', null, '', 'inputs'],
         ];
     }
 }

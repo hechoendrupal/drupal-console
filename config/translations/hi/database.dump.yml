@@ -1,0 +1,7 @@
+description: 'डंप संरचना और MYSQL का कंटेंट डेटाबेसेस और टेबल्स'
+arguments:
+    database: 'Settings.php से डाटाबेस कुंजी'
+options:
+    file: 'अपने डेटाबेस बैकअप के लिए फ़ाइल नाम'
+messages:
+    success: 'डाटाबेस का निर्यात:'

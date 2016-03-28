@@ -1,34 +1,42 @@
 options:
-    events: 'Esemémnyek betöltése a tárolóból'
-    module: 'A Modul neve.'
-    services: 'Service betöltése a container-ből.'
-    tags: 'Service tag-ek hozzárendelése a container-hez.'
-    inputs: 'Beviteli mezők létrehozása formhoz.'
-    permissions: 'Jogosultságok létrehozása.'
+    events: 'Események betöltése a tárolóból'
+    module: 'A modul neve.'
+    services: 'Szolgáltatások betöltése a tárolóból.'
+    tags: 'Szolgáltatáscímkék beállítása a tárolóból.'
+    inputs: 'Bemenetek létrehozása egy űrlapban.'
+    permissions: 'Engedélyek létrehozása.'
 questions:
-    module: 'Modul neve'
-    confirm: 'Létrehozás megerősítése'
-    canceled: 'Létrehozás parancs megszakítva.'
+    module: 'Meg kell adni a modul nevét'
+    confirm: 'Jóváhagyja a létrehozást?'
+    canceled: 'A parancs létrehozása megszakadt.'
     events:
-        message: "\nEsemény neve vagy használja a le/fel billentyűt.\nEz opcionális, <info>enter</info> a <info>folytatáshoz</info>\n"
-        name: 'Esemény neve'
+        message: "\nBe kell írni az esemény nevét, vagy a felfelé vagy lefelé mutató nyilakat kell használni.\nEz nem kötelező, a <info>folytatáshoz</info> megnyomható az <info>enter</info> billentyű is.\n"
+        name: 'Meg kell adni az esemény nevét'
     services:
-        confirm: 'Betölthető service a container-be'
-        message: "\nService neve vagy fel és le billentyűk.\nEz opcionális, <info>enter</info> a <info>folytatáshoz</info>\n"
-        name: 'Service megadása'
+        confirm: 'Szolgáltatások betöltése a tárolóból?'
+        message: "\nBe kell írni a szolgáltatás nevét, vagy a felfelé vagy lefelé mutató nyilakat kell használni.\nEz nem kötelező, a <info>folytatáshoz</info> megnyomható az <info>enter</info> billentyű is.\n"
+        name: 'Meg kell adni a szolgáltatást'
     inputs:
-        confirm: 'Form struktúra létrehozása?'
-        label: 'Beviteli mező címke'
-        machine_name: 'Beviteli mező gépi neve'
-        permission: 'Jogosultságok létrehozása'
+        confirm: 'Létrejöjjön űrlapszerkezet?'
+        label: 'Meg kell adni a feliratot'
+        machine_name: 'Meg kell adni a programok által használt nevet'
+        permission: 'Létrejöjjenek engedélyek?'
         type: Típus
-        invalid: 'Mező típus "%s" helytelen.'
+        invalid: 'Érvénytelen mezőtípus:  "%s".'
         description: Leírás
         default-value: 'Alapértelmezett érték'
-        weight: 'A bemeneti elem súlya'
+        weight: 'A beviteli elem súlya'
+        title: Cím
+        fieldset: Mezőcsoport
 errors:
-    module-dependency: 'Hiányzó modul függőség "%s"'
-    class-name-empty: 'A Class neve nem lehet üres'
+    module-dependency: 'Nincs telepítve egy hiányzó modulfüggőség: "%s". A telepítés a module:install paranccsal hajtható végre.'
+    class-name-empty: 'Az osztálynév nem lehet üres'
+    invalid-file-path: 'Meg kell adni egy érvényes fájlútvonalat'
 status:
-    enabled: Enabled
-    disabled: Disabled
+    enabled: Engedélyezett
+    disabled: Tiltott
+messages:
+    canceled: 'A létrehozás megszakadt'
+    drupal-core: 'Drupal alaprendszer'
+    move-phar: 'A konzol elérése a rendszer bármely részéből'
+    quick-start: 'Drupal 8 letöltése, telepítése és kiszolgálása'

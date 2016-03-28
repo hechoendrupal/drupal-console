@@ -1,11 +1,11 @@
-description: 'Display current updates available for the application'
+description: 'Hiển thị các cập nhật có sẵn cho ứng dụng'
 messages:
-    no-updates: 'No pending updates'
-    severity: Severity
-    title: Title
-    value: Value
-    description: Description
-    requirements-error: 'The following requirement weren''t completed'
-    module-list: 'Modules with pending updates'
+    no-updates: 'Không có cập nhật nào đang chờ'
+    severity: 'Mức độ nghiêm trọng'
+    title: 'Tiêu đề'
+    value: 'Giá trị'
+    description: 'Mô tả'
+    requirements-error: 'Yêu cầu sau không được hoàn thành'
+    module-list: 'Các Modules đang đợi cập nhật'
     module: Module
-    update-n: 'Update N'
+    update-n: 'Cập nhật N'

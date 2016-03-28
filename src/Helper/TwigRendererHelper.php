@@ -50,7 +50,7 @@ class TwigRendererHelper extends Helper
      *
      * @return string
      */
-    public function render($template, $parameters)
+    public function render($template, $parameters = [])
     {
         if (!$this->engine) {
             $this->engine = new \Twig_Environment(
@@ -208,9 +208,9 @@ class TwigRendererHelper extends Helper
                 }
 
                 $message = implode("\n", $returnValues);
-                $environment->setLoader(new \Twig_Loader_String());
+                $template = $environment->createTemplate($message);
 
-                return $environment->render($message, $context);
+                return $template->render($context);
             }, [
             'needs_environment' => true,
             'needs_context' => true,

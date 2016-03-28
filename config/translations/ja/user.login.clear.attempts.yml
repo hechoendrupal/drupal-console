@@ -1,0 +1,12 @@
+description: アカウントのログイン試行履歴をクリア
+help: '<info>user:login:clear:attempts</info> コマンドはアカウントのログイン試行履歴をリセットします。'
+options:
+    user-id: ユーザーID
+questions:
+    uid: 'ユーザーIDを入力してください'
+    numeric-uid: 'ユーザーIDは整数で入力してください'
+    invalid-uid: 'ユーザーIDは1より大きい数値である必要があります'
+messages:
+    successful: 'ユーザーID %s のログイン試行履歴をクリアしました。'
+errors:
+    invalid-user: 'ユーザーエンティティがロードできませんでした (Uid: %s)。'

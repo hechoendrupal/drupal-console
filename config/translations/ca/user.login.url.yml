@@ -1,0 +1,7 @@
+description: 'Generar la ''one-time login url'' del usuari.'
+options:
+    user-id: 'Identificador del usuari.'
+messages:
+    url: 'One-time login per @name: @url'
+errors:
+    invalid-user: 'No es pot carregar l''entitat del usuari (Identificador del usuari: @uid).'

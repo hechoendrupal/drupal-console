@@ -1,11 +1,11 @@
-description: 'Download theme in application'
+description: 'Tải xuống theme trong ứng dụng'
 options:
-    version: 'Theme version i.e 1.x-dev'
+    version: 'Phiên bản theme ví dụ 1.x-dev'
 messages:
-    no-releases: 'There aren''t any releases for theme %s'
-    getting-releases: 'Getting releases for theme %s'
-    downloading: 'Downloading theme %s release %s'
-    downloaded: 'Theme %s version %s was downloaded successfully at %s'
-    select-release: 'Please select your favorite release'
-    outside-drupal: "Drupal root can't be determined. Use --root to set the destination, current folder will be used instead of."
-    error-creating-folder: 'Error crearing folder %s, please check your permssions'
+    no-releases: 'Không có bản phát hành nào cho theme %s'
+    getting-releases: 'Đang tìm kiếm các bản phát hành cho theme %s'
+    downloading: 'Đang tải xuống theme %s bản phát hành %s'
+    downloaded: 'Theme %s phiên bản %s đã được tải xuống thành công tại %s'
+    select-release: 'Hãy lựa chọn bản phát hành yêu thích của bạn'
+    outside-drupal: 'Không thể xác định được thư mục Drupal root. Sử dụng --root để thiết lập điểm đến, thư mục hiện tại sẽ được sử dụng thay thế.'
+    error-creating-folder: 'Lỗi khi tạo thư mục %s, xin hãy kiểm tra lại permssions'

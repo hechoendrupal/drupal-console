@@ -1,19 +1,19 @@
-description: 'Generate plugin rest resource'
-help: 'The <info>generate:plugin:rest:resource</info> command helps you generate a new rest resource.'
-welcome: 'Welcome to the Drupal Plugin Rest Resource generator'
+description: 'प्लगिन रेस्ट साधन उत्पन्न करें'
+help: '<info>generate:plugin:rest:resource</info> कमाण्ड आपको एक नया रेस्ट साधन उत्पन्न करने में मदद करता है।'
+welcome: 'Drupal प्लगिन रेस्ट साधन उत्पादक में आपका स्वागत है'
 options:
     module: common.options.module
-    class-name: 'Plugin Rest Resource class'
-    plugin-id: 'Plugin Rest Resource id'
-    plugin-label: 'Plugin Rest Resource Label'
-    plugin-url: 'Plugin Rest Resource URL'
-    plugin-states: 'Plugin Rest Resource States'
+    class: 'प्लगिन रेस्ट साधन क्लास'
+    plugin-id: 'प्लगिन रेस्ट साधन'
+    plugin-label: 'प्लगिन रेस्ट साधन उप-शीर्षक'
+    plugin-url: 'प्लगिन रेस्ट साधन URL'
+    plugin-states: 'प्लगिन रेस्ट साधन स्थिति'
 questions:
     module: common.questions.module
-    class-name: 'Enter the plugin rest resource name'
-    plugin-id: 'Enter the plugin rest resource id'
-    plugin-label: 'Enter the plugin rest resource label'
-    plugin-url: 'Enter the plugin rest resource url'
-    plugin-states: 'Please select what REST States implement in your resource (GET is selected by default)'
+    class: 'प्लगिन रेस्ट साधन का नाम दर्ज करें'
+    plugin-id: 'प्लगिन रेस्ट साधन id दर्ज करें'
+    plugin-label: 'प्लगिन रेस्ट साधन उप-शीर्षक दर्ज करें'
+    plugin-url: 'प्लगिन रेस्ट साधन URL दर्ज करें'
+    plugin-states: 'अपने साधन में रेस्ट स्थिति लागू के लिए चयन करें ( GET डिफ़ॉल्ट रूप से चुना जाता है)'
 messages:
-    selected-states: 'States selected'
+    selected-states: 'स्थिति चयनित'

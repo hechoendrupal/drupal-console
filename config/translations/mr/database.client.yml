@@ -1,0 +1,5 @@
+description: 'DB पक्षकार उपलब्ध असेल तर सुर्वाथ करा'
+arguments:
+    database: 'settings.php मधून डेटाबेसची चावी'
+messages:
+    connection: 'संधान: %s'

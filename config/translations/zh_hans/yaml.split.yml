@@ -1,0 +1,11 @@
+description: '根据缩进分开YAML文件'
+arguments:
+    yaml-file: 所需分开的YAML文件
+options:
+    indent-level: '根据一定的缩进分开YAML文件'
+    exclude-parents-key: 在生成的文件名字里排除上一级的键名
+    starting-key: '对于截取的部分元素有效的开始YAML键'
+messages:
+    generating-split: 生成新文件
+    split-generated: 生成新文件%s
+    invalid-key: 没找到提供的开始YAML键，合并缩进0级的开始截取.

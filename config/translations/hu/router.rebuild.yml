@@ -1,6 +1,6 @@
-description: 'Útvonalak újraépítése'
+description: 'Az alkalmazás útvonalainak újraépítése'
 arguments:
-    route-name: 'Útvonal neve'
+    route-name: Útvonalnevek
 messages:
-    rebuilding: 'Útvonalak újraépítése, kis türelmet'
-    completed: 'Útvonalak újraépítése befejeződött.'
+    rebuilding: 'Kis türelmet, az útvonalak újraépítése folyamatban van'
+    completed: 'Az útvonalak újraépítése befejeződött.'

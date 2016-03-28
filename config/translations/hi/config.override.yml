@@ -1,10 +1,14 @@
-description: 'सक्रिय विन्यास में विन्यास मान को ओवरराइड.'
+description: 'व्यवस्था निधि को सक्रिय डायरेक्टरी में चढ़ा दें।'
 arguments:
-    config-name: 'विन्यास नाम.'
+    config-name: 'व्यवस्था का नाम।'
     key: कुंजी
-    value: मूल्य
+    value: निधि
 messages:
-    configuration: 'विन्यास नाम'
-    configuration-key: 'विन्यास कुंजी'
-    original: 'मूल मूल्य'
-    updated: 'ओवरराइड मूल्य'
+    configuration: 'व्यवस्था का नाम'
+    configuration-key: 'व्यवस्था की कुंजी'
+    original: 'मूल निधि'
+    updated: 'चढ़ाई निधि'
+examples:
+    -
+        description: '"flood" मॉड्यूल संपर्क 10 का मूल्य निर्धारित किया है।'
+        execution: 'drupal config:override contact.settings flood.limit 10'

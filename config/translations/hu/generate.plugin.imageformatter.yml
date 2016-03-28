@@ -1,12 +1,12 @@
-description: 'Generate image formatter plugin.'
-help: 'The <info>generate:plugin:imageformatter</info> command helps you generate a new image formatter plugin.'
+description: 'Képformázó bővítmény létrehozása.'
+help: 'A <info>generate:plugin:imageformatter</info> parancs új képformázó bővítmény létrehozását segíti.'
 options:
     module: common.options.module
-    class-name: 'Plugin class name'
-    label: 'Plugin label'
-    plugin-id: 'Plugin id'
+    class: 'Bővítményosztály neve'
+    label: 'Bővítmény felirata'
+    plugin-id: 'Bővítmény azonosítója'
 questions:
     module: common.questions.module
-    class-name: 'Enter the plugin class name'
-    label: 'Enter the plugin label'
-    plugin-id: 'Enter the plugin id'
+    class: 'Meg kell adni a bővítmény osztálynevét'
+    label: 'Meg kell adni a bővítmény feliratát'
+    plugin-id: 'Meg kell adni a bővítmény azonosítóját'

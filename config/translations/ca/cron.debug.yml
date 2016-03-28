@@ -1,0 +1,4 @@
+description: 'Llistar els mòduls que implementen una crida al cron'
+messages:
+    module-list: 'Mòduls que implementen un mètode del cron'
+    module: Mòdul

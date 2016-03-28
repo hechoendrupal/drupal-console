@@ -1,20 +1,22 @@
-description: 'Run Test unit from tests available for application'
+description: 'Egységteszt futtatása az alkalmazás számára elérhető tesztek közül'
 arguments:
-    test-class: 'Test Class'
+    test-class: Tesztosztály
+    test-methods: 'Test method(s) to be run'
 messages:
-    missing-dependency: 'Test can''t be executed due a missing dependency'
-    phpunit-pending: 'Logic to execute PHPUnit test is not implemented yet.'
-    starting-test: 'Starting test'
-    test-duration: 'Test duration'
-    test-pass: 'Test passes'
-    test-fail: 'Test fails'
-    test-exception: 'Test exceptions'
-    test-debug: 'Test debugs'
-    url-required: 'URL option is required to run test'
-    test-summary: 'Test Summary'
-    group: Group
-    status: Status
-    file: File
-    method: Method
-    line: Line
-    message: Message
+    missing-dependency: 'A teszt hiányzó függőség miatt nem hajtható végre'
+    phpunit-pending: 'A PHPUnit teszt végrehajtási logikája még nincs megvalósítva.'
+    starting-test: 'Teszt indítása'
+    test-duration: 'Teszt időtartama'
+    test-pass: 'Sikeres tesztek'
+    test-fail: 'Meghiúsult tesztek'
+    test-exception: Tesztkivételek
+    test-debug: 'Teszt hibakeresése'
+    url-required: 'A teszt futtatásához meg kell adni az URL-címet'
+    test-summary: 'Teszt összegzése'
+    group: Csoport
+    status: Állapot
+    file: Fájl
+    method: Metódus
+    line: Sor
+    message: Üzenet
+    invalid-class: 'Testing class %s doesn''t exists'

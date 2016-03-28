@@ -1,0 +1,14 @@
+description: 'Exporte une unique configuration sous la forme d''un fichier YAML.'
+arguments:
+    config-name: 'Nom de la configuration.'
+options:
+    include-dependencies: 'Export dependencies of the configuration as well.'
+    simple-configuration: 'Configuration simple'
+questions:
+    config-type: 'Type de configuration'
+    config-name: 'Nom de la configuration'
+messages:
+    config-not-found: 'la configuration n''a pas été trouvée.'
+    export: 'La configuration a été exportée dans le fichier %s.'
+    invalid-config-type: 'Type de configuration invalide, veuillez choisir un élément de la liste'
+    invalid-config-name: 'Nom de configuration invalide, veuillez choisir un élément de la liste'

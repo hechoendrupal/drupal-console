@@ -1,0 +1,5 @@
+description: 'सेटिंग्स फाइल पर वर्तमान key:value दिखाता है।'
+help: '<info>config:settings:debug</info> कमांड आपको वर्तमान key:value सेटिंग्स फ़ाइल पर प्रदर्शित करने में मदद करता है।'
+welcome: 'Drupal कॉन्फिग सेटिंग्स डिबग कमांड में आपका स्वागत है'
+messages:
+    current: 'सेटिंग्स फ़ाइल पर वर्तमान key:value'

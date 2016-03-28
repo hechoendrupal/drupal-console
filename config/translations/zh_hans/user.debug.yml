@@ -1,0 +1,14 @@
+description: 显示网站的当前用户(s)
+help: '<info>user:debug</info>命令用于获取当前用户(s)'
+welcome: '欢迎使用 Drupal 用户调试'
+options:
+    roles: 用于过滤用户的角色
+    limit: 指定显示的用户数量
+questions:
+    roles: 选择用于过滤用户的角色(s)
+    limit: '输入想显示的用户数量'
+messages:
+    user-id: '用户 ID'
+    username: 用户名
+    roles: 角色(s)
+    status: 状态

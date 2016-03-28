@@ -1,0 +1,4 @@
+description: 'Eliminar un idioma soportado en el sitio'
+messages:
+    invalid-language: 'El idioma %s no es un idioma válido'
+    language-deleted-successfully: 'El idioma %s fue eliminado exitósamente.'

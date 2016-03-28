@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-Drupal\{{module}}\Tests\{{ class_name }}.
+\Drupal\{{module}}\Tests\{{ class_name }}.
 {% endblock %}
 
 {% block namespace_class %}
@@ -41,6 +41,6 @@ class {{class_name}}Test extends WebTestBase {% endblock %}
    */
   public function test{{class_name}}() {
     // Check that the basic functions of module {{module}}.
-    $this->assertEqual(TRUE, TRUE, 'Test Unit Generated via App Console.');
+    $this->assertEquals(TRUE, TRUE, 'Test Unit Generated via App Console.');
   }
 {% endblock %}

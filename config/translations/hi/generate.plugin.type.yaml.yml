@@ -1,13 +1,13 @@
-description: 'Generate a plugin type with Yaml discovery'
-help: 'The <info>generate:plugin:type:yaml</info> command helps you generate a new Plugin type that uses Yaml discovery.'
-welcome: 'Welcome to the Drupal Plugin Type generator'
+description: 'प्लगिन प्रकार युक्त YAML प्रकाशन उत्पन्न करें'
+help: '<info>generate:plugin:type:yaml</info> कमाण्ड आपको नया प्लगिन प्रकार युक्त YAML प्रकाशन उत्पन्न करने में मदद करता है।'
+welcome: 'Drupal प्लगिन प्रकार उत्पादक मे स्वागत'
 options:
     module: common.options.module
-    class-name: 'Plugin type class name'
-    plugin-name: 'Plugin type machine name'
-    plugin-file-name: 'Plugin file name'
+    class: 'प्लगिन प्रकार क्लास नाम'
+    plugin-name: 'प्लगिन प्रकार यांत्रिक नाम'
+    plugin-file-name: 'प्लगिन फ़ाइल नाम'
 questions:
     module: common.questions.module
-    class-name: 'Enter the plugin type class name'
-    plugin-name: 'Enter the plugin type machine name'
-    plugin-file-name: 'Enter the plugin file name (e.g. MODULE.plugin.filename.yml)'
+    class: 'प्लगिन प्रकार क्लास नाम दर्ज करें'
+    plugin-name: 'प्लगिन प्रकार यांत्रिक नाम दर्ज करें'
+    plugin-file-name: 'प्लगिन फ़ाइल नाम दर्ज करें (e.g. MODULE.plugin.filename.yml)'

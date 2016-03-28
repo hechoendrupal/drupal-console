@@ -1,0 +1,9 @@
+description: 'Khôi phục cấu trúc và content của một cơ sở dữ liệu'
+arguments:
+    database: 'Khoá cơ sở dữ liệu từ tệp settings.php'
+options:
+    file: 'Tên cho tệp sao lưu cơ sở dữ liệu của bạn'
+messages:
+    success: 'Cơ sở dữ liệu đã được nhập vào từ :'
+    no-file: 'Missing file option'
+help: 'Restore structure and contents of a database.'
