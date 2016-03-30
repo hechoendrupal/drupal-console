@@ -38,7 +38,7 @@ More information about using this project at the [official documentation](https:
 PHP 5.5.9 or higher is required to use the Drupal Console application.
 
 ## Supported Drupal Version
-The Drupal 8 supported version is [Drupal 8.0.2](http://ftp.drupal.org/files/projects/drupal-8.0.2.tar.gz).
+The Drupal 8 supported version is [Drupal 8.0.x](https://www.drupal.org/node/3060/release).
 
 ## Installing Drupal Console
 ```
@@ -57,14 +57,14 @@ chmod +x /usr/local/bin/drupal
 # Copy configuration files.
 drupal init --override
 
-# Show all available commands.
+# Check and validate system requirements
 drupal check
 
 # Download, install and serve Drupal 8:
 drupal chain --file=~/.console/chain/quick-start.yml
 
 # Create a new Drupal 8 project:
-drupal site:new drupal8.dev 8.0.0
+drupal site:new drupal8.dev
 
 # Lists all available commands:
 drupal list
@@ -133,9 +133,8 @@ ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish
 ```
 
 ## Supporting Organizations
-[![FFW](https://www.drupal.org/files/ffw-logo.png)](https://ffwagency.com)  
-[![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)  
+[![FFW](https://www.drupal.org/files/ffw-logo.png)](https://ffwagency.com)    
 [![Anexus](https://www.drupal.org/files/anexus-logo.png)](http://www.anexusit.com/)
-
+[![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)
 
 > Drupal is a registered trademark of Dries Buytaert.
