@@ -7,7 +7,7 @@ options:
     module-path: 'A modul útvonala'
     description: 'A modul leírása'
     core: 'Drupal alaprendszer verziója'
-    feature: 'A modul legyen kompatibilis a Features modullal'
+    features-bundle: 'Define module as feature using the given Features bundle name'
     package: Modulcsomag
     module-file: '.module fájl hozzáadása'
     composer: 'composer.json fájl hozzáadása'
@@ -20,7 +20,8 @@ questions:
     description: 'Meg kell adni a modul leírását'
     core: 'Meg kell adni a drupal alaprendszer verzióját'
     package: 'Meg kell adni a csomag nevét'
-    feature: 'A modul legyen feature'
+    features-support: 'A modul legyen feature'
+    features-bundle: 'Enter Features bundle name'
     module-file: 'Létrejöjjön .module fájl?'
     composer: 'A modul tartalmazzon composer.json fájlt?'
     dependencies: 'Modulfüggőségek hozzáadása most?'
