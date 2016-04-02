@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Chain;
 
+use Drupal\Console\Command\ChainFilesTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -19,6 +20,7 @@ use Drupal\Console\Command\Command;
  */
 class ChainCommand extends Command
 {
+    use ChainFilesTrait;
     /**
      * {@inheritdoc}
      */
@@ -33,6 +35,46 @@ class ChainCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.chain.options.file')
             );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        $io = new DrupalStyle($input, $output);
+        $file = null;
+        if ($input->hasOption('file')) {
+            $file = $input->getOption('file');
+        }
+
+        $chainFiles = null;
+        if (!$file) {
+            $chainFiles = $this->getChainFiles();
+        }
+
+        if (!$chainFiles) {
+            return;
+        }
+
+        $files = null;
+        foreach ($chainFiles as $chainDirectory => $chainFileList) {
+            foreach ($chainFileList as $chainFile) {
+                $fullPath = sprintf(
+                    '%s/%s',
+                    $chainDirectory,
+                    $chainFile
+                );
+                $files[] = $fullPath;
+            }
+        }
+
+        $file = $io->choice(
+            $this->trans('commands.chain.questions.chain-file'),
+            array_values($files)
+        );
+
+        $input->setOption('file', $file);
     }
 
     /**

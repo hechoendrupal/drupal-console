@@ -28,8 +28,8 @@ class ImportSingleCommand extends ContainerAwareCommand
                 $this->trans('commands.config.import.single.arguments.name')
             )
             ->addArgument(
-                'input-file', InputArgument::OPTIONAL,
-                $this->trans('commands.config.import.single.arguments.input-file')
+                'file', InputArgument::REQUIRED,
+                $this->trans('commands.config.import.single.arguments.file')
             );
     }
 
@@ -41,7 +41,7 @@ class ImportSingleCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         $configName = $input->getArgument('name');
-        $fileName = $input->getArgument('input-file');
+        $fileName = $input->getArgument('file');
         $config = $this->getConfigFactory()->getEditable($configName);
         $ymlFile = new Parser();
 
@@ -56,9 +56,22 @@ class ImportSingleCommand extends ContainerAwareCommand
 
             return;
         }
-
         $config->setData($value);
-        $config->save();
+
+        try {
+            $config->save();
+        } catch (\Exception $e) {
+            $io->error($e->getMessage());
+
+            return 1;
+        }
+
+        $io->success(
+            sprintf(
+                $this->trans('commands.config.import.single.messages.success'),
+                $configName
+            )
+        );
     }
 
     /**
@@ -72,10 +85,17 @@ class ImportSingleCommand extends ContainerAwareCommand
             $configFactory = $this->getService('config.factory');
             $names = $configFactory->listAll();
             $name = $io->choiceNoList(
-                $this->trans('commands.config.import.single.arguments.name'),
+                $this->trans('commands.config.import.single.questions.name'),
                 $names
             );
             $input->setArgument('name', $name);
         }
+            $file = $input->getArgument('file');
+            if (!$file) {
+                $file = $io->ask(
+                    $this->trans('commands.config.import.single.questions.file')
+                );
+                $input->setArgument('file', $file);
+            }
     }
 }

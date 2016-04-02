@@ -260,7 +260,7 @@ class PluginFieldCommand extends GeneratorCommand
         if (!$formatterLabel) {
             $formatterLabel = $io->ask(
                 $this->trans('commands.generate.plugin.field.questions.formatter-label'),
-                $this->getStringHelper()->camelCaseToHuman($widgetClass)
+                $this->getStringHelper()->camelCaseToHuman($formatterClass)
             );
             $input->setOption('formatter-label', $formatterLabel);
         }
@@ -270,7 +270,7 @@ class PluginFieldCommand extends GeneratorCommand
         if (!$formatter_plugin_id) {
             $formatter_plugin_id = $io->ask(
                 $this->trans('commands.generate.plugin.field.questions.formatter-plugin-id'),
-                $this->getStringHelper()->camelCaseToUnderscore($widgetClass)
+                $this->getStringHelper()->camelCaseToUnderscore($formatterClass)
             );
             $input->setOption('formatter-plugin-id', $formatter_plugin_id);
         }
