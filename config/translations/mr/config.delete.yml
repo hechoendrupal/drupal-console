@@ -1,7 +1,7 @@
-description: 'Delete configuration'
+description: 'संरचना हटवा'
 arguments:
-    name: 'Configuration name.'
+    name: 'संरचने नाव.'
 messages:
-    enter-name: 'Configuration name must contain a value.'
-    config-not-exists: 'The configuration "%s" does not exists.'
-    deleted: 'Configuration "%s" sucessfully deleted.'
+    enter-name: 'संरचनेच्या नावाचे मूल्य असणे आवश्यक आहे.'
+    config-not-exists: 'संरचना "%s" अस्तित्वात नाही.'
+    deleted: 'संरचना "%s" यशस्वीपणे हटविले.'
