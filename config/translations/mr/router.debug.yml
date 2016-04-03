@@ -1,10 +1,10 @@
-description: 'Displays current routes for the application'
+description: 'अनुप्रयोग चालू मार्ग दाखवतो'
 arguments:
-    route-name: 'Route names'
+    route-name: 'मार्ग नावे'
 messages:
-    name: 'Route name'
-    class: 'Class path'
-    route: Route
-    path: Path
-    defaults: Defaults
-    options: Options
+    name: 'मार्ग नावे'
+    class: 'क्लास मार्ग'
+    route: 'मार्ग'
+    path: 'मार्ग'
+    defaults: 'मुलभूत'
+    options: 'पर्याय'
