@@ -5,7 +5,7 @@ value:
         yaml-key: 'Clau YAML per actualitzar'
         yaml-value: 'Valor YAML per actualitzar'
     messages:
-        updated: 'El fitxer YAML %s s''ha actualitzat correctament.'
+        updated: 'El fitxer YAML "%s" s''ha actualitzat correctament.'
 key:
     description: 'Reemplaçar una clau YAML en un fitxer YAML.'
     arguments:

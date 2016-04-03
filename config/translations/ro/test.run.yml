@@ -19,4 +19,4 @@ messages:
     method: Metoda
     line: Linie
     message: Mesaj
-    invalid-class: 'Testing class %s doesn''t exists'
+    invalid-class: 'Testing class "%s" doesn''t exists'

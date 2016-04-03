@@ -9,6 +9,6 @@ questions:
     config-name: 'Configuration name'
 messages:
     config-not-found: コンフィグレーション名が見つかりません。
-    export: 'コンフィグレーションは %s にエクスポートされました。'
+    export: 'コンフィグレーションは "%s" にエクスポートされました。'
     invalid-config-type: '無効なコンフィグレーションタイプです、一覧の中から選択してください。'
     invalid-config-name: '無効なコンフィグレーション名です、一覧の中から選択してください。'

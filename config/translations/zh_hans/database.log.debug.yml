@@ -16,4 +16,4 @@ messages:
     user: 用户
     severity: 严重等级
     invalid-severity: '严重等级类型无效，过滤器被忽略'
-    not-found: 'DBLog 事件 %s 没有找到'
+    not-found: 'DBLog 事件 "%s" 没有找到'

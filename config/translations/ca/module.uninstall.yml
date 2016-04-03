@@ -3,7 +3,7 @@ options:
     module: 'Els mòduls per desinstal·lar separats per comes'
 messages:
     no-modules: 'Has de proporcionar un mòdul per desintal·lar.'
-    dependents: 'No es poden desinstal·lar els mòduls %s perquè son requerits per %s'
+    dependents: 'No es poden desinstal·lar els mòduls "%s" perquè son requerits per %s'
     nothing: 'Res a fer. Tots el mòduls ja estan desinstal·lats'
     success: 'Els següents mòduls s''han desinstal·lat correctament: %s'
-    missing: 'No es poden instal·lar els mòduls %s degut als mòduls faltants %s'
+    missing: 'No es poden instal·lar els mòduls "%s" degut als mòduls faltants %s'

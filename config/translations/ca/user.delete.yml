@@ -10,8 +10,8 @@ questions:
 messages:
     user-id: 'Identificador del usuari'
     username: 'Nom del usuari'
-    user-deleted: 'L''usuari %s s''ha esborrat correctament'
+    user-deleted: 'L''usuari "%s" s''ha esborrat correctament'
     users-deleted: '%s usuaris eliminats correctament'
 errors:
-    invalid-user-id: 'L''Identificador de l''usuari %s no és vàlid'
-    invalid-user: 'L''usuari %s no és vàlid'
+    invalid-user-id: 'L''Identificador de l''usuari "%s" no és vàlid'
+    invalid-user: 'L''usuari "%s" no és vàlid'

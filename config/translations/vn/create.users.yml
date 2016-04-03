@@ -24,4 +24,4 @@ messages:
     roles: Roles
     username: Username
     created: 'Created Time'
-    created-users: 'Users %s đã được tạo thành công'
+    created-users: 'Users "%s" đã được tạo thành công'

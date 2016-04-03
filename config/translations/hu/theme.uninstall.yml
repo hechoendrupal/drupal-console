@@ -6,11 +6,11 @@ options:
     theme: 'Az eltávolítandó sminkeket vesszővel kell elválasztani'
 messages:
     no-themes: 'Meg kell adni az eltávolítandó sminket vagy sminkeket.'
-    themes-missing: 'Nem lehet eltávolítani %s sminkeket, mert nem érhetők el'
+    themes-missing: 'Nem lehet eltávolítani "%s" sminkeket, mert nem érhetők el'
     theme-missing: '%s smink nem távolítható el, mert nem érhető el'
     missing-dependencies: '%s sminkek nem távolíthatók el, mert függőségek hiányoznak: %s'
     themes-nothing: 'Nincs teendő. Már minden smink el van távolítva: %s'
-    theme-nothing: 'Nincs teendő. %s smink már el van távolítva.'
+    theme-nothing: 'Nincs teendő. "%s" smink már el van távolítva.'
     dependencies: 'Néhány függőség nem teljesül: %s?'
     theme-success: '%s smink eltávolítása sikerült'
     themes-success: '%s sminkek eltávolítása sikerült'

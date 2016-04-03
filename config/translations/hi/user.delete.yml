@@ -10,8 +10,8 @@ questions:
 messages:
     user-id: 'यूजर आईडी'
     username: यूजरनाम
-    user-deleted: 'यूज़र %s को सफलतापूर्वक नष्ट कर दिया गया'
+    user-deleted: 'यूज़र "%s" को सफलतापूर्वक नष्ट कर दिया गया'
     users-deleted: '%s यूजरस को सफलतापूर्वक नष्ट कर दिया गया'
 errors:
-    invalid-user-id: 'यूजर आईडी %s अवैध है'
-    invalid-user: 'यूजर आईडी %s अवैध है'
+    invalid-user-id: 'यूजर आईडी "%s" अवैध है'
+    invalid-user: 'यूजर आईडी "%s" अवैध है'

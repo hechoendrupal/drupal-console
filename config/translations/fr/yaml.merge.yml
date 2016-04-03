@@ -14,4 +14,4 @@ messages:
     two-files-required: 'Deux fichiers minimum sont nécessaires.'
     error-generating: 'Une erreur est survenue lors de la génération.'
     error-writing: 'Une erreur est survenue lors de l''écriture du fichier fusionné.'
-    merged: 'Le nouveau fichier %s à été créé correctement après la fusion des fichiers YAML.'
+    merged: 'Le nouveau fichier "%s" à été créé correctement après la fusion des fichiers YAML.'

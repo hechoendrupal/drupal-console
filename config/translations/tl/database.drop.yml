@@ -6,4 +6,4 @@ question:
     drop-tables: 'Confirm you really want to drop all tables in the database %s?'
 messages:
     table: Table
-    table-drop: 'Drop %s tables successfully'
+    table-drop: 'Drop "%s" tables successfully'

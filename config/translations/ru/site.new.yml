@@ -9,7 +9,7 @@ messages:
     downloading: 'Downloading Drupal %s'
     extracting: 'Extracting files for Drupal %s'
     no-releases: 'There aren''t any releases available for Drupal'
-    downloaded: 'Drupal %s was downloaded in directory %s'
+    downloaded: 'Drupal "%s" was downloaded in directory %s'
     error-copying: 'An error occurred while renaming your directory at %s'
     release: 'Please select a release'
 questions:

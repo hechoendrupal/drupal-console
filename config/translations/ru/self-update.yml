@@ -5,7 +5,7 @@ options:
     manifest: 'Override the manifest file path.'
     current-version: 'Override the version to update from.'
 questions:
-    update: 'Update from version %s to version %s.'
+    update: 'Update from version "%s" to version %s.'
 messages:
     not-phar: 'This instance of the CLI was not installed as a Phar archive.'
     update: 'Updating to version %s.'

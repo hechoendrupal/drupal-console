@@ -4,8 +4,8 @@ options:
 messages:
     no-releases: 'Não há nenhuma versão disponível para o tema %s'
     getting-releases: 'Baixando as versões disponíveis para o tema %s'
-    downloading: 'Baixando o tema %s com a versão %s'
-    downloaded: 'O tema %s versão %s foi baixado com sucesso em %s'
+    downloading: 'Baixando o tema "%s" com a versão %s'
+    downloaded: 'O tema "%s" versão "%s" foi baixado com sucesso em %s'
     select-release: 'Por favor selecione a sua versão preferencial'
     outside-drupal: 'Não foi possível localizar o diretório raiz do drupal. Utilize --root para definir o diretório do drupal, caso contrário será utilizado o diretório atual.'
     error-creating-folder: 'Erro ao criar o diretório %s, por favor verifique as permissões'

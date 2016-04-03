@@ -5,7 +5,7 @@ options:
     manifest: 'Sobreescribir la ruta del archivo manifest'
     current-version: 'Sobreescribir la versión desde la que actualizar'
 questions:
-    update: 'Actualizar de la versión %s a la versión %s.'
+    update: 'Actualizar de la versión "%s" a la versión %s.'
 messages:
     not-phar: 'Esta instancia del CLI (interfaz de línea de comandos) no ha sido instalada como un archivo Phar.'
     update: 'Actualizando a la versión %s.'
