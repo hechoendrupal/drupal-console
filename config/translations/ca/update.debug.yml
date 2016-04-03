@@ -7,5 +7,7 @@ messages:
     description: Descripció
     requirements-error: 'No s''ha completat el següent requeriment'
     module-list: 'Mòduls amb actualitzacions pendents'
+    module-list-post-update: 'Modules with pending post updates'
     module: Mòdul
     update-n: 'Update N'
+    post-update: 'Post update function'

@@ -7,5 +7,7 @@ messages:
     description: 'Mô tả'
     requirements-error: 'Yêu cầu sau không được hoàn thành'
     module-list: 'Các Modules đang đợi cập nhật'
+    module-list-post-update: 'Modules with pending post updates'
     module: Module
     update-n: 'Cập nhật N'
+    post-update: 'Post update function'
