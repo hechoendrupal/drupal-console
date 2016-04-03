@@ -6,5 +6,6 @@ messages:
     completed: 'El proceso a terminado con éxito.'
     failed: 'El proceso falló.'
 examples:
-    - description: Reconstruir los permisos de acceso a nodos
-      execution: drupal node:access:rebuild --batch
+    -
+        description: 'Reconstruir los permisos de acceso a nodos'
+        execution: 'drupal node:access:rebuild --batch'

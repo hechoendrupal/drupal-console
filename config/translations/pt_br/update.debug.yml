@@ -7,5 +7,7 @@ messages:
     description: Descrição
     requirements-error: 'O seguinte requerimento não foi completado'
     module-list: 'Módulos com atualizações pendentes'
+    module-list-post-update: 'Modules with pending post updates'
     module: Módulo
     update-n: 'Update N'
+    post-update: 'Post update function'

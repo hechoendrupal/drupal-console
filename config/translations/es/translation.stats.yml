@@ -6,5 +6,5 @@ options:
 messages:
     invalid-language: 'El idioma %s no es válido'
     language: Idioma
-    percentage: 'Porcentaje'
+    percentage: Porcentaje
     iso: 'Código ISO'
