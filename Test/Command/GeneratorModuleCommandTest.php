@@ -23,7 +23,7 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
      * @param $description
      * @param $core
      * @param $package
-     * @param $feature
+     * @param $featuresBundle
      * @param $composer
      * @param $dependencies
      *
@@ -36,7 +36,7 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
         $description,
         $core,
         $package,
-        $feature,
+        $featuresBundle,
         $composer,
         $dependencies
     ) {
@@ -54,7 +54,7 @@ class GeneratorModuleCommandTest extends GenerateCommandTest
               '--description'    => $description,
               '--core'           => $core,
               '--package'        => $package,
-              '--feature'        => $feature,
+              '--features-bundle'=> $featuresBundle,
               '--composer'       => $composer,
               '--dependencies'   => $dependencies
             ],

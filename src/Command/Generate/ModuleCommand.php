@@ -71,10 +71,10 @@ class ModuleCommand extends GeneratorCommand
                 $this->trans('commands.generate.module.options.module-file')
             )
             ->addOption(
-                'feature',
+                'features-bundle',
                 '',
-                InputOption::VALUE_NONE,
-                $this->trans('commands.generate.module.options.feature')
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.generate.module.options.features-bundle')
             )
             ->addOption(
                 'composer',
@@ -117,7 +117,7 @@ class ModuleCommand extends GeneratorCommand
         $core = $input->getOption('core');
         $package = $input->getOption('package');
         $moduleFile = $input->getOption('module-file');
-        $feature = $input->getOption('feature');
+        $featuresBundle = $input->getOption('features-bundle');
         $composer = $input->getOption('composer');
 
          // Modules Dependencies, re-factor and share with other commands
@@ -145,7 +145,7 @@ class ModuleCommand extends GeneratorCommand
             $core,
             $package,
             $moduleFile,
-            $feature,
+            $featuresBundle,
             $composer,
             $dependencies
         );
@@ -314,13 +314,19 @@ class ModuleCommand extends GeneratorCommand
             $input->setOption('module-file', $moduleFile);
         }
 
-        $feature = $input->getOption('feature');
-        if (!$feature) {
-            $feature = $io->confirm(
-                $this->trans('commands.generate.module.questions.feature'),
-                false
+        $featuresBundle = $input->getOption('features-bundle');
+        if (!$featuresBundle) {
+            $featuresSupport = $io->confirm(
+              $this->trans('commands.generate.module.questions.features-support'),
+              false
             );
-            $input->setOption('feature', $feature);
+            if ($featuresSupport) {
+                $featuresBundle = $io->ask(
+                  $this->trans('commands.generate.module.questions.features-bundle'),
+                  'default'
+                );
+            }
+            $input->setOption('features-bundle', $featuresBundle);
         }
 
         $composer = $input->getOption('composer');
