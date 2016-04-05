@@ -56,7 +56,8 @@
         "stecman/symfony-console-completion": "^0.5.1",
         "guzzlehttp/guzzle": "~6.1",
         "padraic/phar-updater": "~1.0@dev",
-        "gabordemooij/redbean": "@stable"
+        "gabordemooij/redbean": "@stable",
+        "knplabs/knp-snappy-bundle": "dev-master"
     },
     "bin": ["bin/drupal"],
     "config": {
