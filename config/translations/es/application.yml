@@ -19,7 +19,6 @@ options:
     check-fix: 'Intentar corregir cualquier configuración faltante.'
 arguments:
     command: 'El comando a ejecutar'
-
 messages:
     completed: '¡Ya puede empezar a usar el código generado!'
     chain:
@@ -36,7 +35,6 @@ messages:
     version: '<info>%s</info> versión <comment>%s</comment>'
 errors:
     invalid-command: 'El comando "%s" no está definido.'
-
 site:
     messages:
         path: 'Ruta del sitio'

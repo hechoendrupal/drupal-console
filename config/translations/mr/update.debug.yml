@@ -7,5 +7,7 @@ messages:
     description: वर्णन
     requirements-error: 'खालील गरजा पूर्ण नाहीत'
     module-list: 'प्रलंबित सुधारणा विभाग'
+    module-list-post-update: 'Modules with pending post updates'
     module: विभाग
     update-n: 'सुधारणा N'
+    post-update: 'Post update function'

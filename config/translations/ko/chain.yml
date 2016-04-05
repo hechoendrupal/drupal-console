@@ -1,6 +1,8 @@
 description: '체인 명령어 실행'
 options:
     file: '실행할 명령어가 있는 사용자 정의 파일.'
+questions:
+    chain-file: 'Select chain file to execute'
 messages:
     missing_file: '유효한 파일 경로와 파일명을 입력해야 합니다.'
     invalid_file: '"%s" 파일은 없습니다.'
