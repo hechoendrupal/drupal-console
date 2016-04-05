@@ -27,7 +27,7 @@ class PluginDebugCommand extends ContainerAwareCommand
           ->setDescription($this->trans('commands.plugin.debug.description'))
           ->setHelp($this->trans('commands.plugin.debug.help'))
           ->addArgument('type', InputArgument::OPTIONAL, $this->trans('commands.plugin.debug.arguments.type'))
-          ->addArgument('id', InputArgument::OPTIONAL, $this->trans('commands.plugin.debug.arguments.type'));
+          ->addArgument('id', InputArgument::OPTIONAL, $this->trans('commands.plugin.debug.arguments.id'));
     }
 
     /**
