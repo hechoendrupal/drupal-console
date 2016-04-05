@@ -16,10 +16,10 @@ trait ModuleDataProviderTrait
         $this->setUpTemporaryDirectory();
 
         return [
-          ['Foo', sprintf('%s_%s', 'foo', rand()), $this->dir, 'Description', '8.x', 'Custom', true, false, false, null],
-          ['Foo', sprintf('%s_%s', 'foo', rand()), $this->dir, 'Description', '8.x', 'Custom', false, true, false, null],
-          ['Foo', sprintf('%s_%s', 'foo', rand()), $this->dir, 'Description', '8.x', 'Custom', true, false, false, null],
-          ['Foo', sprintf('%s_%s', 'foo', rand()), $this->dir, 'Description', '8.x', 'Custom', false, false, false, null],
+          ['Foo', sprintf('%s_%s', 'foo', rand()), $this->dir, 'Description', '8.x', 'Custom', true, '', false, null],
+          ['Foo', sprintf('%s_%s', 'foo', rand()), $this->dir, 'Description', '8.x', 'Custom', false, 'default', false, null],
+          ['Foo', sprintf('%s_%s', 'foo', rand()), $this->dir, 'Description', '8.x', 'Custom', true, '', false, null],
+          ['Foo', sprintf('%s_%s', 'foo', rand()), $this->dir, 'Description', '8.x', 'Custom', false, '', false, null],
         ];
     }
 }

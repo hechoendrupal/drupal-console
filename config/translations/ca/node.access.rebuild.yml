@@ -6,5 +6,6 @@ messages:
     completed: 'Done rebuilding permissions.'
     failed: 'Rebuilding permissions was not successful.'
 examples:
-    - description: Rebuild node access permissions
-      execution: drupal node:access:rebuild --batch
+    -
+        description: 'Rebuild node access permissions'
+        execution: 'drupal node:access:rebuild --batch'

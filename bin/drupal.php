@@ -77,7 +77,7 @@ $application->setDirectoryRoot($consoleRoot);
 $dispatcher = new EventDispatcher();
 $dispatcher->addSubscriber(new ValidateDependenciesListener());
 $dispatcher->addSubscriber(new ShowWelcomeMessageListener());
-$dispatcher->addSubscriber(new ShowGenerateDocListener());
+//$dispatcher->addSubscriber(new ShowGenerateDocListener());
 $dispatcher->addSubscriber(new DefaultValueEventListener());
 $dispatcher->addSubscriber(new ShowGeneratedFilesListener());
 $dispatcher->addSubscriber(new CallCommandListener());

@@ -1,6 +1,7 @@
 description: 'अनुप्रयोग में मॉड्यूल की स्थापित रद्द करें |'
 options:
     module: 'रद्द किए जाने मॉड्यूल को अल्पवीराम से अलग करें |'
+    force: 'Do you want to ignore dependencies and forcefully uninstall the module?'
 messages:
     no-modules: 'स्थापना रद्द करने के लिए मॉड्यूल प्रदान करें |'
     dependents: 'मोड्यूल %s स्थापित नही हो पाया क्यों की यह इन पे %s निर्भर है'

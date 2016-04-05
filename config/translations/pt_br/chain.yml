@@ -1,6 +1,8 @@
 description: 'Execução de comandos em sequência'
 options:
     file: 'Arquivo definido pelo usuário contendo comandos para ser executados em sequência'
+questions:
+    chain-file: 'Select chain file to execute'
 messages:
     missing_file: 'Você deve fornecer um nome e caminho de arquivo válido.'
     invalid_file: 'O arquivo "%s" não existe.'
