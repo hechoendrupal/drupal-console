@@ -1,8 +1,8 @@
-description: 'Execute flush function by image style or execute all flush images styles'
+description: 'प्रतिमा शैली फ्लश कार्य अंमलात किंवा सर्व फ्लश प्रतिमा शैली कार्यान्वित'
 messages:
-  executing-flush: 'Executing flush function on image style %s'
-  success: 'All flush functions requested were executed successfully'
+  executing-flush: 'प्रतिमा शैली फ्लश कार्य अंमलात %s'
+  success: 'विनंती केलेली सर्व फ्लश कार्ये यशस्वीरित्या अंमलात आले'
 options:
-  image-style: 'The Images Styles name.'
+  image-style: 'प्रतिमा शैलीचे नाव.'
 questions:
-  image-style: 'Select Images Styles to flush.'
+  image-style: 'फ्लश करण्यासाठी प्रतिमा शैली निवडा.'

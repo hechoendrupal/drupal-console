@@ -1,6 +1,8 @@
 description: 'Séquence d''exécution de commandes'
 options:
     file: 'Fichier utilisateur contenant les commandes à être exécutées.'
+questions:
+    chain-file: 'Select chain file to execute'
 messages:
     missing_file: 'Vous devez fournir un chemin et nom de fichier valide.'
     invalid_file: 'Le fichier "%s" n''existe pas.'

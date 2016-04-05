@@ -7,5 +7,7 @@ messages:
     description: Leírás
     requirements-error: 'A következő követelmény nem teljesült'
     module-list: 'Függőben lévő frissítésekkel rendelkező modulok'
+    module-list-post-update: 'Modules with pending post updates'
     module: Modul
     update-n: 'Update N'
+    post-update: 'Post update function'

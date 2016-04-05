@@ -3,7 +3,7 @@ commands:
   - command: site:new
     arguments:
       directory: drupal8.dev
-      version: 8.0.5
+      version: 8.1.0-beta2
 # Install Drupal
   - command: site:install
     options:
