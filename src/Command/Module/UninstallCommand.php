@@ -16,15 +16,38 @@ use Drupal\Console\Style\DrupalStyle;
 
 class UninstallCommand extends ContainerAwareCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
             ->setName('module:uninstall')
             ->setDescription($this->trans('commands.module.uninstall.description'))
-            ->addArgument('module', InputArgument::REQUIRED, $this->trans('commands.module.uninstall.options.module'))
+            ->addArgument('module', InputArgument::REQUIRED, $this->trans('commands.module.uninstall.questions.module'))
             ->addOption('force', '', InputOption::VALUE_NONE, $this->trans('commands.module.uninstall.options.force'));
     }
+    /**
+     * {@inheritdoc}
+     */
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        $io = new DrupalStyle($input, $output);
+        $module = $input->getArgument('module');
+        $modules = $this->getSite()->getModules(true, true, false, true, true, true);
 
+        if(!$module){
+                $module = $io->choiceNoList(
+                    $this->trans('commands.module.uninstall.questions.module'),
+                    $modules,
+                    true
+                );
+                $input->setArgument('module', $module);
+        }
+    }
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io =  new DrupalStyle($input, $output);
@@ -96,7 +119,7 @@ class UninstallCommand extends ContainerAwareCommand
 
         // Installing modules
         try {
-            // Install the modules.
+            // Uninstall the modules.
             $moduleInstaller->uninstall($module_list);
 
             $io->info(
@@ -110,7 +133,6 @@ class UninstallCommand extends ContainerAwareCommand
 
             return;
         }
-
         // Run cache rebuild to see changes in Web UI
         $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
