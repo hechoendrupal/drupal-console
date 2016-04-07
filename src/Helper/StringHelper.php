@@ -110,6 +110,33 @@ class StringHelper extends Helper
         return ucfirst(preg_replace(self::REGEX_SPACES, ' ', $permission_title));
     }
 
+    public function removeSuffix($className)
+    {
+        $suffixes = [
+          'Form',
+          'Controller',
+          'Service',
+          'Command'
+        ];
+
+        if (strlen($className) == 0) {
+            return $className;
+        }
+
+        foreach ($suffixes as $suffix) {
+            $length = strlen($suffix);
+            if (strlen($className) <= $length) {
+                continue;
+            }
+
+            if (substr($className, -$length) === $suffix) {
+                return substr($className, 0, -$length);
+            }
+        }
+
+        return $className;
+    }
+
     public function getName()
     {
         return 'stringUtils';
