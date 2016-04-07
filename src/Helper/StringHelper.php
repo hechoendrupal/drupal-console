@@ -110,7 +110,8 @@ class StringHelper extends Helper
         return ucfirst(preg_replace(self::REGEX_SPACES, ' ', $permission_title));
     }
 
-    public function removeSuffix($className){
+    public function removeSuffix($className)
+    {
         $suffixes = [
           'Form',
           'Controller',
