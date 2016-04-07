@@ -93,7 +93,7 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
       '#size' => {{ input.size }},
 {% endif %}
 {% if input.type != 'password_confirm' and input.type != 'fieldset' %}
-      '#default_value' => $config->get('{{module_name}}.{{ input.name }}'),
+      '#default_value' => $config->get('{{ input.name }}'),
 {% endif %}
     ];
 {% endfor %}
