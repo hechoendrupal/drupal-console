@@ -1,5 +1,5 @@
 description: 'Import/Configure an existing local Drupal project'
-help: 'The <info>site:import:local</info> does foobar lorem ipsum'
+help: 'The <info>site:import:local</info> does create the yaml configuration file for a local existing site.'
 arguments:
     directory: 'Existing Drupal root directory'
     name: 'Name that will be used to generate the site config'
