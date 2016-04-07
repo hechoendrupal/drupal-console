@@ -197,7 +197,7 @@ class ControllerCommand extends GeneratorCommand
 
                 $path = $io->ask(
                     $this->trans('commands.generate.controller.questions.path'),
-                    sprintf('%s/hello/{name}', $module),
+                    sprintf('/%s/hello/{name}', $module),
                     function ($path) use ($routes) {
                         if (in_array($path, array_column($routes, 'path'))) {
                             throw new \InvalidArgumentException(
