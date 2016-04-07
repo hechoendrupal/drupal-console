@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
 
-class GenerateDocCheatsheetCommand extends ContainerAwareCommand
+class GenerateDocGitbookCommand extends ContainerAwareCommand
 {
     private $singleCommands = [
       'about',
@@ -101,12 +101,11 @@ class GenerateDocCheatsheetCommand extends ContainerAwareCommand
                     ];
                     $this->renderCommand($command, $path, $renderer);
 
-                    echo "· $namespace → " . $command->getName() ." [ ". $command->getDescription() ."]\n\r";
                 }
             }
 
         }
-die();
+
         $input = $application->getDefinition();
         $option_list = $input->getOptions();
         $argument_list = $input->getArguments();

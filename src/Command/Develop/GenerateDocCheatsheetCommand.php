@@ -2,7 +2,9 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Develop\GenerateDocGitbookCommand.
+ * Contains \Drupal\Console\Command\Develop\GenerateDocCheatsheetCommand.
+ *
+ * @TODO: use twig
  */
 
 namespace Drupal\Console\Command\Develop;
@@ -12,17 +14,47 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
+use Knp\Snappy\Pdf;
 
-class GenerateDocGitbookCommand extends ContainerAwareCommand
+class GenerateDocCheatsheetCommand extends ContainerAwareCommand
 {
     private $singleCommands = [
       'about',
       'chain',
       'help',
-      'init',
       'list',
       'server'
     ];
+
+    //exclude: yaml, translation
+    private $orderCommands = [
+      'cache',
+      'chain',
+      'config',
+      'database',
+      'create',
+      'cron',
+      'image',
+      'container',
+      'locale',
+      'migrate',
+      'module',
+      'multisite',
+      'rest',
+      'settings',
+      'views',
+      'router',
+      'state',
+      'user',
+      'site',
+      'update',
+      'theme'
+
+    ];
+
+    private $logoUrl = 'http://drupalconsole.com/themes/custom/drupalconsole/assets/src/images/drupal-console.png';
+
+    private $wkhtmltopdfPath = "/usr/bin/wkhtmltopdf";
 
     /**
      * {@inheritdoc}
@@ -30,13 +62,19 @@ class GenerateDocGitbookCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('generate:doc:gitbook')
-            ->setDescription($this->trans('commands.generate.doc.gitbook.description'))
+            ->setName('generate:doc:cheatsheet')
+            ->setDescription($this->trans('commands.generate.doc.cheatsheet.description'))
             ->addOption(
                 'path',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.doc.gitbook.options.path')
+                $this->trans('commands.generate.doc.cheatsheet.options.path')
+            )
+            ->addOption(
+                'wkhtmltopdf',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.doc.cheatsheet.options.wkhtmltopdf')
             );
         ;
     }
@@ -48,14 +86,15 @@ class GenerateDocGitbookCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $renderer = $this->getRenderHelper();
-
         $path = null;
-        if ($input->hasOption('path')) {
+
+        if ($input->hasOption('path'))
+        {
             $path = $input->getOption('path');
         }
 
-        if (!$path) {
+        if (!$path)
+        {
             $io->error(
                 $this->trans('commands.generate.doc.gitbook.messages.missing_path')
             );
@@ -63,28 +102,37 @@ class GenerateDocGitbookCommand extends ContainerAwareCommand
             return 1;
         }
 
+        // $wkhtmltopdfPath is overwritable by command option
+
+        if ($input->getOption('wkhtmltopdf'))
+        {
+            $this->wkhtmltopdfPath = $input->getOption('wkhtmltopdf');
+        }
+
         $application = $this->getApplication();
         $command_list = [];
 
-        foreach ($this->singleCommands as $single_command) {
+        foreach ($this->singleCommands as $single_command)
+        {
             $command = $application->find($single_command);
             $command_list['none'][] = [
                 'name' => $command->getName(),
                 'description' => $command->getDescription(),
             ];
-            $this->renderCommand($command, $path, $renderer);
         }
 
         $namespaces = $application->getNamespaces();
         sort($namespaces);
 
         $namespaces = array_filter(
-            $namespaces, function ($item) {
+            $namespaces, function ($item)
+            {
                 return (strpos($item, ':')<=0);
             }
         );
 
-        foreach ($namespaces as $namespace) {
+        foreach ($namespaces as $namespace)
+        {
             $commands = $application->all($namespace);
 
             usort(
@@ -93,145 +141,127 @@ class GenerateDocGitbookCommand extends ContainerAwareCommand
                 }
             );
 
-            foreach ($commands as $command) {
+            foreach ($commands as $command)
+            {
                 if ($command->getModule()=='Console') {
                     $command_list[$namespace][] = [
                         'name' => $command->getName(),
                         'description' => $command->getDescription(),
                     ];
-                    $this->renderCommand($command, $path, $renderer);
                 }
             }
-
-            print_r($command_list);
         }
 
-        $input = $application->getDefinition();
-        $option_list = $input->getOptions();
-        $argument_list = $input->getArguments();
-        $options = [];
-        foreach ($option_list as $option) {
-            $options[] = [
-                'name' => $option->getName(),
-                'description' => $this->trans('application.options.'.$option->getName())
-            ];
+        if (!empty($command_list))
+        {
+            $this->prepareHtml($command_list, $path, $io);
         }
-        $arguments = [];
-        foreach ($argument_list as $argument) {
-            $arguments[] = [
-              'name' => $argument->getName(),
-              'description' => $this->trans('application.arguments.'.$argument->getName())
-            ];
-        }
-
-        $parameters = [
-            'command_list' => $command_list,
-            'options' => $options,
-            'arguments' => $arguments,
-            'messages' => [
-                'title' =>  $this->trans('commands.generate.doc.gitbook.messages.title'),
-                'note' =>  $this->trans('commands.generate.doc.gitbook.messages.note'),
-                'note_description' =>  $this->trans('commands.generate.doc.gitbook.messages.note-description'),
-                'command' =>  $this->trans('commands.generate.doc.gitbook.messages.command'),
-                'options' => $this->trans('commands.generate.doc.gitbook.messages.options'),
-                'option' => $this->trans('commands.generate.doc.gitbook.messages.option'),
-                'details' => $this->trans('commands.generate.doc.gitbook.messages.details'),
-                'arguments' => $this->trans('commands.generate.doc.gitbook.messages.arguments'),
-                'argument' => $this->trans('commands.generate.doc.gitbook.messages.argument'),
-                'examples' => $this->trans('commands.generate.doc.gitbook.messages.examples')
-            ],
-            'examples' => []
-        ];
-
-        $this->renderFile(
-            'gitbook/available-commands.md.twig',
-            $path . '/commands/available-commands.md',
-            $parameters,
-            null,
-            $renderer
-        );
-
-        $this->renderFile(
-            'gitbook/available-commands-list.md.twig',
-            $path . '/commands/available-commands-list.md',
-            $parameters,
-            null,
-            $renderer
-        );
     }
 
-    private function renderCommand($command, $path, $renderer)
+
+   /**
+     * Generates (programatically, not with twig) the HTML to convert to PDF
+     *
+     * @param array  $array_content
+     * @param string $path
+     */
+    protected function prepareHtml($array_content, $path, $io)
     {
-        $input = $command->getDefinition();
-        $options = $input->getOptions();
-        $arguments = $input->getArguments();
+      $str  = '<meta charset="UTF-8" />';
+      $str .= "<center><div style='font-size: 12px;'>Drupal Console cheatsheet</div></center>";
 
-        $commandKey = str_replace(':', '.', $command->getName());
+      // 1st page
+      foreach ($this->orderCommands as $command)
+      {
+        $str .= $this->doTable($command,  $array_content[$command]);
+      }
 
-        $examples = [];
-        $index = 0;
-        while (true) {
-            $description = sprintf(
-                'commands.%s.examples.%s.description',
-                $commandKey,
-                $index
-            );
-            $execution = sprintf(
-                'commands.%s.examples.%s.execution',
-                $commandKey,
-                $index
-            );
+      // 2nd page
+      $str .= "<br/><br/><table style='width:99%;page-break-before:always;padding-top:10%'><tr><td><img src='".
+              $this->logoUrl ."' width='150px' style='float:left'/></td>";
 
-            if ($description != $this->trans($description)) {
-                $examples[] = [
-                    'description' => $this->trans($description),
-                    'execution' => $this->trans($execution)
-                ];
+      $str .= "<td style='vertical-align: bottom;'><h1>DrupalConsole Cheatsheet</h1></td></tr></table><br/><br/>";
+
+      $str .= $this->doTable("generate",  $array_content["generate"]);
+      $str .= $this->doTable("miscelaneous",  $array_content["none"]);
+
+      $this->doPdf($str, $path, $io);
+    }
+
+
+    /**
+     * Generates the pdf with Snappy
+     *
+     * @param string $content
+     * @param string $path
+     *
+     * @return string
+     */
+    protected function doPdf($content, $path, $io)
+    {
+      $snappy = new Pdf();
+      //@TODO: catch exception if binary path doesn't exist!
+      $snappy->setBinary( $this->wkhtmltopdfPath );
+      $snappy->setOption('orientation', "Landscape");
+      $snappy->generateFromHtml($content, "/" .$path . 'dc-cheatsheet.pdf');
+      $io->success("cheatsheet generated at /" .$path ."/dc-cheatsheet.pdf");
+
+      // command execution ends here
+    }
+
+  /**
+   * Encloses text in <td> tags
+   * @param string $str
+   *
+   * @return string
+   */
+    public function td($str, $mode = null)
+    {
+        if ("header" == $mode)
+        {
+            return "<td colspan='2' style='background-color:whitesmoke;font-size: 12px;'><b>" . strtoupper($str) . "</b></td>";
+        } else
+
+        {
+            if ("body" == $mode) {
+                return "<td style='font-size: 11px;width=35%'><i>". $str. "</i></td>";
             } else {
-                break;
+                return "<td>" . $str . "</td>";
             }
-            $index++;
         }
-
-        if ($commandKey == 'generate.doc.gitbook') {
-            $options = [$input->getOption('path')];
-            $arguments = [];
-        }
-
-        $parameters = [
-            'options' => $options,
-            'arguments' => $arguments,
-            'command' => $command->getName(),
-            'description' => $command->getDescription(),
-            'aliases' => $command->getAliases(),
-            'messages' => [
-                'command_description' => sprintf($this->trans('commands.generate.doc.gitbook.messages.command_description'), $command->getName(), $command->getDescription()),
-                'usage' =>  $this->trans('commands.generate.doc.gitbook.messages.usage'),
-                'options' => $this->trans('commands.generate.doc.gitbook.messages.options'),
-                'option' => $this->trans('commands.generate.doc.gitbook.messages.option'),
-                'details' => $this->trans('commands.generate.doc.gitbook.messages.details'),
-                'arguments' => $this->trans('commands.generate.doc.gitbook.messages.arguments'),
-                'argument' => $this->trans('commands.generate.doc.gitbook.messages.argument'),
-                'examples' => $this->trans('commands.generate.doc.gitbook.messages.examples')
-            ],
-            'examples' => $examples
-        ];
-
-        $this->renderFile(
-            'gitbook/generate-doc.md.twig',
-            $path . '/commands/' . str_replace(':', '-', $command->getName()) . '.md',
-            $parameters,
-            null,
-            $renderer
-        );
     }
 
-    private function renderFile($template, $target, $parameters, $flag = null, $renderer)
+  /**
+   * Encloses text in <tr> tags
+   *
+   * @param string $str
+   * @param array  $element
+   *
+   * @return string
+   */
+    public function tr($str)
     {
-        if (!is_dir(dirname($target))) {
-            mkdir(dirname($target), 0777, true);
+        return "<tr>" . $str . "</tr>";
+    }
+
+  /**
+   * Encloses text in <table> tag
+   *
+   * @param string $key_element - header
+   * @param array  $element     - command, description
+   *
+   * @return string
+   */
+    public function doTable($key_element, $element)
+    {
+        $str = "<table cellspacing='0' border='0' style='float:left;width:49%;'>";
+        $str .= $this->td($key_element, "header");
+
+        foreach ($element as $section)
+        {
+            $str .= $this->tr($this->td($section["name"], "body") . $this->td($section["description"], "body"));
         }
 
-        return file_put_contents($target, $renderer->render($template, $parameters), $flag);
+        return $str . "</table>\n\r";
     }
 }

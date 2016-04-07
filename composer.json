@@ -57,7 +57,7 @@
         "guzzlehttp/guzzle": "~6.1",
         "padraic/phar-updater": "~1.0@dev",
         "gabordemooij/redbean": "@stable",
-        "knplabs/knp-snappy-bundle": "dev-master"
+        "knplabs/knp-snappy": "^0.4.3"
     },
     "bin": ["bin/drupal"],
     "config": {
