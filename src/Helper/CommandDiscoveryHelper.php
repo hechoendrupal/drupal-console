@@ -8,6 +8,8 @@ namespace Drupal\Console\Helper;
 
 use Symfony\Component\Finder\Finder;
 use Drupal\Console\Helper\Helper;
+use Consolidation\AnnotationCommand\CommandFileDiscovery;
+use Consolidation\AnnotationCommand\AnnotationCommandFactory;
 
 /**
  * Class CommandDiscovery
@@ -124,14 +126,22 @@ class CommandDiscoveryHelper extends Helper
      */
     private function discoverCommands($sources)
     {
+        // TODO: maybe these are fields of this class?
+        // Injected by the container?
+        $commandFactory = new AnnotationCommandFactory();
+        $discovery = new CommandFileDiscovery();
+        $annotationCommandFiles = [];
+
         $commands = [];
         foreach ($sources as $sourceName => $source) {
             if ($sourceName === 'Console') {
+                $annotationCommandFiles = $discovery->discover($source['path'], 'Drupal');
                 $directory = sprintf(
                     '%s/src/Command',
                     $source['path']
                 );
             } else {
+                $annotationCommandFiles = $discovery->discoverNamespaced($source->getPath(), 'Drupal');
                 $directory = sprintf(
                     '%s/%s/src/Command',
                     $this->getDrupalHelper()->getRoot(),
@@ -146,6 +156,16 @@ class CommandDiscoveryHelper extends Helper
                 }
 
                 $commands = array_merge($commands, $this->extractCommands($directory, $sourceName, $sourceType));
+            }
+
+            if (!empty($annotationCommandFiles)) {
+                foreach ($annotationCommandFiles as $sourceFile => $commandFile) {
+                    // If '$commandFile' is not already included in the
+                    // autoloader, then we should `include $sourceFile`.
+                    // Annotation command files may contain multiple commands.
+                    $commandList = $commandFactory->createCommandsFromClass($commandFile);
+                    $commands = array_merge($commands, $commandList);
+                }
             }
         }
 

@@ -52,6 +52,7 @@
         "symfony/translation": "~2.7",
         "symfony/yaml": "~2.7",
         "twig/twig": "^1.23.1",
+        "consolidation/annotation-command": "~0.5",
         "phpseclib/phpseclib": "2.*",
         "stecman/symfony-console-completion": "^0.5.1",
         "guzzlehttp/guzzle": "~6.1",
