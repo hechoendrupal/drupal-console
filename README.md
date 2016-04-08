@@ -7,6 +7,7 @@
   - [Supported Drupal version](#supported-drupal-version)
   - [Drupal Console documentation](#documentation)
   - [Installing Drupal Console](#installing-drupal-console)  
+  - [Running Drupal Console](#running-drupal-console)  
   - [Supporting organizations](#supporting-organizations)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -48,7 +49,7 @@ curl https://drupalconsole.com/installer -L -o drupal.phar
 # Or if you don't have curl:
 php -r "readfile('https://drupalconsole.com/installer');" > drupal.phar
 
-# Accessing from anywhere on your system:
+# Move downloaded file to a globally accessible path (this may require sudo)
 mv drupal.phar /usr/local/bin/drupal
 
 # Apply executable permissions on the downloaded file:
@@ -59,7 +60,10 @@ drupal init --override
 
 # Check and validate system requirements
 drupal check
+```
 
+## Running Drupal Console
+```
 # Download, install and serve Drupal 8:
 drupal chain --file=~/.console/chain/quick-start.yml
 
@@ -72,6 +76,7 @@ drupal list
 # Update to the latest version.
 drupal self-update
 ```
+
 ## Drupal Console Support
 You can ask for support at Drupal Console gitter chat room [http://bit.ly/console-support](http://bit.ly/console-support).
 
