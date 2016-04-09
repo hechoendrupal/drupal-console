@@ -135,13 +135,13 @@ class CommandDiscoveryHelper extends Helper
         $commands = [];
         foreach ($sources as $sourceName => $source) {
             if ($sourceName === 'Console') {
-                $annotationCommandFiles = $discovery->discover($source['path'], 'Drupal');
+                $annotationCommandFiles = $discovery->discover($source['path'], '\Drupal');
                 $directory = sprintf(
                     '%s/src/Command',
                     $source['path']
                 );
             } else {
-                $annotationCommandFiles = $discovery->discoverNamespaced($source->getPath(), 'Drupal');
+                $annotationCommandFiles = $discovery->discoverNamespaced($source->getPath(), '\Drupal');
                 $directory = sprintf(
                     '%s/%s/src/Command',
                     $this->getDrupalHelper()->getRoot(),
@@ -159,11 +159,15 @@ class CommandDiscoveryHelper extends Helper
             }
 
             if (!empty($annotationCommandFiles)) {
-                foreach ($annotationCommandFiles as $sourceFile => $commandFile) {
+                foreach ($annotationCommandFiles as $sourceFile => $commandNamespace) {
                     // If '$commandFile' is not already included in the
                     // autoloader, then we should `include $sourceFile`.
+                    if (!class_exists($commandNamespace)) {
+                        include $sourceFile;
+                    }
+                    $commandInstance = new $commandNamespace;
                     // Annotation command files may contain multiple commands.
-                    $commandList = $commandFactory->createCommandsFromClass($commandFile);
+                    $commandList = $commandFactory->createCommandsFromClass($commandInstance);
                     $commands = array_merge($commands, $commandList);
                 }
             }

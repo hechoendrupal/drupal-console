@@ -171,16 +171,16 @@
         },
         {
             "name": "consolidation/annotation-command",
-            "version": "0.6.0",
+            "version": "0.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation-org/annotation-command.git",
-                "reference": "8b3326f1753ea1d17b97ac30bde4156de69da97e"
+                "reference": "712975a56880ee569e3a6ceecc3c4ebc25a9fea0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation-org/annotation-command/zipball/8b3326f1753ea1d17b97ac30bde4156de69da97e",
-                "reference": "8b3326f1753ea1d17b97ac30bde4156de69da97e",
+                "url": "https://api.github.com/repos/consolidation-org/annotation-command/zipball/712975a56880ee569e3a6ceecc3c4ebc25a9fea0",
+                "reference": "712975a56880ee569e3a6ceecc3c4ebc25a9fea0",
                 "shasum": ""
             },
             "require": {
@@ -216,7 +216,7 @@
                 }
             ],
             "description": "Initialize Symfony Console commands from annotated command class methods.",
-            "time": "2016-04-08 14:02:34"
+            "time": "2016-04-09 05:24:19"
         },
         {
             "name": "doctrine/collections",
