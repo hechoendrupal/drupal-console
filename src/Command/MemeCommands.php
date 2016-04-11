@@ -89,12 +89,12 @@ class MemeCommands
         }
     }
 
-    public function setUpperText($txt)
+    protected function setUpperText($txt)
     {
         $this->upperText = strtoupper($txt);
     }
 
-    public function setLowerText($txt)
+    protected function setLowerText($txt)
     {
         $this->lowerText = strtoupper($txt);
     }
@@ -142,7 +142,7 @@ class MemeCommands
         return false;
     }
 
-    public function createImage($path, $color = array(255, 255, 255))
+    protected function createImage($path, $color = array(255, 255, 255))
     {
         $this->im = $this->returnImageFromPath($path);
         if (!$this->im) {
@@ -266,7 +266,7 @@ class MemeCommands
         return $finalOutput;
     }
 
-    public function processImg($imgOut = "abc.jpg")
+    protected function processImg($imgOut = "abc.jpg")
     {
         if ($this->lowerText != "") {
             $this->workOnImage($this->lowerText, 30, "lower");
