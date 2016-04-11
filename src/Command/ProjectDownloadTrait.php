@@ -43,7 +43,7 @@ trait ProjectDownloadTrait
         return $moduleList;
     }
 
-    private function downloadModules(DrupalStyle $io, $modules, $latest, $resultList = [])
+    private function downloadModules(DrupalStyle $io, $modules, $latest, $modulePath, $resultList = [])
     {
         if (!$resultList) {
             $resultList = [
@@ -91,7 +91,7 @@ trait ProjectDownloadTrait
             return $resultList;
         }
 
-        return $this->downloadModules($io, $dependencies, $latest, $resultList);
+        return $this->downloadModules($io, $dependencies, $latest, $modulePath, $resultList);
     }
 
     protected function calculateDependencies($modules)

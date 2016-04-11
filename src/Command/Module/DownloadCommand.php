@@ -30,6 +30,12 @@ class DownloadCommand extends Command
                 $this->trans('commands.module.download.arguments.module')
             )
             ->addOption(
+                'module-path',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.module.download.options.module-path')
+            )
+            ->addOption(
                 'latest',
                 '',
                 InputOption::VALUE_NONE,
@@ -49,6 +55,16 @@ class DownloadCommand extends Command
             $module = $this->modulesQuestion($io);
             $input->setArgument('module', $module);
         }
+
+        $modulePath = $input->getOption('module-path');
+        if (!$modulePath) {
+            $drupalRoot = $drupal->getRoot();
+            $modulePath = $io->ask(
+                $this->trans('commands.module.download.questions.module-path'),
+                '/modules/contrib'
+            );
+            $input->setOption('module-path', $modulePath);
+        }
     }
 
     /**
@@ -57,11 +73,15 @@ class DownloadCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
+        $validators = $this->getValidator();
 
         $module = $input->getArgument('module');
         $latest = $input->getOption('latest');
-
-        $this->downloadModules($io, $module, $latest);
+        $drupal = $this->getDrupalHelper();
+        $drupalRoot = $drupal->getRoot();
+        $modulePath = $drupalRoot.$input->getOption('module-path');
+        $modulePath = $validators->validateModulePath($modulePath, true);
+        $this->downloadModules($io, $module, $latest, $modulePath);
 
         return true;
     }
