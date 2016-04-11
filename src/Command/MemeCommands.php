@@ -215,7 +215,7 @@ class MemeCommands
      * @param px Number of pixels the text border will be
      * @see http://us.php.net/manual/en/function.imagettftext.php
      */
-    function imagettfstroketext(&$image, $size, $angle, $x, $y, &$textcolor, &$strokecolor, $fontfile, $text, $px)
+    protected function imagettfstroketext(&$image, $size, $angle, $x, $y, &$textcolor, &$strokecolor, $fontfile, $text, $px)
     {
         for ($c1 = ($x - abs($px)); $c1 <= ($x + abs($px)); $c1++) {
             for ($c2 = ($y - abs($px)); $c2 <= ($y + abs($px)); $c2++) {
