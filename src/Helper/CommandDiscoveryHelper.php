@@ -135,7 +135,7 @@ class CommandDiscoveryHelper extends Helper
         $commands = [];
         foreach ($sources as $sourceName => $source) {
             if ($sourceName === 'Console') {
-                $annotationCommandFiles = $discovery->discover($source['path'], '\Drupal');
+                $annotationCommandFiles = $discovery->discover($source['path'], '\Drupal\Console');
                 $directory = sprintf(
                     '%s/src/Command',
                     $source['path']
