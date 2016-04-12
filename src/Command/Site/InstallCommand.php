@@ -327,7 +327,6 @@ class InstallCommand extends Command
     protected function getProfiles()
     {
         $drupal = $this->getDrupalHelper();
-
         $profiles = $drupal->getProfiles();
 
         $names = [];

@@ -2,6 +2,9 @@ services:
   parser:
     class: Symfony\Component\Yaml\Parser
     lazy:   true
+  finder:
+    class: Symfony\Component\Finder\Finder
+    lazy:   true
   config:
     class:  Drupal\Console\Config
     arguments: ["@parser"]
