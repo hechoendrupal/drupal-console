@@ -309,7 +309,7 @@ class ModuleCommand extends GeneratorCommand
         if (!$moduleFile) {
             $moduleFile = $io->confirm(
                 $this->trans('commands.generate.module.questions.module-file'),
-                false
+                true
             );
             $input->setOption('module-file', $moduleFile);
         }
