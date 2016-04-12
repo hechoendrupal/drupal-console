@@ -19,8 +19,11 @@ trait ChainFilesTrait
     {
         $config = $this->getApplication()->getConfig();
         $directories = [
-        $config->getUserHomeDir() . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
+            $config->getUserHomeDir() . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
+            $this->$this->getSite()->getSiteRoot() . DIRECTORY_SEPARATOR . 'console'. DIRECTORY_SEPARATOR .'chain',
+            $this->$this->getSite()->getSiteRoot() . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
         ];
+
 
         if ($this->getDrupalHelper()->isInstalled()) {
             $modules = $this->getSite()->getModules(false, true, false, false, true);
