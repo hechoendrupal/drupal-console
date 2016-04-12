@@ -8,8 +8,8 @@ namespace Drupal\Console\Helper;
 
 use Symfony\Component\Finder\Finder;
 use Drupal\Console\Helper\Helper;
-use Consolidation\AnnotationCommand\CommandFileDiscovery;
-use Consolidation\AnnotationCommand\AnnotationCommandFactory;
+use Consolidation\AnnotatedCommand\CommandFileDiscovery;
+use Consolidation\AnnotatedCommand\AnnotatedCommandFactory;
 
 /**
  * Class CommandDiscovery
@@ -128,20 +128,20 @@ class CommandDiscoveryHelper extends Helper
     {
         // TODO: maybe these are fields of this class?
         // Injected by the container?
-        $commandFactory = new AnnotationCommandFactory();
+        $commandFactory = new AnnotatedCommandFactory();
         $discovery = new CommandFileDiscovery();
-        $annotationCommandFiles = [];
+        $annotatedCommandFiles = [];
 
         $commands = [];
         foreach ($sources as $sourceName => $source) {
             if ($sourceName === 'Console') {
-                $annotationCommandFiles = $discovery->discover($source['path'], '\Drupal\Console');
+                $annotatedCommandFiles = $discovery->discover($source['path'], '\Drupal\Console');
                 $directory = sprintf(
                     '%s/src/Command',
                     $source['path']
                 );
             } else {
-                $annotationCommandFiles = $discovery->discoverNamespaced($source->getPath(), '\Drupal');
+                $annotatedCommandFiles = $discovery->discoverNamespaced($source->getPath(), '\Drupal');
                 $directory = sprintf(
                     '%s/%s/src/Command',
                     $this->getDrupalHelper()->getRoot(),
@@ -158,8 +158,8 @@ class CommandDiscoveryHelper extends Helper
                 $commands = array_merge($commands, $this->extractCommands($directory, $sourceName, $sourceType));
             }
 
-            if (!empty($annotationCommandFiles)) {
-                foreach ($annotationCommandFiles as $sourceFile => $commandNamespace) {
+            if (!empty($annotatedCommandFiles)) {
+                foreach ($annotatedCommandFiles as $sourceFile => $commandNamespace) {
                     // If '$commandFile' is not already included in the
                     // autoloader, then we should `include $sourceFile`.
                     if (!class_exists($commandNamespace)) {

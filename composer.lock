@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0d7c7fa4744407de04aa308f6b073f98",
-    "content-hash": "78fb636fdda835f3ba3444e906133eba",
+    "hash": "95cd90c233bedf0c80e89c6a896c76b2",
+    "content-hash": "b2d3b0b936761c24fd92668113bfa1ca",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -170,17 +170,17 @@
             "time": "2016-04-05 11:42:46"
         },
         {
-            "name": "consolidation/annotation-command",
-            "version": "0.6.2",
+            "name": "consolidation/annotated-command",
+            "version": "0.7.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/consolidation-org/annotation-command.git",
-                "reference": "75d1825aad9364637f5d7055d89997f05a42a988"
+                "url": "https://github.com/consolidation-org/annotated-command.git",
+                "reference": "f0da9fabb9cc0aa311f80af160b93f5842b3b893"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation-org/annotation-command/zipball/75d1825aad9364637f5d7055d89997f05a42a988",
-                "reference": "75d1825aad9364637f5d7055d89997f05a42a988",
+                "url": "https://api.github.com/repos/consolidation-org/annotated-command/zipball/f0da9fabb9cc0aa311f80af160b93f5842b3b893",
+                "reference": "f0da9fabb9cc0aa311f80af160b93f5842b3b893",
                 "shasum": ""
             },
             "require": {
@@ -202,7 +202,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Consolidation\\AnnotationCommand\\": "src"
+                    "Consolidation\\AnnotatedCommand\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -216,7 +216,7 @@
                 }
             ],
             "description": "Initialize Symfony Console commands from annotated command class methods.",
-            "time": "2016-04-10 15:12:29"
+            "time": "2016-04-12 17:06:10"
         },
         {
             "name": "doctrine/collections",
