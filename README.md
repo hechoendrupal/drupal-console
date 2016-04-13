@@ -115,7 +115,7 @@ $ sudo ln -s /path/to/DrupalConsole/bin/drupal /usr/local/bin/drupal
 
 **NOTE:** The name `drupal` is just an alias you can name it anything you like.
 
-More information about how to contribute with this project at the [official documentation](https://hechoendrupal.gitbooks.io/drupal-console/content/en/contributing/new-features.html).
+More information about how to contribute with this project at the [official documentation](http://docs.drupalconsole.com/en/contributing/new-features.html).
 
 ## Enabling Autocomplete
 ```
@@ -135,8 +135,10 @@ ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish
 ```
 
 ## Supporting Organizations
-[![FFW](https://www.drupal.org/files/ffw-logo.png)](https://ffwagency.com)    
+[![FFW](https://www.drupal.org/files/ffw-logo.png)](https://ffwagency.com)
+
 [![Anexus](https://www.drupal.org/files/anexus-logo.png)](http://www.anexusit.com/)
+
 [![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)
 
 > Drupal is a registered trademark of Dries Buytaert.
