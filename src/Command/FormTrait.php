@@ -106,7 +106,7 @@ trait FormTrait
                 }
 
                 if ($input_type == 'select') {
-                    $size = $io->askEmpty(
+                    $size = $io->ask(
                         'Size of multiselect box (in lines)',
                         '5'
                     );
