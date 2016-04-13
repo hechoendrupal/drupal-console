@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Contains \Drupal\Console\Command\Site\ImportCommand.
+ * Contains \Drupal\Console\Command\Site\ImportLocalCommand.
  */
 
 namespace Drupal\Console\Command\Site;
@@ -10,18 +11,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-
 use Drupal\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 
-use Drupal\Console\Helper\DrupalHelper;
-
-use Symfony\Component\Yaml\Yaml;
-use Symfony\Component\Yaml\Exception\DumpException;
-
+/**
+ * Class ImportLocalCommand
+ * @package Drupal\Console\Command\Site
+ */
 class ImportLocalCommand extends Command
 {
     /**
@@ -44,12 +40,12 @@ class ImportLocalCommand extends Command
             )
             ->addOption(
                 'environment',
-                NULL,
-                InputOption::VALUE_REQUIRED,
-                $this->trans('commands.site.import.local.options.environment'),
-                'local'
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.site.import.local.options.environment')
             )
-            ->setHelp($this->trans('commands.site.import.local.help'));;
+            ->setHelp($this->trans('commands.site.import.local.help'));
+        ;
     }
 
     /**
@@ -59,62 +55,60 @@ class ImportLocalCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $site_name = $input->getArgument('name');
+        $siteName = $input->getArgument('name');
         $directory = $input->getArgument('directory');
 
-        $fileSystem = new Filesystem();
-        if ( ! $fileSystem->exists($directory) ) {
-          $io->error(
-              sprintf(
-                  $this->trans('commands.site.import.local.messages.error-missing'),
-                  $directory
-              )
-          );
+        $fileSystem = $this->getContainerHelper()->get('filesystem');
+        if (!$fileSystem->exists($directory)) {
+            $io->error(
+                sprintf(
+                    $this->trans('commands.site.import.local.messages.error-missing'),
+                    $directory
+                )
+            );
 
-          return;
+            return 1;
         }
         
         $drupal = $this->getDrupalHelper();
-        if ( !$drupal->isValidRoot($directory) ) {
-          $io->error(
-              sprintf(
-                  $this->trans('commands.site.import.local.messages.error-not-drupal'),
-                  $directory
-              )
-          );
+        if (!$drupal->isValidRoot($directory)) {
+            $io->error(
+                sprintf(
+                    $this->trans('commands.site.import.local.messages.error-not-drupal'),
+                    $directory
+                )
+            );
 
-          return;
+            return 1;
         }
 
-        $environment = 'local';
-        if ($input->hasOption('environment')) {
-            $environment = $input->getOption('environment');
-        }
+        $environment = $input->getOption('environment')?:'local';
 
-        $site_conf = [
+        $siteConfig = [
           $environment => [
             'root' => $drupal->getRoot(),
             'host' => 'local',
           ],
         ];
-        $yaml = Yaml::dump($site_conf);
+
+        $yaml = $this->getContainerHelper()->get('yaml');
+        $dump = $yaml::dump($siteConfig);
 
         $config = $this->getApplication()->getConfig();
         $userPath = sprintf('%s/.console/sites', $config->getUserHomeDir());
-        $confFile = sprintf('%s/%s.yml', $userPath, $site_name);
+        $configFile = sprintf('%s/%s.yml', $userPath, $siteName);
 
         try {
-          $fileSystem->dumpFile($confFile, $yaml);
+            $fileSystem->dumpFile($configFile, $dump);
+        } catch (\Exception $e) {
+            $io->error(
+                sprintf(
+                    $this->trans('commands.site.import.local.messages.error-writing'),
+                    $e->getMessage()
+                )
+            );
 
-        } catch (IOException $e) {
-          $io->error(
-              sprintf(
-                  $this->trans('commands.site.import.local.messages.error-writing'),
-                  $e->getMessage()
-              )
-          );
-
-          return;
+            return 1;
         }
 
         $io->success(
@@ -134,18 +128,18 @@ class ImportLocalCommand extends Command
         $directory = $input->getArgument('directory');
         if (!$directory) {
             $directory = $io->ask(
-                $this->trans('commands.site.import.local.questions.directory')
+                $this->trans('commands.site.import.local.questions.directory'),
+                getcwd()
             );
             $input->setArgument('directory', $directory);
         }
 
-        $directory = $input->getArgument('name');
-        if (!$directory) {
-            $directory = $io->ask(
+        $name = $input->getArgument('name');
+        if (!$name) {
+            $name = $io->ask(
                 $this->trans('commands.site.import.local.questions.name')
             );
-            $input->setArgument('name', $directory);
+            $input->setArgument('name', $name);
         }
-
     }
 }
