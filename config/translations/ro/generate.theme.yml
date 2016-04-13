@@ -9,11 +9,11 @@ options:
     core: 'Versiunea nucleului'
     package: Pachetul
     composer: 'Adaugă un fişier composer.json'
-    base-theme: 'Tema de bază (ex.: classy, seven)'
+    base-theme: 'Tema de bază (ex.: classy, stable)'
     global-library: 'Numele librariei de stilizare globală'
     regions: Regiuni
     breakpoints: 'Puncte de întrerupere'
-    base_theme: 'Tema de bază (ex.: classy, seven)'
+    base_theme: 'Tema de bază (ex.: classy, stable)'
 questions:
     theme: 'Introduceţi numele noii teme.'
     machine-name: 'Introduceţi numele maşină (doar caracere minuscule şi caracterul "_" sunt suportate)'

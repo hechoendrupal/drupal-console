@@ -9,11 +9,11 @@ options:
     core: 'Versión del core'
     package: 'Paquete del tema'
     composer: 'Añadir un archivo composer.json'
-    base-theme: 'Tema base (por ejemplo: classy, seven)'
+    base-theme: 'Tema base (por ejemplo: classy, stable)'
     global-library: 'Nombre de la librería de estilo global'
     regions: Regiones
     breakpoints: 'Puntos de ruptura'
-    base_theme: 'Tema base (por ejemplo: classy, seven)'
+    base_theme: 'Tema base (por ejemplo: classy, stable)'
 questions:
     theme: 'Introduzca el nombre del nuevo tema'
     machine-name: 'Introduzca el nombre máquina del nuevo tema'
