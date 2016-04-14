@@ -18,10 +18,11 @@ trait ChainFilesTrait
     protected function getChainFiles()
     {
         $config = $this->getApplication()->getConfig();
+
         $directories = [
             $config->getUserHomeDir() . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
-            $this->$this->getSite()->getSiteRoot() . DIRECTORY_SEPARATOR . 'console'. DIRECTORY_SEPARATOR .'chain',
-            $this->$this->getSite()->getSiteRoot() . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
+            $this->getSite()->getSiteRoot() . DIRECTORY_SEPARATOR . 'console'. DIRECTORY_SEPARATOR .'chain',
+            $this->getSite()->getSiteRoot() . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
         ];
 
 
@@ -54,6 +55,9 @@ trait ChainFilesTrait
 
         $files = [];
         foreach ($directories as $directory) {
+            if (!is_dir($directory)) {
+                continue;
+            }
             $finder = new Finder();
             $finder->files()
                 ->name('*.yml')
