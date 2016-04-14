@@ -58,6 +58,7 @@ class DownloadCommand extends Command
 
         $modulePath = $input->getOption('module-path');
         if (!$modulePath) {
+            $drupal = $this->getDrupalHelper();
             $drupalRoot = $drupal->getRoot();
             $modulePath = $io->ask(
                 $this->trans('commands.module.download.questions.module-path'),

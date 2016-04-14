@@ -68,7 +68,7 @@ trait ProjectDownloadTrait
             foreach ($missingModules as $missingModule) {
                 $version = $this->releasesQuestion($io, $missingModule, $latest);
                 if ($version) {
-                    $this->downloadProject($io, $missingModule, $version, 'module');
+                    $this->downloadProject($io, $missingModule, $version, $modulePath, 'module');
                 } else {
                     $invalidModules[] = $missingModule;
                     unset($modules[array_search($missingModule, $modules)]);
@@ -125,7 +125,7 @@ trait ProjectDownloadTrait
      * @param $type
      * @return string
      */
-    public function downloadProject(DrupalStyle $io, $project, $version, $type)
+    public function downloadProject(DrupalStyle $io, $project, $version, $modulePath = 0, $type)
     {
         $commandKey = str_replace(':', '.', $this->getName());
 
@@ -143,11 +143,14 @@ trait ProjectDownloadTrait
                 $version
             );
 
+            if (empty($modulePath)) {
+              $modulePath = $this->getExtractPath($type);
+            }
             $drupal = $this->getDrupalHelper();
             $projectPath = sprintf(
                 '%s/%s',
                 $drupal->isValidInstance()?$drupal->getRoot():getcwd(),
-                $this->getExtractPath($type)
+                $modulePath
             );
 
             if (!file_exists($projectPath)) {
