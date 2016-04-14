@@ -236,12 +236,14 @@ trait ProjectDownloadTrait
     private function getExtractPath($type)
     {
         switch ($type) {
-        case 'module':
-            return 'modules/contrib';
-        case 'theme':
-            return 'themes';
-        case 'core':
-            return '';
+            case 'module':
+                return 'modules/contrib';
+            case 'theme':
+                return 'themes';
+            case 'profile':
+                return 'profiles';
+            case 'core':
+                return '';
         }
     }
 }

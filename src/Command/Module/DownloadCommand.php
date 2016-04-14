@@ -58,8 +58,6 @@ class DownloadCommand extends Command
 
         $modulePath = $input->getOption('module-path');
         if (!$modulePath) {
-            $drupal = $this->getDrupalHelper();
-            $drupalRoot = $drupal->getRoot();
             $modulePath = $io->ask(
                 $this->trans('commands.module.download.questions.module-path'),
                 '/modules/contrib'
@@ -80,8 +78,8 @@ class DownloadCommand extends Command
         $latest = $input->getOption('latest');
         $drupal = $this->getDrupalHelper();
         $drupalRoot = $drupal->getRoot();
-        $modulePath = $drupalRoot.$input->getOption('module-path');
-        $modulePath = $validators->validateModulePath($modulePath, true);
+        $modulePath = $input->getOption('module-path');
+        $modulePath = $validators->validateModulePath($drupalRoot.$modulePath, true);
         $this->downloadModules($io, $module, $latest, $modulePath);
 
         return true;
