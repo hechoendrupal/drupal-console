@@ -57,7 +57,7 @@ class UpdateCommand extends Command
 
         $manifest = $input->getOption('manifest') ?: 'http://drupalconsole.com/manifest.json';
         $currentVersion = $input->getOption('current-version') ?: $application->getVersion();
-        $major = true; // temporary fix to bypass alpha versions.
+        $major = true; // temporary fix to force mayor version.
         if (!extension_loaded('Phar') || !(\Phar::running(false))) {
             $io->error($this->trans('commands.self-update.messages.not-phar'));
             $io->block($this->trans('commands.self-update.messages.instructions'));
