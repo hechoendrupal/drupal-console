@@ -60,7 +60,7 @@ class DownloadCommand extends Command
         if (!$modulePath) {
             $modulePath = $io->ask(
                 $this->trans('commands.module.download.questions.module-path'),
-                '/modules/contrib'
+                'modules/contrib'
             );
             $input->setOption('module-path', $modulePath);
         }
@@ -72,14 +72,10 @@ class DownloadCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $validators = $this->getValidator();
 
         $module = $input->getArgument('module');
         $latest = $input->getOption('latest');
-        $drupal = $this->getDrupalHelper();
-        $drupalRoot = $drupal->getRoot();
         $modulePath = $input->getOption('module-path');
-        $modulePath = $validators->validateModulePath($drupalRoot.$modulePath, true);
         $this->downloadModules($io, $module, $latest, $modulePath);
 
         return true;
