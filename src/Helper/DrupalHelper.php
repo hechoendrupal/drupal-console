@@ -268,11 +268,11 @@ class DrupalHelper extends Helper
 
         $finder->files()
             ->name('*.info.yml')
-            ->in($this->root . '/core/profiles/*/')
-            ->in($this->root . '/profiles/*/')
+            ->in($this->root . '/core/profiles/')
+            ->in($this->root . '/profiles/')
             ->contains('type: profile')
             ->notContains('hidden: true')
-            ->depth('0');
+            ->depth('1');
 
         $profiles = [];
         foreach ($finder as $file) {

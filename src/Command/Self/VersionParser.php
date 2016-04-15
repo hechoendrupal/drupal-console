@@ -20,97 +20,97 @@ namespace Drupal\Console\Command\Self;
 class VersionParser
 {
     /**
-   * @var array
-   */
+     * @var array
+     */
     private $versions;
 
     /**
-   * @var string
-   */
+     * @var string
+     */
     private $modifier = '[._-]?(?:(stable|beta|b|RC|alpha|a|patch|pl|p)(?:[.-]?(\d+))?)?([.-]?dev)?';
 
     /**
-   * @param array $versions
-   */
+     * @param array $versions
+     */
     public function __construct(array $versions = array())
     {
         $this->versions = $versions;
     }
 
     /**
-   * Get the most recent stable numbered version from versions passed to
-   * constructor (if any)
-   *
-   * @return string
-   */
+     * Get the most recent stable numbered version from versions passed to
+     * constructor (if any)
+     *
+     * @return string
+     */
     public function getMostRecentStable()
     {
         return $this->selectRecentStable();
     }
 
     /**
-   * Get the most recent unstable numbered version from versions passed to
-   * constructor (if any)
-   *
-   * @return string
-   */
+     * Get the most recent unstable numbered version from versions passed to
+     * constructor (if any)
+     *
+     * @return string
+     */
     public function getMostRecentUnStable()
     {
         return $this->selectRecentUnstable();
     }
 
     /**
-   * Get the most recent stable or unstable numbered version from versions passed to
-   * constructor (if any)
-   *
-   * @return string
-   */
+     * Get the most recent stable or unstable numbered version from versions passed to
+     * constructor (if any)
+     *
+     * @return string
+     */
     public function getMostRecentAll()
     {
         return $this->selectRecentAll();
     }
 
     /**
-   * Checks if given version string represents a stable numbered version
-   *
-   * @param  string $version
-   * @return bool
-   */
+     * Checks if given version string represents a stable numbered version
+     *
+     * @param  string $version
+     * @return bool
+     */
     public function isStable($version)
     {
         return $this->stable($version);
     }
 
     /**
-   * Checks if given version string represents a 'pre-release' version, i.e.
-   * it's unstable but not development level.
-   *
-   * @param  string $version
-   * @return bool
-   */
+     * Checks if given version string represents a 'pre-release' version, i.e.
+     * it's unstable but not development level.
+     *
+     * @param  string $version
+     * @return bool
+     */
     public function isPreRelease($version)
     {
         return !$this->stable($version) && !$this->development($version);
     }
 
     /**
-   * Checks if given version string represents an unstable or dev-level
-   * numbered version
-   *
-   * @param  string $version
-   * @return bool
-   */
+     * Checks if given version string represents an unstable or dev-level
+     * numbered version
+     *
+     * @param  string $version
+     * @return bool
+     */
     public function isUnstable($version)
     {
         return !$this->stable($version);
     }
 
     /**
-   * Checks if given version string represents a dev-level numbered version
-   *
-   * @param  string $version
-   * @return bool
-   */
+     * Checks if given version string represents a dev-level numbered version
+     *
+     * @param  string $version
+     * @return bool
+     */
     public function isDevelopment($version)
     {
         return $this->development($version);
@@ -188,9 +188,7 @@ class VersionParser
                 || 'alpha' === $match[1] || 'a' === $match[1]
                 || 'rc' === $match[1]
             ) {
-                /**
- * temporary fix to bypass alpha versions. 
-*/
+                // temporary fix to bypass alpha versions.
                 return true;
             }
         }
