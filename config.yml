@@ -1,5 +1,4 @@
 application:
-  cache: ~/.console/cache
   autowire:
     commands:
       forced:
