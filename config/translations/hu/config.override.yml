@@ -1,0 +1,14 @@
+description: 'Az aktív konfiguráció értékének felülbírálása.'
+arguments:
+    config-name: 'A konfiguráció neve.'
+    key: Kulcs
+    value: Érték
+messages:
+    configuration: 'Konfiguráció neve'
+    configuration-key: 'Konfiguráció kulcsa'
+    original: 'Eredeti érték'
+    updated: 'Felülbírálás értéke'
+examples:
+    -
+        description: 'A Contact modul elárasztási korlátjának beállítása 10 értékre.'
+        execution: 'drupal config:override contact.settings flood.limit 10'

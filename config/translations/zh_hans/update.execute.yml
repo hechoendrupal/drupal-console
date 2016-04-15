@@ -1,0 +1,8 @@
+description: '执行的给出的某个模块的更新程序或者执行所有的更新程序'
+options:
+    update-n: 所需执行的更新程序号
+messages:
+    no-module-updates: 没有%s模块的更新
+    executing-update: 执行%s模块的更新程序%s
+    module-update-function-not-found: '%s模块没有为%s的更新程序'
+    executing-required-previous-updates: 执行所需的以前更新

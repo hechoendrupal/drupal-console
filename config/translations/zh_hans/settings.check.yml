@@ -1,0 +1,8 @@
+description: 系统需求检查
+messages:
+    php_invalid: '当前安装版本 %s 无效，需要 %s 或更高版本'
+    configuration_missing: '配置 %s 缺失'
+    configuration_overwritten: '配置 %s 缺失，被 %s 覆盖'
+    extension_missing: '扩展 %s 缺失'
+    extension_recommended: '推荐安装扩展 %s'
+    success: 检查通过

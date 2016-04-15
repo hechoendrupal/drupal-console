@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-Drupal\{{module}}\Plugin\Block\{{class_name}}.
+\Drupal\{{module}}\Plugin\Block\{{class_name}}.
 {% endblock %}
 
 {% block namespace_class %}
@@ -88,7 +88,16 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
 {% if input.options|length %}
       '#options' => {{ input.options }},
 {% endif %}
-      '#default_value' => isset($this->configuration['{{ input.name }}']) ? $this->configuration['{{ input.name }}'] : '',
+      '#default_value' => isset($this->configuration['{{ input.name }}']) ? $this->configuration['{{ input.name }}'] : '{{ input.default_value }}',
+{% if input.maxlength|length %}
+      '#maxlength' => {{ input.maxlength }},
+{% endif %}
+{% if input.size|length %}
+      '#size' => {{ input.size }},
+{% endif %}
+{% if input.weight|length %}
+      '#weight' => '{{ input.weight }}',
+{% endif %}
     );
 {% endfor %}
 
@@ -109,9 +118,11 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
    * {@inheritdoc}
    */
   public function build() {
-    $build = array();
+    $build = [];
 {% for input in inputs %}
     $build['{{plugin_id}}_{{ input.name }}']['#markup'] = '<p>' . $this->configuration['{{ input.name }}'] . '</p>';
+{% else %}
+    $build['{{plugin_id}}']['#markup'] = 'Implement {{class_name}}.';
 {% endfor %}
 
     return $build;

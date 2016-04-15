@@ -1,0 +1,11 @@
+description: 'RouteSubscriber létrehozása'
+help: 'A <info>generate:service</info> parancs új RouteSubscriber létrehozását segíti.'
+welcome: 'Üdvözlet a Drupal RouteSubscriber előállítóban.'
+options:
+    module: common.options.module
+    name: Szolgáltatásnév
+    class: Osztálynév
+questions:
+    module: common.questions.module
+    name: 'Meg kell adni a szolgáltatásnevet'
+    class: 'Meg kell adni az osztálynevet'

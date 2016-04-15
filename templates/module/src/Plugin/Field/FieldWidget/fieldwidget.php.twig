@@ -1,0 +1,99 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{ module }}\Plugin\Field\FieldWidget\{{ class_name }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }}\Plugin\Field\FieldWidget;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\Field\WidgetBase;
+use Drupal\Core\Form\FormStateInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Plugin implementation of the '{{ plugin_id }}' widget.
+ *
+ * @FieldWidget(
+ *   id = "{{ plugin_id }}",
+ *   label = @Translation("{{ label }}"){% if field_type %},
+ *   field_types = {
+ *     "{{ field_type }}"
+ *   }
+{% else %}
+
+ *   At least one field_types annotation array entry is necessary to display this formatter in the UI.
+ *   ex. field_types = { "field_type" }
+{% endif %}
+ * )
+ */
+class {{ class_name }} extends WidgetBase {% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public static function defaultSettings() {
+    return array(
+      'size' => 60,
+      'placeholder' => '',
+    ) + parent::defaultSettings();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function settingsForm(array $form, FormStateInterface $form_state) {
+    $elements = [];
+
+    $elements['size'] = array(
+      '#type' => 'number',
+      '#title' => t('Size of textfield'),
+      '#default_value' => $this->getSetting('size'),
+      '#required' => TRUE,
+      '#min' => 1,
+    );
+    $elements['placeholder'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Placeholder'),
+      '#default_value' => $this->getSetting('placeholder'),
+      '#description' => t('Text that will be shown inside the field until a value is entered. This hint is usually a sample value or a brief description of the expected format.'),
+    );
+
+    return $elements;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function settingsSummary() {
+    $summary = [];
+
+    $summary[] = t('Textfield size: !size', array('!size' => $this->getSetting('size')));
+    if (!empty($this->getSetting('placeholder'))) {
+      $summary[] = t('Placeholder: @placeholder', array('@placeholder' => $this->getSetting('placeholder')));
+    }
+
+    return $summary;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
+    $element = [];
+
+    $element['value'] = $element + array(
+      '#type' => 'textfield',
+      '#default_value' => isset($items[$delta]->value) ? $items[$delta]->value : NULL,
+      '#size' => $this->getSetting('size'),
+      '#placeholder' => $this->getSetting('placeholder'),
+      '#maxlength' => $this->getFieldSetting('max_length'),
+    );
+
+    return $element;
+  }
+{% endblock %}

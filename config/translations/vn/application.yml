@@ -1,0 +1,46 @@
+options:
+    env: 'Tên môi trường'
+    no-debug: 'Tắt chế độ debug'
+    learning: 'Sinh ra chi tiết mã thực thi'
+    generate-chain: 'In các lựa chọn thi hành và các đối số dạng yaml, để sử dụng trong chuỗi lệnh'
+    generate-inline: 'In các lựa chọn thi hành và các đối số dạng inline, để sử dụng sau'
+    generate-doc: 'Shows command options and arguments as markdown'
+    root: 'Định nghĩa Drupal root dùng để thực thi lệnh'
+    uri: 'Đường dẫn site Drupal được dùng (cho môi trường multisite hoặc khi chạy trên một cổng thay thế)'
+    'yes': 'Skip confirmation and proceed'
+    target: 'Site name you want to interact with (for local or remote sites)'
+    help: 'Display this help message'
+    quiet: 'Do not output any message'
+    verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
+    version: '<info>%s</info> version <comment>%s</comment>'
+    ansi: 'Force ANSI output'
+    no-ansi: 'Disable ANSI output'
+    no-interaction: 'Do not ask any interactive question'
+    check-fix: 'Attempt to fix any missing configuration.'
+arguments:
+    command: 'The command to execute'
+messages:
+    completed: 'Dòng lệnh đã được thực thi thành công!'
+    chain:
+        generated: 'Như sau bạn có thể tìm được file yaml của dòng lệnh thi hành cuối cùng, ví dụ copy in ~/.console/chain/sample.yml sẽ được chạy trong một chuỗi dòng lệnh theo thứ tự gọi'
+    inline:
+        generated: 'Như này bạn có thấy dạng inline của dòng lệnh thi hành và có thể gọi nó lại'
+    generated: 'Bạn có thể bắt đầu sử dụng code mới khởi tạo'
+    files:
+        generated: 'Các files được khởi tạo hoặc đã tải lên'
+        copied: 'Các files đã được sao chép'
+    learning:
+        route: "Để tạo ra các trang, nó cần thiết để định nghĩa các routes cho chúng.\nMột route tương ứng một URL đến một controller. Nó định nghĩa với các chức năng hoặc phương thức sẽ được gọi khi một URL được truy cập.\nNếu người dùng truy cập http://drupal8.dev/{{ route }}, hệ thống routing sẽ tìm kiếm một route với đường dẫn đó. Trong trường hợp này nó sẽ tìm một cái phù hợp, và thi hành _controller callback. Trong trường hợp này callback được định nghĩa như một tên lớp (\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nand a method (\"{{ route.method }}\")."
+    autocomplete: "Bash or Zsh: Thêm dòng này vào file cấu hình của bạn:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Tạo một symbolic link\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
+    version: '<info>%s</info> version <comment>%s</comment>'
+errors:
+    invalid-command: 'Command"%s" là chưa được định nghĩa'
+site:
+    messages:
+        path: 'đường dẫn site'
+    errors:
+        directory: 'theo thứ tự liệt kê tất cả các câu lệnh có có sẵn để dùng, bạn nên chạy những thứ này vào bên trong một thư mục gốc'
+        settings: 'theo thứ tự liệt kê tất cả các câu lệnh bạn có sẵn để dùng, bạn nên cài đặt drupal trước'
+user:
+    messages:
+        path: 'đường dẫn về trang home của người dùng'

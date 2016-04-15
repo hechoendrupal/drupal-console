@@ -1,0 +1,27 @@
+description: 'Ver el estatus de la instalación actual de Drupal'
+messages:
+    application: Aplicación
+    system: 'Información del sistema'
+    hash_salt: 'Sal del hash'
+    console: 'Versión de la consola'
+    database: 'Conexión de la base de datos'
+    driver: Controlador
+    host: Host
+    port: Puerto
+    username: 'Nombre de usuario'
+    password: Contraseña
+    theme: Temas
+    connection: Conexión
+    theme_default: 'Tema por defecto'
+    theme_admin: 'Tema de administración'
+    directory: Directorios
+    directory_root: 'Directorio raíz del sitio'
+    directory_temporary: 'Directorio temporal del sitio'
+    directory_theme_default: 'Directorio del tema por defecto'
+    directory_theme_admin: 'Directorio del tema de administración'
+    current_version: 'Versión de Drupal (%s)'
+    not_installed: 'Drupal no está instalado'
+    not_available: 'No disponible'
+    configuration: Configuración
+    active: 'Ruta de la configuración activa'
+    staging: 'Ruta de la configuración de staging'

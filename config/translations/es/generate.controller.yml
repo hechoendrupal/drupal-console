@@ -1,0 +1,38 @@
+description: 'Generar y registrar un controlador'
+help: 'El comando <info>generate:controller</info> le ayuda a generar un nuevo controlador.'
+welcome: 'Bienvenido al generador de controlador de Drupal'
+options:
+    module: common.options.module
+    class: 'Nombre de la clase del controlador'
+    routes: 'Las rutas, debe ser un array conteniendo [título, método, path]'
+    services: common.options.services
+    test: 'Generar una clase de prueba'
+    title: 'Título del controlador'
+    method: 'El nombre del método de acción'
+    route: 'El directorio de la ruta'
+    controller-title: 'Título del controlador'
+    method-name: 'El nombre del método de acción'
+questions:
+    module: common.questions.module
+    class: 'Escriba el nombre de la clase del Controlador'
+    title: 'Introduzca el título de metodo del Controlador'
+    method: 'Introduzca el nombre del método de acción'
+    path: 'Introduzca el path de la ruta'
+    services: common.questions.services
+    test: 'Desea generar una clase de prueba unitaria'
+    route: 'Escriba el directorio de la ruta'
+    controller-add: 'Desea añadir otro método de controlador'
+    controller: 'Título del controlador'
+    method-name: 'Escriba nombre del método de acción'
+    other-controller-title: 'Título del controlador (déjelo vacío para iniciar la generación de código)'
+    controller-title: 'Escriba el título del controlador'
+messages:
+    title-empty: 'El título no puede estar vacío'
+    title-already-added: 'El título ya ha sido añadido'
+    method-name-already-added: 'El nombre del método ya ha sido añadido'
+    path-already-added: 'El path ya ha sido añadido'
+    route-already-added: 'La ruta ya ha sido añadida'
+    invalid-controller-title: 'El título no puede estar vacío'
+    invalid-method-name: 'El nombre del método no puede estar vacío'
+    invalid-route: 'La ruta no puede estar vacía'
+    title-not-empty: 'El título no puede estar vacío'

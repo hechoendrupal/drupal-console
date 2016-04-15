@@ -1,0 +1,16 @@
+value:
+    description: 'YAML फाइल में किसी विशेष कुंजी के निधि को अवगत करें।'
+    arguments:
+        yaml-file: 'YAML फ़ाइल के पथ अद्यतन करने के लिए'
+        yaml-key: 'YAML कुंजी अद्यतन करने के लिए'
+        yaml-value: 'YAML कुंजी अद्यतन करने के लिए'
+    messages:
+        updated: 'YAML फाइल %s सफलतापूर्वक अवगत कर लिया गया'
+key:
+    description: 'YAML फाइल में YAML कुंजी को बदले।'
+    arguments:
+        yaml-file: 'YAML फ़ाइल के पथ अद्यतन करने के लिए'
+        yaml-key: 'YAML कुंजी का स्थान लेने के लिए'
+        yaml-new-key: 'YAML नायी कुंजी'
+    messages:
+        updated: 'YAML फाइल %s सफलतापूर्वक अवगत कर लिया गया'

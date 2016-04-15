@@ -1,94 +1,111 @@
 <?php
+
 /**
  * @file
- * Contains \Drupal\AppConsole\Generator\ModuleGenerator.
+ * Contains \Drupal\Console\Generator\ModuleGenerator.
  */
 
-namespace Drupal\AppConsole\Generator;
+namespace Drupal\Console\Generator;
 
+/**
+ * Class ModuleGenerator
+ * @package Drupal\Console\Generator
+ */
 class ModuleGenerator extends Generator
 {
-
+    /**
+     * @param $module
+     * @param $machineName
+     * @param $dir
+     * @param $description
+     * @param $core
+     * @param $package
+     * @param $moduleFile
+     * @param $featuresBundle
+     * @param $composer
+     * @param $dependencies
+     */
     public function generate(
-      $module,
-      $machine_name,
-      $dir,
-      $description,
-      $core,
-      $package,
-      $controller,
-      $dependencies,
-      $tests
+        $module,
+        $machineName,
+        $dir,
+        $description,
+        $core,
+        $package,
+        $moduleFile,
+        $featuresBundle,
+        $composer,
+        $dependencies
     ) {
-        $dir .= '/' . $machine_name;
+        $dir .= '/'.$machineName;
         if (file_exists($dir)) {
             if (!is_dir($dir)) {
-                throw new \RuntimeException(sprintf('Unable to generate the bundle as the target directory "%s" exists but is a file.',
-                  realpath($dir)));
+                throw new \RuntimeException(
+                    sprintf(
+                        'Unable to generate the module as the target directory "%s" exists but is a file.',
+                        realpath($dir)
+                    )
+                );
             }
             $files = scandir($dir);
             if ($files != array('.', '..')) {
-                throw new \RuntimeException(sprintf('Unable to generate the bundle as the target directory "%s" is not empty.',
-                  realpath($dir)));
+                throw new \RuntimeException(
+                    sprintf(
+                        'Unable to generate the module as the target directory "%s" is not empty.',
+                        realpath($dir)
+                    )
+                );
             }
             if (!is_writable($dir)) {
-                throw new \RuntimeException(sprintf('Unable to generate the bundle as the target directory "%s" is not writable.',
-                  realpath($dir)));
+                throw new \RuntimeException(
+                    sprintf(
+                        'Unable to generate the module as the target directory "%s" is not writable.',
+                        realpath($dir)
+                    )
+                );
             }
         }
 
         $parameters = array(
           'module' => $module,
-          'machine_name' => $machine_name,
+          'machine_name' => $machineName,
           'type' => 'module',
           'core' => $core,
           'description' => $description,
           'package' => $package,
-          'dependencies' => $dependencies
+          'dependencies' => $dependencies,
         );
 
         $this->renderFile(
-          'module/info.yml.twig',
-          $dir . '/' . $machine_name . '.info.yml',
-          $parameters
+            'module/info.yml.twig',
+            $dir.'/'.$machineName.'.info.yml',
+            $parameters
         );
 
-        $this->renderFile(
-          'module/module.twig',
-          $dir . '/' . $machine_name . '.module',
-          $parameters
-        );
-
-        if ($controller) {
-            $class_name = 'DefaultController';
-            $parameters = array(
-              'class_name' => $class_name,
-              'module' => $machine_name,
-              'method_name' => 'hello',
-              'class_machine_name' => 'default_controller',
-              'route' => $machine_name . '/hello/{name}',
-              'services' => []
-            );
-
+        if (!empty($featuresBundle)) {
             $this->renderFile(
-              'module/src/Controller/controller.php.twig',
-              $dir . '/src/Controller/' . $class_name . '.php',
-              $parameters
+              'module/features.yml.twig',
+              $dir.'/'.$machineName.'.features.yml',
+              array(
+                'bundle' => $featuresBundle,
+              )
             );
+        }
 
+        if ($moduleFile) {
             $this->renderFile(
-              'module/routing-controller.yml.twig',
-              $dir . '/' . $machine_name . '.routing.yml',
-              $parameters
+                'module/module.twig',
+                $dir . '/' . $machineName . '.module',
+                $parameters
             );
+        }
 
-            if ($tests) {
-                $this->renderFile(
-                  'module/Tests/Controller/controller.php.twig',
-                  $dir . '/Tests/Controller/' . $class_name . 'Test.php',
-                  $parameters
-                );
-            }
+        if ($composer) {
+            $this->renderFile(
+                'module/composer.json.twig',
+                $dir.'/'.'composer.json',
+                $parameters
+            );
         }
     }
 }

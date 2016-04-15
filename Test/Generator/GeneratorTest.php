@@ -1,37 +1,19 @@
 <?php
 /**
  * @file
- * Contains Drupal\AppConsole\Test\Generator\GeneratorTest.
+ * Contains Drupal\Console\Test\Generator\GeneratorTest.
  */
 
-namespace Drupal\AppConsole\Test\Generator;
+namespace Drupal\Console\Test\Generator;
 
-abstract class GeneratorTest extends \PHPUnit_Framework_TestCase
+use Drupal\Console\Test\BaseTestCase;
+
+abstract class GeneratorTest extends BaseTestCase
 {
-    public $dir;
-
-    public function setUp()
-    {
-        $this->setUpTemporalDirectory();
-        if (!defined('DRUPAL_ROOT')) {
-            define('DRUPAL_ROOT', getcwd());
-        }
-    }
-
-    public function setUpTemporalDirectory()
-    {
-        $this->dir = sys_get_temp_dir() . "/modules";
-    }
-
     public function getSkeletonDirs()
     {
         $skeletonDirs[] = __DIR__ . '/../../templates';
 
         return $skeletonDirs;
-    }
-
-    public function getModulePath($module)
-    {
-        return $this->dir . '/' . $module;
     }
 }

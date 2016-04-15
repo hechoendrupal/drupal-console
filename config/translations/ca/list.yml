@@ -1,0 +1,16 @@
+description: 'Llistar tots els comandaments disponibles'
+help: "El comandament <info>%command.name%</info> llista tots els comandaments:\n<info>php %command.full_name%</info>\nTambé es pot mostrar el commandaments per un namespace en particular:\n<info>php %command.full_name% test</info>\nTambé es pot mostrar l'informació en altres formats utilitzant l'opció <comment>--format</comment>:\n<info>php %command.full_name% --format=xml</info>\nTambé és possible obtenir una llista en brut dels comandaments (útil per incrustar un executador de comandaments):\n<info>php %command.full_name% --raw</info>\n"
+arguments:
+    namespace: 'Nom del namespace'
+options:
+    xml: 'Mostrar una llista com a XML'
+    raw: 'Mostrar una llista de comandaments en brut'
+    format: 'Format de sortida (txt, xml, json, or md)'
+messages:
+    usage: "<comment>Ús:</comment>\n"
+    usage_details: "  comandament [opcions] [arguments]\n\n"
+    arguments: '<comment>Arguments:</comment>'
+    options: '<comment>Opcions:</comment>'
+    help: '<comment>Ajuda:</comment>'
+    comment: '<comment>Comandaments disponibles per el ''namespace'' "%s":</comment>'
+    available-commands: '<comment>Comandaments disponibles:</comment>'

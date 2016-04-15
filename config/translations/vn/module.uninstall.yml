@@ -1,0 +1,10 @@
+description: 'Gỡ bỏ module hoặc các module trong ứng dụng'
+options:
+    module: 'Module hoặc các module được gỡ bỏ cần được chia ra bằng dấu phẩy'
+    force: 'Do you want to ignore dependencies and forcefully uninstall the module?'
+messages:
+    no-modules: 'Bạn phải cung cấp module hoặc các modules để gỡ bỏ.'
+    dependents: 'Không thể gỡ bỏ các modules %s vì chúng được yêu cầu bởi %s'
+    nothing: 'Không có gì để thực hiện. Tất cả các module đã được gỡ bỏ'
+    success: 'Các module sau đã được gỡ bỏ thành công: %s'
+    missing: 'Unable to install modules %s due to missing modules %s'

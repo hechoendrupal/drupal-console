@@ -1,0 +1,6 @@
+description: 'Xuất cấu hình ứng dụng hiện tại'
+arguments:
+    directory: 'Định nghĩa xuất thư mục để lưu cấu hình đầu ra'
+    tar: 'If set, the configuration will be exported to an archive file.'
+messages:
+    directory: 'Cấu hình xuất file của bạn đã được lưu trữ trong %s'

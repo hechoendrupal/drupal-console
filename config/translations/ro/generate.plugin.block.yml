@@ -1,0 +1,21 @@
+description: 'Generează un Plugin de tip bloc'
+help: 'Comanda <info>generate:plugin:block</info> vă va ajuta să creați un nou plugin de tip bloc.'
+welcome: 'Bine ați venit la generatorul de plugin-uri de tip bloc Drupal'
+options:
+    module: common.options.module
+    class: 'Numele clasei pluginului'
+    label: 'Eticheta pluginului'
+    plugin-id: 'ID-ul pluginului'
+    inputs: common.options.inputs
+    services: common.options.services
+    theme-region: 'Regiunea temei unde va fi randat Pluginul de tip bloc'
+questions:
+    module: common.questions.module
+    class: 'Introduceți numele clasei pluginului'
+    label: 'Introduceți eticheta pluginului'
+    plugin-id: 'Introduceți ID-ul pluginului'
+    inputs: common.questions.inputs
+    services: common.questions.services
+messages:
+    inputs: "\nPuteți adăuga câmpuri pentru a crea configurări specifice blocului.\nAceasta este opțional, tastați <info>enter</info> pentru a <info>continua</info>"
+    invalid-theme-region: 'Regiunea %s nu este validă'

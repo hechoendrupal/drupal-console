@@ -1,0 +1,45 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\Plugin\Action\{{class_name}}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Plugin\Action;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Action\ActionBase;
+use Drupal\Core\Session\AccountInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides a '{{class_name}}' action.
+ *
+ * @Action(
+ *  id = "{{plugin_id}}",
+ *  label = @Translation("{{label}}"),
+ *  type = "{{type}}",
+ * )
+ */
+class {{class_name}} extends ActionBase {% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public function execute($object = NULL) {
+    // Insert code here.
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+    /** @var \Drupal\user\UserInterface $object */
+    $access = $object->status->access('edit', $account, TRUE)
+      ->andIf($object->access('update', $account, TRUE));
+
+    return $return_as_object ? $access : $access->isAllowed();
+  }
+{% endblock %}

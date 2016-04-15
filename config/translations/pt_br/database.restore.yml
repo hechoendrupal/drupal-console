@@ -1,0 +1,9 @@
+description: 'Restaurar a estrutura e conteúdo das bases de dados e tabelas do MySQL'
+arguments:
+    database: 'Senha do banco de dados em settings.php'
+options:
+    file: 'O nome do arquivo de backup do banco de dados'
+messages:
+    success: 'Importar banco de dados para:'
+    no-file: 'Missing file option'
+help: 'Restore structure and contents of a database.'

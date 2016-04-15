@@ -1,0 +1,4 @@
+description: 'Listado de módulos que implementan una llamada al cron'
+messages:
+    module-list: 'Módulos que implementan un método del cron'
+    module: Módulo

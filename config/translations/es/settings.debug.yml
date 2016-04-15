@@ -1,0 +1,5 @@
+description: 'Ofrece un listado de la configuración de usuario de Drupal Console.'
+messages:
+    config-key: 'Clave de configuración'
+    config-value: 'Valor de configuración'
+    config-file: 'Archivo de configuración'

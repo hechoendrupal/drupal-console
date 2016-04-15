@@ -1,0 +1,8 @@
+description: 'Import configuration to current application.'
+arguments:
+    file: 'Configuration file path.'
+    directory: 'Path to a directory of configuration to import.'
+    remove-files: 'Remove files after syncronization.'
+messages:
+    config_files_imported: 'List of config files.'
+    imported: 'Configutation imported successfully.'

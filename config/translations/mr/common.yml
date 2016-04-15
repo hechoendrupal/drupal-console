@@ -1,0 +1,42 @@
+options:
+    events: 'कंटेनर मधून इव्हेंट्स भरा'
+    module: 'मॉड्यूलचे नाव.'
+    services: 'कंटेनर मधून सेवा भरा.'
+    tags: 'कंटेनर मधून सेवा टॅग सेट करा.'
+    inputs: 'फॉर्म मध्ये इनपुट तयार करा.'
+    permissions: 'परवानग्या तयार करा.'
+questions:
+    module: 'मॉड्यूलचे नाव प्रविष्ट करा'
+    confirm: 'आपण एकदा निर्मिती पुष्टी करा ?'
+    canceled: 'आदेश निर्मिती रद्द.'
+    events:
+        message: "\nसेवेचे नाव टाइप करा किंवा keyup किंवा keydown वापर.\nहे ऐच्छिक आहे, दाबा <info>enter</info> to <info>continue</info>\n"
+        name: 'कार्यक्रमाचे नाव प्रविष्ट करा'
+    services:
+        confirm: 'आपण कंटेनर मधून सेवा लोड करू इच्छित आहे का ?'
+        message: "\nसेवेचे नाव टाइप करा किंवा keyup किंवा keydown वापर.\nहे ऐच्छिक आहे, दाबा <info>enter</info> to <info>continue</info>\n"
+        name: 'आपल्या सेवा प्रविष्ट करा'
+    inputs:
+        confirm: 'आपण एक फॉर्म रचना निर्माण करू इच्छित आहे का ?'
+        label: 'इनपुट लेबल'
+        machine_name: 'इनपुट मशीन नाव'
+        permission: 'आपण परवानगी निर्माण करू इच्छित आहे का ?'
+        type: 'प्रकार'
+        invalid: 'फिल्ड प्रकार "%s" अवैध आहे.'
+        description: 'वर्णन'
+        default-value: 'डिफॉल्ट मूल्य'
+        weight: 'इनपुट आयटमचे वजन'
+        title: 'शीर्षक'
+        fieldset: 'फिल्डसेट'
+errors:
+    module-dependency: 'गहाळ घटक अवलंबन "%s" स्थापित केले नाही. module:install स्थापित करून पहा.'
+    class-name-empty: 'वर्ग नाव रिकामे असू शकत नाही'
+    invalid-file-path: 'आपण एक वैध फाइल पथ पुरविणे आवश्यक आहे'
+status:
+    enabled: 'सक्षम'
+    disabled: 'अक्षम'
+messages:
+    canceled: 'निर्मिती रद्द करण्यात आली'
+    drupal-core: 'ड्रुपल कोर'
+    move-phar: 'Accessing console from anywhere on your system'
+    quick-start: 'डाउनलोड, स्थापित आणि Drupal 8 सेवा'

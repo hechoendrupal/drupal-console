@@ -1,0 +1,21 @@
+commands:
+# Download Drupal
+  - command: site:new
+    arguments:
+      directory: drupal8.dev
+      version: 8.0.6
+# Install Drupal
+  - command: site:install
+    options:
+        langcode: en
+        db-type: sqlite
+        db-file: sites/default/files/.ht.sqlite
+        site-name: 'Drupal 8 Quick Start'
+        site-mail: admin@example.com
+        account-name: admin
+        account-mail: admin@example.com
+        account-pass: admin
+    arguments:
+        profile: standard
+# Start php built-in server
+  - command: server

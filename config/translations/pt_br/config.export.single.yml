@@ -1,0 +1,14 @@
+description: 'Exportar configuração como um arquivo yml.'
+arguments:
+    config-name: 'Nome do arquivo de configuração.'
+options:
+    include-dependencies: 'Export dependencies of the configuration as well.'
+    simple-configuration: 'Configuração simples'
+questions:
+    config-type: 'Tipo de configuração'
+    config-name: 'Nome da configuração'
+messages:
+    config-not-found: 'Nome de configuração não encontrado.'
+    export: 'A configuração foi exportada como um arquivo %s.'
+    invalid-config-type: 'O tipo de configuração é inválido, por favor selecione um da lista'
+    invalid-config-name: 'O nome da configuração é inválido, por favor selecione um da lista'

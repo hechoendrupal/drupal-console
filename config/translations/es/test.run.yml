@@ -1,0 +1,22 @@
+description: 'Ejecuta un test unitario de los disponibles en la aplicación'
+arguments:
+    test-class: 'Clase del test'
+    test-methods: 'Métodos de prueba a ejecutar'
+messages:
+    missing-dependency: 'El test no puede ser ejecutado debido a una dependencia incumplida'
+    phpunit-pending: 'La lógica para ejecutar tests de PHPUnit no está implementada todavía.'
+    starting-test: 'Empezando test'
+    test-duration: 'Duración del test'
+    test-pass: 'El test pasa'
+    test-fail: 'El test falla'
+    test-exception: 'Excepciones del test'
+    test-debug: 'Información de debug del test'
+    url-required: 'La opción de URL es obligatoria para ejecutar el test'
+    test-summary: 'Resumen del test'
+    group: Grupo
+    status: Estado
+    file: Archivo
+    method: Método
+    line: Línea
+    message: Mensaje
+    invalid-class: 'La clase de Testing %s no existe'

@@ -1,0 +1,46 @@
+options:
+    env: 'Nome do ambiente.'
+    no-debug: 'Desligar o modo de depuração.'
+    learning: 'Gerar código com explicações.'
+    generate-chain: 'Imprimir opções e argumentos como YAML para ser usado o comando chain'
+    generate-inline: 'Imprimir opções e argumentos de execução como chamada inline para ser usado no futuro'
+    generate-doc: 'Shows command options and arguments as markdown'
+    root: 'Define a rais do Drupal que utilizará os comandos em execução.'
+    uri: 'URI do site Drupal para usar (para ambientes multisites ou quando usado em uma porta alternativa)'
+    'yes': 'Skip confirmation and proceed'
+    target: 'Site name you want to interact with (for local or remote sites)'
+    help: 'Display this help message'
+    quiet: 'Do not output any message'
+    verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
+    version: '<info>%s</info> versão <comment>%s</comment>'
+    ansi: 'Force ANSI output'
+    no-ansi: 'Disable ANSI output'
+    no-interaction: 'Do not ask any interactive question'
+    check-fix: 'Attempt to fix any missing configuration.'
+arguments:
+    command: 'The command to execute'
+messages:
+    completed: 'O comando foi executado com sucesso!'
+    chain:
+        generated: 'A seguir, você pode encontrar a representação YAML do último comando executado, ou seja, pode copiar em ~/.console/chain/sample.yml para executar dentro de uma seqüência de comandos'
+    inline:
+        generated: 'A seguir, você pode encontrar a representação inline deste comando para re-executar este comando mais tarde'
+    generated: 'Você pode começar a usar o código de gerado!'
+    files:
+        generated: 'Gerar ou atualizar arquivos'
+        copied: 'Copiar arquivos'
+    learning:
+        route: "Com a finalidade de criar páginas é necessário criar rotas para elas.\nUma rota relaciona uma URL a um controlador. Isso define qual função\nou método será chamado quando uma URL é acessada.\nSe o usuário acessar http://drupal8.dev/{{ route }}, o sistema buscará uma rota para esse caminho. Neste caso, se encontrar uma rota\n, e executará a chamada controller. Neste caso a chamada é \ndefinida como um nome de classe\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\ne um método (\"{{ method_name }}\")."
+    autocomplete: "Bash or Zsh: Adiciona está linha para arquivo de configuração do shell:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Criar um link simbólico\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
+    version: '<info>%s</info> version <comment>%s</comment>'
+errors:
+    invalid-command: 'Comando "%s" não está definido.'
+site:
+    messages:
+        path: 'Endereço do site'
+    errors:
+        directory: 'Para listar todos os comandos disponíveis, você deve estar em um diretório raiz do Drupal.'
+        settings: 'Para listar todos os comandos disponíveis, você deve instalar um Drupal primeiro.'
+user:
+    messages:
+        path: 'Endereço da home do usuário.'

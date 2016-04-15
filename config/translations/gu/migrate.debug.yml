@@ -1,0 +1,8 @@
+description: 'Display current migration available for the application'
+arguments:
+    tag: 'Migrate tag'
+messages:
+    id: 'Migration Id'
+    description: Description
+    no-migrations: 'There aren''t migrations available try to execute command: migrate:setup:migrations'
+    tags: Tags

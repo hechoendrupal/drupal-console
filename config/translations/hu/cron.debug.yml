@@ -1,0 +1,4 @@
+description: 'Cron metódust megvalósító modulok listája'
+messages:
+    module-list: 'Cron metódust megvalósító modulok listája'
+    module: Modul

@@ -1,0 +1,37 @@
+description: 'एक कंट्रोलर को उत्पन्न और पंजीकृत करें'
+help: '<info>generate:controller</info> कमाण्ड आपको एक नया कंट्रोलर उत्पन्न करने में मदद करता है।'
+welcome: 'Drupal कंट्रोलर उत्पादक में आपका स्वागत है'
+options:
+    module: common.options.module
+    class: 'कंट्रोलर क्लास का नाम'
+    routes: 'मार्गों युक्त एक सरणी होना चाहिए [शीर्षक, विधि, पथ]'
+    services: common.options.services
+    test: 'एक परिक्षण क्लास उत्पन्न करें'
+    title: 'नियंत्रक का शीर्षक'
+    method: 'कार्रवाई विधि के नाम'
+    route: मार्ग
+    controller-title: 'नियंत्रक का शीर्षक'
+    method-name: 'प्रक्रिया मेथड का नाम'
+questions:
+    module: common.questions.module
+    class: 'कंट्रोलर क्लास का नाम दर्ज करें'
+    title: 'नियंत्रक विधि के शीर्षक दर्ज करे'
+    method: 'कार्रवाई विधि नाम दर्ज करे'
+    path: 'मार्ग पथ दर्ज करें'
+    services: common.questions.services
+    test: 'क्या आप यूनिट परिक्षण क्लास उत्पन्न करना चाहते है'
+    route: 'मार्ग दर्ज करें'
+    controller-add: 'यदि आप किसी अन्य नियंत्रक विधि - नाम जोड़ने के लिए चाहते हैं'
+    controller: 'नियंत्रक शीर्षक'
+    method-name: 'प्रक्रिया मेथड का नाम दर्ज करें'
+    other-controller-title: 'कंट्रोलर शीर्षक (कोड उत्पन्न करने के लिए खाली)'
+    controller-title: 'कंट्रोलर शीर्षक'
+messages:
+    title-empty: 'शीर्षक एक मूल्य शामिल होना चाहिए'
+    title-already-added: 'शीर्षक पहले ही जोड़ दिया गया है'
+    method-name-already-added: 'मेथड का नाम पहले ही जोड़ दिया गया है'
+    path-already-added: 'पथ पहले से ही जोड़ा गया है'
+    route-already-added: 'मार्ग पहले ही जोड़ दिया गया है'
+    invalid-controller-title: 'शीर्षक खाली नही हो सकता'
+    invalid-method-name: 'मेथड का नाम खाली नही हो सकता'
+    invalid-route: 'मार्ग खाली नही हो सकता'

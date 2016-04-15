@@ -1,0 +1,9 @@
+description: 'Restabilește structura și conținutul bazei de date MySQL și ale tabelelor acesteia'
+arguments:
+    database: 'Cheia bazei de date din fișierul settings.php'
+options:
+    file: 'Numele fișierului pentru backup-ul bazei dvs. de date'
+messages:
+    success: 'Baza de date a fost importata de la:'
+    no-file: 'Missing file option'
+help: 'Restore structure and contents of a database.'

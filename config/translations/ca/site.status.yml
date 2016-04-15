@@ -1,0 +1,24 @@
+description: 'Veure l''estat actual de l''instal·lació de Drupal'
+messages:
+    application: Aplicació
+    system: 'Informació del sistema'
+    hash_salt: 'Hash salt'
+    console: 'Drupal Console'
+    database: 'Base de dades'
+    driver: Controlador
+    host: Amfitrió
+    port: Port
+    username: 'Nom de l''usuari'
+    password: Contrasenya
+    theme: Tema
+    connection: Connexió
+    theme_default: 'Tema predeterminat'
+    theme_admin: 'Tema d''administració'
+    directory: Directori
+    directory_root: 'Directori arrel del lloc'
+    directory_temporary: 'Directori de fitxer temporals'
+    directory_theme_default: 'Directori del tema predeterminat'
+    directory_theme_admin: 'Directori del tema d''administració'
+    current_version: 'Versió actual de Drupal (%s)'
+    not_installed: 'Drupal no està instal·lat'
+    not_available: 'No disponible'

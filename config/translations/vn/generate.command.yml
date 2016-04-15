@@ -1,0 +1,16 @@
+description: 'Tạo ra các lệnh cho trình điều khiển.'
+help: 'The <info>generate:command</info> Câu lệnh giúp bạn tạo ra một lệnh mới.'
+welcome: 'Chào mừng tới Drupal Command generator.'
+options:
+    module: 'Tên của Module (bao gồm lệnh).'
+    controller-title: 'Tên trình điều khiển'
+    class: 'Lớp miêu tả dòng lện. (Phải kết thúc bằng từ ''Commmand'').'
+    name: 'Tên dòng lệnh.'
+    container-aware: 'Dòng lệnh có nhận thức được sự cài đặt drupal site khi thực hiện hay không'
+questions:
+    module: common.questions.module
+    class: 'Nhập vào tên của lớp lệnh'
+    name: 'Nhập tên dòng lệnh.'
+    container-aware: 'Dòng lệnh có nhận thức được sự cài đặt drupal site khi thực hiện hay không?.'
+messages:
+    title-not-empty: 'Tiêu đề không được để trống'

@@ -1,0 +1,14 @@
+description: 'Crea vocabularios de prueba para tu Drupal 8.'
+help: 'El comando <info>create:vocabularies</info> le ayuda a generar vocabularios de prueba.'
+welcome: 'Bienvenido al generador de vocabularios para Drupal 8'
+options:
+    limit: 'Cuántos vocabularios le gustaría crear'
+    name-words: 'Número máximo de palabras en los nombres de vocabulario'
+questions:
+    limit: 'Introduzca cuántos vocabularios le gustaría crear'
+    name-words: 'Introduzca el número máximo de palabras en los nombres de vocabulario'
+messages:
+    vocabulary-id: 'Id de vocabulario'
+    name: Nombre
+    created-terms: 'Han sido creados %s vocabularios con éxito'
+    error: 'Error creando los vocabularios: %s'

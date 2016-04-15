@@ -1,0 +1,21 @@
+description: 'Generează un "%s" nou'
+help: 'Comanda <info>"%s"</info> vă va ajuta să generați un nou "%s"'
+welcome: 'Bine ați venit la generatorul de formulare Drupal'
+options:
+    module: common.options.module
+    class: 'Numele clasei formularului'
+    form-id: 'ID-ul formularului'
+    services: common.options.services
+    inputs: common.options.inputs
+    routing: 'Actualizează rutarea'
+questions:
+    module: common.questions.module
+    class: 'Introduceți numele clasei formularului'
+    form-id: 'Introduceți ID-ul formularului'
+    services: common.questions.services
+    inputs: common.questions.inputs
+    routing: 'Actualizați fișierul de rutare'
+    menu_link_gen: 'Generate a menu link'
+    menu_link_title: 'A title for the menu link'
+    menu_parent: 'Menu parent'
+    menu_link_desc: 'A description for the menu link'

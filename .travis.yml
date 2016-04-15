@@ -1,22 +1,44 @@
+sudo: false
+
 language: php
 
 php:
-  - 5.4
+  - 5.5
   - 5.6
+  - 7
   - hhvm
 
 matrix:
+  fast_finish: true
   allow_failures:
     - php: hhvm
+    - php: 7
+
+env:
+  global:
+    - PROJECT_DIR=/home/project
 
 before_script:
+  - phpenv config-rm xdebug.ini
+  # This fixes a fail when install Drupal.
+  - echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer self-update
-  - composer install --dev --prefer-source
+  - composer install --no-dev
+  - curl -LSs https://box-project.github.io/box2/installer.php | php
+  - composer global require drupal/coder:~8.1
 
-after_success:
-  - ./bin/phpcs --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml /tmp/modules/*
-  #- if ./bin/phpcs --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml /tmp/modules/* | egrep "FOUND ([1-9]+) ERRORS" --quiet; then echo "\nErrors in coding standards\n"; exit 1; fi
-  - rm -r /tmp/modules
+script:
+  - if [ -n "${TRAVIS_BUILD_DIR+1}" ]; then PROJECT_DIR=$TRAVIS_BUILD_DIR; fi
+  - phpunit
+  - php box.phar build
+  - php drupal.phar init
+  - php drupal.phar check
+  - php drupal.phar site:new drupal8.dev 8.0.6 --no-interaction
+  - cd drupal8.dev
+  - php ../drupal.phar site:install standard --langcode=en --db-type=sqlite --db-file=sites/default/files/.ht.sqlite --site-name="Drupal 8 Site Install" --site-mail=admin@example.com --account-name=admin --account-mail=admin@example.com --account-pass=admin --no-interaction
+  - php ../drupal.phar chain --file=$PROJECT_DIR/config/dist/chain/sample.yml
+  - ~/.composer/vendor/bin/phpcs --warning-severity=0 --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml $PROJECT_DIR/drupal8.dev/modules/custom/example
+
 notifications:
   webhooks:
     urls:

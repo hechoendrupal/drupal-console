@@ -1,0 +1,4 @@
+description: 'Esemény-előfizető létrehozása'
+questions:
+    class: Osztálynév
+    callback-name: 'Az eseményt kezelő visszahívási függvény neve'

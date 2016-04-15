@@ -1,0 +1,11 @@
+description: 'Importar configuração do estado atual da aplicação.'
+arguments:
+    file: 'Endereço do arquivo de configuração.'
+    directory: 'Path to a directory of configuration to import.'
+    remove-files: 'Remover arquivos após a sincronização.'
+    config-file: 'Endereço do arquivo de configuração.'
+    copy-only: 'Copiar arquivos de configuração somente no diretório de staging.'
+messages:
+    config_files_imported: 'Lista de arquivos de configuração.'
+    imported: 'Todos os arquivos de configuração foram copiados para o diretório de staging e importados.'
+    copied: 'Todos os arquivos de configuração foram copiados para o diretório de staging.'

@@ -8,7 +8,8 @@
     ],
     "files": [
         "config.yml",
-        "bin/console.php",
+        "services.yml",
+        "bin/drupal.php",
         "vendor/autoload.php"
     ],
     "finder": [
@@ -18,7 +19,11 @@
             "in": "vendor"
         }
     ],
-    "main": "bin/console",
-    "output": "console.phar",
+    "compactors": [
+        "Herrera\\Box\\Compactor\\Php"
+    ],
+    "compression": "GZ",
+    "main": "bin/drupal",
+    "output": "drupal.phar",
     "stub": true
 }

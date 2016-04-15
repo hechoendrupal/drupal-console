@@ -1,0 +1,19 @@
+description: 'खाना प्रकार प्लगिन उत्पन्न करें'
+help: '<info>generate:plugin:fieldtype</info> कमाण्ड आपको नया खाना प्रकार प्लगिन उत्पन्न करने में मदद करता है।'
+welcome: 'Drupal खाना प्रकार प्लगिन उत्पादक में आपका स्वागत है'
+options:
+    module: common.options.module
+    class: 'प्लगिन का क्लास नाम'
+    label: 'प्लगिन का उप-शीर्षक'
+    plugin-id: 'प्लगिन id'
+    description: 'प्लगिन का विवरण'
+    default-widget: 'इस प्लगिन का डीफाल्ट खाना विजेट'
+    default-formatter: 'इस प्लगिन का डीफाल्ट खाना formatter'
+questions:
+    module: common.questions.module
+    class: 'प्लगिन का क्लास नाम दर्ज करें'
+    label: 'प्लगिन का उप-शीर्षक दर्ज करें'
+    plugin-id: 'प्लगिन id दर्ज करें'
+    description: 'प्लगिन का विवरण दर्ज करें'
+    default-widget: 'इस प्लगिन का डीफाल्ट खाना विजेट दर्ज करें'
+    default-formatter: 'इस प्लगिन का डीफाल्ट खाना formatter दर्ज करें'

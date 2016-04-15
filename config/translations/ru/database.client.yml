@@ -1,0 +1,5 @@
+description: 'Запуск клиента базы данных, если он доступен'
+arguments:
+    database: 'Ключ базы данных из settings.php'
+messages:
+    connection: 'Соединение: %s'

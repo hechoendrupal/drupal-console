@@ -1,0 +1,8 @@
+description: 'Konfiguráció importálása az aktuális alkalmazásba.'
+arguments:
+    file: 'Az importálni kívánt archívumfájl útvonala.'
+    directory: 'Az importálni kívánt konfiguráció könyvtárának útvonala.'
+    remove-files: 'Fájlok eltávolítása a szinkronizáció után.'
+messages:
+    config_files_imported: 'Konfigurációs fájlok listája.'
+    imported: 'A konfiguráció importálása sikeres volt.'

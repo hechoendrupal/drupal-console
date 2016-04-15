@@ -1,0 +1,15 @@
+description: 'Generar un connector formatador de camp.'
+help: 'El comandament <info>generate:plugin:fieldformatter</info> t''ajuda a generar un nou connector formatador de camp.'
+welcome: 'Us donem la benvinguda al generador de connectors formatadors de camps'
+options:
+    module: common.options.module
+    class: 'Nom de la classe del connector'
+    label: 'Etiqueta del connector'
+    plugin-id: 'Identificador del connector'
+    field-type: 'Tipus de camp amb el que el connector es pot utilitzar'
+questions:
+    module: common.questions.module
+    class: 'Introduïu el nom de la classe del connector'
+    label: 'Introduïu l''etiqueta del connector'
+    plugin-id: 'Introduïu l''identificador del connector'
+    field-type: 'Introduïu el tipus de camp amb el que el connector es pot utilitzar'

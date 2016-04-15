@@ -1,0 +1,14 @@
+description: モジュールをインストール
+arguments:
+    module: 'モジュール名 (複数してする場合はスペース区切り)'
+options:
+    latest: 'Default to download most recent version'
+    version: 'モジュールのバージョン (例: 1.x-dev)'
+messages:
+    no-releases: 'モジュール %s のバージョンが見つかりません'
+    getting-releases: 'モジュール %s のバージョン一覧を取得中'
+    downloading: 'モジュール %s %s をダウンロード中'
+    downloaded: 'モジュール %s %s が %s にダウンロードされました。'
+    select-release: 'ダウンロードするバージョンを選択してください'
+    outside-drupal: 'Drupal root can''t be determined. Use --root to set the destination, current folder will be used instead of.'
+    error-creating-folder: 'ディレクトリ %s の作成に失敗しました、パーミッションを確認してください。'

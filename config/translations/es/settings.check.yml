@@ -1,0 +1,8 @@
+description: 'Verificador de requisitos del sistema'
+messages:
+    php_invalid: 'La versión actual instalada %s es inválida, se requiere %s o superior'
+    configuration_missing: 'La configuración %s no está disponible.'
+    configuration_overwritten: 'La configuración %s no estaba disponible y se sobreescribió con %s.'
+    extension_missing: 'La extensión %s no está disponible.'
+    extension_recommended: 'Se recomienda instalar la extensión %s.'
+    success: 'Todas las verificaciones se cumplieron.'

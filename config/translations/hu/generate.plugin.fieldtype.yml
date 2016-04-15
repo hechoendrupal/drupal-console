@@ -1,0 +1,19 @@
+description: 'Mezőtípus bővítmény létrehozása'
+help: 'A <info>generate:plugin:fieldtype</info> parancs új mezőtípus bővítmény létrehozását segíti.'
+welcome: 'Üdvözlet a Drupal mezőtípus bővítmény előállítóban'
+options:
+    module: common.options.module
+    class: 'Bővítmény osztályneve'
+    label: 'Bővítmény felirata'
+    plugin-id: 'Bővítmény azonosítója'
+    description: 'Bővítmény leírása'
+    default-widget: 'A bővítmény alapértelmezett mező felületi eleme'
+    default-formatter: 'A bővítmény alapértelmezett mezőformázója'
+questions:
+    module: common.questions.module
+    class: 'Meg kell adni a bővítmény osztálynevét'
+    label: 'Meg kell adni a bővítmény feliratát'
+    plugin-id: 'Meg kell adni a bővítmény azonosítóját'
+    description: 'Meg kell adni a bővítmény leírását'
+    default-widget: 'Meg kell adni a bővítmény alapértelmezett mező felületi elemét'
+    default-formatter: 'Meg kell adni a bővítmény alapértelmezett mezőformázóját'

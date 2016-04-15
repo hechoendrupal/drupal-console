@@ -1,107 +1,85 @@
 <?php
 /**
  * @file
- * Contains Drupal\AppConsole\Test\Generator\ModuleGeneratorTest.
+ * Contains Drupal\Console\Test\Generator\ModuleGeneratorTest.
  */
 
-namespace Drupal\AppConsole\Test\Generator;
+namespace Drupal\Console\Test\Generator;
 
-use Drupal\AppConsole\Generator\ModuleGenerator;
+use Drupal\Console\Generator\ModuleGenerator;
+use Drupal\Console\Test\DataProvider\ModuleDataProviderTrait;
 
+/**
+ * Class ModuleGeneratorTest
+ * @package Drupal\Console\Test\Generator
+ */
 class ModuleGeneratorTest extends GeneratorTest
 {
+    use ModuleDataProviderTrait;
+
     /**
      * Module generator test
      *
+     * @param $module
+     * @param $machine_name
+     * @param $module_path,
+     * @param $description
+     * @param $core
+     * @param $package
+     * @param $moduleFile
+     * @param $featureBundle
+     * @param $composer
+     * @param $dependencies
+     *
      * @dataProvider commandData
      */
-    public function testGenerateModule($parameters)
-    {
-        list(
-          $module,
-          $machine_name,
-          $dir,
-          $description,
-          $core,
-          $package,
-          $controller,
-          $dependencies,
-          $tests
-          ) = $parameters;
+    public function testGenerateModule(
+        $module,
+        $machine_name,
+        $module_path,
+        $description,
+        $core,
+        $package,
+        $moduleFile,
+        $featureBundle,
+        $composer,
+        $dependencies
+    ) {
+        $generator = new ModuleGenerator();
+        $this->getRenderHelper()->setSkeletonDirs($this->getSkeletonDirs());
+        $this->getRenderHelper()->setTranslator($this->getTranslatorHelper());
+        $generator->setHelperSet($this->getHelperSet());
 
-        $this->getGenerator()->generate(
-          $module,
-          $machine_name,
-          $dir,
-          $description,
-          $core,
-          $package,
-          $controller,
-          $dependencies,
-          $tests
+        $generator->generate(
+            $module,
+            $machine_name,
+            $module_path,
+            $description,
+            $core,
+            $package,
+            $moduleFile,
+            $featureBundle,
+            $composer,
+            $dependencies
         );
 
-        $files = [
-          $machine_name . '.info.yml',
-          $machine_name . '.module',
-        ];
+        $this->assertTrue(
+            file_exists($module_path . '/' . $machine_name . '/' . $machine_name . '.info.yml'),
+            sprintf('%s has been generated', $module_path . '/' . $machine_name . '.info.yml')
+        );
 
-        foreach ($files as $file) {
+        if ($moduleFile) {
             $this->assertTrue(
-              file_exists($dir . '/' . $machine_name . '/' . $file),
-              sprintf('%s has been generated', $dir . '/' . $machine_name . '/' . $file)
+                file_exists($module_path . '/' . $machine_name . '/' . $machine_name . '.module'),
+                sprintf('%s has been generated', $module_path . '/' . $machine_name . '/' . $machine_name . '.module')
             );
         }
 
-        if ($controller) {
+        if ($composer) {
             $this->assertTrue(
-              file_exists($dir . '/' . $machine_name . '/src/Controller/DefaultController.php'),
-              sprintf('%s has been generated',
-                $dir . $machine_name . '/src/Controller/DefaultController.php'
-              )
+                file_exists($module_path . '/' . $machine_name . '/composer.json'),
+                sprintf('%s has been generated', $module_path . '/' . $machine_name . '/composer.json')
             );
-            $this->assertTrue(
-              file_exists($dir . '/' . $machine_name . "/$machine_name.routing.yml"),
-              sprintf('%s has been generated',
-                $dir . '/' . $machine_name . "/$machine_name.routing.yml"
-              )
-            );
-
-            if ($tests) {
-                $this->assertTrue(
-                  file_exists($dir . '/' . $machine_name . '/Tests/Controller/DefaultControllerTest.php'),
-                  sprintf('%s has been generated',
-                    $dir . '/' . $machine_name . '/Tests/Controller/DefaultControllerTest.php'
-                  )
-                );
-            }
         }
-    }
-
-    public function commandData()
-    {
-        $this->setUpTemporalDirectory();
-
-        return [
-          [
-            ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, null, false],
-          ],
-          [
-            ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, null, true],
-          ],
-          [
-            ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, null, false],
-          ],
-          [
-            ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', true, null, true],
-          ],
-        ];
-    }
-
-    protected function getGenerator()
-    {
-        $generator = new ModuleGenerator();
-        $generator->setSkeletonDirs(__DIR__ . '/../../templates');
-        return $generator;
     }
 }

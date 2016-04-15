@@ -1,0 +1,11 @@
+description: 'Remove events from DBLog table, filters are available'
+arguments:
+    event-id: 'DBLog event ID'
+options:
+    type: 'Filter events by a specific type'
+    severity: 'Filter events by a specific level of severity'
+    user-id: 'Filter events by a specific user id'
+messages:
+    event-deleted: 'Event %s was deleted'
+    clear-error: 'Clear process fail, please check used filters'
+    clear-sucess: 'Clear of events was successfully'

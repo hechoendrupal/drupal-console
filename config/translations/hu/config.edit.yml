@@ -1,0 +1,8 @@
+description: 'Szerkeszteni kell a kiválasztott konfigurációt.'
+arguments:
+    config-name: 'A konfiguráció neve.'
+    editor: Szerkesztő.
+questions:
+    config-name: 'Ki kell választani egy konfigurációs egységet'
+messages:
+    no-directory: 'Hiba történt a könyvtár létrehozásakor a következő helyen:'

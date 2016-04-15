@@ -2,71 +2,42 @@
 
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Generator\CommandGeneratorTest.
+ * Contains \Drupal\Console\Test\Generator\CommandGeneratorTest.
  */
 
-namespace Drupal\AppConsole\Test\Generator;
+namespace Drupal\Console\Test\Generator;
+
+use Drupal\Console\Generator\CommandGenerator;
+use Drupal\Console\Test\DataProvider\CommandDataProviderTrait;
 
 class CommandGeneratorTest extends GeneratorTest
 {
+    use CommandDataProviderTrait;
+
     /**
+     * @param $module
+     * @param $name
+     * @param $class
+     * @param $containerAware
+     *
      * @dataProvider commandData
      */
-    public function testCommandGenerator($parameters)
-    {
-        list($module, $command, $class_name, $container) = $parameters;
+    public function testGenerateCommand(
+        $module,
+        $name,
+        $class,
+        $containerAware
+    ) {
+        $generator = new CommandGenerator();
+        $this->getRenderHelper()->setSkeletonDirs($this->getSkeletonDirs());
+        $this->getRenderHelper()->setTranslator($this->getTranslatorHelper());
+        $generator->setHelperSet($this->getHelperSet());
 
-        $generator = $this->getGenerator();
-
-        $dir_module = $this->dir . '/' . $module;
-
-        $generator->expects($this->once())
-          ->method('getCommandPath')
-          ->will(
-            $this->returnValue(
-              $dir_module . '/src/Command'
-            )
-          );
-
-        // Generate command
-        $generator->generate($module, $command, $class_name, $container);
-
-        $this->assertTrue(
-          is_file($dir_module . '/src/Command/' . $class_name . '.php'),
-          'Command class generated'
+        $generator->generate(
+            $module,
+            $name,
+            $class,
+            $containerAware
         );
-    }
-
-    public function commandData()
-    {
-        return [
-          [
-            ['command_' . rand(), 'command:default', 'CommandDefault', false]
-          ],
-          [
-            ['command_' . rand(), 'command:default', 'CommandDefault', true]
-          ],
-        ];
-    }
-
-    protected function getGenerator()
-    {
-        $generator = $this->getMockBuilder('\Drupal\AppConsole\Generator\CommandGenerator')
-          ->setMethods(['getCommandPath'])
-          ->getMock();
-
-        $generator->setSkeletonDirs($this->getSkeletonDirs());
-        $generator->setTranslator($this->getTranslationHelper());
-
-        return $generator;
-    }
-
-    protected function getTranslationHelper()
-    {
-        return $this
-          ->getMockBuilder('Drupal\AppConsole\Command\Helper\TranslatorHelper')
-          ->disableOriginalConstructor()
-          ->setMethods(['loadResource', 'trans', 'writeTranslationsByModule'])
-          ->getMock();
     }
 }

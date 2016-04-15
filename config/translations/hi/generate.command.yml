@@ -1,0 +1,20 @@
+description: 'कंसोल के लिए कमाण्डो को उत्पन्न करें।'
+help: '<info>generate:command</info> कमाण्ड आपको एक नया कमाण्ड उत्पन्न करने में मदद करता है।'
+welcome: 'Drupal कमाण्ड उत्पादक में आपका स्वागत है'
+options:
+    module: common.options.module
+    controller-title: 'कंट्रोलर का शीर्षक'
+    class: 'कमाण्ड क्लास का नाम'
+    name: 'कमाण्ड का नाम।'
+    container-aware: 'Drupal साइट स्थापना के बारे में कमांड पता है जब एक्सेक्युट होगा?'
+    command: 'कमाण्ड का नाम (यह "Command" से अंत होना चाहिए)'
+    container: 'सर्विसेज़ कंटेनर तक पहुचेँ'
+questions:
+    module: common.questions.module
+    class: 'कमाण्ड क्लास का नाम दर्ज करें'
+    name: 'कमाण्ड के नाम दर्ज करें।'
+    container-aware: 'Drupal साइट स्थापना के बारे में कमांड पता है जब एक्सेक्युट होगा?'
+    command: 'कमाण्ड का नाम दर्ज करें'
+    container: 'क्या आप को सर्विसेज़ कंटेनर तक पहुचने की आवश्यकता है'
+messages:
+    title-not-empty: 'शीर्षक खाली नही रह सकता'

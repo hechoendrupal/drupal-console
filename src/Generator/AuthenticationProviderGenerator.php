@@ -1,51 +1,56 @@
 <?php
+
 /**
  * @file
- * Contains \Drupal\AppConsole\Generator\AuthenticationProviderGenerator.
+ * Contains \Drupal\Console\Generator\AuthenticationProviderGenerator.
  */
 
-namespace Drupal\AppConsole\Generator;
+namespace Drupal\Console\Generator;
 
 class AuthenticationProviderGenerator extends Generator
 {
     /**
-     * Generator Plugin Block
-     * @param  $module
-     * @param  $class_name
+     * Generator Plugin Block.
+     *
+     * @param $module
+     * @param $class
+     * @param $provider_id
      */
-    public function generate($module, $class_name)
+    public function generate($module, $class, $provider_id)
     {
         $parameters = [
           'module' => $module,
-          'class_name' => $class_name
+          'class' => $class,
         ];
 
         $this->renderFile(
-          'module/src/Authentication/Provider/authentication-provider.php.twig',
-          $this->getAuthenticationPath($module, 'Provider') . '/' . $class_name . '.php',
-          $parameters
+            'module/src/Authentication/Provider/authentication-provider.php.twig',
+            $this->getSite()->getAuthenticationPath($module, 'Provider').'/'.$class.'.php',
+            $parameters
         );
 
         $parameters = [
           'module' => $module,
-          'class_name' => 'Authentication\\Provider\\' . $class_name,
-          'service_name' => 'authentication.' . $module,
+          'class' => $class,
+          'class_path' => sprintf('Drupal\%s\Authentication\Provider\%s', $module, $class),
+          'name' => 'authentication.'.$module,
           'services' => [
             ['name' => 'config.factory'],
-            ['name' => 'entity.manager']
+            ['name' => 'entity.manager'],
           ],
-          'file_exists' => file_exists($this->getModulePath($module) . '/' . $module . '.services.yml'),
+          'file_exists' => file_exists($this->getSite()->getModulePath($module).'/'.$module.'.services.yml'),
           'tags' => [
             'name' => 'authentication_provider',
-            'priority' => '100'
+            'provider_id' => $provider_id,
+            'priority' => '100',
           ],
         ];
 
         $this->renderFile(
-          'module/services.yml.twig',
-          $this->getModulePath($module) . '/' . $module . '.services.yml',
-          $parameters,
-          FILE_APPEND
+            'module/services.yml.twig',
+            $this->getSite()->getModulePath($module).'/'.$module.'.services.yml',
+            $parameters,
+            FILE_APPEND
         );
     }
 }

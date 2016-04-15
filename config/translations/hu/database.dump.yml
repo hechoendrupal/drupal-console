@@ -1,0 +1,7 @@
+description: 'Adatbázis szerkezetének és tartalmának kiíratása'
+arguments:
+    database: 'Adatbáziskulcs a settings.php fájlból'
+options:
+    file: 'Az adatbázis biztonsági mentésének fájlneve'
+messages:
+    success: 'Az adatbázis exportálási helye:'

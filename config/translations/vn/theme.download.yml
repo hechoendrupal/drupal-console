@@ -1,0 +1,11 @@
+description: 'Tải xuống theme trong ứng dụng'
+options:
+    version: 'Phiên bản theme ví dụ 1.x-dev'
+messages:
+    no-releases: 'Không có bản phát hành nào cho theme %s'
+    getting-releases: 'Đang tìm kiếm các bản phát hành cho theme %s'
+    downloading: 'Đang tải xuống theme %s bản phát hành %s'
+    downloaded: 'Theme %s phiên bản %s đã được tải xuống thành công tại %s'
+    select-release: 'Hãy lựa chọn bản phát hành yêu thích của bạn'
+    outside-drupal: 'Không thể xác định được thư mục Drupal root. Sử dụng --root để thiết lập điểm đến, thư mục hiện tại sẽ được sử dụng thay thế.'
+    error-creating-folder: 'Lỗi khi tạo thư mục %s, xin hãy kiểm tra lại permssions'

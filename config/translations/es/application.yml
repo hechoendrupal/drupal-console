@@ -1,0 +1,46 @@
+options:
+    env: 'Nombre del ambiente.'
+    no-debug: 'Desactivar el modo de depuración.'
+    learning: 'Generar código con explicaciones.'
+    generate-chain: 'Imprimir opciones y argumentos como YAML para ser usado el comando chain'
+    generate-inline: 'Imprimir opciones y argumentos de ejecución como llamada inline para ser usados en el futuro'
+    generate-doc: 'Muestra las opciones del comando y sus argumentos como markdown'
+    root: 'Define la raíz de Drupal que se utilizará en la ejecución de los comandos'
+    uri: 'URI del sitio en Drupal que se usará (para ambientes en multi-site o cuando esta usando un puerto alternativo)'
+    'yes': 'Saltar confirmación y ejecutar directamente'
+    target: 'Nombre del sitio con el que desea interactuar (sitio remoto o local)'
+    help: 'Muestra este mensaje de ayuda'
+    quiet: 'No mostrar ningún mensaje'
+    verbose: 'Aumenta la verbosidad de los mensajes: 1 para la salida normal, 2 para mayor verbosidad y 3 para depurar'
+    version: '<info>%s</info> versión <comment>%s</comment>'
+    ansi: 'Forzar salida ANSI'
+    no-ansi: 'Deshabilitar salida ANSI'
+    no-interaction: 'No hacer ningura pregunta interactiva'
+    check-fix: 'Intentar corregir cualquier configuración faltante.'
+arguments:
+    command: 'El comando a ejecutar'
+messages:
+    completed: '¡Ya puede empezar a usar el código generado!'
+    chain:
+        generated: 'A continuación puedes observar la representación en YAML del último comando ejecutado, puede copiarlo en ~/.console/chain/sample.yml para ejecutarlo en una secuencia de comandos'
+    inline:
+        generated: 'A continuación puedes encontrar la representación inline de este comando para volver a ejecutarlo más tarde'
+    generated: '¡Ya puedes empezar a usar el código generado!'
+    files:
+        generated: '¡Ya puedes comenzar a usar el código generado!'
+        copied: 'Los archivos fueron copiados'
+    learning:
+        route: "Con el fin de crear páginas es necesario definir rutas para ellas.\nUna ruta asigna una URL a un controlador. Se define con qué función\no método será llamado cuando se accede a una URL.\nSi el usuario accede la ruta http://drupal8.dev/{{ route }},\nel sistema buscará una ruta con ese camino. En este caso, si encuentra una\nejecutará la devolución de la llamada _controller.\nEn este caso, la devolución de llamada es definida como un nombre de clase\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\ny un método (\"{{ method_name }}\")."
+    autocomplete: "Bash o Zsh: Agregar esta línea al archivo de configuración del shell:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Crear un link simbólico\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
+    version: '<info>%s</info> versión <comment>%s</comment>'
+errors:
+    invalid-command: 'El comando "%s" no está definido.'
+site:
+    messages:
+        path: 'Ruta del sitio'
+    errors:
+        directory: 'Para listar todos los comandos disponibles, debe estar dentro del directorio raíz de Drupal.'
+        settings: 'Para listar todos los comandos disponibles primero debe instalar Drupal.'
+user:
+    messages:
+        path: 'Ruta del home del usuario'

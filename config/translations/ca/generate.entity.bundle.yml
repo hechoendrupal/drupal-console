@@ -1,0 +1,13 @@
+description: 'Generar un nou tipus de contingut (node / entity bundle)'
+help: 'Utilitza: generate:contenttype <fancy> <Fancy> per crea un nou tipus de contingut amb el nom màquina fancy amb el nom llegible Fancy.'
+welcome: 'Us donem la benvinguda al generador de tipus de contigut de Drupal'
+options:
+    module: common.options.module
+    bundle-name: 'Nom màquina del tipus del contingut'
+    bundle-title: 'Nom llegible del tipus de contingut'
+questions:
+    module: common.questions.module
+    bundle-name: 'Tecleja el nom màquina del nou tipus de contingut'
+    bundle-title: 'Tecleja el nom llegible del nou tipus de contingut'
+message:
+    error-state1: 'Marcador de posició'

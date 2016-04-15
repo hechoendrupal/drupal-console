@@ -1,0 +1,11 @@
+description: 'Download theme in application'
+options:
+    version: 'Theme version i.e 1.x-dev'
+messages:
+    no-releases: 'There aren''t any releases for theme %s'
+    getting-releases: 'Getting releases for theme %s'
+    downloading: 'Downloading theme %s release %s'
+    downloaded: 'Theme %s version %s was downloaded successfully at %s'
+    select-release: 'Please select your favorite release'
+    outside-drupal: 'Drupal root can''t be determined. Use --root to set the destination, current folder will be used instead of.'
+    error-creating-folder: 'Error creating folder %s, please check your permissions'

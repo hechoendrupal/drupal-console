@@ -1,0 +1,21 @@
+description: 'Tạo một plugin block'
+help: 'Dòng lệnh <info>generate:plugin:block</info> giúp bạn tạo một Plugin block mới.'
+welcome: 'Chào mừng đến với Drupal Plugin Block generator'
+options:
+    module: common.options.module
+    class: 'Tên lớp plugin'
+    label: 'Nhãn plugin'
+    plugin-id: 'Plugin id'
+    inputs: common.options.inputs
+    services: common.options.services
+    theme-region: 'Theme region để render Plugin Block'
+questions:
+    module: common.questions.module
+    class: 'Nhập tên lớp plugin'
+    label: 'Nhập nhãn plugin'
+    plugin-id: 'Nhập plugin id'
+    inputs: common.questions.inputs
+    services: common.questions.services
+messages:
+    inputs: "\nBạn có thể thêm trường input để tạo các thiết lập đặc biệt trong block.\nĐây là tùy chọn, nhấn <info>enter</info> đến <info>continue</info>"
+    invalid-theme-region: 'Region %s không hợp lệ'

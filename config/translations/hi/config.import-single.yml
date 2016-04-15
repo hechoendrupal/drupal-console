@@ -1,0 +1,6 @@
+description: 'चयनित व्यवस्था आयात करें।'
+arguments:
+    config-name: 'व्यवस्था का नाम।'
+    input-file: 'आयात फाइलो का पथ।'
+messages:
+    empty-value: 'निधि खाली नही रह सकता'

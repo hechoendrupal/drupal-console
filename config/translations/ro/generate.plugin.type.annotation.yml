@@ -1,0 +1,13 @@
+description: 'Generează un tip de plugin cu descoperire de adnotaţii'
+help: 'Comanda <info>generate:plugin:type:annotation</info> ajută la generarea unui nou tip de plugin care foloseste descoperirea de adnotaţii.'
+welcome: 'Bun venit la "Drupal Plugin Type generator"'
+options:
+    module: common.options.module
+    class: 'Numele clasei tipului de plugin.'
+    machine-name: 'Numele maşină al tipului de plugin.'
+    label: 'Eticheta tipului de plugin.'
+questions:
+    module: common.questions.module
+    class: 'Introduceţi numele clasei tipului de plugin.'
+    machine-name: 'Introduceţi numele maşină al tipului de plugin.'
+    label: 'Introduceţi eticheta tipului de plugin.'

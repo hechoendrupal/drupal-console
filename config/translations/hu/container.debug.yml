@@ -1,0 +1,4 @@
+description: 'Egy alkalmazás aktuális szolgáltatásait jeleníti meg.'
+messages:
+    service_id: 'Szolgáltatás azonosítója'
+    class_name: Osztálynév

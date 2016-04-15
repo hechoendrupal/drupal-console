@@ -1,0 +1,6 @@
+description: 'Importar la configuración seleccionada.'
+arguments:
+    config-name: 'Nombre de la configuración.'
+    input-file: 'Ruta de los archivos de importación.'
+messages:
+    empty-value: 'El valor no puede estar vacío'

@@ -1,0 +1,25 @@
+description: Drupalプロジェクトをインストールする
+arguments:
+    profile: Drupalのプロファイル
+    langcode: Drupalの言語
+    db-type: インストールに使用するデータベースのタイプ
+    db-file: インストールに使用するデータベースのファイル
+    site-name: Drupalのサイト名
+    site-mail: Drupalサイトのメールアドレス
+    account-name: '管理者アカウントの名前'
+    account-mail: '管理者アカウントのメールアドレス'
+    account-pass: '管理者アカウントのパスワード'
+questions:
+    profile: インストールするDrupalのプロファイルを選択
+    langcode: インストールするDrupalの言語を選択
+    db-type: 'インストールに使用するデータベースのタイプを選択してください'
+    site-name: 'Drupalのサイト名を入力してください'
+    site-mail: 'Drupalサイトのメールアドレスを入力してください'
+    account-name: '管理者アカウントの名前を入力してください'
+    account-mail: '管理者アカウントのメールアドレスを入力してください'
+    account-pass: '管理者アカウントのパスワードを入力してください'
+messages:
+    installing: 'Drupal 8のインストールプロセスを開始しています。'
+    installed: 'Drupal 8のインストールが正常に完了しました。'
+    using-current-database: 'Using %s database with name %s and user %s'
+    already-installed: 'Drupalはすでにインストールされています。データベースから全てのデータを削除し、もう一度site:installを実行してください。'

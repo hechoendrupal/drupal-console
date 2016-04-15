@@ -1,0 +1,14 @@
+description: '覆写活动配置'
+arguments:
+    config-name: '配置名称'
+    key: 键
+    value: 值
+messages:
+    configuration: '配置名称'
+    configuration-key: '配置的键'
+    original: 原始值
+    updated: 覆写后的值
+examples:
+    -
+        description: '设置 Contact 模块 flood limit 为 10.'
+        execution: 'drupal config:override contact.settings flood.limit 10'

@@ -1,0 +1,25 @@
+description: 'Modul vagy modulok telepítése'
+arguments:
+    module: 'Az engedélyezendő modulokat szóközzel kell elválasztani'
+options:
+    latest: 'Az alapértelmezés a legfrissebb verzió letöltése'
+questions:
+    module: 'Modul neve (a <return> megnyomásával állítható le a modulok hozzáadása)'
+    invalid-module: 'Érvénytelen modul: %s'
+messages:
+    no-modules: 'Meg kell adni az engedélyezni kívánt modult vagy modulokat.'
+    missing: 'Nem telepíthetők %s modulok, mert a következő modulok hiányoznak: %s'
+    missing-dependencies: 'Nem telepíthetők %s modulok hiányzó függőségek miatt: %s'
+    nothing: 'Nincs teendő. Már minden modul telepítve van.'
+    dependencies: 'Biztosan telepíteni kell a függőségeket: %s?'
+    success: 'Az alábbi modulok telepítése sikerült: %s'
+    disabled-modules: 'Csak a letiltott modulok lesznek felsorolva az automatikus kiegészítésben'
+    config-conflict-overwrite: 'Ezeket a konfigurációs objektumokat felülírja az aktív konfiguráció'
+    config-conflict: 'Ezek a konfigurációs objektumok már léteznek az aktív konfigurációban, a telepítés nem lehetséges'
+    getting-missing-modules: 'Néhány modul (%s) nem áll rendelkezésre, a modulok letöltési műveletének végrehajtása'
+    getting-releases: ' %s modul kiadásainak beolvasása'
+    select-release: 'Ki kell választani a kedvenc kiadását'
+    downloading: '%s modul %s kiadásának letöltése'
+    downloaded: '%s modul %s verziójának letöltése sikerült ide: %s'
+    no-releases: '%s modulnak nincs semmilyen kiadása'
+    installing: 'Modulok telepítése: %s'

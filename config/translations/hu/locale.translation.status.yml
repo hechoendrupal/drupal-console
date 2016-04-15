@@ -1,0 +1,17 @@
+description: 'Rendelkezésre álló fordítási frissítések listázása'
+arguments:
+    language: 'Nyelv, például es vagy Spanish'
+messages:
+    no-languages: 'Nincs rendelkezésre álló lefordítható nyelv. Először fel kell venni egy nyelvet.'
+    up-to-date: 'Minden fordítás naprakész.'
+    no-translations: 'Nem áll rendelkezésre fordítási állapot. Saját kezűleg kell ellenőrizni.'
+    project: Projekt
+    version: Verzió
+    local-age: 'Helyi kor'
+    remote-age: 'Távoli kor'
+    info: Információk
+    no-translation-files: 'Fejlesztői kiadásokhoz nem állnak rendelkezésre fordítási fájlok.'
+    file-not-found: 'A fájl nem található itt: %s és itt sem: %s'
+    local-file-not-found: 'A fájl nem található itt: %s'
+    translation-not-determined: 'Nem állapítható meg a fordításfájl helye.'
+    translation-project-updated: Frissítve

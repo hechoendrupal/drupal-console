@@ -1,20 +1,22 @@
 <?php
+
 /**
  * @file
- * Contains \Drupal\AppConsole\Generator\PluginBlockGenerator.
+ * Contains \Drupal\Console\Generator\PluginBlockGenerator.
  */
 
-namespace Drupal\AppConsole\Generator;
+namespace Drupal\Console\Generator;
 
 class PluginBlockGenerator extends Generator
 {
     /**
-     * Generator Plugin Block
-     * @param  $module
-     * @param  $class_name
-     * @param  $label
-     * @param  $plugin_id
-     * @param  $services
+     * Generator Plugin Block.
+     *
+     * @param $module
+     * @param $class_name
+     * @param $label
+     * @param $plugin_id
+     * @param $services
      */
     public function generate($module, $class_name, $label, $plugin_id, $services, $inputs)
     {
@@ -28,9 +30,9 @@ class PluginBlockGenerator extends Generator
         ];
 
         $this->renderFile(
-          'module/src/Plugin/Block/block.php.twig',
-          $this->getPluginPath($module, 'Block') . '/' . $class_name . '.php',
-          $parameters
+            'module/src/Plugin/Block/block.php.twig',
+            $this->getSite()->getPluginPath($module, 'Block').'/'.$class_name.'.php',
+            $parameters
         );
     }
 }

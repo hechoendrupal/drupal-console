@@ -1,0 +1,21 @@
+description: 'Generează comenzi pentru consolă.'
+help: 'Comanda <info>generate:command</info> vă va ajuta să creați o comandă nouă.'
+welcome: 'Bine ați venit la Generatorul de comenzi Drupal.'
+options:
+    module: 'Numele Modulului (care va conține comanda).'
+    controller-title: 'Titlul controlerului.'
+    class: 'Numele Clasei "Command"'
+    name: 'Numele comenzii.'
+    container-aware: 'Când este executată comanda este conștientă de instalarea de drupal a sitului'
+    command: 'Numele comenzii (Trebuie să se termine în cuvântul "Command").'
+    container: 'Accesează serviciile containerului'
+questions:
+    module: common.questions.module
+    class: 'Introduceți Numele clasei'
+    name: 'Inroduceți Numele comenzii.'
+    container-aware: 'Când este executată comanda este conștientă de instalarea de drupal a sitului?'
+    command: 'Introduceți Numele comenzii'
+    container: 'Aveți nevoie să accesați serviciile containerului'
+    controller-title: 'Titlul controlerului'
+messages:
+    title-not-empty: 'Titlul nu poate fi lăsat necompletat.'

@@ -1,91 +1,54 @@
 <?php
 /**
  * @file
- * Contains \Drupal\AppConsole\Test\Command\GeneratorPermissionCommandTest.
+ * Contains \Drupal\Console\Test\Command\GeneratorPermissionCommandTest.
  */
 
-namespace Drupal\AppConsole\Test\Command;
+namespace Drupal\Console\Test\Command;
 
+use Drupal\Console\Command\Generate\PermissionCommand;
 use Symfony\Component\Console\Tester\CommandTester;
+use Drupal\Console\Test\DataProvider\PermissionDataProviderTrait;
 
 class GeneratorPermissionCommandTest extends GenerateCommandTest
 {
+    use PermissionDataProviderTrait;
+    
     /**
-     * @dataProvider getInteractiveData
+     * Permission generator test
+     *
+     * @param $module
+     * @param $permissions
+     *
+     * @dataProvider commandData
      */
-    public function testInteractive($options, $expected, $input)
-    {
+    public function testGeneratePermission(
+        $module,
+        $permissions
+    ) {
+        $command = new PermissionCommand($this->getHelperSet());
+        $command->setHelperSet($this->getHelperSet());
+        $command->setGenerator($this->getGenerator());
 
-        list($module, $permissions) = $expected;
-        $generator = $this->getGenerator();
-        $generator
-          ->expects($this->once())
-          ->method('generate')
-          ->with($module, $permissions);
+        $commandTester = new CommandTester($command);
 
-        $command = $this->getCommand($generator, $input);
-        $cmd = new CommandTester($command);
-        $cmd->execute($options);
-    }
+        $code = $commandTester->execute(
+            [
+            '--module'        => $module,
+            '--permissions'   => $permissions,
+            ],
+            ['interactive' => false]
+        );
 
-    public function getInteractiveData()
-    {
-
-        $permissions = [
-          [
-            'permission' => 'my permission',
-            'permission_title' => 'My permission',
-          ]
-        ];
-
-        return [
-            // case one
-          [
-              // Inline options
-            [],
-              // Expected options
-              // Expected options
-            ['foo', $permissions, true],
-              // User input options
-            "foo\nyes\nMy Permission\n",
-          ],
-            // case two
-          [
-              // Inline options
-            ['--module' => 'foo'],
-              // Expected options
-            ['foo', $permissions, true],
-              // User input options
-            "foo\nyes\nMy Permission\n",
-          ],
-        ];
-    }
-
-    protected function getCommand($generator, $input)
-    {
-        $command = $this
-          ->getMockBuilder('Drupal\AppConsole\Command\GeneratorPermissionCommand')
-          ->setMethods(['getModules', '__construct'])
-          ->setConstructorArgs([$this->getTranslationHelper()])
-          ->getMock();
-
-        $command->expects($this->any())
-          ->method('getModules')
-          ->will($this->returnValue(['foo']));;
-
-        $command->setContainer($this->getContainer());
-        $command->setHelperSet($this->getHelperSet($input));
-        $command->setGenerator($generator);
-
-        return $command;
+        $this->assertEquals(0, $code);
     }
 
     private function getGenerator()
     {
         return $this
-          ->getMockBuilder('Drupal\AppConsole\Generator\PermissionGenerator')
-          ->disableOriginalConstructor()
-          ->setMethods(['generate'])
-          ->getMock();
+            ->getMockBuilder('Drupal\Console\Generator\PermissionGenerator')
+            ->disableOriginalConstructor()
+            ->setMethods(['generate'])
+            ->getMock();
     }
 }

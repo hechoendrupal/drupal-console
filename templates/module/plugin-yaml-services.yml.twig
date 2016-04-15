@@ -1,0 +1,6 @@
+{% if not file_exists %}
+services:
+{% endif %}
+  plugin.manager.{{ plugin_name | lower }}:
+    class: Drupal\{{ module }}\{{ plugin_class }}Manager
+    arguments: ['@module_handler', '@cache.discovery']

@@ -1,0 +1,7 @@
+description: 'संरचना हटवा'
+arguments:
+    name: 'संरचने नाव.'
+messages:
+    enter-name: 'संरचनेच्या नावाचे मूल्य असणे आवश्यक आहे.'
+    config-not-exists: 'संरचना "%s" अस्तित्वात नाही.'
+    deleted: 'संरचना "%s" यशस्वीपणे हटविले.'

@@ -1,0 +1,16 @@
+description: 'Crear un nou projecte Drupal'
+arguments:
+    directory: 'El directori on es descarregarà Drupal'
+    version: 'Especifica un versió a descarregar'
+    site-name: 'Site name'
+messages:
+    select-release: 'Seleccioneu la versió del Core'
+    getting-releases: 'Obtenint versions de Drupal'
+    downloading: 'Descarregant Drupal %s'
+    extracting: 'Obtenint els fitxers de Drupal %s'
+    no-releases: 'No hi han versions de Drupal disponibles'
+    downloaded: 'Drupal %s  s''ha descarregat al directori %s'
+    error-copying: 'Hi ha hagut un error al renombrar el directori %s'
+    release: 'Seleccioneu la versió'
+questions:
+    directory: 'Introduïu el nom del directori de descàrrega de Drupal'

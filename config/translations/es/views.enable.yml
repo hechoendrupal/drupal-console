@@ -1,0 +1,5 @@
+description: 'Habilita una vista'
+messages:
+    enabled-successfully: 'La vista %s ha sido habilitada con éxito.'
+    disabled-successfully: 'La vista %s ha sido deshabilitada con éxito.'
+disabled-successfully: 'La vista %s ha sido deshabilitada con éxito.'

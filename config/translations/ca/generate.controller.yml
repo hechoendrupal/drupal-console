@@ -1,0 +1,28 @@
+description: 'Generar i registrar un controlador'
+help: 'El comandament <info>generate:controller</info> t''ajuda a generar un nou controlador.'
+welcome: 'Us donem la benvinguda al generador de controladors de Drupal'
+options:
+    module: common.options.module
+    class: 'Nom de la classe del controlador'
+    routes: 'El camins han de ser matrius i contenir [títol, mètode, camí]'
+    services: common.options.services
+    test: 'Generar una classe de verificació'
+    title: 'Títol del controlador'
+    method: 'Nom del métode'
+    route: 'El camí del directori'
+questions:
+    module: common.questions.module
+    class: 'Introduïu el nom de la classe del controlador'
+    title: 'Introduïu el títol del mètode del controlador (leave empty and press enter when done)'
+    method: 'Nom del métode'
+    path: 'Introduïu el camí'
+    services: common.questions.services
+    test: '¿Vols generar una clase de verificació (Unit Test Class)'
+    controller: 'Títol del controlador'
+    route: 'El camí del directori'
+messages:
+    title-empty: 'El títol no pot estar buit'
+    title-already-added: 'El títol ja existeix'
+    method-name-already-added: 'El métode ja existeix'
+    path-already-added: 'El camí ja existeix'
+    route-already-added: 'El camí ja existeix'

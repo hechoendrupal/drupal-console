@@ -1,0 +1,33 @@
+description: 'Modul létrehozása.'
+help: 'A <info>generate:module</info> parancs új modul létrehozását segíti.'
+welcome: 'Üdvözlet a Drupal modul előállítóban'
+options:
+    module: 'A modul neve'
+    machine-name: 'A programok által használt név (csak kisbetűk és aláhúzás)'
+    module-path: 'A modul útvonala'
+    description: 'A modul leírása'
+    core: 'Drupal alaprendszer verziója'
+    features-bundle: 'Define module as feature using the given Features bundle name'
+    package: Modulcsomag
+    module-file: '.module fájl hozzáadása'
+    composer: 'composer.json fájl hozzáadása'
+    dependencies: 'Modulfüggőségek vesszővel elválasztva (pl. context, panels)'
+    test: 'Tesztosztály létrehozása'
+questions:
+    module: 'Meg kell adni az új modulnevet'
+    machine-name: 'Meg kell adni a modul programok által használt nevét'
+    module-path: 'Meg kell adni a modul útvonalát'
+    description: 'Meg kell adni a modul leírását'
+    core: 'Meg kell adni a drupal alaprendszer verzióját'
+    package: 'Meg kell adni a csomag nevét'
+    features-support: 'A modul legyen feature'
+    features-bundle: 'Enter Features bundle name'
+    module-file: 'Létrejöjjön .module fájl?'
+    composer: 'A modul tartalmazzon composer.json fájlt?'
+    dependencies: 'Modulfüggőségek hozzáadása most?'
+    test: 'Létrejöjjön egységteszt osztály?'
+warnings:
+    module-unavailable: 'Figyelmeztetés! A következő modulok már nem állnak rendelkezésre a helyi környezetben: "%s"'
+errors:
+    invalid-core: 'Érvénytelen az alaprendszer "%s" verziója.'
+    directory-exists: 'A következő célkönyvtár nem üres: "%s".'

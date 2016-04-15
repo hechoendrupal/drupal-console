@@ -1,0 +1,27 @@
+description: 'Instal·lar mòdul en l''aplicació'
+arguments:
+    module: 'Mòduls per habilitar separats per un espai'
+options:
+    latest: 'Descarregar la versió més actual de forma predeterminada'
+    module: 'El mòduls per activar han d''estar separats per comes'
+    overwrite-config: 'Si es necessari reescriure la configuració activa'
+questions:
+    module: 'Nom del mòdul (prem <return> per aturar l''adició de mòduls)'
+    invalid-module: 'No és vàlid el mòdul %s'
+messages:
+    no-modules: 'Has de proporcionar un mòdul per activar-lo.'
+    missing: 'No es pot instal·lar els mòduls %s sense els mòduls %s'
+    missing-dependencies: 'No es pot instal·lar els mòduls %s sense les dependències %s'
+    nothing: 'Res ha fer. Tots els mòduls ja estan instal·lats'
+    dependencies: 'Vols instal·lar les següents dependències: %s?'
+    success: 'Els següents mòduls s''han instal·lat correctament: %s'
+    disabled-modules: 'Només els mòduls deshabilitats es mostraran a la compleció automàtica'
+    config-conflict-overwrite: 'Aquests objectes de configuració seran sobreescrits en la configuració activa'
+    config-conflict: 'Aquests objectes de configuració ja existeixen en la configuració activa. No es pot continuar l''instal·lació'
+    getting-missing-modules: 'No estan disponibles els mòduls %s, executar el procés de descàrrega per obtenir-los'
+    getting-releases: 'Obtenint les versions del mòdul %s'
+    select-release: 'Seleccioneu una versió'
+    downloading: 'Descarregant el mòdul %s versió %s'
+    downloaded: 'El mòdul %s versió %s s''ha descarregat correctament a %s'
+    no-releases: 'No hi ha cap versió disponible per el mòdul  %s'
+    installing: 'S''està instal·lant el mòdul %s'

@@ -1,0 +1,9 @@
+description: 'MYSQL डाटाबेस और टेबल्स ले कंटेंट और संरचना को रिस्टोर करे'
+arguments:
+    database: 'Settings.php से डाटाबेस कुंजी'
+options:
+    file: 'अपने डेटाबेस बैकअप फ़ाइल के लिए फ़ाइल नाम'
+messages:
+    success: 'डेटाबेस इम्पोर्टेड फ्रॉम:'
+    no-file: 'Missing file option'
+help: 'Restore structure and contents of a database.'

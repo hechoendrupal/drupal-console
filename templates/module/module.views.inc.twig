@@ -1,0 +1,40 @@
+{% extends "base/file.php.twig" %}
+
+{% block file_path %}{{ module }}\{{ module }}.views.inc.{% endblock %}
+
+{% block extra_info %} * Provide a custom views field data that isn't tied to any other module.{% endblock %}
+
+{% block use_class %}
+use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Entity\Sql\SqlContentEntityStorage;
+use Drupal\Core\Render\Markup;
+use Drupal\field\FieldConfigInterface;
+use Drupal\field\FieldStorageConfigInterface;
+use Drupal\system\ActionConfigEntityInterface;
+{% endblock %}
+
+{% block file_methods %}
+/**
+* Implements hook_views_data().
+*/
+function {{module}}_views_data() {
+
+    $data['views']['table']['group'] = t('Custom Global');
+    $data['views']['table']['join'] = array(
+      // #global is a special flag which allows a table to appear all the time.
+      '#global' => array(),
+    );
+
+
+    $data['views']['{{ class_machine_name }}'] = array(
+        'title' => t('{{ title }}'),
+        'help' => t('{{ description }}'),
+        'field' => array(
+            'id' => '{{ class_machine_name }}',
+        ),
+    );
+
+    return $data;
+}
+{% endblock %}

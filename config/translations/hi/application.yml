@@ -1,0 +1,46 @@
+options:
+    env: 'पर्यावरण का नाम।'
+    no-debug: 'डिबग विधि को बंद कर देता है।'
+    learning: 'शब्दबहुल कोड उत्पन्न करें।'
+    generate-chain: 'निष्पादन विकल्प में प्रिंट और तर्क को YAML आउटपुट के रूप में श्रृंखला कमांड में इस्तेमाल किया जाएगा'
+    generate-inline: 'निष्पादन विकल्प में प्रिंट और तर्क को इनलाइन कॉल के रूप में भविष्य में उपयोग किया जाएगा'
+    generate-doc: 'कमाण्ड विकल्पों और तर्क जैसा नीचे निशान'
+    root: 'कमाण्ड चलाने के लिए Drupal रूट परिभाषित करें'
+    uri: 'Drupal यूआरआई साइट का(एकाधिक वातावरण के लिए या एक वैकल्पिक port पर चलते समय ) का उपयोग करे'
+    'yes': 'स्किप कन्फर्मेशन और आगे बढ़ें'
+    target: 'साइट का नाम आप (स्थानीय या दूरस्थ साइटों के लिए ) के साथ बातचीत करना चाहते हैं'
+    help: 'Display this help message'
+    quiet: 'Do not output any message'
+    verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
+    version: '<info>%s</info> संस्करण <comment>%s</comment>'
+    ansi: 'Force ANSI output'
+    no-ansi: 'Disable ANSI output'
+    no-interaction: 'Do not ask any interactive question'
+    check-fix: 'Attempt to fix any missing configuration.'
+arguments:
+    command: 'The command to execute'
+messages:
+    completed: 'कमाण्ड सफलतापूर्वक चलाया गया!'
+    chain:
+        generated: 'निम्नलिखित आपको पिछले कमाण्ड का YAML प्रतिनिधित्व मिलेगा, यानी कमाण्डो का एक दृश्य के अंदर चलाने के लिए ~ /.console /chain/sample.yml को नकल करें'
+    inline:
+        generated: 'इस कमांड को बाद में दोबारा चलाने के लिए निम्नलिखित आप यह कमांड का इनलाइन प्रस्तुति पा सकते हैं'
+    generated: 'अब आप उत्पन्न कोड को इस्तेमाल कर सकते हैं!'
+    files:
+        generated: 'उत्पन्न या नवीनतम फ़ाइलें'
+        copied: 'प्रतिरूप फ़ाइलें'
+    learning:
+        route: "पृष्ठ बनाने के लिए मार्गों को उनके लिए परिभाषित करना आवश्यक है.\nएक मार्ग URL पथ को एक नियंत्रक से मैप करता है. यह परिभाषित करता है की\nकौन सा फंक्शन और मेथड बुलाया जायेगा जब एक एक्सेस किया जायेगा.\nअगर उपभोक्ता http://drupal8.dev/{{ route }} एक्सेस करता है,\nराउटिंग प्रणाली उस पथ के लिए एक मार्ग देखेगा. इस मामले में यह एक मैच मिलेगा,\nऔर कंट्रोलर कॉलबैक को चलायेगा. इस मामले में कॉलबैक\nएक क्लासनेम के रूप में परिभाषित है।\n('\\Drupal\\{{ module }}\\Controller\\{{ class_name }}')\nऔर एक मेथड ('{{ route.method }}')।"
+    autocomplete: "Bash या Zsh: इस लाइन को शैल व्यवस्था फाइल में डाले:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: एक सिंबॉलिक लिंक बनाएं\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
+    version: '<info>%s</info> version <comment>%s</comment>'
+errors:
+    invalid-command: 'कमाण्ड "%s" परिभाषित नही है।'
+site:
+    messages:
+        path: 'साइट पथ'
+    errors:
+        directory: 'सभी उपलब्ध कमाण्डो की सूची करने के लिए, आपको इसे एक Drupal रूट डायरेक्टरी के अंदर चलाना होगा।'
+        settings: 'सभी उपलब्ध कमाण्डो की सूची करने के लिए आपको पहले drupal स्थापित करना होगा।'
+user:
+    messages:
+        path: 'उपभोग्ता होम पथ'

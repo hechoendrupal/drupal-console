@@ -1,0 +1,10 @@
+description: 'Genera estadísticas de traducción'
+arguments:
+    language: 'Idioma para generar estadísticas de traducción contra el inglés'
+options:
+    format: 'Define el formato de salida ( table|markdown )'
+messages:
+    invalid-language: 'El idioma %s no es válido'
+    language: Idioma
+    percentage: Porcentaje
+    iso: 'Código ISO'

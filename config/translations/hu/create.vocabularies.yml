@@ -1,0 +1,14 @@
+description: 'Tesztszótárak létrehozása egy Drupal 8 alkalmazáshoz.'
+help: 'A <info>create:vocabularies</info> parancs tesztszótárak létrehozását segíti.'
+welcome: 'Üdvözlet a Drupal szótár előállítóban'
+options:
+    limit: 'Hány szótár jöjjön létre?'
+    name-words: 'A szótárak nevében használt szavak maximális száma'
+questions:
+    limit: 'Meg kell adni, hány szótár jöjjön létre'
+    name-words: 'Meg kell adni a szótárak neveiben használt szavak maximális számát'
+messages:
+    vocabulary-id: 'Szótár azonosítója'
+    name: Név
+    created-terms: '%s szótár sikeresen létrejött'
+    error: 'Hiba történt a szótárak létrehozásakor: %s'

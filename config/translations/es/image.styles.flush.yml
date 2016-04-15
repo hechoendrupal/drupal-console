@@ -1,0 +1,8 @@
+description: 'Ejecutar la función limpieza por cada uno o por todos los estilos de imágenes'
+messages:
+    executing-flush: 'Executando la función de limpieza en el estilo de imagen %s'
+    success: 'Todas las funciones de limpieza solicitadas se ejecutaron con éxito'
+options:
+    image-style: 'Nombre del estilo de imagen.'
+questions:
+    image-style: 'Seleccione los estilos de imágenes a limpiar.'

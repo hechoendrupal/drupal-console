@@ -1,0 +1,24 @@
+services:
+  parser:
+    class: Symfony\Component\Yaml\Parser
+    lazy: true
+  finder:
+    class: Symfony\Component\Finder\Finder
+    lazy: true
+  filesystem:
+    class: Symfony\Component\Filesystem\Filesystem
+    lazy: true
+  yaml:
+    class: Symfony\Component\Yaml\Yaml
+    lazy: true
+  config:
+    class: Drupal\Console\Config
+    arguments: ["@parser"]
+  requirement_checker:
+    class: Drupal\Console\Utils\RequirementChecker
+    arguments: ["@parser"]
+    lazy: true
+  redbean:
+    class: RedBeanPHP\R
+    lazy: true
+

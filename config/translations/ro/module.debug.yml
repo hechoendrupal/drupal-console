@@ -1,0 +1,13 @@
+description: 'Afişează Modulele curente pentru aplicaţie'
+options:
+    status: 'Starea Modulului [activat|dezactivat]'
+    type: 'Tipul Modulului [core|no-core]'
+messages:
+    id: ID
+    name: Nume
+    status: Stare
+    origin: Origine
+    package: Pachet
+    enabled: Activat
+    disabled: Dezactivat
+    schema-version: 'Versiunea schemei'

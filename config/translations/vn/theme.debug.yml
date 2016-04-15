@@ -1,0 +1,15 @@
+description: 'Hiển thị các themes hiện tại cho ứng dụng'
+arguments:
+    theme: 'Theme nhất định để chỉnh lỗi'
+messages:
+    theme-id: Id
+    theme-name: Tên
+    status: 'Trạng thái'
+    version: 'Phiên bản'
+    installed: 'Cài đặt'
+    uninstalled: 'Gỡ bỏ'
+    default-theme: 'Hiển thị mặc định'
+    properties: Properties
+    regions: 'Các vùng'
+    invalid-theme: 'Theme %s không hợp lệ'
+    theme-properties: Properties

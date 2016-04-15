@@ -1,0 +1,10 @@
+description: 'Change a specific setting value in DrupalConsole config file'
+arguments:
+    setting-name: 'Setting name in yaml flatten format to set a value in Drupal Console config file'
+    setting-value: 'Setting value to set in Drupal Console config file'
+messages:
+    error-parsing: 'An error occurs during parsing of YAML file "%s".'
+    error-generating: 'Error setting new language in config file.'
+    error-writing: 'Error writing config file.'
+    success: 'Setting %s was set to %s'
+    missing-file: 'The %s config file is missing, try executing `drupal init`'

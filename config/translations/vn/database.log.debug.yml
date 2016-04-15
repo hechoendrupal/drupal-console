@@ -1,0 +1,19 @@
+description: 'Hiển thị các dấu sự kiện hiện tại cho ứng dụng'
+arguments:
+    event-id: 'DBlog sự kiện ID'
+options:
+    type: 'Sự kiện được lọc bời một kiểu chỉ định'
+    severity: 'Sự kiện được lọc bời một cấp chỉ định của severity'
+    user-id: 'Sự kiện được lọc bời một user id cụ thể'
+    reverse: 'Đảo ngược trình tự của Sự kiện'
+    limit: 'Giới hạn kết quả cho một số cụ thể'
+    offset: 'Điểm bắt đầu của một giới hạn'
+messages:
+    event-id: 'Event ID'
+    type: Type
+    date: Date
+    message: Message
+    user: User
+    severity: Severity
+    invalid-severity: 'Severity type không hợp lệ, filter đã bị ignored'
+    not-found: 'DBLog event %s đã không được tìm thấy'

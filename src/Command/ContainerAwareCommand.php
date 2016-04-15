@@ -1,72 +1,48 @@
 <?php
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Drupal\AppConsole\Command\Command;
-use Drupal\Core\Extension\ExtensionDiscovery;
+use Drupal\Core\Database\Database;
+use Drupal\Core\Site\Settings;
 
-abstract class ContainerAwareCommand extends Command implements ContainerAwareInterface
+abstract class ContainerAwareCommand extends Command
 {
-
-    private $container;
-
-    private $modules;
-
+    /**
+     * @var array
+     */
     private $services;
 
-    private $route_provider;
+    /**
+     * @var array
+     */
+    private $events;
 
     /**
-     * @return ContainerInterface
+     * Gets the current container.
+     *
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface
+     *   A ContainerInterface instance.
      */
     protected function getContainer()
     {
-        if (null === $this->container) {
-            $this->container = $this->getApplication()->getKernel()->getContainer();
+        if (!$this->getKernelHelper()) {
+            return null;
         }
 
-        return $this->container;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
-
-    /**
-     * [getModules description]
-     * @param  boolean $core Return core modules
-     * @return array list of modules
-     */
-    public function getModules($core = false)
-    {
-        if (null === $this->modules) {
-            $this->modules = [];
-            $extensionDiscover = new ExtensionDiscovery(\Drupal::root());
-            $moduleList = $extensionDiscover->scan('module');
-            foreach ($moduleList as $name => $filename) {
-                if ($core) {
-                    array_push($this->modules, $name);
-                } elseif (!preg_match('/^core/', $filename->getPathname())) {
-                    array_push($this->modules, $name);
-                }
-            }
+        if (!$this->getKernelHelper()->getKernel()) {
+            return null;
         }
 
-        return $this->modules;
+        return $this->getKernelHelper()->getKernel()->getContainer();
     }
 
     /**
-     * [getModules description]
-     * @param  boolean $core Return core modules
+     * @param bool $tag
+     * @param bool $flatList
+     *
      * @return array list of modules
      */
-    public function getMigrations($group = false)
+    public function getMigrations($tag = false, $flatList = false)
     {
         $entity_manager = $this->getEntityManager();
         $migration_storage = $entity_manager->getStorage('migration');
@@ -74,8 +50,8 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         $entity_query_service = $this->getEntityQuery();
         $query = $entity_query_service->get('migration');
 
-        if ($group) {
-            $query->condition('migration_groups.*', $group);
+        if ($tag) {
+            $query->condition('migration_tags.*', $tag);
         }
 
         $results = $query->execute();
@@ -84,9 +60,12 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
         $migrations = array();
         foreach ($migration_entities as $migration) {
-            $migrations[$migration->id()]['version'] = ucfirst($migration->migration_groups[0]);
-            $label = str_replace($migrations[$migration->id()]['version'], '', $migration->label());
-            $migrations[$migration->id()]['description'] = ucwords($label);
+            if ($flatList) {
+                $migrations[$migration->id()] = ucwords($migration->label());
+            } else {
+                $migrations[$migration->id()]['tags'] = implode(', ', $migration->migration_tags);
+                $migrations[$migration->id()]['description'] = ucwords($migration->label());
+            }
         }
 
         return $migrations;
@@ -94,13 +73,19 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
 
     public function getRestDrupalConfig()
     {
-        return $this->getConfigFactory()
-          ->get('rest.settings')->get('resources') ?: [];
+        $configFactory = $this->getConfigFactory();
+        if (!$configFactory) {
+            return null;
+        }
+
+        return $configFactory->get('rest.settings')->get('resources') ?: [];
     }
 
     /**
-     * [geRest get a list of Rest Resouces]
-     * @param  boolean $status return Rest Resources by status
+     * [geRest get a list of Rest Resouces].
+     *
+     * @param bool $rest_status return Rest Resources by status
+     *
      * @return array list of rest resources
      */
     public function getRestResources($rest_status = false)
@@ -146,19 +131,31 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         return $this->services;
     }
 
-    public function getRouteProvider()
+    public function getEvents()
     {
-        if (null === $this->route_provider) {
-            $this->route_provider = $this->getContainer()->get('router.route_provider');
+        if (null === $this->events) {
+            $this->events = [];
+            $this->events = array_keys($this->getEventDispatcher()->getListeners());
         }
 
-        return $this->route_provider;
+        return $this->events;
+    }
+
+    public function getRouteProvider()
+    {
+        return $this->getService('router.route_provider');
+    }
+
+    public function getRouterBuilder()
+    {
+        return $this->getService('router.builder');
     }
 
     /**
      * @param $rest
      * @param $rest_resources_ids
      * @param $translator
+     *
      * @return mixed
      */
     public function validateRestResource($rest, $rest_resources_ids, $translator)
@@ -166,8 +163,12 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
         if (in_array($rest, $rest_resources_ids)) {
             return $rest;
         } else {
-            throw new \InvalidArgumentException(sprintf($translator->trans('commands.rest.disable.messages.invalid-rest-id'),
-              $rest));
+            throw new \InvalidArgumentException(
+                sprintf(
+                    $translator->trans('commands.rest.disable.messages.invalid-rest-id'),
+                    $rest
+                )
+            );
         }
     }
 
@@ -176,7 +177,7 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
      */
     public function getConfigFactory()
     {
-        return $this->getContainer()->get('config.factory');
+        return $this->getService('config.factory');
     }
 
     /**
@@ -184,70 +185,259 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
      */
     public function getState()
     {
-        return $this->getContainer()->get('state.default');
-    }
-
-    public function getConfigStorage()
-    {
-        return $this->getContainer()->get('config.storage');
+        return $this->getService('state');
     }
 
     /**
-     * @return Drupal\Core\Config\ConfigManagerInterface
+     * @return \Drupal\Core\Config\StorageInterface
+     */
+    public function getConfigStorage()
+    {
+        return $this->getService('config.storage');
+    }
+
+    /**
+     * @return \Drupal\Core\Database\Connection
+     */
+    public function getDatabase()
+    {
+        return $this->getService('database');
+    }
+
+    /**
+     * @return \Drupal\Core\Datetime\DateFormatter;
+     */
+    public function getDateFormatter()
+    {
+        return $this->getService('date.formatter');
+    }
+
+    /**
+     * @return \Drupal\Core\Config\ConfigManagerInterface
      */
     public function getConfigManager()
     {
-        return $this->getContainer()->get('config.manager');
+        return $this->getService('config.manager');
     }
 
+    /**
+     * @return \Drupal\Component\EventDispatcher\ContainerAwareEventDispatcher
+     */
+    public function getEventDispatcher()
+    {
+        return $this->getService('event_dispatcher');
+    }
+
+    /**
+     * @return \Drupal\Core\Entity\EntityManager
+     */
     public function getEntityManager()
     {
-        return $this->getContainer()->get('entity.manager');
+        return $this->getService('entity.manager');
+    }
+
+    /**
+     * @return \Drupal\Core\Entity\EntityTypeManagerInterface;
+     */
+    public function entityTypeManager()
+    {
+        return $this->getService('entity_type.manager');
+    }
+
+    public function getCron()
+    {
+        return $this->getService('cron');
+    }
+
+    /**
+     * @return \Drupal\Core\ProxyClass\Lock\DatabaseLockBackend
+     */
+    public function getDatabaseLockBackend()
+    {
+        return $this->getService('lock');
+    }
+
+    public function getViewDisplayManager()
+    {
+        return $this->getService('plugin.manager.views.display');
+    }
+
+    public function getWebprofilerForms()
+    {
+        $profiler = $this->getService('profiler');
+        $tokens = $profiler->find(null, null, 1000, null, '', '');
+
+        $forms = array();
+        foreach ($tokens as $token) {
+            $token = [$token['token']];
+            $profile = $profiler->loadProfile($token);
+            $formCollector = $profile->getCollector('forms');
+            $collectedForms = $formCollector->getForms();
+            if (empty($forms)) {
+                $forms = $collectedForms;
+            } elseif (!empty($collectedForms)) {
+                $forms = array_merge($forms, $collectedForms);
+            }
+        }
+        return $forms;
     }
 
     public function getEntityQuery()
     {
-        return $this->getContainer()->get('entity.query');
+        return $this->getService('entity.query');
     }
 
     public function getModuleInstaller()
     {
-        return $this->getContainer()->get('module_installer');
+        return $this->getService('module_installer');
+    }
+
+    public function getModuleHandler()
+    {
+        return $this->getService('module_handler');
     }
 
     public function getPluginManagerRest()
     {
-        return $this->getContainer()->get('plugin.manager.rest');
+        return $this->getService('plugin.manager.rest');
+    }
+
+    public function getContextRepository()
+    {
+        return $this->getService('context.repository');
     }
 
     /**
-     * getTestDiscovery return a service object for Simpletest
+     * getTestDiscovery return a service object for Simpletest.
+     *
      * @return Drupal\simpletest\TestDiscovery
      */
     public function getTestDiscovery()
     {
-        return $this->getContainer()->get('test_discovery');
+        return $this->getService('test_discovery');
     }
 
     public function getHttpClient()
     {
-        return $this->getContainer()->get('http_client');
+        return $this->getService('http_client');
     }
 
     public function getSerializerFormats()
     {
-        return $this->getContainer()->getParameter('serializer.formats');
+        $container = $this->getContainer();
+        if (!$container) {
+            return null;
+        }
+        return $container->getParameter('serializer.formats');
     }
+
+    public function getStringTanslation()
+    {
+        return $this->getService('string_translation');
+    }
+
 
     public function getAuthenticationProviders()
     {
-        return $this->getContainer()->get('authentication')->getSortedProviders();
+        return $this->getService('authentication_collector')->getSortedProviders();
     }
 
+    /**
+     * @return \Drupal\system\SystemManager
+     */
+    public function getSystemManager()
+    {
+        return $this->getService('system.manager');
+    }
+
+    /**
+     * @return array
+     */
+    public function getConnectionInfo()
+    {
+        return  Database::getConnectionInfo();
+    }
+
+    /**
+     * @return \Drupal\Core\Site\Settings
+     */
+    public function getSettings()
+    {
+        if ($settings = $this->getService('settings')) {
+            return $settings;
+        }
+
+        $kernelHelper = $this->getKernelHelper();
+        $drupal = $this->getDrupalHelper();
+        if ($kernelHelper && $drupal) {
+            Settings::initialize(
+                $drupal->getRoot(),
+                $kernelHelper->getSitePath(),
+                $kernelHelper->getClassLoader()
+            );
+
+            return Settings::getInstance();
+        }
+
+        return null;
+    }
+
+    /**
+     * @return \Drupal\Core\Extension\ThemeHandlerInterface
+     */
+    public function getThemeHandler()
+    {
+        return $this->getService('theme_handler');
+    }
+
+    /**
+     * @return \Drupal\user\MigratePassword
+     */
+    public function getPassHandler()
+    {
+        return $this->getService('password');
+    }
+
+    /**
+     * @deprecated
+     *
+     * @param $serviceId
+     * @return mixed
+     */
+    public function hasGetService($serviceId)
+    {
+        return $this->getService($serviceId);
+    }
+
+    /**
+     * @param $serviceId
+     * @return mixed
+     */
+    public function getService($serviceId)
+    {
+        if (!$this->getContainer()) {
+            return null;
+        }
+
+        if ($this->getContainer()->has($serviceId)) {
+            return $this->getContainer()->get($serviceId);
+        }
+
+        return null;
+    }
+
+    public function validateEventExist($event_name, $events = null)
+    {
+        if (!$events) {
+            $events = $this->getEvents();
+        }
+
+        return $this->getValidator()->validateEventExist($event_name, $events);
+    }
 
     public function validateModuleExist($module_name)
     {
-        return $this->getValidator()->validateModuleExist($module_name, $this->getModules());
+        return $this->getValidator()->validateModuleExist($module_name);
     }
 
     public function validateServiceExist($service_name, $services = null)
@@ -262,10 +452,11 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     public function validateModule($machine_name)
     {
         $machine_name = $this->validateMachineName($machine_name);
-        $modules = array_merge($this->getModules(true), $this->getModules());
+        $modules = $this->getSite()->getModules(false, true, true, true, true, true);
         if (in_array($machine_name, $modules)) {
             throw new \InvalidArgumentException(sprintf('Module "%s" already exist.', $machine_name));
         }
+
         return $machine_name;
     }
 
@@ -303,5 +494,24 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
     public function removeSpaces($name)
     {
         return $this->getValidator()->removeSpaces($name);
+    }
+
+    public function generateEntity($entity_definition, $entity_type)
+    {
+        $entity_manager = $this->getEntityManager();
+        $entity_storage = $entity_manager->getStorage($entity_type);
+        $entity = $entity_storage->createFromStorageRecord($entity_definition);
+
+        return $entity;
+    }
+
+    public function updateEntity($entity_id, $entity_type, $entity_definition)
+    {
+        $entity_manager = $this->getEntityManager();
+        $entity_storage = $entity_manager->getStorage($entity_type);
+        $entity = $entity_storage->load($entity_id);
+        $entity_updated = $entity_storage->updateFromStorageRecord($entity, $entity_definition);
+
+        return $entity_updated;
     }
 }

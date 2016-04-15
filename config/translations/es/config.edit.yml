@@ -1,0 +1,8 @@
+description: 'Editar la configuración seleccionada.'
+arguments:
+    config-name: 'Nombre de la configuración.'
+    editor: Editor.
+questions:
+    config-name: 'Escoje una unidad de configuración'
+messages:
+    no-directory: 'Ha acurrido un eror mientras se creaba el directorio en'

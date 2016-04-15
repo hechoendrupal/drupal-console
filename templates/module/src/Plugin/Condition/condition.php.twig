@@ -1,0 +1,129 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{ module }}\Plugin\Condition\{{ class_name }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }}\Plugin\Condition;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Condition\ConditionPluginBase;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Plugin\Context\ContextDefinition;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+* Provides a '{{ label }}' condition to enable a condition based in module selected status.
+*
+* @Condition(
+*   id = "{{ plugin_id }}",
+*   label = @Translation("{{ label }}"),
+*   context = {
+*     "{{ context_id }}" = @ContextDefinition("{{ context_definition_id }}", required = {{ context_definition_required }} , label = @Translation("{{ context_definition_label }}"))
+*   }
+* )
+*
+*/
+class {{ class_name }} extends ConditionPluginBase {% endblock %}
+{% block class_methods %}
+/**
+* {@inheritdoc}
+*/
+public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)
+{
+    return new static(
+    $configuration,
+    $plugin_id,
+    $plugin_definition
+    );
+}
+
+/**
+ * Creates a new ExampleCondition instance.
+ *
+ * @param array $configuration
+ *   The plugin configuration, i.e. an array with configuration values keyed
+ *   by configuration option name. The special key 'context' may be used to
+ *   initialize the defined contexts by setting it to an array of context
+ *   values keyed by context names.
+ * @param string $plugin_id
+ *   The plugin_id for the plugin instance.
+ * @param mixed $plugin_definition
+ *   The plugin implementation definition.
+ */
+ public function __construct(array $configuration, $plugin_id, $plugin_definition) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+ }
+
+ /**
+   * {@inheritdoc}
+   */
+ public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+     // Sort all modules by their names.
+     $modules = system_rebuild_module_data();
+     uasort($modules, 'system_sort_modules_by_info_name');
+
+     $options = array(NULL => t('Select a module'));
+     foreach($modules as $module_id => $module) {
+         $options[$module_id] = $module->info['name'];
+     }
+
+     $form['module'] = array(
+         '#type' => 'select',
+         '#title' => $this->t('Select a module to validate'),
+         '#default_value' => $this->configuration['module'],
+         '#options' => $options,
+         '#description' => $this->t('Module selected status will be use to evaluate condition.'),
+     );
+
+     return parent::buildConfigurationForm($form, $form_state);
+ }
+
+/**
+ * {@inheritdoc}
+ */
+ public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
+     $this->configuration['module'] = $form_state->getValue('module');
+     parent::submitConfigurationForm($form, $form_state);
+ }
+
+/**
+ * {@inheritdoc}
+ */
+ public function defaultConfiguration() {
+    return array('module' => '') + parent::defaultConfiguration();
+ }
+
+/**
+  * Evaluates the condition and returns TRUE or FALSE accordingly.
+  *
+  * @return bool
+  *   TRUE if the condition has been met, FALSE otherwise.
+  */
+  public function evaluate() {
+      if (empty($this->configuration['module']) && !$this->isNegated()) {
+          return TRUE;
+      }
+
+      $module = $this->configuration['module'];
+      $modules = system_rebuild_module_data();
+
+      return $modules[$module]->status;
+  }
+
+/**
+ * Provides a human readable summary of the condition's configuration.
+ */
+ public function summary()
+ {
+     $module = $this->getContextValue('module');
+     $modules = system_rebuild_module_data();
+
+     $status = ($modules[$module]->status)?t('enabled'):t('disabled');
+
+     return t('The module @module is @status.', array('@module' => $module, '@status' => $status));
+ }
+{% endblock %}

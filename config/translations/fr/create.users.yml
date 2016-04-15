@@ -1,0 +1,27 @@
+description: 'Génère des utilisateurs factices pour votre application Drupal 8.'
+help: 'La commande <info>create:users</info> vous assiste dans la génération d''utilisateurs factices.'
+welcome: 'Bievenue dans le générateur d''utilisateurs Drupal'
+arguments:
+    roles: 'Les rôle(s) à utiliser pour la création d''utilisateurs'
+options:
+    limit: 'Nombre d''utilisateurs à créer'
+    password: 'Mot de passe associé aux utilisateurs créés'
+    time-range: 'De combien de temps au maximum doivent dater les comptes utilisateurs générées ?'
+questions:
+    roles: 'Selectionner le(s) rôle(s) à utiliser pour la création d''utilisateurs'
+    limit: 'Combien d''utilisateurs voulez-vous générer ?'
+    password: 'Mot de passe associé aux utilisateurs créés'
+    time-range: 'De combien de temps au maximum doivent dater les comptes utilisateurs générées ?'
+    time-ranges:
+        - Maintenant
+        - 'Il y a une heure'
+        - 'Il y a un jour'
+        - 'Il y a une semaine'
+        - 'Il y a un mois'
+        - 'Il y a un an'
+messages:
+    user-id: 'Id utilisateur'
+    roles: Rôles
+    username: 'Nom d''''utilisateur'
+    created: 'Date de création'
+    created-users: 'Génération de %s utilisateurs avec succès.'

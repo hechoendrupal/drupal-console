@@ -1,0 +1,93 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{ module }}\Plugin\Field\FieldFormatter\{{ class_name }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }}\Plugin\Field\FieldFormatter;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Field\FieldItemInterface;
+use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\Field\FormatterBase;
+use Drupal\Core\Form\FormStateInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Plugin implementation of the '{{ plugin_id }}' formatter.
+ *
+ * @FieldFormatter(
+ *   id = "{{ plugin_id }}",
+ *   label = @Translation("{{ label }}"){% if field_type %},
+ *   field_types = {
+ *     "{{ field_type }}"
+ *   }
+{% else %}
+
+ *   At least one field_types annotation array entry is necessary to display this formatter in the UI.
+ *   ex. field_types = { "field_type" }
+{% endif %}
+ * )
+ */
+class {{ class_name }} extends FormatterBase {% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public static function defaultSettings() {
+    return array(
+      // Implement default settings.
+    ) + parent::defaultSettings();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function settingsForm(array $form, FormStateInterface $form_state) {
+    return array(
+      // Implement settings form.
+    ) + parent::settingsForm($form, $form_state);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function settingsSummary() {
+    $summary = [];
+    // Implement settings summary.
+
+    return $summary;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function viewElements(FieldItemListInterface $items, $langcode) {
+    $elements = [];
+
+    foreach ($items as $delta => $item) {
+      $elements[$delta] = ['#markup' => $this->viewValue($item)];
+    }
+
+    return $elements;
+  }
+
+  /**
+   * Generate the output appropriate for one field item.
+   *
+   * @param \Drupal\Core\Field\FieldItemInterface $item
+   *   One field item.
+   *
+   * @return string
+   *   The textual output generated.
+   */
+  protected function viewValue(FieldItemInterface $item) {
+    // The text value has no text format assigned to it, so the user input
+    // should equal the output, including newlines.
+    return nl2br(Html::escape($item->value));
+  }
+{% endblock %}

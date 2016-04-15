@@ -1,0 +1,11 @@
+description: 'RouteSubscriber उत्पन्न करे.'
+help: '<info>generate:service</info> कमांड आपकाे  नया RouteSubscriber उत्पन्न करने मे मादत करति हे.'
+welcome: 'Drupal RouteSubscriber जनक मे स्वागत.'
+options:
+    module: common.options.module
+    name: 'सेवा का नाम'
+    class: 'कक्षा का नाम'
+questions:
+    module: common.questions.module
+    name: 'सेवा का नाम लिखे'
+    class: 'कक्षा का नाम लिखे'

@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Drupal\AppConsole\Command;
+namespace Drupal\Console\Command;
 
-use Drupal\AppConsole\Generator\Generator;
+use Drupal\Console\Generator\Generator;
 
 abstract class GeneratorCommand extends ContainerAwareCommand
 {
@@ -29,8 +29,9 @@ abstract class GeneratorCommand extends ContainerAwareCommand
     {
         if (null === $this->generator) {
             $this->generator = $this->createGenerator();
-            $this->generator->setSkeletonDirs($this->getSkeletonDirs());
-            $this->generator->setTranslator($this->translator);
+            $this->getRenderHelper()->setSkeletonDirs($this->getSkeletonDirs());
+            $this->getRenderHelper()->setTranslator($this->getTranslator());
+            $this->generator->setHelperSet($this->getHelperSet());
         }
 
         return $this->generator;
@@ -38,7 +39,15 @@ abstract class GeneratorCommand extends ContainerAwareCommand
 
     protected function getSkeletonDirs()
     {
-        $skeletonDirs[] = __DIR__ . '/../../templates';
+        $module = $this->getModule();
+        if ($module != 'Console') {
+            $skeletonDirs[] = sprintf(
+                '%s/templates',
+                $this->getSite()->getModulePath($module)
+            );
+        }
+
+        $skeletonDirs[] = __DIR__.'/../../templates';
 
         return $skeletonDirs;
     }

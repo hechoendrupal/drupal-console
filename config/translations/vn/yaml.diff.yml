@@ -1,0 +1,18 @@
+description: 'So sánh hai files YAML để xác định sự khác nhau giữa chúng'
+arguments:
+    yaml-left: 'File YAML được sử dụng để dựa vào đó so sánh'
+    yaml-right: 'File YAML được sử dụng để xác định các phần thiếu sót hoặc các sự khác nhau với file gốc YAML'
+options:
+    stats: 'In các đặc tính về sự so sánh các files YAML'
+    negate: 'Xác định chế độ so sánh bằng nhau và khác nhau, các giá trị có thể TRUE/FALSE hoặc 0/1'
+    limit: 'Giới hạn các kết quả đến một số cụ thể'
+    offset: 'Điểm bắt đầu của một giới hạn'
+questions:
+    yaml-left: 'Đường dẫn của file YAML để dựa vào đó so sánh.'
+    yaml-right: 'Đường dẫn của file YAML để được so sánh.'
+messages:
+    key: 'YAML Key'
+    value: 'Giá trị YAML'
+    total: 'Total: %s'
+    diff: 'Diff: %s'
+    equal: 'Equal: %s'

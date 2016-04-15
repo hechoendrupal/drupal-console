@@ -1,0 +1,5 @@
+description: 'यादी वापरकर्ता Drupal कंसोल सेटिंग्ज.'
+messages:
+    config-key: 'कॉन्फिग चावी'
+    config-value: 'कॉन्फिग मूल्य'
+    config-file: 'कॉन्फिग फाइल'

@@ -1,0 +1,4 @@
+description: 'A webhely által támogatott nyelv hozzáadása'
+messages:
+    invalid-language: '%s nyelv érvénytelen'
+    language-add-successfully: '%s nyelv hozzáadása sikerült.'

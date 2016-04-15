@@ -1,0 +1,4 @@
+description: 'Các dịch vụ hiển thị hiện tại cho một ứng dụng'
+messages:
+    service_id: 'ID dịch vụ'
+    class_name: 'Tên lớp'

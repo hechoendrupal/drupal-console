@@ -1,0 +1,12 @@
+description: 'Показать все таблицы в данной базе данных.'
+help: 'Команда <info>database:table:debug</info> поможет вам в отладке таблиц базы данных.'
+arguments:
+    table: 'Table to debug'
+    database: 'Ключ базы данных из settings.php'
+options:
+    database: 'Database key from settings.php'
+messages:
+    table-show: 'Показать таблицы для %s базы данных'
+    table: Таблица
+    column: Column
+    type: Type
