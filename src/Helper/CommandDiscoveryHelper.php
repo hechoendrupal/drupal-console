@@ -8,8 +8,6 @@ namespace Drupal\Console\Helper;
 
 use Symfony\Component\Finder\Finder;
 use Drupal\Console\Helper\Helper;
-use Consolidation\AnnotatedCommand\CommandFileDiscovery;
-use Consolidation\AnnotatedCommand\AnnotatedCommandFactory;
 
 /**
  * Class CommandDiscovery
@@ -126,22 +124,14 @@ class CommandDiscoveryHelper extends Helper
      */
     private function discoverCommands($sources)
     {
-        // TODO: maybe these are fields of this class?
-        // Injected by the container?
-        $commandFactory = new AnnotatedCommandFactory();
-        $discovery = new CommandFileDiscovery();
-        $annotatedCommandFiles = [];
-
         $commands = [];
         foreach ($sources as $sourceName => $source) {
             if ($sourceName === 'Console') {
-                $annotatedCommandFiles = $discovery->discover($source['path'], '\Drupal\Console');
                 $directory = sprintf(
                     '%s/src/Command',
                     $source['path']
                 );
             } else {
-                $annotatedCommandFiles = $discovery->discoverNamespaced($source->getPath(), '\Drupal');
                 $directory = sprintf(
                     '%s/%s/src/Command',
                     $this->getDrupalHelper()->getRoot(),
@@ -156,20 +146,6 @@ class CommandDiscoveryHelper extends Helper
                 }
 
                 $commands = array_merge($commands, $this->extractCommands($directory, $sourceName, $sourceType));
-            }
-
-            if (!empty($annotatedCommandFiles)) {
-                foreach ($annotatedCommandFiles as $sourceFile => $commandNamespace) {
-                    // If '$commandFile' is not already included in the
-                    // autoloader, then we should `include $sourceFile`.
-                    if (!class_exists($commandNamespace)) {
-                        include $sourceFile;
-                    }
-                    $commandInstance = new $commandNamespace;
-                    // Annotation command files may contain multiple commands.
-                    $commandList = $commandFactory->createCommandsFromClass($commandInstance);
-                    $commands = array_merge($commands, $commandList);
-                }
             }
         }
 
@@ -289,7 +265,7 @@ class CommandDiscoveryHelper extends Helper
             return;
         }
 
-        if (!$reflectionClass->isSubclassOf('Drupal\\Console\\Command\\Command')) {
+        if (!$reflectionClass->isSubclassOf('Consolidation\\AnnotatedCommand\\AnnotatedCommand')) {
             return;
         }
 

@@ -2,7 +2,7 @@
 
 namespace Drupal\Console\Command;
 
-use Symfony\Component\Console\Command\Command as BaseCommand;
+use Consolidation\AnnotatedCommand\AnnotatedCommand;
 use Symfony\Component\Console\Helper\HelperSet;
 use Drupal\Console\Helper\HelperTrait;
 
@@ -10,7 +10,7 @@ use Drupal\Console\Helper\HelperTrait;
  * Class Command
  * @package Drupal\Console\Command
  */
-abstract class Command extends BaseCommand
+abstract class Command extends AnnotatedCommand
 {
     use HelperTrait;
 

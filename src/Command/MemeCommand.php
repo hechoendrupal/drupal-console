@@ -1,6 +1,10 @@
 <?php
 namespace Drupal\Console\Command;
 
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Command\Command;
+
 /**
  * Ported by Greg Anderson.
  * Original code Copyright (C) 2013 by Muazzam Ali
@@ -23,7 +27,7 @@ namespace Drupal\Console\Command;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-class MemeCommands
+class MemeCommand extends Command
 {
     private $upperText;
     private $lowerText;
@@ -35,19 +39,30 @@ class MemeCommands
     /**
      * Generate a meme
      *
+     * @command generate:meme
      * @param string $topMessage The message to place at the top of the image.
      * @param string $bottomMessage The message to place at the bottom of the image.
      * @param string $image The path to the meme image to use.
+     * @default $image meme.png
      * @option string $out The file to write the generated meme to.
+     * @default $out generated-meme.png
      * @usage generate:meme "I don't always make memes" "But when I do, I use the command line" my-source-image.png
      */
+    public function execute(InputInterface $input, OutputInterface $output)
+    {
+        $topMessage = $input->getArgument('topMessage');
+        $bottomMessage = $input->getArgument('bottomMessage');
+        $memeImage = $input->getArgument('image');
+        $outputFile = $input->getOption('out');
+
+        return $this->generateMeme($topMessage, $bottomMessage, $memeImage, $outputFile);
+    }
+
     public function generateMeme(
         $topMessage,
         $bottomMessage,
         $memeImage = 'meme.png',
-        $options = [
-            'out' => 'generated-meme.png',
-        ]
+        $outputFile = 'generated-meme.png'
     ) {
         $finfo = new \finfo(FILEINFO_MIME);
         if ($memeImage[0] != '/') {
@@ -67,7 +82,9 @@ class MemeCommands
 
         $this->setUpperText($topMessage);
         $this->setLowerText($bottomMessage);
-        $this->processImg($options['out']);
+        $this->processImg($outputFile);
+
+        return 0;
     }
 
     protected function locateFont($fontNames)
