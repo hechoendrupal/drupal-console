@@ -265,7 +265,7 @@ class CommandDiscoveryHelper extends Helper
             return;
         }
 
-        if (!$reflectionClass->isSubclassOf('Drupal\\Console\\Command\\Command')) {
+        if (!$reflectionClass->isSubclassOf('Consolidation\\AnnotatedCommand\\AnnotatedCommand')) {
             return;
         }
 

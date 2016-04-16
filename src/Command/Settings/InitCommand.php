@@ -19,24 +19,13 @@ use Drupal\Console\Style\DrupalStyle;
 class InitCommand extends Command
 {
     /**
-     * {@inheritdoc}
-     */
-    protected function configure()
-    {
-        $this
-            ->setName('settings:init')
-            ->setDescription($this->trans('commands.settings.init.description'))
-            ->addOption(
-                'override',
-                null,
-                InputOption::VALUE_NONE,
-                $this->trans('commands.settings.init.options.override')
-            )
-            ->setAliases(['init']);
-    }
-
-    /**
-     * {@inheritdoc}
+     * Init command
+     *
+     * Copy configuration files to user home directory.
+     *
+     * @command settings:init
+     * @option boolean $override Override configurations files
+     * @aliases init
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
