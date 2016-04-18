@@ -72,7 +72,15 @@ class ChainCommand extends Command
         $inlinePlaceHolders = $this->extractInlinePlaceHolders($chainContent);
 
         if (!$placeholder && $inlinePlaceHolders) {
-            foreach($inlinePlaceHolders as $inlinePlaceHolder) {
+            foreach($inlinePlaceHolders as $key => $inlinePlaceHolder) {
+                $inlinePlaceHolderDefault = '';
+                if (strpos($inlinePlaceHolder, '|')>0) {
+                    $placeholderParts = explode('|', $inlinePlaceHolder);
+                    $inlinePlaceHolder = $placeholderParts[0];
+                    $inlinePlaceHolderDefault = $placeholderParts[1];
+                    $inlinePlaceHolders[$key] = $inlinePlaceHolder;
+                }
+
                 $placeholder[] = sprintf(
                     '%s:%s',
                     $inlinePlaceHolder,
@@ -80,7 +88,8 @@ class ChainCommand extends Command
                         sprintf(
                           'Enter placeholder value for <comment>%s</comment>',
                           $inlinePlaceHolder
-                        )
+                        ),
+                        $inlinePlaceHolderDefault
                     )
                 );
             }
@@ -146,7 +155,6 @@ class ChainCommand extends Command
 
                 continue;
             }
-
             $envPlaceHolderMap[$envPlaceHolder] = getenv($envPlaceHolder);
         }
 
@@ -170,8 +178,23 @@ class ChainCommand extends Command
 
         $inlinePlaceHolders = $this->extractInlinePlaceHolders($chainContent);
 
-        var_export($placeholder);
-        var_export($inlinePlaceHolders);
+        $inlinePlaceHoldersReplacements = [];
+        foreach($inlinePlaceHolders as $key => $inlinePlaceHolder) {
+            if (strpos($inlinePlaceHolder, '|') > 0) {
+                $placeholderParts = explode('|', $inlinePlaceHolder);
+                $inlinePlaceHoldersReplacements[] = $placeholderParts[0];
+                continue;
+            }
+            $inlinePlaceHoldersReplacements[] = $inlinePlaceHolder;
+        }
+
+        $chainContent = str_replace(
+            $inlinePlaceHolders,
+            $inlinePlaceHoldersReplacements,
+            $chainContent
+        );
+
+        $inlinePlaceHolders = $inlinePlaceHoldersReplacements;
 
         $inlinePlaceHolderMap = [];
         foreach ($placeholder as $key => $placeholderItem) {
@@ -203,16 +226,9 @@ class ChainCommand extends Command
             return 1;
         }
 
-        var_export($inlinePlaceHolderMap);
-
         $inlinePlaceHolderData = new ArrayDataSource($inlinePlaceHolderMap);
-
-        var_export($inlinePlaceHolderData);
-
-        $placeholderResolver = new RegexPlaceholderResolver($inlinePlaceHolderData, '{{', '}}');
+        $placeholderResolver = new RegexPlaceholderResolver($inlinePlaceHolderData, '%{{', '}}');
         $chainContent = $placeholderResolver->resolvePlaceholder($chainContent);
-
-        var_export($chainContent);
 
         $parser = $this->getContainerHelper()->get('parser');
         $configData = $parser->parse($chainContent);
