@@ -7,7 +7,9 @@
 namespace Drupal\Console\Helper;
 
 use Symfony\Component\Finder\Finder;
-use Drupal\Console\Helper\Helper;
+use Composer\Autoload\ClassLoader;
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 
 /**
  * Class CommandDiscovery
@@ -34,9 +36,16 @@ class CommandDiscoveryHelper extends Helper
      * CommandDiscoveryHelper constructor.
      * @param bool $develop
      */
-    public function __construct($develop)
+    public function __construct($develop, ClassLoader $autoload)
     {
         $this->develop = $develop;
+        $this->autoload = $autoload;
+
+        $this->reader = new AnnotationReader();
+        AnnotationRegistry::registerLoader([
+            $autoload,
+            'loadClass'
+        ]);
     }
 
     /**
@@ -272,6 +281,8 @@ class CommandDiscoveryHelper extends Helper
         if (!$this->getDrupalHelper()->isInstalled() && $reflectionClass->isSubclassOf('Drupal\\Console\\Command\\ContainerAwareCommand')) {
             return;
         }
+
+        $meta = $this->reader->getClassAnnotation($reflectionClass);
 
         if ($reflectionClass->getConstructor()->getNumberOfRequiredParameters() > 0) {
             if ($source != 'Console') {
