@@ -161,12 +161,12 @@ class ChainCommand extends Command
         if ($missingEnvironmentPlaceHolders) {
             $io->error(
               sprintf(
-                'Missing environment placeholder(s) %s',
+                $this->trans('commands.chain.messages.missing-environment-placeholders'),
                 implode(', ', array_keys($missingEnvironmentPlaceHolders))
               )
             );
 
-            $io->info('You can set environment placeholders as:');
+            $io->info($this->trans('commands.chain.messages.set-environment-placeholders'));
             $io->block(array_values($missingEnvironmentPlaceHolders));
 
             return 1;
@@ -215,12 +215,12 @@ class ChainCommand extends Command
         if ($missingInlinePlaceHolders) {
             $io->error(
               sprintf(
-                'Missing inline placeholder(s) %s',
+                $this->trans('commands.chain.messages.missing-inline-placeholders'),
                 implode(', ', array_keys($missingInlinePlaceHolders))
               )
             );
 
-            $io->info('You can pass inline placeholders as:');
+            $io->info($this->trans('commands.chain.messages.set-inline-placeholders'));
             $io->block(array_values($missingInlinePlaceHolders));
 
             return 1;
