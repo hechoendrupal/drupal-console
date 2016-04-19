@@ -30,10 +30,10 @@ class DownloadCommand extends Command
                 $this->trans('commands.module.download.arguments.module')
             )
             ->addOption(
-                'module-path',
+                'path',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.module.download.options.module-path')
+                $this->trans('commands.module.download.options.path')
             )
             ->addOption(
                 'latest',
@@ -56,13 +56,13 @@ class DownloadCommand extends Command
             $input->setArgument('module', $module);
         }
 
-        $modulePath = $input->getOption('module-path');
-        if (!$modulePath) {
-            $modulePath = $io->ask(
-                $this->trans('commands.module.download.questions.module-path'),
+        $path = $input->getOption('path');
+        if (!$path) {
+            $path = $io->ask(
+                $this->trans('commands.module.download.questions.path'),
                 'modules/contrib'
             );
-            $input->setOption('module-path', $modulePath);
+            $input->setOption('path', $path);
         }
     }
 
@@ -75,8 +75,8 @@ class DownloadCommand extends Command
 
         $module = $input->getArgument('module');
         $latest = $input->getOption('latest');
-        $modulePath = $input->getOption('module-path');
-        $this->downloadModules($io, $module, $latest, $modulePath);
+        $path = $input->getOption('path');
+        $this->downloadModules($io, $module, $latest, $path);
 
         return true;
     }

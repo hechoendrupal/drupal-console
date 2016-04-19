@@ -43,7 +43,7 @@ trait ProjectDownloadTrait
         return $moduleList;
     }
 
-    private function downloadModules(DrupalStyle $io, $modules, $latest, $modulePath, $resultList = [])
+    private function downloadModules(DrupalStyle $io, $modules, $latest, $path, $resultList = [])
     {
         if (!$resultList) {
             $resultList = [
@@ -68,7 +68,7 @@ trait ProjectDownloadTrait
             foreach ($missingModules as $missingModule) {
                 $version = $this->releasesQuestion($io, $missingModule, $latest);
                 if ($version) {
-                    $this->downloadProject($io, $missingModule, $version, $modulePath, 'module');
+                    $this->downloadProject($io, $missingModule, $version, $path, 'module');
                 } else {
                     $invalidModules[] = $missingModule;
                     unset($modules[array_search($missingModule, $modules)]);
@@ -91,7 +91,7 @@ trait ProjectDownloadTrait
             return $resultList;
         }
 
-        return $this->downloadModules($io, $dependencies, $latest, $modulePath, $resultList);
+        return $this->downloadModules($io, $dependencies, $latest, $path, $resultList);
     }
 
     protected function calculateDependencies($modules)
@@ -125,7 +125,7 @@ trait ProjectDownloadTrait
      * @param $type
      * @return string
      */
-    public function downloadProject(DrupalStyle $io, $project, $version, $modulePath = 0, $type)
+    public function downloadProject(DrupalStyle $io, $project, $version, $path = 0, $type)
     {
         $commandKey = str_replace(':', '.', $this->getName());
 
@@ -143,14 +143,14 @@ trait ProjectDownloadTrait
                 $version
             );
 
-            if (empty($modulePath)) {
-              $modulePath = $this->getExtractPath($type);
+            if (empty($path)) {
+              $path = $this->getExtractPath($type);
             }
             $drupal = $this->getDrupalHelper();
             $projectPath = sprintf(
                 '%s/%s',
                 $drupal->isValidInstance()?$drupal->getRoot():getcwd(),
-                $modulePath
+                $path
             );
 
             if (!file_exists($projectPath)) {
