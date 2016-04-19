@@ -1,61 +1,61 @@
 commands:
   - command: settings:set
     arguments:
-        setting-name: language
-        setting-value: en
+      setting-name: language
+      setting-value: en
   - command: generate:doc:gitbook
     options:
-        path: '{{book_path}}/en'
+      path: '%{{book_path}}/en'
   - command: settings:set
     arguments:
-        setting-name: language
-        setting-value: es
+      setting-name: language
+      setting-value: es
   - command: generate:doc:gitbook
     options:
-        path: '{{book_path}}/es'
+      path: '%{{book_path}}/es'
   - command: settings:set
     arguments:
-        setting-name: language
-        setting-value: hi
+      setting-name: language
+      setting-value: hi
   - command: generate:doc:gitbook
     options:
-        path: '{{book_path}}/hi'
+      path: '%{{book_path}}/hi'
   - command: settings:set
     arguments:
-        setting-name: language
-        setting-value: hu
+      setting-name: language
+      setting-value: hu
   - command: generate:doc:gitbook
     options:
-        path: '{{book_path}}/hu'
+      path: '%{{book_path}}/hu'
   - command: settings:set
     arguments:
-        setting-name: language
-        setting-value: pt_br
+      setting-name: language
+      setting-value: pt_br
   - command: generate:doc:gitbook
     options:
-        path: '{{book_path}}/pt_br'
+      path: '%{{book_path}}/pt_br'
   - command: settings:set
     arguments:
-        setting-name: language
-        setting-value: ro
+      setting-name: language
+      setting-value: ro
   - command: generate:doc:gitbook
     options:
-        path: '{{book_path}}/ro'
+      path: '%{{book_path}}/ro'
   - command: settings:set
     arguments:
-        setting-name: language
-        setting-value: vn
+      setting-name: language
+      setting-value: vn
   - command: generate:doc:gitbook
     options:
-        path: '{{book_path}}/vn'
+      path: '%{{book_path}}/vn'
   - command: settings:set
     arguments:
-        setting-name: language
-        setting-value: zh_hans
+      setting-name: language
+      setting-value: zh_hans
   - command: generate:doc:gitbook
     options:
-        path: '{{book_path}}/zh_hans'
+      path: '%{{book_path}}/zh_hans'
   - command: settings:set
     arguments:
-        setting-name: language
-        setting-value: en
+      setting-name: language
+      setting-value: en
