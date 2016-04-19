@@ -97,7 +97,8 @@ class DrupalStyle extends SymfonyStyle
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $question
+     * @param null|callable $validator
      *
      * @return string
      */

@@ -22,6 +22,6 @@ questions:
 messages:
     user-id: 'Id utilisateur'
     roles: Rôles
-    username: Nom d''utilisateur
+    username: 'Nom d''''utilisateur'
     created: 'Date de création'
     created-users: 'Génération de %s utilisateurs avec succès.'
