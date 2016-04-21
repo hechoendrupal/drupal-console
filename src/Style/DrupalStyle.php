@@ -97,7 +97,7 @@ class DrupalStyle extends SymfonyStyle
     }
 
     /**
-     * @param string $question
+     * @param string        $question
      * @param null|callable $validator
      *
      * @return string
@@ -188,7 +188,8 @@ class DrupalStyle extends SymfonyStyle
         }
     }
 
-    public function text($message) {
+    public function text($message)
+    {
         $message = sprintf('// %s', $message);
         parent::text($message);
     }

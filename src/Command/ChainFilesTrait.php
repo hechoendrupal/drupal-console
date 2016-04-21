@@ -82,7 +82,8 @@ trait ChainFilesTrait
         return $chainFiles;
     }
 
-    private function extractPlaceHolders($chainContent, $identifier){
+    private function extractPlaceHolders($chainContent, $identifier)
+    {
         $placeHolders = [];
         $regex = '/\\'.$identifier.'{{(.*?)}}/';
         preg_match_all(
@@ -98,12 +99,14 @@ trait ChainFilesTrait
         return array_unique($placeHolders[1]);
     }
 
-    private function extractInlinePlaceHolders($chainContent){
-//        return $this->extractPlaceHolders($chainContent, '/\%{{(.*?)}}/');
+    private function extractInlinePlaceHolders($chainContent)
+    {
+        //        return $this->extractPlaceHolders($chainContent, '/\%{{(.*?)}}/');
         return $this->extractPlaceHolders($chainContent, '%');
     }
 
-    private function extractEnvironmentPlaceHolders($chainContent){
+    private function extractEnvironmentPlaceHolders($chainContent)
+    {
         return $this->extractPlaceHolders($chainContent, '$');
     }
 }

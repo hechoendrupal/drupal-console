@@ -11,13 +11,14 @@ namespace Drupal\Console\Utils;
  * Class File
  * @package Drupal\Console\Utils
  */
-class File {
-
+class File
+{
     /**
      * @param string $path
      * @return null|string
      */
-    public function calculateRealPath($path) {
+    public function calculateRealPath($path)
+    {
         if (!$path) {
             return null;
         }
@@ -33,7 +34,8 @@ class File {
      * @param $path
      * @return string
      */
-    private function transformToRealPath($path) {
+    private function transformToRealPath($path)
+    {
         if (strpos($path, '~') === 0) {
             $home = rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/');
             $path = realpath(preg_replace('/~/', $home, $path, 1));

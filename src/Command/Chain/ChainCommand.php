@@ -75,7 +75,7 @@ class ChainCommand extends Command
         $inlinePlaceHolders = $this->extractInlinePlaceHolders($chainContent);
 
         if (!$placeholder && $inlinePlaceHolders) {
-            foreach($inlinePlaceHolders as $key => $inlinePlaceHolder) {
+            foreach ($inlinePlaceHolders as $key => $inlinePlaceHolder) {
                 $inlinePlaceHolderDefault = '';
                 if (strpos($inlinePlaceHolder, '|')>0) {
                     $placeholderParts = explode('|', $inlinePlaceHolder);
@@ -89,8 +89,8 @@ class ChainCommand extends Command
                     $inlinePlaceHolder,
                     $io->ask(
                         sprintf(
-                          'Enter placeholder value for <comment>%s</comment>',
-                          $inlinePlaceHolder
+                            'Enter placeholder value for <comment>%s</comment>',
+                            $inlinePlaceHolder
                         ),
                         $inlinePlaceHolderDefault
                     )
@@ -143,12 +143,12 @@ class ChainCommand extends Command
 
         $envPlaceHolderMap = [];
         $missingEnvironmentPlaceHolders = [];
-        foreach($environmentPlaceHolders as $envPlaceHolder){
+        foreach ($environmentPlaceHolders as $envPlaceHolder) {
             if (!getenv($envPlaceHolder)) {
                 $missingEnvironmentPlaceHolders[$envPlaceHolder] = sprintf(
-                  'export %s=%s_VALUE',
-                  $envPlaceHolder,
-                  strtoupper($envPlaceHolder)
+                    'export %s=%s_VALUE',
+                    $envPlaceHolder,
+                    strtoupper($envPlaceHolder)
                 );
 
                 continue;
@@ -158,10 +158,10 @@ class ChainCommand extends Command
 
         if ($missingEnvironmentPlaceHolders) {
             $io->error(
-              sprintf(
-                $this->trans('commands.chain.messages.missing-environment-placeholders'),
-                implode(', ', array_keys($missingEnvironmentPlaceHolders))
-              )
+                sprintf(
+                    $this->trans('commands.chain.messages.missing-environment-placeholders'),
+                    implode(', ', array_keys($missingEnvironmentPlaceHolders))
+                )
             );
 
             $io->info($this->trans('commands.chain.messages.set-environment-placeholders'));
@@ -177,7 +177,7 @@ class ChainCommand extends Command
         $inlinePlaceHolders = $this->extractInlinePlaceHolders($chainContent);
 
         $inlinePlaceHoldersReplacements = [];
-        foreach($inlinePlaceHolders as $key => $inlinePlaceHolder) {
+        foreach ($inlinePlaceHolders as $key => $inlinePlaceHolder) {
             if (strpos($inlinePlaceHolder, '|') > 0) {
                 $placeholderParts = explode('|', $inlinePlaceHolder);
                 $inlinePlaceHoldersReplacements[] = $placeholderParts[0];
@@ -203,19 +203,19 @@ class ChainCommand extends Command
         foreach ($inlinePlaceHolders as $inlinePlaceHolder) {
             if (!array_key_exists($inlinePlaceHolder, $inlinePlaceHolderMap)) {
                 $missingInlinePlaceHolders[$inlinePlaceHolder] = sprintf(
-                  '--placeholder="%s:%s_VALUE"',
-                  $inlinePlaceHolder,
-                  strtoupper($inlinePlaceHolder)
+                    '--placeholder="%s:%s_VALUE"',
+                    $inlinePlaceHolder,
+                    strtoupper($inlinePlaceHolder)
                 );
             }
         }
 
         if ($missingInlinePlaceHolders) {
             $io->error(
-              sprintf(
-                $this->trans('commands.chain.messages.missing-inline-placeholders'),
-                implode(', ', array_keys($missingInlinePlaceHolders))
-              )
+                sprintf(
+                    $this->trans('commands.chain.messages.missing-inline-placeholders'),
+                    implode(', ', array_keys($missingInlinePlaceHolders))
+                )
             );
 
             $io->info($this->trans('commands.chain.messages.set-inline-placeholders'));
