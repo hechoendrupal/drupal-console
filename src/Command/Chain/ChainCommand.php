@@ -55,6 +55,7 @@ class ChainCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
         $file = $input->getOption('file');
+        $fileUtil = $this->getContainerHelper()->get('file_util');
 
         if (!$file) {
             $files = $this->getChainFiles(true);
@@ -63,9 +64,11 @@ class ChainCommand extends Command
                 $this->trans('commands.chain.questions.chain-file'),
                 array_values($files)
             );
-
-            $input->setOption('file', $file);
         }
+
+        $file = $fileUtil->calculateRealPath($file);
+        $input->setOption('file', $file);
+
         $chainContent = file_get_contents($file);
 
         $placeholder = $input->getOption('placeholder');
@@ -108,6 +111,8 @@ class ChainCommand extends Command
         $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
 
         $file = $input->getOption('file');
+        $fileUtil = $this->getContainerHelper()->get('file_util');
+        $fileSystem = $this->getContainerHelper()->get('filesystem');
 
         if (!$file) {
             $io->error($this->trans('commands.chain.messages.missing_file'));
@@ -115,16 +120,9 @@ class ChainCommand extends Command
             return 1;
         }
 
-        if (strpos($file, '~') === 0) {
-            $home = rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/');
-            $file = realpath(preg_replace('/~/', $home, $file, 1));
-        }
+        $file = $fileUtil->calculateRealPath($file);
 
-        if (!(strpos($file, '/') === 0)) {
-            $file = sprintf('%s/%s', getcwd(), $file);
-        }
-
-        if (!file_exists($file)) {
+        if (!$fileSystem->exists($file)) {
             $io->error(
                 sprintf(
                     $this->trans('commands.chain.messages.invalid_file'),
