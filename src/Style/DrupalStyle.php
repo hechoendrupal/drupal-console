@@ -187,4 +187,9 @@ class DrupalStyle extends SymfonyStyle
             $this->write($message);
         }
     }
+
+    public function text($message) {
+        $message = sprintf('// %s', $message);
+        parent::text($message);
+    }
 }
