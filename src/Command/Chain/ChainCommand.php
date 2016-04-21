@@ -55,6 +55,7 @@ class ChainCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
         $file = $input->getOption('file');
+        $fileUtil = $this->getContainerHelper()->get('file_util');
 
         if (!$file) {
             $files = $this->getChainFiles(true);
@@ -63,16 +64,18 @@ class ChainCommand extends Command
                 $this->trans('commands.chain.questions.chain-file'),
                 array_values($files)
             );
-
-            $input->setOption('file', $file);
         }
+
+        $file = $fileUtil->calculateRealPath($file);
+        $input->setOption('file', $file);
+
         $chainContent = file_get_contents($file);
 
         $placeholder = $input->getOption('placeholder');
         $inlinePlaceHolders = $this->extractInlinePlaceHolders($chainContent);
 
         if (!$placeholder && $inlinePlaceHolders) {
-            foreach($inlinePlaceHolders as $key => $inlinePlaceHolder) {
+            foreach ($inlinePlaceHolders as $key => $inlinePlaceHolder) {
                 $inlinePlaceHolderDefault = '';
                 if (strpos($inlinePlaceHolder, '|')>0) {
                     $placeholderParts = explode('|', $inlinePlaceHolder);
@@ -86,8 +89,8 @@ class ChainCommand extends Command
                     $inlinePlaceHolder,
                     $io->ask(
                         sprintf(
-                          'Enter placeholder value for <comment>%s</comment>',
-                          $inlinePlaceHolder
+                            'Enter placeholder value for <comment>%s</comment>',
+                            $inlinePlaceHolder
                         ),
                         $inlinePlaceHolderDefault
                     )
@@ -108,6 +111,8 @@ class ChainCommand extends Command
         $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
 
         $file = $input->getOption('file');
+        $fileUtil = $this->getContainerHelper()->get('file_util');
+        $fileSystem = $this->getContainerHelper()->get('filesystem');
 
         if (!$file) {
             $io->error($this->trans('commands.chain.messages.missing_file'));
@@ -115,16 +120,9 @@ class ChainCommand extends Command
             return 1;
         }
 
-        if (strpos($file, '~') === 0) {
-            $home = rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/');
-            $file = realpath(preg_replace('/~/', $home, $file, 1));
-        }
+        $file = $fileUtil->calculateRealPath($file);
 
-        if (!(strpos($file, '/') === 0)) {
-            $file = sprintf('%s/%s', getcwd(), $file);
-        }
-
-        if (!file_exists($file)) {
+        if (!$fileSystem->exists($file)) {
             $io->error(
                 sprintf(
                     $this->trans('commands.chain.messages.invalid_file'),
@@ -145,12 +143,12 @@ class ChainCommand extends Command
 
         $envPlaceHolderMap = [];
         $missingEnvironmentPlaceHolders = [];
-        foreach($environmentPlaceHolders as $envPlaceHolder){
+        foreach ($environmentPlaceHolders as $envPlaceHolder) {
             if (!getenv($envPlaceHolder)) {
                 $missingEnvironmentPlaceHolders[$envPlaceHolder] = sprintf(
-                  'export %s=%s_VALUE',
-                  $envPlaceHolder,
-                  strtoupper($envPlaceHolder)
+                    'export %s=%s_VALUE',
+                    $envPlaceHolder,
+                    strtoupper($envPlaceHolder)
                 );
 
                 continue;
@@ -160,10 +158,10 @@ class ChainCommand extends Command
 
         if ($missingEnvironmentPlaceHolders) {
             $io->error(
-              sprintf(
-                $this->trans('commands.chain.messages.missing-environment-placeholders'),
-                implode(', ', array_keys($missingEnvironmentPlaceHolders))
-              )
+                sprintf(
+                    $this->trans('commands.chain.messages.missing-environment-placeholders'),
+                    implode(', ', array_keys($missingEnvironmentPlaceHolders))
+                )
             );
 
             $io->info($this->trans('commands.chain.messages.set-environment-placeholders'));
@@ -179,7 +177,7 @@ class ChainCommand extends Command
         $inlinePlaceHolders = $this->extractInlinePlaceHolders($chainContent);
 
         $inlinePlaceHoldersReplacements = [];
-        foreach($inlinePlaceHolders as $key => $inlinePlaceHolder) {
+        foreach ($inlinePlaceHolders as $key => $inlinePlaceHolder) {
             if (strpos($inlinePlaceHolder, '|') > 0) {
                 $placeholderParts = explode('|', $inlinePlaceHolder);
                 $inlinePlaceHoldersReplacements[] = $placeholderParts[0];
@@ -205,19 +203,19 @@ class ChainCommand extends Command
         foreach ($inlinePlaceHolders as $inlinePlaceHolder) {
             if (!array_key_exists($inlinePlaceHolder, $inlinePlaceHolderMap)) {
                 $missingInlinePlaceHolders[$inlinePlaceHolder] = sprintf(
-                  '--placeholder="%s:%s_VALUE"',
-                  $inlinePlaceHolder,
-                  strtoupper($inlinePlaceHolder)
+                    '--placeholder="%s:%s_VALUE"',
+                    $inlinePlaceHolder,
+                    strtoupper($inlinePlaceHolder)
                 );
             }
         }
 
         if ($missingInlinePlaceHolders) {
             $io->error(
-              sprintf(
-                $this->trans('commands.chain.messages.missing-inline-placeholders'),
-                implode(', ', array_keys($missingInlinePlaceHolders))
-              )
+                sprintf(
+                    $this->trans('commands.chain.messages.missing-inline-placeholders'),
+                    implode(', ', array_keys($missingInlinePlaceHolders))
+                )
             );
 
             $io->info($this->trans('commands.chain.messages.set-inline-placeholders'));

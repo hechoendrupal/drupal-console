@@ -21,4 +21,6 @@ services:
   redbean:
     class: RedBeanPHP\R
     lazy: true
-
+  file_util:
+    class: Drupal\Console\Utils\File
+    lazy: true
