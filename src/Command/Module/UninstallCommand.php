@@ -82,16 +82,15 @@ class UninstallCommand extends ContainerAwareCommand
             // Error if there are missing dependencies
             if (!empty($dependents)) {
                 $io->error(
-                  sprintf(
-                    $this->trans('commands.module.uninstall.messages.dependents'),
-                    implode(', ', $modules),
-                    implode(', ', $dependents)
-                  )
+                    sprintf(
+                        $this->trans('commands.module.uninstall.messages.dependents'),
+                        implode(', ', $modules),
+                        implode(', ', $dependents)
+                    )
                 );
 
                 return true;
             }
-
         }
 
         // Installing modules

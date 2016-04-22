@@ -15,12 +15,16 @@ use Symfony\Component\Finder\Finder;
  */
 trait ChainFilesTrait
 {
-    protected function getChainFiles()
+    private function getChainFiles($onlyFiles = false)
     {
         $config = $this->getApplication()->getConfig();
+
         $directories = [
-        $config->getUserHomeDir() . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
+            $config->getUserHomeDir() . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
+            $this->getSite()->getSiteRoot() . DIRECTORY_SEPARATOR . 'console'. DIRECTORY_SEPARATOR .'chain',
+            $this->getSite()->getSiteRoot() . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
         ];
+
 
         if ($this->getDrupalHelper()->isInstalled()) {
             $modules = $this->getSite()->getModules(false, true, false, false, true);
@@ -49,17 +53,60 @@ trait ChainFilesTrait
             }
         }
 
-        $files = [];
+        $chainFiles = [];
         foreach ($directories as $directory) {
+            if (!is_dir($directory)) {
+                continue;
+            }
             $finder = new Finder();
             $finder->files()
                 ->name('*.yml')
                 ->in($directory);
             foreach ($finder as $file) {
-                $files[$file->getPath()][] = $file->getBasename();
+                $chainFiles[$file->getPath()][] = sprintf(
+                    '%s/%s',
+                    $directory,
+                    $file->getBasename()
+                );
             }
         }
 
-        return $files;
+        if ($onlyFiles) {
+            $files = [];
+            foreach ($chainFiles as $chainDirectory => $chainFileList) {
+                $files = array_merge($files, $chainFileList);
+            }
+            return $files;
+        }
+
+        return $chainFiles;
+    }
+
+    private function extractPlaceHolders($chainContent, $identifier)
+    {
+        $placeHolders = [];
+        $regex = '/\\'.$identifier.'{{(.*?)}}/';
+        preg_match_all(
+            $regex,
+            $chainContent,
+            $placeHolders
+        );
+
+        if (!$placeHolders) {
+            return [];
+        }
+
+        return array_unique($placeHolders[1]);
+    }
+
+    private function extractInlinePlaceHolders($chainContent)
+    {
+        //        return $this->extractPlaceHolders($chainContent, '/\%{{(.*?)}}/');
+        return $this->extractPlaceHolders($chainContent, '%');
+    }
+
+    private function extractEnvironmentPlaceHolders($chainContent)
+    {
+        return $this->extractPlaceHolders($chainContent, '$');
     }
 }

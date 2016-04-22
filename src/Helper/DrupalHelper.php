@@ -263,15 +263,16 @@ class DrupalHelper extends Helper
      */
     public function getProfiles()
     {
-        $yamlParser = new Parser();
+        $yamlParser = $this->getContainerHelper()->get('parser');
+        $finder = $this->getContainerHelper()->get('finder');
 
-        $finder = new Finder();
         $finder->files()
             ->name('*.info.yml')
-            ->in($this->root . '/core/profiles/*/')
+            ->in($this->root . '/core/profiles/')
+            ->in($this->root . '/profiles/')
             ->contains('type: profile')
             ->notContains('hidden: true')
-            ->depth('== 0');
+            ->depth('1');
 
         $profiles = [];
         foreach ($finder as $file) {
