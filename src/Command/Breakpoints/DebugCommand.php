@@ -42,7 +42,7 @@ class DebugCommand extends ContainerAwareCommand
             $this->getAllBreakpoints($io);
         }
         else {
-            $this->getBreakpointsnByName($io, $groupName);
+            $this->getBreakpointByName($io, $groupName);
         }
     }
 
@@ -51,7 +51,7 @@ class DebugCommand extends ContainerAwareCommand
      */
     private function getAllBreakpoints(DrupalStyle $io)
     {
-        $breakpointsManager = $this->getService('breakpoint.manager');
+        $breakpointsManager = $this->getBreakpointManager();
         $groups =  array_keys($breakpointsManager->getGroups());
 
         $tableHeader = [
@@ -71,9 +71,9 @@ class DebugCommand extends ContainerAwareCommand
      * @param $io             DrupalStyle
      * @param $groupName    String
      */
-    private function getBreakpointsnByName(DrupalStyle $io, $groupName)
+    private function getBreakpointByName(DrupalStyle $io, $groupName)
     {
-        $breakpointsManager = $this->getService('breakpoint.manager');
+        $breakpointsManager = $this->getBreakpointManager();
         $groups = $breakpointsManager->getBreakpointsByGroup($groupName);
 
         $breakPointNames = array_keys($groups);
