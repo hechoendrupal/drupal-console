@@ -173,6 +173,14 @@ abstract class ContainerAwareCommand extends Command
     }
 
     /**
+     * @return \Drupal\breakpoint\BreakpointManager.
+     */
+    public function getBreakpointManager()
+    {
+        return $this->getService('breakpoint.manager');
+    }
+
+    /**
      * @return \Drupal\Core\Config\ConfigFactoryInterface
      */
     public function getConfigFactory()
