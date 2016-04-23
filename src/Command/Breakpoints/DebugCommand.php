@@ -62,8 +62,6 @@ class DebugCommand extends ContainerAwareCommand
         foreach ($groups as $groupName) {
             $tableRows[] = [$groupName];
         }
-
-        $io->comment($tableRows);
         $io->table($tableHeader, $tableRows, 'compact');
     }
 
