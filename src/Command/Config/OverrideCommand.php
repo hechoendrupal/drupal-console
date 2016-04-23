@@ -38,7 +38,7 @@ class OverrideCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
         $name = $input->getArgument('name');
         if (!$name) {
-            $configFactory = $this->getService('config.factory');
+            $configFactory = $this->getConfigFactory();
             $names = $configFactory->listAll();
             $name = $io->choiceNoList(
                 $this->trans('commands.config.override.questions.name'),
