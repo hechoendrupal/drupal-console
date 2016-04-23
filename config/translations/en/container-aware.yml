@@ -1,0 +1,4 @@
+errors:
+  module-exist: 'Module "%s" already exist.'
+  machine-name:
+    duplicated: 'Machine name "%s" is duplicated.'

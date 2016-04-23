@@ -454,7 +454,7 @@ abstract class ContainerAwareCommand extends Command
         $machine_name = $this->validateMachineName($machine_name);
         $modules = $this->getSite()->getModules(false, true, true, true, true, true);
         if (in_array($machine_name, $modules)) {
-            throw new \InvalidArgumentException(sprintf('Module "%s" already exist.', $machine_name));
+            throw new \InvalidArgumentException(sprintf('commands.container-aware.errors.module-exist', $machine_name));
         }
 
         return $machine_name;
@@ -480,7 +480,7 @@ abstract class ContainerAwareCommand extends Command
         $machine_name = $this->getValidator()->validateMachineName($machine_name);
 
         if ($this->getEntityManager()->hasDefinition($machine_name)) {
-            throw new \InvalidArgumentException(sprintf('Machine name "%s" is duplicated.', $machine_name));
+            throw new \InvalidArgumentException(sprintf('commands.container-aware.errors.machine-name.duplicated', $machine_name));
         }
 
         return $machine_name;
