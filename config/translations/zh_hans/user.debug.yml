@@ -6,7 +6,7 @@ options:
     limit: 指定显示的用户数量
 questions:
     roles: 选择用于过滤用户的角色(s)
-    limit: '输入想显示的用户数量'
+    limit: 输入想显示的用户数量
 messages:
     user-id: '用户 ID'
     username: 用户名
