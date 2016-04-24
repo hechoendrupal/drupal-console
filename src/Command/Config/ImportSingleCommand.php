@@ -90,12 +90,12 @@ class ImportSingleCommand extends ContainerAwareCommand
             );
             $input->setArgument('name', $name);
         }
-            $file = $input->getArgument('file');
-            if (!$file) {
-                $file = $io->ask(
-                    $this->trans('commands.config.import.single.questions.file')
-                );
-                $input->setArgument('file', $file);
-            }
+        $file = $input->getArgument('file');
+        if (!$file) {
+            $file = $io->ask(
+                $this->trans('commands.config.import.single.questions.file')
+            );
+            $input->setArgument('file', $file);
+        }
     }
 }
