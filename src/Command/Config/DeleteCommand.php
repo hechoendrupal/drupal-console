@@ -22,9 +22,8 @@ class DeleteCommand extends ContainerAwareCommand
         $this
             ->setName('config:delete')
             ->setDescription($this->trans('commands.config.delete.description'))
-            ->addArgument(
+            ->addOption(
                 'name',
-                InputArgument::OPTIONAL,
                 $this->trans('commands.config.delete.arguments.name')
             );
     }
@@ -35,15 +34,15 @@ class DeleteCommand extends ContainerAwareCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $name = $input->getArgument('name');
+          $name = $input->getOption('name');
         if (!$name) {
-            $configFactory = $this->getService('config.factory');
+            $configFactory = $this->getConfigFactory();
             $names = $configFactory->listAll();
             $name = $io->choiceNoList(
                 $this->trans('commands.config.delete.arguments.name'),
                 $names
             );
-            $input->setArgument('name', $name);
+            $input->setOption('name', $name);
         }
     }
 
@@ -53,19 +52,19 @@ class DeleteCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $configFactory = $this->getService('config.factory');
-        $name = $input->getArgument('name');
+        $configFactory = $this->getConfigFactory();
+        $name = $input->getOption('name');
         if (!$name) {
-            $io->error($this->trans('commands.config.delete.messages.enter-name'));
+            $io->error($this->trans('commands.config.delete.messages.name'));
 
             return 1;
         }
 
-        $configStorage = $this->getService('config.storage');
+        $configStorage = $this->getConfigStorage();
         if (!$configStorage->exists($name)) {
             $io->error(
                 sprintf(
-                    $this->trans('commands.config.delete.messages.config-not-exists'),
+                    $this->trans('commands.config.delete.messages.not-exists'),
                     $name
                 )
             );
