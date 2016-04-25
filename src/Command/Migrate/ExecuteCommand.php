@@ -268,7 +268,7 @@ class ExecuteCommand extends ContainerAwareCommand
             $migrations = array_keys($this->getMigrations($version_tag));
         }
 
-        $entity_manager = $this->getEntityManager();
+        $entity_manager = $this->entityTypeManager();
         $migration_storage = $entity_manager->getStorage('migration');
         if (count($migrations) == 0) {
             $io->error($this->trans('commands.migrate.execute.messages.no-migrations'));

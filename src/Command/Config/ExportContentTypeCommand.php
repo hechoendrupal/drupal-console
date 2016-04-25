@@ -65,7 +65,7 @@ class ExportContentTypeCommand extends ContainerAwareCommand
         // --content-type argument
         $contentType = $input->getArgument('content-type');
         if (!$contentType) {
-            $entity_manager = $this->getEntityManager();
+            $entity_manager = $this->entityTypeManager();
             $bundles_entities = $entity_manager->getStorage('node_type')->loadMultiple();
             $bundles = array();
             foreach ($bundles_entities as $entity) {
@@ -96,7 +96,7 @@ class ExportContentTypeCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $this->entity_manager = $this->getEntityManager();
+        $this->entity_manager = $this->entityTypeManager();
         $this->configStorage = $this->getConfigStorage();
 
         $module = $input->getOption('module');

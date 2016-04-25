@@ -50,7 +50,7 @@ class DebugCommand extends ContainerAwareCommand
         $roles = $input->getOption('roles');
         $limit = $input->getOption('limit');
 
-        $entityManager = $this->getEntityManager();
+        $entityManager = $this->entityTypeManager();
         $userStorage = $entityManager->getStorage('user');
         $systemRoles = $this->getDrupalApi()->getRoles();
 

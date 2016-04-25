@@ -81,7 +81,7 @@ class DebugCommand extends ContainerAwareCommand
      */
     private function viewDetail(DrupalStyle $io, $view_id)
     {
-        $entity_manager = $this->getEntityManager();
+        $entity_manager = $this->entityTypeManager();
         $view = $entity_manager->getStorage('view')->load($view_id);
 
         if (empty($view)) {

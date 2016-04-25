@@ -44,7 +44,7 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getMigrations($tag = false, $flatList = false)
     {
-        $entity_manager = $this->getEntityManager();
+        $entity_manager = $this->entityTypeManager();
         $migration_storage = $entity_manager->getStorage('migration');
 
         $entity_query_service = $this->getEntityQuery();
@@ -479,7 +479,7 @@ abstract class ContainerAwareCommand extends Command
     {
         $machine_name = $this->getValidator()->validateMachineName($machine_name);
 
-        if ($this->getEntityManager()->hasDefinition($machine_name)) {
+        if ($this->entityTypeManager()->hasDefinition($machine_name)) {
             throw new \InvalidArgumentException(sprintf('Machine name "%s" is duplicated.', $machine_name));
         }
 
@@ -498,7 +498,7 @@ abstract class ContainerAwareCommand extends Command
 
     public function generateEntity($entity_definition, $entity_type)
     {
-        $entity_manager = $this->getEntityManager();
+        $entity_manager = $this->entityTypeManager();
         $entity_storage = $entity_manager->getStorage($entity_type);
         $entity = $entity_storage->createFromStorageRecord($entity_definition);
 
@@ -507,7 +507,7 @@ abstract class ContainerAwareCommand extends Command
 
     public function updateEntity($entity_id, $entity_type, $entity_definition)
     {
-        $entity_manager = $this->getEntityManager();
+        $entity_manager = $this->entityTypeManager();
         $entity_storage = $entity_manager->getStorage($entity_type);
         $entity = $entity_storage->load($entity_id);
         $entity_updated = $entity_storage->updateFromStorageRecord($entity, $entity_definition);

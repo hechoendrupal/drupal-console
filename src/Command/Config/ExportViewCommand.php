@@ -71,7 +71,7 @@ class ExportViewCommand extends ContainerAwareCommand
         // view-id argument
         $viewId = $input->getArgument('view-id');
         if (!$viewId) {
-            $entityManager = $this->getEntityManager();
+            $entityManager = $this->entityTypeManager();
             $views = $entityManager->getStorage('view')->loadMultiple();
 
             $viewList = [];
@@ -109,7 +109,7 @@ class ExportViewCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $this->entityManager = $this->getEntityManager();
+        $this->entityManager = $this->entityTypeManager();
         $this->configStorage = $this->getConfigStorage();
 
         $module = $input->getOption('module');
