@@ -13,11 +13,13 @@ use Symfony\Component\Console\Input\InputOption;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
 
-class GenerateDocDataCommand extends ContainerAwareCommand {
+class GenerateDocDataCommand extends ContainerAwareCommand
+{
     /**
      * {@inheritdoc}
      */
-    protected function configure() {
+    protected function configure()
+    {
         $this
             ->setName('generate:doc:data')
             ->setDescription(
@@ -25,16 +27,18 @@ class GenerateDocDataCommand extends ContainerAwareCommand {
             )
             ->addOption(
                 'file',
-                NULL,
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.doc.data.options.file')
-            );;
+            );
+        ;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output) {
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         $io = new DrupalStyle($input, $output);
         $file = null;
         if ($input->hasOption('file')) {

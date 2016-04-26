@@ -358,7 +358,8 @@ class Application extends BaseApplication
         }
     }
 
-    public function getData() {
+    public function getData()
+    {
         $singleCommands = [
             'about',
             'chain',
@@ -437,7 +438,8 @@ class Application extends BaseApplication
         return $data;
     }
 
-    private function commandData($commandName) {
+    private function commandData($commandName)
+    {
         $command = $this->find($commandName);
 
         $input = $command->getDefinition();
@@ -477,8 +479,7 @@ class Application extends BaseApplication
                     'description' => $this->trans($description),
                     'execution' => $this->trans($execution)
                 ];
-            }
-            else {
+            } else {
                 break;
             }
         }

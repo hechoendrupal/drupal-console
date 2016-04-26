@@ -63,7 +63,7 @@ class GenerateDocGitbookCommand extends ContainerAwareCommand
                     'gitbook' . DIRECTORY_SEPARATOR . 'command.md.twig',
                     $path . DIRECTORY_SEPARATOR . 'commands' . DIRECTORY_SEPARATOR . $command['dashed'] . '.md',
                     $command,
-                    NULL,
+                    null,
                     $renderer
                 );
             }
