@@ -358,6 +358,154 @@ class Application extends BaseApplication
         }
     }
 
+    public function getData() {
+        $singleCommands = [
+            'about',
+            'chain',
+            'check',
+            'help',
+            'init',
+            'list',
+            'self-update',
+            'server'
+        ];
+        $languages = $this->getConfig()->get('application.languages');
+
+        $data = [];
+        foreach ($singleCommands as $singleCommand) {
+            $data['commands']['none'][] = $this->commandData($singleCommand);
+        }
+
+        $namespaces = array_filter(
+            $this->getNamespaces(), function ($item) {
+                return (strpos($item, ':')<=0);
+            }
+        );
+        sort($namespaces);
+        array_unshift($namespaces, 'none');
+
+        foreach ($namespaces as $namespace) {
+            $commands = $this->all($namespace);
+            usort(
+                $commands, function ($cmd1, $cmd2) {
+                    return strcmp($cmd1->getName(), $cmd2->getName());
+                }
+            );
+            foreach ($commands as $command) {
+                if ($command->getModule()=='Console') {
+                    $data['commands'][$namespace][] = $this->commandData($command->getName());
+                }
+            }
+        }
+
+        $input = $this->getDefinition();
+        $options = [];
+        foreach ($input->getOptions() as $option) {
+            $options[] = [
+                'name' => $option->getName(),
+                'description' => $this->trans('application.options.'.$option->getName())
+            ];
+        }
+        $arguments = [];
+        foreach ($input->getArguments() as $argument) {
+            $arguments[] = [
+                'name' => $argument->getName(),
+                'description' => $this->trans('application.arguments.'.$argument->getName())
+            ];
+        }
+
+        $data['application'] = [
+            'namespaces' => $namespaces,
+            'options' => $options,
+            'arguments' => $arguments,
+            'languages' => $languages,
+            'messages' => [
+                'title' =>  $this->trans('commands.generate.doc.gitbook.messages.title'),
+                'note' =>  $this->trans('commands.generate.doc.gitbook.messages.note'),
+                'note_description' =>  $this->trans('commands.generate.doc.gitbook.messages.note-description'),
+                'command' =>  $this->trans('commands.generate.doc.gitbook.messages.command'),
+                'options' => $this->trans('commands.generate.doc.gitbook.messages.options'),
+                'option' => $this->trans('commands.generate.doc.gitbook.messages.option'),
+                'details' => $this->trans('commands.generate.doc.gitbook.messages.details'),
+                'arguments' => $this->trans('commands.generate.doc.gitbook.messages.arguments'),
+                'argument' => $this->trans('commands.generate.doc.gitbook.messages.argument'),
+                'examples' => $this->trans('commands.generate.doc.gitbook.messages.examples')
+            ],
+            'examples' => []
+        ];
+
+        return $data;
+    }
+
+    private function commandData($commandName) {
+        $command = $this->find($commandName);
+
+        $input = $command->getDefinition();
+        $options = [];
+        foreach ($input->getOptions() as $option) {
+            $options[$option->getName()] = [
+                'name' => $option->getName(),
+                'description' => $option->getDescription(),
+            ];
+        }
+
+        $arguments = [];
+        foreach ($input->getArguments() as $argument) {
+            $arguments[$argument->getName()] = [
+                'name' => $argument->getName(),
+                'description' => $argument->getDescription(),
+            ];
+        }
+
+        $commandKey = str_replace(':', '.', $command->getName());
+
+        $examples = [];
+        for ($i = 0; $i < 5; $i++) {
+            $description = sprintf(
+                'commands.%s.examples.%s.description',
+                $commandKey,
+                $i
+            );
+            $execution = sprintf(
+                'commands.%s.examples.%s.execution',
+                $commandKey,
+                $i
+            );
+
+            if ($description != $this->trans($description)) {
+                $examples[] = [
+                    'description' => $this->trans($description),
+                    'execution' => $this->trans($execution)
+                ];
+            }
+            else {
+                break;
+            }
+        }
+
+        $data = [
+            'name' => $command->getName(),
+            'description' => $command->getDescription(),
+            'options' => $options,
+            'arguments' => $arguments,
+            'examples' => $examples,
+            'aliases' => $command->getAliases(),
+            'key' => $commandKey,
+            'dashed' => str_replace(':', '-', $command->getName()),
+            'messages' => [
+                'usage' =>  $this->trans('commands.generate.doc.gitbook.messages.usage'),
+                'options' => $this->trans('commands.generate.doc.gitbook.messages.options'),
+                'option' => $this->trans('commands.generate.doc.gitbook.messages.option'),
+                'details' => $this->trans('commands.generate.doc.gitbook.messages.details'),
+                'arguments' => $this->trans('commands.generate.doc.gitbook.messages.arguments'),
+                'argument' => $this->trans('commands.generate.doc.gitbook.messages.argument'),
+                'examples' => $this->trans('commands.generate.doc.gitbook.messages.examples')
+            ],
+        ];
+
+        return $data;
+    }
+
     /**
      * @param $command
      * @return array|null
