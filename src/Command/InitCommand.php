@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Settings/InitCommand.
+ * Contains \Drupal\Console\Command\InitCommand.
  */
 
-namespace Drupal\Console\Command\Settings;
+namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -24,15 +24,14 @@ class InitCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('settings:init')
-            ->setDescription($this->trans('commands.settings.init.description'))
+            ->setName('init')
+            ->setDescription($this->trans('commands.init.description'))
             ->addOption(
                 'override',
                 null,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.settings.init.options.override')
-            )
-            ->setAliases(['init']);
+                $this->trans('commands.init.options.override')
+            );
     }
 
     /**
