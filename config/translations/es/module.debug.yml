@@ -10,4 +10,5 @@ messages:
     package: 'Paquete'
     enabled: 'Habilitado'
     disabled: 'Deshabilitado'
+    version: 'Versión'
     schema-version: 'Versión del esquema'
