@@ -22,8 +22,9 @@ class DeleteCommand extends ContainerAwareCommand
         $this
             ->setName('config:delete')
             ->setDescription($this->trans('commands.config.delete.description'))
-            ->addOption(
+            ->addArgument(
                 'name',
+                InputArgument::OPTIONAL,
                 $this->trans('commands.config.delete.arguments.name')
             );
     }
@@ -34,15 +35,15 @@ class DeleteCommand extends ContainerAwareCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-          $name = $input->getOption('name');
+        $name = $input->getArgument('name');
         if (!$name) {
-            $configFactory = $this->getConfigFactory();
+            $configFactory = $this->getService('config.factory');
             $names = $configFactory->listAll();
             $name = $io->choiceNoList(
                 $this->trans('commands.config.delete.arguments.name'),
                 $names
             );
-            $input->setOption('name', $name);
+            $input->setArgument('name', $name);
         }
     }
 
@@ -52,15 +53,15 @@ class DeleteCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $configFactory = $this->getConfigFactory();
-        $name = $input->getOption('name');
+        $configFactory = $this->getService('config.factory');
+        $name = $input->getArgument('name');
         if (!$name) {
             $io->error($this->trans('commands.config.delete.messages.name'));
 
             return 1;
         }
 
-        $configStorage = $this->getConfigStorage();
+        $configStorage = $this->getService('config.storage');
         if (!$configStorage->exists($name)) {
             $io->error(
                 sprintf(
