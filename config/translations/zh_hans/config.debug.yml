@@ -1,4 +1,4 @@
-description: 显示当前配置
+description: '显示当前配置'
 arguments:
     name: '配置名称'
 errors:

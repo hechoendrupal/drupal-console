@@ -1,6 +1,6 @@
-description: 删除配置
+description: '删除配置'
 arguments:
-    name: 配置名称
+    name: '配置名称'
 messages:
     name: '配置名称必须包含值'
     not-exists: '配置 "%s" 不存在'
