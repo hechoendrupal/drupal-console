@@ -60,21 +60,21 @@ class {{ class_name }} extends CKEditorPluginBase {% endblock %}
   /**
    * {@inheritdoc}
    */
-  function isInternal() {
+  public function isInternal() {
     return FALSE;
   }
 
   /**
    * {@inheritdoc}
    */
-  function getDependencies(Editor $editor) {
+  public function getDependencies(Editor $editor) {
     return array();
   }
 
   /**
    * {@inheritdoc}
    */
-  function getLibraries(Editor $editor) {
+  public function getLibraries(Editor $editor) {
     return array();
   }
 

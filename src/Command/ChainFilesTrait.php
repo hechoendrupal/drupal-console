@@ -25,7 +25,6 @@ trait ChainFilesTrait
             $this->getSite()->getSiteRoot() . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
         ];
 
-
         if ($this->getDrupalHelper()->isInstalled()) {
             $modules = $this->getSite()->getModules(false, true, false, false, true);
             $themes = $this->getSite()->getThemes(false, true, false);

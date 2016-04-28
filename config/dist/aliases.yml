@@ -88,6 +88,8 @@ application:
           gitbook:
             aliases:
               - gdg
+          cheatsheet:
+              - gdc
         entity:
           bundle:
             aliases:
