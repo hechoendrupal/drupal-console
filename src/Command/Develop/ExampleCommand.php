@@ -5,7 +5,7 @@
  * Contains \Drupal\Console\Develop\Example.
  */
 
-namespace Drupal\Console\Develop\Example;
+namespace Drupal\Console\Develop;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -34,7 +34,10 @@ class ExampleCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // $io = new DrupalStyle($input, $output);
+        /**
+         *  $io = new DrupalStyle($input, $output);
+         *  $this->getService('entity_type.manager');
+         */
     }
 
 }
