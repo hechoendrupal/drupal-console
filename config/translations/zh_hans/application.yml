@@ -1,7 +1,7 @@
 options:
     env: 环境名称
     no-debug: 禁用调试
-    learning: '生成详细的代码输出用于学习'
+    learning: 生成详细的代码输出用于学习
     generate-chain: '以 YAML 格式显示命令执行时的选项和参数，用于链式执行一组命令'
     generate-inline: 将命令执行时的选项和参数显示成一行，以便后续使用
     generate-doc: '显示命令选项和参数为 markdown 格式'
@@ -16,7 +16,7 @@ options:
     ansi: '强制 ANSI 输出'
     no-ansi: '禁用 ANSI 输出'
     no-interaction: 非交互式
-    check-fix: '尝试修复任何缺失配置'
+    check-fix: 尝试修复任何缺失配置
 arguments:
     command: 要执行的命令
 messages:
@@ -25,7 +25,7 @@ messages:
         generated: '刚刚执行的命令，以 YAML 格式表示，如下：（可以将其添加到文件中作为链式命令的一部分。如添加到： ~/.console/chain/sample.yml）'
     inline:
         generated: 刚刚执行的命令，表示成一行命令，如下：（可以拷贝它，用于再次执行）
-    generated: '代码生成完毕！'
+    generated: 代码生成完毕！
     files:
         generated: 生成或更新文件
         copied: 已复制文件

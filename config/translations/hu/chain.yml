@@ -7,3 +7,7 @@ messages:
     missing_file: 'Meg kell adni egy érvényes fájlútvonalat és nevet.'
     invalid_file: '"%s" nevű fájl nem létezik.'
     module_install: 'A module:install parancs nem futtatható láncolt sorban, azt külön kell futtatni.'
+    missing-environment-placeholders: 'Missing environment placeholder(s) %s'
+    set-environment-placeholders: 'Set environment placeholders as:'
+    missing-inline-placeholders: 'Missing inline placeholder(s) %s'
+    set-inline-placeholders: 'Pass inline placeholders as:'

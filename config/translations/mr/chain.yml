@@ -7,3 +7,7 @@ messages:
     missing_file: 'आपण एक वैध फाइल पथ आणि नाव प्रदान करणे आवश्यक आहे.'
     invalid_file: 'फाइल "%s" अस्तित्वात नाही.'
     module_install: 'module:install आदेश साखळी रांग आता runnable नाही आहे आणि स्वतंत्रपणे चालविणे आवश्यक आहे.'
+    missing-environment-placeholders: 'Missing environment placeholder(s) %s'
+    set-environment-placeholders: 'Set environment placeholders as:'
+    missing-inline-placeholders: 'Missing inline placeholder(s) %s'
+    set-inline-placeholders: 'Pass inline placeholders as:'
