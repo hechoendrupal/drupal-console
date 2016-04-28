@@ -1,0 +1,131 @@
+commands:
+  - command: settings:set
+    arguments:
+      setting-name: language
+      setting-value: ca
+  - command: generate:doc:data
+    options:
+      file: '%{{data_path}}/ca.json'
+  - command: settings:set
+    arguments:
+      setting-name: language
+      setting-value: en
+  - command: generate:doc:data
+    options:
+      file: '%{{data_path}}/en.json'
+  - command: settings:set
+    arguments:
+      setting-name: language
+      setting-value: es
+  - command: generate:doc:data
+    options:
+      file: '%{{data_path}}/es.json'
+  - command: settings:set
+    arguments:
+      setting-name: language
+      setting-value: fr
+  - command: generate:doc:data
+    options:
+      file: '%{{data_path}}/fr.json'
+  - command: settings:set
+    arguments:
+      setting-name: language
+      setting-value: gu
+  - command: generate:doc:data
+    options:
+      file: '%{{data_path}}/gu.json'
+  - command: settings:set
+    arguments:
+      setting-name: language
+      setting-value: hi
+  - command: generate:doc:data
+    options:
+      file: '%{{data_path}}/hi.json'
+  - command: settings:set
+    arguments:
+      setting-name: language
+      setting-value: hu
+  - command: generate:doc:data
+    options:
+      file: '%{{data_path}}/hu.json'
+  - command: settings:set
+    arguments:
+      setting-name: language
+      setting-value: id
+  - command: generate:doc:data
+    options:
+      file: '%{{data_path}}/id.json'
+  - command: settings:set
+    arguments:
+      setting-name: language
+      setting-value: ja
+  - command: generate:doc:data
+    options:
+      file: '%{{data_path}}/ja.json'
+  - command: settings:set
+    arguments:
+      setting-name: language
+      setting-value: ko
+  - command: generate:doc:data
+    options:
+      file: '%{{data_path}}/ko.json'
+  - command: settings:set
+    arguments:
+      setting-name: language
+      setting-value: mr
+  - command: generate:doc:data
+    options:
+      file: '%{{data_path}}/mr.json'
+  - command: settings:set
+    arguments:
+      setting-name: language
+      setting-value: pa
+  - command: generate:doc:data
+    options:
+      file: '%{{data_path}}/pa.json'
+  - command: settings:set
+    arguments:
+      setting-name: language
+      setting-value: pt_br
+  - command: generate:doc:data
+    options:
+      file: '%{{data_path}}/pt_br.json'
+  - command: settings:set
+    arguments:
+      setting-name: language
+      setting-value: ro
+  - command: generate:doc:data
+    options:
+      file: '%{{data_path}}/ro.json'
+  - command: settings:set
+    arguments:
+      setting-name: language
+      setting-value: ru
+  - command: generate:doc:data
+    options:
+      file: '%{{data_path}}/ru.json'
+  - command: settings:set
+    arguments:
+      setting-name: language
+      setting-value: tl
+  - command: generate:doc:data
+    options:
+      file: '%{{data_path}}/tl.json'
+  - command: settings:set
+    arguments:
+      setting-name: language
+      setting-value: vn
+  - command: generate:doc:data
+    options:
+      file: '%{{data_path}}/vn.json'
+  - command: settings:set
+    arguments:
+      setting-name: language
+      setting-value: zh_hans
+  - command: generate:doc:data
+    options:
+      file: '%{{data_path}}/zh_hans.json'
+  - command: settings:set
+    arguments:
+      setting-name: language
+      setting-value: en

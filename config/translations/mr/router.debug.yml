@@ -4,7 +4,7 @@ arguments:
 messages:
     name: 'मार्ग नावे'
     class: 'क्लास मार्ग'
-    route: 'मार्ग'
-    path: 'मार्ग'
-    defaults: 'मुलभूत'
-    options: 'पर्याय'
+    route: मार्ग
+    path: मार्ग
+    defaults: मुलभूत
+    options: पर्याय

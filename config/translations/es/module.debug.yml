@@ -3,11 +3,12 @@ options:
     status: 'Estado del módulo [habilitado|deshabilitado]'
     type: 'Tipo de módulo [core|no-core]'
 messages:
-    id: ID
-    name: Nombre
-    status: Estado
-    origin: Origen
-    package: Paquete
-    enabled: Habilitado
-    disabled: Deshabilitado
+    id: 'ID'
+    name: 'Nombre'
+    status: 'Estado'
+    origin: 'Origen'
+    package: 'Paquete'
+    enabled: 'Habilitado'
+    disabled: 'Deshabilitado'
+    version: 'Versión'
     schema-version: 'Versión del esquema'

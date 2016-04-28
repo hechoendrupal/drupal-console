@@ -7,3 +7,7 @@ messages:
     missing_file: 'Bạn phải cung cấp một file với đường dẫn và tên hợp lệ'
     invalid_file: 'File "%s" không tồn tại'
     module_install: 'câu lệnh là không thể chạy bên trong một chuỗi hàng đợi và phải được thực thi ngay lập tức'
+    missing-environment-placeholders: 'Missing environment placeholder(s) %s'
+    set-environment-placeholders: 'Set environment placeholders as:'
+    missing-inline-placeholders: 'Missing inline placeholder(s) %s'
+    set-inline-placeholders: 'Pass inline placeholders as:'
