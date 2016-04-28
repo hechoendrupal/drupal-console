@@ -1,0 +1,5 @@
+options:
+  name: 'Enter Libraries Name'
+messages:
+   name: 'Extension with Libraries'
+   info: 'Libraries Information'
