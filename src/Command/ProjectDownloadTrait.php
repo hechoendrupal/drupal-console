@@ -43,7 +43,7 @@ trait ProjectDownloadTrait
         return $moduleList;
     }
 
-    private function downloadModules(DrupalStyle $io, $modules, $latest, $resultList = [])
+    private function downloadModules(DrupalStyle $io, $modules, $latest, $path, $resultList = [])
     {
         if (!$resultList) {
             $resultList = [
@@ -68,7 +68,7 @@ trait ProjectDownloadTrait
             foreach ($missingModules as $missingModule) {
                 $version = $this->releasesQuestion($io, $missingModule, $latest);
                 if ($version) {
-                    $this->downloadProject($io, $missingModule, $version, 'module');
+                    $this->downloadProject($io, $missingModule, $version, $path, 'module');
                 } else {
                     $invalidModules[] = $missingModule;
                     unset($modules[array_search($missingModule, $modules)]);
@@ -91,7 +91,7 @@ trait ProjectDownloadTrait
             return $resultList;
         }
 
-        return $this->downloadModules($io, $dependencies, $latest, $resultList);
+        return $this->downloadModules($io, $dependencies, $latest, $path, $resultList);
     }
 
     protected function calculateDependencies($modules)
@@ -125,7 +125,7 @@ trait ProjectDownloadTrait
      * @param $type
      * @return string
      */
-    public function downloadProject(DrupalStyle $io, $project, $version, $type)
+    public function downloadProject(DrupalStyle $io, $project, $version, $path = 0, $type)
     {
         $commandKey = str_replace(':', '.', $this->getName());
 
@@ -143,11 +143,14 @@ trait ProjectDownloadTrait
                 $version
             );
 
+            if (empty($path)) {
+              $path = $this->getExtractPath($type);
+            }
             $drupal = $this->getDrupalHelper();
             $projectPath = sprintf(
                 '%s/%s',
                 $drupal->isValidInstance()?$drupal->getRoot():getcwd(),
-                $this->getExtractPath($type)
+                $path
             );
 
             if (!file_exists($projectPath)) {
@@ -233,12 +236,14 @@ trait ProjectDownloadTrait
     private function getExtractPath($type)
     {
         switch ($type) {
-        case 'module':
-            return 'modules/contrib';
-        case 'theme':
-            return 'themes';
-        case 'core':
-            return '';
+            case 'module':
+                return 'modules/contrib';
+            case 'theme':
+                return 'themes';
+            case 'profile':
+                return 'profiles';
+            case 'core':
+                return '';
         }
     }
 }
