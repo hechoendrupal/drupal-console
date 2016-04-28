@@ -21,20 +21,20 @@ questions:
         label: 'इनपुट लेबल'
         machine_name: 'इनपुट मशीन नाव'
         permission: 'आपण परवानगी निर्माण करू इच्छित आहे का ?'
-        type: 'प्रकार'
+        type: प्रकार
         invalid: 'फिल्ड प्रकार "%s" अवैध आहे.'
-        description: 'वर्णन'
+        description: वर्णन
         default-value: 'डिफॉल्ट मूल्य'
         weight: 'इनपुट आयटमचे वजन'
-        title: 'शीर्षक'
-        fieldset: 'फिल्डसेट'
+        title: शीर्षक
+        fieldset: फिल्डसेट
 errors:
     module-dependency: 'गहाळ घटक अवलंबन "%s" स्थापित केले नाही. module:install स्थापित करून पहा.'
     class-name-empty: 'वर्ग नाव रिकामे असू शकत नाही'
     invalid-file-path: 'आपण एक वैध फाइल पथ पुरविणे आवश्यक आहे'
 status:
-    enabled: 'सक्षम'
-    disabled: 'अक्षम'
+    enabled: सक्षम
+    disabled: अक्षम
 messages:
     canceled: 'निर्मिती रद्द करण्यात आली'
     drupal-core: 'ड्रुपल कोर'

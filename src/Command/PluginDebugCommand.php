@@ -24,10 +24,10 @@ class PluginDebugCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this->setName('plugin:debug')
-          ->setDescription($this->trans('commands.plugin.debug.description'))
-          ->setHelp($this->trans('commands.plugin.debug.help'))
-          ->addArgument('type', InputArgument::OPTIONAL, $this->trans('commands.plugin.debug.arguments.type'))
-          ->addArgument('id', InputArgument::OPTIONAL, $this->trans('commands.plugin.debug.arguments.id'));
+            ->setDescription($this->trans('commands.plugin.debug.description'))
+            ->setHelp($this->trans('commands.plugin.debug.help'))
+            ->addArgument('type', InputArgument::OPTIONAL, $this->trans('commands.plugin.debug.arguments.type'))
+            ->addArgument('id', InputArgument::OPTIONAL, $this->trans('commands.plugin.debug.arguments.id'));
     }
 
     /**
@@ -57,17 +57,18 @@ class PluginDebugCommand extends ContainerAwareCommand
             }
             ksort($tableRows);
             $io->table($tableHeader, array_values($tableRows));
-            return TRUE;
+            return true;
         }
 
         $service = $this->getService('plugin.manager.' . $pluginType);
         if (!$service) {
             $io->error(
-              sprintf(
-                $this->trans('commands.plugin.debug.errors.plugin-type-not-found'),
-                $pluginType)
+                sprintf(
+                    $this->trans('commands.plugin.debug.errors.plugin-type-not-found'),
+                    $pluginType
+                )
             );
-            return FALSE;
+            return false;
         }
 
         // Valid plugin type specified, no ID specified, show list of instances.
@@ -84,7 +85,7 @@ class PluginDebugCommand extends ContainerAwareCommand
             }
             ksort($tableRows);
             $io->table($tableHeader, array_values($tableRows));
-            return TRUE;
+            return true;
         }
 
         // Valid plugin type specified, ID specified, show the definition.
@@ -97,17 +98,15 @@ class PluginDebugCommand extends ContainerAwareCommand
         foreach ($definition as $key => $value) {
             if (is_object($value) && method_exists($value, '__toString')) {
                 $value = (string) $value;
-            }
-            elseif (is_array($value) || is_object($value)) {
-                $value = var_export($value, TRUE);
-            }
-            elseif (is_bool($value)) {
+            } elseif (is_array($value) || is_object($value)) {
+                $value = var_export($value, true);
+            } elseif (is_bool($value)) {
                 $value = ($value) ? 'TRUE' : 'FALSE';
             }
             $tableRows[$key] = [$key, $value];
         }
         ksort($tableRows);
         $io->table($tableHeader, array_values($tableRows));
-        return TRUE;
+        return true;
     }
 }

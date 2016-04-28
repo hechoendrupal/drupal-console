@@ -317,13 +317,13 @@ class ModuleCommand extends GeneratorCommand
         $featuresBundle = $input->getOption('features-bundle');
         if (!$featuresBundle) {
             $featuresSupport = $io->confirm(
-              $this->trans('commands.generate.module.questions.features-support'),
-              false
+                $this->trans('commands.generate.module.questions.features-support'),
+                false
             );
             if ($featuresSupport) {
                 $featuresBundle = $io->ask(
-                  $this->trans('commands.generate.module.questions.features-bundle'),
-                  'default'
+                    $this->trans('commands.generate.module.questions.features-bundle'),
+                    'default'
                 );
             }
             $input->setOption('features-bundle', $featuresBundle);

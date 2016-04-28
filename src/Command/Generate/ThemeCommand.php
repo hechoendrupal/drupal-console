@@ -241,6 +241,8 @@ class ThemeCommand extends GeneratorCommand
         if (!$base_theme) {
             $themeHandler = $this->getThemeHandler();
             $themes = $themeHandler->rebuildThemeData();
+            $themes['false'] ='';
+
             uasort($themes, 'system_sort_modules_by_info_name');
 
             $base_theme = $io->choiceNoList(

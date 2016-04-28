@@ -41,6 +41,7 @@ class {{ class }} implements AuthenticationProviderInterface {% endblock %}
 {% endblock %}
 
 {% block class_construct %}
+
   /**
    * Constructs a HTTP basic authentication provider object.
    *
@@ -59,6 +60,7 @@ class {{ class }} implements AuthenticationProviderInterface {% endblock %}
 {% endblock %}
 
 {% block class_methods %}
+
   /**
    * Checks whether suitable authentication credentials are on the request.
    *
@@ -74,6 +76,7 @@ class {{ class }} implements AuthenticationProviderInterface {% endblock %}
     // you will get out from Drupal navigation if you are logged in.
     return FALSE;
   }
+
   /**
    * {@inheritdoc}
    */
@@ -87,10 +90,12 @@ class {{ class }} implements AuthenticationProviderInterface {% endblock %}
       throw new AccessDeniedHttpException();
     }
   }
+
   /**
    * {@inheritdoc}
    */
   public function cleanup(Request $request) {}
+
   /**
    * {@inheritdoc}
    */

@@ -4,15 +4,15 @@ welcome: '欢迎使用 Drupal 区块插件生成器'
 options:
     module: common.options.module
     class: 插件类名
-    label: '插件标签'
+    label: 插件标签
     plugin-id: '插件 ID'
     inputs: common.options.inputs
     services: common.options.services
     theme-region: 呈现插件区块的主题区域
 questions:
     module: common.questions.module
-    class: '输入插件类名'
-    label: '输入插件标签'
+    class: 输入插件类名
+    label: 输入插件标签
     plugin-id: '输入插件 ID'
     inputs: common.questions.inputs
     services: common.questions.services

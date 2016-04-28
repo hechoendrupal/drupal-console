@@ -84,11 +84,11 @@ class ModuleGenerator extends Generator
 
         if (!empty($featuresBundle)) {
             $this->renderFile(
-              'module/features.yml.twig',
-              $dir.'/'.$machineName.'.features.yml',
-              array(
+                'module/features.yml.twig',
+                $dir.'/'.$machineName.'.features.yml',
+                array(
                 'bundle' => $featuresBundle,
-              )
+                )
             );
         }
 
