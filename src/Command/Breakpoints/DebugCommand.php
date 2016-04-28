@@ -74,7 +74,7 @@ class DebugCommand extends ContainerAwareCommand
      */
     private function getBreakpointByName($group)
     {
-            $breakpointsManager = \Drupal::service('breakpoint.manager');
+            $breakpointsManager = $this->getService('breakpoint.manager');
             $typeExtension = implode(',', array_values($breakpointsManager->getGroupProviders($group)));
 
             if($typeExtension == 'theme'){
