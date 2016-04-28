@@ -13,10 +13,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Component\Serialization\Yaml;
-
+use Drupal\Console\Helper\HelperTrait;
 
 class DebugCommand extends ContainerAwareCommand
 {
+   use HelperTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -28,7 +30,7 @@ class DebugCommand extends ContainerAwareCommand
             ->addArgument(
                 'group',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.libraries.debug.options.group')
+                $this->trans('commands.libraries.debug.options.name')
             );
     }
 
@@ -63,13 +65,13 @@ class DebugCommand extends ContainerAwareCommand
 
     private function getAllLibraries()
     {
-        $modules = \Drupal::moduleHandler()->getModuleList();
-        $themes = \Drupal::service('theme_handler')->rebuildThemeData();
-        
-        $extensions = array_merge($modules, $themes);
-        $libraryDiscovery = \Drupal::service('library.discovery');
+        $modules = $this->getService('module_handler')->getModuleList();
+        $themes = $this->getService('theme_handler')->rebuildThemeData();
 
-        $root = \Drupal::root();
+        $extensions = array_merge($modules, $themes);
+        $libraryDiscovery = $this->getService('library.discovery');
+        $drupal = $this->getDrupalHelper();
+        $root = $drupal->getRoot();
         foreach ($extensions as $extension_name => $extension) {
             $library_file = $extension->getPath() . '/' . $extension_name . '.libraries.yml';
             if (is_file($root . '/' . $library_file)) {
@@ -85,7 +87,7 @@ class DebugCommand extends ContainerAwareCommand
      */
     private function getLibraryByName($group)
     {
-        $libraryDiscovery = \Drupal::service('library.discovery');
+        $libraryDiscovery = $this->getService('library.discovery');
         $library = $libraryDiscovery->getLibrariesByExtension($group);
         return  $library;
     }

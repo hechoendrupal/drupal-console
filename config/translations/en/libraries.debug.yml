@@ -1,3 +1,4 @@
+description: 'Displays libraries available in application'
 options:
   name: 'Enter Libraries Name'
 messages:
