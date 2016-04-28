@@ -7,3 +7,7 @@ messages:
     missing_file: '必须提供一个 YAML 格式文件，这个文件包含着一组可以被链式执行的命令'
     invalid_file: '文件"%s"不存在.'
     module_install: 'module:install 命令不能通过链式的方式执行，必须单独运行'
+    missing-environment-placeholders: 'Missing environment placeholder(s) %s'
+    set-environment-placeholders: 'Set environment placeholders as:'
+    missing-inline-placeholders: 'Missing inline placeholder(s) %s'
+    set-inline-placeholders: 'Pass inline placeholders as:'

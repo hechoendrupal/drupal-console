@@ -1,0 +1,18 @@
+description: 'Generate a printable cheatsheet for Commands'
+options:
+    path: 'The path to generate the pdf for the documentation'
+    wkhtmltopdf: 'The path for the wkhtmltopdf binary in your system'
+messages:
+    missing_path: 'The path is missing'
+    title: 'Drupal Console Cheatsheet'
+    note: Note
+    note-description: 'Drupal Console commands *must* be run from the root of a Drupal 8 installation'
+    command: 'Drupal Console Command'
+    command_description: 'The **%s** command %s'
+    usage: Usage
+    options: 'Available options'
+    option: Option
+    details: Details
+    arguments: 'Available arguments'
+    argument: Argument
+    examples: Examples

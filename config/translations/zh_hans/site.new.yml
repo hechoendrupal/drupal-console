@@ -4,7 +4,7 @@ arguments:
     version: 下载特定的Drupal版本
     site-name: 站名
 messages:
-    select-release: '选择内核版本'
+    select-release: 选择内核版本
     getting-releases: 取得Drupal发布的版本
     downloading: '下载Drupal %s'
     extracting: '解压缩Drupal %s文件'
@@ -13,4 +13,4 @@ messages:
     error-copying: 重命名目录%s时出错
     release: 请选择一个版本
 questions:
-    directory: '输入下载Drupal的目录'
+    directory: 输入下载Drupal的目录
