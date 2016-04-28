@@ -12,6 +12,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Component\Serialization\Yaml;
+
 
 class DebugCommand extends ContainerAwareCommand
 {
@@ -24,7 +26,7 @@ class DebugCommand extends ContainerAwareCommand
             ->setName('breakpoints:debug')
             ->setDescription($this->trans('commands.breakpoints.debug.description'))
             ->addArgument(
-                'group-name',
+                'group',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.breakpoints.debug.options.group-name')
             );
@@ -37,56 +39,51 @@ class DebugCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $groupName = $input->getArgument('group-name');
-        if (!$groupName) {
-            $this->getAllBreakpoints($io);
+        $group = $input->getArgument('group');
+        if (!$group) {
+            $groups = $this->getAllBreakpoints();
+
+            $tableHeader = [
+                $this->trans('commands.breakpoints.debug.messages.name'),
+            ];
+
+            $io->table($tableHeader, $groups, 'compact');
         }
         else {
-            $this->getBreakpointByName($io, $groupName);
+            $breakPointData = $this->getBreakpointByName($group);
+
+            foreach ($breakPointData as $key => $breakPoint ) {
+                $io->comment($key);
+                $io->writeln(Yaml::encode($breakPoint));
+
+            }
+
         }
     }
 
-    /**
-     * @param $io         DrupalStyle
-     */
-    private function getAllBreakpoints(DrupalStyle $io)
+    private function getAllBreakpoints()
     {
-        $breakpointsManager = $this->getBreakpointManager();
+        $breakpointsManager = $this->getService('breakpoint.manager');
         $groups =  array_keys($breakpointsManager->getGroups());
-
-        $tableHeader = [
-            $this->trans('commands.breakpoints.debug.messages.name'),
-        ];
-
-        $tableRows = [];
-        foreach ($groups as $groupName) {
-            $tableRows[] = [$groupName];
-        }
-        $io->table($tableHeader, $tableRows, 'compact');
+        
+        return $groups;
     }
 
     /**
-     * @param $io             DrupalStyle
-     * @param $groupName    String
+     * @param $group    String
      */
-    private function getBreakpointByName(DrupalStyle $io, $groupName)
+    private function getBreakpointByName($group)
     {
-        $breakpointsManager = $this->getBreakpointManager();
-        $groups = $breakpointsManager->getBreakpointsByGroup($groupName);
+            $breakpointsManager = \Drupal::service('breakpoint.manager');
+            $typeExtension = implode(',', array_values($breakpointsManager->getGroupProviders($group)));
 
-        $breakPointNames = array_keys($groups);
+            if($typeExtension == 'theme'){
+                $projectPath = drupal_get_path('theme', $group);
+            }
+            if($typeExtension == 'module'){
+                $projectPath = drupal_get_path('module', $group);
+            }
 
-        $tableHeader = [
-            $this->trans('commands.breakpoints.debug.messages.name'),
-            '<info>'.$groupName.'</info>'
-        ];
-
-        $tableRows = [];
-        foreach ($breakPointNames as $breakPointName) {
-            $tableRows[] = [$breakPointName];
-        }
-
-        $io->table($tableHeader,$tableRows , 'compact');
-
+            return  Yaml::decode(file_get_contents($projectPath . '/' .  $group . '.breakpoints.yml'));
     }
 }
