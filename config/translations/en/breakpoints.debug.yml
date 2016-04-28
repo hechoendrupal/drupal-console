@@ -1,3 +1,4 @@
+description: 'Displays breakpoints available in application'
 options:
   group-name: 'Enter Breakpoint Group Name'
 messages:
