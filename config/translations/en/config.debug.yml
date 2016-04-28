@@ -1,5 +1,5 @@
 description: 'Show the current configuration.'
 arguments:
-    config-name: 'Configuration name.'
+    name: 'Configuration name.'
 errors:
-    config-not-exists: 'The configuration "%s" does not exists.'
+    not-exists: 'The configuration "%s" does not exists.'

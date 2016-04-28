@@ -1,5 +1,5 @@
 description: 'Afișează configurarea curentă.'
 arguments:
-    config-name: 'Numele configurării.'
+    name: 'Numele configurării.'
 errors:
-    config-not-exists: 'The configuration "%s" does not exists.'
+    not-exists: 'The configuration "%s" does not exists.'
