@@ -27,7 +27,6 @@ class ExampleCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-
     }
 
     /**
@@ -62,5 +61,4 @@ class ExampleCommand extends ContainerAwareCommand
          *  $input->getOption('OPTION_NAME');
          */
     }
-
 }
