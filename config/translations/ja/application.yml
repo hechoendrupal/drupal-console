@@ -39,7 +39,7 @@ site:
     messages:
         path: 'Site path'
     errors:
-        directory: '実行可能なコマンドを全て表示するためには、Drupalのルートディレクトリ内に移動する必要があります。'
+        directory: 実行可能なコマンドを全て表示するためには、Drupalのルートディレクトリ内に移動する必要があります。
         settings: 'In order to list all of the available commands you should install drupal first.'
 user:
     messages:

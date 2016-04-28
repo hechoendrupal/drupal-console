@@ -1,6 +1,6 @@
 description: 下载模块
 arguments:
-    module: '要启用的模块之间用空格隔开'
+    module: 要启用的模块之间用空格隔开
 options:
     latest: 缺省下载最新版本
     version: 模块版本，例如：1.x-dev

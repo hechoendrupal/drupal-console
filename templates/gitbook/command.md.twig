@@ -1,9 +1,9 @@
-# {{ command }}
-{{ messages.command_description }}
+# {{ name }}
+{{ description }}
 
 **{{ messages.usage }}:**
 ```
-$ drupal {{ command }} {% if arguments|length>0 %}[arguments] {% endif %}{% if options|length>0 %}[options] {% endif %}
+$ drupal {{ name }}{% if arguments|length>0 %} [arguments]{% endif %}{% if options|length>0 %} [options]{% endif %}
 
 {% for alias in aliases %}
 $ {{ alias }}  

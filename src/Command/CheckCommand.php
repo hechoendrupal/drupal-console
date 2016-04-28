@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Settings\CheckCommand.
+ * Contains \Drupal\Console\Command\CheckCommand.
  */
 
-namespace Drupal\Console\Command\Settings;
+namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,7 +14,7 @@ use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class CheckCommand
- * @package Drupal\Console\Command\Settings
+ * @package Drupal\Console\Command
  */
 class CheckCommand extends Command
 {
@@ -24,9 +24,8 @@ class CheckCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('settings:check')
-            ->setDescription($this->trans('commands.settings.check.description'))
-            ->setAliases(['check']);
+            ->setName('check')
+            ->setDescription($this->trans('commands.check.description'));
     }
 
     /**
@@ -49,7 +48,7 @@ class CheckCommand extends Command
         if (!$checks['php']['valid']) {
             $io->error(
                 sprintf(
-                    $this->trans('commands.settings.check.messages.php_invalid'),
+                    $this->trans('commands.check.messages.php_invalid'),
                     $checks['php']['current'],
                     $checks['php']['required']
                 )
@@ -60,7 +59,7 @@ class CheckCommand extends Command
             foreach ($extensions as $extension) {
                 $io->error(
                     sprintf(
-                        $this->trans('commands.settings.check.messages.extension_missing'),
+                        $this->trans('commands.check.messages.extension_missing'),
                         $extension
                     )
                 );
@@ -72,7 +71,7 @@ class CheckCommand extends Command
                 $io->commentBlock(
                     sprintf(
                         $this->trans(
-                            'commands.settings.check.messages.extension_recommended'
+                            'commands.check.messages.extension_recommended'
                         ),
                         $extension
                     )
@@ -84,7 +83,7 @@ class CheckCommand extends Command
             foreach ($configurations as $configuration) {
                 $io->error(
                     sprintf(
-                        $this->trans('commands.settings.check.messages.configuration_missing'),
+                        $this->trans('commands.check.messages.configuration_missing'),
                         $configuration
                     )
                 );
@@ -96,7 +95,7 @@ class CheckCommand extends Command
                 $io->commentBlock(
                     sprintf(
                         $this->trans(
-                            'commands.settings.check.messages.configuration_overwritten'
+                            'commands.check.messages.configuration_overwritten'
                         ),
                         $configuration,
                         $overwritten
@@ -107,7 +106,7 @@ class CheckCommand extends Command
 
         if ($requirementChecker->isValid() && !$requirementChecker->isOverwritten()) {
             $io->success(
-                $this->trans('commands.settings.check.messages.success')
+                $this->trans('commands.check.messages.success')
             );
             $this->getChain()->addCommand(
                 'settings:set',

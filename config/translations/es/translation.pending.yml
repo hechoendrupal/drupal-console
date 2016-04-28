@@ -8,5 +8,5 @@ messages:
     language: Idioma
     pending-translations: 'Traducción pendiente del %s en el fichero %s'
     missing-file: 'El idioma %s no tiene el archivo %s, intentando ejecutar el comando translation:sync'
-    success-language: 'Hay traducciones pendientes de %s para %s'
+    success-language: 'Hay %s traducciones pendientes de %s para %s'
     success-language-file: 'Hay %s traducciones pendientes de %s en el fichero %s'

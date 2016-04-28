@@ -56,7 +56,7 @@ class DeleteCommand extends ContainerAwareCommand
         $configFactory = $this->getService('config.factory');
         $name = $input->getArgument('name');
         if (!$name) {
-            $io->error($this->trans('commands.config.delete.messages.enter-name'));
+            $io->error($this->trans('commands.config.delete.messages.name'));
 
             return 1;
         }
@@ -65,7 +65,7 @@ class DeleteCommand extends ContainerAwareCommand
         if (!$configStorage->exists($name)) {
             $io->error(
                 sprintf(
-                    $this->trans('commands.config.delete.messages.config-not-exists'),
+                    $this->trans('commands.config.delete.messages.not-exists'),
                     $name
                 )
             );
