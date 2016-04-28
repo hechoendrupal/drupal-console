@@ -123,9 +123,11 @@ trait ProjectDownloadTrait
      * @param $project
      * @param $version
      * @param $type
+     * @param $path
+     *
      * @return string
      */
-    public function downloadProject(DrupalStyle $io, $project, $version, $path = 0, $type)
+    public function downloadProject(DrupalStyle $io, $project, $version, $type, $path = null)
     {
         $commandKey = str_replace(':', '.', $this->getName());
 
@@ -143,9 +145,10 @@ trait ProjectDownloadTrait
                 $version
             );
 
-            if (empty($path)) {
-              $path = $this->getExtractPath($type);
+            if (!$path) {
+                $path = $this->getExtractPath($type);
             }
+
             $drupal = $this->getDrupalHelper();
             $projectPath = sprintf(
                 '%s/%s',
@@ -236,14 +239,14 @@ trait ProjectDownloadTrait
     private function getExtractPath($type)
     {
         switch ($type) {
-            case 'module':
-                return 'modules/contrib';
-            case 'theme':
-                return 'themes';
-            case 'profile':
-                return 'profiles';
-            case 'core':
-                return '';
+        case 'module':
+            return 'modules/contrib';
+        case 'theme':
+            return 'themes';
+        case 'profile':
+            return 'profiles';
+        case 'core':
+            return '';
         }
     }
 }
