@@ -1,0 +1,7 @@
+description: 'Liệt kê tất cả các multisites đang có sẵn trong hệ thống'
+help: 'Lệnh <info>multisite:debug</info> liệt kê tất cả multi sites đã được biết đến.'
+messages:
+    no-multisites: 'Không có multisites nào đã được cấu hình'
+    site: Site
+    directory: Directory
+    site-format: 'Sites được viết bằng cách dùng định dạng: <port>.<domain>.<path>'

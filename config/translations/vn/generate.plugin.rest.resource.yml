@@ -1,19 +1,19 @@
-description: 'Generate plugin rest resource'
-help: 'The <info>generate:plugin:rest:resource</info> command helps you generate a new rest resource.'
-welcome: 'Welcome to the Drupal Plugin Rest Resource generator'
+description: 'Tạo plugin rest resource'
+help: 'Câu lệnh <info>generate:plugin:rest:resource</info> giúp bạn tạo một rest resource mới.'
+welcome: 'Chào mừng đến với Drupal Plugin Rest Resource'
 options:
     module: common.options.module
-    class-name: 'Plugin Rest Resource class'
+    class: 'Lớp plugin rest resource'
     plugin-id: 'Plugin Rest Resource id'
-    plugin-label: 'Plugin Rest Resource Label'
+    plugin-label: 'Nhãn Plugin Rest Resource'
     plugin-url: 'Plugin Rest Resource URL'
-    plugin-states: 'Plugin Rest Resource States'
+    plugin-states: 'Tình trạng Plugin Rest Resource'
 questions:
     module: common.questions.module
-    class-name: 'Enter the plugin rest resource name'
-    plugin-id: 'Enter the plugin rest resource id'
-    plugin-label: 'Enter the plugin rest resource label'
-    plugin-url: 'Enter the plugin rest resource url'
-    plugin-states: 'Please select what REST States implement in your resource (GET is selected by default)'
+    class: 'Nhập tên plugin rest resource'
+    plugin-id: 'Nhập plugin rest resource'
+    plugin-label: 'Nhập nhãn plugin rest resource'
+    plugin-url: 'Nhập plugin rest resource url'
+    plugin-states: 'Xin vui lòng lựa chọn trạng thái thực thi REST trong tài nguyên của bạn (GET là chọn lựa mặc định)'
 messages:
-    selected-states: 'States selected'
+    selected-states: 'Trạng thái đã được chọn'

@@ -7,62 +7,48 @@
 
 namespace Drupal\Console\Command;
 
-use Symfony\Component\Console\Helper\HelperInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Style\DrupalStyle;
 
 trait ThemeRegionTrait
 {
     /**
-   * @param OutputInterface $output
-   * @param HelperInterface $dialog
+   * @param DrupalStyle $io
    *
    * @return mixed
    */
-    public function regionQuestion(OutputInterface $output, HelperInterface $dialog)
+    public function regionQuestion(DrupalStyle $io)
     {
         $stringUtils = $this->getStringHelper();
         $validators = $this->getValidator();
 
         $regions = [];
         while (true) {
-            $region_name = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.theme.questions.region-name'),
-                    'Content'
-                ),
+            $regionName = $io->ask(
+                $this->trans('commands.generate.theme.questions.region-name'),
                 'Content'
             );
 
-            $region_machine_name = $stringUtils->createMachineName($region_name);
-            $region_machine_name = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.theme.questions.region-machine-name'), $region_machine_name),
-                function ($region_machine_name) use ($validators) {
-                    return $validators->validateMachineName($region_machine_name);
-                },
-                false,
-                $region_machine_name,
-                null
+            $regionMachineName = $stringUtils->createMachineName($regionName);
+            $regionMachineName = $io->ask(
+                $this->trans('commands.generate.theme.questions.region-machine-name'),
+                $regionMachineName,
+                function ($regionMachineName) use ($validators) {
+                    return $validators->validateMachineName($regionMachineName);
+                }
             );
 
             array_push(
-                $regions, array(
-                'region_name' => $region_name,
-                'region_machine_name' => $region_machine_name,
-                )
+                $regions,
+                [
+                    'region_name' => $regionName,
+                    'region_machine_name' => $regionMachineName,
+                ]
             );
 
-            if (!$dialog->askConfirmation(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.theme.questions.region-add'),
-                    'yes',
-                    '?'
-                ),
+            if (!$io->confirm(
+                $this->trans('commands.generate.theme.questions.region-add'),
                 true
-            )
-            ) {
+            )) {
                 break;
             }
         }

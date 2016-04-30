@@ -1,16 +1,16 @@
 value:
-    description: 'Update a value for a specific key in a YAML file.'
+    description: 'A YAML-fájl adott kulcsához tartozó érték frissítése.'
     arguments:
-        yaml-file: 'Path of YAML file to update'
-        yaml-key: 'YAML key to update'
-        yaml-value: 'YAML value to update'
+        yaml-file: 'Frissítendő YAML-fájl útvonala'
+        yaml-key: 'Frissítendő YAML-kulcs'
+        yaml-value: 'Frissítendő YAML-érték'
     messages:
-        updated: 'YAML file %s was updated successfully'
+        updated: 'Sikeresen frissült a következő YAML-fájl: %s.'
 key:
-    description: 'Replace a YAML key in a YAML file.'
+    description: 'YAML-kulcs lecserélése egy YAML-fájlban.'
     arguments:
-        yaml-file: 'Path of YAML file to update'
-        yaml-key: 'YAML key to be replace'
-        yaml-new-key: 'YAML new key'
+        yaml-file: 'Frissítendő YAML-fájl útvonala'
+        yaml-key: 'Lecserélendő YAML-kulcs'
+        yaml-new-key: 'Új YAML-kulcs'
     messages:
-        updated: 'YAML file %s was updated successfully'
+        updated: 'Sikeresen frissült a következő YAML-fájl: %s.'

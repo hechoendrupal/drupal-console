@@ -1,0 +1,27 @@
+description: 当前Drupal安装状态
+messages:
+    application: 应用程序
+    system: 系统信息
+    hash_salt: 哈希盐
+    console: 控制台版本
+    database: 数据库连接
+    driver: 驱动器
+    host: 服务器
+    port: 端口
+    username: 用户名
+    password: 密码
+    theme: 显示主题
+    connection: 连接
+    theme_default: 预选主题
+    theme_admin: 管理员主题
+    directory: 目录
+    directory_root: 网站根目录
+    directory_temporary: 网站临时目录
+    directory_theme_default: 网站主题目录
+    directory_theme_admin: 管理员主题目录
+    current_version: 当前Drupal版本(%s)
+    not_installed: 未安装Drupal
+    not_available: 不可用，没有
+    configuration: 配置
+    active: 有效配置路径
+    staging: 中间站（Staging）配置路径

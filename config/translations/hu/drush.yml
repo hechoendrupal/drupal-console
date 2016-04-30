@@ -1,6 +1,0 @@
-description: 'drush futtatása console-ból.'
-help: 'Interaktív mód a felhasználói élmény fokozásáért --shell.'
-arguments:
-    args: 'Drush argumentumok.'
-messages:
-    not_found: 'Drush parancs nem található.'

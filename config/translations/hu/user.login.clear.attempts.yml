@@ -1,12 +1,12 @@
-description: 'Clear login failed attempts for an account.'
-help: 'The <info>user:login:clear:attempts</info> reset login failed attempts for an account.'
+description: 'Egy fiók sikertelen bejelentkezési kísérleteinek törlése.'
+help: 'A <info>user:login:clear:attempts</info> parancs visszaállítja egy fiók sikertelen bejelentkezési kísérleteit.'
 options:
-    user-id: 'User ID.'
+    user-id: 'Felhasználói azonosító.'
 questions:
-    uid: 'Enter User ID.'
-    numeric-uid: 'User id must be an integer.'
-    invalid-uid: 'User id must be upper than zero.'
+    uid: 'Felhasználói azonosító megadása.'
+    numeric-uid: 'A felhasználói azonosítónak egész számnak kell lennie.'
+    invalid-uid: 'A felhasználói azonosítónak nullánál nagyobb számnak kell lennie.'
 messages:
-    successful: 'Login attempts was clean sucessfully for user id %s.'
+    successful: 'Sikerült %s felhasználói azonosító bejelentkezési kísérleteinek törlése.'
 errors:
-    invalid-user: 'Cannot load user entity (Uid: %s).'
+    invalid-user: 'A felhasználó entitás nem tölthető be (Uid: %s).'

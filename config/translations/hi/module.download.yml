@@ -1,11 +1,14 @@
-description: 'Download module or modules in application'
+description: 'मोड्यूल या मोड्यूलो को डाउनलोड करें'
+arguments:
+    module: 'मॉड्यूल या मॉड्यूलस सक्षम होने के लिए एक स्पेस से सेपरेट किया जाना चाहिए'
 options:
-    version: 'Module version i.e 1.x-dev'
+    latest: 'डिफ़ॉल्ट नवीनतम संस्करण डाउनलोड करने के लिए'
+    version: 'मोड्यूल संस्करण अथवा 1.x-dev'
 messages:
-    no-releases: 'There aren''t any releases for module %s'
-    getting-releases: 'Getting releases for module %s'
-    downloading: 'Downloading module %s release %s'
-    downloaded: 'Module %s version %s was downloaded successfully at %s'
-    select-release: 'Please select your favorite release'
-    outside-drupal: "Drupal root can't be determined. Use --root to set the destination, current folder will be used instead of."
-    error-creating-folder: 'Error crearing folder %s, please check your permssions'
+    no-releases: 'मॉड्यूल %s के लिए कोई रिलीस उपलब्ध नहीं है|'
+    getting-releases: 'मॉड्यूल %s के लिए रिलीस लाया जा रहा है|'
+    downloading: 'मोड्यूल %s प्रकाशन %s डाउनलोड हो रहा है'
+    downloaded: 'मोड्यूल %s संस्करण %s सफलतापूर्वक %s में डाउनलोड हो गया है'
+    select-release: 'अपने पसंदीदा रिलीस का चयन करें'
+    outside-drupal: 'Drupal रुट निर्धारित नहीं किया जा सकता| डेस्टिनेशन सेट करने के लिए --root का प्रयोग करें, नहीं तो वर्तमान फ़ोल्डर इस्तेमाल किया जाएगा|'
+    error-creating-folder: '%s फोल्डर बनाने मे एरर| अनुमतियाँ जाँच करें|'

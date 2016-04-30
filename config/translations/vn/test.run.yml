@@ -1,20 +1,22 @@
-description: 'Run Test unit from tests available for application'
+description: 'Chạy đơn vị thử nghiệm từ các thử nghiệm có sẵn cho ứng dụng'
 arguments:
-    test-class: 'Test Class'
+    test-class: 'Lớp thử nghiệm'
+    test-methods: 'Test method(s) to be run'
 messages:
-    missing-dependency: 'Test can''t be executed due a missing dependency'
-    phpunit-pending: 'Logic to execute PHPUnit test is not implemented yet.'
-    starting-test: 'Starting test'
-    test-duration: 'Test duration'
-    test-pass: 'Test passes'
-    test-fail: 'Test fails'
-    test-exception: 'Test exceptions'
-    test-debug: 'Test debugs'
-    url-required: 'URL option is required to run test'
-    test-summary: 'Test Summary'
-    group: Group
-    status: Status
+    missing-dependency: 'Thử nghiệm không thể thực hiện vì thiếu phần phụ thuộc'
+    phpunit-pending: 'Logic để thực hiện thử nghiệm PHPUnit chưa được triển khai.'
+    starting-test: 'Đang bắt đầu thử nghiệm'
+    test-duration: 'Thời gian thử nghiệm'
+    test-pass: 'Thử nghiệm đã thông qua'
+    test-fail: 'Thử nghiệm thất bại'
+    test-exception: 'Thử nghiệm các ngoại lệ'
+    test-debug: 'Thử nghiệm phần chỉnh lỗi'
+    url-required: 'Yêu cầu lựa chọn URL để chạy thử nghiệm'
+    test-summary: 'Kiểm tra tóm tắt'
+    group: Nhóm
+    status: 'Trạng thái'
     file: File
-    method: Method
-    line: Line
-    message: Message
+    method: 'Phương thức'
+    line: Dòng
+    message: 'Tin nhắn'
+    invalid-class: 'Testing class %s doesn''t exists'

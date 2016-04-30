@@ -1,0 +1,4 @@
+description: 'Lista las secuencias de comandos disponibles.'
+messages:
+    directory: Directorio
+    file: 'Nombre de archivo que contiene la secuencia.'

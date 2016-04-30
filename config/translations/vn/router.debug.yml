@@ -1,9 +1,10 @@
-description: 'Displays current routes for the application'
+description: 'Hiển thị các định tuyến hiện tại của ứng dụng'
 arguments:
-    route-name: 'Route names'
+    route-name: 'Các tên của định tuyến'
 messages:
-    name: 'Route name'
-    path: 'Class path'
-    pattern: Pattern
+    name: 'Tên định tuyến'
+    class: 'Class path'
+    route: Route
+    path: Path
     defaults: Defaults
     options: Options

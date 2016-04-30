@@ -1,0 +1,18 @@
+description: 显示网站当前视图资源
+arguments:
+    view-id: 视图ID
+    view-tag: 视图标签
+    view-status: 视图状态(已启用|已禁用)
+messages:
+    view-id: 视图ID
+    view-name: 视图名字
+    description: 简介
+    tag: 标签
+    status: 状态
+    path: 路径
+    not-found: 没找到视图%s.
+    display-list: 显示列表
+    display-id: ID
+    display-name: 名字
+    display-description: 简介
+    display-paths: 路径

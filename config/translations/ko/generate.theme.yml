@@ -1,0 +1,40 @@
+description: '테마를 생성합니다.'
+help: '<info>generate:theme</info> 명령어는 새로운 테마를 생성합니다.'
+welcome: '드루팔 테마 생성기에 오신 것을 환영합니다.'
+options:
+    theme: 테마명
+    machine-name: '기계명 (소문자와 밑줄만)'
+    theme-path: '테마 경로'
+    description: '테마 설명'
+    core: '코어 버전'
+    package: '테마 패키지'
+    composer: 'composer.json 파일 추가'
+    base-theme: '베이스 테마 (예를 들어 classy, stable)'
+    global-library: '전역 스타일링 라이브러리 이름'
+    regions: 지역
+    breakpoints: 분절점
+questions:
+    theme: '새로운 테마명을 입력하세요'
+    machine-name: '테마 기계명을 입력하세요'
+    theme-path: '테마 경로를 입력하세요'
+    description: '테마 설명을 입력하세요'
+    core: '드루팔 코어 버전을 입력하세요'
+    package: '패키지명을 입력하세요'
+    dependencies: 'Would you like to add module dependencies'
+    invalid-theme: 'Invalid %s theme was selected'
+    global-library: 'Enter the global styling library name'
+    regions: 'Do you want to generate the theme regions'
+    region-name: 'Enter region name'
+    region-machine-name: 'Enter region machine name'
+    region-add: 'Do you want to add another region'
+    breakpoints: 'Do you want to generate the theme breakpoints'
+    breakpoint-name: 'Enter breakpoint name'
+    breakpoint-label: 'Enter breakpoint label'
+    breakpoint-media-query: 'Enter breakpoint media query'
+    breakpoint-weight: 'Enter breakpoint weight'
+    breakpoint-multipliers: 'Enter breakpoint multipliers'
+    breakpoint-add: 'Do you want to add another breakpoint'
+warnings:
+    module-unavailable: 'Warning The following modules are not already available in your local environment "%s"'
+errors:
+    directory-exists: 'The target directory "%s" is not empty.'

@@ -1,0 +1,16 @@
+description: 'Canviar la configuració de rendiment del sistema'
+arguments:
+    environment: 'Nom de l''entorn [dev, prod]'
+messages:
+    configuration: 'Nom de la configuració'
+    configuration-key: 'Clau de la configuració'
+    original: 'Valor original'
+    updated: 'Substituir valor'
+    invalid-env: 'L''entorn no és vàlid'
+    new-services-settings: 'Configuració del nou servei'
+    service: Servei
+    service-parameter: Paràmetre
+    service-value: Valor
+    error-copying-file: 'S''ha produït un error durant la còpia del fitxer'
+    error-writing-file: 'S''ha produït un error durant la còpia del fitxer'
+    services-file-overwritten: 'S''ha sobreescrit el fitxer de serveis %s'

@@ -1,0 +1,5 @@
+description: 配置文件调试
+help: '<info>config:settings:debug</info>命令帮助显示当前的配置文件里的当前的键：值'
+welcome: 欢迎使用Drupal调试配置命令
+messages:
+    current: '配置文件里的当前 Key:Value'

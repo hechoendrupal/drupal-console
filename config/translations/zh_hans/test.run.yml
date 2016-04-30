@@ -1,0 +1,22 @@
+description: 运行这个程序有的测试单元
+arguments:
+    test-class: 测试类
+    test-methods: 'Test method(s) to be run'
+messages:
+    missing-dependency: 由于所需的其他程序找不到，没法测试
+    phpunit-pending: 执行PHPUnit测试的逻辑还没有.
+    starting-test: 开始测试
+    test-duration: 测试时间段
+    test-pass: 测试成功
+    test-fail: 测试失败
+    test-exception: 测试特殊出错状况
+    test-debug: 测试调试
+    url-required: 测试所需的URL选项
+    test-summary: 测试总结
+    group: 组
+    status: 状态
+    file: 文件
+    method: 方法
+    line: 行（线）
+    message: 消息
+    invalid-class: 测试类%s不存在

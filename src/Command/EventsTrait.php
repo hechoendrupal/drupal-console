@@ -7,34 +7,32 @@
 
 namespace Drupal\Console\Command;
 
-use Symfony\Component\Console\Helper\HelperInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class EventsTrait
+ * @package Drupal\Console\Command
+ */
 trait EventsTrait
 {
     /**
-     * @param OutputInterface $output
-     * @param HelperInterface $dialog
+     * @param DrupalStyle $io
      *
      * @return mixed
      */
-    public function eventsQuestion(OutputInterface $output, HelperInterface $dialog)
+    public function eventsQuestion(DrupalStyle $io)
     {
         $eventCollection = [];
-        $output->writeln($this->trans('commands.common.questions.events.message'));
+        $io->info($this->trans('commands.common.questions.events.message'));
 
         $events = $this->getEvents();
 
         while (true) {
-            $event = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion($this->trans('commands.common.questions.events.name'), ''),
-                function ($event) use ($events) {
-                    return $this->validateServiceExist($event, $events);
-                },
-                false,
+            $event = $io->choiceNoList(
+                $this->trans('commands.common.questions.events.name'),
+                $events,
                 null,
-                $events
+                true
             );
 
             if (empty($event)) {
@@ -42,9 +40,8 @@ trait EventsTrait
             }
 
             $callbackSuggestion = str_replace('.', '_', $event);
-            $callback = $dialog->ask(
-                $output,
-                $dialog->getQuestion($this->trans('commands.generate.event.subscriber.questions.callback-name'), $callbackSuggestion),
+            $callback = $io->ask(
+                $this->trans('commands.generate.event.subscriber.questions.callback-name'),
                 $callbackSuggestion
             );
 

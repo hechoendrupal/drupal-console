@@ -1,0 +1,4 @@
+description: 'Habilitar les vistes'
+messages:
+    enabled-successfully: 'La vista %s s''ha habilitat correctament.'
+    disabled-successfully: 'La vista %s s''ha deshabilitat correctament.'

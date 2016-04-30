@@ -1,0 +1,14 @@
+description: 'Muestra los usuarios actuales del sitio'
+help: 'El comando <info>user:debug</info> le ayuda a obtener un listado de los usuarios existentes.'
+welcome: 'Bienvenido a la herramienta para depurar usuarios en Drupal 8'
+options:
+    roles: 'Indique los roles con los que filtrar el listado de usuarios'
+    limit: 'Cuántos usuarios le gustaría listar'
+questions:
+    roles: 'Seleccione los role(s) que serán usados para filtrar la lista de usuarios'
+    limit: 'Introduzca cuántos usuarios le gustaría que fueran mostrados'
+messages:
+    user-id: 'ID de usuario'
+    username: 'Nombre de usuario'
+    roles: Roles
+    status: Estado

@@ -1,0 +1,11 @@
+description: 'Import the selected configuration.'
+arguments:
+    name: 'Configuration name.'
+    file: 'Path to the import file'
+    input-file: 'Path to the import files.'
+questions:
+    name: 'Enter configuration name'
+    file: 'Enter path to the import file'
+messages:
+    empty-value: 'Value can not be empty'
+    success: 'The configuration "%s", had been imported.'

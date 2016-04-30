@@ -1,0 +1,9 @@
+description: 删除数据库所有表
+help: '命令 <info>database:drop</info> 用于删除数据库的表'
+arguments:
+    database: 'settings.php 文件中 Database 的键'
+question:
+    drop-tables: '确定要删除 %s 中的所有表吗？'
+messages:
+    table: 表
+    table-drop: '删除 %s 成功'

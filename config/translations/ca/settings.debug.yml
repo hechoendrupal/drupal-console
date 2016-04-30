@@ -1,0 +1,8 @@
+description: 'Mostrar la clau actual: valor del fitxer de configuració.'
+messages:
+    config-key: 'Clau de configuració'
+    config-value: 'Valor de configuració'
+    config-file: 'Fitxer de configuració'
+    current: 'clau:valor de l''actual fitxer de configuració'
+help: 'El comandament <info>settings:debug</info> t''ajuda a mostrar l''actual clau:valor del fitxer de configuració.'
+welcome: 'Us donem la benvinguda al comandament de depuració de la configuració'

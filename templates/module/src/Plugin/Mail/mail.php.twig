@@ -1,0 +1,85 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\Plugin\Mail\{{class_name}}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Plugin\Mail;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Mail\Plugin\Mail\PhpMail;
+{% if services is not empty %}
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+{% endif %}
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides a '{{class_name}}' mail plugin.
+ *
+ * @Mail(
+ *  id = "{{plugin_id}}",
+ *  label = @Translation("{{label}}")
+ * )
+ */
+class {{class_name}} extends PhpMail {% if services is not empty %}implements ContainerFactoryPluginInterface {% endif %}
+{% endblock %}
+
+{% block class_construct %}
+{% if services is not empty %}
+  /**
+   * Construct.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param string $plugin_definition
+   *   The plugin implementation definition.
+   */
+  public function __construct(
+        array $configuration,
+        $plugin_id,
+        $plugin_definition,
+        {{ servicesAsParameters(services)|join(', \n\t') }}
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+{{ serviceClassInitialization(services) }}
+  }
+
+{% endif %}
+{% endblock %}
+
+{% block class_create %}
+{% if services is not empty %}
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+{{ serviceClassInjection(services) }}
+    );
+  }
+{% endif %}
+{% endblock %}
+
+{% block class_methods %}
+
+  /**
+   * {@inheritdoc}
+   */
+  public function format(array $message) {
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function mail(array $message) {
+  }
+{% endblock %}

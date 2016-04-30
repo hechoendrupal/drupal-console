@@ -1,0 +1,14 @@
+description: ダミーのボキャブラリーを追加
+help: '<info>create:vocabularies</info> コマンドはダミーのボキャブラリーを追加します。'
+welcome: 'Welcome to the Drupal vocabularies creator'
+options:
+    limit: 作成するボキャブラリーの数
+    name-words: ボキャブラリーの名前に設定するの単語の最大数
+questions:
+    limit: 作成するボキャブラリーの数を入力してください
+    name-words: ボキャブラリーの名前に設定するの単語の最大数
+messages:
+    vocabulary-id: ボキャブラリーID
+    name: 名前
+    created-terms: '%s 個のボキャブラリーを作成しました。'
+    error: 'ボキャブラリー %s の作成に失敗しました。'

@@ -1,0 +1,12 @@
+description: 'Mostrar les taules d''una base de dades.'
+help: 'El comandament <info>database:table:debug</info> t''ajuda a depurar les taules de la base de dades.'
+arguments:
+    table: 'Table to debug'
+    database: 'Clau de la base de dades de settings.php'
+options:
+    database: 'Database key from settings.php'
+messages:
+    table-show: 'Mostrant les taules de la base de dades %s'
+    table: Taula
+    column: Column
+    type: Type

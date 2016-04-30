@@ -1,0 +1,10 @@
+description: 'एक कमांड के लिए मदद प्रदर्शित करता है'
+help: "<info>%command.name%</info> कमांड किसी दिए गए कमांड के लिए मदद प्रदर्शित करता है:\n\n<info>php %command.full_name% list</info>\n\nआप <comment>--format</comment> विकल्प का उपयोग करके अन्य स्वरूपों में उत्पादन मदद भी कर सकते हैं:\n\n<info>php %command.full_name% --format=xml list</info>\n\nउपलब्ध कमांड की सूची प्रदर्शित करने के लिए <info>list</info> कमांड का इस्तेमाल करें।\n"
+arguments:
+    command_name: 'कमांड का नाम'
+options:
+    xml: 'XML के रूप में उत्पादन सूची'
+    raw: 'रॉ कमांड सूची उत्पादन करने के लिए'
+    format: 'फॉर्मेट आउटपुट (txt, xml, json, or md)'
+messages:
+    deprecated: '<comment>--xml</comment> विकल्प संस्करण 2.7 में दप्रेकेट किया गया था और संस्करण 3.0 में हटा दिया जाएगा। विकल्प के बजाय <comment>--format</comment> का उपयोग करे'

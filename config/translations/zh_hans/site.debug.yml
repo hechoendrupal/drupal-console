@@ -1,0 +1,9 @@
+description: 列出已知当地和远程网站.
+help: '命令<info>site:debug</info>列出所有当地和远程网站.'
+messages:
+    site: 站
+    host: 服务器
+    root: 根
+    directory-not-found: 网站当地目录没找到
+    private-key: 加密的私有键出问题
+    connect-error: 连接远程服务器出问题

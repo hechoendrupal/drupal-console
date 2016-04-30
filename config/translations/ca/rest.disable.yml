@@ -1,0 +1,8 @@
+description: 'Deshabilitar el recurs Rest per l''aplicació'
+arguments:
+    resource-id: 'Identificador Rest'
+    states: 'Estats REST a deshabilitar per el recurs'
+questions:
+    resource-id: 'Identificador Rest'
+messages:
+    invalid-rest-id: 'l''identificador Rest %s no és vàlid'

@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GeneratorPluginRestResourceCommand;
+use Drupal\Console\Command\Generate\PluginRestResourceCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\PluginRestResourceDataProviderTrait;
 
@@ -34,7 +34,7 @@ class GeneratorPluginRestResourceCommandTest extends GenerateCommandTest
         $plugin_url,
         $plugin_states
     ) {
-        $command = new GeneratorPluginRestResourceCommand($this->getHelperSet());
+        $command = new PluginRestResourceCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 
@@ -43,7 +43,7 @@ class GeneratorPluginRestResourceCommandTest extends GenerateCommandTest
         $code = $commandTester->execute(
             [
               '--module'         => $module,
-              '--class-name'     => $class_name,
+              '--class'     => $class_name,
               '--plugin-id'      => $plugin_id,
               '--plugin-label'   => $plugin_label,
               '--plugin-url'     => $plugin_url,

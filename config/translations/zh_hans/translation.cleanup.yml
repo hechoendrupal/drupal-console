@@ -1,0 +1,8 @@
+description: 清理翻译文件
+arguments:
+    language: 语言代码
+messages:
+    invalid-language: '语言代码 %s 无效'
+    language: 语言
+    file-deleted: '文件 %s 不在需要，已经从 %s 删除'
+    success: 无关文件已经被清理

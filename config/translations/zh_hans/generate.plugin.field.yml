@@ -1,0 +1,33 @@
+description: 生成字段类型、Widget和格式化器的插件
+help: '命令 <info>generate:plugin:field</info> 用于生成字段类型、格式化器和 Widget 的插件'
+welcome: '欢迎使用 Drupal 字段插件生成器'
+options:
+    module: common.options.module
+    type-class: 字段类型插件类名
+    type-label: 字段类型插件标签
+    type-plugin-id: '字段类型插件 ID'
+    type-description: 字段类型插件描述
+    formatter-class: 字段格式化器插件类名
+    formatter-label: 字段格式化器插件标签
+    formatter-plugin-id: '字段格式化器插件 ID'
+    widget-class: '字段 Widget 插件类名'
+    widget-label: '字段 Widget 插件标签'
+    widget-plugin-id: '字段 Widget 插件 ID'
+    field-type: '和字段格式化器插件和 Widget 插件一起使用的字段类型'
+    default-widget: '字段类型插件的默认字段 Widget'
+    default-formatter: 字段类型插件的默认字段格式化器
+questions:
+    module: common.questions.module
+    type-class: 字段类型插件类名
+    type-label: 输入字段类型插件标签
+    type-plugin-id: '输入字段类型插件 ID'
+    type-description: 输入字段类型插件描述
+    formatter-class: 输入字段格式化器插件类名
+    formatter-label: 输入字段格式化器插件标签
+    formatter-plugin-id: '输入字段格式化器插件 ID'
+    widget-class: '输入字段 Widget 器插件类名'
+    widget-label: '输入字段 Widget 器插件标签'
+    widget-plugin-id: '输入字段 Widget 器插件 ID'
+    field-type: '输入和字段格式化器插件和 Widget 插件一起使用的字段类型'
+    default-widget: 输入字段类型插件的默认字段
+    default-formatter: 输入字段类型插件的默认字段格式化器

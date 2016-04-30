@@ -1,0 +1,18 @@
+description: 生成分类术语
+help: '命令 <info>create:terms</info> 用于生成分类术语'
+welcome: 欢迎使用分类术语生成器
+arguments:
+    vocabularies: 用于生成分类术语的词汇表(s)
+options:
+    limit: 生成多少个分类术语
+    name-words: 分类术语名称允许的最多单词数量
+questions:
+    vocabularies: 选择用于生成分类术语的词汇表(s)
+    limit: 输入生成分类术语的数量
+    name-words: 输入分类术语名称允许的最多单词数量
+messages:
+    term-id: '分类术语 Id'
+    vocabulary: 词汇表
+    name: 名称
+    invalid-vocabularies: '词汇表(s) %s 无效'
+    created-terms: '生成 %s 分类词汇成功'

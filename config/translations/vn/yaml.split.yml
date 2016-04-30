@@ -1,11 +1,11 @@
-description: 'Split a YAML file using indent as separator criteria'
+description: 'Tách một file YAML sử dụng indent là tiêu chí phân tách'
 arguments:
-    yaml-file: 'Path of YAML file to be splitted'
+    yaml-file: 'Đường dẫn của file YAML sẽ được tách'
 options:
-    indent-level: 'Split YAML file using a specific indent level'
-    exclude-parents-key: 'Exclude parents key in file name generated'
-    starting-key: 'YAML Key from where start split useful to extract partial elements'
+    indent-level: 'Tách file YAML sử dụng một cấp indent nhất định'
+    exclude-parents-key: 'Bao gồm parents key trong tên file đã tạo'
+    starting-key: 'YAML Key từ chỗ bắt đầu tách hữu dụng để chiết xuất các partial elements'
 messages:
-    generating-split: 'Generating new files'
-    split-generated: 'File %s was generated'
-    invalid-key: 'Provided key as stating YAML key wasn''t found, combine with indent-level 0 to extract values'
+    generating-split: 'Tạo các files mới'
+    split-generated: 'File %s đã được tạo'
+    invalid-key: 'Không tìm thấy key đã được cung cấp là key YAML ban đầu, kết hợp với indent-level 0 để trích xuất các giá trị'

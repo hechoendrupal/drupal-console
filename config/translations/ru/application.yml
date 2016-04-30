@@ -1,0 +1,46 @@
+options:
+    env: 'Имя среды окружения'
+    no-debug: 'Выключение режима отладки'
+    learning: 'Генерация подробного вывода'
+    generate-chain: 'Показывает парамметры и аргументы выполняемой команды как yaml вывод для передачи по цепочке'
+    generate-inline: 'Показывает парамметры и аргументы выполняемой команды одной строкой'
+    generate-doc: 'Показывает парамметры и аргументы выполняемой команды как markdown'
+    root: 'Указать корневую директорию Drupal для выполнения команд'
+    uri: 'URI сайта Drupal (в случае мультисайтингового окружения или запуска на альтернативном порту)'
+    'yes': 'Пропустить подтверждение и продолжить'
+    target: 'Имя сайта, с которым вы хотите взаимодействовать (для локального или удаленного сайтов)'
+    help: 'Display this help message'
+    quiet: 'Do not output any message'
+    verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
+    version: '<info>%s</info> версия <comment>%s</comment>'
+    ansi: 'Force ANSI output'
+    no-ansi: 'Disable ANSI output'
+    no-interaction: 'Do not ask any interactive question'
+    check-fix: 'Attempt to fix any missing configuration.'
+arguments:
+    command: 'The command to execute'
+messages:
+    completed: 'Команда была выполнена успешно!'
+    chain:
+        generated: 'Представление команды в формате Yaml, т.е. использование копии в `~/.console/chain/sample.yml` чтобы выполнить используя команду `chain`, убедитесь что ваш yaml файл начинается с корневого ключа `commands`:'
+    inline:
+        generated: 'Встроенное представление этой команды:'
+    generated: 'Теперь вы можете начать использовать сгенерированный код!'
+    files:
+        generated: 'Созданные или обновленные файлы'
+        copied: 'Скопированные файлы'
+    learning:
+        route: "Для создания страниц необходимо определить маршруты для них.\nМаршрут сопостовляет URL-путь с контроллером. Он определяет какая функция\nили метод будет вызван при переходе по URL.\nЕсли пользователь переходит на http://drupal8.dev/{{ route.path }}, система\nмаршрутизации попытается найти маршрут для этого пути. В данном случае будет найдено\nсоответствие, и выполнит обратный вызов _controller. В данном случае обратный вызов\nопределен как класс\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nи метод (\"{{ route.method }}\")."
+    autocomplete: "Bash or Zsh: Добавьте эту строку в конфигурационный файл вашей командной оболочки:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Создайте символьную ссылку\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
+    version: '<info>%s</info> version <comment>%s</comment>'
+errors:
+    invalid-command: 'Команда "%s" не определена.'
+site:
+    messages:
+        path: 'Путь к директории сайта'
+    errors:
+        directory: 'Для получения списка всех доступных команд, необходимо запустить эту команду в корневой директории Drupal.'
+        settings: 'Для получения списка всех доступных команд сначала необходимо установить Drupal.'
+user:
+    messages:
+        path: 'Путь к домашней директории пользователя'

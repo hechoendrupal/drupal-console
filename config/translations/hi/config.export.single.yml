@@ -1,0 +1,14 @@
+description: 'yml फाइल के रूप में सिंगल कॉन्फ़िगरेशन एक्सपोर्ट करे।'
+arguments:
+    config-name: 'कॉन्फ़िगरेशन नाम'
+options:
+    include-dependencies: 'कॉन्फ़िगरेशन का निर्भरता के रूप में अच्छी तरह से एक्सपोर्ट करे।'
+    simple-configuration: 'सरल कॉन्फ़िगरेशन'
+questions:
+    config-type: 'कॉन्फ़िगरेशन टाइप'
+    config-name: 'कॉन्फ़िगरेशन नाम'
+messages:
+    config-not-found: 'कॉन्फ़िगरेशन नाम नहीं मिला।'
+    export: 'कॉन्फ़िगरेशन फ़ाइल %s में एक्सपोर्ट किया गया।'
+    invalid-config-type: 'अमान्य कॉन्फिग टाइप, कृपया सूची में से एक का चयन करें'
+    invalid-config-name: 'अमान्य कॉन्फिग नाम, कृपया सूची में से एक का चयन करें'

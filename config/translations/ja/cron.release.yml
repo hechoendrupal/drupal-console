@@ -1,0 +1,3 @@
+description: Cronのシステムロックを解放
+messages:
+    released: Cronのロックの解放に成功しました。

@@ -10,7 +10,8 @@ namespace Drupal\Console\EventSubscriber;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
 
 class ShowTerminateMessageListener implements EventSubscriberInterface
 {
@@ -19,16 +20,16 @@ class ShowTerminateMessageListener implements EventSubscriberInterface
      */
     public function showTerminateMessages(ConsoleTerminateEvent $event)
     {
-        /**
-         * @var \Drupal\Console\Command\Command $command
-         */
+        /* @var Command $command */
         $command = $event->getCommand();
-        $output = $event->getOutput();
+        /* @var DrupalStyle $io */
+        $io = $event->getOutput();
 
         $application = $command->getApplication();
-        $messageHelper = $application->getMessageHelper();
 
-        $messageHelper->showMessages($output);
+        if ($errorMessage = $application->getErrorMessage()) {
+            $io->warning($errorMessage);
+        }
 
         if ($event->getExitCode() != 0) {
             return;

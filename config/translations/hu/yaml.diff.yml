@@ -1,14 +1,18 @@
-description: 'Compare two YAML files do determined differences between them'
+description: 'Két YAML-fájl összehasonlítása a közöttük lévő különbségek megkereséséhez.'
 arguments:
-    yaml-left: 'YAML file used as base to compare'
-    yaml-right: 'YAML file used to determine missing or differences with base YAML file'
+    yaml-left: 'Az összehasonlítás alapjául használt YAML-fájl'
+    yaml-right: 'Az alap YAML-fájlhoz képest előforduló különbségek vagy hiányzó részek megkeresésére használt YAML-fájl'
 options:
-    negate: 'Define mode diff or equal comparation, possible values TRUE/FALSE or 0/1'
-    limit: 'Limit results to a specific number'
-    offset: 'Starting point of a limit'
+    stats: 'Statisztika nyomtatása a YAML-fájlok összehasonlításáról'
+    negate: 'Különbözők vagy azonosak összehasonlítása, a lehetséges értékek TRUE/FALSE vagy 0/1'
+    limit: 'Egy adott számra korlátozza a találatok számát'
+    offset: 'Egy korlát kezdőpontja'
 questions:
-    yaml-left: 'Path of YAML file to be use as base in comparation.'
-    yaml-right: 'Path of YAML file to be compare.'
+    yaml-left: 'Összehasonlításként használandó YAML-fájl útvonala.'
+    yaml-right: 'Az összehasonlítandó YAML-fájl útvonala.'
 messages:
-    key: 'YAML Key'
-    value: 'YAML Value'
+    key: YAML-kulcs
+    value: YAML-érték
+    total: 'Összesen: %s'
+    diff: 'Különböző: %s'
+    equal: 'Azonos: %s'

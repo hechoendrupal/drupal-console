@@ -1,0 +1,13 @@
+description: 'Execució de comandaments en secuència'
+options:
+    file: 'El fitxer definit per l''usuari que conté el comandaments que s''executaran.'
+questions:
+    chain-file: 'Select chain file to execute'
+messages:
+    missing_file: 'Ha de proveir un nom de fitxer i ruta vàlida.'
+    invalid_file: 'No existeix l fitxer "%s".'
+    module_install: 'El comandament module:install no es pot executar dins d''una seqüència i s''ha d''executar independentment.'
+    missing-environment-placeholders: 'Missing environment placeholder(s) %s'
+    set-environment-placeholders: 'Set environment placeholders as:'
+    missing-inline-placeholders: 'Missing inline placeholder(s) %s'
+    set-inline-placeholders: 'Pass inline placeholders as:'

@@ -1,0 +1,5 @@
+description: 'Exibe a configuração atual.'
+arguments:
+    name: 'Nome da configuração.'
+errors:
+    not-exists: 'The configuration "%s" does not exists.'

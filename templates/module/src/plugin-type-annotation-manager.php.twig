@@ -1,11 +1,11 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-Drupal\{{ module }}\Plugin\{{ class_name }}Manager.
+\Drupal\{{ module }}\Plugin\{{ class_name }}Manager.
 {% endblock %}
 
 {% block namespace_class %}
-namespace Drupal\{{ module }};
+namespace Drupal\{{ module }}\Plugin;
 {% endblock %}
 
 {% block use_class %}

@@ -1,0 +1,3 @@
+description: 启用一个视图
+messages:
+    enabled-successfully: 启用视图%s成功.

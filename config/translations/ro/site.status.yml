@@ -8,7 +8,7 @@ messages:
     driver: Driver
     host: Gazda
     port: Port
-    username: Nume de utilizator
+    username: 'Nume de utilizator'
     password: Parola
     theme: Teme
     connection: Conexiune
@@ -19,6 +19,9 @@ messages:
     directory_temporary: 'Directorul temporar al saitului'
     directory_theme_default: 'Directorul temei implicite'
     directory_theme_admin: 'Directorul temei de administrare'
+    current_version: 'Current Drupal version (%s)'
+    not_installed: 'Drupal is not installed'
+    not_available: 'Not available'
     configuration: Configurare
     active: 'Calea către configurarile active'
     staging: 'Calea către configurările în aşteptare'

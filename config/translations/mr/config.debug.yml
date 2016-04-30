@@ -1,0 +1,5 @@
+description: 'चालू संरचना दाखवा.'
+arguments:
+    name: 'संरचने नाव.'
+errors:
+    not-exists: 'संरचना "%s" अस्तित्वात नाही.'

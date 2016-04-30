@@ -1,4 +1,5 @@
-description: 'Execute cron implementation from a specific module or all to execute all implementations'
+description: 'क्रॉन लागू करने वाले किसी विशेष मोड्यूल को चलायें या सारे क्रॉन चलायें'
 messages:
-    module-invalid: 'Module %s doesn''t have an implementation of cron'
-    executing-cron: 'Executing cron function of module %s'
+    module-invalid: 'मोड्यूल %s क्रॉन लागू नही कर रहा'
+    executing-cron: 'मोड्यूल %s का क्रॉन फंक्शन चल रहा है'
+    success: 'सभी क्रॉन इम्प्लीमेंटेशन अनुरोध को सफलतापूर्वक एक्सेक्युट कर दिया गया'

@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-Drupal\{{module}}\Authentication\Provider\{{class_name}}.
+\Drupal\{{module}}\Authentication\Provider\{{class}}.
 {% endblock %}
 
 {% block namespace_class %}
@@ -11,7 +11,7 @@ namespace Drupal\{{module}}\Authentication\Provider;
 {% block use_class %}
 use Drupal\Core\Authentication\AuthenticationProviderInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -20,11 +20,11 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 {% block class_declaration %}
 /**
- * Class {{ class_name }}.
+ * Class {{ class }}.
  *
  * @package Drupal\{{module}}\Authentication\Provider
  */
-class {{ class_name }} implements AuthenticationProviderInterface {% endblock %}
+class {{ class }} implements AuthenticationProviderInterface {% endblock %}
 {% block class_variables %}
   /**
    * The config factory.
@@ -33,25 +33,26 @@ class {{ class_name }} implements AuthenticationProviderInterface {% endblock %}
    */
   protected $configFactory;
   /**
-   * The entity manager.
+   * The entity type manager.
    *
-   * @var \Drupal\Core\Entity\EntityManagerInterface
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
-  protected $entityManager;
+  protected $entityTypeManager;
 {% endblock %}
 
 {% block class_construct %}
+
   /**
    * Constructs a HTTP basic authentication provider object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory.
-   * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
-   *   The entity manager service.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager service.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, EntityManagerInterface $entity_manager) {
+  public function __construct(ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager) {
     $this->configFactory = $config_factory;
-    $this->entityManager = $entity_manager;
+    $this->entityTypeManager = $entity_type_manager;
   }
 {% endblock %}
 
@@ -59,6 +60,7 @@ class {{ class_name }} implements AuthenticationProviderInterface {% endblock %}
 {% endblock %}
 
 {% block class_methods %}
+
   /**
    * Checks whether suitable authentication credentials are on the request.
    *
@@ -74,6 +76,7 @@ class {{ class_name }} implements AuthenticationProviderInterface {% endblock %}
     // you will get out from Drupal navigation if you are logged in.
     return FALSE;
   }
+
   /**
    * {@inheritdoc}
    */
@@ -81,16 +84,18 @@ class {{ class_name }} implements AuthenticationProviderInterface {% endblock %}
     $consumer_ip = $request->getClientIp(TRUE);
     if (in_array($consumer_ip, $ips)) {
       // Return Anonymous user.
-      return $this->entityManager->getStorage('user')->load(0);
+      return $this->entityTypeManager->getStorage('user')->load(0);
     }
     else {
       throw new AccessDeniedHttpException();
     }
   }
+
   /**
    * {@inheritdoc}
    */
   public function cleanup(Request $request) {}
+
   /**
    * {@inheritdoc}
    */

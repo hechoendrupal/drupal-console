@@ -1,0 +1,17 @@
+description: 'सूची उपलब्ध अनुवाद अपडेट'
+arguments:
+    language: 'भाषा उदाहरण es या Spanish'
+messages:
+    no-languages: 'अनुवाद के लायक़ कोई भाषा उपलब्‍ध नही है | पहले भाषा डालें |'
+    up-to-date: 'सब अनुवाद आधुनिक हैं |'
+    no-translations: 'अनुवाद के लिए कोई स्थिति नही है | मैन्युअल चेक करिए '
+    project: परियोजना
+    version: संस्करण
+    local-age: 'स्थानीय उम्र'
+    remote-age: 'रिमोट उम्र'
+    info: सूचना
+    no-translation-files: 'विकास के लिए कोई अनुवाद फ़ाइलें नही हैं |'
+    file-not-found: 'फ़ाइल यहा नही मिली %s और ना ही यहा मिली %s |'
+    local-file-not-found: 'फ़ाइल यहा नही मिली %s'
+    translation-not-determined: 'अनुवाद फ़ाइल स्थान निर्धारित नहीं किया जा सकता है।'
+    translation-project-updated: अपडेटेड

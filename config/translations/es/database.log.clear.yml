@@ -1,0 +1,11 @@
+description: 'Eliminar eventos de la tabla DBLog, filtros disponibles'
+arguments:
+    event-id: 'ID del evento DBLog'
+options:
+    type: 'Filtrar por tipo de evento'
+    severity: 'Filtrar eventos por nivel de severidad'
+    user-id: 'Filtrar eventos por ID de usuario'
+messages:
+    event-deleted: 'Evento %s fue eliminado'
+    clear-error: 'Proceso de eliminación falló, por favor revise los filtros utilizados'
+    clear-sucess: 'La eliminación de eventos fue exitosa'

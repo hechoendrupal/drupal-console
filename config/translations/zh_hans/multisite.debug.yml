@@ -1,0 +1,7 @@
+description: 列出所有可用多站点
+help: '<info>multisite:debug</info> 列出所有已知多站点'
+messages:
+    no-multisites: 没有多站点配置
+    site: 网站
+    directory: 目录
+    site-format: 站点表示格式：<port>.<domain>.<path>

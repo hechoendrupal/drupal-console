@@ -1,0 +1,17 @@
+description: ユニットテストの一覧を表示
+help: 'Update the console command to the latest version.'
+arguments:
+    test-class: テストクラス
+options:
+    group: Group
+messages:
+    class: 'Test Class'
+    description: Description
+    group: Group
+    type: 'Test Type'
+    success: 'The console has been updated to the latest version.'
+    missing-dependency: 'Missing dependency'
+    methods: 'Test methods'
+    not-found: テスト対象のクラスが見つかりませんでした。クラス名をダブルクォーテーションで囲んで再度実行してください。
+    success-groups: 'All testing groups were listed sucessfully, use the group argument to filter Test unit by group i.e $ drupal test:debug Url'
+    success-group: 'All test units for group %s were listed sucessfully'

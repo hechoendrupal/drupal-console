@@ -1,0 +1,13 @@
+description: 生成一个有识别Yaml能力的插件类别
+help: '<info>generate:plugin:type:yaml</info>命令帮你生成一个新的有识别Yaml能力的插件类别.'
+welcome: '欢迎使用 Drupal 插件类别生成器'
+options:
+    module: common.options.module
+    class: 插件类型类名
+    plugin-name: 插件类别内部机器名
+    plugin-file-name: 插件文件名
+questions:
+    module: common.questions.module
+    class: 输入插件类型类名
+    plugin-name: 输入插件类别内部机器名
+    plugin-file-name: 输入插件文件名(比如：MODULE.plugin.filename.yml)

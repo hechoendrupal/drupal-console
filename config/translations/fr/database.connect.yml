@@ -1,0 +1,8 @@
+description: 'Lancer une base de donnée client si disponible'
+arguments:
+    database: 'Clé de la base de données depuis settings.php'
+messages:
+    database-not-found: 'La connexion à la base de données %s n''a pas été trouvée'
+    database-not-supported: 'Le type de base de données %s n''est pas encore supporté'
+    database-client-not-found: 'La base de donnée client %s n''a pas été trouvée'
+    connection: 'Connexion: %s'

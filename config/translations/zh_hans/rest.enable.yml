@@ -1,0 +1,14 @@
+description: '启用 REST 资源'
+arguments:
+    resource-id: 'REST ID'
+    states: '为当前 REST 资源启用的 REST 状态'
+    authorizations: '为当前 REST 资源启用的认证提供者'
+questions:
+    resource-id: 'REST ID'
+messages:
+    invalid-rest-id: 'REST ID %s 无效'
+    formats: 可用序列化格式
+    authentication-providers: 可用认证提供者
+    selected-state: 选中的状态
+    selected-formats: 选中的格式
+    selected-authentication-providers: 选中的认证提供者

@@ -1,0 +1,15 @@
+description: 'एप्लीकेशन के लिए वर्तमान थीम्स को प्रदर्शित करता है'
+arguments:
+    theme: 'डिबग करने के लिए विशिष्ट थीम'
+messages:
+    theme-id: आईडी
+    theme-name: नाम
+    status: स्टेटस
+    version: वर्शन
+    installed: इन्सटाल्ड
+    uninstalled: अनइन्स्टॉलेंड
+    default-theme: 'डिफ़ॉल्ट थीम'
+    properties: प्रॉपर्टीज
+    regions: रीजनस
+    invalid-theme: 'थीम %s अवैध है'
+    theme-properties: प्रॉपर्टीज

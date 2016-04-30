@@ -1,13 +1,13 @@
-{% for namespace, commands in command_list %}
+{% for namespace in application.namespaces %}
 {% if not loop.first %}
 {% set last_namespace = namespace %}
 {% endif %}
 {% if last_namespace is defined %}
 
-  {# @TODO fix empty new line hack #}
+  {# Empty new line hack #}
 {% endif %}
 {% spaceless %}
-{% for command in commands %}
+{% for command in commands[namespace] %}
   * [{{ command.name }}](commands/{{ command.name|replace(':','-') }}.md)
 {% endfor %}
 {% endspaceless %}

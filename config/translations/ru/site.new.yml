@@ -1,0 +1,16 @@
+description: 'Create a new Drupal project'
+arguments:
+    directory: 'Directory when downloading Drupal'
+    version: 'Specific Drupal version to download'
+    site-name: 'Site name'
+messages:
+    select-release: 'Select a core release'
+    getting-releases: 'Getting releases for Drupal'
+    downloading: 'Downloading Drupal %s'
+    extracting: 'Extracting files for Drupal %s'
+    no-releases: 'There aren''t any releases available for Drupal'
+    downloaded: 'Drupal %s was downloaded in directory %s'
+    error-copying: 'An error occurred while renaming your directory at %s'
+    release: 'Please select a release'
+questions:
+    directory: 'Enter the directory name when downloading Drupal'

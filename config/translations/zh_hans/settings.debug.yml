@@ -1,0 +1,5 @@
+description: 列出用户Drupal控制台设置.
+messages:
+    config-key: 配置键
+    config-value: 配置值
+    config-file: 配置文件

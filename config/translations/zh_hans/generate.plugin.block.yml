@@ -1,0 +1,21 @@
+description: 生成区块插件
+help: '命令 <info>generate:plugin:block</info> 用于生成新区块插件'
+welcome: '欢迎使用 Drupal 区块插件生成器'
+options:
+    module: common.options.module
+    class: 插件类名
+    label: 插件标签
+    plugin-id: '插件 ID'
+    inputs: common.options.inputs
+    services: common.options.services
+    theme-region: 呈现插件区块的主题区域
+questions:
+    module: common.questions.module
+    class: 输入插件类名
+    label: 输入插件标签
+    plugin-id: '输入插件 ID'
+    inputs: common.questions.inputs
+    services: common.questions.services
+messages:
+    inputs: "\n您可以添加输入字段创建区别的特殊配置\n这是可选的，按下 <info>enter</info> 键 <info>continue</info>"
+    invalid-theme-region: '区域 %s 无效'

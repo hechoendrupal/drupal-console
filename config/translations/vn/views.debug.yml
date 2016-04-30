@@ -1,18 +1,18 @@
-description: 'Display current views resources for the application'
+description: 'Hiển thị các views resources hiện tại cho ứng dụng'
 arguments:
     view-id: 'View ID'
     view-tag: 'View tag'
-    view-status: 'View status (Enabled|Disabled)'
+    view-status: 'Trạng thái View (Bật|Tắt)'
 messages:
     view-id: 'View ID'
-    view-name: 'View name'
-    description: Description
+    view-name: 'Tên View'
+    description: 'Mô tả'
     tag: Tag
-    status: Status
-    path: Path
-    not-found: 'View %s wasn''t found.'
-    display-list: 'Display list'
+    status: 'Trạng thái'
+    path: 'Đường dẫn'
+    not-found: 'Không tìm thấy view %s.'
+    display-list: 'Hiển thị danh sách'
     display-id: ID
-    display-name: Name
-    display-description: Description
-    display-paths: Paths
+    display-name: Tên
+    display-description: 'Mô tả'
+    display-paths: 'Các đường dẫn'

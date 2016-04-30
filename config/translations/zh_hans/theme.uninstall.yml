@@ -1,0 +1,20 @@
+description: 卸载程序的一个或多个外观主题
+questions:
+    theme: 主题名(按<return>回车键停止)
+    invalid-theme: 无效主题%s
+options:
+    theme: 被卸载的外观主题之间要用英文逗号隔开
+messages:
+    no-themes: 你需呀提供被卸载的外观主题.
+    themes-missing: 没法卸载外观主题%s，因为他们不存在。
+    theme-missing: 没法卸载外观主题%s因为他们不存在
+    missing-dependencies: 没法卸载外观主题%s因为缺少依靠程序%s
+    themes-nothing: '没事做. 所有主题%s已经卸载'
+    theme-nothing: '没事做. 主题%s已经卸载'
+    dependencies: '有些不合格依靠程序: %s?'
+    theme-success: 主题%s被成功卸载
+    themes-success: 主题%s被成功卸载
+    installed-themes: 只有安装的主题会自动显示
+    invalid-theme-default: 缺省选项只在一个主题中有效
+    error-default-theme: 主题%s是缺省主题，无法卸载。
+    error-admin-theme: 主题%s是管理主题，无法卸载。

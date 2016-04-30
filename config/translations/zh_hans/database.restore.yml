@@ -1,0 +1,9 @@
+description: 还原数据库
+arguments:
+    database: 'settings.php 文件中 Database 的键'
+options:
+    file: 数据库备份文件文件名
+messages:
+    success: 数据库导入成功：
+    no-file: 'Missing file option'
+help: 'Restore structure and contents of a database.'

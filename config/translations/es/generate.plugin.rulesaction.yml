@@ -3,7 +3,7 @@ help: 'El comando <info>generate:plugin:rulesaction</info> le ayuda a generar un
 welcome: 'Bienvenido al generador de plugins de acciones de rules para Drupal'
 options:
     module: common.options.module
-    class-name: 'Nombre de clase del plugin'
+    class: 'Nombre de clase del plugin'
     label: 'Etiqueta del plugin'
     plugin-id: 'ID del plugin'
     inputs: common.options.inputs
@@ -13,7 +13,7 @@ options:
     type: 'Tipo de acción (usuario o nodo)'
 questions:
     module: common.questions.module
-    class-name: 'Introduzca el nombre de la clase del plugin'
+    class: 'Introduzca el nombre de la clase del plugin'
     label: 'Introduzca la etiqueta del plugin'
     plugin-id: 'Introduzca el ID del plugin'
     inputs: common.questions.inputs

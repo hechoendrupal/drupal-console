@@ -1,3 +1,3 @@
-description: 'Disable a View'
+description: 'Nézet letiltása'
 messages:
-    disabled-successfully: 'View %s was disabled successfully.'
+    disabled-successfully: '%s nézet letiltva.'

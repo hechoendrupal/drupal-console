@@ -1,4 +1,4 @@
-description: 'Generate an event subscriber'
+description: 'Esemény-előfizető létrehozása'
 questions:
-    class-name: 'Class name'
-    callback-name: 'Callback function name to handle event'
+    class: Osztálynév
+    callback-name: 'Az eseményt kezelő visszahívási függvény neve'

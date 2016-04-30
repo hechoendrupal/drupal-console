@@ -1,0 +1,28 @@
+description: 生成节点
+help: '命令 <info>create:nodes</info> 用于生成节点'
+welcome: '欢迎使用 Drupal 节点生成器'
+arguments:
+    content-types: 节点的内容类型(s)
+options:
+    limit: 生成多少个节点
+    title-words: 节点标题允许的最多单词数量
+    time-range: 节点的创建时间范围
+questions:
+    content-type: 选择内容类型(s)
+    limit: 输入生成节点的数量
+    title-words: 输入节点标题允许的最多单词数量
+    time-range: '节点的创建时间范围?'
+    time-ranges:
+        - 现在
+        - '1 小时以前'
+        - '1 天以前'
+        - '1 周以前'
+        - '1 个月以前'
+        - '1 年以前'
+messages:
+    node-id: '节点 Id'
+    content-type: 内容类型
+    title: 标题
+    created: 创建时间
+    invalid-content-types: '内容类型 %s 无效'
+    created-nodes: '生成 %s 节点成功'

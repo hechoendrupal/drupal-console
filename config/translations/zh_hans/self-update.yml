@@ -1,0 +1,15 @@
+description: 更新项目到最新版本
+help: 更新项目到最新版本
+options:
+    major: 如果有，更新到最近主版本.
+    manifest: 覆盖清单文件路径
+    current-version: 覆盖更新的开始版本
+questions:
+    update: 从版本%s更新到版本%s.
+messages:
+    not-phar: '命令行实例没有被作为一个 Phar 文件安装'
+    update: '更新到版本 %s.'
+    success: '成功将项目从 %s 版本更新到最新版本 %s'
+    check: '从版本 %s 检查更新'
+    current-version: '当前版本 %s 已经是最新版本'
+    instructions: "更新使用: composer global update\n或者推荐切换到一个 Phar 文件安装\ncomposer global remove drupal/console\ncurl https://drupalconsole.com/installer -L -o drupal.phar\n"

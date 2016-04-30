@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GeneratorPluginFieldWidgetCommand;
+use Drupal\Console\Command\Generate\PluginFieldWidgetCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\PluginFieldWidgetDataProviderTrait;
 
@@ -32,7 +32,7 @@ class GeneratorPluginFieldWidgetCommandTest extends GenerateCommandTest
         $plugin_id,
         $field_type
     ) {
-        $command = new GeneratorPluginFieldWidgetCommand($this->getHelperSet());
+        $command = new PluginFieldWidgetCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 
@@ -41,7 +41,7 @@ class GeneratorPluginFieldWidgetCommandTest extends GenerateCommandTest
         $code = $commandTester->execute(
             [
               '--module'               => $module,
-              '--class-name'           => $class_name,
+              '--class'           => $class_name,
               '--label'                => $label,
               '--plugin-id'            => $plugin_id,
               '--field-type'           => $field_type

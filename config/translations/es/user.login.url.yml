@@ -1,6 +1,6 @@
 description: 'Crea una url de login de usuario de uso único.'
 options:
-    user-id: 'ID de User.'
+    user-id: 'Id de usuario.'
 messages:
     url: 'Login de uso único para @name: @url'
 errors:

@@ -1,0 +1,8 @@
+description: 'क्लीनअप ट्रांसलेशन फाइल्स'
+arguments:
+    language: 'इंग्लिश के खिलाफ क्लीनअप फाइल के लिए भाषा'
+messages:
+    invalid-language: 'भाषा %s अवैध है'
+    language: भाषा
+    file-deleted: 'फ़ाइल %s अब जरूरी नहीं है की वजह से %s से हटाया गया।'
+    success: 'अनावश्यक फ़ाइले क्लीनअप थे'

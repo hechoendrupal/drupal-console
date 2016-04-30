@@ -1,0 +1,5 @@
+description: 'Mostrar la configuració actual'
+arguments:
+    name: 'Nom de la configuració'
+errors:
+    not-exists: 'No existeix la configuració "%s".'

@@ -1,0 +1,12 @@
+description: 覆写状态键的值
+help: 覆写一个状态键
+arguments:
+    key: 覆写的键
+    value: 赋的新值
+messages:
+    key: 状态键
+    original: 原始值
+    override: 覆写值
+errors:
+    no-key: 覆写必须提供一个状态键
+    no-value: 必须提供一个覆写值

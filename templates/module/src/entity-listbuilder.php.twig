@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-Drupal\{{module}}\{{ entity_class }}ListBuilder.
+\Drupal\{{module}}\{{ entity_class }}ListBuilder.
 {% endblock %}
 
 {% block namespace_class %}
@@ -32,7 +32,7 @@ class {{ entity_class }}ListBuilder extends ConfigEntityListBuilder {% endblock 
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity) {
-    $row['label'] = $this->getLabel($entity);
+    $row['label'] = $entity->label();
     $row['id'] = $entity->id();
     // You probably want a few more properties here...
     return $row + parent::buildRow($entity);

@@ -7,14 +7,13 @@
 
 namespace Drupal\Console\Command\Site;
 
-use Drupal\Console\Command\Command;
-use Drupal\Console\Console\Application;
-use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Dumper;
+use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class SiteDebugCommand
@@ -45,59 +44,81 @@ class DebugCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $message = $this->getMessageHelper();
+        $io = new DrupalStyle($input, $output);
+
         $application = $this->getApplication();
         $sitesDirectory = $application->getConfig()->getSitesDirectory();
 
         if (!is_dir($sitesDirectory)) {
-            $message->addErrorMessage(
+            $io->error(
                 sprintf(
                     $this->trans('commands.site.debug.messages.directory-not-found'),
                     $sitesDirectory
                 )
             );
+
             return;
         }
 
-        // Get the target argument
+        // --target argument
         $target = $input->getArgument('target');
-        if ($target && $application->getConfig()->loadTarget($target)) {
+        if ($target) {
+            $this->siteDetail($io, $target);
+
+            return;
+        }
+
+        $this->siteList($io, $sitesDirectory);
+    }
+
+    /**
+     * @param string $target
+     */
+    private function siteDetail(DrupalStyle $io, $target)
+    {
+        $application = $this->getApplication();
+        if ($application->getConfig()->loadTarget($target)) {
             $targetConfig = $application->getConfig()->getTarget($target);
             $dumper = new Dumper();
             $yaml = $dumper->dump($targetConfig, 5);
-            $output->writeln($yaml);
+            $io->writeln($yaml);
+
             return;
         }
+    }
 
+    /**
+     * @param DrupalStyle $io
+     * @param string      $sitesDirectory
+     */
+    private function siteList(DrupalStyle $io, $sitesDirectory)
+    {
+        $application = $this->getApplication();
 
         $finder = new Finder();
         $finder->in($sitesDirectory);
         $finder->name("*.yml");
 
-        $table = new Table($output);
+        $tableHeader =[
+            $this->trans('commands.site.debug.messages.site'),
+            $this->trans('commands.site.debug.messages.host'),
+            $this->trans('commands.site.debug.messages.root')
+        ];
 
-        $table->setHeaders(
-            [
-                $this->trans('commands.site.debug.messages.site'),
-                $this->trans('commands.site.debug.messages.host'),
-                $this->trans('commands.site.debug.messages.root')
-            ]
-        );
-
+        $tableRows = [];
         foreach ($finder as $site) {
             $siteConfiguration = $site->getBasename('.yml');
             $application->getConfig()->loadSite($siteConfiguration);
             $environments = $application->getConfig()->get('sites.'.$siteConfiguration);
             foreach ($environments as $env => $config) {
-                $table->addRow(
-                    [
-                      $siteConfiguration . '.' . $env,
-                      array_key_exists('host', $config) ? $config['host'] : 'local',
-                      array_key_exists('root', $config) ? $config['root'] : ''
-                    ]
-                );
+                $tableRows[] = [
+                  $siteConfiguration . '.' . $env,
+                  array_key_exists('host', $config) ? $config['host'] : 'local',
+                  array_key_exists('root', $config) ? $config['root'] : ''
+                ];
             }
         }
-        $table->render();
+
+        $io->table($tableHeader, $tableRows);
     }
 }

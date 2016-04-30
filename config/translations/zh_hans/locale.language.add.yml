@@ -1,0 +1,4 @@
+description: 添加一种语言
+messages:
+    invalid-language: '语言 %s 不是一种有效语言'
+    language-add-successfully: '语言 %s 添加成功'

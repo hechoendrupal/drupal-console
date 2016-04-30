@@ -1,0 +1,27 @@
+description: 生成用户
+help: '命令 <info>create:users</info> 用于生成用户'
+welcome: '欢迎使用 Drupal 用户生成器'
+arguments:
+    roles: 用于生成用户的角色(s)
+options:
+    limit: 生成多少个用户
+    password: 用户密码
+    time-range: 用户的创建时间范围
+questions:
+    roles: 选择用于创建用户的角色(s)
+    limit: 输入生成用户的数量
+    password: 输入用户密码
+    time-range: 用户的创建时间范围
+    time-ranges:
+        - 现在
+        - '1 小时以前'
+        - '1 天以前'
+        - '1 周以前'
+        - '1 个月以前'
+        - '1 年以前'
+messages:
+    user-id: '用户 Id'
+    roles: 角色(s)
+    username: 用户名
+    created: 创建时间
+    created-users: '生成 %s 用户成功'

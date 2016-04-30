@@ -1,0 +1,12 @@
+description: 未翻译检测
+arguments:
+    language: 语言代码
+options:
+    file: 检测的文件
+messages:
+    invalid-language: '语言代码 %s 无效'
+    language: 语言
+    pending-translations: '【%s】翻译，文件 %s 中未完成的有：'
+    missing-file: '%s 不包含文件 %s, 请尝试执行 translation:sync 命令'
+    success-language: ' %s 处没有翻译【%s】'
+    success-language-file: '%s 处没有翻译（【%s】%s）'

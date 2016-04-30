@@ -1,0 +1,14 @@
+description: 'Descarregar mòduls a la aplicació'
+arguments:
+    module: 'Mòduls per habilitar separats per un espai'
+options:
+    latest: 'Descarregar la versió més actual de forma predeterminada'
+    version: 'Versió del mòdul p.e 1.x-dev'
+messages:
+    no-releases: 'No hi han versións disponibles per el mòdul %s'
+    getting-releases: 'Obtenint versions per el mòdul %s'
+    downloading: 'Descarregant el mòdul %s versió %s'
+    downloaded: 'El mòdul %s versió %s s''ha descarregat correctament a %s'
+    select-release: 'Seleccioneu la versió'
+    outside-drupal: 'L''arrel de Drupal no s''ha trobat. Utilitza --root per definir un destí, el directori actual s''utilitzarà en qualsevol cas.'
+    error-creating-folder: 'S''ha produït un error creant el directori %s, comprova els permíssos'

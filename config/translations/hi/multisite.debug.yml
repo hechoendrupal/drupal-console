@@ -1,0 +1,7 @@
+description: 'सभी उपलब्ध multisites की सूची|'
+help: '<info>multisite:debug</info> सभी ज्ञात साइटों की सूची।|'
+messages:
+    no-multisites: 'कोई multisite व्यवस्थित न्ही हैं|'
+    site: साइट
+    directory: डायरेक्टरी
+    site-format: 'साइट इस प्रारूप में लिखी गयी हैं|: <port>.<domain>.<path>'

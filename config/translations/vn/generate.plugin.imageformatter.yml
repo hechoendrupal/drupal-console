@@ -1,12 +1,12 @@
-description: 'Generate image formatter plugin.'
-help: 'The <info>generate:plugin:imageformatter</info> command helps you generate a new image formatter plugin.'
+description: 'Phát sinh một image formatter plugin.'
+help: 'Câu lệnh <info>generate:plugin:imageformatter</info> giúp bạn phát sinh một image formatter plugin mới.'
 options:
     module: common.options.module
-    class-name: 'Plugin class name'
-    label: 'Plugin label'
+    class: 'Tên plugin class'
+    label: 'Nhãn plugin'
     plugin-id: 'Plugin id'
 questions:
     module: common.questions.module
-    class-name: 'Enter the plugin class name'
-    label: 'Enter the plugin label'
-    plugin-id: 'Enter the plugin id'
+    class: 'Nhập tên lớp của plugin'
+    label: 'Nhập nhãn của plugin'
+    plugin-id: 'Nhập plugin id'

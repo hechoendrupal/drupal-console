@@ -1,0 +1,12 @@
+description: 'Exporte un type de contenu avec les champs qui le composent.'
+arguments:
+    content-type: 'Le type de contenu à exporter'
+    content_type: 'Le type de contenu à exporter'
+questions:
+    content-type: 'Le type de contenu à exporter'
+    optional-config: 'Export le type de contenu dans un module comme configuration optionnelle'
+    content_type: 'Le type de contenu à exporter'
+messages:
+    content_type_exported: 'Export du type de contenu'
+options:
+    optional-config: 'Export du type de contenu dans votre module sous la forme d''un fichier YAML de configuration optionnelle'

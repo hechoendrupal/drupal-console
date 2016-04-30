@@ -9,7 +9,6 @@ namespace Drupal\Console\Helper;
 
 use Composer\Autoload\ClassLoader;
 use Drupal\Console\Helper\Helper;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Drupal\Core\DrupalKernel;
@@ -46,6 +45,11 @@ class KernelHelper extends Helper
     protected $debug;
 
     /**
+     * @var string
+     */
+    protected $requestUri;
+
+    /**
      * @var bool
      */
     protected $booted;
@@ -67,13 +71,21 @@ class KernelHelper extends Helper
     }
 
     /**
+     * @param string $requestUri
+     */
+    public function setRequestUri($requestUri)
+    {
+        $this->requestUri = $requestUri;
+    }
+
+    /**
      * @return bool
      */
     public function bootKernel()
     {
         if (!$this->booted) {
             $kernel = $this->getKernel();
-            if ($this->getDrupalHelper()->isInstalled()) {
+            if ($this->getDrupalHelper()->isConnectionInfo()) {
                 $kernel->boot();
                 $kernel->preHandle($this->request);
                 $container = $kernel->getContainer();
@@ -92,14 +104,19 @@ class KernelHelper extends Helper
     public function getKernel()
     {
         // Add support for Acquia Dev Desktop sites on Mac OS X
-        // @TODO: Check if this condition works in Windows
         $devdesktop_dir = getenv('HOME') . "/.acquia/DevDesktop/DrupalSettings";
         if (file_exists($devdesktop_dir)) {
             $_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR'] = $devdesktop_dir;
         }
 
         if (!$this->kernel) {
-            $this->request = Request::createFromGlobals();
+            if ($this->requestUri) {
+                $this->request = Request::create($this->requestUri);
+                $this->request->server->set('SCRIPT_NAME', '/index.php');
+            } else {
+                $this->request = Request::createFromGlobals();
+            }
+
             $this->kernel = DrupalKernel::createFromRequest(
                 $this->request,
                 $this->classLoader,
@@ -169,6 +186,14 @@ class KernelHelper extends Helper
     public function getRequest()
     {
         return $this->request;
+    }
+
+    /**
+   *
+   */
+    public function getSitePath()
+    {
+        return $this->getKernel()->getSitePath();
     }
 
     /**

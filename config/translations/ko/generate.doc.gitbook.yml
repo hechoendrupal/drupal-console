@@ -1,0 +1,17 @@
+description: '명령어에 대한 문서 생성'
+options:
+    path: '문서를 생성하려는 경로'
+messages:
+    missing_path: '경로를 찾을 수 없습니다.'
+    title: '사용할 수 있는 드루팔 콘솔 명령어들'
+    note: 주의
+    note-description: '드루팔 콘솔 명령어는 *반드시* 드루팔 8 설치본의 루트에서 실행해야 합니다.'
+    command: '드루팔 콘솔 명령어'
+    command_description: '**%s** 명령어 %s'
+    usage: 사용법
+    options: '사용할 수 있는 옵션'
+    option: 옵션
+    details: '세부 사항'
+    arguments: '사용할 수 있는 매개변수'
+    argument: 매개변수
+    examples: 예시

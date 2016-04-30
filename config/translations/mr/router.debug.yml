@@ -1,0 +1,10 @@
+description: 'अनुप्रयोग चालू मार्ग दाखवतो'
+arguments:
+    route-name: 'मार्ग नावे'
+messages:
+    name: 'मार्ग नावे'
+    class: 'क्लास मार्ग'
+    route: मार्ग
+    path: मार्ग
+    defaults: मुलभूत
+    options: पर्याय

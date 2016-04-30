@@ -1,0 +1,8 @@
+description: コンフィグレーションの編集
+arguments:
+    config-name: コンフィグレーションの名前
+    editor: 編集に使用するエディタの名前
+questions:
+    config-name: 編集するコンフィグレーションを選択
+messages:
+    no-directory: ディレクトリを作成中にエラーが発生しました。

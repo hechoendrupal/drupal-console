@@ -1,0 +1,13 @@
+description: '显示 Drupal Console 项目基本信息'
+messages:
+    welcome: 'Drupal Console 是一个功能众多的命令行工具，它可以被用于：'
+    welcome-feature-generate: 生成样板代码
+    welcome-feature-interact: '与 Drupal 8 网站交互'
+    welcome-feature-learn: '学习 Drupal 8'
+    links: 项目链接
+    landing: '项目主页 - %s'
+    change-log: '更新日志 - %s'
+    documentation: '项目文档 - %s'
+    support: '在线技术支持聊天室 - %s'
+    supporting-organizations: 特别鸣谢
+    version-supported: '支持的 Drupal 版本：<info>%s</info>'

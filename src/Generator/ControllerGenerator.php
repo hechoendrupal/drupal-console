@@ -9,20 +9,20 @@ namespace Drupal\Console\Generator;
 
 class ControllerGenerator extends Generator
 {
-    public function generate($module, $class_name, $routes, $test, $services, $class_machine_name)
+    public function generate($module, $class, $routes, $test, $services, $classMachineName)
     {
         $parameters = [
-          'class_name' => $class_name,
+          'class_name' => $class,
           'services' => $services,
           'module' => $module,
-          'class_machine_name' => $class_machine_name,
+          'class_machine_name' => $classMachineName,
           'routes' => $routes,
           'learning' => $this->isLearning(),
         ];
 
         $this->renderFile(
             'module/src/Controller/controller.php.twig',
-            $this->getSite()->getControllerPath($module).'/'.$class_name.'.php',
+            $this->getSite()->getControllerPath($module).'/'.$class.'.php',
             $parameters
         );
 
@@ -36,7 +36,7 @@ class ControllerGenerator extends Generator
         if ($test) {
             $this->renderFile(
                 'module/Tests/Controller/controller.php.twig',
-                $this->getSite()->getTestPath($module, 'Controller').'/'.$class_name.'Test.php',
+                $this->getSite()->getTestPath($module, 'Controller').'/'.$class.'Test.php',
                 $parameters
             );
         }

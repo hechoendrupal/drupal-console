@@ -1,0 +1,16 @@
+description: '사용할 수 있는 모든 명령어의 목록을 조회합니다.'
+help: "<info>%command.name%</info> 명령어는 모든 명령어들의 목록을 보여줍니다:\n<info>php %command.full_name%</info>\n특정 네임스프이스에 대한 명령어 목록을 볼 수도 있습니다.\n<info>php %command.full_name% test</info>\n<comment>--format</comment> 옵션을 사용해서 다른 형식으로 정보를 출력할 수도 있습니다:\n<info>php %command.full_name% --format=xml</info>\n명령어 목록을 그대로 출력할 수도 있습니다. (명령어 실행을 임베드하는데 유용함):\n<info>php %command.full_name% --raw</info>\n"
+arguments:
+    namespace: 네임스페이스명
+options:
+    xml: '목록을 XML로 출력'
+    raw: '명령어 목록을 그대로 출력'
+    format: '출력 형식 (txt, xml, json, md)'
+messages:
+    usage: "<comment>시용법:</comment>\n"
+    usage_details: "명령 [옵션] [매개변수]\n\n"
+    arguments: '<comment>매개변수:</comment>'
+    options: '<comment>옵션:</comment>'
+    help: '<comment>도움말:</comment>'
+    comment: '<comment>"%s" 네임스페이스에 대해 사용할 수 있는 명령어:</comment>'
+    available-commands: '<comment>사용할 수 있는 명령어:</comment>'

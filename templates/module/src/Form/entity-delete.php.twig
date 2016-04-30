@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-Drupal\{{module}}\Form\{{ entity_class }}DeleteForm.
+\Drupal\{{module}}\Form\{{ entity_class }}DeleteForm.
 {% endblock %}
 
 {% block namespace_class %}
@@ -51,7 +51,7 @@ class {{ entity_class }}DeleteForm extends EntityConfirmFormBase {% endblock %}
       $this->t('content @type: deleted @label.',
         [
           '@type' => $this->entity->bundle(),
-          '@label' => $this->entity->label()
+          '@label' => $this->entity->label(),
         ]
         )
     );

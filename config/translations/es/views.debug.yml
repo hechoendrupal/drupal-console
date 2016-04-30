@@ -6,13 +6,13 @@ arguments:
 messages:
     view-id: 'ID de la vista'
     view-name: 'Nombre de la vista'
-    description: Description
-    tag: Tag
-    status: Status
-    path: Path
+    description: 'Descripción'
+    tag: 'Etiqueta'
+    status: 'Estado'
+    path: 'Ruta'
     not-found: 'No se encontró la vista'
     display-list: 'Lista de displays'
-    display-id: ID
-    display-name: Name
-    display-description: Description
-    display-paths: Paths
+    display-id: 'ID'
+    display-name: 'Nombre'
+    display-description: 'Descripción'
+    display-paths: 'Rutas'

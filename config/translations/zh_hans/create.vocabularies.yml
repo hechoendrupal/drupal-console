@@ -1,0 +1,14 @@
+description: 生成词汇表
+help: '命令 <info>create:vocabularies</info> 用于生成词汇表'
+welcome: '欢迎使用 Drupal 词汇表生成器'
+options:
+    limit: 生成多少个词汇表
+    name-words: 词汇表名称允许的最多单词数量
+questions:
+    limit: 数量生成词汇表的数量
+    name-words: 输入词汇表名称允许的最多单词数量
+messages:
+    vocabulary-id: '词汇表 Id'
+    name: 名称
+    created-terms: '创建 %s 词汇表成功'
+    error: 创建词汇表出错：%s

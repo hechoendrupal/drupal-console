@@ -1,10 +1,17 @@
-description: 'Rebuild and clear all site caches.'
+description: 'Xây dựng lại và làm sạch tất cả cache trên trang.'
 options:
-    cache: 'Only clear a specific cache.'
+    cache: 'Chỉ xóa một cache được chỉ định'
 messages:
-    welcome: 'Welcome to the cache:rebuild command'
-    rebuild: 'Rebuilding cache(s), wait a moment please.'
-    completed: 'Done clearing cache(s).'
-    invalid_cache: 'Cache "%s" is invalid.'
+    welcome: 'Chào mừng tới vùng cache: xây dựng lại lệnh'
+    rebuild: 'Đang xây dựng lại cache(s), xin vui lòng đợi trong giây lát.'
+    completed: 'Đã thực hiện việc dọn dẹp cache(s).'
+    invalid_cache: 'Cache "%s" là không hợp lệ.'
 questions:
-    cache: 'Select cache.'
+    cache: 'Chọn cache.'
+examples:
+    -
+        description: 'Xây dựng lại all caches'
+        execution: 'drupal cr all'
+    -
+        description: 'Xây dựng lại discovery cache'
+        execution: 'drupal cr discovery'

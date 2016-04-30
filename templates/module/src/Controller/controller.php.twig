@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-Drupal\{{module}}\Controller\{{ class_name }}.
+\Drupal\{{module}}\Controller\{{ class_name }}.
 {% endblock %}
 
 {% block namespace_class %}
@@ -54,16 +54,16 @@ class {{ class_name }} extends ControllerBase {% endblock %}
    * @return string
    *   Return Hello string.
    */
-  public function {{route.method}}({{ argumentsFromRoute(route.route)|join(', ') }}) {
-{% if argumentsFromRoute(route.route) is not empty %}
+  public function {{route.method}}({{ argumentsFromRoute(route.path)|join(', ') }}) {
+{% if argumentsFromRoute(route.path) is not empty %}
     return [
-        '#type' => 'markup',
-        '#markup' => $this->t('Implement method: {{route.method}} with parameter(s): {{ argumentsFromRoute(route.route)|join(', ') }}')
+      '#type' => 'markup',
+      '#markup' => $this->t('Implement method: {{route.method}} with parameter(s): {{ argumentsFromRoute(route.path)|join(', ') }}'),
     ];
 {% else %}
     return [
-        '#type' => 'markup',
-        '#markup' => $this->t('Implement method: {{route.method}}')
+      '#type' => 'markup',
+      '#markup' => $this->t('Implement method: {{route.method}}')
     ];
 {% endif %}
   }

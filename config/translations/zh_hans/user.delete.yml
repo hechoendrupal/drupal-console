@@ -1,0 +1,17 @@
+description: 删除网站用户(s)
+help: '<info>user:delete</info>命令用于删除用户(s)'
+welcome: '欢迎使用 Drupal 用户删除命令'
+options:
+    user-id: 要删除的用户ID
+    roles: 要删除用户的角色
+questions:
+    user-id: 要删除的用户ID(可以不输入)
+    roles: 选择要删除用户的角色
+messages:
+    user-id: 用户ID
+    username: 用户名
+    user-deleted: 成功删除用户%s
+    users-deleted: 成功删除%s用户
+errors:
+    invalid-user-id: 用户ID%s无效
+    invalid-user: 用户%s无效

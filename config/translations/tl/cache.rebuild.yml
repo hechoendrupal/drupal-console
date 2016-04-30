@@ -1,0 +1,17 @@
+description: 'Rebuild and clear all site caches.'
+options:
+    cache: 'Only clear a specific cache.'
+messages:
+    welcome: 'Welcome to the cache:rebuild command'
+    rebuild: 'Rebuilding cache(s), wait a moment please.'
+    completed: 'Done clearing cache(s).'
+    invalid_cache: 'Cache "%s" is invalid.'
+questions:
+    cache: 'Select cache.'
+examples:
+    -
+        description: 'Rebuild all caches'
+        execution: 'drupal cr all'
+    -
+        description: 'Rebuild discovery cache'
+        execution: 'drupal cr discovery'

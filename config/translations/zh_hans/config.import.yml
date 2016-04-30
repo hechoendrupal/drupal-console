@@ -1,0 +1,8 @@
+description: 导入配置
+arguments:
+    file: 配置文件路径
+    directory: 要导入的配置文件的目录路径.
+    remove-files: 同步后删除文件.
+messages:
+    config_files_imported: 列出配置文件.
+    imported: 成功导入配置文件.

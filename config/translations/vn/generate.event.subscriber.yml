@@ -1,4 +1,4 @@
-description: 'Generate an event subscriber'
+description: 'Tạo một event subscriber'
 questions:
-    class-name: 'Class name'
-    callback-name: 'Callback function name to handle event'
+    class: 'Tên lớp'
+    callback-name: 'Gọi lại tên chức năng để xử lý sự kiện'

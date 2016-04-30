@@ -3,7 +3,7 @@ help: 'El comando <info>generate:plugin:conditon</info> le ayuda a generar un pl
 welcome: 'Bienvenido al generador de plugins de condición para Drupal'
 options:
     module: common.options.module
-    class-name: 'Nombre de la clase para el plugin de condición'
+    class: 'Nombre de la clase para el plugin de condición'
     label: 'Etiqueta del plugin de condición'
     plugin-id: 'ID del plugin de condición'
     context-definition-id: 'ID de definición de contexto'
@@ -11,7 +11,7 @@ options:
     context-definition-required: 'Una definición de contexto es obligatoria (TRUE/FALSE)'
 questions:
     module: common.questions.module
-    class-name: 'Introduzca el nombre de clase para el plugin de condición'
+    class: 'Introduzca el nombre de clase para el plugin de condición'
     label: 'Introduzca la etiqueta del plugin de condición'
     plugin-id: 'Introduzca el Id del plugin de condición'
     context-type: 'Tipo de Context'

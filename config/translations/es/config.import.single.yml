@@ -1,0 +1,11 @@
+description: 'Importar la configuración seleccionada.'
+arguments:
+    name: 'Nombre de la configuración.'
+    file: 'Ruta al archivo a importar'
+    input-file: 'Ruta de los archivos a importar.'
+questions:
+    name: 'Introduzca el nombre de la configuración'
+    file: 'Introduzca la ruta al archivo a importar'
+messages:
+    empty-value: 'El valor no puede quedar vacío'
+    success: 'La configuración "%s" ha sido importada con éxito.'

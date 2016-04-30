@@ -10,29 +10,44 @@ namespace Drupal\Console\EventSubscriber;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * Class ShowWelcomeMessageListener
+ * @package Drupal\Console\EventSubscriber
+ */
 class ShowWelcomeMessageListener implements EventSubscriberInterface
 {
     /**
      * @param ConsoleCommandEvent $event
      */
-    public function showMessage(ConsoleCommandEvent $event)
+    public function showWelcomeMessage(ConsoleCommandEvent $event)
     {
-        /**
-         * @var \Drupal\Console\Command\Command $command
-         */
+        /* @var Command $command */
         $command = $event->getCommand();
-        $output = $event->getOutput();
+
+        $input = $command->getDefinition();
+
+        if ($input->hasOption('generate-doc')) {
+            return;
+        }
+
+        if ($input->hasOption('no-interaction')) {
+            return;
+        }
+
+        /* @var DrupalStyle $io */
+        $io = $event->getOutput();
 
         $application = $command->getApplication();
-        $messageHelper = $application->getMessageHelper();
         $translatorHelper = $application->getTranslator();
 
         $welcomeMessageKey = 'commands.'.str_replace(':', '.', $command->getName()).'.welcome';
         $welcomeMessage = $translatorHelper->trans($welcomeMessageKey);
 
         if ($welcomeMessage != $welcomeMessageKey) {
-            $messageHelper->showMessage($output, $welcomeMessage);
+            $io->text($welcomeMessage);
         }
     }
 
@@ -41,6 +56,6 @@ class ShowWelcomeMessageListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return [ConsoleEvents::COMMAND => 'showMessage'];
+        return [ConsoleEvents::COMMAND => 'showWelcomeMessage'];
     }
 }

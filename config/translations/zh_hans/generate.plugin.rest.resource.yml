@@ -1,0 +1,19 @@
+description: '生成 REST资源插件'
+help: '命令 <info>generate:plugin:rest:resource</info> 用于生成 REST 资源插件'
+welcome: '欢迎使用 Drupa REST 资源插件生成器'
+options:
+    module: common.options.module
+    class: 插件REST资源类
+    plugin-id: 插件REST资源id
+    plugin-label: 插件REST资源标签
+    plugin-url: 插件REST资源URL链接
+    plugin-states: 插件REST资源状态
+questions:
+    module: common.questions.module
+    class: 输入插件REST资源名
+    plugin-id: 输入插件REST资源id
+    plugin-label: 输入插件REST资源标签
+    plugin-url: 输入插件REST资源url
+    plugin-states: 请选择启用资源的REST状态(GET为缺省状态)
+messages:
+    selected-states: 选择的状态

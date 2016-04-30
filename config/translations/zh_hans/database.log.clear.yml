@@ -1,0 +1,11 @@
+description: 清除事件日志
+arguments:
+    event-id: 'DBLog event ID'
+options:
+    type: 'Filter events by a specific type'
+    severity: 'Filter events by a specific level of severity'
+    user-id: 'Filter events by a specific user id'
+messages:
+    event-deleted: '事件 %s 已删除'
+    clear-error: 清除失败，请检查所使用的过滤器
+    clear-sucess: 清除成功

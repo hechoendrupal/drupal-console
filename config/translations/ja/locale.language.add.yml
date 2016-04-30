@@ -1,0 +1,4 @@
+description: サイトでサポートする言語を追加
+messages:
+    invalid-language: '言語 %s は不正な値です。'
+    language-add-successfully: '言語 %s が追加されました。'

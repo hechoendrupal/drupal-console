@@ -8,3 +8,10 @@ messages:
     invalid_cache: 'Le cache "%s" n''est pas valide.'
 questions:
     cache: 'Sélectionner un cache.'
+examples:
+    -
+        description: 'Reconstruire l''ensemble des caches'
+        execution: 'drupal cr all'
+    -
+        description: 'Reconstruire le cache "discovery"'
+        execution: 'drupal cr discovery'

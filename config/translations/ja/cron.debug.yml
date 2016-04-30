@@ -1,0 +1,4 @@
+description: cronを実装しているモジュールの一覧を表示
+messages:
+    module-list: cronを実装しているモジュール
+    module: モジュール

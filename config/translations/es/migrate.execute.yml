@@ -3,6 +3,7 @@ arguments:
     id: 'ID de migración'
 options:
     site-url: 'URL fuente del sitio'
+    db-file: 'Archivo de base de datos'
     db-host: 'Host de la base de datos'
     db-name: 'Nombre de la base de datos'
     db-user: 'Usuario de la base de datos'
@@ -12,9 +13,10 @@ options:
     exclude: 'Excluir los siguientes IDs de migración'
 questions:
     id: 'ID de migración'
-    exclude-id: 'ID de migración a excluir (pulse <return> para dejar de añadir migraciones)'
+    exclude-id: 'ID de migración a excluir (presione <enter> para dejar de agregar migraciones a excluir)'
     other-id: 'ID de otra migración (pulse <return> para dejar de añadir migraciones)'
     site-url: 'URL fuente del sitio'
+    db-file: 'Archivo de base de datos'
     db-host: 'Host de la base de datos'
     db-name: 'Nombre de la base de datos'
     db-user: 'Usuario de la base de datos'

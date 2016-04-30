@@ -1,7 +1,7 @@
-description: 'Returns a one time user login url.'
+description: 'Egyszer használatos felhasználói bejelentkezési URL-címet ad vissza.'
 options:
-    user-id: 'User ID.'
+    user-id: 'Felhasználói azonosító.'
 messages:
-    url: 'One time login for @name: @url'
+    url: 'Egyszer használatos bejelentkezési azonosító @name számára: @url'
 errors:
-    invalid-user: 'Cannot load user entity (User ID: @uid).'
+    invalid-user: 'Nem tölthető be a felhasználó entitás (felhasználói azonosító: @uid).'

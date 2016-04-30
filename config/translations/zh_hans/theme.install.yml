@@ -1,0 +1,21 @@
+description: 安装主题
+questions:
+    theme: '主题名称（按下 <return> 键结束添加主题）'
+    invalid-theme: '无效主题 %s'
+options:
+    theme: 一个或多个主题，主题之间使用逗号分隔
+    overwrite-config: 覆写配置
+    set-default: 设置主题为默认主题
+messages:
+    no-themes: 必须提供一个或多个主题才能启用
+    themes-missing: '不能安装主题 %s，由于它们不可用'
+    theme-missing: '不能安装主题 %s，由于它不可用'
+    missing-dependencies: '不能安装主题 %s，由于其依赖 %s 丢失'
+    themes-nothing: '不需要做任何操作，所有主题 %s 已经安装'
+    theme-nothing: '不需要做任何操作，主题 %s 已经安装'
+    dependencies: '您确定要安装依赖：%s?'
+    theme-success: '主题 %s 安装成功'
+    themes-success: '所有主题 %s 安装成功'
+    theme-default-success: '主题 %s 安装成功，并被设置为默认主题'
+    disabled-themes: 仅被禁用的主题会出现在自动完成列表中
+    invalid-theme-default: 默认主题选项仅对一个主题有效

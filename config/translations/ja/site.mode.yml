@@ -1,0 +1,16 @@
+description: システムのパフォーマンス設定を切り替える
+arguments:
+    environment: 'Environment name [dev, prod]'
+messages:
+    configuration: 'Configuration name'
+    configuration-key: 'Configuration key'
+    original: 'Original Value'
+    updated: 'Override Value'
+    invalid-env: 'Invalid environment'
+    new-services-settings: 'New services settings'
+    service: Service
+    service-parameter: Parameter
+    service-value: Value
+    error-copying-file: ファイルのコピー中にエラーが発生しました
+    error-writing-file: ファイルの書き込み中にエラーが発生しました
+    services-file-overwritten: 'Services files %s was overwritten'

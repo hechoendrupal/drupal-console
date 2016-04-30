@@ -1,7 +1,7 @@
-description: 'Returns a one time user login url.'
+description: 'Quay lại một url đăng nhập của người dùng một lần.'
 options:
-    user-id: 'User ID.'
+    user-id: 'ID người dùng.'
 messages:
-    url: 'One time login for @name: @url'
+    url: 'Đăng nhập một lần cho @name: @url'
 errors:
-    invalid-user: 'Cannot load user entity (User ID: @uid).'
+    invalid-user: 'Không thể tải entity của người dùng (User ID: @uid).'

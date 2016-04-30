@@ -1,0 +1,16 @@
+description: 列出当前可用命令
+help: "列出所有命令：\n<info>php %command.full_name%</info>\n显示特定命名空间下的命令：\n<info>php %command.full_name% test</info>\n使用 <comment>--format</comment> 选项指定输出格式：\n<info>php %command.full_name% --format=xml</info>\n获取原生格式的命令列表（对于 embedding command runner 很有用）：\n<info>php %command.full_name% --raw</info>\n"
+arguments:
+    namespace: 命名空间名称
+options:
+    xml: '输出命令清单为 XML 格式'
+    raw: 输出命令清单为原生格式
+    format: '输出格式（txt, xml, json, or md）'
+messages:
+    usage: "<comment>用法:</comment>\n"
+    usage_details: "  命令 [选项] [参数]\n\n"
+    arguments: '<comment>参数:</comment>'
+    options: '<comment>选项:</comment>'
+    help: '<comment>帮助:</comment>'
+    comment: '<comment>命名空间 %s 可用命令：</comment>'
+    available-commands: '<comment>可用命令：</comment>'

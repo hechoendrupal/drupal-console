@@ -20,6 +20,11 @@ abstract class Command extends BaseCommand
     protected $module;
 
     /**
+     * @var string
+     */
+    protected $theme;
+
+    /**
      * @var array
      */
     protected $dependencies;
@@ -50,6 +55,22 @@ abstract class Command extends BaseCommand
     }
 
     /**
+     * @return string
+     */
+    public function getTheme()
+    {
+        return $this->theme;
+    }
+
+    /**
+     * @param string $theme
+     */
+    public function setTheme($theme)
+    {
+        $this->theme = $theme;
+    }
+
+    /**
      * @param $key string
      *
      * @return string
@@ -60,13 +81,13 @@ abstract class Command extends BaseCommand
     }
 
     /**
-     * @param $moduleName string
+     * @param $sourceName string
      *
-     * @param $moduleName
+     * @param $sourceName
      */
-    public function addDependency($moduleName)
+    public function addDependency($sourceName)
     {
-        $this->dependencies[] = $moduleName;
+        $this->dependencies[] = $sourceName;
     }
 
     /**

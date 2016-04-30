@@ -13,7 +13,7 @@ trait PluginTypeYamlDataProviderTrait
      */
     public function commandData()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
 
         return [
           ['Foo', 'MyPlugin', 'my_plugin', 'my.plugin'],

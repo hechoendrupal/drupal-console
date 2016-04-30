@@ -1,0 +1,10 @@
+description: 显示帮助
+help: "命令 <info>%command.name%</info> 显示指定命令的帮助：\n\n<info>php %command.full_name% list</info>\n\n以其他格式输出帮助，使用 <comment>--format</comment> 选项：\n\n<info>php %command.full_name% --format=xml list</info>\n\n显示可用命令清单，请使用 <info>list</info> 命令.\n"
+arguments:
+    command_name: 命令名称
+options:
+    xml: '以 XML 格式输出'
+    raw: '以 raw 格式输出'
+    format: '输出格式（txt, xml, json, or md）'
+messages:
+    deprecated: '<comment>--xml</comment> 选项在 Symfony 2.7 版本中已经过时，3.0 版本中将会移除。请使用 <comment>--format</comment> 选项'

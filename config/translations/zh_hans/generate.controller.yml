@@ -1,0 +1,37 @@
+description: 生成并注册新控制器
+help: '命令<info>generate:controller</info> 用于生成一个新控制器'
+welcome: '欢迎使用 Drupal 控制器生成器'
+options:
+    module: common.options.module
+    class: 控制器类名
+    routes: '路由(s)必须是包含 [title, method, path] 的数组'
+    services: common.options.services
+    test: 生成一个测试类
+    title: 控制器标题
+    method: 'Action 方法名称'
+    route: 路由路径
+    controller-title: 控制器标题
+    method-name: 'Action 方法名称'
+questions:
+    module: common.questions.module
+    class: 输入控制器类名
+    title: 输入控制器方法标题
+    method: '输入 Action 方法名称'
+    path: 输入路由路径
+    services: common.questions.services
+    test: 要生成一个单元测试类吗？
+    route: 输入路由路径
+    controller-add: 继续添加控制器方法？
+    controller: 控制器标题
+    method-name: '输入 Action 方法名'
+    other-controller-title: 控制器标题（留空开始代码生成）
+    controller-title: 控制器标题
+messages:
+    title-empty: 标题必须包含一个值
+    title-already-added: 标题已添加
+    method-name-already-added: 方法名已添加
+    path-already-added: 路径已经被添加
+    route-already-added: 路由已添加
+    invalid-controller-title: 标题不能为空
+    invalid-method-name: 方法名不能为空
+    invalid-route: 路由不能为空

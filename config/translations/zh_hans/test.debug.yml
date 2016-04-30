@@ -1,0 +1,17 @@
+description: 列出可用的程序测试.
+help: 更新控制台到最新版本.
+arguments:
+    test-class: 测试类
+options:
+    group: 组
+messages:
+    class: 测试类
+    description: 简介
+    group: 组
+    type: 测试类型
+    success: 这个控制台被更新到最新版本.
+    missing-dependency: 找不到所依赖的其他部件
+    methods: 测试方法
+    not-found: 没找到调试，试着在测试ID上加双引号.
+    success-groups: '成功列出所有测试组，使用组参数以组为单位过滤测试单元，例如： $ drupal test:debug Url'
+    success-group: 成功列出组（%s）所有测试单位

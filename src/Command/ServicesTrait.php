@@ -7,41 +7,34 @@
 
 namespace Drupal\Console\Command;
 
-use Symfony\Component\Console\Helper\HelperInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Style\DrupalStyle;
 
 trait ServicesTrait
 {
     /**
-     * @param OutputInterface $output
-     * @param HelperInterface $dialog
+     * @param DrupalStyle $io
      *
      * @return mixed
      */
-    public function servicesQuestion(OutputInterface $output, HelperInterface $dialog)
+    public function servicesQuestion(DrupalStyle $io)
     {
-        if ($dialog->askConfirmation(
-            $output,
-            $dialog->getQuestion($this->trans('commands.common.questions.services.confirm'), 'no', '?'),
+        if ($io->confirm(
+            $this->trans('commands.common.questions.services.confirm'),
             false
-        )
-        ) {
+        )) {
             $service_collection = [];
-            $output->writeln($this->trans('commands.common.questions.services.message'));
+            $io->writeln($this->trans('commands.common.questions.services.message'));
 
             $services = $this->getServices();
             while (true) {
-                $service = $dialog->askAndValidate(
-                    $output,
-                    $dialog->getQuestion($this->trans('commands.common.questions.services.name'), ''),
-                    function ($service) use ($services) {
-                        return $this->validateServiceExist($service, $services);
-                    },
-                    false,
+                $service = $io->choiceNoList(
+                    $this->trans('commands.common.questions.services.name'),
+                    $services,
                     null,
-                    $services
+                    true
                 );
 
+                $service = trim($service);
                 if (empty($service)) {
                     break;
                 }
@@ -56,14 +49,12 @@ trait ServicesTrait
 
             return $service_collection;
         }
-
-        return;
     }
 
     /**
-     * @param Array $services
+     * @param array $services
      *
-     * @return Array
+     * @return array
      */
     public function buildServices($services)
     {

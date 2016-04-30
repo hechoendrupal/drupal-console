@@ -1,0 +1,40 @@
+description: 生成一个外观主题.
+help: '<info>generate:theme</info>命令帮助生成一个新的外观主题.'
+welcome: 欢迎到Drupal外观主题生成器
+options:
+    theme: 主题名
+    machine-name: 机器名(小写字母和下划线)
+    theme-path: 主题路径
+    description: 外观主题介绍
+    core: 内核版本
+    package: 外观主题包
+    composer: 加composer.json文件
+    base-theme: '基础外观主题 (例如： classy, stable)'
+    global-library: 全局格式库名
+    regions: 区域
+    breakpoints: 断点
+questions:
+    theme: 输入一个新的外观主题名
+    machine-name: 输入外观主题的机器名
+    theme-path: 输入外观主题路径
+    description: 输入外观主题介绍
+    core: 输入Drupal内核版本
+    package: 输入包名
+    dependencies: 你要加依赖模块吗
+    invalid-theme: 外观主题%s不可用
+    global-library: 输入一个全局的格式库名
+    regions: 你要生成一个主题的区域吗？
+    region-name: 输入区域名
+    region-machine-name: 输入区域的机器名
+    region-add: 你还要再加一个区域吗？
+    breakpoints: 你要生成一个主题断点吗？
+    breakpoint-name: 输入断点名
+    breakpoint-label: 输入断点标签
+    breakpoint-media-query: 输入断点媒体查询
+    breakpoint-weight: 输入断点权重
+    breakpoint-multipliers: 输入断点重复数
+    breakpoint-add: 你要再加个断点吗？
+warnings:
+    module-unavailable: '警告：在当前环境"%s"里下列模块没找到'
+errors:
+    directory-exists: '目标目录"%s"不是空的.'

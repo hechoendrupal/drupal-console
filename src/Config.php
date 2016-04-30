@@ -20,12 +20,27 @@ class Config
      */
     protected $config = [];
 
-    public function __construct()
+    /**
+     * @var Parser
+     */
+    protected $parser;
+
+    /**
+     * Config constructor.
+     * @param Parser $parser
+     */
+    public function __construct(Parser $parser)
     {
+        $this->parser = $parser;
         $this->config = [];
 
         $this->loadFile(__DIR__.'/../config.yml');
+        $this->loadFile(__DIR__.'/../config/dist/config.yml');
         $this->loadFile($this->getUserHomeDir().'/.console/config.yml');
+        $this->loadFile(__DIR__.'/../config/dist/aliases.yml');
+        $this->loadFile($this->getUserHomeDir().'/.console/aliases.yml');
+        $this->loadFile(__DIR__.'/../config/dist/commands.yml');
+        $this->loadFile($this->getUserHomeDir().'/.console/commands.yml');
     }
 
     /**
@@ -35,8 +50,7 @@ class Config
     public function getFileContents($file)
     {
         if (file_exists($file)) {
-            $parser = new Parser();
-            return $parser->parse(file_get_contents($file));
+            return $this->parser->parse(file_get_contents($file));
         }
 
         return [];
@@ -112,6 +126,14 @@ class Config
     }
 
     /**
+     * @return array|mixed
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
      * Return the user home directory.
      *
      * @return string
@@ -152,7 +174,6 @@ class Config
     public function loadTarget($target)
     {
         $site = null;
-        $environment = null;
         if (strpos($target, '.')) {
             $site = explode('.', $target)[0];
         }

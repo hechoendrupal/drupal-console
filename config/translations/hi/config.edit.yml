@@ -1,6 +1,8 @@
-description: 'चयनित विन्यास संपादित करें.'
+description: 'चयनित व्यवस्था को बदलें।'
 arguments:
-    config-name: 'विन्यास नाम.'
-    editor: संपादक.
+    config-name: 'व्यवस्था का नाम।'
+    editor: संपादक।
+questions:
+    config-name: 'एक विन्यास इकाई चुनें'
 messages:
-    no-directory: 'पर अपनी निर्देशिका बनाते हुए दोष पैदा हुआ'
+    no-directory: 'डायरेक्टरी बनाते समय यहाँ एक त्रुटि पाया गया'

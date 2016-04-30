@@ -1,0 +1,12 @@
+description: 'Determina cadenas de traducción pendientes en un idioma o en un archivo específico de un idioma'
+arguments:
+    language: 'Idioma a determinar sus traducciones pendientes contra el inglés'
+options:
+    file: 'Archivo específico con el que determinar las traducciones pendientes contra el inglés'
+messages:
+    invalid-language: 'El idioma %s no es válido'
+    language: Idioma
+    pending-translations: 'Traducción pendiente del %s en el fichero %s'
+    missing-file: 'El idioma %s no tiene el archivo %s, intentando ejecutar el comando translation:sync'
+    success-language: 'Hay %s traducciones pendientes de %s para %s'
+    success-language-file: 'Hay %s traducciones pendientes de %s en el fichero %s'

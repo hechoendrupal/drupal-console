@@ -1,0 +1,33 @@
+description: 生成新模块
+help: '命令 <info>generate:module</info> 用于生成新模块'
+welcome: '欢迎使用 Drupal 模块生成器'
+options:
+    module: 模块名
+    machine-name: '模块名 (只能用小写英文字母和下划线)'
+    module-path: 模块路径
+    description: 模块说明
+    core: 'Drupal 核心版本'
+    features-bundle: 'Define module as feature using the given Features bundle name'
+    package: 模块包
+    module-file: '添加一个 .module 文件'
+    composer: '添加一个 composer.json 文件'
+    dependencies: '模块依赖，以逗号分隔 (例如： context, panels)'
+    test: 生成一个测试类
+questions:
+    module: 输入新模块名称
+    machine-name: 输入新模块名称机器名
+    module-path: 输入模块链接
+    description: 输入模块描述
+    core: '输入 Drupal 核心版本'
+    package: 输入包名
+    features-support: '定义模块为 Feature'
+    features-bundle: 'Enter Features bundle name'
+    module-file: '要生成一个 .module 文件吗？'
+    composer: '要添加一个 a composer.json 文件吗？'
+    dependencies: 添加模块依赖
+    test: 要生成一个单元测试类吗？
+warnings:
+    module-unavailable: '警告：以下模块 "%s" 在你的本地环境中不可用'
+errors:
+    invalid-core: '核心版本 "%s" 无效'
+    directory-exists: '目标文件夹 "%s" 不为空'

@@ -1,0 +1,13 @@
+description: 'Последовательное выполнение команд'
+options:
+    file: 'Определенный пользователем файл содержащий команды на выполнение.'
+questions:
+    chain-file: 'Select chain file to execute'
+messages:
+    missing_file: 'Необходимо указать действительный путь и имя файла.'
+    invalid_file: 'Файл "%s" не найден.'
+    module_install: 'Команда module:install не может быть выполнена внутри последовательности команд и должна быть запущена независимо.'
+    missing-environment-placeholders: 'Missing environment placeholder(s) %s'
+    set-environment-placeholders: 'Set environment placeholders as:'
+    missing-inline-placeholders: 'Missing inline placeholder(s) %s'
+    set-inline-placeholders: 'Pass inline placeholders as:'

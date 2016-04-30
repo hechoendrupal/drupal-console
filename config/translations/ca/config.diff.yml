@@ -1,0 +1,14 @@
+description: 'Sortida dels elements de configuració diferents a la configuració activa comparada amb un directori.'
+arguments:
+    directory: 'Directori amb el que comparar. Si s''omet, es tria des dels directoris de configuració de Drupal.'
+options:
+    reverse: 'Veure canvis invertits (p.e compara un directori amb la configuració activa).'
+questions:
+    directories: 'El directori de configuració:'
+table:
+    headers:
+        collection: Col·lecció
+        config-name: 'L''element de configuració'
+        operation: 'L''operació'
+messages:
+    no-changes: 'No hi han canvis.'

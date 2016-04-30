@@ -1,0 +1,46 @@
+options:
+    env: 环境名称
+    no-debug: 禁用调试
+    learning: 生成详细的代码输出用于学习
+    generate-chain: '以 YAML 格式显示命令执行时的选项和参数，用于链式执行一组命令'
+    generate-inline: 将命令执行时的选项和参数显示成一行，以便后续使用
+    generate-doc: '显示命令选项和参数为 markdown 格式'
+    root: '定义 Drupal 根目录，命令执行时使用'
+    uri: 'Drupal 网站的 URI( 用于多站点环境或运行在不同的端口)'
+    'yes': 跳过确认并继续
+    target: 与之交互的站点名字（本地或远程网站）
+    help: 显示这个帮助信息
+    quiet: 不显示任何帮助信息
+    verbose: '输出信息控制: 1 普通输出, 2 详细输出 and 3 调试信息输出'
+    version: '<info>%s</info> 版本 <comment>%s</comment>'
+    ansi: '强制 ANSI 输出'
+    no-ansi: '禁用 ANSI 输出'
+    no-interaction: 非交互式
+    check-fix: 尝试修复任何缺失配置
+arguments:
+    command: 要执行的命令
+messages:
+    completed: 命令执行成功！
+    chain:
+        generated: '刚刚执行的命令，以 YAML 格式表示，如下：（可以将其添加到文件中作为链式命令的一部分。如添加到： ~/.console/chain/sample.yml）'
+    inline:
+        generated: 刚刚执行的命令，表示成一行命令，如下：（可以拷贝它，用于再次执行）
+    generated: 代码生成完毕！
+    files:
+        generated: 生成或更新文件
+        copied: 已复制文件
+    learning:
+        route: "创建页面时，要为它们定义路由。\n一条路由将一个 URL 映射到一个控制器。\n控制器定义了访问一个 URL 时，其中的哪个函数或方法将被执行。\n如果用户访问的是 http://drupal8.dev/{{ route }}，\n路由系统将为该路径查找一条对应的路由。\n在这个例子中，路由系统会查找到一条匹配的路由，然后执行 _controller 回调。\n在这个例子中， 回调被定义为一个类名（\\\"\\\\Drupal\\\\{{ module }}\\\\Controller\\\\{{ class_name }}\\\")\n和一个方法 （\\\"{{ route.method }}\\\"）"
+    autocomplete: "初始化完成！\n\n如果您使用的是 Bash 或者 Zsh，请将下面这一行添加到相应的 Shell 配置文件中：\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n如果您使用的是 Fish（Friendly Interactive Shell），请创建一个软链接：\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>"
+    version: '<info>%s</info> 版本 <comment>%s</comment>'
+errors:
+    invalid-command: '命令 "%s" 没有定义'
+site:
+    messages:
+        path: 网站路径
+    errors:
+        directory: '在 Drupal 根目录下运行，才能显示所有可用命令'
+        settings: '安装 Drupal 后，才能显示所有可用命令'
+user:
+    messages:
+        path: 用户本地主目录

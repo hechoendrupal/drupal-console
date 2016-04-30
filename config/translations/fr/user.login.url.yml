@@ -1,7 +1,7 @@
-description: 'Returns a one time user login url.'
+description: 'Retourne une url de connection à validité unique pour un utilisateur.'
 options:
-    user-id: 'User ID.'
+    user-id: 'Identifiant de l''utilisateur'
 messages:
-    url: 'One time login for @name: @url'
+    url: 'Url de connection à validité unique pour @name : @url'
 errors:
-    invalid-user: 'Cannot load user entity (User ID: @uid).'
+    invalid-user: 'Impossible de charger l''utilisateur (UID : @uid).'

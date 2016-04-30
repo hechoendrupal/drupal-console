@@ -7,91 +7,55 @@
 
 namespace Drupal\Console\Command;
 
-use Symfony\Component\Console\Helper\HelperInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Style\DrupalStyle;
 
 trait PermissionTrait
 {
     /**
-     * @param OutputInterface $output
-     * @param HelperInterface $dialog
+     * @param DrupalStyle $output
      *
      * @return mixed
      */
-    public function permissionQuestion(
-        OutputInterface $output,
-        HelperInterface $dialog
-    ) {
+    public function permissionQuestion(DrupalStyle $output)
+    {
         $permissions = [];
         $boolOrNone = ['true','false','none'];
         while (true) {
-            $permission = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.permission.questions.permission'),
-                    'access content'
-                ),
+            $permission = $output->ask(
+                $this->trans('commands.generate.permission.questions.permission'),
                 'access content'
             );
-            $title = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.permission.questions.title'),
-                    'Access content'
-                ),
+            $title = $output->ask(
+                $this->trans('commands.generate.permission.questions.title'),
                 'Access content'
             );
-            $description = $dialog->ask(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.permission.questions.description'),
-                    'Allow access to my content'
-                ),
+            $description = $output->ask(
+                $this->trans('commands.generate.permission.questions.description'),
                 'Allow access to my content'
             );
-            $restrictAccess = $dialog->askAndValidate(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.permission.questions.restrict-access'),
-                    'none',
-                    '?'
-                ),
-                function ($answer) use ($boolOrNone) {
-                    if (!in_array($answer, $boolOrNone)) {
-                        throw new \RuntimeException(
-                            'The values can be true, false or none'
-                        );
-                    }
-
-                    return $answer;
-                },
-                false,
-                'none',
-                $boolOrNone
+            $restrictAccess = $output->choiceNoList(
+                $this->trans('commands.generate.permission.questions.restrict-access'),
+                $boolOrNone,
+                'none'
             );
 
             $permission = $this->getStringHelper()->camelCaseToLowerCase($permission);
             $title = $this->getStringHelper()->anyCaseToUcFirst($title);
 
             array_push(
-                $permissions, array(
-                'permission' => $permission,
-                'title' => $title,
-                'description' => $description,
-                'restrict_access' => $restrictAccess,
-                )
+                $permissions,
+                [
+                    'permission' => $permission,
+                    'title' => $title,
+                    'description' => $description,
+                    'restrict_access' => $restrictAccess,
+                ]
             );
 
-            if (!$dialog->askConfirmation(
-                $output,
-                $dialog->getQuestion(
-                    $this->trans('commands.generate.permission.questions.add'),
-                    'yes',
-                    '?'
-                ),
+            if (!$output->confirm(
+                $this->trans('commands.generate.permission.questions.add'),
                 true
-            )
-            ) {
+            )) {
                 break;
             }
         }

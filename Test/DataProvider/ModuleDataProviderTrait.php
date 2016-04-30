@@ -13,13 +13,13 @@ trait ModuleDataProviderTrait
      */
     public function commandData()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
 
         return [
-          ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, false, null],
-          ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', true, false, null],
-          ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', false, false, null],
-          ['Foo', 'foo' . rand(), $this->dir, 'Description', '8.x', 'Other', true, true, null],
+          ['Foo', sprintf('%s_%s', 'foo', rand()), $this->dir, 'Description', '8.x', 'Custom', true, '', false, null],
+          ['Foo', sprintf('%s_%s', 'foo', rand()), $this->dir, 'Description', '8.x', 'Custom', false, 'default', false, null],
+          ['Foo', sprintf('%s_%s', 'foo', rand()), $this->dir, 'Description', '8.x', 'Custom', true, '', false, null],
+          ['Foo', sprintf('%s_%s', 'foo', rand()), $this->dir, 'Description', '8.x', 'Custom', false, '', false, null],
         ];
     }
 }

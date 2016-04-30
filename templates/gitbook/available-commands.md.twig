@@ -1,32 +1,32 @@
-# Available Drupal Console Commands
+# {{ application.messages.title }}
 
-**Note:** Drupal Console commands *must* be run from the root of a Drupal 8 installation.
+**{{ application.messages.note }}:** {{ application.messages.note_description }}.
 
-Drupal Console Command | Details
+{{ application.messages.command }} | {{ application.messages.details }}
 ------------ | -------------
-{% for namespace, commands in command_list %}
+{% for namespace in application.namespaces %}
 {% if namespace != 'none' %}
 **{{ namespace }}**  |
 {% endif %}
-{% for command in commands %}
+{% for command in commands[namespace] %}
 [{{ command.name }}]({{ command.name|replace(':','-') }}.md) | {{ command.description }}
 {% endfor %}
 {% endfor %}
+{% if application.options|length>0 %}
 
-{% if options|length>0 %}
-## Available options
-Option | Details
+## {{ application.messages.options }}
+{{ application.messages.option }} | {{ application.messages.details }}
 -------|-------------
-{% for option in options %}
+{% for option in application.options %}
 --{{ option.name }} | {{ option.description }}
 {% endfor %}
 {% endif %}
+{% if application.arguments|length>0 %}
 
-{% if arguments|length>0 %}
-## Available arguments
-Argument | Details
+## {{ application.messages.arguments }}
+{{ application.messages.argument }} | {{ application.messages.details }}
 ---------|-------------
-{% for argument in arguments %}
+{% for argument in application.arguments %}
 {{ argument.name }} | {{ argument.description }}
 {% endfor %}
 {% endif %}

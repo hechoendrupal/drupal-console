@@ -1,0 +1,15 @@
+description: '生成字段 Widget 插件'
+help: '命令 <info>generate:plugin:fieldwidget</info> 用于生成字段 Widget 插件'
+welcome: '欢迎使用 Drupal 字段 Widget 插件生成器'
+options:
+    module: common.options.module
+    class: 插件类名
+    label: 插件标签
+    plugin-id: '插件 ID'
+    field-type: 字段类型，可以和该插件一起使用的字段类型
+questions:
+    module: common.questions.module
+    class: 输入插件类名
+    label: 输入插件标签
+    plugin-id: '输入插件 ID'
+    field-type: 输入字段类型，可以和该插件一起使用的字段类型

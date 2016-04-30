@@ -1,3 +1,5 @@
-description: 'Show the current configuration.'
+description: 'Hiển thị cấu hình hiện tại'
 arguments:
-    config-name: 'Configuration name.'
+    name: 'Tên cấu hình'
+errors:
+    not-exists: 'Cấu hình "%s" không tồn tại.'

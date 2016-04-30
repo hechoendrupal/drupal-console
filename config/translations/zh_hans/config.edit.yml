@@ -1,0 +1,8 @@
+description: 编辑配置
+arguments:
+    config-name: 配置名称
+    editor: 编辑器
+questions:
+    config-name: 请选择一个配置单元
+messages:
+    no-directory: 创建文件夹出错

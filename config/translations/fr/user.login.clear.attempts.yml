@@ -7,6 +7,6 @@ questions:
     numeric-uid: 'User id must be an integer.'
     invalid-uid: 'User id must be upper than zero.'
 messages:
-    successful: 'Login attempts was clean sucessfully for user id %s.'
+    successful: 'Login attempts was clean successfully for user id %s.'
 errors:
     invalid-user: 'Cannot load user entity (Uid: %s).'

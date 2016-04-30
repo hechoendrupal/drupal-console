@@ -1,0 +1,15 @@
+description: 显示当前主题
+arguments:
+    theme: 指定主题进行调试
+messages:
+    theme-id: '主题 Id'
+    theme-name: 主题名称
+    status: 状态
+    version: 版本
+    installed: 已安装
+    uninstalled: 已卸载
+    default-theme: 默认主题
+    properties: 属性
+    regions: 区域
+    invalid-theme: '主题 %s 无效'
+    theme-properties: 属性

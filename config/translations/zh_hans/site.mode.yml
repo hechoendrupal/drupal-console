@@ -1,0 +1,16 @@
+description: 转换系统性能配置
+arguments:
+    environment: 环境名字(开发|应用)
+messages:
+    configuration: 配置名
+    configuration-key: 配置键
+    original: 原始值
+    updated: 覆盖值
+    invalid-env: 无效环境
+    new-services-settings: 新服务设置
+    service: 服务
+    service-parameter: 参数
+    service-value: 值
+    error-copying-file: 复制文件出错
+    error-writing-file: 复制文件出错
+    services-file-overwritten: 服务文件%s被重写

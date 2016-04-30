@@ -1,0 +1,16 @@
+description: 'Generar comandaments per la consola'
+help: 'El comandament <info>generate:command</info> t''ajuda a generar nous comandaments.'
+welcome: 'Us donem la benvinguda al generador de comandaments de Drupal'
+options:
+    module: 'El nom del mòdul (que contindrá el comandament)'
+    controller-title: 'Títol del controlador.'
+    class: 'La Classe que descriu el comandament. (Ha d''acabar amb la paraula ''Commmand'').'
+    name: 'Nom del comandament.'
+    container-aware: 'Es el comandament conscient de l''instal·lació de Drupal quan s''executa'
+questions:
+    module: common.questions.module
+    class: 'Tecleja la classe del comandament. (Ha d''acabar amb la paraula ''Command'').'
+    name: 'Tecleja el nom del comandament.'
+    container-aware: '¿Es el comandament conscient de l''instal·lació de Drupal quan s''executa?.'
+messages:
+    title-not-empty: 'El títol no pot estar buit'

@@ -1,0 +1,13 @@
+description: 导出视图
+messages:
+    view_exported: 正在导出视图
+    depencies-included: '以下模块依赖被包含 %s'
+questions:
+    view: 视图
+    optional-config: 是否导出视图作为一个模块的可选配置
+    include-module-dependencies: '在模块的 info 文件中包含相关依赖模块'
+arguments:
+    view-id: '视图 ID'
+options:
+    optional-config: 导出视图作为模块的可选配置
+    include-module-dependencies: '在模块的 info 文件中包含相关依赖模块'

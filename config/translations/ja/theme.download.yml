@@ -1,0 +1,11 @@
+description: テーマをダウンロード
+options:
+    version: 'テーマのバージョン (例: 1.x-dev)'
+messages:
+    no-releases: 'テーマ %s のリリースが存在しません。'
+    getting-releases: 'テーマ %s のリリースを取得しています。'
+    downloading: 'テーマ %s %s をダウンロードしています。'
+    downloaded: 'テーマ %s %s は %s にダウンロードされました。'
+    select-release: ダウンロードするバージョンを選択してください
+    outside-drupal: 'Drupal root can''t be determined. Use --root to set the destination, current folder will be used instead of.'
+    error-creating-folder: 'ディレクトリ %s の作成に失敗しました、パーミッションを確認してください。'

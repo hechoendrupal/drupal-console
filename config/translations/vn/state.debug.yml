@@ -1,0 +1,6 @@
+description: 'Hiển thị State keys hiện tại.'
+help: 'Hiển thị State keys hiện tại.'
+arguments:
+    key: 'State key để debug.'
+messages:
+    key: 'The State key'

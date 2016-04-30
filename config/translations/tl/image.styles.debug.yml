@@ -1,0 +1,5 @@
+description: 'List image styles on the site'
+messages:
+    styles-list: 'Image Styles defined in the site'
+    styles-label: Label
+    styles-name: 'Machine Name'

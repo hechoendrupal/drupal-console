@@ -1,0 +1,21 @@
+description: 'Profil létrehozása.'
+help: 'A <info>generate:profile</info> parancs új telepítési profil létrehozását segíti.'
+welcome: 'Üdvözlet a Drupal telepítési profil előállítóban'
+options:
+    profile: 'A profil neve'
+    machine-name: 'A programok által használt név (csak kisbetűk és aláhúzás)'
+    description: 'Profil leírása'
+    core: 'Drupal alaprendszer verziója'
+    dependencies: 'Modulfüggőségek vesszővel elválasztva (pl. context, panels)'
+    distribution: 'A disztribúció neve'
+questions:
+    profile: 'Meg kell adni az új profil nevét'
+    machine-name: 'Meg kell adni a programok által használt nevet'
+    description: 'Meg kell adni a leírást'
+    core: 'Meg kell adni a drupal alaprendszer verzióját'
+    dependencies: 'Modulfüggőségek hozzáadása most?'
+    distribution: 'Ez a telepítési profil disztribúció lesz?'
+warnings:
+    module-unavailable: 'Figyelmeztetés! A következő modulok már nem állnak rendelkezésre a helyi környezetben: "%s"'
+errors:
+    directory-exists: 'A következő célkönyvtár nem üres: "%s".'

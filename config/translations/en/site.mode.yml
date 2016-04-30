@@ -1,6 +1,6 @@
 description: 'Switch system performance configuration'
 arguments:
-    environment: 'Environment name (dev|prod)'
+    environment: 'Environment name [dev, prod]'
 messages:
     configuration: 'Configuration name'
     configuration-key: 'Configuration key'
@@ -8,9 +8,9 @@ messages:
     updated: 'Override Value'
     invalid-env: 'Invalid environment'
     new-services-settings: 'New services settings'
-    service: Service
-    service-parameter: Parameter
-    service-value: Value
+    service: 'Service'
+    service-parameter: 'Parameter'
+    service-value: 'Value'
     error-copying-file: 'Error copying file'
     error-writing-file: 'Error copying file'
     services-file-overwritten: 'Services files %s was overwritten'

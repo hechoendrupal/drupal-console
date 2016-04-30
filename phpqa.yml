@@ -16,7 +16,7 @@ application:
       arguments:
     php-cs-fixer:
       enabled: true
-      exception: true
+      exception: false
       file:
         config-file: .php_cs
         single-execution: false
@@ -28,7 +28,7 @@ application:
       postfixes:
     phpcbf:
       enabled: true
-      exception: true
+      exception: false
       options:
         standard: PSR2
         severity: 0
@@ -52,12 +52,12 @@ application:
       prefixes:
       postfixes:
         - 'text'
-        - 'cleancode,codesize,unusedcode,naming,controversial,design'
+        - 'cleancode'
     phploc:
-      enabled: true
+      enabled: false
       exception: false
     phpcpd:
-      enabled: true
+      enabled: false
       exception: false
     phpdcd:
       enabled: false

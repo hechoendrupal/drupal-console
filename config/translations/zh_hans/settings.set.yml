@@ -1,0 +1,10 @@
+description: '改变 DrupalConsole 配置文件中的配置'
+arguments:
+    setting-name: 配置名称
+    setting-value: 要设置的值
+messages:
+    error-parsing: '处理YAML文件"%s"时出错.'
+    error-generating: 在配置文件中设置语言出错.
+    error-writing: 写入配置文件出错.
+    success: 'Drupal Console 的配置 %s 成功设置为 %s'
+    missing-file: 'The %s config file is missing, try executing `drupal init`'

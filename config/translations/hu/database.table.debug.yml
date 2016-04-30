@@ -1,0 +1,12 @@
+description: 'Adott adatbázis összes táblájának megjelenítése.'
+help: 'A <info>database:table:debug</info> parancs adatbázistáblák hibakeresését segíti.'
+arguments:
+    table: 'Table to debug'
+    database: 'Adatbáziskulcs a settings.php fájlból'
+options:
+    database: 'Database key from settings.php'
+messages:
+    table-show: '%s adatbázis tábláinak megjelenítése'
+    table: Tábla
+    column: Oszlop
+    type: Típus

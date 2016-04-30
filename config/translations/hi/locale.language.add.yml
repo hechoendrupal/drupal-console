@@ -1,0 +1,4 @@
+description: 'एक भाषा को जोड़े जो आप के साइट द्वारा सपोर्ट होना है'
+messages:
+    invalid-language: 'भाषा %s यह एक अवैध भाषा है'
+    language-add-successfully: 'भाषा %s सफलतापूर्वक जोड़ दिया गया।'

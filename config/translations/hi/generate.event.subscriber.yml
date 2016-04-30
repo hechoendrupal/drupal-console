@@ -1,4 +1,4 @@
-description: 'Generate an event subscriber'
+description: 'एक घटना ग्राहक उत्पन्न करें'
 questions:
-    class-name: 'Class name'
-    callback-name: 'Callback function name to handle event'
+    class: 'क्लास नाम'
+    callback-name: 'घटना सँभालने के लिए कालबैक फंक्शन का नाम'

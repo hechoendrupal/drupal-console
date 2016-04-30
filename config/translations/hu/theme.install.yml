@@ -1,0 +1,21 @@
+description: 'Smink vagy sminkek telepítése az alkalmazásba'
+questions:
+    theme: 'Smink neve (a <return> megnyomásával fejezhető be a sminkek hozzáadása)'
+    invalid-theme: 'Érvénytelen smink: %s'
+options:
+    theme: 'A telepítendő sminkeket vesszővel kell elválasztani'
+    overwrite-config: 'Az aktív konfiguráció felülírása, ha szükséges'
+    set-default: 'Smink beállítása alapértelmezettként'
+messages:
+    no-themes: 'Meg kell adni telepítendő sminket vagy sminkeket.'
+    themes-missing: 'Nem telepíthetők %s sminkek, mert nem érhetők el'
+    theme-missing: 'Nem telepíthető %s smink, mert nem érhető el'
+    missing-dependencies: 'Nem telepíthetők %s sminkek, mert függőségek hiányoznak: %s'
+    themes-nothing: 'Nincs teendő. Már minden smink telepítve van: %s'
+    theme-nothing: 'Nincs teendő. %s smink már telepítve van.'
+    dependencies: 'Néhány függőség nem teljesül: %s?'
+    theme-success: '%s smink telepítése sikerült'
+    themes-success: '%s sminkek telepítése sikerült'
+    theme-default-success: 'Sikerült %s smink telepítése alapértelmezett sminkként'
+    disabled-themes: 'Csak nem telepített sminkek lesznek listázva az automatikus kiegészítésben'
+    invalid-theme-default: 'Az alapértelmezett beállítás csak egy sminknél érvényes'

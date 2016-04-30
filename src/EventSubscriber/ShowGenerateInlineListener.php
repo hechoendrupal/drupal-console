@@ -7,10 +7,11 @@
 
 namespace Drupal\Console\EventSubscriber;
 
-use Drupal\Console\Helper\TranslatorHelper;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Drupal\Console\Command\Command;
+use Drupal\Console\Style\DrupalStyle;
 
 class ShowGenerateInlineListener implements EventSubscriberInterface
 {
@@ -25,23 +26,23 @@ class ShowGenerateInlineListener implements EventSubscriberInterface
     ];
 
     private $skipArguments = [
+        'command'
     ];
     /**
      * @param ConsoleTerminateEvent $event
      */
     public function showGenerateInline(ConsoleTerminateEvent $event)
     {
-        /**
-         * @var \Drupal\Console\Command\Command $command
-         */
+        /* @var Command $command */
         $command = $event->getCommand();
-        $output = $event->getOutput();
+        /* @var DrupalStyle $io */
+        $io = $event->getOutput();
+
         $command_name = $command->getName();
 
         $this->skipArguments[] = $command_name;
 
         $application = $command->getApplication();
-        $messageHelper = $application->getMessageHelper();
         $translatorHelper = $application->getTranslator();
 
         if ($event->getExitCode() != 0) {
@@ -52,21 +53,15 @@ class ShowGenerateInlineListener implements EventSubscriberInterface
             return;
         }
 
-        // get the input instance
         $input = $event->getInput();
 
-        //Get options list
-        $options = array_filter($input->getOptions());
-
-        if (isset($options['generate-inline']) && $options['generate-inline'] == 1) {
-            // Remove unnecessary options
+        if ($input->getOption('generate-inline')) {
+            $options = array_filter($input->getOptions());
             foreach ($this->skipOptions as $remove_option) {
                 unset($options[$remove_option]);
             }
 
-            // Get argument list
             $arguments = array_filter($input->getArguments());
-            // Remove unnecessary arguments
             foreach ($this->skipArguments as $remove_argument) {
                 unset($arguments[$remove_argument]);
             }
@@ -82,21 +77,46 @@ class ShowGenerateInlineListener implements EventSubscriberInterface
                 $inline .= " $argument";
             }
 
-            foreach ($options as $option_id => $option) {
-                if (strstr($option, ' ')) {
-                    $option = '"' . $option . '"';
+            // Refactor and remove nested levels. Then apply to arguments.
+            foreach ($options as $optionName => $optionValue) {
+                if (is_array($optionValue)) {
+                    foreach ($optionValue as $optionItem) {
+                        if (is_array($optionItem)) {
+                            $inlineValue = implode(
+                                ' ', array_map(
+                                    function ($v, $k) {
+                                        return $k . ':' . $v;
+                                    },
+                                    $optionItem,
+                                    array_keys($optionItem)
+                                )
+                            );
+                        } else {
+                            $inlineValue = $optionItem;
+                        }
+                        $inline .= ' --' . $optionName . '="' . $inlineValue . '"';
+                    }
+                } else {
+                    if (is_bool($optionValue)) {
+                        $inline.= ' --' . $optionName;
+                    } else {
+                        $inline.= ' --' . $optionName . '="' . $optionValue . '"';
+                    }
                 }
-                $inline.= ' --' . $option_id . '=' . $option;
             }
 
-
             // Print yaml output and message
-            $messageHelper->showMessage(
-                $output,
-                $translatorHelper->trans('application.console.messages.inline.generated')
+            $io->commentBlock(
+                $translatorHelper->trans('application.messages.inline.generated')
             );
 
-            $output->writeln('$ drupal' . $inline);
+            $io->writeln(
+                sprintf(
+                    '$ drupal %s %s',
+                    $command_name,
+                    $inline
+                )
+            );
         }
     }
 

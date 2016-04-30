@@ -13,7 +13,7 @@ trait PluginImageFormatterDataProviderTrait
      */
     public function commandData()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
 
         return [
           ['Foo',  'foo' . rand(), 'foo', 'bar'],

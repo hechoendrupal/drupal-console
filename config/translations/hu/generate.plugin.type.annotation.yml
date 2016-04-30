@@ -1,13 +1,13 @@
-description: 'Generate a plugin type with annotation discovery'
-help: 'The <info>generate:plugin:type:annotation</info> command helps you generate a new Plugin type that uses annotation discovery.'
-welcome: 'Welcome to the Drupal Plugin Type generator'
+description: 'Bővítménytípus létrehozása magyarázatészleléssel'
+help: 'A <info>generate:plugin:type:annotation</info> parancs magyarázatészlelést használó új bővítménytípus létrehozását segíti.'
+welcome: 'Üdvözlet a Drupal bővítménytípus előállítóban'
 options:
     module: common.options.module
-    class-name: 'Plugin type class name'
-    machine-name: 'Plugin type machine name'
-    label: 'Plugin type label'
+    class: 'Bővítménytípus osztályneve'
+    machine-name: 'Bővítménytípus programok által használt neve'
+    label: 'Bővítménytípus felirata'
 questions:
     module: common.questions.module
-    class-name: 'Enter the plugin type class name'
-    machine-name: 'Enter the plugin type machine name'
-    label: 'Enter the plugin type label'
+    class: 'Meg kell adni a bővítménytípus osztálynevét'
+    machine-name: 'Meg kell adni a bővítménytípus programok által használt nevét'
+    label: 'Meg kell adni a bővítménytípus feliratát'

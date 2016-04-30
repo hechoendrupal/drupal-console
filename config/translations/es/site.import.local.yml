@@ -1,0 +1,16 @@
+description: 'Importar o configurar un proyecto Drupal existente en local'
+help: 'El comando <info>site:import:local</info> crea un archivo de configuración YAML para un sitio existente en local.'
+arguments:
+    directory: 'Directorio raíz del Drupal existente'
+    name: 'Nombre que se usará para generar la configuración del sitio'
+options:
+    environment: 'Nombre del entorno que va a ser importado'
+messages:
+    imported: 'El sitio ha sido importado con éxito. Le puede interesar ejecutar `drupal site:debug` para confirmar que todo ha ido bien.'
+    error-missing: 'El directorio %s no existe.'
+    error-not-drupal: 'Éste no es un directorio raíz Drupal válido: %s'
+    error-writing: 'Ha ocurrido un error mientras se intentaba escribir el archivo de configuración: %s'
+questions:
+    directory: 'Introduzca el nombre del directorio donde instalar Drupal'
+    name: 'Introduzca el nombre del sitio'
+    environment: 'Introduzca el nombre de entorno del sitio'

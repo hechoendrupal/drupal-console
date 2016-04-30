@@ -7,7 +7,7 @@ options:
     permissions: 'Create permissions.'
 questions:
     module: 'Enter the module name'
-    confirm: 'Do you confirm generation'
+    confirm: 'Do you confirm generation?'
     canceled: 'Command generation canceled.'
     events:
         message: "\nType the event name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
@@ -17,18 +17,30 @@ questions:
         message: "\nType the service name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
         name: 'Enter your service'
     inputs:
-        confirm: 'Do you want to generate a form structure'
+        confirm: 'Do you want to generate a form structure?'
         label: 'Input label'
         machine_name: 'Input machine name'
-        permission: 'Do you want to generate permissions'
+        permission: 'Do you want to generate permissions?'
         type: Type
         invalid: 'Field Type "%s" is invalid.'
         description: Description
-        default-value: 'Default value'
+        default-value:
+            default-value: 'Default value'
+            checkboxes: 'Default value(s) separated by commas'
         weight: 'Weight for input item'
+        title: 'Title'
+        fieldset: 'Fieldset'
 errors:
-    module-dependency: 'Missing module dependency "%s"'
+    module-dependency: 'Missing module dependency "%s" is not installed. Try module:install to install it.'
     class-name-empty: 'The Class name can not be empty'
+    invalid-file-path: 'You must provide a valid file path'
+    module-exist: 'Module "%s" already exist.'
+    machine-name-duplicated: 'Machine name "%s" is duplicated.'
 status:
     enabled: Enabled
     disabled: Disabled
+messages:
+    canceled: 'The generation was cancelled'
+    drupal-core: 'Drupal Core'
+    move-phar: 'Accessing console from anywhere on your system'
+    quick-start: 'Download, install and serve Drupal 8'

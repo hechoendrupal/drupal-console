@@ -1,0 +1,13 @@
+description: 利用可能なモジュールの一覧を表示
+options:
+    status: 'モジュールのステータス [enabled|disabled]'
+    type: 'モジュールのタイプ [core|no-core]'
+messages:
+    id: ID
+    name: Name
+    status: Status
+    origin: Origin
+    package: Package
+    enabled: Enabled
+    disabled: Disabled
+    schema-version: 'Schema version'
