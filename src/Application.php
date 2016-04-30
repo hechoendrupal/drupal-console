@@ -250,9 +250,7 @@ class Application extends BaseApplication
 
         $skipCheck = [
           'check',
-          'settings:check',
           'init',
-          'settings:check'
         ];
         if (!in_array($commandName, $skipCheck) && $config->get('application.checked') != 'true') {
             $requirementChecker = $this->getContainerHelper()->get('requirement_checker');
@@ -262,11 +260,11 @@ class Application extends BaseApplication
             }
             $requirementChecker->validate($phpCheckFile);
             if (!$requirementChecker->isValid()) {
-                $command = $this->find('settings:check');
+                $command = $this->find('check');
                 return $this->doRunCommand($command, $input, $output);
             }
             if ($requirementChecker->isOverwritten()) {
-                $this->getChain()->addCommand('settings:check');
+                $this->getChain()->addCommand('check');
             } else {
                 $this->getChain()->addCommand(
                     'settings:set',
