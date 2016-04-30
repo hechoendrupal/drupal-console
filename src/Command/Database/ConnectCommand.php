@@ -45,6 +45,10 @@ class ConnectCommand extends ContainerAwareCommand
         $database = $input->getArgument('database');
         $databaseConnection = $this->resolveConnection($io, $database);
 
+        if ($databaseConnection['password']) {
+          $databaseConnection['password'] = str_repeat("*", strlen($databaseConnection['password']));
+        }
+
         $connection = sprintf(
             '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
             $databaseConnection['driver'],
