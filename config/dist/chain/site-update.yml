@@ -1,0 +1,15 @@
+commands:
+# Drop database
+  - command: database:dump
+    arguments:
+      database: 'default'
+# Import configurations
+  - command: config:import
+# Restore Database
+  - command: update:execute
+    arguments:
+        module: 'all'
+# Rebuild caches
+  - command: cache:rebuild
+    arguments:
+        cache: 'all'

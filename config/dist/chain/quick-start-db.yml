@@ -2,12 +2,12 @@ commands:
 # Download Drupal
   - command: site:new
     arguments:
-      directory: drupal8.dev
-      version: 8.1.0
+      directory: 'drupal8.dev'
+      version: '8.1.0'
 # Install Drupal
   - command: site:install
     options:
-      langcode: en
+      langcode: 'en'
       db-type: '%{{db_type|mysql}}'
       db-host: '%{{db_host|127.0.0.1}}'
       db-name: '%{{db_name|drupal}}'
@@ -15,11 +15,11 @@ commands:
       db-pass: '%{{db_pass}}'
       db-port: '%{{db_port|3306}}'
       site-name: 'Drupal 8 site'
-      site-mail: admin@example.org # default email
-      account-name: admin # default account
-      account-mail: admin@example.org # default email
-      account-pass: admin # default pass
+      site-mail: 'admin@example.org' # default email
+      account-name: 'admin' # default account
+      account-mail: 'admin@example.org' # default email
+      account-pass: 'admin' # default pass
     arguments:
-      profile: standard
+      profile: 'standard'
 # Start php built-in server
   - command: server
