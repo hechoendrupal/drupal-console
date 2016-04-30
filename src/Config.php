@@ -64,6 +64,10 @@ class Config
      */
     private function loadFile($file = null, $prefix=null)
     {
+        if (!$file) {
+            return false;
+        }
+
         $config = $this->getFileContents($file);
 
         if ($config) {

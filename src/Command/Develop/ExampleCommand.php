@@ -42,15 +42,15 @@ class ExampleCommand extends ContainerAwareCommand
          */
         $io = new DrupalStyle($input, $output);
         $io->simple('This text could be translatable by');
-        $io->simple('adding a YAML file at "config/translations/LANGUAGE"');
+        $io->simple('adding a YAML file at "config/translations/LANGUAGE/command.name.yml"');
 
         /**
          *  By using ContainerAwareCommand as the base class for the command
          *  (instead of the more basic Command), you have access to
          *  the service container.
          *
-         *  In other words, you have access to any configured service using
-         *  the provided getService method.
+         *  In other words, you can access to any configured Drupal service
+         *  using the provided getService method.
          *
          *  $this->getService('entity_type.manager');
          *

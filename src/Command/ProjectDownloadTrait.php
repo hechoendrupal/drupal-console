@@ -194,9 +194,10 @@ trait ProjectDownloadTrait
      * @param \Drupal\Console\Style\DrupalStyle $io
      * @param string                            $project
      * @param bool                              $latest
+     * @param bool                              $stable
      * @return string
      */
-    public function releasesQuestion(DrupalStyle $io, $project, $latest = false)
+    public function releasesQuestion(DrupalStyle $io, $project, $latest = false, $stable = false)
     {
         $commandKey = str_replace(':', '.', $this->getName());
 
@@ -207,7 +208,7 @@ trait ProjectDownloadTrait
             )
         );
 
-        $releases = $this->getDrupalApi()->getProjectReleases($project, $latest?1:15);
+        $releases = $this->getDrupalApi()->getProjectReleases($project, $latest?1:15, $stable);
 
         if (!$releases) {
             $io->error(
