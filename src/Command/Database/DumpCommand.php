@@ -90,7 +90,11 @@ class DumpCommand extends ContainerAwareCommand
         }
 
         if ($learning) {
-            $io->commentBlock($command);
+            $io->commentBlock(
+              str_replace($databaseConnection['password'],
+              str_repeat("*", strlen($databaseConnection['password'])),
+              $command)
+            );
         }
 
         $processBuilder = new ProcessBuilder(['–lock-all-tables']);
