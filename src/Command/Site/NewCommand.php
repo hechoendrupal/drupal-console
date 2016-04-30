@@ -51,6 +51,7 @@ class NewCommand extends Command
 
         $projectPath = $this->downloadProject($io, 'drupal', $version, 'core');
         $downloadPath = sprintf('%sdrupal-%s', $projectPath, $version);
+
         if ($this->isAbsolutePath($directory))
         {
           $copyPath = $directory;
@@ -58,6 +59,7 @@ class NewCommand extends Command
         else{
           $copyPath = sprintf('%s%s', $projectPath, $directory);
         }
+
         try {
             $fileSystem = new Filesystem();
             $fileSystem->rename($downloadPath, $copyPath);
