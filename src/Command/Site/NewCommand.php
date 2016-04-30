@@ -51,7 +51,14 @@ class NewCommand extends Command
 
         $projectPath = $this->downloadProject($io, 'drupal', $version, 'core');
         $downloadPath = sprintf('%sdrupal-%s', $projectPath, $version);
-        $copyPath = sprintf('%s%s', $projectPath, $directory);
+
+        if ($this->isAbsolutePath($directory))
+        {
+          $copyPath = $directory;
+        }
+        else{
+          $copyPath = sprintf('%s%s', $projectPath, $directory);
+        }
 
         try {
             $fileSystem = new Filesystem();
@@ -104,5 +111,10 @@ class NewCommand extends Command
             $version = $this->releasesQuestion($io, 'drupal');
             $input->setArgument('version', $version);
         }
+    }
+
+    protected function isAbsolutePath($path)
+    {
+      return $path[0] === DIRECTORY_SEPARATOR || preg_match('~\A[A-Z]:(?![^/\\\\])~i',$path) > 0;
     }
 }
