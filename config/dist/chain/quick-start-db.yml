@@ -3,7 +3,8 @@ commands:
   - command: site:new
     arguments:
       directory: 'drupal8.dev'
-      version: '8.1.0'
+    options:
+      latest: 'true'
 # Install Drupal
   - command: site:install
     options:
