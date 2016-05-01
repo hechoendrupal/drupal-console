@@ -68,10 +68,7 @@ class AboutCommand extends Command
             ],
             'site-new' => [
                 $this->trans('commands.site.new.description'),
-                sprintf(
-                    'drupal site:new drupal8.dev %s',
-                    $application::DRUPAL_SUPPORTED_VERSION
-                )
+                'drupal site:new drupal8.dev --latest'
             ],
             'site-install' => [
             $this->trans('commands.site.install.description'),
