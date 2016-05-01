@@ -259,17 +259,17 @@ class CommandDiscoveryHelper extends Helper
     private function validateCommand($className, $source, $type)
     {
         if (!class_exists($className)) {
-            return;
+            return false;
         }
 
         $reflectionClass = new \ReflectionClass($className);
 
         if ($reflectionClass->isAbstract()) {
-            return;
+            return false;
         }
 
         if (!$reflectionClass->isSubclassOf('Drupal\\Console\\Command\\Command')) {
-            return;
+            return false;
         }
 
         if (!$this->getDrupalHelper()->isInstalled() &&
