@@ -65,7 +65,7 @@ $helpers = [
     'drupal' => new DrupalHelper(),
     'commandDiscovery' => new CommandDiscoveryHelper(
         $config->get('application.develop'),
-        $autoload
+        $container->get("command_dependency_resolver")
     ),
     'remote' => new RemoteHelper(),
     'httpClient' => new HttpClientHelper(),
