@@ -56,11 +56,9 @@ $translatorHelper->loadResource($config->get('application.language'), $consoleRo
 
 $helpers = [
     'nested-array' => new NestedArrayHelper(),
-    'kernel' => new KernelHelper(),
     'string' => new StringHelper(),
     'validator' => new ValidatorHelper(),
     'translator' => $translatorHelper,
-    'site' => new SiteHelper(),
     'renderer' => new TwigRendererHelper(),
     'showFile' => new ShowFileHelper(),
     'chain' => new ChainCommandHelper(),

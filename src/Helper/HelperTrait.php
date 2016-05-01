@@ -30,7 +30,7 @@ trait HelperTrait
      */
     public function getSite()
     {
-        return $this->getHelperSet()->get('site');
+        return $this->getContainerHelper()->get('helper_site');
     }
 
     /**
@@ -70,7 +70,7 @@ trait HelperTrait
      */
     public function getKernelHelper()
     {
-        return $this->getHelperSet()->get('kernel');
+        return $this->getContainerHelper()->get('helper_kernel');
     }
 
     /**
