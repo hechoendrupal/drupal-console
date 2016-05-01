@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command;
 
+use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

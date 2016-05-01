@@ -24,3 +24,6 @@ services:
   annotation_reader:
     class: Doctrine\Common\Annotations\AnnotationReader
     lazy: true
+  file_util:
+    class: Drupal\Console\Utils\File
+    lazy: true

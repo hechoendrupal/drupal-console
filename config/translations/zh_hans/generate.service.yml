@@ -9,7 +9,7 @@ options:
     services: common.questions.services
 questions:
     module: common.questions.module
-    service-name: '输入服务名'
-    class: '输入类名'
+    service-name: 输入服务名
+    class: 输入类名
     interface: 生成一个界面
     services: common.options.services

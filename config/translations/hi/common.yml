@@ -34,7 +34,7 @@ errors:
     invalid-file-path: 'आप कौ एक वैध फ़ाइल पथ प्रदान करनी चाहिए'
 status:
     enabled: सक्षम
-    disabled: 'अक्षम'
+    disabled: अक्षम
 messages:
     canceled: 'उत्पन्न रद्द कर दिया गया'
     drupal-core: 'Drupal कोर'
