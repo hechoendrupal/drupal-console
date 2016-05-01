@@ -28,6 +28,7 @@ use Drupal\Console\Helper\ContainerHelper;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 
 set_time_limit(0);
 
@@ -44,6 +45,7 @@ if (file_exists($consoleRoot.'vendor/autoload.php')) {
 }
 
 $container = new ContainerBuilder();
+AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
 $loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
 $loader->load('services.yml');
 
