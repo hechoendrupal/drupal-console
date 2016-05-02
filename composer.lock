@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "46467634dfee7cee1f4884a20978a855",
-    "content-hash": "76b2631cb354d5167766967e5b3f55fc",
+    "hash": "c45e4e949ea768f00dae559668393d74",
+    "content-hash": "f731e55fbc2d71e38e908d9e70dd1320",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -668,7 +668,7 @@
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "phing/phing": "2.7.6",
+                "phing/phing": "~2.7",
                 "phpunit/phpunit": "~4.0",
                 "sami/sami": "~2.0",
                 "squizlabs/php_codesniffer": "~2.0"
@@ -1039,16 +1039,16 @@
         },
         {
             "name": "symfony/debug",
-            "version": "v2.8.4",
+            "version": "v2.7.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "056d028521c18f4932c421f1ffa4c74cd644cda8"
+                "reference": "fb9e6887db716939f41af0ba8ef38a1582eb501b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/056d028521c18f4932c421f1ffa4c74cd644cda8",
-                "reference": "056d028521c18f4932c421f1ffa4c74cd644cda8",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/fb9e6887db716939f41af0ba8ef38a1582eb501b",
+                "reference": "fb9e6887db716939f41af0ba8ef38a1582eb501b",
                 "shasum": ""
             },
             "require": {
@@ -1059,22 +1059,19 @@
                 "symfony/http-kernel": ">=2.3,<2.3.24|~2.4.0|>=2.5,<2.5.9|>=2.6,<2.6.2"
             },
             "require-dev": {
-                "symfony/class-loader": "~2.2|~3.0.0",
-                "symfony/http-kernel": "~2.3.24|~2.5.9|~2.6,>=2.6.2|~3.0.0"
+                "symfony/class-loader": "~2.2",
+                "symfony/http-kernel": "~2.3.24|~2.5.9|~2.6,>=2.6.2"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.8-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
                     "Symfony\\Component\\Debug\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1092,7 +1089,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2016-03-16 15:31:59"
+            "time": "2015-10-11 09:39:48"
         },
         {
             "name": "symfony/dependency-injection",
@@ -1158,24 +1155,23 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v2.8.4",
+            "version": "v2.7.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
-                "reference": "aae5c37d243c6ec11db62221aaff37e7f8005926"
+                "reference": "5fef7d8b80d8f9992df99d8ee283f420484c9612"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/aae5c37d243c6ec11db62221aaff37e7f8005926",
-                "reference": "aae5c37d243c6ec11db62221aaff37e7f8005926",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/5fef7d8b80d8f9992df99d8ee283f420484c9612",
+                "reference": "5fef7d8b80d8f9992df99d8ee283f420484c9612",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.9",
-                "symfony/polyfill-mbstring": "~1.0"
+                "php": ">=5.3.9"
             },
             "require-dev": {
-                "symfony/css-selector": "~2.8|~3.0.0"
+                "symfony/css-selector": "~2.3"
             },
             "suggest": {
                 "symfony/css-selector": ""
@@ -1183,16 +1179,13 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.8-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
                     "Symfony\\Component\\DomCrawler\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1210,7 +1203,7 @@
             ],
             "description": "Symfony DomCrawler Component",
             "homepage": "https://symfony.com",
-            "time": "2016-03-23 13:11:46"
+            "time": "2015-10-11 09:39:48"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -1778,8 +1771,8 @@
                 "php": ">=5.2.7"
             },
             "require-dev": {
-                "symfony/debug": "2.7.6",
-                "symfony/phpunit-bridge": "2.7.6"
+                "symfony/debug": "~2.7",
+                "symfony/phpunit-bridge": "~2.7"
             },
             "type": "library",
             "extra": {
