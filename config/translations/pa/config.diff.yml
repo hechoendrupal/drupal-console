@@ -7,8 +7,8 @@ questions:
     directories: 'Config directory:'
 table:
     headers:
-        collection: Collection
-        config-name: 'Configuration item'
-        operation: Operation
+      collection: 'Collection'
+      config-name: 'Configuration item'
+      operation: 'Operation'
 messages:
     no-changes: 'There are no changes.'

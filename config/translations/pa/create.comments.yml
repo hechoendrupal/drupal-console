@@ -2,7 +2,7 @@ description: 'Create dummy comments for your Drupal 8 application.'
 help: 'The <info>create:comments</info> command helps you create dummy comments.'
 welcome: 'Welcome to the Drupal comments generator'
 arguments:
-    node-id: 'Node ID where the comments will be created'
+  node-id: 'Node ID where the comments will be created'
 options:
     limit: 'How many comments would you like to create'
     title-words: 'Maximum number of words in comment titles'
@@ -14,7 +14,7 @@ questions:
     title-words: 'Enter the maximum number of words in titles'
     time-range: 'How far back in time should the comments be dated?'
     time-ranges:
-        - Now
+        - 'Now'
         - '1 hour ago'
         - '1 day ago'
         - '1 week ago'
@@ -24,7 +24,7 @@ messages:
     node-id: 'Node Id'
     comment-id: 'Comment Id'
     content-type: 'Content type'
-    title: Title
+    title: 'Title'
     created: 'Created Time'
     invalid-content-types: 'Content types %s are invalid'
     created-comments: 'Created %s comments successfully'
