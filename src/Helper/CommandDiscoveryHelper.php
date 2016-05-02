@@ -6,9 +6,8 @@
 
 namespace Drupal\Console\Helper;
 
+use Drupal\Console\Command\CommandDependencyResolver;
 use Symfony\Component\Finder\Finder;
-use Composer\Autoload\ClassLoader;
-use Doctrine\Common\Annotations\AnnotationReader;
 
 /**
  * Class CommandDiscovery
@@ -35,7 +34,7 @@ class CommandDiscoveryHelper extends Helper
      * CommandDiscoveryHelper constructor.
      * @param bool $develop
      */
-    public function __construct($develop, $commandDependencyResolver)
+    public function __construct($develop, CommandDependencyResolver $commandDependencyResolver)
     {
         $this->develop = $develop;
         $this->commandDependencyResolver = $commandDependencyResolver;

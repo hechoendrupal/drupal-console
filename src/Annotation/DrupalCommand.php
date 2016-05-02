@@ -1,7 +1,10 @@
 <?php
+/**
+ * @file
+ * Contains \Drupal\Console\Annotation\DrupalCommand.
+ */
 
 namespace Drupal\Console\Annotation;
-
 
 /**
  * @Annotation

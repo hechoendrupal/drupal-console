@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Contains \Drupal\Console\Command\CommandDependencyResolver.
+ */
 
 namespace Drupal\Console\Command;
 
@@ -24,15 +28,11 @@ class CommandDependencyResolver
     public function resolve(ReflectionClass $class)
     {
         /** @var DrupalCommand $definition */
-        $definitions = $this->reader->getClassAnnotations(
-            $class
-        );
+        $definitions = $this->reader->getClassAnnotations($class);
 
         $container = $this->kernelSite->getKernel()->getContainer();
 
-
         foreach ($definitions as $definition) {
-
             try {
                 foreach ($definition->dependencies as $dependency) {
                     $container->get('module_handler')->getModule($dependency);
@@ -40,7 +40,6 @@ class CommandDependencyResolver
             } catch (\InvalidArgumentException $e) {
                 return false;
             }
-
         }
 
         return true;
