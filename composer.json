@@ -58,8 +58,7 @@
         "padraic/phar-updater": "~1.0@dev",
         "gabordemooij/redbean": "@stable",
         "doctrine/annotations": "1.2.*",
-        "dflydev/placeholder-resolver": "~1.0",
-        "doctrine/common": "2.5.*"
+        "dflydev/placeholder-resolver": "~1.0"
     },
     "bin": ["bin/drupal"],
     "config": {
