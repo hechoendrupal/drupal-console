@@ -86,20 +86,20 @@ class TranslatorHelper extends Helper
         foreach ($finder as $file) {
             $resource = $languageDirectory . '/' . $file->getBasename();
             $filename = $file->getBasename('.yml');
-            // Handle application file different than commands
 
+            // Handle application file different than commands
             if ($filename == 'application') {
                 try {
-                    $this->writeTranslationByFile($resource, 'application');
+                    $this->loadTranslationByFile($resource, 'application');
                 } catch (ParseException $e) {
-                    print 'application.yml' . ' ' . $e->getMessage();
+                    echo 'application.yml' . ' ' . $e->getMessage();
                 }
             } else {
                 $key = 'commands.' . $filename;
                 try {
-                    $this->writeTranslationByFile($resource, $key);
+                    $this->loadTranslationByFile($resource, $key);
                 } catch (ParseException $e) {
-                    print $key . '.yml ' . $e->getMessage();
+                    echo $key . '.yml ' . $e->getMessage();
                 }
             }
         }
@@ -111,7 +111,7 @@ class TranslatorHelper extends Helper
      * @param $resource
      * @param $resourceKey
      */
-    public function writeTranslationByFile($resource, $resourceKey= null)
+    private function loadTranslationByFile($resource, $resourceKey= null)
     {
         $yaml = new Parser();
         $resourceParsed = $yaml->parse(file_get_contents($resource));
@@ -132,7 +132,7 @@ class TranslatorHelper extends Helper
      * @param $resource
      * @return mixed
      */
-    public function setResourceArray($parents, &$parentsArray, $resource)
+    private function setResourceArray($parents, &$parentsArray, $resource)
     {
         $ref = &$parentsArray;
         foreach ($parents as $parent) {
@@ -146,74 +146,48 @@ class TranslatorHelper extends Helper
     }
 
     /**
-     * @param $module
+     * @param $extensionPath
      */
-    public function addResourceTranslationsByModule($module)
+    private function addResourceTranslationsByExtension($extensionPath)
     {
-        $resource = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('module', $module).
-          '/config/translations/console.'.$this->language.'.yml';
+        $languageDirectory = sprintf(
+            '%s/console/translations/%s',
+            $extensionPath,
+            $this->language
+        );
 
-        if (file_exists($resource)) {
-            $this->addResource($resource);
-        } else {
-            // Try to load the language fallback
-            $resource_fallback = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('module', $module).
-              '/config/translations/console.en.yml';
-            if (file_exists($resource_fallback)) {
-                $this->addResource($resource_fallback);
+        if (!is_dir($languageDirectory)) {
+            return;
+        }
+
+        $finder = $this->getContainerHelper()->get('finder');
+        $finder->files()
+            ->name('*.yml')
+            ->in($languageDirectory);
+
+        foreach ($finder as $file) {
+            $resource = $languageDirectory . '/' . $file->getBasename();
+            $filename = $file->getBasename('.yml');
+
+            $key = 'commands.' . $filename;
+            try {
+                $this->loadTranslationByFile($resource, $key);
+            } catch (ParseException $e) {
+                echo $key . '.yml ' . $e->getMessage();
             }
         }
     }
 
     /**
      * @param $module
-     * @param $messages
      */
-    public function writeTranslationsByModule($module, $messages)
+    public function addResourceTranslationsByModule($module)
     {
-        $currentMessages = $this->getMessagesByModule($module);
+        $extensionPath = $this->getSite()->getModulePath($module);
 
-        $language = 'en';
-        $resource = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('module', $module).
-          '/config/translations/';
-
-        $messageCatalogue = new MessageCatalogue($language);
-        if ($currentMessages && $currentMessages['messages']) {
-            $messageCatalogue->add($currentMessages['messages'], 'console');
-        }
-        $messageCatalogue->add($messages, 'console');
-
-        $translatorWriter = new TranslationWriter();
-        $translatorWriter->addDumper('yaml', new YamlFileDumper());
-        $translatorWriter->writeTranslations(
-            $messageCatalogue,
-            'yaml',
-            ['path' => $resource, 'nest-level' => 10, 'indent' => 2]
+        $this->addResourceTranslationsByExtension(
+            $extensionPath
         );
-    }
-
-    /**
-     * @param $module
-     * @return array
-     */
-    protected function getMessagesByModule($module)
-    {
-        $resource = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('module', $module).
-          '/config/translations/console.'.$this->language.'.yml';
-
-        if (file_exists($resource)) {
-            $moduleTranslator = new Translator($this->language);
-            $moduleTranslator->addLoader('yaml', new YamlFileLoader());
-            $moduleTranslator->addResource(
-                'yaml',
-                $resource,
-                $this->language
-            );
-
-            return $moduleTranslator->getMessages($this->language);
-        }
-
-        return [];
     }
 
     /**
@@ -221,70 +195,62 @@ class TranslatorHelper extends Helper
      */
     public function addResourceTranslationsByTheme($theme)
     {
-        $resource = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('theme', $theme).
-        '/config/translations/console.'.$this->language.'.yml';
+        $extensionPath = $this->getSite()->getThemePath($theme);
 
-        if (file_exists($resource)) {
-            $this->addResource($resource);
-        } else {
-            // Try to load the language fallback
-            $resource_fallback = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('theme', $theme).
-            '/config/translations/console.en.yml';
-            if (file_exists($resource_fallback)) {
-                $this->addResource($resource_fallback);
-            }
-        }
+        $this->addResourceTranslationsByExtension(
+            $extensionPath
+        );
     }
 
     /**
-     * @param $theme
+     * @param $extensionPath
      * @param $messages
+     * @param $command_key
      */
-    public function writeTranslationsByTheme($theme, $messages)
+    private function writeTranslationsByExtension($extensionPath, $messages, $command_key)
     {
-        $currentMessages = $this->getMessagesByModule($theme);
+        $translationFile = sprintf(
+            '%s/console/translations/en/%s.yml',
+            $extensionPath,
+            $command_key
+        );
 
-        $language = 'en';
-        $resource = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('theme', $theme).
-        '/config/translations/';
+        $yaml = $this->getContainerHelper()->get('yaml');
+        $filesystem = $this->getContainerHelper()->get('filesystem');
 
-        $messageCatalogue = new MessageCatalogue($language);
-        if ($currentMessages && $currentMessages['messages']) {
-            $messageCatalogue->add($currentMessages['messages'], 'console');
-        }
-        $messageCatalogue->add($messages, 'console');
+        $filesystem->dumpFile($translationFile, $yaml::dump($messages));
+    }
 
-        $translatorWriter = new TranslationWriter();
-        $translatorWriter->addDumper('yaml', new YamlFileDumper());
-        $translatorWriter->writeTranslations(
-            $messageCatalogue,
-            'yaml',
-            ['path' => $resource, 'nest-level' => 10, 'indent' => 2]
+    /**
+     * @param $module
+     * @param $messages
+     * @param $command_key
+     */
+    public function writeTranslationsByCommand($module, $messages, $command_key)
+    {
+        $extensionPath = $this->getSite()->getModulePath($module);
+
+        $this->writeTranslationsByExtension(
+            $extensionPath,
+            $messages,
+            $command_key
         );
     }
 
     /**
      * @param $theme
-     * @return array
+     * @param $messages
+     * @param $command_key
      */
-    protected function getMessagesByTheme($theme)
+    public function writeTranslationsByTheme($theme, $messages, $command_key)
     {
-        $resource = $this->getDrupalHelper()->getRoot().'/'.drupal_get_path('theme', $theme).
-        '/config/translations/console.'.$this->language.'.yml';
+        $extensionPath = $this->getSite()->getThemePath($theme);
 
-        if (file_exists($resource)) {
-            $themeTranslator = new Translator($this->language);
-            $themeTranslator->addLoader('yaml', new YamlFileLoader());
-            $themeTranslator->addResource(
-                'yaml',
-                $resource,
-                $this->language
-            );
-
-            return $themeTranslator->getMessages($this->language);
-        }
-
-        return [];
+        $this->writeTranslationsByExtension(
+            $extensionPath,
+            $messages,
+            $command_key
+        );
     }
 
     /**
