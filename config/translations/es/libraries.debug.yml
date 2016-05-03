@@ -1,6 +1,6 @@
-description: 'Displays libraries available in application'
+description: 'Muestra las librerías disponibles en la aplicación'
 options:
-  name: 'Enter Libraries Name'
+  name: 'Introduzca el nombre de la librería'
 messages:
-   name: 'Extension with Libraries'
-   info: 'Libraries Information'
+   name: 'Extensiones con librerías'
+   info: 'Información de las librerías'
