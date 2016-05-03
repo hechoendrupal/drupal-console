@@ -3,7 +3,10 @@ arguments:
     module: 'Module or modules to be enabled should be separated by a space'
 options:
     latest: 'Default to download most recent version'
+    path: 'The path of the contrib project'
     version: 'Phiên bản Module i.e 1.x-dev'
+questions:
+    path: 'Enter the contrib project Path'
 messages:
     no-releases: 'Không có bất kỳ bản phát hành nào cho module %s'
     getting-releases: 'Đang tìm kiếm các bản phát hành cho module %s'

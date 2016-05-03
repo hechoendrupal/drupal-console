@@ -32,6 +32,8 @@ errors:
     module-dependency: 'गहाळ घटक अवलंबन "%s" स्थापित केले नाही. module:install स्थापित करून पहा.'
     class-name-empty: 'वर्ग नाव रिकामे असू शकत नाही'
     invalid-file-path: 'आपण एक वैध फाइल पथ पुरविणे आवश्यक आहे'
+    module-exist: 'Module "%s" already exist.'
+    machine-name-duplicated: 'Machine name "%s" is duplicated.'
 status:
     enabled: सक्षम
     disabled: अक्षम

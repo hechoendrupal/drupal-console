@@ -1,3 +1,0 @@
-description: '사용자 홈 디렉토리로 설정 파일을 복사합니다.'
-options:
-    override: '설정 파일을 재정의합니다'

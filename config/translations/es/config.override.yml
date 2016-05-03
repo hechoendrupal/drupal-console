@@ -1,13 +1,19 @@
 description: 'Sobreescribir valor de la configuración activa.'
+questions:
+    name: 'Enter configuration name'
+    key: 'Enter the configuration key'
+    value: 'Enter the configuration value'
 arguments:
-    config-name: 'Nombre de la configuración.'
+    name: 'Configuration name'
     key: Clave
     value: Valor
+    config-name: 'Nombre de la configuración.'
 messages:
     configuration: 'Nombre de la configuración.'
     configuration-key: 'Clave de la configuración.'
     original: 'Valor original'
     updated: 'Valor sobreescrito.'
+    invalid-name: 'Config object "%s", does not exists'
 examples:
     -
         description: 'Definir el valor de "flood" del módulo Contacto a 10.'

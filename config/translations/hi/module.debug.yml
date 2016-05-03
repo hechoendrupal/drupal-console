@@ -10,4 +10,5 @@ messages:
     package: पैकेज
     enabled: सक्षम
     disabled: अक्षम
+    version: Version
     schema-version: 'स्कीमा संस्करण'

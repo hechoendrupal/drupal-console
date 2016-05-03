@@ -3,7 +3,10 @@ arguments:
     module: 'モジュール名 (複数してする場合はスペース区切り)'
 options:
     latest: 'Default to download most recent version'
+    path: 'The path of the contrib project'
     version: 'モジュールのバージョン (例: 1.x-dev)'
+questions:
+    path: 'Enter the contrib project Path'
 messages:
     no-releases: 'モジュール %s のバージョンが見つかりません'
     getting-releases: 'モジュール %s のバージョン一覧を取得中'

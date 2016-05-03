@@ -3,7 +3,10 @@ arguments:
     module: 'El módulo o los módulos que vayan a ser habilitados deben ir separados por un espacio'
 options:
     latest: 'Valor por defecto que descarga la versión más reciente'
+    path: 'The path of the contrib project'
     version: 'Versión del módulo. Por ejemplo: 1.x-dev'
+questions:
+    path: 'Enter the contrib project Path'
 messages:
     no-releases: 'No hay ninguna descarga disponible del módulo %s'
     getting-releases: 'Obteniendo releases del módulo %s'

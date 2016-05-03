@@ -1,4 +1,7 @@
 description: モジュールをアンインストール
+questions:
+    module: 'Enter module name'
+    invalid-module: 'Invalid module %s'
 options:
     module: 'アンインストールするモジュール (複数指定する場合はカンマで区切り)'
     force: 'Do you want to ignore dependencies and forcefully uninstall the module?'
