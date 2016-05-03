@@ -15,4 +15,10 @@ class DrupalCommand
      * @var array
      */
     public $dependencies;
+
+    /**
+     * @var string
+     */
+    public $extension;
+
 }
