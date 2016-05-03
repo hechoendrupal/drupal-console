@@ -31,3 +31,4 @@ application:
       tl: 'Tagalog'
       vn: 'Tiếng Việt'
       zh_hans: '简体中文'
+      zh_hant: '繁體中文'
