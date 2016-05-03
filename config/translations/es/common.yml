@@ -7,20 +7,20 @@ options:
     permissions: 'Crear permisos.'
 questions:
     module: 'Escriba el nombre del módulo'
-    confirm: '¿Confirmas generación?'
+    confirm: '¿Confirma la generación?'
     canceled: 'Comando de generacion cancelado.'
     events:
         message: "\nEscribe el nombre del evento o usa la tecla flecha hacia arriba o flecha hacia abajo.\nEsto es opcional, presione <info>enter</info> para <info>continuar</info>\n"
         name: 'Introduzca el nombre del evento'
     services:
-        confirm: 'Deseas cargar los servicios del contenedor'
+        confirm: 'Desea cargar los servicios del contenedor'
         message: "\nEscribe el nombre del servicio o usa la tecla flecha hacia arriba o flecha hacia abajo.\nEsto es opcional, presione <info>enter</info para <info>continuar</info>\n"
         name: 'Introduzca su servicio'
     inputs:
-        confirm: '¿Deseas generar la estructura de un formulario?'
+        confirm: '¿Desea generar la estructura de un formulario?'
         label: 'Etiqueta del campo de entrada'
         machine_name: 'Introduzca el nombre de máquina'
-        permission: '¿Deseas generar permisos?'
+        permission: '¿Desea generar permisos?'
         type: Tipo
         invalid: 'El campo de tipo "%s" es inválido.'
         description: Descripción
@@ -32,11 +32,11 @@ errors:
     module-dependency: 'Depencia "%s" del modulo faltante'
     class-name-empty: 'El nombre de la Clase no puede estar vacío.'
     invalid-file-path: 'Debe proporcionar una ruta de archivo válida'
-    module-exist: 'Module "%s" already exist.'
-    machine-name-duplicated: 'Machine name "%s" is duplicated.'
+    module-exist: 'El módulo "%s" ya existe.'
+    machine-name-duplicated: 'El nombre máquina "%s" está duplicado.'
 status:
-    enabled: Habilitado
-    disabled: Deshabilitado
+    enabled: 'Habilitado'
+    disabled: 'Deshabilitado'
 messages:
     canceled: 'Generación Cancelada'
     drupal-core: 'Core de Drupal'
