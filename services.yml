@@ -24,15 +24,14 @@ services:
   annotation_reader:
     class: Doctrine\Common\Annotations\AnnotationReader
     lazy: true
-  annotation_apc_cache:
-    class: Doctrine\Common\Cache\ApcCache
-  annotation_cached_reader:
-    class: Doctrine\Common\Annotations\CachedReader
-    arguments: ["@annotation_reader", "@annotation_apc_cache", false]
-    lazy: true
+  annotation_file_cache:
+    class: Doctrine\Common\Annotations\FileCacheReader
+    factory: [Drupal\Console\Annotations\CacheFactory, createFileCache]
+    arguments: ['@annotation_reader', '@config']
+
   command_dependency_resolver:
     class: Drupal\Console\Command\CommandDependencyResolver
-    arguments: ["@annotation_cached_reader", "@helper_kernel"]
+    arguments: ["@annotation_file_cache", "@helper_kernel"]
 
   helper_site:
     class: Drupal\Console\Helper\SiteHelper
