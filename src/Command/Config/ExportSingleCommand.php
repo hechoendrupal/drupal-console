@@ -64,9 +64,9 @@ class ExportSingleCommand extends ContainerAwareCommand
      */
     protected function getConfigTypes()
     {
-        $this->entityManager = $this->entityTypeManager();
+        $this->entityManager = $this->getService('entity_type.manager');
 
-        foreach ($this->entityManager->entityTypeManager() as $entity_type => $definition) {
+        foreach ($this->entityManager->getService('entity_type.manager') as $entity_type => $definition) {
             if ($definition->isSubclassOf('Drupal\Core\Config\Entity\ConfigEntityInterface')) {
                 $this->definitions[$entity_type] = $definition;
             }

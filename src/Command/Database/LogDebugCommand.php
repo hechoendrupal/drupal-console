@@ -137,7 +137,7 @@ class LogDebugCommand extends ContainerAwareCommand
     {
         $connection = $this->getDatabase();
         $dateFormatter = $this->getDateFormatter();
-        $userStorage = $this->entityTypeManager()->getStorage('user');
+        $userStorage = $this->getService('entity_type.manager')->getStorage('user');
         $severity = RfcLogLevel::getLevels();
 
         $query = $connection->select('watchdog', 'w');

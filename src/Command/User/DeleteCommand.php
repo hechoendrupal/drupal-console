@@ -131,7 +131,7 @@ class DeleteCommand extends ContainerAwareCommand
         $roles = $input->getOption('roles');
 
         if ($roles) {
-            $entityManager = $this->entityTypeManager();
+            $entityManager = $this->getService('entity_type.manager');
             $userStorage = $entityManager->getStorage('user');
             $entityQuery = $this->getEntityQuery();
 

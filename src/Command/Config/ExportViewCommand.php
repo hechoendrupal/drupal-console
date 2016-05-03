@@ -110,7 +110,7 @@ class ExportViewCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $this->entityManager = $this->entityTypeManager();
+        $this->entityManager = $this->getService('entity_type.manager');
         $this->configStorage = $this->getConfigStorage();
 
         $module = $input->getOption('module');
