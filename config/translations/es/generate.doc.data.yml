@@ -1,6 +1,6 @@
-description: 'Generate documentations for Commands.'
+description: 'Genera documentación para los comandos.'
 options:
-  file: 'The file to render the command data'
+  file: 'El archivo que renderiza los datos del comando'
 messages:
-  missing_file: 'The file is missing, use --file option.'
+  missing_file: 'No se encuentra el archivo, use la opción --file .'
 
