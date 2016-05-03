@@ -19,7 +19,7 @@ class CommandGenerator extends Generator
      */
     public function generate($module, $name, $class, $containerAware)
     {
-        $command_key = 'command.'.str_replace(':', '.', $name);
+        $command_key = str_replace(':', '.', $name);
 
         $parameters = [
           'module' => $module,
@@ -29,12 +29,8 @@ class CommandGenerator extends Generator
           'command_key' => $command_key,
         ];
 
-        $messages[$command_key.'.description'] = 'Greet someone';
-        $messages[$command_key.'.arguments.name'] = 'Who do you want to greet?';
-        $messages[$command_key.'.options.yell'] = 'If set, the task will yell in uppercase letters';
-
-        $translator = $this->getTranslator();
-        $translator->writeTranslationsByModule($module, $messages);
+        $messages['description'] = 'Say hello';
+        $this->getTranslator()->writeTranslationsByCommand($module, $messages, $command_key);
 
         $this->renderFile(
             'module/src/Command/command.php.twig',

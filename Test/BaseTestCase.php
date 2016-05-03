@@ -5,6 +5,10 @@ namespace Drupal\Console\Test;
 use Symfony\Component\Console\Helper\HelperSet;
 use Drupal\Console\Helper\TwigRendererHelper;
 use Drupal\Console\Helper\HelperTrait;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Drupal\Console\Helper\ContainerHelper;
 
 abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -71,6 +75,11 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
                 ->method('getModulePath')
                 ->will($this->returnValue($this->dir));
 
+            $consoleRoot = __DIR__.'/../';
+            $container = new ContainerBuilder();
+            $loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
+            $loader->load('services.yml');
+
             $this->helperSet = new HelperSet(
                 [
                     'renderer' => new TwigRendererHelper(),
@@ -80,6 +89,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
                     'site' => $siteHelper,
                     'chain' => $chain,
                     'drupal' => $drupal,
+                    'container' => new ContainerHelper($container),
                 ]
             );
         }
