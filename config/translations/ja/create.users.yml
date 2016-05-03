@@ -1,4 +1,4 @@
-description: 'ダミーのユーザーを追加'
+description: ダミーのユーザーを追加
 help: '<info>create:users</info> コマンドはダミーのユーザーを追加します。'
 welcome: 'Welcome to the Drupal users generator'
 arguments:
@@ -8,10 +8,10 @@ options:
     password: 作成したユーザーのパスワード
     time-range: ユーザーの作成時刻
 questions:
-    roles: '作成するユーザーのロールを選択してください'
-    limit: '作成するユーザーの数を入力してください'
-    password: 'ユーザーに設定するパスワードを入力してください'
-    time-range: 'ユーザーの作成時刻を選択してください'
+    roles: 作成するユーザーのロールを選択してください
+    limit: 作成するユーザーの数を入力してください
+    password: ユーザーに設定するパスワードを入力してください
+    time-range: ユーザーの作成時刻を選択してください
     time-ranges:
         - Now
         - '1 hour ago'

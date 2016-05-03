@@ -1,9 +1,0 @@
-description: 'Elimina todas las tablas de una base de datos dada.'
-help: 'El comando <info>database:drop</info> le ayuda a eliminar las tablas de su base de datos.'
-arguments:
-    database: 'Índice de la base de datos del settings.php'
-question:
-    drop-tables: 'Confirma que realmente quiere eliminar todas las tablas de la base de datos %s?'
-messages:
-    table: Tabla
-    table-drop: 'Han sido eliminadas %s tablas con éxito'

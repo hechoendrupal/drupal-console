@@ -8,6 +8,7 @@ namespace Drupal\Console\Command\Site;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
@@ -36,6 +37,12 @@ class NewCommand extends Command
                 'version',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.site.new.arguments.version')
+            )
+            ->addOption(
+                'latest',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.site.new.options.latest')
             );
     }
 
@@ -48,10 +55,23 @@ class NewCommand extends Command
 
         $directory = $input->getArgument('directory');
         $version = $input->getArgument('version');
+        $latest = $input->getOption('latest');
+
+        if (!$version && $latest) {
+            $version = current($this->getDrupalApi()->getProjectReleases('drupal', 1, true));
+        }
 
         $projectPath = $this->downloadProject($io, 'drupal', $version, 'core');
         $downloadPath = sprintf('%sdrupal-%s', $projectPath, $version);
         $copyPath = sprintf('%s%s', $projectPath, $directory);
+
+        if ($this->isAbsolutePath($directory))
+        {
+          $copyPath = $directory;
+        }
+        else{
+          $copyPath = sprintf('%s%s', $projectPath, $directory);
+        }
 
         try {
             $fileSystem = new Filesystem();
@@ -92,6 +112,13 @@ class NewCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         $directory = $input->getArgument('directory');
+        $version = $input->getArgument('version');
+        $latest = $input->getOption('latest');
+
+        if (!$version && $latest) {
+            $version = current($this->getDrupalApi()->getProjectReleases('drupal', 1, true));
+        }
+
         if (!$directory) {
             $directory = $io->ask(
                 $this->trans('commands.site.new.questions.directory')
@@ -99,10 +126,15 @@ class NewCommand extends Command
             $input->setArgument('directory', $directory);
         }
 
-        $version = $input->getArgument('version');
+
         if (!$version) {
-            $version = $this->releasesQuestion($io, 'drupal');
+            $version = $this->releasesQuestion($io, 'drupal', false, true);
             $input->setArgument('version', $version);
         }
+    }
+
+    protected function isAbsolutePath($path)
+    {
+      return $path[0] === DIRECTORY_SEPARATOR || preg_match('~\A[A-Z]:(?![^/\\\\])~i',$path) > 0;
     }
 }
