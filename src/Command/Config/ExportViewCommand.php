@@ -71,8 +71,9 @@ class ExportViewCommand extends ContainerAwareCommand
         // view-id argument
         $viewId = $input->getArgument('view-id');
         if (!$viewId) {
-            $entityManager = $this->entityTypeManager();
-            $views = $entityManager->getStorage('view')->loadMultiple();
+            $entityTypeManager =  $this->getService('entity_type.manager');
+
+            $views = $entityTypeManager->getStorage('view')->loadMultiple();
 
             $viewList = [];
             foreach ($views as $view) {

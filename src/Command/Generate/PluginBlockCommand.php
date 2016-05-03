@@ -111,7 +111,7 @@ class PluginBlockCommand extends GeneratorCommand
 
         if ($theme_region) {
             // Load block to set theme region
-            $block = $this->entityTypeManager()->getStorage('block')->create(array('id'=> $plugin_id, 'plugin' => $plugin_id, 'theme' => $theme));
+            $block = $this->getService('entity_type.manager')->getStorage('block')->create(array('id'=> $plugin_id, 'plugin' => $plugin_id, 'theme' => $theme));
             $block->setRegion($theme_region);
             $block->save();
         }

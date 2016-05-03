@@ -45,7 +45,7 @@ class LoginUrlCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         $uid = $input->getArgument('user-id');
-        $user = $this->entityTypeManager()->getStorage('user')->load($uid);
+        $user = $this->getService('entity_type.manager')->getStorage('user')->load($uid);
 
         if (!$user) {
             $text = $this->trans('commands.user.login.url.errors.invalid-user');

@@ -98,7 +98,9 @@ class LogDebugCommand extends ContainerAwareCommand
     {
         $connection = $this->getDatabase();
         $dateFormatter = $this->getDateFormatter();
-        $userStorage = $this->entityTypeManager()->getStorage('user');
+        $userStorage = $this->getService('entity_type.manager')->getStorage('user');
+        
+        
         $severity = RfcLogLevel::getLevels();
 
         $dblog = $connection->query('SELECT w.*, u.uid FROM {watchdog} w LEFT JOIN {users} u ON u.uid = w.uid WHERE w.wid = :id', array(':id' => $eventId))->fetchObject();

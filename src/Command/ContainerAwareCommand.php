@@ -44,8 +44,8 @@ abstract class ContainerAwareCommand extends Command
      */
     public function getMigrations($tag = false, $flatList = false)
     {
-        $entity_manager = $this->entityTypeManager();
-        $migration_storage = $entity_manager->getStorage('migration');
+        $entityType_manager = $this->getService('entity_type.manager');
+        $migration_storage = $entityType_manager->getStorage('migration');
 
         $entity_query_service = $this->getEntityQuery();
         $query = $entity_query_service->get('migration');
@@ -227,15 +227,7 @@ abstract class ContainerAwareCommand extends Command
     {
         return $this->getService('event_dispatcher');
     }
-
-    /**
-     * @return \Drupal\Core\Entity\EntityManager
-     */
-    public function getEntityManager()
-    {
-        return $this->getService('entity.manager');
-    }
-
+    
     /**
      * @return \Drupal\Core\Entity\EntityTypeManagerInterface;
      */
@@ -499,8 +491,9 @@ abstract class ContainerAwareCommand extends Command
 
     public function generateEntity($entity_definition, $entity_type)
     {
-        $entity_manager = $this->entityTypeManager();
-        $entity_storage = $entity_manager->getStorage($entity_type);
+        $entityTypeManager =  $this->getService('entity_type.manager');
+
+        $entity_storage = $entityTypeManager->getStorage($entity_type);
         $entity = $entity_storage->createFromStorageRecord($entity_definition);
 
         return $entity;
@@ -508,8 +501,8 @@ abstract class ContainerAwareCommand extends Command
 
     public function updateEntity($entity_id, $entity_type, $entity_definition)
     {
-        $entity_manager = $this->entityTypeManager();
-        $entity_storage = $entity_manager->getStorage($entity_type);
+        $entityTypeManager = $this->entityTypeManager();
+        $entity_storage = $entityTypeManager->getStorage($entity_type);
         $entity = $entity_storage->load($entity_id);
         $entity_updated = $entity_storage->updateFromStorageRecord($entity, $entity_definition);
 

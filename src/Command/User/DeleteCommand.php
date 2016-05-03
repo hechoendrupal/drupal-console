@@ -100,7 +100,7 @@ class DeleteCommand extends ContainerAwareCommand
         }
 
         if ($userId) {
-            $user = $this->entityTypeManager()->getStorage('user')->load($userId);
+            $user = $this->getService('entity_type.manager')->getStorage('user')->load($userId);
 
             if (!$user) {
                 $io->error(
