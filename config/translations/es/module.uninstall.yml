@@ -1,7 +1,7 @@
 description: 'Desinstala un módulo o varios en la aplicación'
 questions:
-    module: 'Enter module name'
-    invalid-module: 'Invalid module %s'
+    module: 'Introduzca el nombre del módulo'
+    invalid-module: 'El módulo %s no es válido'
 options:
     module: 'Los módulos a ser desinstalado(s) deben ser separados por una coma'
     force: '¿ Desea ignorar las dependencias y desinstalar el módulo a la fuerza ?'
