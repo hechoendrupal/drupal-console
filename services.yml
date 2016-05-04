@@ -30,7 +30,7 @@ services:
     arguments: ['@annotation_reader', '@config']
 
   command_dependency_resolver:
-    class: Drupal\Console\Command\CommandDependencyResolver
+    class: Drupal\Console\Command\CommandDependencies
     arguments: ["@annotation_file_cache", "@helper_kernel"]
 
   helper_site:
