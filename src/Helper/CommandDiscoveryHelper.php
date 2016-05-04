@@ -31,6 +31,16 @@ class CommandDiscoveryHelper extends Helper
     protected $develop = false;
 
     /**
+     * @var CommandDependencyResolver
+     */
+    protected $commandDependencyResolver;
+
+    /**
+     * @var array
+     */
+    protected $missingDependencies = [];
+
+    /**
      * CommandDiscoveryHelper constructor.
      * @param bool $develop
      */
@@ -276,9 +286,8 @@ class CommandDiscoveryHelper extends Helper
             return false;
         }
 
-        if (!$this->commandDependencyResolver->resolve($reflectionClass)) {
-            return false;
-        }
+        $dependencies = $this->commandDependencyResolver->resolve($reflectionClass);
+
 
         if ($reflectionClass->getConstructor()->getNumberOfRequiredParameters() > 0) {
             if ($source != 'Console') {
@@ -293,6 +302,8 @@ class CommandDiscoveryHelper extends Helper
             $command = $reflectionClass->newInstance();
         }
 
+        $this->missingDependencies[$command->getName()] = $dependencies;
+
         if ($type === 'module') {
             $command->setModule($source);
         } elseif ($type === 'theme') {
@@ -300,6 +311,14 @@ class CommandDiscoveryHelper extends Helper
         }
 
         return $command;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMissingDependencies()
+    {
+        return $this->missingDependencies;
     }
 
     /**

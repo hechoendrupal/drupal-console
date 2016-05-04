@@ -19,30 +19,36 @@ class CommandDependencyResolver
      */
     private $reader;
 
+    /**
+     * CommandDependencyResolver constructor.
+     * @param FileCacheReader $reader
+     * @param KernelHelper $kernelSite
+     */
     public function __construct(FileCacheReader $reader, KernelHelper $kernelSite)
     {
         $this->reader = $reader;
         $this->kernelSite = $kernelSite;
     }
 
+    /**
+     * @param ReflectionClass $class
+     * @return array
+     */
     public function resolve(ReflectionClass $class)
     {
         /** @var DrupalCommand $definition */
         $definitions = $this->reader->getClassAnnotations($class);
 
-        $container = $this->kernelSite->getKernel()->getContainer();
-
+        $dependencies = [];
         foreach ($definitions as $definition) {
-            try {
+            if ($definition instanceof DrupalCommand) {
                 foreach ($definition->dependencies as $dependency) {
-                    $container->get('module_handler')->getModule($dependency);
+                    $dependencies[] = $dependency;
                 }
-            } catch (\InvalidArgumentException $e) {
-                return false;
             }
         }
 
-        return true;
+        return $dependencies;
     }
 
 }
