@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Helper;
 
-use Drupal\Console\Command\CommandDependencyResolver;
+use Drupal\Console\Command\CommandDependencies;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -31,9 +31,9 @@ class CommandDiscoveryHelper extends Helper
     protected $develop = false;
 
     /**
-     * @var CommandDependencyResolver
+     * @var CommandDependencies
      */
-    protected $commandDependencyResolver;
+    protected $commandDependencies;
 
     /**
      * @var array
@@ -44,10 +44,10 @@ class CommandDiscoveryHelper extends Helper
      * CommandDiscoveryHelper constructor.
      * @param bool $develop
      */
-    public function __construct($develop, CommandDependencyResolver $commandDependencyResolver)
+    public function __construct($develop, CommandDependencies $commandDependencyResolver)
     {
         $this->develop = $develop;
-        $this->commandDependencyResolver = $commandDependencyResolver;
+        $this->commandDependencies = $commandDependencyResolver;
 
     }
 
@@ -286,7 +286,7 @@ class CommandDiscoveryHelper extends Helper
             return false;
         }
 
-        $dependencies = $this->commandDependencyResolver->resolve($reflectionClass);
+        $dependencies = $this->commandDependencies->read($reflectionClass);
 
 
         if ($reflectionClass->getConstructor()->getNumberOfRequiredParameters() > 0) {

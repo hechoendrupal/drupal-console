@@ -11,7 +11,7 @@ use Drupal\Console\Annotation\DrupalCommand;
 use Drupal\Console\Helper\KernelHelper;
 use ReflectionClass;
 
-class CommandDependencyResolver
+class CommandDependencies
 {
 
     /**
@@ -34,7 +34,7 @@ class CommandDependencyResolver
      * @param ReflectionClass $class
      * @return array
      */
-    public function resolve(ReflectionClass $class)
+    public function read(ReflectionClass $class)
     {
         /** @var DrupalCommand $definition */
         $definitions = $this->reader->getClassAnnotations($class);
