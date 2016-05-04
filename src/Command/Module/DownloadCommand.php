@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Module;
 
+use Symfony\Component\Process\PhpProcess;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -40,6 +41,12 @@ class DownloadCommand extends Command
                 '',
                 InputOption::VALUE_NONE,
                 $this->trans('commands.module.download.options.latest')
+            )
+            ->addOption(
+                'druproj',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.module.install.options.druproj')
             );
     }
 
@@ -49,6 +56,7 @@ class DownloadCommand extends Command
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
+        $druproj = $input->getOption('druproj');
 
         $module = $input->getArgument('module');
         if (!$module) {
@@ -56,14 +64,20 @@ class DownloadCommand extends Command
             $input->setArgument('module', $module);
         }
 
-        $path = $input->getOption('path');
-        if (!$path) {
-            $path = $io->ask(
-                $this->trans('commands.module.download.questions.path'),
-                'modules/contrib'
-            );
-            $input->setOption('path', $path);
+        if (!$druproj)
+        {
+          $path = $input->getOption('path');
+          if (!$path) {
+              $path = $io->ask(
+                  $this->trans('commands.module.download.questions.path'),
+                  'modules/contrib'
+              );
+              $input->setOption('path', $path);
+          }
         }
+
+
+
     }
 
     /**
@@ -73,11 +87,28 @@ class DownloadCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $module = $input->getArgument('module');
+        $modules = $input->getArgument('module');
         $latest = $input->getOption('latest');
         $path = $input->getOption('path');
-        $this->downloadModules($io, $module, $latest, $path);
+        $druproj = $input->getOption('druproj');
 
+        if (true === $druproj)
+        {
+          foreach ($modules as $module)
+          {
+            $version = $this->releasesQuestion($io, $module, $latest);
+            $cmd = "composer require drupal/$module $version";
+            $rootPath = $this->getDrupalHelper()->getRoot();
+            $php_script = shell_exec( $cmd );
+            $phpProcess = new PhpProcess($php_script, $rootPath);
+            $phpProcess->run();
+          }
+
+        }else
+        {
+
+          $this->downloadModules($io, $modules, $latest, $path);
+        }
         return true;
     }
 }
