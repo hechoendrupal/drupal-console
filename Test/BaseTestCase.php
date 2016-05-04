@@ -86,7 +86,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
                     'string' => $stringHelper,
                     'validator' => $validator,
                     'translator' => $translator,
-                    'site' => $siteHelper,
+                    'site' => $container->get('helper_site'),
                     'chain' => $chain,
                     'drupal' => $drupal,
                     'container' => new ContainerHelper($container),
