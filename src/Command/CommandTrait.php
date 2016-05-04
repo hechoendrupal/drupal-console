@@ -8,7 +8,9 @@ namespace Drupal\Console\Command;
  */
 trait CommandTrait
 {
-    /** @var  \Drupal\Console\Helper\TranslatorHelper */
+    /**
+ * @var  \Drupal\Console\Helper\TranslatorHelper 
+*/
     protected $translator;
 
     /**
@@ -26,7 +28,8 @@ trait CommandTrait
      *
      * @return string
      */
-    public function trans($key) {
+    public function trans($key)
+    {
         if ($this->translator) {
             return $this->translator->trans($key);
         }
