@@ -2,6 +2,8 @@
 
 namespace Drupal\Console\Command;
 
+use Drupal\Console\Utils\Translator;
+
 /**
  * Class CommandTrait
  * @package Drupal\Console\Command
@@ -9,18 +11,30 @@ namespace Drupal\Console\Command;
 trait CommandTrait
 {
     /**
- * @var  \Drupal\Console\Helper\TranslatorHelper 
+ * @var  Translator 
 */
     protected $translator;
 
     /**
-     * CommandTrait constructor.
-     * @param \Drupal\Console\Helper\TranslatorHelper $translator
+     * StandAloneCommandTrait constructor.
+     * @param Translator $translator
      */
-    public function __construct(
-        \Drupal\Console\Helper\TranslatorHelper $translator
-    ) {
+    public function __construct(Translator $translator)
+    {
         $this->translator = $translator;
+
+        parent::__construct();
+    }
+
+    public function get($key)
+    {
+        if (!$key) {
+            return null;
+        }
+
+        if ($this->getApplication()->getContainer()->has($key)) {
+            return $this->getApplication()->getContainer()->get($key);
+        }
     }
 
     /**
@@ -30,11 +44,7 @@ trait CommandTrait
      */
     public function trans($key)
     {
-        if ($this->translator) {
-            return $this->translator->trans($key);
-        }
-
-        return $key;
+        return $this->translator->trans($key);
     }
 
     /**

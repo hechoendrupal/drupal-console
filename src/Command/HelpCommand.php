@@ -14,6 +14,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command as BaseCommand;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -21,8 +22,10 @@ use Drupal\Console\Style\DrupalStyle;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class HelpCommand extends Command
+class HelpCommand extends BaseCommand
 {
+    use CommandTrait;
+
     private $command;
 
     /**
@@ -42,9 +45,9 @@ class HelpCommand extends Command
     /**
      * Sets the command.
      *
-     * @param Command $command The command to set
+     * @param $command The command to set
      */
-    public function setCommand(Command $command)
+    public function setCommand($command)
     {
         $this->command = $command;
     }
