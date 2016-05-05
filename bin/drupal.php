@@ -45,11 +45,14 @@ if (file_exists($consoleRoot.'vendor/autoload.php')) {
 }
 
 $container = new ContainerBuilder();
-AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
 $loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
 $loader->load('services.yml');
 
+AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
+
 $config = $container->get('config');
+$container->get('translator')
+    ->loadResource($config->get('application.language'), $consoleRoot);
 
 $translatorHelper = new TranslatorHelper();
 $translatorHelper->loadResource($config->get('application.language'), $consoleRoot);
@@ -59,12 +62,12 @@ $helpers = [
     'kernel' => new KernelHelper(),
     'string' => new StringHelper(),
     'validator' => new ValidatorHelper(),
-    'translator' => $translatorHelper,
+    'translator' => $translatorHelper, /* registered as a service */
     'site' => new SiteHelper(),
     'renderer' => new TwigRendererHelper(),
-    'showFile' => new ShowFileHelper(),
-    'chain' => new ChainCommandHelper(),
-    'drupal' => new DrupalHelper(),
+    'showFile' => new ShowFileHelper(), /* registered as a service */
+    'chain' => new ChainCommandHelper(), /* registered as a service */
+    'drupal' => new DrupalHelper(), /* registered as a service "site" */
     'commandDiscovery' => new CommandDiscoveryHelper(
         $config->get('application.develop'),
         $container->get("command_dependency_resolver")
@@ -75,13 +78,13 @@ $helpers = [
     'container' => new ContainerHelper($container),
 ];
 
-$application = new Application($helpers);
+$application = new Application($container);
+$application->addHelpers($helpers);
 $application->setDirectoryRoot($consoleRoot);
 
 $dispatcher = new EventDispatcher();
 $dispatcher->addSubscriber(new ValidateDependenciesListener());
 $dispatcher->addSubscriber(new ShowWelcomeMessageListener());
-//$dispatcher->addSubscriber(new ShowGenerateDocListener());
 $dispatcher->addSubscriber(new DefaultValueEventListener());
 $dispatcher->addSubscriber(new ShowGeneratedFilesListener());
 $dispatcher->addSubscriber(new CallCommandListener());

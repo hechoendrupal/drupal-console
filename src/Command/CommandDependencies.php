@@ -12,7 +12,6 @@ use ReflectionClass;
 
 class CommandDependencies
 {
-
     /**
      * @var FileCacheReader
      */
@@ -33,7 +32,9 @@ class CommandDependencies
      */
     public function read(ReflectionClass $class)
     {
-        /** @var DrupalCommand $definition */
+        /**
+ * @var DrupalCommand $definition 
+*/
         $definitions = $this->reader->getClassAnnotations($class);
 
         $dependencies = [];
@@ -47,5 +48,4 @@ class CommandDependencies
 
         return $dependencies;
     }
-
 }

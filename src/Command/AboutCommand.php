@@ -9,14 +9,13 @@ namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command as BaseCommand;
 use Drupal\Console\Style\DrupalStyle;
 
-/**
- * Class AboutCommand
- * @package Drupal\Console\Command
- */
-class AboutCommand extends Command
+class AboutCommand extends BaseCommand
 {
+    use CommandTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -33,15 +32,14 @@ class AboutCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-
         $application = $this->getApplication();
 
-        $drupal = $this->getDrupalHelper();
+        $site = $this->get('site');
         $drupalVersion = $this->trans('commands.site.status.messages.not_installed');
-        if ($drupal->isInstalled()) {
+        if ($site->isInstalled()) {
             $drupalVersion = sprintf(
                 $this->trans('commands.site.status.messages.current_version'),
-                $this->getSite()->getDrupalVersion()
+                $site->getDrupalVersion()
             );
         }
 
@@ -59,7 +57,7 @@ class AboutCommand extends Command
 
         $commands = [
             'init' => [
-                $this->trans('commands.settings.init.description'),
+                $this->trans('commands.init.description'),
                 'drupal init --override'
             ],
             'quick-start' => [
@@ -71,10 +69,10 @@ class AboutCommand extends Command
                 'drupal site:new drupal8.dev --latest'
             ],
             'site-install' => [
-            $this->trans('commands.site.install.description'),
-            sprintf(
-                'drupal site:install'
-            )
+                $this->trans('commands.site.install.description'),
+                sprintf(
+                    'drupal site:install'
+                )
             ],
             'links' => [
                 $this->trans('commands.list.description'),

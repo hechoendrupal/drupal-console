@@ -20,5 +20,4 @@ class DrupalCommand
      * @var string
      */
     public $extension;
-
 }

@@ -36,7 +36,7 @@ class UninstallCommand extends ContainerAwareCommand
         $module = $input->getArgument('module');
         $modules = $this->getSite()->getModules(true, true, false, true, true, true);
 
-        if(!$module){
+        if (!$module) {
             $module = $io->choiceNoList(
                 $this->trans('commands.module.uninstall.questions.module'),
                 $modules,
@@ -114,7 +114,6 @@ class UninstallCommand extends ContainerAwareCommand
 
                 return true;
             }
-
         }
 
         // Installing modules

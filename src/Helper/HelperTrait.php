@@ -34,11 +34,12 @@ trait HelperTrait
     }
 
     /**
-     * @return \Drupal\Console\Helper\ChainCommandHelper
+     * replace with service definition
+     * to be removed once helpers are replaced by services.
      */
     public function getChain()
     {
-        return $this->getHelperSet()->get('chain');
+        return $this->getContainerHelper()->get('chain');
     }
 
     /**

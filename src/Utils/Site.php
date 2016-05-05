@@ -2,12 +2,11 @@
 
 /**
  * @file
- * Contains Drupal\Console\Helper\DrupalHelper.
+ * Contains Drupal\Console\Utils\Site.
  */
 
-namespace Drupal\Console\Helper;
+namespace Drupal\Console\Utils;
 
-use Drupal\Console\Helper\Helper;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\Core\Language\Language;
@@ -21,9 +20,9 @@ use Composer\Autoload\ClassLoader;
 
 /**
  * Class DrupalHelper
- * @package Drupal\Console\Helper
+ * @package Drupal\Console\Utils
  */
-class DrupalHelper extends Helper
+class Site
 {
     const DRUPAL_AUTOLOAD = 'autoload.php';
 
@@ -50,6 +49,21 @@ class DrupalHelper extends Helper
      * @var bool
      */
     private $installed = false;
+
+    /**
+     * @var Parser
+     */
+    protected $parser;
+
+    /**
+     * Translator constructor.
+     * @param Parser $parser
+     */
+    public function __construct(
+        Parser $parser
+    ) {
+        $this->parser = $parser;
+    }
 
     /**
      * @param  string $root
@@ -185,7 +199,6 @@ class DrupalHelper extends Helper
         return $languages;
     }
 
-
     public function setMinimalContainerPreKernel()
     {
         // Create a minimal mocked container to support calls to t() in the pre-kernel
@@ -218,7 +231,6 @@ class DrupalHelper extends Helper
     public function getDatabaseTypes()
     {
         $this->loadLegacyFile('/core/includes/install.inc');
-
         $this->setMinimalContainerPreKernel();
 
         $finder = new Finder();
@@ -263,9 +275,7 @@ class DrupalHelper extends Helper
      */
     public function getProfiles()
     {
-        $yamlParser = $this->getContainerHelper()->get('parser');
-        $finder = $finder = new Finder();
-
+        $finder = new Finder();
         $finder->files()
             ->name('*.info.yml')
             ->in($this->root . '/core/profiles/')
@@ -277,16 +287,17 @@ class DrupalHelper extends Helper
         $profiles = [];
         foreach ($finder as $file) {
             $profile_key = $file->getBasename('.info.yml');
-            $profiles[$profile_key] = $yamlParser->parse($file->getContents());
+            $profiles[$profile_key] = $this->parser->parse($file->getContents());
         }
 
         return $profiles;
     }
+
     /**
-     * {@inheritdoc}
+     * @return string
      */
-    public function getName()
+    public function getDrupalVersion()
     {
-        return 'drupal';
+        return \Drupal::VERSION;
     }
 }

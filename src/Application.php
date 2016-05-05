@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Debug\Debug;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Drupal\Console\Helper\HelperTrait;
 use Drupal\Console\Helper\DrupalHelper;
 use Drupal\Console\Style\DrupalStyle;
@@ -64,15 +65,21 @@ class Application extends BaseApplication
     protected $errorMessage;
 
     /**
+ * @var ContainerBuilder 
+*/
+    protected $container;
+
+    /**
      * Create a new application.
      *
-     * @param $helpers
+     * @param $container
      */
-    public function __construct($helpers)
+    public function __construct($container)
     {
+        $this->container = $container;
         parent::__construct($this::NAME, $this::VERSION);
-        $this->addHelpers($helpers);
 
+        //        $this->env = $this->getConfig()->get('application.environment');
         $this->env = $this->getConfig()->get('application.environment');
         $this->getDefinition()->addOption(
             new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, $this->trans('application.options.env'), $this->env)
@@ -219,6 +226,9 @@ class Application extends BaseApplication
             $recursive = true;
         }
 
+        /* validate drupal site */
+        $this->container->get('site')->isValidRoot($root, $recursive);
+
         if (!$drupal->isValidRoot($root, $recursive)) {
             $commands = $this->getCommandDiscoveryHelper()->getConsoleCommands();
             if ($commandName == 'list') {
@@ -283,10 +293,10 @@ class Application extends BaseApplication
     /**
      * Prepare drupal.
      *
-     * @param DrupalHelper $drupal
-     * @param string       $commandName
+     * @param $drupal
+     * @param $commandName
      */
-    public function prepare(DrupalHelper $drupal, $commandName = null)
+    public function prepare($drupal, $commandName = null)
     {
         if ($drupal->isValidInstance()) {
             chdir($drupal->getRoot());
@@ -320,10 +330,10 @@ class Application extends BaseApplication
         }
 
         foreach ($commands as $command) {
-            $aliases = $this->getCommandAliases($command);
-            if ($aliases) {
-                $command->setAliases($aliases);
-            }
+            //            $aliases = $this->getCommandAliases($command);
+            //            if ($aliases) {
+            //                $command->setAliases($aliases);
+            //            }
 
             $this->add($command);
         }
@@ -353,6 +363,11 @@ class Application extends BaseApplication
                 $autoWireNameCommand['helperset']?$this->getHelperSet():null
             );
             $this->add($command);
+        }
+
+        $tags = $this->container->findTaggedServiceIds('console.command');
+        foreach ($tags as $name => $service) {
+            $this->add($this->getContainerHelper()->get($name));
         }
     }
 
@@ -520,12 +535,13 @@ class Application extends BaseApplication
     }
 
     /**
-     * @param DrupalHelper $drupal
+     * @param $drupal
      */
-    public function bootDrupal(DrupalHelper $drupal)
+    public function bootDrupal($drupal)
     {
         $this->getKernelHelper()->setClassLoader($drupal->getAutoLoadClass());
         $drupal->setInstalled($this->getKernelHelper()->bootKernel());
+        $this->container->get('site')->setInstalled($this->getKernelHelper()->bootKernel());
     }
 
     /**
@@ -533,8 +549,8 @@ class Application extends BaseApplication
      */
     public function getConfig()
     {
-        if ($this->getContainerHelper()) {
-            return $this->getContainerHelper()->get('config');
+        if ($this->container) {
+            return $this->container->get('config');
         }
 
         return null;
@@ -565,17 +581,6 @@ class Application extends BaseApplication
         foreach ($helpers as $alias => $helper) {
             $defaultHelperSet->set($helper, is_int($alias) ? null : $alias);
         }
-
-        // Add helpers defined on container
-        $container = $this->getContainerHelper()->getContainer();
-        $tags = $container->findTaggedServiceIds('console.helper');
-        foreach ($tags as $name => $service) {
-            $defaultHelperSet->set(
-                $this->getContainerHelper()->get($name),
-                $name
-            );
-        }
-
     }
 
     /**
@@ -594,8 +599,8 @@ class Application extends BaseApplication
      */
     public function trans($key)
     {
-        if ($translator = $this->getTranslator()) {
-            return $translator->trans($key);
+        if ($this->container && $this->container->has('translator')) {
+            return $this->container->get('translator')->trans($key);
         }
 
         return null;
@@ -607,5 +612,13 @@ class Application extends BaseApplication
     public function getErrorMessage()
     {
         return $this->errorMessage;
+    }
+
+    /**
+     * @return ContainerBuilder
+     */
+    public function getContainer()
+    {
+        return $this->container;
     }
 }

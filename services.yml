@@ -1,38 +1,72 @@
 services:
   parser:
     class: Symfony\Component\Yaml\Parser
-    lazy: true
-  finder:
-    class: Symfony\Component\Finder\Finder
-    lazy: true
   filesystem:
     class: Symfony\Component\Filesystem\Filesystem
-    lazy: true
   yaml:
     class: Symfony\Component\Yaml\Yaml
-    lazy: true
   config:
     class: Drupal\Console\Config
     arguments: ["@parser"]
   requirement_checker:
     class: Drupal\Console\Utils\RequirementChecker
     arguments: ["@parser"]
-    lazy: true
   redbean:
     class: RedBeanPHP\R
-    lazy: true
   annotation_reader:
     class: Doctrine\Common\Annotations\AnnotationReader
-    lazy: true
   annotation_file_cache:
     class: Doctrine\Common\Annotations\FileCacheReader
     factory: [Drupal\Console\Annotations\CacheFactory, createFileCache]
     arguments: ['@annotation_reader', '@config']
-
   command_dependency_resolver:
     class: Drupal\Console\Command\CommandDependencies
     arguments: ["@annotation_file_cache"]
-
   file_util:
     class: Drupal\Console\Utils\File
-    lazy: true
+  translator:
+    class: Drupal\Console\Utils\Translator
+    arguments: ["@parser", "@filesystem"]
+  site:
+    class: Drupal\Console\Utils\Site
+    arguments: ["@parser"]
+  chain:
+    class: Drupal\Console\Utils\Chain
+  showfile:
+    class: Drupal\Console\Utils\ShowFile
+    arguments: ["@site", "@translator"]
+  about:
+    class: Drupal\Console\Command\AboutCommand
+    arguments: ["@translator"]
+    tags:
+      - { name: console.command }
+  check:
+    class: Drupal\Console\Command\CheckCommand
+    arguments: ["@translator"]
+    tags:
+      - { name: console.command }
+  complete:
+    class: Drupal\Console\Command\CompleteCommand
+    arguments: ["@translator"]
+    tags:
+      - { name: console.command }
+  init:
+    class: Drupal\Console\Command\InitCommand
+    arguments: ["@translator"]
+    tags:
+      - { name: console.command }
+  list:
+    class: Drupal\Console\Command\ListCommand
+    arguments: ["@translator"]
+    tags:
+      - { name: console.command }
+  help:
+    class: Drupal\Console\Command\HelpCommand
+    arguments: ["@translator"]
+    tags:
+      - { name: console.command }
+  server:
+    class: Drupal\Console\Command\ServerCommand
+    arguments: ["@translator"]
+    tags:
+      - { name: console.command }

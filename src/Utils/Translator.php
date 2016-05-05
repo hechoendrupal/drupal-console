@@ -2,28 +2,21 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Helper\TranslatorHelper.
+ * Contains \Drupal\Console\Utils\Translator.
  */
 
-namespace Drupal\Console\Helper;
+namespace Drupal\Console\Utils;
 
-use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\Translator as BaseTranslator;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Symfony\Component\Translation\Loader\ArrayLoader;
-use Symfony\Component\Translation\Writer\TranslationWriter;
-use Symfony\Component\Translation\MessageCatalogue;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Parser;
+use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Filesystem\Filesystem ;
 use Symfony\Component\Yaml\Exception\ParseException;
-use Drupal\Console\Helper\Helper;
-use Drupal\Console\Utils\YamlFileDumper;
 
-/**
- * Class TranslatorHelper
- * @package Drupal\Console\Helper
- */
-class TranslatorHelper extends Helper
+class Translator
 {
     /**
      * @var string
@@ -31,9 +24,33 @@ class TranslatorHelper extends Helper
     private $language;
 
     /**
-     * @var Translator
+     * @var BaseTranslator
      */
     private $translator;
+
+
+    /**
+     * @var Parser
+     */
+    protected $parser;
+
+    /**
+     * @var Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * Translator constructor.
+     * @param Parser     $parser
+     * @param Filesystem $filesystem
+     */
+    public function __construct(
+        Parser $parser,
+        Filesystem $filesystem
+    ) {
+        $this->parser = $parser;
+        $this->filesystem = $filesystem;
+    }
 
     /**
      * @param $resource
@@ -67,15 +84,15 @@ class TranslatorHelper extends Helper
     public function loadResource($language, $directoryRoot)
     {
         $this->language = $language;
-        $this->translator = new Translator($this->language);
+        $this->translator = new BaseTranslator($this->language);
         $this->addLoader(new ArrayLoader(), 'array');
         $this->addLoader(new YamlFileLoader(), 'yaml');
 
         $languageDirectory = $directoryRoot . 'config/translations/' . $language;
+
         if (!is_dir($languageDirectory)) {
             $languageDirectory = $directoryRoot . 'config/translations/en';
         }
-
         $finder = new Finder();
         $finder->files()
             ->name('*.yml')
@@ -111,8 +128,7 @@ class TranslatorHelper extends Helper
      */
     private function loadTranslationByFile($resource, $resourceKey= null)
     {
-        $yaml = new Parser();
-        $resourceParsed = $yaml->parse(file_get_contents($resource));
+        $resourceParsed = $this->parser->parse(file_get_contents($resource));
 
         if ($resourceKey) {
             $parents = explode(".", $resourceKey);
@@ -181,7 +197,7 @@ class TranslatorHelper extends Helper
      */
     public function addResourceTranslationsByModule($module)
     {
-        $extensionPath = $this->getSite()->getModulePath($module);
+        $extensionPath = \Drupal::service('module_handler')->getModule($module)->getPath();
 
         $this->addResourceTranslationsByExtension(
             $extensionPath
@@ -193,7 +209,7 @@ class TranslatorHelper extends Helper
      */
     public function addResourceTranslationsByTheme($theme)
     {
-        $extensionPath = $this->getSite()->getThemePath($theme);
+        $extensionPath = \Drupal::service('theme_handler')->getTheme($theme)->getPath();
 
         $this->addResourceTranslationsByExtension(
             $extensionPath
@@ -213,10 +229,7 @@ class TranslatorHelper extends Helper
             $command_key
         );
 
-        $yaml = $this->getContainerHelper()->get('yaml');
-        $filesystem = $this->getContainerHelper()->get('filesystem');
-
-        $filesystem->dumpFile($translationFile, $yaml::dump($messages));
+        $this->filesystem->dumpFile($translationFile, Yaml::dump($messages));
     }
 
     /**
@@ -226,7 +239,7 @@ class TranslatorHelper extends Helper
      */
     public function writeTranslationsByCommand($module, $messages, $command_key)
     {
-        $extensionPath = $this->getSite()->getModulePath($module);
+        $extensionPath = \Drupal::service('module_handler')->getModule($module)->getPath();
 
         $this->writeTranslationsByExtension(
             $extensionPath,
@@ -242,7 +255,7 @@ class TranslatorHelper extends Helper
      */
     public function writeTranslationsByTheme($theme, $messages, $command_key)
     {
-        $extensionPath = $this->getSite()->getThemePath($theme);
+        $extensionPath = \Drupal::service('theme_handler')->getTheme($theme)->getPath();
 
         $this->writeTranslationsByExtension(
             $extensionPath,
@@ -258,13 +271,5 @@ class TranslatorHelper extends Helper
     public function trans($key)
     {
         return $this->translator->trans($key);
-    }
-
-    /**
-     * @see \Symfony\Component\Console\Helper\HelperInterface::getName()
-     */
-    public function getName()
-    {
-        return 'translator';
     }
 }
