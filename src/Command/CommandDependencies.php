@@ -8,26 +8,23 @@ namespace Drupal\Console\Command;
 
 use Doctrine\Common\Annotations\FileCacheReader;
 use Drupal\Console\Annotation\DrupalCommand;
-use Drupal\Console\Helper\KernelHelper;
 use ReflectionClass;
 
 class CommandDependencies
 {
 
     /**
-     * @var CachedReader
+     * @var FileCacheReader
      */
     private $reader;
 
     /**
      * CommandDependencyResolver constructor.
      * @param FileCacheReader $reader
-     * @param KernelHelper $kernelSite
      */
-    public function __construct(FileCacheReader $reader, KernelHelper $kernelSite)
+    public function __construct(FileCacheReader $reader)
     {
         $this->reader = $reader;
-        $this->kernelSite = $kernelSite;
     }
 
     /**
