@@ -66,7 +66,6 @@ $helpers = [
     'translator' => $translatorHelper, /* registered as a service */
     'site' => new SiteHelper(),
     'renderer' => new TwigRendererHelper(),
-
     'showFile' => new ShowFileHelper(), /* registered as a service */
     'chain' => new ChainCommandHelper(), /* registered as a service */
     'drupal' => new DrupalHelper(), /* registered as a service "site" */

@@ -71,14 +71,12 @@ class TranslatorHelper extends Helper
         $this->addLoader(new ArrayLoader(), 'array');
         $this->addLoader(new YamlFileLoader(), 'yaml');
 
-        $finder = new Finder();
-
         $languageDirectory = $directoryRoot . 'config/translations/' . $language;
-
         if (!is_dir($languageDirectory)) {
             $languageDirectory = $directoryRoot . 'config/translations/en';
         }
 
+        $finder = new Finder();
         $finder->files()
             ->name('*.yml')
             ->in($languageDirectory);
@@ -160,7 +158,7 @@ class TranslatorHelper extends Helper
             return;
         }
 
-        $finder = $this->getContainerHelper()->get('finder');
+        $finder = new Finder();
         $finder->files()
             ->name('*.yml')
             ->in($languageDirectory);

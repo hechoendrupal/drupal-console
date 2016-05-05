@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\AutocompleteGenerator;
 use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Console\Command\Command as BaseCommand;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -53,8 +54,8 @@ class InitCommand extends BaseCommand
             $override = $input->getOption('override');
         }
 
-        $finder = $this->get('finder');
-        $finder->in(sprintf('%s/config/dist', $application->getDirectoryRoot()));
+        $finder = new Finder();
+        $finder->in(sprintf('%sconfig/dist/', $application->getDirectoryRoot()));
         $finder->files();
 
         foreach ($finder as $configFile) {

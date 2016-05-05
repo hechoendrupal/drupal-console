@@ -51,25 +51,17 @@ class Site
     private $installed = false;
 
     /**
- * @var Parser 
-*/
+     * @var Parser
+     */
     protected $parser;
 
     /**
- * @var Finder 
-*/
-    protected $finder;
-
-    /**
      * Translator constructor.
-     * @param Finder $finder
      * @param Parser $parser
      */
     public function __construct(
-        Finder $finder,
         Parser $parser
     ) {
-        $this->finder = $finder;
         $this->parser = $parser;
     }
 
@@ -241,12 +233,13 @@ class Site
         $this->loadLegacyFile('/core/includes/install.inc');
         $this->setMinimalContainerPreKernel();
 
-        $this->finder->directories()
+        $finder = new Finder();
+        $finder->directories()
             ->in($this->root . '/core/lib/Drupal/Core/Database/Driver')
             ->depth('== 0');
 
         $databases = [];
-        foreach ($this->finder as $driver_folder) {
+        foreach ($finder as $driver_folder) {
             if (file_exists($driver_folder->getRealpath() . '/Install/Tasks.php')) {
                 $driver  = $driver_folder->getBasename();
                 $installer = db_installer_object($driver);
@@ -282,7 +275,8 @@ class Site
      */
     public function getProfiles()
     {
-        $this->finder->files()
+        $finder = new Finder();
+        $finder->files()
             ->name('*.info.yml')
             ->in($this->root . '/core/profiles/')
             ->in($this->root . '/profiles/')
@@ -291,7 +285,7 @@ class Site
             ->depth('1');
 
         $profiles = [];
-        foreach ($this->finder as $file) {
+        foreach ($finder as $file) {
             $profile_key = $file->getBasename('.info.yml');
             $profiles[$profile_key] = $this->parser->parse($file->getContents());
         }

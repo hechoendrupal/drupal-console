@@ -2,9 +2,6 @@ services:
   parser:
     class: Symfony\Component\Yaml\Parser
     lazy: true
-  finder:
-    class: Symfony\Component\Finder\Finder
-    lazy: true
   filesystem:
     class: Symfony\Component\Filesystem\Filesystem
     lazy: true
@@ -28,21 +25,19 @@ services:
     class: Doctrine\Common\Annotations\FileCacheReader
     factory: [Drupal\Console\Annotations\CacheFactory, createFileCache]
     arguments: ['@annotation_reader', '@config']
-
   command_dependency_resolver:
     class: Drupal\Console\Command\CommandDependencies
     arguments: ["@annotation_file_cache"]
-
   file_util:
     class: Drupal\Console\Utils\File
     lazy: true
   translator:
     class: Drupal\Console\Utils\Translator
-    arguments: ["@finder", "@parser", "@filesystem"]
+    arguments: ["@parser", "@filesystem"]
     lazy: true
   site:
     class: Drupal\Console\Utils\Site
-    arguments: ["@finder", "@parser"]
+    arguments: ["@parser"]
     lazy: true
   chain:
     class: Drupal\Console\Utils\Chain

@@ -28,33 +28,26 @@ class Translator
      */
     private $translator;
 
-    /**
- * @var Finder 
-*/
-    protected $finder;
 
     /**
- * @var Parser 
-*/
+     * @var Parser
+     */
     protected $parser;
 
     /**
- * @var Filesystem 
-*/
+     * @var Filesystem
+     */
     protected $filesystem;
 
     /**
      * Translator constructor.
-     * @param Finder     $finder
      * @param Parser     $parser
      * @param Filesystem $filesystem
      */
     public function __construct(
-        Finder $finder,
         Parser $parser,
         Filesystem $filesystem
     ) {
-        $this->finder = $finder;
         $this->parser = $parser;
         $this->filesystem = $filesystem;
     }
@@ -100,12 +93,12 @@ class Translator
         if (!is_dir($languageDirectory)) {
             $languageDirectory = $directoryRoot . 'config/translations/en';
         }
-
-        $this->finder->files()
+        $finder = new Finder();
+        $finder->files()
             ->name('*.yml')
             ->in($languageDirectory);
 
-        foreach ($this->finder as $file) {
+        foreach ($finder as $file) {
             $resource = $languageDirectory . '/' . $file->getBasename();
             $filename = $file->getBasename('.yml');
 
@@ -181,11 +174,12 @@ class Translator
             return;
         }
 
-        $this->finder->files()
+        $finder = new Finder();
+        $finder->files()
             ->name('*.yml')
             ->in($languageDirectory);
 
-        foreach ($this->finder as $file) {
+        foreach ($finder as $file) {
             $resource = $languageDirectory . '/' . $file->getBasename();
             $filename = $file->getBasename('.yml');
 
