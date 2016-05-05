@@ -33,17 +33,6 @@ services:
     class: Drupal\Console\Command\CommandDependencies
     arguments: ["@annotation_file_cache", "@helper_kernel"]
 
-  helper_site:
-    class: Drupal\Console\Helper\SiteHelper
-    lazy: true
-    tags:
-      - { name: console.helper }
-  helper_kernel:
-      class: Drupal\Console\Helper\KernelHelper
-      lazy: true
-      tags:
-        - { name: console.helper }
-
   file_util:
     class: Drupal\Console\Utils\File
     lazy: true
