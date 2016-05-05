@@ -47,7 +47,6 @@ if (file_exists($consoleRoot.'vendor/autoload.php')) {
 $container = new ContainerBuilder();
 $loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
 $loader->load('services.yml');
-$container->compile();
 
 AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
 
