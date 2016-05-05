@@ -125,7 +125,7 @@ class StatusCommand extends ContainerAwareCommand
         $connectionData = [];
         foreach ($this->connectionInfoKeys as $connectionInfoKey) {
             if ("password" == $connectionInfoKey) {
-              continue;
+                continue;
             }
 
             $connectionKey = $this->trans('commands.site.status.messages.'.$connectionInfoKey);
@@ -133,7 +133,7 @@ class StatusCommand extends ContainerAwareCommand
         }
 
         if ($connectionInfo['default']['password']) {
-          $connectionInfo['default']['password'] = str_repeat("*", strlen($connectionInfo['default']['password']));
+            $connectionInfo['default']['password'] = str_repeat("*", strlen($connectionInfo['default']['password']));
         }
 
         $connectionData['database'][$this->trans('commands.site.status.messages.connection')] = sprintf(

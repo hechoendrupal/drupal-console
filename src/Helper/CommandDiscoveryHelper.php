@@ -48,7 +48,6 @@ class CommandDiscoveryHelper extends Helper
     {
         $this->develop = $develop;
         $this->commandDependencies = $commandDependencyResolver;
-
     }
 
     /**
@@ -281,8 +280,9 @@ class CommandDiscoveryHelper extends Helper
             return false;
         }
 
-        if (!$this->getDrupalHelper()->isInstalled() &&
-            $reflectionClass->isSubclassOf('Drupal\\Console\\Command\\ContainerAwareCommand')) {
+        if (!$this->getDrupalHelper()->isInstalled()
+            && $reflectionClass->isSubclassOf('Drupal\\Console\\Command\\ContainerAwareCommand')
+        ) {
             return false;
         }
 

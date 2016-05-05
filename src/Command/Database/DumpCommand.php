@@ -91,9 +91,11 @@ class DumpCommand extends ContainerAwareCommand
 
         if ($learning) {
             $io->commentBlock(
-              str_replace($databaseConnection['password'],
-              str_repeat("*", strlen($databaseConnection['password'])),
-              $command)
+                str_replace(
+                    $databaseConnection['password'],
+                    str_repeat("*", strlen($databaseConnection['password'])),
+                    $command
+                )
             );
         }
 

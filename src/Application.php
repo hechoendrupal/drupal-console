@@ -591,7 +591,6 @@ class Application extends BaseApplication
                 $name
             );
         }
-
     }
 
     /**
