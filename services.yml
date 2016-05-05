@@ -1,26 +1,20 @@
 services:
   parser:
     class: Symfony\Component\Yaml\Parser
-    lazy: true
   filesystem:
     class: Symfony\Component\Filesystem\Filesystem
-    lazy: true
   yaml:
     class: Symfony\Component\Yaml\Yaml
-    lazy: true
   config:
     class: Drupal\Console\Config
     arguments: ["@parser"]
   requirement_checker:
     class: Drupal\Console\Utils\RequirementChecker
     arguments: ["@parser"]
-    lazy: true
   redbean:
     class: RedBeanPHP\R
-    lazy: true
   annotation_reader:
     class: Doctrine\Common\Annotations\AnnotationReader
-    lazy: true
   annotation_file_cache:
     class: Doctrine\Common\Annotations\FileCacheReader
     factory: [Drupal\Console\Annotations\CacheFactory, createFileCache]
@@ -30,61 +24,49 @@ services:
     arguments: ["@annotation_file_cache"]
   file_util:
     class: Drupal\Console\Utils\File
-    lazy: true
   translator:
     class: Drupal\Console\Utils\Translator
     arguments: ["@parser", "@filesystem"]
-    lazy: true
   site:
     class: Drupal\Console\Utils\Site
     arguments: ["@parser"]
-    lazy: true
   chain:
     class: Drupal\Console\Utils\Chain
-    lazy: true
   showfile:
     class: Drupal\Console\Utils\ShowFile
     arguments: ["@site", "@translator"]
-    lazy: true
   about:
     class: Drupal\Console\Command\AboutCommand
     arguments: ["@translator"]
-    lazy: true
     tags:
       - { name: console.command }
   check:
     class: Drupal\Console\Command\CheckCommand
     arguments: ["@translator"]
-    lazy: true
     tags:
       - { name: console.command }
   complete:
     class: Drupal\Console\Command\CompleteCommand
     arguments: ["@translator"]
-    lazy: true
     tags:
       - { name: console.command }
   init:
     class: Drupal\Console\Command\InitCommand
     arguments: ["@translator"]
-    lazy: true
     tags:
       - { name: console.command }
   list:
     class: Drupal\Console\Command\ListCommand
     arguments: ["@translator"]
-    lazy: true
     tags:
       - { name: console.command }
   help:
     class: Drupal\Console\Command\HelpCommand
     arguments: ["@translator"]
-    lazy: true
     tags:
       - { name: console.command }
   server:
     class: Drupal\Console\Command\ServerCommand
     arguments: ["@translator"]
-    lazy: true
     tags:
       - { name: console.command }
