@@ -565,6 +565,17 @@ class Application extends BaseApplication
         foreach ($helpers as $alias => $helper) {
             $defaultHelperSet->set($helper, is_int($alias) ? null : $alias);
         }
+
+        // Add helpers defined on container
+        $container = $this->getContainerHelper()->getContainer();
+        $tags = $container->findTaggedServiceIds('console.helper');
+        foreach ($tags as $name => $service) {
+            $defaultHelperSet->set(
+                $this->getContainerHelper()->get($name),
+                $name
+            );
+        }
+
     }
 
     /**

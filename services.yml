@@ -21,6 +21,18 @@ services:
   redbean:
     class: RedBeanPHP\R
     lazy: true
+  annotation_reader:
+    class: Doctrine\Common\Annotations\AnnotationReader
+    lazy: true
+  annotation_file_cache:
+    class: Doctrine\Common\Annotations\FileCacheReader
+    factory: [Drupal\Console\Annotations\CacheFactory, createFileCache]
+    arguments: ['@annotation_reader', '@config']
+
+  command_dependency_resolver:
+    class: Drupal\Console\Command\CommandDependencies
+    arguments: ["@annotation_file_cache"]
+
   file_util:
     class: Drupal\Console\Utils\File
     lazy: true

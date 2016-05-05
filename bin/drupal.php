@@ -19,7 +19,6 @@ use Drupal\Console\EventSubscriber\ValidateDependenciesListener;
 use Drupal\Console\EventSubscriber\DefaultValueEventListener;
 use Drupal\Console\Helper\NestedArrayHelper;
 use Drupal\Console\Helper\TwigRendererHelper;
-use Drupal\Console\EventSubscriber\ShowGenerateDocListener;
 use Drupal\Console\Helper\DrupalHelper;
 use Drupal\Console\Helper\CommandDiscoveryHelper;
 use Drupal\Console\Helper\RemoteHelper;
@@ -29,15 +28,16 @@ use Drupal\Console\Helper\ContainerHelper;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 
 set_time_limit(0);
 
 $consoleRoot = __DIR__.'/../';
 
 if (file_exists($consoleRoot.'vendor/autoload.php')) {
-    include_once $consoleRoot.'vendor/autoload.php';
+    $autoload = include_once $consoleRoot.'vendor/autoload.php';
 } elseif (file_exists($consoleRoot.'../../autoload.php')) {
-    include_once $consoleRoot.'../../autoload.php';
+    $autoload = include_once $consoleRoot.'../../autoload.php';
 } else {
     echo 'Something goes wrong with your archive'.PHP_EOL.
         'Try downloading again'.PHP_EOL;
@@ -45,6 +45,7 @@ if (file_exists($consoleRoot.'vendor/autoload.php')) {
 }
 
 $container = new ContainerBuilder();
+AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
 $loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
 $loader->load('services.yml');
 
@@ -64,7 +65,10 @@ $helpers = [
     'showFile' => new ShowFileHelper(),
     'chain' => new ChainCommandHelper(),
     'drupal' => new DrupalHelper(),
-    'commandDiscovery' => new CommandDiscoveryHelper($config->get('application.develop')),
+    'commandDiscovery' => new CommandDiscoveryHelper(
+        $config->get('application.develop'),
+        $container->get("command_dependency_resolver")
+    ),
     'remote' => new RemoteHelper(),
     'httpClient' => new HttpClientHelper(),
     'api' => new DrupalApiHelper(),

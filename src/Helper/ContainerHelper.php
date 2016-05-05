@@ -43,6 +43,11 @@ class ContainerHelper extends Helper
         return null;
     }
 
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
     /**
      * {@inheritdoc}
      */
