@@ -43,10 +43,10 @@ class DownloadCommand extends Command
                 $this->trans('commands.module.download.options.latest')
             )
             ->addOption(
-                'druproj',
+                'composer',
                 '',
                 InputOption::VALUE_NONE,
-                $this->trans('commands.module.install.options.druproj')
+                $this->trans('commands.module.install.options.composer')
             );
     }
 
@@ -56,7 +56,7 @@ class DownloadCommand extends Command
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $druproj = $input->getOption('druproj');
+        $composer = $input->getOption('composer');
 
         $module = $input->getArgument('module');
         if (!$module) {
@@ -64,7 +64,7 @@ class DownloadCommand extends Command
             $input->setArgument('module', $module);
         }
 
-        if (!$druproj)
+        if (!$composer)
         {
           $path = $input->getOption('path');
           if (!$path) {
@@ -90,9 +90,9 @@ class DownloadCommand extends Command
         $modules = $input->getArgument('module');
         $latest = $input->getOption('latest');
         $path = $input->getOption('path');
-        $druproj = $input->getOption('druproj');
+        $composer = $input->getOption('composer');
 
-        if (true === $druproj)
+        if ($composer)
         {
           foreach ($modules as $module)
           {
