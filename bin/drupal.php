@@ -28,15 +28,16 @@ use Drupal\Console\Helper\ContainerHelper;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 
 set_time_limit(0);
 
 $consoleRoot = __DIR__.'/../';
 
 if (file_exists($consoleRoot.'vendor/autoload.php')) {
-    include_once $consoleRoot.'vendor/autoload.php';
+    $autoload = include_once $consoleRoot.'vendor/autoload.php';
 } elseif (file_exists($consoleRoot.'../../autoload.php')) {
-    include_once $consoleRoot.'../../autoload.php';
+    $autoload = include_once $consoleRoot.'../../autoload.php';
 } else {
     echo 'Something goes wrong with your archive'.PHP_EOL.
         'Try downloading again'.PHP_EOL;
@@ -47,6 +48,8 @@ $container = new ContainerBuilder();
 $loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
 $loader->load('services.yml');
 $container->compile();
+
+AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
 
 $config = $container->get('config');
 $container->get('translator')
@@ -63,10 +66,14 @@ $helpers = [
     'translator' => $translatorHelper, /* registered as a service */
     'site' => new SiteHelper(),
     'renderer' => new TwigRendererHelper(),
+
     'showFile' => new ShowFileHelper(), /* registered as a service */
     'chain' => new ChainCommandHelper(), /* registered as a service */
     'drupal' => new DrupalHelper(), /* registered as a service "site" */
-    'commandDiscovery' => new CommandDiscoveryHelper($config->get('application.develop')),
+    'commandDiscovery' => new CommandDiscoveryHelper(
+        $config->get('application.develop'),
+        $container->get("command_dependency_resolver")
+    ),
     'remote' => new RemoteHelper(),
     'httpClient' => new HttpClientHelper(),
     'api' => new DrupalApiHelper(),
