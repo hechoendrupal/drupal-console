@@ -9,6 +9,6 @@ questions:
     limit: 'Enter how many users would you like to show'
 messages:
     user-id: 'User ID'
-    username: Username
-    roles: Roles
-    status: Status
+    username: 'Username'
+    roles: 'Roles'
+    status: 'Status'

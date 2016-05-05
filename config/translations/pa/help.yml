@@ -1,5 +1,14 @@
 description: 'Displays help for a command'
-help: "The <info>%command.name%</info> command displays help for a given command:\n\n<info>php %command.full_name% list</info>\n\nYou can also output the help in other formats by using the <comment>--format</comment> option:\n\n<info>php %command.full_name% --format=xml list</info>\n\nTo display the list of available commands, please use the <info>list</info> command.\n"
+help: |
+        The <info>%command.name%</info> command displays help for a given command:
+
+        <info>php %command.full_name% list</info>
+
+        You can also output the help in other formats by using the <comment>--format</comment> option:
+
+        <info>php %command.full_name% --format=xml list</info>
+
+        To display the list of available commands, please use the <info>list</info> command.
 arguments:
     command_name: 'The command name'
 options:

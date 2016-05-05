@@ -2,7 +2,7 @@ description: 'Create dummy users for your Drupal 8 application.'
 help: 'The <info>create:users</info> command helps you create dummy users.'
 welcome: 'Welcome to the Drupal users generator'
 arguments:
-    roles: 'Role(s) to be used in user creation'
+  roles: 'Role(s) to be used in user creation'
 options:
     limit: 'How many users would you like to create'
     password: 'Password to be set to users created'
@@ -13,7 +13,7 @@ questions:
     password: 'Enter the password to be set to users created'
     time-range: 'How far back in time should the users be dated?'
     time-ranges:
-        - Now
+        - 'Now'
         - '1 hour ago'
         - '1 day ago'
         - '1 week ago'
@@ -21,7 +21,7 @@ questions:
         - '1 year ago'
 messages:
     user-id: 'User Id'
-    roles: Roles
-    username: Username
+    roles: 'Roles'
+    username: 'Username'
     created: 'Created Time'
     created-users: 'Created %s users successfully'
