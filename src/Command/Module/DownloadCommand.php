@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Module;
 
-use Symfony\Component\Process\PhpProcess;
+
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,10 +15,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\ProjectDownloadTrait;
+use Drupal\Console\Command\PHPProcessTrait;
 
 class DownloadCommand extends Command
 {
     use ProjectDownloadTrait;
+    use PHPProcessTrait;
 
     protected function configure()
     {
@@ -98,10 +100,16 @@ class DownloadCommand extends Command
           {
             $version = $this->releasesQuestion($io, $module, $latest);
             $cmd = "composer require drupal/$module $version";
-            $rootPath = $this->getDrupalHelper()->getRoot();
-            $php_script = shell_exec( $cmd );
-            $phpProcess = new PhpProcess($php_script, $rootPath);
-            $phpProcess->run();
+
+            if ( $this->ExecProcess($cmd) )
+            {
+                $io->success(
+                  sprintf(
+                      $this->trans('commands.module.install.messages.composer'),
+                      $version
+                  )
+                );
+            }
           }
 
         }else
@@ -109,6 +117,7 @@ class DownloadCommand extends Command
 
           $this->downloadModules($io, $modules, $latest, $path);
         }
+
         return true;
     }
 }

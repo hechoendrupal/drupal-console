@@ -15,7 +15,6 @@
 
 namespace Drupal\Console\Command\Site;
 
-use Symfony\Component\Process\PhpProcess;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -25,10 +24,13 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Drupal\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\ProjectDownloadTrait;
+use Drupal\Console\Command\PHPProcessTrait;
 
 class NewCommand extends Command
 {
     use ProjectDownloadTrait;
+    use PHPProcessTrait;
+
 
     /**
      * {@inheritdoc}
@@ -81,19 +83,17 @@ class NewCommand extends Command
         if ($composer)
         {
           $cmd = "composer create-project drupal/drupal $directory $version --no-interaction";
-          $rootPath = $this->getDrupalHelper()->getRoot();
-          $php_script = shell_exec( $cmd );
-          $phpProcess = new PhpProcess($php_script, $rootPath);
-          $phpProcess->run();
+          if ( $this->ExecProcess($cmd) )
+          {
+            $io->success(
+              sprintf(
+                  $this->trans('commands.site.new.messages.composer'),
+                  $version
+              )
+            );
 
-          $io->success(
-            sprintf(
-                $this->trans('commands.site.new.messages.composer'),
-                $version
-            )
-          );
-
-          return 1;
+            return 1;
+          }
         }
 
         $projectPath = $this->downloadProject($io, 'drupal', $version, 'core');
