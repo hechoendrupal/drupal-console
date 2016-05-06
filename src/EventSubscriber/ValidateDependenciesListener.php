@@ -26,13 +26,19 @@ class ValidateDependenciesListener implements EventSubscriberInterface
         $io = $event->getOutput();
 
         $application = $command->getApplication();
+
+        $missingDependencies = $application
+            ->getHelperSet()
+            ->get("commandDiscovery")
+            ->getMissingDependencies();
+
         $translatorHelper = $application->getTranslator();
 
         if (!$command instanceof Command) {
             return;
         }
 
-        if ($dependencies = $command->getDependencies()) {
+        if ($dependencies = $missingDependencies[$command->getName()]) {
             foreach ($dependencies as $dependency) {
                 if (!$application->getValidator()->isModuleInstalled($dependency)) {
                     $errorMessage = sprintf(

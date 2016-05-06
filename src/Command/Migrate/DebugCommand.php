@@ -12,7 +12,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Annotation\DrupalCommand;
 
+/**
+ * @DrupalCommand(
+ *     dependencies = {
+ *         "migrate"
+ *     }
+ * )
+ */
 class DebugCommand extends ContainerAwareCommand
 {
     protected function configure()

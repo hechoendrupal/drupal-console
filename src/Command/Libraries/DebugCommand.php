@@ -17,7 +17,7 @@ use Drupal\Console\Helper\HelperTrait;
 
 class DebugCommand extends ContainerAwareCommand
 {
-   use HelperTrait;
+    use HelperTrait;
 
     /**
      * {@inheritdoc}
@@ -50,16 +50,13 @@ class DebugCommand extends ContainerAwareCommand
             ];
 
             $io->table($tableHeader, $groups, 'compact');
-        }
-        else {
+        } else {
             $librariesData = $this->getLibraryByName($group);
 
-            foreach ($librariesData as $key => $libraries ) {
+            foreach ($librariesData as $key => $libraries) {
                 $io->comment($key);
                 $io->writeln(Yaml::encode($libraries));
-
             }
-
         }
     }
 
