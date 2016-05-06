@@ -9,7 +9,7 @@ options:
     limit: 'Limit results to a specific number'
     offset: 'Starting point of a limit'
 messages:
-    event-id: 'Event ID'
+    event-id: Event ID
     type: Type
     date: Date
     message: Message

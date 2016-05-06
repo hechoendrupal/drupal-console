@@ -2,7 +2,7 @@ description: 'Create dummy terms for your Drupal 8 application.'
 help: 'The <info>create:terms</info> command helps you create dummy terms.'
 welcome: 'Welcome to the Drupal terms creator'
 arguments:
-    vocabularies: 'Vocabulary(s) to be used in terms creation'
+  vocabularies: 'Vocabulary(s) to be used in terms creation'
 options:
     limit: 'How many terms would you like to create'
     name-words: 'Maximum number of words in term names'
@@ -12,7 +12,7 @@ questions:
     name-words: 'Enter the maximum number of words in term names'
 messages:
     term-id: 'Term Id'
-    vocabulary: Vocabulary
-    name: Name
+    vocabulary: 'Vocabulary'
+    name: 'Name'
     invalid-vocabularies: 'Vocabulary(s) %s are invalid'
     created-terms: 'Created %s terms successfully'

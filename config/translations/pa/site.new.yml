@@ -1,6 +1,6 @@
 description: 'Create a new Drupal project'
 arguments:
-    directory: 'Directory when downloading Drupal'
+    directory: 'Directory where to install Drupal'
     version: 'Drupal version to download'
 messages:
     select-release: 'Select a core release'
@@ -11,4 +11,5 @@ messages:
     downloaded: 'Drupal %s was downloaded in directory %s'
     error-copying: 'An error occurred while renaming directory as %s'
 questions:
-    directory: 'Enter the directory name when downloading Drupal'
+    directory: 'Enter the directory name where to install Drupal'
+

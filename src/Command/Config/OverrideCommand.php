@@ -70,7 +70,7 @@ class OverrideCommand extends ContainerAwareCommand
             $input->setArgument('key', $key);
         }
         $value = $input->getArgument('value');
-        if(!$value){
+        if (!$value) {
             $value = $io->ask(
                 $this->trans('commands.config.override.questions.value')
             );
