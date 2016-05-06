@@ -11,21 +11,22 @@ use Drupal\Console\Utils\Translator;
 trait CommandTrait
 {
     /**
- * @var  Translator 
-*/
+     * @var  Translator
+     */
     protected $translator;
 
     /**
-     * StandAloneCommandTrait constructor.
-     * @param Translator $translator
+     * @param $translator
      */
-    public function __construct(Translator $translator)
+    public function setTranslator($translator)
     {
         $this->translator = $translator;
-
-        parent::__construct();
     }
 
+    /**
+     * @param $key
+     * @return null|object
+     */
     public function get($key)
     {
         if (!$key) {
@@ -44,7 +45,28 @@ trait CommandTrait
      */
     public function trans($key)
     {
+        if (!$this->translator) {
+            return $key;
+        }
+
         return $this->translator->trans($key);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDescription()
+    {
+        $description = sprintf(
+            'commands.%s.description',
+            str_replace(':', '.', $this->getName())
+        );
+
+        if (parent::getDescription()==$description) {
+            return $this->trans($description);
+        }
+
+        return parent::getDescription();
     }
 
     /**

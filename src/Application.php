@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Drupal\Console\Helper\HelperTrait;
-use Drupal\Console\Helper\DrupalHelper;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -330,11 +329,7 @@ class Application extends BaseApplication
         }
 
         foreach ($commands as $command) {
-            //            $aliases = $this->getCommandAliases($command);
-            //            if ($aliases) {
-            //                $command->setAliases($aliases);
-            //            }
-
+            $command->setAliases([]);
             $this->add($command);
         }
 
@@ -366,7 +361,7 @@ class Application extends BaseApplication
         }
 
         $tags = $this->container->findTaggedServiceIds('console.command');
-        foreach ($tags as $name => $service) {
+        foreach ($tags as $name => $tags) {
             $this->add($this->getContainerHelper()->get($name));
         }
     }

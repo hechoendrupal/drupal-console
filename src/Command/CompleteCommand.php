@@ -30,6 +30,8 @@ class CompleteCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln(array_keys($this->getApplication()->all()));
+        $commands = array_keys($this->getApplication()->all());
+        asort($commands);
+        $output->writeln($commands);
     }
 }
