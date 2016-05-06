@@ -39,8 +39,6 @@ services:
     class: Drupal\Console\Command\AboutCommand
     calls:
       - [setTranslator, ['@translator']]
-    calls:
-      - [setTranslator, ['@translator']]
     tags:
       - { name: console.command }
   check:
@@ -63,8 +61,6 @@ services:
       - { name: console.command }
   list:
     class: Drupal\Console\Command\ListCommand
-    calls:
-      - [setTranslator, ['@translator']]
     calls:
       - [setTranslator, ['@translator']]
     tags:
