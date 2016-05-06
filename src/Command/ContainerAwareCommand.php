@@ -171,7 +171,7 @@ abstract class ContainerAwareCommand extends Command
             );
         }
     }
-
+    
     /**
      * @return \Drupal\Core\Config\ConfigFactoryInterface
      */

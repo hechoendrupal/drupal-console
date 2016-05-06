@@ -1,5 +1,5 @@
 description: 'Applying Entity Updates'
 messages:
-    start: 'Starting the entity updates'
-    end: 'Finished the entity updates'
-    error: 'Error on Entity Updates'
+  start: 'Starting the entity updates'
+  end: 'Finished the entity updates'
+  error: 'Error on Entity Updates'

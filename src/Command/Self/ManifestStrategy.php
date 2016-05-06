@@ -10,8 +10,6 @@ use Humbug\SelfUpdate\Exception\HttpRequestException;
 use Humbug\SelfUpdate\Exception\JsonParsingException;
 use Humbug\SelfUpdate\Strategy\StrategyInterface;
 use Humbug\SelfUpdate\Updater;
-//
-use Drupal\Console\Command\Self\VersionParser;
 
 class ManifestStrategy implements StrategyInterface
 {

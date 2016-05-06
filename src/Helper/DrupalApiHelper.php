@@ -194,10 +194,12 @@ class DrupalApiHelper extends Helper
 
     /**
      * @param $module
+     * @param $limit
+     * @param $stable
      * @return array
      * @throws \Exception
      */
-    public function getProjectReleases($module, $limit = 100)
+    public function getProjectReleases($module, $limit = 10, $stable = false)
     {
         if (!$module) {
             return [];
@@ -216,7 +218,12 @@ class DrupalApiHelper extends Helper
 
         $releases = [];
         $crawler = new Crawler($projectPageContent);
-        foreach ($crawler->filterXPath('./project/releases/release/version') as $element) {
+        $filter = './project/releases/release/version';
+        if ($stable) {
+            $filter = './project/releases/release[not(version_extra)]/version';
+        }
+
+        foreach ($crawler->filterXPath($filter) as $element) {
             $releases[] = $element->nodeValue;
         }
 

@@ -38,13 +38,13 @@ class File
     {
         if (strpos($path, '~') === 0) {
             $home = rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/');
-            $path = realpath(preg_replace('/~/', $home, $path, 1));
+            $path = preg_replace('/~/', $home, $path, 1);
         }
 
         if (!(strpos($path, '/') === 0)) {
             $path = sprintf('%s/%s', getcwd(), $path);
         }
 
-        return $path;
+        return realpath($path);
     }
 }
