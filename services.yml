@@ -37,36 +37,43 @@ services:
     arguments: ["@site", "@translator"]
   about:
     class: Drupal\Console\Command\AboutCommand
-    arguments: ["@translator"]
+    calls:
+      - [setTranslator, ['@translator']]
     tags:
       - { name: console.command }
   check:
     class: Drupal\Console\Command\CheckCommand
-    arguments: ["@translator"]
+    calls:
+      - [setTranslator, ['@translator']]
     tags:
       - { name: console.command }
   complete:
     class: Drupal\Console\Command\CompleteCommand
-    arguments: ["@translator"]
+    calls:
+      - [setTranslator, ['@translator']]
     tags:
       - { name: console.command }
   init:
     class: Drupal\Console\Command\InitCommand
-    arguments: ["@translator"]
+    calls:
+      - [setTranslator, ['@translator']]
     tags:
       - { name: console.command }
   list:
     class: Drupal\Console\Command\ListCommand
-    arguments: ["@translator"]
+    calls:
+      - [setTranslator, ['@translator']]
     tags:
       - { name: console.command }
   help:
     class: Drupal\Console\Command\HelpCommand
-    arguments: ["@translator"]
+    calls:
+      - [setTranslator, ['@translator']]
     tags:
       - { name: console.command }
   server:
     class: Drupal\Console\Command\ServerCommand
-    arguments: ["@translator"]
+    calls:
+      - [setTranslator, ['@translator']]
     tags:
       - { name: console.command }
