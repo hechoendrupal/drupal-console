@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\ProcessBuilder;
 use Drupal\Console\Command\ContainerAwareCommand;
-use Drupal\Console\Command\Database\ConnectTrait;
+use Drupal\Console\Functionality\ConnectTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class ClientCommand extends ContainerAwareCommand

@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\ThemeBreakpointTrait.
+ * Contains Drupal\Console\Functionality\ThemeBreakpointTrait.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Functionality;
 
 use Drupal\Console\Style\DrupalStyle;
 

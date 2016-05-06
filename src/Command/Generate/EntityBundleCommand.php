@@ -7,9 +7,9 @@
 
 namespace Drupal\Console\Command\Generate;
 
-use Drupal\Console\Command\ConfirmationTrait;
-use Drupal\Console\Command\ModuleTrait;
-use Drupal\Console\Command\ServicesTrait;
+use Drupal\Console\Functionality\ConfirmationTrait;
+use Drupal\Console\Functionality\ModuleTrait;
+use Drupal\Console\Functionality\ServicesTrait;
 use Drupal\Console\Command\GeneratorCommand;
 use Drupal\Console\Generator\ContentTypeGenerator;
 use Drupal\Console\Generator\EntityBundleGenerator;
@@ -77,7 +77,7 @@ class EntityBundleCommand extends GeneratorCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Functionality\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($io);
             $input->setOption('module', $module);
         }

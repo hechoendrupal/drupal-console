@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Functionality\LocaleTrait;
 
 class LanguageDeleteCommand extends ContainerAwareCommand
 {

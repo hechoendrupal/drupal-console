@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\ModuleTrait.
+ * Contains Drupal\Console\Functionality\ModuleTrait.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Functionality;
 
 use Drupal\Console\Style\DrupalStyle;
 

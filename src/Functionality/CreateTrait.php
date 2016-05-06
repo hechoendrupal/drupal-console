@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\CreateTrait.
+ * Contains Drupal\Console\Functionality\CreateTrait.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Functionality;
 
 /**
  * Class CreateTrait

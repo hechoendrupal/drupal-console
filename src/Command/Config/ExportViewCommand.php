@@ -12,8 +12,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
-use Drupal\Console\Command\ModuleTrait;
+use Drupal\Console\Functionality\ModuleTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Functionality\ExportTrait;
+
 
 class ExportViewCommand extends ContainerAwareCommand
 {
@@ -63,7 +65,7 @@ class ExportViewCommand extends ContainerAwareCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Functionality\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($io);
             $input->setOption('module', $module);
         }

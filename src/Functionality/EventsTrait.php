@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\EventsTrait.
+ * Contains Drupal\Console\Functionality\EventsTrait.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Functionality;
 
 use Drupal\Console\Style\DrupalStyle;
 
