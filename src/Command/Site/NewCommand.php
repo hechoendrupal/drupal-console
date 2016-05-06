@@ -2,10 +2,20 @@
 /**
  * @file
  * Contains \Drupal\Console\Command\Site\NewCommand.
+ *
+ *
+  @TODO: colorized command output
+  @TODO: add a config option for sn & md *always* using --composer option in each site
+  (let's say in «my_site.prod» i want install & download all the modules using composer)
+  @TODO: wrap in a Trait the «command execution» logic for using it here  & in md
+  @TODO: patch to drupal modules support
+ *
+ *
  */
 
 namespace Drupal\Console\Command\Site;
 
+use Symfony\Component\Process\PhpProcess;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -43,6 +53,12 @@ class NewCommand extends Command
                 '',
                 InputOption::VALUE_NONE,
                 $this->trans('commands.site.new.options.latest')
+            )
+            ->addOption(
+                'composer',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.site.new.options.composer')
             );
     }
 
@@ -56,9 +72,28 @@ class NewCommand extends Command
         $directory = $input->getArgument('directory');
         $version = $input->getArgument('version');
         $latest = $input->getOption('latest');
+        $composer = $input->getOption('composer');
 
         if (!$version && $latest) {
             $version = current($this->getDrupalApi()->getProjectReleases('drupal', 1, true));
+        }
+
+        if ($composer)
+        {
+          $cmd = "composer create-project drupal/drupal $directory $version --no-interaction";
+          $rootPath = $this->getDrupalHelper()->getRoot();
+          $php_script = shell_exec( $cmd );
+          $phpProcess = new PhpProcess($php_script, $rootPath);
+          $phpProcess->run();
+
+          $io->success(
+            sprintf(
+                $this->trans('commands.site.new.messages.composer'),
+                $version
+            )
+          );
+
+          return 1;
         }
 
         $projectPath = $this->downloadProject($io, 'drupal', $version, 'core');
@@ -114,8 +149,15 @@ class NewCommand extends Command
         $directory = $input->getArgument('directory');
         $version = $input->getArgument('version');
         $latest = $input->getOption('latest');
+        $composer = $input->getOption('composer');
 
         if (!$version && $latest) {
+
+            //@TODO: if ($composer) get packagist drupal versions !!
+
+            // for now, this works as long as the selected version
+            // coincides the packagist version
+
             $version = current($this->getDrupalApi()->getProjectReleases('drupal', 1, true));
         }
 
