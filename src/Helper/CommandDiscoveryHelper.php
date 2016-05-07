@@ -286,9 +286,6 @@ class CommandDiscoveryHelper extends Helper
             return false;
         }
 
-        $dependencies = $this->commandDependencies->read($reflectionClass);
-
-
         if ($reflectionClass->getConstructor()->getNumberOfRequiredParameters() > 0) {
             if ($source != 'Console') {
                 if ($type === 'module') {
@@ -301,8 +298,6 @@ class CommandDiscoveryHelper extends Helper
         } else {
             $command = $reflectionClass->newInstance();
         }
-
-        $this->missingDependencies[$command->getName()] = $dependencies;
 
         if ($type === 'module') {
             $command->setModule($source);
@@ -318,7 +313,7 @@ class CommandDiscoveryHelper extends Helper
      */
     public function getMissingDependencies()
     {
-        return $this->missingDependencies;
+        return [];
     }
 
     /**
