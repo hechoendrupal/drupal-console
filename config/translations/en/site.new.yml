@@ -15,3 +15,5 @@ messages:
     composer: 'Drupal %s was installed successfully with Composer'
 questions:
     directory: 'Enter the directory name where to install Drupal'
+    composer-release: 'Please, choose a Packagist Drupal release'
+    stable: 'Do you want to use stable releases?'

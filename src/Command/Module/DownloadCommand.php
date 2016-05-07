@@ -22,6 +22,8 @@ class DownloadCommand extends Command
     use ProjectDownloadTrait;
     use PHPProcessTrait;
 
+    protected $stable = true;
+
     protected function configure()
     {
         $this
@@ -59,8 +61,8 @@ class DownloadCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
         $composer = $input->getOption('composer');
-
         $module = $input->getArgument('module');
+
         if (!$module) {
             $module = $this->modulesQuestion($io);
             $input->setArgument('module', $module);
@@ -77,13 +79,13 @@ class DownloadCommand extends Command
               $input->setOption('path', $path);
           }
         }
-
-
-
     }
 
     /**
      * {@inheritdoc}
+     *
+     * --latest option works but it's not recommended
+     *
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -98,8 +100,30 @@ class DownloadCommand extends Command
         {
           foreach ($modules as $module)
           {
-            $version = $this->releasesQuestion($io, $module, $latest);
-            $cmd = "composer require drupal/$module $version";
+            $this->stable
+              = ('yes' != $io->ask(
+                $this->trans('commands.site.new.questions.stable'),
+                'yes'
+              ))?
+              false
+            : true
+            ;
+
+            if (!$latest)
+            {
+              $versions = $this->getDrupalApi()->getPackagistModuleReleases($module, 10, $this->stable);
+              $version = $io->choice(
+                $this->trans('commands.site.new.questions.composer-release'),
+                $versions
+              );
+            }
+            else{
+              $version = current(
+                $this->getDrupalApi()->getPackagistModuleReleases($module, 1, $this->stable)
+              );
+            }
+
+            $cmd = 'composer require "drupal/' . $module .':' . $version . '"';
 
             if ( $this->ExecProcess($cmd) )
             {

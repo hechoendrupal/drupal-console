@@ -275,4 +275,80 @@ class DrupalApiHelper extends Helper
     {
         return 'api';
     }
+
+    /**
+     * Gets Drupal releases from Packagist API.
+     *
+     * @param int $limit
+     */
+    public function getPackagistDrupalReleases($limit = 10, $stable = true)
+    {
+      $packagist_url = 'https://packagist.org/packages/drupal/drupal.json';
+      $packagist_json = json_decode(
+        //@TODO: try/catch
+        $this->getHttpClientHelper()->getUrlAsString(
+          $packagist_url
+      ));
+
+      $versions =
+        array_keys((array)$packagist_json->package->versions
+      );
+
+      if ($stable)
+      {
+        foreach($versions as $key => $version)
+        {
+          if (strpos($version, "-"))
+          {
+            unset($versions[$key]);
+          }
+        }
+      }
+
+      if (is_array($versions))
+      {
+        return array_slice($versions, 0, $limit);
+      }
+    }
+
+
+    /**
+     * Gets Drupal modules releases from Packagist API.
+     *
+     * @param string $module
+     * @param int $limit
+     * @param bool $stable
+     *
+     */
+    public function getPackagistModuleReleases($module, $limit = 10, $stable = true)
+    {
+      if (!trim($module)) return;
+
+      $packagist_url = 'https://packagist.drupal-composer.org/packages/drupal/'.trim($module).'.json';
+      $packagist_json = json_decode(
+        //@TODO: try/catch
+        $this->getHttpClientHelper()->getUrlAsString(
+          $packagist_url
+      ));
+
+      $versions =
+        array_keys((array)$packagist_json->package->versions
+      );
+
+      if ($stable)
+      {
+        foreach($versions as $key => $version)
+        {
+          if (strpos($version, "-"))
+          {
+            unset($versions[$key]);
+          }
+        }
+      }
+
+      if (is_array($versions))
+      {
+        return array_slice($versions, 0, $limit);
+      }
+    }
 }

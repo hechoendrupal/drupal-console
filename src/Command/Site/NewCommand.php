@@ -7,7 +7,6 @@
   @TODO: colorized command output
   @TODO: add a config option for sn & md *always* using --composer option in each site
   (let's say in «my_site.prod» i want install & download all the modules using composer)
-  @TODO: wrap in a Trait the «command execution» logic for using it here  & in md
   @TODO: patch to drupal modules support
  *
  *
@@ -30,6 +29,8 @@ class NewCommand extends Command
 {
     use ProjectDownloadTrait;
     use PHPProcessTrait;
+
+    protected $stable = true;
 
 
     /**
@@ -80,7 +81,7 @@ class NewCommand extends Command
             $version = current($this->getDrupalApi()->getProjectReleases('drupal', 1, true));
         }
 
-        if ($composer)
+        if ($composer && $version)
         {
           $cmd = "composer create-project drupal/drupal $directory $version --no-interaction";
           if ( $this->ExecProcess($cmd) )
@@ -149,14 +150,37 @@ class NewCommand extends Command
         $latest = $input->getOption('latest');
         $composer = $input->getOption('composer');
 
+        if ($composer)
+        {
+          $this->stable
+            = ('yes' != $io->ask(
+              $this->trans('commands.site.new.questions.stable'),
+              'yes'
+            ))?
+            false
+          : true
+          ;
+
+          if (!$latest)
+          {
+            $versions = $this->getDrupalApi()->getPackagistDrupalReleases(10, $this->stable);
+            $version = $io->choice(
+              $this->trans('commands.site.new.questions.composer-release'),
+              $versions
+            );
+            $input->setArgument('version', $version);
+          }
+          else{
+            $version = current($this->getDrupalApi()->getPackagistDrupalReleases(1, $this->stable));
+            $input->setArgument(
+              'version',
+              $version
+            );
+          }
+        }
+
         if (!$version && $latest) {
-
-            //@TODO: if ($composer) get packagist drupal versions !!
-
-            // for now, this works as long as the selected version
-            // coincides the packagist version
-
-            $version = current($this->getDrupalApi()->getProjectReleases('drupal', 1, true));
+          $version = current($this->getDrupalApi()->getProjectReleases('drupal', 1, true));
         }
 
         if (!$directory) {
