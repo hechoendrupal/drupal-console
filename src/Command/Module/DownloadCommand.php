@@ -123,7 +123,10 @@ class DownloadCommand extends Command
               );
             }
 
-            $cmd = 'composer require "drupal/' . $module .':' . $version . '"';
+            $this->setComposerRepositories($io);
+
+            $cmd = "cd " . $this->getApplication()->getSite()->getSiteRoot() . "; ";
+            $cmd .= 'composer require "drupal/' . $module .':' . $version . '"';
 
             if ( $this->ExecProcess($cmd) )
             {
