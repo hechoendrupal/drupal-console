@@ -366,7 +366,7 @@ class Application extends BaseApplication
              * DrupalConsoleCommandInterface and use implements for validation
              */
             $command = $this->getContainerHelper()->get($name);
-            if (method_exists($command,'setTranslator')) {
+            if (method_exists($command, 'setTranslator')) {
                 $command->setTranslator($this->container->get('translator'));
             }
             $this->add($command);

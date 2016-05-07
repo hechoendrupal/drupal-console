@@ -17,7 +17,7 @@ trait ContainerAwareCommandTrait
      *
      * @deprecated
      *
-     * @param $id
+     * @param  $id
      * @return mixed
      */
     public function getService($id)
@@ -28,7 +28,7 @@ trait ContainerAwareCommandTrait
     /**
      * Return a service object registered on the container.
      *
-     * @param $id
+     * @param  $id
      * @return mixed
      */
     public function getDrupalService($id)
@@ -42,7 +42,7 @@ trait ContainerAwareCommandTrait
     /**
      * Validate if a service object is registered on the container.
      *
-     * @param $id
+     * @param  $id
      * @return mixed
      */
     public function hasDrupalService($id)
