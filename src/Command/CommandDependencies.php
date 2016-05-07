@@ -8,7 +8,7 @@ namespace Drupal\Console\Command;
 
 use Doctrine\Common\Annotations\FileCacheReader;
 use Drupal\Console\Annotation\DrupalCommand;
-use ReflectionClass;
+use \ReflectionClass;
 
 class CommandDependencies
 {
@@ -16,6 +16,8 @@ class CommandDependencies
      * @var FileCacheReader
      */
     private $reader;
+
+    private $dependencies = [];
 
     /**
      * CommandDependencyResolver constructor.
@@ -30,22 +32,25 @@ class CommandDependencies
      * @param ReflectionClass $class
      * @return array
      */
-    public function read(ReflectionClass $class)
+    public function read(ReflectionClass $class, $name)
     {
-        /**
- * @var DrupalCommand $definition 
-*/
         $definitions = $this->reader->getClassAnnotations($class);
-
-        $dependencies = [];
         foreach ($definitions as $definition) {
             if ($definition instanceof DrupalCommand) {
-                foreach ($definition->dependencies as $dependency) {
-                    $dependencies[] = $dependency;
+                if ($definition->dependencies) {
+                    foreach ($definition->dependencies as $dependency) {
+                        $this->dependencies[$name][] = $dependency;
+                    }
                 }
             }
         }
+    }
 
-        return $dependencies;
+    /**
+     * @param $command string
+     */
+    public function getDependencies()
+    {
+        return $this->dependencies;
     }
 }
