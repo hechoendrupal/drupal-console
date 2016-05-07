@@ -88,7 +88,7 @@ $application->addHelpers($helpers);
 $application->setDirectoryRoot($consoleRoot);
 
 $dispatcher = new EventDispatcher();
-$dispatcher->addSubscriber(new ValidateDependenciesListener());
+$dispatcher->addSubscriber(new ValidateDependenciesListener($container->get("command_dependency_resolver")));
 $dispatcher->addSubscriber(new ShowWelcomeMessageListener());
 $dispatcher->addSubscriber(new DefaultValueEventListener());
 $dispatcher->addSubscriber(new ShowGeneratedFilesListener());
