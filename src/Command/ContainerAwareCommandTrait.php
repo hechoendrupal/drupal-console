@@ -2,6 +2,8 @@
 
 namespace Drupal\Console\Command;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
  * Class CommandTrait
  * @package Drupal\Console\Command
@@ -11,17 +13,8 @@ trait ContainerAwareCommandTrait
     use CommandTrait;
 
     /**
-     * @deprecated
+     * * Return a service object registered on the container.
      *
-     * @param $serviceId
-     * @return mixed
-     */
-    public function hasGetService($serviceId)
-    {
-        return $this->getService($serviceId);
-    }
-
-    /**
      * @deprecated
      *
      * @param $id
@@ -29,27 +22,38 @@ trait ContainerAwareCommandTrait
      */
     public function getService($id)
     {
-        if ($this->hasService($id)) {
+        return $this->getDrupalService($id);
+    }
+
+    /**
+     * Return a service object registered on the container.
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function getDrupalService($id)
+    {
+        if ($this->hasDrupalService($id)) {
             return $this->getDrupalContainer()->get($id);
         }
         return null;
     }
 
     /**
-     * @deprecated
+     * Validate if a service object is registered on the container.
      *
      * @param $id
      * @return mixed
      */
-    public function hasService($id)
+    public function hasDrupalService($id)
     {
         return $this->getDrupalContainer()->has($id);
     }
 
     /**
-     * Gets the current container.
+     * Gets the Drupal container.
      *
-     * @return \Symfony\Component\DependencyInjection\ContainerInterface
+     * @return ContainerInterface
      *   A ContainerInterface instance.
      */
     private function getDrupalContainer()
