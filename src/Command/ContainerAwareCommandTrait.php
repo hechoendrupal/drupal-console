@@ -13,11 +13,20 @@ trait ContainerAwareCommandTrait
     use CommandTrait;
 
     /**
-     * * Return a service object registered on the container.
-     *
      * @deprecated
      *
-     * @param  $id
+     * @param $serviceId
+     * @return mixed
+     */
+    public function hasGetService($serviceId)
+    {
+        return $this->getService($serviceId);
+    }
+
+    /**
+     * @deprecated
+     *
+     * @param $id
      * @return mixed
      */
     public function getService($id)
@@ -26,9 +35,9 @@ trait ContainerAwareCommandTrait
     }
 
     /**
-     * Return a service object registered on the container.
+     * @deprecated
      *
-     * @param  $id
+     * @param $id
      * @return mixed
      */
     public function getDrupalService($id)
@@ -40,9 +49,9 @@ trait ContainerAwareCommandTrait
     }
 
     /**
-     * Validate if a service object is registered on the container.
+     * @deprecated
      *
-     * @param  $id
+     * @param $id
      * @return mixed
      */
     public function hasDrupalService($id)
@@ -51,7 +60,7 @@ trait ContainerAwareCommandTrait
     }
 
     /**
-     * Gets the Drupal container.
+     * Gets the current container.
      *
      * @return ContainerInterface
      *   A ContainerInterface instance.
