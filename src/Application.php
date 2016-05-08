@@ -362,7 +362,14 @@ class Application extends BaseApplication
 
         $tags = $this->container->findTaggedServiceIds('console.command');
         foreach ($tags as $name => $tags) {
-            $this->add($this->getContainerHelper()->get($name));
+            /* Add an interface for commands to implement
+             * DrupalConsoleCommandInterface and use implements for validation
+             */
+            $command = $this->getContainerHelper()->get($name);
+            if (method_exists($command, 'setTranslator')) {
+                $command->setTranslator($this->container->get('translator'));
+            }
+            $this->add($command);
         }
     }
 

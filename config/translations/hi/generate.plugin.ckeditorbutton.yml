@@ -1,5 +1,5 @@
 description: 'CKEditor बटन प्लगइन उत्पन्न करें।'
-help: '<info>generate:plugin:ckeditorbutton</info> कमांड आपको एक नया CKEditor बटन प्लगइन उत्पन्न करने में मददगार करता है।'
+help: '<info>generate:plugin:ckeditorbutton</info> कमांड आपको एक नया CKEditor बटन प्लगइन उत्पन्न करने में मदद करता है।'
 welcome: 'Drupal CKEditor बटन प्लगइन उत्पन्न में आपका स्वागत है'
 options:
     module: common.options.module
