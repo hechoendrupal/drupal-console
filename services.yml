@@ -71,3 +71,7 @@ services:
     class: Drupal\Console\Command\CacheRebuildCommand
     tags:
       - { name: console.command }
+  plugin_debug:
+      class: Drupal\Console\Command\PluginDebugCommand
+      tags:
+        - { name: console.command }
