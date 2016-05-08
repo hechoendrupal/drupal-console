@@ -1,0 +1,13 @@
+description: '顯示 Drupal Console 專案的基本資訊'
+messages:
+    welcome: '你可以在 CLI 模式執行 Drupal Console 工具組：'
+    welcome-feature-generate: 'Generate boilerplate code.'
+    welcome-feature-interact: 'Interact with a Drupal 8 installation.'
+    welcome-feature-learn: '學習 Drupal 8.'
+    links: '專案連結'
+    landing: '主頁面 - %s'
+    change-log: '異動紀錄 - %s'
+    documentation: '文件 - %s'
+    support: 'Support chat room - %s'
+    supporting-organizations: '支援組織'
+    version-supported: '支援的 Drupal 版本 <info>%s</info>'
