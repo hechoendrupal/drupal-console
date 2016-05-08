@@ -1,26 +1,75 @@
 services:
   parser:
     class: Symfony\Component\Yaml\Parser
-    lazy: true
-  finder:
-    class: Symfony\Component\Finder\Finder
-    lazy: true
   filesystem:
     class: Symfony\Component\Filesystem\Filesystem
-    lazy: true
   yaml:
     class: Symfony\Component\Yaml\Yaml
-    lazy: true
   config:
     class: Drupal\Console\Config
     arguments: ["@parser"]
   requirement_checker:
     class: Drupal\Console\Utils\RequirementChecker
     arguments: ["@parser"]
-    lazy: true
   redbean:
     class: RedBeanPHP\R
-    lazy: true
+  annotation_reader:
+    class: Doctrine\Common\Annotations\AnnotationReader
+  annotation_file_cache:
+    class: Doctrine\Common\Annotations\FileCacheReader
+    factory: [Drupal\Console\Annotations\CacheFactory, createFileCache]
+    arguments: ['@annotation_reader', '@config']
+  command_dependency_resolver:
+    class: Drupal\Console\Command\CommandDependencies
+    arguments: ["@annotation_file_cache"]
   file_util:
     class: Drupal\Console\Utils\File
-    lazy: true
+  translator:
+    class: Drupal\Console\Utils\Translator
+    arguments: ["@parser", "@filesystem"]
+  site:
+    class: Drupal\Console\Utils\Site
+    arguments: ["@parser"]
+  chain:
+    class: Drupal\Console\Utils\Chain
+  showfile:
+    class: Drupal\Console\Utils\ShowFile
+    arguments: ["@site", "@translator"]
+  about:
+    class: Drupal\Console\Command\AboutCommand
+    tags:
+      - { name: console.command }
+  check:
+    class: Drupal\Console\Command\CheckCommand
+    tags:
+      - { name: console.command }
+  complete:
+    class: Drupal\Console\Command\CompleteCommand
+    tags:
+      - { name: console.command }
+  init:
+    class: Drupal\Console\Command\InitCommand
+    tags:
+      - { name: console.command }
+  list:
+    class: Drupal\Console\Command\ListCommand
+    tags:
+      - { name: console.command }
+  help:
+    class: Drupal\Console\Command\HelpCommand
+    tags:
+      - { name: console.command }
+  server:
+    class: Drupal\Console\Command\ServerCommand
+    tags:
+      - { name: console.command }
+  cache_rebuild:
+    class: Drupal\Console\Command\CacheRebuildCommand
+    tags:
+      - { name: console.command }
+  cache_rebuild:
+    class: Drupal\Console\Command\CacheRebuildCommand
+    calls:
+      - [setTranslator, ['@translator']]
+    tags:
+      - { name: console.command }

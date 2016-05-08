@@ -14,7 +14,6 @@ use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Component\Serialization\Yaml;
 
-
 class DebugCommand extends ContainerAwareCommand
 {
     /**
@@ -48,16 +47,13 @@ class DebugCommand extends ContainerAwareCommand
             ];
 
             $io->table($tableHeader, $groups, 'compact');
-        }
-        else {
+        } else {
             $breakPointData = $this->getBreakpointByName($group);
 
-            foreach ($breakPointData as $key => $breakPoint ) {
+            foreach ($breakPointData as $key => $breakPoint) {
                 $io->comment($key);
                 $io->writeln(Yaml::encode($breakPoint));
-
             }
-
         }
     }
 
@@ -74,16 +70,16 @@ class DebugCommand extends ContainerAwareCommand
      */
     private function getBreakpointByName($group)
     {
-            $breakpointsManager = $this->getService('breakpoint.manager');
-            $typeExtension = implode(',', array_values($breakpointsManager->getGroupProviders($group)));
+        $breakpointsManager = $this->getService('breakpoint.manager');
+        $typeExtension = implode(',', array_values($breakpointsManager->getGroupProviders($group)));
 
-            if($typeExtension == 'theme'){
-                $projectPath = drupal_get_path('theme', $group);
-            }
-            if($typeExtension == 'module'){
-                $projectPath = drupal_get_path('module', $group);
-            }
+        if ($typeExtension == 'theme') {
+            $projectPath = drupal_get_path('theme', $group);
+        }
+        if ($typeExtension == 'module') {
+            $projectPath = drupal_get_path('module', $group);
+        }
 
-            return  Yaml::decode(file_get_contents($projectPath . '/' .  $group . '.breakpoints.yml'));
+        return  Yaml::decode(file_get_contents($projectPath . '/' .  $group . '.breakpoints.yml'));
     }
 }

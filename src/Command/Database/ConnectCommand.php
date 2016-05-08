@@ -46,7 +46,7 @@ class ConnectCommand extends ContainerAwareCommand
         $databaseConnection = $this->resolveConnection($io, $database);
 
         if ($databaseConnection['password']) {
-          $databaseConnection['password'] = str_repeat("*", strlen($databaseConnection['password']));
+            $databaseConnection['password'] = str_repeat("*", strlen($databaseConnection['password']));
         }
 
         $connection = sprintf(

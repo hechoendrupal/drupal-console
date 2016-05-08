@@ -65,9 +65,9 @@ class {{ class_name }} extends FormBase {% endblock %}
     $form['{{ input.name }}'] = array(
 {% endif %}
       '#type' => '{{ input.type }}',
-      '#title' => $this->t('{{ input.label }}'),
+      '#title' => $this->t('{{ input.label|e }}'),
 {% if input.description|length %}
-      '#description' => $this->t('{{ input.description }}'),
+      '#description' => $this->t('{{ input.description|e }}'),
 {% endif %}
 {% if input.options|length %}
       '#options' => {{ input.options }},

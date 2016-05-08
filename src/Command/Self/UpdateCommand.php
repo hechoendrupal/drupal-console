@@ -10,11 +10,9 @@ namespace Drupal\Console\Command\Self;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Humbug\SelfUpdate\Strategy\GithubStrategy;
 use Humbug\SelfUpdate\Updater;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Command;
-use Drupal\Console\Command\Self\ManifestStrategy;
 
 class UpdateCommand extends Command
 {
