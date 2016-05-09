@@ -1,0 +1,13 @@
+description: 'Chain command execution'
+options:
+    file: 'User defined file containing commands to get executed.'
+questions:
+    chain-file: 'Select chain file to execute'
+messages:
+    missing_file: 'You must provide a valid file path and name.'
+    invalid_file: 'The file "%s" does not exists.'
+    module_install: 'module:install command is not runnable inside a chain queue and must be run independently.'
+    missing-environment-placeholders: 'Missing environment placeholder(s) %s'
+    set-environment-placeholders: 'Set environment placeholders as:'
+    missing-inline-placeholders: 'Missing inline placeholder(s) %s'
+    set-inline-placeholders: 'Pass inline placeholders as:'
