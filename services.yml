@@ -69,7 +69,9 @@ services:
       - { name: console.command }
   cache_rebuild:
     class: Drupal\Console\Command\CacheRebuildCommand
-    calls:
-      - [setTranslator, ['@translator']]
     tags:
       - { name: console.command }
+  plugin_debug:
+      class: Drupal\Console\Command\PluginDebugCommand
+      tags:
+        - { name: console.command }

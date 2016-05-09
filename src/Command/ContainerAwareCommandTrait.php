@@ -35,8 +35,6 @@ trait ContainerAwareCommandTrait
     }
 
     /**
-     * @deprecated
-     *
      * @param $id
      * @return mixed
      */
@@ -49,8 +47,6 @@ trait ContainerAwareCommandTrait
     }
 
     /**
-     * @deprecated
-     *
      * @param $id
      * @return mixed
      */
@@ -60,12 +56,12 @@ trait ContainerAwareCommandTrait
     }
 
     /**
-     * Gets the current container.
+     * Gets the current Drupal container.
      *
      * @return ContainerInterface
      *   A ContainerInterface instance.
      */
-    private function getDrupalContainer()
+    public function getDrupalContainer()
     {
         if (!$this->getApplication()->getKernelHelper()) {
             return null;
