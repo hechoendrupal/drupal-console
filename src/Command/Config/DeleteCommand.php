@@ -6,11 +6,13 @@
 
 namespace Drupal\Console\Command\Config;
 
+use Drupal\Core\Config\FileStorage;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
+use Symfony\Component\Yaml\Exception\RuntimeException;
 
 class DeleteCommand extends ContainerAwareCommand {
   protected $allConfig = [];
@@ -23,11 +25,8 @@ class DeleteCommand extends ContainerAwareCommand {
     $this
       ->setName('config:delete')
       ->setDescription($this->trans('commands.config.delete.description'))
-      ->addArgument(
-        'name',
-        InputArgument::OPTIONAL,
-        $this->trans('commands.config.delete.arguments.name')
-      );
+      ->addArgument('type', InputArgument::OPTIONAL, $this->trans('commands.config.delete.arguments.type'))
+      ->addArgument('name', InputArgument::OPTIONAL, $this->trans('commands.config.delete.arguments.name'));
   }
 
   /**
@@ -36,10 +35,22 @@ class DeleteCommand extends ContainerAwareCommand {
   protected function interact(InputInterface $input, OutputInterface $output) {
     // Init Drupal style and retrieve name argument.
     $io = new DrupalStyle($input, $output);
-    $name = $input->getArgument('name');
+    // Check config type is not missing.
+    $type = $input->getArgument('type');
+    if(!$type) {
+      // Define choice list to configuration type.
+      $type = $io->choiceNoList(
+        $this->trans('commands.config.delete.arguments.type'),
+        ['active', 'staging'],
+        'active'
+      );
+      $input->setArgument('type', $type);
+    }
+
     // Check config name is not missing.
+    $name = $input->getArgument('name');
     if (!$name) {
-      // Define choice list.
+      // Define choice list to configuration name.
       $name = $io->choiceNoList(
         $this->trans('commands.config.delete.arguments.name'),
         $this->getAllConfigNames(),
@@ -55,10 +66,26 @@ class DeleteCommand extends ContainerAwareCommand {
   protected function execute(InputInterface $input, OutputInterface $output) {
     // Init Drupal style and retrieve name argument.
     $io = new DrupalStyle($input, $output);
-    $name = $input->getArgument('name');
+    // Check config type is not missing.
+    $type = $input->getArgument('type');
+    if(!$type) {
+      $io->error($this->trans('commands.config.delete.errors.type'));
+      return 1;
+    }
+
     // Check config name is not missing.
+    $name = $input->getArgument('name');
     if (!$name) {
-      $io->error($this->trans('commands.config.delete.messages.name'));
+      $io->error($this->trans('commands.config.delete.errors.name'));
+      return 1;
+    }
+
+    // Define Configuration Storage.
+    $configStorage = ('active' === $type) ?
+      $this->getService('config.storage') :
+      \Drupal::service('config.storage.sync');
+    if(!$configStorage) {
+      $io->error($this->trans('commands.config.delete.errors.config-storage'));
       return 1;
     }
 
@@ -68,20 +95,42 @@ class DeleteCommand extends ContainerAwareCommand {
       $io->caution($this->trans('commands.config.delete.warnings.undo'));
       // Double check before execute it.
       if ($io->confirm($this->trans('commands.config.delete.questions.sure'))) {
-        // Remove all configuration.
-        foreach ($this->yieldAllConfig() as $name) {
-          $this->removeConfig($io, $name, FALSE);
+
+        // Check configStorage instance of.
+        if ($configStorage instanceof FileStorage) {
+          // Delete YAML file.
+          $configStorage->deleteAll();
         }
+        else{
+          // Remove all configuration.
+          foreach ($this->yieldAllConfig() as $name) {
+            $this->removeConfig($name);
+          }
+        }
+
         // Define successful message.
         $io->success($this->trans('commands.config.delete.messages.all'));
       }
     } // Load $configStorage and check config name already exists.
-    elseif (($configStorage = $this->getService('config.storage')) && ($configStorage->exists($name))) {
-      $this->removeConfig($io, $name);
+    elseif ($configStorage->exists($name)) {
+
+      // Check configStorage instance of.
+      if ($configStorage instanceof FileStorage) {
+        // Delete YAML file.
+        $configStorage->delete($name);
+      }
+      else{
+        // Remove given configuration.
+        $this->removeConfig($name);
+      }
+
+      // Define and print successful message.
+      $message = sprintf($this->trans('commands.config.delete.messages.deleted'), $name);
+      $io->success($message);
     }
     else {
       // Otherwise, shows up error because config name does not exist.
-      $message = sprintf($this->trans('commands.config.delete.messages.not-exists'), $name);
+      $message = sprintf($this->trans('commands.config.delete.errors.not-exists'), $name);
       $io->error($message);
       return 1;
     }
@@ -136,27 +185,14 @@ class DeleteCommand extends ContainerAwareCommand {
   /**
    * Delete given config name.
    *
-   * @param DrupalStyle $io IO instance.
    * @param String $name Given config name.
-   * @param bool $show_message Flag to show message or not.
-   * @return int
-   *   When exception was threw.
    */
-  private function removeConfig(DrupalStyle $io, $name, $show_message = TRUE) {
+  private function removeConfig($name) {
     try {
       // Retrieve config factory and delete given configuration.
       $this->configFactory()->getEditable($name)->delete();
     } catch (\Exception $e) {
-      // Show error message.
-      $io->error($e->getMessage());
-      return 1;
-    }
-
-    // Check flag to show message.
-    if ($show_message) {
-      // Define and print successful message.
-      $message = sprintf($this->trans('commands.config.delete.messages.deleted'), $name);
-      $io->success($message);
+      throw new RuntimeException($e->getMessage());
     }
   }
 }
