@@ -12,6 +12,11 @@ namespace Drupal\{{module}}\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command as BaseCommand;
+{% if container_aware %}
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+{% else %}
+use Drupal\Console\Command\Shared\CommandTrait;
+{% endif %}
 use Drupal\Console\Style\DrupalStyle;
 {% endblock %}
 
@@ -21,10 +26,12 @@ use Drupal\Console\Style\DrupalStyle;
  *
  * @package Drupal\{{module}}
  */
-class {{ class }} extends BaseCommand
+class {{ class }} extends BaseCommand {
 
 {% if container_aware %}
+use ContainerAwareCommandTrait;
 {% else %}
+use CommandTrait;
 {% endif %} {% endblock %}
 
 {% block class_methods %}
