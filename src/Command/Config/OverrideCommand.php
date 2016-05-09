@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Component\Serialization\Yaml;
 
 class OverrideCommand extends ContainerAwareCommand
 {
@@ -21,19 +22,69 @@ class OverrideCommand extends ContainerAwareCommand
             ->setName('config:override')
             ->setDescription($this->trans('commands.config.override.description'))
             ->addArgument(
-                'config-name',
+                'name',
                 InputArgument::REQUIRED,
-                $this->trans('commands.config.override.arguments.config-name')
+                $this->trans('commands.config.override.arguments.name')
             )
             ->addArgument('key', InputArgument::REQUIRED, $this->trans('commands.config.override.arguments.key'))
             ->addArgument('value', InputArgument::REQUIRED, $this->trans('commands.config.override.arguments.value'));
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        $io = new DrupalStyle($input, $output);
+        $name = $input->getArgument('name');
+        $configFactory = $this->getConfigFactory();
+        $names = $configFactory->listAll();
+        if ($name) {
+            if (!in_array($name, $names)) {
+                $io->warning(
+                    sprintf(
+                        $this->trans('commands.config.override.messages.invalid-name'),
+                        $name
+                    )
+                );
+                $name = null;
+            }
+        }
+        if (!$name) {
+            $name = $io->choiceNoList(
+                $this->trans('commands.config.override.questions.name'),
+                $names
+            );
+            $input->setArgument('name', $name);
+        }
+        $key = $input->getArgument('key');
+        if (!$key) {
+            $configStorage = $this->getConfigStorage();
+            if ($configStorage->exists($name)) {
+                $configuration = $configStorage->read($name);
+            }
+            $key = $io->choiceNoList(
+                $this->trans('commands.config.override.questions.key'),
+                array_keys($configuration)
+            );
+            $input->setArgument('key', $key);
+        }
+        $value = $input->getArgument('value');
+        if (!$value) {
+            $value = $io->ask(
+                $this->trans('commands.config.override.questions.value')
+            );
+            $input->setArgument('value', $value);
+        }
+    }
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
 
-        $configName = $input->getArgument('config-name');
+        $configName = $input->getArgument('name');
         $key = $input->getArgument('key');
         $value = $input->getArgument('value');
 
@@ -57,12 +108,13 @@ class OverrideCommand extends ContainerAwareCommand
         $config->save();
     }
 
+
     protected function overrideConfiguration($config, $key, $value)
     {
         $result[] = [
-          'configuration' => $key,
-          'original' => $config->get($key),
-          'updated' => $value,
+            'configuration' => $key,
+            'original' => $config->get($key),
+            'updated' => $value,
         ];
         $config->set($key, $value);
 

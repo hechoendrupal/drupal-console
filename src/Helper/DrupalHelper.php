@@ -264,7 +264,7 @@ class DrupalHelper extends Helper
     public function getProfiles()
     {
         $yamlParser = $this->getContainerHelper()->get('parser');
-        $finder = $this->getContainerHelper()->get('finder');
+        $finder = $finder = new Finder();
 
         $finder->files()
             ->name('*.info.yml')

@@ -7,7 +7,7 @@ messages:
     name: 名称
     status: 状态
     origin: Origin
-    package: '包'
+    package: 包
     enabled: 启用
     disabled: 禁用
     schema-version: 'Schema 版本'

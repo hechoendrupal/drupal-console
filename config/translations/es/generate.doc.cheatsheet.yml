@@ -1,0 +1,18 @@
+description: 'Genera un cheatsheet imprimible de los comandos disponibles'
+options:
+    path: 'La ruta dónde generar el pdf'
+    wkhtmltopdf: 'La ruta donde reside el binario de wkhtmltopdf en su sistema'
+messages:
+    missing_path: 'No se encuentra la ruta.'
+    title: 'Drupal Console Cheatsheet'
+    note: Nota
+    note-description: 'Este comando requiere ser ejecutado en el raíz de una instalación de Drupal 8'
+    command: 'Comando de Drupal Console'
+    command_description: 'El **%s** del comando %s'
+    usage: Uso
+    options: 'Opciones disponibles'
+    option: Opciones
+    details: Detalles
+    arguments: 'Argumentos disponibles'
+    argument: Argumento
+    examples: Ejemplos

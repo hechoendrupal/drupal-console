@@ -43,7 +43,7 @@ class EnableCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
         $viewId = $input->getArgument('view-id');
 
-        $entityManager = $this->getEntityManager();
+        $entityTypeManager =  $this->getService('entity_type.manager');
         $view = $entityManager->getStorage('view')->load($viewId);
 
         if (empty($view)) {

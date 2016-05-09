@@ -275,6 +275,37 @@ class SiteHelper extends Helper
     }
 
     /**
+     * @param string $themeName
+     * @param bool   $fullPath
+     * @return string
+     */
+    public function getThemePath($themeName, $fullPath=true)
+    {
+        if (!$this->themes || !$this->themes[$themeName]) {
+            $this->themes = $this->discoverExtensions('theme');
+        }
+
+        $themePath = sprintf(
+            '%s/%s',
+            $this->siteRoot,
+            $this->themes[$themeName]->getPath()
+        );
+
+        if (!$fullPath) {
+            $themePath = str_replace(
+                sprintf(
+                    '%s/',
+                    $this->siteRoot
+                ),
+                '',
+                $themePath
+            );
+        }
+
+        return $themePath;
+    }
+
+    /**
      * @param string $moduleName
      * @return bool
      */

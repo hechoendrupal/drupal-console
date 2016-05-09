@@ -19,7 +19,6 @@ use Drupal\Console\EventSubscriber\ValidateDependenciesListener;
 use Drupal\Console\EventSubscriber\DefaultValueEventListener;
 use Drupal\Console\Helper\NestedArrayHelper;
 use Drupal\Console\Helper\TwigRendererHelper;
-use Drupal\Console\EventSubscriber\ShowGenerateDocListener;
 use Drupal\Console\Helper\DrupalHelper;
 use Drupal\Console\Helper\CommandDiscoveryHelper;
 use Drupal\Console\Helper\RemoteHelper;
@@ -29,15 +28,16 @@ use Drupal\Console\Helper\ContainerHelper;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 
 set_time_limit(0);
 
 $consoleRoot = __DIR__.'/../';
 
 if (file_exists($consoleRoot.'vendor/autoload.php')) {
-    include_once $consoleRoot.'vendor/autoload.php';
+    $autoload = include_once $consoleRoot.'vendor/autoload.php';
 } elseif (file_exists($consoleRoot.'../../autoload.php')) {
-    include_once $consoleRoot.'../../autoload.php';
+    $autoload = include_once $consoleRoot.'../../autoload.php';
 } else {
     echo 'Something goes wrong with your archive'.PHP_EOL.
         'Try downloading again'.PHP_EOL;
@@ -48,7 +48,11 @@ $container = new ContainerBuilder();
 $loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
 $loader->load('services.yml');
 
+AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
+
 $config = $container->get('config');
+$container->get('translator')
+    ->loadResource($config->get('application.language'), $consoleRoot);
 
 $translatorHelper = new TranslatorHelper();
 $translatorHelper->loadResource($config->get('application.language'), $consoleRoot);
@@ -58,26 +62,29 @@ $helpers = [
     'kernel' => new KernelHelper(),
     'string' => new StringHelper(),
     'validator' => new ValidatorHelper(),
-    'translator' => $translatorHelper,
+    'translator' => $translatorHelper, /* registered as a service */
     'site' => new SiteHelper(),
     'renderer' => new TwigRendererHelper(),
-    'showFile' => new ShowFileHelper(),
-    'chain' => new ChainCommandHelper(),
-    'drupal' => new DrupalHelper(),
-    'commandDiscovery' => new CommandDiscoveryHelper($config->get('application.develop')),
+    'showFile' => new ShowFileHelper(), /* registered as a service */
+    'chain' => new ChainCommandHelper(), /* registered as a service */
+    'drupal' => new DrupalHelper(), /* registered as a service "site" */
+    'commandDiscovery' => new CommandDiscoveryHelper(
+        $config->get('application.develop'),
+        $container->get("command_dependency_resolver")
+    ),
     'remote' => new RemoteHelper(),
     'httpClient' => new HttpClientHelper(),
     'api' => new DrupalApiHelper(),
     'container' => new ContainerHelper($container),
 ];
 
-$application = new Application($helpers);
+$application = new Application($container);
+$application->addHelpers($helpers);
 $application->setDirectoryRoot($consoleRoot);
 
 $dispatcher = new EventDispatcher();
 $dispatcher->addSubscriber(new ValidateDependenciesListener());
 $dispatcher->addSubscriber(new ShowWelcomeMessageListener());
-//$dispatcher->addSubscriber(new ShowGenerateDocListener());
 $dispatcher->addSubscriber(new DefaultValueEventListener());
 $dispatcher->addSubscriber(new ShowGeneratedFilesListener());
 $dispatcher->addSubscriber(new CallCommandListener());

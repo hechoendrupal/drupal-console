@@ -13,11 +13,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\AutocompleteGenerator;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Finder\Finder;
-use Drupal\Console\Command\Command;
+use Symfony\Component\Console\Command\Command as BaseCommand;
 use Drupal\Console\Style\DrupalStyle;
 
-class InitCommand extends Command
+class InitCommand extends BaseCommand
 {
+    use CommandTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -53,7 +55,7 @@ class InitCommand extends Command
         }
 
         $finder = new Finder();
-        $finder->in(sprintf('%s/config/dist', $application->getDirectoryRoot()));
+        $finder->in(sprintf('%sconfig/dist/', $application->getDirectoryRoot()));
         $finder->files();
 
         foreach ($finder as $configFile) {
@@ -99,20 +101,6 @@ class InitCommand extends Command
         $process->stop();
 
         $generator->generate($userPath, $executable);
-    }
-
-    protected function getSkeletonDirs()
-    {
-        $module = $this->getModule();
-        if ($module != 'Console') {
-            $drupal = $this->getDrupalHelper();
-            $drupalRoot = $drupal->getRoot();
-            $skeletonDirs[] = $drupalRoot.drupal_get_path('module', $module).'/templates';
-        }
-
-        $skeletonDirs[] = __DIR__ . '/../../templates';
-
-        return $skeletonDirs;
     }
 
     /**

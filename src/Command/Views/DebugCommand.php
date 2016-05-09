@@ -81,8 +81,8 @@ class DebugCommand extends ContainerAwareCommand
      */
     private function viewDetail(DrupalStyle $io, $view_id)
     {
-        $entity_manager = $this->getEntityManager();
-        $view = $entity_manager->getStorage('view')->load($view_id);
+        $entityTypeManager =  $this->getService('entity_type.manager');
+        $view = $entityTypeManager->getStorage('view')->load($view_id);
 
         if (empty($view)) {
             $io->error(sprintf($this->trans('commands.views.debug.messages.not-found'), $view_id));
@@ -131,8 +131,9 @@ class DebugCommand extends ContainerAwareCommand
      */
     protected function viewList(DrupalStyle $io, $tag, $status)
     {
-        $entity_manager = $this->getEntityManager();
-        $views = $entity_manager->getStorage('view')->loadMultiple();
+        $entityTypeManager =  $this->getService('entity_type.manager');
+
+        $views = $entityTypeManager->getStorage('view')->loadMultiple();
 
         $tableHeader = [
           $this->trans('commands.views.debug.messages.view-id'),

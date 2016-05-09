@@ -34,9 +34,9 @@ function {{ module }}_form_alter(&$form, FormStateInterface $form_state, $form_i
 {% for input in inputs %}
     $form['{{ input.name }}'] = array(
       '#type' => '{{ input.type }}',
-      '#title' => t('{{ input.label }}'),
+      '#title' => t('{{ input.label|e }}'),
     {%- if input.description is defined -%}
-      '#description' => t('{{ input.description }}'),
+      '#description' => t('{{ input.description|e }}'),
     {% endif %}
 {%- if input.options is defined and input.options|length -%}
       '#options' => {{ input.options }},

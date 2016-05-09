@@ -115,12 +115,12 @@ class CommandCommand extends GeneratorCommand
         // --container-aware option
         $containerAware = $input->getOption('container-aware');
         if (!$containerAware) {
-            $io->confirm(
+            $containerAware = $io->confirm(
                 $this->trans('commands.generate.command.questions.container-aware'),
                 true
             );
+            $input->setOption('container-aware', $containerAware);
         }
-        $input->setOption('container-aware', $containerAware);
     }
 
     protected function createGenerator()

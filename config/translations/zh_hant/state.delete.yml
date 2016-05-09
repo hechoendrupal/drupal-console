@@ -1,0 +1,7 @@
+description: 'Delete State'
+arguments:
+    name: 'State name.'
+messages:
+    enter-name: 'State name must contain a value.'
+    state-not-exists: 'The state "%s" does not exists.'
+    deleted: 'State "%s" sucessfully deleted.'

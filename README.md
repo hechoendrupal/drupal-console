@@ -68,7 +68,7 @@ drupal check
 drupal chain --file=~/.console/chain/quick-start.yml
 
 # Create a new Drupal 8 project:
-drupal site:new drupal8.dev
+drupal site:new drupal8.dev --latest
 
 # Lists all available commands:
 drupal list

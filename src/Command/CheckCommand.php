@@ -9,15 +9,17 @@ namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Command;
+use Symfony\Component\Console\Command\Command as BaseCommand;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class CheckCommand
  * @package Drupal\Console\Command
  */
-class CheckCommand extends Command
+class CheckCommand extends BaseCommand
 {
+    use CommandTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -34,7 +36,8 @@ class CheckCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $requirementChecker = $this->getContainerHelper()->get('requirement_checker');
+
+        $requirementChecker = $this->get('requirement_checker');
         $checks = $requirementChecker->getCheckResult();
         if (!$checks) {
             $phpCheckFile = $this->getApplication()->getConfig()->getUserHomeDir().'/.console/phpcheck.yml';
@@ -108,7 +111,7 @@ class CheckCommand extends Command
             $io->success(
                 $this->trans('commands.check.messages.success')
             );
-            $this->getChain()->addCommand(
+            $this->get('chain')->addCommand(
                 'settings:set',
                 [
                     'setting-name' => 'checked',

@@ -7,12 +7,14 @@
 
 namespace Drupal\Console\Command;
 
-use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command as BaseCommand;
 
-class CompleteCommand extends Command
+class CompleteCommand extends BaseCommand
 {
+    use CommandTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -28,6 +30,8 @@ class CompleteCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln(array_keys($this->getApplication()->all()));
+        $commands = array_keys($this->getApplication()->all());
+        asort($commands);
+        $output->writeln($commands);
     }
 }

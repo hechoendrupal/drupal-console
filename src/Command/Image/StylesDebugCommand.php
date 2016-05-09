@@ -29,7 +29,7 @@ class StylesDebugCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $image_handler = $this->entityTypeManager()->getStorage('image_style');
+        $image_handler = $this->getService('entity_type.manager')->getStorage('image_style');
 
         $io->newLine();
         $io->comment(

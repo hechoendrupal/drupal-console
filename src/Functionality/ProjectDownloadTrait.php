@@ -43,7 +43,7 @@ trait ProjectDownloadTrait
         return $moduleList;
     }
 
-    private function downloadModules(DrupalStyle $io, $modules, $latest, $resultList = [])
+    private function downloadModules(DrupalStyle $io, $modules, $latest, $path, $resultList = [])
     {
         if (!$resultList) {
             $resultList = [
@@ -68,7 +68,7 @@ trait ProjectDownloadTrait
             foreach ($missingModules as $missingModule) {
                 $version = $this->releasesQuestion($io, $missingModule, $latest);
                 if ($version) {
-                    $this->downloadProject($io, $missingModule, $version, 'module');
+                    $this->downloadProject($io, $missingModule, $version, 'module', $path);
                 } else {
                     $invalidModules[] = $missingModule;
                     unset($modules[array_search($missingModule, $modules)]);
@@ -91,7 +91,7 @@ trait ProjectDownloadTrait
             return $resultList;
         }
 
-        return $this->downloadModules($io, $dependencies, $latest, $resultList);
+        return $this->downloadModules($io, $dependencies, $latest, $path, $resultList);
     }
 
     protected function calculateDependencies($modules)
@@ -123,9 +123,11 @@ trait ProjectDownloadTrait
      * @param $project
      * @param $version
      * @param $type
+     * @param $path
+     *
      * @return string
      */
-    public function downloadProject(DrupalStyle $io, $project, $version, $type)
+    public function downloadProject(DrupalStyle $io, $project, $version, $type, $path = null)
     {
         $commandKey = str_replace(':', '.', $this->getName());
 
@@ -143,11 +145,15 @@ trait ProjectDownloadTrait
                 $version
             );
 
+            if (!$path) {
+                $path = $this->getExtractPath($type);
+            }
+
             $drupal = $this->getDrupalHelper();
             $projectPath = sprintf(
                 '%s/%s',
                 $drupal->isValidInstance()?$drupal->getRoot():getcwd(),
-                $this->getExtractPath($type)
+                $path
             );
 
             if (!file_exists($projectPath)) {
@@ -188,9 +194,10 @@ trait ProjectDownloadTrait
      * @param \Drupal\Console\Style\DrupalStyle $io
      * @param string                            $project
      * @param bool                              $latest
+     * @param bool                              $stable
      * @return string
      */
-    public function releasesQuestion(DrupalStyle $io, $project, $latest = false)
+    public function releasesQuestion(DrupalStyle $io, $project, $latest = false, $stable = false)
     {
         $commandKey = str_replace(':', '.', $this->getName());
 
@@ -201,7 +208,7 @@ trait ProjectDownloadTrait
             )
         );
 
-        $releases = $this->getDrupalApi()->getProjectReleases($project, $latest?1:15);
+        $releases = $this->getDrupalApi()->getProjectReleases($project, $latest?1:15, $stable);
 
         if (!$releases) {
             $io->error(
@@ -237,6 +244,8 @@ trait ProjectDownloadTrait
             return 'modules/contrib';
         case 'theme':
             return 'themes';
+        case 'profile':
+            return 'profiles';
         case 'core':
             return '';
         }

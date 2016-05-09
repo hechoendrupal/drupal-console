@@ -54,6 +54,7 @@ class DebugCommand extends ContainerAwareCommand
           $this->trans('commands.module.debug.messages.name'),
           $this->trans('commands.module.debug.messages.status'),
           $this->trans('commands.module.debug.messages.package'),
+          $this->trans('commands.module.debug.messages.version'),
           $this->trans('commands.module.debug.messages.schema-version'),
           $this->trans('commands.module.debug.messages.origin'),
         ];
@@ -77,6 +78,7 @@ class DebugCommand extends ContainerAwareCommand
               $module->info['name'],
               $module_status,
               $module->info['package'],
+              $module->info['version'],
               $schema_version,
               $module->origin,
             ];

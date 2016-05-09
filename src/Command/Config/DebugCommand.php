@@ -25,9 +25,9 @@ class DebugCommand extends ContainerAwareCommand
             ->setName('config:debug')
             ->setDescription($this->trans('commands.config.debug.description'))
             ->addArgument(
-                'config-name',
+                'name',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.config.debug.arguments.config-name')
+                $this->trans('commands.config.debug.arguments.name')
             );
     }
 
@@ -38,7 +38,7 @@ class DebugCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $configName = $input->getArgument('config-name');
+        $configName = $input->getArgument('name');
         if (!$configName) {
             $this->getAllConfigurations($io);
         } else {
@@ -54,7 +54,7 @@ class DebugCommand extends ContainerAwareCommand
         $configFactory = $this->getConfigFactory();
         $names = $configFactory->listAll();
         $tableHeader = [
-            $this->trans('commands.config.debug.arguments.config-name'),
+            $this->trans('commands.config.debug.arguments.name'),
         ];
         $tableRows = [];
         foreach ($names as $name) {
@@ -89,7 +89,7 @@ class DebugCommand extends ContainerAwareCommand
             $io->table($tableHeader, $tableRows, 'compact');
         } else {
             $io->error(
-                sprintf($this->trans('commands.config.debug.errors.config-not-exists'), $config_name)
+                sprintf($this->trans('commands.config.debug.errors.not-exists'), $config_name)
             );
         }
     }
