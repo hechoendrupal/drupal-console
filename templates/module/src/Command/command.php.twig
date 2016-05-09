@@ -26,13 +26,16 @@ use Drupal\Console\Style\DrupalStyle;
  *
  * @package Drupal\{{module}}
  */
-class {{ class }} extends BaseCommand {
+class {{ class }} extends BaseCommand {% endblock %}
 
+{% block use_trait %}
 {% if container_aware %}
-use ContainerAwareCommandTrait;
+  use ContainerAwareCommandTrait;
 {% else %}
-use CommandTrait;
-{% endif %} {% endblock %}
+  use CommandTrait;
+{% endif %}
+
+{% endblock %}
 
 {% block class_methods %}
   /**
