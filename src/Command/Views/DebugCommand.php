@@ -16,7 +16,6 @@ use Drupal\views\Entity\View;
 use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Command\Command as BaseCommand;
 
-
 /**
  * Class DebugCommand
  * @package Drupal\Console\Command\Views

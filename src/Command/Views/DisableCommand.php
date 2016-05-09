@@ -15,7 +15,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Command\Command as BaseCommand;
 
-
 /**
  * Class DisableCommand
  * @package Drupal\Console\Command\Views
