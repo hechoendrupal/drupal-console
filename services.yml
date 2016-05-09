@@ -75,3 +75,11 @@ services:
       class: Drupal\Console\Command\PluginDebugCommand
       tags:
         - { name: console.command }
+  container_debug:
+      class: Drupal\Console\Command\ContainerDebugCommand
+      tags:
+        - { name: console.command }
+  breakpoint_debug:
+      class: Drupal\Console\Command\Breakpoints\DebugCommand
+      tags:
+        - { name: console.command }
