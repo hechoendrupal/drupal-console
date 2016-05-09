@@ -125,6 +125,8 @@ class DeleteCommand extends ContainerAwareCommand {
    *   Yield generator with config name.
    */
   private function yieldAllConfig() {
+    // Be sure $allConfig property already exists.
+    $this->allConfig = $this->allConfig ?: $this->getAllConfigNames();
     // Walk trough all config names and yield them.
     foreach ($this->allConfig as $name) {
       yield $name;
