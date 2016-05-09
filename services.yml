@@ -75,3 +75,7 @@ services:
       class: Drupal\Console\Command\PluginDebugCommand
       tags:
         - { name: console.command }
+  migrate.debug:
+      class: Drupal\Console\Command\Migrate\DebugCommand
+      tags:
+        - { name: console.command }
