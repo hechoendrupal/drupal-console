@@ -67,7 +67,7 @@ class DeleteCommand extends ContainerAwareCommand {
       // Caveat about remove all configuration.
       $io->caution($this->trans('commands.config.delete.warnings.undo'));
       // Double check before execute it.
-      if ($io->confirm($this->trans('commands.config.delete.questions.sure'), FALSE)) {
+      if ($io->confirm($this->trans('commands.config.delete.questions.sure'))) {
         // Remove all configuration.
         foreach ($this->yieldAllConfig() as $name) {
           $this->removeConfig($io, $name, FALSE);
