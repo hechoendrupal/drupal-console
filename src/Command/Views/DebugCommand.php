@@ -7,21 +7,23 @@
 
 namespace Drupal\Console\Command\Views;
 
+use Drupal\Console\Command\ContainerAwareCommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\views\Entity\View;
-use Drupal\Component\Serialization\Yaml;
-use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
+use Symfony\Component\Console\Command\Command as BaseCommand;
+
 
 /**
  * Class DebugCommand
  * @package Drupal\Console\Command\Views
  */
-class DebugCommand extends ContainerAwareCommand
+class DebugCommand extends BaseCommand
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -81,7 +83,7 @@ class DebugCommand extends ContainerAwareCommand
      */
     private function viewDetail(DrupalStyle $io, $view_id)
     {
-        $entityTypeManager =  $this->getService('entity_type.manager');
+        $entityTypeManager =  $this->getDrupalService('entity_type.manager');
         $view = $entityTypeManager->getStorage('view')->load($view_id);
 
         if (empty($view)) {
@@ -131,7 +133,7 @@ class DebugCommand extends ContainerAwareCommand
      */
     protected function viewList(DrupalStyle $io, $tag, $status)
     {
-        $entityTypeManager =  $this->getService('entity_type.manager');
+        $entityTypeManager =  $this->getDrupalService('entity_type.manager');
 
         $views = $entityTypeManager->getStorage('view')->loadMultiple();
 

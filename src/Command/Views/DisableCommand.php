@@ -7,19 +7,22 @@
 
 namespace Drupal\Console\Command\Views;
 
+use Drupal\Console\Command\ContainerAwareCommandTrait;
 use Herrera\Json\Exception\Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
+use Symfony\Component\Console\Command\Command as BaseCommand;
+
 
 /**
  * Class DisableCommand
  * @package Drupal\Console\Command\Views
  */
-class DisableCommand extends ContainerAwareCommand
+class DisableCommand extends BaseCommand
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -44,7 +47,7 @@ class DisableCommand extends ContainerAwareCommand
 
         $viewId = $input->getArgument('view-id');
 
-        $entityTypeManager =  $this->getService('entity_type.manager');
+        $entityTypeManager =  $this->getDrupalService('entity_type.manager');
 
         $view = $entityTypeManager->getStorage('view')->load($viewId);
 
