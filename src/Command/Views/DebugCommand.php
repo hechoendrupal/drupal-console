@@ -7,14 +7,14 @@
 
 namespace Drupal\Console\Command\Views;
 
-use Drupal\Console\Command\ContainerAwareCommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\views\Entity\View;
-use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Command\Command as BaseCommand;
+use Drupal\views\Entity\View;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class DebugCommand
