@@ -4,4 +4,9 @@ arguments:
 messages:
     name: 'Configuration name must contain a value.'
     not-exists: 'The configuration "%s" does not exists.'
+    all: 'All configuration sucessfully deleted.'
     deleted: 'Configuration "%s" sucessfully deleted.'
+warnings:
+    undo: 'This action will delete all configurations permanentaly and it cannot be undo.'
+questions:
+    sure: 'Are you sure to delete all configurations'
