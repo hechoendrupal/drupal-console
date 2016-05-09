@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Functionality\ServicesTrait;
 use Drupal\Console\Functionality\ModuleTrait;
-use Drupal\Console\Command\FormTrait;
+use Drupal\Console\Functionality\FormTrait;
 use Drupal\Console\Command\GeneratorCommand;
 use Drupal\Console\Generator\AuthenticationProviderGenerator;
 use Drupal\Console\Functionality\ConfirmationTrait;

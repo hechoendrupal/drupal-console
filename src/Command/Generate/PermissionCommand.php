@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Functionality\ModuleTrait;
-use Drupal\Console\Command\PermissionTrait;
+use Drupal\Console\Functionality\PermissionTrait;
 use Drupal\Console\Generator\PermissionGenerator;
 use Drupal\Console\Functionality\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
