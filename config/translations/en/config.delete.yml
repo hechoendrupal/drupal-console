@@ -7,6 +7,6 @@ messages:
     all: 'All configuration sucessfully deleted.'
     deleted: 'Configuration "%s" sucessfully deleted.'
 warnings:
-    undo: 'This action will delete all configurations permanentaly and it cannot be undo.'
+    undo: 'This action will delete all configuration permanentaly.'
 questions:
-    sure: 'Are you sure to delete all configurations'
+    sure: 'Are you sure to delete all configuration'

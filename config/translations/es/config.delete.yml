@@ -4,4 +4,9 @@ arguments:
 messages:
     name: 'El nombre de la configuración debe contener un valor.'
     not-exists: 'La configuración "%s" no existe.'
+    all: 'Toda la configuración fue eliminada con éxito.'
     deleted: 'La configuración "%s" ha sido eliminada con éxito.'
+warnings:
+    undo: 'Esta acción eliminara toda la configuración permanentemente.'
+questions:
+    sure: 'Esta seguro de eliminar toda la configuración'
