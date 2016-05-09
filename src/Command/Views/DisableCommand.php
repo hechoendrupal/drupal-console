@@ -44,9 +44,9 @@ class DisableCommand extends ContainerAwareCommand
 
         $viewId = $input->getArgument('view-id');
 
-        $entityManager = $this->getEntityManager();
+        $entityTypeManager =  $this->getService('entity_type.manager');
 
-        $view = $entityManager->getStorage('view')->load($viewId);
+        $view = $entityTypeManager->getStorage('view')->load($viewId);
 
         if (empty($view)) {
             $io->error(sprintf($this->trans('commands.views.debug.messages.not-found'), $viewId));

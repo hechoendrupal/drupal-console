@@ -54,7 +54,6 @@ class PluginsDebugCommand extends ContainerAwareCommand
      */
     protected function pluginList(DrupalStyle $io, $type)
     {
-        $entity_manager = $this->getEntityManager();
         $plugins = Views::pluginList();
 
         $rows = [];
