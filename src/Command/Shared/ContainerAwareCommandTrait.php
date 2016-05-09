@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Shared;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

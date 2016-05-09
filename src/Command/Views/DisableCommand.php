@@ -7,13 +7,13 @@
 
 namespace Drupal\Console\Command\Views;
 
-use Drupal\Console\Command\ContainerAwareCommandTrait;
 use Herrera\Json\Exception\Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Command\Command as BaseCommand;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class DisableCommand
