@@ -79,7 +79,7 @@ services:
       class: Drupal\Console\Command\ContainerDebugCommand
       tags:
         - { name: console.command }
-  breakpoint_debug:
+  breakpoints_debug:
       class: Drupal\Console\Command\Breakpoints\DebugCommand
       tags:
         - { name: console.command }
@@ -99,4 +99,3 @@ services:
       class: Drupal\Console\Command\Views\DebugCommand
       tags:
         - { name: console.command }
-
