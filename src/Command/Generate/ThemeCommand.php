@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Functionality\ThemeBreakpointTrait;
-use Drupal\Console\Functionality\ThemeBreakpointTrait;
+use Drupal\Console\Functionality\ThemeRegionTrait;
 use Drupal\Console\Generator\ThemeGenerator;
 use Drupal\Console\Functionality\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;

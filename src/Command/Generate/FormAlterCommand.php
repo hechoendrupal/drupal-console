@@ -14,7 +14,7 @@ use Drupal\Console\Generator\FormAlterGenerator;
 use Drupal\Console\Functionality\ServicesTrait;
 use Drupal\Console\Functionality\MenuTrait;
 use Drupal\Console\Functionality\ModuleTrait;
-use Drupal\Console\Command\FormTrait;
+use Drupal\Console\Functionality\FormTrait;
 use Drupal\Console\Functionality\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
 use Drupal\Console\Style\DrupalStyle;
