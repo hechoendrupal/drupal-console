@@ -112,7 +112,7 @@ class CheckCommand extends BaseCommand
             $io->success(
                 $this->trans('commands.check.messages.success')
             );
-            $this->get('chain')->addCommand(
+            $this->get('chain_queue')->addCommand(
                 'settings:set',
                 [
                     'setting-name' => 'checked',
