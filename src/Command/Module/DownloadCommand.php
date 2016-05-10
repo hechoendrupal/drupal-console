@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Functionality\ProjectDownloadTrait;
+use Drupal\Console\Shared\ProjectDownloadTrait;
 
 class DownloadCommand extends Command
 {

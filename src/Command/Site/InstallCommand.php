@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
-use Drupal\Console\Functionality\DatabaseTrait;
+use Drupal\Console\Shared\DatabaseTrait;
 use Drupal\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 

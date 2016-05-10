@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Chain;
 
-use Drupal\Console\Functionality\ChainFilesTrait;
+use Drupal\Console\Shared\ChainFilesTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Style\DrupalStyle;

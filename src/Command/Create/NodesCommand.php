@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
-use Drupal\Console\Functionality\CreateTrait;
+use Drupal\Console\Shared\CreateTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**

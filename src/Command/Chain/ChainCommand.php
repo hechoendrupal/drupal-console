@@ -9,8 +9,8 @@ namespace Drupal\Console\Command\Chain;
 
 use Dflydev\PlaceholderResolver\DataSource\ArrayDataSource;
 use Dflydev\PlaceholderResolver\RegexPlaceholderResolver;
-use Drupal\Console\Functionality\ChainFilesTrait;
-use Drupal\Console\Functionality\InputTrait;
+use Drupal\Console\Shared\ChainFilesTrait;
+use Drupal\Console\Shared\InputTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
