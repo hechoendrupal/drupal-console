@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Migrate;
 
-use Drupal\Console\Command\CommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\Translator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
