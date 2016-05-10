@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Shared;
 
 use Drupal\Console\Utils\Translator;
 

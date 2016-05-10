@@ -14,6 +14,7 @@ use Drupal\Console\Generator\AutocompleteGenerator;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Console\Command\Command as BaseCommand;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class InitCommand extends BaseCommand

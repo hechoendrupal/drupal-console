@@ -79,3 +79,27 @@ services:
       class: Drupal\Console\Command\Migrate\DebugCommand
       tags:
         - { name: console.command }
+  container_debug:
+      class: Drupal\Console\Command\ContainerDebugCommand
+      tags:
+        - { name: console.command }
+  breakpoints_debug:
+      class: Drupal\Console\Command\Breakpoints\DebugCommand
+      tags:
+        - { name: console.command }
+  views_plugins_debug:
+      class: Drupal\Console\Command\Views\PluginsDebugCommand
+      tags:
+        - { name: console.command }
+  views_enable:
+      class: Drupal\Console\Command\Views\EnableCommand
+      tags:
+        - { name: console.command }
+  views_disable:
+      class: Drupal\Console\Command\Views\DisableCommand
+      tags:
+        - { name: console.command }
+  views_debug:
+      class: Drupal\Console\Command\Views\DebugCommand
+      tags:
+        - { name: console.command }
