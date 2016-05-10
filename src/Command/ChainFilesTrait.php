@@ -21,18 +21,18 @@ trait ChainFilesTrait
 
         $directories = [
             $config->getUserHomeDir() . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
-            $this->getSite()->getSiteRoot() . DIRECTORY_SEPARATOR . 'console'. DIRECTORY_SEPARATOR .'chain',
-            $this->getSite()->getSiteRoot() . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
+            $this->getApplication()->getSite()->getSiteRoot() . DIRECTORY_SEPARATOR . 'console'. DIRECTORY_SEPARATOR .'chain',
+            $this->getApplication()->getSite()->getSiteRoot() . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
         ];
 
-        if ($this->getDrupalHelper()->isInstalled()) {
-            $modules = $this->getSite()->getModules(false, true, false, false, true);
-            $themes = $this->getSite()->getThemes(false, true, false);
+        if ($this->get('site')->isInstalled()) {
+            $modules = $this->getApplication()->getSite()->getModules(false, true, false, false, true);
+            $themes = $this->getApplication()->getSite()->getThemes(false, true, false);
 
             foreach ($modules as $module) {
                 $modulePath = sprintf(
                     '%s/%s/console/chain/',
-                    $this->getSite()->getSiteRoot(),
+                    $this->getApplication()->getSite()->getSiteRoot(),
                     $module->getPath()
                 );
 
@@ -43,7 +43,7 @@ trait ChainFilesTrait
             foreach ($themes as $theme) {
                 $themePath = sprintf(
                     '%s/%s/console/chain',
-                    $this->getSite()->getSiteRoot(),
+                    $this->getApplication()->getSite()->getSiteRoot(),
                     $theme->getPath()
                 );
                 if (is_dir($themePath)) {
