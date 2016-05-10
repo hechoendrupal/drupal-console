@@ -15,14 +15,16 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\Command;
+use Symfony\Component\Console\Command\Command as BaseCommand;
+use Drupal\Console\Command\Shared\CommandTrait;
 
 /**
  * Class ChainCommand
  * @package Drupal\Console\Command\Chain
  */
-class ChainCommand extends Command
+class ChainCommand extends BaseCommand
 {
+    use CommandTrait;
     use ChainFilesTrait;
     use InputTrait;
 
@@ -55,7 +57,7 @@ class ChainCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
         $file = $input->getOption('file');
-        $fileUtil = $this->getContainerHelper()->get('file_util');
+        $fileUtil = $this->getApplication()->getContainerHelper()->get('file_util');
 
         if (!$file) {
             $files = $this->getChainFiles(true);
@@ -111,8 +113,8 @@ class ChainCommand extends Command
         $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
 
         $file = $input->getOption('file');
-        $fileUtil = $this->getContainerHelper()->get('file_util');
-        $fileSystem = $this->getContainerHelper()->get('filesystem');
+        $fileUtil = $this->getApplication()->getContainerHelper()->get('file_util');
+        $fileSystem = $this->getApplication()->getContainerHelper()->get('filesystem');
 
         if (!$file) {
             $io->error($this->trans('commands.chain.messages.missing_file'));
@@ -228,7 +230,7 @@ class ChainCommand extends Command
         $placeholderResolver = new RegexPlaceholderResolver($inlinePlaceHolderData, '%{{', '}}');
         $chainContent = $placeholderResolver->resolvePlaceholder($chainContent);
 
-        $parser = $this->getContainerHelper()->get('parser');
+        $parser = $this->getApplication()->getContainerHelper()->get('parser');
         $configData = $parser->parse($chainContent);
 
         $commands = [];
@@ -257,7 +259,7 @@ class ChainCommand extends Command
                 }
             }
 
-            $this->getChain()
+            $this->get('chain_queue')
                 ->addCommand(
                     $command['command'],
                     $moduleInputs,

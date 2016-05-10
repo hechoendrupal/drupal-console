@@ -11,15 +11,17 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command as BaseCommand;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class EnableCommand
  * @package Drupal\Console\Command\Views
  */
-class EnableCommand extends ContainerAwareCommand
+class EnableCommand extends BaseCommand
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -43,8 +45,8 @@ class EnableCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
         $viewId = $input->getArgument('view-id');
 
-        $entityTypeManager =  $this->getService('entity_type.manager');
-        $view = $entityManager->getStorage('view')->load($viewId);
+        $entityTypeManager =  $this->getDrupalService('entity_type.manager');
+        $view = $entityTypeManager->getStorage('view')->load($viewId);
 
         if (empty($view)) {
             $io->error(
