@@ -111,4 +111,8 @@ services:
       class: Drupal\Console\Command\Config\DebugCommand
       tags:
         - { name: console.command }
+  config_delete:
+      class: Drupal\Console\Command\Config\DeleteCommand
+      tags:
+        - { name: console.command }
 

@@ -9,11 +9,13 @@ namespace Drupal\Console\Command\Config;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command as BaseCommand;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class DeleteCommand extends ContainerAwareCommand
+class DeleteCommand extends BaseCommand
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -37,7 +39,7 @@ class DeleteCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
         $name = $input->getArgument('name');
         if (!$name) {
-            $configFactory = $this->getService('config.factory');
+            $configFactory = $this->getDrupalService('config.factory');
             $names = $configFactory->listAll();
             $name = $io->choiceNoList(
                 $this->trans('commands.config.delete.arguments.name'),
@@ -53,7 +55,7 @@ class DeleteCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $configFactory = $this->getService('config.factory');
+        $configFactory = $this->getDrupalService('config.factory');
         $name = $input->getArgument('name');
         if (!$name) {
             $io->error($this->trans('commands.config.delete.messages.name'));
@@ -61,7 +63,7 @@ class DeleteCommand extends ContainerAwareCommand
             return 1;
         }
 
-        $configStorage = $this->getService('config.storage');
+        $configStorage = $this->getDrupalService('config.storage');
         if (!$configStorage->exists($name)) {
             $io->error(
                 sprintf(
