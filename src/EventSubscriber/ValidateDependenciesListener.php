@@ -37,18 +37,18 @@ class ValidateDependenciesListener implements EventSubscriberInterface
     {
         /* @var Command $command */
         $command = $event->getCommand();
-        /* @var DrupalStyle $io */
-        $io = $event->getOutput();
-
-        $application = $command->getApplication();
-
-        $missingDependencies = $this->commandDependencies->getDependencies();
-        $translatorHelper = $application->getTranslator();
 
         if (!$command instanceof Command) {
             return;
         }
 
+        /* @var DrupalStyle $io */
+        $io = $event->getOutput();
+
+        $application = $command->getApplication();
+        $translatorHelper = $application->getTranslator();
+
+        $missingDependencies = $this->commandDependencies->getDependencies();
         if ($dependencies = $missingDependencies[$command->getName()]) {
             foreach ($dependencies as $dependency) {
                 if (!$application->getValidator()->isModuleInstalled($dependency)) {
