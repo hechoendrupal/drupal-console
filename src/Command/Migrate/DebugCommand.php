@@ -8,7 +8,6 @@
 namespace Drupal\Console\Command\Migrate;
 
 use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\Translator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
