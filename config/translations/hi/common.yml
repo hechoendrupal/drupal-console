@@ -32,6 +32,8 @@ errors:
     module-dependency: 'मॉड्यूल निर्भरता "%s" अनुपस्थित है'
     class-name-empty: 'क्लास का नाम खली नही रह सकता'
     invalid-file-path: 'आप कौ एक वैध फ़ाइल पथ प्रदान करनी चाहिए'
+    module-exist: 'Module "%s" already exist.'
+    machine-name-duplicated: 'Machine name "%s" is duplicated.'
 status:
     enabled: सक्षम
     disabled: अक्षम

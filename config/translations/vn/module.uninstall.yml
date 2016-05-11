@@ -1,4 +1,7 @@
 description: 'Gỡ bỏ module hoặc các module trong ứng dụng'
+questions:
+    module: 'Enter module name'
+    invalid-module: 'Invalid module %s'
 options:
     module: 'Module hoặc các module được gỡ bỏ cần được chia ra bằng dấu phẩy'
     force: 'Do you want to ignore dependencies and forcefully uninstall the module?'

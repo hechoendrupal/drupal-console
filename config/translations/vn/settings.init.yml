@@ -1,3 +1,0 @@
-description: 'Sao chép các file cấu hình tới thư mục gốc.'
-options:
-    override: 'Ghi đè các tệp cấu hình'
