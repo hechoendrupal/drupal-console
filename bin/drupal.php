@@ -50,9 +50,7 @@ AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
 $container = new ContainerBuilder();
 $loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
 $loader->load('services.yml');
-
 $container->addCompilerPass(new AnnotationRegistryPass($container->get("command_dependency_resolver")));
-
 $container->compile();
 
 $config = $container->get('config');
