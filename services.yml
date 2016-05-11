@@ -143,3 +143,7 @@ services:
         class: Drupal\Console\Command\Migrate\SetupCommand
         tags:
           - { name: console.command }
+  locale_translation_status:
+        class: Drupal\Console\Command\Locale\TranslationStatusCommand
+        tags:
+          - { name: console.command }

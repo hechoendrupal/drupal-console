@@ -7,15 +7,25 @@
 
 namespace Drupal\Console\Command\Locale;
 
+use Drupal\Console\Command\Shared\CommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command as BaseCommand;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Annotation\DrupalCommand;
 
-class TranslationStatusCommand extends ContainerAwareCommand
+/**
+ * @DrupalCommand(
+ *     dependencies = {
+ *         "locale"
+ *     }
+ * )
+ */
+class TranslationStatusCommand extends BaseCommand
 {
     use LocaleTrait;
+    use CommandTrait;
 
     protected function configure()
     {
@@ -27,8 +37,6 @@ class TranslationStatusCommand extends ContainerAwareCommand
                 InputArgument::OPTIONAL,
                 $this->trans('commands.locale.translation.status.arguments.language')
             );
-
-        $this->addDependency('locale');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
