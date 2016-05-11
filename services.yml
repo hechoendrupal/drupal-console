@@ -151,3 +151,7 @@ services:
         class: Drupal\Console\Command\Locale\LanguageDeleteCommand
         tags:
           - { name: console.command }
+  locale_language_add:
+        class: Drupal\Console\Command\Locale\LanguageAddCommand
+        tags:
+          - { name: console.command }
