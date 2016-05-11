@@ -7,7 +7,7 @@ options:
     generate-doc: 'Tampilkan opsi dan argumen dari perintah dalam format markdown'
     root: 'Tentukan root dari Drupal untuk digunakan dalam menjalankan perintah'
     uri: 'URI dari situs Drupal (untuk instalasi multi-situs atau kalau situsnya dijalankan di port lain selain port 80)'
-    yes: 'Lewatkan konfirmasi dan lanjutkan'
+    'yes': 'Lewatkan konfirmasi dan lanjutkan'
     target: 'Nama situs untuk berinteraksi (untuk situs lokal atau situs remote)'
     help: 'Tampilkan pesan bantuan ini'
     quiet: 'Jangan keluarkan pesan apapun dari perintah ini'
