@@ -123,3 +123,7 @@ services:
       class: Drupal\Console\Command\Test\DebugCommand
       tags:
         - { name: console.command }
+  rest_debug:
+      class: Drupal\Console\Command\Rest\DebugCommand
+      tags:
+        - { name: console.command }
