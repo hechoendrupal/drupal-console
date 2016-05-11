@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\Console\Utils\Chain.
+ * Contains Drupal\Console\Utils\ChainQueue.
  */
 
 namespace Drupal\Console\Utils;
@@ -11,7 +11,7 @@ namespace Drupal\Console\Utils;
  * Class ChainCommandHelper
  * @package Drupal\Console\Helper
  */
-class Chain
+class ChainQueue
 {
     /**
  * @var $commands array 

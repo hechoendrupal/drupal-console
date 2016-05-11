@@ -39,7 +39,7 @@ trait HelperTrait
      */
     public function getChain()
     {
-        return $this->getContainerHelper()->get('chain');
+        return $this->getContainerHelper()->get('chain_queue');
     }
 
     /**
