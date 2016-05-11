@@ -128,7 +128,7 @@ services:
       tags:
         - { name: console.command }
   rest_enable:
-      class: Drupal\Console\Command\Rest\EnableDebugCommand
+      class: Drupal\Console\Command\Rest\EnableCommand
       tags:
         - { name: console.command }
   migrate_debug:
