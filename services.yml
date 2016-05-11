@@ -131,3 +131,7 @@ services:
       class: Drupal\Console\Command\Rest\DisableCommand
       tags:
         - { name: console.command }
+  rest_enable:
+      class: Drupal\Console\Command\Rest\EnableDebugCommand
+      tags:
+        - { name: console.command }
