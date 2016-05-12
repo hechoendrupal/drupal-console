@@ -30,50 +30,85 @@ services:
   site:
     class: Drupal\Console\Utils\Site
     arguments: ["@parser"]
-  chain:
-    class: Drupal\Console\Utils\Chain
+  chain_queue:
+    class: Drupal\Console\Utils\ChainQueue
   showfile:
     class: Drupal\Console\Utils\ShowFile
     arguments: ["@site", "@translator"]
   about:
     class: Drupal\Console\Command\AboutCommand
-    calls:
-      - [setTranslator, ['@translator']]
     tags:
       - { name: console.command }
   check:
     class: Drupal\Console\Command\CheckCommand
-    calls:
-      - [setTranslator, ['@translator']]
     tags:
       - { name: console.command }
   complete:
     class: Drupal\Console\Command\CompleteCommand
-    calls:
-      - [setTranslator, ['@translator']]
     tags:
       - { name: console.command }
   init:
     class: Drupal\Console\Command\InitCommand
-    calls:
-      - [setTranslator, ['@translator']]
     tags:
       - { name: console.command }
   list:
     class: Drupal\Console\Command\ListCommand
-    calls:
-      - [setTranslator, ['@translator']]
     tags:
       - { name: console.command }
   help:
     class: Drupal\Console\Command\HelpCommand
-    calls:
-      - [setTranslator, ['@translator']]
     tags:
       - { name: console.command }
   server:
     class: Drupal\Console\Command\ServerCommand
-    calls:
-      - [setTranslator, ['@translator']]
     tags:
       - { name: console.command }
+  cache_rebuild:
+    class: Drupal\Console\Command\CacheRebuildCommand
+    tags:
+      - { name: console.command }
+  cache_rebuild:
+    class: Drupal\Console\Command\CacheRebuildCommand
+    tags:
+      - { name: console.command }
+  plugin_debug:
+      class: Drupal\Console\Command\PluginDebugCommand
+      tags:
+        - { name: console.command }
+  container_debug:
+      class: Drupal\Console\Command\ContainerDebugCommand
+      tags:
+        - { name: console.command }
+  breakpoints_debug:
+      class: Drupal\Console\Command\Breakpoints\DebugCommand
+      tags:
+        - { name: console.command }
+  views_plugins_debug:
+      class: Drupal\Console\Command\Views\PluginsDebugCommand
+      tags:
+        - { name: console.command }
+  views_enable:
+      class: Drupal\Console\Command\Views\EnableCommand
+      tags:
+        - { name: console.command }
+  views_disable:
+      class: Drupal\Console\Command\Views\DisableCommand
+      tags:
+        - { name: console.command }
+  views_debug:
+      class: Drupal\Console\Command\Views\DebugCommand
+      tags:
+        - { name: console.command }
+  chain:
+      class: Drupal\Console\Command\Chain\ChainCommand
+      tags:
+        - { name: console.command }
+  chain_debug:
+      class: Drupal\Console\Command\Chain\ChainDebugCommand
+      tags:
+        - { name: console.command }
+  config_debug:
+      class: Drupal\Console\Command\Config\DebugCommand
+      tags:
+        - { name: console.command }
+

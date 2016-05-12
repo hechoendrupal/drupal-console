@@ -1,4 +1,7 @@
 description: 'Dezinstalează un modul sau mai multe din aplicaţie.'
+questions:
+    module: 'Enter module name'
+    invalid-module: 'Invalid module %s'
 options:
     module: 'Modulul sau modulele care urmează a fi dezinstalate ar trebui separate de o virgulă'
     force: 'Do you want to ignore dependencies and forcefully uninstall the module?'

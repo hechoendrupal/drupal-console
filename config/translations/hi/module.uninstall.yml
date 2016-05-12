@@ -1,4 +1,7 @@
 description: 'अनुप्रयोग में मॉड्यूल की स्थापित रद्द करें |'
+questions:
+    module: 'Enter module name'
+    invalid-module: 'Invalid module %s'
 options:
     module: 'रद्द किए जाने मॉड्यूल को अल्पवीराम से अलग करें |'
     force: 'Do you want to ignore dependencies and forcefully uninstall the module?'

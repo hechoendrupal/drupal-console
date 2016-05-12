@@ -13,7 +13,7 @@ questions:
     password: 'Introduzca la contraseña con la que se generarán los usuarios'
     time-range: 'Cuanta antelación debe tener la fecha de creación de los usuarios'
     time-ranges:
-        - 'Ahora'
+        - Ahora
         - 'Hace una hora'
         - 'Hace un día'
         - 'Hace una semana'

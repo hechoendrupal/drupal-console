@@ -32,6 +32,8 @@ errors:
     module-dependency: 'Falta la dependència del mòdul "%s"'
     class-name-empty: 'El nom de la clase no pot estar buit'
     invalid-file-path: 'Has de proporcionar una ruta de fitxer vàlida'
+    module-exist: 'Module "%s" already exist.'
+    machine-name-duplicated: 'Machine name "%s" is duplicated.'
 status:
     enabled: Habilitat
     disabled: Deshabilitat

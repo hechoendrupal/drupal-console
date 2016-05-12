@@ -10,14 +10,17 @@ namespace Drupal\Console\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Command\Command as BaseCommand;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class PluginDebugCommand
  * @package Drupal\Console\Command
  */
-class PluginDebugCommand extends ContainerAwareCommand
+class PluginDebugCommand extends BaseCommand
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -47,9 +50,10 @@ class PluginDebugCommand extends ContainerAwareCommand
               $this->trans('commands.plugin.debug.table-headers.plugin-type-class')
             ];
             $tableRows = [];
-            foreach ($this->getServices() as $serviceId) {
+            $drupalContainer = $this->getDrupalContainer();
+            foreach ($drupalContainer->getServiceIds() as $serviceId) {
                 if (strpos($serviceId, 'plugin.manager.') === 0) {
-                    $service = $this->getContainer()->get($serviceId);
+                    $service = $drupalContainer->get($serviceId);
                     $typeName = substr($serviceId, 15);
                     $class = get_class($service);
                     $tableRows[$typeName] = [$typeName, $class];
@@ -60,7 +64,7 @@ class PluginDebugCommand extends ContainerAwareCommand
             return true;
         }
 
-        $service = $this->getService('plugin.manager.' . $pluginType);
+        $service = $this->getDrupalService('plugin.manager.' . $pluginType);
         if (!$service) {
             $io->error(
                 sprintf(

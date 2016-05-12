@@ -34,7 +34,7 @@ class CallCommandListener implements EventSubscriberInterface
         }
 
         $application = $command->getApplication();
-        $commands = $application->getContainer()->get('chain')->getCommands();
+        $commands = $application->getContainer()->get('chain_queue')->getCommands();
 
         if (!$commands) {
             return;

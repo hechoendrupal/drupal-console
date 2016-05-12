@@ -10,14 +10,18 @@ namespace Drupal\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command as BaseCommand;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class CacheRebuildCommand
  * @package Drupal\Console\Command
  */
-class CacheRebuildCommand extends ContainerAwareCommand
+class CacheRebuildCommand extends BaseCommand
 {
+    use ContainerAwareCommandTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -39,10 +43,8 @@ class CacheRebuildCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-
-        $this->getDrupalHelper()->loadLegacyFile('/core/includes/utility.inc');
-
-        $validators = $this->getValidator();
+        $this->get('site')->loadLegacyFile('/core/includes/utility.inc');
+        $validators = $this->getApplication()->getValidator();
 
         // Get the --cache option and make validation
         $cache = $input->getArgument('cache');
@@ -64,7 +66,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
         $io->comment($this->trans('commands.cache.rebuild.messages.rebuild'));
 
         // Get data needed to rebuild cache
-        $kernelHelper = $this->getKernelHelper();
+        $kernelHelper = $this->getApplication()->getKernelHelper();
         $classLoader = $kernelHelper->getClassLoader();
         $request = $kernelHelper->getRequest();
 
@@ -90,7 +92,7 @@ class CacheRebuildCommand extends ContainerAwareCommand
 
         $cache = $input->getArgument('cache');
         if (!$cache) {
-            $validators = $this->getValidator();
+            $validators = $this->getApplication()->getValidator();
             $caches = $validators->getCaches();
             $cache_keys = array_keys($caches);
 
