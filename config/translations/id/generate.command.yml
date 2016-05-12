@@ -1,16 +1,16 @@
-description: 'Generate commands for the console.'
-help: 'The <info>generate:command</info> command helps you generate a new command.'
-welcome: 'Welcome to the Drupal Command generator'
+description: 'Buat perintah console baru.'
+help: 'Perintah <info>generate:command</info> membantu kamu untuk membuat perintah baru.'
+welcome: 'Selamat datang ke pembuatan Perintah Drupal'
 options:
-    module: 'The name of the Module (that will contain the command).'
-    controller-title: 'Controller title.'
-    class: 'The Class that describes the command. (Must end with the word ''Command'').'
-    name: 'The Command name.'
-    container-aware: 'Is the command aware of the drupal site installation when executed'
+    module: 'Nama Modul (yang akan diisi dengan perintah ini).'
+    controller-title: 'Nama Controller.'
+    class: 'Nama Kelas yang menguraikan perintah ini. (Harus diakhiri dengan kata ''Command'').'
+    name: 'Nama Perintah ini.'
+    container-aware: 'Apakah perintah ini perlu mendeteksi jika situs drupal sudah terpasang sewaktu perintah dijalankan'
 questions:
     module: common.questions.module
-    class: 'Enter the Command Class. (Must end with the word ''Command'').'
-    name: 'Enter the Command name.'
-    container-aware: 'Is the command aware of the drupal site installation when executed?.'
+    class: 'Masukkan Kelas Perintah. (Harus diakhiri dengan kata ''Command'').'
+    name: 'Masukkan nama Perintah.'
+    container-aware: 'Apakah perintah ini perlu mendeteksi jika situs drupal sudah terpasang sewaktu perintah dijalankan?'
 messages:
-    title-not-empty: 'Title cannot be empty'
+    title-not-empty: 'Nama tidak boleh dibiarkan kosong'
