@@ -32,6 +32,8 @@ errors:
     module-dependency: 'Le module dépendant "%s" est manquant'
     class-name-empty: 'Le nom de la classe ne peut pas être vide'
     invalid-file-path: 'Vous devez renseigner un chemin correct'
+    module-exist: 'Module "%s" already exist.'
+    machine-name-duplicated: 'Machine name "%s" is duplicated.'
 status:
     enabled: Activé
     disabled: Désactivé

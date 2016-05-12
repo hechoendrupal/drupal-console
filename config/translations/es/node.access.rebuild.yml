@@ -3,7 +3,7 @@ options:
     batch: 'Procesar en modo batch.'
 messages:
     rebuild: 'Reconstruyendo los permisos de acceso a nodos, un momento por favor.'
-    completed: 'El proceso a terminado con éxito.'
+    completed: 'El proceso ha terminado con éxito.'
     failed: 'El proceso falló.'
 examples:
     -

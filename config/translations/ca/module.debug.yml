@@ -10,4 +10,5 @@ messages:
     package: Paquet
     enabled: Habilitat
     disabled: Deshabilitat
+    version: Version
     schema-version: 'Versió de l''esquema'

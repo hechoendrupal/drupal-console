@@ -1,0 +1,3 @@
+description: 'Copy configuration files to user home directory.'
+options:
+    override: 'Override configurations files'
