@@ -11,11 +11,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Serialization\Yaml;
-use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
+use Symfony\Component\Console\Command\Command as BaseCommand;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 
-class DebugCommand extends ContainerAwareCommand
+class DebugCommand extends BaseCommand
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -51,7 +53,7 @@ class DebugCommand extends ContainerAwareCommand
      */
     private function getAllConfigurations(DrupalStyle $io)
     {
-        $configFactory = $this->getConfigFactory();
+        $configFactory = $this->getDrupalService('config.factory');
         $names = $configFactory->listAll();
         $tableHeader = [
             $this->trans('commands.config.debug.arguments.name'),
@@ -72,7 +74,7 @@ class DebugCommand extends ContainerAwareCommand
      */
     private function getConfigurationByName(DrupalStyle $io, $config_name)
     {
-        $configStorage = $this->getConfigStorage();
+        $configStorage = $this->getDrupalService('config.storage');
 
         if ($configStorage->exists($config_name)) {
             $tableHeader = [

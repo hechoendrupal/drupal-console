@@ -10,4 +10,5 @@ messages:
     package: Pachet
     enabled: Activat
     disabled: Dezactivat
+    version: Version
     schema-version: 'Versiunea schemei'

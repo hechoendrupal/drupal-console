@@ -1,22 +1,22 @@
-description: 'Generate & Register a controller'
-help: 'The <info>generate:controller</info> command helps you generate a new controller.'
-welcome: 'Welcome to the Drupal Controller generator'
+description: 'Buat dan daftarkan controller'
+help: 'Perintah <info>generate:controller</info> membantu kamu untuk membuat controller baru.'
+welcome: 'Selamat datang ke pembuatan Controller Drupal'
 options:
     module: common.options.module
-    class: 'Controller Class name'
-    routes: 'The routes, must be an array containing [title, method, path]'
+    class: 'Nama Kelas Controller'
+    routes: 'Semua route, harus berupa array yang berisi [nama, metode, path]'
     services: common.options.services
-    test: 'Generate a test class'
+    test: 'Buat kelas untuk unit test'
 questions:
     module: common.questions.module
-    class: 'Enter the Controller class name'
-    title: 'Enter the Controller method title (leave empty and press enter when done)'
-    method: 'Enter the action method name'
-    path: 'Enter the route path'
+    class: 'Masukkan nama kelas Controller'
+    title: 'Masukkan judul metode Controller (jika selesai, biarkan kosong dan tekan enter)'
+    method: 'Masukkan nama metode'
+    path: 'Masukkan path untuk route'
     services: common.questions.services
-    test: 'Do you want to generate a unit test class'
+    test: 'Apakah kamu mau membuat kelas untuk unit test?'
 messages:
-    title-empty: 'Title must contain a value'
-    title-already-added: 'Title was already added'
-    method-name-already-added: 'Method name was already added'
-    path-already-added: 'Path was already added'
+    title-empty: 'Judul tidak boleh dibiarkan kosong'
+    title-already-added: 'Judul sudah ditambahkan sebelumnya'
+    method-name-already-added: 'Name metode sudah ditambahkan sebelumnya'
+    path-already-added: 'Path sudah ditambahkan sebelumnya'
