@@ -32,6 +32,8 @@ errors:
     module-dependency: '模块依赖 "%s" 丢失'
     class-name-empty: 类名不能为空
     invalid-file-path: 必须提供一个有效的文件路径
+    module-exist: 'Module "%s" already exist.'
+    machine-name-duplicated: 'Machine name "%s" is duplicated.'
 status:
     enabled: 启用
     disabled: 禁用

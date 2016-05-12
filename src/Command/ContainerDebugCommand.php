@@ -9,14 +9,17 @@ namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command as BaseCommand;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class ContainerDebugCommand
  * @package Drupal\Console\Command
  */
-class ContainerDebugCommand extends ContainerAwareCommand
+class ContainerDebugCommand extends BaseCommand
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -33,7 +36,9 @@ class ContainerDebugCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $services = $this->getServices();
+        $drupalContainer = $this->getDrupalContainer();
+        //$services = $this->getServices();
+
 
         $tableHeader = [
             $this->trans('commands.container.debug.messages.service_id'),
@@ -41,8 +46,8 @@ class ContainerDebugCommand extends ContainerAwareCommand
         ];
 
         $tableRows = [];
-        foreach ($services as $serviceId) {
-            $service = $this->getContainer()->get($serviceId);
+        foreach ($drupalContainer->getServiceIds() as $serviceId) {
+            $service = $drupalContainer->get($serviceId);
             $class = get_class($service);
             $tableRows[] = [$serviceId, $class];
         }

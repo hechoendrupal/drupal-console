@@ -11,15 +11,17 @@ use Herrera\Json\Exception\Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command as BaseCommand;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class DisableCommand
  * @package Drupal\Console\Command\Views
  */
-class DisableCommand extends ContainerAwareCommand
+class DisableCommand extends BaseCommand
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -44,9 +46,9 @@ class DisableCommand extends ContainerAwareCommand
 
         $viewId = $input->getArgument('view-id');
 
-        $entityManager = $this->getEntityManager();
+        $entityTypeManager =  $this->getDrupalService('entity_type.manager');
 
-        $view = $entityManager->getStorage('view')->load($viewId);
+        $view = $entityTypeManager->getStorage('view')->load($viewId);
 
         if (empty($view)) {
             $io->error(sprintf($this->trans('commands.views.debug.messages.not-found'), $viewId));

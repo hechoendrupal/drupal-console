@@ -10,4 +10,5 @@ messages:
     package: Пакет
     enabled: Включен
     disabled: Выключен
+    version: Version
     schema-version: 'Версия схемы'

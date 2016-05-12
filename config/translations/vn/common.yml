@@ -32,6 +32,8 @@ errors:
     module-dependency: 'Thiếu module dependency "%s"'
     class-name-empty: 'Tên của lớp không thể để trống'
     invalid-file-path: 'Bạn phải cung cấp một đường dẫn file hợp lệ'
+    module-exist: 'Module "%s" already exist.'
+    machine-name-duplicated: 'Machine name "%s" is duplicated.'
 status:
     enabled: 'Cho phép'
     disabled: 'Không cho phép'

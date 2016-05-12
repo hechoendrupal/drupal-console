@@ -1,13 +1,19 @@
 description: 'Переопределить значение конфигурации в активной конфигурации.'
+questions:
+    name: 'Enter configuration name'
+    key: 'Enter the configuration key'
+    value: 'Enter the configuration value'
 arguments:
-    config-name: 'Имя конфигурации.'
+    name: 'Configuration name'
     key: Ключ
     value: Значение
+    config-name: 'Имя конфигурации.'
 messages:
     configuration: 'Имя конфигурации.'
     configuration-key: 'Ключ конфигурации'
     original: 'Оригинальное значение'
     updated: 'Переопределяемое значение'
+    invalid-name: 'Config object "%s", does not exists'
 examples:
     -
         description: 'Установить лимит флуда до 10 для модуля Contact'

@@ -8,10 +8,10 @@
 namespace Drupal\Console\Command\Views;
 
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command as BaseCommand;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\views\Views;
 
@@ -19,8 +19,9 @@ use Drupal\views\Views;
  * Class PluginsDebugCommand
  * @package Drupal\Console\Command\Views
  */
-class PluginsDebugCommand extends ContainerAwareCommand
+class PluginsDebugCommand extends BaseCommand
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -54,7 +55,6 @@ class PluginsDebugCommand extends ContainerAwareCommand
      */
     protected function pluginList(DrupalStyle $io, $type)
     {
-        $entity_manager = $this->getEntityManager();
         $plugins = Views::pluginList();
 
         $rows = [];

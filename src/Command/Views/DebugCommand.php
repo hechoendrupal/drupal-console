@@ -11,17 +11,18 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command as BaseCommand;
 use Drupal\views\Entity\View;
-use Drupal\Component\Serialization\Yaml;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class DebugCommand
  * @package Drupal\Console\Command\Views
  */
-class DebugCommand extends ContainerAwareCommand
+class DebugCommand extends BaseCommand
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -81,8 +82,8 @@ class DebugCommand extends ContainerAwareCommand
      */
     private function viewDetail(DrupalStyle $io, $view_id)
     {
-        $entity_manager = $this->getEntityManager();
-        $view = $entity_manager->getStorage('view')->load($view_id);
+        $entityTypeManager =  $this->getDrupalService('entity_type.manager');
+        $view = $entityTypeManager->getStorage('view')->load($view_id);
 
         if (empty($view)) {
             $io->error(sprintf($this->trans('commands.views.debug.messages.not-found'), $view_id));
@@ -131,8 +132,9 @@ class DebugCommand extends ContainerAwareCommand
      */
     protected function viewList(DrupalStyle $io, $tag, $status)
     {
-        $entity_manager = $this->getEntityManager();
-        $views = $entity_manager->getStorage('view')->loadMultiple();
+        $entityTypeManager =  $this->getDrupalService('entity_type.manager');
+
+        $views = $entityTypeManager->getStorage('view')->loadMultiple();
 
         $tableHeader = [
           $this->trans('commands.views.debug.messages.view-id'),

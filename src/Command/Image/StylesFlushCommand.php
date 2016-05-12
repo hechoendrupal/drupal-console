@@ -31,7 +31,7 @@ class StylesFlushCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
         $styles = $input->getArgument('styles');
         if (!$styles) {
-            $image_handler = $this->entityTypeManager()->getStorage('image_style');
+            $image_handler = $this->getService('entity_type.manager')->getStorage('image_style');
             $styleList = $image_handler->loadMultiple();
             $styleNames = [];
             foreach ($styleList as $style) {

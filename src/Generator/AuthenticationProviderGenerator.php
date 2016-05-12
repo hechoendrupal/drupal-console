@@ -36,7 +36,7 @@ class AuthenticationProviderGenerator extends Generator
           'name' => 'authentication.'.$module,
           'services' => [
             ['name' => 'config.factory'],
-            ['name' => 'entity.manager'],
+            ['name' => 'entity_type.manager'],
           ],
           'file_exists' => file_exists($this->getSite()->getModulePath($module).'/'.$module.'.services.yml'),
           'tags' => [
