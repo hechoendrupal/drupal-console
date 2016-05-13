@@ -2,7 +2,9 @@ description: 'Crea un nuevo proyecto Drupal'
 arguments:
     directory: 'Directorio donde instalar Drupal'
     version: 'Versión específica de Drupal a descargar'
-    site-name: 'Nombre del sitio'
+options:
+    latest: 'Use esta opción para seleccionar automáticamente la última versión'
+    dev: 'Use esta opción para descargar versiones de desarrollo. Si no usa esta opción, sólo podrá descargar versiones estables. No use esta opción juntamente con las opciones latest ni version.'
 messages:
     select-release: 'Seleccione una versión del core'
     getting-releases: 'Obteniendo releases de Drupal'

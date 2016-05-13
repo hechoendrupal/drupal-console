@@ -43,6 +43,12 @@ class NewCommand extends Command
                 '',
                 InputOption::VALUE_NONE,
                 $this->trans('commands.site.new.options.latest')
+            )
+            ->addOption(
+                'dev',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.site.new.options.dev')
             );
     }
 
@@ -112,6 +118,7 @@ class NewCommand extends Command
         $directory = $input->getArgument('directory');
         $version = $input->getArgument('version');
         $latest = $input->getOption('latest');
+        $dev = $input->getOption('dev');
 
         if (!$version && $latest) {
             $version = current($this->getDrupalApi()->getProjectReleases('drupal', 1, true));
@@ -126,7 +133,7 @@ class NewCommand extends Command
 
 
         if (!$version) {
-            $version = $this->releasesQuestion($io, 'drupal', false, true);
+            $version = $this->releasesQuestion($io, 'drupal', false, $dev?false:true);
             $input->setArgument('version', $version);
         }
     }

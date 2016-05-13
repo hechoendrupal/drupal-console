@@ -2,6 +2,9 @@ description: 'Create a new Drupal project'
 arguments:
     directory: 'Directory where to install Drupal'
     version: 'Drupal version to download'
+options:
+    latest: 'Use this option to select automatically the latest version'
+    dev: 'Use this option to download dev releases. If not used, you only can install stable releases. Do not use this with latest nor version.'
 messages:
     select-release: 'Select a core release'
     getting-releases: 'Getting releases for Drupal'
@@ -12,4 +15,3 @@ messages:
     error-copying: 'An error occurred while renaming directory as %s'
 questions:
     directory: 'Enter the directory name where to install Drupal'
-
