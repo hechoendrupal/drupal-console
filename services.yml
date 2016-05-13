@@ -119,4 +119,7 @@ services:
       class: Drupal\Console\Command\Config\DiffCommand
       tags:
         - { name: console.command }
-
+  config_edit:
+      class: Drupal\Console\Command\Config\EditCommand
+      tags:
+        - { name: console.command }
