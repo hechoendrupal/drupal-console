@@ -45,10 +45,10 @@ class NewCommand extends Command
                 $this->trans('commands.site.new.options.latest')
             )
             ->addOption(
-                'dev',
+                'unstable',
                 '',
                 InputOption::VALUE_NONE,
-                $this->trans('commands.site.new.options.dev')
+                $this->trans('commands.site.new.options.unstable')
             );
     }
 
@@ -118,7 +118,7 @@ class NewCommand extends Command
         $directory = $input->getArgument('directory');
         $version = $input->getArgument('version');
         $latest = $input->getOption('latest');
-        $dev = $input->getOption('dev');
+        $unstable = $input->getOption('unstable');
 
         if (!$version && $latest) {
             $version = current($this->getDrupalApi()->getProjectReleases('drupal', 1, true));
@@ -133,7 +133,7 @@ class NewCommand extends Command
 
 
         if (!$version) {
-            $version = $this->releasesQuestion($io, 'drupal', false, $dev?false:true);
+            $version = $this->releasesQuestion($io, 'drupal', false, $unstable?false:true);
             $input->setArgument('version', $version);
         }
     }

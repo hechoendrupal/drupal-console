@@ -4,7 +4,7 @@ arguments:
     version: 'Drupal version to download'
 options:
     latest: 'Use this option to select automatically the latest version'
-    dev: 'Use this option to download dev releases. If not used, you only can install stable releases. Do not use this with latest nor version.'
+    unstable: 'Use this option to download unstable releases. If not used, you only can install stable releases. Do not use this with latest nor version.'
 messages:
     select-release: 'Select a core release'
     getting-releases: 'Getting releases for Drupal'
