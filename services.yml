@@ -115,4 +115,8 @@ services:
       class: Drupal\Console\Command\Config\DeleteCommand
       tags:
         - { name: console.command }
+  config_diff:
+      class: Drupal\Console\Command\Config\DiffCommand
+      tags:
+        - { name: console.command }
 
