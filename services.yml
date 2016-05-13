@@ -123,3 +123,7 @@ services:
       class: Drupal\Console\Command\Config\EditCommand
       tags:
         - { name: console.command }
+  config_export:
+      class: Drupal\Console\Command\Config\ExportCommand
+      tags:
+        - { name: console.command }
