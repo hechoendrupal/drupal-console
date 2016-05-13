@@ -64,8 +64,8 @@ class Application extends BaseApplication
     protected $errorMessage;
 
     /**
- * @var ContainerBuilder
-*/
+     * @var ContainerBuilder
+     */
     protected $container;
 
     /**
