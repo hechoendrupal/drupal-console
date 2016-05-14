@@ -135,3 +135,7 @@ services:
       class: Drupal\Console\Command\Config\ExportViewCommand
       tags:
         - { name: console.command }
+  config_import:
+      class: Drupal\Console\Command\Config\ImportCommand
+      tags:
+        - { name: console.command }
