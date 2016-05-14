@@ -131,3 +131,7 @@ services:
       class: Drupal\Console\Command\Config\ExportContentTypeCommand
       tags:
         - { name: console.command }
+  config_export_view:
+      class: Drupal\Console\Command\Config\ExportViewCommand
+      tags:
+        - { name: console.command }

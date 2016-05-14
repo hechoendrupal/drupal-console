@@ -111,7 +111,7 @@ trait ExportTrait
                 '[+] ' .
                 sprintf(
                     $this->trans('commands.config.export.view.messages.depencies-included'),
-                    $this->getSite()->getModuleInfoFile($module)
+                    $this->getApplication()->getSite()->getModuleInfoFile($module)
                 )
             );
 
