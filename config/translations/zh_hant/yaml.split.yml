@@ -1,11 +1,11 @@
-description: 'Split a YAML file using indent as separator criteria'
+description: '依據縮排分割 YAML 檔案'
 arguments:
-    yaml-file: 'Path of YAML file to be splitted'
+    yaml-file: '欲分割的 YAML 檔案'
 options:
-    indent-level: 'Split YAML file using a specific indent level'
-    exclude-parents-key: 'Exclude the "parents" key from the generated file'
-    starting-key: 'YAML Key from where start split - useful to extract partial elements'
+    indent-level: '分割 YAML 檔案的縮排等級'
+    exclude-parents-key: '自產生的檔案中排除上層鍵名'
+    starting-key: '開始分割的 YAML 鍵名：有助於截取局部元素'
 messages:
-    generating-split: 'Generating new files'
-    split-generated: 'File %s was generated'
-    invalid-key: 'Provided key as stating YAML key wasn''t found, combine with indent-level 0 to extract values'
+    generating-split: '正在產生新檔案'
+    split-generated: '檔案 %s 已經產生'
+    invalid-key: '找不到提供的 YAML 鍵名，將與第一層縮排一同擷取數值'
