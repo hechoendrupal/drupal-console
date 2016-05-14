@@ -1,6 +1,6 @@
-description: 'Displays libraries available in application'
+description: '顯示可用的 libraries'
 options:
-  name: 'Enter Libraries Name'
+  name: '輸入 Libraries 名稱'
 messages:
    name: 'Extension with Libraries'
-   info: 'Libraries Information'
+   info: 'Libraries 資訊'

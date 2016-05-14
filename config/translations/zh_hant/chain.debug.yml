@@ -1,4 +1,4 @@
-description: 'List available chain files.'
+description: '列出可用的連續命令檔案'
 messages:
-    directory: 'Directory'
-    file: 'Chain file name.'
+    directory: '目錄'
+    file: '連續命令檔案名稱'
