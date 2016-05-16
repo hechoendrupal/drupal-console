@@ -139,3 +139,7 @@ services:
       class: Drupal\Console\Command\Config\ImportCommand
       tags:
         - { name: console.command }
+  config_import_single:
+      class: Drupal\Console\Command\Config\ImportSingleCommand
+      tags:
+        - { name: console.command }
