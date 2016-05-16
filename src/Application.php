@@ -64,8 +64,8 @@ class Application extends BaseApplication
     protected $errorMessage;
 
     /**
- * @var ContainerBuilder 
-*/
+     * @var ContainerBuilder
+     */
     protected $container;
 
     /**
@@ -203,6 +203,15 @@ class Application extends BaseApplication
         }
 
         $uri = $input->getParameterOption(['--uri', '-l']);
+
+        /*Checking if the URI has http of not in begenning*/
+        if($uri && !preg_match('^(http|https)://', $uri)){
+            $uri = sprintf(
+                'http://%s',
+                $uri
+            );
+        }
+
         $env = $input->getParameterOption(['--env', '-e'], getenv('DRUPAL_ENV') ?: 'prod');
 
         if ($env) {

@@ -1,15 +1,15 @@
-description: 'Rebuild and clear all site caches.'
+description: '重建和清除所有快取'
 options:
-    cache: 'Only clear a specific cache.'
+    cache: '只清除一個特定的快取'
 messages:
-    welcome: 'Welcome to the cache:rebuild command'
-    rebuild: 'Rebuilding cache(s), wait a moment please.'
-    completed: 'Done clearing cache(s).'
-    invalid_cache: 'Cache "%s" is invalid.'
+    welcome: '歡迎使用 cache:rebuild 命令'
+    rebuild: '正在重建快取，請稍後'
+    completed: '清除快取成功'
+    invalid_cache: '快取 "%s" 是無效的'
 questions:
-    cache: 'Select cache.'
+    cache: '選擇快取'
 examples:
-    - description: Rebuild all caches
+    - description: 重建所有快取
       execution: drupal cr all
-    - description: Rebuild discovery cache
+    - description: 重建發現的快取
       execution: drupal cr discovery
