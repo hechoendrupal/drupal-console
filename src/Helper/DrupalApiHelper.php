@@ -326,11 +326,17 @@ class DrupalApiHelper extends Helper
       if (!trim($module)) return;
 
       $packagist_url = 'https://packagist.drupal-composer.org/packages/drupal/'.trim($module).'.json';
+
+      try {
+        $packagist_data = @$this->getHttpClientHelper()->getUrlAsString($packagist_url);
+      }
+      catch (\Exception $e){
+        return null;
+      }
+
       $packagist_json = json_decode(
-        //@TODO: try/catch
-        $this->getHttpClientHelper()->getUrlAsString(
-          $packagist_url
-      ));
+        $packagist_data
+      );
 
       $versions =
         array_keys((array)$packagist_json->package->versions

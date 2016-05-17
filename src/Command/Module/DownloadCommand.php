@@ -111,16 +111,51 @@ class DownloadCommand extends Command
 
             if (!$latest)
             {
-              $versions = $this->getDrupalApi()->getPackagistModuleReleases($module, 10, $this->stable);
-              $version = $io->choice(
-                $this->trans('commands.site.new.questions.composer-release'),
-                $versions
-              );
+              $versions
+                = $this
+                  ->getDrupalApi()
+                  ->getPackagistModuleReleases($module, 10, $this->stable);
+
+              if (!$versions)
+              {
+                $io->error(
+                  sprintf($this->trans(
+                    'commands.module.download.messages.no-releases'),
+                    $module
+                  )
+                );
+                return;
+              }
+              else{
+                $version
+                  = $io->choice(
+                    $this->trans('commands.site.new.questions.composer-release'),
+                    $versions);
+              }
             }
             else{
-              $version = current(
-                $this->getDrupalApi()->getPackagistModuleReleases($module, 1, $this->stable)
-              );
+              $versions
+                = $this
+                  ->getDrupalApi()
+                  ->getPackagistModuleReleases($module, 10, $this->stable);
+
+              if (!$versions)
+              {
+                $io->error(
+                  sprintf($this->trans(
+                    'commands.module.download.messages.no-releases'),
+                    $module
+                  )
+                );
+                return;
+              }
+              else{
+                $version
+                  = current(
+                    $this
+                      ->getDrupalApi()
+                      ->getPackagistModuleReleases($module, 1, $this->stable));
+              }
             }
 
             $this->setComposerRepositories($io);
