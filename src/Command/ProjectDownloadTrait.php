@@ -43,6 +43,30 @@ trait ProjectDownloadTrait
         return $moduleList;
     }
 
+    public function modulesUninstallQuestion(DrupalStyle $io)
+    {
+        $moduleList = [];
+        $modules = $this->getSite()->getModules(true, true, false, true, true, true);
+
+        while (true) {
+            $moduleName = $io->choiceNoList(
+                $this->trans('commands.module.uninstall.questions.module'),
+                $modules,
+                null,
+                true
+            );
+
+            if (empty($moduleName)) {
+                break;
+            }
+
+            $moduleList[] = $moduleName;
+
+        }
+
+        return $moduleList;
+    }
+
     private function downloadModules(DrupalStyle $io, $modules, $latest, $path, $resultList = [])
     {
         if (!$resultList) {
