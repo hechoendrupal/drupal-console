@@ -30,18 +30,6 @@ class EntityContentGenerator extends Generator
             'base_path' => $base_path,
         ];
 
-        if ($bundle_entity_type) {
-            $controller_class = $entity_class . 'AddController';
-            $this->renderFile(
-                'module/src/Controller/controller-add-page.php.twig',
-                $this->getSite()->getControllerPath($module).'/'.$controller_class .'.php',
-                $parameters + array(
-                    'class_name' => $controller_class,
-                    'services' => [],
-                )
-            );
-        }
-
         $this->renderFile(
             'module/permissions-entity-content.yml.twig',
             $this->getSite()->getModulePath($module).'/'.$module.'.permissions.yml',
