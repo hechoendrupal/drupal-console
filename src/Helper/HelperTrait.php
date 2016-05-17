@@ -34,12 +34,12 @@ trait HelperTrait
     }
 
     /**
-     * replace with service definition
+     * return value replaced with service definition.
      * to be removed once helpers are replaced by services.
      */
     public function getChain()
     {
-        return $this->getContainerHelper()->get('chain');
+        return $this->getContainerHelper()->get('chain_queue');
     }
 
     /**

@@ -1,0 +1,15 @@
+description: '建立一個 Drupal 專案'
+arguments:
+    directory: '輸入要存放 Drupal 目錄的地方'
+    version: '輸入要下載的 Drupal 版本'
+messages:
+    select-release: '選擇一個已經發布的 Drupal 版本'
+    getting-releases: '取得已經發布的 Drupal 版本中'
+    downloading: '正在下載 %s %s'
+    extracting: '解壓縮 Drupal 檔案 %s'
+    no-releases: '沒有任何已經發布的可用的 Drupal 版本'
+    downloaded: 'Drupal %s 正在下載至目錄 %s'
+    error-copying: '更改目錄名稱時發生錯誤 %s'
+questions:
+    directory: '輸入一個儲存 Drupal 目錄的名稱'
+

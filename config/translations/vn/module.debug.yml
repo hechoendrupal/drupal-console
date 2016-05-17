@@ -10,4 +10,5 @@ messages:
     package: Package
     enabled: Bật
     disabled: Tắt
+    version: Version
     schema-version: 'Phiên bản Schema'

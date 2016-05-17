@@ -36,7 +36,7 @@ class DrupalApiHelper extends Helper
     public function getCreateNodes()
     {
         $createNodes = new Nodes(
-            $this->getService('entity.manager'),
+            $this->getService('entity_type.manager'),
             $this->getService('date.formatter'),
             $this->getBundles()
         );
@@ -50,7 +50,7 @@ class DrupalApiHelper extends Helper
     public function getCreateComments()
     {
         $createComments = new Comments(
-            $this->getService('entity.manager'),
+            $this->getService('entity_type.manager'),
             $this->getService('date.formatter')
         );
 
@@ -63,7 +63,7 @@ class DrupalApiHelper extends Helper
     public function getCreateTerms()
     {
         $createTerms = new Terms(
-            $this->getService('entity.manager'),
+            $this->getService('entity_type.manager'),
             $this->getService('date.formatter'),
             $this->getVocabularies()
         );
@@ -77,7 +77,7 @@ class DrupalApiHelper extends Helper
     public function getCreateVocabularies()
     {
         $createVocabularies = new Vocabularies(
-            $this->getService('entity.manager'),
+            $this->getService('entity_type.manager'),
             $this->getService('date.formatter')
         );
 
@@ -90,7 +90,7 @@ class DrupalApiHelper extends Helper
     public function getCreateUsers()
     {
         $createUsers = new Users(
-            $this->getService('entity.manager'),
+            $this->getService('entity_type.manager'),
             $this->getService('date.formatter'),
             $this->getRoles()
         );
@@ -104,7 +104,7 @@ class DrupalApiHelper extends Helper
     public function getBundles()
     {
         if (!$this->bundles) {
-            $entityManager = $this->getService('entity.manager');
+            $entityManager = $this->getService('entity_type.manager');
             $nodeTypes = $entityManager->getStorage('node_type')->loadMultiple();
 
             foreach ($nodeTypes as $nodeType) {
@@ -124,7 +124,7 @@ class DrupalApiHelper extends Helper
     public function getRoles($reset=false, $authenticated=true, $anonymous=false)
     {
         if ($reset || !$this->roles) {
-            $entityManager = $this->getService('entity.manager');
+            $entityManager = $this->getService('entity_type.manager');
             $roles = $entityManager->getStorage('user_role')->loadMultiple();
             if (!$authenticated) {
                 unset($roles['authenticated']);
@@ -146,7 +146,7 @@ class DrupalApiHelper extends Helper
     public function getVocabularies()
     {
         if (!$this->vocabularies) {
-            $entityManager = $this->getService('entity.manager');
+            $entityManager = $this->getService('entity_type.manager');
             $vocabularies = $entityManager->getStorage('taxonomy_vocabulary')->loadMultiple();
 
             foreach ($vocabularies as $vocabulary) {

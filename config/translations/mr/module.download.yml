@@ -3,6 +3,9 @@ arguments:
     module: 'Module or modules to be enabled should be separated by a space'
 options:
     latest: 'Default to download most recent version'
+    path: 'The path of the contrib project'
+questions:
+    path: 'Enter the contrib project Path'
 messages:
     no-releases: 'There aren''t any releases for module %s'
     getting-releases: 'Getting releases for module %s'

@@ -10,12 +10,14 @@ namespace Drupal\Console\Command\Breakpoints;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command as BaseCommand;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Component\Serialization\Yaml;
 
-class DebugCommand extends ContainerAwareCommand
+class DebugCommand extends BaseCommand
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -59,9 +61,9 @@ class DebugCommand extends ContainerAwareCommand
 
     private function getAllBreakpoints()
     {
-        $breakpointsManager = $this->getService('breakpoint.manager');
+        $breakpointsManager = $this->getDrupalService('breakpoint.manager');
         $groups =  array_keys($breakpointsManager->getGroups());
-        
+
         return $groups;
     }
 
@@ -70,7 +72,7 @@ class DebugCommand extends ContainerAwareCommand
      */
     private function getBreakpointByName($group)
     {
-        $breakpointsManager = $this->getService('breakpoint.manager');
+        $breakpointsManager = $this->getDrupalService('breakpoint.manager');
         $typeExtension = implode(',', array_values($breakpointsManager->getGroupProviders($group)));
 
         if ($typeExtension == 'theme') {

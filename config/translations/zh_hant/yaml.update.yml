@@ -1,0 +1,16 @@
+value:
+    description: '更新 YAML 檔案中的指定鍵值。'
+    arguments:
+        yaml-file: '欲更新的 YAML 檔案路徑'
+        yaml-key: '欲更新的 YAML 鍵名'
+        yaml-value: '欲更新的 YAML 值'
+    messages:
+        updated: 'YAML 檔案 %s 更新成功。'
+key:
+    description: '取代 YAML 檔案中的鍵名。'
+    arguments:
+        yaml-file: '欲更新的 YAML 檔案路徑'
+        yaml-key: '欲取代的 YAML 鍵名'
+        yaml-new-key: '新鍵名'
+    messages:
+        updated: 'YAML 檔案 %s 更新成功。'

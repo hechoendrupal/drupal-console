@@ -32,6 +32,8 @@ errors:
     module-dependency: 'Отсутствует зависимость модуля, "%s" не установлен. Попробуйте module:install чтоб установить его.'
     class-name-empty: 'Имя класса не может быть пустым'
     invalid-file-path: 'Вы должны предоставить действительный путь к файлу'
+    module-exist: 'Module "%s" already exist.'
+    machine-name-duplicated: 'Machine name "%s" is duplicated.'
 status:
     enabled: Включено
     disabled: Выключено

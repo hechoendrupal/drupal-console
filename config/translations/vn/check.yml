@@ -1,0 +1,8 @@
+description: 'System requirement checker'
+messages:
+  php_invalid: 'The current installed version %s is invalid, it requires %s or higher'
+  configuration_missing: 'The configuration %s is missing.'
+  configuration_overwritten: 'The configuration %s was missing and overwritten with %s.'
+  extension_missing: 'The extension %s is missing.'
+  extension_recommended: 'The extension %s is recommended to install.'
+  success: 'Checks passed.'

@@ -1,14 +1,8 @@
 <?php
 /**
  * @file
+ *
  * Contains \Drupal\Console\Command\Site\NewCommand.
- *
- *
-  @TODO: colorized command output
-  @TODO: add a config option for sn & md *always* using --composer option in each site
-  (let's say in «my_site.prod» i want install & download all the modules using composer)
-  @TODO: patch to drupal modules support
- *
  *
  */
 
@@ -62,6 +56,13 @@ class NewCommand extends Command
                 '',
                 InputOption::VALUE_NONE,
                 $this->trans('commands.site.new.options.composer')
+            )
+            ->addOption(
+                'unstable',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.site.new.options.unstable')
+
             );
     }
 
@@ -146,9 +147,10 @@ class NewCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         $directory = $input->getArgument('directory');
-        $version = $input->getArgument('version');
-        $latest = $input->getOption('latest');
-        $composer = $input->getOption('composer');
+        $version   = $input->getArgument('version');
+        $latest    = $input->getOption('latest');
+        $unstable  = $input->getOption('unstable');
+        $composer  = $input->getOption('composer');
 
         if ($composer)
         {
@@ -192,7 +194,7 @@ class NewCommand extends Command
 
 
         if (!$version) {
-            $version = $this->releasesQuestion($io, 'drupal', false, true);
+            $version = $this->releasesQuestion($io, 'drupal', false, $unstable?false:true);
             $input->setArgument('version', $version);
         }
     }

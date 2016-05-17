@@ -32,6 +32,8 @@ errors:
     module-dependency: 'Missing module dependency "%s" is not installed. Try module:install to install it.'
     class-name-empty: 'The Class name can not be empty'
     invalid-file-path: 'You must provide a valid file path'
+    module-exist: 'Module "%s" already exist.'
+    machine-name-duplicated: 'Machine name "%s" is duplicated.'
 status:
     enabled: Enabled
     disabled: Disabled
