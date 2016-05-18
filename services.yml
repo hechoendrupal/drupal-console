@@ -111,4 +111,7 @@ services:
       class: Drupal\Console\Command\Config\DebugCommand
       tags:
         - { name: console.command }
-
+  cron_debug:
+      class: Drupal\Console\Command\Cron\DebugCommand
+      tags:
+        - { name: console.command }
