@@ -16,10 +16,9 @@ use Alchemy\Zippy\Zippy;
  */
 trait ProjectDownloadTrait
 {
+    protected $repoUrl = "https://packagist.drupal-composer.org";
 
-  protected $repoUrl = "https://packagist.drupal-composer.org";
-
-  public function modulesQuestion(DrupalStyle $io)
+    public function modulesQuestion(DrupalStyle $io)
     {
         $moduleList = [];
         $modules = $this->getSite()->getModules(true, false, true, true, true, true);
@@ -257,54 +256,45 @@ trait ProjectDownloadTrait
     /**
      * includes drupal packagist repository
      * in project composer.json
-     *
      */
 
     public function setComposerRepositories(DrupalStyle $io)
     {
-      $file = $this->getApplication()->getSite()->getSiteRoot() . "/composer.json";
-      $composer_obj = json_decode(file_get_contents($file));
+        $file = $this->getApplication()->getSite()->getSiteRoot() . "/composer.json";
+        $composer_obj = json_decode(file_get_contents($file));
 
-      if (!$this->repositoryAlreadySet($composer_obj))
-      {
-        $repositories_obj = (object) [[
-          'type' => "composer",
-          'url' => $this->repoUrl
-        ]];
+        if (!$this->repositoryAlreadySet($composer_obj)) {
+            $repositories_obj = (object) [[
+            'type' => "composer",
+            'url' => $this->repoUrl
+            ]];
 
-        //@TODO: check it doesn't exist already
-        $composer_obj->repositories
-          = $repositories_obj;
+            //@TODO: check it doesn't exist already
+            $composer_obj->repositories
+            = $repositories_obj;
 
-        unlink($file);
-        file_put_contents($file, json_encode($composer_obj, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT));
-      }
-
+            unlink($file);
+            file_put_contents($file, json_encode($composer_obj, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT));
+        }
     }
 
     /**
      * checks wether the drupal packagist repo is in composer.json
      * @param object $config
      * @return boolean
-     *
      */
     private function repositoryAlreadySet($config)
     {
-      if (!$config->repositories)
-      {
-        return false;
-      }
-      else {
-        foreach ((array) $config->repositories as $repository)
-        {
-          if ($this->repoUrl == $repository->url)
-          {
-            return true;
-          }
-          else {
+        if (!$config->repositories) {
             return false;
-          }
+        } else {
+            foreach ((array) $config->repositories as $repository) {
+                if ($this->repoUrl == $repository->url) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         }
-      }
     }
 }

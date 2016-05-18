@@ -8,6 +8,7 @@
 namespace Drupal\Console\Command;
 
 use Symfony\Component\Process\PhpProcess;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 /**
  * Class PHPProcessTrait
@@ -16,23 +17,22 @@ use Symfony\Component\Process\PhpProcess;
 trait PHPProcessTrait
 {
     /**
-     * @param string $cmd
+     * @param $command
+     * @return string
      *
-     * @return mixed
+     * @throws ProcessFailedException
      */
-    protected function ExecProcess($cmd)
+    protected function execProcess($command)
     {
-          $rootPath = $this->getDrupalHelper()->getRoot();
-          $php_script = exec( $cmd );
-          $phpProcess = new PhpProcess($php_script, $rootPath);
-          $phpProcess->run();
+        $rootPath = $this->getDrupalHelper()->getRoot();
+        $phpScript = exec($command);
+        $phpProcess = new PhpProcess($phpScript, $rootPath);
+        $phpProcess->run();
 
-          // executes after the command finishes
-          if (!$phpProcess->isSuccessful()) {
-              throw new ProcessFailedException($phpProcess);
-          }
+        if (!$phpProcess->isSuccessful()) {
+            throw new ProcessFailedException($phpProcess);
+        }
 
-          return $phpProcess->getOutput();
-
+        return $phpProcess->getOutput();
     }
 }
