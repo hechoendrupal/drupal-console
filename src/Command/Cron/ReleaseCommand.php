@@ -10,11 +10,13 @@ namespace Drupal\Console\Command\Cron;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command as BaseCommand;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class ReleaseCommand extends ContainerAwareCommand
+class ReleaseCommand extends BaseCommand
 {
+    use ContainerAwareCommandTrait;
     protected function configure()
     {
         $this
@@ -26,7 +28,7 @@ class ReleaseCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $lock = $this->getDatabaseLockBackend();
+        $lock = $this->getDrupalService('lock');
 
         try {
             $lock->release('cron');
@@ -36,6 +38,6 @@ class ReleaseCommand extends ContainerAwareCommand
             $io->error($e->getMessage());
         }
 
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->get('chain_queue')->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 }

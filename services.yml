@@ -119,3 +119,7 @@ services:
       class: Drupal\Console\Command\Cron\ExecuteCommand
       tags:
         - { name: console.command }
+  cron_release:
+      class: Drupal\Console\Command\Cron\ReleaseCommand
+      tags:
+        - { name: console.command }
