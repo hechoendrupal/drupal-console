@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\Config\ExportTrait.
+ * Contains Drupal\Console\Shared\ExportTrait.
  */
 
-namespace Drupal\Console\Command\Config;
+namespace Drupal\Console\Shared;
 
 use Symfony\Component\Yaml\Dumper;
 use \Symfony\Component\Yaml\Yaml;

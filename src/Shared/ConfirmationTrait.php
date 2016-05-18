@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\ConfirmationTrait.
+ * Contains Drupal\Console\Shared\ConfirmationTrait.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Shared;
 
 use Drupal\Console\Style\DrupalStyle;
 

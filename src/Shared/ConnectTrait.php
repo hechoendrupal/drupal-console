@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Database\ConnectTrait.
+ * Contains \Drupal\Console\Shared\ConnectTrait.
  */
 
-namespace Drupal\Console\Command\Database;
+namespace Drupal\Console\Shared;
 
 use Drupal\Console\Style\DrupalStyle;
 

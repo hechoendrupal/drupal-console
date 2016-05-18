@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\ServicesTrait.
+ * Contains Drupal\Console\Shared\TranslationTrait.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Shared;
 
 use Drupal\Console\Style\DrupalStyle;
 
