@@ -1,7 +1,9 @@
 <?php
 /**
  * @file
+ *
  * Contains \Drupal\Console\Command\Site\NewCommand.
+ *
  */
 
 namespace Drupal\Console\Command\Site;
@@ -57,6 +59,7 @@ class NewCommand extends Command
                 '',
                 InputOption::VALUE_NONE,
                 $this->trans('commands.site.new.options.unstable')
+
             );
     }
 
@@ -122,6 +125,22 @@ class NewCommand extends Command
             } else {
                 return 1;
             }
+        }
+
+        if ($composer && $version)
+        {
+          $cmd = "composer create-project drupal/drupal $directory $version --no-interaction";
+          if ( $this->ExecProcess($cmd) )
+          {
+            $io->success(
+              sprintf(
+                  $this->trans('commands.site.new.messages.composer'),
+                  $version
+              )
+            );
+
+            return 1;
+          }
         }
 
         $projectPath = $this->downloadProject($io, 'drupal', $version, 'core');

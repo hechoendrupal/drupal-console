@@ -19,6 +19,7 @@ trait ProjectDownloadTrait
     protected $repoUrl = "https://packagist.drupal-composer.org";
 
     public function modulesQuestion(DrupalStyle $io)
+
     {
         $moduleList = [];
         $modules = $this->getSite()->getModules(true, false, true, true, true, true);
