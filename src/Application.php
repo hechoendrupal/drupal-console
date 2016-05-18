@@ -205,7 +205,7 @@ class Application extends BaseApplication
         $uri = $input->getParameterOption(['--uri', '-l']);
 
         /*Checking if the URI has http of not in begenning*/
-        if($uri && !preg_match('^(http|https)://', $uri)){
+        if ($uri && !preg_match('^(http|https)://', $uri)) {
             $uri = sprintf(
                 'http://%s',
                 $uri
