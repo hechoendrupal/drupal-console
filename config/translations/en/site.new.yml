@@ -14,7 +14,7 @@ messages:
     no-releases: 'There aren''t any releases available for Drupal'
     downloaded: 'Drupal %s was downloaded in directory %s'
     error-copying: 'An error occurred while renaming directory as %s'
-    composer: 'Drupal %s was installed successfully with Composer'
+    composer: 'Drupal %s was installed successfully using Composer at %s'
 questions:
     directory: 'Enter the directory name where to install Drupal'
     composer-release: 'Please, choose a Packagist Drupal release'

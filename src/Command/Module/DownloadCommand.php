@@ -68,16 +68,15 @@ class DownloadCommand extends Command
             $input->setArgument('module', $module);
         }
 
-        if (!$composer)
-        {
-          $path = $input->getOption('path');
-          if (!$path) {
-              $path = $io->ask(
-                  $this->trans('commands.module.download.questions.path'),
-                  'modules/contrib'
-              );
-              $input->setOption('path', $path);
-          }
+        if (!$composer) {
+            $path = $input->getOption('path');
+            if (!$path) {
+                $path = $io->ask(
+                    $this->trans('commands.module.download.questions.path'),
+                    'modules/contrib'
+                );
+                $input->setOption('path', $path);
+            }
         }
     }
 
@@ -85,7 +84,6 @@ class DownloadCommand extends Command
      * {@inheritdoc}
      *
      * --latest option works but it's not recommended
-     *
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -96,88 +94,82 @@ class DownloadCommand extends Command
         $path = $input->getOption('path');
         $composer = $input->getOption('composer');
 
-        if ($composer)
-        {
-          foreach ($modules as $module)
-          {
-            $this->stable
-              = ('yes' != $io->ask(
-                $this->trans('commands.site.new.questions.stable'),
-                'yes'
-              ))?
-              false
-            : true
-            ;
+        if ($composer) {
+            foreach ($modules as $module) {
+                $this->stable
+                = ('yes' != $io->ask(
+                    $this->trans('commands.site.new.questions.stable'),
+                    'yes'
+                ))?
+                false
+                : true
+                ;
 
-            if (!$latest)
-            {
-              $versions
-                = $this
-                  ->getDrupalApi()
-                  ->getPackagistModuleReleases($module, 10, $this->stable);
+                if (!$latest) {
+                    $versions
+                    = $this
+                        ->getDrupalApi()
+                        ->getPackagistModuleReleases($module, 10, $this->stable);
 
-              if (!$versions)
-              {
-                $io->error(
-                  sprintf($this->trans(
-                    'commands.module.download.messages.no-releases'),
-                    $module
-                  )
-                );
-                return;
-              }
-              else{
-                $version
-                  = $io->choice(
-                    $this->trans('commands.site.new.questions.composer-release'),
-                    $versions);
-              }
+                    if (!$versions) {
+                        $io->error(
+                            sprintf(
+                                $this->trans(
+                                    'commands.module.download.messages.no-releases'
+                                ),
+                                $module
+                            )
+                        );
+                        return;
+                    } else {
+                        $version
+                        = $io->choice(
+                            $this->trans('commands.site.new.questions.composer-release'),
+                            $versions
+                        );
+                    }
+                } else {
+                    $versions
+                    = $this
+                        ->getDrupalApi()
+                        ->getPackagistModuleReleases($module, 10, $this->stable);
+
+                    if (!$versions) {
+                        $io->error(
+                            sprintf(
+                                $this->trans(
+                                    'commands.module.download.messages.no-releases'
+                                ),
+                                $module
+                            )
+                        );
+                        return;
+                    } else {
+                        $version
+                        = current(
+                            $this
+                                ->getDrupalApi()
+                                ->getPackagistModuleReleases($module, 1, $this->stable)
+                        );
+                    }
+                }
+
+                $this->setComposerRepositories($io);
+
+                $cmd = "cd " . $this->getApplication()->getSite()->getSiteRoot() . "; ";
+                $cmd .= 'composer require "drupal/' . $module .':' . $version . '"';
+
+                if ($this->execProcess($cmd)) {
+                    $io->success(
+                        sprintf(
+                            $this->trans('commands.module.install.messages.composer'),
+                            $version
+                        )
+                    );
+                }
             }
-            else{
-              $versions
-                = $this
-                  ->getDrupalApi()
-                  ->getPackagistModuleReleases($module, 10, $this->stable);
-
-              if (!$versions)
-              {
-                $io->error(
-                  sprintf($this->trans(
-                    'commands.module.download.messages.no-releases'),
-                    $module
-                  )
-                );
-                return;
-              }
-              else{
-                $version
-                  = current(
-                    $this
-                      ->getDrupalApi()
-                      ->getPackagistModuleReleases($module, 1, $this->stable));
-              }
-            }
-
-            $this->setComposerRepositories($io);
-
-            $cmd = "cd " . $this->getApplication()->getSite()->getSiteRoot() . "; ";
-            $cmd .= 'composer require "drupal/' . $module .':' . $version . '"';
-
-            if ( $this->ExecProcess($cmd) )
-            {
-                $io->success(
-                  sprintf(
-                      $this->trans('commands.module.install.messages.composer'),
-                      $version
-                  )
-                );
-            }
-          }
-
-        }else
-        {
-
-          $this->downloadModules($io, $modules, $latest, $path);
+        } else {
+            $this->downloadModules($io, $modules, $latest, $path);
         }
 
         return true;

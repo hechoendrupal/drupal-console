@@ -18,7 +18,6 @@ use Drupal\Console\Command\PHPProcessTrait;
 
 class UninstallCommand extends ContainerAwareCommand
 {
-
     use PHPProcessTrait;
     use ProjectDownloadTrait;
 
@@ -31,15 +30,15 @@ class UninstallCommand extends ContainerAwareCommand
             ->setName('module:uninstall')
             ->setDescription($this->trans('commands.module.uninstall.description'))
             ->addArgument(
-              'module',
-              InputArgument::IS_ARRAY,
-              $this->trans('commands.module.uninstall.questions.module')
+                'module',
+                InputArgument::IS_ARRAY,
+                $this->trans('commands.module.uninstall.questions.module')
             )
             ->addOption(
-              'force',
-              '',
-              InputOption::VALUE_NONE,
-              $this->trans('commands.module.uninstall.options.force')
+                'force',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.module.uninstall.options.force')
             )
             ->addOption(
                 'composer',
@@ -84,26 +83,22 @@ class UninstallCommand extends ContainerAwareCommand
 
         $module_list = array_combine($module, $module);
 
-        if ($composer)
-        {
-          //@TODO: check with Composer if the module is previously required in composer.json!
-          foreach ($module as $m)
-          {
+        if ($composer) {
+            //@TODO: check with Composer if the module is previously required in composer.json!
+            foreach ($module as $m) {
+                $cmd = "cd " . $this->getApplication()->getSite()->getSiteRoot() . "; ";
+                $cmd .= 'composer remove "drupal/' . $m . '"';
 
-            $cmd = "cd " . $this->getApplication()->getSite()->getSiteRoot() . "; ";
-            $cmd .= 'composer remove "drupal/' . $m . '"';
-
-            if ( $this->ExecProcess($cmd) )
-            {
-                $io->success(
-                  sprintf(
-                      $this->trans('commands.module.uninstall.messages.success'),
-                      $m
-                  )
-                );
+                if ($this->execProcess($cmd)) {
+                    $io->success(
+                        sprintf(
+                            $this->trans('commands.module.uninstall.messages.success'),
+                            $m
+                        )
+                    );
+                }
             }
-          }
-          return;
+            return;
         }
 
         // Determine if some module request is missing
