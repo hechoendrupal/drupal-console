@@ -69,12 +69,19 @@ class NewCommand extends Command
 
         $directory = $input->getArgument('directory');
         $version = $input->getArgument('version');
+        $latest = $input->getOption('latest');
         $composer = $input->getOption('composer');
 
         if (!$directory) {
             $io->error('Missing directory');
 
             return 1;
+        }
+
+        if (!$version && $latest) {
+            $version = current(
+                $this->getDrupalApi()->getProjectReleases('drupal', 1, true)
+            );
         }
 
         if (!$version) {
