@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\Views;
 
-use Herrera\Json\Exception\Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -40,6 +39,26 @@ class DisableCommand extends BaseCommand
     /**
      * {@inheritdoc}
      */
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        $io = new DrupalStyle($input, $output);
+        $viewId = $input->getArgument('view-id');
+        if (!$viewId) {
+            $views = $this->getDrupalService('entity.query')
+                ->get('view')
+                ->condition('status', 1)
+                ->execute();
+            $viewId = $io->choiceNoList(
+                $this->trans('commands.views.debug.arguments.view-id'),
+                $views
+            );
+            $input->setArgument('view-id', $viewId);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
@@ -58,8 +77,8 @@ class DisableCommand extends BaseCommand
         try {
             $view->disable()->save();
 
-            $io->info(sprintf($this->trans('commands.views.disable.messages.disabled-successfully'), $view->get('label')));
-        } catch (Exception $e) {
+            $io->success(sprintf($this->trans('commands.views.disable.messages.disabled-successfully'), $view->get('label')));
+        } catch (\Exception $e) {
             $io->error($e->getMessage());
         }
     }
