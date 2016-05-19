@@ -1,34 +1,34 @@
 options:
-    env: 'The Environment name'
-    no-debug: 'Switches off debug mode'
+    env: 'Ang pangalan ng environment'
+    no-debug: 'Pag switch off ng debug mode'
     learning: 'Generate a verbose code output'
-    generate-chain: 'Shows command options and arguments as yaml output to be used in chain command'
-    generate-inline: 'Shows command options and arguments as inline command'
+    generate-chain: 'Ay nagpapakita sa options at argumento sa yaml output upang gamitin sa mga tanikalang utos'
+    generate-inline: 'Ay nagpapakita sa options at argumento bilang inline command'
     generate-doc: 'Shows command options and arguments as markdown'
-    root: 'Define the Drupal root to be used in command execution'
-    uri: 'URI of the Drupal site to use (for multi-site environments or when running on an alternate port)'
-    'yes': 'Skip confirmation and proceed'
-    target: 'Site name you want to interact with (for local or remote sites)'
-    help: 'Display this help message'
-    quiet: 'Do not output any message'
-    verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
+    root: 'tukuyin ang Drupal root na gagamitin para patakbuhin ang isang utos'
+    uri: 'URI ng isang Drupal site na gagamitin (para sa multi-site ng kaligiran)'
+    'yes': 'Laktawan ang kompirmasyon at tumungo sa kabila'
+    target: 'Pangalan ng website na gusto mong kainteract'
+    help: 'Ipakita ang mensahe ng pagtulong'
+    quiet: 'Huwag ipakit ang anumang mensage'
+    verbose: 'Taasan ang verbosity ng mga mensahe: 1 for normal output, 2 for more verbose output and 3 for debug'
     version: 'Display this application version'
     ansi: 'Force ANSI output'
-    no-ansi: 'Disable ANSI output'
-    no-interaction: 'Do not ask any interactive question'
-    check-fix: 'Attempt to fix any missing configuration.'
+    no-ansi: 'I-disable ang ANSI output'
+    no-interaction: 'Wag magtanong ng anumang interactive'
+    check-fix: 'Subukang ayusin and anumang nawawalng konpigyurasyon.'
 arguments:
-    command: 'The command to execute'
+    command: 'Ang utos na patakbuhin'
 messages:
-    completed: 'The command was executed successfully!'
+    completed: 'Ang utos as naisakatuparan ng maayos'
     chain:
         generated: 'Yaml representation of this command, usage copy in i.e. `~/.console/chain/sample.yml` to execute using `chain` command, make sure your yaml file start with a `commands` root key:'
     inline:
         generated: 'Inline representation of this command:'
-    generated: 'You can now start using the generated code!'
+    generated: 'Maari mo ng umpisahan ang nagenerate ng code!'
     files:
         generated: 'Generated or updated files'
-        copied: 'Copied files'
+        copied: 'Pagkopya ng files'
     learning:
         route: "In order to to create pages it is necessary to define routes for them.\nA route maps a URL path to a controller. It defines with what function\nor method will be called when a URL is accessed.\nIf the user accesses http://drupal8.dev/{{ route.path }}, the routing\nsystem will look for a route with that path. In this case it will find a\nmatch, and execute the _controller callback. In this case the callback is\ndefined as a classname\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nand a method (\"{{ route.method }}\")."
     autocomplete: "Bash atau Zsh: Tambahkan baris ini di file konfigurasi shell kamu:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Buat link simbolik\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
@@ -39,8 +39,8 @@ site:
     messages:
         path: 'Site path'
     errors:
-        directory: 'In order to list all of the available commands, you should run this inside a drupal root directory.'
-        settings: 'In order to list all of the available commands you should install drupal first.'
+        directory: 'Para makita ang listahan ng mga bagong commands, eto patakbuhin sa loob ng drupal root directory.'
+        settings: 'Para makita ang listahan ng mga bagong commands, install mo muna iyong drupal site.'
 user:
     messages:
         path: 'User home path'
