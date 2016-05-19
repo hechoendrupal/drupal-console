@@ -120,20 +120,6 @@ class NewCommand extends Command
             }
         }
 
-        if ($composer && $version) {
-          $cmd = "composer create-project drupal/drupal $directory $version --no-interaction";
-          if ( $this->ExecProcess($cmd) ) {
-            $io->success(
-              sprintf(
-                  $this->trans('commands.site.new.messages.composer'),
-                  $version
-              )
-            );
-
-            return 1;
-          }
-        }
-
         if (!$version && $latest) {
             $version = current(
                 $this->getDrupalApi()->getProjectReleases('drupal', 1, true)
