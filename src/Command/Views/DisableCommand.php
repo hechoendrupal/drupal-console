@@ -10,7 +10,7 @@ namespace Drupal\Console\Command\Views;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command as BaseCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -18,7 +18,7 @@ use Drupal\Console\Style\DrupalStyle;
  * Class DisableCommand
  * @package Drupal\Console\Command\Views
  */
-class DisableCommand extends BaseCommand
+class DisableCommand extends Command
 {
     use ContainerAwareCommandTrait;
     /**
