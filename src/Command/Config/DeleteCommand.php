@@ -14,16 +14,14 @@ use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Yaml\Exception\RuntimeException;
 
-class DeleteCommand extends ContainerAwareCommand
-{
+class DeleteCommand extends ContainerAwareCommand {
     protected $allConfig = [];
-    protected $configFactory = null;
+    protected $configFactory = NULL;
 
     /**
-   * {@inheritdoc}
-   */
-    protected function configure()
-    {
+     * {@inheritdoc}
+     */
+    protected function configure() {
         $this
             ->setName('config:delete')
             ->setDescription($this->trans('commands.config.delete.description'))
@@ -32,15 +30,14 @@ class DeleteCommand extends ContainerAwareCommand
     }
 
     /**
-   * {@inheritdoc}
-   */
-    protected function interact(InputInterface $input, OutputInterface $output)
-    {
+     * {@inheritdoc}
+     */
+    protected function interact(InputInterface $input, OutputInterface $output) {
         // Init Drupal style and retrieve name argument.
         $io = new DrupalStyle($input, $output);
         // Check config type is not missing.
         $type = $input->getArgument('type');
-        if (!$type) {
+        if(!$type) {
             // Define choice list to configuration type.
             $type = $io->choiceNoList(
                 $this->trans('commands.config.delete.arguments.type'),
@@ -64,15 +61,14 @@ class DeleteCommand extends ContainerAwareCommand
     }
 
     /**
-   * {@inheritdoc}
-   */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output) {
         // Init Drupal style and retrieve name argument.
         $io = new DrupalStyle($input, $output);
         // Check config type is not missing.
         $type = $input->getArgument('type');
-        if (!$type) {
+        if(!$type) {
             $io->error($this->trans('commands.config.delete.errors.type'));
             return 1;
         }
@@ -86,9 +82,9 @@ class DeleteCommand extends ContainerAwareCommand
 
         // Define Configuration Storage.
         $configStorage = ('active' === $type) ?
-        $this->getService('config.storage') :
-        \Drupal::service('config.storage.sync');
-        if (!$configStorage) {
+            $this->getService('config.storage') :
+            \Drupal::service('config.storage.sync');
+        if(!$configStorage) {
             $io->error($this->trans('commands.config.delete.errors.config-storage'));
             return 1;
         }
@@ -104,7 +100,8 @@ class DeleteCommand extends ContainerAwareCommand
                 if ($configStorage instanceof FileStorage) {
                     // Delete YAML file.
                     $configStorage->deleteAll();
-                } else {
+                }
+                else{
                     // Remove all configuration.
                     foreach ($this->yieldAllConfig() as $name) {
                         $this->removeConfig($name);
@@ -121,7 +118,8 @@ class DeleteCommand extends ContainerAwareCommand
             if ($configStorage instanceof FileStorage) {
                 // Delete YAML file.
                 $configStorage->delete($name);
-            } else {
+            }
+            else{
                 // Remove given configuration.
                 $this->removeConfig($name);
             }
@@ -129,7 +127,8 @@ class DeleteCommand extends ContainerAwareCommand
             // Define and print successful message.
             $message = sprintf($this->trans('commands.config.delete.messages.deleted'), $name);
             $io->success($message);
-        } else {
+        }
+        else {
             // Otherwise, shows up error because config name does not exist.
             $message = sprintf($this->trans('commands.config.delete.errors.not-exists'), $name);
             $io->error($message);
@@ -138,25 +137,23 @@ class DeleteCommand extends ContainerAwareCommand
     }
 
     /**
-   * Retrieve config factory property.
-   *
-   * @return \Drupal\Core\Config\ConfigFactoryInterface|null
-   */
-    private function configFactory()
-    {
+     * Retrieve config factory property.
+     *
+     * @return \Drupal\Core\Config\ConfigFactoryInterface|null
+     */
+    private function configFactory() {
         // Define config factory from service if it does not exist.
         $this->configFactory = $this->configFactory ?: $this->getConfigFactory();
         return $this->configFactory;
     }
 
     /**
-   * Retrieve configuration names form cache or service factory.
-   *
-   * @return array
-   *   All configuration names.
-   */
-    private function getAllConfigNames()
-    {
+     * Retrieve configuration names form cache or service factory.
+     *
+     * @return array
+     *   All configuration names.
+     */
+    private function getAllConfigNames() {
         // If configuration names exist, then return them.
         if (!empty($this->allConfig)) {
             return $this->allConfig;
@@ -171,13 +168,12 @@ class DeleteCommand extends ContainerAwareCommand
     }
 
     /**
-   * Yield configuration names.
-   *
-   * @return \Generator
-   *   Yield generator with config name.
-   */
-    private function yieldAllConfig()
-    {
+     * Yield configuration names.
+     *
+     * @return \Generator
+     *   Yield generator with config name.
+     */
+    private function yieldAllConfig() {
         // Be sure $allConfig property already exists.
         $this->allConfig = $this->allConfig ?: $this->getAllConfigNames();
         // Walk trough all config names and yield them.
@@ -187,12 +183,11 @@ class DeleteCommand extends ContainerAwareCommand
     }
 
     /**
-   * Delete given config name.
-   *
-   * @param String $name Given config name.
-   */
-    private function removeConfig($name)
-    {
+     * Delete given config name.
+     *
+     * @param String $name Given config name.
+     */
+    private function removeConfig($name) {
         try {
             // Retrieve config factory and delete given configuration.
             $this->configFactory()->getEditable($name)->delete();
