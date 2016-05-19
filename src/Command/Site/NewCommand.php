@@ -2,6 +2,7 @@
 /**
  * @file
  * Contains \Drupal\Console\Command\Site\NewCommand.
+ *
  */
 
 namespace Drupal\Console\Command\Site;
@@ -57,6 +58,7 @@ class NewCommand extends Command
                 '',
                 InputOption::VALUE_NONE,
                 $this->trans('commands.site.new.options.unstable')
+
             );
     }
 

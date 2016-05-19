@@ -19,6 +19,7 @@ trait ProjectDownloadTrait
     protected $repoUrl = "https://packagist.drupal-composer.org";
 
     public function modulesQuestion(DrupalStyle $io)
+
     {
         $moduleList = [];
         $modules = $this->getSite()->getModules(true, false, true, true, true, true);
@@ -40,6 +41,30 @@ trait ProjectDownloadTrait
             if (array_search($moduleName, $moduleList, true) >= 0) {
                 unset($modules[array_search($moduleName, $modules)]);
             }
+        }
+
+        return $moduleList;
+    }
+
+    public function modulesUninstallQuestion(DrupalStyle $io)
+    {
+        $moduleList = [];
+        $modules = $this->getSite()->getModules(true, true, false, true, true, true);
+
+        while (true) {
+            $moduleName = $io->choiceNoList(
+                $this->trans('commands.module.uninstall.questions.module'),
+                $modules,
+                null,
+                true
+            );
+
+            if (empty($moduleName)) {
+                break;
+            }
+
+            $moduleList[] = $moduleName;
+
         }
 
         return $moduleList;

@@ -20,6 +20,7 @@ use Drupal\Console\Utils\Create\Users;
  */
 class DrupalApiHelper extends Helper
 {
+
     /* @var array */
     protected $bundles = [];
 

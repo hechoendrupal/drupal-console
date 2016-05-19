@@ -1,6 +1,6 @@
 description: 'Uninstall module or modules in the application'
 questions:
-    module: 'Enter module name'
+    module: 'Module name (press <return> to stop adding modules)'
     invalid-module: 'Invalid module %s'
 options:
     module: 'Module or modules to be uninstalled should be separated by a space'
