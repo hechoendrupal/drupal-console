@@ -22,7 +22,6 @@ class CallCommandListener implements EventSubscriberInterface
      */
     public function callCommands(ConsoleTerminateEvent $event)
     {
-        //        /* @var Command $command */
         $command = $event->getCommand();
         /* @var DrupalStyle $io */
         $io = $event->getOutput();
@@ -52,6 +51,7 @@ class CallCommandListener implements EventSubscriberInterface
             $callCommand->run($input, $io);
 
             $drupal = $application->getContainer()->get('site');
+
             if ($chainedCommand['name'] === 'site:new') {
                 if ($chainedCommand['inputs']['directory']) {
                     $siteRoot = sprintf(
@@ -62,6 +62,7 @@ class CallCommandListener implements EventSubscriberInterface
                 }
                 $drupal->isValidRoot(getcwd());
                 $drupal->getAutoLoadClass();
+
                 $application->prepare($drupal);
             }
 

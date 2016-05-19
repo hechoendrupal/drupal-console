@@ -12,10 +12,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Command\ProjectDownloadTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\PHPProcessTrait;
 
 class UninstallCommand extends ContainerAwareCommand
 {
+    use PHPProcessTrait;
+    use ProjectDownloadTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -24,8 +29,23 @@ class UninstallCommand extends ContainerAwareCommand
         $this
             ->setName('module:uninstall')
             ->setDescription($this->trans('commands.module.uninstall.description'))
-            ->addArgument('module', InputArgument::REQUIRED, $this->trans('commands.module.uninstall.questions.module'))
-            ->addOption('force', '', InputOption::VALUE_NONE, $this->trans('commands.module.uninstall.options.force'));
+            ->addArgument(
+                'module',
+                InputArgument::IS_ARRAY,
+                $this->trans('commands.module.uninstall.questions.module')
+            )
+            ->addOption(
+                'force',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.module.uninstall.options.force')
+            )
+            ->addOption(
+                'composer',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.module.uninstall.options.composer')
+            );
     }
     /**
      * {@inheritdoc}
@@ -34,14 +54,11 @@ class UninstallCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
         $module = $input->getArgument('module');
+        $composer = $input->getOption('composer');
         $modules = $this->getSite()->getModules(true, true, false, true, true, true);
 
         if (!$module) {
-            $module = $io->choiceNoList(
-                $this->trans('commands.module.uninstall.questions.module'),
-                $modules,
-                true
-            );
+            $module = $this->modulesUninstallQuestion($io);
             $input->setArgument('module', $module);
         }
     }
@@ -51,6 +68,7 @@ class UninstallCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io =  new DrupalStyle($input, $output);
+        $composer = $input->getOption('composer');
 
         $this->getDrupalHelper()->loadLegacyFile('/core/modules/system/system.module');
 
@@ -63,9 +81,25 @@ class UninstallCommand extends ContainerAwareCommand
 
         $module = $input->getArgument('module');
 
-        $modules = array_filter(array_map('trim', explode(',', $module)));
+        $module_list = array_combine($module, $module);
 
-        $module_list = array_combine($modules, $modules);
+        if ($composer) {
+            //@TODO: check with Composer if the module is previously required in composer.json!
+            foreach ($module as $m) {
+                $cmd = "cd " . $this->getApplication()->getSite()->getSiteRoot() . "; ";
+                $cmd .= 'composer remove "drupal/' . $m . '"';
+
+                if ($this->execProcess($cmd)) {
+                    $io->success(
+                        sprintf(
+                            $this->trans('commands.module.uninstall.messages.success'),
+                            $m
+                        )
+                    );
+                }
+            }
+            return;
+        }
 
         // Determine if some module request is missing
         if ($missing_modules = array_diff_key($module_list, $module_data)) {
@@ -124,7 +158,7 @@ class UninstallCommand extends ContainerAwareCommand
             $io->info(
                 sprintf(
                     $this->trans('commands.module.uninstall.messages.success'),
-                    implode(', ', $modules)
+                    implode(', ', $module_list)
                 )
             );
         } catch (\Exception $e) {

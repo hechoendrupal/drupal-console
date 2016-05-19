@@ -1,9 +1,9 @@
-description: 'Display current views plugins for the application'
+description: '顯示目前網站應用的 Views 外掛'
 arguments:
-    type: 'Filter views plugins by type'
+    type: '依類型篩選 Views 外掛'
 messages:
-  type: 'Type'
-  name: 'Name'
-  provider: 'Provider'
+  type: '類型'
+  name: '名稱'
+  provider: '提供者'
   views: 'Views'
 

@@ -27,7 +27,7 @@ class {{ entity_class }}AccessControlHandler extends EntityAccessControlHandler 
    * {@inheritdoc}
    */
   protected function checkAccess(EntityInterface $entity, $operation, AccountInterface $account) {
-    /** @var \Drupal\{{ module }}\{{ entity_class }}Interface $entity */
+    /** @var \Drupal\{{ module }}\Entity\{{ entity_class }}Interface $entity */
     switch ($operation) {
       case 'view':
         if (!$entity->isPublished()) {

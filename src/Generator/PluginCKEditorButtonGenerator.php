@@ -18,7 +18,7 @@ class PluginCKEditorButtonGenerator extends Generator
      * @param string $plugin_id   Plugin id
      * @param string $button_name Button name
      */
-    public function generate($module, $class_name, $label, $plugin_id, $button_name)
+    public function generate($module, $class_name, $label, $plugin_id, $button_name, $button_icon_path)
     {
         $parameters = [
             'module' => $module,
@@ -26,6 +26,7 @@ class PluginCKEditorButtonGenerator extends Generator
             'label' => $label,
             'plugin_id' => $plugin_id,
             'button_name' => $button_name,
+            'button_icon_path' => $button_icon_path,
         ];
 
         $this->renderFile(

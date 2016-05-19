@@ -8,6 +8,7 @@
 namespace Drupal\Console\Utils\Create;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
 
 /**
@@ -19,14 +20,20 @@ class Comments extends Base
     /**
      * Comments constructor.
      *
-     * @param EntityTypeManagerInterface $entityTypeManager
-     * @param DateFormatterInterface     $dateFormatter
+     * @param EntityTypeManagerInterface  $entityTypeManager
+     * @param EntityFieldManagerInterface $entityFieldManager
+     * @param DateFormatterInterface      $dateFormatter
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
+        EntityFieldManagerInterface $entityFieldManager,
         DateFormatterInterface $dateFormatter
     ) {
-        parent::__construct($entityTypeManager, $dateFormatter);
+        parent::__construct(
+            $entityTypeManager,
+            $entityFieldManager,
+            $dateFormatter
+        );
     }
 
     /**

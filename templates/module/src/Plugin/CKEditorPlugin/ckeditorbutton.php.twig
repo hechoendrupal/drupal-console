@@ -39,11 +39,10 @@ class {{ class_name }} extends CKEditorPluginBase {% endblock %}
   public function getButtons() {
     // Make sure that the path to the image matches the file structure of
     // the CKEditor plugin you are implementing.
-    $path = drupal_get_path('module', '{{ module }}') . '/js/plugins/{{ plugin_id }}';
     return array(
       '{{ button_name }}' => array(
         'label' => t('{{ label }}'),
-        'image' => $path . '/images/icon.png',
+        'image' => '{{ button_icon_path }}',
       ),
     );
   }
