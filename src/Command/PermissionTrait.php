@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\Console\Shared\PermissionsTrait.
+ * Contains Drupal\Console\Command\PermissionsTrait.
  */
 
-namespace Drupal\Console\Shared;
+namespace Drupal\Console\Command;
 
 use Drupal\Console\Style\DrupalStyle;
 

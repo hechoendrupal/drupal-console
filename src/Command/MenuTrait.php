@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\Console\Shared\MenuTrait.
+ * Contains Drupal\Console\Command\MenuTrait.
  */
 
-namespace Drupal\Console\Shared;
+namespace Drupal\Console\Command;
 
 use Drupal\Console\Style\DrupalStyle;
 

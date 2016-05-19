@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Command\Command as BaseCommand;
 use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Shared\ChainFilesTrait;
+use Drupal\Console\Command\ChainFilesTrait;
 
 /**
  * Class ChainDebugCommand

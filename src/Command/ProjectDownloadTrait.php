@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\Console\Shared\ProjectDownloadTrait.
+ * Contains Drupal\Console\Command\ProjectDownloadTrait.
  */
 
-namespace Drupal\Console\Shared;
+namespace Drupal\Console\Command;
 
 use Drupal\Console\Style\DrupalStyle;
 use Alchemy\Zippy\Zippy;

@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\Console\Shared\ThemeBreakpointTrait.
+ * Contains Drupal\Console\Command\ThemeBreakpointTrait.
  */
 
-namespace Drupal\Console\Shared;
+namespace Drupal\Console\Command;
 
 use Drupal\Console\Style\DrupalStyle;
 

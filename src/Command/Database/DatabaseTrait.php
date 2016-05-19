@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Shared\DatabaseTrait.
+ * Contains \Drupal\Console\Command\Database\DatabaseTrait.
  */
 
-namespace Drupal\Console\Shared;
+namespace Drupal\Console\Command\Database;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Drupal\Core\Database\Connection;
