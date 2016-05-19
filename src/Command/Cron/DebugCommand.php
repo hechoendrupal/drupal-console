@@ -9,11 +9,11 @@ namespace Drupal\Console\Command\Cron;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command as BaseCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class DebugCommand extends BaseCommand
+class DebugCommand extends Command
 {
     use ContainerAwareCommandTrait;
     protected function configure()
