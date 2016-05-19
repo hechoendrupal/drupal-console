@@ -200,8 +200,8 @@ class EntityContentGenerator extends Generator
         if ($this->isLearning()) {
             $this->io->commentBlock(
                 [
-                'Add this to your hook_theme:',
-                $content
+                    'Add this to your hook_theme:',
+                    $content
                 ]
             );
         }
