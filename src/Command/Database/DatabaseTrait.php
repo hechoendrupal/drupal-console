@@ -136,7 +136,7 @@ trait DatabaseTrait
      */
     protected function getDatabaseTypes()
     {
-        $drupal = $this->getDrupalHelper();
+        $drupal = $this->get('site');
 
         return $drupal->getDatabaseTypes();
     }

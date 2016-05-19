@@ -56,6 +56,12 @@ class PluginCKEditorButtonCommand extends GeneratorCommand
                 '',
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.plugin.ckeditorbutton.options.button-name')
+            )
+            ->addOption(
+                'button-icon-path',
+                '',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.generate.plugin.ckeditorbutton.options.button-icon-path')
             );
     }
 
@@ -76,10 +82,11 @@ class PluginCKEditorButtonCommand extends GeneratorCommand
         $label = $input->getOption('label');
         $plugin_id = $input->getOption('plugin-id');
         $button_name = $input->getOption('button-name');
+        $button_icon_path = $input->getOption('button-icon-path');
 
         $this
             ->getGenerator()
-            ->generate($module, $class_name, $label, $plugin_id, $button_name);
+            ->generate($module, $class_name, $label, $plugin_id, $button_name, $button_icon_path);
 
         $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery'], false);
     }
@@ -134,6 +141,16 @@ class PluginCKEditorButtonCommand extends GeneratorCommand
                 $this->getStringHelper()->anyCaseToUcFirst($plugin_id)
             );
             $input->setOption('button-name', $button_name);
+        }
+
+        // --button-icon-path option
+        $button_icon_path = $input->getOption('button-icon-path');
+        if (!$button_icon_path) {
+            $button_icon_path = $io->ask(
+                $this->trans('commands.generate.plugin.ckeditorbutton.questions.button-icon-path'),
+                drupal_get_path('module', $module) . '/js/plugins/' . $plugin_id . '/images/icon.png'
+            );
+            $input->setOption('button-icon-path', $button_icon_path);
         }
     }
 

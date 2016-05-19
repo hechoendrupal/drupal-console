@@ -1,7 +1,6 @@
 <?php
 /**
  * @file
- *
  * Contains \Drupal\Console\Command\Site\NewCommand.
  *
  */
@@ -76,32 +75,26 @@ class NewCommand extends Command
         $composer = $input->getOption('composer');
 
         if (!$directory) {
-            $io->error('Missing directory');
-
-            return 1;
-        }
-
-        if (!$version && $latest) {
-            $version = current(
-                $this->getDrupalApi()->getProjectReleases('drupal', 1, true)
+            $io->error(
+                $this->trans('commands.site.new.messages.missing-directory')
             );
-        }
-
-        if (!$version) {
-            $io->error('Missing version');
 
             return 1;
         }
 
         if ($composer) {
+            if (!$version) {
+                $version = '8.x-dev';
+            }
+
+            $io->newLine();
             $io->comment(
                 sprintf(
-                    $this->trans('commands.site.new.messages.downloading'),
+                    $this->trans('commands.site.new.messages.executing'),
                     'drupal',
                     $version
                 )
             );
-            $io->newLine();
 
             $command = sprintf(
                 'composer create-project %s:%s %s --no-interaction',
@@ -127,11 +120,9 @@ class NewCommand extends Command
             }
         }
 
-        if ($composer && $version)
-        {
+        if ($composer && $version) {
           $cmd = "composer create-project drupal/drupal $directory $version --no-interaction";
-          if ( $this->ExecProcess($cmd) )
-          {
+          if ( $this->ExecProcess($cmd) ) {
             $io->success(
               sprintf(
                   $this->trans('commands.site.new.messages.composer'),
@@ -141,6 +132,18 @@ class NewCommand extends Command
 
             return 1;
           }
+        }
+
+        if (!$version && $latest) {
+            $version = current(
+                $this->getDrupalApi()->getProjectReleases('drupal', 1, true)
+            );
+        }
+
+        if (!$version) {
+            $io->error('Missing version');
+
+            return 1;
         }
 
         $projectPath = $this->downloadProject($io, 'drupal', $version, 'core');

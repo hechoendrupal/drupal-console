@@ -471,8 +471,7 @@ abstract class ContainerAwareCommand extends Command
     {
         $machine_name = $this->getValidator()->validateMachineName($machine_name);
 
-
-        if ($this->getEntityManager()->hasDefinition($machine_name)) {
+        if ($this->getService('entity.manager')->hasDefinition($machine_name)) {
             throw new \InvalidArgumentException(sprintf('commands.common.errors.machine-name-duplicated', $machine_name));
         }
 

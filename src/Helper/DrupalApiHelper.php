@@ -37,6 +37,7 @@ class DrupalApiHelper extends Helper
     {
         $createNodes = new Nodes(
             $this->getService('entity_type.manager'),
+            $this->getService('entity_field.manager'),
             $this->getService('date.formatter'),
             $this->getBundles()
         );
@@ -51,6 +52,7 @@ class DrupalApiHelper extends Helper
     {
         $createComments = new Comments(
             $this->getService('entity_type.manager'),
+            $this->getService('entity_field.manager'),
             $this->getService('date.formatter')
         );
 
@@ -64,6 +66,7 @@ class DrupalApiHelper extends Helper
     {
         $createTerms = new Terms(
             $this->getService('entity_type.manager'),
+            $this->getService('entity_field.manager'),
             $this->getService('date.formatter'),
             $this->getVocabularies()
         );
@@ -78,6 +81,7 @@ class DrupalApiHelper extends Helper
     {
         $createVocabularies = new Vocabularies(
             $this->getService('entity_type.manager'),
+            $this->getService('entity_field.manager'),
             $this->getService('date.formatter')
         );
 
@@ -91,6 +95,7 @@ class DrupalApiHelper extends Helper
     {
         $createUsers = new Users(
             $this->getService('entity_type.manager'),
+            $this->getService('entity_field.manager'),
             $this->getService('date.formatter'),
             $this->getRoles()
         );
