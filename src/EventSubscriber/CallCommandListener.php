@@ -22,7 +22,6 @@ class CallCommandListener implements EventSubscriberInterface
      */
     public function callCommands(ConsoleTerminateEvent $event)
     {
-        //        /* @var Command $command */
         $command = $event->getCommand();
         /* @var DrupalStyle $io */
         $io = $event->getOutput();
@@ -63,12 +62,6 @@ class CallCommandListener implements EventSubscriberInterface
                 }
                 $drupal->isValidRoot(getcwd());
                 $drupal->getAutoLoadClass();
-
-                /* temporary fix to update $drupalHelper */
-                $drupalHelper = $application->getDrupalHelper();
-                $drupalHelper->isValidRoot(getcwd());
-                $drupalHelper->getAutoLoadClass();
-                /* temporary fix to update $drupalHelper */
 
                 $application->prepare($drupal);
             }

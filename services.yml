@@ -123,3 +123,7 @@ services:
       class: Drupal\Console\Command\Cron\ReleaseCommand
       tags:
         - { name: console.command }
+  site_install:
+      class: Drupal\Console\Command\Site\InstallCommand
+      tags:
+        - { name: console.command }
