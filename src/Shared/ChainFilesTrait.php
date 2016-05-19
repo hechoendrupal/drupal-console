@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\ChainFilesTrait.
+ * Contains Drupal\Console\Shared\ChainFilesTrait.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Shared;
 
 use Symfony\Component\Finder\Finder;
 

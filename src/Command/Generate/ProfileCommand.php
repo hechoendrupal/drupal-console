@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
-use Drupal\Console\Command\ConfirmationTrait;
+use Drupal\Console\Shared\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
 use Drupal\Console\Generator\ProfileGenerator;
 use Symfony\Component\Console\Input\InputInterface;

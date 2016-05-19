@@ -7,13 +7,14 @@
 
 namespace Drupal\Console\Command\Config;
 
-use Drupal\Console\Command\ModuleTrait;
+use Drupal\Console\Shared\ModuleTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Shared\ExportTrait;
 
 class ExportContentTypeCommand extends ContainerAwareCommand
 {
@@ -57,7 +58,7 @@ class ExportContentTypeCommand extends ContainerAwareCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Shared\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($io);
         }
         $input->setOption('module', $module);

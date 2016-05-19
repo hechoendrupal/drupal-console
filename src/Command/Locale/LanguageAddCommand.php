@@ -13,6 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Shared\LocaleTrait;
 
 class LanguageAddCommand extends ContainerAwareCommand
 {

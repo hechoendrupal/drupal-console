@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\PHPProcessTrait.
+ * Contains Drupal\Console\Command\Shared\PHPProcessTrait.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Shared;
 
 use Symfony\Component\Process\PhpProcess;
 use Symfony\Component\Process\Exception\ProcessFailedException;

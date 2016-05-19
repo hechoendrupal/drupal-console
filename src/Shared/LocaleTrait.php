@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Database\ConnectTrait.
+ * Contains \Drupal\Console\Shared\ConnectTrait.
  */
 
-namespace Drupal\Console\Command\Locale;
+namespace Drupal\Console\Shared;
 
 trait LocaleTrait
 {
