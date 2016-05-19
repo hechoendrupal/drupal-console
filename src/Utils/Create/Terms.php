@@ -9,6 +9,7 @@ namespace Drupal\Console\Utils\Create;
 
 use Drupal\Console\Utils\Create\Base;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Language\LanguageInterface;
 
@@ -24,17 +25,23 @@ class Terms extends Base
     /**
      * Terms constructor.
      *
-     * @param EntityTypeManagerInterface $entityTypeManager
-     * @param DateFormatterInterface     $dateFormatter
-     * @param array                      $vocabularies
+     * @param EntityTypeManagerInterface  $entityTypeManager
+     * @param EntityFieldManagerInterface $entityFieldManager
+     * @param DateFormatterInterface      $dateFormatter
+     * @param array                       $vocabularies
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
+        EntityFieldManagerInterface $entityFieldManager,
         DateFormatterInterface $dateFormatter,
         $vocabularies
     ) {
         $this->vocabularies = $vocabularies;
-        parent::__construct($entityTypeManager, $dateFormatter);
+        parent::__construct(
+            $entityTypeManager,
+            $entityFieldManager,
+            $dateFormatter
+        );
     }
 
     /**

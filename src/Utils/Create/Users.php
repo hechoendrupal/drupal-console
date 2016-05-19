@@ -9,6 +9,7 @@ namespace Drupal\Console\Utils\Create;
 
 use Drupal\Console\Utils\Create\Base;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
 
 /**
@@ -23,17 +24,23 @@ class Users extends Base
     /**
      * Users constructor.
      *
-     * @param EntityTypeManagerInterface $entityTypeManager
-     * @param DateFormatterInterface     $dateFormatter
-     * @param array                      $roles
+     * @param EntityTypeManagerInterface  $entityTypeManager
+     * @param EntityFieldManagerInterface $entityFieldManager
+     * @param DateFormatterInterface      $dateFormatter
+     * @param array                       $roles
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
+        EntityFieldManagerInterface $entityFieldManager,
         DateFormatterInterface $dateFormatter,
         $roles
     ) {
         $this->roles = $roles;
-        parent::__construct($entityTypeManager, $dateFormatter);
+        parent::__construct(
+            $entityTypeManager,
+            $entityFieldManager,
+            $dateFormatter
+        );
     }
 
     /**
