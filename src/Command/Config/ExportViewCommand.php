@@ -16,7 +16,6 @@ use Drupal\Console\Shared\ModuleTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Shared\ExportTrait;
 
-
 class ExportViewCommand extends ContainerAwareCommand
 {
     use ModuleTrait;
