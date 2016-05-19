@@ -10,6 +10,7 @@ namespace Drupal\Console\Utils\Create;
 use Drupal\Console\Utils\Create\Base;
 use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Language\LanguageInterface;
 
@@ -22,14 +23,20 @@ class Vocabularies extends Base
     /**
      * Vocabularies constructor.
      *
-     * @param EntityTypeManagerInterface $entityManager
-     * @param DateFormatterInterface     $dateFormatter
+     * @param EntityTypeManagerInterface  $entityManager
+     * @param EntityFieldManagerInterface $entityFieldManager
+     * @param DateFormatterInterface      $dateFormatter
      */
     public function __construct(
         EntityTypeManagerInterface $entityManager,
+        EntityFieldManagerInterface $entityFieldManager,
         DateFormatterInterface $dateFormatter
     ) {
-        parent::__construct($entityManager, $dateFormatter);
+        parent::__construct(
+            $entityManager,
+            $entityFieldManager,
+            $dateFormatter
+        );
     }
 
     /**
