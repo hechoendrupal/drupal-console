@@ -1,11 +1,11 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-\Drupal\{{module}}\{{ entity_class }}Interface.
+\Drupal\{{module}}\Entity\{{ entity_class }}Interface.
 {% endblock %}
 
 {% block namespace_class %}
-namespace Drupal\{{module}};
+namespace Drupal\{{module}}\Entity;
 {% endblock %}
 
 {% block use_class %}
