@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Shared\ConnectTrait;
+use Drupal\Console\Command\Database\ConnectTrait;
 
 /**
  * Class TableDebugCommand

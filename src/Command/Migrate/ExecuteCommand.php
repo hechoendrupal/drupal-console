@@ -16,7 +16,7 @@ use Drupal\Core\Database\Database;
 use Drupal\migrate\Entity\MigrationInterface;
 use Drupal\migrate\MigrateExecutable;
 use Drupal\Console\Utils\MigrateExecuteMessageCapture;
-use Drupal\Console\Shared\DatabaseTrait;
+use Drupal\Console\Command\Database\DatabaseTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class ExecuteCommand extends ContainerAwareCommand

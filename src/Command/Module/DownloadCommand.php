@@ -13,8 +13,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Shared\ProjectDownloadTrait;
-use Drupal\Console\Command\Shared\PHPProcessTrait;
+use Drupal\Console\Command\ProjectDownloadTrait;
+use Drupal\Console\Command\PHPProcessTrait;
 
 class DownloadCommand extends Command
 {
@@ -81,6 +81,8 @@ class DownloadCommand extends Command
 
     /**
      * {@inheritdoc}
+     *
+     * --latest option works but it's not recommended
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -103,7 +105,9 @@ class DownloadCommand extends Command
                 ;
 
                 if (!$latest) {
-                    $versions = $this->getDrupalApi()
+                    $versions
+                    = $this
+                        ->getDrupalApi()
                         ->getPackagistModuleReleases($module, 10, $this->stable);
 
                     if (!$versions) {
@@ -115,15 +119,18 @@ class DownloadCommand extends Command
                                 $module
                             )
                         );
-                        return 1;
+                        return;
                     } else {
-                        $version = $io->choice(
+                        $version
+                        = $io->choice(
                             $this->trans('commands.site.new.questions.composer-release'),
                             $versions
                         );
                     }
                 } else {
-                    $versions = $this->getDrupalApi()
+                    $versions
+                    = $this
+                        ->getDrupalApi()
                         ->getPackagistModuleReleases($module, 10, $this->stable);
 
                     if (!$versions) {
@@ -135,7 +142,7 @@ class DownloadCommand extends Command
                                 $module
                             )
                         );
-                        return 1;
+                        return;
                     } else {
                         $version
                         = current(
@@ -164,6 +171,6 @@ class DownloadCommand extends Command
             $this->downloadModules($io, $modules, $latest, $path);
         }
 
-        return 0;
+        return true;
     }
 }

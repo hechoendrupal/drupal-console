@@ -10,10 +10,10 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Shared\ThemeBreakpointTrait;
-use Drupal\Console\Shared\ThemeRegionTrait;
+use Drupal\Console\Command\ThemeRegionTrait;
+use Drupal\Console\Command\ThemeBreakpointTrait;
 use Drupal\Console\Generator\ThemeGenerator;
-use Drupal\Console\Shared\ConfirmationTrait;
+use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
 use Drupal\Console\Style\DrupalStyle;
 
