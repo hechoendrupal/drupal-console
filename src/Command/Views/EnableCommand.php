@@ -40,17 +40,15 @@ class EnableCommand extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    protected function interact(InputInterface $input, OutputInterface $output) {
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
         $io = new DrupalStyle($input, $output);
         $viewId = $input->getArgument('view-id');
         if (!$viewId) {
-            $views = $this->getContainer()
-                ->get('entity.query')
+            $views = $this->getDrupalService('entity.query')
                 ->get('view')
                 ->condition('status', 0)
-                ->execute()
-            ;
-            //$views = $query->execute();
+                ->execute();
             $viewId = $io->choiceNoList(
                 $this->trans('commands.views.debug.arguments.view-id'),
                 $views
