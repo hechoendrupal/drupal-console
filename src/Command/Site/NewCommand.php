@@ -14,8 +14,8 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Drupal\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\ProjectDownloadTrait;
-use Drupal\Console\Command\PHPProcessTrait;
+use Drupal\Console\Shared\ProjectDownloadTrait;
+use Drupal\Console\Command\Shared\PHPProcessTrait;
 
 class NewCommand extends Command
 {

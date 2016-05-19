@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Develop;
 
-use Drupal\Console\Command\TranslationTrait;
+use Drupal\Console\Shared\TranslationTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
