@@ -52,6 +52,7 @@ class CallCommandListener implements EventSubscriberInterface
             $callCommand->run($input, $io);
 
             $drupal = $application->getContainer()->get('site');
+
             if ($chainedCommand['name'] === 'site:new') {
                 if ($chainedCommand['inputs']['directory']) {
                     $siteRoot = sprintf(
@@ -62,6 +63,13 @@ class CallCommandListener implements EventSubscriberInterface
                 }
                 $drupal->isValidRoot(getcwd());
                 $drupal->getAutoLoadClass();
+
+                /* temporary fix to update $drupalHelper */
+                $drupalHelper = $application->getDrupalHelper();
+                $drupalHelper->isValidRoot(getcwd());
+                $drupalHelper->getAutoLoadClass();
+                /* temporary fix to update $drupalHelper */
+
                 $application->prepare($drupal);
             }
 
