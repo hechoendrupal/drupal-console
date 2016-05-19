@@ -11,10 +11,12 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command as BaseCommand;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 
-class ExecuteCommand extends ContainerAwareCommand
+class ExecuteCommand extends BaseCommand
 {
+    use ContainerAwareCommandTrait;
     protected function configure()
     {
         $this
@@ -32,7 +34,7 @@ class ExecuteCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         $modules = $input->getArgument('module');
-        $module_handler = $this->getModuleHandler();
+        $module_handler = $this->getDrupalService('module_handler');
 
         if (in_array('all', $modules)) {
             $modules = $module_handler->getImplementations('cron');
@@ -62,7 +64,7 @@ class ExecuteCommand extends ContainerAwareCommand
             }
         }
 
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->get('chain_queue')->addCommand('cache:rebuild', ['cache' => 'all']);
 
         $io->success($this->trans('commands.cron.execute.messages.success'));
     }
