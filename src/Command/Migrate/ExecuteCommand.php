@@ -7,21 +7,31 @@
 
 namespace Drupal\Console\Command\Migrate;
 
+use Drupal\Console\Command\Shared\CommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command as BaseCommand;
 use Drupal\Core\Database\Database;
 use Drupal\migrate\Entity\MigrationInterface;
 use Drupal\migrate\MigrateExecutable;
 use Drupal\Console\Utils\MigrateExecuteMessageCapture;
 use Drupal\Console\Command\Database\DatabaseTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Annotation\DrupalCommand;
 
-class ExecuteCommand extends ContainerAwareCommand
+/**
+ * @DrupalCommand(
+ *     dependencies = {
+ *         "migrate"
+ *     }
+ * )
+ */
+class ExecuteCommand extends BaseCommand
 {
     use DatabaseTrait;
+    use CommandTrait;
 
     protected $migrateConnection;
 
@@ -86,8 +96,6 @@ class ExecuteCommand extends ContainerAwareCommand
                 $this->trans('commands.migrate.execute.options.exclude'),
                 array()
             );
-
-        $this->addDependency('migrate');
     }
 
     /**

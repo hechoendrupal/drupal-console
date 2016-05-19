@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\EventSubscriber;
 
+use Drupal\Console\Command\CommandDependencies;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -16,28 +17,38 @@ use Drupal\Console\Style\DrupalStyle;
 class ValidateDependenciesListener implements EventSubscriberInterface
 {
     /**
+     * @var CommandDependencies
+     */
+    private $commandDependencies;
+
+    /**
+     * ValidateDependenciesListener constructor.
+     * @param $commandDependencies
+     */
+    public function __construct(CommandDependencies $commandDependencies)
+    {
+        $this->commandDependencies = $commandDependencies;
+    }
+
+    /**
      * @param ConsoleCommandEvent $event
      */
     public function validateDependencies(ConsoleCommandEvent $event)
     {
         /* @var Command $command */
         $command = $event->getCommand();
-        /* @var DrupalStyle $io */
-        $io = $event->getOutput();
-
-        $application = $command->getApplication();
-
-        $missingDependencies = $application
-            ->getHelperSet()
-            ->get("commandDiscovery")
-            ->getMissingDependencies();
-
-        $translatorHelper = $application->getTranslator();
 
         if (!$command instanceof Command) {
             return;
         }
 
+        /* @var DrupalStyle $io */
+        $io = $event->getOutput();
+
+        $application = $command->getApplication();
+        $translatorHelper = $application->getTranslator();
+
+        $missingDependencies = $this->commandDependencies->getDependencies();
         if ($dependencies = $missingDependencies[$command->getName()]) {
             foreach ($dependencies as $dependency) {
                 if (!$application->getValidator()->isModuleInstalled($dependency)) {

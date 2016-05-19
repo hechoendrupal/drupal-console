@@ -29,6 +29,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
+use Drupal\Console\DependencyInjection\Compiler\AnnotationRegistryPass;
 
 set_time_limit(0);
 
@@ -44,11 +45,13 @@ if (file_exists($consoleRoot.'vendor/autoload.php')) {
     exit(1);
 }
 
+AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
+
 $container = new ContainerBuilder();
 $loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
 $loader->load('services.yml');
-
-AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
+$container->addCompilerPass(new AnnotationRegistryPass($container->get("command_dependency_resolver")));
+$container->compile();
 
 $config = $container->get('config');
 $container->get('translator')
@@ -83,7 +86,7 @@ $application->addHelpers($helpers);
 $application->setDirectoryRoot($consoleRoot);
 
 $dispatcher = new EventDispatcher();
-$dispatcher->addSubscriber(new ValidateDependenciesListener());
+$dispatcher->addSubscriber(new ValidateDependenciesListener($container->get("command_dependency_resolver")));
 $dispatcher->addSubscriber(new ShowWelcomeMessageListener());
 $dispatcher->addSubscriber(new DefaultValueEventListener());
 $dispatcher->addSubscriber(new ShowGeneratedFilesListener());

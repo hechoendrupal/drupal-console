@@ -111,4 +111,47 @@ services:
       class: Drupal\Console\Command\Config\DebugCommand
       tags:
         - { name: console.command }
-
+  test_run:
+      class: Drupal\Console\Command\Test\RunCommand
+      tags:
+        - { name: console.command }
+  test_debug:
+      class: Drupal\Console\Command\Test\DebugCommand
+      tags:
+        - { name: console.command }
+  rest_debug:
+      class: Drupal\Console\Command\Rest\DebugCommand
+      tags:
+        - { name: console.command }
+  rest_disable:
+      class: Drupal\Console\Command\Rest\DisableCommand
+      tags:
+        - { name: console.command }
+  rest_enable:
+      class: Drupal\Console\Command\Rest\EnableCommand
+      tags:
+        - { name: console.command }
+  migrate_debug:
+        class: Drupal\Console\Command\Migrate\DebugCommand
+        tags:
+          - { name: console.command }
+  migrate_execute:
+        class: Drupal\Console\Command\Migrate\ExecuteCommand
+        tags:
+          - { name: console.command }
+  migrate_setup:
+        class: Drupal\Console\Command\Migrate\SetupCommand
+        tags:
+          - { name: console.command }
+  locale_translation_status:
+        class: Drupal\Console\Command\Locale\TranslationStatusCommand
+        tags:
+          - { name: console.command }
+  locale_language_delete:
+        class: Drupal\Console\Command\Locale\LanguageDeleteCommand
+        tags:
+          - { name: console.command }
+  locale_language_add:
+        class: Drupal\Console\Command\Locale\LanguageAddCommand
+        tags:
+          - { name: console.command }

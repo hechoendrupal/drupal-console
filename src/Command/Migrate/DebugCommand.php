@@ -7,10 +7,11 @@
 
 namespace Drupal\Console\Command\Migrate;
 
+use Drupal\Console\Command\Shared\CommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command as BaseCommand;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Annotation\DrupalCommand;
 
@@ -21,8 +22,10 @@ use Drupal\Console\Annotation\DrupalCommand;
  *     }
  * )
  */
-class DebugCommand extends ContainerAwareCommand
+class DebugCommand extends BaseCommand
 {
+    use CommandTrait;
+
     protected function configure()
     {
         $this
@@ -33,8 +36,6 @@ class DebugCommand extends ContainerAwareCommand
                 InputArgument::OPTIONAL,
                 $this->trans('commands.migrate.debug.arguments.tag')
             );
-
-        $this->addDependency('migrate');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

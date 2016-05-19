@@ -7,20 +7,30 @@
 
 namespace Drupal\Console\Command\Migrate;
 
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command as BaseCommand;
 use Drupal\Console\Command\Database\DatabaseTrait;
 use Drupal\migrate\Entity\Migration;
 use Drupal\migrate\Plugin\RequirementsInterface;
 use Drupal\migrate\Exception\RequirementsException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
+use Drupal\Console\Annotation\DrupalCommand;
 
-class SetupCommand extends ContainerAwareCommand
+/**
+ * @DrupalCommand(
+ *     dependencies = {
+ *         "migrate"
+ *     }
+ * )
+ */
+class SetupCommand extends BaseCommand
 {
     use DatabaseTrait;
+    use CommandTrait;
 
     protected $migrateConnection;
 
@@ -77,8 +87,6 @@ class SetupCommand extends ContainerAwareCommand
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.migrate.setup.options.files-directory')
             );
-
-        $this->addDependency('migrate');
     }
 
     /**

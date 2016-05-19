@@ -7,20 +7,27 @@
 
 namespace Drupal\Console\Command\Test;
 
+use Drupal\Console\Command\Shared\CommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Serialization\Yaml;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command as BaseCommand;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Annotation\DrupalCommand;
 
 /**
- * Class DebugCommand
- * @package Drupal\Console\Command\Test
+ * @DrupalCommand(
+ *     dependencies = {
+ *         "simpletest"
+ *     }
+ * )
  */
-class DebugCommand extends ContainerAwareCommand
+class DebugCommand extends BaseCommand
 {
+    use CommandTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -41,8 +48,6 @@ class DebugCommand extends ContainerAwareCommand
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.test.debug.arguments.test-class')
             );
-
-        $this->addDependency('simpletest');
     }
 
     /**

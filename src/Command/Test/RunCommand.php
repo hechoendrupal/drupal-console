@@ -2,21 +2,32 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Test\DebugCommand.
+ * Contains \Drupal\Console\Command\Test\RunCommand.
  */
 
 namespace Drupal\Console\Command\Test;
 
+use Drupal\Console\Command\Shared\CommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Utility\Timer;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command as BaseCommand;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Annotation\DrupalCommand;
 
-class RunCommand extends ContainerAwareCommand
+/**
+ * @DrupalCommand(
+ *     dependencies = {
+ *         "simpletest"
+ *     }
+ * )
+ */
+class RunCommand extends BaseCommand
 {
+    use CommandTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -42,8 +53,6 @@ class RunCommand extends ContainerAwareCommand
                 $this->trans('commands.test.run.arguments.url')
             );
 
-
-        $this->addDependency('simpletest');
     }
 
     /*

@@ -7,14 +7,25 @@
 
 namespace Drupal\Console\Command\Rest;
 
+use Drupal\Console\Command\Shared\CommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command as BaseCommand;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Annotation\DrupalCommand;
 
-class DisableCommand extends ContainerAwareCommand
+/**
+ * @DrupalCommand(
+ *     dependencies = {
+ *         "rest"
+ *     }
+ * )
+ */
+class DisableCommand extends BaseCommand
 {
+    use CommandTrait;
+
     protected function configure()
     {
         $this
@@ -25,8 +36,6 @@ class DisableCommand extends ContainerAwareCommand
                 InputArgument::OPTIONAL,
                 $this->trans('commands.rest.debug.arguments.resource-id')
             );
-
-        $this->addDependency('rest');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
