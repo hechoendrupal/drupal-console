@@ -21,13 +21,8 @@ use Drupal\Console\Style\DrupalStyle;
 
 class UpdateCommand extends GeneratorCommand
 {
-    use ServicesTrait;
     use ModuleTrait;
-    use FormTrait;
-    use MenuTrait;
     use ConfirmationTrait;
-
-    protected $metadata = ['unset' => []];
 
     protected function configure()
     {
