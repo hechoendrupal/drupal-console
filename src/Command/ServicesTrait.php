@@ -59,21 +59,23 @@ trait ServicesTrait
     public function buildServices($services)
     {
         if (!empty($services)) {
-            $build_service = [];
+            $buildServices = [];
             foreach ($services as $service) {
                 $class = get_class($this->getContainer()->get($service));
-                $explode_class = explode('\\', $class);
-                $build_service[$service] = [
+                $shortClass = explode('\\', $class);
+                $machineName = str_replace('.', '_', $service);
+                $buildServices[$service] = [
                   'name' => $service,
-                  'machine_name' => str_replace('.', '_', $service),
+                  'machine_name' => $machineName,
+                  'camel_case_name' => $this->getStringHelper()->underscoreToCamelCase($machineName),
                   'class' => $class,
-                  'short' => end($explode_class),
+                  'short' => end($shortClass),
                 ];
             }
 
-            return $build_service;
+            return $buildServices;
         }
 
-        return;
+        return [];
     }
 }
