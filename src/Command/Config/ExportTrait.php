@@ -48,9 +48,9 @@ trait ExportTrait
             $yamlConfig = $dumper->dump($config['data'], 10);
 
             if ($config['optional']) {
-                $configDirectory = $this->getSite()->getModuleConfigOptionalDirectory($module, false);
+                $configDirectory = $this->getApplication()->getSite()->getModuleConfigOptionalDirectory($module, false);
             } else {
-                $configDirectory = $this->getSite()->getModuleConfigInstallDirectory($module, false);
+                $configDirectory = $this->getApplication()->getSite()->getModuleConfigInstallDirectory($module, false);
             }
 
             $configFile = sprintf(
@@ -97,7 +97,7 @@ trait ExportTrait
     protected function exportModuleDependencies($io, $module, $dependencies)
     {
         $yaml = new Yaml();
-        $info_file = file_get_contents($this->getSite()->getModuleInfoFile($module));
+        $info_file = file_get_contents($this->getApplication()->getSite()->getModuleInfoFile($module));
         $info_yaml = $yaml->parse($info_file);
 
         if (empty($info_yaml['dependencies'])) {
@@ -106,12 +106,12 @@ trait ExportTrait
             $info_yaml['dependencies'] = array_unique(array_merge($info_yaml['dependencies'], $dependencies));
         }
 
-        if (file_put_contents($this->getSite()->getModuleInfoFile($module), $yaml->dump($info_yaml))) {
+        if (file_put_contents($this->getApplication()->getSite()->getModuleInfoFile($module), $yaml->dump($info_yaml))) {
             $io->info(
                 '[+] ' .
                 sprintf(
                     $this->trans('commands.config.export.view.messages.depencies-included'),
-                    $this->getSite()->getModuleInfoFile($module)
+                    $this->getApplication()->getSite()->getModuleInfoFile($module)
                 )
             );
 
@@ -121,7 +121,7 @@ trait ExportTrait
                 );
             }
         } else {
-            $io->error($this->trans('commands.site.mode.messages.error-writing-file') . ': ' . $this->getSite()->getModuleInfoFile($module));
+            $io->error($this->trans('commands.site.mode.messages.error-writing-file') . ': ' . $this->getApplication()->getSite()->getModuleInfoFile($module));
 
             return [];
         }

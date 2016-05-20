@@ -12,11 +12,13 @@ use Drupal\Component\Serialization\Yaml;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class ExportCommand extends ContainerAwareCommand
+class ExportCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -70,7 +72,7 @@ class ExportCommand extends ContainerAwareCommand
         }
 
         try {
-            $configManager = $this->getConfigManager();
+            $configManager = $this->getDrupalService('config.manager');
             // Get raw configuration data without overrides.
             foreach ($configManager->getConfigFactory()->listAll() as $name) {
                 $configData = $configManager->getConfigFactory()->get($name)->getRawData();
@@ -86,6 +88,18 @@ class ExportCommand extends ContainerAwareCommand
                 }
 
                 $configFileName =  sprintf('%s/%s', $directory, $configName);
+
+                $fs = $this->get('filesystem');
+                try {
+                    $fs->mkdir($directory);
+                } catch (IOExceptionInterface $e) {
+                    $io->error(
+                        sprintf(
+                            $this->trans('commands.config.export.messages.error'),
+                            $e->getPath()
+                        )
+                    );
+                }
                 file_put_contents($configFileName, $ymlData);
             }
         } catch (\Exception $e) {

@@ -11,14 +11,16 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Dumper;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 
 /**
  * Class DebugCommand
  * @package Drupal\Console\Command\Config
  */
-class SettingsDebugCommand extends ContainerAwareCommand
+class SettingsDebugCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -37,7 +39,7 @@ class SettingsDebugCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $settings = $this->getSettings();
+        $settings = $this->getDrupalService('settings');
         $settingKeys = array_keys($settings->getAll());
         $dumper = new Dumper();
 

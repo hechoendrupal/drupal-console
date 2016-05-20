@@ -11,12 +11,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Finder\Finder;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Core\Archiver\ArchiveTar;
 use Drupal\Console\Style\DrupalStyle;
 
-class ImportCommand extends ContainerAwareCommand
+class ImportCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -79,7 +81,7 @@ class ImportCommand extends ContainerAwareCommand
                 $configSyncDir,
                 $configFile->getBasename()
             );
-            $config = $this->getConfigFactory()->getEditable($configName);
+            $config = $this->getDrupalService('config.factory')->getEditable($configName);
             $parser = new Parser();
             $configData = $parser->parse(
                 file_get_contents($configFilePath)
