@@ -66,6 +66,7 @@ trait ServicesTrait
                 $build_service[$service] = [
                   'name' => $service,
                   'machine_name' => str_replace('.', '_', $service),
+                  'camel_case_name' => $this->getStringHelper()->underscoreToCamelCase($service),
                   'class' => $class,
                   'short' => end($explode_class),
                 ];

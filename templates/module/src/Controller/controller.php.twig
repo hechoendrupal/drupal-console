@@ -24,6 +24,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class {{ class_name }} extends ControllerBase {% endblock %}
 {% block class_construct %}
 {% if services is not empty %}
+
   /**
    * {@inheritdoc}
    */
