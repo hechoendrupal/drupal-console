@@ -1,0 +1,8 @@
+description: 'Generate an implementation of hook_update_N()'
+help: 'The <info>"%s"</info> command helps you generate a hook update N "%s"'
+options:
+    update-n: 'Update Number'
+questions:
+    update-n: 'Please provide the Update N to be implemeted'
+messages:
+    wrong-update-n: 'The update number "%s" is invalid'
