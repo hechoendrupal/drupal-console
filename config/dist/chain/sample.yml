@@ -15,7 +15,11 @@ commands:
       routes:
         - title: 'Hello World'
           method: hello
-          path: 'example/hello/{name}'
+          path: '/example/hello/{name}'
+      services:
+          - entity_field.manager
+          - theme_handler
+          - config.factory
       test: true
   - command: generate:form:config
     options:

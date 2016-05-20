@@ -14,7 +14,6 @@ use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 {% endif %}
 {% endblock %}
-
 {% block class_declaration %}
 /**
  * Class {{ class_name }}.
@@ -31,11 +30,11 @@ class {{ class_name }} extends ControllerBase {% endblock %}
   public function __construct({{ servicesAsParameters(services)|join(', ') }}) {
 {{ serviceClassInitialization(services) }}
   }
-
 {% endif %}
 {% endblock %}
 {% block class_create %}
 {% if services is not empty %}
+
   /**
    * {@inheritdoc}
    */
