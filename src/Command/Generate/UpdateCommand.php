@@ -11,10 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\UpdateGenerator;
-use Drupal\Console\Command\ServicesTrait;
 use Drupal\Console\Command\ModuleTrait;
-use Drupal\Console\Command\MenuTrait;
-use Drupal\Console\Command\FormTrait;
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
 use Drupal\Console\Style\DrupalStyle;
@@ -30,7 +27,12 @@ class UpdateCommand extends GeneratorCommand
             ->setName('generate:update')
             ->setDescription($this->trans('commands.generate.update.description'))
             ->setHelp($this->trans('commands.generate.update.help'))
-            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'module',
+                '',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            )
             ->addOption(
                 'update-n',
                 '',
@@ -57,7 +59,12 @@ class UpdateCommand extends GeneratorCommand
         $lastUpdateSchema = $this->getLastUpdate($module);
 
         if ($updateNumber <= $lastUpdateSchema) {
-            throw new \InvalidArgumentException(sprintf($this->trans('commands.generate.update.messages.wrong-update-n'), $updateNumber));
+            throw new \InvalidArgumentException(
+                sprintf(
+                    $this->trans('commands.generate.update.messages.wrong-update-n'),
+                    $updateNumber
+                )
+            );
         }
 
         $this
@@ -74,19 +81,16 @@ class UpdateCommand extends GeneratorCommand
         $this->getDrupalHelper()->loadLegacyFile('/core/includes/update.inc');
         $this->getDrupalHelper()->loadLegacyFile('/core/includes/schema.inc');
 
-        // --module option
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($io);
+            $input->setOption('module', $module);
         }
-        $input->setOption('module', $module);
 
         $lastUpdateSchema = $this->getLastUpdate($module);
+        $nextUpdateSchema = $lastUpdateSchema ? ($lastUpdateSchema + 1): 8001;
 
-        $nextUpdateSchema = $lastUpdateSchema? ($lastUpdateSchema + 1): 8001;
-
-        // --form-id option
         $updateNumber = $input->getOption('update-n');
         if (!$updateNumber) {
             $updateNumber = $io->ask(
@@ -94,18 +98,28 @@ class UpdateCommand extends GeneratorCommand
                 $nextUpdateSchema,
                 function ($updateNumber) use ($lastUpdateSchema) {
                     if (!is_numeric($updateNumber)) {
-                        throw new \InvalidArgumentException(sprintf($this->trans('commands.generate.update.messages.wrong-update-n'), $updateNumber));
+                        throw new \InvalidArgumentException(
+                            sprintf(
+                                $this->trans('commands.generate.update.messages.wrong-update-n'),
+                                $updateNumber
+                            )
+                        );
                     } else {
                         if ($updateNumber <= $lastUpdateSchema) {
-                            throw new \InvalidArgumentException(sprintf($this->trans('commands.generate.update.messages.wrong-update-n'), $updateNumber));
+                            throw new \InvalidArgumentException(
+                                sprintf(
+                                    $this->trans('commands.generate.update.messages.wrong-update-n'),
+                                    $updateNumber
+                                )
+                            );
                         }
                         return $updateNumber;
                     }
                 }
             );
-        }
 
-        $input->setOption('update-n', $updateNumber);
+            $input->setOption('update-n', $updateNumber);
+        }
     }
 
 
