@@ -167,3 +167,7 @@ services:
       class: Drupal\Console\Command\Site\InstallCommand
       tags:
         - { name: console.command }
+  database_client:
+      class: Drupal\Console\Command\Database\ClientCommand
+      tags:
+        - { name: console.command }
