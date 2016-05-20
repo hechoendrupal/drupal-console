@@ -137,6 +137,11 @@ class StringHelper extends Helper
         return $className;
     }
 
+    public function underscoreToCamelCase($input)
+    {
+        return lcfirst(str_replace('_', '', ucwords($input, '_')));
+    }
+
     public function getName()
     {
         return 'stringUtils';
