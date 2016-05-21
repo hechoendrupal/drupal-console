@@ -39,7 +39,7 @@ class ShowTipsListener implements EventSubscriberInterface
         $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
 
 
-        // pick randomly one of the tips.
+        // pick randomly one of the tips (5 tips as maximum).
         $tips = $this->get_tip($translatorHelper, $command);
 
         if ($learning && $tips) {
