@@ -10,6 +10,7 @@ namespace Drupal\Console\Command\Update;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Component\Utility\SafeMarkup;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -57,13 +58,9 @@ class ExecuteCommand extends ContainerAwareCommand
                 $updates = [$module => $updates[$module]];
 
                 if ($update_n && !isset($updates[$module]['pending'][$update_n])) {
-                    $io->info(
-                        sprintf(
-                            $this->trans('commands.update.execute.messages.module-update-function-not-found'),
-                            $module,
-                            $update_n
-                        )
-                    );
+                    $text = $this->trans('commands.update.execute.messages.module-update-function-not-found');
+                    $text = SafeMarkup::format($text, ['@update_n' => $update_n, '@module' => $module]);
+                    $io->info($text);
                 }
             }
         }
@@ -84,13 +81,9 @@ class ExecuteCommand extends ContainerAwareCommand
                     $io->info($this->trans('commands.update.execute.messages.executing-required-previous-updates'));
                 }
                 for ($update_index=$module_updates['start']; $update_index<=$update_number; $update_index++) {
-                    $io->info(
-                        sprintf(
-                            $this->trans('commands.update.execute.messages.executing-update'),
-                            $update_index,
-                            $module_name
-                        )
-                    );
+                    $text = $this->trans('commands.update.execute.messages.executing-update');
+                    $text = SafeMarkup::format($text, ['@update_n' => $update_index, '@module' => $module_name]);
+                    $io->info($text);
 
                     try {
                         $module_handler->invoke($module_name, 'update_'  . $update_index);
@@ -116,13 +109,9 @@ class ExecuteCommand extends ContainerAwareCommand
                     $io->info($this->trans('commands.update.execute.messages.executing-required-previous-updates'));
                 }
                 for ($update_index=$module_updates['start']; $update_index<=$update_number; $update_index++) {
-                    $io->info(
-                        sprintf(
-                            $this->trans('commands.update.execute.messages.executing-update'),
-                            $update_index,
-                            $module_name
-                        )
-                    );
+                    $text = $this->trans('commands.update.execute.messages.executing-update');
+                    $text = SafeMarkup::format($text, ['@update_n' => $update_index, '@module' => $module_name]);
+                    $io->info($text);
 
                     try {
                         $function = sprintf(
