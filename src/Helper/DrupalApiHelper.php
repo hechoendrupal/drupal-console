@@ -20,6 +20,7 @@ use Drupal\Console\Utils\Create\Users;
  */
 class DrupalApiHelper extends Helper
 {
+
     /* @var array */
     protected $bundles = [];
 
@@ -36,6 +37,7 @@ class DrupalApiHelper extends Helper
     {
         $createNodes = new Nodes(
             $this->getService('entity_type.manager'),
+            $this->getService('entity_field.manager'),
             $this->getService('date.formatter'),
             $this->getBundles()
         );
@@ -50,6 +52,7 @@ class DrupalApiHelper extends Helper
     {
         $createComments = new Comments(
             $this->getService('entity_type.manager'),
+            $this->getService('entity_field.manager'),
             $this->getService('date.formatter')
         );
 
@@ -63,6 +66,7 @@ class DrupalApiHelper extends Helper
     {
         $createTerms = new Terms(
             $this->getService('entity_type.manager'),
+            $this->getService('entity_field.manager'),
             $this->getService('date.formatter'),
             $this->getVocabularies()
         );
@@ -77,6 +81,7 @@ class DrupalApiHelper extends Helper
     {
         $createVocabularies = new Vocabularies(
             $this->getService('entity_type.manager'),
+            $this->getService('entity_field.manager'),
             $this->getService('date.formatter')
         );
 
@@ -90,6 +95,7 @@ class DrupalApiHelper extends Helper
     {
         $createUsers = new Users(
             $this->getService('entity_type.manager'),
+            $this->getService('entity_field.manager'),
             $this->getService('date.formatter'),
             $this->getRoles()
         );
@@ -274,5 +280,106 @@ class DrupalApiHelper extends Helper
     public function getName()
     {
         return 'api';
+    }
+
+    /**
+     * Gets Drupal releases from Packagist API.
+     *
+     * @param string $url
+     * @param int    $limit
+     * @param bool   $stable
+     *
+     * @return array
+     */
+    private function getComposerReleases($url, $limit = 10, $stable = true)
+    {
+        if (!$url) {
+            return [];
+        }
+
+        try {
+            $packagistJson = json_decode(
+                $this->getHttpClientHelper()->getUrlAsString(
+                    $url
+                )
+            );
+        } catch (\Exception $e) {
+            return [];
+        }
+
+        $versions = array_keys((array)$packagistJson->package->versions);
+
+        if ($stable) {
+            foreach ($versions as $key => $version) {
+                if (strpos($version, "-")) {
+                    unset($versions[$key]);
+                }
+            }
+        }
+
+        if (is_array($versions)) {
+            return array_slice($versions, 0, $limit);
+        }
+
+        return [];
+    }
+
+    /**
+     * Gets Drupal releases from Packagist API.
+     *
+     * @param int  $limit
+     * @param bool $stable
+     *
+     * @return array
+     */
+    public function getPackagistDrupalReleases($limit = 10, $stable = true)
+    {
+        return $this->getComposerReleases(
+            'https://packagist.org/packages/drupal/drupal.json',
+            $limit,
+            $stable
+        );
+    }
+
+    /**
+     * Gets Drupal releases from Packagist API.
+     *
+     * @param int  $limit
+     * @param bool $stable
+     *
+     * @return array
+     */
+    public function getPackagistDrupalComposerReleases($limit = 10, $stable = true)
+    {
+        return $this->getComposerReleases(
+            'https://packagist.org/packages/drupal-composer/drupal-project.json',
+            $limit,
+            $stable
+        );
+    }
+
+    /**
+     * Gets Drupal modules releases from Packagist API.
+     *
+     * @param string $module
+     * @param int    $limit
+     * @param bool   $stable
+     *
+     * @return array
+     */
+    public function getPackagistModuleReleases($module, $limit = 10, $stable = true)
+    {
+        if (!trim($module)) {
+            return [];
+        }
+
+        return $this->getComposerReleases(
+            sprintf(
+                'https://packagist.drupal-composer.org/packages/drupal/%s.json',
+                trim($module)
+            ),
+            $limit,
+            $stable
+        );
     }
 }

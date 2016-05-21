@@ -10,11 +10,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Parser;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class ImportSingleCommand extends ContainerAwareCommand
+class ImportSingleCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -42,7 +44,7 @@ class ImportSingleCommand extends ContainerAwareCommand
 
         $configName = $input->getArgument('name');
         $fileName = $input->getArgument('file');
-        $config = $this->getConfigFactory()->getEditable($configName);
+        $config = $this->getDrupalService('config.factory')->getEditable($configName);
         $ymlFile = new Parser();
 
         if (!empty($fileName) && file_exists($fileName)) {
@@ -82,7 +84,7 @@ class ImportSingleCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
         $name = $input->getArgument('name');
         if (!$name) {
-            $configFactory = $this->getService('config.factory');
+            $configFactory = $this->getDrupalService('config.factory');
             $names = $configFactory->listAll();
             $name = $io->choiceNoList(
                 $this->trans('commands.config.import.single.questions.name'),

@@ -23,10 +23,10 @@ trait ModuleTrait
      */
     public function moduleQuestion(DrupalStyle $io, $showProfile = true)
     {
-        $modules = $this->getSite()->getModules(false, true, true, false, true, true);
+        $modules = $this->getApplication()->getSite()->getModules(false, true, true, false, true, true);
 
         if ($showProfile) {
-            $modules[] = $this->getSite()->getProfile(false, true);
+            $modules[] = $this->getApplication()->getSite()->getProfile(false, true);
         }
 
         if (empty($modules)) {

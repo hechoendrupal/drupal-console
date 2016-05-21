@@ -1,11 +1,11 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-\Drupal\{{module}}\{{ entity_class }}Interface.
+\Drupal\{{module}}\Entity\{{ entity_class }}Interface.
 {% endblock %}
 
 {% block namespace_class %}
-namespace Drupal\{{module}};
+namespace Drupal\{{module}}\Entity;
 {% endblock %}
 
 {% block use_class %}
@@ -48,7 +48,7 @@ interface {{ entity_class }}Interface extends ContentEntityInterface, EntityChan
    * @param string $name
    *   The {{ label }} name.
    *
-   * @return \Drupal\{{ module }}\{{ entity_class }}Interface
+   * @return \Drupal\{{ module }}\Entity\{{ entity_class }}Interface
    *   The called {{ label }} entity.
    */
   public function setName($name);
@@ -67,7 +67,7 @@ interface {{ entity_class }}Interface extends ContentEntityInterface, EntityChan
    * @param int $timestamp
    *   The {{ label }} creation timestamp.
    *
-   * @return \Drupal\{{ module }}\{{ entity_class }}Interface
+   * @return \Drupal\{{ module }}\Entity\{{ entity_class }}Interface
    *   The called {{ label }} entity.
    */
   public function setCreatedTime($timestamp);
@@ -88,7 +88,7 @@ interface {{ entity_class }}Interface extends ContentEntityInterface, EntityChan
    * @param bool $published
    *   TRUE to set this {{ label }} to published, FALSE to set it to unpublished.
    *
-   * @return \Drupal\{{ module }}\{{ entity_class }}Interface
+   * @return \Drupal\{{ module }}\Entity\{{ entity_class }}Interface
    *   The called {{ label }} entity.
    */
   public function setPublished($published);

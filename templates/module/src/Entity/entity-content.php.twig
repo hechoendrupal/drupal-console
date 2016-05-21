@@ -14,7 +14,6 @@ use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\{{ module }}\{{ entity_class }}Interface;
 use Drupal\user\UserInterface;
 {% endblock %}
 
@@ -48,26 +47,17 @@ use Drupal\user\UserInterface;
  *   },
  *   base_table = "{{ entity_name }}",
  *   admin_permission = "administer {{ label|lower }} entities",
+ *   entity_keys = {
+ *     "id" = "id",
 {% if bundle_entity_type %}
- *   entity_keys = {
- *     "id" = "id",
  *     "bundle" = "type",
- *     "label" = "name",
- *     "uuid" = "uuid",
- *     "uid" = "user_id",
- *     "langcode" = "langcode",
- *     "status" = "status",
- *   },
-{% else %}
- *   entity_keys = {
- *     "id" = "id",
- *     "label" = "name",
- *     "uuid" = "uuid",
- *     "uid" = "user_id",
- *     "langcode" = "langcode",
- *     "status" = "status",
- *   },
 {% endif %}
+ *     "label" = "name",
+ *     "uuid" = "uuid",
+ *     "uid" = "user_id",
+ *     "langcode" = "langcode",
+ *     "status" = "status",
+ *   },
  *   links = {
  *     "canonical" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
 {% if bundle_entity_type %}
@@ -193,21 +183,7 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
    * {@inheritdoc}
    */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
-    $fields['id'] = BaseFieldDefinition::create('integer')
-      ->setLabel(t('ID'))
-      ->setDescription(t('The ID of the {{ label }} entity.'))
-      ->setReadOnly(TRUE);
-{% if bundle_entity_type %}
-    $fields['type'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Type'))
-      ->setDescription(t('The {{ label }} type/bundle.'))
-      ->setSetting('target_type', '{{ bundle_entity_type }}')
-      ->setRequired(TRUE);
-{% endif %}
-    $fields['uuid'] = BaseFieldDefinition::create('uuid')
-      ->setLabel(t('UUID'))
-      ->setDescription(t('The UUID of the {{ label }} entity.'))
-      ->setReadOnly(TRUE);
+    $fields = parent::baseFieldDefinitions($entity_type);
 
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Authored by'))
@@ -259,15 +235,6 @@ class {{ entity_class }} extends ContentEntityBase implements {{ entity_class }}
       ->setLabel(t('Publishing status'))
       ->setDescription(t('A boolean indicating whether the {{ label }} is published.'))
       ->setDefaultValue(TRUE);
-
-    $fields['langcode'] = BaseFieldDefinition::create('language')
-      ->setLabel(t('Language code'))
-      ->setDescription(t('The language code for the {{ label }} entity.'))
-      ->setDisplayOptions('form', array(
-        'type' => 'language_select',
-        'weight' => 10,
-      ))
-      ->setDisplayConfigurable('form', TRUE);
 
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))

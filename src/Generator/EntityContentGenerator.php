@@ -71,14 +71,14 @@ class EntityContentGenerator extends Generator
         );
 
         $this->renderFile(
-            'module/src/interface-entity-content.php.twig',
-            $this->getSite()->getSourcePath($module).'/'.$entity_class.'Interface.php',
+            'module/src/accesscontrolhandler-entity-content.php.twig',
+            $this->getSite()->getSourcePath($module).'/'.$entity_class.'AccessControlHandler.php',
             $parameters
         );
 
         $this->renderFile(
-            'module/src/accesscontrolhandler-entity-content.php.twig',
-            $this->getSite()->getSourcePath($module).'/'.$entity_class.'AccessControlHandler.php',
+            'module/src/Entity/interface-entity-content.php.twig',
+            $this->getSite()->getEntityPath($module).'/'.$entity_class.'Interface.php',
             $parameters
         );
 
@@ -200,8 +200,8 @@ class EntityContentGenerator extends Generator
         if ($this->isLearning()) {
             $this->io->commentBlock(
                 [
-                'Add this to your hook_theme:',
-                $content
+                    'Add this to your hook_theme:',
+                    $content
                 ]
             );
         }

@@ -12,15 +12,17 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
 use Drupal\Console\Command\Database\DatabaseTrait;
-use Drupal\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class InstallCommand extends Command
 {
     use DatabaseTrait;
+    use CommandTrait;
 
     protected $connection;
 
@@ -326,7 +328,7 @@ class InstallCommand extends Command
 
     protected function getProfiles()
     {
-        $drupal = $this->getDrupalHelper();
+        $drupal = $this->get('site');
         $profiles = $drupal->getProfiles();
 
         $names = [];
@@ -339,7 +341,7 @@ class InstallCommand extends Command
 
     protected function getLanguages()
     {
-        $drupal = $this->getDrupalHelper();
+        $drupal = $this->get('site');
         $languages = $drupal->getStandardLanguages();
 
         return $languages;
@@ -357,7 +359,7 @@ class InstallCommand extends Command
         InputInterface $input,
         $database
     ) {
-        $drupal = $this->getDrupalHelper();
+        $drupal = $this->get('site');
         $drupal->loadLegacyFile('/core/includes/install.core.inc');
 
         $driver = (string) $database['driver'];

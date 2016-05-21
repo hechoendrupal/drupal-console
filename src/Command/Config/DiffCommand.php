@@ -12,11 +12,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class DiffCommand extends ContainerAwareCommand
+class DiffCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     /**
      * A static array map of operations -> color strings.
      *
@@ -80,8 +82,8 @@ class DiffCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
         $directory = $input->getArgument('directory');
         $source_storage = new FileStorage($directory);
-        $active_storage = $this->getConfigStorage();
-        $config_manager = $this->getConfigManager();
+        $active_storage = $this->getDrupalService('config.storage');
+        $config_manager = $this->getDrupalService('config.manager');
 
         if ($input->getOption('reverse')) {
             $config_comparer = new StorageComparer($source_storage, $active_storage, $config_manager);

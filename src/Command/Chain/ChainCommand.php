@@ -14,15 +14,15 @@ use Drupal\Console\Command\InputTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
-use Symfony\Component\Console\Command\Command as BaseCommand;
 use Drupal\Console\Command\Shared\CommandTrait;
 
 /**
  * Class ChainCommand
  * @package Drupal\Console\Command\Chain
  */
-class ChainCommand extends BaseCommand
+class ChainCommand extends Command
 {
     use CommandTrait;
     use ChainFilesTrait;

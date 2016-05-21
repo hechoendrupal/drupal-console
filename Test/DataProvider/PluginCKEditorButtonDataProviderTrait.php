@@ -16,7 +16,7 @@ trait PluginCKEditorButtonDataProviderTrait
         $this->setUpTemporaryDirectory();
 
         return [
-          ['Foo',  'foo' . rand(), 'foo', 'bar', 'Baz'],
+          ['Foo',  'foo' . rand(), 'foo', 'bar', 'Baz', 'foo/js/pluggin/bar/images/icon.png'],
         ];
     }
 }

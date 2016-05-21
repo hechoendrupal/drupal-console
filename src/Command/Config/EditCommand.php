@@ -15,11 +15,13 @@ use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Drupal\Component\Serialization\Yaml;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class EditCommand extends ContainerAwareCommand
+class EditCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -49,8 +51,8 @@ class EditCommand extends ContainerAwareCommand
 
         $configName = $input->getArgument('config-name');
         $editor = $input->getArgument('editor');
-        $config = $this->getConfigFactory()->getEditable($configName);
-        $configSystem = $this->getConfigFactory()->get('system.file');
+        $config = $this->getDrupalService('config.factory')->getEditable($configName);
+        $configSystem = $this->getDrupalService('config.factory')->get('system.file');
         $temporaryDirectory = $configSystem->get('path.temporary') ?: '/tmp';
         $configFile = $temporaryDirectory.'/config-edit/'.$configName.'.yml';
         $ymlFile = new Parser();
@@ -95,7 +97,7 @@ class EditCommand extends ContainerAwareCommand
 
         $configName = $input->getArgument('config-name');
         if (!$configName) {
-            $configFactory = $this->getConfigFactory();
+            $configFactory = $this->getDrupalService('config.factory');
             $configNames = $configFactory->listAll();
             $configName = $io->choice(
                 'Choose a configuration',
@@ -113,7 +115,7 @@ class EditCommand extends ContainerAwareCommand
      */
     protected function getYamlConfig($config_name)
     {
-        $configStorage = $this->getConfigStorage();
+        $configStorage = $this->getDrupalService('config.storage');
         if ($configStorage->exists($config_name)) {
             $configuration = $configStorage->read($config_name);
             $configurationEncoded = Yaml::encode($configuration);
