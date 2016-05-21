@@ -1,8 +1,8 @@
-description: 'Clean up translation files'
+description: '清理語系翻譯檔'
 arguments:
-  language: 'Language to clean up files against English'
+  language: '指定要清理的語系名稱'
 messages:
-  invalid-language: 'Language %s is invalid'
-  language: 'Language'
-  file-deleted: 'File %s was deleted from %s because it is no longer required.'
-  success: 'Unnecessary files were removed'
+  invalid-language: '錯誤的語系名稱 %s'
+  language: '語系'
+  file-deleted: '%s 不再需要，已從%s語系刪除'
+  success: '不必要的檔案已經清理完畢'
