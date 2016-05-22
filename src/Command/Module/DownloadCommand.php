@@ -22,7 +22,7 @@ class DownloadCommand extends Command
     use ProjectDownloadTrait;
     use PHPProcessTrait;
 
-    protected $stable = true;
+    protected $stable = false;
 
     protected function configure()
     {
@@ -83,7 +83,6 @@ class DownloadCommand extends Command
     /**
      * {@inheritdoc}
      *
-     * --latest option works but it's not recommended
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -96,6 +95,7 @@ class DownloadCommand extends Command
 
         if ($composer) {
             foreach ($modules as $module) {
+              /*
                 $this->stable
                 = ('yes' != $io->ask(
                     $this->trans('commands.site.new.questions.stable'),
@@ -104,6 +104,7 @@ class DownloadCommand extends Command
                 false
                 : true
                 ;
+              */
 
                 if (!$latest) {
                     $versions
