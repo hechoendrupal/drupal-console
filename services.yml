@@ -179,3 +179,7 @@ services:
       class: Drupal\Console\Command\Database\DropCommand
       tags:
         - { name: console.command }
+  database_dump:
+      class: Drupal\Console\Command\Database\DumpCommand
+      tags:
+        - { name: console.command }
