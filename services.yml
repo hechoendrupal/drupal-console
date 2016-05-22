@@ -175,3 +175,7 @@ services:
       class: Drupal\Console\Command\Database\ConnectCommand
       tags:
         - { name: console.command }
+  database_drop:
+      class: Drupal\Console\Command\Database\DropCommand
+      tags:
+        - { name: console.command }

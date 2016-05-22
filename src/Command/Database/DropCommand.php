@@ -10,7 +10,8 @@ namespace Drupal\Console\Command\Database;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Database\ConnectTrait;
 
@@ -18,8 +19,9 @@ use Drupal\Console\Command\Database\ConnectTrait;
  * Class DropCommand
  * @package Drupal\Console\Command\Database
  */
-class DropCommand extends ContainerAwareCommand
+class DropCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     use ConnectTrait;
 
     /**
@@ -62,7 +64,7 @@ class DropCommand extends ContainerAwareCommand
             }
         }
 
-        $databaseService = $this->getService('database');
+        $databaseService = $this->getDrupalService('database');
         $schema = $databaseService->schema();
         $tables = $schema->findTables('%');
         $tableRows = [];
