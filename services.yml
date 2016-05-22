@@ -171,3 +171,7 @@ services:
       class: Drupal\Console\Command\Database\ClientCommand
       tags:
         - { name: console.command }
+  database_connect:
+      class: Drupal\Console\Command\Database\ConnectCommand
+      tags:
+        - { name: console.command }
