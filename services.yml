@@ -183,7 +183,11 @@ services:
       class: Drupal\Console\Command\Database\DumpCommand
       tags:
         - { name: console.command }
-  database_log_debug:
-      class: Drupal\Console\Command\Database\LogDebugCommand
+  database_log_clear:
+      class: Drupal\Console\Command\Database\LogClearCommand
       tags:
         - { name: console.command }
+  database_log_debug:
+        class: Drupal\Console\Command\Database\LogDebugCommand
+        tags:
+          - { name: console.command }
