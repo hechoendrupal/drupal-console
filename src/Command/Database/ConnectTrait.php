@@ -46,9 +46,9 @@ trait ConnectTrait
 
     public function getRedBeanConnection($database = 'default')
     {
-        $redBean = $this->getContainerHelper()->get('redbean');
+        $redBean = $this->get('redbean');
 
-        $connectionInfo = $this->getConnectionInfo();
+        $connectionInfo = Database::getConnectionInfo();
         $databaseConnection = $connectionInfo[$database];
         if ($databaseConnection['driver'] == 'mysql') {
             $dsn = sprintf(
