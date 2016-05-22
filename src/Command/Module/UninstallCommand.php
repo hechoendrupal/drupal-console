@@ -92,13 +92,12 @@ class UninstallCommand extends ContainerAwareCommand
                 if ($this->execProcess($cmd)) {
                     $io->success(
                         sprintf(
-                            $this->trans('commands.module.uninstall.messages.success'),
+                            $this->trans('commands.module.uninstall.messages.composer-success'),
                             $m
                         )
                     );
                 }
             }
-            return;
         }
 
         // Determine if some module request is missing
