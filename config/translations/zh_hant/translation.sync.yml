@@ -1,10 +1,10 @@
-description: 'Sync translation files'
+description: '同步語系翻譯檔'
 arguments:
-  language: 'Language to syncronize against English source files'
+  language: '目標語系名稱'
 options:
-  file: 'Language file to be syncronize'
+  file: '要同步的檔案'
 messages:
-  created-file: 'Yaml file %s was created for language %s'
-  error-generating: 'Error syncronizing file %s for %s: %s'
-  error-writing: 'Error writing file %s for %s: %s'
-  sync-finished: 'Syncronization of translation files was completed'
+  created-file: 'Yaml 檔案 %s 已經在 %s 語系中新增成功'
+  error-generating: '同步 %s 檔案錯誤，由於 %s： %s'
+  error-writing: '寫入 %s 檔案有誤，由於 %s： %s'
+  sync-finished: '語系翻譯檔同步完成'
