@@ -10,7 +10,6 @@ namespace Drupal\Console\Command\User;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Component\Utility\SafeMarkup;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -48,15 +47,22 @@ class LoginUrlCommand extends ContainerAwareCommand
         $user = $this->getService('entity_type.manager')->getStorage('user')->load($uid);
 
         if (!$user) {
-            $text = $this->trans('commands.user.login.url.errors.invalid-user');
-            $text = SafeMarkup::format($text, ['@uid' => $uid]);
-            $io->error($text);
+            $io->error(
+                sprintf(
+                    $this->trans('commands.user.login.url.errors.invalid-user'),
+                    $uid
+                )
+            );
             return;
         }
 
         $url = user_pass_reset_url($user);
-        $text = $this->trans('commands.user.login.url.messages.url');
-        $text = SafeMarkup::format($text, ['@name' => $user->getUsername(), '@url' => $url]);
-        $io->success($text);
+        $io->success(
+            sprintf(
+                $this->trans('commands.user.login.url.messages.url'),
+                $user->getUsername(),
+                $url
+            )
+        );
     }
 }
