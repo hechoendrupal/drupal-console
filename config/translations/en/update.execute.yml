@@ -3,6 +3,6 @@ options:
     update-n: 'Specific Update N function to be executed'
 messages:
     no-module-updates: 'There aren''t updates available for module %s'
-    executing-update: 'Executing update function @update_n of module @module'
-    module-update-function-not-found: 'Module @module doesn''t have a function update for @update_n'
+    executing-update: 'Executing update function %s of module %s'
+    module-update-function-not-found: 'Module %s doesn''t have a function update for %s'
     executing-required-previous-updates: 'Executing required previous updates'
