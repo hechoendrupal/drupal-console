@@ -207,3 +207,7 @@ services:
         class: Drupal\Console\Command\Image\StylesFlushCommand
         tags:
           - { name: console.command }
+  libraries_debug:
+        class: Drupal\Console\Command\Libraries\DebugCommand
+        tags:
+          - { name: console.command }
