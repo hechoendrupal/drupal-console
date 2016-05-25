@@ -199,3 +199,7 @@ services:
         class: Drupal\Console\Command\Database\TableDebugCommand
         tags:
           - { name: console.command }
+  image_styles_debug:
+        class: Drupal\Console\Command\Image\StylesDebugCommand
+        tags:
+          - { name: console.command }
