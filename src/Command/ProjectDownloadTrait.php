@@ -19,7 +19,6 @@ trait ProjectDownloadTrait
     protected $repoUrl = "https://packagist.drupal-composer.org";
 
     public function modulesQuestion(DrupalStyle $io)
-
     {
         $moduleList = [];
         $modules = $this->getSite()->getModules(true, false, true, true, true, true);
@@ -64,7 +63,6 @@ trait ProjectDownloadTrait
             }
 
             $moduleList[] = $moduleName;
-
         }
 
         return $moduleList;
@@ -282,24 +280,28 @@ trait ProjectDownloadTrait
      * includes drupal packagist repository
      * in project composer.json
      */
-
     public function setComposerRepositories(DrupalStyle $io)
     {
         $file = $this->getApplication()->getSite()->getSiteRoot() . "/composer.json";
-        $composer_obj = json_decode(file_get_contents($file));
+        $composerFile = json_decode(file_get_contents($file));
 
-        if (!$this->repositoryAlreadySet($composer_obj)) {
-            $repositories_obj = (object) [[
-            'type' => "composer",
-            'url' => $this->repoUrl
+        if (!$this->repositoryAlreadySet($composerFile)) {
+            $repositories = (object) [[
+                'type' => "composer",
+                'url' => $this->repoUrl
             ]];
 
             //@TODO: check it doesn't exist already
-            $composer_obj->repositories
-            = $repositories_obj;
+            $composerFile->repositories = $repositories;
 
             unlink($file);
-            file_put_contents($file, json_encode($composer_obj, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT));
+            file_put_contents(
+                $file,
+                json_encode(
+                    $composerFile,
+                    JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT
+                )
+            );
         }
     }
 

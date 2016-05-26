@@ -27,6 +27,7 @@ trait PHPProcessTrait
         $rootPath = $this->getDrupalHelper()->getRoot();
         $phpScript = exec($command);
         $phpProcess = new PhpProcess($phpScript, $rootPath);
+        $phpProcess->setWorkingDirectory($rootPath);
         $phpProcess->run();
 
         if (!$phpProcess->isSuccessful()) {

@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\Module;
 
-
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -50,8 +49,6 @@ class UpdateCommand extends Command
 
     /**
      * {@inheritdoc}
-     *
-     * without --composer it does nothing
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
@@ -61,7 +58,8 @@ class UpdateCommand extends Command
 
         if (!$composer) {
             $io->error($this->trans('commands.module.update.messages.only-composer'));
-            return false;
+
+            return 1;
         }
 
         if (!$module) {
@@ -72,7 +70,6 @@ class UpdateCommand extends Command
 
     /**
      * {@inheritdoc}
-     *
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -82,35 +79,41 @@ class UpdateCommand extends Command
         $composer = $input->getOption('composer');
         $simulate = $input->getOption('simulate');
 
-        if (empty($modules)) $modules = "";
-        else {
-          if (count($modules) > 1) $modules = " drupal/" . implode(" drupal/", $modules);
-          else $modules = " drupal/" . current($modules);
+        if (!$composer) {
+            $io->error($this->trans('commands.module.update.messages.only-composer'));
+
+            return 1;
+        }
+
+        if (!$modules) {
+            $io->error(
+                $this->trans('commands.module.update.messages.missing-module')
+            );
+
+            return 1;
+        }
+
+        if (count($modules) > 1) {
+            $modules = " drupal/" . implode(" drupal/", $modules);
+        } else {
+            $modules = " drupal/" . current($modules);
         }
 
         if ($composer) {
+            $this->setComposerRepositories($io);
+            $command = 'composer update ' . $modules . ' -o --prefer-dist --no-dev --root-reqs ';
 
-                $this->setComposerRepositories($io);
+            if ($simulate) {
+                $command .= " --dry-run";
+            }
 
-                $cmd = "cd " . $this->getApplication()->getSite()->getSiteRoot() . "; ";
-                $cmd .= 'composer update ' . $modules . ' -o ';
-
-                if ($simulate) {
-                  $cmd .= " --dry-run";
-                }
-
-
-                if ($this->execProcess($cmd)) {
-                    $io->success(
-                        sprintf(
-                            $this->trans('commands.module.update.messages.composer'),
-                            $version
-                        )
-                    );
-                }
-
+            if ($this->execProcess($command)) {
+                $io->success(
+                    $this->trans('commands.module.update.messages.composer')
+                );
+            }
         }
 
-        return true;
+        return 0;
     }
 }
