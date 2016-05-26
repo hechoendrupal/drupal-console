@@ -1,15 +1,15 @@
-description: 'Update the console to latest version.'
-help: 'Update the console command to the latest version.'
+description: 'Atualizar o console para a versão mais recente.'
+help: 'Atualizar o comando do console para a versão mais recente.'
 options:
-    major: 'Update to a new major version, if available.'
-    manifest: 'Override the manifest file path.'
-    current-version: 'Override the version to update from.'
+    major: 'Atualizar para uma nova versão principal, se disponível.'
+    manifest: 'Substituir o caminho do arquivo de manifesto.'
+    current-version: 'Substituir a versão a ser atualizada.'
 questions:
-    update: 'Update from version %s to version %s.'
+    update: 'Atualizar da versão %s para a versão %s.'
 messages:
-    not-phar: 'This instance of the CLI was not installed as a Phar archive.'
-    update: 'Updating to version %s.'
-    success: 'The console has been updated to the latest version.'
-    check: 'Checking for updates from version: %s'
-    current-version: 'The latest version %s, was already installed on your system.'
-    instructions: "Update using: composer global update\nOr you can switch to a Phar install recommended\ncomposer global remove drupal/console\ncurl https://drupalconsole.com/installer -L -o drupal.phar\n"
+    not-phar: 'Esta instância do CLI não foi instalada como um arquivo Phar.'
+    update: 'Atualizando para a versão %s.'
+    success: 'O console foi atualizado para a versão mais recente.'
+    check: 'Verificando atualizações da versão: %s'
+    current-version: 'A versão mais recente %s já foi instalada em seu sistema.'
+    instructions: "Atualize utilizando: composer global update\nOu você pode alternar para uma instalação Phar recomendada.\ncomposer global remove drupal/console\ncurl https://drupalconsole.com/installer -L -o drupal.phar\n"
