@@ -157,11 +157,14 @@ class DrupalHelper extends Helper
         return ($this->autoLoad?true:false);
     }
 
-    public function loadLegacyFile($legacyFile)
+    public function loadLegacyFile($legacyFile, $relative = true)
     {
-        $legacyFile = realpath(
-            sprintf('%s/%s', $this->root, $legacyFile)
-        );
+        // Calculate real path if path is relative
+        if ($relative) {
+            $legacyFile = realpath(
+                sprintf('%s/%s', $this->root, $legacyFile)
+            );
+        }
 
         if (file_exists($legacyFile)) {
             include_once $legacyFile;

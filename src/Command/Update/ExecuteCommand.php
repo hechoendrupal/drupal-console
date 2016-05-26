@@ -30,6 +30,8 @@ class ExecuteCommand extends ContainerAwareCommand
 
         $this->getDrupalHelper()->loadLegacyFile('/core/includes/install.inc');
         $this->getDrupalHelper()->loadLegacyFile('/core/includes/update.inc');
+
+        // Load module file of module
         $updateRegistry = $this->getService('update.post_update_registry');
 
         $module = $input->getArgument('module');
@@ -74,6 +76,11 @@ class ExecuteCommand extends ContainerAwareCommand
         $state->set('system.maintenance_mode', true);
 
         foreach ($updates as $module_name => $module_updates) {
+
+            //Load module file to prevent issue of missing functions used in update
+            $modulePath = $this->getSite()->getModulePath($module);
+            $this->getDrupalHelper()->loadLegacyFile($modulePath . '/'. $module . '.module', false);
+
             foreach ($module_updates['pending'] as $update_number => $update) {
                 if ($module != 'all' && $update_n !== null && $update_n != $update_number) {
                     continue;

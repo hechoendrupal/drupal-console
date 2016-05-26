@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Generate\UpdateCommand.
+ * Contains \Drupal\Console\Command\Generate\PostUpdateCommand.
  */
 
 namespace Drupal\Console\Command\Generate;
@@ -10,13 +10,13 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Generator\UpdateGenerator;
+use Drupal\Console\Generator\PostUpdateGenerator;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
 use Drupal\Console\Style\DrupalStyle;
 
-class UpdateCommand extends GeneratorCommand
+class PostUpdateCommand extends GeneratorCommand
 {
     use ModuleTrait;
     use ConfirmationTrait;
@@ -24,9 +24,9 @@ class UpdateCommand extends GeneratorCommand
     protected function configure()
     {
         $this
-            ->setName('generate:update')
-            ->setDescription($this->trans('commands.generate.update.description'))
-            ->setHelp($this->trans('commands.generate.update.help'))
+            ->setName('generate:post:update')
+            ->setDescription($this->trans('commands.generate.post:update.description'))
+            ->setHelp($this->trans('commands.generate.post.update.help'))
             ->addOption(
                 'module',
                 '',
@@ -34,10 +34,10 @@ class UpdateCommand extends GeneratorCommand
                 $this->trans('commands.common.options.module')
             )
             ->addOption(
-                'update-n',
+                'post-update-name',
                 '',
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.update.options.update-n')
+                $this->trans('commands.generate.post.update.options.post-update-name')
             );
     }
 
@@ -54,22 +54,13 @@ class UpdateCommand extends GeneratorCommand
         }
 
         $module = $input->getOption('module');
-        $updateNumber = $input->getOption('update-n');
+        $postUpdateName = $input->getOption('post-update-name');
 
-        $lastUpdateSchema = $this->getLastUpdate($module);
-
-        if ($updateNumber <= $lastUpdateSchema) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    $this->trans('commands.generate.update.messages.wrong-update-n'),
-                    $updateNumber
-                )
-            );
-        }
+        $this->validatePostUpdateName($module, $postUpdateName);
 
         $this
             ->getGenerator()
-            ->generate($module, $updateNumber);
+            ->generate($module, $postUpdateName);
 
         $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
@@ -88,44 +79,24 @@ class UpdateCommand extends GeneratorCommand
             $input->setOption('module', $module);
         }
 
-        $lastUpdateSchema = $this->getLastUpdate($module);
-        $nextUpdateSchema = $lastUpdateSchema ? ($lastUpdateSchema + 1): 8001;
-
-        $updateNumber = $input->getOption('update-n');
-        if (!$updateNumber) {
-            $updateNumber = $io->ask(
-                $this->trans('commands.generate.update.questions.update-n'),
-                $nextUpdateSchema,
-                function ($updateNumber) use ($lastUpdateSchema) {
-                    if (!is_numeric($updateNumber)) {
-                        throw new \InvalidArgumentException(
-                            sprintf(
-                                $this->trans('commands.generate.update.messages.wrong-update-n'),
-                                $updateNumber
-                            )
-                        );
-                    } else {
-                        if ($updateNumber <= $lastUpdateSchema) {
-                            throw new \InvalidArgumentException(
-                                sprintf(
-                                    $this->trans('commands.generate.update.messages.wrong-update-n'),
-                                    $updateNumber
-                                )
-                            );
-                        }
-                        return $updateNumber;
-                    }
+        $postUpdateName = $input->getOption('post-update-name');
+        if (!$postUpdateName) {
+            $postUpdateName = $io->ask(
+                $this->trans('commands.generate.post.update.questions.post-update-name'),
+                '',
+                function ($postUpdateName) {
+                    return $this->validateSpaces($postUpdateName);
                 }
             );
 
-            $input->setOption('update-n', $updateNumber);
+            $input->setOption('post-update-name', $postUpdateName);
         }
     }
 
 
     protected function createGenerator()
     {
-        return new UpdateGenerator();
+        return new PostUpdateGenerator();
     }
 
     protected function getLastUpdate($module)
@@ -137,11 +108,40 @@ class UpdateCommand extends GeneratorCommand
 
         if (empty($updates[$module]['pending'])) {
             $lastUpdateSchema = drupal_get_schema_versions($module);
-            $lastUpdateSchema = $lastUpdateSchema[0];
         } else {
             $lastUpdateSchema = reset(array_keys($updates[$module]['pending'], max($updates[$module]['pending'])));
         }
 
         return $lastUpdateSchema;
+    }
+
+    protected function validatePostUpdateName($module, $postUpdateName)
+    {
+        if (!$this->validateSpaces($postUpdateName)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    $this->trans('commands.generate.post.update.messages.wrong-post-update-name'),
+                $postUpdateName
+                )
+            );
+        }
+
+        //Load module file to prevent issue of missing functions used in update
+        $modulePath = $this->getSite()->getModulePath($module);
+        $this->getDrupalHelper()->loadLegacyFile($modulePath . '/'. $module . '.post_update.php', false);
+
+        print $module . '_post_update_' . $postUpdateName;
+        print "\n";
+        print $modulePath . '/'. $module . '.post_update.php';
+        print "\n";
+
+        if (function_exists($module . '_post_update_' . $postUpdateName)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    $this->trans('commands.generate.post.update.messages.post-update-name-already-implemented'),
+                    $postUpdateName
+                )
+            );
+        }
     }
 }
