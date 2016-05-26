@@ -110,7 +110,7 @@ class NewCommand extends Command
       }
       elseif ($fs->exists($root . '/sites/example.sites.php')) {
           $sites_file_contents = file_get_contents($root . '/sites/example.sites.php');
-          $sites_file_contents .= "\n$sites = array();";
+          $sites_file_contents .= "\n\$sites = [];";
       }
       else {
           throw new \Exception($this->trans('commands.multisite.new.errors.missing-sites'));
