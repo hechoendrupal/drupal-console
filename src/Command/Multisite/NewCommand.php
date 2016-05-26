@@ -108,11 +108,8 @@ class NewCommand extends Command
       if ($fs->exists($root . '/sites/sites.php')) {
           $sites_file_contents = file_get_contents($root . '/sites/sites.php');
       }
-      elseif ($fs->exists($root . '/sites/backup.sites.php')) {
-          $sites_file_contents = file_get_contents($root . '/sites/backup.sites.php');
-      }
-      elseif ($fs->exists($root . '/sites/default.sites.php')) {
-          $sites_file_contents = file_get_contents($root . '/sites/default.sites.php');
+      elseif ($fs->exists($root . '/sites/example.sites.php')) {
+          $sites_file_contents = file_get_contents($root . '/sites/example.sites.php');
           $sites_file_contents .= "\n$sites = array();";
       }
       else {

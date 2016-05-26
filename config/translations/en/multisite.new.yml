@@ -9,7 +9,7 @@ errors:
     subdir-empty: "You must specify a multisite subdirectory to create."
     already-exists: "The multisite directory specified already exists."
     default-missing: "The sites/default directory is missing."
-    missing-sites: "No sites.php to copy from (sites.php, backup.sites.php, or default.sites.php)"
+    missing-sites: "No sites.php or example.sites.php to copy from."
     default-settings: "No default.settings.php file found for copying"
 warnings:
     missing-files: "No sites/default/files directory found. The files directory will need to be created by hand."
