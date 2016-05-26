@@ -72,12 +72,26 @@ class RoleCommand extends ContainerAwareCommand
         $user = $input->getArgument('user');
         $role = $input->getArgument('role');
 
-        $userObject = user_load_by_name($user);
         $systemRoles = $this->getDrupalApi()->getRoles();
+
+        if (is_numeric($user)) {
+          $userObject = user_load($user);
+        }
+        else {
+          $userObject = user_load_by_name($user);
+        }
+
+
+        if (!is_object($userObject)) {
+          if (!filter_var($user, FILTER_VALIDATE_EMAIL) === false) {
+            $userObject = user_load_by_mail($user);
+          }
+        }
 
         if (!is_object($userObject)) {
           $io->error(sprintf($this->trans('commands.user.role.messages.no-user-found'), $user));
           return 1;
+
         }
 
         if (!array_key_exists($role, $systemRoles)) {
@@ -91,7 +105,7 @@ class RoleCommand extends ContainerAwareCommand
             $io->success(
               sprintf(
                 $this->trans('commands.user.role.messages.add-success'),
-                $user,
+                $userObject->name->value . " (" . $userObject->mail->value . ") ",
                 $role
               )
             );
@@ -104,7 +118,7 @@ class RoleCommand extends ContainerAwareCommand
             $io->success(
               sprintf(
                 $this->trans('commands.user.role.messages.remove-success'),
-                $user,
+                $userObject->name->value . " (" . $userObject->mail->value . ") ",
                 $role
               )
             );
