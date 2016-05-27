@@ -15,7 +15,6 @@ class ControllerGenerator extends Generator
           'class_name' => $class,
           'services' => $services,
           'module' => $module,
-          'class_machine_name' => $classMachineName,
           'routes' => $routes,
           'learning' => $this->isLearning(),
         ];
