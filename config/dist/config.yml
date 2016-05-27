@@ -1,16 +1,37 @@
 application:
   environment: 'prod'
-  language: en
-  editor: vim
-  temp: /tmp
+  language: 'en'
+  editor: 'vim'
+  temp: '/tmp'
   develop: 'false'
-  command: about
+  command: 'about'
   checked: 'false'
   remote:
-    user: root
-    port: 22
-    console: /usr/local/bin/drupal
+    user: 'root'
+    port: '22'
+    console: '/usr/local/bin/drupal'
     keys:
-      public: ~/.ssh/id_rsa.pub
-      private: ~/.ssh/id_rsa
-      passphrase: ~/.ssh/passphrase.txt
+      public: '~/.ssh/id_rsa.pub'
+      private: '~/.ssh/id_rsa'
+      passphrase: '~/.ssh/passphrase.txt'
+  disable:
+    modules:
+#      - module_name_one
+#      - module_name_two
+    commands:
+#      - generate:module
+#      - create:nodes
+    namespaces:
+#      - generate
+#      - create
+  default:
+    global:
+      options:
+        learning: true
+#        examples: true
+#        target: drupalvm.dev
+#        uri: miltisite.dev
+#        generate-inline: true
+#        generate-chain: true
+#        yes: true
+#        composer: true
