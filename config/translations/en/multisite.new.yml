@@ -7,12 +7,16 @@ options:
     copy-install: "Copies existing site from the default install."
 errors:
     subdir-empty: "You must specify a multisite subdirectory to create."
-    already-exists: "The multisite directory specified already exists."
+    already-exists: "The sites/%s directory already exists."
     default-missing: "The sites/default directory is missing."
     missing-sites: "No sites.php or example.sites.php to copy from."
-    default-settings: "No default.settings.php file found for copying"
+    file-missing: "The file '%s' was not found for copying"
+    mkdir-fail: "Unable to create sites/%s. Please check the sites directory permissions and try again."
+    write-fail: "Unable to write to the file %s. Please check the file permissions and try again."
+    copy-fail: "Unable to copy %s to %s. Please check the permissions and try again."
+    chmod-fail: "Unable to change permissions on the file %s. Please ensure that the permissions on that file are correct."
 warnings:
     missing-files: "No sites/default/files directory found. The files directory will need to be created by hand."
 messages:
-    copy-install: "The default install was successfully copied to the new multisite directory."
-    fresh-site: "The new multisite structure was successfully created and is ready for installation."
+    copy-install: "The default install was successfully copied to sites/%s."
+    fresh-site: "The new multisite structure was successfully created at sites/%s and is ready for installation."

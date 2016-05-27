@@ -7,13 +7,14 @@
 
 namespace Drupal\Console\Command\Multisite;
 
-use Symfony\Component\Console\Input\InputOption;
-use Drupal\Console\Helper\HelperTrait;
 use Drupal\Console\Command\Command;
+use Drupal\Console\Helper\HelperTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 /**
  * Class MultisiteNewCommand
@@ -67,7 +68,12 @@ class NewCommand extends Command
       $root = $this->getDrupalHelper()->getRoot();
 
       if ($fs->exists($root . '/sites/' . $subdir)) {
-          $output->error($this->trans('commands.multisite.new.errors.already-exists'));
+          $output->error(
+              sprintf(
+                  $this->trans('commands.multisite.new.errors.already-exists'),
+                  $subdir
+              )
+          );
           return;
       }
 
@@ -76,7 +82,17 @@ class NewCommand extends Command
           return;
       }
 
-      $fs->mkdir($root . '/sites/' . $subdir, 0755);
+      try {
+          $fs->mkdir($root . '/sites/' . $subdir, 0755);
+      } catch (IOExceptionInterface $e) {
+          $output->error(
+              sprintf(
+                  $this->trans('commands.multisite.new.errors.mkdir-fail'),
+                  $subdir
+              )
+          );
+          return;
+      }
 
       if ($uri = $input->getOption('site-uri')) {
           try {
@@ -87,12 +103,28 @@ class NewCommand extends Command
           }
       }
 
-      if ($input->getOption('copy-install')) {
-          $this->copyExistingInstall($output, $subdir);
+      try {
+          if ($input->getOption('copy-install')) {
+              $this->copyExistingInstall($output, $subdir);
+          }
+          else {
+              $this->createFreshSite($output, $subdir);
+          }
+      } catch (\Exception $e) {
           return;
       }
 
-      $this->createFreshSite($output, $subdir);
+      try {
+          $fs->chmod($root . '/sites/' . $subdir . '/settings.php', 0640);
+      } catch (IOExceptionInterface $e) {
+          $output->error(
+              sprintf(
+                  $this->trans('commands.multisite.new.errors.chmod-fail'),
+                  $root . '/sites/' . $subdir . '/settings.php'
+              )
+          );
+          return;
+      }
   }
 
   /**
@@ -117,7 +149,30 @@ class NewCommand extends Command
       }
 
       $sites_file_contents .= "\n\$sites['$uri'] = '$subdir';";
-      $fs->dumpFile($root . '/sites/sites.php', $sites_file_contents);
+
+      try {
+          $fs->dumpFile($root . '/sites/sites.php', $sites_file_contents);
+      } catch (IOExceptionInterface $e) {
+          $output->error(
+              sprintf(
+                  $this->trans('commands.multisite.new.errors.write-fail'),
+                  'sites/sites.php'
+              )
+          );
+          return;
+      }
+
+      try {
+          $fs->chmod($root . '/sites/sites.php', 0644);
+      } catch (IOExceptionInterface $e) {
+          $output->error(
+              sprintf(
+                  $this->trans('commands.multisite.new.errors.chmod-fail'),
+                  'sites/sites.php'
+              )
+          );
+          return;
+      }
   }
 
   /**
@@ -129,24 +184,64 @@ class NewCommand extends Command
       $fs = new Filesystem();
       $root = $this->getDrupalHelper()->getRoot();
 
-      if ($fs->exists($root . '/sites/default/files')) {
-          $fs->mirror(
-              $root . '/sites/default/files',
-              $root . '/sites/' . $subdir . '/files'
+      if (!$fs->exists($root . '/sites/default/settings.php')) {
+          $output->error(
+              sprintf(
+                  $this->trans('commands.multisite.new.errors.file-missing'),
+                  'sites/default/settings.php'
+              )
           );
+          throw new \Exception();
+          return;
+      }
+
+      if ($fs->exists($root . '/sites/default/files')) {
+          try {
+              $fs->mirror(
+                  $root . '/sites/default/files',
+                  $root . '/sites/' . $subdir . '/files'
+              );
+          } catch (IOExceptionInterface $e) {
+              $output->error(
+                  sprintf(
+                      $this->trans('commands.multisite.new.errors.copy-fail'),
+                      'sites/default/files',
+                      'sites/' . $subdir . '/files'
+                  )
+              );
+              throw new \Exception();
+              return;
+          }
       }
       else {
-          $output->warning('commands.multisite.new.warnings.missing-files');
+          $output->warning($this->trans('commands.multisite.new.warnings.missing-files'));
       }
 
       $settings = file_get_contents($root . '/sites/default/settings.php');
       $settings = str_replace('sites/default', 'sites/' . $subdir, $settings);
-      $fs->dumpFile(
-          $root . '/sites/' . $subdir . '/settings.php',
-          $settings
-      );
 
-      $output->success($this->trans('commands.multisite.new.messages.copy-install'));
+      try {
+          $fs->dumpFile(
+              $root . '/sites/' . $subdir . '/settings.php',
+              $settings
+          );
+      } catch (IOExceptionInterface $e) {
+          $output->error(
+              sprintf(
+                  $this->trans('commands.multisite.new.errors.write-fail'),
+                  'sites/' . $subdir . '/settings.php'
+              )
+          );
+          throw new \Exception();
+          return;
+      }
+
+      $output->success(
+          sprintf(
+              $this->trans('commands.multisite.new.messages.copy-install'),
+              $subdir
+          )
+      );
   }
 
   /**
@@ -159,17 +254,40 @@ class NewCommand extends Command
       $root = $this->getDrupalHelper()->getRoot();
 
       if ($fs->exists($root . '/sites/default/default.settings.php')) {
-          $fs->copy(
-              $root . '/sites/default/default.settings.php',
-              $root . '/sites/' . $subdir . '/settings.php'
-          );
+          try {
+              $fs->copy(
+                  $root . '/sites/default/default.settings.php',
+                  $root . '/sites/' . $subdir . '/settings.php'
+              );
+          } catch (IOExceptionInterface $e) {
+              $output->error(
+                  sprintf(
+                      $this->trans('commands.multisite.new.errors.copy-fail'),
+                      $root . '/sites/default/default.settings.php',
+                      $root . '/sites/' . $subdir . '/settings.php'
+                  )
+              );
+              throw new \Exception();
+              return;
+          }
       }
       else {
-          $output->error('commands.multisite.new.errors.default-settings');
+          $output->error(
+              sprintf(
+                  $this->trans('commands.multisite.new.errors.file-missing'),
+                  'sites/default/default.settings.php'
+              )
+          );
+          throw new \Exception();
           return;
       }
 
-      $output->success($this->trans('commands.multisite.new.messages.fresh-site'));
+      $output->success(
+          sprintf(
+              $this->trans('commands.multisite.new.messages.fresh-site'),
+              $subdir
+          )
+      );
   }
 
 }
