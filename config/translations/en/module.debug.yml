@@ -12,3 +12,6 @@ messages:
     disabled: Disabled
     version: Version
     schema-version: 'Schema version'
+    total-downloads: 'total installs'
+    total-monthly: 'monthly installs'
+    total-daily: 'daily installs'
