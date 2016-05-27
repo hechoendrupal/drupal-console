@@ -78,7 +78,6 @@ class Application extends BaseApplication
         $this->container = $container;
         parent::__construct($this::NAME, $this::VERSION);
 
-        //        $this->env = $this->getConfig()->get('application.environment');
         $this->env = $this->getConfig()->get('application.environment');
         $this->getDefinition()->addOption(
             new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, $this->trans('application.options.env'), $this->env)
@@ -131,9 +130,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * Gets the default input definition.
-     *
-     * @return InputDefinition An InputDefinition instance
+     * {@inheritdoc}
      */
     protected function getDefaultInputDefinition()
     {
@@ -152,11 +149,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * Returns the long version of the application.
-     *
-     * @return string The long application version
-     *
-     * @api
+     * {@inheritdoc}
      */
     public function getLongVersion()
     {
@@ -166,6 +159,7 @@ class Application extends BaseApplication
 
         return '<info>Drupal Console</info>';
     }
+
     /**
      * {@inheritdoc}
      */
