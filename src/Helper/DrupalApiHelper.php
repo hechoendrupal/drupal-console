@@ -262,7 +262,7 @@ class DrupalApiHelper extends Helper
         }
 
         $releaseFilePath = sprintf(
-            'http://ftp.drupal.org/files/projects/%s-%s.tar.gz',
+            'https://ftp.drupal.org/files/projects/%s-%s.tar.gz',
             $project,
             $release
         );
