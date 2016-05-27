@@ -100,8 +100,8 @@ class UpdateCommand extends Command
         }
 
         if ($composer) {
-            $this->setComposerRepositories($io);
-            $command = 'composer update ' . $modules . ' -o --prefer-dist --no-dev --root-reqs ';
+            $this->setComposerRepositories();
+            $command = 'composer update ' . $modules . ' --optimize-autoloader --prefer-dist --no-dev --root-reqs ';
 
             if ($simulate) {
                 $command .= " --dry-run";
