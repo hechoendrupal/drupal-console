@@ -116,8 +116,7 @@ class Application extends BaseApplication
             if ($this->getDefinition()->hasOption($key)) {
                 if ($option === true) {
                     $_SERVER['argv'][] = sprintf('--%s', $key);
-                }
-                else {
+                } else {
                     $_SERVER['argv'][] = sprintf('--%s=%s', $key, $option);
                 }
             }
@@ -343,7 +342,7 @@ class Application extends BaseApplication
         }
 
         foreach ($commands as $command) {
-            $command->setAliases([]);
+            $command->setAliases($this->getCommandAliases($command));
             $this->add($command);
         }
 
@@ -392,6 +391,8 @@ class Application extends BaseApplication
             if (method_exists($command, 'setTranslator')) {
                 $command->setTranslator($this->container->get('translator'));
             }
+
+            $command->setAliases($this->getCommandAliases($command));
             $this->add($command);
         }
     }
@@ -547,7 +548,7 @@ class Application extends BaseApplication
 
     /**
      * @param $command
-     * @return array|null
+     * @return array
      */
     private function getCommandAliases($command)
     {
@@ -556,7 +557,7 @@ class Application extends BaseApplication
             str_replace(':', '.', $command->getName())
         );
 
-        return $this->getConfig()->get($aliasKey);
+        return $this->getConfig()->get($aliasKey)?:[];
     }
 
     /**
