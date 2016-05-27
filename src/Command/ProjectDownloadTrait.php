@@ -16,6 +16,7 @@ use Alchemy\Zippy\Zippy;
  */
 trait ProjectDownloadTrait
 {
+
     protected $repoUrl = "https://packagist.drupal-composer.org";
 
     public function modulesQuestion(DrupalStyle $io)
@@ -285,10 +286,16 @@ trait ProjectDownloadTrait
         $file = $this->getApplication()->getSite()->getSiteRoot() . "/composer.json";
         $composerFile = json_decode(file_get_contents($file));
 
+        $application = $this->getApplication();
+        $config = $application->getConfig();
+        $configApplication = $config->get('application');
+
+        $repo = ($configApplication['modules_repo'])?:$this->repoUrl;
+
         if (!$this->repositoryAlreadySet($composerFile)) {
             $repositories = (object) [[
                 'type' => "composer",
-                'url' => $this->repoUrl
+                'url' => $repo
             ]];
 
             //@TODO: check it doesn't exist already
@@ -306,21 +313,21 @@ trait ProjectDownloadTrait
     }
 
     /**
-     * checks wether the drupal packagist repo is in composer.json
+     * check if a modules repo is in composer.json
+     * check if the repo is setted and matchs the one in config.yml
+     *
      * @param object $config
      * @return boolean
      */
-    private function repositoryAlreadySet($config)
+    private function repositoryAlreadySet($config, $repo)
     {
         if (!$config->repositories) {
             return false;
         } else {
-            foreach ((array) $config->repositories as $repository) {
-                if ($this->repoUrl == $repository->url) {
-                    return true;
-                } else {
-                    return false;
-                }
+            if (in_array($repo, $config->repositories)) {
+                return true;
+            } else {
+                return false;
             }
         }
     }
