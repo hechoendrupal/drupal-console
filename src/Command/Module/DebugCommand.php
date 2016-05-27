@@ -47,11 +47,24 @@ class DebugCommand extends ContainerAwareCommand
         if ($modules) {
           foreach ($modules as $module) {
             $url = $this->urlRepo . $module . ".json";
-            $data = $this->getHelperSet()->get('httpClient')->getUrlAsJson($url);
+
+            try {
+              $data = $this->getHelperSet()->get('httpClient')->getUrlAsJson($url);
+            }
+            catch (\Exception $e) {
+              $io->warning(
+                sprintf(
+                  $this->trans('commands.module.debug.messages.no-results')
+                ,
+                $module)
+              );
+              return 1;
+            }
 
             $tableHeader = [
                 '<info>'.$data->package->name.'</info>'
             ];
+
             $tableRows = [];
 
             $tableRows[] = [
