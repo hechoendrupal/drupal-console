@@ -34,6 +34,17 @@ class HttpClientHelper extends Helper
         return null;
     }
 
+    public function getUrlAsJson($url)
+    {
+        $response = $this->getClient()->get($url);
+
+        if ($response->getStatusCode() == 200) {
+            return json_decode($response->getBody());
+        }
+
+        return null;
+    }
+
     public function getHeader($url, $header)
     {
         $response = $this->getClient()->get($url);
