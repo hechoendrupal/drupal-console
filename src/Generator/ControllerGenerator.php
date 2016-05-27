@@ -9,7 +9,7 @@ namespace Drupal\Console\Generator;
 
 class ControllerGenerator extends Generator
 {
-    public function generate($module, $class, $routes, $test, $services, $classMachineName)
+    public function generate($module, $class, $routes, $test, $services)
     {
         $parameters = [
           'class_name' => $class,

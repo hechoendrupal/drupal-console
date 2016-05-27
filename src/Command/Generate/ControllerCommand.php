@@ -89,12 +89,9 @@ class ControllerCommand extends GeneratorCommand
         // @see use Drupal\Console\Command\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
 
-        // Controller machine name
-        $classMachineName = $this->getStringHelper()->camelCaseToMachineName($class);
-
         $generator = $this->getGenerator();
         $generator->setLearning($learning);
-        $generator->generate($module, $class, $routes, $test, $build_services, $classMachineName);
+        $generator->generate($module, $class, $routes, $test, $build_services);
 
         $this->getChain()->addCommand('router:rebuild');
     }
