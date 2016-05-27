@@ -114,7 +114,12 @@ class Application extends BaseApplication
         $options = $this->getConfig()->get('application.default.global.options')?:[];
         foreach ($options as $key => $option) {
             if ($this->getDefinition()->hasOption($key)) {
-                $_SERVER['argv'][] = sprintf('--%s', $key);
+                if ($option === true) {
+                    $_SERVER['argv'][] = sprintf('--%s', $key);
+                }
+                else {
+                    $_SERVER['argv'][] = sprintf('--%s=%s', $key, $option);
+                }
             }
         }
 
