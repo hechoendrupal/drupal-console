@@ -35,6 +35,9 @@ services:
   showfile:
     class: Drupal\Console\Utils\ShowFile
     arguments: ["@site", "@translator"]
+  shell_process:
+    class: Drupal\Console\Utils\ShellProcess
+    arguments: ["@site"]
   about:
     class: Drupal\Console\Command\AboutCommand
     tags:

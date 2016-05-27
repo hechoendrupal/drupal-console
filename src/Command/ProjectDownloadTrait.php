@@ -278,10 +278,9 @@ trait ProjectDownloadTrait
     }
 
     /**
-     * includes drupal packagist repository
-     * in project composer.json
+     * Includes drupal packagist repository at composer.json file.
      */
-    public function setComposerRepositories(DrupalStyle $io)
+    public function setComposerRepositories()
     {
         $file = $this->getApplication()->getSite()->getSiteRoot() . "/composer.json";
         $composerFile = json_decode(file_get_contents($file));
