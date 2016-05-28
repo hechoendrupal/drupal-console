@@ -1,12 +1,12 @@
-description: 'Override a State key.'
-help: 'Override a State key.'
+description: '覆寫系統狀態的鍵名。'
+help: '覆寫系統狀態的鍵名。'
 arguments:
-  key: 'The State key to override.'
-  value: 'The State value to set.'
+  key: '要覆寫的系統狀態鍵名（Key）'
+  value: '要寫入的系統狀態值'
 messages:
-  key: 'State key'
-  original: 'Original value'
-  override: 'Override value'
+  key: '系統狀態鍵名（Key）'
+  original: '原始值'
+  override: '覆寫值'
 errors:
-    no-key: 'You must provide a State key to override.'
-    no-value: 'You must provide a State value to set.'
+    no-key: '您必須指定要覆寫系統狀態的鍵名。'
+    no-value: '您必須指定要覆寫系統狀態的內容。'
