@@ -121,7 +121,7 @@ class PostUpdateCommand extends GeneratorCommand
             throw new \InvalidArgumentException(
                 sprintf(
                     $this->trans('commands.generate.post.update.messages.wrong-post-update-name'),
-                $postUpdateName
+                    $postUpdateName
                 )
             );
         }
