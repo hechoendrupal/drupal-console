@@ -40,19 +40,19 @@ class NodesCommand extends ContainerAwareCommand
                 'limit',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.create.nodes.arguments.limit')
+                $this->trans('commands.create.nodes.options.limit')
             )
             ->addOption(
                 'title-words',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.create.nodes.arguments.title-words')
+                $this->trans('commands.create.nodes.options.title-words')
             )
             ->addOption(
                 'time-range',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.create.nodes.arguments.time-range')
+                $this->trans('commands.create.nodes.options.time-range')
             );
     }
 
