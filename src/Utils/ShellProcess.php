@@ -39,10 +39,10 @@ class ShellProcess
     {
         $rootPath = $this->site->getRoot();
 
-        $this->process = new Process($command, $rootPath);
+        $this->process = new Process($command);
         $this->process->setWorkingDirectory($rootPath);
-        $this->process->setEnhanceSigchildCompatibility(true);
-        $this->process->setTty('true');
+        $this->process->enableOutput();
+        $this->process->setTimeout(null);
         $this->process->run();
 
         if (!$this->process->isSuccessful()) {

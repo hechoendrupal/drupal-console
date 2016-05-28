@@ -43,7 +43,7 @@ class ShowTipsListener implements EventSubscriberInterface
         $tips = $this->get_tip($translatorHelper, $command);
 
         if ($learning && $tips) {
-          $io->commentBlock($tips);
+            $io->commentBlock($tips);
         }
     }
 
@@ -55,21 +55,22 @@ class ShowTipsListener implements EventSubscriberInterface
         return [ConsoleEvents::COMMAND => 'showTips'];
     }
 
-    private function get_tip($translatorHelper, $command) {
+    private function get_tip($translatorHelper, $command)
+    {
+        $first_tip = $get_tip = $translatorHelper->trans('commands.'.str_replace(':', '.', $command->getName()).'.tips.0.tip');
+        preg_match("/^commands./", $get_tip, $matches, null, 0);
+        if (!empty($matches)) {
+            return false;
+        }
 
-       $first_tip = $get_tip = $translatorHelper->trans('commands.'.str_replace(':', '.', $command->getName()).'.tips.0.tip');
-       preg_match("/^commands./", $get_tip, $matches, null, 0);
-       if (!empty($matches)) return false;
+        echo $n = rand(0, 5);
+        $get_tip = $translatorHelper->trans('commands.'.str_replace(':', '.', $command->getName()).'.tips.' . $n . '.tip');
+        preg_match("/^commands./", $get_tip, $matches, null, 0);
 
-       echo $n = rand(0,5);
-       $get_tip = $translatorHelper->trans('commands.'.str_replace(':', '.', $command->getName()).'.tips.' . $n . '.tip');
-       preg_match("/^commands./", $get_tip, $matches, null, 0);
-
-       if (empty($matches)){
-          return $get_tip;
-       }
-       else{
-          return $this->get_tip($translatorHelper, $command);
-       }
+        if (empty($matches)) {
+            return $get_tip;
+        } else {
+            return $this->get_tip($translatorHelper, $command);
+        }
     }
 }

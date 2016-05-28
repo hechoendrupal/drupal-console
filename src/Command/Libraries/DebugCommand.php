@@ -69,7 +69,8 @@ class DebugCommand extends Command
 
         $extensions = array_merge($modules, $themes);
         $libraryDiscovery = $this->getDrupalService('library.discovery');
-        $drupal = $this->get('site');;
+        $drupal = $this->get('site');
+        ;
         $root = $drupal->getRoot();
         foreach ($extensions as $extension_name => $extension) {
             $library_file = $extension->getPath() . '/' . $extension_name . '.libraries.yml';

@@ -14,6 +14,18 @@ application:
       public: '~/.ssh/id_rsa.pub'
       private: '~/.ssh/id_rsa'
       passphrase: '~/.ssh/passphrase.txt'
+  composer:
+      create-project:
+        default:
+#          repository: 'https://packagist.org'
+          package: 'drupal-composer/drupal-project'
+        drupal:
+#          repository: 'https://packagist.org'
+          package: 'drupal/drupal'
+      packages:
+        default: 'https://packagist.drupal-composer.org'
+        drupal: 'https://packages.drupal.org/8'
+        packagist: 'https://packagist.org'
   disable:
     modules:
 #      - module_name_one
