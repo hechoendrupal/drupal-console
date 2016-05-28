@@ -9,11 +9,13 @@ namespace Drupal\Console\Command\Image;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class StylesFlushCommand extends ContainerAwareCommand
+class StylesFlushCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     protected function configure()
     {
         $this
@@ -31,7 +33,7 @@ class StylesFlushCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
         $styles = $input->getArgument('styles');
         if (!$styles) {
-            $image_handler = $this->getService('entity_type.manager')->getStorage('image_style');
+            $image_handler = $this->getDrupalService('entity_type.manager')->getStorage('image_style');
             $styleList = $image_handler->loadMultiple();
             $styleNames = [];
             foreach ($styleList as $style) {
@@ -56,7 +58,7 @@ class StylesFlushCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
         $styles = $input->getArgument('styles');
 
-        $image_handler = $this->entityTypeManager()->getStorage('image_style');
+        $image_handler = $this->getDrupalService('entity_type.manager')->getStorage('image_style');
 
         if (in_array('all', $styles)) {
             $styles = $image_handler->loadMultiple();

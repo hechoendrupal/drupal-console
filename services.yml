@@ -35,6 +35,9 @@ services:
   showfile:
     class: Drupal\Console\Utils\ShowFile
     arguments: ["@site", "@translator"]
+  shell_process:
+    class: Drupal\Console\Utils\ShellProcess
+    arguments: ["@site"]
   about:
     class: Drupal\Console\Command\AboutCommand
     tags:
@@ -197,5 +200,17 @@ services:
           - { name: console.command }
   database_table_debug:
         class: Drupal\Console\Command\Database\TableDebugCommand
+        tags:
+          - { name: console.command }
+  image_styles_debug:
+        class: Drupal\Console\Command\Image\StylesDebugCommand
+        tags:
+          - { name: console.command }
+  image_styles_flush:
+        class: Drupal\Console\Command\Image\StylesFlushCommand
+        tags:
+          - { name: console.command }
+  libraries_debug:
+        class: Drupal\Console\Command\Libraries\DebugCommand
         tags:
           - { name: console.command }

@@ -14,6 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Command\ProjectDownloadTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\PHPProcessTrait;
 
 /**
  * Class InstallCommand
@@ -21,6 +22,7 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class InstallCommand extends ContainerAwareCommand
 {
+    use PHPProcessTrait;
     use ProjectDownloadTrait;
 
     /**
@@ -41,6 +43,12 @@ class InstallCommand extends ContainerAwareCommand
                 '',
                 InputOption::VALUE_NONE,
                 $this->trans('commands.module.install.options.latest')
+            )
+            ->addOption(
+                'composer',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.module.uninstall.options.composer')
             );
     }
 
@@ -67,32 +75,65 @@ class InstallCommand extends ContainerAwareCommand
 
         $modules = $input->getArgument('module');
         $latest = $input->getOption('latest');
+        $composer = $input->getOption('composer');
 
         $this->getDrupalHelper()->loadLegacyFile(
             'core/includes/bootstrap.inc'
         );
 
-        $resultList = $this->downloadModules($io, $modules, $latest);
+        if ($composer) {
+            foreach ($modules as $module) {
+                $cmd = "cd " . $this->getApplication()->getSite()->getSiteRoot() . "; ";
+                $cmd .= 'composer show "drupal/' . $module . '"';
 
-        $invalidModules = $resultList['invalid'];
-        $unInstalledModules = $resultList['uninstalled'];
-
-        if ($invalidModules) {
-            foreach ($invalidModules as $invalidModule) {
-                unset($modules[array_search($invalidModule, $modules)]);
-                $io->error(
-                    sprintf(
-                        'Invalid module name: %s',
-                        $invalidModule
-                    )
-                );
+                if ($out = $this->execProcess($cmd)) {
+                    $io->info(
+                        sprintf(
+                            'Module %s was downloaded with Composer.',
+                            $module
+                        )
+                    );
+                }
+                else {
+                    $io->error(
+                        sprintf(
+                            'Module %s seems not to be installed with Composer. Halting.',
+                            $module
+                        )
+                    );
+                    return 0;
+                }
             }
+
+            // all given modules were downloaded with Composer
+            $unInstalledModules = $modules;
+
         }
+        else{
 
-        if (!$unInstalledModules) {
-            $io->warning($this->trans('commands.module.install.messages.nothing'));
 
-            return 0;
+          $resultList = $this->downloadModules($io, $modules, $latest);
+
+          $invalidModules = $resultList['invalid'];
+          $unInstalledModules = $resultList['uninstalled'];
+
+          if ($invalidModules) {
+              foreach ($invalidModules as $invalidModule) {
+                  unset($modules[array_search($invalidModule, $modules)]);
+                  $io->error(
+                      sprintf(
+                          'Invalid module name: %s',
+                          $invalidModule
+                      )
+                  );
+              }
+          }
+
+          if (!$unInstalledModules) {
+              $io->warning($this->trans('commands.module.install.messages.nothing'));
+
+              return 0;
+          }
         }
 
         try {
