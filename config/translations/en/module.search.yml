@@ -1,0 +1,10 @@
+description: 'Search modules availables for application'
+options:
+    composer: 'Search in composer repositories'
+arguments:
+    module: 'Name or names (separated by spaces) to search'
+messages:
+    only-composer: 'This command only works when passing it the option --composer'
+    module-to-search: 'Please, provide a module name to search'
+    downloads: 'Downloads %s'
+    no-results: 'Module %s was not found'
