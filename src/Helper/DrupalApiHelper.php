@@ -262,7 +262,7 @@ class DrupalApiHelper extends Helper
         }
 
         $releaseFilePath = sprintf(
-            'http://ftp.drupal.org/files/projects/%s-%s.tar.gz',
+            'https://ftp.drupal.org/files/projects/%s-%s.tar.gz',
             $project,
             $release
         );
@@ -308,6 +308,15 @@ class DrupalApiHelper extends Helper
         }
 
         $versions = array_keys((array)$packagistJson->package->versions);
+
+        // don't show D7 versions
+        $i = 0;
+        foreach ($versions as $version){
+          if (0 === strpos($version, "7.") || 0 === strpos($version, "dev-7.")){
+            unset($versions[$i]);
+          }
+          $i++;
+        }
 
         if ($stable) {
             foreach ($versions as $key => $version) {

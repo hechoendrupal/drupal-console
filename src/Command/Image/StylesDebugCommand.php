@@ -9,15 +9,17 @@ namespace Drupal\Console\Command\Image;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class StylesDebugCommand
  * @package Drupal\Console\Command\Image
  */
-class StylesDebugCommand extends ContainerAwareCommand
+class StylesDebugCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     protected function configure()
     {
         $this
@@ -29,7 +31,7 @@ class StylesDebugCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $image_handler = $this->getService('entity_type.manager')->getStorage('image_style');
+        $image_handler = $this->getDrupalService('entity_type.manager')->getStorage('image_style');
 
         $io->newLine();
         $io->comment(

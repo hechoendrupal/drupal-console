@@ -10,14 +10,16 @@ namespace Drupal\Console\Command\Libraries;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Helper\HelperTrait;
 
-class DebugCommand extends ContainerAwareCommand
+class DebugCommand extends Command
 {
     use HelperTrait;
+    use ContainerAwareCommandTrait;
 
     /**
      * {@inheritdoc}
@@ -62,12 +64,12 @@ class DebugCommand extends ContainerAwareCommand
 
     private function getAllLibraries()
     {
-        $modules = $this->getService('module_handler')->getModuleList();
-        $themes = $this->getService('theme_handler')->rebuildThemeData();
+        $modules = $this->getDrupalService('module_handler')->getModuleList();
+        $themes = $this->getDrupalService('theme_handler')->rebuildThemeData();
 
         $extensions = array_merge($modules, $themes);
-        $libraryDiscovery = $this->getService('library.discovery');
-        $drupal = $this->getDrupalHelper();
+        $libraryDiscovery = $this->getDrupalService('library.discovery');
+        $drupal = $this->get('site');;
         $root = $drupal->getRoot();
         foreach ($extensions as $extension_name => $extension) {
             $library_file = $extension->getPath() . '/' . $extension_name . '.libraries.yml';
@@ -84,7 +86,7 @@ class DebugCommand extends ContainerAwareCommand
      */
     private function getLibraryByName($group)
     {
-        $libraryDiscovery = $this->getService('library.discovery');
+        $libraryDiscovery = $this->getDrupalService('library.discovery');
         $library = $libraryDiscovery->getLibrariesByExtension($group);
         return  $library;
     }

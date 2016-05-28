@@ -137,6 +137,7 @@ class UpdateCommand extends GeneratorCommand
 
         if (empty($updates[$module]['pending'])) {
             $lastUpdateSchema = drupal_get_schema_versions($module);
+            $lastUpdateSchema = $lastUpdateSchema[0];
         } else {
             $lastUpdateSchema = reset(array_keys($updates[$module]['pending'], max($updates[$module]['pending'])));
         }

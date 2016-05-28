@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\Module;
 
-
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,7 +21,7 @@ class DownloadCommand extends Command
     use ProjectDownloadTrait;
     use PHPProcessTrait;
 
-    protected $stable = true;
+    protected $stable = false;
 
     protected function configure()
     {
@@ -82,8 +81,6 @@ class DownloadCommand extends Command
 
     /**
      * {@inheritdoc}
-     *
-     * --latest option works but it's not recommended
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -96,19 +93,8 @@ class DownloadCommand extends Command
 
         if ($composer) {
             foreach ($modules as $module) {
-                $this->stable
-                = ('yes' != $io->ask(
-                    $this->trans('commands.site.new.questions.stable'),
-                    'yes'
-                ))?
-                false
-                : true
-                ;
-
                 if (!$latest) {
-                    $versions
-                    = $this
-                        ->getDrupalApi()
+                    $versions = $this->getDrupalApi()
                         ->getPackagistModuleReleases($module, 10, $this->stable);
 
                     if (!$versions) {
@@ -120,18 +106,16 @@ class DownloadCommand extends Command
                                 $module
                             )
                         );
-                        return;
+
+                        return 1;
                     } else {
-                        $version
-                        = $io->choice(
+                        $version = $io->choice(
                             $this->trans('commands.site.new.questions.composer-release'),
                             $versions
                         );
                     }
                 } else {
-                    $versions
-                    = $this
-                        ->getDrupalApi()
+                    $versions = $this->getDrupalApi()
                         ->getPackagistModuleReleases($module, 10, $this->stable);
 
                     if (!$versions) {
@@ -143,23 +127,19 @@ class DownloadCommand extends Command
                                 $module
                             )
                         );
-                        return;
+                        return 1;
                     } else {
-                        $version
-                        = current(
-                            $this
-                                ->getDrupalApi()
+                        $version = current(
+                            $this->getDrupalApi()
                                 ->getPackagistModuleReleases($module, 1, $this->stable)
                         );
                     }
                 }
 
-                $this->setComposerRepositories($io);
+                $this->setComposerRepositories();
+                $command = 'composer require "drupal/' . $module .':' . $version . '"';
 
-                $cmd = "cd " . $this->getApplication()->getSite()->getSiteRoot() . "; ";
-                $cmd .= 'composer require "drupal/' . $module .':' . $version . '"';
-
-                if ($this->execProcess($cmd)) {
+                if ($this->execProcess($command)) {
                     $io->success(
                         sprintf(
                             $this->trans('commands.module.install.messages.composer'),

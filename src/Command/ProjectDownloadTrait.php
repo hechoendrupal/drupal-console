@@ -16,10 +16,10 @@ use Alchemy\Zippy\Zippy;
  */
 trait ProjectDownloadTrait
 {
+
     protected $repoUrl = "https://packagist.drupal-composer.org";
 
     public function modulesQuestion(DrupalStyle $io)
-
     {
         $moduleList = [];
         $modules = $this->getSite()->getModules(true, false, true, true, true, true);
@@ -64,7 +64,6 @@ trait ProjectDownloadTrait
             }
 
             $moduleList[] = $moduleName;
-
         }
 
         return $moduleList;
@@ -279,46 +278,55 @@ trait ProjectDownloadTrait
     }
 
     /**
-     * includes drupal packagist repository
-     * in project composer.json
+     * Includes drupal packagist repository at composer.json file.
      */
-
-    public function setComposerRepositories(DrupalStyle $io)
+    public function setComposerRepositories()
     {
         $file = $this->getApplication()->getSite()->getSiteRoot() . "/composer.json";
-        $composer_obj = json_decode(file_get_contents($file));
+        $composerFile = json_decode(file_get_contents($file));
 
-        if (!$this->repositoryAlreadySet($composer_obj)) {
-            $repositories_obj = (object) [[
-            'type' => "composer",
-            'url' => $this->repoUrl
+        $application = $this->getApplication();
+        $config = $application->getConfig();
+        $configApplication = $config->get('application');
+
+        $repo = ($configApplication['modules_repo'])?:$this->repoUrl;
+
+        if (!$this->repositoryAlreadySet($composerFile)) {
+            $repositories = (object) [[
+                'type' => "composer",
+                'url' => $repo
             ]];
 
             //@TODO: check it doesn't exist already
-            $composer_obj->repositories
-            = $repositories_obj;
+            $composerFile->repositories = $repositories;
 
             unlink($file);
-            file_put_contents($file, json_encode($composer_obj, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT));
+            file_put_contents(
+                $file,
+                json_encode(
+                    $composerFile,
+                    JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT
+                )
+            );
         }
     }
 
     /**
-     * checks wether the drupal packagist repo is in composer.json
+     * check if a modules repo is in composer.json
+     * check if the repo is setted and matchs the one in config.yml
+     *
      * @param object $config
      * @return boolean
      */
-    private function repositoryAlreadySet($config)
+    private function repositoryAlreadySet($config, $repo)
     {
         if (!$config->repositories) {
             return false;
         } else {
-            foreach ((array) $config->repositories as $repository) {
-                if ($this->repoUrl == $repository->url) {
-                    return true;
-                } else {
-                    return false;
-                }
+            if (in_array($repo, $config->repositories)) {
+                return true;
+            } else {
+                return false;
             }
         }
     }
