@@ -85,23 +85,23 @@ class DebugCommand extends ContainerAwareCommand
 
         // uid as option
         if (is_array($uids) && $uids) {
-          $group = $query->andConditionGroup()
-            ->condition('uid', $uids, 'IN');
-          $query->condition($group);
+            $group = $query->andConditionGroup()
+                ->condition('uid', $uids, 'IN');
+            $query->condition($group);
         }
 
         // username as option
         if (is_array($usernames) && $usernames) {
-          $group = $query->andConditionGroup()
-            ->condition('name', $usernames, 'IN');
-          $query->condition($group);
+            $group = $query->andConditionGroup()
+                ->condition('name', $usernames, 'IN');
+            $query->condition($group);
         }
 
         // mail as option
         if (is_array($mails) && $mails) {
-          $group = $query->andConditionGroup()
-            ->condition('mail', $mails, 'IN');
-          $query->condition($group);
+            $group = $query->andConditionGroup()
+                ->condition('mail', $mails, 'IN');
+            $query->condition($group);
         }
 
         if ($roles) {
@@ -137,11 +137,12 @@ class DebugCommand extends ContainerAwareCommand
     }
 
     //@TODO: this should be in src/Command/Shared/CommandTrait.php
-    function splitOption($option) {
-        if (1 == count($option) && strpos($option[0], " ") >= 1 ){
-          return explode(" ", $option[0]);
-        }else{
-          return $option;
+    public function splitOption($option)
+    {
+        if (1 == count($option) && strpos($option[0], " ") >= 1) {
+            return explode(" ", $option[0]);
+        } else {
+            return $option;
         }
     }
 }

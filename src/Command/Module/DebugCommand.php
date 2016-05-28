@@ -11,14 +11,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-
-class DebugCommand extends ContainerAwareCommand
+class DebugCommand extends Command
 {
-
-    private $urlRepo = "https://packagist.drupal-composer.org/packages/drupal/";
+    use ContainerAwareCommandTrait;
 
     protected function configure()
     {
@@ -30,65 +29,80 @@ class DebugCommand extends ContainerAwareCommand
                 InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
                 $this->trans('commands.module.debug.module')
             )
-            ->addOption('status', null, InputOption::VALUE_OPTIONAL, $this->trans('commands.module.debug.options.status'))
-            ->addOption('type', null, InputOption::VALUE_OPTIONAL, $this->trans('commands.module.debug.options.type'));
+            ->addOption(
+                'status',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.module.debug.options.status')
+            )
+            ->addOption(
+                'type',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.module.debug.options.type')
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
 
-        $this->getDrupalHelper()->loadLegacyFile('/core/modules/system/system.module');
+        $this->get('site')->loadLegacyFile('/core/modules/system/system.module');
 
         $status = $input->getOption('status');
         $type = $input->getOption('type');
         $modules = $input->getArgument('module');
 
         if ($modules) {
-          foreach ($modules as $module) {
-            $url = $this->urlRepo . $module . ".json";
+            $config = $this->getApplication()->getConfig();
+            foreach ($modules as $module) {
+                $url = sprintf(
+                    '%s/packages/drupal/%s.json',
+                    $config->get('application.composer.packages.default'),
+                    $module
+                );
 
-            try {
-              $data = $this->getHelperSet()->get('httpClient')->getUrlAsJson($url);
+                try {
+                    $data = $this->getApplication()->getHttpClientHelper()->getUrlAsJson($url);
+                } catch (\Exception $e) {
+                    $io->error(
+                        sprintf(
+                            $this->trans('commands.module.debug.messages.no-results'),
+                            $module
+                        )
+                    );
+
+                    return 1;
+                }
+
+                $tableHeader = [
+                    '<info>'.$data->package->name.'</info>'
+                ];
+
+                $tableRows = [];
+
+                $tableRows[] = [
+                    $data->package->description
+                ];
+
+                $tableRows[] = [
+                    '<comment>'.$this->trans('commands.module.debug.messages.total-downloads').'</comment>',
+                    $data->package->downloads->total
+                ];
+
+                $tableRows[] = [
+                    '<comment>'.$this->trans('commands.module.debug.messages.total-monthly').'</comment>',
+                    $data->package->downloads->monthly
+                ];
+
+                $tableRows[] = [
+                    '<comment>'.$this->trans('commands.module.debug.messages.total-daily').'</comment>',
+                    $data->package->downloads->daily
+                ];
+
+                $io->table($tableHeader, $tableRows, 'compact');
             }
-            catch (\Exception $e) {
-              $io->warning(
-                sprintf(
-                  $this->trans('commands.module.debug.messages.no-results')
-                ,
-                $module)
-              );
-              return 1;
-            }
-
-            $tableHeader = [
-                '<info>'.$data->package->name.'</info>'
-            ];
-
-            $tableRows = [];
-
-            $tableRows[] = [
-                $data->package->description
-            ];
-
-            $tableRows[] = [
-                '<comment>'.$this->trans('commands.module.debug.messages.total-downloads').'</comment>',
-                $data->package->downloads->total
-            ];
-
-            $tableRows[] = [
-                '<comment>'.$this->trans('commands.module.debug.messages.total-monthly').'</comment>',
-                $data->package->downloads->monthly
-            ];
-
-            $tableRows[] = [
-                '<comment>'.$this->trans('commands.module.debug.messages.total-daily').'</comment>',
-                $data->package->downloads->daily
-            ];
-
-            $io->table($tableHeader, $tableRows, 'compact');
-          }
-          return;
+            return 0;
         }
 
         if (strtolower($status) == 'enabled') {
@@ -108,13 +122,13 @@ class DebugCommand extends ContainerAwareCommand
         }
 
         $tableHeader = [
-          $this->trans('commands.module.debug.messages.id'),
-          $this->trans('commands.module.debug.messages.name'),
-          $this->trans('commands.module.debug.messages.status'),
-          $this->trans('commands.module.debug.messages.package'),
-          $this->trans('commands.module.debug.messages.version'),
-          $this->trans('commands.module.debug.messages.schema-version'),
-          $this->trans('commands.module.debug.messages.origin'),
+            $this->trans('commands.module.debug.messages.id'),
+            $this->trans('commands.module.debug.messages.name'),
+            $this->trans('commands.module.debug.messages.status'),
+            $this->trans('commands.module.debug.messages.package'),
+            $this->trans('commands.module.debug.messages.version'),
+            $this->trans('commands.module.debug.messages.schema-version'),
+            $this->trans('commands.module.debug.messages.origin'),
         ];
 
         $tableRows = [];

@@ -103,14 +103,14 @@ class DumpCommand extends Command
         }
 
         $shellProcess = $this->get('shell_process');
-
-        if ($shellProcess->exec($command));
-        $io->success(
-            sprintf(
-                '%s %s',
-                $this->trans('commands.database.dump.messages.success'),
-                $file
-            )
-        );
+        if ($shellProcess->exec($command)) {
+            $io->success(
+                sprintf(
+                    '%s %s',
+                    $this->trans('commands.database.dump.messages.success'),
+                    $file
+                )
+            );
+        }
     }
 }
