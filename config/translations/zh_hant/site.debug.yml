@@ -1,9 +1,9 @@
-description: 'List all known local and remote sites.'
-help: 'The <info>site:debug</info> list all known local and remote sites.'
+description: '列出所有已知的本地端與遠端網站資訊。'
+help: '<info>site:debug</info> 指令可列出所有已知的本地端與遠端網站資訊。'
 messages:
-  site: Site
-  host: Host
-  root: Root
-  directory-not-found: 'Sites local directory not found'
-  private-key: 'Error with private key'
-  connect-error: 'Error connecting to remote machine'
+  site: 網站設定名稱
+  host: 主機
+  root: 根目錄
+  directory-not-found: '找不到網站的本地端目錄'
+  private-key: '私鑰有誤'
+  connect-error: '連線到遠端伺服器出現錯誤'
