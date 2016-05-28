@@ -7,22 +7,22 @@
 
 namespace Drupal\Console\Command\Module;
 
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\ProjectDownloadTrait;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\PHPProcessTrait;
 
 /**
  * Class InstallCommand
  * @package Drupal\Console\Command\Module
  */
-class InstallCommand extends ContainerAwareCommand
+class InstallCommand extends Command
 {
-    use PHPProcessTrait;
+    use ContainerAwareCommandTrait;
     use ProjectDownloadTrait;
 
     /**
@@ -73,67 +73,63 @@ class InstallCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $modules = $input->getArgument('module');
+        $module = $input->getArgument('module');
         $latest = $input->getOption('latest');
         $composer = $input->getOption('composer');
 
-        $this->getDrupalHelper()->loadLegacyFile(
-            'core/includes/bootstrap.inc'
-        );
+        $this->get('site')->loadLegacyFile('core/includes/bootstrap.inc');
 
         if ($composer) {
-            foreach ($modules as $module) {
-                $cmd = "cd " . $this->getApplication()->getSite()->getSiteRoot() . "; ";
-                $cmd .= 'composer show "drupal/' . $module . '"';
+            foreach ($module as $moduleItem) {
+                $command = sprintf(
+                    'composer show drupal/%s ',
+                    $moduleItem
+                );
 
-                if ($out = $this->execProcess($cmd)) {
+                $shellProcess = $this->get('shell_process');
+                if ($shellProcess->exec($command)) {
                     $io->info(
                         sprintf(
                             'Module %s was downloaded with Composer.',
-                            $module
+                            $moduleItem
                         )
                     );
-                }
-                else {
+                } else {
                     $io->error(
                         sprintf(
                             'Module %s seems not to be installed with Composer. Halting.',
-                            $module
+                            $moduleItem
                         )
                     );
+
                     return 0;
                 }
             }
 
-            // all given modules were downloaded with Composer
-            $unInstalledModules = $modules;
+            $unInstalledModules = $module;
+        } else {
+            $resultList = $this->downloadModules($io, $module, $latest);
 
-        }
-        else{
+            $invalidModules = $resultList['invalid'];
+            $unInstalledModules = $resultList['uninstalled'];
 
+            if ($invalidModules) {
+                foreach ($invalidModules as $invalidModule) {
+                    unset($module[array_search($invalidModule, $module)]);
+                    $io->error(
+                        sprintf(
+                            'Invalid module name: %s',
+                            $invalidModule
+                        )
+                    );
+                }
+            }
 
-          $resultList = $this->downloadModules($io, $modules, $latest);
+            if (!$unInstalledModules) {
+                $io->warning($this->trans('commands.module.install.messages.nothing'));
 
-          $invalidModules = $resultList['invalid'];
-          $unInstalledModules = $resultList['uninstalled'];
-
-          if ($invalidModules) {
-              foreach ($invalidModules as $invalidModule) {
-                  unset($modules[array_search($invalidModule, $modules)]);
-                  $io->error(
-                      sprintf(
-                          'Invalid module name: %s',
-                          $invalidModule
-                      )
-                  );
-              }
-          }
-
-          if (!$unInstalledModules) {
-              $io->warning($this->trans('commands.module.install.messages.nothing'));
-
-              return 0;
-          }
+                return 0;
+            }
         }
 
         try {
@@ -144,7 +140,7 @@ class InstallCommand extends ContainerAwareCommand
                 )
             );
 
-            $moduleInstaller = $this->getModuleInstaller();
+            $moduleInstaller = $this->getDrupalService('module_installer');
             drupal_static_reset('system_rebuild_module_data');
 
             $moduleInstaller->install($unInstalledModules, true);
@@ -160,6 +156,6 @@ class InstallCommand extends ContainerAwareCommand
             return 1;
         }
 
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->get('chain_queue')->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 }
