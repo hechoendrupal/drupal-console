@@ -483,6 +483,23 @@ abstract class ContainerAwareCommand extends Command
         return $this->getValidator()->validateSpaces($name);
     }
 
+    public function validateModuleFunctionExist($module, $function, $moduleFile = NULL)
+    {
+        //Load module file to prevent issue of missing functions used in update
+        $modulePath = $this->getSite()->getModulePath($module, false);
+        if($moduleFile) {
+            $this->getDrupalHelper()->loadLegacyFile($modulePath . '/'. $moduleFile);
+        } else {
+            $this->getDrupalHelper()->loadLegacyFile($modulePath . '/' . $module . '.module');
+        }
+
+        if (function_exists($function)) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function removeSpaces($name)
     {
         return $this->getValidator()->removeSpaces($name);

@@ -126,16 +126,7 @@ class PostUpdateCommand extends GeneratorCommand
             );
         }
 
-        //Load module file to prevent issue of missing functions used in update
-        $modulePath = $this->getSite()->getModulePath($module);
-        $this->getDrupalHelper()->loadLegacyFile($modulePath . '/'. $module . '.post_update.php', false);
-
-        print $module . '_post_update_' . $postUpdateName;
-        print "\n";
-        print $modulePath . '/'. $module . '.post_update.php';
-        print "\n";
-
-        if (function_exists($module . '_post_update_' . $postUpdateName)) {
+        if ($this->validateModuleFunctionExist($module, $module . '_post_update_' . $postUpdateName, $module . '.post_update.php')) {
             throw new \InvalidArgumentException(
                 sprintf(
                     $this->trans('commands.generate.post.update.messages.post-update-name-already-implemented'),
