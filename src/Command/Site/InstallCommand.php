@@ -19,14 +19,12 @@ use Drupal\Core\Database\Database;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
 use Drupal\Console\Command\Database\DatabaseTrait;
 use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Helper\HelperTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class InstallCommand extends Command
 {
     use DatabaseTrait;
     use CommandTrait;
-    use HelperTrait;
 
     protected $connection;
 
@@ -411,7 +409,7 @@ class InstallCommand extends Command
         }
 
         try {
-            $fs->chmod($root . '/sites/sites.php', 0644);
+            $fs->chmod($root . '/sites/sites.php', 0640);
         } catch (IOExceptionInterface $e) {
             $output->error(
                 sprintf(

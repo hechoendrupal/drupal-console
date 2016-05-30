@@ -8,7 +8,6 @@
 namespace Drupal\Console\Command\Multisite;
 
 use Drupal\Console\Command\Command;
-use Drupal\Console\Helper\HelperTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -22,7 +21,6 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
  */
 class NewCommand extends Command
 {
-  use HelperTrait;
 
   /**
    * @var Symfony\Component\Filesystem\Filesystem;
