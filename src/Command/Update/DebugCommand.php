@@ -9,11 +9,14 @@ namespace Drupal\Console\Command\Update;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class DebugCommand extends ContainerAwareCommand
+class DebugCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+
     protected function configure()
     {
         $this
@@ -25,9 +28,9 @@ class DebugCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $this->getDrupalHelper()->loadLegacyFile('/core/includes/update.inc');
-        $this->getDrupalHelper()->loadLegacyFile('/core/includes/install.inc');
-        $updateRegistry = $this->getService('update.post_update_registry');
+        $this->get('site')->loadLegacyFile('/core/includes/update.inc');
+        $this->get('site')->loadLegacyFile('/core/includes/install.inc');
+        $updateRegistry = $this->getDrupalService('update.post_update_registry');
 
         drupal_load_updates();
         update_fix_compatibility();
