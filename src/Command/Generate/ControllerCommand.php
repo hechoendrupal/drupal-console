@@ -89,12 +89,9 @@ class ControllerCommand extends GeneratorCommand
         // @see use Drupal\Console\Command\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
 
-        // Controller machine name
-        $classMachineName = $this->getStringHelper()->camelCaseToMachineName($class);
-
         $generator = $this->getGenerator();
         $generator->setLearning($learning);
-        $generator->generate($module, $class, $routes, $test, $build_services, $classMachineName);
+        $generator->generate($module, $class, $routes, $test, $build_services);
 
         $this->getChain()->addCommand('router:rebuild');
     }
@@ -182,12 +179,14 @@ class ControllerCommand extends GeneratorCommand
                         return $method;
                     }
                 );
-
+                
                 $path = $io->ask(
                     $this->trans('commands.generate.controller.questions.path'),
                     sprintf('/%s/hello/{name}', $module),
                     function ($path) use ($routes) {
-                        if (in_array($path, array_column($routes, 'path'))) {
+                        $routeProvider = $this->getRouteProvider();
+                        if (count($routeProvider->getRoutesByPattern($path)) > 0 ||
+                            in_array($path, array_column($routes, 'path'))) {
                             throw new \InvalidArgumentException(
                                 sprintf(
                                     $this->trans(
@@ -201,9 +200,17 @@ class ControllerCommand extends GeneratorCommand
                         return $path;
                     }
                 );
-
+                $classMachineName = $this->getStringHelper()->camelCaseToMachineName($class);
+                $routeName = $module . '.' . $classMachineName . '_' . $method;
+                $routeProvider = $this->getRouteProvider();
+                if ($routeProvider->getRoutesByNames([$routeName]) || 
+                    in_array($routeName, $routes)) {
+                    $routeName .= '_' . rand(0, 100);
+                }
+                
                 $routes[] = [
                     'title' => $title,
+                    'name' => $routeName,
                     'method' => $method,
                     'path' => $path
                 ];
