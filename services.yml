@@ -238,3 +238,7 @@ services:
         class: Drupal\Console\Command\Site\NewCommand
         tags:
           - { name: console.command }
+  node_access_rebuild:
+        class: Drupal\Console\Command\Node\AccessRebuildCommand
+        tags:
+          - { name: console.command }
