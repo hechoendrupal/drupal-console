@@ -45,10 +45,9 @@ class AboutCommand extends BaseCommand
         }
 
         $aboutTitle = sprintf(
-            '%s (%s) | Supports Drupal (%s) | %s',
+            '%s (%s) | %s',
             $this->trans('commands.site.status.messages.console'),
             $application->getVersion(),
-            $application::DRUPAL_SUPPORTED_VERSION,
             $drupalVersion
         );
 
