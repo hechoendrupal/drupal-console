@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Develop\Example.
+ * Contains \Drupal\Console\Develop\ExampleContainerAwareCommand.
  */
 
 namespace Drupal\Console\Command\Develop;
@@ -10,23 +10,23 @@ namespace Drupal\Console\Command\Develop;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
- * Class ExampleCommand
+ * Class ExampleContainerAwareCommand
  * @package Drupal\Console\Command\Develop
  */
-class ExampleCommand extends Command
+class ExampleContainerAwareCommand extends Command
 {
-    use CommandTrait;
+    use ContainerAwareCommandTrait;
 
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
-        $this->setName('example');
+        $this->setName('example:container:aware');
     }
 
     /**
@@ -46,8 +46,8 @@ class ExampleCommand extends Command
          * Make sure you register your command class at services.yml file
          * and add the `console.command` tag.
          *
-         * example:
-         *   class: Drupal\Console\Command\Develop\ExampleCommand
+         * example_container_aware:
+         *   class: Drupal\Console\Command\Develop\ExampleContainerAwareCommand
          *   tags:
          *     - { name: console.command }
          *
@@ -66,6 +66,15 @@ class ExampleCommand extends Command
         $io->simple('adding a YAML file at "config/translations/LANGUAGE/command.name.yml"');
 
         /**
+         *  By using ContainerAwareCommandTrait on your class for the command
+         *  (instead of the more basic CommandTrait), you have access to
+         *  the service container.
+         *
+         *  In other words, you can access to any configured Drupal service
+         *  using the provided getService method.
+         *
+         *  $this->getDrupalService('entity_type.manager');
+         *
          *  Reading user input argument
          *  $input->getArgument('ARGUMENT_NAME');
          *
