@@ -100,7 +100,6 @@ trait ChainFilesTrait
 
     private function extractInlinePlaceHolders($chainContent)
     {
-        //        return $this->extractPlaceHolders($chainContent, '/\%{{(.*?)}}/');
         return $this->extractPlaceHolders($chainContent, '%');
     }
 
