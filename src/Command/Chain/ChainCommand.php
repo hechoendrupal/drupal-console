@@ -9,12 +9,12 @@ namespace Drupal\Console\Command\Chain;
 
 use Dflydev\PlaceholderResolver\DataSource\ArrayDataSource;
 use Dflydev\PlaceholderResolver\RegexPlaceholderResolver;
-use Drupal\Console\Command\ChainFilesTrait;
-use Drupal\Console\Command\InputTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\ChainFilesTrait;
+use Drupal\Console\Command\InputTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\CommandTrait;
 

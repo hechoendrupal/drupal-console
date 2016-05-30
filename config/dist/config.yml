@@ -22,7 +22,7 @@ application:
         drupal:
 #          repository: 'https://packagist.org'
           package: 'drupal/drupal'
-      packages:
+      repositories:
         default: 'https://packagist.drupal-composer.org'
         drupal: 'https://packages.drupal.org/8'
         packagist: 'https://packagist.org'
