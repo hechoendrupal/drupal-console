@@ -30,12 +30,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '1.0.0-alpha2';
-
-    /**
-     * @var string
-     */
-    const DRUPAL_SUPPORTED_VERSION = '8.1.x';
+    const VERSION = '1.0.0-beta1';
 
     /**
      * @var string
