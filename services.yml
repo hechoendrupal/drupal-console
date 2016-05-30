@@ -242,3 +242,8 @@ services:
         class: Drupal\Console\Command\Node\AccessRebuildCommand
         tags:
           - { name: console.command }
+  router_debug:
+        class: Drupal\Console\Command\Router\DebugCommand
+        tags:
+          - { name: console.command }
+          
