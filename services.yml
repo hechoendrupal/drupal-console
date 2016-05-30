@@ -234,6 +234,10 @@ services:
         class: Drupal\Console\Command\Module\DebugCommand
         tags:
           - { name: console.command }
+  module_search:
+        class: Drupal\Console\Command\Module\SearchCommand
+        tags:
+          - { name: console.command }
   site_new:
         class: Drupal\Console\Command\Site\NewCommand
         tags:
