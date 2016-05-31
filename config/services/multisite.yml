@@ -1,4 +1,5 @@
-multisite_debug:
-  class: Drupal\Console\Command\Multisite\DebugCommand
-  tags:
-    - { name: console.command }
+services:
+  multisite_debug:
+    class: Drupal\Console\Command\Multisite\DebugCommand
+    tags:
+      - { name: console.command }
