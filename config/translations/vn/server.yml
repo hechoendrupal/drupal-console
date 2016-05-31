@@ -7,7 +7,7 @@ errors:
     binary: 'Không tìm thấy PHP binary để chạy server.'
 examples:
     -
-        description: 'Run using default address argument value 127.0.0.1.8088'
+        description: 'Run using default address argument value 127.0.0.1:8088'
         execution: 'drupal server'
     -
         description: 'Passing address argument to use a different port number'
