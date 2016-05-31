@@ -38,3 +38,6 @@ services:
   shell_process:
     class: Drupal\Console\Utils\ShellProcess
     arguments: ["@site"]
+  settings:
+    class: Drupal\Console\Utils\Settings
+    arguments: ["@site", "@filesystem"]
