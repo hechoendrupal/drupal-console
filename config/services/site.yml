@@ -3,6 +3,10 @@ services:
     class: Drupal\Console\Command\Site\InstallCommand
     tags:
       - { name: console.command }
+  site_mode:
+    class: Drupal\Console\Command\Site\ModeCommand
+    tags:
+      - { name: console.command }
   site_new:
     class: Drupal\Console\Command\Site\NewCommand
     tags:
