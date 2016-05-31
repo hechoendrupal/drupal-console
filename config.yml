@@ -4,14 +4,11 @@ application:
       forced:
         _completion:
           class: '\Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand'
-          helperset: false
       name:
         elephpant:
           class: '\Drupal\Console\Command\Exclude\ElephpantCommand'
-          helperset: true
         druplicon:
           class: '\Drupal\Console\Command\Exclude\DrupliconCommand'
-          helperset: true
   languages:
       en: 'English'
       es: 'Español'
