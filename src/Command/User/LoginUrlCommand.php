@@ -10,7 +10,8 @@ namespace Drupal\Console\Command\User;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -18,8 +19,10 @@ use Drupal\Console\Style\DrupalStyle;
  *
  * @package Drupal\Console
  */
-class LoginUrlCommand extends ContainerAwareCommand
+class LoginUrlCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -44,7 +47,7 @@ class LoginUrlCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         $uid = $input->getArgument('user-id');
-        $user = $this->getService('entity_type.manager')->getStorage('user')->load($uid);
+        $user = $this->getDrupalService('entity_type.manager')->getStorage('user')->load($uid);
 
         if (!$user) {
             $io->error(
@@ -53,7 +56,8 @@ class LoginUrlCommand extends ContainerAwareCommand
                     $uid
                 )
             );
-            return;
+
+            return 1;
         }
 
         $url = user_pass_reset_url($user);
