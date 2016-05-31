@@ -12,7 +12,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Dumper;
-use Drupal\Console\Command\Command;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -21,6 +22,8 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class DebugCommand extends Command
 {
+    use CommandTrait;
+
     /**
      * @{@inheritdoc}
      */
