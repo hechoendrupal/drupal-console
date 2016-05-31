@@ -1,0 +1,5 @@
+services:
+  migrate_setup:
+    class: Drupal\Console\Command\Migrate\SetupCommand
+    tags:
+      - { name: console.command }
