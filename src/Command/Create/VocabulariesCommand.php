@@ -11,15 +11,17 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class VocabulariesCommand
  * @package Drupal\Console\Command\Generate
  */
-class VocabulariesCommand extends ContainerAwareCommand
+class VocabulariesCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -79,7 +81,7 @@ class VocabulariesCommand extends ContainerAwareCommand
         $limit = $input->getOption('limit')?:25;
         $nameWords = $input->getOption('name-words')?:5;
 
-        $createVocabularies = $this->getDrupalApi()->getCreateVocabularies();
+        $createVocabularies = $this->getApplication()->getDrupalApi()->getCreateVocabularies();
         $vocabularies = $createVocabularies->createVocabulary(
             $limit,
             $nameWords
