@@ -26,7 +26,7 @@ class ExampleCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('example');
+        $this->setName('develop:example');
     }
 
     /**
@@ -43,19 +43,17 @@ class ExampleCommand extends Command
     {
         /* Register your command as a service
          *
-         * Make sure you register your command class at services.yml file
-         * and add the `console.command` tag.
+         * Make sure you register your command class at
+         * config/services/namespace.yml file and add the `console.command` tag.
          *
-         * example:
+         * develop_example:
          *   class: Drupal\Console\Command\Develop\ExampleCommand
          *   tags:
          *     - { name: console.command }
          *
          * NOTE: Make the proper changes on the namespace and class
          *       according your new command.
-         */
-
-        /**
+         *
          * DrupalConsole extends the SymfonyStyle class to provide
          * an standardized Output Formatting Style.
          *
