@@ -1,0 +1,5 @@
+services:
+  theme_debug:
+    class: Drupal\Console\Command\Theme\DebugCommand
+    tags:
+      - { name: console.command }
