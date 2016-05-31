@@ -1,0 +1,9 @@
+services:
+  site_install:
+    class: Drupal\Console\Command\Site\InstallCommand
+    tags:
+      - { name: console.command }
+  site_new:
+    class: Drupal\Console\Command\Site\NewCommand
+    tags:
+      - { name: console.command }
