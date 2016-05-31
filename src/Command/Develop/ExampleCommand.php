@@ -9,11 +9,18 @@ namespace Drupal\Console\Command\Develop;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class ExampleCommand extends ContainerAwareCommand
+/**
+ * Class ExampleCommand
+ * @package Drupal\Console\Command\Develop
+ */
+class ExampleCommand extends Command
 {
+    use CommandTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -34,6 +41,20 @@ class ExampleCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        /* Register your command as a service
+         *
+         * Make sure you register your command class at services.yml file
+         * and add the `console.command` tag.
+         *
+         * example:
+         *   class: Drupal\Console\Command\Develop\ExampleCommand
+         *   tags:
+         *     - { name: console.command }
+         *
+         * NOTE: Make the proper changes on the namespace and class
+         *       according your new command.
+         */
+
         /**
          * DrupalConsole extends the SymfonyStyle class to provide
          * an standardized Output Formatting Style.
@@ -45,15 +66,6 @@ class ExampleCommand extends ContainerAwareCommand
         $io->simple('adding a YAML file at "config/translations/LANGUAGE/command.name.yml"');
 
         /**
-         *  By using ContainerAwareCommand as the base class for the command
-         *  (instead of the more basic Command), you have access to
-         *  the service container.
-         *
-         *  In other words, you can access to any configured Drupal service
-         *  using the provided getService method.
-         *
-         *  $this->getService('entity_type.manager');
-         *
          *  Reading user input argument
          *  $input->getArgument('ARGUMENT_NAME');
          *

@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Command\Database\ConnectTrait;
@@ -69,6 +68,8 @@ class DumpCommand extends Command
             );
         }
 
+        $command = null;
+
         if ($databaseConnection['driver'] == 'mysql') {
             $command = sprintf(
                 'mysqldump --user=%s --password=%s --host=%s --port=%s %s > %s',
@@ -101,22 +102,15 @@ class DumpCommand extends Command
             );
         }
 
-        $processBuilder = new ProcessBuilder(['–lock-all-tables']);
-        $process = $processBuilder->getProcess();
-        $process->setTty('true');
-        $process->setCommandLine($command);
-        $process->run();
-
-        if (!$process->isSuccessful()) {
-            throw new \RuntimeException($process->getErrorOutput());
+        $shellProcess = $this->get('shell_process');
+        if ($shellProcess->exec($command)) {
+            $io->success(
+                sprintf(
+                    '%s %s',
+                    $this->trans('commands.database.dump.messages.success'),
+                    $file
+                )
+            );
         }
-
-        $io->success(
-            sprintf(
-                '%s %s',
-                $this->trans('commands.database.dump.messages.success'),
-                $file
-            )
-        );
     }
 }

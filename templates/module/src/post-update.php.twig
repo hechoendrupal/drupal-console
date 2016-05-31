@@ -1,0 +1,13 @@
+{% block file_methods %}
+{% if not file_exists %}
+<?php
+{% endif %}
+/**
+ * Implements hook_post_update_NAME() on Module {{ module }} Post Update {{ post_update_name }}.
+ */
+function {{ module }}_post_update_{{ post_update_name }}(&$sandbox) {
+    drupal_set_message('Module {{ module }} Post Update # {{ post_update_name }} () was executed successfully.');
+}
+{% endblock %}
+
+

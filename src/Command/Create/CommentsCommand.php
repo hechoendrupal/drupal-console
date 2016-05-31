@@ -39,19 +39,19 @@ class CommentsCommand extends ContainerAwareCommand
                 'limit',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.create.comments.arguments.limit')
+                $this->trans('commands.create.comments.options.limit')
             )
             ->addOption(
                 'title-words',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.create.comments.arguments.title-words')
+                $this->trans('commands.create.comments.options.title-words')
             )
             ->addOption(
                 'time-range',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.create.comments.arguments.time-range')
+                $this->trans('commands.create.comments.options.time-range')
             );
     }
 
