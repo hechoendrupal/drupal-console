@@ -7,3 +7,7 @@ services:
     class: Drupal\Console\Command\State\DeleteCommand
     tags:
       - { name: console.command }
+  state_override:
+    class: Drupal\Console\Command\State\OverrideCommand
+    tags:
+      - { name: console.command }
