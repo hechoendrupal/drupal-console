@@ -3,4 +3,8 @@ services:
     class: Drupal\Console\Command\Create\NodesCommand
     tags:
       - { name: console.command }
+  create_comments:
+    class: Drupal\Console\Command\Create\CommentsCommand
+    tags:
+      - { name: console.command }
 
