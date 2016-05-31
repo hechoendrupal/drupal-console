@@ -11,4 +11,8 @@ services:
     class: Drupal\Console\Command\Create\TermsCommand
     tags:
       - { name: console.command }
+  create_users:
+    class: Drupal\Console\Command\Create\UsersCommand
+    tags:
+      - { name: console.command }
 
