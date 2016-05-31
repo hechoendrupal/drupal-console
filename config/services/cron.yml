@@ -1,0 +1,13 @@
+services:
+  cron_debug:
+    class: Drupal\Console\Command\Cron\DebugCommand
+    tags:
+      - { name: console.command }
+  cron_execute:
+    class: Drupal\Console\Command\Cron\ExecuteCommand
+    tags:
+      - { name: console.command }
+  cron_release:
+    class: Drupal\Console\Command\Cron\ReleaseCommand
+    tags:
+      - { name: console.command }

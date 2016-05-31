@@ -1,0 +1,41 @@
+services:
+  about:
+    class: Drupal\Console\Command\AboutCommand
+    tags:
+      - { name: console.command }
+  cache_rebuild:
+    class: Drupal\Console\Command\CacheRebuildCommand
+    tags:
+      - { name: console.command }
+  container_debug:
+    class: Drupal\Console\Command\ContainerDebugCommand
+    tags:
+      - { name: console.command }
+  check:
+    class: Drupal\Console\Command\CheckCommand
+    tags:
+      - { name: console.command }
+  complete:
+    class: Drupal\Console\Command\CompleteCommand
+    tags:
+      - { name: console.command }
+  help:
+    class: Drupal\Console\Command\HelpCommand
+    tags:
+      - { name: console.command }
+  init:
+    class: Drupal\Console\Command\InitCommand
+    tags:
+      - { name: console.command }
+  list:
+    class: Drupal\Console\Command\ListCommand
+    tags:
+      - { name: console.command }
+  plugin_debug:
+    class: Drupal\Console\Command\PluginDebugCommand
+    tags:
+      - { name: console.command }
+  server:
+    class: Drupal\Console\Command\ServerCommand
+    tags:
+      - { name: console.command }
