@@ -23,8 +23,5 @@ messages:
     installed: 'Your Drupal 8 installation was completed successfully'
     using-current-database: 'Using %s database with name %s and user %s'
     already-installed: 'Drupal is already installed, try dropping your database using database:drop and then run site:install again'
-    error-sites-backup: 'An error occurred when attempting to rename sites/sites.php to sites/backup.sites.php. Please check the file permissions and/or manually renaming sites.php then run site:install again.'
     sites-backup: 'The sites.php file has temporarily been renamed to backup.sites.php while Drupal installs.'
-    error-sites-restore: 'An error occurred when attempting to restore sites/backup.sites.php to sites/sites.php. Please check the file permissions and rename the backup file to sites.php manually.'
     sites-restore: 'The backup of sites.php has been been restored to sites.php.'
-    chmod-fail: "Unable to change permissions on the file %s. Please ensure that the permissions on that file are correct."

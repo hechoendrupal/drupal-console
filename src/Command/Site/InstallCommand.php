@@ -13,8 +13,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
 use Drupal\Console\Command\Database\DatabaseTrait;
@@ -320,12 +318,7 @@ class InstallCommand extends Command
             );
         }
 
-        try {
-            $this->backupSitesFile($output);
-        } catch (IOExceptionInterface $e) {
-            $output->error($this->trans('commands.site.install.messages.error-sites-backup'));
-            return;
-        }
+        $this->backupSitesFile($output);
 
         try {
             $this->runInstaller($output, $input, $database);
@@ -372,53 +365,34 @@ class InstallCommand extends Command
      * install files to be placed directly under /sites instead of the
      * appropriate subdir when run from a script and a sites.php file exists.
      *
-     * @param OutputInterface $output
+     * @param DrupalStyle $output
      */
-    protected function backupSitesFile(OutputInterface $output)
+    protected function backupSitesFile(DrupalStyle $output)
     {
-        $fs = new Filesystem();
-        $root = $this->getDrupalHelper()->getRoot();
+        $root = $this->get('site')->getRoot();
 
-        if (!$fs->exists($root . '/sites/sites.php')) {
+        if (!file_exists($root . '/sites/sites.php')) {
             return;
         }
 
-        $fs->rename($root . '/sites/sites.php', $root . '/sites/backup.sites.php');
+        rename($root . '/sites/sites.php', $root . '/sites/backup.sites.php');
         $output->info($this->trans('commands.site.install.messages.sites-backup'));
     }
 
     /**
      * Restores backup.sites.php to sites.php (if needed).
      *
-     * @param OutputInterface $output
+     * @param DrupalStyle $output
      */
-    protected function restoreSitesFile(OutputInterface $output)
+    protected function restoreSitesFile(DrupalStyle $output)
     {
-        $fs = new Filesystem();
-        $root = $this->getDrupalHelper()->getRoot();
+        $root = $this->get('site')->getRoot();
 
-        if (!$fs->exists($root . '/sites/backup.sites.php')) {
+        if (!$file_exists($root . '/sites/backup.sites.php')) {
             return;
         }
 
-        try {
-            $fs->rename($root . '/sites/backup.sites.php', $root . '/sites/sites.php');
-        } catch (IOExceptionInterface $e) {
-            $output->error($this->trans('commands.site.install.messages.error-sites-restore'));
-            return;
-        }
-
-        try {
-            $fs->chmod($root . '/sites/sites.php', 0640);
-        } catch (IOExceptionInterface $e) {
-            $output->error(
-                sprintf(
-                    $this->trans('commands.site.install.messages.chmod-fail'),
-                    $root . '/sites/sites.php'
-                )
-            );
-        }
-
+        rename($root . '/sites/backup.sites.php', $root . '/sites/sites.php');
         $output->info($this->trans('commands.site.install.messages.sites-restore'));
     }
 
