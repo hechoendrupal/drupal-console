@@ -9,7 +9,8 @@ namespace Drupal\Console\Command\Create;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Command\CreateTrait;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -17,9 +18,10 @@ use Drupal\Console\Style\DrupalStyle;
  * Class CommentsCommand
  * @package Drupal\Console\Command\Generate
  */
-class CommentsCommand extends ContainerAwareCommand
+class CommentsCommand extends Command
 {
     use CreateTrait;
+    use ContainerAwareCommandTrait;
 
     /**
      * {@inheritdoc}
@@ -108,7 +110,7 @@ class CommentsCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $createComments = $this->getDrupalApi()->getCreateComments();
+        $createComments = $this->getApplication()->getDrupalApi()->getCreateComments();
 
         $nodeId = $input->getArgument('node-id')?:1;
         $limit = $input->getOption('limit')?:25;

@@ -9,12 +9,15 @@ namespace Drupal\Console\Command\Exclude;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Finder\Finder;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Style\DrupalStyle;
 
 class ElephpantCommand extends Command
 {
+    use CommandTrait;
+
     protected function configure()
     {
         $this
@@ -26,7 +29,7 @@ class ElephpantCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $renderer = $this->getRenderHelper();
+        $renderer = $this->getApplication()->getRenderHelper();
 
         $directory = sprintf(
             '%stemplates/core/elephpant/',

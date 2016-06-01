@@ -1,11 +1,16 @@
 <?php
 
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\Finder\Finder;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Drupal\Console\Application;
 use Drupal\Console\Helper\KernelHelper;
 use Drupal\Console\Helper\StringHelper;
 use Drupal\Console\Helper\ValidatorHelper;
 use Drupal\Console\Helper\TranslatorHelper;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Drupal\Console\Helper\SiteHelper;
 use Drupal\Console\EventSubscriber\ShowGeneratedFilesListener;
 use Drupal\Console\EventSubscriber\ShowWelcomeMessageListener;
@@ -26,10 +31,6 @@ use Drupal\Console\Helper\RemoteHelper;
 use Drupal\Console\Helper\HttpClientHelper;
 use Drupal\Console\Helper\DrupalApiHelper;
 use Drupal\Console\Helper\ContainerHelper;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 
 set_time_limit(0);
 
@@ -48,6 +49,14 @@ if (file_exists($consoleRoot.'vendor/autoload.php')) {
 $container = new ContainerBuilder();
 $loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
 $loader->load('services.yml');
+
+$finder = new Finder();
+$finder->files()
+    ->name('*.yml')
+    ->in(sprintf('%s/config/services/', $consoleRoot));
+foreach ($finder as $file) {
+    $loader->load($file->getPathName());
+}
 
 AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
 

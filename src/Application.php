@@ -342,9 +342,7 @@ class Application extends BaseApplication
         );
 
         foreach ($autoWireForcedCommands as $autoWireForcedCommand) {
-            $command = new $autoWireForcedCommand['class'](
-                $autoWireForcedCommand['helperset']?$this->getHelperSet():null
-            );
+            $command = new $autoWireForcedCommand['class'];
             $this->add($command);
         }
 
@@ -356,9 +354,12 @@ class Application extends BaseApplication
         );
 
         if ($autoWireNameCommand) {
-            $command = new $autoWireNameCommand['class'](
-                $autoWireNameCommand['helperset']?$this->getHelperSet():null
-            );
+            $command = new $autoWireNameCommand['class'];
+
+            if (method_exists($command, 'setTranslator')) {
+                $command->setTranslator($this->container->get('translator'));
+            }
+
             $this->add($command);
         }
 

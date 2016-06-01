@@ -9,11 +9,13 @@ namespace Drupal\Console\Command\State;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class DeleteCommand extends ContainerAwareCommand
+class DeleteCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -53,7 +55,7 @@ class DeleteCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $state = $this->getState();
+        $state = $this->getService('state');
         $name = $input->getArgument('name');
         if (!$name) {
             $io->error($this->trans('commands.state.delete.messages.enter-name'));
