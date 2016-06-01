@@ -388,7 +388,7 @@ class InstallCommand extends Command
     {
         $root = $this->get('site')->getRoot();
 
-        if (!$file_exists($root . '/sites/backup.sites.php')) {
+        if (!file_exists($root . '/sites/backup.sites.php')) {
             return;
         }
 
