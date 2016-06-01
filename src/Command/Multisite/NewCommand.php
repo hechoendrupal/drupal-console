@@ -127,13 +127,17 @@ class NewCommand extends Command
   }
 
   /**
+   * Adds line to sites.php that is needed for the new site to be recognized.
+   *
    * @param DrupalStyle $output
    * @param string $uri
    */
   protected function addToSitesFile(DrupalStyle $output, $uri)
   {
       if ($this->fs->exists($this->root . '/sites/sites.php')) {
-          if (is_dir($this->root . '/sites/sites.php') || !is_readable($this->root . '/sites/sites.php')) {
+          $sites_is_dir = is_dir($this->root . '/sites/sites.php');
+          $sites_readable = is_readable($this->root . '/sites/sites.php');
+          if ($sites_is_dur || !$sites_is_readable) {
               throw new \Exception($this->trans('commands.multisite.new.errors.sites-invalid'));
           }
           $sites_file_contents = file_get_contents($this->root . '/sites/sites.php');
@@ -154,10 +158,11 @@ class NewCommand extends Command
       } catch (IOExceptionInterface $e) {
           $output->error('commands.multisite.new.errors.sites-other');
       }
-
   }
 
   /**
+   * Copies detected default install alters settings.php to fit the new directory.
+   *
    * @param DrupalStyle $output
    */
   protected function copyExistingInstall(DrupalStyle $output)
@@ -222,6 +227,8 @@ class NewCommand extends Command
   }
 
   /**
+   * Creates site folder with clean settings.php file.
+   *
    * @param DrupalStyle $output
    */
   protected function createFreshSite(DrupalStyle $output)
@@ -264,6 +271,12 @@ class NewCommand extends Command
   }
 
   /**
+   * Changes permissions of settings.php to 640.
+   *
+   * The copy will have 444 permissions by default, which makes it readable by
+   * anyone. Also, Drupal likes being able to write to it during, for example,
+   * a fresh install.
+   *
    * @param DrupalStyle $output
    */
   protected function chmodSettings(DrupalStyle $output)
