@@ -105,12 +105,13 @@ class Application extends BaseApplication
             new InputOption('--yes', '-y', InputOption::VALUE_NONE, $this->trans('application.options.yes'))
         );
 
-        $options = $this->getConfig()->get('application.default.global.options')?:[];
+        $options = $this->getConfig()->get('application.options')?:[];
         foreach ($options as $key => $option) {
             if ($this->getDefinition()->hasOption($key)) {
-                if ($option === true) {
+                if (is_bool($option) && $option === true) {
                     $_SERVER['argv'][] = sprintf('--%s', $key);
-                } else {
+                }
+                if (!is_bool($option) && $option) {
                     $_SERVER['argv'][] = sprintf('--%s=%s', $key, $option);
                 }
             }
@@ -542,12 +543,10 @@ class Application extends BaseApplication
      */
     private function getCommandAliases($command)
     {
-        $aliasKey = sprintf(
-            'application.default.commands.%s.aliases',
-            str_replace(':', '.', $command->getName())
-        );
+        $aliases = $this->getConfig()
+            ->get('commands.aliases.'. $command->getName());
 
-        return $this->getConfig()->get($aliasKey)?:[];
+        return $aliases?[$aliases]:[];
     }
 
     /**
