@@ -7,13 +7,14 @@
 
 namespace Drupal\Console\Command\Multisite;
 
-use Drupal\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class MultisiteNewCommand
@@ -21,6 +22,7 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
  */
 class NewCommand extends Command
 {
+    use CommandTrait;
 
     /**
      * @var Symfony\Component\Filesystem\Filesystem;
@@ -80,7 +82,7 @@ class NewCommand extends Command
         }
 
         $this->fs = new Filesystem();
-        $this->root = $this->getDrupalHelper()->getRoot();
+        $this->root = $this->get('site')->getRoot();
 
         if ($this->fs->exists($this->root . '/sites/' . $this->subdir)) {
             $output->error(
