@@ -11,13 +11,15 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Core\Config\UnmetDependenciesException;
 use Drupal\Console\Style\DrupalStyle;
 
-class InstallCommand extends ContainerAwareCommand
+class InstallCommand extends Command
 {
     protected $moduleInstaller;
+    use ContainerAwareCommandTrait;
 
     protected function configure()
     {
@@ -86,11 +88,11 @@ class InstallCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $configFactory = $this->getConfigFactory();
+        $configFactory = $this->getService('config.factory');
 
         $config = $configFactory->getEditable('system.theme');
 
-        $themeHandler = $this->getThemeHandler();
+        $themeHandler = $this->getService('theme_handler');
         $themeHandler->refreshInfo();
         $theme = $input->getArgument('theme');
         $default = $input->getOption('set-default');
@@ -191,6 +193,6 @@ class InstallCommand extends ContainerAwareCommand
         }
 
         // Run cache rebuild to see changes in Web UI
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->get('chain_queue')->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 }
