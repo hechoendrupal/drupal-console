@@ -5,10 +5,11 @@
  */
 function {{ module }}_theme() {
   $theme = [];
-  $theme['{{ entity_name }}'] = [
-    'render element' => 'elements',
+{% include '/module/src/Entity/entity-content.theme.php.twig' with {'entity_name': entity_name, } %}
+  $theme['{{ entity_name }}_content_add_list'] = [
+    'render element' => 'content',
+    'variables' => ['content' => NULL],
     'file' => '{{ entity_name }}.page.inc',
-    'template' => '{{ entity_name }}',
   ];
   return $theme;
 }
