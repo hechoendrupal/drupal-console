@@ -10,11 +10,6 @@ function {{ module }}_theme() {
     'file' => '{{ entity_name }}.page.inc',
     'template' => '{{ entity_name }}',
   ];
-  $theme['{{ entity_name }}_content_add_list'] = [
-    'render element' => 'content',
-    'variables' => ['content' => NULL],
-    'file' => '{{ entity_name }}.page.inc',
-  ];
   return $theme;
 }
 {% endblock %}
