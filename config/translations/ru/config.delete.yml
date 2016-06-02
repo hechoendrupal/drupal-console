@@ -1,7 +1,7 @@
-description: 'Delete configuration'
+description: 'Удалить конфигурацию'
 arguments:
-    name: 'Configuration name.'
+    name: 'Имя конфигурации.'
 messages:
-    name: 'Configuration name must contain a value.'
-    not-exists: 'The configuration "%s" does not exists.'
-    deleted: 'Configuration "%s" sucessfully deleted.'
+    name: 'Имя конфигрурации должно содержать значение.'
+    not-exists: 'Конфигурация "%s" не существует.'
+    deleted: 'Конфигурация "%s" успешно удалена.'
