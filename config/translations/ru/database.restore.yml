@@ -6,4 +6,4 @@ options:
 messages:
     success: 'База данных импортирована из:'
     no-file: 'Missing file option'
-help: 'Restore structure and contents of a database.'
+help: 'Восстановление структуры и содержимого базы данных.'

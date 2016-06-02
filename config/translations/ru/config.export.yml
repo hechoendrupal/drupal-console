@@ -1,7 +1,7 @@
 description: 'Экспорт текущей конфигурации приложения.'
 arguments:
     directory: 'Задать директорию для экспорта конфигурации.'
-    tar: 'If set, the configuration will be exported to an archive file.'
+    tar: 'Если установлено, то конфигурация будет экспортирована в архив.'
 messages:
     directory: 'Конфигурация была экспортирована в:'
     error: 'An error occurred while creating your directory at %s'
