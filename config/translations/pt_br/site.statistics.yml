@@ -1,15 +1,15 @@
-description: 'Show the current statistics of website.'
-help: 'Show the current statistics of website.'
+description: 'Exibe as estatísticas atuais para o website.'
+help: 'Exibe as estatísticas atuais de um website.'
 messages:
-    stat-name: Name
-    stat-quantity: Quantity
+    stat-name: Nome
+    stat-quantity: Quantidade
     node-type: 'Node:%s'
-    comments: Comments
-    vocabulary: Vocabularies
-    taxonomy-terms: 'Taxonomy terms'
-    files: Files
-    users: Users
-    modules-enabled: 'Modules enabled'
-    modules-disabled: 'Modules disabled'
-    themes-enabled: 'Themes enabled'
-    themes-disabled: 'Themes disabled'
+    comments: Comentárioa
+    vocabulary: Vocabulários
+    taxonomy-terms: 'Termos de taxonomia'
+    files: Arquivos
+    users: Usuários
+    modules-enabled: 'Módulos habilitados'
+    modules-disabled: 'Módulos desabilitados'
+    themes-enabled: 'Temas habilitados'
+    themes-disabled: 'Temas desabilitados'
