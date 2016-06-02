@@ -10,3 +10,4 @@ messages:
     successful: 'Tentativele de autentificare pentru utilizatorul cu ID-ul %s au fost şterse cu succes.'
 errors:
     invalid-user: 'Nu se poate încărca entitatea utilizator (Uid: %s).'
+    no-flood: 'No flood table on the system.'

@@ -9,7 +9,7 @@ questions:
     roles: 'Select role(s) associated with users to be deleted'
 messages:
     user-id: 'User ID'
-    username: 'Username'
+    username: Username
     user-deleted: 'User %s was deleted successfully'
     users-deleted: '%s users were deleted successfully'
 errors:

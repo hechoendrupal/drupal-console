@@ -4,6 +4,7 @@ arguments:
     tar: 'अगर सेट है, तो कॉन्फ़िगरेशन एक संग्रह फ़ाइल को एक्सपोर्ट किया जाएगा।'
 messages:
     directory: 'आपका कॉन्फ़िगरेशन एक्सपोर्ट फ़ाइल %s में संग्रहीत किया गया'
+    error: 'An error occurred while creating your directory at %s'
 content:
     type:
         description: 'किसी विशेष कंटेंट टाइप और उनके खानो का एक्सपोर्ट करें।'

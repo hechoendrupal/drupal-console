@@ -1,15 +1,5 @@
 description: 'Display all plugin types, plugin instances of a specific type, or the definition for a specific plugin.'
-help: |
-  List all plugin types:
-  <info>drupal plugin:debug</info>
-
-  List all instances of the image effect plugin type:
-  <info>drupal plugin:debug image.effect</info>
-
-  Show the definition for the image convert plugin:
-  <info>drupal plugin:debug image.effect image_convert</info>
-
-  <comment>NOTE: Only plugin types exposed through services are supported.</comment> When developing a custom plugin type, expose it as a service by adding it to modulename.services.yml with the name "plugin.manager.PLUGIN_TYPE".
+help: "List all plugin types:\n<info>drupal plugin:debug</info>\n\nList all instances of the image effect plugin type:\n<info>drupal plugin:debug image.effect</info>\n\nShow the definition for the image convert plugin:\n<info>drupal plugin:debug image.effect image_convert</info>\n\n<comment>NOTE: Only plugin types exposed through services are supported.</comment> When developing a custom plugin type, expose it as a service by adding it to modulename.services.yml with the name \"plugin.manager.PLUGIN_TYPE\".\n"
 arguments:
     type: 'Plugin type'
     id: 'Plugin ID'
@@ -20,5 +10,5 @@ table-headers:
     plugin-type-class: 'Plugin manager class'
     plugin-id: 'Plugin ID'
     plugin-class: 'Plugin class'
-    definition-key: 'Key'
-    definition-value: 'Value'
+    definition-key: Key
+    definition-value: Value
