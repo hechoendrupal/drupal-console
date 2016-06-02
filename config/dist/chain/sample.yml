@@ -14,8 +14,13 @@ commands:
       class: HelloWorldController
       routes:
         - title: 'Hello World'
+          name: 'example.hello_name'
           method: hello
-          path: 'example/hello/{name}'
+          path: '/example/hello/{name}'
+      services:
+          - entity_field.manager
+          - theme_handler
+          - config.factory
       test: true
   - command: generate:form:config
     options:

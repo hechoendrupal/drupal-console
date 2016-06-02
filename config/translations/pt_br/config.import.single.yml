@@ -1,11 +1,11 @@
-description: 'Import the selected configuration.'
+description: 'Importar a configuratição selecionada.'
 arguments:
-    name: 'Configuration name.'
-    file: 'Path to the import file'
-    input-file: 'Path to the import files.'
+    name: 'Nome da configuração.'
+    file: 'Caminho para o arquivo de importação'
+    input-file: 'Caminho para os arquivos de importação.'
 questions:
-    name: 'Enter configuration name'
-    file: 'Enter path to the import file'
+    name: 'Digite o nome de configuração.'
+    file: 'Digite o caminho para o arquivo de importação.'
 messages:
-    empty-value: 'Value can not be empty'
-    success: 'The configuration "%s", had been imported.'
+    empty-value: 'Valor não pode ser vazio.'
+    success: 'A configuração "%s", foi importada.'

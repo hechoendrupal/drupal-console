@@ -12,7 +12,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
-use Drupal\Console\Command\Command;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -21,6 +22,8 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class SetCommand extends Command
 {
+    use CommandTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -55,7 +58,7 @@ class SetCommand extends Command
         $settingName = $input->getArgument('setting-name');
         $settingValue = $input->getArgument('setting-value');
 
-        $nestedArray = $this->getNestedArrayHelper();
+        $nestedArray = $this->getApplication()->getNestedArrayHelper();
 
         $application = $this->getApplication();
         $config = $application->getConfig();
@@ -66,13 +69,13 @@ class SetCommand extends Command
         );
 
         if (!file_exists($userConfigFile)) {
-            $io->warning(
+            $io->error(
                 sprintf(
                     $this->trans('commands.settings.set.messages.missing-file'),
                     $userConfigFile
                 )
             );
-            return 0;
+            return 1;
         }
 
         try {
@@ -91,7 +94,7 @@ class SetCommand extends Command
         } catch (\Exception $e) {
             $io->error($this->trans('commands.settings.set.messages.error-generating').': '.$e->getMessage());
 
-            return;
+            return 1;
         }
 
         try {
@@ -99,11 +102,12 @@ class SetCommand extends Command
         } catch (\Exception $e) {
             $io->error($this->trans('commands.settings.set.messages.error-writing').': '.$e->getMessage());
 
-            return;
+            return 1;
         }
 
         if ($settingName == 'language') {
-            $this->getTranslator()->loadResource($settingValue, $application->getDirectoryRoot());
+            $this->get('translator')
+                ->loadResource($settingValue, $application->getDirectoryRoot());
         }
 
         $io->success(

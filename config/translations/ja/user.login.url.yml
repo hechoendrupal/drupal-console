@@ -2,6 +2,6 @@ description: ワンタイムログインURLを生成する
 options:
     user-id: ユーザーID
 messages:
-    url: '@name のワンタイムログインURL: @url'
+    url: '%s のワンタイムログインURL: %s'
 errors:
-    invalid-user: 'ユーザーエンティティがロードできませんでした (User ID: @uid)。'
+    invalid-user: 'ユーザーエンティティがロードできませんでした (User ID: %s)。'

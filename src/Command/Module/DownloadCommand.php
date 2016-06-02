@@ -7,22 +7,19 @@
 
 namespace Drupal\Console\Command\Module;
 
-
+use Drupal\Console\Command\Shared\CommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\ProjectDownloadTrait;
-use Drupal\Console\Command\PHPProcessTrait;
+use Drupal\Console\Style\DrupalStyle;
 
 class DownloadCommand extends Command
 {
+    use CommandTrait;
     use ProjectDownloadTrait;
-    use PHPProcessTrait;
-
-    protected $stable = true;
 
     protected function configure()
     {
@@ -51,6 +48,12 @@ class DownloadCommand extends Command
                 '',
                 InputOption::VALUE_NONE,
                 $this->trans('commands.module.install.options.composer')
+            )
+            ->addOption(
+                'unstable',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.module.install.options.unstable')
             );
     }
 
@@ -82,8 +85,6 @@ class DownloadCommand extends Command
 
     /**
      * {@inheritdoc}
-     *
-     * --latest option works but it's not recommended
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -93,23 +94,13 @@ class DownloadCommand extends Command
         $latest = $input->getOption('latest');
         $path = $input->getOption('path');
         $composer = $input->getOption('composer');
+        $unstable = true;
 
         if ($composer) {
             foreach ($modules as $module) {
-                $this->stable
-                = ('yes' != $io->ask(
-                    $this->trans('commands.site.new.questions.stable'),
-                    'yes'
-                ))?
-                false
-                : true
-                ;
-
                 if (!$latest) {
-                    $versions
-                    = $this
-                        ->getDrupalApi()
-                        ->getPackagistModuleReleases($module, 10, $this->stable);
+                    $versions = $this->getApplication()->getDrupalApi()
+                        ->getPackagistModuleReleases($module, 10, $unstable);
 
                     if (!$versions) {
                         $io->error(
@@ -120,19 +111,17 @@ class DownloadCommand extends Command
                                 $module
                             )
                         );
-                        return;
+
+                        return 1;
                     } else {
-                        $version
-                        = $io->choice(
+                        $version = $io->choice(
                             $this->trans('commands.site.new.questions.composer-release'),
                             $versions
                         );
                     }
                 } else {
-                    $versions
-                    = $this
-                        ->getDrupalApi()
-                        ->getPackagistModuleReleases($module, 10, $this->stable);
+                    $versions = $this->getApplication()->getDrupalApi()
+                        ->getPackagistModuleReleases($module, 10, $unstable);
 
                     if (!$versions) {
                         $io->error(
@@ -143,26 +132,27 @@ class DownloadCommand extends Command
                                 $module
                             )
                         );
-                        return;
+                        return 1;
                     } else {
-                        $version
-                        = current(
-                            $this
-                                ->getDrupalApi()
-                                ->getPackagistModuleReleases($module, 1, $this->stable)
+                        $version = current(
+                            $this->getApplication()->getDrupalApi()
+                                ->getPackagistModuleReleases($module, 1, $unstable)
                         );
                     }
                 }
 
-                $this->setComposerRepositories($io);
+                $this->setComposerRepositories();
+                $command = sprintf(
+                    'composer require drupal/%s:%s',
+                    $module,
+                    $version
+                );
 
-                $cmd = "cd " . $this->getApplication()->getSite()->getSiteRoot() . "; ";
-                $cmd .= 'composer require "drupal/' . $module .':' . $version . '"';
-
-                if ($this->execProcess($cmd)) {
+                $shellProcess = $this->get('shell_process');
+                if ($shellProcess->exec($command)) {
                     $io->success(
                         sprintf(
-                            $this->trans('commands.module.install.messages.composer'),
+                            $this->trans('commands.module.download.messages.composer'),
                             $version
                         )
                     );

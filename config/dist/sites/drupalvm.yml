@@ -1,0 +1,6 @@
+dev:
+  root: /var/www/drupalvm/drupal
+  host: 192.168.88.88
+  user: vagrant
+  password: vagrant
+  console: /usr/local/bin/drupal

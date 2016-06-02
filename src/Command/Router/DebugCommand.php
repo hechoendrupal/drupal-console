@@ -10,12 +10,15 @@ namespace Drupal\Console\Command\Router;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Component\Serialization\Yaml;
 
-class DebugCommand extends ContainerAwareCommand
+class DebugCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+    
     protected function configure()
     {
         $this
@@ -43,7 +46,7 @@ class DebugCommand extends ContainerAwareCommand
 
     protected function getAllRoutes(DrupalStyle $io)
     {
-        $routeProvider = $this->getRouteProvider();
+        $routeProvider = $this->getService('router.route_provider');
         $routes = $routeProvider->getAllRoutes();
 
         $tableHeader = [

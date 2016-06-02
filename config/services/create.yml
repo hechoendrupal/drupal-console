@@ -1,0 +1,21 @@
+services:
+  create_nodes:
+    class: Drupal\Console\Command\Create\NodesCommand
+    tags:
+      - { name: console.command }
+  create_comments:
+    class: Drupal\Console\Command\Create\CommentsCommand
+    tags:
+      - { name: console.command }
+  create_terms:
+    class: Drupal\Console\Command\Create\TermsCommand
+    tags:
+      - { name: console.command }
+  create_users:
+    class: Drupal\Console\Command\Create\UsersCommand
+    tags:
+      - { name: console.command }
+  create_vocabularies:
+    class: Drupal\Console\Command\Create\VocabulariesCommand
+    tags:
+      - { name: console.command }

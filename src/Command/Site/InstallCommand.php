@@ -318,12 +318,16 @@ class InstallCommand extends Command
             );
         }
 
+        $this->backupSitesFile($output);
+
         try {
             $this->runInstaller($output, $input, $database);
         } catch (Exception $e) {
             $output->error($e->getMessage());
             return;
         }
+
+        $this->restoreSitesFile($output);
     }
 
     protected function getProfiles()
@@ -352,6 +356,44 @@ class InstallCommand extends Command
         $application = $this->getApplication();
         $config = $application->getConfig();
         return $config->get('application.language');
+    }
+
+    /**
+     * Backs up sites.php to backup.sites.php (if needed).
+     *
+     * This is needed because of a bug with install_drupal() that causes the
+     * install files to be placed directly under /sites instead of the
+     * appropriate subdir when run from a script and a sites.php file exists.
+     *
+     * @param DrupalStyle $output
+     */
+    protected function backupSitesFile(DrupalStyle $output)
+    {
+        $root = $this->get('site')->getRoot();
+
+        if (!file_exists($root . '/sites/sites.php')) {
+            return;
+        }
+
+        rename($root . '/sites/sites.php', $root . '/sites/backup.sites.php');
+        $output->info($this->trans('commands.site.install.messages.sites-backup'));
+    }
+
+    /**
+     * Restores backup.sites.php to sites.php (if needed).
+     *
+     * @param DrupalStyle $output
+     */
+    protected function restoreSitesFile(DrupalStyle $output)
+    {
+        $root = $this->get('site')->getRoot();
+
+        if (!file_exists($root . '/sites/backup.sites.php')) {
+            return;
+        }
+
+        rename($root . '/sites/backup.sites.php', $root . '/sites/sites.php');
+        $output->info($this->trans('commands.site.install.messages.sites-restore'));
     }
 
     protected function runInstaller(

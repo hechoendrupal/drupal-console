@@ -145,7 +145,7 @@ class TwigRendererHelper extends Helper
             'serviceClassInitialization', function ($services) {
                 $returnValues = [];
                 foreach ($services as $service) {
-                    $returnValues[] = sprintf('    $this->%s = $%s;', $service['machine_name'], $service['machine_name']);
+                    $returnValues[] = sprintf('    $this->%s = $%s;', $service['camel_case_name'], $service['machine_name']);
                 }
 
                 return implode(PHP_EOL, $returnValues);

@@ -11,13 +11,14 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\ProcessBuilder;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Command\Database\ConnectTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class DumpCommand extends ContainerAwareCommand
+class DumpCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     use ConnectTrait;
 
     /**
@@ -58,7 +59,7 @@ class DumpCommand extends ContainerAwareCommand
 
         if (!$file) {
             $date = new \DateTime();
-            $siteRoot = rtrim($this->getSite()->getSiteRoot(), '/');
+            $siteRoot = rtrim($this->getApplication()->getSite()->getSiteRoot(), '/');
             $file = sprintf(
                 '%s/%s-%s.sql',
                 $siteRoot,
@@ -66,6 +67,8 @@ class DumpCommand extends ContainerAwareCommand
                 $date->format('Y-m-d-h-i-s')
             );
         }
+
+        $command = null;
 
         if ($databaseConnection['driver'] == 'mysql') {
             $command = sprintf(
@@ -99,22 +102,15 @@ class DumpCommand extends ContainerAwareCommand
             );
         }
 
-        $processBuilder = new ProcessBuilder(['–lock-all-tables']);
-        $process = $processBuilder->getProcess();
-        $process->setTty('true');
-        $process->setCommandLine($command);
-        $process->run();
-
-        if (!$process->isSuccessful()) {
-            throw new \RuntimeException($process->getErrorOutput());
+        $shellProcess = $this->get('shell_process');
+        if ($shellProcess->exec($command)) {
+            $io->success(
+                sprintf(
+                    '%s %s',
+                    $this->trans('commands.database.dump.messages.success'),
+                    $file
+                )
+            );
         }
-
-        $io->success(
-            sprintf(
-                '%s %s',
-                $this->trans('commands.database.dump.messages.success'),
-                $file
-            )
-        );
     }
 }

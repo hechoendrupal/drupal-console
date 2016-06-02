@@ -1,0 +1,9 @@
+services:
+  image_styles_debug:
+    class: Drupal\Console\Command\Image\StylesDebugCommand
+    tags:
+      - { name: console.command }
+  image_styles_flush:
+    class: Drupal\Console\Command\Image\StylesFlushCommand
+    tags:
+      - { name: console.command }

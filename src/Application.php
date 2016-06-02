@@ -30,12 +30,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '1.0.0-alpha2';
-
-    /**
-     * @var string
-     */
-    const DRUPAL_SUPPORTED_VERSION = '8.1.x';
+    const VERSION = '1.0.0-beta1';
 
     /**
      * @var string
@@ -78,7 +73,6 @@ class Application extends BaseApplication
         $this->container = $container;
         parent::__construct($this::NAME, $this::VERSION);
 
-        //        $this->env = $this->getConfig()->get('application.environment');
         $this->env = $this->getConfig()->get('application.environment');
         $this->getDefinition()->addOption(
             new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, $this->trans('application.options.env'), $this->env)
@@ -111,10 +105,15 @@ class Application extends BaseApplication
             new InputOption('--yes', '-y', InputOption::VALUE_NONE, $this->trans('application.options.yes'))
         );
 
-        $options = $this->getConfig()->get('application.default.global.options')?:[];
+        $options = $this->getConfig()->get('application.options')?:[];
         foreach ($options as $key => $option) {
             if ($this->getDefinition()->hasOption($key)) {
-                $_SERVER['argv'][] = sprintf('--%s', $key);
+                if (is_bool($option) && $option === true) {
+                    $_SERVER['argv'][] = sprintf('--%s', $key);
+                }
+                if (!is_bool($option) && $option) {
+                    $_SERVER['argv'][] = sprintf('--%s=%s', $key, $option);
+                }
             }
         }
 
@@ -127,9 +126,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * Gets the default input definition.
-     *
-     * @return InputDefinition An InputDefinition instance
+     * {@inheritdoc}
      */
     protected function getDefaultInputDefinition()
     {
@@ -148,11 +145,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * Returns the long version of the application.
-     *
-     * @return string The long application version
-     *
-     * @api
+     * {@inheritdoc}
      */
     public function getLongVersion()
     {
@@ -162,6 +155,7 @@ class Application extends BaseApplication
 
         return '<info>Drupal Console</info>';
     }
+
     /**
      * {@inheritdoc}
      */
@@ -338,7 +332,7 @@ class Application extends BaseApplication
         }
 
         foreach ($commands as $command) {
-            $command->setAliases([]);
+            $command->setAliases($this->getCommandAliases($command));
             $this->add($command);
         }
 
@@ -349,9 +343,7 @@ class Application extends BaseApplication
         );
 
         foreach ($autoWireForcedCommands as $autoWireForcedCommand) {
-            $command = new $autoWireForcedCommand['class'](
-                $autoWireForcedCommand['helperset']?$this->getHelperSet():null
-            );
+            $command = new $autoWireForcedCommand['class'];
             $this->add($command);
         }
 
@@ -363,9 +355,12 @@ class Application extends BaseApplication
         );
 
         if ($autoWireNameCommand) {
-            $command = new $autoWireNameCommand['class'](
-                $autoWireNameCommand['helperset']?$this->getHelperSet():null
-            );
+            $command = new $autoWireNameCommand['class'];
+
+            if (method_exists($command, 'setTranslator')) {
+                $command->setTranslator($this->container->get('translator'));
+            }
+
             $this->add($command);
         }
 
@@ -387,6 +382,8 @@ class Application extends BaseApplication
             if (method_exists($command, 'setTranslator')) {
                 $command->setTranslator($this->container->get('translator'));
             }
+
+            $command->setAliases($this->getCommandAliases($command));
             $this->add($command);
         }
     }
@@ -542,16 +539,14 @@ class Application extends BaseApplication
 
     /**
      * @param $command
-     * @return array|null
+     * @return array
      */
     private function getCommandAliases($command)
     {
-        $aliasKey = sprintf(
-            'application.default.commands.%s.aliases',
-            str_replace(':', '.', $command->getName())
-        );
+        $aliases = $this->getConfig()
+            ->get('commands.aliases.'. $command->getName());
 
-        return $this->getConfig()->get($aliasKey);
+        return $aliases?[$aliases]:[];
     }
 
     /**

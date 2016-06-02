@@ -1,0 +1,29 @@
+services:
+  user_debug:
+    class: Drupal\Console\Command\User\DebugCommand
+    tags:
+      - { name: console.command }
+  user_delete:
+    class: Drupal\Console\Command\User\DeleteCommand
+    tags:
+      - { name: console.command }
+  user_login_clear_attempts:
+    class: Drupal\Console\Command\User\LoginCleanAttemptsCommand
+    tags:
+      - { name: console.command }
+  user_login_url:
+    class: Drupal\Console\Command\User\LoginUrlCommand
+    tags:
+      - { name: console.command }
+  user_password_hash:
+    class: Drupal\Console\Command\User\PasswordHashCommand
+    tags:
+      - { name: console.command }
+  user_password_reset:
+    class: Drupal\Console\Command\User\PasswordResetCommand
+    tags:
+      - { name: console.command }
+  user_role:
+    class: Drupal\Console\Command\User\RoleCommand
+    tags:
+      - { name: console.command }

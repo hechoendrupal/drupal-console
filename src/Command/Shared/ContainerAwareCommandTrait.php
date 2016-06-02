@@ -20,7 +20,7 @@ trait ContainerAwareCommandTrait
      */
     public function hasGetService($serviceId)
     {
-        return $this->getService($serviceId);
+        return $this->hasDrupalService($serviceId);
     }
 
     /**
