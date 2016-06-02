@@ -8,3 +8,6 @@ messages:
     language: भाषा
     percentage: प्रतिशत
     iso: 'ISO Code'
+tips:
+    -
+        tip: 'Pass a language ISO code as argument to restrict the languages list'

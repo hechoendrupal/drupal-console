@@ -3,6 +3,10 @@ arguments:
     directory: 'Directory when downloading Drupal'
     version: 'Versão do drupal a ser baixada'
     site-name: 'Nome do site'
+options:
+    composer: 'Install Drupal with Composer'
+    latest: 'Use this option to select automatically the latest version'
+    unstable: 'Use this option to download unstable releases. If not used, you only can install stable releases. Do not use this with latest nor version.'
 messages:
     select-release: 'Select a core release'
     getting-releases: 'Carregando versões do Drupal'
@@ -11,6 +15,12 @@ messages:
     no-releases: 'Não há versões disponíveis para o Drupal'
     downloaded: 'Drupal %s foi baixado no diretório %s'
     error-copying: 'Um erro ocorreu ao renomear o diretório em %s'
+    composer: 'Drupal %s was installed successfully using Composer at %s'
+    executing: 'Executing composer command:'
+    missing-directory: 'Missing directory argument'
+    missing-version: 'Missing version argument'
     release: 'Por favor selecione uma versão'
 questions:
     directory: 'Enter the directory name when downloading Drupal'
+    composer-release: 'Please, choose a Packagist Drupal release'
+    stable: 'Do you want to use stable releases?'

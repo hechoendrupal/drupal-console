@@ -3,6 +3,10 @@ arguments:
     directory: 'Directory when downloading Drupal'
     version: 'Phiên bản cụ thể của Drupal để tải xuống'
     site-name: 'Tên site'
+options:
+    composer: 'Install Drupal with Composer'
+    latest: 'Use this option to select automatically the latest version'
+    unstable: 'Use this option to download unstable releases. If not used, you only can install stable releases. Do not use this with latest nor version.'
 messages:
     select-release: 'Xin hãy chọn một bản phát hành'
     getting-releases: 'Nhận các bản mới phát hành của Drupal'
@@ -11,6 +15,12 @@ messages:
     no-releases: 'Không có bất kỳ bản mới phát hành nào của Drupal'
     downloaded: 'Drupal %s đã được tải xuống thư mục %s'
     error-copying: 'Một lỗi đã xảy ra trong khi thay đổi tên thư mục tại %s'
+    composer: 'Drupal %s was installed successfully using Composer at %s'
+    executing: 'Executing composer command:'
+    missing-directory: 'Missing directory argument'
+    missing-version: 'Missing version argument'
     release: 'Please select a release'
 questions:
     directory: 'Enter the directory name when downloading Drupal'
+    composer-release: 'Please, choose a Packagist Drupal release'
+    stable: 'Do you want to use stable releases?'

@@ -4,6 +4,9 @@ welcome: 'Bienvenue dans la commande Drupal user debug'
 options:
     roles: 'Fitrer par rôle(s)'
     limit: 'Combien d''utilisateurs voulez-vous afficher'
+    uid: 'Filters the result list by uids [between quotes separated by spaces]'
+    username: 'Filters the result list by usernames [between quotes separated by spaces]'
+    mail: 'Filters the result list by user''s e-mail [between quotes separated by spaces]'
 questions:
     roles: 'Sélectionnez les role(s) par lesquels vous voulez filtrer la liste d''utilisateurs'
     limit: 'Entrer le nombre maximum d''utilisateurs à afficher'

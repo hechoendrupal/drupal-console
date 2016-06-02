@@ -4,3 +4,4 @@ arguments:
     tar: 'Если установлено, то конфигурация будет экспортирована в архив.'
 messages:
     directory: 'Конфигурация была экспортирована в:'
+    error: 'An error occurred while creating your directory at %s'

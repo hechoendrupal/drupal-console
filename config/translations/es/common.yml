@@ -35,8 +35,8 @@ errors:
     module-exist: 'El módulo "%s" ya existe.'
     machine-name-duplicated: 'El nombre máquina "%s" está duplicado.'
 status:
-    enabled: 'Habilitado'
-    disabled: 'Deshabilitado'
+    enabled: Habilitado
+    disabled: Deshabilitado
 messages:
     canceled: 'Generación Cancelada'
     drupal-core: 'Core de Drupal'

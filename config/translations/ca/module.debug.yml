@@ -12,3 +12,7 @@ messages:
     disabled: Deshabilitat
     version: Version
     schema-version: 'Versió de l''esquema'
+    total-downloads: 'Total installs'
+    total-monthly: 'Monthly installs'
+    total-daily: 'Daily installs'
+    no-results: 'Module %s was not found in the repository'
