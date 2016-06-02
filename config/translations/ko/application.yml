@@ -1,0 +1,85 @@
+options:
+    env: 'The Environment name'
+    no-debug: 'Switches off debug mode'
+    learning: 'Generate a verbose code output'
+    generate-chain: 'Shows command options and arguments as yaml output to be used in chain command'
+    generate-inline: 'Shows command options and arguments as inline command'
+    generate-doc: 'Shows command options and arguments as markdown'
+    root: 'Define the Drupal root to be used in command execution'
+    uri: 'URI of the Drupal site to use (for multi-site environments or when running on an alternate port)'
+    'yes': 'Skip confirmation and proceed'
+    target: 'Site name you want to interact with (for local or remote sites)'
+    help: 'Display this help message'
+    quiet: 'Do not output any message'
+    verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
+    version: 'Display this application version'
+    ansi: 'Force ANSI output'
+    no-ansi: 'Disable ANSI output'
+    no-interaction: 'Do not ask any interactive question'
+    check-fix: 'Attempt to fix any missing configuration.'
+arguments:
+    command: 'The command to execute'
+messages:
+    completed: 'The command was executed successfully!'
+    chain:
+        generated: 'Yaml representation of this command, usage copy in i.e. `~/.console/chain/sample.yml` to execute using `chain` command, make sure your yaml file start with a `commands` root key:'
+    inline:
+        generated: 'Inline representation of this command:'
+    generated: 'You can now start using the generated code!'
+    files:
+        generated: 'Generated or updated files'
+        copied: 'Copied files'
+    learning:
+        route: "In order to to create pages it is necessary to define routes for them.\nA route maps a URL path to a controller. It defines what function\nor method will be called when a URL is accessed.\nIf the user accesses http://drupal8.dev/{{ route.path }}, the routing\nsystem will look for a route with that path. In this case it will find a\nmatch, and execute the _controller callback. In this case the callback is\ndefined as a classname\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nand a method (\"{{ route.method }}\")."
+    autocomplete: "Bash or Zsh: Add this line to your shell configuration file:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Create a symbolic link\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
+    version: '<info>%s</info> version <comment>%s</comment>'
+errors:
+    invalid-command: 'Command "%s" is not defined.'
+site:
+    messages:
+        path: 'Site path'
+    errors:
+        directory: 'In order to list all of the available commands, you should run this inside a drupal root directory.'
+        settings: 'In order to list all of the available commands you should install drupal first.'
+user:
+    messages:
+        path: 'User home path'
+console:
+    arguments:
+        env: '환경 이름'
+        no-debug: '디버그 모드 끄기'
+        learning: '보다 자세한 코드 출력'
+        generate-chain: ' 명령어 옵션과 매개변수를 체인 커맨드에서 사용할 명령어로 출력'
+        generate-inline: '명령어 옵션과 매개변수를 인라인 명령어로 출력'
+        generate-doc: '명령어 옵션과 매개변수를 마크다운으로 출력'
+        root: '명령어 실행에 사용할 드루팔 루트 정의'
+        uri: '사용할 드루팔 사이트의 URI (멀티사이트 환경 혹은 다른 포트로 실행 중인 경우)'
+        'yes': '확인 없이 진행'
+        target: '조작하려는 사이트 이름 (로컬 혹은 리모트)'
+    messages:
+        completed: '명령을 성공적으로 실행했습니다!'
+        chain:
+            generated: 'Yaml representation of this command, usage copy in i.e. `~/.console/chain/sample.yml` to execute using `chain` command, make sure your yaml file start with a `commands` root key:'
+        inline:
+            generated: '이 명령어의 인라인 구현:'
+        generated: '이제 생성한 코드를 사용할 수 있습니다.!'
+        files:
+            generated: '생성하거나 수정한 파일들'
+            copied: '복사한 파일들'
+        learning:
+            route: "페이지를 만들려면 페이지에 대한 라우트를 정의해야 합니다.\n라우트는 컨트롤러에 URL 경로를 맵핑합니다. 또한 URL 요청을 받은 때 어떤 함수나 \n메소드를 호출할지 정의합니다.\n사용자가 http://drupal8.dev/{{ route.path }}에 접근할 경우, 라우팅\n시스템은 해당 경로에 대한 라우트를 찾고, 일치하는 경우를\n 찾아서 _controller 콜백을 실행합니다. 이 경우 콜백은 클래스명\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\n 그리고 (\"{{ route.method }}\") 메소드로 정의합니다."
+        autocomplete: "Bash or Zsh: Add this line to your shell configuration file:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Create a symbolic link\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
+    errors:
+        invalid-command: 'Command "%s" is not defined.'
+    input:
+        definition:
+            command: 'The command to execute'
+            help: 'Display this help message'
+            quiet: 'Do not output any message'
+            verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
+            version: 'Display this application version'
+            ansi: 'Force ANSI output'
+            no-ansi: 'Disable ANSI output'
+            no-interaction: 'Do not ask any interactive question'
+    options:
+        version: '<info>%s</info> version <comment>%s</comment>'

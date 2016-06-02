@@ -44,22 +44,33 @@ class RemoteHelper extends Helper
             $remoteCommand
         );
 
-        $key = new RSA();
-        if (array_key_exists('passphrase', $targetConfig['keys'])) {
-            $passphrase = $targetConfig['keys']['passphrase'];
-            $passphrase = realpath(preg_replace('/~/', $userHomeDir, $passphrase, 1));
-            $key->setPassword(trim(file_get_contents($passphrase)));
+        $key = null;
+        if (array_key_exists('password', $targetConfig)) {
+            $key = $targetConfig['password'];
         }
-        $private = $targetConfig['keys']['private'];
-        $private = realpath(preg_replace('/~/', $userHomeDir, $private, 1));
 
-        if (!$key->loadKey(trim(file_get_contents($private)))) {
-            return $this->getTranslator()->trans('commands.site.debug.messages.private-key');
+        if (!$key) {
+            $key = new RSA();
+            if (array_key_exists('passphrase', $targetConfig['keys'])) {
+                $passphrase = $targetConfig['keys']['passphrase'];
+                $passphrase = realpath(preg_replace('/~/', $userHomeDir, $passphrase, 1));
+                $key->setPassword(trim(file_get_contents($passphrase)));
+            }
+            $private = $targetConfig['keys']['private'];
+            $private = realpath(preg_replace('/~/', $userHomeDir, $private, 1));
+
+            if (!$key->loadKey(trim(file_get_contents($private)))) {
+                return $this->getTranslator()->trans('commands.site.debug.messages.private-key');
+            }
         }
 
         $ssh = new SSH2($targetConfig['host'], $targetConfig['port']);
         if (!$ssh->login($targetConfig['user'], $key)) {
-            return $this->getTranslator()->trans('commands.site.debug.messages.error-connect');
+            return sprintf(
+                '%s - %s',
+                $ssh->getExitStatus(),
+                $ssh->getErrors()
+            );
         } else {
             return $ssh->exec($remoteCommand);
         }

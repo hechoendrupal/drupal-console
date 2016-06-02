@@ -1,0 +1,12 @@
+description: '清查全部或指定的語系檔案中待翻譯的字串'
+arguments:
+  language: '指定清查的語系名稱'
+options:
+  file: '指定清查的語系翻譯檔案'
+messages:
+  invalid-language: '錯誤的語系名稱 %s'
+  language: '語系'
+  pending-translations: '%s 語系待翻譯檔案 %s'
+  missing-file: "%s 語系裡找不到 %s 翻譯檔，請嘗試執行 translation:sync 指令"
+  success-language: '總共 %s 條%s待翻譯字串'
+  success-language-file: '%3$s 檔案中有 %1$s 條%2$s待翻譯字串'

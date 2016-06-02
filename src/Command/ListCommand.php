@@ -11,11 +11,14 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
 use Drupal\Console\Helper\DescriptorHelper;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Command;
+use Symfony\Component\Console\Command\Command as BaseCommand;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class ListCommand extends Command
+class ListCommand extends BaseCommand
 {
+    use CommandTrait;
+
     /**
      * {@inheritdoc}
      */

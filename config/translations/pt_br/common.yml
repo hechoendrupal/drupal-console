@@ -32,6 +32,8 @@ errors:
     module-dependency: 'Dependência do módulo ausente "%s"'
     class-name-empty: 'O nome da classe não pode ser vazio'
     invalid-file-path: 'You must provide a valid file path'
+    module-exist: 'Module "%s" already exist.'
+    machine-name-duplicated: 'Machine name "%s" is duplicated.'
 status:
     enabled: Habilitado
     disabled: Desabilitado

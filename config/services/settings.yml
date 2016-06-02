@@ -1,0 +1,9 @@
+services:
+  settings_debug:
+    class: Drupal\Console\Command\Settings\DebugCommand
+    tags:
+      - { name: console.command }
+  settings_set:
+    class: Drupal\Console\Command\Settings\SetCommand
+    tags:
+      - { name: console.command }

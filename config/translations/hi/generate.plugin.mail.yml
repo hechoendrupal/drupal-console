@@ -1,0 +1,17 @@
+description: 'एक प्लगइन मेल उत्पन्न करें'
+help: '<info>generate:plugin:mail</info> कमांड आपको एक नया प्लगइन मेल उत्पन्न करने में मदद करता है।'
+welcome: 'Drupal प्लगइन मेल उत्पन्न में आपका स्वागत है'
+options:
+    module: common.options.module
+    class: 'प्लगइन क्लास नाम'
+    label: 'प्लगइन लेबल'
+    plugin-id: 'प्लगइन आईडी'
+    inputs: common.options.inputs
+    services: common.options.services
+questions:
+    module: common.questions.module
+    class: 'प्लगइन क्लास के नाम एंटर करें'
+    label: 'प्लगइन लेबल एंटर करें'
+    plugin-id: 'प्लगइन आईडी एंटर करें'
+    inputs: common.questions.inputs
+    services: common.questions.services

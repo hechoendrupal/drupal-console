@@ -12,12 +12,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class DiffCommand extends ContainerAwareCommand
+class DiffCommand extends Command
 {
-
+    use ContainerAwareCommandTrait;
     /**
      * A static array map of operations -> color strings.
      *
@@ -47,7 +48,7 @@ class DiffCommand extends ContainerAwareCommand
             )
             ->addOption(
                 'reverse',
-                NULL,
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.config.diff.options.reverse')
             );
@@ -81,13 +82,12 @@ class DiffCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
         $directory = $input->getArgument('directory');
         $source_storage = new FileStorage($directory);
-        $active_storage = $this->getConfigStorage();
-        $config_manager = $this->getConfigManager();
+        $active_storage = $this->getDrupalService('config.storage');
+        $config_manager = $this->getDrupalService('config.manager');
 
         if ($input->getOption('reverse')) {
             $config_comparer = new StorageComparer($source_storage, $active_storage, $config_manager);
-        }
-        else {
+        } else {
             $config_comparer = new StorageComparer($active_storage, $source_storage, $config_manager);
         }
         if (!$config_comparer->createChangelist()->hasChanges()) {
@@ -96,7 +96,7 @@ class DiffCommand extends ContainerAwareCommand
 
         $change_list = [];
         foreach ($config_comparer->getAllCollectionNames() as $collection) {
-            $change_list[$collection] = $config_comparer->getChangelist(NULL, $collection);
+            $change_list[$collection] = $config_comparer->getChangelist(null, $collection);
         }
 
         $this->outputDiffTable($io, $change_list);
@@ -107,7 +107,7 @@ class DiffCommand extends ContainerAwareCommand
      *
      * @param DrupalStyle $io
      *   The io.
-     * @param array $change_list
+     * @param array       $change_list
      *   The list of changes from the StorageComparer.
      */
     protected function outputDiffTable(DrupalStyle $io, array $change_list)
@@ -120,7 +120,7 @@ class DiffCommand extends ContainerAwareCommand
         $rows = [];
         foreach ($change_list as $collection => $changes) {
             foreach ($changes as $operation => $configs) {
-                foreach($configs as $config) {
+                foreach ($configs as $config) {
                     $rows[] = [
                         $collection,
                         $config,
@@ -131,5 +131,4 @@ class DiffCommand extends ContainerAwareCommand
         }
         $io->table($header, $rows);
     }
-
 }

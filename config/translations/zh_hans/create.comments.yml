@@ -1,0 +1,30 @@
+description: 创建评论
+help: '<info>create:comments</info> 命令用于创建评论(s)'
+welcome: '欢迎使用 Drupal 评论生成器'
+arguments:
+    node-id: '创建评论的节点 ID'
+options:
+    limit: 创建评论数量
+    title-words: 评论标题中的最大单词数量
+    time-range: 评论的创建时间区间
+questions:
+    node-id: '创建评论的节点 ID'
+    content-type: 选择用于创建评论的内容类型(s)
+    limit: 输入生成评论数量
+    title-words: 输入标题中使用的最大单词数量
+    time-range: 评论的创建时间区间
+    time-ranges:
+        - 现在
+        - '1 小时以前'
+        - '1 天以前'
+        - '1 周以前'
+        - '1 月以前'
+        - '1 年以前'
+messages:
+    node-id: '节点 Id'
+    comment-id: '评论 Id'
+    content-type: 内容类型
+    title: 标题
+    created: 创建时间
+    invalid-content-types: '内容类型(s) %s 无效'
+    created-comments: '创建 %s 评论成功'

@@ -6,8 +6,8 @@
 
 namespace Drupal\Console\Helper;
 
+use Drupal\Console\Command\CommandDependencies;
 use Symfony\Component\Finder\Finder;
-use Drupal\Console\Helper\Helper;
 
 /**
  * Class CommandDiscovery
@@ -31,12 +31,23 @@ class CommandDiscoveryHelper extends Helper
     protected $develop = false;
 
     /**
+     * @var CommandDependencies
+     */
+    protected $commandDependencies;
+
+    /**
+     * @var array
+     */
+    protected $missingDependencies = [];
+
+    /**
      * CommandDiscoveryHelper constructor.
      * @param bool $develop
      */
-    public function __construct($develop)
+    public function __construct($develop, CommandDependencies $commandDependencyResolver)
     {
         $this->develop = $develop;
+        $this->commandDependencies = $commandDependencyResolver;
     }
 
     /**
@@ -63,6 +74,7 @@ class CommandDiscoveryHelper extends Helper
         $consoleCommands = $this->getConsoleCommands();
         $customModuleCommands = $this->getCustomCommands();
         $customThemeCommands = $this->getCustomCommands('themes');
+        $this->loadCustomThemeGenerators();
 
         return array_merge($consoleCommands, array_merge($customModuleCommands, $customThemeCommands));
     }
@@ -106,6 +118,18 @@ class CommandDiscoveryHelper extends Helper
     }
 
     /**
+     * @return array
+     */
+    public function loadCustomThemeGenerators()
+    {
+        $sources = [];
+
+        $sources = $this->getSite()->getThemes(true, true, false, false);
+
+        $this->discoverThemeGenerators($sources);
+    }
+
+    /**
      * @param $sources
      * @return array
      */
@@ -137,6 +161,24 @@ class CommandDiscoveryHelper extends Helper
         }
 
         return $commands;
+    }
+
+    /**
+     * @param $sources
+     */
+    private function discoverThemeGenerators($sources)
+    {
+        foreach ($sources as $sourceName => $source) {
+            $directory = sprintf(
+                '%s/%s/src/Generator',
+                $this->getDrupalHelper()->getRoot(),
+                $source->getPath()
+            );
+
+            if (is_dir($directory)) {
+                $this->extractThemeGenerators($directory, $sourceName);
+            }
+        }
     }
 
     /**
@@ -185,6 +227,38 @@ class CommandDiscoveryHelper extends Helper
     }
 
     /**
+     * @param $directory
+     * @param $source
+     */
+    private function extractThemeGenerators($directory, $source)
+    {
+        $finder = new Finder();
+        $finder->files()
+            ->name('*Generator.php')
+            ->in($directory)
+            ->depth('< 2');
+
+        $finder->exclude('Exclude');
+
+        if (!$this->develop) {
+            $finder->exclude('Develop');
+        }
+
+        foreach ($finder as $file) {
+            $className = sprintf(
+                'Drupal\%s\Generator\%s',
+                $source,
+                str_replace(
+                    ['/', '.php'], ['\\', ''],
+                    $file->getRelativePathname()
+                )
+            );
+
+            include $file->getPathname();
+        }
+    }
+
+    /**
      * @param $className
      * @param $source
      * @param $type
@@ -193,22 +267,27 @@ class CommandDiscoveryHelper extends Helper
     private function validateCommand($className, $source, $type)
     {
         if (!class_exists($className)) {
-            return;
+            return false;
         }
 
         $reflectionClass = new \ReflectionClass($className);
 
         if ($reflectionClass->isAbstract()) {
-            return;
+            return false;
         }
 
         if (!$reflectionClass->isSubclassOf('Drupal\\Console\\Command\\Command')) {
-            return;
+            return false;
         }
 
-        if (!$this->getDrupalHelper()->isInstalled() && $reflectionClass->isSubclassOf('Drupal\\Console\\Command\\ContainerAwareCommand')) {
-            return;
+        if (!$this->getDrupalHelper()->isInstalled()
+            && $reflectionClass->isSubclassOf('Drupal\\Console\\Command\\ContainerAwareCommand')
+        ) {
+            return false;
         }
+
+        $dependencies = $this->commandDependencies->read($reflectionClass);
+
 
         if ($reflectionClass->getConstructor()->getNumberOfRequiredParameters() > 0) {
             if ($source != 'Console') {
@@ -223,6 +302,8 @@ class CommandDiscoveryHelper extends Helper
             $command = $reflectionClass->newInstance();
         }
 
+        $this->missingDependencies[$command->getName()] = $dependencies;
+
         if ($type === 'module') {
             $command->setModule($source);
         } elseif ($type === 'theme') {
@@ -230,6 +311,14 @@ class CommandDiscoveryHelper extends Helper
         }
 
         return $command;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMissingDependencies()
+    {
+        return $this->missingDependencies;
     }
 
     /**

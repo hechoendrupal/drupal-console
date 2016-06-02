@@ -1,0 +1,4 @@
+description: '웹사이트에서 사용할 언어를 추가합니다'
+messages:
+    invalid-language: '%s 언어는 유효하지 않습니다.'
+    language-add-successfully: '%s 언어를 추가했습니다.'

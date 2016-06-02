@@ -2,8 +2,8 @@ description: 利用可能な翻訳のアップデートを表示
 arguments:
     language: 'es や Spanish のような言語名'
 messages:
-    no-languages: '翻訳可能な言語がありません。先に言語を追加してください。'
-    up-to-date: '全ての翻訳は最新です。'
+    no-languages: 翻訳可能な言語がありません。先に言語を追加してください。
+    up-to-date: 全ての翻訳は最新です。
     no-translations: 'No translation status available. Check manually'
     project: Project
     version: Version

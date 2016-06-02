@@ -1,296 +1,85 @@
-application:
-  default:
-    commands:
-      cache:
-        rebuild:
-          aliases:
-            - cr
-      theme:
-        download:
-          aliases:
-            - td
-        debug:
-          aliases:
-            - tde
-        install:
-          aliases:
-            - ti
-        uninstall:
-          aliases:
-            - tu
-      module:
-        download:
-          aliases:
-            - md
-      config:
-        debug:
-          aliases:
-            - cde
-        edit:
-          aliases:
-            - cdit
-        export:
-          aliases:
-            - ce
-          content:
-            type:
-              aliases:
-                - cect
-          single:
-            aliases:
-              - ces
-          view:
-            aliases:
-              - cev
-        import:
-          aliases:
-            - ci
-          single:
-            aliases:
-              - cis
-      config:
-        override:
-          aliases:
-            - co
-      container:
-        debug:
-          aliases:
-            - cod
-      cron:
-        execute:
-          aliases:
-            - cre
-        release:
-          aliases:
-            - crr
-      dblog:
-        clear:
-          aliases:
-            - dbc
-        debug:
-          aliases:
-            - dbb
-      generate:
-        authentication:
-          provider:
-            aliases:
-              - gap
-        command:
-          aliases:
-            - gcm
-        controller:
-          aliases:
-            - gcn
-        doc:
-          dash:
-            aliases:
-              - gdd
-          gitbook:
-            aliases:
-              - gdg
-        entity:
-          bundle:
-            aliases:
-              - geb
-          config:
-            aliases:
-              - gecg
-          content:
-            aliases:
-              - gect
-        event:
-          subscriber:
-            aliases:
-              - ges
-        form:
-          alter:
-            aliases:
-              - gfa
-        form:
-          config:
-            aliases:
-              - gfc
-        module:
-          aliases:
-            - gm
-        permissions:
-          aliases:
-            - gp
-        plugin:
-          block:
-            aliases:
-              - gpb
-        plugin:
-          condition:
-            aliases:
-              - gpc
-        plugin:
-          field:
-            aliases:
-              - gpf
-        plugin:
-          fieldformatter:
-            aliases:
-              - gpff
-        plugin:
-          fieldtype:
-            aliases:
-              - gpft
-        plugin:
-          fieldwidget:
-            aliases:
-              - gpfw
-        plugin:
-          imageeffect:
-            aliases:
-              - gpie
-        plugin:
-          imageformatter:
-            aliases:
-              - gpif
-        plugin:
-          rest:
-            resource:
-              aliases:
-                - gprr
-        plugin:
-          rulesaction:
-            aliases:
-              - gpra
-        plugin:
-          type:
-            annotation:
-              aliases:
-                - gpta
-        plugin:
-          type:
-            yaml:
-              aliases:
-                - gpty
-        plugin:
-          views:
-            field:
-              aliases:
-                - gpvf
-        service:
-          aliases:
-            - gs
-        theme:
-          aliases:
-            - gt
-      migrate:
-        debug:
-          aliases:
-            - mid
-        execute:
-          aliases:
-            - mie
-        load:
-          aliases:
-            - mil
-      module:
-        debug:
-          aliases:
-            - mod
-        download:
-          aliases:
-            - modo
-        install:
-          aliases:
-            - moi
-        uninstall:
-          aliases:
-            - mou
-      rest:
-        debug:
-          aliases:
-            - rede
-        disable:
-          aliases:
-            - redi
-        enable:
-          aliases:
-            - ree
-      router:
-        debug:
-          aliases:
-            - rod
-        rebuild:
-          aliases:
-            - ror
-      site:
-        debug:
-          aliases:
-            - sd
-        install:
-          aliases:
-            - si
-        maintenance:
-          aliases:
-            - sma
-        mode:
-          aliases:
-            - smo
-        new:
-          aliases:
-            - sn
-        status:
-          aliases:
-            - ss
-      test:
-        debug:
-          aliases:
-            - td
-        run:
-          aliases:
-            - tr
-      update:
-        debug:
-          aliases:
-            - upd
-        execute:
-          aliases:
-            - upe
-      user:
-        login:
-          clear:
-            attempts:
-              aliases:
-                - uslca
-          url:
-            aliases:
-              - uslu
-        password:
-          hash:
-            aliases:
-              - usph
-          reset:
-            aliases:
-              - uspr
-      views:
-        debug:
-          aliases:
-            - vde
-        disable:
-          aliases:
-            - vdi
-        enable:
-          aliases:
-            - ve
-      yaml:
-        diff:
-          aliases:
-            - yd
-        merge:
-          aliases:
-            - ym
-        split:
-          aliases:
-            - ys
-        update:
-          key:
-            aliases:
-              - yu
-          value:
-            aliases:
-              - yuv
+commands:
+  aliases:
+    cache:rebuild: cr
+    theme:download: td
+    theme:debug: tde
+    theme:install: ti
+    theme:uninstall: tu
+    module:download: md
+    config:debug: cde
+    config:edit: cdit
+    config:export: ce
+    config:export:content:type: cect
+    config:export:single: ces
+    config:export:view: cev
+    config:import: ci
+    config:import:single: cis
+    config:override: co
+    container:debug: cod
+    cron:execute: cre
+    cron:release: crr
+    dblog:clear: dbc
+    dblog:debug: dbb
+    generate:authentication:provider: gap
+    generate:command: gcm
+    generate:controller: gcn
+    generate:doc:dash: gdd
+    generate:doc:gitbook: gdg
+    generate:doc:cheatsheet: gdc
+    generate:entity:bundle: geb
+    generate:entity:config: gecg
+    generate:entity:content: gect
+    generate:event:subscriber: ges
+    generate:form:alter: gfa
+    generate:form:config: gfc
+    generate:module: gm
+    generate:permissions: gp
+    generate:plugin:block: gpb
+    generate:plugin:condition: gpc
+    generate:plugin:field: gpf
+    generate:plugin:fieldformatter: gpff
+    generate:plugin:fieldtype: gpft
+    generate:plugin:fieldwidget: gpfw
+    generate:plugin:imageeffect: gpie
+    generate:plugin:imageformatter: gpif
+    generate:plugin:rest:resource: gprr
+    generate:plugin:rulesaction: gpra
+    generate:plugin:type:annotation: gpta
+    generate:plugin:type:yaml: gpty
+    generate:plugin:views:field: gpvf
+    generate:service: gs
+    generate:theme: gt
+    migrate:debug: mid
+    migrate:execute: mie
+    migrate:load: mil
+    module:debug: mod
+    module:download: modo
+    module:install: moi
+    module:uninstall: mou
+    rest:debug: rede
+    rest:disable: redi
+    rest:enable: ree
+    router:debug: rod
+    router:rebuild: ror
+    site:debug: sd
+    site:install: si
+    site:maintenance: sma
+    site:mode: smo
+    site:new: sn
+    site:status: ss
+    test:debug: td
+    test:run: tr
+    update:debug: upd
+    update:execute: upe
+    user:login:clear:attempts: uslca
+    user:login:url: uslu
+    user:password:hash: usph
+    user:password:reset: uspr
+    views:debug: vde
+    views:disable: vdi
+    views:enable: ve
+    yaml:diff: yd
+    yaml:merge: ym
+    yaml:split: ys
+    yaml:update:key: yu
+    yaml:update:value: yuv

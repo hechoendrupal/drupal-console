@@ -1,0 +1,46 @@
+options:
+    env: 'Ang pangalan ng environment'
+    no-debug: 'Pag switch off ng debug mode'
+    learning: 'Generate a verbose code output'
+    generate-chain: 'Ay nagpapakita sa options at argumento sa yaml output upang gamitin sa mga tanikalang utos'
+    generate-inline: 'Ay nagpapakita sa options at argumento bilang inline command'
+    generate-doc: 'Shows command options and arguments as markdown'
+    root: 'tukuyin ang Drupal root na gagamitin para patakbuhin ang isang utos'
+    uri: 'URI ng isang Drupal site na gagamitin (para sa multi-site ng kaligiran)'
+    'yes': 'Laktawan ang kompirmasyon at tumungo sa kabila'
+    target: 'Pangalan ng website na gusto mong kainteract'
+    help: 'Ipakita ang mensahe ng pagtulong'
+    quiet: 'Huwag ipakit ang anumang mensage'
+    verbose: 'Taasan ang verbosity ng mga mensahe: 1 for normal output, 2 for more verbose output and 3 for debug'
+    version: 'Display this application version'
+    ansi: 'Force ANSI output'
+    no-ansi: 'I-disable ang ANSI output'
+    no-interaction: 'Wag magtanong ng anumang interactive'
+    check-fix: 'Subukang ayusin and anumang nawawalng konpigyurasyon.'
+arguments:
+    command: 'Ang utos na patakbuhin'
+messages:
+    completed: 'Ang utos as naisakatuparan ng maayos'
+    chain:
+        generated: 'Yaml representation of this command, usage copy in i.e. `~/.console/chain/sample.yml` to execute using `chain` command, make sure your yaml file start with a `commands` root key:'
+    inline:
+        generated: 'Inline representation of this command:'
+    generated: 'Maari mo ng umpisahan ang nagenerate ng code!'
+    files:
+        generated: 'Generated or updated files'
+        copied: 'Pagkopya ng files'
+    learning:
+        route: "In order to to create pages it is necessary to define routes for them.\nA route maps a URL path to a controller. It defines with what function\nor method will be called when a URL is accessed.\nIf the user accesses http://drupal8.dev/{{ route.path }}, the routing\nsystem will look for a route with that path. In this case it will find a\nmatch, and execute the _controller callback. In this case the callback is\ndefined as a classname\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nand a method (\"{{ route.method }}\")."
+    autocomplete: "Bash atau Zsh: Tambahkan baris ini di file konfigurasi shell kamu:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Buat link simbolik\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
+    version: '<info>%s</info> version <comment>%s</comment>'
+errors:
+    invalid-command: 'Command "%s" is not defined.'
+site:
+    messages:
+        path: 'Site path'
+    errors:
+        directory: 'Para makita ang listahan ng mga bagong commands, eto patakbuhin sa loob ng drupal root directory.'
+        settings: 'Para makita ang listahan ng mga bagong commands, install mo muna iyong drupal site.'
+user:
+    messages:
+        path: 'User home path'

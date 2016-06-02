@@ -7,8 +7,8 @@ questions:
     directories: 'El directori de configuració:'
 table:
     headers:
-      collection: 'Col·lecció'
-      config-name: 'L''element de configuració'
-      operation: 'L''operació'
+        collection: Col·lecció
+        config-name: 'L''element de configuració'
+        operation: 'L''operació'
 messages:
     no-changes: 'No hi han canvis.'

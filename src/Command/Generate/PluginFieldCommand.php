@@ -260,7 +260,7 @@ class PluginFieldCommand extends GeneratorCommand
         if (!$formatterLabel) {
             $formatterLabel = $io->ask(
                 $this->trans('commands.generate.plugin.field.questions.formatter-label'),
-                $this->getStringHelper()->camelCaseToHuman($widgetClass)
+                $this->getStringHelper()->camelCaseToHuman($formatterClass)
             );
             $input->setOption('formatter-label', $formatterLabel);
         }
@@ -270,7 +270,7 @@ class PluginFieldCommand extends GeneratorCommand
         if (!$formatter_plugin_id) {
             $formatter_plugin_id = $io->ask(
                 $this->trans('commands.generate.plugin.field.questions.formatter-plugin-id'),
-                $this->getStringHelper()->camelCaseToUnderscore($widgetClass)
+                $this->getStringHelper()->camelCaseToUnderscore($formatterClass)
             );
             $input->setOption('formatter-plugin-id', $formatter_plugin_id);
         }
@@ -288,7 +288,7 @@ class PluginFieldCommand extends GeneratorCommand
         // --default-widget option
         $default_widget = $input->getOption('default-widget');
         if (!$default_widget) {
-            $default_widget = $io->askEmpty(
+            $default_widget = $io->ask(
                 $this->trans('commands.generate.plugin.field.questions.default-widget'),
                 $widget_plugin_id
             );
@@ -298,7 +298,7 @@ class PluginFieldCommand extends GeneratorCommand
         // --default-formatter option
         $default_formatter = $input->getOption('default-formatter');
         if (!$default_formatter) {
-            $default_formatter = $io->askEmpty(
+            $default_formatter = $io->ask(
                 $this->trans('commands.generate.plugin.field.questions.default-formatter'),
                 $formatter_plugin_id
             );

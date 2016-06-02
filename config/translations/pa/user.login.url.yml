@@ -2,6 +2,6 @@ description: 'Returns a one-time user login url.'
 options:
     user-id: 'User ID.'
 messages:
-    url: 'One-time login for @name: @url'
+    url: 'One-time login for %s: %s'
 errors:
-    invalid-user: 'Cannot load user entity (User ID: @uid).'
+    invalid-user: 'Cannot load user entity (User ID: %s).'

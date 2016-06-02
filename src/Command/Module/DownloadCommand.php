@@ -7,16 +7,18 @@
 
 namespace Drupal\Console\Command\Module;
 
+use Drupal\Console\Command\Shared\CommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\ProjectDownloadTrait;
+use Drupal\Console\Style\DrupalStyle;
 
 class DownloadCommand extends Command
 {
+    use CommandTrait;
     use ProjectDownloadTrait;
 
     protected function configure()
@@ -30,10 +32,28 @@ class DownloadCommand extends Command
                 $this->trans('commands.module.download.arguments.module')
             )
             ->addOption(
+                'path',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.module.download.options.path')
+            )
+            ->addOption(
                 'latest',
                 '',
                 InputOption::VALUE_NONE,
                 $this->trans('commands.module.download.options.latest')
+            )
+            ->addOption(
+                'composer',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.module.install.options.composer')
+            )
+            ->addOption(
+                'unstable',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.module.install.options.unstable')
             );
     }
 
@@ -43,11 +63,23 @@ class DownloadCommand extends Command
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-
+        $composer = $input->getOption('composer');
         $module = $input->getArgument('module');
+
         if (!$module) {
             $module = $this->modulesQuestion($io);
             $input->setArgument('module', $module);
+        }
+
+        if (!$composer) {
+            $path = $input->getOption('path');
+            if (!$path) {
+                $path = $io->ask(
+                    $this->trans('commands.module.download.questions.path'),
+                    'modules/contrib'
+                );
+                $input->setOption('path', $path);
+            }
         }
     }
 
@@ -58,10 +90,77 @@ class DownloadCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $module = $input->getArgument('module');
+        $modules = $input->getArgument('module');
         $latest = $input->getOption('latest');
+        $path = $input->getOption('path');
+        $composer = $input->getOption('composer');
+        $unstable = true;
 
-        $this->downloadModules($io, $module, $latest);
+        if ($composer) {
+            foreach ($modules as $module) {
+                if (!$latest) {
+                    $versions = $this->getApplication()->getDrupalApi()
+                        ->getPackagistModuleReleases($module, 10, $unstable);
+
+                    if (!$versions) {
+                        $io->error(
+                            sprintf(
+                                $this->trans(
+                                    'commands.module.download.messages.no-releases'
+                                ),
+                                $module
+                            )
+                        );
+
+                        return 1;
+                    } else {
+                        $version = $io->choice(
+                            $this->trans('commands.site.new.questions.composer-release'),
+                            $versions
+                        );
+                    }
+                } else {
+                    $versions = $this->getApplication()->getDrupalApi()
+                        ->getPackagistModuleReleases($module, 10, $unstable);
+
+                    if (!$versions) {
+                        $io->error(
+                            sprintf(
+                                $this->trans(
+                                    'commands.module.download.messages.no-releases'
+                                ),
+                                $module
+                            )
+                        );
+                        return 1;
+                    } else {
+                        $version = current(
+                            $this->getApplication()->getDrupalApi()
+                                ->getPackagistModuleReleases($module, 1, $unstable)
+                        );
+                    }
+                }
+
+                $this->setComposerRepositories();
+                $command = sprintf(
+                    'composer require drupal/%s:%s',
+                    $module,
+                    $version
+                );
+
+                $shellProcess = $this->get('shell_process');
+                if ($shellProcess->exec($command)) {
+                    $io->success(
+                        sprintf(
+                            $this->trans('commands.module.download.messages.composer'),
+                            $version
+                        )
+                    );
+                }
+            }
+        } else {
+            $this->downloadModules($io, $modules, $latest, $path);
+        }
 
         return true;
     }

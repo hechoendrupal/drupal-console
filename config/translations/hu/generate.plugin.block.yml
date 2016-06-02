@@ -17,5 +17,5 @@ questions:
     inputs: common.questions.inputs
     services: common.questions.services
 messages:
-    inputs: "Felvehetők beviteli mezők a blokk speciális beállításainak létrehozásához. Ez nem kötelező, az <info>enter</info> megnyomásával <info>folytatható</info> a művelet"
-    invalid-theme-region: "Érvénytelen régió: %s"
+    inputs: 'Felvehetők beviteli mezők a blokk speciális beállításainak létrehozásához. Ez nem kötelező, az <info>enter</info> megnyomásával <info>folytatható</info> a művelet'
+    invalid-theme-region: 'Érvénytelen régió: %s'

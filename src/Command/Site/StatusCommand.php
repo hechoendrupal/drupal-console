@@ -10,7 +10,9 @@ namespace Drupal\Console\Command\Site;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Core\Database\Database;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -18,8 +20,10 @@ use Drupal\Console\Style\DrupalStyle;
  *
  *  @category site
  */
-class StatusCommand extends ContainerAwareCommand
+class StatusCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+
     /* @var $connectionInfoKeys array */
     protected $connectionInfoKeys = [
       'driver',
@@ -86,7 +90,7 @@ class StatusCommand extends ContainerAwareCommand
 
     protected function getSystemData()
     {
-        $systemManager = $this->getSystemManager();
+        $systemManager = $this->getDrupalService('system.manager');
         if (!$systemManager) {
             return [];
         }
@@ -104,28 +108,35 @@ class StatusCommand extends ContainerAwareCommand
             $systemData['system'][$title] = $requirement['value'];
         }
 
-        $settings = $this->getSettings();
-
-        try {
-            $hashSalt = $settings->getHashSalt();
-        } catch (\Exception $e) {
-            $hashSalt = '';
+        if ($settings = $this->getDrupalService('settings')) {
+            try {
+                $hashSalt = $settings->getHashSalt();
+            } catch (\Exception $e) {
+                $hashSalt = '';
+            }
+            $systemData['system'][$this->trans('commands.site.status.messages.hash_salt')] = $hashSalt;
+            $systemData['system'][$this->trans('commands.site.status.messages.console')] = $this->getApplication()->getVersion();
         }
-
-        $systemData['system'][$this->trans('commands.site.status.messages.hash_salt')] = $hashSalt;
-        $systemData['system'][$this->trans('commands.site.status.messages.console')] = $this->getApplication()->getVersion();
 
         return $systemData;
     }
 
     protected function getConnectionData()
     {
-        $connectionInfo = $this->getConnectionInfo();
+        $connectionInfo = Database::getConnectionInfo();
 
         $connectionData = [];
         foreach ($this->connectionInfoKeys as $connectionInfoKey) {
+            if ("password" == $connectionInfoKey) {
+                continue;
+            }
+
             $connectionKey = $this->trans('commands.site.status.messages.'.$connectionInfoKey);
             $connectionData['database'][$connectionKey] = $connectionInfo['default'][$connectionInfoKey];
+        }
+
+        if ($connectionInfo['default']['password']) {
+            $connectionInfo['default']['password'] = str_repeat("*", strlen($connectionInfo['default']['password']));
         }
 
         $connectionData['database'][$this->trans('commands.site.status.messages.connection')] = sprintf(
@@ -143,7 +154,7 @@ class StatusCommand extends ContainerAwareCommand
 
     protected function getThemeData()
     {
-        $configFactory = $this->getConfigFactory();
+        $configFactory = $this->getDrupalService('config.factory');
         $config = $configFactory->get('system.theme');
 
         return [
@@ -156,16 +167,16 @@ class StatusCommand extends ContainerAwareCommand
 
     protected function getDirectoryData()
     {
-        $drupal = $this->getDrupalHelper();
+        $drupal = $this->get('site');
         $drupal_root = $drupal->getRoot();
 
-        $configFactory = $this->getConfigFactory();
+        $configFactory = $this->getDrupalService('config.factory');
         $systemTheme = $configFactory->get('system.theme');
 
         $themeDefaultDirectory = '';
         $themeAdminDirectory = '';
         try {
-            $themeHandler = $this->getThemeHandler();
+            $themeHandler = $this->getDrupalService('theme_handler');
             $themeDefault = $themeHandler->getTheme(
                 $systemTheme->get('default')
             );
@@ -178,7 +189,8 @@ class StatusCommand extends ContainerAwareCommand
         } catch (\Exception $e) {
         }
 
-        $systemFile = $this->getConfigFactory()->get('system.file');
+        $systemFile = $this->getDrupalService('config.factory')
+            ->get('system.file');
 
         return [
           'directory' => [

@@ -1,8 +1,10 @@
 description: 'Crea un nuevo proyecto Drupal'
 arguments:
-    directory: 'Directory when downloading Drupal'
+    directory: 'Directorio donde instalar Drupal'
     version: 'Versión específica de Drupal a descargar'
-    site-name: 'Nombre del sitio'
+options:
+    latest: 'Use esta opción para seleccionar automáticamente la última versión'
+    unstable: 'Use esta opción para descargar versiones de desarrollo. Si no usa esta opción, sólo podrá descargar versiones estables. No use esta opción juntamente con las opciones latest ni version.'
 messages:
     select-release: 'Seleccione una versión del core'
     getting-releases: 'Obteniendo releases de Drupal'
@@ -13,4 +15,6 @@ messages:
     error-copying: 'Ha ocurrido un error mientras se renombraba su directorio en %s'
     release: 'Por favor, seleccione una versión'
 questions:
-    directory: 'Enter the directory name when downloading Drupal'
+    directory: 'Introduzca el nombre de directorio donde instalar Drupal'
+    composer-release: 'Por favor, elija una versión de Packagist Drupal'
+    stable: '¿Desea utilizar versiones estables?'

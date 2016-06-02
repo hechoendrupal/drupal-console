@@ -9,7 +9,8 @@ namespace Drupal\Console\Utils\Create;
 
 use Drupal\Console\Utils\Create\Base;
 use Drupal\Component\Utility\Unicode;
-use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Language\LanguageInterface;
 
@@ -22,14 +23,20 @@ class Vocabularies extends Base
     /**
      * Vocabularies constructor.
      *
-     * @param EntityManagerInterface $entityManager
-     * @param DateFormatterInterface $dateFormatter
+     * @param EntityTypeManagerInterface  $entityManager
+     * @param EntityFieldManagerInterface $entityFieldManager
+     * @param DateFormatterInterface      $dateFormatter
      */
     public function __construct(
-        EntityManagerInterface $entityManager,
+        EntityTypeManagerInterface $entityManager,
+        EntityFieldManagerInterface $entityFieldManager,
         DateFormatterInterface $dateFormatter
     ) {
-        parent::__construct($entityManager, $dateFormatter);
+        parent::__construct(
+            $entityManager,
+            $entityFieldManager,
+            $dateFormatter
+        );
     }
 
     /**
@@ -48,7 +55,7 @@ class Vocabularies extends Base
         for ($i=0; $i<$limit; $i++) {
 
             // Create a vocabulary.
-            $vocabulary = $this->entityManager->getStorage('taxonomy_vocabulary')->create(
+            $vocabulary = $this->entityTypeManager->getStorage('taxonomy_vocabulary')->create(
                 [
                     'name' => $this->getRandom()->sentences(mt_rand(1, $nameWords), true),
                     'description' => $this->getRandom()->sentences(),

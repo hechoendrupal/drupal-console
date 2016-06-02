@@ -12,12 +12,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\ProcessBuilder;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Command\Database\ConnectTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class RestoreCommand extends ContainerAwareCommand
+class RestoreCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     use ConnectTrait;
 
     /**
@@ -62,26 +64,26 @@ class RestoreCommand extends ContainerAwareCommand
             );
             return;
         }
-        if($databaseConnection['driver'] == 'mysql'){
-          $command = sprintf(
-            'mysql --user=%s --password=%s --host=%s --port=%s %s < %s',
-            $databaseConnection['username'],
-            $databaseConnection['password'],
-            $databaseConnection['host'],
-            $databaseConnection['port'],
-            $databaseConnection['database'],
-            $file
-          );
-        } elseif($databaseConnection['driver'] == 'pgsql'){
-          $command = sprintf(
-            'PGPASSWORD="%s" psql -w -U %s -h %s -p %s -d %s -f %s',
-            $databaseConnection['password'],
-            $databaseConnection['username'],
-            $databaseConnection['host'],
-            $databaseConnection['port'],
-            $databaseConnection['database'],
-            $file
-          );
+        if ($databaseConnection['driver'] == 'mysql') {
+            $command = sprintf(
+                'mysql --user=%s --password=%s --host=%s --port=%s %s < %s',
+                $databaseConnection['username'],
+                $databaseConnection['password'],
+                $databaseConnection['host'],
+                $databaseConnection['port'],
+                $databaseConnection['database'],
+                $file
+            );
+        } elseif ($databaseConnection['driver'] == 'pgsql') {
+            $command = sprintf(
+                'PGPASSWORD="%s" psql -w -U %s -h %s -p %s -d %s -f %s',
+                $databaseConnection['password'],
+                $databaseConnection['username'],
+                $databaseConnection['host'],
+                $databaseConnection['port'],
+                $databaseConnection['database'],
+                $file
+            );
         }
 
         if ($learning) {
@@ -90,7 +92,7 @@ class RestoreCommand extends ContainerAwareCommand
 
         $processBuilder = new ProcessBuilder(['-v']);
         $process = $processBuilder->getProcess();
-        $process->setWorkingDirectory($this->getDrupalHelper()->getRoot());
+        $process->setWorkingDirectory($this->getApplication()->getDrupalHelper()->getRoot());
         $process->setTty('true');
         $process->setCommandLine($command);
         $process->run();

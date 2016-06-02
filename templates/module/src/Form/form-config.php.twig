@@ -49,8 +49,7 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
 {% endif %}
 {% endblock %}
 
-  {% block class_methods %}
-
+{% block class_methods %}
   /**
    * {@inheritdoc}
    */
@@ -79,9 +78,9 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
     $form['{{ input.name }}'] = [
 {% endif %}
       '#type' => '{{ input.type }}',
-      '#title' => $this->t('{{ input.label }}'),
+      '#title' => $this->t('{{ input.label|e }}'),
 {% if input.description is defined and input.description is not empty %}
-      '#description' => $this->t('{{ input.description }}'),
+      '#description' => $this->t('{{ input.description|e }}'),
 {% endif %}
 {% if input.options is defined and input.options is not empty %}
       '#options' => {{ input.options }},

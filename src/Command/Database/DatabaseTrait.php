@@ -136,7 +136,7 @@ trait DatabaseTrait
      */
     protected function getDatabaseTypes()
     {
-        $drupal = $this->getDrupalHelper();
+        $drupal = $this->get('site');
 
         return $drupal->getDatabaseTypes();
     }
@@ -228,8 +228,9 @@ trait DatabaseTrait
 
         $this->addDBConnection($io, 'migrate', 'default', $dbType, $dbName, $dbUser, $dbPass, $dbPrefix, $dbPort, $dbHost);
 
-        // Set static container to static Drupal method to get services available Issue: https://github.com/hechoendrupal/DrupalConsole/issues/1129
-        \Drupal::setContainer($this->getContainer());
+        // Set container to static Drupal method to get services available
+        // Issue: https://github.com/hechoendrupal/DrupalConsole/issues/1129
+        \Drupal::setContainer($this->getApplication()->getContainer());
     }
 
 

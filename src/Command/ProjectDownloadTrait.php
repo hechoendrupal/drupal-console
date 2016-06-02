@@ -43,7 +43,30 @@ trait ProjectDownloadTrait
         return $moduleList;
     }
 
-    private function downloadModules(DrupalStyle $io, $modules, $latest, $resultList = [])
+    public function modulesUninstallQuestion(DrupalStyle $io)
+    {
+        $moduleList = [];
+        $modules = $this->getSite()->getModules(true, true, false, true, true, true);
+
+        while (true) {
+            $moduleName = $io->choiceNoList(
+                $this->trans('commands.module.uninstall.questions.module'),
+                $modules,
+                null,
+                true
+            );
+
+            if (empty($moduleName)) {
+                break;
+            }
+
+            $moduleList[] = $moduleName;
+        }
+
+        return $moduleList;
+    }
+
+    private function downloadModules(DrupalStyle $io, $modules, $latest, $path = null, $resultList = [])
     {
         if (!$resultList) {
             $resultList = [
@@ -54,7 +77,7 @@ trait ProjectDownloadTrait
         }
         drupal_static_reset('system_rebuild_module_data');
 
-        $validator = $this->getValidator();
+        $validator = $this->getApplication()->getValidator();
         $missingModules = $validator->getMissingModules($modules);
 
         $invalidModules = [];
@@ -68,7 +91,7 @@ trait ProjectDownloadTrait
             foreach ($missingModules as $missingModule) {
                 $version = $this->releasesQuestion($io, $missingModule, $latest);
                 if ($version) {
-                    $this->downloadProject($io, $missingModule, $version, 'module');
+                    $this->downloadProject($io, $missingModule, $version, 'module', $path);
                 } else {
                     $invalidModules[] = $missingModule;
                     unset($modules[array_search($missingModule, $modules)]);
@@ -91,16 +114,16 @@ trait ProjectDownloadTrait
             return $resultList;
         }
 
-        return $this->downloadModules($io, $dependencies, $latest, $resultList);
+        return $this->downloadModules($io, $dependencies, $latest, $path, $resultList);
     }
 
     protected function calculateDependencies($modules)
     {
-        $this->getDrupalHelper()->loadLegacyFile('/core/modules/system/system.module');
+        $this->getApplication()->getDrupalHelper()->loadLegacyFile('/core/modules/system/system.module');
         $moduleList = system_rebuild_module_data();
 
         $dependencies = [];
-        $validator = $this->getValidator();
+        $validator = $this->getApplication()->getValidator();
 
         foreach ($modules as $moduleName) {
             $module = $moduleList[$moduleName];
@@ -123,9 +146,11 @@ trait ProjectDownloadTrait
      * @param $project
      * @param $version
      * @param $type
+     * @param $path
+     *
      * @return string
      */
-    public function downloadProject(DrupalStyle $io, $project, $version, $type)
+    public function downloadProject(DrupalStyle $io, $project, $version, $type, $path = null)
     {
         $commandKey = str_replace(':', '.', $this->getName());
 
@@ -138,16 +163,20 @@ trait ProjectDownloadTrait
         );
 
         try {
-            $destination = $this->getDrupalApi()->downloadProjectRelease(
+            $destination = $this->getApplication()->getDrupalApi()->downloadProjectRelease(
                 $project,
                 $version
             );
 
-            $drupal = $this->getDrupalHelper();
+            if (!$path) {
+                $path = $this->getExtractPath($type);
+            }
+
+            $drupal = $this->get('site');
             $projectPath = sprintf(
                 '%s/%s',
                 $drupal->isValidInstance()?$drupal->getRoot():getcwd(),
-                $this->getExtractPath($type)
+                $path
             );
 
             if (!file_exists($projectPath)) {
@@ -188,9 +217,10 @@ trait ProjectDownloadTrait
      * @param \Drupal\Console\Style\DrupalStyle $io
      * @param string                            $project
      * @param bool                              $latest
+     * @param bool                              $stable
      * @return string
      */
-    public function releasesQuestion(DrupalStyle $io, $project, $latest = false)
+    public function releasesQuestion(DrupalStyle $io, $project, $latest = false, $stable = false)
     {
         $commandKey = str_replace(':', '.', $this->getName());
 
@@ -201,7 +231,7 @@ trait ProjectDownloadTrait
             )
         );
 
-        $releases = $this->getDrupalApi()->getProjectReleases($project, $latest?1:15);
+        $releases = $this->getApplication()->getDrupalApi()->getProjectReleases($project, $latest?1:15, $stable);
 
         if (!$releases) {
             $io->error(
@@ -237,8 +267,63 @@ trait ProjectDownloadTrait
             return 'modules/contrib';
         case 'theme':
             return 'themes';
+        case 'profile':
+            return 'profiles';
         case 'core':
             return '';
+        }
+    }
+
+    /**
+     * Includes drupal packagist repository at composer.json file.
+     */
+    public function setComposerRepositories()
+    {
+        $file = $this->getApplication()->getSite()->getSiteRoot() . "/composer.json";
+        $composerFile = json_decode(file_get_contents($file));
+
+        $application = $this->getApplication();
+        $config = $application->getConfig();
+
+        $repository = $config->get('application.composer.repository');
+
+        if (!$this->repositoryAlreadySet($composerFile, $repository)) {
+            $repositories = (object) [[
+                'type' => "composer",
+                'url' => $repository
+            ]];
+
+            //@TODO: check it doesn't exist already
+            $composerFile->repositories = $repositories;
+
+            unlink($file);
+            file_put_contents(
+                $file,
+                json_encode(
+                    $composerFile,
+                    JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT
+                )
+            );
+        }
+    }
+
+    /**
+     * check if a modules repo is in composer.json
+     * check if the repo is setted and matchs the one in config.yml
+     *
+     * @param  object $config
+     * @return boolean
+     */
+    private function repositoryAlreadySet($config, $repo)
+    {
+        if (!$config->repositories) {
+            return false;
+        } else {
+            if (in_array($repo, $config->repositories)) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 }

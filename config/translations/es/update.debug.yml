@@ -7,5 +7,7 @@ messages:
     description: Descripción
     requirements-error: 'El siguiente requisito no fue satisfecho'
     module-list: 'Módulos con actualizaciones pendientes'
+    module-list-post-update: 'Módulos con operaciones pendientes tras la actualización'
     module: Módulo
     update-n: 'Actualizar N'
+    post-update: 'Función de post-actualización'

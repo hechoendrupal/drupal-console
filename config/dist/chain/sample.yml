@@ -14,8 +14,13 @@ commands:
       class: HelloWorldController
       routes:
         - title: 'Hello World'
+          name: 'example.hello_name'
           method: hello
-          path: 'example/hello/{name}'
+          path: '/example/hello/{name}'
+      services:
+          - entity_field.manager
+          - theme_handler
+          - config.factory
       test: true
   - command: generate:form:config
     options:
@@ -53,11 +58,13 @@ commands:
       module: example
       entity-class: Foo
       entity-name: foo
+      label: Foo
   - command: generate:entity:config
     options:
       module: example
       entity-class: Bar
       entity-name: bar
+      label: Bar
   - command: generate:command
     options:
       module: example
@@ -88,7 +95,10 @@ commands:
       plugin-id: example_rest_resource
       plugin-label: Example Rest Resource
       plugin-url: example_rest_resource
-      plugin-states: 0, 1, 2
+      plugin-states:
+        - GET
+        - PUT
+        - POST
   - command: generate:service
     options:
       module: example

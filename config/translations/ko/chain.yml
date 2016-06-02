@@ -1,0 +1,13 @@
+description: '체인 명령어 실행'
+options:
+    file: '실행할 명령어가 있는 사용자 정의 파일.'
+questions:
+    chain-file: 'Select chain file to execute'
+messages:
+    missing_file: '유효한 파일 경로와 파일명을 입력해야 합니다.'
+    invalid_file: '"%s" 파일은 없습니다.'
+    module_install: 'module:install 명령어는 체인 큐에서 실행할 수 없으므로 별도로 실행해야 합니다.'
+    missing-environment-placeholders: 'Missing environment placeholder(s) %s'
+    set-environment-placeholders: 'Set environment placeholders as:'
+    missing-inline-placeholders: 'Missing inline placeholder(s) %s'
+    set-inline-placeholders: 'Pass inline placeholders as:'

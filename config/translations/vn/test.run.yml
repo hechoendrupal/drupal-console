@@ -1,6 +1,7 @@
 description: 'Chạy đơn vị thử nghiệm từ các thử nghiệm có sẵn cho ứng dụng'
 arguments:
     test-class: 'Lớp thử nghiệm'
+    test-methods: 'Test method(s) to be run'
 messages:
     missing-dependency: 'Thử nghiệm không thể thực hiện vì thiếu phần phụ thuộc'
     phpunit-pending: 'Logic để thực hiện thử nghiệm PHPUnit chưa được triển khai.'

@@ -1,0 +1,11 @@
+description: 'Muestra todas las tablas en una base de datos.'
+help: 'El comando <info>database:table:debug</info> ayuda a depurar las tablas en tu base de datos.'
+arguments:
+    table: 'Tabla a depurar'
+options:
+    database: 'Clave de la base de datos de settings.php'
+messages:
+    table-show: 'Mostrando tablas de la base de datos %s'
+    table: Tabla
+    column: Columna
+    type: Tipo

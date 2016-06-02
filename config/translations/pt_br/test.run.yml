@@ -1,6 +1,7 @@
 description: 'Executar testes unitários disponíveis para a aplicação'
 arguments:
     test-class: 'Classe de teste'
+    test-methods: 'Método(s) de teste para ser executado'
 messages:
     missing-dependency: 'O teste não pode ser executado devido a dependências faltantes'
     phpunit-pending: 'A lógica para executar o teste PHPUnit ainda não foi implementada.'
@@ -18,4 +19,4 @@ messages:
     method: Método
     line: Linha
     message: Mensagem
-    invalid-class: 'Testing class %s doesn''t exists'
+    invalid-class: 'Classe de teste %s não existe'

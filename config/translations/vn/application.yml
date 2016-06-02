@@ -16,6 +16,7 @@ options:
     ansi: 'Force ANSI output'
     no-ansi: 'Disable ANSI output'
     no-interaction: 'Do not ask any interactive question'
+    check-fix: 'Attempt to fix any missing configuration.'
 arguments:
     command: 'The command to execute'
 messages:
@@ -31,6 +32,7 @@ messages:
     learning:
         route: "Để tạo ra các trang, nó cần thiết để định nghĩa các routes cho chúng.\nMột route tương ứng một URL đến một controller. Nó định nghĩa với các chức năng hoặc phương thức sẽ được gọi khi một URL được truy cập.\nNếu người dùng truy cập http://drupal8.dev/{{ route }}, hệ thống routing sẽ tìm kiếm một route với đường dẫn đó. Trong trường hợp này nó sẽ tìm một cái phù hợp, và thi hành _controller callback. Trong trường hợp này callback được định nghĩa như một tên lớp (\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nand a method (\"{{ route.method }}\")."
     autocomplete: "Bash or Zsh: Thêm dòng này vào file cấu hình của bạn:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Tạo một symbolic link\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
+    version: '<info>%s</info> version <comment>%s</comment>'
 errors:
     invalid-command: 'Command"%s" là chưa được định nghĩa'
 site:

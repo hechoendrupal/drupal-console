@@ -24,7 +24,8 @@ class FormGenerator extends Generator
      */
     public function generate($module, $class_name, $form_id, $form_type, $services, $inputs, $update_routing, $menu_link_gen, $menu_link_title, $menu_parent, $menu_link_desc)
     {
-        $class_name_short = substr($class_name, -4) == 'Form' ? str_replace('Form', '', $class_name) : $class_name;
+        $class_name_short = $this->getStringHelper()->removeSuffix($class_name);
+
         $parameters = array(
           'class_name' => $class_name,
           'services' => $services,
@@ -58,6 +59,12 @@ class FormGenerator extends Generator
             $parameters
         );
 
+        // Render defaults YML file.
+        $this->renderFile(
+            'module/config/install/field.default.yml.twig',
+            $this->getSite()->getModulePath($module).'/config/install/'.$module.'.'.$parameters['class_name_short'].'.yml',
+            $parameters
+        );
 
         if ($menu_link_gen == true) {
             $this->renderFile(

@@ -3,11 +3,11 @@ help: '<info>generate:plugin:type:annotation</info>命令帮助生成一个新�
 welcome: '欢迎使用 Drupal 插件类别生成器'
 options:
     module: common.options.module
-    class: 'Plugin type class name'
-    machine-name: '插件类别内部机器名'
-    label: '插件类别标签'
+    class: 插件类别类名
+    machine-name: 插件类别内部机器名
+    label: 插件类别标签
 questions:
     module: common.questions.module
-    class: '输入插件类别类名'
-    machine-name: '输入插件类别内部机器名'
-    label: '输入插件类别标签'
+    class: 输入插件类别类名
+    machine-name: 输入插件类别内部机器名
+    label: 输入插件类别标签

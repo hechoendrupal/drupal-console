@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-\Drupal\{{module_name}}\Plugin\rest\resource\{{module_name}}.
+\Drupal\{{module_name}}\Plugin\rest\resource\{{class_name}}.
 {% endblock %}
 
 {% block namespace_class %}
@@ -14,7 +14,6 @@ use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Psr\Log\LoggerInterface;
 {% endblock %}
 
@@ -39,10 +38,10 @@ class {{ class_name }} extends ResourceBase {% endblock %}
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $currentUser;
-
 {% endblock %}
 
 {% block class_construct %}
+
   /**
    * Constructs a Drupal\rest\Plugin\ResourceBase object.
    *
@@ -70,10 +69,10 @@ class {{ class_name }} extends ResourceBase {% endblock %}
 
     $this->currentUser = $current_user;
   }
-
 {% endblock %}
 
 {% block class_create %}
+
   /**
    * {@inheritdoc}
    */
@@ -83,13 +82,14 @@ class {{ class_name }} extends ResourceBase {% endblock %}
       $plugin_id,
       $plugin_definition,
       $container->getParameter('serializer.formats'),
-      $container->get('logger.factory')->get('rest'),
+      $container->get('logger.factory')->get('{{module_name}}'),
       $container->get('current_user')
     );
   }
 {% endblock %}
 {% block class_methods %}
 {% for state in plugin_states %}
+
   /**
    * Responds to {{ state }} requests.
    *
@@ -102,15 +102,10 @@ class {{ class_name }} extends ResourceBase {% endblock %}
 
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
-
-    /*
-    if(!$this->currentUser->hasPermission($permission)) {
-        throw new AccessDeniedHttpException();
+    if (!$this->currentUser->hasPermission('access content')) {
+      throw new AccessDeniedHttpException();
     }
-    */
 
-    // Throw an exception if it is required.
-    // throw new HttpException(t('Throw an exception if it is required.'));
     return new ResourceResponse("Implement REST State {{ state }}!");
   }
 {% endfor %}

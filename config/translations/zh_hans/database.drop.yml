@@ -1,4 +1,4 @@
-description: '删除数据库所有表'
+description: 删除数据库所有表
 help: '命令 <info>database:drop</info> 用于删除数据库的表'
 arguments:
     database: 'settings.php 文件中 Database 的键'

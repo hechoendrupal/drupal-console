@@ -3,6 +3,6 @@ help: 'A <info>"%s"</info> parancs új "%s" létrehozását segíti'
 options:
     form-id: 'A módosítandó formazonosító'
 messages:
-    inputs: "Felvehetők űrlapmezők a módosítandó űrlapba. Ez nem kötelező, az <info>enter</info> megnyomásával <info>folytatható</info> a művelet"
-    loading-forms: A Webprofiler modul űrlapmeghatározásainak betöltése
+    inputs: 'Felvehetők űrlapmezők a módosítandó űrlapba. Ez nem kötelező, az <info>enter</info> megnyomásával <info>folytatható</info> a művelet'
+    loading-forms: 'A Webprofiler modul űrlapmeghatározásainak betöltése'
     hide-form-elements: 'Opcionálisan kiválaszthatók elrejtendő űrlapelemek'

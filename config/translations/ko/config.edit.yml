@@ -1,0 +1,8 @@
+description: '선택한 설정을 수정합니다.'
+arguments:
+    config-name: 설정명.
+    editor: 편집기.
+questions:
+    config-name: '설정 단위 선택'
+messages:
+    no-directory: '디렉토리 생성 오류 '

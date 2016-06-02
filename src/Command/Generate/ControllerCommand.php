@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Command\InputTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,6 +23,7 @@ class ControllerCommand extends GeneratorCommand
     use ModuleTrait;
     use ServicesTrait;
     use ConfirmationTrait;
+    use InputTrait;
 
     protected function configure()
     {
@@ -81,32 +83,15 @@ class ControllerCommand extends GeneratorCommand
         $test = $input->getOption('test');
         $services = $input->getOption('services');
 
-        // Refactor as Trait to share array argument/option validation passed inline.
-        $overrideRoutes = false;
-        foreach ($routes as $key => $route) {
-            if (!is_array($route)) {
-                $routeItems = [];
-                foreach (explode(" ", $route) as $routeItem) {
-                    list($routeItemKey, $routeItemKeyValue) = explode(":", $routeItem);
-                    $routeItems[$routeItemKey] = $routeItemKeyValue;
-                }
-                $routes[$key] = $routeItems;
-                $overrideRoutes = true;
-            }
-        }
-        if ($overrideRoutes) {
-            $input->setOption('routes', $routes);
-        }
+        $routes = $this->inlineValueAsArray($routes);
+        $input->setOption('routes', $routes);
 
         // @see use Drupal\Console\Command\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
 
-        // Controller machine name
-        $classMachineName = $this->getStringHelper()->camelCaseToMachineName($class);
-
         $generator = $this->getGenerator();
         $generator->setLearning($learning);
-        $generator->generate($module, $class, $routes, $test, $build_services, $classMachineName);
+        $generator->generate($module, $class, $routes, $test, $build_services);
 
         $this->getChain()->addCommand('router:rebuild');
     }
@@ -194,12 +179,14 @@ class ControllerCommand extends GeneratorCommand
                         return $method;
                     }
                 );
-
+                
                 $path = $io->ask(
                     $this->trans('commands.generate.controller.questions.path'),
-                    sprintf('%s/hello/{name}', $module),
+                    sprintf('/%s/hello/{name}', $module),
                     function ($path) use ($routes) {
-                        if (in_array($path, array_column($routes, 'path'))) {
+                        $routeProvider = $this->getRouteProvider();
+                        if (count($routeProvider->getRoutesByPattern($path)) > 0 ||
+                            in_array($path, array_column($routes, 'path'))) {
                             throw new \InvalidArgumentException(
                                 sprintf(
                                     $this->trans(
@@ -213,9 +200,17 @@ class ControllerCommand extends GeneratorCommand
                         return $path;
                     }
                 );
-
+                $classMachineName = $this->getStringHelper()->camelCaseToMachineName($class);
+                $routeName = $module . '.' . $classMachineName . '_' . $method;
+                $routeProvider = $this->getRouteProvider();
+                if ($routeProvider->getRoutesByNames([$routeName]) || 
+                    in_array($routeName, $routes)) {
+                    $routeName .= '_' . rand(0, 100);
+                }
+                
                 $routes[] = [
                     'title' => $title,
+                    'name' => $routeName,
                     'method' => $method,
                     'path' => $path
                 ];

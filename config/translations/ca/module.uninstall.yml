@@ -1,6 +1,10 @@
 description: 'Desintal·lar mòdul(s) en l''aplicació'
+questions:
+    module: 'Enter module name'
+    invalid-module: 'Invalid module %s'
 options:
     module: 'Els mòduls per desinstal·lar separats per comes'
+    force: 'Do you want to ignore dependencies and forcefully uninstall the module?'
 messages:
     no-modules: 'Has de proporcionar un mòdul per desintal·lar.'
     dependents: 'No es poden desinstal·lar els mòduls %s perquè son requerits per %s'

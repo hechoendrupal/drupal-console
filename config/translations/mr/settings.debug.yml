@@ -1,5 +1,5 @@
-description: 'List user Drupal Console settings.'
+description: 'यादी वापरकर्ता Drupal कंसोल सेटिंग्ज.'
 messages:
-    config-key: 'Config key'
-    config-value: 'Config value'
-    config-file: 'Config file'
+    config-key: 'कॉन्फिग चावी'
+    config-value: 'कॉन्फिग मूल्य'
+    config-file: 'कॉन्फिग फाइल'

@@ -1,0 +1,17 @@
+description: 'I-rebuild at burahin ang lahat ng site caches.'
+options:
+    cache: 'Burahin lamang ang tiyak ng cache'
+messages:
+    welcome: 'Welcome to the cache:rebuild command'
+    rebuild: 'Rebuilding cache(s), wait a moment please.'
+    completed: 'Tapos ng pag clear ng cache(s).'
+    invalid_cache: 'Ang Cache "%s" ay invalid.'
+questions:
+    cache: 'Piliin ang cache.'
+examples:
+    -
+        description: 'I-rebuild ang lahat ng caches'
+        execution: 'drupal cr all'
+    -
+        description: 'Rebuild discovery cache'
+        execution: 'drupal cr discovery'

@@ -1,0 +1,18 @@
+description: '顯示目前網站應用中的 Views 資源'
+arguments:
+    view-id: 'View ID'
+    view-tag: 'View 所屬標籤'
+    view-status: 'View 的狀態（啟用、停用）'
+messages:
+    view-id: 'View ID'
+    view-name: 'View 名稱'
+    description: 描述
+    tag: 標籤
+    status: 啟用狀態
+    path: 路徑
+    not-found: '找不到 %s 這個 View。'
+    display-list: 'Display 列表'
+    display-id: ID
+    display-name: 名稱
+    display-description: 描述
+    display-paths: 路徑

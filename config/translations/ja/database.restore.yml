@@ -5,3 +5,5 @@ options:
     file: 'The filename for your database backup file'
 messages:
     success: 'Database imported from:'
+    no-file: 'Missing file option'
+help: 'Restore structure and contents of a database.'

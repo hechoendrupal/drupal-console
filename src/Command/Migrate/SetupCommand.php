@@ -11,18 +11,18 @@ use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Command\Database\DatabaseTrait;
 use Drupal\migrate\Entity\Migration;
 use Drupal\migrate\Plugin\RequirementsInterface;
 use Drupal\migrate\Exception\RequirementsException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 
-class SetupCommand extends ContainerAwareCommand
+class SetupCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     use DatabaseTrait;
-
-    protected $migrateConnection;
 
     protected function configure()
     {
@@ -77,8 +77,6 @@ class SetupCommand extends ContainerAwareCommand
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.migrate.setup.options.files-directory')
             );
-
-        $this->addDependency('migrate');
     }
 
     /**
@@ -95,7 +93,6 @@ class SetupCommand extends ContainerAwareCommand
             $input->setOption('db-type', $db_type);
         }
 
-
         // --db-host option
         $db_host = $input->getOption('db-host');
         if (!$db_host) {
@@ -109,7 +106,6 @@ class SetupCommand extends ContainerAwareCommand
             $db_name = $this->dbNameQuestion($output);
             $input->setOption('db-name', $db_name);
         }
-
 
         // --db-user option
         $db_user = $input->getOption('db-user');
@@ -153,15 +149,16 @@ class SetupCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $template_storage = $this->getService('migrate.template_storage');
+        $template_storage = $this->getDrupalService('migrate.template_storage');
         $source_base_path = $input->getOption('files-directory');
 
         $this->registerMigrateDB($input, $output);
-        $this->migrateConnection = $this->getDBConnection($output, 'default', 'migrate');
+        $migrateConnection = $this->getDBConnection($io, 'default', 'migrate');
 
-        if (!$drupal_version = $this->getLegacyDrupalVersion($this->migrateConnection)) {
+        if (!$drupal_version = $this->getLegacyDrupalVersion($migrateConnection)) {
             $io->error($this->trans('commands.migrate.setup.questions.not-drupal'));
-            return;
+
+            return 1;
         }
 
         $database_state['key'] = 'upgrade';
@@ -174,8 +171,7 @@ class SetupCommand extends ContainerAwareCommand
 
         $migration_templates = $template_storage->findTemplatesByTag($version_tag);
 
-        $migrations = [];
-        $builderManager = $this->getService('migrate.migration_builder');
+        $builderManager = $this->getDrupalService('migrate.migration_builder');
         foreach ($migration_templates as $id => $template) {
             $migration_templates[$id]['source']['database_state_key'] = $database_state_key;
             // Configure file migrations so they can find the files.
@@ -191,8 +187,8 @@ class SetupCommand extends ContainerAwareCommand
         // Let the builder service create our migration configuration entities from
         // the templates, expanding them to multiple entities where necessary.
         /**
- * @var \Drupal\migrate\MigrationBuilder $builder 
-*/
+         * @var \Drupal\migrate\MigrationBuilder $builder
+         */
         $migrations = $builderManager->createMigrations($migration_templates);
         foreach ($migrations as $migration) {
             try {

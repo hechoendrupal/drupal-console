@@ -1,0 +1,30 @@
+description: 'Criar comentários dummy para sua aplicação Drupal 8.'
+help: 'O comando <info>create:comments</info> ajuda você a criar comentários dummy.'
+welcome: 'Bem-vindo ao Drupal gerador de comentários'
+arguments:
+    node-id: 'Node ID onde os comentários serão criados'
+options:
+    limit: 'Quantos comentários você gostaria de criar.'
+    title-words: 'Número máximo de palavras em um título de comentário.'
+    time-range: 'Quão longe no tempo devem ser as datas dos comentários.'
+questions:
+    node-id: 'Node ID onde os comentários serão criados'
+    content-type: 'Selecione Tipos de conteúdos para ser utilizado na criação de comentário'
+    limit: 'Digite quantos comentários você gostaria de criar'
+    title-words: 'Digite o número máximo de palavras em um título'
+    time-range: 'Quão longe no tempo devem ser as datas dos comentários?'
+    time-ranges:
+        - Agora
+        - 'Há 1 hora'
+        - 'Há 1 dia'
+        - 'Há 1 semana'
+        - 'Há 1 mês'
+        - 'Há 1 ano'
+messages:
+    node-id: 'Id do node'
+    comment-id: 'Id do comentário'
+    content-type: 'Tipo de conteúdo'
+    title: Título
+    created: 'Data de criação'
+    invalid-content-types: 'Tipos de conteúdos %s são inválidos'
+    created-comments: 'Criado %s comentários com sucesso'

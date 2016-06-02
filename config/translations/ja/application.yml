@@ -7,7 +7,7 @@ options:
     generate-doc: 'Shows command options and arguments as markdown'
     root: 'Define the Drupal root to be used in command execution'
     uri: 'URI of the Drupal site to use (for multi-site environments or when running on an alternate port)'
-    yes: 'Skip confirmation and proceed'
+    'yes': 'Skip confirmation and proceed'
     target: 'Site name you want to interact with (for local or remote sites)'
     help: 'Display this help message'
     quiet: 'Do not output any message'
@@ -16,6 +16,7 @@ options:
     ansi: 'Force ANSI output'
     no-ansi: 'Disable ANSI output'
     no-interaction: 'Do not ask any interactive question'
+    check-fix: 'Attempt to fix any missing configuration.'
 arguments:
     command: 'The command to execute'
 messages:
@@ -30,19 +31,15 @@ messages:
         copied: 'Copied files'
     learning:
         route: "In order to to create pages it is necessary to define routes for them.\nA route maps a URL path to a controller. It defines with what function\nor method will be called when a URL is accessed.\nIf the user accesses http://drupal8.dev/{{ route.path }}, the routing\nsystem will look for a route with that path. In this case it will find a\nmatch, and execute the _controller callback. In this case the callback is\ndefined as a classname\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nand a method (\"{{ route.method }}\")."
-    autocomplete: |
-                Bash or Zsh: Add this line to your shell configuration file:
-                <info>source "$HOME/.console/console.rc" 2>/dev/null</info>
-
-                Fish: Create a symbolic link
-                <info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>
+    autocomplete: "Bash or Zsh: Add this line to your shell configuration file:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Create a symbolic link\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>"
+    version: '<info>%s</info> version <comment>%s</comment>'
 errors:
     invalid-command: 'Command "%s" is not defined.'
 site:
     messages:
         path: 'Site path'
     errors:
-        directory: '実行可能なコマンドを全て表示するためには、Drupalのルートディレクトリ内に移動する必要があります。'
+        directory: 実行可能なコマンドを全て表示するためには、Drupalのルートディレクトリ内に移動する必要があります。
         settings: 'In order to list all of the available commands you should install drupal first.'
 user:
     messages:

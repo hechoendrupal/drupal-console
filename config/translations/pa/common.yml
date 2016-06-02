@@ -24,7 +24,9 @@ questions:
         type: Type
         invalid: 'Field Type "%s" is invalid.'
         description: Description
-        default-value: 'Default value'
+        default-value:
+            default-value: 'Default value'
+            checkboxes: 'Default value(s) separated by commas'
         weight: 'Weight for input item'
         title: 'Title'
         fieldset: 'Fieldset'
@@ -32,6 +34,8 @@ errors:
     module-dependency: 'Missing module dependency "%s" is not installed. Try module:install to install it.'
     class-name-empty: 'The Class name can not be empty'
     invalid-file-path: 'You must provide a valid file path'
+    module-exist: 'Module "%s" already exist.'
+    machine-name-duplicated: 'Machine name "%s" is duplicated.'
 status:
     enabled: Enabled
     disabled: Disabled

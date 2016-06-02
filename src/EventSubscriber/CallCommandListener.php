@@ -12,6 +12,7 @@ use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\ConsoleEvents;
 use Drupal\Console\Command\Command;
+use Symfony\Component\Console\Command\Command as BaseCommand;
 use Drupal\Console\Style\DrupalStyle;
 
 class CallCommandListener implements EventSubscriberInterface
@@ -21,17 +22,18 @@ class CallCommandListener implements EventSubscriberInterface
      */
     public function callCommands(ConsoleTerminateEvent $event)
     {
-        /* @var Command $command */
         $command = $event->getCommand();
         /* @var DrupalStyle $io */
         $io = $event->getOutput();
 
-        if (!$command instanceof Command) {
+        if (!$command instanceof Command
+            && !$command instanceof BaseCommand
+        ) {
             return;
         }
 
         $application = $command->getApplication();
-        $commands = $application->getChain()->getCommands();
+        $commands = $application->getContainer()->get('chain_queue')->getCommands();
 
         if (!$commands) {
             return;
@@ -48,7 +50,8 @@ class CallCommandListener implements EventSubscriberInterface
             $io->text($chainedCommand['name']);
             $callCommand->run($input, $io);
 
-            $drupal = $application->getDrupalHelper();
+            $drupal = $application->getContainer()->get('site');
+
             if ($chainedCommand['name'] === 'site:new') {
                 if ($chainedCommand['inputs']['directory']) {
                     $siteRoot = sprintf(
@@ -59,6 +62,7 @@ class CallCommandListener implements EventSubscriberInterface
                 }
                 $drupal->isValidRoot(getcwd());
                 $drupal->getAutoLoadClass();
+
                 $application->prepare($drupal);
             }
 

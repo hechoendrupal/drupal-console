@@ -9,9 +9,10 @@ namespace Drupal\Console\Command\Chain;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\Command;
-use Symfony\Component\Finder\Finder;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Command\ChainFilesTrait;
 
 /**
  * Class ChainDebugCommand
@@ -19,6 +20,8 @@ use Symfony\Component\Finder\Finder;
  */
 class ChainDebugCommand extends Command
 {
+    use CommandTrait;
+    use ChainFilesTrait;
     /**
      * {@inheritdoc}
      */
@@ -35,29 +38,19 @@ class ChainDebugCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $config = $this->getApplication()->getConfig();
+        $files = $this->getChainFiles();
 
-        $directories = [
-          $config->getUserHomeDir() . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain'
-        ];
-
-
-        foreach ($directories as $directory) {
+        foreach ($files as $directory => $chainFiles) {
             $io->info($this->trans('commands.chain.debug.messages.directory'), false);
             $io->comment($directory);
-
-            $finder = new Finder();
-            $finder->files()
-                ->name('*.yml')
-                ->in($directory);
 
             $tableHeader = [
               $this->trans('commands.chain.debug.messages.file')
             ];
 
             $tableRows = [];
-            foreach ($finder as $chain) {
-                $tableRows[] = $chain->getBasename();
+            foreach ($chainFiles as $file) {
+                $tableRows[] = $file;
             }
 
             $io->table($tableHeader, $tableRows);

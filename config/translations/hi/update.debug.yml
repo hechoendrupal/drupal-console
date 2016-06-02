@@ -7,5 +7,7 @@ messages:
     description: विवरण
     requirements-error: 'निम्न रेक्विरेमेंट को पूरा नहीं किया गया'
     module-list: 'अपूर्ण अपडेटस के साथ मॉड्यूल'
+    module-list-post-update: 'Modules with pending post updates'
     module: मॉड्यूल
     update-n: 'अपडेट N'
+    post-update: 'Post update function'

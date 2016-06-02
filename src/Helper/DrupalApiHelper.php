@@ -8,8 +8,8 @@
 namespace Drupal\Console\Helper;
 
 use Symfony\Component\DomCrawler\Crawler;
-use Drupal\Console\Helper\Helper;
 use Drupal\Console\Utils\Create\Nodes;
+use Drupal\Console\Utils\Create\Comments;
 use Drupal\Console\Utils\Create\Terms;
 use Drupal\Console\Utils\Create\Vocabularies;
 use Drupal\Console\Utils\Create\Users;
@@ -35,7 +35,8 @@ class DrupalApiHelper extends Helper
     public function getCreateNodes()
     {
         $createNodes = new Nodes(
-            $this->getService('entity.manager'),
+            $this->getService('entity_type.manager'),
+            $this->getService('entity_field.manager'),
             $this->getService('date.formatter'),
             $this->getBundles()
         );
@@ -44,12 +45,27 @@ class DrupalApiHelper extends Helper
     }
 
     /**
+     * @return \Drupal\Console\Utils\Create\Comments
+     */
+    public function getCreateComments()
+    {
+        $createComments = new Comments(
+            $this->getService('entity_type.manager'),
+            $this->getService('entity_field.manager'),
+            $this->getService('date.formatter')
+        );
+
+        return $createComments;
+    }
+
+    /**
      * @return \Drupal\Console\Utils\Create\Terms
      */
     public function getCreateTerms()
     {
         $createTerms = new Terms(
-            $this->getService('entity.manager'),
+            $this->getService('entity_type.manager'),
+            $this->getService('entity_field.manager'),
             $this->getService('date.formatter'),
             $this->getVocabularies()
         );
@@ -63,7 +79,8 @@ class DrupalApiHelper extends Helper
     public function getCreateVocabularies()
     {
         $createVocabularies = new Vocabularies(
-            $this->getService('entity.manager'),
+            $this->getService('entity_type.manager'),
+            $this->getService('entity_field.manager'),
             $this->getService('date.formatter')
         );
 
@@ -76,7 +93,8 @@ class DrupalApiHelper extends Helper
     public function getCreateUsers()
     {
         $createUsers = new Users(
-            $this->getService('entity.manager'),
+            $this->getService('entity_type.manager'),
+            $this->getService('entity_field.manager'),
             $this->getService('date.formatter'),
             $this->getRoles()
         );
@@ -90,7 +108,7 @@ class DrupalApiHelper extends Helper
     public function getBundles()
     {
         if (!$this->bundles) {
-            $entityManager = $this->getService('entity.manager');
+            $entityManager = $this->getService('entity_type.manager');
             $nodeTypes = $entityManager->getStorage('node_type')->loadMultiple();
 
             foreach ($nodeTypes as $nodeType) {
@@ -110,7 +128,7 @@ class DrupalApiHelper extends Helper
     public function getRoles($reset=false, $authenticated=true, $anonymous=false)
     {
         if ($reset || !$this->roles) {
-            $entityManager = $this->getService('entity.manager');
+            $entityManager = $this->getService('entity_type.manager');
             $roles = $entityManager->getStorage('user_role')->loadMultiple();
             if (!$authenticated) {
                 unset($roles['authenticated']);
@@ -132,7 +150,7 @@ class DrupalApiHelper extends Helper
     public function getVocabularies()
     {
         if (!$this->vocabularies) {
-            $entityManager = $this->getService('entity.manager');
+            $entityManager = $this->getService('entity_type.manager');
             $vocabularies = $entityManager->getStorage('taxonomy_vocabulary')->loadMultiple();
 
             foreach ($vocabularies as $vocabulary) {
@@ -181,10 +199,12 @@ class DrupalApiHelper extends Helper
 
     /**
      * @param $module
+     * @param $limit
+     * @param $stable
      * @return array
      * @throws \Exception
      */
-    public function getProjectReleases($module, $limit = 100)
+    public function getProjectReleases($module, $limit = 10, $stable = false)
     {
         if (!$module) {
             return [];
@@ -203,7 +223,12 @@ class DrupalApiHelper extends Helper
 
         $releases = [];
         $crawler = new Crawler($projectPageContent);
-        foreach ($crawler->filterXPath('./project/releases/release/version') as $element) {
+        $filter = './project/releases/release/version';
+        if ($stable) {
+            $filter = './project/releases/release[not(version_extra)]/version';
+        }
+
+        foreach ($crawler->filterXPath($filter) as $element) {
             $releases[] = $element->nodeValue;
         }
 
@@ -236,7 +261,7 @@ class DrupalApiHelper extends Helper
         }
 
         $releaseFilePath = sprintf(
-            'http://ftp.drupal.org/files/projects/%s-%s.tar.gz',
+            'https://ftp.drupal.org/files/projects/%s-%s.tar.gz',
             $project,
             $release
         );
@@ -254,5 +279,115 @@ class DrupalApiHelper extends Helper
     public function getName()
     {
         return 'api';
+    }
+
+    /**
+     * Gets Drupal releases from Packagist API.
+     *
+     * @param string $url
+     * @param int    $limit
+     * @param bool   $unstable
+     *
+     * @return array
+     */
+    private function getComposerReleases($url, $limit = 10, $unstable = false)
+    {
+        if (!$url) {
+            return [];
+        }
+
+        try {
+            $packagistJson = json_decode(
+                $this->getHttpClientHelper()->getUrlAsString(
+                    $url
+                )
+            );
+        } catch (\Exception $e) {
+            return [];
+        }
+
+        $versions = array_keys((array)$packagistJson->package->versions);
+
+        // Remove Drupal 7 versions
+        $i = 0;
+        foreach ($versions as $version) {
+            if (0 === strpos($version, "7.") || 0 === strpos($version, "dev-7.")) {
+                unset($versions[$i]);
+            }
+            $i++;
+        }
+
+        if (!$unstable) {
+            foreach ($versions as $key => $version) {
+                if (strpos($version, "-")) {
+                    unset($versions[$key]);
+                }
+            }
+        }
+
+        if (is_array($versions)) {
+            return array_slice($versions, 0, $limit);
+        }
+
+        return [];
+    }
+
+    /**
+     * Gets Drupal releases from Packagist API.
+     *
+     * @param int  $limit
+     * @param bool $unstable
+     *
+     * @return array
+     */
+    public function getPackagistDrupalReleases($limit = 10, $unstable = false)
+    {
+        return $this->getComposerReleases(
+            'https://packagist.org/packages/drupal/drupal.json',
+            $limit,
+            $unstable
+        );
+    }
+
+    /**
+     * Gets Drupal releases from Packagist API.
+     *
+     * @param int  $limit
+     * @param bool $unstable
+     *
+     * @return array
+     */
+    public function getPackagistDrupalComposerReleases($limit = 10, $unstable = true)
+    {
+        return $this->getComposerReleases(
+            'https://packagist.org/packages/drupal-composer/drupal-project.json',
+            $limit,
+            $unstable
+        );
+    }
+
+    /**
+     * Gets Drupal modules releases from Packagist API.
+     *
+     * @param string $module
+     * @param int    $limit
+     * @param bool   $unstable
+     *
+     * @return array
+     */
+    public function getPackagistModuleReleases($module, $limit = 10, $unstable = true)
+    {
+        if (!trim($module)) {
+            return [];
+        }
+
+        return $this->getComposerReleases(
+            sprintf(
+                'https://packagist.drupal-composer.org/packages/drupal/%s.json',
+                trim($module)
+            ),
+            $limit,
+            $unstable
+        );
     }
 }

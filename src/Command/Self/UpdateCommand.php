@@ -10,11 +10,9 @@ namespace Drupal\Console\Command\Self;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Humbug\SelfUpdate\Strategy\GithubStrategy;
 use Humbug\SelfUpdate\Updater;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Command;
-use Drupal\Console\Command\Self\ManifestStrategy;
 
 class UpdateCommand extends Command
 {
@@ -57,7 +55,7 @@ class UpdateCommand extends Command
 
         $manifest = $input->getOption('manifest') ?: 'http://drupalconsole.com/manifest.json';
         $currentVersion = $input->getOption('current-version') ?: $application->getVersion();
-        $major = $input->getOption('major');
+        $major = true; // temporary fix to force mayor version.
         if (!extension_loaded('Phar') || !(\Phar::running(false))) {
             $io->error($this->trans('commands.self-update.messages.not-phar'));
             $io->block($this->trans('commands.self-update.messages.instructions'));

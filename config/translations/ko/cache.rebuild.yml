@@ -1,0 +1,17 @@
+description: '모든 사이트 캐시를 삭제하고 다시 생성합니다.'
+options:
+    cache: '특정 캐시만 삭제합니다.'
+messages:
+    welcome: 'cache:rebuild 명령어에 오신 걸 환영합니다.'
+    rebuild: '캐시를 재성성하고 있습니다. 잠시만 기다려 주세요.'
+    completed: '캐시 삭제 완료.'
+    invalid_cache: '"%s" 캐시는 유효하지 않습니다.'
+questions:
+    cache: '캐시를 선택하세요.'
+examples:
+    -
+        description: '모든 캐시 재생성'
+        execution: 'drupal cr all'
+    -
+        description: '탐색 캐시 재생성'
+        execution: 'drupal cr discovery'

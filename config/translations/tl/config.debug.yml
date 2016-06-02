@@ -1,0 +1,5 @@
+description: 'Ipakita ang kasalukuyang configuration.'
+arguments:
+    name: 'Pangalan ng Configuration'
+errors:
+    not-exists: 'Ang configuration "%s" does not exists.'

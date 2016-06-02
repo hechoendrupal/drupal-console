@@ -1,6 +1,10 @@
 description: 'Modul vagy modulok eltávolítása'
+questions:
+    module: 'Enter module name'
+    invalid-module: 'Invalid module %s'
 options:
     module: 'Az eltávolítani kívánt modulokat vesszővel kell elválasztani'
+    force: 'Do you want to ignore dependencies and forcefully uninstall the module?'
 messages:
     no-modules: 'Meg kell adni az eltávolítani kívánt modulokat.'
     dependents: 'Nem lehet eltávolítani %s modulokat, mert azokra szükségük van a következő moduloknak: %s.'

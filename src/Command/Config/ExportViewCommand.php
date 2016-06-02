@@ -11,12 +11,14 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class ExportViewCommand extends ContainerAwareCommand
+class ExportViewCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     use ModuleTrait;
     use ExportTrait;
 
@@ -71,8 +73,9 @@ class ExportViewCommand extends ContainerAwareCommand
         // view-id argument
         $viewId = $input->getArgument('view-id');
         if (!$viewId) {
-            $entityManager = $this->getEntityManager();
-            $views = $entityManager->getStorage('view')->loadMultiple();
+            $entityTypeManager =  $this->getDrupalService('entity_type.manager');
+
+            $views = $entityTypeManager->getStorage('view')->loadMultiple();
 
             $viewList = [];
             foreach ($views as $view) {
@@ -109,8 +112,8 @@ class ExportViewCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $this->entityManager = $this->getEntityManager();
-        $this->configStorage = $this->getConfigStorage();
+        $this->entityManager = $this->getDrupalService('entity_type.manager');
+        $this->configStorage = $this->getDrupalService('config.storage');
 
         $module = $input->getOption('module');
         $viewId = $input->getArgument('view-id');

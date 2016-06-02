@@ -6,14 +6,21 @@
 
 namespace Drupal\Console\Command\Config;
 
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Core\Config\FileStorage;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Yaml\Exception\RuntimeException;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 
-class DeleteCommand extends ContainerAwareCommand
+class DeleteCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+
+    protected $allConfig = [];
+
     /**
      * {@inheritdoc}
      */
@@ -22,6 +29,11 @@ class DeleteCommand extends ContainerAwareCommand
         $this
             ->setName('config:delete')
             ->setDescription($this->trans('commands.config.delete.description'))
+            ->addArgument(
+                'type',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.config.delete.arguments.type')
+            )
             ->addArgument(
                 'name',
                 InputArgument::OPTIONAL,
@@ -35,13 +47,23 @@ class DeleteCommand extends ContainerAwareCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
+
+        $type = $input->getArgument('type');
+        if (!$type) {
+            $type = $io->choiceNoList(
+                $this->trans('commands.config.delete.arguments.type'),
+                ['active', 'staging'],
+                'active'
+            );
+            $input->setArgument('type', $type);
+        }
+
         $name = $input->getArgument('name');
         if (!$name) {
-            $configFactory = $this->getService('config.factory');
-            $names = $configFactory->listAll();
             $name = $io->choiceNoList(
                 $this->trans('commands.config.delete.arguments.name'),
-                $names
+                $this->getAllConfigNames(),
+                'all'
             );
             $input->setArgument('name', $name);
         }
@@ -53,40 +75,111 @@ class DeleteCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $configFactory = $this->getService('config.factory');
-        $name = $input->getArgument('name');
-        if (!$name) {
-            $io->error($this->trans('commands.config.delete.messages.enter-name'));
 
+        $type = $input->getArgument('type');
+        if (!$type) {
+            $io->error($this->trans('commands.config.delete.errors.type'));
             return 1;
         }
 
-        
-        $configStorage = $this->getService('config.storage');
-        if (!$configStorage->exists($name)) {
-            $io->error(
+        $name = $input->getArgument('name');
+        if (!$name) {
+            $io->error($this->trans('commands.config.delete.errors.name'));
+            return 1;
+        }
+
+        $configStorage = ('active' === $type) ?
+            $this->getDrupalService('config.storage') :
+            \Drupal::service('config.storage.sync');
+
+        if (!$configStorage) {
+            $io->error($this->trans('commands.config.delete.errors.config-storage'));
+            return 1;
+        }
+
+        if ('all' === $name) {
+            $io->commentBlock($this->trans('commands.config.delete.warnings.undo'));
+            if ($io->confirm($this->trans('commands.config.delete.questions.sure'))) {
+                if ($configStorage instanceof FileStorage) {
+                    $configStorage->deleteAll();
+                } else {
+                    foreach ($this->yieldAllConfig() as $name) {
+                        $this->removeConfig($name);
+                    }
+                }
+
+                $io->success($this->trans('commands.config.delete.messages.all'));
+
+                return 0;
+            }
+        }
+
+        if ($configStorage->exists($name)) {
+            if ($configStorage instanceof FileStorage) {
+                $configStorage->delete($name);
+            } else {
+                $this->removeConfig($name);
+            }
+
+            $io->success(
                 sprintf(
-                    $this->trans('commands.config.delete.messages.config-not-exists'),
+                    $this->trans('commands.config.delete.messages.deleted'),
                     $name
                 )
             );
-
-            return 1;
+            return 0;
         }
 
+        $message = sprintf($this->trans('commands.config.delete.errors.not-exists'), $name);
+        $io->error($message);
+
+        return 1;
+    }
+
+    /**
+     * Retrieve configuration names form cache or service factory.
+     *
+     * @return array
+     *   All configuration names.
+     */
+    private function getAllConfigNames()
+    {
+        if ($this->allConfig) {
+            return $this->allConfig;
+        }
+
+        foreach ($this->getDrupalService('config.factory')->listAll() as $name) {
+            $this->allConfig[] = $name;
+        }
+
+        return $this->allConfig;
+    }
+
+    /**
+     * Yield configuration names.
+     *
+     * @return \Generator
+     *   Yield generator with config name.
+     */
+    private function yieldAllConfig()
+    {
+        $this->allConfig = $this->allConfig ?: $this->getAllConfigNames();
+        foreach ($this->allConfig as $name) {
+            yield $name;
+        }
+    }
+
+    /**
+     * Delete given config name.
+     *
+     * @param String $name Given config name.
+     */
+    private function removeConfig($name)
+    {
         try {
-            $configFactory->getEditable($name)->delete();
+            $this->getDrupalService('config.factory')->getEditable($name)->delete();
         } catch (\Exception $e) {
-            $io->error($e->getMessage());
-
-            return 1;
+            throw new RuntimeException($e->getMessage());
         }
-
-        $io->success(
-            sprintf(
-                $this->trans('commands.config.delete.messages.deleted'),
-                $name
-            )
-        );
     }
 }

@@ -1,0 +1,5 @@
+services:
+  node_access_rebuild:
+    class: Drupal\Console\Command\Node\AccessRebuildCommand
+    tags:
+      - { name: console.command }

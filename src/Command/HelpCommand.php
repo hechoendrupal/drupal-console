@@ -8,12 +8,13 @@
 namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Helper\DescriptorHelper;
-//use Drupal\Console\Helper\DescriptorHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command as BaseCommand;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -21,8 +22,10 @@ use Drupal\Console\Style\DrupalStyle;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class HelpCommand extends Command
+class HelpCommand extends BaseCommand
 {
+    use CommandTrait;
+
     private $command;
 
     /**
@@ -42,9 +45,9 @@ class HelpCommand extends Command
     /**
      * Sets the command.
      *
-     * @param Command $command The command to set
+     * @param $command The command to set
      */
-    public function setCommand(Command $command)
+    public function setCommand($command)
     {
         $this->command = $command;
     }
@@ -66,11 +69,13 @@ class HelpCommand extends Command
         }
 
         $helper = new DescriptorHelper();
-        $helper->describe($io, $this->command, array(
+        $helper->describe(
+            $io, $this->command, array(
             'format' => $input->getOption('format'),
             'raw_text' => $input->getOption('raw'),
             'command_name' => $input->getArgument('command_name'),
-        ));
+            )
+        );
 
         $this->command = null;
     }
@@ -81,12 +86,12 @@ class HelpCommand extends Command
     private function createDefinition()
     {
         return new InputDefinition(
-          array(
+            array(
             new InputArgument('command_name', InputArgument::OPTIONAL, $this->trans('commands.help.arguments.command_name'), 'help'),
             new InputOption('xml', null, InputOption::VALUE_NONE, $this->trans('commands.help.options.xml')),
             new InputOption('raw', null, InputOption::VALUE_NONE, $this->trans('commands.help.options.raw')),
             new InputOption('format', null, InputOption::VALUE_REQUIRED, $this->trans('commands.help.options.format'), 'txt'),
-          )
+            )
         );
     }
 }

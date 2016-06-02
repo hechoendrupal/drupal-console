@@ -5,3 +5,5 @@ options:
     file: 'Numele fișierului pentru backup-ul bazei dvs. de date'
 messages:
     success: 'Baza de date a fost importata de la:'
+    no-file: 'Missing file option'
+help: 'Restore structure and contents of a database.'

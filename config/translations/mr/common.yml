@@ -1,42 +1,44 @@
 options:
-    events: 'Load events from the container'
-    module: 'The Module name.'
-    services: 'Load services from the container.'
-    tags: 'Set service tags from the container.'
-    inputs: 'Create inputs in a form.'
-    permissions: 'Create permissions.'
+    events: 'कंटेनर मधून इव्हेंट्स भरा'
+    module: 'मॉड्यूलचे नाव.'
+    services: 'कंटेनर मधून सेवा भरा.'
+    tags: 'कंटेनर मधून सेवा टॅग सेट करा.'
+    inputs: 'फॉर्म मध्ये इनपुट तयार करा.'
+    permissions: 'परवानग्या तयार करा.'
 questions:
-    module: 'Enter the module name'
-    confirm: 'Do you confirm generation?'
-    canceled: 'Command generation canceled.'
+    module: 'मॉड्यूलचे नाव प्रविष्ट करा'
+    confirm: 'आपण एकदा निर्मिती पुष्टी करा ?'
+    canceled: 'आदेश निर्मिती रद्द.'
     events:
-        message: "\nType the event name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
-        name: 'Enter event name'
+        message: "\nसेवेचे नाव टाइप करा किंवा keyup किंवा keydown वापर.\nहे ऐच्छिक आहे, दाबा <info>enter</info> to <info>continue</info>\n"
+        name: 'कार्यक्रमाचे नाव प्रविष्ट करा'
     services:
-        confirm: 'Do you want to load services from the container'
-        message: "\nType the service name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
-        name: 'Enter your service'
+        confirm: 'आपण कंटेनर मधून सेवा लोड करू इच्छित आहे का ?'
+        message: "\nसेवेचे नाव टाइप करा किंवा keyup किंवा keydown वापर.\nहे ऐच्छिक आहे, दाबा <info>enter</info> to <info>continue</info>\n"
+        name: 'आपल्या सेवा प्रविष्ट करा'
     inputs:
-        confirm: 'Do you want to generate a form structure?'
-        label: 'Input label'
-        machine_name: 'Input machine name'
-        permission: 'Do you want to generate permissions?'
-        type: Type
-        invalid: 'Field Type "%s" is invalid.'
-        description: Description
-        default-value: 'Default value'
-        weight: 'Weight for input item'
-        title: 'Title'
-        fieldset: 'Fieldset'
+        confirm: 'आपण एक फॉर्म रचना निर्माण करू इच्छित आहे का ?'
+        label: 'इनपुट लेबल'
+        machine_name: 'इनपुट मशीन नाव'
+        permission: 'आपण परवानगी निर्माण करू इच्छित आहे का ?'
+        type: प्रकार
+        invalid: 'फिल्ड प्रकार "%s" अवैध आहे.'
+        description: वर्णन
+        default-value: 'डिफॉल्ट मूल्य'
+        weight: 'इनपुट आयटमचे वजन'
+        title: शीर्षक
+        fieldset: फिल्डसेट
 errors:
-    module-dependency: 'Missing module dependency "%s" is not installed. Try module:install to install it.'
-    class-name-empty: 'The Class name can not be empty'
-    invalid-file-path: 'You must provide a valid file path'
+    module-dependency: 'गहाळ घटक अवलंबन "%s" स्थापित केले नाही. module:install स्थापित करून पहा.'
+    class-name-empty: 'वर्ग नाव रिकामे असू शकत नाही'
+    invalid-file-path: 'आपण एक वैध फाइल पथ पुरविणे आवश्यक आहे'
+    module-exist: 'Module "%s" already exist.'
+    machine-name-duplicated: 'Machine name "%s" is duplicated.'
 status:
-    enabled: Enabled
-    disabled: Disabled
+    enabled: सक्षम
+    disabled: अक्षम
 messages:
-    canceled: 'The generation was cancelled'
-    drupal-core: 'Drupal Core'
+    canceled: 'निर्मिती रद्द करण्यात आली'
+    drupal-core: 'ड्रुपल कोर'
     move-phar: 'Accessing console from anywhere on your system'
-    quick-start: 'Download, install and serve Drupal 8'
+    quick-start: 'डाउनलोड, स्थापित आणि Drupal 8 सेवा'

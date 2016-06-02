@@ -172,12 +172,12 @@ class SiteHelper extends Helper
      * @return array
      */
     public function getProfiles(
-      $reset = false,
-      $showInstalled = true,
-      $showUninstalled = false,
-      $showCore = true,
-      $showNoCore = true,
-      $nameOnly = false
+        $reset = false,
+        $showInstalled = true,
+        $showUninstalled = false,
+        $showCore = true,
+        $showNoCore = true,
+        $nameOnly = false
     ) {
         return $this->getExtensions('profile', $reset, $showInstalled, $showUninstalled, $showCore, $showNoCore, $nameOnly);
     }
@@ -188,8 +188,8 @@ class SiteHelper extends Helper
      * @return \Drupal\Core\Extension\Extension The currently enabled profile.
      */
     public function getProfile(
-      $reset = false,
-      $nameOnly = false
+        $reset = false,
+        $nameOnly = false
     ) {
         $profiles = $this->getProfiles($reset, true, false, true, true, $nameOnly);
         return reset($profiles);
@@ -272,6 +272,37 @@ class SiteHelper extends Helper
         }
 
         return $modulePath;
+    }
+
+    /**
+     * @param string $themeName
+     * @param bool   $fullPath
+     * @return string
+     */
+    public function getThemePath($themeName, $fullPath=true)
+    {
+        if (!$this->themes || !$this->themes[$themeName]) {
+            $this->themes = $this->discoverExtensions('theme');
+        }
+
+        $themePath = sprintf(
+            '%s/%s',
+            $this->siteRoot,
+            $this->themes[$themeName]->getPath()
+        );
+
+        if (!$fullPath) {
+            $themePath = str_replace(
+                sprintf(
+                    '%s/',
+                    $this->siteRoot
+                ),
+                '',
+                $themePath
+            );
+        }
+
+        return $themePath;
     }
 
     /**
@@ -428,29 +459,11 @@ class SiteHelper extends Helper
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getDrupalVersion()
     {
-        $version = $this->getTranslator()->trans('commands.site.status.messages.not_available');
-
-        $systemManager = $this->getDrupalApi()->getService('system.manager');
-        if ($systemManager) {
-            $requirements = $systemManager->listRequirements();
-            $drupalVersion = current(
-                array_filter(
-                    $requirements, function ($v) {
-                        if ($v['title'] == 'Drupal') {
-                            return true;
-                        }
-                    }
-                )
-            );
-
-            $version = $drupalVersion['value'];
-        }
-
-        return $version;
+        return \Drupal::VERSION;
     }
 
     /**

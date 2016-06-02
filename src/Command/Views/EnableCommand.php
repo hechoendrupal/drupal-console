@@ -10,15 +10,18 @@ namespace Drupal\Console\Command\Views;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class EnableCommand
  * @package Drupal\Console\Command\Views
  */
-class EnableCommand extends ContainerAwareCommand
+class EnableCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -37,13 +40,33 @@ class EnableCommand extends ContainerAwareCommand
     /**
      * {@inheritdoc}
      */
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        $io = new DrupalStyle($input, $output);
+        $viewId = $input->getArgument('view-id');
+        if (!$viewId) {
+            $views = $this->getDrupalService('entity.query')
+                ->get('view')
+                ->condition('status', 0)
+                ->execute();
+            $viewId = $io->choiceNoList(
+                $this->trans('commands.views.debug.arguments.view-id'),
+                $views
+            );
+            $input->setArgument('view-id', $viewId);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
         $viewId = $input->getArgument('view-id');
 
-        $entityManager = $this->getEntityManager();
-        $view = $entityManager->getStorage('view')->load($viewId);
+        $entityTypeManager =  $this->getDrupalService('entity_type.manager');
+        $view = $entityTypeManager->getStorage('view')->load($viewId);
 
         if (empty($view)) {
             $io->error(

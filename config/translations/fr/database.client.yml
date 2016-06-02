@@ -1,6 +1,6 @@
-description: 'Launch a DB client if it''s available'
+description: 'Lancer une base de donnée client si disponible'
 arguments:
-    database: 'Database key from settings.php'
+    database: 'Clé de la base de données depuis settings.php'
 messages:
-    connection: 'Connection: %s'
-    executing: 'Executing: %s'
+    connection: 'Connexion: %s'
+    executing: 'Exécution: %s'

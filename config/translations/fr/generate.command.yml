@@ -12,10 +12,10 @@ options:
 questions:
     module: common.questions.module
     class: 'Veuillez renseigner le nom de pour la classe de la commande'
-    name: 'Enter the Command name.'
+    name: 'Entrer le nom de la commande'
     container-aware: 'Is the command aware of the drupal site installation when executed?.'
     command: 'Veuillez renseigner le nom de la commande'
     container: 'Avez-vous besoin accéder au conteneur de services'
     controller-title: 'Controller title'
 messages:
-    title-not-empty: 'Title cannot be empty'
+    title-not-empty: 'Le titre ne peut pas être vide'

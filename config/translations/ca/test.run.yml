@@ -1,6 +1,7 @@
 description: 'Executa els Test Units disponibles per l''aplicació'
 arguments:
     test-class: 'Classe de verificació'
+    test-methods: 'Test method(s) to be run'
 messages:
     missing-dependency: 'No es pot executar la verificació perquè falten dependències'
     phpunit-pending: 'No s''ha implementat la lògica per executar la verificació.'

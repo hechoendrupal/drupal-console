@@ -9,11 +9,14 @@ namespace Drupal\Console\Command\Update;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class DebugCommand extends ContainerAwareCommand
+class DebugCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+
     protected function configure()
     {
         $this
@@ -25,15 +28,20 @@ class DebugCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $this->getDrupalHelper()->loadLegacyFile('/core/includes/update.inc');
-        $this->getDrupalHelper()->loadLegacyFile('/core/includes/install.inc');
+        $this->get('site')->loadLegacyFile('/core/includes/update.inc');
+        $this->get('site')->loadLegacyFile('/core/includes/install.inc');
+        $updateRegistry = $this->getDrupalService('update.post_update_registry');
 
         drupal_load_updates();
         update_fix_compatibility();
 
         $updates = update_get_update_list();
+        $postUpdates = $updateRegistry->getPendingUpdateInformation();
+
         $requirements = update_check_requirements();
         $severity = drupal_requirements_severity($requirements);
+
+        $io->newLine();
 
         if ($severity == REQUIREMENT_ERROR || ($severity == REQUIREMENT_WARNING)) {
             $io->info($this->trans('commands.update.debug.messages.requirements-error'));
@@ -57,7 +65,7 @@ class DebugCommand extends ContainerAwareCommand
                 }
             }
 
-            $io->table($tableHeader, $tableRows, 'compact');
+            $io->table($tableHeader, $tableRows);
 
             return;
         }
@@ -88,6 +96,27 @@ class DebugCommand extends ContainerAwareCommand
             }
         }
 
-        $io->table($tableHeader, $tableRows, 'compact');
+        $io->table($tableHeader, $tableRows);
+
+        $tableHeader = [
+          $this->trans('commands.update.debug.messages.module'),
+          $this->trans('commands.update.debug.messages.post-update'),
+          $this->trans('commands.update.debug.messages.description')
+        ];
+
+        $io->info($this->trans('commands.update.debug.messages.module-list-post-update'));
+
+        $tableRows = [];
+        foreach ($postUpdates as $module => $module_updates) {
+            foreach ($module_updates['pending'] as $postUpdateFunction => $message) {
+                $tableRows[] = [
+                  $module,
+                  $postUpdateFunction,
+                  $message,
+                ];
+            }
+        }
+
+        $io->table($tableHeader, $tableRows);
     }
 }

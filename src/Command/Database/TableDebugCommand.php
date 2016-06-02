@@ -11,7 +11,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Database\ConnectTrait;
 
@@ -19,8 +20,9 @@ use Drupal\Console\Command\Database\ConnectTrait;
  * Class TableDebugCommand
  * @package Drupal\Console\Command\Database
  */
-class TableDebugCommand extends ContainerAwareCommand
+class TableDebugCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     use ConnectTrait;
 
     /**
@@ -35,7 +37,7 @@ class TableDebugCommand extends ContainerAwareCommand
                 'database',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.database.table.debug.arguments.database'),
+                $this->trans('commands.database.table.debug.options.database'),
                 'default'
             )
             ->addArgument(
@@ -79,7 +81,7 @@ class TableDebugCommand extends ContainerAwareCommand
             return 0;
         }
 
-        $databaseService = $this->getService('database');
+        $databaseService = $this->getDrupalService('database');
         $schema = $databaseService->schema();
         $tables = $schema->findTables('%');
 

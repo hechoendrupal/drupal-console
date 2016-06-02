@@ -7,7 +7,7 @@ errors:
     binary: 'Nem található PHP bináris fájl a kiszolgáló futtatásához.'
 examples:
     -
-        description: 'Futtatás az alapértelmezett cím argumentumértékkel: 127.0.0.1.8088'
+        description: 'Futtatás az alapértelmezett cím argumentumértékkel: 127.0.0.1:8088'
         execution: 'drupal server'
     -
         description: 'Cím argumentum átadása másik portszám használatához'

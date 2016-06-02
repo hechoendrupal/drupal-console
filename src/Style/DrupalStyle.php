@@ -97,7 +97,8 @@ class DrupalStyle extends SymfonyStyle
     }
 
     /**
-     * {@inheritdoc}
+     * @param string        $question
+     * @param null|callable $validator
      *
      * @return string
      */
@@ -137,7 +138,12 @@ class DrupalStyle extends SymfonyStyle
 
     public function commentBlock($message)
     {
-        $this->block($message, null, 'bg=yellow;', ' ', true);
+        $this->block(
+            $message, null,
+            'bg=yellow;fg=black',
+            ' ',
+            true
+        );
     }
 
     /**
@@ -180,5 +186,11 @@ class DrupalStyle extends SymfonyStyle
         } else {
             $this->write($message);
         }
+    }
+
+    public function text($message)
+    {
+        $message = sprintf('// %s', $message);
+        parent::text($message);
     }
 }

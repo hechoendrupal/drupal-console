@@ -106,7 +106,7 @@ trait FormTrait
                 }
 
                 if ($input_type == 'select') {
-                    $size = $io->askEmpty(
+                    $size = $io->ask(
                         'Size of multiselect box (in lines)',
                         '5'
                     );
@@ -136,11 +136,27 @@ trait FormTrait
                     $this->trans('commands.common.questions.inputs.description')
                 );
 
+                // Default value for input
+                switch ($input_type) {
+                case 'checkboxes':
+                    $question = 'commands.common.questions.inputs.default-value.checkboxes';
+                    break;
+                default:
+                    $question = 'commands.common.questions.inputs.default-value.default-value';
+                    break;
+                }
                 if ($input_type != 'fieldset') {
-                    // Default value for input
                     $default_value = $io->askEmpty(
-                        $this->trans('commands.common.questions.inputs.default-value')
+                        $this->trans($question)
                     );
+                }
+                if ($input_type == 'checkboxes') {
+                    // Prepare options as an array
+                    if (strlen(trim($default_value))) {
+                        // remove spaces in options and empty options
+                        $default_options = array_filter(array_map('trim', explode(',', $default_value)));
+                        $default_value = $default_options;
+                    }
                 }
 
                 // Weight for input

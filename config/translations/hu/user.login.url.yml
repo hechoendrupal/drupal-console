@@ -2,6 +2,6 @@ description: 'Egyszer használatos felhasználói bejelentkezési URL-címet ad 
 options:
     user-id: 'Felhasználói azonosító.'
 messages:
-    url: 'Egyszer használatos bejelentkezési azonosító @name számára: @url'
+    url: 'Egyszer használatos bejelentkezési azonosító %s számára: %s'
 errors:
-    invalid-user: 'Nem tölthető be a felhasználó entitás (felhasználói azonosító: @uid).'
+    invalid-user: 'Nem tölthető be a felhasználó entitás (felhasználói azonosító: %s).'

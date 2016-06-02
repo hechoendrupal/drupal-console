@@ -14,7 +14,6 @@ use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 {% endif %}
 {% endblock %}
-
 {% block class_declaration %}
 /**
  * Class {{ class_name }}.
@@ -24,17 +23,18 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class {{ class_name }} extends ControllerBase {% endblock %}
 {% block class_construct %}
 {% if services is not empty %}
+
   /**
    * {@inheritdoc}
    */
   public function __construct({{ servicesAsParameters(services)|join(', ') }}) {
 {{ serviceClassInitialization(services) }}
   }
-
 {% endif %}
 {% endblock %}
 {% block class_create %}
 {% if services is not empty %}
+
   /**
    * {@inheritdoc}
    */
@@ -57,13 +57,13 @@ class {{ class_name }} extends ControllerBase {% endblock %}
   public function {{route.method}}({{ argumentsFromRoute(route.path)|join(', ') }}) {
 {% if argumentsFromRoute(route.path) is not empty %}
     return [
-        '#type' => 'markup',
-        '#markup' => $this->t("Implement method: {{route.method}} with parameter(s): {{ argumentsFromRoute(route.path)|join(', ') }}")
+      '#type' => 'markup',
+      '#markup' => $this->t('Implement method: {{route.method}} with parameter(s): {{ argumentsFromRoute(route.path)|join(', ') }}'),
     ];
 {% else %}
     return [
-        '#type' => 'markup',
-        '#markup' => $this->t('Implement method: {{route.method}}')
+      '#type' => 'markup',
+      '#markup' => $this->t('Implement method: {{route.method}}')
     ];
 {% endif %}
   }

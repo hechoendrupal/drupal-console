@@ -12,14 +12,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\PhpExecutableFinder;
+use Symfony\Component\Console\Command\Command as BaseCommand;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class ServerCommand
  * @package Drupal\Console\Command
  */
-class ServerCommand extends Command
+class ServerCommand extends BaseCommand
 {
+    use CommandTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -80,7 +84,7 @@ class ServerCommand extends Command
 
         $processBuilder = new ProcessBuilder(explode(' ', $cli));
         $process = $processBuilder->getProcess();
-        $process->setWorkingDirectory($this->getDrupalHelper()->getRoot());
+        $process->setWorkingDirectory($this->get('site')->getRoot());
         $process->setTty('true');
         $process->run();
 

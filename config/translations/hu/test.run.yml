@@ -1,6 +1,7 @@
 description: 'Egységteszt futtatása az alkalmazás számára elérhető tesztek közül'
 arguments:
     test-class: Tesztosztály
+    test-methods: 'Test method(s) to be run'
 messages:
     missing-dependency: 'A teszt hiányzó függőség miatt nem hajtható végre'
     phpunit-pending: 'A PHPUnit teszt végrehajtási logikája még nincs megvalósítva.'

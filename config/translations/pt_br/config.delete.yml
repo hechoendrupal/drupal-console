@@ -1,0 +1,7 @@
+description: 'Remove Configuração'
+arguments:
+    name: 'Nome de configuração.'
+messages:
+    name: 'Nome de configuração deve conter um valor.'
+    not-exists: 'A configuração "%s" não existe.'
+    deleted: 'Configuração "%s" removida com sucesso.'
