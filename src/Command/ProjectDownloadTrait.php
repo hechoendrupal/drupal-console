@@ -19,7 +19,7 @@ trait ProjectDownloadTrait
     public function modulesQuestion(DrupalStyle $io)
     {
         $moduleList = [];
-        $modules = $this->getSite()->getModules(true, false, true, true, true, true);
+        $modules = $this->getApplication()->getSite()->getModules(true, false, true, true, true, true);
 
         while (true) {
             $moduleName = $io->choiceNoList(
@@ -46,7 +46,7 @@ trait ProjectDownloadTrait
     public function modulesUninstallQuestion(DrupalStyle $io)
     {
         $moduleList = [];
-        $modules = $this->getSite()->getModules(true, true, false, true, true, true);
+        $modules = $this->getApplication()->getSite()->getModules(true, true, false, true, true, true);
 
         while (true) {
             $moduleName = $io->choiceNoList(
@@ -96,7 +96,7 @@ trait ProjectDownloadTrait
                     $invalidModules[] = $missingModule;
                     unset($modules[array_search($missingModule, $modules)]);
                 }
-                $this->getSite()->discoverModules();
+                $this->getApplication()->getSite()->discoverModules();
             }
         }
 
