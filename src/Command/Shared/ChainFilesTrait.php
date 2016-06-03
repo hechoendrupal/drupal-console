@@ -10,7 +10,7 @@ namespace Drupal\Console\Command\Shared;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Class EventsTrait
+ * Class ChanFilesTrait
  * @package Drupal\Console\Command
  */
 trait ChainFilesTrait

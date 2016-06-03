@@ -8,7 +8,7 @@
 namespace Drupal\Console\Command\Shared;
 
 /**
- * Class CreateTrait
+ * Class InputTrait
  * @package Drupal\Console\Command
  */
 trait InputTrait
