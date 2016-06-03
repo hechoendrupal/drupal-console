@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ChainFilesTrait;
-use Drupal\Console\Command\InputTrait;
+use Drupal\Console\Command\Shared\InputTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\CommandTrait;
 
