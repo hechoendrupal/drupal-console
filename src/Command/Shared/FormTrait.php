@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\FormTrait.
+ * Contains Drupal\Console\Command\Shared\FormTrait.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Shared;
 
 use Drupal\Console\Style\DrupalStyle;
 

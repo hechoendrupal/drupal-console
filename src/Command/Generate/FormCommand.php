@@ -10,10 +10,10 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ServicesTrait;
-use Drupal\Console\Command\ModuleTrait;
-use Drupal\Console\Command\MenuTrait;
-use Drupal\Console\Command\FormTrait;
+use Drupal\Console\Command\Shared\ServicesTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Command\Shared\MenuTrait;
+use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Generator\FormGenerator;
 use Drupal\Console\Command\GeneratorCommand;
 use Drupal\Console\Style\DrupalStyle;
@@ -119,7 +119,7 @@ abstract class FormCommand extends GeneratorCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($output);
             $input->setOption('module', $module);
         }
@@ -145,14 +145,14 @@ abstract class FormCommand extends GeneratorCommand
         }
 
         // --services option
-        // @see use Drupal\Console\Command\ServicesTrait::servicesQuestion
+        // @see use Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
         $services = $this->servicesQuestion($output);
         $input->setOption('services', $services);
 
         // --inputs option
         $inputs = $input->getOption('inputs');
         if (!$inputs) {
-            // @see \Drupal\Console\Command\FormTrait::formQuestion
+            // @see \Drupal\Console\Command\Shared\FormTrait::formQuestion
             $inputs = $this->formQuestion($output);
             $input->setOption('inputs', $inputs);
         }
