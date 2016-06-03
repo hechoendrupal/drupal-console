@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
-use Drupal\Console\Command\ConfirmationTrait;
+use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\ServicesTrait;
 use Drupal\Console\Command\GeneratorCommand;
@@ -52,7 +52,7 @@ class EntityBundleCommand extends GeneratorCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
             return;
         }

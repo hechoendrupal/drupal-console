@@ -13,8 +13,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\PluginBlockGenerator;
 use Drupal\Console\Command\ServicesTrait;
 use Drupal\Console\Command\ModuleTrait;
-use Drupal\Console\Command\FormTrait;
-use Drupal\Console\Command\ConfirmationTrait;
+use Drupal\Console\Command\Shared\FormTrait;
+use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -72,7 +72,7 @@ class PluginBlockCommand extends GeneratorCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
             return 1;
         }
@@ -186,7 +186,7 @@ class PluginBlockCommand extends GeneratorCommand
 
         $output->writeln($this->trans('commands.generate.plugin.block.messages.inputs'));
 
-        // @see Drupal\Console\Command\FormTrait::formQuestion
+        // @see Drupal\Console\Command\Shared\FormTrait::formQuestion
         $inputs = $this->formQuestion($output);
         $input->setOption('inputs', $inputs);
     }

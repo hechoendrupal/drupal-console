@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ServicesTrait;
-use Drupal\Console\Command\ConfirmationTrait;
+use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Generator\ControllerGenerator;
 use Drupal\Console\Command\GeneratorCommand;
@@ -71,7 +71,7 @@ class ControllerCommand extends GeneratorCommand
         $io = new DrupalStyle($input, $output);
         $yes = $input->hasOption('yes')?$input->getOption('yes'):false;
 
-        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io, $yes)) {
             return;
         }

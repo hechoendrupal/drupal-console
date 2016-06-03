@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ServicesTrait;
 use Drupal\Console\Command\ModuleTrait;
 use Drupal\Console\Command\MenuTrait;
-use Drupal\Console\Command\FormTrait;
+use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Generator\FormGenerator;
 use Drupal\Console\Command\GeneratorCommand;
 use Drupal\Console\Style\DrupalStyle;
@@ -152,7 +152,7 @@ abstract class FormCommand extends GeneratorCommand
         // --inputs option
         $inputs = $input->getOption('inputs');
         if (!$inputs) {
-            // @see \Drupal\Console\Command\FormTrait::formQuestion
+            // @see \Drupal\Console\Command\Shared\FormTrait::formQuestion
             $inputs = $this->formQuestion($output);
             $input->setOption('inputs', $inputs);
         }

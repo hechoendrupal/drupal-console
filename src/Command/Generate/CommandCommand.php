@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
-use Drupal\Console\Command\ConfirmationTrait;
+use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -64,7 +64,7 @@ class CommandCommand extends GeneratorCommand
         $containerAware = $input->getOption('container-aware');
         $yes = $input->hasOption('yes')?$input->getOption('yes'):false;
 
-        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io, $yes)) {
             return;
         }

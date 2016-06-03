@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ThemeRegionTrait;
 use Drupal\Console\Command\ThemeBreakpointTrait;
 use Drupal\Console\Generator\ThemeGenerator;
-use Drupal\Console\Command\ConfirmationTrait;
+use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -101,7 +101,7 @@ class ThemeCommand extends GeneratorCommand
 
         $validators = $this->getValidator();
 
-        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
             return;
         }
