@@ -5,7 +5,7 @@
  * Contains Drupal\Console\Command\Shared\CreateTrait.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Shared;
 
 /**
  * Class CreateTrait

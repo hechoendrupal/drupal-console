@@ -5,7 +5,7 @@
  * Contains Drupal\Console\Command\Shared\LocaleTrait.
  */
 
-namespace Drupal\Console\Command\Locale;
+namespace Drupal\Console\Command\Shared;
 
 trait LocaleTrait
 {

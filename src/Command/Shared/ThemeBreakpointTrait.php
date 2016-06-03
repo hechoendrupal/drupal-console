@@ -5,7 +5,7 @@
  * Contains Drupal\Console\Command\Shared\ThemeBreakpointTrait.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Shared;
 
 use Drupal\Console\Style\DrupalStyle;
 
