@@ -60,7 +60,7 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
           '_entity_list' => $entity_type_id,
           '_title' => "{$entity_type->getLabel()} list",
         ])
-        ->setRequirement('_permission', 'view {{ label|lower }} entities')
+        ->setRequirement('_permission', 'access {{ label|lower }} overview')
         ->setOption('_admin_route', TRUE);
 
       return $route;
