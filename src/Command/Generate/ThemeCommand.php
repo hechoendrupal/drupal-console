@@ -10,8 +10,8 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ThemeRegionTrait;
-use Drupal\Console\Command\ThemeBreakpointTrait;
+use Drupal\Console\Command\Shared\ThemeRegionTrait;
+use Drupal\Console\Command\Shared\ThemeBreakpointTrait;
 use Drupal\Console\Generator\ThemeGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
@@ -268,7 +268,7 @@ class ThemeCommand extends GeneratorCommand
                 $this->trans('commands.generate.theme.questions.regions'),
                 true
             )) {
-                // @see \Drupal\Console\Command\ThemeRegionTrait::regionQuestion
+                // @see \Drupal\Console\Command\Shared\ThemeRegionTrait::regionQuestion
                 $regions = $this->regionQuestion($output);
                 $input->setOption('regions', $regions);
             }
@@ -281,7 +281,7 @@ class ThemeCommand extends GeneratorCommand
                 $this->trans('commands.generate.theme.questions.breakpoints'),
                 true
             )) {
-                // @see \Drupal\Console\Command\ThemeRegionTrait::regionQuestion
+                // @see \Drupal\Console\Command\Shared\ThemeRegionTrait::regionQuestion
                 $breakpoints = $this->breakpointQuestion($output);
                 $input->setOption('breakpoints', $breakpoints);
             }
