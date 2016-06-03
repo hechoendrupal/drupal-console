@@ -15,6 +15,7 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\ExportTrait;
 
 class ExportViewCommand extends Command
 {
