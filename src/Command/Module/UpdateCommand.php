@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\ProjectDownloadTrait;
+use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 
 class UpdateCommand extends Command
 {

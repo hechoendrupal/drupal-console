@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Config;
 
-use Drupal\Console\Command\ModuleTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -59,7 +59,7 @@ class ExportContentTypeCommand extends Command
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($io);
         }
         $input->setOption('module', $module);

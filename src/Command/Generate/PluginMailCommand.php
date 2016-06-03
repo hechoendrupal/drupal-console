@@ -10,8 +10,8 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ServicesTrait;
-use Drupal\Console\Command\ModuleTrait;
+use Drupal\Console\Command\Shared\ServicesTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Generator\PluginMailGenerator;
@@ -71,7 +71,7 @@ class PluginMailCommand extends GeneratorCommand
         $plugin_id = $input->getOption('plugin-id');
         $services = $input->getOption('services');
 
-        // @see use Drupal\Console\Command\ServicesTrait::buildServices
+        // @see use Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
 
         $this
@@ -88,7 +88,7 @@ class PluginMailCommand extends GeneratorCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($output);
             $input->setOption('module', $module);
         }
@@ -127,7 +127,7 @@ class PluginMailCommand extends GeneratorCommand
         }
 
         // --services option
-        // @see Drupal\Console\Command\ServicesTrait::servicesQuestion
+        // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
         $services = $this->servicesQuestion($output);
         $input->setOption('services', $services);
     }

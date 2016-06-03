@@ -10,8 +10,8 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ModuleTrait;
-use Drupal\Console\Command\PermissionTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Command\Shared\PermissionTrait;
 use Drupal\Console\Generator\PermissionGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
@@ -69,7 +69,7 @@ class PermissionCommand extends GeneratorCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($output);
             $input->setOption('module', $module);
         }
@@ -77,7 +77,7 @@ class PermissionCommand extends GeneratorCommand
         // --permissions option
         $permissions = $input->getOption('permissions');
         if (!$permissions) {
-            // @see \Drupal\Console\Command\PermissionTrait::permissionQuestion
+            // @see \Drupal\Console\Command\Shared\PermissionTrait::permissionQuestion
             $permissions = $this->permissionQuestion($output);
             $input->setOption('permissions', $permissions);
         }
