@@ -43,7 +43,10 @@ class ShellProcess
         $this->process->setWorkingDirectory($rootPath);
         $this->process->enableOutput();
         $this->process->setTimeout(null);
-        $this->process->run();
+        $this->process->run(function ($type, $buffer) {
+          //@TODO: use $io
+          echo $buffer;
+        });
 
         if (!$this->process->isSuccessful()) {
             throw new ProcessFailedException($this->process);

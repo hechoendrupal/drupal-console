@@ -98,7 +98,7 @@ class UpdateCommand extends Command
         }
 
         if ($composer) {
-            $this->setComposerRepositories();
+            $this->setComposerRepositories("default");
             $command = 'composer update ' . $modules . ' --optimize-autoloader --prefer-dist --no-dev --root-reqs ';
 
             if ($simulate) {
@@ -108,7 +108,10 @@ class UpdateCommand extends Command
             $shellProcess = $this->get('shell_process');
             if ($shellProcess->exec($command)) {
                 $io->success(
-                    $this->trans('commands.module.update.messages.composer')
+                    sprintf(
+                      $this->trans('commands.module.update.messages.composer'),
+                      trim($modules)
+                    )
                 );
             }
         }
