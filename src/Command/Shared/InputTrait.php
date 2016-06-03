@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\InputTrait.
+ * Contains Drupal\Console\Command\Shared\InputTrait.
  */
 
 namespace Drupal\Console\Command;

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\CreateTrait.
+ * Contains Drupal\Console\Command\Shared\CreateTrait.
  */
 
 namespace Drupal\Console\Command;

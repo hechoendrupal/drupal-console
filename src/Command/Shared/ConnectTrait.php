@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Database\ConnectTrait.
+ * Contains Drupal\Console\Command\Shared\ConnectTrait.
  */
 
 namespace Drupal\Console\Command\Database;

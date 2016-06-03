@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\FormTrait.
+ * Contains Drupal\Console\Command\Shared\FormTrait.
  */
 
 namespace Drupal\Console\Command;

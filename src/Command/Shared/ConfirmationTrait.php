@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\ConfirmationTrait.
+ * Contains Drupal\Console\Command\Shared\ConfirmationTrait.
  */
 
 namespace Drupal\Console\Command;

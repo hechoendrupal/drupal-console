@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\ThemeRegionTrait.
+ * Contains Drupal\Console\Command\Shared\ThemeRegionTrait.
  */
 
 namespace Drupal\Console\Command;

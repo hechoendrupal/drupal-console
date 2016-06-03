@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\PermissionsTrait.
+ * Contains Drupal\Console\Command\Shared\PermissionsTrait.
  */
 
 namespace Drupal\Console\Command;

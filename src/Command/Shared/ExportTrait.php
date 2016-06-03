@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\Config\ExportTrait.
+ * Contains Drupal\Console\Command\Shared\ExportTrait.
  */
 
 namespace Drupal\Console\Command\Config;

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Database\ConnectTrait.
+ * Contains Drupal\Console\Command\Shared\LocaleTrait.
  */
 
 namespace Drupal\Console\Command\Locale;

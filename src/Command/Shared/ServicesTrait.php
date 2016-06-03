@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\ServicesTrait.
+ * Contains Drupal\Console\Command\Shared\ServicesTrait.
  */
 
 namespace Drupal\Console\Command;

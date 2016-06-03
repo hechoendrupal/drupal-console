@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\ProjectDownloadTrait.
+ * Contains Drupal\Console\Command\Shared\ProjectDownloadTrait.
  */
 
 namespace Drupal\Console\Command;

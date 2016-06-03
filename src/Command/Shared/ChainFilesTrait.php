@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\ChainFilesTrait.
+ * Contains Drupal\Console\Command\Shared\ChainFilesTrait.
  */
 
 namespace Drupal\Console\Command;

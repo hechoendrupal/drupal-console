@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\ThemeBreakpointTrait.
+ * Contains Drupal\Console\Command\Shared\ThemeBreakpointTrait.
  */
 
 namespace Drupal\Console\Command;

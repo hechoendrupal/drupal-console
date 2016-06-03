@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Database\DatabaseTrait.
+ * Contains Drupal\Console\Command\Shared\DatabaseTrait.
  */
 
 namespace Drupal\Console\Command\Database;
