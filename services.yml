@@ -37,4 +37,4 @@ services:
     arguments: ["@site", "@translator"]
   shell_process:
     class: Drupal\Console\Utils\ShellProcess
-    arguments: ["@site"]
+    arguments: ["@site", '@config']
