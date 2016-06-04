@@ -141,7 +141,7 @@ class DownloadCommand extends Command
                     }
                 }
 
-                $this->setComposerRepositories();
+                $this->setComposerRepositories("default");
                 $command = sprintf(
                     'composer require drupal/%s:%s',
                     $module,
@@ -153,7 +153,7 @@ class DownloadCommand extends Command
                     $io->success(
                         sprintf(
                             $this->trans('commands.module.download.messages.composer'),
-                            $version
+                            $module
                         )
                     );
                 }
