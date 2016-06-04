@@ -5,8 +5,8 @@ questions:
     value: 'Introuduzca el valor de configuración'
 arguments:
     name: 'Nombre de configuración'
-    key: 'Clave'
-    value: 'Valor'
+    key: Clave
+    value: Valor
     config-name: 'Nombre de la configuración.'
 messages:
     configuration: 'Nombre de la configuración.'

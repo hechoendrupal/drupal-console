@@ -3,6 +3,7 @@ arguments:
     module: 'El módulo o los módulos que vayan a ser habilitados deben ir separados por un espacio'
 options:
     latest: 'Por defecto descarga la versión más reciente'
+    composer: 'Download the module using Composer'
     module: 'Separe con un espacio el módulo o módulos que vayan a ser activados'
     overwrite-config: 'Sobreescribir la configuración actual si es necesario'
 questions:
@@ -25,3 +26,4 @@ messages:
     downloaded: 'La versión %s del módulo %s ha sido descargada satisfactoriamente en %s'
     no-releases: 'No hay ninguna versión disponible del módulo %s'
     installing: 'Instalando módulo(s) %s'
+    composer: 'The module was installed successfully with Composer'

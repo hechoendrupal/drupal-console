@@ -30,7 +30,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '1.0.0-beta1';
+    const VERSION = '1.0.0-beta2';
 
     /**
      * @var string
@@ -105,12 +105,13 @@ class Application extends BaseApplication
             new InputOption('--yes', '-y', InputOption::VALUE_NONE, $this->trans('application.options.yes'))
         );
 
-        $options = $this->getConfig()->get('application.default.global.options')?:[];
+        $options = $this->getConfig()->get('application.options')?:[];
         foreach ($options as $key => $option) {
             if ($this->getDefinition()->hasOption($key)) {
-                if ($option === true) {
+                if (is_bool($option) && $option === true) {
                     $_SERVER['argv'][] = sprintf('--%s', $key);
-                } else {
+                }
+                if (!is_bool($option) && $option) {
                     $_SERVER['argv'][] = sprintf('--%s=%s', $key, $option);
                 }
             }
@@ -198,7 +199,7 @@ class Application extends BaseApplication
         $uri = $input->getParameterOption(['--uri', '-l']);
 
         /*Checking if the URI has http of not in begenning*/
-        if ($uri && !preg_match('^(http|https)://', $uri)) {
+        if ($uri && !preg_match('/^(http|https):\/\//', $uri)) {
             $uri = sprintf(
                 'http://%s',
                 $uri
@@ -342,9 +343,7 @@ class Application extends BaseApplication
         );
 
         foreach ($autoWireForcedCommands as $autoWireForcedCommand) {
-            $command = new $autoWireForcedCommand['class'](
-                $autoWireForcedCommand['helperset']?$this->getHelperSet():null
-            );
+            $command = new $autoWireForcedCommand['class'];
             $this->add($command);
         }
 
@@ -356,9 +355,12 @@ class Application extends BaseApplication
         );
 
         if ($autoWireNameCommand) {
-            $command = new $autoWireNameCommand['class'](
-                $autoWireNameCommand['helperset']?$this->getHelperSet():null
-            );
+            $command = new $autoWireNameCommand['class'];
+
+            if (method_exists($command, 'setTranslator')) {
+                $command->setTranslator($this->container->get('translator'));
+            }
+
             $this->add($command);
         }
 
@@ -541,12 +543,10 @@ class Application extends BaseApplication
      */
     private function getCommandAliases($command)
     {
-        $aliasKey = sprintf(
-            'application.default.commands.%s.aliases',
-            str_replace(':', '.', $command->getName())
-        );
+        $aliases = $this->getConfig()
+            ->get('commands.aliases.'. $command->getName());
 
-        return $this->getConfig()->get($aliasKey)?:[];
+        return $aliases?[$aliases]:[];
     }
 
     /**

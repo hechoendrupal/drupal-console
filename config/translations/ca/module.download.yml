@@ -4,6 +4,7 @@ arguments:
 options:
     latest: 'Descarregar la versió més actual de forma predeterminada'
     path: 'The path of the contrib project'
+    composer: 'Option to point out that the module will be downloaded, managed & installed by Composer'
     version: 'Versió del mòdul p.e 1.x-dev'
 questions:
     path: 'Enter the contrib project Path'

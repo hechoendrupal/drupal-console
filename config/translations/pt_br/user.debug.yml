@@ -4,6 +4,9 @@ welcome: 'Bem vindo ao processo de carregar informações dos usuários do drupa
 options:
     roles: 'Filtrar por papéis'
     limit: 'Limitar quantidade de usuários a serem carregados'
+    uid: 'Filters the result list by uids [between quotes separated by spaces]'
+    username: 'Filters the result list by usernames [between quotes separated by spaces]'
+    mail: 'Filters the result list by user''s e-mail [between quotes separated by spaces]'
 questions:
     roles: 'Selecione o(s) papel(is) a serem usados como filtro para o carregamento dos usuários'
     limit: 'Digite quantos usuários devem ser carregados'

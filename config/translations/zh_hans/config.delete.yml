@@ -1,7 +1,18 @@
 description: 删除配置
 arguments:
+    type: 'Configuration type.'
     name: 配置名称
 messages:
+    all: 'All configuration sucessfully deleted.'
+    deleted: '配置 "%s" 删除成功'
     name: 配置名称必须包含值
     not-exists: '配置 "%s" 不存在'
-    deleted: '配置 "%s" 删除成功'
+errors:
+    config-storage: 'Configuration type would not be loaded.'
+    name: 'Configuration name must contain a value.'
+    type: 'Configuration type is missing.'
+    not-exists: 'The configuration "%s" does not exists.'
+warnings:
+    undo: 'This action will delete all configuration permanentaly.'
+questions:
+    sure: 'Are you sure to delete all configuration'

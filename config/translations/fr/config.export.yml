@@ -4,6 +4,7 @@ arguments:
     tar: 'If set, the configuration will be exported to an archive file.'
 messages:
     directory: 'Votre exportation de configuration a été sauvegardée dans %s'
+    error: 'An error occurred while creating your directory at %s'
 content:
     type:
         description: 'Exporte un type de contenu ainsi que ses champs.'

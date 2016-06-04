@@ -10,3 +10,4 @@ messages:
     successful: 'S''han esborrat els intent de connexió per l''usuari %s.'
 errors:
     invalid-user: 'No es pot carregar l''entitat del usuari (Uid: %s).'
+    no-flood: 'No flood table on the system.'

@@ -4,11 +4,14 @@ welcome: 'Bienvenido a la herramienta para depurar usuarios en Drupal 8'
 options:
     roles: 'Indique los roles con los que filtrar el listado de usuarios'
     limit: 'Cuántos usuarios le gustaría listar'
+    uid: 'Filters the result list by uids [between quotes separated by spaces]'
+    username: 'Filters the result list by usernames [between quotes separated by spaces]'
+    mail: 'Filters the result list by user''s e-mail [between quotes separated by spaces]'
 questions:
     roles: 'Seleccione los role(s) que serán usados para filtrar la lista de usuarios'
     limit: 'Introduzca cuántos usuarios le gustaría que fueran mostrados'
 messages:
     user-id: 'ID de usuario'
     username: 'Nombre de usuario'
-    roles: 'Roles'
-    status: 'Estado'
+    roles: Roles
+    status: Estado

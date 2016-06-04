@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\LocaleTrait;
 
 class TranslationStatusCommand extends ContainerAwareCommand
 {

@@ -11,7 +11,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Command;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -20,6 +21,8 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class ImportLocalCommand extends Command
 {
+    use CommandTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -58,7 +61,7 @@ class ImportLocalCommand extends Command
         $siteName = $input->getArgument('name');
         $directory = $input->getArgument('directory');
 
-        $fileSystem = $this->getContainerHelper()->get('filesystem');
+        $fileSystem = $this->get('filesystem');
         if (!$fileSystem->exists($directory)) {
             $io->error(
                 sprintf(
@@ -70,7 +73,7 @@ class ImportLocalCommand extends Command
             return 1;
         }
         
-        $drupal = $this->getDrupalHelper();
+        $drupal = $this->get('site');
         if (!$drupal->isValidRoot($directory)) {
             $io->error(
                 sprintf(
@@ -91,7 +94,7 @@ class ImportLocalCommand extends Command
           ],
         ];
 
-        $yaml = $this->getContainerHelper()->get('yaml');
+        $yaml = $this->get('yaml');
         $dump = $yaml::dump($siteConfig);
 
         $config = $this->getApplication()->getConfig();

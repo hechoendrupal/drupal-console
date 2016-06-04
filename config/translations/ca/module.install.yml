@@ -3,6 +3,7 @@ arguments:
     module: 'Mòduls per habilitar separats per un espai'
 options:
     latest: 'Descarregar la versió més actual de forma predeterminada'
+    composer: 'Download the module using Composer'
     module: 'El mòduls per activar han d''estar separats per comes'
     overwrite-config: 'Si es necessari reescriure la configuració activa'
 questions:
@@ -25,3 +26,4 @@ messages:
     downloaded: 'El mòdul %s versió %s s''ha descarregat correctament a %s'
     no-releases: 'No hi ha cap versió disponible per el mòdul  %s'
     installing: 'S''està instal·lant el mòdul %s'
+    composer: 'The module was installed successfully with Composer'

@@ -5,8 +5,8 @@ questions:
     value: 'Enter the configuration value'
 arguments:
     name: 'Configuration name'
-    key: 'Key'
-    value: 'Value'
+    key: Key
+    value: Value
 messages:
     configuration: 'Configuration name'
     configuration-key: 'Configuration key'
@@ -14,5 +14,6 @@ messages:
     updated: 'Override Value'
     invalid-name: 'Config object "%s", does not exists'
 examples:
-    - description: 'Set the Contact module flood limit to 10.'
-      execution: 'drupal config:override contact.settings flood.limit 10'
+    -
+        description: 'Set the Contact module flood limit to 10.'
+        execution: 'drupal config:override contact.settings flood.limit 10'

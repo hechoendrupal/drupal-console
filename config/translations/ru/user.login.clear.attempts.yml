@@ -10,3 +10,4 @@ messages:
     successful: 'Попытки входа были успешно очищены для пользователя с идентификатором %s.'
 errors:
     invalid-user: 'Не удалось загрузить пользователя (Идентификатор пользователя: %s).'
+    no-flood: 'No flood table on the system.'

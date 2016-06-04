@@ -2,6 +2,10 @@ description: 'Új Drupal projekt létrehozása'
 arguments:
     directory: 'A Drupal letöltésekor használt könyvtár'
     version: 'A letöltendő Drupal-verzió'
+options:
+    composer: 'Install Drupal with Composer'
+    latest: 'Use this option to select automatically the latest version'
+    unstable: 'Use this option to download unstable releases. If not used, you only can install stable releases. Do not use this with latest nor version.'
 messages:
     select-release: 'Alaprendszer kiadásának kiválasztása'
     getting-releases: 'Drupal kiadásainak beolvasása'
@@ -10,5 +14,11 @@ messages:
     no-releases: 'Nincs rendelkezésre álló Drupal kiadás'
     downloaded: 'A Drupal %s letöltése sikerült a következő könyvtárba: %s'
     error-copying: 'Hiba történt a könyvtár átnevezésekor %s névre'
+    composer: 'Drupal %s was installed successfully using Composer at %s'
+    executing: 'Executing composer command:'
+    missing-directory: 'Missing directory argument'
+    missing-version: 'Missing version argument'
 questions:
     directory: 'Meg kell adni a Drupal letöltésekor használt könyvtár nevét'
+    composer-release: 'Please, choose a Packagist Drupal release'
+    stable: 'Do you want to use stable releases?'

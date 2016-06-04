@@ -4,6 +4,9 @@ welcome: 'द्रुपल के यूजर डिबग करने क�
 options:
     roles: 'रोल्स से फिल्टर डिबग'
     limit: 'डिबग में आप कितने यूजरस के सूचीबद्ध में होंगे'
+    uid: 'Filters the result list by uids [between quotes separated by spaces]'
+    username: 'Filters the result list by usernames [between quotes separated by spaces]'
+    mail: 'Filters the result list by user''s e-mail [between quotes separated by spaces]'
 questions:
     roles: 'यूजर डिबग सूची को फ़िल्टर करने के लिए चयनित रोल(स) इस्तेमाल किया जाता है'
     limit: 'आप कितने यूजरस को दिखाना चाहेंगे एंटर करे'

@@ -9,7 +9,9 @@ messages:
 questions:
     cache: 'Select cache.'
 examples:
-    - description: Rebuild all caches
-      execution: drupal cr all
-    - description: Rebuild discovery cache
-      execution: drupal cr discovery
+    -
+        description: 'Rebuild all caches'
+        execution: 'drupal cr all'
+    -
+        description: 'Rebuild discovery cache'
+        execution: 'drupal cr discovery'

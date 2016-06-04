@@ -9,6 +9,6 @@ questions:
     invalid-module: 'Invalid module %s'
 messages:
     success: 'The following module(s) were installed successfully: %s'
-    composer: 'The module %s was installed successfully with Composer'
+    composer: 'The module %s was managed successfully with Composer'
     only-composer: 'This command only updates modules via Composer. Use --composer option.'
     missing-module: 'Enter a module(s) name(s) to update.'
