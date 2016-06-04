@@ -2,15 +2,15 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\ChainFilesTrait.
+ * Contains Drupal\Console\Command\Shared\ChainFilesTrait.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Shared;
 
 use Symfony\Component\Finder\Finder;
 
 /**
- * Class EventsTrait
+ * Class ChanFilesTrait
  * @package Drupal\Console\Command
  */
 trait ChainFilesTrait

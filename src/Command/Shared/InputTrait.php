@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\InputTrait.
+ * Contains Drupal\Console\Command\Shared\InputTrait.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Shared;
 
 /**
- * Class CreateTrait
+ * Class InputTrait
  * @package Drupal\Console\Command
  */
 trait InputTrait

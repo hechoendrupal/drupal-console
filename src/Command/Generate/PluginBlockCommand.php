@@ -11,10 +11,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\PluginBlockGenerator;
-use Drupal\Console\Command\ServicesTrait;
-use Drupal\Console\Command\ModuleTrait;
-use Drupal\Console\Command\FormTrait;
-use Drupal\Console\Command\ConfirmationTrait;
+use Drupal\Console\Command\Shared\ServicesTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Command\Shared\FormTrait;
+use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\GeneratorCommand;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -72,7 +72,7 @@ class PluginBlockCommand extends GeneratorCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
             return 1;
         }
@@ -100,7 +100,7 @@ class PluginBlockCommand extends GeneratorCommand
             return 1;
         }
 
-        // @see use Drupal\Console\Command\ServicesTrait::buildServices
+        // @see use Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
 
         $this
@@ -128,7 +128,7 @@ class PluginBlockCommand extends GeneratorCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($output);
             $input->setOption('module', $module);
         }
@@ -180,13 +180,13 @@ class PluginBlockCommand extends GeneratorCommand
         }
 
         // --services option
-        // @see Drupal\Console\Command\ServicesTrait::servicesQuestion
+        // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
         $services = $this->servicesQuestion($output);
         $input->setOption('services', $services);
 
         $output->writeln($this->trans('commands.generate.plugin.block.messages.inputs'));
 
-        // @see Drupal\Console\Command\FormTrait::formQuestion
+        // @see Drupal\Console\Command\Shared\FormTrait::formQuestion
         $inputs = $this->formQuestion($output);
         $input->setOption('inputs', $inputs);
     }
