@@ -3,6 +3,10 @@ arguments:
     directory: 'Drupal डाउनलोड के लिये निर्देशिका'
     version: 'किसी विशेष Drupal के संस्करण को डाउनलोड करें'
     site-name: 'साइट का नाम'
+options:
+    composer: 'Install Drupal with Composer'
+    latest: 'Use this option to select automatically the latest version'
+    unstable: 'Use this option to download unstable releases. If not used, you only can install stable releases. Do not use this with latest nor version.'
 messages:
     select-release: 'कोर रिलिज का चयन करें'
     getting-releases: 'Drupal के लिए हो रही विज्ञप्ति'
@@ -11,6 +15,12 @@ messages:
     no-releases: 'Drupal के लिए कोइ भी रिलीज उपलब्ध नही हे'
     downloaded: 'Drupal %s को डायरेक्टरी %s में डाउनलोड कर लिया गया'
     error-copying: 'अपनी निर्देशिका का नाम बदलने के दौरान %s पे त्रुटि हुई'
+    composer: 'Drupal %s was installed successfully using Composer at %s'
+    executing: 'Executing composer command:'
+    missing-directory: 'Missing directory argument'
+    missing-version: 'Missing version argument'
     release: 'एक रिलीज का चयन करें'
 questions:
     directory: 'Drupal डाउनलोड के लिये निर्देशिका का नाम दर्ज के'
+    composer-release: 'Please, choose a Packagist Drupal release'
+    stable: 'Do you want to use stable releases?'

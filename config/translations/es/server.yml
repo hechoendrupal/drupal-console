@@ -7,7 +7,7 @@ errors:
     binary: 'Ha sido imposible encontrar el binario PHP para ejecutar el servidor.'
 examples:
     -
-        description: 'Corre usando el valor de dirección por defecto 127.0.0.1.8088'
+        description: 'Corre usando el valor de dirección por defecto 127.0.0.1:8088'
         execution: 'drupal server'
     -
         description: 'Pasar una dirección para usar un número de puerto diferente'

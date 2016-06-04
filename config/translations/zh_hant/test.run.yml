@@ -4,7 +4,7 @@ arguments:
     test-methods: '要測試的類別方法 （Method）'
 messages:
     missing-dependency: '缺少必要的模組，無法進行測試'
-    phpunit-pending: '尚未執行 PHPUnit test 所需要的邏輯'
+    phpunit-pending: '尚未啟用 PHPUnit test 所需要的邏輯'
     starting-test: '開始測試'
     test-duration: '測試時間'
     test-pass: '通過的測試'

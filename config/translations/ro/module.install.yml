@@ -3,6 +3,7 @@ arguments:
     module: 'Module or modules to be enabled should be separated by a space'
 options:
     latest: 'Default to download most recent version'
+    composer: 'Download the module using Composer'
     module: 'Modulul/Modulele trebuie sa fie separate prin virgula'
     overwrite-config: 'Suprascrie configurările active dacă este necesar.'
 questions:
@@ -25,3 +26,4 @@ messages:
     downloaded: 'Module %s version %s was downloaded successfully at %s'
     no-releases: 'There aren''t any releases for module %s'
     installing: 'Installing module(s) %s'
+    composer: 'The module was installed successfully with Composer'

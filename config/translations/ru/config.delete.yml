@@ -1,7 +1,18 @@
-description: 'Delete configuration'
+description: 'Удалить конфигурацию'
 arguments:
-    name: 'Configuration name.'
+    type: 'Configuration type.'
+    name: 'Имя конфигурации.'
 messages:
+    all: 'All configuration sucessfully deleted.'
+    deleted: 'Конфигурация "%s" успешно удалена.'
+    name: 'Имя конфигрурации должно содержать значение.'
+    not-exists: 'Конфигурация "%s" не существует.'
+errors:
+    config-storage: 'Configuration type would not be loaded.'
     name: 'Configuration name must contain a value.'
+    type: 'Configuration type is missing.'
     not-exists: 'The configuration "%s" does not exists.'
-    deleted: 'Configuration "%s" sucessfully deleted.'
+warnings:
+    undo: 'This action will delete all configuration permanentaly.'
+questions:
+    sure: 'Are you sure to delete all configuration'

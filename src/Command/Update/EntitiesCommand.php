@@ -7,11 +7,12 @@
 
 namespace Drupal\Console\Command\Update;
 
-use Drupal\Console\Command\ContainerAwareCommand;
-use Drupal\Core\Entity\EntityStorageException;
-use Drupal\Core\Utility\Error;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Core\Entity\EntityStorageException;
+use Drupal\Core\Utility\Error;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -19,8 +20,10 @@ use Drupal\Console\Style\DrupalStyle;
  *
  * @package Drupal\Console\Command\Update
  */
-class EntitiesCommand extends ContainerAwareCommand
+class EntitiesCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -38,13 +41,13 @@ class EntitiesCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $state = $this->getService('state');
+        $state = $this->getDrupalService('state');
         $io->info($this->trans('commands.site.maintenance.messages.maintenance-on'));
         $io->info($this->trans('commands.update.entities.messages.start'));
         $state->set('system.maintenance_mode', true);
 
         try {
-            $this->getService('entity.definition_update_manager')->applyUpdates();
+            $this->getDrupalService('entity.definition_update_manager')->applyUpdates();
         } catch (EntityStorageException $e) {
             $variables = Error::decodeException($e);
             $io->info($this->trans('commands.update.entities.messages.error'));
@@ -53,7 +56,7 @@ class EntitiesCommand extends ContainerAwareCommand
 
         $state->set('system.maintenance_mode', false);
         $io->info($this->trans('commands.update.entities.messages.end'));
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->get('chain_queue')->addCommand('cache:rebuild', ['cache' => 'all']);
         $io->info($this->trans('commands.site.maintenance.messages.maintenance-off'));
     }
 }

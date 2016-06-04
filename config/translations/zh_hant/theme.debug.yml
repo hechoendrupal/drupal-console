@@ -1,6 +1,6 @@
-description: '顯示預設的版型'
+description: 顯示預設的版型
 arguments:
-    theme: '除錯特定的版型'
+    theme: 除錯特定的版型
 messages:
     theme-id: 'ID'
     theme-name: '名稱'

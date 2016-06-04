@@ -10,7 +10,8 @@ namespace Drupal\Console\Command\State;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Component\Serialization\Yaml;
 
@@ -18,8 +19,9 @@ use Drupal\Component\Serialization\Yaml;
  * Class DebugCommand
  * @package Drupal\Console\Command\State
  */
-class OverrideCommand extends ContainerAwareCommand
+class OverrideCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -82,7 +84,7 @@ class OverrideCommand extends ContainerAwareCommand
         }
 
         if ($key && $value) {
-            $state = $this->getState();
+            $state = $this->getService('state');
             $originalValue = Yaml::encode($state->get($key));
             $overrideValue = is_array($value)?Yaml::encode($value):$value;
             $state->set($key, $overrideValue);

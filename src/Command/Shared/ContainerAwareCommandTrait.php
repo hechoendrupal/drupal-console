@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains Drupal\Console\Command\Shared\ContainerAwareCommandTrait.
+ */
+
 namespace Drupal\Console\Command\Shared;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;

@@ -9,7 +9,8 @@ namespace Drupal\Console\Command\Settings;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Command;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -18,6 +19,8 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class DebugCommand extends Command
 {
+    use CommandTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -34,7 +37,7 @@ class DebugCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $nestedArray = $this->getNestedArrayHelper();
+        $nestedArray = $this->getApplication()->getNestedArrayHelper();
 
         $application = $this->getApplication();
         $config = $application->getConfig();
@@ -44,7 +47,7 @@ class DebugCommand extends Command
         unset($configApplication['autowire']);
         unset($configApplication['languages']);
         unset($configApplication['aliases']);
-        unset($configApplication['default']);
+        unset($configApplication['default']['commands']);
 
         $configApplicationFlatten = [];
         $keyFlatten = '';

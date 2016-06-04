@@ -3,6 +3,7 @@ arguments:
     module: 模块间用空格隔开
 options:
     latest: 默认下载最新版本
+    composer: 'Download the module using Composer'
     module: 一个或多个模块，模块之间使用逗号分隔
     overwrite-config: 覆写配置
 questions:
@@ -25,3 +26,4 @@ messages:
     downloaded: '模板 %s 版本 %s 成功下载到 %s'
     no-releases: '模块 %s 没有发布任何版本'
     installing: '安装模块(s) %s'
+    composer: 'The module was installed successfully with Composer'

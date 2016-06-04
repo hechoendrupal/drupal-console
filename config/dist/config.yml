@@ -15,17 +15,17 @@ application:
       private: '~/.ssh/id_rsa'
       passphrase: '~/.ssh/passphrase.txt'
   composer:
-      create-project:
-        default:
+    create-project:
+      default:
 #          repository: 'https://packagist.org'
-          package: 'drupal-composer/drupal-project'
-        drupal:
+        package: 'drupal-composer/drupal-project'
+      drupal:
 #          repository: 'https://packagist.org'
-          package: 'drupal/drupal'
-      packages:
-        default: 'https://packagist.drupal-composer.org'
-        drupal: 'https://packages.drupal.org/8'
-        packagist: 'https://packagist.org'
+        package: 'drupal/drupal'
+    repositories:
+      default: 'https://packagist.drupal-composer.org'
+      drupal: 'https://packages.drupal.org/8'
+      packagist: 'https://packagist.org'
   disable:
     modules:
 #      - module_name_one
@@ -36,14 +36,12 @@ application:
     namespaces:
 #      - generate
 #      - create
-  default:
-    global:
-      options:
-        learning: true
-#        examples: true
-#        target: drupalvm.dev
-#        uri: miltisite.dev
-#        generate-inline: true
-#        generate-chain: true
-#        yes: true
-#        composer: true
+  options:
+    learning: false
+    examples: false
+#    target: drupalvm.dev
+#    uri: miltisite.dev
+    generate-inline: false
+    generate-chain: false
+    yes: false
+    composer: false
