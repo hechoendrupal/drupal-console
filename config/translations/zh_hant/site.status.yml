@@ -1,8 +1,8 @@
 description: '顯示 Drupal 安裝資訊'
 messages:
-    application: Application
+    application: 網站應用
     system: 系統資訊
-    hash_salt: 'Hash salt'
+    hash_salt: '雜湊加值(salt)'
     console: 'Drupal Console'
     database: 資料庫連接
     driver: Driver
