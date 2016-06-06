@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\px_debug_tools\Command;
+namespace Drupal\Console\Command;
 
 use Drupal\Core\Config\Config;
 use Drupal\Core\Config\ConfigFactory;
