@@ -1,10 +1,13 @@
-description: 'Generate translate stats'
+description: 'Gera estatísticas de tradução'
 arguments:
-    language: 'Language to generate translation stats against English'
+    language: 'Idioma para gerar estatísticas usando como base o inglês'
 options:
-    format: 'Define output format table|markdown'
+    format: 'Define o formato de saída tabela|markdown'
 messages:
-    invalid-language: 'Language %s is invalid'
-    language: Language
-    percentage: Percentage
-    iso: 'ISO Code'
+    invalid-language: 'Idioma %s é inválido'
+    language: Idioma
+    percentage: Porcentagem
+    iso: 'Código ISO'
+tips:
+    -
+        tip: 'Pass a language ISO code as argument to restrict the languages list'

@@ -11,12 +11,15 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
-use Drupal\Console\Command\ModuleTrait;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\ExportTrait;
 
-class ExportViewCommand extends ContainerAwareCommand
+class ExportViewCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     use ModuleTrait;
     use ExportTrait;
 
@@ -63,7 +66,7 @@ class ExportViewCommand extends ContainerAwareCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($io);
             $input->setOption('module', $module);
         }
@@ -71,7 +74,7 @@ class ExportViewCommand extends ContainerAwareCommand
         // view-id argument
         $viewId = $input->getArgument('view-id');
         if (!$viewId) {
-            $entityTypeManager =  $this->getService('entity_type.manager');
+            $entityTypeManager =  $this->getDrupalService('entity_type.manager');
 
             $views = $entityTypeManager->getStorage('view')->loadMultiple();
 
@@ -110,8 +113,8 @@ class ExportViewCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $this->entityManager = $this->getService('entity_type.manager');
-        $this->configStorage = $this->getConfigStorage();
+        $this->entityManager = $this->getDrupalService('entity_type.manager');
+        $this->configStorage = $this->getDrupalService('config.storage');
 
         $module = $input->getOption('module');
         $viewId = $input->getArgument('view-id');

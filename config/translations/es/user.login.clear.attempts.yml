@@ -10,3 +10,4 @@ messages:
     successful: 'Los intentos de inicio de sesión fueron restablecidos satisfactoriamente para el id del usuario %s.'
 errors:
     invalid-user: 'No se puede cargar la entidad de usuario (Uid: %s).'
+    no-flood: 'No flood table on the system.'

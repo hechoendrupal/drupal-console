@@ -261,7 +261,7 @@ class DrupalApiHelper extends Helper
         }
 
         $releaseFilePath = sprintf(
-            'http://ftp.drupal.org/files/projects/%s-%s.tar.gz',
+            'https://ftp.drupal.org/files/projects/%s-%s.tar.gz',
             $project,
             $release
         );
@@ -286,11 +286,11 @@ class DrupalApiHelper extends Helper
      *
      * @param string $url
      * @param int    $limit
-     * @param bool   $stable
+     * @param bool   $unstable
      *
      * @return array
      */
-    private function getComposerReleases($url, $limit = 10, $stable = true)
+    private function getComposerReleases($url, $limit = 10, $unstable = false)
     {
         if (!$url) {
             return [];
@@ -308,7 +308,16 @@ class DrupalApiHelper extends Helper
 
         $versions = array_keys((array)$packagistJson->package->versions);
 
-        if ($stable) {
+        // Remove Drupal 7 versions
+        $i = 0;
+        foreach ($versions as $version) {
+            if (0 === strpos($version, "7.") || 0 === strpos($version, "dev-7.")) {
+                unset($versions[$i]);
+            }
+            $i++;
+        }
+
+        if (!$unstable) {
             foreach ($versions as $key => $version) {
                 if (strpos($version, "-")) {
                     unset($versions[$key]);
@@ -327,16 +336,16 @@ class DrupalApiHelper extends Helper
      * Gets Drupal releases from Packagist API.
      *
      * @param int  $limit
-     * @param bool $stable
+     * @param bool $unstable
      *
      * @return array
      */
-    public function getPackagistDrupalReleases($limit = 10, $stable = true)
+    public function getPackagistDrupalReleases($limit = 10, $unstable = false)
     {
         return $this->getComposerReleases(
             'https://packagist.org/packages/drupal/drupal.json',
             $limit,
-            $stable
+            $unstable
         );
     }
 
@@ -344,16 +353,16 @@ class DrupalApiHelper extends Helper
      * Gets Drupal releases from Packagist API.
      *
      * @param int  $limit
-     * @param bool $stable
+     * @param bool $unstable
      *
      * @return array
      */
-    public function getPackagistDrupalComposerReleases($limit = 10, $stable = true)
+    public function getPackagistDrupalComposerReleases($limit = 10, $unstable = true)
     {
         return $this->getComposerReleases(
             'https://packagist.org/packages/drupal-composer/drupal-project.json',
             $limit,
-            $stable
+            $unstable
         );
     }
 
@@ -362,11 +371,11 @@ class DrupalApiHelper extends Helper
      *
      * @param string $module
      * @param int    $limit
-     * @param bool   $stable
+     * @param bool   $unstable
      *
      * @return array
      */
-    public function getPackagistModuleReleases($module, $limit = 10, $stable = true)
+    public function getPackagistModuleReleases($module, $limit = 10, $unstable = true)
     {
         if (!trim($module)) {
             return [];
@@ -378,7 +387,7 @@ class DrupalApiHelper extends Helper
                 trim($module)
             ),
             $limit,
-            $stable
+            $unstable
         );
     }
 }

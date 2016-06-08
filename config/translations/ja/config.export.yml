@@ -4,3 +4,4 @@ arguments:
     tar: 'If set, the configuration will be exported to an archive file.'
 messages:
     directory: 'コンフィグレーションは以下のディレクトリにエクスポートされました:'
+    error: 'An error occurred while creating your directory at %s'

@@ -4,6 +4,7 @@ arguments:
 options:
     latest: 'Default to download most recent version'
     path: 'The path of the contrib project'
+    composer: 'Option to point out that the module will be downloaded, managed & installed by Composer'
     version: 'モジュールのバージョン (例: 1.x-dev)'
 questions:
     path: 'Enter the contrib project Path'

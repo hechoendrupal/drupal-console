@@ -1,5 +1,5 @@
-description: 'Displays breakpoints available in application'
+description: 'Exibe breakpoints disponíveis na aplicação'
 options:
-  group-name: 'Enter Breakpoint Group Name'
+    group-name: 'Digite o Breakpoint Group Name'
 messages:
-  name: 'Extensions with breakpoints'
+    name: 'Extensões com breakpoints'

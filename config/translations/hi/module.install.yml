@@ -3,6 +3,7 @@ arguments:
     module: 'मॉड्यूल या मॉड्यूलस सक्षम होने के लिए एक स्पेस से सेपरेट किया जाना चाहिए'
 options:
     latest: 'डिफ़ॉल्ट नवीनतम संस्करण डाउनलोड करने के लिए'
+    composer: 'Download the module using Composer'
     module: 'चालू करने वाले मोड्यूल या मोड्यूलो को अल्पविराम से विभाजित करें'
     overwrite-config: 'यदि आवश्यक हो तो सक्रिय ओवरराइट विन्यास'
 questions:
@@ -25,3 +26,4 @@ messages:
     downloaded: 'मॉड्यूल %s संस्करण %s पर सफलतापूर्वक डाउनलोड किया गया था'
     no-releases: 'मॉड्यूल %s के लिए कोई भी रिलीज नहीं कर रहे हैं '
     installing: 'इंस्टॉलिंग मॉडल(स) %s'
+    composer: 'The module was installed successfully with Composer'

@@ -1,51 +1,46 @@
 options:
-    env: '環境名稱'
-    no-debug: '關閉除錯模式'
-    learning: '產生學習用的詳細代碼'
+    env: 環境名稱
+    no-debug: 關閉除錯模式
+    learning: 產生學習用的詳細代碼
     generate-chain: '以 YAML 格式顯示命令執行時的選項和參數，用於連續執行一組命令'
-    generate-inline: '將命令執行時的選項和參數顯示成一行，以便後續使用'
+    generate-inline: 將命令執行時的選項和參數顯示成一行，以便後續使用
     generate-doc: '顯示命令選項和參數為 markdown 格式'
     root: '定義 Drupal 根目錄，命令執行時使用'
     uri: 'Drupal 網站的 URI( 用於多網站環境或運行在不同的端口)'
-    yes: '跳過確認並繼續'
-    target: '與它互動的網站名稱（本地或遠端網站）'
-    help: '顯示這個幫助訊息'
-    quiet: '不顯示任何幫助訊息'
+    'yes': 跳過確認並繼續
+    target: 與它互動的網站名稱（本地或遠端網站）
+    help: 顯示這個幫助訊息
+    quiet: 不顯示任何幫助訊息
     verbose: '輸出訊息控制: 1 普通輸出, 2 詳細輸出 and 3 除錯訊息輸出'
-    version: '顯示這個程式的版本'
+    version: 顯示這個程式的版本
     ansi: '強制 ANSI 輸出'
     no-ansi: '關閉 ANSI 輸出'
-    no-interaction: '不要顯示任何對話問題'
-    check-fix: '嘗試修復任何遺失的設置.'
+    no-interaction: 不要顯示任何對話問題
+    check-fix: 嘗試修復任何遺失的設置.
 arguments:
-    command: '要執行的命令'
+    command: 要執行的命令
 messages:
-    completed: '命令執行成功！'
+    completed: 命令執行成功！
     chain:
         generated: 'Yaml 表示這個命令：（可以將其增加到文件中作為連續命令的一部分。如增加到： ~/.console/chain/sample.yml，並確認 YAML 檔案內容的開頭為 "commands"）:'
     inline:
-        generated: '一行方式表示這個命令：（可以複製它，用於再次執行）'
-    generated: '您可以開始使用剛剛產生的代碼！'
+        generated: 一行方式表示這個命令：（可以複製它，用於再次執行）
+    generated: 您可以開始使用剛剛產生的代碼！
     files:
-        generated: '已產生或上傳成功的檔案'
-        copied: '已複製檔案'
+        generated: 已產生或上傳成功的檔案
+        copied: 已複製檔案
     learning:
         route: "In order to to create pages it is necessary to define routes for them.\nA route maps a URL path to a controller. It defines what function\nor method will be called when a URL is accessed.\nIf the user accesses http://drupal8.dev/{{ route.path }}, the routing\nsystem will look for a route with that path. In this case it will find a\nmatch, and execute the _controller callback. In this case the callback is\ndefined as a classname\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nand a method (\"{{ route.method }}\")."
-    autocomplete: |
-                Bash or Zsh: 加入這行到您的命令 Shell 設置文件:
-                <info>source "$HOME/.console/console.rc" 2>/dev/null</info>
-
-                Fish: 建立一個符號連結
-                <info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>
+    autocomplete: "Bash or Zsh: 加入這行到您的命令 Shell 設置文件:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: 建立一個符號連結\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
     version: '<info>%s</info> 版本 <comment>%s</comment>'
 errors:
     invalid-command: '命令 "%s" 沒有定義'
 site:
     messages:
-        path: '網站路徑'
+        path: 網站路徑
     errors:
         directory: '在 Drupal 根目錄下運行，才能顯示所有可用命令'
         settings: '安裝 Drupal 後，才能顯示所有可用命令'
 user:
     messages:
-        path: '使用者本地主目錄'
+        path: 使用者本地主目錄

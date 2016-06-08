@@ -12,15 +12,15 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-use Drupal\Console\Command\Command;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\ProjectDownloadTrait;
-use Drupal\Console\Command\PHPProcessTrait;
+use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 
 class NewCommand extends Command
 {
     use ProjectDownloadTrait;
-    use PHPProcessTrait;
+    use CommandTrait;
 
     /**
      * {@inheritdoc}
@@ -103,7 +103,8 @@ class NewCommand extends Command
 
             $io->commentBlock($command);
 
-            if ($this->execProcess($command)) {
+            $shellProcess = $this->get('shell_process');
+            if ($shellProcess->exec($command)) {
                 $io->success(
                     sprintf(
                         $this->trans('commands.site.new.messages.composer'),
@@ -120,7 +121,7 @@ class NewCommand extends Command
 
         if (!$version && $latest) {
             $version = current(
-                $this->getDrupalApi()->getProjectReleases('drupal', 1, true)
+                $this->getApplication()->getDrupalApi()->getProjectReleases('drupal', 1, true)
             );
         }
 
@@ -200,7 +201,7 @@ class NewCommand extends Command
 
         if (!$version && $latest) {
             $version = current(
-                $this->getDrupalApi()->getProjectReleases('drupal', 1, true)
+                $this->getApplication()->getDrupalApi()->getProjectReleases('drupal', 1, true)
             );
         }
 

@@ -10,13 +10,15 @@ namespace Drupal\Console\Command\Theme;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Command;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\ProjectDownloadTrait;
+use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 
 class DownloadCommand extends Command
 {
     use ProjectDownloadTrait;
+    use CommandTrait;
 
     /**
      * {@inheritdoc}

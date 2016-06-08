@@ -1,4 +1,4 @@
-description: 'Edit the selected configuration.'
+description: 'Edite a configuração selecionada.'
 arguments:
     config-name: 'Nome da configuração.'
     editor: Editor.

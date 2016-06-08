@@ -12,12 +12,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\ProcessBuilder;
-use Drupal\Console\Command\ContainerAwareCommand;
-use Drupal\Console\Command\Database\ConnectTrait;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\ConnectTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class RestoreCommand extends ContainerAwareCommand
+class RestoreCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     use ConnectTrait;
 
     /**
@@ -90,7 +92,7 @@ class RestoreCommand extends ContainerAwareCommand
 
         $processBuilder = new ProcessBuilder(['-v']);
         $process = $processBuilder->getProcess();
-        $process->setWorkingDirectory($this->getDrupalHelper()->getRoot());
+        $process->setWorkingDirectory($this->getApplication()->getDrupalHelper()->getRoot());
         $process->setTty('true');
         $process->setCommandLine($command);
         $process->run();

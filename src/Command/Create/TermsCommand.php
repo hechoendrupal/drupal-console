@@ -11,15 +11,17 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class TermsCommand
  * @package Drupal\Console\Command\Generate
  */
-class TermsCommand extends ContainerAwareCommand
+class TermsCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -56,7 +58,7 @@ class TermsCommand extends ContainerAwareCommand
 
         $vocabularies = $input->getArgument('vocabularies');
         if (!$vocabularies) {
-            $vocabularies = $this->getDrupalApi()->getVocabularies();
+            $vocabularies = $this->getApplication()->getDrupalApi()->getVocabularies();
             $vids = $io->choice(
                 $this->trans('commands.create.terms.questions.vocabularies'),
                 array_values($vocabularies),
@@ -106,10 +108,10 @@ class TermsCommand extends ContainerAwareCommand
         $nameWords = $input->getOption('name-words')?:5;
 
         if (!$vocabularies) {
-            $vocabularies = array_keys($this->getDrupalApi()->getVocabularies());
+            $vocabularies = array_keys($this->getApplication()->getDrupalApi()->getVocabularies());
         }
 
-        $createTerms = $this->getDrupalApi()->getCreateTerms();
+        $createTerms = $this->getApplication()->getDrupalApi()->getCreateTerms();
         $terms = $createTerms->createTerm(
             $vocabularies,
             $limit,
