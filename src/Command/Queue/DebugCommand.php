@@ -20,6 +20,8 @@ use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 class DebugCommand extends Command
 {
   use ContainerAwareCommandTrait;
+  private $workerManager;
+
   /**
    * {@inheritdoc}
    */
@@ -36,6 +38,7 @@ class DebugCommand extends Command
   protected function execute(InputInterface $input, OutputInterface $output)
   {
     $io = new DrupalStyle($input, $output);
+    $this->workerManager = $this->getDrupalService('plugin.manager.queue_worker');
     $this->listQueues($io);
   }
 
@@ -44,15 +47,20 @@ class DebugCommand extends Command
    */
   private function listQueues(DrupalStyle $io) {
     $header = ['queue', 'items', 'class'];
-    $workerManager = $this->getDrupalService('plugin.manager.queue_worker');
-    foreach ($workerManager->getDefinitions() as $name => $info) {
-      $q = $this->getDrupalService('queue')->get($name);
-      $queues[$name] = array_combine(
-        $header,
-        [$name, $q->numberOfItems(), get_class($q)]
-      );
+    foreach ($this->workerManager->getDefinitions() as $name => $info) {
+      $queues[$name] = $this->formatQueues($name, $header);
     }
     $io->table($header, $queues);
+  }
+
+  /**
+   * @param $name
+   * @param array $header
+   * @return array
+   */
+  private function formatQueues($name, $header) {
+    $q = $this->getDrupalService('queue')->get($name);
+    return array_combine($header, [$name, $q->numberOfItems(), get_class($q)]);
   }
 
 }
