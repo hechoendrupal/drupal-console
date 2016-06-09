@@ -1,6 +1,6 @@
-description: 'Rebuild routes for the application'
+description: 'Отображает маршруты для приложения'
 arguments:
-    route-name: 'Route names'
+    route-name: 'Имена маршрутов'
 messages:
-    rebuilding: 'Rebuilding routes, wait a moment please'
-    completed: 'Done rebuilding route(s).'
+    rebuilding: 'Перестройка маршрутов, подождите секунду'
+    completed: 'Перейстройка маршрута(ов) закончена.'
