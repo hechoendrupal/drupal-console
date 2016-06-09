@@ -11,6 +11,7 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 
 /**
  * Class DebugCommand
@@ -18,13 +19,15 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DebugCommand extends Command
 {
+  use ContainerAwareCommandTrait;
   /**
    * {@inheritdoc}
    */
   protected function configure()
   {
     $this
-      ->setName('queue:debug');
+      ->setName('queue:debug')
+      ->setDescription($this->trans('commands.queue.debug.description'));
   }
 
   /**
