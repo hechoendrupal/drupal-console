@@ -44,9 +44,9 @@ class DebugCommand extends Command
    */
   private function listQueues(DrupalStyle $io) {
     $header = ['queue', 'items', 'class'];
-    $workerManager = \Drupal::service('plugin.manager.queue_worker');
+    $workerManager = $this->getDrupalService('plugin.manager.queue_worker');
     foreach ($workerManager->getDefinitions() as $name => $info) {
-      $q = \Drupal::queue($name);
+      $q = $this->getDrupalService('queue')->get($name);
       $queues[$name] = array_combine(
         $header,
         [$name, $q->numberOfItems(), get_class($q)]
