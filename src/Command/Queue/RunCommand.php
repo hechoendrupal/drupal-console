@@ -64,12 +64,15 @@ class RunCommand extends Command
   private function runQueue(DrupalStyle $io, $queue_name) {
     $worker = $this->queueManager->createInstance($queue_name);
     $q = $this->getDrupalService('queue')->get($queue_name);
+    $start = microtime(true);
     $count = $this->clearQueue($worker, $q);
+    $time = microtime(true) - $start;
     $io->success(
       sprintf(
         $this->trans('commands.queue.run.success'),
         $count,
-        $queue_name
+        $queue_name,
+        round($time, 2)
       )
     );
   }
