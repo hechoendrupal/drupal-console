@@ -12,3 +12,7 @@ messages:
     disabled: अक्षम
     version: Version
     schema-version: 'स्कीमा संस्करण'
+    total-downloads: 'Total installs'
+    total-monthly: 'Monthly installs'
+    total-daily: 'Daily installs'
+    no-results: 'Module %s was not found in the repository'

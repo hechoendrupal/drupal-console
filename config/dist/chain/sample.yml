@@ -14,6 +14,7 @@ commands:
       class: HelloWorldController
       routes:
         - title: 'Hello World'
+          name: 'example.hello_name'
           method: hello
           path: '/example/hello/{name}'
       services:

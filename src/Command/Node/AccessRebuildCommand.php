@@ -10,15 +10,17 @@ namespace Drupal\Console\Command\Node;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class AccessRebuildCommand
  * @package Drupal\Console\Command\Node
  */
-class AccessRebuildCommand extends ContainerAwareCommand
+class AccessRebuildCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -54,7 +56,7 @@ class AccessRebuildCommand extends ContainerAwareCommand
             return;
         }
 
-        $needs_rebuild = $this->getState()->get('node.node_access_needs_rebuild') ? : false;
+        $needs_rebuild = $this->getDrupalService('state')->get('node.node_access_needs_rebuild') ? : false;
         if ($needs_rebuild) {
             $io->warning(
                 $this->trans('commands.node.access.rebuild.messages.failed')

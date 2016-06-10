@@ -1,0 +1,9 @@
+services:
+  router_debug:
+    class: Drupal\Console\Command\Router\DebugCommand
+    tags:
+      - { name: console.command }
+  router_rebuild:
+    class: Drupal\Console\Command\Router\RebuildCommand
+    tags:
+      - { name: console.command }

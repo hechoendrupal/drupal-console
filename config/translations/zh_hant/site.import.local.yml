@@ -1,17 +1,16 @@
-description: 'Import/Configure an existing local Drupal project'
-help: 'The <info>site:import:local</info> does create the yaml configuration file for a local existing site.'
+description: '匯入或設定本地現存的 Drupal 專案'
+help: '<info>site:import:local</info> 指令可為現存的的網站建立 YAML 設定檔。'
 arguments:
-    directory: 'Existing Drupal root directory'
-    name: 'Name that will be used to generate the site config'
+    directory: '現存的 Drupal 根目錄'
+    name: '指派名稱給建立的網站設定'
 options:
-    environment: 'Name of the environment that is going to be imported'
+    environment: '要匯入的環境模式名稱'
 messages:
-    imported: 'The site has been imported successfully. You might want to run `drupal site:debug` to confirm that everything went well.'
-    error-missing: "The directory %s doesn't exist."
-    error-not-drupal: 'This is not a valid drupal root: %s'
-    error-writing: 'An error accurred while trying to write the config file: %s'
+    imported: '網站已經匯入完畢。您可以執行 `drupal site:debug` 來確認匯入的結果。'
+    error-missing: '目錄 %s 不存在。'
+    error-not-drupal: '%s 不是有效的 Drupal 根目錄'
+    error-writing: '嘗試寫入設定檔 %s 時發生錯誤'
 questions:
-    directory: 'Enter the directory name where to install Drupal'
-    name: 'Enter the name of the site'
-    environment: 'Enter the site environment name'
-
+    directory: '輸入將安裝 Drupal 的資料夾名稱'
+    name: '輸入網站名稱'
+    environment: '輸入網站環境模式'

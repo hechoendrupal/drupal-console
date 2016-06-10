@@ -10,11 +10,14 @@ namespace Drupal\Console\Command\Site;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class MaintenanceCommand extends ContainerAwareCommand
+class MaintenanceCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+
     protected function configure()
     {
         $this
@@ -31,7 +34,7 @@ class MaintenanceCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $state = $this->getState();
+        $state = $this->getDrupalService('state');
 
         $mode = $input->getArgument('mode');
         $stateName = 'system.maintenance_mode';
@@ -55,7 +58,8 @@ class MaintenanceCommand extends ContainerAwareCommand
         $io->info($this->trans($modeMessage));
 
         if ($cacheRebuild) {
-            $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
+            $this->get('chain_queue')
+                ->addCommand('cache:rebuild', ['cache' => 'all']);
         }
     }
 }

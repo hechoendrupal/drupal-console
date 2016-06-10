@@ -4,6 +4,7 @@ arguments:
 options:
     latest: 缺省下载最新版本
     path: 'The path of the contrib project'
+    composer: 'Option to point out that the module will be downloaded, managed & installed by Composer'
     version: 模块版本，例如：1.x-dev
 questions:
     path: 'Enter the contrib project Path'

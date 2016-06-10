@@ -9,13 +9,15 @@ namespace Drupal\Console\Command\User;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ConfirmationTrait;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\user\Entity\User;
 use Drupal\Console\Style\DrupalStyle;
 
-class PasswordResetCommand extends ContainerAwareCommand
+class PasswordResetCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     use ConfirmationTrait;
 
     /**
@@ -50,7 +52,7 @@ class PasswordResetCommand extends ContainerAwareCommand
                 )
             );
 
-            return;
+            return 1;
         }
 
         $password = $input->getArgument('password');
@@ -62,19 +64,25 @@ class PasswordResetCommand extends ContainerAwareCommand
                 )
             );
 
-            return;
+            return 1;
         }
 
         try {
             $user->setPassword($password);
             $user->save();
-            // Clear all failed login attempts after setup new password to user account.
-            $this->getChain()
-                ->addCommand('user:login:clear:attempts', ['uid' => $uid]);
+
+            $database = $this->getDrupalService('database');
+            $schema = $database->schema();
+            $flood = $schema->findTables('flood');
+
+            if ($flood) {
+                $this->get('chain_queue')
+                    ->addCommand('user:login:clear:attempts', ['uid' => $uid]);
+            }
         } catch (\Exception $e) {
             $io->error($e->getMessage());
 
-            return;
+            return 1;
         }
 
         $io->success(

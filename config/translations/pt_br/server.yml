@@ -7,7 +7,7 @@ errors:
     binary: 'Não foi possível encontrar o arquivo binário do PHP a ser executado.'
 examples:
     -
-        description: 'Executar com o endereço padrão 127.0.0.1.8088'
+        description: 'Executar com o endereço padrão 127.0.0.1:8088'
         execution: 'drupal server'
     -
         description: 'Executar passando um endereço e porta diferentes'

@@ -1,6 +1,5 @@
 description: 'Genera documentación para los comandos.'
 options:
-  file: 'El archivo que renderiza los datos del comando'
+    file: 'El archivo que renderiza los datos del comando'
 messages:
-  missing_file: 'No se encuentra el archivo, use la opción --file .'
-
+    missing_file: 'No se encuentra el archivo, use la opción --file .'
