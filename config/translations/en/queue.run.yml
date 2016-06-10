@@ -1,1 +1,2 @@
 description: 'Process the selected queue'
+success: 'Processed %s items from the %s queue in %s sec'
