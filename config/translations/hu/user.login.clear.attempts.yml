@@ -10,3 +10,4 @@ messages:
     successful: 'Sikerült %s felhasználói azonosító bejelentkezési kísérleteinek törlése.'
 errors:
     invalid-user: 'A felhasználó entitás nem tölthető be (Uid: %s).'
+    no-flood: 'No flood table on the system.'

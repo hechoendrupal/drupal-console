@@ -1,11 +1,11 @@
-description: 'Download theme in application'
+description: '下載網站版型'
 options:
-    version: 'Theme version i.e 1.x-dev'
+    version: '版型版本號，例如：1.x-dev'
 messages:
-    no-releases: 'There aren''t any releases for theme %s'
-    getting-releases: 'Getting releases for theme %s'
-    downloading: 'Downloading theme %s release %s'
-    downloaded: 'Theme %s version %s was downloaded successfully at %s'
-    select-release: 'Please select your favorite release'
-    outside-drupal: "Drupal root can't be determined. Use --root to set the destination, current folder will be used instead of."
-    error-creating-folder: 'Error creating folder %s, please check your permissions'
+    no-releases: '找不到版型 %s 的發行版本'
+    getting-releases: '取得版型 %s 的發行版本'
+    downloading: '正在下載版型 %s 的發行版本 %s'
+    downloaded: '版型 %s （版本：%s）已成功下載至 %s'
+    select-release: '請選擇您要下載的發行版本'
+    outside-drupal: "無法判定所在的 Drupal 目錄。將下載到目前所在目錄，要指定下載目的地請使用 --root"
+    error-creating-folder: '無法建立 %s 資料夾，請檢查您的資料夾權限'

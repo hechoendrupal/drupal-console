@@ -11,7 +11,7 @@ arguments:
     account-pass: 'Drupal 管理者帳戶密碼'
 questions:
     profile: '選擇想要安裝的 Drupal Profile'
-    langcode: '選擇安裝的語言'
+    langcode: 選擇安裝的語言
     db-type: '選擇 Drupal 使用的資料庫格式'
     site-name: '輸入 Drupal 網站名稱'
     site-mail: '輸入 Drupal 網站信箱'

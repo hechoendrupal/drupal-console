@@ -10,11 +10,11 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ServicesTrait;
-use Drupal\Console\Command\ModuleTrait;
+use Drupal\Console\Command\Shared\ServicesTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\EventSubscriberGenerator;
-use Drupal\Console\Command\ConfirmationTrait;
-use Drupal\Console\Command\EventsTrait;
+use Drupal\Console\Command\Shared\ConfirmationTrait;
+use Drupal\Console\Command\Shared\EventsTrait;
 use Drupal\Console\Command\GeneratorCommand;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -68,7 +68,7 @@ class EventSubscriberCommand extends GeneratorCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
             return;
         }
@@ -79,7 +79,7 @@ class EventSubscriberCommand extends GeneratorCommand
         $events = $input->getOption('events');
         $services = $input->getOption('services');
 
-        // @see Drupal\Console\Command\ServicesTrait::buildServices
+        // @see Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $buildServices = $this->buildServices($services);
 
         $this
@@ -99,7 +99,7 @@ class EventSubscriberCommand extends GeneratorCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($output);
             $input->setOption('module', $module);
         }
@@ -127,7 +127,7 @@ class EventSubscriberCommand extends GeneratorCommand
         // --events option
         $events = $input->getOption('events');
         if (!$events) {
-            // @see Drupal\Console\Command\ServicesTrait::servicesQuestion
+            // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
             $events = $this->eventsQuestion($output);
             $input->setOption('events', $events);
         }
@@ -135,7 +135,7 @@ class EventSubscriberCommand extends GeneratorCommand
         // --services option
         $services = $input->getOption('services');
         if (!$services) {
-            // @see Drupal\Console\Command\ServicesTrait::servicesQuestion
+            // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
             $services = $this->servicesQuestion($io);
             $input->setOption('services', $services);
         }

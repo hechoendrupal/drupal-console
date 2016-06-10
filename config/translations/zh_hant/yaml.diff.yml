@@ -5,8 +5,8 @@ arguments:
 options:
     stats: '顯示 YAML 檔案比較結果的統計資料'
     negate: '定義比較目的為顯示「差異」處或「相同」處，可使用的參數為 TRUE/FALSE 或 0/1'
-    limit: '指定顯示的結果上限數量'
-    offset: '指定結果開始顯示的筆數'
+    limit: 指定顯示的結果上限數量
+    offset: 指定結果開始顯示的筆數
 questions:
     yaml-left: '被比較的 YAML 原始檔案'
     yaml-right: '用來與原始檔案比較的 YAML 檔案'

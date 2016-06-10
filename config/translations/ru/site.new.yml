@@ -3,6 +3,10 @@ arguments:
     directory: 'Директория для загрузки Drupal'
     version: 'Особая версия Drupal для загрузки'
     site-name: 'Имя сайта'
+options:
+    composer: 'Установить Drupal с помощью Composer'
+    latest: 'Use this option to select automatically the latest version'
+    unstable: 'Use this option to download unstable releases. If not used, you only can install stable releases. Do not use this with latest nor version.'
 messages:
     select-release: 'Выберите версию ядра'
     getting-releases: 'Получение версий Drupal'
@@ -11,6 +15,12 @@ messages:
     no-releases: 'Нет доступных версий для Drupal'
     downloaded: 'Drupal %s был загружен в директорию %s'
     error-copying: 'Произошла ошибка при переименовании вашей директории в %s'
+    composer: 'Drupal %s was installed successfully using Composer at %s'
+    executing: 'Выполняется команда composer:'
+    missing-directory: 'Missing directory argument'
+    missing-version: 'Missing version argument'
     release: 'Пожалуйста выберите версию'
 questions:
     directory: 'Введите имя директории для загрузки Drupal'
+    composer-release: 'Please, choose a Packagist Drupal release'
+    stable: 'Вы хотите использовать стабильные выпуски?'

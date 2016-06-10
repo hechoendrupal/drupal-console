@@ -11,6 +11,6 @@ key:
     arguments:
         yaml-file: '欲更新的 YAML 檔案路徑'
         yaml-key: '欲取代的 YAML 鍵名'
-        yaml-new-key: '新鍵名'
+        yaml-new-key: 新鍵名
     messages:
         updated: 'YAML 檔案 %s 更新成功。'

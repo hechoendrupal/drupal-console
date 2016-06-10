@@ -7,9 +7,11 @@ options:
     label: 'Etiqueta del plugin'
     plugin-id: 'ID del plugin. NOTA: Este corresponde al nombre del plugin de CKEditor. Es el primer argumento de la función CKEDITOR.plugins.add() en el archivo plugin.js.'
     button-name: 'Nombre del botón. NOTA: Este corresponde al nombre del botón de CKEditor. Son el primer argumento de las funciones editor.ui.addButton() o editor.ui.addRichCombo() en el archivo plugin.js.'
+    button-icon-path: 'Button icon path. This is the path to the icon/image of the button.'
 questions:
     module: common.questions.module
     class: 'Introduzca el nombre de la clase'
     label: 'Introduzca la etiqueta'
     plugin-id: 'Introduzca el ID del plugin. NOTA: Este corresponde al nombre del plugin de CKEditor. Es el primer argumento de la función CKEDITOR.plugins.add() en el archivo plugin.js.'
     button-name: 'Introduzca el nombre del botón. NOTA: Este corresponde al nombre del botón de CKEditor. Son el primer argumento de las funciones editor.ui.addButton() o editor.ui.addRichCombo() en el archivo plugin.js.'
+    button-icon-path: 'Enter the button icon path'

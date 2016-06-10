@@ -1,4 +1,12 @@
 description: 'Muestra los servicios actuales de la aplicación.'
+arguments:
+    service: 'Service name.'
 messages:
     service_id: 'ID del servicio'
     class_name: 'Nombre de la clase'
+    service: Service
+    class: Class
+    interface: Interface(s)
+    parent: 'Parent class'
+    variables: Variables
+    methods: Methods

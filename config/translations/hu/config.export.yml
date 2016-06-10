@@ -4,3 +4,4 @@ arguments:
     tar: 'Ha be van állítva, akkor a konfiguráció archívumfájlba lesz exportálva.'
 messages:
     directory: 'Megtörtént a konfiguráció exportálása:'
+    error: 'An error occurred while creating your directory at %s'

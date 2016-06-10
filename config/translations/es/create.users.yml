@@ -21,7 +21,7 @@ questions:
         - 'Hace un año'
 messages:
     user-id: 'Id de usuario'
-    roles: 'Roles'
+    roles: Roles
     username: 'Nombre de usuario'
     created: 'Fecha de creación'
     created-users: 'Han sido creados %s usuarios con éxito'
