@@ -8,6 +8,7 @@
 namespace Drupal\Console\Command\Theme;
 
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
@@ -28,8 +29,14 @@ class DownloadCommand extends Command
         $this
             ->setName('theme:download')
             ->setDescription($this->trans('commands.theme.download.description'))
-            ->addArgument('theme', InputArgument::REQUIRED, $this->trans('commands.theme.download.options.theme'))
-            ->addArgument('version', InputArgument::OPTIONAL, $this->trans('commands.theme.download.options.version'));
+            ->addArgument('theme', InputArgument::REQUIRED, $this->trans('commands.theme.download.arguments.theme'))
+            ->addArgument('version', InputArgument::OPTIONAL, $this->trans('commands.theme.download.arguments.version'))
+            ->addOption(
+                'composer',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.theme.download.options.composer')
+            );
     }
 
     /**
@@ -41,8 +48,24 @@ class DownloadCommand extends Command
 
         $theme = $input->getArgument('theme');
         $version = $input->getArgument('version');
+        $composer = $input->getOption('composer');
 
-        $this->downloadProject($io, $theme, $version, 'theme');
+        if ($composer){
+          if (!is_array($theme)) $theme = [$theme];
+          $this->get('chain_queue')->addCommand(
+            'module:download',
+            [
+              'module' => $theme,
+              '--composer' => true
+            ],
+            true,
+            true
+          );
+        }
+        else{
+
+          $this->downloadProject($io, $theme, $version, 'theme');
+        }
     }
 
     /**
@@ -54,8 +77,9 @@ class DownloadCommand extends Command
 
         $theme = $input->getArgument('theme');
         $version = $input->getArgument('version');
+        $composer = $input->getOption('composer');
 
-        if (!$version) {
+        if (!$version && !$composer) {
             $version = $this->releasesQuestion($io, $theme);
             $input->setArgument('version', $version);
         }
