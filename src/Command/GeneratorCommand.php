@@ -15,6 +15,9 @@ use Drupal\Console\Generator\Generator;
 
 abstract class GeneratorCommand extends ContainerAwareCommand
 {
+    /**
+     * @var \Drupal\Console\Generator\Generator
+     */
     private $generator;
 
     // only useful for unit tests
@@ -23,8 +26,16 @@ abstract class GeneratorCommand extends ContainerAwareCommand
         $this->generator = $generator;
     }
 
+    /**
+     * Create new generator object.
+     * @return \Drupal\Console\Generator\Generator
+     *   Generator instance.
+     */
     abstract protected function createGenerator();
 
+    /**
+     * @return \Drupal\Console\Generator\Generator
+     */
     public function getGenerator()
     {
         if (null === $this->generator) {
