@@ -65,38 +65,51 @@ class RunCommand extends Command
     $worker = $this->queueManager->createInstance($queue_name);
     $q = $this->getDrupalService('queue')->get($queue_name);
     $start = microtime(true);
-    $count = $this->clearQueue($worker, $q);
+    $result = $this->clearQueue($worker, $q);
     $time = microtime(true) - $start;
-    $io->success(
-      sprintf(
-        $this->trans('commands.queue.run.success'),
-        $count,
-        $queue_name,
-        round($time, 2)
-      )
-    );
+    if (empty($result['error'])) {
+      $io->success(
+        sprintf(
+          $this->trans('commands.queue.run.success'),
+          $queue_name,
+          $result['count'],
+          $result['total'],
+          round($time, 2)
+        )
+      );
+    } else {
+      $io->error(
+        sprintf(
+          $this->trans('commands.queue.run.error'),
+          $queue_name,
+          $result['error']
+        )
+      );
+    }
   }
 
   /**
    * @param \Drupal\Core\Queue\QueueWorkerManagerInterface $worker
    * @param \Drupal\Core\Queue\Queue $q
-   * @return int
+   * @return array
    */
   private function clearQueue($worker, $q) {
-    $count = 0;
+    $result['count'] = 0;
+    $result['total'] = $q->numberOfItems();
     while ($item = $q->claimItem()) {
       try {
         $worker->processItem($item->data);
         $q->deleteItem($item);
-        $count++;
+        $result['count']++;
       }
       catch (SuspendQueueException $e) {
         $q->releaseItem($item);
+        $result['error'] = $e;
       }
 
     }
 
-    return $count;
+    return $result;
   }
 
 }
