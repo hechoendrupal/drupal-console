@@ -11,12 +11,23 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Annotation\DrupalCommand;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Style\DrupalStyle;
 
-class DebugCommand extends ContainerAwareCommand
+class DebugCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+
+    /**
+     * @DrupalCommand(
+     *     dependencies = {
+     *         “rest"
+     *     }
+     * )
+     */
     protected function configure()
     {
         $this
@@ -33,8 +44,6 @@ class DebugCommand extends ContainerAwareCommand
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.rest.debug.options.status')
             );
-
-        $this->addDependency('rest');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
