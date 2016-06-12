@@ -108,7 +108,7 @@ class DiffCommand extends Command
             return;
         }
 
-        $nestedArray = $this->getNestedArrayHelper();
+        $nestedArray = $this->getApplication()->getNestedArrayHelper();
 
         $statistics = ['total' => 0, 'equal'=> 0 , 'diff' => 0];
         $diff = $nestedArray->arrayDiff($yamlLeftParsed, $yamlRightParsed, $negate, $statistics);

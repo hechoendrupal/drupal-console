@@ -104,12 +104,12 @@ class SplitCommand extends Command
             return;
         }
 
-        $nested_array = $this->getNestedArrayHelper();
+        $nested_array = $this->getApplication()->getNestedArrayHelper();
 
         if ($starting_key) {
             $parents = explode(".", $starting_key);
-            if ($nested_array->keyExists($yaml_file_parsed, $parents)) {
-                $yaml_file_parsed = $nested_array->getValue($yaml_file_parsed,  $parents);
+            if ($nested_array::keyExists($yaml_file_parsed, $parents)) {
+                $yaml_file_parsed = $nested_array::getValue($yaml_file_parsed, $parents);
             } else {
                 $io->error($this->trans('commands.yaml.merge.messages.invalid-key'));
             }
@@ -119,7 +119,7 @@ class SplitCommand extends Command
             }
         } else {
             // Set minimum level to split
-            $indent_level = empty($indent_level)?1: $indent_level;
+            $indent_level = empty($indent_level) ? 1 : $indent_level;
 
             $yaml_split = array();
             $key_flatten = '';
@@ -129,42 +129,6 @@ class SplitCommand extends Command
         }
 
         $this->writeSplittedFile($yaml_split, $file_output_prefix, $file_output_suffix, $io);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function interact(InputInterface $input, OutputInterface $output)
-    {
-        $io = new DrupalStyle($input, $output);
-
-        $validator_filename = function ($value) use ($io) {
-            if (!strlen(trim($value)) || !is_file($value)) {
-                $io->error($this->trans('commands.common.errors.invalid-file-path'));
-
-                return false;
-            }
-
-            return $value;
-        };
-
-        // --yaml-left option
-        $yaml_file = $input->getArgument('yaml-file');
-        if (!$yaml_file) {
-            while (true) {
-                $yaml_file = $io->ask(
-                    $this->trans('commands.yaml.diff.questions.yaml-left'),
-                    '',
-                    $validator_filename
-                );
-
-                if ($yaml_file) {
-                    break;
-                }
-            }
-
-            $input->setArgument('yaml-file', $yaml_file);
-        }
     }
 
     protected function writeSplittedFile($yaml_splitted, $file_output_prefix = '', $file_output_suffix = '', DrupalStyle $io)
@@ -217,6 +181,41 @@ class SplitCommand extends Command
                     $filename
                 )
             );
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function interact(InputInterface $input, OutputInterface $output) {
+        $io = new DrupalStyle($input, $output);
+
+        $validator_filename = function ($value) use ($io) {
+            if (!strlen(trim($value)) || !is_file($value)) {
+                $io->error($this->trans('commands.common.errors.invalid-file-path'));
+
+                return FALSE;
+            }
+
+            return $value;
+        };
+
+        // --yaml-left option
+        $yaml_file = $input->getArgument('yaml-file');
+        if (!$yaml_file) {
+            while (TRUE) {
+                $yaml_file = $io->ask(
+                  $this->trans('commands.yaml.diff.questions.yaml-left'),
+                  '',
+                  $validator_filename
+                );
+
+                if ($yaml_file) {
+                    break;
+                }
+            }
+
+            $input->setArgument('yaml-file', $yaml_file);
         }
     }
 }

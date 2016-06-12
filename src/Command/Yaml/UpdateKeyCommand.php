@@ -68,9 +68,9 @@ class UpdateKeyCommand extends Command
             );
         }
 
-        $nested_array = $this->getNestedArrayHelper();
+        $nested_array = $this->getApplication()->getNestedArrayHelper();
         $parents = explode(".", $yaml_key);
-        $nested_array->replaceKey($yaml_parsed, $parents, $yaml_new_key);
+        $nested_array::replaceKey($yaml_parsed, $parents, $yaml_new_key);
 
         try {
             $yaml = $dumper->dump($yaml_parsed, 10);
