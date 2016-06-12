@@ -12,17 +12,25 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Serialization\Yaml;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Annotation\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class DebugCommand
  * @package Drupal\Console\Command\Test
  */
-class DebugCommand extends ContainerAwareCommand
+class DebugCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+
     /**
-     * {@inheritdoc}
+     * @DrupalCommand(
+     *     dependencies = {
+     *         “simpletest"
+     *     }
+     * )
      */
     protected function configure()
     {
@@ -41,8 +49,6 @@ class DebugCommand extends ContainerAwareCommand
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.test.debug.arguments.test-class')
             );
-
-        $this->addDependency('simpletest');
     }
 
     /**
