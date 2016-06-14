@@ -53,8 +53,9 @@ class FormAlterCommand extends GeneratorCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    protected function execute(InputInterface $input, OutputInterface $output) 
+    {  
+
         $io = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
@@ -65,6 +66,17 @@ class FormAlterCommand extends GeneratorCommand
         $module = $input->getOption('module');
         $formId = $input->getOption('form-id');
         $inputs = $input->getOption('inputs');
+
+        $function = $module . '_form_' .$formId . '_alter';
+        
+        if ($this->validateModuleFunctionExist($module, $function)) {
+            throw new \Exception(
+                sprintf(
+                    $this->trans('commands.generate.form.alter.messages.help-already-implemented'),
+                    $module
+                )
+            );
+        }
 
         //validate if input is an array
         if (!is_array($inputs[0])) {
@@ -79,7 +91,7 @@ class FormAlterCommand extends GeneratorCommand
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
-    {
+    {   
         $io = new DrupalStyle($input, $output);
 
         $moduleHandler = $this->getModuleHandler();
@@ -91,6 +103,7 @@ class FormAlterCommand extends GeneratorCommand
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($io);
         }
+       
         $input->setOption('module', $module);
 
         // --form-id option
