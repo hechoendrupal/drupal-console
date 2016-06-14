@@ -27,7 +27,7 @@ class FormAlterCommand extends GeneratorCommand
     use MenuTrait;
     use ConfirmationTrait;
 
-    protected $metadata = ['unset' => []];
+    protected $metadata = ['class' => [],'method'=> [],'file'=> [],'unset' => []];
 
     protected function configure()
     {
