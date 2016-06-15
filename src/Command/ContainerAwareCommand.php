@@ -254,6 +254,11 @@ abstract class ContainerAwareCommand extends Command
         return $this->getService('plugin.manager.views.display');
     }
 
+    public function getPluginTypeManager()
+    {
+        return $this->getService('plugin.plugin_type_manager');
+    }
+
     public function getWebprofilerForms()
     {
         $profiler = $this->getService('profiler');
@@ -439,6 +444,15 @@ abstract class ContainerAwareCommand extends Command
         }
 
         return $this->getValidator()->validateServiceExist($service_name, $services);
+    }
+
+    public function validatePluginManagerServiceExist($service_name, $services = null)
+    {
+        if (!$services) {
+            $services = $this->getServices();
+        }
+
+        return $this->getValidator()->validatePluginManagerServiceExist($service_name, $services);
     }
 
     public function validateModule($machine_name)
