@@ -22,11 +22,6 @@ class DebugCommand extends Command
     use ContainerAwareCommandTrait;
 
     /**
-     * @var $queueManager \Drupal\Core\Queue\QueueWorkerManagerInterface
-     */
-    private $queueManager;
-
-    /**
      * {@inheritdoc}
      */
     protected function configure()
@@ -42,7 +37,6 @@ class DebugCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $this->queueManager = $this->getDrupalService('plugin.manager.queue_worker');
 
         $tableHeader = [
             $this->trans('commands.queue.debug.messages.queue'),
@@ -60,9 +54,10 @@ class DebugCommand extends Command
      */
     private function listQueues()
     {
+        $queueManager = $this->getDrupalService('plugin.manager.queue_worker');
         $queues = [];
-        foreach ($this->queueManager->getDefinitions() as $name => $info) {
-            $queues[$name] = $this->formatQueues($name);
+        foreach ($queueManager->getDefinitions() as $name => $info) {
+            $queues[$name] = $this->formatQueue($name);
         }
 
         return $queues;
@@ -72,7 +67,7 @@ class DebugCommand extends Command
      * @param $name
      * @return array
      */
-    private function formatQueues($name)
+    private function formatQueue($name)
     {
         $q = $this->getDrupalService('queue')->get($name);
 
