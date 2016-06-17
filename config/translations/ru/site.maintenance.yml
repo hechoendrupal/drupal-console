@@ -1,8 +1,8 @@
-description: 'Switch site into maintenance mode'
+description: 'Переключить сайт в режим обслуживания'
 arguments:
-    mode: 'Site maintenance mode'
+    mode: 'Режим обслуживания сайта'
 messages:
-    maintenance-on: 'Operating in maintenance mode on'
-    maintenance-off: 'Operating in maintenance mode off'
+    maintenance-on: 'Включить режим обслуживания'
+    maintenance-off: 'Выключить режим обслуживания'
 errors:
-    invalid-mode: 'Invalid maintenance mode'
+    invalid-mode: 'Неверный режим обслуживания'

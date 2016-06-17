@@ -1,15 +1,15 @@
-description: 'Displays current themes for the application'
+description: 'Отображает текущие темы для приложения'
 arguments:
-    theme: 'Specific theme to debug '
+    theme: 'Тема для отладки'
 messages:
     theme-id: Id
     theme-name: Name
-    status: Status
-    version: Version
-    installed: Installed
-    uninstalled: Uninstalled
-    default-theme: 'Default theme'
-    properties: Properties
-    regions: Regions
-    invalid-theme: 'Theme %s is invalid'
-    theme-properties: Properties
+    status: Статус
+    version: Версия
+    installed: Установлена
+    uninstalled: Неустановлена
+    default-theme: 'Тема по-умолчанию'
+    properties: Свойства
+    regions: Регионы
+    invalid-theme: 'Недействительная тема %s'
+    theme-properties: Свойства
