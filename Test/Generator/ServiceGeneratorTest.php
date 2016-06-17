@@ -42,7 +42,8 @@ class ServiceGeneratorTest extends GeneratorTest
             $name,
             $class,
             $interface,
-            $services
+            $services,
+            $path_service,
         );
 
         $files = [
