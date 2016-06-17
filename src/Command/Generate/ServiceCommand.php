@@ -63,7 +63,7 @@ class ServiceCommand extends GeneratorCommand
                 $this->trans('commands.common.options.services')
             )
             ->addOption(
-                'path',
+                'path_service',
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.service.options.path')
@@ -87,7 +87,7 @@ class ServiceCommand extends GeneratorCommand
         $class = $input->getOption('class');
         $interface = $input->getOption('interface');
         $services = $input->getOption('services');
-        $path_service = $input->getOption('path');
+        $path_service = $input->getOption('path_service');
 
 
         // @see Drupal\Console\Command\Shared\ServicesTrait::buildServices
@@ -152,14 +152,14 @@ class ServiceCommand extends GeneratorCommand
             $input->setOption('services', $services);
         }
 
-        // --path option
-        $path = $input->getOption('path');
-        if (!$path) {
-            $path = $io->ask(
+        // --path_service option
+        $path_service = $input->getOption('path_service');
+        if (!$path_service) {
+            $path_service = $io->ask(
                 $this->trans('commands.generate.service.questions.path'),
                 '/modules/custom/' . $module . '/src/'
             );
-            $input->setOption('path', $path);
+            $input->setOption('path_service', $path_service);
         }       
     }
 

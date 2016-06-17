@@ -28,6 +28,7 @@ class ServiceGenerator extends Generator
             'class_path' => sprintf('Drupal\%s\%s', $module, $class),
             'interface' => $interface,
             'services' => $services,
+            'path_service' => $path_service,
             'file_exists' => file_exists($this->getSite()->getModulePath($module).'/'.$module.'.services.yml'),
         ];
        

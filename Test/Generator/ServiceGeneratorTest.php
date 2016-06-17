@@ -50,9 +50,9 @@ class ServiceGeneratorTest extends GeneratorTest
 
         $files = [
           $generator->getSite()->getModulePath($module).'/'.$module.'.services.yml',
-          $generator->getSite()->getModulePath($module).'/src/'.$class.'.php'
+          $generator->getSite()->getModulePath($module).'/'.$path_service .'/'.$class.'.php'
         ];
-
+     
         foreach ($files as $file) {
             $this->assertTrue(
                 file_exists($file),

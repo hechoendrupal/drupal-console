@@ -48,7 +48,7 @@ class ServiceCommandTest extends GenerateCommandTest
               '--class'     => $class,
               '--interface'      => $interface,
               '--services'       => $services,
-              '--path_service'   =>$path_service,
+              '--path_service'   => $path_service,
             ],
             ['interactive' => false]
         );
