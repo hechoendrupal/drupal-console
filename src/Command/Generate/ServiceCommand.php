@@ -61,7 +61,13 @@ class ServiceCommand extends GeneratorCommand
                 null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.common.options.services')
-            );
+            )
+            ->addOption(
+                'path',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.service.options.path')
+            );      
     }
 
     /**
@@ -81,13 +87,14 @@ class ServiceCommand extends GeneratorCommand
         $class = $input->getOption('class');
         $interface = $input->getOption('interface');
         $services = $input->getOption('services');
+        $path_service = $input->getOption('path');
+
 
         // @see Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
-
         $this
             ->getGenerator()
-            ->generate($module, $name, $class, $interface, $build_services);
+            ->generate($module, $name,$class, $interface, $build_services,$path_service);
 
         $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
     }
@@ -107,7 +114,7 @@ class ServiceCommand extends GeneratorCommand
             $input->setOption('module', $module);
         }
 
-        // --name option
+        //--name option
         $name = $input->getOption('name');
         if (!$name) {
             $name = $io->ask(
@@ -144,6 +151,16 @@ class ServiceCommand extends GeneratorCommand
             $services = $this->servicesQuestion($output);
             $input->setOption('services', $services);
         }
+
+        // --path option
+        $path = $input->getOption('path');
+        if (!$path) {
+            $path = $io->ask(
+                $this->trans('commands.generate.service.questions.path'),
+                '/modules/custom/' . $module . '/src/'
+            );
+            $input->setOption('path', $path);
+        }       
     }
 
     protected function createGenerator()
