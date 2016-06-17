@@ -1,18 +1,18 @@
-description: 'Delete configuration'
+description: 'コンフィグレーションの削除'
 arguments:
     type: 'Configuration type.'
     name: 'Configuration name.'
 messages:
-    all: 'All configuration sucessfully deleted.'
-    deleted: 'Configuration "%s" sucessfully deleted.'
-    name: 'Configuration name must contain a value.'
-    not-exists: 'The configuration "%s" does not exists.'
+    all: '全てのコンフィグレーションの削除に成功しました。'
+    deleted: 'コンフィグレーション "%s" の削除に成功しました。'
+    name: 'コンフィグレーション名は値を含む必要があります。'
+    not-exists: 'コンフィグレーション "%s" が存在しません。'
 errors:
-    config-storage: 'Configuration type would not be loaded.'
-    name: 'Configuration name must contain a value.'
-    type: 'Configuration type is missing.'
-    not-exists: 'The configuration "%s" does not exists.'
+    config-storage: 'コンフィグレーションはロードされません。'
+    name: 'コンフィグレーション名は値を含む必要があります。'
+    type: 'コンフィグレーションタイプが見つかりません。'
+    not-exists: 'コンフィグレーション "%s" が存在しません。'
 warnings:
-    undo: 'This action will delete all configuration permanentaly.'
+    undo: 'この操作を行うと全てのコンフィグレーションが永久に削除されます。'
 questions:
-    sure: 'Are you sure to delete all configuration'
+    sure: '全てのコンフィグレーションを削除しますか？'

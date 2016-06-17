@@ -1,11 +1,10 @@
-description: 'Remove events from DBLog table, filters are available'
+description: 'DbLogからイベントを削除'
 arguments:
-    event-id: 'DBLog event ID'
+    event-id: 'DBLogのイベントID'
 options:
-    type: 'Filter events by a specific type'
-    severity: 'Filter events by a specific level of severity'
-    user-id: 'Filter events by a specific user id'
+    type: 'イベントを特定のタイプでフィルタ'
+    severity: 'イベントを特定の重要度のレベルでフィルタ'
 messages:
-    event-deleted: 'Event %s was deleted'
-    clear-error: 'Clear process fail, please check used filters'
-    clear-sucess: 'Clear of events was successfully'
+    event-deleted: 'イベント %s は削除されました。'
+    clear-error: 'クリアに失敗しました、フィルタの設定を確認してください。'
+    clear-sucess: 'イベントのクリアに成功しました。'
