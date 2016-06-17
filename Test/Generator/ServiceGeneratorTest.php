@@ -31,7 +31,8 @@ class ServiceGeneratorTest extends GeneratorTest
         $name,
         $class,
         $interface,
-        $services
+        $services,
+        $path_service
     ) {
         $generator = new ServiceGenerator();
         $this->getRenderHelper()->setSkeletonDirs($this->getSkeletonDirs());
