@@ -22,6 +22,7 @@ class ServiceGeneratorTest extends GeneratorTest
      * @param $class
      * @param $interface
      * @param $services
+     * @param $path_service
      *
      * @dataProvider commandData
      */
