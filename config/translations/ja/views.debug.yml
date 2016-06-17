@@ -1,18 +1,18 @@
 description: Viewsのリソースを表示する
 arguments:
-    view-id: 'View ID'
-    view-tag: 'View tag'
-    view-status: 'View status (Enabled|Disabled)'
+    view-id: ビューのID
+    view-tag: ビューのタグ
+    view-status: 'ビューのステータス (Enabled|Disabled)'
 messages:
-    view-id: 'View ID'
-    view-name: 'View name'
-    description: Description
-    tag: Tag
-    status: Status
-    path: Path
-    not-found: 'ビュー %s が見つかりませんでした。'
-    display-list: 'Display list'
+    view-id: ビューのID
+    view-name: ビューの名前
+    description: 説明
+    tag: タグ
+    status: ステータス
+    path: パス
+    not-found: 'Views %s が見つかりませんでした。'
+    display-list: ディスプレイの一覧
     display-id: ID
-    display-name: Name
-    display-description: Description
-    display-paths: Paths
+    display-name: 名前
+    display-description: 説明
+    display-paths: パス

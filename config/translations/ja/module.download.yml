@@ -1,20 +1,19 @@
-description: モジュールをインストール
+description: モジュールをダウンロード
 arguments:
-    module: 'モジュール名 (複数してする場合はスペース区切り)'
+    module: 'モジュール名 (複数指定する場合はスペース区切り)'
 options:
-    latest: 'Default to download most recent version'
-    path: 'The path of the contrib project'
-    composer: 'Option to point out that the module will be downloaded, managed & installed by Composer'
-    version: 'モジュールのバージョン (例: 1.x-dev)'
+    latest: 最新バージョンをダウンロードする
+    path: プロジェクトのパス
+    composer: Composerを利用してモジュールをダウンロードする
 questions:
-    path: 'Enter the contrib project Path'
+    path: プロジェクトのパスを入力してください
 messages:
-    no-releases: 'モジュール %s のバージョンが見つかりません'
-    getting-releases: 'モジュール %s のバージョン一覧を取得中'
-    downloading: 'モジュール %s %s をダウンロード中'
-    downloaded: 'モジュール %s %s が %s にダウンロードされました。'
-    select-release: ダウンロードするバージョンを選択してください
-    outside-drupal: 'Drupal root can''t be determined. Use --root to set the destination, current folder will be used instead of.'
-    error-creating-folder: 'ディレクトリ %s の作成に失敗しました、パーミッションを確認してください。'
-    no-composer-repo: 'Please, configure Composer in ~/.console/config.yml'
-    composer: 'Module %s was downloaded successfully using Composer'
+    no-releases: 'モジュール %s のリリースがありません。'
+    getting-releases: 'モジュール %s のリリースを取得しています。'
+    downloading: 'モジュール %s のリリース %s をダウンロードしています。'
+    downloaded: 'モジュール %s のバージョン %s を %s にダウンロードしました。'
+    select-release: ダウンロードするリリースを選択してください。
+    outside-drupal: 'Drupalのルートディレクトリが決定できませんでした。--root オプションを設定してください。'
+    error-creating-folder: 'ディレクトリ %s の作成中にエラーが発生しました、権限を確認してください。'
+    no-composer-repo: '~/.console/config.yml でComposerの設定を行ってください。'
+    composer: 'Composerを使用してモジュール %s をダウンロードしました。'
