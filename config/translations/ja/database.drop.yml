@@ -1,9 +1,9 @@
-description: 'Drop all tables in a given database.'
-help: 'The <info>database:drop</info> command helps you drop database tables.'
+description: 'データベースから全てのテーブルを削除'
+help: '<info>database:drop</info> コマンドはデータベースから全てのテーブルを削除します。'
 arguments:
-    database: 'Database key from settings.php'
+  database: 'settings.phpのデータベースのキー'
 question:
-    drop-tables: 'Confirm you really want to drop all tables in the database %s?'
+  drop-tables: 'データベース %s から本当に全てのテーブルを削除しますか？'
 messages:
-    table: Table
-    table-drop: 'Drop %s tables successfully'
+  table: 'テーブル'
+  table-drop: '%s 個のテーブルの削除に成功しました。'
