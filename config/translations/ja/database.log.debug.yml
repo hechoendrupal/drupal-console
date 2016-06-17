@@ -1,19 +1,19 @@
-description: 'Display current log events for the application'
+description: 'DBLogのイベントを表示'
 arguments:
-    event-id: 'DBLog event ID'
+    event-id: 'DBLogのイベントID'
 options:
-    type: 'Filter events by a specific type'
-    severity: 'Filter events by a specific level of severity'
-    user-id: 'Filter events by a specific user id'
-    reverse: 'Reverse the order of events'
-    limit: 'Limit results to a specific number'
-    offset: 'Starting point of a limit'
+    type: 'イベントを特定のタイプでフィルタ'
+    severity: 'イベントを特定の重要度のレベルでフィルタ'
+    user-id: 'イベントを特定のユーザーIDでフィルタ'
+    reverse: 'イベントの並び順を反転'
+    limit: '結果の表示件数を指定した値に制限'
+    offset: 'オフセット'
 messages:
-    event-id: 'Event ID'
-    type: Type
-    date: Date
-    message: Message
-    user: User
-    severity: Severity
-    invalid-severity: 'Severity type is invalid, filter was ignored'
-    not-found: 'DBLog event %s wasn''t found'
+    event-id: 'イベントID'
+    type: 'タイプ'
+    date: '日付'
+    message: 'メッセージ'
+    user: 'ユーザー'
+    severity: '重要度'
+    invalid-severity: '重要度のタイプは不正な値です、フィルタは無視されました。'
+    not-found: 'DBLogのイベント %s が見つかりませんでした。'

@@ -1,12 +1,10 @@
-description: 'Show all tables in a given database.'
-help: 'The <info>database:table:debug</info> command helps you debug database tables.'
+description: "データベース内の全てのテーブルを表示"
+help: '<info>database:table:debug</info> はデータベース内の全てのテーブルを表示します。'
 arguments:
-    table: 'Table to debug'
-    database: 'Database key from settings.php'
+  table: 'デバッグするテーブル'
 options:
-    database: 'Database key from settings.php'
+  database: "settings.phpのデータベースのキー"
 messages:
-    table-show: 'Showing tables for %s database'
-    table: Table
-    column: Column
-    type: Type
+  table-show: 'データベース %s のテーブルを表示しています。'
+  table: 'テーブル'
+  column: 'カラム'
