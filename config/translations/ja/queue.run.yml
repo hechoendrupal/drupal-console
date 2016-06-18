@@ -1,8 +1,8 @@
-description: 'Process the selected queue.'
+description: 選択したキューを処理する
 arguments:
-    name: 'Queue name.'
+    name: キューの名前
 messages:
     success: 'Processed %s: %s/%s items in %s seconds.'
-    failed: '%s failed: %s.'
-    missing-name: 'Provide a valid queue name.'
-    invalid-name: 'Invalid queue name "%s" provided.'
+    failed: '%s の処理に失敗しました: %s.'
+    missing-name: 有効なキューの名前を指定してください。
+    invalid-name: '不正なキューの名前 "%s" が指定されました。'
