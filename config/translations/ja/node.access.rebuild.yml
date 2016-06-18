@@ -1,11 +1,11 @@
-description: 'Rebuild node access permissions. Rebuilding will remove all privileges to content and replace them with permissions based on the current modules and settings.'
+description: ノードのアクセス権限を再構築します。全てのコンテンツに対する権限設定を削除し、現在のモジュールおよび設定で置き換えます。
 options:
-    batch: 'Process in batch mode.'
+    batch: バッチモードで処理する
 messages:
-    rebuild: 'Rebuilding node access permissions, one moment please.'
-    completed: 'Done rebuilding permissions.'
-    failed: 'Rebuilding permissions was not successful.'
+    rebuild: ノードのアクセス権限を再構築しています。少々お待ち下さい。
+    completed: 権限の再構築が完了しました。
+    failed: 権限の再構築に失敗しました。
 examples:
     -
-        description: 'Rebuild node access permissions'
+        description: ノードのアクセス権限を再構築
         execution: 'drupal node:access:rebuild --batch'
