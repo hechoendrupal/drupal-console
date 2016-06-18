@@ -1,5 +1,5 @@
-description: 'Display the queues of your application'
+description: キューを表示
 messages:
-    queue: Queue
-    items: Items
-    class: Class
+    queue: キュー
+    items: 項目
+    class: クラス
