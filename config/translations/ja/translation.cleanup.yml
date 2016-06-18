@@ -1,8 +1,8 @@
-description: 'Clean up translation files'
+description: 翻訳ファイルをクリーンアップする
 arguments:
-    language: 'Language to clean up files against English'
+    language: 英語に対してクリーンアップする言語
 messages:
-    invalid-language: 'Language %s is invalid'
-    language: Language
-    file-deleted: 'File %s was deleted from %s due is no longer required.'
-    success: 'Unnecessary files were removed'
+    invalid-language: '言語 %s は不正な値です。'
+    language: 言語
+    file-deleted: 'ファイル %s は不要になるため %s から削除されました。'
+    success: 不要なファイルを削除しました。
