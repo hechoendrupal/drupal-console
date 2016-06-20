@@ -1,8 +1,0 @@
-description: 'システム要求のチェック'
-messages:
-  php_invalid: 'インストールされているバージョン %s は利用できません、  %s 以降のバージョンが必要です。'
-  configuration_missing: 'コンフィグレーション %s が見つかりません。'
-  configuration_overwritten: 'コンフィグレーション %s が %s で上書きされました。'
-  extension_missing: 'エクステンション %s が見つかりません。'
-  extension_recommended: 'エクステンション %s をインストールする事を推奨します。'
-  success: 'チェックをパスしました。'

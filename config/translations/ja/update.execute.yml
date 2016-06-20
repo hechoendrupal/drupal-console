@@ -5,4 +5,4 @@ messages:
     no-module-updates: 'モジュール %s に利用可能なアップデートはありません。'
     executing-update: 'モジュール %s の %s を実行中。'
     module-update-function-not-found: 'モジュール %s には関数: %s は定義されていません。'
-    executing-required-previous-updates: '要求される以前のアップデートを実行中。'
+    executing-required-previous-updates: 要求される以前のアップデートを実行中。

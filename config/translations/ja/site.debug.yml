@@ -1,4 +1,4 @@
-description: '全てのローカルおよびリモートサイトを表示'
+description: 全てのローカルおよびリモートサイトを表示
 help: '<info>site:debug</info> は全てのローカルおよびリモートサイトを表示します。'
 messages:
     site: Site

@@ -16,3 +16,5 @@ messages:
     select-release: ダウンロードするバージョンを選択してください
     outside-drupal: 'Drupal root can''t be determined. Use --root to set the destination, current folder will be used instead of.'
     error-creating-folder: 'ディレクトリ %s の作成に失敗しました、パーミッションを確認してください。'
+    no-composer-repo: 'Please, configure Composer in ~/.console/config.yml'
+    composer: 'Module %s was downloaded successfully using Composer'
