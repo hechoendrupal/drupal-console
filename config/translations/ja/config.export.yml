@@ -1,7 +1,7 @@
-description: コンフィグレーションをエクスポート
+description: 'コンフィグレーションをエクスポート'
 arguments:
-    directory: コンフィグレーションをエクスポートするエクスポートするディレクトリ
-    tar: 'If set, the configuration will be exported to an archive file.'
+    directory: 'コンフィグレーションをエクスポートするエクスポートするディレクトリ'
+    tar: 'セットした場合、コンフィグレーションはアーカイブファイルとしてエクスポートされます。'
 messages:
     directory: 'コンフィグレーションは以下のディレクトリにエクスポートされました:'
-    error: 'An error occurred while creating your directory at %s'
+    error: 'ディレクトリ %s を作成中にエラーが発生しました。'

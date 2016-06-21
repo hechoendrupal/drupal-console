@@ -1,4 +1,4 @@
-description: 'List available chain files.'
+description: 'ਉਪਲੱਬਧ ਚੇਨ ਫਾਇਲ ਦੀ ਸੂਚੀ'
 messages:
-    directory: Directory
-    file: 'Chain file name.'
+    directory: ਡਾਇਰੈਕਟਰੀ
+    file: 'ਚੇਨ ਫਾਇਲ ਦਾ ਨਾਮ'

@@ -5,5 +5,5 @@ options:
     file: 'अपने डेटाबेस बैकअप फ़ाइल के लिए फ़ाइल नाम'
 messages:
     success: 'डेटाबेस इम्पोर्टेड फ्रॉम:'
-    no-file: 'Missing file option'
-help: 'Restore structure and contents of a database.'
+    no-file: 'गायब फाइल विकल्प'
+help: 'पुनर्स्थापित संरचना और एक डेटाबेस की सामग्री।'
