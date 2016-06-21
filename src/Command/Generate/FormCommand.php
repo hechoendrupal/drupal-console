@@ -68,7 +68,11 @@ abstract class FormCommand extends GeneratorCommand
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.form.options.form-id')
             )
-            ->addOption('services', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.services'))
+            ->addOption('services',
+                '',
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                $this->trans('commands.common.options.services')
+            )
             ->addOption('inputs', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.inputs'))
             ->addOption('routing', '', InputOption::VALUE_NONE, $this->trans('commands.generate.form.options.routing'))
             ->addOption(
