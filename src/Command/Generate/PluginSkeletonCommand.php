@@ -13,17 +13,28 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
-use Drupal\Console\Generator\HelpGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
+use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\GeneratorCommand;
 use Drupal\Console\Style\DrupalStyle;
-
 
 class PluginSkeletonCommand extends GeneratorCommand
 {
     use ModuleTrait;
     use ConfirmationTrait;
+    use ServicesTrait;
+
+    protected $pluginGeneratorsImplemented = [
+        'block' => 'generate:plugin:block',
+        'ckeditor.plugin' => 'generate:plugin:ckeditorbutton',
+        'condition' => 'generate:plugin:condition',
+        'field.formatter' => 'generate:plugin:fieldformatter',
+        'field.field_type' => 'generate:plugin:fieldtype',
+        'field.widget' =>'generate:plugin:fieldwidget',
+        'image.effect' => 'generate:plugin:imageeffect',
+        'mail' => 'generate:plugin:mail'
+    ];
 
     protected function configure()
     {
@@ -42,6 +53,18 @@ class PluginSkeletonCommand extends GeneratorCommand
                 '',
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.module.options.description')
+            )
+            ->addOption(
+                'class',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.plugin.block.options.class')
+            )
+            ->addOption(
+                'services',
+                '',
+                InputOption::VALUE_OPTIONAL| InputOption::VALUE_IS_ARRAY,
+            $this->trans('commands.common.options.services')
             );
     }
 
@@ -60,10 +83,9 @@ class PluginSkeletonCommand extends GeneratorCommand
         $module = $input->getOption('module');
 
         $pluginId = $input->getOption('plugin-id');
+        $plugin = ucfirst($this->getStringHelper()->underscoreToCamelCase($pluginId));
 
-        //$drupalContainer = $this->getContainer();
-
-        // Confirm that plugin.manager exist before to
+        // Confirm that plugin.manager is available
         if (!$this->validatePluginManagerServiceExist('plugin.manager.' . $pluginId)) {
             throw new \Exception(
                 sprintf(
@@ -73,13 +95,26 @@ class PluginSkeletonCommand extends GeneratorCommand
             );
         }
 
-        $pluginMetaData = $this->getPluginMetadata($pluginId);
+        if (array_key_exists($pluginId, $this->pluginGeneratorsImplemented)) {
+            $io->warning(
+                sprintf(
+                    $this->trans('commands.generate.plugin.skeleton.messages.plugin-generator-implemented'),
+                    $pluginId,
+                    $this->pluginGeneratorsImplemented[$pluginId]
+                )
+            );
+        }
 
-        exit();
+        $className = $input->getOption('class');
+        $services = $input->getOption('services');
+
+        // @see use Drupal\Console\Command\Shared\ServicesTrait::buildServices
+        $buildServices = $this->buildServices($services);
+        $pluginMetaData = $this->getPluginMetadata($pluginId);
 
         $this
             ->getGenerator()
-            ->generate($module, $pluginId, $pluginMetaData);
+            ->generate($module, $pluginId, $plugin, $className, $pluginMetaData, $buildServices);
 
         $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
@@ -104,6 +139,37 @@ class PluginSkeletonCommand extends GeneratorCommand
             );
             $input->setOption('plugin-id', $pluginId);
         }
+
+        if (array_key_exists($pluginId, $this->pluginGeneratorsImplemented)) {
+            $io->warning(
+                sprintf(
+                    $this->trans('commands.generate.plugin.skeleton.messages.plugin-dont-exist'),
+                    $pluginId,
+                    $this->pluginGeneratorsImplemented[$pluginId]
+                )
+            );
+        }
+
+        // --class option
+        $class = $input->getOption('class');
+        if (!$class) {
+            $class = $io->ask(
+                $this->trans('commands.generate.plugin.skeleton.options.class'),
+                sprintf('%s%s', 'Default', ucfirst($this->getStringHelper()->underscoreToCamelCase($pluginId))),
+                function ($class) {
+                    return $this->validateClassName($class);
+                }
+            );
+            $input->setOption('class', $class);
+        }
+
+        // --services option
+        // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
+        $services = $input->getOption('services');
+        if (!$services) {
+            $services = $this->servicesQuestion($output);
+            $input->setOption('services', $services);
+        }
     }
 
 
@@ -112,23 +178,148 @@ class PluginSkeletonCommand extends GeneratorCommand
         return new PluginSkeletonGenerator();
     }
 
-    protected function getPluginMetadata($pluginId) {
-        $metaData = [];
+    protected function getPluginMetadata($pluginId)
+    {
+        $pluginMetaData = [];
         $pluginTypes = [];
 
-        if($pluginId) {
-            $drupalContainer = $this->getContainer();
-            if($drupalContainer->hasService('plugin.plugin_type_manager')) {
-                $pluginTypes = $this->getPluginTypeManager()->getPluginTypes();
+        $pluginMetaData = [
+            'serviceId' => 'plugin.manager.' . $pluginId,
+        ];
+
+        // Load service and create reflection
+        $service = \Drupal::service($pluginMetaData['serviceId']);
+
+        $reflectionClass = new \ReflectionClass($service);
+
+        // Get list of properties with $reflectionClass->getProperties();
+        $pluginManagerProperties = [
+            'subdir' => 'subdir',
+            'pluginInterface' => 'pluginInterface',
+            'pluginDefinitionAnnotationName' => 'pluginAnnotation',
+        ];
+
+        foreach ($pluginManagerProperties as $propertyName => $key) {
+            if (!$reflectionClass->hasProperty($propertyName)) {
+                $pluginMetaData[$key] = '';
+                continue;
             }
 
-            print_r($pluginTypes);
+            $property = $reflectionClass->getProperty($propertyName);
+            $property->setAccessible(true);
+            $pluginMetaData[$key] = $property->getValue($service);
         }
+
+        if (empty($pluginMetaData['pluginInterface'])) {
+            $pluginMetaData['pluginInterfaceMethods'] = array();
+        } else {
+            $pluginMetaData['pluginInterfaceMethods'] = $this->getClassMethods($pluginMetaData['pluginInterface']);
+        }
+
+        if (isset($pluginMetaData['pluginAnnotation']) && class_exists($pluginMetaData['pluginAnnotation'])) {
+            $pluginMetaData['pluginAnnotationProperties'] = $this->getPluginAnnotationProperties($pluginMetaData['pluginAnnotation']);
+        } else {
+            $pluginMetaData['pluginAnnotationProperties'] = [];
+        }
+
+        return $pluginMetaData;
+    }
+
+    /**
+     * Get data for the methods of a class.
+     *
+     * @param $class
+     *  The fully-qualified name of class.
+     *
+     * @return
+     *  An array keyed by method name, where each value is an array containing:
+     *  - 'name: The name of the method.
+     *  - 'declaration': The function declaration line.
+     *  - 'description': The description from the method's docblock first line.
+     */
+    protected function getClassMethods($class)
+    {
+        // Get a reflection class.
+        $classReflection = new \ReflectionClass($class);
+        $methods = $classReflection->getMethods();
+
+        $metaData = [];
+        $methodData = [];
+
+        foreach ($methods as $method) {
+            $methodData['name'] = $method->getName();
+
+            $filename = $method->getFileName();
+            $source = file($filename);
+            $startLine = $method->getStartLine();
+
+            $methodData['declaration'] = substr(trim($source[$startLine - 1]), 0, -1);
+
+            $methodDocComment = explode("\n", $method->getDocComment());
+            foreach ($methodDocComment as $line) {
+                if (substr($line, 0, 5) == '   * ') {
+                    $methodData['description'] = substr($line, 5);
+                    break;
+                }
+            }
+
+            $metaData[$method->getName()] = $methodData;
+        }
+
         return $metaData;
     }
 
-    protected function getPlugins(){
+    /**
+     * Get the list of properties from an annotation class.
+     *
+     * @param $pluginAnnotationClass
+     *  The fully-qualified name of the plugin annotation class.
+     *
+     * @return
+     *  An array keyed by property name, where each value is an array containing:
+     *  - 'name: The name of the property.
+     *  - 'description': The description from the property's docblock first line.
+     */
+    protected function getPluginAnnotationProperties($pluginAnnotationClass)
+    {
+        // Get a reflection class for the annotation class.
+        // Each property of the annotation class describes a property for the
+        // plugin annotation.
+        $annotationReflection = new \ReflectionClass($pluginAnnotationClass);
+        $propertiesReflection = $annotationReflection->getProperties(\ReflectionProperty::IS_PUBLIC);
 
+        $pluginProperties = [];
+        $annotationPropertyMetadata = [];
+
+        foreach ($propertiesReflection as $propertyReflection) {
+            $annotationPropertyMetadata['name'] = $propertyReflection->name;
+
+            $propertyDocblock = $propertyReflection->getDocComment();
+            $propertyDocblockLines = explode("\n", $propertyDocblock);
+            foreach ($propertyDocblockLines as $line) {
+                if (substr($line, 0, 3) == '/**') {
+                    continue;
+                }
+
+                // Take the first actual docblock line to be the description.
+                if (!isset($annotationPropertyMetadata['description']) && substr($line, 0, 5) == '   * ') {
+                    $annotationPropertyMetadata['description'] = substr($line, 5);
+                }
+
+                // Look for a @var token, to tell us the type of the property.
+                if (substr($line, 0, 10) == '   * @var ') {
+                    $annotationPropertyMetadata['type'] = substr($line, 10);
+                }
+            }
+
+            $pluginProperties[$propertyReflection->name] = $annotationPropertyMetadata;
+        }
+
+        return $pluginProperties;
+    }
+
+    protected function getPlugins()
+    {
         $plugins = [];
 
         $drupalContainer = $this->getContainer();
@@ -139,6 +330,5 @@ class PluginSkeletonCommand extends GeneratorCommand
         }
 
         return $plugins;
-
     }
 }

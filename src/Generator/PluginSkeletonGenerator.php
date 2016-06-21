@@ -13,23 +13,31 @@ class PluginSkeletonGenerator extends Generator
      * Generator Post Update Name function.
      *
      * @param $module
-     * @param $post_update_name
+     * @param $pluginId
+     * * @param $plugin
+     * @param $className
+     * @param $pluginMetaData
+     * @param $services
      */
-    public function generate($module, $pluginId)
+    public function generate($module, $pluginId, $plugin, $className, $pluginMetaData, $services)
     {
         $module_path =  $this->getSite()->getModulePath($module);
 
+
         $parameters = [
-          'machine_name' => $module,
-          'description' => $pluginId,
-          'file_exists' => file_exists($module_path .'/'.$module.'.module'),
-        ];
+            'module' => $module,
+            'plugin_id' => $pluginId,
+            'plugin' => $plugin,
+            'class_name' => $className,
+            'services' => $services,
+            'plugin_annotation' => array_pop(explode('\\', $pluginMetaData['pluginAnnotation'])),
+            'plugin_interface' => array_pop(explode('\\', $pluginMetaData['pluginInterface']))
+            ];
 
         $this->renderFile(
-            'module/src/plugin-skeleton.php.twig',
-            $module_path .'/'.$module.'.module',
-            $parameters,
-            FILE_APPEND
+            'module/src/Plugin/skeleton.php.twig',
+            $module_path .'/src/'. $pluginMetaData['subdir'] . '/' . $className .'.php',
+            array_merge($parameters, $pluginMetaData)
         );
     }
 }

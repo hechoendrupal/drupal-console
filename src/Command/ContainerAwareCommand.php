@@ -407,6 +407,15 @@ abstract class ContainerAwareCommand extends Command
     }
 
     /**
+     * @param $id
+     * @return mixed
+     */
+    public function hasService($id)
+    {
+        return $this->getContainer()->has($id);
+    }
+
+    /**
      * @param $serviceId
      * @return mixed
      */
@@ -497,11 +506,11 @@ abstract class ContainerAwareCommand extends Command
         return $this->getValidator()->validateSpaces($name);
     }
 
-    public function validateModuleFunctionExist($module, $function, $moduleFile = NULL)
+    public function validateModuleFunctionExist($module, $function, $moduleFile = null)
     {
         //Load module file to prevent issue of missing functions used in update
         $modulePath = $this->getSite()->getModulePath($module, false);
-        if($moduleFile) {
+        if ($moduleFile) {
             $this->getDrupalHelper()->loadLegacyFile($modulePath . '/'. $moduleFile);
         } else {
             $this->getDrupalHelper()->loadLegacyFile($modulePath . '/' . $module . '.module');
