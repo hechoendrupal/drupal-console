@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Module\DebugCommand.
+ * Contains \Drupal\Console\Command\Module\PathCommand.
  */
 
 namespace Drupal\Console\Command\Module;
