@@ -21,3 +21,9 @@ messages:
     directory_theme_admin: 'Diretório do tema administrativo'
     current_version: 'Versão atual do Drupal (%s)'
     not_installed: 'Drupal não está instalado'
+    not_available: 'Não Disponível'
+    configuration: Configuração
+    active: 'Diretório da configuração ativa'
+    staging: 'Diretório da configuração de Staging (Ambiente de teste)'
+arguments:
+    fields-group: 'exibir os campos agrupados por tipos. Os tipos disponíveis são: versão, banco de dados, tema, diretórios'
