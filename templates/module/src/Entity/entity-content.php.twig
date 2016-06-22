@@ -63,6 +63,7 @@ use Drupal\user\UserInterface;
  *   links = {
  *     "canonical" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
 {% if bundle_entity_type %}
+ *     "add-page" = "{{ base_path }}/{{ entity_name }}/add",
  *     "add-form" = "{{ base_path }}/{{ entity_name }}/add/{{ '{'~bundle_entity_type~'}' }}",
 {% else %}
  *     "add-form" = "{{ base_path }}/{{ entity_name }}/add",

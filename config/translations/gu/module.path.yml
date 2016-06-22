@@ -1,0 +1,7 @@
+description: 'Returns the relative path to the module (or absolute path)'
+arguments:
+    module: 'The Module name (machine name)'
+options:
+    absolute: 'Return module absolute path'
+messages:
+

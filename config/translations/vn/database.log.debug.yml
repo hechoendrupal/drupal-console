@@ -5,7 +5,7 @@ options:
     type: 'Sự kiện được lọc bời một kiểu chỉ định'
     severity: 'Sự kiện được lọc bời một cấp chỉ định của severity'
     user-id: 'Sự kiện được lọc bời một user id cụ thể'
-    reverse: 'Đảo ngược trình tự của Sự kiện'
+    asc: 'List events in ascending order'
     limit: 'Giới hạn kết quả cho một số cụ thể'
     offset: 'Điểm bắt đầu của một giới hạn'
 messages:

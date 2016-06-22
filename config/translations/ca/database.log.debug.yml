@@ -5,7 +5,7 @@ options:
     type: 'Filtrar registre d''esdeveniments per tipus'
     severity: 'Filtrar el registre d''esdeveniments per nivell de severitat'
     user-id: 'Filtrar el registre d''esdeveniments per identificador d''usuari'
-    reverse: 'Invertir l''ordre dels esdeveniments'
+    asc: 'List events in ascending order'
     limit: 'Limitar el número de resultats'
     offset: 'Punt inicial del límit'
 messages:

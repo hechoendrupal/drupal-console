@@ -1,0 +1,99 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\TwigExtension\{{ class }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\TwigExtension;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Template\TwigExtension;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Class {{ class }}.
+ *
+ * @package Drupal\{{module}}
+ */
+class {{ class }} extends TwigExtension {% endblock %}
+
+{% set properties = services[1:] %}
+{% block class_properties %}
+    {% for service in properties %}
+
+   /**
+    * {{ service.class }} definition.
+    *
+    * @var \{{ service.class }}
+    */
+    protected ${{service.camel_case_name}};
+    {% endfor %}
+{% endblock %}
+
+{% block class_construct %}
+    {% if services|length > 1 %}
+
+   /**
+    * Constructor.
+    */
+    public function __construct({{ servicesAsParameters(services)|join(', ') }}) {
+        parent::__construct($renderer);
+    {{ serviceClassInitialization(properties) }}
+    }
+    {% endif %}
+{% endblock %}
+
+{% block class_methods %}
+
+   /**
+    * {@inheritdoc}
+    */
+    public function getTokenParsers() {
+      return [];
+    }
+
+   /**
+    * {@inheritdoc}
+    */
+    public function getNodeVisitors() {
+      return [];
+    }
+
+   /**
+    * {@inheritdoc}
+    */
+    public function getFilters() {
+      return [];
+    }
+
+   /**
+    * {@inheritdoc}
+    */
+    public function getTests() {
+      return [];
+    }
+
+   /**
+    * {@inheritdoc}
+    */
+    public function getFunctions() {
+      return [];
+    }
+
+   /**
+    * {@inheritdoc}
+    */
+    public function getOperators() {
+      return [];
+    }
+
+   /**
+    * {@inheritdoc}
+    */
+    public function getName() {
+      return '{{ name }}';
+    }
+{% endblock %}
