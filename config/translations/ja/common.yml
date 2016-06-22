@@ -10,11 +10,11 @@ questions:
     confirm: 本当に生成しますか？
     canceled: 生成をキャンセルしました
     events:
-        message: "\nサービス名を入力するか、方向キーの上か下を押してください。\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
+        message: "\nイベント名を入力するか、方向キーの上か下を押してください。\nこれはオプションです、<info>次に進む</info>には <info>enter</info> を押してください。\n"
         name: イベント名を入力してください
     services:
         confirm: サービスをコンテナからロードしますか？
-        message: "\nサービス名を入力するか、方向キーの上か下を押してください。\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
+        message: "\nサービス名を入力するか、方向キーの上か下を押してください。\nこれはオプションです、<info>次に進む</info>には <info>enter</info> を押してください。\n"
         name: サービス名を入力してください
     inputs:
         confirm: フォームを生成しますか？
