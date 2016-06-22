@@ -7,7 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 {% if form_id is not empty %}
 /**
  * Implements hook_form_FORM_ID_alter() on behalf of {{ module }}.module.
-{% if metadata.class %}
+{% if metadata.class is defined %}
  * @see \{{ metadata.class }} method {{ metadata.method }} at {{ metadata.file }}
 {% endif %}
  */
