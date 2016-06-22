@@ -7,14 +7,14 @@ options:
     form-id: 'Az űrlap-azonosító'
     services: common.options.services
     inputs: common.options.inputs
-    routing: 'Útvonal frissítése'
+    routing: 'Generate routing'
 questions:
     module: common.questions.module
     class: 'Meg kell adni az űrlap osztályának nevét'
     form-id: 'Meg kell adni az űrlap-azonosítót'
     services: common.questions.services
     inputs: common.questions.inputs
-    routing: 'Útvonalfájl frissítése'
+    routing: 'Would you like to register a route for this form'
     menu_link_gen: 'Menühivatkozás létrehozása'
     menu_link_title: 'A menühivatkozás címe'
     menu_parent: 'Szülő a menüben'
