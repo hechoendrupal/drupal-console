@@ -48,9 +48,7 @@ class ShellProcess
           = ($this->config->get("application.shellexec_output"))?: false;
 
         $this->progress = new ProgressBar($this->output);
-        $this->progress->setFormatDefinition(
-            'minimal'
-        );
+        $this->progress->setFormat('debug_nomax');
     }
 
     /**
