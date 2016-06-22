@@ -152,6 +152,27 @@ class ValidatorHelper extends Helper
     }
 
     /**
+     * Validate if service name exist.
+     *
+     * @param string $service  Service name
+     * @param array  $services Array of services
+     *
+     * @return string
+     */
+    public function validatePluginManagerServiceExist($service, $services)
+    {
+        if ($service == '') {
+            return;
+        }
+
+        if (!in_array($service, array_values($services))) {
+            throw new \InvalidArgumentException(sprintf('Plugin "%s" is invalid.', $service));
+        }
+
+        return $service;
+    }
+
+    /**
      * Validate if event name exist.
      *
      * @param string $event  Event name
