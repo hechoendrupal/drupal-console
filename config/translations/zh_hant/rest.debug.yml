@@ -6,7 +6,7 @@ options:
 messages:
     id: 'REST ID'
     label: 標籤
-    canonical_url: 'Canonical URL'
+    canonical_url: '標準網址 （Canonical URL）'
     status: 狀態
     provider: 提供者
     enabled: 已啟用
