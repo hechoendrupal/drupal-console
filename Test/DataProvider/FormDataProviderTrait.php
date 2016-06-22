@@ -16,7 +16,7 @@ trait FormDataProviderTrait
         $this->setUpTemporaryDirectory();
         
         return [
-          ['Foo', 'foo' . rand(), 'id' . rand(), null, null, 'FormBase', true, true, 'foo', 'system.admin_config_development', 'foo']
+          ['Foo', 'foo' . rand(), 'id' . rand(), null, null, 'FormBase', '/form/path', true, 'foo', 'system.admin_config_development', 'foo']
         ];
     }
 }
