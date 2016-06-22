@@ -1,18 +1,18 @@
 description: 'Удалить конфигурацию'
 arguments:
-    type: 'Configuration type.'
+    type: 'Тип конфигурации.'
     name: 'Имя конфигурации.'
 messages:
-    all: 'All configuration sucessfully deleted.'
+    all: 'Все конфигурации успешно удалены.'
     deleted: 'Конфигурация "%s" успешно удалена.'
     name: 'Имя конфигрурации должно содержать значение.'
     not-exists: 'Конфигурация "%s" не существует.'
 errors:
-    config-storage: 'Configuration type would not be loaded.'
-    name: 'Configuration name must contain a value.'
-    type: 'Configuration type is missing.'
-    not-exists: 'The configuration "%s" does not exists.'
+    config-storage: 'Тип конфигурации не будет загружен.'
+    name: 'Имя конфигурации должно содержать значение.'
+    type: 'Тип конфигурации не указан.'
+    not-exists: 'Конфигурация "%s" не существует.'
 warnings:
-    undo: 'This action will delete all configuration permanentaly.'
+    undo: 'Это действие удалит все конфигурации навсегда.'
 questions:
-    sure: 'Are you sure to delete all configuration'
+    sure: 'Вы уверенны что хотите удалить все конфигурации'

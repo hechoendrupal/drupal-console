@@ -1,0 +1,9 @@
+services:
+  queue_debug:
+    class: Drupal\Console\Command\Queue\DebugCommand
+    tags:
+      - { name: console.command }
+  queue_run:
+    class: Drupal\Console\Command\Queue\RunCommand
+    tags:
+      - { name: console.command }

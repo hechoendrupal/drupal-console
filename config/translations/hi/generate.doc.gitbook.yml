@@ -12,7 +12,7 @@ messages:
     options: 'उपलब्ध विकल्प'
     option: विकल्प
     details: विवरण
-    arguments: 'उपलब्ध तर्कों'
+    arguments: 'उपलब्ध तर्क'
     argument: तर्क
     examples: उदाहरण
 output:
