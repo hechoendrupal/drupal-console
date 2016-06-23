@@ -36,10 +36,10 @@ class BreakPointCommand extends GeneratorCommand
             ->setDescription($this->trans('commands.generate.breakpoint.description'))
             ->setHelp($this->trans('commands.generate.breakpoint.help'))
             ->addOption(
-                'base-theme',
+                'theme',
                 '',
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.breakpoint.options.base-theme')
+                $this->trans('commands.generate.breakpoint.options.theme')
             )
             ->addOption(
                 'breakpoints',
@@ -63,10 +63,10 @@ class BreakPointCommand extends GeneratorCommand
         
         $validators = $this->getValidator();
         // we must to ensure theme exist
-        $machine_name = $validators->validateMachineName($input->getOption('base-theme'));
-        $theme_path = $drupal_root . $input->getOption('base-theme');
+        $machine_name = $validators->validateMachineName($input->getOption('theme'));
+        $theme_path = $drupal_root . $input->getOption('theme');
         $breakpoints = $input->getOption('breakpoints');
-
+        
         $generator = $this->getGenerator();
 
         $generator->generate(
@@ -88,7 +88,7 @@ class BreakPointCommand extends GeneratorCommand
         $drupalRoot = $drupal->getRoot();
         
         // --base-theme option.
-        $base_theme = $input->getOption('base-theme');
+        $base_theme = $input->getOption('theme');
 
         if (!$base_theme) {
             $themeHandler = $this->getThemeHandler();
@@ -98,10 +98,10 @@ class BreakPointCommand extends GeneratorCommand
             uasort($themes, 'system_sort_modules_by_info_name');
 
             $base_theme = $io->choiceNoList(
-                $this->trans('commands.generate.breakpoint.questions.base-theme'),
+                $this->trans('commands.generate.breakpoint.questions.theme'),
                 array_keys($themes)
             );
-            $input->setOption('base-theme', $base_theme);
+            $input->setOption('theme', $base_theme);
         }
          
         // --breakpoints option.

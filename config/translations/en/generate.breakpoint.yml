@@ -2,10 +2,10 @@ description: 'Generate breakpoint'
 help: 'The <info>generate:theme</info> command helps you generates a new breakpoint'
 welcome: 'Welcome to the Drupal breakpoint generator'
 options:
-    base-theme: 'Theme name '
+    theme: 'Theme name'
     breakpoints: Breakpoints
 questions:
-    base-theme: 'Enter the theme name (i.e. classy, stable)'
+    theme: 'Enter the theme name (i.e. classy, stable)'
     breakpoint-name: 'Enter breakpoint name'
     breakpoint-label: 'Enter breakpoint label'
     breakpoint-media-query: 'Enter breakpoint media query'
