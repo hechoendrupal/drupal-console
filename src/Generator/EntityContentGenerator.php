@@ -17,9 +17,10 @@ class EntityContentGenerator extends Generator
      * @param string $entity_class       Entity class name
      * @param string $label              Entity label
      * @param string $base_path          Base path
+     * @param string $is_translatable    Translation configuration
      * @param string $bundle_entity_type (Config) entity type acting as bundle
      */
-    public function generate($module, $entity_name, $entity_class, $label, $base_path, $bundle_entity_type = null)
+    public function generate($module, $entity_name, $entity_class, $label, $base_path, $is_translatable, $bundle_entity_type = null)
     {
         $parameters = [
             'module' => $module,
@@ -28,6 +29,7 @@ class EntityContentGenerator extends Generator
             'label' => $label,
             'bundle_entity_type' => $bundle_entity_type,
             'base_path' => $base_path,
+            'is_translatable' => $is_translatable,
         ];
 
         $this->renderFile(
@@ -63,6 +65,14 @@ class EntityContentGenerator extends Generator
             $this->getSite()->getSourcePath($module).'/'.$entity_class.'AccessControlHandler.php',
             $parameters
         );
+
+        if ($is_translatable) {
+            $this->renderFile(
+                'module/src/entity-translation-handler.php.twig',
+                $this->getSite()->getSourcePath($module).'/'.$entity_class.'TranslationHandler.php',
+                $parameters
+            );
+        }
 
         $this->renderFile(
             'module/src/Entity/interface-entity-content.php.twig',
