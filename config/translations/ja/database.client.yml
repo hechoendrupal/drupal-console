@@ -1,5 +1,5 @@
-description: 'データベースクライアントを起動'
+description: データベースクライアントを起動
 arguments:
-  database: 'settings.phpのデータベースのキー'
+    database: settings.phpのデータベースのキー
 messages:
-  connection: 'Connection: %s'
+    connection: 'Connection: %s'

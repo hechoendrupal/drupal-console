@@ -1,5 +1,5 @@
-description: 現在のユーザーを表示
-help: '<info>user:debug</info> コマンドは現在のユーザーを表示します。'
+description: ユーザー情報を表示
+help: '<info>user:debug</info> コマンドはユーザー情報を表示します。'
 welcome: 'Welcome to the Drupal user debug'
 options:
     roles: フィルターに使用するロール
@@ -14,4 +14,4 @@ messages:
     user-id: ユーザーID
     username: ユーザー名
     roles: ロール
-    status: スターテス
+    status: ステータス

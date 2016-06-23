@@ -10,4 +10,4 @@ messages:
     successful: 'ユーザーID %s のログイン試行履歴をクリアしました。'
 errors:
     invalid-user: 'ユーザーエンティティがロードできませんでした (Uid: %s)。'
-    no-flood: 'No flood table on the system.'
+    no-flood: 'flood table がありません。'

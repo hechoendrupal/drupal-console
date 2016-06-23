@@ -1,6 +1,6 @@
-description: '単一のコンフィグレーションをymlファイルとしてエクスポート'
+description: 単一のコンフィグレーションをymlファイルとしてエクスポート
 arguments:
-    config-name: 'コンフィグレーション名'
+    config-name: コンフィグレーション名
 options:
     include-dependencies: 'Export dependencies of the configuration as well.'
     simple-configuration: 'Simple configuration'
@@ -8,7 +8,7 @@ questions:
     config-type: 'Configuration type'
     config-name: 'Configuration name'
 messages:
-    config-not-found: 'コンフィグレーション名が見つかりません。'
+    config-not-found: コンフィグレーション名が見つかりません。
     export: 'コンフィグレーションは %s にエクスポートされました。'
-    invalid-config-type: '無効なコンフィグレーションタイプです、一覧の中から選択してください。'
-    invalid-config-name: '無効なコンフィグレーション名です、一覧の中から選択してください。'
+    invalid-config-type: 無効なコンフィグレーションタイプです、一覧の中から選択してください。
+    invalid-config-name: 無効なコンフィグレーション名です、一覧の中から選択してください。

@@ -1,4 +1,4 @@
-description: 'チェーンファイルの一覧を表示'
+description: チェーンファイルの一覧を表示
 messages:
-    directory: 'ディレクトリ'
-    file: 'チェーンファイル.'
+    directory: ディレクトリ
+    file: チェーンファイル.

@@ -23,3 +23,5 @@ messages:
     installed: 'Drupal 8のインストールが正常に完了しました。'
     using-current-database: 'Using %s database with name %s and user %s'
     already-installed: 'Drupalはすでにインストールされています。データベースから全てのデータを削除し、もう一度site:installを実行してください。'
+    sites-backup: 'The sites.php file has temporarily been renamed to backup.sites.php while Drupal installs.'
+    sites-restore: 'The backup of sites.php has been been restored to sites.php.'

@@ -1,10 +1,10 @@
-description: 'Sync translation files'
+description: 翻訳ファイルを同期する
 arguments:
-    language: 'Language to syncronize against English source files'
+    language: 英語のソースファイルに対して同期する言語
 options:
-    file: 'Language file to be syncronize'
+    file: 同期するファイル
 messages:
     created-file: 'Yaml file %s was created for language %s'
     error-generating: 'Error syncronizing file %s for %s: %s'
     error-writing: 'Error writing file %s for %s: %s'
-    sync-finished: 'Syncronization of translation files was completed'
+    sync-finished: 翻訳ファイルの同期が完了しました。
