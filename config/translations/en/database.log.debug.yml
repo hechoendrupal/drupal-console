@@ -5,11 +5,12 @@ options:
     type: 'Filter events by a specific type'
     severity: 'Filter events by a specific level of severity'
     user-id: 'Filter events by a specific user id'
-    reverse: 'Reverse the order of events'
+    asc: 'List events in ascending order'
     limit: 'Limit results to a specific number'
     offset: 'Starting point of a limit'
+    asc: 'List events in ascending order'
 messages:
-    event-id: Event ID
+    event-id: 'Event ID'
     type: Type
     date: Date
     message: Message

@@ -46,8 +46,7 @@ class GeneratorFormCommandTest extends GenerateCommandTest
             '--class'          => $class_name,
             '--services'            => $services,
             '--inputs'              => $inputs,
-            '--form-id'             => $form_id,
-            '--routing'             => $routing_update,
+            '--form-id'             => $form_id
             ],
             ['interactive' => false]
         );

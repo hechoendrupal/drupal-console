@@ -7,14 +7,14 @@ options:
     form-id: 'Идентификатор формы'
     services: common.options.services
     inputs: common.options.inputs
-    routing: 'Обновить маршрутизацию'
+    routing: 'Generate routing'
 questions:
     module: common.questions.module
     class: 'Введите имя Класса Формы'
     form-id: 'Введите идентификатор Формы'
     services: common.questions.services
     inputs: common.questions.inputs
-    routing: 'Обновить файл маршрутизации'
+    routing: 'Would you like to register a route for this form'
     menu_link_gen: 'Генерировать ссылку в меню'
     menu_link_title: 'Заголовок ссылки в меню'
     menu_parent: 'Родительское меню'

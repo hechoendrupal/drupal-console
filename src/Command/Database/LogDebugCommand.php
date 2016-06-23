@@ -51,10 +51,10 @@ class LogDebugCommand extends Command
                 $this->trans('commands.database.log.debug.options.user-id')
             )
             ->addOption(
-                'reverse',
+                'asc',
                 false,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.database.log.debug.options.reverse')
+                $this->trans('commands.database.log.debug.options.asc')
             )
             ->addOption(
                 'limit',
@@ -80,14 +80,14 @@ class LogDebugCommand extends Command
         $eventType = $input->getOption('type');
         $eventSeverity = $input->getOption('severity');
         $userId = $input->getOption('user-id');
-        $reverse = $input->getOption('reverse');
+        $asc = $input->getOption('asc');
         $limit = $input->getOption('limit');
         $offset = $input->getOption('offset');
 
         if ($eventId) {
             $this->getEventDetails($io, $eventId);
         } else {
-            $this->getAllEvents($io, $eventType, $eventSeverity, $userId, $reverse, $offset, $limit);
+            $this->getAllEvents($io, $eventType, $eventSeverity, $userId, $asc, $offset, $limit);
         }
     }
 
@@ -135,7 +135,7 @@ class LogDebugCommand extends Command
         return true;
     }
 
-    protected function getAllEvents(DrupalStyle $io, $eventType, $eventSeverity, $userId, $reverse, $offset, $limit)
+    protected function getAllEvents(DrupalStyle $io, $eventType, $eventSeverity, $userId, $asc, $offset, $limit)
     {
         $connection = $this->getDrupalService('database');
         $dateFormatter = $this->getDrupalService('date.formatter');
@@ -179,7 +179,9 @@ class LogDebugCommand extends Command
             $query->condition('uid', $userId);
         }
 
-        if ($reverse) {
+        if ($asc) {
+            $query->orderBy('wid', 'ASC');
+        } else {
             $query->orderBy('wid', 'DESC');
         }
 
