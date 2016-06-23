@@ -1,0 +1,7 @@
+description: 'Execute an external command.'
+arguments:
+  bin: 'Executable name.'
+messages:
+  success: 'Executed the command.'
+  missing-bin: 'Provide a executable.'
+
