@@ -1,13 +1,13 @@
-description: 'Generate translate stats'
+description: 翻訳の統計を生成する
 arguments:
-    language: 'Language to generate translation stats against English'
+    language: 英語に対しての翻訳の統計を生成する言語
 options:
-    format: 'Define output format table|markdown'
+    format: '出力フォーマットの定義 table|markdown'
 messages:
-    invalid-language: 'Language %s is invalid'
-    language: Language
-    percentage: Percentage
-    iso: 'ISO Code'
+    invalid-language: '言語 %s は不正な値です。'
+    language: 言語
+    percentage: パーセンテージ
+    iso: ISOコード
 tips:
     -
         tip: 'Pass a language ISO code as argument to restrict the languages list'

@@ -1,6 +1,6 @@
-description: 'Rebuild routes for the application'
+description: ルートを再構築する
 arguments:
-    route-name: 'Route names'
+    route-name: ルートの名前
 messages:
-    rebuilding: 'Rebuilding routes, wait a moment please'
-    completed: 'Done rebuilding route(s).'
+    rebuilding: ルートを再構築しています、少々お待ち下さい。
+    completed: ルートの再構築が完了しました。

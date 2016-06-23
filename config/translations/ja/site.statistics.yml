@@ -1,5 +1,5 @@
-description: 'サイトの統計情報を表示'
-help: 'サイトの統計情報を表示'
+description: サイトの統計情報を表示
+help: サイトの統計情報を表示
 messages:
     stat-name: Name
     stat-quantity: Quantity
