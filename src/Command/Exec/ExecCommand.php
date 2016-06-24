@@ -50,11 +50,11 @@ class ExecCommand extends Command
             $io->error(
                 $this->trans('commands.exec.messages.missing-bin')
             );
-
             return 1;
         }
 
         $process = new Process($bin);
+        $process->setTimeout(3600);
         $process->run();
 
         if (!$process->isSuccessful()) {
@@ -63,15 +63,19 @@ class ExecCommand extends Command
                 $this->trans('commands.exec.messages.invalid-bin')
               )
             );
+            return 1;
         }
 
+        $msg = $process->getOutput();
+
+        $io->info($msg, FALSE);
         $io->success(
-            sprintf(
-                $this->trans('commands.exec.success'),
-                $bin,
-                $process->getOutput()
-            )
+          sprintf(
+            $this->trans('commands.exec.messages.success'),
+            $bin
+          )
         );
+
     }
 
 }

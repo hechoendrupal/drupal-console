@@ -3,5 +3,6 @@ arguments:
   bin: 'Executable name.'
 messages:
   success: 'Executed the command.'
+  invalid-bin: 'Error executing the command.'
   missing-bin: 'Provide a executable.'
 
