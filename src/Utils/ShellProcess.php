@@ -58,7 +58,7 @@ class ShellProcess
      *
      * @return Process
      */
-    public function exec($command, $show_output = NULL)
+    public function exec($command, $show_output = FALSE)
     {
         $rootPath = $this->site->getRoot();
 
@@ -67,7 +67,7 @@ class ShellProcess
         $this->process->enableOutput();
         $this->process->setTimeout(null);
 
-        if ($this->shellexec_output) {
+        if ($this->shellexec_output || $show_output) {
             $this->process->run(function ($type, $buffer) {
                 $this->output->writeln(
                   sprintf('<info>%s</info>', $buffer)
@@ -83,12 +83,7 @@ class ShellProcess
             }
 
             $this->progress->finish();
-        }
-
-
-        if ($show_output) {
             $this->output->writeln("");
-            $this->output->writeln($this->process->getOutput());
         }
 
         if (!$this->process->isSuccessful()) {
