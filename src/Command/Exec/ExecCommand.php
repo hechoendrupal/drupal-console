@@ -54,7 +54,6 @@ class ExecCommand extends Command
 
         $shellProcess = $this->get('shell_process');
         if ($shellProcess->exec($bin, TRUE)) {
-
             $io->success(
                 sprintf(
                     $this->trans('commands.exec.messages.success'),

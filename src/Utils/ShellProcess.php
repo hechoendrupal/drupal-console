@@ -29,14 +29,13 @@ class ShellProcess
     /* @var Progress */
     protected $progress;
 
-    /**
-     * @var ShellProcess
-     */
+    /* @var ShellProcess */
     protected $process;
 
     /**
      * Process constructor.
      * @param Site $site
+     * @param Config $config
      */
     public function __construct(Site $site, Config $config)
     {
@@ -52,7 +51,7 @@ class ShellProcess
     }
 
     /**
-     * @param $command
+     * @param $command string
      * @param $show_output boolean
      *
      * @throws ProcessFailedException
