@@ -52,7 +52,7 @@ class PluginSkeletonCommand extends GeneratorCommand
                 'plugin-id',
                 '',
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.module.options.description')
+                $this->trans('commands.generate.plugin.options.plugin-id')
             )
             ->addOption(
                 'class',
@@ -64,7 +64,7 @@ class PluginSkeletonCommand extends GeneratorCommand
                 'services',
                 '',
                 InputOption::VALUE_OPTIONAL| InputOption::VALUE_IS_ARRAY,
-            $this->trans('commands.common.options.services')
+                $this->trans('commands.common.options.services')
             );
     }
 
@@ -90,7 +90,7 @@ class PluginSkeletonCommand extends GeneratorCommand
             throw new \Exception(
                 sprintf(
                     $this->trans('commands.generate.plugin.skeleton.messages.plugin-dont-exist'),
-                    $module
+                    $pluginId
                 )
             );
         }
@@ -180,9 +180,6 @@ class PluginSkeletonCommand extends GeneratorCommand
 
     protected function getPluginMetadata($pluginId)
     {
-        $pluginMetaData = [];
-        $pluginTypes = [];
-
         $pluginMetaData = [
             'serviceId' => 'plugin.manager.' . $pluginId,
         ];
