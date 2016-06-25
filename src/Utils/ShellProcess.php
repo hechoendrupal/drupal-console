@@ -53,12 +53,13 @@ class ShellProcess
 
     /**
      * @param $command
+     * @param $show_output boolean
      *
      * @throws ProcessFailedException
      *
      * @return Process
      */
-    public function exec($command)
+    public function exec($command, $show_output = NULL)
     {
         $rootPath = $this->site->getRoot();
 
@@ -68,24 +69,28 @@ class ShellProcess
         $this->process->setTimeout(null);
 
         if ($this->shellexec_output) {
-          $this->process->run(function ($type, $buffer) {
-            $this->output->writeln(
-              sprintf(
-                "<info>%s</info>",
-                $buffer
-              )
-            );
-          });
-        }else{
-          $this->progress->start();
-          $this->process->start();
+            $this->process->run(function ($type, $buffer) {
+                $this->output->writeln(
+                  sprintf('<info>%s</info>', $buffer)
+                );
+            });
+        }
+        else {
+            $this->progress->start();
+            $this->process->start();
 
-          while ($this->process->isRunning()) {
-              $this->advance();
-          }
-          $this->progress->finish();
+            while ($this->process->isRunning()) {
+                $this->advance();
+            }
+
+            $this->progress->finish();
         }
 
+
+        if ($show_output) {
+            $this->output->writeln("");
+            $this->output->writeln($this->process->getOutput());
+        }
 
         if (!$this->process->isSuccessful()) {
             throw new ProcessFailedException($this->process);
@@ -94,16 +99,16 @@ class ShellProcess
         return $this->process->isSuccessful();
     }
 
+    private function advance() {
+        usleep(300000);
+        $this->progress->advance();
+    }
+
     /**
      * @return string
      */
     public function getOutput()
     {
         return $this->process->getOutput();
-    }
-
-    private function advance() {
-      usleep(300000);
-      $this->progress->advance();
     }
 }
