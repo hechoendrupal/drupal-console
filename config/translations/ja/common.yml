@@ -1,5 +1,5 @@
 options:
-    class: 'Class name'
+    class: クラス名
     events: コンテナからイベントを読み込む
     module: モジュール名
     services: コンテナからサービスを読み込む
@@ -7,7 +7,7 @@ options:
     inputs: フォームへの入力を作成する
     permissions: 権限を作成する
 questions:
-    class: 'Enter the Class name'
+    class: クラス名を入力してください
     module: モジュール名を入力してください
     confirm: 本当に生成しますか？
     canceled: 生成をキャンセルしました

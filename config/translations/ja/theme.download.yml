@@ -1,9 +1,9 @@
 description: テーマをダウンロード
 arguments:
-    version: 'Theme version i.e 1.x-dev'
-    theme: 'the Theme name'
+    version: 'テーマのバージョン (例: 1.x-dev)'
+    theme: テーマの名前
 options:
-    composer: 'Use --composer option for manage the theme download with Composer'
+    composer: composerを使用してテーマを管理する
     version: 'テーマのバージョン (例: 1.x-dev)'
 messages:
     no-releases: 'テーマ %s のリリースが存在しません。'
@@ -11,7 +11,7 @@ messages:
     downloading: 'テーマ %s %s をダウンロードしています。'
     downloaded: 'テーマ %s %s は %s にダウンロードされました。'
     select-release: ダウンロードするバージョンを選択してください
-    outside-drupal: 'Drupal root can''t be determined. Use --root to set the destination, current folder will be used instead of.'
+    outside-drupal: 'Drupal のルートディレクトリを決定できませんでした。--root オプションを設定してください。'
     error-creating-folder: 'ディレクトリ %s の作成に失敗しました、パーミッションを確認してください。'
 tips:
     -

@@ -14,7 +14,7 @@ messages:
     nothing: モジュールはすでにインストールされています。
     dependencies: '依存している次のモジュールをインストールしますか？: %s?'
     success: 'モジュール %s がインストールされました。'
-    disabled-modules: 'Only disabled modules will be listed in autocomplete'
+    disabled-modules: ステータスがdisabledのモジュールのみが自動補完のリストに表示されます。
     config-conflict-overwrite: これらの設定オブジェクトはあなたのアクティブ設定で上書きされます。
     config-conflict: これらの設定オブジェクトが既にアクティブ設定に存在するため、インストールできません。
     getting-missing-modules: 'モジュール %s が見つかりませんでした。これらのモジュールをダウンロードしてください。'

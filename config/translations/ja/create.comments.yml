@@ -14,12 +14,12 @@ questions:
     title-words: コメントのタイトルに設定する単語の最大数を入力してください
     time-range: コメントの作成時刻を選択してください
     time-ranges:
-        - Now
-        - '1 hour ago'
-        - '1 day ago'
-        - '1 week ago'
-        - '1 month ago'
-        - '1 year ago'
+        - 現在時刻
+        - 1時間前
+        - 1日前
+        - 1週間前
+        - 1ヶ月前
+        - 1年前
 messages:
     node-id: ノードID
     comment-id: コメントID

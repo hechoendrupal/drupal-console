@@ -8,4 +8,4 @@ messages:
     table-show: 'データベース %s のテーブルを表示しています。'
     table: テーブル
     column: カラム
-    type: Type
+    type: タイプ
