@@ -1,5 +1,9 @@
 description: テーマをダウンロード
+arguments:
+    version: 'Theme version i.e 1.x-dev'
+    theme: 'the Theme name'
 options:
+    composer: 'Use --composer option for manage the theme download with Composer'
     version: 'テーマのバージョン (例: 1.x-dev)'
 messages:
     no-releases: 'テーマ %s のリリースが存在しません。'
@@ -9,3 +13,6 @@ messages:
     select-release: ダウンロードするバージョンを選択してください
     outside-drupal: 'Drupal root can''t be determined. Use --root to set the destination, current folder will be used instead of.'
     error-creating-folder: 'ディレクトリ %s の作成に失敗しました、パーミッションを確認してください。'
+tips:
+    -
+        tip: 'Pass a «true» value to «shellexec_output» key in your config.yml file to see interactively Composer''s output or «false» to hide it'

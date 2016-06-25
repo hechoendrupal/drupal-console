@@ -5,9 +5,10 @@ options:
     type: イベントを特定のタイプでフィルタ
     severity: イベントを特定の重要度のレベルでフィルタ
     user-id: イベントを特定のユーザーIDでフィルタ
-    reverse: イベントの並び順を反転
+    asc: 'List events in ascending order'
     limit: 結果の表示件数を指定した値に制限
     offset: オフセット
+    reverse: イベントの並び順を反転
 messages:
     event-id: イベントID
     type: タイプ
