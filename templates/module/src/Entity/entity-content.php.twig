@@ -33,6 +33,9 @@ use Drupal\user\UserInterface;
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\{{ module }}\{{ entity_class }}ListBuilder",
  *     "views_data" = "Drupal\{{ module }}\Entity\{{ entity_class }}ViewsData",
+{% if is_translatable %}
+ *     "translation" = "Drupal\{{ module }}\{{ entity_class }}TranslationHandler",
+{% endif %}
  *
  *     "form" = {
  *       "default" = "Drupal\{{ module }}\Form\{{ entity_class }}Form",
@@ -46,8 +49,10 @@ use Drupal\user\UserInterface;
  *     },
  *   },
  *   base_table = "{{ entity_name }}",
+{% if is_translatable %}
  *   data_table = "{{ entity_name }}_field_data",
  *   translatable = TRUE,
+ {% endif %}
  *   admin_permission = "administer {{ label|lower }} entities",
  *   entity_keys = {
  *     "id" = "id",
