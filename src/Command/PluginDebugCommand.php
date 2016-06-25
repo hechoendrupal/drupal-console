@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Command\Command as BaseCommand;
+use Symfony\Component\Yaml\Yaml;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -103,7 +104,7 @@ class PluginDebugCommand extends BaseCommand
             if (is_object($value) && method_exists($value, '__toString')) {
                 $value = (string) $value;
             } elseif (is_array($value) || is_object($value)) {
-                $value = var_export($value, true);
+                $value = Yaml::dump($value);
             } elseif (is_bool($value)) {
                 $value = ($value) ? 'TRUE' : 'FALSE';
             }
