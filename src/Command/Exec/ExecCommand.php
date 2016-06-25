@@ -13,7 +13,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
-use Symfony\Component\Process\Process;
 
 /**
  * Class ExecCommand
@@ -53,28 +52,25 @@ class ExecCommand extends Command
             return 1;
         }
 
-        $process = new Process($bin);
-        $process->setTimeout(3600);
-        $process->run();
-
-        if (!$process->isSuccessful()) {
+        $shellProcess = $this->get('shell_process');
+        if ($shellProcess->exec($bin)) {
+            $io->newLine();
+            $io->info($shellProcess->getOutput());
+            $io->success(
+                sprintf(
+                    $this->trans('commands.exec.messages.success'),
+                    $bin
+                )
+            );
+        }
+        else {
             $io->error(
-              sprintf(
-                $this->trans('commands.exec.messages.invalid-bin')
-              )
+                sprintf(
+                    $this->trans('commands.exec.messages.invalid-bin')
+                )
             );
             return 1;
         }
-
-        $msg = $process->getOutput();
-
-        $io->info($msg, FALSE);
-        $io->success(
-          sprintf(
-            $this->trans('commands.exec.messages.success'),
-            $bin
-          )
-        );
 
     }
 
