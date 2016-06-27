@@ -3,3 +3,4 @@ messages:
     module-invalid: 'Le module %s ne défini pas de tâche cron'
     executing-cron: 'Execution des tâches cron du module %s'
     success: 'Toutes les implantations cron demandées ont été exécutées avec succès.'
+    lock: 'Attempting to re-run cron while it is already running'
