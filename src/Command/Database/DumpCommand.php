@@ -103,7 +103,7 @@ class DumpCommand extends Command
         }
 
         $shellProcess = $this->get('shell_process');
-        if ($shellProcess->exec($command)) {
+        if ($shellProcess->exec($command, true)) {
             $io->success(
                 sprintf(
                     '%s %s',
