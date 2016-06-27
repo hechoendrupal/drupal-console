@@ -119,7 +119,6 @@ class DownloadCommand extends Command
                             $versions
                         );
                     }
-
                 } else {
                     $versions = $this->getApplication()->getDrupalApi()
                         ->getPackagistModuleReleases($module, 10, $unstable);

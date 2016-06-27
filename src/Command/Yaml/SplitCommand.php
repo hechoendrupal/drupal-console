@@ -190,14 +190,15 @@ class SplitCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function interact(InputInterface $input, OutputInterface $output) {
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
         $io = new DrupalStyle($input, $output);
 
         $validator_filename = function ($value) use ($io) {
             if (!strlen(trim($value)) || !is_file($value)) {
                 $io->error($this->trans('commands.common.errors.invalid-file-path'));
 
-                return FALSE;
+                return false;
             }
 
             return $value;
@@ -206,11 +207,11 @@ class SplitCommand extends Command
         // --yaml-left option
         $yaml_file = $input->getArgument('yaml-file');
         if (!$yaml_file) {
-            while (TRUE) {
+            while (true) {
                 $yaml_file = $io->ask(
-                  $this->trans('commands.yaml.diff.questions.yaml-left'),
-                  '',
-                  $validator_filename
+                    $this->trans('commands.yaml.diff.questions.yaml-left'),
+                    '',
+                    $validator_filename
                 );
 
                 if ($yaml_file) {

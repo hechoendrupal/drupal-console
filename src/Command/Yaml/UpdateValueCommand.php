@@ -72,7 +72,7 @@ class UpdateValueCommand extends Command
 
         $nested_array = $this->getApplication()->getNestedArrayHelper();
         $parents = explode(".", $yaml_key);
-        $nested_array::setValue($yaml_parsed, $parents, $yaml_value, TRUE);
+        $nested_array::setValue($yaml_parsed, $parents, $yaml_value, true);
 
 
         try {

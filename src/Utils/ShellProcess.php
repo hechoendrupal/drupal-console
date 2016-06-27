@@ -34,7 +34,7 @@ class ShellProcess
 
     /**
      * Process constructor.
-     * @param Site $site
+     * @param Site   $site
      * @param Config $config
      */
     public function __construct(Site $site, Config $config)
@@ -58,7 +58,7 @@ class ShellProcess
      *
      * @return Process
      */
-    public function exec($command, $show_output = FALSE)
+    public function exec($command, $show_output = false)
     {
         $rootPath = $this->site->getRoot();
 
@@ -68,11 +68,12 @@ class ShellProcess
         $this->process->setTimeout(null);
 
         if ($this->shellexec_output || $show_output) {
-            $this->process->run(function ($type, $buffer) {
-                $this->output->writeln($buffer);
-            });
-        }
-        else {
+            $this->process->run(
+                function ($type, $buffer) {
+                    $this->output->writeln($buffer);
+                }
+            );
+        } else {
             $this->progress->start();
             $this->process->start();
 
@@ -91,7 +92,8 @@ class ShellProcess
         return $this->process->isSuccessful();
     }
 
-    private function advance() {
+    private function advance()
+    {
         usleep(300000);
         $this->progress->advance();
     }

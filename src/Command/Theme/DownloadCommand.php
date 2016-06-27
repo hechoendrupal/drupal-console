@@ -50,21 +50,21 @@ class DownloadCommand extends Command
         $version = $input->getArgument('version');
         $composer = $input->getOption('composer');
 
-        if ($composer){
-          if (!is_array($theme)) $theme = [$theme];
-          $this->get('chain_queue')->addCommand(
-            'module:download',
-            [
-              'module' => $theme,
-              '--composer' => true
-            ],
-            true,
-            true
-          );
-        }
-        else{
-
-          $this->downloadProject($io, $theme, $version, 'theme');
+        if ($composer) {
+            if (!is_array($theme)) {
+                $theme = [$theme];
+            }
+            $this->get('chain_queue')->addCommand(
+                'module:download',
+                [
+                'module' => $theme,
+                '--composer' => true
+                ],
+                true,
+                true
+            );
+        } else {
+            $this->downloadProject($io, $theme, $version, 'theme');
         }
     }
 
