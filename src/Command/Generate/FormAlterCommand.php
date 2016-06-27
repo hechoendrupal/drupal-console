@@ -53,9 +53,8 @@ class FormAlterCommand extends GeneratorCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output) 
-    {  
-
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         $io = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
@@ -91,7 +90,7 @@ class FormAlterCommand extends GeneratorCommand
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
-    {   
+    {
         $io = new DrupalStyle($input, $output);
 
         $moduleHandler = $this->getModuleHandler();

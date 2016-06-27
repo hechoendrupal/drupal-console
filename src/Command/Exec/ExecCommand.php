@@ -53,15 +53,14 @@ class ExecCommand extends Command
         }
 
         $shellProcess = $this->get('shell_process');
-        if ($shellProcess->exec($bin, TRUE)) {
+        if ($shellProcess->exec($bin, true)) {
             $io->success(
                 sprintf(
                     $this->trans('commands.exec.messages.success'),
                     $bin
                 )
             );
-        }
-        else {
+        } else {
             $io->error(
                 sprintf(
                     $this->trans('commands.exec.messages.invalid-bin')
@@ -69,7 +68,5 @@ class ExecCommand extends Command
             );
             return 1;
         }
-
     }
-
 }
