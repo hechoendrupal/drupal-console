@@ -69,9 +69,7 @@ class ShellProcess
 
         if ($this->shellexec_output || $show_output) {
             $this->process->run(function ($type, $buffer) {
-                $this->output->writeln(
-                  sprintf('<info>%s</info>', $buffer)
-                );
+                $this->output->writeln($buffer);
             });
         }
         else {
