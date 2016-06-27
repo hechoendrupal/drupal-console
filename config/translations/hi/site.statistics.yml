@@ -13,3 +13,4 @@ messages:
     modules-disabled: 'मॉड्यूल अक्षम'
     themes-enabled: 'थीम्स सक्षम'
     themes-disabled: 'थीम्स अक्षम'
+    views: 'Views (Not system views)'
