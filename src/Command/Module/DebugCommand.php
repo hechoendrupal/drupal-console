@@ -55,6 +55,8 @@ class DebugCommand extends Command
 
         if ($modules) {
             $config = $this->getApplication()->getConfig();
+            $repo = $config->get('application.composer.repositories.default');
+
             foreach ($modules as $module) {
                 $url = sprintf(
                     '%s/packages/drupal/%s.json',
@@ -63,7 +65,8 @@ class DebugCommand extends Command
                 );
 
                 try {
-                    $data = $this->getApplication()->getHttpClientHelper()->getUrlAsJson($url);
+                    $data = $this->getApplication()->getHttpClientHelper()->getUrlAsJson($repo . $url);
+
                 } catch (\Exception $e) {
                     $io->error(
                         sprintf(
