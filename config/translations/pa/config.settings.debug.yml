@@ -1,5 +1,5 @@
-description: 'Displays current key:value on settings file.'
-help: 'The <info>config:settings:debug</info> command helps you displaying current key:value on settings file.'
-welcome: 'Welcome to the Drupal Config Settings Debug command'
+description: 'ਵੇਖਾਉਦਾ ਹੈ ਮੌਜੂਦਾ key:value ਫਾਇਲ ਸੈਟਿੰਗ ਵਿਚ'
+help: '<info>config:settings:debug</info> ਸੈਟਿੰਗ ਫਾਇਲ ਤੇ key:value ਤੁਹਾਨੂੰ ਮੌਜੂਦਾ ਕੁੰਜੀ ਵੇਖਾਉਣ ਮਦਦ ਕਰਦਾ ਹੈ'
+welcome: 'ਡਰੁੱਪਲ ਸੰਰਚਨਾ ਸੈਟਿੰਗ ਡੀਬੱਗ ਹੁਕਮ ਦਾ ਸੁਆਗਤ ਹੈ'
 messages:
-    current: 'Current Key:value on settings file'
+    current: 'ਮੌਜੂਦਾ Key:value ਸੈਟਿੰਗ ਵਿਚ'
