@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Event\EventDebugCommand.
+ * Contains \Drupal\Console\Command\EventDebugCommand.
  */
 
 namespace Drupal\Console\Command\Event;
@@ -18,7 +18,7 @@ use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 
 /**
  * Class EventDebugCommand
- * @package Drupal\Console\Command\Event
+ * @package Drupal\Console\Command
  */
 class EventDebugCommand extends Command
 {
