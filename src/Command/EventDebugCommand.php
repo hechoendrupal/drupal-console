@@ -5,7 +5,7 @@
  * Contains \Drupal\Console\Command\EventDebugCommand.
  */
 
-namespace Drupal\Console\Command\Event;
+namespace Drupal\Console\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
