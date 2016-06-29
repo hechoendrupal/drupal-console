@@ -185,7 +185,7 @@ class ControllerCommand extends GeneratorCommand
                     sprintf('/%s/hello/{name}', $module),
                     function ($path) use ($routes) {
                         $routeProvider = $this->getRouteProvider();
-                        if (count($routeProvider->getRoutesByPattern($path)) > 0 
+                        if (count($routeProvider->getRoutesByPattern($path)) > 0
                             || in_array($path, array_column($routes, 'path'))
                         ) {
                             throw new \InvalidArgumentException(
@@ -204,7 +204,7 @@ class ControllerCommand extends GeneratorCommand
                 $classMachineName = $this->getStringHelper()->camelCaseToMachineName($class);
                 $routeName = $module . '.' . $classMachineName . '_' . $method;
                 $routeProvider = $this->getRouteProvider();
-                if ($routeProvider->getRoutesByNames([$routeName]) 
+                if ($routeProvider->getRoutesByNames([$routeName])
                     || in_array($routeName, $routes)
                 ) {
                     $routeName .= '_' . rand(0, 100);

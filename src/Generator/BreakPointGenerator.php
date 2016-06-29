@@ -16,7 +16,7 @@ class  BreakPointGenerator extends Generator
      * @param $breakpoints
      * @param $machine_name
      */
-    public function generate($theme,$breakpoints,$machine_name)
+    public function generate($theme, $breakpoints, $machine_name)
     {
         $parameters = [
           'theme' => $theme,
@@ -27,11 +27,10 @@ class  BreakPointGenerator extends Generator
         $theme_path =  $this->getSite()->getThemePath($theme);
 
         $this->renderFile(
-                'theme/breakpoints.yml.twig',
-                $theme_path .'/'.$machine_name.'.breakpoints.yml',
-                $parameters,
-                FILE_APPEND
+            'theme/breakpoints.yml.twig',
+            $theme_path .'/'.$machine_name.'.breakpoints.yml',
+            $parameters,
+            FILE_APPEND
         );
-
     }
 }
