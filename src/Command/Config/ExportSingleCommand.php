@@ -12,11 +12,14 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 
-class ExportSingleCommand extends ContainerAwareCommand
+class ExportSingleCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+
     /**
      * @var \Drupal\Core\Entity\EntityManager
      */
@@ -64,9 +67,9 @@ class ExportSingleCommand extends ContainerAwareCommand
      */
     protected function getConfigTypes()
     {
-        $this->entityManager = $this->getService('entity_type.manager');
+        $this->entityManager = $this->getDrupalService('entity_type.manager');
 
-        foreach ($this->entityManager->getService('entity_type.manager') as $entity_type => $definition) {
+        foreach ($this->entityManager->getDefinitions() as $entity_type => $definition) {
             if ($definition->isSubclassOf('Drupal\Core\Config\Entity\ConfigEntityInterface')) {
                 $this->definitions[$entity_type] = $definition;
             }
@@ -90,7 +93,7 @@ class ExportSingleCommand extends ContainerAwareCommand
      */
     protected function getConfigNames($config_type)
     {
-        $this->configStorage = $this->getConfigStorage();
+        $this->configStorage = $this->getDrupalService('config.storage');
 
         // For a given entity type, load all entities.
         if ($config_type && $config_type !== 'system.simple') {
@@ -181,8 +184,11 @@ class ExportSingleCommand extends ContainerAwareCommand
         if ($input->getOption('include-dependencies')) {
             $configNames += $this->getConfigDependencies($configName);
         }
+
+        $configFactory = $this->getDrupalService('config.factory');
+
         foreach ($configNames as $configName) {
-            $config = $this->getConfigFactory()->getEditable($configName);
+            $config = $configFactory->getEditable($configName);
 
             $configExportFile = $directory . '/' . $configName.'.yml';
 
