@@ -5,12 +5,12 @@
   defaults:
     _form: '\Drupal\{{ module_name }}\Form\{{ class_name }}'
     _title: '{{ class_name }}'
-  {% if config_form %}
+{% if config_form %}
   requirements:
     _permission: 'access administration pages'
   options:
     _admin_route: TRUE
-  {% else %}
+{% else %}
   requirements:
     _access: 'TRUE'
   {% endif %}

@@ -132,7 +132,7 @@ class NewCommand extends Command
      * Adds line to sites.php that is needed for the new site to be recognized.
      *
      * @param DrupalStyle $output
-     * @param string $uri
+     * @param string      $uri
      */
     protected function addToSitesFile(DrupalStyle $output, $uri)
     {
@@ -143,12 +143,10 @@ class NewCommand extends Command
                 throw new \Exception($this->trans('commands.multisite.new.errors.sites-invalid'));
             }
             $sites_file_contents = file_get_contents($this->root . '/sites/sites.php');
-        }
-        elseif ($this->fs->exists($this->root . '/sites/example.sites.php')) {
+        } elseif ($this->fs->exists($this->root . '/sites/example.sites.php')) {
             $sites_file_contents = file_get_contents($this->root . '/sites/example.sites.php');
             $sites_file_contents .= "\n\$sites = [];";
-        }
-        else {
+        } else {
             throw new \Exception($this->trans('commands.multisite.new.errors.sites-missing'));
         }
 
@@ -195,8 +193,7 @@ class NewCommand extends Command
                 );
                 return;
             }
-        }
-        else {
+        } else {
             $output->warning($this->trans('commands.multisite.new.warnings.missing-files'));
         }
 
@@ -251,8 +248,7 @@ class NewCommand extends Command
                 );
                 return;
             }
-        }
-        else {
+        } else {
             $output->error(
                 sprintf(
                     $this->trans('commands.multisite.new.errors.file-missing'),
@@ -294,5 +290,4 @@ class NewCommand extends Command
             );
         }
     }
-
 }

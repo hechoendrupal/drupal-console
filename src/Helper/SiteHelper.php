@@ -254,7 +254,7 @@ class SiteHelper extends Helper
             $this->modules = $this->discoverProfiles();
         }
 
-        if (array_key_exists($moduleName,$this->modules)) {
+        if (array_key_exists($moduleName, $this->modules)) {
             $modulePath = sprintf(
                 '%s/%s',
                 $this->siteRoot,
