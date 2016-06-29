@@ -1,0 +1,5 @@
+services:
+  event_debug:
+    class: Drupal\Console\Command\Event\EventDebugCommand
+    tags:
+      - { name: console.command }
