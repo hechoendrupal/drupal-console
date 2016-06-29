@@ -58,7 +58,7 @@ class DebugCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
         //Registers namespaces for disabled modules.
-        $this->getTestDiscovery()->registerTestNamespaces();
+        $this->getDrupalService('test_discovery')->registerTestNamespaces();
 
         $testClass = $input->getOption('test-class');
         $group = $input->getArgument('group');
@@ -72,7 +72,7 @@ class DebugCommand extends Command
 
     private function testDetail(DrupalStyle $io, $test_class)
     {
-        $testingGroups = $this->getTestDiscovery()->getTestClasses(null);
+        $testingGroups = $this->getDrupalService('test_discovery')->getTestClasses(null);
 
         $testDetails = null;
         foreach ($testingGroups as $testing_group => $tests) {
@@ -93,7 +93,8 @@ class DebugCommand extends Command
             if (is_subclass_of($testDetails['name'], 'PHPUnit_Framework_TestCase')) {
                 $testDetails['type'] = 'phpunit';
             } else {
-                $testDetails = $this->getTestDiscovery()->getTestInfo($testDetails['name']);
+                $testDetails = $this->getDrupalService('test_discovery')
+                  ->getTestInfo($testDetails['name']);
                 $testDetails['type'] = 'simpletest';
             }
 
@@ -122,7 +123,8 @@ class DebugCommand extends Command
 
     protected function testList(DrupalStyle $io, $group)
     {
-        $testingGroups = $this->getTestDiscovery()->getTestClasses(null);
+        $testingGroups = $this->getDrupalService('test_discovery')
+          ->getTestClasses(null);
 
         if (empty($group)) {
             $tableHeader = [$this->trans('commands.test.debug.messages.group')];
