@@ -8,26 +8,26 @@
 namespace Drupal\Console\Generator;
 
 /**
- * Class ModuleGenerator
+ * Class ModuleFileGenerator
  * @package Drupal\Console\Generator
  */
 class ModuleFileGenerator extends Generator
 {
     /**
-     * @param $module
-     * @param $machineName
+     * @param $machine_name
+     * @param $file_path
      */
     public function generate(
         $machine_name,
-        $module_path
+        $file_path
     ) { 
-        $dir = $module_path .'/'. $machine_name. '.module';
-        print_r($module_path);
+        $dir = $file_path .'/'. $machine_name. '.module';
+      
         if (file_exists($dir)) {
             if (!is_dir($dir)) {
                 throw new \RuntimeException(
                     sprintf(
-                        'Unable to generate the .module file , it was already created at "%s"',
+                        'Unable to generate the .module file , it already exist at "%s"',
                         realpath($dir)
                     )
                 );
@@ -37,13 +37,13 @@ class ModuleFileGenerator extends Generator
 
         $parameters = array(
           'machine_name' => $machine_name,
-          'module_path' => $module_path ,
+          'file_path' => $file_path ,
         );
 
         if ($machine_name) {
             $this->renderFile(
-                'module/module.twig',
-                $module_path . '/' . $machine_name . '.module',
+                'module/module-file.twig',
+                $file_path . '/' . $machine_name . '.module',
                 $parameters
             );
         }

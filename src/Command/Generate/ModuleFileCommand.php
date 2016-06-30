@@ -29,8 +29,8 @@ class ModuleFileCommand extends GeneratorCommand
     {
         $this
             ->setName('generate:module:file')
-            ->setDescription($this->trans('commands.generate.module.description'))
-            ->setHelp($this->trans('commands.generate.module.help'))
+            ->setDescription($this->trans('commands.generate.module.file.description'))
+            ->setHelp($this->trans('commands.generate.module.file.help'))
             ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'));
     }
 
@@ -41,21 +41,18 @@ class ModuleFileCommand extends GeneratorCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $validators = $this->getValidator();
-
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io, $yes)) {
             return;
         }
         
-
         $machine_name =  $input->getOption('module');
-        $module_path =  $this->getSite()->getModulePath($module);
-
+        $file_path =  $this->getSite()->getModulePath($machine_name);
+        
         $generator = $this->getGenerator();
         $generator->generate(
             $machine_name,
-            $module_path
+            $file_path
         );
     }
 
@@ -68,27 +65,15 @@ class ModuleFileCommand extends GeneratorCommand
 
         $io = new DrupalStyle($input, $output);
 
-        $moduleHandler = $this->getModuleHandler();
-        $drupal = $this->getDrupalHelper();
-
         // --module option
         $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-        }
-       
-        $input->setOption('module', $module);
 
-         // --module option
-        $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($io);
         }
        
-        $input->setOption('module', $module);
-    
+        $input->setOption('module', $module); 
 
     }
 
