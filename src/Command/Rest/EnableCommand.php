@@ -99,7 +99,8 @@ class EnableCommand extends Command
         );
 
         // Get Authentication Provider and generate the question
-        $authenticationProviders = $this->getAuthenticationProviders();
+        $authenticationProviders = $this->getDrupalService('authentication_collector')
+          ->getSortedProviders();
 
         $authenticationProvidersSelected = $io->choice(
             $this->trans('commands.rest.enable.messages.authentication-providers'),
