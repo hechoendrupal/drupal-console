@@ -75,5 +75,12 @@ class DisableCommand extends Command
 
         $config->set('resources', $rest_settings);
         $config->save();
+
+        $io->success(
+          sprintf(
+            $this->trans('commands.rest.disable.messages.success'),
+            $resource_id
+          )
+        );
     }
 }
