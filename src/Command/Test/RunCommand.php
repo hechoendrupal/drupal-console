@@ -63,7 +63,7 @@ class RunCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         //Registers namespaces for disabled modules.
-        $this->getTestDiscovery()->registerTestNamespaces();
+        $this->getDrupalService('test_discovery')->registerTestNamespaces();
 
         $testClass = $input->getArgument('test-class');
         $testMethods = $input->getArgument('test-methods');
@@ -105,13 +105,26 @@ class RunCommand extends Command
 
             $end = Timer::stop('run-tests');
 
-            $io->simple($this->trans('commands.test.run.messages.test-duration') . ': ' .  \Drupal::service('date.formatter')->formatInterval($end['time'] / 1000));
-            $io->simple($this->trans('commands.test.run.messages.test-pass') . ': ' . $test->results['#pass']);
-            $io->commentBlock($this->trans('commands.test.run.messages.test-fail') . ': ' . $test->results['#fail']);
-            $io->commentBlock($this->trans('commands.test.run.messages.test-exception') . ': ' . $test->results['#exception']);
-            $io->simple($this->trans('commands.test.run.messages.test-debug') . ': ' . $test->results['#debug']);
+            $io->simple(
+              $this->trans('commands.test.run.messages.test-duration') . ': ' .  \Drupal::service('date.formatter')->formatInterval($end['time'] / 1000)
+            );
+            $io->simple(
+              $this->trans('commands.test.run.messages.test-pass') . ': ' . $test->results['#pass']
+            );
+            $io->commentBlock(
+              $this->trans('commands.test.run.messages.test-fail') . ': ' . $test->results['#fail']
+            );
+            $io->commentBlock(
+              $this->trans('commands.test.run.messages.test-exception') . ': ' . $test->results['#exception']
+            );
+            $io->simple(
+              $this->trans('commands.test.run.messages.test-debug') . ': ' . $test->results['#debug']
+            );
 
-            $this->getModuleHandler()->invokeAll('test_finished', array($test->results));
+            $this->getModuleHandler()->invokeAll(
+              'test_finished',
+              [$test->results]
+            );
 
             $io->newLine();
             $io->info($this->trans('commands.test.run.messages.test-summary'));
@@ -121,7 +134,7 @@ class RunCommand extends Command
             $currentGroup = null;
             $currentStatus = null;
 
-            $messages = $this->simpletestScriptLoadMessagesByTestIds(array($testId));
+            $messages = $this->simpletestScriptLoadMessagesByTestIds([$testId]);
 
             foreach ($messages as $message) {
                 if ($currentClass === null || $currentClass != $message->test_class) {
@@ -144,10 +157,18 @@ class RunCommand extends Command
                     }
                 }
 
-                $io->simple($this->trans('commands.test.run.messages.file') . ': ' . str_replace($this->getDrupalHelper()->getRoot(), '', $message->file));
-                $io->simple($this->trans('commands.test.run.messages.method') . ': ' . $message->function);
-                $io->simple($this->trans('commands.test.run.messages.line') . ': ' . $message->line);
-                $io->simple($this->trans('commands.test.run.messages.message') . ': ' . $message->message);
+                $io->simple(
+                  $this->trans('commands.test.run.messages.file') . ': ' . str_replace($this->getDrupalHelper()->getRoot(), '', $message->file)
+                );
+                $io->simple(
+                  $this->trans('commands.test.run.messages.method') . ': ' . $message->function
+                );
+                $io->simple(
+                  $this->trans('commands.test.run.messages.line') . ': ' . $message->line
+                );
+                $io->simple(
+                  $this->trans('commands.test.run.messages.message') . ': ' . $message->message
+                );
                 $io->newLine();
             }
             return;
