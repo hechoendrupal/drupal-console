@@ -14,10 +14,12 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Annotation\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\RestTrait;
 
 class DisableCommand extends Command
 {
     use ContainerAwareCommandTrait;
+    use RestTrait;
 
     /**
      * @DrupalCommand(
@@ -56,13 +58,17 @@ class DisableCommand extends Command
             );
         }
 
-        $this->validateRestResource($resource_id, $rest_resources_ids, $this->getTranslator());
+        $this->validateRestResource(
+          $resource_id,
+          $rest_resources_ids,
+          $this->getTranslator()
+        );
         $input->setArgument('resource-id', $resource_id);
         $rest_settings = $this->getRestDrupalConfig();
 
         unset($rest_settings[$resource_id]);
 
-        $config = $this->getConfigFactory()
+        $config = $this->getDrupalService('config.factory')
             ->getEditable('rest.settings');
 
         $config->set('resources', $rest_settings);

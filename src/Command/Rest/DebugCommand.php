@@ -16,10 +16,12 @@ use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Annotation\DrupalCommand;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\RestTrait;
 
 class DebugCommand extends Command
 {
     use ContainerAwareCommandTrait;
+    use RestTrait;
 
     /**
      * @DrupalCommand(
@@ -64,7 +66,7 @@ class DebugCommand extends Command
     {
         $config = $this->getRestDrupalConfig();
 
-        $resourcePluginManager = $this->getPluginManagerRest();
+        $resourcePluginManager = $this->getDrupalService('plugin.manager.rest');
         $plugin = $resourcePluginManager->getInstance(array('id' => $resource_id));
 
         if (empty($plugin)) {
