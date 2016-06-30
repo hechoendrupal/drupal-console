@@ -72,20 +72,21 @@ class RunCommand extends Command
 
         if (!$url) {
             $io->error($this->trans('commands.test.run.messages.url-required'));
-            return;
+            return NULL;
         }
 
         $this->setEnvironment($url);
 
         // Create simpletest test id
         $testId = db_insert('simpletest_test_id')
-          ->useDefaults(array('test_id'))
+          ->useDefaults(['test_id'])
           ->execute();
 
         if (is_subclass_of($testClass, 'PHPUnit_Framework_TestCase')) {
             $io->info($this->trans('commands.test.run.messages.phpunit-pending'));
-            return;
-        } else {
+            return NULL;
+        }
+        else {
             if (!class_exists($testClass)) {
                 $io->error(
                     sprintf(
@@ -130,28 +131,29 @@ class RunCommand extends Command
             $io->info($this->trans('commands.test.run.messages.test-summary'));
             $io->newLine();
 
-            $currentClass = null;
-            $currentGroup = null;
-            $currentStatus = null;
+            $currentClass = NULL;
+            $currentGroup = NULL;
+            $currentStatus = NULL;
 
             $messages = $this->simpletestScriptLoadMessagesByTestIds([$testId]);
 
             foreach ($messages as $message) {
-                if ($currentClass === null || $currentClass != $message->test_class) {
+                if ($currentClass === NULL || $currentClass != $message->test_class) {
                     $currentClass = $message->test_class;
                     $io->comment($message->test_class);
                 }
 
-                if ($currentGroup === null || $currentGroup != $message->message_group) {
+                if ($currentGroup === NULL || $currentGroup != $message->message_group) {
                     $currentGroup =  $message->message_group;
                 }
 
-                if ($currentStatus === null || $currentStatus != $message->status) {
+                if ($currentStatus === NULL || $currentStatus != $message->status) {
                     $currentStatus =  $message->status;
                     if ($message->status == 'fail') {
                         $io->error($this->trans('commands.test.run.messages.group') . ':' . $message->message_group . ' ' . $this->trans('commands.test.run.messages.status') . ':' . $message->status);
                         $io->newLine();
-                    } else {
+                    }
+                    else {
                         $io->info($this->trans('commands.test.run.messages.group') . ':' . $message->message_group . ' ' . $this->trans('commands.test.run.messages.status') . ':' . $message->status);
                         $io->newLine();
                     }
@@ -171,7 +173,7 @@ class RunCommand extends Command
                 );
                 $io->newLine();
             }
-            return;
+            return NULL;
         }
     }
 
@@ -221,7 +223,7 @@ class RunCommand extends Command
 
     protected function simpletestScriptLoadMessagesByTestIds($test_ids)
     {
-        $results = array();
+        $results = [];
 
         foreach ($test_ids as $test_id) {
             $result = \Drupal::database()->query(
