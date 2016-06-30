@@ -15,11 +15,13 @@ use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Annotation\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\RestTrait;
+use \Drupal\Console\Helper\HelperTrait;
 
 class EnableCommand extends Command
 {
     use ContainerAwareCommandTrait;
     use RestTrait;
+    use HelperTrait;
 
     /**
      * @DrupalCommand(

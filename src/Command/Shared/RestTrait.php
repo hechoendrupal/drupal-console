@@ -80,4 +80,13 @@ trait RestTrait {
     }
   }
 
+  public function getSerializerFormats()
+  {
+    $container = $this->getApplication()->getContainer();
+    if (!$container) {
+      return null;
+    }
+    return $container->getParameter('serializer.formats');
+  }
+
 }
