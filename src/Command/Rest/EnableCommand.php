@@ -82,22 +82,6 @@ class EnableCommand extends Command
           $this->trans('commands.rest.enable.messages.selected-state').' '.$state
         );
 
-        // Get serializer formats available and generate the question.
-        $serializedFormats = $this->getSerializerFormats();
-        $formats = $io->choice(
-          $this->trans('commands.rest.enable.messages.formats'),
-          $serializedFormats,
-          0,
-          TRUE
-        );
-
-        $io->writeln(
-          $this->trans('commands.rest.enable.messages.selected-formats').' '.implode(
-            ', ',
-            $formats
-          )
-        );
-
         // Get Authentication Provider and generate the question
         $authenticationProviders = $this->getDrupalService('authentication_collector')
           ->getSortedProviders();

@@ -82,14 +82,4 @@ trait RestTrait {
     }
   }
 
-  public function getSerializerFormats()
-  {
-    /* @var \Symfony\Component\DependencyInjection\ContainerInterface $container */
-    $container = $this->getApplication()->getContainer();
-    if ($container) {
-      return $container->getParameter('serializer.formats');
-    }
-    return NULL;
-  }
-
 }
