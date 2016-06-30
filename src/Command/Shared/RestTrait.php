@@ -8,16 +8,6 @@ namespace Drupal\Console\Command\Shared;
 
 trait RestTrait {
 
-  public function getRestDrupalConfig()
-  {
-    $configFactory = $this->getDrupalService('config.factory');
-    if (!$configFactory) {
-      return null;
-    }
-
-    return $configFactory->get('rest.settings')->get('resources') ?: [];
-  }
-
   /**
    * [geRest get a list of Rest Resouces].
    *
@@ -25,7 +15,7 @@ trait RestTrait {
    *
    * @return array list of rest resources
    */
-  public function getRestResources($rest_status = false)
+  public function getRestResources($rest_status = FALSE)
   {
     $config = $this->getRestDrupalConfig();
 
@@ -34,7 +24,7 @@ trait RestTrait {
     $resources = $resourcePluginManager->getDefinitions();
 
     $enabled_resources = array_combine(array_keys($config), array_keys($config));
-    $available_resources = array('enabled' => array(), 'disabled' => array());
+    $available_resources = ['enabled' => [], 'disabled' => []];
 
     foreach ($resources as $id => $resource) {
       $status = in_array($id, $enabled_resources) ? 'enabled' : 'disabled';
@@ -59,6 +49,17 @@ trait RestTrait {
     return $available_resources;
   }
 
+  public function getRestDrupalConfig()
+  {
+    $configFactory = $this->getDrupalService('config.factory');
+    if ($configFactory) {
+      return $configFactory->get('rest.settings')->get('resources') ?: [];
+    }
+
+    return NULL;
+
+  }
+
   /**
    * @param $rest
    * @param $rest_resources_ids
@@ -70,7 +71,8 @@ trait RestTrait {
   {
     if (in_array($rest, $rest_resources_ids)) {
       return $rest;
-    } else {
+    }
+    else {
       throw new \InvalidArgumentException(
         sprintf(
           $translator->trans('commands.rest.disable.messages.invalid-rest-id'),
@@ -82,11 +84,12 @@ trait RestTrait {
 
   public function getSerializerFormats()
   {
+    /* @var \Symfony\Component\DependencyInjection\ContainerInterface $container */
     $container = $this->getApplication()->getContainer();
-    if (!$container) {
-      return null;
+    if ($container) {
+      return $container->getParameter('serializer.formats');
     }
-    return $container->getParameter('serializer.formats');
+    return NULL;
   }
 
 }
