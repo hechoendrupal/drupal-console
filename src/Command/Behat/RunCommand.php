@@ -2,12 +2,13 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Behat\InitCommand.
+ * Contains \Drupal\Console\Command\Behat\RunCommand.
  */
 
 namespace Drupal\Console\Command\Behat;
 
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
@@ -24,7 +25,12 @@ class RunCommand extends Command
     {
         $this
           ->setName('behat:run')
-          ->setDescription($this->trans('commands.behat.run.description'));
+          ->setDescription($this->trans('commands.behat.run.description'))
+          ->addArgument(
+            'filter',
+            InputArgument::OPTIONAL,
+            $this->trans('commands.behat.run.arguments.filter')
+          );
     }
 
     /**
@@ -41,12 +47,12 @@ class RunCommand extends Command
             return NULL;
         }
         $dir = $this->get('site')->getRoot() . '/' . $behatdir;
-        // @TODO: Add arguments
+
+        $filter = $input->getArgument('filter');
         $this->get('chain_queue')->addCommand(
           'exec',
-          ['bin' => "cd $dir && vendor/bin/behat"]
+          ['bin' => "cd $dir && vendor/bin/behat $filter --colors"]
         );
-
     }
 
 }
