@@ -12,6 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
 
 class RunCommand extends Command
 {
@@ -33,8 +34,12 @@ class RunCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        // @TODO: Add exception
-        $behatdir = $this->getDrupalContainer()->getParameter('behat.dir');
+        try {
+            $behatdir = $this->getDrupalContainer()->getParameter('behat.dir');
+        } catch (ParameterNotFoundException $pe) {
+            $io->error($this->trans('commands.behat.run.error'));
+            return NULL;
+        }
         $dir = $this->get('site')->getRoot() . '/' . $behatdir;
         // @TODO: Add arguments
         $this->get('chain_queue')->addCommand(
