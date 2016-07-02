@@ -1,6 +1,6 @@
-description: 'Returns the relative path to the module (or absolute path)'
+description: モジュールの相対パスまたは絶対パスを返す
 arguments:
-    module: 'The Module name (machine name)'
+    module: 'モジュール名 (システム内部名称)'
 options:
-    absolute: 'Return module absolute path'
+    absolute: 絶対パスを返す
 messages: null
