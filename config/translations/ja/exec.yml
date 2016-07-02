@@ -1,8 +1,7 @@
-description: 'Execute an external command.'
+description: 外部コマンドを実行する
 arguments:
-  bin: 'Executable name.'
+    bin: 実行するコマンド名
 messages:
-  success: 'Executed the command.'
-  invalid-bin: 'Error executing the command.'
-  missing-bin: 'Provide a executable.'
-
+    success: コマンドが実行されました
+    invalid-bin: コマンドの実行中にエラーが発生しました。
+    missing-bin: binオプションを指定してください。
