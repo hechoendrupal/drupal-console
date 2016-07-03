@@ -10,13 +10,13 @@ options:
 questions:
     module: common.questions.module
     class: 'Meg kell adni a kontroller osztálynevét'
-    title: 'Meg kell adni a kontroller metódus címét (to stop adding more methods, leave this empty)'
+    title: 'Enter the Controller method title (to stop adding more methods, leave this empty)'
     method: 'Meg kell adni a művelet metódusnevét'
     path: 'Meg kell adni az útvonalat'
     services: common.questions.services
     test: 'Létrejöjjön egységteszt osztály?'
 messages:
-    title-empty: 'A címnek értéket kell tartalmaznia (you must enter at least one method)'
+    title-empty: 'Title must contain a value (you must enter at least one method)'
     title-already-added: 'A cím hozzáadása már megtörtént'
     method-name-already-added: 'A metódusnév hozzáadása már megtörtént'
     path-already-added: 'Az útvonal hozzáadása már megtörtént'
