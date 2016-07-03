@@ -10,13 +10,13 @@ options:
 questions:
     module: common.questions.module
     class: 'Masukkan nama kelas Controller'
-    title: 'Masukkan judul metode Controller (jika selesai, biarkan kosong dan tekan enter)'
+    title: 'Enter the Controller method title (to stop adding more methods, leave this empty)'
     method: 'Masukkan nama metode'
     path: 'Masukkan path untuk route'
     services: common.questions.services
     test: 'Apakah kamu mau membuat kelas untuk unit test?'
 messages:
-    title-empty: 'Judul tidak boleh dibiarkan kosong'
+    title-empty: 'Title must contain a value (you must enter at least one method)'
     title-already-added: 'Judul sudah ditambahkan sebelumnya'
     method-name-already-added: 'Name metode sudah ditambahkan sebelumnya'
     path-already-added: 'Path sudah ditambahkan sebelumnya'
