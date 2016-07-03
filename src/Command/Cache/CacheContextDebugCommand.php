@@ -9,11 +9,11 @@ use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
- * Class CacheContextListCommand.
+ * Class CacheContextDebugCommand.
  *
  * @package Drupal\Console\Command\Cache
  */
-class CacheContextListCommand extends BaseCommand
+class CacheContextDebugCommand extends BaseCommand
 {
     use ContainerAwareCommandTrait;
 
@@ -23,8 +23,8 @@ class CacheContextListCommand extends BaseCommand
     protected function configure()
     {
         $this
-          ->setName('cache:context:list')
-          ->setDescription($this->trans('commands.cache.context.list.description'));
+          ->setName('cache:context:debug')
+          ->setDescription($this->trans('commands.cache.context.debug.description'));
     }
 
     /**
@@ -36,9 +36,9 @@ class CacheContextListCommand extends BaseCommand
         $contextManager = \Drupal::service('cache_contexts_manager');
 
         $tableHeader = [
-          $this->trans('commands.cache.context.list.messages.code'),
-          $this->trans('commands.cache.context.list.messages.label'),
-          $this->trans('commands.cache.context.list.messages.class'),
+          $this->trans('commands.cache.context.debug.messages.code'),
+          $this->trans('commands.cache.context.debug.messages.label'),
+          $this->trans('commands.cache.context.debug.messages.class'),
         ];
 
         $tableRows = [];

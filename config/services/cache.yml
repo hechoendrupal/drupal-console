@@ -1,6 +1,6 @@
 services:
-  cache_context_list:
-    class: Drupal\Console\Command\Cache\CacheContextListCommand
+  cache_context_debug:
+    class: Drupal\Console\Command\Cache\CacheContextDebugCommand
     tags:
       - { name: console.command }
   cache_rebuild:
