@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\ContextDebugCommand.
+ * Contains \Drupal\Console\Command\Cache\ContextDebugCommand.
  */
 
 namespace Drupal\Console\Command\Cache;

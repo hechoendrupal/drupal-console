@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\RebuildCommand.
+ * Contains \Drupal\Console\Command\Cache\RebuildCommand.
  */
 
 namespace Drupal\Console\Command\Cache;
