@@ -55,7 +55,12 @@ abstract class FormCommand extends GeneratorCommand
                     $this->formType
                 )
             )
-            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+              'module',
+              '',
+              InputOption::VALUE_REQUIRED,
+              $this->trans('commands.common.options.module')
+            )
             ->addOption(
                 'class',
                 '',

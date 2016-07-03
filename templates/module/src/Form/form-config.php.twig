@@ -73,7 +73,7 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
     $config = $this->config('{{module_name}}.{{class_name_short}}');
 {% for input in inputs %}
 {% if input.fieldset is defined and input.fieldset is not empty %}
-    $form['{{ input.fieldset }}']['{{ input.name }}'] = array(
+    $form['{{ input.fieldset }}']['{{ input.name }}'] = [
 {% else %}
     $form['{{ input.name }}'] = [
 {% endif %}
