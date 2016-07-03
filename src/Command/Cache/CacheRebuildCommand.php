@@ -5,7 +5,7 @@
  * Contains \Drupal\Console\Command\CacheRebuildCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Cache;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,7 +16,7 @@ use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class CacheRebuildCommand
- * @package Drupal\Console\Command
+ * @package Drupal\Console\Command\Cache
  */
 class CacheRebuildCommand extends BaseCommand
 {

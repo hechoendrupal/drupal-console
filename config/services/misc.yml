@@ -3,10 +3,6 @@ services:
     class: Drupal\Console\Command\AboutCommand
     tags:
       - { name: console.command }
-  cache_rebuild:
-    class: Drupal\Console\Command\CacheRebuildCommand
-    tags:
-      - { name: console.command }
   container_debug:
     class: Drupal\Console\Command\ContainerDebugCommand
     tags:
