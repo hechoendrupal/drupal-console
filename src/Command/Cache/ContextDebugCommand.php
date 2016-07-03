@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Console\Command\ContextDebugCommand.
+ */
+
 namespace Drupal\Console\Command\Cache;
 
 use Symfony\Component\Console\Input\InputInterface;
