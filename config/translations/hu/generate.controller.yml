@@ -16,7 +16,7 @@ questions:
     services: common.questions.services
     test: 'Létrejöjjön egységteszt osztály?'
 messages:
-    title-empty: 'Masukkan nama kelas Controller (you must enter at least one method)'
+    title-empty: 'A címnek értéket kell tartalmaznia (you must enter at least one method)'
     title-already-added: 'A cím hozzáadása már megtörtént'
     method-name-already-added: 'A metódusnév hozzáadása már megtörtént'
     path-already-added: 'Az útvonal hozzáadása már megtörtént'
