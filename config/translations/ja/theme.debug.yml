@@ -6,8 +6,8 @@ messages:
     theme-name: テーマ名
     status: ステータス
     version: バージョン
-    installed: Installed
-    uninstalled: Uninstalled
+    installed: インストール済み
+    uninstalled: アンインストール済み
     default-theme: デフォルトのテーマ
     properties: プロパティ
     regions: リージョン
