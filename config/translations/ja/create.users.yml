@@ -13,12 +13,12 @@ questions:
     password: ユーザーに設定するパスワードを入力してください
     time-range: ユーザーの作成時刻を選択してください
     time-ranges:
-        - Now
-        - '1 hour ago'
-        - '1 day ago'
-        - '1 week ago'
-        - '1 month ago'
-        - '1 year ago'
+        - 現在時刻
+        - 1時間前
+        - 1日前
+        - 1週間前
+        - 1ヶ月前
+        - 1年前
 messages:
     user-id: ユーザーID
     roles: ロール
