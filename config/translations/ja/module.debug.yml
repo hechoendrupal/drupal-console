@@ -16,5 +16,3 @@ messages:
     total-monthly: 'Monthly installs'
     total-daily: 'Daily installs'
     no-results: 'モジュール %s がレポジトリ内で見つかりませんでした。'
-    enabled: Enabled
-    disabled: Disabled
