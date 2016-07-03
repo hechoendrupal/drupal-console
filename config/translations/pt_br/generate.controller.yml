@@ -15,7 +15,7 @@ options:
 questions:
     module: common.questions.module
     class: 'Digite o nome da classe do Controller'
-    title: 'Enter the Controller method title'
+    title: 'Digite o título do método do Controller (para parar de adicionar métodos, deixe vazio)'
     method: 'Enter the action method name'
     path: 'Enter the route path'
     services: common.questions.services
@@ -27,7 +27,7 @@ questions:
     other-controller-title: 'Título do controller (deixe vazio para começar com a geração de código)'
     controller-title: 'Título do controller'
 messages:
-    title-empty: 'Title must contain a value'
+    title-empty: 'O título não pode ser vazio (adicione pelo menos um método)'
     title-already-added: 'Título já foi adicionado'
     method-name-already-added: 'Method name was already added'
     path-already-added: 'Path was already added'

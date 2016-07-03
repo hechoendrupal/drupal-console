@@ -15,7 +15,7 @@ options:
 questions:
     module: common.questions.module
     class: 'कंट्रोलर क्लास का नाम दर्ज करें'
-    title: 'नियंत्रक विधि के शीर्षक दर्ज करे'
+    title: 'नियंत्रक विधि के शीर्षक दर्ज करे (to stop adding more methods, leave this empty)'
     method: 'कार्रवाई विधि नाम दर्ज करे'
     path: 'मार्ग पथ दर्ज करें'
     services: common.questions.services
@@ -27,7 +27,7 @@ questions:
     other-controller-title: 'कंट्रोलर शीर्षक (कोड उत्पन्न करने के लिए खाली)'
     controller-title: 'कंट्रोलर शीर्षक'
 messages:
-    title-empty: 'शीर्षक एक मूल्य शामिल होना चाहिए'
+    title-empty: 'शीर्षक एक मूल्य शामिल होना चाहिए (you must enter at least one method)'
     title-already-added: 'शीर्षक पहले ही जोड़ दिया गया है'
     method-name-already-added: 'मेथड का नाम पहले ही जोड़ दिया गया है'
     path-already-added: 'पथ पहले से ही जोड़ा गया है'
