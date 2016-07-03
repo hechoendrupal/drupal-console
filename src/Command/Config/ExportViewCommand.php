@@ -140,6 +140,6 @@ class ExportViewCommand extends Command
             }
         }
 
-        $this->exportConfig($module, $io, $this->trans('commands.views.export.messages.view_exported'));
+        $this->exportConfigToModule($module, $io, $this->trans('commands.views.export.messages.view_exported'));
     }
 }
