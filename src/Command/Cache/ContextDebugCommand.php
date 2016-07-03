@@ -9,11 +9,11 @@ use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
- * Class CacheContextDebugCommand.
+ * Class ContextDebugCommand.
  *
  * @package Drupal\Console\Command\Cache
  */
-class CacheContextDebugCommand extends BaseCommand
+class ContextDebugCommand extends BaseCommand
 {
     use ContainerAwareCommandTrait;
 

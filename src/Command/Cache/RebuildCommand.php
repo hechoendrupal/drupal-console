@@ -15,10 +15,10 @@ use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
- * Class CacheRebuildCommand
+ * Class RebuildCommand
  * @package Drupal\Console\Command\Cache
  */
-class CacheRebuildCommand extends BaseCommand
+class RebuildCommand extends BaseCommand
 {
     use ContainerAwareCommandTrait;
 
