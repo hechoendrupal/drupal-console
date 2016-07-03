@@ -130,9 +130,16 @@ class NodesCommand extends Command
         $limit = $input->getOption('limit')?:25;
         $titleWords = $input->getOption('title-words')?:5;
         $timeRange = $input->getOption('time-range')?:31536000;
+        $available_types = array_keys($this->getDrupalApi()->getBundles());
+
+        foreach ($contentTypes as $type) {
+          if (!in_array($type, $available_types)) {
+            throw new \Exception('Invalid content type name given.');
+          }
+        }
 
         if (!$contentTypes) {
-            $contentTypes = array_keys($this->getApplication()->getDrupalApi()->getBundles());
+            $contentTypes = $available_types;
         }
 
         $nodes = $createNodes->createNode(

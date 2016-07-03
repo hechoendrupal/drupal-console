@@ -120,7 +120,7 @@ class ExportContentTypeCommand extends Command
 
         $this->getViewDisplays($contentType, $optionalConfig);
 
-        $this->exportConfig($module, $io, $this->trans('commands.config.export.content.type.messages.content_type_exported'));
+        $this->exportConfigToModule($module, $io, $this->trans('commands.config.export.content.type.messages.content_type_exported'));
     }
 
     protected function getFields($contentType, $optional = false)

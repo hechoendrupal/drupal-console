@@ -38,7 +38,40 @@ trait ExportTrait
      * @param string      $module
      * @param DrupalStyle $io
      */
-    protected function exportConfig($module, DrupalStyle $io, $message)
+    protected function exportConfig($directory, DrupalStyle $io, $message)
+    {
+        $dumper = new Dumper();
+
+        $io->info($message);
+
+        foreach ($this->configExport as $fileName => $config) {
+            $yamlConfig = $dumper->dump($config['data'], 10);
+
+            $configFile = sprintf(
+                '%s/%s.yml',
+                $directory,
+                $fileName
+            );
+
+            $io->info('- ' . $configFile);
+
+            // Create directory if doesn't exist
+            if (!file_exists($directory)) {
+                mkdir($directory, 0755, true);
+            }
+
+            file_put_contents(
+                $configFile,
+                $yamlConfig
+            );
+        }
+    }
+
+    /**
+     * @param string      $module
+     * @param DrupalStyle $io
+     */
+    protected function exportConfigToModule($module, DrupalStyle $io, $message)
     {
         $dumper = new Dumper();
 

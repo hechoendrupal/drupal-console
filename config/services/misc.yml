@@ -39,3 +39,7 @@ services:
     class: Drupal\Console\Command\ServerCommand
     tags:
       - { name: console.command }
+  event_debug:
+    class: Drupal\Console\Command\EventDebugCommand
+    tags:
+      - { name: console.command }
