@@ -17,8 +17,11 @@ use Drupal\Console\Style\DrupalStyle;
  * @package Drupal\Console\Command\Database
  */
 trait DatabaseTrait
-{
+{   
+    //use MigrationTrait;
+
     protected $database;
+    
 
     /**
      * @param DrupalStyle $io
@@ -40,6 +43,23 @@ trait DatabaseTrait
                 $dbType = $dbIndex;
             }
         }
+
+        return $dbType;
+    }
+
+    /**
+     * @param DrupalStyle $io
+     *
+     * @return mixed
+     */
+    public function dbDriverTypeQuestion(DrupalStyle $io)
+    {
+        $databases = $this->getDatabaseDrivers();
+        
+        $dbType = $io->choice(
+            $this->trans('commands.migrate.setup.questions.db-type'),
+            array_keys($databases)
+        );
 
         return $dbType;
     }
@@ -135,11 +155,11 @@ trait DatabaseTrait
      * @return mixed
      */
     protected function getDatabaseTypes()
-    {
+    {    
         $drupal = $this->get('site');
-
         return $drupal->getDatabaseTypes();
     }
+
 
     /**
      * Determine what version of Drupal the source database contains, copied from \Drupal\migrate_upgrade\MigrationCreationTrait
@@ -156,6 +176,7 @@ trait DatabaseTrait
 
         // Druppal 5/6/7 can be detected by the schema_version in the system table.
         if ($connection->schema()->tableExists('system')) {
+
             try {
                 $version_string = $connection->query('SELECT schema_version FROM {system} WHERE name = :module', [':module' => 'system'])
                     ->fetchField();
@@ -173,10 +194,13 @@ trait DatabaseTrait
         // For Drupal 8 (and we're predicting beyond) the schema version is in the
         // key_value store.
         elseif ($connection->schema()->tableExists('key_value')) {
+           
             $result = $connection->query("SELECT value FROM {key_value} WHERE collection = :system_schema  and name = :module", [':system_schema' => 'system.schema', ':module' => 'system'])->fetchField();
             $version_string = unserialize($result);
         } else {
+           
             $version_string = false;
+           
         }
 
         return $version_string ? substr($version_string, 0, 1) : false;
@@ -198,7 +222,7 @@ trait DatabaseTrait
     protected function getDBConnection(DrupalStyle $io, $target, $key)
     {
         try {
-            return Database::getConnection($target, $key);
+          return Database::getConnection($target, $key);
         } catch (\Exception $e) {
             $io->error(
                 sprintf(
@@ -225,12 +249,9 @@ trait DatabaseTrait
         $dbPass = $input->getOption('db-pass');
         $dbPrefix = $input->getOption('db-prefix');
         $dbPort = $input->getOption('db-port');
+        
+        $this->addDBConnection($io, 'upgrade', 'default', $dbType, $dbName, $dbUser, $dbPass, $dbPrefix, $dbPort, $dbHost);
 
-        $this->addDBConnection($io, 'migrate', 'default', $dbType, $dbName, $dbUser, $dbPass, $dbPrefix, $dbPort, $dbHost);
-
-        // Set container to static Drupal method to get services available
-        // Issue: https://github.com/hechoendrupal/DrupalConsole/issues/1129
-        \Drupal::setContainer($this->getApplication()->getContainer());
     }
 
 
@@ -247,9 +268,13 @@ trait DatabaseTrait
      * @param $dbHost
      */
     protected function addDBConnection(DrupalStyle $io, $key, $target, $dbType, $dbName, $dbUser, $dbPass, $dbPrefix, $dbPort, $dbHost)
-    {
-        $databases = $this->getDatabaseTypes();
+    {    
 
+        $database_type = $this->getDatabaseDrivers();
+        $reflection = new \ReflectionClass($database_type[$dbType]);
+        $install_namespace = $reflection->getNamespaceName();
+        // Cut the trailing \Install from namespace.
+        $namespace = substr($install_namespace, 0, strrpos($install_namespace, '\\'));
         $this->database = [
             'database' => $dbName,
             'username' => $dbUser,
@@ -257,13 +282,16 @@ trait DatabaseTrait
             'prefix' => $dbPrefix,
             'port' => $dbPort,
             'host' => $dbHost,
-            'namespace' => $databases[$dbType]['namespace'],
+            'namespace' => $namespace, 
             'driver' => $dbType,
         ];
+        
 
         try {
-            return Database::addConnectionInfo($key, $target, $this->database);
+           return Database::addConnectionInfo($key, $target, $this->database);
         } catch (\Exception $e) {
+          print 'entra cacth';
+          exit();
             $io->error(
                 sprintf(
                     '%s: %s',

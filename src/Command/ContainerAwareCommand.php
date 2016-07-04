@@ -36,41 +36,6 @@ abstract class ContainerAwareCommand extends Command
         return $this->getKernelHelper()->getKernel()->getContainer();
     }
 
-    /**
-     * @param bool $tag
-     * @param bool $flatList
-     *
-     * @return array list of modules
-     */
-    public function getMigrations($tag = false, $flatList = false)
-    {
-        $entityType_manager = $this->getService('entity_type.manager');
-        $migration_storage = $entityType_manager->getStorage('migration');
-
-        $entity_query_service = $this->getEntityQuery();
-        $query = $entity_query_service->get('migration');
-
-        if ($tag) {
-            $query->condition('migration_tags.*', $tag);
-        }
-
-        $results = $query->execute();
-
-        $migration_entities = $migration_storage->loadMultiple($results);
-
-        $migrations = array();
-        foreach ($migration_entities as $migration) {
-            if ($flatList) {
-                $migrations[$migration->id()] = ucwords($migration->label());
-            } else {
-                $migrations[$migration->id()]['tags'] = implode(', ', $migration->migration_tags);
-                $migrations[$migration->id()]['description'] = ucwords($migration->label());
-            }
-        }
-
-        return $migrations;
-    }
-
     public function getRestDrupalConfig()
     {
         $configFactory = $this->getConfigFactory();
