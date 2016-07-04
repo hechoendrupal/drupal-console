@@ -66,18 +66,18 @@ public static function create(ContainerInterface $container, array $configuratio
      $modules = system_rebuild_module_data();
      uasort($modules, 'system_sort_modules_by_info_name');
 
-     $options = array(NULL => t('Select a module'));
+     $options = [NULL => t('Select a module')];
      foreach($modules as $module_id => $module) {
          $options[$module_id] = $module->info['name'];
      }
 
-     $form['module'] = array(
+     $form['module'] = [
          '#type' => 'select',
          '#title' => $this->t('Select a module to validate'),
          '#default_value' => $this->configuration['module'],
          '#options' => $options,
          '#description' => $this->t('Module selected status will be use to evaluate condition.'),
-     );
+     ];
 
      return parent::buildConfigurationForm($form, $form_state);
  }
@@ -94,7 +94,7 @@ public static function create(ContainerInterface $container, array $configuratio
  * {@inheritdoc}
  */
  public function defaultConfiguration() {
-    return array('module' => '') + parent::defaultConfiguration();
+    return ['module' => ''] + parent::defaultConfiguration();
  }
 
 /**
@@ -124,6 +124,6 @@ public static function create(ContainerInterface $container, array $configuratio
 
      $status = ($modules[$module]->status)?t('enabled'):t('disabled');
 
-     return t('The module @module is @status.', array('@module' => $module, '@status' => $status));
+     return t('The module @module is @status.', ['@module' => $module, '@status' => $status]);
  }
 {% endblock %}
