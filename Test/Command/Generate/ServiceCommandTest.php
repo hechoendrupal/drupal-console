@@ -41,6 +41,10 @@ class ServiceCommandTest extends GenerateCommandTest
 
         $commandTester = new CommandTester($command);
 
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
+
         $code = $commandTester->execute(
             [
               '--module'         => $module,
