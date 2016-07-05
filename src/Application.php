@@ -30,7 +30,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '1.0.0-beta2';
+    const VERSION = '1.0.0-beta3';
 
     /**
      * @var string
@@ -364,17 +364,34 @@ class Application extends BaseApplication
             $this->add($command);
         }
 
-        $tags = $this->container->findTaggedServiceIds('console.command');
-        foreach ($tags as $name => $tags) {
-            /* Add interface(s) for commands:
-             * DrupalConsoleCommandInterface &
-             * DrupalConsoleContainerAwareCommandInterface
-             * and use implements for validation
-             */
+        $consoleCoreCommands = array_keys(
+            $this->container->findTaggedServiceIds('console.command')
+        );
+
+        $consoleContributedCommands = \Drupal::getContainer()->getParameter('console.commands');
+
+        $consoleCommands = array_merge(
+            $consoleCoreCommands,
+            $consoleContributedCommands
+        );
+
+        foreach ($consoleCommands as $name) {
             $command = $this->getContainerHelper()->get($name);
+
+            if (!$command && \Drupal::getContainer()->has($name)) {
+                $command = \Drupal::getContainer()->get($name);
+            }
+
+            if (!$command) {
+                continue;
+            }
+
             if (!$this->getDrupalHelper()->isInstalled()) {
                 $traits = class_uses($command);
-                if (in_array('Drupal\\Console\\Command\\Shared\\ContainerAwareCommandTrait', $traits)) {
+                if (in_array(
+                    'Drupal\\Console\\Command\\Shared\\ContainerAwareCommandTrait',
+                    $traits
+                )) {
                     continue;
                 }
             }
