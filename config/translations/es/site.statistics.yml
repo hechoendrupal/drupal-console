@@ -13,4 +13,4 @@ messages:
     modules-disabled: 'Modules deshabilitados'
     themes-enabled: 'Themes habilitados'
     themes-disabled: 'Themes deshabilitados'
-    views: 'Views (Not system views)'
+    views: 'Vistas (No vistas de sistema)'
