@@ -31,20 +31,48 @@ use Drupal\Console\Helper\RemoteHelper;
 use Drupal\Console\Helper\HttpClientHelper;
 use Drupal\Console\Helper\DrupalApiHelper;
 use Drupal\Console\Helper\ContainerHelper;
+use Symfony\Component\HttpFoundation\Request;
+use Drupal\Console\Utils\DrupalKernel;
+use Drupal\Console\Utils\DrupalServiceModifier;
+
+use Symfony\Component\Console\Input\ArgvInput;
 
 set_time_limit(0);
-
 $consoleRoot = __DIR__.'/../';
+$root = getcwd();
 
-if (file_exists($consoleRoot.'vendor/autoload.php')) {
-    $autoload = include_once $consoleRoot.'vendor/autoload.php';
-} elseif (file_exists($consoleRoot.'../../autoload.php')) {
-    $autoload = include_once $consoleRoot.'../../autoload.php';
-} else {
-    echo 'Something goes wrong with your archive'.PHP_EOL.
-        'Try downloading again'.PHP_EOL;
-    exit(1);
-}
+echo 'dir: ' .  __DIR__ . PHP_EOL;
+echo 'root: ' .  $root . PHP_EOL;
+
+//$input = new ArgvInput();
+//if ($input->getParameterOption(['--pre-launch'], null)) {
+//    $root = getcwd();
+//}
+
+$autoload = include_once $root.'/autoload.php';
+
+//if (file_exists($consoleRoot.'vendor/autoload.php')) {
+//    $autoload = include_once $consoleRoot.'vendor/autoload.php';
+//} elseif (file_exists($consoleRoot.'../../autoload.php')) {
+//    $autoload = include_once $consoleRoot.'../../autoload.php';
+//} else {
+//    echo 'Something goes wrong with your archive'.PHP_EOL.
+//        'Try downloading again'.PHP_EOL;
+//    exit(1);
+//}
+
+/* DrupalKernel */
+$request = Request::createFromGlobals();
+$drupalKernel = DrupalKernel::createFromRequest(
+    $request,
+    $autoload,
+    'prod',
+    true
+);
+$drupalKernel->addServiceModifier(new DrupalServiceModifier());
+$drupalKernel->invalidateContainer();
+$drupalKernel->boot();
+/* DrupalKernel */
 
 $container = new ContainerBuilder();
 $loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
