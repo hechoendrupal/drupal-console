@@ -1,9 +1,9 @@
-description: '顯示目前網站應用中建立的途徑'
+description: 顯示目前網站應用中建立的途徑
 arguments:
-    route-name: '途徑名稱'
+    route-name: 途徑名稱
 messages:
-    name: '途徑名稱'
-    class: '類別路徑'
+    name: 途徑名稱
+    class: 類別路徑
     route: 途徑
     path: 路徑
     defaults: 預設值

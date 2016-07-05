@@ -1,14 +1,14 @@
-description: '顯示全部外掛模組資訊，包含外掛類型、指定類別的外掛實體，或是指定外掛的定義說明'
+description: 顯示全部外掛模組資訊，包含外掛類型、指定類別的外掛實體，或是指定外掛的定義說明
 help: "List all plugin types:\n<info>drupal plugin:debug</info>\n\nList all instances of the image effect plugin type:\n<info>drupal plugin:debug image.effect</info>\n\nShow the definition for the image convert plugin:\n<info>drupal plugin:debug image.effect image_convert</info>\n\n<comment>NOTE: Only plugin types exposed through services are supported.</comment> When developing a custom plugin type, expose it as a service by adding it to modulename.services.yml with the name \"plugin.manager.PLUGIN_TYPE\".\n"
 arguments:
-    type: '外掛類型'
+    type: 外掛類型
     id: '外掛 ID'
 errors:
     plugin-type-not-found: '找不到 "%s" 此外掛類型。沒有此外掛類型可用的服務（Service）。'
 table-headers:
-    plugin-type-name: '外掛類型'
-    plugin-type-class: '外掛管理器類別'
+    plugin-type-name: 外掛類型
+    plugin-type-class: 外掛管理器類別
     plugin-id: '外掛 ID'
-    plugin-class: '外掛類別'
+    plugin-class: 外掛類別
     definition-key: 鍵名
     definition-value: 鍵值

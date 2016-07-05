@@ -1,7 +1,7 @@
-description: '列出系統中可用的多站設置'
+description: 列出系統中可用的多站設置
 help: '<info>multisite:debug</info> 指令可列出所有已知的多站設置'
 messages:
-    no-multisites: '找不到可用的多站設置'
+    no-multisites: 找不到可用的多站設置
     site: 網站
     directory: 目錄
-    site-format: '網站名稱格式為：<連接埠>.<網域>.<路徑>'
+    site-format: 網站名稱格式為：<連接埠>.<網域>.<路徑>
