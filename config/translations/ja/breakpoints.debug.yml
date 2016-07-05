@@ -1,4 +1,4 @@
-description: '利用可能なブレークポイントの一覧を表示'
+description: 利用可能なブレークポイントの一覧を表示
 options:
     group-name: 'Enter Breakpoint Group Name'
 messages:

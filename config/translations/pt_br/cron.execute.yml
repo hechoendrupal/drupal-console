@@ -3,3 +3,4 @@ messages:
     module-invalid: 'Módulo %s não tem uma implementação de cron'
     executing-cron: 'Executando função de cron do módulo %s'
     success: 'All cron implementations requested were executed successfully'
+    lock: 'Attempting to re-run cron while it is already running'

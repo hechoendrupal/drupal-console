@@ -1,10 +1,10 @@
-description: 'Displays current routes for the application'
+description: ルートを表示
 arguments:
-    route-name: 'Route names'
+    route-name: ルートの名前
 messages:
-    name: 'Route name'
-    class: 'Class path'
-    route: Route
-    path: Path
-    defaults: Defaults
-    options: Options
+    name: ルールの名前
+    class: クラスパス
+    route: ルート
+    path: パス
+    defaults: デフォルト値
+    options: オプション

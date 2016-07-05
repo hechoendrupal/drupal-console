@@ -278,7 +278,6 @@ trait ProjectDownloadTrait
      * Includes drupal packagist repository at composer.json file.
      *
      * @param \Drupal\Console\Style\DrupalStyle $io
-     *
      */
     public function setComposerRepositories($repo)
     {
@@ -291,10 +290,10 @@ trait ProjectDownloadTrait
         $repository = $config->get('application.composer.repositories.' . $repo);
 
         if (!$repository) {
-          throw new \Exception(
-            $this->trans('commands.module.download.messages.no-composer-repo')
-          );
-          return 1;
+            throw new \Exception(
+                $this->trans('commands.module.download.messages.no-composer-repo')
+            );
+            return 1;
         }
 
         if (!$this->repositoryAlreadySet($composerFile, $repository)) {

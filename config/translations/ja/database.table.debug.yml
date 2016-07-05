@@ -1,10 +1,11 @@
-description: "データベース内の全てのテーブルを表示"
+description: データベース内の全てのテーブルを表示
 help: '<info>database:table:debug</info> はデータベース内の全てのテーブルを表示します。'
 arguments:
-  table: 'デバッグするテーブル'
+    table: デバッグするテーブル
 options:
-  database: "settings.phpのデータベースのキー"
+    database: settings.phpのデータベースのキー
 messages:
-  table-show: 'データベース %s のテーブルを表示しています。'
-  table: 'テーブル'
-  column: 'カラム'
+    table-show: 'データベース %s のテーブルを表示しています。'
+    table: テーブル
+    column: カラム
+    type: タイプ

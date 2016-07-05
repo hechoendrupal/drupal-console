@@ -1,14 +1,14 @@
-description: 'Update core, module or modules in the application'
+description: コアやモジュールを更新
 arguments:
-    module: 'Module or modules to be updated should be separated by a space. Leave empty for updating the core and all your modules managed by Composer.'
+    module: 'アップデートするモジュール名 (複数指定する場合はスペース区切り)。空の場合はComposerで管理されているコアおよび全てのモジュールが対象になります。'
 options:
-    composer: 'Update the module using Composer'
-    simulate: 'Simulate the update process with Composer'
+    composer: Composerを使用してモジュールを更新
+    simulate: Composerを使用して更新をシミュレーション
 questions:
-    module: 'Module name (press <return> to stop adding modules)'
-    invalid-module: 'Invalid module %s'
+    module: 'モジュール名 (<return> のみを入力する追加を停止します)'
+    invalid-module: 'モジュール名 %s は不正な値です'
 messages:
-    success: 'The following module(s) were installed successfully: %s'
-    composer: 'The module %s was installed successfully with Composer'
-    only-composer: 'This command only updates modules via Composer. Use --composer option.'
-    missing-module: 'Enter a module(s) name(s) to update.'
+    success: '次のモジュールのインストールに成功しました: %s'
+    composer: 'モジュール %s を Composer で管理することに成功しました。'
+    only-composer: 'このコマンドはComposerを使ってモジュールを更新します。 --composer オプションを利用してください。'
+    missing-module: 更新するモジュール名を入力してください。

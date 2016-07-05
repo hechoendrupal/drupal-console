@@ -7,9 +7,11 @@ options:
     class: 'Class name'
     interface: Interface
     services: common.questions.services
+    path: Path
 questions:
     module: common.questions.module
     service-name: 'Enter the service name'
     class: 'Enter the Class name'
     interface: 'Create an interface'
     services: common.options.services
+    path: 'Enter the path for the services'

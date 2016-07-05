@@ -1,13 +1,18 @@
 {% if class_name is defined %}
 
 {{ module_name }}.{{form_id}}:
-  path: '/admin/config/{{ module_name }}/{{ class_name_short }}'
+  path: '{{ path }}'
   defaults:
     _form: '\Drupal\{{ module_name }}\Form\{{ class_name }}'
     _title: '{{ class_name }}'
+{% if config_form %}
   requirements:
     _permission: 'access administration pages'
   options:
     _admin_route: TRUE
+{% else %}
+  requirements:
+    _access: 'TRUE'
+  {% endif %}
 {% endif %}
 

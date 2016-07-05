@@ -48,7 +48,7 @@ commands:
           default_value: ''
           weight: '0'
           fieldset: ''
-      routing: true
+      path: '/admin/setting/form'
       menu_link_gen: true
       menu_link_title: SettingsForm
       menu_parent: system.admin_config_system

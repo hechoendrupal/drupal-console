@@ -1,4 +1,4 @@
-description: 利用可能なモジュールの一覧を表示
+description: 利用可能なモジュールを表示
 options:
     status: 'モジュールのステータス [enabled|disabled]'
     type: 'モジュールのタイプ [core|no-core]'
@@ -8,11 +8,11 @@ messages:
     status: Status
     origin: Origin
     package: Package
-    enabled: Enabled
-    disabled: Disabled
+    installed: Installed
+    uninstalled: Uninstalled
     version: Version
     schema-version: 'Schema version'
     total-downloads: 'Total installs'
     total-monthly: 'Monthly installs'
     total-daily: 'Daily installs'
-    no-results: 'Module %s was not found in the repository'
+    no-results: 'モジュール %s がレポジトリ内で見つかりませんでした。'

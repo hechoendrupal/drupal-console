@@ -7,6 +7,7 @@ options:
     label: 'O rótulo'
     has-bundles: 'A entidade tem bundles'
     base-path: 'The base-path for the content entity routes'
+    is-translatable: 'Content entity translatable'
 questions:
     module: common.questions.module
     entity-class: 'Digite a classe da sua nova entidade de conteúdo'
@@ -14,3 +15,4 @@ questions:
     label: 'Digite o rótulo da sua nova entidade de conteúdo'
     has-bundles: 'Deseja que esta entidade de conteúdo tenha bundles'
     base-path: 'Enter the base-path for the content entity routes'
+    is-translatable: 'Is your entity translatable'

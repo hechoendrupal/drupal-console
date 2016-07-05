@@ -2,23 +2,23 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\CacheRebuildCommand.
+ * Contains \Drupal\Console\Command\Cache\RebuildCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Cache;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command as BaseCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
- * Class CacheRebuildCommand
- * @package Drupal\Console\Command
+ * Class RebuildCommand
+ * @package Drupal\Console\Command\Cache
  */
-class CacheRebuildCommand extends BaseCommand
+class RebuildCommand extends Command
 {
     use ContainerAwareCommandTrait;
 

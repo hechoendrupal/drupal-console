@@ -11,20 +11,32 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
 use Drupal\Core\Database\Database;
-use Drupal\migrate\Entity\MigrationInterface;
 use Drupal\migrate\MigrateExecutable;
 use Drupal\Console\Utils\MigrateExecuteMessageCapture;
+use Drupal\Console\Command\Shared\MigrationTrait;
 use Drupal\Console\Command\Shared\DatabaseTrait;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\migrate\Plugin\MigrationInterface;
+use Drupal\State\StateInterface;
+use Symfony\Component\Console\Command\Command;
 
-class ExecuteCommand extends ContainerAwareCommand
+class ExecuteCommand extends Command
 {
     use DatabaseTrait;
+    use MigrationTrait;
+    use ContainerAwareCommandTrait;
 
     protected $migrateConnection;
 
+    /**
+     * @DrupalCommand(
+     *     dependencies = {
+     *         "migrate"
+     *     }
+     * )
+     */
     protected function configure()
     {
         $this
@@ -86,8 +98,6 @@ class ExecuteCommand extends ContainerAwareCommand
                 $this->trans('commands.migrate.execute.options.exclude'),
                 array()
             );
-
-        $this->addDependency('migrate');
     }
 
     /**
@@ -119,10 +129,10 @@ class ExecuteCommand extends ContainerAwareCommand
         // --db-type option
         $db_type = $input->getOption('db-type');
         if (!$db_type) {
-            $db_type = $this->dbTypeQuestion($io);
+            $db_type = $this->dbDriverTypeQuestion($io);
             $input->setOption('db-type', $db_type);
         }
-
+        
         // --db-host option
         $db_host = $input->getOption('db-host');
         if (!$db_host) {
@@ -164,29 +174,32 @@ class ExecuteCommand extends ContainerAwareCommand
             $db_port = $this->dbPortQuestion($io);
             $input->setOption('db-port', $db_port);
         }
-
-        $this->registerMigrateDB($input, $io);
-        $this->migrateConnection = $this->getDBConnection($io, 'default', 'migrate');
+        
+        $this->registerMigrateDB($input, $output);
+        $this->migrateConnection = $this->getDBConnection($output,'default','upgrade');
 
         if (!$drupal_version = $this->getLegacyDrupalVersion($this->migrateConnection)) {
-            $io->error(
-                $this->trans('commands.migrate.setup.migrations.questions.not-drupal')
-            );
+            $io->error($this->trans('commands.migrate.setup.migrations.questions.not-drupal'));
             return;
         }
-
+        
+        $database = $this->getDBInfo();
         $version_tag = 'Drupal ' . $drupal_version;
-        // Get migrations available
-        $migrations_list = $this->getMigrations($version_tag, true);
-
+         
+        // Get migrations 
+        $migrations_list = $this->getMigrations($version_tag);
+        
+        if (!in_array('all', $migration_ids)) {
+            $migrations = $migration_ids;
+        } else {
+            $migrations = array_keys($this->getMigrations($version_tag));
+        }
         // --migration-id prefix
         $migration_id = $input->getArgument('migration-ids');
+         
         if (!$migration_id) {
-            //            $migrations_list['all'] = 'all';
             $migrations_ids = [];
-
-            //            var_export($migrations_list);
-
+ 
             while (true) {
                 $migration_id = $io->choiceNoList(
                     $this->trans('commands.migrate.execute.questions.id'),
@@ -207,7 +220,7 @@ class ExecuteCommand extends ContainerAwareCommand
 
             $input->setArgument('migration-ids', $migrations_ids);
         }
-
+        
         // --migration-id prefix
         $exclude_ids = $input->getOption('exclude');
         if (!$exclude_ids) {
@@ -230,20 +243,15 @@ class ExecuteCommand extends ContainerAwareCommand
             $input->setOption('exclude', $exclude_ids);
         }
     }
-
+    
     /**
      * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-
         $migration_ids = $input->getArgument('migration-ids');
         $exclude_ids = $input->getOption('exclude');
-        if (!empty($exclude_ids)) {
-            // Remove exclude migration from migration script
-            $migration_ids = array_diff($migration_ids, $exclude_ids);
-        }
 
         // If migrations weren't provided finish execution
         if (empty($migration_ids)) {
@@ -252,28 +260,34 @@ class ExecuteCommand extends ContainerAwareCommand
 
         if (!$this->migrateConnection) {
             $this->registerMigrateDB($input, $output);
-            $this->migrateConnection = $this->getDBConnection($output, 'default', 'migrate');
+            $this->migrateConnection = $this->getDBConnection($output,'default','upgrade');
+           
         }
-
+        
         if (!$drupal_version = $this->getLegacyDrupalVersion($this->migrateConnection)) {
             $io->error($this->trans('commands.migrate.setup.migrations.questions.not-drupal'));
             return;
         }
-
+        
         $version_tag = 'Drupal ' . $drupal_version;
-
+        
         if (!in_array('all', $migration_ids)) {
             $migrations = $migration_ids;
         } else {
             $migrations = array_keys($this->getMigrations($version_tag));
-        }
 
-        $entityTypeManager = $this->getService('entity_type.manager');
-        $migration_storage = $entityTypeManager->getStorage('migration');
+        }
+                
+        if (!empty($exclude_ids)) {
+            // Remove exclude migration from migration script
+            $migrations = array_diff($migrations, $exclude_ids);
+        }
+        
         if (count($migrations) == 0) {
             $io->error($this->trans('commands.migrate.execute.messages.no-migrations'));
             return;
         }
+
         foreach ($migrations as $migration_id) {
             $io->info(
                 sprintf(
@@ -281,11 +295,14 @@ class ExecuteCommand extends ContainerAwareCommand
                     $migration_id
                 )
             );
-            $migration = $migration_storage->load($migration_id);
 
-            if ($migration) {
+         $migration_service = $this->getDrupalService('plugin.manager.migration');
+         
+         $migration_service = $migration_service->createInstance($migration_id);
+
+            if ($migration_service) {
                 $messages = new MigrateExecuteMessageCapture();
-                $executable = new MigrateExecutable($migration, $messages);
+                $executable = new MigrateExecutable($migration_service, $messages);
                 $migration_status = $executable->import();
                 switch ($migration_status) {
                 case MigrationInterface::RESULT_COMPLETED:
@@ -336,5 +353,6 @@ class ExecuteCommand extends ContainerAwareCommand
                 $io->error($this->trans('commands.migrate.execute.messages.fail-load'));
             }
         }
-    }
+    } 
+
 }

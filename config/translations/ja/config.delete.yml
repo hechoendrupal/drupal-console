@@ -1,18 +1,18 @@
-description: 'コンフィグレーションの削除'
+description: 設定を削除する
 arguments:
-    type: 'Configuration type.'
-    name: 'Configuration name.'
+    type: 設定のタイプ
+    name: 設定の名前
 messages:
-    all: '全てのコンフィグレーションの削除に成功しました。'
-    deleted: 'コンフィグレーション "%s" の削除に成功しました。'
-    name: 'コンフィグレーション名は値を含む必要があります。'
-    not-exists: 'コンフィグレーション "%s" が存在しません。'
+    all: 全ての設定の削除に成功しました。
+    deleted: '設定 "%s" の削除に成功しました。'
+    name: 設定名は値を含む必要があります。
+    not-exists: '設定 "%s" が存在しません。'
 errors:
-    config-storage: 'コンフィグレーションはロードされません。'
-    name: 'コンフィグレーション名は値を含む必要があります。'
-    type: 'コンフィグレーションタイプが見つかりません。'
-    not-exists: 'コンフィグレーション "%s" が存在しません。'
+    config-storage: 設定はロードされません。
+    name: 設定名は値を含む必要があります。
+    type: 設定タイプが見つかりません。
+    not-exists: '設定 "%s" が存在しません。'
 warnings:
-    undo: 'この操作を行うと全てのコンフィグレーションが永久に削除されます。'
+    undo: この操作を行うと全ての設定が永久に削除されます。
 questions:
-    sure: '全てのコンフィグレーションを削除しますか？'
+    sure: 全ての設定を削除しますか？

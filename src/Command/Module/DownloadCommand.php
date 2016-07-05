@@ -143,13 +143,13 @@ class DownloadCommand extends Command
 
                 $this->setComposerRepositories("default");
                 $command = sprintf(
-                    'composer require drupal/%s:%s',
+                    'composer require drupal/%s:%s --prefer-dist --optimize-autoloader --sort-packages --update-no-dev',
                     $module,
                     $version
                 );
 
                 $shellProcess = $this->get('shell_process');
-                if ($shellProcess->exec($command)) {
+                if ($shellProcess->exec($command, true)) {
                     $io->success(
                         sprintf(
                             $this->trans('commands.module.download.messages.composer'),

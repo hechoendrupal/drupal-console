@@ -27,7 +27,7 @@ class FormAlterCommand extends GeneratorCommand
     use MenuTrait;
     use ConfirmationTrait;
 
-    protected $metadata = ['unset' => []];
+    protected $metadata = ['class' => [],'method'=> [],'file'=> [],'unset' => []];
 
     protected function configure()
     {
@@ -66,6 +66,17 @@ class FormAlterCommand extends GeneratorCommand
         $formId = $input->getOption('form-id');
         $inputs = $input->getOption('inputs');
 
+        $function = $module . '_form_' .$formId . '_alter';
+        
+        if ($this->validateModuleFunctionExist($module, $function)) {
+            throw new \Exception(
+                sprintf(
+                    $this->trans('commands.generate.form.alter.messages.help-already-implemented'),
+                    $module
+                )
+            );
+        }
+
         //validate if input is an array
         if (!is_array($inputs[0])) {
             $inputs= $this->explodeInlineArray($inputs);
@@ -91,6 +102,7 @@ class FormAlterCommand extends GeneratorCommand
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($io);
         }
+       
         $input->setOption('module', $module);
 
         // --form-id option

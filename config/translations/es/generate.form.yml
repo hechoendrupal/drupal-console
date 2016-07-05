@@ -7,14 +7,14 @@ options:
     form-id: 'El id del formulario'
     services: common.options.services
     inputs: common.options.inputs
-    routing: 'Actualizar la ruta'
+    routing: 'Generate routing'
 questions:
     module: common.questions.module
     class: 'Introduzca el nombre de la clase del formulario'
     form-id: 'Introduzca el id del formulario'
     services: common.questions.services
     inputs: common.questions.inputs
-    routing: 'Actualizar el archivo de routing'
+    routing: 'Would you like to register a route for this form'
     menu_link_gen: 'Generar un enlace de menú'
     menu_link_title: 'Título para el enlace de menú'
     menu_parent: 'Menú padre'

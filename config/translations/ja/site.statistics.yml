@@ -1,15 +1,16 @@
-description: 'サイトの統計情報を表示'
-help: 'サイトの統計情報を表示'
+description: サイトの統計情報を表示する
+help: サイトの統計情報を表示する
 messages:
-    stat-name: Name
-    stat-quantity: Quantity
-    node-type: 'Node:%s'
-    comments: Comments
-    vocabulary: Vocabularies
-    taxonomy-terms: 'Taxonomy terms'
-    files: Files
-    users: Users
-    modules-enabled: 'Modules enabled'
-    modules-disabled: 'Modules disabled'
-    themes-enabled: 'Themes enabled'
-    themes-disabled: 'Themes disabled'
+    stat-name: 名前
+    stat-quantity: 数量
+    node-type: 'ノード:%s'
+    comments: コメント
+    vocabulary: ボキャブラリー
+    taxonomy-terms: タクソノミー
+    files: ファイル
+    users: ユーザー
+    modules-enabled: 有効なモジュール
+    modules-disabled: 無効なモジュール
+    themes-enabled: 有効なテーマ
+    themes-disabled: 無効なテーマ
+    views: 'Views (システムで定義されたもの以外)'

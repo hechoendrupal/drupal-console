@@ -23,3 +23,5 @@ messages:
     installed: 'Drupal 8のインストールが正常に完了しました。'
     using-current-database: 'Using %s database with name %s and user %s'
     already-installed: 'Drupalはすでにインストールされています。データベースから全てのデータを削除し、もう一度site:installを実行してください。'
+    sites-backup: 'sites.php はDrupalのインストール中に一時的に backup.sites.php にリネームされました。'
+    sites-restore: 'sites.php のバックアップを sites.php にリストアしました。'

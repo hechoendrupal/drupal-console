@@ -7,15 +7,15 @@ options:
     form-id: '表单 ID'
     services: common.options.services
     inputs: common.options.inputs
-    routing: 更新路由
+    routing: 'Generate routing'
 questions:
     module: common.questions.module
-    class: 输入表单类名
+    class: '输入表单类名'
     form-id: '输入表单 ID'
     services: common.questions.services
     inputs: common.questions.inputs
-    routing: 更新路由文件
+    routing: 'Would you like to register a route for this form'
     menu_link_gen: 生成菜单链接
-    menu_link_title: 菜单链接标题
+    menu_link_title: '菜单链接标题'
     menu_parent: 父级菜单
     menu_link_desc: 菜单链接描述
