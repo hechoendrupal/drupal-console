@@ -13,4 +13,4 @@ messages:
     modules-disabled: 未啟用的模組
     themes-enabled: 啟用的版型
     themes-disabled: 未啟用的版型
-    views: 'Views (Not system views)'
+    views: 'Views（除了系統內建的）'

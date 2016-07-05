@@ -1,6 +1,6 @@
-description: 'Rebuild routes for the application'
+description: 重建網站應用途徑
 arguments:
-    route-name: 'Route names'
+    route-name: 途徑名稱
 messages:
-    rebuilding: 'Rebuilding routes, wait a moment please'
-    completed: 'Done rebuilding route(s).'
+    rebuilding: 重建途徑中，請稍候...
+    completed: 途徑重建完畢。
