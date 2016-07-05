@@ -38,11 +38,11 @@ use Drupal\Console\Utils\DrupalServiceModifier;
 use Symfony\Component\Console\Input\ArgvInput;
 
 set_time_limit(0);
-$consoleRoot = realpath(__DIR__.'/../');
-$root = getcwd();
-$siteRoot = realpath(__DIR__.'/../../../../');
+$consoleRoot = realpath(__DIR__.'/../') . '/';
+$root = getcwd() . '/';
+$siteRoot = realpath(__DIR__.'/../../../../') . '/';
 
-echo 'dir: ' .  __DIR__ . PHP_EOL;
+echo 'dir: ' .  __DIR__ . '/'. PHP_EOL;
 echo 'consoleRoot: ' .  $consoleRoot . PHP_EOL;
 echo 'siteRoot ' .  $siteRoot . PHP_EOL;
 echo 'root: ' .  $root . PHP_EOL;
