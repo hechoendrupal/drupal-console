@@ -1,7 +1,6 @@
-description: 'Returns the relative path to the theme (or absolute path)'
+description: テーマの相対パスまたは絶対パスを返す
 arguments:
-    module: 'The Theme name (machine name)'
+    module: 'テーマ名 (システム内部名称)'
 options:
-    absolute: 'Return theme absolute path'
-messages:
-
+    absolute: 絶対パスを返す
+messages: null

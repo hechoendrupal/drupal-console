@@ -7,6 +7,7 @@ options:
     label: 'Le libellé'
     has-bundles: 'Est-ce que l''entité possède des bundles'
     base-path: 'The base-path for the content entity routes'
+    is-translatable: 'Content entity translatable'
 questions:
     module: common.questions.module
     entity-class: 'Entrez le nom de votre classe pour votre nouvelle entité de contenu'
@@ -14,3 +15,4 @@ questions:
     label: 'Entrez le libellé de votre nouvelle entité de contenu'
     has-bundles: 'Voulez-vous que cette entité possède des bundles'
     base-path: 'Enter the base-path for the content entity routes'
+    is-translatable: 'Is your entity translatable'

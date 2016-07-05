@@ -109,8 +109,8 @@ class UpdateCommand extends Command
             if ($shellProcess->exec($command)) {
                 $io->success(
                     sprintf(
-                      $this->trans('commands.module.update.messages.composer'),
-                      trim($modules)
+                        $this->trans('commands.module.update.messages.composer'),
+                        trim($modules)
                     )
                 );
             }

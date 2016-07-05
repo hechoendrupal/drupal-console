@@ -67,7 +67,7 @@ class ServiceCommand extends GeneratorCommand
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.service.options.path')
-            );      
+            );
     }
 
     /**
@@ -104,7 +104,7 @@ class ServiceCommand extends GeneratorCommand
         $build_services = $this->buildServices($services);
         $this
             ->getGenerator()
-            ->generate($module, $name,$class, $interface, $build_services,$path_service);
+            ->generate($module, $name, $class, $interface, $build_services, $path_service);
 
         $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
     }
@@ -170,7 +170,7 @@ class ServiceCommand extends GeneratorCommand
                 '/modules/custom/' . $module . '/src/'
             );
             $input->setOption('path_service', $path_service);
-        }       
+        }
     }
 
     protected function createGenerator()

@@ -53,6 +53,7 @@ class StatisticsCommand extends Command
         $statistics[$this->trans('commands.site.statistics.messages.taxonomy-terms')] = $this->getTaxonomyTermCount();
         $statistics[$this->trans('commands.site.statistics.messages.files')] = $this->getFileCount();
         $statistics[$this->trans('commands.site.statistics.messages.users')] = $this->getUserCount();
+        $statistics[$this->trans('commands.site.statistics.messages.views')] = $this->getViewCount();
         $statistics[$this->trans('commands.site.statistics.messages.modules-enabled')] = $this->getModuleCount(true);
         $statistics[$this->trans('commands.site.statistics.messages.modules-disabled')] = $this->getModuleCount(false);
         $statistics[$this->trans('commands.site.statistics.messages.themes-enabled')] = $this->getThemeCount(true);
@@ -159,6 +160,18 @@ class StatisticsCommand extends Command
         }
 
         return count($this->getApplication()->getSite()->getThemes(true, false, true));
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getViewCount($status = true, $tag = 'default')
+    {
+        $entityQuery = $this->getDrupalService('entity.query')
+            ->get('view')->condition('tag', 'default', '<>')->count();
+        $views = $entityQuery->execute();
+
+        return $views;
     }
 
     /**

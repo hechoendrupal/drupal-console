@@ -13,3 +13,4 @@ messages:
     modules-disabled: 'Отключенные модули'
     themes-enabled: 'Включенные темы'
     themes-disabled: 'Отключенные темы'
+    views: 'Views (Not system views)'

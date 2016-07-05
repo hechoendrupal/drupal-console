@@ -1,6 +1,6 @@
 description: 'Update N 関数を実行する'
 options:
-    update-n: 'Specific Update N function to be executed'
+    update-n: '実行するUpdate N 関数'
 messages:
     no-module-updates: 'モジュール %s に利用可能なアップデートはありません。'
     executing-update: 'モジュール %s の %s を実行中。'

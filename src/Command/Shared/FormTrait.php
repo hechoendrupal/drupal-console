@@ -28,6 +28,7 @@ trait FormTrait
         )) {
             $input_types = [
                 'fieldset',
+                'text_format'
             ];
 
             $elementInfoManager = $this->getService('plugin.manager.element_info');

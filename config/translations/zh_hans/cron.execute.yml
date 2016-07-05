@@ -3,3 +3,4 @@ messages:
     module-invalid: '模块 %s 没有实现定时任务（cron）'
     executing-cron: '正在执行模块的 cron 函数 %s'
     success: 所有定时任务执行成功
+    lock: 'Attempting to re-run cron while it is already running'

@@ -31,6 +31,13 @@ class EntityContentCommand extends EntityCommand
             InputOption::VALUE_NONE,
             $this->trans('commands.generate.entity.content.options.has-bundles')
         );
+
+        $this->addOption(
+            'is-translatable',
+            null,
+            InputOption::VALUE_NONE,
+            $this->trans('commands.generate.entity.content.options.is-translatable')
+        );
     }
 
     /**
@@ -50,6 +57,13 @@ class EntityContentCommand extends EntityCommand
             );
             $input->setOption('has-bundles', $bundle_of);
         }
+
+        // --is-translatable option
+        $is_translatable = $io->confirm(
+            $this->trans('commands.generate.entity.content.questions.is-translatable'),
+            true
+        );
+        $input->setOption('is-translatable', $is_translatable);
     }
 
     /**
@@ -65,13 +79,14 @@ class EntityContentCommand extends EntityCommand
         $base_path = $input->getOption('base-path');
         $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
         $bundle_entity_name = $has_bundles ? $entity_name . '_type' : null;
+        $is_translatable = $input->hasOption('is-translatable') ? $input->getOption('is-translatable') : true;
 
         $io = new DrupalStyle($input, $output);
         $generator = $this->getGenerator();
         $generator->setIo($io);
         $generator->setLearning($learning);
 
-        $generator->generate($module, $entity_name, $entity_class, $label, $base_path, $bundle_entity_name);
+        $generator->generate($module, $entity_name, $entity_class, $label, $base_path, $is_translatable, $bundle_entity_name);
 
         if ($has_bundles) {
             $this->getChain()->addCommand(

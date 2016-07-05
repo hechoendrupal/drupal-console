@@ -1,8 +1,8 @@
-description: 'Disable a rest resource for the application'
+description: Restリソースを無効化する
 arguments:
     resource-id: 'Rest ID'
-    states: 'REST States to disable for Rest resource'
+    states: 無効にするRestリソースのステートキー
 questions:
     resource-id: 'Rest ID'
 messages:
-    invalid-rest-id: 'Rest ID %s is invalid'
+    invalid-rest-id: 'Rest ID %s は不正な値です。'
