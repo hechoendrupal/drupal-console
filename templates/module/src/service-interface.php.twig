@@ -6,6 +6,7 @@
 
 {% block namespace_interface %}
 namespace Drupal\{{module}};
+
 {% endblock %}
 
 {% block interface_declaration %}
@@ -14,4 +15,5 @@ namespace Drupal\{{module}};
  *
  * @package Drupal\{{module}}
  */
-interface {{ class }}Interface {% endblock %}
+interface {{ class }}Interface 
+{% endblock %}
