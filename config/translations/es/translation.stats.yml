@@ -5,9 +5,9 @@ options:
     format: 'Define el formato de salida ( table|markdown )'
 messages:
     invalid-language: 'El idioma %s no es válido'
-    language: Idioma
-    percentage: Porcentaje
+    language: 'Idioma'
+    percentage: 'Porcentaje'
     iso: 'Código ISO'
 tips:
     -
-        tip: 'Pass a language ISO code as argument to restrict the languages list'
+        tip: 'Provea un código de idioma ISO como argumento para restringir el listado de idiomas'

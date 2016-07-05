@@ -1,14 +1,14 @@
-description: 'Update core, module or modules in the application'
+description: 'Actualizar el core, un módulo o varios en la aplicación'
 arguments:
-    module: 'Module or modules to be updated should be separated by a space. Leave empty for updating the core and all your modules managed by Composer.'
+    module: 'El módulo o módulos que vayan a ser actualizados deberían estar separados por un espacio. Déjelo vacío para actualizar el core y todos los módulos gestionados por Composer.'
 options:
-    composer: 'Update the module using Composer'
-    simulate: 'Simulate the update process with Composer'
+    composer: 'Actualizar el módulo usando Composer'
+    simulate: 'Simular el proceso de actualización con Composer'
 questions:
-    module: 'Module name (press <return> to stop adding modules)'
-    invalid-module: 'Invalid module %s'
+    module: 'Nombre del módulo (introduzca <return> para dejar de añadir módulos)'
+    invalid-module: 'El módulo %s no es válido'
 messages:
-    success: 'The following module(s) were installed successfully: %s'
-    composer: 'The module %s was installed successfully with Composer'
-    only-composer: 'This command only updates modules via Composer. Use --composer option.'
-    missing-module: 'Enter a module(s) name(s) to update.'
+    success: 'El/Los siguientes módulo(s) fueron instalados con éxito: %s'
+    composer: 'El módulo %s fue instalado con éxito mediante Composer'
+    only-composer: 'Ese comando sólo actualiza módulos via Composer. Use la opción --composer.'
+    missing-module: 'Introduzca un(os) nombre(s) de módulo(s) para actualizar.'
