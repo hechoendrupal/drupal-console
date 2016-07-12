@@ -1,14 +1,14 @@
-description: 'Roda o servidor embutido do PHP'
+description: 'Runs PHP built-in web server'
 arguments:
-  address: "Valores do endereço:porta"
+  address: The address:port values
 messages:
-  executing: "Executando php a partir de %s."
+  executing: Executing php from %s.
 errors:
-  binary: "Não foi possível achar o executável do PHP para rodar o servidor"
+  binary: Unable to find PHP binary to run server.
 examples:
   - description: Run using default address argument value 127.0.0.1:8088
     execution: drupal server
-  - description: "Passando argumento de endereço para usar um numero diferente para a porta"
+  - description: Passing address argument to use a different port number
     execution: drupal server 127.0.0.1:8089
-  - description: "Usando valor de endereço padrão, usando a opção --root para definir a raíz do Drupal
+  - description: Running default address argument values, using --root option to define the Drupal root
     execution: drupal --root=/var/www/drupal8.dev server
