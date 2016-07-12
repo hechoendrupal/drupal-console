@@ -3,6 +3,7 @@ arguments:
     module: 'Módulo(s) a serem instalados deverão ser separados por um espaço'
 options:
     latest: 'Padrão para baixar a versão mais recente'
+    composer: 'Download the module using Composer'
     module: 'Módulo(s) a serem habilitados deverão ser separados por uma vírgula'
     overwrite-config: 'Sobrescrever a configuração ativa se necessário'
 questions:
@@ -25,3 +26,13 @@ messages:
     downloaded: 'Versão %s do módulo %s foi baixado com sucesso em %s'
     no-releases: 'Não há versões para o módulo %s'
     installing: 'Instalando módulo(s) %s'
+    composer: 'The module was installed successfully with Composer'
+    config-conflict: 'These configuration objects already exist in active configuration, installation is not possible'
+    getting-missing-modules: 'One or more modules %s are not available, running download process to get those modules'
+    getting-releases: 'Getting releases for module %s'
+    select-release: 'Please select your favorite release'
+    downloading: 'Downloading module %s release %s'
+    downloaded: 'Module %s version %s was downloaded successfully at %s'
+    no-releases: 'There aren''t any releases for module %s'
+    installing: 'Installing module(s) %s'
+    composer: 'The module was installed successfully with Composer'

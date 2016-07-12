@@ -10,3 +10,4 @@ messages:
     successful: 'Tentativas falhas de login do usuário %s foram resetadas com sucesso.'
 errors:
     invalid-user: 'Não foi possível carregar o usuário (ID do usuário: %s).'
+    no-flood: 'No flood table on the system.'

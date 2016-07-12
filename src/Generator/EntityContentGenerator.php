@@ -17,9 +17,10 @@ class EntityContentGenerator extends Generator
      * @param string $entity_class       Entity class name
      * @param string $label              Entity label
      * @param string $base_path          Base path
+     * @param string $is_translatable    Translation configuration
      * @param string $bundle_entity_type (Config) entity type acting as bundle
      */
-    public function generate($module, $entity_name, $entity_class, $label, $base_path, $bundle_entity_type = null)
+    public function generate($module, $entity_name, $entity_class, $label, $base_path, $is_translatable, $bundle_entity_type = null)
     {
         $parameters = [
             'module' => $module,
@@ -28,19 +29,8 @@ class EntityContentGenerator extends Generator
             'label' => $label,
             'bundle_entity_type' => $bundle_entity_type,
             'base_path' => $base_path,
+            'is_translatable' => $is_translatable,
         ];
-
-        if ($bundle_entity_type) {
-            $controller_class = $entity_class . 'AddController';
-            $this->renderFile(
-                'module/src/Controller/controller-add-page.php.twig',
-                $this->getSite()->getControllerPath($module).'/'.$controller_class .'.php',
-                $parameters + array(
-                    'class_name' => $controller_class,
-                    'services' => [],
-                )
-            );
-        }
 
         $this->renderFile(
             'module/permissions-entity-content.yml.twig',
@@ -71,14 +61,22 @@ class EntityContentGenerator extends Generator
         );
 
         $this->renderFile(
-            'module/src/interface-entity-content.php.twig',
-            $this->getSite()->getSourcePath($module).'/'.$entity_class.'Interface.php',
+            'module/src/accesscontrolhandler-entity-content.php.twig',
+            $this->getSite()->getSourcePath($module).'/'.$entity_class.'AccessControlHandler.php',
             $parameters
         );
 
+        if ($is_translatable) {
+            $this->renderFile(
+                'module/src/entity-translation-handler.php.twig',
+                $this->getSite()->getSourcePath($module).'/'.$entity_class.'TranslationHandler.php',
+                $parameters
+            );
+        }
+
         $this->renderFile(
-            'module/src/accesscontrolhandler-entity-content.php.twig',
-            $this->getSite()->getSourcePath($module).'/'.$entity_class.'AccessControlHandler.php',
+            'module/src/Entity/interface-entity-content.php.twig',
+            $this->getSite()->getEntityPath($module).'/'.$entity_class.'Interface.php',
             $parameters
         );
 
@@ -200,8 +198,8 @@ class EntityContentGenerator extends Generator
         if ($this->isLearning()) {
             $this->io->commentBlock(
                 [
-                'Add this to your hook_theme:',
-                $content
+                    'Add this to your hook_theme:',
+                    $content
                 ]
             );
         }

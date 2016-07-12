@@ -7,16 +7,19 @@
 
 namespace Drupal\Console\Command\Config;
 
-use Drupal\Console\Command\ModuleTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\ExportTrait;
 
-class ExportContentTypeCommand extends ContainerAwareCommand
+class ExportContentTypeCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     use ModuleTrait;
     use ExportTrait;
 
@@ -57,7 +60,7 @@ class ExportContentTypeCommand extends ContainerAwareCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($io);
         }
         $input->setOption('module', $module);
@@ -65,7 +68,7 @@ class ExportContentTypeCommand extends ContainerAwareCommand
         // --content-type argument
         $contentType = $input->getArgument('content-type');
         if (!$contentType) {
-            $entityTypeManager = $this->getService('entity_type.manager');
+            $entityTypeManager = $this->getDrupalService('entity_type.manager');
             $bundles_entities = $entityTypeManager->getStorage('node_type')->loadMultiple();
             $bundles = array();
             foreach ($bundles_entities as $entity) {
@@ -97,8 +100,8 @@ class ExportContentTypeCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         
-        $this->entityTypeManager = $this->getService('entity_type.manager');
-        $this->configStorage = $this->getConfigStorage();
+        $this->entityTypeManager = $this->getDrupalService('entity_type.manager');
+        $this->configStorage = $this->getDrupalService('config.storage');
 
         $module = $input->getOption('module');
         $contentType = $input->getArgument('content-type');
@@ -117,7 +120,7 @@ class ExportContentTypeCommand extends ContainerAwareCommand
 
         $this->getViewDisplays($contentType, $optionalConfig);
 
-        $this->exportConfig($module, $io, $this->trans('commands.config.export.content.type.messages.content_type_exported'));
+        $this->exportConfigToModule($module, $io, $this->trans('commands.config.export.content.type.messages.content_type_exported'));
     }
 
     protected function getFields($contentType, $optional = false)

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains Drupal\Console\Command\Shared\ContainerAwareCommandTrait.
+ */
+
 namespace Drupal\Console\Command\Shared;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -20,7 +25,7 @@ trait ContainerAwareCommandTrait
      */
     public function hasGetService($serviceId)
     {
-        return $this->getService($serviceId);
+        return $this->hasDrupalService($serviceId);
     }
 
     /**

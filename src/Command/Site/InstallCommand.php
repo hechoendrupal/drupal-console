@@ -12,15 +12,17 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
-use Drupal\Console\Command\Database\DatabaseTrait;
-use Drupal\Console\Command\Command;
+use Drupal\Console\Command\Shared\DatabaseTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class InstallCommand extends Command
 {
     use DatabaseTrait;
+    use CommandTrait;
 
     protected $connection;
 
@@ -316,17 +318,21 @@ class InstallCommand extends Command
             );
         }
 
+        $this->backupSitesFile($output);
+
         try {
             $this->runInstaller($output, $input, $database);
         } catch (Exception $e) {
             $output->error($e->getMessage());
             return;
         }
+
+        $this->restoreSitesFile($output);
     }
 
     protected function getProfiles()
     {
-        $drupal = $this->getDrupalHelper();
+        $drupal = $this->get('site');
         $profiles = $drupal->getProfiles();
 
         $names = [];
@@ -339,7 +345,7 @@ class InstallCommand extends Command
 
     protected function getLanguages()
     {
-        $drupal = $this->getDrupalHelper();
+        $drupal = $this->get('site');
         $languages = $drupal->getStandardLanguages();
 
         return $languages;
@@ -352,12 +358,50 @@ class InstallCommand extends Command
         return $config->get('application.language');
     }
 
+    /**
+     * Backs up sites.php to backup.sites.php (if needed).
+     *
+     * This is needed because of a bug with install_drupal() that causes the
+     * install files to be placed directly under /sites instead of the
+     * appropriate subdir when run from a script and a sites.php file exists.
+     *
+     * @param DrupalStyle $output
+     */
+    protected function backupSitesFile(DrupalStyle $output)
+    {
+        $root = $this->get('site')->getRoot();
+
+        if (!file_exists($root . '/sites/sites.php')) {
+            return;
+        }
+
+        rename($root . '/sites/sites.php', $root . '/sites/backup.sites.php');
+        $output->info($this->trans('commands.site.install.messages.sites-backup'));
+    }
+
+    /**
+     * Restores backup.sites.php to sites.php (if needed).
+     *
+     * @param DrupalStyle $output
+     */
+    protected function restoreSitesFile(DrupalStyle $output)
+    {
+        $root = $this->get('site')->getRoot();
+
+        if (!file_exists($root . '/sites/backup.sites.php')) {
+            return;
+        }
+
+        rename($root . '/sites/backup.sites.php', $root . '/sites/sites.php');
+        $output->info($this->trans('commands.site.install.messages.sites-restore'));
+    }
+
     protected function runInstaller(
         DrupalStyle $output,
         InputInterface $input,
         $database
     ) {
-        $drupal = $this->getDrupalHelper();
+        $drupal = $this->get('site');
         $drupal->loadLegacyFile('/core/includes/install.core.inc');
 
         $driver = (string) $database['driver'];

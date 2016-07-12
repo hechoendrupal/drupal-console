@@ -11,18 +11,19 @@ use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
-use Drupal\Console\Command\Database\DatabaseTrait;
-use Drupal\migrate\Entity\Migration;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\DatabaseTrait;
+use Drupal\Console\Command\Shared\MigrationTrait;
 use Drupal\migrate\Plugin\RequirementsInterface;
 use Drupal\migrate\Exception\RequirementsException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 
-class SetupCommand extends ContainerAwareCommand
+class SetupCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     use DatabaseTrait;
-
-    protected $migrateConnection;
+    use MigrationTrait;
 
     protected function configure()
     {
@@ -77,8 +78,6 @@ class SetupCommand extends ContainerAwareCommand
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.migrate.setup.options.files-directory')
             );
-
-        $this->addDependency('migrate');
     }
 
     /**
@@ -91,10 +90,9 @@ class SetupCommand extends ContainerAwareCommand
         // --db-type option
         $db_type = $input->getOption('db-type');
         if (!$db_type) {
-            $db_type = $this->dbTypeQuestion($output);
+            $db_type = $this->dbDriverTypeQuestion($output);
             $input->setOption('db-type', $db_type);
         }
-
 
         // --db-host option
         $db_host = $input->getOption('db-host');
@@ -109,7 +107,6 @@ class SetupCommand extends ContainerAwareCommand
             $db_name = $this->dbNameQuestion($output);
             $input->setOption('db-name', $db_name);
         }
-
 
         // --db-user option
         $db_user = $input->getOption('db-user');
@@ -153,89 +150,25 @@ class SetupCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $template_storage = $this->getService('migrate.template_storage');
-        $source_base_path = $input->getOption('files-directory');
+       
 
         $this->registerMigrateDB($input, $output);
-        $this->migrateConnection = $this->getDBConnection($output, 'default', 'migrate');
+        $this->migrateConnection = $this->getDBConnection($output,'default','upgrade');
 
         if (!$drupal_version = $this->getLegacyDrupalVersion($this->migrateConnection)) {
-            $io->error($this->trans('commands.migrate.setup.questions.not-drupal'));
+            $io->error($this->trans('commands.migrate.setup.migrations.questions.not-drupal'));
             return;
         }
-
-        $database_state['key'] = 'upgrade';
-        $database_state['database'] = $this->getDBInfo();
-        $database_state_key = 'migrate_upgrade_' . $drupal_version;
-
-        \Drupal::state()->set($database_state_key, $database_state);
-
+        
+        $database = $this->getDBInfo();
         $version_tag = 'Drupal ' . $drupal_version;
-
-        $migration_templates = $template_storage->findTemplatesByTag($version_tag);
-
-        $migrations = [];
-        $builderManager = $this->getService('migrate.migration_builder');
-        foreach ($migration_templates as $id => $template) {
-            $migration_templates[$id]['source']['database_state_key'] = $database_state_key;
-            // Configure file migrations so they can find the files.
-            if ($template['destination']['plugin'] == 'entity:file') {
-                if ($source_base_path) {
-                    // Make sure we have a single trailing slash.
-                    $source_base_path = rtrim($source_base_path, '/') . '/';
-                    $migration_templates[$id]['destination']['source_base_path'] = $source_base_path;
-                }
-            }
-        }
-
-        // Let the builder service create our migration configuration entities from
-        // the templates, expanding them to multiple entities where necessary.
-        /**
- * @var \Drupal\migrate\MigrationBuilder $builder 
-*/
-        $migrations = $builderManager->createMigrations($migration_templates);
-        foreach ($migrations as $migration) {
-            try {
-                if ($migration->getSourcePlugin() instanceof RequirementsInterface) {
-                    $migration->getSourcePlugin()->checkRequirements();
-                }
-                if ($migration->getDestinationPlugin() instanceof RequirementsInterface) {
-                    $migration->getDestinationPlugin()->checkRequirements();
-                }
-                // Don't try to resave migrations that already exist.
-                if (!Migration::load($migration->id())) {
-                    $migration->save();
-                    $migration_ids[] = $migration->id();
-                }
-            }
-            // Migrations which are not applicable given the source and destination
-            // site configurations (e.g., what modules are enabled) will be silently
-            // ignored.
-            catch (RequirementsException $e) {
-                $io->error($e->getMessage());
-            } catch (PluginNotFoundException $e) {
-                $io->error($e->getMessage());
-            }
-        }
-
-        if (empty($migration_ids)) {
-            if (empty($migrations)) {
-                $io->info(
-                    sprintf(
-                        $this->trans('commands.migrate.setup.messages.migrations-not-found'),
-                        count($migrations)
-                    )
-                );
-            } else {
-                $io->error(
-                    sprintf(
-                        $this->trans('commands.migrate.setup.messages.migrations-already-exist'),
-                        count($migrations)
-                    )
-                );
-            }
-        } else {
-            $io->info(
+        
+        $this->createDatabaseStateSettings($database,$drupal_version);
+        
+        $migrations  = $this->getMigrations($version_tag);
+        
+        if ($migrations) {
+             $io->info(
                 sprintf(
                     $this->trans('commands.migrate.setup.messages.migrations-created'),
                     count($migrations),
@@ -243,5 +176,6 @@ class SetupCommand extends ContainerAwareCommand
                 )
             );
         }
+
     }
 }

@@ -10,12 +10,14 @@ namespace Drupal\Console\Command\Config;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Component\Serialization\Yaml;
 
-class OverrideCommand extends ContainerAwareCommand
+class OverrideCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+
     protected function configure()
     {
         $this
@@ -37,7 +39,7 @@ class OverrideCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
         $name = $input->getArgument('name');
-        $configFactory = $this->getConfigFactory();
+        $configFactory = $this->getDrupalService('config.factory');
         $names = $configFactory->listAll();
         if ($name) {
             if (!in_array($name, $names)) {
@@ -59,7 +61,7 @@ class OverrideCommand extends ContainerAwareCommand
         }
         $key = $input->getArgument('key');
         if (!$key) {
-            $configStorage = $this->getConfigStorage();
+            $configStorage = $this->getDrupalService('config.storage');
             if ($configStorage->exists($name)) {
                 $configuration = $configStorage->read($name);
             }
@@ -88,7 +90,7 @@ class OverrideCommand extends ContainerAwareCommand
         $key = $input->getArgument('key');
         $value = $input->getArgument('value');
 
-        $config = $this->getConfigFactory()->getEditable($configName);
+        $config = $this->getDrupalService('config.factory')->getEditable($configName);
 
         $configurationOverrideResult = $this->overrideConfiguration($config, $key, $value);
 

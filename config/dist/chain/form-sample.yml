@@ -26,7 +26,7 @@ commands:
           type: textarea
           label: 'Big text'
           description: 'Enter a big text, you can user <enter> key'
-      routing: true
+      path: '/admin/config/form'
       menu_link_gen: true
       menu_link_title: 'Example Config Form'
       menu_parent: system.admin_config_system

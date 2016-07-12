@@ -10,3 +10,4 @@ messages:
     successful: 'Login attempts was clean successfully for user id %s.'
 errors:
     invalid-user: 'Cannot load user entity (Uid: %s).'
+    no-flood: 'No flood table on the system.'

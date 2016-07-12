@@ -8,7 +8,13 @@ messages:
     status: Status
     origin: Origin
     package: Package
-    enabled: Enabled
-    disabled: Disabled
+    installed: Installed
+    uninstalled: Uninstalled
     version: Version
     schema-version: 'Schema version'
+    total-downloads: 'Total installs'
+    total-monthly: 'Monthly installs'
+    total-daily: 'Daily installs'
+    no-results: 'Module %s was not found in the repository'
+    enabled: Enabled
+    disabled: Disabled

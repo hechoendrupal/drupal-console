@@ -1,5 +1,5 @@
-description: 現在のコンフィグレーションを表示
+description: 現在の設定を表示する
 arguments:
-    name: コンフィグレーションの名前
+    name: 設定の名前
 errors:
-    not-exists: 'コンフィグレーション "%s" は存在しません'
+    not-exists: '設定 "%s" は存在しません'

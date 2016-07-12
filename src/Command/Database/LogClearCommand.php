@@ -11,12 +11,14 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Core\Logger\RfcLogLevel;
 use Drupal\Console\Style\DrupalStyle;
 
-class LogClearCommand extends ContainerAwareCommand
+class LogClearCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -77,7 +79,7 @@ class LogClearCommand extends ContainerAwareCommand
      */
     private function clearEvent(DrupalStyle $io, $eventId)
     {
-        $connection = $this->getDatabase();
+        $connection = $this->getDrupalService('database');
 
         $result = $connection->delete('watchdog')->condition('wid', $eventId)->execute();
 
@@ -111,7 +113,7 @@ class LogClearCommand extends ContainerAwareCommand
      */
     protected function clearEvents(DrupalStyle $io, $eventType, $eventSeverity, $userId)
     {
-        $connection = $this->getDatabase();
+        $connection = $this->getDrupalService('database');
         $severity = RfcLogLevel::getLevels();
 
         $query = $connection->delete('watchdog');

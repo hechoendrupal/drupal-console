@@ -6,7 +6,7 @@ messages:
 errors:
   binary: "Não foi possível achar o executável do PHP para rodar o servidor"
 examples:
-  - description: "Rodar usando valores de argumento padrões valor 127.0.0.1.8088"
+  - description: Run using default address argument value 127.0.0.1:8088
     execution: drupal server
   - description: "Passando argumento de endereço para usar um numero diferente para a porta"
     execution: drupal server 127.0.0.1:8089

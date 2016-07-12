@@ -1,12 +1,13 @@
-description: 'Clear failed login attempts for an account.'
-help: 'The <info>user:login:clear:attempts</info> command resets the failed login attempts for an account.'
+description: 清除使用者錯誤嘗試登入記錄
+help: '<info>user:login:clear:attempts</info> 指令可用來清除一位指定使用者的錯誤嘗試登入紀錄。'
 options:
-    user-id: 'User ID.'
+    user-id: '使用者 ID'
 questions:
-    uid: 'Enter User ID.'
-    numeric-uid: 'User id must be an integer.'
-    invalid-uid: 'User id must be upper than zero.'
+    uid: '請輸入使用者 ID'
+    numeric-uid: '使用者 ID 必須為正整數。'
+    invalid-uid: '使用者 ID 必須大於零。'
 messages:
-    successful: 'Login attempts were successfully cleared for user id %s.'
+    successful: '使用者 ID %s 的嘗試登入紀錄已經被清除完畢。'
 errors:
-    invalid-user: 'Cannot load user entity (Uid: %s).'
+    invalid-user: '無法取得使用者資料（使用者 ID: @uid）'
+    no-flood: '找不到系統裡的 flood 資料表。'

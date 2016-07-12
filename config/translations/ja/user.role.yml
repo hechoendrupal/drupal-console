@@ -1,0 +1,13 @@
+description: ユーザーの役割を追加・削除する
+help: 'The <info>user:role</info> コマンドは、ユーザーの役割を追加・削除します。'
+welcome: 'Welcome to the Drupal user rule'
+arguments:
+    roles: 追加・削除する役割。システム内部名称で1つだけ指定してください。
+    operation: 追加または削除
+    user: '対象となるユーザー (1ユーザーのみ)'
+messages:
+    bad-arguments: 'いくつかの引数が見つかりませんでした。次の全ての引数を指定してください: [add/remove] [username] [role]'
+    no-user-found: 'ユーザー %s が見つかりませんでした。'
+    no-role-found: '役割 %s が見つかりませんでした。'
+    add-success: 'ユーザー %1$s に役割 %2$s が追加されました。'
+    remove-success: 'ユーザー %1$s から役割 %2$s を削除しました。'

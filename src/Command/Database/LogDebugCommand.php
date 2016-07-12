@@ -11,15 +11,17 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Component\Utility\Unicode;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Logger\RfcLogLevel;
 use Drupal\Console\Style\DrupalStyle;
 
-class LogDebugCommand extends ContainerAwareCommand
+class LogDebugCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     protected function configure()
     {
         $this
@@ -49,10 +51,10 @@ class LogDebugCommand extends ContainerAwareCommand
                 $this->trans('commands.database.log.debug.options.user-id')
             )
             ->addOption(
-                'reverse',
+                'asc',
                 false,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.database.log.debug.options.reverse')
+                $this->trans('commands.database.log.debug.options.asc')
             )
             ->addOption(
                 'limit',
@@ -78,14 +80,14 @@ class LogDebugCommand extends ContainerAwareCommand
         $eventType = $input->getOption('type');
         $eventSeverity = $input->getOption('severity');
         $userId = $input->getOption('user-id');
-        $reverse = $input->getOption('reverse');
+        $asc = $input->getOption('asc');
         $limit = $input->getOption('limit');
         $offset = $input->getOption('offset');
 
         if ($eventId) {
             $this->getEventDetails($io, $eventId);
         } else {
-            $this->getAllEvents($io, $eventType, $eventSeverity, $userId, $reverse, $offset, $limit);
+            $this->getAllEvents($io, $eventType, $eventSeverity, $userId, $asc, $offset, $limit);
         }
     }
 
@@ -96,9 +98,9 @@ class LogDebugCommand extends ContainerAwareCommand
      */
     private function getEventDetails(DrupalStyle $io, $eventId)
     {
-        $connection = $this->getDatabase();
-        $dateFormatter = $this->getDateFormatter();
-        $userStorage = $this->getService('entity_type.manager')->getStorage('user');
+        $connection = $this->getDrupalService('database');
+        $dateFormatter = $this->getDrupalService('date.formatter');
+        $userStorage = $this->getDrupalService('entity_type.manager')->getStorage('user');
         
         
         $severity = RfcLogLevel::getLevels();
@@ -133,11 +135,11 @@ class LogDebugCommand extends ContainerAwareCommand
         return true;
     }
 
-    protected function getAllEvents(DrupalStyle $io, $eventType, $eventSeverity, $userId, $reverse, $offset, $limit)
+    protected function getAllEvents(DrupalStyle $io, $eventType, $eventSeverity, $userId, $asc, $offset, $limit)
     {
-        $connection = $this->getDatabase();
-        $dateFormatter = $this->getDateFormatter();
-        $userStorage = $this->getService('entity_type.manager')->getStorage('user');
+        $connection = $this->getDrupalService('database');
+        $dateFormatter = $this->getDrupalService('date.formatter');
+        $userStorage = $this->getDrupalService('entity_type.manager')->getStorage('user');
         $severity = RfcLogLevel::getLevels();
 
         $query = $connection->select('watchdog', 'w');
@@ -177,7 +179,9 @@ class LogDebugCommand extends ContainerAwareCommand
             $query->condition('uid', $userId);
         }
 
-        if ($reverse) {
+        if ($asc) {
+            $query->orderBy('wid', 'ASC');
+        } else {
             $query->orderBy('wid', 'DESC');
         }
 
@@ -231,7 +235,7 @@ class LogDebugCommand extends ContainerAwareCommand
      */
     public function formatMessage($event)
     {
-        $stringTranslation = $this->getStringTanslation();
+        $stringTranslation = $this->getDrupalService('string_translation');
         $message = false;
 
         // Check for required properties.

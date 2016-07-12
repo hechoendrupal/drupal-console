@@ -7,14 +7,14 @@ options:
     form-id: 'फॉर्म आईडी'
     services: common.options.services
     inputs: common.options.inputs
-    routing: 'राउटिंग अवगत करें'
+    routing: 'Generate routing'
 questions:
     module: common.questions.module
     class: 'फॉर्म क्लास का नाम दर्ज करें'
     form-id: 'फॉर्म आईडी दर्ज करें'
     services: common.questions.services
     inputs: common.questions.inputs
-    routing: 'राउटिंग फाइल अवगत करें'
+    routing: 'Would you like to register a route for this form'
     menu_link_gen: 'एक मेनू लिंक उत्पन्न'
     menu_link_title: 'मेनू लिंक के लिए एक शीर्षक'
     menu_parent: 'मेनू पैरेंट'

@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command as BaseCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\views\Entity\View;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
@@ -20,7 +20,7 @@ use Drupal\Console\Style\DrupalStyle;
  * Class DebugCommand
  * @package Drupal\Console\Command\Views
  */
-class DebugCommand extends BaseCommand
+class DebugCommand extends Command
 {
     use ContainerAwareCommandTrait;
     /**

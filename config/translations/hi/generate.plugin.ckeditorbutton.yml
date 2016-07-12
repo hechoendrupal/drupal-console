@@ -7,9 +7,11 @@ options:
     label: 'प्लगइन लेबल'
     plugin-id: 'प्लगइन आईडी। नोट: यह CKEditor प्लगइन नाम से मेल खाती है। यह plugin.js फ़ाइल में CKEDITOR.plugins.add() फंक्शन के पहले आर्गुमेंट है।'
     button-name: 'बटन नाम। नोट: यह CKEditor बटन नाम से मेल खाती है। वे plugin.js फ़ाइल में editor.ui.addButton() या editor.ui.addRichCombo() फ़ंक्शंस का पहला आर्गुमेंट हैं।'
+    button-icon-path: 'Button icon path. This is the path to the icon/image of the button.'
 questions:
     module: common.questions.module
     class: 'प्लगइन क्लास के नाम एंटर करें'
     label: 'प्लगइन लेबल एंटर करें'
     plugin-id: 'प्लगइन एंटर करें। नोट: यह CKEditor प्लगइन नाम से मेल खाती है। यह plugin.js फ़ाइल में CKEDITOR.plugins.add() फंक्शन के पहले आर्गुमेंट है।'
     button-name: 'बटन नाम एंटर करें। नोट: यह CKEditor बटन नाम से मेल खाती है। वे plugin.js फ़ाइल में editor.ui.addButton() या editor.ui.addRichCombo() फ़ंक्शंस का पहला आर्गुमेंट हैं।'
+    button-icon-path: 'Enter the button icon path'

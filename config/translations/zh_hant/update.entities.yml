@@ -1,5 +1,5 @@
-description: 'Applying Entity Updates'
+description: 執行實體更新
 messages:
-  start: 'Starting the entity updates'
-  end: 'Finished the entity updates'
-  error: 'Error on Entity Updates'
+    start: 開始更新實體
+    end: 實體更新已完成
+    error: 實體更新有誤

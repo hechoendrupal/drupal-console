@@ -1,0 +1,21 @@
+services:
+  theme_debug:
+    class: Drupal\Console\Command\Theme\DebugCommand
+    tags:
+      - { name: console.command }
+  theme_download:
+    class: Drupal\Console\Command\Theme\DownloadCommand
+    tags:
+      - { name: console.command }
+  theme_install:
+    class: Drupal\Console\Command\Theme\InstallCommand
+    tags:
+      - { name: console.command }
+  theme_path:
+    class: Drupal\Console\Command\Theme\PathCommand
+    tags:
+      - { name: console.command }
+  theme_uninstall:
+    class: Drupal\Console\Command\Theme\UninstallCommand
+    tags:
+      - { name: console.command }

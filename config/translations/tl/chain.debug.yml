@@ -1,4 +1,4 @@
-description: 'List available chain files.'
+description: 'I-display ang listahan ng mga chain files.'
 messages:
     directory: Directory
     file: 'Chain file name.'

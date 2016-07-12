@@ -1,0 +1,9 @@
+services:
+  chain:
+    class: Drupal\Console\Command\Chain\ChainCommand
+    tags:
+      - { name: console.command }
+  chain_debug:
+    class: Drupal\Console\Command\Chain\ChainDebugCommand
+    tags:
+      - { name: console.command }

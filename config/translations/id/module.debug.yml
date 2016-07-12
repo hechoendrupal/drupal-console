@@ -12,3 +12,7 @@ messages:
     disabled: Disabled
     version: Version
     schema-version: 'Schema version'
+    total-downloads: 'Total installs'
+    total-monthly: 'Monthly installs'
+    total-daily: 'Daily installs'
+    no-results: 'Module %s was not found in the repository'

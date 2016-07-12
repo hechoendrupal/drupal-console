@@ -1,7 +1,7 @@
-description: 'Dump structure and contents of MySQL databases and tables'
+description: データベースの構造とコンテンツをダンプ
 arguments:
-    database: 'Database key from settings.php'
+    database: settings.phpのデータベースのキー
 options:
-    file: ' The filename for your database backup'
+    file: データベースをバックアップするファイル名
 messages:
-    success: 'Database exported to:'
+    success: 'データベースをエクスポートしました:'

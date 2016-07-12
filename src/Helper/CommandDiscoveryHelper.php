@@ -277,6 +277,24 @@ class CommandDiscoveryHelper extends Helper
         }
 
         if (!$reflectionClass->isSubclassOf('Drupal\\Console\\Command\\Command')) {
+            /* TODO remove once Compiler pass is completed */
+            if ($type === 'module' && $reflectionClass->isSubclassOf('Symfony\\Component\\Console\\Command\\Command')) {
+                $command = $reflectionClass->newInstance();
+                if (!$this->getDrupalHelper()->isInstalled()) {
+                    $traits = class_uses($command);
+                    if (in_array('Drupal\\Console\\Command\\Shared\\ContainerAwareCommandTrait', $traits)) {
+                        return false;
+                    }
+                }
+
+                if (method_exists($command, 'setTranslator')) {
+                    $command->setTranslator($this->getTranslator());
+                }
+
+                return $command;
+            }
+            /* TODO remove once Compiler pass is completed */
+
             return false;
         }
 
@@ -287,7 +305,6 @@ class CommandDiscoveryHelper extends Helper
         }
 
         $dependencies = $this->commandDependencies->read($reflectionClass);
-
 
         if ($reflectionClass->getConstructor()->getNumberOfRequiredParameters() > 0) {
             if ($source != 'Console') {

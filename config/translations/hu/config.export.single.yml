@@ -4,11 +4,14 @@ arguments:
 options:
     include-dependencies: 'A konfiguráció függőségei is legyenek exportálva.'
     simple-configuration: 'Egyszerű konfiguráció'
+    optional-config: 'Export config as an optional YAML configuration in your module'
 questions:
     config-type: 'Konfiguráció típusa'
     config-name: 'Konfiguráció neve'
+    optional-config: 'Export config in module as an optional configuration'
 messages:
     config-not-found: 'Nem található a konfigurációnév.'
     export: 'Megtörtént a konfiguráció exportálása a következő fájlba: %s.'
     invalid-config-type: 'Érvénytelen konfigurációs típus, ki kell választani egyet a listából'
     invalid-config-name: 'Érvénytelen konfigurációnév, ki kell választani egyet a listából'
+    config_exported: 'Configuration(s) exported sucessfully'

@@ -1,5 +1,5 @@
-description: 'Applying Entity Updates'
+description: エンティティの更新を適用する
 messages:
-    start: 'Starting the entity updates'
-    end: 'Finished the entity updates'
-    error: 'Error on Entity Updates'
+    start: エンティティの更新を開始しています。
+    end: エンティティの更新が完了しました。
+    error: エンティティの更新でエラーが発生しました。

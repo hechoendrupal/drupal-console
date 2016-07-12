@@ -11,17 +11,19 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
-use Drupal\Console\Command\CreateTrait;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CreateTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class UsersCommand
  * @package Drupal\Console\Command\Create
  */
-class UsersCommand extends ContainerAwareCommand
+class UsersCommand extends Command
 {
     use CreateTrait;
+    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */
@@ -64,7 +66,7 @@ class UsersCommand extends ContainerAwareCommand
 
         $rids = $input->getArgument('roles');
         if (!$rids) {
-            $roles = $this->getDrupalApi()->getRoles();
+            $roles = $this->getApplication()->getDrupalApi()->getRoles();
             $rids = $io->choice(
                 $this->trans('commands.create.users.questions.roles'),
                 array_values($roles),
@@ -127,10 +129,10 @@ class UsersCommand extends ContainerAwareCommand
         $timeRange = $input->getOption('time-range')?:31536000;
 
         if (!$roles) {
-            $roles = $this->getDrupalApi()->getRoles();
+            $roles = $this->getApplication()->getDrupalApi()->getRoles();
         }
 
-        $createUsers = $this->getDrupalApi()->getCreateUsers();
+        $createUsers = $this->getApplication()->getDrupalApi()->getCreateUsers();
         $users = $createUsers->createUser(
             $roles,
             $limit,

@@ -3,6 +3,7 @@ arguments:
     module: 'Module or modules to be enabled should be separated by a space'
 options:
     latest: 'Default to download most recent version'
+    composer: 'Download the module using Composer'
 questions:
     module: 'Module name (press <return> to stop adding modules)'
     invalid-module: 'Invalid module %s'
@@ -23,3 +24,4 @@ messages:
     downloaded: 'Module %s version %s was downloaded successfully at %s'
     no-releases: 'There aren''t any releases for module %s'
     installing: 'Installing module(s) %s'
+    composer: 'The module was installed successfully with Composer'

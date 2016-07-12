@@ -2,13 +2,16 @@ description: 'Экспорт конфигурации в yml файл.'
 arguments:
     config-name: 'Имя конфигурации.'
 options:
-    include-dependencies: 'Export dependencies of the configuration as well.'
+    include-dependencies: 'Экспортировать зависимости конфигурации.'
     simple-configuration: 'Простая конфигурация'
+    optional-config: 'Export config as an optional YAML configuration in your module'
 questions:
     config-type: 'Тип конфигурации'
     config-name: 'Имя конфигурации.'
+    optional-config: 'Export config in module as an optional configuration'
 messages:
     config-not-found: 'Имя конфигурации не найдено.'
     export: 'Конфигурация была экспортирована в файл %s.'
     invalid-config-type: 'Неверный тип конфигурации, пожалуйста, выберите один из списка'
     invalid-config-name: 'Неверное имя конфигурации, пожалуйста, выберите один из списка'
+    config_exported: 'Configuration(s) exported sucessfully'

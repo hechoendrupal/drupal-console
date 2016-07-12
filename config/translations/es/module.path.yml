@@ -1,0 +1,6 @@
+description: 'Indicar la ruta relativa a un módulo (o su ruta absoluta)'
+arguments:
+    module: 'El nombre del módulo (nombre máquina)'
+options:
+    absolute: 'Indica la ruta absoluta del módulo'
+messages:

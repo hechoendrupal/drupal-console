@@ -12,3 +12,7 @@ messages:
     disabled: Deshabilitado
     version: Versión
     schema-version: 'Versión del esquema'
+    total-downloads: 'Total de instalaciones'
+    total-monthly: 'Instalaciones mensuales'
+    total-daily: 'Instalaciones diarias'
+    no-results: 'El módulo %s no ha sido encontrado en el repositorio'

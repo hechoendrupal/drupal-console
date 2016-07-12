@@ -1,13 +1,15 @@
 description: 'Uninstall module or modules in the application'
 questions:
-    module: 'Enter module name'
+    module: 'Module name (press <return> to stop adding modules)'
     invalid-module: 'Invalid module %s'
 options:
-    module: 'Module or modules to be uninstalled should be separated by a comma'
+    module: 'Module or modules to be uninstalled should be separated by a space'
     force: 'Do you want to ignore dependencies and forcefully uninstall the module?'
+    composer: 'Uninstalls the module using Composer'
 messages:
     no-modules: 'You must provide module or modules to uninstall.'
     dependents: 'Unable to uninstall modules %s because are required by %s'
     nothing: 'Nothing to do. All modules are already uninstalled'
     success: 'The following module(s) were uninstalled successfully: %s'
     missing: 'Unable to uninstall modules %s due to missing modules %s'
+    composer-success: 'The folowing module(s) were removed from Composer: %s'

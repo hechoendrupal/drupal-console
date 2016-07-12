@@ -9,17 +9,19 @@ namespace Drupal\Console\Command\Create;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
-use Drupal\Console\Command\CreateTrait;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CreateTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class CommentsCommand
  * @package Drupal\Console\Command\Generate
  */
-class CommentsCommand extends ContainerAwareCommand
+class CommentsCommand extends Command
 {
     use CreateTrait;
+    use ContainerAwareCommandTrait;
 
     /**
      * {@inheritdoc}
@@ -39,19 +41,19 @@ class CommentsCommand extends ContainerAwareCommand
                 'limit',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.create.comments.arguments.limit')
+                $this->trans('commands.create.comments.options.limit')
             )
             ->addOption(
                 'title-words',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.create.comments.arguments.title-words')
+                $this->trans('commands.create.comments.options.title-words')
             )
             ->addOption(
                 'time-range',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.create.comments.arguments.time-range')
+                $this->trans('commands.create.comments.options.time-range')
             );
     }
 
@@ -108,7 +110,7 @@ class CommentsCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $createComments = $this->getDrupalApi()->getCreateComments();
+        $createComments = $this->getApplication()->getDrupalApi()->getCreateComments();
 
         $nodeId = $input->getArgument('node-id')?:1;
         $limit = $input->getOption('limit')?:25;

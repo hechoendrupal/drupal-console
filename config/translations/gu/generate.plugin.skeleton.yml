@@ -1,0 +1,13 @@
+description: 'Generate an implementation of a skeleton plugin for those plugins Drupal Console do not have a specific generator'
+help: 'The <info>"%s"</info> command helps you generate a skeleton plugin "%s"'
+options:
+    module: common.options.module
+    plugin: 'The Plugin Id.'
+    class: 'Plugin class name'
+questions:
+    module: common.questions.module
+    plugin: 'Enter the Plugin Id'
+    class: 'Enter the plugin class name'
+messages:
+    plugin-dont-exist: 'The plugin %s do not exist'
+    plugin-generator-implemented: 'Plugin %s already has an advanced command generator, please use %s'

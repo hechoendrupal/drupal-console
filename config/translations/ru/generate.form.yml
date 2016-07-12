@@ -1,21 +1,21 @@
-description: 'Generate a new "%s"'
-help: 'The <info>"%s"</info> command helps you generate a new "%s"'
-welcome: 'Welcome to the Drupal form generator'
+description: 'Генерировать новую "%s"'
+help: 'Команда <info>"%s"</info> поможет генерировать новые "%s"'
+welcome: 'Добро пожаловать в генератор Drupal форм'
 options:
     module: common.options.module
-    class: 'The form class name'
-    form-id: 'The Form id'
+    class: 'Название класса формы'
+    form-id: 'Идентификатор формы'
     services: common.options.services
     inputs: common.options.inputs
-    routing: 'Update routing'
+    routing: 'Generate routing'
 questions:
     module: common.questions.module
-    class: 'Enter the Form Class name'
-    form-id: 'Enter the Form id'
+    class: 'Введите имя Класса Формы'
+    form-id: 'Введите идентификатор Формы'
     services: common.questions.services
     inputs: common.questions.inputs
-    routing: 'Update routing file'
-    menu_link_gen: 'Generate a menu link'
-    menu_link_title: 'A title for the menu link'
-    menu_parent: 'Menu parent'
-    menu_link_desc: 'A description for the menu link'
+    routing: 'Would you like to register a route for this form'
+    menu_link_gen: 'Генерировать ссылку в меню'
+    menu_link_title: 'Заголовок ссылки в меню'
+    menu_parent: 'Родительское меню'
+    menu_link_desc: 'Описание для ссылки в меню'

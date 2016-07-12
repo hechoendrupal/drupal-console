@@ -1,6 +1,6 @@
-description: 'Displays libraries available in application'
+description: ライブラリを表示
 options:
-  name: 'Enter Libraries Name'
+    name: ライブラリ名を入力してください
 messages:
-   name: 'Extension with Libraries'
-   info: 'Libraries Information'
+    name: ライブラリを持っているモジュール
+    info: ライブラリの情報

@@ -1,5 +1,5 @@
-description: 'List image styles on the site'
+description: 'साइट पर इमेज स्टाइल की सूची'
 messages:
-    styles-list: 'Image Styles defined in the site'
-    styles-label: Label
-    styles-name: 'Machine Name'
+    styles-list: 'इमेज स्टाइल साइट में परिभाषित'
+    styles-label: लेबल
+    styles-name: 'मशीन का नाम'

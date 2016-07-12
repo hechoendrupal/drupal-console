@@ -2,7 +2,7 @@ description: 'Create dummy nodes for your Drupal 8 application.'
 help: 'The <info>create:nodes</info> command helps you create dummy nodes.'
 welcome: 'Welcome to the Drupal nodes generator'
 arguments:
-  content-types: 'Content type(s) to be used in node creation'
+    content-types: 'Content type(s) to be used in node creation'
 options:
     limit: 'How many nodes would you like to create'
     title-words: 'Maximum number of words in node titles'
@@ -13,7 +13,7 @@ questions:
     title-words: 'Enter the maximum number of words in titles'
     time-range: 'How far back in time should the nodes be dated?'
     time-ranges:
-        - 'Now'
+        - Now
         - '1 hour ago'
         - '1 day ago'
         - '1 week ago'
@@ -22,7 +22,7 @@ questions:
 messages:
     node-id: 'Node Id'
     content-type: 'Content type'
-    title: 'Title'
+    title: Title
     created: 'Created Time'
     invalid-content-types: 'Content types %s are invalid'
     created-nodes: 'Created %s nodes successfully'

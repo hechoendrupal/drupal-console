@@ -5,9 +5,11 @@ questions:
 options:
     module: 'Módulo ou módulos a serem desinstalados devem ser separados por vírgula'
     force: 'Quer ignorar as dependências desinstalar o módulo forçadamente?'
+    composer: 'Uninstalls the module using Composer'
 messages:
     no-modules: 'Você deve prover módulo ou módulos para desinstalar.'
     dependents: 'Não foi possível desinstalar os módulos %s porque são requeridos por %s'
     nothing: 'Nada a fazer. todos os módulos já estão desinstalados'
     success: 'Os seguinte módulo(s) foram desinstalados com sucesso: %s'
     missing: 'Não foi possível desinstalar os módulos %s devido a falta dos módulos %s'
+    composer-success: 'The folowing module(s) were removed from Composer: %s'

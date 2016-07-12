@@ -13,7 +13,7 @@ options:
 questions:
     module: common.questions.module
     class: 'Nhập vào tên lớp của trình điều khiển'
-    title: 'Enter the Controller method title (leave empty and press enter when done)'
+    title: 'Enter the Controller method title (to stop adding more methods, leave this empty)'
     method: 'Nhập tên phương pháp thực hiện'
     path: 'Enter the route path'
     services: common.questions.services
@@ -21,7 +21,7 @@ questions:
     controller: 'Tiêu đề của trình điều khiển'
     route: 'Nhập đường dẫn'
 messages:
-    title-empty: 'Title must contain a value'
+    title-empty: 'Title must contain a value (you must enter at least one method)'
     title-already-added: 'Tiêu đề đã được thêm'
     method-name-already-added: 'Tên phương pháp đã được thêm'
     path-already-added: 'Path was already added'

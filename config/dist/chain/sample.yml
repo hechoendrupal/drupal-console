@@ -14,8 +14,13 @@ commands:
       class: HelloWorldController
       routes:
         - title: 'Hello World'
+          name: 'example.hello_name'
           method: hello
-          path: 'example/hello/{name}'
+          path: '/example/hello/{name}'
+      services:
+          - entity_field.manager
+          - theme_handler
+          - config.factory
       test: true
   - command: generate:form:config
     options:
@@ -43,7 +48,7 @@ commands:
           default_value: ''
           weight: '0'
           fieldset: ''
-      routing: true
+      path: '/admin/setting/form'
       menu_link_gen: true
       menu_link_title: SettingsForm
       menu_parent: system.admin_config_system

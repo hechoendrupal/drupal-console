@@ -4,10 +4,10 @@ messages:
     welcome-feature-generate: 'Generate boilerplate code.'
     welcome-feature-interact: 'Interact with a Drupal 8 installation.'
     welcome-feature-learn: '學習 Drupal 8.'
-    links: '專案連結'
+    links: 專案連結
     landing: '主頁面 - %s'
     change-log: '異動紀錄 - %s'
     documentation: '文件 - %s'
     support: 'Support chat room - %s'
-    supporting-organizations: '支援組織'
+    supporting-organizations: 支援組織
     version-supported: '支援的 Drupal 版本 <info>%s</info>'

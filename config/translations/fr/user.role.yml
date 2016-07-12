@@ -1,0 +1,13 @@
+description: 'Adds/removes a role for a given user'
+help: 'The <info>user:role</info> command helps you to add or remove a role to a user.'
+welcome: 'Welcome to the Drupal user rule'
+arguments:
+    roles: 'Roles to add or remove. Please provide the machine name (only one)'
+    operation: 'Add or remove'
+    user: 'The affected user (only one)'
+messages:
+    bad-arguments: 'Some arguments are missing! Please, provide all the following arguments: [add/remove] [username] [role]'
+    no-user-found: 'Username %s was not found!'
+    no-role-found: 'Role %s was not found!'
+    add-success: 'Username %1$s was added role %2$s sucessfully'
+    remove-success: 'Username %1$s was removed role %2$s sucessfully'

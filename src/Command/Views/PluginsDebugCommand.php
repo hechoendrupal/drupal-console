@@ -10,7 +10,7 @@ namespace Drupal\Console\Command\Views;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command as BaseCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\views\Views;
@@ -19,7 +19,7 @@ use Drupal\views\Views;
  * Class PluginsDebugCommand
  * @package Drupal\Console\Command\Views
  */
-class PluginsDebugCommand extends BaseCommand
+class PluginsDebugCommand extends Command
 {
     use ContainerAwareCommandTrait;
     /**

@@ -1,46 +1,51 @@
 options:
-    env: 'The Environment name'
-    no-debug: 'Switches off debug mode'
-    learning: 'Generate a verbose code output'
-    generate-chain: 'Shows command options and arguments as yaml output to be used in chain command'
-    generate-inline: 'Shows command options and arguments as inline command'
-    generate-doc: 'Shows command options and arguments as markdown'
-    root: 'Define the Drupal root to be used in command execution'
-    uri: 'URI of the Drupal site to use (for multi-site environments or when running on an alternate port)'
-    'yes': 'Skip confirmation and proceed'
-    target: 'Site name you want to interact with (for local or remote sites)'
-    help: 'Display this help message'
-    quiet: 'Do not output any message'
-    verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
-    version: 'Display this application version'
-    ansi: 'Force ANSI output'
-    no-ansi: 'Disable ANSI output'
-    no-interaction: 'Do not ask any interactive question'
-    check-fix: 'Attempt to fix any missing configuration.'
+    env: 環境の名前
+    no-debug: デバッグモードを無効にする
+    learning: 冗長なコードの出力を行う
+    generate-chain: コマンドのオプションと引数をチェーンコマンドとして表示する
+    generate-inline: コマンドのオプションと引数をインラインコマンドとして表示する
+    generate-doc: コマンドのオプションと引数をMarkdownとして表示する
+    root: コマンドを実行するDrupalのルートディレクトリを定義する
+    uri: 'DrupalサイトのURI (マルチサイトやデフォルト以外のポートを利用している場合に使用する)'
+    yes: 確認プロセスをスキップする
+    target: 'サイト名 (ローカルもしくはリモートサイト向け)'
+    help: このヘルプメッセージを表示する
+    quiet: コマンドからの全ての出力を抑制する
+    verbose: 'メッセージの冗長性を上げる: 1は通常の出力、2はより冗長な出力、3はデバッグ用'
+    version: アプリケーションのバージョンを表示する
+    ansi: ANSI出力を強制する
+    no-ansi: ANSI出力を無効化する
+    no-interaction: 対話的な質問を行わない
+    check-fix: 見つからない設定の修正を試みる
 arguments:
-    command: 'The command to execute'
+    command: 実行するコマンド
 messages:
-    completed: 'The command was executed successfully!'
+    completed: コマンドの実行に成功しました。
     chain:
-        generated: 'Yaml representation of this command, usage copy in i.e. `~/.console/chain/sample.yml` to execute using `chain` command, make sure your yaml file start with a `commands` root key:'
+        generated: 'Yamlフォーマットで表現されたこのコマンドを使うためには `~/.console/chain/sample.yml` などにファイルとしてコピーしてください。`chain` コマンドで実行するには、Yamlファイルのルートキーが commands になっていることを確認してください。'
     inline:
-        generated: 'Inline representation of this command:'
-    generated: 'You can now start using the generated code!'
+        generated: このコマンドのインライン表現:
+    generated: 生成されたコードを使うことができます。
     files:
-        generated: 'Generated or updated files'
-        copied: 'Copied files'
+        generated: 生成または更新されたファイル
+        copied: コピーされたファイル
     learning:
-        route: "In order to to create pages it is necessary to define routes for them.\nA route maps a URL path to a controller. It defines with what function\nor method will be called when a URL is accessed.\nIf the user accesses http://drupal8.dev/{{ route.path }}, the routing\nsystem will look for a route with that path. In this case it will find a\nmatch, and execute the _controller callback. In this case the callback is\ndefined as a classname\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nand a method (\"{{ route.method }}\")."
-    autocomplete: "Bash or Zsh: Add this line to your shell configuration file:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Create a symbolic link\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>"
-    version: '<info>%s</info> version <comment>%s</comment>'
+        route: "ページを生成するためには、それらのルートを定義する必要があります。\nルートは、URLのパスをコントローラーにマッピングします。\n関数もしくはメソッドが定義されている場合、それらはURLにアクセスにあった時にコールされます。\nユーザーが http://drupal8.dev/{{ route.path }} にアクセスすると、ルーティングシステムはパスからルートを検索します。\nマッチするルートが見つかれば、_controller コールバックが実行されます。\nコールバックのクラスは (\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")、\nメソッドは (\"{{ route.method }}\") として定義されます。"
+    autocomplete: |
+                Bash or Zsh: 以下の行ををあなたのシェルの設定ファイルに追加してください:
+                <info>source "$HOME/.console/console.rc" 2>/dev/null</info>
+
+                Fish: シンボリックリンクを作成してください:
+                <info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>
+    version: '<info>%s</info> バージョン <comment>%s</comment>'
 errors:
-    invalid-command: 'Command "%s" is not defined.'
+    invalid-command: 'コマンド "%s" は存在しません。'
 site:
     messages:
-        path: 'Site path'
+        path: サイトのパス
     errors:
         directory: 実行可能なコマンドを全て表示するためには、Drupalのルートディレクトリ内に移動する必要があります。
-        settings: 'In order to list all of the available commands you should install drupal first.'
+        settings: 実行可能なコマンドを全て表示するためには、まずはDrupalをインストールする必要があります。
 user:
     messages:
-        path: 'User home path'
+        path: ユーザーのホームディレクトリのパス

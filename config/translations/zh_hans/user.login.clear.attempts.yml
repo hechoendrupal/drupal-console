@@ -10,3 +10,4 @@ messages:
     successful: '用户（ID： %s）的登录尝试数据清空。'
 errors:
     invalid-user: 没法载入用户ID%s的用户实体。
+    no-flood: 'No flood table on the system.'
