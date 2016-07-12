@@ -80,8 +80,9 @@ class Translator
     /**
      * @param $language
      * @param $directoryRoot
+     * @param $drupalRoot
      */
-    public function loadResource($language, $directoryRoot)
+    public function loadResource($language, $directoryRoot, $drupalRoot)
     {
         $this->language = $language;
         $this->translator = new BaseTranslator($this->language);
@@ -90,9 +91,15 @@ class Translator
 
         $languageDirectory = $directoryRoot . 'config/translations/' . $language;
 
-        if (!is_dir($languageDirectory)) {
+        if($language != 'en') {
+            $languageDirectory = $drupalRoot . 'console/language/' . $language;
+            if (!is_dir($languageDirectory)) {
+                $languageDirectory = $directoryRoot . 'config/translations/en';
+            }
+        } else {
             $languageDirectory = $directoryRoot . 'config/translations/en';
         }
+
         $finder = new Finder();
         $finder->files()
             ->name('*.yml')
