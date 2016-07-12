@@ -1,6 +1,6 @@
 description: 'Atualizar as configurações de desempenho do sistema'
 arguments:
-    environment: 'Nome do ambiente'
+    environment: 'Nome do ambiente [dev, prod]'
 messages:
     configuration: 'Nome da configuração'
     configuration-key: 'Chave da configuração'
