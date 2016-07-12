@@ -15,7 +15,7 @@ options:
 questions:
     module: common.questions.module
     class: 'Veuillez renseigner le nom de la classe de votre controlleur'
-    title: 'Enter the Controller method title'
+    title: 'Enter the Controller method title (to stop adding more methods, leave this empty)'
     method: 'Enter the action method name'
     path: 'Enter the route path'
     services: common.questions.services
@@ -27,7 +27,7 @@ questions:
     other-controller-title: 'Controller title (empty to start with code generation)'
     controller-title: 'Controller title'
 messages:
-    title-empty: 'Title must contain a value'
+    title-empty: 'Title must contain a value (you must enter at least one method)'
     title-already-added: 'Title was already added'
     method-name-already-added: 'Method name was already added'
     path-already-added: 'Path was already added'

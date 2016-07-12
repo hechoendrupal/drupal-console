@@ -1,11 +1,11 @@
-description: 'Rebuild node access permissions. Rebuilding will remove all privileges to content and replace them with permissions based on the current modules and settings.'
+description: 'Permissões de acesso ao node reconstruídas. A reconstrução irá remover todos os privilégios do conteúdo e substituí-los com permissões baseadas nos módulos e configurações atuais.'
 options:
-    batch: 'Process in batch mode.'
+    batch: 'Processo em modo de lotes.'
 messages:
-    rebuild: 'Rebuilding node access permissions, one moment please.'
-    completed: 'Done rebuilding permissions.'
-    failed: 'Rebuilding permissions was not successful.'
+    rebuild: 'Reconstruindo as permissões de acesso de nodes, um momento por favor.'
+    completed: 'Permissões reconstruídas.'
+    failed: 'Reconstrução de permissões não foi bem-sucedida.'
 examples:
     -
-        description: 'Rebuild node access permissions'
+        description: 'Reconstruir permissões de acesso a nodes'
         execution: 'drupal node:access:rebuild --batch'

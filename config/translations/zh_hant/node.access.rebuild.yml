@@ -1,11 +1,11 @@
-description: 'Rebuild node access permissions. Rebuilding will remove all privileges to content and replace them with permissions based on the current modules and settings.'
+description: 重建內容存取權限。重建過程將移除現有權限並依照目前模組與設定取代成為新權限。
 options:
-    batch: 'Process in batch mode.'
+    batch: 以批次方式執行
 messages:
-    rebuild: 'Rebuilding node access permissions, one moment please.'
-    completed: 'Done rebuilding permissions.'
-    failed: 'Rebuilding permissions was not successful.'
+    rebuild: 正在重建內容存取權限，請稍候。
+    completed: 內容存取權限重建完成。
+    failed: 內容存取權限重建失敗
 examples:
     -
-        description: 'Rebuild node access permissions'
+        description: 重建內容存取權限
         execution: 'drupal node:access:rebuild --batch'

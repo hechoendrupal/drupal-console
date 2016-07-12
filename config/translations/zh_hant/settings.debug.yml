@@ -1,5 +1,5 @@
 description: '列出使用者的 Drupal Console 設置'
 messages:
-    config-key: '設置鍵名'
-    config-value: '設置值'
-    config-file: '設置檔案'
+    config-key: 設置鍵名
+    config-value: 設置值
+    config-file: 設置檔案
