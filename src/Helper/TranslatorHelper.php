@@ -63,21 +63,16 @@ class TranslatorHelper extends Helper
     /**
      * @param $language
      * @param $directoryRoot
-     * @param $drupalRoot
      */
-    public function loadResource($language, $directoryRoot, $drupalRoot)
+    public function loadResource($language, $directoryRoot)
     {
         $this->language = $language;
         $this->translator = new Translator($this->language);
         $this->addLoader(new ArrayLoader(), 'array');
         $this->addLoader(new YamlFileLoader(), 'yaml');
 
-        if($language != 'en') {
-            $languageDirectory = $drupalRoot . 'console/language/' . $language;
-            if (!is_dir($languageDirectory)) {
-                $languageDirectory = $directoryRoot . 'config/translations/en';
-            }
-        } else {
+        $languageDirectory = $directoryRoot . 'config/translations/' . $language;
+        if (!is_dir($languageDirectory)) {
             $languageDirectory = $directoryRoot . 'config/translations/en';
         }
 

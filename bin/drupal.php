@@ -36,13 +36,6 @@ set_time_limit(0);
 
 $consoleRoot = __DIR__.'/../';
 
-// Drupal installed with composer
-if(is_dir(__DIR__.'/../../../../web/')) {
-    $drupalRoot = __DIR__ . '/../../../../web/';
-} else {
-    $drupalRoot = __DIR__ . '/../../../../';
-}
-
 if (file_exists($consoleRoot.'vendor/autoload.php')) {
     $autoload = include_once $consoleRoot.'vendor/autoload.php';
 } elseif (file_exists($consoleRoot.'../../autoload.php')) {
@@ -68,10 +61,11 @@ foreach ($finder as $file) {
 AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
 
 $config = $container->get('config');
-$container->get('translator')->loadResource($config->get('application.language'), $consoleRoot, $drupalRoot);
+$container->get('translator')
+    ->loadResource($config->get('application.language'), $consoleRoot);
 
 $translatorHelper = new TranslatorHelper();
-$translatorHelper->loadResource($config->get('application.language'), $consoleRoot, $drupalRoot);
+$translatorHelper->loadResource($config->get('application.language'), $consoleRoot);
 
 $helpers = [
     'nested-array' => new NestedArrayHelper(),
