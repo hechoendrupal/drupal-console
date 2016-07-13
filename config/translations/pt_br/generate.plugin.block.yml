@@ -8,7 +8,7 @@ options:
     plugin-id: 'Id do plugin'
     inputs: common.options.inputs
     services: common.options.services
-    theme-region: 'Theme region to render Plugin Block'
+    theme-region: 'Região do tema para renderizar o Bloco'
 questions:
     module: common.questions.module
     class: 'Digite o nome da classe do plugin'
