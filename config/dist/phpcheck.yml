@@ -23,5 +23,4 @@ requirements:
       - xml
       - curl
     recommended:
-      - mysql
       - sqlite3
