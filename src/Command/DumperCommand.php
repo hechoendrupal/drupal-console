@@ -15,7 +15,7 @@ use Drupal\devel\DevelDumperManager;
 /**
  * Class DumperCommand.
  * Command to quickly change between devel dumpers from the command line
- * @package Drupal\px_debug_tools
+ * @package Drupal\Console\Command
  */
 class DumperCommand extends ContainerAwareCommand {
 
