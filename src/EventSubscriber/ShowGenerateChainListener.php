@@ -81,7 +81,7 @@ class ShowGenerateChainListener implements EventSubscriberInterface
             if ($options) {
                 $commands['commands'][0]['options'] = $options;
             }
-            
+
             if ($arguments) {
                 $commands['commands'][0]['arguments'] = $arguments;
             }
