@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Command\CreateTrait;
+use Drupal\Console\Command\Shared\CreateTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -130,9 +130,16 @@ class NodesCommand extends Command
         $limit = $input->getOption('limit')?:25;
         $titleWords = $input->getOption('title-words')?:5;
         $timeRange = $input->getOption('time-range')?:31536000;
+        $available_types = array_keys($this->getApplication()->getDrupalApi()->getBundles());
+
+        foreach ($contentTypes as $type) {
+          if (!in_array($type, $available_types)) {
+            throw new \Exception('Invalid content type name given.');
+          }
+        }
 
         if (!$contentTypes) {
-            $contentTypes = array_keys($this->getApplication()->getDrupalApi()->getBundles());
+            $contentTypes = $available_types;
         }
 
         $nodes = $createNodes->createNode(

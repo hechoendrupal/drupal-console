@@ -23,7 +23,7 @@ class ConfigFormBaseGeneratorTest extends GeneratorTest
      * @param $inputs
      * @param $form_id
      * @param $form_type
-     * @param $update_routing
+     * @param $path
      * @param $menu_link_gen
      * @param $menu_link_title
      * @param $menu_parent
@@ -38,7 +38,7 @@ class ConfigFormBaseGeneratorTest extends GeneratorTest
         $inputs,
         $form_id,
         $form_type,
-        $update_routing,
+        $path,
         $menu_link_gen,
         $menu_link_title,
         $menu_parent,
@@ -56,7 +56,7 @@ class ConfigFormBaseGeneratorTest extends GeneratorTest
             $inputs,
             $form_id,
             $form_type,
-            $update_routing,
+            $path,
             $menu_link_gen,
             $menu_link_title,
             $menu_parent,
@@ -68,7 +68,7 @@ class ConfigFormBaseGeneratorTest extends GeneratorTest
             sprintf('%s does not exist', $class_name.'.php')
         );
 
-        if ($update_routing) {
+        if ($path) {
             $this->assertTrue(
                 file_exists($generator->getSite()->getModulePath($module).'/'.$module.'.routing.yml'),
                 sprintf('%s does not exist', $class_name.'.php')

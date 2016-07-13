@@ -1,16 +1,20 @@
 description: 'Criar um novo projeto Drupal'
 arguments:
-    directory: 'Directory when downloading Drupal'
+    directory: 'Diretório para baixar o Drupal'
     version: 'Versão do drupal a ser baixada'
-    site-name: 'Nome do site'
+options:
+    composer: 'Install Drupal with Composer'
+    latest: 'Use esta opção para selecionar automaticamente a última versão'
+    unstable: 'Use esta opção para baixar versões instáveis. Se não utilizado, você somente poderá instalar versões estáveis. Não utilize com a versão mais recente.'
 messages:
-    select-release: 'Select a core release'
+    select-release: 'Selecione uma versão base'
     getting-releases: 'Carregando versões do Drupal'
-    downloading: 'Baixando o Drupal %s'
+    downloading: 'Baixando o Drupal %s %s'
     extracting: 'Extraindo os arquivos do Drupal %s'
     no-releases: 'Não há versões disponíveis para o Drupal'
     downloaded: 'Drupal %s foi baixado no diretório %s'
     error-copying: 'Um erro ocorreu ao renomear o diretório em %s'
-    release: 'Por favor selecione uma versão'
 questions:
-    directory: 'Enter the directory name when downloading Drupal'
+    directory: 'Entre com o nome do diretório para baixar o Drupal'
+    composer-release: 'Please, choose a Packagist Drupal release'
+    stable: 'Do you want to use stable releases?'

@@ -4,6 +4,7 @@ arguments:
 options:
     latest: 'Valor por defecto que descarga la versión más reciente'
     path: 'La ruta de contrib del proyecto'
+    composer: 'Opción para señalar que el módulo será descargado, gestionado e instalado por Composer'
     version: 'Versión del módulo. Por ejemplo: 1.x-dev'
 questions:
     path: 'Introduzca la ruta de contrib del proyecto'

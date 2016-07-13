@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains Drupal\Console\Command\Shared\CommandTrait.
+ */
+
 namespace Drupal\Console\Command\Shared;
 
 use Drupal\Console\Utils\Translator;

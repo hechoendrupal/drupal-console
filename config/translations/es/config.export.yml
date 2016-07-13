@@ -4,6 +4,7 @@ arguments:
     tar: 'Indique esta opción para exportar la configuración a un archivo.'
 messages:
     directory: 'La configuración exportada fue guardada en el archivo %s'
+    error: 'Ha ocurrido un error al crear su directorio en %s'
 content:
     type:
         description: 'Exporta un tipo de contenido determinado y todos sus campos.'

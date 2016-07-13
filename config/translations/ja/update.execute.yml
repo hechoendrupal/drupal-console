@@ -1,8 +1,8 @@
-description: 'Execute a specific Update N function in a module, or execute all'
+description: 'Update N 関数を実行する'
 options:
-    update-n: 'Specific Update N function to be executed'
+    update-n: '実行するUpdate N 関数'
 messages:
-    no-module-updates: 'There aren''t updates available for module %s'
-    executing-update: 'Executing update function %s of module %s'
-    module-update-function-not-found: 'Module %s doesn''t have a function update for %s'
-    executing-required-previous-updates: 'Executing required previous updates'
+    no-module-updates: 'モジュール %s に利用可能なアップデートはありません。'
+    executing-update: 'モジュール %s の %s を実行中。'
+    module-update-function-not-found: 'モジュール %s には関数: %s は定義されていません。'
+    executing-required-previous-updates: 要求される以前のアップデートを実行中。

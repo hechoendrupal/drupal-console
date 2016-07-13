@@ -53,11 +53,6 @@ class {{ class }} extends BaseCommand {% endblock %}
   protected function execute(InputInterface $input, OutputInterface $output) {
     $io = new DrupalStyle($input, $output);
 
-    $text = sprintf(
-      'I am a new generated command for the module: %s',
-      $this->getModule()
-    );
-
-    $io->info($text);
+    $io->info('I am a new generated command.');
   }
 {% endblock %}

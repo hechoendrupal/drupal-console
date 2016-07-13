@@ -3,6 +3,7 @@ arguments:
     directory: 'Directorio donde instalar Drupal'
     version: 'Versión específica de Drupal a descargar'
 options:
+    composer: 'Instala Drupal con Composer'
     latest: 'Use esta opción para seleccionar automáticamente la última versión'
     unstable: 'Use esta opción para descargar versiones de desarrollo. Si no usa esta opción, sólo podrá descargar versiones estables. No use esta opción juntamente con las opciones latest ni version.'
 messages:
@@ -13,6 +14,10 @@ messages:
     no-releases: 'No hay releases disponibles de Drupal'
     downloaded: 'Drupal %s ha sido descargado con éxito en el directorio %s'
     error-copying: 'Ha ocurrido un error mientras se renombraba su directorio en %s'
+    composer: 'Drupal %s ha sido instalado con éxito usando Composer en %s'
+    executing: 'Executando el comando de Composer:'
+    missing-directory: 'Argumento de directorio no encontrado'
+    missing-version: 'Argumento de versión no encontrado'
     release: 'Por favor, seleccione una versión'
 questions:
     directory: 'Introduzca el nombre de directorio donde instalar Drupal'

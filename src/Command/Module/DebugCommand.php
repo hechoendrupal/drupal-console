@@ -49,12 +49,14 @@ class DebugCommand extends Command
 
         $this->get('site')->loadLegacyFile('/core/modules/system/system.module');
 
-        $status = $input->getOption('status');
-        $type = $input->getOption('type');
-        $modules = $input->getArgument('module');
+        $status = strtolower($input->getOption('status'));
+        $type = strtolower($input->getOption('type'));
+        $modules = strtolower($input->getArgument('module'));
 
         if ($modules) {
             $config = $this->getApplication()->getConfig();
+            $repo = $config->get('application.composer.repositories.default');
+
             foreach ($modules as $module) {
                 $url = sprintf(
                     '%s/packages/drupal/%s.json',
@@ -63,7 +65,7 @@ class DebugCommand extends Command
                 );
 
                 try {
-                    $data = $this->getApplication()->getHttpClientHelper()->getUrlAsJson($url);
+                    $data = $this->getApplication()->getHttpClientHelper()->getUrlAsJson($repo . $url);
                 } catch (\Exception $e) {
                     $io->error(
                         sprintf(
@@ -76,28 +78,28 @@ class DebugCommand extends Command
                 }
 
                 $tableHeader = [
-                    '<info>'.$data->package->name.'</info>'
+                  '<info>'.$data->package->name.'</info>'
                 ];
 
                 $tableRows = [];
 
                 $tableRows[] = [
-                    $data->package->description
+                  $data->package->description
                 ];
 
                 $tableRows[] = [
-                    '<comment>'.$this->trans('commands.module.debug.messages.total-downloads').'</comment>',
-                    $data->package->downloads->total
+                  '<comment>'.$this->trans('commands.module.debug.messages.total-downloads').'</comment>',
+                  $data->package->downloads->total
                 ];
 
                 $tableRows[] = [
-                    '<comment>'.$this->trans('commands.module.debug.messages.total-monthly').'</comment>',
-                    $data->package->downloads->monthly
+                  '<comment>'.$this->trans('commands.module.debug.messages.total-monthly').'</comment>',
+                  $data->package->downloads->monthly
                 ];
 
                 $tableRows[] = [
-                    '<comment>'.$this->trans('commands.module.debug.messages.total-daily').'</comment>',
-                    $data->package->downloads->daily
+                  '<comment>'.$this->trans('commands.module.debug.messages.total-daily').'</comment>',
+                  $data->package->downloads->daily
                 ];
 
                 $io->table($tableHeader, $tableRows, 'compact');
@@ -105,30 +107,30 @@ class DebugCommand extends Command
             return 0;
         }
 
-        if (strtolower($status) == 'enabled') {
+        if ($status == 'installed') {
             $status = 1;
-        } elseif (strtolower($status) == 'disabled') {
+        } elseif ($status == 'uninstalled') {
             $status = 0;
         } else {
             $status = -1;
         }
 
-        if (strtolower($type) == 'core') {
+        if ($type == 'core') {
             $type = 'core';
-        } elseif (strtolower($type) == 'no-core') {
+        } elseif ($type == 'no-core') {
             $type = '';
         } else {
             $type = null;
         }
 
         $tableHeader = [
-            $this->trans('commands.module.debug.messages.id'),
-            $this->trans('commands.module.debug.messages.name'),
-            $this->trans('commands.module.debug.messages.status'),
-            $this->trans('commands.module.debug.messages.package'),
-            $this->trans('commands.module.debug.messages.version'),
-            $this->trans('commands.module.debug.messages.schema-version'),
-            $this->trans('commands.module.debug.messages.origin'),
+          $this->trans('commands.module.debug.messages.id'),
+          $this->trans('commands.module.debug.messages.name'),
+          $this->trans('commands.module.debug.messages.package'),
+          $this->trans('commands.module.debug.messages.version'),
+          $this->trans('commands.module.debug.messages.schema-version'),
+          $this->trans('commands.module.debug.messages.status'),
+          $this->trans('commands.module.debug.messages.origin'),
         ];
 
         $tableRows = [];
@@ -142,19 +144,21 @@ class DebugCommand extends Command
                 continue;
             }
 
-            $module_status = ($module->status) ? $this->trans('commands.module.debug.messages.enabled') : $this->trans('commands.module.debug.messages.disabled');
+            $module_status = ($module->status) ? $this->trans('commands.module.debug.messages.installed') : $this->trans('commands.module.debug.messages.uninstalled');
+            $module_origin = ($module->origin) ? $module->origin : 'no core';
             $schema_version = (drupal_get_installed_schema_version($module_id)!= -1?drupal_get_installed_schema_version($module_id): '');
 
             $tableRows [] = [
               $module_id,
               $module->info['name'],
-              $module_status,
               $module->info['package'],
               $module->info['version'],
               $schema_version,
-              $module->origin,
+              $module_status,
+              $module_origin,
             ];
         }
+
         $io->table($tableHeader, $tableRows, 'compact');
     }
 }

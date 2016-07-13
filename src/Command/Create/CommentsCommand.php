@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Command\CreateTrait;
+use Drupal\Console\Command\Shared\CreateTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**

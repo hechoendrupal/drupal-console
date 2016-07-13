@@ -1,6 +1,6 @@
-description: 'Display current views plugins for the application'
+description: 'Отображает существующие плагины Представлений для приложения'
 arguments:
-    type: 'Filter views plugins by type'
+    type: 'Отфильтровать плагины Представлений по типу'
 messages:
     type: Type
     name: Name

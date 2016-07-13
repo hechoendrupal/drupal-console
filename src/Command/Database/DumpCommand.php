@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Command\Database\ConnectTrait;
+use Drupal\Console\Command\Shared\ConnectTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class DumpCommand extends Command
@@ -103,7 +103,7 @@ class DumpCommand extends Command
         }
 
         $shellProcess = $this->get('shell_process');
-        if ($shellProcess->exec($command)) {
+        if ($shellProcess->exec($command, true)) {
             $io->success(
                 sprintf(
                     '%s %s',

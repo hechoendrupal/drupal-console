@@ -17,6 +17,7 @@ use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 class ExecuteCommand extends Command
 {
     use ContainerAwareCommandTrait;
+
     protected function configure()
     {
         $this
@@ -35,6 +36,13 @@ class ExecuteCommand extends Command
 
         $modules = $input->getArgument('module');
         $module_handler = $this->getDrupalService('module_handler');
+        $lock = $this->getDrupalService('lock');
+
+        // Try to acquire cron lock.
+        if (!$lock->acquire('cron', 900.0)) {
+            $io->warning($this->trans('commands.cron.execute.messages.lock'));
+            return;
+        }
 
         if (in_array('all', $modules)) {
             $modules = $module_handler->getImplementations('cron');
@@ -63,6 +71,12 @@ class ExecuteCommand extends Command
                 );
             }
         }
+
+        // Set last time cron was executed
+        \Drupal::state()->set('system.cron_last', REQUEST_TIME);
+
+         // Release cron lock.
+        $lock->release('cron');
 
         $this->get('chain_queue')->addCommand('cache:rebuild', ['cache' => 'all']);
 

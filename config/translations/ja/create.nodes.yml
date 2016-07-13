@@ -1,5 +1,5 @@
-description: ダミーのノードを追加
-help: '<info>create:nodes</info> コマンドはダミーのノードを追加します。'
+description: ダミーのノードを作成
+help: '<info>create:nodes</info> コマンドはダミーのノードを作成します。'
 welcome: 'Welcome to the Drupal nodes generator'
 arguments:
     content-types: '作成するノードのコンテンツタイプ (複数指定可)'
@@ -13,12 +13,12 @@ questions:
     title-words: タイトルに設定する単語の最大数を入力してください
     time-range: ノードの作成時刻を選択してください
     time-ranges:
-        - Now
-        - '1 hour ago'
-        - '1 day ago'
-        - '1 week ago'
-        - '1 month ago'
-        - '1 year ago'
+        - 現在時刻
+        - 1時間前
+        - 1日前
+        - 1週間前
+        - 1ヶ月前
+        - 1年前
 messages:
     node-id: ノードID
     content-type: コンテンツタイプ

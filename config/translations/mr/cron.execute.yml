@@ -3,3 +3,4 @@ messages:
     module-invalid: '%s मोड्यूल क्रॉन लागू करू शकत नाही.'
     executing-cron: '%s मोड्यूलची क्रॉन पद्धत लागू होत आहे.'
     success: 'सर्व क्रॉन विनंती यशस्वीरित्या लागू झाल्या.'
+    lock: 'Attempting to re-run cron while it is already running'

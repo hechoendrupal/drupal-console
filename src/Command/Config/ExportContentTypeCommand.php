@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Config;
 
-use Drupal\Console\Command\ModuleTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,6 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\ExportTrait;
 
 class ExportContentTypeCommand extends Command
 {
@@ -59,7 +60,7 @@ class ExportContentTypeCommand extends Command
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($io);
         }
         $input->setOption('module', $module);
@@ -119,7 +120,7 @@ class ExportContentTypeCommand extends Command
 
         $this->getViewDisplays($contentType, $optionalConfig);
 
-        $this->exportConfig($module, $io, $this->trans('commands.config.export.content.type.messages.content_type_exported'));
+        $this->exportConfigToModule($module, $io, $this->trans('commands.config.export.content.type.messages.content_type_exported'));
     }
 
     protected function getFields($contentType, $optional = false)

@@ -1,24 +1,14 @@
-description: 'Display all plugin types, plugin instances of a specific type, or the definition for a specific plugin.'
-help: |
-  List all plugin types:
-  <info>drupal plugin:debug</info>
-
-  List all instances of the image effect plugin type:
-  <info>drupal plugin:debug image.effect</info>
-
-  Show the definition for the image convert plugin:
-  <info>drupal plugin:debug image.effect image_convert</info>
-
-  <comment>NOTE: Only plugin types exposed through services are supported.</comment> When developing a custom plugin type, expose it as a service by adding it to modulename.services.yml with the name "plugin.manager.PLUGIN_TYPE".
+description: 顯示全部外掛模組資訊，包含外掛類型、指定類別的外掛實體，或是指定外掛的定義說明
+help: "顯示全部外掛模組類型：\n<info>drupal plugin:debug</info>\n\n顯示所有 image effect 的外掛類型:\n<info>drupal plugin:debug image.effect</info>\n\n顯示 image convert 外掛的定義：\n<info>drupal plugin:debug image.effect image_convert</info>\n\n<comment>注意：只有列在 Service 當中的外掛類型支援此查詢指令。</comment> 當開發外掛類型時，為外掛加入 \"plugin.manager.[外掛類型]\" 於 modulename.services.yml 檔案中，以便列於 Serivice 列表。\n"
 arguments:
-    type: 'Plugin type'
-    id: 'Plugin ID'
+    type: 外掛類型
+    id: '外掛 ID'
 errors:
-    plugin-type-not-found: 'Plugin type "%s" not found. No service available for that type.'
+    plugin-type-not-found: '找不到 "%s" 此外掛類型。沒有此外掛類型可用的服務（Service）。'
 table-headers:
-    plugin-type-name: 'Plugin type'
-    plugin-type-class: 'Plugin manager class'
-    plugin-id: 'Plugin ID'
-    plugin-class: 'Plugin class'
-    definition-key: 'Key'
-    definition-value: 'Value'
+    plugin-type-name: 外掛類型
+    plugin-type-class: 外掛管理器類別
+    plugin-id: '外掛 ID'
+    plugin-class: 外掛類別
+    definition-key: 鍵名
+    definition-value: 鍵值

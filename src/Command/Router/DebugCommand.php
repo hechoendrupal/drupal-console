@@ -46,7 +46,7 @@ class DebugCommand extends Command
 
     protected function getAllRoutes(DrupalStyle $io)
     {
-        $routeProvider = $this->getService('router.route_provider');
+        $routeProvider = $this->getDrupalService('router.route_provider');
         $routes = $routeProvider->getAllRoutes();
 
         $tableHeader = [
@@ -64,8 +64,8 @@ class DebugCommand extends Command
 
     protected function getRouteByNames(DrupalStyle $io, $route_name)
     {
-        $rp = $this->getRouteProvider();
-        $routes = $rp->getRoutesByNames($route_name);
+        $routeProvider = $this->getDrupalService('router.route_provider');
+        $routes = $routeProvider->getRoutesByNames($route_name);
 
         foreach ($routes as $name => $route) {
             $tableHeader = [

@@ -1,6 +1,6 @@
 description: 'Export a view in YAML format inside a provided module to reuse in other website.'
 messages:
-    view_exported: 'Exporting view'
+    view_exported: 'View exported sucessfully'
     depencies-included: 'The following module dependencies were included at %s'
 questions:
     view: 'View to be exported'

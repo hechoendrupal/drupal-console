@@ -1,23 +1,23 @@
 description: '顯示 Drupal 安裝資訊'
 messages:
-    application: Application
-    system: '系統資訊'
-    hash_salt: 'Hash salt'
+    application: 網站應用
+    system: 系統資訊
+    hash_salt: 雜湊加值(salt)
     console: 'Drupal Console'
-    database: '資料庫連接'
-    driver: 'Driver'
-    host: '主機'
-    port: '端口'
-    username: '帳戶名稱'
-    password: '密碼'
-    theme: '版型'
-    connection: '連線'
-    theme_default: '預設版型'
-    theme_admin: '管理版型'
-    directory: '目錄'
-    directory_root: '網站根目錄'
-    directory_temporary: '網站暫存目錄'
-    directory_theme_default: '預設版型目錄'
-    directory_theme_admin: '管理版型目錄'
+    database: 資料庫連接
+    driver: Driver
+    host: 主機
+    port: 端口
+    username: 帳戶名稱
+    password: 密碼
+    theme: 版型
+    connection: 連線
+    theme_default: 預設版型
+    theme_admin: 管理版型
+    directory: 目錄
+    directory_root: 網站根目錄
+    directory_temporary: 網站暫存目錄
+    directory_theme_default: 預設版型目錄
+    directory_theme_admin: 管理版型目錄
     current_version: '目前 Drupal (%s)'
     not_installed: 'Drupal 沒有被安裝'

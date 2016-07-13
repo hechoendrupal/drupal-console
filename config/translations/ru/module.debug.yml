@@ -12,3 +12,7 @@ messages:
     disabled: Выключен
     version: Version
     schema-version: 'Версия схемы'
+    total-downloads: 'Всего установок'
+    total-monthly: 'Установок за месяц'
+    total-daily: 'Установок за день'
+    no-results: 'Модуль %s не найден в репозитории'

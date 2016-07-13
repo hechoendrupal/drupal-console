@@ -254,11 +254,13 @@ class SiteHelper extends Helper
             $this->modules = $this->discoverProfiles();
         }
 
-        $modulePath = sprintf(
-            '%s/%s',
-            $this->siteRoot,
-            $this->modules[$moduleName]->getPath()
-        );
+        if (array_key_exists($moduleName, $this->modules)) {
+            $modulePath = sprintf(
+                '%s/%s',
+                $this->siteRoot,
+                $this->modules[$moduleName]->getPath()
+            );
+        }
 
         if (!$fullPath) {
             $modulePath = str_replace(

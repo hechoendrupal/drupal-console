@@ -1,9 +1,9 @@
-description: 'Restore structure and contents of MySQL databases and tables'
+description: データベースの構造とコンテンツをリストア
 arguments:
-    database: 'Database key from settings.php'
+    database: settings.phpのデータベースのキー
 options:
-    file: 'The filename for your database backup file'
+    file: データベースのバックアップファイルの名前
 messages:
-    success: 'Database imported from:'
-    no-file: 'Missing file option'
-help: 'Restore structure and contents of a database.'
+    success: 'データベースを次のファイルからインポートしました:'
+    no-file: fileオプションが見つかりません。
+help: データベースの構造とコンテンツをリストア

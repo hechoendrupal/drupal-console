@@ -15,7 +15,7 @@ options:
 questions:
     module: common.questions.module
     class: 'Escriba el nombre de la clase del Controlador'
-    title: 'Introduzca el título de metodo del Controlador'
+    title: 'Introduzca el título de metodo del Controlador (para terminar la adición de más métodos, dejar el campo vacío)'
     method: 'Introduzca el nombre del método de acción'
     path: 'Introduzca el path de la ruta'
     services: common.questions.services
@@ -27,7 +27,7 @@ questions:
     other-controller-title: 'Título del controlador (déjelo vacío para iniciar la generación de código)'
     controller-title: 'Escriba el título del controlador'
 messages:
-    title-empty: 'El título no puede estar vacío'
+    title-empty: 'El título no puede estar vacío (se debe crear al menos un método)'
     title-already-added: 'El título ya ha sido añadido'
     method-name-already-added: 'El nombre del método ya ha sido añadido'
     path-already-added: 'El path ya ha sido añadido'

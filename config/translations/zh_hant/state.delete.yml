@@ -1,7 +1,7 @@
-description: 'Delete State'
+description: 清除系統狀態
 arguments:
-    name: 'State name.'
+    name: 系統狀態名稱。
 messages:
-    enter-name: 'State name must contain a value.'
-    state-not-exists: 'The state "%s" does not exists.'
-    deleted: 'State "%s" sucessfully deleted.'
+    enter-name: 需填入系統狀態名稱
+    state-not-exists: '系統狀態 %s 不存在。'
+    deleted: '系統狀態 %s 已清除完畢'

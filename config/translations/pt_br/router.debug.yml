@@ -3,9 +3,8 @@ arguments:
     route-name: 'Nomes das rotas'
 messages:
     name: 'Nome da rota'
-    class: 'Class path'
-    route: Route
-    path: 'Caminho da classe'
+    class: 'Caminho da classe'
+    route: Rota
+    path: 'Caminho'
     defaults: Padrão
     options: Opções
-    pattern: Pattern

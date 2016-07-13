@@ -3,6 +3,7 @@ arguments:
     module: 'Az engedélyezendő modulokat szóközzel kell elválasztani'
 options:
     latest: 'Az alapértelmezés a legfrissebb verzió letöltése'
+    composer: 'Download the module using Composer'
 questions:
     module: 'Modul neve (a <return> megnyomásával állítható le a modulok hozzáadása)'
     invalid-module: 'Érvénytelen modul: %s'
@@ -23,3 +24,4 @@ messages:
     downloaded: '%s modul %s verziójának letöltése sikerült ide: %s'
     no-releases: '%s modulnak nincs semmilyen kiadása'
     installing: 'Modulok telepítése: %s'
+    composer: 'The module was installed successfully with Composer'

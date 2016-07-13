@@ -1,0 +1,9 @@
+services:
+  cache_context_debug:
+    class: Drupal\Console\Command\Cache\ContextDebugCommand
+    tags:
+      - { name: console.command }
+  cache_rebuild:
+    class: Drupal\Console\Command\Cache\RebuildCommand
+    tags:
+      - { name: console.command }

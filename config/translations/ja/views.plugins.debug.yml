@@ -1,8 +1,8 @@
-description: 'Display current views plugins for the application'
+description: Viewsのプラグインを表示
 arguments:
-    type: 'Filter views plugins by type'
+    type: Viewsのプラグインをタイプでフィルタ
 messages:
-    type: Type
-    name: Name
-    provider: Provider
+    type: タイプ
+    name: 名称
+    provider: プロバイダー
     views: Views

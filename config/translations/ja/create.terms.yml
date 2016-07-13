@@ -1,5 +1,5 @@
-description: ダミーのタームを追加
-help: '<info>create:nodes</info> コマンドはダミーのタームを追加します。'
+description: ダミーのタームを作成
+help: '<info>create:nodes</info> コマンドはダミーのタームを作成します。'
 welcome: 'Welcome to the Drupal terms creator'
 arguments:
     vocabularies: '作成するタームのボキャブラリー (複数指定可)'

@@ -1,16 +1,16 @@
-description: 'Switch system performance configuration'
+description: 切換系統效能設置
 arguments:
-    environment: 'Environment name [dev, prod]'
+    environment: '環境模式名稱 [dev, prod]'
 messages:
-    configuration: 'Configuration name'
-    configuration-key: 'Configuration key'
-    original: 'Original Value'
-    updated: 'Override Value'
-    invalid-env: 'Invalid environment'
-    new-services-settings: 'New services settings'
-    service: 'Service'
-    service-parameter: 'Parameter'
-    service-value: 'Value'
-    error-copying-file: 'Error copying file'
-    error-writing-file: 'Error copying file'
-    services-file-overwritten: 'Services files %s was overwritten'
+    configuration: 設置名稱
+    configuration-key: 設置鍵名（Key）
+    original: 原始值
+    updated: 覆寫值
+    invalid-env: 不存在的環境模式
+    new-services-settings: 新的服務（Service）設定
+    service: 服務（Service）
+    service-parameter: 參數
+    service-value: 值
+    error-copying-file: 檔案複製失敗
+    error-writing-file: 檔案複製寫入失敗
+    services-file-overwritten: 服務（Services）檔案已被覆寫

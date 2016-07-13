@@ -12,11 +12,16 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\ExportTrait;
 
-class ExportSingleCommand extends ContainerAwareCommand
+class ExportSingleCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+    use ExportTrait;
+
     /**
      * @var \Drupal\Core\Entity\EntityManager
      */
@@ -56,6 +61,15 @@ class ExportSingleCommand extends ContainerAwareCommand
                 '',
                 InputOption::VALUE_NONE,
                 $this->trans('commands.config.export.single.options.include-dependencies')
+            )->addOption(
+                'module', '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.common.options.module')
+            )->addOption(
+                'optional-config',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.config.export.single.options.optional-config')
             );
     }
 
@@ -64,9 +78,9 @@ class ExportSingleCommand extends ContainerAwareCommand
      */
     protected function getConfigTypes()
     {
-        $this->entityManager = $this->getService('entity_type.manager');
+        $this->entityManager = $this->getDrupalService('entity_type.manager');
 
-        foreach ($this->entityManager->getService('entity_type.manager') as $entity_type => $definition) {
+        foreach ($this->entityManager->getDefinitions() as $entity_type => $definition) {
             if ($definition->isSubclassOf('Drupal\Core\Config\Entity\ConfigEntityInterface')) {
                 $this->definitions[$entity_type] = $definition;
             }
@@ -90,7 +104,7 @@ class ExportSingleCommand extends ContainerAwareCommand
      */
     protected function getConfigNames($config_type)
     {
-        $this->configStorage = $this->getConfigStorage();
+        $this->configStorage = $this->getDrupalService('config.storage');
 
         // For a given entity type, load all entities.
         if ($config_type && $config_type !== 'system.simple') {
@@ -155,6 +169,19 @@ class ExportSingleCommand extends ContainerAwareCommand
 
             $input->setArgument('config-name', $config_name);
         }
+
+        $module = $input->getOption('module');
+
+        if ($module) {
+            $optionalConfig = $input->getOption('optional-config');
+            if (!$optionalConfig) {
+                $optionalConfig = $io->confirm(
+                    $this->trans('commands.config.export.single.questions.optional-config'),
+                    true
+                );
+                $input->setOption('optional-config', $optionalConfig);
+            }
+        }
     }
 
 
@@ -164,72 +191,40 @@ class ExportSingleCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
+        $this->configStorage = $this->getDrupalService('config.storage');
 
         $directory = $input->getOption('directory');
-
-        if (!$directory) {
-            $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
-        }
-
-        if (!is_dir($directory)) {
-            mkdir($directory, 0777, true);
-        }
-
+        $module = $input->getOption('module');
         $configName = $input->getArgument('config-name');
+        $optionalConfig = $input->getOption('optional-config');
 
-        $configNames = [$configName];
-        if ($input->getOption('include-dependencies')) {
-            $configNames += $this->getConfigDependencies($configName);
-        }
-        foreach ($configNames as $configName) {
-            $config = $this->getConfigFactory()->getEditable($configName);
+        $config = $this->getConfiguration($configName);
 
-            $configExportFile = $directory . '/' . $configName.'.yml';
-
-            file_unmanaged_delete($configExportFile);
-
-            if ($config) {
-                $yaml = Yaml::encode($config->getRawData());
-                // Save configuration file.
-                file_put_contents($configExportFile, $yaml);
-                $io->info(
-                    sprintf($this->trans('commands.config.export.single.messages.export'), $configExportFile)
-                );
-            } else {
-                $io->error($this->trans('commands.config.export.single.messages.config-not-found'));
+        if ($config) {
+            if (!$directory) {
+                $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
             }
-        }
-    }
 
-    /**
-     * Returns all configuration depedencies for a configuration item.
-     *
-     * @param string $configName
-     *   The name of the configuration item to get dependencies for.
-     *
-     * @return array
-     *   An array of dependent configuration item names.
-     */
-    protected function getConfigDependencies($configName)
-    {
-        $dependencyManager = $this->getConfigManager()->getConfigDependencyManager();
-        // Compute dependent config.
-        $dependent_list = $dependencyManager->getDependentEntities('config', $configName);
-        $dependents = [];
-        foreach ($dependent_list as $config_name => $item) {
-            if (!isset($dependents[$config_name])) {
-                $dependents[$config_name] = $config_name;
-            }
-            // Grab any dependent graph paths.
-            if (isset($item['reverse_paths'])) {
-                foreach ($item['reverse_paths'] as $dependent_name => $value) {
-                    if ($value && !isset($dependents[$dependent_name])) {
-                        $dependents[$dependent_name] = $dependent_name;
-                    }
+            $this->configExport[$configName] = array('data' => $config, 'optional' => $optionalConfig);
+
+            if ($input->getOption('include-dependencies')) {
+                // Include config dependencies in export files
+                if ($dependencies = $this->fetchDependencies($config, 'config')) {
+                    $this->resolveDependencies($dependencies, $optionalConfig);
                 }
             }
+        } else {
+            $io->error($this->trans('commands.config.export.single.messages.config-not-found'));
         }
 
-        return $dependents;
+        if (!$module) {
+            if (!$directory) {
+                $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
+            }
+
+            $this->exportConfig($directory, $io, $this->trans('commands.config.export.single.messages.config_exported'));
+        } else {
+            $this->exportConfigToModule($module, $io, $this->trans('commands.config.export.single.messages.config_exported'));
+        }
     }
 }
