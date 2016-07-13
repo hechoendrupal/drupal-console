@@ -65,6 +65,7 @@ class ShowGenerateChainListener implements EventSubscriberInterface
         $input = $event->getInput();
 
         if ($input->getOption('generate-chain')) {
+            $commands = [];
             $options = array_filter($input->getOptions());
             foreach ($this->skipOptions as $remove_option) {
                 unset($options[$remove_option]);
@@ -75,16 +76,18 @@ class ShowGenerateChainListener implements EventSubscriberInterface
                 unset($arguments[$remove_argument]);
             }
 
-            $commandDefinition = [];
+            $commands['commands'][0]['command'] = $command_name;
+
             if ($options) {
-                $commandDefinition[$command_name]['options'] = $options;
+                $commands['commands'][0]['options'] = $options;
             }
+            
             if ($arguments) {
-                $commandDefinition[$command_name]['arguments'] = $arguments;
+                $commands['commands'][0]['arguments'] = $arguments;
             }
 
             $dumper = new Dumper();
-            $yml = $dumper->dump($commandDefinition, 10);
+            $yml = $dumper->dump($commands, 10);
 
             $yml = str_replace(
                 sprintf('\'%s\':', $command_name),
