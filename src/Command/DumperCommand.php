@@ -20,8 +20,8 @@ use Drupal\devel\DevelDumperManager;
 class DumperCommand extends ContainerAwareCommand
 {
     /**
-   * {@inheritdoc}
-   */
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         //Dumper is optional, if no input present a list
@@ -32,8 +32,8 @@ class DumperCommand extends ContainerAwareCommand
     }
 
     /**
-   * {@inheritdoc}
-   */
+     * {@inheritdoc}
+     */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
@@ -46,14 +46,12 @@ class DumperCommand extends ContainerAwareCommand
 
         $name = $input->getArgument('dumper');
         if (!$name) {
-            /**
- * @var string[] $pkeys 
-*/
-            $pkeys = $this->getDumperKeys();
+            /* @var string[] $dumpKeys */
+            $dumpKeys = $this->getDumperKeys();
 
             $name = $io->choice(
                 $this->trans('Select a Debug Dumper'),
-                $pkeys,
+                $dumpKeys,
                 'kint', //Make kint the default for quick 'switchback'
                 false
             );
@@ -62,29 +60,24 @@ class DumperCommand extends ContainerAwareCommand
         }
     }
 
-
     /**
-   * {@inheritdoc}
-   */
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
 
         //Check the dumper actually exists
         $name = $input->getArgument('dumper');
-        $pkeys = $this->getDumperKeys();
-        if (!in_array($name, $pkeys)) {
+        $dumpKeys = $this->getDumperKeys();
+        if (!in_array($name, $dumpKeys)) {
             $io->error($this->trans('Dumper does not exist'));
             return;
         }
         //Set the dumper in config
-        /**
- * @var ConfigFactory $cf 
-*/
+        /* @var ConfigFactory $cf */
         $cf = $this->getContainer()->get('config.factory');
-        /**
- * @var Config $ds 
-*/
+        /* @var Config $ds */
         $ds = $cf->getEditable('devel.settings');
         $ds->set('devel_dumper', $name)->save();
         //By actually retrieving the value from config again here and printing it we confirm it was set properly
@@ -92,12 +85,9 @@ class DumperCommand extends ContainerAwareCommand
         $io->info($this->trans("Devel Dumper set to $set"));
     }
 
-
     protected function getDumperKeys()
     {
-        /**
- * @var DevelDumperPluginManager $manager 
-*/
+        /* @var DevelDumperPluginManager $manager */
         $manager = $this->getContainer()->get('plugin.manager.devel_dumper');
         $plugins = $manager->getDefinitions();
         return array_keys($plugins);
