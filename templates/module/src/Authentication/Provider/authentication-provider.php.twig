@@ -102,7 +102,9 @@ class {{ class }} implements AuthenticationProviderInterface {% endblock %}
   public function handleException(GetResponseForExceptionEvent $event) {
     $exception = $event->getException();
     if ($exception instanceof AccessDeniedHttpException) {
-      $event->setException(new UnauthorizedHttpException('Invalid consumer origin.', $exception));
+      $event->setException(
+        new UnauthorizedHttpException('Invalid consumer origin.', $exception)
+      );
       return TRUE;
     }
     return FALSE;

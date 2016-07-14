@@ -27,15 +27,27 @@ class FormAlterCommand extends GeneratorCommand
     use MenuTrait;
     use ConfirmationTrait;
 
-    protected $metadata = ['class' => [],'method'=> [],'file'=> [],'unset' => []];
+    protected $metadata = [
+      'class' => [],
+      'method'=> [],
+      'file'=> [],
+      'unset' => []
+    ];
 
     protected function configure()
     {
         $this
             ->setName('generate:form:alter')
-            ->setDescription($this->trans('commands.generate.form.alter.description'))
+            ->setDescription(
+              $this->trans('commands.generate.form.alter.description')
+            )
             ->setHelp($this->trans('commands.generate.form.alter.help'))
-            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+              'module',
+              '',
+              InputOption::VALUE_REQUIRED,
+              $this->trans('commands.common.options.module')
+            )
             ->addOption(
                 'form-id',
                 '',
@@ -67,7 +79,7 @@ class FormAlterCommand extends GeneratorCommand
         $inputs = $input->getOption('inputs');
 
         $function = $module . '_form_' .$formId . '_alter';
-        
+
         if ($this->validateModuleFunctionExist($module, $function)) {
             throw new \Exception(
                 sprintf(
@@ -102,7 +114,7 @@ class FormAlterCommand extends GeneratorCommand
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($io);
         }
-       
+
         $input->setOption('module', $module);
 
         // --form-id option
@@ -128,7 +140,11 @@ class FormAlterCommand extends GeneratorCommand
         if ($moduleHandler->moduleExists('webprofiler') && isset($forms[$formId])) {
             $this->metadata['class'] = $forms[$formId]['class']['class'];
             $this->metadata['method'] = $forms[$formId]['class']['method'];
-            $this->metadata['file'] = str_replace($drupal->getRoot(), '', $forms[$formId]['class']['file']);
+            $this->metadata['file'] = str_replace(
+              $drupal->getRoot(),
+              '',
+              $forms[$formId]['class']['file']
+            );
 
             foreach ($forms[$formId]['form'] as $itemKey => $item) {
                 if ($item['#type'] == 'hidden') {
