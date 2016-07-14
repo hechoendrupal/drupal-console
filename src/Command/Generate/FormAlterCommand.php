@@ -39,14 +39,14 @@ class FormAlterCommand extends GeneratorCommand
         $this
             ->setName('generate:form:alter')
             ->setDescription(
-              $this->trans('commands.generate.form.alter.description')
+                $this->trans('commands.generate.form.alter.description')
             )
             ->setHelp($this->trans('commands.generate.form.alter.help'))
             ->addOption(
-              'module',
-              '',
-              InputOption::VALUE_REQUIRED,
-              $this->trans('commands.common.options.module')
+                'module',
+                '',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
             )
             ->addOption(
                 'form-id',
@@ -141,9 +141,9 @@ class FormAlterCommand extends GeneratorCommand
             $this->metadata['class'] = $forms[$formId]['class']['class'];
             $this->metadata['method'] = $forms[$formId]['class']['method'];
             $this->metadata['file'] = str_replace(
-              $drupal->getRoot(),
-              '',
-              $forms[$formId]['class']['file']
+                $drupal->getRoot(),
+                '',
+                $forms[$formId]['class']['file']
             );
 
             foreach ($forms[$formId]['form'] as $itemKey => $item) {

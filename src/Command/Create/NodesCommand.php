@@ -133,9 +133,9 @@ class NodesCommand extends Command
         $available_types = array_keys($this->getApplication()->getDrupalApi()->getBundles());
 
         foreach ($contentTypes as $type) {
-          if (!in_array($type, $available_types)) {
-            throw new \Exception('Invalid content type name given.');
-          }
+            if (!in_array($type, $available_types)) {
+                throw new \Exception('Invalid content type name given.');
+            }
         }
 
         if (!$contentTypes) {

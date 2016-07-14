@@ -28,8 +28,8 @@ class ContextDebugCommand extends Command
     protected function configure()
     {
         $this
-          ->setName('cache:context:debug')
-          ->setDescription($this->trans('commands.cache.context.debug.description'));
+            ->setName('cache:context:debug')
+            ->setDescription($this->trans('commands.cache.context.debug.description'));
     }
 
     /**

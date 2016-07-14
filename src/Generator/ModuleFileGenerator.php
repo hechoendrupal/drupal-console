@@ -20,7 +20,7 @@ class ModuleFileGenerator extends Generator
     public function generate(
         $machine_name,
         $file_path
-    ) { 
+    ) {
         $dir = $file_path .'/'. $machine_name. '.module';
       
         if (file_exists($dir)) {
@@ -32,7 +32,6 @@ class ModuleFileGenerator extends Generator
                     )
                 );
             }
-            
         }
 
         $parameters = array(

@@ -13,7 +13,6 @@ namespace Drupal\Console\Command\Shared;
  */
 trait MigrationTrait
 {
-     
     /**
      * @param bool $version_tag
      * @param bool $flatList
@@ -21,7 +20,7 @@ trait MigrationTrait
      * @return array list of migrations
      */
     protected function getMigrations($version_tag = false, $flatList = false)
-    {   
+    {
         $plugin_manager = $this->getDrupalService('plugin.manager.migration');
         $all_migrations = $plugin_manager->createInstancesByTag($version_tag);
  
@@ -53,11 +52,9 @@ trait MigrationTrait
      * @return mixed
      */
     protected function getDatabaseDrivers()
-    {    
+    {
         // Make sure the install API is available.
         include_once DRUPAL_ROOT . '/core/includes/install.inc';
         return drupal_get_database_types();
-
     }
-
 }

@@ -72,7 +72,7 @@ class RunCommand extends Command
 
         if (!$url) {
             $io->error($this->trans('commands.test.run.messages.url-required'));
-            return NULL;
+            return null;
         }
 
         $this->setEnvironment($url);
@@ -84,9 +84,8 @@ class RunCommand extends Command
 
         if (is_subclass_of($testClass, 'PHPUnit_Framework_TestCase')) {
             $io->info($this->trans('commands.test.run.messages.phpunit-pending'));
-            return NULL;
-        }
-        else {
+            return null;
+        } else {
             if (!class_exists($testClass)) {
                 $io->error(
                     sprintf(
@@ -107,77 +106,77 @@ class RunCommand extends Command
             $end = Timer::stop('run-tests');
 
             $io->simple(
-              $this->trans('commands.test.run.messages.test-duration') . ': ' .  \Drupal::service('date.formatter')->formatInterval($end['time'] / 1000)
+                $this->trans('commands.test.run.messages.test-duration') . ': ' .  \Drupal::service('date.formatter')->formatInterval($end['time'] / 1000)
             );
             $io->simple(
-              $this->trans('commands.test.run.messages.test-pass') . ': ' . $test->results['#pass']
+                $this->trans('commands.test.run.messages.test-pass') . ': ' . $test->results['#pass']
             );
             $io->commentBlock(
-              $this->trans('commands.test.run.messages.test-fail') . ': ' . $test->results['#fail']
+                $this->trans('commands.test.run.messages.test-fail') . ': ' . $test->results['#fail']
             );
             $io->commentBlock(
-              $this->trans('commands.test.run.messages.test-exception') . ': ' . $test->results['#exception']
+                $this->trans('commands.test.run.messages.test-exception') . ': ' . $test->results['#exception']
             );
             $io->simple(
-              $this->trans('commands.test.run.messages.test-debug') . ': ' . $test->results['#debug']
+                $this->trans('commands.test.run.messages.test-debug') . ': ' . $test->results['#debug']
             );
 
             $this->getModuleHandler()->invokeAll(
-              'test_finished',
-              [$test->results]
+                'test_finished',
+                [$test->results]
             );
 
             $io->newLine();
             $io->info($this->trans('commands.test.run.messages.test-summary'));
             $io->newLine();
 
-            $currentClass = NULL;
-            $currentGroup = NULL;
-            $currentStatus = NULL;
+            $currentClass = null;
+            $currentGroup = null;
+            $currentStatus = null;
 
             $messages = $this->simpletestScriptLoadMessagesByTestIds([$testId]);
 
             foreach ($messages as $message) {
-                if ($currentClass === NULL || $currentClass != $message->test_class) {
+                if ($currentClass === null || $currentClass != $message->test_class) {
                     $currentClass = $message->test_class;
                     $io->comment($message->test_class);
                 }
 
-                if ($currentGroup === NULL || $currentGroup != $message->message_group) {
+                if ($currentGroup === null || $currentGroup != $message->message_group) {
                     $currentGroup =  $message->message_group;
                 }
 
-                if ($currentStatus === NULL || $currentStatus != $message->status) {
+                if ($currentStatus === null || $currentStatus != $message->status) {
                     $currentStatus =  $message->status;
                     if ($message->status == 'fail') {
                         $io->error($this->trans('commands.test.run.messages.group') . ':' . $message->message_group . ' ' . $this->trans('commands.test.run.messages.status') . ':' . $message->status);
                         $io->newLine();
-                    }
-                    else {
+                    } else {
                         $io->info($this->trans('commands.test.run.messages.group') . ':' . $message->message_group . ' ' . $this->trans('commands.test.run.messages.status') . ':' . $message->status);
                         $io->newLine();
                     }
                 }
 
                 $io->simple(
-                  $this->trans('commands.test.run.messages.file') . ': ' . str_replace($this->getDrupalHelper()->getRoot(), '', $message->file)
+                    $this->trans('commands.test.run.messages.file') . ': ' . str_replace($this->getDrupalHelper()->getRoot(), '', $message->file)
                 );
                 $io->simple(
-                  $this->trans('commands.test.run.messages.method') . ': ' . $message->function
+                    $this->trans('commands.test.run.messages.method') . ': ' . $message->function
                 );
                 $io->simple(
-                  $this->trans('commands.test.run.messages.line') . ': ' . $message->line
+                    $this->trans('commands.test.run.messages.line') . ': ' . $message->line
                 );
                 $io->simple(
-                  $this->trans('commands.test.run.messages.message') . ': ' . $message->message
+                    $this->trans('commands.test.run.messages.message') . ': ' . $message->message
                 );
                 $io->newLine();
             }
-            return NULL;
+            return null;
         }
     }
 
-    protected function setEnvironment($url) {
+    protected function setEnvironment($url)
+    {
         $base_url = 'http://';
         $port = '80';
 
@@ -207,7 +206,7 @@ class RunCommand extends Command
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['SERVER_ADDR'] = '127.0.0.1';
         $_SERVER['SERVER_PORT'] = $port;
-        $_SERVER['SERVER_SOFTWARE'] = NULL;
+        $_SERVER['SERVER_SOFTWARE'] = null;
         $_SERVER['SERVER_NAME'] = 'localhost';
         $_SERVER['REQUEST_URI'] = $path . '/';
         $_SERVER['REQUEST_METHOD'] = 'GET';

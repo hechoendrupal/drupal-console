@@ -33,13 +33,13 @@ class DisableCommand extends Command
     protected function configure()
     {
         $this
-          ->setName('rest:disable')
-          ->setDescription($this->trans('commands.rest.disable.description'))
-          ->addArgument(
-            'resource-id',
-            InputArgument::OPTIONAL,
-            $this->trans('commands.rest.debug.arguments.resource-id')
-          );
+            ->setName('rest:disable')
+            ->setDescription($this->trans('commands.rest.disable.description'))
+            ->addArgument(
+                'resource-id',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.rest.debug.arguments.resource-id')
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -49,21 +49,21 @@ class DisableCommand extends Command
         $resource_id = $input->getArgument('resource-id');
         $rest_resources = $this->getRestResources();
         $rest_resources_ids = array_merge(
-          array_keys($rest_resources['enabled']),
-          array_keys($rest_resources['disabled'])
+            array_keys($rest_resources['enabled']),
+            array_keys($rest_resources['disabled'])
         );
 
         if (!$resource_id) {
             $resource_id = $io->choice(
-              $this->trans('commands.rest.disable.arguments.resource-id'),
-              $rest_resources_ids
+                $this->trans('commands.rest.disable.arguments.resource-id'),
+                $rest_resources_ids
             );
         }
 
         $this->validateRestResource(
-          $resource_id,
-          $rest_resources_ids,
-          $this->getTranslator()
+            $resource_id,
+            $rest_resources_ids,
+            $this->getTranslator()
         );
         $input->setArgument('resource-id', $resource_id);
         $rest_settings = $this->getRestDrupalConfig();
@@ -71,16 +71,16 @@ class DisableCommand extends Command
         unset($rest_settings[$resource_id]);
 
         $config = $this->getDrupalService('config.factory')
-          ->getEditable('rest.settings');
+            ->getEditable('rest.settings');
 
         $config->set('resources', $rest_settings);
         $config->save();
 
         $io->success(
-          sprintf(
-            $this->trans('commands.rest.disable.messages.success'),
-            $resource_id
-          )
+            sprintf(
+                $this->trans('commands.rest.disable.messages.success'),
+                $resource_id
+            )
         );
     }
 }

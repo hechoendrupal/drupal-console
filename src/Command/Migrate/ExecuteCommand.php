@@ -176,7 +176,7 @@ class ExecuteCommand extends Command
         }
         
         $this->registerMigrateDB($input, $output);
-        $this->migrateConnection = $this->getDBConnection($output,'default','upgrade');
+        $this->migrateConnection = $this->getDBConnection($output, 'default', 'upgrade');
 
         if (!$drupal_version = $this->getLegacyDrupalVersion($this->migrateConnection)) {
             $io->error($this->trans('commands.migrate.setup.migrations.questions.not-drupal'));
@@ -260,8 +260,7 @@ class ExecuteCommand extends Command
 
         if (!$this->migrateConnection) {
             $this->registerMigrateDB($input, $output);
-            $this->migrateConnection = $this->getDBConnection($output,'default','upgrade');
-           
+            $this->migrateConnection = $this->getDBConnection($output, 'default', 'upgrade');
         }
         
         if (!$drupal_version = $this->getLegacyDrupalVersion($this->migrateConnection)) {
@@ -275,7 +274,6 @@ class ExecuteCommand extends Command
             $migrations = $migration_ids;
         } else {
             $migrations = array_keys($this->getMigrations($version_tag));
-
         }
                 
         if (!empty($exclude_ids)) {
@@ -296,9 +294,9 @@ class ExecuteCommand extends Command
                 )
             );
 
-         $migration_service = $this->getDrupalService('plugin.manager.migration');
+            $migration_service = $this->getDrupalService('plugin.manager.migration');
          
-         $migration_service = $migration_service->createInstance($migration_id);
+            $migration_service = $migration_service->createInstance($migration_id);
 
             if ($migration_service) {
                 $messages = new MigrateExecuteMessageCapture();
@@ -353,6 +351,5 @@ class ExecuteCommand extends Command
                 $io->error($this->trans('commands.migrate.execute.messages.fail-load'));
             }
         }
-    } 
-
+    }
 }
