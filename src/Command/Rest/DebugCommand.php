@@ -11,30 +11,41 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Annotation\DrupalCommand;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\RestTrait;
 
-class DebugCommand extends ContainerAwareCommand
+class DebugCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+    use RestTrait;
+
+    /**
+     * @DrupalCommand(
+     *     dependencies = {
+     *         “rest"
+     *     }
+     * )
+     */
     protected function configure()
     {
         $this
-            ->setName('rest:debug')
-            ->setDescription($this->trans('commands.rest.debug.description'))
-            ->addArgument(
-                'resource-id',
-                InputArgument::OPTIONAL,
-                $this->trans('commands.rest.debug.arguments.resource-id')
-            )
-            ->addOption(
-                'authorization',
-                '',
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.rest.debug.options.status')
-            );
-
-        $this->addDependency('rest');
+          ->setName('rest:debug')
+          ->setDescription($this->trans('commands.rest.debug.description'))
+          ->addArgument(
+            'resource-id',
+            InputArgument::OPTIONAL,
+            $this->trans('commands.rest.debug.arguments.resource-id')
+          )
+          ->addOption(
+            'authorization',
+            '',
+            InputOption::VALUE_OPTIONAL,
+            $this->trans('commands.rest.debug.options.status')
+          );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -46,7 +57,8 @@ class DebugCommand extends ContainerAwareCommand
 
         if ($resource_id) {
             $this->restDetail($io, $resource_id);
-        } else {
+        }
+        else {
             $this->restList($io, $status);
         }
     }
@@ -55,15 +67,15 @@ class DebugCommand extends ContainerAwareCommand
     {
         $config = $this->getRestDrupalConfig();
 
-        $resourcePluginManager = $this->getPluginManagerRest();
-        $plugin = $resourcePluginManager->getInstance(array('id' => $resource_id));
+        $resourcePluginManager = $this->getDrupalService('plugin.manager.rest');
+        $plugin = $resourcePluginManager->getInstance(['id' => $resource_id]);
 
         if (empty($plugin)) {
             $io->error(
-                sprintf(
-                    $this->trans('commands.rest.debug.messages.not-found'),
-                    $resource_id
-                )
+              sprintf(
+                $this->trans('commands.rest.debug.messages.not-found'),
+                $resource_id
+              )
             );
 
             return false;
@@ -72,11 +84,24 @@ class DebugCommand extends ContainerAwareCommand
         $resource = $plugin->getPluginDefinition();
 
         $configuration = [];
-        $configuration[] = [$this->trans('commands.rest.debug.messages.id'), $resource['id']];
-        $configuration[] = [$this->trans('commands.rest.debug.messages.label'), (string) $resource['label']];
-        $configuration[] = [$this->trans('commands.rest.debug.messages.canonical_url'), $resource['uri_paths']['canonical']];
-        $configuration[] = [$this->trans('commands.rest.debug.messages.status'), (isset($config[$resource['id']])) ? $this->trans('commands.rest.debug.messages.enabled') : $this->trans('commands.rest.debug.messages.disabled')];
-        $configuration[] = [$this->trans('commands.rest.debug.messages.provider', $resource['provider'])];
+        $configuration[] = [
+          $this->trans('commands.rest.debug.messages.id'),
+          $resource['id']
+        ];
+        $configuration[] = [
+          $this->trans('commands.rest.debug.messages.label'),
+          (string) $resource['label']
+        ];
+        $configuration[] = [
+          $this->trans('commands.rest.debug.messages.canonical_url'),
+          $resource['uri_paths']['canonical']
+        ];
+        $configuration[] = [
+          $this->trans('commands.rest.debug.messages.status'),
+          (isset($config[$resource['id']])) ? $this->trans('commands.rest.debug.messages.enabled') : $this->trans('commands.rest.debug.messages.disabled')];
+        $configuration[] = [
+          $this->trans('commands.rest.debug.messages.provider', $resource['provider'])
+        ];
 
         $io->comment($resource_id);
         $io->newLine();
@@ -92,10 +117,10 @@ class DebugCommand extends ContainerAwareCommand
         $tableRows = [];
         foreach ($config[$resource['id']] as $method => $settings) {
             $tableRows[] = [
-                $method,
-                implode(', ', $settings['supported_formats']),
-                implode(', ', $settings['supported_auth']),
-              ];
+              $method,
+              implode(', ', $settings['supported_formats']),
+              implode(', ', $settings['supported_auth']),
+            ];
         }
 
         $io->table($tableHeader, $tableRows);
