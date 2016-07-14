@@ -72,7 +72,7 @@ class {{ class_name }} extends WidgetBase {% endblock %}
   public function settingsSummary() {
     $summary = [];
 
-    $summary[] = t('Textfield size: !size', ['!size' => $this->getSetting('size')]);
+    $summary[] = t('Textfield size: @size', ['@size' => $this->getSetting('size')]);
     if (!empty($this->getSetting('placeholder'))) {
       $summary[] = t('Placeholder: @placeholder', ['@placeholder' => $this->getSetting('placeholder')]);
     }
