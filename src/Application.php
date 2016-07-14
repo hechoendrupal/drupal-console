@@ -439,9 +439,19 @@ class Application extends BaseApplication
                     return strcmp($cmd1->getName(), $cmd2->getName());
                 }
             );
+
             foreach ($commands as $command) {
-                if ($command->getModule()=='Console') {
-                    $data['commands'][$namespace][] = $this->commandData($command->getName());
+                if (method_exists($command, 'getModule')) {
+                    if ($command->getModule() == 'Console') {
+                        $data['commands'][$namespace][] = $this->commandData(
+                            $command->getName()
+                        );
+                    }
+                }
+                else {
+                    $data['commands'][$namespace][] = $this->commandData(
+                        $command->getName()
+                    );
                 }
             }
         }
