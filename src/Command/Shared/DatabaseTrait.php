@@ -17,7 +17,7 @@ use Drupal\Console\Style\DrupalStyle;
  * @package Drupal\Console\Command\Database
  */
 trait DatabaseTrait
-{   
+{
     //use MigrationTrait;
 
     protected $database;
@@ -155,7 +155,7 @@ trait DatabaseTrait
      * @return mixed
      */
     protected function getDatabaseTypes()
-    {    
+    {
         $drupal = $this->get('site');
         return $drupal->getDatabaseTypes();
     }
@@ -176,7 +176,6 @@ trait DatabaseTrait
 
         // Druppal 5/6/7 can be detected by the schema_version in the system table.
         if ($connection->schema()->tableExists('system')) {
-
             try {
                 $version_string = $connection->query('SELECT schema_version FROM {system} WHERE name = :module', [':module' => 'system'])
                     ->fetchField();
@@ -194,13 +193,10 @@ trait DatabaseTrait
         // For Drupal 8 (and we're predicting beyond) the schema version is in the
         // key_value store.
         elseif ($connection->schema()->tableExists('key_value')) {
-           
             $result = $connection->query("SELECT value FROM {key_value} WHERE collection = :system_schema  and name = :module", [':system_schema' => 'system.schema', ':module' => 'system'])->fetchField();
             $version_string = unserialize($result);
         } else {
-           
             $version_string = false;
-           
         }
 
         return $version_string ? substr($version_string, 0, 1) : false;
@@ -222,7 +218,7 @@ trait DatabaseTrait
     protected function getDBConnection(DrupalStyle $io, $target, $key)
     {
         try {
-          return Database::getConnection($target, $key);
+            return Database::getConnection($target, $key);
         } catch (\Exception $e) {
             $io->error(
                 sprintf(
@@ -251,7 +247,6 @@ trait DatabaseTrait
         $dbPort = $input->getOption('db-port');
         
         $this->addDBConnection($io, 'upgrade', 'default', $dbType, $dbName, $dbUser, $dbPass, $dbPrefix, $dbPort, $dbHost);
-
     }
 
 
@@ -268,8 +263,7 @@ trait DatabaseTrait
      * @param $dbHost
      */
     protected function addDBConnection(DrupalStyle $io, $key, $target, $dbType, $dbName, $dbUser, $dbPass, $dbPrefix, $dbPort, $dbHost)
-    {    
-
+    {
         $database_type = $this->getDatabaseDrivers();
         $reflection = new \ReflectionClass($database_type[$dbType]);
         $install_namespace = $reflection->getNamespaceName();
@@ -282,16 +276,16 @@ trait DatabaseTrait
             'prefix' => $dbPrefix,
             'port' => $dbPort,
             'host' => $dbHost,
-            'namespace' => $namespace, 
+            'namespace' => $namespace,
             'driver' => $dbType,
         ];
         
 
         try {
-           return Database::addConnectionInfo($key, $target, $this->database);
+            return Database::addConnectionInfo($key, $target, $this->database);
         } catch (\Exception $e) {
-          print 'entra cacth';
-          exit();
+            print 'entra cacth';
+            exit();
             $io->error(
                 sprintf(
                     '%s: %s',

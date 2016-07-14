@@ -153,7 +153,7 @@ class SetupCommand extends Command
        
 
         $this->registerMigrateDB($input, $output);
-        $this->migrateConnection = $this->getDBConnection($output,'default','upgrade');
+        $this->migrateConnection = $this->getDBConnection($output, 'default', 'upgrade');
 
         if (!$drupal_version = $this->getLegacyDrupalVersion($this->migrateConnection)) {
             $io->error($this->trans('commands.migrate.setup.migrations.questions.not-drupal'));
@@ -163,12 +163,12 @@ class SetupCommand extends Command
         $database = $this->getDBInfo();
         $version_tag = 'Drupal ' . $drupal_version;
         
-        $this->createDatabaseStateSettings($database,$drupal_version);
+        $this->createDatabaseStateSettings($database, $drupal_version);
         
         $migrations  = $this->getMigrations($version_tag);
         
         if ($migrations) {
-             $io->info(
+            $io->info(
                 sprintf(
                     $this->trans('commands.migrate.setup.messages.migrations-created'),
                     count($migrations),
@@ -176,6 +176,5 @@ class SetupCommand extends Command
                 )
             );
         }
-
     }
 }

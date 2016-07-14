@@ -16,7 +16,6 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\GeneratorCommand;
 use Drupal\Console\Style\DrupalStyle;
 
-
 class ModuleFileCommand extends GeneratorCommand
 {
     use ConfirmationTrait;
@@ -62,7 +61,6 @@ class ModuleFileCommand extends GeneratorCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-
         $io = new DrupalStyle($input, $output);
 
         // --module option
@@ -73,8 +71,7 @@ class ModuleFileCommand extends GeneratorCommand
             $module = $this->moduleQuestion($io);
         }
        
-        $input->setOption('module', $module); 
-
+        $input->setOption('module', $module);
     }
 
     /**

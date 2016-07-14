@@ -24,7 +24,7 @@ use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
  * )
  */
 class DebugCommand extends Command
-{   
+{
     use MigrationTrait;
     use ContainerAwareCommandTrait;
 

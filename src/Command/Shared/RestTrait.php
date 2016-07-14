@@ -6,80 +6,77 @@
 
 namespace Drupal\Console\Command\Shared;
 
-trait RestTrait {
-
-  /**
+trait RestTrait
+{
+    /**
    * [geRest get a list of Rest Resouces].
    *
    * @param bool $rest_status return Rest Resources by status
    *
    * @return array list of rest resources
    */
-  public function getRestResources($rest_status = FALSE)
-  {
-    $config = $this->getRestDrupalConfig();
+    public function getRestResources($rest_status = false)
+    {
+        $config = $this->getRestDrupalConfig();
 
-    $resourcePluginManager = $this->getDrupalService('plugin.manager.rest');
-    /* @var Drupal\rest\Plugin\Type\ResourcePluginManager $resources */
-    $resources = $resourcePluginManager->getDefinitions();
+        $resourcePluginManager = $this->getDrupalService('plugin.manager.rest');
+        /* @var Drupal\rest\Plugin\Type\ResourcePluginManager $resources */
+        $resources = $resourcePluginManager->getDefinitions();
 
-    $enabled_resources = array_combine(array_keys($config), array_keys($config));
-    $available_resources = ['enabled' => [], 'disabled' => []];
+        $enabled_resources = array_combine(array_keys($config), array_keys($config));
+        $available_resources = ['enabled' => [], 'disabled' => []];
 
-    foreach ($resources as $id => $resource) {
-      $status = in_array($id, $enabled_resources) ? 'enabled' : 'disabled';
-      $available_resources[$status][$id] = $resource;
+        foreach ($resources as $id => $resource) {
+            $status = in_array($id, $enabled_resources) ? 'enabled' : 'disabled';
+            $available_resources[$status][$id] = $resource;
+        }
+
+        // Sort the list of resources by label.
+        $sort_resources = function ($resource_a, $resource_b) {
+            return strcmp($resource_a['label'], $resource_b['label']);
+        };
+        if (!empty($available_resources['enabled'])) {
+            uasort($available_resources['enabled'], $sort_resources);
+        }
+        if (!empty($available_resources['disabled'])) {
+            uasort($available_resources['disabled'], $sort_resources);
+        }
+
+        if (isset($available_resources[$rest_status])) {
+            return array($rest_status => $available_resources[$rest_status]);
+        }
+
+        return $available_resources;
     }
 
-    // Sort the list of resources by label.
-    $sort_resources = function ($resource_a, $resource_b) {
-      return strcmp($resource_a['label'], $resource_b['label']);
-    };
-    if (!empty($available_resources['enabled'])) {
-      uasort($available_resources['enabled'], $sort_resources);
-    }
-    if (!empty($available_resources['disabled'])) {
-      uasort($available_resources['disabled'], $sort_resources);
-    }
+    public function getRestDrupalConfig()
+    {
+        $configFactory = $this->getDrupalService('config.factory');
+        if ($configFactory) {
+            return $configFactory->get('rest.settings')->get('resources') ?: [];
+        }
 
-    if (isset($available_resources[$rest_status])) {
-      return array($rest_status => $available_resources[$rest_status]);
+        return null;
     }
 
-    return $available_resources;
-  }
-
-  public function getRestDrupalConfig()
-  {
-    $configFactory = $this->getDrupalService('config.factory');
-    if ($configFactory) {
-      return $configFactory->get('rest.settings')->get('resources') ?: [];
-    }
-
-    return NULL;
-
-  }
-
-  /**
+    /**
    * @param $rest
    * @param $rest_resources_ids
    * @param $translator
    *
    * @return mixed
    */
-  public function validateRestResource($rest, $rest_resources_ids, $translator)
-  {
-    if (in_array($rest, $rest_resources_ids)) {
-      return $rest;
+    public function validateRestResource($rest, $rest_resources_ids, $translator)
+    {
+        if (in_array($rest, $rest_resources_ids)) {
+            return $rest;
+        } else {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    $translator->trans('commands.rest.disable.messages.invalid-rest-id'),
+                    $rest
+                )
+            );
+        }
     }
-    else {
-      throw new \InvalidArgumentException(
-        sprintf(
-          $translator->trans('commands.rest.disable.messages.invalid-rest-id'),
-          $rest
-        )
-      );
-    }
-  }
-
 }

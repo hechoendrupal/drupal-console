@@ -35,20 +35,20 @@ class DebugCommand extends Command
     protected function configure()
     {
         $this
-          ->setName('test:debug')
-          ->setDescription($this->trans('commands.test.debug.description'))
-          ->addArgument(
-            'group',
-            InputArgument::OPTIONAL,
-            $this->trans('commands.test.debug.options.group'),
-            NULL
-          )
-          ->addOption(
-            'test-class',
-            '',
-            InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.test.debug.arguments.test-class')
-          );
+            ->setName('test:debug')
+            ->setDescription($this->trans('commands.test.debug.description'))
+            ->addArgument(
+                'group',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.test.debug.options.group'),
+                null
+            )
+            ->addOption(
+                'test-class',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.test.debug.arguments.test-class')
+            );
     }
 
     /**
@@ -65,17 +65,16 @@ class DebugCommand extends Command
 
         if ($testClass) {
             $this->testDetail($io, $testClass);
-        }
-        else {
+        } else {
             $this->testList($io, $group);
         }
     }
 
     private function testDetail(DrupalStyle $io, $test_class)
     {
-        $testingGroups = $this->getDrupalService('test_discovery')->getTestClasses(NULL);
+        $testingGroups = $this->getDrupalService('test_discovery')->getTestClasses(null);
 
-        $testDetails = NULL;
+        $testDetails = null;
         foreach ($testingGroups as $testing_group => $tests) {
             foreach ($tests as $key => $test) {
                 if ($test['name'] == $test_class) {
@@ -83,20 +82,19 @@ class DebugCommand extends Command
                     break;
                 }
             }
-            if ($testDetails !== NULL) {
+            if ($testDetails !== null) {
                 break;
             }
         }
 
-        $class = NULL;
+        $class = null;
         if ($testDetails) {
             $class = new \ReflectionClass($test['name']);
             if (is_subclass_of($testDetails['name'], 'PHPUnit_Framework_TestCase')) {
                 $testDetails['type'] = 'phpunit';
-            }
-            else {
+            } else {
                 $testDetails = $this->getDrupalService('test_discovery')
-                  ->getTestInfo($testDetails['name']);
+                    ->getTestInfo($testDetails['name']);
                 $testDetails['type'] = 'simpletest';
             }
 
@@ -118,8 +116,7 @@ class DebugCommand extends Command
                     }
                 }
             }
-        }
-        else {
+        } else {
             $io->error($this->trans('commands.test.debug.messages.not-found'));
         }
     }
@@ -127,23 +124,22 @@ class DebugCommand extends Command
     protected function testList(DrupalStyle $io, $group)
     {
         $testingGroups = $this->getDrupalService('test_discovery')
-          ->getTestClasses(NULL);
+            ->getTestClasses(null);
 
         if (empty($group)) {
             $tableHeader = [$this->trans('commands.test.debug.messages.group')];
-        }
-        else {
+        } else {
             $tableHeader = [
               $this->trans('commands.test.debug.messages.class'),
               $this->trans('commands.test.debug.messages.type')
             ];
 
             $io->writeln(
-              sprintf(
-                '%s: %s',
-                $this->trans('commands.test.debug.messages.group'),
-                $group
-              )
+                sprintf(
+                    '%s: %s',
+                    $this->trans('commands.test.debug.messages.group'),
+                    $group
+                )
             );
         }
 
@@ -161,8 +157,7 @@ class DebugCommand extends Command
             foreach ($tests as $test) {
                 if (is_subclass_of($test['name'], 'PHPUnit_Framework_TestCase')) {
                     $test['type'] = 'phpunit';
-                }
-                else {
+                } else {
                     $test['type'] = 'simpletest';
                 }
                 $tableRows[] =[
@@ -175,15 +170,14 @@ class DebugCommand extends Command
 
         if ($group) {
             $io->success(
-              sprintf(
-                $this->trans('commands.test.debug.messages.success-group'),
-                $group
-              )
+                sprintf(
+                    $this->trans('commands.test.debug.messages.success-group'),
+                    $group
+                )
             );
-        }
-        else {
+        } else {
             $io->success(
-              $this->trans('commands.test.debug.messages.success-groups')
+                $this->trans('commands.test.debug.messages.success-groups')
             );
         }
     }

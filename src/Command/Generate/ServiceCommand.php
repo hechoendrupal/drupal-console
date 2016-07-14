@@ -92,12 +92,12 @@ class ServiceCommand extends GeneratorCommand
         $available_services = $this->getServices();
 
         if (in_array($name, array_values($available_services))) {
-           throw new \Exception(
-                    sprintf(
-                        $this->trans('commands.generate.service.messages.service-already-taken'),
-                        $module
-                    )
-                );        
+            throw new \Exception(
+                sprintf(
+                    $this->trans('commands.generate.service.messages.service-already-taken'),
+                    $module
+                )
+            );
         }
         
         // @see Drupal\Console\Command\Shared\ServicesTrait::buildServices

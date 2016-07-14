@@ -33,19 +33,19 @@ class DebugCommand extends Command
     protected function configure()
     {
         $this
-          ->setName('rest:debug')
-          ->setDescription($this->trans('commands.rest.debug.description'))
-          ->addArgument(
-            'resource-id',
-            InputArgument::OPTIONAL,
-            $this->trans('commands.rest.debug.arguments.resource-id')
-          )
-          ->addOption(
-            'authorization',
-            '',
-            InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.rest.debug.options.status')
-          );
+            ->setName('rest:debug')
+            ->setDescription($this->trans('commands.rest.debug.description'))
+            ->addArgument(
+                'resource-id',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.rest.debug.arguments.resource-id')
+            )
+            ->addOption(
+                'authorization',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.rest.debug.options.status')
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -57,8 +57,7 @@ class DebugCommand extends Command
 
         if ($resource_id) {
             $this->restDetail($io, $resource_id);
-        }
-        else {
+        } else {
             $this->restList($io, $status);
         }
     }
@@ -72,10 +71,10 @@ class DebugCommand extends Command
 
         if (empty($plugin)) {
             $io->error(
-              sprintf(
-                $this->trans('commands.rest.debug.messages.not-found'),
-                $resource_id
-              )
+                sprintf(
+                    $this->trans('commands.rest.debug.messages.not-found'),
+                    $resource_id
+                )
             );
 
             return false;

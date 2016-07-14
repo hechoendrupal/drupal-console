@@ -23,12 +23,12 @@ class DebugCommand extends Command
     protected function configure()
     {
         $this
-          ->setName('update:debug')
-          ->setDescription($this->trans('commands.update.debug.description'));
+            ->setName('update:debug')
+            ->setDescription($this->trans('commands.update.debug.description'));
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Input\InputInterface   $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -49,22 +49,20 @@ class DebugCommand extends Command
 
         if ($severity == REQUIREMENT_ERROR || ($severity == REQUIREMENT_WARNING)) {
             $this->populateRequirements($io, $requirements);
-        }
-        elseif (empty($updates)) {
+        } elseif (empty($updates)) {
             $io->info($this->trans('commands.update.debug.messages.no-updates'));
-        }
-        else {
+        } else {
             $this->populateUpdate($io, $updates);
             $this->populatePostUpdate($io);
         }
-
     }
 
     /**
      * @param \Drupal\Console\Style\DrupalStyle $io
      * @param $requirements
      */
-    private function populateRequirements(DrupalStyle $io, $requirements) {
+    private function populateRequirements(DrupalStyle $io, $requirements)
+    {
         $io->info($this->trans('commands.update.debug.messages.requirements-error'));
 
         $tableHeader = [
@@ -77,8 +75,8 @@ class DebugCommand extends Command
         $tableRows = [];
         foreach ($requirements as $requirement) {
             $minimum = in_array(
-              $requirement['minimum schema'],
-              [REQUIREMENT_ERROR, REQUIREMENT_WARNING]
+                $requirement['minimum schema'],
+                [REQUIREMENT_ERROR, REQUIREMENT_WARNING]
             );
             if ((isset($requirement['minimum schema'])) && ($minimum)) {
                 $tableRows[] = [
@@ -97,7 +95,8 @@ class DebugCommand extends Command
      * @param \Drupal\Console\Style\DrupalStyle $io
      * @param $updates
      */
-    private function populateUpdate(DrupalStyle $io, $updates) {
+    private function populateUpdate(DrupalStyle $io, $updates)
+    {
         $io->info($this->trans('commands.update.debug.messages.module-list'));
         $tableHeader = [
           $this->trans('commands.update.debug.messages.module'),
@@ -121,9 +120,10 @@ class DebugCommand extends Command
     /**
      * @param \Drupal\Console\Style\DrupalStyle $io
      */
-    private function populatePostUpdate(DrupalStyle $io) {
+    private function populatePostUpdate(DrupalStyle $io)
+    {
         $io->info(
-          $this->trans('commands.update.debug.messages.module-list-post-update')
+            $this->trans('commands.update.debug.messages.module-list-post-update')
         );
         $tableHeader = [
           $this->trans('commands.update.debug.messages.module'),
@@ -144,5 +144,4 @@ class DebugCommand extends Command
         }
         $io->table($tableHeader, $tableRows);
     }
-
 }

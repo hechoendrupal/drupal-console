@@ -45,13 +45,12 @@ class EventDebugCommand extends BaseCommand
     {
         $io = new DrupalStyle($input, $output);
         
-        $event_dispatcher = $this->getDrupalService('event_dispatcher');  
+        $event_dispatcher = $this->getDrupalService('event_dispatcher');
         $events = array_keys($event_dispatcher->getListeners());
 
         $event = $input->getArgument('event');
         
         if ($event) {
-
             if (!in_array($event, $events)) {
                 throw new \Exception(
                     sprintf(
@@ -65,9 +64,8 @@ class EventDebugCommand extends BaseCommand
             $listeners = [];
             
             foreach ($dispacher as $key => $value) {
-               $reflection = new \ReflectionClass(get_class($value[0]));
-               $listeners[] = [$reflection->getName(), $value[1]];
-                   
+                $reflection = new \ReflectionClass(get_class($value[0]));
+                $listeners[] = [$reflection->getName(), $value[1]];
             }
  
             $tableHeader = [
@@ -77,21 +75,21 @@ class EventDebugCommand extends BaseCommand
             ];
 
             $tableRows = [];
-              foreach ($listeners as $key => $element) {
-                 $tableRows[] = [
+            foreach ($listeners as $key => $element) {
+                $tableRows[] = [
                     'class' => $element['0'],
                     'method' => $element['1']
                  ];
-              }
+            }
 
-             $io->table($tableHeader, $tableRows);
+            $io->table($tableHeader, $tableRows);
 
-             return 0;
+            return 0;
         }
        
         $io->table(
-        [$this->trans('commands.event.debug.messages.event')],
-        $events
-        );        
+            [$this->trans('commands.event.debug.messages.event')],
+            $events
+        );
     }
 }
