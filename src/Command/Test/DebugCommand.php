@@ -12,37 +12,43 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Serialization\Yaml;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Annotation\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class DebugCommand
  * @package Drupal\Console\Command\Test
  */
-class DebugCommand extends ContainerAwareCommand
+class DebugCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+
     /**
-     * {@inheritdoc}
+     * @DrupalCommand(
+     *     dependencies = {
+     *         “simpletest"
+     *     }
+     * )
      */
     protected function configure()
     {
         $this
-            ->setName('test:debug')
-            ->setDescription($this->trans('commands.test.debug.description'))
-            ->addArgument(
-                'group',
-                InputArgument::OPTIONAL,
-                $this->trans('commands.test.debug.options.group'),
-                null
-            )
-            ->addOption(
-                'test-class',
-                '',
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.test.debug.arguments.test-class')
-            );
-
-        $this->addDependency('simpletest');
+          ->setName('test:debug')
+          ->setDescription($this->trans('commands.test.debug.description'))
+          ->addArgument(
+            'group',
+            InputArgument::OPTIONAL,
+            $this->trans('commands.test.debug.options.group'),
+            NULL
+          )
+          ->addOption(
+            'test-class',
+            '',
+            InputOption::VALUE_OPTIONAL,
+            $this->trans('commands.test.debug.arguments.test-class')
+          );
     }
 
     /**
@@ -52,23 +58,24 @@ class DebugCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
         //Registers namespaces for disabled modules.
-        $this->getTestDiscovery()->registerTestNamespaces();
+        $this->getDrupalService('test_discovery')->registerTestNamespaces();
 
         $testClass = $input->getOption('test-class');
         $group = $input->getArgument('group');
 
         if ($testClass) {
             $this->testDetail($io, $testClass);
-        } else {
+        }
+        else {
             $this->testList($io, $group);
         }
     }
 
     private function testDetail(DrupalStyle $io, $test_class)
     {
-        $testingGroups = $this->getTestDiscovery()->getTestClasses(null);
+        $testingGroups = $this->getDrupalService('test_discovery')->getTestClasses(NULL);
 
-        $testDetails = null;
+        $testDetails = NULL;
         foreach ($testingGroups as $testing_group => $tests) {
             foreach ($tests as $key => $test) {
                 if ($test['name'] == $test_class) {
@@ -76,18 +83,20 @@ class DebugCommand extends ContainerAwareCommand
                     break;
                 }
             }
-            if ($testDetails !== null) {
+            if ($testDetails !== NULL) {
                 break;
             }
         }
 
-        $class = null;
+        $class = NULL;
         if ($testDetails) {
             $class = new \ReflectionClass($test['name']);
             if (is_subclass_of($testDetails['name'], 'PHPUnit_Framework_TestCase')) {
                 $testDetails['type'] = 'phpunit';
-            } else {
-                $testDetails = $this->getTestDiscovery()->getTestInfo($testDetails['name']);
+            }
+            else {
+                $testDetails = $this->getDrupalService('test_discovery')
+                  ->getTestInfo($testDetails['name']);
                 $testDetails['type'] = 'simpletest';
             }
 
@@ -109,29 +118,32 @@ class DebugCommand extends ContainerAwareCommand
                     }
                 }
             }
-        } else {
+        }
+        else {
             $io->error($this->trans('commands.test.debug.messages.not-found'));
         }
     }
 
     protected function testList(DrupalStyle $io, $group)
     {
-        $testingGroups = $this->getTestDiscovery()->getTestClasses(null);
+        $testingGroups = $this->getDrupalService('test_discovery')
+          ->getTestClasses(NULL);
 
         if (empty($group)) {
             $tableHeader = [$this->trans('commands.test.debug.messages.group')];
-        } else {
+        }
+        else {
             $tableHeader = [
-                $this->trans('commands.test.debug.messages.class'),
-                $this->trans('commands.test.debug.messages.type')
+              $this->trans('commands.test.debug.messages.class'),
+              $this->trans('commands.test.debug.messages.type')
             ];
 
             $io->writeln(
-                sprintf(
-                    '%s: %s',
-                    $this->trans('commands.test.debug.messages.group'),
-                    $group
-                )
+              sprintf(
+                '%s: %s',
+                $this->trans('commands.test.debug.messages.group'),
+                $group
+              )
             );
         }
 
@@ -149,7 +161,8 @@ class DebugCommand extends ContainerAwareCommand
             foreach ($tests as $test) {
                 if (is_subclass_of($test['name'], 'PHPUnit_Framework_TestCase')) {
                     $test['type'] = 'phpunit';
-                } else {
+                }
+                else {
                     $test['type'] = 'simpletest';
                 }
                 $tableRows[] =[
@@ -162,14 +175,15 @@ class DebugCommand extends ContainerAwareCommand
 
         if ($group) {
             $io->success(
-                sprintf(
-                    $this->trans('commands.test.debug.messages.success-group'),
-                    $group
-                )
+              sprintf(
+                $this->trans('commands.test.debug.messages.success-group'),
+                $group
+              )
             );
-        } else {
+        }
+        else {
             $io->success(
-                $this->trans('commands.test.debug.messages.success-groups')
+              $this->trans('commands.test.debug.messages.success-groups')
             );
         }
     }
