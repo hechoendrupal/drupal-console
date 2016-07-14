@@ -30,8 +30,8 @@ class EntitiesCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('update:entities')
-            ->setDescription($this->trans('commands.update.entities.description'));
+          ->setName('update:entities')
+          ->setDescription($this->trans('commands.update.entities.description'));
     }
 
     /**
@@ -44,17 +44,19 @@ class EntitiesCommand extends Command
         $state = $this->getDrupalService('state');
         $io->info($this->trans('commands.site.maintenance.messages.maintenance-on'));
         $io->info($this->trans('commands.update.entities.messages.start'));
-        $state->set('system.maintenance_mode', true);
+        $state->set('system.maintenance_mode', TRUE);
 
         try {
             $this->getDrupalService('entity.definition_update_manager')->applyUpdates();
+            /* @var Drupal\Core\Entity\EntityStorageException $e */
         } catch (EntityStorageException $e) {
+            /* @var Drupal\Core\Utility\Error $variables */
             $variables = Error::decodeException($e);
             $io->info($this->trans('commands.update.entities.messages.error'));
             $io->info($variables);
         }
 
-        $state->set('system.maintenance_mode', false);
+        $state->set('system.maintenance_mode', FALSE);
         $io->info($this->trans('commands.update.entities.messages.end'));
         $this->get('chain_queue')->addCommand('cache:rebuild', ['cache' => 'all']);
         $io->info($this->trans('commands.site.maintenance.messages.maintenance-off'));
