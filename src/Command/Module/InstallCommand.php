@@ -14,6 +14,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -24,6 +25,7 @@ class InstallCommand extends Command
 {
     use ContainerAwareCommandTrait;
     use ProjectDownloadTrait;
+    use ModuleTrait;
 
     /**
      * {@inheritdoc}
@@ -78,6 +80,9 @@ class InstallCommand extends Command
         $composer = $input->getOption('composer');
 
         $this->get('site')->loadLegacyFile('core/includes/bootstrap.inc');
+        
+        // check module's requirements
+        $this->moduleRequirement($module);
 
         if ($composer) {
             foreach ($module as $moduleItem) {

@@ -11,7 +11,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -20,7 +20,7 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class ExecCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
 
     /**
      * {@inheritdoc}
