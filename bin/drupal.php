@@ -42,6 +42,17 @@ $consoleRoot = realpath(__DIR__.'/../') . '/';
 $root = getcwd() . '/';
 $siteRoot = realpath(__DIR__.'/../../../../') . '/';
 
+$autoloadFile = $root.'/autoload.php';
+
+if (file_exists($autoloadFile)) {
+    $autoload = include_once $autoloadFile;
+} else {
+    echo PHP_EOL .
+         ' Something goes wrong with your binary'.PHP_EOL.
+         ' Try downloading again'. PHP_EOL . PHP_EOL;
+    exit(1);
+}
+
 echo 'dir: ' .  __DIR__ . '/'. PHP_EOL;
 echo 'consoleRoot: ' .  $consoleRoot . PHP_EOL;
 echo 'siteRoot ' .  $siteRoot . PHP_EOL;
@@ -50,18 +61,6 @@ echo 'root: ' .  $root . PHP_EOL;
 //$input = new ArgvInput();
 //if ($input->getParameterOption(['--pre-launch'], null)) {
 //    $root = getcwd();
-//}
-
-$autoload = include_once $root.'/autoload.php';
-
-//if (file_exists($consoleRoot.'vendor/autoload.php')) {
-//    $autoload = include_once $consoleRoot.'vendor/autoload.php';
-//} elseif (file_exists($consoleRoot.'../../autoload.php')) {
-//    $autoload = include_once $consoleRoot.'../../autoload.php';
-//} else {
-//    echo 'Something goes wrong with your archive'.PHP_EOL.
-//        'Try downloading again'.PHP_EOL;
-//    exit(1);
 //}
 
 /* DrupalKernel */
