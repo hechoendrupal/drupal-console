@@ -47,7 +47,7 @@ class DebugCommand extends Command
         $key = $input->getArgument('key');
 
         if ($key) {
-            $state = $this->getApplication()->getState();
+            $state = $this->getDrupalService('state');
             $io->info($key);
             $io->writeln(Yaml::encode($state->get($key)));
 
