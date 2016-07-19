@@ -91,11 +91,16 @@ foreach ($finder as $file) {
 AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
 
 $config = $container->get('config');
-$container->get('translator')
-    ->loadResource($config->get('application.language'), $consoleRoot);
+$container->get('translator')->loadResource(
+    $config->get('application.language'),
+    $consoleRoot
+);
 
 $translatorHelper = new TranslatorHelper();
-$translatorHelper->loadResource($config->get('application.language'), $consoleRoot);
+$translatorHelper->loadResource(
+    $config->get('application.language'),
+    $consoleRoot
+);
 
 $helpers = [
     'nested-array' => new NestedArrayHelper(),
