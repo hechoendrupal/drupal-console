@@ -29,7 +29,7 @@ class LogPollCommand extends Command {
         'duration',
         InputArgument::OPTIONAL,
         $this->trans('commands.database.log.poll.options.duration'),
-        '10'
+        '30'
       )
       ->addOption(
         'type',

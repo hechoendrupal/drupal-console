@@ -3,7 +3,7 @@ options:
     type: 'Filter events by a specific type'
     severity: 'Filter events by a specific level of severity'
     user-id: 'Filter events by a specific user id'
-    duration: 'Duration between polling'
+    duration: 'Duration between polling in seconds, default 30'
 messages:
     event-id: 'Event ID'
     type: Type
