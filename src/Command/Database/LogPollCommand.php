@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Console\Command\Database;
+namespace Drupal\dc_console_tail\Command\Database;
 
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\Unicode;
@@ -29,7 +29,7 @@ class LogPollCommand extends Command {
         'duration',
         InputArgument::OPTIONAL,
         $this->trans('commands.database.log.poll.options.duration'),
-        '30'
+        '10'
       )
       ->addOption(
         'type',
@@ -64,6 +64,7 @@ class LogPollCommand extends Command {
     $this->duration = $input->getArgument('duration');
 
     $this->pollForEvents($io);
+
 
   }
 
@@ -135,12 +136,11 @@ class LogPollCommand extends Command {
     $tableHeader = $this->createTableHeader();
     $tableRows = [];
     if($results){
-      $tableRows = $this->createTableRows(array_pop($results), $userStorage, $dateFormatter, $this->severity);
+      $lastResult = array_pop($results);
+      $tableRows[] = $this->createTableRows($lastResult, $userStorage, $dateFormatter, $this->severity);
+      $io->table($tableHeader,$tableRows);
     }
-    $io->table(
-      $tableHeader,
-      $tableRows
-    );
+
 
     //Poll for more
     $lastExec = time();
@@ -168,12 +168,12 @@ class LogPollCommand extends Command {
 
   private function createTableHeader() {
     return [
-      $this->trans('commands.database.log.poll.messages.event-id'),
-      $this->trans('commands.database.log.poll.messages.type'),
-      $this->trans('commands.database.log.poll.messages.date'),
-      $this->trans('commands.database.log.poll.messages.message'),
-      $this->trans('commands.database.log.poll.messages.user'),
-      $this->trans('commands.database.log.poll.messages.severity'),
+      $this->trans('commands.database.log.debug.messages.event-id'),
+      $this->trans('commands.database.log.debug.messages.type'),
+      $this->trans('commands.database.log.debug.messages.date'),
+      $this->trans('commands.database.log.debug.messages.message'),
+      $this->trans('commands.database.log.debug.messages.user'),
+      $this->trans('commands.database.log.debug.messages.severity'),
     ];
   }
 
