@@ -1,0 +1,14 @@
+description: 'Poll current log events for the application'
+options:
+    type: 'Filter events by a specific type'
+    severity: 'Filter events by a specific level of severity'
+    user-id: 'Filter events by a specific user id'
+    duration: 'Duration between polling'
+messages:
+    event-id: 'Event ID'
+    type: Type
+    date: Date
+    message: Message
+    user: User
+    severity: Severity
+    invalid-severity: 'Severity type is invalid, filter was ignored'
