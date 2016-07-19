@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\dc_console_tail\Command\Database;
+namespace Drupal\Console\Command\Database;
 
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\Unicode;
@@ -168,12 +168,12 @@ class LogPollCommand extends Command {
 
   private function createTableHeader() {
     return [
-      $this->trans('commands.database.log.debug.messages.event-id'),
-      $this->trans('commands.database.log.debug.messages.type'),
-      $this->trans('commands.database.log.debug.messages.date'),
-      $this->trans('commands.database.log.debug.messages.message'),
-      $this->trans('commands.database.log.debug.messages.user'),
-      $this->trans('commands.database.log.debug.messages.severity'),
+      $this->trans('commands.database.log.poll.messages.event-id'),
+      $this->trans('commands.database.log.poll.messages.type'),
+      $this->trans('commands.database.log.poll.messages.date'),
+      $this->trans('commands.database.log.poll.messages.message'),
+      $this->trans('commands.database.log.poll.messages.user'),
+      $this->trans('commands.database.log.poll.messages.severity'),
     ];
   }
 
