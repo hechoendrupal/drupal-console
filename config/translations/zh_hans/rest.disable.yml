@@ -7,3 +7,4 @@ questions:
 messages:
     invalid-rest-id: 'REST ID %s 无效'
     success: 'Rest ID %s 已禁用'
+
