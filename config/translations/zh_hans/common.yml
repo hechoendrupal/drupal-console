@@ -1,5 +1,5 @@
 options:
-    class: 'Class name'
+    class: '类名'
     events: '从容器中导入事件'
     module: 模块名称
     services: '从容器中导入服务'
@@ -7,7 +7,7 @@ options:
     inputs: '创建一个输入表单'
     permissions: 创建权限
 questions:
-    class: 'Enter the Class name'
+    class: '输入类名'
     module: '输入模块名称'
     confirm: 确定开始生成吗？
     canceled: 生成命令已取消
