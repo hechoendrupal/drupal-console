@@ -1,11 +1,11 @@
-description: 'Rebuild node access permissions. Rebuilding will remove all privileges to content and replace them with permissions based on the current modules and settings.'
+description: '创建节点访问权限. 重建会移除所有内容上的使用权限并替换为当前模块或当前设置里的权限'
 options:
-    batch: 'Process in batch mode.'
+    batch: '批量模式处理'
 messages:
-    rebuild: 'Rebuilding node access permissions, one moment please.'
-    completed: 'Done rebuilding permissions.'
-    failed: 'Rebuilding permissions was not successful.'
+    rebuild: '重建节点访问权限中,请稍候'
+    completed: '重建权限完成'
+    failed: '重建权限没有成功'
 examples:
     -
-        description: 'Rebuild node access permissions'
+        description: '创建节点访问权限'
         execution: 'drupal node:access:rebuild --batch'

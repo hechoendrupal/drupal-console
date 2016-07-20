@@ -7,7 +7,7 @@ options:
     label: 标签
     has-bundles: '实体包含 Bundles'
     base-path: 内容实体路由的基本路径
-    is-translatable: 'Content entity translatable'
+    is-translatable: '内容实体可翻译'
 questions:
     module: common.questions.module
     entity-class: 输入新内容实体的类名
@@ -15,4 +15,4 @@ questions:
     label: 输入新内容实体的标签
     has-bundles: '这个（内容）实体包含 Bundles 吗？'
     base-path: 输入内容实体路由的基本路径
-    is-translatable: 'Is your entity translatable'
+    is-translatable: '您的实体可翻译吗'

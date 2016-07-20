@@ -13,4 +13,4 @@ messages:
     modules-disabled: 禁用的模块
     themes-enabled: 启用的主题
     themes-disabled: 禁用的主题
-    views: 'Views (Not system views)'
+    views: '视图 (非系统视图)'

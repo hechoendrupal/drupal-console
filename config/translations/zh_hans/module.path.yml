@@ -1,7 +1,6 @@
-description: 'Returns the relative path to the module (or absolute path)'
+description: '返回模块的相对路径(或绝对路径)'
 arguments:
-    module: 'The Module name (machine name)'
+    module: '模块名称 (机读名称)'
 options:
-    absolute: 'Return module absolute path'
+    absolute: '返回模块绝对路径'
 messages:
-

@@ -7,4 +7,4 @@ messages:
     error-generating: 在配置文件中设置语言出错.
     error-writing: 写入配置文件出错.
     success: 'Drupal Console 的配置 %s 成功设置为 %s'
-    missing-file: 'The %s config file is missing, try executing `drupal init`'
+    missing-file: '配置文件 %s 缺失, 尝试执行 `drupal init`'

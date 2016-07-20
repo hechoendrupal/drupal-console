@@ -2,12 +2,12 @@ description: 下载模块
 arguments:
     module: 要启用的模块之间用空格隔开
 options:
-    latest: 缺省下载最新版本
-    path: 'The path of the contrib project'
-    composer: 'Option to point out that the module will be downloaded, managed & installed by Composer'
+    latest: 默认下载最新版本
+    path: '贡献项目路径'
+    composer: '模块将被 Composer 下载,管理,安装的选项'
     version: 模块版本，例如：1.x-dev
 questions:
-    path: 'Enter the contrib project Path'
+    path: '输入贡献项目路径'
 messages:
     no-releases: '模块 %s 没有发布任何版本'
     getting-releases: '获取模块 %s 的发布版本'

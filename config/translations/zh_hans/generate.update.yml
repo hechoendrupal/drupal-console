@@ -1,8 +1,8 @@
-description: 'Generate an implementation of hook_update_N()'
-help: 'The <info>"%s"</info> command helps you generate a hook update N "%s"'
+description: '生成一个 hook_update_N() 的实现'
+help: '命令 <info>"%s"</info> 帮助您生成一个 hook update N "%s"'
 options:
-    update-n: 'Update Number'
+    update-n: '更新数字'
 questions:
-    update-n: 'Please provide the Update N to be implemeted'
+    update-n: '请提供 Update N 中的 N 这一数字'
 messages:
-    wrong-update-n: 'The update number "%s" is invalid'
+    wrong-update-n: '更新数字 "%s" 无效'

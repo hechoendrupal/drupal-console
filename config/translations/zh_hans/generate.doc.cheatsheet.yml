@@ -1,18 +1,18 @@
-description: 'Generate a printable cheatsheet for Commands'
+description: '生成可打印的命令小抄'
 options:
-    path: 'The path to generate the pdf for the documentation'
-    wkhtmltopdf: 'The path for the wkhtmltopdf binary in your system'
+    path: '生成的PDF文档的路径'
+    wkhtmltopdf: '系统中可执行二进制文件 wkhtmltopdf 的路径'
 messages:
-    missing_path: 'The path is missing'
-    title: 'Drupal Console Cheatsheet'
-    note: Note
-    note-description: 'Drupal Console commands *must* be run from the root of a Drupal 8 installation'
-    command: 'Drupal Console Command'
-    command_description: 'The **%s** command %s'
-    usage: Usage
-    options: 'Available options'
-    option: Option
-    details: Details
-    arguments: 'Available arguments'
-    argument: Argument
-    examples: Examples
+    missing_path: '路径缺少'
+    title: 'Drupal Console 小抄'
+    note: 注意
+    note-description: 'Drupal Console 命令 *必须* 运行在 Drupal 8 根目录下'
+    command: 'Drupal Console 命令'
+    command_description: '**%s** 命令 %s'
+    usage: 用法
+    options: '可用选项'
+    option: 选项
+    details: 细节
+    arguments: '可用参数'
+    argument: 参数
+    examples: 举例
