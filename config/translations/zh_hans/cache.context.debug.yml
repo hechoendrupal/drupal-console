@@ -1,5 +1,5 @@
-description: 'Displays current cache context for the application.'
+description: '为应用显示当前缓存上下文'
 messages:
-    code: 'Context ID'
-    label: 'Label'
-    class: 'Class path'
+    code: '上下文 ID'
+    label: '标签'
+    class: '类路径'
