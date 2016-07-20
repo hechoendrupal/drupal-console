@@ -8,9 +8,9 @@ messages:
     label: लेबल
     canonical_url: 'अधिकृत URL'
     status: स्थिती
-    provider: पुरवठाकर्ता
+    provider: 'पुरवठाकर्ता'
     enabled: सक्षम
-    disabled: अक्षम
+    disabled: 'अक्षम'
     rest-state: 'रेस्ट स्टेट्स'
     supported-formats: 'समर्थित स्वरुपे'
     supported_auth: 'समर्थित प्रमाणीकरण प्रदाते'

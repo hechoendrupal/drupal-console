@@ -24,3 +24,6 @@ questions:
     directory: 'Drupal डाउनलोड के लिये निर्देशिका का नाम दर्ज के'
     composer-release: 'कृपया, एक Packagist Drupal रिलीज़ का चयन करें'
     stable: 'क्या आप स्टेबल रिलीज का उपयोग करना चाहते हैं?'
+tips:
+    -
+        tip: 'Pass a «true» value to «shellexec_output» key in your config.yml file to see interactively Composer''s output or «false» to hide it'

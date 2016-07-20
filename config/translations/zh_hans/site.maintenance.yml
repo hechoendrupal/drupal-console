@@ -5,4 +5,4 @@ messages:
     maintenance-on: 网站维护模式
     maintenance-off: 非网站维护模式
 errors:
-    invalid-mode: 无效网站维护模式
+    invalid-mode: '无效网站维护模式'

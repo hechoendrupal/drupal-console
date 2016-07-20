@@ -1,17 +1,17 @@
-description: 'Generate a plugin mail'
-help: 'The <info>generate:plugin:mail</info> command helps you generate a new Plugin mail.'
-welcome: 'Welcome to the Drupal Plugin Mail generator'
+description: '生成 mail 插件'
+help: '命令 <info>generate:plugin:mail</info> 帮助您生成一个新的 mail 插件'
+welcome: '欢迎使用 Drupal Mail 插件生成器'
 options:
     module: common.options.module
-    class: 'Plugin class name'
-    label: 'Plugin label'
-    plugin-id: 'Plugin id'
+    class: 插件类名
+    label: '插件标签'
+    plugin-id: '插件 ID'
     inputs: common.options.inputs
     services: common.options.services
 questions:
     module: common.questions.module
-    class: 'Enter the plugin class name'
-    label: 'Enter the plugin label'
-    plugin-id: 'Enter the plugin id'
+    class: '输入插件类名'
+    label: '输入插件标签'
+    plugin-id: '输入插件 ID'
     inputs: common.questions.inputs
     services: common.questions.services

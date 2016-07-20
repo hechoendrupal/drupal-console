@@ -4,7 +4,7 @@ arguments:
     namespace: 命名空间名称
 options:
     xml: '输出命令清单为 XML 格式'
-    raw: 输出命令清单为原生格式
+    raw: '输出命令清单为原生格式'
     format: '输出格式（txt, xml, json, or md）'
 messages:
     usage: "<comment>用法:</comment>\n"

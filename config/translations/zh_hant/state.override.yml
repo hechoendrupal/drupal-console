@@ -1,12 +1,12 @@
-description: 覆寫系統狀態的鍵名。
-help: 覆寫系統狀態的鍵名。
+description: '覆寫系統狀態的鍵名。'
+help: '覆寫系統狀態的鍵名。'
 arguments:
-    key: 要覆寫的系統狀態鍵名
-    value: 要寫入的系統狀態值
+    key: '要覆寫的系統狀態鍵名'
+    value: '要寫入的系統狀態值'
 messages:
-    key: 系統狀態鍵名
+    key: '系統狀態鍵名'
     original: 原始值
     override: 覆寫值
 errors:
-    no-key: 您必須指定要覆寫系統狀態的鍵名。
-    no-value: 您必須指定要覆寫系統狀態的內容。
+    no-key: '您必須指定要覆寫系統狀態的鍵名。'
+    no-value: '您必須指定要覆寫系統狀態的內容。'

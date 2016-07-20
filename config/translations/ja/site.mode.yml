@@ -1,4 +1,4 @@
-description: システムのパフォーマンス設定を切り替える
+description: 'システムのパフォーマンス設定を切り替える'
 arguments:
     environment: 'Environment name [dev, prod]'
 messages:

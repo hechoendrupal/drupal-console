@@ -1,4 +1,5 @@
 options:
+    class: 'Class name'
     events: 'Încarcă evenimente din container'
     module: 'Numele Modulului.'
     services: 'Încarcă serviciile din container.'
@@ -6,6 +7,7 @@ options:
     inputs: 'Creează intrări într-un formular.'
     permissions: 'Creează permisiuni.'
 questions:
+    class: 'Enter the Class name'
     module: 'Introduceți numele modulului'
     confirm: 'Confirmați generarea'
     canceled: 'Comanda a fost anulată'

@@ -1,6 +1,6 @@
 description: 同步翻译文件
 arguments:
-    language: 语言代码
+    language: '语言代码'
 options:
     file: 同步的文件
 messages:

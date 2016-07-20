@@ -1,4 +1,4 @@
-description: テーマの情報を表示
+description: 'テーマの情報を表示'
 arguments:
     theme: 表示するテーマの名前
 messages:

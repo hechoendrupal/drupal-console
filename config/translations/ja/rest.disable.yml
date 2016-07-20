@@ -6,3 +6,4 @@ questions:
     resource-id: 'Rest ID'
 messages:
     invalid-rest-id: 'Rest ID %s は不正な値です。'
+    success: 'Rest ID %s disabled'

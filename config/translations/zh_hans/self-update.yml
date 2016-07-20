@@ -2,7 +2,7 @@ description: 更新项目到最新版本
 help: 更新项目到最新版本
 options:
     major: 如果有，更新到最近主版本.
-    manifest: 覆盖清单文件路径
+    manifest: '覆盖清单文件路径'
     current-version: 覆盖更新的开始版本
 questions:
     update: 从版本%s更新到版本%s.

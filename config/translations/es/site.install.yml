@@ -23,3 +23,5 @@ messages:
     installed: 'Drupal 8 ha sido instalado satisfactoriamente!'
     using-current-database: 'Usando base de datos %s con nombre %s y usuario %s'
     already-installed: 'Drupal está ya instalado, intente vaciar la base de datos y ejecutar site:install nuevamente'
+    sites-backup: 'The sites.php file has temporarily been renamed to backup.sites.php while Drupal installs.'
+    sites-restore: 'The backup of sites.php has been been restored to sites.php.'

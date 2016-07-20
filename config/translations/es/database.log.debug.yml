@@ -10,10 +10,10 @@ options:
     offset: 'Punto inicial de un límite'
 messages:
     event-id: 'ID de evento'
-    type: 'Tipo'
-    date: 'Fecha'
-    message: 'Mensaje'
-    user: 'Usuario'
-    severity: 'Severidad'
+    type: Tipo
+    date: Fecha
+    message: Mensaje
+    user: Usuario
+    severity: Severidad
     invalid-severity: 'Tipo de severidad no es válido, el filtro fue ignorado'
     not-found: 'Evento DBLog no fue encontrado'

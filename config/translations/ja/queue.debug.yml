@@ -1,5 +1,5 @@
 description: キューを表示
 messages:
     queue: キュー
-    items: 項目
+    items: '項目'
     class: クラス

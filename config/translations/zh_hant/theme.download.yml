@@ -1,7 +1,7 @@
 description: 下載網站版型
 arguments:
-    version: '版型版本號，例如：1.x-dev'
-    theme: '版型名稱'
+    version: 版型版本號，例如：1.x-dev
+    theme: 版型名稱
 options:
     composer: '使用 --composer 參數可選用 Composer 來下載版型'
     version: 版型版本號，例如：1.x-dev

@@ -4,4 +4,4 @@ arguments:
 messages:
     success: コマンドが実行されました
     invalid-bin: コマンドの実行中にエラーが発生しました。
-    missing-bin: binオプションを指定してください。
+    missing-bin: 'binオプションを指定してください。'

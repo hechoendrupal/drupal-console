@@ -24,3 +24,6 @@ questions:
     directory: 'Введите имя директории для загрузки Drupal'
     composer-release: 'Please, choose a Packagist Drupal release'
     stable: 'Вы хотите использовать стабильные выпуски?'
+tips:
+    -
+        tip: 'Pass a «true» value to «shellexec_output» key in your config.yml file to see interactively Composer''s output or «false» to hide it'

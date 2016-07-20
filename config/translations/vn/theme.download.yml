@@ -1,5 +1,9 @@
 description: 'Tải xuống theme trong ứng dụng'
+arguments:
+    version: 'Theme version i.e 1.x-dev'
+    theme: 'the Theme name'
 options:
+    composer: 'Use --composer option for manage the theme download with Composer'
     version: 'Phiên bản theme ví dụ 1.x-dev'
 messages:
     no-releases: 'Không có bản phát hành nào cho theme %s'
@@ -9,3 +13,6 @@ messages:
     select-release: 'Hãy lựa chọn bản phát hành yêu thích của bạn'
     outside-drupal: 'Không thể xác định được thư mục Drupal root. Sử dụng --root để thiết lập điểm đến, thư mục hiện tại sẽ được sử dụng thay thế.'
     error-creating-folder: 'Lỗi khi tạo thư mục %s, xin hãy kiểm tra lại permssions'
+tips:
+    -
+        tip: 'Pass a «true» value to «shellexec_output» key in your config.yml file to see interactively Composer''s output or «false» to hide it'

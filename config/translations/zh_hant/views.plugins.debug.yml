@@ -4,5 +4,5 @@ arguments:
 messages:
     type: 類型
     name: 名稱
-    provider: 提供者
+    provider: '提供者'
     views: Views

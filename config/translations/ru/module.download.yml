@@ -15,3 +15,8 @@ messages:
     select-release: 'Пожалуйста, выберите желаемый релиз'
     outside-drupal: 'Drupal root не может быть определен. Используйте --root, чтобы установить пункт назначения, текущая папка будет использована в обратном случае'
     error-creating-folder: 'Ошибка создания папки %s, пожалуйста, проверьте ваши права доступа'
+    no-composer-repo: 'Please, configure Composer in ~/.console/config.yml'
+    composer: 'Module %s was downloaded successfully using Composer'
+tips:
+    -
+        tip: 'Pass a «true» value to «shellexec_output» key in your config.yml file to see interactively Composer''s output or «false» to hide it'
