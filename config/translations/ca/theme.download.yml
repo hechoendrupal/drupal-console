@@ -1,5 +1,9 @@
 description: 'Descarregar tema per l''aplicació'
+arguments:
+    version: 'Theme version i.e 1.x-dev'
+    theme: 'the Theme name'
 options:
+    composer: 'Use --composer option for manage the theme download with Composer'
     version: 'Versió del tema p.e 1.x-dev'
 messages:
     no-releases: 'No hi han versions per el tema %s'
@@ -9,3 +13,6 @@ messages:
     select-release: 'Seleccioneu una versió'
     outside-drupal: 'No s''ha pogut determinar l''arrel de Drupal. Per definir el destí utilitza --root, en qualsevol cas serà utilitzat el directori actual.'
     error-creating-folder: 'S''ha produït un error creant el directori %s, verifica el permisos'
+tips:
+    -
+        tip: 'Pass a «true» value to «shellexec_output» key in your config.yml file to see interactively Composer''s output or «false» to hide it'

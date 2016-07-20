@@ -1,4 +1,4 @@
-description: 覆写活动配置
+description: '覆写活动配置'
 questions:
     name: '输入配置名称'
     key: '输入配置的键'
@@ -7,10 +7,10 @@ arguments:
     name: '配置名称'
     key: 键
     value: 值
-    config-name: 配置名称
+    config-name: '配置名称'
 messages:
-    configuration: 配置名称
-    configuration-key: 配置的键
+    configuration: '配置名称'
+    configuration-key: '配置的键'
     original: 原始值
     updated: 覆写后的值
     invalid-name: '配置对象 "%s" 不存在'

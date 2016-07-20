@@ -6,3 +6,4 @@ questions:
     resource-id: 'ID Rest '
 messages:
     invalid-rest-id: 'El ID rest %s no es válido'
+    success: 'Rest ID %s disabled'

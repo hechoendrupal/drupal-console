@@ -8,10 +8,10 @@ options:
     title-words: タイトルに設定するの単語の最大数
     time-range: ノードの作成時刻
 questions:
-    content-type: 作成するノードのコンテンツタイプを選択してください
-    limit: 作成するノードの数を入力してください
-    title-words: タイトルに設定する単語の最大数を入力してください
-    time-range: ノードの作成時刻を選択してください
+    content-type: '作成するノードのコンテンツタイプを選択してください'
+    limit: '作成するノードの数を入力してください'
+    title-words: 'タイトルに設定する単語の最大数を入力してください'
+    time-range: 'ノードの作成時刻を選択してください'
     time-ranges:
         - 現在時刻
         - 1時間前

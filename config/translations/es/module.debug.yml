@@ -8,11 +8,13 @@ messages:
     status: Estado
     origin: Origen
     package: Paquete
-    enabled: Habilitado
-    disabled: Deshabilitado
+    installed: Installed
+    uninstalled: Uninstalled
     version: Versión
     schema-version: 'Versión del esquema'
     total-downloads: 'Total de instalaciones'
     total-monthly: 'Instalaciones mensuales'
     total-daily: 'Instalaciones diarias'
     no-results: 'El módulo %s no ha sido encontrado en el repositorio'
+    enabled: Habilitado
+    disabled: Deshabilitado

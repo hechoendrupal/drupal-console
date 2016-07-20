@@ -8,7 +8,7 @@ messages:
     view-name: 'View 名稱'
     description: 描述
     tag: 標籤
-    status: 啟用狀態
+    status: '啟用狀態'
     path: 路徑
     not-found: '找不到 %s 這個 View。'
     display-list: 'Display 列表'

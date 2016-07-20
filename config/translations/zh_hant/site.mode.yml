@@ -12,5 +12,5 @@ messages:
     service-parameter: 參數
     service-value: 值
     error-copying-file: 檔案複製失敗
-    error-writing-file: 檔案複製寫入失敗
+    error-writing-file: '檔案複製寫入失敗'
     services-file-overwritten: 服務（Services）檔案已被覆寫

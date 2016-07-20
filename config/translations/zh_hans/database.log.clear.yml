@@ -1,11 +1,11 @@
-description: 清除事件日志
+description: '清除事件日志'
 arguments:
     event-id: 'DBLog 事件 ID'
 options:
-    type: '用指定类型过滤事件'
-    severity: '用指定的严重等级过滤事件'
-    user-id: '用指定的用户ID过滤事件'
+    type: 用指定类型过滤事件
+    severity: 用指定的严重等级过滤事件
+    user-id: 用指定的用户ID过滤事件
 messages:
     event-deleted: '事件 %s 已删除'
-    clear-error: 清除失败，请检查所使用的过滤器
-    clear-sucess: 清除成功
+    clear-error: '清除失败，请检查所使用的过滤器'
+    clear-sucess: '清除成功'

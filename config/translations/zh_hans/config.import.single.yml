@@ -7,5 +7,5 @@ questions:
     name: '输入配置名称'
     file: '输入导入文件路径'
 messages:
-    empty-value: '值不能为空'
+    empty-value: 值不能为空
     success: '配置 "%s" 被成功导入'

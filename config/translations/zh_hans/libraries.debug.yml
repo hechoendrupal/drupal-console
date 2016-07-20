@@ -1,6 +1,6 @@
 description: '显示应用中可用的 Libraries'
 options:
-  name: '输入 Libraries 名称'
+    name: '输入 Libraries 名称'
 messages:
-   name: '使用 Libraries 的扩展'
-   info: 'Libraries 信息'
+    name: '使用 Libraries 的扩展'
+    info: 'Libraries 信息'

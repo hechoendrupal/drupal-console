@@ -9,7 +9,7 @@ messages:
     invalid-env: 'L''entorn no és vàlid'
     new-services-settings: 'Configuració del nou servei'
     service: Servei
-    service-parameter: Paràmetre
+    service-parameter: 'Paràmetre'
     service-value: Valor
     error-copying-file: 'S''ha produït un error durant la còpia del fitxer'
     error-writing-file: 'S''ha produït un error durant la còpia del fitxer'

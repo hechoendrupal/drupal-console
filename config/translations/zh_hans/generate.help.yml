@@ -1,6 +1,6 @@
 description: '生成 hook_help() 的一个实现'
 help: '命令 <info>"%s"</info> 帮助您生成一个 hook help "%s"'
-options:
-questions:
+options: null
+questions: null
 messages:
     help-already-implemented: ' hook help 已经实现,在模块 "%s" 中'

@@ -1,11 +1,11 @@
 description: '创建节点访问权限. 重建会移除所有内容上的使用权限并替换为当前模块或当前设置里的权限'
 options:
-    batch: '批量模式处理'
+    batch: 批量模式处理
 messages:
     rebuild: '重建节点访问权限中,请稍候'
-    completed: '重建权限完成'
-    failed: '重建权限没有成功'
+    completed: 重建权限完成
+    failed: 重建权限没有成功
 examples:
     -
-        description: '创建节点访问权限'
+        description: 创建节点访问权限
         execution: 'drupal node:access:rebuild --batch'

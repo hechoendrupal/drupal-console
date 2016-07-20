@@ -1,8 +1,8 @@
-description: 執行模組中指定編號的更新，或執行全部更新
+description: '執行模組中指定編號的更新，或執行全部更新'
 options:
     update-n: 要更新的編號
 messages:
     no-module-updates: '%s 模組裡沒有可用的更新'
     executing-update: '正在執行 %2$s 模組中編號 %1$s 的更新'
     module-update-function-not-found: '%s 模組裡沒有指定編號 %s 的更新'
-    executing-required-previous-updates: 執行先前必要的更新
+    executing-required-previous-updates: '執行先前必要的更新'

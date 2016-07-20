@@ -7,6 +7,7 @@ options:
     form-id: 'O id do formulário'
     services: common.options.services
     inputs: common.options.inputs
+    path: 'Enter the form path'
     routing: 'Generate routing'
 questions:
     module: common.questions.module
@@ -19,3 +20,4 @@ questions:
     menu_link_title: 'A title for the menu link'
     menu_parent: 'Menu parent'
     menu_link_desc: 'A description for the menu link'
+    path: 'Enter the route path'

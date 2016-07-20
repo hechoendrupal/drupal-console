@@ -1,4 +1,4 @@
-description: '显示可用的断点'
+description: 显示可用的断点
 options:
     group-name: '输入断点组名称'
 messages:

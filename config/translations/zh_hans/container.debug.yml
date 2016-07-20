@@ -1,12 +1,12 @@
 description: 显示当前服务
 arguments:
-    service: '服务名称'
+    service: 服务名称
 messages:
     service_id: 服务ID
     class_name: 类名
     service: 服务
     class: 类
     interface: 接口
-    parent: '父类'
+    parent: 父类
     variables: 变量
     methods: 方法

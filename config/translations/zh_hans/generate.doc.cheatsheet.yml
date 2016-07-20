@@ -1,18 +1,18 @@
-description: '生成可打印的命令小抄'
+description: 生成可打印的命令小抄
 options:
-    path: '生成的PDF文档的路径'
+    path: 生成的PDF文档的路径
     wkhtmltopdf: '系统中可执行二进制文件 wkhtmltopdf 的路径'
 messages:
-    missing_path: '路径缺少'
+    missing_path: 路径缺少
     title: 'Drupal Console 小抄'
     note: 注意
     note-description: 'Drupal Console 命令 *必须* 运行在 Drupal 8 根目录下'
     command: 'Drupal Console 命令'
     command_description: '**%s** 命令 %s'
     usage: 用法
-    options: '可用选项'
+    options: 可用选项
     option: 选项
     details: 细节
-    arguments: '可用参数'
+    arguments: 可用参数
     argument: 参数
     examples: 举例

@@ -14,7 +14,14 @@ messages:
     no-releases: 'Não há versões disponíveis para o Drupal'
     downloaded: 'Drupal %s foi baixado no diretório %s'
     error-copying: 'Um erro ocorreu ao renomear o diretório em %s'
+    composer: 'Drupal %s was installed successfully using Composer at %s'
+    executing: 'Executing composer command:'
+    missing-directory: 'Missing directory argument'
+    missing-version: 'Missing version argument'
 questions:
     directory: 'Entre com o nome do diretório para baixar o Drupal'
     composer-release: 'Please, choose a Packagist Drupal release'
     stable: 'Do you want to use stable releases?'
+tips:
+    -
+        tip: 'Pass a «true» value to «shellexec_output» key in your config.yml file to see interactively Composer''s output or «false» to hide it'

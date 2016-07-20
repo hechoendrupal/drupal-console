@@ -8,11 +8,13 @@ messages:
     status: Állapot
     origin: Eredet
     package: Csomag
-    enabled: Engedélyezett
-    disabled: Tiltott
+    installed: Installed
+    uninstalled: Uninstalled
     version: Version
     schema-version: Sémaverzió
     total-downloads: 'Total installs'
     total-monthly: 'Monthly installs'
     total-daily: 'Daily installs'
     no-results: 'Module %s was not found in the repository'
+    enabled: Engedélyezett
+    disabled: Tiltott

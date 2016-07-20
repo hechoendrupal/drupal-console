@@ -6,3 +6,4 @@ questions:
     resource-id: 'ID-ul resursei.'
 messages:
     invalid-rest-id: 'ID-ule resursei %s este incorect'
+    success: 'Rest ID %s disabled'

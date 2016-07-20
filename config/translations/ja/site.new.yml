@@ -20,7 +20,7 @@ messages:
     missing-directory: 'Missing directory argument'
     missing-version: 'Missing version argument'
 questions:
-    directory: Drupalをダウンロードするディレクトリを入力してください
+    directory: 'Drupalをダウンロードするディレクトリを入力してください'
     composer-release: 'Please, choose a Packagist Drupal release'
     stable: 'Do you want to use stable releases?'
 tips:

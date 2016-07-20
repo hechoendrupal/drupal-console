@@ -1,9 +1,9 @@
 description: 下载模块
 arguments:
-    module: 要启用的模块之间用空格隔开
+    module: '要启用的模块之间用空格隔开'
 options:
     latest: 默认下载最新版本
-    path: '贡献项目路径'
+    path: 贡献项目路径
     composer: '模块将被 Composer 下载,管理,安装的选项'
     version: 模块版本，例如：1.x-dev
 questions:
@@ -16,3 +16,8 @@ messages:
     select-release: 版本选择
     outside-drupal: '找不到 Drupal 根目录。使用 --root 进行设置，否则使用当前目录'
     error-creating-folder: '创建文件夹 %s 失败，请检查权限'
+    no-composer-repo: 'Please, configure Composer in ~/.console/config.yml'
+    composer: 'Module %s was downloaded successfully using Composer'
+tips:
+    -
+        tip: 'Pass a «true» value to «shellexec_output» key in your config.yml file to see interactively Composer''s output or «false» to hide it'

@@ -1,4 +1,4 @@
-description: データベース内の全てのテーブルを表示
+description: 'データベース内の全てのテーブルを表示'
 help: '<info>database:table:debug</info> はデータベース内の全てのテーブルを表示します。'
 arguments:
     table: デバッグするテーブル
@@ -7,5 +7,5 @@ options:
 messages:
     table-show: 'データベース %s のテーブルを表示しています。'
     table: テーブル
-    column: カラム
+    column: 'カラム'
     type: タイプ

@@ -23,3 +23,5 @@ messages:
     installed: 'A Drupal 8 telepítés sikeresen befejeződött'
     using-current-database: '%s adatbázis használata %s névvel és %s felhasználóval'
     already-installed: 'A Drupal már telepítve van, meg kell próbálni törölni az adatbázist és újból futtatni a site:install parancsot'
+    sites-backup: 'The sites.php file has temporarily been renamed to backup.sites.php while Drupal installs.'
+    sites-restore: 'The backup of sites.php has been been restored to sites.php.'

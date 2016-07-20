@@ -1,9 +1,9 @@
-description: '为没有特定生成器的生成一个基本插件的实现'
+description: 为没有特定生成器的生成一个基本插件的实现
 help: '命令 <info>"%s"</info> 帮助您生成一个基本插件 "%s"'
 options:
     module: common.options.module
     plugin: '插件 Id.'
-    class: '插件类名'
+    class: 插件类名
 questions:
     module: common.questions.module
     plugin: '输入插件 Id'

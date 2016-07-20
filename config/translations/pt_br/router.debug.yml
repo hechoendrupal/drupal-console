@@ -5,6 +5,6 @@ messages:
     name: 'Nome da rota'
     class: 'Caminho da classe'
     route: Rota
-    path: 'Caminho'
+    path: Caminho
     defaults: Padrão
     options: Opções

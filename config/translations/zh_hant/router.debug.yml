@@ -6,5 +6,5 @@ messages:
     class: 類別路徑
     route: 途徑
     path: 路徑
-    defaults: 預設值
-    options: 選項
+    defaults: '預設值'
+    options: '選項'

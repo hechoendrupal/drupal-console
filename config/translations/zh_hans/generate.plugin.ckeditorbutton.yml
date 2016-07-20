@@ -3,7 +3,7 @@ help: '命令 <info>generate:plugin:ckeditorbutton</info> 帮助您生成一个�
 welcome: '欢迎使用 Drupal CKEditor 按钮插件生成器'
 options:
     module: common.options.module
-    class: '插件类名'
+    class: 插件类名
     label: '插件标签'
     plugin-id: '插件 ID. 注意: 这与 CKEditor 插件名称对应. 它是 plugin.js 文件中 CKEDITOR.plugins.add() 函数的第一个参数'
     button-name: '按钮名称. 注意: 这与 CKEditor 按钮名称相对应. 它是 plugin.js 文件中 editor.ui.addButton() 或 editor.ui.addRichCombo() 函数的第一个参数'

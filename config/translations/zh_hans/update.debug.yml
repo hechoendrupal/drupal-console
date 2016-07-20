@@ -7,7 +7,7 @@ messages:
     description: 简介
     requirements-error: 下列要求没有完成
     module-list: 需要更新的模块
-    module-list-post-update: '挂起的模块更新'
+    module-list-post-update: 挂起的模块更新
     module: 模块
     update-n: '更新 N'
-    post-update: '更新后的函数'
+    post-update: 更新后的函数

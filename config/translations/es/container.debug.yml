@@ -4,9 +4,9 @@ arguments:
 messages:
     service_id: 'ID del servicio'
     class_name: 'Nombre de la clase'
-    service: 'Servicio'
-    class: 'Clase'
-    interface: 'Interface(s)'
+    service: Servicio
+    class: Clase
+    interface: Interface(s)
     parent: 'Clase padre'
-    variables: 'Variables'
-    methods: 'Métodos'
+    variables: Variables
+    methods: Métodos

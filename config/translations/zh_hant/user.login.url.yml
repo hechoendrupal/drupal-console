@@ -1,4 +1,4 @@
-description: 為使用者取得一次性登入網址。
+description: '為使用者取得一次性登入網址。'
 options:
     user-id: '使用者 ID'
 messages:
