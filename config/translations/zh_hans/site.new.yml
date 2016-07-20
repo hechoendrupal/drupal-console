@@ -26,4 +26,4 @@ questions:
     stable: '想使用稳定版本吗?'
 tips:
     -
-        tip: 'Pass a «true» value to «shellexec_output» key in your config.yml file to see interactively Composer''s output or «false» to hide it'
+        tip: '在 config.yml 文件中传递一个 «true» 值给 «shellexec_output» 键显示 Composer 的交互输出,或传递 «false» 隐藏输出'
