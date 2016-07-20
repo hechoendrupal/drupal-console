@@ -1,7 +1,7 @@
-description: 'Generate a .module file'
-help: 'The <info>generate:module:file</info> command helps you generates a new .module file'
-welcome: 'Welcome to the Drupal module generator'
+description: '生成一个 .module 文件'
+help: '命令 <info>generate:module:file</info> 帮助您生成一个新的 .module 文件'
+welcome: '欢迎使用 Drupal 模块生成器'
 options:
-    module: 'The Module name'
+    module: '模块名称'
 questions:
-    module: 'Enter the new module name'
+    module: '输入新模块名称'
