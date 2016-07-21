@@ -73,9 +73,10 @@ $drupalKernel = DrupalKernel::createFromRequest(
 );
 $drupalKernel->addServiceModifier(new DrupalServiceModifier());
 $drupalKernel->invalidateContainer();
-$drupalKernel->boot();
 
 $drupalKernel->loadServices($consoleRoot);
+
+$drupalKernel->boot();
 /* DrupalKernel */
 
 $container = $drupalKernel->getContainer();

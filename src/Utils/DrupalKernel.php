@@ -57,6 +57,7 @@ class DrupalKernel extends DrupalKernelBase
         echo 'loadServices' . PHP_EOL;
 
         $container = parent::getContainerBuilder();
+
         $loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
         $loader->load('services.yml');
 
