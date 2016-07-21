@@ -74,9 +74,13 @@ $drupalKernel = DrupalKernel::createFromRequest(
 $drupalKernel->addServiceModifier(new DrupalServiceModifier());
 $drupalKernel->invalidateContainer();
 $drupalKernel->boot();
+
+
+//$drupalKernel->loadServices()
 /* DrupalKernel */
 
-$container = new ContainerBuilder();
+$container = $drupalKernel->getContainer();
+//$container = new ContainerBuilder();
 $loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
 $loader->load('services.yml');
 

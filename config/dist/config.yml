@@ -45,4 +45,4 @@ application:
     generate-chain: false
     yes: false
     composer: false
-    shellexec_output: true
+#    shellexec_output: true

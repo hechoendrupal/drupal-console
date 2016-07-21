@@ -47,4 +47,9 @@ class DrupalKernel extends DrupalKernelBase
         }
         return $container;
     }
+
+    public function loadServices($servicesFile)
+    {
+
+    }
 }
