@@ -6,6 +6,10 @@ use Drupal\Core\DrupalKernel as DrupalKernelBase;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Core\DependencyInjection\ServiceModifierInterface;
 
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\Finder\Finder;
+
 /**
  * Class DrupalKernel
  * @package Drupal\Console\Utils
@@ -48,8 +52,18 @@ class DrupalKernel extends DrupalKernelBase
         return $container;
     }
 
-    public function loadServices($servicesFile)
+    public function loadServices($path)
     {
+        $container = parent::getContainerBuilder();
+        $loader = new YamlFileLoader($container, new FileLocator($path));
+        $loader->load('services.yml');
 
+        $finder = new Finder();
+        $finder->files()
+            ->name('*.yml')
+            ->in(sprintf('%s/config/services/', $consoleRoot));
+        foreach ($finder as $file) {
+            $loader->load($file->getPathName());
+        }
     }
 }

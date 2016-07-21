@@ -75,8 +75,7 @@ $drupalKernel->addServiceModifier(new DrupalServiceModifier());
 $drupalKernel->invalidateContainer();
 $drupalKernel->boot();
 
-
-//$drupalKernel->loadServices()
+$drupalKernel->loadServices(__DIR__);
 /* DrupalKernel */
 
 $container = $drupalKernel->getContainer();
