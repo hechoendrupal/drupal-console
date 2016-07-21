@@ -75,21 +75,21 @@ $drupalKernel->addServiceModifier(new DrupalServiceModifier());
 $drupalKernel->invalidateContainer();
 $drupalKernel->boot();
 
-$drupalKernel->loadServices(__DIR__);
+$drupalKernel->loadServices($consoleRoot);
 /* DrupalKernel */
 
-$container = $drupalKernel->getContainer();
-//$container = new ContainerBuilder();
-$loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
-$loader->load('services.yml');
-
-$finder = new Finder();
-$finder->files()
-    ->name('*.yml')
-    ->in(sprintf('%s/config/services/', $consoleRoot));
-foreach ($finder as $file) {
-    $loader->load($file->getPathName());
-}
+//$container = $drupalKernel->getContainer();
+////$container = new ContainerBuilder();
+//$loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
+//$loader->load('services.yml');
+//
+//$finder = new Finder();
+//$finder->files()
+//    ->name('*.yml')
+//    ->in(sprintf('%s/config/services/', $consoleRoot));
+//foreach ($finder as $file) {
+//    $loader->load($file->getPathName());
+//}
 
 AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
 

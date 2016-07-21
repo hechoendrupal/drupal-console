@@ -52,10 +52,12 @@ class DrupalKernel extends DrupalKernelBase
         return $container;
     }
 
-    public function loadServices($path)
+    public function loadServices($consoleRoot)
     {
+        echo 'loadServices' . PHP_EOL;
+
         $container = parent::getContainerBuilder();
-        $loader = new YamlFileLoader($container, new FileLocator($path));
+        $loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
         $loader->load('services.yml');
 
         $finder = new Finder();
