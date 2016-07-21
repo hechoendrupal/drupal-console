@@ -61,6 +61,9 @@ class DrupalKernel extends DrupalKernelBase
         $loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
         $loader->load('services.yml');
 
+        $container->get('parser');
+        $container->get('config');
+
         $finder = new Finder();
         $finder->files()
             ->name('*.yml')
