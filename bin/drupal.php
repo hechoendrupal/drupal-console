@@ -71,7 +71,6 @@ $drupalKernel = DrupalKernel::createFromRequest(
     'prod',
     true
 );
-\Drupal::getContainer()->setParameter('console.root', $consoleRoot);
 $drupalKernel->addServiceModifier(new DrupalServiceModifier());
 $drupalKernel->invalidateContainer();
 

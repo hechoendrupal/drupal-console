@@ -19,10 +19,9 @@ class AddCommandsCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $consoleRoot = \Drupal::getContainer()->getParameter('console.root');
+        $consoleRoot = '/Users/jmolivas/develop/drupal/sites/drupal-project/vendor/drupal/console/';
 
         echo 'loadServices' . $consoleRoot . PHP_EOL;
-
 
         $loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
         $loader->load('services.yml');
