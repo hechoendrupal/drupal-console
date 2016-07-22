@@ -7,7 +7,7 @@ options:
     form-id: '表单 ID'
     services: common.options.services
     inputs: common.options.inputs
-    path: 'Enter the form path'
+    path: '输入表单路径'
     routing: 生成路由
 questions:
     module: common.questions.module
@@ -20,4 +20,5 @@ questions:
     menu_link_title: '菜单链接标题'
     menu_parent: 父级菜单
     menu_link_desc: 菜单链接描述
-    path: 'Enter the route path'
+    path: '输入路由路径'
+

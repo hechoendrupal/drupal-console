@@ -23,5 +23,5 @@ messages:
     installed: '安装Drupal 8成功结束'
     using-current-database: 使用%s数据库%s和用户%s
     already-installed: 'Drupal已经安装, 当然，你可以清空数据库用这个命令site:install再安装一次'
-    sites-backup: 'The sites.php file has temporarily been renamed to backup.sites.php while Drupal installs.'
-    sites-restore: 'The backup of sites.php has been been restored to sites.php.'
+    sites-backup: '在 Drupal 安装时, sites.php 文件被临时重命名为 backup.sites.php'
+    sites-restore: 'sites.php 的备份被还原'

@@ -1,9 +1,9 @@
 description: 下载主题
 arguments:
-    version: 'Theme version i.e 1.x-dev'
-    theme: 'the Theme name'
+    version: '主题板报, 例如 1.x-dev'
+    theme: '主题名称'
 options:
-    composer: 'Use --composer option for manage the theme download with Composer'
+    composer: '使用 --composer 选项可以利用Composer管理主体下载'
     version: 主题版本，例如：1.x-dev
 messages:
     no-releases: '主题 %s 没有发布任何版本'
@@ -15,4 +15,5 @@ messages:
     error-creating-folder: '创建文件夹 %s 失败，请检查权限'
 tips:
     -
-        tip: 'Pass a «true» value to «shellexec_output» key in your config.yml file to see interactively Composer''s output or «false» to hide it'
+        tip: '在 config.yml 文件中传递一个 «true» 值给 «shellexec_output» 键显示 Composer 的交互输出,或传递 «false» 隐藏输出'
+

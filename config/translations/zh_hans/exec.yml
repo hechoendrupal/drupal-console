@@ -1,8 +1,8 @@
-description: 'Execute an external command.'
+description: '执行一个外部命令'
 arguments:
-  bin: 'Executable name.'
+  bin: '可执行命令名称'
 messages:
-  success: 'Executed the command.'
-  invalid-bin: 'Error executing the command.'
-  missing-bin: 'Provide a executable.'
+  success: '命令已执行'
+  invalid-bin: '执行命令出错'
+  missing-bin: '可执行命令缺失'
 
