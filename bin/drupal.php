@@ -71,10 +71,13 @@ $drupalKernel = DrupalKernel::createFromRequest(
     'prod',
     true
 );
+\Drupal::getContainer()->setParameter('console.root', $consoleRoot);
 $drupalKernel->addServiceModifier(new DrupalServiceModifier());
 $drupalKernel->invalidateContainer();
 
-$drupalKernel->loadServices($consoleRoot);
+//$drupalKernel->loadServices($consoleRoot);
+
+echo 'AppRoot : ' . $drupalKernel->getAppRoot() . PHP_EOL;
 
 $drupalKernel->boot();
 /* DrupalKernel */

@@ -4,7 +4,6 @@ namespace Drupal\Console\Utils;
 
 use Drupal\Core\DependencyInjection\ServiceModifierInterface;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
-use Drupal\Console\Utils\FindCommandsCompilerPass;
 
 class DrupalServiceModifier implements ServiceModifierInterface
 {
@@ -15,6 +14,9 @@ class DrupalServiceModifier implements ServiceModifierInterface
     {
         $container->addCompilerPass(
             new FindCommandsCompilerPass('console.command')
+        );
+        $container->addCompilerPass(
+            new AddCommandsCompilerPass()
         );
     }
 }
