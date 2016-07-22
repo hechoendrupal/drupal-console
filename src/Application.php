@@ -364,16 +364,16 @@ class Application extends BaseApplication
             $this->add($command);
         }
 
-        $consoleCoreCommands = array_keys(
-            $this->container->findTaggedServiceIds('console.command')
-        );
+//        $consoleCoreCommands = array_keys(
+//            $this->container->findTaggedServiceIds('console.command')
+//        );
 
-        $consoleContributedCommands = \Drupal::getContainer()->getParameter('console.commands');
+        $consoleCommands = \Drupal::getContainer()->getParameter('console.commands');
 
-        $consoleCommands = array_merge(
-            $consoleCoreCommands,
-            $consoleContributedCommands
-        );
+//        $consoleCommands = array_merge(
+//            $consoleCoreCommands,
+//            $consoleContributedCommands
+//        );
 
         foreach ($consoleCommands as $name) {
             $command = $this->getContainerHelper()->get($name);
