@@ -370,6 +370,8 @@ class Application extends BaseApplication
 
         $consoleCommands = \Drupal::getContainer()->getParameter('console.commands');
 
+        var_export($consoleCommands);
+
 //        $consoleCommands = array_merge(
 //            $consoleCoreCommands,
 //            $consoleContributedCommands
