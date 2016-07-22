@@ -97,6 +97,7 @@ $container = $drupalKernel->getContainer();
 AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
 
 $config = $container->get('config');
+
 $container->get('translator')->loadResource(
     $config->get('application.language'),
     $consoleRoot

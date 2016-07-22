@@ -25,7 +25,7 @@ class ContainerHelper extends Helper
      * ContainerHelper constructor.
      * @param ContainerBuilder $container
      */
-    public function __construct(ContainerBuilder $container)
+    public function __construct($container)
     {
         $this->container = $container;
     }
