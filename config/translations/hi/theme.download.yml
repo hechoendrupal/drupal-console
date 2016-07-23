@@ -1,5 +1,9 @@
 description: 'आवेदन में विषय डाउनलोड करे'
+arguments:
+    version: 'Theme version i.e 1.x-dev'
+    theme: 'the Theme name'
 options:
+    composer: 'Use --composer option for manage the theme download with Composer'
     version: 'थीम संस्करण अर्थात् 1.x-dev'
 messages:
     no-releases: '%s विषय के लिए किसी भी रिलीज नहीं हैं'
@@ -9,3 +13,6 @@ messages:
     select-release: 'अपने पसंदीदा विज्ञप्ति का चयन करें'
     outside-drupal: 'ड्रुपल जड़ से निर्धारित नहीं किया जा सकता गंतव्य सेट करने --root प्रयोग करें वर्तमान फ़ोल्डर के बजाय इस्तेमाल किया जाएगा.'
     error-creating-folder: 'फ़ोल्डर बनाने में त्रुटि %s कृपया अपनी अनुमतियों की जाँच'
+tips:
+    -
+        tip: 'Pass a «true» value to «shellexec_output» key in your config.yml file to see interactively Composer''s output or «false» to hide it'

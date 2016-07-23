@@ -10,5 +10,5 @@ table-headers:
     plugin-type-class: 'Classe gerenciadora de plugin'
     plugin-id: 'Plugin ID'
     plugin-class: 'Classe do Plugin'
-    definition-key: "Chave"
-    definition-value: "Valor"
+    definition-key: Chave
+    definition-value: Valor

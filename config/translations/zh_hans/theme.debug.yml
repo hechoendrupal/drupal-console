@@ -6,7 +6,7 @@ messages:
     theme-name: 主题名称
     status: 状态
     version: 版本
-    installed: 已安装
+    installed: '已安装'
     uninstalled: 已卸载
     default-theme: 默认主题
     properties: 属性

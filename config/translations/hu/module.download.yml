@@ -16,3 +16,8 @@ messages:
     select-release: 'Ki kell választani a kedvenc kiadását'
     outside-drupal: 'A Drupal gyökerét nem lehet meghatározni. A --root használatával beállítható a cél, ehelyett az aktuális mappa lesz használatban.'
     error-creating-folder: 'Hiba történt %s mappa létrehozásakor, ellenőrizni kell az engedélyeket'
+    no-composer-repo: 'Please, configure Composer in ~/.console/config.yml'
+    composer: 'Module %s was downloaded successfully using Composer'
+tips:
+    -
+        tip: 'Pass a «true» value to «shellexec_output» key in your config.yml file to see interactively Composer''s output or «false» to hide it'

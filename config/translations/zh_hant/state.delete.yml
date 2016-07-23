@@ -1,7 +1,7 @@
-description: 清除系統狀態
+description: '清除系統狀態'
 arguments:
-    name: 系統狀態名稱。
+    name: '系統狀態名稱。'
 messages:
-    enter-name: 需填入系統狀態名稱
+    enter-name: '需填入系統狀態名稱'
     state-not-exists: '系統狀態 %s 不存在。'
     deleted: '系統狀態 %s 已清除完畢'

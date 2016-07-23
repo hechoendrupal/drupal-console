@@ -1,4 +1,5 @@
 options:
+    class: 'Class name'
     events: 'Carregar esdeveniments des del contenidor'
     module: 'Nom del mòdul.'
     services: 'Carregar serveis des del contenidor.'
@@ -6,6 +7,7 @@ options:
     inputs: 'Crear camp entrada (input) en un formulari.'
     permissions: 'Crear permisos'
 questions:
+    class: 'Enter the Class name'
     module: 'Introduir el nome del módul'
     confirm: '¿Confirma la generació?'
     canceled: 'Comandament de generació cancel·lat.'

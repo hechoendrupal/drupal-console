@@ -3,4 +3,4 @@ arguments:
     module: 'El nombre del módulo (nombre máquina)'
 options:
     absolute: 'Indica la ruta absoluta del módulo'
-messages:
+messages: null

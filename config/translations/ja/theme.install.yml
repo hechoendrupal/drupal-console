@@ -4,10 +4,10 @@ questions:
     invalid-theme: 'テーマ名 %s は不正な値です'
 options:
     theme: 'インストールするテーマ名 (複数指定する場合はカンマ区切り)'
-    overwrite-config: 必要な場合はアクティブ設定を上書きする
+    overwrite-config: '必要な場合はアクティブ設定を上書きする'
     set-default: デフォルトテーマとしてセットする
 messages:
-    no-themes: インストールするテーマ名を指定してください。
+    no-themes: 'インストールするテーマ名を指定してください。'
     themes-missing: 'テーマ %s が見つからないためインストールできませんでした。'
     theme-missing: 'テーマ %s が見つからないためインストールできませんでした。'
     missing-dependencies: 'テーマ %s がインストールできませんでした (依存している %s が見つからないため)'

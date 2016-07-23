@@ -10,7 +10,7 @@ messages:
     getting-releases: 'テーマ %s のリリースを取得しています。'
     downloading: 'テーマ %s %s をダウンロードしています。'
     downloaded: 'テーマ %s %s は %s にダウンロードされました。'
-    select-release: ダウンロードするバージョンを選択してください
+    select-release: 'ダウンロードするバージョンを選択してください'
     outside-drupal: 'Drupal のルートディレクトリを決定できませんでした。--root オプションを設定してください。'
     error-creating-folder: 'ディレクトリ %s の作成に失敗しました、パーミッションを確認してください。'
 tips:

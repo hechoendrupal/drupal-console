@@ -11,4 +11,4 @@ messages:
     success: '次のモジュールのインストールに成功しました: %s'
     composer: 'モジュール %s を Composer で管理することに成功しました。'
     only-composer: 'このコマンドはComposerを使ってモジュールを更新します。 --composer オプションを利用してください。'
-    missing-module: 更新するモジュール名を入力してください。
+    missing-module: '更新するモジュール名を入力してください。'

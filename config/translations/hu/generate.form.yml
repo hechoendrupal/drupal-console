@@ -7,6 +7,7 @@ options:
     form-id: 'Az űrlap-azonosító'
     services: common.options.services
     inputs: common.options.inputs
+    path: 'Enter the form path'
     routing: 'Generate routing'
 questions:
     module: common.questions.module
@@ -19,3 +20,4 @@ questions:
     menu_link_title: 'A menühivatkozás címe'
     menu_parent: 'Szülő a menüben'
     menu_link_desc: 'A menühivatkozás leírása'
+    path: 'Enter the route path'

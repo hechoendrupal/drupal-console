@@ -1,4 +1,4 @@
-description: ワンタイムログインURLを生成する
+description: 'ワンタイムログインURLを生成する'
 options:
     user-id: ユーザーID
 messages:

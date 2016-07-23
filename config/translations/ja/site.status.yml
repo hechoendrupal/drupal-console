@@ -1,7 +1,7 @@
-description: Drupalのインストール状態を表示する
+description: 'Drupalのインストール状態を表示する'
 messages:
     application: アプリケーション
-    system: システム情報
+    system: 'システム情報'
     hash_salt: ハッシュのソルト
     console: 'Drupal Console'
     database: データベース接続

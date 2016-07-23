@@ -6,3 +6,4 @@ questions:
     resource-id: REST-azonosító
 messages:
     invalid-rest-id: '%s REST-azonosító érvénytelen'
+    success: 'Rest ID %s disabled'

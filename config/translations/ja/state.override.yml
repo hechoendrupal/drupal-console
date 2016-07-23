@@ -8,5 +8,5 @@ messages:
     original: 'Original value'
     override: 'Override value'
 errors:
-    no-key: オーバーライドするステートキーは必ず指定してください。
+    no-key: 'オーバーライドするステートキーは必ず指定してください。'
     no-value: 'セットするState valueは必ず指定してください。'

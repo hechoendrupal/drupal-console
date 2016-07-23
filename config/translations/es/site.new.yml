@@ -23,3 +23,6 @@ questions:
     directory: 'Introduzca el nombre de directorio donde instalar Drupal'
     composer-release: 'Por favor, elija una versión de Packagist Drupal'
     stable: '¿Desea utilizar versiones estables?'
+tips:
+    -
+        tip: 'Pass a «true» value to «shellexec_output» key in your config.yml file to see interactively Composer''s output or «false» to hide it'

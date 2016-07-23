@@ -4,7 +4,7 @@ arguments:
     directory: '現存的 Drupal 根目錄'
     name: 指派名稱給建立的網站設定
 options:
-    environment: 要匯入的環境模式名稱
+    environment: '要匯入的環境模式名稱'
 messages:
     imported: '網站已經匯入完畢。您可以執行 `drupal site:debug` 來確認匯入的結果。'
     error-missing: '目錄 %s 不存在。'
@@ -12,5 +12,5 @@ messages:
     error-writing: '嘗試寫入設定檔 %s 時發生錯誤'
 questions:
     directory: '輸入將安裝 Drupal 的資料夾名稱'
-    name: 輸入網站名稱
-    environment: 輸入網站環境模式
+    name: '輸入網站名稱'
+    environment: '輸入網站環境模式'

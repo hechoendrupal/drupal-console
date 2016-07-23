@@ -1,7 +1,7 @@
 description: 'Drupal Consoleを最新バージョンに更新する'
 help: 'Drupal Consoleを最新バージョンに更新する'
 options:
-    major: 利用可能な場合、新しいメジャーバージョンに更新する
+    major: '利用可能な場合、新しいメジャーバージョンに更新する'
     manifest: 上書きするマニフェストファイルのパス
     current-version: 現在のバージョン
 questions:

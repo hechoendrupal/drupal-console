@@ -6,3 +6,4 @@ messages:
     inputs: 'Felvehetők űrlapmezők a módosítandó űrlapba. Ez nem kötelező, az <info>enter</info> megnyomásával <info>folytatható</info> a művelet'
     loading-forms: 'A Webprofiler modul űrlapmeghatározásainak betöltése'
     hide-form-elements: 'Opcionálisan kiválaszthatók elrejtendő űrlapelemek'
+    help-already-implemented: 'The hook form alter was already implemented in module "%s"'

@@ -1,4 +1,4 @@
-description: データベースから全てのテーブルを削除
+description: 'データベースから全てのテーブルを削除'
 help: '<info>database:drop</info> コマンドはデータベースから全てのテーブルを削除します。'
 arguments:
     database: settings.phpのデータベースのキー
