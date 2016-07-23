@@ -19,8 +19,9 @@ class EntityContentGenerator extends Generator
      * @param string $base_path          Base path
      * @param string $is_translatable    Translation configuration
      * @param string $bundle_entity_type (Config) entity type acting as bundle
+     * @param bool $is_revisionable      Revision configuration
      */
-    public function generate($module, $entity_name, $entity_class, $label, $base_path, $is_translatable, $bundle_entity_type = null)
+    public function generate($module, $entity_name, $entity_class, $label, $base_path, $is_translatable, $bundle_entity_type = null, $is_revisionable = false)
     {
         $parameters = [
             'module' => $module,
@@ -30,6 +31,7 @@ class EntityContentGenerator extends Generator
             'bundle_entity_type' => $bundle_entity_type,
             'base_path' => $base_path,
             'is_translatable' => $is_translatable,
+            'is_revisionable' => $is_revisionable,
         ];
 
         $this->renderFile(
@@ -133,6 +135,39 @@ class EntityContentGenerator extends Generator
             $this->getSite()->getTemplatePath($module).'/'.$entity_name.'.html.twig',
             $parameters
         );
+
+        if ($is_revisionable) {
+          $this->renderFile(
+            'module/src/Entity/Form/entity-content-revision-delete.php.twig',
+            $this->getSite()->getFormPath($module).'/'.$entity_class.'RevisionDeleteForm.php',
+            $parameters
+          );
+          $this->renderFile(
+            'module/src/Entity/Form/entity-content-revision-revert-translation.php.twig',
+            $this->getSite()->getFormPath($module).'/'.$entity_class.'RevisionRevertTranslationForm.php',
+            $parameters
+          );
+          $this->renderFile(
+            'module/src/Entity/Form/entity-content-revision-revert.php.twig',
+            $this->getSite()->getFormPath($module).'/'.$entity_class.'RevisionRevertForm.php',
+            $parameters
+          );
+          $this->renderFile(
+            'module/src/entity-storage.php.twig',
+            $this->getSite()->getSourcePath($module).'/'.$entity_class.'Storage.php',
+            $parameters
+          );
+          $this->renderFile(
+            'module/src/interface-entity-storage.php.twig',
+            $this->getSite()->getSourcePath($module).'/'.$entity_class.'StorageInterface.php',
+            $parameters
+          );
+          $this->renderFile(
+            'module/src/Controller/entity-controller.php.twig',
+            $this->getSite()->getControllerPath($module).'/'.$entity_class.'Controller.php',
+            $parameters
+          );
+        }
 
         if ($bundle_entity_type) {
             $this->renderFile(
