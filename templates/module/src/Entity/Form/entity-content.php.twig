@@ -27,6 +27,18 @@ class {{ entity_class }}Form extends ContentEntityForm {% endblock %}
   public function buildForm(array $form, FormStateInterface $form_state) {
     /* @var $entity \Drupal\{{module}}\Entity\{{ entity_class }} */
     $form = parent::buildForm($form, $form_state);
+{% if is_revisionable %}
+
+    if (!$this->entity->isNew()) {
+      $form['new_revision'] = array(
+        '#type' => 'checkbox',
+        '#title' => $this->t('Create new revision'),
+        '#default_value' => FALSE,
+        '#weight' => 10,
+      );
+    }
+{% endif %}
+
     $entity = $this->entity;
 
     return $form;
@@ -36,7 +48,22 @@ class {{ entity_class }}Form extends ContentEntityForm {% endblock %}
    * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state) {
-    $entity = $this->entity;
+    $entity = &$this->entity;
+{% if is_revisionable %}
+
+    // Save as a new revision if requested to do so.
+    if (!$form_state->isValueEmpty('new_revision') && $form_state->getValue('new_revision') != FALSE) {
+    $entity->setNewRevision();
+
+    // If a new revision is created, save the current user as revision author.
+    $entity->setRevisionCreationTime(REQUEST_TIME);
+    $entity->setRevisionAuthorId(\Drupal::currentUser()->id());
+    }
+    else {
+      $entity->setNewRevision(FALSE);
+    }
+{% endif %}
+
     $status = parent::save($form, $form_state);
 
     switch ($status) {

@@ -9,18 +9,24 @@ namespace Drupal\{{module}}\Entity;
 {% endblock %}
 
 {% block use_class %}
+{% if is_revisionable %}
+use Drupal\Core\Entity\RevisionableInterface;
+use Drupal\Component\Utility\Xss;
+use Drupal\Core\Url;
+{% else %}
 use Drupal\Core\Entity\ContentEntityInterface;
+{% endif %}
 use Drupal\Core\Entity\EntityChangedInterface;
 use Drupal\user\EntityOwnerInterface;
 {% endblock %}
 
 {% block class_declaration %}
-/**
- * Provides an interface for defining {{ label }} entities.
- *
- * @ingroup {{module}}
- */
-interface {{ entity_class }}Interface extends ContentEntityInterface, EntityChangedInterface, EntityOwnerInterface {% endblock %}
+ /**
+  * Provides an interface for defining {{ label }} entities.
+  *
+  * @ingroup {{module}}
+  */
+interface {{ entity_class }}Interface extends {% if is_revisionable %}RevisionableInterface{% else %} ContentEntityInterface{% endif %}, EntityChangedInterface, EntityOwnerInterface {% endblock %}
 {% block class_methods %}
   // Add get/set methods for your configuration properties here.
 
@@ -92,4 +98,44 @@ interface {{ entity_class }}Interface extends ContentEntityInterface, EntityChan
    *   The called {{ label }} entity.
    */
   public function setPublished($published);
+{% if is_revisionable %}
+
+  /**
+   * Gets the {{ label }} revision creation timestamp.
+   *
+   * @return int
+   *   The UNIX timestamp of when this revision was created.
+   */
+   public function getRevisionCreationTime();
+
+  /**
+   * Sets the {{ label }} revision creation timestamp.
+   *
+   * @param int $timestamp
+   *   The UNIX timestamp of when this revision was created.
+   *
+   * @return \Drupal\{{ module }}\Entity\{{ entity_class }}Interface
+   *   The called {{ label }} entity.
+   */
+   public function setRevisionCreationTime($timestamp);
+
+  /**
+   * Gets the {{ label }} revision author.
+   *
+   * @return \Drupal\user\UserInterface
+   *   The user entity for the revision author.
+   */
+   public function getRevisionAuthor();
+
+  /**
+   * Sets the {{ label }} revision author.
+   *
+   * @param int $uid
+   *   The user ID of the revision author.
+   *
+   * @return \Drupal\{{ module }}\Entity\{{ entity_class }}Interface
+   *   The called {{ label }} entity.
+   */
+   public function setRevisionAuthorId($uid);
+{% endif %}
 {% endblock %}
