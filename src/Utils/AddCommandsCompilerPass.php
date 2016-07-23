@@ -14,22 +14,32 @@ use Symfony\Component\Finder\Finder;
  */
 class AddCommandsCompilerPass implements CompilerPassInterface
 {
+
+    /**
+     * @var string
+     */
+    protected $consoleRoot;
+
+    /**
+     * AddCommandsCompilerPass constructor.
+     * @param string $consoleRoot
+     */
+    public function __construct($consoleRoot) {
+        $this->consoleRoot = $consoleRoot;
+    }
+
     /**
      * @inheritdoc
      */
     public function process(ContainerBuilder $container)
     {
-        $consoleRoot = '/Users/jmolivas/develop/drupal/sites/drupal-project/vendor/drupal/console/';
-
-        echo 'loadServices' . $consoleRoot . PHP_EOL;
-
-        $loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
+        $loader = new YamlFileLoader($container, new FileLocator($this->consoleRoot));
         $loader->load('services.yml');
 
         $finder = new Finder();
         $finder->files()
             ->name('*.yml')
-            ->in(sprintf('%s/config/services/', $consoleRoot));
+            ->in(sprintf('%s/config/services/', $this->consoleRoot));
         foreach ($finder as $file) {
             $loader->load($file->getPathName());
         }

@@ -13,15 +13,15 @@ class FindCommandsCompilerPass implements CompilerPassInterface
     /**
      * @var string
      */
-    protected $tagId;
+    protected $serviceTag;
 
     /**
      * FindCommandsCompilerPass constructor.
-     * @param $tagId
+     * @param $serviceTag
      */
-    public function __construct($tagId)
+    public function __construct($serviceTag)
     {
-        $this->tagId = $tagId;
+        $this->serviceTag = $serviceTag;
     }
 
     /**
@@ -30,7 +30,7 @@ class FindCommandsCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         $taggedServices = $container->findTaggedServiceIds(
-            $this->tagId
+            $this->serviceTag
         );
 
         $commands = [];

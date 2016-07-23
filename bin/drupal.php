@@ -71,28 +71,15 @@ $drupalKernel = DrupalKernel::createFromRequest(
     'prod',
     true
 );
-$drupalKernel->addServiceModifier(new DrupalServiceModifier());
+$drupalKernel->addServiceModifier(new DrupalServiceModifier(
+    $consoleRoot,
+    'console.command'
+));
 $drupalKernel->invalidateContainer();
-
-//$drupalKernel->loadServices($consoleRoot);
-
-echo 'AppRoot : ' . $drupalKernel->getAppRoot() . PHP_EOL;
-
 $drupalKernel->boot();
 /* DrupalKernel */
 
 $container = $drupalKernel->getContainer();
-////$container = new ContainerBuilder();
-//$loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
-//$loader->load('services.yml');
-//
-//$finder = new Finder();
-//$finder->files()
-//    ->name('*.yml')
-//    ->in(sprintf('%s/config/services/', $consoleRoot));
-//foreach ($finder as $file) {
-//    $loader->load($file->getPathName());
-//}
 
 AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
 
