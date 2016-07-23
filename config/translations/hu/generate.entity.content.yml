@@ -8,6 +8,7 @@ options:
     has-bundles: 'Az entitás nem rendelkezik mezőcsoportokkal'
     base-path: 'A tartalom entitás útvonalak alapútvonala'
     is-translatable: 'Content entity translatable'
+    is-revisionable: 'tartalmi egységnek változathoz'
 questions:
     module: common.questions.module
     entity-class: 'Meg kell adni az új tartalom entitás osztályát'
@@ -16,3 +17,4 @@ questions:
     has-bundles: 'Ez a tartalom entitás rendelkezzen mezőcsoportokkal?'
     base-path: 'Meg kell adni a tartalom entitás útvonalak alapútvonalát'
     is-translatable: 'Is your entity translatable'
+    is-revisionable: "Szeretnéd, ha a gazdálkodó egység számára, változathoz"

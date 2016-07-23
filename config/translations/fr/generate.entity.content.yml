@@ -8,6 +8,7 @@ options:
     has-bundles: 'Est-ce que l''entité possède des bundles'
     base-path: 'The base-path for the content entity routes'
     is-translatable: 'Content entity translatable'
+    is-revisionable: 'Entité de contenu a révisions'
 questions:
     module: common.questions.module
     entity-class: 'Entrez le nom de votre classe pour votre nouvelle entité de contenu'
@@ -16,3 +17,4 @@ questions:
     has-bundles: 'Voulez-vous que cette entité possède des bundles'
     base-path: 'Enter the base-path for the content entity routes'
     is-translatable: 'Is your entity translatable'
+    is-revisionable: "Voulez-vous que votre entité d'avoir des révisions"

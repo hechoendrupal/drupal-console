@@ -8,6 +8,7 @@ options:
     has-bundles: 'Entity has bundles'
     base-path: 'The base-path for the content entity routes'
     is-translatable: 'Content entity translatable'
+    is-revisionable: 'entitate de conținut are revizii'
 questions:
     module: common.questions.module
     entity-class: 'Introduceți clasa noii dvs. entități de conținut'
@@ -16,3 +17,4 @@ questions:
     has-bundles: 'Do you want this (content) entity to have bundles'
     base-path: 'Enter the base-path for the content entity routes'
     is-translatable: 'Is your entity translatable'
+    is-revisionable: 'Nu doriți entitatea dumneavoastră să aibă revizii'
