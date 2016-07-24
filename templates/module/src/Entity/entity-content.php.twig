@@ -130,24 +130,24 @@ class {{ entity_class }} extends {% if is_revisionable %}RevisionableContentEnti
   /**
    * {@inheritdoc}
    */
-   public function preSave(EntityStorageInterface $storage) {
-     parent::preSave($storage);
+  public function preSave(EntityStorageInterface $storage) {
+    parent::preSave($storage);
 
-     foreach (array_keys($this->getTranslationLanguages()) as $langcode) {
-       $translation = $this->getTranslation($langcode);
+    foreach (array_keys($this->getTranslationLanguages()) as $langcode) {
+      $translation = $this->getTranslation($langcode);
 
-       // If no owner has been set explicitly, make the anonymous user the owner.
-       if (!$translation->getOwner()) {
-         $translation->setOwnerId(0);
-       }
-     }
+      // If no owner has been set explicitly, make the anonymous user the owner.
+      if (!$translation->getOwner()) {
+        $translation->setOwnerId(0);
+      }
+    }
 
-     // If no revision author has been set explicitly, make the {{ entity_name }} owner the
-     // revision author.
-     if (!$this->getRevisionAuthor()) {
-       $this->setRevisionAuthorId($this->getOwnerId());
-     }
-   }
+    // If no revision author has been set explicitly, make the {{ entity_name }} owner the
+    // revision author.
+    if (!$this->getRevisionAuthor()) {
+      $this->setRevisionAuthorId($this->getOwnerId());
+    }
+  }
 {% endif %}
 
 {% if bundle_entity_type %}
@@ -238,32 +238,32 @@ class {{ entity_class }} extends {% if is_revisionable %}RevisionableContentEnti
   /**
    * {@inheritdoc}
    */
-   public function getRevisionCreationTime() {
-     return $this->get('revision_timestamp')->value;
-   }
+  public function getRevisionCreationTime() {
+    return $this->get('revision_timestamp')->value;
+  }
 
   /**
    * {@inheritdoc}
    */
-   public function setRevisionCreationTime($timestamp) {
-     $this->set('revision_timestamp', $timestamp);
-     return $this;
-   }
+  public function setRevisionCreationTime($timestamp) {
+    $this->set('revision_timestamp', $timestamp);
+    return $this;
+  }
 
   /**
    * {@inheritdoc}
    */
-   public function getRevisionAuthor() {
-     return $this->get('revision_uid')->entity;
-   }
+  public function getRevisionAuthor() {
+    return $this->get('revision_uid')->entity;
+  }
 
   /**
    * {@inheritdoc}
    */
-   public function setRevisionAuthorId($uid) {
-     $this->set('revision_uid', $uid);
-     return $this;
-   }
+  public function setRevisionAuthorId($uid) {
+    $this->set('revision_uid', $uid);
+    return $this;
+  }
 {% endif %}
 
   /**

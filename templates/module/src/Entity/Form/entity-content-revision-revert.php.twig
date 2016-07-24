@@ -27,26 +27,26 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class {{ entity_class }}RevisionRevertForm extends ConfirmFormBase {% endblock %}
 {% block class_methods %}
 
- /**
+  /**
    * The {{ label }} revision.
    *
    * @var \Drupal\{{module}}\Entity\{{ entity_class }}Interface
    */
-   protected $revision;
+  protected $revision;
 
- /**
+  /**
    * The {{ label }} storage.
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
-   protected ${{ entity_class }}Storage;
+  protected ${{ entity_class }}Storage;
 
   /**
    * The date formatter service.
    *
    * @var \Drupal\Core\Datetime\DateFormatterInterface
    */
-   protected $dateFormatter;
+  protected $dateFormatter;
 
   /**
    * Constructs a new {{ entity_class }}RevisionRevertForm.
@@ -56,85 +56,85 @@ class {{ entity_class }}RevisionRevertForm extends ConfirmFormBase {% endblock %
    * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
    *   The date formatter service.
    */
-   public function __construct(EntityStorageInterface $entity_storage, DateFormatterInterface $date_formatter) {
-     $this->{{ entity_class }}Storage = $entity_storage;
-     $this->dateFormatter = $date_formatter;
-   }
+  public function __construct(EntityStorageInterface $entity_storage, DateFormatterInterface $date_formatter) {
+    $this->{{ entity_class }}Storage = $entity_storage;
+    $this->dateFormatter = $date_formatter;
+  }
 
   /**
    * {@inheritdoc}
    */
-   public static function create(ContainerInterface $container) {
-     return new static(
-       $container->get('entity.manager')->getStorage('{{ entity_name }}'),
-       $container->get('date.formatter')
-     );
-   }
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('entity.manager')->getStorage('{{ entity_name }}'),
+      $container->get('date.formatter')
+    );
+  }
 
   /**
    * {@inheritdoc}
    */
-   public function getFormId() {
-     return '{{ entity_name }}_revision_revert_confirm';
-   }
+  public function getFormId() {
+    return '{{ entity_name }}_revision_revert_confirm';
+  }
 
   /**
    * {@inheritdoc}
    */
-   public function getQuestion() {
-     return t('Are you sure you want to revert to the revision from %revision-date?', ['%revision-date' => $this->dateFormatter->format($this->revision->getRevisionCreationTime())]);
-   }
+  public function getQuestion() {
+    return t('Are you sure you want to revert to the revision from %revision-date?', ['%revision-date' => $this->dateFormatter->format($this->revision->getRevisionCreationTime())]);
+  }
 
   /**
    * {@inheritdoc}
    */
-   public function getCancelUrl() {
-     return new Url('entity.{{ entity_name }}.version_history', array('{{ entity_name }}' => $this->revision->id()));
-   }
+  public function getCancelUrl() {
+    return new Url('entity.{{ entity_name }}.version_history', array('{{ entity_name }}' => $this->revision->id()));
+  }
 
   /**
    * {@inheritdoc}
    */
-   public function getConfirmText() {
-     return t('Revert');
-   }
+  public function getConfirmText() {
+    return t('Revert');
+  }
 
   /**
    * {@inheritdoc}
    */
-   public function getDescription() {
-     return '';
-   }
+  public function getDescription() {
+    return '';
+  }
 
   /**
    * {@inheritdoc}
    */
-   public function buildForm(array $form, FormStateInterface $form_state, ${{ entity_name }}_revision = NULL) {
-     $this->revision = $this->{{ entity_class }}Storage->loadRevision(${{ entity_name }}_revision);
-     $form = parent::buildForm($form, $form_state);
+  public function buildForm(array $form, FormStateInterface $form_state, ${{ entity_name }}_revision = NULL) {
+    $this->revision = $this->{{ entity_class }}Storage->loadRevision(${{ entity_name }}_revision);
+    $form = parent::buildForm($form, $form_state);
 
-     return $form;
-   }
+    return $form;
+  }
 
   /**
    * {@inheritdoc}
    */
-   public function submitForm(array &$form, FormStateInterface $form_state) {
-     // The revision timestamp will be updated when the revision is saved. Keep
-     // the original one for the confirmation message.
-     $original_revision_timestamp = $this->revision->getRevisionCreationTime();
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    // The revision timestamp will be updated when the revision is saved. Keep
+    // the original one for the confirmation message.
+    $original_revision_timestamp = $this->revision->getRevisionCreationTime();
 
-     $this->revision = $this->prepareRevertedRevision($this->revision, $form_state);
-     $this->revision->revision_log = t('Copy of the revision from %date.', ['%date' => $this->dateFormatter->format($original_revision_timestamp)]);
-     $this->revision->save();
+    $this->revision = $this->prepareRevertedRevision($this->revision, $form_state);
+    $this->revision->revision_log = t('Copy of the revision from %date.', ['%date' => $this->dateFormatter->format($original_revision_timestamp)]);
+    $this->revision->save();
 
-     $this->logger('content')->notice('{{ label }}: reverted %title revision %revision.', ['%title' => $this->revision->label(), '%revision' => $this->revision->getRevisionId()]);
-     drupal_set_message(t('{{ label }} %title has been reverted to the revision from %revision-date.', ['%title' => $this->revision->label(), '%revision-date' => $this->dateFormatter->format($original_revision_timestamp)]));
-     $form_state->setRedirect(
-       'entity.{{ entity_name }}.version_history',
-       array('{{ entity_name }}' => $this->revision->id())
-     );
-   }
+    $this->logger('content')->notice('{{ label }}: reverted %title revision %revision.', ['%title' => $this->revision->label(), '%revision' => $this->revision->getRevisionId()]);
+    drupal_set_message(t('{{ label }} %title has been reverted to the revision from %revision-date.', ['%title' => $this->revision->label(), '%revision-date' => $this->dateFormatter->format($original_revision_timestamp)]));
+    $form_state->setRedirect(
+      'entity.{{ entity_name }}.version_history',
+      array('{{ entity_name }}' => $this->revision->id())
+    );
+  }
 
   /**
    * Prepares a revision to be reverted.
@@ -147,11 +147,11 @@ class {{ entity_class }}RevisionRevertForm extends ConfirmFormBase {% endblock %
    * @return \Drupal\{{module}}\Entity\{{ entity_class }}Interface
    *   The prepared revision ready to be stored.
    */
-   protected function prepareRevertedRevision({{ entity_class }}Interface $revision, FormStateInterface $form_state) {
-     $revision->setNewRevision();
-     $revision->isDefaultRevision(TRUE);
-     $revision->setRevisionCreationTime(REQUEST_TIME);
+  protected function prepareRevertedRevision({{ entity_class }}Interface $revision, FormStateInterface $form_state) {
+    $revision->setNewRevision();
+    $revision->isDefaultRevision(TRUE);
+    $revision->setRevisionCreationTime(REQUEST_TIME);
 
-     return $revision;
-   }
+    return $revision;
+  }
 {% endblock %}

@@ -99,20 +99,20 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
    * @return \Symfony\Component\Routing\Route|null
    *   The generated route, if available.
    */
-   protected function getHistoryRoute(EntityTypeInterface $entity_type) {
-     if ($entity_type->hasLinkTemplate('version-history')) {
-       $route = new Route($entity_type->getLinkTemplate('version-history'));
-       $route
-         ->setDefaults([
-           '_title' => "{$entity_type->getLabel()} revisions",
-           '_controller' => '\Drupal\{{ module }}\Controller\{{ entity_class }}Controller::revisionOverview',
-         ])
-         ->setRequirement('_permission', 'access {{ label|lower }} revisions')
-         ->setOption('_admin_route', TRUE);
+  protected function getHistoryRoute(EntityTypeInterface $entity_type) {
+    if ($entity_type->hasLinkTemplate('version-history')) {
+      $route = new Route($entity_type->getLinkTemplate('version-history'));
+      $route
+        ->setDefaults([
+          '_title' => "{$entity_type->getLabel()} revisions",
+          '_controller' => '\Drupal\{{ module }}\Controller\{{ entity_class }}Controller::revisionOverview',
+        ])
+        ->setRequirement('_permission', 'access {{ label|lower }} revisions')
+        ->setOption('_admin_route', TRUE);
 
-       return $route;
-     }
-   }
+      return $route;
+    }
+  }
 
   /**
    * Gets the revision route.
@@ -123,20 +123,20 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
    * @return \Symfony\Component\Routing\Route|null
    *   The generated route, if available.
    */
-   protected function getRevisionRoute(EntityTypeInterface $entity_type) {
-     if ($entity_type->hasLinkTemplate('revision')) {
-       $route = new Route($entity_type->getLinkTemplate('revision'));
-       $route
-         ->setDefaults([
-           '_controller' => '\Drupal\{{ module }}\Controller\{{ entity_class }}Controller::revisionShow',
-           '_title_callback' => '\Drupal\{{ module }}\Controller\{{ entity_class }}Controller::revisionPageTitle',
-         ])
-         ->setRequirement('_permission', 'access {{ label|lower }} revisions')
-         ->setOption('_admin_route', TRUE);
+  protected function getRevisionRoute(EntityTypeInterface $entity_type) {
+    if ($entity_type->hasLinkTemplate('revision')) {
+      $route = new Route($entity_type->getLinkTemplate('revision'));
+      $route
+        ->setDefaults([
+          '_controller' => '\Drupal\{{ module }}\Controller\{{ entity_class }}Controller::revisionShow',
+          '_title_callback' => '\Drupal\{{ module }}\Controller\{{ entity_class }}Controller::revisionPageTitle',
+        ])
+        ->setRequirement('_permission', 'access {{ label|lower }} revisions')
+        ->setOption('_admin_route', TRUE);
 
-         return $route;
-     }
-   }
+      return $route;
+    }
+  }
 
   /**
    * Gets the revision revert route.
@@ -147,20 +147,20 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
    * @return \Symfony\Component\Routing\Route|null
    *   The generated route, if available.
    */
-   protected function getRevisionRevertRoute(EntityTypeInterface $entity_type) {
-     if ($entity_type->hasLinkTemplate('revision_revert')) {
-       $route = new Route($entity_type->getLinkTemplate('revision_revert'));
-       $route
-         ->setDefaults([
-           '_form' => '\Drupal\{{ module }}\Form\{{ entity_class }}RevisionRevertForm',
-           '_title' => 'Revert to earlier revision',
-         ])
-         ->setRequirement('_permission', 'revert all {{ label|lower }} revisions')
-         ->setOption('_admin_route', TRUE);
+  protected function getRevisionRevertRoute(EntityTypeInterface $entity_type) {
+    if ($entity_type->hasLinkTemplate('revision_revert')) {
+      $route = new Route($entity_type->getLinkTemplate('revision_revert'));
+      $route
+        ->setDefaults([
+          '_form' => '\Drupal\{{ module }}\Form\{{ entity_class }}RevisionRevertForm',
+          '_title' => 'Revert to earlier revision',
+        ])
+        ->setRequirement('_permission', 'revert all {{ label|lower }} revisions')
+        ->setOption('_admin_route', TRUE);
 
-         return $route;
-     }
-   }
+      return $route;
+    }
+  }
 
   /**
    * Gets the revision delete route.
@@ -171,20 +171,20 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
    * @return \Symfony\Component\Routing\Route|null
    *   The generated route, if available.
    */
-   protected function getRevisionDeleteRoute(EntityTypeInterface $entity_type) {
-     if ($entity_type->hasLinkTemplate('revision_delete')) {
-       $route = new Route($entity_type->getLinkTemplate('revision_delete'));
-       $route
-         ->setDefaults([
-           '_form' => '\Drupal\{{ module }}\Form\{{ entity_class }}RevisionDeleteForm',
-           '_title' => 'Delete earlier revision',
-         ])
-         ->setRequirement('_permission', 'delete all {{ label|lower }} revisions')
-         ->setOption('_admin_route', TRUE);
+  protected function getRevisionDeleteRoute(EntityTypeInterface $entity_type) {
+    if ($entity_type->hasLinkTemplate('revision_delete')) {
+      $route = new Route($entity_type->getLinkTemplate('revision_delete'));
+      $route
+        ->setDefaults([
+          '_form' => '\Drupal\{{ module }}\Form\{{ entity_class }}RevisionDeleteForm',
+          '_title' => 'Delete earlier revision',
+        ])
+        ->setRequirement('_permission', 'delete all {{ label|lower }} revisions')
+        ->setOption('_admin_route', TRUE);
 
-       return $route;
-     }
-   }
+      return $route;
+    }
+  }
 {% if is_translatable %}
 
   /**
@@ -196,22 +196,21 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
    * @return \Symfony\Component\Routing\Route|null
    *   The generated route, if available.
    */
-   protected function getRevisionTranslationRevertRoute(EntityTypeInterface $entity_type) {
-     if ($entity_type->hasLinkTemplate('translation_revert')) {
-       $route = new Route($entity_type->getLinkTemplate('translation_revert'));
-       $route
-         ->setDefaults([
-           '_form' => '\Drupal\{{ module }}\Form\{{ entity_class }}RevisionRevertTranslationForm',
-           '_title' => 'Revert to earlier revision of a translation',
-         ])
-         ->setRequirement('_permission', 'revert all {{ label|lower }} revisions')
-         ->setOption('_admin_route', TRUE);
+  protected function getRevisionTranslationRevertRoute(EntityTypeInterface $entity_type) {
+    if ($entity_type->hasLinkTemplate('translation_revert')) {
+      $route = new Route($entity_type->getLinkTemplate('translation_revert'));
+      $route
+        ->setDefaults([
+          '_form' => '\Drupal\{{ module }}\Form\{{ entity_class }}RevisionRevertTranslationForm',
+          '_title' => 'Revert to earlier revision of a translation',
+        ])
+        ->setRequirement('_permission', 'revert all {{ label|lower }} revisions')
+        ->setOption('_admin_route', TRUE);
 
-         return $route;
-     }
-   }
+      return $route;
+    }
+  }
 {%  endif %}
-
 {%  endif %}
 
   /**

@@ -28,43 +28,43 @@ interface {{ entity_class }}StorageInterface extends ContentEntityStorageInterfa
 
 {% block class_methods %}
   /**
-    * Gets a list of {{ label }} revision IDs for a specific {{ label }}.
-    *
-    * @param \Drupal\{{ module }}\Entity\{{ entity_class }}Interface
-    *   The {{ label }} entity.
-    *
-    * @return int[]
-    *   Node revision IDs (in ascending order).
-    */
+   * Gets a list of {{ label }} revision IDs for a specific {{ label }}.
+   *
+   * @param \Drupal\{{ module }}\Entity\{{ entity_class }}Interface $entity
+   *   The {{ label }} entity.
+   *
+   * @return int[]
+   *   Node revision IDs (in ascending order).
+   */
   public function revisionIds({{ entity_class }}Interface $entity);
 
   /**
-    * Gets a list of revision IDs having a given user as node author.
-    *
-    * @param \Drupal\Core\Session\AccountInterface $account
-    *   The user entity.
-    *
-    * @return int[]
-    *   Node revision IDs (in ascending order).
-    */
+   * Gets a list of revision IDs having a given user as node author.
+   *
+   * @param \Drupal\Core\Session\AccountInterface $account
+   *   The user entity.
+   *
+   * @return int[]
+   *   Node revision IDs (in ascending order).
+   */
   public function userRevisionIds(AccountInterface $account);
 
   /**
-    * Counts the number of revisions in the default language.
-    *
-    * @param \Drupal\{{ module }}\Entity\{{ entity_class }}Interface
-    *   The {{ label }} entity.
-    *
-    * @return int
-    *   The number of revisions in the default language.
-    */
+   * Counts the number of revisions in the default language.
+   *
+   * @param \Drupal\{{ module }}\Entity\{{ entity_class }}Interface $entity
+   *   The {{ label }} entity.
+   *
+   * @return int
+   *   The number of revisions in the default language.
+   */
   public function countDefaultLanguageRevisions({{ entity_class }}Interface $entity);
 
   /**
-    * Unsets the language for all {{ label }} with the given language.
-    *
-    * @param \Drupal\Core\Language\LanguageInterface $language
-    *   The language object.
-    */
+   * Unsets the language for all {{ label }} with the given language.
+   *
+   * @param \Drupal\Core\Language\LanguageInterface $language
+   *   The language object.
+   */
   public function clearRevisionsLanguage(LanguageInterface $language);
 {% endblock %}

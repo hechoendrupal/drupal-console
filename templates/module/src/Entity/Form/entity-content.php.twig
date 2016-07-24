@@ -53,11 +53,11 @@ class {{ entity_class }}Form extends ContentEntityForm {% endblock %}
 
     // Save as a new revision if requested to do so.
     if (!$form_state->isValueEmpty('new_revision') && $form_state->getValue('new_revision') != FALSE) {
-    $entity->setNewRevision();
+      $entity->setNewRevision();
 
-    // If a new revision is created, save the current user as revision author.
-    $entity->setRevisionCreationTime(REQUEST_TIME);
-    $entity->setRevisionAuthorId(\Drupal::currentUser()->id());
+      // If a new revision is created, save the current user as revision author.
+      $entity->setRevisionCreationTime(REQUEST_TIME);
+      $entity->setRevisionAuthorId(\Drupal::currentUser()->id());
     }
     else {
       $entity->setNewRevision(FALSE);

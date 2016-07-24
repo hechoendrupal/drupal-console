@@ -143,25 +143,26 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
               Url::fromRoute('{{ entity_name }}.revision_revert_confirm', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid]),
 {%  else %}
               'url' => Url::fromRoute('{{ entity_name }}.revision_revert_confirm', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid]),
-{% endif %}            ];
+{% endif %}
+            ];
           }
 
-        if ($delete_permission) {
-          $links['delete'] = [
-            'title' => $this->t('Delete'),
-            'url' => Url::fromRoute('{{ entity_name }}.revision_delete_confirm', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid]),
+          if ($delete_permission) {
+            $links['delete'] = [
+              'title' => $this->t('Delete'),
+              'url' => Url::fromRoute('{{ entity_name }}.revision_delete_confirm', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid]),
+            ];
+          }
+
+          $row[] = [
+            'data' => [
+              '#type' => 'operations',
+              '#links' => $links,
+            ],
           ];
         }
 
-        $row[] = [
-          'data' => [
-            '#type' => 'operations',
-            '#links' => $links,
-          ],
-        ];
-       }
-
-       $rows[] = $row;
+        $rows[] = $row;
       }
     }
 
