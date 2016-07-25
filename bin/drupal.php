@@ -35,6 +35,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Drupal\Console\Utils\DrupalKernel;
 use Drupal\Console\Utils\DrupalServiceModifier;
 
+use Drupal\Console\Utils\DrupalExtensionDiscovery;
+
 use Symfony\Component\Console\Input\ArgvInput;
 
 set_time_limit(0);
@@ -71,6 +73,13 @@ $drupalKernel = DrupalKernel::createFromRequest(
     'prod',
     true
 );
+
+echo '\Drupal::root : '. \Drupal::root() . PHP_EOL;
+
+//$drupalExtensionDiscovery = new DrupalExtensionDiscovery();
+
+var_export( \Drupal::moduleHandler()->getModuleList() );
+
 $drupalKernel->addServiceModifier(new DrupalServiceModifier(
     $consoleRoot,
     'console.command'
