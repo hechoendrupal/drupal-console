@@ -34,18 +34,18 @@ interface {{ entity_class }}StorageInterface extends ContentEntityStorageInterfa
    *   The {{ label }} entity.
    *
    * @return int[]
-   *   Node revision IDs (in ascending order).
+   *   {{ label }} revision IDs (in ascending order).
    */
   public function revisionIds({{ entity_class }}Interface $entity);
 
   /**
-   * Gets a list of revision IDs having a given user as node author.
+   * Gets a list of revision IDs having a given user as {{ label }} author.
    *
    * @param \Drupal\Core\Session\AccountInterface $account
    *   The user entity.
    *
    * @return int[]
-   *   Node revision IDs (in ascending order).
+   *   {{ label }} revision IDs (in ascending order).
    */
   public function userRevisionIds(AccountInterface $account);
 
