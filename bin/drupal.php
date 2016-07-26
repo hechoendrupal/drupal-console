@@ -74,12 +74,6 @@ $drupalKernel = DrupalKernel::createFromRequest(
     true
 );
 
-echo '\Drupal::root : '. \Drupal::root() . PHP_EOL;
-
-//$drupalExtensionDiscovery = new DrupalExtensionDiscovery();
-
-var_export( \Drupal::moduleHandler()->getModuleList() );
-
 $drupalKernel->addServiceModifier(new DrupalServiceModifier(
     $consoleRoot,
     'console.command'
