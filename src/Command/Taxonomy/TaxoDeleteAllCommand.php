@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputArgument;
  *
  * @package Drupal\eco_migrate
  */
-class TaxoDeleteCommand extends BaseCommand {
+class TaxoDeleteAllCommand extends BaseCommand {
 
   use ContainerAwareCommandTrait;
 
@@ -25,9 +25,8 @@ class TaxoDeleteCommand extends BaseCommand {
    */
   protected function configure() {
     $this
-      ->setName('taxo:delete')
-      ->setDescription($this->trans('commands.taxo.delete.description'))
-      ->addArgument('vid',InputArgument::REQUIRED);
+      ->setName('taxo:delete:all')
+      ->setDescription($this->trans('commands.taxo.delete.all-description'));
   }
 
   /**
@@ -36,7 +35,7 @@ class TaxoDeleteCommand extends BaseCommand {
   protected function execute(InputInterface $input, OutputInterface $output) {
     $io = new DrupalStyle($input, $output);
 
-    $this->deleteExistingTerms($input->getArgument('vid'),$io);
+    $this->deleteExistingTerms(null,$io);
   }
 
 }

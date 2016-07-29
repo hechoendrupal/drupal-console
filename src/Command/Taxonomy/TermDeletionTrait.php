@@ -16,31 +16,40 @@ trait TermDeletionTrait {
 
 
   /**
-   * Destroy all existing terms 
+   * Destroy all existing terms before import
    * @param $vid
    * @throws \Exception
    */
-  private function deleteExistingTerms($vid,$io)
+  private function deleteExistingTerms($vid = null,$io)
   {
     //Load the vid
     $vocabularies = Vocabulary::loadMultiple();
-    if (!isset($vocabularies[$vid])) {
-      throw new \Exception("vid {$vid} does not exist");
+
+    if($vid !== null){
+      $vid = [$vid];
+    } else {
+      $vid = array_keys($vocabularies);
     }
 
-    $selected_vocab = $vocabularies[$vid];
-    $terms = \Drupal::getContainer()
-      ->get('entity.manager')
-      ->getStorage('taxonomy_term')
-      ->loadTree($selected_vocab->id());
+    foreach ($vid as $item) {
+      if (!isset($vocabularies[$item])) {
+        throw new \Exception("vid {$item} does not exist");
+      }
+      $selected_vocab = $vocabularies[$item];
+      $terms = \Drupal::getContainer()
+        ->get('entity.manager')
+        ->getStorage('taxonomy_term')
+        ->loadTree($selected_vocab->id());
 
-    foreach ($terms as $term) {
-      $treal = Term::load($term->tid);
-      if($treal !== null){
-        $io->info("Deleting {$term->name} and all translations");
-        $treal->delete();
+      foreach ($terms as $term) {
+        $treal = Term::load($term->tid);
+        if($treal !== null){
+          $io->info("Deleting {$term->name} and all translations");
+          $treal->delete();
+        }
       }
     }
+
   }
 
 }
