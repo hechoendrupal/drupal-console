@@ -7,7 +7,7 @@ arguments:
     user: '用户(仅限一个)'
 messages:
     bad-arguments: '部分参数缺失! 请提供以下所有参数: [add/remove] [username] [role]'
-    no-user-found: '用户名 %s 没有找到!'
-    no-role-found: '角色 %s 没有找到!'
+    no-user-found: '用户名 "%s" 没有找到!'
+    no-role-found: '角色 "%s" 没有找到!'
     add-success: '用户 %1$s 添加角色 %2$s 成功'
     remove-success: '用户 %1$s 移除角色 %2$s 成功'

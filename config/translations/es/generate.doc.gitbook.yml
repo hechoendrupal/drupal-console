@@ -7,7 +7,7 @@ messages:
     note: Nota
     note-description: 'Comandos de Drupal Console que *deben* ser ejecutados desde una instalación de Drupal 8'
     command: 'Comando de Drupal Console'
-    command_description: 'El comando **%s** %s'
+    command_description: 'El comando **"%s"** "%s"'
     usage: Uso
     options: 'Opciones disponibles'
     option: Opción

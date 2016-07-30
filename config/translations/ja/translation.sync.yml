@@ -4,7 +4,7 @@ arguments:
 options:
     file: 同期するファイル
 messages:
-    created-file: 'Yaml file %s was created for language %s'
-    error-generating: 'Error syncronizing file %s for %s: %s'
-    error-writing: 'Error writing file %s for %s: %s'
+    created-file: 'Yaml file "%s" was created for language "%s"'
+    error-generating: 'Error syncronizing file "%s" for "%s": "%s"'
+    error-writing: 'Error writing file "%s" for "%s": "%s"'
     sync-finished: 翻訳ファイルの同期が完了しました。

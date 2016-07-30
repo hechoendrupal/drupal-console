@@ -9,7 +9,7 @@ questions:
     invalid-file: 'फ़ाइल का पथ खाली नहीं हो सकता'
     file-already-added: 'फ़ाइल का पथ पहले से ही जोड़ा गया है'
 messages:
-    wrong-parse: 'Yaml फ़ाइल ''%s'' खाली है या फ़ाइल मौजूद नहीं है'
+    wrong-parse: 'Yaml फ़ाइल "%s" खाली है या फ़ाइल मौजूद नहीं है'
     error-parsing: 'एक त्रुटि YAML फ़ाइल की पार्सिंग के दौरान है "%s" '
     two-files-required: 'कम से कम दो फ़ाइलों आवश्यक हैं'
     error-generating: 'YAML विलय में त्रुटि है'

@@ -4,7 +4,7 @@ arguments:
 options:
   file: 'Language file to be syncronize'
 messages:
-  created-file: 'Yaml file %s was created for language %s'
-  error-generating: 'Error syncronizing file %s for %s: %s'
-  error-writing: 'Error writing file %s for %s: %s'
+  created-file: 'Yaml file "%s" was created for language "%s"'
+  error-generating: 'Error syncronizing file "%s" for "%s": "%s"'
+  error-writing: 'Error writing file "%s" for "%s": "%s"'
   sync-finished: 'Syncronization of translation files was completed'

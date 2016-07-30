@@ -32,7 +32,7 @@ messages:
     learning:
         route: "पृष्ठे तयार करण्यासाठी त्यांना मार्ग व्याख्यीत करणे आवश्यक आहे.\nA URL पथला एक कंट्रोलर नकाशे मार्ग करण्यासाठी. कोणते कार्य अथवा पद्धत बोलावली जावी जेव्हा URL द्वारे प्रवेश प्राप्त होते हे व्याख्यीत केले आहे.\nउपयोक्ता जर हे http://drupal8.dev/{{ route.path }}  प्रवेश केला तर,\nराउटिंग प्रणाली त्या पाथसाठी एक मार्ग दाखवेल.\nअसे असल्यास तो सामना सापडेल, आणि _controller कॉलबॅक कार्यान्वित करेल. या प्रकरणात कॉलबॅक मध्ये\nएका क्लास्स्नामे चा रुपात परिभाषित आहे\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nआणि एक पद्धत (\"{{ route.method }}\")."
     autocomplete: "Bash or Zsh: ही ओळ आपल्या shell configuration फाईल मध्ये जोडावी:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: एक सिंबॉलिक लिंक बनवा\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
-    version: '<info>%s</info> version <comment>%s</comment>'
+    version: '<info>"%s"</info> version <comment>"%s"</comment>'
 errors:
     invalid-command: 'आदेश "%s" परिभाषित केलेले नाही.'
 site:

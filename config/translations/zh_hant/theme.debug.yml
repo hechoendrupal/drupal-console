@@ -11,5 +11,5 @@ messages:
     default-theme: '預設版型'
     properties: 屬性
     regions: 版型區域
-    invalid-theme: '版型 %s 不存在'
+    invalid-theme: '版型 "%s" 不存在'
     theme-properties: 屬性

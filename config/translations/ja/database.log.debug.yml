@@ -17,4 +17,4 @@ messages:
     user: ユーザー
     severity: 重要度
     invalid-severity: 重要度のタイプは不正な値です、フィルタは無視されました。
-    not-found: 'DBLogのイベント %s が見つかりませんでした。'
+    not-found: 'DBLogのイベント "%s" が見つかりませんでした。'

@@ -13,6 +13,6 @@ questions:
 messages:
     key: 'Clé YAML'
     value: 'Valeur YAML'
-    total: 'Total: %s'
-    diff: 'Diff: %s'
-    equal: 'Equal: %s'
+    total: 'Total: "%s"'
+    diff: 'Diff: "%s"'
+    equal: 'Equal: "%s"'

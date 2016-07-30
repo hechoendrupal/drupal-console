@@ -9,15 +9,15 @@ options:
 questions:
     path: 'Enter the contrib project Path'
 messages:
-    no-releases: 'मॉड्यूल %s के लिए कोई रिलीस उपलब्ध नहीं है|'
-    getting-releases: 'मॉड्यूल %s के लिए रिलीस लाया जा रहा है|'
-    downloading: 'मोड्यूल %s प्रकाशन %s डाउनलोड हो रहा है'
-    downloaded: 'मोड्यूल %s संस्करण %s सफलतापूर्वक %s में डाउनलोड हो गया है'
+    no-releases: 'मॉड्यूल "%s" के लिए कोई रिलीस उपलब्ध नहीं है|'
+    getting-releases: 'मॉड्यूल "%s" के लिए रिलीस लाया जा रहा है|'
+    downloading: 'मोड्यूल "%s" प्रकाशन "%s" डाउनलोड हो रहा है'
+    downloaded: 'मोड्यूल "%s" संस्करण "%s" सफलतापूर्वक "%s" में डाउनलोड हो गया है'
     select-release: 'अपने पसंदीदा रिलीस का चयन करें'
     outside-drupal: 'Drupal रुट निर्धारित नहीं किया जा सकता| डेस्टिनेशन सेट करने के लिए --root का प्रयोग करें, नहीं तो वर्तमान फ़ोल्डर इस्तेमाल किया जाएगा|'
-    error-creating-folder: '%s फोल्डर बनाने मे एरर| अनुमतियाँ जाँच करें|'
+    error-creating-folder: '"%s" फोल्डर बनाने मे एरर| अनुमतियाँ जाँच करें|'
     no-composer-repo: 'Please, configure Composer in ~/.console/config.yml'
-    composer: 'Module %s was downloaded successfully using Composer'
+    composer: 'Module "%s" was downloaded successfully using Composer'
 tips:
     -
         tip: 'Pass a «true» value to «shellexec_output» key in your config.yml file to see interactively Composer''s output or «false» to hide it'

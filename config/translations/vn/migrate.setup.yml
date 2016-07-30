@@ -19,6 +19,6 @@ questions:
     files-directory: 'Files Directory'
 messages:
     not-drupal: 'Source database không chứa đựng một recognizable Drupal version.'
-    migrations-created: '%s migrations đã được tạo thành công cho %s.'
+    migrations-created: '"%s" migrations đã được tạo thành công cho "%s".'
     migrations-not-found: 'Không có migrations nào sẵn có'
     migrations-already-exist: 'Tất cả migrations sẵn có đã được tạo'

@@ -7,5 +7,5 @@ options:
     starting-key: 'La clave YAML desde donde se empezará a extraer los elementos parciales'
 messages:
     generating-split: 'Generando los nuevos archivos'
-    split-generated: 'Se ha generado el archivo %s con éxito'
+    split-generated: 'Se ha generado el archivo "%s" con éxito'
     invalid-key: 'No se ha encontrado la clave YAML indicada, combinar con un nivel 0 de indetación para extraer los valores'

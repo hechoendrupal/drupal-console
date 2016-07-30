@@ -11,7 +11,7 @@ messages:
     remote-age: 远程年龄
     info: 信息
     no-translation-files: '无翻译文件提供给开发版本'
-    file-not-found: '文件在 %s，%s 都没有找到'
-    local-file-not-found: '文件 %s 没有找到'
+    file-not-found: '文件在 "%s"，"%s" 都没有找到'
+    local-file-not-found: '文件 "%s" 没有找到'
     translation-not-determined: 翻译文件位置未能确定
     translation-project-updated: 更新完毕

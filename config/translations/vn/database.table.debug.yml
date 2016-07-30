@@ -6,7 +6,7 @@ arguments:
 options:
     database: 'Database key from settings.php'
 messages:
-    table-show: 'Đang hiển thị table %s database'
+    table-show: 'Đang hiển thị table "%s" database'
     table: Table
     column: Column
     type: Type

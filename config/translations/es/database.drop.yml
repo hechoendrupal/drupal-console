@@ -3,8 +3,8 @@ help: 'El comando <info>database:table:debug</info> le ayuda a depurar las tabla
 arguments:
     database: 'Índice de la base de datos del settings.php'
 question:
-    drop-tables: '¿Realmente quiere eliminar todas las tablas de la base de datos %s?'
+    drop-tables: '¿Realmente quiere eliminar todas las tablas de la base de datos "%s"?'
 messages:
     table: Tabla
-    table-drop: '%s tablas eliminadas con éxito'
-    table-show: 'Mostrando las tablas de la base de datos %s'
+    table-drop: '"%s" tablas eliminadas con éxito'
+    table-show: 'Mostrando las tablas de la base de datos "%s"'

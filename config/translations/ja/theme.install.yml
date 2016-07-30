@@ -1,21 +1,21 @@
 description: テーマをインストールする
 questions:
     theme: 'テーマ名 (<return> を押すと追加を停止します)'
-    invalid-theme: 'テーマ名 %s は不正な値です'
+    invalid-theme: 'テーマ名 "%s" は不正な値です'
 options:
     theme: 'インストールするテーマ名 (複数指定する場合はカンマ区切り)'
     overwrite-config: '必要な場合はアクティブ設定を上書きする'
     set-default: デフォルトテーマとしてセットする
 messages:
     no-themes: 'インストールするテーマ名を指定してください。'
-    themes-missing: 'テーマ %s が見つからないためインストールできませんでした。'
-    theme-missing: 'テーマ %s が見つからないためインストールできませんでした。'
-    missing-dependencies: 'テーマ %s がインストールできませんでした (依存している %s が見つからないため)'
-    themes-nothing: 'テーマ %s は既にインストールされています。'
-    theme-nothing: 'テーマ %s は既にインストールされています。'
-    dependencies: 'いくつかの依存関係が満たされていません: %s?'
-    theme-success: 'テーマ %s のインストールに成功しました。'
-    themes-success: 'テーマ %s のインストールに成功しました。'
-    theme-default-success: 'テーマ %s をインストールし、デフォルトのテーマとして設定しました。'
+    themes-missing: 'テーマ "%s" が見つからないためインストールできませんでした。'
+    theme-missing: 'テーマ "%s" が見つからないためインストールできませんでした。'
+    missing-dependencies: 'テーマ "%s" がインストールできませんでした (依存している "%s" が見つからないため)'
+    themes-nothing: 'テーマ "%s" は既にインストールされています。'
+    theme-nothing: 'テーマ "%s" は既にインストールされています。'
+    dependencies: 'いくつかの依存関係が満たされていません: "%s"?'
+    theme-success: 'テーマ "%s" のインストールに成功しました。'
+    themes-success: 'テーマ "%s" のインストールに成功しました。'
+    theme-default-success: 'テーマ "%s" をインストールし、デフォルトのテーマとして設定しました。'
     disabled-themes: ステータスがuninstalledのテーマのみが自動補完のリストに表示されます。
     invalid-theme-default: defaultオプションは1つのテーマに対してのみ有効です。

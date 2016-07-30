@@ -10,8 +10,8 @@ questions:
 messages:
     user-id: 用户ID
     username: 用户名
-    user-deleted: '成功删除用户%s'
-    users-deleted: '成功删除%s用户'
+    user-deleted: '成功删除用户"%s"'
+    users-deleted: '成功删除"%s"用户'
 errors:
-    invalid-user-id: '用户ID%s无效'
-    invalid-user: '用户%s无效'
+    invalid-user-id: '用户ID"%s"无效'
+    invalid-user: '用户"%s"无效'

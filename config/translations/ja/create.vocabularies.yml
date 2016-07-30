@@ -10,5 +10,5 @@ questions:
 messages:
     vocabulary-id: ボキャブラリーID
     name: 名前
-    created-terms: '%s 個のボキャブラリーを作成しました。'
-    error: 'ボキャブラリー %s の作成に失敗しました。'
+    created-terms: '"%s" 個のボキャブラリーを作成しました。'
+    error: 'ボキャブラリー "%s" の作成に失敗しました。'

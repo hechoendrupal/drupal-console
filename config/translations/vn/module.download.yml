@@ -9,15 +9,15 @@ options:
 questions:
     path: 'Enter the contrib project Path'
 messages:
-    no-releases: 'Không có bất kỳ bản phát hành nào cho module %s'
-    getting-releases: 'Đang tìm kiếm các bản phát hành cho module %s'
-    downloading: 'Đang tải module %s bản phát hành %s'
-    downloaded: 'Module %s phiên bản %s đã được tải xuống thành công tại %s'
+    no-releases: 'Không có bất kỳ bản phát hành nào cho module "%s"'
+    getting-releases: 'Đang tìm kiếm các bản phát hành cho module "%s"'
+    downloading: 'Đang tải module "%s" bản phát hành "%s"'
+    downloaded: 'Module "%s" phiên bản "%s" đã được tải xuống thành công tại "%s"'
     select-release: 'Vui lòng chọn bản phát hành phù hợp'
     outside-drupal: 'Không xác định được thư mục root của Drupal. Sử dụng --root để thiết lập đích đến, thư mục hiện tại sẽ được sử dụng thay thế.'
-    error-creating-folder: 'Lỗi khi tạo thư mục %s, xin hãy kiểm tra lại các permssions'
+    error-creating-folder: 'Lỗi khi tạo thư mục "%s", xin hãy kiểm tra lại các permssions'
     no-composer-repo: 'Please, configure Composer in ~/.console/config.yml'
-    composer: 'Module %s was downloaded successfully using Composer'
+    composer: 'Module "%s" was downloaded successfully using Composer'
 tips:
     -
         tip: 'Pass a «true» value to «shellexec_output» key in your config.yml file to see interactively Composer''s output or «false» to hide it'

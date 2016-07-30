@@ -16,4 +16,4 @@ messages:
     user: Felhasználó
     severity: Súlyosság
     invalid-severity: 'A súlyosság típusa érvénytelen, a szűrő figyelmen kívül maradt'
-    not-found: 'Nem található a DBLog esemény: %s'
+    not-found: 'Nem található a DBLog esemény: "%s"'
