@@ -1,10 +1,6 @@
 <?php
 
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\Finder\Finder;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Drupal\Console\Application;
 use Drupal\Console\Helper\KernelHelper;
@@ -35,10 +31,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Drupal\Console\Utils\DrupalKernel;
 use Drupal\Console\Utils\DrupalServiceModifier;
 
-use Drupal\Console\Utils\DrupalExtensionDiscovery;
-
-use Symfony\Component\Console\Input\ArgvInput;
-
 set_time_limit(0);
 $consoleRoot = realpath(__DIR__.'/../') . '/';
 $root = getcwd() . '/';
@@ -50,20 +42,13 @@ if (file_exists($autoloadFile)) {
     $autoload = include_once $autoloadFile;
 } else {
     echo PHP_EOL .
-         ' Something goes wrong with your binary'.PHP_EOL.
-         ' Try downloading again'. PHP_EOL . PHP_EOL;
+         ' Something goes wrong with your package.'.PHP_EOL.
+         ' Try downloading again.'. PHP_EOL .
+         ' Executing:'. PHP_EOL .
+         ' composer require drupal/console:~1.0 --prefer-dist --optimize-autoloader'. PHP_EOL;
+
     exit(1);
 }
-
-echo 'dir: ' .  __DIR__ . '/'. PHP_EOL;
-echo 'consoleRoot: ' .  $consoleRoot . PHP_EOL;
-echo 'siteRoot ' .  $siteRoot . PHP_EOL;
-echo 'root: ' .  $root . PHP_EOL;
-
-//$input = new ArgvInput();
-//if ($input->getParameterOption(['--pre-launch'], null)) {
-//    $root = getcwd();
-//}
 
 /* DrupalKernel */
 $request = Request::createFromGlobals();
