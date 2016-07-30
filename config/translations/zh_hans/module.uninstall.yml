@@ -1,15 +1,15 @@
 description: 卸载模块
 questions:
     module: '输入模块名称'
-    invalid-module: '无效模块 %s'
+    invalid-module: '无效模块 "%s"'
 options:
     module: 要卸载的模块，模块之间请使用逗号分隔
     force: '忽略依赖并强制卸载这个模块?'
     composer: '使用 Composer卸载模块'
 messages:
     no-modules: '请输入模块，才能卸载'
-    dependents: '模块 %s 不能卸载，它被 %s 所依赖'
+    dependents: '模块 "%s" 不能卸载，它被 "%s" 所依赖'
     nothing: 任何事都不用做，所有模块都已经被卸载了
-    success: 以下模块被成功卸载：%s
-    missing: '无法安装模块%s，由于模块%s缺失'
-    composer-success: '以下模块被从 Composer 中移除: %s'
+    success: 以下模块被成功卸载："%s"
+    missing: '无法安装模块"%s"，由于模块"%s"缺失'
+    composer-success: '以下模块被从 Composer 中移除: "%s"'

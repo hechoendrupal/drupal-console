@@ -19,5 +19,5 @@ messages:
     directory_temporary: 網站暫存目錄
     directory_theme_default: '預設版型目錄'
     directory_theme_admin: 管理版型目錄
-    current_version: '目前 Drupal (%s)'
+    current_version: '目前 Drupal ("%s")'
     not_installed: 'Drupal 沒有被安裝'

@@ -3,8 +3,8 @@ arguments:
     directory: 'Define el directorio de exportación para guardar la configuración.'
     tar: 'Indique esta opción para exportar la configuración a un archivo.'
 messages:
-    directory: 'La configuración exportada fue guardada en el archivo %s'
-    error: 'Ha ocurrido un error al crear su directorio en %s'
+    directory: 'La configuración exportada fue guardada en el archivo "%s"'
+    error: 'Ha ocurrido un error al crear su directorio en "%s"'
 content:
     type:
         description: 'Exporta un tipo de contenido determinado y todos sus campos.'
@@ -29,14 +29,14 @@ single:
         config-name: 'Nombre de la configuración'
     messages:
         config-not-found: 'No se ha encontrado el nombre de la configuración.'
-        export: 'Se ha exportado la configuración al archivo %s.'
+        export: 'Se ha exportado la configuración al archivo "%s".'
         invalid-config-type: 'Tipo de configuración no válido, por favor seleccione uno de la lista'
         invalid-config-name: 'Nombre de configuración no válido, por favor seleccione uno de la lista'
 view:
     description: 'Exporta una vista en formato YAML dentro de un módulo para ser reutilizado en otro sitio.'
     messages:
         view_exported: 'Exportando vista'
-        depencies-included: 'Las siguientes dependencias de módulos han sido incluidas en %s'
+        depencies-included: 'Las siguientes dependencias de módulos han sido incluidas en "%s"'
     questions:
         view: 'Vista que será exportada'
         optional-config: 'Exportar la vista en un módulo como configuración opcional'

@@ -10,5 +10,5 @@ questions:
 messages:
     vocabulary-id: 'Id du vocabulaire'
     name: Nom
-    created-terms: 'Création de %s vocabulaires avec succès'
-    error: 'Erreur survenue lors de la création de vocabulaire %s'
+    created-terms: 'Création de "%s" vocabulaires avec succès'
+    error: 'Erreur survenue lors de la création de vocabulaire "%s"'

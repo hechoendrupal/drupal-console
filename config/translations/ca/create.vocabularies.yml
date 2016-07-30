@@ -10,5 +10,5 @@ questions:
 messages:
     vocabulary-id: 'Identificador del vocabulari'
     name: Nom
-    created-terms: 'S''han creat correctament %s vocabularis'
-    error: 'S''ha produït un error creant el vocabulari: %s'
+    created-terms: 'S''han creat correctament "%s" vocabularis'
+    error: 'S''ha produït un error creant el vocabulari: "%s"'

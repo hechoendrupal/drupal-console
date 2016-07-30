@@ -21,7 +21,7 @@ questions:
 messages:
     installing: 'Drupal 8 स्थापित करने की प्रक्रिया शुरू'
     installed: 'अपने Drupal 8 स्थापना सफलतापूर्वक पूरा कर लिया गया'
-    using-current-database: 'नाम  %s और उपयोगकर्ता  %s के साथ  %s डेटाबेस का प्रयोग'
+    using-current-database: 'नाम  "%s" और उपयोगकर्ता  "%s" के साथ  "%s" डेटाबेस का प्रयोग'
     already-installed: 'Drupal पहले से ही स्थापित किया गया है, तो अपने डेटाबेस को truncate करे और फिर site:install चलाऐ'
     sites-backup: 'The sites.php file has temporarily been renamed to backup.sites.php while Drupal installs.'
     sites-restore: 'The backup of sites.php has been been restored to sites.php.'

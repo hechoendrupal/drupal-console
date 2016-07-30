@@ -11,5 +11,5 @@ messages:
     default-theme: 'डिफ़ॉल्ट थीम'
     properties: प्रॉपर्टीज
     regions: रीजनस
-    invalid-theme: 'थीम %s अवैध है'
+    invalid-theme: 'थीम "%s" अवैध है'
     theme-properties: प्रॉपर्टीज

@@ -3,8 +3,8 @@ arguments:
     directory: 'Escolha o diretório onde a configuração exportada será salva.'
     tar: 'If set, the configuration will be exported to an archive file.'
 messages:
-    directory: 'A configuração exportada foi salva em %s'
-    error: 'An error occurred while creating your directory at %s'
+    directory: 'A configuração exportada foi salva em "%s"'
+    error: 'An error occurred while creating your directory at "%s"'
 content:
     type:
         description: 'Exportar um content-type específico e todos os seus fields.'
@@ -29,14 +29,14 @@ single:
         config-name: 'Nome da configuração'
     messages:
         config-not-found: 'O nome da visualização não foi encontrado.'
-        export: 'Configuração exportada no arquivo %s.'
+        export: 'Configuração exportada no arquivo "%s".'
         invalid-config-type: 'Tipo de configuração inválido. Por favor, selecione um tipo da lista.'
         invalid-config-name: 'Nome de configuração inválido. Por favor, selecione um nome da lista.'
 view:
     description: 'Exportar uma view no formato YAML em um módulo, para reutilizar em outro website.'
     messages:
         view_exported: 'Exportando View'
-        depencies-included: 'As seguintes dependências foram incluídas em %s'
+        depencies-included: 'As seguintes dependências foram incluídas em "%s"'
     questions:
         view: 'View a ser exportada'
         optional-config: 'Exportar view no módulo como uma configuração opcional'

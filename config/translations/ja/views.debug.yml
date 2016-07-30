@@ -10,7 +10,7 @@ messages:
     tag: タグ
     status: ステータス
     path: パス
-    not-found: 'Views %s が見つかりませんでした。'
+    not-found: 'Views "%s" が見つかりませんでした。'
     display-list: ディスプレイの一覧
     display-id: ID
     display-name: 名前

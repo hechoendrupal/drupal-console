@@ -16,4 +16,4 @@ messages:
     user: Пользователь
     severity: Важность
     invalid-severity: 'Тип важности задан неверно, фильтр проигнорирован'
-    not-found: 'DBLog событие %s не было найдено'
+    not-found: 'DBLog событие "%s" не было найдено'

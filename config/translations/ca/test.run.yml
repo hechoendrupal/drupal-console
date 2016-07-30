@@ -19,4 +19,4 @@ messages:
     method: Mètode
     line: Línia
     message: Missatge
-    invalid-class: 'La classe de verificació %s ja existeix'
+    invalid-class: 'La classe de verificació "%s" ja existeix'

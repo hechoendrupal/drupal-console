@@ -24,4 +24,4 @@ messages:
     roles: Rols
     username: 'Nom del usuari'
     created: 'Data de creació'
-    created-users: 'S''han creat %s usuaris correctament'
+    created-users: 'S''han creat "%s" usuaris correctament'

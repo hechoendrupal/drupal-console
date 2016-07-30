@@ -9,9 +9,9 @@ questions:
     invalid-file: 'A fájl útvonala nem lehet üres'
     file-already-added: 'A fájl útvonala már hozzá lett adva'
 messages:
-    wrong-parse: 'Üres vagy nem létezik a következő YAML-fájl: %s'
-    error-parsing: 'Hiba történt a következő YAML-fájl értelmezésekor: %s'
+    wrong-parse: 'Üres vagy nem létezik a következő YAML-fájl: "%s"'
+    error-parsing: 'Hiba történt a következő YAML-fájl értelmezésekor: "%s"'
     two-files-required: 'Legalább két fájlt meg kell adni.'
     error-generating: 'Hiba történt az összevont YAML-fájl előállításakor.'
     error-writing: 'Hiba történt az összevont YAML-fájl kiírásakor.'
-    merged: 'A YAML-fájlok összevonása után sikeresen létrejött a következő új fájl: %s'
+    merged: 'A YAML-fájlok összevonása után sikeresen létrejött a következő új fájl: "%s"'

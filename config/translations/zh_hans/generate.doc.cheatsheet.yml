@@ -8,7 +8,7 @@ messages:
     note: 注意
     note-description: 'Drupal Console 命令 *必须* 运行在 Drupal 8 根目录下'
     command: 'Drupal Console 命令'
-    command_description: '**%s** 命令 %s'
+    command_description: '**"%s"** 命令 "%s"'
     usage: 用法
     options: 可用选项
     option: 选项

@@ -4,4 +4,4 @@ arguments:
     tar: 'La configuració s''exportarà a un fitxer si s''ha definit.'
 messages:
     directory: 'S''ha exportat la configuració a:'
-    error: 'An error occurred while creating your directory at %s'
+    error: 'An error occurred while creating your directory at "%s"'

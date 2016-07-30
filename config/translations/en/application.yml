@@ -37,7 +37,7 @@ messages:
 
                 Fish: Create a symbolic link
                 <info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>
-    version: '<info>%s</info> version <comment>%s</comment>'
+    version: '<info>"%s"</info> version <comment>"%s"</comment>'
 errors:
     invalid-command: 'Command "%s" do not exist.'
 site:

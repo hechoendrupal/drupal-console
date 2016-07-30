@@ -16,4 +16,4 @@ messages:
     user: यूजर
     severity: सेवेरिटी
     invalid-severity: 'सेवेरिटी टाइप अमान्य है, फिल्टर को नजरअंदाज कर दिया गया था'
-    not-found: 'DBLog इवेंट %s नहीं मिला था'
+    not-found: 'DBLog इवेंट "%s" नहीं मिला था'

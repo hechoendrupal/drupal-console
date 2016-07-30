@@ -14,4 +14,4 @@ messages:
     rest-state: REST-állapotok
     supported-formats: 'Támogatott formátumok'
     supported_auth: 'Támogatott hitelesítésszolgáltatók'
-    not-found: '%s REST-erőforrás nem található'
+    not-found: '"%s" REST-erőforrás nem található'

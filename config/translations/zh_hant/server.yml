@@ -2,7 +2,7 @@ description: '運行內建的 PHP 網頁伺服器'
 arguments:
     address: '伺服器位址:連接埠（address:port）參數'
 messages:
-    executing: 'PHP 執行路徑：%s'
+    executing: 'PHP 執行路徑："%s"'
 errors:
     binary: '找不到 PHP 執行檔，無法啟動伺服器。'
 examples:

@@ -7,7 +7,7 @@ questions:
     numeric-uid: 'L''identificador del usuari ha de ser un enter.'
     invalid-uid: 'L''identificador del usuari ha de ser superior a zero.'
 messages:
-    successful: 'S''han esborrat els intent de connexió per l''usuari %s.'
+    successful: 'S''han esborrat els intent de connexió per l''usuari "%s".'
 errors:
-    invalid-user: 'No es pot carregar l''entitat del usuari (Uid: %s).'
+    invalid-user: 'No es pot carregar l''entitat del usuari (Uid: "%s").'
     no-flood: 'No flood table on the system.'

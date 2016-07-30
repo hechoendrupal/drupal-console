@@ -22,7 +22,7 @@ questions:
     core: 'Enter Drupal Core version'
     package: 'Enter package name'
     dependencies: 'Would you like to add module dependencies'
-    invalid-theme: 'Invalid %s theme was selected'
+    invalid-theme: 'Invalid "%s" theme was selected'
     global-library: 'Enter the global styling library name'
     regions: 'Do you want to generate the theme regions'
     region-name: 'Enter region name'

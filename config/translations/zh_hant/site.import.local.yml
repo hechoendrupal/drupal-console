@@ -7,9 +7,9 @@ options:
     environment: '要匯入的環境模式名稱'
 messages:
     imported: '網站已經匯入完畢。您可以執行 `drupal site:debug` 來確認匯入的結果。'
-    error-missing: '目錄 %s 不存在。'
-    error-not-drupal: '%s 不是有效的 Drupal 根目錄'
-    error-writing: '嘗試寫入設定檔 %s 時發生錯誤'
+    error-missing: '目錄 "%s" 不存在。'
+    error-not-drupal: '"%s" 不是有效的 Drupal 根目錄'
+    error-writing: '嘗試寫入設定檔 "%s" 時發生錯誤'
 questions:
     directory: '輸入將安裝 Drupal 的資料夾名稱'
     name: '輸入網站名稱'

@@ -11,7 +11,7 @@ messages:
   remote-age: 'Remote age'
   info: Information
   no-translation-files: 'No translation files are provided for development releases.'
-  file-not-found: "File not found at %s nor at %s"
-  local-file-not-found: "File not found at %s"
+  file-not-found: "File not found at "%s" nor at "%s""
+  local-file-not-found: "File not found at "%s""
   translation-not-determined: "Translation file location could not be determined."
   translation-project-updated: 'Updated'
