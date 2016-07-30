@@ -2,6 +2,6 @@ description: 'Retourne une url de connection à validité unique pour un utilisa
 options:
     user-id: 'Identifiant de l''utilisateur'
 messages:
-    url: 'Url de connection à validité unique pour %s : %s'
+    url: 'Url de connection à validité unique pour "%s" : "%s"'
 errors:
-    invalid-user: 'Impossible de charger l''utilisateur (UID : %s).'
+    invalid-user: 'Impossible de charger l''utilisateur (UID : "%s").'

@@ -26,5 +26,5 @@ messages:
     content-type: コンテンツタイプ
     title: タイトル
     created: 作成時刻
-    invalid-content-types: 'コンテンツタイプ %s は不正な値です。'
-    created-comments: '%s 個のコメントを作成しました。'
+    invalid-content-types: 'コンテンツタイプ "%s" は不正な値です。'
+    created-comments: '"%s" 個のコメントを作成しました。'

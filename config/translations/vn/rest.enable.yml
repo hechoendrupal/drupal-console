@@ -6,7 +6,7 @@ arguments:
 questions:
     resource-id: 'Rest ID'
 messages:
-    invalid-rest-id: 'Rest ID %s không hợp lệ'
+    invalid-rest-id: 'Rest ID "%s" không hợp lệ'
     formats: 'Tuần tự hóa các định dạng có thể sử dụng được'
     authentication-providers: 'Các nhà cung cấp ủy quyền hiện có'
     selected-state: 'Trạng thái được lựa chọn'

@@ -6,7 +6,7 @@ arguments:
 questions:
     resource-id: 'REST ID'
 messages:
-    invalid-rest-id: 'ID REST %s inválido'
+    invalid-rest-id: 'ID REST "%s" inválido'
     formats: 'Formatos de serialização disponíveis'
     authentication-providers: 'Provedores de autenticação disponíveis'
     selected-state: 'Estado selecionado'

@@ -7,5 +7,5 @@ options:
     starting-key: '開始分割的 YAML 鍵名：有助於截取局部元素'
 messages:
     generating-split: 正在產生新檔案
-    split-generated: '檔案 %s 已經產生'
+    split-generated: '檔案 "%s" 已經產生'
     invalid-key: '找不到提供的 YAML 鍵名，將與第一層縮排一同擷取數值'

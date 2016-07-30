@@ -1,7 +1,7 @@
 description: 'Exporta una vista en formato YAML dentro de un modulo para reutilizar en otro sitio web.'
 messages:
     view_exported: 'Exportando vista'
-    depencies-included: 'Han sido incluidas las siguientes dependencias de módulo en %s'
+    depencies-included: 'Han sido incluidas las siguientes dependencias de módulo en "%s"'
 questions:
     view: 'La vista que será exportada'
     optional-config: 'Exportar la vista en un módulo como una configuración opcional'

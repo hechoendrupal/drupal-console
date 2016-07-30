@@ -5,7 +5,7 @@ value:
         yaml-key: 'Khóa YAML để cập nhật'
         yaml-value: 'Giá trị YAML để cập nhật'
     messages:
-        updated: 'File YAML %s đã được cập nhật thành công'
+        updated: 'File YAML "%s" đã được cập nhật thành công'
 key:
     description: 'Thay thế một key YAML trong một file YAML.'
     arguments:
@@ -13,4 +13,4 @@ key:
         yaml-key: 'Key YAML để thay thế'
         yaml-new-key: 'Key mới YAML'
     messages:
-        updated: 'File YAML %s đã được cập nhật thành công'
+        updated: 'File YAML "%s" đã được cập nhật thành công'

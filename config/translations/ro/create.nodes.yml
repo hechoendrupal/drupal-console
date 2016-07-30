@@ -24,6 +24,6 @@ messages:
     content-type: 'Content type'
     title: Title
     created: 'Created Time'
-    invalid-content-types: 'Content types %s are invalid'
-    created-nodes: 'Created %s nodes successfully'
-    generated-content: 'Created %s nodes successfully'
+    invalid-content-types: 'Content types "%s" are invalid'
+    created-nodes: 'Created "%s" nodes successfully'
+    generated-content: 'Created "%s" nodes successfully'

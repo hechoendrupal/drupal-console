@@ -5,7 +5,7 @@ value:
         yaml-key: 'YAML key to update'
         yaml-value: 'YAML value to update'
     messages:
-        updated: 'YAML file %s was updated successfully.'
+        updated: 'YAML file "%s" was updated successfully.'
 key:
     description: 'Replace a YAML key in a YAML file.'
     arguments:
@@ -13,4 +13,4 @@ key:
         yaml-key: 'YAML key to be replaced'
         yaml-new-key: 'YAML new key'
     messages:
-        updated: 'YAML file %s was updated successfully.'
+        updated: 'YAML file "%s" was updated successfully.'

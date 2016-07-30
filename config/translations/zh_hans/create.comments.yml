@@ -26,5 +26,5 @@ messages:
     content-type: '内容类型'
     title: '标题'
     created: 创建时间
-    invalid-content-types: '内容类型(s) %s 无效'
-    created-comments: '创建 %s 评论成功'
+    invalid-content-types: '内容类型(s) "%s" 无效'
+    created-comments: '创建 "%s" 评论成功'

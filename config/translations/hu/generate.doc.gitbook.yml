@@ -7,7 +7,7 @@ messages:
     note: Megjegyzés
     note-description: 'A Drupal Console parancsokat a Drupal 8 telepítési gyökérkönyvtárából *kell* futtatni'
     command: 'Drupal Console parancs'
-    command_description: '**%s** parancs %s'
+    command_description: '**"%s"** parancs "%s"'
     usage: Használat
     options: 'Rendelkezésre álló beállítások'
     option: Beállítás

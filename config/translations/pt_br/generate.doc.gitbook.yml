@@ -7,7 +7,7 @@ messages:
     note: Nota
     note-description: 'Comandos Drupal Console que *devem* ser executados desde a raiz de uma instalação Drupal 8'
     command: 'Comando Drupal Console'
-    command_description: 'O **%s** comando %s'
+    command_description: 'O **"%s"** comando "%s"'
     usage: Uso
     options: 'Opções disponíveis'
     option: Opção
@@ -22,7 +22,7 @@ output:
         note-description: 'Comandos Drupal Console que *devem* ser executados desde a raiz de uma instalação Drupal 8'
         command: 'Comando Drupal Console'
     command:
-        command_description: 'O **%s** comando %s'
+        command_description: 'O **"%s"** comando "%s"'
         usage: Uso
         options: 'Opções disponíveis'
         option: Opções

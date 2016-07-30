@@ -1,6 +1,6 @@
 description: 画像スタイルのフラッシュを実行
 messages:
-    executing-flush: '画像スタイル %s のフラッシュを実行中'
+    executing-flush: '画像スタイル "%s" のフラッシュを実行中'
     success: '全てのフラッシュの実行が成功しました。'
 options:
     image-style: 画像スタイル名称

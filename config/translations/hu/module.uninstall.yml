@@ -1,15 +1,15 @@
 description: 'Modul vagy modulok eltávolítása'
 questions:
     module: 'Enter module name'
-    invalid-module: 'Invalid module %s'
+    invalid-module: 'Invalid module "%s"'
 options:
     module: 'Az eltávolítani kívánt modulokat vesszővel kell elválasztani'
     force: 'Do you want to ignore dependencies and forcefully uninstall the module?'
     composer: 'Uninstalls the module using Composer'
 messages:
     no-modules: 'Meg kell adni az eltávolítani kívánt modulokat.'
-    dependents: 'Nem lehet eltávolítani %s modulokat, mert azokra szükségük van a következő moduloknak: %s.'
+    dependents: 'Nem lehet eltávolítani "%s" modulokat, mert azokra szükségük van a következő moduloknak: "%s".'
     nothing: 'Nincs teendő. Már minden modul el van távolítva.'
-    success: 'A következő modulok eltávolítása sikerült: %s'
-    missing: 'Nem távolíthatók el a következő modulok: %s, mert az alábbi modulok hiányoznak: %s'
-    composer-success: 'The folowing module(s) were removed from Composer: %s'
+    success: 'A következő modulok eltávolítása sikerült: "%s"'
+    missing: 'Nem távolíthatók el a következő modulok: "%s", mert az alábbi modulok hiányoznak: "%s"'
+    composer-success: 'The folowing module(s) were removed from Composer: "%s"'

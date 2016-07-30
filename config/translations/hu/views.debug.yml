@@ -10,7 +10,7 @@ messages:
     tag: Címke
     status: Állapot
     path: Útvonal
-    not-found: 'Nem található a következő nézet: %s.'
+    not-found: 'Nem található a következő nézet: "%s".'
     display-list: 'Lista megjelenítése'
     display-id: Azonosító
     display-name: Név

@@ -6,7 +6,7 @@ arguments:
 questions:
     resource-id: 'Rest आईडी'
 messages:
-    invalid-rest-id: 'रेस्ट आईडी %s अमान्य है'
+    invalid-rest-id: 'रेस्ट आईडी "%s" अमान्य है'
     formats: 'उपलब्ध अनुक्रमण आरूप'
     authentication-providers: 'उपलब्ध प्रमाणीकरण प्रदाता'
     selected-state: 'चयनित राज्य स्टेट'

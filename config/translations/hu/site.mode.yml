@@ -13,4 +13,4 @@ messages:
     service-value: Érték
     error-copying-file: 'Hiba történt a fájl másolásakor'
     error-writing-file: 'Hiba történt a fájl másolásakor'
-    services-file-overwritten: '%s szolgáltatásfájlok felül lettek írva'
+    services-file-overwritten: '"%s" szolgáltatásfájlok felül lettek írva'

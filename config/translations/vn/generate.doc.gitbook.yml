@@ -7,7 +7,7 @@ messages:
     note: Note
     note-description: 'Các lệnh điều khiển Drupal *phải* được chạy từ root của sự cài đặt Drupal 8'
     command: 'Các lệnh điều khiển Drupal'
-    command_description: 'Câu lệnh **%s** %s'
+    command_description: 'Câu lệnh **"%s"** "%s"'
     usage: Usage
     options: 'Các tùy chọn có sẵn'
     option: 'Tùy chọn'

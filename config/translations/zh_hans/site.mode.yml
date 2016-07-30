@@ -13,4 +13,4 @@ messages:
     service-value: 值
     error-copying-file: 复制文件出错
     error-writing-file: 复制文件出错
-    services-file-overwritten: 服务文件%s被重写
+    services-file-overwritten: 服务文件"%s"被重写

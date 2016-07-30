@@ -13,6 +13,6 @@ questions:
 messages:
     key: 'YAML 鍵名'
     value: 'YAML 值'
-    total: '總數： %s'
-    diff: '差異數： %s'
-    equal: '相同數： %s'
+    total: '總數： "%s"'
+    diff: '差異數： "%s"'
+    equal: '相同數： "%s"'

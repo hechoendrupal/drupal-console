@@ -21,7 +21,7 @@ questions:
     core: 'Introduïu la versió del Core de Drupal'
     package: 'Introduïu el nom del paquet'
     dependencies: 'Vosl afegir dependències al mòdul'
-    invalid-theme: 'El tema %s seleccionat no és vàlid'
+    invalid-theme: 'El tema "%s" seleccionat no és vàlid'
     global-library: 'Introduïu el nom global de l''estil de la biblioteca'
     regions: 'Vols generar regions del tema'
     region-name: 'Introduïu la regió del tema'

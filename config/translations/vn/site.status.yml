@@ -19,7 +19,7 @@ messages:
     directory_temporary: 'Thư mục lưu trữ tạm thời'
     directory_theme_default: 'Thư mục lưu phần hiển thị mặc định'
     directory_theme_admin: 'Thư mục lưu phần hiển thị quản trị'
-    current_version: 'Current Drupal version (%s)'
+    current_version: 'Current Drupal version ("%s")'
     not_installed: 'Drupal is not installed'
     not_available: 'Not available'
     configuration: 'Phần thiết lập'
