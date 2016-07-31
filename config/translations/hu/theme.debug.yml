@@ -11,5 +11,5 @@ messages:
     default-theme: 'Alapértelmezett smink'
     properties: Tulajdonságok
     regions: Régiók
-    invalid-theme: '%s nem érvényes smink'
+    invalid-theme: '"%s" nem érvényes smink'
     theme-properties: Tulajdonságok

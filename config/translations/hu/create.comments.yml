@@ -26,5 +26,5 @@ messages:
     content-type: 'Content type'
     title: Title
     created: 'Created Time'
-    invalid-content-types: 'Content types %s are invalid'
-    created-comments: 'Created %s comments successfully'
+    invalid-content-types: 'Content types "%s" are invalid'
+    created-comments: 'Created "%s" comments successfully'

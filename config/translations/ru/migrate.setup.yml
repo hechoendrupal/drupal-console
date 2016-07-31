@@ -19,6 +19,6 @@ questions:
     files-directory: 'Каталог файлов'
 messages:
     not-drupal: 'Источник базы данных не содержит распознаваемую версию Drupal.'
-    migrations-created: '%s миграции были созданые успешно для %s.'
+    migrations-created: '"%s" миграции были созданые успешно для "%s".'
     migrations-not-found: 'Нет доступных миграций'
     migrations-already-exist: 'Все доступные миграции уже созданы'

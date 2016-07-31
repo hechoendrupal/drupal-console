@@ -4,9 +4,9 @@ arguments:
 options:
     file: 'Arquivo específico para determinar traduções pendentes em comparação ao Inglês'
 messages:
-    invalid-language: 'Idioma %s é inválido'
+    invalid-language: 'Idioma "%s" é inválido'
     language: Idioma
-    pending-translations: 'Tradução pendente para %s no arquivo %s'
-    missing-file: 'Idioma %s não possui o arquivo %s, tente executar o comando <info>translation:sync</info>'
-    success-language: 'Há %s pendente de tradução %s'
-    success-language-file: 'Há %s pendentes de tradução %s no arquivo %s'
+    pending-translations: 'Tradução pendente para "%s" no arquivo "%s"'
+    missing-file: 'Idioma "%s" não possui o arquivo "%s", tente executar o comando <info>translation:sync</info>'
+    success-language: 'Há "%s" pendente de tradução "%s"'
+    success-language-file: 'Há "%s" pendentes de tradução "%s" no arquivo "%s"'

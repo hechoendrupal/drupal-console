@@ -7,7 +7,7 @@ arguments:
     user: 'El usuario en cuestión (sólo uno)'
 messages:
     bad-arguments: 'No se encuentran algunos argumentos! Por favor, indique los siguientes argumentos: [add/remove] [username] [role]'
-    no-user-found: 'El nombre de usuario %s no ha sido encontrado!'
-    no-role-found: 'El rol %s no ha sido encontrado!'
+    no-user-found: 'El nombre de usuario "%s" no ha sido encontrado!'
+    no-role-found: 'El rol "%s" no ha sido encontrado!'
     add-success: 'Al nombre de usuario %1$s le ha sido añadido el rol %2$s de manera exitosa'
     remove-success: 'Al nombre de usuario %1$s le ha sido eliminado el rol %2$s de manera exitosa'

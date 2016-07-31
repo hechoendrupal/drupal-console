@@ -2,5 +2,5 @@ description: 'Lancer une base de donnée client si disponible'
 arguments:
     database: 'Clé de la base de données depuis settings.php'
 messages:
-    connection: 'Connexion: %s'
-    executing: 'Exécution: %s'
+    connection: 'Connexion: "%s"'
+    executing: 'Exécution: "%s"'

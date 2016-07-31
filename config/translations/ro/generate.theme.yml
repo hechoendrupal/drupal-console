@@ -22,7 +22,7 @@ questions:
     core: 'Introduceti versiunea de nucleu Drupal'
     package: 'Introduceţi numele pachetului'
     dependencies: 'Doriţi să adăugaţi dependinţe de module.'
-    invalid-theme: 'Tema selectată %s este invalidă.'
+    invalid-theme: 'Tema selectată "%s" este invalidă.'
     global-library: 'Introduceţi numele librariei de stilizare globală'
     regions: 'Doriţi să generaţi regiunile temei'
     region-name: 'Introduceţi numele regiunii'

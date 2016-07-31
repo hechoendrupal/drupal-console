@@ -13,4 +13,4 @@ messages:
     service-value: Value
     error-copying-file: 'Error copying file'
     error-writing-file: 'Error copying file'
-    services-file-overwritten: 'Services files %s was overwritten'
+    services-file-overwritten: 'Services files "%s" was overwritten'

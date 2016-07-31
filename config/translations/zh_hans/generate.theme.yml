@@ -21,7 +21,7 @@ questions:
     core: '输入Drupal内核版本'
     package: '输入包名'
     dependencies: '你要加依赖模块吗'
-    invalid-theme: 外观主题%s不可用
+    invalid-theme: 外观主题"%s"不可用
     global-library: '输入一个全局的格式库名'
     regions: '你要生成一个主题的区域吗？'
     region-name: '输入区域名'

@@ -4,7 +4,7 @@ arguments:
 options:
     file: 同步的文件
 messages:
-    created-file: 'Yaml 文件 %s 以及创建【%s】'
-    error-generating: '同步文件 %s 错误 %s: %s'
-    error-writing: '写文件 %s 错误 %s: %s'
+    created-file: 'Yaml 文件 "%s" 以及创建【"%s"】'
+    error-generating: '同步文件 "%s" 错误 "%s": "%s"'
+    error-writing: '写文件 "%s" 错误 "%s": "%s"'
     sync-finished: 文件同步完成

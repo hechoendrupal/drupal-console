@@ -16,4 +16,4 @@ messages:
     user: Utilizator
     severity: Severitate
     invalid-severity: 'Tipul de severitate nu este valid, filtrul a fost ignorat'
-    not-found: 'Evenimentul DBLog %s nu a fost găsit'
+    not-found: 'Evenimentul DBLog "%s" nu a fost găsit'

@@ -10,8 +10,8 @@ questions:
     file-already-added: 'O caminho especificado para o arquivo já foi incluído'
 messages:
     wrong-parse: 'O arquivo YAML "%s" está vazio ou o arquivo não existe.'
-    error-parsing: 'Um erro ocorreu na leitura do arquivo YAML %s.'
+    error-parsing: 'Um erro ocorreu na leitura do arquivo YAML "%s".'
     two-files-required: 'É necessário ao menos dois arquivos para iniciar a combinação dos arquivos.'
     error-generating: 'Ocorreu um erro ao gerar um novo arquivo YAML.'
     error-writing: 'Erro ao escrever o novo arquivo YAML.'
-    merged: 'Novo arquivo %s foi criado com sucesso após a combinação dos arquivos YAML. '
+    merged: 'Novo arquivo "%s" foi criado com sucesso após a combinação dos arquivos YAML. '

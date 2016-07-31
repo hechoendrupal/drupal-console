@@ -11,5 +11,5 @@ messages:
     default-theme: 'Tema predeterminat'
     properties: Propietats
     regions: Regions
-    invalid-theme: 'El tema %s no és vàlid'
+    invalid-theme: 'El tema "%s" no és vàlid'
     theme-properties: Propietats

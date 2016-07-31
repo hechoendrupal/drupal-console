@@ -7,9 +7,9 @@ options:
     environment: 'Nome do ambiente que será importado'
 messages:
     imported: 'O site foi importado com sucesso. Talvez você queira executar `drupal site:debug` para confirmar que tudo ocorreu bem.'
-    error-missing: 'O diretório %s não existe.'
-    error-not-drupal: 'Esta não é uma raíz válida do drupal: %s'
-    error-writing: 'Um erro ocorreu ao tentar salvar o arquivo de configuração: %s'
+    error-missing: 'O diretório "%s" não existe.'
+    error-not-drupal: 'Esta não é uma raíz válida do drupal: "%s"'
+    error-writing: 'Um erro ocorreu ao tentar salvar o arquivo de configuração: "%s"'
 questions:
     directory: 'Digite o nome do diretório no qual instalar o Drupal'
     name: 'Digite o nome do site'

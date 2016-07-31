@@ -14,4 +14,4 @@ messages:
     rest-state: 'REST States'
     supported-formats: サポートしているフォーマット
     supported_auth: サポートしている認証プロバイダー
-    not-found: 'Restリソース %s が見つかりませんでした。'
+    not-found: 'Restリソース "%s" が見つかりませんでした。'

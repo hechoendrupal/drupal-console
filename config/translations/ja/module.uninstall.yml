@@ -1,15 +1,15 @@
 description: モジュールをアンインストール
 questions:
     module: 'モジュール名を入力してください'
-    invalid-module: 'モジュール %s は不正な値です'
+    invalid-module: 'モジュール "%s" は不正な値です'
 options:
     module: 'アンインストールするモジュール (複数指定する場合はカンマで区切り)'
     force: 依存関係を無視してモジュールを強制的にアンインストールしますか？
     composer: Composerを利用してモジュールをアンインストールする
 messages:
     no-modules: 'モジュールは必ず指定してください。'
-    dependents: 'モジュール %s は %s で利用されているためアンインストールできません。'
+    dependents: 'モジュール "%s" は "%s" で利用されているためアンインストールできません。'
     nothing: モジュールはすでにアンインストールされています。
-    success: 'モジュール %s がアンインストールされました。'
-    missing: 'モジュール %s が見つからないため、%s がアンインストールできませんでした。'
-    composer-success: '次のモジュールがComposerによってアンインストールされました: %s'
+    success: 'モジュール "%s" がアンインストールされました。'
+    missing: 'モジュール "%s" が見つからないため、"%s" がアンインストールできませんでした。'
+    composer-success: '次のモジュールがComposerによってアンインストールされました: "%s"'

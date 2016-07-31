@@ -13,6 +13,6 @@ questions:
 messages:
     key: YAML键
     value: YAML值
-    total: '总共: %s'
-    diff: '区别: %s'
-    equal: '等于: %s'
+    total: '总共: "%s"'
+    diff: '区别: "%s"'
+    equal: '等于: "%s"'

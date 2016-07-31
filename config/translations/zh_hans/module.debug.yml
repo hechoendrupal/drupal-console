@@ -15,6 +15,6 @@ messages:
     total-downloads: '总安装量'
     total-monthly: '月安装量'
     total-daily: '日安装量'
-    no-results: '模块 %s 在代码库中没有找到'
+    no-results: '模块 "%s" 在代码库中没有找到'
     enabled: 启用
     disabled: 禁用

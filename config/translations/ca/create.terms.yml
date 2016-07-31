@@ -14,5 +14,5 @@ messages:
     term-id: 'Identificador del term'
     vocabulary: Vocabulari
     name: Nom
-    invalid-vocabularies: 'El vocabulari(s) %s no és vàlid'
-    created-terms: 'S''han creat correctament %s termes'
+    invalid-vocabularies: 'El vocabulari(s) "%s" no és vàlid'
+    created-terms: 'S''han creat correctament "%s" termes'

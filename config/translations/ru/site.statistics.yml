@@ -3,7 +3,7 @@ help: 'Отобразить текущую статистику сайта.'
 messages:
     stat-name: Имя
     stat-quantity: Количество
-    node-type: 'Node:%s'
+    node-type: 'Node:"%s"'
     comments: Комментарии
     vocabulary: Словари
     taxonomy-terms: 'Термины таксономии'

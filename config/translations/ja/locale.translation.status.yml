@@ -11,7 +11,7 @@ messages:
     remote-age: リモートの日付
     info: '情報'
     no-translation-files: 'development releases 向けの翻訳ファイルは提供されていません。'
-    file-not-found: '%s もしくは %s にファイルが見つかりません。'
-    local-file-not-found: '%s にファイルが見つかりません。'
+    file-not-found: '"%s" もしくは "%s" にファイルが見つかりません。'
+    local-file-not-found: '"%s" にファイルが見つかりません。'
     translation-not-determined: 翻訳ファイルのパスを決定できませんでした。
     translation-project-updated: 更新しました。

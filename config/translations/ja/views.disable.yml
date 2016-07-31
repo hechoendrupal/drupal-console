@@ -1,3 +1,3 @@
 description: Viewsを無効化する
 messages:
-    disabled-successfully: 'View %s は無効化されました。'
+    disabled-successfully: 'View "%s" は無効化されました。'

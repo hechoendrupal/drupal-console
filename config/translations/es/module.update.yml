@@ -6,9 +6,9 @@ options:
     simulate: 'Simular el proceso de actualización con Composer'
 questions:
     module: 'Nombre del módulo (introduzca <return> para dejar de añadir módulos)'
-    invalid-module: 'El módulo %s no es válido'
+    invalid-module: 'El módulo "%s" no es válido'
 messages:
-    success: 'El/Los siguientes módulo(s) fueron instalados con éxito: %s'
-    composer: 'El módulo %s fue instalado con éxito mediante Composer'
+    success: 'El/Los siguientes módulo(s) fueron instalados con éxito: "%s"'
+    composer: 'El módulo "%s" fue instalado con éxito mediante Composer'
     only-composer: 'Ese comando sólo actualiza módulos via Composer. Use la opción --composer.'
     missing-module: 'Introduzca un(os) nombre(s) de módulo(s) para actualizar.'

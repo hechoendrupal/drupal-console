@@ -17,4 +17,4 @@ messages:
     user: User
     severity: Severity
     invalid-severity: 'Severity type is invalid, filter was ignored'
-    not-found: 'DBLog event %s wasn''t found'
+    not-found: 'DBLog event "%s" wasn''t found'
