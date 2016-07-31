@@ -34,18 +34,16 @@ class ValidateExecutionListener implements EventSubscriberInterface
 
         if (array_key_exists($command->getName(), $mapping)) {
             $extra = $mapping[$command->getName()];
-            $io->commentBlock($command->getName());
-            $io->commentBlock($extra);
             $io->commentBlock(
                 sprintf(
-                    $translator->trans('application.messages.disabled.command.error'),
+                    $translator->trans('application.messages.disable.command.error'),
                     $command->getName()
                 )
             );
             if ($extra) {
                 $io->commentBlock(
                     sprintf(
-                        $translator->trans('application.messages.disabled.command.extra'),
+                        $translator->trans('application.messages.disable.command.extra'),
                         $extra
                     )
                 );
