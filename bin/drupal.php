@@ -19,6 +19,7 @@ use Drupal\Console\EventSubscriber\ShowTerminateMessageListener;
 use Drupal\Console\EventSubscriber\ShowTipsListener;
 use Drupal\Console\EventSubscriber\ValidateDependenciesListener;
 use Drupal\Console\EventSubscriber\DefaultValueEventListener;
+use Drupal\Console\EventSubscriber\ValidateExecutionListener;
 use Drupal\Console\Helper\NestedArrayHelper;
 use Drupal\Console\Helper\TwigRendererHelper;
 use Drupal\Console\Helper\DrupalHelper;
@@ -110,6 +111,7 @@ $application->addHelpers($helpers);
 $application->setDirectoryRoot($consoleRoot);
 
 $dispatcher = new EventDispatcher();
+$dispatcher->addSubscriber(new ValidateExecutionListener());
 $dispatcher->addSubscriber(new ValidateDependenciesListener());
 $dispatcher->addSubscriber(new ShowWelcomeMessageListener());
 $dispatcher->addSubscriber(new DefaultValueEventListener());
