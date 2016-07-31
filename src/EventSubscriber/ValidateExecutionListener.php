@@ -29,6 +29,8 @@ class ValidateExecutionListener implements EventSubscriberInterface
         $configuration = $application->getConfig();
         $mapping = $configuration->get('application.disabled.commands')?:[];
 
+        var_export($mapping);
+
         if (array_key_exists($command, $mapping)) {
             $extra = $mapping[$command->getName()];
             $io->commentBlock($extra);
