@@ -40,7 +40,7 @@ messages:
     version: '<info>%s</info> version <comment>%s</comment>'
     disable:
       command:
-        error: 'Command: "%s" no longer available.'
+        error: 'Command: "%s" is deprecated.'
         extra: 'You must execute: "%s" instead'
 errors:
     invalid-command: 'Command "%s" do not exist.'
