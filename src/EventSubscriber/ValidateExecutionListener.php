@@ -27,13 +27,29 @@ class ValidateExecutionListener implements EventSubscriberInterface
 
         $application = $command->getApplication();
         $configuration = $application->getConfig();
+        $translator = $application->getTranslator();
         $mapping = $configuration->get('application.disable.commands')?:[];
 
         var_export($mapping);
 
-        if (array_key_exists($command, $mapping)) {
+        if (array_key_exists($command->getName(), $mapping)) {
             $extra = $mapping[$command->getName()];
+            $io->commentBlock($command->getName());
             $io->commentBlock($extra);
+            $io->commentBlock(
+                sprintf(
+                    $translator->trans('application.messages.disabled.command.error'),
+                    $command->getName()
+                )
+            );
+            if ($extra) {
+                $io->commentBlock(
+                    sprintf(
+                        $translator->trans('application.messages.disabled.command.extra'),
+                        $extra
+                    )
+                );
+            }
         }
     }
 
