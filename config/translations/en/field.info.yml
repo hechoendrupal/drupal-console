@@ -1,0 +1,18 @@
+description: 'View information about fields.'
+help: 'View information about fields.'
+options:
+    detailed: 'Extended output with bundle and field descriptions'
+messages:
+    fields-none: 'No fields are available'
+table:
+    header-name: 'Field label'
+    header-type: 'Field type'
+    header-desc: 'Field description'
+    header-usage: 'Also used in'
+other:
+    section-heading-block-content: 'Blocks'
+    section-heading-comment: 'Comments'
+    section-heading-contact-message: 'Contact Forms'
+    section-heading-node: 'Content Types'
+    section-heading-shortcut: 'Shortcut Menus'
+    section-heading-taxonomy-term: 'Taxonomy Terms'
