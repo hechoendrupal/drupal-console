@@ -1,4 +1,4 @@
-description: 2つのYAMLファイルを比較してその違いを見る
+description: 2つのYAMLファイルを比較してその違いを見る。
 arguments:
     yaml-left: 比較元となるYAMLファイル
     yaml-right: 比較元のYAMLファイルにない部分や違いを見つけるためのYAMLファイル
