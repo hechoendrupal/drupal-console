@@ -1,24 +1,23 @@
-description: Drupalのインストール状況を表示
+description: 'Drupalのインストール状態を表示する'
 messages:
-    application: Application
-    system: 'System Info'
-    hash_salt: 'Hash salt'
+    application: アプリケーション
+    system: 'システム情報'
+    hash_salt: ハッシュのソルト
     console: 'Drupal Console'
-    database: 'Database connection'
-    driver: Driver
-    host: Host
-    port: Port
-    username: Username
-    password: Password
-    theme: Themes
-    connection: Connection
-    theme_default: 'Default theme'
-    theme_admin: 'Admin theme'
-    directory: Directories
-    directory_root: 'Site root directory'
-    directory_temporary: 'Site temporary directory'
-    directory_theme_default: 'Default theme directory'
-    directory_theme_admin: 'Admin theme directory'
-    current_version: 'Current Drupal version (%s)'
+    database: データベース接続
+    driver: ドライバー
+    host: ホスト
+    port: ポート
+    username: ユーザー名
+    password: パスワード
+    theme: テーマ
+    connection: コネクション
+    theme_default: デフォルトテーマ
+    theme_admin: 管理用テーマ
+    directory: ディレクトリ
+    directory_root: サイトのルートディレクトリ
+    directory_temporary: サイトのテンポラリディレクトリ
+    directory_theme_default: デフォルトテーマのディレクトリ
+    directory_theme_admin: 管理用テーマのディレクトリ
+    current_version: '現在のDrupalのバージョン ("%s")'
     not_installed: Drupalはインストールされていません。
-    not_available: 'Not available'

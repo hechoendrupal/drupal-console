@@ -6,7 +6,7 @@ arguments:
 options:
     database: 'Ключ базы данных из settings.php'
 messages:
-    table-show: 'Показать таблицы для %s базы данных'
+    table-show: 'Показать таблицы для "%s" базы данных'
     table: Таблица
     column: Столбец
     type: Тип

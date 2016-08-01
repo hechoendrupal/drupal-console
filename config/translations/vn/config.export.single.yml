@@ -4,11 +4,14 @@ arguments:
 options:
     include-dependencies: 'Export dependencies of the configuration as well.'
     simple-configuration: 'Cấu hình đơn giản'
+    optional-config: 'Export config as an optional YAML configuration in your module'
 questions:
     config-type: 'Kiểu cấu hình'
     config-name: 'Tên cấu hình'
+    optional-config: 'Export config in module as an optional configuration'
 messages:
     config-not-found: 'Tên cấu hình không được tìm thấy'
-    export: 'Configuration was exported at file %s.'
+    export: 'Configuration was exported at file "%s".'
     invalid-config-type: 'kiểu cấu hình không hợp lệ, vui lòng chọn một trong danh sách'
     invalid-config-name: 'tên cấu hình không hợp lệ, vui lòng chọn một trong danh sách'
+    config_exported: 'Configuration(s) exported sucessfully'

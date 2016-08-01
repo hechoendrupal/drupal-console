@@ -10,8 +10,8 @@ questions:
 messages:
     user-id: 'Felhasználói azonosító'
     username: Felhasználónév
-    user-deleted: '%s felhasználó törölve'
-    users-deleted: '%s felhasználók törölve'
+    user-deleted: '"%s" felhasználó törölve'
+    users-deleted: '"%s" felhasználók törölve'
 errors:
-    invalid-user-id: '%s felhasználói azonosító érvénytelen'
-    invalid-user: '%s felhasználói azonosító érvénytelen'
+    invalid-user-id: '"%s" felhasználói azonosító érvénytelen'
+    invalid-user: '"%s" felhasználói azonosító érvénytelen'

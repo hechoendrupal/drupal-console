@@ -1,10 +1,10 @@
-description: 'Displays current routes for the application'
+description: 顯示目前網站應用中建立的途徑
 arguments:
-    route-name: 'Route names'
+    route-name: 途徑名稱
 messages:
-    name: 'Route name'
-    class: 'Class path'
-    route: Route
-    path: Path
-    defaults: Defaults
-    options: Options
+    name: 途徑名稱
+    class: 類別路徑
+    route: 途徑
+    path: 路徑
+    defaults: '預設值'
+    options: '選項'

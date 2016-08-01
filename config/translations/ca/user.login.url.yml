@@ -2,6 +2,6 @@ description: 'Generar la ''one-time login url'' del usuari.'
 options:
     user-id: 'Identificador del usuari.'
 messages:
-    url: 'One-time login per %s: %s'
+    url: 'One-time login per "%s": "%s"'
 errors:
-    invalid-user: 'No es pot carregar l''entitat del usuari (Identificador del usuari: %s).'
+    invalid-user: 'No es pot carregar l''entitat del usuari (Identificador del usuari: "%s").'

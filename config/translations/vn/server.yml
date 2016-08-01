@@ -2,7 +2,7 @@ description: 'Chạy PHP built-in web server'
 arguments:
     address: 'The address:port values'
 messages:
-    executing: 'Đang thực hiện php từ %s.'
+    executing: 'Đang thực hiện php từ "%s".'
 errors:
     binary: 'Không tìm thấy PHP binary để chạy server.'
 examples:

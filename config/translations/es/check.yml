@@ -1,8 +1,8 @@
 description: 'Comprobador de requisitos del sistema'
 messages:
-    php_invalid: 'La versión instalada de PHP actualmente %s no es válida, es necesaria la versión %s o superior'
-    configuration_missing: 'No se encuentra la configuración %s .'
-    configuration_overwritten: 'La configuración %s no se encontró y ha sido sobreescrita con %s.'
-    extension_missing: 'No se encuentra la extensión %s .'
-    extension_recommended: 'Se recomienda instalar la extensión %s .'
+    php_invalid: 'La versión instalada de PHP actualmente "%s" no es válida, es necesaria la versión "%s" o superior'
+    configuration_missing: 'No se encuentra la configuración "%s" .'
+    configuration_overwritten: 'La configuración "%s" no se encontró y ha sido sobreescrita con "%s".'
+    extension_missing: 'No se encuentra la extensión "%s" .'
+    extension_recommended: 'Se recomienda instalar la extensión "%s" .'
     success: 'Todas las comprobaciones han pasado con éxito.'

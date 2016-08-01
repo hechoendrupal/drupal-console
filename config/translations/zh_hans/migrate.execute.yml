@@ -7,7 +7,7 @@ options:
     db-host: 数据库主机
     db-name: 数据库名称
     db-user: 数据库用户
-    db-pass: 数据库密码
+    db-pass: '数据库密码'
     db-prefix: 数据库前缀
     db-port: 数据库端口
     exclude: '被排除的迁移 ID'
@@ -20,7 +20,7 @@ questions:
     db-host: 数据库主机
     db-name: 数据库名称
     db-user: 数据库用户
-    db-pass: 数据库密码
+    db-pass: '数据库密码'
     db-prefix: 数据库前缀
     db-port: 数据库端口
     invalid-migration-id: '迁移 ID "%s" 无效'
@@ -33,6 +33,6 @@ messages:
     import-fail: '导入 "%s" 失败'
     import-skipped: '不满足依赖，导入 "%s" 被跳过'
     wrong-source: '不支持从这个版本 Drupal 进行升级'
-    destination-error: 目标数据库错误
+    destination-error: '目标数据库错误'
     source-error: 来源数据库错误
-    no-migrations: 无可用迁移被执行
+    no-migrations: '无可用迁移被执行'

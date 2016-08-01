@@ -5,7 +5,7 @@ options:
     type: 'Filtrar eventos por un tipo específico'
     severity: 'Filtrar eventos por un nivel de severidad específico'
     user-id: 'Filtrar eventos por un id de usuario específico'
-    asc: 'List events in ascending order'
+    asc: 'Listar eventos en orden ascendiente'
     limit: 'Limitar los resultados a un número específico'
     offset: 'Punto inicial de un límite'
 messages:

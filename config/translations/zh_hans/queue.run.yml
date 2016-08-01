@@ -1,0 +1,8 @@
+description: '处理选中的队列'
+arguments:
+  name: '队列名称'
+messages:
+  success: '已处理 "%s": "%s"/"%s" 项(s), 用了 "%s" 秒(s)'
+  failed: '"%s" 失败: "%s".'
+  missing-name: '提供一个有效的队列名称'
+  invalid-name: '提供了一个无效的队列名称 "%s"'

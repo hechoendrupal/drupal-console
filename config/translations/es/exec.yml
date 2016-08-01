@@ -1,0 +1,7 @@
+description: 'Ejecutar un comando externo.'
+arguments:
+    bin: 'Nombre del ejecutable'
+messages:
+    success: 'El comando ha sido ejecutado con éxito'
+    invalid-bin: 'Error ejecutando el comando'
+    missing-bin: 'Debe proveer un ejecutable'

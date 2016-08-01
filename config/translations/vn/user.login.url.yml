@@ -2,6 +2,6 @@ description: 'Quay lại một url đăng nhập của người dùng một lầ
 options:
     user-id: 'ID người dùng.'
 messages:
-    url: 'Đăng nhập một lần cho %s: %s'
+    url: 'Đăng nhập một lần cho "%s": "%s"'
 errors:
-    invalid-user: 'Không thể tải entity của người dùng (User ID: %s).'
+    invalid-user: 'Không thể tải entity của người dùng (User ID: "%s").'

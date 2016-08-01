@@ -4,11 +4,14 @@ arguments:
 options:
     include-dependencies: 'Export dependencies of the configuration as well.'
     simple-configuration: 'Configuration simple'
+    optional-config: 'Export config as an optional YAML configuration in your module'
 questions:
     config-type: 'Type de configuration'
     config-name: 'Nom de la configuration'
+    optional-config: 'Export config in module as an optional configuration'
 messages:
     config-not-found: 'la configuration n''a pas été trouvée.'
-    export: 'La configuration a été exportée dans le fichier %s.'
+    export: 'La configuration a été exportée dans le fichier "%s".'
     invalid-config-type: 'Type de configuration invalide, veuillez choisir un élément de la liste'
     invalid-config-name: 'Nom de configuration invalide, veuillez choisir un élément de la liste'
+    config_exported: 'Configuration(s) exported sucessfully'

@@ -1,17 +1,17 @@
-description: 'PHPのbuilt-in web serverでDrupalを実行'
+description: 'PHPのbuilt-in web serverでDrupalを起動する'
 arguments:
     address: IPアドレスとポート番号
 messages:
-    executing: 'Executing php from %s.'
+    executing: 'Executing php from "%s".'
 errors:
     binary: サーバーを起動するためのphpが見つかりません。
 examples:
     -
-        description: 'Run using default address argument value 127.0.0.1:8088'
+        description: 'デフォルトの引数 "127.0.0.1:8088" で起動する'
         execution: 'drupal server'
     -
-        description: 'Passing address argument to use a different port number'
+        description: 異なるポートを使うためにアドレス引数を渡す
         execution: 'drupal server 127.0.0.1:8089'
     -
-        description: 'Running default address argument values, using --root option to define the Drupal root'
+        description: 'デフォルトの引数で起動し、--root オプションでDrupalのルートディレクトリを指定する。'
         execution: 'drupal --root=/var/www/drupal8.dev server'

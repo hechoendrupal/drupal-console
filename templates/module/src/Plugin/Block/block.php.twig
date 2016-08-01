@@ -69,19 +69,32 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
 {% endblock %}
 {% block class_methods %}
 {% if inputs %}
+  
+  /**
+   * {@inheritdoc}
+   */
+  public function defaultConfiguration() {
+    return [
+    {% for input in inputs %}
+     '{{ input.name }}' => $this->t('{{ input.default_value }}'),
+    {% endfor %}
+    ] + parent::defaultConfiguration();
+  
+ }
+
   /**
    * {@inheritdoc}
    */
   public function blockForm($form, FormStateInterface $form_state) {
 {% for input in inputs %}
-    $form['{{ input.name }}'] = array(
+    $form['{{ input.name }}'] = [
       '#type' => '{{ input.type }}',
       '#title' => $this->t('{{ input.label }}'),
       '#description' => $this->t('{{ input.description }}'),
 {% if input.options|length %}
       '#options' => {{ input.options }},
 {% endif %}
-      '#default_value' => isset($this->configuration['{{ input.name }}']) ? $this->configuration['{{ input.name }}'] : '{{ input.default_value }}',
+      '#default_value' => $this->configuration['{{ input.name  }}'],
 {% if input.maxlength|length %}
       '#maxlength' => {{ input.maxlength }},
 {% endif %}
@@ -91,7 +104,7 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
 {% if input.weight|length %}
       '#weight' => '{{ input.weight }}',
 {% endif %}
-    );
+    ];
 {% endfor %}
 
     return $form;

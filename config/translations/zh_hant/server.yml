@@ -2,16 +2,16 @@ description: '運行內建的 PHP 網頁伺服器'
 arguments:
     address: '伺服器位址:連接埠（address:port）參數'
 messages:
-    executing: 'PHP 執行路徑：%s'
+    executing: 'PHP 執行路徑："%s"'
 errors:
     binary: '找不到 PHP 執行檔，無法啟動伺服器。'
 examples:
-    - 
+    -
         description: '以預設伺服器位址（127.0.0.1:8088）啟動伺服器'
         execution: 'drupal server'
-    - 
-        description: '以指定的伺服器位址參數啟動伺服器'
+    -
+        description: 以指定的伺服器位址參數啟動伺服器
         execution: 'drupal server 127.0.0.1:8089'
-    - 
+    -
         description: '以預設伺服器位址啟動伺服器，加上 --root 參數以指定 Drupal 所在路徑'
         execution: 'drupal --root=/var/www/drupal8.dev server'

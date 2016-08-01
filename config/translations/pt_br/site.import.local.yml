@@ -1,16 +1,16 @@
-description: 'Import/Configure an existing local Drupal project'
-help: 'The <info>site:import:local</info> does create the yaml configuration file for a local existing site.'
+description: 'Importar/Configurar um projeto local existente do Drupal'
+help: 'O <info>site:import:local</info> cria o arquivo de configuração yaml para um site local existente.'
 arguments:
-    directory: 'Existing Drupal root directory'
-    name: 'Name that will be used to generate the site config'
+    directory: 'Diretório raíz do Drupal existente'
+    name: 'Nome que será usado para gerar a configuração do site'
 options:
-    environment: 'Name of the environment that is going to be imported'
+    environment: 'Nome do ambiente que será importado'
 messages:
-    imported: 'The site has been imported successfully. You might want to run `drupal site:debug` to confirm that everything went well.'
-    error-missing: 'The directory %s doesn''t exist.'
-    error-not-drupal: 'This is not a valid drupal root: %s'
-    error-writing: 'An error accurred while trying to write the config file: %s'
+    imported: 'O site foi importado com sucesso. Talvez você queira executar `drupal site:debug` para confirmar que tudo ocorreu bem.'
+    error-missing: 'O diretório "%s" não existe.'
+    error-not-drupal: 'Esta não é uma raíz válida do drupal: "%s"'
+    error-writing: 'Um erro ocorreu ao tentar salvar o arquivo de configuração: "%s"'
 questions:
-    directory: 'Enter the directory name where to install Drupal'
-    name: 'Enter the name of the site'
-    environment: 'Enter the site environment name'
+    directory: 'Digite o nome do diretório no qual instalar o Drupal'
+    name: 'Digite o nome do site'
+    environment: 'Digite o nome do ambiente do site'

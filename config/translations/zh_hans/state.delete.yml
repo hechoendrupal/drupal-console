@@ -1,4 +1,4 @@
-description: 删除状态
+description: '删除状态'
 arguments:
     name: 状态名称
 messages:

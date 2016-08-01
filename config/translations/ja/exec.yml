@@ -1,0 +1,7 @@
+description: 外部コマンドを実行する
+arguments:
+    bin: 実行するコマンド名
+messages:
+    success: コマンドが実行されました
+    invalid-bin: コマンドの実行中にエラーが発生しました。
+    missing-bin: 'binオプションを指定してください。'

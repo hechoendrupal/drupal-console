@@ -4,6 +4,6 @@ arguments:
 options:
     file: 数据库备份文件文件名
 messages:
-    success: 数据库导入成功：
-    no-file: 'Missing file option'
-help: 'Restore structure and contents of a database.'
+    success: '数据库导入成功：'
+    no-file: 文件选项缺失
+help: '还原数据库结构和内容'

@@ -10,6 +10,6 @@ messages:
     uninstalled: Неустановлена
     default-theme: 'Тема по-умолчанию'
     properties: Свойства
-    regions: Регионы
-    invalid-theme: 'Недействительная тема %s'
+    regions: 'Регионы'
+    invalid-theme: 'Недействительная тема "%s"'
     theme-properties: Свойства

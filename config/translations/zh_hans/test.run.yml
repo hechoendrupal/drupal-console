@@ -1,9 +1,9 @@
-description: 运行这个程序有的测试单元
+description: '运行这个程序有的测试单元'
 arguments:
     test-class: 测试类
-    test-methods: 'Test method(s) to be run'
+    test-methods: 被运行的测试方法
 messages:
-    missing-dependency: 由于所需的其他程序找不到，没法测试
+    missing-dependency: '由于所需的其他程序找不到，没法测试'
     phpunit-pending: 执行PHPUnit测试的逻辑还没有.
     starting-test: 开始测试
     test-duration: 测试时间段
@@ -19,4 +19,4 @@ messages:
     method: 方法
     line: 行（线）
     message: 消息
-    invalid-class: 测试类%s不存在
+    invalid-class: 测试类"%s"不存在

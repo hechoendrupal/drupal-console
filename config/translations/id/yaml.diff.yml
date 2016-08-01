@@ -13,6 +13,6 @@ questions:
 messages:
     key: 'Indeks YAML'
     value: 'Nilai YAML'
-    total: 'Total: %s'
-    diff: 'Perbedaan: %s'
-    equal: 'Kemiripan: %s'
+    total: 'Total: "%s"'
+    diff: 'Perbedaan: "%s"'
+    equal: 'Kemiripan: "%s"'

@@ -22,25 +22,25 @@ class DebugCommand extends Command
     protected function configure()
     {
         $this
-          ->setName('module:debug')
-          ->setDescription($this->trans('commands.module.debug.description'))
-          ->addArgument(
-            'module',
-            InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
-            $this->trans('commands.module.debug.module')
-          )
-          ->addOption(
-            'status',
-            NULL,
-            InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.module.debug.options.status')
-          )
-          ->addOption(
-            'type',
-            NULL,
-            InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.module.debug.options.type')
-          );
+            ->setName('module:debug')
+            ->setDescription($this->trans('commands.module.debug.description'))
+            ->addArgument(
+                'module',
+                InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
+                $this->trans('commands.module.debug.module')
+            )
+            ->addOption(
+                'status',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.module.debug.options.status')
+            )
+            ->addOption(
+                'type',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.module.debug.options.type')
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -59,20 +59,19 @@ class DebugCommand extends Command
 
             foreach ($modules as $module) {
                 $url = sprintf(
-                  '%s/packages/drupal/%s.json',
-                  $config->get('application.composer.packages.default'),
-                  $module
+                    '%s/packages/drupal/%s.json',
+                    $config->get('application.composer.packages.default'),
+                    $module
                 );
 
                 try {
                     $data = $this->getApplication()->getHttpClientHelper()->getUrlAsJson($repo . $url);
-
                 } catch (\Exception $e) {
                     $io->error(
-                      sprintf(
-                        $this->trans('commands.module.debug.messages.no-results'),
-                        $module
-                      )
+                        sprintf(
+                            $this->trans('commands.module.debug.messages.no-results'),
+                            $module
+                        )
                     );
 
                     return 1;
@@ -110,22 +109,18 @@ class DebugCommand extends Command
 
         if ($status == 'installed') {
             $status = 1;
-        }
-        elseif ($status == 'uninstalled') {
+        } elseif ($status == 'uninstalled') {
             $status = 0;
-        }
-        else {
+        } else {
             $status = -1;
         }
 
         if ($type == 'core') {
             $type = 'core';
-        }
-        elseif ($type == 'no-core') {
+        } elseif ($type == 'no-core') {
             $type = '';
-        }
-        else {
-            $type = NULL;
+        } else {
+            $type = null;
         }
 
         $tableHeader = [
@@ -145,7 +140,7 @@ class DebugCommand extends Command
                 continue;
             }
 
-            if ($type !== NULL && $type !== $module->origin) {
+            if ($type !== null && $type !== $module->origin) {
                 continue;
             }
 
@@ -166,5 +161,4 @@ class DebugCommand extends Command
 
         $io->table($tableHeader, $tableRows, 'compact');
     }
-
 }

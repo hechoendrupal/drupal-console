@@ -18,7 +18,10 @@ use Drupal\Console\Style\DrupalStyle;
  */
 trait DatabaseTrait
 {
+    //use MigrationTrait;
+
     protected $database;
+    
 
     /**
      * @param DrupalStyle $io
@@ -40,6 +43,23 @@ trait DatabaseTrait
                 $dbType = $dbIndex;
             }
         }
+
+        return $dbType;
+    }
+
+    /**
+     * @param DrupalStyle $io
+     *
+     * @return mixed
+     */
+    public function dbDriverTypeQuestion(DrupalStyle $io)
+    {
+        $databases = $this->getDatabaseDrivers();
+        
+        $dbType = $io->choice(
+            $this->trans('commands.migrate.setup.questions.db-type'),
+            array_keys($databases)
+        );
 
         return $dbType;
     }
@@ -137,9 +157,9 @@ trait DatabaseTrait
     protected function getDatabaseTypes()
     {
         $drupal = $this->get('site');
-
         return $drupal->getDatabaseTypes();
     }
+
 
     /**
      * Determine what version of Drupal the source database contains, copied from \Drupal\migrate_upgrade\MigrationCreationTrait
@@ -225,12 +245,8 @@ trait DatabaseTrait
         $dbPass = $input->getOption('db-pass');
         $dbPrefix = $input->getOption('db-prefix');
         $dbPort = $input->getOption('db-port');
-
-        $this->addDBConnection($io, 'migrate', 'default', $dbType, $dbName, $dbUser, $dbPass, $dbPrefix, $dbPort, $dbHost);
-
-        // Set container to static Drupal method to get services available
-        // Issue: https://github.com/hechoendrupal/DrupalConsole/issues/1129
-        \Drupal::setContainer($this->getApplication()->getContainer());
+        
+        $this->addDBConnection($io, 'upgrade', 'default', $dbType, $dbName, $dbUser, $dbPass, $dbPrefix, $dbPort, $dbHost);
     }
 
 
@@ -248,8 +264,11 @@ trait DatabaseTrait
      */
     protected function addDBConnection(DrupalStyle $io, $key, $target, $dbType, $dbName, $dbUser, $dbPass, $dbPrefix, $dbPort, $dbHost)
     {
-        $databases = $this->getDatabaseTypes();
-
+        $database_type = $this->getDatabaseDrivers();
+        $reflection = new \ReflectionClass($database_type[$dbType]);
+        $install_namespace = $reflection->getNamespaceName();
+        // Cut the trailing \Install from namespace.
+        $namespace = substr($install_namespace, 0, strrpos($install_namespace, '\\'));
         $this->database = [
             'database' => $dbName,
             'username' => $dbUser,
@@ -257,13 +276,16 @@ trait DatabaseTrait
             'prefix' => $dbPrefix,
             'port' => $dbPort,
             'host' => $dbHost,
-            'namespace' => $databases[$dbType]['namespace'],
+            'namespace' => $namespace,
             'driver' => $dbType,
         ];
+        
 
         try {
             return Database::addConnectionInfo($key, $target, $this->database);
         } catch (\Exception $e) {
+            print 'entra cacth';
+            exit();
             $io->error(
                 sprintf(
                     '%s: %s',

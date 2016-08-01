@@ -1,0 +1,9 @@
+description: 'Mostrar los eventos actuales '
+help: 'El comando <info>event:debug</info> le ayuda a depurar eventos.'
+arguments:
+    event: 'El evento a depurar'
+messages:
+    event: 'Nombre del evento'
+    class: Clase
+    method: Método
+    no-events: 'Ese evento no existe, intente ejecutar el comando: event:debug'

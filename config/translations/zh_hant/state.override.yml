@@ -5,8 +5,8 @@ arguments:
     value: '要寫入的系統狀態值'
 messages:
     key: '系統狀態鍵名'
-    original: '原始值'
-    override: '覆寫值'
+    original: 原始值
+    override: 覆寫值
 errors:
     no-key: '您必須指定要覆寫系統狀態的鍵名。'
     no-value: '您必須指定要覆寫系統狀態的內容。'

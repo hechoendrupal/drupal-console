@@ -88,8 +88,18 @@ class ServiceCommand extends GeneratorCommand
         $interface = $input->getOption('interface');
         $services = $input->getOption('services');
         $path_service = $input->getOption('path_service');
+        
+        $available_services = $this->getServices();
 
-
+        if (in_array($name, array_values($available_services))) {
+            throw new \Exception(
+                sprintf(
+                    $this->trans('commands.generate.service.messages.service-already-taken'),
+                    $module
+                )
+            );
+        }
+        
         // @see Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
         $this

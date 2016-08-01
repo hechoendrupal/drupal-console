@@ -1,15 +1,15 @@
 description: 'Drupal Consoleを最新バージョンに更新する'
 help: 'Drupal Consoleを最新バージョンに更新する'
 options:
-    major: 'Update to a new major version, if available.'
-    manifest: 'Override the manifest file path.'
-    current-version: 'Override the version to update from.'
+    major: '利用可能な場合、新しいメジャーバージョンに更新する'
+    manifest: 上書きするマニフェストファイルのパス
+    current-version: 現在のバージョン
 questions:
-    update: 'Update from version %s to version %s.'
+    update: 'バージョン "%s" からバージョン "%s" へ更新'
 messages:
-    not-phar: 'This instance of the CLI was not installed as a Phar archive.'
-    update: 'Updating to version %s.'
-    success: 'Updated from version %s to version %s.'
-    check: 'Checking for updates from version: %s'
-    current-version: 'The latest version %s, was already installed on your system.'
-    instructions: "Update using: composer global update\nOr you can switch to a Phar install recommended\ncomposer global remove drupal/console\ncurl https://drupalconsole.com/installer -L -o drupal.phar\n"
+    not-phar: 'このCLIのインスタンスはPhar archiveとしてインストールされていません。'
+    update: 'バージョン "%s" に更新中です。'
+    success: 'バージョン "%s" からバージョン "%s" に更新しました。'
+    check: 'バージョン "%s" からの更新をチェックしています。'
+    current-version: '最新バージョン "%s" がすでにインストールされています。'
+    instructions: "composer global update コマンドを使って更新してください。\nもしくはPhar installに切り替えることができます。\ncomposer global remove drupal/console\ncurl https://drupalconsole.com/installer -L -o drupal.phar\n"

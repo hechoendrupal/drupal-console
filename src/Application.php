@@ -30,7 +30,8 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '1.0.0-compiler-pass';
+
+    const VERSION = '1.0.0-rc1';
 
     /**
      * @var string

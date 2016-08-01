@@ -5,7 +5,7 @@ value:
         yaml-key: 'Chave YAML a ser atualizado'
         yaml-value: 'Valor do YAML a ser atualizado'
     messages:
-        updated: 'O Arquivo YAML %s foi atualizado com sucesso'
+        updated: 'O Arquivo YAML "%s" foi atualizado com sucesso'
 key:
     description: 'Substituir a chave YAML no arquivo YAML.'
     arguments:
@@ -13,4 +13,4 @@ key:
         yaml-key: 'Chave YAML a ser substituído'
         yaml-new-key: 'Nova chave YAML'
     messages:
-        updated: 'O Arquivo YAML %s foi atualizado com sucesso'
+        updated: 'O Arquivo YAML "%s" foi atualizado com sucesso'

@@ -10,7 +10,7 @@ messages:
     tag: टैग
     status: स्थिति
     path: पाथ
-    not-found: 'व्यू %s नहीं मिला था।'
+    not-found: 'व्यू "%s" नहीं मिला था।'
     display-list: 'प्रदर्शन की सूची'
     display-id: आईडी
     display-name: नाम

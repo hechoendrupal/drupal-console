@@ -1,7 +1,7 @@
-description: 导出配置
+description: '导出配置'
 arguments:
-    directory: 导出配置存放目录
-    tar: 如果启用，配置文件会导出到一个存档文件.
+    directory: '导出配置存放目录'
+    tar: '如果启用，配置文件会导出到一个存档文件.'
 messages:
-    directory: 导出配置存放目录：
-    error: 'An error occurred while creating your directory at %s'
+    directory: '导出配置存放目录：'
+    error: '在 "%s" 创建文件夹时出错'

@@ -45,7 +45,7 @@ class {{ class_name }} extends FieldPluginBase {% endblock %}
   protected function defineOptions() {
     $options = parent::defineOptions();
 
-    $options['hide_alter_empty'] = array('default' => FALSE);
+    $options['hide_alter_empty'] = ['default' => FALSE];
     return $options;
   }
 

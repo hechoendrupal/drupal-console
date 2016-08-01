@@ -10,9 +10,11 @@ namespace Drupal\Console\Command\Migrate;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Command\Shared\MigrationTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Annotation\DrupalCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 
 /**
  * @DrupalCommand(
@@ -21,8 +23,11 @@ use Drupal\Console\Annotation\DrupalCommand;
  *     }
  * )
  */
-class DebugCommand extends ContainerAwareCommand
+class DebugCommand extends Command
 {
+    use MigrationTrait;
+    use ContainerAwareCommandTrait;
+
     protected function configure()
     {
         $this
@@ -33,16 +38,15 @@ class DebugCommand extends ContainerAwareCommand
                 InputArgument::OPTIONAL,
                 $this->trans('commands.migrate.debug.arguments.tag')
             );
-
-        $this->addDependency('migrate');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $drupal_version = $input->getArgument('tag');
-
+        $drupal_version = 'Drupal ' . $input->getArgument('tag');
+        
         $migrations = $this->getMigrations($drupal_version);
+        
 
         $tableHeader = [
           $this->trans('commands.migrate.debug.messages.id'),

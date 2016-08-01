@@ -10,5 +10,5 @@ questions:
 messages:
     vocabulary-id: 'Szótár azonosítója'
     name: Név
-    created-terms: '%s szótár sikeresen létrejött'
-    error: 'Hiba történt a szótárak létrehozásakor: %s'
+    created-terms: '"%s" szótár sikeresen létrejött'
+    error: 'Hiba történt a szótárak létrehozásakor: "%s"'

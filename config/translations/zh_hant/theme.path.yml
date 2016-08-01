@@ -1,7 +1,6 @@
-description: 'Returns the relative path to the theme (or absolute path)'
+description: 取得版型所在相關或絕對路徑
 arguments:
-    module: 'The Theme name (machine name)'
+    module: 版型名稱（可機讀名稱）
 options:
-    absolute: 'Return theme absolute path'
-messages:
-
+    absolute: 回傳絕對路徑
+messages: null

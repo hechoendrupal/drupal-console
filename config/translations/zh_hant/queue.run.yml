@@ -1,0 +1,8 @@
+description: 處理選中的排程隊列（queue）。
+arguments:
+    name: 排程隊列名稱
+messages:
+    success: '已處理 "%s"： "%s"/"%s" 個項目（處理時間 "%s" 秒）'
+    failed: '"%s" 處理失敗： "%s".'
+    missing-name: 請提供有效的排程隊列名稱。
+    invalid-name: '所提供的排程隊列名稱 "%s" 有誤。'

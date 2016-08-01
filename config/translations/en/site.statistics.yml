@@ -3,7 +3,7 @@ help: 'Show the current statistics of website.'
 messages:
   stat-name: 'Name'
   stat-quantity: 'Quantity'
-  node-type: 'Node:%s'
+  node-type: 'Node:"%s"'
   comments: 'Comments'
   vocabulary: 'Vocabularies'
   taxonomy-terms: 'Taxonomy terms'

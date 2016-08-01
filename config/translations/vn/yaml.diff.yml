@@ -13,6 +13,6 @@ questions:
 messages:
     key: 'YAML Key'
     value: 'Giá trị YAML'
-    total: 'Total: %s'
-    diff: 'Diff: %s'
-    equal: 'Equal: %s'
+    total: 'Total: "%s"'
+    diff: 'Diff: "%s"'
+    equal: 'Equal: "%s"'

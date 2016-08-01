@@ -6,3 +6,4 @@ messages:
     inputs: "Puteți adăuga câmpuri noi în scopul de a modifica structura formularului.\nAceasta este opțional, apăsați <info>enter</info> pentru a <info>continua</info>"
     loading-forms: 'Încărcați definițiile formularelor din modulul Webprofiler'
     hide-form-elements: 'În mod opțional puteți selecta elementele formularului pentru a le ascunde'
+    help-already-implemented: 'The hook form alter was already implemented in module "%s"'

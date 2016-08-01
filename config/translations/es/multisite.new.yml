@@ -1,0 +1,24 @@
+description: 'Prepara los archivos para una nueva instalación multisitio.'
+help: 'El comando <info>multisite:new</info> le ayuda a preparar una nueva instalación multisitio creado el subdirectorio y archivos necesarios. Además, opcionalmente, puede copiar una instalación ''default'' existente.'
+arguments:
+    sites-subdir: 'Nombre del directorio bajo ''sites'' que será creado.'
+options:
+    site-uri: 'URI del sitio a añadir al sites.php.'
+    copy-install: 'Copia el sitio existente desde la instalación por defecto.'
+errors:
+    subdir-empty: 'Debe especificar un subdirectorio multisitio para ser creado.'
+    subdir-exists: 'El directorio sites/"%s" ya existe.'
+    default-missing: 'El directorio sites/default no se encuentra.'
+    mkdir-fail: 'Imposible crear to create sites/"%s". Por favor, compruebe los permisos del directorio sites e inténtelo de nuevo.'
+    sites-invalid: 'El archivo sites.php no es un archivo o no se puede leer.'
+    sites-missing: 'No aparece un archivo sites.php ni example.sites.php del que copiar.'
+    sites-other: 'Se ha encontrado un problema al intentar escribir el sites.php'
+    file-missing: 'El archivo "%s" no se pudo copiar al no ser encontrado.'
+    copy-fail: 'Imposible copiar "%s" en "%s". Por favor, compruebe los permisos y pruebe de nuevo.'
+    write-fail: 'Imposible escribir al archivo "%s". Por favor, compruebe los permisos del archivo e intente de nuevo.'
+    chmod-fail: 'Imposible cambiar los permisos en el archivo "%s". Por favor, asegúrese de que los permisos en ese archivo son correctos.'
+warnings:
+    missing-files: 'No se ha encontrado el directorio sites/default/files. El directorio files necesitará ser creado a mano.'
+messages:
+    copy-install: 'La instalación por defecto ha sido copiada exitosamente en sites/"%s".'
+    fresh-site: 'La nueva estructura multisitio ha sido creada con éxito en sites/"%s" y está lista para su instalación.'

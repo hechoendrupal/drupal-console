@@ -11,5 +11,5 @@ messages:
     default-theme: 'Hiển thị mặc định'
     properties: Properties
     regions: 'Các vùng'
-    invalid-theme: 'Theme %s không hợp lệ'
+    invalid-theme: 'Theme "%s" không hợp lệ'
     theme-properties: Properties

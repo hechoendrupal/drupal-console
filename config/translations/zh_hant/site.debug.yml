@@ -3,7 +3,7 @@ help: '<info>site:debug</info> 指令可列出所有已知的本地端與遠端�
 messages:
     site: 網站設定名稱
     host: 主機
-    root: 根目錄
-    directory-not-found: '找不到網站的本地端目錄'
-    private-key: '私鑰有誤'
+    root: '根目錄'
+    directory-not-found: 找不到網站的本地端目錄
+    private-key: 私鑰有誤
     connect-error: '連線到遠端伺服器出現錯誤'
