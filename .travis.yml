@@ -24,8 +24,8 @@ before_script:
   - echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer self-update
   - composer install --no-dev
-  - curl -LSs https://box-project.github.io/box2/installer.php | php
-  - composer global require drupal/coder:~8.1
+#  - curl -LSs https://box-project.github.io/box2/installer.php | php
+#  - composer global require drupal/coder:~8.1
 
 script:
   - if [ -n "${TRAVIS_BUILD_DIR+1}" ]; then PROJECT_DIR=$TRAVIS_BUILD_DIR; fi
