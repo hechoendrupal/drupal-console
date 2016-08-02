@@ -1,5 +1,5 @@
-description: 'Generate the DrupalConsole.docset package for Dash'
+description: 'DashのためのDrupal Consoleのdocsetパッケージを生成する'
 options:
-    path: 'The path to the directory where the docset will be saved.'
+    path: 'docsetを保存するディレクトリのパス'
 messages:
-    missing_path: 'the path is missing'
+    missing_path: 'パスが見つかりません'

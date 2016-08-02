@@ -1,5 +1,5 @@
-description: 'Generate documentations for Commands.'
+description: 'コマンドのためのドキュメントを生成する'
 options:
-    file: 'The file to render the command data'
+    file: 'コマンドデータを出力するファイル名'
 messages:
-    missing_file: 'The file is missing, use --file option.'
+    missing_file: 'ファイルが見つかりません、--file オプションを使用してください。'
