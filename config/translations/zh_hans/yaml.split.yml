@@ -7,5 +7,5 @@ options:
     starting-key: '对于截取的部分元素有效的开始YAML键'
 messages:
     generating-split: 生成新文件
-    split-generated: 生成新文件"%s"
+    split-generated: '生成新文件"%s"'
     invalid-key: 没找到提供的开始YAML键，合并缩进0级的开始截取.

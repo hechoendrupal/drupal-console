@@ -19,7 +19,7 @@ messages:
     directory_temporary: 网站临时目录
     directory_theme_default: 网站主题目录
     directory_theme_admin: 管理员主题目录
-    current_version: 当前Drupal版本("%s")
+    current_version: '当前Drupal版本("%s")'
     not_installed: '未安装Drupal'
     not_available: 不可用，没有
     configuration: '配置'

@@ -1,5 +1,5 @@
 options:
-    class: '类名'
+    class: 类名
     events: '从容器中导入事件'
     module: 模块名称
     services: '从容器中导入服务'
