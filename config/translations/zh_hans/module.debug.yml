@@ -8,7 +8,7 @@ messages:
     status: 状态
     origin: 来源
     package: '包'
-    installed: 已安装
+    installed: '已安装'
     uninstalled: 已卸载
     version: 版本
     schema-version: 'Schema 版本'
