@@ -1,17 +1,17 @@
-description: 'Generate documentations for Commands'
+description: 'コマンドのためのドキュメントを生成する'
 options:
-    path: 'The path to render the documentation'
+    path: 'ドキュメントを生成するパス'
 messages:
-    missing_path: 'The path is missing'
-    title: 'Available Drupal Console Commands'
-    note: Note
-    note-description: 'Drupal Console commands *must* be run from the root of a Drupal 8 installation'
-    command: 'Drupal Console Command'
-    command_description: 'The **"%s"** command "%s"'
-    usage: Usage
-    options: 'Available options'
-    option: Option
-    details: Details
-    arguments: 'Available arguments'
-    argument: Argument
-    examples: Examples
+    missing_path: 'パスが見つかりません'
+    title: '利用可能なDrupal Consoleのコマンド'
+    note: ノート
+    note-description: 'Drupal Consoleのコマンドは、Drupal 8をインストールしたルートディレクトリ内で実行してください。'
+    command: 'Drupal Consoleのコマンド'
+    command_description: '**"%s"** コマンド "%s"'
+    usage: 使い方
+    options: '利用可能なオプション'
+    option: オプション
+    details: 詳細
+    arguments: '利用可能な引数'
+    argument: 引数
+    examples: 例

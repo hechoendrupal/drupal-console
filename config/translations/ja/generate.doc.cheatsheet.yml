@@ -1,18 +1,18 @@
-description: 'Generate a printable cheatsheet for Commands'
+description: 'コマンドのチートシートを生成する'
 options:
-    path: 'The path to generate the pdf for the documentation'
-    wkhtmltopdf: 'The path for the wkhtmltopdf binary in your system'
+    path: 'PDFドキュメントを生成するパス'
+    wkhtmltopdf: 'wkhtmltopdfのバイナリがあるシステム上のパス'
 messages:
-    missing_path: 'The path is missing'
-    title: 'Drupal Console Cheatsheet'
-    note: Note
-    note-description: 'Drupal Console commands *must* be run from the root of a Drupal 8 installation'
-    command: 'Drupal Console Command'
-    command_description: 'The **"%s"** command "%s"'
-    usage: Usage
-    options: 'Available options'
-    option: Option
-    details: Details
-    arguments: 'Available arguments'
-    argument: Argument
-    examples: Examples
+    missing_path: 'パスが見つかりません'
+    title: 'Drupal Console チートシート'
+    note: 備考
+    note-description: 'Drupal Consoleのコマンドは、Drupal 8をインストールしたルートディレクトリの中で実行してください。'
+    command: 'Drupal Consoleのコマンド'
+    command_description: '**"%s"** コマンド "%s"'
+    usage: 使い方
+    options: '利用可能なオプション'
+    option: オプション
+    details: 詳細
+    arguments: '使用可能な引数'
+    argument: 引数
+    examples: 例
