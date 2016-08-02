@@ -1,11 +1,11 @@
-description: 'Split a YAML file using indent as separator criteria'
+description: インデントを区切り基準に指定してYAMLファイル分割する
 arguments:
-    yaml-file: 'Path of YAML file to be splitted'
+    yaml-file: 分割するYAMLファイルのパス
 options:
-    indent-level: 'Split YAML file using a specific indent level'
-    exclude-parents-key: 'Exclude parents key in file name generated'
-    starting-key: 'YAML Key from where start split useful to extract partial elements'
+    indent-level: 特定のインデントレベルを使ってYAMLファイルを分割する
+    exclude-parents-key: 生成されたファイルで親キーを除外する
+    starting-key: 要素を部分的に抽出するために有用な、分割の開始位置を示すYAMLキー
 messages:
-    generating-split: 'Generating new files'
-    split-generated: 'File "%s" was generated'
-    invalid-key: 'Provided key as stating YAML key wasn''t found, combine with indent-level 0 to extract values'
+    generating-split: 新しいファイルを生成しています
+    split-generated: 'ファイル "%s" が生成されました'
+    invalid-key: 指定されたYAMLキーが見つかりません。値を抽出するには indent-level 0 と組み合わせてください。

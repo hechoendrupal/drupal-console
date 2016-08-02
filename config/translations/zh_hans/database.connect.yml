@@ -5,4 +5,4 @@ messages:
     database-not-found: '数据库 "%s" 链接信息没有找到'
     database-not-supported: '该类型数据库 "%s" 还没有被支持'
     database-client-not-found: '数据库客户端 "%s" 没有找到'
-    connection: 连接："%s"
+    connection: '连接："%s"'

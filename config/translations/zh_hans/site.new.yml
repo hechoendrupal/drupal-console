@@ -14,7 +14,7 @@ messages:
     extracting: '解压缩Drupal "%s"文件'
     no-releases: 没有可用Drupal版本
     downloaded: '下载Drupal "%s"到目录"%s"'
-    error-copying: 重命名目录"%s"时出错
+    error-copying: '重命名目录"%s"时出错'
     composer: '使用 Composer 成功安装 Drupal "%s" 在 "%s"'
     executing: '执行 omposer 命令:'
     missing-directory: 文件夹参数缺失

@@ -7,4 +7,3 @@ messages:
     loading-forms: '从 Webprofiler 模块中导入表单定义'
     hide-form-elements: 选择表单项并隐藏（可选）
     help-already-implemented: 'hook form alter 在模块 "%s" 中已经被实现'
-
