@@ -4,5 +4,5 @@ arguments:
 messages:
     type: 类型
     name: 名称
-    provider: '提供者'
+    provider: 提供者
     views: 视图

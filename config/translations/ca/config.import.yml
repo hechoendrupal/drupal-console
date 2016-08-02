@@ -6,3 +6,6 @@ arguments:
 messages:
     config_files_imported: 'Llistat de fitxers de configuració.'
     imported: 'La configuració s''ha importat correctament.'
+    importing: 'Importing configuration.'
+    already-imported: 'Another request may be synchronizing configuration already.'
+    nothing-to-do: 'There are no changes to import.'

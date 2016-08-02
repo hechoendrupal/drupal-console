@@ -10,7 +10,7 @@ messages:
     command_description: '**"%s"** 명령어 "%s"'
     usage: 사용법
     options: '사용할 수 있는 옵션'
-    option: '옵션'
+    option: 옵션
     details: '세부 사항'
     arguments: '사용할 수 있는 매개변수'
     argument: 매개변수

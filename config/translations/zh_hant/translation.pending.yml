@@ -1,8 +1,8 @@
-description: '清查全部或指定的語系檔案中待翻譯的字串'
+description: 清查全部或指定的語系檔案中待翻譯的字串
 arguments:
-    language: '指定清查的語系名稱'
+    language: 指定清查的語系名稱
 options:
-    file: '指定清查的語系翻譯檔案'
+    file: 指定清查的語系翻譯檔案
 messages:
     invalid-language: '錯誤的語系名稱 "%s"'
     language: 語系

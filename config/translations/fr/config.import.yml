@@ -6,3 +6,6 @@ arguments:
 messages:
     config_files_imported: 'Liste des fichiers de configuration.'
     imported: 'L''ensemble des fichiers de configuration ont été copiés dans le repertoire contenant la configuration "staging" et importés.'
+    importing: 'Importing configuration.'
+    already-imported: 'Another request may be synchronizing configuration already.'
+    nothing-to-do: 'There are no changes to import.'

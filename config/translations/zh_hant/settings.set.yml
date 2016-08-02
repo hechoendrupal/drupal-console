@@ -5,6 +5,6 @@ arguments:
 messages:
     error-parsing: '解析 YAML 檔案 "%s" 時發生錯誤。'
     error-generating: 無法在設定檔中設定新的語言。
-    error-writing: '寫入設定檔案失敗'
+    error-writing: 寫入設定檔案失敗
     success: '"%s" 設定已被設為 "%s"'
     missing-file: '遺失 "%s" 設定檔，請嘗試執行 `drupal init`'

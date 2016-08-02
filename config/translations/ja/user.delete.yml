@@ -6,7 +6,7 @@ options:
     roles: 削除するユーザーに関連付けられたロール
 questions:
     user-id: '削除するユーザーID (空の場合はスキップ)'
-    roles: '削除するユーザーに関連付けられたロールを選択してください'
+    roles: 削除するユーザーに関連付けられたロールを選択してください
 messages:
     user-id: ユーザーID
     username: ユーザー名

@@ -33,6 +33,10 @@ messages:
         route: "Для создания страниц необходимо определить маршруты для них.\nМаршрут сопостовляет URL-путь с контроллером. Он определяет какая функция\nили метод будет вызван при переходе по URL.\nЕсли пользователь переходит на http://drupal8.dev/{{ route.path }}, система\nмаршрутизации попытается найти маршрут для этого пути. В данном случае будет найдено\nсоответствие, и выполнит обратный вызов _controller. В данном случае обратный вызов\nопределен как класс\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nи метод (\"{{ route.method }}\")."
     autocomplete: "Bash or Zsh: Добавьте эту строку в конфигурационный файл вашей командной оболочки:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Создайте символьную ссылку\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
     version: '<info>"%s"</info> version <comment>"%s"</comment>'
+    disable:
+        command:
+            error: 'Command: "%s" is deprecated.'
+            extra: 'You must execute: "%s" instead'
 errors:
     invalid-command: 'Команда "%s" не определена.'
 site:

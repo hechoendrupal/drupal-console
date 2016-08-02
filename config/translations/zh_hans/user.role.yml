@@ -1,10 +1,10 @@
-description: '添加/移除给定用户的角色'
+description: 添加/移除给定用户的角色
 help: '命令 <info>user:role</info> 帮助您添加或移除给定用户的角色'
 welcome: '欢迎使用 Drupal 用户角色'
 arguments:
     roles: '添加或移除的角色. 请提供机读名称 (仅限一个)'
-    operation: '添加或移除'
-    user: '用户(仅限一个)'
+    operation: 添加或移除
+    user: 用户(仅限一个)
 messages:
     bad-arguments: '部分参数缺失! 请提供以下所有参数: [add/remove] [username] [role]'
     no-user-found: '用户名 "%s" 没有找到!'

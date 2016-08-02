@@ -4,4 +4,4 @@ messages:
     no-multisites: 找不到可用的多站設置
     site: 網站
     directory: 目錄
-    site-format: '網站名稱格式為：<連接埠>.<網域>.<路徑>'
+    site-format: 網站名稱格式為：<連接埠>.<網域>.<路徑>

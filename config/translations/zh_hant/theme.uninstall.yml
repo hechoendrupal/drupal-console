@@ -15,6 +15,6 @@ messages:
     theme-success: '版型 "%s" 已經解除安裝完成'
     themes-success: '已經解除安裝完成所有版型，包含： "%s" '
     installed-themes: 只有安裝過的版型會出現在自動完成列表當中
-    invalid-theme-default: '只能指定一個預設版型'
+    invalid-theme-default: 只能指定一個預設版型
     error-default-theme: '版型 "%s" 是預設版型，無法解除安裝。'
     error-admin-theme: '版型 "%s" 是管理員版型，無法解除安裝。'

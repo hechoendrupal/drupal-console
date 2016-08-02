@@ -6,3 +6,6 @@ arguments:
 messages:
     config_files_imported: 'Konfigurációs fájlok listája.'
     imported: 'A konfiguráció importálása sikeres volt.'
+    importing: 'Importing configuration.'
+    already-imported: 'Another request may be synchronizing configuration already.'
+    nothing-to-do: 'There are no changes to import.'
