@@ -21,4 +21,3 @@ questions:
     menu_parent: 父级菜单
     menu_link_desc: 菜单链接描述
     path: '输入路由路径'
-

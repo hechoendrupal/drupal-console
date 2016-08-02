@@ -1,8 +1,8 @@
-description: '生成断点'
+description: 生成断点
 help: '命令 <info>generate:theme</info> 帮助您生成一个新断点'
 welcome: '欢迎使用 Drupal 断点生成器'
 options:
-    theme: '主题名称'
+    theme: 主题名称
     breakpoints: 断点
 questions:
     theme: '输入主题名称(例如: classy, stable)'

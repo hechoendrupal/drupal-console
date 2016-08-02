@@ -6,3 +6,6 @@ arguments:
 messages:
     config_files_imported: '列出配置文件.'
     imported: '成功导入配置文件.'
+    importing: '正在导入配置'
+    already-imported: '；另外一个请求可能已经在同步配置'
+    nothing-to-do: '没有配置发生改变，不执行导入操作'

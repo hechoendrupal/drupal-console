@@ -15,6 +15,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 
 /**
  * Class MultisiteNewCommand
@@ -25,7 +26,7 @@ class NewCommand extends Command
     use CommandTrait;
 
     /**
-     * @var Symfony\Component\Filesystem\Filesystem;
+     * @var \Symfony\Component\Filesystem\Filesystem;
      */
     protected $fs;
 
@@ -41,12 +42,11 @@ class NewCommand extends Command
 
 
     /**
-     * @{@inheritdoc}
+     * {@inheritdoc}
      */
     public function configure()
     {
-        $this
-            ->setName('multisite:new')
+        $this->setName('multisite:new')
             ->setDescription($this->trans('commands.multisite.new.description'))
             ->setHelp($this->trans('commands.multisite.new.help'))
             ->addArgument(
@@ -132,22 +132,24 @@ class NewCommand extends Command
      * Adds line to sites.php that is needed for the new site to be recognized.
      *
      * @param DrupalStyle $output
-     * @param string      $uri
+     * @param string $uri
+     *
+     * @throws FileNotFoundException
      */
     protected function addToSitesFile(DrupalStyle $output, $uri)
     {
         if ($this->fs->exists($this->root . '/sites/sites.php')) {
             $sites_is_dir = is_dir($this->root . '/sites/sites.php');
             $sites_readable = is_readable($this->root . '/sites/sites.php');
-            if ($sites_is_dur || !$sites_is_readable) {
-                throw new \Exception($this->trans('commands.multisite.new.errors.sites-invalid'));
+            if ($sites_is_dir || !$sites_readable) {
+                throw new FileNotFoundException($this->trans('commands.multisite.new.errors.sites-invalid'));
             }
             $sites_file_contents = file_get_contents($this->root . '/sites/sites.php');
         } elseif ($this->fs->exists($this->root . '/sites/example.sites.php')) {
             $sites_file_contents = file_get_contents($this->root . '/sites/example.sites.php');
             $sites_file_contents .= "\n\$sites = [];";
         } else {
-            throw new \Exception($this->trans('commands.multisite.new.errors.sites-missing'));
+            throw new FileNotFoundException($this->trans('commands.multisite.new.errors.sites-missing'));
         }
 
         $sites_file_contents .= "\n\$sites['$uri'] = '$this->subdir';";
