@@ -495,7 +495,7 @@ class Application extends BaseApplication
         foreach ($input->getOptions() as $option) {
             $options[$option->getName()] = [
                 'name' => $option->getName(),
-                'description' => $option->getDescription(),
+                'description' => $this->trans($option->getDescription()),
             ];
         }
 
@@ -503,7 +503,7 @@ class Application extends BaseApplication
         foreach ($input->getArguments() as $argument) {
             $arguments[$argument->getName()] = [
                 'name' => $argument->getName(),
-                'description' => $argument->getDescription(),
+                'description' => $this->trans($argument->getDescription()),
             ];
         }
 
