@@ -1,18 +1,18 @@
-description: 'コマンドのチートシートを生成する'
+description: コマンドのチートシートを生成する
 options:
-    path: 'PDFドキュメントを生成するパス'
-    wkhtmltopdf: 'wkhtmltopdfのバイナリがあるシステム上のパス'
+    path: PDFドキュメントを生成するパス
+    wkhtmltopdf: wkhtmltopdfのバイナリがあるシステム上のパス
 messages:
-    missing_path: 'パスが見つかりません'
+    missing_path: パスが見つかりません
     title: 'Drupal Console チートシート'
     note: 備考
     note-description: 'Drupal Consoleのコマンドは、Drupal 8をインストールしたルートディレクトリの中で実行してください。'
     command: 'Drupal Consoleのコマンド'
     command_description: '**"%s"** コマンド "%s"'
     usage: 使い方
-    options: '利用可能なオプション'
+    options: 利用可能なオプション
     option: オプション
     details: 詳細
-    arguments: '使用可能な引数'
+    arguments: 使用可能な引数
     argument: 引数
     examples: 例

@@ -33,6 +33,10 @@ messages:
         route: "Amb l'objectiu de crear les pàgines, es necessari definir les rutes.\nUna ruta assigna una URL a un controlador. Es defineix quina funció\no mètode serà cridat quan s'accedeix a una URL.\nSi l'usuari accedeix a http://drupal8.dev/{{ route }},\nel sistema buscarà aquesta ruta. En aquest cas, si la troba, executarà la crida de retorn. Es aquest cas la crida es definida com a nom de clase\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\ni un mètode (\"{{ method_name }}\")."
     autocomplete: "Bash o Zsh: Afegir aquesta línia a l'arxiu de configuració de l'interpret d'ordres:\\<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Crear un enllaç simbòlic\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
     version: '<info>"%s"</info> version <comment>"%s"</comment>'
+    disable:
+        command:
+            error: 'Command: "%s" is deprecated.'
+            extra: 'You must execute: "%s" instead'
 errors:
     invalid-command: 'No s''ha definit el comandament "%s".'
 site:

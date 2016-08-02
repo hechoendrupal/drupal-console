@@ -33,6 +33,10 @@ messages:
         route: "In order to to create pages it is necessary to define routes for them.\nA route maps a URL path to a controller. It defines with what function\nor method will be called when a URL is accessed.\nIf the user accesses http://drupal8.dev/{{ route.path }}, the routing\nsystem will look for a route with that path. In this case it will find a\nmatch, and execute the _controller callback. In this case the callback is\ndefined as a classname\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nand a method (\"{{ route.method }}\")."
     autocomplete: "Bash or Zsh: Add this line to your shell configuration file:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Create a symbolic link\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
     version: '<info>"%s"</info> version <comment>"%s"</comment>'
+    disable:
+        command:
+            error: 'Command: "%s" is deprecated.'
+            extra: 'You must execute: "%s" instead'
 errors:
     invalid-command: 'Command "%s" is not defined.'
 site:

@@ -1,4 +1,4 @@
-description: '列出網站應用中可用的單元測試'
+description: 列出網站應用中可用的單元測試
 help: '更新 Console 指令到最新版本'
 arguments:
     test-class: 測試類別（Class）
@@ -10,7 +10,7 @@ messages:
     group: 群組
     type: 測試類型
     success: 'Console 已經被更新到最新版本'
-    missing-dependency: '遺失必要的模組'
+    missing-dependency: 遺失必要的模組
     methods: 測試類別方法（Method）
     not-found: '找不到測試指令，嘗試為測試 ID 加上雙引號。'
     success-groups: '已列出所有測試群組，使用群組參數來篩選單元測試，例如： $ drupal test:debug Url'

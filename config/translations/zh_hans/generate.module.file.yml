@@ -4,4 +4,4 @@ welcome: '欢迎使用 Drupal 模块生成器'
 options:
     module: 模块名称
 questions:
-    module: '输入新模块名称'
+    module: 输入新模块名称
