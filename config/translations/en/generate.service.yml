@@ -15,3 +15,5 @@ questions:
     interface: 'Create an interface'
     services: common.options.services
     path: 'Enter the path for the services'
+messages:
+    service-already-taken: 'The service name has been already taken in module "%s"'

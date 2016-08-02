@@ -7,7 +7,7 @@ questions:
     numeric-uid: 'Người dùng id phải là một số nguyên.'
     invalid-uid: 'Người dùng id phải lớn hơn 0.'
 messages:
-    successful: 'Các đăng nhập thử đã được xóa thành công cho người dùng id %s.'
+    successful: 'Các đăng nhập thử đã được xóa thành công cho người dùng id "%s".'
 errors:
-    invalid-user: 'Không thể tải thực thể người dùng (Uid: %s).'
+    invalid-user: 'Không thể tải thực thể người dùng (Uid: "%s").'
     no-flood: 'No flood table on the system.'

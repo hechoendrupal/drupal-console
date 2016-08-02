@@ -40,4 +40,17 @@ trait ModuleTrait
 
         return $module;
     }
+
+    public function moduleRequirement($module)
+    {
+        foreach ($module as $module_name) {
+            module_load_install($module_name);
+
+            if ($requirements = \Drupal::moduleHandler()->invoke($module_name, 'requirements', array('install'))) {
+                foreach ($requirements as $requirement) {
+                    throw new \Exception($module_name .' can not be installed: ' . $requirement['description']);
+                }
+            }
+        }
+    }
 }

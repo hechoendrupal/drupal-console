@@ -7,7 +7,7 @@ messages:
     note: Nota
     note-description: 'El comandaments de Drupal Console s''han d''executar al directori arrel de l''instal·lació de Drupal 8.'
     command: 'Comandament de Drupal Console'
-    command_description: 'El comandament **%s** %s'
+    command_description: 'El comandament **"%s"** "%s"'
     usage: Ús
     options: 'Opcions disponibles'
     option: Opcions

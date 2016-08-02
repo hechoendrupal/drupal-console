@@ -5,7 +5,7 @@ arguments:
 options:
   database: "Database key from settings.php"
 messages:
-  table-show: 'Showing tables for %s database'
+  table-show: 'Showing tables for "%s" database'
   table: 'Table'
   column: 'Column'
   type: 'Type'

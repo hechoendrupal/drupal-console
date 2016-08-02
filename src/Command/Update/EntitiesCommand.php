@@ -48,7 +48,9 @@ class EntitiesCommand extends Command
 
         try {
             $this->getDrupalService('entity.definition_update_manager')->applyUpdates();
+            /* @var Drupal\Core\Entity\EntityStorageException $e */
         } catch (EntityStorageException $e) {
+            /* @var Drupal\Core\Utility\Error $variables */
             $variables = Error::decodeException($e);
             $io->info($this->trans('commands.update.entities.messages.error'));
             $io->info($variables);

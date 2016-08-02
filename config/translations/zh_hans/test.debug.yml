@@ -10,8 +10,8 @@ messages:
     group: 组
     type: 测试类型
     success: 这个控制台被更新到最新版本.
-    missing-dependency: 找不到所依赖的其他部件
+    missing-dependency: '找不到所依赖的其他部件'
     methods: 测试方法
-    not-found: 没找到调试，试着在测试ID上加双引号.
+    not-found: '没找到调试，试着在测试ID上加双引号.'
     success-groups: '成功列出所有测试组，使用组参数以组为单位过滤测试单元，例如： $ drupal test:debug Url'
-    success-group: 成功列出组（%s）所有测试单位
+    success-group: '成功列出组（"%s"）所有测试单位'

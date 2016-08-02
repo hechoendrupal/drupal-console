@@ -19,7 +19,7 @@ messages:
     directory_temporary: 'Directorul temporar al saitului'
     directory_theme_default: 'Directorul temei implicite'
     directory_theme_admin: 'Directorul temei de administrare'
-    current_version: 'Current Drupal version (%s)'
+    current_version: 'Current Drupal version ("%s")'
     not_installed: 'Drupal is not installed'
     not_available: 'Not available'
     configuration: Configurare

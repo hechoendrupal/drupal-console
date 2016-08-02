@@ -10,11 +10,26 @@ namespace Drupal\Console\Command\Rest;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Annotation\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\RestTrait;
+use \Drupal\Console\Helper\HelperTrait;
 
-class EnableCommand extends ContainerAwareCommand
+class EnableCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+    use RestTrait;
+    use HelperTrait;
+
+    /**
+     * @DrupalCommand(
+     *     dependencies = {
+     *         “rest"
+     *     }
+     * )
+     */
     protected function configure()
     {
         $this
@@ -25,8 +40,6 @@ class EnableCommand extends ContainerAwareCommand
                 InputArgument::OPTIONAL,
                 $this->trans('commands.rest.debug.arguments.resource-id')
             );
-
-        $this->addDependency('rest');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -48,12 +61,16 @@ class EnableCommand extends ContainerAwareCommand
             );
         }
 
-        $this->validateRestResource($resource_id, $rest_resources_ids, $this->getTranslator());
+        $this->validateRestResource(
+            $resource_id,
+            $rest_resources_ids,
+            $this->getTranslator()
+        );
         $input->setArgument('resource-id', $resource_id);
 
         // Calculate states available by resource and generate the question
-        $resourcePluginManager = $this->getPluginManagerRest();
-        $plugin = $resourcePluginManager->getInstance(array('id' => $resource_id));
+        $resourcePluginManager = $this->getDrupalService('plugin.manager.rest');
+        $plugin = $resourcePluginManager->getInstance(['id' => $resource_id]);
 
         $states = $plugin->availableMethods();
 
@@ -61,26 +78,13 @@ class EnableCommand extends ContainerAwareCommand
             $this->trans('commands.rest.enable.arguments.states'),
             $states
         );
-        $io->writeln($this->trans('commands.rest.enable.messages.selected-state').' '.$state);
-
-        // Get serializer formats available and generate the question.
-        $serializedFormats = $this->getSerializerFormats();
-        $formats = $io->choice(
-            $this->trans('commands.rest.enable.messages.formats'),
-            $serializedFormats,
-            0,
-            true
-        );
-
         $io->writeln(
-            $this->trans('commands.rest.enable.messages.selected-formats').' '.implode(
-                ', ',
-                $formats
-            )
+            $this->trans('commands.rest.enable.messages.selected-state').' '.$state
         );
 
         // Get Authentication Provider and generate the question
-        $authenticationProviders = $this->getAuthenticationProviders();
+        $authenticationProviders = $this->getDrupalService('authentication_collector')
+            ->getSortedProviders();
 
         $authenticationProvidersSelected = $io->choice(
             $this->trans('commands.rest.enable.messages.authentication-providers'),
@@ -101,7 +105,7 @@ class EnableCommand extends ContainerAwareCommand
         $rest_settings[$resource_id][$state]['supported_formats'] = $formats;
         $rest_settings[$resource_id][$state]['supported_auth'] = $authenticationProvidersSelected;
 
-        $config = $this->getConfigFactory()
+        $config = $this->getDrupalService('config.factory')
             ->getEditable('rest.settings');
         $config->set('resources', $rest_settings);
         $config->save();

@@ -6,6 +6,6 @@ options:
     severity: 'Filter events by a specific level of severity'
     user-id: 'Filter events by a specific user id'
 messages:
-    event-deleted: 'Sự kiện %s đã bị xóa'
+    event-deleted: 'Sự kiện "%s" đã bị xóa'
     clear-error: 'Tiến trình dọn dẹp thất bại, Vui lòng kiểm tra các filters đã được sử dụng'
     clear-sucess: 'Dọn dẹp thành công'

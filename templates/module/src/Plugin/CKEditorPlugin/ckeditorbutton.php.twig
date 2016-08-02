@@ -39,12 +39,12 @@ class {{ class_name }} extends CKEditorPluginBase {% endblock %}
   public function getButtons() {
     // Make sure that the path to the image matches the file structure of
     // the CKEditor plugin you are implementing.
-    return array(
-      '{{ button_name }}' => array(
+    return [
+      '{{ button_name }}' => [
         'label' => t('{{ label }}'),
         'image' => '{{ button_icon_path }}',
-      ),
-    );
+      ],
+    ];
   }
 
   /**
@@ -67,20 +67,20 @@ class {{ class_name }} extends CKEditorPluginBase {% endblock %}
    * {@inheritdoc}
    */
   public function getDependencies(Editor $editor) {
-    return array();
+    return [];
   }
 
   /**
    * {@inheritdoc}
    */
   public function getLibraries(Editor $editor) {
-    return array();
+    return [];
   }
 
   /**
    * {@inheritdoc}
    */
   public function getConfig(Editor $editor) {
-    return array();
+    return [];
   }
 {% endblock %}

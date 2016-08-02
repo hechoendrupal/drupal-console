@@ -4,7 +4,7 @@ arguments:
 options:
     format: 'Define o formato de saída tabela|markdown'
 messages:
-    invalid-language: 'Idioma %s é inválido'
+    invalid-language: 'Idioma "%s" é inválido'
     language: Idioma
     percentage: Porcentagem
     iso: 'Código ISO'

@@ -1,11 +1,11 @@
-description: 'Import the selected configuration.'
+description: '导入选择的配置'
 arguments:
-    name: 'Configuration name.'
-    file: 'Path to the import file'
-    input-file: 'Path to the import files.'
+    name: '配置名称'
+    file: '导入文件的路径'
+    input-file: '导入文件的路径'
 questions:
-    name: 'Enter configuration name'
-    file: 'Enter path to the import file'
+    name: '输入配置名称'
+    file: '输入导入文件路径'
 messages:
-    empty-value: 'Value can not be empty'
-    success: 'The configuration "%s", had been imported.'
+    empty-value: 值不能为空
+    success: '配置 "%s" 被成功导入'

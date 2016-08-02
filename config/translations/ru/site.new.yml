@@ -10,12 +10,12 @@ options:
 messages:
     select-release: 'Выберите версию ядра'
     getting-releases: 'Получение версий Drupal'
-    downloading: 'Загрузка Drupal %s'
-    extracting: 'Распаковка файлов для Drupal %s'
+    downloading: 'Загрузка Drupal "%s"'
+    extracting: 'Распаковка файлов для Drupal "%s"'
     no-releases: 'Нет доступных версий для Drupal'
-    downloaded: 'Drupal %s был загружен в директорию %s'
-    error-copying: 'Произошла ошибка при переименовании вашей директории в %s'
-    composer: 'Drupal %s was installed successfully using Composer at %s'
+    downloaded: 'Drupal "%s" был загружен в директорию "%s"'
+    error-copying: 'Произошла ошибка при переименовании вашей директории в "%s"'
+    composer: 'Drupal "%s" was installed successfully using Composer at "%s"'
     executing: 'Выполняется команда composer:'
     missing-directory: 'Missing directory argument'
     missing-version: 'Missing version argument'
@@ -24,3 +24,6 @@ questions:
     directory: 'Введите имя директории для загрузки Drupal'
     composer-release: 'Please, choose a Packagist Drupal release'
     stable: 'Вы хотите использовать стабильные выпуски?'
+tips:
+    -
+        tip: 'Pass a «true» value to «shellexec_output» key in your config.yml file to see interactively Composer''s output or «false» to hide it'

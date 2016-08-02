@@ -1,39 +1,41 @@
 options:
-    events: 从容器中导入事件
+    class: 类名
+    events: '从容器中导入事件'
     module: 模块名称
-    services: 从容器中导入服务
-    tags: 从容器设置服务标签
-    inputs: 创建一个输入表单
+    services: '从容器中导入服务'
+    tags: '从容器设置服务标签'
+    inputs: '创建一个输入表单'
     permissions: 创建权限
 questions:
-    module: 输入模块名称
+    class: '输入类名'
+    module: '输入模块名称'
     confirm: 确定开始生成吗？
     canceled: 生成命令已取消
     events:
         message: "\n输入事件名称或使用上下键。\n这是选填的，按下 <info>enter</info> 键 <info>continue</info>\n"
-        name: 输入事件名称
+        name: '输入事件名称'
     services:
-        confirm: 从容器中导入服务？
+        confirm: '从容器中导入服务？'
         message: "\n输入服务名称或使用上下键。\n这是选填的，按下 <info>enter</info> 键 <info>continue</info>\n"
-        name: 输入服务名称
+        name: '输入服务名称'
     inputs:
-        confirm: 生成一个表单元素？
-        label: 输入标签
-        machine_name: 输入机器名
+        confirm: '生成一个表单元素？'
+        label: '输入标签'
+        machine_name: '输入机读名称'
         permission: 生成权限？
         type: 类型
         invalid: '字段类型 "%s" 无效'
         description: 描述
         default-value: 默认值
         weight: 权值
-        title: 标题
+        title: '标题'
         fieldset: 字段集
 errors:
     module-dependency: '模块依赖 "%s" 丢失'
     class-name-empty: 类名不能为空
-    invalid-file-path: 必须提供一个有效的文件路径
-    module-exist: 'Module "%s" already exist.'
-    machine-name-duplicated: 'Machine name "%s" is duplicated.'
+    invalid-file-path: '必须提供一个有效的文件路径'
+    module-exist: '模块 "%s" 已经存在'
+    machine-name-duplicated: '机读名称 "%s" 重复'
 status:
     enabled: 启用
     disabled: 禁用

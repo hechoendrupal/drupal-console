@@ -6,17 +6,17 @@ options:
     path: プロジェクトのパス
     composer: Composerを利用してモジュールをダウンロードする
 questions:
-    path: プロジェクトのパスを入力してください
+    path: 'プロジェクトのパスを入力してください'
 messages:
-    no-releases: 'モジュール %s のリリースがありません。'
-    getting-releases: 'モジュール %s のリリースを取得しています。'
-    downloading: 'モジュール %s のリリース %s をダウンロードしています。'
-    downloaded: 'モジュール %s のバージョン %s を %s にダウンロードしました。'
-    select-release: ダウンロードするリリースを選択してください。
+    no-releases: 'モジュール "%s" のリリースがありません。'
+    getting-releases: 'モジュール "%s" のリリースを取得しています。'
+    downloading: 'モジュール "%s" のリリース "%s" をダウンロードしています。'
+    downloaded: 'モジュール "%s" のバージョン "%s" を "%s" にダウンロードしました。'
+    select-release: 'ダウンロードするリリースを選択してください。'
     outside-drupal: 'Drupalのルートディレクトリが決定できませんでした。--root オプションを設定してください。'
-    error-creating-folder: 'ディレクトリ %s の作成中にエラーが発生しました、権限を確認してください。'
+    error-creating-folder: 'ディレクトリ "%s" の作成中にエラーが発生しました、権限を確認してください。'
     no-composer-repo: '~/.console/config.yml でComposerの設定を行ってください。'
-    composer: 'Composerを使用してモジュール %s をダウンロードしました。'
+    composer: 'Composerを使用してモジュール "%s" をダウンロードしました。'
 tips:
     -
         tip: 'Pass a «true» value to «shellexec_output» key in your config.yml file to see interactively Composer''s output or «false» to hide it'

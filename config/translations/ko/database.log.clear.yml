@@ -6,6 +6,6 @@ options:
     severity: 'Filter events by a specific level of severity'
     user-id: 'Filter events by a specific user id'
 messages:
-    event-deleted: 'Event %s was deleted'
+    event-deleted: 'Event "%s" was deleted'
     clear-error: 'Clear process fail, please check used filters'
     clear-sucess: 'Clear of events was successfully'

@@ -1,10 +1,10 @@
-description: 產生翻譯進度報告
+description: '產生翻譯進度報告'
 arguments:
-    language: 指定產生翻譯進度報告的語系名稱
+    language: '指定產生翻譯進度報告的語系名稱'
 options:
     format: '指定輸出格式為 table 或 markdown （預設為 table）'
 messages:
-    invalid-language: '錯誤的語系名稱 %s'
+    invalid-language: '錯誤的語系名稱 "%s"'
     language: 語系
     percentage: 完成度
     iso: 'ISO 代碼'

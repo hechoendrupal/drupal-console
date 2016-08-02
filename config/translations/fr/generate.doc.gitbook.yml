@@ -7,7 +7,7 @@ messages:
     note: Note
     note-description: 'Drupal Console commands *must* be run from the root of a Drupal 8 installation'
     command: 'Drupal Console Command'
-    command_description: 'The **%s** command %s'
+    command_description: 'The **"%s"** command "%s"'
     usage: Usage
     options: 'Available options'
     option: Option
@@ -22,7 +22,7 @@ output:
         note-description: 'Drupal Console commands *must* be run from the root of a Drupal 8 installation'
         command: 'Drupal Console Command'
     command:
-        command_description: 'The **%s** command %s'
+        command_description: 'The **"%s"** command "%s"'
         usage: Usage
         options: 'Available options'
         option: Option

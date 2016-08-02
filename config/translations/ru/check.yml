@@ -1,8 +1,8 @@
 description: 'Проверка системных требований'
 messages:
-    php_invalid: 'Недопустимая текущая установленная версия %s, требуется %s или выше'
-    configuration_missing: 'Конфигурация %s отсутствует.'
-    configuration_overwritten: 'Конфигурация %s отсутствует и перезаписана %s.'
-    extension_missing: 'Расширение %s отсутствует.'
-    extension_recommended: 'Расширение %s рекомендуется к установке.'
+    php_invalid: 'Недопустимая текущая установленная версия "%s", требуется "%s" или выше'
+    configuration_missing: 'Конфигурация "%s" отсутствует.'
+    configuration_overwritten: 'Конфигурация "%s" отсутствует и перезаписана "%s".'
+    extension_missing: 'Расширение "%s" отсутствует.'
+    extension_recommended: 'Расширение "%s" рекомендуется к установке.'
     success: 'Проверка прошла.'

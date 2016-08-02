@@ -10,7 +10,7 @@ messages:
     tag: Tag
     status: 'Trạng thái'
     path: 'Đường dẫn'
-    not-found: 'Không tìm thấy view %s.'
+    not-found: 'Không tìm thấy view "%s".'
     display-list: 'Hiển thị danh sách'
     display-id: ID
     display-name: Tên

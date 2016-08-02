@@ -8,10 +8,10 @@ options:
     password: 作成したユーザーのパスワード
     time-range: ユーザーの作成時刻
 questions:
-    roles: 作成するユーザーのロールを選択してください
-    limit: 作成するユーザーの数を入力してください
-    password: ユーザーに設定するパスワードを入力してください
-    time-range: ユーザーの作成時刻を選択してください
+    roles: '作成するユーザーのロールを選択してください'
+    limit: '作成するユーザーの数を入力してください'
+    password: 'ユーザーに設定するパスワードを入力してください'
+    time-range: 'ユーザーの作成時刻を選択してください'
     time-ranges:
         - 現在時刻
         - 1時間前
@@ -24,4 +24,4 @@ messages:
     roles: ロール
     username: ユーザー名
     created: 作成時刻
-    created-users: '%s 個のユーザーを作成しました。'
+    created-users: '"%s" 個のユーザーを作成しました。'

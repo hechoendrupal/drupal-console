@@ -21,5 +21,7 @@ questions:
 messages:
     installing: 'Starting Drupal 8 install process'
     installed: 'Your Drupal 8 installation was completed successfully'
-    using-current-database: 'Using %s database with name %s and user %s'
+    using-current-database: 'Using "%s" database with name "%s" and user "%s"'
     already-installed: 'Drupal is already installed, try dropping your database using database:drop and then run site:install again'
+    sites-backup: 'The sites.php file has temporarily been renamed to backup.sites.php while Drupal installs.'
+    sites-restore: 'The backup of sites.php has been been restored to sites.php.'

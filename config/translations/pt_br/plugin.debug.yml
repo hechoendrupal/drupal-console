@@ -1,14 +1,14 @@
-description: 'Display all plugin types, plugin instances of a specific type, or the definition for a specific plugin.'
-help: "List all plugin types:\n<info>drupal plugin:debug</info>\n\nList all instances of the image effect plugin type:\n<info>drupal plugin:debug image.effect</info>\n\nShow the definition for the image convert plugin:\n<info>drupal plugin:debug image.effect image_convert</info>\n\n<comment>NOTE: Only plugin types exposed through services are supported.</comment> When developing a custom plugin type, expose it as a service by adding it to modulename.services.yml with the name \"plugin.manager.PLUGIN_TYPE\".\n"
+description: 'Mostra todos os tipos de plugins, instâncias de um tipo específico de plugin ou a definição para um plugin específico.'
+help: "Lista todos os tipos de plugin:\n<info>drupal plugin:debug</info>\n\nLista todas as instâncias de plugins de efeitos de imagens:\n<info>drupal plugin:debug image.effect</info>\n\nMostra definições para o plugin que converte imagens :\n<info>drupal plugin:debug image.effect image_convert</info>\n\n<comment>NOTA: Somente tipos de plugin expostos através de serviços são suportados.</comment> Quanto estiver desenvolvendo um tipo de plugin customizado, exponha como um serviço por adicionar ao nomedomodulo.services.yml com o nome \"plugin.manager.PLUGIN_TYPE\".\n"
 arguments:
-    type: 'Plugin type'
+    type: 'Tipo de plugin'
     id: 'Plugin ID'
 errors:
-    plugin-type-not-found: 'Plugin type "%s" not found. No service available for that type.'
+    plugin-type-not-found: 'Tipo de plugin "%s" não encontrado. Sem serviços disponíveis desse tipo.'
 table-headers:
-    plugin-type-name: 'Plugin type'
-    plugin-type-class: 'Plugin manager class'
+    plugin-type-name: 'Tipo de plugin'
+    plugin-type-class: 'Classe gerenciadora de plugin'
     plugin-id: 'Plugin ID'
-    plugin-class: 'Plugin class'
-    definition-key: Key
-    definition-value: Value
+    plugin-class: 'Classe do Plugin'
+    definition-key: Chave
+    definition-value: Valor

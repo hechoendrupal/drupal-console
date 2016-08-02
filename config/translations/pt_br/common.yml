@@ -1,4 +1,5 @@
 options:
+    class: 'Class name'
     events: 'Carrega eventos do container'
     module: 'O nome do módulo.'
     services: 'Carrega serviços do container.'
@@ -6,6 +7,7 @@ options:
     inputs: 'Cria entradas de formulário.'
     permissions: 'Criar permissões.'
 questions:
+    class: 'Enter the Class name'
     module: 'Digite o nome do módulo'
     confirm: 'Você confirma a criação'
     canceled: 'Criação de comando cancelada.'

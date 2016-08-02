@@ -1,0 +1,14 @@
+description: 生成断点
+help: '命令 <info>generate:theme</info> 帮助您生成一个新断点'
+welcome: '欢迎使用 Drupal 断点生成器'
+options:
+    theme: 主题名称
+    breakpoints: 断点
+questions:
+    theme: '输入主题名称(例如: classy, stable)'
+    breakpoint-name: '输入断点名称'
+    breakpoint-label: '输入断点标签'
+    breakpoint-media-query: '输入断点媒体查询'
+    breakpoint-weight: '输入断点权值'
+    breakpoint-multipliers: '输入断点乘数(s)'
+    breakpoint-add: '还要添加断点吗?'

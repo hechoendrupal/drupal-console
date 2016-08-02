@@ -1,4 +1,4 @@
-description: テーマの情報を表示
+description: 'テーマの情報を表示'
 arguments:
     theme: 表示するテーマの名前
 messages:
@@ -11,5 +11,5 @@ messages:
     default-theme: デフォルトのテーマ
     properties: プロパティ
     regions: リージョン
-    invalid-theme: 'テーマ %s は不正な値です。'
+    invalid-theme: 'テーマ "%s" は不正な値です。'
     theme-properties: プロパティ

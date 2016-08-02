@@ -1,8 +1,8 @@
 description: 動作環境をチェックする
 messages:
-    php_invalid: 'インストールされているバージョン %s はサポートされていません。%s もしくはそれより新しいバージョンが必要です。'
-    configuration_missing: '設定 %s が見つかりませんでした。'
-    configuration_overwritten: '設定 %s が見つからないため、%s で上書きされました。'
-    extension_missing: '拡張モジュール %s が見つかりませんでした。'
-    extension_recommended: '拡張モジュール %s をインストールすることを推奨します。'
+    php_invalid: 'インストールされているバージョン "%s" はサポートされていません。"%s" もしくはそれより新しいバージョンが必要です。'
+    configuration_missing: '設定 "%s" が見つかりませんでした。'
+    configuration_overwritten: '設定 "%s" が見つからないため、"%s" で上書きされました。'
+    extension_missing: '拡張モジュール "%s" が見つかりませんでした。'
+    extension_recommended: '拡張モジュール "%s" をインストールすることを推奨します。'
     success: チェックをパスしました。

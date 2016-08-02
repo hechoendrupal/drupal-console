@@ -55,7 +55,6 @@ class InstallDependencyCommand extends Command
             $module = $this->moduleQuestion($io);
             $input->setArgument('module', $module);
         }
-
     }
 
     /**
@@ -65,13 +64,12 @@ class InstallDependencyCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $module = $input->getArgument('module'); 
+        $module = $input->getArgument('module');
         $unInstalledDependencies = $this->calculateDependencies((array)$module);
         
         if (!$unInstalledDependencies) {
             $io->warning($this->trans('commands.module.install.dependencies.messages.no-depencies'));
-             return 0;
-
+            return 0;
         }
         
         try {

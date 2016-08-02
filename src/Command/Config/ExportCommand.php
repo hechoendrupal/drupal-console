@@ -50,7 +50,6 @@ class ExportCommand extends Command
 
         $directory = $input->getOption('directory');
         $tar = $input->getOption('tar');
-        $archiveTar = new ArchiveTar();
 
         if (!$directory) {
             $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);

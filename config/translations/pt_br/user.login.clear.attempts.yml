@@ -7,7 +7,7 @@ questions:
     numeric-uid: 'O ID do usuário deve ser inteiro.'
     invalid-uid: 'O ID do usuário deve ser maior que zero.'
 messages:
-    successful: 'Tentativas falhas de login do usuário %s foram resetadas com sucesso.'
+    successful: 'Tentativas falhas de login do usuário "%s" foram resetadas com sucesso.'
 errors:
-    invalid-user: 'Não foi possível carregar o usuário (ID do usuário: %s).'
+    invalid-user: 'Não foi possível carregar o usuário (ID do usuário: "%s").'
     no-flood: 'No flood table on the system.'

@@ -7,10 +7,10 @@ options:
     generate-doc: コマンドのオプションと引数をMarkdownとして表示する
     root: コマンドを実行するDrupalのルートディレクトリを定義する
     uri: 'DrupalサイトのURI (マルチサイトやデフォルト以外のポートを利用している場合に使用する)'
-    yes: 確認プロセスをスキップする
+    'yes': 確認プロセスをスキップする
     target: 'サイト名 (ローカルもしくはリモートサイト向け)'
     help: このヘルプメッセージを表示する
-    quiet: コマンドからの全ての出力を抑制する
+    quiet: 'コマンドからの全ての出力を抑制する'
     verbose: 'メッセージの冗長性を上げる: 1は通常の出力、2はより冗長な出力、3はデバッグ用'
     version: アプリケーションのバージョンを表示する
     ansi: ANSI出力を強制する
@@ -24,28 +24,23 @@ messages:
     chain:
         generated: 'Yamlフォーマットで表現されたこのコマンドを使うためには `~/.console/chain/sample.yml` などにファイルとしてコピーしてください。`chain` コマンドで実行するには、Yamlファイルのルートキーが commands になっていることを確認してください。'
     inline:
-        generated: このコマンドのインライン表現:
+        generated: 'このコマンドのインライン表現:'
     generated: 生成されたコードを使うことができます。
     files:
         generated: 生成または更新されたファイル
         copied: コピーされたファイル
     learning:
         route: "ページを生成するためには、それらのルートを定義する必要があります。\nルートは、URLのパスをコントローラーにマッピングします。\n関数もしくはメソッドが定義されている場合、それらはURLにアクセスにあった時にコールされます。\nユーザーが http://drupal8.dev/{{ route.path }} にアクセスすると、ルーティングシステムはパスからルートを検索します。\nマッチするルートが見つかれば、_controller コールバックが実行されます。\nコールバックのクラスは (\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")、\nメソッドは (\"{{ route.method }}\") として定義されます。"
-    autocomplete: |
-                Bash or Zsh: 以下の行ををあなたのシェルの設定ファイルに追加してください:
-                <info>source "$HOME/.console/console.rc" 2>/dev/null</info>
-
-                Fish: シンボリックリンクを作成してください:
-                <info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>
-    version: '<info>%s</info> バージョン <comment>%s</comment>'
+    autocomplete: "Bash or Zsh: 以下の行ををあなたのシェルの設定ファイルに追加してください:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: シンボリックリンクを作成してください:\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
+    version: '<info>"%s"</info> バージョン <comment>"%s"</comment>'
 errors:
     invalid-command: 'コマンド "%s" は存在しません。'
 site:
     messages:
         path: サイトのパス
     errors:
-        directory: 実行可能なコマンドを全て表示するためには、Drupalのルートディレクトリ内に移動する必要があります。
-        settings: 実行可能なコマンドを全て表示するためには、まずはDrupalをインストールする必要があります。
+        directory: '実行可能なコマンドを全て表示するためには、Drupalのルートディレクトリ内に移動する必要があります。'
+        settings: '実行可能なコマンドを全て表示するためには、まずはDrupalをインストールする必要があります。'
 user:
     messages:
-        path: ユーザーのホームディレクトリのパス
+        path: 'ユーザーのホームディレクトリのパス'

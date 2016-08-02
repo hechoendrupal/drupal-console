@@ -5,7 +5,7 @@ value:
         yaml-key: 'Frissítendő YAML-kulcs'
         yaml-value: 'Frissítendő YAML-érték'
     messages:
-        updated: 'Sikeresen frissült a következő YAML-fájl: %s.'
+        updated: 'Sikeresen frissült a következő YAML-fájl: "%s".'
 key:
     description: 'YAML-kulcs lecserélése egy YAML-fájlban.'
     arguments:
@@ -13,4 +13,4 @@ key:
         yaml-key: 'Lecserélendő YAML-kulcs'
         yaml-new-key: 'Új YAML-kulcs'
     messages:
-        updated: 'Sikeresen frissült a következő YAML-fájl: %s.'
+        updated: 'Sikeresen frissült a következő YAML-fájl: "%s".'

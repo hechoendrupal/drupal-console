@@ -19,4 +19,4 @@ messages:
     method: Metódus
     line: Sor
     message: Üzenet
-    invalid-class: 'Testing class %s doesn''t exists'
+    invalid-class: 'Testing class "%s" doesn''t exists'

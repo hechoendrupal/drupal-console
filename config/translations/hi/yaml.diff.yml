@@ -13,6 +13,6 @@ questions:
 messages:
     key: 'YAML कुंजी'
     value: 'YAML निधि'
-    total: 'कुल: %s'
-    diff: 'रचनाकार: %s'
-    equal: 'बराबर: %s'
+    total: 'कुल: "%s"'
+    diff: 'रचनाकार: "%s"'
+    equal: 'बराबर: "%s"'

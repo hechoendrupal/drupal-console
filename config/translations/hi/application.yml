@@ -12,7 +12,7 @@ options:
     help: 'Display this help message'
     quiet: 'Do not output any message'
     verbose: 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
-    version: '<info>%s</info> संस्करण <comment>%s</comment>'
+    version: '<info>"%s"</info> संस्करण <comment>"%s"</comment>'
     ansi: 'Force ANSI output'
     no-ansi: 'Disable ANSI output'
     no-interaction: 'Do not ask any interactive question'
@@ -32,7 +32,7 @@ messages:
     learning:
         route: "पृष्ठ बनाने के लिए मार्गों को उनके लिए परिभाषित करना आवश्यक है.\nएक मार्ग URL पथ को एक नियंत्रक से मैप करता है. यह परिभाषित करता है की\nकौन सा फंक्शन और मेथड बुलाया जायेगा जब एक एक्सेस किया जायेगा.\nअगर उपभोक्ता http://drupal8.dev/{{ route }} एक्सेस करता है,\nराउटिंग प्रणाली उस पथ के लिए एक मार्ग देखेगा. इस मामले में यह एक मैच मिलेगा,\nऔर कंट्रोलर कॉलबैक को चलायेगा. इस मामले में कॉलबैक\nएक क्लासनेम के रूप में परिभाषित है।\n('\\Drupal\\{{ module }}\\Controller\\{{ class_name }}')\nऔर एक मेथड ('{{ route.method }}')।"
     autocomplete: "Bash या Zsh: इस लाइन को शैल व्यवस्था फाइल में डाले:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: एक सिंबॉलिक लिंक बनाएं\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
-    version: '<info>%s</info> version <comment>%s</comment>'
+    version: '<info>"%s"</info> version <comment>"%s"</comment>'
 errors:
     invalid-command: 'कमाण्ड "%s" परिभाषित नही है।'
 site:

@@ -12,5 +12,5 @@ messages:
     arguments: '<comment>Аргументы:</comment>'
     options: '<comment>Параметры:</comment>'
     help: '<comment>Помощь:</comment>'
-    comment: '<comment>Доступные команды для пространства имен "%s:</comment>'
+    comment: '<comment>Доступные команды для пространства имен ""%s":</comment>'
     available-commands: '<comment>Доступные команды:</comment>'

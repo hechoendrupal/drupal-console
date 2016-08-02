@@ -13,4 +13,4 @@ messages:
     service-value: वैल्यू
     error-copying-file: 'एरर नकल के फ़ाइल'
     error-writing-file: 'एरर नकल के फ़ाइल'
-    services-file-overwritten: 'सर्विसेज %s फ़ाइल ओवरराइट था'
+    services-file-overwritten: 'सर्विसेज "%s" फ़ाइल ओवरराइट था'
