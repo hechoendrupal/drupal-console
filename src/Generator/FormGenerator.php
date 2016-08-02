@@ -24,7 +24,9 @@ class FormGenerator extends Generator
      */
     public function generate($module, $class_name, $form_id, $form_type, $services, $inputs, $path, $menu_link_gen, $menu_link_title, $menu_parent, $menu_link_desc)
     {
-        $class_name_short = $this->getStringHelper()->removeSuffix($class_name);
+        $class_name_short = strtolower(
+            $this->getStringHelper()->removeSuffix($class_name)
+        );
 
         $parameters = array(
           'class_name' => $class_name,

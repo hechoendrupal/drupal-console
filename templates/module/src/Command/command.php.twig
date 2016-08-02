@@ -11,7 +11,7 @@ namespace Drupal\{{module}}\Command;
 {% block use_class %}
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command as BaseCommand;
+use Symfony\Component\Console\Command\Command;
 {% if container_aware %}
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 {% else %}
@@ -26,7 +26,7 @@ use Drupal\Console\Style\DrupalStyle;
  *
  * @package Drupal\{{module}}
  */
-class {{ class }} extends BaseCommand {% endblock %}
+class {{ class }} extends Command {% endblock %}
 
 {% block use_trait %}
 {% if container_aware %}

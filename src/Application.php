@@ -30,7 +30,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '1.0.0-beta5';
+    const VERSION = '1.0.0-rc1';
 
     /**
      * @var string
@@ -364,17 +364,25 @@ class Application extends BaseApplication
             $this->add($command);
         }
 
-        $tags = $this->container->findTaggedServiceIds('console.command');
-        foreach ($tags as $name => $tags) {
-            /* Add interface(s) for commands:
-             * DrupalConsoleCommandInterface &
-             * DrupalConsoleContainerAwareCommandInterface
-             * and use implements for validation
-             */
+        $consoleCommands = $this->container->getParameter('console.commands');
+
+        foreach ($consoleCommands as $name) {
             $command = $this->getContainerHelper()->get($name);
+
+            if (!$command && \Drupal::getContainer()->has($name)) {
+                $command = \Drupal::getContainer()->get($name);
+            }
+
+            if (!$command) {
+                continue;
+            }
+
             if (!$this->getDrupalHelper()->isInstalled()) {
                 $traits = class_uses($command);
-                if (in_array('Drupal\\Console\\Command\\Shared\\ContainerAwareCommandTrait', $traits)) {
+                if (in_array(
+                    'Drupal\\Console\\Command\\Shared\\ContainerAwareCommandTrait',
+                    $traits
+                )) {
                     continue;
                 }
             }
@@ -422,9 +430,19 @@ class Application extends BaseApplication
                     return strcmp($cmd1->getName(), $cmd2->getName());
                 }
             );
+
             foreach ($commands as $command) {
-                if ($command->getModule()=='Console') {
-                    $data['commands'][$namespace][] = $this->commandData($command->getName());
+                if (method_exists($command, 'getModule')) {
+                    if ($command->getModule() == 'Console') {
+                        $data['commands'][$namespace][] = $this->commandData(
+                            $command->getName()
+                        );
+                    }
+                }
+                else {
+                    $data['commands'][$namespace][] = $this->commandData(
+                        $command->getName()
+                    );
                 }
             }
         }
