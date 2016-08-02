@@ -7,5 +7,5 @@ options:
     starting-key: 'Ponto de início de onde a chave YAML inciará a extração dos elementos'
 messages:
     generating-split: 'Gerando novos arquivos'
-    split-generated: 'Arquivo %s foi gerado'
+    split-generated: 'Arquivo "%s" foi gerado'
     invalid-key: 'A chave fornecida não foi encontrada, combine com o nível de identação 0 para extrair os valores'

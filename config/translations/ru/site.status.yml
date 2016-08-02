@@ -19,7 +19,7 @@ messages:
     directory_temporary: 'Site temporary directory'
     directory_theme_default: 'Default theme directory'
     directory_theme_admin: 'Admin theme directory'
-    current_version: 'Current Drupal version (%s)'
+    current_version: 'Current Drupal version ("%s")'
     not_installed: 'Drupal is not installed'
     not_available: 'Not available'
     configuration: Configuration

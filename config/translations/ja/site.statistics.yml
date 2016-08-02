@@ -3,7 +3,7 @@ help: 'サイトの統計情報を表示する'
 messages:
     stat-name: 名前
     stat-quantity: 数量
-    node-type: 'ノード:%s'
+    node-type: 'ノード:"%s"'
     comments: コメント
     vocabulary: ボキャブラリー
     taxonomy-terms: タクソノミー

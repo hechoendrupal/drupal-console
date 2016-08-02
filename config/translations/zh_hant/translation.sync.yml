@@ -4,7 +4,7 @@ arguments:
 options:
     file: 要同步的檔案
 messages:
-    created-file: 'Yaml 檔案 %s 已經在 %s 語系中新增成功'
-    error-generating: '同步 %s 檔案錯誤，由於 %s： %s'
-    error-writing: '寫入 %s 檔案有誤，由於 %s： %s'
+    created-file: 'Yaml 檔案 "%s" 已經在 "%s" 語系中新增成功'
+    error-generating: '同步 "%s" 檔案錯誤，由於 "%s"： "%s"'
+    error-writing: '寫入 "%s" 檔案有誤，由於 "%s"： "%s"'
     sync-finished: 語系翻譯檔同步完成

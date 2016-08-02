@@ -13,6 +13,12 @@ use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Core\Config\ConfigImporter;
+use Drupal\Core\Config\ConfigImporterException;
+use Drupal\Core\Config\ConfigManagerInterface;
+use Drupal\Core\Config\StorageComparer;
+use Drupal\Core\Config\StorageInterface;
+use Drupal\config\StorageReplaceDataWrapper;
 
 class ImportSingleCommand extends Command
 {
@@ -44,7 +50,7 @@ class ImportSingleCommand extends Command
 
         $configName = $input->getArgument('name');
         $fileName = $input->getArgument('file');
-        $config = $this->getDrupalService('config.factory')->getEditable($configName);
+
         $ymlFile = new Parser();
 
         if (!empty($fileName) && file_exists($fileName)) {
@@ -53,27 +59,100 @@ class ImportSingleCommand extends Command
             $value = $ymlFile->parse(stream_get_contents(fopen("php://stdin", "r")));
         }
 
+
         if (empty($value)) {
             $io->error($this->trans('commands.config.import.single.messages.empty-value'));
 
             return;
         }
-        $config->setData($value);
 
         try {
-            $config->save();
+
+            $config_storage = \Drupal::service('config.storage');
+            $config_manager = \Drupal::service('config.manager');
+
+            $source_storage = new StorageReplaceDataWrapper($config_storage);
+            $source_storage->replaceData($configName, $value);
+            $storage_comparer = new StorageComparer(
+                $source_storage,
+                $config_storage,
+                $config_manager
+            );
+
+            if ($this->configImport($io,$storage_comparer)) {
+                $io->success(
+                    sprintf(
+                        $this->trans('commands.config.import.single.messages.success'),
+                        $configName
+                    )
+                );
+            }
+
         } catch (\Exception $e) {
             $io->error($e->getMessage());
 
             return 1;
         }
 
-        $io->success(
-            sprintf(
-                $this->trans('commands.config.import.single.messages.success'),
-                $configName
-            )
+    }
+
+    private function configImport($io,StorageComparer $storage_comparer)
+    {
+        $config_importer = new ConfigImporter(
+            $storage_comparer,
+            \Drupal::service('event_dispatcher'),
+            \Drupal::service('config.manager'),
+            \Drupal::lock(),
+            \Drupal::service('config.typed'),
+            \Drupal::moduleHandler(),
+            \Drupal::service('module_installer'),
+            \Drupal::service('theme_handler'),
+            \Drupal::service('string_translation')
         );
+
+        if ($config_importer->alreadyImporting()) {
+            $io->success($this->trans('commands.config.import.messages.already-imported'));
+
+        }
+
+        else{
+            try {
+
+                if ($config_importer->validate()){
+
+                    $sync_steps = $config_importer->initialize();
+
+                    foreach ($sync_steps as $step) {
+                        $context = array();
+                        do {
+                            $config_importer->doSyncStep($step, $context);
+                        } while ($context['finished'] < 1);
+                    }
+
+                }
+
+            }
+            catch (ConfigImporterException $e) {
+                $message = 'The import failed due for the following reasons:' . "\n";
+                $message .= implode("\n", $config_importer->getErrors());
+                $io->error(
+                    sprintf(
+                        $this->trans('commands.site.import.local.messages.error-writing'),
+                        $message
+                    )
+                );
+            }
+
+            catch (\Exception $e){
+                $io->error(
+                    sprintf(
+                        $this->trans('commands.site.import.local.messages.error-writing'),
+                        $e->getMessage()
+                    )
+                );
+
+            }
+        }
     }
 
     /**
@@ -84,11 +163,10 @@ class ImportSingleCommand extends Command
         $io = new DrupalStyle($input, $output);
         $name = $input->getArgument('name');
         if (!$name) {
-            $configFactory = $this->getDrupalService('config.factory');
-            $names = $configFactory->listAll();
-            $name = $io->choiceNoList(
-                $this->trans('commands.config.import.single.questions.name'),
-                $names
+            //$configFactory = $this->getDrupalService('config.factory');
+            //$names = $configFactory->listAll();
+            $name = $io->ask(
+                $this->trans('commands.config.import.single.questions.name')
             );
             $input->setArgument('name', $name);
         }

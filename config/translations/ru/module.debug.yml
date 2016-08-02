@@ -15,6 +15,6 @@ messages:
     total-downloads: 'Всего установок'
     total-monthly: 'Установок за месяц'
     total-daily: 'Установок за день'
-    no-results: 'Модуль %s не найден в репозитории'
+    no-results: 'Модуль "%s" не найден в репозитории'
     enabled: Включен
     disabled: Выключен

@@ -13,6 +13,6 @@ questions:
 messages:
     key: YAML-kulcs
     value: YAML-érték
-    total: 'Összesen: %s'
-    diff: 'Különböző: %s'
-    equal: 'Azonos: %s'
+    total: 'Összesen: "%s"'
+    diff: 'Különböző: "%s"'
+    equal: 'Azonos: "%s"'

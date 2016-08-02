@@ -14,4 +14,4 @@ messages:
     rest-state: 'REST 狀態'
     supported-formats: '支援的格式'
     supported_auth: '支援的驗證提供者'
-    not-found: '找不到 REST 資源 %s'
+    not-found: '找不到 REST 資源 "%s"'

@@ -19,4 +19,4 @@ messages:
     method: 'Phương thức'
     line: Dòng
     message: 'Tin nhắn'
-    invalid-class: 'Testing class %s doesn''t exists'
+    invalid-class: 'Testing class "%s" doesn''t exists'

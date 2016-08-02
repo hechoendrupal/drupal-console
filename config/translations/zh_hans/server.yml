@@ -2,7 +2,7 @@ description: '运行PHP内建的网站服务器'
 arguments:
     address: 'IP地址:端口号'
 messages:
-    executing: 从%s执行PHP.
+    executing: 从"%s"执行PHP.
 errors:
     binary: 在服务器电脑上找不到PHP程序。
 examples:

@@ -7,9 +7,9 @@ options:
     environment: 'एनवायरनमेंट का नाम जो इम्पोर्ट होने जा रहा है'
 messages:
     imported: 'साइट सफलतापूर्वक इम्पोर्ट किया गया है। आप पुष्टि करने के लिए `drupal site:debug` चलाये कि सब कुछ अच्छी तरह से चला गया।'
-    error-missing: 'निर्देशिका %s मौजूद नहीं है।'
-    error-not-drupal: 'यह एक वैध Drupal रूट नहीं है: %s'
-    error-writing: 'config फाइल: %s लिखने की कोशिश में एक त्रुटि हुई'
+    error-missing: 'निर्देशिका "%s" मौजूद नहीं है।'
+    error-not-drupal: 'यह एक वैध Drupal रूट नहीं है: "%s"'
+    error-writing: 'config फाइल: "%s" लिखने की कोशिश में एक त्रुटि हुई'
 questions:
     directory: 'निर्देशिका का नाम दर्ज करें जहां Drupal स्थापित करना है'
     name: 'साइट का नाम दर्ज करें'

@@ -32,7 +32,7 @@ messages:
     learning:
         route: "ページを生成するためには、それらのルートを定義する必要があります。\nルートは、URLのパスをコントローラーにマッピングします。\n関数もしくはメソッドが定義されている場合、それらはURLにアクセスにあった時にコールされます。\nユーザーが http://drupal8.dev/{{ route.path }} にアクセスすると、ルーティングシステムはパスからルートを検索します。\nマッチするルートが見つかれば、_controller コールバックが実行されます。\nコールバックのクラスは (\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")、\nメソッドは (\"{{ route.method }}\") として定義されます。"
     autocomplete: "Bash or Zsh: 以下の行ををあなたのシェルの設定ファイルに追加してください:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: シンボリックリンクを作成してください:\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
-    version: '<info>%s</info> バージョン <comment>%s</comment>'
+    version: '<info>"%s"</info> バージョン <comment>"%s"</comment>'
 errors:
     invalid-command: 'コマンド "%s" は存在しません。'
 site:

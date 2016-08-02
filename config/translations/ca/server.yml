@@ -2,7 +2,7 @@ description: 'Executar el servidor PHP integrat'
 arguments:
     address: 'Adreça:port valor'
 messages:
-    executing: 'S''esta executant PHP des de %s.'
+    executing: 'S''esta executant PHP des de "%s".'
 errors:
     binary: 'No es troba el binari PHP per executar el servidor.'
 examples:

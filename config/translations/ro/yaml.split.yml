@@ -7,5 +7,5 @@ options:
     starting-key: 'Cheia YAML de unde se va începe separarea. Este utilă pentru a extrage fragmente de elemente.'
 messages:
     generating-split: 'Generează fişiere noi'
-    split-generated: 'Fişierul %s a fost generat'
+    split-generated: 'Fişierul "%s" a fost generat'
     invalid-key: 'Cheia YAML introdusă ca început de seprarea este invalidă. Combine with indent-level 0 to extract values'

@@ -24,6 +24,6 @@ messages:
     content-type: 'Tipo de contenido'
     title: Título
     created: 'Fecha de creación'
-    invalid-content-types: 'Los tipos de contenido %s son inválidos'
-    created-nodes: '%s nodos creados con éxito'
-    generated-content: '%s nodos creados con éxito'
+    invalid-content-types: 'Los tipos de contenido "%s" son inválidos'
+    created-nodes: '"%s" nodos creados con éxito'
+    generated-content: '"%s" nodos creados con éxito'

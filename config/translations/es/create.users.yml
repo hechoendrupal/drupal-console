@@ -24,4 +24,4 @@ messages:
     roles: Roles
     username: 'Nombre de usuario'
     created: 'Fecha de creación'
-    created-users: 'Han sido creados %s usuarios con éxito'
+    created-users: 'Han sido creados "%s" usuarios con éxito'

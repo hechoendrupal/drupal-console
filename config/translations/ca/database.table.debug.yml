@@ -6,7 +6,7 @@ arguments:
 options:
     database: 'Database key from settings.php'
 messages:
-    table-show: 'Mostrant les taules de la base de dades %s'
+    table-show: 'Mostrant les taules de la base de dades "%s"'
     table: Taula
     column: Column
     type: Type

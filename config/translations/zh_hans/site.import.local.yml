@@ -7,9 +7,9 @@ options:
     environment: '将要导入的环境名称'
 messages:
     imported: '站点导入成功. 你可能需要运行 `drupal site:debug` 确定一切正常'
-    error-missing: '文件夹 %s 不存在'
-    error-not-drupal: '这是一个无效的 Drupal 根文件夹: %s'
-    error-writing: '尝试写配置文件的时候发生错误: %s'
+    error-missing: '文件夹 "%s" 不存在'
+    error-not-drupal: '这是一个无效的 Drupal 根文件夹: "%s"'
+    error-writing: '尝试写配置文件的时候发生错误: "%s"'
 questions:
     directory: '输入 Drupal 安装文件夹'
     name: '输入站点名称'

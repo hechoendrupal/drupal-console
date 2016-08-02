@@ -12,5 +12,5 @@ messages:
     arguments: '<comment>参数:</comment>'
     options: '<comment>选项:</comment>'
     help: '<comment>帮助:</comment>'
-    comment: '<comment>命名空间 %s 可用命令：</comment>'
+    comment: '<comment>命名空间 "%s" 可用命令：</comment>'
     available-commands: '<comment>可用命令：</comment>'

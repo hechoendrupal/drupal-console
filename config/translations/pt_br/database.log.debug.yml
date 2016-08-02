@@ -16,4 +16,4 @@ messages:
     user: Usuário
     severity: Severidade
     invalid-severity: 'O tipo de severidade é inválido, o filtro foi ignorado'
-    not-found: 'Evento DBLog %s não foi encontrado.'
+    not-found: 'Evento DBLog "%s" não foi encontrado.'

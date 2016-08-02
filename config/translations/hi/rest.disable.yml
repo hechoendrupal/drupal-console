@@ -5,5 +5,5 @@ arguments:
 questions:
     resource-id: 'REST क्रमांक'
 messages:
-    invalid-rest-id: 'REST क्रमांक %sअमान्य है।'
-    success: 'Rest ID %s disabled'
+    invalid-rest-id: 'REST क्रमांक "%s"अमान्य है।'
+    success: 'Rest ID "%s" disabled'

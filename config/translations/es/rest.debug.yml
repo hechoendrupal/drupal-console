@@ -14,4 +14,4 @@ messages:
     rest-state: 'Estados REST'
     supported-formats: 'Formatos Soportados'
     supported_auth: 'Proveedores de autenticación soportados'
-    not-found: 'El recurso rest %s no se ha encontrado'
+    not-found: 'El recurso rest "%s" no se ha encontrado'

@@ -2,7 +2,7 @@ description: 'Executar o servidor PHP atual'
 arguments:
     address: 'Valores de endereço:porta'
 messages:
-    executing: 'Executado PHP de %s.'
+    executing: 'Executado PHP de "%s".'
 errors:
     binary: 'Não foi possível encontrar o arquivo binário do PHP a ser executado.'
 examples:

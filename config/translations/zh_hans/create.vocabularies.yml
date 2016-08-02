@@ -10,5 +10,5 @@ questions:
 messages:
     vocabulary-id: '词汇表 Id'
     name: 名称
-    created-terms: '创建 %s 词汇表成功'
-    error: 创建词汇表出错：%s
+    created-terms: '创建 "%s" 词汇表成功'
+    error: 创建词汇表出错："%s"

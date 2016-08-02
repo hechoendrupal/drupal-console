@@ -10,7 +10,7 @@ messages:
     tag: Etiqueta
     status: Estat
     path: Camí
-    not-found: 'No s''ha trobat la vista %s.'
+    not-found: 'No s''ha trobat la vista "%s".'
     display-list: 'Mostrar llista'
     display-id: Identificador
     display-name: Nom

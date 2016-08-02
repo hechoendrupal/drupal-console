@@ -1,6 +1,6 @@
 description: 'Jalankan implementasi cron oleh modul atau jalankan semua cron-cron'
 messages:
-    module-invalid: 'Modul %s tidak memiliki implementasi cron'
-    executing-cron: 'Menjalankan fungsi cron dari modul %s'
+    module-invalid: 'Modul "%s" tidak memiliki implementasi cron'
+    executing-cron: 'Menjalankan fungsi cron dari modul "%s"'
     success: 'Semua permintaan implementasi cron sudah dijalankan dengan sukses'
     lock: 'Attempting to re-run cron while it is already running'

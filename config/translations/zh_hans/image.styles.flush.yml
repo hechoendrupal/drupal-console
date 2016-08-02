@@ -1,6 +1,6 @@
 description: '按图像样式执行 flush 函数或对所有图像样式执行 flush 函数'
 messages:
-    executing-flush: '对图像样式 %s 执行 flush 函数'
+    executing-flush: '对图像样式 "%s" 执行 flush 函数'
     success: '所有请求的 flush 函数被成功执行'
 options:
     image-style: '图像样式名称'

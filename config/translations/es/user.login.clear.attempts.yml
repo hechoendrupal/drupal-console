@@ -7,7 +7,7 @@ questions:
     numeric-uid: 'El id de usuario debe ser válido.'
     invalid-uid: 'El id de usuario debe ser mayor que cero.'
 messages:
-    successful: 'Los intentos de inicio de sesión fueron restablecidos satisfactoriamente para el id del usuario %s.'
+    successful: 'Los intentos de inicio de sesión fueron restablecidos satisfactoriamente para el id del usuario "%s".'
 errors:
-    invalid-user: 'No se puede cargar la entidad de usuario (Uid: %s).'
+    invalid-user: 'No se puede cargar la entidad de usuario (Uid: "%s").'
     no-flood: 'No flood table on the system.'

@@ -7,7 +7,7 @@ messages:
     note: नोट
     note-description: 'Drupal Console कमांड को एक Drupal 8 इंस्टालेशन की रुट से चलाया जाना चाहिए'
     command: 'Drupal Console कमाण्ड'
-    command_description: '**%s** कमांड %s'
+    command_description: '**"%s"** कमांड "%s"'
     usage: प्रयोग
     options: 'उपलब्ध विकल्प'
     option: विकल्प
@@ -22,7 +22,7 @@ output:
         note-description: 'Drupal Console कमांड को एक Drupal 8 इंस्टालेशन की रुट से चलाया जाना चाहिए'
         command: 'Drupal Console कमाण्ड'
     command:
-        command_description: '**%s** कमांड %s'
+        command_description: '**"%s"** कमांड "%s"'
         usage: प्रयोग
         options: 'उपलब्ध विकल्प'
         option: विकल्प

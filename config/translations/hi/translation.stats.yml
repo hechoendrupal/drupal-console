@@ -4,7 +4,7 @@ arguments:
 options:
     format: 'आउटपुट स्वरूप को परिभाषित करें table|markdown'
 messages:
-    invalid-language: 'भाषा %s अवैध है'
+    invalid-language: 'भाषा "%s" अवैध है'
     language: भाषा
     percentage: प्रतिशत
     iso: 'ISO Code'

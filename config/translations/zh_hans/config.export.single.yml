@@ -11,7 +11,7 @@ questions:
     optional-config: '导出配置到模块中作为一个可选配置'
 messages:
     config-not-found: '配置名称没有找到'
-    export: '导出的配置文件在： %s'
+    export: '导出的配置文件在： "%s"'
     invalid-config-type: '无效配置类型，请从列表中选择一个'
     invalid-config-name: '无效配置名称，请从列表中选择一个'
     config_exported: '配置导出成功'

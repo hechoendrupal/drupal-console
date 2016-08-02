@@ -11,5 +11,5 @@ messages:
     default-theme: 'Tema padrão'
     properties: Propriedades
     regions: Regiões
-    invalid-theme: 'O tema %s é inválido'
+    invalid-theme: 'O tema "%s" é inválido'
     theme-properties: Propriedades

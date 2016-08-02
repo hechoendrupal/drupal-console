@@ -19,6 +19,6 @@ messages:
     directory_temporary: 'Webhely ideiglenes könyvtára'
     directory_theme_default: 'Alapértelmezett sminkkönyvtár'
     directory_theme_admin: 'Adminisztrátori smink könyvtára'
-    current_version: 'Aktuális Drupal verzió (%s)'
+    current_version: 'Aktuális Drupal verzió ("%s")'
     not_installed: 'A Drupal nincs telepítve'
     not_available: 'Not available'

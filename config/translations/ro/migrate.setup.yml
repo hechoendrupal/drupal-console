@@ -19,6 +19,6 @@ questions:
     files-directory: 'Files Directory'
 messages:
     not-drupal: 'Baza de date sursă nu conține o versiune de Drupal care poate fi recunoscută.'
-    migrations-created: 'Migrațiunile %s pentru %s au fost create cu succes.'
+    migrations-created: 'Migrațiunile "%s" pentru "%s" au fost create cu succes.'
     migrations-not-found: 'Nu sunt migrațiuni disponibile'
     migrations-already-exist: 'Toate migrațiunile disponibile sunt deja create'

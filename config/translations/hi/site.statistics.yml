@@ -3,7 +3,7 @@ help: 'वेबसाइट के मौजूदा आंकड़े बत
 messages:
     stat-name: नाम
     stat-quantity: मात्रा
-    node-type: 'नोड:%s'
+    node-type: 'नोड:"%s"'
     comments: कमेंट्स
     vocabulary: शब्दसंग्रह
     taxonomy-terms: 'टैक्सोनॉमी टर्म्स'

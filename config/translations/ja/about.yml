@@ -5,9 +5,9 @@ messages:
     welcome-feature-interact: Drupal8を対話的にインストール
     welcome-feature-learn: Drupal8について学ぶ
     links: プロジェクトへのリンク
-    landing: 'ランディングページ - %s'
-    change-log: '変更履歴 - %s'
-    documentation: 'ドキュメント %s'
-    support: 'サポートチャットルーム - %s'
+    landing: 'ランディングページ - "%s"'
+    change-log: '変更履歴 - "%s"'
+    documentation: 'ドキュメント "%s"'
+    support: 'サポートチャットルーム - "%s"'
     supporting-organizations: 支援団体
-    version-supported: 'サポート対象のDrupalバージョン <info>%s</info>'
+    version-supported: 'サポート対象のDrupalバージョン <info>"%s"</info>'
