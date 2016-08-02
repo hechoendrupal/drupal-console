@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Yaml\UpdateValueCommand.
+ * Contains \Drupal\Console\Command\Yaml\GetValueCommand.
  */
 
 namespace Drupal\Console\Command\Yaml;
@@ -62,11 +62,22 @@ class GetValueCommand extends Command
         )
       );
     }
+    else {
+      $nested_array = $this->getApplication()->getNestedArrayHelper();
+      $parents = explode(".", $yaml_key);
+      $yaml_value = $nested_array::getValue($yaml_parsed, $parents, $key_exists);
 
-    $nested_array = $this->getApplication()->getNestedArrayHelper();
-    $parents = explode(".", $yaml_key);
-    $yaml_value = $nested_array::getValue($yaml_parsed, $parents);
+      if (!$key_exists) {
+        $io->info(
+          sprintf(
+            $this->trans('commands.yaml.get.value.messages.invalid-key'),
+            $yaml_key,
+            $yaml_file
+          )
+        );
+      }
 
-    $output->writeln($yaml_value);
+      $output->writeln($yaml_value);
+    }
   }
 }

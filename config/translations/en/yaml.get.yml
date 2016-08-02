@@ -3,3 +3,5 @@ value:
     arguments:
         yaml-file: 'Path of YAML file to update'
         yaml-key: 'YAML key to get'
+    messages:
+        invalid-key: 'Could not find key %s in %s.'
