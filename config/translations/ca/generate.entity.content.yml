@@ -8,7 +8,7 @@ options:
     has-bundles: 'L''entitat conté bundles'
     base-path: 'El camí base per les rutes de l''entitat de continguts'
     is-translatable: 'Content entity translatable'
-    is-revisionable: 'Content entity revisionable'
+    revisionable: 'Content entity revisionable'
 questions:
     module: common.questions.module
     entity-class: 'Introduïu la classe de la nova entitat de contingut'
@@ -17,4 +17,4 @@ questions:
     has-bundles: 'Vols que aquest contingut tingui bundles'
     base-path: 'Introduïu el camí base per les rutes de l''entitat de contigut'
     is-translatable: 'Is your entity translatable'
-    is-revisionable: 'Vol que la seva entitat tingui les revisions'
+    revisionable: 'Vol que la seva entitat tingui les revisions'

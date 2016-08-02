@@ -9,7 +9,7 @@ namespace Drupal\{{module}}\Entity;
 {% endblock %}
 
 {% block use_class %}
-{% if is_revisionable %}
+{% if revisionable %}
 use Drupal\Core\Entity\RevisionableInterface;
 use Drupal\Component\Utility\Xss;
 use Drupal\Core\Url;
@@ -26,7 +26,7 @@ use Drupal\user\EntityOwnerInterface;
  *
  * @ingroup {{module}}
  */
-interface {{ entity_class }}Interface extends {% if is_revisionable %}RevisionableInterface{% else %} ContentEntityInterface{% endif %}, EntityChangedInterface, EntityOwnerInterface {% endblock %}
+interface {{ entity_class }}Interface extends {% if revisionable %}RevisionableInterface{% else %} ContentEntityInterface{% endif %}, EntityChangedInterface, EntityOwnerInterface {% endblock %}
 {% block class_methods %}
   // Add get/set methods for your configuration properties here.
 
@@ -98,7 +98,7 @@ interface {{ entity_class }}Interface extends {% if is_revisionable %}Revisionab
    *   The called {{ label }} entity.
    */
   public function setPublished($published);
-{% if is_revisionable %}
+{% if revisionable %}
 
   /**
    * Gets the {{ label }} revision creation timestamp.

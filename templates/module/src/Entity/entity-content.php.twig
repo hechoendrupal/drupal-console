@@ -11,7 +11,7 @@ namespace Drupal\{{ module }}\Entity;
 {% block use_class %}
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
-{% if is_revisionable %}
+{% if revisionable %}
 use Drupal\Core\Entity\RevisionableContentEntityBase;
 {% else %}
 use Drupal\Core\Entity\ContentEntityInterface;
@@ -34,7 +34,7 @@ use Drupal\user\UserInterface;
  *   bundle_label = @Translation("{{ label }} type"),
 {% endif %}
  *   handlers = {
-{% if is_revisionable %}
+{% if revisionable %}
  *     "storage" = "Drupal\{{ module }}\{{ entity_class }}Storage",
 {% endif %}
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
@@ -57,7 +57,7 @@ use Drupal\user\UserInterface;
  *   },
  *   base_table = "{{ entity_name }}",
  *   data_table = "{{ entity_name }}_field_data",
-{% if is_revisionable %}
+{% if revisionable %}
  *   revision_table = "{{ entity_name }}_revision",
  *   revision_data_table = "{{ entity_name }}_field_revision",
 {% endif %}
@@ -67,7 +67,7 @@ use Drupal\user\UserInterface;
  *   admin_permission = "administer {{ label|lower }} entities",
  *   entity_keys = {
  *     "id" = "id",
-{% if is_revisionable %}
+{% if revisionable %}
  *     "revision" = "vid",
 {% endif %}
 {% if bundle_entity_type %}
@@ -89,7 +89,7 @@ use Drupal\user\UserInterface;
 {% endif %}
  *     "edit-form" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
  *     "delete-form" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete",
-{% if is_revisionable %}
+{% if revisionable %}
  *     "version-history" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}/revisions",
  *     "revision" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}/revisions/{{ '{'~entity_name~'_revision}' }}/view",
 {% if is_translatable %}
@@ -108,7 +108,7 @@ use Drupal\user\UserInterface;
 {% endif %}
  * )
  */
-class {{ entity_class }} extends {% if is_revisionable %}RevisionableContentEntityBase{% else %}ContentEntityBase{% endif %} implements {{ entity_class }}Interface {% endblock %}
+class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityBase{% else %}ContentEntityBase{% endif %} implements {{ entity_class }}Interface {% endblock %}
 
 {% block use_trait %}
   use EntityChangedTrait;
@@ -125,7 +125,7 @@ class {{ entity_class }} extends {% if is_revisionable %}RevisionableContentEnti
       'user_id' => \Drupal::currentUser()->id(),
     );
   }
-{% if is_revisionable %}
+{% if revisionable %}
 
   /**
    * {@inheritdoc}
@@ -233,7 +233,7 @@ class {{ entity_class }} extends {% if is_revisionable %}RevisionableContentEnti
     $this->set('status', $published ? TRUE : FALSE);
     return $this;
   }
-{% if is_revisionable %}
+{% if revisionable %}
 
   /**
    * {@inheritdoc}
@@ -300,7 +300,7 @@ class {{ entity_class }} extends {% if is_revisionable %}RevisionableContentEnti
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
       ->setDescription(t('The name of the {{ label }} entity.'))
-{% if is_revisionable %}
+{% if revisionable %}
       ->setRevisionable(TRUE)
 {% endif %}
       ->setSettings(array(
@@ -323,7 +323,7 @@ class {{ entity_class }} extends {% if is_revisionable %}RevisionableContentEnti
     $fields['status'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Publishing status'))
       ->setDescription(t('A boolean indicating whether the {{ label }} is published.'))
-{% if is_revisionable %}
+{% if revisionable %}
       ->setRevisionable(TRUE)
 {% endif %}
       ->setDefaultValue(TRUE);
@@ -335,7 +335,7 @@ class {{ entity_class }} extends {% if is_revisionable %}RevisionableContentEnti
     $fields['changed'] = BaseFieldDefinition::create('changed')
       ->setLabel(t('Changed'))
       ->setDescription(t('The time that the entity was last edited.'));
-{% if is_revisionable %}
+{% if revisionable %}
 
     $fields['revision_timestamp'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Revision timestamp'))

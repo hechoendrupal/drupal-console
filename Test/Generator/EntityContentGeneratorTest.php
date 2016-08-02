@@ -32,7 +32,7 @@ class EntityContentGeneratorTest extends GeneratorTest
         $label,
         $base_path,
         $is_translatable,
-        $is_revisionable
+        $revisionable
     ) {
         $generator = new EntityContentGenerator();
         $this->getRenderHelper()->setSkeletonDirs($this->getSkeletonDirs());
@@ -46,7 +46,7 @@ class EntityContentGeneratorTest extends GeneratorTest
             $label,
             $base_path,
             $is_translatable,
-            $is_revisionable
+            $revisionable
         );
 
         $files = [

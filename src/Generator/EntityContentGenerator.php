@@ -19,9 +19,9 @@ class EntityContentGenerator extends Generator
      * @param string $base_path          Base path
      * @param string $is_translatable    Translation configuration
      * @param string $bundle_entity_type (Config) entity type acting as bundle
-     * @param bool $is_revisionable      Revision configuration
+     * @param bool $revisionable      Revision configuration
      */
-    public function generate($module, $entity_name, $entity_class, $label, $base_path, $is_translatable, $bundle_entity_type = null, $is_revisionable = false)
+    public function generate($module, $entity_name, $entity_class, $label, $base_path, $is_translatable, $bundle_entity_type = null, $revisionable = false)
     {
         $parameters = [
             'module' => $module,
@@ -31,7 +31,7 @@ class EntityContentGenerator extends Generator
             'bundle_entity_type' => $bundle_entity_type,
             'base_path' => $base_path,
             'is_translatable' => $is_translatable,
-            'is_revisionable' => $is_revisionable,
+            'revisionable' => $revisionable,
         ];
 
         $this->renderFile(
@@ -136,7 +136,7 @@ class EntityContentGenerator extends Generator
             $parameters
         );
 
-        if ($is_revisionable) {
+        if ($revisionable) {
           $this->renderFile(
             'module/src/Entity/Form/entity-content-revision-delete.php.twig',
             $this->getSite()->getFormPath($module).'/'.$entity_class.'RevisionDeleteForm.php',

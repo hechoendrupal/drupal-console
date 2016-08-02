@@ -8,7 +8,7 @@ options:
     has-bundles: 'एंटिटि मॆ बंडल हे'
     base-path: 'कॉन्फिग एंटिटी रुट्स के लिए बेस पथ'
     is-translatable: 'Content entity translatable'
-    is-revisionable: 'सामग्री इकाई संशोधन किया गया है'
+    revisionable: 'सामग्री इकाई संशोधन किया गया है'
 questions:
     module: common.questions.module
     entity-class: 'अपने नई कंटेंट एंटिटि की कक्षा लिखॆ'
@@ -17,4 +17,4 @@ questions:
     has-bundles: 'आप (कंटेंट) एंटिटि  मे बंडल चाहते हैं'
     base-path: 'कॉन्फिग एंटिटी रुट्स के लिए बेस पथ दर्ज करे'
     is-translatable: 'Is your entity translatable'
-    is-revisionable: "आप संशोधन के लिए अपने इकाई चाहते हैं"
+    revisionable: "आप संशोधन के लिए अपने इकाई चाहते हैं"

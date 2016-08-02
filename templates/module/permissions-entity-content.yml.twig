@@ -20,7 +20,7 @@ view published {{ label|lower }} entities:
 
 view unpublished {{ label|lower }} entities:
   title: 'View unpublished {{ label }} entities'
-{% if is_revisionable %}
+{% if revisionable %}
 
 view all {{ label|lower }} revisions:
   title: 'View all {{ label }} revisions'

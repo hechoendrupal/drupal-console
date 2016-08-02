@@ -8,7 +8,7 @@ options:
     has-bundles: 'La entidad tiene bundles'
     base-path: 'El directorio raíz para las rutas de la entidad de contenido'
     is-translatable: 'Entidad de contenido traducible'
-    is-revisionable: 'Entidad de contenido tiene las revisiones'
+    revisionable: 'Entidad de contenido tiene las revisiones'
 questions:
     module: common.questions.module
     entity-class: 'Proporcione la clase de la nueva entidad de contenido'
@@ -17,4 +17,4 @@ questions:
     has-bundles: 'Desea que esta entidad de contenido tenga bundles'
     base-path: 'Proporcione el directorio raíz para las rutas de la entidad de contenido'
     is-translatable: 'Es su entidad traducible'
-    is-revisionable: 'Quiere que su entidad tenga las revisiones'
+    revisionable: 'Quiere que su entidad tenga las revisiones'

@@ -34,7 +34,7 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
     if ($collection_route = $this->getCollectionRoute($entity_type)) {
       $collection->add("entity.{$entity_type_id}.collection", $collection_route);
     }
-{% if is_revisionable %}
+{% if revisionable %}
 
     if ($history_route = $this->getHistoryRoute($entity_type)) {
       $collection->add("entity.{$entity_type_id}.version_history", $history_route);
@@ -88,7 +88,7 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
       return $route;
     }
   }
-{% if is_revisionable %}
+{% if revisionable %}
 
   /**
    * Gets the version history route.

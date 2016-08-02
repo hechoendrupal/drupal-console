@@ -8,7 +8,7 @@ options:
     has-bundles: 'Entity has bundles'
     base-path: 'The base-path for the content entity routes'
     is-translatable: 'Content entity translatable'
-    is-revisionable: '콘텐츠 기업은 수정 이'
+    revisionable: '콘텐츠 기업은 수정 이'
 questions:
     module: common.questions.module
     entity-class: 'Enter the class of your new content entity'
@@ -17,4 +17,4 @@ questions:
     has-bundles: 'Do you want this (content) entity to have bundles'
     base-path: 'Enter the base-path for the content entity routes'
     is-translatable: 'Is your entity translatable'
-    is-revisionable: '당신은 수정 을 위해 기업 이 필요합니까'
+    revisionable: '당신은 수정 을 위해 기업 이 필요합니까'

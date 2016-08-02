@@ -8,7 +8,7 @@ options:
     has-bundles: 'Entity has bundles'
     base-path: 'The base-path for the content entity routes'
     is-translatable: 'Content entity translatable'
-    is-revisionable: 'nilalaman entity ay may revisions'
+    revisionable: 'nilalaman entity ay may revisions'
 questions:
     module: common.questions.module
     entity-class: 'Enter the class of your new content entity'
@@ -17,4 +17,4 @@ questions:
     has-bundles: 'Do you want this (content) entity to have bundles'
     base-path: 'Enter the base-path for the content entity routes'
     is-translatable: 'Is your entity translatable'
-    is-revisionable: 'Gusto mo ang iyong mga entity na magkaroon revisions'
+    revisionable: 'Gusto mo ang iyong mga entity na magkaroon revisions'

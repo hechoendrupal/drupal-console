@@ -40,10 +40,10 @@ class EntityContentCommand extends EntityCommand
         );
 
         $this->addOption(
-          'is-revisionable',
+          'revisionable',
           null,
           InputOption::VALUE_NONE,
-          $this->trans('commands.generate.entity.content.options.is-revisionable')
+          $this->trans('commands.generate.entity.content.options.revisionable')
         );
     }
 
@@ -72,12 +72,12 @@ class EntityContentCommand extends EntityCommand
         );
         $input->setOption('is-translatable', $is_translatable);
 
-        // --is-revisionable option
-        $is_revisionable = $io->confirm(
-          $this->trans('commands.generate.entity.content.questions.is-revisionable'),
+        // --revisionable option
+        $revisionable = $io->confirm(
+          $this->trans('commands.generate.entity.content.questions.revisionable'),
           true
         );
-        $input->setOption('is-revisionable', $is_revisionable);
+        $input->setOption('revisionable', $revisionable);
     }
 
     /**
@@ -94,14 +94,14 @@ class EntityContentCommand extends EntityCommand
         $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
         $bundle_entity_name = $has_bundles ? $entity_name . '_type' : null;
         $is_translatable = $input->hasOption('is-translatable') ? $input->getOption('is-translatable') : true;
-        $is_revisionable = $input->hasOption('is-revisionable') ? $input->getOption('is-revisionable') : false;
+        $revisionable = $input->hasOption('revisionable') ? $input->getOption('revisionable') : false;
 
         $io = new DrupalStyle($input, $output);
         $generator = $this->getGenerator();
         $generator->setIo($io);
         $generator->setLearning($learning);
 
-        $generator->generate($module, $entity_name, $entity_class, $label, $base_path, $is_translatable, $bundle_entity_name, $is_revisionable);
+        $generator->generate($module, $entity_name, $entity_class, $label, $base_path, $is_translatable, $bundle_entity_name, $revisionable);
 
         if ($has_bundles) {
             $this->getChain()->addCommand(

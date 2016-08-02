@@ -16,7 +16,7 @@ entity.{{ entity_name }}.edit_form:
   route_name: entity.{{ entity_name }}.edit_form
   base_route: entity.{{ entity_name }}.canonical
   title: 'Edit'
-{% if is_revisionable %}
+{% if revisionable %}
 
 entity.{{ entity_name }}.version_history:
   route_name: entity.{{ entity_name }}.version_history
