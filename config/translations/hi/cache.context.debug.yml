@@ -1,5 +1,5 @@
 description: 'Displays current cache context for the application.'
 messages:
     code: 'Context ID'
-    label: 'Label'
+    label: Label
     class: 'Class path'

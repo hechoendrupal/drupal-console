@@ -1,15 +1,15 @@
-description: '刪除網站應用中的使用者'
+description: 刪除網站應用中的使用者
 help: '<info>user:delete</info> 指令可幫助你刪除使用者。'
 welcome: '歡迎來到 Drupal 使用者刪除介面'
 options:
     user-id: '要刪除的使用者 ID'
-    roles: '刪除與指定角色關聯的多位使用者'
+    roles: 刪除與指定角色關聯的多位使用者
 questions:
     user-id: '要刪除的使用者 ID （留空跳過此步驟）'
-    roles: '選擇一或多個角色已刪除其關聯的多位使用者'
+    roles: 選擇一或多個角色已刪除其關聯的多位使用者
 messages:
     user-id: '使用者 ID'
-    username: '使用者名稱'
+    username: 使用者名稱
     user-deleted: '成功刪除使用者 "%s"'
     users-deleted: '成功刪除使用者 "%s"'
 errors:

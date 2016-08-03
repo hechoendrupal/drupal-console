@@ -33,6 +33,10 @@ messages:
         route: "Com a finalidade de criar páginas é necessário criar rotas para elas.\nUma rota relaciona uma URL a um controlador. Isso define qual função\nou método será chamado quando uma URL é acessada.\nSe o usuário acessar http://drupal8.dev/{{ route }}, o sistema buscará uma rota para esse caminho. Neste caso, se encontrar uma rota\n, e executará a chamada controller. Neste caso a chamada é \ndefinida como um nome de classe\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\ne um método (\"{{ method_name }}\")."
     autocomplete: "Bash or Zsh: Adiciona está linha para arquivo de configuração do shell:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Criar um link simbólico\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
     version: '<info>"%s"</info> version <comment>"%s"</comment>'
+    disable:
+        command:
+            error: 'Command: "%s" is deprecated.'
+            extra: 'You must execute: "%s" instead'
 errors:
     invalid-command: 'Comando "%s" não está definido.'
 site:

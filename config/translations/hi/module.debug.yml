@@ -17,4 +17,4 @@ messages:
     total-daily: 'Daily installs'
     no-results: 'Module "%s" was not found in the repository'
     enabled: सक्षम
-    disabled: 'अक्षम'
+    disabled: अक्षम

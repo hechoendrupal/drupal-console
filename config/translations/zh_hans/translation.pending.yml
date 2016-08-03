@@ -1,6 +1,6 @@
 description: 未翻译检测
 arguments:
-    language: '语言代码'
+    language: 语言代码
 options:
     file: 检测的文件
 messages:

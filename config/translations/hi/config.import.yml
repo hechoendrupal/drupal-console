@@ -8,4 +8,7 @@ arguments:
 messages:
     config_files_imported: 'व्यवस्था फाइलों कि सूचि।'
     imported: 'सारे समाकृत फाइलो को स्टेजिंग डायरेक्टरी में प्रतिरूप और आयात कर दिया गया है।'
+    importing: 'Importing configuration.'
+    already-imported: 'Another request may be synchronizing configuration already.'
+    nothing-to-do: 'There are no changes to import.'
     copied: 'सारे समाकृत फाइलो को स्टेजिंग डायरेक्टरी में प्रतिरूप कर दिया गया है।'

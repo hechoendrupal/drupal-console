@@ -4,7 +4,7 @@ arguments:
     yaml-right: 比較元のYAMLファイルにない部分や違いを見つけるためのYAMLファイル
 options:
     stats: YAMLファイルの比較に関する統計情報を表示する
-    negate: 一致・不一致の比較のためのモードを定義する（使用可能な値は TRUE/FALSE または 0/1）
+    negate: '一致・不一致の比較のためのモードを定義する（使用可能な値は TRUE/FALSE または 0/1）'
     limit: 結果の数を制限する
     offset: 制限する際の最初の位置
 questions:

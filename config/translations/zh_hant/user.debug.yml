@@ -1,17 +1,17 @@
-description: '顯示目前網站應用中的使用者'
+description: 顯示目前網站應用中的使用者
 help: '<info>user:debug</info> 指令可幫助你取得目前使用者。'
 welcome: '歡迎來到 Drupal 使用者偵錯介面'
 options:
     roles: 要在偵錯列表中顯示的角色
-    limit: '要在偵錯列表中顯示的使用者數量上限'
+    limit: 要在偵錯列表中顯示的使用者數量上限
     uid: '以逗點(,)區隔 uid ，以篩選要顯示的使用者列表，例如："1,2,3"'
     username: '以逗點(,)區隔使用者名稱，以篩選要顯示的使用者列表，例如："amo, chris"'
     mail: '以逗點(,)區隔使用者 Email， 以篩選要顯示的使用者列表，例如："user@example.com, user2@example.com"'
 questions:
     roles: 選擇要在偵錯列表中顯示的一或多個角色
-    limit: '輸入要顯示的使用者數量上限'
+    limit: 輸入要顯示的使用者數量上限
 messages:
     user-id: '使用者 ID'
-    username: '使用者'
+    username: 使用者
     roles: 角色
-    status: '狀態'
+    status: 狀態
