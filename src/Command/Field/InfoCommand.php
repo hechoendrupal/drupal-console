@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Field;
 
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
@@ -50,21 +51,21 @@ class InfoCommand extends Command
     private function displayEntityBundleFields(DrupalStyle $io)
     {
 
-        // @todo: change to use entity type manager as entity manager deprecated
-        $entityManager = \Drupal::service('entity.manager');
-        $entityList = $entityManager->getDefinitions();
-        $allFields = $entityManager->getFieldMap();
+        $entityTypeManager = \Drupal::service('entity_type.manager');
+        $entityFieldManager = \Drupal::service('entity_field.manager');
+        $entityList = $entityTypeManager->getDefinitions();
+        $allFields = $entityFieldManager->getFieldMap();
 
-        foreach ($entityList as $entityKey => $entityValue) {
+        foreach ($entityList as $entity_type_id => $entityValue) {
             // If the Entity has bundle_entity_type set we grab it.
             $bundle_entity_type = $entityValue->get('bundle_entity_type');
 
             // Check to see if the entity has any bundle before continuing.
             if (!empty($bundle_entity_type)) {
-                $entityTypes = $entityManager->getStorage($bundle_entity_type)->loadMultiple();
+                $entityTypes = $entityTypeManager->getStorage($bundle_entity_type)->loadMultiple();
 
                 // Override the Entity Title / Label for select entities.
-                switch ($entityKey) {
+                switch ($entity_type_id) {
                     case 'block_content':
                         $bundleParent = $this->trans('commands.field.info.other.section-heading-block-content');
                         break;
@@ -99,12 +100,12 @@ class InfoCommand extends Command
 
                 foreach ($entityTypes as $entityType) {
                     // Load in the entityType fields.
-                    $fields = $this->entityTypeFields($entityKey, $entityType->id());
+                    $fields = $this->getBundleFields($entity_type_id, $entityType->id());
 
                     foreach ($fields as $field => $field_array) {
                         // Get the related / used in bundles from the field.
                         $relatedBundles = "";
-                        $relatedBundlesArray = $allFields[$entityKey][$field]['bundles'];
+                        $relatedBundlesArray = $allFields[$entity_type_id][$field]['bundles'];
 
                         // Turn those related / used in bundles array into a string.
                         foreach ($relatedBundlesArray as $relatedBundlesValue) {
@@ -129,10 +130,10 @@ class InfoCommand extends Command
                         unset($relatedBundles);
                     }
 
-                    // Output the field label.
+                    // Output the bundle label.
                     $io->info($entityType->label());
 
-                    // Output the field description.
+                    // Output the bundle description.
                     // $io->info(strip_tags($entityType->get('description')));
 
                     // If no rows exist for the fields then we display a no results message.
@@ -149,8 +150,9 @@ class InfoCommand extends Command
                     }
 
                     // Clear out the rows & headers arrays to start fresh.
-                    unset($tableRows);
-                    unset($tableHeader);
+                    unset($tableHeader, $tableRows);
+
+                    // Create some space so the output looks nice.
                     $io->newLine();
                 }
             }
@@ -160,21 +162,21 @@ class InfoCommand extends Command
     /**
      * Helper function to get the field definitions.
      *
-     * @param string $entityKey
-     *     The entity we want to inspect.
-     * @param string $contentType
-     *     The content type we want to discover the fields of.
+     * @param string $entity_type_id
+     *     The entity type we want to inspect.
+     * @param string bundle
+     *     The bundle we want to discover the fields of.
      * @return array
      *     The fields we want to display for this content type in this entity.
      */
-    private function entityTypeFields($entityKey, $contentType)
+    private function getBundleFields($entity_type_id, $bundle)
     {
-        $entityManager = \Drupal::service('entity.manager');
+        $entityFieldManager = \Drupal::service('entity_field.manager');
         $fields = [];
 
-        if (!empty($entityKey) && !empty($contentType)) {
+        if (!empty($entity_type_id) && !empty($bundle)) {
             $fields = array_filter(
-                $entityManager->getFieldDefinitions($entityKey, $contentType),
+                $entityFieldManager->getFieldDefinitions($entity_type_id, $bundle),
                 function ($field_definition) {
                     return $field_definition instanceof FieldConfigInterface;
                 }
