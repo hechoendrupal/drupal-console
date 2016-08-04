@@ -8,4 +8,4 @@ options:
 messages:
     generating-split: 新しいファイルを生成しています
     split-generated: 'ファイル "%s" が生成されました'
-    invalid-key: 指定されたYAMLキーが見つかりません。値を抽出するには indent-level 0 と組み合わせてください。
+    invalid-key: '指定されたYAMLキーが見つかりません。値を抽出するには indent-level 0 と組み合わせてください。'

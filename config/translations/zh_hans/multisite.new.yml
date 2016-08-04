@@ -1,12 +1,12 @@
-description: '建立一个新的多站点安装文件(s)'
+description: 建立一个新的多站点安装文件(s)
 help: '命令 <info>multisite:new</info> 通过创建需要的子文件夹和文件(s)建立一个新的多站点安装,, 并可以选择性的拷贝已经存在的''default'' 安装'
 arguments:
     sites-subdir: '''sites'' 文件夹下应该被创建的文件夹名称'
 options:
     site-uri: '添加到 sites.php 文件中的站点 URI'
-    copy-install: '从默认安装拷贝已存在的站点'
+    copy-install: 从默认安装拷贝已存在的站点
 errors:
-    subdir-empty: '必须指定一个等待创建的多站点子文件夹'
+    subdir-empty: 必须指定一个等待创建的多站点子文件夹
     subdir-exists: 'sites/"%s" 文件夹已经存在'
     default-missing: 'sites/default 文件夹缺失'
     mkdir-fail: '无法创建 sites/"%s". 请检查 sites 文件夹权限并重试'

@@ -1,11 +1,11 @@
-description: '导入选择的配置'
+description: 导入选择的配置
 arguments:
-    name: '配置名称'
-    file: '导入文件的路径'
-    input-file: '导入文件的路径'
+    name: 配置名称
+    file: 导入文件的路径
+    input-file: 导入文件的路径
 questions:
-    name: '输入配置名称'
-    file: '输入导入文件路径'
+    name: 输入配置名称
+    file: 输入导入文件路径
 messages:
     empty-value: 值不能为空
     success: '配置 "%s" 被成功导入'

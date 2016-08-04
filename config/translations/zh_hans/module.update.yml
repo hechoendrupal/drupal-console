@@ -11,4 +11,4 @@ messages:
     success: '以下模块被成功安装: "%s"'
     composer: '模块 "%s" 使用 Composer 安装成功'
     only-composer: '仅仅更新通过 Composer 管理的模块,使用 --composer 选项'
-    missing-module: '输入要更新的模块名称'
+    missing-module: 输入要更新的模块名称
