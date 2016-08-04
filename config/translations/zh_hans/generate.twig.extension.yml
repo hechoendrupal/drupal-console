@@ -5,4 +5,3 @@ options:
     name: 'Twig 扩展名称'
 questions:
     twig-extension: '输入 Twig 扩展名称'
-

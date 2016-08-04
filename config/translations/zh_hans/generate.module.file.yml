@@ -2,6 +2,6 @@ description: '生成一个 .module 文件'
 help: '命令 <info>generate:module:file</info> 帮助您生成一个新的 .module 文件'
 welcome: '欢迎使用 Drupal 模块生成器'
 options:
-    module: '模块名称'
+    module: 模块名称
 questions:
-    module: '输入新模块名称'
+    module: 输入新模块名称

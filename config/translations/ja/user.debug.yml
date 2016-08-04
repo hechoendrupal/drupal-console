@@ -1,4 +1,4 @@
-description: 'ユーザー情報を表示'
+description: ユーザー情報を表示
 help: '<info>user:debug</info> コマンドはユーザー情報を表示します。'
 welcome: 'Welcome to the Drupal user debug'
 options:
@@ -8,8 +8,8 @@ options:
     username: 結果をユーザー名でフィルターします（空白区切りで引用符で囲う）
     mail: 結果をユーザーのメールアドレスでフィルターします（空白区切りで引用符で囲う）
 questions:
-    roles: 'ユーザーのフィルターに使用するロールを選択してください'
-    limit: '表示するユーザー数を入力してください'
+    roles: ユーザーのフィルターに使用するロールを選択してください
+    limit: 表示するユーザー数を入力してください
 messages:
     user-id: ユーザーID
     username: ユーザー名

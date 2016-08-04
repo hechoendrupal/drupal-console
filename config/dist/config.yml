@@ -31,8 +31,10 @@ application:
 #      - module_name_one
 #      - module_name_two
     commands:
-#      - generate:module
-#      - create:nodes
+      module:download: 'composer require drupal/project'
+      module:update: 'composer update drupal/project'
+      theme:download: 'composer require drupal/project'
+      theme:update: 'composer update drupal/project'
     namespaces:
 #      - generate
 #      - create
@@ -45,4 +47,4 @@ application:
     generate-chain: false
     yes: false
     composer: false
-    shellexec_output: true
+#    shellexec_output: true

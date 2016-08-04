@@ -4,5 +4,5 @@ arguments:
 messages:
     success: 'Processed "%s": "%s"/"%s" items in "%s" seconds.'
     failed: '"%s" の処理に失敗しました: "%s".'
-    missing-name: '有効なキューの名前を指定してください。'
+    missing-name: 有効なキューの名前を指定してください。
     invalid-name: '不正なキューの名前 "%s" が指定されました。'

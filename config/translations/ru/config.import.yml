@@ -6,3 +6,6 @@ arguments:
 messages:
     config_files_imported: 'Список конфигурационных файлов.'
     imported: 'Конфигурация импортирована успешно.'
+    importing: 'Importing configuration.'
+    already-imported: 'Another request may be synchronizing configuration already.'
+    nothing-to-do: 'There are no changes to import.'

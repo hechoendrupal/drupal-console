@@ -1,8 +1,8 @@
-description: '清理語系翻譯檔'
+description: 清理語系翻譯檔
 arguments:
-    language: '指定要清理的語系名稱'
+    language: 指定要清理的語系名稱
 messages:
     invalid-language: '錯誤的語系名稱 "%s"'
     language: 語系
     file-deleted: '"%s" 不再需要，已從"%s"語系刪除'
-    success: '不必要的檔案已經清理完畢'
+    success: 不必要的檔案已經清理完畢
