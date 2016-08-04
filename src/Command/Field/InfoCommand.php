@@ -39,59 +39,43 @@ class InfoCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $this->displayEntityBundleFields($io);
-    }
-
-    /**
-     * Displays entities listing and fields.
-     *
-     * @param \Drupal\Console\Style\DrupalStyle $io
-     *     An extension of SymfonyStyle for DrupalConsole.
-     */
-    private function displayEntityBundleFields(DrupalStyle $io)
-    {
 
         $entityTypeManager = \Drupal::service('entity_type.manager');
         $entityFieldManager = \Drupal::service('entity_field.manager');
         $entityList = $entityTypeManager->getDefinitions();
         $allFields = $entityFieldManager->getFieldMap();
 
-        foreach ($entityList as $entity_type_id => $entityValue) {
-            // If the Entity has bundle_entity_type set we grab it.
-            $bundle_entity_type = $entityValue->get('bundle_entity_type');
+        foreach ($entityList as $entityTypeId => $entityValue) {
+            // If the Entity has bundleEntityType set we grab it.
+            $bundleEntityType = $entityValue->get('bundle_entity_type');
 
             // Check to see if the entity has any bundle before continuing.
-            if (!empty($bundle_entity_type)) {
-                $entityTypes = $entityTypeManager->getStorage($bundle_entity_type)->loadMultiple();
+            if (!empty($bundleEntityType)) {
+                $entityTypes = $entityTypeManager->getStorage($bundleEntityType)->loadMultiple();
 
                 // Override the Entity Title / Label for select entities.
-                switch ($entity_type_id) {
+                switch ($entityTypeId) {
                     case 'block_content':
                         $bundleParent = $this->trans('commands.field.info.other.section-heading-block-content');
                         break;
-
                     case 'comment':
                         $bundleParent = $this->trans('commands.field.info.other.section-heading-comment');
                         break;
-
                     case 'contact_message':
                         $bundleParent = $this->trans('commands.field.info.other.section-heading-contact-message');
                         break;
-
                     case 'node':
                         $bundleParent = $this->trans('commands.field.info.other.section-heading-node');
                         break;
-
                     case 'shortcut':
                         $bundleParent = $this->trans('commands.field.info.other.section-heading-shortcut');
                         break;
-
                     case 'taxonomy_term':
                         $bundleParent = $this->trans('commands.field.info.other.section-heading-taxonomy-term');
                         break;
-
                     default:
                         $bundleParent = $entityValue->get('label');
+                        break;
                 }
 
                 // Output the Parent Entity label.
@@ -100,12 +84,12 @@ class InfoCommand extends Command
 
                 foreach ($entityTypes as $entityType) {
                     // Load in the entityType fields.
-                    $fields = $this->getBundleFields($entity_type_id, $entityType->id());
+                    $fields = $this->getBundleFields($entityTypeId, $entityType->id());
 
-                    foreach ($fields as $field => $field_array) {
+                    foreach ($fields as $field => $fieldArray) {
                         // Get the related / used in bundles from the field.
                         $relatedBundles = "";
-                        $relatedBundlesArray = $allFields[$entity_type_id][$field]['bundles'];
+                        $relatedBundlesArray = $allFields[$entityTypeId][$field]['bundles'];
 
                         // Turn those related / used in bundles array into a string.
                         foreach ($relatedBundlesArray as $relatedBundlesValue) {
@@ -120,9 +104,9 @@ class InfoCommand extends Command
 
                         // Build out our table for the fields.
                         $tableRows[] = [
-                            $field_array->get('label'),
-                            $field_array->get('field_type'),
-                            // $field_array->get('description'),
+                            $fieldArray->get('label'),
+                            $fieldArray->get('field_type'),
+                            // $fieldArray->get('description'),
                             $relatedBundles
                         ];
 
@@ -162,23 +146,24 @@ class InfoCommand extends Command
     /**
      * Helper function to get the field definitions.
      *
-     * @param string $entity_type_id
+     * @param string $entityTypeId
      *     The entity type we want to inspect.
-     * @param string bundle
+     * @param string $bundle
      *     The bundle we want to discover the fields of.
      * @return array
-     *     The fields we want to display for this content type in this entity.
+     *     An array of field storage definitions for the entity type,
+     *     keyed by field name.
      */
-    private function getBundleFields($entity_type_id, $bundle)
+    private function getBundleFields($entityTypeId, $bundle)
     {
         $entityFieldManager = \Drupal::service('entity_field.manager');
         $fields = [];
 
-        if (!empty($entity_type_id) && !empty($bundle)) {
+        if (!empty($entityTypeId) && !empty($bundle)) {
             $fields = array_filter(
-                $entityFieldManager->getFieldDefinitions($entity_type_id, $bundle),
-                function ($field_definition) {
-                    return $field_definition instanceof FieldConfigInterface;
+                $entityFieldManager->getFieldDefinitions($entityTypeId, $bundle),
+                function ($fieldDefinition) {
+                    return $fieldDefinition instanceof FieldConfigInterface;
                 }
             );
         }
