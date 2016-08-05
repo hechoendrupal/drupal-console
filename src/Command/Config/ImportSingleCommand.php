@@ -163,13 +163,12 @@ class ImportSingleCommand extends Command
         $io = new DrupalStyle($input, $output);
         $name = $input->getArgument('name');
         if (!$name) {
-            //$configFactory = $this->getDrupalService('config.factory');
-            //$names = $configFactory->listAll();
             $name = $io->ask(
                 $this->trans('commands.config.import.single.questions.name')
             );
             $input->setArgument('name', $name);
         }
+
         $file = $input->getArgument('file');
         if (!$file) {
             $file = $io->ask(

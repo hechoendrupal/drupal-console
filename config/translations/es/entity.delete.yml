@@ -1,0 +1,11 @@
+description: 'Delete an specific entity'
+help: 'The <info>entity:delete</info> command helps you delete entities.'
+arguments:
+  entity-definition-id: 'Entity definition id'
+  entity-id: 'Entity ID to be deleted'
+questions:
+  entity-type: 'Enter the Entity type'
+  entity-definition-id: 'Enter the  Entity definitin id'
+  entity-id: 'Enter the  Entity ID to be deleted'
+messages:
+  deleted: 'Entity %s with id %s was deleted successfully'
