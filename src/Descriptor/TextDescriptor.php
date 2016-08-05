@@ -103,7 +103,7 @@ class TextDescriptor extends Descriptor
             $totalWidth = max($totalWidth, strlen($argument->getName()));
         }
         if ($definition->getArguments()) {
-            $this->writeText($options['application']->trans('commands.list.messages.arguments'), $options);
+            $this->writeText($options['translator']->trans('commands.list.messages.arguments'), $options);
             $this->writeText("\n");
             foreach ($definition->getArguments() as $argument) {
                 $this->describeInputArgument($argument, array_merge($options, array('total_width' => $totalWidth)));
@@ -115,7 +115,7 @@ class TextDescriptor extends Descriptor
         }
         if ($definition->getOptions()) {
             $laterOptions = array();
-            $this->writeText($options['application']->trans('commands.list.messages.options'), $options);
+            $this->writeText($options['translator']->trans('commands.list.messages.options'), $options);
             foreach ($definition->getOptions() as $option) {
                 if (strlen($option->getShortcut()) > 1) {
                     $laterOptions[] = $option;
