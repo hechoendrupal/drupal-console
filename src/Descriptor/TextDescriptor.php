@@ -58,40 +58,40 @@ class TextDescriptor extends Descriptor
      */
     protected function describeInputOption(InputOption $option, array $options = array())
     {
-//        if ($option->acceptValue() && null !== $option->getDefault() && (!is_array($option->getDefault()) || count($option->getDefault()))) {
-//            $default = sprintf('<comment> [default: %s]</comment>', $this->formatDefaultValue($option->getDefault()));
-//        } else {
-//            $default = '';
-//        }
-//        $value = '';
-//        if ($option->acceptValue()) {
-//            $value = '='.strtoupper($option->getName());
-//            if ($option->isValueOptional()) {
-//                $value = '['.$value.']';
-//            }
-//        }
-//        $totalWidth = isset($options['total_width']) ? $options['total_width'] : $this->calculateTotalWidthForOptions(array($option));
-//        $synopsis = sprintf(
-//            '%s%s',
-//            $option->getShortcut() ? sprintf('-%s, ', $option->getShortcut()) : '    ',
-//            sprintf('--%s%s', $option->getName(), $value)
-//        );
-//        $spacingWidth = $totalWidth - strlen($synopsis) + 2;
-//        $this->writeText(
-//            sprintf(
-//                '  <info>%s</info>%s%s%s%s',
-//                $synopsis,
-//                str_repeat(' ', $spacingWidth),
-//                // + 17 = 2 spaces + <info> + </info> + 2 spaces
-//                preg_replace(
-//                    '/\s*\R\s*/',
-//                    "\n".str_repeat(' ', $totalWidth + 17),
-//                    $options['application']->trans($option->getDescription())
-//                ),
-//                $default,
-//                $option->isArray() ? '<comment> (multiple values allowed)</comment>' : ''
-//            ), $options
-//        );
+        if ($option->acceptValue() && null !== $option->getDefault() && (!is_array($option->getDefault()) || count($option->getDefault()))) {
+            $default = sprintf('<comment> [default: %s]</comment>', $this->formatDefaultValue($option->getDefault()));
+        } else {
+            $default = '';
+        }
+        $value = '';
+        if ($option->acceptValue()) {
+            $value = '='.strtoupper($option->getName());
+            if ($option->isValueOptional()) {
+                $value = '['.$value.']';
+            }
+        }
+        $totalWidth = isset($options['total_width']) ? $options['total_width'] : $this->calculateTotalWidthForOptions(array($option));
+        $synopsis = sprintf(
+            '%s%s',
+            $option->getShortcut() ? sprintf('-%s, ', $option->getShortcut()) : '    ',
+            sprintf('--%s%s', $option->getName(), $value)
+        );
+        $spacingWidth = $totalWidth - strlen($synopsis) + 2;
+        $this->writeText(
+            sprintf(
+                '  <info>%s</info>%s%s%s%s',
+                $synopsis,
+                str_repeat(' ', $spacingWidth),
+                // + 17 = 2 spaces + <info> + </info> + 2 spaces
+                preg_replace(
+                    '/\s*\R\s*/',
+                    "\n".str_repeat(' ', $totalWidth + 17),
+                    $options['application']->trans($option->getDescription())
+                ),
+                $default,
+                $option->isArray() ? '<comment> (multiple values allowed)</comment>' : ''
+            ), $options
+        );
     }
     /**
      * {@inheritdoc}
