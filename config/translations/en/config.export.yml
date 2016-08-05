@@ -1,5 +1,5 @@
 description: 'Export current application configuration.'
-arguments:
+options:
     directory: 'Define the export directory to save the configuration output.'
     tar: 'If set, the configuration will be exported to an archive file.'
 messages:

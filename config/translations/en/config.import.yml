@@ -1,5 +1,5 @@
 description: 'Import configuration to current application.'
-arguments:
+options:
     file: 'Path to an archive file of configuration to import.'
     directory: 'Path to a directory of configuration to import.'
     remove-files: 'Remove files after synchronization.'
