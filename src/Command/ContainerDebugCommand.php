@@ -33,7 +33,7 @@ class ContainerDebugCommand extends BaseCommand
             ->addArgument(
                 'service',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.container.debug.options.cache')
+                $this->trans('commands.container.debug.arguments.service')
             );
     }
 
