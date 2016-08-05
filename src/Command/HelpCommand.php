@@ -71,11 +71,14 @@ class HelpCommand extends BaseCommand
 
         $helper = new DescriptorHelper();
         $helper->describe(
-            $io, $this->command, array(
-            'format' => $input->getOption('format'),
-            'raw_text' => $input->getOption('raw'),
-            'command_name' => $input->getArgument('command_name'),
-            )
+            $io,
+            $this->command,
+            [
+                'format' => $input->getOption('format'),
+                'raw_text' => $input->getOption('raw'),
+                'command_name' => $input->getArgument('command_name'),
+                'translator' => $this->getApplication()->getTranslator()
+            ]
         );
 
         $this->command = null;
