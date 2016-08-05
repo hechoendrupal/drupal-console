@@ -1,22 +1,22 @@
 description: ユニットテストの実行
 arguments:
     test-class: テストクラス
-    test-methods: 'Test method(s) to be run'
+    test-methods: 実行するテストメソッド
 messages:
-    missing-dependency: 'Test can''t be executed due a missing dependency'
-    phpunit-pending: 'Logic to execute PHPUnit test is not implemented yet.'
-    starting-test: 'Starting test'
-    test-duration: 'Test duration'
-    test-pass: 'Test passes'
-    test-fail: 'Test fails'
-    test-exception: 'Test exceptions'
-    test-debug: 'Test debugs'
+    missing-dependency: 依存関係が満たされていないためテストを実行することができません。
+    phpunit-pending: PHPUnitテストを実行するロジックがまだ実装されていません。
+    starting-test: テスト開始
+    test-duration: テスト所要時間
+    test-pass: テスト成功
+    test-fail: テスト失敗
+    test-exception: テスト例外
+    test-debug: テストデバッグ
     url-required: 'テストを実行するには --url オプションを指定してください。'
-    test-summary: 'Test Summary'
-    group: Group
-    status: Status
-    file: File
-    method: Method
-    line: Line
-    message: Message
-    invalid-class: 'Testing class "%s" doesn''t exists'
+    test-summary: テストサマリー
+    group: グループ
+    status: ステータス
+    file: ファイル
+    method: メソッド
+    line: 行
+    message: メッセージ
+    invalid-class: 'テスト対象クラス "%s" は存在しません'

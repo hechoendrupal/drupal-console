@@ -85,7 +85,9 @@ class ServerCommand extends BaseCommand
         $processBuilder = new ProcessBuilder(explode(' ', $cli));
         $process = $processBuilder->getProcess();
         $process->setWorkingDirectory($this->get('site')->getRoot());
-        $process->setTty('true');
+        if ('\\' !== DIRECTORY_SEPARATOR && file_exists('/dev/tty') && is_readable('/dev/tty')) {
+            $process->setTty('true');
+        }
         $process->run();
 
         if (!$process->isSuccessful()) {

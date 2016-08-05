@@ -10,11 +10,14 @@ namespace Drupal\Console\Command\Develop;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 
-class GenerateDocDataCommand extends ContainerAwareCommand
+class GenerateDocDataCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+
     /**
      * {@inheritdoc}
      */

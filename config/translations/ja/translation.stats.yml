@@ -10,4 +10,4 @@ messages:
     iso: ISOコード
 tips:
     -
-        tip: 'Pass a language ISO code as argument to restrict the languages list'
+        tip: 言語リストを制限するには言語のISOコードを引数として渡してください
