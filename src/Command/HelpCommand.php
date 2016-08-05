@@ -61,6 +61,9 @@ class HelpCommand extends BaseCommand
 
         if (null === $this->command) {
             $this->command = $this->getApplication()->find($input->getArgument('command_name'));
+            $this->command->configure();
+
+            var_export($this->command);
         }
 
         if ($input->getOption('xml')) {

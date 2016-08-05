@@ -359,7 +359,6 @@ class Application extends BaseApplication
 
             if (method_exists($command, 'setTranslator')) {
                 $command->setTranslator($this->container->get('translator'));
-                $command->configure();
             }
 
             $this->add($command);
