@@ -1,5 +1,7 @@
 description: 'View information about fields.'
 help: 'View information about fields.'
+options:
+    detailed: 'Extended output with bundle and field descriptions'
 messages:
     fields-none: 'No fields are available'
 table:

@@ -30,7 +30,13 @@ class InfoCommand extends Command
         $this
             ->setName('field:info')
             ->setDescription($this->trans('commands.field.info.description'))
-            ->setHelp($this->trans('commands.field.info.help'));
+            ->setHelp($this->trans('commands.field.info.help'))
+            ->addOption(
+                'detailed',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.field.info.options.detailed')
+            );
     }
 
     /**
@@ -39,6 +45,9 @@ class InfoCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
+
+        // Retrieve whether detailed option has been selected.
+        $detailedOutput = $input->getOption('detailed');
 
         $entityTypeManager = \Drupal::service('entity_type.manager');
         $entityFieldManager = \Drupal::service('entity_field.manager');
@@ -103,10 +112,14 @@ class InfoCommand extends Command
                         }
 
                         // Build out our table for the fields.
-                        $tableRows[] = [
+                        $tableRows[] = $detailedOutput ? [
                             $fieldArray->get('label'),
                             $fieldArray->get('field_type'),
-                            // $fieldArray->get('description'),
+                            $fieldArray->get('description'),
+                            $relatedBundles
+                        ] : [
+                            $fieldArray->get('label'),
+                            $fieldArray->get('field_type'),
                             $relatedBundles
                         ];
 
@@ -117,15 +130,22 @@ class InfoCommand extends Command
                     // Output the bundle label.
                     $io->info($entityType->label());
 
-                    // Output the bundle description.
-                    // $io->info(strip_tags($entityType->get('description')));
+                    // If detailed output then display bundle description.
+                    if ($detailedOutput) {
+                        $io->info(strip_tags($entityType->get('description')));
+                    }
 
+                    // Fill out our table header.
                     // If no rows exist for the fields then we display a no results message.
                     if (!empty($tableRows)) {
-                        $tableHeader = [
+                        $tableHeader = $detailedOutput ? [
                             $this->trans('commands.field.info.table.header-name'),
                             $this->trans('commands.field.info.table.header-type'),
-                            // $this->trans('commands.field.info.table.header-desc'),
+                            $this->trans('commands.field.info.table.header-desc'),
+                            $this->trans('commands.field.info.table.header-usage')
+                        ] : [
+                            $this->trans('commands.field.info.table.header-name'),
+                            $this->trans('commands.field.info.table.header-type'),
                             $this->trans('commands.field.info.table.header-usage')
                         ];
                         $io->table($tableHeader, $tableRows);
