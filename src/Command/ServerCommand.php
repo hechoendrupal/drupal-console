@@ -87,6 +87,8 @@ class ServerCommand extends BaseCommand
         $process->setWorkingDirectory($this->get('site')->getRoot());
         if ('\\' !== DIRECTORY_SEPARATOR && file_exists('/dev/tty') && is_readable('/dev/tty')) {
             $process->setTty('true');
+        } else {
+            $process->setTimeout(null);
         }
         $process->run();
 
