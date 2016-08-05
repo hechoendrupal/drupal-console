@@ -4,9 +4,9 @@ welcome: 'Welcome to the Drupal user debug'
 options:
     roles: フィルターに使用するロール
     limit: 表示するユーザー数
-    uid: 'Filters the result list by uids [between quotes separated by spaces]'
-    username: 'Filters the result list by usernames [between quotes separated by spaces]'
-    mail: 'Filters the result list by user''s e-mail [between quotes separated by spaces]'
+    uid: 結果をユーザIDでフィルターします（空白区切りで引用符で囲う）
+    username: 結果をユーザー名でフィルターします（空白区切りで引用符で囲う）
+    mail: 結果をユーザーのメールアドレスでフィルターします（空白区切りで引用符で囲う）
 questions:
     roles: ユーザーのフィルターに使用するロールを選択してください
     limit: 表示するユーザー数を入力してください
