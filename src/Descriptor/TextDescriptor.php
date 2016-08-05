@@ -47,7 +47,7 @@ class TextDescriptor extends Descriptor
                 preg_replace(
                     '/\s*\R\s*/',
                     PHP_EOL.str_repeat(' ', $totalWidth + 17),
-                    $options['application']->trans($argument->getDescription())
+                    $options['translator']->trans($argument->getDescription())
                 ),
                 $default
             ), $options
@@ -86,7 +86,7 @@ class TextDescriptor extends Descriptor
                 preg_replace(
                     '/\s*\R\s*/',
                     "\n".str_repeat(' ', $totalWidth + 17),
-                    $options['application']->trans($option->getDescription())
+                    $options['translator']->trans($option->getDescription())
                 ),
                 $default,
                 $option->isArray() ? '<comment> (multiple values allowed)</comment>' : ''
