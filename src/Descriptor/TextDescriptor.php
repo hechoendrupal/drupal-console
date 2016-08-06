@@ -44,7 +44,11 @@ class TextDescriptor extends Descriptor
                 $argument->getName(),
                 str_repeat(' ', $spacingWidth),
                 // + 17 = 2 spaces + <info> + </info> + 2 spaces
-                preg_replace('/\s*\R\s*/', PHP_EOL.str_repeat(' ', $totalWidth + 17), $argument->getDescription()),
+                preg_replace(
+                    '/\s*\R\s*/',
+                    PHP_EOL.str_repeat(' ', $totalWidth + 17),
+                    $options['translator']->trans($argument->getDescription())
+                ),
                 $default
             ), $options
         );
@@ -79,7 +83,11 @@ class TextDescriptor extends Descriptor
                 $synopsis,
                 str_repeat(' ', $spacingWidth),
                 // + 17 = 2 spaces + <info> + </info> + 2 spaces
-                preg_replace('/\s*\R\s*/', "\n".str_repeat(' ', $totalWidth + 17), $option->getDescription()),
+                preg_replace(
+                    '/\s*\R\s*/',
+                    "\n".str_repeat(' ', $totalWidth + 17),
+                    $options['translator']->trans($option->getDescription())
+                ),
                 $default,
                 $option->isArray() ? '<comment> (multiple values allowed)</comment>' : ''
             ), $options
@@ -95,7 +103,7 @@ class TextDescriptor extends Descriptor
             $totalWidth = max($totalWidth, strlen($argument->getName()));
         }
         if ($definition->getArguments()) {
-            $this->writeText($options['application']->trans('commands.list.messages.arguments'), $options);
+            $this->writeText($options['translator']->trans('commands.list.messages.arguments'), $options);
             $this->writeText("\n");
             foreach ($definition->getArguments() as $argument) {
                 $this->describeInputArgument($argument, array_merge($options, array('total_width' => $totalWidth)));
@@ -107,7 +115,7 @@ class TextDescriptor extends Descriptor
         }
         if ($definition->getOptions()) {
             $laterOptions = array();
-            $this->writeText($options['application']->trans('commands.list.messages.options'), $options);
+            $this->writeText($options['translator']->trans('commands.list.messages.options'), $options);
             foreach ($definition->getOptions() as $option) {
                 if (strlen($option->getShortcut()) > 1) {
                     $laterOptions[] = $option;

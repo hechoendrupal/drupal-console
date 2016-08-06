@@ -35,19 +35,19 @@ class ImportCommand extends Command
                 'file',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.config.import.arguments.file')
+                $this->trans('commands.config.import.options.file')
             )
             ->addOption(
                 'directory',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.config.import.arguments.directory')
+                $this->trans('commands.config.import.options.directory')
             )
             ->addOption(
                 'remove-files',
                 false,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.config.import.arguments.remove-files')
+                $this->trans('commands.config.import.options.remove-files')
             );
     }
 
@@ -57,10 +57,7 @@ class ImportCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-
-        $archiveFile = $input->getOption('file');
         $directory = $input->getOption('directory');
-        $removeFiles = $input->getOption('remove-files');
 
         if ($directory) {
             $configSyncDir = $directory;
@@ -92,7 +89,7 @@ class ImportCommand extends Command
     }
 
 
-    private function configImport($io,StorageComparer $storage_comparer)
+    private function configImport(DrupalStyle $io, StorageComparer $storage_comparer)
     {
         $config_importer = new ConfigImporter(
             $storage_comparer,
@@ -108,8 +105,6 @@ class ImportCommand extends Command
 
         if ($config_importer->alreadyImporting()) {
             $io->success($this->trans('commands.config.import.messages.already-imported'));
-
-
         }
 
         else{
@@ -136,9 +131,7 @@ class ImportCommand extends Command
                         $e->getMessage()
                     )
                 );
-
             }
         }
     }
-
 }
