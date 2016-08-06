@@ -81,4 +81,14 @@ trait CommandTrait
     {
         return parent::getApplication();
     }
+
+    public function getOptions()
+    {
+        return parent::getOptions();
+    }
+
+    public function getArguments()
+    {
+        return parent::getArguments();
+    }
 }

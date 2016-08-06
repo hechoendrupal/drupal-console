@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command;
 
-use Symfony\Component\Console\Helper\DescriptorHelper;
+//use Symfony\Component\Console\Helper\DescriptorHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,6 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command as BaseCommand;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Helper\DescriptorHelper;
 
 /**
  * HelpCommand displays the help for a given command.
@@ -70,11 +71,14 @@ class HelpCommand extends BaseCommand
 
         $helper = new DescriptorHelper();
         $helper->describe(
-            $io, $this->command, array(
-            'format' => $input->getOption('format'),
-            'raw_text' => $input->getOption('raw'),
-            'command_name' => $input->getArgument('command_name'),
-            )
+            $io,
+            $this->command,
+            [
+                'format' => $input->getOption('format'),
+                'raw_text' => $input->getOption('raw'),
+                'command_name' => $input->getArgument('command_name'),
+                'translator' => $this->getApplication()->getTranslator()
+            ]
         );
 
         $this->command = null;
