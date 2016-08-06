@@ -27,7 +27,7 @@ class DeleteCommand extends Command
             ->addArgument(
                 'entity-definition-id',
                 InputArgument::REQUIRED,
-                $this->trans('commands.storage.entity.arguments.entity-type')
+                $this->trans('commands.entity.delete.arguments.entity-definition-id')
             )
             ->addArgument(
                 'entity-id',
