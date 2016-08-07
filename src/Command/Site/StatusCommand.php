@@ -134,11 +134,7 @@ class StatusCommand extends Command
             $connectionKey = $this->trans('commands.site.status.messages.'.$connectionInfoKey);
             $connectionData['database'][$connectionKey] = $connectionInfo['default'][$connectionInfoKey];
         }
-
-        if ($connectionInfo['default']['password']) {
-            $connectionInfo['default']['password'] = str_repeat("*", strlen($connectionInfo['default']['password']));
-        }
-
+        
         $connectionData['database'][$this->trans('commands.site.status.messages.connection')] = sprintf(
             '%s//%s:%s@%s%s/%s',
             $connectionInfo['default']['driver'],

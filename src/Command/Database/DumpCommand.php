@@ -93,13 +93,7 @@ class DumpCommand extends Command
         }
 
         if ($learning) {
-            $io->commentBlock(
-                str_replace(
-                    $databaseConnection['password'],
-                    str_repeat("*", strlen($databaseConnection['password'])),
-                    $command
-                )
-            );
+            $io->commentBlock($command);
         }
 
         $shellProcess = $this->get('shell_process');
