@@ -1,0 +1,5 @@
+services:
+    console.field_info:
+        class: Drupal\Console\Command\Field\InfoCommand
+        tags:
+            - { name: console.command }
