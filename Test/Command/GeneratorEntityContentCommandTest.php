@@ -22,8 +22,6 @@ class GeneratorEntityContentCommandTest extends GenerateCommandTest
      * @param $entity_class
      * @param $label
      * @param $base_path
-     * @param $is_translatable
-     * @param $revisionable
      *
      * @dataProvider commandData
      */
@@ -32,9 +30,7 @@ class GeneratorEntityContentCommandTest extends GenerateCommandTest
         $entity_name,
         $entity_class,
         $label,
-        $base_path,
-        $is_translatable,
-        $revisionable
+        $base_path
     ) {
         $command = new EntityContentCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
@@ -49,8 +45,6 @@ class GeneratorEntityContentCommandTest extends GenerateCommandTest
               '--entity-class'   => $entity_class,
               '--label'          => $label,
               '--base-path'      => $base_path,
-              '--is_translatable' => $is_translatable,
-              '--revisionable'   => $revisionable,
             ],
             ['interactive' => false]
         );
