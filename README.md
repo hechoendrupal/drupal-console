@@ -136,7 +136,7 @@ ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish
 
 ## Supporting Organizations
 
-[![weKnow](https://www.drupal.org/files/weKnow-logo_3.png)](https://weknowinc.com)
+[![weKnow](https://www.drupal.org/files/weKnow-logo_4.png)](https://weknowinc.com)
 
 [![Anexus](https://www.drupal.org/files/anexus-logo.png)](http://www.anexusit.com/)
 
