@@ -12,11 +12,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 
-class GenerateDocDashCommand extends ContainerAwareCommand
+class GenerateDocDashCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+
     /**
      * @constant Contents of the plist file required by the docset format.
      */
@@ -77,7 +80,7 @@ PLIST;
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $renderer = $this->getRenderHelper();
+        $renderer = $this->getApplication()->getRenderHelper();
 
         $path = null;
         if ($input->hasOption('path')) {

@@ -7,5 +7,5 @@ options:
     starting-key: 'YAML Key from where start split - useful to extract partial elements'
 messages:
     generating-split: 'Generating new files'
-    split-generated: 'File %s was generated'
+    split-generated: 'File "%s" was generated'
     invalid-key: 'Provided key as stating YAML key wasn''t found, combine with indent-level 0 to extract values'

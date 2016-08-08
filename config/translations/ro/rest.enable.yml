@@ -6,7 +6,7 @@ arguments:
 questions:
     resource-id: 'ID-ul resursei.'
 messages:
-    invalid-rest-id: 'ID-ul REST %s nu este corect'
+    invalid-rest-id: 'ID-ul REST "%s" nu este corect'
     formats: 'Formatele disponibile de serializare'
     authentication-providers: 'Furnizorii de autorizaţii sunt disponibili'
     selected-state: 'Starea selectată'

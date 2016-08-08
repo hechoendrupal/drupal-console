@@ -1,5 +1,5 @@
-description: 'Displays current cache context for the application.'
+description: アプリケーションの現在のキャッシュコンテクストを表示する。
 messages:
-    code: 'Context ID'
-    label: 'Label'
-    class: 'Class path'
+    code: コンテクストID
+    label: ラベル
+    class: クラスパス

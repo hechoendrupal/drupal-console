@@ -1,9 +1,9 @@
-description: 'Display current events '
-help: 'The <info>event:debug</info> command helps you debug events.'
+description: 現在のイベントを表示
+help: '<info>event:debug</info> コマンドはイベントのデバッグに役立ちます。'
 arguments:
-    event: 'Event to debug'
+    event: デバッグ対象イベント
 messages:
-    event: 'Event Name'
-    class: Class
-    method: Method
-    no-events: 'This event does not exist, try to execute command: event:debug'
+    event: イベント名
+    class: クラス
+    method: メソッド
+    no-events: 'このイベントは存在しません。次のコマンドを試してください。 event:debug'

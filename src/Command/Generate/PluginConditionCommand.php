@@ -97,7 +97,7 @@ class PluginConditionCommand extends GeneratorCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $entityTypeRepository = $this->getService('entity_type.repository');
+        $entityTypeRepository = $this->getDrupalService('entity_type.repository');
 
         $entity_types = $entityTypeRepository->getEntityTypeLabels(true);
 

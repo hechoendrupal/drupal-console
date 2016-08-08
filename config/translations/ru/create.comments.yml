@@ -26,5 +26,5 @@ messages:
     content-type: 'Тип содержимогоы'
     title: Заголовок
     created: 'Время создания'
-    invalid-content-types: 'Типы содержимого %s недопустимы'
-    created-comments: '%s комментариев создано успешно'
+    invalid-content-types: 'Типы содержимого "%s" недопустимы'
+    created-comments: '"%s" комментариев создано успешно'

@@ -1,7 +1,7 @@
-description: 'Drupalのインストール状態を表示する'
+description: Drupalのインストール状態を表示する
 messages:
     application: アプリケーション
-    system: 'システム情報'
+    system: システム情報
     hash_salt: ハッシュのソルト
     console: 'Drupal Console'
     database: データベース接続
@@ -19,5 +19,5 @@ messages:
     directory_temporary: サイトのテンポラリディレクトリ
     directory_theme_default: デフォルトテーマのディレクトリ
     directory_theme_admin: 管理用テーマのディレクトリ
-    current_version: '現在のDrupalのバージョン (%s)'
+    current_version: '現在のDrupalのバージョン ("%s")'
     not_installed: Drupalはインストールされていません。

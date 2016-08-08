@@ -13,4 +13,4 @@ messages:
     service-value: Valoare
     error-copying-file: 'Eroare la copierea fişierului.'
     error-writing-file: 'Eroare la scrierea fişierului.'
-    services-file-overwritten: 'Fişierele serviciului %s au fost rescrise.'
+    services-file-overwritten: 'Fişierele serviciului "%s" au fost rescrise.'

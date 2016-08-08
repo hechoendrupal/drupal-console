@@ -12,11 +12,20 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\language\Entity\ConfigurableLanguage;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\LocaleTrait;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 
-class LanguageDeleteCommand extends ContainerAwareCommand
+/**
+ * @DrupalCommand(
+ *     dependencies = {
+ *         "locale"
+ *     }
+ * )
+ */
+class LanguageDeleteCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     use LocaleTrait;
 
     protected function configure()
@@ -29,8 +38,6 @@ class LanguageDeleteCommand extends ContainerAwareCommand
                 InputArgument::REQUIRED,
                 $this->trans('commands.locale.translation.status.arguments.language')
             );
-
-        $this->addDependency('locale');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

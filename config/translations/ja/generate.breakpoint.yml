@@ -1,14 +1,14 @@
-description: 'Generate breakpoint'
-help: 'The <info>generate:theme</info> command helps you generates a new breakpoint'
+description: ブレークポイントを生成
+help: '<info>generate:theme</info> コマンドは新しいブレークポイントの生成に役立ちます。'
 welcome: 'Welcome to the Drupal breakpoint generator'
 options:
-    theme: 'Theme name'
-    breakpoints: Breakpoints
+    theme: テーマ名
+    breakpoints: ブレークポイント
 questions:
-    theme: 'Enter the theme name (i.e. classy, stable)'
-    breakpoint-name: 'Enter breakpoint name'
-    breakpoint-label: 'Enter breakpoint label'
-    breakpoint-media-query: 'Enter breakpoint media query'
-    breakpoint-weight: 'Enter breakpoint weight'
-    breakpoint-multipliers: 'Enter breakpoint multipliers'
-    breakpoint-add: 'Do you want to add another breakpoint'
+    theme: 'テーマ名を入力してください（例: classy stable ）'
+    breakpoint-name: ブレークポイントの名前を入力してください
+    breakpoint-label: ブレークポイントのラベルを入力してください
+    breakpoint-media-query: ブレークポイントのメディアクエリを入力してください
+    breakpoint-weight: ブレークポイントのウェイトを入力してください
+    breakpoint-multipliers: ブレークポイントのマルチプライヤーを入力してください
+    breakpoint-add: ブレークポイントをもうひとつ追加しますか

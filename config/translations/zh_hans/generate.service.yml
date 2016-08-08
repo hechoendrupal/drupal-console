@@ -10,11 +10,10 @@ options:
     path: 路径
 questions:
     module: common.questions.module
-    service-name: '输入服务名'
-    class: '输入类名'
+    service-name: 输入服务名
+    class: 输入类名
     interface: 生成一个界面
     services: common.options.services
-    path: '为服务(s)输入路径'
+    path: 为服务(s)输入路径
 messages:
     service-already-taken: '服务名称已经在模块 "%s" 中被占用'
-

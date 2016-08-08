@@ -3,7 +3,7 @@ help: 'Mostrar les estadístiques del lloc web.'
 messages:
     stat-name: Nom
     stat-quantity: Quantitat
-    node-type: 'Node:%s'
+    node-type: 'Node:"%s"'
     comments: Commentaris
     vocabulary: Vocabularis
     taxonomy-terms: 'Termes de taxonomia'

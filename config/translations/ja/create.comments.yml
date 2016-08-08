@@ -8,11 +8,11 @@ options:
     title-words: コメントのタイトルに設定する単語の最大数
     time-range: コメントの作成時刻
 questions:
-    node-id: 'コメントを作成するノードIDを入力してください'
-    content-type: '作成するコメントのコンテンツタイプを選択してください'
-    limit: '作成するコメントの数を入力してください'
-    title-words: 'コメントのタイトルに設定する単語の最大数を入力してください'
-    time-range: 'コメントの作成時刻を選択してください'
+    node-id: コメントを作成するノードIDを入力してください
+    content-type: 作成するコメントのコンテンツタイプを選択してください
+    limit: 作成するコメントの数を入力してください
+    title-words: コメントのタイトルに設定する単語の最大数を入力してください
+    time-range: コメントの作成時刻を選択してください
     time-ranges:
         - 現在時刻
         - 1時間前
@@ -26,5 +26,5 @@ messages:
     content-type: コンテンツタイプ
     title: タイトル
     created: 作成時刻
-    invalid-content-types: 'コンテンツタイプ %s は不正な値です。'
-    created-comments: '%s 個のコメントを作成しました。'
+    invalid-content-types: 'コンテンツタイプ "%s" は不正な値です。'
+    created-comments: '"%s" 個のコメントを作成しました。'

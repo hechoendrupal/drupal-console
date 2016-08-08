@@ -24,5 +24,5 @@ messages:
     content-type: Tartalomtípus
     title: Cím
     created: 'Létrehozás időpontja'
-    invalid-content-types: 'Érvénytelen tartalomtípusok: %s'
-    created-nodes: '%s tartalom sikeresen létrejött'
+    invalid-content-types: 'Érvénytelen tartalomtípusok: "%s"'
+    created-nodes: '"%s" tartalom sikeresen létrejött'

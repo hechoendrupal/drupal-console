@@ -7,7 +7,7 @@ options:
 questions:
     module: common.questions.module
     plugin: '输入插件 Id'
-    class: '输入插件类名'
+    class: 输入插件类名
 messages:
-    plugin-dont-exist: '插件 %s 不存在'
-    plugin-generator-implemented: '插件 %s 已经用一个高级命令生成器, 请使用 %s'
+    plugin-dont-exist: '插件 "%s" 不存在'
+    plugin-generator-implemented: '插件 "%s" 已经用一个高级命令生成器, 请使用 "%s"'

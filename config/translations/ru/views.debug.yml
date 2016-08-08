@@ -10,7 +10,7 @@ messages:
     tag: Тег
     status: Статус
     path: Путь
-    not-found: 'Представление %s не найдено.'
+    not-found: 'Представление "%s" не найдено.'
     display-list: 'Список дисплеев'
     display-id: Идентификатор
     display-name: Имя

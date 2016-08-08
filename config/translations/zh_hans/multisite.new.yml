@@ -1,24 +1,24 @@
-description: "建立一个新的多站点安装文件(s)"
-help: "命令 <info>multisite:new</info> 通过创建需要的子文件夹和文件(s)建立一个新的多站点安装,, 并可以选择性的拷贝已经存在的'default' 安装"
+description: 建立一个新的多站点安装文件(s)
+help: '命令 <info>multisite:new</info> 通过创建需要的子文件夹和文件(s)建立一个新的多站点安装,, 并可以选择性的拷贝已经存在的''default'' 安装'
 arguments:
-    sites-subdir: "'sites' 文件夹下应该被创建的文件夹名称"
+    sites-subdir: '''sites'' 文件夹下应该被创建的文件夹名称'
 options:
-    site-uri: "添加到 sites.php 文件中的站点 URI"
-    copy-install: "从默认安装拷贝已存在的站点"
+    site-uri: '添加到 sites.php 文件中的站点 URI'
+    copy-install: 从默认安装拷贝已存在的站点
 errors:
-    subdir-empty: "必须指定一个等待创建的多站点子文件夹"
-    subdir-exists: "sites/%s 文件夹已经存在"
-    default-missing: "sites/default 文件夹缺失"
-    mkdir-fail: "无法创建 sites/%s. 请检查 sites 文件夹权限并重试"
-    sites-invalid: "sites.php 文件不可读或不是一个文件"
-    sites-missing: "无 sites.php 文件或 example.sites.php 文件,用于拷贝"
-    sites-other: "尝试写 sites.php 文件时遇到一个问题"
-    file-missing: "文件 '%s' 没有找到,无法拷贝"
-    copy-fail: "无法拷贝 %s 到 %s. 请检查权限并重试"
-    write-fail: "无法写入文件 %s. 请检查文件权限并重试"
-    chmod-fail: "无法改变文件 %s 权限. 请确保文件上的权限是准确的"
+    subdir-empty: 必须指定一个等待创建的多站点子文件夹
+    subdir-exists: 'sites/"%s" 文件夹已经存在'
+    default-missing: 'sites/default 文件夹缺失'
+    mkdir-fail: '无法创建 sites/"%s". 请检查 sites 文件夹权限并重试'
+    sites-invalid: 'sites.php 文件不可读或不是一个文件'
+    sites-missing: '无 sites.php 文件或 example.sites.php 文件,用于拷贝'
+    sites-other: '尝试写 sites.php 文件时遇到一个问题'
+    file-missing: '文件 "%s" 没有找到,无法拷贝'
+    copy-fail: '无法拷贝 "%s" 到 "%s". 请检查权限并重试'
+    write-fail: '无法写入文件 "%s". 请检查文件权限并重试'
+    chmod-fail: '无法改变文件 "%s" 权限. 请确保文件上的权限是准确的'
 warnings:
-    missing-files: "没有找到文件夹 sites/default/files. files 文件夹需要手动创建"
+    missing-files: '没有找到文件夹 sites/default/files. files 文件夹需要手动创建'
 messages:
-    copy-install: "默认安装被成功拷贝到 sites/%s."
-    fresh-site: "新多站点结构成功创建到 sites/%s, 准备好被安装"
+    copy-install: '默认安装被成功拷贝到 sites/"%s".'
+    fresh-site: '新多站点结构成功创建到 sites/"%s", 准备好被安装'

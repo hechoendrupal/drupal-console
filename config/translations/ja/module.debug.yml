@@ -15,4 +15,4 @@ messages:
     total-downloads: 'Total installs'
     total-monthly: 'Monthly installs'
     total-daily: 'Daily installs'
-    no-results: 'モジュール %s がレポジトリ内で見つかりませんでした。'
+    no-results: 'モジュール "%s" がレポジトリ内で見つかりませんでした。'

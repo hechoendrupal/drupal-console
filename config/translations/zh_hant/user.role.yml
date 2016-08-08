@@ -1,13 +1,13 @@
-description: '指派或移除使用者所屬角色'
+description: 指派或移除使用者所屬角色
 help: '<info>user:role</info> 指令可為你指派或移除指定使用者所屬的角色。'
 welcome: '歡迎來到 Drupal 使用者角色設定介面'
 arguments:
-    roles: '要指派或是移除的角色。請提供一項角色可機讀名稱。'
+    roles: 要指派或是移除的角色。請提供一項角色可機讀名稱。
     operation: '新增或移除角色 [add|remove]'
-    user: '目標使用者名稱（僅限一位）'
+    user: 目標使用者名稱（僅限一位）
 messages:
     bad-arguments: '缺少必要的參數！請加入以下所有參數：[add/remove] [username] [role]'
-    no-user-found: '找不到使用者 %s '
-    no-role-found: '找不到符合的角色 %s'
+    no-user-found: '找不到使用者 "%s" '
+    no-role-found: '找不到符合的角色 "%s"'
     add-success: '已指派使用者 %1$s 為 %2$s 角色'
     remove-success: '已移除使用者 %1$s 的 %2$s 角色'

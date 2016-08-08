@@ -10,8 +10,8 @@ questions:
 messages:
     user-id: 'User ID'
     username: 'Username'
-    user-deleted: 'User %s was deleted successfully'
-    users-deleted: '%s users were deleted successfully'
+    user-deleted: 'User "%s" was deleted successfully'
+    users-deleted: '"%s" users were deleted successfully'
 errors:
-    invalid-user-id: 'User id %s is invalid'
-    invalid-user: 'User id %s is invalid'
+    invalid-user-id: 'User id "%s" is invalid'
+    invalid-user: 'User id "%s" is invalid'

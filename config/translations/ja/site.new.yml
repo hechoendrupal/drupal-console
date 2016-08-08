@@ -10,17 +10,17 @@ options:
 messages:
     select-release: コアのリリースを選択
     getting-releases: Drupalのリリースを取得中
-    downloading: '%s %s をダウンロードしています'
-    extracting: 'Drupal %s のファイルを展開しています'
+    downloading: '"%s" "%s" をダウンロードしています'
+    extracting: 'Drupal "%s" のファイルを展開しています'
     no-releases: 利用可能なDrupalのリリースが見つかりません。
-    downloaded: 'Drupal %s は %s にダウンロードされました'
-    error-copying: 'ディレクトリを %s にリネーム中にエラーが発生しました'
-    composer: 'Drupal %s was installed successfully using Composer at %s'
+    downloaded: 'Drupal "%s" は "%s" にダウンロードされました'
+    error-copying: 'ディレクトリを "%s" にリネーム中にエラーが発生しました'
+    composer: 'Drupal "%s" was installed successfully using Composer at "%s"'
     executing: 'Executing composer command:'
     missing-directory: 'Missing directory argument'
     missing-version: 'Missing version argument'
 questions:
-    directory: 'Drupalをダウンロードするディレクトリを入力してください'
+    directory: Drupalをダウンロードするディレクトリを入力してください
     composer-release: 'Please, choose a Packagist Drupal release'
     stable: 'Do you want to use stable releases?'
 tips:

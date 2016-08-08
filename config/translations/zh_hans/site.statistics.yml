@@ -3,7 +3,7 @@ help: 显示网站的当前统计
 messages:
     stat-name: 名字
     stat-quantity: 数量
-    node-type: '节点:%s'
+    node-type: '节点:"%s"'
     comments: 评论
     vocabulary: 词汇
     taxonomy-terms: 分类

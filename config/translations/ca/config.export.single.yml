@@ -11,7 +11,7 @@ questions:
     optional-config: 'Export config in module as an optional configuration'
 messages:
     config-not-found: 'No s''ha trobat el nom de la configuració.'
-    export: 'S''ha exportat la configuració al fitxer %s'
+    export: 'S''ha exportat la configuració al fitxer "%s"'
     invalid-config-type: 'El tipus de configuració no és vàlid, seleccioneu un de la llista'
     invalid-config-name: 'El nom de la configuració no és válid, seleccioneu un de la llista'
     config_exported: 'Configuration(s) exported sucessfully'

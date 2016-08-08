@@ -1,0 +1,5 @@
+services:
+  entity_delete:
+    class: Drupal\Console\Command\Entity\DeleteCommand
+    tags:
+      - { name: console.command }

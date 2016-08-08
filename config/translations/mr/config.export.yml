@@ -4,4 +4,4 @@ arguments:
     tar: 'If set, the configuration will be exported to an archive file.'
 messages:
     directory: 'The configuration was exported at:'
-    error: 'An error occurred while creating your directory at %s'
+    error: 'An error occurred while creating your directory at "%s"'

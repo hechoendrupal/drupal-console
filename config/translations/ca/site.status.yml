@@ -19,6 +19,6 @@ messages:
     directory_temporary: 'Directori de fitxer temporals'
     directory_theme_default: 'Directori del tema predeterminat'
     directory_theme_admin: 'Directori del tema d''administració'
-    current_version: 'Versió actual de Drupal (%s)'
+    current_version: 'Versió actual de Drupal ("%s")'
     not_installed: 'Drupal no està instal·lat'
     not_available: 'No disponible'

@@ -32,7 +32,11 @@ messages:
     learning:
         route: "Route dibutuhkan untuk membuat halaman.\nSebuah route menghubungkan path URL ke sebuah controller. Route menentukan fungsi\n atau metode yang akan dijalankan ketika URL yang bersangkutan diakses.\nJika pemakai mengakses http://drupal8.dev/{{ route.path }}, sistem\nrouting akan mencari route dengan path itu. Dalam kasus ini, dia akan mencari route\nyang sama, dan memanggil _controller callback. Dalam kasus ini callback\nditentukan dengan nama kelas\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\ndan metode (\"{{ route.method }}\")."
     autocomplete: "Bash atau Zsh: Tambahkan baris ini di file konfigurasi shell kamu:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Buat link simbolik\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
-    version: 'Versi <info>%s</info> <comment>%s</comment>'
+    version: 'Versi <info>"%s"</info> <comment>"%s"</comment>'
+    disable:
+        command:
+            error: 'Command: "%s" is deprecated.'
+            extra: 'You must execute: "%s" instead'
 errors:
     invalid-command: 'Perintah "%s" tidak dapat ditemukan.'
 site:
