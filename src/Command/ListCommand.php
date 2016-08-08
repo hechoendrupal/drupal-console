@@ -55,11 +55,14 @@ class ListCommand extends BaseCommand
         }
         $helper = new DescriptorHelper();
         $helper->describe(
-            $io, $this->getApplication(), array(
-            'format' => $input->getOption('format'),
-            'raw_text' => $input->getOption('raw'),
-            'namespace' => $input->getArgument('namespace'),
-            )
+            $io,
+            $this->getApplication(),
+            [
+                'format' => $input->getOption('format'),
+                'raw_text' => $input->getOption('raw'),
+                'namespace' => $input->getArgument('namespace'),
+                'translator' => $this->getApplication()->getTranslator()
+            ]
         );
     }
 
