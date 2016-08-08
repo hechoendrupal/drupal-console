@@ -22,6 +22,8 @@ class EntityContentGeneratorTest extends GeneratorTest
      * @param $entity_class
      * @param $label
      * @param $base_path
+     * @param $is_translatable
+     * @param $revisionable
      *
      * @dataProvider commandData
      */
