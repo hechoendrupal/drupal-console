@@ -48,6 +48,7 @@ class EntityContentGeneratorTest extends GeneratorTest
             $label,
             $base_path,
             $is_translatable,
+            null,
             $revisionable
         );
 
