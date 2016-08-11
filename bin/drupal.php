@@ -1,9 +1,9 @@
 <?php
 
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Doctrine\Common\Annotations\AnnotationRegistry;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\HttpFoundation\Request;
 use Drupal\Console\App;
-use Drupal\Console\Helper\TranslatorHelper;
 use Drupal\Console\EventSubscriber\ShowGeneratedFilesListener;
 use Drupal\Console\EventSubscriber\ShowWelcomeMessageListener;
 use Drupal\Console\EventSubscriber\CallCommandListener;
@@ -14,7 +14,6 @@ use Drupal\Console\EventSubscriber\ShowTipsListener;
 use Drupal\Console\EventSubscriber\ValidateDependenciesListener;
 use Drupal\Console\EventSubscriber\DefaultValueEventListener;
 use Drupal\Console\EventSubscriber\ValidateExecutionListener;
-use Symfony\Component\HttpFoundation\Request;
 use Drupal\Console\Utils\DrupalKernel;
 use Drupal\Console\Utils\DrupalServiceModifier;
 
@@ -105,18 +104,18 @@ $application = new App($container);
 //$application->addHelpers($helpers);
 //$application->setDirectoryRoot($consoleRoot);
 
-$dispatcher = new EventDispatcher();
-$dispatcher->addSubscriber(new ValidateExecutionListener());
-$dispatcher->addSubscriber(new ValidateDependenciesListener());
-$dispatcher->addSubscriber(new ShowWelcomeMessageListener());
-$dispatcher->addSubscriber(new DefaultValueEventListener());
-$dispatcher->addSubscriber(new ShowGeneratedFilesListener());
-$dispatcher->addSubscriber(new ShowTipsListener());
-$dispatcher->addSubscriber(new CallCommandListener());
-$dispatcher->addSubscriber(new ShowGenerateChainListener());
-$dispatcher->addSubscriber(new ShowGenerateInlineListener());
-$dispatcher->addSubscriber(new ShowTerminateMessageListener());
-$application->setDispatcher($dispatcher);
+//$dispatcher = new EventDispatcher();
+//$dispatcher->addSubscriber(new ValidateExecutionListener());
+//$dispatcher->addSubscriber(new ValidateDependenciesListener());
+//$dispatcher->addSubscriber(new ShowWelcomeMessageListener());
+//$dispatcher->addSubscriber(new DefaultValueEventListener());
+//$dispatcher->addSubscriber(new ShowGeneratedFilesListener());
+//$dispatcher->addSubscriber(new ShowTipsListener());
+//$dispatcher->addSubscriber(new CallCommandListener());
+//$dispatcher->addSubscriber(new ShowGenerateChainListener());
+//$dispatcher->addSubscriber(new ShowGenerateInlineListener());
+//$dispatcher->addSubscriber(new ShowTerminateMessageListener());
+//$application->setDispatcher($dispatcher);
 
 //$defaultCommand = 'about';
 //if ($config->get('application.command')
@@ -126,5 +125,5 @@ $application->setDispatcher($dispatcher);
 //}
 //$application->setDefaultCommand($defaultCommand);
 
-$application->setDefaultCommand('about');
+//$application->setDefaultCommand('about');
 $application->run();

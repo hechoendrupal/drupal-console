@@ -6,7 +6,19 @@ services:
     class: Drupal\Console\Utils\ConfigurationManager
   console.drupal_checker:
       class: Drupal\Console\Utils\DrupalChecker
-
+  #DrupalConsoleCore Commands
+  console.about:
+    class: Drupal\Console\Command\AboutCommand
+    tags:
+      - { name: console.command }
+  console.list:
+    class: Drupal\Console\Command\ListCommand
+    tags:
+      - { name: console.command }
+  console.help:
+    class: Drupal\Console\Command\HelpCommand
+    tags:
+      - { name: console.command }
   # Remove definitions
 #  parser:
 #    class: Symfony\Component\Yaml\Parser
