@@ -29,9 +29,8 @@ services:
 #  config:
 #    class: Drupal\Console\Config
 #    arguments: ["@parser"]
-#  requirement_checker:
-#    class: Drupal\Console\Utils\RequirementChecker
-#    arguments: ["@parser"]
+  console.requirement_checker:
+    class: Drupal\Console\Utils\RequirementChecker
 #  redbean:
 #    class: RedBeanPHP\R
 #  annotation_reader:
@@ -53,8 +52,8 @@ services:
 #  site:
 #    class: Drupal\Console\Utils\Site
 #    arguments: ["@parser"]
-#  chain_queue:
-#    class: Drupal\Console\Utils\ChainQueue
+  console.chain_queue:
+    class: Drupal\Console\Utils\ChainQueue
 #  showfile:
 #    class: Drupal\Console\Utils\ShowFile
 #    arguments: ["@site", "@translator"]

@@ -7,8 +7,9 @@ services:
     class: Drupal\Console\Command\ContainerDebugCommand
     tags:
       - { name: console.command }
-  check:
+  console.check:
     class: Drupal\Console\Command\CheckCommand
+    arguments: ['@console.requirement_checker', '@console.chain_queue']
     tags:
       - { name: console.command }
   complete:

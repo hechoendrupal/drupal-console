@@ -77,7 +77,7 @@ class Application extends ConsoleApplication
     {
         $consoleCommands = $this->container->getParameter('console.commands');
 
-        var_export($consoleCommands);
+//        var_export($consoleCommands);
 
         foreach ($consoleCommands as $name) {
             if (!$this->container->has($name)) {

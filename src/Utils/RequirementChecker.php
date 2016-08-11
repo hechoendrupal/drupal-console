@@ -41,7 +41,7 @@ class RequirementChecker
      */
     public function __construct($parser)
     {
-        $this->parser = $parser;
+        $this->parser = new Parser();
     }
 
     private function checkPHPVersion()

@@ -21,6 +21,23 @@ class CheckCommand extends BaseCommand
 {
     use CommandTrait;
 
+    protected $requirementChecker;
+
+    protected $chainQueue;
+
+    /**
+     * CheckCommand constructor.
+     * @param $requirementChecker
+     * @param $chainQueue
+     */
+    public function __construct($requirementChecker, $chainQueue) {
+        $this->requirementChecker = $requirementChecker;
+        $this->chainQueue = $chainQueue;
+
+        parent::__construct();
+    }
+
+
     /**
      * {@inheritdoc}
      */
@@ -38,15 +55,14 @@ class CheckCommand extends BaseCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $requirementChecker = $this->get('requirement_checker');
-        $checks = $requirementChecker->getCheckResult();
+        $checks = $this->requirementChecker->getCheckResult();
         if (!$checks) {
-            $phpCheckFile = $this->getApplication()->getConfig()->getUserHomeDir().'/.console/phpcheck.yml';
-            if (!file_exists($phpCheckFile)) {
-                $phpCheckFile = $this->getApplication()->getDirectoryRoot().'config/dist/phpcheck.yml';
-            }
-            $requirementChecker->validate($phpCheckFile);
-            $checks = $requirementChecker->validate($phpCheckFile);
+            $phpCheckFile = $this->getApplication()->getConfiguration()->getUserHomeDir().'/.console/phpcheck.yml';
+//            if (!file_exists($phpCheckFile)) {
+//                $phpCheckFile = $this->getApplication()->getDirectoryRoot().'config/dist/phpcheck.yml';
+//            }
+            $this->requirementChecker->validate($phpCheckFile);
+            $checks = $this->requirementChecker->validate($phpCheckFile);
         }
 
         if (!$checks['php']['valid']) {
@@ -108,11 +124,11 @@ class CheckCommand extends BaseCommand
             }
         }
 
-        if ($requirementChecker->isValid() && !$requirementChecker->isOverwritten()) {
+        if ($this->requirementChecker->isValid() && !$this->requirementChecker->isOverwritten()) {
             $io->success(
                 $this->trans('commands.check.messages.success')
             );
-            $this->get('chain_queue')->addCommand(
+            $this->chainQueue->addCommand(
                 'settings:set',
                 [
                     'setting-name' => 'checked',
@@ -122,6 +138,6 @@ class CheckCommand extends BaseCommand
             );
         }
 
-        return $requirementChecker->isValid();
+        return $this->requirementChecker->isValid();
     }
 }
