@@ -33,7 +33,7 @@
     "support": {
         "issues": "https://github.com/hechoendrupal/DrupalConsole/issues",
         "forum": "https://gitter.im/hechoendrupal/DrupalConsole",
-        "docs": "https://hechoendrupal.gitbooks.io/drupal-console/"
+        "docs": "https://docs.drupalconsole.com/"
     },
     "require": {
         "php": "^5.6 || ^7.0",
