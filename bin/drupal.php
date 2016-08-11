@@ -1,19 +1,19 @@
 <?php
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+//use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
-use Drupal\Console\App;
-use Drupal\Console\EventSubscriber\ShowGeneratedFilesListener;
-use Drupal\Console\EventSubscriber\ShowWelcomeMessageListener;
-use Drupal\Console\EventSubscriber\CallCommandListener;
-use Drupal\Console\EventSubscriber\ShowGenerateChainListener;
-use Drupal\Console\EventSubscriber\ShowGenerateInlineListener;
-use Drupal\Console\EventSubscriber\ShowTerminateMessageListener;
-use Drupal\Console\EventSubscriber\ShowTipsListener;
-use Drupal\Console\EventSubscriber\ValidateDependenciesListener;
-use Drupal\Console\EventSubscriber\DefaultValueEventListener;
-use Drupal\Console\EventSubscriber\ValidateExecutionListener;
+use Drupal\Console\Application;
+//use Drupal\Console\EventSubscriber\ShowGeneratedFilesListener;
+//use Drupal\Console\EventSubscriber\ShowWelcomeMessageListener;
+//use Drupal\Console\EventSubscriber\CallCommandListener;
+//use Drupal\Console\EventSubscriber\ShowGenerateChainListener;
+//use Drupal\Console\EventSubscriber\ShowGenerateInlineListener;
+//use Drupal\Console\EventSubscriber\ShowTerminateMessageListener;
+//use Drupal\Console\EventSubscriber\ShowTipsListener;
+//use Drupal\Console\EventSubscriber\ValidateDependenciesListener;
+//use Drupal\Console\EventSubscriber\DefaultValueEventListener;
+//use Drupal\Console\EventSubscriber\ValidateExecutionListener;
 use Drupal\Console\Utils\DrupalKernel;
 use Drupal\Console\Utils\DrupalServiceModifier;
 
@@ -65,7 +65,7 @@ $configuration = $container->get('console.configuration_manager')
 $translator = $container->get('console.translator_manager')
     ->loadCoreLanguage(
         $configuration->get('application.language'),
-        $consoleRoot
+        $siteRoot
     );
 
 //$container->get('translator')->loadResource(
@@ -100,7 +100,7 @@ $translator = $container->get('console.translator_manager')
 //    'container' => new ContainerHelper($container),
 //];
 
-$application = new App($container);
+$application = new Application($container);
 //$application->addHelpers($helpers);
 //$application->setDirectoryRoot($consoleRoot);
 
