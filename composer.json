@@ -39,12 +39,13 @@
         "php": "^5.6 || ^7.0",
         "alchemy/zippy": "0.3.5",
         "composer/installers": "~1.0",
+        "drupal/console-core" : "dev-remove-relocated-code-on-drupal-console-core",
         "symfony/config": "~2.8",
         "symfony/console": "~2.8",
-        "symfony/css-selector": "~2.7",
-        "symfony/debug": "~2.7",
+        "symfony/css-selector": "~2.8",
+        "symfony/debug": "~2.8",
         "symfony/dependency-injection": "~2.8",
-        "symfony/dom-crawler": "~2.7",
+        "symfony/dom-crawler": "~2.8",
         "symfony/event-dispatcher": "~2.8",
         "symfony/filesystem": "~2.8",
         "symfony/finder": "~2.8",
@@ -58,12 +59,15 @@
         "padraic/phar-updater": "~1.0@dev",
         "gabordemooij/redbean": "@stable",
         "doctrine/annotations": "1.2.*",
-        "dflydev/placeholder-resolver": "~1.0"
+        "dflydev/placeholder-resolver": "~1.0",
+        "drupal/console": "dev-remove-relocated-code-on-drupal-console-core"
     },
     "bin": ["bin/drupal"],
     "config": {
         "bin-dir": "bin/"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {"Drupal\\Console\\": "src"}
     }

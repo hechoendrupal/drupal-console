@@ -2,16 +2,10 @@
 
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Doctrine\Common\Annotations\AnnotationRegistry;
-use Drupal\Console\Application;
-use Drupal\Console\Helper\KernelHelper;
-use Drupal\Console\Helper\StringHelper;
-use Drupal\Console\Helper\ValidatorHelper;
+use Drupal\Console\App;
 use Drupal\Console\Helper\TranslatorHelper;
-use Drupal\Console\Helper\SiteHelper;
 use Drupal\Console\EventSubscriber\ShowGeneratedFilesListener;
 use Drupal\Console\EventSubscriber\ShowWelcomeMessageListener;
-use Drupal\Console\Helper\ShowFileHelper;
-use Drupal\Console\Helper\ChainCommandHelper;
 use Drupal\Console\EventSubscriber\CallCommandListener;
 use Drupal\Console\EventSubscriber\ShowGenerateChainListener;
 use Drupal\Console\EventSubscriber\ShowGenerateInlineListener;
@@ -20,14 +14,6 @@ use Drupal\Console\EventSubscriber\ShowTipsListener;
 use Drupal\Console\EventSubscriber\ValidateDependenciesListener;
 use Drupal\Console\EventSubscriber\DefaultValueEventListener;
 use Drupal\Console\EventSubscriber\ValidateExecutionListener;
-use Drupal\Console\Helper\NestedArrayHelper;
-use Drupal\Console\Helper\TwigRendererHelper;
-use Drupal\Console\Helper\DrupalHelper;
-use Drupal\Console\Helper\CommandDiscoveryHelper;
-use Drupal\Console\Helper\RemoteHelper;
-use Drupal\Console\Helper\HttpClientHelper;
-use Drupal\Console\Helper\DrupalApiHelper;
-use Drupal\Console\Helper\ContainerHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Console\Utils\DrupalKernel;
 use Drupal\Console\Utils\DrupalServiceModifier;
@@ -69,46 +55,55 @@ $drupalKernel->boot();
 /* DrupalKernel */
 
 $container = $drupalKernel->getContainer();
-
 AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
 
-$config = $container->get('config');
+//$config = $container->get('config');
 
-$container->get('translator')->loadResource(
-    $config->get('application.language'),
-    $consoleRoot
-);
+$configuration = $container->get('console.configuration_manager')
+    ->loadConfiguration(__DIR__)
+    ->getConfiguration();
 
-$translatorHelper = new TranslatorHelper();
-$translatorHelper->loadResource(
-    $config->get('application.language'),
-    $consoleRoot
-);
+$translator = $container->get('console.translator_manager')
+    ->loadCoreLanguage(
+        $configuration->get('application.language'),
+        $consoleRoot
+    );
 
-$helpers = [
-    'nested-array' => new NestedArrayHelper(),
-    'kernel' => new KernelHelper(),
-    'string' => new StringHelper(),
-    'validator' => new ValidatorHelper(),
-    'translator' => $translatorHelper, /* registered as a service */
-    'site' => new SiteHelper(),
-    'renderer' => new TwigRendererHelper(),
-    'showFile' => new ShowFileHelper(), /* registered as a service */
-    'chain' => new ChainCommandHelper(), /* registered as a service */
-    'drupal' => new DrupalHelper(), /* registered as a service "site" */
-    'commandDiscovery' => new CommandDiscoveryHelper(
-        $config->get('application.develop'),
-        $container->get("command_dependency_resolver")
-    ),
-    'remote' => new RemoteHelper(),
-    'httpClient' => new HttpClientHelper(),
-    'api' => new DrupalApiHelper(),
-    'container' => new ContainerHelper($container),
-];
+//$container->get('translator')->loadResource(
+//    $config->get('application.language'),
+//    $consoleRoot
+//);
+//
+//$translatorHelper = new TranslatorHelper();
+//$translatorHelper->loadResource(
+//    $config->get('application.language'),
+//    $consoleRoot
+//);
 
-$application = new Application($container);
-$application->addHelpers($helpers);
-$application->setDirectoryRoot($consoleRoot);
+//$helpers = [
+//    'nested-array' => new NestedArrayHelper(),
+//    'kernel' => new KernelHelper(),
+//    'string' => new StringHelper(),
+//    'validator' => new ValidatorHelper(),
+//    'translator' => $translatorHelper, /* registered as a service */
+//    'site' => new SiteHelper(),
+//    'renderer' => new TwigRendererHelper(),
+//    'showFile' => new ShowFileHelper(), /* registered as a service */
+//    'chain' => new ChainCommandHelper(), /* registered as a service */
+//    'drupal' => new DrupalHelper(), /* registered as a service "site" */
+//    'commandDiscovery' => new CommandDiscoveryHelper(
+//        $config->get('application.develop'),
+//        $container->get("command_dependency_resolver")
+//    ),
+//    'remote' => new RemoteHelper(),
+//    'httpClient' => new HttpClientHelper(),
+//    'api' => new DrupalApiHelper(),
+//    'container' => new ContainerHelper($container),
+//];
+
+$application = new App($container);
+//$application->addHelpers($helpers);
+//$application->setDirectoryRoot($consoleRoot);
 
 $dispatcher = new EventDispatcher();
 $dispatcher->addSubscriber(new ValidateExecutionListener());
@@ -123,12 +118,13 @@ $dispatcher->addSubscriber(new ShowGenerateInlineListener());
 $dispatcher->addSubscriber(new ShowTerminateMessageListener());
 $application->setDispatcher($dispatcher);
 
-$defaultCommand = 'about';
-if ($config->get('application.command')
-    && $application->has($config->get('application.command'))
-) {
-    $defaultCommand = $config->get('application.command');
-}
+//$defaultCommand = 'about';
+//if ($config->get('application.command')
+//    && $application->has($config->get('application.command'))
+//) {
+//    $defaultCommand = $config->get('application.command');
+//}
+//$application->setDefaultCommand($defaultCommand);
 
-$application->setDefaultCommand($defaultCommand);
+$application->setDefaultCommand('about');
 $application->run();
