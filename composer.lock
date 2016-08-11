@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "42661504a0d4d1507692803d77bdd214",
+    "hash": "f09de1465305df44094ae6c5932e9e36",
     "content-hash": "35c2c61d8edb868ee3e9363adc4a57dd",
     "packages": [
         {
@@ -531,12 +531,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hechoendrupal/drupal-console-core.git",
-                "reference": "5bc837e038ad991501d4b5b85d42a7b0a98e12f2"
+                "reference": "da6a7e61dd9a7e68e224670ef6c2f76fd725ec2c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-core/zipball/5bc837e038ad991501d4b5b85d42a7b0a98e12f2",
-                "reference": "5bc837e038ad991501d4b5b85d42a7b0a98e12f2",
+                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-core/zipball/da6a7e61dd9a7e68e224670ef6c2f76fd725ec2c",
+                "reference": "da6a7e61dd9a7e68e224670ef6c2f76fd725ec2c",
                 "shasum": ""
             },
             "require": {
@@ -593,7 +593,7 @@
                 "drupal",
                 "symfony"
             ],
-            "time": "2016-08-11 04:47:33"
+            "time": "2016-08-11 07:51:22"
         },
         {
             "name": "drupal/console-en",

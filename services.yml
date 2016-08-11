@@ -1,5 +1,4 @@
 services:
-  # Remove definitions
 #  parser:
 #    class: Symfony\Component\Yaml\Parser
 #  filesystem:
