@@ -1,12 +1,12 @@
 <?php
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
-//use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Console\Application;
 //use Drupal\Console\EventSubscriber\ShowGeneratedFilesListener;
 //use Drupal\Console\EventSubscriber\ShowWelcomeMessageListener;
-//use Drupal\Console\EventSubscriber\CallCommandListener;
+use Drupal\Console\EventSubscriber\CallCommandListener;
 //use Drupal\Console\EventSubscriber\ShowGenerateChainListener;
 //use Drupal\Console\EventSubscriber\ShowGenerateInlineListener;
 //use Drupal\Console\EventSubscriber\ShowTerminateMessageListener;
@@ -105,18 +105,18 @@ $application = new Application($container);
 //$application->addHelpers($helpers);
 //$application->setDirectoryRoot($consoleRoot);
 
-//$dispatcher = new EventDispatcher();
+$dispatcher = new EventDispatcher();
 //$dispatcher->addSubscriber(new ValidateExecutionListener());
 //$dispatcher->addSubscriber(new ValidateDependenciesListener());
 //$dispatcher->addSubscriber(new ShowWelcomeMessageListener());
 //$dispatcher->addSubscriber(new DefaultValueEventListener());
 //$dispatcher->addSubscriber(new ShowGeneratedFilesListener());
 //$dispatcher->addSubscriber(new ShowTipsListener());
-//$dispatcher->addSubscriber(new CallCommandListener());
+$dispatcher->addSubscriber(new CallCommandListener());
 //$dispatcher->addSubscriber(new ShowGenerateChainListener());
 //$dispatcher->addSubscriber(new ShowGenerateInlineListener());
 //$dispatcher->addSubscriber(new ShowTerminateMessageListener());
-//$application->setDispatcher($dispatcher);
+$application->setDispatcher($dispatcher);
 
 //$defaultCommand = 'about';
 //if ($config->get('application.command')
