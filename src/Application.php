@@ -34,7 +34,6 @@ class Application extends ConsoleApplication
     {
         $this->registerCommands();
 
-
         parent::doRun($input, $output);
     }
 
@@ -55,7 +54,7 @@ class Application extends ConsoleApplication
             }
 
             if (method_exists($command, 'setTranslator')) {
-                $command->setTranslator($this->container->get('translator'));
+                $command->setTranslator($this->container->get('console.translator_manager'));
             }
 
             $this->add($command);
