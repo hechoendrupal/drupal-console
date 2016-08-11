@@ -15,18 +15,26 @@ class DrupalServiceModifier implements ServiceModifierInterface
     /**
      * @var string
      */
+    protected $siteRoot;
+
+    /**
+     * @var string
+     */
     protected $serviceTag;
 
     /**
      * DrupalServiceModifier constructor.
      * @param string $consoleRoot
+     * @param string $siteRoot
      * @param string $serviceTag
      */
     public function __construct(
         $consoleRoot = null,
+        $siteRoot = null,
         $serviceTag = null
     ) {
         $this->consoleRoot = $consoleRoot;
+        $this->siteRoot = $siteRoot;
         $this->serviceTag = $serviceTag;
     }
 
@@ -37,7 +45,10 @@ class DrupalServiceModifier implements ServiceModifierInterface
     public function alter(ContainerBuilder $container)
     {
         $container->addCompilerPass(
-            new AddCommandsCompilerPass($this->consoleRoot)
+            new AddServicesCompilerPass(
+                $this->consoleRoot,
+                $this->siteRoot
+            )
         );
         $container->addCompilerPass(
             new FindCommandsCompilerPass($this->serviceTag)

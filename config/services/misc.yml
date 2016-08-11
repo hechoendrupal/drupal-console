@@ -12,10 +12,6 @@ services:
     arguments: ['@console.requirement_checker', '@console.chain_queue', '@console.configuration_manager']
     tags:
       - { name: console.command }
-  complete:
-    class: Drupal\Console\Command\CompleteCommand
-    tags:
-      - { name: console.command }
 #  help:
 #    class: Drupal\Console\Command\HelpCommand
 #    tags:

@@ -12,20 +12,26 @@ use Symfony\Component\Finder\Finder;
 /**
  * FindCommandsCompilerPass
  */
-class AddCommandsCompilerPass implements CompilerPassInterface
+class AddServicesCompilerPass implements CompilerPassInterface
 {
 
     /**
      * @var string
      */
     protected $consoleRoot;
+    /**
+     * @var string
+     */
+    protected $siteRoot;
 
     /**
      * AddCommandsCompilerPass constructor.
      * @param string $consoleRoot
+     * @param string $siteRoot
      */
-    public function __construct($consoleRoot) {
+    public function __construct($consoleRoot, $siteRoot) {
         $this->consoleRoot = $consoleRoot;
+        $this->siteRoot = $siteRoot;
     }
 
     /**
@@ -33,7 +39,11 @@ class AddCommandsCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $loader = new YamlFileLoader($container, new FileLocator($this->consoleRoot));
+        $loader = new YamlFileLoader(
+            $container,
+            new FileLocator($this->consoleRoot)
+        );
+        $loader->load($this->siteRoot.'vendor/drupal/console-core/services.yml');
         $loader->load('services.yml');
 
         $finder = new Finder();

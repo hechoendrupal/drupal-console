@@ -47,6 +47,7 @@ $drupalKernel = DrupalKernel::createFromRequest(
 
 $drupalKernel->addServiceModifier(new DrupalServiceModifier(
     $consoleRoot,
+    $siteRoot,
     'console.command'
 ));
 $drupalKernel->invalidateContainer();

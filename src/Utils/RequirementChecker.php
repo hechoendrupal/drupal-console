@@ -39,7 +39,7 @@ class RequirementChecker
      * RequirementChecker constructor.
      * @param $parser
      */
-    public function __construct($parser)
+    public function __construct()
     {
         $this->parser = new Parser();
     }

@@ -1,11 +1,11 @@
 requirements:
   php:
-    required: 5.5.9
+    required: 5.6.0
   configurations:
     required:
       - date.timezone: "America/Tijuana"
       - memory_limit: 1024M
-    recomended:
+    recomended: {}
   extensions:
     required:
       - date
@@ -22,4 +22,4 @@ requirements:
       - tokenizer
       - xml
       - curl
-    recommended:
+    recommended: {}
