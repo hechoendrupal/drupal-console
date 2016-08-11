@@ -25,18 +25,25 @@ class CheckCommand extends BaseCommand
 
     protected $chainQueue;
 
+    protected $configurationManager;
+
     /**
      * CheckCommand constructor.
      * @param $requirementChecker
      * @param $chainQueue
+     * @param $configurationManager
      */
-    public function __construct($requirementChecker, $chainQueue) {
+    public function __construct(
+        $requirementChecker,
+        $chainQueue,
+        $configurationManager
+    ) {
         $this->requirementChecker = $requirementChecker;
         $this->chainQueue = $chainQueue;
+        $this->configurationManager = $configurationManager;
 
         parent::__construct();
     }
-
 
     /**
      * {@inheritdoc}
@@ -57,10 +64,10 @@ class CheckCommand extends BaseCommand
 
         $checks = $this->requirementChecker->getCheckResult();
         if (!$checks) {
-            $phpCheckFile = $this->getApplication()->getConfiguration()->getUserHomeDir().'/.console/phpcheck.yml';
-//            if (!file_exists($phpCheckFile)) {
-//                $phpCheckFile = $this->getApplication()->getDirectoryRoot().'config/dist/phpcheck.yml';
-//            }
+            $phpCheckFile = $this->configurationManager->getHomeDirectory().'/.console/phpcheck.yml';
+            if (!file_exists($phpCheckFile)) {
+                $phpCheckFile = $this->configurationManager->getApplicationDirectory().'config/dist/phpcheck.yml';
+            }
             $this->requirementChecker->validate($phpCheckFile);
             $checks = $this->requirementChecker->validate($phpCheckFile);
         }

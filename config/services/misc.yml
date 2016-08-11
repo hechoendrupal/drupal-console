@@ -9,7 +9,7 @@ services:
       - { name: console.command }
   console.check:
     class: Drupal\Console\Command\CheckCommand
-    arguments: ['@console.requirement_checker', '@console.chain_queue']
+    arguments: ['@console.requirement_checker', '@console.chain_queue', '@console.configuration_manager']
     tags:
       - { name: console.command }
   complete:
