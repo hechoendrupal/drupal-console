@@ -33,11 +33,14 @@ class CallCommandListener implements EventSubscriberInterface
         }
 
         $application = $command->getApplication();
-        $commands = $application->getContainer()->get('chain_queue')->getCommands();
+        $commands = $application->getContainer()
+            ->get('console.chain_queue')->getCommands();
 
         if (!$commands) {
             return;
         }
+
+        var_export($commands);
 
         foreach ($commands as $chainedCommand) {
             $callCommand = $application->find($chainedCommand['name']);
@@ -50,30 +53,30 @@ class CallCommandListener implements EventSubscriberInterface
             $io->text($chainedCommand['name']);
             $callCommand->run($input, $io);
 
-            $drupal = $application->getContainer()->get('site');
+//            $drupal = $application->getContainer()->get('site');
+//
+//            if ($chainedCommand['name'] === 'site:new') {
+//                if ($chainedCommand['inputs']['directory']) {
+//                    $siteRoot = sprintf(
+//                        '%s/%s', getcwd(),
+//                        $chainedCommand['inputs']['directory']
+//                    );
+//                    chdir($siteRoot);
+//                }
+//                $drupal->isValidRoot(getcwd());
+//                $drupal->getAutoLoadClass();
+//
+//                $application->prepare($drupal);
+//            }
 
-            if ($chainedCommand['name'] === 'site:new') {
-                if ($chainedCommand['inputs']['directory']) {
-                    $siteRoot = sprintf(
-                        '%s/%s', getcwd(),
-                        $chainedCommand['inputs']['directory']
-                    );
-                    chdir($siteRoot);
-                }
-                $drupal->isValidRoot(getcwd());
-                $drupal->getAutoLoadClass();
-
-                $application->prepare($drupal);
-            }
-
-            if ($chainedCommand['name'] === 'site:install') {
-                $drupal->isValidRoot(getcwd());
-                $application->prepare($drupal);
-            }
-
-            if ($chainedCommand['name'] === 'settings:set') {
-                $application->prepare($drupal);
-            }
+//            if ($chainedCommand['name'] === 'site:install') {
+//                $drupal->isValidRoot(getcwd());
+//                $application->prepare($drupal);
+//            }
+//
+//            if ($chainedCommand['name'] === 'settings:set') {
+//                $application->prepare($drupal);
+//            }
         }
     }
 
