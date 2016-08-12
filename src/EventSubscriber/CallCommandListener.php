@@ -24,7 +24,10 @@ class CallCommandListener implements EventSubscriberInterface
     {
         $command = $event->getCommand();
         /* @var DrupalStyle $io */
-        $io = $event->getOutput();
+        $io = new DrupalStyle(
+            $event->getInput(),
+            $event->getOutput()
+        );
 
         if (!$command instanceof Command
             && !$command instanceof BaseCommand
