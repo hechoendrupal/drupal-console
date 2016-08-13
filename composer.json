@@ -35,12 +35,6 @@
         "forum": "https://gitter.im/hechoendrupal/DrupalConsole",
         "docs": "https://docs.drupalconsole.com/"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "/Users/jmolivas/develop/drupal/modules/drupal-console-core"
-        }
-    ],
     "require": {
         "php": "^5.6 || ^7.0",
         "alchemy/zippy": "0.3.5",
