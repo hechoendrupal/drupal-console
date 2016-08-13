@@ -1,19 +1,8 @@
 <?php
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Console\Application;
-//use Drupal\Console\EventSubscriber\ShowGeneratedFilesListener;
-//use Drupal\Console\EventSubscriber\ShowWelcomeMessageListener;
-use Drupal\Console\EventSubscriber\CallCommandListener;
-//use Drupal\Console\EventSubscriber\ShowGenerateChainListener;
-//use Drupal\Console\EventSubscriber\ShowGenerateInlineListener;
-//use Drupal\Console\EventSubscriber\ShowTerminateMessageListener;
-//use Drupal\Console\EventSubscriber\ShowTipsListener;
-//use Drupal\Console\EventSubscriber\ValidateDependenciesListener;
-//use Drupal\Console\EventSubscriber\DefaultValueEventListener;
-//use Drupal\Console\EventSubscriber\ValidateExecutionListener;
 use Drupal\Console\Utils\DrupalKernel;
 use Drupal\Console\Utils\DrupalServiceModifier;
 
@@ -50,14 +39,13 @@ $drupalKernel->addServiceModifier(new DrupalServiceModifier(
     $siteRoot,
     'console.command'
 ));
+
 $drupalKernel->invalidateContainer();
 $drupalKernel->boot();
 /* DrupalKernel */
 
 $container = $drupalKernel->getContainer();
 AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
-
-//$config = $container->get('config');
 
 $configuration = $container->get('console.configuration_manager')
     ->loadConfiguration(__DIR__)
@@ -69,62 +57,6 @@ $translator = $container->get('console.translator_manager')
         $siteRoot
     );
 
-//$container->get('translator')->loadResource(
-//    $config->get('application.language'),
-//    $consoleRoot
-//);
-//
-//$translatorHelper = new TranslatorHelper();
-//$translatorHelper->loadResource(
-//    $config->get('application.language'),
-//    $consoleRoot
-//);
-
-//$helpers = [
-//    'nested-array' => new NestedArrayHelper(),
-//    'kernel' => new KernelHelper(),
-//    'string' => new StringHelper(),
-//    'validator' => new ValidatorHelper(),
-//    'translator' => $translatorHelper, /* registered as a service */
-//    'site' => new SiteHelper(),
-//    'renderer' => new TwigRendererHelper(),
-//    'showFile' => new ShowFileHelper(), /* registered as a service */
-//    'chain' => new ChainCommandHelper(), /* registered as a service */
-//    'drupal' => new DrupalHelper(), /* registered as a service "site" */
-//    'commandDiscovery' => new CommandDiscoveryHelper(
-//        $config->get('application.develop'),
-//        $container->get("command_dependency_resolver")
-//    ),
-//    'remote' => new RemoteHelper(),
-//    'httpClient' => new HttpClientHelper(),
-//    'api' => new DrupalApiHelper(),
-//    'container' => new ContainerHelper($container),
-//];
-
 $application = new Application($container);
-//$application->addHelpers($helpers);
-//$application->setDirectoryRoot($consoleRoot);
-
-$dispatcher = new EventDispatcher();
-//$dispatcher->addSubscriber(new ValidateExecutionListener());
-//$dispatcher->addSubscriber(new ValidateDependenciesListener());
-//$dispatcher->addSubscriber(new ShowWelcomeMessageListener());
-//$dispatcher->addSubscriber(new DefaultValueEventListener());
-//$dispatcher->addSubscriber(new ShowGeneratedFilesListener());
-//$dispatcher->addSubscriber(new ShowTipsListener());
-$dispatcher->addSubscriber(new CallCommandListener());
-//$dispatcher->addSubscriber(new ShowGenerateChainListener());
-//$dispatcher->addSubscriber(new ShowGenerateInlineListener());
-//$dispatcher->addSubscriber(new ShowTerminateMessageListener());
-$application->setDispatcher($dispatcher);
-
-//$defaultCommand = 'about';
-//if ($config->get('application.command')
-//    && $application->has($config->get('application.command'))
-//) {
-//    $defaultCommand = $config->get('application.command');
-//}
-//$application->setDefaultCommand($defaultCommand);
-
-//$application->setDefaultCommand('about');
+$application->setDefaultCommand('about');
 $application->run();

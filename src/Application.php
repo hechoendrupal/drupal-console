@@ -83,8 +83,13 @@ class Application extends ConsoleApplication
             }
 
             $command = $this->container->get($name);
+            if (!$command) {
+                continue;
+            }
             if (method_exists($command, 'setTranslator')) {
-                $command->setTranslator($this->container->get('console.translator_manager'));
+                $command->setTranslator(
+                    $this->container->get('console.translator_manager')
+                );
             }
             $this->add($command);
         }
