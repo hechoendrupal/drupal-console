@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f09de1465305df44094ae6c5932e9e36",
-    "content-hash": "35c2c61d8edb868ee3e9363adc4a57dd",
+    "hash": "4f0020f565e04b4f8c094b8a460049e5",
+    "content-hash": "183b6c4850e913c61afc442fc2f2ac3d",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -527,17 +527,11 @@
         },
         {
             "name": "drupal/console-core",
-            "version": "dev-master",
+            "version": "dev-update-check-command",
             "source": {
                 "type": "git",
-                "url": "https://github.com/hechoendrupal/drupal-console-core.git",
-                "reference": "d8435327391e69c3e188063e435ac9697f0b4507"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-core/zipball/d8435327391e69c3e188063e435ac9697f0b4507",
-                "reference": "d8435327391e69c3e188063e435ac9697f0b4507",
-                "shasum": ""
+                "url": "/Users/jmolivas/develop/drupal/modules/drupal-console-core",
+                "reference": "44bd16fff4f6fc222691cd4492f8a16673ff4000"
             },
             "require": {
                 "dflydev/dot-access-configuration": "1.*",
@@ -557,7 +551,6 @@
                     "Drupal\\Console\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0+"
             ],
@@ -573,10 +566,6 @@
                     "homepage": "http://jmolivas.com"
                 },
                 {
-                    "name": "Drupal Console Contributors",
-                    "homepage": "https://github.com/hechoendrupal/DrupalConsole/graphs/contributors"
-                },
-                {
                     "name": "Eduardo Garcia",
                     "email": "enzo@enzolutions.com",
                     "homepage": "http://enzolutions.com/"
@@ -584,17 +573,26 @@
                 {
                     "name": "Omar Aguirre",
                     "email": "omersguchigu@gmail.com"
+                },
+                {
+                    "name": "Drupal Console Contributors",
+                    "homepage": "https://github.com/hechoendrupal/DrupalConsole/graphs/contributors"
                 }
             ],
             "description": "Drupal Console Core",
             "homepage": "http://drupalconsole.com/",
             "keywords": [
-                "console",
-                "development",
-                "drupal",
-                "symfony"
+                "Console",
+                "Development",
+                "Drupal",
+                "Symfony"
             ],
-            "time": "2016-08-13 18:59:20"
+            "support": {
+                "issues": "https://github.com/hechoendrupal/DrupalConsole/issues",
+                "forum": "https://gitter.im/hechoendrupal/DrupalConsole",
+                "docs": "https://hechoendrupal.gitbooks.io/drupal-console/"
+            },
+            "time": "2016-08-13 19:49:20"
         },
         {
             "name": "drupal/console-en",
