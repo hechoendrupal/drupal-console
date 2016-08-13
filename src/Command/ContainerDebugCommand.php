@@ -64,10 +64,9 @@ class ContainerDebugCommand extends BaseCommand
 
     private function getServiceList()
     {
-        $drupalContainer = $this->getDrupalContainer();
         $services = [];
-        foreach ($drupalContainer->getServiceIds() as $serviceId) {
-            $service = $drupalContainer->get($serviceId);
+        foreach ($this->getContainer()->getServiceIds() as $serviceId) {
+            $service = $this->get($serviceId);
             $class = get_class($service);
             $services[] = [$serviceId, $class];
         }
@@ -77,7 +76,7 @@ class ContainerDebugCommand extends BaseCommand
 
     private function getServiceDetail($service)
     {
-        $serviceInstance = $this->getDrupalService($service);
+        $serviceInstance = $this->get($service);
         $serviceDetail = [];
 
         if ($serviceInstance) {
