@@ -1,29 +1,8 @@
 services:
-#  about:
-#    class: Drupal\Console\Command\AboutCommand
-#    tags:
-#      - { name: console.command }
   container_debug:
     class: Drupal\Console\Command\ContainerDebugCommand
     tags:
       - { name: console.command }
-  console.check:
-    class: Drupal\Console\Command\CheckCommand
-    arguments: ['@console.requirement_checker', '@console.chain_queue', '@console.configuration_manager']
-    tags:
-      - { name: console.command }
-#  help:
-#    class: Drupal\Console\Command\HelpCommand
-#    tags:
-#      - { name: console.command }
-#  init:
-#    class: Drupal\Console\Command\InitCommand
-#    tags:
-#      - { name: console.command }
-#  list:
-#    class: Drupal\Console\Command\ListCommand
-#    tags:
-#      - { name: console.command }
   plugin_debug:
     class: Drupal\Console\Command\PluginDebugCommand
     tags:

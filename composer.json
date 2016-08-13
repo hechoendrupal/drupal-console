@@ -45,7 +45,7 @@
         "php": "^5.6 || ^7.0",
         "alchemy/zippy": "0.3.5",
         "composer/installers": "~1.0",
-        "drupal/console-core" : "dev-update-check-command",
+        "drupal/console-core" : "dev-fix-settings-commands",
         "symfony/config": "~2.8",
         "symfony/console": "~2.8",
         "symfony/css-selector": "~2.8",

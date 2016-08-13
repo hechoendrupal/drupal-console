@@ -1,24 +1,15 @@
 services:
-#  parser:
-#    class: Symfony\Component\Yaml\Parser
-#  filesystem:
-#    class: Symfony\Component\Filesystem\Filesystem
-#  yaml:
-#    class: Symfony\Component\Yaml\Yaml
-#  config:
-#    class: Drupal\Console\Config
-#    arguments: ["@parser"]
-#  redbean:
-#    class: RedBeanPHP\R
-#  annotation_reader:
-#    class: Doctrine\Common\Annotations\AnnotationReader
-#  annotation_file_cache:
-#    class: Doctrine\Common\Annotations\FileCacheReader
-#    factory: [Drupal\Console\Annotations\CacheFactory, createFileCache]
-#    arguments: ['@annotation_reader', '@config']
-#  command_dependency_resolver:
-#    class: Drupal\Console\Command\CommandDependencies
-#    arguments: ["@annotation_file_cache"]
+  redbean:
+    class: RedBeanPHP\R
+  annotation_reader:
+    class: Doctrine\Common\Annotations\AnnotationReader
+  annotation_file_cache:
+    class: Doctrine\Common\Annotations\FileCacheReader
+    factory: [Drupal\Console\Annotations\CacheFactory, createFileCache]
+    arguments: ['@annotation_reader', '@config']
+  command_dependency_resolver:
+    class: Drupal\Console\Command\CommandDependencies
+    arguments: ["@annotation_file_cache"]
 #  file_util:
 #    class: Drupal\Console\Utils\File
 #  translator:

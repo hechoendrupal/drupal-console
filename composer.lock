@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4f0020f565e04b4f8c094b8a460049e5",
-    "content-hash": "183b6c4850e913c61afc442fc2f2ac3d",
+    "hash": "7599253abbd8abaa54cbba3da5cd4507",
+    "content-hash": "194eda4f586e483afca3379ece3a9e18",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -527,11 +527,11 @@
         },
         {
             "name": "drupal/console-core",
-            "version": "dev-update-check-command",
+            "version": "dev-fix-settings-commands",
             "source": {
                 "type": "git",
                 "url": "/Users/jmolivas/develop/drupal/modules/drupal-console-core",
-                "reference": "44bd16fff4f6fc222691cd4492f8a16673ff4000"
+                "reference": "be51eb9a6b391d6845fc96c36ac48a88c656ec78"
             },
             "require": {
                 "dflydev/dot-access-configuration": "1.*",
@@ -592,7 +592,7 @@
                 "forum": "https://gitter.im/hechoendrupal/DrupalConsole",
                 "docs": "https://hechoendrupal.gitbooks.io/drupal-console/"
             },
-            "time": "2016-08-13 19:49:20"
+            "time": "2016-08-13 21:03:42"
         },
         {
             "name": "drupal/console-en",
@@ -600,12 +600,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hechoendrupal/drupal-console-en.git",
-                "reference": "aec07a89eaef35c615bd557b2ab30904b7bee2e9"
+                "reference": "f4ee38e892bd58d0c0fc96a23c038735c0a780e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-en/zipball/aec07a89eaef35c615bd557b2ab30904b7bee2e9",
-                "reference": "aec07a89eaef35c615bd557b2ab30904b7bee2e9",
+                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-en/zipball/f4ee38e892bd58d0c0fc96a23c038735c0a780e3",
+                "reference": "f4ee38e892bd58d0c0fc96a23c038735c0a780e3",
                 "shasum": ""
             },
             "type": "drupal-console-language",
@@ -646,7 +646,7 @@
                 "drupal",
                 "symfony"
             ],
-            "time": "2016-08-13 16:57:57"
+            "time": "2016-08-13 20:10:29"
         },
         {
             "name": "gabordemooij/redbean",
