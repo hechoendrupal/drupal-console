@@ -6,7 +6,7 @@ services:
   annotation_file_cache:
     class: Doctrine\Common\Annotations\FileCacheReader
     factory: [Drupal\Console\Annotations\CacheFactory, createFileCache]
-    arguments: ['@annotation_reader', '@config']
+    arguments: ['@annotation_reader', '@console.configuration_manager']
   command_dependency_resolver:
     class: Drupal\Console\Command\CommandDependencies
     arguments: ["@annotation_file_cache"]

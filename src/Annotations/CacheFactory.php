@@ -3,15 +3,19 @@
 namespace Drupal\Console\Annotations;
 
 use Doctrine\Common\Annotations\FileCacheReader;
-use Drupal\Console\Config;
+use Doctrine\Common\Annotations\Reader;
+use Drupal\Console\Utils\ConfigurationManager;
 
 class CacheFactory
 {
-    public static function createFileCache($reader, Config $config)
+    public static function createFileCache(
+        Reader $reader,
+        ConfigurationManager $configurationManager
+    )
     {
         return new FileCacheReader(
             $reader,
-            $config->getUserHomeDir() . '/.console/cache/annotations',
+            $configurationManager->getHomeDirectory() . '/.console/cache/annotations',
             false
         );
     }
