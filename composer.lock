@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e57fe7f8954bdc57542c71b17bf63d79",
-    "content-hash": "304e14a4b6ad084e4b0066312fc19f09",
+    "hash": "4f52e45a97f2fd5951a5be381fc459d2",
+    "content-hash": "a50e66f17a623d534dd7e7afaa329395",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -527,11 +527,11 @@
         },
         {
             "name": "drupal/console-core",
-            "version": "dev-update-container-aware-trait",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "/Users/jmolivas/develop/drupal/modules/drupal-console-core",
-                "reference": "a8b5d534ef3e65daee8200d66263aca79a94b27b"
+                "reference": "b31a18592d5a469aa79dcb264c58f35fedbe2617"
             },
             "require": {
                 "dflydev/dot-access-configuration": "1.*",
@@ -592,7 +592,7 @@
                 "forum": "https://gitter.im/hechoendrupal/DrupalConsole",
                 "docs": "https://hechoendrupal.gitbooks.io/drupal-console/"
             },
-            "time": "2016-08-14 01:54:12"
+            "time": "2016-08-14 07:47:16"
         },
         {
             "name": "drupal/console-en",

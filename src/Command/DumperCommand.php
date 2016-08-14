@@ -7,7 +7,8 @@ use Drupal\Core\Config\ConfigFactory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command as BaseCommand;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\devel\DevelDumperPluginManager;
 use Drupal\devel\DevelDumperManager;
@@ -17,8 +18,10 @@ use Drupal\devel\DevelDumperManager;
  * Command to quickly change between devel dumpers from the command line
  * @package Drupal\Console\Command
  */
-class DumperCommand extends ContainerAwareCommand
+class DumperCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -28,7 +31,11 @@ class DumperCommand extends ContainerAwareCommand
         $this
             ->setName('devel:dumper')
             ->setDescription($this->trans('Change the devel dumper plugin'))
-            ->addArgument('dumper', InputArgument::OPTIONAL, $this->trans('Name of the devel dumper plugin'));
+            ->addArgument(
+                'dumper',
+                InputArgument::OPTIONAL,
+                $this->trans('Name of the devel dumper plugin')
+            );
     }
 
     /**
@@ -37,10 +44,7 @@ class DumperCommand extends ContainerAwareCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-
-        //Without devel we will not get very far
-        $d = $this->getModuleHandler()->moduleExists('devel');
-        if (!$d) {
+        if (!$this->getContainer()->get('module_handler')->moduleExists('devel')) {
             $io->error($this->trans('Devel must be installed'));
         }
 

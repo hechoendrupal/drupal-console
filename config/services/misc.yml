@@ -1,6 +1,7 @@
 services:
   container_debug:
     class: Drupal\Console\Command\ContainerDebugCommand
+    arguments: ['%console.service_definitions%']
     tags:
       - { name: console.command }
   plugin_debug:

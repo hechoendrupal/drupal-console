@@ -104,7 +104,7 @@ class ServerCommand extends BaseCommand
     {
         $router = sprintf(
             '%s/.console/router.php',
-            $this->getApplication()->getConfig()->getUserHomeDir()
+            $this->getApplication()->getConfiguration()->getUserHomeDir()
         );
 
         if (file_exists($router)) {
