@@ -4,6 +4,7 @@ services:
     arguments: ['%console.service_definitions%']
     tags:
       - { name: console.command }
+      - { name: console.drupal_install }
   plugin_debug:
     class: Drupal\Console\Command\PluginDebugCommand
     tags:
