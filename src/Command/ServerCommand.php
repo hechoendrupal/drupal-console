@@ -36,6 +36,8 @@ class ServerCommand extends BaseCommand
     public function __construct($appRoot, $configurationManager) {
         $this->appRoot = $appRoot;
         $this->configurationManager = $configurationManager;
+
+        parent::__construct();
     }
 
     /**
