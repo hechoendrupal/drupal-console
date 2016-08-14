@@ -19,3 +19,7 @@ services:
     class: Drupal\Console\Command\EventDebugCommand
     tags:
       - { name: console.command }
+  console.devel_dumper:
+    class: Drupal\Console\Command\DumperCommand
+    tags:
+      - { name: console.command }
