@@ -75,7 +75,8 @@ class DumperCommand extends BaseCommand
         $dumpKeys = $this->getDumperKeys();
         if (!in_array($dumper, $dumpKeys)) {
             $io->error($this->trans('Dumper does not exist'));
-            return;
+
+            return 1;
         }
         /* @var ConfigFactory $configFactory */
         $configFactory = \Drupal::configFactory();
