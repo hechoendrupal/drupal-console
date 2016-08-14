@@ -45,6 +45,8 @@ class DumperCommand extends BaseCommand
         $io = new DrupalStyle($input, $output);
         if (!\Drupal::moduleHandler()->moduleExists('devel')) {
             $io->error($this->trans('Devel must be installed'));
+
+            return 1;
         }
 
         $dumper = $input->getArgument('dumper');
