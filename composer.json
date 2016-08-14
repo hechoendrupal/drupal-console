@@ -35,17 +35,11 @@
         "forum": "https://gitter.im/hechoendrupal/DrupalConsole",
         "docs": "https://docs.drupalconsole.com/"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "/Users/jmolivas/develop/drupal/modules/drupal-console-core"
-        }
-    ],
     "require": {
         "php": "^5.6 || ^7.0",
         "alchemy/zippy": "0.3.5",
         "composer/installers": "~1.0",
-        "drupal/console-core" : "dev-add-inject-container-as-setter",
+        "drupal/console-core" : "dev-master",
         "symfony/config": "~2.8",
         "symfony/console": "~2.8",
         "symfony/css-selector": "~2.8",

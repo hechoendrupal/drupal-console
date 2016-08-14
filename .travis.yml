@@ -29,7 +29,7 @@ before_script:
 
 script:
   - if [ -n "${TRAVIS_BUILD_DIR+1}" ]; then PROJECT_DIR=$TRAVIS_BUILD_DIR; fi
-  - phpunit
+#  - phpunit
 #  - php box.phar build
 #  - php drupal.phar init
 #  - php drupal.phar check
