@@ -1,10 +1,11 @@
 services:
   container_debug:
     class: Drupal\Console\Command\ContainerDebugCommand
-    arguments: ['%console.service_definitions%']
+    calls:
+      - [setContainer, ['@service_container']]
     tags:
       - { name: console.command }
-      - { name: console.drupal_install }
+      - { name: console.drupal_installed }
   plugin_debug:
     class: Drupal\Console\Command\PluginDebugCommand
     tags:
