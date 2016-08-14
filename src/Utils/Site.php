@@ -22,14 +22,27 @@ use Symfony\Component\Yaml\Parser;
  */
 class Site
 {
-    public function loadLegacyFile($legacyFile)
+    protected $appRoot;
+
+    /**
+     * ServerCommand constructor.
+     * @param $appRoot
+     */
+    public function __construct($appRoot) {
+        $this->appRoot = $appRoot;
+    }
+
+    public function loadLegacyFile($legacyFile, $relative = true)
     {
-        $legacyFile = realpath(
-            sprintf('%s/%s', $this->root, $legacyFile)
-        );
+        if ($relative) {
+            $legacyFile = realpath(
+                sprintf('%s/%s', $this->appRoot, $legacyFile)
+            );
+        }
 
         if (file_exists($legacyFile)) {
             include_once $legacyFile;
+
             return true;
         }
 
@@ -86,7 +99,7 @@ class Site
 
         $finder = new Finder();
         $finder->directories()
-            ->in($this->root . '/core/lib/Drupal/Core/Database/Driver')
+            ->in($this->appRoot . '/core/lib/Drupal/Core/Database/Driver')
             ->depth('== 0');
 
         $databases = [];
@@ -130,8 +143,8 @@ class Site
         $finder = new Finder();
         $finder->files()
             ->name('*.info.yml')
-            ->in($this->root . '/core/profiles/')
-            ->in($this->root . '/profiles/')
+            ->in($this->appRoot . '/core/profiles/')
+            ->in($this->appRoot . '/profiles/')
             ->contains('type: profile')
             ->notContains('hidden: true')
             ->depth('1');

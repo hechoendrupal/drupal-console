@@ -17,6 +17,10 @@ use Drupal\devel\DevelDumperManager;
  * Class DumperCommand.
  * Command to quickly change between devel dumpers from the command line
  * @package Drupal\Console\Command
+ *
+ * @todo  Inject services using \Drupal
+ * @todo  Move to namespace Devel
+ * @todo  Load devel.module legacy file
  */
 class DumperCommand extends BaseCommand
 {

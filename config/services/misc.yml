@@ -17,9 +17,11 @@ services:
       - { name: console.command }
   event_debug:
     class: Drupal\Console\Command\EventDebugCommand
+    arguments: ['@event_dispatcher']
     tags:
       - { name: console.command }
   console.devel_dumper:
     class: Drupal\Console\Command\DumperCommand
+    arguments: ['@app.root']
     tags:
       - { name: console.command }
