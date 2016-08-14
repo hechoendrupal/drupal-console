@@ -53,5 +53,15 @@ class AddServicesCompilerPass implements CompilerPassInterface
         foreach ($finder as $file) {
             $loader->load($file->getPathName());
         }
+
+        $container->setParameter(
+            'container_service_ids',
+            $container->getServiceIds()
+        );
+
+        $container->setParameter(
+            'container_service_definitions',
+            $container->getDefinitions()
+        );
     }
 }

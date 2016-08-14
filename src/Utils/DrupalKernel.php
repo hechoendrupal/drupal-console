@@ -45,6 +45,7 @@ class DrupalKernel extends DrupalKernelBase
         foreach ($this->serviceModifiers as $serviceModifier) {
             $serviceModifier->alter($container);
         }
+
         return $container;
     }
 }

@@ -45,6 +45,7 @@ $drupalKernel->boot();
 /* DrupalKernel */
 
 $container = $drupalKernel->getContainer();
+
 AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
 
 $configuration = $container->get('console.configuration_manager')

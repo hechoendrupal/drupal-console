@@ -531,7 +531,7 @@
             "source": {
                 "type": "git",
                 "url": "/Users/jmolivas/develop/drupal/modules/drupal-console-core",
-                "reference": "b5bbbc2871afb1bb43168f82f332f5a6477cb934"
+                "reference": "a8b5d534ef3e65daee8200d66263aca79a94b27b"
             },
             "require": {
                 "dflydev/dot-access-configuration": "1.*",
@@ -592,7 +592,7 @@
                 "forum": "https://gitter.im/hechoendrupal/DrupalConsole",
                 "docs": "https://hechoendrupal.gitbooks.io/drupal-console/"
             },
-            "time": "2016-08-13 23:24:28"
+            "time": "2016-08-14 01:54:12"
         },
         {
             "name": "drupal/console-en",
