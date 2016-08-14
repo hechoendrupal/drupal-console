@@ -12,6 +12,7 @@ services:
       - { name: console.command }
   server:
     class: Drupal\Console\Command\ServerCommand
+    arguments: ['@app.root', '@console.configuration_manager']
     tags:
       - { name: console.command }
   event_debug:

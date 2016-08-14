@@ -24,6 +24,20 @@ class ServerCommand extends BaseCommand
 {
     use CommandTrait;
 
+    protected $appRoot;
+
+    protected $configurationManager;
+
+    /**
+     * ServerCommand constructor.
+     * @param $appRoot
+     * @param $configurationManager
+     */
+    public function __construct($appRoot, $configurationManager) {
+        $this->appRoot = $appRoot;
+        $this->configurationManager = $configurationManager;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -84,7 +98,7 @@ class ServerCommand extends BaseCommand
 
         $processBuilder = new ProcessBuilder(explode(' ', $cli));
         $process = $processBuilder->getProcess();
-        $process->setWorkingDirectory($this->get('site')->getRoot());
+        $process->setWorkingDirectory($this->appRoot);
         if ('\\' !== DIRECTORY_SEPARATOR && file_exists('/dev/tty') && is_readable('/dev/tty')) {
             $process->setTty('true');
         } else {
@@ -104,7 +118,7 @@ class ServerCommand extends BaseCommand
     {
         $router = sprintf(
             '%s/.console/router.php',
-            $this->getApplication()->getConfiguration()->getUserHomeDir()
+            $this->configurationManager->getUserDirectory()
         );
 
         if (file_exists($router)) {
@@ -113,7 +127,7 @@ class ServerCommand extends BaseCommand
 
         $router = sprintf(
             '%s/config/dist/router.php',
-            $this->getApplication()->getDirectoryRoot()
+            $this->configurationManager->getApplicationDirectory()
         );
 
         if (file_exists($router)) {
