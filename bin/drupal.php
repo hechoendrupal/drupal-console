@@ -11,10 +11,10 @@ $consoleRoot = realpath(__DIR__.'/../') . '/';
 $root = getcwd() . '/';
 $siteRoot = realpath(__DIR__.'/../../../../') . '/';
 
-$autoloadFile = $root.'/autoload.php';
+$autoLoadFile = $root.'/autoload.php';
 
-if (file_exists($autoloadFile)) {
-    $autoload = include_once $autoloadFile;
+if (file_exists($autoLoadFile)) {
+    $autoload = include_once $autoLoadFile;
 } else {
     echo PHP_EOL .
          ' Something goes wrong with your package.'.PHP_EOL.
@@ -47,6 +47,10 @@ $drupalKernel->boot();
 $container = $drupalKernel->getContainer();
 
 AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
+
+$container->get('console.site')
+    ->setAutoLoadFile($autoLoadFile)
+    ->setRoot($root);
 
 $configuration = $container->get('console.configuration_manager')
     ->loadConfiguration(__DIR__)

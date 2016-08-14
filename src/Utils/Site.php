@@ -12,11 +12,9 @@ use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\Core\Language\Language;
 use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Site\Settings;
-use Drupal\Core\Database\Database;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Parser;
-use Composer\Autoload\ClassLoader;
 
 /**
  * Class DrupalHelper
@@ -24,151 +22,39 @@ use Composer\Autoload\ClassLoader;
  */
 class Site
 {
-    const DRUPAL_AUTOLOAD = 'autoload.php';
-
-    const DEFAULT_SETTINGS_PHP = 'sites/default/settings.php';
-
-    const DRUPAL_INDEX = 'index.php';
+    protected $root;
+    protected $autoLoadFile;
 
     /**
-     * @var string
+     * @return mixed
      */
-    private $root = null;
-
-    /**
-     * @var string
-     */
-    private $autoLoad = null;
-
-    /**
-     * @var bool
-     */
-    private $validInstance = false;
-
-    /**
-     * @var bool
-     */
-    private $installed = false;
-
-    /**
-     * @var Parser
-     */
-    protected $parser;
-
-    /**
-     * Translator constructor.
-     * @param Parser $parser
-     */
-    public function __construct(
-        Parser $parser
-    ) {
-        $this->parser = $parser;
-    }
-
-    /**
-     * @param  string $root
-     * @param  bool   $recursive
-     * @return bool
-     */
-    public function isValidRoot($root, $recursive=false)
-    {
-        if (!$root) {
-            return false;
-        }
-
-        if ($root === '/' || preg_match('~^[a-z]:\\\\$~i', $root)) {
-            return false;
-        }
-
-        $autoLoad = sprintf('%s/%s', $root, self::DRUPAL_AUTOLOAD);
-        $index = sprintf('%s/%s', $root, self::DRUPAL_INDEX);
-
-        if (file_exists($autoLoad) && file_exists($index)) {
-            $this->root = $root;
-            $this->autoLoad = $autoLoad;
-            $this->validInstance = true;
-            return true;
-        }
-
-        if ($recursive) {
-            return $this->isValidRoot(realpath($root . '/../'), $recursive);
-        }
-
-        return false;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isConnectionInfo()
-    {
-        $settingsPath = sprintf('%s/%s', $this->root, self::DEFAULT_SETTINGS_PHP);
-
-        if (!file_exists($settingsPath)) {
-            return false;
-        }
-
-        if (Database::getConnectionInfo()) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isValidInstance()
-    {
-        return $this->validInstance;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isInstalled()
-    {
-        return $this->installed;
-    }
-
-    /**
-     * @param bool $installed
-     */
-    public function setInstalled($installed)
-    {
-        $this->installed = $installed;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRoot()
-    {
+    public function getRoot() {
         return $this->root;
     }
 
     /**
-     * @return string
+     * @param mixed $root
      */
-    public function getAutoLoad()
-    {
-        return $this->autoLoad;
+    public function setRoot($root) {
+        $this->root = $root;
+
+        return $this;
     }
 
     /**
-     * @return Classloader
+     * @return mixed
      */
-    public function getAutoLoadClass()
-    {
-        return include $this->autoLoad;
+    public function getAutoLoadFile() {
+        return $this->autoLoadFile;
     }
 
     /**
-     * @return bool
+     * @param mixed $autoLoadFile
      */
-    public function isAutoload()
-    {
-        return ($this->autoLoad?true:false);
+    public function setAutoLoadFile($autoLoadFile) {
+        $this->autoLoadFile = $autoLoadFile;
+
+        return $this;
     }
 
     public function loadLegacyFile($legacyFile)
@@ -275,6 +161,7 @@ class Site
      */
     public function getProfiles()
     {
+        $parser = new Parser();
         $finder = new Finder();
         $finder->files()
             ->name('*.info.yml')
@@ -287,7 +174,7 @@ class Site
         $profiles = [];
         foreach ($finder as $file) {
             $profile_key = $file->getBasename('.info.yml');
-            $profiles[$profile_key] = $this->parser->parse($file->getContents());
+            $profiles[$profile_key] = $parser->parse($file->getContents());
         }
 
         return $profiles;

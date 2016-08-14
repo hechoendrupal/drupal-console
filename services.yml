@@ -1,6 +1,6 @@
 services:
-  redbean:
-    class: RedBeanPHP\R
+#  redbean:
+#    class: RedBeanPHP\R
   annotation_reader:
     class: Doctrine\Common\Annotations\AnnotationReader
   annotation_file_cache:
@@ -10,6 +10,8 @@ services:
   command_dependency_resolver:
     class: Drupal\Console\Command\CommandDependencies
     arguments: ["@annotation_file_cache"]
+  console.site:
+    class: Drupal\Console\Utils\Site
 #  file_util:
 #    class: Drupal\Console\Utils\File
 #  translator:
@@ -17,9 +19,6 @@ services:
 #    arguments: ["@parser", "@filesystem"]
 #  console.translator:
 #    class: Drupal\Console\Utils\Translator
-#  site:
-#    class: Drupal\Console\Utils\Site
-#    arguments: ["@parser"]
 #  showfile:
 #    class: Drupal\Console\Utils\ShowFile
 #    arguments: ["@site", "@translator"]
