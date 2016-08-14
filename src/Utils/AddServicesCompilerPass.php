@@ -55,7 +55,7 @@ class AddServicesCompilerPass implements CompilerPassInterface
         }
 
         $container->setParameter(
-            'console.container_service_definitions',
+            'console.service_definitions',
             $container->getDefinitions()
         );
     }

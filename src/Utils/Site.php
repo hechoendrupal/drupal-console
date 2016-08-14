@@ -22,41 +22,6 @@ use Symfony\Component\Yaml\Parser;
  */
 class Site
 {
-    protected $root;
-    protected $autoLoadFile;
-
-    /**
-     * @return mixed
-     */
-    public function getRoot() {
-        return $this->root;
-    }
-
-    /**
-     * @param mixed $root
-     */
-    public function setRoot($root) {
-        $this->root = $root;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAutoLoadFile() {
-        return $this->autoLoadFile;
-    }
-
-    /**
-     * @param mixed $autoLoadFile
-     */
-    public function setAutoLoadFile($autoLoadFile) {
-        $this->autoLoadFile = $autoLoadFile;
-
-        return $this;
-    }
-
     public function loadLegacyFile($legacyFile)
     {
         $legacyFile = realpath(

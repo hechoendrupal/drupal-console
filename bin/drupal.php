@@ -48,10 +48,6 @@ $container = $drupalKernel->getContainer();
 
 AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
 
-$container->get('console.site')
-    ->setAutoLoadFile($autoLoadFile)
-    ->setRoot($root);
-
 $configuration = $container->get('console.configuration_manager')
     ->loadConfiguration(__DIR__)
     ->getConfiguration();

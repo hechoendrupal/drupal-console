@@ -48,11 +48,4 @@ class DrupalKernel extends DrupalKernelBase
 
         return $container;
     }
-
-    public function getContainerDefinitions()
-    {
-        $container = parent::getContainerBuilder();
-
-        return $container->getDefinitions();
-    }
 }

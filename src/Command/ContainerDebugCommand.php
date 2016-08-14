@@ -65,13 +65,12 @@ class ContainerDebugCommand extends BaseCommand
     private function getServiceList()
     {
         $services = [];
-        
+        $serviceDefinitions = $this->getContainer()
+            ->getParameter('console.service_definitions');
 
-//        foreach ($this->getContainer() as $serviceId) {
-//            $service = $this->get($serviceId);
-//            $class = get_class($service);
-//            $services[] = [$serviceId, $class];
-//        }
+        foreach ($serviceDefinitions as $serviceId => $serviceDefinition) {
+            $services[] = [$serviceId, $serviceDefinition->getClass()];
+        }
 
         return $services;
     }
