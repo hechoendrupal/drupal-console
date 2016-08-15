@@ -11,8 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Command\Command as BaseCommand;
-use Drupal\Console\Command\Shared\CommandTrait;
-//use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Yaml\Yaml;
 
@@ -22,18 +21,7 @@ use Symfony\Component\Yaml\Yaml;
  */
 class ContainerDebugCommand extends BaseCommand
 {
-    use CommandTrait;
-
-    protected $serviceDefinitions;
-
-    /**
-     * ContainerDebugCommand constructor.
-     * @param $serviceDefinitions
-     */
-    public function __construct($serviceDefinitions) {
-        $this->serviceDefinitions = $serviceDefinitions;
-        parent::__construct();
-    }
+    use ContainerAwareCommandTrait;
 
     /**
      * {@inheritdoc}
@@ -78,10 +66,10 @@ class ContainerDebugCommand extends BaseCommand
     private function getServiceList()
     {
         $services = [];
-//        $serviceDefinitions = $this->container
-//            ->getParameter('console.service_definitions');
+        $serviceDefinitions = $this->container
+            ->getParameter('console.service_definitions');
 
-        foreach ($this->serviceDefinitions as $serviceId => $serviceDefinition) {
+        foreach ($serviceDefinitions as $serviceId => $serviceDefinition) {
             $services[] = [$serviceId, $serviceDefinition->getClass()];
         }
 

@@ -1,9 +1,8 @@
 services:
-  container_debug:
+  console.container_debug:
     class: Drupal\Console\Command\ContainerDebugCommand
-    arguments: ['%console.service_definitions%']
-#    calls:
-#      - [setContainer, ['@service_container']]
+    calls:
+      - [setContainer, ['@service_container']]
     tags:
       - { name: console.command }
       - { name: console.drupal_installed }
@@ -16,7 +15,7 @@ services:
     arguments: ['@app.root', '@console.configuration_manager']
     tags:
       - { name: console.command }
-  event_debug:
+  console.event_debug:
     class: Drupal\Console\Command\EventDebugCommand
     arguments: ['@event_dispatcher']
     tags:
@@ -26,3 +25,4 @@ services:
     arguments: ['@app.root']
     tags:
       - { name: console.command }
+      - { name: console.drupal_installed }
