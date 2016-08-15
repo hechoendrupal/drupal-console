@@ -46,11 +46,6 @@ class AddServicesCompilerPass implements CompilerPassInterface
         $loader->load($this->siteRoot.'vendor/drupal/console-core/services.yml');
         $loader->load('services.yml');
 
-        $container->setParameter(
-            'console.service_definitions',
-            $container->getDefinitions()
-        );
-
         $finder = new Finder();
         $finder->files()
             ->name('*.yml')
@@ -58,5 +53,10 @@ class AddServicesCompilerPass implements CompilerPassInterface
         foreach ($finder as $file) {
             $loader->load($file->getPathName());
         }
+
+        $container->setParameter(
+            'console.service_definitions',
+            $container->getDefinitions()
+        );
     }
 }

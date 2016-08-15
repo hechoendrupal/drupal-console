@@ -6,11 +6,14 @@ services:
     tags:
       - { name: console.command }
       - { name: console.drupal_installed }
-  plugin_debug:
+  console.plugin_debug:
     class: Drupal\Console\Command\PluginDebugCommand
+    calls:
+      - [setContainer, ['@service_container']]
     tags:
       - { name: console.command }
-  server:
+      - { name: console.drupal_installed }
+  console.server:
     class: Drupal\Console\Command\ServerCommand
     arguments: ['@app.root', '@console.configuration_manager']
     tags:
@@ -20,6 +23,7 @@ services:
     arguments: ['@event_dispatcher']
     tags:
       - { name: console.command }
+      - { name: console.drupal_installed }
   console.devel_dumper:
     class: Drupal\Console\Command\DumperCommand
     arguments: ['@app.root']
