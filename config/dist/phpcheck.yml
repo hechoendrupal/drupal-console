@@ -1,6 +1,6 @@
 requirements:
   php:
-    required: 5.6.0
+    required: 5.5.9
   configurations:
     required:
       - date.timezone: "America/Tijuana"
