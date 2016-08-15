@@ -39,8 +39,18 @@ class CallCommandListener implements EventSubscriberInterface
             return;
         }
 
+        $bootOptions = [
+            '--target',
+            '--uri',
+            '--boot',
+        ];
+
         foreach ($commands as $chainedCommand) {
             $callCommand = $application->find($chainedCommand['name']);
+
+            if (array_intersect($bootOptions, array_keys($chainedCommand['inputs']))) {
+                $io->commentBlock('must boot');
+            }
 
             $input = new ArrayInput($chainedCommand['inputs']);
             if (!is_null($chainedCommand['interactive'])) {

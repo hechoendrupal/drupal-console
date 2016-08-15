@@ -33,15 +33,16 @@ class ChainCommandHelper extends Helper
         $learning = null
     ) {
         $inputs['command'] = $name;
+
         if (!is_null($learning)) {
             $inputs['--learning'] = $learning;
         }
-        $this->commands[] =
-            [
-                'name' => $name,
-                'inputs' => $inputs,
-                'interactive' => $interactive
-            ];
+
+        $this->commands[] = [
+            'name' => $name,
+            'inputs' => $inputs,
+            'interactive' => $interactive
+        ];
     }
 
     /**
