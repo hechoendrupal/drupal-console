@@ -531,18 +531,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hechoendrupal/drupal-console-core.git",
-                "reference": "2456d8c8fff233c22a50f01e2b1cbe4f68116dd3"
+                "reference": "34f4e5b989833941332d078498ef6cede8675e91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-core/zipball/2456d8c8fff233c22a50f01e2b1cbe4f68116dd3",
-                "reference": "2456d8c8fff233c22a50f01e2b1cbe4f68116dd3",
+                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-core/zipball/34f4e5b989833941332d078498ef6cede8675e91",
+                "reference": "34f4e5b989833941332d078498ef6cede8675e91",
                 "shasum": ""
             },
             "require": {
                 "dflydev/dot-access-configuration": "1.*",
                 "drupal/console-en": "dev-master",
-                "php": "^5.6 || ^7.0",
+                "php": "^5.5.9 || ^7.0",
                 "symfony/console": "~2.8",
                 "symfony/event-dispatcher": "~2.8",
                 "symfony/filesystem": "~2.8",
@@ -594,7 +594,7 @@
                 "drupal",
                 "symfony"
             ],
-            "time": "2016-08-14 18:09:30"
+            "time": "2016-08-14 19:35:37"
         },
         {
             "name": "drupal/console-en",
