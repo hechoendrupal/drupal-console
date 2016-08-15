@@ -41,6 +41,7 @@ $drupalKernel->addServiceModifier(new DrupalServiceModifier(
 ));
 
 $drupalKernel->invalidateContainer();
+$drupalKernel->rebuildContainer();
 $drupalKernel->boot();
 /* DrupalKernel */
 

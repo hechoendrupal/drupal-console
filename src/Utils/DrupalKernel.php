@@ -25,6 +25,7 @@ class DrupalKernel extends DrupalKernelBase
         $kernel = new static($environment, $class_loader, $allow_dumping);
         static::bootEnvironment();
         $kernel->initializeSettings($request);
+        $kernel->handle($request);
         return $kernel;
     }
 
