@@ -11,22 +11,24 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Yaml\Yaml;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
-use Symfony\Component\Yaml\Yaml;
 
 class DebugCommand extends Command
 {
     use CommandTrait;
 
     protected $breakpointManager;
+    protected $appRoot;
 
     /**
      * DebugCommand constructor.
      * @param $breakpointManager
      */
-    public function __construct($breakpointManager) {
+    public function __construct($breakpointManager, $appRoot) {
         $this->breakpointManager = $breakpointManager;
+        $this->appRoot = $appRoot;
         parent::__construct();
     }
 
@@ -53,26 +55,27 @@ class DebugCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         $group = $input->getArgument('group');
-        if (!$group) {
-            $groups = array_keys($this->breakpointManager->getGroups());
-
-            $tableHeader = [
-                $this->trans('commands.breakpoints.debug.messages.name'),
-            ];
-
-            $io->table($tableHeader, $groups, 'compact');
-        } else {
+        if ($group) {
             $breakPointData = $this->getBreakpointByName($group);
-
             foreach ($breakPointData as $key => $breakPoint) {
-                $io->comment($key);
-                $io->writeln(Yaml::encode($breakPoint));
+                $io->comment($key, false);
+                $io->block(Yaml::dump($breakPoint));
             }
+
+            return 0;
         }
+        $groups = array_keys($this->breakpointManager->getGroups());
+
+        $tableHeader = [
+            $this->trans('commands.breakpoints.debug.messages.name'),
+        ];
+
+        $io->table($tableHeader, $groups, 'compact');
     }
 
     /**
      * @param $group    String
+     * @return mixed
      */
     private function getBreakpointByName($group)
     {
@@ -88,8 +91,15 @@ class DebugCommand extends Command
             $projectPath = drupal_get_path('module', $group);
         }
 
-        return Yaml::decode(
-            file_get_contents($projectPath . '/' .  $group . '.breakpoints.yml')
+        $extensionFile = sprintf(
+                '%s/%s/%s.breakpoints.yml',
+                $this->appRoot,
+                $projectPath,
+                $group
+        );
+
+        return Yaml::parse(
+            file_get_contents($extensionFile)
         );
     }
 }
