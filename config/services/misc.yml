@@ -22,9 +22,9 @@ services:
     tags:
       - { name: console.command }
       - { name: console.drupal_installed }
-  console.devel_dumper:
-    class: Drupal\Console\Command\DumperCommand
-    arguments: ['@app.root']
-    tags:
-      - { name: console.command }
-      - { name: console.drupal_installed }
+#  console.devel_dumper:
+#    class: Drupal\Console\Command\DumperCommand
+#    arguments: ['@app.root']
+#    tags:
+#      - { name: console.command }
+#      - { name: console.drupal_installed }
