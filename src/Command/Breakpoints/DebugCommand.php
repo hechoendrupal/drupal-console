@@ -11,13 +11,25 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Yaml\Yaml;
 
 class DebugCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    protected $breakpointManager;
+
+    /**
+     * DebugCommand constructor.
+     * @param $breakpointManager
+     */
+    public function __construct($breakpointManager) {
+        $this->breakpointManager = $breakpointManager;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -42,7 +54,7 @@ class DebugCommand extends Command
 
         $group = $input->getArgument('group');
         if (!$group) {
-            $groups = $this->getAllBreakpoints();
+            $groups = array_keys($this->breakpointManager->getGroups());
 
             $tableHeader = [
                 $this->trans('commands.breakpoints.debug.messages.name'),
@@ -59,21 +71,15 @@ class DebugCommand extends Command
         }
     }
 
-    private function getAllBreakpoints()
-    {
-        $breakpointsManager = $this->getDrupalService('breakpoint.manager');
-        $groups =  array_keys($breakpointsManager->getGroups());
-
-        return $groups;
-    }
-
     /**
      * @param $group    String
      */
     private function getBreakpointByName($group)
     {
-        $breakpointsManager = $this->getDrupalService('breakpoint.manager');
-        $typeExtension = implode(',', array_values($breakpointsManager->getGroupProviders($group)));
+        $typeExtension = implode(
+            ',',
+            array_values($this->breakpointManager->getGroupProviders($group))
+        );
 
         if ($typeExtension == 'theme') {
             $projectPath = drupal_get_path('theme', $group);
@@ -82,6 +88,8 @@ class DebugCommand extends Command
             $projectPath = drupal_get_path('module', $group);
         }
 
-        return  Yaml::decode(file_get_contents($projectPath . '/' .  $group . '.breakpoints.yml'));
+        return Yaml::decode(
+            file_get_contents($projectPath . '/' .  $group . '.breakpoints.yml')
+        );
     }
 }
