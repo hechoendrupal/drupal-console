@@ -17,6 +17,7 @@ use Drupal\Console\Style\DrupalStyle;
 /**
  * Class Application
  * @package Drupal\Console\Console
+ * @deprecated
  */
 class App extends BaseApplication
 {

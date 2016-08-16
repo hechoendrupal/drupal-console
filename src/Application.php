@@ -90,6 +90,11 @@ class Application extends ConsoleApplication
                     $this->container->get('console.translator_manager')
                 );
             }
+            if (method_exists($command, 'setContainer')) {
+                $command->setTranslator(
+                    $this->container->get('console')
+                );
+            }
             $this->add($command);
         }
     }
