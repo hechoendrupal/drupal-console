@@ -1,8 +1,6 @@
 services:
   console.container_debug:
     class: Drupal\Console\Command\ContainerDebugCommand
-#    calls:
-#      - [setContainer, ['@service_container']]
     tags:
       - { name: console.command }
       - { name: console.drupal_installed }
