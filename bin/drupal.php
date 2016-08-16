@@ -1,6 +1,5 @@
 <?php
 
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Drupal\Console\Application;
 use Drupal\Console\Helper\KernelHelper;
@@ -28,9 +27,11 @@ use Drupal\Console\Helper\RemoteHelper;
 use Drupal\Console\Helper\HttpClientHelper;
 use Drupal\Console\Helper\DrupalApiHelper;
 use Drupal\Console\Helper\ContainerHelper;
-use Symfony\Component\HttpFoundation\Request;
 use Drupal\Console\Utils\DrupalKernel;
 use Drupal\Console\Utils\DrupalServiceModifier;
+use Symfony\Bridge\Twig\Command\LintCommand;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\HttpFoundation\Request;
 
 set_time_limit(0);
 $consoleRoot = realpath(__DIR__.'/../') . '/';
@@ -43,9 +44,9 @@ if (file_exists($autoloadFile)) {
     $autoload = include_once $autoloadFile;
 } else {
     echo PHP_EOL .
-         ' Something goes wrong with your package.'.PHP_EOL.
+         ' Something is wrong with your package.'.PHP_EOL.
          ' Try downloading again.'. PHP_EOL .
-         ' Executing:'. PHP_EOL .
+         ' Execute:'. PHP_EOL .
          ' composer require drupal/console:~1.0 --prefer-dist --optimize-autoloader'. PHP_EOL;
 
     exit(1);
@@ -109,6 +110,7 @@ $helpers = [
 $application = new Application($container);
 $application->addHelpers($helpers);
 $application->setDirectoryRoot($consoleRoot);
+$application->add(new LintCommand());
 
 $dispatcher = new EventDispatcher();
 $dispatcher->addSubscriber(new ValidateExecutionListener());
