@@ -42,7 +42,7 @@ class AddServicesCompilerPass implements CompilerPassInterface
             $container,
             new FileLocator($this->consoleRoot)
         );
-        $loader->load($this->siteRoot.'vendor/drupal/console-core/services.yml');
+        $loader->load($this->siteRoot.DRUPAL_CONSOLE_CORE.'/services.yml');vendor/drupal/console-
         $loader->load('services.yml');
 
         $finder = new Finder();
