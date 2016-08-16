@@ -77,8 +77,6 @@ class Application extends ConsoleApplication
         $consoleCommands = $this->container->getParameter('console.commands');
 
         foreach ($consoleCommands as $name) {
-            echo $name . PHP_EOL;
-
             if (!$this->container->has($name)) {
                 continue;
             }

@@ -1,13 +1,13 @@
-services:
-  rest_debug:
-    class: Drupal\Console\Command\Rest\DebugCommand
-    tags:
-      - { name: console.command }
-  rest_disable:
-    class: Drupal\Console\Command\Rest\DisableCommand
-    tags:
-      - { name: console.command }
-  rest_enable:
-    class: Drupal\Console\Command\Rest\EnableCommand
-    tags:
-      - { name: console.command }
+#services:
+#  rest_debug:
+#    class: Drupal\Console\Command\Rest\DebugCommand
+#    tags:
+#      - { name: console.command }
+#  rest_disable:
+#    class: Drupal\Console\Command\Rest\DisableCommand
+#    tags:
+#      - { name: console.command }
+#  rest_enable:
+#    class: Drupal\Console\Command\Rest\EnableCommand
+#    tags:
+#      - { name: console.command }

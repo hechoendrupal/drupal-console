@@ -17,10 +17,10 @@ if (file_exists($autoLoadFile)) {
     $autoload = include_once $autoLoadFile;
 } else {
     echo PHP_EOL .
-         ' Something goes wrong with your package.'.PHP_EOL.
-         ' Try downloading again.'. PHP_EOL .
-         ' Executing:'. PHP_EOL .
-         ' composer require drupal/console:~1.0 --prefer-dist --optimize-autoloader'. PHP_EOL;
+        ' Something goes wrong with your package.'.PHP_EOL.
+        ' Try downloading again.'. PHP_EOL .
+        ' Executing:'. PHP_EOL .
+        ' composer require drupal/console:~1.0 --prefer-dist --optimize-autoloader'. PHP_EOL;
 
     exit(1);
 }
@@ -52,13 +52,21 @@ $container = $drupalKernel->getContainer();
 AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
 
 $configuration = $container->get('console.configuration_manager')
-    ->loadConfiguration(__DIR__)
+    ->loadConfiguration($siteRoot)
     ->getConfiguration();
 
 $translator = $container->get('console.translator_manager')
     ->loadCoreLanguage(
         $configuration->get('application.language'),
         $siteRoot
+    );
+
+$container->get('console.renderer')
+    ->setSkeletonDirs(
+        [
+            $consoleRoot.'/templates/',
+            $siteRoot.DRUPAL_CONSOLE_CORE.'/templates/'
+        ]
     );
 
 $application = new Application($container);

@@ -1,15 +1,15 @@
 services:
 #  redbean:
 #    class: RedBeanPHP\R
-  annotation_reader:
+  console.annotation_reader:
     class: Doctrine\Common\Annotations\AnnotationReader
-  annotation_file_cache:
+  console.annotation_file_cache:
     class: Doctrine\Common\Annotations\FileCacheReader
     factory: [Drupal\Console\Annotations\CacheFactory, createFileCache]
-    arguments: ['@annotation_reader', '@console.configuration_manager']
-  command_dependency_resolver:
-    class: Drupal\Console\Command\CommandDependencies
-    arguments: ["@annotation_file_cache"]
+    arguments: ['@console.annotation_reader', '@console.configuration_manager']
+#  console.command_dependencies:
+#    class: Drupal\Console\Command\CommandDependencies
+#    arguments: ["@console.annotation_file_cache"]
   console.site:
     class: Drupal\Console\Utils\Site
 #  file_util:
