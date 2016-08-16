@@ -193,7 +193,7 @@ trait ProjectDownloadTrait
             $zippy = Zippy::load();
             if (PHP_OS === "WIN32" || PHP_OS === "WINNT") {
                 $container = AdapterContainer::load();
-                $container['Drupal\\Console\\Zippy\\Adapter\\TarGzGNUTarForWindowsAdapter'] = function($container) {
+                $container['Drupal\\Console\\Zippy\\Adapter\\TarGzGNUTarForWindowsAdapter'] = function ($container) {
                     return TarGzGNUTarForWindowsAdapter::newInstance(
                         $container['executable-finder'],
                         $container['resource-manager'],
@@ -205,8 +205,8 @@ trait ProjectDownloadTrait
             }
             $archive = $zippy->open($destination);
             if ($type == 'core') {
-                $archive->extract(getenv('MSYSTEM') ? NULL : $projectPath);
-            } else if (getenv('MSYSTEM')) {
+                $archive->extract(getenv('MSYSTEM') ? null : $projectPath);
+            } elseif (getenv('MSYSTEM')) {
                 $current_dir = getcwd();
                 $temp_dir = sys_get_temp_dir();
                 chdir($temp_dir);

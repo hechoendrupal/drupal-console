@@ -16,7 +16,8 @@ use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class Application
- * @package Drupal\Console\Console
+ *
+ * @package    Drupal\Console\Console
  * @deprecated
  */
 class App extends BaseApplication
@@ -439,8 +440,7 @@ class App extends BaseApplication
                             $command->getName()
                         );
                     }
-                }
-                else {
+                } else {
                     $data['commands'][$namespace][] = $this->commandData(
                         $command->getName()
                     );

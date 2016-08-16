@@ -77,6 +77,8 @@ class Application extends ConsoleApplication
         $consoleCommands = $this->container->getParameter('console.commands');
 
         foreach ($consoleCommands as $name) {
+            echo $name . PHP_EOL;
+
             if (!$this->container->has($name)) {
                 continue;
             }
@@ -91,12 +93,11 @@ class Application extends ConsoleApplication
                 );
             }
             if (method_exists($command, 'setContainer')) {
-                $command->setTranslator(
-                    $this->container->get('console')
+                $command->setContainer(
+                    $this->container->get('service_container')
                 );
             }
             $this->add($command);
         }
     }
-
 }

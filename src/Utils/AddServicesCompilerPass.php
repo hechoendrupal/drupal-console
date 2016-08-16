@@ -4,7 +4,6 @@ namespace Drupal\Console\Utils;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Finder\Finder;
@@ -14,7 +13,6 @@ use Symfony\Component\Finder\Finder;
  */
 class AddServicesCompilerPass implements CompilerPassInterface
 {
-
     /**
      * @var string
      */
@@ -29,7 +27,8 @@ class AddServicesCompilerPass implements CompilerPassInterface
      * @param string $consoleRoot
      * @param string $siteRoot
      */
-    public function __construct($consoleRoot, $siteRoot) {
+    public function __construct($consoleRoot, $siteRoot)
+    {
         $this->consoleRoot = $consoleRoot;
         $this->siteRoot = $siteRoot;
     }

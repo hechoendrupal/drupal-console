@@ -34,11 +34,13 @@ $drupalKernel = DrupalKernel::createFromRequest(
     true
 );
 
-$drupalKernel->addServiceModifier(new DrupalServiceModifier(
-    $consoleRoot,
-    $siteRoot,
-    'console.command'
-));
+$drupalKernel->addServiceModifier(
+    new DrupalServiceModifier(
+        $consoleRoot,
+        $siteRoot,
+        'console.command'
+    )
+);
 
 $drupalKernel->invalidateContainer();
 $drupalKernel->rebuildContainer();

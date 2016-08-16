@@ -11,7 +11,8 @@ use Symfony\Component\Console\Helper\Helper as BaseHelper;
 
 /**
  * Class Helper
- * @package Drupal\Console\Helper
+ *
+ * @package    Drupal\Console\Helper
  * @deprecated
  */
 class Helper extends BaseHelper

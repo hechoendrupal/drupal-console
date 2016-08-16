@@ -11,8 +11,7 @@ class CacheFactory
     public static function createFileCache(
         Reader $reader,
         ConfigurationManager $configurationManager
-    )
-    {
+    ) {
         return new FileCacheReader(
             $reader,
             $configurationManager->getHomeDirectory() . '/.console/cache/annotations',

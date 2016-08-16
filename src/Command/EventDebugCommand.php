@@ -28,7 +28,8 @@ class EventDebugCommand extends Command
      * EventDebugCommand constructor.
      * @param $eventDispatcher
      */
-    public function __construct($eventDispatcher) {
+    public function __construct($eventDispatcher)
+    {
         $this->eventDispatcher = $eventDispatcher;
         parent::__construct();
     }

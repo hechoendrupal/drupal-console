@@ -33,7 +33,8 @@ class ServerCommand extends Command
      * @param $appRoot
      * @param $configurationManager
      */
-    public function __construct($appRoot, $configurationManager) {
+    public function __construct($appRoot, $configurationManager)
+    {
         $this->appRoot = $appRoot;
         $this->configurationManager = $configurationManager;
 

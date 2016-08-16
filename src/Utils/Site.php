@@ -28,7 +28,8 @@ class Site
      * ServerCommand constructor.
      * @param $appRoot
      */
-    public function __construct($appRoot) {
+    public function __construct($appRoot)
+    {
         $this->appRoot = $appRoot;
     }
 
