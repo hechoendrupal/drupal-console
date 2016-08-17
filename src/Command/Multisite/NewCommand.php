@@ -132,7 +132,7 @@ class NewCommand extends Command
      * Adds line to sites.php that is needed for the new site to be recognized.
      *
      * @param DrupalStyle $output
-     * @param string $uri
+     * @param string      $uri
      *
      * @throws FileNotFoundException
      */

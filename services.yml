@@ -1,40 +1,27 @@
 services:
-  parser:
-    class: Symfony\Component\Yaml\Parser
-  filesystem:
-    class: Symfony\Component\Filesystem\Filesystem
-  yaml:
-    class: Symfony\Component\Yaml\Yaml
-  config:
-    class: Drupal\Console\Config
-    arguments: ["@parser"]
-  requirement_checker:
-    class: Drupal\Console\Utils\RequirementChecker
-    arguments: ["@parser"]
-  redbean:
-    class: RedBeanPHP\R
-  annotation_reader:
+#  redbean:
+#    class: RedBeanPHP\R
+  console.annotation_reader:
     class: Doctrine\Common\Annotations\AnnotationReader
-  annotation_file_cache:
+  console.annotation_file_cache:
     class: Doctrine\Common\Annotations\FileCacheReader
     factory: [Drupal\Console\Annotations\CacheFactory, createFileCache]
-    arguments: ['@annotation_reader', '@config']
-  command_dependency_resolver:
-    class: Drupal\Console\Command\CommandDependencies
-    arguments: ["@annotation_file_cache"]
-  file_util:
-    class: Drupal\Console\Utils\File
-  translator:
-    class: Drupal\Console\Utils\Translator
-    arguments: ["@parser", "@filesystem"]
-  site:
+    arguments: ['@console.annotation_reader', '@console.configuration_manager']
+#  console.command_dependencies:
+#    class: Drupal\Console\Command\CommandDependencies
+#    arguments: ["@console.annotation_file_cache"]
+  console.site:
     class: Drupal\Console\Utils\Site
-    arguments: ["@parser"]
-  chain_queue:
-    class: Drupal\Console\Utils\ChainQueue
-  showfile:
-    class: Drupal\Console\Utils\ShowFile
-    arguments: ["@site", "@translator"]
-  shell_process:
-    class: Drupal\Console\Utils\ShellProcess
-    arguments: ["@site", '@config']
+#  file_util:
+#    class: Drupal\Console\Utils\File
+#  translator:
+#    class: Drupal\Console\Utils\Translator
+#    arguments: ["@parser", "@filesystem"]
+#  console.translator:
+#    class: Drupal\Console\Utils\Translator
+#  showfile:
+#    class: Drupal\Console\Utils\ShowFile
+#    arguments: ["@site", "@translator"]
+#  shell_process:
+#    class: Drupal\Console\Utils\ShellProcess
+#    arguments: ["@site", '@config']

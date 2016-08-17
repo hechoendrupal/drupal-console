@@ -12,11 +12,9 @@ use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\Core\Language\Language;
 use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Site\Settings;
-use Drupal\Core\Database\Database;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Parser;
-use Composer\Autoload\ClassLoader;
 
 /**
  * Class DrupalHelper
@@ -24,161 +22,28 @@ use Composer\Autoload\ClassLoader;
  */
 class Site
 {
-    const DRUPAL_AUTOLOAD = 'autoload.php';
-
-    const DEFAULT_SETTINGS_PHP = 'sites/default/settings.php';
-
-    const DRUPAL_INDEX = 'index.php';
+    protected $appRoot;
 
     /**
-     * @var string
+     * ServerCommand constructor.
+     * @param $appRoot
      */
-    private $root = null;
-
-    /**
-     * @var string
-     */
-    private $autoLoad = null;
-
-    /**
-     * @var bool
-     */
-    private $validInstance = false;
-
-    /**
-     * @var bool
-     */
-    private $installed = false;
-
-    /**
-     * @var Parser
-     */
-    protected $parser;
-
-    /**
-     * Translator constructor.
-     * @param Parser $parser
-     */
-    public function __construct(
-        Parser $parser
-    ) {
-        $this->parser = $parser;
+    public function __construct($appRoot)
+    {
+        $this->appRoot = $appRoot;
     }
 
-    /**
-     * @param  string $root
-     * @param  bool   $recursive
-     * @return bool
-     */
-    public function isValidRoot($root, $recursive=false)
+    public function loadLegacyFile($legacyFile, $relative = true)
     {
-        if (!$root) {
-            return false;
+        if ($relative) {
+            $legacyFile = realpath(
+                sprintf('%s/%s', $this->appRoot, $legacyFile)
+            );
         }
-
-        if ($root === '/' || preg_match('~^[a-z]:\\\\$~i', $root)) {
-            return false;
-        }
-
-        $autoLoad = sprintf('%s/%s', $root, self::DRUPAL_AUTOLOAD);
-        $index = sprintf('%s/%s', $root, self::DRUPAL_INDEX);
-
-        if (file_exists($autoLoad) && file_exists($index)) {
-            $this->root = $root;
-            $this->autoLoad = $autoLoad;
-            $this->validInstance = true;
-            return true;
-        }
-
-        if ($recursive) {
-            return $this->isValidRoot(realpath($root . '/../'), $recursive);
-        }
-
-        return false;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isConnectionInfo()
-    {
-        $settingsPath = sprintf('%s/%s', $this->root, self::DEFAULT_SETTINGS_PHP);
-
-        if (!file_exists($settingsPath)) {
-            return false;
-        }
-
-        if (Database::getConnectionInfo()) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isValidInstance()
-    {
-        return $this->validInstance;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isInstalled()
-    {
-        return $this->installed;
-    }
-
-    /**
-     * @param bool $installed
-     */
-    public function setInstalled($installed)
-    {
-        $this->installed = $installed;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRoot()
-    {
-        return $this->root;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAutoLoad()
-    {
-        return $this->autoLoad;
-    }
-
-    /**
-     * @return Classloader
-     */
-    public function getAutoLoadClass()
-    {
-        return include $this->autoLoad;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isAutoload()
-    {
-        return ($this->autoLoad?true:false);
-    }
-
-    public function loadLegacyFile($legacyFile)
-    {
-        $legacyFile = realpath(
-            sprintf('%s/%s', $this->root, $legacyFile)
-        );
 
         if (file_exists($legacyFile)) {
             include_once $legacyFile;
+
             return true;
         }
 
@@ -235,7 +100,7 @@ class Site
 
         $finder = new Finder();
         $finder->directories()
-            ->in($this->root . '/core/lib/Drupal/Core/Database/Driver')
+            ->in($this->appRoot . '/core/lib/Drupal/Core/Database/Driver')
             ->depth('== 0');
 
         $databases = [];
@@ -275,11 +140,12 @@ class Site
      */
     public function getProfiles()
     {
+        $parser = new Parser();
         $finder = new Finder();
         $finder->files()
             ->name('*.info.yml')
-            ->in($this->root . '/core/profiles/')
-            ->in($this->root . '/profiles/')
+            ->in($this->appRoot . '/core/profiles/')
+            ->in($this->appRoot . '/profiles/')
             ->contains('type: profile')
             ->notContains('hidden: true')
             ->depth('1');
@@ -287,7 +153,7 @@ class Site
         $profiles = [];
         foreach ($finder as $file) {
             $profile_key = $file->getBasename('.info.yml');
-            $profiles[$profile_key] = $this->parser->parse($file->getContents());
+            $profiles[$profile_key] = $parser->parse($file->getContents());
         }
 
         return $profiles;

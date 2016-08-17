@@ -11,7 +11,9 @@ use Symfony\Component\Yaml\Parser;
 
 /**
  * Class Config
- * @package Drupal\Console
+ *
+ * @package    Drupal\Console
+ * @deprecated
  */
 class Config
 {

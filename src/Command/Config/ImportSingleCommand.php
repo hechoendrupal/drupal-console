@@ -67,7 +67,6 @@ class ImportSingleCommand extends Command
         }
 
         try {
-
             $config_storage = \Drupal::service('config.storage');
             $config_manager = \Drupal::service('config.manager');
 
@@ -79,7 +78,7 @@ class ImportSingleCommand extends Command
                 $config_manager
             );
 
-            if ($this->configImport($io,$storage_comparer)) {
+            if ($this->configImport($io, $storage_comparer)) {
                 $io->success(
                     sprintf(
                         $this->trans('commands.config.import.single.messages.success'),
@@ -87,16 +86,14 @@ class ImportSingleCommand extends Command
                     )
                 );
             }
-
         } catch (\Exception $e) {
             $io->error($e->getMessage());
 
             return 1;
         }
-
     }
 
-    private function configImport($io,StorageComparer $storage_comparer)
+    private function configImport($io, StorageComparer $storage_comparer)
     {
         $config_importer = new ConfigImporter(
             $storage_comparer,
@@ -112,14 +109,9 @@ class ImportSingleCommand extends Command
 
         if ($config_importer->alreadyImporting()) {
             $io->success($this->trans('commands.config.import.messages.already-imported'));
-
-        }
-
-        else{
+        } else {
             try {
-
-                if ($config_importer->validate()){
-
+                if ($config_importer->validate()) {
                     $sync_steps = $config_importer->initialize();
 
                     foreach ($sync_steps as $step) {
@@ -128,11 +120,8 @@ class ImportSingleCommand extends Command
                             $config_importer->doSyncStep($step, $context);
                         } while ($context['finished'] < 1);
                     }
-
                 }
-
-            }
-            catch (ConfigImporterException $e) {
+            } catch (ConfigImporterException $e) {
                 $message = 'The import failed due for the following reasons:' . "\n";
                 $message .= implode("\n", $config_importer->getErrors());
                 $io->error(
@@ -141,16 +130,13 @@ class ImportSingleCommand extends Command
                         $message
                     )
                 );
-            }
-
-            catch (\Exception $e){
+            } catch (\Exception $e) {
                 $io->error(
                     sprintf(
                         $this->trans('commands.site.import.local.messages.error-writing'),
                         $e->getMessage()
                     )
                 );
-
             }
         }
     }

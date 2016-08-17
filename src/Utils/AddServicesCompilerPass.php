@@ -4,7 +4,6 @@ namespace Drupal\Console\Utils;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Finder\Finder;
@@ -12,20 +11,26 @@ use Symfony\Component\Finder\Finder;
 /**
  * FindCommandsCompilerPass
  */
-class AddCommandsCompilerPass implements CompilerPassInterface
+class AddServicesCompilerPass implements CompilerPassInterface
 {
-
     /**
      * @var string
      */
     protected $consoleRoot;
+    /**
+     * @var string
+     */
+    protected $siteRoot;
 
     /**
      * AddCommandsCompilerPass constructor.
      * @param string $consoleRoot
+     * @param string $siteRoot
      */
-    public function __construct($consoleRoot) {
+    public function __construct($consoleRoot, $siteRoot)
+    {
         $this->consoleRoot = $consoleRoot;
+        $this->siteRoot = $siteRoot;
     }
 
     /**
@@ -33,7 +38,11 @@ class AddCommandsCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $loader = new YamlFileLoader($container, new FileLocator($this->consoleRoot));
+        $loader = new YamlFileLoader(
+            $container,
+            new FileLocator($this->consoleRoot)
+        );
+        $loader->load($this->siteRoot.DRUPAL_CONSOLE_CORE.'/services.yml');vendor/drupal/console-
         $loader->load('services.yml');
 
         $finder = new Finder();
@@ -43,5 +52,10 @@ class AddCommandsCompilerPass implements CompilerPassInterface
         foreach ($finder as $file) {
             $loader->load($file->getPathName());
         }
+
+        $container->setParameter(
+            'console.service_definitions',
+            $container->getDefinitions()
+        );
     }
 }
