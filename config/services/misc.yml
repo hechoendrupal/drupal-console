@@ -1,41 +1,28 @@
 services:
-  about:
-    class: Drupal\Console\Command\AboutCommand
-    tags:
-      - { name: console.command }
-  container_debug:
+  console.container_debug:
     class: Drupal\Console\Command\ContainerDebugCommand
     tags:
       - { name: console.command }
-  check:
-    class: Drupal\Console\Command\CheckCommand
-    tags:
-      - { name: console.command }
-  complete:
-    class: Drupal\Console\Command\CompleteCommand
-    tags:
-      - { name: console.command }
-  help:
-    class: Drupal\Console\Command\HelpCommand
-    tags:
-      - { name: console.command }
-  init:
-    class: Drupal\Console\Command\InitCommand
-    tags:
-      - { name: console.command }
-  list:
-    class: Drupal\Console\Command\ListCommand
-    tags:
-      - { name: console.command }
-  plugin_debug:
+      - { name: console.drupal_installed }
+  console.plugin_debug:
     class: Drupal\Console\Command\PluginDebugCommand
     tags:
       - { name: console.command }
-  server:
+      - { name: console.drupal_installed }
+  console.server:
     class: Drupal\Console\Command\ServerCommand
+    arguments: ['@app.root', '@console.configuration_manager']
     tags:
       - { name: console.command }
-  event_debug:
+  console.event_debug:
     class: Drupal\Console\Command\EventDebugCommand
+    arguments: ['@event_dispatcher']
     tags:
       - { name: console.command }
+      - { name: console.drupal_installed }
+#  console.devel_dumper:
+#    class: Drupal\Console\Command\DumperCommand
+#    arguments: ['@app.root']
+#    tags:
+#      - { name: console.command }
+#      - { name: console.drupal_installed }

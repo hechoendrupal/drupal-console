@@ -17,7 +17,6 @@ use Alchemy\Zippy\Exception\NotSupportedException;
  */
 class TarGzGNUTarForWindowsAdapter extends TarGzGNUTarAdapter
 {
-
     /**
      * @inheritdoc
      */

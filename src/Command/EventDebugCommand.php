@@ -10,17 +10,30 @@ namespace Drupal\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command as BaseCommand;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class EventDebugCommand
  *  @package Drupal\Console\Command
  */
-class EventDebugCommand extends BaseCommand
+class EventDebugCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    protected $eventDispatcher;
+
+    /**
+     * EventDebugCommand constructor.
+     * @param $eventDispatcher
+     */
+    public function __construct($eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -44,10 +57,8 @@ class EventDebugCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        
-        $event_dispatcher = $this->getDrupalService('event_dispatcher');
-        $events = array_keys($event_dispatcher->getListeners());
 
+        $events = array_keys($this->eventDispatcher->getListeners());
         $event = $input->getArgument('event');
         
         if ($event) {
@@ -55,15 +66,15 @@ class EventDebugCommand extends BaseCommand
                 throw new \Exception(
                     sprintf(
                         $this->trans('commands.event.debug.messages.no-events'),
-                        $module
+                        $event
                     )
                 );
             }
             
-            $dispacher = $event_dispatcher->getListeners($event);
+            $dispatcher = $this->eventDispatcher->getListeners($event);
             $listeners = [];
             
-            foreach ($dispacher as $key => $value) {
+            foreach ($dispatcher as $key => $value) {
                 $reflection = new \ReflectionClass(get_class($value[0]));
                 $listeners[] = [$reflection->getName(), $value[1]];
             }

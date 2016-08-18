@@ -72,20 +72,19 @@ class ImportCommand extends Command
 
         $source_storage = new FileStorage($configSyncDir);
 
-        /** @var \Drupal\Core\Config\ConfigManagerInterface $config_manager */
+        /**
+ * @var \Drupal\Core\Config\ConfigManagerInterface $config_manager 
+*/
         $config_manager = \Drupal::service('config.manager');
         $storage_comparer = new StorageComparer($source_storage, $active_storage, $config_manager);
 
         if (!$storage_comparer->createChangelist()->hasChanges()) {
             $io->success($this->trans('commands.config.import.messages.nothing-to-do'));
-
         }
 
-        if ($this->configImport($io,$storage_comparer)) {
+        if ($this->configImport($io, $storage_comparer)) {
             $io->success($this->trans('commands.config.import.messages.imported'));
-
         }
-
     }
 
 
@@ -105,15 +104,11 @@ class ImportCommand extends Command
 
         if ($config_importer->alreadyImporting()) {
             $io->success($this->trans('commands.config.import.messages.already-imported'));
-        }
-
-        else{
+        } else {
             try {
                 $config_importer->import();
                 $io->info($this->trans('commands.config.import.messages.importing'));
-
-            }
-            catch (ConfigImporterException $e) {
+            } catch (ConfigImporterException $e) {
                 $message = 'The import failed due for the following reasons:' . "\n";
                 $message .= implode("\n", $config_importer->getErrors());
                 $io->error(
@@ -122,9 +117,7 @@ class ImportCommand extends Command
                         $message
                     )
                 );
-            }
-
-            catch (\Exception $e){
+            } catch (\Exception $e) {
                 $io->error(
                     sprintf(
                         $this->trans('commands.site.import.local.messages.error-writing'),
