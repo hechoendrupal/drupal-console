@@ -10,7 +10,7 @@ namespace Drupal\Console\Command\Cache;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -20,7 +20,7 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class ContextDebugCommand extends Command
 {
-    use CommandTrait;
+    use ContainerAwareCommandTrait;
 
     /**
      * {@inheritdoc}
