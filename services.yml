@@ -12,8 +12,8 @@ services:
 #    arguments: ["@console.annotation_file_cache"]
   console.site:
     class: Drupal\Console\Utils\Site
-#  file_util:
-#    class: Drupal\Console\Utils\File
+  console.file_util:
+    class: Drupal\Console\Utils\File
 #  translator:
 #    class: Drupal\Console\Utils\Translator
 #    arguments: ["@parser", "@filesystem"]

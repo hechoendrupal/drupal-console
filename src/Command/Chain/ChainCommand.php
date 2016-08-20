@@ -28,6 +28,24 @@ class ChainCommand extends Command
     use ChainFilesTrait;
     use InputTrait;
 
+
+    protected $fileUtil;
+    protected $fileSystem;
+    protected $parser;
+    protected $chainQueue;
+
+    /**
+     * ChainCommand constructor.
+     * @param $fileUtil
+     */
+    public function __construct($fileUtil, $fileSystem, $parser, $chainQueue) {
+        $this->fileUtil = $fileUtil;
+        $this->fileSystem = $fileSystem;
+        $this->parser = $parser;
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -57,7 +75,6 @@ class ChainCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
         $file = $input->getOption('file');
-        $fileUtil = $this->getApplication()->getContainerHelper()->get('file_util');
 
         if (!$file) {
             $files = $this->getChainFiles(true);
@@ -68,7 +85,7 @@ class ChainCommand extends Command
             );
         }
 
-        $file = $fileUtil->calculateRealPath($file);
+        $file = $this->fileUtil->calculateRealPath($file);
         $input->setOption('file', $file);
 
         $chainContent = file_get_contents($file);
@@ -113,8 +130,6 @@ class ChainCommand extends Command
         $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
 
         $file = $input->getOption('file');
-        $fileUtil = $this->getApplication()->getContainerHelper()->get('file_util');
-        $fileSystem = $this->getApplication()->getContainerHelper()->get('filesystem');
 
         if (!$file) {
             $io->error($this->trans('commands.chain.messages.missing_file'));
@@ -122,9 +137,9 @@ class ChainCommand extends Command
             return 1;
         }
 
-        $file = $fileUtil->calculateRealPath($file);
+        $file = $this->fileUtil->calculateRealPath($file);
 
-        if (!$fileSystem->exists($file)) {
+        if (!$this->fileSystem->exists($file)) {
             $io->error(
                 sprintf(
                     $this->trans('commands.chain.messages.invalid_file'),
@@ -230,8 +245,7 @@ class ChainCommand extends Command
         $placeholderResolver = new RegexPlaceholderResolver($inlinePlaceHolderData, '%{{', '}}');
         $chainContent = $placeholderResolver->resolvePlaceholder($chainContent);
 
-        $parser = $this->getApplication()->getContainerHelper()->get('parser');
-        $configData = $parser->parse($chainContent);
+        $configData = $this->parser->parse($chainContent);
 
         $commands = [];
         if (array_key_exists('commands', $configData)) {
@@ -259,8 +273,7 @@ class ChainCommand extends Command
                 }
             }
 
-            $this->get('chain_queue')
-                ->addCommand(
+            $this->chainQueue->addCommand(
                     $command['command'],
                     $moduleInputs,
                     $interactive,
