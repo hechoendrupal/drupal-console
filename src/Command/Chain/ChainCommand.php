@@ -14,6 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Yaml\Parser;
 use Drupal\Console\Command\Shared\ChainFilesTrait;
 use Drupal\Console\Command\Shared\InputTrait;
 use Drupal\Console\Style\DrupalStyle;
@@ -32,14 +33,13 @@ class ChainCommand extends Command
 
 
     protected $fileUtil;
-    protected $parser;
     protected $chainQueue;
 
     /**
      * ChainCommand constructor.
      * @param $fileUtil
      */
-    public function __construct($fileUtil, $parser, $chainQueue) {
+    public function __construct($fileUtil, $chainQueue) {
         $this->fileUtil = $fileUtil;
         $this->parser = $parser;
         $this->chainQueue = $chainQueue;
@@ -247,7 +247,8 @@ class ChainCommand extends Command
         $placeholderResolver = new RegexPlaceholderResolver($inlinePlaceHolderData, '%{{', '}}');
         $chainContent = $placeholderResolver->resolvePlaceholder($chainContent);
 
-        $configData = $this->parser->parse($chainContent);
+        $parser = new Parser();
+        $configData = $parser->parse($chainContent);
 
         $commands = [];
         if (array_key_exists('commands', $configData)) {
