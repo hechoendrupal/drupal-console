@@ -13,6 +13,8 @@ services:
   console.drupal_api:
     class: Drupal\Console\Utils\DrupalApi
     arguments: ['@app.root']
+  console.validator:
+    class: Drupal\Console\Utils\Validator
 #  file_util:
 #    class: Drupal\Console\Utils\File
 #  translator:

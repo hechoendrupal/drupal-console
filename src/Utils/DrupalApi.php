@@ -206,4 +206,96 @@ class DrupalApi
 
         return $cache;
     }
+
+    /* @todo fix */
+    /**
+     * Validate if module name exist.
+     *
+     * @param string $moduleName Module name
+     *
+     * @return string
+     */
+    public function validateModuleExist($moduleName)
+    {
+        if (!$this->isModule($moduleName)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Module "%s" is not in your application. Try generate:module to create it.',
+                    $moduleName
+                )
+            );
+        }
+
+        return $moduleName;
+    }
+
+    /**
+     * Check if module name exist.
+     *
+     * @param string $moduleName Module name
+     *
+     * @return string
+     */
+    public function isModule($moduleName)
+    {
+        $modules = $this->getSite()->getModules(false, true, true, true, true, true);
+
+        return in_array($moduleName, $modules);
+    }
+
+    /**
+     * @param $moduleList
+     * @return array
+     */
+    public function getMissingModules($moduleList)
+    {
+        $modules = $this->getSite()->getModules(true, true, true, true, true, true);
+
+        return array_diff($moduleList, $modules);
+    }
+
+    /**
+     * Validate if module is installed.
+     *
+     * @param string $moduleName Module name
+     *
+     * @return string
+     */
+    public function validateModuleInstalled($moduleName)
+    {
+        if (!$this->isModuleInstalled($moduleName)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Module "%s" is not installed. Try module:install to install it.',
+                    $moduleName
+                )
+            );
+        }
+
+        return $moduleName;
+    }
+
+    /**
+     * Check if module is installed.
+     *
+     * @param  $moduleName
+     * @return bool
+     */
+    public function isModuleInstalled($moduleName)
+    {
+        $modules = $this->getSite()->getModules(false, true, false, true, true, true);
+
+        return in_array($moduleName, $modules);
+    }
+
+    /**
+     * @param $moduleList
+     * @return array
+     */
+    public function getUninstalledModules($moduleList)
+    {
+        $modules = $this->getSite()->getModules(true, true, false, true, true, true);
+
+        return array_diff($moduleList, $modules);
+    }
 }
