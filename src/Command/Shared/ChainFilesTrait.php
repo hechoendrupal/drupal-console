@@ -17,10 +17,10 @@ trait ChainFilesTrait
 {
     private function getChainFiles($onlyFiles = false)
     {
-        $config = $this->getApplication()->getConfig();
+        $config = $this->configurationManager->getConfig();
 
         $directories = [
-            $config->getUserHomeDir() . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
+            $this->configurationManager->getHomeDirectory() . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
             $this->getApplication()->getSite()->getSiteRoot() . DIRECTORY_SEPARATOR . 'console'. DIRECTORY_SEPARATOR .'chain',
             $this->getApplication()->getSite()->getSiteRoot() . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
         ];
@@ -32,7 +32,7 @@ trait ChainFilesTrait
             foreach ($modules as $module) {
                 $modulePath = sprintf(
                     '%s/%s/console/chain/',
-                    $this->getApplication()->getSite()->getSiteRoot(),
+                    $this->appRoot,
                     $module->getPath()
                 );
 
@@ -43,7 +43,7 @@ trait ChainFilesTrait
             foreach ($themes as $theme) {
                 $themePath = sprintf(
                     '%s/%s/console/chain',
-                    $this->getApplication()->getSite()->getSiteRoot(),
+                    $this->appRoot,
                     $theme->getPath()
                 );
                 if (is_dir($themePath)) {
