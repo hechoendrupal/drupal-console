@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\CreateTrait;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -23,7 +23,20 @@ use Drupal\Console\Style\DrupalStyle;
 class NodesCommand extends Command
 {
     use CreateTrait;
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    protected $drupalApi;
+    protected $createNodeData;
+
+    /**
+     * NodesCommand constructor.
+     * @param $drupalApi
+     * @param $createNodeData
+     */
+    public function __construct($drupalApi, $createNodeData) {
+        $this->drupalApi = $drupalApi;
+        $this->createNodeData = $createNodeData;
+    }
 
     /**
      * {@inheritdoc}
@@ -67,7 +80,7 @@ class NodesCommand extends Command
 
         $contentTypes = $input->getArgument('content-types');
         if (!$contentTypes) {
-            $bundles = $this->get('console.drupal_api')->getBundles();
+            $bundles = $this->drupalApi->getBundles();
             $contentTypes = $io->choice(
                 $this->trans('commands.create.nodes.questions.content-type'),
                 array_values($bundles),
@@ -124,13 +137,11 @@ class NodesCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $createNodeData = $this->get('console.create_node_data');
-
         $contentTypes = $input->getArgument('content-types');
         $limit = $input->getOption('limit')?:25;
         $titleWords = $input->getOption('title-words')?:5;
         $timeRange = $input->getOption('time-range')?:31536000;
-        $available_types = array_keys($this->get('console.drupal_api')->getBundles());
+        $available_types = array_keys($this->drupalApi->getBundles());
 
         foreach ($contentTypes as $type) {
             if (!in_array($type, $available_types)) {
@@ -142,7 +153,7 @@ class NodesCommand extends Command
             $contentTypes = $available_types;
         }
 
-        $nodes = $createNodeData->create(
+        $nodes = $this->createNodeData->create(
             $contentTypes,
             $limit,
             $titleWords,

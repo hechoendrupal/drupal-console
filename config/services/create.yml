@@ -1,6 +1,7 @@
 services:
   create_nodes:
     class: Drupal\Console\Command\Create\NodesCommand
+    arguments: ['@console.drupal_api', '@console.create_node_data']
     tags:
       - { name: console.command }
 #  create_comments:
