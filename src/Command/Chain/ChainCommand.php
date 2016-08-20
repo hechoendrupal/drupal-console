@@ -44,7 +44,7 @@ class ChainCommand extends Command
     public function __construct($fileUtil, $chainQueue, $configurationManager, $appRoot) {
         $this->fileUtil = $fileUtil;
         $this->chainQueue = $chainQueue;
-        $this->$configurationManager = $configurationManager;
+        $this->configurationManager = $configurationManager;
         $this->appRoot = $appRoot;
         parent::__construct();
     }

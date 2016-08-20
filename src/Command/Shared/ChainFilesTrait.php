@@ -21,8 +21,8 @@ trait ChainFilesTrait
 
         $directories = [
             $this->configurationManager->getHomeDirectory() . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
-            $this->getApplication()->getSite()->getSiteRoot() . DIRECTORY_SEPARATOR . 'console'. DIRECTORY_SEPARATOR .'chain',
-            $this->getApplication()->getSite()->getSiteRoot() . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
+            $this->appRoot . DIRECTORY_SEPARATOR . 'console'. DIRECTORY_SEPARATOR .'chain',
+            $this->appRoot . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
         ];
 
         if ($this->get('site')->isInstalled()) {
