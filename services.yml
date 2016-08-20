@@ -10,8 +10,9 @@ services:
 #  console.command_dependencies:
 #    class: Drupal\Console\Command\CommandDependencies
 #    arguments: ["@console.annotation_file_cache"]
-  console.site:
-    class: Drupal\Console\Utils\Site
+  console.drupal_api:
+    class: Drupal\Console\Utils\DrupalApi
+    arguments: ['@app.root']
 #  file_util:
 #    class: Drupal\Console\Utils\File
 #  translator:
