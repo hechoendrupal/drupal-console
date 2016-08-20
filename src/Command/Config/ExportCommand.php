@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Filesystem\Filesystem;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -99,9 +100,9 @@ class ExportCommand extends Command
 
                 $configFileName =  sprintf('%s/%s', $directory, $configName);
 
-                $fs = $this->get('filesystem');
+                $fileSystem = new Filesystem();
                 try {
-                    $fs->mkdir($directory);
+                    $fileSystem->mkdir($directory);
                 } catch (IOExceptionInterface $e) {
                     $io->error(
                         sprintf(
