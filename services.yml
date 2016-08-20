@@ -10,21 +10,11 @@ services:
 #  console.command_dependencies:
 #    class: Drupal\Console\Command\CommandDependencies
 #    arguments: ["@console.annotation_file_cache"]
-  console.drupal_api:
-    class: Drupal\Console\Utils\DrupalApi
-    arguments: ['@app.root']
   console.validator:
     class: Drupal\Console\Utils\Validator
-#  file_util:
-#    class: Drupal\Console\Utils\File
-#  translator:
-#    class: Drupal\Console\Utils\Translator
-#    arguments: ["@parser", "@filesystem"]
-#  console.translator:
-#    class: Drupal\Console\Utils\Translator
-#  showfile:
-#    class: Drupal\Console\Utils\ShowFile
-#    arguments: ["@site", "@translator"]
-#  shell_process:
-#    class: Drupal\Console\Utils\ShellProcess
-#    arguments: ["@site", '@config']
+  console.drupal_api:
+    class: Drupal\Console\Utils\DrupalApi
+    arguments: ['@app.root', '@entity_type.manager']
+  console.create_node_data:
+    class: Drupal\Console\Utils\Create\NodeData
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter']

@@ -67,7 +67,7 @@ class NodesCommand extends Command
 
         $contentTypes = $input->getArgument('content-types');
         if (!$contentTypes) {
-            $bundles = $this->getApplication()->getDrupalApi()->getBundles();
+            $bundles = $this->get('console.drupal_api')->getBundles();
             $contentTypes = $io->choice(
                 $this->trans('commands.create.nodes.questions.content-type'),
                 array_values($bundles),
@@ -124,13 +124,13 @@ class NodesCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $createNodes = $this->getApplication()->getDrupalApi()->getCreateNodes();
+        $createNodeData = $this->get('console.create_node_data');
 
         $contentTypes = $input->getArgument('content-types');
         $limit = $input->getOption('limit')?:25;
         $titleWords = $input->getOption('title-words')?:5;
         $timeRange = $input->getOption('time-range')?:31536000;
-        $available_types = array_keys($this->getApplication()->getDrupalApi()->getBundles());
+        $available_types = array_keys($this->get('console.drupal_api')->getBundles());
 
         foreach ($contentTypes as $type) {
             if (!in_array($type, $available_types)) {
@@ -142,7 +142,7 @@ class NodesCommand extends Command
             $contentTypes = $available_types;
         }
 
-        $nodes = $createNodes->createNode(
+        $nodes = $createNodeData->create(
             $contentTypes,
             $limit,
             $titleWords,
@@ -165,6 +165,6 @@ class NodesCommand extends Command
             )
         );
 
-        return;
+        return 0;
     }
 }

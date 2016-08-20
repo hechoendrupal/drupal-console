@@ -24,16 +24,19 @@ use Drupal\Core\Cache\Cache;
 class DrupalApi
 {
     protected $appRoot;
+    protected $entityTypeManager;
 
     private $caches = [];
+    private $bundles = [];
 
     /**
      * ServerCommand constructor.
      * @param $appRoot
      */
-    public function __construct($appRoot)
+    public function __construct($appRoot, $entityTypeManager)
     {
         $this->appRoot = $appRoot;
+        $this->entityTypeManager = $entityTypeManager;
     }
 
     public function loadLegacyFile($legacyFile, $relative = true)
@@ -205,6 +208,22 @@ class DrupalApi
         }
 
         return $cache;
+    }
+
+    /**
+     * @return array
+     */
+    public function getBundles()
+    {
+        if (!$this->bundles) {
+            $nodeTypes = $this->entityManager->getStorage('node_type')->loadMultiple();
+
+            foreach ($nodeTypes as $nodeType) {
+                $this->bundles[$nodeType->id()] = $nodeType->label();
+            }
+        }
+
+        return $this->bundles;
     }
 
     /* @todo fix */

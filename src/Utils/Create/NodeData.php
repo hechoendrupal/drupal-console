@@ -2,12 +2,11 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Utils\Create\Nodes.
+ * Contains \Drupal\Console\Utils\Create\NodeData.
  */
 
 namespace Drupal\Console\Utils\Create;
 
-use Drupal\Console\Utils\Create\Base;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
@@ -17,7 +16,7 @@ use Drupal\Core\Language\LanguageInterface;
  * Class Nodes
  * @package Drupal\Console\Utils
  */
-class Nodes extends Base
+class NodeData extends Base
 {
     /* @var array */
     protected $bundles = [];
@@ -52,7 +51,7 @@ class Nodes extends Base
      *
      * @return array
      */
-    public function createNode(
+    public function create(
         $contentTypes,
         $limit,
         $titleWords,
@@ -65,7 +64,6 @@ class Nodes extends Base
                 [
                     'nid' => null,
                     'type' => $contentType,
-                    'langcode' => 'en',
                     'created' => REQUEST_TIME - mt_rand(0, $timeRange),
                     'uid' => $this->getUserID(),
                     'title' => $this->getRandom()->sentences(mt_rand(1, $titleWords), true),
