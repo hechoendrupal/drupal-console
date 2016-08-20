@@ -16,7 +16,7 @@ services:
       - { name: console.command }
   config_edit:
     class: Drupal\Console\Command\Config\EditCommand
-    arguments: ['@config.factory', '@config.storage']
+    arguments: ['@config.factory', '@config.storage', '@console.configuration_manager']
     tags:
       - { name: console.command }
 #  config_export:

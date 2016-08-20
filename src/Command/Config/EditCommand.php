@@ -25,14 +25,16 @@ class EditCommand extends Command
 
     protected $configFactory;
     protected $configStorage;
+    protected $configurationManager;
 
     /**
      * ChainCommand constructor.
      * @param $fileUtil
      */
-    public function __construct($configFactory , $configStorage ) {
+    public function __construct($configFactory , $configStorage, $configurationManager ) {
         $this->configFactory = $configFactory;
         $this->configStorage = $configStorage;
+        $this->configurationManager = $configurationManager;
         parent::__construct();
     }
     /**
@@ -140,8 +142,7 @@ class EditCommand extends Command
      */
     protected function getEditor()
     {
-        $app = $this->getApplication();
-        $config = $app->getConfig();
+        $config = $this->configurationManager->getConfiguration();
         $editor = $config->get('application.editor', 'vi');
 
         if ($editor != '') {
