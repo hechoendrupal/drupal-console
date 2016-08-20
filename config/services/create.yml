@@ -1,13 +1,14 @@
 services:
-  create_nodes:
+  console.create_nodes:
     class: Drupal\Console\Command\Create\NodesCommand
     arguments: ['@console.drupal_api', '@console.create_node_data']
     tags:
       - { name: console.command }
-#  create_comments:
-#    class: Drupal\Console\Command\Create\CommentsCommand
-#    tags:
-#      - { name: console.command }
+  console.create_comments:
+    class: Drupal\Console\Command\Create\CommentsCommand
+    arguments: ['@console.create_comment_data']
+    tags:
+      - { name: console.command }
 #  create_terms:
 #    class: Drupal\Console\Command\Create\TermsCommand
 #    tags:

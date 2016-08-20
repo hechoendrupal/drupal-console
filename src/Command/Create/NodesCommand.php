@@ -36,6 +36,7 @@ class NodesCommand extends Command
     public function __construct($drupalApi, $createNodeData) {
         $this->drupalApi = $drupalApi;
         $this->createNodeData = $createNodeData;
+        parent::__construct();
     }
 
     /**

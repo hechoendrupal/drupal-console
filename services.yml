@@ -18,3 +18,6 @@ services:
   console.create_node_data:
     class: Drupal\Console\Utils\Create\NodeData
     arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter']
+  console.create_comment_data:
+    class: Drupal\Console\Utils\Create\CommentData
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter']
