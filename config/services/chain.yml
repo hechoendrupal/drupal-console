@@ -1,7 +1,7 @@
 services:
   chain:
     class: Drupal\Console\Command\Chain\ChainCommand
-    arguments: ['@console.file_util','@filesystem', '@parser', '@console.chain_queue']
+    arguments: ['@console.file_util', '@parser', '@console.chain_queue']
     tags:
       - { name: console.command }
   chain_debug:

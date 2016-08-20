@@ -13,10 +13,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Filesystem\Filesystem;
 use Drupal\Console\Command\Shared\ChainFilesTrait;
 use Drupal\Console\Command\Shared\InputTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\CommandTrait;
+
 
 /**
  * Class ChainCommand
@@ -30,7 +32,6 @@ class ChainCommand extends Command
 
 
     protected $fileUtil;
-    protected $fileSystem;
     protected $parser;
     protected $chainQueue;
 
@@ -38,9 +39,8 @@ class ChainCommand extends Command
      * ChainCommand constructor.
      * @param $fileUtil
      */
-    public function __construct($fileUtil, $fileSystem, $parser, $chainQueue) {
+    public function __construct($fileUtil, $parser, $chainQueue) {
         $this->fileUtil = $fileUtil;
-        $this->fileSystem = $fileSystem;
         $this->parser = $parser;
         $this->chainQueue = $chainQueue;
         parent::__construct();
@@ -137,9 +137,11 @@ class ChainCommand extends Command
             return 1;
         }
 
+        $fileSystem = new Filesystem();
+
         $file = $this->fileUtil->calculateRealPath($file);
 
-        if (!$this->fileSystem->exists($file)) {
+        if (!$fileSystem->exists($file)) {
             $io->error(
                 sprintf(
                     $this->trans('commands.chain.messages.invalid_file'),
