@@ -14,10 +14,10 @@ services:
     arguments: ['@config.storage', '@config.manager']
     tags:
       - { name: console.command }
-#  config_edit:
-#    class: Drupal\Console\Command\Config\EditCommand
-#    tags:
-#      - { name: console.command }
+  config_edit:
+    class: Drupal\Console\Command\Config\EditCommand
+    tags:
+      - { name: console.command }
 #  config_export:
 #    class: Drupal\Console\Command\Config\ExportCommand
 #    tags:

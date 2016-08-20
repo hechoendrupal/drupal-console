@@ -13,12 +13,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class DiffCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
 
     protected $configStorage;
     protected $configManager;
@@ -96,7 +96,7 @@ class DiffCommand extends Command
         $io = new DrupalStyle($input, $output);
         $directory = $input->getArgument('directory');
         $source_storage = new FileStorage($directory);
-        
+
         if ($input->getOption('reverse')) {
             $config_comparer = new StorageComparer($source_storage, $this->configStorage, $this->configManager);
         } else {
