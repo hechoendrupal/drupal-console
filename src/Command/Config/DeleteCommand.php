@@ -20,6 +20,7 @@ class DeleteCommand extends Command
     use CommandTrait;
 
     protected $allConfig = [];
+    protected $configFactory;
     protected $configStorage;
     protected $configStorageSync;
 
@@ -27,7 +28,8 @@ class DeleteCommand extends Command
      * ChainCommand constructor.
      * @param $fileUtil
      */
-    public function __construct($configStorage, $configStorageSync ) {
+    public function __construct($configFactory , $configStorage, $configStorageSync ) {
+        $this->configFactory = $configFactory;
         $this->configStorage = $configStorage;
         $this->configStorageSync = $configStorageSync;
         parent::__construct();
@@ -158,7 +160,7 @@ class DeleteCommand extends Command
             return $this->allConfig;
         }
 
-        foreach ($this->getDrupalService('config.factory')->listAll() as $name) {
+        foreach ($this->configFactory->listAll() as $name) {
             $this->allConfig[] = $name;
         }
 
@@ -187,7 +189,7 @@ class DeleteCommand extends Command
     private function removeConfig($name)
     {
         try {
-            $this->getDrupalService('config.factory')->getEditable($name)->delete();
+            $this->configFactory->getEditable($name)->delete();
         } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage());
         }

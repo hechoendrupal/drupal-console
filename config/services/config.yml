@@ -6,7 +6,7 @@ services:
       - { name: console.command }
   config_delete:
     class: Drupal\Console\Command\Config\DeleteCommand
-    arguments: ['@config.storage', '@config.storage.sync']
+    arguments: ['@config.factory', '@config.storage', '@config.storage.sync']
     tags:
       - { name: console.command }
 #  config_diff:
