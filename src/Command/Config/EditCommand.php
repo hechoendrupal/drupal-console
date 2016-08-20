@@ -16,12 +16,25 @@ use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Drupal\Component\Serialization\Yaml;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class EditCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    protected $configFactory;
+    protected $configStorage;
+
+    /**
+     * ChainCommand constructor.
+     * @param $fileUtil
+     */
+    public function __construct($configFactory , $configStorage ) {
+        $this->configFactory = $configFactory;
+        $this->configStorage = $configStorage;
+        parent::__construct();
+    }
     /**
      * {@inheritdoc}
      */
@@ -51,8 +64,8 @@ class EditCommand extends Command
 
         $configName = $input->getArgument('config-name');
         $editor = $input->getArgument('editor');
-        $config = $this->getDrupalService('config.factory')->getEditable($configName);
-        $configSystem = $this->getDrupalService('config.factory')->get('system.file');
+        $config = $this->configFactory->getEditable($configName);
+        $configSystem = $this->configFactory->get('system.file');
         $temporaryDirectory = $configSystem->get('path.temporary') ?: '/tmp';
         $configFile = $temporaryDirectory.'/config-edit/'.$configName.'.yml';
         $ymlFile = new Parser();
@@ -97,8 +110,7 @@ class EditCommand extends Command
 
         $configName = $input->getArgument('config-name');
         if (!$configName) {
-            $configFactory = $this->getDrupalService('config.factory');
-            $configNames = $configFactory->listAll();
+            $configNames = $this->configFactory->listAll();
             $configName = $io->choice(
                 'Choose a configuration',
                 $configNames
@@ -115,9 +127,8 @@ class EditCommand extends Command
      */
     protected function getYamlConfig($config_name)
     {
-        $configStorage = $this->getDrupalService('config.storage');
-        if ($configStorage->exists($config_name)) {
-            $configuration = $configStorage->read($config_name);
+        if ($this->configStorage->exists($config_name)) {
+            $configuration = $this->configStorage->read($config_name);
             $configurationEncoded = Yaml::encode($configuration);
         }
 
