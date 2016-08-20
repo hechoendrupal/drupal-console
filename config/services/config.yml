@@ -1,7 +1,7 @@
 services:
   config_debug:
     class: Drupal\Console\Command\Config\DebugCommand
-      arguments: ['@config.factory', '@config.storage']
+    arguments: ['@config.factory', '@config.storage']
     tags:
       - { name: console.command }
 #  config_delete:
