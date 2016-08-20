@@ -9,10 +9,11 @@ services:
     arguments: ['@config.factory', '@config.storage', '@config.storage.sync']
     tags:
       - { name: console.command }
-#  config_diff:
-#    class: Drupal\Console\Command\Config\DiffCommand
-#    tags:
-#      - { name: console.command }
+  config_diff:
+    class: Drupal\Console\Command\Config\DiffCommand
+    arguments: ['@config.storage', '@config.manager']
+    tags:
+      - { name: console.command }
 #  config_edit:
 #    class: Drupal\Console\Command\Config\EditCommand
 #    tags:

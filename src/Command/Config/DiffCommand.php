@@ -19,6 +19,20 @@ use Drupal\Console\Style\DrupalStyle;
 class DiffCommand extends Command
 {
     use ContainerAwareCommandTrait;
+
+    protected $configStorage;
+    protected $configManager;
+
+    /**
+     * ChainCommand constructor.
+     * @param $fileUtil
+     */
+    public function __construct($configStorage, $configManager ) {
+        $this->configStorage = $configStorage;
+        $this->configManager = $configManager;
+        parent::__construct();
+    }
+
     /**
      * A static array map of operations -> color strings.
      *
@@ -82,13 +96,11 @@ class DiffCommand extends Command
         $io = new DrupalStyle($input, $output);
         $directory = $input->getArgument('directory');
         $source_storage = new FileStorage($directory);
-        $active_storage = $this->getDrupalService('config.storage');
-        $config_manager = $this->getDrupalService('config.manager');
-
+        
         if ($input->getOption('reverse')) {
-            $config_comparer = new StorageComparer($source_storage, $active_storage, $config_manager);
+            $config_comparer = new StorageComparer($source_storage, $this->configStorage, $this->configManager);
         } else {
-            $config_comparer = new StorageComparer($active_storage, $source_storage, $config_manager);
+            $config_comparer = new StorageComparer($this->configStorage, $source_storage, $this->configManager);
         }
         if (!$config_comparer->createChangelist()->hasChanges()) {
             $output->writeln($this->trans('commands.config.diff.messages.no-changes'));
