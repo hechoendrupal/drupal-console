@@ -31,6 +31,7 @@ class DebugCommand extends Command
         $this->configStorage = $configStorage;
         parent::__construct();
     }
+
     /**
      * {@inheritdoc}
      */

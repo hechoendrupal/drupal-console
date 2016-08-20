@@ -6,20 +6,32 @@
 
 namespace Drupal\Console\Command\Config;
 
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Core\Config\FileStorage;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Exception\RuntimeException;
 use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class DeleteCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
 
     protected $allConfig = [];
+    protected $configStorage;
+    protected $configStorageSync;
+
+    /**
+     * ChainCommand constructor.
+     * @param $fileUtil
+     */
+    public function __construct($configStorage, $configStorageSync ) {
+        $this->configStorage = $configStorage;
+        $this->configStorageSync = $configStorageSync;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -88,9 +100,7 @@ class DeleteCommand extends Command
             return 1;
         }
 
-        $configStorage = ('active' === $type) ?
-            $this->getDrupalService('config.storage') :
-            \Drupal::service('config.storage.sync');
+        $configStorage = ('active' === $type) ? $this->configStorage : $this->configStorageSync;
 
         if (!$configStorage) {
             $io->error($this->trans('commands.config.delete.errors.config-storage'));
