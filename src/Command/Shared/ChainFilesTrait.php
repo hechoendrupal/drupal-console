@@ -17,8 +17,6 @@ trait ChainFilesTrait
 {
     private function getChainFiles($onlyFiles = false)
     {
-        $config = $this->configurationManager->getConfiguration();
-
         $directories = [
             $this->configurationManager->getHomeDirectory() . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
             $this->appRoot . DIRECTORY_SEPARATOR . 'console'. DIRECTORY_SEPARATOR .'chain',
