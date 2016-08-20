@@ -26,7 +26,9 @@ class DeleteCommand extends Command
 
     /**
      * ChainCommand constructor.
-     * @param $fileUtil
+     * @param $configFactory
+     * @param $configStorage
+     * @param $configStorageSync
      */
     public function __construct($configFactory , $configStorage, $configStorageSync ) {
         $this->configFactory = $configFactory;

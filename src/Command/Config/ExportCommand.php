@@ -13,12 +13,24 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class ExportCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    protected $configManager;
+
+    /**
+     * ChainCommand constructor.
+     * @param $configManager
+     */
+    public function __construct($configManager ) {
+        $this->configManager = $configManager;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -71,10 +83,9 @@ class ExportCommand extends Command
         }
 
         try {
-            $configManager = $this->getDrupalService('config.manager');
             // Get raw configuration data without overrides.
-            foreach ($configManager->getConfigFactory()->listAll() as $name) {
-                $configData = $configManager->getConfigFactory()->get($name)->getRawData();
+            foreach ($this->configManager->getConfigFactory()->listAll() as $name) {
+                $configData = $this->configManager->getConfigFactory()->get($name)->getRawData();
                 $configName =  sprintf('%s.yml', $name);
                 $ymlData = Yaml::encode($configData);
 
