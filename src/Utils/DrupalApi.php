@@ -216,7 +216,7 @@ class DrupalApi
     public function getBundles()
     {
         if (!$this->bundles) {
-            $nodeTypes = $this->entityManager->getStorage('node_type')->loadMultiple();
+            $nodeTypes = $this->entityTypeManager->getStorage('node_type')->loadMultiple();
 
             foreach ($nodeTypes as $nodeType) {
                 $this->bundles[$nodeType->id()] = $nodeType->label();
