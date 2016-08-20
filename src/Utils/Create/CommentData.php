@@ -44,7 +44,7 @@ class CommentData extends Base
      *
      * @return array
      */
-    public function createComment(
+    public function create(
         $nid,
         $limit,
         $titleWords,
