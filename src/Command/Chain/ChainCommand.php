@@ -40,6 +40,9 @@ class ChainCommand extends Command
     /**
      * ChainCommand constructor.
      * @param $fileUtil
+     * @param $chainQueue
+     * @param $configurationManager
+     * @param $appRoot
      */
     public function __construct($fileUtil, $chainQueue, $configurationManager, $appRoot) {
         $this->fileUtil = $fileUtil;

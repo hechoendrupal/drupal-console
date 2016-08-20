@@ -28,6 +28,17 @@ class ExportContentTypeCommand extends Command
     protected $configExport;
 
     /**
+     * ChainCommand constructor.
+     * @param $entityTypeManager
+     * @param $configStorage
+     */
+    public function __construct($entityTypeManager, $configStorage) {
+        $this->entityTypeManager = $entityTypeManager;
+        $this->configStorage = $configStorage;
+        parent::__construct();
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function configure()
@@ -98,10 +109,6 @@ class ExportContentTypeCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-
-        
-        $this->entityTypeManager = $this->getDrupalService('entity_type.manager');
-        $this->configStorage = $this->getDrupalService('config.storage');
 
         $module = $input->getOption('module');
         $contentType = $input->getArgument('content-type');
