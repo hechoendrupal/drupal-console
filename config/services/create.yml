@@ -9,9 +9,9 @@ services:
     arguments: ['@console.create_comment_data']
     tags:
       - { name: console.command }
-  create_terms:
+  console.create_terms:
     class: Drupal\Console\Command\Create\TermsCommand
-    arguments: ['@console.create_term_data']
+    arguments: ['@console.drupal_api', '@console.create_term_data']
     tags:
       - { name: console.command }
 #  create_users:

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Utils\Create\Terms.
+ * Contains \Drupal\Console\Utils\Create\TermData.
  */
 
 namespace Drupal\Console\Utils\Create;
@@ -16,7 +16,7 @@ use Drupal\Core\Language\LanguageInterface;
  * Class Terms
  * @package Drupal\Console\Utils
  */
-class Terms extends Base
+class TermData extends Base
 {
     /* @var array */
     protected $vocabularies = [];
@@ -52,7 +52,7 @@ class Terms extends Base
      *
      * @return array
      */
-    public function createTerm(
+    public function create(
         $vocabularies,
         $limit,
         $nameWords
