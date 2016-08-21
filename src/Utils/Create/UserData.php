@@ -52,7 +52,7 @@ class UserData extends Base
      *
      * @return array
      */
-    public function createUser(
+    public function create(
         $roles,
         $limit,
         $password,
