@@ -19,7 +19,8 @@ services:
     arguments: ['@console.drupal_api', '@console.create_user_data']
     tags:
       - { name: console.command }
-#  create_vocabularies:
-#    class: Drupal\Console\Command\Create\VocabulariesCommand
-#    tags:
-#      - { name: console.command }
+  console.create_vocabularies:
+    class: Drupal\Console\Command\Create\VocabulariesCommand
+    arguments: ['@console.create_vocabulary_data']
+    tags:
+      - { name: console.command }
