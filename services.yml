@@ -24,3 +24,6 @@ services:
   console.create_term_data:
     class: Drupal\Console\Utils\Create\TermData
     arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@=service("console.drupal_api").getVocabularies()']
+  console.create_user_data:
+    class: Drupal\Console\Utils\Create\UserData
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@=service("console.drupal_api").getRoles()']

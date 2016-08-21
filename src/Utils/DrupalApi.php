@@ -29,6 +29,7 @@ class DrupalApi
     private $caches = [];
     private $bundles = [];
     private $vocabularies = [];
+    private $roles = [];
 
     /**
      * ServerCommand constructor.
@@ -241,6 +242,31 @@ class DrupalApi
         }
 
         return $this->vocabularies;
+    }
+
+    /**
+     * @param bool|FALSE $reset
+     * @param bool|FALSE $authenticated
+     * @param bool|FALSE $anonymous
+     *
+     * @return array
+     */
+    public function getRoles($reset=false, $authenticated=true, $anonymous=false)
+    {
+        if ($reset || !$this->roles) {
+            $roles = $this->entityManager->getStorage('user_role')->loadMultiple();
+            if (!$authenticated) {
+                unset($roles['authenticated']);
+            }
+            if (!$anonymous) {
+                unset($roles['anonymous']);
+            }
+            foreach ($roles as $role) {
+                $this->roles[$role->id()] = $role->label();
+            }
+        }
+
+        return $this->roles;
     }
 
     /* @todo fix */

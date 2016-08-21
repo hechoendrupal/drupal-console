@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\CreateTrait;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -23,7 +23,22 @@ use Drupal\Console\Style\DrupalStyle;
 class UsersCommand extends Command
 {
     use CreateTrait;
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    protected $drupalApi;
+    protected $createUserData;
+
+    /**
+     * UsersCommand constructor.
+     * @param $drupalApi
+     * @param $createUserData
+     */
+    public function __construct($drupalApi, $createUserData) {
+        $this->drupalApi = $drupalApi;
+        $this->createUserData = $createUserData;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */

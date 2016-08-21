@@ -14,10 +14,11 @@ services:
     arguments: ['@console.drupal_api', '@console.create_term_data']
     tags:
       - { name: console.command }
-#  create_users:
-#    class: Drupal\Console\Command\Create\UsersCommand
-#    tags:
-#      - { name: console.command }
+  console.create_users:
+    class: Drupal\Console\Command\Create\UsersCommand
+    arguments: ['@console.drupal_api', '@console.create_user_data']
+    tags:
+      - { name: console.command }
 #  create_vocabularies:
 #    class: Drupal\Console\Command\Create\VocabulariesCommand
 #    tags:
