@@ -81,7 +81,7 @@ class UsersCommand extends Command
 
         $rids = $input->getArgument('roles');
         if (!$rids) {
-            $roles = $this->getApplication()->getDrupalApi()->getRoles();
+            $roles = $this->drupalApi->getRoles();
             $rids = $io->choice(
                 $this->trans('commands.create.users.questions.roles'),
                 array_values($roles),
@@ -144,11 +144,10 @@ class UsersCommand extends Command
         $timeRange = $input->getOption('time-range')?:31536000;
 
         if (!$roles) {
-            $roles = $this->getApplication()->getDrupalApi()->getRoles();
+            $roles = $this->drupalApi->getRoles();
         }
 
-        $createUsers = $this->getApplication()->getDrupalApi()->getCreateUsers();
-        $users = $createUsers->createUser(
+        $users = $this->createUserData->create(
             $roles,
             $limit,
             $password,
