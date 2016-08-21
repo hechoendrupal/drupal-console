@@ -254,7 +254,7 @@ class DrupalApi
     public function getRoles($reset=false, $authenticated=true, $anonymous=false)
     {
         if ($reset || !$this->roles) {
-            $roles = $this->entityManager->getStorage('user_role')->loadMultiple();
+            $roles = $this->entityTypeManager->getStorage('user_role')->loadMultiple();
             if (!$authenticated) {
                 unset($roles['authenticated']);
             }
