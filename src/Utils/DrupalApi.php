@@ -28,6 +28,7 @@ class DrupalApi
 
     private $caches = [];
     private $bundles = [];
+    private $vocabularies = [];
 
     /**
      * ServerCommand constructor.
@@ -224,6 +225,22 @@ class DrupalApi
         }
 
         return $this->bundles;
+    }
+
+    /**
+     * @return array
+     */
+    public function getVocabularies()
+    {
+        if (!$this->vocabularies) {
+            $vocabularies = $this->entityTypeManager->getStorage('taxonomy_vocabulary')->loadMultiple();
+
+            foreach ($vocabularies as $vocabulary) {
+                $this->vocabularies[$vocabulary->id()] = $vocabulary->label();
+            }
+        }
+
+        return $this->vocabularies;
     }
 
     /* @todo fix */

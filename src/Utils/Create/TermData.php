@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Utils\Create;
 
-use Drupal\Console\Utils\Create\Base;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;

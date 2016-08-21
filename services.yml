@@ -17,7 +17,10 @@ services:
     arguments: ['@app.root', '@entity_type.manager']
   console.create_node_data:
     class: Drupal\Console\Utils\Create\NodeData
-    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter']
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@=service("console.drupal_api").getBundles()']
   console.create_comment_data:
     class: Drupal\Console\Utils\Create\CommentData
-    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter']
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@console.drupal_api']
+  console.create_term_data:
+    class: Drupal\Console\Utils\Create\TermData
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@console.drupal_api', '@=service("console.drupal_api").getVocabularies()']

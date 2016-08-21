@@ -64,6 +64,7 @@ class NodeData extends Base
                 [
                     'nid' => null,
                     'type' => $contentType,
+
                     'created' => REQUEST_TIME - mt_rand(0, $timeRange),
                     'uid' => $this->getUserID(),
                     'title' => $this->getRandom()->sentences(mt_rand(1, $titleWords), true),
