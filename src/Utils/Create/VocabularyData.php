@@ -2,12 +2,11 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Utils\Create\Vocabularies.
+ * Contains \Drupal\Console\Utils\Create\VocabularyData.
  */
 
 namespace Drupal\Console\Utils\Create;
 
-use Drupal\Console\Utils\Create\Base;
 use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
@@ -18,7 +17,7 @@ use Drupal\Core\Language\LanguageInterface;
  * Class Vocabularies
  * @package Drupal\Console\Utils
  */
-class Vocabularies extends Base
+class VocabularyData extends Base
 {
     /**
      * Vocabularies constructor.
@@ -47,7 +46,7 @@ class Vocabularies extends Base
      *
      * @return array
      */
-    public function createVocabulary(
+    public function create(
         $limit,
         $nameWords
     ) {

@@ -24,16 +24,21 @@ use Drupal\Core\Cache\Cache;
 class DrupalApi
 {
     protected $appRoot;
+    protected $entityTypeManager;
 
     private $caches = [];
+    private $bundles = [];
+    private $vocabularies = [];
+    private $roles = [];
 
     /**
      * ServerCommand constructor.
      * @param $appRoot
      */
-    public function __construct($appRoot)
+    public function __construct($appRoot, $entityTypeManager)
     {
         $this->appRoot = $appRoot;
+        $this->entityTypeManager = $entityTypeManager;
     }
 
     public function loadLegacyFile($legacyFile, $relative = true)
@@ -205,6 +210,63 @@ class DrupalApi
         }
 
         return $cache;
+    }
+
+    /**
+     * @return array
+     */
+    public function getBundles()
+    {
+        if (!$this->bundles) {
+            $nodeTypes = $this->entityTypeManager->getStorage('node_type')->loadMultiple();
+
+            foreach ($nodeTypes as $nodeType) {
+                $this->bundles[$nodeType->id()] = $nodeType->label();
+            }
+        }
+
+        return $this->bundles;
+    }
+
+    /**
+     * @return array
+     */
+    public function getVocabularies()
+    {
+        if (!$this->vocabularies) {
+            $vocabularies = $this->entityTypeManager->getStorage('taxonomy_vocabulary')->loadMultiple();
+
+            foreach ($vocabularies as $vocabulary) {
+                $this->vocabularies[$vocabulary->id()] = $vocabulary->label();
+            }
+        }
+
+        return $this->vocabularies;
+    }
+
+    /**
+     * @param bool|FALSE $reset
+     * @param bool|FALSE $authenticated
+     * @param bool|FALSE $anonymous
+     *
+     * @return array
+     */
+    public function getRoles($reset=false, $authenticated=true, $anonymous=false)
+    {
+        if ($reset || !$this->roles) {
+            $roles = $this->entityTypeManager->getStorage('user_role')->loadMultiple();
+            if (!$authenticated) {
+                unset($roles['authenticated']);
+            }
+            if (!$anonymous) {
+                unset($roles['anonymous']);
+            }
+            foreach ($roles as $role) {
+                $this->roles[$role->id()] = $role->label();
+            }
+        }
+
+        return $this->roles;
     }
 
     /* @todo fix */
