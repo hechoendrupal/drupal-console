@@ -23,4 +23,4 @@ services:
     arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter']
   console.create_term_data:
     class: Drupal\Console\Utils\Create\TermData
-    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@console.drupal_api', '@=service("console.drupal_api").getVocabularies()']
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@=service("console.drupal_api").getVocabularies()']
