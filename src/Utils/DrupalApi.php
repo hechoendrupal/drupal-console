@@ -12,8 +12,8 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Parser;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\Logger\LoggerChannelFactory;
-use Drupal\Core\Language\Language;
 use Drupal\Core\Language\LanguageManager;
+use Drupal\Core\Language\Language;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\Cache\Cache;
 
