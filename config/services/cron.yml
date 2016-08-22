@@ -1,8 +1,8 @@
-#services:
-#  cron_debug:
-#    class: Drupal\Console\Command\Cron\DebugCommand
-#    tags:
-#      - { name: console.command }
+services:
+  cron_debug:
+    class: Drupal\Console\Command\Cron\DebugCommand
+    tags:
+      - { name: console.command }
 #  cron_execute:
 #    class: Drupal\Console\Command\Cron\ExecuteCommand
 #    tags:
