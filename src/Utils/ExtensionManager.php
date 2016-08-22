@@ -2,16 +2,27 @@
 
 namespace Drupal\Console\Utils;
 
+/**
+ * Class ExtensionManager
+ * @package Drupal\Console\Utils
+ */
 class ExtensionManager {
 
     protected $drupalApi;
     protected $appRoot;
 
+    /**
+     * @var array
+     */
     private $extensions = [
         'module' =>[],
         'theme' =>[],
         'profile' =>[],
     ];
+
+    /**
+     * @var array
+     */
     private $filters = [];
 
     /**
@@ -25,28 +36,40 @@ class ExtensionManager {
         $this->initializeFilters();
     }
 
+    /**
+     * @return $this
+     */
     public function showInstalled() {
         $this->filters['showInstalled'] = true;
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function showUninstalled() {
         $this->filters['showUninstalled'] = true;
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function showCore() {
         $this->filters['showCore'] = true;
         return $this;
     }
 
-    public function shoNowCore() {
-        $this->filters['shoNowCore'] = true;
+    /**
+     * @return $this
+     */
+    public function showNoCore() {
+        $this->filters['showNoCore'] = true;
         return $this;
     }
 
     /**
-     * @param $nameOnly
+     * @param string    $nameOnly
      * @return array
      */
     public function getModules($nameOnly) {
@@ -59,7 +82,7 @@ class ExtensionManager {
     public function discoverModules()
     {
         $this->initializeFilters();
-        $this->discoverExtensions('module');
+        $this->extensions['module'] = $this->discoverExtensions('module');
 
         return $this;
     }
@@ -70,7 +93,7 @@ class ExtensionManager {
     public function discoverThemes()
     {
         $this->initializeFilters();
-        $this->discoverExtensions('theme');
+        $this->extensions['theme'] = $this->discoverExtensions('theme');
 
         return $this;
     }
@@ -81,17 +104,20 @@ class ExtensionManager {
     public function discoverProfiles()
     {
         $this->initializeFilters();
-        $this->discoverExtensions('profile');
+        $this->extensions['profile'] = $this->discoverExtensions('profile');
 
         return $this;
     }
 
+    /**
+     * initializeFilters
+     */
     private function initializeFilters() {
         $this->filters = [
             'showInstalled' => false,
             'showUninstalled' => false,
             'showCore' => false,
-            'shoNowCore' => false
+            'showNoCore' => false
         ];
     }
 
@@ -111,10 +137,6 @@ class ExtensionManager {
         $showNoCore = $this->filters['showNoCore'];
 
         $extensions = [];
-        if (!$this->extensions[$type]) {
-            return [];
-        }
-
         if (!$this->extensions[$type]) {
             return [];
         }

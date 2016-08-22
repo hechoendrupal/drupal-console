@@ -32,4 +32,4 @@ services:
     arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter']
   console.extension_manager:
     class: Drupal\Console\Utils\ExtensionManager
-    arguments: ['@app.root', '@console.drupal_api']
+    arguments: ['@console.drupal_api', '@app.root']
