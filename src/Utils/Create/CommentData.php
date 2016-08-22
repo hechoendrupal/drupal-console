@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Utils\Create\Comments.
+ * Contains \Drupal\Console\Utils\Create\CommentData.
  */
 
 namespace Drupal\Console\Utils\Create;
@@ -15,7 +15,7 @@ use Drupal\Core\Datetime\DateFormatterInterface;
  * Class Nodes
  * @package Drupal\Console\Utils\Create
  */
-class Comments extends Base
+class CommentData extends Base
 {
     /**
      * Comments constructor.
@@ -44,7 +44,7 @@ class Comments extends Base
      *
      * @return array
      */
-    public function createComment(
+    public function create(
         $nid,
         $limit,
         $titleWords,

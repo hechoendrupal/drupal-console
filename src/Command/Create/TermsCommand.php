@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -21,7 +21,22 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class TermsCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    protected $drupalApi;
+    protected $createTermData;
+
+    /**
+     * TermsCommand constructor.
+     * @param $drupalApi
+     * @param $createTermData
+     */
+    public function __construct($drupalApi, $createTermData) {
+        $this->drupalApi = $drupalApi;
+        $this->createTermData = $createTermData;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -58,7 +73,7 @@ class TermsCommand extends Command
 
         $vocabularies = $input->getArgument('vocabularies');
         if (!$vocabularies) {
-            $vocabularies = $this->getApplication()->getDrupalApi()->getVocabularies();
+            $vocabularies = $this->drupalApi->getVocabularies();
             $vids = $io->choice(
                 $this->trans('commands.create.terms.questions.vocabularies'),
                 array_values($vocabularies),
@@ -108,11 +123,10 @@ class TermsCommand extends Command
         $nameWords = $input->getOption('name-words')?:5;
 
         if (!$vocabularies) {
-            $vocabularies = array_keys($this->getApplication()->getDrupalApi()->getVocabularies());
+            $vocabularies = array_keys($this->drupalApi->getVocabularies());
         }
 
-        $createTerms = $this->getApplication()->getDrupalApi()->getCreateTerms();
-        $terms = $createTerms->createTerm(
+        $terms = $this->createTermData->create(
             $vocabularies,
             $limit,
             $nameWords

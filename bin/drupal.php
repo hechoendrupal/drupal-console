@@ -31,7 +31,7 @@ $drupalKernel = DrupalKernel::createFromRequest(
     $request,
     $autoload,
     'prod',
-    true
+    false
 );
 
 $drupalKernel->addServiceModifier(
