@@ -62,7 +62,6 @@ class ExecuteCommand extends Command
         $io = new DrupalStyle($input, $output);
         $modules = $input->getArgument('module');
 
-        // Try to acquire cron lock.
         if (!$this->lock->acquire('cron', 900.0)) {
             $io->warning($this->trans('commands.cron.execute.messages.lock'));
 
