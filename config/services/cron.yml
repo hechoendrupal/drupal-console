@@ -1,6 +1,7 @@
 services:
   cron_debug:
     class: Drupal\Console\Command\Cron\DebugCommand
+    arguments: ['@module_handler']
     tags:
       - { name: console.command }
 #  cron_execute:
