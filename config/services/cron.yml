@@ -9,7 +9,8 @@ services:
     arguments: ['@module_handler', '@lock', '@state', '@console.chain_queue']
     tags:
       - { name: console.command }
-#  cron_release:
-#    class: Drupal\Console\Command\Cron\ReleaseCommand
-#    tags:
-#      - { name: console.command }
+  console.cron_release:
+    class: Drupal\Console\Command\Cron\ReleaseCommand
+    arguments: ['@lock','@console.chain_queue']
+    tags:
+      - { name: console.command }
