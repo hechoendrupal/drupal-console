@@ -14,9 +14,6 @@ services:
     class: Drupal\Console\Utils\Site
   console.file_util:
     class: Drupal\Console\Utils\File
-  console.drupal_api:
-    class: Drupal\Console\Utils\DrupalApi
-    arguments: ['@app.root']
 #  translator:
 #    class: Drupal\Console\Utils\Translator
 #    arguments: ["@parser", "@filesystem"]
