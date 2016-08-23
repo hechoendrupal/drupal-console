@@ -28,7 +28,7 @@ class ExportContentTypeCommand extends Command
     protected $configExport;
 
     /**
-     * ChainCommand constructor.
+     * ExportContentTypeCommand constructor.
      * @param $entityTypeManager
      * @param $configStorage
      */
