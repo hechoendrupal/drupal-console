@@ -23,10 +23,18 @@ trait ModuleTrait
      */
     public function moduleQuestion(DrupalStyle $io, $showProfile = true)
     {
-        $modules = $this->getApplication()->getSite()->getModules(false, true, true, false, true, true);
+        $modules = $this->extensionManager->discoverModules()
+            ->showInstalled()
+            ->showUninstalled()
+            ->showNoCore()
+            ->getList(true);
 
         if ($showProfile) {
-            $modules[] = $this->getApplication()->getSite()->getProfile(false, true);
+            $modules[] = $this->extensionManager->discoverModules()
+                ->showInstalled()
+                ->showNoCore()
+                ->showCore()
+                ->getList(true);
         }
 
         if (empty($modules)) {
