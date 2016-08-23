@@ -1,10 +1,7 @@
 <?php
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
-use Symfony\Component\HttpFoundation\Request;
 use Drupal\Console\Application;
-use Drupal\Console\Utils\DrupalKernel;
-use Drupal\Console\Utils\DrupalServiceModifier;
+use Drupal\Console\Utils\Bootstrap\Drupal;
 
 set_time_limit(0);
 $consoleRoot = realpath(__DIR__.'/../') . '/';
@@ -25,49 +22,12 @@ if (file_exists($autoLoadFile)) {
     exit(1);
 }
 
-/* DrupalKernel */
-$request = Request::createFromGlobals();
-$drupalKernel = DrupalKernel::createFromRequest(
-    $request,
-    $autoload,
-    'prod',
-    false
-);
+$drupal = new Drupal($autoload, $consoleRoot, $siteRoot);
+$container = $drupal->boot();
 
-$drupalKernel->addServiceModifier(
-    new DrupalServiceModifier(
-        $consoleRoot,
-        $siteRoot,
-        'console.command'
-    )
-);
-
-$drupalKernel->invalidateContainer();
-$drupalKernel->rebuildContainer();
-$drupalKernel->boot();
-/* DrupalKernel */
-
-$container = $drupalKernel->getContainer();
-
-AnnotationRegistry::registerLoader([$autoload, "loadClass"]);
-
-$configuration = $container->get('console.configuration_manager')
-    ->loadConfiguration($siteRoot)
-    ->getConfiguration();
-
-$translator = $container->get('console.translator_manager')
-    ->loadCoreLanguage(
-        $configuration->get('application.language'),
-        $siteRoot
-    );
-
-$container->get('console.renderer')
-    ->setSkeletonDirs(
-        [
-            $consoleRoot.'/templates/',
-            $siteRoot.DRUPAL_CONSOLE_CORE.'/templates/'
-        ]
-    );
+if (!$container) {
+    echo 'Drupal not installed.' . PHP_EOL;
+}
 
 $application = new Application($container);
 $application->setDefaultCommand('about');

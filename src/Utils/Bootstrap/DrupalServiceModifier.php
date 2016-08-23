@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Console\Utils;
+namespace Drupal\Console\Utils\Bootstrap;
 
 use Drupal\Core\DependencyInjection\ServiceModifierInterface;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
