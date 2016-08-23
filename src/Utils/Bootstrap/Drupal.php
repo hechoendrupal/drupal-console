@@ -35,7 +35,7 @@ class Drupal {
             );
         }
         catch (\Exception $e) {
-            return $this->bootConsoleCore();;
+            return $this->bootDrupalConsole();
         }
 
         $drupalKernel->addServiceModifier(
@@ -75,7 +75,7 @@ class Drupal {
         return $container;
     }
 
-    private function bootConsoleCore() {
+    private function bootDrupalConsole() {
         return null;
     }
 }
