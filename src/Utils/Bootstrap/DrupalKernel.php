@@ -1,9 +1,9 @@
 <?php
 
-namespace Drupal\Console\Utils;
+namespace Drupal\Console\Utils\Bootstrap;
 
-use Drupal\Core\DrupalKernel as DrupalKernelBase;
 use Symfony\Component\HttpFoundation\Request;
+use Drupal\Core\DrupalKernel as DrupalKernelBase;
 use Drupal\Core\DependencyInjection\ServiceModifierInterface;
 
 /**

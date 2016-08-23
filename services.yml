@@ -14,17 +14,6 @@ services:
     class: Drupal\Console\Utils\Site
   console.file_util:
     class: Drupal\Console\Utils\File
-#  translator:
-#    class: Drupal\Console\Utils\Translator
-#    arguments: ["@parser", "@filesystem"]
-#  console.translator:
-#    class: Drupal\Console\Utils\Translator
-#  showfile:
-#    class: Drupal\Console\Utils\ShowFile
-#    arguments: ["@site", "@translator"]
-#  shell_process:
-#    class: Drupal\Console\Utils\ShellProcess
-#    arguments: ["@site", '@config']
   console.validator:
     class: Drupal\Console\Utils\Validator
   console.drupal_api:
