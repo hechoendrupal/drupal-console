@@ -18,6 +18,7 @@ use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Config\StorageInterface;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ExportTrait;
+use  Drupal\Console\Utils\ExtensionManager;
 
 class ExportViewCommand extends Command
 {
@@ -34,14 +35,18 @@ class ExportViewCommand extends Command
     /** @var StorageInterface  */
     protected $configStorage;
 
+    /** @var ExtensionManager  */
+    protected $extensionManager;
+
     /**
      * ExportViewCommand constructor.
      * @param EntityTypeManager $entityTypeManager
      * @param StorageInterface $configStorage
      */
-    public function __construct(EntityTypeManager $entityTypeManager, StorageInterface $configStorage) {
+    public function __construct(EntityTypeManager $entityTypeManager, StorageInterface $configStorage, ExtensionManager $extensionManager) {
         $this->entityTypeManager = $entityTypeManager;
         $this->configStorage = $configStorage;
+        $this->extensionManager = $extensionManager;
         parent::__construct();
     }
 
