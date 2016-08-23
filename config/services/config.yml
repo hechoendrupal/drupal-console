@@ -1,28 +1,34 @@
-#services:
-#  config_debug:
-#    class: Drupal\Console\Command\Config\DebugCommand
-#    tags:
-#      - { name: console.command }
-#  config_delete:
-#    class: Drupal\Console\Command\Config\DeleteCommand
-#    tags:
-#      - { name: console.command }
-#  config_diff:
-#    class: Drupal\Console\Command\Config\DiffCommand
-#    tags:
-#      - { name: console.command }
-#  config_edit:
-#    class: Drupal\Console\Command\Config\EditCommand
-#    tags:
-#      - { name: console.command }
-#  config_export:
-#    class: Drupal\Console\Command\Config\ExportCommand
-#    tags:
-#      - { name: console.command }
-#  config_export_content_type:
-#    class: Drupal\Console\Command\Config\ExportContentTypeCommand
-#    tags:
-#      - { name: console.command }
+services:
+  config_debug:
+    class: Drupal\Console\Command\Config\DebugCommand
+    arguments: ['@config.factory', '@config.storage']
+    tags:
+      - { name: console.command }
+  config_delete:
+    class: Drupal\Console\Command\Config\DeleteCommand
+    arguments: ['@config.factory', '@config.storage', '@config.storage.sync']
+    tags:
+      - { name: console.command }
+  config_diff:
+    class: Drupal\Console\Command\Config\DiffCommand
+    arguments: ['@config.storage', '@config.manager']
+    tags:
+      - { name: console.command }
+  config_edit:
+    class: Drupal\Console\Command\Config\EditCommand
+    arguments: ['@config.factory', '@config.storage', '@console.configuration_manager']
+    tags:
+      - { name: console.command }
+  config_export:
+    class: Drupal\Console\Command\Config\ExportCommand
+    arguments: ['@config.manager']
+    tags:
+      - { name: console.command }
+  config_export_content_type:
+    class: Drupal\Console\Command\Config\ExportContentTypeCommand
+    arguments: ['@entity_type.manager', '@config.storage']
+    tags:
+      - { name: console.command }
 #  config_export_view:
 #    class: Drupal\Console\Command\Config\ExportViewCommand
 #    tags:
