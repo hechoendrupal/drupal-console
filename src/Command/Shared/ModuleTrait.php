@@ -41,6 +41,8 @@ trait ModuleTrait
             throw new \Exception('No modules available, execute `generate:module` command to generate one.');
         }
 
+        print_r($modules);
+
         $module = $io->choiceNoList(
             $this->trans('commands.common.questions.module'),
             $modules
