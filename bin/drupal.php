@@ -27,6 +27,8 @@ $container = $drupal->boot();
 
 if (!$container) {
     echo 'Drupal not installed.' . PHP_EOL;
+    
+    exit(1);
 }
 
 $application = new Application($container);
