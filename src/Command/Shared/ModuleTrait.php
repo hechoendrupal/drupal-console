@@ -30,11 +30,13 @@ trait ModuleTrait
             ->getList(true);
 
         if ($showProfile) {
-            $modules[] = $this->extensionManager->discoverModules()
+            $profiles = $this->extensionManager->discoverModules()
                 ->showInstalled()
                 ->showNoCore()
                 ->showCore()
                 ->getList(true);
+
+            $modules = array_merge($modules, $profiles);
         }
 
         if (empty($modules)) {
