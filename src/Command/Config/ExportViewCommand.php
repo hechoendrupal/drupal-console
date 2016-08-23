@@ -14,6 +14,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Config\StorageInterface;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ExportTrait;
 
@@ -23,9 +25,26 @@ class ExportViewCommand extends Command
     use ModuleTrait;
     use ExportTrait;
 
-    protected $entityManager;
-    protected $configStorage;
     protected $configExport;
+
+
+    /** @var EntityTypeManager  */
+    protected $entityTypeManager;
+
+    /** @var StorageInterface  */
+    protected $configStorage;
+
+    /**
+     * ExportViewCommand constructor.
+     * @param EntityTypeManager $entityTypeManager
+     * @param StorageInterface $configStorage
+     */
+    public function __construct(EntityTypeManager $entityTypeManager, StorageInterface $configStorage) {
+        $this->entityTypeManager = $entityTypeManager;
+        $this->configStorage = $configStorage;
+        parent::__construct();
+    }
+
 
     protected function configure()
     {
@@ -74,9 +93,8 @@ class ExportViewCommand extends Command
         // view-id argument
         $viewId = $input->getArgument('view-id');
         if (!$viewId) {
-            $entityTypeManager =  $this->getDrupalService('entity_type.manager');
 
-            $views = $entityTypeManager->getStorage('view')->loadMultiple();
+            $views = $this->entityTypeManager->getStorage('view')->loadMultiple();
 
             $viewList = [];
             foreach ($views as $view) {
@@ -113,15 +131,12 @@ class ExportViewCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $this->entityManager = $this->getDrupalService('entity_type.manager');
-        $this->configStorage = $this->getDrupalService('config.storage');
-
         $module = $input->getOption('module');
         $viewId = $input->getArgument('view-id');
         $optionalConfig = $input->getOption('optional-config');
         $includeModuleDependencies = $input->getOption('include-module-dependencies');
 
-        $viewTypeDefinition = $this->entityManager->getDefinition('view');
+        $viewTypeDefinition = $this->entityTypeManager->getDefinition('view');
         $viewTypeName = $viewTypeDefinition->getConfigPrefix() . '.' . $viewId;
 
         $viewNameConfig = $this->getConfiguration($viewTypeName);

@@ -28,8 +28,13 @@ class ExportSingleCommand extends Command
      * @var []
      */
     protected $definitions;
+
+    /** @var EntityTypeManager  */
     protected $entityTypeManager;
+
+    /** @var StorageInterface  */
     protected $configStorage;
+
     protected $configExport;
 
     /**

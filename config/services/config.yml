@@ -34,10 +34,11 @@ services:
     arguments: ['@entity_type.manager', '@config.storage']
     tags:
       - { name: console.command }
-#  config_export_view:
-#    class: Drupal\Console\Command\Config\ExportViewCommand
-#    tags:
-#      - { name: console.command }
+  config_export_view:
+    class: Drupal\Console\Command\Config\ExportViewCommand
+    arguments: ['@entity_type.manager', '@config.storage']
+    tags:
+      - { name: console.command }
 #  config_import:
 #    class: Drupal\Console\Command\Config\ImportCommand
 #    tags:
