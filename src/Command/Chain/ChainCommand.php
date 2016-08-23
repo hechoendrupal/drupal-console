@@ -13,10 +13,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Yaml\Parser;
 use Drupal\Console\Command\Shared\ChainFilesTrait;
 use Drupal\Console\Command\Shared\InputTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\CommandTrait;
+
 
 /**
  * Class ChainCommand
@@ -27,6 +30,27 @@ class ChainCommand extends Command
     use CommandTrait;
     use ChainFilesTrait;
     use InputTrait;
+
+
+    protected $fileUtil;
+    protected $chainQueue;
+    protected $configurationManager;
+    protected $appRoot;
+
+    /**
+     * ChainCommand constructor.
+     * @param $fileUtil
+     * @param $chainQueue
+     * @param $configurationManager
+     * @param $appRoot
+     */
+    public function __construct($fileUtil, $chainQueue, $configurationManager, $appRoot) {
+        $this->fileUtil = $fileUtil;
+        $this->chainQueue = $chainQueue;
+        $this->configurationManager = $configurationManager;
+        $this->appRoot = $appRoot;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -57,7 +81,6 @@ class ChainCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
         $file = $input->getOption('file');
-        $fileUtil = $this->getApplication()->getContainerHelper()->get('file_util');
 
         if (!$file) {
             $files = $this->getChainFiles(true);
@@ -68,7 +91,7 @@ class ChainCommand extends Command
             );
         }
 
-        $file = $fileUtil->calculateRealPath($file);
+        $file = $this->fileUtil->calculateRealPath($file);
         $input->setOption('file', $file);
 
         $chainContent = file_get_contents($file);
@@ -113,8 +136,6 @@ class ChainCommand extends Command
         $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
 
         $file = $input->getOption('file');
-        $fileUtil = $this->getApplication()->getContainerHelper()->get('file_util');
-        $fileSystem = $this->getApplication()->getContainerHelper()->get('filesystem');
 
         if (!$file) {
             $io->error($this->trans('commands.chain.messages.missing_file'));
@@ -122,7 +143,9 @@ class ChainCommand extends Command
             return 1;
         }
 
-        $file = $fileUtil->calculateRealPath($file);
+        $fileSystem = new Filesystem();
+
+        $file = $this->fileUtil->calculateRealPath($file);
 
         if (!$fileSystem->exists($file)) {
             $io->error(
@@ -230,7 +253,7 @@ class ChainCommand extends Command
         $placeholderResolver = new RegexPlaceholderResolver($inlinePlaceHolderData, '%{{', '}}');
         $chainContent = $placeholderResolver->resolvePlaceholder($chainContent);
 
-        $parser = $this->getApplication()->getContainerHelper()->get('parser');
+        $parser = new Parser();
         $configData = $parser->parse($chainContent);
 
         $commands = [];
@@ -259,8 +282,7 @@ class ChainCommand extends Command
                 }
             }
 
-            $this->get('chain_queue')
-                ->addCommand(
+            $this->chainQueue->addCommand(
                     $command['command'],
                     $moduleInputs,
                     $interactive,

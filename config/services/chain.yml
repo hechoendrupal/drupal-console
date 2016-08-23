@@ -1,9 +1,10 @@
-#services:
-#  chain:
-#    class: Drupal\Console\Command\Chain\ChainCommand
-#    tags:
-#      - { name: console.command }
-#  chain_debug:
-#    class: Drupal\Console\Command\Chain\ChainDebugCommand
-#    tags:
-#      - { name: console.command }
+services:
+  chain:
+    class: Drupal\Console\Command\Chain\ChainCommand
+    arguments: ['@console.file_util', '@console.chain_queue', '@console.configuration_manager', '@app.root']
+    tags:
+      - { name: console.command }
+  chain_debug:
+    class: Drupal\Console\Command\Chain\ChainDebugCommand
+    tags:
+      - { name: console.command }

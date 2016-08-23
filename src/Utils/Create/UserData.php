@@ -2,12 +2,11 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Utils\Create\Users.
+ * Contains \Drupal\Console\Utils\Create\UserData.
  */
 
 namespace Drupal\Console\Utils\Create;
 
-use Drupal\Console\Utils\Create\Base;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
@@ -16,7 +15,7 @@ use Drupal\Core\Datetime\DateFormatterInterface;
  * Class Users
  * @package Drupal\Console\Utils\Create
  */
-class Users extends Base
+class UserData extends Base
 {
     /* @var array */
     protected $roles = [];
@@ -53,7 +52,7 @@ class Users extends Base
      *
      * @return array
      */
-    public function createUser(
+    public function create(
         $roles,
         $limit,
         $password,

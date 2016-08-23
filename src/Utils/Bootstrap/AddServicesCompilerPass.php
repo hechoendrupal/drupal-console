@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Console\Utils;
+namespace Drupal\Console\Utils\Bootstrap;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -42,7 +42,7 @@ class AddServicesCompilerPass implements CompilerPassInterface
             $container,
             new FileLocator($this->consoleRoot)
         );
-        $loader->load($this->siteRoot.DRUPAL_CONSOLE_CORE.'/services.yml');vendor/drupal/console-
+        $loader->load($this->siteRoot.DRUPAL_CONSOLE_CORE.'/services.yml');
         $loader->load('services.yml');
 
         $finder = new Finder();
