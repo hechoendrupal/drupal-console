@@ -215,11 +215,19 @@ class Manager
 
     /**
      * @param string    $name
-     * @return \Drupal\Core\Extension\Extension
+     * @return \Drupal\Console\Extension\Extension
      */
     public function getModule($name) {
         if ($extension = $this->getExtension('module', $name)){
-            return $extension;
+            $module = new Extension(
+                $this->appRoot,
+                $extension->getType(),
+                $extension->getPathname(),
+                $extension->getExtensionFilename()
+            );
+            $module->unserialize($extension->serialize());
+
+            return $module;
         }
 
         return null;
