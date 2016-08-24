@@ -13,6 +13,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Utils\Create\TermData;
+use Drupal\Console\Utils\DrupalApi;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -23,15 +25,24 @@ class TermsCommand extends Command
 {
     use CommandTrait;
 
+    /**
+     * @var DrupalApi
+     */
     protected $drupalApi;
+    /**
+     * @var TermData
+     */
     protected $createTermData;
 
     /**
      * TermsCommand constructor.
-     * @param $drupalApi
-     * @param $createTermData
+     * @param DrupalApi $drupalApi
+     * @param TermData  $createTermData
      */
-    public function __construct($drupalApi, $createTermData) {
+    public function __construct(
+        DrupalApi $drupalApi,
+        TermData $createTermData
+    ) {
         $this->drupalApi = $drupalApi;
         $this->createTermData = $createTermData;
         parent::__construct();
@@ -146,5 +157,7 @@ class TermsCommand extends Command
                 $limit
             )
         );
+
+        return 0;
     }
 }

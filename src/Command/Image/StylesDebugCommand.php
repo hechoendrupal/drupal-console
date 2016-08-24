@@ -23,20 +23,23 @@ class StylesDebugCommand extends Command
     use CommandTrait;
 
     /**
-    * @var EntityTypeManagerInterface
-    */
+     * @var EntityTypeManagerInterface
+     */
     protected $entityTypeManager;
 
     /**
-    * StylesDebugCommand constructor.
-    * @param EntityTypeManagerInterface $entityTypeManager
-    */
+     * StylesDebugCommand constructor.
+     * @param EntityTypeManagerInterface $entityTypeManager
+     */
     public function __construct(EntityTypeManagerInterface $entityTypeManager)
     {
         $this->entityTypeManager = $entityTypeManager;
         parent::__construct();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -44,12 +47,14 @@ class StylesDebugCommand extends Command
             ->setDescription($this->trans('commands.image.styles.debug.description'));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
 
         $imageStyle = $this->entityTypeManager->getStorage('image_style');
-
 
         $io->newLine();
         $io->comment(
@@ -59,6 +64,8 @@ class StylesDebugCommand extends Command
         if ($imageStyle) {
             $this->imageStyleList($io, $imageStyle);
         }
+
+        return 0;
     }
 
     /**
