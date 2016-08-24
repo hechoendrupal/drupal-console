@@ -130,18 +130,24 @@ trait ExportTrait
     protected function exportModuleDependencies($io, $module, $dependencies)
     {
         $yaml = new Yaml();
-//        $info_file = file_get_contents($this->getApplication()->getSite()->getModuleInfoFile($module));
-//        $info_yaml = $yaml->parse($info_file);
 
         $module = $this->extensionManager->getModule($module);
-        print_r($module->info);
-        exit();
+        $info_yaml = $module->info;
 
         if (empty($info_yaml['dependencies'])) {
             $info_yaml['dependencies'] = $dependencies;
         } else {
             $info_yaml['dependencies'] = array_unique(array_merge($info_yaml['dependencies'], $dependencies));
         }
+
+        echo $module->getExtensionPathname() .  PHP_EOL;
+        echo $module->getFilename() .  PHP_EOL;
+        echo $module->getExtensionFilename() .  PHP_EOL;
+        echo $module->getName() .  PHP_EOL;
+        echo $module->getPathname() .  PHP_EOL;
+        echo $module->getType() .  PHP_EOL;
+
+        exit();
 
         if (file_put_contents($this->getApplication()->getSite()->getModuleInfoFile($module), $yaml->dump($info_yaml))) {
             $io->info(
