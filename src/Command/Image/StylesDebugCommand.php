@@ -27,17 +27,17 @@ class StylesDebugCommand extends Command
     */
     protected $entityTypeManager;
 
-  /**
-   * StylesDebugCommand constructor.
-   * @param EntityTypeManagerInterface $entityTypeManager
-   */
-  public function __construct(EntityTypeManagerInterface $entityTypeManager)
-  {
-      $this->entityTypeManager = $entityTypeManager;
-      parent::__construct();
-  }
+    /**
+    * StylesDebugCommand constructor.
+    * @param EntityTypeManagerInterface $entityTypeManager
+    */
+    public function __construct(EntityTypeManagerInterface $entityTypeManager)
+    {
+        $this->entityTypeManager = $entityTypeManager;
+        parent::__construct();
+    }
 
-  protected function configure()
+    protected function configure()
     {
         $this
             ->setName('image:styles:debug')
@@ -71,6 +71,8 @@ class StylesDebugCommand extends Command
           $this->trans('commands.image.styles.debug.messages.styles-name'),
           $this->trans('commands.image.styles.debug.messages.styles-label')
         ];
+
+        $tableRows = [];
 
         foreach ($imageStyle->loadMultiple() as $styles) {
             $tableRows[] = [
