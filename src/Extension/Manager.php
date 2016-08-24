@@ -214,32 +214,26 @@ class Manager
     }
 
     /**
-     * @param string    $name
+     * @param string $name
      * @return \Drupal\Console\Extension\Extension
      */
-    public function getModule($name) {
-        if ($extension = $this->getExtension('module', $name)){
-            $module = new Extension(
-                $this->appRoot,
-                $extension->getType(),
-                $extension->getPathname(),
-                $extension->getExtensionFilename()
-            );
-            $module->unserialize($extension->serialize());
-
-            return $module;
+    public function getModule($name)
+    {
+        if ($extension = $this->getExtension('module', $name)) {
+            return $this->createExtension($extension);
         }
 
         return null;
     }
 
     /**
-     * @param string    $type
-     * @param string    $name
+     * @param string $type
+     * @param string $name
      *
      * @return \Drupal\Core\Extension\Extension
      */
-    private function getExtension($type, $name) {
+    private function getExtension($type, $name)
+    {
         if (!$this->extensions[$type]) {
             $this->discoverExtension($type);
         }
@@ -249,5 +243,22 @@ class Manager
         }
 
         return null;
+    }
+
+    /**
+     * @param \Drupal\Core\Extension\Extension $extension
+     * @return \Drupal\Console\Extension\Extension
+     */
+    private function createExtension($extension)
+    {
+        $consoleExtension = new Extension(
+            $this->appRoot,
+            $extension->getType(),
+            $extension->getPathname(),
+            $extension->getExtensionFilename()
+        );
+        $consoleExtension->unserialize($extension->serialize());
+
+        return $consoleExtension;
     }
 }
