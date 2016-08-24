@@ -39,11 +39,11 @@ class UsersCommand extends Command
     /**
      * UsersCommand constructor.
      * @param DrupalApi $drupalApi
-     * @param DrupalApi $createUserData
+     * @param UserData  $createUserData
      */
     public function __construct(
         DrupalApi $drupalApi,
-        DrupalApi $createUserData
+        UserData $createUserData
     ) {
         $this->drupalApi = $drupalApi;
         $this->createUserData = $createUserData;
