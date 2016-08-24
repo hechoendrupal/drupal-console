@@ -35,5 +35,5 @@ services:
     class: Drupal\Console\Utils\Create\VocabularyData
     arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter']
   console.extension_manager:
-    class: Drupal\Console\Utils\ExtensionManager
+    class: Drupal\Console\Extension\Manager
     arguments: ['@console.drupal_api', '@app.root']
