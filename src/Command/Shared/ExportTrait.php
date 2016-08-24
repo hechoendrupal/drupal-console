@@ -140,16 +140,7 @@ trait ExportTrait
             $info_yaml['dependencies'] = array_unique(array_merge($info_yaml['dependencies'], $dependencies));
         }
 
-        echo $module->getExtensionPathname() .  PHP_EOL;
-        echo $module->getFilename() .  PHP_EOL;
-        echo $module->getExtensionFilename() .  PHP_EOL;
-        echo $module->getName() .  PHP_EOL;
-        echo $module->getPathname() .  PHP_EOL;
-        echo $module->getType() .  PHP_EOL;
-
-        exit();
-
-        if (file_put_contents($this->getApplication()->getSite()->getModuleInfoFile($module), $yaml->dump($info_yaml))) {
+        if (file_put_contents($module->getPathname(), $yaml->dump($info_yaml))) {
             $io->info(
                 '[+] ' .
                 sprintf(
