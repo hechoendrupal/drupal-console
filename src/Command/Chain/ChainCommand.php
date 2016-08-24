@@ -36,6 +36,7 @@ class ChainCommand extends Command
     protected $chainQueue;
     protected $configurationManager;
     protected $appRoot;
+    protected $extensionManager;
 
     /**
      * ChainCommand constructor.
@@ -44,11 +45,12 @@ class ChainCommand extends Command
      * @param $configurationManager
      * @param $appRoot
      */
-    public function __construct($fileUtil, $chainQueue, $configurationManager, $appRoot) {
+    public function __construct($fileUtil, $chainQueue, $configurationManager, $appRoot, $extensionManager) {
         $this->fileUtil = $fileUtil;
         $this->chainQueue = $chainQueue;
         $this->configurationManager = $configurationManager;
         $this->appRoot = $appRoot;
+        $this->extensionManager = $extensionManager;
         parent::__construct();
     }
 
