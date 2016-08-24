@@ -1,12 +1,12 @@
 <?php
 
-namespace Drupal\Console\Utils;
+namespace Drupal\Console\Extension;
 
 /**
  * Class ExtensionManager
- * @package Drupal\Console\Utils
+ * @package Drupal\Console
  */
-class ExtensionManager
+class Manager
 {
     protected $drupalApi;
     protected $appRoot;
@@ -207,9 +207,39 @@ class ExtensionManager
          * @see Remove DrupalExtensionDiscovery subclass once
          * https://www.drupal.org/node/2503927 is fixed.
          */
-        $discovery = new DrupalExtensionDiscovery($this->appRoot);
+        $discovery = new Discovery($this->appRoot);
         $discovery->reset();
 
         return $discovery->scan($type);
+    }
+
+    /**
+     * @param string    $name
+     * @return \Drupal\Core\Extension\Extension
+     */
+    public function getModule($name) {
+        if ($extension = $this->getExtension('module', $name)){
+            return $extension;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string    $type
+     * @param string    $name
+     *
+     * @return \Drupal\Core\Extension\Extension
+     */
+    private function getExtension($type, $name) {
+        if (!$this->extensions[$type]) {
+            $this->discoverExtension($type);
+        }
+
+        if (array_key_exists($name, $this->extensions[$type])) {
+            return $this->extensions[$type][$name];
+        }
+
+        return null;
     }
 }
