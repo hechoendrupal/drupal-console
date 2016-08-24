@@ -12,6 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\CreateTrait;
+use Drupal\Console\Utils\Create\CommentData;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -23,13 +24,17 @@ class CommentsCommand extends Command
     use CreateTrait;
     use CommandTrait;
 
+    /**
+     * @var CommentData
+     */
     protected $createCommentData;
 
     /**
-     * NodesCommand constructor.
-     * @param $createCommentData
+     * CommentsCommand constructor.
+     * @param CommentData $createCommentData
      */
-    public function __construct($createCommentData) {
+    public function __construct(CommentData $createCommentData)
+    {
         $this->createCommentData = $createCommentData;
         parent::__construct();
     }
@@ -150,6 +155,6 @@ class CommentsCommand extends Command
             )
         );
 
-        return;
+        return 0;
     }
 }
