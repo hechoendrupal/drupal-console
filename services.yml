@@ -10,10 +10,6 @@ services:
 #  console.command_dependencies:
 #    class: Drupal\Console\Command\CommandDependencies
 #    arguments: ["@console.annotation_file_cache"]
-  console.site:
-    class: Drupal\Console\Utils\Site
-  console.file_util:
-    class: Drupal\Console\Utils\File
   console.validator:
     class: Drupal\Console\Utils\Validator
   console.drupal_api:

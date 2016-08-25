@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c9954cb81ab6eaabe8de23d94ba0cb76",
-    "content-hash": "c8b02afc57dbe57b3e2c13694285a702",
+    "hash": "8e28cb591671afbe04e293e46c41d235",
+    "content-hash": "06110decdbf4b7dea8987189660ae066",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -531,19 +531,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hechoendrupal/drupal-console-core.git",
-                "reference": "975e8a251d33fa3883528876c1d98826b1b582ab"
+                "reference": "4880cb3468dbeacf7ade90fad7bf00d03f4dd6c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-core/zipball/975e8a251d33fa3883528876c1d98826b1b582ab",
-                "reference": "975e8a251d33fa3883528876c1d98826b1b582ab",
+                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-core/zipball/4880cb3468dbeacf7ade90fad7bf00d03f4dd6c7",
+                "reference": "4880cb3468dbeacf7ade90fad7bf00d03f4dd6c7",
                 "shasum": ""
             },
             "require": {
                 "dflydev/dot-access-configuration": "1.*",
                 "drupal/console-en": "dev-master",
                 "php": "^5.5.9 || ^7.0",
+                "symfony/config": "~2.8",
                 "symfony/console": "~2.8",
+                "symfony/dependency-injection": "~2.8",
                 "symfony/event-dispatcher": "~2.8",
                 "symfony/filesystem": "~2.8",
                 "symfony/finder": "~2.8",
@@ -555,7 +557,8 @@
             "type": "project",
             "autoload": {
                 "files": [
-                    "src/constants.php"
+                    "src/constants.php",
+                    "src/functions.php"
                 ],
                 "psr-4": {
                     "Drupal\\Console\\": "src"
@@ -598,7 +601,7 @@
                 "drupal",
                 "symfony"
             ],
-            "time": "2016-08-16 16:57:47"
+            "time": "2016-08-25 08:57:54"
         },
         {
             "name": "drupal/console-en",
@@ -606,12 +609,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hechoendrupal/drupal-console-en.git",
-                "reference": "f4ee38e892bd58d0c0fc96a23c038735c0a780e3"
+                "reference": "df8f0be6b3bea00506731a367939886ff9116263"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-en/zipball/f4ee38e892bd58d0c0fc96a23c038735c0a780e3",
-                "reference": "f4ee38e892bd58d0c0fc96a23c038735c0a780e3",
+                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-en/zipball/df8f0be6b3bea00506731a367939886ff9116263",
+                "reference": "df8f0be6b3bea00506731a367939886ff9116263",
                 "shasum": ""
             },
             "type": "drupal-console-language",
@@ -652,7 +655,7 @@
                 "drupal",
                 "symfony"
             ],
-            "time": "2016-08-13 20:10:29"
+            "time": "2016-08-25 05:41:51"
         },
         {
             "name": "gabordemooij/redbean",

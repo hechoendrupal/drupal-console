@@ -5,6 +5,7 @@ namespace Drupal\Console;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class Application
@@ -34,8 +35,13 @@ class Application extends ConsoleApplication
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         $this->registerCommands();
-
         parent::doRun($input, $output);
+        if ($this->getCommandName($input) == 'list' && $this->container->hasParameter('console.warning')) {
+            $io = new DrupalStyle($input, $output);
+            $io->warning(
+                $this->trans($this->container->getParameter('console.warning'))
+            );
+        }
     }
 
     private function addOptions()
@@ -74,7 +80,19 @@ class Application extends ConsoleApplication
 
     private function registerCommands()
     {
-        $consoleCommands = $this->container->getParameter('console.commands');
+        if ($this->container->hasParameter('console.commands')) {
+            $consoleCommands = $this->container->getParameter(
+                'console.commands'
+            );
+        } else {
+            $consoleCommands = array_keys(
+                $this->container->findTaggedServiceIds('console.command')
+            );
+            $this->container->setParameter(
+                'console.warning',
+                'application.site.errors.settings'
+            );
+        }
 
         foreach ($consoleCommands as $name) {
             if (!$this->container->has($name)) {
