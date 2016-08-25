@@ -36,7 +36,7 @@ class Application extends ConsoleApplication
     {
         $this->registerCommands();
         parent::doRun($input, $output);
-        if ($this->container->hasParameter('console.warning')) {
+        if ($this->getCommandName($input) == 'list' && $this->container->hasParameter('console.warning')) {
             $io = new DrupalStyle($input, $output);
             $io->warning(
                 $this->trans($this->container->getParameter('console.warning'))
@@ -84,8 +84,7 @@ class Application extends ConsoleApplication
             $consoleCommands = $this->container->getParameter(
                 'console.commands'
             );
-        }
-        else {
+        } else {
             $consoleCommands = array_keys(
                 $this->container->findTaggedServiceIds('console.command')
             );
