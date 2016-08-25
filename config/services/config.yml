@@ -21,7 +21,7 @@ services:
       - { name: console.command }
   config_export:
     class: Drupal\Console\Command\Config\ExportCommand
-    arguments: ['@config.manager']
+    arguments: ['@console.configuration_manager']
     tags:
       - { name: console.command }
   config_export_content_type:
