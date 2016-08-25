@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Utils\ExtensionManager;
 use Symfony\Component\Finder\Finder;
 
 /**

@@ -25,17 +25,25 @@ class ChainDebugCommand extends Command
     use CommandTrait;
     use ChainFilesTrait;
 
-    /** @var ConfigurationManager  */
+    /**
+     * @var ConfigurationManager
+     */
     protected $configurationManager;
 
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
      * ChainDebugCommand constructor.
-     * @param $configurationManager
+     * @param ConfigurationManager $configurationManager
+     * @param Manager              $extensionManager
      */
-    public function __construct(ConfigurationManager $configurationManager, Manager $extensionManager) {
+    public function __construct(
+        ConfigurationManager $configurationManager,
+        Manager $extensionManager
+    ) {
         $this->configurationManager = $configurationManager;
         $this->extensionManager = $extensionManager;
         parent::__construct();
@@ -73,5 +81,7 @@ class ChainDebugCommand extends Command
 
             $io->table($tableHeader, $tableRows);
         }
+
+        return 0;
     }
 }
