@@ -37,12 +37,10 @@ class DeleteCommand extends Command
      */
     public function __construct(
         EntityTypeRepository $entityTypeRepository,
-        EntityTypeManager $entityTypeManager,
-        RequestStack $requestStack
+        EntityTypeManager $entityTypeManager
     ) {
         $this->entityTypeRepository = $entityTypeRepository;
         $this->entityTypeManager = $entityTypeManager;
-        $this->requestStack = $requestStack;
         parent::__construct();
     }
     /**

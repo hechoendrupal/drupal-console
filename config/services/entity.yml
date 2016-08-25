@@ -1,6 +1,6 @@
 services:
   entity_delete:
     class: Drupal\Console\Command\Entity\DeleteCommand
-    arguments: ['@config.factory', '@entity_type.repository']
+    arguments: ['@entity_type.repository', '@entity_type.manager']
     tags:
       - { name: console.command }
