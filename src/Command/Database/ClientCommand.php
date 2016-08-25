@@ -14,12 +14,27 @@ use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\ConnectTrait;
+use Drupal\Console\Utils\ShellProcess;
 use Drupal\Console\Style\DrupalStyle;
 
 class ClientCommand extends Command
 {
     use ConnectTrait;
     use CommandTrait;
+
+    /**
+     * @var ShellProcess
+     */
+    protected $shellProcess;
+
+    /**
+     * ClientCommand constructor.
+     * @param ShellProcess $shellProcess
+     */
+    public function __construct(ShellProcess $shellProcess
+    ) {
+        $this->shellProcess = $shellProcess;
+    }
 
     /**
      * {@inheritdoc}
@@ -69,14 +84,15 @@ class ClientCommand extends Command
             );
         }
 
-        $processBuilder = new ProcessBuilder([]);
-        $processBuilder->setArguments(explode(' ', $connection));
-        $process = $processBuilder->getProcess();
-        $process->setTty('true');
-        $process->run();
+//        $processBuilder = new ProcessBuilder([]);
+//        $processBuilder->setArguments(explode(' ', $connection));
+//        $process = $processBuilder->getProcess();
+//        $process->setTty('true');
+//        $process->run();
 
-        if (!$process->isSuccessful()) {
-            throw new \RuntimeException($process->getErrorOutput());
+        if (!$this->shellProcess->exec($connection)) {
+//            throw new \RuntimeException($process->getErrorOutput());
+            throw new \RuntimeException($this->shellProcess->getOutput());
         }
     }
 }

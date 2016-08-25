@@ -1,6 +1,7 @@
 services:
   console.database_client:
     class: Drupal\Console\Command\Database\ClientCommand
+    arguments: ['@console.shell_process']
     tags:
       - { name: console.command }
 #  database_connect:
