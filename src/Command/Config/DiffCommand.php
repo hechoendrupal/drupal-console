@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Core\Config\CachedStorage;
-use Drupal\Core\Config\ConfigFactory;
+use Drupal\Console\Utils\ConfigurationManager;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -22,18 +22,18 @@ class DiffCommand extends Command
 {
     use CommandTrait;
 
-    /** @var ConfigFactory  */
-    protected $configFactory;
+    /** @var CachedStorage  */
+    protected $configStorage;
 
     /** @var CachedStorage  */
     protected $configurationManager;
 
     /**
      * ChainCommand constructor.
-     * @param ConfigFactory $configStorage
      * @param CachedStorage $configStorage
+     * @param ConfigurationManager $configStorage
      */
-    public function __construct(ConfigFactory $configStorage, CachedStorage $configurationManager ) {
+    public function __construct(CachedStorage $configStorage, ConfigurationManager $configurationManager ) {
         $this->configStorage = $configStorage;
         $this->$configurationManager = $configurationManager;
         parent::__construct();
