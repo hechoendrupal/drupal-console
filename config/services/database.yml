@@ -1,8 +1,8 @@
-#services:
-#  database_client:
-#    class: Drupal\Console\Command\Database\ClientCommand
-#    tags:
-#      - { name: console.command }
+services:
+  console.database_client:
+    class: Drupal\Console\Command\Database\ClientCommand
+    tags:
+      - { name: console.command }
 #  database_connect:
 #    class: Drupal\Console\Command\Database\ConnectCommand
 #    tags:
