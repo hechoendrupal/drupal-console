@@ -14,9 +14,6 @@ services:
     class: Drupal\Console\Utils\File
   console.validator:
     class: Drupal\Console\Utils\Validator
-  console.shell_process:
-    class: Drupal\Console\Utils\ShellProcess
-    arguments: ['@app.root']
   console.drupal_api:
     class: Drupal\Console\Utils\DrupalApi
     arguments: ['@app.root', '@entity_type.manager']
