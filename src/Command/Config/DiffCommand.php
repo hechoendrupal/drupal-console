@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Core\Config\CachedStorage;
-use Drupal\Console\Utils\ConfigurationManager;
+use Drupal\Core\Config\ConfigManager;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -25,17 +25,17 @@ class DiffCommand extends Command
     /** @var CachedStorage  */
     protected $configStorage;
 
-    /** @var CachedStorage  */
-    protected $configurationManager;
+    /** @var ConfigManager  */
+    protected $configManager;
 
     /**
-     * ChainCommand constructor.
+     * DiffCommand constructor.
      * @param CachedStorage $configStorage
      * @param ConfigurationManager $configStorage
      */
-    public function __construct(CachedStorage $configStorage, ConfigurationManager $configurationManager ) {
+    public function __construct(CachedStorage $configStorage, ConfigManager $configManager ) {
         $this->configStorage = $configStorage;
-        $this->configurationManager = $configurationManager;
+        $this->configManager = $configManager;
         parent::__construct();
     }
 
@@ -104,9 +104,9 @@ class DiffCommand extends Command
         $source_storage = new FileStorage($directory);
 
         if ($input->getOption('reverse')) {
-            $config_comparer = new StorageComparer($source_storage, $this->configStorage, $this->configurationManager);
+            $config_comparer = new StorageComparer($source_storage, $this->configStorage, $this->configManager);
         } else {
-            $config_comparer = new StorageComparer($this->configStorage, $source_storage, $this->configurationManager);
+            $config_comparer = new StorageComparer($this->configStorage, $source_storage, $this->configManager);
         }
         if (!$config_comparer->createChangelist()->hasChanges()) {
             $output->writeln($this->trans('commands.config.diff.messages.no-changes'));
