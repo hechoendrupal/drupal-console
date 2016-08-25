@@ -14,6 +14,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\CreateTrait;
+use Drupal\Console\Utils\Create\UserData;
+use Drupal\Console\Utils\DrupalApi;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -25,15 +27,24 @@ class UsersCommand extends Command
     use CreateTrait;
     use CommandTrait;
 
+    /**
+     * @var DrupalApi
+     */
     protected $drupalApi;
+    /**
+     * @var UserData
+     */
     protected $createUserData;
 
     /**
      * UsersCommand constructor.
-     * @param $drupalApi
-     * @param $createUserData
+     * @param DrupalApi $drupalApi
+     * @param UserData  $createUserData
      */
-    public function __construct($drupalApi, $createUserData) {
+    public function __construct(
+        DrupalApi $drupalApi,
+        UserData $createUserData
+    ) {
         $this->drupalApi = $drupalApi;
         $this->createUserData = $createUserData;
         parent::__construct();
@@ -171,5 +182,7 @@ class UsersCommand extends Command
                 )
             );
         }
+
+        return 0;
     }
 }

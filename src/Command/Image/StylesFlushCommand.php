@@ -45,6 +45,9 @@ class StylesFlushCommand extends Command
             );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
@@ -67,6 +70,7 @@ class StylesFlushCommand extends Command
             $input->setArgument('styles', $styles);
         }
     }
+
     /**
      * {@inheritdoc}
      */
@@ -74,6 +78,7 @@ class StylesFlushCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
         $styles = $input->getArgument('styles');
+        $result = 0;
 
         $imageStyle = $this->entityTypeManager->getStorage('image_style');
         $stylesNames = [];
@@ -94,14 +99,16 @@ class StylesFlushCommand extends Command
                         $style
                     )
                 );
-
                 $imageStyle->load($style)->flush();
             } catch (\Exception $e) {
                 watchdog_exception('image', $e);
                 $io->error($e->getMessage());
+                $result = 1;
             }
         }
 
         $io->success($this->trans('commands.image.styles.flush.messages.success'));
+
+        return $result;
     }
 }

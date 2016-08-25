@@ -58,5 +58,7 @@ class ContextDebugCommand extends Command
         }
 
         $io->table($tableHeader, $tableRows, 'compact');
+
+        return 0;
     }
 }

@@ -18,18 +18,24 @@ class DebugCommand extends Command
 {
     use CommandTrait;
 
-    /** @var ModuleHandlerInterface  */
+    /**
+     * @var ModuleHandlerInterface
+     */
     protected $moduleHandler;
 
     /**
      * DebugCommand constructor.
      * @param ModuleHandlerInterface $moduleHandler
      */
-    public function __construct(ModuleHandlerInterface $moduleHandler) {
+    public function __construct(ModuleHandlerInterface $moduleHandler)
+    {
         $this->moduleHandler = $moduleHandler;
         parent::__construct();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -37,6 +43,9 @@ class DebugCommand extends Command
             ->setDescription($this->trans('commands.cron.debug.description'));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);

@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
+use Drupal\breakpoint\BreakpointManagerInterface;
 use Symfony\Component\Yaml\Yaml;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
@@ -19,14 +20,25 @@ class DebugCommand extends Command
 {
     use CommandTrait;
 
+    /**
+     * @var BreakpointManagerInterface
+     */
     protected $breakpointManager;
+
+    /**
+     * @var string
+     */
     protected $appRoot;
 
     /**
      * DebugCommand constructor.
-     * @param $breakpointManager
+     * @param BreakpointManagerInterface $breakpointManager
+     * @param string                     $appRoot
      */
-    public function __construct($breakpointManager, $appRoot) {
+    public function __construct(
+        BreakpointManagerInterface $breakpointManager,
+        $appRoot
+    ) {
         $this->breakpointManager = $breakpointManager;
         $this->appRoot = $appRoot;
         parent::__construct();
@@ -71,6 +83,8 @@ class DebugCommand extends Command
         ];
 
         $io->table($tableHeader, $groups, 'compact');
+
+        return 0;
     }
 
     /**
@@ -92,10 +106,10 @@ class DebugCommand extends Command
         }
 
         $extensionFile = sprintf(
-                '%s/%s/%s.breakpoints.yml',
-                $this->appRoot,
-                $projectPath,
-                $group
+            '%s/%s/%s.breakpoints.yml',
+            $this->appRoot,
+            $projectPath,
+            $group
         );
 
         return Yaml::parse(
