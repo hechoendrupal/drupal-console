@@ -44,10 +44,11 @@ services:
     arguments: ['@config.storage', '@config.manager']
     tags:
       - { name: console.command }
-#  config_import_single:
-#    class: Drupal\Console\Command\Config\ImportSingleCommand
-#    tags:
-#      - { name: console.command }
+  config_import_single:
+    class: Drupal\Console\Command\Config\ImportSingleCommand
+    arguments: ['@config.storage', '@config.manager']
+    tags:
+      - { name: console.command }
 #  config_override:
 #    class: Drupal\Console\Command\Config\OverrideCommand
 #    tags:

@@ -11,18 +11,36 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Core\Config\CachedStorage;
+use Drupal\Core\Config\ConfigManager;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Core\Config\ConfigImporter;
 use Drupal\Core\Config\ConfigImporterException;
-use Drupal\Core\Config\ConfigManagerInterface;
 use Drupal\Core\Config\StorageComparer;
-use Drupal\Core\Config\StorageInterface;
 use Drupal\config\StorageReplaceDataWrapper;
 
 class ImportSingleCommand extends Command
 {
     use ContainerAwareCommandTrait;
+
+    /** @var CachedStorage  */
+    protected $configStorage;
+
+    /** @var ConfigManager  */
+    protected $configManager;
+
+    /**
+     * ImportCommand constructor.
+     * @param CachedStorage $configStorage
+     * @param ConfigurationManager $configStorage
+     */
+    public function __construct(CachedStorage $configStorage, ConfigManager $configManager ) {
+        $this->configStorage = $configStorage;
+        $this->configManager = $configManager;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -67,15 +85,12 @@ class ImportSingleCommand extends Command
         }
 
         try {
-            $config_storage = \Drupal::service('config.storage');
-            $config_manager = \Drupal::service('config.manager');
-
-            $source_storage = new StorageReplaceDataWrapper($config_storage);
+            $source_storage = new StorageReplaceDataWrapper($this->configStorage);
             $source_storage->replaceData($configName, $value);
             $storage_comparer = new StorageComparer(
                 $source_storage,
-                $config_storage,
-                $config_manager
+                $this->configStorage,
+                $this->configManager
             );
 
             if ($this->configImport($io, $storage_comparer)) {
