@@ -10,6 +10,7 @@ namespace Drupal\Console\Command\Chain;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\ConfigurationManager;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\CommandTrait;
@@ -27,12 +28,16 @@ class ChainDebugCommand extends Command
     /** @var ConfigurationManager  */
     protected $configurationManager;
 
+    /** @var Manager  */
+    protected $extensionManager;
+
     /**
      * ChainDebugCommand constructor.
      * @param $configurationManager
      */
-    public function __construct(ConfigurationManager $configurationManager) {
+    public function __construct(ConfigurationManager $configurationManager, Manager $extensionManager) {
         $this->configurationManager = $configurationManager;
+        $this->extensionManager = $extensionManager;
         parent::__construct();
     }
     /**
