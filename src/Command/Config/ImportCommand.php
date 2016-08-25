@@ -86,7 +86,7 @@ class ImportCommand extends Command
                 CONFIG_SYNC_DIRECTORY
             );
         }
-        
+
         $source_storage = new FileStorage($configSyncDir);
 
         $storage_comparer = new StorageComparer($source_storage, $this->configStorage, $this->configManager);

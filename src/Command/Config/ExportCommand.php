@@ -27,9 +27,9 @@ class ExportCommand extends Command
 
     /**
      * ChainCommand constructor.
-     * @param ConfigurationManager $configManager
+     * @param ConfigManager $configManager
      */
-    public function __construct(ConfigurationManager $configManager ) {
+    public function __construct(ConfigManager $configManager ) {
         $this->configManager = $configManager;
         parent::__construct();
     }
