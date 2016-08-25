@@ -22,7 +22,7 @@ use Drupal\config\StorageReplaceDataWrapper;
 
 class ImportSingleCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
 
     /** @var CachedStorage  */
     protected $configStorage;
@@ -31,9 +31,9 @@ class ImportSingleCommand extends Command
     protected $configManager;
 
     /**
-     * ImportCommand constructor.
+     * ImportSingleCommand constructor.
      * @param CachedStorage $configStorage
-     * @param ConfigurationManager $configStorage
+     * @param ConfigManager $configStorage
      */
     public function __construct(CachedStorage $configStorage, ConfigManager $configManager ) {
         $this->configStorage = $configStorage;
