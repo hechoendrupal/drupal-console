@@ -1,12 +1,10 @@
 <?php
 namespace Drupal\Console\Utils;
 
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
-use Drupal\Console\Utils\Site;
-use Drupal\Console\Config;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -15,87 +13,61 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class ShellProcess
 {
-    /* @var Site */
-    protected $site;
+    /**
+     * @var string
+     */
+    protected $appRoot;
+    /**
+     * @var ShellProcess
+     */
+    private $process;
 
-    /* @var Config */
-    protected $config;
-
-    /* @var Output */
-    protected $output;
-
-    protected $shellexec_output;
-
-    /* @var Progress */
-    protected $progress;
-
-    /* @var ShellProcess */
-    protected $process;
+    /**
+     * @var DrupalStyle
+     */
+    private $io;
 
     /**
      * Process constructor.
-     * @param Site   $site
-     * @param Config $config
+     * @param string $appRoot
      */
-    public function __construct(Site $site, Config $config)
+    public function __construct($appRoot)
     {
-        $this->site = $site;
-        $this->config = $config;
-        $this->output = new ConsoleOutput();
+        $this->appRoot = $appRoot;
 
-        $this->shellexec_output
-          = ($this->config->get("application.shellexec_output"))?: false;
-
-        $this->progress = new ProgressBar($this->output);
-        $this->progress->setFormat('debug_nomax');
+        $output = new ConsoleOutput();
+        $input = new ArrayInput([]);
+        $this->io = new DrupalStyle($input, $output);
     }
 
     /**
-     * @param $command string
-     * @param $show_output boolean
+     * @param string $command
+     * @param string $workingDirectory
      *
      * @throws ProcessFailedException
      *
      * @return Process
      */
-    public function exec($command, $show_output = false)
+    public function exec($command, $workingDirectory=null)
     {
-        $rootPath = $this->site->getRoot();
-
+        if (!$workingDirectory) {
+            $workingDirectory = $this->appRoot;
+        }
         $this->process = new Process($command);
-        $this->process->setWorkingDirectory($rootPath);
+        $this->process->setWorkingDirectory($workingDirectory);
         $this->process->enableOutput();
         $this->process->setTimeout(null);
-
-        if ($this->shellexec_output || $show_output) {
-            $this->process->run(
-                function ($type, $buffer) {
-                    $this->output->writeln($buffer);
-                }
-            );
-        } else {
-            $this->progress->start();
-            $this->process->start();
-
-            while ($this->process->isRunning()) {
-                $this->advance();
+        $this->process->run(
+            function ($type, $buffer) {
+                $this->io->write($buffer);
             }
-
-            $this->progress->finish();
-            $this->output->writeln("");
-        }
+        );
 
         if (!$this->process->isSuccessful()) {
             throw new ProcessFailedException($this->process);
         }
 
         return $this->process->isSuccessful();
-    }
-
-    private function advance()
-    {
-        usleep(300000);
-        $this->progress->advance();
     }
 
     /**
