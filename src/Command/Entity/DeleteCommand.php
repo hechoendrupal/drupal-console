@@ -107,7 +107,7 @@ class DeleteCommand extends Command
 
         $entityDefinitionID = $input->getArgument('entity-definition-id');
         $entityID = $input->getArgument('entity-id');
-        
+
         try {
             $this->entityManager->getStorage($entityDefinitionID)->load($entityID)->delete();
         } catch (\Exception $e) {
