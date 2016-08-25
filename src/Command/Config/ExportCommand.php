@@ -16,18 +16,20 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Filesystem\Filesystem;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Core\Config\ConfigManager;
 
 class ExportCommand extends Command
 {
     use CommandTrait;
 
+    /** @var ConfigManager  */
     protected $configManager;
 
     /**
-     * ChainCommand constructor.
-     * @param $configManager
+     * ExportCommand constructor.
+     * @param ConfigManager $configManager
      */
-    public function __construct($configManager ) {
+    public function __construct(ConfigManager $configManager ) {
         $this->configManager = $configManager;
         parent::__construct();
     }

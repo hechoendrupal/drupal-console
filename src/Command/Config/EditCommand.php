@@ -15,23 +15,33 @@ use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Drupal\Component\Serialization\Yaml;
+use Drupal\Core\Config\CachedStorage;
+use Drupal\Core\Config\ConfigFactory;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\ConfigurationManager;
 
 class EditCommand extends Command
 {
     use CommandTrait;
 
+    /** @var ConfigFactory  */
     protected $configFactory;
+
+    /** @var CachedStorage  */
     protected $configStorage;
+
+    /** @var ConfigurationManager  */
     protected $configurationManager;
 
     /**
-     * ChainCommand constructor.
-     * @param $fileUtil
+     * EditCommand constructor.
+     * @param ConfigFactory $configFactory
+     * @param CachedStorage $configStorage
+     * @param ConfigurationManager $configurationManager
      */
-    public function __construct($configFactory , $configStorage, $configurationManager ) {
+    public function __construct(ConfigFactory $configFactory , CachedStorage $configStorage, ConfigurationManager $configurationManager ) {
         $this->configFactory = $configFactory;
         $this->configStorage = $configStorage;
         $this->configurationManager = $configurationManager;
