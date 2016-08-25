@@ -15,7 +15,7 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Core\Entity\EntityTypeManager;
-use Drupal\Core\Config\StorageInterface;
+use Drupal\Core\Config\CachedStorage;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ExportTrait;
 use Drupal\Console\Extension\Manager;
@@ -32,7 +32,7 @@ class ExportViewCommand extends Command
     /** @var EntityTypeManager  */
     protected $entityTypeManager;
 
-    /** @var StorageInterface  */
+    /** @var use Drupal\Core\Config\CachedStorage;  */
     protected $configStorage;
 
     /** @var Manager  */
@@ -41,9 +41,9 @@ class ExportViewCommand extends Command
     /**
      * ExportViewCommand constructor.
      * @param EntityTypeManager $entityTypeManager
-     * @param StorageInterface $configStorage
+     * @param CachedStorage $configStorage
      */
-    public function __construct(EntityTypeManager $entityTypeManager, StorageInterface $configStorage, Manager $extensionManager) {
+    public function __construct(EntityTypeManager $entityTypeManager, CachedStorage $configStorage, Manager $extensionManager) {
         $this->entityTypeManager = $entityTypeManager;
         $this->configStorage = $configStorage;
         $this->extensionManager = $extensionManager;

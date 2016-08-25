@@ -12,6 +12,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Exception\RuntimeException;
 use Symfony\Component\Console\Command\Command;
+use Drupal\Core\Config\CachedStorage;
+use Drupal\Core\Config\ConfigFactory;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -20,17 +22,23 @@ class DeleteCommand extends Command
     use CommandTrait;
 
     protected $allConfig = [];
+
+    /** @var ConfigFactory  */
     protected $configFactory;
+
+    /** @var CachedStorage  */
     protected $configStorage;
+
+    /** @var FileStorage  */
     protected $configStorageSync;
 
     /**
      * ChainCommand constructor.
-     * @param $configFactory
-     * @param $configStorage
-     * @param $configStorageSync
+     * @param ConfigFactory $configFactory
+     * @param CachedStorage $configStorage
+     * @param FileStorage $configStorageSync
      */
-    public function __construct($configFactory , $configStorage, $configStorageSync ) {
+    public function __construct(ConfigFactory $configFactory , CachedStorage $configStorage, FileStorage $configStorageSync ) {
         $this->configFactory = $configFactory;
         $this->configStorage = $configStorage;
         $this->configStorageSync = $configStorageSync;

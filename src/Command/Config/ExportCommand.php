@@ -16,19 +16,21 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Filesystem\Filesystem;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\ConfigurationManager;
 
 class ExportCommand extends Command
 {
     use CommandTrait;
 
-    protected $configManager;
+    /** @var ConfigurationManager  */
+    protected $configurationManager;
 
     /**
      * ChainCommand constructor.
-     * @param $configManager
+     * @param ConfigurationManager $configManager
      */
-    public function __construct($configManager ) {
-        $this->configManager = $configManager;
+    public function __construct(ConfigurationManager $configurationManager ) {
+        $this->configurationManager = $configurationManager;
         parent::__construct();
     }
 
@@ -85,8 +87,8 @@ class ExportCommand extends Command
 
         try {
             // Get raw configuration data without overrides.
-            foreach ($this->configManager->getConfigFactory()->listAll() as $name) {
-                $configData = $this->configManager->getConfigFactory()->get($name)->getRawData();
+            foreach ($this->configurationManager->getConfigFactory()->listAll() as $name) {
+                $configData = $this->configurationManager->getConfigFactory()->get($name)->getRawData();
                 $configName =  sprintf('%s.yml', $name);
                 $ymlData = Yaml::encode($configData);
 
