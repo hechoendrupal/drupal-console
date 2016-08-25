@@ -24,7 +24,6 @@ use Drupal\Console\Command\Shared\InputTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\CommandTrait;
 
-
 /**
  * Class ChainCommand
  * @package Drupal\Console\Command\Chain
@@ -35,28 +34,46 @@ class ChainCommand extends Command
     use ChainFilesTrait;
     use InputTrait;
 
-    /** @var File  */
+    /**
+     * @var File
+     */
     protected $fileUtil;
 
-    /** @var ChainQueue  */
+    /**
+     * @var ChainQueue
+     */
     protected $chainQueue;
 
-    /** @var ConfigurationManager  */
+    /**
+     * @var ConfigurationManager
+     */
     protected $configurationManager;
 
+    /**
+     * @var string
+     */
     protected $appRoot;
 
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
      * ChainCommand constructor.
-     * @param $fileUtil
-     * @param $chainQueue
-     * @param $configurationManager
-     * @param $appRoot
+     * @param File                 $fileUtil
+     * @param ChainQueue           $chainQueue
+     * @param ConfigurationManager $configurationManager
+     * @param string               $appRoot
+     * @param Manager              $extensionManager
      */
-    public function __construct(File $fileUtil, ChainQueue $chainQueue, ConfigurationManager $configurationManager, $appRoot, Manager $extensionManager) {
+    public function __construct(
+        File $fileUtil,
+        ChainQueue $chainQueue,
+        ConfigurationManager $configurationManager,
+        $appRoot,
+        Manager $extensionManager
+    ) {
         $this->fileUtil = $fileUtil;
         $this->chainQueue = $chainQueue;
         $this->configurationManager = $configurationManager;
@@ -296,11 +313,13 @@ class ChainCommand extends Command
             }
 
             $this->chainQueue->addCommand(
-                    $command['command'],
-                    $moduleInputs,
-                    $interactive,
-                    $learning
-                );
+                $command['command'],
+                $moduleInputs,
+                $interactive,
+                $learning
+            );
         }
+
+        return 0;
     }
 }
