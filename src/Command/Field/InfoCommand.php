@@ -11,16 +11,42 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\field\FieldConfigInterface;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class InfoCommand.
  */
 class InfoCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /**
+     * @var EntityTypeManagerInterface
+     */
+    protected $entityTypeManager;
+
+    /**
+     * @var EntityFieldManagerInterface
+     */
+    protected $entityFieldManager;
+
+    /**
+     * InfoCommand constructor.
+     * @param EntityTypeManagerInterface  $entityTypeManager
+     * @param EntityFieldManagerInterface $entityFieldManager
+     */
+    public function __construct(
+        EntityTypeManagerInterface $entityTypeManager,
+        EntityFieldManagerInterface $entityFieldManager
+    ) {
+        $this->entityTypeManager = $entityTypeManager;
+        $this->entityFieldManager = $entityFieldManager;
+        parent::__construct();
+    }
 
     /**
      * @{@inheritdoc}
@@ -67,10 +93,8 @@ class InfoCommand extends Command
         // Retrieve whether a specific bundle type has been specified.
         $bundleTypeOption = $input->getOption('bundle');
 
-        $entityTypeManager = $this->getDrupalService('entity_type.manager');
-        $entityFieldManager = $this->getDrupalService('entity_field.manager');
-        $entityList = $entityTypeManager->getDefinitions();
-        $allFields = $entityFieldManager->getFieldMap();
+        $entityList = $this->entityTypeManager->getDefinitions();
+        $allFields = $this->entityFieldManager->getFieldMap();
 
         // Set a flag so we can error if a specific entity type selected but not found.
         $entityTypeOptionFound = false;
@@ -87,11 +111,12 @@ class InfoCommand extends Command
 
             // Check to see if the entity has any bundle before continuing.
             if (!empty($bundleEntityType)) {
-                $bundleTypes = $entityTypeManager->getStorage($bundleEntityType)->loadMultiple();
+                $bundleTypes = $this->entityTypeManager
+                    ->getStorage($bundleEntityType)->loadMultiple();
 
                 // If a specific entity type has been selected and this is it then we continue else we skip.
-                if ((!empty($entityTypeOption) && ($entityTypeOption == $entityTypeId))
-                    | empty($entityTypeOption)) {
+                if ((!empty($entityTypeOption) && ($entityTypeOption == $entityTypeId))| empty($entityTypeOption)
+                ) {
                     // Store the fact that we found the entity type specified so we can error if not found.
                     $entityTypeOptionFound = true;
 
@@ -102,8 +127,8 @@ class InfoCommand extends Command
                     $bundleTypeCounter = 0;
                     foreach ($bundleTypes as $bundleType) {
                         // If a specific bundle type has been selected and this is it then we continue else we skip.
-                        if ((!empty($bundleTypeOption) && ($bundleTypeOption == $bundleType->id()))
-                            | empty($bundleTypeOption)) {
+                        if ((!empty($bundleTypeOption) && ($bundleTypeOption == $bundleType->id()))| empty($bundleTypeOption)
+                        ) {
                             // Store the fact that we found the bundle type specified so we can error if not found.
                             $bundleTypeOptionFound = true;
 
@@ -123,7 +148,10 @@ class InfoCommand extends Command
                             }
 
                             // Load in the entityType fields.
-                            $fields = $this->getBundleFields($entityTypeId, $bundleType->id(), $entityFieldManager);
+                            $fields = $this->getBundleFields(
+                                $entityTypeId,
+                                $bundleType->id()
+                            );
 
                             foreach ($fields as $field => $fieldArray) {
                                 // We found a field so increase the field counter.
@@ -185,9 +213,11 @@ class InfoCommand extends Command
                                 ];
                                 $io->table($tableHeader, $tableRows);
                             } else {
-                                $io->comment($this->trans('commands.field.info.messages.fields-none')
+                                $io->comment(
+                                    $this->trans('commands.field.info.messages.fields-none')
                                     . ' ' . $this->trans('commands.field.info.messages.in-bundle-type')
-                                    . " '" . $bundleType->label() . "'");
+                                    . " '" . $bundleType->label() . "'"
+                                );
                             }
 
                             // Clear out the rows & headers arrays to start fresh.
@@ -204,30 +234,42 @@ class InfoCommand extends Command
         // If entity type was specified but not found then display error message.
         if (!empty($entityTypeOption)) {
             if (!$entityTypeOptionFound) {
-                $io->comment($this->trans('commands.field.info.messages.entity-type') .
-                    ' ' . $entityTypeOption . ' ' . $this->trans('commands.field.info.messages.not-found'));
+                $io->comment(
+                    $this->trans('commands.field.info.messages.entity-type') .
+                    ' ' . $entityTypeOption . ' ' .
+                    $this->trans('commands.field.info.messages.not-found')
+                );
             } elseif (!empty($bundleTypeOption) && !$bundleTypeOptionFound) {
                 // If specified entity type found and bundle type specified but not found then display error message.
-                $io->comment($this->trans('commands.field.info.messages.bundle-type') .
-                    ' ' . $bundleTypeOption . ' ' . $this->trans('commands.field.info.messages.not-found') .
-                    ' ' . $this->trans('commands.field.info.messages.in-entity-type') . ' ' . $entityTypeOption);
+                $io->comment(
+                    $this->trans('commands.field.info.messages.bundle-type') .
+                    ' ' . $bundleTypeOption . ' ' .
+                    $this->trans('commands.field.info.messages.not-found') .
+                    ' ' . $this->trans('commands.field.info.messages.in-entity-type') .
+                    ' ' . $entityTypeOption
+                );
             }
         } elseif (!empty($bundleTypeOption) && !$bundleTypeOptionFound) {
             // If specified bundle type not found then display error message.
-            $io->comment($this->trans('commands.field.info.messages.bundle-type') .
-                    ' ' . $bundleTypeOption . ' ' . $this->trans('commands.field.info.messages.not-found'));
+            $io->comment(
+                $this->trans('commands.field.info.messages.bundle-type') .
+                ' ' . $bundleTypeOption . ' ' .
+                $this->trans('commands.field.info.messages.not-found')
+            );
         } elseif ($fieldCounter == 0) {
             // If no fields found then display appropriate message.
             $io->comment($this->trans('commands.field.info.messages.fields-none'));
         }
+
+        return 0;
     }
 
     /**
      * Helper function to get the field definitions.
      *
-     * @param string $entityTypeId
+     * @param  string $entityTypeId
      *     The entity type we want to inspect.
-     * @param string $bundle
+     * @param  string $bundle
      *     The bundle we want to discover the fields of.
      * @return array
      *     An array of field storage definitions for the entity type,
@@ -235,12 +277,10 @@ class InfoCommand extends Command
      */
     private function getBundleFields($entityTypeId, $bundle)
     {
-        $entityFieldManager = $this->getDrupalService('entity_field.manager');
         $fields = [];
-
         if (!empty($entityTypeId) && !empty($bundle)) {
             $fields = array_filter(
-                $entityFieldManager->getFieldDefinitions($entityTypeId, $bundle),
+                $this->entityFieldManager->getFieldDefinitions($entityTypeId, $bundle),
                 function ($fieldDefinition) {
                     return $fieldDefinition instanceof FieldConfigInterface;
                 }
