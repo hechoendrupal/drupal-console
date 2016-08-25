@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Console\Command\Command;
-use Composer\Autoload\ClassLoader;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\DrupalApi;
 use Drupal\Console\Style\DrupalStyle;
@@ -29,9 +28,7 @@ class RebuildCommand extends Command
       * @var DrupalApi
       */
     protected $drupalApi;
-    /**
-     * @var ClassLoader
-     */
+
     protected $classLoader;
     /**
      * @var RequestStack
@@ -40,13 +37,13 @@ class RebuildCommand extends Command
 
     /**
      * RebuildCommand constructor.
-     * @param $drupalApi
+     * @param DrupalApi    $drupalApi
      * @param $classLoader
-     * @param $requestStack
+     * @param RequestStack $requestStack
      */
     public function __construct(
         DrupalApi $drupalApi,
-        ClassLoader $classLoader,
+        $classLoader,
         RequestStack $requestStack
     ) {
         $this->drupalApi = $drupalApi;
@@ -54,7 +51,6 @@ class RebuildCommand extends Command
         $this->requestStack = $requestStack;
         parent::__construct();
     }
-
 
     /**
      * {@inheritdoc}
