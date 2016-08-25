@@ -4,6 +4,7 @@ namespace Drupal\Console\Utils\Bootstrap;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\HttpFoundation\Request;
+use Drupal\Console\Utils\Bootstrap\DrupalConsoleCore;
 
 class Drupal {
 
@@ -35,7 +36,8 @@ class Drupal {
             );
         }
         catch (\Exception $e) {
-            return $this->bootDrupalConsole();
+                $drupal = new DrupalConsoleCore($this->siteRoot);
+                return $drupal->boot();
         }
 
         $drupalKernel->addServiceModifier(
@@ -73,9 +75,5 @@ class Drupal {
             );
 
         return $container;
-    }
-
-    private function bootDrupalConsole() {
-        return null;
     }
 }

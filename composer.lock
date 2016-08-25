@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "14a563d9dc0833c2f0fe81996e05894d",
-    "content-hash": "222010662aaa40171f1421c3eba18f69",
+    "hash": "8e28cb591671afbe04e293e46c41d235",
+    "content-hash": "06110decdbf4b7dea8987189660ae066",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -531,19 +531,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hechoendrupal/drupal-console-core.git",
-                "reference": "6da968165a1a2221a9ed14f0193f0532076fc62a"
+                "reference": "4880cb3468dbeacf7ade90fad7bf00d03f4dd6c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-core/zipball/6da968165a1a2221a9ed14f0193f0532076fc62a",
-                "reference": "6da968165a1a2221a9ed14f0193f0532076fc62a",
+                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-core/zipball/4880cb3468dbeacf7ade90fad7bf00d03f4dd6c7",
+                "reference": "4880cb3468dbeacf7ade90fad7bf00d03f4dd6c7",
                 "shasum": ""
             },
             "require": {
                 "dflydev/dot-access-configuration": "1.*",
                 "drupal/console-en": "dev-master",
                 "php": "^5.5.9 || ^7.0",
+                "symfony/config": "~2.8",
                 "symfony/console": "~2.8",
+                "symfony/dependency-injection": "~2.8",
                 "symfony/event-dispatcher": "~2.8",
                 "symfony/filesystem": "~2.8",
                 "symfony/finder": "~2.8",
@@ -599,7 +601,7 @@
                 "drupal",
                 "symfony"
             ],
-            "time": "2016-08-25 07:20:47"
+            "time": "2016-08-25 08:57:54"
         },
         {
             "name": "drupal/console-en",
