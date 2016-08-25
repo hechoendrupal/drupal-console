@@ -23,7 +23,7 @@ trait ChainFilesTrait
             $this->appRoot . DIRECTORY_SEPARATOR . 'console'. DIRECTORY_SEPARATOR .'chain',
             $this->appRoot . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
         ];
-        
+
         $modules = $this->extensionManager->discoverModules()
             ->showInstalled()
             ->showNoCore()

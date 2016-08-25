@@ -10,6 +10,7 @@ namespace Drupal\Console\Command\Cron;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -17,14 +18,14 @@ class DebugCommand extends Command
 {
     use CommandTrait;
 
-    /** @var \Drupal\Core\Extension\ModuleHandlerInterface  */
+    /** @var ModuleHandlerInterface  */
     protected $moduleHandler;
 
     /**
      * DebugCommand constructor.
-     * @param $moduleHandler
+     * @param ModuleHandlerInterface $moduleHandler
      */
-    public function __construct($moduleHandler) {
+    public function __construct(ModuleHandlerInterface $moduleHandler) {
         $this->moduleHandler = $moduleHandler;
         parent::__construct();
     }

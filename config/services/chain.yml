@@ -6,5 +6,6 @@ services:
       - { name: console.command }
   chain_debug:
     class: Drupal\Console\Command\Chain\ChainDebugCommand
+    arguments: ['@console.configuration_manager', '@app.root', '@console.extension_manager']
     tags:
       - { name: console.command }

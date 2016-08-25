@@ -22,6 +22,18 @@ class ChainDebugCommand extends Command
 {
     use CommandTrait;
     use ChainFilesTrait;
+
+    /** @var Manager  */
+    protected $configurationManager;
+
+    /**
+     * ChainDebugCommand constructor.
+     * @param $configurationManager
+     */
+    public function __construct(Manager $configurationManager) {
+        $this->configurationManager = $configurationManager;
+        parent::__construct();
+    }
     /**
      * {@inheritdoc}
      */
