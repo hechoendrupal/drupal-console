@@ -36,10 +36,10 @@ class EditCommand extends Command
     protected $configurationManager;
 
     /**
-     * ChainCommand constructor.
+     * EditCommand constructor.
      * @param ConfigFactory $configFactory
-     * @param CachedStorage $configFactory
-     * @param ConfigurationManager $configFactory
+     * @param CachedStorage $configStorage
+     * @param ConfigurationManager $configurationManager
      */
     public function __construct(ConfigFactory $configFactory , CachedStorage $configStorage, ConfigurationManager $configurationManager ) {
         $this->configFactory = $configFactory;

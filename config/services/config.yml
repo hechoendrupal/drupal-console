@@ -49,10 +49,11 @@ services:
     arguments: ['@config.storage', '@config.manager']
     tags:
       - { name: console.command }
-#  config_override:
-#    class: Drupal\Console\Command\Config\OverrideCommand
-#    tags:
-#      - { name: console.command }
+  config_override:
+    class: Drupal\Console\Command\Config\OverrideCommand
+    arguments: ['@config.storage', '@config.factory']
+    tags:
+      - { name: console.command }
 #  config_settings_debug:
 #    class: Drupal\Console\Command\Config\SettingsDebugCommand
 #    tags:

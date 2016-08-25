@@ -33,7 +33,7 @@ class DeleteCommand extends Command
     protected $configStorageSync;
 
     /**
-     * ChainCommand constructor.
+     * DeleteCommand constructor.
      * @param ConfigFactory $configFactory
      * @param CachedStorage $configStorage
      * @param FileStorage $configStorageSync

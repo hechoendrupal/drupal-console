@@ -11,12 +11,31 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Core\Config\CachedStorage;
+use Drupal\Core\Config\ConfigFactory;
+use Drupal\Console\Command\Shared\CommandTrait;;
 use Drupal\Console\Style\DrupalStyle;
 
 class OverrideCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /** @var CachedStorage  */
+    protected $configStorage;
+
+    /** @var ConfigFactory  */
+    protected $configFactory;
+
+    /**
+     * ImportSingleCommand constructor.
+     * @param CachedStorage $configStorage
+     * @param ConfigFactory $configFactory
+     */
+    public function __construct(CachedStorage $configStorage, ConfigFactory $configFactory ) {
+        $this->configStorage = $configStorage;
+        $this->configFactory = $configFactory;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -39,8 +58,7 @@ class OverrideCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
         $name = $input->getArgument('name');
-        $configFactory = $this->getDrupalService('config.factory');
-        $names = $configFactory->listAll();
+        $names = $this->configFactory->listAll();
         if ($name) {
             if (!in_array($name, $names)) {
                 $io->warning(
@@ -61,9 +79,8 @@ class OverrideCommand extends Command
         }
         $key = $input->getArgument('key');
         if (!$key) {
-            $configStorage = $this->getDrupalService('config.storage');
-            if ($configStorage->exists($name)) {
-                $configuration = $configStorage->read($name);
+            if ($this->configStorage->exists($name)) {
+                $configuration = $this->configStorage->read($name);
             }
             $key = $io->choiceNoList(
                 $this->trans('commands.config.override.questions.key'),
@@ -90,7 +107,7 @@ class OverrideCommand extends Command
         $key = $input->getArgument('key');
         $value = $input->getArgument('value');
 
-        $config = $this->getDrupalService('config.factory')->getEditable($configName);
+        $config = $this->configFactory->getEditable($configName);
 
         $configurationOverrideResult = $this->overrideConfiguration($config, $key, $value);
 

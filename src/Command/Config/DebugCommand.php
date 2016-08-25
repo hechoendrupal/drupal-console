@@ -28,7 +28,7 @@ class DebugCommand extends Command
     protected $configStorage;
 
     /**
-     * ChainCommand constructor.
+     * DebugCommand constructor.
      * @param ConfigFactory $configFactory
      * @param CachedStorage $configStorage
      */

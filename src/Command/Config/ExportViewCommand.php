@@ -42,6 +42,7 @@ class ExportViewCommand extends Command
      * ExportViewCommand constructor.
      * @param EntityTypeManager $entityTypeManager
      * @param CachedStorage $configStorage
+     * @param Manager $extensionManager
      */
     public function __construct(EntityTypeManager $entityTypeManager, CachedStorage $configStorage, Manager $extensionManager) {
         $this->entityTypeManager = $entityTypeManager;
