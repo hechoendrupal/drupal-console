@@ -15,13 +15,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Entity\EntityTypeManager;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ExportTrait;
 
 class ExportContentTypeCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use ModuleTrait;
     use ExportTrait;
 

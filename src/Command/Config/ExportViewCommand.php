@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Config\CachedStorage;
@@ -22,7 +22,7 @@ use Drupal\Console\Extension\Manager;
 
 class ExportViewCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use ModuleTrait;
     use ExportTrait;
 

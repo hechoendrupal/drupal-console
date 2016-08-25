@@ -27,7 +27,7 @@ class OverrideCommand extends Command
     protected $configFactory;
 
     /**
-     * ImportSingleCommand constructor.
+     * OverrideCommand constructor.
      * @param CachedStorage $configStorage
      * @param ConfigFactory $configFactory
      */
