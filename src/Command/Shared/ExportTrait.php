@@ -77,13 +77,15 @@ trait ExportTrait
 
         $io->info($message);
 
+        $module = $this->extensionManager->getModule($module);
+
         foreach ($this->configExport as $fileName => $config) {
             $yamlConfig = $dumper->dump($config['data'], 10);
 
             if ($config['optional']) {
-                $configDirectory = $this->getApplication()->getSite()->getModuleConfigOptionalDirectory($module, false);
+                $configDirectory = $module->getConfigOptionalDirectory(false);
             } else {
-                $configDirectory = $this->getApplication()->getSite()->getModuleConfigInstallDirectory($module, false);
+                $configDirectory = $module->getConfigInstallDirectory(false);
             }
 
             $configFile = sprintf(
