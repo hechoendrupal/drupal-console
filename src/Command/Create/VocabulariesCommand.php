@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Utils\Create\VocabularyData;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -22,13 +23,17 @@ class VocabulariesCommand extends Command
 {
     use CommandTrait;
 
+    /**
+     * @var VocabularyData
+     */
     protected $vocabularyData;
 
     /**
      * UsersCommand constructor.
      * @param $vocabularyData
      */
-    public function __construct($vocabularyData) {
+    public function __construct(VocabularyData $vocabularyData)
+    {
         $this->vocabularyData = $vocabularyData;
         parent::__construct();
     }
@@ -120,6 +125,6 @@ class VocabulariesCommand extends Command
             );
         }
 
-        return;
+        return 0;
     }
 }

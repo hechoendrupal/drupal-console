@@ -11,6 +11,8 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
+use Drupal\Core\Lock\LockBackendInterface;
+use Drupal\Console\Utils\ChainQueue;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -18,26 +20,33 @@ class ReleaseCommand extends Command
 {
     use CommandTrait;
 
-    /** @var \Drupal\Core\Lock\LockBackendInterface  */
+    /**
+     * @var LockBackendInterface
+     */
     protected $lock;
 
-    /** @var  \Drupal\Console\Utils\ChainQueue */
+    /**
+     * @var ChainQueue
+     */
     protected $chainQueue;
 
     /**
      * ReleaseCommand constructor.
-     * @param \Drupal\Core\Lock\LockBackendInterface    $lock
-     * @param \Drupal\Console\Utils\ChainQueue          $chainQueue
+     * @param LockBackendInterface $lock
+     * @param ChainQueue           $chainQueue
      */
     public function __construct(
-        \Drupal\Core\Lock\LockBackendInterface $lock,
-        \Drupal\Console\Utils\ChainQueue $chainQueue
+        LockBackendInterface $lock,
+        ChainQueue $chainQueue
     ) {
         $this->lock = $lock;
         $this->chainQueue = $chainQueue;
         parent::__construct();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -45,6 +54,9 @@ class ReleaseCommand extends Command
             ->setDescription($this->trans('commands.cron.release.description'));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
@@ -60,6 +72,7 @@ class ReleaseCommand extends Command
         }
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
+
         return 0;
     }
 }

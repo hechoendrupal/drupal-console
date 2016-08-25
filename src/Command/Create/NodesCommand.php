@@ -14,6 +14,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\CreateTrait;
+use Drupal\Console\Utils\Create\NodeData;
+use Drupal\Console\Utils\DrupalApi;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -25,15 +27,24 @@ class NodesCommand extends Command
     use CreateTrait;
     use CommandTrait;
 
+    /**
+     * @var DrupalApi
+     */
     protected $drupalApi;
+    /**
+     * @var NodeData
+     */
     protected $createNodeData;
 
     /**
      * NodesCommand constructor.
-     * @param $drupalApi
-     * @param $createNodeData
+     * @param DrupalApi $drupalApi
+     * @param NodeData  $createNodeData
      */
-    public function __construct($drupalApi, $createNodeData) {
+    public function __construct(
+        DrupalApi $drupalApi,
+        NodeData $createNodeData
+    ) {
         $this->drupalApi = $drupalApi;
         $this->createNodeData = $createNodeData;
         parent::__construct();
