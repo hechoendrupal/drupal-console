@@ -70,6 +70,11 @@ class ExportSingleCommand extends Command
                 '',
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.config.export.single.options.optional-config')
+            )->addOption(
+                'include-uuid',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.config.export.single.options.uuid')
             );
     }
 
@@ -197,9 +202,13 @@ class ExportSingleCommand extends Command
         $module = $input->getOption('module');
         $configName = $input->getArgument('config-name');
         $optionalConfig = $input->getOption('optional-config');
+        $uuid = $input->getOption('uuid');
 
-        $config = $this->getConfiguration($configName);
-
+        if ($uuid) {
+            $config = $this->getConfiguration($configName, TRUE);
+        } else {
+            $config = $this->getConfiguration($configName, FALSE);
+        }
         if ($config) {
             if (!$directory) {
                 $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
