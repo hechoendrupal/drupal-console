@@ -35,7 +35,7 @@ class DiffCommand extends Command
      */
     public function __construct(CachedStorage $configStorage, ConfigurationManager $configurationManager ) {
         $this->configStorage = $configStorage;
-        $this->$configurationManager = $configurationManager;
+        $this->configurationManager = $configurationManager;
         parent::__construct();
     }
 
