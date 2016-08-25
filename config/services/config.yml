@@ -11,7 +11,7 @@ services:
       - { name: console.command }
   config_diff:
     class: Drupal\Console\Command\Config\DiffCommand
-    arguments: ['@config.storage', '@config.manager']
+    arguments: ['@config.storage', '@console.configuration_manager']
     tags:
       - { name: console.command }
   config_edit:
