@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Shared;
 
+use Drupal\Console\Utils\ExtensionManager;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -23,30 +24,34 @@ trait ChainFilesTrait
             $this->appRoot . DIRECTORY_SEPARATOR . '.console'. DIRECTORY_SEPARATOR .'chain',
         ];
 
-        if ($this->get('site')->isInstalled()) {
-            $modules = $this->getApplication()->getSite()->getModules(false, true, false, false, true);
-            $themes = $this->getApplication()->getSite()->getThemes(false, true, false);
+        $modules = $this->extensionManager->discoverModules()
+            ->showInstalled()
+            ->showNoCore()
+            ->getList(true);
 
-            foreach ($modules as $module) {
-                $modulePath = sprintf(
-                    '%s/%s/console/chain/',
-                    $this->appRoot,
-                    $module->getPath()
-                );
+        $themes = $this->extensionManager->discoverThemes()
+            ->showInstalled()
+            ->getList(true);
 
-                if (is_dir($modulePath)) {
-                    $directories[] = $modulePath;
-                }
+        foreach ($modules as $module) {
+            $modulePath = sprintf(
+                '%s/%s/console/chain/',
+                $this->appRoot,
+                $module->getPath()
+            );
+
+            if (is_dir($modulePath)) {
+                $directories[] = $modulePath;
             }
-            foreach ($themes as $theme) {
-                $themePath = sprintf(
-                    '%s/%s/console/chain',
-                    $this->appRoot,
-                    $theme->getPath()
-                );
-                if (is_dir($themePath)) {
-                    $directories[] = $themePath;
-                }
+        }
+        foreach ($themes as $theme) {
+            $themePath = sprintf(
+                '%s/%s/console/chain',
+                $this->appRoot,
+                $theme->getPath()
+            );
+            if (is_dir($themePath)) {
+                $directories[] = $themePath;
             }
         }
 

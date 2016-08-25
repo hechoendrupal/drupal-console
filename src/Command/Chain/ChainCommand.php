@@ -15,6 +15,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Parser;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\ConfigurationManager;
+use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Utils\File;
 use Drupal\Console\Command\Shared\ChainFilesTrait;
 use Drupal\Console\Command\Shared\InputTrait;
 use Drupal\Console\Style\DrupalStyle;
@@ -31,11 +35,19 @@ class ChainCommand extends Command
     use ChainFilesTrait;
     use InputTrait;
 
-
+    /** @var File  */
     protected $fileUtil;
+
+    /** @var ChainQueue  */
     protected $chainQueue;
+
+    /** @var ConfigurationManager  */
     protected $configurationManager;
+
     protected $appRoot;
+
+    /** @var Manager  */
+    protected $extensionManager;
 
     /**
      * ChainCommand constructor.
@@ -44,11 +56,12 @@ class ChainCommand extends Command
      * @param $configurationManager
      * @param $appRoot
      */
-    public function __construct($fileUtil, $chainQueue, $configurationManager, $appRoot) {
+    public function __construct(File $fileUtil, ChainQueue $chainQueue, ConfigurationManager $configurationManager, $appRoot, Manager $extensionManager) {
         $this->fileUtil = $fileUtil;
         $this->chainQueue = $chainQueue;
         $this->configurationManager = $configurationManager;
         $this->appRoot = $appRoot;
+        $this->extensionManager = $extensionManager;
         parent::__construct();
     }
 
