@@ -24,7 +24,7 @@ use Drupal\Core\Config\StorageComparer;
 
 class ImportCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
 
     /** @var CachedStorage  */
     protected $configStorage;
