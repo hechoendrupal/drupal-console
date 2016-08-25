@@ -6,8 +6,8 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Console\Utils\Bootstrap\DrupalConsoleCore;
 
-class Drupal {
-
+class Drupal
+{
     protected $autoload;
     protected $consoleRoot;
     protected $siteRoot;
@@ -18,13 +18,15 @@ class Drupal {
      * @param $consoleRoot
      * @param $siteRoot
      */
-    public function __construct($autoload, $consoleRoot, $siteRoot) {
+    public function __construct($autoload, $consoleRoot, $siteRoot)
+    {
         $this->autoload = $autoload;
         $this->consoleRoot = $consoleRoot;
         $this->siteRoot = $siteRoot;
     }
 
-    public function boot() {
+    public function boot()
+    {
         $request = Request::createFromGlobals();
 
         try {
@@ -32,12 +34,11 @@ class Drupal {
                 $request,
                 $this->autoload,
                 'prod',
-                FALSE
+                false
             );
-        }
-        catch (\Exception $e) {
-                $drupal = new DrupalConsoleCore($this->siteRoot);
-                return $drupal->boot();
+        } catch (\Exception $e) {
+            $drupal = new DrupalConsoleCore($this->siteRoot);
+            return $drupal->boot();
         }
 
         $drupalKernel->addServiceModifier(
