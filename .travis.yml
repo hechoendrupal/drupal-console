@@ -45,4 +45,3 @@ notifications:
       - https://webhooks.gitter.im/e/637685414a0d0ef9d4c6
     on_success: change
     on_failure: always
-
