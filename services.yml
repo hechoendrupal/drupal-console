@@ -10,10 +10,6 @@ services:
 #  console.command_dependencies:
 #    class: Drupal\Console\Command\CommandDependencies
 #    arguments: ["@console.annotation_file_cache"]
-  console.site:
-    class: Drupal\Console\Utils\Site
-  console.file_util:
-    class: Drupal\Console\Utils\File
   console.validator:
     class: Drupal\Console\Utils\Validator
   console.drupal_api:
@@ -35,5 +31,5 @@ services:
     class: Drupal\Console\Utils\Create\VocabularyData
     arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter']
   console.extension_manager:
-    class: Drupal\Console\Utils\ExtensionManager
+    class: Drupal\Console\Extension\Manager
     arguments: ['@console.drupal_api', '@app.root']

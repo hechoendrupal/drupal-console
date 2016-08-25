@@ -11,15 +11,48 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Extension\ThemeHandlerInterface;
+use Drupal\Core\Asset\LibraryDiscoveryInterface;
 use Drupal\Component\Serialization\Yaml;
-use Drupal\Console\Helper\HelperTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Style\DrupalStyle;
 
 class DebugCommand extends Command
 {
-    use HelperTrait;
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /** @var  ModuleHandlerInterface */
+    protected $moduleHandler;
+
+    /** @var  ThemeHandlerInterface; */
+    protected $themeHandler;
+
+    /** @var  LibraryDiscoveryInterface */
+    protected $libraryDiscovery;
+
+    /** @var string */
+    protected $appRoot;
+
+    /**
+     * DebugCommand constructor.
+     * @param ModuleHandlerInterface    $moduleHandler
+     * @param ThemeHandlerInterface     $themeHandler
+     * @param LibraryDiscoveryInterface $libraryDiscovery
+     * @param string                    $appRoot
+     */
+    public function __construct(
+        ModuleHandlerInterface $moduleHandler,
+        ThemeHandlerInterface $themeHandler,
+        LibraryDiscoveryInterface $libraryDiscovery,
+        $appRoot
+    ) {
+        $this->moduleHandler = $moduleHandler;
+        $this->themeHandler = $themeHandler;
+        $this->libraryDiscovery = $libraryDiscovery;
+        $this->appRoot = $appRoot;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -42,8 +75,8 @@ class DebugCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-
         $group = $input->getArgument('group');
+
         if (!$group) {
             $groups = $this->getAllLibraries();
 
@@ -53,7 +86,8 @@ class DebugCommand extends Command
 
             $io->table($tableHeader, $groups, 'compact');
         } else {
-            $librariesData = $this->getLibraryByName($group);
+            $librariesData = $this->libraryDiscovery
+                ->getLibrariesByExtension($group);
 
             foreach ($librariesData as $key => $libraries) {
                 $io->comment($key);
@@ -64,31 +98,18 @@ class DebugCommand extends Command
 
     private function getAllLibraries()
     {
-        $modules = $this->getDrupalService('module_handler')->getModuleList();
-        $themes = $this->getDrupalService('theme_handler')->rebuildThemeData();
-
+        $modules = $this->moduleHandler->getModuleList();
+        $themes = $this->themeHandler->rebuildThemeData();
         $extensions = array_merge($modules, $themes);
-        $libraryDiscovery = $this->getDrupalService('library.discovery');
-        $drupal = $this->get('site');
-        ;
-        $root = $drupal->getRoot();
-        foreach ($extensions as $extension_name => $extension) {
-            $library_file = $extension->getPath() . '/' . $extension_name . '.libraries.yml';
-            if (is_file($root . '/' . $library_file)) {
-                $libraries[$extension_name] = $libraryDiscovery->getLibrariesByExtension($extension_name);
+        $libraries = [];
+
+        foreach ($extensions as $extensionName => $extension) {
+            $libraryFile = $extension->getPath() . '/' . $extensionName . '.libraries.yml';
+            if (is_file($this->appRoot . '/' . $libraryFile)) {
+                $libraries[$extensionName] = $this->libraryDiscovery->getLibrariesByExtension($extensionName);
             }
         }
-        $extensionLibraries = array_keys($libraries);
-        return $extensionLibraries;
-    }
 
-    /**
-     * @param $group    String
-     */
-    private function getLibraryByName($group)
-    {
-        $libraryDiscovery = $this->getDrupalService('library.discovery');
-        $library = $libraryDiscovery->getLibrariesByExtension($group);
-        return  $library;
+        return array_keys($libraries);
     }
 }

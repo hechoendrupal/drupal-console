@@ -2,14 +2,14 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Utils\DrupalExtensionDiscovery.
+ * Contains \Drupal\Console\Extension\Discovery.
  */
 
-namespace Drupal\Console\Utils;
+namespace Drupal\Console\Extension;
 
 use Drupal\Core\Extension\ExtensionDiscovery;
 
-class DrupalExtensionDiscovery extends ExtensionDiscovery
+class Discovery extends ExtensionDiscovery
 {
     /**
      * Reset internal static cache.

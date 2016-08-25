@@ -15,11 +15,13 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Parser;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\ConfigurationManager;
+use Drupal\Console\Utils\ChainQueue;
 use Drupal\Console\Command\Shared\ChainFilesTrait;
 use Drupal\Console\Command\Shared\InputTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\CommandTrait;
-
 
 /**
  * Class ChainCommand
@@ -31,24 +33,43 @@ class ChainCommand extends Command
     use ChainFilesTrait;
     use InputTrait;
 
-
-    protected $fileUtil;
+    /**
+     * @var ChainQueue
+     */
     protected $chainQueue;
+
+    /**
+     * @var ConfigurationManager
+     */
     protected $configurationManager;
+
+    /**
+     * @var string
+     */
     protected $appRoot;
 
     /**
-     * ChainCommand constructor.
-     * @param $fileUtil
-     * @param $chainQueue
-     * @param $configurationManager
-     * @param $appRoot
+     * @var Manager
      */
-    public function __construct($fileUtil, $chainQueue, $configurationManager, $appRoot) {
-        $this->fileUtil = $fileUtil;
+    protected $extensionManager;
+
+    /**
+     * ChainCommand constructor.
+     * @param ChainQueue           $chainQueue
+     * @param ConfigurationManager $configurationManager
+     * @param string               $appRoot
+     * @param Manager              $extensionManager
+     */
+    public function __construct(
+        ChainQueue $chainQueue,
+        ConfigurationManager $configurationManager,
+        $appRoot,
+        Manager $extensionManager
+    ) {
         $this->chainQueue = $chainQueue;
         $this->configurationManager = $configurationManager;
         $this->appRoot = $appRoot;
+        $this->extensionManager = $extensionManager;
         parent::__construct();
     }
 
@@ -91,7 +112,7 @@ class ChainCommand extends Command
             );
         }
 
-        $file = $this->fileUtil->calculateRealPath($file);
+        $file = calculateRealPath($file);
         $input->setOption('file', $file);
 
         $chainContent = file_get_contents($file);
@@ -145,7 +166,7 @@ class ChainCommand extends Command
 
         $fileSystem = new Filesystem();
 
-        $file = $this->fileUtil->calculateRealPath($file);
+        $file = calculateRealPath($file);
 
         if (!$fileSystem->exists($file)) {
             $io->error(
@@ -283,11 +304,13 @@ class ChainCommand extends Command
             }
 
             $this->chainQueue->addCommand(
-                    $command['command'],
-                    $moduleInputs,
-                    $interactive,
-                    $learning
-                );
+                $command['command'],
+                $moduleInputs,
+                $interactive,
+                $learning
+            );
         }
+
+        return 0;
     }
 }

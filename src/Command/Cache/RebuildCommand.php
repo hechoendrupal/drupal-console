@@ -10,8 +10,10 @@ namespace Drupal\Console\Command\Cache;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Utils\DrupalApi;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -20,25 +22,35 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class RebuildCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
 
+    /**
+      * @var DrupalApi
+      */
     protected $drupalApi;
+
     protected $classLoader;
+    /**
+     * @var RequestStack
+     */
     protected $requestStack;
 
     /**
      * RebuildCommand constructor.
-     * @param $drupalApi
+     * @param DrupalApi    $drupalApi
      * @param $classLoader
-     * @param $requestStack
+     * @param RequestStack $requestStack
      */
-    public function __construct($drupalApi, $classLoader, $requestStack) {
+    public function __construct(
+        DrupalApi $drupalApi,
+        $classLoader,
+        RequestStack $requestStack
+    ) {
         $this->drupalApi = $drupalApi;
         $this->classLoader = $classLoader;
         $this->requestStack = $requestStack;
         parent::__construct();
     }
-
 
     /**
      * {@inheritdoc}
