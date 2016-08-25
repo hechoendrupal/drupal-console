@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c9954cb81ab6eaabe8de23d94ba0cb76",
-    "content-hash": "c8b02afc57dbe57b3e2c13694285a702",
+    "hash": "14a563d9dc0833c2f0fe81996e05894d",
+    "content-hash": "222010662aaa40171f1421c3eba18f69",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -531,12 +531,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hechoendrupal/drupal-console-core.git",
-                "reference": "975e8a251d33fa3883528876c1d98826b1b582ab"
+                "reference": "6da968165a1a2221a9ed14f0193f0532076fc62a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-core/zipball/975e8a251d33fa3883528876c1d98826b1b582ab",
-                "reference": "975e8a251d33fa3883528876c1d98826b1b582ab",
+                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-core/zipball/6da968165a1a2221a9ed14f0193f0532076fc62a",
+                "reference": "6da968165a1a2221a9ed14f0193f0532076fc62a",
                 "shasum": ""
             },
             "require": {
@@ -555,7 +555,8 @@
             "type": "project",
             "autoload": {
                 "files": [
-                    "src/constants.php"
+                    "src/constants.php",
+                    "src/functions.php"
                 ],
                 "psr-4": {
                     "Drupal\\Console\\": "src"
@@ -598,7 +599,7 @@
                 "drupal",
                 "symfony"
             ],
-            "time": "2016-08-16 16:57:47"
+            "time": "2016-08-25 07:20:47"
         },
         {
             "name": "drupal/console-en",

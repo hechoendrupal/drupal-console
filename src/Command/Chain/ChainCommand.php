@@ -18,7 +18,6 @@ use Symfony\Component\Yaml\Parser;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\ConfigurationManager;
 use Drupal\Console\Utils\ChainQueue;
-use Drupal\Console\Utils\File;
 use Drupal\Console\Command\Shared\ChainFilesTrait;
 use Drupal\Console\Command\Shared\InputTrait;
 use Drupal\Console\Style\DrupalStyle;
@@ -33,11 +32,6 @@ class ChainCommand extends Command
     use CommandTrait;
     use ChainFilesTrait;
     use InputTrait;
-
-    /**
-     * @var File
-     */
-    protected $fileUtil;
 
     /**
      * @var ChainQueue
@@ -61,20 +55,17 @@ class ChainCommand extends Command
 
     /**
      * ChainCommand constructor.
-     * @param File                 $fileUtil
      * @param ChainQueue           $chainQueue
      * @param ConfigurationManager $configurationManager
      * @param string               $appRoot
      * @param Manager              $extensionManager
      */
     public function __construct(
-        File $fileUtil,
         ChainQueue $chainQueue,
         ConfigurationManager $configurationManager,
         $appRoot,
         Manager $extensionManager
     ) {
-        $this->fileUtil = $fileUtil;
         $this->chainQueue = $chainQueue;
         $this->configurationManager = $configurationManager;
         $this->appRoot = $appRoot;
@@ -121,7 +112,7 @@ class ChainCommand extends Command
             );
         }
 
-        $file = $this->fileUtil->calculateRealPath($file);
+        $file = calculateRealPath($file);
         $input->setOption('file', $file);
 
         $chainContent = file_get_contents($file);
@@ -175,7 +166,7 @@ class ChainCommand extends Command
 
         $fileSystem = new Filesystem();
 
-        $file = $this->fileUtil->calculateRealPath($file);
+        $file = calculateRealPath($file);
 
         if (!$fileSystem->exists($file)) {
             $io->error(
