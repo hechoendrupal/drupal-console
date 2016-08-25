@@ -606,12 +606,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hechoendrupal/drupal-console-en.git",
-                "reference": "f4ee38e892bd58d0c0fc96a23c038735c0a780e3"
+                "reference": "df8f0be6b3bea00506731a367939886ff9116263"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-en/zipball/f4ee38e892bd58d0c0fc96a23c038735c0a780e3",
-                "reference": "f4ee38e892bd58d0c0fc96a23c038735c0a780e3",
+                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-en/zipball/df8f0be6b3bea00506731a367939886ff9116263",
+                "reference": "df8f0be6b3bea00506731a367939886ff9116263",
                 "shasum": ""
             },
             "type": "drupal-console-language",
@@ -652,7 +652,7 @@
                 "drupal",
                 "symfony"
             ],
-            "time": "2016-08-13 20:10:29"
+            "time": "2016-08-25 05:41:51"
         },
         {
             "name": "gabordemooij/redbean",

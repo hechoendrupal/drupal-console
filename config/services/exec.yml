@@ -1,5 +1,6 @@
-#services:
-#  exec:
-#    class: Drupal\Console\Command\Exec\ExecCommand
-#    tags:
-#      - { name: console.command }
+services:
+  exec:
+    class: Drupal\Console\Command\Exec\ExecCommand
+    arguments: ['@console.shell_process']
+    tags:
+      - { name: console.command }

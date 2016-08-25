@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Utils\ShellProcess;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -21,6 +22,21 @@ use Drupal\Console\Style\DrupalStyle;
 class ExecCommand extends Command
 {
     use CommandTrait;
+
+    /**
+     * @var ShellProcess
+     */
+    protected $shellProcess;
+
+    /**
+     * ExecCommand constructor.
+     * @param ShellProcess $shellProcess
+     */
+    public function __construct(ShellProcess $shellProcess)
+    {
+        $this->shellProcess = $shellProcess;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -49,24 +65,29 @@ class ExecCommand extends Command
             $io->error(
                 $this->trans('commands.exec.messages.missing-bin')
             );
+
             return 1;
         }
 
-        $shellProcess = $this->get('shell_process');
-        if ($shellProcess->exec($bin, true)) {
-            $io->success(
-                sprintf(
-                    $this->trans('commands.exec.messages.success'),
-                    $bin
-                )
-            );
-        } else {
+        if (!$this->shellProcess->exec($bin)) {
             $io->error(
                 sprintf(
                     $this->trans('commands.exec.messages.invalid-bin')
                 )
             );
+
+            $io->writeln($this->shellProcess->getOutput());
+
             return 1;
         }
+
+        $io->success(
+            sprintf(
+                $this->trans('commands.exec.messages.success'),
+                $bin
+            )
+        );
+
+        return 0;
     }
 }
