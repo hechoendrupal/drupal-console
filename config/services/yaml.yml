@@ -1,7 +1,7 @@
 services:
   yaml_diff:
     class: Drupal\Console\Command\Yaml\DiffCommand
-    arguments: ['@console.nested_array']
+    arguments: ['@console.nested_array_two']
     tags:
       - { name: console.command }
   yaml_get_value:

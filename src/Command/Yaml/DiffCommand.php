@@ -15,23 +15,23 @@ use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Utils\NestedArray;
+use Drupal\Console\Utils\NestedArray2;
 
 class DiffCommand extends Command
 {
     use CommandTrait;
 
     /**
-     * @var NestedArray
+     * @var NestedArray2
      */
     protected $nestedArray;
 
     /**
      * RebuildCommand constructor.
-     * @param NestedArray    $nestedArray
+     * @param NestedArray2    $nestedArray
      */
     public function __construct(
-        NestedArray $nestedArray
+        NestedArray2 $nestedArray
     ) {
         $this->nestedArray = $nestedArray;
         parent::__construct();
