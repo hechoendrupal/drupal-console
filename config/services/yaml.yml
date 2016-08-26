@@ -20,6 +20,7 @@ services:
       - { name: console.command }
   yaml_update_key:
     class: Drupal\Console\Command\Yaml\UpdateKeyCommand
+    arguments: ['@console.nested_array']
     tags:
       - { name: console.command }
   yaml_update_value:
