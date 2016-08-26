@@ -11,14 +11,31 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Core\Password\PhpassHashedPassword;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class PasswordHashCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use ConfirmationTrait;
+
+    /**
+     * @var PhpassHashedPassword
+     */
+    protected $password;
+
+    /**
+     * PasswordHashCommand constructor.
+     * @param PhpassHashedPassword $entityQuery
+     */
+    public function __construct(
+        PhpassHashedPassword $password
+    ) {
+        $this->password = $password;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -40,7 +57,6 @@ class PasswordHashCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         $passwords = $input->getArgument('password');
-        $passHandler = $this->getDrupalService('password');
 
         $tableHeader = [
             $this->trans('commands.user.password.hash.messages.password'),
@@ -51,7 +67,7 @@ class PasswordHashCommand extends Command
         foreach ($passwords as $password) {
             $tableRows[] = [
                 $password,
-                $passHandler->hash($password),
+                $password->hash($password),
             ];
         }
 

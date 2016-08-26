@@ -11,8 +11,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Config\Entity\Query\QueryFactory;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\DrupalApi;
 
 /**
  * Class DeleteCommand
@@ -20,7 +23,39 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class DeleteCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /**
+     * @var EntityTypeManager
+     */
+    protected $entityTypeManager;
+
+    /**
+     * @var QueryFactory
+     */
+    protected $entityQuery;
+
+    /**
+     * @var DrupalApi
+     */
+    protected $drupalApi;
+
+    /**
+     * DeleteCommand constructor.
+     * @param DrupalApi $entityTypeManager
+     * @param QueryFactory $entityQuery
+     * @param DrupalApi $drupalApi
+     */
+    public function __construct(
+        EntityTypeManager $entityTypeManager,
+        QueryFactory $entityQuery,
+        DrupalApi $drupalApi
+    ) {
+        $this->entityTypeManager = $entityTypeManager;
+        $this->entityQuery = $entityQuery;
+        $this->drupalApi = $drupalApi;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -63,7 +98,7 @@ class DeleteCommand extends Command
         $roles = $input->getOption('roles');
 
         if (!$userId && !$roles) {
-            $systemRoles = $this->getApplication()->getDrupalApi()->getRoles(false, false, false);
+            $systemRoles = $this->drupalApi->getRoles(false, false, false);
             $roles = $io->choice(
                 $this->trans('commands.user.delete.questions.roles'),
                 array_values($systemRoles),
@@ -103,7 +138,7 @@ class DeleteCommand extends Command
         }
 
         if ($userId) {
-            $user = $this->getDrupalService('entity_type.manager')
+            $user = $this->entityTypeManager
                 ->getStorage('user')
                 ->load($userId);
 
@@ -136,11 +171,9 @@ class DeleteCommand extends Command
         $roles = $input->getOption('roles');
 
         if ($roles) {
-            $entityManager = $this->getDrupalService('entity_type.manager');
-            $userStorage = $entityManager->getStorage('user');
-            $entityQuery = $this->getDrupalService('entity.query');
+            $userStorage = $this->entityManager->getStorage('user');
 
-            $query = $entityQuery->get('user');
+            $query = $this->entityQuery->get('user');
             $query->condition('roles', is_array($roles)?$roles:[$roles], 'IN');
             $query->condition('uid', 1, '>');
             $results = $query->execute();
