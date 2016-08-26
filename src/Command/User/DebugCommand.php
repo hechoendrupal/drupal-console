@@ -102,9 +102,8 @@ class DebugCommand extends Command
         $mails = $this->splitOption($input->getOption('mail'));
 
         $userStorage = $this->entityTypeManager->getStorage('user');
-        $systemRoles = $this->getApplication()->getDrupalApi()->getRoles();
-
-        //$entityQuery = $this->getDrupalService('entity.query');
+        $systemRoles = $this->drupalApi->getRoles();
+        
         $query = $this->entityQuery->get('user');
         $query->condition('uid', 0, '>');
         $query->sort('uid');
