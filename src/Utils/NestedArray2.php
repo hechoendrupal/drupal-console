@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Utils;
 
-class NestedArray
+class NestedArray2
 {
     /**
      * Based on drupal class Drupal\Component\Utility\NestedArray
