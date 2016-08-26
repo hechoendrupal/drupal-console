@@ -15,6 +15,7 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\DrupalApi;
 
 /**
  * Class DebugCommand
@@ -35,16 +36,24 @@ class DebugCommand extends Command
     protected $entityQuery;
 
     /**
+     * @var DrupalApi
+     */
+    protected $drupalApi;
+
+    /**
      * DebugCommand constructor.
      * @param EntityTypeManager $entityTypeManager
      * @param QueryFactory $entityQuery
+     * @param DrupalApi $drupalApi
      */
     public function __construct(
         EntityTypeManager $entityTypeManager,
-        QueryFactory $entityQuery
+        QueryFactory $entityQuery,
+        DrupalApi $drupalApi
     ) {
         $this->entityTypeManager = $entityTypeManager;
         $this->entityQuery = $entityQuery;
+        $this->drupalApi = $drupalApi;
         parent::__construct();
     }
 
@@ -103,7 +112,7 @@ class DebugCommand extends Command
 
         $userStorage = $this->entityTypeManager->getStorage('user');
         $systemRoles = $this->drupalApi->getRoles();
-        
+
         $query = $this->entityQuery->get('user');
         $query->condition('uid', 0, '>');
         $query->sort('uid');

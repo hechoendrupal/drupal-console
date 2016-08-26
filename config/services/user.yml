@@ -1,7 +1,7 @@
 services:
   user_debug:
     class: Drupal\Console\Command\User\DebugCommand
-    arguments: ['@entity_type.manager','@entity.query']
+    arguments: ['@entity_type.manager','@entity.query', '@console.drupal_api']
     tags:
       - { name: console.command }
   user_delete:
