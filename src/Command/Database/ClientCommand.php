@@ -12,14 +12,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\ConnectTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class ClientCommand extends Command
 {
     use ConnectTrait;
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
 
     /**
      * {@inheritdoc}
@@ -46,7 +46,7 @@ class ClientCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         $database = $input->getArgument('database');
-        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
+        $learning = $input->getOption('learning');
 
         $databaseConnection = $this->resolveConnection($io, $database);
 
@@ -78,5 +78,7 @@ class ClientCommand extends Command
         if (!$process->isSuccessful()) {
             throw new \RuntimeException($process->getErrorOutput());
         }
+
+        return 0;
     }
 }

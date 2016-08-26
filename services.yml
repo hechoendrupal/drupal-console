@@ -1,6 +1,6 @@
 services:
-#  redbean:
-#    class: RedBeanPHP\R
+  console.redbean:
+    class: RedBeanPHP\R
   console.annotation_reader:
     class: Doctrine\Common\Annotations\AnnotationReader
   console.annotation_file_cache:

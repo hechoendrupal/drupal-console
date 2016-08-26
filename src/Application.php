@@ -47,34 +47,84 @@ class Application extends ConsoleApplication
     private function addOptions()
     {
         $this->getDefinition()->addOption(
-            new InputOption('--env', '-e', InputOption::VALUE_OPTIONAL, $this->trans('application.options.env'), $this->env)
+            new InputOption(
+                '--env',
+                '-e',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('application.options.env'), 'prod'
+            )
         );
         $this->getDefinition()->addOption(
-            new InputOption('--root', null, InputOption::VALUE_OPTIONAL, $this->trans('application.options.root'))
+            new InputOption(
+                '--root',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('application.options.root')
+            )
         );
         $this->getDefinition()->addOption(
-            new InputOption('--no-debug', null, InputOption::VALUE_NONE, $this->trans('application.options.no-debug'))
+            new InputOption(
+                '--no-debug',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('application.options.no-debug')
+            )
         );
         $this->getDefinition()->addOption(
-            new InputOption('--learning', null, InputOption::VALUE_NONE, $this->trans('application.options.learning'))
+            new InputOption(
+                '--learning',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('application.options.learning')
+            )
         );
         $this->getDefinition()->addOption(
-            new InputOption('--generate-chain', '-c', InputOption::VALUE_NONE, $this->trans('application.options.generate-chain'))
+            new InputOption(
+                '--generate-chain',
+                '-c',
+                InputOption::VALUE_NONE,
+                $this->trans('application.options.generate-chain')
+            )
         );
         $this->getDefinition()->addOption(
-            new InputOption('--generate-inline', '-i', InputOption::VALUE_NONE, $this->trans('application.options.generate-inline'))
+            new InputOption(
+                '--generate-inline',
+                '-i',
+                InputOption::VALUE_NONE,
+                $this->trans('application.options.generate-inline')
+            )
         );
         $this->getDefinition()->addOption(
-            new InputOption('--generate-doc', '-d', InputOption::VALUE_NONE, $this->trans('application.options.generate-doc'))
+            new InputOption(
+                '--generate-doc',
+                '-d',
+                InputOption::VALUE_NONE,
+                $this->trans('application.options.generate-doc')
+            )
         );
         $this->getDefinition()->addOption(
-            new InputOption('--target', '-t', InputOption::VALUE_OPTIONAL, $this->trans('application.options.target'))
+            new InputOption(
+                '--target',
+                '-t',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('application.options.target')
+            )
         );
         $this->getDefinition()->addOption(
-            new InputOption('--uri', '-l', InputOption::VALUE_REQUIRED, $this->trans('application.options.uri'))
+            new InputOption(
+                '--uri',
+                '-l',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('application.options.uri')
+            )
         );
         $this->getDefinition()->addOption(
-            new InputOption('--yes', '-y', InputOption::VALUE_NONE, $this->trans('application.options.yes'))
+            new InputOption(
+                '--yes',
+                '-y',
+                InputOption::VALUE_NONE,
+                $this->trans('application.options.yes')
+            )
         );
     }
 
