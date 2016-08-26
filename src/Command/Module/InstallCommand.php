@@ -49,17 +49,27 @@ class InstallCommand extends Command
     protected $moduleInstaller;
 
     /**
+      * @var DrupalApi
+      */
+    protected $drupalApi;
+
+    /**
      * InstallCommand constructor.
      * @param ChainQueue $chainQueue
+     * @param ShellProcess $shellProcess
+     * @param ModuleInstaller $moduleInstaller
+     * @param DrupalApi $drupalApi
      */
     public function __construct(
       ChainQueue $chainQueue,
       ShellProcess $shellProcess,
-      ModuleInstaller $moduleInstaller
+      ModuleInstaller $moduleInstaller,
+      DrupalApi $drupalApi
     ) {
         $this->chainQueue = $chainQueue;
         $this->shellProcess = $shellProcess;
         $this->moduleInstaller = $moduleInstaller;
+        $this->drupalApi = $drupalApi;
         parent::__construct();
     }
 
@@ -117,7 +127,7 @@ class InstallCommand extends Command
         $latest = $input->getOption('latest');
         $composer = $input->getOption('composer');
 
-        $this->get('site')->loadLegacyFile('core/includes/bootstrap.inc');
+        $this->drupalApi->loadLegacyFile('core/includes/bootstrap.inc');
 
         // check module's requirements
         $this->moduleRequirement($module);
