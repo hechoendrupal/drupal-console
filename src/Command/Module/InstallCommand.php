@@ -137,25 +137,14 @@ class InstallCommand extends Command
 
             // checking if the directory has a composer.json
 
-            if (file_exists('./composer.lock'))
+            if ( basename( getcwd() ) == "web" || basename( getcwd() ) == "docroot")
+            {
+                $cd = "cd ../; ";
+                $cd_back = "cd ". getcwd();
+            } else
             {
               $cd = "";
               $cd_back = "";
-            }
-            else if
-              //@TODO: would be better? → if (basename(getcwd()) == "web" || basename(getcwd()) == "docroot")
-              (file_exists('../' . getcwd() . '/composer.lock')) {
-                $cd = "cd ../; ";
-                $cd_back = "cd ". getcwd();
-            }
-            else
-            {
-              $io->error(
-                sprintf(
-                'composer.json file not found! Halting.'
-                )
-              );
-              return 0;
             }
 
             foreach ($module as $moduleItem) {
