@@ -11,6 +11,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Serialization\Yaml;
+use Drupal\Core\Config\CachedStorage;
+use Drupal\Core\Config\ConfigFactory;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
@@ -19,14 +21,18 @@ class DebugCommand extends Command
 {
     use CommandTrait;
 
+    /** @var ConfigFactory  */
     protected $configFactory;
+
+    /** @var CachedStorage  */
     protected $configStorage;
 
     /**
-     * ChainCommand constructor.
-     * @param $fileUtil
+     * DebugCommand constructor.
+     * @param ConfigFactory $configFactory
+     * @param CachedStorage $configStorage
      */
-    public function __construct($configFactory, $configStorage) {
+    public function __construct(ConfigFactory $configFactory, CachedStorage $configStorage) {
         $this->configFactory = $configFactory;
         $this->configStorage = $configStorage;
         parent::__construct();

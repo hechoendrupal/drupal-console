@@ -29,23 +29,33 @@ services:
     arguments: ['@entity_type.manager', '@config.storage']
     tags:
       - { name: console.command }
-#  config_export_view:
-#    class: Drupal\Console\Command\Config\ExportViewCommand
-#    tags:
-#      - { name: console.command }
-#  config_import:
-#    class: Drupal\Console\Command\Config\ImportCommand
-#    tags:
-#      - { name: console.command }
-#  config_import_single:
-#    class: Drupal\Console\Command\Config\ImportSingleCommand
-#    tags:
-#      - { name: console.command }
-#  config_override:
-#    class: Drupal\Console\Command\Config\OverrideCommand
-#    tags:
-#      - { name: console.command }
-#  config_settings_debug:
-#    class: Drupal\Console\Command\Config\SettingsDebugCommand
-#    tags:
-#      - { name: console.command }
+  config_export_single:
+    class: Drupal\Console\Command\Config\ExportSingleCommand
+    arguments: ['@entity_type.manager', '@config.storage']
+    tags:
+      - { name: console.command }
+  config_export_view:
+    class: Drupal\Console\Command\Config\ExportViewCommand
+    arguments: ['@entity_type.manager', '@config.storage', '@console.extension_manager']
+    tags:
+      - { name: console.command }
+  config_import:
+    class: Drupal\Console\Command\Config\ImportCommand
+    arguments: ['@config.storage', '@config.manager']
+    tags:
+      - { name: console.command }
+  config_import_single:
+    class: Drupal\Console\Command\Config\ImportSingleCommand
+    arguments: ['@config.storage', '@config.manager']
+    tags:
+      - { name: console.command }
+  config_override:
+    class: Drupal\Console\Command\Config\OverrideCommand
+    arguments: ['@config.storage', '@config.factory']
+    tags:
+      - { name: console.command }
+  config_settings_debug:
+    class: Drupal\Console\Command\Config\SettingsDebugCommand
+    arguments: ['@settings']
+    tags:
+      - { name: console.command }

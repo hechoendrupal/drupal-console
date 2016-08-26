@@ -12,13 +12,29 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Core\Database\Connection;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Core\Logger\RfcLogLevel;
 use Drupal\Console\Style\DrupalStyle;
 
 class LogClearCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /**
+     * @var Connection
+     */
+    protected $database;
+
+    /**
+     * LogClearCommand constructor.
+     * @param Connection $database
+     */
+    public function __construct(Connection $database) {
+        $this->database = $database;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -69,19 +85,18 @@ class LogClearCommand extends Command
         } else {
             $this->clearEvents($io, $eventType, $eventSeverity, $userId);
         }
+
+        return 0;
     }
 
-
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param DrupalStyle $io
      * @param $eventId
      * @return bool
      */
     private function clearEvent(DrupalStyle $io, $eventId)
     {
-        $connection = $this->getDrupalService('database');
-
-        $result = $connection->delete('watchdog')->condition('wid', $eventId)->execute();
+        $result = $this->database->delete('watchdog')->condition('wid', $eventId)->execute();
 
         if (!$result) {
             $io->error(
@@ -105,7 +120,7 @@ class LogClearCommand extends Command
     }
 
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param DrupalStyle $io
      * @param $eventType
      * @param $eventSeverity
      * @param $userId
@@ -113,10 +128,8 @@ class LogClearCommand extends Command
      */
     protected function clearEvents(DrupalStyle $io, $eventType, $eventSeverity, $userId)
     {
-        $connection = $this->getDrupalService('database');
         $severity = RfcLogLevel::getLevels();
-
-        $query = $connection->delete('watchdog');
+        $query = $this->database->delete('watchdog');
 
         if ($eventType) {
             $query->condition('type', $eventType);

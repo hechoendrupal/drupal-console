@@ -10,12 +10,39 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Core\Entity\EntityTypeRepository;
+use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class DeleteCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /**
+     * @var EntityTypeRepository
+     */
+    protected $entityTypeRepository;
+
+    /**
+     * @var EntityTypeManager
+     */
+    protected $entityTypeManager;
+
+    /**
+     * RebuildCommand constructor.
+     * @param EntityTypeRepository $entityTypeRepository
+     * @param EntityTypeManager $entityTypeManager
+     * @param RequestStack $requestStack
+     */
+    public function __construct(
+        EntityTypeRepository $entityTypeRepository,
+        EntityTypeManager $entityTypeManager
+    ) {
+        $this->entityTypeRepository = $entityTypeRepository;
+        $this->entityTypeManager = $entityTypeManager;
+        parent::__construct();
+    }
     /**
      * {@inheritdoc}
      */
@@ -46,8 +73,7 @@ class DeleteCommand extends Command
         $entityID = $input->getArgument('entity-id');
 
         if (!$entityDefinitionID) {
-            $entityTypeRepository = $this->getDrupalService('entity_type.repository');
-            $entityTypes = $entityTypeRepository->getEntityTypeLabels(true);
+            $entityTypes = $this->entityTypeRepository->getEntityTypeLabels(true);
 
             $entityType = $io->choice(
                 $this->trans('commands.entity.delete.questions.entity-type'),
@@ -80,11 +106,8 @@ class DeleteCommand extends Command
         $entityDefinitionID = $input->getArgument('entity-definition-id');
         $entityID = $input->getArgument('entity-id');
 
-        $entityManager = $this->getDrupalService('entity_type.manager');
-
-
         try {
-            $entityManager->getStorage($entityDefinitionID)->load($entityID)->delete();
+            $this->entityTypeManager->getStorage($entityDefinitionID)->load($entityID)->delete();
         } catch (\Exception $e) {
             $io->error($e->getMessage());
 

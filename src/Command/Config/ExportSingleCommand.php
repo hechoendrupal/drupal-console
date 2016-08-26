@@ -13,29 +13,40 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
+use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Config\CachedStorage;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\ExportTrait;
 
 class ExportSingleCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use ExportTrait;
-
-    /**
-     * @var \Drupal\Core\Entity\EntityManager
-     */
-    protected $entityManager;
 
     /**
      * @var []
      */
     protected $definitions;
 
-    /**
-     * @var \Drupal\Core\Config\StorageInterface
-     */
+    /** @var EntityTypeManager  */
+    protected $entityTypeManager;
+
+    /** @var CachedStorage  */
     protected $configStorage;
+
+    protected $configExport;
+
+    /**
+     * ExportSingleCommand constructor.
+     * @param EntityTypeManager $entityTypeManager
+     * @param CachedStorage $configStorage
+     */
+    public function __construct(EntityTypeManager $entityTypeManager, CachedStorage $configStorage) {
+        $this->entityTypeManager = $entityTypeManager;
+        $this->configStorage = $configStorage;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -83,9 +94,7 @@ class ExportSingleCommand extends Command
      */
     protected function getConfigTypes()
     {
-        $this->entityManager = $this->getDrupalService('entity_type.manager');
-
-        foreach ($this->entityManager->getDefinitions() as $entity_type => $definition) {
+        foreach ($this->entityTypeManager->getDefinitions() as $entity_type => $definition) {
             if ($definition->isSubclassOf('Drupal\Core\Config\Entity\ConfigEntityInterface')) {
                 $this->definitions[$entity_type] = $definition;
             }
@@ -98,8 +107,8 @@ class ExportSingleCommand extends Command
 
         uasort($entity_types, 'strnatcasecmp');
         $config_types = array(
-            'system.simple' => $this->trans('commands.config.export.single.options.simple-configuration'),
-          ) + $entity_types;
+                'system.simple' => $this->trans('commands.config.export.single.options.simple-configuration'),
+            ) + $entity_types;
 
         return $config_types;
     }
@@ -109,7 +118,6 @@ class ExportSingleCommand extends Command
      */
     protected function getConfigNames($config_type)
     {
-        $this->configStorage = $this->getDrupalService('config.storage');
 
         // For a given entity type, load all entities.
         if ($config_type && $config_type !== 'system.simple') {
@@ -168,7 +176,7 @@ class ExportSingleCommand extends Command
             );
 
             if ($config_type !== 'system.simple') {
-                $definition = $this->entityManager->getDefinition($config_type);
+                $definition = $this->entityTypeManager->getDefinition($config_type);
                 $config_name = $definition->getConfigPrefix() . '.' . $config_name;
             }
 
@@ -196,7 +204,6 @@ class ExportSingleCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $this->configStorage = $this->getDrupalService('config.storage');
 
         $directory = $input->getOption('directory');
         $module = $input->getOption('module');
