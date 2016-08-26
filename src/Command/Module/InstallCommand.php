@@ -131,8 +131,8 @@ class InstallCommand extends Command
               $cd = "";
               $cd_back = "";
             }
-            elseif{
-              if (file_exists('../' . getcwd() . '/composer.json'))
+            else if
+              (file_exists('../' . getcwd() . '/composer.json')) {
                 $cd = "cd ../; ";
                 $cd_back = "cd ". getcwd();
             }else
