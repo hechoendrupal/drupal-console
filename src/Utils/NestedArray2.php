@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Utils;
 
-class NestedArray2
+class NestedArray
 {
     /**
      * Based on drupal class Drupal\Component\Utility\NestedArray
@@ -223,13 +223,10 @@ class NestedArray2
                     $statistics['total'] += 1;
                 }
             }
-
-            print_r($result);
         }
 
         print "after calculate diff";
-        //print_r($result);
-        print_r($statistics);
+        print_r($result);
         return $result;
     }
 
