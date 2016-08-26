@@ -191,7 +191,6 @@ class NestedArray2
     public function arrayDiff($array1, $array2, $negate = false, &$statistics)
     {
         $result = array();
-        print "before calculate diff";
         foreach ($array1 as $key => $val) {
             if (isset($array2[$key])) {
                 if (is_array($val) && $array2[$key]) {
@@ -224,9 +223,6 @@ class NestedArray2
                 }
             }
         }
-
-        print "after calculate diff";
-        print_r($result);
         return $result;
     }
 
