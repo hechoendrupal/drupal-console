@@ -53,7 +53,7 @@ class DumpCommand extends Command
 
         $database = $input->getArgument('database');
         $file = $input->getOption('file');
-        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
+        $learning = $input->getOption('learning');
 
         $databaseConnection = $this->resolveConnection($io, $database);
 

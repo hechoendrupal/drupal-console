@@ -63,5 +63,7 @@ class ConnectCommand extends Command
                 $connection
             )
         );
+
+        return 0;
     }
 }

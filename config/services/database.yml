@@ -7,10 +7,11 @@ services:
     class: Drupal\Console\Command\Database\ConnectCommand
     tags:
       - { name: console.command }
-#  database_drop:
-#    class: Drupal\Console\Command\Database\DropCommand
-#    tags:
-#      - { name: console.command }
+  database_drop:
+    class: Drupal\Console\Command\Database\DropCommand
+    arguments: ['']
+    tags:
+      - { name: console.command }
 #  database_dump:
 #    class: Drupal\Console\Command\Database\DumpCommand
 #    tags:
