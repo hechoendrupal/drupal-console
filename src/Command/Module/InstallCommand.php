@@ -22,6 +22,7 @@ use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\ChainQueue;
 use Drupal\Console\Utils\ShellProcess;
 use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
+use Drupal\Console\Utils\DrupalApi;
 
 /**
  * Class InstallCommand
