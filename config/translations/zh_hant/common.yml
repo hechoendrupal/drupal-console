@@ -1,5 +1,4 @@
 options:
-<<<<<<< HEAD
     class: '類別名稱'
     events: '載入容器中的事件'
     module: '模組名稱。'
@@ -12,20 +11,6 @@ questions:
     module: '輸入模組名稱'
     confirm: '確定要建立嗎？'
     canceled: '建立命令已被取消。'
-=======
-    class: 'Class name'
-    events: 'Load events from the container'
-    module: 'The Module name.'
-    services: 'Load services from the container.'
-    tags: 'Set service tags from the container.'
-    inputs: 'Create inputs in a form.'
-    permissions: 'Create permissions.'
-questions:
-    class: 'Enter the Class name'
-    module: 'Enter the module name'
-    confirm: 'Do you confirm generation?'
-    canceled: 'Command generation canceled.'
->>>>>>> upstream/master
     events:
         message: "\n輸入事件名稱或使用上下鍵選擇。\n此為選填項目，要 <info>繼續</info> 請按 <info>Enter</info>\n"
         name: '輸入事件名稱'
