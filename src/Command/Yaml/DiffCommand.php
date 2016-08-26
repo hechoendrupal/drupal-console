@@ -185,6 +185,8 @@ class DiffCommand extends Command
             ];
         }
 
+        print_r($tableRows);
+
         $io->table($tableHeader, $tableRows, 'compact');
     }
 
