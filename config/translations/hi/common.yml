@@ -1,4 +1,5 @@
 options:
+    class: 'Class name'
     events: 'घटनाओ को container से लोड करें।'
     module: 'मोड्यूल का नाम।'
     services: 'सर्विसेज़ को container से लोड करें।'
@@ -6,6 +7,7 @@ options:
     inputs: 'एक फॉर्म के लिए आदानो को बनाएँ।'
     permissions: 'अनुमतियों को बनाएँ।'
 questions:
+    class: 'Enter the Class name'
     module: 'मोड्यूल का नाम डालें।'
     confirm: 'क्या आप उत्पन्न की पुष्टि करते हैं।'
     canceled: 'कमाण्ड उत्पन्न रद्द करें।'
@@ -32,8 +34,8 @@ errors:
     module-dependency: 'मॉड्यूल निर्भरता "%s" अनुपस्थित है'
     class-name-empty: 'क्लास का नाम खली नही रह सकता'
     invalid-file-path: 'आप कौ एक वैध फ़ाइल पथ प्रदान करनी चाहिए'
-    module-exist: 'Module "%s" already exist.'
-    machine-name-duplicated: 'Machine name "%s" is duplicated.'
+    module-exist: 'मॉड्यूल "%s" पहले से ही मौजूद हैं।'
+    machine-name-duplicated: 'मशीन नाम "%s" दोहराया गया है।'
 status:
     enabled: सक्षम
     disabled: अक्षम

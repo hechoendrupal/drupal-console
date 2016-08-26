@@ -8,11 +8,13 @@ messages:
     status: स्थिति
     origin: स्रोत
     package: पैकेज
-    enabled: सक्षम
-    disabled: अक्षम
+    installed: Installed
+    uninstalled: Uninstalled
     version: Version
     schema-version: 'स्कीमा संस्करण'
     total-downloads: 'Total installs'
     total-monthly: 'Monthly installs'
     total-daily: 'Daily installs'
-    no-results: 'Module %s was not found in the repository'
+    no-results: 'Module "%s" was not found in the repository'
+    enabled: सक्षम
+    disabled: अक्षम

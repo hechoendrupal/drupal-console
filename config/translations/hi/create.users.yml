@@ -24,4 +24,4 @@ messages:
     roles: रोल्स
     username: यूजरनाम
     created: 'क्रिएटेड समय'
-    created-users: 'क्रिएटेड %s सफलतापूर्वक यूजरस'
+    created-users: 'क्रिएटेड "%s" सफलतापूर्वक यूजरस'

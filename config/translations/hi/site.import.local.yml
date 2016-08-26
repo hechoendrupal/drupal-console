@@ -1,16 +1,16 @@
-description: 'Import/Configure an existing local Drupal project'
-help: 'The <info>site:import:local</info> does create the yaml configuration file for a local existing site.'
+description: 'Import/Configure एक मौजूदा स्थानीय Drupal परियोजना'
+help: '<info>site:import:local</info> एक स्थानीय मौजूदा साइट के लिए yaml फ़ाइल कॉन्फ़िगरेशन पैदा करता है।'
 arguments:
-    directory: 'Existing Drupal root directory'
-    name: 'Name that will be used to generate the site config'
+    directory: 'मौजूदा Drupal रूट निर्देशिका'
+    name: 'नाम है जो कि साइट config उत्पन्न करने के लिए इस्तेमाल किया जाएगा'
 options:
-    environment: 'Name of the environment that is going to be imported'
+    environment: 'एनवायरनमेंट का नाम जो इम्पोर्ट होने जा रहा है'
 messages:
-    imported: 'The site has been imported successfully. You might want to run `drupal site:debug` to confirm that everything went well.'
-    error-missing: 'The directory %s doesn''t exist.'
-    error-not-drupal: 'This is not a valid drupal root: %s'
-    error-writing: 'An error accurred while trying to write the config file: %s'
+    imported: 'साइट सफलतापूर्वक इम्पोर्ट किया गया है। आप पुष्टि करने के लिए `drupal site:debug` चलाये कि सब कुछ अच्छी तरह से चला गया।'
+    error-missing: 'निर्देशिका "%s" मौजूद नहीं है।'
+    error-not-drupal: 'यह एक वैध Drupal रूट नहीं है: "%s"'
+    error-writing: 'config फाइल: "%s" लिखने की कोशिश में एक त्रुटि हुई'
 questions:
-    directory: 'Enter the directory name where to install Drupal'
-    name: 'Enter the name of the site'
-    environment: 'Enter the site environment name'
+    directory: 'निर्देशिका का नाम दर्ज करें जहां Drupal स्थापित करना है'
+    name: 'साइट का नाम दर्ज करें'
+    environment: 'साइट एनवायरनमेंट का नाम दर्ज करें'

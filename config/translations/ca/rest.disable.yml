@@ -5,4 +5,5 @@ arguments:
 questions:
     resource-id: 'Identificador Rest'
 messages:
-    invalid-rest-id: 'l''identificador Rest %s no és vàlid'
+    invalid-rest-id: 'l''identificador Rest "%s" no és vàlid'
+    success: 'Rest ID "%s" disabled'

@@ -32,7 +32,11 @@ messages:
     learning:
         route: "Oldalak létrehozásához meg kell adni útvonalakat ahhoz.\nAz útvonal URL elérési utat képez le egy kontrollerre. Azt határozza meg, hogy milyen függvény\nvagy metódus meghívására kerül sor egy URL elérésekor.\nHa a felhasználó a http://drupal8.dev/{{ route.path }} útvonalat nyitja meg,\nakkor az útvonalkezelő rendszer ilyen elérési úttal rendelkező útvonalat keres. Ebben az esetben egyezést fog találni,\nés végrehajtja a _controller visszahívandó metódust. Ebben az esetben a visszahívás\nosztálynévként\n(\"\\Drupal\\{{ module }}\\Controller\\{{ class_name }}\")\nés metódusként (\"{{ route.method }}\") van megadva."
     autocomplete: "Bash vagy Zsh: Fel kell venni ezt a sort a shell konfigurációs fájljába:\n<info>source \"$HOME/.console/console.rc\" 2>/dev/null</info>\n\nFish: Létre kell hozni egy szimbolikus hivatkozást\n<info>ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish</info>\n"
-    version: '<info>%s</info> version <comment>%s</comment>'
+    version: '<info>"%s"</info> version <comment>"%s"</comment>'
+    disable:
+        command:
+            error: 'Command: "%s" is deprecated.'
+            extra: 'You must execute: "%s" instead'
 errors:
     invalid-command: '"%s" parancs nincs megadva.'
 site:

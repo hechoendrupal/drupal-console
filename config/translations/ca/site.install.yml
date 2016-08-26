@@ -21,5 +21,7 @@ questions:
 messages:
     installing: 'Començant el procés d''instal·lació de Drupal 8'
     installed: 'L''instal·lació de Drupal 8 s''ha completat correctament'
-    using-current-database: 'Utilitzant la base de dades %s amb el nom %s i l''usuari %s'
+    using-current-database: 'Utilitzant la base de dades "%s" amb el nom "%s" i l''usuari "%s"'
     already-installed: 'Drupal ja està instal·lat, prova esborrant la base de dades utilitzant database:drop i despres executa un altre cop site:install'
+    sites-backup: 'The sites.php file has temporarily been renamed to backup.sites.php while Drupal installs.'
+    sites-restore: 'The backup of sites.php has been been restored to sites.php.'

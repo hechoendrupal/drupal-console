@@ -22,7 +22,7 @@ questions:
     core: 'Introduzca la versión del core de Drupal'
     package: 'Introduzca un nombre para el paquete'
     dependencies: 'Le gustaría añadir dependencias al módulo'
-    invalid-theme: 'El tema %s seleccionado es inválido'
+    invalid-theme: 'El tema "%s" seleccionado es inválido'
     global-library: 'Introduzca el nombre de la librería de estilo global'
     regions: 'Desea generar las regiones del tema'
     region-name: 'Introduzca un nombre para la region'

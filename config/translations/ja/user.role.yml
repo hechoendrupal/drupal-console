@@ -7,7 +7,7 @@ arguments:
     user: '対象となるユーザー (1ユーザーのみ)'
 messages:
     bad-arguments: 'いくつかの引数が見つかりませんでした。次の全ての引数を指定してください: [add/remove] [username] [role]'
-    no-user-found: 'ユーザー %s が見つかりませんでした。'
-    no-role-found: '役割 %s が見つかりませんでした。'
+    no-user-found: 'ユーザー "%s" が見つかりませんでした。'
+    no-role-found: '役割 "%s" が見つかりませんでした。'
     add-success: 'ユーザー %1$s に役割 %2$s が追加されました。'
     remove-success: 'ユーザー %1$s から役割 %2$s を削除しました。'

@@ -5,7 +5,7 @@ value:
         yaml-key: 'Indeks YAML yang mau diperbarui'
         yaml-value: 'Nilai YAML yang mau diperbarui'
     messages:
-        updated: 'File YAML %s telah berhasil diperbarui.'
+        updated: 'File YAML "%s" telah berhasil diperbarui.'
 key:
     description: 'Ganti indeks YAML dalam sebuah file YAML.'
     arguments:
@@ -13,4 +13,4 @@ key:
         yaml-key: 'Indeks YAML yang mau diperbarui'
         yaml-new-key: 'Indeks YAML yang baru'
     messages:
-        updated: 'File YAML %s telah berhasil diperbarui.'
+        updated: 'File YAML "%s" telah berhasil diperbarui.'

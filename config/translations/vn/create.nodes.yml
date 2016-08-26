@@ -24,6 +24,6 @@ messages:
     content-type: 'Content type'
     title: Title
     created: 'Created Time'
-    invalid-content-types: 'Content types %s là không hợp lệ'
-    created-nodes: 'Created %s nodes successfully'
-    generated-content: 'Đã tạo %s nodes thành công'
+    invalid-content-types: 'Content types "%s" là không hợp lệ'
+    created-nodes: 'Created "%s" nodes successfully'
+    generated-content: 'Đã tạo "%s" nodes thành công'

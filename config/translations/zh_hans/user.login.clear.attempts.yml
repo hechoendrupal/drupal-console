@@ -7,7 +7,7 @@ questions:
     numeric-uid: 用户ID必须是整数
     invalid-uid: 用户ID必须大于零.
 messages:
-    successful: '用户（ID： %s）的登录尝试数据清空。'
+    successful: '用户（ID： "%s"）的登录尝试数据清空。'
 errors:
-    invalid-user: 没法载入用户ID%s的用户实体。
-    no-flood: 'No flood table on the system.'
+    invalid-user: '没法载入用户ID"%s"的用户实体。'
+    no-flood: '系统中无 flood 数据库表'

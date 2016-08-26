@@ -18,4 +18,4 @@ questions:
     services: common.questions.services
 messages:
     inputs: "\nब्लॉक की विशेष व्यवस्था बनाने के लिए आप निवेश खाने डाल सकते हैं।\nइच्छानुसार <info>जारी</info> रखने के लिए <info>enter</info> कुंजी दबाएँ"
-    invalid-theme-region: '%s रीजन अमान्य है'
+    invalid-theme-region: '"%s" रीजन अमान्य है'

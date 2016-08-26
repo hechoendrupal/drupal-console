@@ -3,7 +3,7 @@ help: 显示网站的当前统计
 messages:
     stat-name: 名字
     stat-quantity: 数量
-    node-type: '节点:%s'
+    node-type: '节点:"%s"'
     comments: 评论
     vocabulary: 词汇
     taxonomy-terms: 分类
@@ -13,4 +13,4 @@ messages:
     modules-disabled: 禁用的模块
     themes-enabled: 启用的主题
     themes-disabled: 禁用的主题
-    views: 'Views (Not system views)'
+    views: '视图 (非系统视图)'

@@ -8,11 +8,13 @@ messages:
     status: Estat
     origin: Origen
     package: Paquet
-    enabled: Habilitat
-    disabled: Deshabilitat
+    installed: Installed
+    uninstalled: Uninstalled
     version: Version
     schema-version: 'Versió de l''esquema'
     total-downloads: 'Total installs'
     total-monthly: 'Monthly installs'
     total-daily: 'Daily installs'
-    no-results: 'Module %s was not found in the repository'
+    no-results: 'Module "%s" was not found in the repository'
+    enabled: Habilitat
+    disabled: Deshabilitat

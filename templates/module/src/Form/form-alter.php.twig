@@ -13,7 +13,6 @@ use Drupal\Core\Form\FormStateInterface;
  */
 function {{ module }}_form_{{ form_id }}_alter(&$form, FormStateInterface $form_state) {
     drupal_set_message('{{ module }}_form_{{ form_id }}_alter() executed.');
-
 {% else %}
 /**
  * Implements hook_form_alter() on behalf of {{ module }}.module.
@@ -25,35 +24,35 @@ function {{ module }}_form_alter(&$form, FormStateInterface $form_state, $form_i
 {% endif %}
 
 {%- if metadata.unset -%}
-   {% for field in metadata.unset %}
-    $form['{{ field }}']['#access'] = FALSE;
-   {% endfor %}
+{% for field in metadata.unset %}
+        $form['{{ field }}']['#access'] = FALSE;
+{% endfor %}
 {% endif %}
 
 {% if inputs %}
 {% for input in inputs %}
-    $form['{{ input.name }}'] = array(
-      '#type' => '{{ input.type }}',
-      '#title' => t('{{ input.label|e }}'),
+        $form['{{ input.name }}'] = [
+            '#type' => '{{ input.type }}',
+            '#title' => t('{{ input.label|e }}'),
     {%- if input.description is defined -%}
-      '#description' => t('{{ input.description|e }}'),
+            '#description' => t('{{ input.description|e }}'),
     {% endif %}
-{%- if input.options is defined and input.options|length -%}
-      '#options' => {{ input.options }},
-{% endif %}
-{%- if input.maxlength|length -%}
-      '#maxlength' => {{ input.maxlength }},
-{% endif %}
-{%- if input.size|length -%}
-      '#size' => {{ input.size }},
-{% endif %}
-{%- if input.default_value is defined and input.default_value|length -%}
-      '#default_value' => '{{ input.default_value }}',
-{% endif %}
-{%- if input.weight is defined and input.weight|length -%}
-      '#weight' => '{{ input.weight }}',
-{% endif %}
-    );
+    {%- if input.options is defined and input.options|length -%}
+            '#options' => {{ input.options }},
+    {% endif %}
+    {%- if input.maxlength|length -%}
+            '#maxlength' => {{ input.maxlength }},
+    {% endif %}
+    {%- if input.size|length -%}
+            '#size' => {{ input.size }},
+    {% endif %}
+    {%- if input.default_value is defined and input.default_value|length -%}
+            '#default_value' => '{{ input.default_value }}',
+    {% endif %}
+    {%- if input.weight is defined and input.weight|length -%}
+            '#weight' => '{{ input.weight }}',
+    {% endif %}
+        ];
 
 {% endfor %}
 {% if form_id == '' %}
@@ -62,5 +61,3 @@ function {{ module }}_form_alter(&$form, FormStateInterface $form_state, $form_i
 {% endif %}
 }
 {% endblock %}
-
-

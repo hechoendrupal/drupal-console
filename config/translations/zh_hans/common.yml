@@ -1,4 +1,5 @@
 options:
+    class: 类名
     events: 从容器中导入事件
     module: 模块名称
     services: 从容器中导入服务
@@ -6,6 +7,7 @@ options:
     inputs: 创建一个输入表单
     permissions: 创建权限
 questions:
+    class: 输入类名
     module: 输入模块名称
     confirm: 确定开始生成吗？
     canceled: 生成命令已取消
@@ -19,7 +21,7 @@ questions:
     inputs:
         confirm: 生成一个表单元素？
         label: 输入标签
-        machine_name: 输入机器名
+        machine_name: 输入机读名称
         permission: 生成权限？
         type: 类型
         invalid: '字段类型 "%s" 无效'
@@ -32,8 +34,8 @@ errors:
     module-dependency: '模块依赖 "%s" 丢失'
     class-name-empty: 类名不能为空
     invalid-file-path: 必须提供一个有效的文件路径
-    module-exist: 'Module "%s" already exist.'
-    machine-name-duplicated: 'Machine name "%s" is duplicated.'
+    module-exist: '模块 "%s" 已经存在'
+    machine-name-duplicated: '机读名称 "%s" 重复'
 status:
     enabled: 启用
     disabled: 禁用

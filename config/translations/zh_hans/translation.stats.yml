@@ -4,10 +4,10 @@ arguments:
 options:
     format: '定义输出格式，table 或 markdown'
 messages:
-    invalid-language: '语言代码 %s 无效'
+    invalid-language: '语言代码 "%s" 无效'
     language: 语言
     percentage: 百分比
-    iso: 'ISO Code'
+    iso: 'ISO 编码'
 tips:
     -
-        tip: 'Pass a language ISO code as argument to restrict the languages list'
+        tip: '传入一个语言的 ISO 编码作为参数限制语言列表'

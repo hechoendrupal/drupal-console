@@ -19,6 +19,6 @@ questions:
     files-directory: 文件目录
 messages:
     not-drupal: '来源数据库不包含可识别的 Drupal 版本'
-    migrations-created: '%s 迁移创建成功 %s.'
+    migrations-created: '"%s" 迁移创建成功 "%s".'
     migrations-not-found: 无可用迁移
     migrations-already-exist: 所有可用迁移已经被创建

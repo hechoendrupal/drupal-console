@@ -7,9 +7,13 @@ options:
     class: 'Имя класса'
     interface: Интерфейс
     services: common.questions.services
+    path: Path
 questions:
     module: common.questions.module
     service-name: 'Введите имя сервиса'
     class: 'Введите имя Класса'
     interface: 'Создать интерфейс'
     services: common.options.services
+    path: 'Enter the path for the services'
+messages:
+    service-already-taken: 'The service name has been already taken in module "%s"'

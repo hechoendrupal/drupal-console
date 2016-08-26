@@ -10,8 +10,8 @@ questions:
     file-already-added: 'Ce fichier est déjà présent dans la fusion'
 messages:
     wrong-parse: 'Le fichier YAML "%s" est vide ou n''existe pas.'
-    error-parsing: 'Une erreur est survenue lors du parcours du fichier YAML %s.'
+    error-parsing: 'Une erreur est survenue lors du parcours du fichier YAML "%s".'
     two-files-required: 'Deux fichiers minimum sont nécessaires.'
     error-generating: 'Une erreur est survenue lors de la génération.'
     error-writing: 'Une erreur est survenue lors de l''écriture du fichier fusionné.'
-    merged: 'Le nouveau fichier %s à été créé correctement après la fusion des fichiers YAML.'
+    merged: 'Le nouveau fichier "%s" à été créé correctement après la fusion des fichiers YAML.'

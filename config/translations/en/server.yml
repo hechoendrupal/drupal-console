@@ -2,7 +2,7 @@ description: 'Runs PHP built-in web server'
 arguments:
   address: The address:port values
 messages:
-  executing: Executing php from %s.
+  executing: Executing php from "%s".
 errors:
   binary: Unable to find PHP binary to run server.
 examples:

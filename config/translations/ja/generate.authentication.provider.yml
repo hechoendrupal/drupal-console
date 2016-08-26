@@ -1,6 +1,6 @@
-description: 'Generate an Authentication Provider'
-help: 'The <info>generate:authentication:provider</info> command helps you generate a new Authentication Provider.'
+description: 認証プロバイダーを生成
+help: '<info>generate:authentication:provider</info> コマンドは新しい認証プロバイダーの生成に役立ちます。'
 options:
-    class: 'Authentication Provider class'
-    provider-id: 'Provider ID'
+    class: 認証プロバイダークラス
+    provider-id: プロバイダーID
 module: common.options.module

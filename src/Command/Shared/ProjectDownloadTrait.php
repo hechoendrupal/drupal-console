@@ -8,7 +8,11 @@
 namespace Drupal\Console\Command\Shared;
 
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Zippy\Adapter\TarGzGNUTarForWindowsAdapter;
+use Drupal\Console\Zippy\FileStrategy\TarGzFileForWindowsStrategy;
 use Alchemy\Zippy\Zippy;
+use Alchemy\Zippy\Adapter\AdapterContainer;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class ProjectDownloadTrait
@@ -187,8 +191,32 @@ trait ProjectDownloadTrait
             }
 
             $zippy = Zippy::load();
+            if (PHP_OS === "WIN32" || PHP_OS === "WINNT") {
+                $container = AdapterContainer::load();
+                $container['Drupal\\Console\\Zippy\\Adapter\\TarGzGNUTarForWindowsAdapter'] = function ($container) {
+                    return TarGzGNUTarForWindowsAdapter::newInstance(
+                        $container['executable-finder'],
+                        $container['resource-manager'],
+                        $container['gnu-tar.inflator'],
+                        $container['gnu-tar.deflator']
+                    );
+                };
+                $zippy->addStrategy(new TarGzFileForWindowsStrategy($container));
+            }
             $archive = $zippy->open($destination);
-            $archive->extract($projectPath);
+            if ($type == 'core') {
+                $archive->extract(getenv('MSYSTEM') ? null : $projectPath);
+            } elseif (getenv('MSYSTEM')) {
+                $current_dir = getcwd();
+                $temp_dir = sys_get_temp_dir();
+                chdir($temp_dir);
+                $archive->extract();
+                $fileSystem = new Filesystem();
+                $fileSystem->rename($temp_dir . '/' . $project, $projectPath . '/' . $project);
+                chdir($current_dir);
+            } else {
+                $archive->extract($projectPath);
+            }
 
             unlink($destination);
 

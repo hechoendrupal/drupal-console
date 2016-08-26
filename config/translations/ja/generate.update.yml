@@ -1,8 +1,8 @@
-description: 'Generate an implementation of hook_update_N()'
-help: 'The <info>"%s"</info> command helps you generate a hook update N "%s"'
+description: 'hook_update_N()の実装を生成'
+help: '<info>"%s"</info> コマンドは hook update N "%s" の生成に役立ちます。'
 options:
-    update-n: 'Update Number'
+    update-n: アップデートナンバー
 questions:
-    update-n: 'Please provide the Update N to be implemeted'
+    update-n: '実装するアップデート N を指定してください'
 messages:
-    wrong-update-n: 'The update number "%s" is invalid'
+    wrong-update-n: 'アップデートナンバー "%s" は正しくありません'

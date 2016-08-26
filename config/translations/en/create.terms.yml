@@ -14,5 +14,5 @@ messages:
     term-id: 'Term Id'
     vocabulary: 'Vocabulary'
     name: 'Name'
-    invalid-vocabularies: 'Vocabulary(s) %s are invalid'
-    created-terms: 'Created %s terms successfully'
+    invalid-vocabularies: 'Vocabulary(s) "%s" are invalid'
+    created-terms: 'Created "%s" terms successfully'

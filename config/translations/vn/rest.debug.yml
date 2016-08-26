@@ -14,4 +14,4 @@ messages:
     rest-state: 'Các trạng thái REST'
     supported-formats: 'Các định dạng hỗ trợ'
     supported_auth: 'Các nhà cũng cáp ủy quyền hỗ trợ'
-    not-found: 'Không tìm thấy rest resource %s'
+    not-found: 'Không tìm thấy rest resource "%s"'

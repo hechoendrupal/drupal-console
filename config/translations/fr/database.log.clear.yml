@@ -6,6 +6,6 @@ options:
     severity: 'Filter events by a specific level of severity'
     user-id: 'Filter events by a specific user id'
 messages:
-    event-deleted: 'L''événement %s a été supprimé'
+    event-deleted: 'L''événement "%s" a été supprimé'
     clear-error: 'Processus de vidage échoué, veuillez vérifier les filtres utilisés'
     clear-sucess: 'Vidage de la table des événements réussie'

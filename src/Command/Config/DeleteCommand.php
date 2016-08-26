@@ -6,20 +6,44 @@
 
 namespace Drupal\Console\Command\Config;
 
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Core\Config\FileStorage;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Exception\RuntimeException;
 use Symfony\Component\Console\Command\Command;
+use Drupal\Core\Config\CachedStorage;
+use Drupal\Core\Config\ConfigFactory;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class DeleteCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
 
     protected $allConfig = [];
+
+    /** @var ConfigFactory  */
+    protected $configFactory;
+
+    /** @var CachedStorage  */
+    protected $configStorage;
+
+    /** @var FileStorage  */
+    protected $configStorageSync;
+
+    /**
+     * DeleteCommand constructor.
+     * @param ConfigFactory $configFactory
+     * @param CachedStorage $configStorage
+     * @param FileStorage $configStorageSync
+     */
+    public function __construct(ConfigFactory $configFactory , CachedStorage $configStorage, FileStorage $configStorageSync ) {
+        $this->configFactory = $configFactory;
+        $this->configStorage = $configStorage;
+        $this->configStorageSync = $configStorageSync;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -88,9 +112,7 @@ class DeleteCommand extends Command
             return 1;
         }
 
-        $configStorage = ('active' === $type) ?
-            $this->getDrupalService('config.storage') :
-            \Drupal::service('config.storage.sync');
+        $configStorage = ('active' === $type) ? $this->configStorage : $this->configStorageSync;
 
         if (!$configStorage) {
             $io->error($this->trans('commands.config.delete.errors.config-storage'));
@@ -148,7 +170,7 @@ class DeleteCommand extends Command
             return $this->allConfig;
         }
 
-        foreach ($this->getDrupalService('config.factory')->listAll() as $name) {
+        foreach ($this->configFactory->listAll() as $name) {
             $this->allConfig[] = $name;
         }
 
@@ -177,7 +199,7 @@ class DeleteCommand extends Command
     private function removeConfig($name)
     {
         try {
-            $this->getDrupalService('config.factory')->getEditable($name)->delete();
+            $this->configFactory->getEditable($name)->delete();
         } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage());
         }

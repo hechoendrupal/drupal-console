@@ -1,4 +1,5 @@
 options:
+    class: 'Class name'
     events: 'Cargar eventos desde el contenedor.'
     module: 'Nombre del módulo.'
     services: 'Cargar servicios desde el contenedor.'
@@ -6,6 +7,7 @@ options:
     inputs: 'Crear campos de entrada en un formulario.'
     permissions: 'Crear permisos.'
 questions:
+    class: 'Enter the Class name'
     module: 'Escriba el nombre del módulo'
     confirm: '¿Confirma la generación?'
     canceled: 'Comando de generacion cancelado.'
