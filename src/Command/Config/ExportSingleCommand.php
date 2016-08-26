@@ -209,7 +209,7 @@ class ExportSingleCommand extends Command
         $module = $input->getOption('module');
         $configName = $input->getArgument('config-name');
         $optionalConfig = $input->getOption('optional-config');
-        $uuid = $input->getOption('uuid');
+        $uuid = $input->getOption('remove-uuid');
 
         if (!$uuid) {
             $config = $this->getConfiguration($configName, true);
