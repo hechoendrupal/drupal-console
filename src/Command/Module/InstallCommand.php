@@ -54,7 +54,7 @@ class InstallCommand extends Command
     public function __construct(
       ChainQueue $chainQueue,
       ShellProcess $shellProcess,
-      ModuleInstaller $moduleInstaller;
+      ModuleInstaller $moduleInstaller
     ) {
       echo "hola amigo";die();
         $this->chainQueue = $chainQueue;
