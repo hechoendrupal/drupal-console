@@ -29,7 +29,8 @@ services:
     class: Drupal\Console\Command\Database\RestoreCommand
     tags:
       - { name: console.command }
-#  database_table_debug:
-#    class: Drupal\Console\Command\Database\TableDebugCommand
-#    tags:
-#      - { name: console.command }
+  console.database_table_debug:
+    class: Drupal\Console\Command\Database\TableDebugCommand
+        arguments: ['@console.redbean','@database']
+    tags:
+      - { name: console.command }
