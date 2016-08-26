@@ -123,9 +123,31 @@ class InstallCommand extends Command
         $this->moduleRequirement($module);
 
         if ($composer) {
+
+            // checking if the directory has a composer.json
+
+            if (file_exists('./composer.json'))
+            {
+              $cd = "";
+              $cd_back = "";
+            }
+            elseif{
+              if (file_exists('../' . getcwd() . '/composer.json'))
+                $cd = "cd ../; ";
+                $cd_back = "cd ". getcwd();
+            }else
+            {
+              $io->error(
+                sprintf(
+                'composer.json file not found! Halting.'
+                )
+              );
+              return 0;
+            }
+
             foreach ($module as $moduleItem) {
                 $command = sprintf(
-                    'composer show drupal/%s ',
+                    $cd . 'composer show drupal/%s ;' . $cd_back,
                     $moduleItem
                 );
 
