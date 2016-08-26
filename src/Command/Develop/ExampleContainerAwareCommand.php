@@ -69,9 +69,9 @@ class ExampleContainerAwareCommand extends Command
          *  the service container.
          *
          *  In other words, you can access to any configured Drupal service
-         *  using the provided getService method.
+         *  using the provided get method.
          *
-         *  $this->getDrupalService('entity_type.manager');
+         *  $this->get('entity_type.manager');
          *
          *  Reading user input argument
          *  $input->getArgument('ARGUMENT_NAME');

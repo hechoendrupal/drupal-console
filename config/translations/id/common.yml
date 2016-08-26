@@ -1,4 +1,5 @@
 options:
+    class: 'Class name'
     events: 'Load events from the container'
     module: 'The Module name.'
     services: 'Load services from the container.'
@@ -6,6 +7,7 @@ options:
     inputs: 'Create inputs in a form.'
     permissions: 'Create permissions.'
 questions:
+    class: 'Enter the Class name'
     module: 'Enter the module name'
     confirm: 'Do you confirm generation?'
     canceled: 'Command generation canceled.'

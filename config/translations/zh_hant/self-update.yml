@@ -5,6 +5,7 @@ options:
     manifest: 覆寫宣告資訊檔路徑
     current-version: 覆寫指定版本
 questions:
+<<<<<<< HEAD
     update: '由版本 %s 升級到 %s'
 messages:
     not-phar: '此指令介面工具並非以 Phar 封裝版安裝。'
@@ -12,4 +13,13 @@ messages:
     success: '由版本 %s 成功升級到 %s'
     check: 檢查要升級的版本：%s
     current-version: '你已經安裝了最新版本 %s'
+=======
+    update: '由版本 "%s" 升級到 "%s"'
+messages:
+    not-phar: '此指令介面工具並非以 Phar 封裝版安裝。'
+    update: '正在升級到版本 "%s".'
+    success: '由版本 "%s" 成功升級到 "%s"'
+    check: '檢查要升級的版本："%s"'
+    current-version: '你已經安裝了最新版本 "%s"'
+>>>>>>> upstream/master
     instructions: "使用更新指令：composer global update\n或改用建議的 Phar 封裝版安裝\ncomposer global remove drupal/console\ncurl https://drupalconsole.com/installer -L -o drupal.phar\n"

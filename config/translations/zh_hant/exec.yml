@@ -1,8 +1,16 @@
 description: 'Execute an external command.'
 arguments:
+<<<<<<< HEAD
   bin: 'Executable name.'
 messages:
   success: 'Executed the command.'
   invalid-bin: 'Error executing the command.'
   missing-bin: 'Provide a executable.'
 
+=======
+    bin: 'Executable name.'
+messages:
+    success: 'Executed the command.'
+    invalid-bin: 'Error executing the command.'
+    missing-bin: 'Provide a executable.'
+>>>>>>> upstream/master

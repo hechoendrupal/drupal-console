@@ -19,6 +19,6 @@ questions:
     files-directory: 'Directorio de archivos'
 messages:
     not-drupal: 'La base de datos no contiene una versión reconocible de Drupal.'
-    migrations-created: '%s migraciones fueron creadas exitosamente por %s.'
+    migrations-created: '"%s" migraciones fueron creadas exitosamente por "%s".'
     migrations-not-found: 'No hay migraciones disponibles'
     migrations-already-exist: 'Todas las migraciones disponibles ya fueron creadas.'

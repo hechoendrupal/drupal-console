@@ -6,3 +6,4 @@ messages:
     inputs: "Você pode adicionar campos para modificar formulário..\nIsto é opcional, tecle <info>enter</info> para <info>continuar</info>"
     loading-forms: 'Carregando definições de forms a partir do módulo Webprofiler'
     hide-form-elements: 'Opcionalmente você pode selecionar itens do form para esconder'
+    help-already-implemented: 'The hook form alter was already implemented in module "%s"'

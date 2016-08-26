@@ -1,9 +1,9 @@
-description: 'Display current events '
-help: 'The <info>event:debug</info> command helps you debug events.'
+description: 显示当前事件
+help: '命令 <info>event:debug</info> 帮助您调试事件'
 arguments:
-  event: 'Event to debug'
+    event: 调试的事件
 messages:
-  event: Event Name
-  class: 'Class'
-  method: 'Method'
-  no-events: "This event does not exist, try to execute command: event:debug"
+    event: 事件名称
+    class: 类
+    method: 方法
+    no-events: '这个事件不存在, 尝试执行命令: event:debug'

@@ -7,9 +7,13 @@ options:
     class: Osztálynév
     interface: Interfész
     services: common.questions.services
+    path: Path
 questions:
     module: common.questions.module
     service-name: 'Meg kell adni a szolgáltatásnevet'
     class: 'Meg kell adni az osztálynevet'
     interface: 'Interfész létrehozása'
     services: common.options.services
+    path: 'Enter the path for the services'
+messages:
+    service-already-taken: 'The service name has been already taken in module "%s"'

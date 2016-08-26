@@ -1,6 +1,6 @@
 description: 'Atualizar as configurações de desempenho do sistema'
 arguments:
-    environment: 'Nome do ambiente'
+    environment: 'Nome do ambiente [dev, prod]'
 messages:
     configuration: 'Nome da configuração'
     configuration-key: 'Chave da configuração'
@@ -13,4 +13,4 @@ messages:
     service-value: Valor
     error-copying-file: 'Erro ao copiar o arquivo'
     error-writing-file: 'Erro ao copiar o arquivo'
-    services-file-overwritten: 'Arquivos dos serviços %s foram sobrescritos'
+    services-file-overwritten: 'Arquivos dos serviços "%s" foram sobrescritos'

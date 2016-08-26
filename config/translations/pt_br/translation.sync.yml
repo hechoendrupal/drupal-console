@@ -4,7 +4,7 @@ arguments:
 options:
     file: 'Arquivo de idioma a ser sincronizado'
 messages:
-    created-file: 'Arquivo Yaml %s foi criado para o idioma %s'
-    error-generating: 'Erro ao sincronizar o arquivo %s para %s: %s'
-    error-writing: 'Erro ao escrever o arquivo %s para %s: %s'
+    created-file: 'Arquivo Yaml "%s" foi criado para o idioma "%s"'
+    error-generating: 'Erro ao sincronizar o arquivo "%s" para "%s": "%s"'
+    error-writing: 'Erro ao escrever o arquivo "%s" para "%s": "%s"'
     sync-finished: 'Sincronização de arquivos de idiomas realizada'

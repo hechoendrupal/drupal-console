@@ -1,18 +1,18 @@
-description: 'Compare two YAML files in order to find differences between them.'
+description: 2つのYAMLファイルを比較してその違いを見る。
 arguments:
-    yaml-left: 'YAML file used as base to compare'
-    yaml-right: 'YAML file used to find missing parts or differences with the base YAML file'
+    yaml-left: 比較元となるYAMLファイル
+    yaml-right: 比較元のYAMLファイルにない部分や違いを見つけるためのYAMLファイル
 options:
-    stats: 'Print statistics about YAML files comparation'
-    negate: 'Define mode diff or equal comparation, possible values TRUE/FALSE or 0/1'
-    limit: 'Limit results to a specific number'
-    offset: 'Starting point of a limit'
+    stats: YAMLファイルの比較に関する統計情報を表示する
+    negate: '一致・不一致の比較のためのモードを定義する（使用可能な値は TRUE/FALSE または 0/1）'
+    limit: 結果の数を制限する
+    offset: 制限する際の最初の位置
 questions:
-    yaml-left: 'Path of YAML file to be used as base in comparison.'
-    yaml-right: 'Path of YAML file to be compared.'
+    yaml-left: 比較元のYAMLファイルのパス
+    yaml-right: 比較対象のYAMLファイルの発
 messages:
-    key: 'YAML Key'
-    value: 'YAML Value'
-    total: 'Total: %s'
-    diff: 'Diff: %s'
-    equal: 'Equal: %s'
+    key: YAMLキー
+    value: YAMLバリュー
+    total: '合計: "%s"'
+    diff: '差異: "%s"'
+    equal: '共通: "%s"'

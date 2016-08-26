@@ -13,12 +13,27 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Symfony\Component\Filesystem\Filesystem;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Core\Config\ConfigManager;
 
 class ExportCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /** @var ConfigManager  */
+    protected $configManager;
+
+    /**
+     * ExportCommand constructor.
+     * @param ConfigManager $configManager
+     */
+    public function __construct(ConfigManager $configManager ) {
+        $this->configManager = $configManager;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -50,7 +65,6 @@ class ExportCommand extends Command
 
         $directory = $input->getOption('directory');
         $tar = $input->getOption('tar');
-        $archiveTar = new ArchiveTar();
 
         if (!$directory) {
             $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
@@ -72,10 +86,9 @@ class ExportCommand extends Command
         }
 
         try {
-            $configManager = $this->getDrupalService('config.manager');
             // Get raw configuration data without overrides.
-            foreach ($configManager->getConfigFactory()->listAll() as $name) {
-                $configData = $configManager->getConfigFactory()->get($name)->getRawData();
+            foreach ($this->configManager->getConfigFactory()->listAll() as $name) {
+                $configData = $this->configManager->getConfigFactory()->get($name)->getRawData();
                 $configName =  sprintf('%s.yml', $name);
                 $ymlData = Yaml::encode($configData);
 
@@ -89,9 +102,9 @@ class ExportCommand extends Command
 
                 $configFileName =  sprintf('%s/%s', $directory, $configName);
 
-                $fs = $this->get('filesystem');
+                $fileSystem = new Filesystem();
                 try {
-                    $fs->mkdir($directory);
+                    $fileSystem->mkdir($directory);
                 } catch (IOExceptionInterface $e) {
                     $io->error(
                         sprintf(

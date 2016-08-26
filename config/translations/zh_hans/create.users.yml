@@ -24,4 +24,4 @@ messages:
     roles: 角色(s)
     username: 用户名
     created: 创建时间
-    created-users: '生成 %s 用户成功'
+    created-users: '生成 "%s" 用户成功'

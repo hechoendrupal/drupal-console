@@ -10,14 +10,61 @@ namespace Drupal\Console\Command\Cron;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Lock\LockBackendInterface;
+use Drupal\Core\State\State;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\ChainQueue;
 
 class ExecuteCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
 
+    /**
+     * @var ModuleHandlerInterface
+     */
+    protected $moduleHandler;
+
+    /**
+     * @var LockBackendInterface
+     */
+    protected $lock;
+
+    /**
+     * @var State
+     */
+    protected $state;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
+     * DebugCommand constructor.
+     * @param ModuleHandlerInterface $moduleHandler
+     * @param LockBackendInterface   $lock
+     * @param State                  $state
+     * @param ChainQueue             $chainQueue
+     */
+    public function __construct(
+        ModuleHandlerInterface $moduleHandler,
+        LockBackendInterface $lock,
+        State $state,
+        ChainQueue $chainQueue
+    ) {
+        $this->moduleHandler = $moduleHandler;
+        $this->lock = $lock;
+        $this->state = $state;
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -30,56 +77,55 @@ class ExecuteCommand extends Command
             );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-
         $modules = $input->getArgument('module');
-        $module_handler = $this->getDrupalService('module_handler');
-        $lock = $this->getDrupalService('lock');
 
-        // Try to acquire cron lock.
-        if (!$lock->acquire('cron', 900.0)) {
+        if (!$this->lock->acquire('cron', 900.0)) {
             $io->warning($this->trans('commands.cron.execute.messages.lock'));
-            return;
+
+            return 1;
         }
 
         if (in_array('all', $modules)) {
-            $modules = $module_handler->getImplementations('cron');
+            $modules = $this->moduleHandler->getImplementations('cron');
         }
 
         foreach ($modules as $module) {
-            if ($module_handler->implementsHook($module, 'cron')) {
-                $io->info(
-                    sprintf(
-                        $this->trans('commands.cron.execute.messages.executing-cron'),
-                        $module
-                    )
-                );
-                try {
-                    $module_handler->invoke($module, 'cron');
-                } catch (\Exception $e) {
-                    watchdog_exception('cron', $e);
-                    $io->error($e->getMessage());
-                }
-            } else {
+            if (!$this->moduleHandler->implementsHook($module, 'cron')) {
                 $io->warning(
                     sprintf(
                         $this->trans('commands.cron.execute.messages.module-invalid'),
                         $module
                     )
                 );
+                continue;
+            }
+            try {
+                $io->info(
+                    sprintf(
+                        $this->trans('commands.cron.execute.messages.executing-cron'),
+                        $module
+                    )
+                );
+                $this->moduleHandler->invoke($module, 'cron');
+            } catch (\Exception $e) {
+                watchdog_exception('cron', $e);
+                $io->error($e->getMessage());
             }
         }
 
-        // Set last time cron was executed
-        \Drupal::state()->set('system.cron_last', REQUEST_TIME);
+        $this->state->set('system.cron_last', REQUEST_TIME);
+        $this->lock->release('cron');
 
-         // Release cron lock.
-        $lock->release('cron');
-
-        $this->get('chain_queue')->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
 
         $io->success($this->trans('commands.cron.execute.messages.success'));
+
+        return 0;
     }
 }

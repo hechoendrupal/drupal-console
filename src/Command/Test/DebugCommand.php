@@ -12,17 +12,25 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Serialization\Yaml;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Annotation\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class DebugCommand
  * @package Drupal\Console\Command\Test
  */
-class DebugCommand extends ContainerAwareCommand
+class DebugCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+
     /**
-     * {@inheritdoc}
+     * @DrupalCommand(
+     *     dependencies = {
+     *         “simpletest"
+     *     }
+     * )
      */
     protected function configure()
     {
@@ -41,8 +49,6 @@ class DebugCommand extends ContainerAwareCommand
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.test.debug.arguments.test-class')
             );
-
-        $this->addDependency('simpletest');
     }
 
     /**
@@ -52,7 +58,7 @@ class DebugCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
         //Registers namespaces for disabled modules.
-        $this->getTestDiscovery()->registerTestNamespaces();
+        $this->getDrupalService('test_discovery')->registerTestNamespaces();
 
         $testClass = $input->getOption('test-class');
         $group = $input->getArgument('group');
@@ -66,7 +72,7 @@ class DebugCommand extends ContainerAwareCommand
 
     private function testDetail(DrupalStyle $io, $test_class)
     {
-        $testingGroups = $this->getTestDiscovery()->getTestClasses(null);
+        $testingGroups = $this->getDrupalService('test_discovery')->getTestClasses(null);
 
         $testDetails = null;
         foreach ($testingGroups as $testing_group => $tests) {
@@ -87,7 +93,8 @@ class DebugCommand extends ContainerAwareCommand
             if (is_subclass_of($testDetails['name'], 'PHPUnit_Framework_TestCase')) {
                 $testDetails['type'] = 'phpunit';
             } else {
-                $testDetails = $this->getTestDiscovery()->getTestInfo($testDetails['name']);
+                $testDetails = $this->getDrupalService('test_discovery')
+                    ->getTestInfo($testDetails['name']);
                 $testDetails['type'] = 'simpletest';
             }
 
@@ -116,14 +123,15 @@ class DebugCommand extends ContainerAwareCommand
 
     protected function testList(DrupalStyle $io, $group)
     {
-        $testingGroups = $this->getTestDiscovery()->getTestClasses(null);
+        $testingGroups = $this->getDrupalService('test_discovery')
+            ->getTestClasses(null);
 
         if (empty($group)) {
             $tableHeader = [$this->trans('commands.test.debug.messages.group')];
         } else {
             $tableHeader = [
-                $this->trans('commands.test.debug.messages.class'),
-                $this->trans('commands.test.debug.messages.type')
+              $this->trans('commands.test.debug.messages.class'),
+              $this->trans('commands.test.debug.messages.type')
             ];
 
             $io->writeln(

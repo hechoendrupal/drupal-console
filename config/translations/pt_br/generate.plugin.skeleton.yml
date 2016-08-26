@@ -9,5 +9,5 @@ questions:
     plugin: 'Enter the Plugin Id'
     class: 'Enter the plugin class name'
 messages:
-    plugin-dont-exist: 'The plugin %s do not exist'
-    plugin-generator-implemented: 'Plugin %s already has an advanced command generator, please use %s'
+    plugin-dont-exist: 'The plugin "%s" do not exist'
+    plugin-generator-implemented: 'Plugin "%s" already has an advanced command generator, please use "%s"'

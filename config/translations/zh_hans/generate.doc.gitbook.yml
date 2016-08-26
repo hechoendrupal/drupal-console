@@ -7,7 +7,7 @@ messages:
     note: 备注
     note-description: 'Drupal Console 命令*必须*在 Drupal 8 安装目录里运行'
     command: 'Drupal Console 命令'
-    command_description: '**%s** 命令 %s'
+    command_description: '**"%s"** 命令 "%s"'
     usage: 用法
     options: 可用选项
     option: 选项
@@ -22,7 +22,7 @@ output:
         note-description: 'Drupal Console 命令*必须*在 Drupal 8 安装目录里运行'
         command: 'Drupal Console 命令'
     command:
-        command_description: '**%s** 命令 %s'
+        command_description: '**"%s"** 命令 "%s"'
         usage: 用法
         options: 可用选项
         option: 选项

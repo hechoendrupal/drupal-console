@@ -6,13 +6,15 @@ messages:
     id: ID
     name: 名称
     status: 状态
-    origin: Origin
+    origin: 来源
     package: 包
+    installed: 已安装
+    uninstalled: 已卸载
+    version: 版本
+    schema-version: 'Schema 版本'
+    total-downloads: 总安装量
+    total-monthly: 月安装量
+    total-daily: 日安装量
+    no-results: '模块 "%s" 在代码库中没有找到'
     enabled: 启用
     disabled: 禁用
-    version: Version
-    schema-version: 'Schema 版本'
-    total-downloads: 'Total installs'
-    total-monthly: 'Monthly installs'
-    total-daily: 'Daily installs'
-    no-results: 'Module %s was not found in the repository'

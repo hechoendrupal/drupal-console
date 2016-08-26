@@ -5,7 +5,7 @@ arguments:
 options:
     database: 'Clave de la base de datos de settings.php'
 messages:
-    table-show: 'Mostrando tablas de la base de datos %s'
+    table-show: 'Mostrando tablas de la base de datos "%s"'
     table: Tabla
     column: Columna
     type: Tipo

@@ -11,7 +11,7 @@ messages:
     remote-age: 'Vârsta îndepărtată'
     info: Informații
     no-translation-files: 'Nu sunt oferite fișiere de traducere pentru dezvoltare.'
-    file-not-found: 'Fișierul nu a fost găsit la %s nici la %s'
-    local-file-not-found: 'Fișierul nu a fost găsit la %s'
+    file-not-found: 'Fișierul nu a fost găsit la "%s" nici la "%s"'
+    local-file-not-found: 'Fișierul nu a fost găsit la "%s"'
     translation-not-determined: 'Locația fișierului de traducere nu a putut fi determinată.'
     translation-project-updated: Actualizat

@@ -48,6 +48,7 @@ class ExampleCommand extends Command
          *
          * develop_example:
          *   class: Drupal\Console\Command\Develop\ExampleCommand
+         *   arguments: ['@service_id', '@console.service_id']
          *   tags:
          *     - { name: console.command }
          *

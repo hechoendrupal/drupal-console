@@ -5,4 +5,9 @@ arguments:
 questions:
     resource-id: 'REST ID'
 messages:
+<<<<<<< HEAD
     invalid-rest-id: '找不到符合的 REST ID %s'
+=======
+    invalid-rest-id: '找不到符合的 REST ID "%s"'
+    success: 'Rest ID "%s" disabled'
+>>>>>>> upstream/master

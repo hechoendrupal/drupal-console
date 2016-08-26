@@ -19,5 +19,5 @@ messages:
     directory_temporary: サイトのテンポラリディレクトリ
     directory_theme_default: デフォルトテーマのディレクトリ
     directory_theme_admin: 管理用テーマのディレクトリ
-    current_version: '現在のDrupalのバージョン (%s)'
+    current_version: '現在のDrupalのバージョン ("%s")'
     not_installed: Drupalはインストールされていません。

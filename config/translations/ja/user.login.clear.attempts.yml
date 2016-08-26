@@ -7,7 +7,7 @@ questions:
     numeric-uid: ユーザーIDは整数で入力してください
     invalid-uid: ユーザーIDは1より大きい数値である必要があります
 messages:
-    successful: 'ユーザーID %s のログイン試行履歴をクリアしました。'
+    successful: 'ユーザーID "%s" のログイン試行履歴をクリアしました。'
 errors:
-    invalid-user: 'ユーザーエンティティがロードできませんでした (Uid: %s)。'
+    invalid-user: 'ユーザーエンティティがロードできませんでした (Uid: "%s")。'
     no-flood: 'flood table がありません。'

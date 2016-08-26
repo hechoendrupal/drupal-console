@@ -14,4 +14,4 @@ messages:
     methods: 测试方法
     not-found: 没找到调试，试着在测试ID上加双引号.
     success-groups: '成功列出所有测试组，使用组参数以组为单位过滤测试单元，例如： $ drupal test:debug Url'
-    success-group: 成功列出组（%s）所有测试单位
+    success-group: '成功列出组（"%s"）所有测试单位'

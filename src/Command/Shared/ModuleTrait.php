@@ -23,10 +23,20 @@ trait ModuleTrait
      */
     public function moduleQuestion(DrupalStyle $io, $showProfile = true)
     {
-        $modules = $this->getApplication()->getSite()->getModules(false, true, true, false, true, true);
+        $modules = $this->extensionManager->discoverModules()
+            ->showInstalled()
+            ->showUninstalled()
+            ->showNoCore()
+            ->getList(true);
 
         if ($showProfile) {
-            $modules[] = $this->getApplication()->getSite()->getProfile(false, true);
+            $profiles = $this->extensionManager->discoverModules()
+                ->showInstalled()
+                ->showNoCore()
+                ->showCore()
+                ->getList(true);
+
+            $modules = array_merge($modules, $profiles);
         }
 
         if (empty($modules)) {
@@ -39,5 +49,18 @@ trait ModuleTrait
         );
 
         return $module;
+    }
+
+    public function moduleRequirement($module)
+    {
+        foreach ($module as $module_name) {
+            module_load_install($module_name);
+
+            if ($requirements = \Drupal::moduleHandler()->invoke($module_name, 'requirements', array('install'))) {
+                foreach ($requirements as $requirement) {
+                    throw new \Exception($module_name .' can not be installed: ' . $requirement['description']);
+                }
+            }
+        }
     }
 }

@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 description: '顯示網站應用中的快取關聯。'
 messages:
     code: '關聯 ID'
     label: '標籤'
     class: '類別（Class）路徑'
+=======
+description: 'Displays current cache context for the application.'
+messages:
+    code: 'Context ID'
+    label: Label
+    class: 'Class path'
+>>>>>>> upstream/master

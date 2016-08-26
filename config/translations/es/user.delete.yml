@@ -10,8 +10,8 @@ questions:
 messages:
     user-id: 'ID de usuario'
     username: 'Nombre de usuario'
-    user-deleted: 'El usuario %s ha sido eliminado con éxito'
-    users-deleted: '%s usuarios han sido eliminados con éxito'
+    user-deleted: 'El usuario "%s" ha sido eliminado con éxito'
+    users-deleted: '"%s" usuarios han sido eliminados con éxito'
 errors:
-    invalid-user-id: 'El id de usuario %s no es válido'
-    invalid-user: 'El id de usuario %s no es válido'
+    invalid-user-id: 'El id de usuario "%s" no es válido'
+    invalid-user: 'El id de usuario "%s" no es válido'

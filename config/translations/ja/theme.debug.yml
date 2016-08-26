@@ -11,5 +11,5 @@ messages:
     default-theme: デフォルトのテーマ
     properties: プロパティ
     regions: リージョン
-    invalid-theme: 'テーマ %s は不正な値です。'
+    invalid-theme: 'テーマ "%s" は不正な値です。'
     theme-properties: プロパティ

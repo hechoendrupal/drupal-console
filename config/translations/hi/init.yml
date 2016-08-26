@@ -1,3 +1,3 @@
-description: 'Copy configuration files to user home directory.'
+description: 'उपयोगकर्ता के होम डायरेक्टरी के लिए कॉन्फ़िगरेशन फाइल कॉपी किया है।'
 options:
-    override: 'Override configurations files'
+    override: 'ओवरराइड कफगुरशंस फाइल्स'

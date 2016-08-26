@@ -6,19 +6,43 @@
 
 namespace Drupal\Console\Command\Config;
 
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Core\Archiver\ArchiveTar;
+use Drupal\Core\Config\CachedStorage;
+use Drupal\Core\Config\ConfigManager;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Core\Config\ConfigImporterException;
+use Drupal\Core\Config\ConfigImporter;
+use Drupal\Core\Config\FileStorage;
+use Drupal\Core\Config\StorageComparer;
 
 class ImportCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /** @var CachedStorage  */
+    protected $configStorage;
+
+    /** @var ConfigManager  */
+    protected $configManager;
+
+    /**
+     * ImportCommand constructor.
+     * @param CachedStorage $configStorage
+     * @param ConfigurationManager $configManager
+     */
+    public function __construct(CachedStorage $configStorage, ConfigManager $configManager ) {
+        $this->configStorage = $configStorage;
+        $this->configManager = $configManager;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -31,19 +55,19 @@ class ImportCommand extends Command
                 'file',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.config.import.arguments.file')
+                $this->trans('commands.config.import.options.file')
             )
             ->addOption(
                 'directory',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.config.import.arguments.directory')
+                $this->trans('commands.config.import.options.directory')
             )
             ->addOption(
                 'remove-files',
                 false,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.config.import.arguments.remove-files')
+                $this->trans('commands.config.import.options.remove-files')
             );
     }
 
@@ -53,10 +77,7 @@ class ImportCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-
-        $archiveFile = $input->getOption('file');
         $directory = $input->getOption('directory');
-        $removeFiles = $input->getOption('remove-files');
 
         if ($directory) {
             $configSyncDir = $directory;
@@ -66,83 +87,57 @@ class ImportCommand extends Command
             );
         }
 
-        if ($archiveFile) {
-            $this->extractArchive($io, $archiveFile, $configSyncDir);
+        $source_storage = new FileStorage($configSyncDir);
+
+        $storage_comparer = new StorageComparer($source_storage, $this->configStorage, $this->configManager);
+
+        if (!$storage_comparer->createChangelist()->hasChanges()) {
+            $io->success($this->trans('commands.config.import.messages.nothing-to-do'));
         }
 
-        $finder = new Finder();
-        $finder->in($configSyncDir);
-        $finder->name("*.yml");
-
-        foreach ($finder as $configFile) {
-            $configName = $configFile->getBasename('.yml');
-            $configFilePath = sprintf(
-                '%s/%s',
-                $configSyncDir,
-                $configFile->getBasename()
-            );
-            $config = $this->getDrupalService('config.factory')->getEditable($configName);
-            $parser = new Parser();
-            $configData = $parser->parse(
-                file_get_contents($configFilePath)
-            );
-
-            $config->setData($configData);
-
-            if ($removeFiles) {
-                file_unmanaged_delete($configFilePath);
-            }
-
-            try {
-                $config->save();
-            } catch (\Exception $e) {
-                $io->error($e->getMessage());
-
-                return;
-            }
+        if ($this->configImport($io, $storage_comparer)) {
+            $io->success($this->trans('commands.config.import.messages.imported'));
         }
-
-        $io->success($this->trans('commands.config.import.messages.imported'));
     }
 
-    /**
-     * Extracts the contents of the archive file into the config directory.
-     *
-     * @param DrupalStyle $io
-     *   IO object to print messages.
-     * @param string      $archiveFile
-     *   The archive file to extract
-     * @param string      $configDir
-     *   The directory to extract the files into.
-     *
-     * @return \Drupal\Core\Archiver\ArchiveTar
-     *   The initialised object.
-     *
-     * @throws \Exception
-     *   If something went wrong during extraction.
-     */
-    private function extractArchive(DrupalStyle $io, $archiveFile, $configDir)
-    {
-        $archiveTar = new ArchiveTar($archiveFile, 'gz');
 
-        $io->simple(
-            $this->trans(
-                'commands.config.import.messages.config_files_imported'
-            )
+    private function configImport(DrupalStyle $io, StorageComparer $storage_comparer)
+    {
+        $config_importer = new ConfigImporter(
+            $storage_comparer,
+            \Drupal::service('event_dispatcher'),
+            \Drupal::service('config.manager'),
+            \Drupal::lock(),
+            \Drupal::service('config.typed'),
+            \Drupal::moduleHandler(),
+            \Drupal::service('module_installer'),
+            \Drupal::service('theme_handler'),
+            \Drupal::service('string_translation')
         );
 
-        foreach ($archiveTar->listContent() as $file) {
-            $io->info(
-                '[-] ' . $file['filename']
-            );
-        }
-
-        try {
-            $archiveTar->extract($configDir . '/');
-        } catch (\Exception $e) {
-            $io->error($e->getMessage());
-
-            return;
+        if ($config_importer->alreadyImporting()) {
+            $io->success($this->trans('commands.config.import.messages.already-imported'));
+        } else {
+            try {
+                $config_importer->import();
+                $io->info($this->trans('commands.config.import.messages.importing'));
+            } catch (ConfigImporterException $e) {
+                $message = 'The import failed due for the following reasons:' . "\n";
+                $message .= implode("\n", $config_importer->getErrors());
+                $io->error(
+                    sprintf(
+                        $this->trans('commands.site.import.local.messages.error-writing'),
+                        $message
+                    )
+                );
+            } catch (\Exception $e) {
+                $io->error(
+                    sprintf(
+                        $this->trans('commands.site.import.local.messages.error-writing'),
+                        $e->getMessage()
+                    )
+                );
+            }
         }
     }
 }

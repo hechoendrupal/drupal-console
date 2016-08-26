@@ -14,4 +14,4 @@ messages:
     rest-state: 'रेस्ट स्टेट्स'
     supported-formats: 'समर्थित स्वरुपे'
     supported_auth: 'समर्थित प्रमाणीकरण प्रदाते'
-    not-found: 'रेस्ट संसाधन %s आढळले नाही'
+    not-found: 'रेस्ट संसाधन "%s" आढळले नाही'

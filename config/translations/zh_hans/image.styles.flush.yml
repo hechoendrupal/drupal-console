@@ -1,8 +1,8 @@
-description: 'Execute flush function by image style or execute all flush images styles'
+description: '按图像样式执行 flush 函数或对所有图像样式执行 flush 函数'
 messages:
-    executing-flush: 'Executing flush function on image style %s'
-    success: 'All flush functions requested were executed successfully'
+    executing-flush: '对图像样式 "%s" 执行 flush 函数'
+    success: '所有请求的 flush 函数被成功执行'
 options:
-    image-style: 'The Images Styles name.'
+    image-style: 图像样式名称
 questions:
-    image-style: 'Select Images Styles to flush.'
+    image-style: '选择 flush 的图像样式'

@@ -26,5 +26,5 @@ messages:
     content-type: 'Tipo de conteúdo'
     title: Título
     created: 'Data de criação'
-    invalid-content-types: 'Tipos de conteúdos %s são inválidos'
-    created-comments: 'Criado %s comentários com sucesso'
+    invalid-content-types: 'Tipos de conteúdos "%s" são inválidos'
+    created-comments: 'Criado "%s" comentários com sucesso'

@@ -60,9 +60,9 @@ class {{ class_name }} extends FormBase {% endblock %}
   public function buildForm(array $form, FormStateInterface $form_state) {
 {% for input in inputs %}
 {% if input.fieldset|length %}
-    $form['{{ input.fieldset }}']['{{ input.name }}'] = array(
+    $form['{{ input.fieldset }}']['{{ input.name }}'] = [
 {% else %}
-    $form['{{ input.name }}'] = array(
+    $form['{{ input.name }}'] = [
 {% endif %}
       '#type' => '{{ input.type }}',
       '#title' => $this->t('{{ input.label|e }}'),
@@ -78,13 +78,13 @@ class {{ class_name }} extends FormBase {% endblock %}
 {% if input.size|length %}
       '#size' => {{ input.size }},
 {% endif %}
-    );
+    ];
 {% endfor %}
 
-    $form['submit'] = array(
+    $form['submit'] = [
         '#type' => 'submit',
         '#value' => t('Submit'),
-    );
+    ];
 
     return $form;
   }

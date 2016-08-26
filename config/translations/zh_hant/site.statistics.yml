@@ -3,7 +3,7 @@ help: 顯示目前網站統計資訊。
 messages:
     stat-name: 項目名稱
     stat-quantity: 數量
-    node-type: 內容類型：%s
+    node-type: '內容類型："%s"'
     comments: 回應
     vocabulary: 主分類名稱
     taxonomy-terms: 次分類詞
@@ -13,4 +13,8 @@ messages:
     modules-disabled: 未啟用的模組
     themes-enabled: 啟用的版型
     themes-disabled: 未啟用的版型
+<<<<<<< HEAD
     views: 'Views（除了系統內建的）'
+=======
+    views: Views（除了系統內建的）
+>>>>>>> upstream/master

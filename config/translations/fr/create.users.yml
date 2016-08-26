@@ -24,4 +24,4 @@ messages:
     roles: Rôles
     username: 'Nom d''''utilisateur'
     created: 'Date de création'
-    created-users: 'Génération de %s utilisateurs avec succès.'
+    created-users: 'Génération de "%s" utilisateurs avec succès.'

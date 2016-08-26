@@ -1,0 +1,7 @@
+description: 'Install dependencies module in the application'
+arguments:
+    module: 'Module or modules to be enabled should be separated by a space'
+messages:
+    no-depencies: 'Nothing to do. This modules has not dependencies to install'
+    installing: 'Installing module(s) "%s"'
+    success: 'The following module(s) were installed successfully: "%s"'

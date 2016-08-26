@@ -24,4 +24,4 @@ messages:
     roles: ロール
     username: ユーザー名
     created: 作成時刻
-    created-users: '%s 個のユーザーを作成しました。'
+    created-users: '"%s" 個のユーザーを作成しました。'

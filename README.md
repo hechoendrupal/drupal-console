@@ -135,10 +135,13 @@ ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish
 ```
 
 ## Supporting Organizations
-[![FFW](https://www.drupal.org/files/ffw-logo.png)](https://ffwagency.com)
+
+[![weKnow](https://www.drupal.org/files/weKnow-logo_5.png)](http://weknowinc.com)
 
 [![Anexus](https://www.drupal.org/files/anexus-logo.png)](http://www.anexusit.com/)
 
 [![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)
+
+[![FFW](https://www.drupal.org/files/ffw-logo.png)](https://ffwagency.com)
 
 > Drupal is a registered trademark of Dries Buytaert.

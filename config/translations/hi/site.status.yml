@@ -19,7 +19,7 @@ messages:
     directory_temporary: 'साइट अस्थायी डायरेक्टरी'
     directory_theme_default: 'डीफाल्ट थीम डायरेक्टरी'
     directory_theme_admin: 'प्रबंधक थीम डायरेक्टरी'
-    current_version: 'वर्तमान Drupal वर्शन (%s)'
+    current_version: 'वर्तमान Drupal वर्शन ("%s")'
     not_installed: 'Drupal इनस्टॉल नहीं है'
     not_available: अनुपलब्ध
     configuration: कॉन्फ़िगरेशन

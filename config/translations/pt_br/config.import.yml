@@ -8,4 +8,7 @@ arguments:
 messages:
     config_files_imported: 'Lista de arquivos de configuração.'
     imported: 'Todos os arquivos de configuração foram copiados para o diretório de staging e importados.'
+    importing: 'Importing configuration.'
+    already-imported: 'Another request may be synchronizing configuration already.'
+    nothing-to-do: 'There are no changes to import.'
     copied: 'Todos os arquivos de configuração foram copiados para o diretório de staging.'

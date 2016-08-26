@@ -10,8 +10,8 @@ questions:
 messages:
     user-id: ユーザーID
     username: ユーザー名
-    user-deleted: 'ユーザー %s は削除されました。'
-    users-deleted: 'ロールID: %s のユーザーは削除されました。'
+    user-deleted: 'ユーザー "%s" は削除されました。'
+    users-deleted: 'ロールID: "%s" のユーザーは削除されました。'
 errors:
-    invalid-user-id: 'ユーザーID %s は不正な値です。'
-    invalid-user: 'ユーザーID %s は不正な値です。'
+    invalid-user-id: 'ユーザーID "%s" は不正な値です。'
+    invalid-user: 'ユーザーID "%s" は不正な値です。'

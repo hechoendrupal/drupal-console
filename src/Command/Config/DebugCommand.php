@@ -11,13 +11,33 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Serialization\Yaml;
+use Drupal\Core\Config\CachedStorage;
+use Drupal\Core\Config\ConfigFactory;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class DebugCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /** @var ConfigFactory  */
+    protected $configFactory;
+
+    /** @var CachedStorage  */
+    protected $configStorage;
+
+    /**
+     * DebugCommand constructor.
+     * @param ConfigFactory $configFactory
+     * @param CachedStorage $configStorage
+     */
+    public function __construct(ConfigFactory $configFactory, CachedStorage $configStorage) {
+        $this->configFactory = $configFactory;
+        $this->configStorage = $configStorage;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -53,8 +73,7 @@ class DebugCommand extends Command
      */
     private function getAllConfigurations(DrupalStyle $io)
     {
-        $configFactory = $this->getDrupalService('config.factory');
-        $names = $configFactory->listAll();
+        $names = $this->configFactory->listAll();
         $tableHeader = [
             $this->trans('commands.config.debug.arguments.name'),
         ];
@@ -74,14 +93,12 @@ class DebugCommand extends Command
      */
     private function getConfigurationByName(DrupalStyle $io, $config_name)
     {
-        $configStorage = $this->getDrupalService('config.storage');
-
-        if ($configStorage->exists($config_name)) {
+        if ($this->configStorage->exists($config_name)) {
             $tableHeader = [
                 $config_name,
             ];
 
-            $configuration = $configStorage->read($config_name);
+            $configuration = $this->configStorage->read($config_name);
             $configurationEncoded = Yaml::encode($configuration);
             $tableRows = [];
             $tableRows[] = [

@@ -1,11 +1,18 @@
 description: 'Baixar um tema para a aplicação'
+arguments:
+    version: 'Theme version i.e 1.x-dev'
+    theme: 'the Theme name'
 options:
+    composer: 'Use --composer option for manage the theme download with Composer'
     version: 'Versão do tema, exemplo, 1.x-dev'
 messages:
-    no-releases: 'Não há nenhuma versão disponível para o tema %s'
-    getting-releases: 'Baixando as versões disponíveis para o tema %s'
-    downloading: 'Baixando o tema %s com a versão %s'
-    downloaded: 'O tema %s versão %s foi baixado com sucesso em %s'
+    no-releases: 'Não há nenhuma versão disponível para o tema "%s"'
+    getting-releases: 'Baixando as versões disponíveis para o tema "%s"'
+    downloading: 'Baixando o tema "%s" com a versão "%s"'
+    downloaded: 'O tema "%s" versão "%s" foi baixado com sucesso em "%s"'
     select-release: 'Por favor selecione a sua versão preferencial'
     outside-drupal: 'Não foi possível localizar o diretório raiz do drupal. Utilize --root para definir o diretório do drupal, caso contrário será utilizado o diretório atual.'
-    error-creating-folder: 'Erro ao criar o diretório %s, por favor verifique as permissões'
+    error-creating-folder: 'Erro ao criar o diretório "%s", por favor verifique as permissões'
+tips:
+    -
+        tip: 'Pass a «true» value to «shellexec_output» key in your config.yml file to see interactively Composer''s output or «false» to hide it'

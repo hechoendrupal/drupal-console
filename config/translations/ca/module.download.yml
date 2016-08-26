@@ -9,10 +9,15 @@ options:
 questions:
     path: 'Enter the contrib project Path'
 messages:
-    no-releases: 'No hi han versións disponibles per el mòdul %s'
-    getting-releases: 'Obtenint versions per el mòdul %s'
-    downloading: 'Descarregant el mòdul %s versió %s'
-    downloaded: 'El mòdul %s versió %s s''ha descarregat correctament a %s'
+    no-releases: 'No hi han versións disponibles per el mòdul "%s"'
+    getting-releases: 'Obtenint versions per el mòdul "%s"'
+    downloading: 'Descarregant el mòdul "%s" versió "%s"'
+    downloaded: 'El mòdul "%s" versió "%s" s''ha descarregat correctament a "%s"'
     select-release: 'Seleccioneu la versió'
     outside-drupal: 'L''arrel de Drupal no s''ha trobat. Utilitza --root per definir un destí, el directori actual s''utilitzarà en qualsevol cas.'
-    error-creating-folder: 'S''ha produït un error creant el directori %s, comprova els permíssos'
+    error-creating-folder: 'S''ha produït un error creant el directori "%s", comprova els permíssos'
+    no-composer-repo: 'Please, configure Composer in ~/.console/config.yml'
+    composer: 'Module "%s" was downloaded successfully using Composer'
+tips:
+    -
+        tip: 'Pass a «true» value to «shellexec_output» key in your config.yml file to see interactively Composer''s output or «false» to hide it'

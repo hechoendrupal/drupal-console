@@ -1,4 +1,5 @@
 options:
+    class: 'Class name'
     events: 'Események betöltése a tárolóból'
     module: 'A modul neve.'
     services: 'Szolgáltatások betöltése a tárolóból.'
@@ -6,6 +7,7 @@ options:
     inputs: 'Bemenetek létrehozása egy űrlapban.'
     permissions: 'Engedélyek létrehozása.'
 questions:
+    class: 'Enter the Class name'
     module: 'Meg kell adni a modul nevét'
     confirm: 'Jóváhagyja a létrehozást?'
     canceled: 'A parancs létrehozása megszakadt.'
