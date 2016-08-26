@@ -48,6 +48,7 @@ class TableDebugCommand extends Command
     ) {
         $this->redBean = $redBean;
         $this->database = $database;
+        parent::__construct();
     }
 
     /**

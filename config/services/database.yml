@@ -31,6 +31,6 @@ services:
       - { name: console.command }
   console.database_table_debug:
     class: Drupal\Console\Command\Database\TableDebugCommand
-        arguments: ['@console.redbean','@database']
+    arguments: ['@console.redbean', '@database']
     tags:
       - { name: console.command }
