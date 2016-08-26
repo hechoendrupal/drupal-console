@@ -12,16 +12,63 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Core\StringTranslation\Translator\TranslatorInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Datetime\DateFormatterInterface;
+use Drupal\Core\Database\Connection;
 use Drupal\Component\Utility\Unicode;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Logger\RfcLogLevel;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class LogDebugCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /**
+     * @var Connection
+     */
+    protected $database;
+
+    /**
+     * @var DateFormatterInterface
+     */
+    protected $dateFormatter;
+
+    /**
+     * @var EntityTypeManagerInterface
+     */
+    protected $entityTypeManager;
+
+    /**
+     * @var TranslatorInterface
+     */
+    protected $stringTranslation;
+
+    /**
+     * LogDebugCommand constructor.
+     * @param Connection $database
+     * @param DateFormatterInterface $dateFormatter
+     * @param EntityTypeManagerInterface $entityTypeManager
+     * @param TranslatorInterface $stringTranslation
+     */
+    public function __construct(
+        Connection $database,
+        DateFormatterInterface $dateFormatter,
+        EntityTypeManagerInterface $entityTypeManager,
+        TranslatorInterface $stringTranslation
+    ) {
+        $this->database = $database;
+        $this->dateFormatter = $dateFormatter;
+        $this->entityTypeManager = $entityTypeManager;
+        $this->stringTranslation = $stringTranslation;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -72,6 +119,9 @@ class LogDebugCommand extends Command
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
@@ -89,6 +139,8 @@ class LogDebugCommand extends Command
         } else {
             $this->getAllEvents($io, $eventType, $eventSeverity, $userId, $asc, $offset, $limit);
         }
+
+        return 0;
     }
 
     /**
@@ -98,15 +150,15 @@ class LogDebugCommand extends Command
      */
     private function getEventDetails(DrupalStyle $io, $eventId)
     {
-        $connection = $this->getDrupalService('database');
-        $dateFormatter = $this->getDrupalService('date.formatter');
-        $userStorage = $this->getDrupalService('entity_type.manager')->getStorage('user');
-        
-        
+        $userStorage = $this->entityTypeManager->getStorage('user');
         $severity = RfcLogLevel::getLevels();
 
-        $dblog = $connection->query('SELECT w.*, u.uid FROM {watchdog} w LEFT JOIN {users} u ON u.uid = w.uid WHERE w.wid = :id', array(':id' => $eventId))->fetchObject();
-
+        $dblog = $this->database
+            ->query(
+                'SELECT w.*, u.uid FROM {watchdog} w LEFT JOIN {users} u ON u.uid = w.uid WHERE w.wid = :id',
+                [':id' => $eventId]
+            )
+            ->fetchObject();
 
         if (!$dblog) {
             $io->error(
@@ -119,12 +171,12 @@ class LogDebugCommand extends Command
             return false;
         }
 
-        $user= $userStorage->load($dblog->uid);
+        $user = $userStorage->load($dblog->uid);
 
         $configuration = [
             $this->trans('commands.database.log.debug.messages.event-id') => $eventId,
             $this->trans('commands.database.log.debug.messages.type') => $dblog->type,
-            $this->trans('commands.database.log.debug.messages.date') => $dateFormatter->format($dblog->timestamp, 'short'),
+            $this->trans('commands.database.log.debug.messages.date') => $this->dateFormatter->format($dblog->timestamp, 'short'),
             $this->trans('commands.database.log.debug.messages.user') => $user->getUsername() . ' (' . $user->id() .')',
             $this->trans('commands.database.log.debug.messages.severity') => (string) $severity[$dblog->severity],
             $this->trans('commands.database.log.debug.messages.message') => Html::decodeEntities(strip_tags($this->formatMessage($dblog)))
@@ -135,14 +187,12 @@ class LogDebugCommand extends Command
         return true;
     }
 
-    protected function getAllEvents(DrupalStyle $io, $eventType, $eventSeverity, $userId, $asc, $offset, $limit)
+    private function getAllEvents(DrupalStyle $io, $eventType, $eventSeverity, $userId, $asc, $offset, $limit)
     {
-        $connection = $this->getDrupalService('database');
-        $dateFormatter = $this->getDrupalService('date.formatter');
-        $userStorage = $this->getDrupalService('entity_type.manager')->getStorage('user');
+        $userStorage = $this->entityTypeManager->getStorage('user');
         $severity = RfcLogLevel::getLevels();
 
-        $query = $connection->select('watchdog', 'w');
+        $query = $this->database->select('watchdog', 'w');
         $query->fields(
             'w',
             [
@@ -207,7 +257,7 @@ class LogDebugCommand extends Command
             $tableRows[] = [
                 $dblog->wid,
                 $dblog->type,
-                $dateFormatter->format($dblog->timestamp, 'short'),
+                $this->dateFormatter->format($dblog->timestamp, 'short'),
                 Unicode::truncate(Html::decodeEntities(strip_tags($this->formatMessage($dblog))), 56, true, true),
                 $user->getUsername() . ' (' . $user->id() .')',
                 $severity[$dblog->severity]
@@ -233,9 +283,8 @@ class LogDebugCommand extends Command
      *   The formatted log message or FALSE if the message or variables properties
      *   are not set.
      */
-    public function formatMessage($event)
+    private function formatMessage($event)
     {
-        $stringTranslation = $this->getDrupalService('string_translation');
         $message = false;
 
         // Check for required properties.
@@ -245,7 +294,9 @@ class LogDebugCommand extends Command
                 return $event->message;
             }
 
-            return $stringTranslation->translate($event->message, unserialize($event->variables));
+            return $this->stringTranslation->translate(
+                $event->message, unserialize($event->variables)
+            );
         }
 
         return $message;

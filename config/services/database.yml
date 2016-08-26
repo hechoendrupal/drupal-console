@@ -21,10 +21,11 @@ services:
 #    class: Drupal\Console\Command\Database\LogClearCommand
 #    tags:
 #      - { name: console.command }
-#  database_log_debug:
-#    class: Drupal\Console\Command\Database\LogDebugCommand
-#    tags:
-#      - { name: console.command }
+  console.database_log_debug:
+    class: Drupal\Console\Command\Database\LogDebugCommand
+    arguments: ['@database', '@date.formatter', '@entity_type.manager', '@string_translation']
+    tags:
+      - { name: console.command }
   console.database_restore:
     class: Drupal\Console\Command\Database\RestoreCommand
     tags:
