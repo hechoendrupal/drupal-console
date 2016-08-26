@@ -1,14 +1,6 @@
-<<<<<<< HEAD
-description: '取得版型所在相關或絕對路徑'
-arguments:
-    module: '版型名稱（可機讀名稱）'
-options:
-    absolute: '回傳絕對路徑'
-=======
 description: 取得版型所在相關或絕對路徑
 arguments:
     module: 版型名稱（可機讀名稱）
 options:
     absolute: 回傳絕對路徑
->>>>>>> upstream/master
 messages: null

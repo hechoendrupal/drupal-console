@@ -1,25 +1,11 @@
 description: 下載網站版型
 arguments:
-<<<<<<< HEAD
-    version: '版型版本號，例如：1.x-dev'
-    theme: '版型名稱'
-=======
     version: 版型版本號，例如：1.x-dev
     theme: 版型名稱
->>>>>>> upstream/master
 options:
     composer: '使用 --composer 參數可選用 Composer 來下載版型'
     version: 版型版本號，例如：1.x-dev
 messages:
-<<<<<<< HEAD
-    no-releases: '找不到版型 %s 的發行版本'
-    getting-releases: '取得版型 %s 的發行版本'
-    downloading: '正在下載版型 %s 的發行版本 %s'
-    downloaded: '版型 %s （版本：%s）已成功下載至 %s'
-    select-release: 請選擇您要下載的發行版本
-    outside-drupal: '無法判定所在的 Drupal 目錄。將下載到目前所在目錄，要指定下載目的地請使用 --root'
-    error-creating-folder: '無法建立 %s 資料夾，請檢查您的資料夾權限'
-=======
     no-releases: '找不到版型 "%s" 的發行版本'
     getting-releases: '取得版型 "%s" 的發行版本'
     downloading: '正在下載版型 "%s" 的發行版本 "%s"'
@@ -27,7 +13,6 @@ messages:
     select-release: 請選擇您要下載的發行版本
     outside-drupal: '無法判定所在的 Drupal 目錄。將下載到目前所在目錄，要指定下載目的地請使用 --root'
     error-creating-folder: '無法建立 "%s" 資料夾，請檢查您的資料夾權限'
->>>>>>> upstream/master
 tips:
     -
         tip: '在你的 config.yml 裡頭提供 «true» 給鍵名 «shellexec_output» 可查看 Composer 的執行內容。反之，使用 «false» 以隱藏。'

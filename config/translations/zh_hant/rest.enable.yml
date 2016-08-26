@@ -6,11 +6,7 @@ arguments:
 questions:
     resource-id: 'REST ID'
 messages:
-<<<<<<< HEAD
-    invalid-rest-id: '找不到符合的 REST ID %s'
-=======
     invalid-rest-id: '找不到符合的 REST ID "%s"'
->>>>>>> upstream/master
     formats: 可用的序列化格式
     authentication-providers: 可用的驗證提供者
     selected-state: 採用狀態

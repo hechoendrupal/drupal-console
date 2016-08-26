@@ -8,17 +8,6 @@ options:
     set-default: 設定為預設版型
 messages:
     no-themes: 請至少提供一個以上要安裝的版型名稱。
-<<<<<<< HEAD
-    themes-missing: '由於版型不存在，無法安裝這些版型 %s'
-    theme-missing: '由於版型不存在，無法安裝此版型 %s'
-    missing-dependencies: '遺失必要的模組（或版型） %2$s ，因而無法安裝版型 %1$s'
-    themes-nothing: '所有版型 %s 都已安裝，將不會有進一步動作。'
-    theme-nothing: '版型 %s 已安裝，將不會有進一步動作。'
-    dependencies: 可能遺失了必要模組（或版型）：%s？
-    theme-success: '版型 %s 安裝完成'
-    themes-success: '已安裝完成所有版型，包含： %s '
-    theme-default-success: '版型 %s 已安裝成為預設版型'
-=======
     themes-missing: '由於版型不存在，無法安裝這些版型 "%s"'
     theme-missing: '由於版型不存在，無法安裝此版型 "%s"'
     missing-dependencies: '遺失必要的模組（或版型） %2$s ，因而無法安裝版型 %1$s'
@@ -28,6 +17,5 @@ messages:
     theme-success: '版型 "%s" 安裝完成'
     themes-success: '已安裝完成所有版型，包含： "%s" '
     theme-default-success: '版型 "%s" 已安裝成為預設版型'
->>>>>>> upstream/master
     disabled-themes: 只有已解除安裝的版型會出現在自動完成列表當中
     invalid-theme-default: 只能指定一個預設版型

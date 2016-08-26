@@ -12,15 +12,9 @@ messages:
     downloading: '正在下載 "%s" "%s"'
     extracting: '解壓縮 Drupal 檔案 "%s"'
     no-releases: '沒有任何已經發布的可用的 Drupal 版本'
-<<<<<<< HEAD
-    downloaded: 'Drupal %s 正在下載至目錄 %s'
-    error-copying: '更改目錄名稱時發生錯誤 %s'
-    composer: '使用 Composer 完成安裝 Drupal %s 於 %s'
-=======
     downloaded: 'Drupal "%s" 正在下載至目錄 "%s"'
     error-copying: '更改目錄名稱時發生錯誤 "%s"'
     composer: '使用 Composer 完成安裝 Drupal "%s" 於 "%s"'
->>>>>>> upstream/master
     executing: '執行 Composer 指令：'
     missing-directory: 缺少目錄參數
     missing-version: 缺少版本參數

@@ -1022,18 +1022,6 @@
         },
         {
             "name": "phpseclib/phpseclib",
-<<<<<<< HEAD
-            "version": "2.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "3d265f7c079f5b37d33475f996d7a383c5fc8aeb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/3d265f7c079f5b37d33475f996d7a383c5fc8aeb",
-                "reference": "3d265f7c079f5b37d33475f996d7a383c5fc8aeb",
-=======
             "version": "2.0.3",
             "source": {
                 "type": "git",
@@ -1044,7 +1032,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/41f85e9c2582b3f6d1b7d20395fb40c687ad5370",
                 "reference": "41f85e9c2582b3f6d1b7d20395fb40c687ad5370",
->>>>>>> upstream/master
                 "shasum": ""
             },
             "require": {
@@ -1123,11 +1110,7 @@
                 "x.509",
                 "x509"
             ],
-<<<<<<< HEAD
-            "time": "2016-05-13 01:15:21"
-=======
             "time": "2016-08-18 18:49:14"
->>>>>>> upstream/master
         },
         {
             "name": "psr/http-message",
@@ -1264,11 +1247,7 @@
         },
         {
             "name": "symfony/config",
-<<<<<<< HEAD
-            "version": "v2.8.6",
-=======
             "version": "v2.8.9",
->>>>>>> upstream/master
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
@@ -1321,11 +1300,7 @@
         },
         {
             "name": "symfony/console",
-<<<<<<< HEAD
-            "version": "v2.8.6",
-=======
             "version": "v2.8.9",
->>>>>>> upstream/master
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
@@ -1385,11 +1360,7 @@
         },
         {
             "name": "symfony/css-selector",
-<<<<<<< HEAD
-            "version": "v2.8.6",
-=======
             "version": "v2.8.9",
->>>>>>> upstream/master
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
@@ -1442,11 +1413,7 @@
         },
         {
             "name": "symfony/debug",
-<<<<<<< HEAD
-            "version": "v2.8.6",
-=======
             "version": "v2.8.9",
->>>>>>> upstream/master
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
@@ -1503,18 +1470,6 @@
         },
         {
             "name": "symfony/dependency-injection",
-<<<<<<< HEAD
-            "version": "v2.8.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "bd04588c087651ceffdc45d40dc4de05af9c7c52"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/bd04588c087651ceffdc45d40dc4de05af9c7c52",
-                "reference": "bd04588c087651ceffdc45d40dc4de05af9c7c52",
-=======
             "version": "v2.8.9",
             "source": {
                 "type": "git",
@@ -1525,7 +1480,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/f2b5a00d176f6a201dc430375c0ef37706ea3d12",
                 "reference": "f2b5a00d176f6a201dc430375c0ef37706ea3d12",
->>>>>>> upstream/master
                 "shasum": ""
             },
             "require": {
@@ -1575,19 +1529,11 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
-<<<<<<< HEAD
-            "time": "2016-05-09 18:12:35"
-        },
-        {
-            "name": "symfony/dom-crawler",
-            "version": "v2.8.6",
-=======
             "time": "2016-07-30 07:20:35"
         },
         {
             "name": "symfony/dom-crawler",
             "version": "v2.8.9",
->>>>>>> upstream/master
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
@@ -1643,18 +1589,6 @@
         },
         {
             "name": "symfony/event-dispatcher",
-<<<<<<< HEAD
-            "version": "v2.8.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "a158f13992a3147d466af7a23b564ac719a4ddd8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/a158f13992a3147d466af7a23b564ac719a4ddd8",
-                "reference": "a158f13992a3147d466af7a23b564ac719a4ddd8",
-=======
             "version": "v2.8.9",
             "source": {
                 "type": "git",
@@ -1665,7 +1599,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/889983a79a043dfda68f38c38b6dba092dd49cd8",
                 "reference": "889983a79a043dfda68f38c38b6dba092dd49cd8",
->>>>>>> upstream/master
                 "shasum": ""
             },
             "require": {
@@ -1712,17 +1645,59 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-<<<<<<< HEAD
-            "time": "2016-05-03 18:59:18"
-        },
-        {
-            "name": "symfony/filesystem",
-            "version": "v2.8.6",
-=======
             "time": "2016-07-28 16:56:28"
         },
         {
             "name": "symfony/expression-language",
+            "version": "v2.8.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/expression-language.git",
+                "reference": "42ceed87ca9526f202d30153ea401ea2e95bcbc6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/expression-language/zipball/42ceed87ca9526f202d30153ea401ea2e95bcbc6",
+                "reference": "42ceed87ca9526f202d30153ea401ea2e95bcbc6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\ExpressionLanguage\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony ExpressionLanguage Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-03-07 14:04:32"
+        },
+        {
+            "name": "symfony/filesystem",
             "version": "v2.8.9",
             "source": {
                 "type": "git",
@@ -1822,11 +1797,7 @@
         },
         {
             "name": "symfony/finder",
-<<<<<<< HEAD
-            "version": "v2.8.6",
-=======
             "version": "v2.8.9",
->>>>>>> upstream/master
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -1875,11 +1846,7 @@
         },
         {
             "name": "symfony/http-foundation",
-<<<<<<< HEAD
-            "version": "v2.8.6",
-=======
             "version": "v2.8.9",
->>>>>>> upstream/master
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
@@ -2107,18 +2074,6 @@
         },
         {
             "name": "symfony/process",
-<<<<<<< HEAD
-            "version": "v3.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/process.git",
-                "reference": "1574f3451b40fa9bbae518ef71d19a56f409cac0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/1574f3451b40fa9bbae518ef71d19a56f409cac0",
-                "reference": "1574f3451b40fa9bbae518ef71d19a56f409cac0",
-=======
             "version": "v2.8.9",
             "source": {
                 "type": "git",
@@ -2129,7 +2084,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/process/zipball/d20332e43e8774ff8870b394f3dd6020cc7f8e0c",
                 "reference": "d20332e43e8774ff8870b394f3dd6020cc7f8e0c",
->>>>>>> upstream/master
                 "shasum": ""
             },
             "require": {
@@ -2138,11 +2092,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-<<<<<<< HEAD
-                    "dev-master": "3.1-dev"
-=======
                     "dev-master": "2.8-dev"
->>>>>>> upstream/master
                 }
             },
             "autoload": {
@@ -2169,19 +2119,11 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-<<<<<<< HEAD
-            "time": "2016-04-12 19:11:33"
-        },
-        {
-            "name": "symfony/translation",
-            "version": "v2.8.6",
-=======
             "time": "2016-07-28 11:13:19"
         },
         {
             "name": "symfony/translation",
             "version": "v2.8.9",
->>>>>>> upstream/master
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
@@ -2245,11 +2187,7 @@
         },
         {
             "name": "symfony/yaml",
-<<<<<<< HEAD
-            "version": "v2.8.6",
-=======
             "version": "v2.8.9",
->>>>>>> upstream/master
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",

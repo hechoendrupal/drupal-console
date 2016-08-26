@@ -15,10 +15,6 @@ messages:
     total-downloads: 'Total installs'
     total-monthly: 'Monthly installs'
     total-daily: 'Daily installs'
-<<<<<<< HEAD
-    no-results: 'Module %s was not found in the repository'
-=======
     no-results: 'Module "%s" was not found in the repository'
->>>>>>> upstream/master
     enabled: Enabled
     disabled: Disabled
