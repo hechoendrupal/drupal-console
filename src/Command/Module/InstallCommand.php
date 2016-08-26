@@ -154,8 +154,7 @@ class InstallCommand extends Command
                 );
 
                 $shellProcess = $this->shellProcess;
-                if ($output = $shellProcess->exec($command) && (!$output->getErrorOutput()) ) {
-                  echo "hola"; print_r($output->getErrorOutput() );
+                if ($proc = $shellProcess->exec($command) && ($proc->isSuccessful()) ) {
                     $io->info(
                         sprintf(
                             'Module %s was downloaded with Composer.',
