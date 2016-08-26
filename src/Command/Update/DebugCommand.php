@@ -10,12 +10,38 @@ namespace Drupal\Console\Command\Update;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Utils\DrupalApi;
+use Drupal\Core\Update\UpdateRegistry;
 use Drupal\Console\Style\DrupalStyle;
 
 class DebugCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /**
+     * @var DrupalApi
+     */
+    protected $drupalApi;
+
+    /**
+     * @var UpdateRegistry
+     */
+    protected $postUpdateRegistry;
+
+    /**
+     * DebugCommand constructor.
+     * @param DrupalApi      $drupalApi
+     * @param UpdateRegistry $postUpdateRegistry
+     */
+    public function __construct(
+        DrupalApi $drupalApi,
+        UpdateRegistry $postUpdateRegistry
+    ) {
+        $this->drupalApi = $drupalApi;
+        $this->postUpdateRegistry = $postUpdateRegistry;
+        parent::__construct();
+    }
 
     /**
      * @inheritdoc
@@ -35,8 +61,8 @@ class DebugCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $this->get('site')->loadLegacyFile('/core/includes/update.inc');
-        $this->get('site')->loadLegacyFile('/core/includes/install.inc');
+        $this->drupalApi->loadLegacyFile('/core/includes/update.inc');
+        $this->drupalApi->loadLegacyFile('/core/includes/install.inc');
 
         drupal_load_updates();
         update_fix_compatibility();
@@ -130,8 +156,8 @@ class DebugCommand extends Command
           $this->trans('commands.update.debug.messages.post-update'),
           $this->trans('commands.update.debug.messages.description')
         ];
-        $updateRegistry = $this->getDrupalService('update.post_update_registry');
-        $postUpdates = $updateRegistry->getPendingUpdateInformation();
+
+        $postUpdates = $this->postUpdateRegistry->getPendingUpdateInformation();
         $tableRows = [];
         foreach ($postUpdates as $module => $module_updates) {
             foreach ($module_updates['pending'] as $postUpdateFunction => $message) {

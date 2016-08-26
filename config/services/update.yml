@@ -1,4 +1,9 @@
-#services:
+services:
+  console.update_debug:
+     class: Drupal\Console\Command\Update\DebugCommand
+     arguments: ['@console.drupal_api', '@update.post_update_registry']
+     tags:
+        - { name: console.command }
 #  update_debug:
 #    class: Drupal\Console\Command\Update\DebugCommand
 #    tags:
