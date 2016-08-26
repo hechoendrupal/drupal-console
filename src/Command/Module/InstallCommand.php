@@ -143,10 +143,12 @@ class InstallCommand extends Command
               $cd_back = "";
             }
             else if
-              (file_exists('../' . getcwd() . '/composer.json')) {
+              //@TODO: would be better? → if (basename(getcwd()) == "web" || basename(getcwd()) == "docroot"
+              (file_exists('../' . getcwd() . '/composer.lock')) {
                 $cd = "cd ../; ";
                 $cd_back = "cd ". getcwd();
-            }else
+            }
+            else
             {
               $io->error(
                 sprintf(
@@ -158,7 +160,7 @@ class InstallCommand extends Command
 
             foreach ($module as $moduleItem) {
                 $command = sprintf(
-                    $cd . 'composer show drupal/%s ;' . $cd_back,
+                    $cd . 'composer show drupal/%s; ' . $cd_back,
                     $moduleItem
                 );
 
