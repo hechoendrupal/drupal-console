@@ -227,6 +227,7 @@ class NestedArray2
 
         print "after calculate diff";
         print_r($result);
+        print_r($statistics);
         return $result;
     }
 
