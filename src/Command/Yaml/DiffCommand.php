@@ -167,10 +167,8 @@ class DiffCommand extends Command
             if (!$offset) {
                 $offset = 0;
             }
-            $diff_flatten = array_slice($diffFlatten, $offset, $limit);
+            $diffFlatten = array_slice($diffFlatten, $offset, $limit);
         }
-
-        print_r($diffFlatten);
 
         $tableHeader = [
             $this->trans('commands.yaml.diff.messages.key'),
@@ -178,7 +176,7 @@ class DiffCommand extends Command
         ];
 
         $tableRows = [];
-        foreach ($diff_flatten as $yamlKey => $yamlValue) {
+        foreach ($diffFlatten as $yamlKey => $yamlValue) {
             $tableRows[] = [
                 $yamlKey,
                 $yamlValue
@@ -186,10 +184,6 @@ class DiffCommand extends Command
             print $yamlKey . "\n";
             print $yamlValue . "\n";
         }
-
-        print "rows";
-        print_r($tableRows);
-        print 'end rows';
 
         $io->table($tableHeader, $tableRows, 'compact');
     }

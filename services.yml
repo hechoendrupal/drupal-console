@@ -33,5 +33,3 @@ services:
   console.extension_manager:
     class: Drupal\Console\Extension\Manager
     arguments: ['@console.drupal_api', '@app.root']
-  console.nested_array_two:
-    class: Drupal\Console\Utils\NestedArray2
