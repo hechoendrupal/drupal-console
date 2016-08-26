@@ -7,15 +7,20 @@
 
 namespace Drupal\Console\Command\Module;
 
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Style\DrupalStyle;
+
+
+use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
+use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Utils\ShellProcess;
 
 /**
  * Class InstallCommand
@@ -23,9 +28,42 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class InstallCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use ProjectDownloadTrait;
     use ModuleTrait;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
+     * @var ShellProcess
+     */
+    protected $shellProcess;
+
+    /**
+     * @var ModuleInstaller
+     */
+    protected $moduleInstaller;
+
+    /**
+     * InstallCommand constructor.
+     * @param ChainQueue $chainQueue
+     */
+    public function __construct(
+      ChainQueue $chainQueue,
+      ShellProcess $shellProcess,
+      ModuleInstaller $moduleInstaller;
+    ) {
+      echo "hola amigo";die();
+        $this->chainQueue = $chainQueue;
+        $this->shellProcess = $shellProcess;
+        $this->moduleInstaller = $moduleInstaller;
+        parent::__construct();
+    }
+
+
 
     /**
      * {@inheritdoc}
@@ -80,7 +118,7 @@ class InstallCommand extends Command
         $composer = $input->getOption('composer');
 
         $this->get('site')->loadLegacyFile('core/includes/bootstrap.inc');
-        
+
         // check module's requirements
         $this->moduleRequirement($module);
 
@@ -91,7 +129,7 @@ class InstallCommand extends Command
                     $moduleItem
                 );
 
-                $shellProcess = $this->get('shell_process');
+                $shellProcess = $this->shellProcess;
                 if ($shellProcess->exec($command)) {
                     $io->info(
                         sprintf(
@@ -145,7 +183,7 @@ class InstallCommand extends Command
                 )
             );
 
-            $moduleInstaller = $this->getDrupalService('module_installer');
+            $moduleInstaller = $this->moduleInstaller;
             drupal_static_reset('system_rebuild_module_data');
 
             $moduleInstaller->install($unInstalledModules, true);
@@ -161,6 +199,6 @@ class InstallCommand extends Command
             return 1;
         }
 
-        $this->get('chain_queue')->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 }

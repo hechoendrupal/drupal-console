@@ -1,4 +1,4 @@
-#services:
+services:
 #  module_debug:
 #    class: Drupal\Console\Command\Module\DebugCommand
 #    tags:
@@ -7,10 +7,11 @@
 #    class: Drupal\Console\Command\Module\DownloadCommand
 #    tags:
 #      - { name: console.command }
-#  module_install:
-#      class: Drupal\Console\Command\Module\InstallCommand
-#      tags:
-#        - { name: console.command }
+  module_install:
+      class: Drupal\Console\Command\Module\InstallCommand
+      arguments: ['@console.module_installer', '@console.shell_process', '@console.chain_queue']
+      tags:
+        - { name: console.command }
 #  module_path:
 #      class: Drupal\Console\Command\Module\PathCommand
 #      tags:
