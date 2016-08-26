@@ -82,7 +82,7 @@ class ExportSingleCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.config.export.single.options.optional-config')
             )->addOption(
-                'include-uuid',
+                'remove-uuid',
                 '',
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.config.export.single.options.uuid')
@@ -211,10 +211,10 @@ class ExportSingleCommand extends Command
         $optionalConfig = $input->getOption('optional-config');
         $uuid = $input->getOption('uuid');
 
-        if ($uuid) {
-            $config = $this->getConfiguration($configName, TRUE);
+        if (!$uuid) {
+            $config = $this->getConfiguration($configName, true);
         } else {
-            $config = $this->getConfiguration($configName, FALSE);
+            $config = $this->getConfiguration($configName, false);
         }
         if ($config) {
             if (!$directory) {
