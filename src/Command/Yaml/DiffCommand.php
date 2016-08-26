@@ -170,6 +170,8 @@ class DiffCommand extends Command
             $diff_flatten = array_slice($diffFlatten, $offset, $limit);
         }
 
+        print_r($diffFlatten);
+
         $tableHeader = [
             $this->trans('commands.yaml.diff.messages.key'),
             $this->trans('commands.yaml.diff.messages.value'),
